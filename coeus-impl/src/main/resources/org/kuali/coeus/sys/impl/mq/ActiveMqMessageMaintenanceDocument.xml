@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+   - Kuali Coeus, a comprehensive research administration system for higher education.
+   - 
+   - Copyright 2005-2015 Kuali, Inc.
+   - 
+   - This program is free software: you can redistribute it and/or modify
+   - it under the terms of the GNU Affero General Public License as
+   - published by the Free Software Foundation, either version 3 of the
+   - License, or (at your option) any later version.
+   - 
+   - This program is distributed in the hope that it will be useful,
+   - but WITHOUT ANY WARRANTY; without even the implied warranty of
+   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   - GNU Affero General Public License for more details.
+   - 
+   - You should have received a copy of the GNU Affero General Public License
+   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+
+    <bean id="ActiveMqMessageMaintenanceDocument" parent="ActiveMqMessageMaintenanceDocument-parentBean"/>
+    <bean id="ActiveMqMessageMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+      <property name="businessObjectClass" value="org.kuali.coeus.sys.impl.mq.ActiveMqMessage"/>
+      <property name="maintainableClass" value="org.kuali.coeus.sys.impl.mq.ActiveMqMessageMaintainableImpl"/>
+      <property name="businessRulesClass" value="org.kuali.coeus.sys.impl.mq.ActiveMqMessageMaintenanceDocumentRule" />
+      <property name="maintainableSections">
+          <list>
+              <ref bean="ActiveMqMessageMaintenanceDocument-Edit"/>
+          </list>
+      </property>
+      <property name="lockingKeys">
+          <list>
+              <value>id</value>
+          </list>
+      </property>
+      <property name="allowsRecordDeletion" value="true" />
+      <property name="allowsNewOrCopy" value="false" />
+
+      <property name="documentTypeName" value="ActiveMqMessageMaintenanceDocument"/>
+      <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    </bean>
+
+    <bean id="ActiveMqMessageMaintenanceDocument-Edit" parent="ActiveMqMessageMaintenanceDocument-Edit-parentBean"/>
+    <bean id="ActiveMqMessageMaintenanceDocument-Edit-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+        <property name="id" value="Edit ActiveMQ Message"/>
+        <property name="title" value="Edit ActiveMQ Message"/>
+        <property name="maintainableItems">
+            <list>
+                <bean parent="MaintainableFieldDefinition" p:name="id" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="container" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="messageIdProducer" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="messageIdSequence" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="expiration" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="messageJson" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="priority" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="xid" p:required="false" />
+            </list>
+        </property>
+    </bean>
+</beans>

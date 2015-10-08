@@ -71,8 +71,9 @@ public class Protocol extends ProtocolBase {
     private List<ProtocolRiskLevel> protocolRiskLevels;
     private List<ProtocolParticipant> protocolParticipants;    
     private transient boolean lookupActionNotifyIRBProtocol;
+    private transient ProtocolVersionService protocolVersionService;
 
-    /**
+	/**
      * 
      * Constructs an Protocol BO.
      */
@@ -422,5 +423,24 @@ public class Protocol extends ProtocolBase {
     public void setLookupActionNotifyIRBProtocol(boolean lookupActionNotifyIRBProtocol) {
         this.lookupActionNotifyIRBProtocol = lookupActionNotifyIRBProtocol;
     }
+
+    @SuppressWarnings("unchecked")
+	@Override
+    protected void mergeProtocolSubmission(ProtocolBase amendment) {
+        List<ProtocolSubmission> submissions = (List<ProtocolSubmission>) deepCopy(amendment.getProtocolSubmissions());  
+        setNewSubmissionReferences((List)submissions);
+        getProtocolVersionService().setExpeditedAndExemptCheckListReferences((List)submissions, this);
+    }
+
+    protected ProtocolVersionService getProtocolVersionService() {
+        if(protocolVersionService == null) {
+        	protocolVersionService = KcServiceLocator.getService(ProtocolVersionService.class);
+        }
+        return protocolVersionService;
+    }
     
+    public void setProtocolVersionService(ProtocolVersionService protocolVersionService) {
+		this.protocolVersionService = protocolVersionService;
+	}
+
 }

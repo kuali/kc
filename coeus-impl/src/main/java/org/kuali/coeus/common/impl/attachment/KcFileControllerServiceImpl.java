@@ -39,16 +39,15 @@ public class KcFileControllerServiceImpl extends FileControllerServiceImpl {
     @Override
     protected void sendFileFromLineResponse(UifFormBase form, HttpServletResponse response, List<FileMeta> collection,
                                             FileMeta fileLine) {
-        KcFile attachmentDataSource = ((KcFile)fileLine);
-        byte[] data = attachmentDataSource.getData();
-        long size = data.length;
+        KcFile attachmentDataSource = (KcFile) fileLine;
         try {
+            byte[] data = attachmentDataSource.getData();
+            long size = data.length;
             ByteArrayInputStream inputStream = new ByteArrayInputStream(data);
             KRADUtils.addAttachmentToResponse(response,inputStream,attachmentDataSource.getType(),attachmentDataSource.getName(),size);
             response.flushBuffer();
         } catch (Exception e) {
-            LOG.error("Error while downloading attachment");
-            throw new RuntimeException("IOException occurred while downloading attachment", e);
+            throw new RuntimeException("error occurred while downloading attachment", e);
         }
     }
 }

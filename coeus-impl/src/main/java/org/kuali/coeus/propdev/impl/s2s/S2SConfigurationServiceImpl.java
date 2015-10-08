@@ -22,6 +22,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.Truth;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -40,8 +41,6 @@ public class S2SConfigurationServiceImpl implements S2SConfigurationService {
 
     private static final Log LOG = LogFactory.getLog(S2SConfigurationServiceImpl.class);
 
-    private static final String S2S_NMSPC_CD = "KC-S2S";
-    private static final String S2S_CMPNT_CD = "All";
     private static final Pattern PLACEHOLDER = Pattern.compile("@\\{#param\\((.*?)\\)\\}");
 
     @Autowired
@@ -58,7 +57,7 @@ public class S2SConfigurationServiceImpl implements S2SConfigurationService {
             throw new IllegalArgumentException("name is blank");
         }
 
-        String config = parameterService.getParameterValueAsString(S2S_NMSPC_CD, S2S_CMPNT_CD, name);
+        String config = parameterService.getParameterValueAsString(Constants.KC_S2S_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, name);
         if (config != null) {
             config = replaceParameterPlaceholders(config);
         } else {
@@ -208,4 +207,17 @@ public class S2SConfigurationServiceImpl implements S2SConfigurationService {
     public void setConfigurationService(ConfigurationService configurationService) {
         this.configurationService = configurationService;
     }
+
+	@Override
+	public List<String> getValuesFromCommaSeparatedParam(String name) {
+		if (StringUtils.isBlank(name)) {
+			throw new IllegalArgumentException("name is blank");
+		}
+		String value = getValueAsString(name);
+		if(StringUtils.isEmpty(value)) {
+			return new ArrayList<String>();
+		}
+		String[] valuesAsStringArray = value.split(",");
+		return Arrays.asList(valuesAsStringArray);
+	}
 }

@@ -32,6 +32,7 @@ import org.kuali.coeus.common.committee.impl.meeting.CommScheduleActItemBase;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.irb.actions.ProtocolAction;
+import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.irb.actions.submit.ProtocolExemptStudiesCheckListItem;
 import org.kuali.kra.irb.actions.submit.ProtocolExpeditedReviewCheckListItem;
@@ -53,6 +54,7 @@ public class IrbPrintXmlUtilServiceImpl implements IrbPrintXmlUtilService {
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
     private ReviewCommentsService reviewCommentsService;
+    private ProtocolAmendRenewService protocolAmendRenewService;
     
     public void setPersonXml(KcPerson person, Person personType) {
         personType.setPersonID(person.getPersonId());
@@ -240,7 +242,8 @@ public class IrbPrintXmlUtilServiceImpl implements IrbPrintXmlUtilService {
         for (CommitteeScheduleMinute minuteEntryInfoBean : minutes) {
             ProtocolBase protocol = minuteEntryInfoBean.getProtocol();
             if (protocol != null && protocol.getProtocolNumber() != null) {
-                if (protocol.getProtocolNumber().equals(protocolSubmission.getProtocolNumber())
+            	String minutesProtocolNumber = getProtocolAmendRenewService().getAmendedOrRenewalProtocolNumber(protocol.getProtocolNumber());
+                if (minutesProtocolNumber.equals(protocolSubmission.getProtocolNumber())
                         && protocol.getProtocolSubmission() != null
                         && protocol.getProtocolSubmission().getSubmissionNumber().equals(protocolSubmission.getSubmissionNumber())) {
                     if (reviewCommentsService.getReviewerCommentsView(minuteEntryInfoBean)){
@@ -342,5 +345,14 @@ public class IrbPrintXmlUtilServiceImpl implements IrbPrintXmlUtilService {
     public DateTimeService getDateTimeService() {
         return dateTimeService;
     }
+
+	public ProtocolAmendRenewService getProtocolAmendRenewService() {
+		return protocolAmendRenewService;
+	}
+
+	public void setProtocolAmendRenewService(
+			ProtocolAmendRenewService protocolAmendRenewService) {
+		this.protocolAmendRenewService = protocolAmendRenewService;
+	}
 
 }

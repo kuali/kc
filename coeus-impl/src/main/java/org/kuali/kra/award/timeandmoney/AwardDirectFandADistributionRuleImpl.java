@@ -63,7 +63,7 @@ public class AwardDirectFandADistributionRuleImpl extends KcTransactionalDocumen
         boolean hasTimeAndMoneyBeenSaved = StringUtils.isNotBlank(awardDirectFandADistributionRuleEvent.getTimeAndMoneyDocument().getObjectId());
         boolean validTotalAnticipated =  doTotalAnticipatedAmountValidOnExistingDistribution(awardDirectFandADistributions, hasTimeAndMoneyBeenSaved);
         boolean validConsecutiveDateRange = existingDirectFandADistributionsDatesNoBreak(awardDirectFandADistributions);
-        if(awardDirectFandADistributions.size() > 0) {
+        if(awardDirectFandADistributions.size() > 0 && hasTimeAndMoneyBeenSaved) {
             this.awardDirectFandADistribution = awardDirectFandADistributions.get(0);
             validStartDate = isTargetStartAfterProjectStartDate(awardDirectFandADistributionRuleEvent);
             this.awardDirectFandADistribution = awardDirectFandADistributions.get(awardDirectFandADistributions.size() - 1);

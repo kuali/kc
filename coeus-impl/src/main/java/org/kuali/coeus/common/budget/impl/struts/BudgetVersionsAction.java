@@ -47,6 +47,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
@@ -60,9 +61,10 @@ public class BudgetVersionsAction extends BudgetAction {
 
     private static final Log LOG = LogFactory.getLog(BudgetVersionsAction.class);
 
-    private static final String TOGGLE_TAB = "toggleTab";
     private static final String CONFIRM_SYNCH_BUDGET_RATE_BUDGET_DOCUMENT = "confirmSynchBudgetRateForBudgetDocument";
-    private static final String NO_SYNCH_BUDGET_RATE_BUDGET_DOCUMENT = "noSynchBudgetRateForBudgetDocument";    
+    private static final String NO_SYNCH_BUDGET_RATE_BUDGET_DOCUMENT = "noSynchBudgetRateForBudgetDocument";
+    public static final String SYNC_QUESTION_ASKED = "syncQuestionAsked";
+
     /**
      * Main execute method that is run. Populates A map of rate types in the {@link HttpServletRequest} instance to be used
      * in the JSP. The map is called <code>rateClassMap</code> this is set everytime execute is called in this class. This should only
@@ -108,20 +110,21 @@ public class BudgetVersionsAction extends BudgetAction {
         final ActionForward forward = super.docHandler(mapping, form, request, response);
         final BudgetForm budgetForm = (BudgetForm) form;
         Budget budget = budgetForm.getBudget();
-        BudgetParentDocument parentDocument = budget.getBudgetParent().getDocument();
         BudgetParent budgetParent = budget.getBudgetParent();
         AwardBudgetService awardBudgetService = KcServiceLocator.getService(AwardBudgetService.class);
         BudgetRatesService budgetService = KcServiceLocator.getService(BudgetRatesService.class);
         Collection<BudgetRate> savedBudgetRates = budgetService.getSavedBudgetRates(budget);
         Collection<BudgetRate> allPropRates = budgetService.getSavedBudgetRates(budget);
+        String questionAsked = request.getParameter(SYNC_QUESTION_ASKED);
         if (isAwardBudget(budget)) {
             Award award = (Award) budget.getBudgetParent().getDocument().getBudgetParent();
-            if (awardBudgetService.checkRateChange(savedBudgetRates, award)) {
+
+            if (awardBudgetService.checkRateChange(savedBudgetRates, award) && Objects.isNull(questionAsked)) {
                 return confirm(
                         syncAwardBudgetRateConfirmationQuestion(mapping, form, request, response,
 	                    KeyConstants.QUESTION_SYNCH_AWARD_RATE), CONFIRM_SYNCH_AWARD_RATES, NO_SYNCH_AWARD_RATES);
-	        	 }
-	        	 }
+            }
+        }
         if (budgetService.checkActivityTypeChange(allPropRates, budgetParent.getActivityTypeCode())) {
             //Rates-Refresh Scenario-2
             budget.setRateClassTypesReloaded(true);
@@ -216,6 +219,7 @@ public class BudgetVersionsAction extends BudgetAction {
         String forward = buildForwardUrl(routeHeaderId);
         return new ActionForward(forward, true);
     }
+
     protected StrutsConfirmation syncBudgetRateConfirmationQuestion(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response, String message) throws Exception {
         return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_SYNCH_BUDGET_RATE,

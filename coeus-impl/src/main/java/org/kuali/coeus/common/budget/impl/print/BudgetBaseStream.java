@@ -19,6 +19,7 @@
 package org.kuali.coeus.common.budget.impl.print;
 
 import org.kuali.coeus.common.budget.framework.nonpersonnel.*;
+import org.kuali.coeus.sys.api.model.AbstractDecimal;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.framework.print.stream.xml.XmlStream;
 import org.kuali.kra.printing.schema.GroupsType;
@@ -48,22 +49,13 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
-/**
- * This class will contain all common methods that can be used across all XML
- * generator streams related to budget. All budget report XML stream
- * implementations need to extend and use the functions defined in this class.
- * 
- */
 public abstract class BudgetBaseStream implements XmlStream {
 
     private static final Log LOG = LogFactory.getLog(BudgetBaseStream.class);
-
-	private static final String RATE_CLASS_TYPE = "rateClassType";
+    public static final String RATE_CLASS_TYPE = "rateClassType";
 	private static final String DEPENDENT_RATE_CLASS_TYPE = "dependentRateClassType";
 	private static final String RATE_CLASS_CODE = "rateClassCode";
 	private static final String UNIT_NUMBER = "unitNumber";
@@ -90,8 +82,10 @@ public abstract class BudgetBaseStream implements XmlStream {
     protected static final String DATE_FORMAT_MMDDYY = "MM/dd/yy";
     protected static final String BUDGET_PERIOD = "Period";
     protected static final String BUDGET_CATEGORY_PERSONNEL = "P";
+    public static final String COST_ELEMENT_BO = "costElementBO";
+    public static final String BUDGET_CATEGORY = "budgetCategory";
 
-	protected Budget budget;
+    protected Budget budget;
 	protected String category[] = { "budgetCategoryDescription" };
 	protected String rateType[] = { "rateTypeDesc" };
 	protected String rateClassRateType[] = { "rateClassDesc", "rateTypeDesc" };
@@ -108,16 +102,8 @@ public abstract class BudgetBaseStream implements XmlStream {
 	@Qualifier("dataObjectService")
 	protected DataObjectService dataObjectService;
 
-	/**
-	 * This method gets ReportHeaderType from first budgetPeriod.It set all the
-	 * data for RportHeader from budgetPriod and budgetParent
-	 * 
-	 * @param budgetParent
-	 * @return reportTypeHeader
-	 */
 	protected ReportHeaderType getReportHeaderTypeForCumulativeReport(BudgetParent budgetParent) {
-		ReportHeaderType reportHeaderType = ReportHeaderType.Factory
-				.newInstance();
+		ReportHeaderType reportHeaderType = ReportHeaderType.Factory.newInstance();
 		if (budgetParent != null) {
 		    reportHeaderType.setParentTypeName(budgetParent.getParentTypeName());
 			reportHeaderType.setProposalNumber(budgetParent.getParentNumber());
@@ -130,22 +116,18 @@ public abstract class BudgetBaseStream implements XmlStream {
 			reportHeaderType.setPIName(principleInvestigatorName);
 		}
 		if (budgetPeriod.getVersionNumber() != null) {
-			reportHeaderType.setBudgetVersion(budget.getBudgetVersionNumber()
-					.intValue());
+			reportHeaderType.setBudgetVersion(budget.getBudgetVersionNumber().intValue());
 		}
 		if (budgetPeriod.getStartDate() != null) {
-			reportHeaderType.setPeriodStartDate(DateFormatUtils.format(
-					budgetPeriod.getStartDate(), DATE_FORMAT));
+			reportHeaderType.setPeriodStartDate(DateFormatUtils.format(budgetPeriod.getStartDate(), DATE_FORMAT));
 		}
 		if (budgetPeriod.getEndDate() != null) {
-			reportHeaderType.setPeriodEndDate(DateFormatUtils.format(
-					budgetPeriod.getEndDate(), DATE_FORMAT));
+			reportHeaderType.setPeriodEndDate(DateFormatUtils.format(budgetPeriod.getEndDate(), DATE_FORMAT));
 		}
 		if (budgetPeriod.getBudgetPeriod() != null) {
 			reportHeaderType.setPeriod(budgetPeriod.getBudgetPeriod());
 		}
-		reportHeaderType.setCreateDate(dateTimeService.getCurrentDate()
-				.toString());
+		reportHeaderType.setCreateDate(dateTimeService.getCurrentDate().toString());
 		if(budget.getComments()!=null){
 		    if(budget.getPrintBudgetCommentFlag()!=null && budget.getPrintBudgetCommentFlag().equals("true"))
 		        reportHeaderType.setComments(budget.getComments());
@@ -155,21 +137,8 @@ public abstract class BudgetBaseStream implements XmlStream {
 		 
 		return reportHeaderType;
 	}
-	
-	/**
-	 * This method gets ReportType for NonPersonnel data, by setting
-	 * NonPersonnel data categoryDescription, costElementDescription,
-	 * calculatedCost, costSharingAmount or default values to ReportType Object
-	 * 
-	 * @param categoryDesc
-	 * @param costElementDesc
-	 * @param calculatedCost
-	 * @param costSharingAmount
-	 * @return ReportType reportType
-	 */
-	protected ReportType getReportTypeForNonPersonnel(String categoryDesc,
-			String costElementDesc, ScaleTwoDecimal calculatedCost,
-			ScaleTwoDecimal costSharingAmount) {
+
+	protected ReportType getReportTypeForNonPersonnel(String categoryDesc, String costElementDesc, ScaleTwoDecimal calculatedCost, ScaleTwoDecimal costSharingAmount) {
 		ReportType reportType = ReportType.Factory.newInstance();
 		if (categoryDesc != null) {
 			reportType.setBudgetCategoryDescription(categoryDesc);
@@ -190,19 +159,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 		return reportType;
 	}
 
-	/**
-	 * This method gets ReportType of BudgetIndirectCost data, by setting
-	 * IndirectCost data OnOffCampus, costSharingAmount, calculatedCost or
-	 * default values to ReportType Object
-	 * 
-	 * @param onOffCampus
-	 * @param calculatedCost
-	 * @param costSharingAmount
-	 * @return ReportType reportType
-	 */
-	protected ReportType getReportTypeForBudgetIndirectCostsForReport(
-			Boolean onOffCampus, ScaleTwoDecimal calculatedCost,
-			ScaleTwoDecimal costSharingAmount) {
+	protected ReportType getReportTypeForBudgetIndirectCostsForReport(Boolean onOffCampus, ScaleTwoDecimal calculatedCost, ScaleTwoDecimal costSharingAmount) {
 		ReportType reportType = ReportType.Factory.newInstance();
 		if (onOffCampus != null) {
 			reportType.setOnOffCampus(onOffCampus);
@@ -220,18 +177,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 		return reportType;
 	}
 
-	/**
-	 * This method gets ReportType data for LA or OH Exclusion data, by setting
-	 * Exclusion data sortId, categoryDescription, calculatedCost to ReportType
-	 * Object
-	 * 
-	 * @param sortId
-	 * @param categoryDesc
-	 * @param calculatedCost
-	 * @return ReportType reportType
-	 */
-	protected ReportType getReportTypeForExclusions(int sortId,
-			String categoryDesc, ScaleTwoDecimal calculatedCost) {
+	protected ReportType getReportTypeForExclusions(int sortId, String categoryDesc, ScaleTwoDecimal calculatedCost) {
 		ReportType reportType = ReportType.Factory.newInstance();
 		reportType.setSortId(sortId);
 		reportType.setCostElementDescription(categoryDesc);
@@ -243,100 +189,48 @@ public abstract class BudgetBaseStream implements XmlStream {
 		return reportType;
 	}
 
-	/**
-	 * This method gets sum of calculatedCost from list of
-	 * BudgetLineItemCalculatedAmount based on RateClassType
-	 * 
-	 * @param rateClassType
-	 * @param budgetLineItem
-	 * @return ScaleTwoDecimal sum of calculatedCost
-	 */
-	protected ScaleTwoDecimal getTotalCalculatedCostByRateClassTypeFromLineItem(
-			String rateClassType, BudgetLineItem budgetLineItem) {
+	protected ScaleTwoDecimal getTotalCalculatedCostByRateClassTypeFromLineItem(String rateClassType, BudgetLineItem budgetLineItem) {
 		ScaleTwoDecimal calculatedCost = ScaleTwoDecimal.ZERO;
-		for (BudgetLineItemCalculatedAmount lineItemCalAmt : budgetLineItem
-				.getBudgetLineItemCalculatedAmounts()) {
+		for (BudgetLineItemCalculatedAmount lineItemCalAmt : budgetLineItem.getBudgetLineItemCalculatedAmounts()) {
 			lineItemCalAmt.refreshReferenceObject(RATE_CLASS);
-			if (lineItemCalAmt.getRateClass().getRateClassTypeCode().equals(
-					rateClassType)
-					&& lineItemCalAmt.getCalculatedCost() != null) {
-				calculatedCost = calculatedCost.add(lineItemCalAmt
-						.getCalculatedCost());
+			if (lineItemCalAmt.getRateClass().getRateClassTypeCode().equals(rateClassType) && lineItemCalAmt.getCalculatedCost() != null) {
+				calculatedCost = calculatedCost.add(lineItemCalAmt.getCalculatedCost());
 			}
 		}
 		return calculatedCost;
 	}
 
-	/**
-	 * This method gets sum of costSharingAmount from list of
-	 * BudgetLineItemCalculatedAmount based on RateClassType
-	 * 
-	 * @param budgetLineItem
-	 * @param rateClassType
-	 * @return ScaleTwoDecimal sum of costSharingAmount
-	 */
-	protected ScaleTwoDecimal getTotalCostSharingAmountByRateClassTypeFromLineItem(
-			BudgetLineItem budgetLineItem, String rateClassType) {
+	protected ScaleTwoDecimal getTotalCostSharingAmountByRateClassTypeFromLineItem(BudgetLineItem budgetLineItem, String rateClassType) {
 		ScaleTwoDecimal costSharingAmount = ScaleTwoDecimal.ZERO;
-		for (BudgetLineItemCalculatedAmount lineItemCalAmt : budgetLineItem
-				.getBudgetLineItemCalculatedAmounts()) {
+		for (BudgetLineItemCalculatedAmount lineItemCalAmt : budgetLineItem.getBudgetLineItemCalculatedAmounts()) {
 			lineItemCalAmt.refreshReferenceObject(RATE_CLASS);
-			if (lineItemCalAmt.getRateClass().getRateClassTypeCode().equals(
-					rateClassType)
-					&& lineItemCalAmt.getCalculatedCostSharing() != null) {
-				costSharingAmount = costSharingAmount.add(lineItemCalAmt
-						.getCalculatedCostSharing());
+			if (lineItemCalAmt.getRateClass().getRateClassTypeCode().equals(rateClassType) && lineItemCalAmt.getCalculatedCostSharing() != null) {
+				costSharingAmount = costSharingAmount.add(lineItemCalAmt.getCalculatedCostSharing());
 			}
 		}
 		return costSharingAmount;
 	}
 
-	/**
-	 * This method gets sum of calculatedCost from list of BudgetLineItem and
-	 * iterate through each budgetRateAndBase for BudgetExclusionsSortId1 based
-	 * on RateClassType LA_WITH_EB_VA and check key as startDate and endDate
-	 * 
-	 * @return ScaleTwoDecimal sum of calculatedCost
-	 */
 	protected ScaleTwoDecimal getCalculatedCostForBudgetExclusionsSortId1() {
 		ScaleTwoDecimal calculatedCost = ScaleTwoDecimal.ZERO;
 		for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
-			Map<String, BudgetRateAndBase> laRateBaseMap = new HashMap<String, BudgetRateAndBase>();
-			for (BudgetRateAndBase budgetRateAndBase : budgetLineItem
-					.getBudgetRateAndBaseList()) {
-				if (budgetRateAndBase.getCalculatedCost() != null
-						&& isRateAndBaseOfRateClassTypeLAwithEBVA(budgetRateAndBase)) {
-					Date startDate = budgetRateAndBase.getStartDate();
-					Date endDate = budgetRateAndBase.getEndDate();
-					String key = new StringBuilder(startDate.toString())
-							.append(endDate.toString()).toString();
-					calculatedCost = calculatedCost.add(budgetRateAndBase
-							.getCalculatedCost());
-					laRateBaseMap.put(key, budgetRateAndBase);
+			for (BudgetRateAndBase budgetRateAndBase : budgetLineItem.getBudgetRateAndBaseList()) {
+				if (budgetRateAndBase.getCalculatedCost() != null && isRateAndBaseOfRateClassTypeLAwithEBVA(budgetRateAndBase)) {
+					calculatedCost = calculatedCost.add(budgetRateAndBase.getCalculatedCost());
 				}
 			}
 		}
 		return calculatedCost;
 	}
 
-	/**
-	 * This method gets sum of calculatedCost from list of BudgetLineItem and
-	 * iterate through each budgetRateAndBase for BudgetLAExclusionsSortId2
-	 * based on RateClassType EMPLOYEE_BENEFITS and VACATION
-	 * 
-	 * @return ScaleTwoDecimal sum of calculatedCost
-	 */
 	protected ScaleTwoDecimal getCalculatedCostForBudgetLAExclusionsSortId2() {
 		ScaleTwoDecimal calculatedCost = ScaleTwoDecimal.ZERO;
 		for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
-			for (BudgetRateAndBase budgetRateAndBase : budgetLineItem
-					.getBudgetRateAndBaseList()) {
+			for (BudgetRateAndBase budgetRateAndBase : budgetLineItem.getBudgetRateAndBaseList()) {
 				if (budgetRateAndBase.getCalculatedCost() != null) {
 					budgetRateAndBase.refreshReferenceObject(RATE_CLASS);
-					if (isRateAndBaseOfRateClassTypeEB(budgetRateAndBase)
-							|| isRateAndBaseOfRateClassTypeVacation(budgetRateAndBase)) {
-						calculatedCost = calculatedCost.add(budgetRateAndBase
-								.getCalculatedCost());
+					if (isRateAndBaseOfRateClassTypeEB(budgetRateAndBase) || isRateAndBaseOfRateClassTypeVacation(budgetRateAndBase)) {
+						calculatedCost = calculatedCost.add(budgetRateAndBase.getCalculatedCost());
 					}
 				}
 			}
@@ -344,24 +238,14 @@ public abstract class BudgetBaseStream implements XmlStream {
 		return calculatedCost;
 	}
 
-	/**
-	 * This method gets sum of calculatedCost from list of BudgetLineItem and
-	 * iterate through each budgetRateAndBase for BudgetOHExclusionsSortId2
-	 * based on RateClassCode and RateTypeCode
-	 * 
-	 * @return ScaleTwoDecimal sum of calculatedCost
-	 */
 	protected ScaleTwoDecimal getCalculatedCostForBudgetOHExclusionsSortId2() {
 		ScaleTwoDecimal calculatedCost = ScaleTwoDecimal.ZERO;
 		for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
-			for (BudgetRateAndBase budgetRateAndBase : budgetLineItem
-					.getBudgetRateAndBaseList()) {
+			for (BudgetRateAndBase budgetRateAndBase : budgetLineItem.getBudgetRateAndBaseList()) {
 				if (budgetRateAndBase.getCalculatedCost() != null) {
 					budgetRateAndBase.refreshReferenceObject(RATE_CLASS);
-					if (isRateAndBaseEBonLA(budgetRateAndBase)
-							|| isRateAndBaseVAonLA(budgetRateAndBase)) {
-						calculatedCost = calculatedCost.add(budgetRateAndBase
-								.getCalculatedCost());
+					if (isRateAndBaseEBonLA(budgetRateAndBase) || isRateAndBaseVAonLA(budgetRateAndBase)) {
+						calculatedCost = calculatedCost.add(budgetRateAndBase.getCalculatedCost());
 					}
 				}
 			}
@@ -369,24 +253,14 @@ public abstract class BudgetBaseStream implements XmlStream {
 		return calculatedCost;
 	}
 
-	/**
-	 * This method gets sum of calculatedCost from list of BudgetLineItem and
-	 * iterate through each BudgetLineItemCalculatedAmount for
-	 * BudgetExclusionsSortId4 based on RateClassType LAB_ALLOCATION
-	 * 
-	 * @return ScaleTwoDecimal sum of calculatedCost
-	 */
 	protected ScaleTwoDecimal getCalculatedCostForBudgetExclusionsSortId4() {
 		ScaleTwoDecimal calculatedCost = ScaleTwoDecimal.ZERO;
 		for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
-			for (BudgetLineItemCalculatedAmount budgetLineItemCalcAmount : budgetLineItem
-					.getBudgetLineItemCalculatedAmounts()) {
+			for (BudgetLineItemCalculatedAmount budgetLineItemCalcAmount : budgetLineItem.getBudgetLineItemCalculatedAmounts()) {
 				if (budgetLineItemCalcAmount.getCalculatedCost() != null) {
 					budgetLineItemCalcAmount.refreshReferenceObject(RATE_CLASS);
 					if (isLineItemCalAmountOfRateClassTypeLabAllocation(budgetLineItemCalcAmount)) {
-						calculatedCost = calculatedCost
-								.add(budgetLineItemCalcAmount
-										.getCalculatedCost());
+						calculatedCost = calculatedCost.add(budgetLineItemCalcAmount.getCalculatedCost());
 					}
 				}
 			}
@@ -394,16 +268,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 		return calculatedCost;
 	}
 
-	/**
-	 * This method sets reportType to ReportTypeList for BudgetLASalary and get
-	 * sum of fringe, calculatedCost, calculatedCostSharing and salary by
-	 * grouping reportType based on budgetLASalaryKey
-	 * 
-	 * @param reportTypeList
-	 * @param reportTypeVOList
-	 */
-	protected void setReportTypeBudgetLASalary(List<ReportType> reportTypeList,
-			List<ReportTypeVO> reportTypeVOList) {
+	protected void setReportTypeBudgetLASalary(List<ReportType> reportTypeList, List<ReportTypeVO> reportTypeVOList) {
 		Map<String, ReportTypeVO> reportTypeMap = new HashMap<String, ReportTypeVO>();
 		for (ReportTypeVO reportTypeVO : reportTypeVOList) {
 			String budgetLASalaryKey = reportTypeVO.getCostElementDesc();
@@ -416,9 +281,9 @@ public abstract class BudgetBaseStream implements XmlStream {
 			ScaleTwoDecimal calculatedCost = ScaleTwoDecimal.ZERO;
 			ScaleTwoDecimal calculatedCostSharing = ScaleTwoDecimal.ZERO;
 			ScaleTwoDecimal salary = ScaleTwoDecimal.ZERO;
+
 			for (ReportTypeVO tempReportTypeVO : reportTypeVOList) {
-				String budgetLASalaryTempKey = tempReportTypeVO
-						.getCostElementDesc();
+				String budgetLASalaryTempKey = tempReportTypeVO.getCostElementDesc();
 				if (budgetLASalaryTempKey.equals(budgetLASalaryKey)) {
 					if (startDate.after(tempReportTypeVO.getStartDate())) {
 						startDate = tempReportTypeVO.getStartDate();
@@ -427,30 +292,18 @@ public abstract class BudgetBaseStream implements XmlStream {
 						endDate = tempReportTypeVO.getEndDate();
 					}
 					fringe = fringe.add(tempReportTypeVO.getFringe());
-					calculatedCost = calculatedCost.add(tempReportTypeVO
-							.getCalculatedCost());
-					calculatedCostSharing = calculatedCostSharing
-							.add(tempReportTypeVO.getCostSharingAmount());
+					calculatedCost = calculatedCost.add(tempReportTypeVO.getCalculatedCost());
+					calculatedCostSharing = calculatedCostSharing.add(tempReportTypeVO.getCostSharingAmount());
 					salary = salary.add(tempReportTypeVO.getSalaryRequested());
-				}
+                }
 			}
-			ReportType reportType = getReportTypeForLASalary(fringe, salary,
-					calculatedCost, calculatedCostSharing, reportTypeVO,
-					startDate, endDate);
+			ReportType reportType = getReportTypeForLASalary(fringe, salary, calculatedCost, calculatedCostSharing, reportTypeVO, startDate, endDate);
 			reportTypeList.add(reportType);
 			reportTypeMap.put(budgetLASalaryKey, reportTypeVO);
 		}
 	}
 
-	/**
-	 * This method gets reportType for LASalary by setting data from
-	 * reportTypeVO and passed parameters
-	 * 
-	 */
-	private ReportType getReportTypeForLASalary(ScaleTwoDecimal fringe,
-			ScaleTwoDecimal salary, ScaleTwoDecimal calculatedCost,
-			ScaleTwoDecimal calculatedCostSharing, ReportTypeVO reportTypeVO,
-			Date startDate, Date endDate) {
+	private ReportType getReportTypeForLASalary(ScaleTwoDecimal fringe, ScaleTwoDecimal salary, ScaleTwoDecimal calculatedCost, ScaleTwoDecimal calculatedCostSharing, ReportTypeVO reportTypeVO, Date startDate, Date endDate) {
 		ReportType reportType = ReportType.Factory.newInstance();
 		reportType.setBudgetCategoryDescription(LAB_ALLOCATION);
 		reportType.setPersonName(ALLOCATED_ADMIN_SUPPORT);
@@ -458,10 +311,8 @@ public abstract class BudgetBaseStream implements XmlStream {
 		reportType.setPercentCharged(100);
 		reportType.setBudgetCategoryCode(99);
 		reportType.setInvestigatorFlag(3);
-		reportType.setStartDate(DateFormatUtils.format(startDate,
-				DATE_FORMAT_MMDDYY));
-		reportType.setEndDate(DateFormatUtils.format(endDate,
-				DATE_FORMAT_MMDDYY));
+		reportType.setStartDate(DateFormatUtils.format(startDate, DATE_FORMAT_MMDDYY));
+		reportType.setEndDate(DateFormatUtils.format(endDate, DATE_FORMAT_MMDDYY));
 		reportType.setCostSharingAmount(calculatedCostSharing.doubleValue());
 		reportType.setCalculatedCost(calculatedCost.doubleValue());
 		reportType.setFringe(fringe.doubleValue());
@@ -470,62 +321,30 @@ public abstract class BudgetBaseStream implements XmlStream {
 		return reportType;
 	}
 
-	/**
-	 * This method sets reportTypeVO and add it to reportTypeVOList from list of
-	 * BudgetLineItem and iterate through BudgetRateAndBase for BudgetLASalary
-	 * based on RateClassType OTHER
-	 * 
-	 * @param reportTypeList
-	 */
-	protected void setBudgetLASalaryForBudgetRateAndBase(
-			List<ReportType> reportTypeList) {
+	protected void setBudgetLASalaryForBudgetRateAndBase (List<ReportType> reportTypeList) {
 		List<ReportTypeVO> reportTypeVOList = new ArrayList<ReportTypeVO>();
 		for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
-			Map<String, BudgetRateAndBase> laRateBaseMap = new HashMap<String, BudgetRateAndBase>();
-			for (BudgetRateAndBase budgetRateAndBase : budgetLineItem
-					.getBudgetRateAndBaseList()) {
+			for (BudgetRateAndBase budgetRateAndBase : budgetLineItem.getBudgetRateAndBaseList()) {
 				if (isRateAndBaseOfRateClassTypeLAwithEBVA(budgetRateAndBase)) {
-					Date startDate = budgetRateAndBase.getStartDate();
-					Date endDate = budgetRateAndBase.getEndDate();
-					String key = new StringBuilder(startDate.toString())
-							.append(endDate.toString()).toString();
-					if (laRateBaseMap.containsKey(key)) {
-						continue;
-					}
-					ReportTypeVO reportTypeVO = getReportTypeVOForBudgetLASalaryForRateBase(
-							budgetLineItem, budgetRateAndBase);
+					ReportTypeVO reportTypeVO = getReportTypeVOForBudgetLASalaryForRateBase(budgetLineItem, budgetRateAndBase);
 					reportTypeVOList.add(reportTypeVO);
-					laRateBaseMap.put(key, budgetRateAndBase);
 				}
 			}
 		}
 		setReportTypeBudgetLASalary(reportTypeList, reportTypeVOList);
 	}
 
-	/**
-	 * This method returns List of ReportTypeVO for BudgetLASalaryForRateAndBase
-	 * by setting data from budgetLineItem and BudgetRateAndBase
-	 * 
-	 * @param budgetLineItem
-	 * @param budgetRateAndBase
-	 * @return ReportTypeVO
-	 */
-	protected ReportTypeVO getReportTypeVOForBudgetLASalaryForRateBase(
-			BudgetLineItem budgetLineItem, BudgetRateAndBase budgetRateAndBase) {
+	protected ReportTypeVO getReportTypeVOForBudgetLASalaryForRateBase(BudgetLineItem budgetLineItem, BudgetRateAndBase budgetRateAndBase) {
 		ReportTypeVO reportTypeVO = new ReportTypeVO();
-		reportTypeVO.setCostElementDesc(budgetLineItem.getCostElementBO()
-				.getDescription());
+		reportTypeVO.setCostElementDesc(budgetLineItem.getCostElementBO().getDescription());
 		Date startDate = budgetRateAndBase.getStartDate();
 		Date endDate = budgetRateAndBase.getEndDate();
 		reportTypeVO.setStartDate(startDate);
 		reportTypeVO.setEndDate(endDate);
 		reportTypeVO.setSalaryRequested(budgetRateAndBase.getCalculatedCost());
-		reportTypeVO.setCostSharingAmount(budgetRateAndBase
-				.getCalculatedCostSharing());
-		reportTypeVO.setFringe(getFringeForLASalaryForRateAndBase(
-				budgetLineItem, startDate, endDate));
-		reportTypeVO.setCalculatedCost(getFringeCostSharingLASalaryRateAndBase(
-				budgetLineItem, startDate, endDate));
+		reportTypeVO.setCostSharingAmount(budgetRateAndBase.getCalculatedCostSharing());
+		reportTypeVO.setFringe(getFringeForLASalaryForRateAndBase(budgetLineItem, startDate, endDate));
+        reportTypeVO.setCalculatedCost(getFringeCostSharingLASalaryRateAndBase(budgetLineItem, startDate, endDate));
 		return reportTypeVO;
 	}
 
@@ -538,98 +357,55 @@ public abstract class BudgetBaseStream implements XmlStream {
 		this.businessObjectService = businessObjectService;
 	}
 
-	/*
-	 * This method gets LiVacOnLaRateTypeCode from ValidCalcType Table based on
-	 * value of rateClassType EMPLOYEE_BENEFITS and LA_WITH_EB_VA if the value
-	 * is not found it return default value
-	 */
 	private String getLiVacOnLaRateTypeCode() {
 		String liVacOnLaRateTypeCode = DEFAULT_RATE_TYPE_CODE_FOR_LI;
-		Map<String, String> liVacOnLaRateTypeCodeMap = new HashMap<String, String>();
-		liVacOnLaRateTypeCodeMap.put(RATE_CLASS_TYPE,
-				RateClassType.EMPLOYEE_BENEFITS.getRateClassType());
-		liVacOnLaRateTypeCodeMap.put(DEPENDENT_RATE_CLASS_TYPE,
-				RateClassType.LA_SALARIES.getRateClassType());
-		ValidCalcType validCalcType = (ValidCalcType) businessObjectService
-				.findByPrimaryKey(ValidCalcType.class, liVacOnLaRateTypeCodeMap);
+		Map<String, String> liVacOnLaRateTypeCodeMap = new HashMap<>();
+		liVacOnLaRateTypeCodeMap.put(RATE_CLASS_TYPE, RateClassType.EMPLOYEE_BENEFITS.getRateClassType());
+		liVacOnLaRateTypeCodeMap.put(DEPENDENT_RATE_CLASS_TYPE, RateClassType.LA_SALARIES.getRateClassType());
+		ValidCalcType validCalcType = (ValidCalcType) businessObjectService.findByPrimaryKey(ValidCalcType.class, liVacOnLaRateTypeCodeMap);
 		if (validCalcType != null) {
 			liVacOnLaRateTypeCode = validCalcType.getRateTypeCode();
 		}
 		return liVacOnLaRateTypeCode;
 	}
 
-	/*
-	 * This method gets LiEbOnLaRateTypeCode from ValidCalcType Table based on
-	 * value of rateClassType EMPLOYEE_BENEFITS and LA_WITH_EB_VA if the value
-	 * is not found it return default value
-	 */
 	private String getLiEbOnLaRateTypeCode() {
 		String liEbOnLaRateTypeCode = DEFAULT_RATE_TYPE_CODE_FOR_LI;
-		Map<String, String> liVacOnLaRateTypeCodeMap = new HashMap<String, String>();
-		liVacOnLaRateTypeCodeMap.put(RATE_CLASS_TYPE, RateClassType.VACATION
-				.getRateClassType());
-		liVacOnLaRateTypeCodeMap.put(DEPENDENT_RATE_CLASS_TYPE,
-				RateClassType.LA_SALARIES.getRateClassType());
-		ValidCalcType validCalcType = (ValidCalcType) businessObjectService
-				.findByPrimaryKey(ValidCalcType.class, liVacOnLaRateTypeCodeMap);
+		Map<String, String> liVacOnLaRateTypeCodeMap = new HashMap<>();
+		liVacOnLaRateTypeCodeMap.put(RATE_CLASS_TYPE, RateClassType.VACATION.getRateClassType());
+		liVacOnLaRateTypeCodeMap.put(DEPENDENT_RATE_CLASS_TYPE, RateClassType.LA_SALARIES.getRateClassType());
+		ValidCalcType validCalcType = (ValidCalcType) businessObjectService.findByPrimaryKey(ValidCalcType.class, liVacOnLaRateTypeCodeMap);
 		if (validCalcType != null) {
 			liEbOnLaRateTypeCode = validCalcType.getRateTypeCode();
 		}
 		return liEbOnLaRateTypeCode;
 	}
 
-	/**
-	 * This method gets count of unitNumber from InstitutionLaRate with
-	 * proposalNumber and lsOwnedByUnit. lsOwnedByUnit values comes from
-	 * LookupableDevelopmentProposal based on proposalNumber
-	 * 
-	 * @return integer liCount
-	 */
-	   protected int getUnitNumber() {
-	        String lsOwnedByUnit = budgetPeriod.getBudget().getBudgetParent().getIsOwnedByUnit();       
-	        Map<String, String> lsOwnedByUnitMap = new HashMap<String, String>();
-	        lsOwnedByUnitMap.put(UNIT_NUMBER, lsOwnedByUnit);
-	        int liCount = businessObjectService.findMatching(InstituteLaRate.class,
-	                lsOwnedByUnitMap).size();
-	        return liCount;
-	    }
+    protected int getUnitNumber() {
+	    String lsOwnedByUnit = budgetPeriod.getBudget().getBudgetParent().getIsOwnedByUnit();
+        Map<String, String> lsOwnedByUnitMap = new HashMap<String, String>();
+        lsOwnedByUnitMap.put(UNIT_NUMBER, lsOwnedByUnit);
+        int liCount = businessObjectService.findMatching(InstituteLaRate.class, lsOwnedByUnitMap).size();
+        return liCount;
+    }
 
-	/*
-	 * This method get RateTypeDescription for BudgetRateAndBase based on
-	 * RateTypeCode. It return String description
-	 * 
-	 * it return String description
-	 */
 	private String getRateTypeDesc(String rateClassCode, String rateTypeCode) {
-		Map<String, String> rateTypeCodeMap = new HashMap<String, String>();
+		Map<String, String> rateTypeCodeMap = new HashMap<>();
 		rateTypeCodeMap.put(RATE_TYPE_CODE, rateTypeCode);
 		rateTypeCodeMap.put(RATE_CLASS_CODE, rateClassCode);
-		RateType rateType = (RateType) businessObjectService.findByPrimaryKey(
-				RateType.class, rateTypeCodeMap);
+		RateType rateType = (RateType) businessObjectService.findByPrimaryKey(RateType.class, rateTypeCodeMap);
 		return rateType.getDescription();
 	}
 
-	/*
-	 * This method add ReportType to Group Type
-	 */
-	private void addReportTypeToGroupType(GroupsType groupsType,
-			ReportType reportType) {
+	private void addReportTypeToGroupType(GroupsType groupsType, ReportType reportType) {
 		List<ReportType> reportTypeList = new ArrayList<ReportType>();
-		reportTypeList.add(reportType);
-		groupsType.setDetailsArray(reportTypeList.toArray(new ReportType[0]));
+        reportTypeList.add(reportType);
+        groupsType.setDetailsArray(reportTypeList.toArray(new ReportType[0]));
 	}
 
-	/**
-	 * This method gets Array of GroupsType for subReportType. ReportTypeList
-	 * iterate through each ReportType and add reportType to GroupType and
-	 * create a GroupTypeList
-	 * 
-	 * @param reportTypeList
-	 * @return Array of groupsType
-	 */
 	protected GroupsType[] getGroupsType(List<ReportType> reportTypeList) {
 		GroupsType groupsType = null;
-		List<GroupsType> groupTypeList = new ArrayList<GroupsType>();
+		List<GroupsType> groupTypeList = new ArrayList<>();
 		for (ReportType reportType : reportTypeList) {
 			groupsType = GroupsType.Factory.newInstance();
 			addReportTypeToGroupType(groupsType, reportType);
@@ -638,60 +414,40 @@ public abstract class BudgetBaseStream implements XmlStream {
 		return groupTypeList.toArray(new GroupsType[0]);
 	}
 
-	/**
-	 * This method gets Array of GroupsType for subReport Type. ReportTypeList
-	 * iterate through each ReportType and add reportType to GroupType group by
-	 * Description and create a GroupTypeList
-	 * 
-	 * @param reportTypeList
-	 * @param groupBy
-	 * @return Array of groupsType
-	 */
-	protected GroupsType[] getGroupsType(List<ReportType> reportTypeList,
-			String groupBy[]) {
+	protected GroupsType[] getGroupsType(List<ReportType> reportTypeList, String groupBy[]) {
 		GroupsType groupsType = null;
-		String presentGroup = EMPTY_STRING;
+		String presentGroup;
 		String lastGroup = EMPTY_STRING;
 		List<ReportType> reportTypeListForGroup = null;
 		List<GroupsType> groupTypeList = new ArrayList<GroupsType>();
 		for (ReportType reportType : reportTypeList) {
 			presentGroup = EMPTY_STRING;
 			for (int count = 0; count < groupBy.length; count++) {
-				presentGroup = presentGroup
-						+ getFieldValue(groupBy[count], reportType);
+				presentGroup = presentGroup + getFieldValue(groupBy[count], reportType);
 			}
 			if (!presentGroup.equals(lastGroup)) {
 				groupsType = GroupsType.Factory.newInstance();
-				reportTypeListForGroup = new ArrayList<ReportType>();
+				reportTypeListForGroup = new ArrayList<>();
 				Object fieldValue = getFieldValue(groupBy[0], reportType);
 				if (fieldValue != null) {
-					groupsType.setDescription(getFieldValue(groupBy[0],
-							reportType).toString());
+					groupsType.setDescription(getFieldValue(groupBy[0], reportType).toString());
 				}
 				groupTypeList.add(groupsType);
-				lastGroup = presentGroup;
+                lastGroup = presentGroup;
 			}
-			reportTypeListForGroup.add(reportType);
-			groupsType.setDetailsArray(reportTypeListForGroup
-					.toArray(new ReportType[0]));
+            reportTypeListForGroup.add(reportType);
+            groupsType.setDetailsArray(reportTypeListForGroup.toArray(new ReportType[0]));
 		}
 		return groupTypeList.toArray(new GroupsType[0]);
 	}
 
-	/*
-	 * This method returns the field value in the base bean for the specified
-	 * field.It dynamically create the method based on fieldName
-	 */
 	private Object getFieldValue(String fieldName, ReportType baseBean) {
 		Class dataClass = baseBean.getClass();
 		Object value = null;
 		try {
 			StringBuilder methodName = new StringBuilder(GET_METHOD_PREFIX);
-			methodName.append(
-					String.valueOf((fieldName.charAt(0))).toUpperCase())
-					.append(fieldName.substring(1));
-			Method method = dataClass.getMethod(methodName.toString(),
-					(Class[]) null);
+			methodName.append(String.valueOf((fieldName.charAt(0))).toUpperCase()).append(fieldName.substring(1));
+			Method method = dataClass.getMethod(methodName.toString(), (Class[]) null);
 			value = method.invoke(baseBean, (Object[]) null);
 		} catch (NoSuchMethodException noSuchMethodException) {
 			LOG.error("Method not Found " + noSuchMethodException);
@@ -704,13 +460,6 @@ public abstract class BudgetBaseStream implements XmlStream {
 		return value;
 	}
 
-	/**
-	 * This method gets subReportType for BudgetIndirectCostForReportIDC by
-	 * BudgetPeriod. It get the sum of calculatedCost and CostSharingAmount
-	 * based on BudgetLineItem OnOffCampusFlag and RateClassType
-	 * 
-	 * @return subReportType
-	 */
 	protected SubReportType getBudgetIndirectCostsForReport() {
 		SubReportType subReportType = SubReportType.Factory.newInstance();
 		List<ReportType> reportTypeList = new ArrayList<ReportType>();
@@ -719,52 +468,30 @@ public abstract class BudgetBaseStream implements XmlStream {
 		ScaleTwoDecimal costSharingAmountForOn = ScaleTwoDecimal.ZERO;
 		ScaleTwoDecimal costSharingAmountForOff = ScaleTwoDecimal.ZERO;
 		for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
-			if (budgetLineItem.getOnOffCampusFlag().booleanValue()) {
-				calculatedCostForOn = calculatedCostForOn
-						.add(getTotalCalculatedCostByRateClassTypeFromLineItem(
-								RateClassType.OVERHEAD.getRateClassType(),
-								budgetLineItem));
-				costSharingAmountForOn = costSharingAmountForOn
-						.add(getTotalCostSharingAmountByRateClassTypeFromLineItem(
-								budgetLineItem, RateClassType.OVERHEAD
-										.getRateClassType()));
+            final ScaleTwoDecimal totalCostSharingAmount = getTotalCostSharingAmountByRateClassTypeFromLineItem(budgetLineItem, RateClassType.OVERHEAD.getRateClassType());
+            final ScaleTwoDecimal totalCalculatedCost = getTotalCalculatedCostByRateClassTypeFromLineItem(RateClassType.OVERHEAD.getRateClassType(), budgetLineItem);
+            if (budgetLineItem.getOnOffCampusFlag().booleanValue()) {
+				calculatedCostForOn = calculatedCostForOn.add(totalCalculatedCost);
+				costSharingAmountForOn = costSharingAmountForOn.add(totalCostSharingAmount);
 			} else {
-				calculatedCostForOff = calculatedCostForOff
-						.add(getTotalCalculatedCostByRateClassTypeFromLineItem(
-								RateClassType.OVERHEAD.getRateClassType(),
-								budgetLineItem));
-				costSharingAmountForOff = costSharingAmountForOff
-						.add(getTotalCostSharingAmountByRateClassTypeFromLineItem(
-								budgetLineItem, RateClassType.OVERHEAD
-										.getRateClassType()));
+				calculatedCostForOff = calculatedCostForOff.add(totalCalculatedCost);
+				costSharingAmountForOff = costSharingAmountForOff.add(totalCostSharingAmount);
 			}
 		}
-		if (!(calculatedCostForOn.equals(ScaleTwoDecimal.ZERO) && costSharingAmountForOn
-				.equals(ScaleTwoDecimal.ZERO))) {
-			ReportType reportTypeForOn = getReportTypeForBudgetIndirectCostsForReport(
-					Boolean.TRUE, calculatedCostForOn, costSharingAmountForOn);
+		if (!(calculatedCostForOn.equals(ScaleTwoDecimal.ZERO) && costSharingAmountForOn.equals(ScaleTwoDecimal.ZERO))) {
+			ReportType reportTypeForOn = getReportTypeForBudgetIndirectCostsForReport(Boolean.TRUE, calculatedCostForOn, costSharingAmountForOn);
 			reportTypeList.add(reportTypeForOn);
 		}
-		if (!(calculatedCostForOff.equals(ScaleTwoDecimal.ZERO) && costSharingAmountForOff
-				.equals(ScaleTwoDecimal.ZERO))) {
-			ReportType reportTypeForOff = getReportTypeForBudgetIndirectCostsForReport(
-					Boolean.FALSE, calculatedCostForOff,
-					costSharingAmountForOff);
+		if (!(calculatedCostForOff.equals(ScaleTwoDecimal.ZERO) && costSharingAmountForOff.equals(ScaleTwoDecimal.ZERO))) {
+			ReportType reportTypeForOff = getReportTypeForBudgetIndirectCostsForReport(Boolean.FALSE, calculatedCostForOff, costSharingAmountForOff);
 			reportTypeList.add(reportTypeForOff);
 		}
 		subReportType.setGroupArray(getGroupsType(reportTypeList));
 		return subReportType;
 	}
 
-	/**
-	 * This method gets Calculated Methodology for a BudgetPeriod. This method
-	 * gets and sets data for Exclusions and RateBase
-	 * 
-	 * @return calculationMethodology
-	 */
 	protected CalculationMethodology getCalculationMethodology() {
-		CalculationMethodology calculationMethodology = CalculationMethodology.Factory
-				.newInstance();
+		CalculationMethodology calculationMethodology = CalculationMethodology.Factory.newInstance();
 		SubReportType subReportType = SubReportType.Factory.newInstance();
 
 		subReportType = getBudgetOHExclusions();
@@ -786,16 +513,11 @@ public abstract class BudgetBaseStream implements XmlStream {
 		calculationMethodology.setBudgetVacRateBaseForPeriod(subReportType);
 
 		subReportType = getBudgetOtherRateBaseForPeriod();
-		calculationMethodology.setBudgetOtherRateBaseForPeriod(subReportType);
+        calculationMethodology.setBudgetOtherRateBaseForPeriod(subReportType);
 
 		return calculationMethodology;
 	}
 
-	/*
-	 * This method get BudgetOHExclusions for a BudgetPeriod. It first check
-	 * size of BudgetProposalLARates if it's it create ReportTypeList with
-	 * sortId 1,2,3,4 else it create reportTypeList for sortId 1
-	 */
 	private SubReportType getBudgetOHExclusions() {
 		List<ReportType> reportTypeList = new ArrayList<ReportType>();
 
@@ -807,23 +529,23 @@ public abstract class BudgetBaseStream implements XmlStream {
 			sortId = 1;
 			categoryDesc = ALLOCATED_ADMINISTRATIVE_SUPPORT;
 			calculatedCost = getCalculatedCostForBudgetExclusionsSortId1();
-			ReportType reportTypeForSortId1 = getReportTypeForExclusions(
-					sortId, categoryDesc, calculatedCost);
+			ReportType reportTypeForSortId1 = getReportTypeForExclusions(sortId, categoryDesc, calculatedCost);
 			reportTypeList.add(reportTypeForSortId1);
+
 			sortId = 2;
 			categoryDesc = EMPLOYEE_BENEFITS_ON_ALLOCATED_ADMINISTRATIVE_SUPPORT;
 			calculatedCost = getCalculatedCostForBudgetOHExclusionsSortId2();
-			ReportType reportTypeForSortId2 = getReportTypeForExclusions(
-					sortId, categoryDesc, calculatedCost);
+			ReportType reportTypeForSortId2 = getReportTypeForExclusions(sortId, categoryDesc, calculatedCost);
 			reportTypeList.add(reportTypeForSortId2);
+
 			sortId = 3;
 			setReportTypeOHExclusionForSortId(reportTypeList, sortId);
+
 			sortId = 4;
 			categoryDesc = ALLOCATED_LAB_EXPENSE;
 			calculatedCost = getCalculatedCostForBudgetExclusionsSortId4();
-			ReportType reportTypeForSortId4 = getReportTypeForExclusions(
-					sortId, categoryDesc, calculatedCost);
-			if(calculatedCost.doubleValue()>0.0d){
+			ReportType reportTypeForSortId4 = getReportTypeForExclusions(sortId, categoryDesc, calculatedCost);
+			if (calculatedCost.doubleValue()>0.0d) {
 				reportTypeList.add(reportTypeForSortId4);
 			}
 		} else {
@@ -834,11 +556,6 @@ public abstract class BudgetBaseStream implements XmlStream {
 		return subReportType;
 	}
 
-	/*
-	 * This method get BudgetLAExclusions for a BudgetPeriod. It first check
-	 * size of BudgetProposalLARates if it's it create ReportTypeList with
-	 * sortId 1,2,3,4
-	 */
 	private SubReportType getBudgetLAExclusions() {
 		List<ReportType> reportTypeList = new ArrayList<ReportType>();
 		SubReportType subReportType = SubReportType.Factory.newInstance();
@@ -849,22 +566,21 @@ public abstract class BudgetBaseStream implements XmlStream {
 			sortId = 1;
 			categoryDesc = ALLOCATED_ADMINISTRATIVE_SUPPORT;
 			calculatedCost = getCalculatedCostForBudgetExclusionsSortId1();
-			ReportType reportTypeForSortId1 = getReportTypeForExclusions(
-					sortId, categoryDesc, calculatedCost);
+			ReportType reportTypeForSortId1 = getReportTypeForExclusions(sortId, categoryDesc, calculatedCost);
 			reportTypeList.add(reportTypeForSortId1);
+
 			sortId = 2;
 			categoryDesc = TOTAL_EMPLOYEE_BENEFITS;
 			calculatedCost = getCalculatedCostForBudgetLAExclusionsSortId2();
-			ReportType reportTypeForSortId2 = getReportTypeForExclusions(
-					sortId, categoryDesc, calculatedCost);
+			ReportType reportTypeForSortId2 = getReportTypeForExclusions(sortId, categoryDesc, calculatedCost);
 			reportTypeList.add(reportTypeForSortId2);
 			setReportTypeForBudgetLAExclusionsSortId3(reportTypeList);
+
 			sortId = 4;
 			categoryDesc = ALLOCATED_LAB_EXPENSE;
 			calculatedCost = getCalculatedCostForBudgetExclusionsSortId4();
-			ReportType reportTypeForSortId4 = getReportTypeForExclusions(
-					sortId, categoryDesc, calculatedCost);
-			if(calculatedCost.doubleValue()>0.0d){
+			ReportType reportTypeForSortId4 = getReportTypeForExclusions(sortId, categoryDesc, calculatedCost);
+			if (calculatedCost.doubleValue()>0.0d) {
 				reportTypeList.add(reportTypeForSortId4);
 			}
 		}
@@ -872,54 +588,25 @@ public abstract class BudgetBaseStream implements XmlStream {
 		return subReportType;
 	}
 
-	/**
-	 * This method sets ReportType from list of BudgetLineItem by checking the
-	 * lineItemNumber and create ReportTypeVO by setting data to it and add to
-	 * ReportTypeVOList
-	 * 
-	 * @param reportTypeList
-	 * @param sortId
-	 */
-	protected void setReportTypeOHExclusionForSortId(
-			List<ReportType> reportTypeList, int sortId) {
+	protected void setReportTypeOHExclusionForSortId(List<ReportType> reportTypeList, int sortId) {
 		List<ReportTypeVO> tempReportTypeVOList = new ArrayList<ReportTypeVO>();
 		setReportTypeVOListForOHExclusionSortId(tempReportTypeVOList);
-		setReportTypeListOHExclusionForSortId(reportTypeList, sortId,
-				tempReportTypeVOList);
+        setReportTypeListOHExclusionForSortId(reportTypeList, sortId, tempReportTypeVOList);
 	}
 
-	/**
-	 * This method set ReportTypeVO to ReportTypeVOList after setting values for
-	 * ReportType from BudgetLineItems
-	 * 
-	 * @param tempReportTypeVOList
-	 */
-	protected void setReportTypeVOListForOHExclusionSortId(
-			List<ReportTypeVO> tempReportTypeVOList) {
+	protected void setReportTypeVOListForOHExclusionSortId(List<ReportTypeVO> tempReportTypeVOList) {
 		for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
 			if (!checkLineItemNumberAvailableForOHExclusion(budgetLineItem)) {
 				ReportTypeVO reportTypeVO = new ReportTypeVO();
-				reportTypeVO
-						.setCostElementDesc(getCostElementDescription(budgetLineItem));
-				reportTypeVO
-						.setCalculatedCost(budgetLineItem.getLineItemCost());
+				reportTypeVO.setCostElementDesc(getCostElementDescription(budgetLineItem));
+				reportTypeVO.setCalculatedCost(budgetLineItem.getLineItemCost());
 				tempReportTypeVOList.add(reportTypeVO);
 			}
 		}
 	}
 
-	/**
-	 * This method sets ReportType grouped by budgetOHExclusionKey and get the
-	 * sum of calculatedCost and add to ReportTypeList
-	 * 
-	 * @param reportTypeList
-	 * @param sortId
-	 * @param tempReportTypeVOList
-	 */
-	protected void setReportTypeListOHExclusionForSortId(
-			List<ReportType> reportTypeList, int sortId,
-			List<ReportTypeVO> tempReportTypeVOList) {
-		Map<String, ReportTypeVO> reportTypeMap = new HashMap<String, ReportTypeVO>();
+	protected void setReportTypeListOHExclusionForSortId(List<ReportType> reportTypeList, int sortId, List<ReportTypeVO> tempReportTypeVOList) {
+		Map<String, ReportTypeVO> reportTypeMap = new HashMap<>();
 		for (ReportTypeVO reportTypeVO : tempReportTypeVOList) {
 			String budgetOHExclusionKey = reportTypeVO.getCostElementDesc();
 			ScaleTwoDecimal calculatedCost = reportTypeVO.getCalculatedCost();
@@ -928,7 +615,7 @@ public abstract class BudgetBaseStream implements XmlStream {
                 calculatedCost = calculatedCost.add(reportTypeVO1.getCalculatedCost());
                 reportTypeVO1.setCalculatedCost(calculatedCost);
 			    reportTypeMap.put(budgetOHExclusionKey, reportTypeVO1);
-			}else{
+			} else {
 			    reportTypeMap.put(budgetOHExclusionKey, reportTypeVO);
 			}
 		}
@@ -943,50 +630,24 @@ public abstract class BudgetBaseStream implements XmlStream {
 
 	}
 
-	/**
-	 * This method sets ReportType from list of BudgetLineItem by checking the
-	 * lineItemNumber, budgetCategoryCode and create ReportTypeVO by setting
-	 * data to it and add to ReportTypeVOList
-	 * 
-	 * @param reportTypeList
-	 */
-	protected void setReportTypeForBudgetLAExclusionsSortId3(
-			List<ReportType> reportTypeList) {
+	protected void setReportTypeForBudgetLAExclusionsSortId3(List<ReportType> reportTypeList) {
 		List<ReportTypeVO> tempReportTypeVOList = new ArrayList<ReportTypeVO>();
 		setReportTypeVOListForLAExclusionSortId3(tempReportTypeVOList);
 		setReportTypeList(reportTypeList, tempReportTypeVOList);
 	}
 
-	/**
-	 * This method sets ReportTypeVO from budgetLineItem values and further add
-	 * in ReportTypeVOList
-	 * 
-	 * @param tempReportTypeVOList
-	 */
-	protected void setReportTypeVOListForLAExclusionSortId3(
-			List<ReportTypeVO> tempReportTypeVOList) {
+	protected void setReportTypeVOListForLAExclusionSortId3(List<ReportTypeVO> tempReportTypeVOList) {
 		for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
-			if (!isBudgetCategoryPersonnel(budgetLineItem)
-					&& !checkLineItemNumberAvailableForLAExclusion(budgetLineItem)) {
+			if (!isBudgetCategoryPersonnel(budgetLineItem) && !checkLineItemNumberAvailableForLAExclusion(budgetLineItem)) {
 				ReportTypeVO tempReportTypeVO = new ReportTypeVO();
-				tempReportTypeVO
-						.setCostElementDesc(getCostElementDescription(budgetLineItem));
-				tempReportTypeVO.setCalculatedCost(budgetLineItem
-						.getLineItemCost());
+				tempReportTypeVO.setCostElementDesc(getCostElementDescription(budgetLineItem));
+				tempReportTypeVO.setCalculatedCost(budgetLineItem.getLineItemCost());
 				tempReportTypeVOList.add(tempReportTypeVO);
 			}
 		}
 	}
 
-	/**
-	 * This method sets ReportType grouped by budgetLAExclusionsKey and get the
-	 * sum of calculatedCost and add to ReportTypeList
-	 * 
-	 * @param reportTypeList
-	 * @param tempReportTypeVOList
-	 */
-	protected void setReportTypeList(List<ReportType> reportTypeList,
-			List<ReportTypeVO> tempReportTypeVOList) {
+	protected void setReportTypeList(List<ReportType> reportTypeList, List<ReportTypeVO> tempReportTypeVOList) {
 		Map<String, ReportTypeVO> reportTypeMap = new HashMap<String, ReportTypeVO>();
 		for (ReportTypeVO reportTypeVO : tempReportTypeVOList) {
 			String budgetLAExclusionsKey = reportTypeVO.getCostElementDesc();
@@ -995,11 +656,9 @@ public abstract class BudgetBaseStream implements XmlStream {
 			}
 			ScaleTwoDecimal calculatedCost = ScaleTwoDecimal.ZERO;
 			for (ReportTypeVO reportTypeVO1 : tempReportTypeVOList) {
-				String budgetLAExclusionTempKey = reportTypeVO1
-						.getCostElementDesc();
+				String budgetLAExclusionTempKey = reportTypeVO1.getCostElementDesc();
 				if (budgetLAExclusionTempKey.equals(budgetLAExclusionsKey)) {
-					calculatedCost = calculatedCost.add(reportTypeVO1
-							.getCalculatedCost());
+					calculatedCost = calculatedCost.add(reportTypeVO1.getCalculatedCost());
 				}
 			}
 			reportTypeMap.put(budgetLAExclusionsKey, reportTypeVO);
@@ -1012,215 +671,116 @@ public abstract class BudgetBaseStream implements XmlStream {
 		}
 	}
 
-	/*
-	 * This method check lineItemNumber available in BudgetLineItem or not based
-	 * on RateClassType LAB_ALLOCATION and LA_WITH_EB_VA
-	 */
-	private boolean checkLineItemNumberAvailableForLAExclusion(
-			BudgetLineItem budgetLineItem) {
-		boolean availabe = false;
+	private boolean checkLineItemNumberAvailableForLAExclusion(BudgetLineItem budgetLineItem) {
+		boolean available = false;
 		Integer lineItemNumber = budgetLineItem.getLineItemNumber();
-		for (BudgetLineItemCalculatedAmount budgetLineItemCalcAmount : budgetLineItem
-				.getBudgetLineItemCalculatedAmounts()) {
+		for (BudgetLineItemCalculatedAmount budgetLineItemCalcAmount : budgetLineItem.getBudgetLineItemCalculatedAmounts()) {
 			budgetLineItemCalcAmount.refreshReferenceObject(RATE_CLASS);
-			if (budgetLineItemCalcAmount.getApplyRateFlag()
-					&& (isLineItemCalAmountOfRateClassTypeLabAllocation(budgetLineItemCalcAmount) || isLineItemCalAmountOfRateClassTypeLAWithEBVA(budgetLineItemCalcAmount))) {
-				if (budgetLineItemCalcAmount.getLineItemNumber().equals(
-						lineItemNumber)) {
-					availabe = true;
+            final boolean lineItemCalAmountLabAllocation = isLineItemCalAmountOfRateClassTypeLabAllocation(budgetLineItemCalcAmount);
+            final boolean lineItemCalAmountLAWithEBVA = isLineItemCalAmountOfRateClassTypeLAWithEBVA(budgetLineItemCalcAmount);
+            if (budgetLineItemCalcAmount.getApplyRateFlag() && (lineItemCalAmountLabAllocation || lineItemCalAmountLAWithEBVA)) {
+				if (budgetLineItemCalcAmount.getLineItemNumber().equals(lineItemNumber)) {
+					available = true;
 				}
 			}
 		}
-		return availabe;
+		return available;
 	}
 
-	/*
-	 * This method check lineItemNumber available in BudgetLineItem or not based
-	 * on RateClassType OVERHEAD
-	 */
-	private boolean checkLineItemNumberAvailableForOHExclusion(
-			BudgetLineItem budgetLineItem) {
-		boolean availabe = false;
+	private boolean checkLineItemNumberAvailableForOHExclusion(BudgetLineItem budgetLineItem) {
+		boolean available = false;
 		Integer lineItemNumber = budgetLineItem.getLineItemNumber();
-		for (BudgetLineItemCalculatedAmount budgetLineItemCalcAmount : budgetLineItem
-				.getBudgetLineItemCalculatedAmounts()) {
+		for (BudgetLineItemCalculatedAmount budgetLineItemCalcAmount : budgetLineItem.getBudgetLineItemCalculatedAmounts()) {
 			budgetLineItemCalcAmount.refreshReferenceObject(RATE_CLASS);
-			if (budgetLineItemCalcAmount.getApplyRateFlag()
-					&& isLineItemCalAmountOfRateClassTypeOverhead(budgetLineItemCalcAmount)) {
-				if (budgetLineItemCalcAmount.getLineItemNumber().equals(
-						lineItemNumber)) {
+			if (budgetLineItemCalcAmount.getApplyRateFlag() && isLineItemCalAmountOfRateClassTypeOverhead(budgetLineItemCalcAmount)) {
+				if (budgetLineItemCalcAmount.getLineItemNumber().equals(lineItemNumber)) {
 					return true;
 				}
 			}
 		}
-		return availabe;
+		return available;
 	}
 
-	/**
-	 * This method gets costElement Description from BudgetLineItem by checking
-	 * the LineItemDescription
-	 * 
-	 * @param budgetLineItem
-	 * @return String costElementDesc
-	 */
 	protected String getCostElementDescription(BudgetLineItem budgetLineItem) {
-		String costElementDesc = budgetLineItem
-				.getCostElementBO()
-				.getDescription()
-				.concat(
-						budgetLineItem.getLineItemDescription() == null ? EMPTY_STRING
-								: STRING_SEPRATOR.concat(budgetLineItem
-										.getLineItemDescription()));
+        final String lineItemDescription = budgetLineItem.getLineItemDescription() == null ? EMPTY_STRING : STRING_SEPRATOR.concat(budgetLineItem.getLineItemDescription());
+        String costElementDesc = budgetLineItem.getCostElementBO().getDescription().concat(lineItemDescription);
 		return costElementDesc;
 	}
 
-	/*
-	 * This method gets subReportType for BudgetOHRateBase by BudgetPeriod. It
-	 * get reportTypeList for BudgetOHRateBase based on RateClassType OVERHEAD
-	 */
 	private SubReportType getBudgetOHRateBaseForPeriod() {
 		SubReportType subReportType = SubReportType.Factory.newInstance();
-		List<ReportType> reportTypeList = getReportTypeListForBudgetOHRateAndBase(RateClassType.OVERHEAD
-				.getRateClassType());
+		List<ReportType> reportTypeList = getReportTypeListForBudgetOHRateAndBase();
 		subReportType.setGroupArray(getGroupsType(reportTypeList));
 		return subReportType;
 	}
 
-	/*
-	 * This method gets subReportType for BudgetEBRateBase by BudgetPeriod. It
-	 * get reportTypeList for BudgetOHRateBase based on RateClassType
-	 * EMPLOYEE_BENEFITS
-	 */
 	private SubReportType getBudgetEBRateBaseForPeriod() {
 		SubReportType subReportType = SubReportType.Factory.newInstance();
-		List<ReportType> reportTypeList = getReportTypeListForBudgetEBRateAndBase(RateClassType.EMPLOYEE_BENEFITS
-				.getRateClassType());
+		List<ReportType> reportTypeList = getReportTypeListForBudgetEBRateAndBase();
 		subReportType.setGroupArray(getGroupsType(reportTypeList, rateType));
 		return subReportType;
 
 	}
 
-	/**
-	 * This method gets List of ReportType for BudgetEBRateAndBase from List of
-	 * BudgetLineItem and iterate through BudgetPersonnelRateAndBase,
-	 * BudgetRateBase.
-	 * 
-	 * @param rateClassType
-	 * @return List of ReportType
-	 */
-	protected List<ReportType> getReportTypeListForBudgetEBRateAndBase(
-			String rateClassType) {
-		List<ReportTypeVO> tempReportTypeVOList = new ArrayList<ReportTypeVO>();
+	protected List<ReportType> getReportTypeListForBudgetEBRateAndBase() {
+		List<ReportTypeVO> tempReportTypeVOList = new ArrayList<>();
 		List<ReportType> reportTypeList;
 		Map<String, ReportType> reportTypeMap = new HashMap<String, ReportType>();
 		for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
-			setBudgetPersRateAndBaseListForBudgetEBRateAndBase(
-					tempReportTypeVOList, budgetLineItem, rateClassType);
+			setBudgetPersRateAndBaseListForBudgetEBRateAndBase(tempReportTypeVOList, budgetLineItem);
 			if (!isBudgetCategoryPersonnel(budgetLineItem)) {
-				setBudgetRateAndBaseListForBudgetEBRateAndBase(
-						tempReportTypeVOList, budgetLineItem, rateClassType);
+				setBudgetRateAndBaseListForBudgetEBRateAndBase(tempReportTypeVOList, budgetLineItem);
 			}
 		}
-		setReportTypeMapFromReportTypeVOList(tempReportTypeVOList,
-				reportTypeMap);
-		reportTypeList = new ArrayList<ReportType>(reportTypeMap.values());
+		setReportTypeMapFromReportTypeVOList(tempReportTypeVOList, reportTypeMap);
+		reportTypeList = new ArrayList<>(reportTypeMap.values());
 		return reportTypeList;
 	}
 
-	/*
-	 * This method gets subReportType for BudgetLARateBase from List of
-	 * BudgetLineitem based on RateClassType LAB_ALLOCATION. It set GroupArray
-	 * to SubReportType from reportTypeList
-	 */
 	private SubReportType getBudgetLARateBaseForPeriod() {
-		SubReportType subReportType = SubReportType.Factory.newInstance();
-		List<ReportType> reportTypeList = getReportTypeListForBudgetLARateAndBase(RateClassType.LAB_ALLOCATION
-				.getRateClassType());
-		subReportType.setGroupArray(getGroupsType(reportTypeList,
-				rateClassRateType));
+		List<ReportType> reportTypeList = getReportTypeListForBudgetLARateAndBase();
+        SubReportType subReportType = SubReportType.Factory.newInstance();
+        subReportType.setGroupArray(getGroupsType(reportTypeList, rateClassRateType));
 		return subReportType;
 	}
 
-	/**
-	 * This method gets List of ReportType for BudgetLARateAndBase from List of
-	 * BudgetLineItem and iterate through BudgetPersonnelRateAndBase,
-	 * BudgetRateAndBase based on RateClasstype LA_WITH_EB_VA
-	 * 
-	 * @param rateClassType
-	 * @return List of ReportType
-	 */
-	protected List<ReportType> getReportTypeListForBudgetLARateAndBase(
-			String rateClassType) {
-		List<ReportTypeVO> tempReportTypeVOList = new ArrayList<ReportTypeVO>();
-		List<ReportType> reportTypeList;
+	protected List<ReportType> getReportTypeListForBudgetLARateAndBase() {
+        List<ReportTypeVO> tempReportTypeVOList = new ArrayList<>();
 		Map<String, ReportType> reportTypeMap = new HashMap<String, ReportType>();
 		for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
-			setBudgetPersRateAndBaseListForBudgetLARateAndBase(
-					tempReportTypeVOList, budgetLineItem, rateClassType,
-					RateClassType.LA_SALARIES.getRateClassType());
+			setBudgetPersRateAndBaseListForBudgetLARateAndBase(tempReportTypeVOList, budgetLineItem);
 			if (!isBudgetCategoryPersonnel(budgetLineItem)) {
-				setBudgetRateAndBaseListForBudgetLARateAndBase(
-						tempReportTypeVOList, budgetLineItem, rateClassType,
-						RateClassType.LA_SALARIES.getRateClassType());
-			}
-		}
-		setReportTypeMapFromReportTypeVOList(tempReportTypeVOList,
-				reportTypeMap);
-		reportTypeList = new ArrayList<ReportType>(reportTypeMap.values());
+				setBudgetRateAndBaseListForBudgetLARateAndBase(tempReportTypeVOList, budgetLineItem);
+            }
+        }
+        setReportTypeMapFromReportTypeVOList(tempReportTypeVOList, reportTypeMap);
+        List<ReportType> reportTypeList = new ArrayList<>(reportTypeMap.values());
 		return reportTypeList;
 	}
 
-	/*
-	 * This method gets subReportType for BudgetVacRateBase from List of
-	 * BudgetLineitem based on RateClassType VACATION. It set GroupArray to
-	 * SubReportType from reportTypeList
-	 */
 	private SubReportType getBudgetVacRateBaseForPeriod() {
 		SubReportType subReportType = SubReportType.Factory.newInstance();
-		List<ReportType> reportTypeList = getReportTypeListForBudgetVACRateAndBase(RateClassType.VACATION
-				.getRateClassType());
+		List<ReportType> reportTypeList = getReportTypeListForBudgetVACRateAndBase();
 		subReportType.setGroupArray(getGroupsType(reportTypeList, rateType));
 		return subReportType;
 	}
 
-	/**
-	 * This method gets List of ReportType for BudgetVACRateAndBase from List of
-	 * BudgetLineItem and iterate through BudgetPersonnelRateAndBase,
-	 * BudgetRateAndBase based on RateClasstype
-	 * 
-	 * @param rateClassType
-	 * @return List of ReportType
-	 */
-	protected List<ReportType> getReportTypeListForBudgetVACRateAndBase(
-			String rateClassType) {
+	protected List<ReportType> getReportTypeListForBudgetVACRateAndBase() {
 		List<ReportTypeVO> tempReportTypeVOList = new ArrayList<ReportTypeVO>();
 		List<ReportType> reportTypeList;
 		Map<String, ReportType> reportTypeMap = new HashMap<String, ReportType>();
 		for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
-			setBudgetPersRateAndBaseListForBudgetVacRateAndBase(
-					tempReportTypeVOList, budgetLineItem, rateClassType);
+			setBudgetPersRateAndBaseListForBudgetVacRateAndBase(tempReportTypeVOList, budgetLineItem);
 			if (!isBudgetCategoryPersonnel(budgetLineItem)) {
-				setBudgetRateAndBaseListForBudgetVacRateAndBase(
-						tempReportTypeVOList, budgetLineItem, rateClassType);
+				setBudgetRateAndBaseListForBudgetVacRateAndBase(tempReportTypeVOList, budgetLineItem);
 			}
 		}
-		setReportTypeMapFromReportTypeVOList(tempReportTypeVOList,
-				reportTypeMap);
-		reportTypeList = new ArrayList<ReportType>(reportTypeMap.values());
+		setReportTypeMapFromReportTypeVOList(tempReportTypeVOList, reportTypeMap);
+		reportTypeList = new ArrayList<>(reportTypeMap.values());
 		return reportTypeList;
 	}
 
-	/**
-	 * This method set reportTypeMap from reportTypeVOList by grouping based on
-	 * reportTypeKey and get sum of salaryRequested, calculatedCost, first
-	 * startDate, last endDate
-	 * 
-	 * @param tempReportTypeVOList
-	 * @param reportTypeMap
-	 */
-	protected void setReportTypeMapFromReportTypeVOList(
-			List<ReportTypeVO> tempReportTypeVOList,
-			Map<String, ReportType> reportTypeMap) {
+	protected void setReportTypeMapFromReportTypeVOList(List<ReportTypeVO> tempReportTypeVOList, Map<String, ReportType> reportTypeMap) {
 		for (ReportTypeVO reportTypeVO : tempReportTypeVOList) {
 			String reportTypeKey = getKeyForRateBase(reportTypeVO);
 			if (reportTypeMap.containsKey(reportTypeKey)) {
@@ -1233,10 +793,8 @@ public abstract class BudgetBaseStream implements XmlStream {
 			for (ReportTypeVO tempReportTypeVO : tempReportTypeVOList) {
 				String reportTypeTempKey = getKeyForRateBase(tempReportTypeVO);
 				if (reportTypeTempKey.equals(reportTypeKey)) {
-					salaryRequested = salaryRequested.add(tempReportTypeVO
-							.getSalaryRequested());
-					calculatedCost = calculatedCost.add(tempReportTypeVO
-							.getCalculatedCost());
+					salaryRequested = salaryRequested.add(tempReportTypeVO.getSalaryRequested());
+					calculatedCost = calculatedCost.add(tempReportTypeVO.getCalculatedCost());
 					if (startDate.after(tempReportTypeVO.getStartDate())) {
 						startDate = tempReportTypeVO.getStartDate();
 					}
@@ -1245,19 +803,13 @@ public abstract class BudgetBaseStream implements XmlStream {
 					}
 				}
 			}
-			ReportType reportType = getReportTypeForRateAndBase(startDate,
-					endDate, calculatedCost, salaryRequested, reportTypeVO);
+			ReportType reportType = getReportTypeForRateAndBase(startDate, endDate, calculatedCost, salaryRequested, reportTypeVO);
 			reportTypeMap.put(reportTypeKey, reportType);
 		}
 	}
 
-	/*
-	 * This method gets ReportType by setting data to reportType which is passed
-	 * as parameters
-	 */
-	private ReportType getReportTypeForRateAndBase(Date startDate,
-			Date endDate, ScaleTwoDecimal calculatedCost,
-			ScaleTwoDecimal salaryRequested, ReportTypeVO reportTypeVO) {
+	private ReportType getReportTypeForRateAndBase(Date startDate, Date endDate, ScaleTwoDecimal calculatedCost,
+                                                   ScaleTwoDecimal salaryRequested, ReportTypeVO reportTypeVO) {
 		ReportType reportType = ReportType.Factory.newInstance();
 		reportType.setSalaryRequested(salaryRequested.doubleValue());
 		reportType.setCalculatedCost(calculatedCost.doubleValue());
@@ -1270,87 +822,48 @@ public abstract class BudgetBaseStream implements XmlStream {
 		return reportType;
 	}
 
-	/*
-	 * This method gets subReportType for BudgetOtherRateBase from List of
-	 * BudgetLineItems based on rateClassType OTHER and setGroupArray
-	 * to subreportType by getting groupType through ReportTypeList
-	 */
 	private SubReportType getBudgetOtherRateBaseForPeriod() {
 		SubReportType subReportType = SubReportType.Factory.newInstance();
 		List<ReportType> reportTypeList;
-		reportTypeList = getReportTypeListForBudgetOtherRateAndBase(RateClassType.OTHER
-				.getRateClassType());
-		subReportType.setGroupArray(getGroupsType(reportTypeList,
-				rateClassRateType));
+		reportTypeList = getReportTypeListForBudgetOtherRateAndBase();
+        subReportType.setGroupArray(getGroupsType(reportTypeList, rateClassRateType));
 		return subReportType;
 
 	}
 
-	/**
-	 * This method gets List of ReportType for BudgetOtherRateAndBase from List
-	 * of BudgetLineItem and iterate through BudgetPersonnelRateAndBase,
-	 * BudgetRateAndBase based on RateClasstype
-	 * 
-	 * @param rateClassType
-	 * @return List of ReportType
-	 */
-	protected List<ReportType> getReportTypeListForBudgetOtherRateAndBase(
-			String rateClassType) {
+	protected List<ReportType> getReportTypeListForBudgetOtherRateAndBase() {
+		List<ReportTypeVO> tempReportTypeVOList = new ArrayList<>();
+		List<ReportType> reportTypeList;
+		Map<String, ReportType> reportTypeMap = new HashMap<>();
+		for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
+			setBudgetPersRateAndBaseListForBudgetOtherRateAndBase(tempReportTypeVOList, budgetLineItem);
+			if (!isBudgetCategoryPersonnel(budgetLineItem)) {
+				setBudgetRateAndBaseListForBudgetOtherRateAndBase(tempReportTypeVOList, budgetLineItem);
+			}
+		}
+		setReportTypeMapFromReportTypeVOList(tempReportTypeVOList, reportTypeMap);
+		reportTypeList = new ArrayList<>(reportTypeMap.values());
+		return reportTypeList;
+	}
+
+	protected List<ReportType> getReportTypeListForBudgetOHRateAndBase() {
+        String OVERHEAD_RATE_CLASS_TYPE = RateClassType.OVERHEAD.getRateClassType();
 		List<ReportTypeVO> tempReportTypeVOList = new ArrayList<ReportTypeVO>();
 		List<ReportType> reportTypeList;
 		Map<String, ReportType> reportTypeMap = new HashMap<String, ReportType>();
 		for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
-			setBudgetPersRateAndBaseListForBudgetOtherRateAndBase(
-					tempReportTypeVOList, budgetLineItem, rateClassType);
+            setBudgetPersRateAndBaseListForBudgetOHRateAndBase(tempReportTypeVOList, budgetLineItem);
 			if (!isBudgetCategoryPersonnel(budgetLineItem)) {
-				setBudgetRateAndBaseListForBudgetOtherRateAndBase(
-						tempReportTypeVOList, budgetLineItem, rateClassType);
-			}
-		}
-		setReportTypeMapFromReportTypeVOList(tempReportTypeVOList,
-				reportTypeMap);
-		reportTypeList = new ArrayList<ReportType>(reportTypeMap.values());
+                setBudgetRateAndBaseListForBudgetOHRateAndBase(tempReportTypeVOList, budgetLineItem);
+            }
+        }
+
+        setReportTypeMapForBudgetOHRateAndBase(tempReportTypeVOList, reportTypeMap);
+		reportTypeList = new ArrayList<>(reportTypeMap.values());
 		return reportTypeList;
 	}
 
-	/**
-	 * This method gets List of ReportType for BudgetOHRateAndBase from List of
-	 * BudgetLineItem and iterate through BudgetPersonnelRateAndBase,
-	 * BudgetRateAndBase based on RateClasstype and BudgetCategoryTypeCode
-	 * 
-	 * @param rateClassType
-	 * @return List of ReportType
-	 */
-	protected List<ReportType> getReportTypeListForBudgetOHRateAndBase(
-			String rateClassType) {
-		List<ReportTypeVO> tempReportTypeVOList = new ArrayList<ReportTypeVO>();
-		List<ReportType> reportTypeList;
-		Map<String, ReportType> reportTypeMap = new HashMap<String, ReportType>();
-		for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
-			setBudgetPersRateAndBaseListForBudgetOHRateAndBase(
-					tempReportTypeVOList, budgetLineItem, rateClassType);
-			if (!isBudgetCategoryPersonnel(budgetLineItem)) {
-				setBudgetRateAndBaseListForBudgetOHRateAndBase(
-						tempReportTypeVOList, budgetLineItem, rateClassType);
-			}
-		}
-		setReportTypeMapForBudgetOHRateAndBase(tempReportTypeVOList,
-				reportTypeMap);
-		reportTypeList = new ArrayList<ReportType>(reportTypeMap.values());
-		return reportTypeList;
-	}
-
-	/**
-	 * This method set reportTypeMap for BudgetOHRateAndBase by grouping based
-	 * on budgetOHRateBaseKey and get sum of salaryRequested, calculatedCost,
-	 * first startDate, last endDate
-	 * 
-	 * @param tempReportTypeVOList
-	 * @param reportTypeMap
-	 */
-	protected void setReportTypeMapForBudgetOHRateAndBase(
-			List<ReportTypeVO> tempReportTypeVOList,
-			Map<String, ReportType> reportTypeMap) {
+	protected void setReportTypeMapForBudgetOHRateAndBase(List<ReportTypeVO> tempReportTypeVOList, Map<String, ReportType> reportTypeMap) {
 		for (ReportTypeVO reportTypeVO : tempReportTypeVOList) {
 			String budgetOHRateBaseKey = getKeyForBudgetOHRateBase(reportTypeVO);
 			if (reportTypeMap.containsKey(budgetOHRateBaseKey)) {
@@ -1363,11 +876,8 @@ public abstract class BudgetBaseStream implements XmlStream {
 			for (ReportTypeVO tempReportTypeVO : tempReportTypeVOList) {
 				String budgetOHRateBaseTempKey = getKeyForBudgetOHRateBase(tempReportTypeVO);
 				if (budgetOHRateBaseTempKey.equals(budgetOHRateBaseKey)) {
-					salaryRequested = salaryRequested.add(tempReportTypeVO
-							.getSalaryRequested() == null ? ScaleTwoDecimal.ZERO
-							: tempReportTypeVO.getSalaryRequested());
-					calculatedCost = calculatedCost.add(tempReportTypeVO
-							.getCalculatedCost());
+					salaryRequested = salaryRequested.add(tempReportTypeVO.getSalaryRequested() == null ? ScaleTwoDecimal.ZERO : tempReportTypeVO.getSalaryRequested());
+					calculatedCost = calculatedCost.add(tempReportTypeVO.getCalculatedCost());
 					if (startDate.after(tempReportTypeVO.getStartDate())) {
 						startDate = tempReportTypeVO.getStartDate();
 					}
@@ -1376,20 +886,13 @@ public abstract class BudgetBaseStream implements XmlStream {
 					}
 				}
 			}
-			ReportType reportType = getReportTypeForBudgetOHRateAndBase(
-					startDate, endDate, calculatedCost, salaryRequested,
-					reportTypeVO);
+			ReportType reportType = getReportTypeForBudgetOHRateAndBase(startDate, endDate, calculatedCost, salaryRequested, reportTypeVO);
 			reportTypeMap.put(budgetOHRateBaseKey, reportType);
 		}
 	}
 
-	/*
-	 * This method gets ReportType for BudgetOHRateAndbase by setting data to
-	 * reportType which is passed as parameters
-	 */
-	private ReportType getReportTypeForBudgetOHRateAndBase(Date startDate,
-			Date endDate, ScaleTwoDecimal calculatedCost,
-			ScaleTwoDecimal salaryRequested, ReportTypeVO reportTypeVO) {
+	private ReportType getReportTypeForBudgetOHRateAndBase(Date startDate, Date endDate, ScaleTwoDecimal calculatedCost,
+                                                           ScaleTwoDecimal salaryRequested, ReportTypeVO reportTypeVO) {
 		ReportType reportType = ReportType.Factory.newInstance();
 		reportType.setSalaryRequested(salaryRequested.doubleValue());
 		reportType.setCalculatedCost(calculatedCost.doubleValue());
@@ -1401,48 +904,25 @@ public abstract class BudgetBaseStream implements XmlStream {
 		return reportType;
 	}
 
-	/*
-	 * This method gets key for vacation and Other RateBase for making groups
-	 * based on key
-	 */
 	private String getKeyForRateBase(ReportTypeVO reportTypeVO) {
 		StringBuilder key = new StringBuilder();
-		key.append(reportTypeVO.getRateClassDesc()).append(
-				reportTypeVO.getRateTypeDesc()).append(
-				reportTypeVO.getOnOffCampusFlag().toString()).append(
-				reportTypeVO.getAppliedRate().toString());
+		key.append(reportTypeVO.getRateClassDesc()).append(reportTypeVO.getRateTypeDesc()).append(reportTypeVO.getOnOffCampusFlag().toString())
+                    .append(reportTypeVO.getAppliedRate().toString());
 		return key.toString();
 	}
 
-	/*
-	 * This method gets key for OHRateBase for making groups of BudgetOHRateBase
-	 * based on key
-	 */
 	private String getKeyForBudgetOHRateBase(ReportTypeVO reportTypeVO) {
-		StringBuilder key = new StringBuilder();
-		key.append(reportTypeVO.getOnOffCampusFlag().toString()).append(
-				reportTypeVO.getAppliedRate().toString()).append(
-				reportTypeVO.getRateClassDesc());
+        StringBuilder key = new StringBuilder();
+		key.append(reportTypeVO.getOnOffCampusFlag().toString()).append(reportTypeVO.getAppliedRate().toString())
+                .append(reportTypeVO.getRateClassDesc());
 		return key.toString();
 	}
 
-	/**
-	 * This method sets BudgetRateAndBaseListForOtherrateAndBase from List of
-	 * BudgetRateAndBase based on RateClassType
-	 * 
-	 * @param reportTypeVOList
-	 * @param budgetLineItem
-	 * @param rateClassType
-	 */
-	protected void setBudgetRateAndBaseListForBudgetOtherRateAndBase(
-			List<ReportTypeVO> reportTypeVOList, BudgetLineItem budgetLineItem,
-			String rateClassType) {
+	protected void setBudgetRateAndBaseListForBudgetOtherRateAndBase(List<ReportTypeVO> reportTypeVOList, BudgetLineItem budgetLineItem) {
 		Map<String, BudgetRateAndBase> laRateBaseMap = new HashMap<String, BudgetRateAndBase>();
-		for (BudgetRateAndBase budgetRateAndBase : budgetLineItem
-				.getBudgetRateAndBaseList()) {
+		for (BudgetRateAndBase budgetRateAndBase : budgetLineItem.getBudgetRateAndBaseList()) {
 			budgetRateAndBase.refreshReferenceObject(RATE_CLASS);
-			if (budgetRateAndBase.getRateClass().getRateClassTypeCode().equals(
-					rateClassType)) {
+			if (budgetRateAndBase.getRateClass().getRateClassTypeCode().equals(RateClassType.OTHER.getRateClassType())) {
 				String budgetRateBaseKey = getBudgetRateAndBaseKey(budgetRateAndBase);
 				if (laRateBaseMap.containsKey(budgetRateBaseKey)) {
 					continue;
@@ -1454,25 +934,12 @@ public abstract class BudgetBaseStream implements XmlStream {
 		}
 	}
 
-	/**
-	 * This method sets BudgetRateAndBaseList For BudgetVacRateAndBase from list
-	 * of BudgetRateAndBase based on RateClassType and LiVacOnLaRateTypeCode
-	 * 
-	 * @param reportTypeVOList
-	 * @param budgetLineItem
-	 * @param rateClassType
-	 */
-	protected void setBudgetRateAndBaseListForBudgetVacRateAndBase(
-			List<ReportTypeVO> reportTypeVOList, BudgetLineItem budgetLineItem,
-			String rateClassType) {
-		Map<String, BudgetRateAndBase> vacBudgetRateBaseMap = new HashMap<String, BudgetRateAndBase>();
-		for (BudgetRateAndBase budgetRateAndBase : budgetLineItem
-				.getBudgetRateAndBaseList()) {
+	protected void setBudgetRateAndBaseListForBudgetVacRateAndBase(List<ReportTypeVO> reportTypeVOList, BudgetLineItem budgetLineItem) {
+		Map<String, BudgetRateAndBase> vacBudgetRateBaseMap = new HashMap<>();
+		for (BudgetRateAndBase budgetRateAndBase : budgetLineItem.getBudgetRateAndBaseList()) {
 			budgetRateAndBase.refreshReferenceObject(RATE_CLASS);
-			if (budgetRateAndBase.getRateClass().getRateClassTypeCode().equals(
-					rateClassType)
-					&& !budgetRateAndBase.getRateClass().getRateClassTypeCode()
-							.equals(getLiVacOnLaRateTypeCode())) {
+			if (budgetRateAndBase.getRateClass().getRateClassTypeCode().equals(RateClassType.VACATION.getRateClassType())
+					&& !budgetRateAndBase.getRateClass().getRateClassTypeCode().equals(getLiVacOnLaRateTypeCode())) {
 				String budgetRateBaseKey = getBudgetRateAndBaseKey(budgetRateAndBase);
 				if (vacBudgetRateBaseMap.containsKey(budgetRateBaseKey)) {
 					continue;
@@ -1484,26 +951,12 @@ public abstract class BudgetBaseStream implements XmlStream {
 		}
 	}
 
-	/**
-	 * This method sets BudgetRateAndBaseList For BudgetLARateAndBase from list
-	 * of BudgetRateAndBase based on RateClassTypes
-	 * 
-	 * @param reportTypeVOList
-	 * @param budgetLineItem
-	 * @param rateClassType1
-	 * @param rateClassType2
-	 */
-	protected void setBudgetRateAndBaseListForBudgetLARateAndBase(
-			List<ReportTypeVO> reportTypeVOList, BudgetLineItem budgetLineItem,
-			String rateClassType1, String rateClassType2) {
-		Map<String, BudgetRateAndBase> laRateBaseMap = new HashMap<String, BudgetRateAndBase>();
-		for (BudgetRateAndBase budgetRateAndBase : budgetLineItem
-				.getBudgetRateAndBaseList()) {
+	protected void setBudgetRateAndBaseListForBudgetLARateAndBase(List<ReportTypeVO> reportTypeVOList, BudgetLineItem budgetLineItem) {
+        Map<String, BudgetRateAndBase> laRateBaseMap = new HashMap<String, BudgetRateAndBase>();
+		for (BudgetRateAndBase budgetRateAndBase : budgetLineItem.getBudgetRateAndBaseList()) {
 			budgetRateAndBase.refreshReferenceObject(RATE_CLASS);
-			if (budgetRateAndBase.getRateClass().getRateClassTypeCode().equals(
-					rateClassType1)
-					|| budgetRateAndBase.getRateClass().getRateClassTypeCode()
-							.equals(rateClassType2)) {
+			if (budgetRateAndBase.getRateClass().getRateClassTypeCode().equals( RateClassType.LAB_ALLOCATION.getRateClassType()) ||
+                    budgetRateAndBase.getRateClass().getRateClassTypeCode().equals(RateClassType.LA_SALARIES.getRateClassType())) {
 				String budgetRateBaseKey = getBudgetRateAndBaseKey(budgetRateAndBase);
 				if (laRateBaseMap.containsKey(budgetRateBaseKey)) {
 					continue;
@@ -1515,10 +968,6 @@ public abstract class BudgetBaseStream implements XmlStream {
 		}
 	}
 
-	/*
-	 * This method return key for BudgetRateAndBase by appending
-	 * startDate,endDate,rateTypeCode and RateClassCode
-	 */
 	private String getBudgetRateAndBaseKey(BudgetRateAndBase budgetRateAndBase) {
 		String key = new StringBuilder(budgetRateAndBase.getStartDate()
 				.toString()).append(budgetRateAndBase.getEndDate().toString())
@@ -1527,25 +976,12 @@ public abstract class BudgetBaseStream implements XmlStream {
 		return key;
 	}
 
-	/**
-	 * This method sets BudgetRateAndBaseList For BudgetEBRateAndBase from list
-	 * of BudgetRateAndBase based on rateClassType
-	 * 
-	 * @param reportTypeVOList
-	 * @param budgetLineItem
-	 * @param rateClassType
-	 */
-	protected void setBudgetRateAndBaseListForBudgetEBRateAndBase(
-			List<ReportTypeVO> reportTypeVOList, BudgetLineItem budgetLineItem,
-			String rateClassType) {
-		Map<String, BudgetRateAndBase> ebBudgetRateBaseMap = new HashMap<String, BudgetRateAndBase>();
-		for (BudgetRateAndBase budgetRateAndBase : budgetLineItem
-				.getBudgetRateAndBaseList()) {
+	protected void setBudgetRateAndBaseListForBudgetEBRateAndBase(List<ReportTypeVO> reportTypeVOList, BudgetLineItem budgetLineItem) {
+        Map<String, BudgetRateAndBase> ebBudgetRateBaseMap = new HashMap<>();
+		for (BudgetRateAndBase budgetRateAndBase : budgetLineItem.getBudgetRateAndBaseList()) {
 			budgetRateAndBase.refreshReferenceObject(RATE_CLASS);
-			if (budgetRateAndBase.getRateClass().getRateClassTypeCode().equals(
-					rateClassType)
-					&& !budgetRateAndBase.getRateClass().getRateClassTypeCode()
-							.equals(getLiEbOnLaRateTypeCode())) {
+			if (budgetRateAndBase.getRateClass().getRateClassTypeCode().equals(RateClassType.EMPLOYEE_BENEFITS.getRateClassType())
+					&& !budgetRateAndBase.getRateClass().getRateClassTypeCode().equals(getLiEbOnLaRateTypeCode())) {
 				String budgetRateBaseKey = getBudgetRateAndBaseKey(budgetRateAndBase);
 				if (ebBudgetRateBaseMap.containsKey(budgetRateBaseKey)) {
 					continue;
@@ -1557,23 +993,11 @@ public abstract class BudgetBaseStream implements XmlStream {
 		}
 	}
 
-	/**
-	 * This method sets BudgetRateAndBaseList For BudgetOHRateAndBase from list
-	 * of BudgetRateAndBase based on RateClassType
-	 * 
-	 * @param reportTypeVOList
-	 * @param budgetLineItem
-	 * @param rateClassType
-	 */
-	protected void setBudgetRateAndBaseListForBudgetOHRateAndBase(
-			List<ReportTypeVO> reportTypeVOList, BudgetLineItem budgetLineItem,
-			String rateClassType) {
+	protected void setBudgetRateAndBaseListForBudgetOHRateAndBase(List<ReportTypeVO> reportTypeVOList, BudgetLineItem budgetLineItem) {
 		Map<String, BudgetRateAndBase> ohBudgetRateBaseMap = new HashMap<String, BudgetRateAndBase>();
-		for (BudgetRateAndBase budgetRateAndBase : budgetLineItem
-				.getBudgetRateAndBaseList()) {
+		for (BudgetRateAndBase budgetRateAndBase : budgetLineItem.getBudgetRateAndBaseList()) {
 			budgetRateAndBase.refreshReferenceObject(RATE_CLASS);
-			if (budgetRateAndBase.getRateClass().getRateClassTypeCode().equals(
-					rateClassType)) {
+			if (budgetRateAndBase.getRateClass().getRateClassTypeCode().equals(RateClassType.OVERHEAD.getRateClassType())) {
 				String budgetRateBaseKey = getBudgetRateAndBaseKey(budgetRateAndBase);
 				if (ohBudgetRateBaseMap.containsKey(budgetRateBaseKey)) {
 					continue;
@@ -1585,17 +1009,10 @@ public abstract class BudgetBaseStream implements XmlStream {
 		}
 	}
 
-	/*
-	 * This method gets reportTypeVO from BudgetRateAndBase. It sets data from
-	 * BudgetRateAndBase to reportTypeVO
-	 */
-	private ReportTypeVO getBudgetRateAndBaseList(
-			BudgetRateAndBase budgetRateAndBase) {
+	private ReportTypeVO getBudgetRateAndBaseList(BudgetRateAndBase budgetRateAndBase) {
 		ReportTypeVO reportTypeVO = new ReportTypeVO();
-		reportTypeVO.setRateClassDesc(budgetRateAndBase.getRateClass()
-				.getDescription());
-		reportTypeVO.setRateTypeDesc(getRateTypeDesc(budgetRateAndBase
-				.getRateClassCode(), budgetRateAndBase.getRateTypeCode()));
+		reportTypeVO.setRateClassDesc(budgetRateAndBase.getRateClass().getDescription());
+		reportTypeVO.setRateTypeDesc(getRateTypeDesc(budgetRateAndBase.getRateClassCode(), budgetRateAndBase.getRateTypeCode()));
 		reportTypeVO.setStartDate(budgetRateAndBase.getStartDate());
 		reportTypeVO.setEndDate(budgetRateAndBase.getEndDate());
 		reportTypeVO.setAppliedRate(budgetRateAndBase.getAppliedRate());
@@ -1606,15 +1023,9 @@ public abstract class BudgetBaseStream implements XmlStream {
 
 	}
 
-	/*
-	 * This method gets reportTypeVO from BudgetRateAndBase. It sets data from
-	 * BudgetRateAndBase to reportTypeVO for BudgetOHRateBase
-	 */
-	private ReportTypeVO getBudgetRateAndBaseListForBudgetOHRateBase(
-			BudgetRateAndBase budgetRateAndBase) {
+	private ReportTypeVO getBudgetRateAndBaseListForBudgetOHRateBase(BudgetRateAndBase budgetRateAndBase) {
 		ReportTypeVO reportTypeVO = new ReportTypeVO();
-		reportTypeVO.setRateClassDesc(budgetRateAndBase.getRateClass()
-				.getDescription());
+		reportTypeVO.setRateClassDesc(budgetRateAndBase.getRateClass().getDescription());
 		reportTypeVO.setStartDate(budgetRateAndBase.getStartDate());
 		reportTypeVO.setEndDate(budgetRateAndBase.getEndDate());
 		reportTypeVO.setAppliedRate(budgetRateAndBase.getAppliedRate());
@@ -1624,237 +1035,98 @@ public abstract class BudgetBaseStream implements XmlStream {
 		return reportTypeVO;
 	}
 
-	/**
-	 * This method sets BudgetPersonnelRateAndBase List from List of
-	 * BudgetPersonnelDetails and iterate each BudgetPersonnelRateAndBase based
-	 * on RateClassType for BudgetOtherRateAndBase
-	 * 
-	 * @param reportTypeVOList
-	 * @param budgetLineItem
-	 * @param rateClassType
-	 */
-	protected void setBudgetPersRateAndBaseListForBudgetOtherRateAndBase(
-			List<ReportTypeVO> reportTypeVOList, BudgetLineItem budgetLineItem,
-			String rateClassType) {
-		Map<String, BudgetPersonnelRateAndBase> otherBudgetPersRateBaseMap = new HashMap<String, BudgetPersonnelRateAndBase>();
-		for (BudgetPersonnelDetails budgetPersDetails : budgetLineItem
-				.getBudgetPersonnelDetailsList()) {
-			for (BudgetPersonnelRateAndBase budgetPersRateAndBase : budgetPersDetails
-					.getBudgetPersonnelRateAndBaseList()) {
+	protected void setBudgetPersRateAndBaseListForBudgetOtherRateAndBase(List<ReportTypeVO> reportTypeVOList, BudgetLineItem budgetLineItem) {
+		for (BudgetPersonnelDetails budgetPersDetails : budgetLineItem.getBudgetPersonnelDetailsList()) {
+			for (BudgetPersonnelRateAndBase budgetPersRateAndBase : budgetPersDetails.getBudgetPersonnelRateAndBaseList()) {
 				budgetPersRateAndBase.refreshNonUpdateableReferences();
-				if (budgetPersRateAndBase.getRateClass() != null
-						&& rateClassType.equals(budgetPersRateAndBase
-								.getRateClass().getRateClassTypeCode())) {
-					String budgetPersRateBaseKey = getBudgetPersRateAndBaseKey(budgetPersRateAndBase);
+				if (budgetPersRateAndBase.getRateClass() != null &&
+                        RateClassType.OTHER.getRateClassType().equals(budgetPersRateAndBase.getRateClass().getRateClassTypeCode())) {
 					ReportTypeVO reportTypeVO = getReportTypeVOForBudgetPersonnelRateAndBase(budgetPersRateAndBase);
-					reportTypeVO.setRateTypeDesc(getRateTypeDesc(
-							budgetPersRateAndBase.getRateClassCode(),
-							budgetPersRateAndBase.getRateTypeCode()));
+					reportTypeVO.setRateTypeDesc(getRateTypeDesc(budgetPersRateAndBase.getRateClassCode(), budgetPersRateAndBase.getRateTypeCode()));
 					reportTypeVOList.add(reportTypeVO);
-					otherBudgetPersRateBaseMap.put(budgetPersRateBaseKey,
-							budgetPersRateAndBase);
 				}
 			}
 		}
 	}
 
-	/**
-	 * This method sets BudgetPersonnelRateAndBase List from List of
-	 * BudgetPersonnelDetails based on budgetCategoryCode P, and iterate each
-	 * BudgetPersonnelRateAndBase based on RateClasstype for
-	 * BudgetVacRateAndBase
-	 * 
-	 * @param reportTypeVOList
-	 * @param budgetLineItem
-	 * @param rateClassType
-	 */
-	protected void setBudgetPersRateAndBaseListForBudgetVacRateAndBase(
-			List<ReportTypeVO> reportTypeVOList, BudgetLineItem budgetLineItem,
-			String rateClassType) {
-		Map<String, BudgetPersonnelRateAndBase> vacBudgetPersRateBaseMap = new HashMap<String, BudgetPersonnelRateAndBase>();
-		for (BudgetPersonnelDetails budgetPersDetails : budgetLineItem
-				.getBudgetPersonnelDetailsList()) {
-			for (BudgetPersonnelRateAndBase budgetPersRateAndBase : budgetPersDetails
-					.getBudgetPersonnelRateAndBaseList()) {
+	protected void setBudgetPersRateAndBaseListForBudgetVacRateAndBase(List<ReportTypeVO> reportTypeVOList, BudgetLineItem budgetLineItem) {
+		for (BudgetPersonnelDetails budgetPersDetails : budgetLineItem.getBudgetPersonnelDetailsList()) {
+			for (BudgetPersonnelRateAndBase budgetPersRateAndBase : budgetPersDetails.getBudgetPersonnelRateAndBaseList()) {
 				budgetPersRateAndBase.refreshNonUpdateableReferences();
-				if (budgetPersRateAndBase.getRateClass() != null
-						&& budgetPersRateAndBase.getRateClass()
-								.getRateClassTypeCode() != null
-						&& budgetPersRateAndBase.getRateClass()
-								.getRateClassTypeCode().equals(rateClassType)) {
-					String budgetPersRateBaseKey = getBudgetPersRateAndBaseKey(budgetPersRateAndBase);
+				if (budgetPersRateAndBase.getRateClass() != null && budgetPersRateAndBase.getRateClass().getRateClassTypeCode() != null
+						&& budgetPersRateAndBase.getRateClass().getRateClassTypeCode().equals(RateClassType.VACATION.getRateClassType())) {
 					ReportTypeVO reportTypeVO = getReportTypeVOForBudgetPersonnelRateAndBase(budgetPersRateAndBase);
-					reportTypeVO.setRateTypeDesc(getRateTypeDesc(
-							budgetPersRateAndBase.getRateClassCode(),
-							budgetPersRateAndBase.getRateTypeCode()));
+					reportTypeVO.setRateTypeDesc(getRateTypeDesc(budgetPersRateAndBase.getRateClassCode(), budgetPersRateAndBase.getRateTypeCode()));
 					reportTypeVOList.add(reportTypeVO);
-					vacBudgetPersRateBaseMap.put(budgetPersRateBaseKey,
-							budgetPersRateAndBase);
 				}
 			}
 		}
 	}
 
-	/**
-	 * This method sets BudgetPersonnelRateAndBase List from List of
-	 * BudgetPersonnelDetails and iterate each BudgetPersonnelRateAndBase based
-	 * on RateClassTypes for BudgetLARateAndBase
-	 * 
-	 * @param reportTypeVOList
-	 * @param budgetLineItem
-	 * @param rateClassType1
-	 * @param rateClassType2
-	 */
 	protected void setBudgetPersRateAndBaseListForBudgetLARateAndBase(
-			List<ReportTypeVO> reportTypeVOList, BudgetLineItem budgetLineItem,
-			String rateClassType1, String rateClassType2) {
-		Map<String, BudgetPersonnelRateAndBase> laRateBaseMap = new HashMap<String, BudgetPersonnelRateAndBase>();
-		for (BudgetPersonnelDetails budgetPersDetails : budgetLineItem
-				.getBudgetPersonnelDetailsList()) {
-			for (BudgetPersonnelRateAndBase budgetPersRateAndBase : budgetPersDetails
-					.getBudgetPersonnelRateAndBaseList()) {
+            List<ReportTypeVO> reportTypeVOList, BudgetLineItem budgetLineItem) {
+        String LAB_ALLOCATION_RATE_CLASS = RateClassType.LAB_ALLOCATION.getRateClassType();
+        String LA_SALARIES_RATE_CLASS = RateClassType.LA_SALARIES.getRateClassType();
+		for (BudgetPersonnelDetails budgetPersDetails : budgetLineItem.getBudgetPersonnelDetailsList()) {
+			for (BudgetPersonnelRateAndBase budgetPersRateAndBase : budgetPersDetails.getBudgetPersonnelRateAndBaseList()) {
 				budgetPersRateAndBase.refreshNonUpdateableReferences();
-				if (budgetPersRateAndBase.getRateClass() != null
-						&& (rateClassType1.equals(budgetPersRateAndBase
-								.getRateClass().getRateClassTypeCode()) || rateClassType2
-								.equals(budgetPersRateAndBase.getRateClass()
-										.getRateClassTypeCode()))) {
-					String budgetPersRateBaseKey = getBudgetPersRateAndBaseKey(budgetPersRateAndBase);
-					if (laRateBaseMap.containsKey(budgetPersRateBaseKey)) {
-						continue;
-					}
-					ReportTypeVO reportTypeVO = getReportTypeVOForBudgetPersonnelRateAndBase(budgetPersRateAndBase);
-					reportTypeVO.setRateTypeDesc(getRateTypeDesc(
-							budgetPersRateAndBase.getRateClassCode(),
-							budgetPersRateAndBase.getRateTypeCode()));
+
+                if (budgetPersRateAndBase.getRateClass() != null &&
+                        (LAB_ALLOCATION_RATE_CLASS.equals(budgetPersRateAndBase.getRateClass().getRateClassTypeCode())
+                                || LA_SALARIES_RATE_CLASS.equals(budgetPersRateAndBase.getRateClass().getRateClassTypeCode()))) {
+                    ReportTypeVO reportTypeVO = getReportTypeVOForBudgetPersonnelRateAndBase(budgetPersRateAndBase);
+					reportTypeVO.setRateTypeDesc(getRateTypeDesc(budgetPersRateAndBase.getRateClassCode(), budgetPersRateAndBase.getRateTypeCode()));
 					reportTypeVOList.add(reportTypeVO);
-					laRateBaseMap.put(budgetPersRateBaseKey,
-							budgetPersRateAndBase);
 				}
 			}
 		}
 	}
 
-	/**
-	 * This method sets BudgetPersonnelRateAndBase List from List of
-	 * BudgetPersonnelDetails based on budgetCategoryCode P, and iterate each
-	 * BudgetPersonnelRateAndBase based on RateClasstype for BudgetEBRateAndBase
-	 * 
-	 * @param reportTypeVOList
-	 * @param budgetLineItem
-	 * @param rateClassType
-	 */
-	protected void setBudgetPersRateAndBaseListForBudgetEBRateAndBase(
-			List<ReportTypeVO> reportTypeVOList, BudgetLineItem budgetLineItem,
-			String rateClassType) {
-		Map<String, BudgetPersonnelRateAndBase> ebBudgetPersRateBaseMap = new HashMap<String, BudgetPersonnelRateAndBase>();
-		for (BudgetPersonnelDetails budgetPersDetails : budgetLineItem
-				.getBudgetPersonnelDetailsList()) {
-			for (BudgetPersonnelRateAndBase budgetPersRateAndBase : budgetPersDetails
-					.getBudgetPersonnelRateAndBaseList()) {
+	protected void setBudgetPersRateAndBaseListForBudgetEBRateAndBase(List<ReportTypeVO> reportTypeVOList, BudgetLineItem budgetLineItem) {
+        String EB_RATE_CLASS_TYPE = RateClassType.EMPLOYEE_BENEFITS.getRateClassType();
+		for (BudgetPersonnelDetails budgetPersDetails : budgetLineItem.getBudgetPersonnelDetailsList()) {
+			for (BudgetPersonnelRateAndBase budgetPersRateAndBase : budgetPersDetails.getBudgetPersonnelRateAndBaseList()) {
 				budgetPersRateAndBase.refreshNonUpdateableReferences();
-				if (budgetPersRateAndBase.getRateClass() != null
-						&& budgetPersRateAndBase.getRateClass()
-								.getRateClassTypeCode() != null
-						&& budgetPersRateAndBase.getRateClass()
-								.getRateClassTypeCode().equals(rateClassType)) {
-					String budgetPersRateBaseKey = getBudgetPersRateAndBaseKey(budgetPersRateAndBase);
+				if (budgetPersRateAndBase.getRateClass() != null && budgetPersRateAndBase.getRateClass().getRateClassTypeCode() != null
+						&& budgetPersRateAndBase.getRateClass().getRateClassTypeCode().equals(EB_RATE_CLASS_TYPE)) {
 					ReportTypeVO reportTypeVO = getReportTypeVOForBudgetPersonnelRateAndBase(budgetPersRateAndBase);
-					reportTypeVO.setRateTypeDesc(getRateTypeDesc(
-							budgetPersRateAndBase.getRateClassCode(),
-							budgetPersRateAndBase.getRateTypeCode()));
+					reportTypeVO.setRateTypeDesc(getRateTypeDesc(budgetPersRateAndBase.getRateClassCode(), budgetPersRateAndBase.getRateTypeCode()));
 					reportTypeVOList.add(reportTypeVO);
-					ebBudgetPersRateBaseMap.put(budgetPersRateBaseKey,
-							budgetPersRateAndBase);
 				}
 			}
 		}
 	}
 
-	/**
-	 * This method sets BudgetPersonnelRateAndBase List from List of
-	 * BudgetPersonnelDetails and iterate each BudgetPersonnelRateAndBase based
-	 * on RateClassTypes for BudgetOHRateAndBase
-	 * 
-	 * @param reportTypeVOList
-	 * @param budgetLineItem
-	 * @param rateClassType
-	 */
-	protected void setBudgetPersRateAndBaseListForBudgetOHRateAndBase(
-			List<ReportTypeVO> reportTypeVOList, BudgetLineItem budgetLineItem,
-			String rateClassType) {
-		Map<String, BudgetPersonnelRateAndBase> ohBudgetPersRateBaseMap = new HashMap<String, BudgetPersonnelRateAndBase>();
-		for (BudgetPersonnelDetails budgetPersDetails : budgetLineItem
-				.getBudgetPersonnelDetailsList()) {
-			for (BudgetPersonnelRateAndBase budgetPersRateAndBase : budgetPersDetails
-					.getBudgetPersonnelRateAndBaseList()) {
-				budgetPersRateAndBase.refreshNonUpdateableReferences();
-				if (budgetPersRateAndBase.getRateClass() != null
-						&& budgetPersRateAndBase.getRateClass()
-								.getRateClassTypeCode() != null
-						&& budgetPersRateAndBase.getRateClass()
-								.getRateClassTypeCode().equals(rateClassType)) {
-					String budgetPersRateBaseKey = getBudgetPersRateAndBaseKey(budgetPersRateAndBase);
+	protected void setBudgetPersRateAndBaseListForBudgetOHRateAndBase(List<ReportTypeVO> reportTypeVOList, BudgetLineItem budgetLineItem) {
+        String OVERHEAD_RATE_CLASS_TYPE = RateClassType.OVERHEAD.getRateClassType();
+		for (BudgetPersonnelDetails budgetPersDetails : budgetLineItem.getBudgetPersonnelDetailsList()) {
+			for (BudgetPersonnelRateAndBase budgetPersRateAndBase : budgetPersDetails.getBudgetPersonnelRateAndBaseList()) {
+
+                budgetPersRateAndBase.refreshNonUpdateableReferences();
+				if (budgetPersRateAndBase.getRateClass() != null && budgetPersRateAndBase.getRateClass().getRateClassTypeCode() != null
+						&& budgetPersRateAndBase.getRateClass().getRateClassTypeCode().equals(OVERHEAD_RATE_CLASS_TYPE)) {
 					ReportTypeVO reportTypeVO = getReportTypeVOForBudgetPersonnelRateAndBase(budgetPersRateAndBase);
 					reportTypeVOList.add(reportTypeVO);
-					ohBudgetPersRateBaseMap.put(budgetPersRateBaseKey,
-							budgetPersRateAndBase);
 				}
 			}
 		}
 	}
 
-	/*
-	 * This method return key for BudgetPersonnelRateAndBase by appending
-	 * startDate,endDate,rateTypeCode and RateClassCode
-	 */
-	private String getBudgetPersRateAndBaseKey(
-			BudgetPersonnelRateAndBase budgetPersRateAndBase) {
-		String key = new StringBuilder(budgetPersRateAndBase.getStartDate()
-				.toString()).append(
-				budgetPersRateAndBase.getEndDate().toString()).append(
-				budgetPersRateAndBase.getRateTypeCode()).append(
-				budgetPersRateAndBase.getRateClassCode()).toString();
-		return key;
-	}
-
-	/*
-	 * This method gets reportTypeVO from BudgetPersonnelRateAndBase. It sets
-	 * data from BudgetPersonnelRateAndBase to reportTypeVO for
-	 * BudgetPersonnelRateAndBase
-	 */
-	private ReportTypeVO getReportTypeVOForBudgetPersonnelRateAndBase(
-			BudgetPersonnelRateAndBase budgetPersRateAndBase) {
+	private ReportTypeVO getReportTypeVOForBudgetPersonnelRateAndBase(BudgetPersonnelRateAndBase budgetPersRateAndBase) {
 		ReportTypeVO reportTypeVO = new ReportTypeVO();
-		reportTypeVO.setRateClassDesc(budgetPersRateAndBase.getRateClass()
-				.getDescription());
+		reportTypeVO.setRateClassDesc(budgetPersRateAndBase.getRateClass().getDescription());
 		reportTypeVO.setStartDate(budgetPersRateAndBase.getStartDate());
 		reportTypeVO.setEndDate(budgetPersRateAndBase.getEndDate());
 		reportTypeVO.setAppliedRate(budgetPersRateAndBase.getAppliedRate());
-		reportTypeVO.setSalaryRequested(budgetPersRateAndBase
-				.getSalaryRequested());// TODO Need to change this with
-		// BaseCost budgetPersRateAndBase.getBaseCost()
-		reportTypeVO.setCalculatedCost(budgetPersRateAndBase
-				.getCalculatedCost());
-		reportTypeVO.setOnOffCampusFlag(budgetPersRateAndBase
-				.getOnOffCampusFlag());
+		reportTypeVO.setSalaryRequested(budgetPersRateAndBase.getSalaryRequested());
+		reportTypeVO.setCalculatedCost(budgetPersRateAndBase.getCalculatedCost());
+		reportTypeVO.setOnOffCampusFlag(budgetPersRateAndBase.getOnOffCampusFlag());
 		return reportTypeVO;
 	}
 
-	/**
-	 * This method gets BudgetCategory Description for SalarySummary and based
-	 * on BudgetPersonnelRateAndBase rateTypeCode and rateClassCode
-	 * 
-	 * @param budgetDetails
-	 * @param budgetRateAndBase
-	 * @return String category
-	 */
-	protected String getBudgetCategoryDescForSalarySummary(
-	        BudgetLineItem budgetLineItem,
-			BudgetLineItemBase budgetDetails,
-			AbstractBudgetRateAndBase budgetRateAndBase) {
-		budgetLineItem.refreshReferenceObject("costElementBO");
-	    budgetLineItem.refreshReferenceObject("budgetCategory");
+	protected String getBudgetCategoryDescForSalarySummary(BudgetLineItem budgetLineItem, BudgetLineItemBase budgetDetails, AbstractBudgetRateAndBase budgetRateAndBase) {
+		budgetLineItem.refreshReferenceObject(COST_ELEMENT_BO);
+	    budgetLineItem.refreshReferenceObject(BUDGET_CATEGORY);
 		String category = null;
 		if (budgetRateAndBase != null && isRateAndBaseLASalary(budgetRateAndBase)) {
 			category = LAB_ALLOCATION;
@@ -1869,73 +1141,41 @@ public abstract class BudgetBaseStream implements XmlStream {
 		return category;
 	}
 
-	/*
-	 * This method gets fringeCostSharing for LASalaryForRateAndBase based on
-	 * StartDate, EndDate, RateClassCode and RateTypeCode from List of
-	 * BudgetRateAndBase
-	 */
-	private ScaleTwoDecimal getFringeForLASalaryForRateAndBase(
-			BudgetLineItem budgetLineItem, Date startDate, Date endDate) {
-		ScaleTwoDecimal fringe = ScaleTwoDecimal.ZERO;
-		for (BudgetRateAndBase budgetRateAndBase : budgetLineItem
-				.getBudgetRateAndBaseList()) {
-			budgetRateAndBase.refreshReferenceObject(RATE_CLASS);
-			if (budgetRateAndBase.getStartDate().equals(startDate)
-					&& budgetRateAndBase.getEndDate().equals(endDate)
-					&& budgetRateAndBase.getCalculatedCost() != null) {
-				if (isRateAndBaseEBonLA(budgetRateAndBase)
-						|| isRateAndBaseVAonLA(budgetRateAndBase)) {
-					fringe = fringe.add(budgetRateAndBase.getCalculatedCost());
-				}
-			}
-		}
+	private ScaleTwoDecimal getFringeForLASalaryForRateAndBase(BudgetLineItem budgetLineItem, Date startDate, Date endDate) {
+        ScaleTwoDecimal fringe = budgetLineItem.getBudgetRateAndBaseList().stream()
+                .peek(budgetRateAndBase -> budgetRateAndBase.refreshReferenceObject(RATE_CLASS))
+                .filter(budgetRateAndBase -> budgetRateAndBase.getCalculatedCost() != null)
+                .filter(budgetRateAndBase -> budgetRateAndBase.getStartDate().equals(startDate) && budgetRateAndBase.getEndDate().equals(endDate))
+                .filter(budgetRateAndBase -> isRateAndBaseEBonLA(budgetRateAndBase) || isRateAndBaseVAonLA(budgetRateAndBase))
+                .collect(Collectors.toMap(budgetRateAndBase -> budgetRateAndBase.getRateClass().getCode() + budgetRateAndBase.getRateTypeCode(),
+                        BudgetRateAndBase::getCalculatedCost, (key1, key2) -> key1))
+                .values().stream()
+                .reduce(ScaleTwoDecimal.ZERO, AbstractDecimal::add);
+
 		return fringe;
 	}
 
-	/*
-	 * This method gets fringeCostSharing for LASalaryRateAndBase based on
-	 * startDate, endDate, RateClassCode and RateTypeCode from BudgetRateAndBase
-	 */
-	private ScaleTwoDecimal getFringeCostSharingLASalaryRateAndBase(
-			BudgetLineItem budgetLineItem, Date startDate, Date endDate) {
+	private ScaleTwoDecimal getFringeCostSharingLASalaryRateAndBase(BudgetLineItem budgetLineItem, Date startDate, Date endDate) {
 		ScaleTwoDecimal fringeCostSharing = ScaleTwoDecimal.ZERO;
-		for (BudgetRateAndBase budgetRateAndBase : budgetLineItem
-				.getBudgetRateAndBaseList()) {
+		for (BudgetRateAndBase budgetRateAndBase : budgetLineItem.getBudgetRateAndBaseList()) {
 			budgetRateAndBase.refreshReferenceObject(RATE_CLASS);
-			if (budgetRateAndBase.getStartDate().equals(startDate)
-					&& budgetRateAndBase.getEndDate().equals(endDate)
+			if (budgetRateAndBase.getStartDate().equals(startDate) && budgetRateAndBase.getEndDate().equals(endDate)
 					&& budgetRateAndBase.getCalculatedCostSharing() != null) {
-				if (isRateAndBaseEBonLA(budgetRateAndBase)
-						|| isRateAndBaseVAonLA(budgetRateAndBase)) {
-					fringeCostSharing = fringeCostSharing.add(budgetRateAndBase
-							.getCalculatedCostSharing());
+				if (isRateAndBaseEBonLA(budgetRateAndBase) || isRateAndBaseVAonLA(budgetRateAndBase)) {
+					fringeCostSharing = fringeCostSharing.add(budgetRateAndBase.getCalculatedCostSharing());
 				}
 			}
 		}
 		return fringeCostSharing;
 	}
 
-	/**
-	 * This method gets Investigator Flag from list of ProposalPerson by
-	 * checking personID from BudgetPersonnelRateAndBase
-	 * 
-	 * @param budgetPersonDetails
-	 * @return Integer
-	 */	
 	protected Integer getInvestigatorFlag(BudgetPersonnelDetails budgetPersonDetails) {
 	        Integer flag = 3;
 	        String personId = budgetPersonDetails.getPersonId();
 	        flag = this.budget.getBudgetParent().getParentInvestigatorFlag(personId, flag);
-	
 	        return flag;
-	    }
+    }
 
-	/**
-	 * This method gets key for BudgetSalarySummary for make group based on key
-	 * 
-	 * @param reportTypeVO
-	 * @return String key
-	 */
 	protected String getKeyForBudgetSalarySummary(ReportTypeVO reportTypeVO) {
 		StringBuilder key = new StringBuilder();
 		key.append(reportTypeVO.getStartDate().toString()).append(
@@ -1948,20 +1188,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 		return key.toString();
 	}
 
-	/**
-	 * This method gets personName for from BudgetPersonnelDetails and based on
-	 * RateClassCode and RateTypeCode construct name by appending quantity else
-	 * return BudgetPerson name
-	 * 
-	 * @param budgetPerson
-	 * 
-	 * @param budgetPersRateAndBase
-	 * @param quantity
-	 * @return String personName
-	 */
-	protected String getPersonNameFromBudgetPersonByRateAndBase(
-			BudgetPerson budgetPerson,
-			BudgetPersonnelRateAndBase budgetPersRateAndBase, Integer quantity) {
+	protected String getPersonNameFromBudgetPersonByRateAndBase(BudgetPerson budgetPerson, BudgetPersonnelRateAndBase budgetPersRateAndBase, Integer quantity) {
 		String personName = EMPTY_STRING;
 		if (budgetPersRateAndBase != null && isRateAndBaseLASalary(budgetPersRateAndBase)) {
 			personName = ALLOCATED_ADMIN_SUPPORT;
@@ -1978,77 +1205,42 @@ public abstract class BudgetBaseStream implements XmlStream {
 		return personName;
 	}
 
-	/**
-	 * This method gets percentEffort for from BudgetPersonnelDetails or
-	 * BudgetPersonnelRateAndBase based on RateClassCode and RateTypeCode
-	 * 
-	 * @param budgetLineItem
-	 * @param budgetPersDetails
-	 * @param budgetPersRateAndBase
-	 * @return ScaleTwoDecimal percentEffort
-	 */
-	protected ScaleTwoDecimal getPercentEffortForBudgetPersonnelRateBase(
-			BudgetLineItem budgetLineItem,
-			BudgetPersonnelDetails budgetPersDetails,
-			BudgetPersonnelRateAndBase budgetPersRateAndBase) {
+	protected ScaleTwoDecimal getPercentEffortForBudgetPersonnelRateBase(BudgetLineItem budgetLineItem, BudgetPersonnelDetails budgetPersDetails,
+                                                                         BudgetPersonnelRateAndBase budgetPersRateAndBase) {
 		ScaleTwoDecimal percentEffort = ScaleTwoDecimal.ZERO;
 		Integer personNumber = budgetPersDetails.getPersonNumber();
 		if (budgetPersRateAndBase != null && isRateAndBaseLASalary(budgetPersRateAndBase)) {
 			percentEffort = new ScaleTwoDecimal(100);
 		} else {
 	        //why is this needed? Can't we just use the personnel details we already have??
-			for (BudgetPersonnelDetails budgetPersDetail : budgetLineItem
-					.getBudgetPersonnelDetailsList()) {
+			for (BudgetPersonnelDetails budgetPersDetail : budgetLineItem.getBudgetPersonnelDetailsList()) {
 				if (budgetPersDetail.getPersonNumber().equals(personNumber)
 						&& budgetPersDetails.getPercentEffort() != null) {
-					percentEffort = percentEffort.add(budgetPersDetail
-							.getPercentEffort());
+					percentEffort = percentEffort.add(budgetPersDetail.getPercentEffort());
 				}
 			}
 		}
 		return percentEffort;
 	}
 
-	/**
-	 * This method gets percentageCharged from BudgetPersonnelRateAndBase or
-	 * BudgetPersonnelDetails based on RateClassCode and RateTypeCode
-	 * 
-	 * @param budgetLineItem
-	 * @param budgetPersDetails
-	 * @param budgetPersRateAndBase
-	 * @return ScaleTwoDecimal percentCharged
-	 */
-	protected ScaleTwoDecimal getPercentChargedForBudgetPersonnelRateBase(
-			BudgetLineItem budgetLineItem,
-			BudgetPersonnelDetails budgetPersDetails,
-			BudgetPersonnelRateAndBase budgetPersRateAndBase) {
+	protected ScaleTwoDecimal getPercentChargedForBudgetPersonnelRateBase(BudgetLineItem budgetLineItem, BudgetPersonnelDetails budgetPersDetails,
+                                                                          BudgetPersonnelRateAndBase budgetPersRateAndBase) {
 		ScaleTwoDecimal percentCharged = ScaleTwoDecimal.ZERO;
 		Integer personNumber = budgetPersDetails.getPersonNumber();
 		if (budgetPersRateAndBase != null && isRateAndBaseLASalary(budgetPersRateAndBase)) {
 			percentCharged = new ScaleTwoDecimal(100);
 		} else {
 		    //why is this needed? Can't we just use the personnel details we already have??
-			for (BudgetPersonnelDetails budgetPersDetail : budgetLineItem
-					.getBudgetPersonnelDetailsList()) {
-				if (budgetPersDetail.getPersonNumber().equals(personNumber)
-						&& budgetPersDetails.getPercentEffort() != null) {
-					percentCharged = percentCharged.add(budgetPersDetail
-							.getPercentCharged());
+			for (BudgetPersonnelDetails budgetPersDetail : budgetLineItem.getBudgetPersonnelDetailsList()) {
+				if (budgetPersDetail.getPersonNumber().equals(personNumber) && budgetPersDetails.getPercentEffort() != null) {
+					percentCharged = percentCharged.add(budgetPersDetail.getPercentCharged());
 				}
 			}
 		}
 		return percentCharged;
 	}
 
-	/**
-	 * This method gets BudgetCategoryCode for BudgetSalarySummary from
-	 * BudgetPersonnelDetails based on RateClassCode and RateTypeCode
-	 * 
-	 * @param budgetPersonnelDetails
-	 * @return String categoryCode
-	 */
-	protected String getBudgetCategoryCodeFroBudgetSalarySummary(
-			AbstractBudgetRateAndBase budgetPersRateAndBase, BudgetLineItemBase budgetPersonnelDetails) {
+	protected String getBudgetCategoryCodeFroBudgetSalarySummary(AbstractBudgetRateAndBase budgetPersRateAndBase, BudgetLineItemBase budgetPersonnelDetails) {
         String categoryCode = null;
 		if (budgetPersRateAndBase != null && isRateAndBaseLASalary(budgetPersRateAndBase)) {
 			categoryCode = CATEGORY_CODE_LA_SALARY;
@@ -2058,42 +1250,15 @@ public abstract class BudgetBaseStream implements XmlStream {
 		return categoryCode;
 	}
 
-	/**
-	 * This method gets true value if budgetCatgeoryCode is Personnel else false
-	 * 
-	 * @param budgetDetails
-	 * @return boolean
-	 */
 	protected boolean isBudgetCategoryPersonnel(BudgetLineItemBase budgetDetails) {
-		if (budgetDetails.getBudgetCategory() != null
-				&& BUDGET_CATEGORY_PERSONNEL.equals(budgetDetails
-						.getBudgetCategory().getBudgetCategoryTypeCode())) {
-			return true;
-		} else {
-			return false;
-		}
+		return budgetDetails.getBudgetCategory() != null && BUDGET_CATEGORY_PERSONNEL.equals(budgetDetails.getBudgetCategory().getBudgetCategoryTypeCode());
 	}
 
-	/**
-	 * This method gets true if rateClassCode is 10 and rateTypeCode is 1 else
-	 * false
-	 * 
-	 * @param rateAndBase
-	 * @return boolean
-	 */
-	protected boolean isRateAndBaseLASalary(
-			AbstractBudgetRateAndBase rateAndBase) {
+	protected boolean isRateAndBaseLASalary(AbstractBudgetRateAndBase rateAndBase) {
 		rateAndBase.refreshNonUpdateableReferences();
 		return rateAndBase.getRateClass().getRateClassTypeCode().equals(RateClassType.LA_SALARIES.getRateClassType());
 	}
 
-	/**
-	 * This method gets true if rateClassCode is 5 and rateTypeCode is 3 else
-	 * false
-	 * 
-	 * @param rateAndBase
-	 * @return boolean
-	 */
 	protected boolean isRateAndBaseEBonLA(AbstractBudgetRateAndBase rateAndBase) {
 	    ValidCalcType ebOnLaValidCalcType = getDependentValidRateClassTypeForLA(RateClassType.EMPLOYEE_BENEFITS.getRateClassType());
 		return ebOnLaValidCalcType!=null && rateAndBase.getRateClassCode().equals(ebOnLaValidCalcType.getRateClassCode())
@@ -2102,95 +1267,44 @@ public abstract class BudgetBaseStream implements XmlStream {
 
     private ValidCalcType getDependentValidRateClassTypeForLA(String rateClassType) {
 	    Map<String,String> param = new HashMap<String,String>();
-	    param.put("rateClassType", rateClassType);
-	    param.put("dependentRateClassType", RateClassType.LA_SALARIES.getRateClassType());
+	    param.put(RATE_CLASS_TYPE, rateClassType);
+	    param.put(DEPENDENT_RATE_CLASS_TYPE, RateClassType.LA_SALARIES.getRateClassType());
 	    List<ValidCalcType> result = (List)getBusinessObjectService().findMatching(ValidCalcType.class, param);
         return result.isEmpty()?null:result.get(0);
     }
 
-    /**
-	 * This method gets true if rateClassCode is 8 and rateTypeCode is 2 else
-	 * false
-	 * 
-	 * @param rateAndBase
-	 * @return boolean
-	 */
 	protected boolean isRateAndBaseVAonLA(AbstractBudgetRateAndBase rateAndBase) {
 	    ValidCalcType vacationOnLaValidCalcType = getDependentValidRateClassTypeForLA(RateClassType.VACATION.getRateClassType());
-		return vacationOnLaValidCalcType!=null && 
-		        rateAndBase.getRateClassCode().equals(vacationOnLaValidCalcType.getRateClassCode())
+		return vacationOnLaValidCalcType!=null && rateAndBase.getRateClassCode().equals(vacationOnLaValidCalcType.getRateClassCode())
 				    && rateAndBase.getRateTypeCode().equals(vacationOnLaValidCalcType.getRateTypeCode());
 	}
 
-    /**
-	 * This method gets true if rateClassType is Y else false from
-	 * BudgetLineItemCalculatedAmount
-	 * 
-	 * @param lineItemCalcAmount
-	 * @return boolean
-	 */
-	protected boolean isLineItemCalAmountOfRateClassTypeLAWithEBVA(
-			BudgetLineItemCalculatedAmount lineItemCalcAmount) {
-		return lineItemCalcAmount.getRateClass().getRateClassTypeCode().equals(
-				RateClassType.LA_SALARIES.getRateClassType());
+	protected boolean isLineItemCalAmountOfRateClassTypeLAWithEBVA(BudgetLineItemCalculatedAmount lineItemCalcAmount) {
+		return lineItemCalcAmount.getRateClass().getRateClassTypeCode().equals(RateClassType.LA_SALARIES.getRateClassType());
 	}
 
-	/**
-	 * This method gets true if rateClassType is L else false from
-	 * BudgetLineItemCalculatedAmount
-	 * 
-	 * @param lineItemCalcAmount
-	 * @return boolean
-	 */
-	protected boolean isLineItemCalAmountOfRateClassTypeLabAllocation(
-			BudgetLineItemCalculatedAmount lineItemCalcAmount) {
-		return lineItemCalcAmount.getRateClass().getRateClassTypeCode().equals(
-				RateClassType.LAB_ALLOCATION.getRateClassType());
+	protected boolean isLineItemCalAmountOfRateClassTypeLabAllocation(BudgetLineItemCalculatedAmount lineItemCalcAmount) {
+		return lineItemCalcAmount.getRateClass().getRateClassTypeCode().equals(RateClassType.LAB_ALLOCATION.getRateClassType());
 	}
 
-	/**
-	 * This method gets true if rateClassType is O else false from
-	 * BudgetLineItemCalculatedAmount
-	 * 
-	 * @param lineItemCalcAmount
-	 * @return boolean
-	 */
-	protected boolean isLineItemCalAmountOfRateClassTypeOverhead(
-			BudgetLineItemCalculatedAmount lineItemCalcAmount) {
-		return lineItemCalcAmount.getRateClass().getRateClassTypeCode().equals(
-				RateClassType.OVERHEAD.getRateClassType());
+	protected boolean isLineItemCalAmountOfRateClassTypeOverhead(BudgetLineItemCalculatedAmount lineItemCalcAmount) {
+		return lineItemCalcAmount.getRateClass().getRateClassTypeCode().equals(RateClassType.OVERHEAD.getRateClassType());
 	}
 
-	/**
-	 * This method gets true if rateClassType is Y else false from RateAndBase
-	 * 
-	 * @param rateAndBase
-	 * @return boolean
-	 */
-	protected boolean isRateAndBaseOfRateClassTypeLAwithEBVA(
-			AbstractBudgetRateAndBase rateAndBase) {
+	protected boolean isRateAndBaseOfRateClassTypeLAwithEBVA(AbstractBudgetRateAndBase rateAndBase) {
 		boolean status = false;
 		rateAndBase.refreshNonUpdateableReferences();
 		if (rateAndBase.getRateClass() != null) {
-			return rateAndBase.getRateClass().getRateClassTypeCode().equals(
-					RateClassType.LA_SALARIES.getRateClassType());
+			return rateAndBase.getRateClass().getRateClassTypeCode().equals(RateClassType.LA_SALARIES.getRateClassType());
 		}
 		return status;
 	}
 
-	/**
-	 * This method gets true if rateClassType is E else false from RateAndBase
-	 * 
-	 * @param rateAndBase
-	 * @return boolean
-	 */
-	protected boolean isRateAndBaseOfRateClassTypeEB(
-			AbstractBudgetRateAndBase rateAndBase) {
+	protected boolean isRateAndBaseOfRateClassTypeEB(AbstractBudgetRateAndBase rateAndBase) {
 		boolean status = false;
 		rateAndBase.refreshNonUpdateableReferences();
 		if (rateAndBase.getRateClass() != null) {
-			return rateAndBase.getRateClass().getRateClassTypeCode().equals(
-					RateClassType.EMPLOYEE_BENEFITS.getRateClassType());
+			return rateAndBase.getRateClass().getRateClassTypeCode().equals(RateClassType.EMPLOYEE_BENEFITS.getRateClassType());
 		}
 		return status;
 	}
@@ -2206,48 +1320,38 @@ public abstract class BudgetBaseStream implements XmlStream {
 		boolean status = false;
 		rateAndBase.refreshNonUpdateableReferences();
 		if (rateAndBase.getRateClass() != null) {
-			return rateAndBase.getRateClass().getRateClassTypeCode().equals(
-					RateClassType.VACATION.getRateClassType());
+			return rateAndBase.getRateClass().getRateClassTypeCode().equals(RateClassType.VACATION.getRateClassType());
 		}
 		return status;
 	}
-	
-    /*
-     * This method sets reportType for BudgetSalarySummary from list of
-     * BudgetPersonnelDetails based on RateClassCode and RateTypeCode which
-     * iterate for each BudgetLineItem
-     */
+
     protected List<ReportTypeVO> getReportTypeVOList(BudgetPeriod budgetPeriod) {
         List<ReportTypeVO> reportTypeVOList = new ArrayList<ReportTypeVO>();
         for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
             if (StringUtils.equals(budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode(), BUDGET_CATEGORY_PERSONNEL)) {
                 if (!budgetLineItem.getBudgetPersonnelDetailsList().isEmpty()) {
-                    for (BudgetPersonnelDetails budgetPersDetails : budgetLineItem
-                            .getBudgetPersonnelDetailsList()) {
-                        addReportTypeVO(reportTypeVOList, budgetLineItem, 
-                                budgetPersDetails, getRatesApplicableToVOList(budgetPersDetails.getBudgetPersonnelRateAndBaseList()));
+                    for (BudgetPersonnelDetails budgetPersDetails : budgetLineItem.getBudgetPersonnelDetailsList()) {
+                        addReportTypeVO(reportTypeVOList, budgetLineItem, budgetPersDetails,
+                                getRatesApplicableToVOList(budgetPersDetails.getBudgetPersonnelRateAndBaseList()));
                     }
                 } else {
-                    addReportTypeVO(reportTypeVOList, budgetLineItem, 
-                            budgetLineItem, getRatesApplicableToVOList(budgetLineItem.getBudgetRateAndBaseList()));
+                    addReportTypeVO(reportTypeVOList, budgetLineItem, budgetLineItem, getRatesApplicableToVOList(budgetLineItem.getBudgetRateAndBaseList()));
                 }
             }
         }
         return reportTypeVOList;
     }
     
-    private void addReportTypeVO(List<ReportTypeVO> reportTypeVOList, BudgetLineItem budgetLineItem, 
-            BudgetLineItemBase budgetDetails, List<? extends AbstractBudgetRateAndBase> rates) {
+    private void addReportTypeVO(List<ReportTypeVO> reportTypeVOList, BudgetLineItem budgetLineItem,
+                                 BudgetLineItemBase budgetDetails, List<? extends AbstractBudgetRateAndBase> rates) {
         List<AbstractBudgetRateAndBase> fringeRates = getVAAndEBRates(rates);
         if (fringeRates != null && !fringeRates.isEmpty()) {
             for (AbstractBudgetRateAndBase rate : fringeRates) {
-                ReportTypeVO reportTypeVO = 
-                    getReportTypeVO(budgetLineItem, budgetDetails, rate);
+                ReportTypeVO reportTypeVO = getReportTypeVO(budgetLineItem, budgetDetails, rate);
                 reportTypeVOList.add(reportTypeVO);
             }
         } else {
-            ReportTypeVO reportTypeVO = 
-                getReportTypeVO(budgetLineItem, budgetDetails);
+            ReportTypeVO reportTypeVO = getReportTypeVO(budgetLineItem, budgetDetails);
             reportTypeVOList.add(reportTypeVO);
         }       
     }
@@ -2262,21 +1366,11 @@ public abstract class BudgetBaseStream implements XmlStream {
         }
         return result;
     }
-    
-    /**
-     * Override this method in child streams when you need to filter for different rates than the default of VA and EB rates.
-     * @param rates
-     * @return
-     */
+
     protected List<AbstractBudgetRateAndBase> getRatesApplicableToVOList(List<? extends AbstractBudgetRateAndBase> rates) {
         return getVAAndEBRates(rates);
     }
 
-    /*
-     * This method gets reportTypeVO for BudgetSalarySummary by setting data to
-     * reportTypeVO from budgetLineItem, budgetPersDetails and
-     * budgetPersRateAndBase
-     */
     private ReportTypeVO getReportTypeVO(BudgetLineItem budgetLineItem, BudgetLineItemBase budgetDetails, AbstractBudgetRateAndBase rate) {
         ReportTypeVO reportTypeVO = new ReportTypeVO();
         reportTypeVO.setStartDate(rate.getStartDate());
@@ -2285,13 +1379,10 @@ public abstract class BudgetBaseStream implements XmlStream {
         if (budgetDetails instanceof BudgetPersonnelDetails) {
             BudgetPersonnelDetails budgetPersDetails = (BudgetPersonnelDetails) budgetDetails;
             BudgetPersonnelRateAndBase budgetPersRateAndBase = (BudgetPersonnelRateAndBase) rate;
-            reportTypeVO.setPersonName(getPersonNameFromBudgetPersonByRateAndBase(
-                    budgetPersDetails.getBudgetPerson(), budgetPersRateAndBase,
-                    budgetLineItem.getQuantity()));
-            reportTypeVO.setPercentEffort(getPercentEffortForBudgetPersonnelRateBase(
-                            budgetLineItem, budgetPersDetails, budgetPersRateAndBase));
-            reportTypeVO.setPercentCharged(getPercentChargedForBudgetPersonnelRateBase(
-                            budgetLineItem, budgetPersDetails, budgetPersRateAndBase));
+            reportTypeVO.setPersonName(getPersonNameFromBudgetPersonByRateAndBase(budgetPersDetails.getBudgetPerson(), budgetPersRateAndBase,
+                                                                                    budgetLineItem.getQuantity()));
+            reportTypeVO.setPercentEffort(getPercentEffortForBudgetPersonnelRateBase(budgetLineItem, budgetPersDetails, budgetPersRateAndBase));
+            reportTypeVO.setPercentCharged(getPercentChargedForBudgetPersonnelRateBase(budgetLineItem, budgetPersDetails, budgetPersRateAndBase));
             reportTypeVO.setInvestigatorFlag(getInvestigatorFlag(budgetPersDetails));
             reportTypeVO.setSalaryRequested(budgetPersRateAndBase.getSalaryRequested());              
         } else {
@@ -2316,41 +1407,23 @@ public abstract class BudgetBaseStream implements XmlStream {
         reportTypeVO.setCalculatedCost(rate.getCalculatedCostSharing());
         reportTypeVO.setFringe(rate.getCalculatedCost());
         reportTypeVO.setCostElementDesc(budgetDetails.getCostElementBO().getDescription());
-
-        reportTypeVO.setBudgetCategoryCode(getBudgetCategoryCodeFroBudgetSalarySummary(
-                        rate, budgetDetails));
+        reportTypeVO.setBudgetCategoryCode(getBudgetCategoryCodeFroBudgetSalarySummary(rate, budgetDetails));
 
         return reportTypeVO;
 
     }
-    
-    /**
-     * 
-     * Get a ReportTypeVO for a budget person with no rates associated.
-     * @param budgetLineItem
-     * @param budgetDetails
-     * @return
-     */
-    private ReportTypeVO getReportTypeVO(
-            BudgetLineItem budgetLineItem,
-            BudgetLineItemBase budgetDetails) {
+
+    private ReportTypeVO getReportTypeVO(BudgetLineItem budgetLineItem, BudgetLineItemBase budgetDetails) {
         ReportTypeVO reportTypeVO = new ReportTypeVO();
         reportTypeVO.setStartDate(budgetDetails.getStartDate());
         reportTypeVO.setEndDate(budgetDetails.getEndDate());
         reportTypeVO.setBudgetCategoryDesc(getBudgetCategoryDescForSalarySummary(budgetLineItem, budgetDetails, null));
         if (budgetDetails instanceof BudgetPersonnelDetails) {
             BudgetPersonnelDetails budgetPersDetails = (BudgetPersonnelDetails) budgetDetails;
-            reportTypeVO.setPersonName(getPersonNameFromBudgetPersonByRateAndBase(
-                    budgetPersDetails.getBudgetPerson(), null,
-                    budgetLineItem.getQuantity()));
-            reportTypeVO.setPercentEffort(getPercentEffortForBudgetPersonnelRateBase(
-                            budgetLineItem, budgetPersDetails,
-                            null));
-            reportTypeVO.setPercentCharged(getPercentChargedForBudgetPersonnelRateBase(
-                            budgetLineItem, budgetPersDetails,
-                            null));
-            reportTypeVO
-                    .setInvestigatorFlag(getInvestigatorFlag(budgetPersDetails));
+            reportTypeVO.setPersonName(getPersonNameFromBudgetPersonByRateAndBase(budgetPersDetails.getBudgetPerson(), null, budgetLineItem.getQuantity()));
+            reportTypeVO.setPercentEffort(getPercentEffortForBudgetPersonnelRateBase(budgetLineItem, budgetPersDetails, null));
+            reportTypeVO.setPercentCharged(getPercentChargedForBudgetPersonnelRateBase(budgetLineItem, budgetPersDetails, null));
+            reportTypeVO.setInvestigatorFlag(getInvestigatorFlag(budgetPersDetails));
             reportTypeVO.setSalaryRequested(budgetPersDetails.getSalaryRequested());              
         } else {
             //summary personnel line item
@@ -2366,24 +1439,15 @@ public abstract class BudgetBaseStream implements XmlStream {
         reportTypeVO.setCalculatedCost(budgetDetails.getCostSharingAmount());
         reportTypeVO.setFringe(ScaleTwoDecimal.ZERO);
         reportTypeVO.setCostElementDesc(budgetDetails.getCostElementBO().getDescription());
-
-        reportTypeVO.setBudgetCategoryCode(getBudgetCategoryCodeFroBudgetSalarySummary(
-                        null, budgetDetails));
+        reportTypeVO.setBudgetCategoryCode(getBudgetCategoryCodeFroBudgetSalarySummary(null, budgetDetails));
 
         return reportTypeVO;
     }	
 
-	/**
-	 * @return the dateTimeService
-	 */
 	public DateTimeService getDateTimeService() {
 		return dateTimeService;
 	}
 
-	/**
-	 * @param dateTimeService
-	 *            the dateTimeService to set
-	 */
 	public void setDateTimeService(DateTimeService dateTimeService) {
 		this.dateTimeService = dateTimeService;
 	}

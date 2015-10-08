@@ -353,7 +353,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
 	protected String buildForwardUrl(String documentNumber) {
 		String forward = getDocHandlerUrl(documentNumber);
 		forward = forward.replaceFirst(DEFAULT_TAB, ALTERNATE_OPEN_TAB);
-		if (forward.contains("?")) {
+		if (!forward.contains("?")) {
 			forward += "?";
 		} else {
 			forward += "&";

@@ -1072,16 +1072,16 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         award.refreshReferenceObject(AWARD_FANDA_RATE);
         List<AwardFandaRate> awardFandaRates = award.getAwardFandaRate();
         boolean changeFlag = false;
-        for (AwardFandaRate budgetFnARate : awardFandaRates) {
-            RateType fnaRateType = budgetFnARate.getFandaRateType();
+        for (AwardFandaRate awardFnARate : awardFandaRates) {
+            RateType fnaRateType = awardFnARate.getFandaRateType();
             Equals eqRateClasCode = new Equals(RATE_CLASS_CODE, fnaRateType.getRateClassCode());
             Equals eqRateTypeCode = new Equals(RATE_TYPE_CODE, fnaRateType.getRateTypeCode());
-            Equals eqCampusFlag = new Equals(ON_OFF_CAMPUS_FLAG, budgetFnARate.getOnOffCampusFlag());
+            Equals eqCampusFlag = new Equals(ON_OFF_CAMPUS_FLAG, awardFnARate.getOnOffCampusFlag());
             And rateClassAndRateType = new And(eqRateClasCode,eqRateTypeCode);
             And rateClassAndRateTypeAndCampusFlag = new And(rateClassAndRateType,eqCampusFlag);
-            QueryList<BudgetRate> matchAwardFnARate = new QueryList<>(savedBudgetRates).filter(rateClassAndRateTypeAndCampusFlag);
-            if(matchAwardFnARate.isEmpty() || matchAwardFnARate.size()>1 ||
-                    !matchAwardFnARate.get(0).getApplicableRate().equals(budgetFnARate.getApplicableFandaRate())) {
+            QueryList<BudgetRate> matchedProposalRate = new QueryList<>(savedBudgetRates).filter(rateClassAndRateTypeAndCampusFlag);
+            if(matchedProposalRate.isEmpty() || matchedProposalRate.size()>1 ||
+                    !matchedProposalRate.get(0).getApplicableRate().equals(awardFnARate.getApplicableFandaRate())) {
                 changeFlag = true;
             }
         }

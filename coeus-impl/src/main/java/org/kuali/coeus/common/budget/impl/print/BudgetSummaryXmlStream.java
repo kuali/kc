@@ -71,42 +71,25 @@ public class BudgetSummaryXmlStream extends BudgetBaseStream {
 		this.budget = (Budget) printableBusinessObject;
 		if (budget != null) {
 			for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
-				if (!(budgetPeriod.getBudgetLineItems() != null && !budgetPeriod
-						.getBudgetLineItems().isEmpty())) {
-					LOG
-							.debug("Skipping printing of empty budget period, for Budget period - "
-									+ budgetPeriod.getBudgetPeriod());
+				if (!(budgetPeriod.getBudgetLineItems() != null && !budgetPeriod.getBudgetLineItems().isEmpty())) {
+					LOG.debug("Skipping printing of empty budget period, for Budget period - "
+                            + budgetPeriod.getBudgetPeriod());
 					continue;
 				}
 				this.budgetPeriod = budgetPeriod;
-				BudgetSummaryReport budgetSummaryReport = BudgetSummaryReport.Factory
-						.newInstance();
-				BudgetSummaryReportDocument budgetSummaryReportDocument = BudgetSummaryReportDocument.Factory
-						.newInstance();
-				budgetSummaryReport = getBudgetSummaryReport();
-				budgetSummaryReportDocument
-						.setBudgetSummaryReport(budgetSummaryReport);
-				xmlObjectMap.put(
-						BUDGET_PERIOD + budgetPeriod.getBudgetPeriod(),
-						budgetSummaryReportDocument);
+				BudgetSummaryReportDocument budgetSummaryReportDocument = BudgetSummaryReportDocument.Factory.newInstance();
+                BudgetSummaryReport budgetSummaryReport = getBudgetSummaryReport();
+				budgetSummaryReportDocument.setBudgetSummaryReport(budgetSummaryReport);
+				xmlObjectMap.put(BUDGET_PERIOD + budgetPeriod.getBudgetPeriod(), budgetSummaryReportDocument);
 			}
 		}
 		return xmlObjectMap;
 	}
 
-	/*
-	 * This method gets budgetSummaryReport for budgetPeriods, Used to get
-	 * ReportHeaderType from latest budgetPeriod and sets reportHeader,
-	 * cumulativePage, reportPageArray to budgetSummaryReport
-	 */
 	private BudgetSummaryReport getBudgetSummaryReport() {
-		BudgetSummaryReport budgetSummaryReport = BudgetSummaryReport.Factory
-				.newInstance();
-		ReportPageType cumilativePageType = ReportPageType.Factory
-				.newInstance();
-	
+		BudgetSummaryReport budgetSummaryReport = BudgetSummaryReport.Factory.newInstance();
+		ReportPageType cumilativePageType = ReportPageType.Factory.newInstance();
 		BudgetParent budgetParent = budget.getBudgetParent();
-
 		ReportHeaderType reportHeaderType = getReportHeaderTypeForCumulativeReport(budgetParent);
 		budgetSummaryReport.setReportHeader(reportHeaderType);
 		cumilativePageType = getBudgetSummaryReportPageType();
@@ -116,23 +99,14 @@ public class BudgetSummaryXmlStream extends BudgetBaseStream {
 		return budgetSummaryReport;
 	}
 
-	/*
-	 * This method gets array of ReportPageType for BudgetPeriod.ReportPageType.
-	 * It is created for each BudgetPeriod and then reportPageType is added to
-	 * ReportPageTypeList
-	 */
 	private ReportPageType[] getReportPageTypes() {
 		ReportPageType reportPageType;
-		List<ReportPageType> reportPageTypeList = new ArrayList<ReportPageType>();
+		List<ReportPageType> reportPageTypeList = new ArrayList<>();
 		reportPageType = getBudgetSummaryReportPageType();
 		reportPageTypeList.add(reportPageType);
 		return reportPageTypeList.toArray(new ReportPageType[0]);
 	}
 
-	/*
-	 * This method gets RaportPageType for BudgetPeriod. BudgetSummary,
-	 * CalculationMethodology and period are set to ReportPageType
-	 */
 	private ReportPageType getBudgetSummaryReportPageType() {
 		ReportPageType reportPageType = ReportPageType.Factory.newInstance();
 		BudgetSummary budgetSummary = getBudgetSummary();
@@ -143,15 +117,9 @@ public class BudgetSummaryXmlStream extends BudgetBaseStream {
 		return reportPageType;
 	}
 
-	/*
-	 * This method gets BudgetSummary for BudgetPeriod and gets sets
-	 * salarySummary, budgetSummaryNonPersonnel, BudgetIndirectCost,
-	 * totalDirectCost, TotalCostTOSponsor, TotalUnderrecoveryAmount,
-	 * TotalCostSharingAmount to budgetSummary
-	 */
 	private BudgetSummary getBudgetSummary() {
 		BudgetSummary budgetSummary = BudgetSummary.Factory.newInstance();
-		SubReportType subReportType = SubReportType.Factory.newInstance();
+		SubReportType subReportType;
 
 		subReportType = getSalarySummary();
 		budgetSummary.setSalarySummaryFromEDI(subReportType);
@@ -162,54 +130,29 @@ public class BudgetSummaryXmlStream extends BudgetBaseStream {
 		subReportType = getBudgetIndirectCostsForReport();
 		budgetSummary.setBudgetIndirectCostsForReport(subReportType);
 
-		budgetSummary.setTotalDirectCost(budgetPeriod.getTotalDirectCost()
-				.doubleValue());
-		budgetSummary.setTotalCostToSponsor(budgetPeriod.getTotalCost()
-				.doubleValue());
-		budgetSummary.setTotalUnderrecoveryAmount(budgetPeriod
-				.getUnderrecoveryAmount().doubleValue());
-		budgetSummary.setTotalCostSharingAmount(budgetPeriod
-				.getCostSharingAmount().doubleValue());
+		budgetSummary.setTotalDirectCost(budgetPeriod.getTotalDirectCost().doubleValue());
+		budgetSummary.setTotalCostToSponsor(budgetPeriod.getTotalCost().doubleValue());
+		budgetSummary.setTotalUnderrecoveryAmount(budgetPeriod.getUnderrecoveryAmount().doubleValue());
+		budgetSummary.setTotalCostSharingAmount(budgetPeriod.getCostSharingAmount().doubleValue());
 
 		return budgetSummary;
 	}
 
-	/*
-	 * This method gets subReportType for SalarySummary by BudgetPeriod. Here
-	 * BudgetSalarySummary, LaSalaryForBudgetPersonnelRateAndBase and
-	 * LaSalaryBudgetRateAndBase are set to reportTypeList
-	 */
 	private SubReportType getSalarySummary() {
 		SubReportType subReportType = SubReportType.Factory.newInstance();
-		List<ReportType> reportTypeList = new ArrayList<ReportType>();
+		List<ReportType> reportTypeList = new ArrayList<>();
 		setReportTypeForBudgetSalarySummary(reportTypeList);
 		setBudgetLASalaryForBudgetRateAndBase(reportTypeList);
 		subReportType.setGroupArray(getGroupsType(reportTypeList, category));
 		return subReportType;
 	}
 
-	/*
-	 * This method sets reportType for BudgetSalarySummary from list of
-	 * BudgetPersonnelDetails based on RateClassCode and RateTypeCode which
-	 * iterate for each BudgetLineItem
-	 */
-	private void setReportTypeForBudgetSalarySummary(
-			List<ReportType> reportTypeList) {
-
-		setReportTypeListFromReportTypeVOListForBudgetSalarySummary(
-				reportTypeList, getReportTypeVOList(budgetPeriod));
+	private void setReportTypeForBudgetSalarySummary(List<ReportType> reportTypeList) {
+		setReportTypeListFromReportTypeVOListForBudgetSalarySummary(reportTypeList, getReportTypeVOList(budgetPeriod));
 	}
-	
 
-	/*
-	 * This method sets reportTypeVO to ReportTypeList for BudgetSalarySummary
-	 * by groping reportTypeVo based on budgetSalarySummaryKey and gets sum of
-	 * fringe, fringeCostSharing also get calculated vacationRate,
-	 * empBenefitRate
-	 */
-	private void setReportTypeListFromReportTypeVOListForBudgetSalarySummary(
-			List<ReportType> reportTypeList, List<ReportTypeVO> reportTypeVOList) {
-		Map<String, ReportTypeVO> reportTypeMap = new HashMap<String, ReportTypeVO>();
+	private void setReportTypeListFromReportTypeVOListForBudgetSalarySummary(List<ReportType> reportTypeList, List<ReportTypeVO> reportTypeVOList) {
+		Map<String, ReportTypeVO> reportTypeMap = new HashMap<>();
 		for (ReportTypeVO reportTypeVO : reportTypeVOList) {
 			String budgetSalarySummaryKey = getKeyForBudgetSalarySummary(reportTypeVO);
 			if (reportTypeMap.containsKey(budgetSalarySummaryKey)) {
@@ -222,67 +165,46 @@ public class BudgetSummaryXmlStream extends BudgetBaseStream {
 			for (ReportTypeVO tempReportTypeVO : reportTypeVOList) {
 				String budgetSalarySummaryTempKey = getKeyForBudgetSalarySummary(tempReportTypeVO);
 				if (budgetSalarySummaryTempKey.equals(budgetSalarySummaryKey)) {
-					if (vacationRate.isLessThan(tempReportTypeVO
-							.getVacationRate())) {
+					if (vacationRate.isLessThan(tempReportTypeVO.getVacationRate())) {
 						vacationRate = tempReportTypeVO.getVacationRate();
 					}
-					if (empBenefitRate.isLessThan(tempReportTypeVO
-							.getEmployeeBenefitRate())) {
-						empBenefitRate = tempReportTypeVO
-								.getEmployeeBenefitRate();
+					if (empBenefitRate.isLessThan(tempReportTypeVO.getEmployeeBenefitRate())) {
+						empBenefitRate = tempReportTypeVO.getEmployeeBenefitRate();
 					}
 					fringe = fringe.add(tempReportTypeVO.getFringe());
-					fringeCostSharing = fringeCostSharing.add(tempReportTypeVO
-							.getCalculatedCost());
+					fringeCostSharing = fringeCostSharing.add(tempReportTypeVO.getCalculatedCost());
 				}
 			}
-			ReportType reportType = getReportTypeForBudgetSalarySummary(
-					vacationRate, empBenefitRate, fringe, fringeCostSharing,
-					reportTypeVO);
+			ReportType reportType = getReportTypeForBudgetSalarySummary(vacationRate, empBenefitRate, fringe, fringeCostSharing, reportTypeVO);
 			reportTypeMap.put(budgetSalarySummaryKey, reportTypeVO);
 			reportTypeList.add(reportType);
 		}
 	}
 
-	/*
-	 * This method gets reportType for BudgetSalarySummary by setting data to
-	 * reportType from passed parameters
-	 */
-	private ReportType getReportTypeForBudgetSalarySummary(
-			ScaleTwoDecimal vacationRate, ScaleTwoDecimal empBenefitRate,
-			ScaleTwoDecimal fringe, ScaleTwoDecimal fringeCostSharing,
-			ReportTypeVO reportTypeVO) {
+	private ReportType getReportTypeForBudgetSalarySummary(ScaleTwoDecimal vacationRate, ScaleTwoDecimal empBenefitRate,
+                                                           ScaleTwoDecimal fringe, ScaleTwoDecimal fringeCostSharing, ReportTypeVO reportTypeVO) {
 		SimpleDateFormat dateFormat=new SimpleDateFormat(DATE_FORMAT_MMDDYY);
 		ReportType reportType = ReportType.Factory.newInstance();
 		reportType.setStartDate(dateFormat.format(reportTypeVO.getStartDate()));
 		reportType.setEndDate(dateFormat.format(reportTypeVO.getEndDate()));
-		reportType.setBudgetCategoryDescription( reportTypeVO
-				.getBudgetCategoryDesc());
+		reportType.setBudgetCategoryDescription( reportTypeVO.getBudgetCategoryDesc());
 		reportType.setPersonName(reportTypeVO.getPersonName());
 		reportType.setPercentEffort(reportTypeVO.getPercentEffort() != null ? reportTypeVO.getPercentEffort().doubleValue() : 0.00);
 		reportType.setPercentCharged(reportTypeVO.getPercentCharged() != null ? reportTypeVO.getPercentCharged().doubleValue() : 0.00);
 		reportType.setVacationRate(vacationRate.toString().concat(PERCENTAGE));
-		reportType.setEmployeeBenefitRate(empBenefitRate.toString().concat(
-				PERCENTAGE));
-		reportType.setCostSharingAmount(reportTypeVO.getCostSharingAmount()
-				.doubleValue());
+		reportType.setEmployeeBenefitRate(empBenefitRate.toString().concat(PERCENTAGE));
+		reportType.setCostSharingAmount(reportTypeVO.getCostSharingAmount().doubleValue());
 		reportType.setCalculatedCost(fringeCostSharing.doubleValue());
 		reportType.setFringe(fringe.doubleValue());
 		reportType.setCostElementDescription(reportTypeVO.getCostElementDesc());
 		reportType.setInvestigatorFlag(reportTypeVO.getInvestigatorFlag());
 		if (reportTypeVO.getBudgetCategoryCode() != null) {
-			reportType.setBudgetCategoryCode(Integer.parseInt(reportTypeVO
-					.getBudgetCategoryCode()));
+			reportType.setBudgetCategoryCode(Integer.parseInt(reportTypeVO.getBudgetCategoryCode()));
 		}
-		reportType.setSalaryRequested(reportTypeVO.getSalaryRequested()
-				.doubleValue());
+		reportType.setSalaryRequested(reportTypeVO.getSalaryRequested().doubleValue());
 		return reportType;
 	}
 
-	/*
-	 * This method gets subReportType for BudgetSummaryNonPersonnel from List of
-	 * BudgetLineItems by checking the UnitNumber
-	 */
 	private SubReportType getBudgetSummaryNonPersonnel() {
 		SubReportType subReportType = SubReportType.Factory.newInstance();
 		List<ReportType> reportTypeList = new ArrayList<ReportType>();
@@ -291,19 +213,11 @@ public class BudgetSummaryXmlStream extends BudgetBaseStream {
 		if (getUnitNumber() > 0) {
 			String categoryDesc = OTHER_DIRECT_COSTS;
 			String costElementDesc = ALLOCATED_LAB_EXPENSE;
-			for (BudgetLineItem budgetLineItem : budgetPeriod
-					.getBudgetLineItems()) {
-				calculatedCost = calculatedCost
-						.add(getTotalCalculatedCostByRateClassTypeFromLineItem(
-								RateClassType.LAB_ALLOCATION.getRateClassType(),
-								budgetLineItem));
-				costSharingAmount = costSharingAmount
-						.add(getTotalCostSharingAmountByRateClassTypeFromLineItem(
-								budgetLineItem, RateClassType.LAB_ALLOCATION
-										.getRateClassType()));
+			for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
+				calculatedCost = calculatedCost.add(getTotalCalculatedCostByRateClassTypeFromLineItem(RateClassType.LAB_ALLOCATION.getRateClassType(), budgetLineItem));
+				costSharingAmount = costSharingAmount.add(getTotalCostSharingAmountByRateClassTypeFromLineItem(budgetLineItem, RateClassType.LAB_ALLOCATION.getRateClassType()));
 			}
-			ReportType reportType = getReportTypeForNonPersonnel(categoryDesc,
-					costElementDesc, calculatedCost, costSharingAmount);
+			ReportType reportType = getReportTypeForNonPersonnel(categoryDesc, costElementDesc, calculatedCost, costSharingAmount);
 			 if(calculatedCost.doubleValue()>0.0d){
 				 reportTypeList.add(reportType);
 			 }
@@ -319,14 +233,7 @@ public class BudgetSummaryXmlStream extends BudgetBaseStream {
 		return subReportType;
 	}
 
-	/*
-	 * This method set ReportType data to ReportTypeList for
-	 * BudgetSummaryNonPersonnel from List of BudgetLineItem based on
-	 * BudgetCategoryCode and gets sum of calculatedCost , costSharingAmount by
-	 * grouping ReportType based on key budgetSummaryNonPersKey
-	 */
-	private void setReportTypeForBudgetSummaryNonPersonnel(
-			List<ReportType> reportTypeList) {
+	private void setReportTypeForBudgetSummaryNonPersonnel(List<ReportType> reportTypeList) {
 		Map<String, ReportTypeVO> reportTypeMap = new HashMap<String, ReportTypeVO>();
 		List<ReportTypeVO> tempReportTypeVOList = new ArrayList<ReportTypeVO>();
 		for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
@@ -343,51 +250,33 @@ public class BudgetSummaryXmlStream extends BudgetBaseStream {
 			ScaleTwoDecimal calculatedCost = ScaleTwoDecimal.ZERO;
 			ScaleTwoDecimal costSharingAmount = ScaleTwoDecimal.ZERO;
 			for (ReportTypeVO reportTypeVO1 : tempReportTypeVOList) {
-				String budgetSummaryNonPersTempKey = reportTypeVO1
-						.getCostElementDesc();
+				String budgetSummaryNonPersTempKey = reportTypeVO1.getCostElementDesc();
 				if (budgetSummaryNonPersTempKey.equals(budgetSummaryNonPersKey)) {
-					calculatedCost = calculatedCost.add(reportTypeVO1
-							.getCalculatedCost());
-					costSharingAmount = costSharingAmount.add(reportTypeVO1
-							.getCostSharingAmount());
+					calculatedCost = calculatedCost.add(reportTypeVO1.getCalculatedCost());
+					costSharingAmount = costSharingAmount.add(reportTypeVO1.getCostSharingAmount());
 				}
 			}
-			ReportType reportType = getReportTypeForBudgetSummaryNonPersonnel(
-					calculatedCost, costSharingAmount, reportTypeVO);
+
+			ReportType reportType = getReportTypeForBudgetSummaryNonPersonnel(calculatedCost, costSharingAmount, reportTypeVO);
 			reportTypeMap.put(budgetSummaryNonPersKey, reportTypeVO);
 			reportTypeList.add(reportType);
 		}
 	}
 
-	/*
-	 * This method gets reportType for BudgetSummaryNonPersonnel by setting
-	 * parameters data to reportType
-	 */
-	private ReportType getReportTypeForBudgetSummaryNonPersonnel(
-			ScaleTwoDecimal calculatedCost, ScaleTwoDecimal costSharingAmount,
-			ReportTypeVO reportTypeVO) {
+	private ReportType getReportTypeForBudgetSummaryNonPersonnel(ScaleTwoDecimal calculatedCost, ScaleTwoDecimal costSharingAmount, ReportTypeVO reportTypeVO) {
 		ReportType reportType = ReportType.Factory.newInstance();
-		reportType.setBudgetCategoryDescription(reportTypeVO
-				.getBudgetCategoryDesc());
+		reportType.setBudgetCategoryDescription(reportTypeVO.getBudgetCategoryDesc());
 		reportType.setCostElementDescription(reportTypeVO.getCostElementDesc());
 		reportType.setCalculatedCost(calculatedCost.doubleValue());
 		reportType.setCostSharingAmount(costSharingAmount.doubleValue());
 		return reportType;
 	}
 
-	/*
-	 * This method gets reportTypeVO for BudgetSummaryNonPersonnel by setting
-	 * parameters data to reportType
-	 */
-	private ReportTypeVO getReportTypeVOForBudgetSummaryNonPersonnel(
-			BudgetLineItem budgetLineItem) {
+	private ReportTypeVO getReportTypeVOForBudgetSummaryNonPersonnel(BudgetLineItem budgetLineItem) {
 		ReportTypeVO reportTypeVO = new ReportTypeVO();
-		reportTypeVO.setBudgetCategoryDesc(budgetLineItem.getBudgetCategory()
-				.getDescription());
-		reportTypeVO
-				.setCostElementDesc(getCostElementDescription(budgetLineItem));
-		reportTypeVO
-				.setCostSharingAmount(budgetLineItem.getCostSharingAmount());
+		reportTypeVO.setBudgetCategoryDesc(budgetLineItem.getBudgetCategory().getDescription());
+		reportTypeVO.setCostElementDesc(getCostElementDescription(budgetLineItem));
+		reportTypeVO.setCostSharingAmount(budgetLineItem.getCostSharingAmount());
 		reportTypeVO.setCalculatedCost(budgetLineItem.getLineItemCost());
 		return reportTypeVO;
 	}

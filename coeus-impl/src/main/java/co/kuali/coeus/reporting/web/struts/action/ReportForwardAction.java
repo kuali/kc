@@ -19,9 +19,13 @@
 package co.kuali.coeus.reporting.web.struts.action;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,6 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.common.framework.auth.SystemAuthorizationService;
 import org.kuali.coeus.common.framework.auth.UnitAuthorizationService;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
@@ -37,10 +42,12 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.exception.AuthorizationException;
@@ -51,7 +58,9 @@ import org.kuali.rice.krad.exception.AuthorizationException;
  */
 public class ReportForwardAction extends KualiDocumentActionBase {
 
-    private static Log LOG = LogFactory.getLog(ReportForwardAction.class);
+    private static final String Y = "Y";
+	private static final String N = "N";
+	private static Log LOG = LogFactory.getLog(ReportForwardAction.class);
     private static final String URL_BASE = "rsmart.report.url.base";
     private static final String QUERY_BASE = "rsmart.report.query.base";
     private static final String ADHOC_LIST_QUERY = "rsmart.report.adhoc.list.query";
@@ -62,6 +71,8 @@ public class ReportForwardAction extends KualiDocumentActionBase {
     private UnitAuthorizationService unitAuthorizationService;
     private GlobalVariableService globalVariableService;
     private UnitService unitService;
+    private SystemAuthorizationService systemAuthorizationService;
+    private RoleService roleService;
 
 	protected String getClientId(final HttpServletRequest request) {
       String clientId = System.getenv(CLUSTER_ID_VAR);
@@ -85,16 +96,19 @@ public class ReportForwardAction extends KualiDocumentActionBase {
         String clientId = getClientId(request);
         String reportId = request.getParameter("reportId");
         
-        if (!getUnitAuthorizationService().hasPermission(currentUserId, getUnitService().getTopUnit().getUnitNumber(), RoleConstants.DEPARTMENT_ROLE_TYPE, PermissionConstants.RUN_GLOBAL_REPORTS)) {
+        if (!getUnitAuthorizationService().hasPermission(currentUserId, RoleConstants.DEPARTMENT_ROLE_TYPE, PermissionConstants.RUN_GLOBAL_REPORTS)) {
         	throw new AuthorizationException(currentUserName, "Run", "Reports");
         }
 
         boolean isPI = isPrincipalInvestigator(currentUserName);
+        String unitPermissions = getUnitQualifiersForGlobalReports(currentUserId).entrySet().stream()
+        		.map(entry -> { return entry.getKey() + ":" + entry.getValue(); })
+        		.collect(Collectors.joining(","));
 
         String urlBase = getKualiConfigurationService().getPropertyValueAsString(URL_BASE);
         String queryBase = getKualiConfigurationService().getPropertyValueAsString(QUERY_BASE);
         String adHocView = getKualiConfigurationService().getPropertyValueAsString(ADHOC_LIST_QUERY);
-        String credentials[] = new String[] {currentUserName, Boolean.toString(isPI), clientId};
+        String credentials[] = new String[] {currentUserName, Boolean.toString(isPI), clientId, unitPermissions};
         final String url;
 
         final String query;
@@ -119,6 +133,31 @@ public class ReportForwardAction extends KualiDocumentActionBase {
 
         List<ProposalPerson> proposalPersons = getDataObjectService().findMatching(ProposalPerson.class, QueryByCriteria.Builder.andAttributes(proposalKeys).build()).getResults();
         return (proposalPersons != null && proposalPersons.size() > 0);
+    }
+
+    protected Map<String, String> getUnitQualifiersForGlobalReports(String userId) {
+	    Map<String, String> qualifiedRoleAttributes = new HashMap<>();
+	    qualifiedRoleAttributes.put(KcKimAttributes.UNIT_NUMBER, "*");
+	    Map<String,String> qualification =new HashMap<>(qualifiedRoleAttributes);
+	    final Set<String> roleIds = new HashSet<>(getSystemAuthorizationService().getRoleIdsForPermission(PermissionConstants.RUN_GLOBAL_REPORTS, RoleConstants.DEPARTMENT_ROLE_TYPE));
+
+	    Set<Map<String,String>> qualifiers = new HashSet<>(getRoleService().getNestedRoleQualifiersForPrincipalByRoleIds(userId, new ArrayList<>(roleIds), qualification));
+	
+	    return qualifiers.stream().collect(Collectors.toMap(qualifier -> {
+	    	if (qualifier.containsKey(KcKimAttributes.UNIT_NUMBER)) {
+	    		return qualifier.get(KcKimAttributes.UNIT_NUMBER);
+	    	} else {
+	    		return getUnitService().getTopUnit().getUnitNumber();
+	    	}
+	    }, qualifier -> {
+	    	if (qualifier.containsKey(KcKimAttributes.UNIT_NUMBER) && qualifier.containsKey(KcKimAttributes.SUBUNITS)) {
+	    		return qualifier.get(KcKimAttributes.SUBUNITS).substring(0, 1).toUpperCase();
+	    	} else if (qualifier.containsKey(KcKimAttributes.UNIT_NUMBER)) {
+	    		return N;
+	    	} else {
+	    		return Y;
+	    	}
+	    }, (v1, v2) -> v2));
     }
     
     public DataObjectService getDataObjectService() {
@@ -167,7 +206,7 @@ public class ReportForwardAction extends KualiDocumentActionBase {
 	public void setUnitAuthorizationService(UnitAuthorizationService unitAuthorizationService) {
 		this.unitAuthorizationService = unitAuthorizationService;
 	}
-
+	
 	public UnitService getUnitService() {
 		if (unitService == null) {
 			unitService = KcServiceLocator.getService(UnitService.class);
@@ -177,5 +216,28 @@ public class ReportForwardAction extends KualiDocumentActionBase {
 
 	public void setUnitService(UnitService unitService) {
 		this.unitService = unitService;
+	}
+
+	public SystemAuthorizationService getSystemAuthorizationService() {
+		if (systemAuthorizationService == null) {
+			systemAuthorizationService = KcServiceLocator.getService(SystemAuthorizationService.class);
+		}
+		return systemAuthorizationService;
+	}
+
+	public void setSystemAuthorizationService(
+			SystemAuthorizationService systemAuthorizationService) {
+		this.systemAuthorizationService = systemAuthorizationService;
+	}
+
+	public RoleService getRoleService() {
+		if (roleService == null) {
+			roleService = KcServiceLocator.getService(RoleService.class);
+		}
+		return roleService;
+	}
+
+	public void setRoleService(RoleService roleService) {
+		this.roleService = roleService;
 	}
 }

@@ -20,11 +20,11 @@ package org.kuali.coeus.common.budget.impl.personnel;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.budget.framework.core.AwardBudgetSaveEvent;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
 import org.kuali.coeus.common.budget.framework.core.BudgetSaveEvent;
-import org.kuali.coeus.common.budget.framework.core.SaveBudgetEvent;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.ApplyToPeriodsBudgetEvent;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
@@ -430,7 +430,7 @@ public class BudgetPersonnelRule {
     }
 
     @KcEventMethod
-    public boolean budgetPersonnelDetailsCheck(SaveBudgetEvent event) {
+    public boolean budgetPersonnelDetailsCheck(AwardBudgetSaveEvent event) {
           boolean valid = true;
           List<BudgetPeriod> budgetPeriods = event.getBudget().getBudgetPeriods();
           List<BudgetLineItem> budgetLineItems;

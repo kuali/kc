@@ -92,7 +92,11 @@ public class IacucProtocolDocument extends ProtocolDocumentBase {
 	public IacucProtocolDocument() { 
         super();
 	}
-	
+
+    public IacucProtocol getProtocol() {
+        return (IacucProtocol)super.getProtocol();
+    }
+
 	@Override
     protected IacucProtocol createNewProtocolInstanceHook() {
         return new IacucProtocol();

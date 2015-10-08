@@ -938,7 +938,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
     }
 
     public boolean getAwardFundingProposalsExist() {
-        return getAwardFundingProposals().size() > 0;
+        return getAllFundingProposals().size() > 0;
     }
 
     public List<AwardFundingProposal> getActiveAwardFundingProposals() {

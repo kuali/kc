@@ -49,12 +49,13 @@ public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelo
 
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentPermissionsServiceImpl.class);
     
-    private static final String PARAMETER_DELIMITER = ",";
-    private static final String SPONSOR_HEIRARCHY= "COIHierarchyName";
+    private static final String COI_SPONSOR_HIERARCHY = "COIHierarchyName";
     private static final String COI_SPONSOR_HEIRARCHY_LEVEL1= "COIHierarchyLevel1";
     public static final String KEY_PERSON_PROJECT_ROLE = "keyPersonProjectRole";
     public static final String COI_REQUIREMENT = "COI_REQUIREMENT";
-    public static final String PCK = "PCK";
+    public static final String PRINCIPAL_COI_KEY_PERSON = "PCK";
+    public static final int HIERARCHY_LEVEL = 1;
+    private static final String PARAMETER_DELIMITER = "\\s*,\\s*";
 
     @Autowired
     @Qualifier("sponsorHierarchyService")
@@ -155,73 +156,114 @@ public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelo
         }
     }
 
-    public boolean hasCertificationPermissions(ProposalDevelopmentDocument document, Person user,ProposalPerson proposalPerson){
-        if(proposalPerson.getPerson()==null){
-     	   return false;
+    protected boolean isLoggedInUserPi(DevelopmentProposal developmentProposal, Person user) {
+        final ProposalPerson person = developmentProposal.getPrincipalInvestigator();
+        return person != null && StringUtils.equals(user.getPrincipalId(), person.getPersonId());
+    }
+
+    public boolean hasCertificationPermissions(ProposalDevelopmentDocument document, Person user, ProposalPerson proposalPerson){
+        boolean isLoggedInUserPi = isLoggedInUserPi(proposalPerson.getDevelopmentProposal(), user);
+        return canCertify(user.getPrincipalId(), proposalPerson, isLoggedInUserPi, canProxyCertify(document, user));
+
+
+    }
+
+    protected boolean canCertify(String userPrincipalId, ProposalPerson proposalPerson, boolean isLoggedInUserPi, boolean canProxyCertify) {
+        // person is null for rolodex entries
+        if(Objects.isNull(proposalPerson.getPerson())) {
+            return canProxyCertify;
         }
-        boolean isPiLoggedIn = isPiPersonLoggedInUser( proposalPerson.getDevelopmentProposal(),user);
-        boolean canCertifyProposal = canCertifyProposal(document,user);
-        if((isPiLoggedIn && proposalPerson.getPersonId().equals(user.getPrincipalId())) ||
-     		   (canCertifyProposal && proposalPerson.isPrincipalInvestigator()))
-        {
-     	  return true;
-        }
-       if ((proposalPerson.getPersonId().equals(user.getPrincipalId()) && proposalPerson.isCoInvestigator())
-     		  ||(isPiLoggedIn && proposalPerson.isCoInvestigator()) ||
-     		  (canCertifyProposal && proposalPerson.isCoInvestigator())){
-     		  return true;
-       }
-       if ((proposalPerson.getPersonId().equals(user.getPrincipalId()) && proposalPerson.isMultiplePi())
-     		  ||(isPiLoggedIn && proposalPerson.isMultiplePi()) ||
-     		  (canCertifyProposal && proposalPerson.isMultiplePi())){
-     		  return true;
-       }
-       
-       String keyPersonProjectRoles = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, KEY_PERSON_PROJECT_ROLE);
-       List<String> keyPersonRoleList =Arrays.asList(keyPersonProjectRoles.split(PARAMETER_DELIMITER));
 
+        if (isPiOrProxyCertificationPossible(userPrincipalId, proposalPerson, isLoggedInUserPi, canProxyCertify)) return true;
 
-        if ((proposalPerson.getPersonId().equals(user.getPrincipalId()) && proposalPerson.isKeyPerson()) ||
-                (isPiLoggedIn && proposalPerson.isKeyPerson()) ||
-                (canCertifyProposal && proposalPerson.isKeyPerson())) {
-            for (String projectRole : keyPersonRoleList) {
-                if (proposalPerson.getProjectRole().equals(projectRole)) {
-                    return false;
-                }
+        if (isCoiOrPiOrProxyCertificationPossible(userPrincipalId, proposalPerson, isLoggedInUserPi, canProxyCertify)) return true;
+
+        if (isMultiPiOrPiOrProxyCertificationPossible(userPrincipalId, proposalPerson, isLoggedInUserPi, canProxyCertify)) return true;
+
+        final boolean keyPersonOrPiOrProxyCertificationPossible =
+                isKeyPersonOrPiOrProxyCertificationPossible(userPrincipalId, proposalPerson, isLoggedInUserPi, canProxyCertify);
+
+        if (keyPersonOrPiOrProxyCertificationPossible) {
+            if (isCoiDisclosureStatusFeatureEnabled()) {
+                if (isKeyPersonRoleExempt(proposalPerson)) return false;
+                if (forcePiCoiKeyPersonsDisclosureWithCustomData(proposalPerson.getDevelopmentProposal())) return true;
+                if (doesSponsorRequireKeyPersonCertification(proposalPerson)) return true;
             }
-            if (isKeyPersonCustomData(proposalPerson.getDevelopmentProposal())) {
-                return true;
-            }
-
-            String sponsorHeirarchy = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, SPONSOR_HEIRARCHY);
-            String sponsorHeirarchyLevelName = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, COI_SPONSOR_HEIRARCHY_LEVEL1);
-            if (getSponsorHierarchyService().isSponsorInHierarchy(proposalPerson.getDevelopmentProposal().getSponsorCode(), sponsorHeirarchy, 1, sponsorHeirarchyLevelName)) {
+            else {
                 return true;
             }
         }
 
         return false;
+    }
+
+    protected boolean isPiOrProxyCertificationPossible(String userPrincipalId, ProposalPerson proposalPerson, boolean isLoggedInUserPi, boolean canProxyCertify) {
+        if((isLoggedInUserPi && proposalPersonIsUser(userPrincipalId, proposalPerson)) ||
+     		   (canProxyCertify && proposalPerson.isPrincipalInvestigator())) {
+            return true;
+        }
+        return false;
+    }
+
+    protected boolean isKeyPersonRoleExempt(ProposalPerson proposalPerson) {
+        return getExemptKeyPersonRoles().stream().anyMatch(projectRole -> proposalPerson.getProjectRole().equalsIgnoreCase(projectRole));
+    }
+
+    protected boolean doesSponsorRequireKeyPersonCertification(ProposalPerson proposalPerson) {
+        String sponsorHierarchy = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, COI_SPONSOR_HIERARCHY);
+        String sponsorHierarchyLevelName = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, COI_SPONSOR_HEIRARCHY_LEVEL1);
+
+        return getSponsorHierarchyService().isSponsorInHierarchy(proposalPerson.getDevelopmentProposal().getSponsorCode(),
+                                                                sponsorHierarchy, HIERARCHY_LEVEL, sponsorHierarchyLevelName);
+    }
+
+    protected List<String> getExemptKeyPersonRoles() {
+        String keyPersonProjectRoles = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, KEY_PERSON_PROJECT_ROLE);
+        List<String> keyPersonRoleList = Arrays.asList(keyPersonProjectRoles.split(PARAMETER_DELIMITER));
+        return keyPersonRoleList;
 
     }
-    
-    private boolean canCertifyProposal(ProposalDevelopmentDocument document,Person user){
+
+    protected boolean isKeyPersonOrPiOrProxyCertificationPossible(String userPrincipalId, ProposalPerson proposalPerson, boolean isLoggedInUserPi, boolean canProxyCertify) {
+        return (proposalPersonIsUser(userPrincipalId, proposalPerson) && proposalPerson.isKeyPerson()) ||
+                (isLoggedInUserPi && proposalPerson.isKeyPerson()) ||
+                (canProxyCertify && proposalPerson.isKeyPerson());
+    }
+
+    protected boolean isMultiPiOrPiOrProxyCertificationPossible(String userPrincipalId, ProposalPerson proposalPerson, boolean isLoggedInUserPi, boolean canProxyCertify) {
+        if ((proposalPersonIsUser(userPrincipalId, proposalPerson) && proposalPerson.isMultiplePi())
+     		  || (isLoggedInUserPi && proposalPerson.isMultiplePi()) ||
+     		  (canProxyCertify && proposalPerson.isMultiplePi())){
+            return true;
+       }
+        return false;
+    }
+
+    protected boolean isCoiOrPiOrProxyCertificationPossible(String userPrincipalId, ProposalPerson proposalPerson, boolean isLoggedInUserPi, boolean canProxyCertify) {
+        if ((proposalPersonIsUser(userPrincipalId, proposalPerson) && proposalPerson.isCoInvestigator())
+                || (isLoggedInUserPi && proposalPerson.isCoInvestigator()) ||
+                (canProxyCertify && proposalPerson.isCoInvestigator())){
+            return true;
+        }
+        return false;
+    }
+
+    protected boolean proposalPersonIsUser(String userPrincipalId, ProposalPerson proposalPerson) {
+        return proposalPerson.getPersonId().equals(userPrincipalId);
+    }
+
+    protected boolean canProxyCertify(ProposalDevelopmentDocument document, Person user){
         return getKraAuthorizationService().hasPermission(user.getPrincipalId(), document, PermissionConstants.VIEW_CERTIFICATION)
                 || getKraAuthorizationService().hasPermission(user.getPrincipalId(), document, PermissionConstants.CERTIFY);
    }
-   
 
-   private boolean isPiPersonLoggedInUser(DevelopmentProposal developmentProposal,Person user){
-       final ProposalPerson person = developmentProposal.getPrincipalInvestigator();
-       return person != null && StringUtils.equals(user.getPrincipalId(), person.getPersonId());
-   }
-   
-   private boolean isKeyPersonCustomData(
-			DevelopmentProposal developmentProposal) {
+   // Aggregators can use custom data to choose if PCK should disclose.
+   protected boolean forcePiCoiKeyPersonsDisclosureWithCustomData(DevelopmentProposal developmentProposal) {
 		try {
-			List<CustomAttributeDocValue> customDataList = developmentProposal
-					.getProposalDocument().getCustomDataList();
+			List<CustomAttributeDocValue> customDataList = developmentProposal.getProposalDocument().getCustomDataList();
 			for (CustomAttributeDocValue attributeDocValue : customDataList) {
-				if (attributeDocValue.getCustomAttribute().getName().equalsIgnoreCase(COI_REQUIREMENT)&& attributeDocValue.getValue().equals(PCK)) {
+				if (attributeDocValue.getCustomAttribute().getName().equalsIgnoreCase(COI_REQUIREMENT) &&
+                        attributeDocValue.getValue().equals(PRINCIPAL_COI_KEY_PERSON)) {
 					return true;
 				}
 			}
@@ -230,6 +272,13 @@ public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelo
 		}
 		return false;
 	}
+
+    protected boolean isCoiDisclosureStatusFeatureEnabled() {
+        return getParameterService().getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE,
+                                                                Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
+                                                                Constants.PROP_PERSON_COI_STATUS_FLAG);
+    }
+
     @Override
     public boolean validateAddPermissions(ProposalDevelopmentDocument document, List<ProposalUserRoles> proposalUserRolesList, ProposalUserRoles proposalUser){
         return getKualiRuleService().applyRules(new AddProposalUserEvent(document, proposalUserRolesList, proposalUser));

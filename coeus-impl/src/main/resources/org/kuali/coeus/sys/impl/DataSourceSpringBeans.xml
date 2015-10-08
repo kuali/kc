@@ -36,6 +36,9 @@
 
     <bean id="btmConfig" factory-method="getConfiguration" class="bitronix.tm.TransactionManagerServices" lazy-init="true">
         <property name="serverId" value="#{T(org.apache.commons.lang3.RandomStringUtils).randomAlphanumeric(20)}_TM_KC"/>
+        <property name="defaultTransactionTimeout" value="${tm.btm.defaultTransactionTimeout}" />
+        <property name="logPart1Filename" value="${tm.btm.logPart1Filename}" />
+        <property name="logPart2Filename" value="${tm.btm.logPart2Filename}" />
     </bean>
 
     <bean id="transactionManagerBitronix" class="bitronix.tm.TransactionManagerServices"

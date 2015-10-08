@@ -215,23 +215,20 @@ public class JqueryAjaxAction extends KualiDocumentActionBase {
     }
     /**
      * Get and return the template description for ajax queries.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
      */
     public ActionForward getSponsorTemplateDescription(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response)
         throws Exception {
-        JqueryAjaxForm ajaxForm = (JqueryAjaxForm) form;
-        AwardTemplate template = getBusinessObjectService().findBySinglePrimaryKey(AwardTemplate.class, ajaxForm.getCode());
-        if (template != null) {
-            ajaxForm.setReturnVal(template.getDescription());
-        } else {
-            ajaxForm.setReturnVal("<span style='color: red;'>not found</span>");
+        final JqueryAjaxForm ajaxForm = (JqueryAjaxForm) form;
+        if (StringUtils.isNotBlank(ajaxForm.getCode())) {
+            final AwardTemplate template = getBusinessObjectService().findBySinglePrimaryKey(AwardTemplate.class, ajaxForm.getCode());
+            if (template != null) {
+                ajaxForm.setReturnVal(template.getDescription());
+            } else {
+                ajaxForm.setReturnVal("<span style='color: red;'>not found</span>");
+            }
         }
+
         return mapping.findForward(Constants.MAPPING_BASIC);
         
     }

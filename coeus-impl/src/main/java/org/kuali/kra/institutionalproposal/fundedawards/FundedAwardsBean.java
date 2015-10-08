@@ -28,10 +28,13 @@ import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.institutionalproposal.ProposalStatus;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -46,8 +49,9 @@ public class FundedAwardsBean implements Serializable {
     
     private InstitutionalProposalForm institutionalProposalForm;
     
-
-    public FundedAwardsBean() {
+    private transient BusinessObjectService businessObjectService;
+    
+	public FundedAwardsBean() {
         super();
     }
     
@@ -73,12 +77,14 @@ public class FundedAwardsBean implements Serializable {
                     ERROR_UNLOCK_PENDING_AWARDS, 
                     awardNumbers);
         } else {
-        
+        	List<AwardFundingProposal> removedFundingProposals = new ArrayList();
             ArrayUtils.reverse(institutionalProposalForm.getSelectedAwardFundingProposals());
             for (String indexToRemove : institutionalProposalForm.getSelectedAwardFundingProposals()) {
-                institutionalProposal.getAwardFundingProposals().remove(Integer.parseInt(indexToRemove));
+            	removedFundingProposals.add(institutionalProposal.getAllFundingProposals().get(Integer.parseInt(indexToRemove)));
+                institutionalProposal.getAllFundingProposals().remove(Integer.parseInt(indexToRemove));
             }
-            if (institutionalProposal.getAwardFundingProposals().isEmpty()) {
+            getBusinessObjectService().delete(removedFundingProposals);
+            if (institutionalProposal.getAllFundingProposals().isEmpty()) {
                 institutionalProposal.setStatusCode(ProposalStatus.PENDING);
             }
             institutionalProposalForm.setSelectedAwardFundingProposals(null);
@@ -104,7 +110,7 @@ public class FundedAwardsBean implements Serializable {
         Set<String> linkedPendingAwards = new HashSet<String>();
         VersionHistoryService versionHistoryService = KcServiceLocator.getService(VersionHistoryService.class);
         for (String index : awardsToUnlock) {
-            AwardFundingProposal fundingProposal = institutionalProposal.getAwardFundingProposals().get(Integer.parseInt(index));
+            AwardFundingProposal fundingProposal = institutionalProposal.getAllFundingProposals().get(Integer.parseInt(index));
             VersionHistory pendingVersionHistory = versionHistoryService.findPendingVersion(Award.class, 
                     fundingProposal.getAward().getAwardNumber(), fundingProposal.getAward().getSequenceNumber().toString());
             if (pendingVersionHistory != null) {
@@ -114,4 +120,14 @@ public class FundedAwardsBean implements Serializable {
         return linkedPendingAwards;
     }
 
+    public BusinessObjectService getBusinessObjectService() {
+    	  if (this.businessObjectService == null) {
+              this.businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
+          }
+          return this.businessObjectService;
+	}
+
+	public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+		this.businessObjectService = businessObjectService;
+	}
 }

@@ -34,6 +34,7 @@ import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.transactions.TransactionBean;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -526,7 +527,11 @@ public class TimeAndMoneyForm extends KcTransactionalDocumentFormBase {
     }
     
     public boolean getDisableCurrentValues () {
-        return StringUtils.equals(CURRENT, getCurrentOrPendingView()) && !getTimeAndMoneyDocument().getPendingTransactions().isEmpty();
+        if (!isAwardObligatedAndAnticipatedAmountsEditable()) {
+            return true;
+        } else {
+            return StringUtils.equals(CURRENT, getCurrentOrPendingView()) && !getTimeAndMoneyDocument().getPendingTransactions().isEmpty();
+        }
     }
 
     /**
@@ -755,5 +760,10 @@ public class TimeAndMoneyForm extends KcTransactionalDocumentFormBase {
             sb.append(",").append(s);
         }
         return sb.toString();
+    }
+
+    public boolean isAwardObligatedAndAnticipatedAmountsEditable() {
+        return getParameterService().getParameterValueAsBoolean(Constants.PARAMETER_MODULE_AWARD,
+                ParameterConstants.DOCUMENT_COMPONENT, Constants.MAKE_AWD_CUM_ANTICIPATED_OBL_EDITABLE);
     }
 }

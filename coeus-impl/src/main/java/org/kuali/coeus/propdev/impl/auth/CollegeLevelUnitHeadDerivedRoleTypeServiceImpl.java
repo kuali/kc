@@ -16,12 +16,16 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.coeus.common.budget.framework.core;
+package org.kuali.coeus.propdev.impl.auth;
 
-public class SaveBudgetEvent extends BudgetEventBase {
-	
-	public SaveBudgetEvent(Budget budget) {
-		super(budget);
+import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
+import org.springframework.stereotype.Component;
+
+@Component("collegeLevelUnitHeadDerivedRoleTypeService")
+public class CollegeLevelUnitHeadDerivedRoleTypeServiceImpl extends DepartmentLevelUnitHeadDerivedRoleTypeServiceImpl {
+
+	@Override
+	protected String getUnitNumberForPersonUnit(ProposalPersonUnit unit) {
+		return unit.getUnit().getParentUnitNumber();
 	}
-
 }

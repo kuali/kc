@@ -78,7 +78,6 @@ public class BudgetParametersAction extends BudgetAction {
             getBudgetRatesService().syncAllBudgetRates(budget);
             budget.setRateSynced(true);
             budgetForm.setSyncBudgetRate("");
-            // jira-1848 : force to calc budget after sync
             getBudgetSummaryService().calculateBudget(budget);
         }
         return forward;
@@ -96,7 +95,7 @@ public class BudgetParametersAction extends BudgetAction {
         BudgetForm budgetForm = (BudgetForm) form;
         Budget budget = budgetForm.getBudget();
         
-        boolean rulePassed = getKcBusinessRulesEngine().applyRules(new SaveBudgetEvent(budget));
+        boolean rulePassed = getKcBusinessRulesEngine().applyRules(new AwardBudgetSaveEvent(budget));
         
         if (isRateTypeChanged(budgetForm)) {
             if (isBudgetPeriodDateChanged(budget) && isLineItemErrorOnly()) {
@@ -108,7 +107,6 @@ public class BudgetParametersAction extends BudgetAction {
                                CONFIRM_SAVE_BUDGET_KEY, DO_NOTHING);
             }
         } else {
-            // This whole else block is mostly the same as saveAfterQuestion, so why not use saveAfterQuestion here?
             if (isBudgetPeriodDateChanged(budget) && isLineItemErrorOnly()) {
                 GlobalVariables.setMessageMap(new MessageMap());
                 return confirm(buildSaveBudgetSummaryConfirmationQuestion(mapping, form, request, response,
@@ -182,7 +180,7 @@ public class BudgetParametersAction extends BudgetAction {
         budgetForm.setOhRateClassCodePrevValue(originalBudget.getOhRateClassCode());
         budgetForm.setUrRateClassCodePrevValue(originalBudget.getUrRateClassCode());
 
-        boolean rulePassed = getKcBusinessRulesEngine().applyRules(new SaveBudgetEvent(budget));
+        boolean rulePassed = getKcBusinessRulesEngine().applyRules(new AwardBudgetSaveEvent(budget));
         if (rulePassed) {
             // update campus flag if budget level flag is changed
             if (StringUtils.isBlank(budgetForm.getPrevOnOffCampusFlag())
@@ -207,7 +205,7 @@ public class BudgetParametersAction extends BudgetAction {
             budgetForm.setUrRateClassCodePrevValue(originalBudget.getUrRateClassCode());
         }
         getBudgetSummaryService().adjustStartEndDatesForLineItems(budget);
-        boolean rulePassed = getKcBusinessRulesEngine().applyRules(new SaveBudgetEvent(budget));
+        boolean rulePassed = getKcBusinessRulesEngine().applyRules(new AwardBudgetSaveEvent(budget));
         if (rulePassed) {
             // update campus flag if budget level flag is changed
             if (StringUtils.isBlank(budgetForm.getPrevOnOffCampusFlag())

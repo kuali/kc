@@ -24,6 +24,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.common.budget.framework.core.AwardBudgetSaveEvent;
 import org.kuali.coeus.common.budget.framework.personnel.*;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
@@ -33,7 +34,6 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
-import org.kuali.coeus.common.budget.framework.core.SaveBudgetEvent;
 import org.kuali.coeus.common.budget.framework.core.category.BudgetCategory;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalculatedAmount;
@@ -765,7 +765,7 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
         int selectedBudgetLineItemIndex = getSelectedLine(request);   
         BudgetLineItem selectedBudgetLineItem = budget.getBudgetPeriod(selectedBudgetPeriodIndex).getBudgetLineItem(selectedBudgetLineItemIndex);
         
-        if (getKcBusinessRulesEngine().applyRules(new SaveBudgetEvent(budget))) {
+        if (getKcBusinessRulesEngine().applyRules(new AwardBudgetSaveEvent(budget))) {
             updatePersonnelBudgetRate(selectedBudgetLineItem);
             getCalculationService().calculateBudgetLineItem(budget, selectedBudgetLineItem); 
             recalculateBudgetPeriod(budgetForm, budget, budget.getBudgetPeriod(selectedBudgetPeriodIndex));

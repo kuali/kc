@@ -221,7 +221,9 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
                 form.getDevelopmentProposal().setFinalBudget(form.getBudget());
                 getDataObjectService().save(form.getDevelopmentProposal());
             }
-            return super.save(form);
+            super.save(form);
+            form.setEvaluateFlagsAndModes(true);
+            form.setCanEditView(null);
         }
         return getModelAndViewService().getModelAndView(form);
 	}
@@ -243,7 +245,6 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
     	if(isRateTypeChanged(originalBudget, budget)) {
         	return getModelAndViewService().showDialog(ProposalBudgetConstants.KradConstants.CONFIRM_RATE_CHANGES_DIALOG_ID, true, form);
     	}
-    	getBudgetSummaryService().updateOnOffCampusFlag(budget, budget.getOnOffCampusFlag());
         super.save(form);
         form.setEvaluateFlagsAndModes(true);
 		//setting to null to force reevaluation
@@ -301,7 +302,6 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 	@Transactional @RequestMapping(params="methodToCall=confirmBudgetSettings")
 	public ModelAndView confirmBudgetSettings(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		Budget budget = form.getBudget();
-    	getBudgetSummaryService().updateOnOffCampusFlag(budget, budget.getOnOffCampusFlag());
     	getBudgetCalculationService().resetBudgetLineItemCalculatedAmounts(budget);
     	form.setEvaluateFlagsAndModes(true);
         return super.save(form);

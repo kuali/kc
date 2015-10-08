@@ -36,10 +36,7 @@ import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
-import org.kuali.coeus.common.budget.framework.core.AbstractBudget;
 import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.core.BudgetCommonService;
-import org.kuali.coeus.common.budget.framework.core.BudgetParent;
 import org.kuali.coeus.common.budget.framework.core.BudgetService;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRatesService;
@@ -75,8 +72,8 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
     private static final String SHOW_ALL_BUDGET_VERSIONS_URL_PARAM = "showAllBudgetVersions=";
 	private static final String AUDIT_ACTIVATED_URL_PARAM = "auditActivated=";
 	private static final String AMPERSTAND = "&";
-	private static final String AWARD_BUDGET_PARAMETERS_ACTION = "awardBudgetParameters.do?";
-	private static final String AWARD_BUDGET_VERSIONS_ACTION = "awardBudgetVersions.do?";
+    public static final String SYNC_QUESTION_ASKED = "syncQuestionAsked";
+
 
     /**
      * Main execute method that is run. Populates A map of rate types in the {@link HttpServletRequest} instance to be used
@@ -187,7 +184,6 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         Collection<BudgetRate> allBudgetRates = budgetService.getSavedProposalRates(budgetToOpen);
         Award newestAward = getAwardBudgetService().getActiveOrNewestAward(awardDocument.getAward().getAwardNumber());
         newestAward.refreshReferenceObject("awardFandaRate");
-        List<AwardFandaRate> fandaRates = newestAward.getAwardFandaRate();
         List ebRates =new ArrayList();
         if(newestAward.getSpecialEbRateOffCampus()!=null)
         	ebRates.add(newestAward.getSpecialEbRateOffCampus());
@@ -196,11 +192,12 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         if(newestAward.getRequestedStartDateInitial()==null || newestAward.getRequestedEndDateInitial()==null){
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
-        
-        if(awardBudgetService.checkRateChange(allBudgetRates, newestAward)){
+
+        if (awardBudgetService.checkRateChange(allBudgetRates, newestAward)) {
         	return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,
                     KeyConstants.QUESTION_SYNCH_AWARD_RATE), CONFIRM_SYNCH_BUDGET_RATE, NO_SYNCH_BUDGET_RATE);
-        	 }
+        }
+
         if (budgetRatesService.checkActivityTypeChange(allBudgetRates, newestAward.getActivityTypeCode())) {
             return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,
                     KeyConstants.QUESTION_SYNCH_BUDGET_RATE), CONFIRM_SYNCH_BUDGET_RATE, NO_SYNCH_BUDGET_RATE);
@@ -218,13 +215,13 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
             }
             String backUrl = URLEncoder.encode(buildActionUrl(awardDocument.getDocumentNumber(), Constants.MAPPING_AWARD_BUDGET_VERSIONS_PAGE, "AwardDocument"), StandardCharsets.UTF_8.name());
             String forward = buildForwardUrl(routeHeaderId) + "&backLocation=" + backUrl;
-            forward = StringUtils.replace(forward, AWARD_BUDGET_VERSIONS_ACTION, AWARD_BUDGET_PARAMETERS_ACTION);
+            forward = StringUtils.replace(forward, Constants.AWARD_BUDGET_VERSIONS_ACTION, Constants.AWARD_BUDGET_PARAMETERS_ACTION);
             if (!budget.getActivityTypeCode().equals(newestAward.getActivityTypeCode()) || budget.isRateClassTypesReloaded()) {
                 budget.setActivityTypeCode(newestAward.getActivityTypeCode());
-                forward = forward.replace(AWARD_BUDGET_PARAMETERS_ACTION, AWARD_BUDGET_PARAMETERS_ACTION + "syncBudgetRate=Y" + AMPERSTAND);
+                forward = forward.replace(Constants.AWARD_BUDGET_PARAMETERS_ACTION, Constants.AWARD_BUDGET_PARAMETERS_ACTION + "syncBudgetRate=Y" + AMPERSTAND);
             }
-            forward = StringUtils.replace(forward, AWARD_BUDGET_PARAMETERS_ACTION, AWARD_BUDGET_PARAMETERS_ACTION + AUDIT_ACTIVATED_URL_PARAM + awardForm.isAuditActivated() + AMPERSTAND);
-            forward = StringUtils.replace(forward, AWARD_BUDGET_PARAMETERS_ACTION, AWARD_BUDGET_PARAMETERS_ACTION + SHOW_ALL_BUDGET_VERSIONS_URL_PARAM + awardForm.isShowAllBudgetVersions() + AMPERSTAND);
+            forward = StringUtils.replace(forward, Constants.AWARD_BUDGET_PARAMETERS_ACTION, Constants.AWARD_BUDGET_PARAMETERS_ACTION + AUDIT_ACTIVATED_URL_PARAM + awardForm.isAuditActivated() + AMPERSTAND);
+            forward = StringUtils.replace(forward, Constants.AWARD_BUDGET_PARAMETERS_ACTION, Constants.AWARD_BUDGET_PARAMETERS_ACTION + SHOW_ALL_BUDGET_VERSIONS_URL_PARAM + awardForm.isShowAllBudgetVersions() + AMPERSTAND);
             return new ActionForward(forward, true);
         }
     }
@@ -250,9 +247,9 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
             Budget budget = awardBudgetDocument.getBudget();
           
           budget.setRateClassTypesReloaded(false);
-          forward = forward.replace(AWARD_BUDGET_PARAMETERS_ACTION, AWARD_BUDGET_PARAMETERS_ACTION + "syncBudgetRate=Y" + AMPERSTAND);
+          forward = forward.replace(Constants.AWARD_BUDGET_VERSIONS_ACTION, Constants.AWARD_BUDGET_PARAMETERS_ACTION + "syncBudgetRate=Y" + AMPERSTAND);
         }
-        forward = StringUtils.replace(forward, AWARD_BUDGET_PARAMETERS_ACTION, AWARD_BUDGET_PARAMETERS_ACTION + AUDIT_ACTIVATED_URL_PARAM + awardForm.isAuditActivated() + AMPERSTAND);
+        forward = StringUtils.replace(forward, Constants.AWARD_BUDGET_VERSIONS_ACTION, Constants.AWARD_BUDGET_VERSIONS_ACTION + AUDIT_ACTIVATED_URL_PARAM + awardForm.isAuditActivated() + AMPERSTAND + SYNC_QUESTION_ASKED + "=Y" + AMPERSTAND);
         return new ActionForward(forward, true);
     }
 

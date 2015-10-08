@@ -149,7 +149,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     private transient Boolean allowsNoteAttachments;
     
     @Transient
-    private transient Boolean certtifyViewOnly = false;
+    private transient Boolean certifyViewOnly = false;
 
     
 	public ProposalDevelopmentDocument() {
@@ -625,11 +625,12 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         this.documentHeaderService = documentHeaderService;
     }
 
-    public Boolean getCerttifyViewOnly() {
-		return certtifyViewOnly;
+    public Boolean getCertifyViewOnly() {
+		return certifyViewOnly;
 	}
-	public void setCerttifyViewOnly(Boolean certtifyViewOnly) {
-		this.certtifyViewOnly = certtifyViewOnly;
+
+	public void setCertifyViewOnly(Boolean certifyViewOnly) {
+		this.certifyViewOnly = certifyViewOnly;
 	}
 
     @Override

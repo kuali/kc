@@ -91,6 +91,13 @@
         	</bean>
         	<bean parent="HeaderNavigation">
 	          	<property name="helpDefinition">
+	            	<bean parent="HelpDefinition" p:parameterNamespace="KC-PROTOCOL" p:parameterName="protocolActionsHelp" p:parameterDetailType="Document"/>
+	          	</property>
+	          	<property name="headerTabDisplayName" value="Protocol History"/>
+	          	<property name="headerTabNavigateTo" value="protocolHistory"/>
+        	</bean>
+        	<bean parent="HeaderNavigation">
+	          	<property name="helpDefinition">
 	            	<bean parent="HelpDefinition" p:parameterNamespace="KC-PROTOCOL" p:parameterName="protocolOnlineReviewHelp" p:parameterDetailType="Document"/>
 	          	</property>
 	          	<property name="headerTabDisplayName" value="Online Review"/>

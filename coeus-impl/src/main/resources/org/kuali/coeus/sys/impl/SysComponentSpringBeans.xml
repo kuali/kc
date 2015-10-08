@@ -23,6 +23,7 @@
        xmlns:p="http://www.springframework.org/schema/p"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:amq="http://activemq.apache.org/schema/core"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd
                            http://www.springframework.org/schema/context
@@ -30,7 +31,9 @@
                            http://www.springframework.org/schema/tx
                            http://www.springframework.org/schema/tx/spring-tx.xsd
                            http://www.springframework.org/schema/util
-                           http://www.springframework.org/schema/util/spring-util.xsd">
+                           http://www.springframework.org/schema/util/spring-util.xsd
+                           http://activemq.apache.org/schema/core
+                           http://activemq.apache.org/schema/core/activemq-core.xsd">
 
     <tx:annotation-driven transaction-manager="transactionManager" />
     <context:annotation-config />
@@ -198,6 +201,108 @@
         <property name="listener">
             <bean class="net.bull.javamelody.SessionListener"/>
         </property>
+    </bean>
+
+    <!-- not using the activemq format here in order to use property replacement
+    which cannot be done without violating schema validation -->
+    <bean id="defaultRedeliveryPolicy" class="org.apache.activemq.RedeliveryPolicy"
+          p:maximumRedeliveries="${mq.redelivery.default.maximumRedeliveries}"
+          p:initialRedeliveryDelay="${mq.redelivery.default.initialRedeliveryDelay}"
+          p:redeliveryDelay="${mq.redelivery.default.redeliveryDelay}"
+          p:useExponentialBackOff="${mq.redelivery.default.useExponentialBackOff}"
+          p:backOffMultiplier="${mq.redelivery.default.backOffMultiplier}">
+    </bean>
+
+    <!-- Embedded ActiveMQ Broker -->
+    <amq:broker id="embeddedBroker" useJmx="false" persistent="true" schedulerSupport="true" dataDirectory="${mq.broker.dataDirectory}">
+        <amq:transportConnectors>
+            <amq:transportConnector uri="tcp://localhost:0" />
+        </amq:transportConnectors>
+
+        <amq:persistenceAdapter>
+            <amq:jdbcPersistenceAdapter dataSource="#dataSource" createTablesOnStartup="false" useDatabaseLock="false">
+                <amq:statements>
+                    <amq:statements tablePrefix="KC_" />
+                </amq:statements>
+            </amq:jdbcPersistenceAdapter>
+        </amq:persistenceAdapter>
+
+        <amq:destinationPolicy>
+            <amq:policyMap>
+                <amq:policyEntries>
+                    <!-- Set the following policy on all queues using the '>' wildcard -->
+                    <amq:policyEntry queue=">">
+                        <amq:deadLetterStrategy>
+                            <amq:individualDeadLetterStrategy
+                                    queuePrefix="DLQ." useQueueForQueueMessages="true" />
+                        </amq:deadLetterStrategy>
+                    </amq:policyEntry>
+                </amq:policyEntries>
+            </amq:policyMap>
+        </amq:destinationPolicy>
+
+        <amq:plugins>
+            <amq:redeliveryPlugin>
+                <amq:redeliveryPolicyMap>
+                    <amq:redeliveryPolicyMap>
+                        <amq:defaultEntry>
+                            <ref bean="defaultRedeliveryPolicy" />
+                        </amq:defaultEntry>
+                    </amq:redeliveryPolicyMap>
+                </amq:redeliveryPolicyMap>
+            </amq:redeliveryPlugin>
+        </amq:plugins>
+    </amq:broker>
+
+    <!-- XA JMS Connection Factory -->
+    <bean id="xaJmsConnectionFactory" class="bitronix.tm.resource.jms.PoolingConnectionFactory"
+          init-method="init" destroy-method="close" depends-on="embeddedBroker">
+        <property name="className" value="org.apache.activemq.ActiveMQXAConnectionFactory" />
+        <property name="uniqueName" value="activemq" />
+        <property name="minPoolSize" value="${mq.datasource.minPoolSize}" />
+        <property name="maxPoolSize" value="${mq.datasource.maxPoolSize}" />
+        <property name="allowLocalTransactions" value="true" />
+        <property name="driverProperties">
+            <props>
+                <prop key="brokerURL">vm://localhost</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!--  ActiveMQ REST destinations to use  -->
+    <amq:queue id="restDestination" physicalName="REST_QUEUE" />
+
+    <!-- REST Spring JMS Template -->
+    <bean id="restJmsOperations" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="xaJmsConnectionFactory" />
+        <property name="defaultDestination" ref="restDestination" />
+        <property name="deliveryPersistent" value="true" />
+        <property name="sessionTransacted" value="true" />
+    </bean>
+
+    <!-- the default destination to use for REST messages -->
+    <bean class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="connectionFactory" ref="xaJmsConnectionFactory" />
+        <property name="destination" ref="restDestination" />
+        <property name="messageListener" ref="restMessageConsumer" />
+        <property name="sessionAcknowledgeModeName" value="AUTO_ACKNOWLEDGE" />
+        <property name="transactionManager" ref="transactionManager" />
+    </bean>
+
+    <bean id="consumerRestOperations" class="org.springframework.web.client.RestTemplate">
+        <property name="errorHandler">
+            <bean class="org.springframework.web.client.DefaultResponseErrorHandler" />
+        </property>
+    </bean>
+
+    <bean id="activeMqMessageLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService" ref="activeMqMessageLookupableHelperService" />
+    </bean>
+
+    <bean id="genericJmsOperations" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="xaJmsConnectionFactory" />
+        <property name="deliveryPersistent" value="true" />
+        <property name="sessionTransacted" value="true" />
     </bean>
 
 </beans>

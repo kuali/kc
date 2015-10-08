@@ -28,6 +28,9 @@ import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class S2SConfigurationServiceImplTest {
 
@@ -471,5 +474,84 @@ public class S2SConfigurationServiceImplTest {
         final String value = configService.getValueAsString(name);
 
         assertEquals(resolvedParamVal, value);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void test_getValuesFromCommaSeparatedParam_null_name(){
+        final S2SConfigurationServiceImpl configService = new S2SConfigurationServiceImpl();
+        configService.getValuesFromCommaSeparatedParam(null);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void test_getValuesFromCommaSeparatedParam_blank_name(){
+        final S2SConfigurationServiceImpl configService = new S2SConfigurationServiceImpl();
+        configService.getValuesFromCommaSeparatedParam(" ");
+    }
+
+    @Test
+    public void test_getValuesFromCommaSeparatedParam_csv_present(){
+        final S2SConfigurationServiceImpl configService = new S2SConfigurationServiceImpl();
+        final ParameterService parameterService = context.mock(ParameterService.class);
+
+        final String name = "A_PARAM_NAME";
+        final String paramVal = "VAL_1,VAL_2,VAL_3";
+        final List<String> exepctedValues = new ArrayList<String>(3);
+        exepctedValues.add("VAL_1");
+        exepctedValues.add("VAL_2");
+        exepctedValues.add("VAL_3");
+        context.checking(new Expectations() {{
+            oneOf(parameterService).getParameterValueAsString(S2S_NMSPC_CD, S2S_CMPNT_CD, name);
+            will(returnValue(paramVal));
+
+        }});
+        configService.setParameterService(parameterService);
+
+        final List<String> value = configService.getValuesFromCommaSeparatedParam(name);
+
+        assertEquals(exepctedValues, value);
+    }
+
+    @Test
+    public void test_getValuesFromCommaSeparatedParam_csv_not_present(){
+        final S2SConfigurationServiceImpl configService = new S2SConfigurationServiceImpl();
+        final ParameterService parameterService = context.mock(ParameterService.class);
+
+        final String name = "A_PARAM_NAME";
+        final String paramVal = "VAL_1";
+        final List<String> exepctedValues = new ArrayList<String>(3);
+        exepctedValues.add("VAL_1");
+        context.checking(new Expectations() {{
+            oneOf(parameterService).getParameterValueAsString(S2S_NMSPC_CD, S2S_CMPNT_CD, name);
+            will(returnValue(paramVal));
+
+        }});
+        configService.setParameterService(parameterService);
+        final List<String> value = configService.getValuesFromCommaSeparatedParam(name);
+        assertEquals(exepctedValues, value);
+    }
+    
+
+    @Test
+    public void test_getValuesFromCommaSeparatedParam_csv_not_found(){
+        final S2SConfigurationServiceImpl configService = new S2SConfigurationServiceImpl();
+        final ParameterService parameterService = context.mock(ParameterService.class);
+        final ConfigurationService configurationService = context.mock(ConfigurationService.class);
+
+
+        final String name = "A_PARAM_NAME";
+        final String paramVal = null;
+        context.checking(new Expectations() {{
+            oneOf(parameterService).getParameterValueAsString(S2S_NMSPC_CD, S2S_CMPNT_CD, name);
+            will(returnValue(paramVal));
+            oneOf(configurationService).getPropertyValueAsString(name);
+            will(returnValue(paramVal));
+
+        }});
+        
+        configService.setParameterService(parameterService);
+        configService.setConfigurationService(configurationService);
+        
+        final List<String> value = configService.getValuesFromCommaSeparatedParam(name);
+        assertTrue(value.isEmpty());
     }
 }

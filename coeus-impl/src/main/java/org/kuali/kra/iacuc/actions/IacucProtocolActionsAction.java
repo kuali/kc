@@ -202,12 +202,12 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 
         ApplicationTask task = new ApplicationTask(TaskName.CREATE_IACUC_PROTOCOL);
         if (isAuthorized(task)) {
-            String newDocId = getIacucProtocolCopyService().copyProtocol(protocolForm.getIacucProtocolDocument()).getDocumentNumber();
+            final IacucProtocolDocument copy = (IacucProtocolDocument) getDocumentService().saveDocument(getIacucProtocolCopyService().copyProtocol(protocolForm.getIacucProtocolDocument()));
 
             // Switch over to the new protocol document and
             // go to the ProtocolBase tab web page.
 
-            protocolForm.setDocId(newDocId);
+            protocolForm.setDocId(copy.getDocumentNumber());
             protocolForm.setViewOnly(false);
             loadDocument(protocolForm);
             protocolForm.getIacucProtocolDocument().setViewOnly(protocolForm.isViewOnly());
@@ -1001,7 +1001,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         actionHelper.setCurrentSubmissionNumber(actionHelper.getPrevSubmissionNumber());
         actionHelper.setAmendmentDetails();
         protocolForm.getActionHelper().initSubmissionDetails();
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(Constants.MAPPING_IACUC_PROTOCOL_HISTORY);
     }
     
     /**
@@ -1022,7 +1022,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         actionHelper.setCurrentSubmissionNumber(actionHelper.getNextSubmissionNumber());
         actionHelper.setAmendmentDetails();
         protocolForm.getActionHelper().initSubmissionDetails();
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(Constants.MAPPING_IACUC_PROTOCOL_HISTORY);
     }
 
     /**

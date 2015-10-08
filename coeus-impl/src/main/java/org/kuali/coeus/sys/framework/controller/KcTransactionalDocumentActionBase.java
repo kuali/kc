@@ -142,9 +142,9 @@ public class KcTransactionalDocumentActionBase extends KualiTransactionalDocumen
             KNSGlobalVariables.getMessageList().addAll(messageList);
             GlobalVariables.getUserSession().removeObject(Constants.HOLDING_PAGE_MESSAGES);
         }
-        
-        ActionForward returnForward = mapping.findForward(Constants.MAPPING_BASIC);
-        returnForward = super.execute(mapping, form, request, response);
+
+
+        ActionForward returnForward = super.execute(mapping, form, request, response);
         
         return returnForward;
     }

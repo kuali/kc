@@ -21,10 +21,10 @@ package org.kuali.coeus.common.budget.impl.period;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.budget.framework.core.AwardBudgetSaveEvent;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.core.SaveBudgetEvent;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.AddBudgetPeriodAndTotalEvent;
 import org.kuali.coeus.common.budget.framework.period.AddBudgetPeriodEvent;
@@ -93,7 +93,7 @@ public class BudgetPeriodRule {
     }
     
     @KcEventMethod
-    public boolean processSaveBudgetPeriodBusinessRules(SaveBudgetEvent event) {
+    public boolean processSaveBudgetPeriodBusinessRules(AwardBudgetSaveEvent event) {
         Budget budget = event.getBudget();
         boolean rulePassed = true;
 

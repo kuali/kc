@@ -1543,4 +1543,11 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
     public void setAccountInformationBean(AccountInformationBean accountInformationBean) {
         this.accountInformationBean = accountInformationBean;
     }
+
+    public boolean isAwardObligatedAndAnticipatedAmountsEditable() {
+        return getParameterService().getParameterValueAsBoolean(Constants.PARAMETER_MODULE_AWARD,
+                ParameterConstants.DOCUMENT_COMPONENT, Constants.MAKE_AWD_CUM_ANTICIPATED_OBL_EDITABLE);
+    }
+
+
 }

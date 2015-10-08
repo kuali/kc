@@ -22,7 +22,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.kuali.coeus</groupId>
     <artifactId>coeus</artifactId>
-    <version>1508.48-SNAPSHOT</version>
+    <version>1509.58-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Kuali Coeus</name>
     <description>
@@ -61,13 +61,14 @@
 
     <properties>
         <!--dependency versions-->
+        <activemq.version>5.12.0</activemq.version>
         <aopalliance.version>1.0</aopalliance.version>
         <avalon-framework.version>4.3.1</avalon-framework.version>
         <bouncycastle.version>1.51</bouncycastle.version>
         <cas-client-core.version>3.3.3</cas-client-core.version>
         <cglib.version>3.1</cglib.version>
-        <coeus-api-all.version>1507.3</coeus-api-all.version>
-        <coeus-s2sgen.version>1507.2</coeus-s2sgen.version>
+        <coeus-api-all.version>1509.0003</coeus-api-all.version>
+        <coeus-s2sgen.version>1509.0014</coeus-s2sgen.version>
         <commons-beanutils.version>1.8.3-kuali-4</commons-beanutils.version>
         <commons-codec.version>1.9</commons-codec.version>
         <commons-collections.version>3.2.1</commons-collections.version>
@@ -120,7 +121,7 @@
         <org.eclipse.persistence.version>2.6.0</org.eclipse.persistence.version>
         <pdfbox.version>1.8.6</pdfbox.version>
         <quartz.version>1.8.4</quartz.version>
-        <rice.version>2.5.3.1508.0010-kualico</rice.version>
+        <rice.version>2.5.3.1509.0002-kualico</rice.version>
         <schemaspy.version>1507.2</schemaspy.version>
         <servlet.version>3.0.1</servlet.version>
         <slf4j.version>1.7.7</slf4j.version>
@@ -1057,6 +1058,43 @@
                 <groupId>net.sf.opencsv</groupId>
                 <artifactId>opencsv</artifactId>
                 <version>${opencsv.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.activemq</groupId>
+                <artifactId>activemq-broker</artifactId>
+                <version>${activemq.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.activemq</groupId>
+                <artifactId>activemq-jdbc-store</artifactId>
+                <version>${activemq.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+
+            <!-- unfortunately, this is required even though we are using jdbc as the store -->
+            <dependency>
+                <groupId>org.apache.activemq</groupId>
+                <artifactId>activemq-kahadb-store</artifactId>
+                <version>${activemq.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.activemq</groupId>
+                <artifactId>activemq-spring</artifactId>
+                <version>${activemq.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.geronimo.specs</groupId>
+                        <artifactId>geronimo-jta_1.0.1B_spec</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <!-- required for fop -->
@@ -2008,6 +2046,12 @@
 
             <dependency>
                 <groupId>org.springframework</groupId>
+                <artifactId>spring-jms</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
                 <artifactId>spring-orm</artifactId>
                 <version>${spring.version}</version>
             </dependency>
@@ -2110,7 +2154,7 @@
 
                 <rsmart.cx.token.auth.version>1507.1</rsmart.cx.token.auth.version>
                 <rsmart.hr.rest.version>1508.0004</rsmart.hr.rest.version>
-                <kc-sql.version>1508.0005</kc-sql.version>
+                <kc-sql.version>1509.0001</kc-sql.version>
 
                 <scm.connection>scm:git:git://github.com/kualico/kc.git</scm.connection>
                 <scm.developerConnection>scm:git:git@github.com:kualico/kc.git</scm.developerConnection>

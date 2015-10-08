@@ -119,24 +119,6 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
 	            		    <td class="infoline">
 	            		        <nobr>${protocolAction.createTimestamp}</nobr>
 	            		    </td>
-	                        <%--
-	            		    <td class="infoline">
-	            		        <c:choose>
-	            		            <c:when test="${protocolAction.answerHeadersCount > 0}">
- 	            		               <c:set var="printOption" value="${protocolAction.questionnairePrintOption}"/>
-                                    <div align="center">
-							        <html:image property="methodToCall.questionnaire.actionType116.anchor${currentTabIndex}"
-								        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
-									onclick="questionnairePop('${printOption.itemKey}','${printOption.subItemKey}','${KualiForm.formKey}',' ${KualiForm.document.sessionDocument}', ${printOption.subItemCode != '2'}); return false;"
-								        alt="View Questionnaire" />
-                                     </div>
-	                                </c:when>
-	                                <c:otherwise>
-	                                      &nbsp;
-	                                </c:otherwise>
-	                            </c:choose>
-	                        </td>
-	                         --%>
 	            		</tr>
 	            		
 	            		<c:if test="${fn:length(protocolAction.protocolCorrespondences) > 0}">
@@ -148,7 +130,6 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
 		                                    <table class="tab" cellpadding="0" cellspacing="0" summary="">
 		                                        <tbody>
 		                                            <tr>
-		                                               <%--<th style="text-align:left;width:10%">File Name</th> --%>
                                                        <th style="text-align:center">Description</th>
                                                        <th style="text-align:center">Date Created</th>
                                                        <th style="text-align:center">Final</th>
@@ -259,7 +240,6 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
 		                                    <table class="tab" cellpadding="0" cellspacing="0" summary="">
 		                                        <tbody>
 		                                            <tr>
-		                                               <%--<th style="text-align:left;width:10%">File Name</th> --%>
 		                                               <th style="text-align:center">File Name</th>
 		                                               <th style="text-align:center">Description</th>
 		                                               <th style="text-align:center">Actions</th>
