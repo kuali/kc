@@ -25,8 +25,11 @@ import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public abstract class AbstractUnitAdministratorDerivedRoleTypeService extends DerivedRoleTypeServiceBase {
     
@@ -50,15 +53,15 @@ public abstract class AbstractUnitAdministratorDerivedRoleTypeService extends De
         List<RoleMembership> members = new ArrayList<RoleMembership>();
 
         String unitAdminTypeCode = getUnitAdministratorTypeCode(qualification);
-        List<? extends AbstractUnitAdministrator> unitAdministrators = getUnitAdministrators(qualification);
-        for (AbstractUnitAdministrator unitAdministrator : unitAdministrators) {
-            if ( StringUtils.isNotBlank(unitAdministrator.getPersonId()) &&
-                    (StringUtils.isBlank(unitAdminTypeCode) || StringUtils.equals(unitAdministrator.getUnitAdministratorTypeCode(), unitAdminTypeCode))) {
-                members.add( RoleMembership.Builder.create(null, null, unitAdministrator.getPersonId(), MemberType.PRINCIPAL, null).build() );
-            }
-        }
-            
-        return members;
+        return getUnitAdministrators(qualification).stream().filter(unitAdministrator -> {
+        	return StringUtils.isNotBlank(unitAdministrator.getPersonId()) &&
+                    (StringUtils.isBlank(unitAdminTypeCode) || StringUtils.equals(unitAdministrator.getUnitAdministratorTypeCode(), unitAdminTypeCode));
+        }).map(unitAdmin -> { return unitAdmin.getPersonId(); })
+        .distinct()
+        .map(adminId -> { 
+        	return RoleMembership.Builder.create(null, null, adminId, MemberType.PRINCIPAL, null).build(); 
+        }).collect(Collectors.toList());
+
     }
 
     /**
