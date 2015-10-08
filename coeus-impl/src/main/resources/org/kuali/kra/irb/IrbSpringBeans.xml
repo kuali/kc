@@ -1221,6 +1221,13 @@
         <property name="serviceName" value="printingService" />
     </bean>
 
+    <bean id="jdbcOperations" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="jdbcOperations" />
+    </bean>
+
+    <bean id="irbProjectRetrievalService" class="org.kuali.kra.irb.coi.IrbProjectRetrievalServiceImpl">
+        <property name="jdbcOperations" ref="jdbcOperations" />
+    </bean>
 </beans>
 
 

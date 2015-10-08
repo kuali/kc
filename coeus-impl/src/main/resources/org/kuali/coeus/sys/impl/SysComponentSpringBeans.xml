@@ -309,4 +309,8 @@
           class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
     </bean>
 
+    <bean id="jdbcOperations" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
 </beans>

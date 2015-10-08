@@ -1,6 +1,5 @@
 package org.kuali.coeus.award;
 
-import javafx.scene.transform.Scale;
 import org.kuali.coeus.award.finance.AccountStatus;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 

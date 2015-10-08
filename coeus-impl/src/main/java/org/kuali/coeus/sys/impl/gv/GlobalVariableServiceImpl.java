@@ -19,6 +19,8 @@
 package org.kuali.coeus.sys.impl.gv;
 
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.kns.util.MessageList;
 import org.kuali.rice.krad.util.AuditCluster;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.UserSession;
@@ -52,7 +54,17 @@ public class GlobalVariableServiceImpl implements GlobalVariableService {
     public void setMessageMap(MessageMap messageMap) {
         GlobalVariables.setMessageMap(messageMap);
     }
-    
+
+    @Override
+    public MessageList getMessageList() {
+        return KNSGlobalVariables.getMessageList();
+    }
+
+    @Override
+    public void setMessageList(MessageList messageList) {
+        KNSGlobalVariables.setMessageList(messageList);
+    }
+
     @Override
     public Map<String, AuditCluster> getAuditErrorMap() {
     	return GlobalVariables.getAuditErrorMap();
