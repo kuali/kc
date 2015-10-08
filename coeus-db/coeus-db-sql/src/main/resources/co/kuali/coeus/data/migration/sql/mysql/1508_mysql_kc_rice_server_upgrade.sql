@@ -19,4 +19,5 @@
 
 
 \. ./rice/bootstrap/V1508_007__fix_parms.sql
+\. ./rice/bootstrap/V1508_010__fin_rest_apis_params.sql
 commit;
