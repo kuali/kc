@@ -152,7 +152,7 @@ public class ProposalPersonRoleDaoImpl implements ProposalPersonRoleDao {
     private void updateProposalPersonRoleDescription(String roleCode, String shn, String description) {
         LOG.info("Updating Proposal Person Role with role code " + roleCode + " and sponsor hierarchy name " + shn + ". Setting description to " + description + ".");
 
-        Connection connection = connectionDaoService.getRiceConnection();
+        Connection connection = connectionDaoService.getCoeusConnection();
         try (PreparedStatement stmt = setString(3, shn,
                 setString(2, roleCode,
                 setString(1, description, connection.prepareStatement("UPDATE eps_prop_person_role SET DESCRIPTION = ? WHERE PROP_PERSON_ROLE_CODE = ? AND SPONSOR_HIERARCHY_NAME = ?"))))) {
@@ -166,7 +166,7 @@ public class ProposalPersonRoleDaoImpl implements ProposalPersonRoleDao {
         String flag = readOnly ? "Y" : "N";
 
         LOG.info("Updating Proposal Person Role with role code " + roleCode + " and sponsor hierarchy name " + shn + ". Setting read only to " + flag + ".");
-        Connection connection = connectionDaoService.getRiceConnection();
+        Connection connection = connectionDaoService.getCoeusConnection();
         try (PreparedStatement stmt = setString(3, shn,
                 setString(2, roleCode,
                         setString(1, flag, connection.prepareStatement("UPDATE eps_prop_person_role SET READ_ONLY_ROLE = ? WHERE PROP_PERSON_ROLE_CODE = ? AND SPONSOR_HIERARCHY_NAME = ?"))))) {

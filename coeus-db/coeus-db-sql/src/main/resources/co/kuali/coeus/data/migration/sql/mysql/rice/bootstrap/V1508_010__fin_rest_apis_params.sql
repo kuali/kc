@@ -14,19 +14,11 @@
 -- GNU Affero General Public License for more details.
 --
 -- You should have received a copy of the GNU Affero General Public License
--- along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-- along with this program.  If not, see <http://www.gnu.org/lincenses/>.
 --
 
-\. ./kc/bootstrap/V601_001__KC_TBL_EPS_PROP_PERSON.sql
-\. ./kc/bootstrap/V601_002__KC_DML_KRACOEUS-6639.sql
-\. ./kc/bootstrap/V601_003__Resolve_Repackaging_Db_Issues.sql
-\. ./kc/bootstrap/V601_007__KRACOEUS-8814.sql
-\. ./kc/bootstrap/V601_011__KRACOEUS-8454.sql
-\. ./kc/bootstrap/V601_013__KRACOEUS-8866.sql
-\. ./kc/bootstrap/V601_017__KRACOEUS-8864.sql
-\. ./kc/bootstrap/V601_019__KRACOEUS-8896.sql
-\. ./kc/bootstrap/V601_024__KRACOEUS-8868.sql
-\. ./kc/bootstrap/V601_025__KRACOUES-8839.sql
-\. ./kc/bootstrap/V601_026__KRACOUES-8839.sql
-\. ./kc/bootstrap/V601_027__expand_blob_columns.sql
-commit;
+INSERT INTO KRCR_PARM_T(NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID)
+VALUES ('KC-AWARD','All','ENABLE_FINANCIAL_REST_API',UUID(),1,'CONFG','false','This parameter is used to enable / disable the financial REST APIs. These ','A','KC');
+
+INSERT INTO KRCR_PARM_T(NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID)
+VALUES ('KC-AWARD','All','DISPLAY_ACCOUNT_BALANCES',UUID(),1,'CONFG','false','This parameter is used to determine if the account balances for an account should show up in the aaward.','A','KC');

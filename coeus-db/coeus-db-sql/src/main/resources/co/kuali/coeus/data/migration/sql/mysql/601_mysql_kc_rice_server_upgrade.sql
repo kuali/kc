@@ -21,7 +21,6 @@
 \. ./rice/bootstrap/V601_004__Resolve_Repackaging_Db_Issues.sql
 \. ./rice/bootstrap/V601_009__Auto_Ingestion.sql
 \. ./rice/bootstrap/V601_010__KRACOEUS-8837.sql
-\. ./rice/bootstrap/V601_011__KRACOEUS-8454.sql
 \. ./rice/bootstrap/V601_012__Fix_Duplicate_KEW_Docs.sql
 \. ./rice/bootstrap/V601_015__KRACOEUS-8855.sql
 \. ./rice/bootstrap/V601_018__KRACOEUS-8890.sql
