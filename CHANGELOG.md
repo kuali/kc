@@ -1,6 +1,15 @@
 
 
 ##CURRENT
+* IRB Agenda template missing meeting date in Heading and
+  * displays the previous meeting date instead of next meeting date in Next
+  * Meeting item.
+  * In the out of the box template IRB agenda template:
+  * -The date of the meeting should be displayed in the header
+  * -The date displayed as the next meeting should be the next scheduled
+  * meeting not the previous meeting date:  * vineeth on Wed, 7 Oct 2015 14:42:56 -0400 [View Commit](../../commit/a1002bd42127e40a05d99226715888757f7def8b)
+
+##coeus-1510.10
 * No Changes
 
 
