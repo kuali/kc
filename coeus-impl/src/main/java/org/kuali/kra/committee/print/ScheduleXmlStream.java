@@ -479,7 +479,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
     }
 
     public void setPreviousSchedule(CommitteeSchedule scheduleDetailsBean,ScheduleMasterData scheduleMasterDataType) {
-        CommitteeSchedule prevSchedule = getNextOrPreviousSchedule(scheduleDetailsBean, true);
+        CommitteeSchedule prevSchedule = getNextOrPreviousSchedule(scheduleDetailsBean, false);
         if (prevSchedule != null){
             setScheduleMasterData(prevSchedule, scheduleMasterDataType);
         }
@@ -497,7 +497,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
         Map<String, String> scheduleParam = new HashMap<String, String>();
         scheduleParam.put("committeeIdFk", scheduleDetailsBean.getParentCommittee().getId().toString());
         List<CommitteeSchedule> schedules = (List) getBusinessObjectService().findMatchingOrderBy(CommitteeSchedule.class, 
-                scheduleParam, "scheduledDate", false);
+                scheduleParam, "scheduledDate", true);
         if (!schedules.isEmpty()) {
             int size = schedules.size();
             for (int i = 0; i < size; i++) {
