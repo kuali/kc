@@ -1279,6 +1279,14 @@
     </bean>
 
     <bean id="iacucReviewDeterminationTypeLookupableHelperService" class="org.kuali.kra.iacuc.onlinereview.IacucReviewDeterminationTypeLookupableHelperServiceImpl" 
-          parent="parentLookupableHelperService" scope="prototype" />       
+          parent="parentLookupableHelperService" scope="prototype" />
+
+    <bean id="jdbcOperations" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="jdbcOperations" />
+    </bean>
+
+    <bean id="iacucProjectRetrievalService" class="org.kuali.kra.iacuc.coi.IacucProjectRetrievalServiceImpl">
+        <property name="jdbcOperations" ref="jdbcOperations" />
+    </bean>
 
 </beans>

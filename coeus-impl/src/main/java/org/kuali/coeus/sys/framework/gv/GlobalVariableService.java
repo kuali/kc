@@ -18,6 +18,7 @@
  */
 package org.kuali.coeus.sys.framework.gv;
 
+import org.kuali.rice.kns.util.MessageList;
 import org.kuali.rice.krad.util.AuditCluster;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.MessageMap;
@@ -35,6 +36,12 @@ public interface GlobalVariableService {
     MessageMap getMessageMap();
 
     void setMessageMap(MessageMap messageMap);
+
+    @SuppressWarnings("deprecation")
+    MessageList getMessageList();
+
+    @SuppressWarnings("deprecation")
+    void setMessageList(MessageList messageList);
     
     Map<String, AuditCluster> getAuditErrorMap();
     

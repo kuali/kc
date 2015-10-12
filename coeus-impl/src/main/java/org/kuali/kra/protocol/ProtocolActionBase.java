@@ -67,7 +67,7 @@ import org.kuali.rice.krad.util.KRADUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
-import java.util.stream.Collectors;
+
 
 /**
  * The ProtocolActionBase is the base class for all ProtocolBase actions.  Each derived
@@ -238,26 +238,6 @@ public abstract class ProtocolActionBase extends KcTransactionalDocumentActionBa
     
     }
 
-    protected Project createProject(ProtocolDocumentBase document) {
-        final Project project = new Project();
-        project.setTitle(document.getProtocol().getTitle());
-        project.setTypeCode(getProjectTypeCode().getId());
-        project.setSourceSystem(getSourceSystem());
-        project.setSourceIdentifier(document.getProtocol().getProtocolNumber());
-        project.setSourceStatus(document.getProtocol().getProtocolStatusCode() != null ? document.getProtocol().getProtocolStatusCode().toString() : null);
-        project.setPersons(document.getProtocol().getProtocolPersons()
-                .stream()
-                .map(person -> new ProjectPerson(person.getPersonId(), person.getRoleCode()))
-                .collect(Collectors.toList()));
-        project.setStartDate(document.getProtocol().getApplicationDate());
-        project.setEndDate(document.getProtocol().getExpirationDate());
-
-        return project;
-    }
-
-    protected abstract ProjectTypeCode getProjectTypeCode();
-    protected abstract String getSourceSystem();
-
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
         throws Exception {
@@ -275,7 +255,7 @@ public abstract class ProtocolActionBase extends KcTransactionalDocumentActionBa
                 this.preSave(mapping, form, request, response);
                 actionForward = super.save(mapping, form, request, response);
                 this.postSave(mapping, form, request, response);
-                getProjectPublisher().publishProject(createProject(protocolForm.getProtocolDocument()));
+                getProjectPublisher().publishProject(getProjectRetrievalService().retrieveProject(protocolForm.getProtocolDocument().getProtocol().getProtocolId().toString()));
 
                 if (KRADConstants.SAVE_METHOD.equals(protocolForm.getMethodToCall()) && protocolForm.isAuditActivated() 
                         && GlobalVariables.getMessageMap().hasNoErrors()) {
@@ -812,4 +792,5 @@ public abstract class ProtocolActionBase extends KcTransactionalDocumentActionBa
         this.projectPublisher = projectPublisher;
     }
 
+    public abstract ProjectRetrievalService getProjectRetrievalService();
 }

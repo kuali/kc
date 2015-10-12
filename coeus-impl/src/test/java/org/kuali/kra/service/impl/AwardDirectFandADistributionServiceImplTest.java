@@ -24,9 +24,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.award.service.impl.AwardAmountInfoSetUpTestBase;
 import org.kuali.kra.award.service.impl.AwardDirectFandADistributionServiceImpl;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
+import org.kuali.rice.kns.util.MessageList;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.AuditCluster;
 import org.kuali.rice.krad.util.MessageMap;
@@ -119,6 +119,16 @@ public class AwardDirectFandADistributionServiceImplTest extends AwardDirectFand
 
         @Override
         public void setMessageMap(MessageMap messageMap) {
+
+        }
+
+        @Override
+        public MessageList getMessageList() {
+            return null;
+        }
+
+        @Override
+        public void setMessageList(MessageList messageList) {
 
         }
 

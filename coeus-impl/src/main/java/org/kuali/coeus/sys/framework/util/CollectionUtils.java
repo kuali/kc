@@ -21,6 +21,8 @@ package org.kuali.coeus.sys.framework.util;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
 
 import java.util.*;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * Yet another collection utility.  Contains methods that are not found in the apache util classes or the
@@ -105,6 +107,28 @@ public final class CollectionUtils {
         } else {
             return new ArrayList<>();
         }
+    }
+
+    /**
+     * Creates an entry from a key and value.
+     * @param key the key. Can be null.
+     * @param value the value.  Can be null.
+     * @param <K> the key type
+     * @param <V> the value type
+     * @return a Map.Entry
+     */
+    public static <K, V> Map.Entry<K, V> entry(K key, V value) {
+        return new AbstractMap.SimpleEntry<K, V>(key, value);
+    }
+
+    /**
+     * Convenience method to a return a Collector that converts an Map.Entry to a Map.
+     * @param <K> the key type
+     * @param <U> the value type
+     * @return A Collector from Map.Entry to Map
+     */
+    public static <K, U> Collector<Map.Entry<K, U>, ?, Map<K, U>> entriesToMap() {
+        return Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue);
     }
 
 }

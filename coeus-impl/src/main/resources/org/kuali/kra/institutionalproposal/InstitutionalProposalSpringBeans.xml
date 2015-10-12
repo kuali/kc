@@ -334,4 +334,8 @@
         <property name="serviceName" value="kualiConfigurationService" />
     </bean>
 
+    <bean id="jdbcOperations" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="jdbcOperations" />
+    </bean>
+
 </beans>

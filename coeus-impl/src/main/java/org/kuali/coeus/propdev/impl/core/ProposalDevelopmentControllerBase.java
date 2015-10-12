@@ -82,7 +82,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public abstract class ProposalDevelopmentControllerBase {
 
@@ -192,6 +191,10 @@ public abstract class ProposalDevelopmentControllerBase {
     @Qualifier("dateTimeService")
     private DateTimeService dateTimeService;
 
+    @Autowired
+    @Qualifier("propDevProjectRetrievalService")
+    private ProjectRetrievalService projectRetrievalService;
+
     private ProjectPublisher projectPublisher;
 
     public ProjectPublisher getProjectPublisher() {
@@ -245,25 +248,6 @@ public abstract class ProposalDevelopmentControllerBase {
              proposalDevelopmentDocument.setDefaultDocumentDescription();
          }
      }
-
-    protected Project createProject(ProposalDevelopmentDocument document) {
-        final Project project = new Project();
-        project.setTitle(document.getDevelopmentProposal().getTitle());
-        project.setTypeCode(ProjectTypeCode.PROPOSAL.getId());
-        project.setSourceSystem(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT);
-        project.setSourceIdentifier(document.getDevelopmentProposal().getProposalNumber());
-        project.setSourceStatus(document.getDevelopmentProposal().getProposalStateTypeCode());
-        project.setPersons(document.getDevelopmentProposal().getProposalPersons()
-                .stream()
-                .map(person -> new ProjectPerson(person.getPersonId(), person.getRoleCode()))
-                .collect(Collectors.toList()));
-        project.setSponsorCode(document.getDevelopmentProposal().getSponsorCode());
-        project.setSponsorName(document.getDevelopmentProposal().getSponsor() != null ? document.getDevelopmentProposal().getSponsor().getSponsorName() : null);
-        project.setStartDate(document.getDevelopmentProposal().getRequestedStartDateInitial());
-        project.setEndDate(document.getDevelopmentProposal().getRequestedEndDateInitial());
-
-        return project;
-    }
 
      public ModelAndView save(ProposalDevelopmentDocumentForm form, BindingResult result,
              HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -332,7 +316,7 @@ public abstract class ProposalDevelopmentControllerBase {
                  }
              }
          }
-         getProjectPublisher().publishProject(createProject(form.getProposalDevelopmentDocument()));
+         getProjectPublisher().publishProject(getProjectRetrievalService().retrieveProject(form.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalNumber()));
 
          return view;
      }
@@ -373,7 +357,7 @@ public abstract class ProposalDevelopmentControllerBase {
                  }
              }
          }
-         getProjectPublisher().publishProject(createProject(pdForm.getProposalDevelopmentDocument()));
+         getProjectPublisher().publishProject(getProjectRetrievalService().retrieveProject(pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalNumber()));
 
          return view;
      }
@@ -936,5 +920,13 @@ public abstract class ProposalDevelopmentControllerBase {
 
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
+    }
+
+    public ProjectRetrievalService getProjectRetrievalService() {
+        return projectRetrievalService;
+    }
+
+    public void setProjectRetrievalService(ProjectRetrievalService projectRetrievalService) {
+        this.projectRetrievalService = projectRetrievalService;
     }
 }

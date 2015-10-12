@@ -20,7 +20,13 @@ package org.kuali.coeus.sys.framework.service;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.resourceloader.ResourceLoader;
+import org.kuali.rice.core.framework.resourceloader.SpringResourceLoader;
 import org.springframework.context.ApplicationContext;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Service locator used for research administration.
@@ -108,4 +114,30 @@ public final class KcServiceLocator {
         return KcServiceLocator.<T>getService(name);
     }
 
+    /**
+     * Retrieves all services from Spring that is of a specific type or subclass of.
+     *
+     * @param serviceClass the class type
+     * @param <T> the generic type
+     * @return a list of services of a type or subclass of
+     */
+    public static <T> List<T> getServicesOfType(final Class<T> serviceClass) {
+        if (serviceClass == null) {
+            throw new IllegalArgumentException("the service class is null.");
+        }
+
+        return Stream.concat(
+                appContext.getBeansOfType(serviceClass).values().stream(),
+                flatten(GlobalResourceLoader.getResourceLoader())
+                        .filter(rl -> rl instanceof SpringResourceLoader)
+                        .map(rl ->  (SpringResourceLoader) rl )
+                        .flatMap(rl -> rl.getContext().getBeansOfType(serviceClass).values().stream()))
+        .collect(Collectors.toList());
+    }
+
+    private static Stream<ResourceLoader> flatten(ResourceLoader root) {
+        return Stream.concat(
+                Stream.of(root),
+                root.getResourceLoaders().stream().flatMap(KcServiceLocator::flatten));
+    }
 }

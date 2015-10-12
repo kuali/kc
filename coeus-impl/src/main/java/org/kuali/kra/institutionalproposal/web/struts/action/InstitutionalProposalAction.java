@@ -19,7 +19,6 @@
 package org.kuali.kra.institutionalproposal.web.struts.action;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -68,6 +67,7 @@ public class InstitutionalProposalAction extends KcTransactionalDocumentActionBa
 
     private KcNotificationService notificationService;
     private ProjectPublisher projectPublisher;
+    private ProjectRetrievalService projectRetrievalService;
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -159,25 +159,6 @@ public class InstitutionalProposalAction extends KcTransactionalDocumentActionBa
         return KcServiceLocator.getService(KcPersonService.class);
     }
 
-    protected Project createProject(InstitutionalProposalDocument document) {
-        final Project project = new Project();
-        project.setTitle(document.getInstitutionalProposal().getTitle());
-        project.setTypeCode(ProjectTypeCode.INSTITUTIONAL_PROPOSAL.getId());
-        project.setSourceSystem(Constants.MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL);
-        project.setSourceIdentifier(document.getInstitutionalProposal().getProposalNumber());
-        project.setSourceStatus(document.getInstitutionalProposal().getStatusCode() != null ? document.getInstitutionalProposal().getStatusCode().toString() : null);
-        project.setPersons(document.getInstitutionalProposal().getProjectPersons()
-                .stream()
-                .map(person -> new ProjectPerson(person.getPersonId(), person.getRoleCode()))
-                .collect(Collectors.toList()));
-        project.setSponsorCode(document.getInstitutionalProposal().getSponsorCode());
-        project.setSponsorName(document.getInstitutionalProposal().getSponsor() != null ? document.getInstitutionalProposal().getSponsor().getSponsorName() : null);
-        project.setStartDate(document.getInstitutionalProposal().getRequestedStartDateInitial());
-        project.setEndDate(document.getInstitutionalProposal().getRequestedEndDateInitial());
-
-        return project;
-    }
-
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -187,7 +168,9 @@ public class InstitutionalProposalAction extends KcTransactionalDocumentActionBa
                 forward = mapping.findForward(Constants.MAPPING_INSTITUTIONAL_PROPOSAL_ACTIONS_PAGE);
             }
 
-        getProjectPublisher().publishProject(createProject(institutionalProposalForm.getInstitutionalProposalDocument()));
+        getProjectPublisher().publishProject(
+                getProjectRetrievalService().retrieveProject(
+                        institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal().getProposalNumber()));
 
         return forward;
     }
@@ -475,5 +458,15 @@ public class InstitutionalProposalAction extends KcTransactionalDocumentActionBa
         this.projectPublisher = projectPublisher;
     }
 
+    public ProjectRetrievalService getProjectRetrievalService() {
+        if (projectRetrievalService == null) {
+            projectRetrievalService = KcServiceLocator.getService("instPropProjectRetrievalService");
+        }
 
+        return projectRetrievalService;
+    }
+
+    public void setProjectRetrievalService(ProjectRetrievalService projectRetrievalService) {
+        this.projectRetrievalService = projectRetrievalService;
+    }
 }
