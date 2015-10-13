@@ -19,6 +19,10 @@
 
 package org.kuali.coeus.common.questionnaire.impl;
 
+import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
+
+import java.util.List;
+
 /**
  * @author Kuali Rice Team (rice.collab@kuali.org)
  */
@@ -32,4 +36,6 @@ public interface QuestionnaireDao {
      */
     public Integer getCurrentQuestionnaireSequenceNumber(String questionnaireSeqId);
 
-}
+    public List<AnswerHeader> getQuestionnaireAnswers(String moduleCode, String moduleItemKey, String moduleSubItemKey);
+
+    }
