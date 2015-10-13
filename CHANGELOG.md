@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+*  Adding certification questions to KRMS
+  * User needs to make a proposition in KRMS that will allow user to specify if a proposal key person has answered a specific question. The function should allow user to specify results that are = value, != value, =null, =!null
+  * This should be set up similar to the current KRMS Category for Questionnaire where the user can specify the Question and the Questionnaire being used; only this function will check the multiple occurrences (for each person listed in a proposal) that happen for a person certification questionnaire.
+  * Gayathri Athreya on Tue, 13 Oct 2015 14:48:01 -0700 [View Commit](../../commit/42fbb79fcff991254d58948ac482d52cb6060024)
+
+##coeus-1510.15
 *  Fixing address book STE
   * User receives STE when trying to create new address book entry.
   * Steps to recreate:
