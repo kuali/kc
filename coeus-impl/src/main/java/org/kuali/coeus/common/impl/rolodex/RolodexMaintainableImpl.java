@@ -47,6 +47,7 @@ import org.springframework.stereotype.Component;
 import javax.sql.DataSource;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Component("rolodexMaintainableImpl")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
@@ -123,8 +124,12 @@ public class RolodexMaintainableImpl extends KraMaintainableImpl {
 
     protected List<KeyValue> getFieldValues(String alternateCode) {
         StateValuesFinder valuesFinder = new StateValuesFinder();
-        Country country = this.getCountryService().getCountryByAlternateCode(alternateCode);
-        valuesFinder.setCountryCode(country.getCode());
+        if (Objects.nonNull(alternateCode)) {
+            Country country = this.getCountryService().getCountryByAlternateCode(alternateCode);
+            valuesFinder.setCountryCode(country.getCode());
+        } else {
+            valuesFinder.setCountryCode("");
+        }
         return valuesFinder.getKeyValues();
     }
 
