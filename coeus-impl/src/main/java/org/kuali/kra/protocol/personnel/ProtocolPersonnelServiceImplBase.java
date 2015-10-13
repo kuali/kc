@@ -28,6 +28,7 @@ import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnelBase;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 
@@ -44,6 +45,7 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
     private ProtocolPersonTrainingService protocolPersonTrainingService;
     private KcPersonService kcPersonService;
     private UnitService unitService;
+    private ParameterService parameterService;
     
     protected PersonEditableService personEditableService;
     
@@ -162,6 +164,7 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
     }
     
     protected abstract ProtocolUnitBase createNewProtocolUnitInstanceHook();
+    protected abstract boolean isDuplicatePersonAllowed();
 
 
     @Override
@@ -396,9 +399,11 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
     @Override
     public boolean isDuplicatePerson(List<ProtocolPersonBase> protocolPersons, ProtocolPersonBase newProtocolPerson) {
         boolean duplicatePerson = false;
-        for(ProtocolPersonBase protocolPerson : protocolPersons) {
-            if(protocolPerson.getPersonUniqueKey().equalsIgnoreCase(newProtocolPerson.getPersonUniqueKey())) {
-                duplicatePerson = true;
+        if(!isDuplicatePersonAllowed()) {
+            for(ProtocolPersonBase protocolPerson : protocolPersons) {
+                if(protocolPerson.getPersonUniqueKey().equalsIgnoreCase(newProtocolPerson.getPersonUniqueKey())) {
+                    duplicatePerson = true;
+                }
             }
         }
         return duplicatePerson;
@@ -694,4 +699,14 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
         }
 
     }
+
+
+	public ParameterService getParameterService() {
+		return parameterService;
+	}
+
+
+	public void setParameterService(ParameterService parameterService) {
+		this.parameterService = parameterService;
+	}
 }
