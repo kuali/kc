@@ -1,6 +1,17 @@
 
 
 ##CURRENT
+*  Fixing address book STE
+  * User receives STE when trying to create new address book entry.
+  * Steps to recreate:
+  * 1. Select the System Admin tab
+  * 2. Select Maintenance
+  * 3. Select Address Book
+  * 4. Click Create New
+  * STE displays – see full STE added to comments.
+  * Gayathri Athreya on Tue, 13 Oct 2015 13:18:31 -0700 [View Commit](../../commit/55530c28c654476e0b41cea49e037c9cd67b57e0)
+
+##coeus-1510.14
 * No Changes
 
 
