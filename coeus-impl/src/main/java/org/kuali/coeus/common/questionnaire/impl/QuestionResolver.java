@@ -34,6 +34,7 @@ public class QuestionResolver implements TermResolver<Object> {
     private String outputName;
     private Set<String> prereqs;
     private Set<String> params;
+    private QuestionnaireDao questionnaireDao;
     
     public QuestionResolver(String outputName, Set<String> params) {
         this.outputName = outputName;
@@ -71,7 +72,7 @@ public class QuestionResolver implements TermResolver<Object> {
         String moduleCode = (String) resolvedPrereqs.get(QuestionnaireConstants.MODULE_CODE);
         String moduleItemKey = (String) resolvedPrereqs.get(QuestionnaireConstants.MODULE_ITEM_KEY);
         String moduleSubItemKey = resolvedPrereqs.get(QuestionnaireConstants.MODULE_SUB_ITEM_KEY).toString();
-        List<AnswerHeader> answerHeaders = getQuestionnaireAnswers(moduleCode, moduleItemKey, moduleSubItemKey);
+        List<AnswerHeader> answerHeaders = getQuestionnaireDao().getQuestionnaireAnswers(moduleCode, moduleItemKey, moduleSubItemKey);
         for (AnswerHeader answerHeader : getLatestAnswerVersions(answerHeaders)) {
             if (answerHeader.getQuestionnaire().getQuestionnaireSeqId().equals(questionnaireId)) {
                 for (Answer answer : answerHeader.getAnswers()) {
@@ -95,13 +96,11 @@ public class QuestionResolver implements TermResolver<Object> {
         return latestAnswerHeaders.values();
     }
 
-    protected List<AnswerHeader> getQuestionnaireAnswers(String moduleCode, String moduleItemKey, String moduleSubItemKey) {
-        BusinessObjectService boService = KcServiceLocator.getService(BusinessObjectService.class);
-        Map<String, String> fieldValues = new HashMap<>();
-        fieldValues.put(QuestionnaireConstants.MODULE_ITEM_CODE, moduleCode);
-        fieldValues.put(QuestionnaireConstants.MODULE_ITEM_KEY, moduleItemKey);
-        fieldValues.put(QuestionnaireConstants.MODULE_SUB_ITEM_KEY, moduleSubItemKey);
-        return (List<AnswerHeader>) boService.findMatching(AnswerHeader.class, fieldValues);
+    public QuestionnaireDao getQuestionnaireDao() {
+        if (questionnaireDao == null) {
+            questionnaireDao = KcServiceLocator.getService(QuestionnaireDao.class);
+        }
+        return questionnaireDao;
     }
 
 }
