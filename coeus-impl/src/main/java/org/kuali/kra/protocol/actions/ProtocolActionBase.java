@@ -34,6 +34,7 @@ import org.kuali.kra.protocol.questionnaire.ProtocolSubmissionQuestionnaireHelpe
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -131,8 +132,7 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
         setProtocol(protocol);
         createUser = GlobalVariables.getUserSession().getPrincipalName();
         createTimestamp = new Timestamp(Calendar.getInstance().getTimeInMillis());
-
-//        createTimestamp = ((DateTimeService) KcServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp();
+    	protocolCorrespondences = new ArrayList<ProtocolCorrespondence>();
     }
     
 
