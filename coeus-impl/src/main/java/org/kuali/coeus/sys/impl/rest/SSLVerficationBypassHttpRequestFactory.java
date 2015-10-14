@@ -28,6 +28,7 @@ public class SSLVerficationBypassHttpRequestFactory extends SimpleClientHttpRequ
 			});
 			((HttpsURLConnection) connection).setSSLSocketFactory(trustSelfSignedSSLContext().getSocketFactory());
 		}
+		super.prepareConnection(connection, httpMethod);
 	}
 	
 	final private SSLContext trustSelfSignedSSLContext() {

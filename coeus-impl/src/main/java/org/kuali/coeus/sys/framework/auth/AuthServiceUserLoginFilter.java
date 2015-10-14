@@ -6,7 +6,7 @@ import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.web.filter.UserLoginFilter;
 
 public class AuthServiceUserLoginFilter extends UserLoginFilter {
-
+	
 	@Override
 	public void updateUserSession(UserSession userSession, HttpServletRequest request) {
 		if (userSession != null) {

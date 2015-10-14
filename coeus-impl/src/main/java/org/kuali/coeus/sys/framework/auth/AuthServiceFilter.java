@@ -21,6 +21,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.net.util.Base64;
+import org.kuali.coeus.sys.framework.rest.AuthServiceRestUtilService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.springframework.http.HttpEntity;
@@ -43,7 +44,6 @@ public class AuthServiceFilter implements Filter {
 	private static final String ACCESS_DENIED_MESSAGE = "Access Denied";
 	private static final String AUTHORIZATION_PREFIX = "Bearer ";
 	private static final String AUTHORIZATION_HEADER_NAME = "Authorization";
-	private static final String KUALICO_VERSION_1_MEDIA_TYPE = "application/vnd.kuali.v1+json";
 	private static final String AUTH_TOKEN_COOKIE_NAME = "authToken";
 	private static final String AUTH_RETURN_TO = "/auth?return_to=";
 	private static final String KC_REST_ADMIN_PASSWORD = "kc.rest.admin.password";
@@ -147,16 +147,14 @@ public class AuthServiceFilter implements Filter {
 		} else {
 			request.getSession().removeAttribute(AUTH_SERVICE_FILTER_AUTHED_USER_ATTR);
 		}
-		HttpHeaders headers = new HttpHeaders();
-		headers.setAccept(Arrays.asList(MediaType.parseMediaType(KUALICO_VERSION_1_MEDIA_TYPE)));
-		headers.set(AUTHORIZATION_HEADER_NAME, AUTHORIZATION_PREFIX + authTokenValue);
 		
 		String currentGetUserUrl = getCurrentUserUrl;
 		if (!currentGetUserUrl.startsWith("http")) {
 			currentGetUserUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + currentGetUserUrl;
 		}
 		
-		ResponseEntity<AuthUser> result = getRestTemplate().exchange(currentGetUserUrl, HttpMethod.GET, new HttpEntity<String>(headers), AuthUser.class);
+		ResponseEntity<AuthUser> result = getRestTemplate().exchange(currentGetUserUrl, HttpMethod.GET, 
+				new HttpEntity<String>(getAuthServiceRestUtilService().getAuthServiceStyleHttpHeadersForToken("1", authTokenValue)), AuthUser.class);
 		
 		authedUser = result.getBody();
 		if (authedUser != null) {
@@ -173,6 +171,10 @@ public class AuthServiceFilter implements Filter {
 
 	protected RestTemplate getRestTemplate() {
 		return KcServiceLocator.getService("consumerRestOperations");
+	}
+	
+	protected AuthServiceRestUtilService getAuthServiceRestUtilService() {
+		return KcServiceLocator.getService(AuthServiceRestUtilService.class);
 	}
 
 	@Override

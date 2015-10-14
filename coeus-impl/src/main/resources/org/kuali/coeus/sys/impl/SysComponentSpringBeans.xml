@@ -316,6 +316,11 @@
 		<property name="requestFactory">
 			<bean class="org.kuali.coeus.sys.impl.rest.SSLVerficationBypassHttpRequestFactory" />
 		</property>
+		<property name="interceptors">
+			<list>
+				<bean class="org.kuali.coeus.sys.impl.rest.LoggingRequestInterceptor"/>
+			</list>
+		</property>
 	</bean>
 
     <bean id="activeMqMessageLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">

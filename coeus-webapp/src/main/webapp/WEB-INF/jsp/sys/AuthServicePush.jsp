@@ -17,15 +17,7 @@
    - along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<kul:page headerTitle="Auth Service User Push" docTitle="" transactionalDocument="false"
+          htmlFormAction="authServicePush">
 
-<channel:portalChannelTop channelTitle="Miscellaneous"/>
-<div class="body">
-
-   <ul class="chan">
-      <li><a href="${ConfigProperties.application.url}/coiProject.do?methodToCall=publishAll" title="Project Push To COI">Project Push To COI</a></li>
-      <li><a href="${ConfigProperties.application.url}/authServicePush.do?methodToCall=pushAll" title="Push Users to the Core Auth Service">Push Users to the Core Auth Service</a></li>
-      <li><a href="${ConfigProperties.krad.url}/core/admin/cache?viewId=CacheAdmin-view1&methodToCall=start" title="Cache Admin">Cache Admin</a></li>
-   </ul>
-
-</div>
-<channel:portalChannelBottom/>
+</kul:page>

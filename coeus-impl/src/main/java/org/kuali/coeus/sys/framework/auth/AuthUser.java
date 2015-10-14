@@ -3,33 +3,54 @@ package org.kuali.coeus.sys.framework.auth;
 import java.io.Serializable;
 import java.time.Instant;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 @SuppressWarnings("serial")
 @JsonIgnoreProperties(ignoreUnknown = true)
-class AuthUser implements Serializable {
+public class AuthUser implements Serializable {
 	
 	private String id;
+	private String schoolId;
 	private String name;
 	private String username;
 	private String email;
+	private String phone;
 	private String role;
-	private String displayName;
+	private String firstName;
+	private String lastName;
+	private String password;
 	
 	@JsonIgnore
 	private String authToken;
 	@JsonIgnore
 	private Instant lastValidated;
+	@JsonIgnore
+	private boolean active = true;
 	
 	public AuthUser() { 
 		super();
 		lastValidated = Instant.now();
 	}
 	
+	@JsonProperty
+	public String getPassword() {
+		return password;
+	}
+
+	@JsonIgnore
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	@JsonIgnore
 	public String getId() {
 		return id;
 	}
+	
+	@JsonProperty
 	public void setId(String id) {
 		this.id = id;
 	}
@@ -57,26 +78,69 @@ class AuthUser implements Serializable {
 	public void setRole(String role) {
 		this.role = role;
 	}
-	public String getDisplayName() {
-		return displayName;
-	}
-	public void setDisplayName(String displayName) {
-		this.displayName = displayName;
-	}
-
 	public String getAuthToken() {
 		return authToken;
 	}
-
 	public void setAuthToken(String authToken) {
 		this.authToken = authToken;
 	}
-
 	public Instant getLastValidated() {
 		return lastValidated;
 	}
-
 	public void setLastValidated(Instant lastValidated) {
 		this.lastValidated = lastValidated;
+	}
+	public String getFirstName() {
+		return firstName;
+	}
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	public String getLastName() {
+		return lastName;
+	}
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public boolean equals(Object obj) {
+		if (obj == null) { return false; }
+		if (obj == this) { return true; }
+		if (obj.getClass() != getClass()) {
+		return false;
+		}
+		AuthUser rhs = (AuthUser) obj;
+		return new EqualsBuilder()
+			.append(schoolId, rhs.schoolId)
+			.append(name, rhs.name)
+			.append(username, rhs.username)
+			.append(email, rhs.email)
+			.append(phone, rhs.phone)
+			.append(role, rhs.role)
+			.append(firstName, rhs.firstName)
+			.append(lastName, rhs.lastName)
+			.isEquals();
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	public String getSchoolId() {
+		return schoolId;
+	}
+
+	public void setSchoolId(String schoolId) {
+		this.schoolId = schoolId;
 	}
 }
