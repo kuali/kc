@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* Date qualify the standard workflow
+
+  * Add create date qualification to the new standard workflow so that the date it is implemented it will only affect new proposals and not existing ones and therefore end up with duplicate workflow requests.
+  * blackcathacker on Thu, 8 Oct 2015 13:20:51 -0700 [View Commit](../../commit/a9da4668f3dbce0b049a5901e6b8ad8485dee514)
+
+##coeus-1510.22
 *  implementing a full project push for all modules to COI, removing incorrect and not necessary join
   * Travis Schneeberger on Wed, 14 Oct 2015 15:25:50 -0400 [View Commit](../../commit/957aaee7aa5f48e7d12a2dbe211b965e08fb00c6)
 
