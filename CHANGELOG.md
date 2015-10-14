@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1510.19
 * Existing protocols where user has more than one role in a Protocol cannot be submitted or edited.
   * MIT, and other Coeus schools are experiencing problems with migrated IRB data because Kuali research restricts a Protocol person to only one role.
   * Testing this case, there is no issue with migrated protocols where same user has multiple roles.
