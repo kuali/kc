@@ -24,4 +24,5 @@ spool 1510_oracle_kc_rice_server_upgrade.sql.log
 @./rice/bootstrap/V1510_001__RESKC-771-CanadianProvinces.sql
 @./rice/bootstrap/V1510_002__RESOPS-373.sql
 @./rice/bootstrap/V1510_007__project_push_auth.sql
+@./rice/bootstrap/V1510_008__RESKC-909-ProtocolDuplicatePersonAllowed.sql
 commit;

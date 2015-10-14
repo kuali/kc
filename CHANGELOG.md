@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* Existing protocols where user has more than one role in a Protocol cannot be submitted or edited.
+  * MIT, and other Coeus schools are experiencing problems with migrated IRB data because Kuali research restricts a Protocol person to only one role.
+  * Testing this case, there is no issue with migrated protocols where same user has multiple roles.
+  * Currently add personnel does not let user add same person with multiple roles. This is now driven by parameter where
+schools can enable duplicate personnel with different roles. Application does not allow multiple investigators.
+  * rmancher on Tue, 13 Oct 2015 14:46:48 -0400 [View Commit](../../commit/ca502a8f482278bdbf897288c5485f995d0798b7)
+
+##coeus-1510.18
 * No Changes
 
 
