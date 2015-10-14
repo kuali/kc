@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+*  implementing a full project push for all modules to COI, removing incorrect and not necessary join
+  * Travis Schneeberger on Wed, 14 Oct 2015 15:25:50 -0400 [View Commit](../../commit/957aaee7aa5f48e7d12a2dbe211b965e08fb00c6)
+
+##coeus-1510.21
 * IRB - Unable to see Deferred Letter in Protocol History for a production protocols - due to versioning
   * This is to fix NPE when protocol is submitted for full board, assigned to agenda and defer action is performed.
   * Correspondence is null in above case.
