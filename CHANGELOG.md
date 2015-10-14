@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* IRB - Unable to see Deferred Letter in Protocol History for a production protocols - due to versioning
+  * This is to fix NPE when protocol is submitted for full board, assigned to agenda and defer action is performed.
+  * Correspondence is null in above case.
+  * rmancher on Wed, 14 Oct 2015 11:39:07 -0400 [View Commit](../../commit/29ed69db8e95c961a8a921b1bfcc824b5b6361f9)
+
+##coeus-1510.20
 * No Changes
 
 
