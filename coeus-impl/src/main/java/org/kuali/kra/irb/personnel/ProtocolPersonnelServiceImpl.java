@@ -20,6 +20,7 @@ package org.kuali.kra.irb.personnel;
 
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.personnel.*;
@@ -72,4 +73,9 @@ public class ProtocolPersonnelServiceImpl extends ProtocolPersonnelServiceImplBa
             }
         }
     }
+
+	@Override
+	protected boolean isDuplicatePersonAllowed() {
+		return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROTOCOL, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.IRB_PROTOCOL_DUPLICATE_PERSON_ENABLED);
+	}
 }

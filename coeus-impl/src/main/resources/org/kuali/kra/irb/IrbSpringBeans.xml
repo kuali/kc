@@ -130,6 +130,7 @@
         <property name="unitService">
             <ref bean="unitService"/>
         </property>        
+        <property name="parameterService" ref="parameterService" />
     </bean> 
 
     <bean id="protocolPersonTrainingService" class="org.kuali.kra.irb.personnel.ProtocolPersonTrainingServiceImpl">

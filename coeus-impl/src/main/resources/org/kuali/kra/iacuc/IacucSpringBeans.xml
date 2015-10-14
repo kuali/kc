@@ -601,6 +601,7 @@
         </property>         
         <property name="personEditableService" ref="personEditableService" />
         <property name="iacucProtocolProcedureService" ref="iacucProtocolProcedureService" />
+        <property name="parameterService" ref="parameterService" />
     </bean>
 
     <bean id="dbPlatform" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">

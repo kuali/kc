@@ -678,6 +678,8 @@ public interface Constants {
     public static final String ENABLE_PROTOCOL_TO_PROPOSAL_LINK = "irb.protocol.institute.proposal.linking.enabled";
     
     public static final String PROTOCOL_TYPE_CODE_EXEMPT = "irb.protocol.protocoltype.exempt";
+    public static final String IRB_PROTOCOL_DUPLICATE_PERSON_ENABLED = "irb.protocol.duplicatePerson.enabled";
+    public static final String IACUC_PROTOCOL_DUPLICATE_PERSON_ENABLED = "iacuc.protocol.duplicatePerson.enabled";
     
     // Questionnaire
     public static final String QUESTION_EXPLANATION = "E";

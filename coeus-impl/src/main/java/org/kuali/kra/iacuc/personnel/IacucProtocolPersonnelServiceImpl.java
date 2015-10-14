@@ -21,6 +21,7 @@ package org.kuali.kra.iacuc.personnel;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.personnel.*;
@@ -89,5 +90,10 @@ public class IacucProtocolPersonnelServiceImpl extends ProtocolPersonnelServiceI
     public void setIacucProtocolProcedureService(IacucProtocolProcedureService iacucProtocolProcedureService) {
         this.iacucProtocolProcedureService = iacucProtocolProcedureService;
     }
+
+	@Override
+	protected boolean isDuplicatePersonAllowed() {
+		return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_IACUC, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.IACUC_PROTOCOL_DUPLICATE_PERSON_ENABLED);
+	}
 
 }
