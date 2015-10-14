@@ -848,22 +848,18 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     }
 
     public boolean requiresResubmissionPrompt(DevelopmentProposal developmentProposal, String resubmissionOption) {
-       return ( getProposalTypeService().getContinuationProposalTypeCode().equals(developmentProposal.getProposalTypeCode())
-            || getProposalTypeService().getRenewProposalTypeCode().equals(developmentProposal.getProposalTypeCode())
-            || getProposalTypeService().getResubmissionProposalTypeCode().equals(developmentProposal.getProposalTypeCode())
-            || getProposalTypeService().getRevisionProposalTypeCode().equals(developmentProposal.getProposalTypeCode())
-            || getProposalTypeService().getS2SSubmissionChangeCorrectedCode().equals(developmentProposal.getProposalTypeCode())
-            || isSubmissionChangeCorrected(developmentProposal))
-            && resubmissionOption == null;
+       if(isResubmissionPromptDialogEnabled()) {
+           return getProposalDevelopmentService().isProposalReniewedOrChangeCorrected(developmentProposal)
+                    && resubmissionOption == null;
+       }else{
+           return false;
+       }
     }
-    
 
-    
-    
-    private boolean isSubmissionChangeCorrected(DevelopmentProposal developmentProposal) {
-        return developmentProposal.getS2sOpportunity() != null && getProposalTypeService().getS2SSubmissionChangeCorrectedCode().equals(developmentProposal.getS2sOpportunity().getS2sSubmissionTypeCode());
+    public boolean isResubmissionPromptDialogEnabled() {
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, ProposalDevelopmentService.ENABLE_IP_GENERATION_PROMPT_DIALOG);
     }
-    
+
     public boolean renderQuestionnaire(ProposalPerson proposalPerson){
         if (proposalPerson.getRole().getCertificationRequired()){
             return true;
@@ -944,7 +940,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     }
 
     public boolean displayDirectIndierctCosts() {
-        return StringUtils.equals(getParameterService().getParameter(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT,"ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST").getValue(),"1");
+        return StringUtils.equals(getParameterService().getParameter(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST").getValue(), "1");
     }
 
     public String getDisclaimerText() {

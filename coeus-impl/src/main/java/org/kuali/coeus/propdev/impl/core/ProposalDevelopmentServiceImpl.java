@@ -103,6 +103,10 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     @Qualifier("systemAuthorizationService")
     private SystemAuthorizationService systemAuthorizationService;
 
+    @Autowired
+    @Qualifier("proposalTypeService")
+    private ProposalTypeService proposalTypeService;
+
     /**
      * This method gets called from the "save" action. It initializes the applicant org. on the first save; it also sets the
      * performing org. if the user didn't make a selection.
@@ -318,7 +322,38 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     	return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, 
                 ParameterConstants.DOCUMENT_COMPONENT, KeyConstants.AUTOGENERATE_INSTITUTIONAL_PROPOSAL_PARAM);
     }
-    
+
+    @Override
+    public String getIPGenerateOption(DevelopmentProposal developmentProposal) {
+        if( isProposalTypeChangeCorrected(developmentProposal.getProposalTypeCode())) {
+            return ProposalDevelopmentConstants.ResubmissionOptions.GENERATE_NEW_VERSION_OF_ORIGINAL_IP;
+        }else{
+            return ProposalDevelopmentConstants.ResubmissionOptions.GENERATE_NEW_IP;
+        }
+    }
+
+    @Override
+    public boolean isProposalReniewedOrChangeCorrected(DevelopmentProposal developmentProposal) {
+       return (getProposalTypeService().getContinuationProposalTypeCode().equals(developmentProposal.getProposalTypeCode())
+           || getProposalTypeService().getRenewProposalTypeCode().equals(developmentProposal.getProposalTypeCode())
+           || getProposalTypeService().getResubmissionProposalTypeCode().equals(developmentProposal.getProposalTypeCode())
+           || getProposalTypeService().getRevisionProposalTypeCode().equals(developmentProposal.getProposalTypeCode())
+           || isProposalTypeChangeCorrected(developmentProposal.getProposalTypeCode())
+           || isSubmissionChangeCorrected(developmentProposal));
+    }
+
+    private boolean isSubmissionChangeCorrected(DevelopmentProposal developmentProposal) {
+        return developmentProposal.getS2sOpportunity() != null && getProposalTypeService().getS2SSubmissionChangeCorrectedCode().equals(developmentProposal.getS2sOpportunity().getS2sSubmissionTypeCode());
+    }
+
+    private boolean isProposalTypeChangeCorrected(String proposalTypeCode) {
+        return (getProposalTypeService().getNewChangedOrCorrectedProposalTypeCode().equals(proposalTypeCode)
+            || getProposalTypeService().getRenewalChangedOrCorrectedProposalTypeCode().equals(proposalTypeCode)
+            || getProposalTypeService().getResubmissionChangedOrCorrectedProposalTypeCode().equals(proposalTypeCode)
+            || getProposalTypeService().getSupplementChangedOrCorrectedProposalTypeCode().equals(proposalTypeCode)
+            || getProposalTypeService().getBudgetSowUpdateProposalTypeCode().equals(proposalTypeCode));
+    }
+
     protected void addDescendantUnits(Unit parentUnit, Set<Unit> units) {
         List<Unit> subunits = getUnitService().getActiveSubUnits(parentUnit.getUnitNumber());
         if (CollectionUtils.isNotEmpty(subunits)) {
@@ -382,5 +417,13 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
     public void setKcPersistenceStructureService(KcPersistenceStructureService kcPersistenceStructureService) {
         this.kcPersistenceStructureService = kcPersistenceStructureService;
+    }
+
+    public ProposalTypeService getProposalTypeService() {
+        return proposalTypeService;
+    }
+
+    public void setProposalTypeService(ProposalTypeService proposalTypeService) {
+        this.proposalTypeService = proposalTypeService;
     }
 }
