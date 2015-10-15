@@ -20,7 +20,7 @@ package org.kuali.coeus.award.summary;
 
 import java.util.Collection;
 
-import org.kuali.coeus.sys.framework.Rest.ResponseResults;
+import org.kuali.coeus.sys.framework.rest.ResponseResults;
 
 import com.codiform.moo.annotation.CollectionProperty;
 

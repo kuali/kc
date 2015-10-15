@@ -289,11 +289,16 @@
         <property name="transactionManager" ref="transactionManager" />
     </bean>
 
-    <bean id="consumerRestOperations" class="org.springframework.web.client.RestTemplate">
-        <property name="errorHandler">
-            <bean class="org.springframework.web.client.DefaultResponseErrorHandler" />
-        </property>
-    </bean>
+	<bean id="standardRestOperations" class="org.springframework.web.client.RestTemplate">
+		<property name="errorHandler">
+			<bean class="org.springframework.web.client.DefaultResponseErrorHandler" />
+		</property>
+	</bean>
+	<bean id="developmentRestOperations" parent="standardRestOperations">
+		<property name="requestFactory">
+			<bean class="org.kuali.coeus.sys.impl.rest.SSLVerficationBypassHttpRequestFactory" />
+		</property>
+	</bean>
 
     <bean id="activeMqMessageLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService" ref="activeMqMessageLookupableHelperService" />
