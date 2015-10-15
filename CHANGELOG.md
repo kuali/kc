@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+*  fixing bug where we are gather project data by proposal number rather than proposal id for InstitutionalProposal which is causing a NullPointerException on save
+  * Travis Schneeberger on Thu, 15 Oct 2015 10:48:59 -0400 [View Commit](../../commit/5ce0af0205d7d260a452046fd6eb7c09839301a0)
+
+##coeus-1510.24
 * Improvements to the new auth service filter
 
   * Should improve the ability to use the auth service token for external REST requests and improve the ease of using micro-services in development by being able to configure a global RestTemplate that ignores ssl validation
