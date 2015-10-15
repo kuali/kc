@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* Improvements to the new auth service filter
+
+  * Should improve the ability to use the auth service token for external REST requests and improve the ease of using micro-services in development by being able to configure a global RestTemplate that ignores ssl validation
+  * blackcathacker on Mon, 5 Oct 2015 17:03:32 -0700 [View Commit](../../commit/efccb5b9f9a703948b4539207c2a79f90a4068a0)
+
+##coeus-1510.23
 * Date qualify the standard workflow
 
   * Add create date qualification to the new standard workflow so that the date it is implemented it will only affect new proposals and not existing ones and therefore end up with duplicate workflow requests.
