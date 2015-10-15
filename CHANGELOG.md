@@ -1,6 +1,64 @@
 
 
 ##CURRENT
+* Handle null sortid on budget_category_type compare
+
+  * Budget Category Types allow null sort ids, but the compareTo method would throw an NPE when it encountered one.
+  * java.lang.NullPointerException
+        at org.kuali.coeus.common.budget.framework.core.category.BudgetCategoryType.compareTo(BudgetCategoryType.java:79)
+        at org.kuali.coeus.common.budget.framework.core.category.BudgetCategoryType.compareTo(BudgetCategoryType.java:33)
+        at java.util.TreeMap.compare(TreeMap.java:1290)
+        at java.util.TreeMap.put(TreeMap.java:538)
+        at org.kuali.coeus.common.budget.impl.calculator.BudgetCalculationServiceImpl.categorizeObjectCodesByCategory(BudgetCalculationServiceImpl.java:491)
+        at org.kuali.coeus.common.budget.impl.calculator.BudgetCalculationServiceImpl.calculateBudgetSummaryTotals(BudgetCalculationServiceImpl.java:512)
+        at org.kuali.kra.award.budget.calculator.AwardBudgetCalculationServiceImpl.calculateBudgetSummaryTotals(AwardBudgetCalculationServiceImpl.java:41)
+        at org.kuali.kra.award.budget.AwardBudgetServiceImpl.populateBudgetLimitSummary(AwardBudgetServiceImpl.java:882)
+        at org.kuali.kra.award.web.struts.action.AwardAction.budgets(AwardAction.java:1035)
+  * blackcathacker on Thu, 15 Oct 2015 15:42:19 -0700 [View Commit](../../commit/6bb6983ce2b598aa035ee5e51febe3a5c695b04c)
+* MIT- PD - Notify individual key personnel function not
+  * consistent with Notify All window options.
+  * I suspect MIT's instance is experiencing a COLLISION with RESKC-542 that
+  * restored the individual notify all feature that their contributed COI
+  * Disclosure feature broke. 
+  * This is working in Kuali 1509.64 09-29-2015 14:43
+  * In kc1509.57 created pd 29247 with required fields to save
+  * added an Employee PI
+  * Added a non-employee Co-Investigator, 
+  * I am now able to notify via button in individual's name header on the
+screen
+  * BUT am not *able to notify this person via the *Notify All window. 
+  * These notify functions should be the same in both places and should
+  * follow COI disclosure hierarchy requirements.
+  * MIT- PD - Notify individual key personnel function not
+  * consistent with Notify All window options.
+  * I suspect MIT's instance is experiencing a COLLISION with RESKC-542 that
+  * restored the individual notify all feature that their contributed COI
+  * Disclosure feature broke. 
+  * This is working in Kuali 1509.64 09-29-2015 14:43
+  * In kc1509.57 created pd 29247 with required fields to save
+  * added an Employee PI
+  * Added a non-employee Co-Investigator, 
+  * I am now able to notify via button in individual's name header on the
+screen
+  * BUT am not *able to notify this person via the *Notify All window. 
+  * These notify functions should be the same in both places and should
+  * follow COI disclosure hierarchy requirements.
+  * MIT- PD - Notify individual key personnel function not
+  * consistent with Notify All window options.
+  * I suspect MIT's instance is experiencing a COLLISION with RESKC-542 that
+  * restored the individual notify all feature that their contributed COI
+  * Disclosure feature broke. 
+  * This is working in Kuali 1509.64 09-29-2015 14:43
+  * In kc1509.57 created pd 29247 with required fields to save
+  * added an Employee PI
+  * Added a non-employee Co-Investigator, 
+  * I am now able to notify via button in individual's name header on the
+screen
+  * BUT am not *able to notify this person via the *Notify All window. 
+  * These notify functions should be the same in both places and should
+  * follow COI disclosure hierarchy requirements.  * vineeth on Tue, 13 Oct 2015 17:21:56 -0400 [View Commit](../../commit/d1741e12bc2844f3b284af70140c862b1ebfc2c8)
+
+##coeus-1510.26
 * No Changes
 
 
