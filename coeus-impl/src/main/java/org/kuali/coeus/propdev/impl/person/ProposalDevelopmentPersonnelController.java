@@ -304,7 +304,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
         NotificationHelper<ProposalDevelopmentNotificationContext> notificationHelper = form.getNotificationHelper();
         notificationHelper.setNotification(getKcNotificationService().createNotificationObject(createNotificationContext(form.getDevelopmentProposal(), person)));
         notificationHelper.setNotificationContext(createNotificationContext(form.getDevelopmentProposal(), person));
-        notificationHelper.setNotificationRecipients(Collections.singletonList(createRecipientFromPerson(person)));
+        notificationHelper.setNotificationRecipients(createRecipientFromPerson(person));
         notificationHelper.setNewPersonId(person.getPersonId());
     }
 
@@ -317,11 +317,13 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
         return context;
     }
 
-    protected NotificationTypeRecipient createRecipientFromPerson(ProposalPerson person) {
+    protected List<NotificationTypeRecipient> createRecipientFromPerson(ProposalPerson person) {
+    	List<NotificationTypeRecipient> notificationRecipients = new ArrayList<>();
         NotificationTypeRecipient recipient = new NotificationTypeRecipient();
         recipient.setPersonId(person.getPersonId());
         recipient.setFullName(person.getFullName());
-        return recipient;
+        notificationRecipients.add(recipient);
+        return notificationRecipients;
     }
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=sendCertificationNotification")
@@ -360,7 +362,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
         ProposalPerson person = form.getDevelopmentProposal().getProposalPerson(Integer.parseInt(selectedLine));
         ProposalDevelopmentNotificationContext context = createNotificationContext(form.getDevelopmentProposal(), person);
         KcNotification notification = getKcNotificationService().createNotificationObject(context);
-        getKcNotificationService().sendNotification(context, notification, Collections.singletonList(createRecipientFromPerson(person)));
+        getKcNotificationService().sendNotification(context, notification, createRecipientFromPerson(person));
         getGlobalVariableService().getMessageMap().putInfoForSectionId(ProposalDevelopmentConstants.KradConstants.PROP_DEV_PERSONNEL_PAGE_COLLECTION, KeyConstants.INFO_NOTIFICATIONS_SENT, person.getFullName() + " " + notification.getCreateTimestamp());
         person.setLastNotification(getDateTimeService().getCurrentTimestamp());
     }
