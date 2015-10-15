@@ -46,6 +46,11 @@ public class ProposalDevelopmentPermissionsServiceTest {
         protected boolean isCoiDisclosureStatusFeatureEnabled() {
             return true;
         }
+        
+        @Override
+        protected boolean isRolodexCertificationEnabled() {
+        	return true;
+        }
 
     }
 

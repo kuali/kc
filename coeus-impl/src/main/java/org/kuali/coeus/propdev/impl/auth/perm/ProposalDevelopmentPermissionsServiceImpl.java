@@ -56,6 +56,7 @@ public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelo
     public static final String PRINCIPAL_COI_KEY_PERSON = "PCK";
     public static final int HIERARCHY_LEVEL = 1;
     private static final String PARAMETER_DELIMITER = "\\s*,\\s*";
+    private static final String ENABLE_ROLODEX_CERTIFICATION = "ENABLE_ROLODEX_CERTIFICATION";
 
     @Autowired
     @Qualifier("sponsorHierarchyService")
@@ -169,11 +170,11 @@ public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelo
     }
 
     protected boolean canCertify(String userPrincipalId, ProposalPerson proposalPerson, boolean isLoggedInUserPi, boolean canProxyCertify) {
-        // person is null for rolodex entries
-        if(Objects.isNull(proposalPerson.getPerson())) {
-            return canProxyCertify;
-        }
-
+    	// person is null for rolodex entries
+    	if (Objects.isNull(proposalPerson.getPerson())) {
+    		return isRolodexCertificationEnabled() ? canProxyCertify : false ;
+    	}
+  	  	
         if (isPiOrProxyCertificationPossible(userPrincipalId, proposalPerson, isLoggedInUserPi, canProxyCertify)) return true;
 
         if (isCoiOrPiOrProxyCertificationPossible(userPrincipalId, proposalPerson, isLoggedInUserPi, canProxyCertify)) return true;
@@ -196,7 +197,11 @@ public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelo
 
         return false;
     }
-
+    
+    protected boolean isRolodexCertificationEnabled() {
+    	return getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, ENABLE_ROLODEX_CERTIFICATION);
+    }
+    
     protected boolean isPiOrProxyCertificationPossible(String userPrincipalId, ProposalPerson proposalPerson, boolean isLoggedInUserPi, boolean canProxyCertify) {
         if((isLoggedInUserPi && proposalPersonIsUser(userPrincipalId, proposalPerson)) ||
      		   (canProxyCertify && proposalPerson.isPrincipalInvestigator())) {
