@@ -170,7 +170,7 @@ public class InstitutionalProposalAction extends KcTransactionalDocumentActionBa
 
         getProjectPublisher().publishProject(
                 getProjectRetrievalService().retrieveProject(
-                        institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal().getProposalNumber()));
+                        institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal().getProposalId().toString()));
 
         return forward;
     }
