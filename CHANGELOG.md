@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1510.27
 * Handle null sortid on budget_category_type compare
 
   * Budget Category Types allow null sort ids, but the compareTo method would throw an NPE when it encountered one.
