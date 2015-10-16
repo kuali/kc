@@ -1,6 +1,51 @@
 
 
 ##CURRENT
+* MIT PD: STE at navigate to Summary/Submit screen after using
+  * Notify on Key Personnel screen.
+  * In MIT's QA instance, users cannot consistently navigate to the
+  * Summary/Submit screen.
+  * I can consistently trigger the STE occurs by using the individual Notify
+  * option on the Key Personnel screen and then try to navigate to
+summary/submit. It will also STE if I navigate to other screens and so
+something & save...If I used Notify at all in the session, I get the STE
+  * at navigate to Summary/Submit.
+  * I did not get the STE if I used the Notify ALL option.
+  * If I don't notify, I can successfully navigate to the summary/submit
+screen.
+  * Retested by Rhanlon in MITQA 1509.57 on 10/15 with proposal 29273
+  * In kc1509.57 user kdenutte 
+  * Create a proposal with the basic requirements to save
+  * Key Personnel >
+  * Added MIT employee as PI 
+  * Added a non-employee Co-I got erroneous COI prompts but saved 
+  * Clicked to navigate to Summary/Submit screen 
+  * Result: and got the STE below .
+  * java.lang.UnsupportedOperationException at
+  * java.util.AbstractList.remove(AbstractList.java:161) at
+  * java.util.AbstractList$Itr.remove(AbstractList.java:374) at
+  * java.util.AbstractList.removeRange(AbstractList.java:571) at
+  * java.util.AbstractList.clear(AbstractList.java:234) at
+  * org.kuali.coeus.common.notification.impl.NotificationHelper.initializeDefaultValues(NotificationHelper.java:155)
+  * at
+  * org.kuali.coeus.propdev.impl.core.ProposalDevelopmentViewHelperServiceImpl.prepareSummaryPage(ProposalDevelopmentViewHelperServiceImpl.java:796)
+  * at
+  * org.kuali.coeus.propdev.impl.core.ProposalDevelopmentSubmitController.navigateToSubmit(ProposalDevelopmentSubmitController.java:278)
+  * at
+  * org.kuali.coeus.propdev.impl.core.ProposalDevelopmentSubmitController$$FastClassBySpringCGLIB$$aff09485.invoke(<generated>)
+  * at
+  * org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:204)
+  * at
+  * org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:700)
+  * at
+  * org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:150)
+  * at
+  * org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:96)
+  * at
+  * org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:260) 
+  * vineeth on Thu, 15 Oct 2015 17:37:22 -0400 [View Commit](../../commit/ce5f3222149e2a233658bd4c572bad1e45cebe62)
+
+##coeus-1510.28
 * No Changes
 
 
