@@ -41,6 +41,7 @@
 	<param name="app.code">${module.name}</param>
 	<param name="application.id">KC</param>	
 	<param name="application.host">127.0.0.1</param>
+	<param name="application.rest.services.base.url" override="false">${application.http.scheme}://${application.host}:${http.port}</param>
 	
 	<!-- Config param for setting the bus security on and off in the integration services -->
 	<param name="fin.system.integration.bus.security.on">false</param>
@@ -238,8 +239,10 @@
     <param name="kc.rest.admin.username" override="false"></param>
     <param name="kc.rest.admin.password" override="false"></param>
 
-	<param name="coi.projects.url">http://127.0.0.1:3002/api/coi/projects</param>
+	<param name="coi.projects.url">${application.rest.services.base.url}/api/coi/projects</param>
 	<param name="coi.projects.enabled">false</param>
+	<param name="auth.base.url">${application.rest.services.base.url}</param>
+	<param name="auth.users.url">${auth.base.url}/api/users</param>
 
 	<param name="mq.redelivery.default.maximumRedeliveries">10</param>
 	<param name="mq.redelivery.default.initialRedeliveryDelay">3000</param>
