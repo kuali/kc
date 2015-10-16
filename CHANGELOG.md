@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+*  implementing kim api from the monolith for use in COI
+  * Travis Schneeberger on Fri, 16 Oct 2015 15:44:22 -0400 [View Commit](../../commit/e35ba626e1f3347d1e3ace61e82226d3b87e1514)
+
+##coeus-1510.30
 * MIT PD: STE at navigate to Summary/Submit screen after using
   * Notify on Key Personnel screen.
   * In MIT's QA instance, users cannot consistently navigate to the
