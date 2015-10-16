@@ -76,10 +76,6 @@
       <start name="Initiated" nextNode="isHierarchyChild" />
       <split name="isHierarchyChild">
       <branch name="False">
-        <role name="OSPInitial" nextNode="ProposalPersons" />
-        <role name="ProposalPersons" nextNode="DepartmentRouting" />
-        <requests name="DepartmentRouting" nextNode="CollegeRouting" />
-        <requests name="CollegeRouting" nextNode="PeopleFlows" />
         <requests name="PeopleFlows" nextNode="OSPOfficeRouting" />
         <role name="OSPOfficeRouting" nextNode="Join" />
       </branch>
@@ -99,31 +95,9 @@
     <split name="isHierarchyChild">
       <type>org.kuali.coeus.sys.framework.workflow.SimpleBooleanSplitNode</type>
     </split>
-    <role name="OSPInitial">
-      <qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
-      <activationType>S</activationType>
-      <finalApproval>false</finalApproval>
-    </role>
-    <role name="ProposalPersons">
-      <qualifierResolver>ProposalPersons-XPathQualifierResolver</qualifierResolver>
-      <activationType>P</activationType>
-      <finalApproval>false</finalApproval>
-    </role>
     <requests name="PeopleFlows">
       <activationType>R</activationType>
       <rulesEngine executorClass="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentRulesEngineExecutorImpl" />
-    </requests>
-    <requests name="DepartmentRouting">
-      <activationType>P</activationType>
-      <finalApproval>false</finalApproval>
-      <ruleSelector>Named</ruleSelector>
-      <ruleName>DepartmentRoutingRule</ruleName>
-    </requests>
-    <requests name="CollegeRouting">
-      <activationType>P</activationType>
-      <finalApproval>false</finalApproval>
-      <ruleSelector>Named</ruleSelector>
-      <ruleName>CollegeRoutingRule</ruleName>
     </requests>
     <role name="OSPOfficeRouting">
       <qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
@@ -143,51 +117,10 @@
   </documentTypes>
   <ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
     <ruleTemplate allowOverwrite="true">
-      <name>DepartmentRouting</name>
-      <description>Department Routing</description>
-    </ruleTemplate>
-
-    <ruleTemplate allowOverwrite="true">
-      <name>CollegeRouting</name>
-      <description>College Routing</description>
-    </ruleTemplate>
-    <ruleTemplate allowOverwrite="true">
 		<name>HierarchyParentDispositionApproval</name>
 		<description>Approval rule from the hierarchy parent to hierarchy children.</description>
 	</ruleTemplate>
   </ruleTemplates>
-  <rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
-
-    <rule>
-      <name>DepartmentRoutingRule</name>
-      <documentType>ProposalDevelopmentDocument</documentType>
-      <ruleTemplate>DepartmentRouting</ruleTemplate>
-      <description>Department Routing</description>
-      <responsibilities>
-        <responsibility>
-          <roleName attributeClassName="co.kuali.coeus.workflow.UnitAdministratorRoleAttribute">Department Head!3!true</roleName>
-          <approvePolicy>A</approvePolicy><!-- A[ll] F[irst] -->
-          <actionRequested>A</actionRequested><!-- F[YI] A[PPROVE] K[NOWLADGE] -->
-        </responsibility>
-      </responsibilities>
-    </rule>
-
-    <rule>
-      <name>CollegeRoutingRule</name>
-      <documentType>ProposalDevelopmentDocument</documentType>
-      <ruleTemplate>CollegeRouting</ruleTemplate>
-      <description>College Routing</description>
-      <responsibilities>
-        <responsibility>
-          <roleName attributeClassName="co.kuali.coeus.workflow.UnitAdministratorRoleAttribute">Dean of College!3!false</roleName>
-          <approvePolicy>A</approvePolicy><!-- A[ll] F[irst] -->
-          <actionRequested>A</actionRequested><!-- F[YI] A[PPROVE] K[NOWLADGE] -->
-        </responsibility>
-      </responsibilities>
-    </rule>
-
-  </rules>
-  
 	<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
 		<ruleAttribute>
 			<name>CopyCustomActionListAttribute</name>
