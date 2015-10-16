@@ -32,6 +32,9 @@ import org.springframework.web.client.RestTemplate;
 
 public class AuthServiceFilter implements Filter {
 
+	private static final String AUTH_USERS_URL = "auth.users.url";
+	private static final String AUTH_BASE_URL = "auth.base.url";
+	private static final String CURRENT_USER_APPEND = "/current";
 	public static final String AUTH_SERVICE_FILTER_AUTH_TOKEN_SESSION_ATTR = "AUTH_SERVICE_FILTER_AUTH_TOKEN";
 	public static final String AUTH_SERVICE_FILTER_AUTHED_USER_ATTR = "AUTH_SERVICE_FILTER_AUTHED_USER";
 	private static final String SECONDS_TO_CACHE_AUTH_TOKEN_RESPONSE_CONFIG = "secondsToCacheAuthTokenResponse";
@@ -42,8 +45,6 @@ public class AuthServiceFilter implements Filter {
 	private static final String AUTHORIZATION_HEADER_NAME = "Authorization";
 	private static final String KUALICO_VERSION_1_MEDIA_TYPE = "application/vnd.kuali.v1+json";
 	private static final String AUTH_TOKEN_COOKIE_NAME = "authToken";
-	private static final String AUTH_SERVICE_URL = "authServiceUrl";
-	private static final String API_USERS_CURRENT = "/api/users/current";
 	private static final String AUTH_RETURN_TO = "/auth?return_to=";
 	private static final String KC_REST_ADMIN_PASSWORD = "kc.rest.admin.password";
 	private static final String KC_REST_ADMIN_USERNAME = "kc.rest.admin.username";
@@ -60,17 +61,15 @@ public class AuthServiceFilter implements Filter {
 	
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-		authServiceUrl = filterConfig.getInitParameter(AUTH_SERVICE_URL);
-		//default to absolute url on same host
-		if (authServiceUrl == null) {
-			authServiceUrl = "";
-		}
 		String secondsToCache = filterConfig.getInitParameter(SECONDS_TO_CACHE_AUTH_TOKEN_RESPONSE_CONFIG);
 		if (secondsToCache != null) {
 			secondsToCacheAuthTokenInSession = Long.parseLong(secondsToCache);
 		}
+		
+		authServiceUrl = getConfigurationService().getPropertyValueAsString(AUTH_BASE_URL);
 		authWithReturnTo = authServiceUrl + AUTH_RETURN_TO;
-		getCurrentUserUrl = authServiceUrl + API_USERS_CURRENT;
+		getCurrentUserUrl = getConfigurationService().getPropertyValueAsString(AUTH_USERS_URL) + CURRENT_USER_APPEND;
+		
 		
 		apiUserName = getConfigurationService().getPropertyValueAsString(KC_REST_ADMIN_USERNAME);
 		String apiPassword = getConfigurationService().getPropertyValueAsString(KC_REST_ADMIN_PASSWORD);
