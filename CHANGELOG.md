@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* Auth service improvements to support more config options
+  * blackcathacker on Fri, 16 Oct 2015 14:03:11 -0700 [View Commit](../../commit/58a271ff1ba10fe42698f875a20ff99847a21230)
+
+##coeus-1510.31
 *  implementing kim api from the monolith for use in COI
   * Travis Schneeberger on Fri, 16 Oct 2015 15:44:22 -0400 [View Commit](../../commit/e35ba626e1f3347d1e3ace61e82226d3b87e1514)
 
