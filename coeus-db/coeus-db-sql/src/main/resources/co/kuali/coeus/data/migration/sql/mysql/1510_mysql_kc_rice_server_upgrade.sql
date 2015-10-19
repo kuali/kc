@@ -24,4 +24,5 @@
 \. ./rice/bootstrap/V1510_008__RESKC-909-ProtocolDuplicatePersonAllowed.sql
 \. ./rice/bootstrap/V1510_009__RESOPS-291.sql
 \. ./rice/bootstrap/V1510_010__RESMER-84.sql
+\. ./rice/bootstrap/V1510_013__RESMER-58_EnableIPGenerationPrompt.sql
 commit;

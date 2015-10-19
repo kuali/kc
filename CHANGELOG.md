@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+*  adding admin auth token
+  * Travis Schneeberger on Mon, 19 Oct 2015 11:44:04 -0400 [View Commit](../../commit/1234699de5a4100594bc2ce601da044374cd5e07)
+*  adding qualifier so the Derived User Role will resolve its members
+  * Travis Schneeberger on Mon, 19 Oct 2015 10:13:43 -0400 [View Commit](../../commit/4638abe46fc812a242ac7c07271b8222cc54c4e8)
+*  Use a parameter called enableIPGenerationPromptDialog for enabling/disabling IP generation dialog. This is an MIT customization done as part of newly added proposal types to decide whether IP has to be created as a new version of existing one or entirely new IP. It checks for all changed corrected proposal types and if its one of them, it would generate a new version of existing IP or else, it generates new IP. It never prompted user to select an option for IP generation
+  * Geo Thomas on Wed, 14 Oct 2015 16:47:06 -0400 [View Commit](../../commit/d2b6b54d461939cb4798e401bccfc0517ad43f2e)
+
+##coeus-1510.32
 * Auth service improvements to support more config options
   * blackcathacker on Fri, 16 Oct 2015 14:03:11 -0700 [View Commit](../../commit/58a271ff1ba10fe42698f875a20ff99847a21230)
 
