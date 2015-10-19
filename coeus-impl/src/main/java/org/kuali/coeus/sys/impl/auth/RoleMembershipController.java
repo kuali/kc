@@ -6,6 +6,7 @@ import org.kuali.coeus.sys.framework.auth.RoleMembershipDto;
 import org.kuali.coeus.sys.framework.controller.rest.RestController;
 import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
 import org.kuali.rice.core.api.membership.MemberType;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,8 @@ public class RoleMembershipController extends RestController {
 			throw new ResourceNotFoundException("memberId is blank");
 		}
 
-		final Map<String, String> qualificationMap = getQualifierMap(qualification != null ? Arrays.asList(qualification) : Collections.emptyList());
+		final Map<String, String> qualificationMap = withPrincipalQualifier(memberId, getQualifierMap(qualification != null ? Arrays.asList(qualification) : Collections.emptyList()));
+
 		final List<RoleMembership> roleMembers = roleService.getRoleMembers(Collections.singletonList(getActualRoleId(roleId)), qualificationMap).stream()
 				.filter(m -> m.getType() == MemberType.PRINCIPAL)
 				.filter(m -> m.getMemberId().equals(memberId))
@@ -51,6 +53,15 @@ public class RoleMembershipController extends RestController {
 
 		return Translate.to(RoleMembershipDto.class).fromEach(roleMembers);
 
+	}
+
+	/**
+	 * Some roles like the user role require a principal qualifier to make a match.
+	 */
+	protected Map<String, String> withPrincipalQualifier(String memberId, Map<String, String> qualificationMap) {
+		final HashMap<String, String> map = new HashMap<>(qualificationMap);
+		map.put(KimConstants.AttributeConstants.PRINCIPAL_ID, memberId);
+		return map;
 	}
 
 	protected Map<String, String> getQualifierMap(List<String> qualification) {
