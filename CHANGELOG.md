@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+*  Implement some kind of cahcing for Units list and gets refreshed every minute. The pefromance issue was to fetch the entire unit list for all Agendas. With this fix, it would not call  getUnits() method if the request gets completed within a min
+  * Geo Thomas on Thu, 15 Oct 2015 17:50:16 -0400 [View Commit](../../commit/69f121f5ba46c5e2c8b568c1ee90f716b0e7cf8f)
+
+##coeus-1510.33
 *  adding admin auth token
   * Travis Schneeberger on Mon, 19 Oct 2015 11:44:04 -0400 [View Commit](../../commit/1234699de5a4100594bc2ce601da044374cd5e07)
 *  adding qualifier so the Derived User Role will resolve its members
