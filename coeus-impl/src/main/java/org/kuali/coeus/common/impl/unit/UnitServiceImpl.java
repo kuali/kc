@@ -18,6 +18,8 @@
  */
 package org.kuali.coeus.common.impl.unit;
 
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.collections4.Predicate;
@@ -34,7 +36,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * The Unit Service Implementation.
@@ -78,8 +82,11 @@ public class UnitServiceImpl implements UnitService {
 
     @Override
     public List<Unit> getUnits() {
-        return new ArrayList<>(getBusinessObjectService().findAll(Unit.class));
+        return allUnitsCache.get();
     }
+
+    private final Supplier<List<Unit>> allUnitsCache = Suppliers.memoizeWithExpiration(
+            () -> new ArrayList<>(getBusinessObjectService().findAll(Unit.class)), 1, TimeUnit.MINUTES);
 
     @Override
     public Unit getUnit(String unitNumber) {
