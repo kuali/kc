@@ -32,6 +32,9 @@ public class RestMessageConsumer implements MessageListener {
 
     private static Log LOG = LogFactory.getLog(RestMessageProducer.class);
 
+    private static final String ADMIN_TOKEN =
+            "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MTI3MDEyOTgwMjA0NDQ2MzU4OCwiaWF0IjoxNDQ1MjY5MjcxLCJleHAiOjE0NDY0Nzg4NzEsImlzcyI6Imt1YWxpLmNvIn0.Ce-r347KVeVb4lFS77Y8F9hz_979OX5cDrSvIFPoq0I";
+
     @Autowired
     @Qualifier("restDestinationRegistry")
     private RestDestinationRegistry restDestinationRegistry;
@@ -64,7 +67,7 @@ public class RestMessageConsumer implements MessageListener {
         }
 
         //temp until auth service is integrated
-        headers.put("Cookie", Collections.singletonList("authToken=p34"));
+        headers.put("Cookie", Collections.singletonList("authToken=" + ADMIN_TOKEN));
 
         final HttpEntity<String> entity = StringUtils.isNotBlank(request.getBody()) ? new HttpEntity<>(request.getBody(), headers): HttpEntity.EMPTY;
         final HttpMethod method = HttpMethod.valueOf(request.getMethod().name());
