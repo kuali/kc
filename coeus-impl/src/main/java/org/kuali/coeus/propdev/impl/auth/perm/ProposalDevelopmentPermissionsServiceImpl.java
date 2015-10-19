@@ -56,7 +56,7 @@ public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelo
     public static final String PRINCIPAL_COI_KEY_PERSON = "PCK";
     public static final int HIERARCHY_LEVEL = 1;
     private static final String PARAMETER_DELIMITER = "\\s*,\\s*";
-    private static final String ENABLE_ROLODEX_CERTIFICATION = "ENABLE_ROLODEX_CERTIFICATION";
+    private static final String ENABLE_ADDRESSBOOK_CERTIFICATION = "ENABLE_ADDRESSBOOK_CERTIFICATION";
 
     @Autowired
     @Qualifier("sponsorHierarchyService")
@@ -199,7 +199,7 @@ public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelo
     }
     
     protected boolean isRolodexCertificationEnabled() {
-    	return getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, ENABLE_ROLODEX_CERTIFICATION);
+    	return getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, ENABLE_ADDRESSBOOK_CERTIFICATION);
     }
     
     protected boolean isPiOrProxyCertificationPossible(String userPrincipalId, ProposalPerson proposalPerson, boolean isLoggedInUserPi, boolean canProxyCertify) {
