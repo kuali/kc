@@ -244,7 +244,7 @@ public class ProposalDevelopmentSubmitController extends
     @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropDev-SubmitPage"})
     public ModelAndView navigateToSubmit(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception{
         ((ProposalDevelopmentViewHelperServiceImpl) form.getViewHelperService()).prepareSummaryPage(form);
-        return super.navigate(form,result,request,response);
+        return super.navigate(form, result, request, response);
     }
 
 
@@ -556,10 +556,16 @@ public class ProposalDevelopmentSubmitController extends
     }
     
     protected boolean requiresResubmissionPrompt(ProposalDevelopmentDocumentForm proposalDevelopmentForm) {
-    	return ((ProposalDevelopmentViewHelperService)proposalDevelopmentForm.getViewHelperService()).requiresResubmissionPrompt(proposalDevelopmentForm.getDevelopmentProposal(),
-    				proposalDevelopmentForm.getResubmissionOption());
+        ProposalDevelopmentViewHelperService proposalDevelopmentViewHelperService = (ProposalDevelopmentViewHelperService)proposalDevelopmentForm.getViewHelperService();
+        if(proposalDevelopmentViewHelperService.isResubmissionPromptDialogEnabled()){
+            return proposalDevelopmentViewHelperService.requiresResubmissionPrompt(proposalDevelopmentForm.getDevelopmentProposal(),
+                    proposalDevelopmentForm.getResubmissionOption());
+        }else {
+            proposalDevelopmentForm.setResubmissionOption(getProposalDevelopmentService().getIPGenerateOption(proposalDevelopmentForm.getDevelopmentProposal()));
+            return false;
+        }
     }
-    
+
     protected boolean autogenerateInstitutionalProposal() {
     	return getProposalDevelopmentService().autogenerateInstitutionalProposal();
     }

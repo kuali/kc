@@ -78,6 +78,36 @@ public class ProposalTypeServiceImpl implements ProposalTypeService {
                 proposalTypeCode.equals(getContinuationProposalTypeCode()));
     }
 
+	@Override
+	public String getNewChangedOrCorrectedProposalTypeCode() {
+		return getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+				ParameterConstants.DOCUMENT_COMPONENT, ProposalDevelopmentConstants.PropDevParameterConstants.PROPOSAL_TYPE_CODE_NEW_CHANGE_CORRECTED_PARM);
+	}
+
+	@Override
+	public String getResubmissionChangedOrCorrectedProposalTypeCode() {
+		return getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+				ParameterConstants.DOCUMENT_COMPONENT, ProposalDevelopmentConstants.PropDevParameterConstants.PROPOSAL_TYPE_CODE_RESUBMISSION_CHANGE_CORRECTED_PARM);
+	}
+
+	@Override
+	public String getBudgetSowUpdateProposalTypeCode() {
+		return getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+				ParameterConstants.DOCUMENT_COMPONENT, ProposalDevelopmentConstants.PropDevParameterConstants.PROPOSAL_TYPE_CODE_BUDGET_SOW_UPDATE_PARM);
+	}
+
+	@Override
+	public String getRenewalChangedOrCorrectedProposalTypeCode() {
+		return getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+				ParameterConstants.DOCUMENT_COMPONENT, ProposalDevelopmentConstants.PropDevParameterConstants.PROPOSAL_TYPE_CODE_RENEWAL_CHANGE_CORRECTED_PARM);
+	}
+
+	@Override
+	public String getSupplementChangedOrCorrectedProposalTypeCode() {
+		return getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+				ParameterConstants.DOCUMENT_COMPONENT, ProposalDevelopmentConstants.PropDevParameterConstants.PROPOSAL_TYPE_CODE_SUPPLEMENT_CHANGE_CORRECTED_PARM);
+	}
+
 	public ParameterService getParameterService() {
 		return parameterService;
 	}

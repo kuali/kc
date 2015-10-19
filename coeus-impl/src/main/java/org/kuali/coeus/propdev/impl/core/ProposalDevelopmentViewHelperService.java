@@ -22,4 +22,5 @@ public interface ProposalDevelopmentViewHelperService {
 	
 	boolean requiresResubmissionPrompt(DevelopmentProposal developmentProposal, String resubmissionOption);
 
+	boolean isResubmissionPromptDialogEnabled();
 }
