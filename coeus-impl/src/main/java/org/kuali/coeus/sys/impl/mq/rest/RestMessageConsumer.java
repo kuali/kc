@@ -67,7 +67,7 @@ public class RestMessageConsumer implements MessageListener {
         }
 
         //temp until auth service is integrated
-        headers.put("Cookie", Collections.singletonList("authToken=" + ADMIN_TOKEN));
+        headers.put("Authorization", Collections.singletonList("Bearer " + ADMIN_TOKEN));
 
         final HttpEntity<String> entity = StringUtils.isNotBlank(request.getBody()) ? new HttpEntity<>(request.getBody(), headers): HttpEntity.EMPTY;
         final HttpMethod method = HttpMethod.valueOf(request.getMethod().name());
