@@ -16,9 +16,9 @@
 -- You should have received a copy of the GNU Affero General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
-Insert into PROPOSAL_TYPE (PROPOSAL_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ('10','New - Change/Corrected',sysdate,'admin',1,sys_guid());
-Insert into PROPOSAL_TYPE (PROPOSAL_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ('14','Pre Proposal',sysdate,'admin',1,sys_guid());
-Insert into PROPOSAL_TYPE (PROPOSAL_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ('15','Supplement-Changed/Corrected',sysdate,'admin',1,sys_guid());
-Insert into PROPOSAL_TYPE (PROPOSAL_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ('16','Resubmission-Changed/Corrected',sysdate,'admin',1,sys_guid());
-Insert into PROPOSAL_TYPE (PROPOSAL_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ('17','Budget-SOW Update',sysdate,'admin',1,sys_guid());
-Insert into PROPOSAL_TYPE (PROPOSAL_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ('18','Renewal-Changed/Corrected',sysdate,'admin',1,sys_guid());
+Insert into PROPOSAL_TYPE (PROPOSAL_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ('500','New - Change/Corrected',sysdate,'admin',1,sys_guid());
+Insert into PROPOSAL_TYPE (PROPOSAL_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ('501','Pre Proposal',sysdate,'admin',1,sys_guid());
+Insert into PROPOSAL_TYPE (PROPOSAL_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ('502','Supplement-Changed/Corrected',sysdate,'admin',1,sys_guid());
+Insert into PROPOSAL_TYPE (PROPOSAL_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ('503','Resubmission-Changed/Corrected',sysdate,'admin',1,sys_guid());
+Insert into PROPOSAL_TYPE (PROPOSAL_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ('504','Budget-SOW Update',sysdate,'admin',1,sys_guid());
+Insert into PROPOSAL_TYPE (PROPOSAL_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ('505','Renewal-Changed/Corrected',sysdate,'admin',1,sys_guid());
