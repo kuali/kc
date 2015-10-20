@@ -23,7 +23,6 @@ import java.util.*;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue;
 import org.kuali.coeus.common.framework.org.Organization;
@@ -60,7 +59,6 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
-@Ignore("S2S is down.  Disabling for now")
 public class ProposalCopyServiceTest extends ProposalDevelopmentRuleTestBase {
 	ProposalCopyService proposalCopyService;
 	ProposalDevelopmentDocument proposalDocument;
