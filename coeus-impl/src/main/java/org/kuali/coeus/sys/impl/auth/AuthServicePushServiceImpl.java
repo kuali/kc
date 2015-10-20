@@ -35,7 +35,8 @@ import org.springframework.web.client.RestOperations;
 @Service("authServicePushService")
 public class AuthServicePushServiceImpl implements AuthServicePushService {
 	
-	private static final String AUTH_USER_PUSH_USERNAME_AS_PASSWORD = "auth.user.push.username.as.password";
+	private static final String AUTH_USER_PUSH_USE_DEV_PASSWORD = "auth.user.push.use.dev.password";
+	private static final String AUTH_USER_PUSH_DEV_PASSWORD = "auth.user.push.dev.password";
 	private static final RestServiceConstants.RestApiVersions AUTH_USER_API_VERSION = RestServiceConstants.RestApiVersions.VER_1;
 	private static final String USER_ROLE = "user";
 	private static final String ADMIN_ROLE = "admin";
@@ -116,15 +117,19 @@ public class AuthServicePushServiceImpl implements AuthServicePushService {
 	}
 	
 	protected String getOrGenerateUserPassword(AuthUser person) {
-		if (useUserNameAsPassword()) {
-			return person.getUsername();
+		if (useDevPassword()) {
+			return getDevPassword();
 		} else {
 			return UUID.randomUUID().toString();
 		}
 	}
 
-	protected boolean useUserNameAsPassword() {
-		return configurationService.getPropertyValueAsBoolean(AUTH_USER_PUSH_USERNAME_AS_PASSWORD);
+	protected boolean useDevPassword() {
+		return configurationService.getPropertyValueAsBoolean(AUTH_USER_PUSH_USE_DEV_PASSWORD);
+	}
+	
+	protected String getDevPassword() {
+		return configurationService.getPropertyValueAsString(AUTH_USER_PUSH_DEV_PASSWORD);
 	}
 	
 	protected String getUserAuthSystemRole(Person person) {

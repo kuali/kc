@@ -54,8 +54,8 @@ public class AuthServicePushServiceTest {
 			}
 			
 			@Override
-			protected boolean useUserNameAsPassword() {
-				return true;
+			protected boolean useDevPassword() {
+				return false;
 			}
 		};
 		AuthServicePushStatus status = service.pushAllUsers();
@@ -99,8 +99,8 @@ public class AuthServicePushServiceTest {
 			}
 			
 			@Override
-			protected boolean useUserNameAsPassword() {
-				return true;
+			protected boolean useDevPassword() {
+				return false;
 			}
 		};
 		AuthServicePushStatus status = service.pushAllUsers();

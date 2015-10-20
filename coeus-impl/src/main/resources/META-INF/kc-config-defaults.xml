@@ -255,5 +255,6 @@
 	<param name="mq.broker.dataDirectory">activemq-data</param>
 	
 	<param name="kc.rest.ssl.trust.selfsigned" override="false">${dev.mode}</param>
-	<param name="auth.user.push.username.as.password" override="false">false</param>
+	<param name="auth.user.push.use.dev.password" override="false">false</param>
+	<param name="auth.user.push.dev.password" override="false">password</param>
 </config>
