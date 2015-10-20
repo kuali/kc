@@ -14,6 +14,7 @@ import org.kuali.coeus.sys.framework.auth.AuthServicePushService;
 import org.kuali.coeus.sys.framework.auth.AuthServicePushStatus;
 import org.kuali.coeus.sys.framework.auth.AuthUser;
 import org.kuali.coeus.sys.framework.rest.AuthServiceRestUtilService;
+import org.kuali.coeus.sys.framework.rest.RestServiceConstants;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
@@ -21,6 +22,7 @@ import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -34,7 +36,7 @@ import org.springframework.web.client.RestOperations;
 public class AuthServicePushServiceImpl implements AuthServicePushService {
 	
 	private static final String AUTH_USER_PUSH_USERNAME_AS_PASSWORD = "auth.user.push.username.as.password";
-	private static final String AUTH_USER_API_VERSION = "1";
+	private static final RestServiceConstants.RestApiVersions AUTH_USER_API_VERSION = RestServiceConstants.RestApiVersions.VER_1;
 	private static final String USER_ROLE = "user";
 	private static final String ADMIN_ROLE = "admin";
 	private static final Log LOG = LogFactory.getLog(AuthServicePushServiceImpl.class); 
@@ -58,15 +60,9 @@ public class AuthServicePushServiceImpl implements AuthServicePushService {
 	@Autowired
 	@Qualifier("kualiConfigurationService")
 	private ConfigurationService configurationService;
-	
-	private List<String> ignoredUsers;
-	
-	public AuthServicePushServiceImpl() {
-		ignoredUsers = new ArrayList<>();
-		ignoredUsers.add("admin");
-		ignoredUsers.add("kc");
-		ignoredUsers.add("kr");
-	}
+
+	@Value("#{{'admin', 'kc', 'kr'}}")
+	private List<String> ignoredUsers = new ArrayList<>();
 	
 	@Override
 	public AuthServicePushStatus pushAllUsers() {
@@ -84,21 +80,17 @@ public class AuthServicePushServiceImpl implements AuthServicePushService {
 			try {
 				if (person.isActive()) {
 					if (authServicePerson == null) {
-						person.setPassword(getOrGenerateUserPassword(person));
-						addUserToAuthService(person);
-						status.setNumberAdded(status.getNumberAdded()+1);
+						addUserToAuthService(person, getOrGenerateUserPassword(person));
+						status.addNumberAdded();
 					} else if (authServicePerson.equals(person)) {
-						status.setNumberSame(status.getNumberSame()+1);
+						status.addNumberSame();
 					} else {
-						person.setId(authServicePerson.getId());
-						person.setPassword(getOrGenerateUserPassword(person));
-						updateUserInAuthService(person);
-						status.setNumberUpdated(status.getNumberUpdated()+1);
+						updateUserInAuthService(person, authServicePerson.getId(), getOrGenerateUserPassword(person));
+						status.addNumberUpdated();
 					}
 				} else if (authServicePerson != null) {
-					person.setId(authServicePerson.getId());
-					removeUserFromAuthService(person);
-					status.setNumberRemoved(status.getNumberRemoved()+1);
+					removeUserFromAuthService(authServicePerson.getId());
+					status.addNumberRemoved();
 				}
 			} catch (Exception e) {
 				status.getErrors().add(e.getMessage());
@@ -153,7 +145,8 @@ public class AuthServicePushServiceImpl implements AuthServicePushService {
 		return result.getBody();
 	}
 	
-	protected void addUserToAuthService(AuthUser newUser) {
+	protected void addUserToAuthService(AuthUser newUser, String userPassword) {
+		newUser.setPassword(userPassword);
 		ResponseEntity<String> result = restOperations.exchange(getUsersApiUrl(), HttpMethod.POST, 
 				new HttpEntity<AuthUser>(newUser, authServiceRestUtilService.getAuthServiceStyleHttpHeadersForUser(AUTH_USER_API_VERSION)), String.class);
 		if (result.getStatusCode() != HttpStatus.CREATED) {
@@ -161,16 +154,17 @@ public class AuthServicePushServiceImpl implements AuthServicePushService {
 		}
 	}
 	
-	protected void updateUserInAuthService(AuthUser updatedUser) {
-		ResponseEntity<String> result = restOperations.exchange(getUsersApiUrl() + updatedUser.getId(), HttpMethod.PUT, 
+	protected void updateUserInAuthService(AuthUser updatedUser, String userId, String userPassword) {
+		updatedUser.setPassword(userPassword);
+		ResponseEntity<String> result = restOperations.exchange(getUsersApiUrl() + userId, HttpMethod.PUT, 
 				new HttpEntity<AuthUser>(updatedUser, authServiceRestUtilService.getAuthServiceStyleHttpHeadersForUser(AUTH_USER_API_VERSION)), String.class);
 		if (result.getStatusCode() != HttpStatus.OK) {
 			throw new RestClientException(result.getBody());
 		}
 	}
 	
-	protected void removeUserFromAuthService(AuthUser updatedUser) {
-		ResponseEntity<String> result = restOperations.exchange(getUsersApiUrl() + updatedUser.getId(), HttpMethod.DELETE, 
+	protected void removeUserFromAuthService(String userId) {
+		ResponseEntity<String> result = restOperations.exchange(getUsersApiUrl() + userId, HttpMethod.DELETE, 
 				new HttpEntity<AuthUser>(authServiceRestUtilService.getAuthServiceStyleHttpHeadersForUser(AUTH_USER_API_VERSION)), String.class);
 		if (result.getStatusCode() != HttpStatus.NO_CONTENT) {
 			throw new RestClientException(result.getBody());
@@ -178,7 +172,7 @@ public class AuthServicePushServiceImpl implements AuthServicePushService {
 	}
 	
 	protected String getUsersApiUrl() {
-		return configurationService.getPropertyValueAsString("auth.users.url") + "/";
+		return configurationService.getPropertyValueAsString(RestServiceConstants.Configuration.AUTH_USERS_URL) + "/";
 	}
 
 	public AuthServiceRestUtilService getAuthServiceRestUtilService() {

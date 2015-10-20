@@ -22,19 +22,16 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.net.util.Base64;
 import org.kuali.coeus.sys.framework.rest.AuthServiceRestUtilService;
+import org.kuali.coeus.sys.framework.rest.RestServiceConstants;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 public class AuthServiceFilter implements Filter {
 
-	private static final String AUTH_USERS_URL = "auth.users.url";
-	private static final String AUTH_BASE_URL = "auth.base.url";
 	private static final String CURRENT_USER_APPEND = "/current";
 	public static final String AUTH_SERVICE_FILTER_AUTH_TOKEN_SESSION_ATTR = "AUTH_SERVICE_FILTER_AUTH_TOKEN";
 	public static final String AUTH_SERVICE_FILTER_AUTHED_USER_ATTR = "AUTH_SERVICE_FILTER_AUTHED_USER";
@@ -66,9 +63,9 @@ public class AuthServiceFilter implements Filter {
 			secondsToCacheAuthTokenInSession = Long.parseLong(secondsToCache);
 		}
 		
-		authServiceUrl = getConfigurationService().getPropertyValueAsString(AUTH_BASE_URL);
+		authServiceUrl = getConfigurationService().getPropertyValueAsString(RestServiceConstants.Configuration.AUTH_BASE_URL);
 		authWithReturnTo = authServiceUrl + AUTH_RETURN_TO;
-		getCurrentUserUrl = getConfigurationService().getPropertyValueAsString(AUTH_USERS_URL) + CURRENT_USER_APPEND;
+		getCurrentUserUrl = getConfigurationService().getPropertyValueAsString(RestServiceConstants.Configuration.AUTH_USERS_URL) + CURRENT_USER_APPEND;
 		
 		
 		apiUserName = getConfigurationService().getPropertyValueAsString(KC_REST_ADMIN_USERNAME);
@@ -154,7 +151,7 @@ public class AuthServiceFilter implements Filter {
 		}
 		
 		ResponseEntity<AuthUser> result = getRestTemplate().exchange(currentGetUserUrl, HttpMethod.GET, 
-				new HttpEntity<String>(getAuthServiceRestUtilService().getAuthServiceStyleHttpHeadersForToken("1", authTokenValue)), AuthUser.class);
+				new HttpEntity<String>(getAuthServiceRestUtilService().getAuthServiceStyleHttpHeadersForToken(RestServiceConstants.RestApiVersions.VER_1, authTokenValue)), AuthUser.class);
 		
 		authedUser = result.getBody();
 		if (authedUser != null) {

@@ -88,10 +88,10 @@ public class AuthServicePushServiceTest {
 			}
 			
 			@Override
-			protected void addUserToAuthService(AuthUser newUser) { }
+			protected void addUserToAuthService(AuthUser newUser, String userPassword) { }
 			
 			@Override
-			protected void updateUserInAuthService(AuthUser updatedUser) { }
+			protected void updateUserInAuthService(AuthUser updatedUser, String userId, String userPassword) { }
 			
 			@Override
 			protected String getUserAuthSystemRole(Person person) {

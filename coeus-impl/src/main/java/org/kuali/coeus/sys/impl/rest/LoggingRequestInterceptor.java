@@ -36,7 +36,14 @@ public class LoggingRequestInterceptor implements ClientHttpRequestInterceptor {
 	}
 	
 	protected void traceResponse(HttpRequest request, ClientHttpResponse response) {
-		
+		try {
+			if (LOG.isDebugEnabled()) {
+				LOG.debug("Response status code : " + response.getStatusCode());
+				LOG.debug("Response status text : " + response.getStatusText());
+			}
+		} catch (IOException e) {
+			LOG.warn("Error performing debug logging of response", e);
+		}
 	}
 
 }

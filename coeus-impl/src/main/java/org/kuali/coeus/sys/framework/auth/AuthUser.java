@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.Instant;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -109,6 +110,7 @@ public class AuthUser implements Serializable {
 		this.phone = phone;
 	}
 
+	@Override
 	public boolean equals(Object obj) {
 		if (obj == null) { return false; }
 		if (obj == this) { return true; }
@@ -126,6 +128,22 @@ public class AuthUser implements Serializable {
 			.append(firstName, rhs.firstName)
 			.append(lastName, rhs.lastName)
 			.isEquals();
+	}
+	
+	@Override
+	public String toString() {
+		return new ToStringBuilder(this)
+			.append(username)
+			.append(schoolId)
+			.append(name)
+			.append(email)
+			.append(phone)
+			.append(role)
+			.append(firstName)
+			.append(lastName)
+			.append(lastValidated)
+			.append(active)
+			.toString();
 	}
 
 	public boolean isActive() {
