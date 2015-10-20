@@ -21,19 +21,17 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.net.util.Base64;
+import org.kuali.coeus.sys.framework.rest.AuthServiceRestUtilService;
+import org.kuali.coeus.sys.framework.rest.RestServiceConstants;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 public class AuthServiceFilter implements Filter {
 
-	private static final String AUTH_USERS_URL = "auth.users.url";
-	private static final String AUTH_BASE_URL = "auth.base.url";
 	private static final String CURRENT_USER_APPEND = "/current";
 	public static final String AUTH_SERVICE_FILTER_AUTH_TOKEN_SESSION_ATTR = "AUTH_SERVICE_FILTER_AUTH_TOKEN";
 	public static final String AUTH_SERVICE_FILTER_AUTHED_USER_ATTR = "AUTH_SERVICE_FILTER_AUTHED_USER";
@@ -43,7 +41,6 @@ public class AuthServiceFilter implements Filter {
 	private static final String ACCESS_DENIED_MESSAGE = "Access Denied";
 	private static final String AUTHORIZATION_PREFIX = "Bearer ";
 	private static final String AUTHORIZATION_HEADER_NAME = "Authorization";
-	private static final String KUALICO_VERSION_1_MEDIA_TYPE = "application/vnd.kuali.v1+json";
 	private static final String AUTH_TOKEN_COOKIE_NAME = "authToken";
 	private static final String AUTH_RETURN_TO = "/auth?return_to=";
 	private static final String KC_REST_ADMIN_PASSWORD = "kc.rest.admin.password";
@@ -66,9 +63,9 @@ public class AuthServiceFilter implements Filter {
 			secondsToCacheAuthTokenInSession = Long.parseLong(secondsToCache);
 		}
 		
-		authServiceUrl = getConfigurationService().getPropertyValueAsString(AUTH_BASE_URL);
+		authServiceUrl = getConfigurationService().getPropertyValueAsString(RestServiceConstants.Configuration.AUTH_BASE_URL);
 		authWithReturnTo = authServiceUrl + AUTH_RETURN_TO;
-		getCurrentUserUrl = getConfigurationService().getPropertyValueAsString(AUTH_USERS_URL) + CURRENT_USER_APPEND;
+		getCurrentUserUrl = getConfigurationService().getPropertyValueAsString(RestServiceConstants.Configuration.AUTH_USERS_URL) + CURRENT_USER_APPEND;
 		
 		
 		apiUserName = getConfigurationService().getPropertyValueAsString(KC_REST_ADMIN_USERNAME);
@@ -147,16 +144,14 @@ public class AuthServiceFilter implements Filter {
 		} else {
 			request.getSession().removeAttribute(AUTH_SERVICE_FILTER_AUTHED_USER_ATTR);
 		}
-		HttpHeaders headers = new HttpHeaders();
-		headers.setAccept(Arrays.asList(MediaType.parseMediaType(KUALICO_VERSION_1_MEDIA_TYPE)));
-		headers.set(AUTHORIZATION_HEADER_NAME, AUTHORIZATION_PREFIX + authTokenValue);
 		
 		String currentGetUserUrl = getCurrentUserUrl;
 		if (!currentGetUserUrl.startsWith("http")) {
 			currentGetUserUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + currentGetUserUrl;
 		}
 		
-		ResponseEntity<AuthUser> result = getRestTemplate().exchange(currentGetUserUrl, HttpMethod.GET, new HttpEntity<String>(headers), AuthUser.class);
+		ResponseEntity<AuthUser> result = getRestTemplate().exchange(currentGetUserUrl, HttpMethod.GET, 
+				new HttpEntity<String>(getAuthServiceRestUtilService().getAuthServiceStyleHttpHeadersForToken(RestServiceConstants.RestApiVersions.VER_1, authTokenValue)), AuthUser.class);
 		
 		authedUser = result.getBody();
 		if (authedUser != null) {
@@ -173,6 +168,10 @@ public class AuthServiceFilter implements Filter {
 
 	protected RestTemplate getRestTemplate() {
 		return KcServiceLocator.getService("consumerRestOperations");
+	}
+	
+	protected AuthServiceRestUtilService getAuthServiceRestUtilService() {
+		return KcServiceLocator.getService(AuthServiceRestUtilService.class);
 	}
 
 	@Override

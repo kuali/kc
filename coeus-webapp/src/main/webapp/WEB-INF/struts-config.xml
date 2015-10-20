@@ -714,6 +714,10 @@
         <action path="/coiProject" name="KualiForm" type="org.kuali.coeus.coi.impl.CoiProjectAction">
             <forward name="basic" path="/WEB-INF/jsp/coi/CoiProjectPush.jsp"/>
         </action>
+        
+        <action path="/authServicePush" name="KualiForm" type="org.kuali.coeus.sys.impl.auth.AuthServiceBulkPushAction">
+            <forward name="basic" path="/WEB-INF/jsp/sys/AuthServicePush.jsp"/>
+        </action>
 
 
     </action-mappings>
