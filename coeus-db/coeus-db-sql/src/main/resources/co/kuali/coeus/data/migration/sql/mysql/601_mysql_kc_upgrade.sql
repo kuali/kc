@@ -22,6 +22,7 @@
 \. ./kc/bootstrap/V601_002__KC_DML_KRACOEUS-6639.sql
 \. ./kc/bootstrap/V601_003__Resolve_Repackaging_Db_Issues.sql
 \. ./kc/bootstrap/V601_007__KRACOEUS-8814.sql
+\. ./kc/bootstrap/V601_011__KRACOEUS-8454.sql
 \. ./kc/bootstrap/V601_013__KRACOEUS-8866.sql
 \. ./kc/bootstrap/V601_017__KRACOEUS-8864.sql
 \. ./kc/bootstrap/V601_019__KRACOEUS-8896.sql
