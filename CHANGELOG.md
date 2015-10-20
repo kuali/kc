@@ -1,6 +1,23 @@
 
 
 ##CURRENT
+* MIT- PD - Notify individual key personnel function not
+  * consistent with Notify All window options.
+  * I suspect MIT's instance is experiencing a COLLISION with RESKC-542 that
+  * restored the individual notify all feature that their contributed COI
+  * Disclosure feature broke. 
+  * This is working in Kuali 1509.64 09-29-2015 14:43
+  * In kc1509.57 created pd 29247 with required fields to save
+  * added an Employee PI
+  * Added a non-employee Co-Investigator, 
+  * I am now able to notify via button in individual's name header on the
+screen
+  * BUT am not *able to notify this person via the *Notify All window. 
+  * These notify functions should be the same in both places and should
+  * follow COI disclosure hierarchy requirements.
+  * vineeth on Fri, 16 Oct 2015 19:25:01 -0400 [View Commit](../../commit/d9f81a4235be00af043fe3db2d607a3c63fec478)
+
+##coeus-1510.34
 *  Implement some kind of cahcing for Units list and gets refreshed every minute. The pefromance issue was to fetch the entire unit list for all Agendas. With this fix, it would not call  getUnits() method if the request gets completed within a min
   * Geo Thomas on Thu, 15 Oct 2015 17:50:16 -0400 [View Commit](../../commit/69f121f5ba46c5e2c8b568c1ee90f716b0e7cf8f)
 
