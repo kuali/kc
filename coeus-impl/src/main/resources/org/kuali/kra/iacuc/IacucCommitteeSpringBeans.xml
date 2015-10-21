@@ -208,7 +208,7 @@
 	</bean>
 	
 	<bean id="iacucProtocolBatchCorrespondencePrint" class="org.kuali.kra.iacuc.committee.print.IacucProtocolBatchCorrespondencePrint" scope="prototype" parent="templatePrint">
-		<property name="xmlStream" ref="iacucRenewalReminderStream" />
+		<property name="xmlStream" ref="iacucCorrespondenceXmlStream" />
 		<property name="protocolCorrespondenceTemplateService" ref="iacucProtocolCorrespondenceTemplateService" />
 	</bean>
 	
