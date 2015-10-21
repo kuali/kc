@@ -1,6 +1,35 @@
 
 
 ##CURRENT
+* Ignore test and update email validation default
+  * blackcathacker on Tue, 20 Oct 2015 16:43:36 -0700 [View Commit](../../commit/194ab4989c7ff8dcb353b218c0063fa7552aa646)
+* chaning kc-sql pom version and adding headers to sql scripts
+  * Geo Thomas on Tue, 20 Oct 2015 19:30:09 -0400 [View Commit](../../commit/95b0ef3a750d13efc188f70786679eee63a868df)
+*  since there was a conflict between hosted customers proposal types and bootstrap proposal types, new proposal types have changed to start from 500 onwards.
+  * Geo Thomas on Tue, 20 Oct 2015 16:34:49 -0400 [View Commit](../../commit/bd08cf1687c2e39dd7ddfce07b5e592550b8becb)
+*  fixing oracle and mysql SQL migrations for a rice embedded configuration as contributed by: https://github.com/kuali/kc/pull/1590
+  * Travis Schneeberger on Tue, 20 Oct 2015 16:38:32 -0400 [View Commit](../../commit/75c36bd31f317fc9fd17cf5ae51c27da55dfed27)
+* MIT IRB - Full Board Protocols not Assigned to Agenda should
+  * not display in the Minutes PDF.
+  * MIT:
+  * when you have a protocol and submit it to a schedule, that protocol
+shows up in the minutes even when it is not assigned to the agenda. 
+  * Full review protocols not assigned to the agenda should not show up in
+  * the minutes. 
+  * Exempt and Expedited protocols assigned to a schedule should show in the
+  * minutes
+  * Happens consistently. Here is one example: 
+  * There is a protocol 1403006261A001 that shows up in the minutes, even
+  * though it is only "Submitted to committee" not "In agenda". 
+  * The protocol was submitted to the 5/21/15 schedule but never put "in
+  * agenda", nevertheless, it shows in the minutes, it should not.
+  * vineeth on Tue, 20 Oct 2015 12:59:43 -0400 [View Commit](../../commit/4ddd5eaf997bbd1e427c58c5745aa32d6df46ca2)
+* Use configurable password for dev password during push
+  * blackcathacker on Tue, 20 Oct 2015 12:36:11 -0700 [View Commit](../../commit/61b461aebc780305c7feaba366d4d191a1902b86)
+* Bulk push from KC to Core Auth Service
+  * blackcathacker on Tue, 13 Oct 2015 18:45:45 -0700 [View Commit](../../commit/c2102841453fc893fbf45aad723d214fb610b0ca)
+
+##coeus-1510.36
 * No Changes
 
 
