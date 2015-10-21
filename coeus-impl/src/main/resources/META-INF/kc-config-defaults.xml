@@ -257,6 +257,4 @@
 	<param name="kc.rest.ssl.trust.selfsigned" override="false">${dev.mode}</param>
 	<param name="auth.user.push.use.dev.password" override="false">false</param>
 	<param name="auth.user.push.dev.password" override="false">password</param>
-	
-	<param name="validationPatternRegex.emailAddress" override="true">[A-Za-z0-9]+([_.\+\-][A-Za-z0-9]+)*@([A-Za-z0-9][A-Za-z0-9_-]*\\.)+[A-Za-z]{2,}</param>
 </config>
