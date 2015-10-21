@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1510.38
 * Ignore test and update email validation default
   * blackcathacker on Tue, 20 Oct 2015 16:43:36 -0700 [View Commit](../../commit/194ab4989c7ff8dcb353b218c0063fa7552aa646)
 * chaning kc-sql pom version and adding headers to sql scripts
