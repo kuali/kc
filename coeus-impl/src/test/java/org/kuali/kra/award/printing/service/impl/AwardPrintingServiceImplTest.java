@@ -88,8 +88,8 @@ public class AwardPrintingServiceImplTest {
 		final ConfigurationService configurationService = context.mock(ConfigurationService.class);
 		context.checking(new Expectations() {
 			{
-				oneOf(configurationService).getPropertyValueAsString(Constants.PRINT_LOGGING_ENABLE);
-				will(returnValue("foo"));
+				oneOf(configurationService).getPropertyValueAsBoolean(Constants.PRINT_LOGGING_ENABLE);
+				will(returnValue(false));
 				oneOf(configurationService).getPropertyValueAsString(KRADConstants.APPLICATION_URL_KEY);
 				will(returnValue("foo"));
 				oneOf(configurationService).getPropertyValueAsString(Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY);
