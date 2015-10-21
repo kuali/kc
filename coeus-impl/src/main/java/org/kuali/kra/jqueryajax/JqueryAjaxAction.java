@@ -19,6 +19,7 @@
 package org.kuali.kra.jqueryajax;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -221,9 +222,13 @@ public class JqueryAjaxAction extends KualiDocumentActionBase {
         throws Exception {
         final JqueryAjaxForm ajaxForm = (JqueryAjaxForm) form;
         if (StringUtils.isNotBlank(ajaxForm.getCode())) {
-            final AwardTemplate template = getBusinessObjectService().findBySinglePrimaryKey(AwardTemplate.class, ajaxForm.getCode());
-            if (template != null) {
-                ajaxForm.setReturnVal(template.getDescription());
+            if (NumberUtils.isDigits(ajaxForm.getCode())) {
+                final AwardTemplate template = getBusinessObjectService().findBySinglePrimaryKey(AwardTemplate.class, ajaxForm.getCode());
+                if (template != null) {
+                    ajaxForm.setReturnVal(template.getDescription());
+                } else {
+                    ajaxForm.setReturnVal("<span style='color: red;'>not found</span>");
+                }
             } else {
                 ajaxForm.setReturnVal("<span style='color: red;'>not found</span>");
             }
