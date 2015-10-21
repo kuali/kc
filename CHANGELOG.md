@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1510.43
 * fix schemaspy and melody authentication
 
   * Schemaspy and Java Melody servlets weren't mapped to the Bootstrap Login filter which actually sets the remote user and redirects for authentication. This applies that filter and avoids the no remote user error that occurs in some cases as well.
