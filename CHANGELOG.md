@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* fix schemaspy and melody authentication
+
+  * Schemaspy and Java Melody servlets weren't mapped to the Bootstrap Login filter which actually sets the remote user and redirects for authentication. This applies that filter and avoids the no remote user error that occurs in some cases as well.
+  * blackcathacker on Wed, 21 Oct 2015 10:55:25 -0700 [View Commit](../../commit/937ddca6c6a374a8f752cf3a772e74878b8640c1)
+* avoid number format exception when the sponsor template is non-numeric
+  * Travis Schneeberger on Wed, 21 Oct 2015 09:58:13 -0400 [View Commit](../../commit/d0a64763f1ade0cec5519dc838944fce35603974)
+
+##coeus-1510.42
 * No Changes
 
 
