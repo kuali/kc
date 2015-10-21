@@ -17,12 +17,36 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-update PROPOSAL_TYPE set PROPOSAL_TYPE_CODE = '500' where PROPOSAL_TYPE_CODE = '10' and DESCRIPTION = 'New - Change/Corrected' and UPDATE_USER = 'admin';
-update PROPOSAL_TYPE set PROPOSAL_TYPE_CODE = '501' where PROPOSAL_TYPE_CODE = '14' and DESCRIPTION = 'Pre Proposal' and UPDATE_USER = 'admin';
-update PROPOSAL_TYPE set PROPOSAL_TYPE_CODE = '502' where PROPOSAL_TYPE_CODE = '15' and DESCRIPTION = 'Supplement-Changed/Corrected' and UPDATE_USER = 'admin';
-update PROPOSAL_TYPE set PROPOSAL_TYPE_CODE = '503' where PROPOSAL_TYPE_CODE = '16' and DESCRIPTION = 'Resubmission-Changed/Corrected' and UPDATE_USER = 'admin';
-update PROPOSAL_TYPE set PROPOSAL_TYPE_CODE = '504' where PROPOSAL_TYPE_CODE = '17' and DESCRIPTION = 'Budget-SOW Update' and UPDATE_USER = 'admin';
-update PROPOSAL_TYPE set PROPOSAL_TYPE_CODE = '505' where PROPOSAL_TYPE_CODE = '18' and DESCRIPTION = 'Renewal-Changed/Corrected' and UPDATE_USER = 'admin';
+DELIMITER /
+
+create procedure updateProposalType(in curProposalType varchar(3), in newProposalType varchar(3), in curDesc varchar(200))
+	begin
+		declare dbProposalType varchar(3) default null;
+
+		select proposal_type_code into dbProposalType from proposal_type where proposal_type_code = curProposalType and description = curDesc and update_user = 'admin';
+		if dbProposalType is not null then
+			insert into proposal_type values ('999', 'TEMP', NOW(), 'admin', 1, UUID());
+			update proposal_log set proposal_type_code = '999' where proposal_type_code = dbProposalType;
+			update proposal set proposal_type_code = '999' where proposal_type_code = dbProposalType;
+			update eps_proposal set proposal_type_code = '999' where proposal_type_code = dbProposalType;
+			update proposal_type set proposal_type_code = newProposalType where proposal_type_code = dbProposalType;
+			update proposal_log set proposal_type_code = newProposalType where proposal_type_code = '999';
+			update proposal set proposal_type_code = newProposalType where proposal_type_code = '999';
+			update eps_proposal set proposal_type_code = newProposalType where proposal_type_code = '999';
+			delete from proposal_type where proposal_type_code = '999';
+		end if;
+	end /
+	
+DELIMITER ;
+			
+call updateProposalType('10', '500', 'New - Change/Corrected');
+call updateProposalType('14', '501', 'Pre Proposal');
+call updateProposalType('15', '502', 'Supplement-Changed/Corrected');
+call updateProposalType('16', '503', 'Resubmission-Changed/Corrected');
+call updateProposalType('17', '504', 'Budget-SOW Update');
+call updateProposalType('18', '505', 'Renewal-Changed/Corrected');
+
+drop procedure updateProposalType;
 
 update KRCR_PARM_T set VAL='500' where NMSPC_CD = 'KC-PD' and PARM_NM = 'PROPOSAL_TYPE_CODE_NEW_CHANGE_CORRECTED' and VAL = '10';
 update KRCR_PARM_T set VAL='501' where NMSPC_CD = 'KC-PD' and PARM_NM = 'PROPOSAL_TYPE_CODE_PRE_PROPOSAL' and VAL = '14';
