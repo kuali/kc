@@ -26,7 +26,6 @@ import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
@@ -52,7 +51,6 @@ public class ProposalPersonBiographyServiceTest {
 		proposalDocument = createProposal();
 	}
 
-    @Ignore
 	@Test
 	public void test_addProposalPersonBiography_with_document_and_biography() {
 		final DataObjectService dataObjectService = context
