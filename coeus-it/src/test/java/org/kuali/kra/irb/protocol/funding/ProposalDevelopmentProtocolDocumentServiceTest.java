@@ -114,7 +114,6 @@ public class ProposalDevelopmentProtocolDocumentServiceTest extends
 	}
 
 	@Test
-	@Ignore("validationPatternRegex.emailAddress changes not being picked up by integration tests and new email address pattern doesn't match current emails(kcnotification+jtester@gmail.com)")
 	public void test_createProtocolDocument_whenAuthorizedToCreateProtocol()
 			throws Exception {
 		ProtocolDocument protocolDocument = proposalDevelopmentProtocolDocumentService.createProtocolDocument(document1);
