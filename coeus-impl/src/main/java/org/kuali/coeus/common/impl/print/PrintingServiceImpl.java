@@ -87,13 +87,12 @@ public class PrintingServiceImpl implements PrintingService {
     protected Map<String, byte[]> getPrintBytes(Printable printableArtifact) throws PrintingException {
         try {
             Map<String, byte[]> streamMap = printableArtifact.renderXML();
-            try{
-                String loggingEnable = kualiConfigurationService.getPropertyValueAsString(Constants.PRINT_LOGGING_ENABLE);
-                if (loggingEnable != null && Boolean.parseBoolean(loggingEnable))
-                    logPrintDetails(streamMap);
-            }catch(Exception ex){
-                LOG.error(ex.getMessage());
+
+            final boolean loggingEnable = kualiConfigurationService.getPropertyValueAsBoolean(Constants.PRINT_LOGGING_ENABLE);
+            if (loggingEnable) {
+                logPrintDetails(streamMap);
             }
+
 
             Map<String, byte[]> pdfByteMap = new LinkedHashMap<String, byte[]>();
 
