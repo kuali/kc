@@ -22,11 +22,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
+import org.kuali.kra.iacuc.committee.bo.IacucCommitteeBatchCorrespondenceDetail;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondence;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.undo.UndoLastActionServiceImplBase;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,7 +65,9 @@ public class IacucProtocolUndoLastActionServiceImpl extends UndoLastActionServic
     @Override
     protected void removeAttachedCorrespondences(ProtocolActionBase protocolAction) {
         if(protocolAction != null) {
-            Map<String, String> fieldValues = new HashMap<String, String>();
+           getBusinessObjectService().deleteMatching(IacucCommitteeBatchCorrespondenceDetail.class, Collections.singletonMap("protocolActionId", protocolAction.getProtocolActionId().toString()));
+
+            final Map<String, String> fieldValues = new HashMap<>();
             fieldValues.put("actionIdFk", protocolAction.getProtocolActionId().toString());
             fieldValues.put("protocolNumber", protocolAction.getProtocolNumber());
             fieldValues.put("sequenceNumber", protocolAction.getSequenceNumber().toString());
