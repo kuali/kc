@@ -77,4 +77,15 @@ public class ProjectPerson implements Serializable {
     public void setRoleCode(String roleCode) {
         this.roleCode = roleCode;
     }
+
+    @Override
+    public String toString() {
+        return "ProjectPerson{" +
+                "sourceSystem='" + sourceSystem + '\'' +
+                ", sourceIdentifier='" + sourceIdentifier + '\'' +
+                ", personId='" + personId + '\'' +
+                ", sourcePersonType='" + sourcePersonType + '\'' +
+                ", roleCode='" + roleCode + '\'' +
+                '}';
+    }
 }

@@ -25,6 +25,7 @@ import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collections;
 
 @Component("awardProjectRetrievalService")
 public class AwardProjectRetrievalServiceImpl extends AbstractProjectRetrievalService {
@@ -40,11 +41,11 @@ public class AwardProjectRetrievalServiceImpl extends AbstractProjectRetrievalSe
         project.setTitle(rs.getString(1));
         project.setTypeCode(ProjectTypeCode.AWARD.getId());
         project.setSourceSystem(Constants.MODULE_NAMESPACE_AWARD);
-        project.setSourceIdentifier(rs.getString(2));
+        final String sourceIdentifier = rs.getString(2);
+        project.setSourceIdentifier(sourceIdentifier);
         project.setSourceStatus(rs.getString(3));
         project.setStartDate(rs.getDate(4));
-        project.setSponsorCode(rs.getString(5));
-        project.setSponsorName(rs.getString(6));
+        setSponsorFields(Collections.singletonList(new ProjectSponsor(Constants.MODULE_NAMESPACE_AWARD, sourceIdentifier, rs.getString(5), rs.getString(6))), project);
 
         return project;
     }

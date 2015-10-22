@@ -30,7 +30,7 @@ import java.util.Map;
 @Component("restMessageConsumer")
 public class RestMessageConsumer implements MessageListener {
 
-    private static Log LOG = LogFactory.getLog(RestMessageProducer.class);
+    private static Log LOG = LogFactory.getLog(RestMessageConsumer.class);
 
     private static final String ADMIN_TOKEN =
             "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MTI3MDEyOTgwMjA0NDQ2MzU4OCwiaWF0IjoxNDQ1MjY5MjcxLCJleHAiOjE0NDY0Nzg4NzEsImlzcyI6Imt1YWxpLmNvIn0.Ce-r347KVeVb4lFS77Y8F9hz_979OX5cDrSvIFPoq0I";
