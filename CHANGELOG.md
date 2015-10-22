@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* Protocol Review comments entered at time of approval not persisting while generating correspondence and not appearing on letters
+  * Fix is to persist review comments prior to performing protocol actions/generating correspondence so that those comments are
+  * available in correspondence.
+  * rmancher on Thu, 22 Oct 2015 16:11:53 -0400 [View Commit](../../commit/94b0cb54b1954bd17c6c108a58102de8f31387f7)
+
+##coeus-1510.47
 * Initialize allFundingProposal collection to avoid NPE when none exist
 
   * On navigating to the institutional proposal actions tab the page would not complete loading and the following stack trace could be found in the logs
