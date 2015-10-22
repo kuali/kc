@@ -27,15 +27,16 @@ import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 
 public class ProtocolPersonnelDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
-    
-    protected List<String> requiredAttributes = new ArrayList<String>();
+
+    private static final String PROTOCOL_NUMBER = "protocolNumber";
+
+    protected List<String> requiredAttributes = new ArrayList<>();
     {
         requiredAttributes.add(KcKimAttributes.PROTOCOL);
     }
@@ -45,51 +46,38 @@ public class ProtocolPersonnelDerivedRoleTypeServiceImpl extends DerivedRoleType
             Map<String,String> qualification) {
         validateRequiredAttributesAgainstReceived(qualification);
 
-        List<RoleMembership> members = new ArrayList<RoleMembership>();
-
-        String protocolNumber = qualification.get(KcKimAttributes.PROTOCOL);       
-        Protocol protocol = getProtocol(protocolNumber);
+        final String protocolNumber = qualification.get(KcKimAttributes.PROTOCOL);
+        final Protocol protocol = getProtocol(protocolNumber);
         
         if (protocol != null && CollectionUtils.isNotEmpty(protocol.getProtocolPersons())) {
-            for (ProtocolPersonBase person : protocol.getProtocolPersons()) {
-                if (StringUtils.equals(person.getProtocolPersonRoleId(), roleName) &&
-                    StringUtils.isNotBlank(person.getPerson().getPersonId())) {
-                    members.add(RoleMembership.Builder.create(null, null, person.getPerson().getPersonId(), MemberType.PRINCIPAL, null).build());
-    
-                }
-            }
+            return protocol.getProtocolPersons().stream()
+                    .filter(employeeMatchesRole(roleName))
+                    .map(person -> RoleMembership.Builder.create(null, null, person.getPersonId(), MemberType.PRINCIPAL, null).build())
+                    .collect(Collectors.toList());
         }
         
-        return members;
+        return Collections.emptyList();
     }
     
     @Override
     public boolean hasDerivedRole(String principalId, List<String> groupIds, String namespaceCode, String roleName,
             Map<String,String> qualification) {
         validateRequiredAttributesAgainstReceived(qualification);
-        
-        String protocolNumber = qualification.get(KcKimAttributes.PROTOCOL);
-        
-        Protocol protocol = getProtocol(protocolNumber);
 
-        if (protocol != null && CollectionUtils.isNotEmpty(protocol.getProtocolPersons())) {
-            for (ProtocolPersonBase person : protocol.getProtocolPersons()) {
-                //Find protocol person that matches the principal id
-                if (StringUtils.equals(principalId, person.getPersonId())) {
-                    if (StringUtils.equals(roleName, person.getProtocolPersonRoleId())) {
-                        return true;
-                    }
-                }
-            }
-        }
-        
-        return false;
+        final String protocolNumber = qualification.get(KcKimAttributes.PROTOCOL);
+        final Protocol protocol = getProtocol(protocolNumber);
+
+        return protocol != null && CollectionUtils.isNotEmpty(protocol.getProtocolPersons()) && protocol.getProtocolPersons().stream()
+                .anyMatch(employeeMatchesRole(roleName));
+    }
+
+    protected Predicate<? super ProtocolPersonBase> employeeMatchesRole(String roleName) {
+        return person -> StringUtils.equals(person.getProtocolPersonRoleId(), roleName)
+                && StringUtils.isNotBlank(person.getPersonId());
     }
     
     private Protocol getProtocol(String protocolNumber) {
-        Map<String,Object> keymap = new HashMap<String,Object>();
-        keymap.put("protocolNumber", protocolNumber);
-        return (Protocol) getBusinessObjectService().findByPrimaryKey(Protocol.class, keymap);
+        return getBusinessObjectService().findByPrimaryKey(Protocol.class, Collections.singletonMap(PROTOCOL_NUMBER, protocolNumber));
     }
 
     /*

@@ -19,6 +19,7 @@
 package org.kuali.kra.irb.actions.undo;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.kra.committee.bo.CommitteeBatchCorrespondenceDetail;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
@@ -27,6 +28,7 @@ import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.undo.UndoLastActionServiceImplBase;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,11 +65,13 @@ public class UndoLastActionServiceImpl extends UndoLastActionServiceImplBase imp
     @Override
     protected void removeAttachedCorrespondences(ProtocolActionBase protocolAction) {
         if(protocolAction != null) {
-            Map<String, String> fieldValues = new HashMap<String, String>();
+            getBusinessObjectService().deleteMatching(CommitteeBatchCorrespondenceDetail.class, Collections.singletonMap("protocolActionId", protocolAction.getProtocolActionId().toString()));
+
+            final Map<String, String> fieldValues = new HashMap<>();
             fieldValues.put("actionIdFk", protocolAction.getProtocolActionId().toString());
             fieldValues.put("protocolNumber", protocolAction.getProtocolNumber());
             fieldValues.put("sequenceNumber", protocolAction.getSequenceNumber().toString());
-            
+
             getBusinessObjectService().deleteMatching(ProtocolCorrespondence.class, fieldValues);
         }
     }

@@ -70,12 +70,6 @@ public abstract class CommitteeActionsActionBase extends CommitteeActionBase {
     /**
      * This method is perform the action - Generate Batch Correspondence.
      * Method is called in CommitteeActions.jsp
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
      */
     public ActionForward generateBatchCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
@@ -111,12 +105,6 @@ public abstract class CommitteeActionsActionBase extends CommitteeActionBase {
     /**
      * This method is perform the action - Filter Batch Correspondence History.
      * Method is called in CommitteeActions.jsp
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return 
-     * @throws Exception
      */
     public ActionForward filterBatchCorrespondenceHistory(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
@@ -139,12 +127,6 @@ public abstract class CommitteeActionsActionBase extends CommitteeActionBase {
     /**
      * 
      * This method returns the selected batch correspondence that just have been generated documents for viewing.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
      */
     public ActionForward viewBatchCorrespondenceGenerated(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
@@ -159,12 +141,6 @@ public abstract class CommitteeActionsActionBase extends CommitteeActionBase {
     /**
      * 
      * This method returns the selected batch correspondence history documents for viewing.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
      */
     public ActionForward viewBatchCorrespondenceHistory(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
@@ -179,30 +155,24 @@ public abstract class CommitteeActionsActionBase extends CommitteeActionBase {
     /**
      * 
      * This method returns the selected batch correspondence documents for viewing.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception 
      */
     private ActionForward viewBatchCorrespondence(ActionMapping mapping, CommitteeFormBase committeeForm, 
             List<CommitteeBatchCorrespondenceBase> committeeBatchCorrespondences, boolean viewBatch, HttpServletResponse response) throws Exception {
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         
-        List<String> bookmarksList = new ArrayList<String>();
-        List<byte[]> pdfBaosList = new ArrayList<byte[]>();
+        List<String> bookmarksList = new ArrayList<>();
+        List<byte[]> pdfBaosList = new ArrayList<>();
 
         if (applyRules(new CommitteeActionViewBatchCorrespondenceEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), committeeBatchCorrespondences, viewBatch))) {
             for (CommitteeBatchCorrespondenceBase committeeBatchCorrespondence : committeeBatchCorrespondences) {
-                for (CommitteeBatchCorrespondenceDetailBase committeeBatchCorrespondenceDetail : committeeBatchCorrespondence
-                        .getCommitteeBatchCorrespondenceDetails()) {
-                    if (committeeBatchCorrespondenceDetail.getSelected()) {
-                        bookmarksList.add("Protocol " + committeeBatchCorrespondenceDetail.getProtocolCorrespondence().getProtocolNumber() + ": "
-                                + committeeBatchCorrespondenceDetail.getProtocolAction().getComments());
-                        pdfBaosList.add(committeeBatchCorrespondenceDetail.getProtocolCorrespondence().getCorrespondence());
-                    }
-                }
+                committeeBatchCorrespondence
+                        .getCommitteeBatchCorrespondenceDetails().stream()
+                        .filter(CommitteeBatchCorrespondenceDetailBase::getSelected)
+                        .forEach(committeeBatchCorrespondenceDetail -> {
+                            bookmarksList.add("Protocol " + committeeBatchCorrespondenceDetail.getProtocolCorrespondence().getProtocolNumber() + ": "
+                                    + committeeBatchCorrespondenceDetail.getProtocolAction().getComments());
+                            pdfBaosList.add(committeeBatchCorrespondenceDetail.getProtocolCorrespondence().getCorrespondence());
+                        });
             }
 
             byte[] mergedPdfBytes = mergePdfBytes(pdfBaosList, bookmarksList);
@@ -238,7 +208,6 @@ public abstract class CommitteeActionsActionBase extends CommitteeActionBase {
      *            List containing the PDF data bytes
      * @param bookmarksList
      *            List of bookmarks corresponding to the PDF bytes.
-     * @return
      * @throws PrintingException
      */
     private byte[] mergePdfBytes(List<byte[]> pdfBytesList, List<String> bookmarksList) throws PrintingException {
@@ -252,15 +221,8 @@ public abstract class CommitteeActionsActionBase extends CommitteeActionBase {
             } catch (IOException e) {
                 LOG.error(e.getMessage(), e);
                 break;
-//              throw new PrintingException(e.getMessage(), e);
             }
-            int nop;
-            if (reader == null) {
-                LOG.debug("Empty PDF bytes found for " + bookmarksList.get(count));
-                continue;
-            } else {
-                nop = reader.getNumberOfPages();
-            }
+            int nop = reader.getNumberOfPages();
 
             if (count == 0) {
                 document = nop > 0 ? new com.lowagie.text.Document(reader.getPageSizeWithRotation(1)) : new com.lowagie.text.Document();
@@ -301,12 +263,6 @@ public abstract class CommitteeActionsActionBase extends CommitteeActionBase {
     /**
      * This method is perform the action - Print CommitteeBase Document.
      * Method is called in CommitteeActions.jsp
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return 
-     * @throws Exception
      */
     public ActionForward printCommitteeDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
@@ -327,7 +283,7 @@ public abstract class CommitteeActionsActionBase extends CommitteeActionBase {
             String committeeId = committeeForm.getCommitteeDocument().getCommittee().getCommitteeId();
             if (applyRules(event)) {
                 AbstractPrint printable;
-                List<Printable> printableArtifactList = new ArrayList<Printable>();
+                List<Printable> printableArtifactList = new ArrayList<>();
                 if (printRooster) {
                     printable = getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.ROSTER, committeeId);
                     printable.setPrintableBusinessObject(committeeForm.getCommitteeDocument().getCommittee());
@@ -359,7 +315,7 @@ public abstract class CommitteeActionsActionBase extends CommitteeActionBase {
     
     protected abstract CommitteePrintingServiceBase getCommitteePrintingService();
 
-    protected abstract CommitteeBatchCorrespondenceDao getCommitteeBatchCorrespondenceDao();
+    protected abstract CommitteeBatchCorrespondenceDao<CommitteeBatchCorrespondenceBase> getCommitteeBatchCorrespondenceDao();
 
     
 }
