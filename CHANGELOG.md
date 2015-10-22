@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* Initialize allFundingProposal collection to avoid NPE when none exist
+
+  * On navigating to the institutional proposal actions tab the page would not complete loading and the following stack trace could be found in the logs
+  * java.lang.NullPointerException
+        at org.kuali.kra.institutionalproposal.home.InstitutionalProposal.getAwardFundingProposalsExist(InstitutionalProposal.java:941)
+  * blackcathacker on Thu, 22 Oct 2015 13:14:48 -0700 [View Commit](../../commit/f66f3a61e4ec1b81ebf35f47a5d1a7b58b124ead)
+
+##coeus-1510.46
 * No Changes
 
 
