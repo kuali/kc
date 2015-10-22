@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1510.45
 *  setting a compatible xstream for the batch correspondence print for irb and iacuc.  This avoids a blank pdf file that is generated when printing protocol expiration from committee actions.
   * Travis Schneeberger on Wed, 21 Oct 2015 18:00:39 -0400 [View Commit](../../commit/295a3a9810808eba2337809851557b5a7e220984)
 *  avoid NPE when ProtocolPerson is a non-employee
