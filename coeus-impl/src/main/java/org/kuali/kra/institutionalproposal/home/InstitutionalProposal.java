@@ -243,6 +243,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         proposalIpReviewJoins = new ArrayList<>();
         proposalIpReviewJoins.add(new ProposalIpReviewJoin());
         awardFundingProposals = new ArrayList<>();
+        allFundingProposals = new ArrayList<>();
         institutionalProposalUnitContacts = new ArrayList<>();
         proposalComments = new ArrayList<>();
     }
