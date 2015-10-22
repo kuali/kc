@@ -562,8 +562,8 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         IacucProtocolDocument document = (IacucProtocolDocument) protocolForm.getProtocolDocument();
         IacucProtocol protocol = document.getIacucProtocol();
         IacucProtocolApproveBean actionBean = (IacucProtocolApproveBean) protocolForm.getActionHelper().getProtocolFullApprovalBean();
-        getProtocolApproveService().grantFullApproval(protocol, actionBean);
         saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
+        getProtocolApproveService().grantFullApproval(protocol, actionBean);
         IacucProtocolSubmission submission = (IacucProtocolSubmission)protocol.getProtocolSubmission();
         String actionType;
         String actionDescription;
@@ -684,9 +684,9 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
     public String assignToAgenda(IacucProtocolForm protocolForm) throws Exception {
         IacucProtocol protocol = (IacucProtocol) protocolForm.getProtocolDocument().getProtocol();
         IacucProtocolAssignToAgendaBean actionBean = (IacucProtocolAssignToAgendaBean) protocolForm.getActionHelper().getAssignToAgendaBean();
+        saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
         getProtocolAssignToAgendaService().assignToAgenda(protocol, actionBean);
         generateActionCorrespondence(IacucProtocolActionType.ASSIGNED_TO_AGENDA, protocolForm.getProtocolDocument().getProtocol());
-        saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
         recordProtocolActionSuccess(ACTION_NAME_ASSIGN_TO_AGENDA);
         ProtocolActionBase lastAction = protocolForm.getProtocolDocument().getProtocol().getLastProtocolAction();
         ProtocolActionTypeBase lastActionType = lastAction.getProtocolActionType();
@@ -700,9 +700,9 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         IacucProtocol protocol = (IacucProtocol) protocolForm.getProtocolDocument().getProtocol();
         IacucActionHelper actionHelper = (IacucActionHelper)protocolForm.getActionHelper();
         IacucProtocolGenericActionBean actionBean = actionHelper.getIacucProtocolRemoveFromAgendaBean();
+        saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
         getProtocolAssignToAgendaService().removeFromAgenda(protocol, actionBean);
         generateActionCorrespondence(IacucProtocolActionType.REMOVE_FROM_AGENDA, protocolForm.getProtocolDocument().getProtocol());
-        saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
         recordProtocolActionSuccess(ACTION_NAME_REMOVE_FROM_AGENDA);
         IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.REMOVE_FROM_AGENDA, actionBean.getComments());
         return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IacucConstants.PROTOCOL_ACTIONS_TAB);
@@ -725,9 +725,9 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
     public String grantAdminApproval(IacucProtocolForm protocolForm) throws Exception {
         IacucProtocolDocument document = (IacucProtocolDocument) protocolForm.getProtocolDocument();
         IacucProtocolApproveBean actionBean = (IacucProtocolApproveBean) protocolForm.getActionHelper().getProtocolAdminApprovalBean();
+        saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
         getProtocolApproveService().grantAdminApproval(document.getProtocol(), actionBean);
         generateActionCorrespondence(IacucProtocolActionType.ADMINISTRATIVE_APPROVAL, protocolForm.getProtocolDocument().getProtocol());
-        saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
         recordProtocolActionSuccess("Administrative Approval");
         IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean((IacucProtocol) document.getProtocol(), IacucProtocolActionType.ADMINISTRATIVE_APPROVAL, "Admin Approval");
         protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, IacucConstants.PROTOCOL_TAB, notificationBean, false));
@@ -759,9 +759,9 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         IacucProtocolDocument document = (IacucProtocolDocument) protocolForm.getProtocolDocument();
         IacucProtocol protocol = (IacucProtocol) document.getProtocol();
         IacucProtocolGenericActionBean actionBean = (IacucProtocolGenericActionBean) protocolForm.getActionHelper().getProtocolDisapproveBean();
+        saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
         getProtocolGenericActionService().disapprove(protocol, actionBean);
         generateActionCorrespondence(IacucProtocolActionType.IACUC_DISAPPROVED, protocolForm.getProtocolDocument().getProtocol());
-        saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
         recordProtocolActionSuccess(ACTION_NAME_DISAPPROVE);
         IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean((IacucProtocol) protocolForm.getProtocolDocument().getProtocol(), IacucProtocolActionType.IACUC_DISAPPROVED, "Disapproved");
         protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, IacucConstants.PROTOCOL_TAB, notificationBean, false));
@@ -773,9 +773,9 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         IacucProtocolDocument document = (IacucProtocolDocument) protocolForm.getProtocolDocument();
         IacucProtocol protocol = (IacucProtocol) document.getProtocol();
         IacucProtocolGenericActionBean actionBean = (IacucProtocolGenericActionBean) protocolForm.getActionHelper().getProtocolExpireBean();
+        saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
         getProtocolGenericActionService().expire(protocol, actionBean);
         generateActionCorrespondence(IacucProtocolActionType.EXPIRED, protocolForm.getProtocolDocument().getProtocol());
-        saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
         recordProtocolActionSuccess(ACTION_NAME_EXPIRE);
         IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean((IacucProtocol) protocolForm.getProtocolDocument().getProtocol(), IacucProtocolActionType.EXPIRED, "Expired");
         protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, IacucConstants.PROTOCOL_TAB, notificationBean, false));
@@ -787,9 +787,9 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         IacucProtocolDocument document = (IacucProtocolDocument) protocolForm.getProtocolDocument();
         IacucProtocol protocol = (IacucProtocol) document.getProtocol();
         IacucProtocolGenericActionBean actionBean = (IacucProtocolGenericActionBean) protocolForm.getActionHelper().getProtocolTerminateBean();
+        saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
         getProtocolGenericActionService().terminate(protocol, actionBean);
         generateActionCorrespondence(IacucProtocolActionType.TERMINATED, protocolForm.getProtocolDocument().getProtocol());
-        saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
         recordProtocolActionSuccess(ACTION_NAME_TERMINATE);
         IacucProtocolNotificationRequestBean notificationBean = 
                 new IacucProtocolNotificationRequestBean((IacucProtocol) protocolForm.getProtocolDocument().getProtocol(), IacucProtocolActionType.TERMINATED, "Terminated");
@@ -802,9 +802,9 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         IacucProtocolDocument document = (IacucProtocolDocument) protocolForm.getProtocolDocument();
         IacucProtocol protocol = (IacucProtocol) document.getProtocol();
         IacucProtocolGenericActionBean actionBean = (IacucProtocolGenericActionBean) protocolForm.getActionHelper().getProtocolSuspendBean();
+        saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
         getProtocolGenericActionService().suspend(protocol, actionBean);
         generateActionCorrespondence(IacucProtocolActionType.SUSPENDED, protocolForm.getProtocolDocument().getProtocol());
-        saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
         recordProtocolActionSuccess(ACTION_NAME_SUSPEND);
         IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean((IacucProtocol) protocolForm.getProtocolDocument().getProtocol(), IacucProtocolActionType.SUSPENDED, "Suspended");
         protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, IacucConstants.PROTOCOL_TAB, notificationBean, false));
@@ -816,9 +816,9 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         IacucProtocolDocument document = (IacucProtocolDocument) protocolForm.getProtocolDocument();
         IacucProtocol protocol = (IacucProtocol) document.getProtocol();
         IacucProtocolGenericActionBean actionBean = ((IacucActionHelper) protocolForm.getActionHelper()).getIacucAcknowledgeBean();
+        saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
         getProtocolGenericActionService().iacucAcknowledgement(protocol, actionBean);
         generateActionCorrespondence(IacucProtocolActionType.IACUC_ACKNOWLEDGEMENT, protocolForm.getProtocolDocument().getProtocol());
-        saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
         recordProtocolActionSuccess(ACTION_NAME_ACKNOWLEDGEMENT);
         IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.IACUC_ACKNOWLEDGEMENT, "IACUC Acknowledgement");
         return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IacucConstants.PROTOCOL_ACTIONS_TAB);
@@ -829,9 +829,9 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         IacucProtocolDocument document = (IacucProtocolDocument) protocolForm.getProtocolDocument();
         IacucProtocol protocol = (IacucProtocol) document.getProtocol();
         IacucProtocolGenericActionBean actionBean = ((IacucActionHelper) protocolForm.getActionHelper()).getIacucProtocolHoldBean();
+        saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
         getProtocolGenericActionService().iacucHold(protocol, actionBean);
         generateActionCorrespondence(IacucProtocolActionType.HOLD, protocolForm.getProtocolDocument().getProtocol());
-        saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
         recordProtocolActionSuccess(ACTION_NAME_HOLD);
         IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean((IacucProtocol) protocolForm.getProtocolDocument().getProtocol(), IacucProtocolActionType.HOLD, "IACUC Hold");
         protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, IacucConstants.PROTOCOL_TAB, notificationBean, false));
@@ -843,9 +843,9 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         IacucProtocolDocument document = (IacucProtocolDocument) protocolForm.getProtocolDocument();
         IacucProtocol protocol = (IacucProtocol) document.getProtocol();
         IacucProtocolGenericActionBean actionBean = ((IacucActionHelper) protocolForm.getActionHelper()).getIacucProtocolLiftHoldBean();
+        saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
         getProtocolGenericActionService().iacucLiftHold(protocol, actionBean);
         generateActionCorrespondence(IacucProtocolActionType.LIFT_HOLD, protocolForm.getProtocolDocument().getProtocol());
-        saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
         recordProtocolActionSuccess(ACTION_NAME_LIFT_HOLD);
         IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.LIFT_HOLD, "IACUC Lift Hold");
         return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IacucConstants.PROTOCOL_TAB);
@@ -856,9 +856,9 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         IacucProtocolDocument document = (IacucProtocolDocument) protocolForm.getProtocolDocument();
         IacucProtocol protocol = (IacucProtocol) document.getProtocol();
         IacucProtocolGenericActionBean actionBean = (IacucProtocolGenericActionBean) protocolForm.getActionHelper().getProtocolSMRBean();
+        saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
         ProtocolDocumentBase newDocument = getProtocolGenericActionService().returnForSMR(protocol, actionBean);
         generateActionCorrespondence(IacucProtocolActionType.IACUC_MINOR_REVISIONS_REQUIRED, protocolForm.getProtocolDocument().getProtocol());
-        saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
         refreshAfterProtocolAction(protocolForm, newDocument.getDocumentNumber(), ACTION_NAME_SMR, false);
         IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.IACUC_MINOR_REVISIONS_REQUIRED, "Minor Revisions Required");
         protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, IacucConstants.PROTOCOL_TAB, notificationBean, false));
@@ -870,9 +870,9 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         IacucProtocolDocument document = (IacucProtocolDocument) protocolForm.getProtocolDocument();
         IacucProtocol protocol = (IacucProtocol) document.getProtocol();
         IacucProtocolGenericActionBean actionBean = (IacucProtocolGenericActionBean) protocolForm.getActionHelper().getProtocolSRRBean();
+        saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
         ProtocolDocumentBase newDocument = getProtocolGenericActionService().returnForSRR(protocol, actionBean);
         generateActionCorrespondence(IacucProtocolActionType.IACUC_MAJOR_REVISIONS_REQUIRED, protocolForm.getProtocolDocument().getProtocol());
-        saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
         refreshAfterProtocolAction(protocolForm, newDocument.getDocumentNumber(), ACTION_NAME_SRR, false);
         IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.IACUC_MAJOR_REVISIONS_REQUIRED, "Major Revisions Required");
         protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, IacucConstants.PROTOCOL_TAB, notificationBean, false));
@@ -884,9 +884,9 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         IacucProtocolDocument document = (IacucProtocolDocument) protocolForm.getProtocolDocument();
         IacucProtocol protocol = (IacucProtocol) document.getProtocol();
         IacucProtocolGenericActionBean actionBean = (IacucProtocolGenericActionBean) protocolForm.getActionHelper().getProtocolReturnToPIBean();
+        saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
         ProtocolDocumentBase newDocument = getProtocolGenericActionService().returnToPI(protocol, actionBean);
         generateActionCorrespondence(IacucProtocolActionType.RETURNED_TO_PI, protocolForm.getProtocolDocument().getProtocol());
-        saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
         refreshAfterProtocolAction(protocolForm, newDocument.getDocumentNumber(), ACTION_NAME_RETURN_TO_PI, false);
         IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean((IacucProtocol) newDocument.getProtocol(), IacucProtocolActionType.RETURNED_TO_PI, "Return To PI");
         protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, IacucConstants.PROTOCOL_TAB, notificationBean, false));
@@ -899,9 +899,9 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         IacucProtocol protocol = (IacucProtocol) document.getProtocol();
         IacucActionHelper actionHelper = (IacucActionHelper)protocolForm.getActionHelper();
         IacucProtocolGenericActionBean actionBean = actionHelper.getIacucProtocolDeactivateBean();
+        saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
         getProtocolGenericActionService().iacucDeactivate(protocol, actionBean);
         generateActionCorrespondence(IacucProtocolActionType.DEACTIVATED, protocolForm.getProtocolDocument().getProtocol());
-        saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
         recordProtocolActionSuccess(ACTION_NAME_DEACTIVATED);
         IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.DEACTIVATED, "Deactivated");
         protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, IacucConstants.PROTOCOL_TAB, notificationBean, false));
@@ -1106,8 +1106,8 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
     @SuppressWarnings("deprecation")
     public String submitCommitteeDecision(IacucProtocolForm protocolForm) throws Exception {
         IacucCommitteeDecision actionBean = (IacucCommitteeDecision) protocolForm.getActionHelper().getCommitteeDecision();
-        getCommitteeDecisionService().processCommitteeDecision(protocolForm.getProtocolDocument().getProtocol(), actionBean);
         saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
+        getCommitteeDecisionService().processCommitteeDecision(protocolForm.getProtocolDocument().getProtocol(), actionBean);
         protocolForm.getTabStates().put(":" + WebUtils.generateTabKey(motionTypeMap.get(actionBean.getMotionTypeCode())), "OPEN");
         recordProtocolActionSuccess(ACTION_NAME_RECORD_COMMITTEE_DECISION);
         generateActionCorrespondence(IacucProtocolActionType.RECORD_COMMITTEE_DECISION, protocolForm.getProtocolDocument().getProtocol());
