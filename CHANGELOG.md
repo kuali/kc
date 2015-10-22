@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+*  setting a compatible xstream for the batch correspondence print for irb and iacuc.  This avoids a blank pdf file that is generated when printing protocol expiration from committee actions.
+  * Travis Schneeberger on Wed, 21 Oct 2015 18:00:39 -0400 [View Commit](../../commit/295a3a9810808eba2337809851557b5a7e220984)
+*  avoid NPE when ProtocolPerson is a non-employee
+  * Travis Schneeberger on Wed, 21 Oct 2015 14:41:34 -0400 [View Commit](../../commit/bc0f124aed907ac99fe7efb2844b5de70b84b2b7)
+*  undo last action throws an exception when the last action is a batch correspondence generation
+  * Travis Schneeberger on Wed, 21 Oct 2015 14:06:32 -0400 [View Commit](../../commit/133c9c875efd0dba91fc6970bc837eed6d68b158)
+
+##coeus-1510.44
 * No Changes
 
 
