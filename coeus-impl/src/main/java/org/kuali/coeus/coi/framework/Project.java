@@ -28,11 +28,21 @@ public class Project implements Serializable {
     @Size(min = 1, max = 75)
     private String sourceStatus;
 
-    List<ProjectPerson> persons;
+    private List<ProjectPerson> persons;
 
+    private List<ProjectSponsor> sponsors;
+
+    /**
+     * @deprecated use {@link #sponsors}
+     */
+    @Deprecated
     @Size(min = 1, max = 6)
     private String sponsorCode;
 
+    /**
+     * @deprecated use {@link #sponsors}
+     */
+    @Deprecated
     @Size(min = 1, max = 200)
     private String sponsorName;
 
@@ -88,18 +98,30 @@ public class Project implements Serializable {
         this.persons = persons;
     }
 
+    public List<ProjectSponsor> getSponsors() {
+        return sponsors;
+    }
+
+    public void setSponsors(List<ProjectSponsor> sponsors) {
+        this.sponsors = sponsors;
+    }
+
+    @Deprecated
     public String getSponsorCode() {
         return sponsorCode;
     }
 
+    @Deprecated
     public void setSponsorCode(String sponsorCode) {
         this.sponsorCode = sponsorCode;
     }
 
+    @Deprecated
     public String getSponsorName() {
         return sponsorName;
     }
 
+    @Deprecated
     public void setSponsorName(String sponsorName) {
         this.sponsorName = sponsorName;
     }
@@ -118,5 +140,22 @@ public class Project implements Serializable {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    @Override
+    public String toString() {
+        return "Project{" +
+                "title='" + title + '\'' +
+                ", typeCode=" + typeCode +
+                ", sourceSystem='" + sourceSystem + '\'' +
+                ", sourceIdentifier='" + sourceIdentifier + '\'' +
+                ", sourceStatus='" + sourceStatus + '\'' +
+                ", persons=" + persons +
+                ", sponsors=" + sponsors +
+                ", sponsorCode='" + sponsorCode + '\'' +
+                ", sponsorName='" + sponsorName + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                '}';
     }
 }

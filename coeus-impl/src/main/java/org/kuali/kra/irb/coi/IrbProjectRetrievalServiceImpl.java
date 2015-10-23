@@ -27,13 +27,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Component("irbProjectRetrievalService")
-public class IrbProjectRetrievalServiceImpl extends AbstractProjectRetrievalService {
+public class IrbProjectRetrievalServiceImpl extends AbstractMultiSponsorProjectRetrievalService {
     private static final String IRB_ALL_PROJECT_QUERY = "SELECT t.TITLE, t.PROTOCOL_ID, t.PROTOCOL_STATUS_CODE, t.INITIAL_SUBMISSION_DATE, t.EXPIRATION_DATE FROM PROTOCOL t";
     private static final String IRB_ALL_PROJECT_PERSON_QUERY = "SELECT t.PROTOCOL_ID, t.PERSON_ID, t.ROLODEX_ID, t.PROTOCOL_PERSON_ROLE_ID FROM PROTOCOL_PERSONS t";
+    private static final String IRB_ALL_PROJECT_SPONSOR_QUERY = "SELECT t.PROTOCOL_ID, t.FUNDING_SOURCE, t.FUNDING_SOURCE_NAME FROM PROTOCOL_FUNDING_SOURCE t WHERE t.FUNDING_SOURCE_TYPE_CODE = '1'";
 
     private static final String IRB_PROJECT_QUERY = IRB_ALL_PROJECT_QUERY + " WHERE t.PROTOCOL_ID = ?";
     private static final String IRB_PROJECT_PERSON_QUERY = IRB_ALL_PROJECT_PERSON_QUERY + " WHERE t.PROTOCOL_ID = ?";
-
+    private static final String IRB_PROJECT_SPONSOR_QUERY = IRB_ALL_PROJECT_SPONSOR_QUERY + " AND t.PROTOCOL_ID = ?";
 
     @Override
     protected Project toProject(ResultSet rs) throws SQLException {
@@ -45,6 +46,7 @@ public class IrbProjectRetrievalServiceImpl extends AbstractProjectRetrievalServ
         project.setSourceStatus(rs.getString(3));
         project.setStartDate(rs.getDate(4));
         project.setEndDate(rs.getDate(5));
+
         return project;
     }
 
@@ -63,6 +65,17 @@ public class IrbProjectRetrievalServiceImpl extends AbstractProjectRetrievalServ
     }
 
     @Override
+    protected ProjectSponsor toProjectSponsor(ResultSet rs) throws SQLException {
+        final ProjectSponsor sponsor = new ProjectSponsor();
+        sponsor.setSourceSystem(Constants.MODULE_NAMESPACE_PROTOCOL);
+        sponsor.setSourceIdentifier(rs.getString(1));
+        sponsor.setSponsorCode(rs.getString(2));
+        sponsor.setSponsorName(rs.getString(3));
+
+        return sponsor;
+    }
+
+    @Override
     protected String allProjectQuery() {
         return IRB_ALL_PROJECT_QUERY;
     }
@@ -73,6 +86,11 @@ public class IrbProjectRetrievalServiceImpl extends AbstractProjectRetrievalServ
     }
 
     @Override
+    protected String allProjectSponsorQuery() {
+        return IRB_ALL_PROJECT_SPONSOR_QUERY;
+    }
+
+    @Override
     protected String projectQuery() {
         return IRB_PROJECT_QUERY;
     }
@@ -80,5 +98,10 @@ public class IrbProjectRetrievalServiceImpl extends AbstractProjectRetrievalServ
     @Override
     protected String projectPersonQuery() {
         return IRB_PROJECT_PERSON_QUERY;
+    }
+
+    @Override
+    protected String projectSponsorQuery() {
+        return IRB_PROJECT_SPONSOR_QUERY;
     }
 }

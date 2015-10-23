@@ -24,19 +24,27 @@ public abstract class AbstractProjectRetrievalService implements ProjectRetrieva
 
     @Override
     public Collection<Project> retrieveProjects() {
-        final Map<String, Project> projects = jdbcOperations.query(c -> c.prepareStatement(allProjectQuery()), (rs, rowNum) -> {
-            final Project project = toProject(rs);
-            return entry(project.getSourceIdentifier(), project);
-        }).stream().collect(entriesToMap());
+        final Map<String, Project> projects = getProjectsMap();
 
         if (!projects.isEmpty()) {
-            final Map<String, List<ProjectPerson>> persons = jdbcOperations.query(c -> c.prepareStatement(allProjectPersonQuery()), (rs, rowNum) -> {
-                return toProjectPerson(rs);
-            }).stream().collect(Collectors.groupingBy(ProjectPerson::getSourceIdentifier));
+            final Map<String, List<ProjectPerson>> persons = getPersonsMap();
             persons.forEach((k,v) -> projects.get(k).setPersons(v));
         }
 
         return projects.values();
+    }
+
+    protected Map<String, Project> getProjectsMap() {
+        return jdbcOperations.query(c -> c.prepareStatement(allProjectQuery()), (rs, rowNum) -> {
+                final Project project = toProject(rs);
+                return entry(project.getSourceIdentifier(), project);
+            }).stream().collect(entriesToMap());
+    }
+
+    protected Map<String, List<ProjectPerson>> getPersonsMap() {
+        return jdbcOperations.query(c -> c.prepareStatement(allProjectPersonQuery()), (rs, rowNum) -> {
+            return toProjectPerson(rs);
+        }).stream().collect(Collectors.groupingBy(ProjectPerson::getSourceIdentifier));
     }
 
     @Override
@@ -63,6 +71,15 @@ public abstract class AbstractProjectRetrievalService implements ProjectRetrieva
         }
 
         return project;
+    }
+
+    protected void setSponsorFields(List<ProjectSponsor> sponsors, Project project) {
+        sponsors.stream().findFirst().ifPresent(sponsor -> {
+            project.setSponsorCode(sponsor.getSponsorCode());
+            project.setSponsorName(sponsor.getSponsorName());
+        });
+
+        project.setSponsors(sponsors);
     }
 
     protected abstract Project toProject(ResultSet rs) throws SQLException;
