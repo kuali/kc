@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+*  supporting multiple project sponsors
+  * Travis Schneeberger on Thu, 22 Oct 2015 19:12:48 -0400 [View Commit](../../commit/c0b4c4fc916ba11fe5731478159b4d3bd5832b86)
+
+##coeus-1510.48
 * Protocol Review comments entered at time of approval not persisting while generating correspondence and not appearing on letters
   * Fix is to persist review comments prior to performing protocol actions/generating correspondence so that those comments are
   * available in correspondence.
