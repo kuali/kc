@@ -673,6 +673,8 @@ public abstract class ProposalDevelopmentControllerBase {
 
                 if (result.length() > 0) {
                     return result.substring(0, result.length() - 1);
+                } else {
+                	return "";
                 }
             }
             return null;

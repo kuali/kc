@@ -77,7 +77,7 @@
 	</bean>
 	<bean id="PropDev-DetailsPage-Keywords" parent="PropDev-DetailsPage-Keywords-parentBean"/>
 	<bean id="PropDev-DetailsPage-Keywords-parentBean" abstract="true" parent="Uif-InputField"
-		p:propertyName="propScienceKeywords" p:label="Keywords" p:render="@{#ViewHelper.displayKeywords()}">
+		p:propertyName="propScienceKeywords" p:label="Keywords" p:render="@{#ViewHelper.displayKeywords()}" p:readOnlyDisplayReplacementPropertyName="propScienceKeywordsAsText">
 		<property name="control">
 			<bean parent="Uif-AdvancedMultiSelectControl">
 				<property name="templateOptions">
