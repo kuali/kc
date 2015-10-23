@@ -35,6 +35,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * The CommitteeBase Document wraps a single CommitteeBase BO.  
@@ -122,8 +123,12 @@ public abstract class CommitteeDocumentBase<CD extends CommitteeDocumentBase<CD,
     public List buildListOfDeletionAwareLists() {
 
         List managedLists = super.buildListOfDeletionAwareLists();
-        getCommittee().getCommitteeMemberships()
-                .forEach(memberships -> managedLists.add(memberships.getMembershipRoles()));
+        managedLists.add(getCommittee().getCommitteeMemberships());
+
+        managedLists.add(getCommittee().getCommitteeMemberships().stream()
+                .flatMap(membership -> membership.getMembershipRoles().stream()).collect(Collectors.toList()));
+        managedLists.add(getCommittee().getCommitteeMemberships().stream()
+                .flatMap(membership -> membership.getMembershipExpertise().stream()).collect(Collectors.toList()));
 
         return managedLists;
     }
