@@ -96,6 +96,7 @@ import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "EPS_PROPOSAL")
@@ -1126,6 +1127,14 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
 
     public void addPropScienceKeyword(PropScienceKeyword propScienceKeyword) {
         getPropScienceKeywords().add(propScienceKeyword);
+    }
+    
+    public String getPropScienceKeywordsAsText() {
+    	if (propScienceKeywords != null) {
+    		return propScienceKeywords.stream().map(keyword -> { return keyword.getScienceKeyword().getDescription(); } ).collect(Collectors.joining(", "));
+    	} else {
+    		return "";
+    	}
     }
 
     public String getNewScienceKeywordCode() {
