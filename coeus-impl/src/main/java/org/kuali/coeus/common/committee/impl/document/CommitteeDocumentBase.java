@@ -62,7 +62,7 @@ public abstract class CommitteeDocumentBase<CD extends CommitteeDocumentBase<CD,
      * relationships within OJB in regards to anonymous keys.  We are
      * forced to use a one-to-many relationship.
      */
-    private List<CMT> committeeList = new ArrayList<CMT>();
+    private List<CMT> committeeList = new ArrayList<>();
     
 
     public CommitteeDocumentBase() {
@@ -135,7 +135,7 @@ public abstract class CommitteeDocumentBase<CD extends CommitteeDocumentBase<CD,
     
     @Override
     protected List<RolePersons> getAllRolePersons() {
-        return new ArrayList<RolePersons>();
+        return new ArrayList<>();
     }
     
     public String getDocumentTypeCode() {
@@ -146,7 +146,7 @@ public abstract class CommitteeDocumentBase<CD extends CommitteeDocumentBase<CD,
     public void prepareForSave() {
         super.prepareForSave();
         if (ObjectUtils.isNull(this.getVersionNumber())) {
-            this.setVersionNumber(new Long(0));
+            this.setVersionNumber(0L);
         }
         if (this.getCommittee() != null) {
             this.setCommitteeId(this.getCommittee().getCommitteeId());
@@ -181,8 +181,6 @@ public abstract class CommitteeDocumentBase<CD extends CommitteeDocumentBase<CD,
     
     /**
      * Has the document entered the final state in workflow?
-     * @param statusChangeEvent
-     * @return
      */
     private boolean isFinal(DocumentRouteStatusChange statusChangeEvent) {
         return StringUtils.equals(KewApiConstants.ROUTE_HEADER_FINAL_CD, statusChangeEvent.getNewRouteStatus());
@@ -209,7 +207,6 @@ public abstract class CommitteeDocumentBase<CD extends CommitteeDocumentBase<CD,
      * Close to hack.  called by holdingpageaction
      * Different document type may have different routing set up, so each document type
      * can implement its own isProcessComplete
-     * @return
      */
     public boolean isProcessComplete() {
         boolean isComplete = false;
