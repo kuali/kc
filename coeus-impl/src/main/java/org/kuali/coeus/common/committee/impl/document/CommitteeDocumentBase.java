@@ -122,6 +122,8 @@ public abstract class CommitteeDocumentBase<CD extends CommitteeDocumentBase<CD,
     public List buildListOfDeletionAwareLists() {
 
         List managedLists = super.buildListOfDeletionAwareLists();
+        getCommittee().getCommitteeMemberships()
+                .forEach(memberships -> managedLists.add(memberships.getMembershipRoles()));
 
         return managedLists;
     }
