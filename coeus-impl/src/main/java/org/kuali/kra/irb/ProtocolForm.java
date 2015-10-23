@@ -280,7 +280,8 @@ public class ProtocolForm extends ProtocolFormBase {
         if (propertyName.startsWith("actionHelper.protocolSubmitAction.reviewer") ||
                 propertyName.startsWith("methodToCall.printSubmissionQuestionnaireAnswer.line")
                 || propertyName.startsWith("methodToCall.saveCorrespondence")
-                || propertyName.startsWith("methodToCall.closeCorrespondence")) {
+                || propertyName.startsWith("methodToCall.closeCorrespondence")
+                || propertyName.startsWith("methodToCall.viewCorrespondence")) {
             return true;
         } else {
             return super.isPropertyEditable(propertyName);
