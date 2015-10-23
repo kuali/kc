@@ -1,6 +1,52 @@
 
 
 ##CURRENT
+* MIT - IRB - Unable to View Approval Letter when taking the
+  * Expedited Approval action.
+  * IRB Admins are unable to view and print their approval letters when
+  * performing their expedited approval action.The button to view the letter
+  * from the correspondence tab that shows when the approval action is
+  * performed, gives error below.
+  * Steps:
+  * Create protocol
+  * Submit for review as expedited
+  * Perform expedited approval 
+  * The correspondence tab appears with the "show" button
+  * click Show
+  * click view on the expedited approval letter
+  * HTTP status 500 error shows up.
+  * Example: protocol 1505696609 in QA-Wkly. 
+  * Note that the letter can be viewed later using the Protocol
+  * Actions>History panel
+  * HTTP Status 500 - Cannot verify that the methodToCall should be
+  * methodToCall.viewCorrespondence.line696626.anchor.y
+  * type Exception report
+  * message Cannot verify that the methodToCall should be
+  * methodToCall.viewCorrespondence.line696626.anchor.y
+  * description The server encountered an internal error that prevented it
+  * from fulfilling this request.
+  * exception
+  * java.lang.RuntimeException: Cannot verify that the methodToCall should
+  * be methodToCall.viewCorrespondence.line696626.anchor.y
+  * org.kuali.rice.kns.util.WebUtils.getMethodToCallSettingAttribute(WebUtils.java:205)
+  * org.kuali.rice.kns.util.WebUtils.parseMethodToCall(WebUtils.java:155)
+  * org.kuali.rice.kns.web.struts.form.KualiForm.populate(KualiForm.java:120)
+  * org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase.populate(KualiDocumentFormBase.java:186)
+  * org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase.populate(KualiTransactionalDocumentFormBase.java:65)
+  * org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase.populate(KcTransactionalDocumentFormBase.java:80)
+  * org.kuali.kra.irb.ProtocolForm.populate(ProtocolForm.java:162)
+  * org.kuali.rice.kns.web.struts.action.KualiRequestProcessor.processPopulate(KualiRequestProcessor.java:307)
+  * org.kuali.coeus.sys.framework.controller.interceptor.KcRequestProcessor.processPopulate(KcRequestProcessor.java:86)
+  * org.kuali.rice.kns.web.struts.action.KualiRequestProcessor.processFormActionAndForward(KualiRequestProcessor.java:228)
+  * org.kuali.rice.kns.web.struts.action.KualiRequestProcessor.strutsProcess(KualiRequestProcessor.java:222)
+  * org.kuali.rice.kns.web.struts.action.KualiRequestProcessor.process(KualiRequestProcessor.java:101)
+  * org.apache.struts.action.ActionServlet.process(ActionServlet.java:1913)
+  * org.kuali.rice.kns.web.struts.action.KualiActionServlet.process(KualiActionServlet.java:202)
+  * org.apache.struts.action.ActionServlet.doPost(ActionServlet.java:462)
+  * javax.servlet.http.HttpServlet.service(HttpServlet.java:647)
+  * javax.servlet.http.HttpServlet.service(HttpServlet.java:728)  * vineeth on Fri, 23 Oct 2015 11:14:10 -0400 [View Commit](../../commit/c65c0202b32d0fe5788833f54fee3fabae23f25a)
+
+##coeus-1510.49
 *  supporting multiple project sponsors
   * Travis Schneeberger on Thu, 22 Oct 2015 19:12:48 -0400 [View Commit](../../commit/c0b4c4fc916ba11fe5731478159b4d3bd5832b86)
 
