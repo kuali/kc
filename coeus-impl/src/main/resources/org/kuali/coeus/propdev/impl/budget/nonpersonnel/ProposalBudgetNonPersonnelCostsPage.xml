@@ -266,6 +266,8 @@
 			<list>
 				<ref bean="PropBudget-NonPersonnelCosts-LineItem-DateFieldSection"/>
 				<ref bean="PropBudget-NonPersonnelCosts-LineItem-ObjectFieldSection"/>
+                <bean parent="Uif-MessageField" p:messageText="Valid inflation rates not found."
+                      p:render="@{addProjectBudgetLineItemHelper.inflationType.size() == 0}" p:additionalCssClasses="alert-warning"/>
                 <bean parent="PropBudget-LineItem-InflationRateSection" p:render="@{addProjectBudgetLineItemHelper.inflationType.size() > 0}"/>
 				<ref bean="PropBudget-NonPersonnelCosts-LineItem-ApplyRateFieldSection"/>
 			</list>

@@ -270,12 +270,8 @@ public class BudgetPeriodCalculator {
         CostElement costElement = budgetLineItem.getCostElementBO();
         ScaleTwoDecimal lineItemCost = budgetLineItem.getLineItemCost();
         Date startDate = budgetLineItem.getStartDate();
-        // Date endDate = budgetDetailBean.getLineItemEndDate();
-
-        // Cost Calculation
         Equals eqInflation = new Equals("rateClassType", RateClassType.INFLATION.getRateClassType());
-        // Check for inflation for the Cost Element.
-        // Get ValidCERateTypesBean From Server Side.
+
         if(costElement.getValidCeRateTypes().isEmpty()) costElement.refreshReferenceObject("validCeRateTypes");
         QueryList<ValidCeRateType> vecValidCERateTypes = new QueryList<ValidCeRateType>(costElement.getValidCeRateTypes());
         QueryList<ValidCeRateType> vecCE = vecValidCERateTypes.filter(eqInflation);
@@ -288,29 +284,22 @@ public class BudgetPeriodCalculator {
             LesserThan ltED = new LesserThan("startDate", endDate);
             Equals eqED = new Equals("startDate", endDate);
             Or ltEDOrEqED = new Or(ltED, eqED);
-
             And ltOrEqEDAndGtSD = new And(ltEDOrEqED, gtSD);
-
             And rcAndRt = new And(eqRC, eqRT);
-
             And rcAndRtAndLtOrEqEDAndGtSD = new And(rcAndRt, ltOrEqEDAndGtSD);
-
             QueryList<BudgetRate> vecPropInflationRates = new QueryList<BudgetRate>(budget
                     .getBudgetRates()).filter(rcAndRtAndLtOrEqEDAndGtSD);
 
             if (!vecPropInflationRates.isEmpty()) {
                 // Sort so that the recent date comes first
                 vecPropInflationRates.sort("startDate", false);
-
-                //BudgetRate proposalRatesBean = vecPropInflationRates.get(0);
                 BudgetRate proposalRatesBean = getCampusMatchedRateBean(budgetLineItem.getOnOffCampusFlag(), vecPropInflationRates);
                 if (proposalRatesBean != null) {
                     ScaleTwoDecimal applicableRate = proposalRatesBean.getApplicableRate();
-                    // lineItemCost = lineItemCost * (100 + applicableRate) / 100;
                     lineItemCost = lineItemCost.add(lineItemCost.percentage(applicableRate));
                 }
-            }// End For vecPropInflationRates != null ...
-        }// End If vecCE != null ...
+            }
+        }
         return lineItemCost;
     }
 
