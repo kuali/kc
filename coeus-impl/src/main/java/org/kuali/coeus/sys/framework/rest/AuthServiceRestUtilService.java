@@ -6,10 +6,10 @@ public interface AuthServiceRestUtilService {
 
 	/**
 	 * Gets auth server style headers for the given version. Depends on there being an active usersession that was authenticated via AuthServiceFilter.
-	 * @returns Headers for connecting to auth service style rest endpoints. Will contain invalid/blank authentication token in the case that
+	 * @return Headers for connecting to auth service style rest endpoints. Will contain invalid/blank authentication token in the case that
 	 * a valid user session does not exist.
 	 */
-	public HttpHeaders getAuthServiceStyleHttpHeadersForUser(RestServiceConstants.RestApiVersions version);
+	HttpHeaders getAuthServiceStyleHttpHeadersForUser(RestServiceConstants.RestApiVersions version);
 	
-	public HttpHeaders getAuthServiceStyleHttpHeadersForToken(RestServiceConstants.RestApiVersions version, String authToken);
+	HttpHeaders getAuthServiceStyleHttpHeadersForToken(RestServiceConstants.RestApiVersions version, String authToken);
 }
