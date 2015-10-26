@@ -91,6 +91,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class ProposalDevelopmentSubmitController extends
 		ProposalDevelopmentControllerBase {
 
+    private final Logger LOGGER = Logger.getLogger(ProposalDevelopmentSubmitController.class);
+
     @Autowired
     @Qualifier("kcNotificationService")
     private KcNotificationService kcNotificationService;
@@ -167,9 +169,6 @@ public class ProposalDevelopmentSubmitController extends
     @Qualifier("kcWorkflowService")
     private KcWorkflowService kcWorkflowService;
 
-    private final Logger LOGGER = Logger.getLogger(ProposalDevelopmentSubmitController.class);
-
-    
     @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=populateAdHocs")
     public ModelAndView populateAdHocs(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
         populateAdHocRecipients(form.getProposalDevelopmentDocument());
@@ -566,12 +565,14 @@ public class ProposalDevelopmentSubmitController extends
     
     
     private String createInstitutionalProposalVersion(String proposalNumber, DevelopmentProposal developmentProposal, Budget budget) {
-        return getInstitutionalProposalService().createInstitutionalProposalVersion(proposalNumber, developmentProposal, budget);
+        final InstitutionalProposal institutionalProposal = getInstitutionalProposalService().createInstitutionalProposalVersion(proposalNumber, developmentProposal, budget);
+        return institutionalProposal.getSequenceNumber().toString();
     }
 
     protected String createInstitutionalProposal(DevelopmentProposal developmentProposal, Budget budget) {
-        String proposalNumber = getInstitutionalProposalService().createInstitutionalProposal(developmentProposal, budget);
-        Long institutionalProposalId = getActiveProposalId(proposalNumber);
+        final InstitutionalProposal institutionalProposal = getInstitutionalProposalService().createInstitutionalProposal(developmentProposal, budget);
+        final String proposalNumber = institutionalProposal.getProposalNumber();
+        final Long institutionalProposalId = getActiveProposalId(proposalNumber);
         persistProposalAdminDetails(developmentProposal.getProposalNumber(), institutionalProposalId);
         return proposalNumber;
     }

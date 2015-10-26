@@ -38,6 +38,7 @@ import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.coeus.common.framework.krms.KrmsRulesContext;
@@ -151,7 +152,6 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     @Transient
     private transient Boolean certifyViewOnly = false;
 
-    
 	public ProposalDevelopmentDocument() {
         super();
         DevelopmentProposal newProposal = new DevelopmentProposal();
@@ -304,8 +304,8 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
                 }
             }
             if (isLastSubmitterApprovalAction(event.getActionTaken()) && shouldAutogenerateInstitutionalProposal()) {
-            	String proposalNumber = getInstitutionalProposalService().createInstitutionalProposal(this.getDevelopmentProposal(), this.getDevelopmentProposal().getFinalBudget());
-                this.setInstitutionalProposalNumber(proposalNumber);
+                final InstitutionalProposal institutionalProposal = getInstitutionalProposalService().createInstitutionalProposal(this.getDevelopmentProposal(), this.getDevelopmentProposal().getFinalBudget());
+                this.setInstitutionalProposalNumber(institutionalProposal.getProposalNumber());
             }
         }
     }

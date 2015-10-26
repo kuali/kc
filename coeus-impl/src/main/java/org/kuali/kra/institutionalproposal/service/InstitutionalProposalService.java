@@ -43,7 +43,7 @@ public interface InstitutionalProposalService {
      * @param budget Budget
      * @return String The new proposal number
      */
-    String createInstitutionalProposal(DevelopmentProposal developmentProposal, Budget budget);
+    InstitutionalProposal createInstitutionalProposal(DevelopmentProposal developmentProposal, Budget budget);
     
     /**
      * Creates a new version of the Institutional Proposal corresponding to the given proposal number, 
@@ -54,7 +54,7 @@ public interface InstitutionalProposalService {
      * @param budget Budget
      * @return String The new version number
      */
-    String createInstitutionalProposalVersion(String proposalNumber, DevelopmentProposal developmentProposal, Budget budget);
+    InstitutionalProposal createInstitutionalProposalVersion(String proposalNumber, DevelopmentProposal developmentProposal, Budget budget);
     
     /**
      * Return an Institutional Proposal, if one exists.

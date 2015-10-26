@@ -193,7 +193,7 @@ public abstract class ProposalDevelopmentControllerBase {
 
     @Autowired
     @Qualifier("propDevProjectRetrievalService")
-    private ProjectRetrievalService projectRetrievalService;
+    private ProjectRetrievalService propDevProjectRetrievalService;
 
     private ProjectPublisher projectPublisher;
 
@@ -313,7 +313,7 @@ public abstract class ProposalDevelopmentControllerBase {
                      .filter(specialReview -> !specialReview.isLinkedToProtocol())
                      .forEach(specialReview -> form.getSpecialReviewHelper().prepareProtocolLinkViewFields(specialReview));
          }
-         getProjectPublisher().publishProject(getProjectRetrievalService().retrieveProject(form.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalNumber()));
+         getProjectPublisher().publishProject(getPropDevProjectRetrievalService().retrieveProject(form.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalNumber()));
 
          return view;
      }
@@ -352,7 +352,7 @@ public abstract class ProposalDevelopmentControllerBase {
                      .filter(specialReview -> !specialReview.isLinkedToProtocol())
                      .forEach(specialReview -> pdForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(specialReview));
          }
-         getProjectPublisher().publishProject(getProjectRetrievalService().retrieveProject(pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalNumber()));
+         getProjectPublisher().publishProject(getPropDevProjectRetrievalService().retrieveProject(pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalNumber()));
 
          return view;
      }
@@ -916,11 +916,11 @@ public abstract class ProposalDevelopmentControllerBase {
         this.dateTimeService = dateTimeService;
     }
 
-    public ProjectRetrievalService getProjectRetrievalService() {
-        return projectRetrievalService;
+    public ProjectRetrievalService getPropDevProjectRetrievalService() {
+        return propDevProjectRetrievalService;
     }
 
-    public void setProjectRetrievalService(ProjectRetrievalService projectRetrievalService) {
-        this.projectRetrievalService = projectRetrievalService;
+    public void setPropDevProjectRetrievalService(ProjectRetrievalService propDevProjectRetrievalService) {
+        this.propDevProjectRetrievalService = propDevProjectRetrievalService;
     }
 }
