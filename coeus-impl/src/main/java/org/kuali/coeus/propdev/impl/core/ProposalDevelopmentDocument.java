@@ -157,7 +157,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         DevelopmentProposal newProposal = new DevelopmentProposal();
         newProposal.setProposalDocument(this);
         developmentProposal = newProposal;
-        customDataList = new ArrayList<CustomAttributeDocValue>();
+        customDataList = new ArrayList<>();
     }
     @Override
     public DevelopmentProposal getDevelopmentProposal() {
@@ -388,7 +388,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
 
     public Boolean getAllowsNoteAttachments() {
         if (allowsNoteAttachments == null) {
-            DocumentEntry entry = (DocumentEntry) getDataDictionaryService().getDataDictionary().getDocumentEntry(getClass().getName());
+            DocumentEntry entry = getDataDictionaryService().getDataDictionary().getDocumentEntry(getClass().getName());
             allowsNoteAttachments = entry.getAllowsNoteAttachments();
         }
         return allowsNoteAttachments;
@@ -400,7 +400,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
 
     @Override
     public List<String> getRoleNames() {
-        List<String> roleNames = new ArrayList<String>();
+        List<String> roleNames = new ArrayList<>();
         roleNames.add(RoleConstants.AGGREGATOR);
         roleNames.add(RoleConstants.BUDGET_CREATOR);
         roleNames.add(RoleConstants.NARRATIVE_WRITER);
@@ -468,8 +468,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
             }
 
             public List<String> getRoleNames() {
-                List<String> roleNames = new ArrayList<String>();
-                return roleNames;
+                return new ArrayList<>();
             }
 
             public String getNamespace() {
@@ -521,7 +520,6 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
      * Close to hack.  called by holdingpageaction
      * Different document type may have different routing set up, so each document type
      * can implement its own isProcessComplete
-     * @return
      */
     public boolean isProcessComplete() {
         boolean isComplete = false;

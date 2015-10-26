@@ -45,7 +45,6 @@ import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.coeus.propdev.impl.state.ProposalStateService;
 import org.kuali.coeus.s2sgen.api.core.S2SException;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
-import org.kuali.coeus.s2sgen.api.generate.FormGeneratorService;
 import org.kuali.coeus.common.framework.compliance.core.SaveSpecialReviewLinkEvent;
 import org.kuali.coeus.common.framework.compliance.core.SpecialReviewService;
 import org.kuali.coeus.common.framework.compliance.core.SpecialReviewType;
@@ -57,7 +56,6 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
-import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
@@ -148,10 +146,6 @@ public class ProposalDevelopmentSubmitController extends
         @Autowired
     @Qualifier("parameterService")
     private ParameterService parameterService;
-
-    @Autowired
-    @Qualifier("formGeneratorService")
-    private FormGeneratorService formGeneratorService;
     
     @Autowired
     @Qualifier("proposalStateService")
@@ -438,7 +432,7 @@ public class ProposalDevelopmentSubmitController extends
         
         List<ProposalSpecialReview> specialReviews = proposalDevelopmentDocument.getDevelopmentProposal().getPropSpecialReviews();
         
-        if (!isIPProtocolLinkingEnabled || getKcBusinessRulesEngine().applyRules(new SaveSpecialReviewLinkEvent<ProposalSpecialReview>(proposalDevelopmentDocument, specialReviews))) {
+        if (!isIPProtocolLinkingEnabled || getKcBusinessRulesEngine().applyRules(new SaveSpecialReviewLinkEvent<>(proposalDevelopmentDocument, specialReviews))) {
 
             final boolean generateIp = !(autogenerateInstitutionalProposal() && ProposalDevelopmentConstants.ResubmissionOptions.DO_NOT_GENERATE_NEW_IP.equals(proposalDevelopmentForm.getResubmissionOption()));
 
@@ -538,20 +532,20 @@ public class ProposalDevelopmentSubmitController extends
     protected void persistSpecialReviewProtocolFundingSourceLink(Long institutionalProposalId, boolean isIPProtocolLinkingEnabled) {
         if (isIPProtocolLinkingEnabled) {
         	InstitutionalProposal institutionalProposal = getLegacyDataAdapter().findBySinglePrimaryKey(InstitutionalProposal.class, institutionalProposalId);
-            for (InstitutionalProposalSpecialReview specialReview : institutionalProposal.getSpecialReviews()) {
-                if (SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode())) {                
-                    String protocolNumber = specialReview.getProtocolNumber();
-                    String fundingSourceNumber = institutionalProposal.getProposalNumber();
-                    String fundingSourceTypeCode = FundingSourceType.INSTITUTIONAL_PROPOSAL;
-                    
-                    if (!getSpecialReviewService().isLinkedToProtocolFundingSource(protocolNumber, fundingSourceNumber, fundingSourceTypeCode)) {
-                        String fundingSourceName = institutionalProposal.getSponsorName();
-                        String fundingSourceTitle = institutionalProposal.getTitle();
-                        getSpecialReviewService().addProtocolFundingSourceForSpecialReview(
+            institutionalProposal.getSpecialReviews().stream()
+                    .filter(specialReview -> SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode()))
+                    .forEach(specialReview -> {
+                String protocolNumber = specialReview.getProtocolNumber();
+                String fundingSourceNumber = institutionalProposal.getProposalNumber();
+                String fundingSourceTypeCode = FundingSourceType.INSTITUTIONAL_PROPOSAL;
+
+                if (!getSpecialReviewService().isLinkedToProtocolFundingSource(protocolNumber, fundingSourceNumber, fundingSourceTypeCode)) {
+                    String fundingSourceName = institutionalProposal.getSponsorName();
+                    String fundingSourceTitle = institutionalProposal.getTitle();
+                    getSpecialReviewService().addProtocolFundingSourceForSpecialReview(
                             protocolNumber, fundingSourceNumber, fundingSourceTypeCode, fundingSourceName, fundingSourceTitle);
-                    }
                 }
-            }
+            });
         }
     }
     
