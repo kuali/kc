@@ -31,8 +31,8 @@
         <property name="moduleName" value="kc.ip"/>
         <property name="moduleTitle" value="KC Institutional Proposal"/>
         <property name="dispatchServletName" value="kc-ip"/>
+        <property name="filtersToMap" ref="authFiltersToMap"/>
         <property name="bootstrapSpringFile" value="classpath:org/kuali/kra/institutionalproposal/InstPropComponentSpringBeans.xml"/>
-        <property name="enableSpringSecurity" value="true"/>
     </bean>
 
 </beans>

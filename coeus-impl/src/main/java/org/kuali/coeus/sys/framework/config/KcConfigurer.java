@@ -51,6 +51,7 @@ public class KcConfigurer extends ModuleConfigurer {
     
     private String bootstrapSpringFile;
     private String dispatchServletName;
+    private List<String> dispatchServletMappings = new ArrayList<String>();
     private List<String> filtersToMap = new ArrayList<String>();
     private String moduleTitle;
     private boolean enableSpringSecurity;
@@ -100,6 +101,9 @@ public class KcConfigurer extends ModuleConfigurer {
 	        DispatcherServlet loaderServlet = new DispatcherServlet((WebApplicationContext) ((SpringResourceLoader) rootResourceLoader.getResourceLoaders().get(0)).getContext());
 	        ServletRegistration registration = getServletContext().addServlet(dispatchServletName, loaderServlet);
 	        registration.addMapping("/" + dispatchServletName + "/*");
+	        if (dispatchServletMappings != null) {
+	        	dispatchServletMappings.stream().map(mapping -> { return "/" + mapping + "/*"; }).forEach(registration::addMapping);
+	        }
 	        for (String filterName : filtersToMap) {
 	            FilterRegistration filter = getServletContext().getFilterRegistration(filterName);
 	            filter.addMappingForServletNames(null, true, dispatchServletName);
@@ -164,4 +168,13 @@ public class KcConfigurer extends ModuleConfigurer {
 	public void setEnableSpringSecurity(boolean enableSpringSecurity) {
 		this.enableSpringSecurity = enableSpringSecurity;
 	}
+
+	public List<String> getDispatchServletMappings() {
+		return dispatchServletMappings;
+	}
+
+	public void setDispatchServletMappings(List<String> dispatchServletMappings) {
+		this.dispatchServletMappings = dispatchServletMappings;
+	}
+
 }

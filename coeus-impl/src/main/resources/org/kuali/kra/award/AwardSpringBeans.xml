@@ -37,7 +37,7 @@
 
     <tx:annotation-driven transaction-manager="transactionManager" />
     <context:annotation-config />
-    <context:component-scan base-package="org.kuali.kra.award" />
+    <context:component-scan base-package="org.kuali.kra.award"/>
     <context:component-scan base-package="org.kuali.coeus.award"/>
     <mvc:annotation-driven/>
 

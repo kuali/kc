@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
+import java.util.List;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -28,7 +31,7 @@ import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.RestOperations;
 
 public class AuthServiceFilter implements Filter {
 
@@ -45,6 +48,7 @@ public class AuthServiceFilter implements Filter {
 	private static final String AUTH_RETURN_TO = "/auth?return_to=";
 	private static final String KC_REST_ADMIN_PASSWORD = "kc.rest.admin.password";
 	private static final String KC_REST_ADMIN_USERNAME = "kc.rest.admin.username";
+	private static final String REST_API_URLS_PARAM = "auth.rest.urls.regex";
 	private static final Log LOG = LogFactory.getLog(AuthServiceFilter.class);
 	
 	private String authServiceUrl;
@@ -52,9 +56,12 @@ public class AuthServiceFilter implements Filter {
 	private String getCurrentUserUrl;
 	private String hashedApiAdminBasicAuth;
 	private String apiUserName;
+	private List<Pattern> restUrlsRegex;
 	private long secondsToCacheAuthTokenInSession = SECONDS_TO_CACHE_AUTH_TOKEN_IN_SESSION_DEFAULT;
 	
 	private ConfigurationService configurationService;
+	private RestOperations restTemplate;
+	private AuthServiceRestUtilService authServiceRestUtilService; 
 	
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
@@ -67,12 +74,25 @@ public class AuthServiceFilter implements Filter {
 		authWithReturnTo = authServiceUrl + AUTH_RETURN_TO;
 		getCurrentUserUrl = getConfigurationService().getPropertyValueAsString(RestServiceConstants.Configuration.AUTH_USERS_URL) + CURRENT_USER_APPEND;
 		
+		restUrlsRegex = buildRestUrlRegexPatterns(getConfigurationService().getPropertyValueAsString(REST_API_URLS_PARAM));
 		
 		apiUserName = getConfigurationService().getPropertyValueAsString(KC_REST_ADMIN_USERNAME);
 		String apiPassword = getConfigurationService().getPropertyValueAsString(KC_REST_ADMIN_PASSWORD);
 		if (StringUtils.isNotBlank(apiUserName) && StringUtils.isNotBlank(apiPassword)) {
 			hashedApiAdminBasicAuth = "Basic " + new String(Base64.encodeBase64((apiUserName + ":" + apiPassword).getBytes()));
 		}
+		
+		
+	}
+	
+	protected List<Pattern> buildRestUrlRegexPatterns(String restUrlPatterns) {
+		return Arrays.asList(restUrlPatterns.split(",")).stream().map(pattern -> {
+			return Pattern.compile(pattern);
+		}).collect(Collectors.toList());
+	}
+	
+	protected boolean isUrlForRest(String requestUrl) {
+		return restUrlsRegex.stream().anyMatch(pattern -> { return pattern.matcher(requestUrl).matches(); });
 	}
 
 	@Override
@@ -81,7 +101,7 @@ public class AuthServiceFilter implements Filter {
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		String authorizationHeader = httpRequest.getHeader(AUTHORIZATION_HEADER_NAME);
-		if (authorizationHeader != null) {
+		if (isUrlForRest(httpRequest.getRequestURI())) {
 			authenticateBasedOnAuthorizationHeader(authorizationHeader, httpRequest, httpResponse, chain);
 		} else {
 			authenticateWebBasedUser(chain, httpRequest, httpResponse);
@@ -122,14 +142,17 @@ public class AuthServiceFilter implements Filter {
 	protected void authenticateBasedOnAuthorizationHeader(String authorizationHeader, HttpServletRequest httpRequest, 
 			HttpServletResponse httpResponse, FilterChain chain) 
 					throws IOException, ServletException {
-		if (hashedApiAdminBasicAuth != null && authorizationHeader.equals(hashedApiAdminBasicAuth)) {
+		if (hashedApiAdminBasicAuth != null && hashedApiAdminBasicAuth.equals(authorizationHeader)) {
 			chain.doFilter(new AuthServiceRequestWrapper(BASIC_AUTH_KC_USERNAME, httpRequest), httpResponse);
-		} else if (authorizationHeader.startsWith(AUTHORIZATION_PREFIX)) {
+			return;
+		} else if (authorizationHeader != null && authorizationHeader.startsWith(AUTHORIZATION_PREFIX)) {
 			AuthUser authedUser = validateAuthToken(authorizationHeader, httpRequest);
-			chain.doFilter(new AuthServiceRequestWrapper(authedUser.getUsername(), httpRequest), httpResponse);
-		} else {
-			httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN, ACCESS_DENIED_MESSAGE);
+			if (authedUser != null) {
+				chain.doFilter(new AuthServiceRequestWrapper(authedUser.getUsername(), httpRequest), httpResponse);
+				return;
+			}
 		}
+		httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN, ACCESS_DENIED_MESSAGE);
 	}
 
 	protected void redirectToLogin(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws IOException {
@@ -166,14 +189,6 @@ public class AuthServiceFilter implements Filter {
 		return ((AuthUser)session.getAttribute(AUTH_SERVICE_FILTER_AUTHED_USER_ATTR)).getAuthToken();
 	}
 
-	protected RestTemplate getRestTemplate() {
-		return KcServiceLocator.getService("consumerRestOperations");
-	}
-	
-	protected AuthServiceRestUtilService getAuthServiceRestUtilService() {
-		return KcServiceLocator.getService(AuthServiceRestUtilService.class);
-	}
-
 	@Override
 	public void destroy() {
 
@@ -201,5 +216,27 @@ public class AuthServiceFilter implements Filter {
 
 	public void setConfigurationService(ConfigurationService configurationService) {
 		this.configurationService = configurationService;
+	}
+
+	public RestOperations getRestTemplate() {
+		if (restTemplate == null) {
+			restTemplate = KcServiceLocator.getService("consumerRestOperations");
+		}
+		return restTemplate;
+	}
+
+	public void setRestTemplate(RestOperations restTemplate) {
+		this.restTemplate = restTemplate;
+	}
+
+	public AuthServiceRestUtilService getAuthServiceRestUtilService() {
+		if (authServiceRestUtilService == null) {
+			authServiceRestUtilService = KcServiceLocator.getService(AuthServiceRestUtilService.class);
+		}
+		return authServiceRestUtilService;
+	}
+
+	public void setAuthServiceRestUtilService(AuthServiceRestUtilService authServiceRestUtilService) {
+		this.authServiceRestUtilService = authServiceRestUtilService;
 	}
 }

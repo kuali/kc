@@ -30,17 +30,11 @@
 
     <context:annotation-config />
 
-    <util:list id="filtersToMap">
-        <value>BootstrapFilter</value>
-        <value>UserLoginFilter</value>
-        <value>UserPreferencesFilter</value>
-    </util:list>
-
     <bean id="kcCoreConfigurer" class="org.kuali.coeus.sys.framework.config.KcConfigurer">
         <property name="moduleName" value="kc.core"/>
         <property name="moduleTitle" value="KC Core"/>
         <property name="dispatchServletName" value="kc-krad"/>
-        <property name="filtersToMap" ref="filtersToMap"/>
+        <property name="filtersToMap" ref="authFiltersToMap"/>
         <property name="bootstrapSpringFile" value="classpath:org/kuali/kra/core/CoreComponentSpringBeans.xml"/>
     </bean>
 
