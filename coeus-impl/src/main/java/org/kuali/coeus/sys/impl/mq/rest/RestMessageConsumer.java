@@ -4,7 +4,9 @@ import org.apache.commons.lang3.StringUtils;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.auth.AuthConstants;
 import org.kuali.coeus.sys.framework.mq.rest.RestRequest;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
@@ -32,9 +34,6 @@ public class RestMessageConsumer implements MessageListener {
 
     private static Log LOG = LogFactory.getLog(RestMessageConsumer.class);
 
-    private static final String ADMIN_TOKEN =
-            "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MTI3MDEyOTgwMjA0NDQ2MzU4OCwiaWF0IjoxNDQ1MjY5MjcxLCJleHAiOjE0NDY0Nzg4NzEsImlzcyI6Imt1YWxpLmNvIn0.Ce-r347KVeVb4lFS77Y8F9hz_979OX5cDrSvIFPoq0I";
-
     @Autowired
     @Qualifier("restDestinationRegistry")
     private RestDestinationRegistry restDestinationRegistry;
@@ -42,6 +41,10 @@ public class RestMessageConsumer implements MessageListener {
     @Autowired
     @Qualifier("consumerRestOperations")
     private RestOperations consumerRestOperations;
+
+    @Autowired
+    @Qualifier("kualiConfigurationService")
+    private ConfigurationService configurationService;
 
     @Override
     public void onMessage(Message message) {
@@ -66,8 +69,7 @@ public class RestMessageConsumer implements MessageListener {
             headers.putAll(request.getHeaders());
         }
 
-        //temp until auth service is integrated
-        headers.put("Authorization", Collections.singletonList("Bearer " + ADMIN_TOKEN));
+        headers.put("Authorization", Collections.singletonList("Bearer " + getConfigurationService().getPropertyValueAsString(AuthConstants.AUTH_SYSTEM_TOKEN_PARAM)));
 
         final HttpEntity<String> entity = StringUtils.isNotBlank(request.getBody()) ? new HttpEntity<>(request.getBody(), headers): HttpEntity.EMPTY;
         final HttpMethod method = HttpMethod.valueOf(request.getMethod().name());
@@ -112,5 +114,13 @@ public class RestMessageConsumer implements MessageListener {
 
     public void setConsumerRestOperations(RestOperations consumerRestOperations) {
         this.consumerRestOperations = consumerRestOperations;
+    }
+
+    public ConfigurationService getConfigurationService() {
+        return configurationService;
+    }
+
+    public void setConfigurationService(ConfigurationService configurationService) {
+        this.configurationService = configurationService;
     }
 }
