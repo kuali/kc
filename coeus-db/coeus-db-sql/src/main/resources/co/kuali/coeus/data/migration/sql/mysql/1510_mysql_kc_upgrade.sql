@@ -24,4 +24,5 @@
 \. ./kc/bootstrap/V1510_006__RESKC-772.sql
 \. ./kc/bootstrap/V1510_012__RESMER-58_AdditionalProposalTypes.sql
 \. ./kc/bootstrap/V1510_016__RESMER-134.sql
+\. ./kc/bootstrap/V1510_020__RESKC-955.sql
 commit;

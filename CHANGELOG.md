@@ -1,6 +1,40 @@
 
 
 ##CURRENT
+*  fix a broken test
+  * Travis Schneeberger on Mon, 26 Oct 2015 16:32:54 -0400 [View Commit](../../commit/fab68b7abc03779f2c32d95372131f18fd5791df)
+*  Adding Derived role for Award PI and plugged this role into Report Tracking Notifications Type
+  * Geo Thomas on Thu, 22 Oct 2015 16:39:46 -0400 [View Commit](../../commit/72993461481409f88ccc87b33afe6a2bd52a20de)
+*  adding a configuration for the system to system auth token
+  * Travis Schneeberger on Mon, 26 Oct 2015 14:16:54 -0400 [View Commit](../../commit/fb198add95928fcd75f3218937016b44ed885d3c)
+*  time and money documents are not properly getting their doc status column set during the tmdocstatus conversion.  This is due to a treating a character column as numeric.
+  * Travis Schneeberger on Mon, 26 Oct 2015 12:12:36 -0400 [View Commit](../../commit/db0b37dbb1c3c24ffd8647377db8beee603a9904)
+*  code cleanup
+  * Travis Schneeberger on Fri, 23 Oct 2015 18:11:05 -0400 [View Commit](../../commit/fb5ffb23210f039fcdc80d5f658344ed44eb3e9d)
+*  On committee, when deleting a member role, a member expertise or the entire member the deleted element successfully deletes on save.  Then when the committee document is submitted or blanket approved the previously deleted element is no longer deleted.  The expected result is any deleted element will stay deleted after document submission.
+  * Travis Schneeberger on Fri, 23 Oct 2015 18:08:54 -0400 [View Commit](../../commit/ab3c76417d89eb1acd9ba7aefed468c6fd811f1c)
+* Viewing PD causes whitescreen when no keywords defined
+
+  * When viewing a PD in readonly mode(from the PD lookup or after enroute/final) and keywords are enabled and there are no keywords defined in the system a stacktrace is generated in the logs and only a whitescreen is displayed to the user. This fixes that and the read-only display of the keywords which was previously broken as well. The following is a snippet from the stack trace
+
+  * For "${...}" content: Expected a string or something automatically convertible to string (number, date or boolean), but this evaluated to a sequence (wrapper: f.t.SimpleSequence):
+  * ==> (spring.status.value?default(""))  [in template "krad/WEB-INF/ftl/components/field/dataInputField.ftl" at line 64, column 27]
+  * ...
+  * freemarker.core.NonStringException: [... Exception message was already printed; see it above ...]
+  * blackcathacker on Fri, 23 Oct 2015 11:58:46 -0700 [View Commit](../../commit/30bd9958a1a41f3e530503e08afb280973624e89)
+* On committee, when deleting a role from a member the role successfully deletes on save.  Then when the committee document is submitted or blanket approved the previously deleted role is no longer deleted.  The expected result is any deleted roles will stay deleted after document submission.
+  * Travis Schneeberger on Fri, 23 Oct 2015 12:27:12 -0400 [View Commit](../../commit/0d104187f666b6999edc94d3b3db003f0e0c1b73)
+*  Making lead unit field bigger.
+  * After upgrading to 1508.3 repo version we are finding that PD copy proposal has a strange "Lead Unit" selection box. it only fits one unit at a time so it is very difficult to use.
+steps to reproduce
+  * log in as a user with create access in many units, such as quickstart
+  * either find an existing proposal or create a proposal by completing proposal basics
+  * Use the copy button in top header
+  * in the modal see the lead unit field
+  * The selection box is so small that even the arrows are difficult to use
+  * Gayathri Athreya on Thu, 22 Oct 2015 22:32:01 -0700 [View Commit](../../commit/7a8a20a8ab3ad030f4435d837b241093241891bf)
+
+##coeus-1510.50
 * MIT - IRB - Unable to View Approval Letter when taking the
   * Expedited Approval action.
   * IRB Admins are unable to view and print their approval letters when
