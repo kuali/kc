@@ -1,6 +1,22 @@
 
 
 ##CURRENT
+*  Fix budget inflation flag.
+  * If the user includes inflation for a non-personnel item, when the periods are generated inflation is not applied, if user tries to check inflation box and apply to other periods, amounts do not update and the apply inflation for future periods is not checked
+  * As an alternate, tried checking the apply inflation and saving in the period. open the expense again and it is still not checked.
+steps to reproduce
+  * create proposal with multiple years
+  * create budget
+  * add non personnel item with amount
+  * generate all periods
+  * look at non-personnel item details - the inflation is not checked; inflation does not occur in out years
+  * inflation cannot be checked an applied to period or future period in any non-personnel expense
+  * RH note:
+  * Issue seems to be problematic with cost elements that are no-inflation by default (like Equipment). Even adding the line item, opening Details checking the Inflate box and Saving. Then reopening Details - the inflate box is unchecked again. Check and save & apply to later periods does not apply inflation to the later periods.
+  * The reverse: uncheck inflation on a cost object where inflation is by default IS working.
+  * Gayathri Athreya on Fri, 23 Oct 2015 15:18:29 -0700 [View Commit](../../commit/88ae0f1557f5af0a27847cd06861a6513688ca65)
+
+##coeus-1510.51
 *  fix a broken test
   * Travis Schneeberger on Mon, 26 Oct 2015 16:32:54 -0400 [View Commit](../../commit/fab68b7abc03779f2c32d95372131f18fd5791df)
 *  Adding Derived role for Award PI and plugged this role into Report Tracking Notifications Type
