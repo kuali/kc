@@ -352,7 +352,7 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
         }
         else {
             initializeFormWithInstutitionalProposal(institutionalProposalForm, institutionalProposal);
-            response.sendRedirect(buildForwardUrl(institutionalProposalForm.getDocId()));
+            response.sendRedirect(buildForwardUrl(institutionalProposalForm.getInstitutionalProposalDocument().getDocumentNumber()));
             forward = null;
         }
         return forward;
