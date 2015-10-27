@@ -1,6 +1,17 @@
 
 
 ##CURRENT
+*  Cannot edit IP or subaward.
+  * 1. edit an Institutional Proposal document to create a new version.
+  * 2. save the version.
+  * 3. close the document without submitting.
+  * 4. search for the Institutional Proposal using the IP lookup on the Central Admin tab.
+  * 5. open and click edit. receive a message that a pending version exists.
+  * 6. Click Yes to edit the pending version.
+  * 7. User is returned to the Institutional Proposal in a non-editable state.
+  * Gayathri Athreya on Tue, 27 Oct 2015 12:36:41 -0700 [View Commit](../../commit/9256584d34c9337a5af003b0604d0ce728bf946b)
+
+##coeus-1510.52
 *  Fix budget inflation flag.
   * If the user includes inflation for a non-personnel item, when the periods are generated inflation is not applied, if user tries to check inflation box and apply to other periods, amounts do not update and the apply inflation for future periods is not checked
   * As an alternate, tried checking the apply inflation and saving in the period. open the expense again and it is still not checked.
