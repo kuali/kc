@@ -198,7 +198,7 @@ public class SubAwardHomeAction extends SubAwardAction{
             forward = mapping.findForward(Constants.MAPPING_SUBAWARD_PAGE);            
         } else {
             initializeFormWithSubAward(subAwardForm, (SubAward) foundPending.getSequenceOwner());
-            response.sendRedirect(buildForwardUrl(subAwardForm.getDocId()));
+            response.sendRedirect(buildForwardUrl(subAwardForm.getSubAwardDocument().getDocumentNumber()));
             forward = null;
         }
         return forward;
