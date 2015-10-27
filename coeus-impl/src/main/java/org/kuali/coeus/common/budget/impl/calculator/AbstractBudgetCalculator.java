@@ -680,10 +680,6 @@ public abstract class AbstractBudgetCalculator {
                 setInfltionValidCalcCeRates(inflationValidCeRates);
             }
         }
-        else {
-            lineItem.setApplyInRateFlag(false);
-        }
-        
     }
 
     private Equals equalsOverHeadRateClassType() {
