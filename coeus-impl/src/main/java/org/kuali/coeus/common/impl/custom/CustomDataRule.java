@@ -35,8 +35,8 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.common.framework.custom.SaveCustomDataEvent;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kns.datadictionary.validation.charlevel.AnyCharacterValidationPattern;
 import org.kuali.rice.kns.datadictionary.validation.charlevel.NumericValidationPattern;
+import org.kuali.rice.kns.datadictionary.validation.charlevel.UTF8AnyCharacterValidationPattern;
 import org.kuali.rice.krad.datadictionary.validation.ValidationPattern;
 import org.kuali.rice.krad.service.LegacyDataAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,7 +69,7 @@ public class CustomDataRule extends KcTransactionalDocumentRuleBase implements K
     static {
         final Map<String, ValidationPattern> tempPatterns = new HashMap<String, ValidationPattern>();
         
-        final AnyCharacterValidationPattern anyCharVal = new AnyCharacterValidationPattern();
+        final UTF8AnyCharacterValidationPattern anyCharVal = new UTF8AnyCharacterValidationPattern();
         anyCharVal.setAllowWhitespace(true);
         
         tempPatterns.put(STRING, anyCharVal);
