@@ -24,6 +24,7 @@ import org.kuali.coeus.common.notification.impl.bo.KcNotification;
 import org.kuali.coeus.common.notification.impl.bo.NotificationTypeRecipient;
 import org.kuali.coeus.common.view.wizard.framework.WizardControllerService;
 import org.kuali.coeus.common.view.wizard.framework.WizardResultsDto;
+import org.kuali.coeus.propdev.impl.coi.CoiConstants;
 import org.kuali.coeus.propdev.impl.core.*;
 import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
@@ -31,6 +32,7 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentViewHelperServiceImp
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationContext;
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationRenderer;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
+import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.coeus.common.framework.person.PersonTypeConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -64,6 +66,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
     public static final String CERTIFY_NOTIFICATION = "Certify Notification";
     public static final String KEY_PERSON_PROJECT_ROLE = "keyPersonProjectRole";
     public static final String PERSON_ROLE = "personRole";
+	public static final String CERTIFICATION_ACTION_TYPE_COI = "107";
     @Autowired
     @Qualifier("wizardControllerService")
     private WizardControllerService wizardControllerService;
@@ -75,6 +78,10 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
     @Autowired
     @Qualifier("kualiRuleService")
     private KualiRuleService kualiRuleService;
+
+	@Autowired
+    @Qualifier("sponsorHierarchyService")
+    private SponsorHierarchyService sponsorHierarchyService;
 
 	@Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropDev-PersonnelPage"})
     public ModelAndView navigateToPersonnel(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -309,12 +316,18 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
     }
 
     protected ProposalDevelopmentNotificationContext createNotificationContext(DevelopmentProposal developmentProposal, ProposalPerson person) {
-        ProposalDevelopmentNotificationContext context =
-                new ProposalDevelopmentNotificationContext(developmentProposal, CERTIFICATION_ACTION_TYPE_CODE, CERTIFY_NOTIFICATION);
-        ProposalDevelopmentNotificationRenderer renderer = (ProposalDevelopmentNotificationRenderer) context.getRenderer();
-        renderer.setDevelopmentProposal(developmentProposal);
-        renderer.setProposalPerson(person);
-        return context;
+    	ProposalDevelopmentNotificationContext context;
+    	String sponsorHeirarchy =   getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, CoiConstants.COI_SPONSOR_HIERARCHY); 
+    	String sponsorHeirarchyLevelName =   getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, CoiConstants.COI_SPONSOR_HEIRARCHY_LEVEL1);
+    	if (getSponsorHierarchyService().isSponsorInHierarchy(developmentProposal.getSponsorCode(), sponsorHeirarchy,1,sponsorHeirarchyLevelName)) {
+    		context = new ProposalDevelopmentNotificationContext(developmentProposal, CERTIFICATION_ACTION_TYPE_COI, CERTIFY_NOTIFICATION);
+    	} else {
+    		context = new ProposalDevelopmentNotificationContext(developmentProposal, CERTIFICATION_ACTION_TYPE_CODE, CERTIFY_NOTIFICATION);
+    	}
+    	ProposalDevelopmentNotificationRenderer renderer = (ProposalDevelopmentNotificationRenderer) context.getRenderer();
+    	renderer.setDevelopmentProposal(developmentProposal);
+    	renderer.setProposalPerson(person);
+    	return context;
     }
 
     protected List<NotificationTypeRecipient> createRecipientFromPerson(ProposalPerson person) {
@@ -499,4 +512,16 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
     public void setKualiRuleService(KualiRuleService kualiRuleService) {
         this.kualiRuleService = kualiRuleService;
     }
+    
+	public SponsorHierarchyService getSponsorHierarchyService() {
+		return sponsorHierarchyService;
+	}
+
+
+
+	public void setSponsorHierarchyService(
+			SponsorHierarchyService sponsorHierarchyService) {
+		this.sponsorHierarchyService = sponsorHierarchyService;
+	}
+
 }

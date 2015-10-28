@@ -22,17 +22,23 @@ import org.kuali.coeus.common.notification.impl.NotificationRendererBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
+import org.kuali.coeus.propdev.impl.auth.perm.ProposalDevelopmentPermissionsService;
 import org.kuali.coeus.propdev.impl.editable.ProposalChangedData;
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Renders fields for the Proposal Development notifications.
@@ -48,12 +54,22 @@ public class ProposalDevelopmentNotificationRenderer extends NotificationRendere
     private ProposalChangedData proposalChangedData;
     private Narrative modifiedNarrative;
     private ProposalPerson proposalPerson;
-
+    private static final String COI_URL = "coi.standalone.base.url";
+    
     @Autowired
     @Qualifier("proposalDevelopmentService")
     private transient ProposalDevelopmentService proposalDevelopmentService;
     
-    public ProposalDevelopmentNotificationRenderer() {
+    @Autowired
+    @Qualifier("parameterService")
+    private transient ParameterService parameterService;
+    
+    @Autowired
+    @Qualifier("proposalDevelopmentPermissionsService")
+    private ProposalDevelopmentPermissionsService proposalDevelopmentPermissionsService;
+
+
+	public ProposalDevelopmentNotificationRenderer() {
         
     }
     
@@ -106,10 +122,24 @@ public class ProposalDevelopmentNotificationRenderer extends NotificationRendere
             result.put("{USER_NAME}",proposalPerson.getUserName());
             result.put("{PROPOSAL_CERTIFY_USER}",proposalPerson.getCertifiedPersonName()); 
             result.put("{PROPOSAL_CERTIFY_TIME_STAMP}", proposalPerson.getCertifiedTimeStamp());        
+            result.put("{AGGREGATOR}", getAggregators());
+            String certificatioPage =result.get("{APP_LINK_PREFIX}")+"/kc-pd-krad/proposalDevelopment?methodToCall=viewUtility&" +
+        			"viewId=PropDev-CertificationView&docId="+developmentProposal.getProposalDocument().getDocumentNumber()+"&userName="+proposalPerson.getUserName();
+        	result.put("{CERT_PAGE}", certificatioPage);
+        	String coiLink =   getKualiConfigurationService().getPropertyValueAsString(COI_URL);;
+            result.put("{LINK_TO_COI}", coiLink);
         }
+        
         return result;
     }
 
+    private String getAggregators() {
+    	List<ProposalUserRoles> proposalUserRoles =  getProposalDevelopmentPermissionsService().getPermissions(developmentProposal.getProposalDocument());
+    	String aggregators = proposalUserRoles.stream().filter(proposalUserRole -> proposalUserRole.getRoleNames().
+    			contains(RoleConstants.AGGREGATOR_DOCUMENT_LEVEL)).map(proposalUserRole -> {return proposalUserRole.getUsername();}).collect(Collectors.joining(","));
+    	return aggregators;
+    }
+    
     public DevelopmentProposal getDevelopmentProposal() {
         return developmentProposal;
     }
@@ -149,4 +179,21 @@ public class ProposalDevelopmentNotificationRenderer extends NotificationRendere
     public void setProposalPerson(ProposalPerson proposalPerson) {
         this.proposalPerson = proposalPerson;
     }
+    
+    public ParameterService getParameterService() {
+		return parameterService;
+	}
+
+	public void setParameterService(ParameterService parameterService) {
+		this.parameterService = parameterService;
+	}
+	
+	public ProposalDevelopmentPermissionsService getProposalDevelopmentPermissionsService() {
+		return proposalDevelopmentPermissionsService;
+	}
+
+	public void setProposalDevelopmentPermissionsService(
+			ProposalDevelopmentPermissionsService proposalDevelopmentPermissionsService) {
+		this.proposalDevelopmentPermissionsService = proposalDevelopmentPermissionsService;
+	}
 }

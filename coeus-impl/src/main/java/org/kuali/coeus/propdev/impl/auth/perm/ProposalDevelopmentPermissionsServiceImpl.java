@@ -25,6 +25,7 @@ import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.propdev.impl.attachment.LegacyNarrativeService;
+import org.kuali.coeus.propdev.impl.coi.CoiConstants;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.docperm.*;
@@ -49,8 +50,6 @@ public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelo
 
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentPermissionsServiceImpl.class);
     
-    private static final String COI_SPONSOR_HIERARCHY = "COIHierarchyName";
-    private static final String COI_SPONSOR_HEIRARCHY_LEVEL1= "COIHierarchyLevel1";
     public static final String KEY_PERSON_PROJECT_ROLE = "keyPersonProjectRole";
     public static final String COI_REQUIREMENT = "COI_REQUIREMENT";
     public static final String PRINCIPAL_COI_KEY_PERSON = "PCK";
@@ -215,8 +214,8 @@ public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelo
     }
 
     protected boolean doesSponsorRequireKeyPersonCertification(ProposalPerson proposalPerson) {
-        String sponsorHierarchy = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, COI_SPONSOR_HIERARCHY);
-        String sponsorHierarchyLevelName = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, COI_SPONSOR_HEIRARCHY_LEVEL1);
+        String sponsorHierarchy = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, CoiConstants.COI_SPONSOR_HIERARCHY);
+        String sponsorHierarchyLevelName = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, CoiConstants.COI_SPONSOR_HEIRARCHY_LEVEL1);
 
         return getSponsorHierarchyService().isSponsorInHierarchy(proposalPerson.getDevelopmentProposal().getSponsorCode(),
                                                                 sponsorHierarchy, HIERARCHY_LEVEL, sponsorHierarchyLevelName);
