@@ -245,6 +245,7 @@
 	<param name="auth.base.url">${application.rest.services.base.url}</param>
 	<param name="auth.users.url">${auth.base.url}/api/users</param>
 	<param name="auth.rest.urls.regex">.*api.*,.*v1.*</param>
+	<param name="auth.core.enabled">false</param>
 
 	<param name="mq.redelivery.default.maximumRedeliveries">10</param>
 	<param name="mq.redelivery.default.initialRedeliveryDelay">3000</param>

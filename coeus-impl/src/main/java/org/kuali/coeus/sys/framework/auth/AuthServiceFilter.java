@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -23,7 +24,6 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.commons.net.util.Base64;
 import org.kuali.coeus.sys.framework.rest.AuthServiceRestUtilService;
 import org.kuali.coeus.sys.framework.rest.RestServiceConstants;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -79,20 +79,18 @@ public class AuthServiceFilter implements Filter {
 		apiUserName = getConfigurationService().getPropertyValueAsString(KC_REST_ADMIN_USERNAME);
 		String apiPassword = getConfigurationService().getPropertyValueAsString(KC_REST_ADMIN_PASSWORD);
 		if (StringUtils.isNotBlank(apiUserName) && StringUtils.isNotBlank(apiPassword)) {
-			hashedApiAdminBasicAuth = "Basic " + new String(Base64.encodeBase64((apiUserName + ":" + apiPassword).getBytes()));
+			hashedApiAdminBasicAuth = "Basic " + new String(Base64.getEncoder().encode((apiUserName + ":" + apiPassword).getBytes()));
 		}
 		
 		
 	}
 	
 	protected List<Pattern> buildRestUrlRegexPatterns(String restUrlPatterns) {
-		return Arrays.asList(restUrlPatterns.split(",")).stream().map(pattern -> {
-			return Pattern.compile(pattern);
-		}).collect(Collectors.toList());
+		return Arrays.asList(restUrlPatterns.split(",")).stream().map(Pattern::compile).collect(Collectors.toList());
 	}
 	
 	protected boolean isUrlForRest(String requestUrl) {
-		return restUrlsRegex.stream().anyMatch(pattern -> { return pattern.matcher(requestUrl).matches(); });
+		return restUrlsRegex.stream().anyMatch(pattern -> pattern.matcher(requestUrl).matches());
 	}
 
 	@Override
@@ -100,9 +98,9 @@ public class AuthServiceFilter implements Filter {
 			FilterChain chain) throws IOException, ServletException {
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
-		String authorizationHeader = httpRequest.getHeader(AUTHORIZATION_HEADER_NAME);
 		if (isUrlForRest(httpRequest.getRequestURI())) {
-			authenticateBasedOnAuthorizationHeader(authorizationHeader, httpRequest, httpResponse, chain);
+			authenticateBasedOnAuthorizationHeader(httpRequest.getHeader(AUTHORIZATION_HEADER_NAME), 
+					httpRequest, httpResponse, chain);
 		} else {
 			authenticateWebBasedUser(chain, httpRequest, httpResponse);
 		}
@@ -220,7 +218,7 @@ public class AuthServiceFilter implements Filter {
 
 	public RestOperations getRestTemplate() {
 		if (restTemplate == null) {
-			restTemplate = KcServiceLocator.getService("consumerRestOperations");
+			restTemplate = KcServiceLocator.getService(RestOperations.class);
 		}
 		return restTemplate;
 	}

@@ -27,11 +27,10 @@
 
     <context:annotation-config />
 
-    <bean id="kcInstitutionalProposalConfigurer" class="org.kuali.coeus.sys.framework.config.KcConfigurer">
+    <bean id="kcInstitutionalProposalConfigurer" parent="apiConfigurer-parentBean">
         <property name="moduleName" value="kc.ip"/>
         <property name="moduleTitle" value="KC Institutional Proposal"/>
         <property name="dispatchServletName" value="kc-ip"/>
-        <property name="filtersToMap" ref="authFiltersToMap"/>
         <property name="bootstrapSpringFile" value="classpath:org/kuali/kra/institutionalproposal/InstPropComponentSpringBeans.xml"/>
     </bean>
 

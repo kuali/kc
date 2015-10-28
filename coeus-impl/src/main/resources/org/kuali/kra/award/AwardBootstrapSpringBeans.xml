@@ -30,7 +30,7 @@
 
     <context:annotation-config /> 
 
-    <bean id="kcAwardConfigurer" class="org.kuali.coeus.sys.framework.config.KcConfigurer">
+    <bean id="kcAwardConfigurer" parent="apiConfigurer-parentBean">
         <property name="moduleName" value="kc.award"/>
         <property name="moduleTitle" value="KC Award"/>
         <property name="dispatchServletName" value="kc-award"/>
@@ -39,7 +39,6 @@
         		<value>award</value>
         	</list>
         </property>
-        <property name="filtersToMap" ref="authFiltersToMap"/>
         <property name="bootstrapSpringFile" value="classpath:org/kuali/kra/award/AwardComponentSpringBeans.xml"/>
     </bean>
     

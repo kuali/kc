@@ -1,7 +1,6 @@
 package org.kuali.coeus.sys.impl.mq.rest;
 
 import org.apache.commons.lang3.StringUtils;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.sys.framework.auth.AuthConstants;
@@ -39,7 +38,7 @@ public class RestMessageConsumer implements MessageListener {
     private RestDestinationRegistry restDestinationRegistry;
 
     @Autowired
-    @Qualifier("consumerRestOperations")
+    @Qualifier("restOperations")
     private RestOperations consumerRestOperations;
 
     @Autowired
