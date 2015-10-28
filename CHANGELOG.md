@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+*  Fixing custom data migration
+  * Search for a migrated institutional proposal.
+  * Open the proposal.
+  * Click Edit
+  * Receive error message stating "Other errors: The Value (Value) may only consist of visible characters, spaces, or tabs."
+  * Gayathri Athreya on Tue, 27 Oct 2015 15:49:36 -0700 [View Commit](../../commit/43859b403ef11d70aa7c8f82ab3c4a56bbfd09a5)
+
+##coeus-1510.53
 *  Cannot edit IP or subaward.
   * 1. edit an Institutional Proposal document to create a new version.
   * 2. save the version.
