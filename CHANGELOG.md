@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1510.55
 *  pushing COI project data for generated IP documents.  Also, fixing a NullPointerException when generating an IP and the subcontracts flag is false on the proposal development document.
   * Travis Schneeberger on Mon, 26 Oct 2015 10:41:54 -0400 [View Commit](../../commit/7b242ae66e1288478444b6f39a3e90afb051549f)
 * Provide config param for graceful switching of api security
