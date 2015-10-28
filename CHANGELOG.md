@@ -1,6 +1,18 @@
 
 
 ##CURRENT
+*  pushing COI project data for generated IP documents.  Also, fixing a NullPointerException when generating an IP and the subcontracts flag is false on the proposal development document.
+  * Travis Schneeberger on Mon, 26 Oct 2015 10:41:54 -0400 [View Commit](../../commit/7b242ae66e1288478444b6f39a3e90afb051549f)
+* Provide config param for graceful switching of api security
+
+  * When auth.core.enabled is set to true spring security will be disabled for the 3 contexts with current rest apis. This will assume that the auth filter will handle all authentication for rest apis.
+
+  * Also additional code review comments responsded too.
+  * blackcathacker on Wed, 28 Oct 2015 12:28:10 -0700 [View Commit](../../commit/5d22ca1a70684c60dc37e50b2ddd0eea45c0c070)
+* Split out api and web auth filters as at least partial CSRF protection
+  * blackcathacker on Mon, 26 Oct 2015 14:02:44 -0700 [View Commit](../../commit/e3d63f0acd9038004835ceb2283ed53e99fc4082)
+
+##coeus-1510.54
 *  Fixing custom data migration
   * Search for a migrated institutional proposal.
   * Open the proposal.
