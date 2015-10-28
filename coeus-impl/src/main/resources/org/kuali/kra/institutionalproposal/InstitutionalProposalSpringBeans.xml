@@ -236,7 +236,7 @@
     </bean>
 	
     <!-- Institutional Proposal Services -->
-    
+
     <bean id="institutionalProposalService" class="org.kuali.kra.institutionalproposal.service.impl.InstitutionalProposalServiceImpl">
         <property name="documentService" ref="documentService" />
         <property name="businessObjectService" ref="businessObjectService" />
@@ -245,6 +245,7 @@
         <property name="sequenceAccessorService" ref="sequenceAccessorService" />
         <property name="parameterService" ref="parameterService" />
         <property name="institutionalProposalDao" ref="institutionalProposalDao"/>
+        <property name="instPropProjectRetrievalService" ref="instPropProjectRetrievalService" />
     </bean>
 
     <bean id="institutionalProposalDao" parent="platformAwareDao" class="org.kuali.kra.institutionalproposal.dao.ojb.InstitutionalProposalDaoOjb"/>

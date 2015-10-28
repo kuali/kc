@@ -193,7 +193,7 @@ public abstract class ProposalDevelopmentControllerBase {
 
     @Autowired
     @Qualifier("propDevProjectRetrievalService")
-    private ProjectRetrievalService projectRetrievalService;
+    private ProjectRetrievalService propDevProjectRetrievalService;
 
     private ProjectPublisher projectPublisher;
 
@@ -216,8 +216,7 @@ public abstract class ProposalDevelopmentControllerBase {
     
     @ModelAttribute(value = "KualiForm")
     public UifFormBase initForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        UifFormBase form =  getKcCommonControllerService().initForm(this.createInitialForm(request), request, response);
-        return form;
+        return  getKcCommonControllerService().initForm(this.createInitialForm(request), request, response);
     }
      
     /**
@@ -300,7 +299,7 @@ public abstract class ProposalDevelopmentControllerBase {
              ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).populateQuestionnaires(form);
          }
          String pageId = form.getActionParamaterValue(UifParameters.NAVIGATE_TO_PAGE_ID);
-         ModelAndView view = null;
+         final ModelAndView view;
          if (StringUtils.isNotBlank(pageId) && getGlobalVariableService().getMessageMap().hasNoErrors()) {
         	 form.setDirtyForm(false);
              view = getModelAndViewService().getModelAndView(form, pageId);
@@ -310,13 +309,11 @@ public abstract class ProposalDevelopmentControllerBase {
 
          if (form.getProposalDevelopmentDocument().getDevelopmentProposal() != null
                  && form.getProposalDevelopmentDocument().getDevelopmentProposal().getPropSpecialReviews() != null) {
-             for (ProposalSpecialReview specialReview : form.getProposalDevelopmentDocument().getDevelopmentProposal().getPropSpecialReviews()) {
-                 if (!specialReview.isLinkedToProtocol()) {
-                     form.getSpecialReviewHelper().prepareProtocolLinkViewFields(specialReview);
-                 }
-             }
+             form.getProposalDevelopmentDocument().getDevelopmentProposal().getPropSpecialReviews().stream()
+                     .filter(specialReview -> !specialReview.isLinkedToProtocol())
+                     .forEach(specialReview -> form.getSpecialReviewHelper().prepareProtocolLinkViewFields(specialReview));
          }
-         getProjectPublisher().publishProject(getProjectRetrievalService().retrieveProject(form.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalNumber()));
+         getProjectPublisher().publishProject(getPropDevProjectRetrievalService().retrieveProject(form.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalNumber()));
 
          return view;
      }
@@ -329,7 +326,6 @@ public abstract class ProposalDevelopmentControllerBase {
                  proposalDevelopmentDocument);
          proposalDevelopmentService.initializeProposalSiteNumbers(
                  proposalDevelopmentDocument);
-         ModelAndView view = null;
 
          saveAnswerHeaders(pdForm,request.getParameter(UifParameters.PAGE_ID));
 
@@ -342,6 +338,7 @@ public abstract class ProposalDevelopmentControllerBase {
          populateAdHocRecipients(pdForm.getProposalDevelopmentDocument());
 
          String pageId = form.getActionParamaterValue(UifParameters.NAVIGATE_TO_PAGE_ID);
+         final ModelAndView view;
          if (StringUtils.isNotBlank(pageId) && getGlobalVariableService().getMessageMap().hasNoErrors()) {
         	 form.setDirtyForm(false);
              view = getModelAndViewService().getModelAndView(form, pageId);
@@ -351,13 +348,11 @@ public abstract class ProposalDevelopmentControllerBase {
 
          if (pdForm.getProposalDevelopmentDocument().getDevelopmentProposal() != null
                  && pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getPropSpecialReviews() != null) {
-             for (ProposalSpecialReview specialReview : pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getPropSpecialReviews()) {
-                 if (!specialReview.isLinkedToProtocol()) {
-                     pdForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(specialReview);
-                 }
-             }
+             pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getPropSpecialReviews().stream()
+                     .filter(specialReview -> !specialReview.isLinkedToProtocol())
+                     .forEach(specialReview -> pdForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(specialReview));
          }
-         getProjectPublisher().publishProject(getProjectRetrievalService().retrieveProject(pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalNumber()));
+         getProjectPublisher().publishProject(getPropDevProjectRetrievalService().retrieveProject(pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalNumber()));
 
          return view;
      }
@@ -407,7 +402,7 @@ public abstract class ProposalDevelopmentControllerBase {
         if(form.getEditableCollectionLines().containsKey(selectedCollectionPath)) {
             updateEditableCollectionLines(form, selectedCollectionPath);
         } else {
-            List<String> newKeyList = new ArrayList<String>();
+            List<String> newKeyList = new ArrayList<>();
             newKeyList.add("0");
             form.getEditableCollectionLines().put(selectedCollectionPath,newKeyList);
         }
@@ -415,7 +410,7 @@ public abstract class ProposalDevelopmentControllerBase {
     }
 
     public void updateEditableCollectionLines(ProposalDevelopmentDocumentForm form, String selectedCollectionPath){
-        List<String> indexes = new ArrayList<String>();
+        List<String> indexes = new ArrayList<>();
         indexes.add("0");
         for (String index : form.getEditableCollectionLines().get(selectedCollectionPath)) {
             Integer newIndex= Integer.parseInt(index) + 1;
@@ -581,10 +576,7 @@ public abstract class ProposalDevelopmentControllerBase {
 
     private AnswerHeader retrieveCurrentAnswerHeader(Long id) {
         if (id != null) {
-            Map<String, Object> criteria = new HashMap<>();
-            criteria.put("id", id);
-            AnswerHeader currentAnswerHeader = getBusinessObjectService().findByPrimaryKey(AnswerHeader.class, criteria);
-            return currentAnswerHeader;
+            return getBusinessObjectService().findByPrimaryKey(AnswerHeader.class, Collections.singletonMap("id", id));
         }
 
         return null;
@@ -664,7 +656,8 @@ public abstract class ProposalDevelopmentControllerBase {
 
         public String getAsText() {
             if (this.getValue() != null) {
-                Collection<PropScienceKeyword> keywords = (Collection<PropScienceKeyword>) this.getValue();
+                @SuppressWarnings("unchecked")
+                final Collection<PropScienceKeyword> keywords = (Collection<PropScienceKeyword>) this.getValue();
                 StringBuilder result = new StringBuilder();
                 for(PropScienceKeyword keyword : keywords) {
                     result.append(keyword.getScienceKeyword().getCode());
@@ -699,7 +692,8 @@ public abstract class ProposalDevelopmentControllerBase {
 
         public String getAsText() {
             if (this.getValue() != null) {
-                Collection<ProposalSpecialReviewExemption> exemptions = (Collection<ProposalSpecialReviewExemption>) this.getValue();
+                @SuppressWarnings("unchecked")
+                final Collection<ProposalSpecialReviewExemption> exemptions = (Collection<ProposalSpecialReviewExemption>) this.getValue();
                 StringBuilder result = new StringBuilder();
                 for(ProposalSpecialReviewExemption exemption : exemptions) {
                     result.append(exemption.getExemptionTypeCode());
@@ -715,7 +709,7 @@ public abstract class ProposalDevelopmentControllerBase {
  	}
 
     protected ExemptionType getExemptionType(Object element) {
- 	   return (ExemptionType) getDataObjectService().findUnique(ExemptionType.class, QueryByCriteria.Builder.forAttribute("code", element).build());
+ 	   return getDataObjectService().findUnique(ExemptionType.class, QueryByCriteria.Builder.forAttribute("code", element).build());
     }
 
     public AuditHelper.ValidationState getValidationState(ProposalDevelopmentDocumentForm form) {
@@ -924,11 +918,11 @@ public abstract class ProposalDevelopmentControllerBase {
         this.dateTimeService = dateTimeService;
     }
 
-    public ProjectRetrievalService getProjectRetrievalService() {
-        return projectRetrievalService;
+    public ProjectRetrievalService getPropDevProjectRetrievalService() {
+        return propDevProjectRetrievalService;
     }
 
-    public void setProjectRetrievalService(ProjectRetrievalService projectRetrievalService) {
-        this.projectRetrievalService = projectRetrievalService;
+    public void setPropDevProjectRetrievalService(ProjectRetrievalService propDevProjectRetrievalService) {
+        this.propDevProjectRetrievalService = propDevProjectRetrievalService;
     }
 }
