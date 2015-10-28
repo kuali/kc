@@ -37,30 +37,6 @@
 
 
   <bean id="SubAwardCustomData-value" parent="SubAwardCustomData-value-parentBean" />
-
-  <bean id="SubAwardCustomData-value-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="value" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Value" />
-    <property name="shortLabel" value="Value" />
-    <property name="maxLength" value="2000" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="AnyCharacterPatternConstraint">
-        <property name="allowWhitespace" value="true"/>
-      </bean>
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="60"/>
-    </property>
-    <property name="controlField">
-      <bean p:size="60" parent="Uif-TextControl"/>
-    </property>
-    <property name="summary" value="Value" />
-    <property name="description" value="Value" />
-  </bean>
+  <bean id="SubAwardCustomData-value-parentBean" abstract="true" parent="KraAttributeReferenceDummy-CustomDataValue"></bean>
 
 </beans>
