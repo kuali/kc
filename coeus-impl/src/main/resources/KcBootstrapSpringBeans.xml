@@ -19,11 +19,25 @@
  -->
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans.xsd">
-
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util.xsd">
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="properties" value="#{T(org.kuali.rice.core.api.config.property.ConfigContext).getCurrentContextConfig().getProperties()}" />
+    </bean>
+    
+    <util:list id="authFiltersToMap">
+        <value>BootstrapFilter</value>
+        <value>UserLoginFilter</value>
+        <value>UserPreferencesFilter</value>
+    </util:list>
+    
+    <bean id="apiConfigurer-parentBean" abstract="true" class="org.kuali.coeus.sys.framework.config.KcConfigurer">
+        <property name="filtersToMap" ref="authFiltersToMap"/>
+        <property name="mapFilters" value="#{T(org.kuali.rice.core.api.config.property.ConfigContext).getCurrentContextConfig().getBooleanProperty('auth.core.enabled')}"/>
+        <property name="enableSpringSecurity" value="#{not (T(org.kuali.rice.core.api.config.property.ConfigContext).getCurrentContextConfig().getBooleanProperty('auth.core.enabled'))}"/>
     </bean>
 
     <import resource="classpath:org/kuali/coeus/sys/impl/RiceBootstrapSpringBeans.xml"/>

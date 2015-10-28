@@ -47,7 +47,7 @@ public class AuthServicePushServiceImpl implements AuthServicePushService {
 	private PersonService personService;
 	
 	@Autowired
-	@Qualifier("consumerRestOperations")
+	@Qualifier("restOperations")
 	private RestOperations restOperations;
 	
 	@Autowired

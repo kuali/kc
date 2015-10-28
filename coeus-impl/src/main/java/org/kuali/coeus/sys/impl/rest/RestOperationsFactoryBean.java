@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestOperations;
 
-@Component("consumerRestOperations")
+@Component("restOperations")
 public class RestOperationsFactoryBean implements FactoryBean<RestOperations> {
 	
 	private static final String TRUST_SELFSIGNED_CONFIG = "kc.rest.ssl.trust.selfsigned";

@@ -51,9 +51,11 @@ public class KcConfigurer extends ModuleConfigurer {
     
     private String bootstrapSpringFile;
     private String dispatchServletName;
+    private List<String> dispatchServletMappings = new ArrayList<String>();
     private List<String> filtersToMap = new ArrayList<String>();
     private String moduleTitle;
     private boolean enableSpringSecurity;
+    private boolean mapFilters = true;
     
     private ResourceLoader rootResourceLoader;
 
@@ -100,9 +102,14 @@ public class KcConfigurer extends ModuleConfigurer {
 	        DispatcherServlet loaderServlet = new DispatcherServlet((WebApplicationContext) ((SpringResourceLoader) rootResourceLoader.getResourceLoaders().get(0)).getContext());
 	        ServletRegistration registration = getServletContext().addServlet(dispatchServletName, loaderServlet);
 	        registration.addMapping("/" + dispatchServletName + "/*");
-	        for (String filterName : filtersToMap) {
-	            FilterRegistration filter = getServletContext().getFilterRegistration(filterName);
-	            filter.addMappingForServletNames(null, true, dispatchServletName);
+	        if (dispatchServletMappings != null) {
+	        	dispatchServletMappings.stream().map(mapping -> "/" + mapping + "/*").forEach(registration::addMapping);
+	        }
+	        if (mapFilters) {
+		        for (String filterName : filtersToMap) {
+		            FilterRegistration filter = getServletContext().getFilterRegistration(filterName);
+		            filter.addMappingForServletNames(null, true, dispatchServletName);
+		        }
 	        }
 	        if (enableSpringSecurity) {
 	        	DelegatingFilterProxy filterProxy = new DelegatingFilterProxy(SPRING_SECURITY_FILTER_CHAIN, (WebApplicationContext) ((SpringResourceLoader) rootResourceLoader.getResourceLoaders().get(0)).getContext());
@@ -164,4 +171,21 @@ public class KcConfigurer extends ModuleConfigurer {
 	public void setEnableSpringSecurity(boolean enableSpringSecurity) {
 		this.enableSpringSecurity = enableSpringSecurity;
 	}
+
+	public List<String> getDispatchServletMappings() {
+		return dispatchServletMappings;
+	}
+
+	public void setDispatchServletMappings(List<String> dispatchServletMappings) {
+		this.dispatchServletMappings = dispatchServletMappings;
+	}
+
+	public boolean isMapFilters() {
+		return mapFilters;
+	}
+
+	public void setMapFilters(boolean mapFilters) {
+		this.mapFilters = mapFilters;
+	}
+
 }
