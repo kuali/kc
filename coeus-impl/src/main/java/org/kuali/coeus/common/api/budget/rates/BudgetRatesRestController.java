@@ -29,6 +29,7 @@ import org.kuali.coeus.common.budget.framework.rate.RateClass;
 import org.kuali.coeus.common.budget.framework.rate.RateClassType;
 import org.kuali.coeus.common.budget.framework.rate.RateType;
 import org.kuali.coeus.common.framework.fiscalyear.FiscalYearMonthService;
+import org.kuali.coeus.sys.framework.controller.rest.RestController;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.rest.UnauthorizedAccessException;
 import org.kuali.kra.infrastructure.Constants;
@@ -53,7 +54,7 @@ import com.codiform.moo.configuration.Configuration;
 import com.codiform.moo.curry.Translate;
 
 @Controller("budgetRatesRestController")
-public class BudgetRatesRestController {
+public class BudgetRatesRestController extends RestController {
 	
 	@Autowired
 	@Qualifier("businessObjectService")

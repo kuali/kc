@@ -39,7 +39,7 @@ public class ActivityTypeRestController {
 	private BusinessObjectService businessObjectService;
 	
 	@RequestMapping(value="/api/activityTypes", method=RequestMethod.GET)
-	public @ResponseBody Collection<ActivityTypeDto> getInstituteRates() {
+	public @ResponseBody Collection<ActivityTypeDto> getActivityTypes() {
 		return Translate.to(ActivityTypeDto.class).fromEach(getBusinessObjectService().findAll(ActivityType.class));
 	}
 	

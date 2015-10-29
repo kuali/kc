@@ -38,7 +38,7 @@ public class UnitRestController {
 	private UnitService unitService;
 	
 	@RequestMapping(value="/api/units", method=RequestMethod.GET)
-	public @ResponseBody Collection<UnitDto> getInstituteRates() {
+	public @ResponseBody Collection<UnitDto> getUnits() {
 		return Translate.to(UnitDto.class).fromEach(getUnitService().getUnits());
 	}
 	
