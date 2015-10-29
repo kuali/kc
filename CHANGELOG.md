@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* Budget Institute Rates new interface first commit
+  * blackcathacker on Thu, 4 Jun 2015 08:58:22 -0700 [View Commit](../../commit/fd5b1c307b731907297a8f2297162c0e5fdd02db)
+
+##coeus-1510.58
 * Missing PD Notification specific for Contributed COI
   * Disclosure Status feature.
   * Noticed during testing and documentation of the RESKC-504 contributed

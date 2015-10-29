@@ -29,4 +29,5 @@
 \. ./rice/bootstrap/V1510_015__RESKC-916.sql
 \. ./rice/bootstrap/V1510_017__fin_rest_apis_params.sql
 \. ./rice/bootstrap/V1510_019__RESKC-955.sql
+\. ./rice/bootstrap/V1510_022__RESKC-708.sql
 commit;
