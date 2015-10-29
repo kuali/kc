@@ -29,8 +29,6 @@ import org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase;
 import org.kuali.coeus.common.committee.impl.meeting.CommScheduleActItemBase;
 import org.kuali.coeus.common.committee.impl.meeting.CommitteeScheduleAttendanceBase;
 import org.kuali.coeus.common.committee.impl.service.CommitteeMembershipServiceBase;
-import org.kuali.coeus.common.framework.person.KcPerson;
-import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.print.stream.xml.PrintBaseXmlStream;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
@@ -63,9 +61,10 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
     private static final String PROTOCOL_SUBMISSIONS = "protocolSubmissions";
     private static final String COMMITTEE_ID_FK = "committeeIdFk";
     private static final String SCHEDULED_DATE = "scheduledDate";
+    private static final String PROTOCOL_ID = "protocolId";
+    private static final String SUBMISSION_ID_FK = "submissionIdFk";
 
     private CommitteeMembershipServiceBase committeeMembershipService;
-    private KcPersonService kcPersonService;
     private IacucPrintXmlUtilService printXmlUtilService;
 
     public Map<String, XmlObject> generateXmlStream(KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
@@ -100,7 +99,7 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
 			ProtocolMasterDataType protocolMaster = protocolSummary.addNewProtocolMasterData();
 			String followUpAction = null;
 			String actionTypeCode = null;
-            IacucProtocol protocol = getBusinessObjectService().findByPrimaryKey(IacucProtocol.class, Collections.singletonMap("protocolId", protocolSubmission.getProtocolId()));;
+            IacucProtocol protocol = getBusinessObjectService().findByPrimaryKey(IacucProtocol.class, Collections.singletonMap(PROTOCOL_ID, protocolSubmission.getProtocolId()));
             List<ProtocolActionBase> protocolActions=protocol.getProtocolActions();
             
             for (ProtocolActionBase protocolAction : protocolActions){
@@ -307,7 +306,7 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
             SubmissionDetailsType protocolSubmissionDetail) {
 
 
-        Collection<IacucProtocolReviewer> vecReviewers = getBusinessObjectService().findMatching(IacucProtocolReviewer.class, Collections.singletonMap("submissionIdFk", protocolSubmission.getSubmissionId()));
+        Collection<IacucProtocolReviewer> vecReviewers = getBusinessObjectService().findMatching(IacucProtocolReviewer.class, Collections.singletonMap(SUBMISSION_ID_FK, protocolSubmission.getSubmissionId()));
         List<ProtocolReviewerType> protocolReviewerTypeList = new ArrayList<>();
         for (ProtocolReviewer protocolReviewer : vecReviewers) {
             protocolReviewer.refreshNonUpdateableReferences();
@@ -325,9 +324,7 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
         PersonType personType = protocolReviewerType.addNewPerson();
         boolean nonEmployeeFlag = protocolReviewer.getNonEmployeeFlag();
         if (!nonEmployeeFlag) {
-            String personId = protocolReviewer.getPersonId();
-            KcPerson person = getKcPersonService().getKcPersonByPersonId(personId);
-            getPrintXmlUtilService().setPersonXml(person, personType);
+            getPrintXmlUtilService().setPersonXml(protocolReviewer.getPerson(), personType);
 
         }else {
             Rolodex rolodex = protocolReviewer.getRolodex();
@@ -486,15 +483,6 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
 
     public CommitteeMembershipServiceBase getCommitteeMembershipService() {
         return committeeMembershipService;
-    }
-
-
-    public KcPersonService getKcPersonService() {
-        return kcPersonService;
-    }
-
-    public void setKcPersonService(KcPersonService kcPersonService) {
-        this.kcPersonService = kcPersonService;
     }
 
     public IacucPrintXmlUtilService getPrintXmlUtilService() {

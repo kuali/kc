@@ -40,14 +40,11 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipBase;
 import org.kuali.coeus.common.committee.impl.meeting.CommScheduleActItemBase;
 import org.kuali.coeus.common.committee.impl.meeting.CommitteeScheduleAttendanceBase;
-import org.kuali.coeus.common.framework.person.KcPerson;
-import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.print.stream.xml.PrintBaseXmlStream;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeMembershipService;
 import org.kuali.kra.irb.Protocol;
@@ -56,12 +53,13 @@ import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevel;
 import org.kuali.kra.irb.actions.submit.ProtocolExemptStudiesCheckListItem;
 import org.kuali.kra.irb.actions.submit.ProtocolExpeditedReviewCheckListItem;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionLite;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.personnel.ProtocolPersonRole;
 import org.kuali.kra.irb.personnel.ProtocolPersonRolodex;
-import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
+import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
 
 import java.math.BigInteger;
 import java.text.ParseException;
@@ -70,35 +68,25 @@ import java.util.*;
 public class ScheduleXmlStream extends PrintBaseXmlStream {
 
     private static final Log LOG = LogFactory.getLog(ScheduleXmlStream.class);
+    private static final String SCHEDULE = "Schedule";
+    private static final String PROTOCOL_SUBMISSIONS = "protocolSubmissions";
+    private static final String SUBMISSION_ID_FK = "submissionIdFk";
+    private static final String COMMITTEE_ID_FK = "committeeIdFk";
+    private static final String SCHEDULED_DATE = "scheduledDate";
+    private static final String PROTOCOL_ID = "protocolId";
 
     private CommitteeMembershipService committeeMembershipService;
-    private KcPersonService kcPersonService;
     private IrbPrintXmlUtilService irbPrintXmlUtilService;
-    private String EXPEDIT_ACTION_TYPE_CODE = "205";
-    private String EXEMPT_ACTION_TYPE_CODE = "206";
-    private String FOLLOW_UP_ACTION_CODE = "109";
 
     public Map<String, XmlObject> generateXmlStream(KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
         CommitteeSchedule committeeSchedule = (CommitteeSchedule)printableBusinessObject;
 
-        //CommitteeSchedule committeeSchedule = findCommitteeSchedule(committee,scheduleId);
-        Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
+        Map<String, XmlObject> xmlObjectList = new LinkedHashMap<>();
         ScheduleDocument scheduleDocument =
 		ScheduleDocument.Factory.newInstance();
         scheduleDocument.setSchedule(getSchedule(committeeSchedule));
-        xmlObjectList.put("Schedule", scheduleDocument);   
+        xmlObjectList.put(SCHEDULE, scheduleDocument);
         return xmlObjectList;
-    }
-
-
-    private CommitteeSchedule findCommitteeSchedule(Committee committee, String scheduleId) {
-        List<CommitteeSchedule> committeeSchedules = committee.getCommitteeSchedules();
-        for (CommitteeSchedule committeeSchedule : committeeSchedules) {
-            if(committeeSchedule.getScheduleId().equals(scheduleId)){
-                return committeeSchedule;
-            }
-        }
-        return null;
     }
 
     public Schedule getSchedule(CommitteeSchedule committeeSchedule) {
@@ -111,157 +99,141 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
          
         getIrbPrintXmlUtilService().setMinutes(committeeSchedule, schedule);
         setAttendance(committeeSchedule, schedule);
-        committeeSchedule.refreshReferenceObject("protocolSubmissions");
+        committeeSchedule.refreshReferenceObject(PROTOCOL_SUBMISSIONS);
         List<org.kuali.kra.irb.actions.submit.ProtocolSubmissionLite> submissions = committeeSchedule.getLatestProtocolSubmissions();
         for (org.kuali.kra.irb.actions.submit.ProtocolSubmissionLite protocolSubmission : submissions) {
-        	
-            ProtocolSubmission protocolSubmissionType = schedule.addNewProtocolSubmission();            
-            SubmissionDetails protocolSubmissionDetail = protocolSubmissionType.addNewSubmissionDetails();
-            ProtocolSummary protocolSummary = protocolSubmissionType.addNewProtocolSummary();
-			ProtocolMasterData protocolMaster = protocolSummary.addNewProtocolMasterData();
-			String followUpAction = null;
-			String actionTypeCode = null;
-            Protocol protocol = getBusinessObjectService().findByPrimaryKey(Protocol.class, Collections.singletonMap("protocolId", protocolSubmission.getProtocolId()));
-            List<ProtocolActionBase> protocolActions=protocol.getProtocolActions();
-            
-            for (ProtocolActionBase protocolAction : protocolActions){
-            	actionTypeCode = protocolAction.getProtocolActionTypeCode();
-            	if(actionTypeCode.equals(EXPEDIT_ACTION_TYPE_CODE) || actionTypeCode.equals(EXEMPT_ACTION_TYPE_CODE)){
-                    if (protocolAction.getFollowupActionCode() != null
-                            && protocolAction.getFollowupActionCode().equals(FOLLOW_UP_ACTION_CODE)) {
-                        followUpAction = protocolAction.getFollowupActionCode();
+
+                    ProtocolSubmission protocolSubmissionType = schedule.addNewProtocolSubmission();
+                    SubmissionDetails protocolSubmissionDetail = protocolSubmissionType.addNewSubmissionDetails();
+                    ProtocolSummary protocolSummary = protocolSubmissionType.addNewProtocolSummary();
+                    ProtocolMasterData protocolMaster = protocolSummary.addNewProtocolMasterData();
+
+                    Protocol protocol = getBusinessObjectService().findByPrimaryKey(Protocol.class, Collections.singletonMap(PROTOCOL_ID, protocolSubmission.getProtocolId()));
+
+                    protocolMaster.setProtocolNumber(protocol.getProtocolNumber());
+                    protocolMaster.setSequenceNumber(new BigInteger(String.valueOf(protocol.getSequenceNumber())));
+                    protocolMaster.setProtocolTitle(protocol.getTitle());
+                    protocolMaster.setProtocolStatusCode(new BigInteger(String.valueOf(protocol.getProtocolStatusCode())));
+                    protocolMaster.setProtocolStatusDesc(protocol.getProtocolStatus().getDescription());
+                    protocolMaster.setProtocolTypeCode(new BigInteger(String.valueOf(protocol.getProtocolTypeCode())));
+                    protocolMaster.setProtocolTypeDesc(protocol.getProtocolType().getDescription());
+
+                    if (protocol.getDescription() != null) {
+                        protocolMaster.setProtocolDescription(protocol.getDescription());
                     }
-                    break;
-                }
-            }            
 
-            protocolMaster.setProtocolNumber(protocol.getProtocolNumber());
-            protocolMaster.setSequenceNumber(new BigInteger(String.valueOf(protocol.getSequenceNumber())));
-            protocolMaster.setProtocolTitle(protocol.getTitle());
-            protocolMaster.setProtocolStatusCode(new BigInteger(String.valueOf(protocol.getProtocolStatusCode())));
-            protocolMaster.setProtocolStatusDesc(protocol.getProtocolStatus().getDescription());
-            protocolMaster.setProtocolTypeCode(new BigInteger(String.valueOf(protocol.getProtocolTypeCode())));
-            protocolMaster.setProtocolTypeDesc(protocol.getProtocolType().getDescription());
-
-            if (protocol.getDescription() != null) {
-                protocolMaster.setProtocolDescription(protocol.getDescription());
-            }
-
-            if (protocol.getApprovalDate() != null) {
-                protocolMaster.setApprovalDate(getDateTimeService().getCalendar(protocol.getApprovalDate()));
-            }
-
-            if (protocol.getExpirationDate() != null) {
-                protocolMaster.setExpirationDate(getDateTimeService().getCalendar(protocol.getExpirationDate()));
-            }
-
-            if (protocol.getFdaApplicationNumber() != null) {
-                protocolMaster.setFdaApplicationNumber(protocol.getFdaApplicationNumber());
-            }
-
-            if (protocol.getReferenceNumber1() != null) {
-                protocolMaster.setRefNumber1(protocol.getReferenceNumber1());
-            }
-
-            if (protocol.getReferenceNumber2() != null) {
-                protocolMaster.setRefNumber2(protocol.getReferenceNumber2());
-            }
-
-            protocolSubmissionDetail.setProtocolNumber(protocolSubmission.getProtocolNumber());
-            if (protocolSubmission.getProtocolSubmissionType() != null) {
-                protocolSubmissionDetail.setSubmissionTypeDesc(protocolSubmission.getProtocolSubmissionType().getDescription());
-            }
-            
-            if (protocolSubmission.getProtocolReviewTypeCode() != null) {
-                protocolSubmissionDetail.setProtocolReviewTypeCode(new BigInteger(protocolSubmission.getProtocolReviewTypeCode()));
-            }
-            if (protocolSubmission.getProtocolReviewType() != null) {
-                protocolSubmissionDetail.setProtocolReviewTypeDesc(protocolSubmission.getProtocolReviewType().getDescription());
-            }
-            if (protocolSubmission.getSubmissionTypeCode() != null) {
-                protocolSubmissionDetail.setSubmissionTypeCode(new BigInteger(String.valueOf(protocolSubmission.getSubmissionTypeCode())));
-            }
-            if (protocolSubmission.getProtocolSubmissionType() != null) {
-                protocolSubmissionDetail.setSubmissionTypeDesc(protocolSubmission.getProtocolSubmissionType().getDescription());
-            }
-            if (protocolSubmission.getSubmissionNumber() != null) {
-                protocolSubmissionDetail.setSubmissionNumber(new BigInteger(String.valueOf(protocolSubmission.getSubmissionNumber())));
-            }
-            if (protocolSubmission.getSubmissionStatusCode() != null) {
-                protocolSubmissionDetail.setSubmissionStatusCode(new BigInteger(String.valueOf(protocolSubmission.getSubmissionStatusCode())));
-            }
-            if (protocolSubmission.getSubmissionStatus() != null) {
-                protocolSubmissionDetail.setSubmissionStatusDesc(protocolSubmission.getSubmissionStatus().getDescription());
-            }
-            if (protocolSubmission.getSubmissionTypeQualifierCode() != null) {
-                protocolSubmissionDetail.setSubmissionTypeQualifierCode(new BigInteger(protocolSubmission.getSubmissionTypeQualifierCode()));
-            }
-            if (protocolSubmission.getProtocolSubmissionQualifierType() != null) {
-                protocolSubmissionDetail.setSubmissionTypeQualifierDesc(protocolSubmission.getProtocolSubmissionQualifierType().getDescription());
-            }
-            if (protocolSubmission.getYesVoteCount() != null) {
-                protocolSubmissionDetail.setYesVote(BigInteger.valueOf(protocolSubmission.getYesVoteCount()));
-            }
-            else {
-                protocolSubmissionDetail.setYesVote(BigInteger.ZERO);
-            }
-            if (protocolSubmission.getNoVoteCount() != null) {
-                protocolSubmissionDetail.setNoVote(BigInteger.valueOf(protocolSubmission.getNoVoteCount()));
-            }
-            else {
-                protocolSubmissionDetail.setNoVote(BigInteger.ZERO);
-            }
-            if (protocolSubmission.getAbstainerCount() != null) {
-                protocolSubmissionDetail.setAbstainerCount(BigInteger.valueOf(protocolSubmission.getAbstainerCount()));
-            }
-            else {
-                protocolSubmissionDetail.setAbstainerCount(BigInteger.ZERO);
-            }
-            protocolSubmissionDetail.setVotingComments(protocolSubmission.getVotingComments());
-
-            setProtocolSubmissionAction(protocolSubmission, protocol, protocolSubmissionDetail);
-            if (protocolSubmission.getSubmissionDate() != null) {
-                protocolSubmissionDetail.setSubmissionDate(getDateTimeService().getCalendar(protocolSubmission.getSubmissionDate()));
-            }
-            setSubmissionCheckListinfo(protocolSubmission, protocolSubmissionDetail);
-            setProtocolSubmissionReviewers(protocolSubmission, protocolSubmissionDetail);
-			List<ProtocolPersonBase> protocolPersons = protocol.getProtocolPersons();
-            for (ProtocolPersonBase protocolPerson : protocolPersons) {
-                if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_PRINCIPAL_INVESTIGATOR)
-                        || protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_CO_INVESTIGATOR)) {
-                    Investigator investigator = protocolSummary.addNewInvestigator();
-                    getIrbPrintXmlUtilService().setPersonRolodexType((ProtocolPerson) protocolPerson, investigator.addNewPerson());
-                    if(protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_PRINCIPAL_INVESTIGATOR)){
-                        investigator.setPIFlag(true);
+                    if (protocol.getApprovalDate() != null) {
+                        protocolMaster.setApprovalDate(getDateTimeService().getCalendar(protocol.getApprovalDate()));
                     }
-                }
-            }
-            List<ProtocolRiskLevel> cvRiskLevels = protocol.getProtocolRiskLevels();
-            for(ProtocolRiskLevel protocolRiskLevelBean:cvRiskLevels){
-           	    edu.mit.irb.irbnamespace.ProtocolSummaryDocument.ProtocolSummary.RiskLevels riskLevelType =  protocolSummary.addNewRiskLevels();
-           	    riskLevelType.setRiskLevelDescription(protocolRiskLevelBean.getRiskLevel().getDescription());
-           	    riskLevelType.setComments(protocolRiskLevelBean.getComments());
-           	}
-             
-            List<ProtocolFundingSource> vecFundingSource = (List) protocol.getProtocolFundingSources();
-            int fundingSourceTypeCode;
-            String fundingSourceName, fundingSourceCode;
-            for (ProtocolFundingSource protocolFundingSourceBean : vecFundingSource) {
-                protocolFundingSourceBean.refreshNonUpdateableReferences();
-                edu.mit.irb.irbnamespace.ProtocolSummaryDocument.ProtocolSummary.FundingSource fundingSource = protocolSummary.addNewFundingSource();
-                fundingSourceCode = protocolFundingSourceBean.getFundingSourceNumber();
-                fundingSourceTypeCode = Integer.valueOf(protocolFundingSourceBean.getFundingSourceTypeCode());
-                fundingSourceName = getFundingSourceNameForType(fundingSourceTypeCode, fundingSourceCode);
 
-                fundingSource.setFundingSourceName(fundingSourceName);
-                if (protocolFundingSourceBean.getFundingSourceType() != null) {
-                    fundingSource.setTypeOfFundingSource(protocolFundingSourceBean.getFundingSourceType().getDescription());
-                }
-            }
+                    if (protocol.getExpirationDate() != null) {
+                        protocolMaster.setExpirationDate(getDateTimeService().getCalendar(protocol.getExpirationDate()));
+                    }
 
-            getIrbPrintXmlUtilService().setProcotolMinutes(committeeSchedule,protocolSubmission,protocolSubmissionType);
+                    if (protocol.getFdaApplicationNumber() != null) {
+                        protocolMaster.setFdaApplicationNumber(protocol.getFdaApplicationNumber());
+                    }
+
+                    if (protocol.getReferenceNumber1() != null) {
+                        protocolMaster.setRefNumber1(protocol.getReferenceNumber1());
+                    }
+
+                    if (protocol.getReferenceNumber2() != null) {
+                        protocolMaster.setRefNumber2(protocol.getReferenceNumber2());
+                    }
+
+                    protocolSubmissionDetail.setProtocolNumber(protocolSubmission.getProtocolNumber());
+                    if (protocolSubmission.getProtocolSubmissionType() != null) {
+                        protocolSubmissionDetail.setSubmissionTypeDesc(protocolSubmission.getProtocolSubmissionType().getDescription());
+                    }
+
+                    if (protocolSubmission.getProtocolReviewTypeCode() != null) {
+                        protocolSubmissionDetail.setProtocolReviewTypeCode(new BigInteger(protocolSubmission.getProtocolReviewTypeCode()));
+                    }
+                    if (protocolSubmission.getProtocolReviewType() != null) {
+                        protocolSubmissionDetail.setProtocolReviewTypeDesc(protocolSubmission.getProtocolReviewType().getDescription());
+                    }
+                    if (protocolSubmission.getSubmissionTypeCode() != null) {
+                        protocolSubmissionDetail.setSubmissionTypeCode(new BigInteger(String.valueOf(protocolSubmission.getSubmissionTypeCode())));
+                    }
+                    if (protocolSubmission.getProtocolSubmissionType() != null) {
+                        protocolSubmissionDetail.setSubmissionTypeDesc(protocolSubmission.getProtocolSubmissionType().getDescription());
+                    }
+                    if (protocolSubmission.getSubmissionNumber() != null) {
+                        protocolSubmissionDetail.setSubmissionNumber(new BigInteger(String.valueOf(protocolSubmission.getSubmissionNumber())));
+                    }
+                    if (protocolSubmission.getSubmissionStatusCode() != null) {
+                        protocolSubmissionDetail.setSubmissionStatusCode(new BigInteger(String.valueOf(protocolSubmission.getSubmissionStatusCode())));
+                    }
+                    if (protocolSubmission.getSubmissionStatus() != null) {
+                        protocolSubmissionDetail.setSubmissionStatusDesc(protocolSubmission.getSubmissionStatus().getDescription());
+                    }
+                    if (protocolSubmission.getSubmissionTypeQualifierCode() != null) {
+                        protocolSubmissionDetail.setSubmissionTypeQualifierCode(new BigInteger(protocolSubmission.getSubmissionTypeQualifierCode()));
+                    }
+                    if (protocolSubmission.getProtocolSubmissionQualifierType() != null) {
+                        protocolSubmissionDetail.setSubmissionTypeQualifierDesc(protocolSubmission.getProtocolSubmissionQualifierType().getDescription());
+                    }
+                    if (protocolSubmission.getYesVoteCount() != null) {
+                        protocolSubmissionDetail.setYesVote(BigInteger.valueOf(protocolSubmission.getYesVoteCount()));
+                    } else {
+                        protocolSubmissionDetail.setYesVote(BigInteger.ZERO);
+                    }
+                    if (protocolSubmission.getNoVoteCount() != null) {
+                        protocolSubmissionDetail.setNoVote(BigInteger.valueOf(protocolSubmission.getNoVoteCount()));
+                    } else {
+                        protocolSubmissionDetail.setNoVote(BigInteger.ZERO);
+                    }
+                    if (protocolSubmission.getAbstainerCount() != null) {
+                        protocolSubmissionDetail.setAbstainerCount(BigInteger.valueOf(protocolSubmission.getAbstainerCount()));
+                    } else {
+                        protocolSubmissionDetail.setAbstainerCount(BigInteger.ZERO);
+                    }
+                    protocolSubmissionDetail.setVotingComments(protocolSubmission.getVotingComments());
+
+                    setProtocolSubmissionAction(protocolSubmission, protocol, protocolSubmissionDetail);
+                    if (protocolSubmission.getSubmissionDate() != null) {
+                        protocolSubmissionDetail.setSubmissionDate(getDateTimeService().getCalendar(protocolSubmission.getSubmissionDate()));
+                    }
+                    setSubmissionCheckListinfo(protocolSubmission, protocolSubmissionDetail);
+                    setProtocolSubmissionReviewers(protocolSubmission, protocolSubmissionDetail);
+                    List<ProtocolPersonBase> protocolPersons = protocol.getProtocolPersons();
+                    for (ProtocolPersonBase protocolPerson : protocolPersons) {
+                        if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_PRINCIPAL_INVESTIGATOR)
+                                || protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_CO_INVESTIGATOR)) {
+                            Investigator investigator = protocolSummary.addNewInvestigator();
+                            getIrbPrintXmlUtilService().setPersonRolodexType((ProtocolPerson) protocolPerson, investigator.addNewPerson());
+                            if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_PRINCIPAL_INVESTIGATOR)) {
+                                investigator.setPIFlag(true);
+                            }
+                        }
+                    }
+                    List<ProtocolRiskLevel> cvRiskLevels = protocol.getProtocolRiskLevels();
+                    for (ProtocolRiskLevel protocolRiskLevelBean : cvRiskLevels) {
+                        edu.mit.irb.irbnamespace.ProtocolSummaryDocument.ProtocolSummary.RiskLevels riskLevelType = protocolSummary.addNewRiskLevels();
+                        riskLevelType.setRiskLevelDescription(protocolRiskLevelBean.getRiskLevel().getDescription());
+                        riskLevelType.setComments(protocolRiskLevelBean.getComments());
+                    }
+
+                    List<ProtocolFundingSourceBase> vecFundingSource = protocol.getProtocolFundingSources();
+                    int fundingSourceTypeCode;
+                    String fundingSourceName, fundingSourceCode;
+                    for (ProtocolFundingSourceBase protocolFundingSourceBean : vecFundingSource) {
+                        protocolFundingSourceBean.refreshNonUpdateableReferences();
+                        edu.mit.irb.irbnamespace.ProtocolSummaryDocument.ProtocolSummary.FundingSource fundingSource = protocolSummary.addNewFundingSource();
+                        fundingSourceCode = protocolFundingSourceBean.getFundingSourceNumber();
+                        fundingSourceTypeCode = Integer.valueOf(protocolFundingSourceBean.getFundingSourceTypeCode());
+                        fundingSourceName = getFundingSourceNameForType(fundingSourceTypeCode, fundingSourceCode);
+
+                        fundingSource.setFundingSourceName(fundingSourceName);
+                        if (protocolFundingSourceBean.getFundingSourceType() != null) {
+                            fundingSource.setTypeOfFundingSource(protocolFundingSourceBean.getFundingSourceType().getDescription());
+                        }
+                    }
+
+                    getIrbPrintXmlUtilService().setProcotolMinutes(committeeSchedule, protocolSubmission, protocolSubmissionType);
         }
-        setOtherActionItems(committeeSchedule,schedule);
+        setOtherActionItems(committeeSchedule, schedule);
         return schedule;
 
     }
@@ -269,8 +241,6 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
  
     /**
      * This method is to set ProtocolActionType
-     * @param protocolSubmission
-     * @param protocolSubmissionDetail
      */
     private void setProtocolSubmissionAction(org.kuali.kra.irb.actions.submit.ProtocolSubmissionLite protocolSubmission, Protocol protocol,
             SubmissionDetails protocolSubmissionDetail) {
@@ -326,7 +296,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
     private void setProtocolSubmissionReviewers(org.kuali.kra.irb.actions.submit.ProtocolSubmissionLite protocolSubmission,
             SubmissionDetails protocolSubmissionDetail) {
 
-        Collection<ProtocolReviewer> vecReviewers = getBusinessObjectService().findMatching(ProtocolReviewer.class, Collections.singletonMap("submissionIdFk", protocolSubmission.getSubmissionId()));
+        Collection<ProtocolReviewer> vecReviewers = getBusinessObjectService().findMatching(ProtocolReviewer.class, Collections.singletonMap(SUBMISSION_ID_FK, protocolSubmission.getSubmissionId()));
         for (org.kuali.kra.protocol.actions.submit.ProtocolReviewer protocolReviewer : vecReviewers) {
             protocolReviewer.refreshNonUpdateableReferences();
             edu.mit.irb.irbnamespace.ProtocolReviewerDocument.ProtocolReviewer protocolReviewerType = protocolSubmissionDetail
@@ -342,9 +312,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
         Person personType = protocolReviewerType.addNewPerson();
         boolean nonEmployeeFlag = protocolReviewer.getNonEmployeeFlag();
         if (!nonEmployeeFlag) {
-            String personId = protocolReviewer.getPersonId();
-            KcPerson person = getKcPersonService().getKcPersonByPersonId(personId);
-            getIrbPrintXmlUtilService().setPersonXml(person, personType);
+            getIrbPrintXmlUtilService().setPersonXml(protocolReviewer.getPerson(), personType);
 
         }else {
             Rolodex rolodex = protocolReviewer.getRolodex();
@@ -358,8 +326,8 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
     private void setSubmissionCheckListinfo(org.kuali.kra.irb.actions.submit.ProtocolSubmissionLite protocolSubmission,
             SubmissionDetails protocolSubmissionDetail) {
         SubmissionChecklistInfo submissionChecklistInfo = protocolSubmissionDetail.addNewSubmissionChecklistInfo();
-        String formattedCode = new String();
-        Collection<ProtocolExemptStudiesCheckListItem> protocolExemptCheckList = getBusinessObjectService().findMatching(ProtocolExemptStudiesCheckListItem.class, Collections.singletonMap("submissionIdFk", protocolSubmission.getSubmissionId()));
+        String formattedCode = "";
+        Collection<ProtocolExemptStudiesCheckListItem> protocolExemptCheckList = getBusinessObjectService().findMatching(ProtocolExemptStudiesCheckListItem.class, Collections.singletonMap(SUBMISSION_ID_FK, protocolSubmission.getSubmissionId()));
         for (ProtocolExemptStudiesCheckListItem protocolExemptStudiesCheckListBean : protocolExemptCheckList) {
             Checklists checkListItem = submissionChecklistInfo.addNewChecklists();
             checkListItem.setChecklistCode(protocolExemptStudiesCheckListBean.getExemptStudiesCheckListCode());
@@ -369,7 +337,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
         if (formattedCode.length() > 0) {
             submissionChecklistInfo.setChecklistCodesFormatted(formattedCode); // this will have format (3) (7) like that...
         }
-        Collection<ProtocolExpeditedReviewCheckListItem> vecExpeditedCheckList = getBusinessObjectService().findMatching(ProtocolExpeditedReviewCheckListItem.class, Collections.singletonMap("submissionIdFk", protocolSubmission.getSubmissionId()));
+        Collection<ProtocolExpeditedReviewCheckListItem> vecExpeditedCheckList = getBusinessObjectService().findMatching(ProtocolExpeditedReviewCheckListItem.class, Collections.singletonMap(SUBMISSION_ID_FK, protocolSubmission.getSubmissionId()));
         for (ProtocolExpeditedReviewCheckListItem protocolReviewTypeCheckListBean : vecExpeditedCheckList) {
             Checklists checkListItem = submissionChecklistInfo.addNewChecklists();
             checkListItem.setChecklistCode(protocolReviewTypeCheckListBean.getExpeditedReviewCheckListCode());
@@ -487,17 +455,13 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
 
     /**
      * 
-     * This method returns next or previous schedule depending on the nextFlag
-     * 
-     * @param scheduleDetailsBean
-     * @param nextFlag
-     * @return
+     * This method returns next or previous schedule depending on the nextFlag.
      */
     private CommitteeSchedule getNextOrPreviousSchedule(CommitteeSchedule scheduleDetailsBean, boolean nextFlag) {
-        Map<String, String> scheduleParam = new HashMap<String, String>();
-        scheduleParam.put("committeeIdFk", scheduleDetailsBean.getParentCommittee().getId().toString());
-        List<CommitteeSchedule> schedules = (List) getBusinessObjectService().findMatchingOrderBy(CommitteeSchedule.class, 
-                scheduleParam, "scheduledDate", true);
+        Map<String, String> scheduleParam = new HashMap<>();
+        scheduleParam.put(COMMITTEE_ID_FK, scheduleDetailsBean.getParentCommittee().getId().toString());
+        List<CommitteeSchedule> schedules = (List<CommitteeSchedule>) getBusinessObjectService().findMatchingOrderBy(CommitteeSchedule.class,
+                scheduleParam, SCHEDULED_DATE, true);
         if (!schedules.isEmpty()) {
             int size = schedules.size();
             for (int i = 0; i < size; i++) {
@@ -519,61 +483,18 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
     }
 
 
-    /**
-     * Sets the committeeMembershipService attribute value.
-     * 
-     * @param committeeMembershipService The committeeMembershipService to set.
-     */
     public void setCommitteeMembershipService(CommitteeMembershipService committeeMembershipService) {
         this.committeeMembershipService = committeeMembershipService;
     }
 
-
-    /**
-     * Gets the committeeMembershipService attribute.
-     * 
-     * @return Returns the committeeMembershipService.
-     */
     public CommitteeMembershipService getCommitteeMembershipService() {
         return committeeMembershipService;
     }
 
-
-    /**
-     * Gets the kcPersonService attribute.
-     * 
-     * @return Returns the kcPersonService.
-     */
-    public KcPersonService getKcPersonService() {
-        return kcPersonService;
-    }
-
-
-    /**
-     * Sets the kcPersonService attribute value.
-     * 
-     * @param kcPersonService The kcPersonService to set.
-     */
-    public void setKcPersonService(KcPersonService kcPersonService) {
-        this.kcPersonService = kcPersonService;
-    }
-
-
-    /**
-     * Gets the irbPrintXmlUtilService attribute.
-     * 
-     * @return Returns the irbPrintXmlUtilService.
-     */
     public IrbPrintXmlUtilService getIrbPrintXmlUtilService() {
         return irbPrintXmlUtilService;
     }
 
-
-    /**
-     * Sets the irbPrintXmlUtilService attribute value.
-     * 
-     * @param irbPrintXmlUtilService The irbPrintXmlUtilService to set.
-     */
     public void setIrbPrintXmlUtilService(IrbPrintXmlUtilService irbPrintXmlUtilService) {
         this.irbPrintXmlUtilService = irbPrintXmlUtilService;
     }
