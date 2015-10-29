@@ -1,6 +1,25 @@
 
 
 ##CURRENT
+* Missing PD Notification specific for Contributed COI
+  * Disclosure Status feature.
+  * Noticed during testing and documentation of the RESKC-504 contributed
+  * feature for COI Disclosure Status in PD.
+  * The MIT instance has a Development Proposal Notification specific to the
+sponsors identified in the Hierarchy > COI Disclosures with KP Req.
+  * Notification ID 10367
+  * Action Code 107
+  * The separate notification allows for specific instructions related to
+  * certifying and potential COI disclosure actions. This leaves the OOTB
+  * notification to certify to be used for sponsors not maintained in this
+  * custom hierarchy and for implementations not using this feature.
+  * Please incorporate this notification from the MIT code as soon as
+  * possible so I can fully test and document this aspect.
+  * Currently, the system is still utilizing the OOTB proposal certify
+  * notification.
+  * vineeth on Wed, 28 Oct 2015 11:43:08 -0400 [View Commit](../../commit/e7b1e6b5ec3933fe3daaec409e826eb93f89a46a)
+
+##coeus-1510.57
 *  Adding COI links
   * If instance is set to use new COI, display links to COI in monolith portal as:
   * Researcher:
