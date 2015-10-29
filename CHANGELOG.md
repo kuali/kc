@@ -1,6 +1,16 @@
 
 
 ##CURRENT
+*  Adding COI links
+  * If instance is set to use new COI, display links to COI in monolith portal as:
+  * Researcher:
+  * -COI Dashboard
+  * Unit/Central Admin:
+  * -COI Adminstrator Dashboard
+  * -COI Configuration
+  * Gayathri Athreya on Wed, 28 Oct 2015 16:28:23 -0700 [View Commit](../../commit/6a2eb5aeb6bdd8c3342c0d2c5a5244949dc6a893)
+
+##coeus-1510.56
 * No Changes
 
 
