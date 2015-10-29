@@ -100,8 +100,11 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
         getIrbPrintXmlUtilService().setMinutes(committeeSchedule, schedule);
         setAttendance(committeeSchedule, schedule);
         committeeSchedule.refreshReferenceObject(PROTOCOL_SUBMISSIONS);
-        List<org.kuali.kra.irb.actions.submit.ProtocolSubmissionLite> submissions = committeeSchedule.getLatestProtocolSubmissions();
-        for (org.kuali.kra.irb.actions.submit.ProtocolSubmissionLite protocolSubmission : submissions) {
+
+        committeeSchedule.getLatestProtocolSubmissions().stream()
+                .sorted(Comparator.comparing(ProtocolSubmissionLite::getSubmissionTypeCode)
+                        .thenComparing(ProtocolSubmissionLite::getProtocolId))
+                .forEach(protocolSubmission -> {
 
                     ProtocolSubmission protocolSubmissionType = schedule.addNewProtocolSubmission();
                     SubmissionDetails protocolSubmissionDetail = protocolSubmissionType.addNewSubmissionDetails();
@@ -232,7 +235,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
                     }
 
                     getIrbPrintXmlUtilService().setProcotolMinutes(committeeSchedule, protocolSubmission, protocolSubmissionType);
-        }
+                });
         setOtherActionItems(committeeSchedule, schedule);
         return schedule;
 
