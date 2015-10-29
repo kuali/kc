@@ -1,25 +1,26 @@
 {
-  "name": "kualico-research-api",
+  "name": "kualico-research-js",
   "version": "1.0.0",
-  "description": "KualiCo Research API Documentation",
+  "description": "KualiCo Research JS Dependencies",
   "author": "kualico",
   "license": "AGPL",
   "devDependencies": {
-    "aglio": "^2.0.0",
-    "babel-core": "^5.8.20",
-    "babel-loader": "^5.3.2",
-    "gulp": "^3.9.0",
+    "aglio": "2.0.0",
+    "babel-core": "5.8.20",
+    "babel-loader": "5.3.2",
+    "gulp": "3.9.0",
     "gulp-aglio": "0.0.9",
-    "gulp-rename": "^1.2.2",
-    "gulp-util": "^3.0.6",
-    "webpack": "^1.10.5",
-    "webpack-dev-server": "^1.10.1"
+    "gulp-rename": "1.2.2",
+    "gulp-util": "3.0.6",
+    "webpack": "1.10.5",
+    "webpack-dev-server": "1.10.1"
   },
   "dependencies": {
-    "alt": "^0.16.5",
-    "axios": "^0.7.0",
-    "lodash": "^3.8.0",
-    "react": "^0.13.3",
-    "react-router": "^0.13.3"
+    "alt": "0.16.5",
+    "axios": "0.7.0",
+    "cookies-js": "1.2.2",
+    "lodash": "3.8.0",
+    "react": "0.13.3",
+    "react-router": "0.13.3"
   }
 }
