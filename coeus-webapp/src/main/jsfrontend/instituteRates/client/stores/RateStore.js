@@ -227,7 +227,6 @@ class RateStore {
 				});
 			});
 		});
-		console.log(applicableRatesMap);
 		if (this.hideEmptyRows) {
 			this.clearEmptyRows(applicableRatesMap);
 		}
@@ -377,13 +376,13 @@ class RateStore {
 		newRate.unitNumber = this.selectedUnit.unitNumber;
 
 		//if this rate has been added already and is already being modified, see if it exists in pending
-		let currentRate = this.pendingEdits.filter(rate => {
+		let currentRate = first(this.pendingEdits.filter(rate => {
 			return rate.rateClassCode == newRate.rateClassCode
 				&& rate.rateTypeCode == newRate.rateTypeCode
 				&& rate.activityTypeCode == newRate.activityTypeCode
 				&& rate.fiscalYear == newRate.fiscalYear
 				&& rate.onOffCampusFlag == newRate.onOffCampusFlag;
-		});
+		}));
 		if (!currentRate) {
 			this.pendingEdits.push(newRate);
 			this.rates.push(newRate);
