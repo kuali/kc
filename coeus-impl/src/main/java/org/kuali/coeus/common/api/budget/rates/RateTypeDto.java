@@ -16,18 +16,24 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.coeus.common.framework.type;
+package org.kuali.coeus.common.api.budget.rates;
 
-public class ActivityTypeDto {
+public class RateTypeDto {
 
-	private String code;
-	private String description;
-	
-	public String getCode() {
-		return code;
+    private String rateClassCode;
+    private String rateTypeCode;
+    private String description;
+	public String getRateClassCode() {
+		return rateClassCode;
 	}
-	public void setCode(String code) {
-		this.code = code;
+	public void setRateClassCode(String rateClassCode) {
+		this.rateClassCode = rateClassCode;
+	}
+	public String getRateTypeCode() {
+		return rateTypeCode;
+	}
+	public void setRateTypeCode(String rateTypeCode) {
+		this.rateTypeCode = rateTypeCode;
 	}
 	public String getDescription() {
 		return description;

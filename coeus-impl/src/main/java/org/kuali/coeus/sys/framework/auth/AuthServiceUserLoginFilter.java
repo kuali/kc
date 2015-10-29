@@ -3,6 +3,7 @@ package org.kuali.coeus.sys.framework.auth;
 import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.filter.UserLoginFilter;
 
 public class AuthServiceUserLoginFilter extends UserLoginFilter {
@@ -14,6 +15,7 @@ public class AuthServiceUserLoginFilter extends UserLoginFilter {
 					request.getSession().getAttribute(AuthServiceFilter.AUTH_SERVICE_FILTER_AUTH_TOKEN_SESSION_ATTR));
 			userSession.addObject(AuthServiceFilter.AUTH_SERVICE_FILTER_AUTHED_USER_ATTR,
 					request.getSession().getAttribute(AuthServiceFilter.AUTH_SERVICE_FILTER_AUTHED_USER_ATTR));
+	        GlobalVariables.setUserSession(userSession);
 		}
 	}
 	

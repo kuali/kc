@@ -16,15 +16,15 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.coeus.sys.framework.rest;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
-
-@ResponseStatus(HttpStatus.NOT_FOUND)
-public class ResourceNotFoundException extends RuntimeException {
-
-    public ResourceNotFoundException(String message) {
-        super(message);
-    }
+class RateClassFetcher {
+	fetch() {
+		return new Promise(function (resolve, reject) {
+			setTimeout(function() {
+				resolve(mockRateClasses);
+			}, 250);
+		});
+	}
 }
+
+let rateClassFetcher = new RateClassFetcher();
+module.exports = rateClassFetcher;

@@ -121,6 +121,7 @@ public interface Constants {
     public static final String MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL = "KC-IP";
     public static final String MODULE_NAMESPACE_TIME_AND_MONEY = "KC-T";
     public static final String MODULE_NAMESPACE_UNIT = "KC-UNT";
+    public static final String MODULE_NAMESPACE_MAINTENANCE = "KC-M";
 
     public static final String PESSIMISTIC_LOCKING_EXPIRATION_AGE = "pessimisticLocking.expirationAge";
     

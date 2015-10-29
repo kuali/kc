@@ -16,15 +16,25 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.coeus.sys.framework.rest;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
-
-@ResponseStatus(HttpStatus.NOT_FOUND)
-public class ResourceNotFoundException extends RuntimeException {
-
-    public ResourceNotFoundException(String message) {
-        super(message);
-    }
-}
+module.exports = {
+	devtool : 'eval',
+	entry: {
+		instituteRatesClient: './instituteRates/client/index.jsx',
+	},
+	output: {
+		path: __dirname + '../../../target/generated-web-sources/jsfrontend-web-sources/client/assets/',
+		publicPath: '/client/assets/',
+		filename: '[name].js',
+		sourceMapFilename: '[file].map'
+	},
+	resolve: {
+		extensions: ['', '.jsx', '.css', '.js']
+	},
+	module: {
+		loaders: [
+			{test: /\.js/, loader: 'babel-loader'},
+			{test: /\.jsx/, loader: 'babel-loader'},
+			{test: /\.css/, loader: 'style!css'}
+		]
+	}
+}; 

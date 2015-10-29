@@ -16,15 +16,30 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.coeus.sys.framework.rest;
+package org.kuali.coeus.common.api.budget.rates;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
-
-@ResponseStatus(HttpStatus.NOT_FOUND)
-public class ResourceNotFoundException extends RuntimeException {
-
-    public ResourceNotFoundException(String message) {
-        super(message);
-    }
+public class RateClassDto {
+	
+    private String code;
+    private String description;
+    private String rateClassTypeCode;
+    
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public String getRateClassTypeCode() {
+		return rateClassTypeCode;
+	}
+	public void setRateClassTypeCode(String rateClassTypeCode) {
+		this.rateClassTypeCode = rateClassTypeCode;
+	}
 }

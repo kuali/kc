@@ -16,15 +16,28 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.coeus.sys.framework.rest;
+import React from 'react/addons';
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
+export class SelectedOption extends React.Component {
+	constructor(props) {
+		super(props);
+		this.onClick = this.onClick.bind(this);
+	}
+	render() {
+		let style = {
+			button : {
+				background : 'rgb(66,117, 136)',
+				borderRadius: 6,
+				padding: '5px 30px 5px 15px',
+				color: 'white',
 
-@ResponseStatus(HttpStatus.NOT_FOUND)
-public class ResourceNotFoundException extends RuntimeException {
-
-    public ResourceNotFoundException(String message) {
-        super(message);
-    }
-}
+			}
+		}
+		return (
+			<button style={style.button} onClick={this.onClick}>{this.props.text}</button>
+		);
+	}
+	onClick(event) {
+		this.props.callback(this.props.id);
+	}
+};

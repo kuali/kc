@@ -16,15 +16,24 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.coeus.sys.framework.rest;
+const React = require('react/addons');
+const {Rates} = require('./components/Rates');
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
+class App extends React.Component {
+	render() {
+		let styles = {
+			container : {
+				height: '100%',
+				fontSize: '1.2em',
+			}
+		};
 
-@ResponseStatus(HttpStatus.NOT_FOUND)
-public class ResourceNotFoundException extends RuntimeException {
-
-    public ResourceNotFoundException(String message) {
-        super(message);
-    }
+		return (
+			<div style={styles.container}>
+				<Rates/>
+			</div>
+		);
+	}
 }
+
+React.render(<App/>, document.body);
