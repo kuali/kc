@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* Resolving issue with editing undefined/adding rates
+  * blackcathacker on Thu, 29 Oct 2015 16:34:19 -0700 [View Commit](../../commit/eb04b1ecc639dfdb78ad6f6758defa1d8f5a7f4d)
+
+##coeus-1510.60
 * Budget Institute Rates new interface first commit
   * blackcathacker on Thu, 4 Jun 2015 08:58:22 -0700 [View Commit](../../commit/fd5b1c307b731907297a8f2297162c0e5fdd02db)
 
