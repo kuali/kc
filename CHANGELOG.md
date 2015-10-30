@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1510.63
 *  sorting protocol submissions by submission type and protocol Id so they will display sorted under each review type in the printed committee agenda.
   * Travis Schneeberger on Thu, 29 Oct 2015 16:55:48 -0400 [View Commit](../../commit/bc7163b89dec71c65a14274737e3004d423628aa)
 *  code cleanup
