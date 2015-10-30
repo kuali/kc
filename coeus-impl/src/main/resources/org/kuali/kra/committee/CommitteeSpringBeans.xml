@@ -120,9 +120,6 @@
 		<property name="committeeMembershipService">
 			<ref bean="committeeMembershipService" />
 		</property>
-		<property name="kcPersonService">
-			<ref bean="kcPersonService" />
-		</property>
 	</bean>
 	
 	<bean id="committeeCorrespondencePrint" class="org.kuali.kra.committee.service.impl.CommitteeCorrespondencePrintImpl">

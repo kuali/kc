@@ -29,8 +29,6 @@ import org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase;
 import org.kuali.coeus.common.committee.impl.meeting.CommScheduleActItemBase;
 import org.kuali.coeus.common.committee.impl.meeting.CommitteeScheduleAttendanceBase;
 import org.kuali.coeus.common.committee.impl.service.CommitteeMembershipServiceBase;
-import org.kuali.coeus.common.framework.person.KcPerson;
-import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.print.stream.xml.PrintBaseXmlStream;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
@@ -38,6 +36,7 @@ import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewer;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionLite;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule;
 import org.kuali.kra.iacuc.committee.print.service.IacucPrintXmlUtilService;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonRolodex;
@@ -63,13 +62,14 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
     private static final String PROTOCOL_SUBMISSIONS = "protocolSubmissions";
     private static final String COMMITTEE_ID_FK = "committeeIdFk";
     private static final String SCHEDULED_DATE = "scheduledDate";
+    private static final String PROTOCOL_ID = "protocolId";
+    private static final String SUBMISSION_ID_FK = "submissionIdFk";
 
     private CommitteeMembershipServiceBase committeeMembershipService;
-    private KcPersonService kcPersonService;
     private IacucPrintXmlUtilService printXmlUtilService;
 
     public Map<String, XmlObject> generateXmlStream(KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
-        CommitteeScheduleBase committeeSchedule = (CommitteeScheduleBase)printableBusinessObject;
+        IacucCommitteeSchedule committeeSchedule = (IacucCommitteeSchedule)printableBusinessObject;
         Map<String, XmlObject> xmlObjectList = new LinkedHashMap<>();
         ScheduleDocument scheduleDocument =
 		ScheduleDocument.Factory.newInstance();
@@ -78,7 +78,7 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
         return xmlObjectList;
     }
 
-    public ScheduleType getSchedule(CommitteeScheduleBase committeeSchedule) {
+    public ScheduleType getSchedule(IacucCommitteeSchedule committeeSchedule) {
         ScheduleType schedule = ScheduleType.Factory.newInstance();
         setScheduleMasterData(committeeSchedule, schedule.addNewScheduleMasterData());
         ScheduleSummaryType prevSchedule = schedule.addNewPreviousSchedule();
@@ -89,8 +89,10 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
         getPrintXmlUtilService().setMinutes(committeeSchedule, schedule);
         setAttendance(committeeSchedule, schedule);
         committeeSchedule.refreshReferenceObject(PROTOCOL_SUBMISSIONS);
-        List<org.kuali.kra.protocol.actions.submit.ProtocolSubmissionLiteBase> submissions = committeeSchedule.getLatestProtocolSubmissions();
-        for (org.kuali.kra.protocol.actions.submit.ProtocolSubmissionLiteBase protocolSubmission : submissions) {
+        committeeSchedule.getLatestProtocolSubmissions().stream()
+                .sorted(Comparator.comparing(IacucProtocolSubmissionLite::getSubmissionTypeCode)
+                        .thenComparing(IacucProtocolSubmissionLite::getProtocolId))
+                .forEach(protocolSubmission -> {
             ProtocolSubmissionType protocolSubmissionType =
             	schedule.addNewProtocolSubmission();
             
@@ -100,7 +102,7 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
 			ProtocolMasterDataType protocolMaster = protocolSummary.addNewProtocolMasterData();
 			String followUpAction = null;
 			String actionTypeCode = null;
-            IacucProtocol protocol = getBusinessObjectService().findByPrimaryKey(IacucProtocol.class, Collections.singletonMap("protocolId", protocolSubmission.getProtocolId()));;
+            IacucProtocol protocol = getBusinessObjectService().findByPrimaryKey(IacucProtocol.class, Collections.singletonMap(PROTOCOL_ID, protocolSubmission.getProtocolId()));
             List<ProtocolActionBase> protocolActions=protocol.getProtocolActions();
             
             for (ProtocolActionBase protocolAction : protocolActions){
@@ -113,141 +115,141 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
                     break;
                 }
             }
-            if ((EXPEDIT_ACTION_TYPE_CODE.equals(actionTypeCode) || EXEMPT_ACTION_TYPE_CODE.equals(actionTypeCode))
+            if (!((EXPEDIT_ACTION_TYPE_CODE.equals(actionTypeCode) || EXEMPT_ACTION_TYPE_CODE.equals(actionTypeCode)))
                     && followUpAction == null) {
-                continue;
-            } 
 
-            protocolMaster.setProtocolNumber(protocol.getProtocolNumber());
-            protocolMaster.setSequenceNumber(new BigInteger(String.valueOf(protocol.getSequenceNumber())));
-            protocolMaster.setProtocolTitle(protocol.getTitle());
-            protocolMaster.setProtocolStatusCode(new BigInteger(String.valueOf(protocol.getProtocolStatusCode())));
-            protocolMaster.setProtocolStatusDesc(protocol.getProtocolStatus().getDescription());
-            protocolMaster.setProtocolTypeCode(new BigInteger(String.valueOf(protocol.getProtocolTypeCode())));
-            protocolMaster.setProtocolTypeDesc(protocol.getProtocolType().getDescription());
+                protocolMaster.setProtocolNumber(protocol.getProtocolNumber());
+                protocolMaster.setSequenceNumber(new BigInteger(String.valueOf(protocol.getSequenceNumber())));
+                protocolMaster.setProtocolTitle(protocol.getTitle());
+                protocolMaster.setProtocolStatusCode(new BigInteger(String.valueOf(protocol.getProtocolStatusCode())));
+                protocolMaster.setProtocolStatusDesc(protocol.getProtocolStatus().getDescription());
+                protocolMaster.setProtocolTypeCode(new BigInteger(String.valueOf(protocol.getProtocolTypeCode())));
+                protocolMaster.setProtocolTypeDesc(protocol.getProtocolType().getDescription());
 
-            if (protocol.getDescription() != null) {
-                protocolMaster.setProtocolDescription(protocol.getDescription());
-            }
-
-            if (protocol.getApprovalDate() != null) {
-                protocolMaster.setApprovalDate(getDateTimeService().getCalendar(protocol.getApprovalDate()));
-            }
-
-            if (protocol.getExpirationDate() != null) {
-                protocolMaster.setExpirationDate(getDateTimeService().getCalendar(protocol.getExpirationDate()));
-            }
-
-            if (protocol.getFdaApplicationNumber() != null) {
-                protocolMaster.setFdaApplicationNumber(protocol.getFdaApplicationNumber());
-            }
-
-            if (protocol.getReferenceNumber1() != null) {
-                protocolMaster.setRefNumber1(protocol.getReferenceNumber1());
-            }
-
-            if (protocol.getReferenceNumber2() != null) {
-                protocolMaster.setRefNumber2(protocol.getReferenceNumber2());
-            }
-
-            protocolSubmissionDetail.setProtocolNumber(protocolSubmission.getProtocolNumber());
-            if (protocolSubmission.getProtocolSubmissionType() != null) {
-                protocolSubmissionDetail.setSubmissionTypeDesc(protocolSubmission.getProtocolSubmissionType().getDescription());
-            }
-            
-            if (protocolSubmission.getProtocolReviewTypeCode() != null) {
-                protocolSubmissionDetail.setProtocolReviewTypeCode(new BigInteger(protocolSubmission.getProtocolReviewTypeCode()));
-            }
-            if (protocolSubmission.getProtocolReviewType() != null) {
-                protocolSubmissionDetail.setProtocolReviewTypeDesc(protocolSubmission.getProtocolReviewType().getDescription());
-            }
-            if (protocolSubmission.getSubmissionTypeCode() != null) {
-                protocolSubmissionDetail.setSubmissionTypeCode(new BigInteger(String.valueOf(protocolSubmission
-                        .getSubmissionTypeCode())));
-            }
-            if (protocolSubmission.getProtocolSubmissionType() != null) {
-                protocolSubmissionDetail.setSubmissionTypeDesc(protocolSubmission.getProtocolSubmissionType().getDescription());
-            }
-            if (protocolSubmission.getSubmissionNumber() != null) {
-                protocolSubmissionDetail.setSubmissionNumber(new BigInteger(String
-                        .valueOf(protocolSubmission.getSubmissionNumber())));
-            }
-            if (protocolSubmission.getSubmissionStatusCode() != null) {
-                protocolSubmissionDetail.setSubmissionStatusCode(new BigInteger(String.valueOf(protocolSubmission
-                        .getSubmissionStatusCode())));
-            }
-            if (protocolSubmission.getSubmissionStatus() != null) {
-                protocolSubmissionDetail.setSubmissionStatusDesc(protocolSubmission.getSubmissionStatus().getDescription());
-            }
-            if (protocolSubmission.getSubmissionTypeQualifierCode() != null) {
-                protocolSubmissionDetail.setSubmissionTypeQualifierCode(new BigInteger(protocolSubmission
-                        .getSubmissionTypeQualifierCode()));
-            }
-            if (protocolSubmission.getProtocolSubmissionQualifierType() != null) {
-                protocolSubmissionDetail.setSubmissionTypeQualifierDesc(protocolSubmission.getProtocolSubmissionQualifierType()
-                        .getDescription());
-            }
-            if (protocolSubmission.getYesVoteCount() != null) {
-                protocolSubmissionDetail.setYesVote(BigInteger.valueOf(protocolSubmission.getYesVoteCount()));
-            }
-            else {
-                protocolSubmissionDetail.setYesVote(BigInteger.ZERO);
-            }
-            if (protocolSubmission.getNoVoteCount() != null) {
-                protocolSubmissionDetail.setNoVote(BigInteger.valueOf(protocolSubmission.getNoVoteCount()));
-            }
-            else {
-                protocolSubmissionDetail.setNoVote(BigInteger.ZERO);
-            }
-            if (protocolSubmission.getAbstainerCount() != null) {
-                protocolSubmissionDetail.setAbstainerCount(BigInteger.valueOf(protocolSubmission.getAbstainerCount()));
-            }
-            else {
-                protocolSubmissionDetail.setAbstainerCount(BigInteger.ZERO);
-            }
-            protocolSubmissionDetail.setVotingComments(protocolSubmission.getVotingComments());
-
-            setProtocolSubmissionAction(protocolSubmission, protocol, protocolSubmissionDetail);
-            if (protocolSubmission.getSubmissionDate() != null) {
-                protocolSubmissionDetail
-                        .setSubmissionDate(getDateTimeService().getCalendar(protocolSubmission.getSubmissionDate()));
-            }
-            setSubmissionCheckListinfo(protocolSubmission, protocolSubmissionDetail);
-            setProtocolSubmissionReviewers(protocolSubmission, protocolSubmissionDetail);
-			List<ProtocolPersonBase> protocolPersons = protocol.getProtocolPersons();
-            protocolPersons.stream()
-                    .filter(protocolPerson -> protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRoleBase.ROLE_PRINCIPAL_INVESTIGATOR)
-                            || protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRoleBase.ROLE_CO_INVESTIGATOR))
-                    .forEach(protocolPerson -> {
-                        InvestigatorType investigator = protocolSummary.addNewInvestigator();
-                        getPrintXmlUtilService().setPersonRolodexType(protocolPerson, investigator.addNewPerson());
-                        if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRoleBase.ROLE_PRINCIPAL_INVESTIGATOR)) {
-                            investigator.setPIFlag(true);
-                        }
-                    });
-            
-                       
-             
-            List<ProtocolFundingSourceBase> vecFundingSource = protocol.getProtocolFundingSources();
-            int fundingSourceTypeCode;
-            String fundingSourceName, fundingSourceCode;
-            for (ProtocolFundingSourceBase protocolFundingSourceBean : vecFundingSource) {
-                protocolFundingSourceBean.refreshNonUpdateableReferences();
-                FundingSourceType fundingSource = protocolSummary
-                        .addNewFundingSource();
-                fundingSourceCode = protocolFundingSourceBean.getFundingSourceNumber();
-                fundingSourceTypeCode = Integer.valueOf(protocolFundingSourceBean.getFundingSourceTypeCode());
-                fundingSourceName = getFundingSourceNameForType(fundingSourceTypeCode, fundingSourceCode);
-
-                fundingSource.setFundingSourceName(fundingSourceName);
-                if (protocolFundingSourceBean.getFundingSourceType() != null) {
-                    fundingSource.setTypeOfFundingSource(protocolFundingSourceBean.getFundingSourceType().getDescription());
+                if (protocol.getDescription() != null) {
+                    protocolMaster.setProtocolDescription(protocol.getDescription());
                 }
-            }
 
-            getPrintXmlUtilService().setProcotolMinutes(committeeSchedule,protocolSubmission,protocolSubmissionType);
-        
-        setOtherActionItems(committeeSchedule,schedule);}
+                if (protocol.getApprovalDate() != null) {
+                    protocolMaster.setApprovalDate(getDateTimeService().getCalendar(protocol.getApprovalDate()));
+                }
+
+                if (protocol.getExpirationDate() != null) {
+                    protocolMaster.setExpirationDate(getDateTimeService().getCalendar(protocol.getExpirationDate()));
+                }
+
+                if (protocol.getFdaApplicationNumber() != null) {
+                    protocolMaster.setFdaApplicationNumber(protocol.getFdaApplicationNumber());
+                }
+
+                if (protocol.getReferenceNumber1() != null) {
+                    protocolMaster.setRefNumber1(protocol.getReferenceNumber1());
+                }
+
+                if (protocol.getReferenceNumber2() != null) {
+                    protocolMaster.setRefNumber2(protocol.getReferenceNumber2());
+                }
+
+                protocolSubmissionDetail.setProtocolNumber(protocolSubmission.getProtocolNumber());
+                if (protocolSubmission.getProtocolSubmissionType() != null) {
+                    protocolSubmissionDetail.setSubmissionTypeDesc(protocolSubmission.getProtocolSubmissionType().getDescription());
+                }
+
+                if (protocolSubmission.getProtocolReviewTypeCode() != null) {
+                    protocolSubmissionDetail.setProtocolReviewTypeCode(new BigInteger(protocolSubmission.getProtocolReviewTypeCode()));
+                }
+                if (protocolSubmission.getProtocolReviewType() != null) {
+                    protocolSubmissionDetail.setProtocolReviewTypeDesc(protocolSubmission.getProtocolReviewType().getDescription());
+                }
+                if (protocolSubmission.getSubmissionTypeCode() != null) {
+                    protocolSubmissionDetail.setSubmissionTypeCode(new BigInteger(String.valueOf(protocolSubmission
+                            .getSubmissionTypeCode())));
+                }
+                if (protocolSubmission.getProtocolSubmissionType() != null) {
+                    protocolSubmissionDetail.setSubmissionTypeDesc(protocolSubmission.getProtocolSubmissionType().getDescription());
+                }
+                if (protocolSubmission.getSubmissionNumber() != null) {
+                    protocolSubmissionDetail.setSubmissionNumber(new BigInteger(String
+                            .valueOf(protocolSubmission.getSubmissionNumber())));
+                }
+                if (protocolSubmission.getSubmissionStatusCode() != null) {
+                    protocolSubmissionDetail.setSubmissionStatusCode(new BigInteger(String.valueOf(protocolSubmission
+                            .getSubmissionStatusCode())));
+                }
+                if (protocolSubmission.getSubmissionStatus() != null) {
+                    protocolSubmissionDetail.setSubmissionStatusDesc(protocolSubmission.getSubmissionStatus().getDescription());
+                }
+                if (protocolSubmission.getSubmissionTypeQualifierCode() != null) {
+                    protocolSubmissionDetail.setSubmissionTypeQualifierCode(new BigInteger(protocolSubmission
+                            .getSubmissionTypeQualifierCode()));
+                }
+                if (protocolSubmission.getProtocolSubmissionQualifierType() != null) {
+                    protocolSubmissionDetail.setSubmissionTypeQualifierDesc(protocolSubmission.getProtocolSubmissionQualifierType()
+                            .getDescription());
+                }
+                if (protocolSubmission.getYesVoteCount() != null) {
+                    protocolSubmissionDetail.setYesVote(BigInteger.valueOf(protocolSubmission.getYesVoteCount()));
+                }
+                else {
+                    protocolSubmissionDetail.setYesVote(BigInteger.ZERO);
+                }
+                if (protocolSubmission.getNoVoteCount() != null) {
+                    protocolSubmissionDetail.setNoVote(BigInteger.valueOf(protocolSubmission.getNoVoteCount()));
+                }
+                else {
+                    protocolSubmissionDetail.setNoVote(BigInteger.ZERO);
+                }
+                if (protocolSubmission.getAbstainerCount() != null) {
+                    protocolSubmissionDetail.setAbstainerCount(BigInteger.valueOf(protocolSubmission.getAbstainerCount()));
+                }
+                else {
+                    protocolSubmissionDetail.setAbstainerCount(BigInteger.ZERO);
+                }
+                protocolSubmissionDetail.setVotingComments(protocolSubmission.getVotingComments());
+
+                setProtocolSubmissionAction(protocolSubmission, protocol, protocolSubmissionDetail);
+                if (protocolSubmission.getSubmissionDate() != null) {
+                    protocolSubmissionDetail
+                            .setSubmissionDate(getDateTimeService().getCalendar(protocolSubmission.getSubmissionDate()));
+                }
+                setSubmissionCheckListinfo(protocolSubmission, protocolSubmissionDetail);
+                setProtocolSubmissionReviewers(protocolSubmission, protocolSubmissionDetail);
+                List<ProtocolPersonBase> protocolPersons = protocol.getProtocolPersons();
+                protocolPersons.stream()
+                        .filter(protocolPerson -> protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRoleBase.ROLE_PRINCIPAL_INVESTIGATOR)
+                                || protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRoleBase.ROLE_CO_INVESTIGATOR))
+                        .forEach(protocolPerson -> {
+                            InvestigatorType investigator = protocolSummary.addNewInvestigator();
+                            getPrintXmlUtilService().setPersonRolodexType(protocolPerson, investigator.addNewPerson());
+                            if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRoleBase.ROLE_PRINCIPAL_INVESTIGATOR)) {
+                                investigator.setPIFlag(true);
+                            }
+                        });
+
+
+
+                List<ProtocolFundingSourceBase> vecFundingSource = protocol.getProtocolFundingSources();
+                int fundingSourceTypeCode;
+                String fundingSourceName, fundingSourceCode;
+                for (ProtocolFundingSourceBase protocolFundingSourceBean : vecFundingSource) {
+                    protocolFundingSourceBean.refreshNonUpdateableReferences();
+                    FundingSourceType fundingSource = protocolSummary
+                            .addNewFundingSource();
+                    fundingSourceCode = protocolFundingSourceBean.getFundingSourceNumber();
+                    fundingSourceTypeCode = Integer.valueOf(protocolFundingSourceBean.getFundingSourceTypeCode());
+                    fundingSourceName = getFundingSourceNameForType(fundingSourceTypeCode, fundingSourceCode);
+
+                    fundingSource.setFundingSourceName(fundingSourceName);
+                    if (protocolFundingSourceBean.getFundingSourceType() != null) {
+                        fundingSource.setTypeOfFundingSource(protocolFundingSourceBean.getFundingSourceType().getDescription());
+                    }
+                }
+
+                getPrintXmlUtilService().setProcotolMinutes(committeeSchedule,protocolSubmission,protocolSubmissionType);
+
+                setOtherActionItems(committeeSchedule,schedule);
+            }
+        });
         return schedule;
 
     }
@@ -270,7 +272,7 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
         }
     }
 
-    private void setOtherActionItems(CommitteeScheduleBase committeeSchedule, ScheduleType schedule) {
+    private void setOtherActionItems(IacucCommitteeSchedule committeeSchedule, ScheduleType schedule) {
         List<CommScheduleActItemBase> otherActions = committeeSchedule.getCommScheduleActItems();
         for (CommScheduleActItemBase otherActionInfoBean : otherActions) {
             otherActionInfoBean.refreshNonUpdateableReferences();
@@ -307,7 +309,7 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
             SubmissionDetailsType protocolSubmissionDetail) {
 
 
-        Collection<IacucProtocolReviewer> vecReviewers = getBusinessObjectService().findMatching(IacucProtocolReviewer.class, Collections.singletonMap("submissionIdFk", protocolSubmission.getSubmissionId()));
+        Collection<IacucProtocolReviewer> vecReviewers = getBusinessObjectService().findMatching(IacucProtocolReviewer.class, Collections.singletonMap(SUBMISSION_ID_FK, protocolSubmission.getSubmissionId()));
         List<ProtocolReviewerType> protocolReviewerTypeList = new ArrayList<>();
         for (ProtocolReviewer protocolReviewer : vecReviewers) {
             protocolReviewer.refreshNonUpdateableReferences();
@@ -325,9 +327,7 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
         PersonType personType = protocolReviewerType.addNewPerson();
         boolean nonEmployeeFlag = protocolReviewer.getNonEmployeeFlag();
         if (!nonEmployeeFlag) {
-            String personId = protocolReviewer.getPersonId();
-            KcPerson person = getKcPersonService().getKcPersonByPersonId(personId);
-            getPrintXmlUtilService().setPersonXml(person, personType);
+            getPrintXmlUtilService().setPersonXml(protocolReviewer.getPerson(), personType);
 
         }else {
             Rolodex rolodex = protocolReviewer.getRolodex();
@@ -354,7 +354,7 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
         return null;
     }
 
-    private void setAttendance(CommitteeScheduleBase committeeSchedule, ScheduleType schedule) {
+    private void setAttendance(IacucCommitteeSchedule committeeSchedule, ScheduleType schedule) {
         List<CommitteeScheduleAttendanceBase> attendenceList = committeeSchedule.getCommitteeScheduleAttendances();
         for (CommitteeScheduleAttendanceBase attendanceInfoBean : attendenceList) {
             Attendents attendents = schedule.addNewAttendents();
@@ -486,15 +486,6 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
 
     public CommitteeMembershipServiceBase getCommitteeMembershipService() {
         return committeeMembershipService;
-    }
-
-
-    public KcPersonService getKcPersonService() {
-        return kcPersonService;
-    }
-
-    public void setKcPersonService(KcPersonService kcPersonService) {
-        this.kcPersonService = kcPersonService;
     }
 
     public IacucPrintXmlUtilService getPrintXmlUtilService() {
