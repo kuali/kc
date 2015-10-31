@@ -18,6 +18,6 @@
  */
 import Alt from 'alt';
 
-let alt = new Alt();
+const alt = new Alt();
 
 export { alt as alt };

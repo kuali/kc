@@ -311,26 +311,6 @@ class RateStore {
 	rateMatchesSelectedUnit(rate) {
 		return !this.selectedUnit || rate.unitNumber == this.selectedUnit.unitNumber;
 	}
-	updateValidStartAndEndYears() {
-		let startYear;
-		let endYear;
-		this.applicableRates.forEach((rate) => {
-			if (!startYear || rate.fiscalYear < startYear ) { startYear = rate.fiscalYear; }
-			if (!endYear || rate.fiscalYear > endYear) { endYear = rate.fiscalYear; }
-		});
-		this.validStartYear = startYear;
-		this.validEndYear = endYear;
-		if (!this.validStartYear
-			|| !this.startYear 
-			|| this.startYear < this.validStartYear) {
-			this.startYear = this.validStartYear;
-		}
-		if (!this.validEndYear
-			|| !this.endYear 
-			|| this.endYear > this.validEndYear) {
-			this.endYear = this.validEndYear;
-		}
-	}
 	handleUpdateRateClassTypes(rateClassTypes) {
 		this.rateClassTypes = rateClassTypes;
 	}
