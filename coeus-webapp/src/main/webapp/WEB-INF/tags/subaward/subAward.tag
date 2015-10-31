@@ -24,7 +24,7 @@
 <script language="javascript" src="dwr/interface/OrganizationService.js"></script>
 <script type='text/javascript' src='dwr/interface/RolodexService.js'></script>
 
-<kul:tab tabTitle="Subaward" defaultOpen="${KualiForm.document.subAwardList[0].defaultOpen}" tabErrorKey="document.subAwardList[0].statusCode*,document.subAwardList[0].requisitionerUserName*,document.subAwardList[0].siteInvestigatorId*,document.subAwardList[0].purchaseOrderNum*,document.subAwardList[0].organizationId*,document.subAwardList[0].subAwardTypeCode*,document.subAwardList[0].title*,document.subAwardList[0].startDate*,document.subAwardList[0].endDate*,document.subAwardList[0].accountNumber*,document.subAwardList[0].vendorNumber*,document.subAwardList[0].requisitionerUnit*,document.subAwardList[0].archiveLocation*,document.subAwardList[0].closeoutDate*,document.subAwardList[0].comments*,document.subAwardList[0].totalAnticipatedAmount*,document.subAwardList[0].totalObligatedAmount*"
+<kul:tab tabTitle="Subaward" defaultOpen="${KualiForm.document.subAwardList[0].defaultOpen}" tabErrorKey="document.subAwardList[0].statusCode*,document.subAwardList[0].requisitionerUserName*,document.subAwardList[0].siteInvestigatorId*,document.subAwardList[0].purchaseOrderNum*,document.subAwardList[0].organizationId*,document.subAwardList[0].subAwardTypeCode*,document.subAwardList[0].title*,document.subAwardList[0].startDate*,document.subAwardList[0].endDate*,document.subAwardList[0].accountNumber*,document.subAwardList[0].vendorNumber*,document.subAwardList[0].requisitionerUnit*,document.subAwardList[0].archiveLocation*,document.subAwardList[0].closeoutDate*,document.subAwardList[0].comments*,document.subAwardList[0].totalAnticipatedAmount*,document.subAwardList[0].totalObligatedAmount*,document.subAwardList[0].fedAwardProjDesc*,document.subAwardList[0].fAndARate*,document.subAwardList[0].deMinimus*"
  auditCluster="subawardFinancialdAuditErrors" tabAuditKey="document.subAwardList[0].totalAnticipatedAmount*,document.subAwardList[0].totalObligatedAmount*" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
@@ -180,27 +180,44 @@
                 <td>
                       <kul:htmlControlAttribute property="document.subAwardList[0].closeoutDate" readOnly="${readOnly}" attributeEntry="${subAwardAttributes.closeoutDate}" datePicker="true" />
                 </td>
-            </tr>        	
+            </tr>
+            <tr>
+                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.fedAwardProjDesc}" /></div></th>
+                <td colspan="3">
+                    <kul:htmlControlAttribute property="document.subAwardList[0].fedAwardProjDesc" readOnly="${readOnly}" attributeEntry="${subAwardAttributes.fedAwardProjDesc}" />
+                </td>
+
+            </tr>
+            <tr>
+                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.fAndARate}" /></div></th>
+                <td>
+                    <kul:htmlControlAttribute property="document.subAwardList[0].fAndARate" readOnly="${readOnly}" attributeEntry="${subAwardAttributes.fAndARate}" />
+                </td>
+                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.deMinimus}" /></div></th>
+                <td>
+                    <kul:htmlControlAttribute property="document.subAwardList[0].deMinimus" readOnly="${readOnly}" attributeEntry="${subAwardAttributes.deMinimus}" />
+                </td>
+            </tr>
         	<tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.comments}" /></div></th>
                 <td colspan="3">
                       <kul:htmlControlAttribute property="document.subAwardList[0].comments" readOnly="${readOnly}" attributeEntry="${subAwardAttributes.comments}" />
                 </td>
-				
+
             </tr>
-            
-            
+
+
             <tr>
-				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.totalObligatedAmount}" /></div></th>
+                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.totalObligatedAmount}" /></div></th>
                 <td>
-                       <kul:htmlControlAttribute property="document.subAwardList[0].totalObligatedAmount" disabled="true" attributeEntry="${subAwardAttributes.totalObligatedAmount}" />     
+                    <kul:htmlControlAttribute property="document.subAwardList[0].totalObligatedAmount" disabled="true" attributeEntry="${subAwardAttributes.totalObligatedAmount}" />
                 </td>
-				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.totalAnticipatedAmount}" /></div></th>
+                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.totalAnticipatedAmount}" /></div></th>
                 <td>
-                     <kul:htmlControlAttribute property="document.subAwardList[0].totalAnticipatedAmount" disabled="true" attributeEntry="${subAwardAttributes.totalAnticipatedAmount}" />  
+                    <kul:htmlControlAttribute property="document.subAwardList[0].totalAnticipatedAmount" disabled="true" attributeEntry="${subAwardAttributes.totalAnticipatedAmount}" />
                 </td>
-            </tr>    
-            
+            </tr>
+
             <tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.totalAmountReleased}" /></div></th>
                 <td>

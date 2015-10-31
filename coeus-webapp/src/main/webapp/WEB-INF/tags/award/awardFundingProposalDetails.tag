@@ -28,7 +28,7 @@
 <div class="innerTab-head" style="margin-left:60px;" >
 	<span class="subhead-left">Proposal Details</span>
 	<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" altText="help"/></span>								
-</div class="innerTab-head">
+</div>
 <div style="margin-left:60px;" >
 	<table border="0" cellpadding="5" cellspacing="0">
 		<tr>

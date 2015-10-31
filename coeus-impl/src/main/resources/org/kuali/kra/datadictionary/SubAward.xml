@@ -30,6 +30,9 @@
     </property>
     <property name="attributes" >
       <list>
+        <ref bean="SubAward-fedAwardProjDesc" />
+        <ref bean="SubAward-fAndARate" />
+        <ref bean="SubAward-deMinimus" />
       	<ref bean="SubAward-subAwardId" />                
         <ref bean="SubAward-organizationId" />
         <ref bean="SubAward-startDate" />
@@ -74,6 +77,67 @@
   </bean>
 
 <!-- Attribute Definitions -->
+
+  <bean id="SubAward-fedAwardProjDesc" parent="SubAward-fedAwardProjDesc-parentBean" />
+  <bean id="SubAward-fedAwardProjDesc-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="fedAwardProjDesc" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Federal Award Project Description" />
+    <property name="shortLabel" value="Federal Award Project Desc" />
+    <property name="maxLength" value="200" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
+    <property name="required" value="false" />
+    <property name="control">
+      <bean parent="TextareaControlDefinition" p:rows="3" p:cols="50" />
+    </property>
+    <property name="controlField">
+      <bean p:rows="3" p:cols="50" parent="Uif-TextAreaControl"/>
+    </property>
+    <property name="summary" value="Federal Award Project Description" />
+    <property name="description" value="Federal Award Project Description" />
+  </bean>
+
+  <bean id="SubAward-fAndARate" parent="SubAward-fAndARate-parentBean"/>
+  <bean id="SubAward-fAndARate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="fAndARate"/>
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="F &amp; A Rate" />
+    <property name="shortLabel" value="F &amp; A Rate" />
+    <property name="maxLength" value="5" />
+    <property name="validationPattern" >
+      <bean parent="FixedPointValidationPattern" p:precision="4" p:scale="2"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="FixedPointPatternConstraint">
+        <property name="precision" value="4"/>
+        <property name="scale" value="2"/>
+      </bean>
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="5"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="5" parent="Uif-TextControl"/>
+    </property>
+    <property name="summary" value="F &amp; A Rate" />
+    <property name="description" value="F &amp; A Rate" />
+  </bean>
+
+  <bean id="SubAward-deMinimus" parent="SubAward-deMinimus-parentBean"/>
+  <bean id="SubAward-deMinimus-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="deMinimus" />
+    <property name="label" value="de Minimus" />
+    <property name="shortLabel" value="de Minimus" />
+    <property name="summary" value="de Minimus" />
+    <property name="description" value="de Minimus" />
+  </bean>
 
   <bean id="SubAward-subAwardId" parent="SubAward-subAwardId-parentBean" />
   <bean id="SubAward-subAwardId-parentBean" abstract="true" parent="AttributeDefinition">

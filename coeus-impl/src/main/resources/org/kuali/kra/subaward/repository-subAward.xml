@@ -55,6 +55,10 @@
 		<field-descriptor name="costType" column="COST_TYPE" jdbc-type="INTEGER" />
 		<field-descriptor name="executionDate" column="DATE_OF_FULLY_EXECUTED" jdbc-type="DATE" />
 		<field-descriptor name="requisitionId" column="REQUISITION_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="fedAwardProjDesc" column="FED_AWARD_PROJ_DESC" jdbc-type="VARCHAR"/>
+        <field-descriptor name="fAndARate" column="F_AND_A_RATE" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion" />
+        <field-descriptor name="deMinimus" column="DE_MINIMUS" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		
