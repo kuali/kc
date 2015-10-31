@@ -69,6 +69,7 @@ public class ProposalDevelopmentConstants {
         public static final String INSTRUCTION_URL = "instructionUrl";
         public static final String CFDA_NUMBER = "cfdaNumber";
         public static final String PROVIDER_CODE = "providerCode" ;
+        public static final int OPP_TITLE_MAX_LENGTH = 119;
     }
 
     public static class Parameters {

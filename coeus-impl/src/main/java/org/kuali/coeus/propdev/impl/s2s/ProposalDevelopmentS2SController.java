@@ -112,8 +112,10 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
                getDataObjectService().wrap(proposal.getS2sOpportunity()).fetchRelationship("s2sSubmissionType");
            }
 
+           final String opportunityTitle = form.getNewS2sOpportunity().getOpportunityTitle();
+           String trimmedTitle= StringUtils.substring(opportunityTitle, 0, ProposalDevelopmentConstants.S2sConstants.OPP_TITLE_MAX_LENGTH);
            //Set Opportunity Title and Opportunity ID in the Sponsor & Program Information section
-           proposal.setProgramAnnouncementTitle(form.getNewS2sOpportunity().getOpportunityTitle());
+           proposal.setProgramAnnouncementTitle(trimmedTitle);
            proposal.setCfdaNumber(form.getNewS2sOpportunity().getCfdaNumber());
            proposal.setProgramAnnouncementNumber(form.getNewS2sOpportunity().getOpportunityId());
            form.setNewS2sOpportunity(new S2sOpportunity());
