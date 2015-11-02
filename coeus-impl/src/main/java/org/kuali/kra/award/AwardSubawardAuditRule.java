@@ -37,6 +37,7 @@ public class AwardSubawardAuditRule implements DocumentAuditRule {
     
     private static final String SUBAWARD_AUDIT_ERRORS = "subawardAuditErrors";
     private static final String SUBAWARD_AUDIT_WARNINGS = "subawardAuditWarnings";
+    private static final String ORGANIZATION = "Organization";
 
     List<AwardApprovedSubaward> awardApprovedSubawards;
     private List<AuditError> auditErrors;
@@ -46,23 +47,23 @@ public class AwardSubawardAuditRule implements DocumentAuditRule {
     public boolean processRunAuditBusinessRules(Document document) {
         boolean valid = true;
         AwardDocument awardDocument = (AwardDocument) document;
-        auditErrors = new ArrayList<AuditError>();
-        auditWarnings = new ArrayList<AuditError>();
+        auditErrors = new ArrayList<>();
+        auditWarnings = new ArrayList<>();
         Award award = awardDocument.getAward();
         this.awardApprovedSubawards = award.getAwardApprovedSubawards();
         if(!validateApprovedSubawardDuplicateOrganization(awardApprovedSubawards)){
             valid = false;
-            auditErrors.add(new AuditError(Constants.SUBAWARD_AUDIT_RULES_ERROR_KEY, 
+            auditWarnings.add(new AuditError(Constants.SUBAWARD_AUDIT_RULES_ERROR_KEY,
                     KeyConstants.ERROR_DUPLICATE_ORGANIZATION_NAME, 
                     Constants.MAPPING_AWARD_HOME_PAGE + "." + Constants.SUBAWARD_PANEL_ANCHOR,
-                    new String[]{"Organization"}));
+                    new String[]{ORGANIZATION}));
         }
         for (int i = 0; i < awardApprovedSubawards.size(); i++) {
             AwardApprovedSubaward subAward = awardApprovedSubawards.get(i);
             ScaleTwoDecimal amount = subAward.getAmount();
             if (amount == null) {
                 valid = false;  // a "required field" error is already reported by the framework, so don't call reportError
-            } else if(!amount.isGreaterThan(new ScaleTwoDecimal(0.00))) {
+            } else if(!amount.isGreaterThan(ScaleTwoDecimal.ZERO)) {
                 valid = false;
                 auditWarnings.add(new AuditError("document.awardList[0].awardApprovedSubawards[" + i + "].amount",
                         KeyConstants.ERROR_AMOUNT_IS_ZERO,
@@ -77,7 +78,6 @@ public class AwardSubawardAuditRule implements DocumentAuditRule {
     /**
      * This method creates and adds the AuditCluster to the Global AuditErrorMap.
      */
-    @SuppressWarnings("unchecked")
     protected void reportAndCreateAuditCluster() {
         if (auditErrors.size() > 0) {
             GlobalVariables.getAuditErrorMap().put(SUBAWARD_AUDIT_ERRORS, new AuditCluster(Constants.SUBAWARD_PANEL_NAME,
