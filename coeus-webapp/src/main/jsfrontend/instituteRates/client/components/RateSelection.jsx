@@ -25,6 +25,8 @@ import {OnOffCampusToggles} from './filters/OnOffCampusToggles';
 import {SelectedOptionsFilter} from './filters/SelectedOptionsFilter';
 import {RateListing} from './RateListing';
 import {StyledSelect} from './shared/StyledSelect';
+import {assign} from 'lodash';
+import SharedStyles from './shared/Styles';
 
 export class RateSelection extends React.Component {
 	constructor(props) {
@@ -44,18 +46,17 @@ export class RateSelection extends React.Component {
 			container : {
 				height: '100%',
 				width: '100%',
-				margin: '0 30px 0 30px',
 			},
 			filterContainer : {
-				padding: 20,
 				display: 'flex',
 				flexFlow: 'row wrap',
 			},
 			filterItem : {
 				flexGrow : 1,
-				width: 500,
+				width: '25em',
 				textAlign: 'left',
-			}
+			},
+
 		};
 
 		let rateClassTypes = this.state.rateClassTypes.map((rateClass) => {
@@ -83,17 +84,18 @@ export class RateSelection extends React.Component {
 		}
 
 		return (
-			<div style={styles.container}>
+			<span><div style={assign({}, styles.container, this.props.style)}>
 				<div style={styles.filterContainer}>
 					<span style={styles.filterItem}>
-						<label style={{display: 'block'}}>Rate Class Type:</label>
+						<label style={SharedStyles.filterLabels}>Rate Class Type:</label>
 						<StyledSelect style={{width: 300}} id="rateClassType" name="rateClassType" value={this.state.selectedRateClassType} onChange={this.selectRateClassType}>
 							{rateClassTypes}
 						</StyledSelect>
 					</span>
 					{filters}
 				</div>
-			</div>
+			</div>				
+			<hr/></span>
 		);
 	}
 	onChange() {

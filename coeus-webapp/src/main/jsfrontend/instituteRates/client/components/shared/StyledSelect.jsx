@@ -39,7 +39,7 @@ export class StyledSelect extends React.Component {
 				border: '1px solid #AAA',
 				color: 555,
 				fontSize: 'inherit',
-				margin: '20px 0 20px 0',
+				margin: '0px 0 20px 0',
 				overflow: 'hidden',
 				padding: '5px 10px',
 				textOverflow: 'ellipsis',

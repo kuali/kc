@@ -21,6 +21,7 @@ import ReactRouter from 'react-router';
 import {assign} from 'lodash';
 import RateActions from '../../stores/RateActions';
 import {StyledSelect} from '../shared/StyledSelect';
+import SharedStyles from '../shared/Styles';
 
 export class FiscalYearFilter extends React.Component {
 	constructor(props) {
@@ -33,15 +34,18 @@ export class FiscalYearFilter extends React.Component {
 				padding: 0,
 				margin: 0,
 				textAlign: 'left',
-			}
+			},
+			label : {
+				textTransform: 'uppercase',
+			},
 		}
 		let yearOptions = [];
 		for ( let i = this.props.validStartYear; i <= this.props.validEndYear; i++) {
 			yearOptions.push(<option value={i} key={i}>{i}</option>);
 		}
 		return (
-			<fieldset style={assign(this.props.style, styles.fieldSet)}>
-				<legend>Fiscal Year Span:</legend>
+			<fieldset style={assign({}, styles.fieldSet, this.props.style)}>
+				<legend style={SharedStyles.filterLabels}>Fiscal Year Span:</legend>
 				<label htmlFor="startYear" style={{display: "none"}}>Start Year</label>
 				<StyledSelect id="startYear" name="startYear" value={this.props.startYear} onChange={this.onChangeStart}>{yearOptions}</StyledSelect>
 				<span style={{margin : 5}}>TO</span>

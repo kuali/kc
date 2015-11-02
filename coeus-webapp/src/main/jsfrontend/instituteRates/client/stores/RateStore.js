@@ -53,6 +53,7 @@ class RateStore {
 		this.editMode = false;
 		this.pendingEdits = [];
 		this.saving = false;
+		this.changeStartDates = false;
 
 		this.errorMessages = [];
 
@@ -85,6 +86,9 @@ class RateStore {
 			finishSave: actions.FINISH_SAVE,
 			addRate : actions.ADD_RATE,
 			toggleEmptyRows : actions.TOGGLE_EMPTY_ROWS,
+			toggleChangeStartDates : actions.TOGGLE_CHANGE_START_DATES,
+			newFiscalYear : actions.NEW_FISCAL_YEAR,
+			setAllVisibleRates : actions.SET_ALL_VISIBLE_RATES,
 		});
 		this.exportPublicMethods({
 			getRateClassTypeFromCode : this.getRateClassTypeFromCode.bind(this),
@@ -92,6 +96,48 @@ class RateStore {
 			getRateTypeFromCode : this.getRateTypeFromCode.bind(this),
 			getActivityTypeFromCode : this.getActivityTypeFromCode.bind(this),
 		});
+	}
+	setAllVisibleRates(value) {
+		for (let rateClassCode in this.applicableRatesMap) {
+			for (let rateTypeCode in this.applicableRatesMap[rateClassCode]) {
+				for (let activityTypeCode in this.applicableRatesMap[rateClassCode][rateTypeCode]) {
+					let rateMap = this.applicableRatesMap[rateClassCode][rateTypeCode][activityTypeCode];
+					for (let i = this.startYear; i <= this.endYear; i++) {
+						if (this.showOnCampus) {
+							if (rateMap[i].onCampus) {
+								this.setRateValue({rate: rateMap[i].onCampus, value: value});
+							} else {
+								this.addRate({rateClassCode: rateClassCode,
+									rateTypeCode: rateTypeCode,
+									activityTypeCode: activityTypeCode,
+									fiscalYear: i,
+									onOffCampusFlag: true,
+									instituteRate: value});
+							}
+						}
+						if (this.showOffCampus) {
+							if (rateMap[i].offCampus) {
+								this.setRateValue({rate: rateMap[i].offCampus, value: value});
+							} else {
+								this.addRate({rateClassCode: rateClassCode,
+									rateTypeCode: rateTypeCode,
+									activityTypeCode: activityTypeCode,
+									fiscalYear: i,
+									onOffCampusFlag: false,
+									instituteRate: value});
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	newFiscalYear() {
+		this.endYear = this.endYear + 1;
+		this.filterRates();
+	}
+	toggleChangeStartDates() {
+		this.changeStartDates = !this.changeStartDates;
 	}
 	toggleEmptyRows() {
 		this.hideEmptyRows = !this.hideEmptyRows;
@@ -205,7 +251,7 @@ class RateStore {
 		this.filterRates();
 	}
 	filterRates() {
-		this.applicableRates = {};
+		this.applicableRates = [];
 		this.applicableRates = this.rates.filter(this.rateMatchesCriteria.bind(this));
 		sortByAll(this.applicableRates, ['rateClassCode', 'rateTypeCode', 'activityTypeCode', 'fiscalYear', 'onOffCampusFlag'], [true, true, true, true, false]);
 		this.makeRateMap();		
@@ -353,22 +399,12 @@ class RateStore {
 		}
 	}
 	addRate(newRate) {
+		console.log(newRate);
 		newRate.unitNumber = this.selectedUnit.unitNumber;
-
-		//if this rate has been added already and is already being modified, see if it exists in pending
-		let currentRate = first(this.pendingEdits.filter(rate => {
-			return rate.rateClassCode == newRate.rateClassCode
-				&& rate.rateTypeCode == newRate.rateTypeCode
-				&& rate.activityTypeCode == newRate.activityTypeCode
-				&& rate.fiscalYear == newRate.fiscalYear
-				&& rate.onOffCampusFlag == newRate.onOffCampusFlag;
-		}));
-		if (!currentRate) {
-			this.pendingEdits.push(newRate);
-			this.rates.push(newRate);
-			this.applicableRates.push(newRate);
-			this.applicableRatesMap[newRate.rateClassCode][newRate.rateTypeCode][newRate.activityTypeCode][newRate.fiscalYear][newRate.onOffCampusFlag ? "onCampus" : "offCampus"] = newRate;
-		}
+		this.pendingEdits.push(newRate);
+		this.rates.push(newRate);
+		this.applicableRates.push(newRate);
+		this.applicableRatesMap[newRate.rateClassCode][newRate.rateTypeCode][newRate.activityTypeCode][newRate.fiscalYear][newRate.onOffCampusFlag ? "onCampus" : "offCampus"] = newRate;
 	}
 	cancelEdit() {
 		this.editMode = false;

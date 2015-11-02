@@ -21,6 +21,7 @@ import ReactRouter from 'react-router';
 import {assign} from 'lodash';
 import RateStore from '../stores/RateStore';
 import RateActions from '../stores/RateActions';
+import {EditControls} from './EditControls';
 
 export class RateListing extends React.Component {
 	constructor(props) {
@@ -47,7 +48,7 @@ export class RateListing extends React.Component {
 			innerDiv : {
 				overflowX:'auto',
 				overflowY:'auto',
-				width:'95%',
+				width:'100%',
 			},
 			table : {
 				width: '100%',
@@ -78,6 +79,16 @@ export class RateListing extends React.Component {
 			edit: {
 				float: 'right',
 			},
+			headings: {
+				fontSize: '1.2em',
+				paddingBottom: 5,
+			},
+			headingLabels: {
+				textTransform: 'uppercase',
+			},
+			headingText: {
+				fontWeight: 'bold',
+			}
 		};
 
 		const yearHeaderStyle = assign({}, styles.th, styles.yearHeaders);
@@ -154,21 +165,15 @@ export class RateListing extends React.Component {
 			}
 		}
 
-		let editControls = [];
-		if (this.state.editMode) {
-			editControls.push(<a href="#" onClick={RateActions.cancelEdit}>Cancel</a>);
-			editControls.push(<a href="#" onClick={RateActions.save}>Save</a>);
-		} else {
-			editControls.push(<a href="#" onClick={RateActions.enterEditMode}>Edit</a>);
-		}
-
 		return (
 			<div style={assign({}, this.props.style, styles.container)}>
 				<div style={styles.header}>
-					<div>Rate Class Type: {this.rateStore.getRateClassTypeFromCode(this.state.selectedRateClassType).description}</div>
-					<div>Fiscal Years: {this.state.startYear} - {this.state.endYear}</div>
-					<div><label><input type="checkbox" defaultChecked={this.state.hideEmptyRows} onChange={RateActions.toggleEmptyRows}>Hide All Empty Rows</input></label></div>
-					<span style={styles.edit}>{editControls}</span>
+					<div style={{width:'50%', display: 'inline-block'}}>
+					<div style={styles.headings}><span style={styles.headingLabels}>Rate Class Type:</span> <span style={styles.headingText}>{this.rateStore.getRateClassTypeFromCode(this.state.selectedRateClassType).description}</span></div>
+					<div style={styles.headings}><span style={styles.headingLabels}>Fiscal Years:</span> <span style={styles.headingText}>{this.state.startYear} - {this.state.endYear}</span></div>
+					{!this.state.editMode && <div><label><input type="checkbox" defaultChecked={this.state.hideEmptyRows} onChange={RateActions.toggleEmptyRows}>Hide All Empty Rows</input></label></div>}
+					</div>
+					<EditControls style={{width:'49%', display: 'inline-block'}} editMode={this.state.editMode} changeStartDates={this.state.changeStartDates}/>
 				</div>
 				<div style={styles.innerDiv}>
 					<table style={styles.table}>
