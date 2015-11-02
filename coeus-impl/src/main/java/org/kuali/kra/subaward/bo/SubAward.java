@@ -143,7 +143,11 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
     private Date executionDate;
     
     private String requisitionId;
-    
+
+    private String fedAwardProjDesc;
+    private ScaleTwoDecimal fAndARate;
+    private Boolean deMinimus;
+
     private SubAwardCostType subAwardCostType;
 
     private Date modificationEffectiveDate;
@@ -1602,5 +1606,29 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
 
     public void setVersionHistory(VersionHistorySearchBo versionHistory) {
         this.versionHistory = versionHistory;
+    }
+
+    public Boolean getDeMinimus() {
+        return deMinimus;
+    }
+
+    public void setDeMinimus(Boolean deMinimus) {
+        this.deMinimus = deMinimus;
+    }
+
+    public ScaleTwoDecimal getfAndARate() {
+        return fAndARate;
+    }
+
+    public void setfAndARate(ScaleTwoDecimal fAndARate) {
+        this.fAndARate = fAndARate;
+    }
+
+    public String getFedAwardProjDesc() {
+        return fedAwardProjDesc;
+    }
+
+    public void setFedAwardProjDesc(String fedAwardProjDesc) {
+        this.fedAwardProjDesc = fedAwardProjDesc;
     }
 }

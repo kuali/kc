@@ -204,6 +204,10 @@ public class SubAwardFundingSource extends SubAwardAssociate {
 	 * @return Returns the award.
 	 */
 	public Award getAward() {
+		if ((award == null || award.getAwardId() == null) && awardId != null) {
+			refreshReferenceObject("award");
+		}
+
 		return award;
 	}
 

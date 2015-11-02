@@ -37,6 +37,9 @@
         </property>
         <property name="attributes">
             <list>
+                <ref bean="Award-fainId" />
+                <ref bean="Award-fedAwardYear" />
+                <ref bean="Award-fedAwardDate" />
                 <ref bean="Award-preAwardAuthorizedAmount"/>
                 <ref bean="Award-preAwardEffectiveDate"/>
                 <ref bean="Award-preAwardInstitutionalAuthorizedAmount"/>
@@ -115,6 +118,63 @@
                       p:shortLabel="Project Persons" p:elementLabel="Project Person"/>
             </list>
         </property>
+    </bean>
+
+    <bean id="Award-fainId" parent="Award-fainId-parentBean"/>
+    <bean id="Award-fainId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="fainId"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="FAIN ID"/>
+        <property name="shortLabel" value="FAIN ID"/>
+        <property name="maxLength" value="32"/>
+        <property name="validationPattern">
+            <bean parent="AlphaNumericValidationPattern"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AlphaNumericPatternConstraint"/>
+        </property>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="35"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="35" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="FAIN ID"/>
+        <property name="description" value="FAIN ID"/>
+    </bean>
+
+    <bean id="Award-fedAwardYear" parent="Award-fedAwardYear-parentBean"/>
+    <bean id="Award-fedAwardYear-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="fedAwardYear"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Federal Award Year"/>
+        <property name="shortLabel" value="Federal Award Year"/>
+        <property name="maxLength" value="4"/>
+        <property name="validationPattern">
+            <bean parent="YearValidationPattern"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="YearPatternConstraint"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="5"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="5" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Federal Award Year"/>
+        <property name="description" value="Federal Award Year"/>
+    </bean>
+
+    <bean id="Award-fedAwardDate" parent="Award-fedAwardDate-parentBean"/>
+    <bean id="Award-fedAwardDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+        <property name="name" value="fedAwardDate"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Federal Award Date"/>
+        <property name="shortLabel" value="Federal Award Date"/>
+        <property name="summary" value="Federal Award Date"/>
+        <property name="description" value="Federal Award Date"/>
     </bean>
 
     <bean id="Award-preAwardAuthorizedAmount" parent="Award-preAwardAuthorizedAmount-parentBean"/>

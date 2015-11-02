@@ -90,60 +90,106 @@
    			</tr> 
    			</c:if>
    			</tbody>
-     	<c:forEach var="subAwardFundingSource" items="${KualiForm.document.subAwardList[0].subAwardFundingSourceList}" varStatus="status">
-		             <tr>
-		             
-						<th width="5%" class="infoline" rowspan="1">
-							<c:out value="${status.index+1}" />
-						</th>
-						<c:set  var="documentNumber" value="${subAwardFundingSource.award.awardDocument.documentNumber}"/> 
-						    <td width="6%" valign="middle"> 
-						    
-						    <a
-						href="${ConfigProperties.application.url}/awardHome.do?methodToCall=docHandler&command=displayDocSearchView&docId=${documentNumber}&medusaOpenedDoc=true"
-						target="_blank" class="medusaOpenLink">Open award</a>
+			</table>
+		<h3>
+			<span class="subhead-left">Current Funding Sources</span>
+				<span class="subhead-right">
+					<kul:help parameterNamespace="KC-SUBAWARD" parameterDetailType="Document" parameterName="awardCurrentFundingSourcesHelp" altText="help"/>
+				</span>
+		</h3>
+		<table cellpadding=0 cellspacing=0 summary="Current Funding Sources">
+			<tr>
+				<th><div align="center">&nbsp;</div></th>
+				<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardFundingSourceAttributes.awardId}" /></div></th>
+				<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardFundingSourceAttributes.accountNumber}" /></div></th>
+				<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardFundingSourceAttributes.statusCode}" /></div></th>
+				<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardFundingSourceAttributes.sponsorCode}" /></div></th>
+				<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardFundingSourceAttributes.amountObligatedToDate}" /></div></th>
+				<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardFundingSourceAttributes.obligationExpirationDate}" /></div></th>
+				<th><div align="center">&nbsp;</div></th>
+				<th><div align="center">&nbsp;</div></th>
+				<th><div align="center">&nbsp;</div></th>
+			</tr>
+			<c:forEach var="subAwardFundingSource" items="${KualiForm.document.subAwardList[0].subAwardFundingSourceList}" varStatus="status">
+
+				<c:set var="parentTab" value="Funding Sources" scope="request"/>
+				<c:set var="versionTab" value="FundingSources${status.index}"/>
+				<c:set var="currentTab" value="${kfunc:getTabState(KualiForm, versionTab)}"/>
+				<c:choose>
+					<c:when test="${empty currentTab}">
+						<c:set var="isOpen" value="false" />
+					</c:when>
+					<c:when test="${!empty currentTab}" >
+						<c:set var="isOpen" value="${currentTab == 'OPEN'}" />
+					</c:when>
+				</c:choose>
+				<c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
+					<c:set var="displayStyle" value="display: table-row-group;"/>
+				</c:if>
+				<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
+					<c:set var="displayStyle" value="display: none;"/>
+				</c:if>
+				<html:hidden property="tabStates(${versionTab})" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
+
+					<tr>
+						<td align="right" class="tab-subhead" scope="row">
+							<div align="center">
+								<c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
+									<html:image property="methodToCall.toggleTab.tab${versionTab}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" title="close ${tabTitle}" alt="close ${tabTitle}" styleClass="tinybutton"  styleId="tab-${versionTab}-imageToggle" onclick="javascript: return toggleTab(document, '${versionTab}'); " />
+								</c:if>
+								<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
+									<html:image  property="methodToCall.toggleTab.tab${versionTab}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" title="open ${tabTitle}" alt="open ${tabTitle}" styleClass="tinybutton" styleId="tab-${versionTab}-imageToggle" onclick="javascript: return toggleTab(document, '${versionTab}'); " />
+								</c:if>
+							</div>
 						</td>
-						  <td width="6%" valign="middle"> 
-						 <a
-						href="${ConfigProperties.application.url}/awardHome.do?methodToCall=medusa&command=displayDocSearchView&docId=${documentNumber}&medusaOpenedDoc=true"
-						target="_blank" class="medusaOpenLink"> medusa </a>
-						 
-						    </td>
-		                 <td width="9%" valign="middle">
+						<c:set  var="documentNumber" value="${subAwardFundingSource.award.awardDocument.documentNumber}"/> 
+
+		                 <td class="tab-subhead">
 		               
 		                  
 		                 
-						<div align="left">
+						<div align="center">
 	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${status.index}].award.awardNumber" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.awardId}" />
 						</div>
 						</td> 
-		                <td width="9%" valign="middle">
+		                <td class="tab-subhead">
 						<div align="center">
 	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${status.index}].award.accountNumber" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.accountNumber}"/>                		
 						</div>
 						</td>
-		                <td width="9%" valign="middle">
+		                <td class="tab-subhead">
 						<div align="center">
 	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${status.index}].award.awardStatus.description" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.statusCode}"/>
 						</div>
 						</td>
-						<td width="9%" valign="middle">
+						<td class="tab-subhead">
 						<div align="center">
 							<kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${status.index}].award.sponsorCode" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.sponsorCode}"/> : <kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${status.index}].award.sponsorName" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.sponsorCode}"/>         
 						</div>
 						</td>
-						<td width="9%" valign="middle">
+						<td class="tab-subhead">
 						<div align="center">
 							<kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${status.index}].award.latestAwardAmountInfo.amountObligatedToDate" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.amountObligatedToDate}"/>
 						</div>
 						</td>
-						<td width="9%" valign="middle">
+						<td class="tab-subhead">
 						<div align="center">
 							<kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${status.index}].award.latestAwardAmountInfo.obligationExpirationDate" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.obligationExpirationDate}" datePicker="false"/>
 						</div>
 						</td>
-						
-						    <td width="10%" valign="middle" rowspan="1">
+						<td class="tab-subhead">
+
+							<a
+									href="${ConfigProperties.application.url}/awardHome.do?methodToCall=docHandler&command=displayDocSearchView&docId=${documentNumber}&medusaOpenedDoc=true"
+									target="_blank" class="medusaOpenLink">Open award</a>
+						</td>
+						<td class="tab-subhead">
+							<a
+									href="${ConfigProperties.application.url}/awardHome.do?methodToCall=medusa&command=displayDocSearchView&docId=${documentNumber}&medusaOpenedDoc=true"
+									target="_blank" class="medusaOpenLink"> medusa </a>
+
+						</td>
+						    <td class="tab-subhead">
 						<div align="center">
 						  <c:if test="${!readOnly}">
 	                		<html:image property="methodToCall.deleteFundingSource.line${status.index}.anchor${currentTabIndex}"
@@ -153,7 +199,13 @@
 						</div>
 						</td>           
 		            </tr>
-      
+					<tbody style="${displayStyle}" id = "tab-${versionTab}-div">
+						<tr>
+							<td colspan="9" class="infoline">
+								<kra-sub:subAwardFundingSourceDetails subAwardFundingSource="${subAwardFundingSource}" index="${status.index}" />
+							</td>
+						</tr>
+					</tbody>
 	        	</c:forEach>
         </table>
     </div> 

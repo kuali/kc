@@ -305,6 +305,9 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     private List<AwardCgb> awardCgbList;
     
     private transient Integer indexOfAwardAmountInfoForDisplay;
+    private String fainId;
+    private Integer fedAwardYear;
+    private Date fedAwardDate;
 
     public Award() {
         super();
@@ -2750,6 +2753,30 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 				.sorted(Comparator.comparing(AwardFundingProposal::getAwardSequenceNumber))
 				.collect(Collectors.toList());
 	}
+
+    public String getFainId() {
+        return fainId;
+    }
+
+    public void setFainId(String fainId) {
+        this.fainId = fainId;
+    }
+
+    public Integer getFedAwardYear() {
+        return fedAwardYear;
+    }
+
+    public void setFedAwardYear(Integer fedAwardYear) {
+        this.fedAwardYear = fedAwardYear;
+    }
+
+    public Date getFedAwardDate() {
+        return fedAwardDate;
+    }
+
+    public void setFedAwardDate(Date fedAwardDate) {
+        this.fedAwardDate = fedAwardDate;
+    }
 
     public SystemAuthorizationService getSystemAuthorizationService() {
         if (systemAuthorizationService == null) {
