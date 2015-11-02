@@ -52,7 +52,7 @@ public class AwardSubawardAuditRule implements DocumentAuditRule {
         this.awardApprovedSubawards = award.getAwardApprovedSubawards();
         if(!validateApprovedSubawardDuplicateOrganization(awardApprovedSubawards)){
             valid = false;
-            auditErrors.add(new AuditError(Constants.SUBAWARD_AUDIT_RULES_ERROR_KEY, 
+            auditWarnings.add(new AuditError(Constants.SUBAWARD_AUDIT_RULES_ERROR_KEY,
                     KeyConstants.ERROR_DUPLICATE_ORGANIZATION_NAME, 
                     Constants.MAPPING_AWARD_HOME_PAGE + "." + Constants.SUBAWARD_PANEL_ANCHOR,
                     new String[]{"Organization"}));
