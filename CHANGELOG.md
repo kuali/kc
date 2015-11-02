@@ -1,6 +1,25 @@
 
 
 ##CURRENT
+*  As an Award administrator, I can maintain the Federal award identification number (FAIN) and Year, and Federal Award Date in my Awards and Subawards so that I can comply with the OMB's Uniform Grant Guidance.
+  * Background:
+  * See Uniform Grant Guidance policy statements: https://www.whitehouse.gov/omb/grants_docs/
+  * Federal Award Identification Number (FAIN) is unique within the Federal agency, and required for each financial assistance award to assist recipients in correctly reporting subawards. The Federal agency may not - with limited exceptions - modify the FAIN during the life of the award. A unique number assigned to a financial assistance award. Needs to be alphanumberic and should be at least as long as Sponsor Award Number in KC. Agencies use different formats. For example, NIH implements the FAIN by deriving it from the core elements of the grant number. For example, the FAIN for 1R0lGM654321-01 would be R01GM654321.
+  * Year is YYYY.
+  * Federal Award Date means the date when the Federal award is signed by the authorized official of the Federal awarding. Format is month, day, and year.
+  * Subcommittee Requirements confirmed 9/16/2015
+  * Award Document Changes
+  * 1. Award Document: New FAIN ID field on the Award tab, Sponsor panel – varchar, length 32
+  * 2. Award Document: New Federal Award Year field on Award tab, Sponsor panel – YYYY
+  * 3. Award Document: New Federal Award Date field on Award tab, Details & Dates panel, Time & Money subpanel along with other date fields and same format.
+  * Subaward Document Changes
+  * 4. Subaward Document: New Federal Award Project Description field – Subaward tab, Subaward panel, between the Title and Comments fields.
+  * 5. Subaward Document: New F&A Rate field on the Subaward tab, Subaward panel – XX.XX% format
+  * 6. Subaward Document: New de Minimus radio button or Y/N field added beside the F&A Rate field.
+  * 7. Subaward Document: Create a display panel on the Subaward Tab, Funding Source panel to display the FAIN, the Federal Award Date, Obligated Total Award Amount, Sponsor and Prime Sponsor, CFDA Number, and Activity Type (similar to the information that displays in the Award document when a Funding Proposal is linked).
+  * Travis Schneeberger on Sat, 31 Oct 2015 08:21:38 -0400 [View Commit](../../commit/80a9a451cce07d69f2e8832732e34eb843b673e8)
+
+##coeus-1511.1
 *  Fixing opp title
   * The xml _header _data being submitted S2S and not part of the form schemas that is causing the problem. So we need to correct why are we putting incorrect information into the Header, and to correctly handle when to populate and NOT populate the SF 424 CFDA Activity Title field.
   * Legacy Coeus also populated both these xml fields with the "OpportunityTitle" data, but trimmed to 119 characters to prevent errors on Submission.
