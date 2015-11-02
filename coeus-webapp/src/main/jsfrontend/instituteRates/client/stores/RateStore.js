@@ -19,7 +19,7 @@
 import { alt } from '../alt';
 import actions from './RateActions';
 import { RestDataSources } from '../data/RestDataSources';
-import {find, sortByAll, first, omit}  from 'lodash';
+import {find, sortByAll, first, omit, curryRight}  from 'lodash';
 
 class RateStore {
 	constructor() {
@@ -95,41 +95,42 @@ class RateStore {
 			getRateClassFromCode : this.getRateClassFromCode.bind(this),
 			getRateTypeFromCode : this.getRateTypeFromCode.bind(this),
 			getActivityTypeFromCode : this.getActivityTypeFromCode.bind(this),
+
 		});
 	}
 	setAllVisibleRates(value) {
-		for (let rateClassCode in this.applicableRatesMap) {
-			for (let rateTypeCode in this.applicableRatesMap[rateClassCode]) {
-				for (let activityTypeCode in this.applicableRatesMap[rateClassCode][rateTypeCode]) {
-					let rateMap = this.applicableRatesMap[rateClassCode][rateTypeCode][activityTypeCode];
-					for (let i = this.startYear; i <= this.endYear; i++) {
-						if (this.showOnCampus) {
-							if (rateMap[i].onCampus) {
-								this.setRateValue({rate: rateMap[i].onCampus, value: value});
-							} else {
-								this.addRate({rateClassCode: rateClassCode,
-									rateTypeCode: rateTypeCode,
-									activityTypeCode: activityTypeCode,
-									fiscalYear: i,
-									onOffCampusFlag: true,
-									instituteRate: value});
-							}
-						}
-						if (this.showOffCampus) {
-							if (rateMap[i].offCampus) {
-								this.setRateValue({rate: rateMap[i].offCampus, value: value});
-							} else {
-								this.addRate({rateClassCode: rateClassCode,
-									rateTypeCode: rateTypeCode,
-									activityTypeCode: activityTypeCode,
-									fiscalYear: i,
-									onOffCampusFlag: false,
-									instituteRate: value});
-							}
-						}
-					}
-				}
+		const store = this;
+		_.forEach(this.applicableRatesMap, (rateClassMap, rateClassCode) => {
+			_.forEach(rateClassMap, (rateTypeMap, rateTypeCode) => {
+				_.forEach(rateTypeMap, (rateList, activityTypeCode) => {
+					this.setRateListToValue(rateList, value, activityTypeCode, rateClassCode, rateTypeCode);
+				});
+			});
+		});
+	}
+	setRateListToValue(rateList, value, activityTypeCode, rateClassCode, rateTypeCode) {
+		for (let i = this.startYear; i <= this.endYear; i++) {
+			if (this.showOnCampus) {
+				this.setVisibleRate(rateList[i].onCampus, value, 
+					rateClassCode, rateTypeCode, activityTypeCode, i, true);
 			}
+			if (this.showOffCampus) {
+				this.setVisibleRate(rateList[i].offCampus, value, 
+					rateClassCode, rateTypeCode, activityTypeCode, i, false);
+			}
+		}
+
+	}
+	setVisibleRate(rate, value, rateClassCode, rateTypeCode, activityTypeCode, fiscalYear, onCampus) {
+		if (rate) {
+			this.setRateValue({rate: rate, value: value});
+		} else {
+			this.addRate({rateClassCode: rateClassCode,
+				rateTypeCode: rateTypeCode,
+				activityTypeCode: activityTypeCode,
+				fiscalYear: fiscalYear,
+				onOffCampusFlag: onCampus,
+				instituteRate: value});
 		}
 	}
 	newFiscalYear() {
