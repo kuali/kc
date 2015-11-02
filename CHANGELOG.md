@@ -1,6 +1,22 @@
 
 
 ##CURRENT
+*  Fixing opp title
+  * The xml _header _data being submitted S2S and not part of the form schemas that is causing the problem. So we need to correct why are we putting incorrect information into the Header, and to correctly handle when to populate and NOT populate the SF 424 CFDA Activity Title field.
+  * Legacy Coeus also populated both these xml fields with the "OpportunityTitle" data, but trimmed to 119 characters to prevent errors on Submission.
+  * Suggested Improvement:
+  * KC needs to populate the "ActivityTitle" with the CFDA Description data from the S2S opportunity if available; and ALWAYS trim the length to stay under the 120 character limit.
+  * IF the CFDA is blank in the opportunity, this field should remain blank in the SF424 RR forms.
+  * Error at Grants.gov for field character length violation on a sponsor supplied field
+  * Error Message from Grants.gov for this particular submission:
+  * XML validation error: Schema validation error(s): cvc-maxLength-valid: Value 'Novel and Innovative Tools to Facilitate Identification, Tracking, Manipulation, and Analysis of Glycans and their Functions (R21)' with length = '130' is not facet-valid with respect to maxLength '120' for type 'StringMin1Max120Type'.
+  * The system xml transmits the package "OpportunityTitle" (appears in the Adobe download) in the CFDA "ActivityTitle" field. (LIMIT = 120 characters)
+  * Both of these fields are NOT able to be edited by KC end users.
+  * Per the grants.gov header schema for this opportunity (http://apply07.grants.gov/apply/system/schemas/Header-V1.0.xsd), the field with the 120 character max length is the "Activity Title" – this corresponds to the Grants.gov opportunity CFDA Description field. Per the schema, it is NOT a required field (min occurances = 0)
+  * Per the NIH Opportunity posted at grants.gov and displayed in the KC PD Opprtunity Search > Opportunity tab, the "Opportunity Title" field is the one that has the entry "Novel and Innovative Tools to Facilitate Identification, Tracking, Manipulation, and Analysis of Glycans and their Functions (R21)". The Opportunity Title field allows 255 characters per the Grants.gov header schema.
+  * Gayathri Athreya on Fri, 30 Oct 2015 13:54:54 -0700 [View Commit](../../commit/266dddd065d7a435e06485ef455a28fb6b66faf6)
+
+##coeus-1510.64
 * No Changes
 
 
