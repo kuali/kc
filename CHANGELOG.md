@@ -1,6 +1,21 @@
 
 
 ##CURRENT
+*  show the data validation message 'Validation errors exist. Please correct these errors prior to submitting to workflow routing.' inside the data validation tab and not at the bottom in the 'Other Errors' section
+  * Travis Schneeberger on Mon, 2 Nov 2015 16:58:50 -0500 [View Commit](../../commit/a39cca7979f365d4742a20b75fb937a36180770a)
+*  As an award administrator, I need to add Approved Subawards to award documents. Sometimes, multiple unique subawards are issued to the same organization; these could be to support separate investigators, projects, tasks, timeframes, etc. Currently, the system will let me add the organization on the Award tab, but will error on Validation when I try to submit.
+  * Steps to duplicate:
+  * Open an existing Award document (example: 002692-* in res-test1)
+  * Edit
+  * expand the Subawards panel
+  * Use the lookup tool to locate and add an Organization & return it; enter a dollar amount and click Add.
+  * Repeat the process, adding the previous selection a 2nd time.
+  * Navigate to Award Actions > Submit.
+  * Results: Validation error occurs stating there is a duplicate Organization Name.
+  * Desired Results: Reduce the validation to a Warning to alert the user in case this was not the intent, but let the record be submitted with the duplicate/multiple appearances of organizations. There are business requirements to list the same organization multiple times.
+  * Travis Schneeberger on Mon, 2 Nov 2015 16:57:31 -0500 [View Commit](../../commit/cbc4d656c317a2d48b6f02ba39fc50ebeceabff4)
+
+##coeus-1511.2
 *  As an Award administrator, I can maintain the Federal award identification number (FAIN) and Year, and Federal Award Date in my Awards and Subawards so that I can comply with the OMB's Uniform Grant Guidance.
   * Background:
   * See Uniform Grant Guidance policy statements: https://www.whitehouse.gov/omb/grants_docs/
