@@ -32,13 +32,12 @@ import java.util.List;
 public class WatermarkFontValuesFinder extends UifKeyValuesFinderBase {
     /**
      * This method for storing lookup keyvalues of watermark font size.
-     * Watermark Font Size: 20 - 100.
-     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
+     * Watermark Font Size: 5 - 100.
      */
     @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        for(Integer fontValue=20;fontValue<=100;fontValue+=5){
+        for(Integer fontValue=5;fontValue<=100;fontValue+=5){
             keyValues.add(new ConcreteKeyValue(fontValue.toString(),fontValue.toString().concat(" %"))); 
         }       
         return keyValues;

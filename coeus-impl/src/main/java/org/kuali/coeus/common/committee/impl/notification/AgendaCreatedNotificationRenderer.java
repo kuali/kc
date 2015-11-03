@@ -18,6 +18,7 @@
  */
 package org.kuali.coeus.common.committee.impl.notification;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.committee.impl.meeting.ScheduleAgendaBase;
 
 import java.util.Map;
@@ -66,7 +67,7 @@ public class AgendaCreatedNotificationRenderer extends CommitteeNotificationRend
         params.put(CommitteeReplacementParameters.LAST_ACTION_DATE, scheduleAgenda.getCommitteeSchedule().getScheduledDate().toString());
         params.put(CommitteeReplacementParameters.ACTION_TAKEN, actionTaken);
         params.put(CommitteeReplacementParameters.OBJECT_INDEX, new Integer(scheduleAgenda.getAgendaNumber().intValue() - 1).toString());
-        params.put(CommitteeReplacementParameters.SCHEDULE_ID, "" + scheduleAgenda.getCommitteeSchedule().getId());
+        params.put(CommitteeReplacementParameters.SCHEDULE_ID, StringUtils.EMPTY + scheduleAgenda.getCommitteeSchedule().getId());
         return params;
     }    
 

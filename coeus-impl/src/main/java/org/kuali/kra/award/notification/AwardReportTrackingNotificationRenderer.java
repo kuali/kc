@@ -50,8 +50,8 @@ public class AwardReportTrackingNotificationRenderer extends AwardNotificationRe
         }
         result.put("{REPORT_TYPE}", report.getReport().getDescription());
         result.put("{REPORT_DUE_DATE}", dateFormatter.format(report.getDueDate()));
-        result.put(START_REPEAT_SECTION, "");
-        result.put(END_REPEAT_SECTION, "");
+        result.put(START_REPEAT_SECTION, StringUtils.EMPTY);
+        result.put(END_REPEAT_SECTION, StringUtils.EMPTY);
         return result;
     }
     

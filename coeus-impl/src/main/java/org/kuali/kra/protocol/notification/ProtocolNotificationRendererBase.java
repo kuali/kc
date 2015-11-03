@@ -78,10 +78,14 @@ public abstract class ProtocolNotificationRendererBase extends NotificationRende
             } else if (StringUtils.equals(key, ProtocolReplacementParameters.LAST_SUBMISSION_TYPE_CODE)) {
                 if (protocol.getProtocolSubmission() != null) {
                     params.put(key, protocol.getProtocolSubmission().getSubmissionTypeCode());
+                }  else {
+                    params.put(key, StringUtils.EMPTY);
                 }
             } else if (StringUtils.equals(key, ProtocolReplacementParameters.LAST_SUBMISSION_TYPE_QUAL_CODE)) {
                 if (protocol.getProtocolSubmission() != null) {
                     params.put(key, protocol.getProtocolSubmission().getSubmissionTypeQualifierCode());
+                } else {
+                    params.put(key, StringUtils.EMPTY);
                 }
             } else if (StringUtils.equals(key, ProtocolReplacementParameters.PROTOCOL_TITLE)) {
                 params.put(key, protocol.getTitle());
@@ -90,12 +94,16 @@ public abstract class ProtocolNotificationRendererBase extends NotificationRende
             } else if (StringUtils.equals(key, ProtocolReplacementParameters.PROTOCOL_TYPE_DESCRIPTION)) {
                 if (protocol.getProtocolType() != null) {
                     params.put(key, protocol.getProtocolType().getDescription());
+                } else {
+                    params.put(key, StringUtils.EMPTY);
                 }
             } else if (StringUtils.equals(key, ProtocolReplacementParameters.SEQUENCE_NUMBER)) {
                 params.put(key, protocol.getSequenceNumber().toString());
             } else if (StringUtils.equals(key, ProtocolReplacementParameters.SUBMISSION_STATUS_CODE)) {
                 if (protocol.getProtocolSubmission() != null) {
                     params.put(key, protocol.getProtocolSubmission().getSubmissionStatusCode());
+                } else {
+                    params.put(key, StringUtils.EMPTY);
                 }
             } else if (StringUtils.equals(key, ProtocolReplacementParameters.SUBMISSION_STATUS_NAME)) {
                 params.put(key, protocol.getProtocolSubmissionStatus());
@@ -106,20 +114,28 @@ public abstract class ProtocolNotificationRendererBase extends NotificationRende
             } else if (StringUtils.equals(key, ProtocolReplacementParameters.COMMITTEE_NAME)) {
                 if (protocol.getProtocolSubmission() != null) {
                     params.put(key, getSafeMessage(key, getCommitteeName(protocol.getProtocolSubmission().getCommitteeId())));
+                } else {
+                    params.put(key, StringUtils.EMPTY);
                 }
             } else if (StringUtils.equals(key, ProtocolReplacementParameters.PROTOCOL_INITIAL_APPROVAL_DATE)) {
                 if ( (protocol.getProtocolSubmission() != null) && (protocol.getApprovalDate() != null) ) {
                     params.put(key, getSafeMessage(key, (new SimpleDateFormat("d'-'MMM'-'yyyy")).format(protocol.getApprovalDate())));
+                }else {
+                    params.put(key, StringUtils.EMPTY);
                 }
             }
             else if (StringUtils.equals(key, ProtocolReplacementParameters.PROTOCOL_LAST_APPROVAL_DATE)) {
                 if ( (protocol.getProtocolSubmission() != null) && (protocol.getLastApprovalDate() != null) ) {
                     params.put(key, getSafeMessage(key, (new SimpleDateFormat("d'-'MMM'-'yyyy")).format(protocol.getLastApprovalDate())));
+                } else {
+                    params.put(key, StringUtils.EMPTY);
                 }
             }
             else if (StringUtils.equals(key, ProtocolReplacementParameters.PROTOCOL_EXPIRATION_DATE)) {
                 if ( (protocol.getProtocolSubmission() != null) && (protocol.getExpirationDate() != null) ) {
                     params.put(key, getSafeMessage(key, (new SimpleDateFormat("d'-'MMM'-'yyyy")).format(protocol.getExpirationDate())));
+                } else {
+                    params.put(key, StringUtils.EMPTY);
                 }
             }
         }

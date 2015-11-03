@@ -19,6 +19,7 @@
 package org.kuali.kra.iacuc.notification;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeBase;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
@@ -58,11 +59,18 @@ public class IacucProtocolNotificationRenderer extends ProtocolNotificationRende
             params.put(ProtocolReplacementParameters.LAST_SUBMISSION_NAME, getProtocolSubmissionName(protocolSubmission.getSubmissionTypeCode()));
             params.put(ProtocolReplacementParameters.LAST_SUBMISSION_TYPE_QUAL_NAME, getLastSubmissionTypeQualifierName(protocolSubmission.getSubmissionTypeQualifierCode()));
             params.put(ProtocolReplacementParameters.PROTOCOL_REVIEW_TYPE_DESC, getSafeMessage(ProtocolReplacementParameters.PROTOCOL_REVIEW_TYPE_DESC, getProtocolReviewTypeDescription(protocolSubmission.getProtocolReviewTypeCode())));
+        } else {
+            params.put(ProtocolReplacementParameters.LAST_SUBMISSION_NAME, StringUtils.EMPTY);
+            params.put(ProtocolReplacementParameters.LAST_SUBMISSION_TYPE_QUAL_NAME, StringUtils.EMPTY);
+            params.put(ProtocolReplacementParameters.PROTOCOL_REVIEW_TYPE_DESC, StringUtils.EMPTY);
         }
         IacucProtocolAction lastProtocolAction = (IacucProtocolAction)getProtocol().getLastProtocolAction();
         if (lastProtocolAction != null) {
             params.put(ProtocolReplacementParameters.LAST_ACTION_NAME, getProtocolLastActionName(lastProtocolAction.getProtocolActionTypeCode()));    
             params.put(ProtocolReplacementParameters.LAST_ACTION_TYPE_CODE, lastProtocolAction.getProtocolActionTypeCode());
+        } else {
+            params.put(ProtocolReplacementParameters.LAST_ACTION_NAME, StringUtils.EMPTY);
+            params.put(ProtocolReplacementParameters.LAST_ACTION_TYPE_CODE, StringUtils.EMPTY);
         }
         return params;
     }

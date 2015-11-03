@@ -71,6 +71,8 @@ public abstract class NotificationRendererBase implements NotificationRenderer, 
         Map<String, String> params = new HashMap<String, String>();
         if (GlobalVariables.getUserSession() != null) {
             params.put(USER_FULLNAME, getKcPersonService().getKcPersonByPersonId(GlobalVariables.getUserSession().getPrincipalId()).getFullName());
+        } else {
+            params.put(USER_FULLNAME, StringUtils.EMPTY);
         }
         params.put(DOCHANDLER_PREFIX, getDocumentLocation());
         params.put(APP_LINK_PREFIX, getApplicationLinkPrefix());

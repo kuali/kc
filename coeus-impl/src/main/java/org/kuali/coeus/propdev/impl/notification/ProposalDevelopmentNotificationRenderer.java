@@ -18,6 +18,7 @@
  */
 package org.kuali.coeus.propdev.impl.notification;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.notification.impl.NotificationRendererBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
@@ -99,16 +100,16 @@ public class ProposalDevelopmentNotificationRenderer extends NotificationRendere
         if (developmentProposal.getDeadlineDate() != null) {
             result.put("{DEADLINE_DATE}", dateFormatter.format(developmentProposal.getDeadlineDate()));
         } else {
-            result.put("{DEADLINE_DATE}", "");
+            result.put("{DEADLINE_DATE}", StringUtils.EMPTY);
         }
         result.put("{PI_NAME}", developmentProposal.getPrincipalInvestigatorName());
         result.put("{LEAD_UNIT}", developmentProposal.getUnitNumber());
         result.put("{LEAD_UNIT_NAME}", developmentProposal.getUnit().getUnitName());
         result.put("{PRIME_SPONSOR_CODE}", developmentProposal.getPrimeSponsorCode());
-        result.put("{PRIME_SPONSOR_NAME}", developmentProposal.getPrimeSponsor() != null ? developmentProposal.getPrimeSponsor().getSponsorName() : "");
+        result.put("{PRIME_SPONSOR_NAME}", developmentProposal.getPrimeSponsor() != null ? developmentProposal.getPrimeSponsor().getSponsorName() : StringUtils.EMPTY);
         InstitutionalProposal instProp = getProposalDevelopmentService().getInstitutionalProposal(developmentProposal.getProposalNumber());
-        result.put("{INSTITUTIONAL_PROPOSAL_NUMBER}", instProp != null ? instProp.getProposalNumber() : "");
-        result.put("{INSTITUTIONAL_PROPOSAL_DOC_NBR}", instProp != null ? instProp.getInstitutionalProposalDocument().getDocumentNumber() : "");
+        result.put("{INSTITUTIONAL_PROPOSAL_NUMBER}", instProp != null ? instProp.getProposalNumber() : StringUtils.EMPTY);
+        result.put("{INSTITUTIONAL_PROPOSAL_DOC_NBR}", instProp != null ? instProp.getInstitutionalProposalDocument().getDocumentNumber() : StringUtils.EMPTY);
         if (proposalChangedData != null) {
             result.put("{OVERRIDE_FIELD_NAME}", proposalChangedData.getEditableColumn().getColumnLabel());
             result.put("{OVERRIDE_FIELD_VALUE}", proposalChangedData.getDisplayValue());
@@ -116,7 +117,7 @@ public class ProposalDevelopmentNotificationRenderer extends NotificationRendere
         if (modifiedNarrative != null) {
             result.put("{NARRATIVE_MODULE_NUM}", modifiedNarrative.getModuleNumber().toString());
             result.put("{NARRATIVE_TYPE}", modifiedNarrative.getNarrativeType().getDescription());
-            result.put("{NARRATIVE_MODULE_DESCRIPTION}", modifiedNarrative.getModuleTitle() == null ? "" : modifiedNarrative.getModuleTitle());
+            result.put("{NARRATIVE_MODULE_DESCRIPTION}", modifiedNarrative.getModuleTitle() == null ? StringUtils.EMPTY : modifiedNarrative.getModuleTitle());
         }
         if (proposalPerson != null) {
             result.put("{USER_NAME}",proposalPerson.getUserName());

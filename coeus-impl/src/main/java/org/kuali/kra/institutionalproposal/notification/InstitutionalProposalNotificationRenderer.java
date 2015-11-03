@@ -18,6 +18,7 @@
  */
 package org.kuali.kra.institutionalproposal.notification;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.notification.impl.NotificationRendererBase;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 
@@ -62,7 +63,7 @@ public class InstitutionalProposalNotificationRenderer extends NotificationRende
         if (institutionalProposal.getDeadlineDate() != null) {
             result.put("{DEADLINE_DATE}", dateFormatter.format(institutionalProposal.getDeadlineDate()));
         } else {
-            result.put("{DEADLINE_DATE}", "");
+            result.put("{DEADLINE_DATE}", StringUtils.EMPTY);
         }
         result.put("{DEADLINE_TIME}", institutionalProposal.getDeadlineTime());
         result.put("{CFDA_NUMBER}", institutionalProposal.getCfdaNumber());

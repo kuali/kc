@@ -18,6 +18,7 @@
  */
 package org.kuali.kra.award.notification;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.notification.impl.NotificationRendererBase;
@@ -69,42 +70,42 @@ public class AwardNotificationRenderer extends NotificationRendererBase {
             result.put("{AWARD_TYPE_CODE}", award.getAwardTypeCode().toString());
             result.put("{AWARD_TYPE_NAME}", award.getAwardType().getDescription());
         } else {
-            result.put("{AWARD_TYPE_CODE}", "");
-            result.put("{AWARD_TYPE_NAME}", "");
+            result.put("{AWARD_TYPE_CODE}", StringUtils.EMPTY);
+            result.put("{AWARD_TYPE_NAME}", StringUtils.EMPTY);
         }
-        result.put("{PI_NAME}", award.getPiName()==null?"":award.getPiName());
-        result.put("{LEAD_UNIT}", award.getLeadUnitNumber()==null?"":award.getLeadUnitNumber());
-        result.put("{LEAD_UNIT_NAME}", award.getLeadUnitName()==null?"":award.getLeadUnitName());
-        result.put("{ACCOUNT_NUMBER}", award.getAccountNumber()==null?"":award.getAccountNumber());
-        result.put("{SPONSOR_AWARD_NUMBER}", award.getSponsorAwardNumber()==null?"":award.getSponsorAwardNumber());
+        result.put("{PI_NAME}", award.getPiName()==null? StringUtils.EMPTY :award.getPiName());
+        result.put("{LEAD_UNIT}", award.getLeadUnitNumber()==null? StringUtils.EMPTY :award.getLeadUnitNumber());
+        result.put("{LEAD_UNIT_NAME}", award.getLeadUnitName()==null? StringUtils.EMPTY :award.getLeadUnitName());
+        result.put("{ACCOUNT_NUMBER}", award.getAccountNumber()==null? StringUtils.EMPTY :award.getAccountNumber());
+        result.put("{SPONSOR_AWARD_NUMBER}", award.getSponsorAwardNumber()==null? StringUtils.EMPTY :award.getSponsorAwardNumber());
         if (award.getStatusCode() != null) {
             result.put("{STATUS_CODE}", award.getStatusCode().toString());
             result.put("{STATUS_NAME}", award.getStatusDescription());
         } else {
-            result.put("{STATUS_CODE}", "");
-            result.put("{STATUS_NAME}", "");                        
+            result.put("{STATUS_CODE}", StringUtils.EMPTY);
+            result.put("{STATUS_NAME}", StringUtils.EMPTY);
         }
         if (award.getBeginDate() != null) {
             result.put("{BEGIN_DATE}", dateFormatter.format(award.getBeginDate()));
         } else {
-            result.put("{BEGIN_DATE}", "");            
+            result.put("{BEGIN_DATE}", StringUtils.EMPTY);
         }
         if (award.getAwardExecutionDate() != null) {
             result.put("{EXECUTION_DATE}", dateFormatter.format(award.getAwardExecutionDate()));
         } else {
-            result.put("{EXECUTION_DATE}", "");            
+            result.put("{EXECUTION_DATE}", StringUtils.EMPTY);
         }
         if (award.getAwardEffectiveDate() != null) {
             result.put("{EFFECTIVE_DATE}", dateFormatter.format(award.getAwardEffectiveDate()));
         } else {
-            result.put("{EFFECTIVE_DATE}", "");            
+            result.put("{EFFECTIVE_DATE}", StringUtils.EMPTY);
         }
         if (award.getSponsorCode() != null) {
             result.put("{SPONSOR_CODE}", award.getSponsorCode());
             result.put("{SPONSOR_NAME}", award.getSponsorName());
         } else {
-            result.put("{SPONSOR_CODE}", "");
-            result.put("{SPONSOR_NAME}", "");            
+            result.put("{SPONSOR_CODE}", StringUtils.EMPTY);
+            result.put("{SPONSOR_NAME}", StringUtils.EMPTY);
         }
         AwardAmountInfo awardAmountInfo = null;
         try {
@@ -116,17 +117,17 @@ public class AwardNotificationRenderer extends NotificationRendererBase {
         if (awardAmountInfo != null && awardAmountInfo.getFinalExpirationDate() != null) {
             result.put("{FINAL_EXPIRATION_DATE}", dateFormatter.format(awardAmountInfo.getFinalExpirationDate()));
         } else {
-            result.put("{FINAL_EXPIRATION_DATE}", "");
+            result.put("{FINAL_EXPIRATION_DATE}", StringUtils.EMPTY);
         }
         if (award.getAwardEffectiveDate() != null) {
             result.put("{OBLIGATION_EFFECTIVE_DATE}", dateFormatter.format(award.getAwardEffectiveDate()));
         } else {
-            result.put("{OBLIGATION_EFFECTIVE_DATE}", "");            
+            result.put("{OBLIGATION_EFFECTIVE_DATE}", StringUtils.EMPTY);
         }
         if (awardAmountInfo != null && awardAmountInfo.getObligationExpirationDate() != null) {
             result.put("{OBLIGATION_EXPIRATION_DATE}", dateFormatter.format(awardAmountInfo.getObligationExpirationDate()));
         } else {
-            result.put("{OBLIGATION_EXPIRATION_DATE}", "");            
+            result.put("{OBLIGATION_EXPIRATION_DATE}", StringUtils.EMPTY);
         }
         if (awardAmountInfo != null) {
             ScaleTwoDecimal totalAmount = ScaleTwoDecimal.ZERO;
@@ -153,8 +154,8 @@ public class AwardNotificationRenderer extends NotificationRendererBase {
             result.put("{PRIME_SPONSOR_CODE}", award.getPrimeSponsorCode());
             result.put("{PRIME_SPONSOR_NAME}", award.getPrimeSponsorName());
         } else {
-            result.put("{PRIME_SPONSOR_CODE}", "");
-            result.put("{PRIME_SPONSOR_NAME}", "");            
+            result.put("{PRIME_SPONSOR_CODE}", StringUtils.EMPTY);
+            result.put("{PRIME_SPONSOR_NAME}", StringUtils.EMPTY);
         }
         if (award.getActivityTypeCode() != null) {
             result.put("{ACTIVITY_TYPE_CODE}", award.getActivityTypeCode());
@@ -163,15 +164,15 @@ public class AwardNotificationRenderer extends NotificationRendererBase {
             }
             result.put("{ACTIVITY_TYPE_NAME}", award.getActivityType().getDescription());
         } else {
-            result.put("{ACTIVITY_TYPE_CODE}", "");
-            result.put("{ACTIVITY_TYPE_NAME}", "");            
+            result.put("{ACTIVITY_TYPE_CODE}", StringUtils.EMPTY);
+            result.put("{ACTIVITY_TYPE_NAME}", StringUtils.EMPTY);
         }
         if (award.getAccountTypeCode() != null) {
             result.put("{ACCOUNT_TYPE_CODE}", award.getAccountTypeCode().toString());
             result.put("{ACCOUNT_TYPE_NAME}", award.getAccountTypeDescription());
         } else {
-            result.put("{ACCOUNT_TYPE_CODE}", "");
-            result.put("{ACCOUNT_TYPE_NAME}", "");            
+            result.put("{ACCOUNT_TYPE_CODE}", StringUtils.EMPTY);
+            result.put("{ACCOUNT_TYPE_NAME}", StringUtils.EMPTY);
         }
         return result;
     }

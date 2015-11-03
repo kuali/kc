@@ -257,28 +257,13 @@
   </bean>
   
   <bean id="Watermark-watermarkText" parent="Watermark-watermarkText-parentBean" />
-  <bean id="Watermark-watermarkText-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="Watermark-watermarkText-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
     <property name="name" value="watermarkText" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Watermark Text" />
     <property name="shortLabel" value="watermark Text" />
-    <property name="maxLength" value="100" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="AnyCharacterPatternConstraint">
-        <property name="allowWhitespace" value="true"/>
-      </bean>
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="60"/>
-    </property>
-    <property name="controlField">
-      <bean p:size="60" parent="Uif-TextControl"/>
-    </property>
-    <property name="summary" value="Watermark Name" />
-    <property name="description" value="Watermark Name" />
+    <property name="summary" value="Watermark Text" />
+    <property name="description" value="Watermark Text" />
   </bean>
   
   <bean id="Watermark-watermarkType" parent="Watermark-watermarkType-parentBean" />

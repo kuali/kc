@@ -83,26 +83,38 @@ public class IRBNotificationRenderer extends ProtocolNotificationRendererBase {
             } else if (StringUtils.equals(key, IRBReplacementParameters.LAST_ACTION_NAME)) {
                 if (protocol.getLastProtocolAction() != null) {
                     params.put(key, getProtocolLastActionName(protocol.getLastProtocolAction().getProtocolActionTypeCode()));    
+                } else {
+                    params.put(key, StringUtils.EMPTY);
                 }
             } else if (StringUtils.equals(key, IRBReplacementParameters.LAST_ACTION_TYPE_CODE)) {
                 if (protocol.getLastProtocolAction() != null) {
                     params.put(key, protocol.getLastProtocolAction().getProtocolActionTypeCode());
+                } else {
+                    params.put(key, StringUtils.EMPTY);
                 }
             } else if (StringUtils.equals(key, IRBReplacementParameters.LAST_SUBMISSION_NAME)) {
                 if (protocol.getProtocolSubmission() != null) {
                     params.put(key, getProtocolSubmissionName(protocol.getProtocolSubmission().getSubmissionTypeCode()));
+                } else {
+                    params.put(key, StringUtils.EMPTY);
                 }
             } else if (StringUtils.equals(key, IRBReplacementParameters.LAST_SUBMISSION_TYPE_CODE)) {
                 if (protocol.getProtocolSubmission() != null) {
                     params.put(key, protocol.getProtocolSubmission().getSubmissionTypeCode());
+                } else {
+                    params.put(key, StringUtils.EMPTY);
                 }
             } else if (StringUtils.equals(key, IRBReplacementParameters.LAST_SUBMISSION_TYPE_QUAL_CODE)) {
                 if (protocol.getProtocolSubmission() != null) {
                     params.put(key, protocol.getProtocolSubmission().getSubmissionTypeQualifierCode());
+                } else {
+                    params.put(key, StringUtils.EMPTY);
                 }
             } else if (StringUtils.equals(key, IRBReplacementParameters.LAST_SUBMISSION_TYPE_QUAL_NAME)) {
                 if (protocol.getProtocolSubmission() != null) {
                     params.put(key, getLastSubmissionTypeQualifierName(protocol.getProtocolSubmission().getSubmissionTypeQualifierCode()));
+                } else {
+                    params.put(key, StringUtils.EMPTY);
                 }
             } else if (StringUtils.equals(key, IRBReplacementParameters.PROTOCOL_TITLE)) {
                 params.put(key, protocol.getTitle());
@@ -111,12 +123,16 @@ public class IRBNotificationRenderer extends ProtocolNotificationRendererBase {
             } else if (StringUtils.equals(key, IRBReplacementParameters.PROTOCOL_TYPE_DESCRIPTION)) {
                 if (protocol.getProtocolType() != null) {
                     params.put(key, protocol.getProtocolType().getDescription());
+                } else {
+                    params.put(key, StringUtils.EMPTY);
                 }
             } else if (StringUtils.equals(key, IRBReplacementParameters.SEQUENCE_NUMBER)) {
                 params.put(key, protocol.getSequenceNumber().toString());
             } else if (StringUtils.equals(key, IRBReplacementParameters.SUBMISSION_STATUS_CODE)) {
                 if (protocol.getProtocolSubmission() != null) {
                     params.put(key, protocol.getProtocolSubmission().getSubmissionStatusCode());
+                } else {
+                    params.put(key, StringUtils.EMPTY);
                 }
             } else if (StringUtils.equals(key, IRBReplacementParameters.SUBMISSION_STATUS_NAME)) {
                 params.put(key, protocol.getProtocolSubmissionStatus());
@@ -125,21 +141,29 @@ public class IRBNotificationRenderer extends ProtocolNotificationRendererBase {
             } else if (StringUtils.equals(key, IRBReplacementParameters.PROTOCOL_REVIEW_TYPE_DESC)) {
                 if (protocol.getProtocolSubmission() != null) {
                     params.put(key, getSafeMessage(key, getProtocolReviewTypeDescription(protocol.getProtocolSubmission().getProtocolReviewTypeCode())));
+                } else {
+                    params.put(key, StringUtils.EMPTY);
                 }
             } 
             else if (StringUtils.equals(key, IRBReplacementParameters.PROTOCOL_INITIAL_APPROVAL_DATE)) {
                 if ( (protocol.getProtocolSubmission() != null) && (protocol.getApprovalDate() != null) ) {
                     params.put(key, getSafeMessage(key, (new SimpleDateFormat("d'-'MMM'-'yyyy")).format(protocol.getApprovalDate())));
+                } else {
+                    params.put(key, StringUtils.EMPTY);
                 }
             }
             else if (StringUtils.equals(key, IRBReplacementParameters.PROTOCOL_LAST_APPROVAL_DATE)) {
                 if ( (protocol.getProtocolSubmission() != null) && (protocol.getLastApprovalDate() != null) ) {
                     params.put(key, getSafeMessage(key, (new SimpleDateFormat("d'-'MMM'-'yyyy")).format(protocol.getLastApprovalDate())));
+                } else {
+                    params.put(key, StringUtils.EMPTY);
                 }
             }
             else if (StringUtils.equals(key, IRBReplacementParameters.PROTOCOL_EXPIRATION_DATE)) {
                 if ( (protocol.getProtocolSubmission() != null) && (protocol.getExpirationDate() != null) ) {
                     params.put(key, getSafeMessage(key, (new SimpleDateFormat("d'-'MMM'-'yyyy")).format(protocol.getExpirationDate())));
+                } else {
+                    params.put(key, StringUtils.EMPTY);
                 }
             }
         }

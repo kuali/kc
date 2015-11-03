@@ -18,6 +18,7 @@
  */
 package org.kuali.kra.coi.notification;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.unit.Unit;
@@ -57,6 +58,8 @@ public class FinancialEntityNotificationRenderer extends NotificationRendererBas
         final Unit unit = reporter.getUnit();
         if (unit != null) {
           params.put("{UNIT}", unit.getUnitName());
+        } else {
+            params.put("{UNIT}", StringUtils.EMPTY);
         }
         params.put("{FE_ENTITY_NAME}", disclosure.getEntityName());
         return params;
