@@ -61,5 +61,7 @@ public interface LegacyNarrativeService {
     public boolean doesProposalHaveNarrativeType(DevelopmentProposal proposal, NarrativeType narrativeType);
 
     public Integer getNextModuleNumber(ProposalDevelopmentDocument proposaldevelopmentDocument);
+    
+    public Integer getNextModuleSequenceNumber(ProposalDevelopmentDocument proposaldevelopmentDocument);
 
     }
