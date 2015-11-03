@@ -30,6 +30,7 @@ import org.kuali.coeus.common.notification.impl.bo.NotificationTypeRecipient;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.propdev.impl.auth.perm.ProposalDevelopmentPermissionsService;
+import org.kuali.coeus.propdev.impl.coi.CoiConstants;
 import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants;
 import org.kuali.coeus.propdev.impl.docperm.ProposalRoleTemplateService;
 import org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles;
@@ -37,6 +38,7 @@ import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationContext;
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationRenderer;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.coeus.propdev.impl.person.ProposalPersonCoiIntegrationService;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographyService;
 import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnaireHelper;
@@ -81,6 +83,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.util.*;
 
 public abstract class ProposalDevelopmentControllerBase {
@@ -90,7 +93,8 @@ public abstract class ProposalDevelopmentControllerBase {
     public static final String ERROR_CERTIFICATION_PERSON_ALREADY_ANSWERED = "error.certification.person.alreadyAnswered";
     public static final String ERROR_CERTIFICATION_ALREADY_ANSWERED = "error.certification.alreadyAnswered";
     public static final String DEVELOPMENT_PROPOSAL_NUMBER = "developmentProposal.proposalNumber";
-
+    public static final String COI_DISCLOSURE_REQUIRED_ACTION_TYPE_CODE = "109";
+    public static final String COI_DISCLOSURE_REQUIRED_NOTIFICATION = "COI disclosure required notification";
     @Autowired
     @Qualifier("uifExportControllerService")
     private UifExportControllerService uifExportControllerService;
@@ -194,6 +198,10 @@ public abstract class ProposalDevelopmentControllerBase {
     @Autowired
     @Qualifier("propDevProjectRetrievalService")
     private ProjectRetrievalService propDevProjectRetrievalService;
+    
+    @Autowired
+    @Qualifier("proposalPersonCoiIntegrationService")
+    ProposalPersonCoiIntegrationService proposalPersonCoiIntegrationService;
 
     private ProjectPublisher projectPublisher;
 
@@ -524,7 +532,9 @@ public abstract class ProposalDevelopmentControllerBase {
                         if (isComplete && !wasComplete) {
                             person.setCertifiedBy(getGlobalVariableService().getUserSession().getPrincipalId());
                             person.setCertifiedTime(getDateTimeService().getCurrentTimestamp());
-
+                            if (!getProposalPersonCoiIntegrationService().getProposalPersonCoiStatus(person).equals(CoiConstants.DISCLOSURE_NOT_REQUIRED)) {
+                            	sendCoiDisclosureRequiredNotification(developmentProposal,person);
+                            }
                         } else if (wasComplete && !isComplete) {
                             person.setCertifiedBy(null);
                             person.setCertifiedTime(null);
@@ -550,6 +560,22 @@ public abstract class ProposalDevelopmentControllerBase {
         }
     }
 
+    protected void sendCoiDisclosureRequiredNotification(DevelopmentProposal developmentProposal,ProposalPerson person) {
+    	ProposalDevelopmentNotificationContext context = new ProposalDevelopmentNotificationContext(developmentProposal, COI_DISCLOSURE_REQUIRED_ACTION_TYPE_CODE, COI_DISCLOSURE_REQUIRED_NOTIFICATION);
+        ((ProposalDevelopmentNotificationRenderer) context.getRenderer()).setDevelopmentProposal(developmentProposal);
+    	KcNotification notification = getKcNotificationService().createNotificationObject(context);
+        getKcNotificationService().sendNotification(context,notification,createRecipientFromPerson(person));
+    }
+    
+    protected List<NotificationTypeRecipient> createRecipientFromPerson(ProposalPerson person) {
+    	List<NotificationTypeRecipient> notificationRecipients = new ArrayList<>();
+        NotificationTypeRecipient recipient = new NotificationTypeRecipient();
+        recipient.setPersonId(person.getPersonId());
+        recipient.setFullName(person.getFullName());
+        notificationRecipients.add(recipient);
+        return notificationRecipients;
+    }
+    
     private void saveUpdateQuestionnaireAnswerHeaders(ProposalDevelopmentQuestionnaireHelper questionnaireHelper, String pageId) {
         boolean requiresUpdate = false;
         for (AnswerHeader answerHeader : questionnaireHelper.getAnswerHeaders()) {
@@ -925,4 +951,13 @@ public abstract class ProposalDevelopmentControllerBase {
     public void setPropDevProjectRetrievalService(ProjectRetrievalService propDevProjectRetrievalService) {
         this.propDevProjectRetrievalService = propDevProjectRetrievalService;
     }
+    
+    public ProposalPersonCoiIntegrationService getProposalPersonCoiIntegrationService() {
+		return proposalPersonCoiIntegrationService;
+	}
+
+	public void setProposalPersonCoiIntegrationService(
+			ProposalPersonCoiIntegrationService proposalPersonCoiIntegrationService) {
+		this.proposalPersonCoiIntegrationService = proposalPersonCoiIntegrationService;
+	}
 }
