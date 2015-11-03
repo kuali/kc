@@ -52,7 +52,7 @@ public class SpringBeanConfigurationTest extends KcIntegrationTestBase {
     private static final Log LOG = LogFactory.getLog(SpringBeanConfigurationTest.class);
 
     private static final Collection<String> IGNORE_PATTERN = Stream.of(
-            "^org.springframework.aop.*"
+            "^org.springframework.aop.*", "viewResolver"
     ).collect(Collectors.toList());
 
     private Collection<SpringResourceLoader> springResourceLoaders;
