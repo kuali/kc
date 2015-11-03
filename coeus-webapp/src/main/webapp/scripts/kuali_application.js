@@ -1893,57 +1893,63 @@ function setModifySubmissionDefaultReviewerTypeCode(methodToCall, committeeId, s
 	var cmtId = dwr.util.getValue(committeeId); 
 	var schedId = $j(jq_escape(scheduleId)).attr("value");
 	var reviewTypeCode = $j(jq_escape(protocolReviewTypeCode)).attr("value");
-	var queryString = "&committeeId="+cmtId+"&scheduleId=" + schedId+"&protocolId="+protocolId+"&protocolReviewTypeCode="+reviewTypeCode;
-	callAjaxByPath('jqueryAjax.do', methodToCall, queryString,
-			function(jQueyrData) {
-				reviewersReturned = $j(jQueyrData).find('#ret_value').html();
-				getProtocolReviewerTypes(reviewersReturned, beanName);
-				
-				var reviewersArr = reviewersReturned.split(";");
-				
-				var defaultReviewTyper;
-   			var numberOfRevierwers = reviewersArr.length/REVIEWERS_ARRAY_ELEMENTS_PER_RECORD;
-   			var dwrReply = {
-   					callback:function(data) {
-   						if ( data != null ) {	
-   							defaultReviewTyper = data;
-   						} else {
-   							defaultReviewTyper = '';
-   						}
-   						
-   						for (i=0; i<numberOfRevierwers; i++) {
-					  		var selectField = document.getElementsByName(reviewerBean + i + '].reviewerTypeCode')[0];
-					  		if (selectField != null) {
-						  		var rt = reviewersArr[(i * REVIEWERS_ARRAY_ELEMENTS_PER_RECORD) + 3];
-								for (j=0; j<selectField.length; j++) {
-						  			if (rt) {
-										if (selectField.options[j].value == rt.trim()) {
+
+	if ( (committeeId == "select" || cmtId == "" ) ||
+			(reviewTypeCode == "3" && (schedId == "" || scheduleId == "select")) ) {
+		document.getElementById("reviewers").style.display = 'none';
+	} else {
+		var queryString = "&committeeId="+cmtId+"&scheduleId=" + schedId+"&protocolId="+protocolId+"&protocolReviewTypeCode="+reviewTypeCode;
+		callAjaxByPath('jqueryAjax.do', methodToCall, queryString,
+				function(jQueyrData) {
+					reviewersReturned = $j(jQueyrData).find('#ret_value').html();
+					getProtocolReviewerTypes(reviewersReturned, beanName);
+
+					var reviewersArr = reviewersReturned.split(";");
+
+					var defaultReviewTyper;
+					var numberOfRevierwers = reviewersArr.length/REVIEWERS_ARRAY_ELEMENTS_PER_RECORD;
+					var dwrReply = {
+						callback:function(data) {
+							if ( data != null ) {
+								defaultReviewTyper = data;
+							} else {
+								defaultReviewTyper = '';
+							}
+
+							for (i=0; i<numberOfRevierwers; i++) {
+								var selectField = document.getElementsByName(reviewerBean + i + '].reviewerTypeCode')[0];
+								if (selectField != null) {
+									var rt = reviewersArr[(i * REVIEWERS_ARRAY_ELEMENTS_PER_RECORD) + 3];
+									for (j=0; j<selectField.length; j++) {
+										if (rt) {
+											if (selectField.options[j].value == rt.trim()) {
+												selectField.options[j].setAttribute("selected", "selected");
+												selectField.selectedIndex = j;
+											}
+										} else if (selectField.options[j].value == defaultReviewTyper) {
 											selectField.options[j].setAttribute("selected", "selected");
 											selectField.selectedIndex = j;
 										}
-									} else if (selectField.options[j].value == defaultReviewTyper) {
-						  				selectField.options[j].setAttribute("selected", "selected");
-						  				selectField.selectedIndex = j;
-						  			}
-						  		}
-					  		}
-					  		
-					  	}
-   					},
-   					errorHandler:function( errorMessage ) {	
-   						window.status = errorMessage;
-   						window.alert('C data: unknown, there is an error: ' + errorMessage);
-   						defaultReviewTyper = '';
-   					}
-   			};
-   			IacucProtocolActionAjaxService.getDefaultCommitteeReviewTypeCode(dwrReply);
-   			return defaultReviewTyper;
-				
-			},
-			function(error) {
-				alert("error is" + error);
-			}
-	);
+									}
+								}
+
+							}
+						},
+						errorHandler:function( errorMessage ) {
+							window.status = errorMessage;
+							window.alert('C data: unknown, there is an error: ' + errorMessage);
+							defaultReviewTyper = '';
+						}
+					};
+					IacucProtocolActionAjaxService.getDefaultCommitteeReviewTypeCode(dwrReply);
+					return defaultReviewTyper;
+
+				},
+				function(error) {
+					alert("error is" + error);
+				}
+		);
+	}
 }
 
 function protocolDisplayReviewers(methodToCall, committeeId, scheduleId, protocolId, beanName) {
@@ -1982,7 +1988,7 @@ function protocolModifySubmissionReviewers(methodToCall, committeeId, scheduleId
     			function(data) {
     				reviewersReturned = $j(data).find('#ret_value').html();
 					getProtocolReviewerTypes(reviewersReturned, beanName);
-    				
+					document.getElementById("reviewers").style.display = 'table-row';
     			},
     			function(error) {
     				alert("error is" + error);
