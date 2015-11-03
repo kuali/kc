@@ -91,7 +91,7 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
         });
         return mergedNarrativeList.get(mergedNarrativeList.size()-1).getModuleNumber().intValue()+1;
     }
-    protected Integer getNextModuleSequenceNumber(ProposalDevelopmentDocument proposaldevelopmentDocument) {
+    public Integer getNextModuleSequenceNumber(ProposalDevelopmentDocument proposaldevelopmentDocument) {
         List<Narrative> narrativeList = proposaldevelopmentDocument.getDevelopmentProposal().getNarratives();
         List<Narrative> instituteAttachmentsList = proposaldevelopmentDocument.getDevelopmentProposal().getInstituteAttachments();
         List<Narrative> mergedNarrativeList = new ArrayList<Narrative>();

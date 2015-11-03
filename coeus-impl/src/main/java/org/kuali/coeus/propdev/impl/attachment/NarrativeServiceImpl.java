@@ -138,6 +138,8 @@ public class NarrativeServiceImpl implements NarrativeService {
             throw new IllegalArgumentException("comments is blank");
         }
 
+        DevelopmentProposal developmentProposal = getDataObjectService().find(DevelopmentProposal.class,proposalNumber);
+        
         final NarrativeType narrativeType = new NarrativeType();
         narrativeType.setDescription(comments);
         narrativeType.setSystemGenerated(true);
@@ -150,40 +152,19 @@ public class NarrativeServiceImpl implements NarrativeService {
 
         final Narrative narrative = new Narrative();
         narrative.setModuleStatusCode("C");
+        narrative.setNarrativeStatus(getDataObjectService().find(NarrativeStatus.class, narrative.getModuleStatusCode()));
         narrative.setNarrativeTypeCode(narrativeTypeCode);
         narrative.setComments(comments);
         narrative.setModuleTitle(comments);
         narrative.setName(attachmentName);
         narrative.setNarrativeAttachment(narrativeAttachment);
         narrative.setNarrativeType(narrativeType);
-        narrative.setModuleSequenceNumber(getNextModuleSequenceNumber(proposalNumber));
-
-        DevelopmentProposal developmentProposal = getDataObjectService().find(DevelopmentProposal.class,proposalNumber);
-
-        narrative.setDevelopmentProposal(developmentProposal);
+        narrative.setModuleSequenceNumber(getLegacyNarrativeService().getNextModuleSequenceNumber(developmentProposal.getProposalDocument()));
         narrative.setModuleNumber(getLegacyNarrativeService().getNextModuleNumber(developmentProposal.getProposalDocument()));
+        narrative.setDevelopmentProposal(developmentProposal);
+        developmentProposal.getNarratives().add(narrative);
 
-        return dataObjectService.save(narrative);
-    }
-
-    protected Integer getNextModuleSequenceNumber(String proposalNumber) {
-        if (StringUtils.isBlank(proposalNumber)) {
-            throw new IllegalArgumentException("proposalNumber is blank");
-        }
-
-        //this would be much more efficient with a Dao rather than DataObjectService
-        final List<Narrative> narratives = dataObjectService.findMatching(Narrative.class,
-                QueryByCriteria.Builder.forAttribute("developmentProposal.proposalNumber", proposalNumber).setOrderByFields(
-                        OrderByField.Builder.create("moduleSequenceNumber", OrderDirection.DESCENDING).build()).build()).getResults();
-
-        if (!narratives.isEmpty()) {
-            Narrative highestSeq = narratives.get(0);
-            if (highestSeq != null) {
-                return highestSeq.getModuleSequenceNumber() + 1;
-            }
-        }
-
-        return 1;
+        return narrative;
     }
 
     public DataObjectService getDataObjectService() {
