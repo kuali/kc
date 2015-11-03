@@ -19,7 +19,7 @@
 import { alt } from '../alt';
 import actions from './RateActions';
 import { RestDataSources } from '../data/RestDataSources';
-import {find, sortByAll, first, omit}  from 'lodash';
+import {find, sortByAll, first, omit, curryRight}  from 'lodash';
 
 class RateStore {
 	constructor() {
@@ -53,6 +53,7 @@ class RateStore {
 		this.editMode = false;
 		this.pendingEdits = [];
 		this.saving = false;
+		this.changeStartDates = false;
 
 		this.errorMessages = [];
 
@@ -85,13 +86,59 @@ class RateStore {
 			finishSave: actions.FINISH_SAVE,
 			addRate : actions.ADD_RATE,
 			toggleEmptyRows : actions.TOGGLE_EMPTY_ROWS,
+			toggleChangeStartDates : actions.TOGGLE_CHANGE_START_DATES,
+			newFiscalYear : actions.NEW_FISCAL_YEAR,
+			setAllVisibleRates : actions.SET_ALL_VISIBLE_RATES,
 		});
 		this.exportPublicMethods({
 			getRateClassTypeFromCode : this.getRateClassTypeFromCode.bind(this),
 			getRateClassFromCode : this.getRateClassFromCode.bind(this),
 			getRateTypeFromCode : this.getRateTypeFromCode.bind(this),
 			getActivityTypeFromCode : this.getActivityTypeFromCode.bind(this),
+
 		});
+	}
+	setAllVisibleRates(value) {
+		const store = this;
+		_.forEach(this.applicableRatesMap, (rateClassMap, rateClassCode) => {
+			_.forEach(rateClassMap, (rateTypeMap, rateTypeCode) => {
+				_.forEach(rateTypeMap, (rateList, activityTypeCode) => {
+					this.setRateListToValue(rateList, value, activityTypeCode, rateClassCode, rateTypeCode);
+				});
+			});
+		});
+	}
+	setRateListToValue(rateList, value, activityTypeCode, rateClassCode, rateTypeCode) {
+		for (let i = this.startYear; i <= this.endYear; i++) {
+			if (this.showOnCampus) {
+				this.setVisibleRate(rateList[i].onCampus, value, 
+					rateClassCode, rateTypeCode, activityTypeCode, i, true);
+			}
+			if (this.showOffCampus) {
+				this.setVisibleRate(rateList[i].offCampus, value, 
+					rateClassCode, rateTypeCode, activityTypeCode, i, false);
+			}
+		}
+
+	}
+	setVisibleRate(rate, value, rateClassCode, rateTypeCode, activityTypeCode, fiscalYear, onCampus) {
+		if (rate) {
+			this.setRateValue({rate: rate, value: value});
+		} else {
+			this.addRate({rateClassCode: rateClassCode,
+				rateTypeCode: rateTypeCode,
+				activityTypeCode: activityTypeCode,
+				fiscalYear: fiscalYear,
+				onOffCampusFlag: onCampus,
+				instituteRate: value});
+		}
+	}
+	newFiscalYear() {
+		this.endYear = this.endYear + 1;
+		this.filterRates();
+	}
+	toggleChangeStartDates() {
+		this.changeStartDates = !this.changeStartDates;
 	}
 	toggleEmptyRows() {
 		this.hideEmptyRows = !this.hideEmptyRows;
@@ -205,7 +252,7 @@ class RateStore {
 		this.filterRates();
 	}
 	filterRates() {
-		this.applicableRates = {};
+		this.applicableRates = [];
 		this.applicableRates = this.rates.filter(this.rateMatchesCriteria.bind(this));
 		sortByAll(this.applicableRates, ['rateClassCode', 'rateTypeCode', 'activityTypeCode', 'fiscalYear', 'onOffCampusFlag'], [true, true, true, true, false]);
 		this.makeRateMap();		
@@ -311,26 +358,6 @@ class RateStore {
 	rateMatchesSelectedUnit(rate) {
 		return !this.selectedUnit || rate.unitNumber == this.selectedUnit.unitNumber;
 	}
-	updateValidStartAndEndYears() {
-		let startYear;
-		let endYear;
-		this.applicableRates.forEach((rate) => {
-			if (!startYear || rate.fiscalYear < startYear ) { startYear = rate.fiscalYear; }
-			if (!endYear || rate.fiscalYear > endYear) { endYear = rate.fiscalYear; }
-		});
-		this.validStartYear = startYear;
-		this.validEndYear = endYear;
-		if (!this.validStartYear
-			|| !this.startYear 
-			|| this.startYear < this.validStartYear) {
-			this.startYear = this.validStartYear;
-		}
-		if (!this.validEndYear
-			|| !this.endYear 
-			|| this.endYear > this.validEndYear) {
-			this.endYear = this.validEndYear;
-		}
-	}
 	handleUpdateRateClassTypes(rateClassTypes) {
 		this.rateClassTypes = rateClassTypes;
 	}
@@ -373,22 +400,12 @@ class RateStore {
 		}
 	}
 	addRate(newRate) {
+		console.log(newRate);
 		newRate.unitNumber = this.selectedUnit.unitNumber;
-
-		//if this rate has been added already and is already being modified, see if it exists in pending
-		let currentRate = first(this.pendingEdits.filter(rate => {
-			return rate.rateClassCode == newRate.rateClassCode
-				&& rate.rateTypeCode == newRate.rateTypeCode
-				&& rate.activityTypeCode == newRate.activityTypeCode
-				&& rate.fiscalYear == newRate.fiscalYear
-				&& rate.onOffCampusFlag == newRate.onOffCampusFlag;
-		}));
-		if (!currentRate) {
-			this.pendingEdits.push(newRate);
-			this.rates.push(newRate);
-			this.applicableRates.push(newRate);
-			this.applicableRatesMap[newRate.rateClassCode][newRate.rateTypeCode][newRate.activityTypeCode][newRate.fiscalYear][newRate.onOffCampusFlag ? "onCampus" : "offCampus"] = newRate;
-		}
+		this.pendingEdits.push(newRate);
+		this.rates.push(newRate);
+		this.applicableRates.push(newRate);
+		this.applicableRatesMap[newRate.rateClassCode][newRate.rateTypeCode][newRate.activityTypeCode][newRate.fiscalYear][newRate.onOffCampusFlag ? "onCampus" : "offCampus"] = newRate;
 	}
 	cancelEdit() {
 		this.editMode = false;

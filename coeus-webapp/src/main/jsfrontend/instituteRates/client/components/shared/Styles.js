@@ -16,9 +16,17 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-export class DataSource {
-	fetch() { }
-	delete(id) { }
-	add(obj) { }
-	update(id, obj) { }
-}
+import {assign} from 'lodash';
+
+const colors = {
+	secondaryColor: 'rgb(66, 117, 136)',
+};
+const styles = {
+	filterLabels : {
+		display: 'block',
+		color: colors.secondaryColor,
+		textTransform: 'uppercase',
+	}
+};
+
+export default assign({}, styles, colors);

@@ -23,8 +23,9 @@ class App extends React.Component {
 	render() {
 		let styles = {
 			container : {
-				height: '100%',
-				fontSize: '1.2em',
+				fontSize: '1.1em',
+				margin:0,
+				padding:0,
 			}
 		};
 

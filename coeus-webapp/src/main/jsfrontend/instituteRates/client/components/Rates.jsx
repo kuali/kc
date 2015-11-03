@@ -39,11 +39,10 @@ export class Rates extends React.Component {
 	render() {
 		return (
 			<div>
-				<div>INSTITUTE RATES for {this.state.selectedUnit.unitName}</div>
+				<h1 style={{padding:'0 30px 0 30px'}}>INSTITUTE RATES for {this.state.selectedUnit.unitName}</h1>
 				<hr/>
-				{!this.state.editMode && <RateSelection/>}
-				<hr/>
-				<RateListing/>
+				{!this.state.editMode && <RateSelection style={{padding:'0 30px 0 30px'}}/>}
+				<RateListing style={{padding:'0 30px 0 30px'}}/>
 			</div>
 		);
 	}

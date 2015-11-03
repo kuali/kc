@@ -124,8 +124,16 @@ class RateActions {
 		this.dispatch();
 	}
 	toggleEmptyRows() {
-		console.log("toggle empty");
 		this.dispatch();
+	}
+	toggleChangeStartDates() {
+		this.dispatch();
+	}
+	newFiscalYear() {
+		this.dispatch();
+	}
+	setAllVisibleRates(value) {
+		this.dispatch(value);
 	}
 	fetchDataFailed(dataSource, dataSourceName, methodToRetry, errorMessage) {
 		this.dispatch({ 

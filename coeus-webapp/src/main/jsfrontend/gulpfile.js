@@ -53,7 +53,8 @@ gulp.task('webpack', function (callback) {
 });
 
 gulp.task('static-assets', function() {
-	gulp.src('client/*').pipe(gulp.dest(dest + '/client/'));
+	gulp.src('client/**/*.html').pipe(gulp.dest(dest + '/WEB-INF/client/'));
+	gulp.src('client/**/*').pipe(gulp.dest(dest + '/client/'));
 });
 
 gulp.task('clients', ['webpack', 'static-assets']);

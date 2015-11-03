@@ -30,7 +30,7 @@
                            http://www.springframework.org/schema/tx
                            http://www.springframework.org/schema/tx/spring-tx.xsd
                            http://www.springframework.org/schema/util
-                           http://www.springframework.org/schema/util/spring-util.xsd">
+                           http://www.springframework.org/schema/util/spring-util.xsd>
 
     <tx:annotation-driven transaction-manager="transactionManager" />
     <context:annotation-config />
@@ -62,6 +62,8 @@
 			</list>
 		</property>
 	</bean>
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver" 
+        p:prefix="/WEB-INF/client/" p:suffix=".html" />
     
     
     <!-- Load Business Rules for this module -->

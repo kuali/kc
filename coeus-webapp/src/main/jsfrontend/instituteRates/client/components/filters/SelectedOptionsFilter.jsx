@@ -22,6 +22,7 @@ import {find} from 'lodash';
 import RateActions from '../../stores/RateActions';
 import { SelectedOption } from '../shared/SelectedOption';
 import {StyledSelect} from '../shared/StyledSelect';
+import SharedStyles from '../shared/Styles';
 
 export class SelectedOptionsFilter extends React.Component {
 	constructor(props) {
@@ -53,7 +54,7 @@ export class SelectedOptionsFilter extends React.Component {
 
 		return (
 			<span style={this.props.style}>
-				<label style={{display : 'block'}} htmlFor="rateClass">{this.props.label}</label>
+				<label style={SharedStyles.filterLabels} htmlFor="rateClass">{this.props.label}</label>
 				<StyledSelect style={style.select} id="rateClass" name="rateClass" onChange={this.onChange}>{options}</StyledSelect>
 				{selectedOptions}
 			</span>

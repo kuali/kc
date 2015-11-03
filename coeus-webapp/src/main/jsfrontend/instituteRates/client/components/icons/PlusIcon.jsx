@@ -16,21 +16,25 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-const mockRateClasses = [
-	{ code : "O", description : "F & A" },
-	{ code : "E", description : "Fringe Benefits" },
-	{ code : "I", description : "Inflation" }
-];
+import React from 'react/addons';
 
-class RateClassFetcher {
-	fetch() {
-		return new Promise(function (resolve, reject) {
-			setTimeout(function() {
-				resolve(mockRateClassTypes);
-			}, 250);
-		});
-	}
+export default class PlusIcon extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <svg {...this.props} version="1.1" x="0px" y="0px" viewBox="5.0 -10.0 100.0 135.0" enable-background="new 0 0 100 100" role="img" aria-label="Plus Icon">
+        <line fill={this.props.style.color} stroke={this.props.style.color} strokeWidth="4" strokeLinecap="round" stroke-miterlimit="10" x1="50" y1="5" x2="50" y2="95"/>
+        <line fill={this.props.style.color} stroke={this.props.style.color} strokeWidth="4" strokeLinecap="round" stroke-miterlimit="10" x1="95" y1="50" x2="5" y2="50"/>
+      </svg>
+    );
+  }
 }
 
-let rateClassFetcher = new RateClassFetcher();
-module.exports = rateClassFetcher;
+PlusIcon.defaultProps = {
+  style: {
+    color: 'white'
+  }
+};

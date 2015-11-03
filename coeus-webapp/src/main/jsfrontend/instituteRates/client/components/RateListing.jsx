@@ -21,6 +21,7 @@ import ReactRouter from 'react-router';
 import {assign} from 'lodash';
 import RateStore from '../stores/RateStore';
 import RateActions from '../stores/RateActions';
+import {EditControls} from './EditControls';
 
 export class RateListing extends React.Component {
 	constructor(props) {
@@ -47,7 +48,7 @@ export class RateListing extends React.Component {
 			innerDiv : {
 				overflowX:'auto',
 				overflowY:'auto',
-				width:'90%',
+				width:'100%',
 			},
 			table : {
 				width: '100%',
@@ -78,7 +79,22 @@ export class RateListing extends React.Component {
 			edit: {
 				float: 'right',
 			},
+			headings: {
+				fontSize: '1.2em',
+				paddingBottom: 5,
+			},
+			headingLabels: {
+				textTransform: 'uppercase',
+			},
+			headingText: {
+				fontWeight: 'bold',
+			}
 		};
+
+		const yearHeaderStyle = assign({}, styles.th, styles.yearHeaders);
+		const campusHeaderStyle = assign({}, styles.th, styles.rateTypeLabels, {width: 220});
+		const rateHeaderStyles = assign({}, styles.td, styles.rateTypeHeaders);
+
 
 		let campusCols = this.state.showOnCampus && this.state.showOffCampus ? 2 : 1;
 		let yearCols = [];
@@ -86,7 +102,7 @@ export class RateListing extends React.Component {
 		let campusHeader = [];
 		for (let i = this.state.startYear; i <= this.state.endYear; i++) {
 			yearCols.push(i);
-			yearHead.push(<th style={assign({}, styles.th, styles.yearHeaders)} colSpan={campusCols}>{i}</th>);
+			yearHead.push(<th style={yearHeaderStyle} colSpan={campusCols}>{i}</th>);
 			if (this.state.showOnCampus) {
 				campusHeader.push(<th style={styles.th}>ON</th>);
 			}
@@ -95,9 +111,9 @@ export class RateListing extends React.Component {
 			}	
 		}
 
-		campusHeader.splice(0, 0, (<th style={assign({}, styles.th, styles.rateTypeLabels, {width: 220})}>Rate Class</th>));
-		campusHeader.splice(1, 0, (<th style={assign({}, styles.th, styles.rateTypeLabels, {width: 220})}>Rate Type</th>));
-		campusHeader.splice(2, 0, (<th style={assign({}, styles.th, styles.rateTypeLabels, {width: 260})}>Activity Types</th>));
+		campusHeader.splice(0, 0, (<th style={campusHeaderStyle}>Rate Class</th>));
+		campusHeader.splice(1, 0, (<th style={campusHeaderStyle}>Rate Type</th>));
+		campusHeader.splice(2, 0, (<th style={assign({}, campusHeaderStyle, {width: 260})}>Activity Types</th>));
 		yearHead.splice(0, 0, (<th colSpan="3" style={{width: 700}}></th>));
 
 		let dataRows = [];
@@ -138,9 +154,9 @@ export class RateListing extends React.Component {
 					let borderColor = !shownRateClass ? 150 : 200;
 					dataRows.push(
 						<tr style={{borderTop: '2px solid rgb(' + borderColor + ',' + borderColor + ',' + borderColor + ')'}}>
-							<td style={assign({}, styles.td, styles.rateTypeHeaders)}>{!shownRateClass && RateStore.getRateClassFromCode(rateClassCode).description}</td>
-							<td style={assign({}, styles.td, styles.rateTypeHeaders)}>{!shownRateType && RateStore.getRateTypeFromCode(rateTypeCode).description}</td>
-							<td style={assign({}, styles.td, styles.rateTypeHeaders)}>{!shownActivityType && RateStore.getActivityTypeFromCode(activityTypeCode).description}</td>
+							<td style={rateHeaderStyles}>{!shownRateClass && RateStore.getRateClassFromCode(rateClassCode).description}</td>
+							<td style={rateHeaderStyles}>{!shownRateType && RateStore.getRateTypeFromCode(rateTypeCode).description}</td>
+							<td style={rateHeaderStyles}>{!shownActivityType && RateStore.getActivityTypeFromCode(activityTypeCode).description}</td>
 							{rateCells}
 						</tr>
 					);
@@ -149,21 +165,15 @@ export class RateListing extends React.Component {
 			}
 		}
 
-		let editControls = [];
-		if (this.state.editMode) {
-			editControls.push(<a href="#" onClick={this.cancelEdit}>Cancel</a>);
-			editControls.push(<a href="#" onClick={this.save}>Save</a>);
-		} else {
-			editControls.push(<a href="#" onClick={this.enterEditMode}>Edit</a>);
-		}
-
 		return (
 			<div style={assign({}, this.props.style, styles.container)}>
 				<div style={styles.header}>
-					<div>Rate Class Type: {this.rateStore.getRateClassTypeFromCode(this.state.selectedRateClassType).description}</div>
-					<div>Fiscal Years: {this.state.startYear} - {this.state.endYear}</div>
-					<div><label><input type="checkbox" defaultChecked={this.state.hideEmptyRows} onChange={this.toggleEmptyRows}>Hide All Empty Rows</input></label></div>
-					<span style={styles.edit}>{editControls}</span>
+					<div style={{width:'50%', display: 'inline-block'}}>
+					<div style={styles.headings}><span style={styles.headingLabels}>Rate Class Type:</span> <span style={styles.headingText}>{this.rateStore.getRateClassTypeFromCode(this.state.selectedRateClassType).description}</span></div>
+					<div style={styles.headings}><span style={styles.headingLabels}>Fiscal Years:</span> <span style={styles.headingText}>{this.state.startYear} - {this.state.endYear}</span></div>
+					{!this.state.editMode && <div><label><input type="checkbox" defaultChecked={this.state.hideEmptyRows} onChange={RateActions.toggleEmptyRows}>Hide All Empty Rows</input></label></div>}
+					</div>
+					<EditControls style={{width:'49%', display: 'inline-block'}} editMode={this.state.editMode} changeStartDates={this.state.changeStartDates}/>
 				</div>
 				<div style={styles.innerDiv}>
 					<table style={styles.table}>
@@ -178,9 +188,6 @@ export class RateListing extends React.Component {
 				</div>
 			</div>
 		);
-	}
-	toggleEmptyRows() {
-		RateActions.toggleEmptyRows();
 	}
 	buildRateCell(rate) {
 		let tdStyles = {
@@ -218,15 +225,6 @@ export class RateListing extends React.Component {
 		return function(event) {
 			RateActions.addRate(rateClassCode, rateTypeCode, activityTypeCode, fiscalYear, onCampus, event.target.value);
 		}
-	}
-	enterEditMode() {
-		RateActions.enterEditMode();
-	}
-	cancelEdit() {
-		RateActions.cancelEdit();
-	}
-	save() {
-		RateActions.save();
 	}
 	buildRateId(rate) {
 		return rate.rateClassCode + "-" + rate.rateTypeCode + "-" + rate.activityTypeCode + "-" + rate.fiscalYear + "-" + rate.onOffCampus;
