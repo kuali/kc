@@ -1,6 +1,79 @@
 
 
 ##CURRENT
+*  Filter persons who do not need certs.
+  * Currently, when the COI Disclosure Status feature is enabled, _all _key personnel are listed in the Disclosure Status window. This case is to update the COI Disclosure Status window and restrict the listed persons to _only _those key persons that are required to disclose. This update will better convey locally implemented Conflict of Interest compliance policy and procedure as maintained via the COI Hierarchy, the keypersonprojectrole parameter, RESKC-972 which will exempt non-personnel Multiple PI, or the parameter to exempt ALL address book non-personnel, if enabled.
+  * Gayathri Athreya on Tue, 3 Nov 2015 09:05:15 -0700 [View Commit](../../commit/9741076ed4c6fc6c2db697727493a361f77400e6)
+*  IACUC: Reviewers cannot be assigned if schedule is selected on DMR (Committee Reviewers appear and then disappear)
+  * Create IACUC protocol
+  * Submit for Review
+  * Modify Submission Request:
+  * -Use Designated Member Review as the submission review type
+  * -Select committee
+  * (Notice the reviewers appear as expected)
+  * -Select schedule
+  * Actual Result: The reviewers disappear for selection even though they are available. See screen shot with schedule selected.
+  * Expected: Available Reviewers should be displayed for selection
+  * Workaround is to not select a schedule so you can select reviewers, but that doesn't work some some school's processes. See screen shot without schedule selected.
+  * Travis Schneeberger on Tue, 3 Nov 2015 10:52:16 -0500 [View Commit](../../commit/29de8afb0abf05ff631ee2b6d623fe5a5c7f3144)
+* Notification needed to informDisclosure Required for
+  * Contributed COI Disclosure Status feature.
+  * Noticed during testing and documentation of the contributed COI
+  * Disclosure Status feature in PD.
+  * In the MIT environment, when a proposal persons answers the proposal
+  * person certification saying 'yes' to at least one of the COI Disclosure
+screening questions, a message is presented to the user stating that due
+  * to their responses, they are required to submit a full financial
+  * disclosure. 
+  * As the proposal persons may be answering the external certification via
+  * the Action List or the web page link from the email notification, they
+  * are not able to see the COI Disclosure Status window in the proposal to
+  * know if they are required to submit, or if it is not required.
+  * We need a method of informing the proposal persons if they are required
+  * to submit a full disclosure. A new Notification that is triggered from
+  * the "Y" answers to the screening questions would support the
+  * requirement. Send the notification if:
+  * the proposal person answers the certification questionnaire in the
+  * Action List
+  * the proposal person answer the certification in the the web page
+  * certification
+  * -any users (proxy or proposal person) answers the certification in the
+  * proposal.
+  * The notification should be similar to the current PD Certification
+  * Request Notice (10362) - see example text.
+  * Based on your answers to the COI screening questions in the proposal
+  * certification questions, you must now complete a full disclosure for
+  * this proposal before it can be routed. 
+  * Please navigate to the Researcher > Conflict of Interest > My
+  * Disclosures menu.
+  * Proposal Details as follows:<br/>Document Number:
+  * {DOCUMENT_NUMBER}<br/>Proposal Number: <a title="" target="_self"
+  * href="{APP_LINK_PREFIX}/kc-pd-krad/proposalDevelopment?methodToCall=viewUtility&viewId=PropDev-CertificationView&docId={DOCUMENT_NUMBER}
+  * &userName=
+  * {USER_NAME}
+  * ">
+  * {PROPOSAL_NUMBER}
+  * </a> <br/>Proposal Title:
+  * {PROPOSAL_TITLE}
+  * <br/>Principal Investigator:
+  * {PRINCIPAL INVESTIGATOR}
+  * <br/>Lead Unit:
+  * {LEAD_UNIT}
+  * -
+  * {LEAD_UNIT_NAME}
+  * <br/>Sponsor:
+  * {SPONSOR_CODE}
+  * -
+  * {SPONSOR_NAME}
+  * <br/>Dealine Date:
+  * {DEADLINE_DATE}
+  * vineeth on Tue, 3 Nov 2015 10:34:37 -0500 [View Commit](../../commit/f338dd1158048616f26edbac8d206cfe0e4f3c8c)
+* Budget rates feature development of edit mode and styling improvements
+  * blackcathacker on Sun, 1 Nov 2015 19:44:25 -0800 [View Commit](../../commit/1471f811d24953ab831cfd6a0df25b59a22c2bf8)
+* SpringMVC endpoint for rates SPA and code cleanup
+  * blackcathacker on Fri, 30 Oct 2015 17:52:52 -0700 [View Commit](../../commit/9a62212ef6f2b45706ed629801747f56689a3bf7)
+
+##coeus-1511.4
 * No Changes
 
 

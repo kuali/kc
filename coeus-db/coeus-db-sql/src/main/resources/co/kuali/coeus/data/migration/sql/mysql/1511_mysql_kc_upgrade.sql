@@ -19,4 +19,5 @@
 
 
 \. ./kc/bootstrap/V1511_001__FAIN.sql
+\. ./kc/bootstrap/V1511_002__RESKC-603.sql
 commit;
