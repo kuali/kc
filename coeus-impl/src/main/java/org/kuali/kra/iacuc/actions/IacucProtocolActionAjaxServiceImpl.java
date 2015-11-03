@@ -95,10 +95,6 @@ public class IacucProtocolActionAjaxServiceImpl extends ProtocolActionAjaxServic
     }
 
     public String getModifySubmissionProtocolReviewers(String protocolId, String committeeId, String scheduleId, String protocolReviewTypeCode) {
-        if (StringUtils.isNotBlank(scheduleId) && !StringUtils.equals(protocolReviewTypeCode, IacucProtocolReviewType.FULL_COMMITTEE_REVIEW)){
-            return "";
-        }
-
         return getRevs(protocolId, committeeId, scheduleId);
     }
 
