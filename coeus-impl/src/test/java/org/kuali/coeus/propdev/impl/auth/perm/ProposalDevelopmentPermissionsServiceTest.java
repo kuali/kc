@@ -1,8 +1,6 @@
 package org.kuali.coeus.propdev.impl.auth.perm;
 
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
@@ -33,12 +31,12 @@ public class ProposalDevelopmentPermissionsServiceTest {
         }
 
         @Override
-        protected boolean forcePiCoiKeyPersonsDisclosureWithCustomData(DevelopmentProposal developmentProposal) {
+        public boolean isPiCoiKeyPersonsForcedToDiscloseWithCustomData(DevelopmentProposal developmentProposal) {
             return CUSTOM_DATA_ENFORCED;
         }
 
         @Override
-        protected boolean doesSponsorRequireKeyPersonCertification(ProposalPerson proposalPerson) {
+        public boolean doesSponsorRequireKeyPersonCertification(ProposalPerson proposalPerson) {
             return SPONSOR_REQUIRED;
         }
 
@@ -48,7 +46,7 @@ public class ProposalDevelopmentPermissionsServiceTest {
         }
         
         @Override
-        protected boolean isRolodexCertificationEnabled() {
+        public boolean isRolodexCertificationEnabled() {
         	return true;
         }
 
