@@ -168,6 +168,13 @@ public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelo
 
     }
 
+    public boolean doesPersonRequireCertification(ProposalPerson person) {
+        return !person.isKeyPerson() || !isKeyPersonRoleExempt(person) ||
+                isPiCoiKeyPersonsForcedToDiscloseWithCustomData(person.getDevelopmentProposal()) ||
+                doesSponsorRequireKeyPersonCertification(person) ||
+                (person.getPerson() == null && isRolodexCertificationEnabled());
+    }
+
     protected boolean canCertify(String userPrincipalId, ProposalPerson proposalPerson, boolean isLoggedInUserPi, boolean canProxyCertify) {
     	// person is null for rolodex entries
     	if (Objects.isNull(proposalPerson.getPerson())) {
@@ -186,7 +193,7 @@ public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelo
         if (keyPersonOrPiOrProxyCertificationPossible) {
             if (isCoiDisclosureStatusFeatureEnabled()) {
                 if (isKeyPersonRoleExempt(proposalPerson)) return false;
-                if (forcePiCoiKeyPersonsDisclosureWithCustomData(proposalPerson.getDevelopmentProposal())) return true;
+                if (isPiCoiKeyPersonsForcedToDiscloseWithCustomData(proposalPerson.getDevelopmentProposal())) return true;
                 if (doesSponsorRequireKeyPersonCertification(proposalPerson)) return true;
             }
             else {
@@ -197,7 +204,7 @@ public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelo
         return false;
     }
     
-    protected boolean isRolodexCertificationEnabled() {
+    public boolean isRolodexCertificationEnabled() {
     	return getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, ENABLE_ADDRESSBOOK_CERTIFICATION);
     }
     
@@ -209,11 +216,11 @@ public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelo
         return false;
     }
 
-    protected boolean isKeyPersonRoleExempt(ProposalPerson proposalPerson) {
+    public boolean isKeyPersonRoleExempt(ProposalPerson proposalPerson) {
         return getExemptKeyPersonRoles().stream().anyMatch(projectRole -> proposalPerson.getProjectRole().equalsIgnoreCase(projectRole));
     }
 
-    protected boolean doesSponsorRequireKeyPersonCertification(ProposalPerson proposalPerson) {
+    public boolean doesSponsorRequireKeyPersonCertification(ProposalPerson proposalPerson) {
         String sponsorHierarchy = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, CoiConstants.COI_SPONSOR_HIERARCHY);
         String sponsorHierarchyLevelName = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, CoiConstants.COI_SPONSOR_HEIRARCHY_LEVEL1);
 
@@ -262,7 +269,7 @@ public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelo
    }
 
    // Aggregators can use custom data to choose if PCK should disclose.
-   protected boolean forcePiCoiKeyPersonsDisclosureWithCustomData(DevelopmentProposal developmentProposal) {
+   public boolean isPiCoiKeyPersonsForcedToDiscloseWithCustomData(DevelopmentProposal developmentProposal) {
 		try {
 			List<CustomAttributeDocValue> customDataList = developmentProposal.getProposalDocument().getCustomDataList();
 			for (CustomAttributeDocValue attributeDocValue : customDataList) {

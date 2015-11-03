@@ -20,6 +20,7 @@ package org.kuali.coeus.propdev.impl.auth.perm;
 
 import java.util.List;
 
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
@@ -45,4 +46,14 @@ public interface ProposalDevelopmentPermissionsService {
 
     public boolean hasCertificationPermissions(ProposalDevelopmentDocument document, Person user,ProposalPerson proposalPerson);
 
-}
+    public boolean isPiCoiKeyPersonsForcedToDiscloseWithCustomData(DevelopmentProposal developmentProposal);
+
+    public boolean isKeyPersonRoleExempt(ProposalPerson proposalPerson);
+
+    public boolean doesSponsorRequireKeyPersonCertification(ProposalPerson proposalPerson);
+
+    public boolean isRolodexCertificationEnabled();
+
+    public boolean doesPersonRequireCertification(ProposalPerson person);
+
+    }

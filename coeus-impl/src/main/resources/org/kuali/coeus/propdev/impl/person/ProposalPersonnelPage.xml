@@ -785,7 +785,7 @@
         <bean id="PropDev-PersonnelPage-COIStatus-Collection1" parent="PropDev-PersonnelPage-COIStatus-Collection1-parent" />
         <bean id="PropDev-PersonnelPage-COIStatus-Collection1-parent" 
          parent="Uif-TableCollectionSection" p:collectionObjectClass="org.kuali.coeus.propdev.impl.person.ProposalPerson"
-          p:propertyName="document.developmentProposal.proposalPersons" p:addWithDialog="false"
+          p:propertyName="personnelWhoRequireCertification" p:addWithDialog="false"
 		p:renderAddLine="false" p:layoutManager.renderSequenceField="false"
 		p:renderInactiveToggleButton="false" p:layoutManager.richTable.render="true" p:renderLineActions="false">
 		
@@ -803,9 +803,9 @@
 			<property name="items">
 				<list>
 					<bean parent="Uif-Message"
-						p:messageText="Project:			@{#line.developmentProposal.proposalNumber}"
+						p:messageText="Project: @{#line.developmentProposal.proposalNumber}"
 						p:order="10" p:style="font-weight: bold; font-size: larger;" />
-					<bean parent="Uif-Message" p:messageText="Title:			@{#line.developmentProposal.title}"
+					<bean parent="Uif-Message" p:messageText="Title: @{#line.developmentProposal.title}"
 						p:order="20" p:style="font-weight: bold; font-size: larger;" />
 				</list>
 			</property>
