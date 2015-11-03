@@ -27,5 +27,11 @@ public final class CoiConstants {
 	public static final String COI_SPONSOR_HIERARCHY = "COIHierarchyName";
 
 	public static final String COI_SPONSOR_HEIRARCHY_LEVEL1= "COIHierarchyLevel1";
+	
+	public static final String CERTIFICATION_INCOMPLETE = "Proposal Person Certification Incomplete";
+	public static final String COI_FROM_EXTERNAL = "COI from External";
+	public static final String IN_PROGRESS = "In Progress";
+	public static final String DISCLOSURE_NOT_REQUIRED = "Disclosure Not Required";
+
 
 }
