@@ -1,6 +1,18 @@
 
 
 ##CURRENT
+* Fixing STE with Additional Budget Persons with RR Budget
+
+  * When a proposal budget has more than 8 personnel across multiple periods, printing the S2S Form RR_Budget_1_3 requires generating of system narrative attachments. This fixes an exception that is generated due to incorrectly persisting of these attachments. Additional information on issue
+
+  * Attempted printing this budget form to confirm if the Additional Key Persons attachment included the correct "Project Role" title from the Key Person screen from a customer reported issue.
+  * I added >8 Senior persons to my budget and then the Key Person that was in budget category Senior Personnel to duplicate the issue.
+  * Instead, I got an STE - see below.
+  * Tested in Res-test1 for S2S connection, used PA-C-R01 opportunity for the form.
+  * org.springframework.orm.jpa.JpaSystemException: Exception [EclipseLink-4002] (Eclipse Persistence Services - 2.6.0.v20150309-bf26070): org.eclipse.persistence.exceptions.DatabaseException Internal Exception: com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'UPLOAD_TIMESTAMP' cannot be null Error Code: 1048 Call: UPDATE NARRATIVE_ATTACHMENT SET FILE_DATA_ID = ?, FILE_NAME = ?, OBJ_ID = ?, UPDATE_TIMESTAMP = ?, UPDATE_USER = ?, UPLOAD_TIMESTAMP = ?, UPLOAD_USER = ?, VER_NBR = ? WHERE ((PROPOSAL_NUMBER = ?) AND (MODULE_NUMBER = ?)) bind => [10 parameters bound] Query: UpdateObjectQuery(org.kuali.coeus.propdev.impl.attachment.NarrativeAttachment@3b118e62[serialVersionUID=4673438132556125127,name=73922_EXTRA_KEYPERSONS.pdf,type=application/octet-stream,fileDataId=35136425-3009-44d8-9595-72f89e156662,uploadUser=
+  * blackcathacker on Tue, 3 Nov 2015 12:09:27 -0800 [View Commit](../../commit/8f1bf9de7b848d8d4d30f24f0b1cac423114c317)
+
+##coeus-1511.5
 *  Filter persons who do not need certs.
   * Currently, when the COI Disclosure Status feature is enabled, _all _key personnel are listed in the Disclosure Status window. This case is to update the COI Disclosure Status window and restrict the listed persons to _only _those key persons that are required to disclose. This update will better convey locally implemented Conflict of Interest compliance policy and procedure as maintained via the COI Hierarchy, the keypersonprojectrole parameter, RESKC-972 which will exempt non-personnel Multiple PI, or the parameter to exempt ALL address book non-personnel, if enabled.
   * Gayathri Athreya on Tue, 3 Nov 2015 09:05:15 -0700 [View Commit](../../commit/9741076ed4c6fc6c2db697727493a361f77400e6)
