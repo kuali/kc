@@ -54,6 +54,8 @@ public class RRSF424V1_2GeneratorTest extends
     protected void prepareS2sData(ProposalDevelopmentDocument document) {
         super.prepareS2sData(document);
 
+		document.getDevelopmentProposal().setSponsorProposalNumber("1234");
+
         S2sOpportunity s2sOpportunity = document.getDevelopmentProposal().getS2sOpportunity();
         S2sSubmissionType s2sSubmissionType = new S2sSubmissionType();
         s2sSubmissionType.setCode("1");
@@ -63,7 +65,7 @@ public class RRSF424V1_2GeneratorTest extends
         s2sRevisionType.setCode("A");
         s2sOpportunity.setS2sRevisionType(s2sRevisionType);
         s2sOpportunity.setRevisionOtherDescription("revisionOtherDescription");
-        List<S2sOppForms> s2sOppForms = new ArrayList<S2sOppForms>();
+        List<S2sOppForms> s2sOppForms = new ArrayList<>();
         S2sOppForms oppForms = new S2sOppForms();
         oppForms.setInclude(true);
         oppForms.setFormName("RR_SF424_1_2-V1.2");
@@ -104,14 +106,14 @@ public class RRSF424V1_2GeneratorTest extends
 		answerHeader.setModuleSubItemKey(moduleQuestionnaireBean
 				.getModuleSubItemKey());
 
-		Questionnaire questionnaire = null;
+		Questionnaire questionnaire;
 		questionnaire = businessObjectService.findBySinglePrimaryKey(
 				Questionnaire.class, 852);
 
 		answerHeader.setQuestionnaireId(questionnaire.getId());
 		answerHeader.setQuestionnaire(questionnaire);
 
-		QuestionnaireQuestion questionnaireQuestion = null;
+		QuestionnaireQuestion questionnaireQuestion;
 		questionnaireQuestion = businessObjectService.findBySinglePrimaryKey(
 				QuestionnaireQuestion.class, 905);
 
@@ -178,7 +180,7 @@ public class RRSF424V1_2GeneratorTest extends
 		answer6.setQuestionnaireQuestionsId(questionnaireQuestion.getId());
 		answer6.setQuestionnaireQuestion(questionnaireQuestion);
 
-		List<Answer> answers = new ArrayList<Answer>();
+		List<Answer> answers = new ArrayList<>();
 		answers.add(answer1);
 		answers.add(answer2);
 		answers.add(answer3);
@@ -191,13 +193,13 @@ public class RRSF424V1_2GeneratorTest extends
 		for (Answer a : answers) {
 			a.refreshReferenceObject("question");
 		}
-		Organization organization = null;
+		Organization organization;
 		developmentProposal
 				.setProgramAnnouncementTitle("programAnnouncementTitle");
 		organization = businessObjectService.findBySinglePrimaryKey(
 				Organization.class, "000001");
 		if (organization != null) {
-			List<ProposalSite> proposalSites = null;
+			List<ProposalSite> proposalSites;
 			proposalSites = developmentProposal.getProposalSites();
 			int siteNumber = 0;
 			for (ProposalSite proposalSite : proposalSites) {
@@ -210,7 +212,7 @@ public class RRSF424V1_2GeneratorTest extends
 			CongressionalDistrict congressionalDistrict = new CongressionalDistrict();
 			congressionalDistrict.setCongressionalDistrict("CONDI");
 			congressionalDistrict.setProposalSite(applicantOrganization);
-			List<CongressionalDistrict> congressionalDistricts = new ArrayList<CongressionalDistrict>();
+			List<CongressionalDistrict> congressionalDistricts = new ArrayList<>();
 			congressionalDistricts.add(congressionalDistrict);
 			applicantOrganization
 					.setCongressionalDistricts(congressionalDistricts);
