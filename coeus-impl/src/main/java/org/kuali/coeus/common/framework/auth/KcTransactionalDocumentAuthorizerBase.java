@@ -201,11 +201,6 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
         return true;
     }
     
-    /**
-     * Can the document be routed into workflow?
-     * @param document the document
-     * @return true if routeable; otherwise false
-     */
     protected final boolean canRoute(Document document) {
         boolean canRoute = false;
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
@@ -214,7 +209,7 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
         }
         return canRoute;
     }
-        
+
     /**
      * Can the document be canceled?
      * @param document the document
