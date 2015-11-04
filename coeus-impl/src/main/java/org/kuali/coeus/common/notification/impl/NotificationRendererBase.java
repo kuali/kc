@@ -68,9 +68,11 @@ public abstract class NotificationRendererBase implements NotificationRenderer, 
     @Override
     public Map<String, String> getDefaultReplacementParameters() {
 
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         if (GlobalVariables.getUserSession() != null) {
             params.put(USER_FULLNAME, getKcPersonService().getKcPersonByPersonId(GlobalVariables.getUserSession().getPrincipalId()).getFullName());
+        } else {
+            params.put(USER_FULLNAME, StringUtils.EMPTY);
         }
         params.put(DOCHANDLER_PREFIX, getDocumentLocation());
         params.put(APP_LINK_PREFIX, getApplicationLinkPrefix());
@@ -104,8 +106,7 @@ public abstract class NotificationRendererBase implements NotificationRenderer, 
     
     
     private String getApplicationLinkPrefix() {
-        String retVal = null;
-        retVal = getKualiConfigurationService().getPropertyValueAsString(APPLICATION_URL_PARM);
+        String retVal = getKualiConfigurationService().getPropertyValueAsString(APPLICATION_URL_PARM);
         if (retVal == null) {
             retVal = "..";
         }

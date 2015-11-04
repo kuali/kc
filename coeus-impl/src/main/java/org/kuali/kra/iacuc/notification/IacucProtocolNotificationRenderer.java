@@ -19,15 +19,16 @@
 package org.kuali.kra.iacuc.notification;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeBase;
 import org.kuali.kra.iacuc.IacucProtocol;
-import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionQualifierType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
+import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.notification.ProtocolNotificationRendererBase;
 import org.kuali.kra.protocol.notification.ProtocolReplacementParameters;
 
@@ -41,11 +42,11 @@ import java.util.Map;
 public class IacucProtocolNotificationRenderer extends ProtocolNotificationRendererBase {
 
     private static final long serialVersionUID = 44807703047564273L;
+    private static final String PROTOCOL_ACTION_TYPE_CODE = "protocolActionTypeCode";
+    private static final String SUBMISSION_TYPE_CODE = "submissionTypeCode";
+    private static final String SUBMISSION_QUALIFIER_TYPE_CODE = "submissionQualifierTypeCode";
+    private static final String REVIEW_TYPE_CODE = "reviewTypeCode";
 
-    /**
-     * Constructs a Protocol base notification renderer.
-     * @param protocol
-     */
     public IacucProtocolNotificationRenderer(IacucProtocol protocol) {
         super(protocol);
     }
@@ -58,19 +59,26 @@ public class IacucProtocolNotificationRenderer extends ProtocolNotificationRende
             params.put(ProtocolReplacementParameters.LAST_SUBMISSION_NAME, getProtocolSubmissionName(protocolSubmission.getSubmissionTypeCode()));
             params.put(ProtocolReplacementParameters.LAST_SUBMISSION_TYPE_QUAL_NAME, getLastSubmissionTypeQualifierName(protocolSubmission.getSubmissionTypeQualifierCode()));
             params.put(ProtocolReplacementParameters.PROTOCOL_REVIEW_TYPE_DESC, getSafeMessage(ProtocolReplacementParameters.PROTOCOL_REVIEW_TYPE_DESC, getProtocolReviewTypeDescription(protocolSubmission.getProtocolReviewTypeCode())));
+        } else {
+            params.put(ProtocolReplacementParameters.LAST_SUBMISSION_NAME, StringUtils.EMPTY);
+            params.put(ProtocolReplacementParameters.LAST_SUBMISSION_TYPE_QUAL_NAME, StringUtils.EMPTY);
+            params.put(ProtocolReplacementParameters.PROTOCOL_REVIEW_TYPE_DESC, StringUtils.EMPTY);
         }
-        IacucProtocolAction lastProtocolAction = (IacucProtocolAction)getProtocol().getLastProtocolAction();
+        ProtocolActionBase lastProtocolAction = getProtocol().getLastProtocolAction();
         if (lastProtocolAction != null) {
             params.put(ProtocolReplacementParameters.LAST_ACTION_NAME, getProtocolLastActionName(lastProtocolAction.getProtocolActionTypeCode()));    
             params.put(ProtocolReplacementParameters.LAST_ACTION_TYPE_CODE, lastProtocolAction.getProtocolActionTypeCode());
+        } else {
+            params.put(ProtocolReplacementParameters.LAST_ACTION_NAME, StringUtils.EMPTY);
+            params.put(ProtocolReplacementParameters.LAST_ACTION_TYPE_CODE, StringUtils.EMPTY);
         }
         return params;
     }
     
     private String getProtocolLastActionName(String lastActionTypeCode) {
         String result = null;
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("protocolActionTypeCode", lastActionTypeCode);
+        Map<String, String> fieldValues = new HashMap<>();
+        fieldValues.put(PROTOCOL_ACTION_TYPE_CODE, lastActionTypeCode);
         List<IacucProtocolActionType> actionTypes = (List<IacucProtocolActionType>) getBusinessObjectService().findMatching(IacucProtocolActionType.class, fieldValues);
         if (CollectionUtils.isNotEmpty(actionTypes)) {
             result = actionTypes.get(0).getDescription();
@@ -81,8 +89,8 @@ public class IacucProtocolNotificationRenderer extends ProtocolNotificationRende
 
     private String getProtocolSubmissionName(String submissionTypeCode) {
         String result = null;
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("submissionTypeCode", submissionTypeCode);
+        Map<String, String> fieldValues = new HashMap<>();
+        fieldValues.put(SUBMISSION_TYPE_CODE, submissionTypeCode);
         List<IacucProtocolSubmissionType> submissionTypes = 
             (List<IacucProtocolSubmissionType>) getBusinessObjectService().findMatching(IacucProtocolSubmissionType.class, fieldValues);
         if (CollectionUtils.isNotEmpty(submissionTypes)) {
@@ -94,8 +102,8 @@ public class IacucProtocolNotificationRenderer extends ProtocolNotificationRende
     
     private String getLastSubmissionTypeQualifierName(String submissionQualifierTypeCode) {
         String result = null;
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("submissionQualifierTypeCode", submissionQualifierTypeCode);
+        Map<String, String> fieldValues = new HashMap<>();
+        fieldValues.put(SUBMISSION_QUALIFIER_TYPE_CODE, submissionQualifierTypeCode);
         List<IacucProtocolSubmissionQualifierType> submissionQualifierTypes = 
             (List<IacucProtocolSubmissionQualifierType>) getBusinessObjectService().findMatching(IacucProtocolSubmissionQualifierType.class, fieldValues);
         if (CollectionUtils.isNotEmpty(submissionQualifierTypes)) {
@@ -107,8 +115,8 @@ public class IacucProtocolNotificationRenderer extends ProtocolNotificationRende
 
     private String getProtocolReviewTypeDescription(String reviewTypeCode) {
         String result = null;
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("reviewTypeCode", reviewTypeCode);
+        Map<String, String> fieldValues = new HashMap<>();
+        fieldValues.put(REVIEW_TYPE_CODE, reviewTypeCode);
         List<IacucProtocolReviewType> protocolReviewTypes = 
             (List<IacucProtocolReviewType>) getBusinessObjectService().findMatching(IacucProtocolReviewType.class, fieldValues);
         if (CollectionUtils.isNotEmpty(protocolReviewTypes)) {

@@ -30,7 +30,9 @@ public class AwardReportTrackingNotificationRenderer extends AwardNotificationRe
     private static final long serialVersionUID = -2035058699415467934L;
     private static final String START_REPEAT_SECTION = "{BEGIN_REPEAT_SECTION}";
     private static final String END_REPEAT_SECTION = "{END_REPEAT_SECTION}";
-    
+    private static final String MM_DD_YYYY = "MM/dd/yyyy";
+    private static final String REPORT = "report";
+
     private List<ReportTracking> reports;
     
     public AwardReportTrackingNotificationRenderer() {
@@ -44,14 +46,14 @@ public class AwardReportTrackingNotificationRenderer extends AwardNotificationRe
     
     protected Map<String, String> getReportReplacementParameters(ReportTracking report) {
         Map<String, String> result = getAwardReplacementParameters(report.getAward());
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
+        SimpleDateFormat dateFormatter = new SimpleDateFormat(MM_DD_YYYY);
         if (report.getReport() == null) {
-            report.refreshReferenceObject("report");
+            report.refreshReferenceObject(REPORT);
         }
         result.put("{REPORT_TYPE}", report.getReport().getDescription());
         result.put("{REPORT_DUE_DATE}", dateFormatter.format(report.getDueDate()));
-        result.put(START_REPEAT_SECTION, "");
-        result.put(END_REPEAT_SECTION, "");
+        result.put(START_REPEAT_SECTION, StringUtils.EMPTY);
+        result.put(END_REPEAT_SECTION, StringUtils.EMPTY);
         return result;
     }
     
@@ -62,11 +64,10 @@ public class AwardReportTrackingNotificationRenderer extends AwardNotificationRe
         String startStr = text.substring(0, startIndex);
         String repeatedStr = text.substring(startIndex, endIndex);
         String endStr = text.substring(endIndex);
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         buffer.append(startStr);
-        for (ReportTracking report : reports) {
-            buffer.append(this.render(repeatedStr, getReportReplacementParameters(report)));
-        }
+        reports.forEach(report -> buffer.append(this.render(repeatedStr, getReportReplacementParameters(report))));
+
         buffer.append(endStr);
         return buffer.toString();
     }

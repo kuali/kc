@@ -52,17 +52,17 @@ public class NegotiationNotificationRenderer extends NotificationRendererBase {
         if (negotiation.getAnticipatedAwardDate() != null) {
             result.put("{ANTICIPATED_START_DATE}", df.format(negotiation.getAnticipatedAwardDate()));
         } else {
-            result.put("{ANTICIPATED_START_DATE}", "");
+            result.put("{ANTICIPATED_START_DATE}", StringUtils.EMPTY);
         }
         if (negotiation.getNegotiationStartDate() != null) {
             result.put("{START_DATE}", df.format(negotiation.getNegotiationStartDate()));
         } else {
-            result.put("{START_DATE}", "");
+            result.put("{START_DATE}", StringUtils.EMPTY);
         }
         if (negotiation.getNegotiationEndDate() != null) {
             result.put("{END_DATE}", df.format(negotiation.getNegotiationEndDate()));
         } else {
-            result.put("{END_DATE}", "");
+            result.put("{END_DATE}", StringUtils.EMPTY);
         }
         if (details != null && StringUtils.isNotBlank(details.getTitle())) {
             result.put("{TITLE}", details.getTitle());
