@@ -18,6 +18,7 @@
  */
 package org.kuali.kra.irb.notification;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -198,11 +199,11 @@ public class IRBNotificationRendererTest extends KcIntegrationTestBase {
         
         nameValueMap = renderer.getDefaultReplacementParameters();
         
-        assertEquals(23, nameValueMap.size());
-        assertFalse(nameValueMap.containsKey(IRBReplacementParameters.PROTOCOL_INITIAL_APPROVAL_DATE));
-        assertFalse(nameValueMap.containsKey(IRBReplacementParameters.PROTOCOL_LAST_APPROVAL_DATE));
-        assertFalse(nameValueMap.containsKey(IRBReplacementParameters.PROTOCOL_EXPIRATION_DATE));
-        assertFalse(nameValueMap.containsKey(IRBReplacementParameters.PROTOCOL_TYPE_DESCRIPTION));
+        assertEquals(27, nameValueMap.size());
+        assertEquals(StringUtils.EMPTY, nameValueMap.get(IRBReplacementParameters.PROTOCOL_INITIAL_APPROVAL_DATE));
+        assertEquals(StringUtils.EMPTY, nameValueMap.get(IRBReplacementParameters.PROTOCOL_LAST_APPROVAL_DATE));
+        assertEquals(StringUtils.EMPTY, nameValueMap.get(IRBReplacementParameters.PROTOCOL_EXPIRATION_DATE));
+        assertEquals(StringUtils.EMPTY, nameValueMap.get(IRBReplacementParameters.PROTOCOL_TYPE_DESCRIPTION));
         
         // nullify the submission and last action 
         protocol = new Protocol() {
@@ -243,33 +244,27 @@ public class IRBNotificationRendererTest extends KcIntegrationTestBase {
         
         nameValueMap = renderer.getDefaultReplacementParameters();
         
-        assertEquals(15, nameValueMap.size());
-        assertFalse(nameValueMap.containsKey(IRBReplacementParameters.PROTOCOL_INITIAL_APPROVAL_DATE));
-        assertFalse(nameValueMap.containsKey(IRBReplacementParameters.PROTOCOL_LAST_APPROVAL_DATE));
-        assertFalse(nameValueMap.containsKey(IRBReplacementParameters.PROTOCOL_EXPIRATION_DATE));        
-        assertFalse(nameValueMap.containsKey(IRBReplacementParameters.LAST_SUBMISSION_NAME));
-        assertFalse(nameValueMap.containsKey(IRBReplacementParameters.LAST_SUBMISSION_TYPE_CODE));
-        assertFalse(nameValueMap.containsKey(IRBReplacementParameters.LAST_SUBMISSION_TYPE_QUAL_CODE));
-        assertFalse(nameValueMap.containsKey(IRBReplacementParameters.LAST_SUBMISSION_TYPE_QUAL_NAME));
-        assertFalse(nameValueMap.containsKey(IRBReplacementParameters.SUBMISSION_STATUS_CODE));
-        assertFalse(nameValueMap.containsKey(IRBReplacementParameters.PROTOCOL_REVIEW_TYPE_DESC));
-        assertFalse(nameValueMap.containsKey(IRBReplacementParameters.COMMITTEE_NAME));
-        assertFalse(nameValueMap.containsKey(IRBReplacementParameters.LAST_ACTION_NAME));
-        assertFalse(nameValueMap.containsKey(IRBReplacementParameters.LAST_ACTION_TYPE_CODE));
+        assertEquals(27, nameValueMap.size());
+        assertEquals(StringUtils.EMPTY, nameValueMap.get(IRBReplacementParameters.PROTOCOL_INITIAL_APPROVAL_DATE));
+        assertEquals(StringUtils.EMPTY, nameValueMap.get(IRBReplacementParameters.PROTOCOL_LAST_APPROVAL_DATE));
+        assertEquals(StringUtils.EMPTY, nameValueMap.get(IRBReplacementParameters.PROTOCOL_EXPIRATION_DATE));
+        assertEquals(StringUtils.EMPTY, nameValueMap.get(IRBReplacementParameters.LAST_SUBMISSION_NAME));
+        assertEquals(StringUtils.EMPTY, nameValueMap.get(IRBReplacementParameters.LAST_SUBMISSION_TYPE_CODE));
+        assertEquals(StringUtils.EMPTY, nameValueMap.get(IRBReplacementParameters.LAST_SUBMISSION_TYPE_QUAL_CODE));
+        assertEquals(StringUtils.EMPTY, nameValueMap.get(IRBReplacementParameters.LAST_SUBMISSION_TYPE_QUAL_NAME));
+        assertEquals(StringUtils.EMPTY, nameValueMap.get(IRBReplacementParameters.SUBMISSION_STATUS_CODE));
+        assertEquals(StringUtils.EMPTY, nameValueMap.get(IRBReplacementParameters.PROTOCOL_REVIEW_TYPE_DESC));
+        assertEquals(StringUtils.EMPTY, nameValueMap.get(IRBReplacementParameters.COMMITTEE_NAME));
+        assertEquals(StringUtils.EMPTY, nameValueMap.get(IRBReplacementParameters.LAST_ACTION_NAME));
+        assertEquals(StringUtils.EMPTY, nameValueMap.get(IRBReplacementParameters.LAST_ACTION_TYPE_CODE));
             
     }
-    
-    
-    
-    
-    
-    
-    @SuppressWarnings("serial")
+
     private void setUpExpectations(final BusinessObjectService businessObjectService) {
         
-        final Map<String, String> protocolActionTypeFieldValues = new HashMap<String, String>();
+        final Map<String, String> protocolActionTypeFieldValues = new HashMap<>();
         protocolActionTypeFieldValues.put("protocolActionTypeCode", LAST_ACTION_TYPE_CODE_VAL);
-        final List<ProtocolActionType> returnActionTypes = new ArrayList<ProtocolActionType>(); 
+        final List<ProtocolActionType> returnActionTypes = new ArrayList<>();
         returnActionTypes.add(new ProtocolActionType() {
             
            public String getDescription() {
@@ -278,14 +273,14 @@ public class IRBNotificationRendererTest extends KcIntegrationTestBase {
            
         });
         context.checking(new Expectations() {{
-            one(businessObjectService).findMatching(ProtocolActionType.class, protocolActionTypeFieldValues);
+            oneOf(businessObjectService).findMatching(ProtocolActionType.class, protocolActionTypeFieldValues);
             will(returnValue(returnActionTypes));
         }});
         
         
-        final Map<String, String> protocolSubmissionTypeFieldValues = new HashMap<String, String>();
+        final Map<String, String> protocolSubmissionTypeFieldValues = new HashMap<>();
         protocolSubmissionTypeFieldValues.put("submissionTypeCode", LAST_SUBMISSION_TYPE_CODE_VAL);
-        final List<ProtocolSubmissionType> returnSubmissionTypes = new ArrayList<ProtocolSubmissionType>(); 
+        final List<ProtocolSubmissionType> returnSubmissionTypes = new ArrayList<>();
         returnSubmissionTypes.add(new ProtocolSubmissionType() {
             
            public String getDescription() {
@@ -294,14 +289,14 @@ public class IRBNotificationRendererTest extends KcIntegrationTestBase {
            
         });
         context.checking(new Expectations() {{
-            one(businessObjectService).findMatching(ProtocolSubmissionType.class, protocolSubmissionTypeFieldValues);
+            oneOf(businessObjectService).findMatching(ProtocolSubmissionType.class, protocolSubmissionTypeFieldValues);
             will(returnValue(returnSubmissionTypes));
         }});
         
         
-        final Map<String, String> protocolSubmissionQualifierTypeFieldValues = new HashMap<String, String>();
+        final Map<String, String> protocolSubmissionQualifierTypeFieldValues = new HashMap<>();
         protocolSubmissionQualifierTypeFieldValues.put("submissionQualifierTypeCode", LAST_SUBMISSION_TYPE_QUAL_CODE_VAL);
-        final List<ProtocolSubmissionQualifierType> returnSubmissionQualifierTypes = new ArrayList<ProtocolSubmissionQualifierType>(); 
+        final List<ProtocolSubmissionQualifierType> returnSubmissionQualifierTypes = new ArrayList<>();
         returnSubmissionQualifierTypes.add(new ProtocolSubmissionQualifierType() {
             
            public String getDescription() {
@@ -310,14 +305,14 @@ public class IRBNotificationRendererTest extends KcIntegrationTestBase {
            
         });
         context.checking(new Expectations() {{
-            one(businessObjectService).findMatching(ProtocolSubmissionQualifierType.class, protocolSubmissionQualifierTypeFieldValues);
+            oneOf(businessObjectService).findMatching(ProtocolSubmissionQualifierType.class, protocolSubmissionQualifierTypeFieldValues);
             will(returnValue(returnSubmissionQualifierTypes));
         }});
         
         
-        final Map<String, String> protocolReviewTypeFieldValues = new HashMap<String, String>();
+        final Map<String, String> protocolReviewTypeFieldValues = new HashMap<>();
         protocolReviewTypeFieldValues.put("reviewTypeCode", PROTOCOL_REVIEW_TYPE_CODE_VAL);
-        final List<ProtocolReviewType> returnReviewTypes = new ArrayList<ProtocolReviewType>(); 
+        final List<ProtocolReviewType> returnReviewTypes = new ArrayList<>();
         returnReviewTypes.add(new ProtocolReviewType() {
             
            public String getDescription() {
@@ -326,14 +321,14 @@ public class IRBNotificationRendererTest extends KcIntegrationTestBase {
            
         });
         context.checking(new Expectations() {{
-            one(businessObjectService).findMatching(ProtocolReviewType.class, protocolReviewTypeFieldValues);
+            oneOf(businessObjectService).findMatching(ProtocolReviewType.class, protocolReviewTypeFieldValues);
             will(returnValue(returnReviewTypes));
         }});
         
         
-        final Map<String, String> committeeFieldValues = new HashMap<String, String>();
+        final Map<String, String> committeeFieldValues = new HashMap<>();
         committeeFieldValues.put("committeeId", COMMITTEE_ID_VAL);
-        final List<Committee> returnCommittees = new ArrayList<Committee>(); 
+        final List<Committee> returnCommittees = new ArrayList<>();
         returnCommittees.add(new Committee() {
             
            public String getCommitteeName() {
@@ -342,7 +337,7 @@ public class IRBNotificationRendererTest extends KcIntegrationTestBase {
            
         });
         context.checking(new Expectations() {{
-            one(businessObjectService).findMatching(Committee.class, committeeFieldValues);
+            oneOf(businessObjectService).findMatching(Committee.class, committeeFieldValues);
             will(returnValue(returnCommittees));
         }});
     }
