@@ -51,6 +51,8 @@ public class RRSF424_2_0_V2GeneratorTest extends S2STestBase<RRSF424_2_0_V2Gener
     protected void prepareS2sData(ProposalDevelopmentDocument document) {
         super.prepareS2sData(document);
 
+		document.getDevelopmentProposal().setSponsorProposalNumber("1234");
+
         S2sOpportunity s2sOpportunity = document.getDevelopmentProposal().getS2sOpportunity();
         S2sSubmissionType s2sSubmissionType = new S2sSubmissionType();
         s2sSubmissionType.setCode("1");
@@ -91,14 +93,14 @@ public class RRSF424_2_0_V2GeneratorTest extends S2STestBase<RRSF424_2_0_V2Gener
 		answerHeader.setModuleSubItemKey(moduleQuestionnaireBean
 				.getModuleSubItemKey());
 
-		Questionnaire questionnaire = null;
+		Questionnaire questionnaire;
 		questionnaire = businessObjectService.findBySinglePrimaryKey(
 				Questionnaire.class, 852);
 
 		answerHeader.setQuestionnaireId(questionnaire.getId());
 		answerHeader.setQuestionnaire(questionnaire);
 
-		QuestionnaireQuestion questionnaireQuestion = null;
+		QuestionnaireQuestion questionnaireQuestion;
 		questionnaireQuestion = businessObjectService.findBySinglePrimaryKey(
 				QuestionnaireQuestion.class, 905);
 
@@ -165,7 +167,7 @@ public class RRSF424_2_0_V2GeneratorTest extends S2STestBase<RRSF424_2_0_V2Gener
 		answer6.setQuestionnaireQuestionsId(questionnaireQuestion.getId());
 		answer6.setQuestionnaireQuestion(questionnaireQuestion);
 
-		List<Answer> answers = new ArrayList<Answer>();
+		List<Answer> answers = new ArrayList<>();
 		answers.add(answer1);
 		answers.add(answer2);
 		answers.add(answer3);
@@ -178,13 +180,13 @@ public class RRSF424_2_0_V2GeneratorTest extends S2STestBase<RRSF424_2_0_V2Gener
 		for (Answer a : answers) {
 			a.refreshReferenceObject("question");
 		}
-		Organization organization = null;
+		Organization organization;
 		developmentProposal
 				.setProgramAnnouncementTitle("programAnnouncementTitle");
 		organization = businessObjectService.findBySinglePrimaryKey(
 				Organization.class, "000001");
 		if (organization != null) {
-			List<ProposalSite> proposalSites = null;
+			List<ProposalSite> proposalSites;
 			proposalSites = developmentProposal.getProposalSites();
 			int siteNumber = 0;
 			for (ProposalSite proposalSite : proposalSites) {
@@ -197,7 +199,7 @@ public class RRSF424_2_0_V2GeneratorTest extends S2STestBase<RRSF424_2_0_V2Gener
 			CongressionalDistrict congressionalDistrict = new CongressionalDistrict();
 			congressionalDistrict.setCongressionalDistrict("CONDI");
 			congressionalDistrict.setProposalSite(applicantOrganization);
-			List<CongressionalDistrict> congressionalDistricts = new ArrayList<CongressionalDistrict>();
+			List<CongressionalDistrict> congressionalDistricts = new ArrayList<>();
 			congressionalDistricts.add(congressionalDistrict);
 			applicantOrganization
 					.setCongressionalDistricts(congressionalDistricts);
