@@ -336,7 +336,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
     }
 
     private boolean isInRightStateToApprove(Document document) {
-        return !(isFinal(document) || isProcessed (document)) && !((KcTransactionalDocumentBase)document).isViewOnly();
+        return !(isFinal(document) || isProcessed (document) || isCanceled(document)) && !((KcTransactionalDocumentBase)document).isViewOnly();
     }
 
     protected boolean hasPermissionToBlanketApprove(Document document, Person user) {
@@ -386,11 +386,11 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
     public boolean canFyi(Document document, Person user) {
         return isProcessed(document) && super.canFyi(document, user);
     }
+
     @Override
     public boolean canRoute(Document document, Person user) {
-        PermissionService permService = KcServiceLocator.getService(KimApiServiceLocator.KIM_PERMISSION_SERVICE);
         return (isInRightStateToApprove(document) &&
-                        permService.hasPermission (user.getPrincipalId(), Constants.MODULE_NAMESPACE_AWARD, AwardPermissionConstants.SUBMIT_AWARD.getAwardPermission()));
+                        getPermissionService().hasPermission (user.getPrincipalId(), Constants.MODULE_NAMESPACE_AWARD, AwardPermissionConstants.SUBMIT_AWARD.getAwardPermission()));
     }
     @Override
     public boolean canAcknowledge(Document document, Person user) {
@@ -411,10 +411,12 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
     }
 
     protected boolean isProcessed (Document document){
-       boolean isProcessed = false;
        String status = document.getDocumentHeader().getWorkflowDocument().getStatus().getCode();
-       if (status.equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_PROCESSED_CD))
-               isProcessed = true;
-       return isProcessed;   
+       return status.equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_PROCESSED_CD);
    }
+
+    protected boolean isCanceled (Document document){
+        String status = document.getDocumentHeader().getWorkflowDocument().getStatus().getCode();
+        return status.equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_CANCEL_CD);
+    }
 }

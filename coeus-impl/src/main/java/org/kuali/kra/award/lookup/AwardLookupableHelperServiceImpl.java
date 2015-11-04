@@ -69,9 +69,6 @@ public class AwardLookupableHelperServiceImpl extends KraLookupableHelperService
     @SuppressWarnings({ "deprecation", "unchecked" })
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-//        if (this.getParameters().containsKey(USER_ID)) {
-//            fieldValues.put("projectPersons.personId", ((String[]) this.getParameters().get(USER_ID))[0]);
-//        }
         Map<String, String> formProps = new HashMap<String, String>();
         if (!StringUtils.isEmpty(fieldValues.get(OSP_ADMIN_USERNAME_PATH))) {
             KcPerson person = kcPersonService.getKcPersonByUserName(fieldValues.get(OSP_ADMIN_USERNAME_PATH));
@@ -111,7 +108,7 @@ public class AwardLookupableHelperServiceImpl extends KraLookupableHelperService
         List<Award> filteredResults = new ArrayList<Award>();
         // if the user has permission.
         for (Award award : results) {
-            if (award!=null && authorizer.canOpen(award.getAwardDocument(), user)) {
+            if (award != null && authorizer.canOpen(award.getAwardDocument(), user)) {
                 filteredResults.add(award);
             }
         }

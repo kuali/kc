@@ -54,7 +54,6 @@
   	
   	  	
 <kra-a:awardDataValidation /> 
-<%-- <kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="true"> --%>
 <kra-a:awardHierarchy />
 <kra-a:awardSync />
 <kra-a:awardPrint />
@@ -66,10 +65,6 @@
 <kra-a:awardCreateAccount />
 </kra:section>
 <kul:panelFooter />
-
-<%--
-<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
---%>
 
 <kul:documentControls transactionalDocument="true"
                       extraButtonSource="${extraButtonSource}"
