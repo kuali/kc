@@ -31,15 +31,13 @@ import java.util.Map;
  */
 public class SubAwardNotificationRenderer extends NotificationRendererBase {
 
+    private static final String MM_DD_YYYY = "MM/dd/yyyy";
     private SubAward subAward;
     
     public SubAwardNotificationRenderer() {
+        super();
     }
-    
-    /**
-     * Constructs an Award notification renderer.
-     * @param institutionalProposal
-     */
+
     public SubAwardNotificationRenderer(SubAward subAward) {
         this.subAward = subAward;
     }
@@ -50,15 +48,15 @@ public class SubAwardNotificationRenderer extends NotificationRendererBase {
     }
     
     public Map<String, String> getSubAwardReplacementParameters(SubAward subAward) {
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");        
+        SimpleDateFormat dateFormatter = new SimpleDateFormat(MM_DD_YYYY);
         Map<String, String> result = super.getDefaultReplacementParameters();
         result.put("{SUBAWARD_ID}", subAward.getSubAwardId().toString());
         result.put("{SEQUENCE_NUMBER}", subAward.getSequenceNumber().toString());
         result.put("{SUBAWARD_TITLE}", subAward.getTitle());
-        result.put("{LEAD_UNIT}", subAward.getLeadUnitNumber()==null? StringUtils.EMPTY :subAward.getLeadUnitNumber());
-        result.put("{LEAD_UNIT_NAME}", subAward.getLeadUnitName()==null? StringUtils.EMPTY :subAward.getLeadUnitName());
-        result.put("{ACCOUNT_NUMBER}", subAward.getAccountNumber()==null? StringUtils.EMPTY :subAward.getAccountNumber());
-        result.put("{SPONSOR_AWARD_NUMBER}", subAward.getSponsorAwardNumber()==null? StringUtils.EMPTY :subAward.getSponsorAwardNumber());
+        result.put("{LEAD_UNIT}", subAward.getLeadUnitNumber()==null ? StringUtils.EMPTY : subAward.getLeadUnitNumber());
+        result.put("{LEAD_UNIT_NAME}", subAward.getLeadUnitName()==null ? StringUtils.EMPTY : subAward.getLeadUnitName());
+        result.put("{ACCOUNT_NUMBER}", subAward.getAccountNumber()==null ? StringUtils.EMPTY : subAward.getAccountNumber());
+        result.put("{SPONSOR_AWARD_NUMBER}", subAward.getSponsorAwardNumber()==null ? StringUtils.EMPTY : subAward.getSponsorAwardNumber());
         if (subAward.getStatusCode() != null) {
             result.put("{STATUS_CODE}", subAward.getStatusCode().toString());
             result.put("{STATUS_NAME}", subAward.getStatusDescription());

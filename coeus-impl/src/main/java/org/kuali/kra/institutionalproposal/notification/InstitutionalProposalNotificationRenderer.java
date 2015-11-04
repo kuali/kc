@@ -32,24 +32,21 @@ import java.util.Map;
 public class InstitutionalProposalNotificationRenderer extends NotificationRendererBase implements Serializable {
 
     private static final long serialVersionUID = 451541228341893685L;
-    
+    private static final String MM_DD_YYYY = "MM/dd/yyyy";
+
     private InstitutionalProposal institutionalProposal;
     
     public InstitutionalProposalNotificationRenderer() {
-        
+        super();
     }
-    
-    /**
-     * Constructs an Institutional Proposal notification renderer.
-     * @param institutionalProposal
-     */
+
     public InstitutionalProposalNotificationRenderer(InstitutionalProposal institutionalProposal) {
         this.institutionalProposal = institutionalProposal;
     }
 
     @Override
     public Map<String, String> getDefaultReplacementParameters() {
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
+        SimpleDateFormat dateFormatter = new SimpleDateFormat(MM_DD_YYYY);
         Map<String, String> result = super.getDefaultReplacementParameters();
         result.put("{PROPOSAL_NUMBER}", institutionalProposal.getProposalNumber());
         result.put("{PROPOSAL_TITLE}", institutionalProposal.getTitle());

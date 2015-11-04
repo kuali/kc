@@ -36,18 +36,18 @@ import java.util.Map;
 public class AwardNotificationRenderer extends NotificationRendererBase {
 
     private static final long serialVersionUID = -5066268431930093815L;
+    private static final String MM_DD_YYYY = "MM/dd/yyyy";
+    private static final String AWARD_TYPE = "awardType";
+    private static final String ZERO = "0.00";
+    private static final String ACTIVITY_TYPE = "activityType";
     private static Log LOG = LogFactory.getLog(AwardNotificationRenderer.class);
     
     private Award award;
     
     public AwardNotificationRenderer() {
-        
+        super();
     }
-    
-    /**
-     * Constructs an Award notification renderer.
-     * @param institutionalProposal
-     */
+
     public AwardNotificationRenderer(Award award) {
         this.award = award;
     }
@@ -58,14 +58,14 @@ public class AwardNotificationRenderer extends NotificationRendererBase {
     }
     
     public Map<String, String> getAwardReplacementParameters(Award award) {
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");        
+        SimpleDateFormat dateFormatter = new SimpleDateFormat(MM_DD_YYYY);
         Map<String, String> result = super.getDefaultReplacementParameters();
         result.put("{AWARD_NUMBER}", award.getAwardNumber());
         result.put("{SEQUENCE_NUMBER}", award.getSequenceNumber().toString());
         result.put("{AWARD_TITLE}", award.getTitle());
         if (award.getAwardTypeCode() != null) {
             if (award.getAwardType() == null) {
-                award.refreshReferenceObject("awardType");
+                award.refreshReferenceObject(AWARD_TYPE);
             }
             result.put("{AWARD_TYPE_CODE}", award.getAwardTypeCode().toString());
             result.put("{AWARD_TYPE_NAME}", award.getAwardType().getDescription());
@@ -73,11 +73,11 @@ public class AwardNotificationRenderer extends NotificationRendererBase {
             result.put("{AWARD_TYPE_CODE}", StringUtils.EMPTY);
             result.put("{AWARD_TYPE_NAME}", StringUtils.EMPTY);
         }
-        result.put("{PI_NAME}", award.getPiName()==null? StringUtils.EMPTY :award.getPiName());
-        result.put("{LEAD_UNIT}", award.getLeadUnitNumber()==null? StringUtils.EMPTY :award.getLeadUnitNumber());
-        result.put("{LEAD_UNIT_NAME}", award.getLeadUnitName()==null? StringUtils.EMPTY :award.getLeadUnitName());
-        result.put("{ACCOUNT_NUMBER}", award.getAccountNumber()==null? StringUtils.EMPTY :award.getAccountNumber());
-        result.put("{SPONSOR_AWARD_NUMBER}", award.getSponsorAwardNumber()==null? StringUtils.EMPTY :award.getSponsorAwardNumber());
+        result.put("{PI_NAME}", award.getPiName()==null ? StringUtils.EMPTY : award.getPiName());
+        result.put("{LEAD_UNIT}", award.getLeadUnitNumber()==null ? StringUtils.EMPTY : award.getLeadUnitNumber());
+        result.put("{LEAD_UNIT_NAME}", award.getLeadUnitName()==null ? StringUtils.EMPTY : award.getLeadUnitName());
+        result.put("{ACCOUNT_NUMBER}", award.getAccountNumber()==null ? StringUtils.EMPTY : award.getAccountNumber());
+        result.put("{SPONSOR_AWARD_NUMBER}", award.getSponsorAwardNumber()==null ? StringUtils.EMPTY : award.getSponsorAwardNumber());
         if (award.getStatusCode() != null) {
             result.put("{STATUS_CODE}", award.getStatusCode().toString());
             result.put("{STATUS_NAME}", award.getStatusDescription());
@@ -139,7 +139,7 @@ public class AwardNotificationRenderer extends NotificationRendererBase {
             }
             result.put("{OBLIGATED_TOTAL_AMOUNT}", totalAmount.toString());
         } else {
-            result.put("{OBLIGATED_TOTAL_AMOUNT}", "0.00");            
+            result.put("{OBLIGATED_TOTAL_AMOUNT}", ZERO);
         }
         if (awardAmountInfo != null) {
             ScaleTwoDecimal totalAmount = ScaleTwoDecimal.ZERO;
@@ -148,7 +148,7 @@ public class AwardNotificationRenderer extends NotificationRendererBase {
             }
             result.put("{ANTICIPATED_TOTAL_AMOUNT}", totalAmount.toString());
         } else {
-            result.put("{ANTICIPATED_TOTAL_AMOUNT}", "0.00");            
+            result.put("{ANTICIPATED_TOTAL_AMOUNT}", ZERO);
         }
         if (award.getPrimeSponsorCode() != null) {
             result.put("{PRIME_SPONSOR_CODE}", award.getPrimeSponsorCode());
@@ -160,7 +160,7 @@ public class AwardNotificationRenderer extends NotificationRendererBase {
         if (award.getActivityTypeCode() != null) {
             result.put("{ACTIVITY_TYPE_CODE}", award.getActivityTypeCode());
             if (award.getActivityType() == null) {
-                award.refreshReferenceObject("activityType");
+                award.refreshReferenceObject(ACTIVITY_TYPE);
             }
             result.put("{ACTIVITY_TYPE_NAME}", award.getActivityType().getDescription());
         } else {

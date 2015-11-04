@@ -24,6 +24,8 @@ import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * 
@@ -31,13 +33,14 @@ import java.util.List;
  */
 public class WatermarkPositionFontValuesFinder extends UifKeyValuesFinderBase {
 
+    private static final List<KeyValue> KEY_VALUES = IntStream.rangeClosed(2, 30)
+            .filter(i -> i % 2 == 0)
+            .mapToObj(i -> new ConcreteKeyValue(String.valueOf(i), String.valueOf(i).concat(" %")))
+            .collect(Collectors.toList());
+
     @Override
     public List<KeyValue> getKeyValues() {
-        List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        for(Integer fontValue=2;fontValue<=30;fontValue+=2){
-            keyValues.add(new ConcreteKeyValue(fontValue.toString(),fontValue.toString().concat(" %"))); 
-        }       
-        return keyValues;
+        return KEY_VALUES;
     }
      
 

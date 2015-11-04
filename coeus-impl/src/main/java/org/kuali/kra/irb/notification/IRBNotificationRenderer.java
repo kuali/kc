@@ -44,16 +44,17 @@ import java.util.Map;
 public class IRBNotificationRenderer extends ProtocolNotificationRendererBase {
 
     private static final long serialVersionUID = 7966684994606021231L;
+    private static final String D_MMM_YYYY = "d'-'MMM'-'yyyy";
+    private static final String PROTOCOL_ACTION_TYPE_CODE = "protocolActionTypeCode";
+    private static final String SUBMISSION_TYPE_CODE = "submissionTypeCode";
+    private static final String SUBMISSION_QUALIFIER_TYPE_CODE = "submissionQualifierTypeCode";
+    private static final String REVIEW_TYPE_CODE = "reviewTypeCode";
 
     private Protocol protocol;
     
     private transient BusinessObjectService businessObjectService;
     private transient KcPersonService kcPersonService;
-    
-    /**
-     * Constructs an IRB notification renderer.
-     * @param protocol
-     */
+
     public IRBNotificationRenderer(Protocol protocol) {
         super(protocol);
         this.protocol = protocol;
@@ -64,10 +65,8 @@ public class IRBNotificationRenderer extends ProtocolNotificationRendererBase {
         String[] replacementParameters = IRBReplacementParameters.REPLACEMENT_PARAMETERS;
         
         Map<String, String> params = super.getDefaultReplacementParameters();
-        
-        String key = null;
-        for (int i = 0; i < replacementParameters.length; i++) {
-            key = replacementParameters[i];
+
+        for (String key : replacementParameters) {
             if (StringUtils.equals(key, IRBReplacementParameters.PROTOCOL_NUMBER)) {
                 params.put(key, protocol.getProtocolNumber());
             } else if (StringUtils.equals(key, IRBReplacementParameters.PI_NAME)) {
@@ -82,7 +81,7 @@ public class IRBNotificationRenderer extends ProtocolNotificationRendererBase {
                 params.put(key, protocol.getProtocolStatus().getDescription());
             } else if (StringUtils.equals(key, IRBReplacementParameters.LAST_ACTION_NAME)) {
                 if (protocol.getLastProtocolAction() != null) {
-                    params.put(key, getProtocolLastActionName(protocol.getLastProtocolAction().getProtocolActionTypeCode()));    
+                    params.put(key, getProtocolLastActionName(protocol.getLastProtocolAction().getProtocolActionTypeCode()));
                 } else {
                     params.put(key, StringUtils.EMPTY);
                 }
@@ -144,24 +143,21 @@ public class IRBNotificationRenderer extends ProtocolNotificationRendererBase {
                 } else {
                     params.put(key, StringUtils.EMPTY);
                 }
-            } 
-            else if (StringUtils.equals(key, IRBReplacementParameters.PROTOCOL_INITIAL_APPROVAL_DATE)) {
-                if ( (protocol.getProtocolSubmission() != null) && (protocol.getApprovalDate() != null) ) {
-                    params.put(key, getSafeMessage(key, (new SimpleDateFormat("d'-'MMM'-'yyyy")).format(protocol.getApprovalDate())));
+            } else if (StringUtils.equals(key, IRBReplacementParameters.PROTOCOL_INITIAL_APPROVAL_DATE)) {
+                if ((protocol.getProtocolSubmission() != null) && (protocol.getApprovalDate() != null)) {
+                    params.put(key, getSafeMessage(key, (new SimpleDateFormat(D_MMM_YYYY)).format(protocol.getApprovalDate())));
                 } else {
                     params.put(key, StringUtils.EMPTY);
                 }
-            }
-            else if (StringUtils.equals(key, IRBReplacementParameters.PROTOCOL_LAST_APPROVAL_DATE)) {
-                if ( (protocol.getProtocolSubmission() != null) && (protocol.getLastApprovalDate() != null) ) {
-                    params.put(key, getSafeMessage(key, (new SimpleDateFormat("d'-'MMM'-'yyyy")).format(protocol.getLastApprovalDate())));
+            } else if (StringUtils.equals(key, IRBReplacementParameters.PROTOCOL_LAST_APPROVAL_DATE)) {
+                if ((protocol.getProtocolSubmission() != null) && (protocol.getLastApprovalDate() != null)) {
+                    params.put(key, getSafeMessage(key, (new SimpleDateFormat(D_MMM_YYYY)).format(protocol.getLastApprovalDate())));
                 } else {
                     params.put(key, StringUtils.EMPTY);
                 }
-            }
-            else if (StringUtils.equals(key, IRBReplacementParameters.PROTOCOL_EXPIRATION_DATE)) {
-                if ( (protocol.getProtocolSubmission() != null) && (protocol.getExpirationDate() != null) ) {
-                    params.put(key, getSafeMessage(key, (new SimpleDateFormat("d'-'MMM'-'yyyy")).format(protocol.getExpirationDate())));
+            } else if (StringUtils.equals(key, IRBReplacementParameters.PROTOCOL_EXPIRATION_DATE)) {
+                if ((protocol.getProtocolSubmission() != null) && (protocol.getExpirationDate() != null)) {
+                    params.put(key, getSafeMessage(key, (new SimpleDateFormat(D_MMM_YYYY)).format(protocol.getExpirationDate())));
                 } else {
                     params.put(key, StringUtils.EMPTY);
                 }
@@ -203,8 +199,8 @@ public class IRBNotificationRenderer extends ProtocolNotificationRendererBase {
 
     private String getProtocolLastActionName(String lastActionTypeCode) {
         String result = null;
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("protocolActionTypeCode", lastActionTypeCode);
+        Map<String, String> fieldValues = new HashMap<>();
+        fieldValues.put(PROTOCOL_ACTION_TYPE_CODE, lastActionTypeCode);
         List<ProtocolActionType> actionTypes = (List<ProtocolActionType>) getBusinessObjectService().findMatching(ProtocolActionType.class, fieldValues);
         if (CollectionUtils.isNotEmpty(actionTypes)) {
             result = actionTypes.get(0).getDescription();
@@ -215,8 +211,8 @@ public class IRBNotificationRenderer extends ProtocolNotificationRendererBase {
 
     private String getProtocolSubmissionName(String submissionTypeCode) {
         String result = null;
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("submissionTypeCode", submissionTypeCode);
+        Map<String, String> fieldValues = new HashMap<>();
+        fieldValues.put(SUBMISSION_TYPE_CODE, submissionTypeCode);
         List<ProtocolSubmissionType> submissionTypes = 
             (List<ProtocolSubmissionType>) getBusinessObjectService().findMatching(ProtocolSubmissionType.class, fieldValues);
         if (CollectionUtils.isNotEmpty(submissionTypes)) {
@@ -228,8 +224,8 @@ public class IRBNotificationRenderer extends ProtocolNotificationRendererBase {
     
     private String getLastSubmissionTypeQualifierName(String submissionQualifierTypeCode) {
         String result = null;
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("submissionQualifierTypeCode", submissionQualifierTypeCode);
+        Map<String, String> fieldValues = new HashMap<>();
+        fieldValues.put(SUBMISSION_QUALIFIER_TYPE_CODE, submissionQualifierTypeCode);
         List<ProtocolSubmissionQualifierType> submissionQualifierTypes = 
             (List<ProtocolSubmissionQualifierType>) getBusinessObjectService().findMatching(ProtocolSubmissionQualifierType.class, fieldValues);
         if (CollectionUtils.isNotEmpty(submissionQualifierTypes)) {
@@ -241,8 +237,8 @@ public class IRBNotificationRenderer extends ProtocolNotificationRendererBase {
 
     private String getProtocolReviewTypeDescription(String reviewTypeCode) {
         String result = null;
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("reviewTypeCode", reviewTypeCode);
+        Map<String, String> fieldValues = new HashMap<>();
+        fieldValues.put(REVIEW_TYPE_CODE, reviewTypeCode);
         List<ProtocolReviewType> protocolReviewTypes = 
             (List<ProtocolReviewType>) getBusinessObjectService().findMatching(ProtocolReviewType.class, fieldValues);
         if (CollectionUtils.isNotEmpty(protocolReviewTypes)) {

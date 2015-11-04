@@ -41,11 +41,7 @@ public class FinancialEntityNotificationRenderer extends NotificationRendererBas
     
     private transient BusinessObjectService businessObjectService;
     private transient KcPersonService kcPersonService;
-    
-    /**
-     * Constructs a Financial Entity notification renderer.
-     * @param PersonFinIntDisclosure
-     */
+
     public FinancialEntityNotificationRenderer(PersonFinIntDisclosure disclosure) {
         this.disclosure = disclosure;
     }
