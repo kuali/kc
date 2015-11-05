@@ -99,7 +99,7 @@ public class AwardDaoOjb extends LookupDaoOjb implements OjbCollectionAware, Awa
 		final Criteria origCrit = getCollectionCriteriaFromMap(new Award(), fieldValues);
 		final Criteria crit = new Criteria();
 		if (updatedSince != null) {
-			crit.addGreaterOrEqualThan(UPDATE_TIMESTAMP, new java.sql.Date(updatedSince.getTime()));
+			crit.addGreaterOrEqualThan(UPDATE_TIMESTAMP, updatedSince);
 		}
 		crit.addAndCriteria(origCrit);
 		crit.addOrderByDescending(AWARD_ID);
