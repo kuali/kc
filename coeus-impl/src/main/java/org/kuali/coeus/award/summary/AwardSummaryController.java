@@ -21,6 +21,7 @@ package org.kuali.coeus.award.summary;
 import java.util.Date;
 import java.util.HashMap;
 
+import org.kuali.coeus.award.api.AwardResults;
 import org.kuali.coeus.sys.framework.summary.SearchResults;
 import org.kuali.kra.award.dao.AwardDao;
 import org.kuali.kra.award.home.Award;
@@ -44,7 +45,6 @@ public class AwardSummaryController {
 	@RequestMapping(value="/v1/awardSummary")
 	public @ResponseBody AwardResults getAwardSummary(@RequestParam(value="updatedSince", required=false) Date updatedSince,
 			@RequestParam(value="page", required=false) Integer page, @RequestParam(value="numberPerPage", required=false) Integer numberPerPage) {
-		Moo moo = new Moo();
 		return Translate.to(AwardResults.class).from(getAwards(updatedSince, page, numberPerPage));
 	}
 

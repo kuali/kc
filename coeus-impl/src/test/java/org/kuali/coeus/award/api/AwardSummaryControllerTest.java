@@ -1,7 +1,8 @@
-package org.kuali.coeus.award.summary;
+package org.kuali.coeus.award.api;
 
 import static org.junit.Assert.assertEquals;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,7 +24,7 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposalBoLite;
 public class AwardSummaryControllerTest {
 	
 	private static final String PERSON_ID123 = "personId123";
-	private AwardSummaryController awardSummaryController;
+	private AwardController awardController;
 	private Award award1;
 	private Award award2;
 	private AwardStatus awardStatus;
@@ -97,7 +98,7 @@ public class AwardSummaryControllerTest {
 	
 	@Test
 	public void testOrganizationSummary() {
-		awardSummaryController = new AwardSummaryController() {
+		awardController = new AwardController() {
 			@Override
 			SearchResults<Award> getAwards(Date updatedSince, Integer page, Integer numberPerPage) {
 				SearchResults<Award> result = new SearchResults<>();
@@ -107,7 +108,7 @@ public class AwardSummaryControllerTest {
 			}
 		};
 		
-		AwardResults result = awardSummaryController.getAwardSummary(null, null, null);
+		AwardResults result = awardController.getAwardSummary(null, null, null);
 		assertEquals(2, result.getTotalFound().intValue());
 		assertEquals(2, result.getCount().intValue());
 		assertEquals(2, result.getAwards().size());
@@ -142,6 +143,7 @@ public class AwardSummaryControllerTest {
 		fp2.setProposal(proposal2);
 		fp2.setAward(award1);
 		award1.getFundingProposals().add(fp2);
+		award1.setUpdateTimestamp(new Timestamp(new Date().getDate()));
 		return award1;
 	}
 }

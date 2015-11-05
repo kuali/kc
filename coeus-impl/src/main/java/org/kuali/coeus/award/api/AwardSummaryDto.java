@@ -18,6 +18,7 @@
  */
 package org.kuali.coeus.award.api;
 
+import java.util.Date;
 import java.util.List;
 
 import org.kuali.coeus.sys.framework.summary.FundingProposalSummaryDto;
@@ -38,6 +39,7 @@ public class AwardSummaryDto {
 	private String sponsorAwardNumber;
 	private String cfdaNumber;
 	private String title;
+	private Date updateTimestamp;
 	@Property(translate = true)
 	private AwardStatusDto awardStatus;
 	@Property(translate = true)
@@ -126,6 +128,12 @@ public class AwardSummaryDto {
 	}
 	public void setFundingProposals(List<FundingProposalSummaryDto> fundingProposals) {
 		this.fundingProposals = fundingProposals;
+	}
+	public Date getUpdateTimestamp() {
+		return updateTimestamp;
+	}
+	public void setUpdateTimestamp(Date updateTimestamp) {
+		this.updateTimestamp = updateTimestamp;
 	}
 
 

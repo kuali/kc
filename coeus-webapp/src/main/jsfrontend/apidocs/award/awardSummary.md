@@ -1,18 +1,18 @@
-## Award Summary [/kc-dev/kc-award/v1/awardSummary?updatedSince=01/01/2015&page=1&numberPerPage=1]
+## Award Summary [/kc-dev/award/api/v1/awards?summary&updatedSince=1446630596000&page=1&limit=10]
 
 ## GET
 
 Summary of all awards in the system
 
 + Parameters
-	+ updatedSince: `31/10/2015` (date, optional) - Criteria to restrict the awards returned to those updated since the date specified (DD/MM/YYYY)
-	+ numberPerPage: `50` (number, optional) - Number of results to return. If not included, all awards matching the date, if specified, are returned
-	+ page: `8` (number, optional) - If a numberPerPage is specified this determines what page of the result set will be returned on this request
+	+ updatedSince: `1446630596000` (date, optional) - Criteria to restrict the awards returned to those updated since the date specified. Formatted as milliseconds since epoch.
+	+ limit: `50` (number, optional) - Number of results to return. If not included, all awards matching the date, if specified, are returned
+	+ page: `8` (number, optional) - If a limit is specified this determines what page of the result set will be returned on this request
 
 + Request
     + Headers
 
-            Authorization: `Basic HTTP authentication expected`
+            Authorization: Bearer {api-key}
 
 + Response 200
     + Headers

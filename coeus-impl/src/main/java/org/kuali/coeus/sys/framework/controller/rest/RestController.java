@@ -4,10 +4,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,5 +34,9 @@ public class RestController {
         }
         return new ErrorMessage(errors);
     }
-
+    
+	@InitBinder
+	public void initInstantBinder(WebDataBinder binder) {
+		binder.registerCustomEditor(Instant.class, new InstantCustomPropertyEditor());
+	}
 }
