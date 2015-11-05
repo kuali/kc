@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+*  update award summary api to match standards
+  * blackcathacker on Thu, 5 Nov 2015 13:56:00 -0800 [View Commit](../../commit/21d2956709bcba4d8be11374608c9f865c073e5d)
+
+##coeus-1511.10
 * No Changes
 
 
