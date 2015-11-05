@@ -17,8 +17,9 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
+set define off
+set sqlblanklines on
 
-\. ./kc/bootstrap/V1511_001__FAIN.sql
-\. ./kc/bootstrap/V1511_002__RESKC-603.sql
-\. ./kc/bootstrap/V1511_003__watermark_text.sql
+spool 1511_oracle_kc_rice_server_upgrade.sql.log
+@./rice/bootstrap/V1511_004__RESKC-975.sql
 commit;

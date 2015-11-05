@@ -1,6 +1,34 @@
 
 
 ##CURRENT
+*  fixing integration test
+  * Travis Schneeberger on Wed, 4 Nov 2015 18:20:24 -0500 [View Commit](../../commit/1be364e45b28ff1fcd77c772df116a762f682f24)
+*  Fix issues with cancelled awards
+  * Gayathri Athreya on Wed, 4 Nov 2015 14:36:29 -0700 [View Commit](../../commit/f24b0e9c32a3c407ee0a35d06e86c2c5300d65f8)
+*  Fixing propsal types for s2s namespace with the proposal types defined in the bootstrap data. Since these params need to be more user friendly to map different proposal types to one s2s proposal type, changed the @PARAM defnitions and used individual values or comma separated ones for S2S namespace
+  * Geo Thomas on Tue, 3 Nov 2015 16:24:59 -0500 [View Commit](../../commit/3b57984a610dc1475bfbd87fc346315bbb081673)
+*  (User Story) As an IRB/IACUC Admin, I can configure the watermark for protocol attachments to include key data about the protocol so that it is clearly displayed on protocol attachments.
+
+  * Acceptance Criteria:
+  * Given an IRB Admin is maintaining watermarks for IRB protocol attachments, when they edit or add a watermark, then they can optionally include these data elements to the watermark:
+  * Initial Protocol Approval Date
+  * Last Protocol Approval Date
+  * Expiration Date
+  * Text up to 200 characters.
+  * And when the watermark maintenance document is approved, then when PDF protocol attachments are printed these data correctly display based on the maintenance set up, along with the status watermark on the PDF:
+  * And Dates will use the same date formats as in the UI
+  * Given an IACUC Admin is maintaining watermarks for IACUC protocol attachments, when they edit or add a watermark, then they can optionally include these data elements to the watermark:
+  * Initial Protocol Approval Date
+  * Last Protocol Approval Date
+  * Expiration Date
+  * Text up to 200 characters.
+  * And when the watermark maintenance document is approved, then when PDF protocol attachments are printed these data correctly display based on the maintenance set up, along with the status watermark on the PDF:
+  * And Dates will use the same date formats as in the UI
+
+  * The above requirements are already supported through property replacement however the watermark length must be increased.  Also, watermarks should be able to use a smaller font.
+  * Travis Schneeberger on Tue, 3 Nov 2015 16:41:40 -0500 [View Commit](../../commit/740f11c8948039f952bb861fb52c64e6021e54a9)
+
+##coeus-1511.7
 * No Changes
 
 
