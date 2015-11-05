@@ -50,6 +50,7 @@ public class SubAwardServiceImpl implements SubAwardService {
 
     private static final Log LOG = LogFactory.getLog(SubAwardServiceImpl.class);
     public static final String SUB_AWARD_ID = "subAwardId";
+    public static final String SUB_AWARD_CODE = "subAwardCode";
     public static final String SUB_AWARD_SEQUENCE_STATUS = "subAwardSequenceStatus";
     public static final String SUBAWARD_FOLLOW_UP = "Subaward Follow Up";
     public static final String AWARD_AWARD_NUMBER = "award.awardNumber";
@@ -61,37 +62,29 @@ public class SubAwardServiceImpl implements SubAwardService {
     private SequenceAccessorService sequenceAccessorService;
     private ParameterService parameterService;
 
-    public SubAwardDocument createNewSubAwardVersion(
-    SubAwardDocument subAwardDocument) throws
-    VersionException, WorkflowException {
+    public SubAwardDocument createNewSubAwardVersion(SubAwardDocument subAwardDocument) throws VersionException, WorkflowException {
 
-        SubAward newVersion = getVersioningService().
-        createNewVersion(subAwardDocument.getSubAward());
+        SubAward newVersion = getVersioningService().createNewVersion(subAwardDocument.getSubAward());
 
-        SubAwardDocument newSubAwardDocument =
-        (SubAwardDocument) getDocumentService().
-        getNewDocument(SubAwardDocument.class);
-        newSubAwardDocument.getDocumentHeader().
-        setDocumentDescription(subAwardDocument.
-        getDocumentHeader().getDocumentDescription());
+        SubAwardDocument newSubAwardDocument = (SubAwardDocument) getDocumentService().getNewDocument(SubAwardDocument.class);
+        newSubAwardDocument.getDocumentHeader().setDocumentDescription(subAwardDocument.getDocumentHeader().getDocumentDescription());
         newSubAwardDocument.setSubAward(newVersion);
         newVersion.setSubAwardDocument(newSubAwardDocument);
         return newSubAwardDocument;
     }
 
 	@Override
-    public void updateSubAwardSequenceStatus(
-    SubAward subAward, VersionStatus status) {
+    public void updateSubAwardSequenceStatus(SubAward subAward, VersionStatus status) {
         if (status.equals(VersionStatus.ACTIVE)) {
-            archiveCurrentActiveSubAward(subAward.getSubAwardId());
+            archiveCurrentActiveSubAward(subAward.getSubAwardCode());
         }
         subAward.setSubAwardSequenceStatus(status.toString());
-       getBusinessObjectService().save(subAward);
+        getBusinessObjectService().save(subAward);
     }
 
-    protected void archiveCurrentActiveSubAward(Long subAwardId) {
+    protected void archiveCurrentActiveSubAward(String subAwardCode) {
         Map<String, Object> values = new HashMap<String, Object>();
-        values.put(SUB_AWARD_ID, Long.toString(subAwardId));
+        values.put(SUB_AWARD_CODE, subAwardCode);
         values.put(SUB_AWARD_SEQUENCE_STATUS, VersionStatus.ACTIVE.name());
         Collection<SubAward> subAwards = getBusinessObjectService().
         findMatching(SubAward.class, values);
@@ -124,7 +117,7 @@ public class SubAwardServiceImpl implements SubAwardService {
 
     public SubAward getAmountInfo(SubAward subAward) {
 
-        List<SubAwardAmountInfo> subAwardAmountInfoList = subAward.getSubAwardAmountInfoList();
+        List<SubAwardAmountInfo> subAwardAmountInfoList = subAward.getAllSubAwardAmountInfos();
         List<SubAwardAmountReleased> subAwardAmountReleasedList = subAward.getSubAwardAmountReleasedList();
         ScaleTwoDecimal totalObligatedAmount = new ScaleTwoDecimal(0.00);
         ScaleTwoDecimal totalAnticipatedAmount = new ScaleTwoDecimal(0.00);

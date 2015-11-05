@@ -22,6 +22,7 @@ import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.common.framework.attachment.AttachmentFile;
 import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -31,8 +32,7 @@ import java.sql.Date;
  * This class represents a subAwardAmountInfo. It describes the amount
  * released and allowed for the subAward.
  */
-public class SubAwardAmountInfo extends
- SubAwardAssociate implements KcFile {
+public class SubAwardAmountInfo extends KcPersistableBusinessObjectBase implements KcFile {
 
     private static final long serialVersionUID = 1L;
 
@@ -41,6 +41,8 @@ public class SubAwardAmountInfo extends
     private Long subAwardId; 
     
     private String subAwardCode;
+    
+    private Integer sequenceNumber;
     
     private Integer lineNumber;
 
@@ -77,6 +79,8 @@ public class SubAwardAmountInfo extends
     private Date periodofPerformanceStartDate;
     
     private Date periodofPerformanceEndDate;
+    
+    private SubAward subAward;
     
     /**
      * the SubAwardAmountInfo constructor.
@@ -333,10 +337,6 @@ public class SubAwardAmountInfo extends
     public void setFileId(Long fileId) {
         this.fileId = fileId;
     }
-    @Override
-    public void resetPersistenceState() {
-        this.subAwardAmountInfoId = null;
-    }
 
     @Override
     public String getName() {
@@ -423,4 +423,20 @@ public class SubAwardAmountInfo extends
     public void setPeriodofPerformanceEndDate(Date periodofPerformanceEndDate) {
         this.periodofPerformanceEndDate = periodofPerformanceEndDate;
     }
+	public SubAward getSubAward() {
+		return subAward;
+	}
+	public void setSubAward(SubAward subAward) {
+		this.subAward = subAward;
+		if (subAward != null) {
+			this.sequenceNumber = subAward.getSequenceNumber();
+			this.subAwardCode = subAward.getSubAwardCode();
+		}
+	}
+	public Integer getSequenceNumber() {
+		return sequenceNumber;
+	}
+	public void setSequenceNumber(Integer sequenceNumber) {
+		this.sequenceNumber = sequenceNumber;
+	}
 }

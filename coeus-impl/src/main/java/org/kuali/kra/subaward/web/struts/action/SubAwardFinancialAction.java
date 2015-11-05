@@ -59,13 +59,10 @@ public class SubAwardFinancialAction extends SubAwardAction{
     ActionForm form, HttpServletRequest request,
     HttpServletResponse response) throws Exception {
         SubAwardForm subAwardForm = (SubAwardForm) form;
-        SubAwardAmountInfo amountInfo =
-        subAwardForm.getNewSubAwardAmountInfo();
+        SubAwardAmountInfo amountInfo = subAwardForm.getNewSubAwardAmountInfo();
         SubAward subAward = subAwardForm.getSubAwardDocument().getSubAward();
-        if (new SubAwardDocumentRule().
-        processAddSubAwardAmountInfoBusinessRules(amountInfo, subAward)) {
-            addAmountInfoToSubAward(subAwardForm.getSubAwardDocument().
-            getSubAward(), amountInfo);
+        if (new SubAwardDocumentRule().processAddSubAwardAmountInfoBusinessRules(amountInfo, subAward)) {
+            addAmountInfoToSubAward(subAwardForm.getSubAwardDocument(). getSubAward(), amountInfo);
             subAwardForm.setNewSubAwardAmountInfo(new SubAwardAmountInfo());
         }
         KcServiceLocator.getService(SubAwardService.class).getAmountInfo(subAwardForm.getSubAwardDocument().getSubAward());
@@ -80,6 +77,7 @@ public class SubAwardFinancialAction extends SubAwardAction{
     boolean addAmountInfoToSubAward(SubAward subAward,SubAwardAmountInfo amountInfo){
         amountInfo.setSubAward(subAward);
         amountInfo.populateAttachment();
+        subAward.getAllSubAwardAmountInfos().add(amountInfo);
         return subAward.getSubAwardAmountInfoList().add(amountInfo);
     }
     /**.
@@ -98,9 +96,8 @@ public class SubAwardFinancialAction extends SubAwardAction{
         SubAwardDocument subAwardDocument = subAwardForm.getSubAwardDocument();
         SubAward subAward = subAwardForm.getSubAwardDocument().getSubAward();
         int selectedLineNumber = getSelectedLine(request);
-        SubAwardAmountInfo subAwardAmountInfo =
-        subAwardDocument.getSubAward().getSubAwardAmountInfoList().
-        get(selectedLineNumber);
+        SubAwardAmountInfo subAwardAmountInfo = 
+        		subAwardDocument.getSubAward().getAllSubAwardAmountInfos().get(selectedLineNumber);
         if (subAwardAmountInfo.getSubAwardId() != null) {
             subAwardAmountInfo.setFileName(null);
             subAwardAmountInfo.setDocument(null);
@@ -172,9 +169,7 @@ public class SubAwardFinancialAction extends SubAwardAction{
         String line = request.getParameter(LINE_NUMBER);
         int lineNumber = line == null ? 0
          : Integer.parseInt(line);
-        SubAwardAmountInfo subAwardAmountInfo =
-         subAwardDocument.getSubAward().
-         getSubAwardAmountInfoList().get(lineNumber);
+        SubAwardAmountInfo subAwardAmountInfo = subAwardDocument.getSubAward().getAllSubAwardAmountInfos().get(lineNumber);
         if (subAwardAmountInfo.getDocument() != null) {
             this.streamToResponse(subAwardAmountInfo.getDocument(), 
                     getValidHeaderString(subAwardAmountInfo.getFileName()), getValidHeaderString(subAwardAmountInfo.getType()), response);
@@ -195,11 +190,8 @@ public class SubAwardFinancialAction extends SubAwardAction{
     	ActionMapping mapping, ActionForm form, HttpServletRequest request,
                HttpServletResponse response) throws Exception {
            SubAwardForm subAwardForm = (SubAwardForm) form;
-           SubAwardDocument subAwardDocument =
-           subAwardForm.getSubAwardDocument();
-           SubAwardAmountInfo subAwardAmountInfo =
-           subAwardDocument.getSubAward().getSubAwardAmountInfoList().
-            get(getSelectedLine(request));
+           SubAwardDocument subAwardDocument = subAwardForm.getSubAwardDocument();
+           SubAwardAmountInfo subAwardAmountInfo = subAwardDocument.getSubAward().getAllSubAwardAmountInfos().get(getSelectedLine(request));
            subAwardAmountInfo.populateAttachment();
            if (subAwardAmountInfo.getSubAwardId() != null) {
                getBusinessObjectService().save(subAwardAmountInfo);

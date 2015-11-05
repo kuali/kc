@@ -412,7 +412,7 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
            
             SubcontractAmountInfo subContractAmountInfo = SubcontractAmountInfo.Factory.newInstance();
             List<SubcontractAmountInfo> amountinfoList = new ArrayList<SubcontractAmountInfo>();
-            if(subaward.getSubAwardAmountInfoList() != null && !subaward.getSubAwardAmountInfoList().isEmpty()){
+            if(subaward.getAllSubAwardAmountInfos() != null && !subaward.getAllSubAwardAmountInfos().isEmpty()){
                 subContractAmountInfo.setObligatedAmount(subaward.getTotalObligatedAmount().bigDecimalValue());
                 subContractAmountInfo.setAnticipatedAmount(subaward.getTotalAnticipatedAmount().bigDecimalValue());
             }
