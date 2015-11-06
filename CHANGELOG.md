@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+*  Changing logic since it was wrong.
+  * Gayathri Athreya on Fri, 6 Nov 2015 12:00:06 -0700 [View Commit](../../commit/2fb16d6970ddaf8040d18f5b8d778ae1ebfd6aa0)
+* Budget Rates - Use fontawesome from cdn and slight style changes
+
+  * Include link to new URL on maintenance page
+  * blackcathacker on Thu, 5 Nov 2015 16:24:56 -0800 [View Commit](../../commit/5de02a7cb7c1da42ae724ddde6b0de8161061803)
+
+##coeus-1511.11
 *  update award summary api to match standards
   * blackcathacker on Thu, 5 Nov 2015 13:56:00 -0800 [View Commit](../../commit/21d2956709bcba4d8be11374608c9f865c073e5d)
 
