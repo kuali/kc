@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* fixing other BO names in jsp/tag files
+  * Travis Schneeberger on Fri, 6 Nov 2015 17:26:42 -0500 [View Commit](../../commit/b9cb3425ae6278c1b3f9aec355b36253953e9394)
+* fixing unit and sponsor lookups for several kew documents
+  * Travis Schneeberger on Fri, 6 Nov 2015 15:56:45 -0500 [View Commit](../../commit/c793bd1b00f0f6b1ec3439afc4632e4f456a006b)
+
+##coeus-1511.14
 * No Changes
 
 
