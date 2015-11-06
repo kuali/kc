@@ -72,10 +72,10 @@
                             	</c:when>
                         	</c:choose>
                     	</c:when>
-                    	<c:when test = "${answer.question.questionTypeId == 6 and answer.question.lookupClass == 'org.kuali.kra.bo.ArgValueLookup'}" >
+                    	<c:when test = "${answer.question.questionTypeId == 6 and answer.question.lookupClass == 'org.kuali.coeus.common.framework.custom.arg.ArgValueLookup'}" >
                         	<jsp:useBean id="paramMap" class="java.util.HashMap"/>
                   			<c:set target="${paramMap}" property="argName" value="${answer.question.lookupReturn}" />
-                  			<c:forEach items="${krafn:getOptionList('org.kuali.kra.lookup.keyvalue.ArgValueLookupValuesFinder', paramMap)}" var="option">
+                  			<c:forEach items="${krafn:getOptionList('org.kuali.coeus.common.impl.custom.arg.ArgValueLookupValuesFinder', paramMap)}" var="option">
   	                			<c:if test="${answer.answer == option.key}">
   	                    			${option.value}
   	                			</c:if>    

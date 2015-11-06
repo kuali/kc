@@ -26,7 +26,7 @@
 <!-- KCIU Customization Starts 
 Suppresses the Create New button on the top right corner-->
 <c:if test="${KualiForm.suppressActions!=true and KualiForm.supplementalActionsEnabled!=true}">
-    <c:if test="${not fn:contains(boClassName,'org.kuali.kra.bo.Rolodex')}">
+    <c:if test="${not fn:contains(boClassName,'org.kuali.coeus.common.framework.rolodex.Rolodex')}">
     <c:set var="headerMenu" value="${KualiForm.lookupable.createNewUrl}   ${KualiForm.lookupable.htmlMenuBar}" />
     </c:if>
 </c:if>
@@ -214,9 +214,9 @@ Suppresses the Create New button on the top right corner-->
 			<c:set var="adminEmail" value='<%=org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator.getParameterService().getParameterValueAsString("KC-GEN", "All", "LOOKUP_CONTACT_EMAIL")%>' />
 			<c:if test="${!empty reqSearchResultsActualSize}" >			
     			<c:choose>
-						<c:when test="${fn:contains(boClassName,'org.kuali.kra.bo.Rolodex') or fn:contains(boClassName,'org.kuali.kra.bo.NonOrganizationalRolodex')}">
+						<c:when test="${fn:contains(boClassName,'org.kuali.coeus.common.framework.rolodex.Rolodex') or fn:contains(boClassName,'org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex')}">
     			    			<!--  Cannot create this by parsing the createNewUrl because NonOrganizationalRolodex is not a maint doc and does not have one-->
-    				  			Can't find what you are looking for? Click <a href="${KRADConstants.MAINTENANCE_ACTION}?businessObjectClassName=org.kuali.kra.bo.Rolodex&methodToCall=start" target="_blank">here</a> to add a new Address Book entry
+    				  			Can't find what you are looking for? Click <a href="${KRADConstants.MAINTENANCE_ACTION}?businessObjectClassName=org.kuali.coeus.common.framework.rolodex.Rolodex&methodToCall=start" target="_blank">here</a> to add a new Address Book entry
     				  			or contact the <a href="mailto:${adminEmail}">System Administrator</a> to add one.
     				  			<br>
     				  			<br>
