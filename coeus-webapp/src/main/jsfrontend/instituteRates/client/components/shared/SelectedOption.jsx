@@ -28,13 +28,15 @@ export class SelectedOption extends React.Component {
 			button : {
 				background : 'rgb(66,117, 136)',
 				borderRadius: 6,
-				padding: '5px 30px 5px 15px',
+				padding: '5px 15px',
 				color: 'white',
-
+			},
+			icon : {
+				paddingLeft: 10,
 			}
 		}
 		return (
-			<button style={style.button} onClick={this.onClick}>{this.props.text}</button>
+			<button style={style.button} onClick={this.onClick}>{this.props.text}<span style={style.icon} className="fa fa-times"/></button>
 		);
 	}
 	onClick(event) {

@@ -69,6 +69,7 @@ export class RateListing extends React.Component {
 			yearHeaders : {
 				background : 'rgb(66, 117, 136)',
 				width: "12em",
+				color: 'white',
 			},
 			rateTypeLabels : {
 				textAlign: 'left',

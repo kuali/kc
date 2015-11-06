@@ -20,10 +20,6 @@ import React from 'react/addons';
 import {assign} from 'lodash';
 import RateActions from '../stores/RateActions';
 import Styles from './shared/Styles';
-import PencilIcon from './icons/PencilIcon';
-import InstructionIcon from './icons/InstructionIcon';
-import RefreshIcon from './icons/RefreshIcon';
-import PlusIcon from './icons/PlusIcon';
 
 export class EditControls extends React.Component {
 	constructor(props) {
@@ -57,7 +53,7 @@ export class EditControls extends React.Component {
 			icons: {
 				color: Styles.secondaryColor,
 				height: '1.6em',
-				verticalAlign: 'middle',
+				verticalAlign: 'baseline',
 				padding: '0 10px',
 			},
 			labels : {
@@ -84,26 +80,19 @@ export class EditControls extends React.Component {
 					<div style={styles.lineContainer}>
 						<span style={assign({}, styles.editModeItem, {width:'10em', textAlign:'left'})}>
 							<a href="#" style={styles.actions} onClick={RateActions.save}>
-								<InstructionIcon style={styles.icons}/>Save
+								<span className="fa fa-floppy-o" style={styles.icons}/>Save
 							</a>
 						</span>
 						<span style={styles.editModeItem}>
-							<label style={styles.labels}>
-							<input type="checkbox" defaultChecked={this.props.changeStartDates} 
-								onChange={RateActions.toggleChangeStartDates}>Change Start Dates
-							</input>
-							</label>
-						</span>
-						<span style={styles.editModeItem}>
 							<a href="#" style={styles.actions} onClick={RateActions.newFiscalYear}>
-								<PlusIcon style={styles.icons}/>New Fiscal Year
+								<span className="fa fa-plus-circle" style={styles.icons}/>New Fiscal Year
 							</a>
 						</span>
 					</div>
 					<div style={styles.lineContainer}>
 						<span style={assign({}, styles.editModeItem, {width:'10em', textAlign:'left'})}>
 							<a href="#" style={styles.actions} onClick={RateActions.cancelEdit}>
-								<RefreshIcon style={styles.icons}/>Cancel
+								<span className="fa fa-ban" style={styles.icons}/>Cancel
 							</a>
 						</span>
 						<span style={assign({}, styles.editModeItem, {width:'30em'})}>
@@ -121,7 +110,7 @@ export class EditControls extends React.Component {
 				<span style={styles.container}>
 					<span style={styles.lineContainer}><span style={styles.editModeItem}>
 						<a href="#" style={styles.actions} onClick={RateActions.enterEditMode}>
-							<PencilIcon style={styles.icons}/>Edit Mode
+							<span className="fa fa-pencil" style={styles.icons}/>Edit Mode
 						</a>
 					</span></span>
 				</span>
