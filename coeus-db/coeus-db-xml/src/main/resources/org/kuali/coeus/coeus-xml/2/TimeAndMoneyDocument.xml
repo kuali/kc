@@ -178,7 +178,7 @@
 					<display>
 						<type>text</type>
 					</display>
-					<lookup businessObjectClass="org.kuali.kra.bo.Unit">
+					<lookup businessObjectClass="org.kuali.coeus.common.framework.unit.Unit">
 				      <fieldConversions>
 				        <fieldConversion lookupFieldName="unitNumber" localFieldName="timeAndMoneyLeadUnit"/>
 				      </fieldConversions>
@@ -201,7 +201,7 @@
 					<display>
 						<type>text</type>
 					</display>
-					<lookup businessObjectClass="org.kuali.kra.bo.Sponsor">
+					<lookup businessObjectClass="org.kuali.coeus.common.framework.sponsor.Sponsor">
 				      <fieldConversions>
 				        <fieldConversion lookupFieldName="sponsorCode" localFieldName="timeAndMoneySponsor"/>
 				      </fieldConversions>
