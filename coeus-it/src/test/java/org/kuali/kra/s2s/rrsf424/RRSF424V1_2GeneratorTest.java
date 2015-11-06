@@ -54,8 +54,6 @@ public class RRSF424V1_2GeneratorTest extends
     protected void prepareS2sData(ProposalDevelopmentDocument document) {
         super.prepareS2sData(document);
 
-		document.getDevelopmentProposal().setSponsorProposalNumber("1234");
-
         S2sOpportunity s2sOpportunity = document.getDevelopmentProposal().getS2sOpportunity();
         S2sSubmissionType s2sSubmissionType = new S2sSubmissionType();
         s2sSubmissionType.setCode("1");
