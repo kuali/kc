@@ -46,15 +46,14 @@ public class AwardLookupDaoOjb extends LookupDaoOjb  implements AwardLookupDao{
     public List<? extends BusinessObject> getAwardSearchResults(Map fieldValues, boolean usePrimaryKeys) {
         List<Award> searchResults = (List<Award>)getVersionHistoryLookupDao().
                 getSequenceOwnerSearchResults(Award.class, fieldValues, usePrimaryKeys);
-        List<String> activeAwards = new ArrayList<String>();
-        List<Long> awardIds = new ArrayList<Long>();
+        List<String> activeAwards = new ArrayList<>();
+        List<Long> awardIds = new ArrayList<>();
         for (Object object : searchResults) {
             Award awardSearchBo = (Award)object;
-            if(awardSearchBo.getVersionHistory().isActiveVersion() &&
-                    awardSearchBo.getAwardSequenceStatus().equalsIgnoreCase(VersionStatus.CANCELED.toString())) {
-                    activeAwards.add(awardSearchBo.getAwardNumber());
-                    awardIds.add(awardSearchBo.getAwardId());
-            } else if(!activeAwards.contains(awardSearchBo.getAwardNumber()) && checkAwardHasActiveTnMDocument(awardSearchBo)){
+            if(VersionStatus.ACTIVE.toString().equalsIgnoreCase(awardSearchBo.getAwardSequenceStatus())) {
+                activeAwards.add(awardSearchBo.getAwardNumber());
+                awardIds.add(awardSearchBo.getAwardId());
+            } else if(!activeAwards.contains(awardSearchBo.getAwardNumber()) && checkAwardHasActiveTnMDocument(awardSearchBo)) {
                 activeAwards.add(awardSearchBo.getAwardNumber());
                 awardIds.add(awardSearchBo.getAwardId());
             }
