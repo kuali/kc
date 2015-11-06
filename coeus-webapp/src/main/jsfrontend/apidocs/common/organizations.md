@@ -1,13 +1,17 @@
-## Organization Summary [/kc-dev/kc-common/v1/organizationSummary]
+## Organizations [/research-common/api/v1/organizations]
 
-## GET
+### Organization Summary [GET /research-common/api/v1/organizations?summary]
 
 Summary of all Organizations in the system
 
++ Parameters
+	+ summary: (boolean, required) - Renders the organizations in a summary view instead of the full data from the organization. Currently the only option and required.
+	 
 + Request
+
     + Headers
 
-            Authorization: `Basic HTTP authentication expected`              
+            Authorization: Bearer {api-key}             
 
 + Response 200
     + Headers

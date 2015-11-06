@@ -156,7 +156,7 @@ export class RateListing extends React.Component {
 					dataRows.push(
 						<tr style={{borderTop: '2px solid rgb(' + borderColor + ',' + borderColor + ',' + borderColor + ')'}}>
 							<td style={rateHeaderStyles}>{!shownRateClass && RateStore.getRateClassFromCode(rateClassCode).description}</td>
-							<td style={rateHeaderStyles}>{!shownRateType && RateStore.getRateTypeFromCode(rateTypeCode).description}</td>
+							<td style={rateHeaderStyles}>{!shownRateType && RateStore.getRateTypeFromCode(rateClassCode, rateTypeCode).description}</td>
 							<td style={rateHeaderStyles}>{!shownActivityType && RateStore.getActivityTypeFromCode(activityTypeCode).description}</td>
 							{rateCells}
 						</tr>

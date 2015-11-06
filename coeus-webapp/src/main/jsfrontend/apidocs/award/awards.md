@@ -1,13 +1,16 @@
-## Award Summary [/kc-dev/award/api/v1/awards?summary&updatedSince=1446630596000&page=1&limit=10]
+## Awards [/award/api/v1/awards]
 
-## GET
+Kuali Research Awards providing Post Award management
 
-Summary of all awards in the system
+### Awards Summary [GET /award/api/v1/awards?summary{&updatedSince=1446630596000&limit=50&page=8}]
+
+Summary of Awards
 
 + Parameters
+	+ summary: (boolean, required) - Renders the awards in a summary view instead of the full data from the award. Currently the only option and required. 
 	+ updatedSince: `1446630596000` (date, optional) - Criteria to restrict the awards returned to those updated since the date specified. Formatted as milliseconds since epoch.
-	+ limit: `50` (number, optional) - Number of results to return. If not included, all awards matching the date, if specified, are returned
-	+ page: `8` (number, optional) - If a limit is specified this determines what page of the result set will be returned on this request
+	+ limit: `50` (number, optional) - Number of results to return. If not included, all awards matching the date, if specified, are returned.
+	+ page: `8` (number, optional) - If a limit is specified this determines what page of the result set will be returned on this request.
 
 + Request
     + Headers

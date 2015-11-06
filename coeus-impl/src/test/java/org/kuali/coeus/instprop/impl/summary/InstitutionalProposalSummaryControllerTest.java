@@ -10,6 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
+import org.kuali.coeus.instprop.impl.api.InstitutionalProposalResults;
+import org.kuali.coeus.instprop.impl.api.InstitutionalProposalSummaryDto;
 import org.kuali.coeus.sys.framework.summary.SearchResults;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
