@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* Updating existing apis to match current Kuali standards
+  * blackcathacker on Fri, 6 Nov 2015 14:48:09 -0800 [View Commit](../../commit/64c2a22a21e4553300f9d23b21a049b44abcbd08)
+
+##coeus-1511.15
 * fixing other BO names in jsp/tag files
   * Travis Schneeberger on Fri, 6 Nov 2015 17:26:42 -0500 [View Commit](../../commit/b9cb3425ae6278c1b3f9aec355b36253953e9394)
 * fixing unit and sponsor lookups for several kew documents
