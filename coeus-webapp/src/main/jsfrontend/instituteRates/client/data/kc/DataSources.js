@@ -21,20 +21,21 @@ import cookies from 'cookies-js';
 import {assign} from 'lodash';
 
 class RestFetcher {
-	constructor(endpoint, query) {
+	constructor(endpoint) {
 		this.endpoint = endpoint;
-		this.sharedQuery = query;
 	}
 	fetch(query) {
 		return axios.get(this.endpoint, {
-			params: assign({}, this.sharedQuery, query),
+			params: assign({}, this.sharedQuery),
 			headers: this.getAuthHeader(),
-		}).catch(function(response) {
+		}).catch((response) => {
+			console.log(this.endpoint);
 			console.log(response);
 			throw response;
-		}).then(function(response) { return response.data });
+		}).then((response) => { return response.data; });
 	}
 	put(data) {
+		console.log(data);
 		return axios.put(this.endpoint, data, {
 			headers: this.getAuthHeader(),
 		}).catch(function(response) {
@@ -47,14 +48,14 @@ class RestFetcher {
 	}
 }
 
-const apiRoot = '../research-common/api/';
+const apiRoot = '../research-common/api/v1/';
 
 module.exports = {
-	rateClassType : new RestFetcher(apiRoot + 'rateClassTypes'), 
-	rateClass : new RestFetcher(apiRoot + 'rateClasses'),
-	rateType : new RestFetcher(apiRoot + 'rateTypes'),
-	activityType : new RestFetcher(apiRoot + 'activityTypes'),
+	rateClassType : new RestFetcher(apiRoot + 'rate-class-types'), 
+	rateClass : new RestFetcher(apiRoot + 'rate-classes'),
+	rateType : new RestFetcher(apiRoot + 'rate-types'),
+	activityType : new RestFetcher(apiRoot + 'activity-types'),
 	unit : new RestFetcher(apiRoot + 'units'),
-	topUnit : new RestFetcher(apiRoot + 'units', {topUnit : ''}),
-	rate : new RestFetcher(apiRoot + 'instituteRates'),
+	topUnit : new RestFetcher(apiRoot + 'units/top-unit'),
+	rate : new RestFetcher(apiRoot + 'institute-rates'),
 };

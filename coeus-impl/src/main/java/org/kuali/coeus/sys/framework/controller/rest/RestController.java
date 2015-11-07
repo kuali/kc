@@ -1,5 +1,7 @@
 package org.kuali.coeus.sys.framework.controller.rest;
 
+import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
+import org.kuali.coeus.sys.framework.rest.UnauthorizedAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 public class RestController {
@@ -34,6 +38,23 @@ public class RestController {
         }
         return new ErrorMessage(errors);
     }
+    
+    @ExceptionHandler(ResourceNotFoundException.class)
+    @ResponseBody
+    public ErrorMessage resourceNotFoundError(ResourceNotFoundException ex) {
+    	return generateSingleErrorFromExceptionMessage(ex);
+    }
+    
+    @ExceptionHandler(UnauthorizedAccessException.class)
+    @ResponseBody
+    public ErrorMessage unauthorizedError(UnauthorizedAccessException ex) {
+    	return generateSingleErrorFromExceptionMessage(ex);
+    }
+    
+    protected ErrorMessage generateSingleErrorFromExceptionMessage(Exception ex) {
+    	return new ErrorMessage(Stream.of(ex.getMessage()).collect(Collectors.toList()));
+    }
+
     
 	@InitBinder
 	public void initInstantBinder(WebDataBinder binder) {

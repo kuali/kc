@@ -16,18 +16,21 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.coeus.instprop.impl.summary;
+package org.kuali.coeus.instprop.impl.api;
 
 import com.codiform.moo.annotation.CollectionProperty;
 import com.codiform.moo.annotation.Property;
+
 import org.kuali.coeus.sys.framework.summary.FundingProposalSummaryDto;
 import org.kuali.coeus.common.framework.sponsor.SponsorDto;
 import org.kuali.coeus.sys.framework.summary.InvestigatorDto;
 
+import java.util.Date;
 import java.util.List;
 
 public class InstitutionalProposalSummaryDto {
     private String proposalNumber;
+    private Date updateTimestamp;
     @Property(translate = true)
     private InvestigatorDto principalInvestigator;
     @Property(translate = true)
@@ -66,4 +69,12 @@ public class InstitutionalProposalSummaryDto {
     public void setFundingProposals(List<FundingProposalSummaryDto> fundingProposals) {
         this.fundingProposals = fundingProposals;
     }
+
+	public Date getUpdateTimestamp() {
+		return updateTimestamp;
+	}
+
+	public void setUpdateTimestamp(Date updateTimestamp) {
+		this.updateTimestamp = updateTimestamp;
+	}
 }

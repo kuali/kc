@@ -21,6 +21,7 @@ package org.kuali.coeus.common.api.unit;
 import java.util.Collection;
 
 import org.kuali.coeus.common.framework.unit.UnitService;
+import org.kuali.coeus.sys.framework.controller.rest.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -31,18 +32,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.codiform.moo.curry.Translate;
 
 @Controller("unitRestController")
-public class UnitRestController {
+public class UnitRestController extends RestController {
 	
 	@Autowired
 	@Qualifier("unitService")
 	private UnitService unitService;
 	
-	@RequestMapping(value="/api/units", method=RequestMethod.GET)
+	@RequestMapping(value="/api/v1/units", method=RequestMethod.GET)
 	public @ResponseBody Collection<UnitDto> getUnits() {
 		return Translate.to(UnitDto.class).fromEach(getUnitService().getUnits());
 	}
 	
-	@RequestMapping(value="/api/units", params="topUnit", method=RequestMethod.GET)
+	@RequestMapping(value="/api/v1/units/top-unit", method=RequestMethod.GET)
 	public @ResponseBody UnitDto getTopUnit() {
 		return Translate.to(UnitDto.class).from(getUnitService().getTopUnit());
 	}

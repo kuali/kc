@@ -1,18 +1,19 @@
-## Proposal Summary [/kc-dev/kc-ip/v1/institutionalProposalSummary?updatedSince=01/01/2015&page=1&numberPerPage=5]
+## Institutional Proposal [/instprop/v1/institutional-proposals]
 
-## GET
+### Proposal Summary [GET /instprop/v1/institutional-proposals?summary{&updatedSince=&page=1&limit=5}]
 
 Summary of all Institutional Proposals in the system
 
 + Parameters
-	+ updatedSince: `31/10/2015` (date, optional) - Criteria to restrict the proposals returned to those updated since the date specified (DD/MM/YYYY)
-	+ numberPerPage: `50` (number, optional) - Number of results to return. If not included, all proposals matching the date,if specified, are returned
-	+ page: `8` (number, optional) - If a numberPerPage is specified this determines what page of the result set will be returned on this request
+	+ summary: (boolean, required) - Renders the proposals in a summary view instead of the full data from the proposal. Currently the only option and required.
+	+ updatedSince: `1446630596000` (date, optional) - Criteria to restrict the proposals returned to those updated since the date specified. Formatted as milliseconds since epoch.
+	+ limit: `50` (number, optional) - Number of results to return. If not included, all proposals matching the date,if specified, are returned.
+	+ page: `8` (number, optional) - If a numberPerPage is specified this determines what page of the result set will be returned on this request.
 
 + Request
     + Headers
 
-            Authorization: `Basic HTTP authentication expected`           
+            Authorization: Bearer {api-key}        
 
 + Response 200
     + Headers

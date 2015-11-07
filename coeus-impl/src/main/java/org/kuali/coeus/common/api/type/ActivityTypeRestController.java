@@ -21,6 +21,7 @@ package org.kuali.coeus.common.api.type;
 import java.util.Collection;
 
 import org.kuali.coeus.common.framework.type.ActivityType;
+import org.kuali.coeus.sys.framework.controller.rest.RestController;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -32,13 +33,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.codiform.moo.curry.Translate;
 
 @Controller("activityTypeRestController")
-public class ActivityTypeRestController {
+public class ActivityTypeRestController extends RestController {
 	
 	@Autowired
 	@Qualifier("businessObjectService")
 	private BusinessObjectService businessObjectService;
 	
-	@RequestMapping(value="/api/activityTypes", method=RequestMethod.GET)
+	@RequestMapping(value="/api/v1/activity-types", method=RequestMethod.GET)
 	public @ResponseBody Collection<ActivityTypeDto> getActivityTypes() {
 		return Translate.to(ActivityTypeDto.class).fromEach(getBusinessObjectService().findAll(ActivityType.class));
 	}

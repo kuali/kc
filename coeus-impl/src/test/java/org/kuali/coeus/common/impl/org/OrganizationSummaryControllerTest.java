@@ -15,7 +15,7 @@ import org.kuali.coeus.common.framework.sponsor.Sponsor;
 
 public class OrganizationSummaryControllerTest {
 
-	private OrganizationSummaryController organizationSummaryController;
+	private OrganizationController organizationSummaryController;
 	private Organization organization1;
 	private Organization organization2;
 	private Rolodex rolodex1;
@@ -70,7 +70,7 @@ public class OrganizationSummaryControllerTest {
 	
 	@Test
 	public void testOrganizationSummary() {
-		organizationSummaryController = new OrganizationSummaryController() {
+		organizationSummaryController = new OrganizationController() {
 			@Override
 			Collection<Organization> getAllOrganizations() {
 				return organizationList;

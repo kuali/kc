@@ -23,6 +23,7 @@
        xmlns:p="http://www.springframework.org/schema/p"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd
                            http://www.springframework.org/schema/context
@@ -30,7 +31,9 @@
                            http://www.springframework.org/schema/tx
                            http://www.springframework.org/schema/tx/spring-tx.xsd
                            http://www.springframework.org/schema/util
-                           http://www.springframework.org/schema/util/spring-util.xsd">
+                           http://www.springframework.org/schema/util/spring-util.xsd
+                           http://www.springframework.org/schema/mvc
+                           http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <tx:annotation-driven transaction-manager="transactionManager" />
     <context:annotation-config />
@@ -39,12 +42,12 @@
     <context:component-scan base-package="org.kuali.coeus.common.impl" />
     <context:component-scan base-package="org.kuali.kra.external.unit.service.impl" />
     <context:component-scan base-package="org.kuali.coeus.common.questionnaire.impl" />
+    <mvc:annotation-driven/>
 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="properties" value="#{T(org.kuali.rice.core.api.config.property.ConfigContext).getCurrentContextConfig().getProperties()}" />
     </bean>
 
-    <import resource="classpath:org/kuali/coeus/sys/framework/ImportRiceKradSpringBeans.xml"/>
     <import resource="classpath:org/kuali/coeus/common/impl/CommonImportRiceSpringBeans.xml"/>
     <import resource="classpath:org/kuali/coeus/common/impl/CommonImportModuleSpringBeans.xml"/>
     

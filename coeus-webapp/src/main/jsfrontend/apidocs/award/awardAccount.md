@@ -1,4 +1,6 @@
-##  GET /kc-dev/kc-award/v1/accounts?startIndex=0&size=5
+## Award Accounts [/award/api/v1/accounts]  
+
+### List All Accounts [GET /award/api/v1/accounts{?startIndex=0&size=5}]
 
 Get all accounts that are available for use
 
@@ -25,7 +27,7 @@ Get all accounts that are available for use
 
              {"totalFound":2,"count":2,"accounts":[{"id":8,"accountNumber":"123456455","createdByAwardId":2670,"status":"CLOSED","budgeted":6.69,"pending":7.70,"income":9.90,"expense":8.80,"available":5.50},{"id":9,"accountNumber":"55555","createdByAwardId":2742,"status":"CLOSED","budgeted":6.69,"pending":7.70,"income":999.99,"expense":8.80,"available":5.50}],"awards":[]}
 
-## GET /kc-dev/kc-award/v1/accounts/55555?showAwards=true
+### Get Account [GET /award/api/v1/accounts/55555{?showAwards=true}]
 
 Get information on a particular account
 
@@ -52,7 +54,7 @@ Get information on a particular account
 
             {"totalFound":1,"count":1,"accounts":[{"id":9,"accountNumber":"55555","createdByAwardId":2742,"status":"CLOSED","budgeted":6.69,"pending":7.70,"income":999.99,"expense":8.80,"available":5.50}],"awards":[2742,2778]}
 
-## GET /kc-dev/kc-award/v1/accounts/awards/2742
+### Get Award Details by Account [GET /award/api/v1/accounts/awards/2742]
 
 Get award details required to create an account using award id
 
@@ -75,7 +77,7 @@ Get award details required to create an account using award id
 
              {"totalFound":1,"count":1,"accounts":[{"accountName":"NIH-McGregorGeoff","accountNumber":"55555","adminContactAddressCityName":null,"adminContactAddressStateCode":null,"adminContactAddressStreetAddress":null,"adminContactAddressZipCode":null,"cfdaNumber":null,"defaultAddressCityName":"Coeus","defaultAddressStateCode":"MA","defaultAddressStreetAddress":"1118 Kuali Drive","defaultAddressZipCode":"53421","effectiveDate":"2015-08-01","expenseGuidelineText":"000022-00001","expirationDate":"2015-08-31","higherEdFunctionCode":"IPR","incomeGuidelineText":"Cost reimbursement Established ACH mechanism for sponsor","indirectCostRate":"","indirectCostTypeCode":"","offCampusIndicator":false,"principalId":"10000000001","purposeText":"test","unit":"000001"}]}
 
-## PUT /kc-dev/kc-award/v1/accounts/878787
+### Update Account [PUT /award/api/v1/accounts/878787]
 
 Set various fields on an account. Fields not provided will not be updated.
 

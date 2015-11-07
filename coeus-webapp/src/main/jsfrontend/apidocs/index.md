@@ -9,14 +9,18 @@ This documentation lays out the REST APIs that are available to facilitate integ
 Current APIs have been designed to be accessed via admin only username and password pair.
 
 
-# Group Summary Services
+# Group Research Awards
 
-<!-- include(award/awardSummary.md) -->
-
-<!-- include(ip/institutionalProposalSummary.md) -->
-
-<!-- include(organization/organizationSummary.md) -->
-
-# Group Financial Services
-
+<!-- include(award/awards.md) -->
 <!-- include(award/awardAccount.md) -->
+
+# Group Research Institutional Proposal
+<!-- include(instprop/institutionalProposals.md) -->
+
+# Group Research Common
+<!-- include(common/organizations.md) -->
+<!-- include(common/units.md) -->
+<!-- include(common/activityTypes.md) -->
+<!-- include(common/budgetRates.md) -->
+
+

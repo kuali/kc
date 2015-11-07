@@ -434,8 +434,8 @@ class RateStore {
 	getRateClassFromCode(rateClassCode) {
 		return find(this.rateClasses, {code : rateClassCode });
 	}
-	getRateTypeFromCode(rateTypeCode) {
-		return find(this.rateTypes, {rateTypeCode : rateTypeCode});
+	getRateTypeFromCode(rateClassCode, rateTypeCode) {
+		return find(this.rateTypes, {rateClassCode : rateClassCode, rateTypeCode : rateTypeCode});
 	}
 	getActivityTypeFromCode(activityTypeCode) {
 		return find(this.activityTypes, {code : activityTypeCode});
