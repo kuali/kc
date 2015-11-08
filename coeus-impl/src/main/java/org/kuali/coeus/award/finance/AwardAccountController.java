@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@RequestMapping(value="/api")
 @Controller("awardAccountController")
 public class AwardAccountController extends RestController {
 
