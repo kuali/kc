@@ -47,7 +47,7 @@ public class AwardAccountController extends RestController {
     @RequestMapping(method=RequestMethod.PUT, value="v1/accounts/{accountNumber}", consumes = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(value = HttpStatus.OK)
     public
-    void updateAccount(@Valid @RequestBody AccountDto account, @PathVariable String accountNumber, HttpServletResponse response) throws Exception {
+    void updateAccount(@Valid @RequestBody AccountDto account, @PathVariable Long accountNumber, HttpServletResponse response) throws Exception {
         AwardAccount currentAccount = accountDao.getAccount(accountNumber);
         if(Objects.isNull(currentAccount)) {
             sendErrorResponse(response, NO_SUCH_ACCOUNT);
@@ -66,7 +66,7 @@ public class AwardAccountController extends RestController {
 
     @RequestMapping(method=RequestMethod.GET, value="v1/accounts/{accountNumber}")
     public @ResponseBody
-    AccountResults getAccount(@PathVariable String accountNumber,
+    AccountResults getAccount(@PathVariable Long accountNumber,
                               @RequestParam(value = "showAwards", required = false) boolean showAwards,
                               HttpServletResponse response) throws Exception {
         AwardAccount account = accountDao.getAccount(accountNumber);
@@ -88,7 +88,7 @@ public class AwardAccountController extends RestController {
 
     @RequestMapping(method=RequestMethod.GET, value="v1/accounts/awards/{awardId}")
     public @ResponseBody
-    AccountInformationResults getAccountInformation(@PathVariable String awardId, HttpServletResponse response) throws Exception {
+    AccountInformationResults getAccountInformation(@PathVariable Long awardId, HttpServletResponse response) throws Exception {
         Award award = accountDao.getAward(awardId);
         AccountInformationResults accountInformationResults = new AccountInformationResults();
         if(award == null) {
