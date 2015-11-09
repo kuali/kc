@@ -24,6 +24,18 @@
 	padding-left: 9px;
 }
 
+#Kc-LandingPage-DefaultView #Kc-LandingPage-DefaultView_headerWrapper {
+	padding: 0px;
+}
+
+#Kc-LandingPage-DefaultView #Uif-ViewContentWrapper {
+	padding: 0px;
+}
+
+#Kc-LandingPage-DefaultView #Uif-ViewContentWrapper img {
+	width: 100%;	
+}
+
 #DummyLoginView #u1rttg5q > div:first-child {
 	height: 200px;
 	width: 371px;
