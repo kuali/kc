@@ -48,7 +48,7 @@ public class AccountDaoJpa implements AccountDao {
         return ListUtils.emptyIfNull(accounts);
     }
 
-    public AwardAccount getAccount(String accountNumber) {
+    public AwardAccount getAccount(Long accountNumber) {
         AwardAccount account = getDataObjectService().findUnique(AwardAccount.class,
                 QueryByCriteria.Builder.forAttribute(ACCOUNT_NUMBER, accountNumber).build());
         return account;
@@ -59,11 +59,11 @@ public class AccountDaoJpa implements AccountDao {
         return account;
     }
 
-    public List<Award> getLinkedAwards(String accountNumber) {
+    public List<Award> getLinkedAwards(Long accountNumber) {
         return (List<Award>) getBusinessObjectService().findMatching(Award.class, Collections.singletonMap(ACCOUNT_NUMBER, accountNumber));
     }
 
-    public Award getAward(String awardId) {
+    public Award getAward(Long awardId) {
         return  getBusinessObjectService().findByPrimaryKey(Award.class, Collections.singletonMap(AWARD_ID, awardId));
     }
 

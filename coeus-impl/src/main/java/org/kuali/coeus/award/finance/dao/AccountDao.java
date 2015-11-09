@@ -11,12 +11,12 @@ public interface AccountDao {
 
     public List<AwardAccount> getAccounts(Integer startIndex, Integer size);
 
-    public AwardAccount getAccount(String accountNumber);
+    public AwardAccount getAccount(Long accountNumber);
 
     public AwardAccount saveAccount(AwardAccount account);
 
-    public Award getAward(String awardId);
+    public Award getAward(Long awardId);
 
-    public List<Award> getLinkedAwards(String accountNumber);
+    public List<Award> getLinkedAwards(Long accountNumber);
 
     }
