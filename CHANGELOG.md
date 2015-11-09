@@ -1,6 +1,22 @@
 
 
 ##CURRENT
+*  Fixing null pointer
+  * curl --user coeus-kualico:password https://res-demo1.kuali.co/kc-dev/award/api/v1/accounts/awards/3342
+  * curl --user coeus-kualico:password https://res-demo1.kuali.co/kc-dev/award/api/v1/accounts/awards/3342
+  * results in
+        org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:106)
+  * </pre></p><p><b>root cause</b> <pre>java.lang.NullPointerException
+        java.util.Optional.orElseGet(Optional.java:267)
+        org.kuali.kra.award.home.Award.getCurrentFandaRate(Award.java:2508)
+        org.kuali.coeus.award.finance.impl.AccountServiceImpl.createAccountInformation(AccountServiceImpl.java:61)
+        org.kuali.coeus.award.finance.AwardAccountController.getAccountInformation(AwardAccountController.java:97)
+  * Gayathri Athreya on Mon, 9 Nov 2015 15:40:45 -0600 [View Commit](../../commit/3aa447bfd7aa0ccc10583201f7fbb5e7611722ec)
+*  Fixing validation.
+  * When hitting REST endpoint with integerrs greater than db length, fails with db error.
+  * Gayathri Athreya on Mon, 9 Nov 2015 14:56:10 -0600 [View Commit](../../commit/3207a09b5306828a7b5447fcc26d9a25dc5a28bd)
+
+##coeus-1511.19
 * No Changes
 
 
