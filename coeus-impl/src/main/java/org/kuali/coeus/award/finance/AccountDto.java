@@ -15,15 +15,15 @@ public class AccountDto {
     @Size(min = 1, max = 15)
     @Pattern(regexp = "[a-zA-Z]+")
     private String status;
-    @Digits(integer = 12, fraction = 2)
+    @Digits(integer = 10, fraction = 2)
     private ScaleTwoDecimal budgeted;
-    @Digits(integer = 12, fraction = 2)
+    @Digits(integer = 10, fraction = 2)
     private ScaleTwoDecimal pending;
-    @Digits(integer = 12, fraction = 2)
+    @Digits(integer = 10, fraction = 2)
     private ScaleTwoDecimal income;
-    @Digits(integer = 12, fraction = 2)
+    @Digits(integer = 10, fraction = 2)
     private ScaleTwoDecimal expense;
-    @Digits(integer = 12, fraction = 2)
+    @Digits(integer = 10, fraction = 2)
     private ScaleTwoDecimal available;
 
     public Long getId() {
