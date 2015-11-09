@@ -2502,7 +2502,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         AwardFandaRate currentFandaRate = rates.stream()
                 .filter(rate -> Integer.parseInt(rate.getFiscalYear()) == currentYear)
                 .max(Comparator.comparing(AwardFandaRate::getApplicableFandaRate))
-                .orElseGet(null);
+                .orElse(null);
 
         return currentFandaRate;
     }
