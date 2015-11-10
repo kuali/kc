@@ -1,5 +1,6 @@
 package org.kuali.coeus.sys.framework.controller.rest;
 
+import org.kuali.coeus.sys.framework.rest.DataDictionaryValidationException;
 import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
 import org.kuali.coeus.sys.framework.rest.UnauthorizedAccessException;
 import org.springframework.http.HttpStatus;
@@ -37,6 +38,12 @@ public class RestController {
             errors.add(error);
         }
         return new ErrorMessage(errors);
+    }
+    
+    @ExceptionHandler(DataDictionaryValidationException.class)
+    @ResponseBody
+    public ErrorMessageMap dataDictionaryValidationError(DataDictionaryValidationException ex) {
+    	return new ErrorMessageMap(ex.getErrors());
     }
     
     @ExceptionHandler(ResourceNotFoundException.class)
