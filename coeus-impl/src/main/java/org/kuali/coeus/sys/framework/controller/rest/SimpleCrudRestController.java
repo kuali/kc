@@ -19,21 +19,17 @@
 package org.kuali.coeus.sys.framework.controller.rest;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
-import org.kuali.coeus.sys.framework.controller.rest.RestController;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.rest.DataDictionaryValidationException;
 import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
 import org.kuali.coeus.sys.framework.rest.UnauthorizedAccessException;
 import org.kuali.coeus.sys.framework.rest.UnprocessableEntityException;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -80,6 +76,8 @@ public abstract class SimpleCrudRestController<T extends PersistableBusinessObje
 	protected abstract Class<R> getDtoClass();
 	
 	protected abstract Class<T> getDoClass();
+
+	protected abstract Map.Entry<String, String> getPermission();
 	
 	protected T getNewDataObject() {
 		try {
@@ -93,7 +91,7 @@ public abstract class SimpleCrudRestController<T extends PersistableBusinessObje
 	
 	@RequestMapping(method=RequestMethod.GET)
 	public @ResponseBody Collection<R> getAll() {
-		return (Collection<R>) Translate.to(getDtoClass()).fromEach(getAllFromDataStore());
+		return Translate.to(getDtoClass()).fromEach(getAllFromDataStore());
 	}
 	
 	@RequestMapping(value="{code}", method=RequestMethod.GET)
@@ -140,13 +138,10 @@ public abstract class SimpleCrudRestController<T extends PersistableBusinessObje
 	
 	protected void validateBusinessObject(T dataObject) {
 		if (!dictionaryValidationService.isBusinessObjectValid(dataObject)) {
-			
 			Map<String, List<String>> errors = globalVariableService.getMessageMap().getErrorMessages().entrySet().stream()
-					.map(entry -> {
-						return entry(entry.getKey().replaceFirst("^\\.", ""), entry.getValue().stream()
-								.map(errorMessage -> resolveErrorMessage(errorMessage))
-								.collect(Collectors.toList()));
-					}).collect(entriesToMap());
+					.map(entry -> entry(entry.getKey().replaceFirst("^\\.", ""), entry.getValue().stream()
+                            .map(this::resolveErrorMessage)
+                            .collect(Collectors.toList()))).collect(entriesToMap());
 			
 			throw new DataDictionaryValidationException(errors);
 		}
@@ -171,10 +166,10 @@ public abstract class SimpleCrudRestController<T extends PersistableBusinessObje
 	protected void save(T currentCategory) {
 		getBusinessObjectService().save(currentCategory);
 	}
-	
+
 	protected void assertUserHasAccess() {
 		if (!permissionService.hasPermission(globalVariableService.getUserSession().getPrincipalId(), 
-				Constants.MODULE_NAMESPACE_MAINTENANCE, PermissionConstants.MAINTAIN_INSTITUTE_RATES)) {
+				getPermission().getKey(), getPermission().getValue())) {
 			throw new UnauthorizedAccessException();
 		}
 	}

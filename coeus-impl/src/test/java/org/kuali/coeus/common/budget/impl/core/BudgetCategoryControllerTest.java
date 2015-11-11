@@ -44,13 +44,13 @@ public class BudgetCategoryControllerTest {
 			}
 		};
 		
-		Collection<BudgetCategoryDto> categories = controller.getBudgetCategories();
+		Collection<BudgetCategoryDto> categories = controller.getAll();
 		assertEquals(2, categories.size());
 		assertEquals(budgetCat1.getDescription(), 
-				categories.stream().filter(cat -> { return budgetCat1.getCode().equals(cat.getCode()); })
+				categories.stream().filter(cat -> budgetCat1.getCode().equals(cat.getCode()))
 					.findFirst().orElse(new BudgetCategoryDto()).getDescription());
 		assertEquals(budgetCat2.getBudgetCategoryTypeCode(),
-				categories.stream().filter(cat -> { return budgetCat2.getCode().equals(cat.getCode()); })
+				categories.stream().filter(cat -> budgetCat2.getCode().equals(cat.getCode()))
 					.findFirst().orElse(new BudgetCategoryDto()).getBudgetCategoryTypeCode());
 	
 	}
@@ -65,7 +65,7 @@ public class BudgetCategoryControllerTest {
 			}
 		};
 		
-		BudgetCategoryDto dto = controller.getBudgetCategory(budgetCat1.getCode());
+		BudgetCategoryDto dto = controller.get(budgetCat1.getCode());
 		assertEquals(budgetCat1.getCode(), dto.getCode());
 		assertEquals(budgetCat1.getDescription(), dto.getDescription());
 		assertEquals(budgetCat1.getBudgetCategoryTypeCode(), dto.getBudgetCategoryTypeCode());
@@ -97,7 +97,7 @@ public class BudgetCategoryControllerTest {
 		update.setDescription("New Description");
 		update.setCode(budgetCat1.getCode());
 		update.setBudgetCategoryTypeCode(budgetCat1.getBudgetCategoryTypeCode());
-		controller.updateBudgetCategory(budgetCat1.getCode(), update);
+		controller.update(budgetCat1.getCode(), update);
 		assertEquals(budgetCat1.getCode(), updatedCategory.getCode());
 		assertEquals("New Description", updatedCategory.getDescription());
 		assertEquals(budgetCat1.getBudgetCategoryTypeCode(), updatedCategory.getBudgetCategoryTypeCode());
@@ -129,7 +129,7 @@ public class BudgetCategoryControllerTest {
 		update.setDescription("New Description");
 		update.setCode(budgetCat1.getCode());
 		update.setBudgetCategoryTypeCode(budgetCat1.getBudgetCategoryTypeCode());
-		controller.updateBudgetCategory(budgetCat1.getCode(), update);
+		controller.update(budgetCat1.getCode(), update);
 	}
 	
 	@Test()
@@ -158,7 +158,7 @@ public class BudgetCategoryControllerTest {
 		update.setDescription(budgetCat1.getDescription());
 		update.setCode(budgetCat1.getCode());
 		update.setBudgetCategoryTypeCode(budgetCat1.getBudgetCategoryTypeCode());
-		controller.addBudgetCategory(update);
+		controller.add(update);
 		assertEquals(budgetCat1.getCode(), updatedCategory.getCode());
 		assertEquals(budgetCat1.getDescription(), updatedCategory.getDescription());
 		assertEquals(budgetCat1.getBudgetCategoryTypeCode(), updatedCategory.getBudgetCategoryTypeCode());
@@ -190,6 +190,6 @@ public class BudgetCategoryControllerTest {
 		update.setDescription(budgetCat1.getDescription());
 		update.setCode(budgetCat1.getCode());
 		update.setBudgetCategoryTypeCode(budgetCat1.getBudgetCategoryTypeCode());
-		controller.addBudgetCategory(update);
+		controller.add(update);
 	}
 }
