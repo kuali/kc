@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* adding more BO rest logic
+  * Travis Schneeberger on Wed, 11 Nov 2015 12:36:28 -0500 [View Commit](../../commit/63a91b601e1c624bdb8d9b1ddf4e664c3d7247ca)
+* Rest Endpoint for Budget Category Type as sample service for csv upload
+  * blackcathacker on Tue, 10 Nov 2015 16:55:24 -0600 [View Commit](../../commit/3d1795c198545a49200cd1e8ea95d55e2b77a8ff)
+
+##coeus-1511.23
 * No Changes
 
 
