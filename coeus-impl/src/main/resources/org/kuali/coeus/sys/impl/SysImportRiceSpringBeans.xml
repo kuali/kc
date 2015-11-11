@@ -64,6 +64,7 @@
     <bean id="permissionService" parent="grlImporter" p:serviceName="kimPermissionService" />
     <bean id="roleService" parent="grlImporter" p:serviceName="kimRoleService" />
     <bean id="personService" parent="grlImporter" p:serviceName="personService" />
+    <bean id="providerRegistry" parent="grlImporter" p:serviceName="providerRegistry" />
 
     <bean id="ccImporter" abstract="true" class="org.kuali.coeus.sys.framework.service.ConfigContextConfigObjectFactoryBean" p:singleton="true" p:mustExist="true" />
 
