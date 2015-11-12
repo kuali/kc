@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* fix error codes for RestController and better error handling when objects don't exist
+
+  * also do validation for foreign key references when attempting a delete
+  * blackcathacker on Thu, 12 Nov 2015 10:03:20 -0600 [View Commit](../../commit/b16b85f84d56564c3d88833070159cac9f3cba07)
+
+##coeus-1511.27
 * No Changes
 
 
