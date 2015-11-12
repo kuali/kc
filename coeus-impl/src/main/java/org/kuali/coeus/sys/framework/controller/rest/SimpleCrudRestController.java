@@ -33,6 +33,7 @@ import org.kuali.coeus.sys.framework.rest.DataDictionaryValidationException;
 import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
 import org.kuali.coeus.sys.framework.rest.UnauthorizedAccessException;
 import org.kuali.coeus.sys.framework.rest.UnprocessableEntityException;
+import org.kuali.coeus.sys.framework.validation.ErrorHandlingUtilService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -77,8 +78,8 @@ public abstract class SimpleCrudRestController<T extends PersistableBusinessObje
 	private DictionaryValidationService dictionaryValidationService;
 	
 	@Autowired
-	@Qualifier("kualiConfigurationService")
-	private ConfigurationService configurationService;
+	@Qualifier("errorHandlingUtilService")
+	private ErrorHandlingUtilService errorHandlingUtilService;
 	
 	@Autowired
 	@Qualifier("persistenceVerificationService")
@@ -203,46 +204,36 @@ public abstract class SimpleCrudRestController<T extends PersistableBusinessObje
 	
 	protected boolean validateDeleteDataObject(T dataObject) {
 		if (!persistenceVerificationService.verifyRelationshipsForDelete(dataObject, Collections.emptyList())) {
-			extractAndThrowErrorMessages();
+			throwErrorMessages();
 		}
 		return true;
 	}
 
 	protected boolean validateUpdateDataObject(T dataObject) {
 		if (!persistenceVerificationService.verifyRelationshipsForUpdate(dataObject, Collections.emptyList())) {
-			extractAndThrowErrorMessages();
+			throwErrorMessages();
 		}
 		return true;
 	}
 
 	protected boolean validateInsertDataObject(T dataObject) {
 		if (!persistenceVerificationService.verifyRelationshipsForInsert(dataObject, Collections.emptyList())) {
-			extractAndThrowErrorMessages();
+			throwErrorMessages();
 		}
 		return true;
 	}
 	
 	protected void validateBusinessObject(T dataObject) {
 		if (!dictionaryValidationService.isBusinessObjectValid(dataObject)) {
-			extractAndThrowErrorMessages();
+			throwErrorMessages();
 		}
 	}
 
-	protected void extractAndThrowErrorMessages() {
-		Map<String, List<String>> errors = globalVariableService.getMessageMap().getErrorMessages().entrySet().stream()
-				.map(entry -> entry(entry.getKey().replaceFirst("^\\.", ""), entry.getValue().stream()
-		                .map(this::resolveErrorMessage)
-		                .collect(Collectors.toList()))).collect(entriesToMap());
-		
-		throw new DataDictionaryValidationException(errors);
-	}
-
-	protected String resolveErrorMessage(ErrorMessage errorMessage) {
-        String messageText = configurationService.getPropertyValueAsString(errorMessage.getErrorKey());
-        for (int i = 0; i < errorMessage.getMessageParameters().length; i++) {
-            messageText = StringUtils.replace(messageText, "{" + i + "}", errorMessage.getMessageParameters()[i]);
-        }
-        return messageText;    
+	protected void throwErrorMessages() {
+		Map<String, List<String>> errors = errorHandlingUtilService.extractErrorMessages();
+		if (errors != null && !errors.isEmpty()) {
+			throw new DataDictionaryValidationException(errors);
+		}
 	}
 	
 	protected Collection<T> getAllFromDataStore() {
@@ -291,14 +282,6 @@ public abstract class SimpleCrudRestController<T extends PersistableBusinessObje
 	public void setDictionaryValidationService(
 			DictionaryValidationService dictionaryValidationService) {
 		this.dictionaryValidationService = dictionaryValidationService;
-	}
-
-	public ConfigurationService getConfigurationService() {
-		return configurationService;
-	}
-
-	public void setConfigurationService(ConfigurationService configurationService) {
-		this.configurationService = configurationService;
 	}
 
 	public LegacyDataAdapter getLegacyDataAdapter() {
@@ -357,6 +340,15 @@ public abstract class SimpleCrudRestController<T extends PersistableBusinessObje
 
 	public void setWritePermissionName(String writePermissionName) {
 		this.writePermissionName = writePermissionName;
+	}
+
+	public ErrorHandlingUtilService getErrorHandlingUtilService() {
+		return errorHandlingUtilService;
+	}
+
+	public void setErrorHandlingUtilService(
+			ErrorHandlingUtilService errorHandlingUtilService) {
+		this.errorHandlingUtilService = errorHandlingUtilService;
 	}
 	
 }

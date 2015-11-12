@@ -21,6 +21,7 @@ package org.kuali.kra.award.awardhierarchy.sync.service;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.sys.framework.validation.ErrorHandlingUtilService;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncLog;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncStatus;
 import org.kuali.kra.award.document.AwardDocument;
@@ -54,6 +55,7 @@ public class AwardSyncUtilityServiceImpl implements AwardSyncUtilityService {
     
     private WorkflowDocumentActionsService workflowUtility;
     private ConfigurationService kualiConfigurationService;
+    private ErrorHandlingUtilService errorHandlingUtilService;
 
 
     @SuppressWarnings("unchecked")
@@ -97,13 +99,7 @@ public class AwardSyncUtilityServiceImpl implements AwardSyncUtilityService {
      * @return
      */
     protected String expandErrorString(String errorKey, String[] params) {
-        ConfigurationService kualiConfiguration = getKualiConfigurationService();
-        String questionText = kualiConfiguration.getPropertyValueAsString(errorKey);
-
-        for (int i = 0; i < params.length; i++) {
-            questionText = StringUtils.replace(questionText, "{" + i + "}", params[i]);
-        }
-        return questionText;    
+    	return errorHandlingUtilService.resolveErrorKey(errorKey, params);
     }
     
 
@@ -232,5 +228,14 @@ public class AwardSyncUtilityServiceImpl implements AwardSyncUtilityService {
 
     public void setKualiConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
-    }    
+    }
+
+	public ErrorHandlingUtilService getErrorHandlingUtilService() {
+		return errorHandlingUtilService;
+	}
+
+	public void setErrorHandlingUtilService(
+			ErrorHandlingUtilService errorHandlingUtilService) {
+		this.errorHandlingUtilService = errorHandlingUtilService;
+	}    
 }
