@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* adding more BO rest logic, update/insert logic
+  * Travis Schneeberger on Thu, 12 Nov 2015 14:27:43 -0500 [View Commit](../../commit/1e7759916dd8f1ad043d58fdb5af371ff0c33b3f)
+
+##coeus-1511.28
 * fix error codes for RestController and better error handling when objects don't exist
 
   * also do validation for foreign key references when attempting a delete
