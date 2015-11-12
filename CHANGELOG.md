@@ -2,6 +2,12 @@
 
 ##CURRENT
 * adding more BO rest logic, update/insert logic
+  * Travis Schneeberger on Thu, 12 Nov 2015 16:22:29 -0500 [View Commit](../../commit/fdeaa8fe824e74bd2900540955db40d1fd2e3df9)
+* update simplecrudrestcontroller to be non-abstract to support eventually spring/auto configuration
+  * blackcathacker on Thu, 12 Nov 2015 14:24:37 -0600 [View Commit](../../commit/aba1746a986675c1ede8963cf73a3384a837fea0)
+
+##coeus-1511.30
+* adding more BO rest logic, update/insert logic
   * Travis Schneeberger on Thu, 12 Nov 2015 15:42:41 -0500 [View Commit](../../commit/e0fc6c1e332b142a22359706651ae0995612cdcb)
 
 ##coeus-1511.29
