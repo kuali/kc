@@ -1,5 +1,7 @@
 package org.kuali.coeus.sys.framework.controller.rest;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.sys.framework.rest.DataDictionaryValidationException;
 import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
 import org.kuali.coeus.sys.framework.rest.UnauthorizedAccessException;
@@ -21,6 +23,9 @@ import java.util.stream.Stream;
 
 
 public class RestController {
+
+    private static Log LOG = LogFactory.getLog(RestController.class);
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
@@ -69,7 +74,8 @@ public class RestController {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
     public ErrorMessage unrecognizedException(Exception ex) {
-    	return generateSingleErrorFromExceptionMessage(ex);
+        LOG.error(ex.getMessage(), ex);
+        return generateSingleErrorFromExceptionMessage(ex);
     }
 
     

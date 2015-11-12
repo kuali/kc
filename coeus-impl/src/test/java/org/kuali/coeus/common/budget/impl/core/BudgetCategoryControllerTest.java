@@ -84,13 +84,11 @@ public class BudgetCategoryControllerTest {
 				updatedCategory = bo;
 			}
 			@Override
-			protected void assertUserHasAccess() {
-				
-			}
+			protected void assertUserHasAccess() { }
 			@Override
-			protected void validateBusinessObject(BudgetCategory budgetCategory) {
-				
-			}
+			protected void validateBusinessObject(BudgetCategory budgetCategory) { }
+			@Override
+			protected boolean validateUpdateDataObject(BudgetCategory budgetCategory) { return true; }
 		};
 		
 		BudgetCategoryDto update = new BudgetCategoryDto();
@@ -116,13 +114,9 @@ public class BudgetCategoryControllerTest {
 				updatedCategory = bo;
 			}
 			@Override
-			protected void assertUserHasAccess() {
-				
-			}
+			protected void assertUserHasAccess() { }
 			@Override
-			protected void validateBusinessObject(BudgetCategory budgetCategory) {
-				
-			}
+			protected void validateBusinessObject(BudgetCategory budgetCategory) { }
 		};
 		
 		BudgetCategoryDto update = new BudgetCategoryDto();
@@ -145,13 +139,11 @@ public class BudgetCategoryControllerTest {
 				updatedCategory = bo;
 			}
 			@Override
-			protected void assertUserHasAccess() {
-				
-			}
+			protected void assertUserHasAccess() { }
 			@Override
-			protected void validateBusinessObject(BudgetCategory budgetCategory) {
-				
-			}
+			protected void validateBusinessObject(BudgetCategory budgetCategory) { }
+			@Override
+			protected boolean validateInsertDataObject(BudgetCategory budgetCategory) { return true; }
 		};
 		
 		BudgetCategoryDto update = new BudgetCategoryDto();
@@ -177,13 +169,9 @@ public class BudgetCategoryControllerTest {
 				updatedCategory = bo;
 			}
 			@Override
-			protected void assertUserHasAccess() {
-				
-			}
+			protected void assertUserHasAccess() { }
 			@Override
-			protected void validateBusinessObject(BudgetCategory budgetCategory) {
-				
-			}
+			protected void validateBusinessObject(BudgetCategory budgetCategory) { }
 		};
 		
 		BudgetCategoryDto update = new BudgetCategoryDto();
