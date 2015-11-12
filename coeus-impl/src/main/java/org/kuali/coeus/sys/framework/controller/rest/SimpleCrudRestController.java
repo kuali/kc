@@ -131,7 +131,7 @@ public abstract class SimpleCrudRestController<T extends PersistableBusinessObje
 		moo.update(dto, dataObject);
 		
 		validateBusinessObject(dataObject);
-
+		validateUpdateDataObject(dataObject);
 		save(dataObject);
 	}
 	
@@ -151,7 +151,7 @@ public abstract class SimpleCrudRestController<T extends PersistableBusinessObje
 		moo.update(dto, newDataObject);
 		
 		validateBusinessObject(newDataObject);
-
+		validateInsertDataObject(newDataObject);
 		save(newDataObject);
 	}
 	
@@ -171,6 +171,20 @@ public abstract class SimpleCrudRestController<T extends PersistableBusinessObje
 	
 	protected boolean validateDeleteDataObject(T dataObject) {
 		if (!persistenceVerificationService.verifyRelationshipsForDelete(dataObject, Collections.emptyList())) {
+			extractAndThrowErrorMessages();
+		}
+		return true;
+	}
+
+	protected boolean validateUpdateDataObject(T dataObject) {
+		if (!persistenceVerificationService.verifyRelationshipsForUpdate(dataObject, Collections.emptyList())) {
+			extractAndThrowErrorMessages();
+		}
+		return true;
+	}
+
+	protected boolean validateInsertDataObject(T dataObject) {
+		if (!persistenceVerificationService.verifyRelationshipsForInsert(dataObject, Collections.emptyList())) {
 			extractAndThrowErrorMessages();
 		}
 		return true;
@@ -216,7 +230,7 @@ public abstract class SimpleCrudRestController<T extends PersistableBusinessObje
 	}
 
 	protected void assertUserHasAccess() {
-		if (!permissionService.hasPermission(globalVariableService.getUserSession().getPrincipalId(), 
+		if (globalVariableService.getUserSession() == null || !permissionService.hasPermission(globalVariableService.getUserSession().getPrincipalId(),
 				getPermission().getKey(), getPermission().getValue())) {
 			throw new UnauthorizedAccessException();
 		}
