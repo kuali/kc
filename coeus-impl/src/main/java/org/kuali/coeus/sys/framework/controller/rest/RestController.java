@@ -41,18 +41,21 @@ public class RestController {
     }
     
     @ExceptionHandler(DataDictionaryValidationException.class)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     @ResponseBody
     public ErrorMessageMap dataDictionaryValidationError(DataDictionaryValidationException ex) {
     	return new ErrorMessageMap(ex.getErrors());
     }
     
     @ExceptionHandler(ResourceNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ResponseBody
     public ErrorMessage resourceNotFoundError(ResourceNotFoundException ex) {
     	return generateSingleErrorFromExceptionMessage(ex);
     }
     
     @ExceptionHandler(UnauthorizedAccessException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ResponseBody
     public ErrorMessage unauthorizedError(UnauthorizedAccessException ex) {
     	return generateSingleErrorFromExceptionMessage(ex);
@@ -60,6 +63,13 @@ public class RestController {
     
     protected ErrorMessage generateSingleErrorFromExceptionMessage(Exception ex) {
     	return new ErrorMessage(Stream.of(ex.getMessage()).collect(Collectors.toList()));
+    }
+    
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseBody
+    public ErrorMessage unrecognizedException(Exception ex) {
+    	return generateSingleErrorFromExceptionMessage(ex);
     }
 
     

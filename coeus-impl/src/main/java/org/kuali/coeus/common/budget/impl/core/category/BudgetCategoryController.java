@@ -40,7 +40,7 @@ public class BudgetCategoryController extends SimpleCrudRestController<BudgetCat
 	@Override
 	protected void validateBusinessObject(BudgetCategory budgetCategory) {
 		super.validateBusinessObject(budgetCategory);
-		BudgetCategoryType budgetCategoryType = getBusinessObjectService().findBySinglePrimaryKey(BudgetCategoryType.class, budgetCategory.getBudgetCategoryTypeCode());
+		BudgetCategoryType budgetCategoryType = getLegacyDataAdapter().findBySinglePrimaryKey(BudgetCategoryType.class, budgetCategory.getBudgetCategoryTypeCode());
 		if (budgetCategoryType == null) {
 			throw new DataDictionaryValidationException(Collections.singletonMap("budgetCategoryTypeCode", Collections.singletonList("referenced budget category type does not exist")));
 		}
