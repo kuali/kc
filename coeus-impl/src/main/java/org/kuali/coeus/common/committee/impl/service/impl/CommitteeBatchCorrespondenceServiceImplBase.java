@@ -26,6 +26,7 @@ import org.kuali.coeus.common.committee.impl.bo.CommitteeBatchCorrespondenceDeta
 import org.kuali.coeus.common.committee.impl.print.CommitteeReportType;
 import org.kuali.coeus.common.committee.impl.print.service.CommitteePrintingServiceBase;
 import org.kuali.coeus.common.committee.impl.service.CommitteeBatchCorrespondenceServiceBase;
+import org.kuali.coeus.common.framework.compliance.core.ComplianceConstants;
 import org.kuali.coeus.common.framework.mail.EmailAttachment;
 import org.kuali.coeus.common.framework.print.AbstractPrint;
 import org.kuali.coeus.common.framework.print.Printable;
@@ -62,7 +63,6 @@ public abstract class CommitteeBatchCorrespondenceServiceImplBase implements Com
     private static final String COMMITTEE_ID = "committeeId";
     private static final String PROTOCOL_NUMBER = "protocolNumber";
     private static final String SEQUENCE_NUMBER = "sequenceNumber";
-    private static final String PROTO_CORRESP_TYPE_CODE = "protoCorrespTypeCode";
     private static final String BATCH_CORRESPONDENCE_TYPE_CODE = "batchCorrespondenceTypeCode";
 
 
@@ -181,7 +181,7 @@ public abstract class CommitteeBatchCorrespondenceServiceImplBase implements Com
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(PROTOCOL_NUMBER, protocol.getProtocolNumber());
         fieldValues.put(SEQUENCE_NUMBER, protocol.getSequenceNumber().toString());
-        fieldValues.put(PROTO_CORRESP_TYPE_CODE, protocolCorrespondenceType.getProtoCorrespTypeCode());
+        fieldValues.put(ComplianceConstants.PROTO_CORRESP_TYPE_CODE, protocolCorrespondenceType.getProtoCorrespTypeCode());
 
         return !businessObjectService.findMatching(getProtocolCorrespondenceBOClassHook(), fieldValues).isEmpty();
         
@@ -270,7 +270,7 @@ public abstract class CommitteeBatchCorrespondenceServiceImplBase implements Com
         Map<String, Object> reportParameters = new HashMap<String, Object>();
         reportParameters.put(COMMITTEE_ID, committeeId);
         reportParameters.put("submissionNumber", protocolAction.getSubmissionNumber());
-        reportParameters.put(PROTO_CORRESP_TYPE_CODE, protocolCorrespondenceType.getProtoCorrespTypeCode());
+        reportParameters.put(ComplianceConstants.PROTO_CORRESP_TYPE_CODE, protocolCorrespondenceType.getProtoCorrespTypeCode());
         printable.setReportParameters(reportParameters);
         List<Printable> printableArtifactList = new ArrayList<Printable>();
         printableArtifactList.add(printable);

@@ -16,17 +16,17 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.kuali.kra.irb.actions.print;
 
-package org.kuali.coeus.common.framework.compliance.core;
+import org.kuali.coeus.common.framework.compliance.core.ComplianceConstants;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.protocol.actions.print.BatchCorrespondenceXmlStreamBase;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 
-public final class ComplianceConstants {
-    
-    public static final String NEW_SPECIAL_REVIEW_COMMENT = "A Special Review has been inserted.";
-    public static final String PROTO_CORRESP_TYPE_CODE = "protoCorrespTypeCode";
-    public static final String IRB_RENEWAL_REMINDER_CORRESP_TYPES = "irb.protocol.renewal.reminder.corresp.types";
-    public static final String IACUC_RENEWAL_REMINDER_CORRESP_TYPES = "iacuc.protocol.renewal.reminder.corresp.types";
+public class IrbBatchCorrespondenceXmlStream extends BatchCorrespondenceXmlStreamBase {
+	
+	  public String getRenewalReminderCorrespondenceTypesParamValues() {
+		  return getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_PROTOCOL, ParameterConstants.DOCUMENT_COMPONENT, ComplianceConstants.IRB_RENEWAL_REMINDER_CORRESP_TYPES);
+	  }
 
-    private ComplianceConstants() {
-        throw new UnsupportedOperationException("do not call");
-    }
 }

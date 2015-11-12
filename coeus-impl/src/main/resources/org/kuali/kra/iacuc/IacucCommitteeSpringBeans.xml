@@ -208,8 +208,14 @@
 	</bean>
 	
 	<bean id="iacucProtocolBatchCorrespondencePrint" class="org.kuali.kra.iacuc.committee.print.IacucProtocolBatchCorrespondencePrint" scope="prototype" parent="templatePrint">
-		<property name="xmlStream" ref="iacucCorrespondenceXmlStream" />
+		<property name="xmlStream" ref="iacucBatchCorrespondenceXmlStream" />
 		<property name="protocolCorrespondenceTemplateService" ref="iacucProtocolCorrespondenceTemplateService" />
+	</bean>
+	
+	<bean id="iacucBatchCorrespondenceXmlStream" class="org.kuali.kra.iacuc.actions.print.IacucBatchCorrespondenceXmlStream">
+		<property name="renewalReminderStream" ref="iacucRenewalReminderStream"/>
+		<property name="correspondenceXmlStream" ref="iacucCorrespondenceXmlStream"/>
+    	<property name="parameterService" ref="parameterService" />
 	</bean>
 	
 	 <bean id="iacucCommitteeBatchCorrespondenceService" class="org.kuali.kra.iacuc.committee.service.impl.IacucCommitteeBatchCorrespondenceServiceImpl">
