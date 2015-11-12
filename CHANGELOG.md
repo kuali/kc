@@ -2,6 +2,10 @@
 
 ##CURRENT
 * adding more BO rest logic, update/insert logic
+  * Travis Schneeberger on Thu, 12 Nov 2015 15:42:41 -0500 [View Commit](../../commit/e0fc6c1e332b142a22359706651ae0995612cdcb)
+
+##coeus-1511.29
+* adding more BO rest logic, update/insert logic
   * Travis Schneeberger on Thu, 12 Nov 2015 14:27:43 -0500 [View Commit](../../commit/1e7759916dd8f1ad043d58fdb5af371ff0c33b3f)
 
 ##coeus-1511.28
