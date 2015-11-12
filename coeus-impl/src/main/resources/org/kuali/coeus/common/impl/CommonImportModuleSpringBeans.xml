@@ -47,5 +47,6 @@
     <bean id="awardBudgetService" parent="grlImporter" p:serviceName="awardBudgetService" p:singleton="false" />
     <bean id="kcEntityManager" parent="grlImporter" p:serviceName="kcEntityManager" />
     <bean id="persistenceVerificationService" parent="grlImporter" p:serviceName="persistenceVerificationService" />
+    <bean id="errorHandlingUtilService" parent="grlImporter" p:serviceName="errorHandlingUtilService" />
 
 </beans>
