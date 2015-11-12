@@ -1,4 +1,4 @@
-package org.kuali.coeus.sys.framework.controller.rest;
+package org.kuali.coeus.sys.framework.validation;
 
 import java.util.Arrays;
 import java.util.Collections;

@@ -126,11 +126,11 @@ public class PersistenceVerificationServiceImpl implements PersistenceVerificati
                     criteria.put(attr.getTargetName(), getProperty(bo, attr.getSourceName()));
                 }
 
-                if (!criteria.values().stream().anyMatch(Objects::isNull) && getBusinessObjectService().countMatching(relationship.getSourceClass(), criteria) == 0) {
+                if (!criteria.values().stream().anyMatch(Objects::isNull) && getBusinessObjectService().countMatching(relationship.getTargetClass(), criteria) == 0) {
 
                     for (PrimitiveAttributeDefinition attr : relationship.getPrimitiveAttributes()) {
                         getGlobalVariableService().getMessageMap().putError(attr.getSourceName(), RiceKeyConstants.ERROR_EXISTENCE,
-                                dataDictionaryService.getDataDictionary().getBusinessObjectEntry(relationship.getSourceClass().getName()).getObjectLabel());
+                                dataDictionaryService.getDataDictionary().getBusinessObjectEntry(relationship.getTargetClass().getName()).getObjectLabel());
                     }
                     success = false;
                 }
@@ -146,7 +146,7 @@ public class PersistenceVerificationServiceImpl implements PersistenceVerificati
         for (MetadataProvider provider : getProviderRegistry().getMetadataProviders()) {
             kradDataRelationships.addAll(provider.getMetadataForType(bo.getClass()).getRelationships());
         }
-
+        boolean success = true;
         for (org.kuali.rice.krad.data.metadata.DataObjectRelationship relationship : kradDataRelationships) {
             if (!ignoredRelationships.contains(relationship.getRelatedType())) {
 
@@ -165,11 +165,11 @@ public class PersistenceVerificationServiceImpl implements PersistenceVerificati
                                 dataDictionaryService.getDataDictionary().getDataObjectEntry(relationship.getRelatedType().getName()).getObjectLabel());
                     }
 
-                    return false;
+                    success = false;
                 }
             }
         }
-        return true;
+        return success;
     }
 
     protected boolean verifyOjbRelationshipsForDelete(Object bo, Collection<Class<?>> ignoredRelationships) {
@@ -225,6 +225,7 @@ public class PersistenceVerificationServiceImpl implements PersistenceVerificati
             }
         }
 
+        boolean success = true;
         for (Map.Entry<Class<?>,org.kuali.rice.krad.data.metadata.DataObjectRelationship> relationship : kradDataRelationships.entrySet()) {
             if (!ignoredRelationships.contains(relationship.getKey())) {
 
@@ -239,11 +240,11 @@ public class PersistenceVerificationServiceImpl implements PersistenceVerificati
                         .getTotalRowCount() > 0) {
                     getGlobalVariableService().getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, KeyConstants.ERROR_DELETION_BLOCKED,
                             dataDictionaryService.getDataDictionary().getDataObjectEntry(relationship.getKey().getName()).getObjectLabel());
-                    return false;
+                    success = false;
                 }
             }
         }
-        return true;
+        return success;
     }
 
     private Object getProperty(Object o, String prop) {

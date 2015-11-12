@@ -5,6 +5,8 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.sys.framework.rest.DataDictionaryValidationException;
 import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
 import org.kuali.coeus.sys.framework.rest.UnauthorizedAccessException;
+import org.kuali.coeus.sys.framework.validation.ErrorMessage;
+import org.kuali.coeus.sys.framework.validation.ErrorMessageMap;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
