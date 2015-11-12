@@ -18,6 +18,7 @@
  */
 package org.kuali.coeus.sys.framework.controller.rest;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -38,6 +39,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.DictionaryValidationService;
 import org.kuali.rice.krad.service.LegacyDataAdapter;
 import org.kuali.rice.krad.util.ErrorMessage;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -82,21 +84,51 @@ public abstract class SimpleCrudRestController<T extends PersistableBusinessObje
 	@Qualifier("persistenceVerificationService")
 	private PersistenceVerificationService persistenceVerificationService;
 	
-	protected abstract Class<R> getDtoClass();
+	private Class<T> dataObjectClazz;
 	
-	protected abstract Class<T> getDoClass();
+	private Class<R> dtoObjectClazz;
+	
+	private String primaryKeyColumn;
+	
+	private String writePermissionNamespace;
+	
+	private String writePermissionName;
+	
+	public SimpleCrudRestController(
+			Class<T> dataObjectClazz,
+			Class<R> dtoObjectClazz, String primaryKeyColumn,
+			String writePermissionNamespace, String writePermissionName) {
+		super();
+		this.dataObjectClazz = dataObjectClazz;
+		this.dtoObjectClazz = dtoObjectClazz;
+		this.primaryKeyColumn = primaryKeyColumn;
+		this.writePermissionNamespace = writePermissionNamespace;
+		this.writePermissionName = writePermissionName;
+	}
 
-	protected abstract Map.Entry<String, String> getPermission();
+	protected Map.Entry<String, String> getPermission() {
+		return entry(writePermissionNamespace, writePermissionName);
+	}
 	
 	protected T getNewDataObject() {
 		try {
-			return getDoClass().newInstance();
+			return getDataObjectClazz().newInstance();
 		} catch (InstantiationException | IllegalAccessException e) {
 			throw new RuntimeException("cannot create new data object", e);
 		}
 	}
 	
-	protected abstract Object getPrimaryKeyFromDto(R dataObject);
+	protected Object getPrimaryKeyFromDto(R dataObject) {
+		return getProperty(dataObject, primaryKeyColumn);
+	}
+	
+    private Object getProperty(Object o, String prop) {
+        try {
+            return PropertyUtils.getProperty(o, prop);
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
+    }
 	
 	@RequestMapping(method=RequestMethod.GET)
 	public @ResponseBody Collection<R> getAll() {
@@ -104,20 +136,20 @@ public abstract class SimpleCrudRestController<T extends PersistableBusinessObje
 		if (dataObjects == null || dataObjects.size() == 0) {
 			throw new ResourceNotFoundException("not found");
 		}
-		return Translate.to(getDtoClass()).fromEach(dataObjects);
+		return Translate.to(getDtoObjectClazz()).fromEach(dataObjects);
 	}
 	
-	@RequestMapping(value="{code}", method=RequestMethod.GET)
+	@RequestMapping(value="/{code}", method=RequestMethod.GET)
 	public @ResponseBody R get(@PathVariable String code) {
 		T dataObject = getFromDataStore(code);
 		if (dataObject == null) {
 			throw new ResourceNotFoundException("not found");
 		}
-		return Translate.to(getDtoClass()).from(dataObject);
+		return Translate.to(getDtoObjectClazz()).from(dataObject);
 	}
 	
-	@RequestMapping(value="{code}", method=RequestMethod.PUT)
-	@ResponseStatus(HttpStatus.CREATED)
+	@RequestMapping(value="/{code}", method=RequestMethod.PUT)
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void update(@PathVariable String code, @Valid @RequestBody R dto) {
 		assertUserHasAccess();
 		T dataObject = getFromDataStore(code);
@@ -155,7 +187,7 @@ public abstract class SimpleCrudRestController<T extends PersistableBusinessObje
 		save(newDataObject);
 	}
 	
-	@RequestMapping(value="{code}", method=RequestMethod.DELETE)
+	@RequestMapping(value="/{code}", method=RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public @ResponseBody void delete(@PathVariable String code) {
 		assertUserHasAccess();
@@ -214,11 +246,11 @@ public abstract class SimpleCrudRestController<T extends PersistableBusinessObje
 	}
 	
 	protected Collection<T> getAllFromDataStore() {
-		return getLegacyDataAdapter().findAll(getDoClass());
+		return getLegacyDataAdapter().findAll(getDataObjectClazz());
 	}
 	
 	protected T getFromDataStore(Object code) {
-		return getLegacyDataAdapter().findBySinglePrimaryKey(getDoClass(), code);
+		return getLegacyDataAdapter().findBySinglePrimaryKey(getDataObjectClazz(), code);
 	}
 
 	protected void save(T dataObject) {
@@ -284,6 +316,47 @@ public abstract class SimpleCrudRestController<T extends PersistableBusinessObje
 	public void setPersistenceVerificationService(
 			PersistenceVerificationService persistenceVerificationService) {
 		this.persistenceVerificationService = persistenceVerificationService;
+	}
+
+	public Class<T> getDataObjectClazz() {
+		return dataObjectClazz;
+	}
+
+	public void setDataObjectClazz(
+			Class<T> dataObjectClazz) {
+		this.dataObjectClazz = dataObjectClazz;
+	}
+
+	public Class<R> getDtoObjectClazz() {
+		return dtoObjectClazz;
+	}
+
+	public void setDtoObjectClazz(Class<R> dtoObjectClazz) {
+		this.dtoObjectClazz = dtoObjectClazz;
+	}
+
+	public String getPrimaryKeyColumnNames() {
+		return primaryKeyColumn;
+	}
+
+	public void setPrimaryKeyColumnNames(String primaryKeyColumn) {
+		this.primaryKeyColumn = primaryKeyColumn;
+	}
+
+	public String getWritePermissionNamespace() {
+		return writePermissionNamespace;
+	}
+
+	public void setWritePermissionNamespace(String writePermissionNamespace) {
+		this.writePermissionNamespace = writePermissionNamespace;
+	}
+
+	public String getWritePermissionName() {
+		return writePermissionName;
+	}
+
+	public void setWritePermissionName(String writePermissionName) {
+		this.writePermissionName = writePermissionName;
 	}
 	
 }
