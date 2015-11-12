@@ -144,7 +144,10 @@ public class PersistenceVerificationServiceImpl implements PersistenceVerificati
         final Collection<org.kuali.rice.krad.data.metadata.DataObjectRelationship> kradDataRelationships = new ArrayList<>();
 
         for (MetadataProvider provider : getProviderRegistry().getMetadataProviders()) {
-            kradDataRelationships.addAll(provider.getMetadataForType(bo.getClass()).getRelationships());
+            DataObjectMetadata metadata = provider.getMetadataForType(bo.getClass());
+            if (metadata != null) {
+                kradDataRelationships.addAll(provider.getMetadataForType(bo.getClass()).getRelationships());
+            }
         }
         boolean success = true;
         for (org.kuali.rice.krad.data.metadata.DataObjectRelationship relationship : kradDataRelationships) {
