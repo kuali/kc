@@ -158,7 +158,7 @@ public class PersistenceVerificationServiceImpl implements PersistenceVerificati
                         QueryByCriteria.Builder.andAttributes(criteria)
                                 .setCountFlag(CountFlag.ONLY)
                                 .build())
-                        .getTotalRowCount() > 0) {
+                        .getTotalRowCount() == 0) {
 
                     for (org.kuali.rice.krad.data.metadata.DataObjectAttributeRelationship rel : relationship.getAttributeRelationships()) {
                         getGlobalVariableService().getMessageMap().putError(rel.getParentAttributeName(), KeyConstants.ERROR_DELETION_BLOCKED,
