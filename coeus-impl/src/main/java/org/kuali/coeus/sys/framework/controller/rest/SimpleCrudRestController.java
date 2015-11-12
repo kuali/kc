@@ -19,6 +19,7 @@
 package org.kuali.coeus.sys.framework.controller.rest;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
+import org.kuali.coeus.sys.framework.persistence.PersistenceVerificationService;
 import org.kuali.coeus.sys.framework.rest.DataDictionaryValidationException;
 import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
 import org.kuali.coeus.sys.framework.rest.UnauthorizedAccessException;
@@ -33,29 +35,32 @@ import org.kuali.coeus.sys.framework.rest.UnprocessableEntityException;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DictionaryValidationService;
+import org.kuali.rice.krad.service.LegacyDataAdapter;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.codiform.moo.Moo;
 import com.codiform.moo.configuration.Configuration;
 import com.codiform.moo.curry.Translate;
+
 import static org.kuali.coeus.sys.framework.util.CollectionUtils.entry;
 import static org.kuali.coeus.sys.framework.util.CollectionUtils.entriesToMap;
 
 public abstract class SimpleCrudRestController<T extends PersistableBusinessObject, R> extends RestController {
 	
 	@Autowired
-	@Qualifier("businessObjectService")
-	private BusinessObjectService businessObjectService;
+	@Qualifier("legacyDataAdapter")
+	private LegacyDataAdapter legacyDataAdapter;
 	
 	@Autowired
 	@Qualifier("permissionService")
@@ -72,6 +77,10 @@ public abstract class SimpleCrudRestController<T extends PersistableBusinessObje
 	@Autowired
 	@Qualifier("kualiConfigurationService")
 	private ConfigurationService configurationService;
+	
+	@Autowired
+	@Qualifier("persistenceVerificationService")
+	private PersistenceVerificationService persistenceVerificationService;
 	
 	protected abstract Class<R> getDtoClass();
 	
@@ -91,16 +100,25 @@ public abstract class SimpleCrudRestController<T extends PersistableBusinessObje
 	
 	@RequestMapping(method=RequestMethod.GET)
 	public @ResponseBody Collection<R> getAll() {
-		return Translate.to(getDtoClass()).fromEach(getAllFromDataStore());
+		Collection<T> dataObjects = getAllFromDataStore();
+		if (dataObjects == null || dataObjects.size() == 0) {
+			throw new ResourceNotFoundException("not found");
+		}
+		return Translate.to(getDtoClass()).fromEach(dataObjects);
 	}
 	
 	@RequestMapping(value="{code}", method=RequestMethod.GET)
 	public @ResponseBody R get(@PathVariable String code) {
-		return Translate.to(getDtoClass()).from(getFromDataStore(code));
+		T dataObject = getFromDataStore(code);
+		if (dataObject == null) {
+			throw new ResourceNotFoundException("not found");
+		}
+		return Translate.to(getDtoClass()).from(dataObject);
 	}
 	
 	@RequestMapping(value="{code}", method=RequestMethod.PUT)
-	public @ResponseBody void update(@PathVariable String code, @Valid @RequestBody R dto) {
+	@ResponseStatus(HttpStatus.CREATED)
+	public void update(@PathVariable String code, @Valid @RequestBody R dto) {
 		assertUserHasAccess();
 		T dataObject = getFromDataStore(code);
 		if (dataObject == null) {
@@ -118,7 +136,8 @@ public abstract class SimpleCrudRestController<T extends PersistableBusinessObje
 	}
 	
 	@RequestMapping(method=RequestMethod.POST)
-	public @ResponseBody void add(@Valid @RequestBody R dto) {
+	@ResponseStatus(HttpStatus.CREATED)
+	public void add(@Valid @RequestBody R dto) {
 		assertUserHasAccess();
 		T existingDataObject = getFromDataStore(getPrimaryKeyFromDto(dto));
 		if (existingDataObject != null) {
@@ -136,15 +155,40 @@ public abstract class SimpleCrudRestController<T extends PersistableBusinessObje
 		save(newDataObject);
 	}
 	
+	@RequestMapping(value="{code}", method=RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public @ResponseBody void delete(@PathVariable String code) {
+		assertUserHasAccess();
+		T existingDataObject = getFromDataStore(code);
+		if (existingDataObject == null) {
+			throw new ResourceNotFoundException("not found");
+		}
+		
+		validateDeleteDataObject(existingDataObject);
+		
+		delete(existingDataObject);
+	}
+	
+	protected boolean validateDeleteDataObject(T dataObject) {
+		if (!persistenceVerificationService.verifyRelationshipsForDelete(dataObject, Collections.emptyList())) {
+			extractAndThrowErrorMessages();
+		}
+		return true;
+	}
+	
 	protected void validateBusinessObject(T dataObject) {
 		if (!dictionaryValidationService.isBusinessObjectValid(dataObject)) {
-			Map<String, List<String>> errors = globalVariableService.getMessageMap().getErrorMessages().entrySet().stream()
-					.map(entry -> entry(entry.getKey().replaceFirst("^\\.", ""), entry.getValue().stream()
-                            .map(this::resolveErrorMessage)
-                            .collect(Collectors.toList()))).collect(entriesToMap());
-			
-			throw new DataDictionaryValidationException(errors);
+			extractAndThrowErrorMessages();
 		}
+	}
+
+	protected void extractAndThrowErrorMessages() {
+		Map<String, List<String>> errors = globalVariableService.getMessageMap().getErrorMessages().entrySet().stream()
+				.map(entry -> entry(entry.getKey().replaceFirst("^\\.", ""), entry.getValue().stream()
+		                .map(this::resolveErrorMessage)
+		                .collect(Collectors.toList()))).collect(entriesToMap());
+		
+		throw new DataDictionaryValidationException(errors);
 	}
 
 	protected String resolveErrorMessage(ErrorMessage errorMessage) {
@@ -156,15 +200,19 @@ public abstract class SimpleCrudRestController<T extends PersistableBusinessObje
 	}
 	
 	protected Collection<T> getAllFromDataStore() {
-		return getBusinessObjectService().findAll(getDoClass());
+		return getLegacyDataAdapter().findAll(getDoClass());
 	}
 	
 	protected T getFromDataStore(Object code) {
-		return getBusinessObjectService().findBySinglePrimaryKey(getDoClass(), code);
+		return getLegacyDataAdapter().findBySinglePrimaryKey(getDoClass(), code);
 	}
 
-	protected void save(T currentCategory) {
-		getBusinessObjectService().save(currentCategory);
+	protected void save(T dataObject) {
+		getLegacyDataAdapter().save(dataObject);
+	}
+	
+	protected void delete(T dataObject) {
+		getLegacyDataAdapter().delete(dataObject);
 	}
 
 	protected void assertUserHasAccess() {
@@ -172,14 +220,6 @@ public abstract class SimpleCrudRestController<T extends PersistableBusinessObje
 				getPermission().getKey(), getPermission().getValue())) {
 			throw new UnauthorizedAccessException();
 		}
-	}
-	
-	public BusinessObjectService getBusinessObjectService() {
-		return businessObjectService;
-	}
-
-	public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-		this.businessObjectService = businessObjectService;
 	}
 
 	public PermissionService getPermissionService() {
@@ -213,6 +253,23 @@ public abstract class SimpleCrudRestController<T extends PersistableBusinessObje
 
 	public void setConfigurationService(ConfigurationService configurationService) {
 		this.configurationService = configurationService;
+	}
+
+	public LegacyDataAdapter getLegacyDataAdapter() {
+		return legacyDataAdapter;
+	}
+
+	public void setLegacyDataAdapter(LegacyDataAdapter legacyDataAdapter) {
+		this.legacyDataAdapter = legacyDataAdapter;
+	}
+
+	public PersistenceVerificationService getPersistenceVerificationService() {
+		return persistenceVerificationService;
+	}
+
+	public void setPersistenceVerificationService(
+			PersistenceVerificationService persistenceVerificationService) {
+		this.persistenceVerificationService = persistenceVerificationService;
 	}
 	
 }
