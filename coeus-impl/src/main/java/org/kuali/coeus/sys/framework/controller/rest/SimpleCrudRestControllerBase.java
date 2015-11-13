@@ -18,7 +18,6 @@
  */
 package org.kuali.coeus.sys.framework.controller.rest;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -37,7 +36,6 @@ import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.DictionaryValidationService;
 import org.kuali.rice.krad.service.LegacyDataAdapter;
-import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.rice.krad.util.MessageMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -49,13 +47,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.codiform.moo.Moo;
-import com.codiform.moo.configuration.Configuration;
-import com.codiform.moo.curry.Translate;
-
 import static org.kuali.coeus.sys.framework.util.CollectionUtils.entry;
 
-public abstract class SimpleCrudRestController<T extends PersistableBusinessObject, R> extends RestController {
+public abstract class SimpleCrudRestControllerBase<T extends PersistableBusinessObject, R> extends RestController {
 	
 	@Autowired
 	@Qualifier("legacyDataAdapter")
@@ -83,21 +77,19 @@ public abstract class SimpleCrudRestController<T extends PersistableBusinessObje
 	
 	private Class<T> dataObjectClazz;
 	
-	private Class<R> dtoObjectClazz;
-	
 	private String primaryKeyColumn;
 	
 	private String writePermissionNamespace;
 	
 	private String writePermissionName;
 	
-	public SimpleCrudRestController(
-			Class<T> dataObjectClazz,
-			Class<R> dtoObjectClazz, String primaryKeyColumn,
+	public SimpleCrudRestControllerBase() { }
+	
+	public SimpleCrudRestControllerBase(
+			Class<T> dataObjectClazz, String primaryKeyColumn,
 			String writePermissionNamespace, String writePermissionName) {
 		super();
 		this.dataObjectClazz = dataObjectClazz;
-		this.dtoObjectClazz = dtoObjectClazz;
 		this.primaryKeyColumn = primaryKeyColumn;
 		this.writePermissionNamespace = writePermissionNamespace;
 		this.writePermissionName = writePermissionName;
@@ -115,17 +107,7 @@ public abstract class SimpleCrudRestController<T extends PersistableBusinessObje
 		}
 	}
 	
-	protected Object getPrimaryKeyFromDto(R dataObject) {
-		return getProperty(dataObject, primaryKeyColumn);
-	}
-	
-    private Object getProperty(Object o, String prop) {
-        try {
-            return PropertyUtils.getProperty(o, prop);
-        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
-    }
+	protected abstract Object getPrimaryKeyIncomingObject(R dataObject);
 	
 	@RequestMapping(method=RequestMethod.GET)
 	public @ResponseBody Collection<R> getAll() {
@@ -133,8 +115,10 @@ public abstract class SimpleCrudRestController<T extends PersistableBusinessObje
 		if (dataObjects == null || dataObjects.size() == 0) {
 			throw new ResourceNotFoundException("not found");
 		}
-		return Translate.to(getDtoObjectClazz()).fromEach(dataObjects);
+		return translateAllDataObjects(dataObjects);
 	}
+	
+	protected abstract Collection<R> translateAllDataObjects(Collection<T> dataObjects);
 	
 	@RequestMapping(value="/{code}", method=RequestMethod.GET)
 	public @ResponseBody R get(@PathVariable String code) {
@@ -142,8 +126,10 @@ public abstract class SimpleCrudRestController<T extends PersistableBusinessObje
 		if (dataObject == null) {
 			throw new ResourceNotFoundException("not found");
 		}
-		return Translate.to(getDtoObjectClazz()).from(dataObject);
+		return convertDataObject(dataObject);
 	}
+	
+	protected abstract R convertDataObject(T dataObject);
 	
 	@RequestMapping(value="/{code}", method=RequestMethod.PUT)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
@@ -154,30 +140,27 @@ public abstract class SimpleCrudRestController<T extends PersistableBusinessObje
 			throw new ResourceNotFoundException("not found");
 		}
 		
-		Configuration mooConfig = new Configuration();
-		mooConfig.setSourcePropertiesRequired(false);
-		Moo moo = new Moo(mooConfig);
-		moo.update(dto, dataObject);
+		updateDataObjectFromInput(dataObject, dto);
 		
 		validateBusinessObject(dataObject);
 		validateUpdateDataObject(dataObject);
 		save(dataObject);
 	}
 	
+	protected abstract T translateInputToDataObject(R input);
+	
+	protected abstract void updateDataObjectFromInput(T existingDataObject, R input);
+	
 	@RequestMapping(method=RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public void add(@Valid @RequestBody R dto) {
 		assertUserHasAccess();
-		T existingDataObject = getFromDataStore(getPrimaryKeyFromDto(dto));
+		T existingDataObject = getFromDataStore(getPrimaryKeyIncomingObject(dto));
 		if (existingDataObject != null) {
 			throw new UnprocessableEntityException("already exists");
 		}
 		
-		Configuration mooConfig = new Configuration();
-		mooConfig.setSourcePropertiesRequired(false);
-		Moo moo = new Moo(mooConfig);
-		T newDataObject = getNewDataObject();
-		moo.update(dto, newDataObject);
+		T newDataObject = translateInputToDataObject(dto);
 		
 		validateBusinessObject(newDataObject);
 		validateInsertDataObject(newDataObject);
@@ -309,14 +292,6 @@ public abstract class SimpleCrudRestController<T extends PersistableBusinessObje
 		this.dataObjectClazz = dataObjectClazz;
 	}
 
-	public Class<R> getDtoObjectClazz() {
-		return dtoObjectClazz;
-	}
-
-	public void setDtoObjectClazz(Class<R> dtoObjectClazz) {
-		this.dtoObjectClazz = dtoObjectClazz;
-	}
-
 	public String getPrimaryKeyColumnNames() {
 		return primaryKeyColumn;
 	}
@@ -348,6 +323,14 @@ public abstract class SimpleCrudRestController<T extends PersistableBusinessObje
 	public void setErrorHandlingUtilService(
 			ErrorHandlingUtilService errorHandlingUtilService) {
 		this.errorHandlingUtilService = errorHandlingUtilService;
+	}
+
+	public String getPrimaryKeyColumn() {
+		return primaryKeyColumn;
+	}
+
+	public void setPrimaryKeyColumn(String primaryKeyColumn) {
+		this.primaryKeyColumn = primaryKeyColumn;
 	}
 	
 }
