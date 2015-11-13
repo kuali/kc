@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* adding servlet mappings for rest endpoints
+  * Travis Schneeberger on Fri, 13 Nov 2015 15:25:59 -0500 [View Commit](../../commit/b79955076a7a9e3eb0ff3b11064db806a9ef1139)
+
+##coeus-1511.35
 * creating map based generic controller for rest endpoints
   * blackcathacker on Fri, 13 Nov 2015 13:14:55 -0600 [View Commit](../../commit/5d7798efa081ddaadc0b14197a76ed81bd95c0f3)
 
