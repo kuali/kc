@@ -185,7 +185,8 @@ public interface Constants {
     public static final String CREDIT_SPLIT_KEY = "document.developmentProposalList[0].creditSplit";
     public static final String PERSON_CERTIFICATE = "proposalPersonCertificate";
     public static final String PERSON_COMMENT = "personComment";
-
+    public static final int ERA_COMMONS_USERNAME_MIN_LENGTH = 6;
+    
     /*Proposal notification constants*/
     public static final String DATA_OVERRIDE_NOTIFICATION_ACTION = "102";
     public static final String DATA_OVERRIDE_CONTEXT = "Proposal Data Override";

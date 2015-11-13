@@ -59,7 +59,6 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
 
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonsRule.class);
 
-    private static final int FIELD_ERA_COMMONS_USERNAME_MIN_LENGTH = 6;
     private static final String ADD_KEY_PERSON_HELPER_PARAMETER_MAP_KEY_PERSON_PROJECT_ROLE = "addKeyPersonHelper.parameterMap['keyPersonProjectRole']";
     private static final String KEY_PERSON_S_ROLE = "Key Person's Role";
     private KcPersonService kcPersonService;
@@ -126,9 +125,9 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
                         new String[] {"Percentage Effort" });
             }
             
-            if(StringUtils.isNotBlank(person.getEraCommonsUserName()) && person.getEraCommonsUserName().length() < FIELD_ERA_COMMONS_USERNAME_MIN_LENGTH){
-                GlobalVariables.getMessageMap().putError("document.developmentProposalList[0].proposalPersons[" + personIndex + "].eraCommonsUserName", KeyConstants.ERROR_MINLENGTH,
-                        new String[] {"eRA Commons User Name" , ""+ FIELD_ERA_COMMONS_USERNAME_MIN_LENGTH});
+            if (StringUtils.isNotBlank(person.getEraCommonsUserName()) && person.getEraCommonsUserName().length() < Constants.ERA_COMMONS_USERNAME_MIN_LENGTH) {
+            	GlobalVariables.getMessageMap().putWarning("document.developmentProposalList[0].proposalPersons[" + personIndex + "].eraCommonsUserName", KeyConstants.ERROR_MINLENGTH,
+                        new String[] {"eRA Commons User Name" , ""+ Constants.ERA_COMMONS_USERNAME_MIN_LENGTH});
             }
             
             personIndex++;
