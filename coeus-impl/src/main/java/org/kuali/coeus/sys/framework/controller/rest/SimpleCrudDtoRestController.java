@@ -18,8 +18,15 @@
  */
 package org.kuali.coeus.sys.framework.controller.rest;
 
+import java.beans.BeanInfo;
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -81,5 +88,19 @@ public class SimpleCrudDtoRestController<T extends PersistableBusinessObject, R>
 		mooConfig.setSourcePropertiesRequired(false);
 		Moo moo = new Moo(mooConfig);
 		moo.update(input, existingDataObject);
+	}
+
+	@Override
+	protected List<String> getExposedProperties() {
+		BeanInfo beanInfo;
+		try {
+			beanInfo = Introspector.getBeanInfo(dtoObjectClazz);
+		} catch (IntrospectionException e) {
+			throw new RuntimeException(e);
+		}
+		return Arrays.asList(beanInfo.getPropertyDescriptors()).stream()
+				.map(PropertyDescriptor::getName)
+				.filter(name -> !"class".equals(name))
+				.collect(Collectors.toList());
 	}
 }
