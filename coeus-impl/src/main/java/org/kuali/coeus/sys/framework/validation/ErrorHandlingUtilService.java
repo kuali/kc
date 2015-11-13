@@ -4,14 +4,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.MessageMap;
 
 public interface ErrorHandlingUtilService {
 	
-	public Map<String, List<String>> extractErrorMessages();
+	Map<String, List<String>> extractErrorMessages(MessageMap messageMap);
 	
-	public Map<String, List<String>> resolveErrorMessages(Map<String, List<ErrorMessage>> errorMap);
+	Map<String, List<String>> resolveErrorMessages(Map<String, List<ErrorMessage>> errorMap);
 
-	public String resolveErrorMessage(ErrorMessage errorMessage);
+	String resolveErrorMessage(ErrorMessage errorMessage);
 	
-	public String resolveErrorKey(String errorKey, String...params);
+	String resolveErrorKey(String errorKey, String...params);
 }
