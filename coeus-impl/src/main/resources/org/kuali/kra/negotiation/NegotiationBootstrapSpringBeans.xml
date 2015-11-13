@@ -27,10 +27,16 @@
 
     <context:annotation-config />
 
-    <bean id="kcNegotiationConfigurer" class="org.kuali.coeus.sys.framework.config.KcConfigurer">
+    <bean id="kcNegotiationConfigurer" parent="apiConfigurer-parentBean">
         <property name="moduleName" value="kc.negotiation"/>
         <property name="moduleTitle" value="KC Negotiation"/>
         <property name="bootstrapSpringFile" value="classpath:org/kuali/kra/negotiation/NegotiationComponentSpringBeans.xml"/>
+        <property name="dispatchServletName" value="kc-negotiation"/>
+        <property name="dispatchServletMappings">
+            <list>
+                <value>negotiation</value>
+            </list>
+        </property>
     </bean>
 
 </beans>

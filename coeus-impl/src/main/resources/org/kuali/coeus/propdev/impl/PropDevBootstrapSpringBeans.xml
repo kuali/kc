@@ -30,12 +30,18 @@
 
     <context:annotation-config />
 
-    <bean id="kcProposalDevelopmentConfigurer" class="org.kuali.coeus.sys.framework.config.KcConfigurer">
+    <bean id="kcProposalDevelopmentConfigurer" parent="apiConfigurer-parentBean">
         <property name="moduleName" value="kc.pd"/>
         <property name="moduleTitle" value="KC Proposal Development"/>
         <property name="dispatchServletName" value="kc-pd-krad"/>
         <property name="filtersToMap" ref="authFiltersToMap"/>
         <property name="bootstrapSpringFile" value="classpath:org/kuali/coeus/propdev/impl/PropDevComponentSpringBeans.xml"/>
+        <property name="dispatchServletMappings">
+            <list>
+                <value>kc-pd-krad</value>
+                <value>propdev</value>
+            </list>
+        </property>
     </bean>
 
 </beans>
