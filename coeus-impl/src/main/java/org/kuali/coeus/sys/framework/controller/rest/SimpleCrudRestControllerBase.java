@@ -25,6 +25,7 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.persistence.PersistenceVerificationService;
 import org.kuali.coeus.sys.framework.rest.DataDictionaryValidationException;
@@ -326,6 +327,14 @@ public abstract class SimpleCrudRestControllerBase<T extends PersistableBusiness
 	}
 
 	public String getPrimaryKeyColumn() {
+		if (StringUtils.isBlank(primaryKeyColumn)) {
+			List<String> pks = persistenceVerificationService.pkFields(dataObjectClazz);
+			if (pks.size() > 1) {
+				throw new UnsupportedOperationException("compound primary keys are not supported");
+			}
+			primaryKeyColumn = pks.get(0);
+		}
+
 		return primaryKeyColumn;
 	}
 

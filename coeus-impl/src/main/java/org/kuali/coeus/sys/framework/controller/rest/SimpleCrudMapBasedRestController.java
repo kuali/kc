@@ -1,9 +1,11 @@
 package org.kuali.coeus.sys.framework.controller.rest;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.beanutils.DynaBean;
 import org.apache.commons.beanutils.WrapDynaBean;
@@ -11,6 +13,8 @@ import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public class SimpleCrudMapBasedRestController<T extends PersistableBusinessObject> extends SimpleCrudRestControllerBase<T, Map<String, Object>> {
+
+	private static final Collection<String> IGNORED_FIELDS = Stream.of("versionNumber", "objectId", "updateUser", "updateTimestamp").collect(Collectors.toList());
 
 	private List<String> exposedProperties;
 
@@ -31,7 +35,7 @@ public class SimpleCrudMapBasedRestController<T extends PersistableBusinessObjec
 	@Override
 	protected Collection<Map<String, Object>> translateAllDataObjects(Collection<T> dataObjects) {
 		 return dataObjects.stream()
-			.map(dataObject -> new WrapDynaBean(dataObject))
+			.map(WrapDynaBean::new)
 			.map(this::createMapFromPropsOnBean)
 			.collect(Collectors.toList());
 	}
@@ -43,16 +47,17 @@ public class SimpleCrudMapBasedRestController<T extends PersistableBusinessObjec
 	}
 	
 	protected Map<String, Object> createMapFromPropsOnBean(DynaBean dynaBean) {
-		return exposedProperties.stream()
+		return getExposedProperties().stream()
 				.map(name -> CollectionUtils.entry(name, dynaBean.get(name)))
 				.collect(CollectionUtils.entriesToMap());
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected T translateInputToDataObject(Map<String, Object> input) {
 		T newDataObject = this.getNewDataObject();
 		WrapDynaBean dynaBean = new WrapDynaBean(newDataObject);
-		exposedProperties.forEach(name -> dynaBean.set(name, input.get(name)));
+		getExposedProperties().forEach(name -> dynaBean.set(name, input.get(name)));
 		return (T) dynaBean.getInstance();
 	}
 
@@ -60,10 +65,14 @@ public class SimpleCrudMapBasedRestController<T extends PersistableBusinessObjec
 	protected void updateDataObjectFromInput(T existingDataObject,
 			Map<String, Object> input) {
 		WrapDynaBean dynaBean = new WrapDynaBean(existingDataObject);
-		exposedProperties.forEach(name -> dynaBean.set(name, input.get(name)));
+		getExposedProperties().forEach(name -> dynaBean.set(name, input.get(name)));
 	}
 
 	public List<String> getExposedProperties() {
+		if (org.apache.commons.collections4.CollectionUtils.isEmpty(exposedProperties)) {
+			exposedProperties = getDefaultProperties();
+		}
+
 		return exposedProperties;
 	}
 
@@ -71,4 +80,9 @@ public class SimpleCrudMapBasedRestController<T extends PersistableBusinessObjec
 		this.exposedProperties = exposedProperties;
 	}
 
+	public List<String> getDefaultProperties() {
+		final List<String> fields = getPersistenceVerificationService().persistableFields(getDataObjectClazz());
+
+		return fields.stream().filter(field -> !IGNORED_FIELDS.contains(field)).collect(Collectors.toList());
+	}
 }

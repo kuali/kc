@@ -262,18 +262,8 @@
 	<bean id="costElementController"
 		class="org.kuali.coeus.sys.framework.controller.rest.SimpleCrudMapBasedRestController"
 		p:dataObjectClazz="org.kuali.coeus.common.budget.framework.core.CostElement"
-		p:primaryKeyColumn="costElement" p:writePermissionNamespace="KC-M"
+		p:writePermissionNamespace="KC-M"
 		p:writePermissionName="Maintain Institute Rates">
-		<property name="exposedProperties">
-			<list>
-				<value>costElement</value>
-				<value>budgetCategoryCode</value>
-				<value>description</value>
-				<value>onOffCampusFlag</value>
-				<value>active</value>
-				<value>financialObjectCode</value>
-			</list>
-		</property>
 	</bean>
 	
 	<bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
