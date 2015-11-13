@@ -56,7 +56,7 @@ public class ErrorMessageMap {
         values.add(value);
     }
 
-    public void mergeErrorMessageMap(ErrorMessageMap errorMessageMap) {
+    public ErrorMessageMap merge(ErrorMessageMap errorMessageMap) {
         errorMessageMap.errors.entrySet().forEach(entry -> {
             List<String> values = errors.get(entry.getKey());
             if (values == null) {
@@ -66,5 +66,6 @@ public class ErrorMessageMap {
 
             values.addAll(entry.getValue());
         });
+        return this;
     }
 }

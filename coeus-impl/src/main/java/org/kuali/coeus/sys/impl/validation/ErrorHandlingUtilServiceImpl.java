@@ -12,6 +12,7 @@ import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.validation.ErrorHandlingUtilService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.MessageMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -28,8 +29,8 @@ public class ErrorHandlingUtilServiceImpl implements ErrorHandlingUtilService {
 	private ConfigurationService configurationService;
 	
 	@Override
-	public Map<String, List<String>> extractErrorMessages() {
-		return resolveErrorMessages(globalVariableService.getMessageMap().getErrorMessages());
+	public Map<String, List<String>> extractErrorMessages(MessageMap messageMap) {
+		return resolveErrorMessages(messageMap.getErrorMessages());
 	}
 
 	@Override

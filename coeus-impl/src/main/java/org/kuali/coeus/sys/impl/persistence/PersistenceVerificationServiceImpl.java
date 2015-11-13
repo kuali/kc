@@ -19,34 +19,33 @@
 package org.kuali.coeus.sys.impl.persistence;
 
 
-import com.google.common.collect.Collections2;
-import com.google.common.collect.Maps;
 import org.apache.commons.beanutils.PropertyUtils;
-import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.persistence.KcPersistenceStructureService;
 import org.kuali.coeus.sys.framework.persistence.PersistenceVerificationService;
+import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.core.api.criteria.CountFlag;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.bo.DataObjectRelationship;
 import org.kuali.rice.krad.data.DataObjectService;
-import org.kuali.rice.krad.data.metadata.DataObjectMetadata;
-import org.kuali.rice.krad.data.provider.MetadataProvider;
 import org.kuali.rice.krad.data.provider.ProviderRegistry;
-import org.kuali.rice.krad.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.krad.datadictionary.PrimitiveAttributeDefinition;
 import org.kuali.rice.krad.datadictionary.RelationshipDefinition;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DataDictionaryService;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.MessageMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
-import static org.kuali.coeus.sys.framework.util.CollectionUtils.*;
+import java.util.stream.Collectors;
+
+import static org.kuali.coeus.sys.framework.util.CollectionUtils.entriesToMap;
+import static org.kuali.coeus.sys.framework.util.CollectionUtils.entry;
 
 @Component("persistenceVerificationService")
 public class PersistenceVerificationServiceImpl implements PersistenceVerificationService {
@@ -58,10 +57,6 @@ public class PersistenceVerificationServiceImpl implements PersistenceVerificati
     @Autowired
     @Qualifier("dataObjectService")
     private DataObjectService dataObjectService;
-
-    @Autowired
-    @Qualifier("globalVariableService")
-    private GlobalVariableService globalVariableService;
 
     @Autowired
     @Qualifier("kcPersistenceStructureService")
@@ -76,7 +71,34 @@ public class PersistenceVerificationServiceImpl implements PersistenceVerificati
     private ProviderRegistry providerRegistry;
 
     @Override
-    public boolean verifyRelationshipsForDelete(Object bo, Collection<Class<?>> ignoredRelationships) {
+    public MessageMap verifyRelationshipsForDelete(Object bo, Collection<Class<?>> ignoredRelationships) {
+        if (bo == null) {
+            throw new IllegalArgumentException("bo cannot be null");
+        }
+
+        if (ignoredRelationships == null) {
+            throw new IllegalArgumentException("ignoredRelationships cannot be null");
+        }
+        final MessageMap ojb = verifyOjbRelationshipsForDelete(bo, ignoredRelationships);
+        final MessageMap dd = verifyDDRelationshipsForDelete(bo, ignoredRelationships);
+        final MessageMap krad = verifyKradDataRelationshipsForDelete(bo, ignoredRelationships);
+
+        ojb.merge(dd);
+        ojb.merge(krad);
+        return ojb;
+    }
+
+    @Override
+    public MessageMap verifyRelationshipsForUpdate(Object bo, Collection<Class<?>> ignoredRelationships) {
+        return verifyRelationshipsForUpsert(bo, ignoredRelationships);
+    }
+
+    @Override
+    public MessageMap verifyRelationshipsForInsert(Object bo, Collection<Class<?>> ignoredRelationships) {
+        return verifyRelationshipsForUpsert(bo, ignoredRelationships);
+    }
+
+    protected MessageMap verifyRelationshipsForUpsert(Object bo, Collection<Class<?>> ignoredRelationships) {
         if (bo == null) {
             throw new IllegalArgumentException("bo cannot be null");
         }
@@ -85,187 +107,152 @@ public class PersistenceVerificationServiceImpl implements PersistenceVerificati
             throw new IllegalArgumentException("ignoredRelationships cannot be null");
         }
 
-        return verifyOjbRelationshipsForDelete(bo, ignoredRelationships) && verifyDDRelationshipsForDelete(bo, ignoredRelationships) && verifyKradDataRelationshipsForDelete(bo, ignoredRelationships);
+        final MessageMap ojb = verifyOjbRelationshipsForUpsert(bo, ignoredRelationships);
+        final MessageMap dd = verifyDDRelationshipsForUpsert(bo, ignoredRelationships);
+        final MessageMap krad = verifyKradDataRelationshipsForUpsert(bo, ignoredRelationships);
+
+        ojb.merge(dd);
+        ojb.merge(krad);
+        return ojb;
     }
 
-    @Override
-    public boolean verifyRelationshipsForUpdate(Object bo, Collection<Class<?>> ignoredRelationships) {
-        return verifyRelationshipsForUpsert(bo, ignoredRelationships);
-    }
+    protected MessageMap verifyOjbRelationshipsForUpsert(Object bo, Collection<Class<?>> ignoredRelationships) {
 
-    @Override
-    public boolean verifyRelationshipsForInsert(Object bo, Collection<Class<?>> ignoredRelationships) {
-        return verifyRelationshipsForUpsert(bo, ignoredRelationships);
-    }
-
-    protected boolean verifyRelationshipsForUpsert(Object bo, Collection<Class<?>> ignoredRelationships) {
-        if (bo == null) {
-            throw new IllegalArgumentException("bo cannot be null");
-        }
-
-        if (ignoredRelationships == null) {
-            throw new IllegalArgumentException("ignoredRelationships cannot be null");
-        }
-
-        return verifyOjbRelationshipsForUpsert(bo, ignoredRelationships) && verifyDDRelationshipsForUpsert(bo, ignoredRelationships) && verifyKradDataRelationshipsForUpsert(bo, ignoredRelationships);
-
-    }
-
-    protected boolean verifyOjbRelationshipsForUpsert(Object bo, Collection<Class<?>> ignoredRelationships) {
-
-        boolean success = true;
-        for (String field : ((List<String>) getKcPersistenceStructureService().listFieldNames(bo.getClass()))) {
+        final MessageMap errors = new MessageMap();
+        @SuppressWarnings("unchecked")
+        final List<String> fields = (List<String>) getKcPersistenceStructureService().listFieldNames(bo.getClass());
+        fields.forEach(field -> {
              final Map<String, org.kuali.rice.krad.bo.DataObjectRelationship> relationships = getKcPersistenceStructureService().getRelationshipMetadata(bo.getClass(), field);
              if (relationships != null) {
-                 for (Map.Entry<String, org.kuali.rice.krad.bo.DataObjectRelationship> entry : relationships.entrySet()) {
-                     if (!ignoredRelationships.contains(entry.getValue().getRelatedClass())) {
-                         final Map<String, Object> criteria = new HashMap<>();
-                         criteria.put(entry.getValue().getParentToChildReferences().get(field), getProperty(bo, field));
-                         if (getBusinessObjectService().countMatching(entry.getValue().getRelatedClass(), criteria) == 0) {
-                             getGlobalVariableService().getMessageMap().putError(entry.getValue().getParentAttributeName(), RiceKeyConstants.ERROR_EXISTENCE,
-                                     dataDictionaryService.getDataDictionary().getBusinessObjectEntry(entry.getValue().getRelatedClass().getName()).getObjectLabel());
-                             success = false;
-                         }
+                 relationships.entrySet().stream()
+                         .filter(entry -> !ignoredRelationships.contains(entry.getValue().getRelatedClass()))
+                         .forEach(entry -> {
+
+                             if (getBusinessObjectService().countMatching(entry.getValue().getRelatedClass(),
+                                     Collections.singletonMap(entry.getValue().getParentToChildReferences().get(field), getProperty(bo, field))) == 0) {
+
+                                 errors.putError(entry.getValue().getParentAttributeName(), RiceKeyConstants.ERROR_EXISTENCE,
+                                         dataDictionaryService.getDataDictionary().getBusinessObjectEntry(entry.getValue().getRelatedClass().getName()).getObjectLabel());
                      }
-                 }
+                 });
              }
-        }
-        return success;
+        });
+        return errors;
     }
 
-    protected boolean verifyDDRelationshipsForUpsert(Object bo, Collection<Class<?>> ignoredRelationships) {
+    protected MessageMap verifyDDRelationshipsForUpsert(Object bo, Collection<Class<?>> ignoredRelationships) {
         final Collection<RelationshipDefinition> ddRelationships = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(bo.getClass().getName()).getRelationships();
 
-        boolean success = true;
-        for (RelationshipDefinition relationship : ddRelationships) {
-            if (!ignoredRelationships.contains(relationship.getTargetClass())) {
-                final Map<String, Object> criteria = new HashMap<>();
-                for (PrimitiveAttributeDefinition attr : relationship.getPrimitiveAttributes()) {
-                    criteria.put(attr.getTargetName(), getProperty(bo, attr.getSourceName()));
-                }
-
-                if (!criteria.values().stream().anyMatch(Objects::isNull) && getBusinessObjectService().countMatching(relationship.getTargetClass(), criteria) == 0) {
-
-                    for (PrimitiveAttributeDefinition attr : relationship.getPrimitiveAttributes()) {
-                        getGlobalVariableService().getMessageMap().putError(attr.getSourceName(), RiceKeyConstants.ERROR_EXISTENCE,
-                                dataDictionaryService.getDataDictionary().getBusinessObjectEntry(relationship.getTargetClass().getName()).getObjectLabel());
-                    }
-                    success = false;
-                }
+        final MessageMap errors = new MessageMap();
+        ddRelationships.stream()
+                .filter(relationship -> !ignoredRelationships.contains(relationship.getTargetClass()))
+                .forEach(relationship -> {
+            final Map<String, Object> criteria = new HashMap<>();
+            for (PrimitiveAttributeDefinition attr : relationship.getPrimitiveAttributes()) {
+                criteria.put(attr.getTargetName(), getProperty(bo, attr.getSourceName()));
             }
-        }
-        return success;
+
+            if (!criteria.values().stream().anyMatch(Objects::isNull) && getBusinessObjectService().countMatching(relationship.getTargetClass(), criteria) == 0) {
+
+                relationship.getPrimitiveAttributes().forEach(attr -> errors.putError(attr.getSourceName(), RiceKeyConstants.ERROR_EXISTENCE,
+                        dataDictionaryService.getDataDictionary().getBusinessObjectEntry(relationship.getTargetClass().getName()).getObjectLabel()));
+            }
+        });
+        return errors;
     }
 
-    protected boolean verifyKradDataRelationshipsForUpsert(Object bo, Collection<Class<?>> ignoredRelationships) {
+    protected MessageMap verifyKradDataRelationshipsForUpsert(Object bo, Collection<Class<?>> ignoredRelationships) {
 
-        final Collection<org.kuali.rice.krad.data.metadata.DataObjectRelationship> kradDataRelationships = new ArrayList<>();
+        final Collection<org.kuali.rice.krad.data.metadata.DataObjectRelationship> kradDataRelationships = getProviderRegistry().getMetadataProviders().stream()
+                .filter(provider -> provider.getMetadataForType(bo.getClass()) != null)
+                .flatMap(provider -> provider.getMetadataForType(bo.getClass()).getRelationships().stream())
+                .collect(Collectors.toList());
 
-        for (MetadataProvider provider : getProviderRegistry().getMetadataProviders()) {
-            DataObjectMetadata metadata = provider.getMetadataForType(bo.getClass());
-            if (metadata != null) {
-                kradDataRelationships.addAll(provider.getMetadataForType(bo.getClass()).getRelationships());
+        final MessageMap errors = new MessageMap();
+        kradDataRelationships.stream()
+                .filter(relationship -> !ignoredRelationships.contains(relationship.getRelatedType()))
+                .forEach(relationship -> {
+
+            final Map<String, Object> criteria = relationship.getAttributeRelationships().stream()
+                    .map(attr -> entry(attr.getChildAttributeName(), getProperty(bo, attr.getParentAttributeName())))
+                    .collect(entriesToMap());
+
+            if (getDataObjectService().findMatching(relationship.getRelatedType(),
+                    QueryByCriteria.Builder.andAttributes(criteria).setCountFlag(CountFlag.ONLY).build()).getTotalRowCount() == 0) {
+
+                relationship.getAttributeRelationships().forEach(rel -> errors.putError(rel.getParentAttributeName(), KeyConstants.ERROR_DELETION_BLOCKED,
+                        dataDictionaryService.getDataDictionary().getDataObjectEntry(relationship.getRelatedType().getName()).getObjectLabel()));
             }
-        }
-        boolean success = true;
-        for (org.kuali.rice.krad.data.metadata.DataObjectRelationship relationship : kradDataRelationships) {
-            if (!ignoredRelationships.contains(relationship.getRelatedType())) {
-
-                final Map<String, Object> criteria = relationship.getAttributeRelationships().stream()
-                        .map(attr -> entry(attr.getChildAttributeName(), getProperty(bo, attr.getParentAttributeName())))
-                        .collect(entriesToMap());
-
-                if (getDataObjectService().findMatching(relationship.getRelatedType(),
-                        QueryByCriteria.Builder.andAttributes(criteria)
-                                .setCountFlag(CountFlag.ONLY)
-                                .build())
-                        .getTotalRowCount() == 0) {
-
-                    for (org.kuali.rice.krad.data.metadata.DataObjectAttributeRelationship rel : relationship.getAttributeRelationships()) {
-                        getGlobalVariableService().getMessageMap().putError(rel.getParentAttributeName(), KeyConstants.ERROR_DELETION_BLOCKED,
-                                dataDictionaryService.getDataDictionary().getDataObjectEntry(relationship.getRelatedType().getName()).getObjectLabel());
-                    }
-
-                    success = false;
-                }
-            }
-        }
-        return success;
+        });
+        return errors;
     }
 
-    protected boolean verifyOjbRelationshipsForDelete(Object bo, Collection<Class<?>> ignoredRelationships) {
+    protected MessageMap verifyOjbRelationshipsForDelete(Object bo, Collection<Class<?>> ignoredRelationships) {
         final List<DataObjectRelationship> ojbRelationships = getKcPersistenceStructureService().getRelationshipsTo(bo.getClass());
-        boolean success = true;
-        for (DataObjectRelationship relationship : ojbRelationships) {
-            if (!ignoredRelationships.contains(relationship.getParentClass())) {
-                final Map<String, Object> criteria = Maps.transformEntries(relationship.getParentToChildReferences(), (key, value) -> getProperty(bo, value));
-                if (getBusinessObjectService().countMatching(relationship.getParentClass(), criteria) > 0) {
-                    getGlobalVariableService().getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, KeyConstants.ERROR_DELETION_BLOCKED,
-                            dataDictionaryService.getDataDictionary().getBusinessObjectEntry(relationship.getParentClass().getName()).getObjectLabel());
-                    success = false;
-                }
+
+        final MessageMap errors = new MessageMap();
+        ojbRelationships.stream()
+                .filter(relationship -> !ignoredRelationships.contains(relationship.getParentClass()))
+                .forEach(relationship -> {
+            final Map<String, Object> criteria = relationship.getParentToChildReferences().entrySet().stream()
+                    .map(entry -> entry(entry.getKey(), getProperty(bo, entry.getValue())))
+                    .collect(entriesToMap());
+
+            if (getBusinessObjectService().countMatching(relationship.getParentClass(), criteria) > 0) {
+                errors.putError(KRADConstants.GLOBAL_ERRORS, KeyConstants.ERROR_DELETION_BLOCKED,
+                        dataDictionaryService.getDataDictionary().getBusinessObjectEntry(relationship.getParentClass().getName()).getObjectLabel());
             }
-        }
-        return success;
+        });
+        return errors;
     }
 
-    protected boolean verifyDDRelationshipsForDelete(Object bo, Collection<Class<?>> ignoredRelationships) {
-        final Collection<RelationshipDefinition> ddRelationships = new ArrayList<>();
-        for (BusinessObjectEntry entry : getDataDictionaryService().getDataDictionary().getBusinessObjectEntries().values()) {
-            ddRelationships.addAll(Collections2.filter(entry.getRelationships(), relationship -> relationship.getTargetClass().equals(bo.getClass())));
-        }
+    protected MessageMap verifyDDRelationshipsForDelete(Object bo, Collection<Class<?>> ignoredRelationships) {
 
-        boolean success = true;
-        for (RelationshipDefinition relationship : ddRelationships) {
-            if (!ignoredRelationships.contains(relationship.getSourceClass())) {
-                final Map<String, Object> criteria = new HashMap<>();
-                for (PrimitiveAttributeDefinition attr : relationship.getPrimitiveAttributes()) {
-                        criteria.put(attr.getSourceName(), getProperty(bo, attr.getTargetName()));
-                }
+        final Collection<RelationshipDefinition> ddRelationships = getDataDictionaryService().getDataDictionary().getBusinessObjectEntries().values().stream()
+                .flatMap(entry -> entry.getRelationships().stream())
+                .filter(relationship -> relationship.getTargetClass().equals(bo.getClass()))
+                .collect(Collectors.toList());
 
-                if (getBusinessObjectService().countMatching(relationship.getSourceClass(), criteria) > 0) {
-                    getGlobalVariableService().getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, KeyConstants.ERROR_DELETION_BLOCKED,
-                            dataDictionaryService.getDataDictionary().getBusinessObjectEntry(relationship.getSourceClass().getName()).getObjectLabel());
-                    success = false;
-                }
+        final MessageMap errors = new MessageMap();
+        ddRelationships.stream()
+                .filter(relationship -> !ignoredRelationships.contains(relationship.getSourceClass()))
+                .forEach(relationship -> {
+            final Map<String, Object> criteria = relationship.getPrimitiveAttributes().stream()
+                    .map(attr -> entry(attr.getSourceName(), getProperty(bo, attr.getTargetName())))
+                    .collect(entriesToMap());
+
+            if (getBusinessObjectService().countMatching(relationship.getSourceClass(), criteria) > 0) {
+                errors.putError(KRADConstants.GLOBAL_ERRORS, KeyConstants.ERROR_DELETION_BLOCKED,
+                        dataDictionaryService.getDataDictionary().getBusinessObjectEntry(relationship.getSourceClass().getName()).getObjectLabel());
             }
-        }
-        return success;
+        });
+        return errors;
     }
 
-    protected boolean verifyKradDataRelationshipsForDelete(Object bo, Collection<Class<?>> ignoredRelationships) {
-        final Map<Class<?>, org.kuali.rice.krad.data.metadata.DataObjectRelationship> kradDataRelationships = new HashMap<>();
+    protected MessageMap verifyKradDataRelationshipsForDelete(Object bo, Collection<Class<?>> ignoredRelationships) {
 
-        for (MetadataProvider provider : getProviderRegistry().getMetadataProviders()) {
-            for (DataObjectMetadata entry : provider.provideMetadata().values()) {
-                for (org.kuali.rice.krad.data.metadata.DataObjectRelationship relationship : entry.getRelationships()) {
-                    if (relationship.getRelatedType().equals(bo.getClass())) {
-                        kradDataRelationships.put(entry.getType(), relationship);
-                    }
-                }
+        final Map<Class<?>, org.kuali.rice.krad.data.metadata.DataObjectRelationship> kradDataRelationships = getProviderRegistry().getMetadataProviders().stream()
+                .flatMap(provider -> provider.provideMetadata().values().stream())
+                .flatMap(entry -> entry.getRelationships().stream()
+                        .filter(relationship -> relationship.getRelatedType().equals(bo.getClass()))
+                        .map(relationship -> CollectionUtils.<Class<?>, org.kuali.rice.krad.data.metadata.DataObjectRelationship>entry(entry.getType(), relationship)))
+                .collect(entriesToMap());
+
+        final MessageMap errors = new MessageMap();
+        kradDataRelationships.entrySet().stream()
+                .filter(relationship -> !ignoredRelationships.contains(relationship.getKey()))
+                .forEach(relationship -> {
+            final Map<String, Object> criteria = relationship.getValue().getAttributeRelationships().stream()
+                    .map(attr -> entry(attr.getParentAttributeName(), getProperty(bo, attr.getChildAttributeName())))
+                    .collect(entriesToMap());
+
+            if (getDataObjectService().findMatching(relationship.getKey(),
+                    QueryByCriteria.Builder.andAttributes(criteria).setCountFlag(CountFlag.ONLY).build()).getTotalRowCount() > 0) {
+                errors.putError(KRADConstants.GLOBAL_ERRORS, KeyConstants.ERROR_DELETION_BLOCKED,
+                        dataDictionaryService.getDataDictionary().getDataObjectEntry(relationship.getKey().getName()).getObjectLabel());
             }
-        }
-
-        boolean success = true;
-        for (Map.Entry<Class<?>,org.kuali.rice.krad.data.metadata.DataObjectRelationship> relationship : kradDataRelationships.entrySet()) {
-            if (!ignoredRelationships.contains(relationship.getKey())) {
-
-                final Map<String, Object> criteria = relationship.getValue().getAttributeRelationships().stream()
-                        .map(attr -> entry(attr.getParentAttributeName(), getProperty(bo, attr.getChildAttributeName())))
-                        .collect(entriesToMap());
-
-                if (getDataObjectService().findMatching(relationship.getKey(),
-                        QueryByCriteria.Builder.andAttributes(criteria)
-                                .setCountFlag(CountFlag.ONLY)
-                                .build())
-                        .getTotalRowCount() > 0) {
-                    getGlobalVariableService().getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, KeyConstants.ERROR_DELETION_BLOCKED,
-                            dataDictionaryService.getDataDictionary().getDataObjectEntry(relationship.getKey().getName()).getObjectLabel());
-                    success = false;
-                }
-            }
-        }
-        return success;
+        });
+        return errors;
     }
 
     private Object getProperty(Object o, String prop) {
@@ -290,14 +277,6 @@ public class PersistenceVerificationServiceImpl implements PersistenceVerificati
 
     public void setDataObjectService(DataObjectService dataObjectService) {
         this.dataObjectService = dataObjectService;
-    }
-
-    public GlobalVariableService getGlobalVariableService() {
-        return globalVariableService;
-    }
-
-    public void setGlobalVariableService(GlobalVariableService globalVariableService) {
-        this.globalVariableService = globalVariableService;
     }
 
     public KcPersistenceStructureService getKcPersistenceStructureService() {

@@ -23,7 +23,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -34,14 +33,12 @@ import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
 import org.kuali.coeus.sys.framework.rest.UnauthorizedAccessException;
 import org.kuali.coeus.sys.framework.rest.UnprocessableEntityException;
 import org.kuali.coeus.sys.framework.validation.ErrorHandlingUtilService;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.DictionaryValidationService;
 import org.kuali.rice.krad.service.LegacyDataAdapter;
-import org.kuali.rice.krad.util.ErrorMessage;
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.lang3.StringUtils;
+import org.kuali.rice.krad.util.MessageMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -57,7 +54,6 @@ import com.codiform.moo.configuration.Configuration;
 import com.codiform.moo.curry.Translate;
 
 import static org.kuali.coeus.sys.framework.util.CollectionUtils.entry;
-import static org.kuali.coeus.sys.framework.util.CollectionUtils.entriesToMap;
 
 public abstract class SimpleCrudRestController<T extends PersistableBusinessObject, R> extends RestController {
 	
@@ -203,22 +199,25 @@ public abstract class SimpleCrudRestController<T extends PersistableBusinessObje
 	}
 	
 	protected boolean validateDeleteDataObject(T dataObject) {
-		if (!persistenceVerificationService.verifyRelationshipsForDelete(dataObject, Collections.emptyList())) {
-			throwErrorMessages();
+		MessageMap messages = persistenceVerificationService.verifyRelationshipsForDelete(dataObject, Collections.emptyList());
+		if (messages.hasErrors()) {
+			throw new DataDictionaryValidationException(errorHandlingUtilService.extractErrorMessages(messages));
 		}
 		return true;
 	}
 
 	protected boolean validateUpdateDataObject(T dataObject) {
-		if (!persistenceVerificationService.verifyRelationshipsForUpdate(dataObject, Collections.emptyList())) {
-			throwErrorMessages();
+		final MessageMap messages = persistenceVerificationService.verifyRelationshipsForUpdate(dataObject, Collections.emptyList());
+		if (messages.hasErrors()) {
+			throw new DataDictionaryValidationException(errorHandlingUtilService.extractErrorMessages(messages));
 		}
 		return true;
 	}
 
 	protected boolean validateInsertDataObject(T dataObject) {
-		if (!persistenceVerificationService.verifyRelationshipsForInsert(dataObject, Collections.emptyList())) {
-			throwErrorMessages();
+		final MessageMap messages = persistenceVerificationService.verifyRelationshipsForInsert(dataObject, Collections.emptyList());
+		if (messages.hasErrors()) {
+			throw new DataDictionaryValidationException(errorHandlingUtilService.extractErrorMessages(messages));
 		}
 		return true;
 	}
@@ -230,7 +229,7 @@ public abstract class SimpleCrudRestController<T extends PersistableBusinessObje
 	}
 
 	protected void throwErrorMessages() {
-		Map<String, List<String>> errors = errorHandlingUtilService.extractErrorMessages();
+		Map<String, List<String>> errors = errorHandlingUtilService.extractErrorMessages(getGlobalVariableService().getMessageMap());
 		if (errors != null && !errors.isEmpty()) {
 			throw new DataDictionaryValidationException(errors);
 		}

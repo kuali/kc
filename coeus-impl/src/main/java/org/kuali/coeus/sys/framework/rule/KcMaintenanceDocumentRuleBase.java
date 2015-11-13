@@ -26,6 +26,7 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.MessageMap;
 
 import java.util.*;
 
@@ -39,7 +40,9 @@ public class KcMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
         boolean retVal = super.processGlobalRouteDocumentBusinessRules(document);
 
         if (document.getNewMaintainableObject().getMaintenanceAction().equals(KRADConstants.MAINTENANCE_DELETE_ACTION)) {
-            retVal &= getPersistenceVerificationService().verifyRelationshipsForDelete(getNewBo(), relationshipDeleteVerificationIgnores());
+            MessageMap messages = getPersistenceVerificationService().verifyRelationshipsForDelete(getNewBo(), relationshipDeleteVerificationIgnores());
+            retVal &= messages.hasErrors();
+            getGlobalVariableService().getMessageMap().merge(messages);
         }
         return retVal;
     }
