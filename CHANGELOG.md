@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* creating map based generic controller for rest endpoints
+  * blackcathacker on Fri, 13 Nov 2015 13:14:55 -0600 [View Commit](../../commit/5d7798efa081ddaadc0b14197a76ed81bd95c0f3)
+
+##coeus-1511.34
 * adding more BO rest logic, update/insert logic
   * Travis Schneeberger on Fri, 13 Nov 2015 11:04:01 -0500 [View Commit](../../commit/a4f96778a1376bcadb7273602a5f542777db3195)
 
