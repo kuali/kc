@@ -1,6 +1,33 @@
 
 
 ##CURRENT
+* PD: S2S: eRA Commons ID field needs to accommodate other
+  * Gov't agency credentials without error.
+  * For S2S proposals, users need the ability to enter Agency Credentials
+  * for sponsors other than NIH, in the eRA Commons ID field in Key
+  * Personnel. Currently, there is a system validation error message if the
+  * information entered in eRA Commons ID field is anything less than 6
+  * characters (which NIH requires). BUT, other Gov't agency credential
+  * information may be less than 6 characters. This field needs to contain a
+system warning, rather than an error message, so it may accommodate all
+  * Agency Credential information, and not just eRA Commons ID. Without
+  * this, S2S submission may not be possible for sponsored proposals other
+  * than NIH.
+  * Create a proposal with the minimum required fields to save: Add a
+  * federal sponsor that is NOT NIH.
+  * Key Personnel> Add a person as PI and save
+  * Expand to display Details tab
+  * Enter the PI's AGENCY CREDENTIAL Id in the "ERA Commons User ID Field"
+  * (with less than 6 characters)
+  * ON the S2S Opportunity screen, search and add a non-NIH Opportunity 
+  * Turn on Validations.
+  * Results: The system presents an error noting the 6 character requirement
+  * for NIH
+  * Desired Results: The system should present a warning only. KRMS Rules
+  * can be maintained locally to enforce sponsor specific format
+  * requirements.  * vineeth on Fri, 13 Nov 2015 16:55:54 -0500 [View Commit](../../commit/6c462067c072255186318b1cca0c8910be0aafeb)
+
+##coeus-1511.36
 * adding servlet mappings for rest endpoints
   * Travis Schneeberger on Fri, 13 Nov 2015 15:25:59 -0500 [View Commit](../../commit/b79955076a7a9e3eb0ff3b11064db806a9ef1139)
 
