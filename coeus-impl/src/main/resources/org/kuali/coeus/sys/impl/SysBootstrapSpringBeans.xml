@@ -30,12 +30,18 @@
 
     <context:annotation-config />
 
-    <bean id="kcSysConfigurer" class="org.kuali.coeus.sys.framework.config.KcConfigurer">
+    <bean id="kcSysConfigurer" parent="apiConfigurer-parentBean">
         <property name="moduleName" value="kc.sys"/>
         <property name="moduleTitle" value="KC System"/>
         <property name="dispatchServletName" value="kc-sys-krad"/>
         <property name="filtersToMap" ref="authFiltersToMap"/>
         <property name="bootstrapSpringFile" value="classpath:org/kuali/coeus/sys/impl/SysComponentSpringBeans.xml"/>
+        <property name="dispatchServletMappings">
+            <list>
+                <value>kc-sys-krad</value>
+                <value>research-sys</value>
+            </list>
+        </property>
     </bean>
     
     <bean id="kcHealthCheckConfigurer" class="org.kuali.coeus.sys.framework.config.KcConfigurer">

@@ -30,12 +30,18 @@
 
     <context:annotation-config />
 
-    <bean id="kcCoreConfigurer" class="org.kuali.coeus.sys.framework.config.KcConfigurer">
+    <bean id="kcCoreConfigurer" parent="apiConfigurer-parentBean">
         <property name="moduleName" value="kc.core"/>
         <property name="moduleTitle" value="KC Core"/>
         <property name="dispatchServletName" value="kc-krad"/>
         <property name="filtersToMap" ref="authFiltersToMap"/>
         <property name="bootstrapSpringFile" value="classpath:org/kuali/kra/core/CoreComponentSpringBeans.xml"/>
+        <property name="dispatchServletMappings">
+            <list>
+                <value>irb</value>
+                <value>iacuc</value>
+            </list>
+        </property>
     </bean>
 
 </beans>

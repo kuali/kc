@@ -23,14 +23,22 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context
-       http://www.springframework.org/schema/context/spring-context.xsd">
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <context:annotation-config />
 
-    <bean id="kcSubAwardConfigurer" class="org.kuali.coeus.sys.framework.config.KcConfigurer">
+    <bean id="kcSubAwardConfigurer" parent="apiConfigurer-parentBean">
         <property name="moduleName" value="kc.subaward"/>
         <property name="moduleTitle" value="KC SubAward"/>
         <property name="bootstrapSpringFile" value="classpath:org/kuali/kra/subaward/SubAwardComponentSpringBeans.xml"/>
+        <property name="dispatchServletName" value="kc-subaward"/>
+        <property name="dispatchServletMappings">
+            <list>
+                <value>subaward</value>
+            </list>
+        </property>
     </bean>
 
 </beans>
