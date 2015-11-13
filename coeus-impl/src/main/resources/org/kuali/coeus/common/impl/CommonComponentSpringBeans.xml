@@ -245,4 +245,43 @@
           p:localServiceName="documentAccessDerivedRoleTypeService"
           p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
 
+          
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+                <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.ResourceHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.xml.SourceHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.xml.XmlAwareFormHttpMessageConverter"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="costElementController"
+		class="org.kuali.coeus.sys.framework.controller.rest.SimpleCrudMapBasedRestController"
+		p:dataObjectClazz="org.kuali.coeus.common.budget.framework.core.CostElement"
+		p:primaryKeyColumn="costElement" p:writePermissionNamespace="KC-M"
+		p:writePermissionName="Maintain Institute Rates">
+		<property name="exposedProperties">
+			<list>
+				<value>costElement</value>
+				<value>budgetCategoryCode</value>
+				<value>description</value>
+				<value>onOffCampusFlag</value>
+				<value>active</value>
+				<value>financialObjectCode</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+	    <property name="mappings">
+	        <value>
+	            /api/v1/cost-elements/*=costElementController
+	        </value>
+	    </property>
+	</bean>
+
 </beans>

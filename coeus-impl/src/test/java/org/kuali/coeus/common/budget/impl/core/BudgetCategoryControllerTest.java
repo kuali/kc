@@ -180,4 +180,46 @@ public class BudgetCategoryControllerTest {
 		update.setBudgetCategoryTypeCode(budgetCat1.getBudgetCategoryTypeCode());
 		controller.add(update);
 	}
+	
+	public void testBudgetCategory_deleteExisting() {
+		BudgetCategoryController controller = new BudgetCategoryController() {
+			@Override
+			protected BudgetCategory getFromDataStore(Object code) {
+				assertEquals(budgetCat1.getCode(), code);
+				return budgetCat1;
+			}
+			@Override
+			protected void delete(BudgetCategory bo) {
+				updatedCategory = bo;
+			}
+			@Override
+			protected void assertUserHasAccess() { }
+			@Override
+			protected void validateBusinessObject(BudgetCategory budgetCategory) { }
+		};
+		
+		controller.delete(budgetCat1.getCode());
+	}
+	
+	@Test(expected=ResourceNotFoundException.class)
+	public void testBudgetCategory_deleteNonexistent() {
+		final String fakeCode = "foo";
+		BudgetCategoryController controller = new BudgetCategoryController() {
+			@Override
+			protected BudgetCategory getFromDataStore(Object code) {
+				assertEquals(fakeCode, code);
+				return null;
+			}
+			@Override
+			protected void delete(BudgetCategory bo) {
+				assertTrue(false);
+			}
+			@Override
+			protected void assertUserHasAccess() { }
+			@Override
+			protected void validateBusinessObject(BudgetCategory budgetCategory) { }
+		};
+		
+		controller.delete(fakeCode);
+	}
 }
