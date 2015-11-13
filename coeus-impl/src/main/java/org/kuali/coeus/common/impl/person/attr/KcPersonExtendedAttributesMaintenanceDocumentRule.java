@@ -24,6 +24,7 @@ import org.kuali.coeus.common.framework.person.attr.PersonBiosketch;
 import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.common.framework.custom.SaveCustomDataEvent;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
@@ -42,7 +43,6 @@ public class KcPersonExtendedAttributesMaintenanceDocumentRule extends KcMainten
     
     private static final String PRINCIPAL_ID = "principalId";
     private static final String CUSTOM_DATA_ERROR_PREFIX = KRADConstants.MAINTENANCE_NEW_MAINTAINABLE + "businessObject.personCustomDataList";
-    private static final int FIELD_ERA_COMMONS_USERNAME_MIN_LENGTH = 6;
     
     @Override
     public boolean processSaveDocument(Document document) {
@@ -61,8 +61,8 @@ public class KcPersonExtendedAttributesMaintenanceDocumentRule extends KcMainten
         rulePassed &= processRules(new SaveCustomDataEvent(CUSTOM_DATA_ERROR_PREFIX, document, 
                 kcPersonExtendedAttributes.getPersonCustomDataList(),
                 maintainableImpl.getCustomAttributeDocuments()));
-        rulePassed &= checkEraCommonsUserName(kcPersonExtendedAttributes);
         rulePassed &= checkForAttachmentData(kcPersonExtendedAttributes.getAttachments());
+        checkEraCommonsUserName(kcPersonExtendedAttributes);
         return rulePassed;
     }
     
@@ -137,16 +137,11 @@ public class KcPersonExtendedAttributesMaintenanceDocumentRule extends KcMainten
      * @param kcPersonExtendedAttributes
      * @return
      */
-    private boolean checkEraCommonsUserName(KcPersonExtendedAttributes kcPersonExtendedAttributes) {
-        boolean valid = true;
-
-        if(StringUtils.isNotBlank(kcPersonExtendedAttributes.getEraCommonUserName()) && kcPersonExtendedAttributes.getEraCommonUserName().length() < FIELD_ERA_COMMONS_USERNAME_MIN_LENGTH){
-            GlobalVariables.getMessageMap().putError(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE +"eRACommonsUserName", KeyConstants.ERROR_MINLENGTH,
-                    new String[] {"eRA Commons User Name" , ""+ FIELD_ERA_COMMONS_USERNAME_MIN_LENGTH}); 
-            
-            valid = false;
-        }
-        return valid;
+    private void checkEraCommonsUserName(KcPersonExtendedAttributes kcPersonExtendedAttributes) {
+    	if (StringUtils.isNotBlank(kcPersonExtendedAttributes.getEraCommonUserName()) && kcPersonExtendedAttributes.getEraCommonUserName().length() < Constants.ERA_COMMONS_USERNAME_MIN_LENGTH) {
+    		GlobalVariables.getMessageMap().putWarning(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE +"eRACommonsUserName", KeyConstants.ERROR_MINLENGTH,
+    				new String[] {"eRA Commons User Name" , ""+ Constants.ERA_COMMONS_USERNAME_MIN_LENGTH}); 
+    	}
     }
     
     @Override
