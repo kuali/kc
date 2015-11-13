@@ -29,6 +29,7 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.bo.DataObjectRelationship;
 import org.kuali.rice.krad.data.DataObjectService;
+import org.kuali.rice.krad.data.metadata.MetadataCommon;
 import org.kuali.rice.krad.data.provider.ProviderRegistry;
 import org.kuali.rice.krad.datadictionary.PrimitiveAttributeDefinition;
 import org.kuali.rice.krad.datadictionary.RelationshipDefinition;
@@ -96,6 +97,51 @@ public class PersistenceVerificationServiceImpl implements PersistenceVerificati
     @Override
     public MessageMap verifyRelationshipsForInsert(Object bo, Collection<Class<?>> ignoredRelationships) {
         return verifyRelationshipsForUpsert(bo, ignoredRelationships);
+    }
+
+    @Override
+    public List<String> persistableFields(Class<?> boClazz) {
+        if (boClazz == null) {
+            throw new IllegalArgumentException("bo cannot be null");
+        }
+
+        final List<String> jpaFields = getProviderRegistry().getMetadataProviders().stream()
+                .filter(provider -> provider.getMetadataForType(boClazz) != null)
+                .flatMap(provider -> provider.getMetadataForType(boClazz).getAttributes().stream())
+                .map(MetadataCommon::getName)
+                .distinct()
+                .collect(Collectors.toList());
+
+        if (!jpaFields.isEmpty()) {
+            return jpaFields;
+        }
+
+        @SuppressWarnings("unchecked")
+        final List<String> ojbFields = getKcPersistenceStructureService().listFieldNames(boClazz);
+
+        return ojbFields;
+    }
+
+    @Override
+    public List<String> pkFields(Class<?> boClazz) {
+        if (boClazz == null) {
+            throw new IllegalArgumentException("bo cannot be null");
+        }
+
+        final List<String> jpaFields = getProviderRegistry().getMetadataProviders().stream()
+                .filter(provider -> provider.getMetadataForType(boClazz) != null)
+                .flatMap(provider -> provider.getMetadataForType(boClazz).getPrimaryKeyAttributeNames().stream())
+                .distinct()
+                .collect(Collectors.toList());
+
+        if (!jpaFields.isEmpty()) {
+            return jpaFields;
+        }
+
+        @SuppressWarnings("unchecked")
+        final List<String> ojbFields = getKcPersistenceStructureService().getPrimaryKeys(boClazz);
+
+        return ojbFields;
     }
 
     protected MessageMap verifyRelationshipsForUpsert(Object bo, Collection<Class<?>> ignoredRelationships) {
