@@ -34,7 +34,8 @@
         <property name="moduleName" value="kc.pd"/>
         <property name="moduleTitle" value="KC Proposal Development"/>
         <property name="dispatchServletName" value="kc-pd-krad"/>
-        <property name="filtersToMap" ref="authFiltersToMap"/>
+        <!-- always map auth filters for KRAD contexts -->
+        <property name="mapFilters" value="true"/>
         <property name="bootstrapSpringFile" value="classpath:org/kuali/coeus/propdev/impl/PropDevComponentSpringBeans.xml"/>
         <property name="dispatchServletMappings">
             <list>
