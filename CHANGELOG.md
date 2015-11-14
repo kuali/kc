@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* adding default field and pk discovery for rest services
+  * Travis Schneeberger on Fri, 13 Nov 2015 17:52:10 -0500 [View Commit](../../commit/92defe2bd53a566f7e8835c6f3f7052bc77dc197)
+
+##coeus-1511.37
 * PD: S2S: eRA Commons ID field needs to accommodate other
   * Gov't agency credentials without error.
   * For S2S proposals, users need the ability to enter Agency Credentials
