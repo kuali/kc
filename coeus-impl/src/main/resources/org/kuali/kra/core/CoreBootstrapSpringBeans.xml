@@ -34,7 +34,8 @@
         <property name="moduleName" value="kc.core"/>
         <property name="moduleTitle" value="KC Core"/>
         <property name="dispatchServletName" value="kc-krad"/>
-        <property name="filtersToMap" ref="authFiltersToMap"/>
+        <!-- always map auth filters for KRAD contexts -->
+        <property name="mapFilters" value="true"/>
         <property name="bootstrapSpringFile" value="classpath:org/kuali/kra/core/CoreComponentSpringBeans.xml"/>
         <property name="dispatchServletMappings">
             <list>
