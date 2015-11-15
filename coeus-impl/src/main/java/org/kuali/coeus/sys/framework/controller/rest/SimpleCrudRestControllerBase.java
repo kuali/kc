@@ -20,6 +20,7 @@ package org.kuali.coeus.sys.framework.controller.rest;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -41,6 +42,7 @@ import org.kuali.rice.krad.util.MessageMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -120,6 +122,16 @@ public abstract class SimpleCrudRestControllerBase<T extends PersistableBusiness
 	}
 	
 	protected abstract Collection<R> translateAllDataObjects(Collection<T> dataObjects);
+	
+	@RequestMapping(method=RequestMethod.GET, params={"schema"})
+	public @ResponseBody Map<String, Object> getSchema() {
+		Map<String, Object> schema = new HashMap<>();
+		schema.put("primaryKey", getPrimaryKeyColumn());
+		schema.put("columns", getExposedProperties());
+		return schema;
+	}
+	
+	protected abstract List<String> getExposedProperties();
 	
 	@RequestMapping(value="/{code}", method=RequestMethod.GET)
 	public @ResponseBody R get(@PathVariable String code) {
@@ -292,15 +304,7 @@ public abstract class SimpleCrudRestControllerBase<T extends PersistableBusiness
 			Class<T> dataObjectClazz) {
 		this.dataObjectClazz = dataObjectClazz;
 	}
-
-	public String getPrimaryKeyColumnNames() {
-		return primaryKeyColumn;
-	}
-
-	public void setPrimaryKeyColumnNames(String primaryKeyColumn) {
-		this.primaryKeyColumn = primaryKeyColumn;
-	}
-
+	
 	public String getWritePermissionNamespace() {
 		return writePermissionNamespace;
 	}
