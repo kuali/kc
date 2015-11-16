@@ -1239,10 +1239,12 @@
 																									</fo:inline>
 																								</xsl:otherwise>
 																							</xsl:choose>
+																							<xsl:if test="../PrincipalInvestigator = &apos;true&apos;">
+																								<fo:inline>
+																									<xsl:text>(PI)</xsl:text>
+																								</fo:inline>
+																							</xsl:if>
 																						</xsl:for-each>
-																							<fo:inline>
-																								<xsl:text>(PI)</xsl:text>
-																							</fo:inline>
 																					</fo:block>
 																				</fo:table-cell>
 																				<fo:table-cell font-family="Arial"
