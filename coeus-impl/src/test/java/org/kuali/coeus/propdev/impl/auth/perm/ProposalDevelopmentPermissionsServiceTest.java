@@ -18,6 +18,7 @@ public class ProposalDevelopmentPermissionsServiceTest {
     public static final String GRADUATE_STUDENT = "GraduateStudent";
     public static boolean CUSTOM_DATA_ENFORCED = true;
     public static boolean SPONSOR_REQUIRED = true;
+    public static boolean EXEMPT_ADDRESSBOOK_MULTI_PI_CERT = true;
 
     String USER_ID = "100";
 
@@ -48,6 +49,11 @@ public class ProposalDevelopmentPermissionsServiceTest {
         @Override
         public boolean isRolodexCertificationEnabled() {
         	return true;
+        }
+        
+        @Override
+        public boolean isAddressBookMultiPiCertificationExempt(ProposalPerson proposalPerson) {
+        	return EXEMPT_ADDRESSBOOK_MULTI_PI_CERT;
         }
 
     }
@@ -257,6 +263,26 @@ public class ProposalDevelopmentPermissionsServiceTest {
         SPONSOR_REQUIRED = false;
         boolean canCertify = permissionService.canCertify(USER_ID, kp, isLoggedInUserPi, canProxyCertify);
         Assert.assertFalse(canCertify);
+    }
+    
+    @Test
+    public void testCanCertifyAddressBookPersonWithMultiPiRoleAndNotExempt() throws Exception {
+        class ProposalRolodexPersonTestImpl extends ProposalPerson {
+            @Override
+            public KcPerson getPerson() {
+                return null;
+            }
+        }
+
+        ProposalDevelopmentPermissionsServiceTestImpl permissionService = new ProposalDevelopmentPermissionsServiceTestImpl();
+        ProposalPerson proxy = new ProposalRolodexPersonTestImpl();
+        proxy.setPersonId(USER_ID);
+        proxy.setProposalPersonRoleId(PropAwardPersonRole.MULTI_PI);
+        boolean isLoggedInUserPi = false;
+        boolean canProxyCertify = true;
+        EXEMPT_ADDRESSBOOK_MULTI_PI_CERT=false;
+        boolean canCertify = permissionService.canCertify(USER_ID, proxy, isLoggedInUserPi, canProxyCertify);
+        Assert.assertTrue(canCertify);
     }
 
 }

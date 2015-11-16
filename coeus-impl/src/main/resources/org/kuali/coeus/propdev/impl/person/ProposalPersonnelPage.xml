@@ -723,7 +723,7 @@
 		</bean>
     <bean id="PropDev-Personal-NotifyPersonsPage" parent="PropDev-Personal-NotifyPersonsPage-parentBean"/>
     <bean id="PropDev-Personal-NotifyPersonsPage-parentBean" abstract="true" parent="Uif-TableCollectionSection"
-      p:propertyName="document.developmentProposal.proposalPersons"   
+      p:propertyName="personnelWhoRequireCertification"   
            p:collectionObjectClass="org.kuali.coeus.propdev.impl.person.ProposalPerson"
            p:renderAddLine="false"
 		p:layoutManager.renderSequenceField="false"	

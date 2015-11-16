@@ -56,6 +56,7 @@ public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelo
     public static final int HIERARCHY_LEVEL = 1;
     private static final String PARAMETER_DELIMITER = "\\s*,\\s*";
     private static final String ENABLE_ADDRESSBOOK_CERTIFICATION = "ENABLE_ADDRESSBOOK_CERTIFICATION";
+    private static final String EXEMPT_ADDRESSBOOK_MULTI_PI_CERT = "EXEMPT_ADDRESSBOOK_MULTI_PI_CERT";
 
     @Autowired
     @Qualifier("sponsorHierarchyService")
@@ -169,6 +170,9 @@ public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelo
     }
 
     public boolean doesPersonRequireCertification(ProposalPerson person) {
+    	if (person.getPerson() == null && isAddressBookMultiPiCertificationExempt(person)) {
+    		return false;
+    	}
         return !person.isKeyPerson() || !isKeyPersonRoleExempt(person) ||
                 isPiCoiKeyPersonsForcedToDiscloseWithCustomData(person.getDevelopmentProposal()) ||
                 doesSponsorRequireKeyPersonCertification(person) ||
@@ -178,7 +182,7 @@ public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelo
     protected boolean canCertify(String userPrincipalId, ProposalPerson proposalPerson, boolean isLoggedInUserPi, boolean canProxyCertify) {
     	// person is null for rolodex entries
     	if (Objects.isNull(proposalPerson.getPerson())) {
-    		return isRolodexCertificationEnabled() ? canProxyCertify : false ;
+    		return isRolodexCertificationEnabled() && !isAddressBookMultiPiCertificationExempt(proposalPerson) ? canProxyCertify : false;
     	}
   	  	
         if (isPiOrProxyCertificationPossible(userPrincipalId, proposalPerson, isLoggedInUserPi, canProxyCertify)) return true;
@@ -202,6 +206,13 @@ public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelo
         }
 
         return false;
+    }
+    
+    public boolean isAddressBookMultiPiCertificationExempt(ProposalPerson proposalPerson) {
+    	if (proposalPerson.isMultiplePi()) {
+    		return getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, EXEMPT_ADDRESSBOOK_MULTI_PI_CERT);
+    	}
+    	return false;
     }
     
     public boolean isRolodexCertificationEnabled() {
