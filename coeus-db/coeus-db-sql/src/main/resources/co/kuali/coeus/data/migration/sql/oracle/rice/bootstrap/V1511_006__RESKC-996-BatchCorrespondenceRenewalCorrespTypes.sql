@@ -18,9 +18,7 @@
 --
 
 INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID)
-VALUES ('KC-PROTOCOL', 'Document', 'irb.protocol.renewal.reminder.corresp.types', SYS_GUID(), 1, 'CONFG', '20,21,22', 'IRB protocol batch correspondence renewal reminder correspondence types', 'A', 'KC')
-/
+VALUES ('KC-PROTOCOL', 'Document', 'irb.protocol.renewal.reminder.corresp.types', SYS_GUID(), 1, 'CONFG', '20,21,22', 'IRB protocol batch correspondence renewal reminder correspondence types', 'A', 'KC');
 
 INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID)
-VALUES ('KC-IACUC', 'Document', 'iacuc.protocol.renewal.reminder.corresp.types', SYS_GUID(), 1, 'CONFG', '24', 'IACUC protocol batch correspondence renewal reminder correspondence types', 'A', 'KC')
-/
+VALUES ('KC-IACUC', 'Document', 'iacuc.protocol.renewal.reminder.corresp.types', SYS_GUID(), 1, 'CONFG', '24', 'IACUC protocol batch correspondence renewal reminder correspondence types', 'A', 'KC');
