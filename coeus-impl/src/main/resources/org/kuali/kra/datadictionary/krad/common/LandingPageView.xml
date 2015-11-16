@@ -24,20 +24,35 @@
 
     <bean id="Kc-LandingPage-DefaultView" parent="Kc-LandingPage-DefaultView-parentBean"/>
     <bean id="Kc-LandingPage-DefaultView-parentBean" abstract="true" parent="Uif-FormView"
-          p:headerText="Kuali Coeus 6.0" p:formClass="org.kuali.kra.web.krad.LandingPageForm">
+          p:headerText="Welcome@{#userSession == null or #userSession.getPerson() == null ? '' : ', ' + #userSession.getPerson().getFirstName()}"
+          p:formClass="org.kuali.kra.web.krad.LandingPageForm">
         <property name="unifiedHeader" value="false"/>
         <property name="defaultBindingObjectPath" value=""/>
         <property name="singlePageView" value="true"/>
         <property name="page">
             <bean parent="Kc-LandingPage-DefaultPage"/>
         </property>
+		<property name="additionalCssFiles">
+			<list>
+				<value>css/common/landingPage.css</value>
+			</list>
+		</property> 
     </bean>
 
     <bean id="Kc-LandingPage-DefaultPage" parent="Kc-LandingPage-DefaultPage-parentBean"/>
     <bean id="Kc-LandingPage-DefaultPage-parentBean" abstract="true" parent="Uif-Page">
-        <property name="items">
+    	<property name="items">
+    		<list>
+    			<bean parent="Kc-LandingPage-Kc60Text" p:render="@{!(#getParamAsBoolean('KC-GEN','All','HOMEPAGE_DISPLAY_NEW') == null ? false : #getParamAsBoolean('KC-GEN','All','HOMEPAGE_DISPLAY_NEW'))}"/>
+    			<bean parent="Kc-LandingPage-Links" p:render="@{(#getParamAsBoolean('KC-GEN','All','HOMEPAGE_DISPLAY_NEW') == null ? false : #getParamAsBoolean('KC-GEN','All','HOMEPAGE_DISPLAY_NEW'))}"/>
+    		</list>
+    	</property>
+    </bean>
+    
+    <bean id="Kc-LandingPage-Kc60Text" parent="Uif-VerticalBoxSection">
+    	<property name="items">
             <list>
-                <bean parent="Uif-Message" p:messageText="Kuali Coeus 6.0 is the first of several releases designed to provide a new and more intuitive User Experience."/>
+                <bean parent="Uif-Message" p:messageText="Kuali Research is the first of several releases designed to provide a new and more intuitive User Experience."/>
                 <bean parent="Uif-Message" p:messageText="[/br]"/>
                 <bean parent="Uif-Message" p:messageText="The process for developing a Proposal and accompanying Budget has been streamlined. The design emphasizes ease of use for casual or infrequent users of the system while retaining the full set of powerful features from previous KC releases."/>
                 <bean parent="Uif-Message" p:messageText="[/br]"/>
@@ -63,6 +78,107 @@
             </list>
         </property>
     </bean>
+    
+    <bean id="Kc-LandingPage-Links" parent="Kc-LandingPage-Links-parentBean"/>
+    <bean id="Kc-LandingPage-Links-parentBean" abstract="true" parent="Uif-CssGridGroup">
+    	<property name="items">
+    		<list>
+    			<bean parent="Kc-LandingPage-SearchTasks" p:order="10" p:colSpan="9"/>
+    			<bean parent="Kc-LandingPage-Quicklinks" p:order="20" p:colSpan="3"/>
+    		</list>
+    	</property>
+    </bean>
+    
+    <bean id="Kc-LandingPage-SearchTasks" parent="Kc-LandingPage-SearchTasks-parentBean"/>
+    <bean id="Kc-LandingPage-SearchTasks-parentBean" abstract="true" p:headerText="Search Tasks"
+          p:additionalCssClasses="searchTasks-group"
+          parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:additionalCssClasses="well,well-raised,well-form,searchTasks-input"
+                      p:propertyName="selectedMenuItem">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:watermarkText="What would you like to do?"/>
+                    </property>
+                    <property name="suggest">
+                        <bean parent="Uif-LocationSuggest" p:render="true" p:retrieveAllSuggestions="true"
+                              p:baseUrl="@{#ConfigProperties['krad.url']}">
+                            <property name="hrefPropertyName" value="href"/>
+                            <property name="suggestQuery">
+                                <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="getActiveMenuItems">
+                                    <property name="queryMethodInvokerConfig.targetObject" value="#{#getService('homePageMenuItemService')}"/>
+                                </bean>
+                            </property>
+                            <property name="templateOptions">
+                                <map>
+                                    <entry key="minLength" value="0"/>
+                                    <entry key="delay" value="0"/>
+                                    <entry key="html" value="true"/>
+                                </map>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="Kc-LandingPage-LinkGroup" parent="Uif-MenuList" p:additionalCssClasses="kcHome-linkGroup">
+        <property name="header">
+            <bean parent="Uif-SubSectionHeader" p:headerTagOnly="true"/>
+        </property>
+    </bean>
+    
+    <bean id="Kc-LandingPage-Quicklinks" parent="Kc-LandingPage-Quicklinks-parentBean"/>
+    <bean id="Kc-LandingPage-Quicklinks-parentBean" abstract="true"
+          parent="Kc-LandingPage-LinkGroup" p:headerText="Quick Links">
+        <property name="items">
+            <list>
+             <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
+                      p:actionLabel="Search for a Sponsor" p:order="10">
+                    <property name="actionUrl.requestParameters">
+                        <map>
+                            <entry key="href"
+                                   value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=start&amp;businessObjectClassName=org.kuali.coeus.common.framework.sponsor.Sponsor&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}%2Fkc-krad%2FlandingPage%3FviewId%3DKc-LandingPage-RedirectView&amp;hideReturnLink=true"/>
+                        </map>
+                    </property>
+                </bean>
+                <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
+                      p:actionLabel="View Address Book" p:order="20">
+                    <property name="actionUrl.requestParameters">
+                        <map>
+                            <entry key="href"
+                                   value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=start&amp;businessObjectClassName=org.kuali.coeus.common.framework.rolodex.Rolodex&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}%2Fkc-krad%2FlandingPage%3FviewId%3DKc-LandingPage-RedirectView&amp;hideReturnLink=true&amp;docFormKey=88888888"/>
+                        </map>
+                    </property>
+                </bean>
+                <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
+                      p:actionLabel="Search for an Organization" p:order="30">
+                    <property name="actionUrl.requestParameters">
+                        <map>
+                            <entry key="href"
+                                   value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=start&amp;businessObjectClassName=org.kuali.coeus.common.framework.org.Organization&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}%2Fkc-krad%2FlandingPage%3FviewId%3DKc-LandingPage-RedirectView&amp;hideReturnLink=true"/>
+                        </map>
+                    </property>
+                </bean>
+				<bean parent="Uif-MenuAction" p:actionLabel="View S2S Opportunities"
+					p:actionUrl.baseUrl="@{#ConfigProperties['application.url']}/kr-krad"
+					p:actionUrl.viewId="S2sOpportunity-CreateProposalLookupView"
+					p:actionUrl.controllerMapping="/lookup"
+					p:actionUrl.methodToCall="search" p:order="40"/>
+				
+				<bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
+                      p:actionLabel="View Pessimistic Lock (Locked Records)" p:order="50">
+                    <property name="actionUrl.requestParameters">
+                        <map>
+                            <entry key="href"
+                                   value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=start&amp;businessObjectClassName=org.kuali.rice.krad.document.authorization.PessimisticLock&amp;showMaintenanceLinks=true&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}%2Fkc-krad%2FlandingPage%3FviewId%3DKc-LandingPage-RedirectView&amp;hideReturnLink=true"/>
+                        </map>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean> 
 
     <bean id="Kc-LandingPage-RedirectView" parent="Kc-LandingPage-RedirectView-parentBean"/>
     <bean id="Kc-LandingPage-RedirectView-parentBean" abstract="true" parent="Uif-FormView"

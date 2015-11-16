@@ -27,8 +27,10 @@ public class LandingPageForm extends UifFormBase {
     
     @RequestAccessible
     private String href;
+    
+    private String selectedMenuItem;
 
-    public LandingPageForm() {
+	public LandingPageForm() {
         setViewId("Kc-LandingPage-DefaultView");
     }
 
@@ -43,4 +45,14 @@ public class LandingPageForm extends UifFormBase {
 	public void setHref(String href) {
 		this.href = href;
 	}
+	
+    public String getSelectedMenuItem() {
+		return selectedMenuItem;
+	}
+
+	public void setSelectedMenuItem(String selectedMenuItem) {
+		this.selectedMenuItem = selectedMenuItem;
+	}
+
+
 }
