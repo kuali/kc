@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1511.42
 * IRB - Batch Correspondence is producing Blank renewal reminder letters.
   * Prior fix to eliminate blank closure letter removed renewal stream and set the correspondence stream which now
   * broke the renewal reminders. Current cofiguration requires renewal stream to generate renewal reminders and correspondence
