@@ -1,10 +1,10 @@
 package org.kuali.coeus.award.finance;
 
-import com.codiform.moo.Moo;
 import com.codiform.moo.curry.Translate;
 
 import org.kuali.coeus.award.finance.dao.AccountDao;
 import org.kuali.coeus.sys.framework.controller.rest.RestController;
+import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
 import org.kuali.coeus.sys.framework.summary.SearchResults;
 import org.kuali.kra.award.home.Award;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +40,6 @@ public class AwardAccountController extends RestController {
     public @ResponseBody
     AccountResults getAccounts(@RequestParam(value = "startIndex", required = false) Integer startIndex,
                                      @RequestParam(value = "size", required = false) Integer size) {
-        Moo moo = new Moo();
         return Translate.to(AccountResults.class).from(transformSearchResults(getAccountDao().getAccounts(startIndex, size), new ArrayList<>()));
     }
 
@@ -50,7 +49,7 @@ public class AwardAccountController extends RestController {
     void updateAccount(@Valid @RequestBody AccountDto account, @PathVariable Long accountNumber, HttpServletResponse response) throws Exception {
         AwardAccount currentAccount = accountDao.getAccount(accountNumber);
         if(Objects.isNull(currentAccount)) {
-            sendErrorResponse(response, NO_SUCH_ACCOUNT);
+            sendErrorResponse(NO_SUCH_ACCOUNT);
         } else {
             if (account.getStatus() != null) currentAccount.setStatus(account.getStatus());
             if (account.getPending() != null) currentAccount.setPending(account.getPending());
@@ -74,9 +73,8 @@ public class AwardAccountController extends RestController {
         accounts.add(account);
         List<Long> awardIds = new ArrayList<>();
         if(Objects.isNull(account)) {
-            sendErrorResponse(response, NO_SUCH_ACCOUNT);
+            sendErrorResponse(NO_SUCH_ACCOUNT);
         }
-        Moo moo = new Moo();
         if (showAwards) {
             List<Award> awards = accountDao.getLinkedAwards(accountNumber);
             awardIds = awards.stream().map(Award::getAwardId)
@@ -92,12 +90,11 @@ public class AwardAccountController extends RestController {
         Award award = accountDao.getAward(awardId);
         AccountInformationResults accountInformationResults = new AccountInformationResults();
         if(award == null) {
-            sendErrorResponse(response, NO_SUCH_AWARD);
+            sendErrorResponse(NO_SUCH_AWARD);
         } else {
             AccountInformationDto accountInformation = accountService.createAccountInformation(award);
             List<AccountInformationDto> accountsInformation = new ArrayList<>();
             accountsInformation.add(accountInformation);
-            Moo moo = new Moo();
             accountInformationResults = Translate.to(AccountInformationResults.class).from(transformAwardInformation(accountsInformation));
             return accountInformationResults;
         }
@@ -119,8 +116,8 @@ public class AwardAccountController extends RestController {
         return result;
     }
 
-    protected void sendErrorResponse(HttpServletResponse response, String msg) throws IOException {
-        response.sendError(HttpServletResponse.SC_NOT_FOUND, msg);
+    protected void sendErrorResponse(String msg) throws IOException {
+        throw new ResourceNotFoundException(msg);
     }
 
     public AccountDao getAccountDao() {
