@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* adding rest endpoint to discover our rest endpoints
+  * Travis Schneeberger on Mon, 16 Nov 2015 15:34:31 -0500 [View Commit](../../commit/0529dbfe8aa050dc72192f5162c4f6cd56560e53)
+
+##coeus-1511.43
 * No Changes
 
 
