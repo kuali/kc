@@ -20,4 +20,5 @@
 
 \. ./rice/bootstrap/V1511_004__RESKC-975.sql
 \. ./rice/bootstrap/V1511_005__RESKC-708.sql
+\. ./rice/bootstrap/V1511_006__RESKC-996-BatchCorrespondenceRenewalCorrespTypes.sql
 commit;

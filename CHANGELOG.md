@@ -1,6 +1,21 @@
 
 
 ##CURRENT
+* IRB - Batch Correspondence is producing Blank renewal reminder letters.
+  * Prior fix to eliminate blank closure letter removed renewal stream and set the correspondence stream which now
+  * broke the renewal reminders. Current cofiguration requires renewal stream to generate renewal reminders and correspondence
+stream for other correspodences. While generating batch correspodence, all expiring and expired protocols are fetched
+  * based on configuration. So there might be a case where we need to generate both renewal reminders as well as closure
+  * letters when a batch correspondence action is performed. Tried to set both streams in the map but that is adding additional
+  * blank pages at the top and in between each letters. As a fix, created a wrapper and parameter to define renewal
+  * reminder correspondence types. The wrapper rely on this parameter to identify which stream to use while generating
+  * each correpondence. Applied the same fix in IACUC as well.
+  * Tested to make sure closure and renewal reminder correpondence are generated as per batch correspodence configuration.
+  * rmancher on Thu, 12 Nov 2015 10:37:42 -0600 [View Commit](../../commit/a5f9d86603ad16fb367c630325752717aab2e370)
+* rudimentary schema for crud endpoints using ?schema get
+  * blackcathacker on Fri, 13 Nov 2015 13:14:55 -0600 [View Commit](../../commit/b7f5bd00dfd667cbda362efc94d328aeee6070eb)
+
+##coeus-1511.41
 * No Changes
 
 
