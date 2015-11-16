@@ -274,4 +274,14 @@
 	    </property>
 	</bean>
 
+    <bean id="commonEndpointController" class="org.kuali.coeus.sys.framework.controller.rest.RestEndpointController" />
+
+    <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="mappings">
+            <value>
+                /api/v1/endpoints/*=commonEndpointController
+            </value>
+        </property>
+    </bean>
+
 </beans>
