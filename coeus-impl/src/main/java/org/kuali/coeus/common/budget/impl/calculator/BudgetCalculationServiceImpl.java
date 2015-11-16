@@ -1200,11 +1200,21 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     }
 
     private boolean isCalculatedDirectCostRate(boolean personnelFlag, RateType rateType, RateClass rateClass) {
-        return ((!getBudgetRatesService().isEmployeeBenefit(rateClass.getRateClassTypeCode())
+        return (isEbonLAorVacationLA(rateType, rateClass) || !personnelFlag)
+                && !getBudgetRatesService().isOverhead(rateClass.getRateClassTypeCode())
+                && !isVacation(rateType, rateClass);
+
+    }
+
+    protected boolean isVacation(RateType rateType, RateClass rateClass) {
+        return getBudgetRatesService().isVacation(rateClass.getRateClassTypeCode()) &&
+                !getBudgetRatesService().isVacationOnLabAllocation(rateClass.getCode(), rateType.getRateTypeCode());
+    }
+
+    private boolean isEbonLAorVacationLA(RateType rateType, RateClass rateClass) {
+        return !getBudgetRatesService().isEmployeeBenefit(rateClass.getRateClassTypeCode())
                 || getBudgetRatesService().isVacationOnLabAllocation(rateClass.getCode(), rateType.getRateTypeCode())
-                || getBudgetRatesService().isEmployeeBenefitOnLabAllocation(rateClass.getCode(), rateType.getRateTypeCode()))
-                || !personnelFlag)
-                && !StringUtils.equals(rateClass.getRateClassTypeCode(), RateClassType.OVERHEAD.getRateClassType());
+                || getBudgetRatesService().isEmployeeBenefitOnLabAllocation(rateClass.getCode(), rateType.getRateTypeCode());
     }
 
     /**

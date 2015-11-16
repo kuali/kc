@@ -88,4 +88,7 @@ public interface BudgetRatesService {
     boolean isVacationOnLabAllocation(String rateClassCode, String rateTypeCode);
 
     boolean isEmployeeBenefitOnLabAllocation(String rateClassCode, String rateTypeCode);
-}
+
+    boolean isOverhead(String rateClassTypeCode);
+
+    }

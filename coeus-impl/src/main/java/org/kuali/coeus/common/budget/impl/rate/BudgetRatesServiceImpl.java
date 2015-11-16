@@ -906,6 +906,10 @@ public abstract class BudgetRatesServiceImpl implements BudgetRatesService {
 
     }
 
+    public boolean isOverhead(String rateClassTypeCode) {
+        return StringUtils.equals(rateClassTypeCode, org.kuali.coeus.common.budget.api.rate.RateClassType.OVERHEAD.getRateClassType());
+    }
+
     @Override
     public boolean isVacationOnLabAllocation(String rateClassCode, String rateTypeCode) {
         ValidCalcType vacationOnLaValidCalcType = getDependentValidRateClassTypeForLA(org.kuali.coeus.common.budget.api.rate.RateClassType.VACATION.getRateClassType());
