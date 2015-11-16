@@ -92,7 +92,7 @@
 		<property name="xmlStream" ref="irbBatchCorrespondenceXmlStream" />
 	</bean>
 
-	<bean id="irbBatchCorrespondenceXmlStream" class="org.kuali.kra.irb.actions.print.IrbBatchCorrespondenceXmlStream">
+	<bean id="irbBatchCorrespondenceXmlStream" class="org.kuali.kra.irb.actions.print.IrbBatchCorrespondenceXmlStream" scope="prototype">
 		<property name="renewalReminderStream" ref="renewalReminderStream"/>
 		<property name="correspondenceXmlStream" ref="correspondenceXmlStream"/>
     	<property name="parameterService" ref="parameterService" />

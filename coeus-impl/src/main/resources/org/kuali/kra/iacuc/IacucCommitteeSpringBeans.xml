@@ -212,7 +212,7 @@
 		<property name="protocolCorrespondenceTemplateService" ref="iacucProtocolCorrespondenceTemplateService" />
 	</bean>
 	
-	<bean id="iacucBatchCorrespondenceXmlStream" class="org.kuali.kra.iacuc.actions.print.IacucBatchCorrespondenceXmlStream">
+	<bean id="iacucBatchCorrespondenceXmlStream" class="org.kuali.kra.iacuc.actions.print.IacucBatchCorrespondenceXmlStream" scope="prototype">
 		<property name="renewalReminderStream" ref="iacucRenewalReminderStream"/>
 		<property name="correspondenceXmlStream" ref="iacucCorrespondenceXmlStream"/>
     	<property name="parameterService" ref="parameterService" />
