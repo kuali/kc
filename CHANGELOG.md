@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* updating commons-collections due to a security advisory and other dependencies
+  * Travis Schneeberger on Tue, 17 Nov 2015 16:08:22 -0500 [View Commit](../../commit/b94c41efa3baa319eb39dad3498de16797f7b150)
+
+##coeus-1511.47
 *  Fix calculated direct cost calculation
   * A recent case fixed the Assigned Personnel screen's "Fringe" field to accurately display the combined personnel rate expenses of EB and Vacation. The field name was updated to 'calculated fringe.' (RESKC-416)
   * An unexpected result is that the Budget Summary screen is now incorrectly duplicating expenses.
