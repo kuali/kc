@@ -1,6 +1,41 @@
 
 
 ##CURRENT
+* New Research Home page with suggest text box and quicklinks
+  * blackcathacker on Mon, 16 Nov 2015 15:36:18 -0800 [View Commit](../../commit/22de7a3838b80077d336348a55aabe3ebe10b471)
+*  Fix rest issue
+  * ISSUE4:
+  * Errors sometimes have html in them
+  * Gayathri Athreya on Mon, 16 Nov 2015 15:52:59 -0700 [View Commit](../../commit/0625957403c472e7e4463d69b21138bdd65f80ca)
+* PD - Exempt Address Book person PI/Multiple from certification
+  * & notification
+  * MIT requires some non-employees to participate in the system to perform
+  * the proposal person certification. The parameter to exempt identified
+  * key person roles is utilized to manage excluding those identified Key
+  * Persons. Another solution is required to exempt non-employee/address
+  * book persons added as the Proposal Role of PI/Multiple.
+  * Per MIT compliance policy and procedure, proposal persons added to a
+  * proposal via Non-Employee search (address book) and given the role of
+  * PI/Multiple are exempt from the proposal person certification process.
+  * Therefore, If the proposal role is PI/Multiple and the person is a
+  * Non-Employee/ address book, 
+  * THEN:
+  * do not present the proposal person certification questionnaire
+  * do not display certification status in the role header row
+  * do not have a 'notify' option button in the role header row
+  * do not include this proposal person in the "notify all' option in the
+  * COI Disclosure Status window.
+  * DO show 'Not Required" as the certification status in the COI Disclosure
+  * Status window
+  * The behavior should be the same as that of the parameterized Key Persons
+  * exemption (KeyPersonProjectRole), but used for the assigned proposal
+  * role of PI/Multiple.
+  * Providing this as a parameter option is appropriate to allow other
+  * implementers to include or exempt, as determined by their local policy.
+  * Suggested name: EXEMPT_ADDRESSBOOK_MULTI-PI_CERT
+  * vineeth on Thu, 12 Nov 2015 13:52:48 -0500 [View Commit](../../commit/8858db96a886926d565a003d61da27fd086eb14a)
+
+##coeus-1511.44
 * adding rest endpoint to discover our rest endpoints
   * Travis Schneeberger on Mon, 16 Nov 2015 15:34:31 -0500 [View Commit](../../commit/0529dbfe8aa050dc72192f5162c4f6cd56560e53)
 
