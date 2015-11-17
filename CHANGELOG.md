@@ -1,6 +1,33 @@
 
 
 ##CURRENT
+*  Fix calculated direct cost calculation
+  * A recent case fixed the Assigned Personnel screen's "Fringe" field to accurately display the combined personnel rate expenses of EB and Vacation. The field name was updated to 'calculated fringe.' (RESKC-416)
+  * An unexpected result is that the Budget Summary screen is now incorrectly duplicating expenses.
+  * Discovered in MIT's testing of fix for RESKC-416
+  * Confirmed in Res Demo 1; Proposal #985
+  * While Budget > Budget Summary > Personnel > Fringe for individuals DOES correctly display the cost of EB + Vacation for the individual.
+  * The Budget > Budget Summary > Personnel > Calculated Direct Costs calculation is incorrect.
+  * This amount STILL INCLUDES the Vacation expense for the individual, thus Vacation is being double counted in the budget summary. The Personnel Calculated Direct Costs should include only the "Lab Allocation - Salaries", "EB On LA", "Vacation on LA" and NOT the "Vacation" calculated for personnel.
+  * The duplicate Vacation expense is causing the Total of the Personnel Subtotal and the Non-personnel Subtotal to exceed the Total Direct Costs listed on the Budget Summary.
+  * Each “Rate Cost” for an individual should be included in ONLY one amount on the Budget Summary.
+  * Scenario:
+  * Create a proposal in an Lab Allocated unit, entering minimum details to save, with activity Type Research.
+  * Create a new budget version with detailed budget.
+  * Add an individual to Project Personnel with salary.
+  * Assign Personnel to Period using a cost object subject to Vacation Accrual (e.g. Research Staff - On)
+  * In Non-Personnel Costs, Add a travel line item.
+  * Go to Budget Summary.
+  * Note the Personnel > Calculated Direct Costs.
+  * Go back to Assign Personnel to Period.
+  * Open Details and Rates for the Research Staff Line item.
+  * Compare amount from Budget Summary > Personnel > Calculated Direct Costs to the total of "Lab Allocation - Salaries", "EB On LA", and "Vacation on LA" rates for the person.
+  * The amount from the Budget Summary will be higher with the delta being cost of vacation accrual for the individual.
+  * Tested in KC Wkly build kc1509.65
+  * PD #29305, budget #2.
+  * Gayathri Athreya on Mon, 16 Nov 2015 13:34:57 -0700 [View Commit](../../commit/6444809495cee223c908cb78ca0396343ac74144)
+
+##coeus-1511.46
 * New Research Home page with suggest text box and quicklinks
   * blackcathacker on Mon, 16 Nov 2015 15:36:18 -0800 [View Commit](../../commit/22de7a3838b80077d336348a55aabe3ebe10b471)
 *  Fix rest issue
