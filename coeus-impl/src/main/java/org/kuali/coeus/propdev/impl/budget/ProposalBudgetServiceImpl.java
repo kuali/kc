@@ -23,7 +23,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
 import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
-import org.kuali.coeus.common.budget.framework.query.QueryList;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
@@ -34,6 +33,7 @@ import org.kuali.coeus.common.budget.impl.core.AbstractBudgetService;
 import org.kuali.coeus.common.framework.ruleengine.KcBusinessRulesEngine;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularService;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
+import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
@@ -44,7 +44,6 @@ import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardPeriodDetail;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards;
 import org.kuali.coeus.propdev.impl.budget.subaward.PropDevBudgetSubAwardService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.data.CopyOption;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.data.PersistenceOption;
@@ -57,6 +56,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * This class process requests for ProposalBudget
@@ -263,12 +263,23 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
         budget.setDevelopmentProposal(null);
 		ProposalDevelopmentBudgetExt doServiceCopy = 
 				(ProposalDevelopmentBudgetExt) getDataObjectService().copyInstance(budget, CopyOption.RESET_OBJECT_ID, CopyOption.RESET_PK_FIELDS, CopyOption.RESET_VERSION_NUMBER);
-		budget.setDevelopmentProposal(parent);
+		doServiceCopy.setObjectId(UUID.randomUUID().toString());
+        budget.setDevelopmentProposal(parent);
 		if (developmentProposal != null) {
 			doServiceCopy.setDevelopmentProposal(developmentProposal);
 		} else {
 			doServiceCopy.setDevelopmentProposal(parent);
 		}
+
+        for (int i = 0; i < doServiceCopy.getNextValues().size(); i++) {
+            DocumentNextvalue orig = budget.getNextValues().get(i);
+            DocumentNextvalue copy = doServiceCopy.getNextValues().get(i);
+
+            copy.setPropertyName(orig.getPropertyName());
+            copy.setDocumentKey(doServiceCopy.getObjectId());
+            copy.setNextValue(orig.getNextValue());
+        }
+
 		return doServiceCopy;
     }
 

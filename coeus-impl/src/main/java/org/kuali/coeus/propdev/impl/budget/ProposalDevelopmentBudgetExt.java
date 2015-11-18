@@ -24,11 +24,10 @@ import java.util.List;
 import javax.persistence.*;
 
 import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.propdev.api.budget.ProposalDevelopmentBudgetExtContract;
-import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetNextValue;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.bo.NextValue;
 
 @Entity
@@ -56,12 +55,12 @@ public class ProposalDevelopmentBudgetExt extends Budget implements ProposalDeve
     @Column(name = "HIERARCHY_HASH_CODE")
     private Integer hierarchyLastSyncHashCode;
     
-    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
+    @OneToMany(orphanRemoval = false, cascade = { CascadeType.ALL })
     @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "OBJ_ID")
-    private List<ProposalBudgetNextValue> nextValues;
+    private List<DocumentNextvalue> nextValues;
     
     public ProposalDevelopmentBudgetExt() {
-    	nextValues = new ArrayList<ProposalBudgetNextValue>();
+    	nextValues = new ArrayList<>();
     }
 
     public Integer getHierarchyLastSyncHashCode() {
@@ -132,19 +131,19 @@ public class ProposalDevelopmentBudgetExt extends Budget implements ProposalDeve
 	}
     
     public NextValue getNewNextValue() {
-    	return new ProposalBudgetNextValue();
+    	return new DocumentNextvalue();
     }
     
     public void add(NextValue nextValue) {
-    	((ProposalBudgetNextValue) nextValue).setParentObject(this);
-    	nextValues.add((ProposalBudgetNextValue) nextValue);
+    	nextValue.setDocumentKey(this.getObjectId());
+    	nextValues.add((DocumentNextvalue) nextValue);
     }
 
-	public List<ProposalBudgetNextValue> getNextValues() {
+	public List<DocumentNextvalue> getNextValues() {
 		return nextValues;
 	}
 
-	public void setNextValues(List<ProposalBudgetNextValue> nextValues) {
+	public void setNextValues(List<DocumentNextvalue> nextValues) {
 		this.nextValues = nextValues;
 	}
 
