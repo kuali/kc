@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* updating commons-collections due to a security advisory and other dependencies, reverting slf4j due to startup errors
+  * Travis Schneeberger on Wed, 18 Nov 2015 09:12:27 -0500 [View Commit](../../commit/3bf7141d5556707fd1e8e3475703a5bacde7aeaf)
+
+##coeus-1511.50
 * No Changes
 
 
