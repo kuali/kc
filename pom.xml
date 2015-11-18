@@ -61,37 +61,37 @@
 
     <properties>
         <!--dependency versions-->
-        <activemq.version>5.12.0</activemq.version>
+        <activemq.version>5.12.1</activemq.version>
         <aopalliance.version>1.0</aopalliance.version>
         <avalon-framework.version>4.3.1</avalon-framework.version>
-        <bouncycastle.version>1.51</bouncycastle.version>
+        <bouncycastle.version>1.53</bouncycastle.version>
         <cas-client-core.version>3.3.3</cas-client-core.version>
-        <cglib.version>3.2.0</cglib.version>
+        <cglib.version>3.1</cglib.version>
         <coeus-api-all.version>1509.0003</coeus-api-all.version>
         <coeus-s2sgen.version>1511.0004</coeus-s2sgen.version>
         <commons-beanutils.version>1.8.3-kuali-4</commons-beanutils.version>
-        <commons-codec.version>1.10</commons-codec.version>
-        <commons-collections.version>3.2.2</commons-collections.version>
+        <commons-codec.version>1.9</commons-codec.version>
+        <commons-collections.version>3.2.1</commons-collections.version>
         <commons-collections4.version>4.0</commons-collections4.version>
         <commons-fileupload.version>1.3.1</commons-fileupload.version>
         <commons-httpclient.version>3.1</commons-httpclient.version>
         <commons-io.version>2.4</commons-io.version>
         <commons-lang.version>2.6</commons-lang.version>
-        <commons-lang3.version>3.4</commons-lang3.version>
+        <commons-lang3.version>3.3.2</commons-lang3.version>
         <commons-net.version>3.3</commons-net.version>
         <commons-pool.version>1.6</commons-pool.version>
-        <commons-validator.version>1.4.1</commons-validator.version>
+        <commons-validator.version>1.4.0</commons-validator.version>
         <cxf.version>2.7.12</cxf.version>
         <db-ojb.version>1.0.4-patch9</db-ojb.version>
         <displaytag.version>1.2</displaytag.version>
-        <drools.version>6.2.0.Final</drools.version>
+        <drools.version>6.3.0.Final</drools.version>
         <dwr.version>3.0.0-RELEASE</dwr.version>
         <ecj.version>4.4.2</ecj.version>
-        <ehcache.version>2.6.11</ehcache.version>
+        <ehcache.version>2.6.9</ehcache.version>
         <el.version>2.2.1</el.version>
         <extra-enforcer-rules.version>1.0-beta-4</extra-enforcer-rules.version>
         <fop.version>1.1</fop.version>
-        <guava.version>18.0</guava.version>
+        <guava.version>17.0</guava.version>
         <hamcrest.version>1.3</hamcrest.version>
         <itext.version>2.1.7</itext.version>
         <jackson.version>1.9.13</jackson.version>
@@ -100,7 +100,7 @@
         <javax.persistence.version>2.1.0</javax.persistence.version>
         <jaxb-impl.version>2.2.6</jaxb-impl.version>
         <jmock.version>2.8.1</jmock.version>
-        <joda-time.version>2.9.1</joda-time.version>
+        <joda-time.version>2.4</joda-time.version>
         <joda-time-jsptags.version>1.1.1</joda-time-jsptags.version>
         <jsp.version>2.2.1</jsp.version>
         <jstl.version>1.2.1</jstl.version>
@@ -117,11 +117,11 @@
         <oracle.groupId>com.oracle</oracle.groupId>
         <oracle.artifactId>ojdbc7</oracle.artifactId>
         <oracle.version>12.1.0.2</oracle.version>
-        <org.eclipse.birt.runtime.version>4.4.0</org.eclipse.birt.runtime.version>
-        <org.eclipse.persistence.version>2.6.1</org.eclipse.persistence.version>
+        <org.eclipse.birt.runtime.version>4.4.2</org.eclipse.birt.runtime.version>
+        <org.eclipse.persistence.version>2.6.0</org.eclipse.persistence.version>
         <pdfbox.version>1.8.6</pdfbox.version>
         <quartz.version>1.8.4</quartz.version>
-        <rice.version>2.5.3.1511.0002-kualico</rice.version>
+        <rice.version>2.5.3.1510.0005-kualico</rice.version>
         <schemaspy.version>1508.0162</schemaspy.version>
         <servlet.version>3.0.1</servlet.version>
         <slf4j.version>1.7.7</slf4j.version>
