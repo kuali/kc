@@ -61,10 +61,10 @@
 
     <properties>
         <!--dependency versions-->
-        <activemq.version>5.12.1</activemq.version>
+        <activemq.version>5.12.0</activemq.version>
         <aopalliance.version>1.0</aopalliance.version>
         <avalon-framework.version>4.3.1</avalon-framework.version>
-        <bouncycastle.version>1.53</bouncycastle.version>
+        <bouncycastle.version>1.51</bouncycastle.version>
         <cas-client-core.version>3.3.3</cas-client-core.version>
         <cglib.version>3.2.0</cglib.version>
         <coeus-api-all.version>1509.0003</coeus-api-all.version>
@@ -84,7 +84,7 @@
         <cxf.version>2.7.12</cxf.version>
         <db-ojb.version>1.0.4-patch9</db-ojb.version>
         <displaytag.version>1.2</displaytag.version>
-        <drools.version>6.3.0.Final</drools.version>
+        <drools.version>6.2.0.Final</drools.version>
         <dwr.version>3.0.0-RELEASE</dwr.version>
         <ecj.version>4.4.2</ecj.version>
         <ehcache.version>2.6.11</ehcache.version>
@@ -117,7 +117,7 @@
         <oracle.groupId>com.oracle</oracle.groupId>
         <oracle.artifactId>ojdbc7</oracle.artifactId>
         <oracle.version>12.1.0.2</oracle.version>
-        <org.eclipse.birt.runtime.version>4.4.2</org.eclipse.birt.runtime.version>
+        <org.eclipse.birt.runtime.version>4.4.0</org.eclipse.birt.runtime.version>
         <org.eclipse.persistence.version>2.6.1</org.eclipse.persistence.version>
         <pdfbox.version>1.8.6</pdfbox.version>
         <quartz.version>1.8.4</quartz.version>
