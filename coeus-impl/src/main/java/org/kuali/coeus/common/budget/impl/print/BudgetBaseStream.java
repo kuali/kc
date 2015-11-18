@@ -384,7 +384,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 	}
 
     protected int getUnitNumber() {
-	    String lsOwnedByUnit = budgetPeriod.getBudget().getBudgetParent().getIsOwnedByUnit();
+	    String lsOwnedByUnit = budgetPeriod.getBudget().getBudgetParent().getOwnedByUnitNumber();
         Map<String, String> lsOwnedByUnitMap = new HashMap<String, String>();
         lsOwnedByUnitMap.put(UNIT_NUMBER, lsOwnedByUnit);
         int liCount = businessObjectService.findMatching(InstituteLaRate.class, lsOwnedByUnitMap).size();

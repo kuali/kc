@@ -343,12 +343,9 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 		for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
 			this.budgetPeriod = budgetPeriod;
 			if (getUnitNumber() > 0) {
-				for (BudgetLineItem budgetLineItem : budgetPeriod
-						.getBudgetLineItems()) {
-					calculatedCost = calculatedCost
-							.add(getTotalCalculatedCostByRateClassTypeFromLineItem(
-									RateClassType.LAB_ALLOCATION
-											.getRateClassType(), budgetLineItem));
+				for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
+					calculatedCost = calculatedCost.add(
+                            getTotalCalculatedCostByRateClassTypeFromLineItem(RateClassType.LAB_ALLOCATION.getRateClassType(), budgetLineItem));
 				}
 			}
 		}

@@ -48,7 +48,7 @@ public interface BudgetParent {
     String getParentNumber();
     String getParentTitle();
     String getParentPIName();
-    String getIsOwnedByUnit();
+    String getOwnedByUnitNumber();
     Integer getParentInvestigatorFlag(String personId, Integer flag);
     String  getParentTypeName();
 	boolean isProposalBudget();
