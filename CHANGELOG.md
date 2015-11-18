@@ -1,6 +1,23 @@
 
 
 ##CURRENT
+* Award with Multi-PI does not show Multi-PI on printed NOA.
+  * If an Award contains a contact of type PI/Multiple, that Multiple PI/MPI
+  * is not populated in the Award Notice printed report, or the Award
+  * Modification report
+  * Steps:
+  * 1) Open Demo 1 Award ID 000024-00001
+  * 2) Go to Award Actions>expand the Print panel
+  * 3) Click Print button on the far right in the Award Notice section
+  * Results:
+  * 4) The investigator list only shows the PI and any Co'-I's: not the
+  * Multi-PIs. 
+  * See screenshot from MIT.
+  * Confirmed in res demo 1 
+  * See related RESKC-776 for the IP report fix to include MPI.
+  * vineeth on Mon, 16 Nov 2015 17:08:36 -0500 [View Commit](../../commit/79189d1acf6f4a0f81d88f90849770d40412c94f)
+
+##coeus-1511.59
 * No Changes
 
 
