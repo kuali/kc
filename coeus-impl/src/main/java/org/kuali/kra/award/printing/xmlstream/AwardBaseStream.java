@@ -1050,17 +1050,9 @@ public abstract class AwardBaseStream implements XmlStream {
 		AwardInvestigators awardInvestigators = AwardInvestigators.Factory
 				.newInstance();
 		List<InvestigatorType> investigatorTypes = new ArrayList<>();
-		award.getProjectPersons().forEach(awardPerson -> {
-			if (awardPerson.isPrincipalInvestigator()) {
-				InvestigatorType investigatorType = getInvestigatorType(awardPerson);
-				investigatorTypes.add(investigatorType);
-			}
-		});
-		award.getProjectPersons().forEach(awardPerson -> {
-			if (awardPerson.isCoInvestigator()) {
-				InvestigatorType investigatorType = getInvestigatorType(awardPerson);
-				investigatorTypes.add(investigatorType);
-			}
+		award.getProjectPersons().stream().filter(awardPerson -> awardPerson.isPrincipalInvestigator() || awardPerson.isMultiplePi() || awardPerson.isCoInvestigator()).forEach(awardPerson -> {
+			InvestigatorType investigatorType = getInvestigatorType(awardPerson);
+			investigatorTypes.add(investigatorType);
 		});
 		awardInvestigators.setInvestigatorArray(investigatorTypes
 				.toArray(new InvestigatorType[0]));
