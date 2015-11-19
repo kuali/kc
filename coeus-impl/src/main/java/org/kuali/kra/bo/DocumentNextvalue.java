@@ -30,7 +30,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "DOCUMENT_NEXTVALUE")
 @IdClass(DocumentNextvalue.DocumentNextvalueId.class)
-public class DocumentNextvalue extends KcPersistableBusinessObjectBase implements NextValue {
+public class DocumentNextvalue extends KcPersistableBusinessObjectBase {
 
     @Id
     @Column(name = "PROPERTY_NAME")
