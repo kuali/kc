@@ -20,9 +20,11 @@ package org.kuali.coeus.propdev.impl.budget;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.*;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.propdev.api.budget.ProposalDevelopmentBudgetExtContract;
@@ -135,7 +137,11 @@ public class ProposalDevelopmentBudgetExt extends Budget implements ProposalDeve
     }
     
     public void add(NextValue nextValue) {
-    	nextValue.setDocumentKey(this.getObjectId());
+    	if (StringUtils.isBlank(this.getObjectId())) {
+			this.setObjectId(UUID.randomUUID().toString());
+		}
+
+		nextValue.setDocumentKey(this.getObjectId());
     	nextValues.add((DocumentNextvalue) nextValue);
     }
 
