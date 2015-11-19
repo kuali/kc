@@ -21,8 +21,6 @@ package org.kuali.coeus.common.budget.framework.core;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.persistence.sessions.Record;
-import org.eclipse.persistence.sessions.Session;
 import org.kuali.coeus.common.budget.api.core.BudgetContract;
 import org.kuali.coeus.common.budget.framework.core.category.BudgetCategoryType;
 import org.kuali.coeus.common.budget.framework.rate.AbstractBudgetRate;
@@ -33,7 +31,6 @@ import org.kuali.coeus.common.budget.framework.rate.RateType;
 import org.kuali.coeus.common.budget.impl.print.BudgetPrintForm;
 import org.kuali.coeus.common.budget.framework.rate.BudgetLaRate;
 import org.kuali.coeus.common.budget.framework.rate.RateClassType;
-import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardAttachment;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardFiles;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardPeriodDetail;
@@ -41,8 +38,6 @@ import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards;
 import org.kuali.coeus.sys.api.model.ScaleThreeDecimal;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.award.budget.AwardBudgetExt;
-import org.kuali.kra.bo.NextValue;
 import org.kuali.coeus.common.budget.framework.rate.InstituteLaRate;
 import org.kuali.coeus.common.budget.framework.rate.InstituteRate;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
@@ -61,6 +56,7 @@ import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelRateAndB
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
 import org.kuali.coeus.common.framework.impl.Period;
 import org.kuali.coeus.common.framework.person.PersonRolodexComparator;
+import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModular;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc;
@@ -244,6 +240,9 @@ public class Budget extends AbstractBudget implements BudgetContract {
     @Transient
     private Boolean viewOnly = Boolean.FALSE;
 
+    @Transient
+    private transient BusinessObjectService businessObjectService;
+
     public Budget() {
         super();
         budgetProjectIncomes = new ArrayList<>();
@@ -309,11 +308,10 @@ public class Budget extends AbstractBudget implements BudgetContract {
     }
 
     private Collection<BudgetPeriod> getPersistedBudgetPeriods() {
-        final BusinessObjectService service = KcServiceLocator.getService(BusinessObjectService.class);
         final Map<String, Object> matchCriteria = new HashMap<>();
         matchCriteria.put("budgetId", this.getBudgetId());
-        @SuppressWarnings("unchecked") final Collection<BudgetPeriod> periods = service.findMatching(BudgetPeriod.class, matchCriteria);
-        return periods != null ? Collections.unmodifiableCollection(periods) : Collections.<BudgetPeriod>emptyList();
+        final Collection<BudgetPeriod> periods = getBusinessObjectService().findMatching(BudgetPeriod.class, matchCriteria);
+        return periods != null ? Collections.unmodifiableCollection(periods) : Collections.emptyList();
     }
 
     private void deletePersistedProjectIncomes(final Collection<Long> periodIds) {
@@ -321,10 +319,10 @@ public class Budget extends AbstractBudget implements BudgetContract {
         if (periodIds.isEmpty()) {
             return;
         }
-        final BusinessObjectService service = KcServiceLocator.getService(BusinessObjectService.class);
+
         final Map<String, Collection<Long>> matchCriteria = new HashMap<>();
         matchCriteria.put("budgetPeriodId", periodIds);
-        service.deleteMatching(BudgetProjectIncome.class, matchCriteria);
+        getBusinessObjectService().deleteMatching(BudgetProjectIncome.class, matchCriteria);
     }
 
     private void deleteLocalProjectIncomes(final Collection<Long> periodIds) {
@@ -650,10 +648,6 @@ public class Budget extends AbstractBudget implements BudgetContract {
         this.budgetProjectIncomes = budgetProjectIncomes;
     }
 
-    /**
-     * This method adds an item to its collection
-     * @param budgetCostShare
-     */
     public void add(BudgetCostShare budgetCostShare) {
         if (budgetCostShare != null) {
             budgetCostShare.setBudgetId(getBudgetId());
@@ -665,15 +659,15 @@ public class Budget extends AbstractBudget implements BudgetContract {
         }
     }
 
-    public List<? extends NextValue> getNextValues() {
+    public List<DocumentNextvalue> getNextValues() {
     	throw new UnsupportedOperationException("Not supported in Budget parent class");
     }
-    
-    public NextValue getNewNextValue() {
+
+    public DocumentNextvalue getNewNextValue() {
     	throw new UnsupportedOperationException("Not supported in Budget parent class");
     }
-    
-    public void add(NextValue nextValue) {
+
+    public void add(DocumentNextvalue nextValue) {
     	throw new UnsupportedOperationException("Not supported in Budget parent class");
     }
 
@@ -681,7 +675,7 @@ public class Budget extends AbstractBudget implements BudgetContract {
         Integer propNextValue = 1;
         // search for property and get the latest number - increment for next call 
         for (Object element : getNextValues()) {
-        	NextValue nextValue = (NextValue) element;
+            DocumentNextvalue nextValue = (DocumentNextvalue) element;
             if (nextValue.getPropertyName().equalsIgnoreCase(propertyName)) {
                 propNextValue = nextValue.getNextValue();
                 nextValue.setNextValue(propNextValue + 1);
@@ -690,7 +684,7 @@ public class Budget extends AbstractBudget implements BudgetContract {
 
         // property does not exist - set initial value and increment for next call 
         if (propNextValue == 1) {
-        	NextValue nextValue = getNewNextValue();
+            DocumentNextvalue nextValue = getNewNextValue();
         	nextValue.setNextValue(propNextValue + 1);
         	nextValue.setPropertyName(propertyName);
             add(nextValue);
@@ -967,7 +961,7 @@ public class Budget extends AbstractBudget implements BudgetContract {
     }
 
     private List<ScaleTwoDecimal> findProjectIncomeTotalsForBudgetPeriods(Map<Integer, ScaleTwoDecimal> incomes) {
-        List<ScaleTwoDecimal> periodIncomeTotals = new ArrayList<ScaleTwoDecimal>(budgetPeriods.size());
+        List<ScaleTwoDecimal> periodIncomeTotals = new ArrayList<>(budgetPeriods.size());
         for (BudgetPeriod budgetPeriod : budgetPeriods) {
             ScaleTwoDecimal periodIncomeTotal = incomes.get(budgetPeriod.getBudgetPeriod());
             if (periodIncomeTotal == null) {
@@ -997,7 +991,7 @@ public class Budget extends AbstractBudget implements BudgetContract {
     }
 
     public Map<Integer, ScaleTwoDecimal> mapProjectIncomeTotalsToBudgetPeriodNumbers() {
-        Map<Integer, ScaleTwoDecimal> budgetPeriodProjectIncomeMap = new TreeMap<Integer, ScaleTwoDecimal>();
+        Map<Integer, ScaleTwoDecimal> budgetPeriodProjectIncomeMap = new TreeMap<>();
         for (BudgetProjectIncome budgetProjectIncome : budgetProjectIncomes) {
             Integer budgetPeriodNumber = budgetProjectIncome.getBudgetPeriodNumber();
             ScaleTwoDecimal amount = budgetPeriodProjectIncomeMap.get(budgetPeriodNumber);
@@ -1494,20 +1488,6 @@ public class Budget extends AbstractBudget implements BudgetContract {
         return KcServiceLocator.getService(ProposalBudgetNumberOfMonthsService.class);
     }
 
-    public static class BudgetExtractor extends org.eclipse.persistence.descriptors.ClassExtractor {
-
-        @Override
-        public Class extractClassFromRow(Record databaseRow, Session session) {
-            if (databaseRow.containsKey("HIERARCHY_HASH_CODE")) {
-                return ProposalDevelopmentBudgetExt.class;
-            } else if (databaseRow.containsKey("AWARD_BUDGET_STATUS_CODE")) {
-                return AwardBudgetExt.class;
-            } else {
-                return Budget.class; // this should never happen
-            }
-        }
-    }
-
     private static class RateClassTypeComparator implements Comparator<RateClassType>, Serializable {
 
         private static final long serialVersionUID = 8230902362851330642L;
@@ -1539,7 +1519,7 @@ public class Budget extends AbstractBudget implements BudgetContract {
 	
 	public List<BudgetPersonnelDetails> getBudgetPersonnelDetails() {
 		String personnelBudgetCategoryTypeCode = getBudgetCalculationService().getPersonnelBudgetCategoryTypeCode();
-		List<BudgetPersonnelDetails> budgetPersonnelDetailsList = new ArrayList<BudgetPersonnelDetails>();
+		List<BudgetPersonnelDetails> budgetPersonnelDetailsList = new ArrayList<>();
 		for(BudgetPeriod budgetPeriod : getBudgetPeriods()) {
 			for(BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
 				if(budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode().equalsIgnoreCase(personnelBudgetCategoryTypeCode)) {
@@ -1556,7 +1536,7 @@ public class Budget extends AbstractBudget implements BudgetContract {
 
 	public List<BudgetLineItem> getBudgetLineItems() {
 		String personnelBudgetCategoryTypeCode = getBudgetCalculationService().getPersonnelBudgetCategoryTypeCode();
-		List<BudgetLineItem> budgetLineItems = new ArrayList<BudgetLineItem>();
+		List<BudgetLineItem> budgetLineItems = new ArrayList<>();
 		for(BudgetPeriod budgetPeriod : getBudgetPeriods()) {
 		    for(BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
 				if(!budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode().equalsIgnoreCase(personnelBudgetCategoryTypeCode)) {
@@ -1608,4 +1588,24 @@ public class Budget extends AbstractBudget implements BudgetContract {
         this.parentDocumentTypeCode = parentDocumentTypeCode;
     }
 
+
+    public BusinessObjectService getBusinessObjectService() {
+        if (businessObjectService == null) {
+            businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
+        }
+
+        return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
+    public void setBudgetCalculationService(BudgetCalculationService budgetCalculationService) {
+        this.budgetCalculationService = budgetCalculationService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
 }

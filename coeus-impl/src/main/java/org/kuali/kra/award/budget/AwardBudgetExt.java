@@ -23,7 +23,6 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.DocumentNextvalue;
-import org.kuali.kra.bo.NextValue;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.CostElement;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
@@ -90,7 +89,7 @@ public class AwardBudgetExt extends Budget {
     public AwardBudgetExt() {
         super();
         setParentDocumentTypeCode("AWRD");
-        awardBudgetLimits = new ArrayList<AwardBudgetLimit>();
+        awardBudgetLimits = new ArrayList<>();
     }
 
     public AwardBudgetPeriodExt getNewBudgetPeriod() {
@@ -137,22 +136,14 @@ public class AwardBudgetExt extends Budget {
         this.awardBudgetType = awardBudgetType;
     }
 
-    /**
-     * Gets the ohRatesNonEditable attribute. 
-     * @return Returns the ohRatesNonEditable.
-     */
     public boolean getOhRatesNonEditable() {
-        Award award = (Award) getBudgetDocument().getBudget().getBudgetParent();
-        return award.getAwardFandaRate().isEmpty() ? false : true;
+        Award award = getBudgetDocument().getBudget().getBudgetParent();
+        return !award.getAwardFandaRate().isEmpty();
     }
 
-    /**
-     * Gets the ebRatesNonEditable attribute. 
-     * @return Returns the ebRatesNonEditable.
-     */
     public boolean getEbRatesNonEditable() {
-        Award award = (Award) getBudgetDocument().getBudget().getBudgetParent();
-        return ((award.getSpecialEbRateOffCampus() != null && award.getSpecialEbRateOffCampus().isPositive()) || (award.getSpecialEbRateOnCampus() != null && award.getSpecialEbRateOnCampus().isPositive())) ? true : false;
+        Award award = getBudgetDocument().getBudget().getBudgetParent();
+        return ((award.getSpecialEbRateOffCampus() != null && award.getSpecialEbRateOffCampus().isPositive()) || (award.getSpecialEbRateOnCampus() != null && award.getSpecialEbRateOnCampus().isPositive()));
     }
 
     /**
@@ -173,50 +164,26 @@ public class AwardBudgetExt extends Budget {
         this.obligatedTotal = obligatedAmount;
     }
 
-    /**
-     * Gets the obligatedAmount attribute. 
-     * @return Returns the obligatedAmount.
-     */
     public ScaleTwoDecimal getObligatedAmount() {
         return obligatedAmount == null ? ScaleTwoDecimal.ZERO : obligatedAmount;
     }
 
-    /**
-     * Sets the obligatedAmount attribute value.
-     * @param obligatedAmount The obligatedAmount to set.
-     */
     public void setObligatedAmount(ScaleTwoDecimal obligatedAmount) {
         this.obligatedAmount = obligatedAmount;
     }
 
-    /**
-     * Gets the description attribute. 
-     * @return Returns the description.
-     */
     public String getDescription() {
         return description;
     }
 
-    /**
-     * Sets the description attribute value.
-     * @param description The description to set.
-     */
     public void setDescription(String description) {
         this.description = description;
     }
 
-    /**
-     * Gets the budgetInitiator attribute. 
-     * @return Returns the budgetInitiator.
-     */
     public String getBudgetInitiator() {
         return budgetInitiator;
     }
 
-    /**
-     * Sets the budgetInitiator attribute value.
-     * @param budgetInitiator The budgetInitiator to set.
-     */
     public void setBudgetInitiator(String budgetInitiator) {
         this.budgetInitiator = budgetInitiator;
     }
@@ -224,7 +191,7 @@ public class AwardBudgetExt extends Budget {
     public AwardBudgetExt getPrevBudget() {
         if (prevBudget == null && this.getBudgetDocument() != null) {
             Integer version = 0;
-            for (AwardBudgetExt budgetVersion : ((Award)this.getBudgetParent()).getBudgets()) {
+            for (AwardBudgetExt budgetVersion : (this.getBudgetParent()).getBudgets()) {
                 if (budgetVersion != null && budgetVersion.getBudgetVersionNumber() > version
                         && getParameterValue(KeyConstants.AWARD_BUDGET_STATUS_POSTED).equals(
                                 budgetVersion.getAwardBudgetStatusCode())
@@ -249,8 +216,8 @@ public class AwardBudgetExt extends Budget {
 
     public AwardBudgetExt getFirstBudget() {
         if (firstBudget == null && this.getBudgetDocument() != null) {
-            Integer version = 0;
-            for (AwardBudgetExt budgetVersion : ((Award) this.getBudgetParent()).getBudgets()) {
+
+            for (AwardBudgetExt budgetVersion : this.getBudgetParent().getBudgets()) {
                 if (budgetVersion != null && getParameterValue(KeyConstants.AWARD_BUDGET_STATUS_POSTED).equals(
                                 budgetVersion.getAwardBudgetStatusCode())) {
                     firstBudget = budgetVersion;
@@ -284,7 +251,7 @@ public class AwardBudgetExt extends Budget {
     }
 
     private void addBudgetTotals() {
-        List<ScaleTwoDecimal> totals = new ArrayList<ScaleTwoDecimal>();
+        List<ScaleTwoDecimal> totals = new ArrayList<>();
         totals.add(this.getTotalCost().add(getPrevBudget().getTotalCost()));
         totals.add(this.getTotalDirectCost().add(getPrevBudget().getTotalDirectCost()));
         totals.add(this.getTotalIndirectCost().add(getPrevBudget().getTotalIndirectCost()));
@@ -359,13 +326,14 @@ public class AwardBudgetExt extends Budget {
 
     @Override
     public List buildListOfDeletionAwareLists() {
-        List<AwardBudgetPeriodSummaryCalculatedAmount> awardBudgetPeriodSummaryCalculatedAmounts = new ArrayList<AwardBudgetPeriodSummaryCalculatedAmount>();
+        List<AwardBudgetPeriodSummaryCalculatedAmount> awardBudgetPeriodSummaryCalculatedAmounts = new ArrayList<>();
         for (BudgetPeriod persistableBusinessObject : getBudgetPeriods()) {
             awardBudgetPeriodSummaryCalculatedAmounts.addAll(((AwardBudgetPeriodExt) persistableBusinessObject).getAwardBudgetPeriodFringeAmounts());
             awardBudgetPeriodSummaryCalculatedAmounts.addAll(((AwardBudgetPeriodExt) persistableBusinessObject).getAwardBudgetPeriodFnAAmounts());
         }
-    	
-        List deletionAwareList = super.buildListOfDeletionAwareLists();
+
+        @SuppressWarnings("unchecked")
+        final List<Object> deletionAwareList = super.buildListOfDeletionAwareLists();
         deletionAwareList.add(awardBudgetPeriodSummaryCalculatedAmounts);
         deletionAwareList.add(awardBudgetLimits);
         return deletionAwareList;
@@ -424,17 +392,20 @@ public class AwardBudgetExt extends Budget {
     public java.util.Date getBudgetEndDate() {
         return getAward().getAwardAmountInfos().get(getAward().getAwardAmountInfos().size() - 1).getObligationExpirationDate();
     }
-    
-    public List<? extends NextValue> getNextValues() {
+
+    @Override
+    public List<DocumentNextvalue> getNextValues() {
     	return getBudgetDocument().getDocumentNextvalues();
     }
-    
-    public NextValue getNewNextValue() {
+
+    @Override
+    public DocumentNextvalue getNewNextValue() {
     	return new DocumentNextvalue();
     }
-    
-    public void add(NextValue nextValue) {
-    	getBudgetDocument().getDocumentNextvalues().add((DocumentNextvalue) nextValue);
+
+    @Override
+    public void add(DocumentNextvalue nextValue) {
+    	getBudgetDocument().getDocumentNextvalues().add(nextValue);
     }
 
     public void initInclPreviousTotals() {

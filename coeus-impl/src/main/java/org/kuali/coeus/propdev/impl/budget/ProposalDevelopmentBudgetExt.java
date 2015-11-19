@@ -30,7 +30,6 @@ import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.propdev.api.budget.ProposalDevelopmentBudgetExtContract;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.kra.bo.DocumentNextvalue;
-import org.kuali.kra.bo.NextValue;
 
 @Entity
 @Table(name = "EPS_PROPOSAL_BUDGET_EXT")
@@ -131,20 +130,23 @@ public class ProposalDevelopmentBudgetExt extends Budget implements ProposalDeve
 		}
 		return true;
 	}
-    
-    public NextValue getNewNextValue() {
+
+	@Override
+    public DocumentNextvalue getNewNextValue() {
     	return new DocumentNextvalue();
     }
-    
-    public void add(NextValue nextValue) {
+
+	@Override
+    public void add(DocumentNextvalue nextValue) {
     	if (StringUtils.isBlank(this.getObjectId())) {
 			this.setObjectId(UUID.randomUUID().toString());
 		}
 
 		nextValue.setDocumentKey(this.getObjectId());
-    	nextValues.add((DocumentNextvalue) nextValue);
+    	nextValues.add(nextValue);
     }
 
+	@Override
 	public List<DocumentNextvalue> getNextValues() {
 		return nextValues;
 	}
