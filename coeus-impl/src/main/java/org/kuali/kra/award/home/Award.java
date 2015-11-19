@@ -2474,7 +2474,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         return this.getTitle();
     }
 
-    public String getIsOwnedByUnit() {
+    public String getOwnedByUnitNumber() {
         return this.getLeadUnitName();
     }
 

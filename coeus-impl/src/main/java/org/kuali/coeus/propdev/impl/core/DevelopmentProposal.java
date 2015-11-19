@@ -618,10 +618,6 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         this.activityTypeCode = activityTypeCode;
     }
 
-    public String getOwnedByUnitNumber() {
-        return ownedByUnitNumber;
-    }
-
     public void setOwnedByUnitNumber(String ownedByUnit) {
         this.ownedByUnitNumber = ownedByUnit;
     }
@@ -2002,20 +1998,13 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         return proposalInvestigatorName;
     }
 
-    public String getParentTitle() {
-        return this.getTitle();
+    @Override
+    public String getOwnedByUnitNumber() {
+        return ownedByUnitNumber;
     }
 
-    public String getIsOwnedByUnit() {
-        Map<String, String> proposalNumberMap = new HashMap<String, String>();
-        String proposalNumber = this.getProposalNumber();
-        proposalNumberMap.put("proposalNumber", proposalNumber);
-        BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
-        LookupableDevelopmentProposal lookupDevProposal = (LookupableDevelopmentProposal) businessObjectService.findByPrimaryKey(LookupableDevelopmentProposal.class, proposalNumberMap);
-        if (lookupDevProposal != null) {
-            return lookupDevProposal.getSponsor().getOwnedByUnit();
-        }
-        return "";
+    public String getParentTitle() {
+        return this.getTitle();
     }
 
     public Integer getParentInvestigatorFlag(String personId, Integer flag) {
