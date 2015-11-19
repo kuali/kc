@@ -82,6 +82,7 @@ import java.util.*;
 
 @NAMESPACE(namespace = Constants.MODULE_NAMESPACE_BUDGET)
 @COMPONENT(component = ParameterConstants.DOCUMENT_COMPONENT)
+@MappedSuperclass
 @Entity
 @Table(name = "BUDGET")
 @Inheritance(strategy=InheritanceType.JOINED)

@@ -218,13 +218,8 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
         final DevelopmentProposal developmentProposal = proposalDocument.getDevelopmentProposal();
         final String proposalNumber = developmentProposal.getProposalNumber();
-
-        cleanupBudgetObjects(developmentProposal);
-        getDataObjectService().deleteMatching(ProposalDevelopmentBudgetExt.class, QueryByCriteria.Builder.andAttributes(Collections.singletonMap("developmentProposal.proposalNumber", proposalNumber)).build());
-        developmentProposal.setBudgets(new ArrayList<>());
-        developmentProposal.setFinalBudget(null);
-
         getDataObjectService().deleteMatching(ProposalBudgetStatus.class, QueryByCriteria.Builder.andAttributes(Collections.singletonMap("proposalNumber", proposalNumber)).build());
+        dataObjectService.delete(developmentProposal);
         proposalDocument.setDevelopmentProposal(null);
         proposalDocument.setProposalDeleted(true);
 
@@ -237,27 +232,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
      * a constraint violation normally JPA's orphanRemoval should automatically take care of these deletes
      */
     protected void cleanupBudgetObjects(DevelopmentProposal developmentProposal) {
-        final Collection<Long> budgetIds = CollectionUtils.collect(developmentProposal.getBudgets(), AbstractBudget::getBudgetId);
-        //this should be in the budgets list but including it just to be safe
-        if (developmentProposal.getFinalBudget() != null) {
-            budgetIds.add(developmentProposal.getFinalBudget().getBudgetId());
-        }
-
-        if (!budgetIds.isEmpty()) {
-            final QueryByCriteria budgetIdsCriteria = QueryByCriteria.Builder.fromPredicates(in("budgetId", budgetIds));
-            getDataObjectService().deleteMatching(BudgetRate.class, budgetIdsCriteria);
-            getDataObjectService().deleteMatching(BudgetLaRate.class, budgetIdsCriteria);
-            getDataObjectService().deleteMatching(BudgetPersonnelCalculatedAmount.class, budgetIdsCriteria);
-            getDataObjectService().deleteMatching(BudgetPersonnelRateAndBase.class, budgetIdsCriteria);
-            getDataObjectService().deleteMatching(BudgetPersonnelDetails.class, budgetIdsCriteria);
-            getDataObjectService().deleteMatching(BudgetLineItemCalculatedAmount.class, budgetIdsCriteria);
-            getDataObjectService().deleteMatching(BudgetRateAndBase.class, budgetIdsCriteria);
-            getDataObjectService().deleteMatching(BudgetLineItem.class, budgetIdsCriteria);
-
-            final QueryByCriteria anonBudgetIdsCriteria = QueryByCriteria.Builder.fromPredicates(in("budget.budgetId", budgetIds));
-            getDataObjectService().deleteMatching(BudgetPeriod.class, anonBudgetIdsCriteria);
-            getDataObjectService().deleteMatching(BudgetPerson.class, anonBudgetIdsCriteria);
-        }
+    	developmentProposal.getBudgets().forEach(budget -> dataObjectService.delete(budget));
     }
 
     protected DocumentService getDocumentService() {
