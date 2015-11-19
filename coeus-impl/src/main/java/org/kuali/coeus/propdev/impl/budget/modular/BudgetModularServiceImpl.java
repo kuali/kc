@@ -102,7 +102,6 @@ public class BudgetModularServiceImpl implements BudgetModularService {
 
     private void calculateAllTotalsAfterSync(BudgetModular budgetModular) {
     	budgetModular.calculateTotalDirectCost();
-        budgetModular.calculateTotalRequestedCost();
                
         final ScaleTwoDecimal fnaRequested = budgetModular.getBudgetModularIdcs().stream()
                 .map(BudgetModularIdc::getFundsRequested)
@@ -110,6 +109,7 @@ public class BudgetModularServiceImpl implements BudgetModularService {
                 .reduce(ScaleTwoDecimal.ZERO, AbstractDecimal::add);
 
         budgetModular.setTotalFnaRequested(fnaRequested);
+        budgetModular.calculateTotalRequestedCost();
     }
     
     public void synchModularBudget(Budget budget) {
@@ -164,7 +164,9 @@ public class BudgetModularServiceImpl implements BudgetModularService {
                         budgetModularIdc.setDescription(budgetRateAndBase.getRateClassCode());
                         budgetModularIdc.setIdcRate(budgetRateAndBase.getAppliedRate());
                         budgetModularIdc.setFundsRequested(budgetRateAndBase.getCalculatedCost());  
-                        budgetModularIdc.setIdcBase(budgetRateAndBase.getBaseCost());
+                        if (getApplyRateFlag(budgetLineItem, budgetRateAndBase)) {
+                        	budgetModularIdc.setIdcBase(budgetRateAndBase.getBaseCost());
+                        }
                         budgetModularIdc.setBudgetModular(budgetModular);
                         budgetModular.addNewBudgetModularIdc(budgetModularIdc);
                     }
@@ -179,6 +181,11 @@ public class BudgetModularServiceImpl implements BudgetModularService {
             budgetModular.setConsortiumFna(consortiumFna);
    		 	calculateAllTotalsAfterSync(budgetModular);
         }
+    }
+    
+    private boolean getApplyRateFlag(BudgetLineItem budgetLineItem, BudgetRateAndBase budgetRateAndBase) {
+    	 return budgetLineItem.getBudgetCalculatedAmounts().stream().anyMatch(budgetCalculatedAmounts -> budgetCalculatedAmounts.getRateClassCode().
+          		equals(budgetRateAndBase.getRateClassCode()) && budgetCalculatedAmounts.getApplyRateFlag());
     }
 
     public ParameterService getParameterService() {
