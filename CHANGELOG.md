@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+*  remove the descriminator column DOCUMENT_NEXT_VALUE_TYPE from the table document_nextvalue.  It is not used.  Clean up next value code.
+  * Travis Schneeberger on Thu, 19 Nov 2015 11:06:43 -0500 [View Commit](../../commit/759372238b5fc8e51f3d7eb7f3add1dd839a382b)
+
+##coeus-1511.66
 * No Changes
 
 
