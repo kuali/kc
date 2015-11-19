@@ -23,7 +23,6 @@ import java.util.Objects;
 import javax.persistence.*;
 
 import org.apache.commons.lang3.ObjectUtils;
-import org.kuali.coeus.common.budget.framework.copy.DeepCopyIgnore;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardPeriodDetailContract;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
@@ -37,7 +36,6 @@ public class BudgetSubAwardPeriodDetail extends KcPersistableBusinessObjectBase 
 
     private static final long serialVersionUID = 2327612798304765405L;
 
-    @DeepCopyIgnore
     @PortableSequenceGenerator(name = "SEQ_BUDGET_SUBAWARD_PER_DET")
     @GeneratedValue(generator = "SEQ_BUDGET_SUBAWARD_PER_DET")
     @Id

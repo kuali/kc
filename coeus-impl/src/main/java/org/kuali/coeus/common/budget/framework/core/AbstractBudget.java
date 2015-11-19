@@ -18,7 +18,6 @@
  */
 package org.kuali.coeus.common.budget.framework.core;
 
-import org.kuali.coeus.common.budget.framework.copy.DeepCopyIgnore;
 import org.kuali.coeus.common.budget.framework.rate.RateClass;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
@@ -36,7 +35,6 @@ public abstract class AbstractBudget extends KcPersistableBusinessObjectBase imp
     @Column(name = "VERSION_NUMBER")
     private Integer budgetVersionNumber;
 
-    @DeepCopyIgnore
     @PortableSequenceGenerator(name = "SEQ_BUDGET_ID")
     @GeneratedValue(generator = "SEQ_BUDGET_ID")
     @Id

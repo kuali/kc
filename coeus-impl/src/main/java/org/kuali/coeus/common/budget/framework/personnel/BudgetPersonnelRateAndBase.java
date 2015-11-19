@@ -20,7 +20,7 @@ package org.kuali.coeus.common.budget.framework.personnel;
 
 import javax.persistence.*;
 
-import org.kuali.coeus.common.budget.framework.copy.DeepCopyIgnore;
+
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.AbstractBudgetRateAndBase;
 import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
@@ -32,7 +32,6 @@ public class BudgetPersonnelRateAndBase extends AbstractBudgetRateAndBase {
 
     private static final long serialVersionUID = -3822394019599765292L;
 
-    @DeepCopyIgnore
     @PortableSequenceGenerator(name = "SEQ_BGT_PER_DET_RATE_BASE_ID")
     @GeneratedValue(generator = "SEQ_BGT_PER_DET_RATE_BASE_ID")
     @Id

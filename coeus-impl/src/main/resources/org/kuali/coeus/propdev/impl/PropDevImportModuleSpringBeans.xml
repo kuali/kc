@@ -62,7 +62,6 @@
     <bean id="budgetCalculationService" parent="grlImporter" p:serviceName="budgetCalculationService" />
     <bean id="budgetService" parent="grlImporter" p:serviceName="budgetService" />
     <bean id="budgetSummaryService" parent="grlImporter" p:serviceName="budgetSummaryService" />
-    <bean id="deepCopyPostProcessor" parent="grlImporter" p:serviceName="deepCopyPostProcessor" />
     <bean id="budgetPersonService" parent="grlImporter" p:serviceName="budgetPersonService" />
     <bean id="budgetPersonnelBudgetService" parent="grlImporter" p:serviceName="budgetPersonnelBudgetService" />
     <bean id="budgetRatesService" parent="grlImporter" p:serviceName="budgetRatesService" />

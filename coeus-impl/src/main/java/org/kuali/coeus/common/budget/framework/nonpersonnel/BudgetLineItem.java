@@ -31,7 +31,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 
-import org.kuali.coeus.common.budget.framework.copy.DeepCopyIgnore;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.CostElement;
 import org.kuali.coeus.common.budget.framework.core.category.BudgetCategory;
@@ -49,7 +48,6 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
     @Column(name = "COST_SHARING_AMOUNT")
     private ScaleTwoDecimal costSharingAmount = ScaleTwoDecimal.ZERO;
 
-    @DeepCopyIgnore
     @Column(name = "BUDGET_DETAILS_ID")
     @Id
     @PortableSequenceGenerator(name = "SEQ_BUDGET_DETAILS_ID")
@@ -168,7 +166,6 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
 
     //ignore the budget period bo during deep copy as any link up the budget object graph
     //will cause generateAllPeriods to consume large amounts of memory
-    @DeepCopyIgnore
     @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH})
     @JoinColumn(name = "BUDGET_PERIOD_NUMBER", referencedColumnName = "BUDGET_PERIOD_NUMBER")
     private BudgetPeriod budgetPeriodBO;
