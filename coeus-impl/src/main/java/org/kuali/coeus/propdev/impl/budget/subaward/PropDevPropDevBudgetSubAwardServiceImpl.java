@@ -185,15 +185,8 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
         String inDirectGtCostElement = getParameterService().getParameterValueAsString(Budget.class, Constants.SUBCONTRACTOR_F_AND_A_GT_25K_PARAM);        	
         for (BudgetSubAwardPeriodDetail detail : subAward.getBudgetSubAwardPeriodDetails()) {
             BudgetPeriod budgetPeriod = findBudgetPeriod(detail, budget);
-            List<BudgetLineItem> currentLineItems = findSubAwardLineItems(budgetPeriod, subAward.getSubAwardNumber());
-            //zero out existing line items before recalculating
-            for (BudgetLineItem item : currentLineItems) {
-            	item.setLineItemCost(ScaleTwoDecimal.ZERO);
-                item.setDirectCost(ScaleTwoDecimal.ZERO);
-                item.setCostSharingAmount(ScaleTwoDecimal.ZERO);
-                item.setBudgetSubAward(subAward);
-                item.setLineItemDescription(subAward.getOrganizationName());
-            }
+
+            List<BudgetLineItem> currentSubawardLineItems = zeroOutSubAwardLineItems(subAward, budgetPeriod);
             ScaleTwoDecimal directCost = ScaleTwoDecimal.returnZeroIfNull(detail.getDirectCost());
             //we only create separate line items for indirect if the proposal is nih
             if (!isNihProposal) {
@@ -203,51 +196,77 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
                 ScaleTwoDecimal ltValue = lesserValue(directCost, amountChargeFA);
                 ScaleTwoDecimal gtValue = directCost.subtract(ltValue);
                 if (ltValue.isNonZero()) {
-                    BudgetLineItem lt = findOrCreateLineItem(currentLineItems, detail, subAward, budgetPeriod, directLtCostElement);
+                    BudgetLineItem lt = findOrCreateLineItem(currentSubawardLineItems, detail, budgetPeriod, directLtCostElement, subAward.getOrganizationName());
                     lt.setLineItemCost(ltValue);
                 }
                 if (gtValue.isNonZero()) {
-                    BudgetLineItem gt = findOrCreateLineItem(currentLineItems, detail, subAward, budgetPeriod, directGtCostElement);
+                    BudgetLineItem gt = findOrCreateLineItem(currentSubawardLineItems, detail, budgetPeriod, directGtCostElement, subAward.getOrganizationName());
                     gt.setLineItemCost(gtValue);
                 }
                 amountChargeFA = amountChargeFA.subtract(ltValue);
             }
+
             if (ScaleTwoDecimal.returnZeroIfNull(detail.getIndirectCost()).isNonZero() && isNihProposal) {
                 ScaleTwoDecimal ltValue = lesserValue(detail.getIndirectCost(), amountChargeFA);
                 ScaleTwoDecimal gtValue = detail.getIndirectCost().subtract(ltValue);
                 if (ltValue.isNonZero()) {
-                    BudgetLineItem lt = findOrCreateLineItem(currentLineItems, detail, subAward, budgetPeriod, inDirectLtCostElement);
+                    BudgetLineItem lt = findOrCreateLineItem(currentSubawardLineItems, detail, budgetPeriod, inDirectLtCostElement, subAward.getOrganizationName());
                     lt.setLineItemCost(ltValue);
                 }
                 if (gtValue.isNonZero()) {
-                    BudgetLineItem gt = findOrCreateLineItem(currentLineItems, detail, subAward, budgetPeriod, inDirectGtCostElement);
+                    BudgetLineItem gt = findOrCreateLineItem(currentSubawardLineItems, detail, budgetPeriod, inDirectGtCostElement, subAward.getOrganizationName());
                     gt.setLineItemCost(gtValue);
                 }
                 amountChargeFA = amountChargeFA.subtract(ltValue);
             }
-            Collections.sort(currentLineItems, new Comparator<BudgetLineItem>() {
+
+            if (ScaleTwoDecimal.returnZeroIfNull(detail.getCostShare()).isNonZero()) {
+                String description = subAward.getOrganizationName() + " CostShare Amount(" + detail.getCostShare() +")";
+                BudgetLineItem costShareLineItem = findOrCreateCostshareLineItem(currentSubawardLineItems, detail, budgetPeriod, directGtCostElement, description);
+                costShareLineItem.setLineItemCost(ScaleTwoDecimal.ZERO);
+                costShareLineItem.setCostSharingAmount(detail.getCostShare());
+                currentSubawardLineItems.add(costShareLineItem);
+            }
+
+            Collections.sort(currentSubawardLineItems, new Comparator<BudgetLineItem>() {
                 public int compare(BudgetLineItem arg0, BudgetLineItem arg1) {
                     return arg0.getLineItemNumber().compareTo(arg1.getLineItemNumber());
                 }
             });
-            Iterator<BudgetLineItem> iter = currentLineItems.iterator();
-            while (iter.hasNext()) {
-                BudgetLineItem lineItem = iter.next();
-                if (ScaleTwoDecimal.returnZeroIfNull(lineItem.getLineItemCost()).isZero()) {
-                    budgetPeriod.getBudgetLineItems().remove(lineItem);
-                    iter.remove();
-                } else {
-                    if (!budgetPeriod.getBudgetLineItems().contains(lineItem)) {
-                        budgetPeriod.getBudgetLineItems().add(lineItem);
-                    }
+
+            addSubawardLineItemsToBudgetPeriod(budgetPeriod, currentSubawardLineItems);
+
+        }
+    }
+
+    protected List<BudgetLineItem> zeroOutSubAwardLineItems(BudgetSubAwards subAward, BudgetPeriod budgetPeriod) {
+        List<BudgetLineItem> currentSubawardLineItems = findSubAwardLineItems(budgetPeriod, subAward.getSubAwardNumber());
+        for (BudgetLineItem item : currentSubawardLineItems) {
+            item.setLineItemCost(ScaleTwoDecimal.ZERO);
+            item.setDirectCost(ScaleTwoDecimal.ZERO);
+            item.setCostSharingAmount(ScaleTwoDecimal.ZERO);
+            item.setBudgetSubAward(subAward);
+            item.setLineItemDescription(subAward.getOrganizationName());
+        }
+        return currentSubawardLineItems;
+    }
+
+    protected void addSubawardLineItemsToBudgetPeriod(BudgetPeriod budgetPeriod, List<BudgetLineItem> currentSubawardLineItems) {
+        Iterator<BudgetLineItem> iter = currentSubawardLineItems.iterator();
+        while (iter.hasNext()) {
+            BudgetLineItem lineItem = iter.next();
+            if (ScaleTwoDecimal.returnZeroIfNull(lineItem.getLineItemCost()).isZero() &&
+                    ScaleTwoDecimal.returnZeroIfNull(lineItem.getCostSharingAmount()).isZero()) {
+                budgetPeriod.getBudgetLineItems().remove(lineItem);
+                iter.remove();
+            } else {
+                if (!budgetPeriod.getBudgetLineItems().contains(lineItem)) {
+                    budgetPeriod.getBudgetLineItems().add(lineItem);
                 }
-            }
-            if (!currentLineItems.isEmpty() && ScaleTwoDecimal.returnZeroIfNull(detail.getCostShare()).isNonZero()) {
-                currentLineItems.get(0).setCostSharingAmount(detail.getCostShare());
             }
         }
     }
-    
+
     protected BudgetPeriod findBudgetPeriod(BudgetSubAwardPeriodDetail detail, Budget budget) {
         for (BudgetPeriod period : budget.getBudgetPeriods()) {
             if (ObjectUtils.equals(detail.getBudgetPeriod(), period.getBudgetPeriod())) {
@@ -265,23 +284,38 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
         }
     }
     
-    protected BudgetLineItem findOrCreateLineItem(List<BudgetLineItem> lineItems, BudgetSubAwardPeriodDetail subAwardDetail, BudgetSubAwards subAward, BudgetPeriod budgetPeriod, String costElement) {
+    protected BudgetLineItem findOrCreateLineItem(List<BudgetLineItem> lineItems, BudgetSubAwardPeriodDetail subAwardDetail,
+                                                  BudgetPeriod budgetPeriod, String costElement, String description) {
         for (BudgetLineItem curLineItem : lineItems) {
             if (StringUtils.equals(curLineItem.getCostElement(), costElement)) {
                 return curLineItem;
             }
         }
+        return createLineItem(lineItems, subAwardDetail, budgetPeriod, costElement, description);
 
-        //if we didn't find one already
-        BudgetLineItem newLineItem = new BudgetLineItem();        
+
+    }
+
+    protected BudgetLineItem findOrCreateCostshareLineItem(List<BudgetLineItem> lineItems, BudgetSubAwardPeriodDetail subAwardDetail,
+                                                  BudgetPeriod budgetPeriod, String costElement, String lineItemDescription) {
+        for (BudgetLineItem curLineItem : lineItems) {
+            if (StringUtils.equals(curLineItem.getLineItemDescription(), lineItemDescription)) {
+                return curLineItem;
+            }
+        }
+        return createLineItem(lineItems, subAwardDetail, budgetPeriod, costElement, lineItemDescription);
+    }
+
+    private BudgetLineItem createLineItem(List<BudgetLineItem> lineItems, BudgetSubAwardPeriodDetail subAwardDetail, BudgetPeriod budgetPeriod, String costElement, String description) {
+        BudgetLineItem newLineItem = new BudgetLineItem();
         newLineItem.setCostElement(costElement);
-        newLineItem.setBudgetSubAward(subAwardDetail.getBudgetSubAward());        
-        newLineItem.setLineItemDescription(subAward.getOrganizationName());
+        newLineItem.setBudgetSubAward(subAwardDetail.getBudgetSubAward());
+        newLineItem.setLineItemDescription(description);
         getBudgetService().populateNewBudgetLineItem(newLineItem, budgetPeriod);
         lineItems.add(newLineItem);
         return newLineItem;
     }
-    
+
     protected List<BudgetLineItem> findSubAwardLineItems(BudgetPeriod budgetPeriod, Integer subAwardNumber) {
         List<BudgetLineItem> lineItems = new ArrayList<BudgetLineItem>();
         if (budgetPeriod.getBudgetLineItems() != null) {

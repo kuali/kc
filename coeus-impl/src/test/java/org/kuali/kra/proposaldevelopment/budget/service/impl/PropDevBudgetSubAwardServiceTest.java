@@ -119,17 +119,17 @@ public class PropDevBudgetSubAwardServiceTest {
         subAward.getBudgetSubAwardPeriodDetails().get(1).setIndirectCost(new ScaleTwoDecimal(75000L));
         
         List<Map<String, ScaleTwoDecimal>> expectedResults = new ArrayList<Map<String, ScaleTwoDecimal>>();
-        expectedResults.add(new HashMap<String, ScaleTwoDecimal>());
-        expectedResults.add(new HashMap<String, ScaleTwoDecimal>());
-        expectedResults.add(new HashMap<String, ScaleTwoDecimal>());
+        expectedResults.add(new HashMap<>());
+        expectedResults.add(new HashMap<>());
+        expectedResults.add(new HashMap<>());
         expectedResults.get(0).put(indirectGt, new ScaleTwoDecimal(75000L));
-        expectedResults.get(0).put(indirectLt, new ScaleTwoDecimal(0));
+        expectedResults.get(0).put(indirectLt, ScaleTwoDecimal.ZERO);
         expectedResults.get(0).put(directGt, new ScaleTwoDecimal(125000L));
         expectedResults.get(0).put(directLt, new ScaleTwoDecimal(25000L));
         expectedResults.get(1).put(indirectGt, new ScaleTwoDecimal(75000L));
-        expectedResults.get(1).put(indirectLt, new ScaleTwoDecimal(0));
+        expectedResults.get(1).put(indirectLt, ScaleTwoDecimal.ZERO);
         expectedResults.get(1).put(directGt, new ScaleTwoDecimal(150000L));
-        expectedResults.get(1).put(directLt, new ScaleTwoDecimal(0));
+        expectedResults.get(1).put(directLt, ScaleTwoDecimal.ZERO);
         service.generateSubAwardLineItems(subAward, budget);
         assertExpectedResults(expectedResults);
         assertCostShare(0);
@@ -148,12 +148,12 @@ public class PropDevBudgetSubAwardServiceTest {
         subAward.getBudgetSubAwardPeriodDetails().get(1).setIndirectCost(new ScaleTwoDecimal(7500L));
         
         List<Map<String, ScaleTwoDecimal>> expectedResults = new ArrayList<Map<String, ScaleTwoDecimal>>();
-        expectedResults.add(new HashMap<String, ScaleTwoDecimal>());
-        expectedResults.add(new HashMap<String, ScaleTwoDecimal>());
-        expectedResults.add(new HashMap<String, ScaleTwoDecimal>());
+        expectedResults.add(new HashMap<>());
+        expectedResults.add(new HashMap<>());
+        expectedResults.add(new HashMap<>());
         expectedResults.get(0).put(indirectGt, new ScaleTwoDecimal(0L));
         expectedResults.get(0).put(indirectLt, new ScaleTwoDecimal(7500L));
-        expectedResults.get(0).put(directGt, new ScaleTwoDecimal(0));
+        expectedResults.get(0).put(directGt, ScaleTwoDecimal.ZERO);
         expectedResults.get(0).put(directLt, new ScaleTwoDecimal(15000L));
         expectedResults.get(1).put(indirectGt, new ScaleTwoDecimal(7500L));
         expectedResults.get(1).put(indirectLt, new ScaleTwoDecimal(0L));
@@ -177,17 +177,17 @@ public class PropDevBudgetSubAwardServiceTest {
         subAward.getBudgetSubAwardPeriodDetails().get(1).setIndirectCost(new ScaleTwoDecimal(10000));
         
         List<Map<String, ScaleTwoDecimal>> expectedResults = new ArrayList<Map<String, ScaleTwoDecimal>>();
-        expectedResults.add(new HashMap<String, ScaleTwoDecimal>());
-        expectedResults.add(new HashMap<String, ScaleTwoDecimal>());
-        expectedResults.add(new HashMap<String, ScaleTwoDecimal>());
+        expectedResults.add(new HashMap<>());
+        expectedResults.add(new HashMap<>());
+        expectedResults.add(new HashMap<>());
         expectedResults.get(0).put(indirectGt, new ScaleTwoDecimal(5000));
         expectedResults.get(0).put(indirectLt, new ScaleTwoDecimal(5000));
-        expectedResults.get(0).put(directGt, new ScaleTwoDecimal(0));
+        expectedResults.get(0).put(directGt, ScaleTwoDecimal.ZERO);
         expectedResults.get(0).put(directLt, new ScaleTwoDecimal(20000));
         expectedResults.get(1).put(indirectGt, new ScaleTwoDecimal(10000));
         expectedResults.get(1).put(indirectLt, new ScaleTwoDecimal(0L));
         expectedResults.get(1).put(directGt, new ScaleTwoDecimal(20000));
-        expectedResults.get(1).put(directLt, new ScaleTwoDecimal(0));
+        expectedResults.get(1).put(directLt, ScaleTwoDecimal.ZERO);
         service.generateSubAwardLineItems(subAward, budget);
         assertExpectedResults(expectedResults);
         assertCostShare(0);
@@ -203,26 +203,61 @@ public class PropDevBudgetSubAwardServiceTest {
         subAward.getBudgetSubAwardPeriodDetails().get(0).setDirectCost(new ScaleTwoDecimal(150000L));
         subAward.getBudgetSubAwardPeriodDetails().get(0).setIndirectCost(new ScaleTwoDecimal(75000L));
         subAward.getBudgetSubAwardPeriodDetails().get(0).setCostShare(new ScaleTwoDecimal(1000L));
+
         subAward.getBudgetSubAwardPeriodDetails().get(1).setDirectCost(new ScaleTwoDecimal(150000L));
         subAward.getBudgetSubAwardPeriodDetails().get(1).setIndirectCost(new ScaleTwoDecimal(75000L));
         subAward.getBudgetSubAwardPeriodDetails().get(1).setCostShare(new ScaleTwoDecimal(1000L));
-        
-        List<Map<String, ScaleTwoDecimal>> expectedResults = new ArrayList<Map<String, ScaleTwoDecimal>>();
-        expectedResults.add(new HashMap<String, ScaleTwoDecimal>());
-        expectedResults.add(new HashMap<String, ScaleTwoDecimal>());
-        expectedResults.add(new HashMap<String, ScaleTwoDecimal>());
+
+        List<Map<String, ScaleTwoDecimal>> expectedResults = new ArrayList<>();
+        expectedResults.add(new HashMap<>());
+        expectedResults.add(new HashMap<>());
+        expectedResults.add(new HashMap<>());
         expectedResults.get(0).put(indirectGt, new ScaleTwoDecimal(75000L));
-        expectedResults.get(0).put(indirectLt, new ScaleTwoDecimal(0));
+        expectedResults.get(0).put(indirectLt, ScaleTwoDecimal.ZERO);
         expectedResults.get(0).put(directGt, new ScaleTwoDecimal(125000L));
         expectedResults.get(0).put(directLt, new ScaleTwoDecimal(25000L));
+
         expectedResults.get(1).put(indirectGt, new ScaleTwoDecimal(75000L));
-        expectedResults.get(1).put(indirectLt, new ScaleTwoDecimal(0));
+        expectedResults.get(1).put(indirectLt, ScaleTwoDecimal.ZERO);
         expectedResults.get(1).put(directGt, new ScaleTwoDecimal(150000L));
-        expectedResults.get(1).put(directLt, new ScaleTwoDecimal(0));
+        expectedResults.get(1).put(directLt, ScaleTwoDecimal.ZERO);
         service.generateSubAwardLineItems(subAward, budget);
-        assertExpectedResults(expectedResults);
-        assertCostShare(1000L);
+
+
+        BudgetPeriod period = budget.getBudgetPeriods().get(0);
+        Assert.assertTrue(period.getBudgetLineItems().size() == 4);
+        List<BudgetLineItem> lineItemsFoundForDirectGt = findLineItemsByCostElement(period.getBudgetLineItems(), directGt);
+        Assert.assertTrue(lineItemsFoundForDirectGt.size() == 2);
+        ScaleTwoDecimal totalDirectCost = lineItemsFoundForDirectGt.get(0).getLineItemCost().add(lineItemsFoundForDirectGt.get(1).getLineItemCost());
+        Assert.assertTrue(totalDirectCost.compareTo(new ScaleTwoDecimal(125000L)) == 0);
+        ScaleTwoDecimal totalCostSharing = lineItemsFoundForDirectGt.get(0).getCostSharingAmount().add(lineItemsFoundForDirectGt.get(1).getCostSharingAmount());
+        Assert.assertTrue(totalCostSharing.compareTo(new ScaleTwoDecimal(1000L)) == 0);
+        List<BudgetLineItem> lineItemsFound = findLineItemsByCostElement(period.getBudgetLineItems(), directLt);
+        Assert.assertTrue(lineItemsFound.get(0).getLineItemCost().compareTo(new ScaleTwoDecimal(25000L)) == 0);
+        lineItemsFound = findLineItemsByCostElement(period.getBudgetLineItems(), indirectGt);
+        Assert.assertTrue(lineItemsFound.get(0).getLineItemCost().compareTo(new ScaleTwoDecimal(75000L)) == 0);
+        lineItemsFound = findLineItemsByCostElement(period.getBudgetLineItems(), indirectLt);
+        Assert.assertTrue(lineItemsFound.size() == 0);
+
+        period = budget.getBudgetPeriods().get(1);
+        Assert.assertTrue(period.getBudgetLineItems().size() == 3);
+        lineItemsFoundForDirectGt = findLineItemsByCostElement(period.getBudgetLineItems(), directGt);
+        Assert.assertTrue(lineItemsFoundForDirectGt.size() == 2);
+        totalDirectCost = lineItemsFoundForDirectGt.get(0).getLineItemCost().add(lineItemsFoundForDirectGt.get(1).getLineItemCost());
+        Assert.assertTrue(totalDirectCost.compareTo(new ScaleTwoDecimal(150000L)) == 0);
+        totalCostSharing = lineItemsFoundForDirectGt.get(0).getCostSharingAmount().add(lineItemsFoundForDirectGt.get(1).getCostSharingAmount());
+        Assert.assertTrue(totalCostSharing.compareTo(new ScaleTwoDecimal(1000L)) == 0);
+        lineItemsFound = findLineItemsByCostElement(period.getBudgetLineItems(), directLt);
+        Assert.assertTrue(lineItemsFound.size() == 0);
+        lineItemsFound = findLineItemsByCostElement(period.getBudgetLineItems(), indirectGt);
+        Assert.assertTrue(lineItemsFound.get(0).getLineItemCost().compareTo(new ScaleTwoDecimal(75000L)) == 0);
+        lineItemsFound = findLineItemsByCostElement(period.getBudgetLineItems(), indirectLt);
+        Assert.assertTrue(lineItemsFound.size() == 0);
+
+
+
     }
+
     
     @Test
     public void testExample1WithLineItems() throws Exception {
@@ -259,18 +294,18 @@ public class PropDevBudgetSubAwardServiceTest {
             period.getBudgetLineItems().add(newLineItem);
         }
         
-        List<Map<String, ScaleTwoDecimal>> expectedResults = new ArrayList<Map<String, ScaleTwoDecimal>>();
-        expectedResults.add(new HashMap<String, ScaleTwoDecimal>());
-        expectedResults.add(new HashMap<String, ScaleTwoDecimal>());
-        expectedResults.add(new HashMap<String, ScaleTwoDecimal>());
+        List<Map<String, ScaleTwoDecimal>> expectedResults = new ArrayList<>();
+        expectedResults.add(new HashMap<>());
+        expectedResults.add(new HashMap<>());
+        expectedResults.add(new HashMap<>());
         expectedResults.get(0).put(indirectGt, new ScaleTwoDecimal(75000L));
-        expectedResults.get(0).put(indirectLt, new ScaleTwoDecimal(0));
+        expectedResults.get(0).put(indirectLt, ScaleTwoDecimal.ZERO);
         expectedResults.get(0).put(directGt, new ScaleTwoDecimal(125000L));
         expectedResults.get(0).put(directLt, new ScaleTwoDecimal(25000L));
         expectedResults.get(1).put(indirectGt, new ScaleTwoDecimal(75000L));
-        expectedResults.get(1).put(indirectLt, new ScaleTwoDecimal(0));
+        expectedResults.get(1).put(indirectLt, ScaleTwoDecimal.ZERO);
         expectedResults.get(1).put(directGt, new ScaleTwoDecimal(150000L));
-        expectedResults.get(1).put(directLt, new ScaleTwoDecimal(0));
+        expectedResults.get(1).put(directLt, ScaleTwoDecimal.ZERO);
         service.generateSubAwardLineItems(subAward, budget);
         assertExpectedResults(expectedResults);
         assertCostShare(0);
@@ -284,10 +319,11 @@ public class PropDevBudgetSubAwardServiceTest {
                 Assert.assertEquals(results.get(index).get(lineItem.getCostElement()), lineItem.getLineItemCost());
             }
             for (Map.Entry<String, ScaleTwoDecimal> entry : results.get(index).entrySet()) {
+                final List<BudgetLineItem> lineItemsByCostElement = findLineItemsByCostElement(period.getBudgetLineItems(), entry.getKey());
                 if (entry.getValue().isZero()) {
-                    Assert.assertNull(findLineItemByCostElement(period.getBudgetLineItems(), entry.getKey()));
+                    Assert.assertTrue(lineItemsByCostElement.size() == 0);
                 } else {
-                    Assert.assertEquals(entry.getValue(), findLineItemByCostElement(period.getBudgetLineItems(), entry.getKey()).getLineItemCost());
+                    Assert.assertEquals(entry.getValue(), lineItemsByCostElement.get(0).getLineItemCost());
                 }
             }
             index++;
@@ -308,13 +344,14 @@ public class PropDevBudgetSubAwardServiceTest {
         }
     }
     
-    protected BudgetLineItem findLineItemByCostElement(List<BudgetLineItem> lineItems, String costElement) {
+    protected List<BudgetLineItem> findLineItemsByCostElement(List<BudgetLineItem> lineItems, String costElement) {
+        List<BudgetLineItem> lineItemsFound = new ArrayList<>();
         for (BudgetLineItem lineItem : lineItems) {
             if (StringUtils.equals(lineItem.getCostElement(), costElement) && ObjectUtils.equals(lineItem.getSubAwardNumber(), subAward.getSubAwardNumber())) {
-                return lineItem;
+                lineItemsFound.add(lineItem);
             }
         }
-        return null;
+        return lineItemsFound;
     }
     
     @Test
@@ -330,18 +367,18 @@ public class PropDevBudgetSubAwardServiceTest {
         subAward.getBudgetSubAwardPeriodDetails().get(1).setDirectCost(new ScaleTwoDecimal(150000L));
         subAward.getBudgetSubAwardPeriodDetails().get(1).setIndirectCost(new ScaleTwoDecimal(75000L));
         
-        List<Map<String, ScaleTwoDecimal>> expectedResults = new ArrayList<Map<String, ScaleTwoDecimal>>();
-        expectedResults.add(new HashMap<String, ScaleTwoDecimal>());
-        expectedResults.add(new HashMap<String, ScaleTwoDecimal>());
-        expectedResults.add(new HashMap<String, ScaleTwoDecimal>());
-        expectedResults.get(0).put(indirectGt, new ScaleTwoDecimal(0));
-        expectedResults.get(0).put(indirectLt, new ScaleTwoDecimal(0));
+        List<Map<String, ScaleTwoDecimal>> expectedResults = new ArrayList<>();
+        expectedResults.add(new HashMap<>());
+        expectedResults.add(new HashMap<>());
+        expectedResults.add(new HashMap<>());
+        expectedResults.get(0).put(indirectGt, ScaleTwoDecimal.ZERO);
+        expectedResults.get(0).put(indirectLt, ScaleTwoDecimal.ZERO);
         expectedResults.get(0).put(directGt, new ScaleTwoDecimal(200000L));
         expectedResults.get(0).put(directLt, new ScaleTwoDecimal(25000L));
-        expectedResults.get(1).put(indirectGt, new ScaleTwoDecimal(0));
-        expectedResults.get(1).put(indirectLt, new ScaleTwoDecimal(0));
+        expectedResults.get(1).put(indirectGt, ScaleTwoDecimal.ZERO);
+        expectedResults.get(1).put(indirectLt, ScaleTwoDecimal.ZERO);
         expectedResults.get(1).put(directGt, new ScaleTwoDecimal(225000L));
-        expectedResults.get(1).put(directLt, new ScaleTwoDecimal(0));
+        expectedResults.get(1).put(directLt, ScaleTwoDecimal.ZERO);
         service.generateSubAwardLineItems(subAward, budget);
         assertExpectedResults(expectedResults);
         assertCostShare(0);
