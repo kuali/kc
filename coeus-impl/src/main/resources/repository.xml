@@ -1260,7 +1260,7 @@
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.coeus.common.framework.print.watermark.Watermark" table="WATERMARK">
-		<field-descriptor name="watermarkId" column="WATERMARK_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQUENCE_WATERMARK_ID" autoincrement="true"/>
+		<field-descriptor name="watermarkId" column="WATERMARK_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_WATERMARK_ID" autoincrement="true"/>
 		<field-descriptor name="statusCode" column="STATUS_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="watermarkText" column="WATERMARK_TEXT" jdbc-type="VARCHAR" />
 		<field-descriptor name="watermarkStatus" column="WATERMARK_STATUS" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
