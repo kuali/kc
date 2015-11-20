@@ -128,6 +128,10 @@ public final class Main {
             if (options.containsTimeAndMoneyDocStatus()) {
             	factory.getTimeAndMoneyDocumentStatusDao().updateTimeAndMoneyDocumentStatusFromKew();
             }
+            
+            if (options.containsSubawardAmountInfo()) {
+            	factory.getSubAwardAmountInfoDao().fixSubAwardAmountInfoHistory();
+            }
 
             if (options.containsDryRun()) {
                 coeusConnection.rollback();

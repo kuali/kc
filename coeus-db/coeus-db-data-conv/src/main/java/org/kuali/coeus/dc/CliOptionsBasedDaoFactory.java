@@ -27,6 +27,8 @@ import org.kuali.coeus.dc.pprole.ProposalPersonRoleDao;
 import org.kuali.coeus.dc.pprole.ProposalPersonRoleDaoImpl;
 import org.kuali.coeus.dc.questseq.QuestSeqDao;
 import org.kuali.coeus.dc.questseq.QuestSeqDaoImpl;
+import org.kuali.coeus.dc.subaward.SubAwardAmountInfoDao;
+import org.kuali.coeus.dc.subaward.SubAwardAmountInfoDaoImpl;
 import org.kuali.coeus.dc.tm.KewDocHeaderDao;
 import org.kuali.coeus.dc.tm.KewDocHeaderDaoImpl;
 import org.kuali.coeus.dc.tm.TimeAndMoneyDocumentStatusDao;
@@ -149,6 +151,12 @@ public final class CliOptionsBasedDaoFactory {
     	TimeAndMoneyDocumentStatusDaoImpl dao = new TimeAndMoneyDocumentStatusDaoImpl();
     	dao.setConnectionDaoService(getConnectionDaoService());
     	dao.setKewDocHeaderDao(getKewDocHeaderDao());
+    	return dao;
+    }
+    
+    public SubAwardAmountInfoDao getSubAwardAmountInfoDao() {
+    	SubAwardAmountInfoDaoImpl dao = new SubAwardAmountInfoDaoImpl();
+    	dao.setConnectionDaoService(getConnectionDaoService());
     	return dao;
     }
 
