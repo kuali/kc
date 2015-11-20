@@ -115,6 +115,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     public static final String ON_OFF_CAMPUS_FLAG = "onOffCampusFlag";
     public static final String COST_ELEMENT_BO = "costElementBO";
     public static final String BUDGET_CATEGORY = "budgetCategory";
+    private static final String SET_BUDGET_ID = "setBudgetId";
 
     private DocumentService documentService;
     private BudgetSummaryService budgetSummaryService;
@@ -146,7 +147,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         budgetDocument = (AwardBudgetDocument) documentService.saveDocument(budgetDocument);
         
         Map<String, Object> objectMap = new HashMap<>();
-        fixProperty(budget, "setBudgetId", Long.class, budgetDocument.getBudget().getBudgetId(), objectMap);
+        fixProperty(budget, SET_BUDGET_ID, Long.class, budgetDocument.getBudget().getBudgetId(), objectMap);
         objectMap.clear();
         
         budgetDocument = saveBudgetDocument(budgetDocument, false);
@@ -191,7 +192,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         budget.setBudgetVersionNumber(budget.getBudgetParent().getNextBudgetVersionNumber());
         try {
             Map<String, Object> objectMap = new HashMap<>();
-            fixProperty(budget, "setBudgetId", Long.class, null, objectMap);
+            fixProperty(budget, SET_BUDGET_ID, Long.class, null, objectMap);
             objectMap.clear();
             fixProperty(budget, "setBudgetPeriodId", Long.class, null, objectMap);
             objectMap.clear();
@@ -208,10 +209,6 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
             fixProperty(budget, "setBudgetRateAndBaseId", Long.class, null, objectMap);
             objectMap.clear();
             fixProperty(budget, "setVersionNumber", Integer.class, null, objectMap);
-            objectMap.clear();
-            fixProperty(budget, "setAwardBudgetPeriodSummaryCalculatedAmountId", Long.class, null, objectMap);
-            objectMap.clear();
-            fixProperty(budget, "setFinalVersionFlag", Boolean.class, Boolean.FALSE, objectMap);
             objectMap.clear();
 
 
