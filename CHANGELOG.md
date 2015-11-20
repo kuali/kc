@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+*  fixing sequence name in ojb mapping for watermark.
+  * Travis Schneeberger on Fri, 20 Nov 2015 10:57:16 -0500 [View Commit](../../commit/baaea09feec0b07e907e4221a633e3e360a852ac)
+
+##coeus-1511.70
 * No Changes
 
 
