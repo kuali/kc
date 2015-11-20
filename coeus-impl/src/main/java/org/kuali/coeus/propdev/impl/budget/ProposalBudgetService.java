@@ -32,19 +32,15 @@ public interface ProposalBudgetService extends BudgetCommonService<DevelopmentPr
      *
      * @param parentDocument The parent document that has the budget.
      * @return parentDocument final version of budget corresponding to the parentDocument object.
-     * @throws org.kuali.rice.kew.api.exception.WorkflowException
      */
-    public ProposalDevelopmentBudgetExt getFinalBudgetVersion(ProposalDevelopmentDocument parentDocument);
+    ProposalDevelopmentBudgetExt getFinalBudgetVersion(ProposalDevelopmentDocument parentDocument);
     
     /**
      * Copy the specified budget, using the optional developmentProposal as the new budget parent if provided.
-     * @param budget
-     * @param onlyOnePeriod
-     * @param developmentProposal
-     * @return
      */
-    public ProposalDevelopmentBudgetExt copyBudgetVersion(ProposalDevelopmentBudgetExt budget, boolean onlyOnePeriod, DevelopmentProposal developmentProposal);
+    ProposalDevelopmentBudgetExt copyBudgetVersion(ProposalDevelopmentBudgetExt budget, boolean onlyOnePeriod, DevelopmentProposal developmentProposal);
 
-    public boolean isBudgetMarkedForSubmission(Budget finalBudget, Budget currentBudget);
-    
+    boolean isBudgetMarkedForSubmission(Budget finalBudget, Budget currentBudget);
+
+    void syncBudgetReferencesForCopy(ProposalDevelopmentBudgetExt budget);
 }

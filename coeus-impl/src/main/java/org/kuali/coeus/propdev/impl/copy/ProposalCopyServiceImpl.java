@@ -222,6 +222,8 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
 
                 newDoc = (ProposalDevelopmentDocument) getDocumentService().saveDocument(newDoc);
 
+                newDoc.getDevelopmentProposal().getBudgets().forEach(budget -> getProposalBudgetService().syncBudgetReferencesForCopy(budget));
+
                 // add abstracts now since proposal number has been generated now.
                 addAbstracts(abstracts, newDoc);
 
