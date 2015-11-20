@@ -90,8 +90,8 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
         setAttendance(committeeSchedule, schedule);
         committeeSchedule.refreshReferenceObject(PROTOCOL_SUBMISSIONS);
         committeeSchedule.getLatestProtocolSubmissions().stream()
-                .sorted(Comparator.comparing(IacucProtocolSubmissionLite::getSubmissionTypeCode)
-                        .thenComparing(IacucProtocolSubmissionLite::getProtocolId))
+                .sorted(Comparator.comparing(IacucProtocolSubmissionLite::getProtocolReviewTypeCode).thenComparing(IacucProtocolSubmissionLite::getSubmissionTypeCode)
+                        .thenComparingInt(iacucProtocolSubmission -> Integer.parseInt(iacucProtocolSubmission.getProtocolNumber())))
                 .forEach(protocolSubmission -> {
             ProtocolSubmissionType protocolSubmissionType =
             	schedule.addNewProtocolSubmission();
