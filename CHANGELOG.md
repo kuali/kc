@@ -1,6 +1,17 @@
 
 
 ##CURRENT
+* MIT- IRB - Protocols listed in Agenda PDF are not in desired
+  * order.
+  * Protocols listed in the agenda PDF are not in the desired order for MIT.
+  * The agenda must sort the protocols by review type, then by submission
+  * type and within each submission type they should display in numerical
+sorting order.
+  * Currently, when printing the agenda, the protocols are sorted by review
+  * type (which is good) but then, all the submission types gets mixed
+  * together  * vineeth on Fri, 20 Nov 2015 17:52:46 -0500 [View Commit](../../commit/d0f13deacd5ea76ed7de02adcca9b0485738ba87)
+
+##coeus-1511.71
 *  fixing sequence name in ojb mapping for watermark.
   * Travis Schneeberger on Fri, 20 Nov 2015 10:57:16 -0500 [View Commit](../../commit/baaea09feec0b07e907e4221a633e3e360a852ac)
 
