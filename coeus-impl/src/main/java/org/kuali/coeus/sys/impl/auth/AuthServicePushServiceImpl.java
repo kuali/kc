@@ -68,10 +68,14 @@ public class AuthServicePushServiceImpl implements AuthServicePushService {
 	@Override
 	public AuthServicePushStatus pushAllUsers() {
 		AuthServicePushStatus status = new AuthServicePushStatus();
+		final List<String> admins = getAdminUsers();
+		
 		List<AuthUser> peopleToSync = getAllKIMPeople().stream()
 				.filter(person -> { return !ignoredUsers.contains(person.getPrincipalName()); })
 				.map(person -> {
-					return generateAuthUserFromKimPerson(person);
+					AuthUser authUser = generateAuthUserFromKimPerson(person);
+					authUser.setRole(admins.contains(person.getPrincipalId()) ? ADMIN_ROLE : USER_ROLE);
+					return authUser;
 				}).collect(Collectors.toList());
 		status.setNumberOfUsers(peopleToSync.size());
 		Map<String, AuthUser> authPersonMap = getAllAuthServiceUsers().stream().collect(Collectors.toMap(AuthUser::getUsername,
@@ -86,7 +90,7 @@ public class AuthServicePushServiceImpl implements AuthServicePushService {
 					} else if (authServicePerson.equals(person)) {
 						status.addNumberSame();
 					} else {
-						updateUserInAuthService(person, authServicePerson.getId(), getOrGenerateUserPassword(person));
+						updateUserInAuthService(person, authServicePerson.getId());
 						status.addNumberUpdated();
 					}
 				} else if (authServicePerson != null) {
@@ -102,6 +106,11 @@ public class AuthServicePushServiceImpl implements AuthServicePushService {
 		return status;
 	}
 
+	protected List<String> getAdminUsers() {
+		return permissionService.getPermissionAssignees(KimConstants.NAMESPACE_CODE, KimConstants.PermissionNames.MODIFY_ENTITY, Collections.emptyMap()).stream()
+				.map(assignee -> assignee.getPrincipalId()).collect(Collectors.toList());
+	}
+
 	protected AuthUser generateAuthUserFromKimPerson(Person person) {
 		AuthUser kimAuthUser = new AuthUser();
 		kimAuthUser.setUsername(person.getPrincipalName());
@@ -112,7 +121,7 @@ public class AuthServicePushServiceImpl implements AuthServicePushService {
 		kimAuthUser.setLastName(person.getLastName());
 		kimAuthUser.setPhone(person.getPhoneNumber());
 		kimAuthUser.setActive(person.isActive());
-		kimAuthUser.setRole(getUserAuthSystemRole(person));
+		kimAuthUser.setRole(USER_ROLE);
 		return kimAuthUser;
 	}
 	
@@ -130,14 +139,6 @@ public class AuthServicePushServiceImpl implements AuthServicePushService {
 	
 	protected String getDevPassword() {
 		return configurationService.getPropertyValueAsString(AUTH_USER_PUSH_DEV_PASSWORD);
-	}
-	
-	protected String getUserAuthSystemRole(Person person) {
-		if (permissionService.hasPermission(person.getPrincipalId(), KimConstants.NAMESPACE_CODE, KimConstants.PermissionNames.MODIFY_ENTITY)) {
-			return ADMIN_ROLE;
-		} else {
-			return USER_ROLE;
-		}
 	}
 	
 	protected List<Person> getAllKIMPeople() {
@@ -159,8 +160,7 @@ public class AuthServicePushServiceImpl implements AuthServicePushService {
 		}
 	}
 	
-	protected void updateUserInAuthService(AuthUser updatedUser, String userId, String userPassword) {
-		updatedUser.setPassword(userPassword);
+	protected void updateUserInAuthService(AuthUser updatedUser, String userId) {
 		ResponseEntity<String> result = restOperations.exchange(getUsersApiUrl() + userId, HttpMethod.PUT, 
 				new HttpEntity<AuthUser>(updatedUser, authServiceRestUtilService.getAuthServiceStyleHttpHeadersForUser(AUTH_USER_API_VERSION)), String.class);
 		if (result.getStatusCode() != HttpStatus.OK) {
