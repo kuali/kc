@@ -155,7 +155,7 @@ public class SubAwardServiceImpl implements SubAwardService {
                     totalAmountReleased = subAward.getTotalAmountReleased();
                 }
             }
-            SubAwardAmountInfo amountInfo = subAward.getSubAwardAmountInfoList().get(subAward.getSubAwardAmountInfoList().size()-1);
+            SubAwardAmountInfo amountInfo = subAward.getAllSubAwardAmountInfos().get(subAward.getAllSubAwardAmountInfos().size()-1);
             amountInfo.setAnticipatedAmount(totalAnticipatedAmount);
             amountInfo.setObligatedAmount(totalObligatedAmount);
         }

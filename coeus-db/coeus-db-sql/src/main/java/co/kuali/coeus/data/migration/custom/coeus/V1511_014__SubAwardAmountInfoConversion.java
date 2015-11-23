@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 import org.kuali.coeus.dc.subaward.SubAwardAmountInfoDaoImpl;
 
-public class V1511_012__SubAwardAmountInfoConversion implements SqlExecutor {
+public class V1511_014__SubAwardAmountInfoConversion implements SqlExecutor {
     @Override
     public boolean executeInTransaction() {
         return true;

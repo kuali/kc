@@ -55,13 +55,14 @@ public class SubAwardAmountInfoDaoImpl implements SubAwardAmountInfoDao {
 			}
 			Map<String, List<SubAwardVersionInfo>> subAwards;
 			try (ResultSet subAwardResultSet = querySubAwards.executeQuery()) {
-				subAwards = getSuAawardVersions(subAwardResultSet);
+				subAwards = getSubAwardVersions(subAwardResultSet);
 			}
 			
 			for (Map.Entry<String, List<SubAwardVersionInfo>> entry : subAwards.entrySet()) {
 				final List<AmountInfo> previousAmountInfos = new ArrayList<>();
 				boolean hadError = false;
 				for (SubAwardVersionInfo version : entry.getValue()) {
+					List<AmountInfo> duplicateAmountInfos = new ArrayList<>();
 					List<AmountInfo> currentAmountInfos = 
 							getAmountInfosForSubawardVersion(version.subAwardId, queryAmountInfoForVersion);
 					
@@ -72,15 +73,23 @@ public class SubAwardAmountInfoDaoImpl implements SubAwardAmountInfoDao {
 						for (i = 0; i < previousAmountInfos.size() && i < currentAmountInfos.size(); i++) {
 							Long subAwardAmountInfoId = currentAmountInfos.get(i).subAwardAmountInfoId;
 							if (previousAmountInfos.get(i).equals(currentAmountInfos.get(i))) {
-								deleteAmountInfo(subAwardAmountInfoId, insertDupRecord, deleteAmountInfo);
-								numberOfAmountInfosDeleted++;
+								if (!deleteAmountInfo(subAwardAmountInfoId, insertDupRecord, deleteAmountInfo)) {
+									hadError = true;
+								} else {
+									duplicateAmountInfos.add(currentAmountInfos.get(i));
+									numberOfAmountInfosDeleted++;
+								}
 							} else {
 								LOG.fine("SUBAWARD-AMOUNTINFO:Differences detected for " + subAwardAmountInfoId + " based on original ordering, looking for exact match in any amount info.");
 								final AmountInfo previousAmountInfo = previousAmountInfos.get(i);
 								List<AmountInfo> matchingItems = findMatchingAmountInfos(previousAmountInfo, currentAmountInfos);
 								if (matchingItems.size() == 1) {
-									deleteAmountInfo(matchingItems.get(0).subAwardAmountInfoId, insertDupRecord, deleteAmountInfo);
-									numberOfAmountInfosDeleted++;
+									if (!deleteAmountInfo(matchingItems.get(0).subAwardAmountInfoId, insertDupRecord, deleteAmountInfo)) {
+										hadError = true;
+									} else {
+										duplicateAmountInfos.add(matchingItems.get(0));
+										numberOfAmountInfosDeleted++;
+									}
 								} else {
 									LOG.severe("SUBAWARD-AMOUNTINFO:Cannot determine matching subaward amount info to delete. Found " + matchingItems.size() + " potential matches in subaward_code(" + entry.getKey() + ") subaward_id(" + version.subAwardId + ") for previous subaward_amount_info_id(" + previousAmountInfo.subAwardAmountInfoId + ")");
 									numberOfAmountInfosWithDifferences++;
@@ -88,7 +97,8 @@ public class SubAwardAmountInfoDaoImpl implements SubAwardAmountInfoDao {
 								}
 							}
 						}
-						previousAmountInfos.addAll(currentAmountInfos.subList(i, currentAmountInfos.size()));
+						previousAmountInfos.addAll(currentAmountInfos.stream()
+								.filter(amountInfo -> { return !duplicateAmountInfos.contains(amountInfo); }).collect(Collectors.toList()));
 					}
 				}
 				if (hadError) {
@@ -128,10 +138,9 @@ public class SubAwardAmountInfoDaoImpl implements SubAwardAmountInfoDao {
 		return matchingItems;
 	}
 
-	protected Map<String, List<SubAwardVersionInfo>> getSuAawardVersions(ResultSet subAwardResultSet)
+	protected Map<String, List<SubAwardVersionInfo>> getSubAwardVersions(ResultSet subAwardResultSet)
 			throws SQLException {
-		Map<String, List<SubAwardVersionInfo>> subAwards;
-		subAwards = new HashMap<>();
+		Map<String, List<SubAwardVersionInfo>> subAwards = new HashMap<>();
 		while (subAwardResultSet.next()) {
 			String subAwardCode = subAwardResultSet.getString(2);
 			Long subAwardId = subAwardResultSet.getLong(1);
@@ -146,13 +155,20 @@ public class SubAwardAmountInfoDaoImpl implements SubAwardAmountInfoDao {
 		return subAwards;
 	}
 
-	protected void deleteAmountInfo(Long subAwardAmountInfoId, PreparedStatement insertDupRecord,
+	protected boolean deleteAmountInfo(Long subAwardAmountInfoId, PreparedStatement insertDupRecord,
 			PreparedStatement deleteAmountInfo) throws SQLException {
 		LOG.fine("Going to delete " + subAwardAmountInfoId);
 		insertDupRecord.setLong(1, subAwardAmountInfoId);
-		insertDupRecord.execute();
+		if (insertDupRecord.executeUpdate() != 1) {
+			LOG.severe("SUBAWARD-AMOUNTINFO:Insert into dup table did not return expected results. Refusing to delete amount info with subaward_amount_info_id = " + subAwardAmountInfoId);
+			return false;
+		}
 		deleteAmountInfo.setLong(1, subAwardAmountInfoId);
-		deleteAmountInfo.execute();
+		if (deleteAmountInfo.executeUpdate() != 1) {
+			LOG.severe("SUBAWARD-AMOUNTINFO:Delete from amount info did not return expected results with subaward_amount_info_id = " + subAwardAmountInfoId);
+			return false;
+		}
+		return true;
 	}
 	
 	public ConnectionDaoService getConnectionDaoService() {
@@ -163,7 +179,7 @@ public class SubAwardAmountInfoDaoImpl implements SubAwardAmountInfoDao {
 		this.connectionDaoService = connectionDaoService;
 	}
 	
-	class SubAwardVersionInfo {
+	static class SubAwardVersionInfo {
 		Long subAwardId;
 		Integer sequenceNumber;
 		public SubAwardVersionInfo(Long subAwardId, Integer sequenceNumber) {
@@ -173,7 +189,7 @@ public class SubAwardAmountInfoDaoImpl implements SubAwardAmountInfoDao {
 		}
 	}
 	
-	class AmountInfo {
+	static class AmountInfo {
 		Long subAwardAmountInfoId;
 		BigDecimal obligatedAmount;
 		BigDecimal obligatedChange;

@@ -35,7 +35,7 @@ public class AllSubAwardAmountInfoQueryCustomizer extends QueryCustomizerDefault
             PersistenceBroker aBroker,
             CollectionDescriptor aCod, QueryByCriteria aQuery){
     	Criteria crit = new Criteria();
-    	crit.addEqualTo("subAwardCode", ((SubAward)anObject).getSubAwardCode());
+    	crit.addEqualTo("subAward.subAwardCode", ((SubAward)anObject).getSubAwardCode());
     	crit.addIn("subAward.subAwardSequenceStatus", Arrays.asList(new String[]{VersionStatus.ACTIVE.toString(), VersionStatus.PENDING.toString(), VersionStatus.ARCHIVED.toString()}));
         aQuery.setCriteria(crit);
         return aQuery;

@@ -17,8 +17,10 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-alter table SUBAWARD add SUBAWARD_SEQUENCE_STATUS varchar(16) default 'PENDING' not null;
+alter table SUBAWARD add SUBAWARD_SEQUENCE_STATUS varchar2(16) default 'PENDING' not null;
 
 update SUBAWARD set SUBAWARD_SEQUENCE_STATUS = 
 	(select VERSION_STATUS from VERSION_HISTORY where SEQ_OWNER_CLASS_NAME = 'org.kuali.kra.subaward.bo.SubAward' 
 		and SEQ_OWNER_VERSION_NAME_VALUE = SUBAWARD.SUBAWARD_CODE and SEQ_OWNER_SEQ_NUMBER = SUBAWARD.SEQUENCE_NUMBER);
+
+create index SUBAWARD_CODE_AND_STATUS_IDX on SUBAWARD (SUBAWARD_CODE, SUBAWARD_SEQUENCE_STATUS);
