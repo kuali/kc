@@ -1,6 +1,37 @@
 
 
 ##CURRENT
+*  Attempt to fix cost sharing issues.
+  * KC should not apply MTDC to Cost Sharing amount in Subaward cost elements that are populated to Non-Personnel expenses from Subawards entered in the Subawards Section of the budget.
+  * Subawards with Cost Sharing input via the Subawards section - either with an uploaded grants.gov form or manually - result in subawardee Cost Share incurring F&A in the applicant organization budget. This causes incorrect amounts for the Cost Sharing Commitment, as well as for the Cost Sharing amount submitted to sponsor on the Grants.gov Coversheet (and budget if FNF form is included).
+  * KC inputs the Subaward Cost Share amount that exist in Period 1 into the first Subcontract Object Code it adds to the Non-Personnel section, which in almost all cases is the Subcontracts - Subject to MIT F&A Object Code (that is set-up to apply F&A).
+  * Steps to Reproduce:
+  * 1. Create proposal with minim info required to save
+  * 2. Create/add a detailed budget
+  * 3. Navigate to the Subawards and click the +Add Subaward button
+  * a. In the Add Subaward window:
+  * i. Select an organization (e.g. enter 000090 in Organization Id field)
+  * ii. Click the Add Subaward button (no need to upload an actual file - this can be demonstrated by manually entering the costs)
+  * 4. Click the Details button for the added Subaward
+  * a. In the Subaward Details window:
+  * i. Enter the following in Budget Period 1 line:
+  * • Direct Cost: 35000
+  * • Indirect Cost:15000
+  * • Cost Share 20000
+  * ii. Click the Save Changes button
+  * 5. Navigate to the Non-Personnel Costs section and you should see three Cost Elements/Object Codes added:
+  * Subcontracts - Subject to MIT F&A
+  * Subcontracts - No MIT F&A
+  * Subcontractors F&A - No MIT F&A
+  * 6. Navigate to the Institutional Commitments -> Cost Sharing and in Period 1 you will see Cost Sharing Amount that is higher than the $20,000 entered in the Subaward Details window (reason for it - is that KC applies MIT's F&A on the $20,000 of Subaward Cost Share which is incorrect and it should not happen). Also if you click on the View Subaward Cost Share button, in the Sub Award Cost Sharing Details window, you will only see the $20,000 entered and NOT the $20,000 + MIT's F&A (as displayed in the Cost Sharing Commitments section).
+  * This miscalculation will cause the biggest issue if the proposal is to be submitted S2S since the Total Cost Share amount will populate the form showing to the Sponsor that we are committing more Cost Share than we really are.
+  * There is no workaround for S2S if the application package includes the FedNonFed versions of the budget and subaward budget forms.
+  * For non-S2S and when the RR Budget (NOT fed non fed) are included, there is a not-ideal work-around:
+  * User must NOT add the Cost Sharing amounts in the Subawards section (Subaward Details window) BUT instead to manually add an additional Subcontracts - No MIT F&A object code in the Non-Personnel Costs section in Period 1 (and other Periods impacted), clicking on Details and inputting the Cost Sharing amount in the Cost Sharing Tab of that line item.
+  * This workaround is not ideal as it makes reviewing subward info more difficult and 'buries' the cost sharing, in addition to being more work.
+  * Gayathri Athreya on Fri, 20 Nov 2015 14:21:15 -0700 [View Commit](../../commit/0efb8a915d69c649f56ba0cccc52668e61faa74d)
+
+##coeus-1511.76
 * No Changes
 
 
