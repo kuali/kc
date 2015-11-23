@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+*  Budget Id and Budget Period Id are not set correctly when copying a proposal with a budget.
+  * Travis Schneeberger on Fri, 20 Nov 2015 16:57:25 -0500 [View Commit](../../commit/370621df7b3ad2aa49b8360058530cdfbaaa960c)
+*  Make small change to line items search ot avoid duplicate addition
+  * Gayathri Athreya on Mon, 23 Nov 2015 11:20:21 -0700 [View Commit](../../commit/9fbbd86a58d58b43fdabcddb31fbd018101a4ba7)
+*  clean out unused deep copy post processor code
+  * Travis Schneeberger on Thu, 19 Nov 2015 11:35:50 -0500 [View Commit](../../commit/2c3c6992a67b69f6d573b1adf8e7a4c870b48c4c)
+
+##coeus-1511.77
 *  Attempt to fix cost sharing issues.
   * KC should not apply MTDC to Cost Sharing amount in Subaward cost elements that are populated to Non-Personnel expenses from Subawards entered in the Subawards Section of the budget.
   * Subawards with Cost Sharing input via the Subawards section - either with an uploaded grants.gov form or manually - result in subawardee Cost Share incurring F&A in the applicant organization budget. This causes incorrect amounts for the Cost Sharing Commitment, as well as for the Cost Sharing amount submitted to sponsor on the Grants.gov Coversheet (and budget if FNF form is included).
