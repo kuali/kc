@@ -221,8 +221,9 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
             }
 
             if (ScaleTwoDecimal.returnZeroIfNull(detail.getCostShare()).isNonZero()) {
-                String description = subAward.getOrganizationName() + " CostShare Amount(" + detail.getCostShare() +")";
-                BudgetLineItem costShareLineItem = findOrCreateCostshareLineItem(currentSubawardLineItems, detail, budgetPeriod, directGtCostElement, description);
+                final String orgName = subAward.getOrganizationName() + " CostShare Amount(";
+                String description = orgName + detail.getCostShare() + ")";
+                BudgetLineItem costShareLineItem = findOrCreateCostshareLineItem(currentSubawardLineItems, detail, budgetPeriod, directGtCostElement, description, orgName);
                 costShareLineItem.setLineItemCost(ScaleTwoDecimal.ZERO);
                 costShareLineItem.setCostSharingAmount(detail.getCostShare());
                 currentSubawardLineItems.add(costShareLineItem);
@@ -297,9 +298,9 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
     }
 
     protected BudgetLineItem findOrCreateCostshareLineItem(List<BudgetLineItem> lineItems, BudgetSubAwardPeriodDetail subAwardDetail,
-                                                  BudgetPeriod budgetPeriod, String costElement, String lineItemDescription) {
+                                                  BudgetPeriod budgetPeriod, String costElement, String lineItemDescription, String orgName) {
         for (BudgetLineItem curLineItem : lineItems) {
-            if (StringUtils.equals(curLineItem.getLineItemDescription(), lineItemDescription)) {
+            if (StringUtils.startsWith(curLineItem.getLineItemDescription(), orgName)) {
                 return curLineItem;
             }
         }
