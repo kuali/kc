@@ -20,6 +20,7 @@ package org.kuali.coeus.propdev.impl.budget.nonpersonnel;
 
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -283,26 +284,43 @@ public class ProposalBudgetPeriodProjectCostController extends ProposalBudgetCon
 			return getModelAndViewService().showDialog(ProposalBudgetConstants.KradConstants.PROP_BUDGET_NON_PERSONNEL_COSTS_APPLY_TO_LATER_PERIODS, true, form);
 		} else if ((dialogResponse !=null && dialogResponse.getResponseAsBoolean()) || !lineItemInLaterPeriods) {
 			getBudgetCalculationService().applyToLaterPeriods(budget, currentTabBudgetPeriod, budgetLineItem);
-			validateBudgetExpenses(budget, currentTabBudgetPeriod);
+            resetCalculatedAmountsForAllPeriods(budget, budgetLineItem);
+            validateBudgetExpenses(budget, currentTabBudgetPeriod);
 			super.save(form);
 			return getKcCommonControllerService().closeDialog(ProposalBudgetConstants.KradConstants.EDIT_NONPERSONNEL_PERIOD_DIALOG_ID,form);
 		}
 		return null;
 	}
 
-	protected boolean isLineItemInLaterPeriods(Budget budget, BudgetLineItem budgetLineItem) {
+    protected void resetCalculatedAmountsForAllPeriods(Budget budget, BudgetLineItem budgetLineItem) {
+        for(BudgetPeriod period : budget.getBudgetPeriods()) {
+            for(BudgetLineItem lineItem : period.getBudgetLineItems()) {
+                if(lineItem.getLineItemNumber().equals(budgetLineItem.getLineItemNumber())) {
+                    resetCalculatedAmounts(lineItem);
+                }
+            }
+        }
+    }
+
+    protected void resetCalculatedAmounts(BudgetLineItem lineItem) {
+        lineItem.setBudgetLineItemCalculatedAmounts(new ArrayList<>());
+    }
+
+    protected boolean isLineItemInLaterPeriods(Budget budget, BudgetLineItem budgetLineItem) {
 		return budget.getBudgetLineItems().stream()
 				.anyMatch(lineItem -> budgetLineItem.getLineItemNumber().equals(lineItem.getBasedOnLineItem()) &&
 						budgetLineItem.getBudgetPeriod().compareTo(lineItem.getBudgetPeriod()) < 0);
 	}
 
-	private void setEditedBudgetLineItem(ProposalBudgetForm form) {
+	protected void setEditedBudgetLineItem(ProposalBudgetForm form) {
 	    BudgetLineItem budgetLineItem = form.getAddProjectBudgetLineItemHelper().getBudgetLineItem();
 	    BudgetPeriod budgetPeriod = form.getAddProjectBudgetLineItemHelper().getCurrentTabBudgetPeriod();
 	    setLineItemBudgetCategory(budgetLineItem);
 	    int editLineIndex = Integer.parseInt(form.getAddProjectBudgetLineItemHelper().getEditLineIndex());
-		BudgetLineItem newBudgetLineItem = getDataObjectService().save(budgetLineItem);
-		budgetPeriod.getBudgetLineItems().set(editLineIndex, newBudgetLineItem);
+        BudgetLineItem newBudgetLineItem = getDataObjectService().save(budgetLineItem);
+        // force recalculation
+        resetCalculatedAmounts(newBudgetLineItem);
+        budgetPeriod.getBudgetLineItems().set(editLineIndex, newBudgetLineItem);
 
 	}
 
