@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1511.79
 * When Spring Security is enabled, set X-Frame option to SAMEORIGIN
 
   * Without this things like the redirect page in the core spring context will disallow being viewed in the iframe and thus break things like Close and Cancel buttons when used.
