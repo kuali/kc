@@ -30,7 +30,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.kuali.coeus.common.budget.api.nonpersonnel.BudgetRateAndBaseContract;
-import org.kuali.coeus.common.budget.framework.copy.DeepCopyIgnore;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
 import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
@@ -45,7 +44,6 @@ public class BudgetRateAndBase extends AbstractBudgetRateAndBase implements Budg
     @Convert(converter = ScaleTwoDecimalConverter.class)
     private ScaleTwoDecimal baseCost;
 
-    @DeepCopyIgnore
     @PortableSequenceGenerator(name = "SEQ_BUDGET_RATE_AND_BASE_ID")
     @GeneratedValue(generator = "SEQ_BUDGET_RATE_AND_BASE_ID")
     @Id

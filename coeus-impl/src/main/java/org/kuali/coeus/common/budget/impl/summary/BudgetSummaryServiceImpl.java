@@ -27,7 +27,6 @@ import org.kuali.coeus.common.budget.framework.core.BudgetCommonService;
 import org.kuali.coeus.common.budget.framework.core.BudgetCommonServiceFactory;
 import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
-import org.kuali.coeus.common.budget.framework.copy.DeepCopyPostProcessor;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPerson;
@@ -64,9 +63,6 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
     @Autowired
     @Qualifier("dateTimeService")
     private DateTimeService dateTimeService;
-    @Autowired
-    @Qualifier("deepCopyPostProcessor")
-    private DeepCopyPostProcessor deepCopyPostProcessor;
 
     @Autowired
     @Qualifier("dataObjectService")
@@ -75,8 +71,6 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
     public void setDateTimeService (DateTimeService dateTimeService){this.dateTimeService = dateTimeService;}
     protected DateTimeService getDateTimeService (){return dateTimeService;}
 
-    public void setDeepCopyPostProcessor (DeepCopyPostProcessor deepCopyPostProcessor){this.deepCopyPostProcessor = deepCopyPostProcessor;}
-    protected DeepCopyPostProcessor getDeepCopyPostProcessor (){return deepCopyPostProcessor;}
 
     @Override
     public void generateAllPeriods(Budget budget) {

@@ -23,7 +23,6 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.util.DateUtils;
 import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.copy.DeepCopyIgnore;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModular;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetNumberOfMonthsService;
@@ -44,7 +43,6 @@ public class BudgetPeriod extends KcPersistableBusinessObjectBase implements Bud
 
     private static final long serialVersionUID = -7318331486891820078L;
 
-    @DeepCopyIgnore
     @PortableSequenceGenerator(name = "SEQ_BUDGET_PERIOD_NUMBER")
     @GeneratedValue(generator = "SEQ_BUDGET_PERIOD_NUMBER")
     @Id

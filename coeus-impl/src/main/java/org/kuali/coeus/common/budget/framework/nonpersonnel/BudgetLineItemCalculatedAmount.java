@@ -29,14 +29,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.kuali.coeus.common.budget.api.nonpersonnel.BudgetLineItemCalculatedAmountContract;
-import org.kuali.coeus.common.budget.framework.copy.DeepCopyIgnore;
 import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 
 @Entity
 @Table(name = "BUDGET_DETAILS_CAL_AMTS")
 public class BudgetLineItemCalculatedAmount extends AbstractBudgetCalculatedAmount implements BudgetLineItemCalculatedAmountContract {
 
-    @DeepCopyIgnore
     @PortableSequenceGenerator(name = "SEQ_BUDGET_DETAILS_CAL_AMTS_ID")
     @GeneratedValue(generator = "SEQ_BUDGET_DETAILS_CAL_AMTS_ID")
     @Id

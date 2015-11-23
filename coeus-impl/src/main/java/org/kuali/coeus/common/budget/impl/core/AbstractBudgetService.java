@@ -46,7 +46,6 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AbstractBudgetService.class);
     public static final String BUDGET_ID = "budgetId";
-    public static final String COST_ELEMENT = "costElement";
     public static final String VALID_CE_RATE_TYPES = "validCeRateTypes";
     public static final String RATE_CLASS_TYPE = "rateClassType";
     public static final String ACTIVITY_TYPE_CODE = "activityTypeCode";
@@ -78,7 +77,7 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
 
         budgetLineItem.setCostElementBO(costElementBO);
         final List<ValidCeRateType> validCeRateTypes = costElementBO.getValidCeRateTypes();
-        final QueryList<ValidCeRateType> qValidCeRateTypes = validCeRateTypes == null ? new QueryList<ValidCeRateType>() : new QueryList<>(validCeRateTypes);
+        final QueryList<ValidCeRateType> qValidCeRateTypes = validCeRateTypes == null ? new QueryList<>() : new QueryList<>(validCeRateTypes);
 
         // Check whether it contains Inflation Rate
         final Equals eqInflation = new Equals(RATE_CLASS_TYPE, RateClassType.INFLATION.getRateClassType());
@@ -95,7 +94,7 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
     @Override
     public String getActivityTypeForBudget(Budget budget) {
         BudgetParent budgetParent = budget.getBudgetParent().getDocument().getBudgetParent();
-        Map<String,Object> qMap = new HashMap<String,Object>();
+        Map<String,Object> qMap = new HashMap<>();
         qMap.put(BUDGET_ID, budget.getBudgetId());
         List<BudgetRate> allPropRates = (List<BudgetRate>)businessObjectService.findMatching(BudgetRate.class, qMap);
         if (CollectionUtils.isNotEmpty(allPropRates)) {
@@ -121,7 +120,7 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
     
     @Override
     public Collection<BudgetRate> getSavedProposalRates(Budget budgetToOpen) {
-        Map<String,Long> qMap = new HashMap<String,Long>();
+        Map<String,Long> qMap = new HashMap<>();
         qMap.put(BUDGET_ID,budgetToOpen.getBudgetId());
         return businessObjectService.findMatching(BudgetRate.class, qMap);
     }
