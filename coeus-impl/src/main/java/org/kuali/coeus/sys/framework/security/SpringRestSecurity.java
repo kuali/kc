@@ -27,6 +27,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
+import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
+import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter.XFrameOptionsMode;
 
 @Configuration
 @EnableWebMvcSecurity
@@ -54,6 +56,7 @@ public class SpringRestSecurity extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
+        http.headers().xssProtection().addHeaderWriter(new XFrameOptionsHeaderWriter(XFrameOptionsMode.SAMEORIGIN));
 	    http.authorizeRequests().regexMatchers(V1_REST_SERVICES_REGEX).hasRole(ADMIN_ROLE).and().httpBasic();
 	    http.authorizeRequests().regexMatchers(API_REST_SERVICES_REGEX).hasRole(ADMIN_ROLE).and().httpBasic();
 	}
