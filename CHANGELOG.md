@@ -1,6 +1,39 @@
 
 
 ##CURRENT
+* When Spring Security is enabled, set X-Frame option to SAMEORIGIN
+
+  * Without this things like the redirect page in the core spring context will disallow being viewed in the iframe and thus break things like Close and Cancel buttons when used.
+  * blackcathacker on Mon, 23 Nov 2015 13:02:55 -0800 [View Commit](../../commit/7c577fa0fe5b130990009f8e9d018c9a01712d63)
+*  Fixing calculation on cost element change
+  * PD Budget - Non Personnel Line items: Rate calculations not updated with change of Cost Object from one where F&A and/or LA rates apply to one where they do not
+  * Discovered in MIT KC Production.
+  * Replicated in MIT KC QA Wkly Build kc1510.32
+  * PD 29372 -
+  * Steps to recreate:
+  * Create a new proposal with Lead Unit being a unit where Lab Allocation rates are maintained.
+  * Activity Type = Organized Research
+  * Fill in other details as needed to save.
+  * Go to budget - create a detailed budget.
+  * Leave budget settings on the default (MTDC for both OH and UR rate types)
+  * Go to Assign Non Personnel
+  * Add a line item for "Materials and Services" (or any g/l which is subject to MTDC F&A and/or LA Rates) at $1000.
+  * Save.
+  * Go to Details > Rates for this line item. Note the rate types that have 'Rate Cost calculated.
+  * (for MIT QA PD 29372 this included MTDC, EB on LA, Vacation on LA, LA - M&S, LA - Salaries)
+  * Go to Details > Details for this line item
+  * Change Category to "Other Operating Expenses"
+  * Change Object Code Name to "Other Sponsor Funded Costs - Not MTDC" (or to another object code not subject to MTDC or LA )
+  * Click Save Change.
+  * After modal is closed, Click Save on the Non-Personnel Costs page.
+  * Open Details > Rates for the line item again.
+  * Note that the Rate Costs are still calculated and applied to the line item despite the change of the Cost Object.
+  * KC needs to recalculate and apply correct rates to each line item when a change to Cost Object is made and then saved.
+  * Should a user actually notice this calculation error, the only current workaround is to go to Budget Settings, change the OH Rate and the UR rate, Save, allow budget to recalculate & then save. Then go back to Budget settings, return to original selections, Save, and allow budget to again recalculate.
+  * Resyncing rates from the rates tab or calculating budget period does NOT fix the problem.
+  * Gayathri Athreya on Mon, 23 Nov 2015 13:15:32 -0700 [View Commit](../../commit/3b715d603511c9f7f948e833951cd6a8898ac2c3)
+
+##coeus-1511.78
 *  Budget Id and Budget Period Id are not set correctly when copying a proposal with a budget.
   * Travis Schneeberger on Fri, 20 Nov 2015 16:57:25 -0500 [View Commit](../../commit/370621df7b3ad2aa49b8360058530cdfbaaa960c)
 *  Make small change to line items search ot avoid duplicate addition
