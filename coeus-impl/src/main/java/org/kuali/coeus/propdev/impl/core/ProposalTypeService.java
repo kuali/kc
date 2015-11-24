@@ -44,5 +44,7 @@ public interface ProposalTypeService {
 
 	public String getSupplementChangedOrCorrectedProposalTypeCode();
 
-	String getDefaultSubmissionTypeCode(String proposalTypeCode);
+	public String getDefaultSubmissionTypeCode(String proposalTypeCode);
+
+	public String getPreProposalProposalTypeCode();
 }

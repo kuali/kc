@@ -125,6 +125,7 @@ public class ProposalTypeServiceImpl implements ProposalTypeService {
 		return defaultS2sSubmissionTypeCode;
 	}
 
+    @Override
     public String getPreProposalProposalTypeCode() {
         return getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
                 ParameterConstants.DOCUMENT_COMPONENT, ProposalDevelopmentConstants.PropDevParameterConstants.PROPOSAL_TYPE_CODE_PRE_PROPOSAL_PARM);

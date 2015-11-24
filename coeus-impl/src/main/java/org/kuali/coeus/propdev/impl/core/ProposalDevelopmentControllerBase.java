@@ -203,6 +203,10 @@ public abstract class ProposalDevelopmentControllerBase {
     @Qualifier("proposalPersonCoiIntegrationService")
     ProposalPersonCoiIntegrationService proposalPersonCoiIntegrationService;
 
+    @Autowired
+    @Qualifier("proposalTypeService")
+    private ProposalTypeService proposalTypeService;
+
     private ProjectPublisher projectPublisher;
 
     public ProjectPublisher getProjectPublisher() {
@@ -277,6 +281,9 @@ public abstract class ProposalDevelopmentControllerBase {
          }
          if (StringUtils.equalsIgnoreCase(form.getPageId(), ProposalDevelopmentDataValidationConstants.DETAILS_PAGE_ID)) {
              handleSponsorChange(proposalDevelopmentDocument);
+             if (proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity() != null) {
+                 handleProposalTypeChange(proposalDevelopmentDocument.getDevelopmentProposal());
+             }
          }
 
          preSave(proposalDevelopmentDocument);
@@ -326,7 +333,15 @@ public abstract class ProposalDevelopmentControllerBase {
          return view;
      }
 
-     public ModelAndView save(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
+    private void handleProposalTypeChange(DevelopmentProposal developmentProposal) {
+        if (developmentProposal.getS2sOpportunity() != null) {
+            String defaultS2sSubmissionTypeCode = getProposalTypeService().getDefaultSubmissionTypeCode(developmentProposal.getProposalTypeCode());
+            developmentProposal.getS2sOpportunity().setS2sSubmissionTypeCode(defaultS2sSubmissionTypeCode);
+            getDataObjectService().wrap(developmentProposal.getS2sOpportunity()).fetchRelationship("s2sSubmissionType");
+        }
+    }
+
+    public ModelAndView save(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
              HttpServletRequest request, HttpServletResponse response, Class<? extends DocumentEventBase> eventClazz) throws Exception {
          ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
          ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) pdForm.getDocument();
@@ -960,4 +975,13 @@ public abstract class ProposalDevelopmentControllerBase {
 			ProposalPersonCoiIntegrationService proposalPersonCoiIntegrationService) {
 		this.proposalPersonCoiIntegrationService = proposalPersonCoiIntegrationService;
 	}
+    public ProposalTypeService getProposalTypeService() {
+        return proposalTypeService;
+    }
+
+    public void setProposalTypeService(ProposalTypeService proposalTypeService) {
+        this.proposalTypeService = proposalTypeService;
+    }
+
+
 }

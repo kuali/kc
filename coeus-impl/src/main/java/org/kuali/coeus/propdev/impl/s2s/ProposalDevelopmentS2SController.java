@@ -112,7 +112,6 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
            //Set default S2S Submission Type
            if (StringUtils.isBlank(form.getNewS2sOpportunity().getS2sSubmissionTypeCode())){
                String defaultS2sSubmissionTypeCode = getProposalTypeService().getDefaultSubmissionTypeCode(proposal.getProposalTypeCode());
-//               String defaultS2sSubmissionTypeCode = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.S2S_SUBMISSIONTYPE_APPLICATION);
                proposal.getS2sOpportunity().setS2sSubmissionTypeCode(defaultS2sSubmissionTypeCode);
                getDataObjectService().wrap(proposal.getS2sOpportunity()).fetchRelationship("s2sSubmissionType");
            }
