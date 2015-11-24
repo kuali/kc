@@ -8,6 +8,7 @@ import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.sys.framework.auth.AuthServicePushService;
@@ -17,6 +18,8 @@ import org.kuali.coeus.sys.framework.rest.AuthServiceRestUtilService;
 import org.kuali.coeus.sys.framework.rest.RestServiceConstants;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.common.assignee.Assignee;
+import org.kuali.rice.kim.api.group.GroupService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.permission.PermissionService;
@@ -61,10 +64,14 @@ public class AuthServicePushServiceImpl implements AuthServicePushService {
 	@Autowired
 	@Qualifier("kualiConfigurationService")
 	private ConfigurationService configurationService;
+	
+	@Autowired
+	@Qualifier("groupService")
+	private GroupService groupService;
 
 	@Value("#{{'admin', 'kc', 'kr'}}")
 	private List<String> ignoredUsers = new ArrayList<>();
-	
+		
 	@Override
 	public AuthServicePushStatus pushAllUsers() {
 		AuthServicePushStatus status = new AuthServicePushStatus();
@@ -107,8 +114,28 @@ public class AuthServicePushServiceImpl implements AuthServicePushService {
 	}
 
 	protected List<String> getAdminUsers() {
-		return permissionService.getPermissionAssignees(KimConstants.NAMESPACE_CODE, KimConstants.PermissionNames.MODIFY_ENTITY, Collections.emptyMap()).stream()
-				.map(assignee -> assignee.getPrincipalId()).collect(Collectors.toList());
+		return getAdminAssignees().stream()
+				.map(this::getAdminUsersFrom)
+				.flatMap(l -> l.stream())
+				.collect(Collectors.toList());
+	}
+
+	protected List<Assignee> getAdminAssignees() {
+		return permissionService.getPermissionAssignees(KimConstants.NAMESPACE_CODE, KimConstants.PermissionNames.MODIFY_ENTITY, Collections.emptyMap());
+	}
+	
+	protected List<String> getAdminUsersFrom(Assignee assignee) {
+		if (StringUtils.isNotBlank(assignee.getPrincipalId())) {
+			return Collections.singletonList(assignee.getPrincipalId());
+		} else if (StringUtils.isNotBlank(assignee.getGroupId())) {
+			return getGroupMembers(assignee);
+		} else {
+			return Collections.emptyList();
+		}
+	}
+
+	protected List<String> getGroupMembers(Assignee assignee) {
+		return groupService.getMemberPrincipalIds(assignee.getGroupId());
 	}
 
 	protected AuthUser generateAuthUserFromKimPerson(Person person) {
@@ -226,6 +253,14 @@ public class AuthServicePushServiceImpl implements AuthServicePushService {
 
 	public void setConfigurationService(ConfigurationService configurationService) {
 		this.configurationService = configurationService;
+	}
+
+	public GroupService getGroupService() {
+		return groupService;
+	}
+
+	public void setGroupService(GroupService groupService) {
+		this.groupService = groupService;
 	}
 
 }

@@ -7,12 +7,17 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import org.apache.commons.fileupload.util.Streams;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.sys.framework.auth.AuthServicePushStatus;
 import org.kuali.coeus.sys.framework.auth.AuthUser;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.common.assignee.Assignee;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.impl.identity.PersonImpl;
 
@@ -171,6 +176,28 @@ public class AuthServicePushServiceTest {
 		assertEquals(0L, updatedUsers.stream().filter(user -> user.getRole().equals("admin")).collect(Collectors.counting()).longValue());
 	
 	}	
+	
+	@Test
+	public void testGetAdminUsers() {
+		AuthServicePushServiceImpl service = new AuthServicePushServiceImpl() {
+			@Override
+			protected List<Assignee> getAdminAssignees() {
+				return Stream.of(Assignee.Builder.create("1", null, Collections.emptyList()).build(),
+						Assignee.Builder.create(null, "2", Collections.emptyList()).build()).collect(Collectors.toList());
+			}
+			
+			@Override
+			protected List<String> getGroupMembers(Assignee assignee) {
+				return Stream.of("3", "4").collect(Collectors.toList());
+			}
+		};
+		
+		List<String> adminUsers = service.getAdminUsers();
+		assertEquals(3, adminUsers.size());
+		assertTrue(adminUsers.contains("1"));
+		assertTrue(adminUsers.contains("3"));
+		assertTrue(adminUsers.contains("4"));
+	}
 	
 	final class PersonMock extends PersonImpl {
 
