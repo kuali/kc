@@ -65,7 +65,7 @@ public class SubAwardServiceImpl implements SubAwardService {
     public SubAwardDocument createNewSubAwardVersion(SubAwardDocument subAwardDocument) throws VersionException, WorkflowException {
 
         SubAward newVersion = getVersioningService().createNewVersion(subAwardDocument.getSubAward());
-
+        newVersion.getSubAwardAmountInfoList().clear();
         SubAwardDocument newSubAwardDocument = (SubAwardDocument) getDocumentService().getNewDocument(SubAwardDocument.class);
         newSubAwardDocument.getDocumentHeader().setDocumentDescription(subAwardDocument.getDocumentHeader().getDocumentDescription());
         newSubAwardDocument.setSubAward(newVersion);

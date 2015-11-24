@@ -40,7 +40,6 @@
 				<ref bean="SubAwardAttachments-description"/>
 				<ref bean="SubAwardAttachmentst-subAwardAttachmentTypeCode" />
 				<ref bean="SubAwardAttachments-documentId" />
-				<ref bean="SubAwardAttachments-fileId"/>
 				<ref bean="SubAwardAttachments-fileName"/>
 				<ref bean="SubAwardAttachments-document"/>
 				<ref bean="SubAwardAttachments-mimeType"/>
@@ -107,26 +106,6 @@
 		<property name="summary" value="Description"/>
 		<property name="description" value="Description"/>
 	</bean>
-	
-	<bean id="SubAwardAttachments-fileId" parent="SubAwardAttachments-fileId-parentBean" />
-    <bean id="SubAwardAttachments-fileId-parentBean" abstract="true" parent="AttributeDefinition">
-	    <property name="name" value="fileId" />
-	    <property name="forceUppercase" value="false" />
-	    <property name="label" value="File ID" />
-	    <property name="shortLabel" value="File ID" />
-	    <property name="maxLength" value="150" />
-	    <property name="validationPattern" >
-	      <bean parent="AnyCharacterValidationPattern"
-	            	p:allowWhitespace="true" />
-	    </property>
-	    <property name="required" value="true" />
-	    <property name="control" >
-	      <bean parent="TextControlDefinition"
-	            p:size="30" />
-	    </property>
-	    <property name="summary" value="File ID" />
-	    <property name="description" value="File ID" />    
-   </bean> 
    
     <bean id="SubAwardAttachments-fileName" parent="SubAwardAttachments-fileName-parentBean" />
     <bean id="SubAwardAttachments-fileName-parentBean" abstract="true" parent="AttributeDefinition">
@@ -291,7 +270,6 @@
 							<bean p:attributeName="subAwardCode" p:forceInquiry="true" parent="FieldDefinition"/>
 							<bean p:attributeName="attachmentId" parent="FieldDefinition"/>
 							<bean p:attributeName="description" parent="FieldDefinition"/>
-							<bean p:attributeName="fileId" parent="FieldDefinition"/>
 						</list>
 					</property>
 				</bean>
@@ -312,7 +290,6 @@
             <bean p:attributeName="subAwardCode" p:forceInquiry="true" parent="FieldDefinition"/>
 			<bean p:attributeName="attachmentId" parent="FieldDefinition"/>
 			<bean p:attributeName="description" parent="FieldDefinition"/>
-			<bean p:attributeName="fileId" parent="FieldDefinition"/>
       </list>
     </property>
     <property name="resultFields" >
@@ -320,7 +297,6 @@
             <bean p:attributeName="subAwardCode" p:forceInquiry="true" parent="FieldDefinition"/>
 			<bean p:attributeName="attachmentId" parent="FieldDefinition"/>
 			<bean p:attributeName="description" parent="FieldDefinition"/>
-			<bean p:attributeName="fileId" parent="FieldDefinition"/>
       </list>
     </property>
   </bean>

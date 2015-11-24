@@ -171,109 +171,16 @@
             </tr>     
    			</c:if>
    			</tbody>
-   			<c:forEach var="newSubAwardAmountInfo" items="${KualiForm.document.subAwardList[0].allSubAwardAmountInfos}" varStatus="status">
-   				<c:set var="lineReadOnly" value="${newSubAwardAmountInfo.sequenceNumber != KualiForm.document.subAwardList[0].sequenceNumber || readOnly}"/>
-		             <tr>
-						<th width="9%" class="infoline" rowspan="3">
-							<c:out value="${status.index+1}" />
-						</th>	                
-		                <td width="9%" valign="middle">
-						<div align="center">
-	                		<kul:htmlControlAttribute property="document.subAwardList[0].allSubAwardAmountInfos[${status.index}].effectiveDate" attributeEntry="${subAwardAmountInfoAttributes.effectiveDate}"  datePicker="true" readOnly="${lineReadOnly}"/>
-						</div>
-						</td>
-		                <td width="9%" valign="middle">
-						<div align="center">
-	                		<kul:htmlControlAttribute property="document.subAwardList[0].allSubAwardAmountInfos[${status.index}].obligatedChange" attributeEntry="${subAwardAmountInfoAttributes.obligatedChange}" readOnly="${lineReadOnly}" />                		
-						</div>
-						</td>
-		                <td width="9%" valign="middle">
-						<div align="center">
-	                		<kul:htmlControlAttribute property="document.subAwardList[0].allSubAwardAmountInfos[${status.index}].anticipatedChange" attributeEntry="${subAwardAmountInfoAttributes.anticipatedChange}"  readOnly="${lineReadOnly}" />
-						</div>
-					
-						<td width="9%" valign="middle">
-
-						<div align="center"></div>
-						<div id="replaceDiv${status.index}" style="display: block;">
-						 <c:if test="${newSubAwardAmountInfo.fileName!=null}">
-							<kra:fileicon attachment="${newSubAwardAmountInfo}" />
-							</c:if>
-							<kul:htmlControlAttribute
-								property="document.subAwardList[0].allSubAwardAmountInfos[${status.index}].fileName"
-								readOnly="true"
-								attributeEntry="${subAwardAmountInfoAttributes.fileName}" />
-						</div>
-						<c:if test="${!lineReadOnly}">
-						<div id="fileDiv${status.index}" valign="middle"
-							style="display: none;">
-							<html:file
-								property="document.subAwardList[0].allSubAwardAmountInfos[${status.index}].newFile" />
-							<html:image
-								property="methodToCall.replaceHistoryOfChangesAttachment.line${status.index}.anchor${currentTabIndex}"
-								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif'
-								styleClass="tinybutton" />
-						</div>
-						</c:if></td>
-					<td width="10%" valign="middle" rowspan="3">
-					<div align="center">Attachment Actions :
-					</div><br></br>
-						<div align="center">
-						  <c:if test="${newSubAwardAmountInfo.fileName!=null}">
-                                    <html:image
-                                        styleId="downloadHistoryOfChangesAttachment.line${status.index}"
-                                        property="methodToCall.downloadHistoryOfChangesAttachment.line${status.index}.anchor${currentTabIndex}"
-                                        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif'
-                                        styleClass="tinybutton"
-                                        onclick="javascript: openNewWindow('${action}','downloadHistoryOfChangesAttachment','${status.index}',${KualiForm.formKey},'${KualiForm.document.sessionDocument}'); return false" />
-                            </c:if>
-							<c:if test="${!lineReadOnly}">
-								<html:image
-									styleId="replaceHistoryOfChangesAttachment.line${status.index}"
-									onclick="javascript: showHide('fileDiv${status.index}','replaceDiv${status.index}') ; return false"
-									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-replace.gif'
-									styleClass="tinybutton"
-									property="methodToCall.replaceNarrativeAttachment.line${status.index}.anchor${currentTabIndex};return false" />
-								<c:if test="${newSubAwardAmountInfo.fileName!=null}">
-									<html:image
-										property="methodToCall.deleteAmountInfo.line${status.index}.anchor${currentTabIndex}"
-										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif'
-										styleClass="tinybutton" />
-								</c:if>
-							</c:if>
-							<c:if test="${lineReadOnly}">&nbsp;</c:if>
-						</div></td>	
-		            </tr>
-		            <tr>
-		            <td width="9%" valign="middle">
-						<div align="center">
-	                		<kul:htmlControlAttribute property="document.subAwardList[0].allSubAwardAmountInfos[${status.index}].modificationEffectiveDate" attributeEntry="${subAwardAmountInfoAttributes.modificationEffectiveDate}"  datePicker="true" readOnly="${lineReadOnly}" />
-						</div>
-						</td>
-						<td width="9%" valign="middle">
-						<div align="center">
-	                		<kul:htmlControlAttribute property="document.subAwardList[0].allSubAwardAmountInfos[${status.index}].modificationID" attributeEntry="${subAwardAmountInfoAttributes.modificationID}" readOnly="${lineReadOnly}"/>
-						</div>
-						</td>
-						<td width="9%" valign="middle">
-						<div align="center">
-	                		<kul:htmlControlAttribute property="document.subAwardList[0].allSubAwardAmountInfos[${status.index}].periodofPerformanceStartDate" attributeEntry="${subAwardAmountInfoAttributes.periodofPerformanceStartDate}"  datePicker="true" readOnly="${lineReadOnly}"/>
-						</div>
-						</td>
-						<td width="9%" valign="middle">
-						<div align="center">
-	                		<kul:htmlControlAttribute property="document.subAwardList[0].allSubAwardAmountInfos[${status.index}].periodofPerformanceEndDate" attributeEntry="${subAwardAmountInfoAttributes.periodofPerformanceEndDate}"  datePicker="true" readOnly="${lineReadOnly}"/>
-						</div>
-						</td>
-		            </tr>
-		            <tr>		            			
-						<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountInfoAttributes.comments}" /></div></th>
-                			<td colspan="3">
-                      			<kul:htmlControlAttribute property="document.subAwardList[0].allSubAwardAmountInfos[${status.index}].comments"  attributeEntry="${subAwardAmountInfoAttributes.comments}" readOnly="${lineReadOnly}"/>
-                			</td>
-           		   </tr>
-           		   
-	        	</c:forEach>
+   			<c:forEach var="amountInfo" items="${KualiForm.document.subAwardList[0].historicalAmountInfos}" varStatus="status">
+					<kra-sub:subAwardAmountInfoLine amountInfo="${amountInfo}" 
+						amountInfoPath="document.subAwardList[0].historicalAmountInfos[${status.index}]" 
+						index="${status.index}" readOnly="true" currentTabIndex="${currentTabIndex }" formAction="${action}"/>
+        	</c:forEach>
+        	<c:forEach var="amountInfo" items="${KualiForm.document.subAwardList[0].subAwardAmountInfoList}" varStatus="status">
+					<kra-sub:subAwardAmountInfoLine amountInfo="${amountInfo}" 
+						amountInfoPath="document.subAwardList[0].subAwardAmountInfoList[${status.index}]" 
+						index="${status.index}" readOnly="${readOnly}" currentTabIndex="${currentTabIndex }" formAction="${action}"/>
+        	</c:forEach>
         </table>
     </div>
 </kul:tab>

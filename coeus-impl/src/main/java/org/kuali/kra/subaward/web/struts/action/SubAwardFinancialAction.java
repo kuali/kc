@@ -78,35 +78,23 @@ public class SubAwardFinancialAction extends SubAwardAction{
         amountInfo.setSubAward(subAward);
         amountInfo.populateAttachment();
         subAward.getAllSubAwardAmountInfos().add(amountInfo);
-        return subAward.getSubAwardAmountInfoList().add(amountInfo);
+        subAward.getSubAwardAmountInfoList().add(amountInfo);
+        getBusinessObjectService().save(amountInfo);
+        return true;
     }
-    /**.
-     * This method is for deleteAmountInfo
-     * @param mapping the ActionMapping
-     * @param form the ActionForm
-     * @param request the Request
-     * @param response the Response
-     * @return ActionForward
-     * @throws Exception
-     */
+
     public ActionForward deleteAmountInfo(ActionMapping mapping,
     ActionForm form, HttpServletRequest request,
     HttpServletResponse response)throws Exception {
         SubAwardForm subAwardForm = (SubAwardForm) form;
         SubAwardDocument subAwardDocument = subAwardForm.getSubAwardDocument();
-        SubAward subAward = subAwardForm.getSubAwardDocument().getSubAward();
         int selectedLineNumber = getSelectedLine(request);
-        SubAwardAmountInfo subAwardAmountInfo = 
-        		subAwardDocument.getSubAward().getAllSubAwardAmountInfos().get(selectedLineNumber);
-        if (subAwardAmountInfo.getSubAwardId() != null) {
-            subAwardAmountInfo.setFileName(null);
-            subAwardAmountInfo.setDocument(null);
-            this.getBusinessObjectService().save(subAwardAmountInfo);
-        } else {
-            subAwardAmountInfo.setDocument(null);
-            subAwardAmountInfo.setFileName(null);
-        }
-
+        final SubAwardAmountInfo subAwardAmountInfo = 
+        		subAwardDocument.getSubAward().getSubAwardAmountInfoList().get(selectedLineNumber);
+        subAwardAmountInfo.setFileName(null);
+        subAwardAmountInfo.setMimeType(null);
+        subAwardAmountInfo.setFileDataId(null);
+        getBusinessObjectService().save(subAwardAmountInfo);
         return mapping.findForward(Constants.MAPPING_FINANCIAL_PAGE);
     }
     /**.
@@ -164,13 +152,15 @@ public class SubAwardFinancialAction extends SubAwardAction{
     public ActionForward downloadHistoryOfChangesAttachment(
     	ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        SubAwardForm subAwardForm = (SubAwardForm) form;
-        SubAwardDocument subAwardDocument = subAwardForm.getSubAwardDocument();
-        String line = request.getParameter(LINE_NUMBER);
-        int lineNumber = line == null ? 0
-         : Integer.parseInt(line);
-        SubAwardAmountInfo subAwardAmountInfo = subAwardDocument.getSubAward().getAllSubAwardAmountInfos().get(lineNumber);
-        if (subAwardAmountInfo.getDocument() != null) {
+        final SubAwardForm subAwardForm = (SubAwardForm) form;
+        final SubAwardDocument subAwardDocument = subAwardForm.getSubAwardDocument();
+        final String amountInfoIdStr = request.getParameter(LINE_NUMBER);
+        final Integer amountInfoId = amountInfoIdStr == null ? 0
+         : Integer.parseInt(amountInfoIdStr);
+        SubAwardAmountInfo subAwardAmountInfo = subAwardDocument.getSubAward().getAllSubAwardAmountInfos().stream()
+        		.filter(amountInfo -> { return amountInfoId.equals(amountInfo.getSubAwardAmountInfoId()); })
+        		.findFirst().orElse(null);
+        if (subAwardAmountInfo != null && subAwardAmountInfo.getDocument() != null) {
             this.streamToResponse(subAwardAmountInfo.getDocument(), 
                     getValidHeaderString(subAwardAmountInfo.getFileName()), getValidHeaderString(subAwardAmountInfo.getType()), response);
         }
@@ -191,11 +181,9 @@ public class SubAwardFinancialAction extends SubAwardAction{
                HttpServletResponse response) throws Exception {
            SubAwardForm subAwardForm = (SubAwardForm) form;
            SubAwardDocument subAwardDocument = subAwardForm.getSubAwardDocument();
-           SubAwardAmountInfo subAwardAmountInfo = subAwardDocument.getSubAward().getAllSubAwardAmountInfos().get(getSelectedLine(request));
+           SubAwardAmountInfo subAwardAmountInfo = subAwardDocument.getSubAward().getSubAwardAmountInfoList().get(getSelectedLine(request));
            subAwardAmountInfo.populateAttachment();
-           if (subAwardAmountInfo.getSubAwardId() != null) {
-               getBusinessObjectService().save(subAwardAmountInfo);
-           }
+           getBusinessObjectService().save(subAwardAmountInfo);
            return mapping.findForward(MAPPING_BASIC);
        }
        /**.

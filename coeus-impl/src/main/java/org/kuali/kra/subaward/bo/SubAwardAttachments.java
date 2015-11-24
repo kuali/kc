@@ -20,9 +20,12 @@ package org.kuali.kra.subaward.bo;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.ref.SoftReference;
 import java.sql.Timestamp;
+
+import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.upload.FormFile;
-import org.kuali.coeus.common.framework.attachment.AttachmentFile;
+import org.kuali.coeus.common.framework.attachment.KcAttachmentDataDao;
 import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
@@ -35,15 +38,14 @@ public class SubAwardAttachments extends SubAwardAssociate implements Comparable
      private Integer attachmentId;
      private SubAwardAttachmentType typeAttachment;
      private String  description;
-     private Long fileId;
      private Long subAwardId;
-     private AttachmentFile file;
      private transient FormFile newFile;
      private String subAwardAttachmentTypeCode;
      private Integer documentId;
      private String fileName;
-     private byte[] document;
-     private String contentType;
+     private String fileDataId;
+     private String oldFileDataId;
+     private transient SoftReference<byte[]> document;
      private String mimeType;
      private Boolean selectToPrint = false;
      private String fileNameSplit;
@@ -52,6 +54,8 @@ public class SubAwardAttachments extends SubAwardAssociate implements Comparable
 
      private String lastUpdateUser;
      private Timestamp lastUpdateTimestamp;
+     
+     private transient KcAttachmentDataDao kcAttachmentDataDao;
      /**
      * Gets the fileNameSplit attribute. 
      * @return Returns the fileNameSplit.
@@ -102,11 +106,6 @@ public class SubAwardAttachments extends SubAwardAssociate implements Comparable
     public byte[] getAttachmentContent() {
          return getDocument();
      }
-     public void setAttachmentContent(byte[] arg0) {
-         //do nothing as this will be called by the main framework
-         //in many cases with null when it is inappropriate to do so.
-         //this.document = arg0;
-     }
      public String getContentType() {
          return getMimeType();
      }
@@ -123,13 +122,26 @@ public class SubAwardAttachments extends SubAwardAssociate implements Comparable
     }
 
     public byte[] getDocument() {
-        return document;
+        if (document != null) {
+            byte[] existingData = document.get();
+            if (existingData != null) {
+                return existingData;
+            }
+        }
+        //if we didn't have a softreference, grab the data from the db
+        byte[] newData = getKcAttachmentDataDao().getData(fileDataId);
+        document = new SoftReference<byte[]>(newData);
+        return newData;
     }
 
     public void setDocument(byte[] document) {
-        this.document = document;
+        if (document == null || document.length == 0) {
+            setFileDataId(null);
+        } else {
+            setFileDataId(getKcAttachmentDataDao().saveData(document, null));
+        }
+        this.document = new SoftReference<byte[]>(document);
     }
-
     public SubAwardAttachments() {
          super();
      }
@@ -191,34 +203,6 @@ public class SubAwardAttachments extends SubAwardAssociate implements Comparable
         this.newFile = newFile;
     }
     
-    /**
-     * Gets the file Id.
-     * @return the file Id.
-     */
-    public Long getFileId() {
-        return fileId;
-    }
-    
-    /**
-     * Sets the file Id.
-     * @param fileId the file Id.
-     */
-    public void setFileId(Long fileId) {
-        this.fileId = fileId;
-    }
-    /**
-     * Gets the  Attachment File.
-     */
-    public AttachmentFile getFile() {
-        return file;
-    }
-    /**
-     * Sets the  Attachment File.
-     */
-    public void setFile(AttachmentFile file) {
-        this.file = file;
-    }
-    
     public String getSubAwardCode() {
         return subAwardCode;
     }
@@ -263,8 +247,7 @@ public class SubAwardAttachments extends SubAwardAssociate implements Comparable
         result = prime * result + ((description == null) ? 0 : description.hashCode());
         result = prime * result + ((documentId == null) ? 0 : documentId.hashCode());
         result = prime * result + ((subAwardAttachmentTypeCode == null) ? 0 : subAwardAttachmentTypeCode.hashCode());
-        result = prime * result + ((this.file == null) ? 0 : this.file.hashCode());
-        result = prime * result + ((this.fileId == null) ? 0 : this.fileId.hashCode());
+        result = prime * result + ((this.fileDataId == null) ? 0 : this.fileDataId.hashCode());
         result = prime * result + ((this.attachmentId == null) ? 0 : this.attachmentId.hashCode());
         result = prime * result + ((mimeType == null) ? 0 : mimeType.hashCode());
         return result;
@@ -304,18 +287,11 @@ public class SubAwardAttachments extends SubAwardAssociate implements Comparable
         } else if (!subAwardAttachmentTypeCode.equals(other.subAwardAttachmentTypeCode)) {
             return false;
         }
-        if (this.file == null) {
-            if (other.file != null) {
+        if (this.fileDataId == null) {
+            if (other.fileDataId != null) {
                 return false;
             }
-        } else if (!this.file.equals(other.file)) {
-            return false;
-        }
-        if (this.fileId == null) {
-            if (other.fileId != null) {
-                return false;
-            }
-        } else if (!this.fileId.equals(other.fileId)) {
+        } else if (!this.fileDataId.equals(other.fileDataId)) {
             return false;
         }
         if (this.attachmentId == null) {
@@ -370,7 +346,7 @@ public class SubAwardAttachments extends SubAwardAssociate implements Comparable
            newFileData = newFile.getFileData();
            setDocument(newFileData);
            if (newFileData.length > 0) {
-               //mimeType = newFile.getContentType();
+               mimeType = newFile.getContentType();
                fileName = newFile.getFileName();
            }
        } catch (FileNotFoundException e) {
@@ -431,4 +407,50 @@ public class SubAwardAttachments extends SubAwardAssociate implements Comparable
             setLastUpdateTimestamp(getUpdateTimestamp());
         }
     }
+
+	public String getFileDataId() {
+		return fileDataId;
+	}
+
+	public void setFileDataId(String fileDataId) {
+		if (!StringUtils.equals(this.fileDataId, fileDataId)) {
+			oldFileDataId = this.fileDataId;
+		}
+		this.fileDataId = fileDataId;
+	}
+	
+	@Override
+    public void postRemove() {
+		super.postRemove();
+        if (getFileDataId() != null) {
+            getKcAttachmentDataDao().removeData(getFileDataId());
+        }
+    }
+	
+	@Override
+	public void postUpdate() {
+		super.postUpdate();
+		if (oldFileDataId != null && !StringUtils.equals(fileDataId, oldFileDataId)) {
+			getKcAttachmentDataDao().removeData(oldFileDataId);
+			oldFileDataId = null;
+		}
+	}
+    
+	public KcAttachmentDataDao getKcAttachmentDataDao() {
+		if (kcAttachmentDataDao == null) {
+			kcAttachmentDataDao = KcServiceLocator.getService(KcAttachmentDataDao.class);
+		}
+		return kcAttachmentDataDao;
+	}
+	public void setKcAttachmentDataDao(KcAttachmentDataDao kcAttachmentDao) {
+		this.kcAttachmentDataDao = kcAttachmentDao;
+	}
+
+	public String getOldFileDataId() {
+		return oldFileDataId;
+	}
+
+	public void setOldFileDataId(String oldFileDataId) {
+		this.oldFileDataId = oldFileDataId;
+	}
 }
