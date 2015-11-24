@@ -1,6 +1,18 @@
 
 
 ##CURRENT
+*  database conversion to fix subaward amount info
+
+  * Adds new java based data conversion to remove duplicates from the subaward amount info table. This conversion is documented in coeus-db/coeus-db-data-conv/README.md
+  * blackcathacker on Thu, 19 Nov 2015 17:49:03 -0800 [View Commit](../../commit/34f38dfc911e4b406f5521b6baa1bb4494ef24e1)
+*  Display and use amount infos from previous subaward versions
+
+  * This commit changes the way subawards handle amount infos. Previously amount infos were copied forward with each successive version of the subaward. This changes this such that amount infos stay
+  * linked to the original subaward version, but future subawards use the entire history of amount infos for display and calculation of total amounts. This change requires a reasonably complex conversion
+  * included in the coeus-db-data-conv package that will remove these duplications. This change also makes previous amount infos read-only in future versions of subaward.
+  * blackcathacker on Wed, 4 Nov 2015 16:25:41 -0800 [View Commit](../../commit/f6471164b60cbe87f7878a036ee5609663c0db59)
+
+##coeus-1511.81
 * Committee Edit - Performance issue
   * IRB committee document has huge performance issue.
   * Also volume of data is high.

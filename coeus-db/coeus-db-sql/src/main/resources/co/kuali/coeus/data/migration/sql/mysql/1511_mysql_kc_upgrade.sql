@@ -25,4 +25,5 @@
 \. ./kc/bootstrap/V1511_010__RESKC-1007.sql
 \. ./kc/bootstrap/V1511_011__fix_copied_budget_data.sql
 \. ./kc/bootstrap/V1511_012__RESKC-1015.sql
+\. ./kc/bootstrap/V1511_013__RESKC-862.sql
 commit;
