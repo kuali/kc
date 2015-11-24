@@ -18,7 +18,7 @@
  */
 package org.kuali.coeus.propdev.impl.state;
 
-public class ProposalStateConstants {
+public final class ProposalStateConstants {
 
     public static final String IN_PROGRESS = "In Progress";
     public static final String APPROVAL_PENDING = "Approval Pending";
