@@ -51,6 +51,6 @@ public interface ProposalStateService {
      * @param isReject was the action taken a rejection of the document?
      * @return the proposal state type code
      */
-    public String getProposalStateTypeCode(ProposalDevelopmentDocument proposalDevelopmentDocument, boolean isReject);
+    String getProposalStateTypeCode(ProposalDevelopmentDocument proposalDevelopmentDocument, boolean isReject);
 
 }
