@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1511.84
 *  When a rejected proposal is saved the status should remain Revisions Requested unless the proposal is submitted to workflow.
 
   * As a central support person, I have superuser role to aid campus users. When I open a rejected proposal where the Status is "Revisions Requested", the status incorrectly changes to "In Progress". When a regular aggregator edits the revisions requested proposal, it stays in 'revisions requested' status. While this seems trivial, campus users will often search for this status proposal; but if the OSP super user aids in fixing trouble proposals, this breaks the search option.
