@@ -84,7 +84,7 @@ public class PersonnelLineItemCalculator extends AbstractBudgetCalculator {
            //Save applyRateFlag to set it back on the new Calculated Amounts
            applyRateFlags = saveApplyRateFlagsForReset();
            
-           setCalculatedAmounts(budget,budgetPersonnelLineItem);
+           setCalculatedAmounts(budgetPersonnelLineItem);
            
            for (BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmount : budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts()) {
                if (versionNumber != null && versionNumber.longValue() > -1) {
@@ -94,7 +94,7 @@ public class PersonnelLineItemCalculator extends AbstractBudgetCalculator {
        }
 
        if (budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts().size() <= 0) {
-           setCalculatedAmounts(budget,budgetPersonnelLineItem);
+           setCalculatedAmounts(budgetPersonnelLineItem);
        }
 
        for (BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmount : budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts()) {
