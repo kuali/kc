@@ -223,8 +223,7 @@ public class SubAwardHomeAction extends SubAwardAction{
      * @return ActionForward
      * @throws Exception
      */
-    private ActionForward createAndSaveNewSubAwardVersion(
-    HttpServletResponse response, SubAwardForm subAwardForm,
+    private ActionForward createAndSaveNewSubAwardVersion(HttpServletResponse response, SubAwardForm subAwardForm,
        SubAwardDocument subAwardDocument, SubAward subAward) throws Exception {
        subAwardForm.getSubAwardDocument().getSubAward().setNewVersion(true);
        SubAwardDocument newSubAwardDocument = getSubAwardService().createNewSubAwardVersion(subAwardForm.getSubAwardDocument());

@@ -128,7 +128,7 @@
 						</td>
                  					<td>${awardLinkedSubawards.organizationName}&nbsp; </td>
                  					<td>${awardLinkedSubawards.subAwardCode}&nbsp; </td>
-                 					<td>${awardLinkedSubawards.subAwardAmountInfoList[0].obligatedChange}&nbsp;</td>                 					
+                 					<td>${awardLinkedSubawards.allSubAwardAmountInfos[0].obligatedChange}&nbsp;</td>                 					
                  					<td>${awardLinkedSubawards.subAwardStatus.description}</td>
                   	</tr>
         			</c:forEach>

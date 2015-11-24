@@ -33,6 +33,7 @@ import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.coeus.common.framework.krms.KrmsRulesContext;
 import org.kuali.coeus.common.impl.krms.KcKrmsFactBuilderServiceHelper;
 import org.kuali.kra.subaward.bo.SubAward;
+import org.kuali.kra.subaward.service.SubAwardService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
@@ -47,9 +48,12 @@ public class SubAwardDocument extends KcTransactionalDocumentBase
 
 
     private static final long serialVersionUID = 5454534590787613256L;
+    public static final String DOCUMENT_TYPE_CODE = "SAWD";
     private transient boolean documentSaveAfterVersioning;
     private List<SubAward> subAwardList;
-    public static final String DOCUMENT_TYPE_CODE = "SAWD";
+    
+    private transient VersionHistoryService versionHistoryService;
+    private transient SubAwardService subAwardService;
     @Override
     public String getDocumentTypeCode() {
         return DOCUMENT_TYPE_CODE;
@@ -87,12 +91,14 @@ public class SubAwardDocument extends KcTransactionalDocumentBase
         if (KewApiConstants.ROUTE_HEADER_FINAL_CD.equalsIgnoreCase(newStatus)) {
             getVersionHistoryService().updateVersionHistory(getSubAward(), VersionStatus.ACTIVE, GlobalVariables.
                     getUserSession().getPrincipalName());
+            getSubAwardService().updateSubAwardSequenceStatus(getSubAward(), VersionStatus.ACTIVE);
         }
         if (newStatus.equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_CANCEL_CD)
         || newStatus.equalsIgnoreCase(
         KewApiConstants.ROUTE_HEADER_DISAPPROVED_CD)) {
             getVersionHistoryService().updateVersionHistory(getSubAward(), VersionStatus.CANCELED, GlobalVariables. 
                     getUserSession().getPrincipalName());
+            getSubAwardService().updateSubAwardSequenceStatus(getSubAward(), VersionStatus.CANCELED);
         }
 
         for (SubAward subAward : subAwardList) {
@@ -126,9 +132,6 @@ public class SubAwardDocument extends KcTransactionalDocumentBase
         this.documentSaveAfterVersioning = documentSaveAfterVersioning;
     }
 
-    protected VersionHistoryService getVersionHistoryService() {
-        return KcServiceLocator.getService(VersionHistoryService.class);
-    }
     /**
      * This method is to check whether rice
      * async routing is ok now.
@@ -197,4 +200,23 @@ public class SubAwardDocument extends KcTransactionalDocumentBase
     public String getLeadUnitNumber() {
         return getSubAward().getLeadUnitNumber();
     }
+    
+    public VersionHistoryService getVersionHistoryService() {
+    	if (versionHistoryService == null) {
+    		versionHistoryService = KcServiceLocator.getService(VersionHistoryService.class);
+    	}
+    	return versionHistoryService;
+    }
+	public void setVersionHistoryService(VersionHistoryService versionHistoryService) {
+		this.versionHistoryService = versionHistoryService;
+	}
+	public SubAwardService getSubAwardService() {
+		if (subAwardService == null) {
+			subAwardService = KcServiceLocator.getService(SubAwardService.class);
+		}
+		return subAwardService;
+	}
+	public void setSubAwardService(SubAwardService subAwardService) {
+		this.subAwardService = subAwardService;
+	}
 }

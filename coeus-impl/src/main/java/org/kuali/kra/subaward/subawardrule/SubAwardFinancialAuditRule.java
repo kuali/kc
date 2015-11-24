@@ -102,8 +102,7 @@ public class SubAwardFinancialAuditRule extends
     protected boolean checkForObligatedAmountZero(Document document) {
         SubAwardDocument subAwardDocument = (SubAwardDocument) document;
         ScaleTwoDecimal obligatedAmount = ScaleTwoDecimal.ZERO;
-        for (SubAwardAmountInfo subAwardAmountInfo
-        :subAwardDocument.getSubAward().getSubAwardAmountInfoList()) {
+        for (SubAwardAmountInfo subAwardAmountInfo : subAwardDocument.getSubAward().getAllSubAwardAmountInfos()) {
             if (subAwardAmountInfo.getObligatedChange() != null) {
               obligatedAmount = obligatedAmount.
               add(subAwardAmountInfo.getObligatedChange());
@@ -130,8 +129,7 @@ public class SubAwardFinancialAuditRule extends
     protected boolean checkForAnticipatedAmountZero(Document document) {
         ScaleTwoDecimal anticipateAmount = ScaleTwoDecimal.ZERO;
         SubAwardDocument subAwardDocument = (SubAwardDocument) document;
-        for (SubAwardAmountInfo subAwardAmountInfo
-        :subAwardDocument.getSubAward().getSubAwardAmountInfoList()) {
+        for (SubAwardAmountInfo subAwardAmountInfo : subAwardDocument.getSubAward().getAllSubAwardAmountInfos()) {
             if (subAwardAmountInfo.getAnticipatedChange() != null) {
              anticipateAmount = anticipateAmount.add(
            subAwardAmountInfo.getAnticipatedChange());

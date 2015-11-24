@@ -53,6 +53,35 @@ Time & Money Document Status (tmdocstatus)
 
 This migration supports adding a new column to the TIME_AND_MONEY_DOCUMENT table. The column should already be added via sql script, but this conversion updates that column based on the Rice KEW document header status. This ensures that the new document status column correctly reflects the status of the document for efficient queries.
 
+Subaward Amount Info De-Duplication (subaward-amountinfo)
+
+This migration uses some complex logic to remove duplications from the subaward amount info table. This conversion was complex enough that
+it was done using Java and JDBC based conversion to avoid needing to write and test complex procedures and pl/sql. Previous to this change 
+subaward copied amount infos forward to each successive subaward. This removes those items that were copied forward, leaving only the original in place. The application now reads all previous subaward amount infos for viewing and disables editing of amount infos already routed through the subaward.
+
+This conversion, while doing the best it can, isn't 100% due to the fact that amount infos could be edited after having been previously routed. If changes have occurred to amount infos and the conversion is therefore unable to remove an expected duplicate, log messages will be printed similar to the following
+
+```
+Nov 23, 2015 1:18:03 PM org.kuali.coeus.dc.subaward.SubAwardAmountInfoDaoImpl fixSubAwardAmountInfoHistory
+SEVERE: SUBAWARD-AMOUNTINFO:Cannot determine matching subaward amount info to delete. Found 0 potential matches in subaward_code(3370) subaward_id(30519) for previous subaward_amount_info_id(47970)
+Nov 23, 2015 1:18:13 PM org.kuali.coeus.dc.subaward.SubAwardAmountInfoDaoImpl fixSubAwardAmountInfoHistory
+SEVERE: SUBAWARD-AMOUNTINFO:Cannot determine matching subaward amount info to delete. Found 0 potential matches in subaward_code(3437) subaward_id(29785) for previous subaward_amount_info_id(49023)
+Nov 23, 2015 1:18:30 PM org.kuali.coeus.dc.subaward.SubAwardAmountInfoDaoImpl fixSubAwardAmountInfoHistory
+SEVERE: SUBAWARD-AMOUNTINFO:Cannot determine matching subaward amount info to delete. Found 0 potential matches in subaward_code(3617) subaward_id(29604) for previous subaward_amount_info_id(51997)
+Nov 23, 2015 1:18:30 PM org.kuali.coeus.dc.subaward.SubAwardAmountInfoDaoImpl fixSubAwardAmountInfoHistory
+SEVERE: SUBAWARD-AMOUNTINFO:Number of amount infos not deleted due to differences = 19
+Nov 23, 2015 1:18:30 PM org.kuali.coeus.dc.subaward.SubAwardAmountInfoDaoImpl fixSubAwardAmountInfoHistory
+SEVERE: SUBAWARD-AMOUNTINFO:Number of subawards with errors = 11
+Nov 23, 2015 1:18:30 PM org.kuali.coeus.dc.subaward.SubAwardAmountInfoDaoImpl fixSubAwardAmountInfoHistory
+SEVERE: SUBAWARD-AMOUNTINFO:Subawards in error = 3689, 3702, 3765, 3092, 3985, 2739, 3250, 3286, 3370, 3437, 3617
+```
+
+You should review these messages and cleanup duplicates within the subawards mentioned as having errors. You can also review these subawards within the app to see the potentially incorrect amounts. All records removed from the subaward_amount_info table are inserted into a subaward_amount_info_dups table. If a problem with this conversion does occur and the information needs to be restored this can be simply by executing
+
+```
+insert into subaward_amount_info select * from subaward_amount_info_dups;
+```
+
 IRB (irb)
 
 For future use
