@@ -43,4 +43,6 @@ public interface ProposalTypeService {
 	public String getRenewalChangedOrCorrectedProposalTypeCode();
 
 	public String getSupplementChangedOrCorrectedProposalTypeCode();
+
+	String getDefaultSubmissionTypeCode(String proposalTypeCode);
 }
