@@ -1,6 +1,15 @@
 
 
 ##CURRENT
+* Committee Edit - Performance issue
+  * IRB committee document has huge performance issue.
+  * Also volume of data is high.
+  * This is when committee document is edited to make changes and routed.
+  * Edit a committee and submit/blanket approve the document takes a while to complete the process and finalize the document.
+  * Adding index to help boost performance.
+  * rmancher on Mon, 23 Nov 2015 09:59:52 -0500 [View Commit](../../commit/5d8f026039d6213ea2c9e8bd7a191b0e81bd0820)
+
+##coeus-1511.80
 * No Changes
 
 
