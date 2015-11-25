@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+*  set default submissiontype while changing proposaltype in edit mode
+  * Geo Thomas on Tue, 24 Nov 2015 16:23:59 -0500 [View Commit](../../commit/19865b435cdbe1c092862db7f966c64eabcf7b2f)
+*  set default submissiontype in refresh method
+  * Geo Thomas on Tue, 24 Nov 2015 15:50:53 -0500 [View Commit](../../commit/c0cfedafa97d3cd512b1e242ac34b940c7f2373a)
+
+##coeus-1511.86
 * No Changes
 
 
