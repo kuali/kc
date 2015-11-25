@@ -63,6 +63,8 @@
 				<ref bean="DevelopmentProposal-mailDescription" />
 				<ref bean="DevelopmentProposal-proposalStateTypeCode" />
 				<ref bean="DevelopmentProposal-proposalState.description" />
+				<ref bean="DevelopmentProposal-hierarchyAwareProposalStatus.code" />
+				<ref bean="DevelopmentProposal-hierarchyAwareProposalStatus.description" />
 				<ref bean="DevelopmentProposal-versionNumber" />
 				<ref bean="DevelopmentProposal-hierarchyBudgetType" />
 				<ref bean="DevelopmentProposal-hierarchyStatus" />
@@ -929,6 +931,17 @@
     <property name="description" value="The Proposal State for this Proposal Development Document"/>
 	</bean>
 
+
+	<bean id="DevelopmentProposal-hierarchyAwareProposalStatus.code" parent="DevelopmentProposal-hierarchyAwareProposalStatus.code-parentBean" />
+	<bean id="DevelopmentProposal-hierarchyAwareProposalStatus.code-parentBean" abstract="true" parent="DevelopmentProposal-proposalStateTypeCode">
+		<property name="name" value="hierarchyAwareProposalStatus.code" />
+	</bean>
+
+	<bean id="DevelopmentProposal-hierarchyAwareProposalStatus.description" parent="DevelopmentProposal-hierarchyAwareProposalStatus.description-parentBean"/>
+	<bean id="DevelopmentProposal-hierarchyAwareProposalStatus.description-parentBean" abstract="true" parent="DevelopmentProposal-proposalState.description">
+		<property name="name" value="hierarchyAwareProposalStatus.description" />
+	</bean>
+
 	<bean id="DevelopmentProposal-versionNumber" parent="DevelopmentProposal-versionNumber-parentBean" />
   <bean id="DevelopmentProposal-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
 	<bean id="DevelopmentProposal-hierarchyStatus" parent="DevelopmentProposal-hierarchyStatus-parentBean" />
@@ -1134,7 +1147,7 @@
 			<list>
         <bean parent="FieldDefinition" p:attributeName="proposalNumber" p:noLookup="true"/>
 				<bean parent="FieldDefinition" p:attributeName="proposalTypeCode" />
-				<bean parent="FieldDefinition" p:attributeName="proposalStateTypeCode" />
+				<bean parent="FieldDefinition" p:attributeName="hierarchyAwareProposalStatus.code" />
 				<bean parent="FieldDefinition" p:attributeName="title" />
 				<bean parent="FieldDefinition" p:attributeName="deadlineDate" />
 				<bean parent="FieldDefinition" p:attributeName="sponsorCode" />
@@ -1155,7 +1168,7 @@
                 <bean parent="FieldDefinition" p:attributeName="programAnnouncementTitle" />
                 <bean parent="FieldDefinition" p:attributeName="cfdaNumber" />
 				<bean parent="FieldDefinition" p:attributeName="proposalType.description" />
-				<bean parent="FieldDefinition" p:attributeName="proposalState.description" />
+				<bean parent="FieldDefinition" p:attributeName="hierarchyAwareProposalStatus.description" />
 				<bean parent="FieldDefinition" p:attributeName="title" />
 				<bean parent="FieldDefinition" p:attributeName="sponsorCode" />
 				<bean parent="FieldDefinition" p:attributeName="sponsor.sponsorName" />
@@ -1186,7 +1199,7 @@
       <list>
         <bean p:propertyName="proposalNumber" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="proposalTypeCode" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="proposalStateTypeCode" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="hierarchyAwareProposalStatus.code" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="title" parent="Uif-LookupCriteriaInputField"/>
 		  <bean p:propertyName="proposalPerson" parent="Uif-LookupCriteriaInputField"
 				p:fieldLabel.labelText="Proposal Person">
@@ -1284,10 +1297,10 @@
                         p:inquiryParameters="proposalType.code:code"/>
           </property>
         </bean>
-        <bean p:propertyName="proposalState.description" parent="Uif-DataField">
+        <bean p:propertyName="hierarchyAwareProposalStatus.description" parent="Uif-DataField">
             <property name="inquiry">
                 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.coeus.propdev.impl.state.ProposalState"
-                      p:inquiryParameters="proposalType.code:code"/>
+                      p:inquiryParameters="hierarchyAwareProposalStatus.code:code"/>
             </property>
         </bean>
         <bean p:propertyName="title" parent="Uif-DataField"/>
@@ -1403,7 +1416,8 @@
 
     <bean id="Development-Proposal-Lookup-result-EditLink" parent="Uif-Link"
           p:render="@{!#view.renderReturnLink and
-          (#line.document.documentHeader.workflowDocument.saved or #line.document.documentHeader.workflowDocument.initiated)}">
+          (#line.document.documentHeader.workflowDocument.saved or #line.document.documentHeader.workflowDocument.initiated) and
+          (!#line.child or (#line.child and (#line.parent.document.documentHeader.workflowDocument.saved or #line.parent.document.documentHeader.workflowDocument.initiated)))}">
         <property name="finalizeMethodToCall" value="buildPropDevEditActionLink"/>
         <property name="href" value="@{#line.document.documentNumber}"/>
         <property name="finalizeMethodAdditionalArguments">

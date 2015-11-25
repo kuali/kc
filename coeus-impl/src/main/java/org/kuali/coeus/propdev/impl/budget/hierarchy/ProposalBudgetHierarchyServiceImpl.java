@@ -479,39 +479,40 @@ public class ProposalBudgetHierarchyServiceImpl implements ProposalBudgetHierarc
     
     public List<ProposalHierarchyErrorWarningDto> validateChildBudgetPeriods(DevelopmentProposal hierarchyProposal,
             DevelopmentProposal childProposal, boolean allowEndDateChange) throws ProposalHierarchyException {
-    	ProposalDevelopmentBudgetExt parentBudget = getHierarchyBudget(hierarchyProposal);
-    	Budget childBudget = getSyncableBudget(childProposal);
-
         List<ProposalHierarchyErrorWarningDto> retval = new ArrayList<>();
-        // check that child budget starts on one of the budget period starts
-        int correspondingStart = getCorrespondingParentPeriod(parentBudget.getBudgetPeriods(), childBudget);
-        if (correspondingStart == -1) {
-            retval.add(new ProposalHierarchyErrorWarningDto(ERROR_BUDGET_START_DATE_INCONSISTENT, Boolean.TRUE, childProposal.getProposalNumber()));
-        }
-        // check that child budget periods map to parent periods
-        else {
-            List<BudgetPeriod> parentPeriods = parentBudget.getBudgetPeriods();
-            List<BudgetPeriod> childPeriods = childBudget.getBudgetPeriods();
-            BudgetPeriod parentPeriod, childPeriod;
-            int i;
-            int j;
-            for (i = correspondingStart, j = 0; i < parentPeriods.size() && j < childPeriods.size(); i++, j++) {
-                parentPeriod = parentPeriods.get(i);
-                childPeriod = childPeriods.get(j);
-                if (!parentPeriod.getStartDate().equals(childPeriod.getStartDate())
-                        || !parentPeriod.getEndDate().equals(childPeriod.getEndDate())) {
-                    retval.add(new ProposalHierarchyErrorWarningDto(ERROR_BUDGET_PERIOD_DURATION_INCONSISTENT, Boolean.TRUE, childProposal.getProposalNumber()));
-                    break;
+        ProposalDevelopmentBudgetExt parentBudget = getHierarchyBudget(hierarchyProposal);
+    	if (parentBudget != null) {
+            Budget childBudget = getSyncableBudget(childProposal);
+
+            // check that child budget starts on one of the budget period starts
+            int correspondingStart = getCorrespondingParentPeriod(parentBudget.getBudgetPeriods(), childBudget);
+            if (correspondingStart == -1) {
+                retval.add(new ProposalHierarchyErrorWarningDto(ERROR_BUDGET_START_DATE_INCONSISTENT, Boolean.TRUE, childProposal.getProposalNumber()));
+            }
+            // check that child budget periods map to parent periods
+            else {
+                List<BudgetPeriod> parentPeriods = parentBudget.getBudgetPeriods();
+                List<BudgetPeriod> childPeriods = childBudget.getBudgetPeriods();
+                BudgetPeriod parentPeriod, childPeriod;
+                int i;
+                int j;
+                for (i = correspondingStart, j = 0; i < parentPeriods.size() && j < childPeriods.size(); i++, j++) {
+                    parentPeriod = parentPeriods.get(i);
+                    childPeriod = childPeriods.get(j);
+                    if (!parentPeriod.getStartDate().equals(childPeriod.getStartDate())
+                            || !parentPeriod.getEndDate().equals(childPeriod.getEndDate())) {
+                        retval.add(new ProposalHierarchyErrorWarningDto(ERROR_BUDGET_PERIOD_DURATION_INCONSISTENT, Boolean.TRUE, childProposal.getProposalNumber()));
+                        break;
+                    }
+                }
+                if (retval.isEmpty()
+                        && !allowEndDateChange
+                        && (j < childPeriods.size()
+                        || childProposal.getRequestedEndDateInitial().after(hierarchyProposal.getRequestedEndDateInitial()))) {
+                    retval.add(new ProposalHierarchyErrorWarningDto(QUESTION_EXTEND_PROJECT_DATE_CONFIRM, Boolean.TRUE, childProposal.getProposalNumber()));
                 }
             }
-            if (retval == null 
-                    && !allowEndDateChange 
-                    && (j < childPeriods.size() 
-                            || childProposal.getRequestedEndDateInitial().after(hierarchyProposal.getRequestedEndDateInitial()))) {
-                retval.add(new ProposalHierarchyErrorWarningDto(QUESTION_EXTEND_PROJECT_DATE_CONFIRM, Boolean.TRUE, childProposal.getProposalNumber()));
-            }
         }
-        
         return retval;
     }    
     

@@ -98,9 +98,9 @@ public class ProposalHierarchyDaoJpa implements ProposalHierarchyDao {
         return (DevelopmentProposal) (dataObjectService.findUnique(DevelopmentProposal.class, QueryByCriteria.Builder.forAttribute("proposalNumber", proposalNumber).build()));
     }
 
-    public String getProposalState(String proposalNumber) {
-        ProposalState state = (ProposalState) entityManager.createQuery(PROPOSAL_STATE_QUERY).setParameter("proposalNumber", proposalNumber).getSingleResult();
-        return state == null ? "" : state.getDescription();
+    @Override
+    public ProposalState getProposalState(String proposalNumber) {
+        return (ProposalState) entityManager.createQuery(PROPOSAL_STATE_QUERY).setParameter("proposalNumber", proposalNumber).getSingleResult();
      }
 
     public List<ProposalPerson> isPersonOnProposal(String proposalNumber, String personId) {

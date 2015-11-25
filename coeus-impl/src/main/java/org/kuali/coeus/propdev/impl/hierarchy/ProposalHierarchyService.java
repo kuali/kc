@@ -22,6 +22,7 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.common.budget.framework.personnel.HierarchyPersonnelSummary;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
+import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
@@ -196,7 +197,7 @@ public interface ProposalHierarchyService {
 
     public DevelopmentProposal getHierarchy(String hierarchyProposalNumber);
 
-    public String getProposalState(String proposalNumber);
+    public ProposalState getProposalState(String proposalNumber);
 
     public void reinstateDegreeInfo(DevelopmentProposal proposal);
 

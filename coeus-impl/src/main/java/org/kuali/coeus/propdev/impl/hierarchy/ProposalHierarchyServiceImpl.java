@@ -40,6 +40,7 @@ import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalPersonCreditSplit
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalUnitCreditSplit;
 import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
+import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.model.KcDataObject;
 import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
@@ -383,7 +384,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         return getProposalHierarchyDao().getDevelopmentProposal(proposalNumber);
     }
 
-    public String getProposalState(String proposalNumber) {
+    @Override
+    public ProposalState getProposalState(String proposalNumber) {
         return getProposalHierarchyDao().getProposalState(proposalNumber);
     }
 
@@ -973,9 +975,12 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
 		if (hierarchyProposal != null && !hierarchyProposal.getBudgets().isEmpty()) {
 	    	ProposalDevelopmentBudgetExt parentBudget = proposalBudgetHierarchyService.getHierarchyBudget(hierarchyProposal);
 	    	Budget childBudget = getSyncableBudget(childProposal);
-	    	BudgetPeriod lastParentPeriod = parentBudget.getBudgetPeriods().get(parentBudget.getBudgetPeriods().size()-1);
-	    	BudgetPeriod lastChildPeriod = childBudget.getBudgetPeriods().get(childBudget.getBudgetPeriods().size()-1);
-	    	return lastChildPeriod.getStartDate().after(lastParentPeriod.getEndDate());
+	    	if (childBudget != null && parentBudget != null) {
+                BudgetPeriod lastParentPeriod = parentBudget.getBudgetPeriods().get(parentBudget.getBudgetPeriods().size() - 1);
+                BudgetPeriod lastChildPeriod = childBudget.getBudgetPeriods().get(childBudget.getBudgetPeriods().size() - 1);
+                return lastChildPeriod.getStartDate().after(lastParentPeriod.getEndDate());
+            }
+            return false;
 		} else {
 			return false;
 		}

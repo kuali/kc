@@ -53,6 +53,7 @@ import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.coeus.propdev.impl.s2s.S2sRevisionTypeConstants;
 import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnaireHelper;
 import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireHelper;
+import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.coeus.sys.framework.controller.KcFileService;
 import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -778,11 +779,8 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     }
 
     public String getProposalStatusForDisplay(DevelopmentProposal proposal) {
-        if (proposal.isChild()) {
-            return getProposalHierarchyService().getProposalState(proposal.getHierarchyParentProposalNumber());
-        } else {
-            return proposal.getProposalState().getDescription();
-        }
+        final ProposalState state = proposal.getHierarchyAwareProposalStatus();
+        return state != null ? state.getDescription() : "";
     }
 
     public void prepareSummaryPage(ProposalDevelopmentDocumentForm form) {

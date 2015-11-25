@@ -2332,4 +2332,16 @@ public void setPrevGrantsGovTrackingID(String prevGrantsGovTrackingID) {
 	public void setLastSyncedBudget(ProposalDevelopmentBudgetExt lastSyncedBudget) {
 		this.lastSyncedBudget = lastSyncedBudget;
 	}
+
+    public ProposalState getHierarchyAwareProposalStatus() {
+        if (isChild()) {
+            return getProposalHierarchyService().getProposalState(getHierarchyParentProposalNumber());
+        } else {
+            return getProposalState();
+        }
+    }
+
+    public DevelopmentProposal getParent() {
+        return getProposalHierarchyService().lookupParent(this);
+    }
 }

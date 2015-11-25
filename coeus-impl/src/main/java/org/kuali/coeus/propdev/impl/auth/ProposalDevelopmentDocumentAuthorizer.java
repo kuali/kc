@@ -843,7 +843,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
 
         final String proposalNbr = proposal.getProposalNumber();
 
-        final boolean hasPermission;
+        boolean hasPermission;
         if (proposalNbr == null) {
             hasPermission = hasPermissionByOwnedByUnit(document, user);
         } else {
@@ -858,6 +858,10 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
                     getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.MODIFY_PROPOSAL) &&
                     (!getKcWorkflowService().isInWorkflow(document) || hasBeenRejected) &&
                     !proposal.getSubmitFlag();
+        }
+
+        if (proposal.isChild() && hasPermission) {
+            hasPermission = isAuthorizedToModify(proposal.getParent().getDocument(), user);
         }
 
         documentRequestAuthorizationCache.addPermissionResult(resultCacheKey, hasPermission);
