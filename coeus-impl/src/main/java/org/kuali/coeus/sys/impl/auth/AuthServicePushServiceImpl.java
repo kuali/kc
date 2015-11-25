@@ -1,5 +1,6 @@
 package org.kuali.coeus.sys.impl.auth;
 
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -32,6 +33,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestOperations;
 
@@ -69,7 +71,7 @@ public class AuthServicePushServiceImpl implements AuthServicePushService {
 	@Qualifier("groupService")
 	private GroupService groupService;
 
-	@Value("#{{'admin', 'kc', 'kr'}}")
+	@Value("#{{'admin', 'kc', 'kr', 'guest'}}")
 	private List<String> ignoredUsers = new ArrayList<>();
 		
 	@Override
@@ -104,11 +106,21 @@ public class AuthServicePushServiceImpl implements AuthServicePushService {
 					removeUserFromAuthService(authServicePerson.getId());
 					status.addNumberRemoved();
 				}
+			} catch (HttpClientErrorException e) {
+				status.getErrors().add(person.getUsername() + " - " + e.getMessage() + " -- " + e.getResponseBodyAsString());
+				LOG.error("Error pushing user " + person.getUsername() + " to auth service - " + e.getMessage() + " -- " + e.getResponseBodyAsString());
 			} catch (Exception e) {
-				status.getErrors().add(e.getMessage());
+				status.getErrors().add(person.getUsername() + " - " + e.getMessage());
 				LOG.error("Error pushing user " + person.getUsername() + " to auth service", e);
 			}
 		}
+		StringWriter infoMsg = new StringWriter();
+		infoMsg.append("Auth Service Bulk Push: Users Found: ").append(Integer.valueOf(status.getNumberOfUsers()).toString())
+			.append(", Users Added: ").append(Integer.valueOf(status.getNumberAdded()).toString())
+			.append(", Users Updated: ").append(Integer.valueOf(status.getNumberUpdated()).toString())
+			.append(", Users Deleted: ").append(Integer.valueOf(status.getNumberRemoved()).toString())
+			.append(", Users Errored: ").append(Integer.valueOf(status.getErrors().size()).toString());
+		LOG.info(infoMsg.toString());
 		
 		return status;
 	}
