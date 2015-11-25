@@ -181,6 +181,7 @@
 	<param name="filtermapping.login.1">/*</param>
 	
 	<param name="transaction.timeout">3600</param>
+	<param name="tm.btm.defaultTransactionTimeout">${transaction.timeout}</param>
 	
 	<!-- image overrides -->
 	<param name="application.custom.image.url.copyoneper">/${app.context.name}/static/images/buttonsmall_copyallperiods.gif</param>

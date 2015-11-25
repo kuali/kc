@@ -8,6 +8,7 @@ import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.sys.framework.auth.AuthServicePushService;
@@ -17,6 +18,8 @@ import org.kuali.coeus.sys.framework.rest.AuthServiceRestUtilService;
 import org.kuali.coeus.sys.framework.rest.RestServiceConstants;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.common.assignee.Assignee;
+import org.kuali.rice.kim.api.group.GroupService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.permission.PermissionService;
@@ -61,17 +64,25 @@ public class AuthServicePushServiceImpl implements AuthServicePushService {
 	@Autowired
 	@Qualifier("kualiConfigurationService")
 	private ConfigurationService configurationService;
+	
+	@Autowired
+	@Qualifier("groupService")
+	private GroupService groupService;
 
 	@Value("#{{'admin', 'kc', 'kr'}}")
 	private List<String> ignoredUsers = new ArrayList<>();
-	
+		
 	@Override
 	public AuthServicePushStatus pushAllUsers() {
 		AuthServicePushStatus status = new AuthServicePushStatus();
+		final List<String> admins = getAdminUsers();
+		
 		List<AuthUser> peopleToSync = getAllKIMPeople().stream()
 				.filter(person -> { return !ignoredUsers.contains(person.getPrincipalName()); })
 				.map(person -> {
-					return generateAuthUserFromKimPerson(person);
+					AuthUser authUser = generateAuthUserFromKimPerson(person);
+					authUser.setRole(admins.contains(person.getPrincipalId()) ? ADMIN_ROLE : USER_ROLE);
+					return authUser;
 				}).collect(Collectors.toList());
 		status.setNumberOfUsers(peopleToSync.size());
 		Map<String, AuthUser> authPersonMap = getAllAuthServiceUsers().stream().collect(Collectors.toMap(AuthUser::getUsername,
@@ -86,7 +97,7 @@ public class AuthServicePushServiceImpl implements AuthServicePushService {
 					} else if (authServicePerson.equals(person)) {
 						status.addNumberSame();
 					} else {
-						updateUserInAuthService(person, authServicePerson.getId(), getOrGenerateUserPassword(person));
+						updateUserInAuthService(person, authServicePerson.getId());
 						status.addNumberUpdated();
 					}
 				} else if (authServicePerson != null) {
@@ -102,6 +113,31 @@ public class AuthServicePushServiceImpl implements AuthServicePushService {
 		return status;
 	}
 
+	protected List<String> getAdminUsers() {
+		return getAdminAssignees().stream()
+				.map(this::getAdminUsersFrom)
+				.flatMap(l -> l.stream())
+				.collect(Collectors.toList());
+	}
+
+	protected List<Assignee> getAdminAssignees() {
+		return permissionService.getPermissionAssignees(KimConstants.NAMESPACE_CODE, KimConstants.PermissionNames.MODIFY_ENTITY, Collections.emptyMap());
+	}
+	
+	protected List<String> getAdminUsersFrom(Assignee assignee) {
+		if (StringUtils.isNotBlank(assignee.getPrincipalId())) {
+			return Collections.singletonList(assignee.getPrincipalId());
+		} else if (StringUtils.isNotBlank(assignee.getGroupId())) {
+			return getGroupMembers(assignee);
+		} else {
+			return Collections.emptyList();
+		}
+	}
+
+	protected List<String> getGroupMembers(Assignee assignee) {
+		return groupService.getMemberPrincipalIds(assignee.getGroupId());
+	}
+
 	protected AuthUser generateAuthUserFromKimPerson(Person person) {
 		AuthUser kimAuthUser = new AuthUser();
 		kimAuthUser.setUsername(person.getPrincipalName());
@@ -112,7 +148,7 @@ public class AuthServicePushServiceImpl implements AuthServicePushService {
 		kimAuthUser.setLastName(person.getLastName());
 		kimAuthUser.setPhone(person.getPhoneNumber());
 		kimAuthUser.setActive(person.isActive());
-		kimAuthUser.setRole(getUserAuthSystemRole(person));
+		kimAuthUser.setRole(USER_ROLE);
 		return kimAuthUser;
 	}
 	
@@ -130,14 +166,6 @@ public class AuthServicePushServiceImpl implements AuthServicePushService {
 	
 	protected String getDevPassword() {
 		return configurationService.getPropertyValueAsString(AUTH_USER_PUSH_DEV_PASSWORD);
-	}
-	
-	protected String getUserAuthSystemRole(Person person) {
-		if (permissionService.hasPermission(person.getPrincipalId(), KimConstants.NAMESPACE_CODE, KimConstants.PermissionNames.MODIFY_ENTITY)) {
-			return ADMIN_ROLE;
-		} else {
-			return USER_ROLE;
-		}
 	}
 	
 	protected List<Person> getAllKIMPeople() {
@@ -159,8 +187,7 @@ public class AuthServicePushServiceImpl implements AuthServicePushService {
 		}
 	}
 	
-	protected void updateUserInAuthService(AuthUser updatedUser, String userId, String userPassword) {
-		updatedUser.setPassword(userPassword);
+	protected void updateUserInAuthService(AuthUser updatedUser, String userId) {
 		ResponseEntity<String> result = restOperations.exchange(getUsersApiUrl() + userId, HttpMethod.PUT, 
 				new HttpEntity<AuthUser>(updatedUser, authServiceRestUtilService.getAuthServiceStyleHttpHeadersForUser(AUTH_USER_API_VERSION)), String.class);
 		if (result.getStatusCode() != HttpStatus.OK) {
@@ -226,6 +253,14 @@ public class AuthServicePushServiceImpl implements AuthServicePushService {
 
 	public void setConfigurationService(ConfigurationService configurationService) {
 		this.configurationService = configurationService;
+	}
+
+	public GroupService getGroupService() {
+		return groupService;
+	}
+
+	public void setGroupService(GroupService groupService) {
+		this.groupService = groupService;
 	}
 
 }

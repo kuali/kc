@@ -3,14 +3,21 @@ package org.kuali.coeus.sys.impl.auth;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import org.apache.commons.fileupload.util.Streams;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.sys.framework.auth.AuthServicePushStatus;
 import org.kuali.coeus.sys.framework.auth.AuthUser;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.common.assignee.Assignee;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.impl.identity.PersonImpl;
 
@@ -20,11 +27,17 @@ public class AuthServicePushServiceTest {
 	private Person person2;
 	private Person person3;
 	
+	private List<AuthUser> addedUsers;
+	private List<AuthUser> updatedUsers;
+	
 	@Before
 	public void setup() {
 		person1 = new PersonMock("test1");
 		person2 = new PersonMock("test2");
 		person3 = new PersonMock("test3");
+		
+		addedUsers = new ArrayList<>();
+		updatedUsers = new ArrayList<>();
 	}	
 	
 	@Test
@@ -49,8 +62,8 @@ public class AuthServicePushServiceTest {
 			}
 			
 			@Override
-			protected String getUserAuthSystemRole(Person person) {
-				return "admin";
+			protected List<String> getAdminUsers() {
+				return new ArrayList<>(Collections.emptyList());
 			}
 			
 			@Override
@@ -91,11 +104,11 @@ public class AuthServicePushServiceTest {
 			protected void addUserToAuthService(AuthUser newUser, String userPassword) { }
 			
 			@Override
-			protected void updateUserInAuthService(AuthUser updatedUser, String userId, String userPassword) { }
+			protected void updateUserInAuthService(AuthUser updatedUser, String userId) { }
 			
 			@Override
-			protected String getUserAuthSystemRole(Person person) {
-				return "admin";
+			protected List<String> getAdminUsers() {
+				return new ArrayList<>(Collections.singleton(person3.getPrincipalId()));
 			}
 			
 			@Override
@@ -109,10 +122,86 @@ public class AuthServicePushServiceTest {
 		assertEquals(1, status.getNumberSame());
 		assertEquals(1, status.getNumberAdded());
 		assertEquals(1, status.getNumberUpdated());
+	}
+	
+	@Test
+	public void testPushAllUsers_oneAdmin() {
+		AuthServicePushServiceImpl service = new AuthServicePushServiceImpl() {
+			@Override
+			protected List<Person> getAllKIMPeople() {
+				List<Person> result = new ArrayList<>();
+				result.add(person1);
+				result.add(person2);
+				result.add(person3);
+				return result;
+			}
+			
+			@Override
+			protected List<AuthUser> getAllAuthServiceUsers() {
+				List<AuthUser> authServiceUserList = new ArrayList<AuthUser>();
+				authServiceUserList.add(this.generateAuthUserFromKimPerson(person1));
+				authServiceUserList.add(this.generateAuthUserFromKimPerson(person2));
+				authServiceUserList.get(1).setName("Testing Name Change");
+				return authServiceUserList;
+			}
+			
+			@Override
+			protected void addUserToAuthService(AuthUser newUser, String userPassword) {
+				addedUsers.add(newUser);
+			}
+			
+			@Override
+			protected void updateUserInAuthService(AuthUser updatedUser, String userId) {
+				updatedUsers.add(updatedUser);
+			}
+			
+			@Override
+			protected List<String> getAdminUsers() {
+				return new ArrayList<>(Collections.singleton(person3.getPrincipalId()));
+			}
+			
+			@Override
+			protected boolean useDevPassword() {
+				return false;
+			}
+		};
+		AuthServicePushStatus status = service.pushAllUsers();
+		assertNotNull(status);
+		assertEquals(3, status.getNumberOfUsers());
+		assertEquals(1, status.getNumberSame());
+		assertEquals(1, status.getNumberAdded());
+		assertEquals(1, status.getNumberUpdated());
+		assertEquals(1, addedUsers.size());
+		assertEquals("admin", addedUsers.get(0).getRole());
+		assertEquals(0L, updatedUsers.stream().filter(user -> user.getRole().equals("admin")).collect(Collectors.counting()).longValue());
+	
 	}	
+	
+	@Test
+	public void testGetAdminUsers() {
+		AuthServicePushServiceImpl service = new AuthServicePushServiceImpl() {
+			@Override
+			protected List<Assignee> getAdminAssignees() {
+				return Stream.of(Assignee.Builder.create("1", null, Collections.emptyList()).build(),
+						Assignee.Builder.create(null, "2", Collections.emptyList()).build()).collect(Collectors.toList());
+			}
+			
+			@Override
+			protected List<String> getGroupMembers(Assignee assignee) {
+				return Stream.of("3", "4").collect(Collectors.toList());
+			}
+		};
+		
+		List<String> adminUsers = service.getAdminUsers();
+		assertEquals(3, adminUsers.size());
+		assertTrue(adminUsers.contains("1"));
+		assertTrue(adminUsers.contains("3"));
+		assertTrue(adminUsers.contains("4"));
+	}
 	
 	final class PersonMock extends PersonImpl {
 
+		private String principalId;
 		private String userName;
 		private String firstName;
 		private String lastName;
@@ -120,9 +209,10 @@ public class AuthServicePushServiceTest {
 		private String emailAddress;
 		private String phoneNumber;
 		
-		public PersonMock(String userName, String firstName, String lastName,
+		public PersonMock(String principalId, String userName, String firstName, String lastName,
 				String name, String emailAddress, String phoneNumber) {
 			super();
+			this.principalId = principalId;
 			this.userName = userName;
 			this.firstName = firstName;
 			this.lastName = lastName;
@@ -132,9 +222,9 @@ public class AuthServicePushServiceTest {
 		}
 		
 		public PersonMock(String userName, String firstName, String lastName, String phoneNumber) {
-			this(userName, firstName, lastName, 
+			this(userName, userName, firstName, lastName, 
 					firstName + " " + lastName, 
-					userName = "@kuali.dev", 
+					userName + "@kuali.dev", 
 					phoneNumber);
 		}
 		
@@ -175,6 +265,14 @@ public class AuthServicePushServiceTest {
 		@Override
 		public boolean isActive() {
 			return true;
+		}
+
+		public String getPrincipalId() {
+			return principalId;
+		}
+
+		public void setPrincipalId(String principalId) {
+			this.principalId = principalId;
 		}
 	}
 }
