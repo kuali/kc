@@ -89,6 +89,10 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
     private ParameterService parameterService;
 
     @Autowired
+    @Qualifier("proposalTypeService")
+    private ProposalTypeService proposalTypeService;
+
+    @Autowired
     @Qualifier("proposalDevelopmentDocumentViewAuthorizer")
     private ProposalDevelopmentDocumentViewAuthorizer proposalDevelopmentDocumentViewAuthorizer;
 
@@ -107,7 +111,7 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
 
            //Set default S2S Submission Type
            if (StringUtils.isBlank(form.getNewS2sOpportunity().getS2sSubmissionTypeCode())){
-               String defaultS2sSubmissionTypeCode = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.S2S_SUBMISSIONTYPE_APPLICATION);
+               String defaultS2sSubmissionTypeCode = getProposalTypeService().getDefaultSubmissionTypeCode(proposal.getProposalTypeCode());
                proposal.getS2sOpportunity().setS2sSubmissionTypeCode(defaultS2sSubmissionTypeCode);
                getDataObjectService().wrap(proposal.getS2sOpportunity()).fetchRelationship("s2sSubmissionType");
            }
@@ -139,8 +143,8 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
            globalVariableService.getMessageMap().putError(Constants.NO_FIELD, ex.getErrorKey(),ex.getMessageWithParams());
            proposal.setS2sOpportunity(new S2sOpportunity());
        }
-       super.save(form,result,request,response);
-       return getRefreshControllerService().refresh(form);
+        super.save(form,result,request,response);
+        return getRefreshControllerService().refresh(form);
    }
 
 
@@ -159,7 +163,7 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
     }
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=printForms"})
-        public ModelAndView printForms(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, HttpServletResponse response)
+    public ModelAndView printForms(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, HttpServletResponse response)
             throws Exception {
         ProposalDevelopmentDocument proposalDevelopmentDocument = form.getProposalDevelopmentDocument();
 
@@ -383,6 +387,14 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
 
     public void setUserAttachedFormService(UserAttachedFormService userAttachedFormService) {
         this.userAttachedFormService = userAttachedFormService;
+    }
+
+    public ProposalTypeService getProposalTypeService() {
+        return proposalTypeService;
+    }
+
+    public void setProposalTypeService(ProposalTypeService proposalTypeService) {
+        this.proposalTypeService = proposalTypeService;
     }
 
     public ProposalDevelopmentDocumentViewAuthorizer getProposalDevelopmentDocumentViewAuthorizer() {
