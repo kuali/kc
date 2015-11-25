@@ -130,6 +130,8 @@ public class ProposalBudgetHierarchyServiceImpl implements ProposalBudgetHierarc
     	
     	removeChildBudgetElements(hierarchyProposal, parentBudget, childProposal.getProposalNumber());
     	
+    	synchBudgetPeriods(childBudget,parentBudget);
+    	
         boolean isOriginatingChildBudget = StringUtils.equals(childProposal.getProposalNumber(), hierarchyProposal.getHierarchyOriginatingChildProposalNumber());    	
         try {
             if( isOriginatingChildBudget ) {
@@ -374,6 +376,22 @@ public class ProposalBudgetHierarchyServiceImpl implements ProposalBudgetHierarc
         budgetService.recalculateBudget(parentBudget);
         childProposal.setLastSyncedBudget(childBudget);
         childBudget.setHierarchyLastSyncHashCode(computeHierarchyHashCode(childBudget));
+    }
+    
+    protected void synchBudgetPeriods(ProposalDevelopmentBudgetExt childBudget, ProposalDevelopmentBudgetExt parentBudget) {
+         List<BudgetPeriod> periodsToDelete = new ArrayList<>();
+         parentBudget.getBudgetPeriods().forEach(parentBudgetPeriod -> {
+        	 if (!childBudget.getBudgetPeriods().stream().anyMatch(childBudgetPeriod -> childBudgetPeriod.getStartDate().equals(parentBudgetPeriod.getStartDate()) 
+        			 && childBudgetPeriod.getEndDate().equals(parentBudgetPeriod.getEndDate()))) {
+        		 periodsToDelete.add(parentBudgetPeriod);
+        	 }
+         });
+         periodsToDelete.forEach(period -> {
+        	 if (period.getBudgetModular() != null) {
+                 getDataObjectService().delete(period.getBudgetModular());
+             }
+        	 parentBudget.getBudgetPeriods().remove(period);
+         });
     }
     
     protected BudgetPeriod findOrCreateMatchingPeriod(BudgetPeriod childPeriod, Budget parentBudget) {
