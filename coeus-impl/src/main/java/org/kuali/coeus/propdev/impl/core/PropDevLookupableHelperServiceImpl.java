@@ -129,7 +129,7 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
     protected Collection<?> executeSearch(Map<String, String> adjustedSearchCriteria,
                                           List<String> wildcardAsLiteralSearchCriteria, boolean bounded, Integer searchResultsLimit) {
 
-        Map<String,String> modifiedSearchCriteria = new HashMap<String,String>();
+        Map<String,String> modifiedSearchCriteria = new HashMap<>();
         modifiedSearchCriteria.putAll(adjustedSearchCriteria);
 
         String proposalNumberCriteria = adjustedSearchCriteria.get(PROPOSAL_NUMBER);
@@ -207,7 +207,7 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
     }
 
     private Collection<DevelopmentProposal> filterPermissions(Collection<DevelopmentProposal> results) {
-        Collection<DevelopmentProposal> filteredResults = new ArrayList<DevelopmentProposal>();
+        Collection<DevelopmentProposal> filteredResults = new ArrayList<>();
         for (DevelopmentProposal developmentProposal : results) {
             if (getKcAuthorizationService().hasPermission(getGlobalVariableService().getUserSession().getPrincipalId(),
                     developmentProposal.getDocument(),PermissionConstants.VIEW_PROPOSAL)){
@@ -261,7 +261,7 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
             return new ArrayList<>();
         }
 
-        List<String> piProposals = new ArrayList<String>();
+        List<String> piProposals = new ArrayList<>();
         Collection<ProposalPerson> proposalPersons = getDataObjectService().findMatching(ProposalPerson.class, QueryByCriteria.Builder.fromPredicates(
                 PredicateFactory.equal(PROPOSAL_PERSON_ROLE_ID, Constants.PRINCIPAL_INVESTIGATOR_ROLE),
                 buildProposalPersonOrPredicate(personSearchString)
@@ -284,7 +284,7 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
             return new ArrayList<>();
         }
 
-        List<String> personProposals = new ArrayList<String>();
+        List<String> personProposals = new ArrayList<>();
         Collection<ProposalPerson> proposalPersons = getDataObjectService().findMatching(ProposalPerson.class, QueryByCriteria.Builder.fromPredicates(
                 buildProposalPersonOrPredicate(personSearchString)
         )).getResults();
@@ -401,20 +401,18 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
      * Builds the or predicate used to find the person by userName, personId, and lastName for ProposalPerson objects.
      */
     private Predicate buildProposalPersonOrPredicate(String personSearchString) {
-        List<Predicate> orPredicates = new ArrayList<Predicate>();
+        List<Predicate> orPredicates = new ArrayList<>();
         orPredicates.add(PredicateFactory.likeIgnoreCase(USER_NAME, personSearchString));
         orPredicates.add(PredicateFactory.likeIgnoreCase(PERSON_ID, personSearchString));
         orPredicates.add(PredicateFactory.likeIgnoreCase(LAST_NAME, personSearchString));
-        Predicate orNamesPredicate = PredicateFactory.or(orPredicates.toArray(new Predicate[orPredicates.size()]));
-
-        return orNamesPredicate;
+        return PredicateFactory.or(orPredicates.toArray(new Predicate[orPredicates.size()]));
     }
 
     /**
      * Gets all initiator proposal development documents by principalName.
      */
     private List<String> getProposalDocumentIdsForInitiator(String initiator) {
-        List<String> documentIds = new ArrayList<String>();
+        List<String> documentIds = new ArrayList<>();
 
         DocumentSearchCriteria.Builder builder = DocumentSearchCriteria.Builder.create();
         builder.setInitiatorPrincipalName(initiator);

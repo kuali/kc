@@ -43,15 +43,15 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.*;
 @Component("proposalHierarchyDao")
 public class ProposalHierarchyDaoJpa implements ProposalHierarchyDao {
 
-	@Autowired
+    private static final String PROPOSAL_STATE_QUERY = "SELECT a.proposalState from DevelopmentProposal a where a.proposalNumber = :proposalNumber";
+
+    @Autowired
 	@Qualifier("dataObjectService")
     private DataObjectService dataObjectService;
 
     @Autowired
     @Qualifier("kcEntityManager")
     private EntityManager entityManager;
-
-    private String PROPOSAL_STATE_QUERY = "SELECT a.proposalState from DevelopmentProposal a where a.proposalNumber = :proposalNumber";
 
     /*
         select * from EPS_PROP_PERSON_BIO where PROPOSAL_NUMBER IN (
@@ -66,7 +66,7 @@ public class ProposalHierarchyDaoJpa implements ProposalHierarchyDao {
         }
 
         QueryByCriteria.Builder builder = QueryByCriteria.Builder.create();
-        List<Predicate> predicates = new ArrayList<Predicate>();
+        List<Predicate> predicates = new ArrayList<>();
         predicates.add(equal("personId", personId));
         predicates.add(in("developmentProposal.proposalNumber", childProposalNumbers));
 
@@ -80,7 +80,7 @@ public class ProposalHierarchyDaoJpa implements ProposalHierarchyDao {
     //select PROPOSAL_NUMBER from EPS_PROPOSAL where HIERARCHY_PROPOSAL_NUMBER =18
     public List<DevelopmentProposal> getHierarchyChildProposals(String parentProposalNumber) {
         QueryByCriteria.Builder builder = QueryByCriteria.Builder.create();
-        List<Predicate> predicates = new ArrayList<Predicate>();
+        List<Predicate> predicates = new ArrayList<>();
 
         predicates.add(equal("hierarchyParentProposalNumber", parentProposalNumber));
 
@@ -93,9 +93,7 @@ public class ProposalHierarchyDaoJpa implements ProposalHierarchyDao {
     }
 
     public DevelopmentProposal getDevelopmentProposal(String proposalNumber) {
-        Map<String, String> pk = new HashMap<String, String>();
-        pk.put("proposalNumber", proposalNumber);
-        return (DevelopmentProposal) (dataObjectService.findUnique(DevelopmentProposal.class, QueryByCriteria.Builder.forAttribute("proposalNumber", proposalNumber).build()));
+        return (dataObjectService.findUnique(DevelopmentProposal.class, QueryByCriteria.Builder.forAttribute("proposalNumber", proposalNumber).build()));
     }
 
     @Override
@@ -105,7 +103,7 @@ public class ProposalHierarchyDaoJpa implements ProposalHierarchyDao {
 
     public List<ProposalPerson> isPersonOnProposal(String proposalNumber, String personId) {
         QueryByCriteria.Builder builder = QueryByCriteria.Builder.create();
-        List<Predicate> predicates = new ArrayList<Predicate>();
+        List<Predicate> predicates = new ArrayList<>();
         predicates.add(equal("developmentProposal.proposalNumber", proposalNumber));
         predicates.add(equal("personId", personId));
 
@@ -120,7 +118,7 @@ public class ProposalHierarchyDaoJpa implements ProposalHierarchyDao {
     public List<String> getHierarchyChildProposalNumbers(String parentProposalNumber) {
         List<DevelopmentProposal> proposals = getHierarchyChildProposals(parentProposalNumber);
 
-        List<String> proposalNumbers = new ArrayList<String>();
+        List<String> proposalNumbers = new ArrayList<>();
         for(DevelopmentProposal proposal : proposals) {
             proposalNumbers.add(proposal.getProposalNumber());
         }
@@ -129,14 +127,14 @@ public class ProposalHierarchyDaoJpa implements ProposalHierarchyDao {
     }
 
     public void deleteDegreeInfo(String proposalNumber, Integer proposalPersonNumber, ProposalPerson person) {
-        Map<String, String> param = new HashMap<String, String>();
+        Map<String, String> param = new HashMap<>();
         param.put("proposalPerson.developmentProposal.proposalNumber", proposalNumber);
         param.put("proposalPerson.proposalPersonNumber", proposalPersonNumber.toString());
         getDataObjectService().deleteMatching(ProposalPersonDegree.class, QueryByCriteria.Builder.andAttributes(param).build());
     }
 
     public List<ProposalPersonDegree> getDegreeInformation(String proposalNumber, ProposalPerson person) {
-        Map<String, String> param = new HashMap<String, String>();
+        Map<String, String> param = new HashMap<>();
         param.put("proposalPerson.developmentProposal.proposalNumber", proposalNumber);
         param.put("proposalPerson.proposalPersonNumber", person.getProposalPersonNumber().toString());
         return getDataObjectService().findMatching(ProposalPersonDegree.class, QueryByCriteria.Builder.andAttributes(param).build()).getResults();
@@ -144,7 +142,7 @@ public class ProposalHierarchyDaoJpa implements ProposalHierarchyDao {
 
     public List<ProposalBudgetStatus> getHierarchyChildProposalBudgetStatuses(String parentProposalNumber) {
         QueryByCriteria.Builder builder = QueryByCriteria.Builder.create();
-        List<Predicate> predicates = new ArrayList<Predicate>();
+        List<Predicate> predicates = new ArrayList<>();
         predicates.add(in("proposalNumber", getHierarchyChildProposals(parentProposalNumber)));
 
         Predicate[] preds = predicates.toArray(new Predicate[predicates.size()]);

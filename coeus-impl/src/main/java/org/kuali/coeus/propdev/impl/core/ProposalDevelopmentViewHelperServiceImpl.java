@@ -84,7 +84,6 @@ import org.kuali.rice.krad.util.*;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.KualiRuleService;
-import org.kuali.rice.krad.service.LookupService;
 import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
@@ -112,10 +111,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     @Autowired
     @Qualifier("legacyNarrativeService")
     private LegacyNarrativeService narrativeService;
-
-    @Autowired
-    @Qualifier("lookupService")
-    private LookupService lookupService;
 
     @Autowired
     @Qualifier("noteService")
@@ -148,6 +143,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     @Autowired
     @Qualifier("proposalDevelopmentService")
     private ProposalDevelopmentService proposalDevelopmentService;
+
     private String protocolStatusCode;
 
     @Autowired
@@ -161,10 +157,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     @Autowired
     @Qualifier("sponsorHierarchyService")
     private SponsorHierarchyService sponsorHierarchyService;
-    
-    @Autowired
-    @Qualifier("proposalTypeService")
-    private ProposalTypeService proposalTypeService;
 
     @Autowired
     @Qualifier("sponsorSearchService")
@@ -276,7 +268,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
             // must be invoked to maintain the parent collection
             List<ProposalSite> sites = ObjectPropertyUtils.getPropertyValue(model, collectionPath);
             if (sites == null) {
-                sites = new ArrayList<ProposalSite>();
+                sites = new ArrayList<>();
             }
 
             if (!sites.contains(lineObject)) {
@@ -310,8 +302,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     @Override
     protected boolean performAddLineValidation(ViewModel viewModel, Object newLine, String collectionId,
             String collectionPath) {
-    	boolean isValid = true;
-    	isValid = super.performAddLineValidation(viewModel, newLine, collectionId, collectionPath);
+    	boolean isValid = super.performAddLineValidation(viewModel, newLine, collectionId, collectionPath);
     	String collectionLabel = (String) viewModel.getViewPostMetadata().getComponentPostData(collectionId,UifConstants.PostMetadata.COLL_LABEL);
     	ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm) viewModel;
         ProposalDevelopmentDocument document = form.getProposalDevelopmentDocument();
@@ -522,14 +513,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
         this.narrativeService = narrativeService;
     }
 
-    protected LookupService getLookupService() {
-        return lookupService;
-    }
-
-    public void setLookupService(LookupService lookupService) {
-        this.lookupService = lookupService;
-    }
-
     public DateTimeService getDateTimeService() {
         return dateTimeService;
     }
@@ -720,8 +703,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
         ProposalDevelopmentAttachmentHelper helper = form.getProposalDevelopmentAttachmentHelper();
         if (!isAttachmentFileEditable(helper, collectionPath, index)){
             if (helper.getEditableFileLineAttachments().get(collectionPath) == null){
-                List<String> tempList = new ArrayList<String>();
-                helper.getEditableFileLineAttachments().put(collectionPath, tempList);
+                helper.getEditableFileLineAttachments().put(collectionPath, new ArrayList<>());
             }
             helper.getEditableFileLineAttachments().get(collectionPath).add(index);
         }
@@ -767,7 +749,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     Personnel attachments for personnel who appears only once in proposal hierarchy should be view only at the parent (no update of details nor delete) (critical)
      */
     public boolean renderPersonnelEditForHierarchyProposal(String personId, DevelopmentProposal proposal) {
-        return (proposal.isInHierarchy()) ? renderEditForPersonnelAttachment(personId, proposal) : true;
+        return !proposal.isInHierarchy() || renderEditForPersonnelAttachment(personId, proposal);
     }
 
     protected boolean renderEditForPersonnelAttachment(String personId, DevelopmentProposal proposal) {
@@ -842,7 +824,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     public boolean isPersonFieldEditable(String propertyName){
         ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm)ViewLifecycle.getModel();
         Boolean returnValue = form.getPersonEditableFields().get(propertyName);
-        return returnValue==null?false:returnValue.booleanValue();
+        return returnValue != null && returnValue;
     }
 
     public boolean requiresResubmissionPrompt(DevelopmentProposal developmentProposal, String resubmissionOption) {
@@ -1024,16 +1006,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     
     public boolean syncAllRequiresEndDateExtension(DevelopmentProposal hierarchyProposal) {
     	return getProposalHierarchyService().needToExtendProjectDate(hierarchyProposal);
-    }   
-
-	public ProposalTypeService getProposalTypeService() {
-		return proposalTypeService;
-	}
-
-	public void setProposalTypeService(ProposalTypeService proposalTypeService) {
-		this.proposalTypeService = proposalTypeService;
-	}
-
+    }
 
     public SponsorSearchService getSponsorSearchService() {
         return sponsorSearchService;
