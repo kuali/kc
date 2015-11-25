@@ -4,6 +4,10 @@
 * No Changes
 
 
+##coeus-1511.88
+* No Changes
+
+
 ##coeus-1511.87
 *  set default submissiontype while changing proposaltype in edit mode
   * Geo Thomas on Tue, 24 Nov 2015 16:23:59 -0500 [View Commit](../../commit/19865b435cdbe1c092862db7f966c64eabcf7b2f)
