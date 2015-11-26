@@ -684,7 +684,7 @@
         <collection-descriptor name="recusers" element-class-ref="org.kuali.kra.iacuc.committee.meeting.IacucProtocolVoteRecused" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="link" auto-delete="object">
             <inverse-foreignkey field-ref="submissionIdFk" />
         </collection-descriptor>
-        <collection-descriptor name="committeeScheduleMinutes" element-class-ref="org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleMinute" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <collection-descriptor name="committeeScheduleMinutes" element-class-ref="org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleMinute" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none"> 
             <inverse-foreignkey field-ref="submissionIdFk"/>
         </collection-descriptor>
 	    <collection-descriptor name="reviewAttachments" element-class-ref="org.kuali.kra.iacuc.onlinereview.IacucProtocolReviewAttachment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none"> 
