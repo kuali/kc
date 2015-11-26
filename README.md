@@ -57,9 +57,21 @@ When a project specific profile is available, it will be documented in the build
 > 
 *mvn clean install -Dgrm.off=true*
 
-> **Error Prone:** When building Kuali Coeus Projects you can turn the error-prone profile on as it is off by default.  This will turn on the strict error prone compiler and fail the compile step if certain source code errors are detected. 
+> **Enforcer Profile:** When building Kuali Coeus Projects you can turn the enforcer profile on as it is off by default.  This will turn on the maven enforcer plugin and fail the build if certain project quality rules are violated. 
+> 
+*mvn clean install -Penforcer*
+
+> **jdeps Profile:** When building Kuali Coeus Projects you can turn the jdeps profile on as it is off by default.  This will turn on the jdk jdeps tool and fail the build if internal jdk apis are detected. 
+> 
+*mvn clean install -Pjdeps*
+
+> **Error Prone Profile:** When building Kuali Coeus Projects you can turn the error-prone profile on as it is off by default.  This will turn on the strict error prone compiler and fail the compile step if certain source code errors are detected. 
 > 
 *mvn clean install -Perror-prone*
+
+> **enforce-project-quality Property:** This property turns on the enforcer, jdeps, and error prone profiles.  These profiles are off by default.
+> 
+*mvn clean install -Denforce-project-quality*
 
 > **Dev Profile:**When developing with KC there are some features that are useful only for development purposes. In order to enable these features you should enable the dev profile. Currently the dev profile only provides the p6spy dependency. See the section below on Configuration for how to use this feature.
 >
