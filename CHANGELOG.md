@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* Clean up subaward attachment handling
+
+  * Move subaward attachments to new KcAttachmentDao implementation to resolve duplicating attachment stores and inconsistent storage types that caused errors specifically for Mysql and large attachments > than a couple of MBs.
+
+  * Also resolves a problem with editing added subaward amount infos as changes were being made to a list that wasn't persisted.
+  * blackcathacker on Tue, 24 Nov 2015 13:54:38 -0800 [View Commit](../../commit/8498d2dd1f65f03e62a85d0f0fa48357213dcdb7)
+
+##coeus-1511.89
 * No Changes
 
 

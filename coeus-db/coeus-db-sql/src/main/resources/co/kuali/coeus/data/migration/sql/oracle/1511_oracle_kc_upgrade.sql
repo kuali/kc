@@ -29,4 +29,5 @@ spool 1511_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V1511_011__fix_copied_budget_data.sql
 @./kc/bootstrap/V1511_012__RESKC-1015.sql
 @./kc/bootstrap/V1511_013__RESKC-862.sql
+@./kc/bootstrap/V1511_015__RESOPS-555.sql
 commit;
