@@ -18,14 +18,17 @@
  */
 package org.kuali.kra.subaward.bo;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.common.framework.attachment.AttachmentFile;
+import org.kuali.coeus.common.framework.attachment.KcAttachmentDataDao;
 import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.ref.SoftReference;
 import java.sql.Date;
 
 /**
@@ -59,18 +62,18 @@ public class SubAwardAmountInfo extends KcPersistableBusinessObjectBase implemen
     private String comments;
 
     private String fileName;
+    
+    private String fileDataId;
+    
+    private String oldFileDataId;
 
-    private byte[] document;
+    private transient SoftReference<byte[]> document;
 
     private String mimeType;
 
     private AttachmentFile file;
     
     transient private FormFile newFile;
-    
-    private Long fileId;
-    
-    private String contentType;
 
     private Date modificationEffectiveDate ;
     
@@ -81,6 +84,8 @@ public class SubAwardAmountInfo extends KcPersistableBusinessObjectBase implemen
     private Date periodofPerformanceEndDate;
     
     private SubAward subAward;
+    
+    private transient KcAttachmentDataDao kcAttachmentDataDao;
     
     /**
      * the SubAwardAmountInfo constructor.
@@ -187,20 +192,29 @@ public class SubAwardAmountInfo extends KcPersistableBusinessObjectBase implemen
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
-    /**
-     * Gets the document.
-     * @return document.
-     */
+
     public byte[] getDocument() {
-        return document;
+        if (document != null) {
+            byte[] existingData = document.get();
+            if (existingData != null) {
+                return existingData;
+            }
+        }
+        //if we didn't have a softreference, grab the data from the db
+        byte[] newData = getKcAttachmentDataDao().getData(fileDataId);
+        document = new SoftReference<byte[]>(newData);
+        return newData;
     }
-    /**
-     * Sets the  document attribute value.
-     * @param document The document to set.
-     */
+
     public void setDocument(byte[] document) {
-        this.document = document;
+        if (document == null || document.length == 0) {
+            setFileDataId(null);
+        } else {
+            setFileDataId(getKcAttachmentDataDao().saveData(document, null));
+        }
+        this.document = new SoftReference<byte[]>(document);
     }
+
     /**
      * Gets the mimeType.
      * @return mimeType.
@@ -230,12 +244,11 @@ public class SubAwardAmountInfo extends KcPersistableBusinessObjectBase implemen
             newFileData = newFile.getFileData();
             setDocument(newFileData);
             if (newFileData.length > 0) {
-                setContentType(newFile.getContentType());
                 setFileName(newFile.getFileName());
-                setMimeType(contentType);
+                setMimeType(newFile.getContentType());
             }
-        } catch (FileNotFoundException e) {
         } catch (IOException e) {
+        	throw new RuntimeException(e);
         }
     }
     /**
@@ -322,22 +335,6 @@ public class SubAwardAmountInfo extends KcPersistableBusinessObjectBase implemen
         this.newFile = newFile;
     }
 
-    /**
-     * Gets the file Id.
-     * @return the file Id.
-     */
-    public Long getFileId() {
-        return this.fileId;
-    }
-
-    /**
-     * Sets the file Id.
-     * @param fileId the file Id.
-     */
-    public void setFileId(Long fileId) {
-        this.fileId = fileId;
-    }
-
     @Override
     public String getName() {
         return getFileName();
@@ -353,20 +350,6 @@ public class SubAwardAmountInfo extends KcPersistableBusinessObjectBase implemen
         return getDocument();
     }
 
-    /**
-     * Sets the contentType.
-     * @param contentType the contentType.
-     */
-    public void setContentType(String contentType) {
-        this.contentType = contentType;
-    }
-    /**
-     * Gets the contentType.
-     * @return contentType.
-     */
-    public String getContentType() {
-        return contentType;
-    }
     /**
      * Gets the modificationEffectiveDate.
      * @return modificationEffectiveDate.
@@ -429,8 +412,13 @@ public class SubAwardAmountInfo extends KcPersistableBusinessObjectBase implemen
 	public void setSubAward(SubAward subAward) {
 		this.subAward = subAward;
 		if (subAward != null) {
+			this.subAwardId = subAward.getSubAwardId();
 			this.sequenceNumber = subAward.getSequenceNumber();
 			this.subAwardCode = subAward.getSubAwardCode();
+		} else {
+			this.subAwardId = null;
+			this.sequenceNumber = null;
+			this.subAwardCode = null;
 		}
 	}
 	public Integer getSequenceNumber() {
@@ -438,5 +426,42 @@ public class SubAwardAmountInfo extends KcPersistableBusinessObjectBase implemen
 	}
 	public void setSequenceNumber(Integer sequenceNumber) {
 		this.sequenceNumber = sequenceNumber;
+	}
+	
+	public String getFileDataId() {
+		return fileDataId;
+	}
+	public void setFileDataId(String fileDataId) {
+		if (!StringUtils.equals(this.fileDataId, fileDataId)) {
+			oldFileDataId = this.fileDataId;
+		}
+		this.fileDataId = fileDataId;
+	}
+	
+	@Override
+    public void postRemove() {
+		super.postRemove();
+        if (getFileDataId() != null) {
+            getKcAttachmentDataDao().removeData(getFileDataId());
+        }
+    }
+	
+	@Override
+	public void postUpdate() {
+		super.postUpdate();
+		if (oldFileDataId != null && !StringUtils.equals(fileDataId, oldFileDataId)) {
+			getKcAttachmentDataDao().removeData(oldFileDataId);
+			oldFileDataId = null;
+		}
+	}
+	
+	public KcAttachmentDataDao getKcAttachmentDataDao() {
+		if (kcAttachmentDataDao == null) {
+			kcAttachmentDataDao = KcServiceLocator.getService(KcAttachmentDataDao.class);
+		}
+		return kcAttachmentDataDao;
+	}
+	public void setKcAttachmentDataDao(KcAttachmentDataDao kcAttachmentDao) {
+		this.kcAttachmentDataDao = kcAttachmentDao;
 	}
 }

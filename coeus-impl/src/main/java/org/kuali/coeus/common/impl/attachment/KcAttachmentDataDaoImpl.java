@@ -176,9 +176,10 @@ public class KcAttachmentDataDaoImpl implements KcAttachmentDataDao {
         // The Oracle database stores its table names as Upper-Case,
         // if you pass a table name in lowercase characters, it will not work.
         // MySQL does not care.
-        ResultSet rs = conn.getMetaData().getExportedKeys(catalog,schema,"FILE_DATA");
-        while (rs.next()) {
-            tableReferences.add(new TableReference(rs.getString("FKTABLE_NAME"), rs.getString("FKCOLUMN_NAME")));
+        try (ResultSet rs = conn.getMetaData().getExportedKeys(catalog,schema,"FILE_DATA")) {
+	        while (rs.next()) {
+	            tableReferences.add(new TableReference(rs.getString("FKTABLE_NAME"), rs.getString("FKCOLUMN_NAME")));
+	        }
         }
     }
 

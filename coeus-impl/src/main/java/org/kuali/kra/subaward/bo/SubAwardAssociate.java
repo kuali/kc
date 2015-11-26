@@ -23,9 +23,6 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 import java.io.Serializable;
 
-
-
-
 public abstract class SubAwardAssociate extends KcPersistableBusinessObjectBase implements SequenceAssociate<SubAward>, Serializable {
     
     private static final long serialVersionUID = 1L;
@@ -82,11 +79,13 @@ public abstract class SubAwardAssociate extends KcPersistableBusinessObjectBase 
     public void setSubAward(SubAward subAward) {
         this.subAward = subAward;
         if(subAward != null) {
+        	setSubAwardId(subAward.getSubAwardId());
             setSequenceNumber(subAward.getSequenceNumber());
             setSubAwardCode(subAward.getSubAwardCode());
         } else {
+        	setSubAwardId(null);
             setSequenceNumber(0);
-            setSubAwardCode("");
+            setSubAwardCode(null);
         }
     }
 

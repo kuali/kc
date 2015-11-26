@@ -49,6 +49,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 
@@ -1610,5 +1611,13 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
 	public void setAllSubAwardAmountInfos(
 			List<SubAwardAmountInfo> allSubAwardAmountInfos) {
 		this.allSubAwardAmountInfos = allSubAwardAmountInfos;
+	}
+	
+	public List<SubAwardAmountInfo> getHistoricalAmountInfos() {
+		final List<Integer> currentAmountInfoIds = getSubAwardAmountInfoList().stream()
+				.map(SubAwardAmountInfo::getSubAwardAmountInfoId).collect(Collectors.toList());
+		return getAllSubAwardAmountInfos().stream()
+				.filter(amountInfo -> !currentAmountInfoIds.contains(amountInfo.getSubAwardAmountInfoId()))
+				.collect(Collectors.toList());
 	}
 }

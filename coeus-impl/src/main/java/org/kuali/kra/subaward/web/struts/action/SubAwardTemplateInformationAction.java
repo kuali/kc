@@ -22,18 +22,14 @@ import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.List;
-
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.framework.attachment.AttachmentDocumentStatus;
-import org.kuali.coeus.common.framework.attachment.AttachmentFile;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -128,8 +124,7 @@ public class SubAwardTemplateInformationAction extends SubAwardAction {
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
         
-        final AttachmentFile file = attachment.getFile();
-        this.streamToResponse(file.getData(), getValidHeaderString(file.getName()),  getValidHeaderString(file.getType()), response);
+        this.streamToResponse(attachment, response);
         return RESPONSE_ALREADY_HANDLED;
     }
     
@@ -210,11 +205,8 @@ public class SubAwardTemplateInformationAction extends SubAwardAction {
            SubAwardAttachments subAwardAttachments =
            subAwardDocument.getSubAward().getSubAwardAttachments().get(getSelectedLine(request));
            subAwardAttachments.populateAttachment();
-           subAwardAttachments.getFile().setName(subAwardAttachments.getFileName());
            if (subAwardAttachments.getSubAwardId() != null) {
                getBusinessObjectService().save(subAwardAttachments);
-               subAwardAttachments.getFile().setName(subAwardAttachments.getNewFile().getFileName());
-               subAwardAttachments.getFile().setData(subAwardAttachments.getNewFile().getFileData());
            }
            return mapping.findForward(MAPPING_BASIC);
        }

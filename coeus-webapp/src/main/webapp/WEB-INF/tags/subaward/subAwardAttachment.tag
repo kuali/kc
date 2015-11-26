@@ -48,7 +48,7 @@ opacity:1;
          	    </th>
          		 <th>
          			<div align="center">
-         				<kul:htmlAttributeLabel attributeEntry="${subAwardAttachmentAttributes['subAwardAttachmentTypeCode']}" noColon="false"/>
+         				<kul:htmlAttributeLabel attributeEntry="${subAwardAttachmentAttributes.subAwardAttachmentTypeCode}" noColon="false"/>
          			</div>
          		</th>
          		<th>
@@ -58,7 +58,7 @@ opacity:1;
 				</th>
          		<th>
 					<div align="center">
-						<kul:htmlAttributeLabel attributeEntry="${subAwardAttachmentAttributes['fileId']}" noColon="false"/>
+						<kul:htmlAttributeLabel attributeEntry="${subAwardAttachmentAttributes.fileName}" noColon="false"/>
 					</div>
 				</th>
 				<th>

@@ -134,19 +134,15 @@
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="fileName" column="FILE_NAME" jdbc-type="VARCHAR" />
-        <field-descriptor name="document" column="DOCUMENT" jdbc-type="BINARY" />
         <field-descriptor name="mimeType" column="MIME_TYPE" jdbc-type="VARCHAR" />
-        <field-descriptor name="fileId" column="FILE_ID" jdbc-type="BIGINT"/>
         <field-descriptor name="modificationEffectiveDate" column="MODIFICATION_EFFECTIVE_DATE" jdbc-type="DATE" />
         <field-descriptor name="modificationID" column="MODIFICATION_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="periodofPerformanceStartDate" column="PERFORMANCE_START_DATE" jdbc-type="DATE" />
         <field-descriptor name="periodofPerformanceEndDate" column="PERFORMANCE_END_DATE" jdbc-type="DATE" />
+        <field-descriptor name="fileDataId" column="FILE_DATA_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-        
-        <reference-descriptor name="file" proxy="true" class-ref="org.kuali.coeus.common.framework.attachment.AttachmentFile" auto-retrieve="true" auto-update="object" auto-delete="true">
-            <foreignkey field-ref="fileId"/>
-        </reference-descriptor>
+
 		<reference-descriptor name="subAward" class-ref="org.kuali.kra.subaward.bo.SubAward" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="subAwardId" />
 		</reference-descriptor>
@@ -347,9 +343,9 @@
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER"/>
 		<field-descriptor name="subAwardAttachmentTypeCode" column="ATTACHMENT_TYPE_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="documentId" column="DOCUMENT_ID" jdbc-type="INTEGER" />
-		<field-descriptor name="fileId" column="FILE_ID" jdbc-type="BIGINT"/>
+		<field-descriptor name="fileDataId" column="FILE_DATA_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="fileName" column="FILE_NAME" jdbc-type="VARCHAR"/>
-		<field-descriptor name="document" column="DOCUMENT" jdbc-type="BINARY" />
+		<field-descriptor name="mimeType" column="MIME_TYPE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="documentStatusCode" column="DOCUMENT_STATUS_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
@@ -361,10 +357,6 @@
 		
 		<reference-descriptor name="typeAttachment" class-ref="org.kuali.kra.subaward.bo.SubAwardAttachmentType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="subAwardAttachmentTypeCode"/>
-		</reference-descriptor>
-		
-		<reference-descriptor name="file" proxy="true" class-ref="org.kuali.coeus.common.framework.attachment.AttachmentFile" auto-retrieve="true" auto-update="object" auto-delete="true"> 
-			<foreignkey field-ref="fileId"/>
 		</reference-descriptor>
 	</class-descriptor>
 	<class-descriptor class="org.kuali.kra.subaward.bo.SubAwardReports" table="SUBAWARD_REPORTS">
