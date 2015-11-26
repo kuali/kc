@@ -79,9 +79,12 @@ public class SubAwardFinancialAction extends SubAwardAction{
         amountInfo.populateAttachment();
         subAward.getAllSubAwardAmountInfos().add(amountInfo);
         subAward.getSubAwardAmountInfoList().add(amountInfo);
-        getBusinessObjectService().save(amountInfo);
+        saveSubAwardAmountInfo(amountInfo);
         return true;
     }
+	protected void saveSubAwardAmountInfo(SubAwardAmountInfo amountInfo) {
+		getBusinessObjectService().save(amountInfo);
+	}
 
     public ActionForward deleteAmountInfo(ActionMapping mapping,
     ActionForm form, HttpServletRequest request,
@@ -94,7 +97,7 @@ public class SubAwardFinancialAction extends SubAwardAction{
         subAwardAmountInfo.setFileName(null);
         subAwardAmountInfo.setMimeType(null);
         subAwardAmountInfo.setFileDataId(null);
-        getBusinessObjectService().save(subAwardAmountInfo);
+        saveSubAwardAmountInfo(subAwardAmountInfo);
         return mapping.findForward(Constants.MAPPING_FINANCIAL_PAGE);
     }
     /**.
@@ -158,7 +161,7 @@ public class SubAwardFinancialAction extends SubAwardAction{
         final Integer amountInfoId = amountInfoIdStr == null ? 0
          : Integer.parseInt(amountInfoIdStr);
         SubAwardAmountInfo subAwardAmountInfo = subAwardDocument.getSubAward().getAllSubAwardAmountInfos().stream()
-        		.filter(amountInfo -> { return amountInfoId.equals(amountInfo.getSubAwardAmountInfoId()); })
+        		.filter(amountInfo -> amountInfoId.equals(amountInfo.getSubAwardAmountInfoId()))
         		.findFirst().orElse(null);
         if (subAwardAmountInfo != null && subAwardAmountInfo.getDocument() != null) {
             this.streamToResponse(subAwardAmountInfo.getDocument(), 
@@ -183,7 +186,7 @@ public class SubAwardFinancialAction extends SubAwardAction{
            SubAwardDocument subAwardDocument = subAwardForm.getSubAwardDocument();
            SubAwardAmountInfo subAwardAmountInfo = subAwardDocument.getSubAward().getSubAwardAmountInfoList().get(getSelectedLine(request));
            subAwardAmountInfo.populateAttachment();
-           getBusinessObjectService().save(subAwardAmountInfo);
+           saveSubAwardAmountInfo(subAwardAmountInfo);
            return mapping.findForward(MAPPING_BASIC);
        }
        /**.

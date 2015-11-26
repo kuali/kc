@@ -37,7 +37,10 @@ public class SubAwardFinancialActionTest {
     @Before
     public void setUp() throws Exception {
 
-        subAwardFinancialAction = new SubAwardFinancialAction();
+        subAwardFinancialAction = new SubAwardFinancialAction() {
+        	@Override
+        	public void saveSubAwardAmountInfo(SubAwardAmountInfo subAwardAmountInfo) { }
+        };
         subAward = new SubAward();
         amountInfo = new SubAwardAmountInfo();
         amountInfo.setAnticipatedAmount(new ScaleTwoDecimal(5));

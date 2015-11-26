@@ -18,7 +18,7 @@
  */
 package org.kuali.kra.subaward.bo;
 
-import org.apache.commons.codec.binary.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.common.framework.attachment.AttachmentFile;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentDataDao;

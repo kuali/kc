@@ -1616,8 +1616,8 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
 	public List<SubAwardAmountInfo> getHistoricalAmountInfos() {
 		final List<Integer> currentAmountInfoIds = getSubAwardAmountInfoList().stream()
 				.map(SubAwardAmountInfo::getSubAwardAmountInfoId).collect(Collectors.toList());
-		return getAllSubAwardAmountInfos().stream().filter(amountInfo -> {
-			return !currentAmountInfoIds.contains(amountInfo.getSubAwardAmountInfoId());
-		}).collect(Collectors.toList());
+		return getAllSubAwardAmountInfos().stream()
+				.filter(amountInfo -> !currentAmountInfoIds.contains(amountInfo.getSubAwardAmountInfoId()))
+				.collect(Collectors.toList());
 	}
 }
