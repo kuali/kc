@@ -1011,7 +1011,7 @@
                 <property name="inquiryFields">
                   <list>
                     <bean p:attributeName="fiscalYear" parent="FieldDefinition"/>
-                    <bean p:attributeName="auditAccepted" parent="FieldDefinition"/>
+                    <bean p:attributeName="auditAcceptedCode" parent="FieldDefinition"/>
                     <bean p:attributeName="auditComment" parent="FieldDefinition"/>
                   </list>
                 </property>
@@ -1156,7 +1156,7 @@
           <property name="items">
             <list>
               <bean p:propertyName="fiscalYear" parent="Uif-DataField"/>
-              <bean p:propertyName="auditAccepted" parent="Uif-DataField"/>
+              <bean p:propertyName="auditAcceptedCode" parent="Uif-DataField"/>
               <bean p:propertyName="auditComment" parent="Uif-DataField"/>
             </list>
           </property>

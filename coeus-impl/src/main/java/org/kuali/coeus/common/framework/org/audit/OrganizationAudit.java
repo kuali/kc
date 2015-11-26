@@ -25,7 +25,6 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.kuali.coeus.common.api.org.audit.OrganizationAuditContract;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -34,6 +33,8 @@ import java.io.Serializable;
 @Table(name = "ORGANIZATION_AUDIT")
 @IdClass(OrganizationAudit.OrganizationAuditId.class)
 public class OrganizationAudit extends KcPersistableBusinessObjectBase implements OrganizationAuditContract {
+
+    private static final String ACCEPTED = "1";
 
     @Id
     @Column(name = "FISCAL_YEAR")
@@ -44,8 +45,7 @@ public class OrganizationAudit extends KcPersistableBusinessObjectBase implement
     private String organizationId;
 
     @Column(name = "AUDIT_ACCEPTED")
-    @Convert(converter = BooleanYNConverter.class)
-    private boolean auditAccepted;
+    private String auditAcceptedCode;
 
     @Column(name = "AUDIT_COMMENT")
     private String auditComment;
@@ -53,6 +53,10 @@ public class OrganizationAudit extends KcPersistableBusinessObjectBase implement
     @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "ORGANIZATION_ID", referencedColumnName = "ORGANIZATION_ID", insertable = false, updatable = false)
     private Organization organization;
+
+    @ManyToOne(cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "AUDIT_ACCEPTED", referencedColumnName = "CODE", insertable = false, updatable = false)
+    private OrganizationAuditAcceptedType auditAcceptedType;
 
     @Override
     public String getFiscalYear() {
@@ -74,11 +78,23 @@ public class OrganizationAudit extends KcPersistableBusinessObjectBase implement
 
     @Override
     public boolean getAuditAccepted() {
-        return auditAccepted;
+        return ACCEPTED.equals(getAuditAcceptedCode());
     }
 
-    public void setAuditAccepted(boolean auditAccepted) {
-        this.auditAccepted = auditAccepted;
+    public String getAuditAcceptedCode() {
+        return auditAcceptedCode;
+    }
+
+    public void setAuditAcceptedCode(String auditAcceptedCode) {
+        this.auditAcceptedCode = auditAcceptedCode;
+    }
+
+    public OrganizationAuditAcceptedType getAuditAcceptedType() {
+        return auditAcceptedType;
+    }
+
+    public void setAuditAcceptedType(OrganizationAuditAcceptedType auditAcceptedType) {
+        this.auditAcceptedType = auditAcceptedType;
     }
 
     @Override
