@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* adding jdeps plugin, moving other code quality plugins to profiles.  updating docs
+  * Travis Schneeberger on Thu, 26 Nov 2015 09:45:35 -0500 [View Commit](../../commit/0bccd0f74e762291f73c7ad61dbd0e2f5ad81461)
+
+##coeus-1511.90
 * Clean up subaward attachment handling
 
   * Move subaward attachments to new KcAttachmentDao implementation to resolve duplicating attachment stores and inconsistent storage types that caused errors specifically for Mysql and large attachments > than a couple of MBs.
