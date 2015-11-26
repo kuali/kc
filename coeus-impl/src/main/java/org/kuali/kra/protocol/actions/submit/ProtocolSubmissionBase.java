@@ -97,8 +97,7 @@ public abstract class ProtocolSubmissionBase extends ProtocolAssociateBase {
     @SkipVersioning
     private transient CommitteeScheduleBase committeeSchedule;
 
-    @SkipVersioning
-    private transient List<CommitteeScheduleMinuteBase> committeeScheduleMinutes;
+    private List<CommitteeScheduleMinuteBase> committeeScheduleMinutes;
 
     @SkipVersioning
     private transient List<ProtocolReviewAttachmentBase> reviewAttachments;
@@ -438,7 +437,9 @@ public abstract class ProtocolSubmissionBase extends ProtocolAssociateBase {
     }
 
     public List<CommitteeScheduleMinuteBase> getCommitteeScheduleMinutes() {
-        refreshReferenceObject("committeeScheduleMinutes");
+        if (committeeScheduleMinutes == null || committeeScheduleMinutes.isEmpty()) {
+            refreshReferenceObject("committeeScheduleMinutes");
+        }
         return committeeScheduleMinutes;
     }
 

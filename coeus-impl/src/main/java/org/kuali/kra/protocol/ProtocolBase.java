@@ -21,6 +21,7 @@ package org.kuali.kra.protocol;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipBase;
+import org.kuali.coeus.common.committee.impl.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.coeus.common.framework.attachment.AttachmentFile;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
 import org.kuali.coeus.common.framework.version.sequence.owner.SequenceOwner;
@@ -64,11 +65,13 @@ import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
+
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.*;
 import java.util.Map.Entry;
+
 
 
 public abstract class ProtocolBase extends KcPersistableBusinessObjectBase implements SequenceOwner<ProtocolBase>, Permissionable, UnitAclLoadable, Disclosurable, KcKrmsContextBo {
@@ -1205,11 +1208,22 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     
     protected void setNewSubmissionReferences(List<ProtocolSubmissionBase> submissions) {
     	submissions.forEach(submission -> {
+    		setSubmissionMinutesReferences(submission);
             submission.setProtocolNumber(this.getProtocolNumber());
             submission.setSubmissionId(null);
             submission.setSequenceNumber(sequenceNumber);
             submission.setProtocolId(this.getProtocolId());
             this.getProtocolSubmissions().add(submission);
+        });
+    }
+
+    @SuppressWarnings("rawtypes")
+    protected void setSubmissionMinutesReferences(ProtocolSubmissionBase submission) {
+        List<CommitteeScheduleMinuteBase> committeeScheduleMinutes = submission.getCommitteeScheduleMinutes();
+        committeeScheduleMinutes.forEach(committeeScheduleMinute -> {
+        	committeeScheduleMinute.setCommScheduleMinutesId(null);
+        	committeeScheduleMinute.setProtocolIdFk(this.getProtocolId());
+        	committeeScheduleMinute.setSubmissionIdFk(null);
         });
     }
     
