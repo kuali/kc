@@ -182,6 +182,7 @@ public abstract class ProtocolActionRequestServiceImpl implements ProtocolAction
     }
     
     protected void saveReviewComments(ProtocolFormBase protocolForm, ReviewCommentsBeanBase actionBean) throws Exception { 
+    	getReviewCommentsService().updateScheduleForReviewComments(protocolForm.getProtocolDocument().getProtocol(), actionBean.getReviewComments());
         getReviewCommentsService().saveReviewComments(actionBean.getReviewComments(), actionBean.getDeletedReviewComments());           
         actionBean.setDeletedReviewComments(new ArrayList<CommitteeScheduleMinuteBase>());
         protocolForm.getActionHelper().prepareCommentsView();
