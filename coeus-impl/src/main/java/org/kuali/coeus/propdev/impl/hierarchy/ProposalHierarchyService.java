@@ -136,7 +136,7 @@ public interface ProposalHierarchyService {
      * @return List of DevelopmentProposals
      * @throws ProposalHierarchyException if the provided proposal is not a hierarchy.
      */
-    List<DevelopmentProposal> getHierarchyChildren( String parentProposalNumber ) throws ProposalHierarchyException;    
+    List<DevelopmentProposal> getHierarchyChildren( String parentProposalNumber ) throws ProposalHierarchyException;
 
     /**
      * Reject a proposal development document by proposal number. This will return a proposal to state almost but not quite like initiated state.
@@ -152,8 +152,6 @@ public interface ProposalHierarchyService {
     void rejectProposalDevelopmentDocument( String proposalNumber, String reason, String principalId, MultipartFile rejectFile)
     throws WorkflowException, ProposalHierarchyException, IOException;
 
-    boolean allChildBudgetsAreComplete(String parentProposalNumber);
-    
     boolean validateRemovePermissions(DevelopmentProposal childProposal, String principalId);
 
     void calculateAndSetProposalAppDocStatus(ProposalDevelopmentDocument doc, DocumentRouteStatusChange dto) throws ProposalHierarchyException;

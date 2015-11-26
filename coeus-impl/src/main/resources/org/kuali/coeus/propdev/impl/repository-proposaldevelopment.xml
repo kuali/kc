@@ -228,19 +228,6 @@
 
     </class-descriptor>
     
-    <class-descriptor class="org.kuali.coeus.propdev.impl.budget.ProposalBudgetStatus" table="EPS_PROPOSAL_BUDGET_STATUS">
-        <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
-        <field-descriptor name="budgetStatusCode" column="BUDGET_STATUS_CODE" jdbc-type="VARCHAR" />
-        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
-        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
-        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
-        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-        
-        <reference-descriptor name="budgetStatus" class-ref="org.kuali.coeus.propdev.impl.budget.BudgetStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
-            <foreignkey field-ref="budgetStatusCode" />
-        </reference-descriptor>
-    </class-descriptor>
-    
     <class-descriptor class="org.kuali.coeus.propdev.impl.editable.ProposalChangedData" table="EPS_PROP_CHANGED_DATA">
         <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
         <field-descriptor name="columnName" column="COLUMN_NAME" jdbc-type="VARCHAR" primarykey="true"/>

@@ -43,7 +43,6 @@ import org.kuali.coeus.propdev.api.core.DevelopmentProposalContract;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
 import org.kuali.coeus.propdev.impl.attachment.LegacyNarrativeService;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
-import org.kuali.coeus.propdev.impl.budget.ProposalBudgetStatusService;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.editable.ProposalChangedData;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHiddenInHierarchyCustomizerValue;
@@ -107,12 +106,21 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     private static final String ATTACHMENTS_INCOMPLETE = "Inomplete";
 
     private static final String ATTACHMENTS_NONE = "None";
+    private static final String ROLODEX = "rolodex";
+    private static final String SELECT = "(select)";
+    private static final String SPONSOR = "sponsor";
+    private static final String PRIME_SPONSOR = "primeSponsor";
+    private static final String PI = "PI";
+    private static final String PROPOSAL = "Proposal";
+    private static final String PROPOSAL_NUMBER = "PROPOSAL_NUMBER";
+    private static final String NARRATIVE_TYPE = "narrativeType";
+    private static final String NARRATIVE_TYPE_GROUP = "narrativeTypeGroup";
 
 
     @PortableSequenceGenerator(name = "SEQ_PROPOSAL_NUMBER_KRA")
     @GeneratedValue(generator = "SEQ_PROPOSAL_NUMBER_KRA")
     @Id
-    @Column(name = "PROPOSAL_NUMBER")
+    @Column(name = PROPOSAL_NUMBER)
     private String proposalNumber;
 
     @Column(name = "PROPOSAL_TYPE_CODE")
@@ -304,24 +312,24 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     private List<ProposalPerson> proposalPersons;
 
     @OneToMany(cascade = { CascadeType.REFRESH })
-    @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER")
+    @JoinColumn(name = PROPOSAL_NUMBER, referencedColumnName = PROPOSAL_NUMBER)
     private List<S2sAppSubmission> s2sAppSubmission;
 
     @OneToMany(mappedBy="developmentProposal", cascade = { CascadeType.ALL })
     private List<S2sUserAttachedForm> s2sUserAttachedForms;
 
     @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
-    @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER")
+    @JoinColumn(name = PROPOSAL_NUMBER, referencedColumnName = PROPOSAL_NUMBER)
     @OrderBy("sortId")
     private List<ProposalYnq> proposalYnqs;
 
     @OneToMany(cascade = { CascadeType.REFRESH })
-    @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER")
+    @JoinColumn(name = PROPOSAL_NUMBER, referencedColumnName = PROPOSAL_NUMBER)
     @OrderBy("columnName DESC, changeNumber DESC")
     private List<ProposalChangedData> proposalChangedDataList;
 
     @OneToMany(cascade = { CascadeType.REFRESH })
-    @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER")
+    @JoinColumn(name = PROPOSAL_NUMBER, referencedColumnName = PROPOSAL_NUMBER)
     @OrderBy("columnName DESC, changeNumber DESC")
     private List<BudgetChangedData> budgetChangedDataList;
 
@@ -329,7 +337,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     private List<Narrative> narratives;
 
     @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
-    @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER")
+    @JoinColumn(name = PROPOSAL_NUMBER, referencedColumnName = PROPOSAL_NUMBER)
     private List<ProposalAbstract> proposalAbstracts;
 
     @OneToMany(mappedBy="developmentProposal",orphanRemoval = true, cascade = { CascadeType.ALL })
@@ -373,9 +381,6 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     private String budgetStatus;
 
     @Transient
-    private String budgetStatusDescription;
-
-    @Transient
     private Collection<InvestigatorCreditType> investigatorCreditTypes;
 
     @Transient
@@ -413,9 +418,6 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
 
     @Transient
     private transient YnqService ynqService;
-
-    @Transient
-    private transient ProposalBudgetStatusService proposalBudgetStatusService;
 
     @Override
     public String getProposalNumberForGG() {
@@ -921,10 +923,10 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     @Override
     public ProposalSite getPerformingOrganization() {
         ProposalSite performingOrganization = getProposalSiteForType(ProposalSite.PROPOSAL_SITE_PERFORMING_ORGANIZATION);
-        if (outOfSync(performingOrganization.getRolodexId(), performingOrganization.getRolodex())) {
-            performingOrganization.refreshReferenceObject("rolodex");
+        if (performingOrganization != null && outOfSync(performingOrganization.getRolodexId(), performingOrganization.getRolodex())) {
+            performingOrganization.refreshReferenceObject(ROLODEX);
         }
-        if (performingOrganization.getRolodex() == null && performingOrganization.getOrganization() != null) {
+        if (performingOrganization != null && performingOrganization.getRolodex() == null && performingOrganization.getOrganization() != null) {
             performingOrganization.setRolodex(performingOrganization.getOrganization().getRolodex());
         }
         return performingOrganization;
@@ -1091,7 +1093,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     
     public String getPropScienceKeywordsAsText() {
     	if (propScienceKeywords != null) {
-    		return propScienceKeywords.stream().map(keyword -> { return keyword.getScienceKeyword().getDescription(); } ).collect(Collectors.joining(", "));
+    		return propScienceKeywords.stream().map(keyword -> keyword.getScienceKeyword().getDescription()).collect(Collectors.joining(", "));
     	} else {
     		return "";
     	}
@@ -1114,7 +1116,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     }
 
     public String getDefaultNewDescription() {
-        return "(select)";
+        return SELECT;
     }
 
     @Override
@@ -1186,7 +1188,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
 
     public Sponsor getSponsor() {
         if (outOfSync(sponsorCode, sponsor)) {
-            this.refreshReferenceObject("sponsor");
+            this.refreshReferenceObject(SPONSOR);
         }
         return sponsor;
     }
@@ -1427,15 +1429,13 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         this.budgetStatus = budgetStatus;
     }
 
-    public void setBudgetStatusDescription(String budgetStatusDescription) {
-        this.budgetStatusDescription = budgetStatusDescription;
-    }
-
     public String getBudgetStatusDescription() {
-        if (StringUtils.isEmpty(budgetStatusDescription)) {
-            getProposalBudgetStatusService().loadBudgetStatus(this);
+        if (getFinalBudget() != null) {
+            return getFinalBudget().getBudgetStatusDo().getDescription();
+        } else if (getLatestBudget() != null) {
+            return getLatestBudget().getBudgetStatusDo().getDescription();
         }
-        return budgetStatusDescription;
+        return "";
     }
 
     public List<S2sOppForms> getS2sOppForms() {
@@ -1546,7 +1546,6 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         if (isChild()) {
             try {
                 DevelopmentProposal parent = getProposalHierarchyService().lookupParent(this);
-                getProposalBudgetStatusService().loadBudgetStatus(parent);
                 retval = parent.isProposalComplete();
             } catch (ProposalHierarchyException x) {
                 // this should never happen   
@@ -1637,7 +1636,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         if (CollectionUtils.isNotEmpty(this.getProposalChangedDataList())) {
             for (ProposalChangedData proposalChangedData : this.getProposalChangedDataList()) {
                 if (this.getProposalChangeHistory().get(proposalChangedData.getEditableColumn().getColumnLabel()) == null) {
-                    this.getProposalChangeHistory().put(proposalChangedData.getEditableColumn().getColumnLabel(), new ArrayList<ProposalChangedData>());
+                    this.getProposalChangeHistory().put(proposalChangedData.getEditableColumn().getColumnLabel(), new ArrayList<>());
                 }
                 this.getProposalChangeHistory().get(proposalChangedData.getEditableColumn().getColumnLabel()).add(proposalChangedData);
             }
@@ -1735,7 +1734,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     // Is there a better way?   
     public Sponsor getPrimeSponsor() {
         if (outOfSync(primeSponsorCode, primeSponsor)) {
-            this.refreshReferenceObject("primeSponsor");
+            this.refreshReferenceObject(PRIME_SPONSOR);
         }
         return primeSponsor;
     }
@@ -1772,7 +1771,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     public String getParentPIName() {
         String proposalInvestigatorName = null;
         for (ProposalPerson pPerson : this.getProposalPersons()) {
-            if (pPerson.getPersonId() != null && pPerson.getProposalPersonRoleId().equals("PI")) {
+            if (pPerson.getPersonId() != null && pPerson.getProposalPersonRoleId().equals(PI)) {
                 proposalInvestigatorName = pPerson.getFullName();
                 break;
             }
@@ -1794,7 +1793,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
             if (pPerson.getPersonId() != null && pPerson.getPersonId().equals(personId) ||
                 pPerson.getRolodexId() != null && String.valueOf(pPerson.getRolodexId()).equalsIgnoreCase(personId)) {
                 flag = 2;
-                if (pPerson.getProposalPersonRoleId().equals("PI")) {
+                if (pPerson.getProposalPersonRoleId().equals(PI)) {
                     flag = 1;
                     break;
                 }
@@ -1804,7 +1803,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     }
 
     public String getParentTypeName() {
-        return "Proposal";
+        return PROPOSAL;
     }
 
     @Override
@@ -1887,14 +1886,18 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     }
 
     public static class NarrativeCustomizer  implements DescriptorCustomizer{
+
+        private static final String NARRATIVES = "narratives";
+
         public void customize(ClassDescriptor descriptor) throws Exception {
             final String value = getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.PROPOSAL_NARRATIVE_TYPE_GROUP);
-            ForeignReferenceMapping frMapping = (ForeignReferenceMapping) descriptor.getMappingForAttributeName("narratives");
+            ForeignReferenceMapping frMapping = (ForeignReferenceMapping) descriptor.getMappingForAttributeName(NARRATIVES);
 
             ExpressionBuilder eb = new ExpressionBuilder(Narrative.class);
-            Expression fkExp = eb.getField("PROPOSAL_NUMBER").equal(eb.getParameter("PROPOSAL_NUMBER"));
-            frMapping.setSelectionCriteria(fkExp.and(eb.get("narrativeType").get("narrativeTypeGroup").equal(value)));
+            Expression fkExp = eb.getField(PROPOSAL_NUMBER).equal(eb.getParameter(PROPOSAL_NUMBER));
+            frMapping.setSelectionCriteria(fkExp.and(eb.get(NARRATIVE_TYPE).get(NARRATIVE_TYPE_GROUP).equal(value)));
         }
+
 
         protected ParameterService getParameterService() {
             return KcServiceLocator.getService(ParameterService.class);
@@ -1903,13 +1906,15 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
 
     public static class InstituteAttachmentsCustomizer implements DescriptorCustomizer {
 
+        private static final String INSTITUTE_ATTACHMENTS = "instituteAttachments";
+
         public void customize(ClassDescriptor descriptor) throws Exception {
             final String value = getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.INSTITUTE_NARRATIVE_TYPE_GROUP);
-            ForeignReferenceMapping frMapping = (ForeignReferenceMapping) descriptor.getMappingForAttributeName("instituteAttachments");
+            ForeignReferenceMapping frMapping = (ForeignReferenceMapping) descriptor.getMappingForAttributeName(INSTITUTE_ATTACHMENTS);
 
             ExpressionBuilder eb = new ExpressionBuilder(Narrative.class);
-            Expression fkExp = eb.getField("PROPOSAL_NUMBER").equal(eb.getParameter("PROPOSAL_NUMBER"));
-            frMapping.setSelectionCriteria(fkExp.and(eb.get("narrativeType").get("narrativeTypeGroup").equal(value)));
+            Expression fkExp = eb.getField(PROPOSAL_NUMBER).equal(eb.getParameter(PROPOSAL_NUMBER));
+            frMapping.setSelectionCriteria(fkExp.and(eb.get(NARRATIVE_TYPE).get(NARRATIVE_TYPE_GROUP).equal(value)));
         }
 
         protected ParameterService getParameterService() {
@@ -1922,7 +1927,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         private static final Collection<DescriptorCustomizer> CUSTOMIZERS;
 
         static {
-            final Collection<DescriptorCustomizer> customizers = new ArrayList<DescriptorCustomizer>();
+            final Collection<DescriptorCustomizer> customizers = new ArrayList<>();
             customizers.add(new NarrativeCustomizer());
             customizers.add(new InstituteAttachmentsCustomizer());
             CUSTOMIZERS = Collections.unmodifiableCollection(customizers);
@@ -2105,14 +2110,6 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         }
 
         return proposalDevelopmentService;
-    }
-
-    public ProposalBudgetStatusService getProposalBudgetStatusService() {
-        if (proposalBudgetStatusService == null) {
-            proposalBudgetStatusService = KcServiceLocator.getService(ProposalBudgetStatusService.class);
-        }
-
-        return proposalBudgetStatusService;
     }
 
     protected ParameterService getParameterService() {

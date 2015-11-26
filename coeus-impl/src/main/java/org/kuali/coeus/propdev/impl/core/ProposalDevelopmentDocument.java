@@ -26,7 +26,6 @@ import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue;
 import org.kuali.coeus.common.permissions.impl.PermissionableKeys;
 import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
-import org.kuali.coeus.propdev.impl.budget.ProposalBudgetStatusService;
 import org.kuali.coeus.propdev.impl.state.ProposalStateService;
 import org.kuali.coeus.common.framework.auth.perm.Permissionable;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -115,9 +114,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
 	
     @Transient
     private transient WorkflowDocumentActionsService  workflowDocumentActionsService;
-    
-    @Transient
-    private transient ProposalBudgetStatusService proposalBudgetStatusService;
+
     
     @Transient
     private transient DataDictionaryService dataDictionaryService  ;
@@ -215,13 +212,6 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
 			workflowDocumentActionsService = KewApiServiceLocator.getWorkflowDocumentActionsService();
 		}
 		return workflowDocumentActionsService;
-	}
-
-	protected ProposalBudgetStatusService getProposalBudgetStatusService() {
-		if (proposalBudgetStatusService == null){
-			proposalBudgetStatusService = KcServiceLocator.getService(ProposalBudgetStatusService.class);
-		}
-		return proposalBudgetStatusService;
 	}
 
 	protected DataDictionaryService getDataDictionaryService() {
@@ -369,7 +359,6 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         documentHeader = getDocumentHeaderService().saveDocumentHeader(documentHeader);
 
         if (!isProposalDeleted()) {
-            getProposalBudgetStatusService().saveBudgetFinalVersionStatus(this);
             List<? extends Budget> versions = getBudgetParent().getBudgets();
             if (versions != null) {
                 updateBudgetDescriptions(versions);
@@ -381,7 +370,6 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     public void processAfterRetrieve() {
         super.processAfterRetrieve();
         if (!isProposalDeleted()) {
-            getProposalBudgetStatusService().loadBudgetStatus(this.getDevelopmentProposal());
             getDevelopmentProposal().updateProposalChangeHistory();
         }
     }

@@ -18,7 +18,6 @@
  */
 package org.kuali.coeus.propdev.impl.hierarchy;
 
-import org.kuali.coeus.propdev.impl.budget.ProposalBudgetStatus;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonDegree;
@@ -138,19 +137,6 @@ public class ProposalHierarchyDaoJpa implements ProposalHierarchyDao {
         param.put("proposalPerson.developmentProposal.proposalNumber", proposalNumber);
         param.put("proposalPerson.proposalPersonNumber", person.getProposalPersonNumber().toString());
         return getDataObjectService().findMatching(ProposalPersonDegree.class, QueryByCriteria.Builder.andAttributes(param).build()).getResults();
-    }
-
-    public List<ProposalBudgetStatus> getHierarchyChildProposalBudgetStatuses(String parentProposalNumber) {
-        QueryByCriteria.Builder builder = QueryByCriteria.Builder.create();
-        List<Predicate> predicates = new ArrayList<>();
-        predicates.add(in("proposalNumber", getHierarchyChildProposals(parentProposalNumber)));
-
-        Predicate[] preds = predicates.toArray(new Predicate[predicates.size()]);
-        builder.setPredicates(preds);
-
-        QueryResults<ProposalBudgetStatus> results = getDataObjectService().findMatching(ProposalBudgetStatus.class,
-                builder.build());
-        return results.getResults();
     }
 
     public DataObjectService getDataObjectService() {
