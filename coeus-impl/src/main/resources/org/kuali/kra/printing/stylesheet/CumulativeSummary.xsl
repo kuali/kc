@@ -3,7 +3,7 @@
     <xsl:variable name="fo:layout-master-set">
         <fo:layout-master-set>
             <fo:simple-page-master master-name="default-page" page-height="11in" page-width="8.5in" margin-left="0.6in" margin-right="1.25in">
-                <fo:region-body margin-top="1.9in" margin-bottom=".74in" />
+                <fo:region-body margin-top=".1in" margin-bottom=".74in" />
                 <fo:region-before extent="1.85in" />
                 <fo:region-after extent=".74in" />
             </fo:simple-page-master>
@@ -14,8 +14,59 @@
         <fo:root>
             <xsl:copy-of select="$fo:layout-master-set" />
             <fo:page-sequence master-reference="default-page" initial-page-number="1" format="1">
-                <fo:static-content flow-name="xsl-region-before">
+                <fo:static-content flow-name="xsl-region-after" display-align="after">
                     <fo:block>
+                        <fo:table width="520pt" space-before.optimum="1pt" space-after.optimum="2pt">
+                            <fo:table-column column-width="150pt" />
+                            <fo:table-column column-width="150pt" />
+                            <fo:table-body>
+                                <fo:table-row>
+                                    <fo:table-cell  padding-left="0pt" padding-right="0pt" padding-top="0pt" border-style="solid" border-width="1pt" border-color="white" text-align="left" width="150pt" padding-start="3pt" padding-end="3pt" padding-before="3pt"  display-align="center">
+                                        <fo:block>
+                                            <fo:block>
+                                                <fo:leader leader-pattern="space" />
+                                            </fo:block>
+                                        </fo:block>
+                                    </fo:table-cell>
+                                    <fo:table-cell font-size="inherited-property-value(&apos;font-size&apos;) - 2pt"  padding-left="0pt" padding-right="0pt" padding-top="0pt" border-style="solid" border-width="1pt" border-color="white" text-align="right" width="150pt" padding-start="3pt" padding-end="3pt" padding-before="3pt"  display-align="center">
+                                        <fo:block />
+                                    </fo:table-cell>
+                                </fo:table-row>
+                                <fo:table-row>
+                                    <fo:table-cell  padding-left="0pt" padding-right="0pt" padding-top="0pt" border-style="solid" border-width="1pt" border-color="white" text-align="left" width="150pt" padding-start="3pt" padding-end="3pt" padding-before="3pt"  display-align="center">
+                                        <fo:block>
+                                            <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
+                                                <fo:block>
+                                                    <fo:inline font-weight="bold">&#160; </fo:inline>&#160;<fo:inline font-size="9.0pt">Page: </fo:inline>
+                                                    <fo:page-number font-size="9.0pt" />
+                                                </fo:block>
+                                            </fo:block>
+                                        </fo:block>
+                                    </fo:table-cell>
+                                    <fo:table-cell border-style="solid" border-width="1pt" border-color="white" text-align="right" width="150pt" padding-start="3pt" padding-end="3pt" padding-before="3pt"  display-align="center">
+                                        <fo:block>
+                                            <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
+                                                <fo:block>
+                                                    <xsl:for-each select="BudgetSummaryReport">
+                                                        <xsl:for-each select="ReportHeader">
+                                                            <xsl:for-each select="CreateDate">
+                                                                <fo:inline font-size="9.0pt">
+                                                                    <xsl:apply-templates />
+                                                                </fo:inline>
+                                                            </xsl:for-each>
+                                                        </xsl:for-each>
+                                                    </xsl:for-each>
+                                                </fo:block>
+                                            </fo:block>
+                                        </fo:block>
+                                    </fo:table-cell>
+                                </fo:table-row>
+                            </fo:table-body>
+                        </fo:table>
+                    </fo:block>
+                </fo:static-content>
+                <fo:flow flow-name="xsl-region-body">
+                <fo:block>
                         <xsl:variable name="parentTypeName" select="BudgetSummaryReport/ReportHeader/parentTypeName"/>
     	
                         <fo:table width="520pt" space-before.optimum="1pt" space-after.optimum="2pt">
@@ -80,7 +131,7 @@
                                 <fo:table-row>
                                     <fo:table-cell  padding-left="0pt" padding-right="0pt" padding-top="0pt" border-style="solid" border-width="1pt" border-color="white" padding-start="3pt" padding-end="3pt" padding-before="3pt"  display-align="center" text-align="start">
                                         <fo:block>
-                                            <fo:inline font-size="9.5pt" font-weight="bold">Project</fo:inline>
+                                            <fo:inline font-size="9.5pt" font-weight="bold">Project Period</fo:inline>
                                         </fo:block>
                                     </fo:table-cell>
                                     <fo:table-cell  padding-left="0pt" padding-right="0pt" padding-top="0pt" border-style="solid" border-width="1pt" border-color="white" number-columns-spanned="3" padding-start="3pt" padding-end="3pt" padding-before="3pt"  display-align="center" text-align="start">
@@ -134,7 +185,7 @@
                                             <fo:inline font-size="9.5pt">&#160;</fo:inline>
                                         </fo:block>
                                     </fo:table-cell>
-                                    <fo:table-cell  padding-left="0pt" padding-right="0pt" padding-top="0pt" border-style="solid" border-width="1pt" border-color="white" number-columns-spanned="3" padding-start="3pt" padding-end="3pt" padding-before="3pt"  display-align="center" text-align="start" wrap-option="no-wrap" overflow="hidden" width="200pt">
+                                    <fo:table-cell  padding-left="0pt" padding-right="0pt" padding-top="0pt" border-style="solid" border-width="1pt" border-color="white" number-columns-spanned="3" padding-start="3pt" padding-end="3pt" padding-before="3pt"  display-align="center" text-align="start" wrap-option="wrap" overflow="hidden" width="200pt">
                                         <fo:block>
                                             <xsl:for-each select="BudgetSummaryReport">
                                                 <xsl:for-each select="ReportHeader">
@@ -150,12 +201,12 @@
                                 </fo:table-row>
                                  <fo:table-row>
                                     <fo:table-cell  padding-left="0pt" padding-right="0pt" padding-top="0pt" border-style="solid" border-width="1pt" border-color="white" width="235pt" padding-start="3pt" padding-end="3pt" padding-before="3pt"  display-align="center" text-align="start">
-                                        <fo:block>
+                                        <fo:block border-bottom-width="1pt" border-bottom-style="solid" border-bottom-color="black">
                                             <fo:inline font-size="9.5pt" font-weight="bold">Comments&#160; </fo:inline>
                                         </fo:block>
                                     </fo:table-cell>
                                     <fo:table-cell  padding-left="0pt" padding-right="0pt" padding-top="0pt" border-style="solid" border-width="1pt" border-color="white" number-columns-spanned="3" padding-start="3pt" padding-end="3pt" padding-before="3pt"  display-align="center" text-align="start">
-                                        <fo:block>
+                                        <fo:block border-bottom-width="1pt" border-bottom-style="solid" border-bottom-color="black">
                                             <xsl:for-each select="BudgetSummaryReport">
                                                 <xsl:for-each select="ReportHeader">
                                                     <xsl:for-each select="Comments">
@@ -168,76 +219,14 @@
                                         </fo:block>
                                     </fo:table-cell>
                                 </fo:table-row>
-                                <fo:table-row>
-                                    <fo:table-cell  padding-left="0pt" padding-right="0pt" padding-top="0pt" border-style="solid" border-width="1pt" border-color="white" height="22pt" number-columns-spanned="4" padding-start="3pt" padding-end="3pt" padding-before="3pt"  display-align="center" text-align="start">
-                                        <fo:block>
-                                            <fo:block color="black" space-before.optimum="-8pt">
-                                                <fo:leader leader-length="100%" leader-pattern="rule" rule-thickness="1pt" />
-                                            </fo:block>
-                                        </fo:block>
-                                    </fo:table-cell>
-                                </fo:table-row>
                             </fo:table-body>
                         </fo:table>
                     </fo:block>
-                </fo:static-content>
-                <fo:static-content flow-name="xsl-region-after" display-align="after">
-                    <fo:block>
-                        <fo:table width="520pt" space-before.optimum="1pt" space-after.optimum="2pt">
-                            <fo:table-column column-width="150pt" />
-                            <fo:table-column column-width="150pt" />
-                            <fo:table-body>
-                                <fo:table-row>
-                                    <fo:table-cell  padding-left="0pt" padding-right="0pt" padding-top="0pt" border-style="solid" border-width="1pt" border-color="white" text-align="left" width="150pt" padding-start="3pt" padding-end="3pt" padding-before="3pt"  display-align="center">
-                                        <fo:block>
-                                            <fo:block>
-                                                <fo:leader leader-pattern="space" />
-                                            </fo:block>
-                                        </fo:block>
-                                    </fo:table-cell>
-                                    <fo:table-cell font-size="inherited-property-value(&apos;font-size&apos;) - 2pt"  padding-left="0pt" padding-right="0pt" padding-top="0pt" border-style="solid" border-width="1pt" border-color="white" text-align="right" width="150pt" padding-start="3pt" padding-end="3pt" padding-before="3pt"  display-align="center">
-                                        <fo:block />
-                                    </fo:table-cell>
-                                </fo:table-row>
-                                <fo:table-row>
-                                    <fo:table-cell  padding-left="0pt" padding-right="0pt" padding-top="0pt" border-style="solid" border-width="1pt" border-color="white" text-align="left" width="150pt" padding-start="3pt" padding-end="3pt" padding-before="3pt"  display-align="center">
-                                        <fo:block>
-                                            <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
-                                                <fo:block>
-                                                    <fo:inline font-weight="bold">&#160; </fo:inline>&#160;<fo:inline font-size="9.0pt">Page: </fo:inline>
-                                                    <fo:page-number font-size="9.0pt" />
-                                                </fo:block>
-                                            </fo:block>
-                                        </fo:block>
-                                    </fo:table-cell>
-                                    <fo:table-cell border-style="solid" border-width="1pt" border-color="white" text-align="right" width="150pt" padding-start="3pt" padding-end="3pt" padding-before="3pt"  display-align="center">
-                                        <fo:block>
-                                            <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
-                                                <fo:block>
-                                                    <xsl:for-each select="BudgetSummaryReport">
-                                                        <xsl:for-each select="ReportHeader">
-                                                            <xsl:for-each select="CreateDate">
-                                                                <fo:inline font-size="9.0pt">
-                                                                    <xsl:apply-templates />
-                                                                </fo:inline>
-                                                            </xsl:for-each>
-                                                        </xsl:for-each>
-                                                    </xsl:for-each>
-                                                </fo:block>
-                                            </fo:block>
-                                        </fo:block>
-                                    </fo:table-cell>
-                                </fo:table-row>
-                            </fo:table-body>
-                        </fo:table>
-                    </fo:block>
-                </fo:static-content>
-                <fo:flow flow-name="xsl-region-body">
                     <fo:block font-size="8pt">
                         <fo:block>
                             <xsl:text>&#xA;</xsl:text>
                         </fo:block>
-                        <fo:table width="520pt" space-before.optimum="1pt" space-after.optimum="2pt">
+                        <fo:table width="520pt" space-before.optimum="10pt" space-after.optimum="2pt">
                             <fo:table-column column-width="97pt" />
                             <fo:table-column column-width="75pt" />
                             <fo:table-column column-width="65pt" />
