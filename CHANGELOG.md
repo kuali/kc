@@ -1,6 +1,13 @@
 
 
 ##CURRENT
+* IRB - Review Comments not displaying while regenerating Amendment letter
+  * Amendment is merged on to main protocol and a new document is created. Minutes/review comments
+  * are not versioned while versioning protocol when amendment is merged. The review comments are only tied
+  * corresponding amendemnt. Fix is to version review comments and attached it to versioned protocol.
+  * rmancher on Thu, 26 Nov 2015 17:22:27 -0500 [View Commit](../../commit/2cc27b2c83193a0e85a7e53fabaab6247653b552)
+
+##coeus-1511.92
 * No Changes
 
 
