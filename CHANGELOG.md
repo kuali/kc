@@ -1,6 +1,28 @@
 
 
 ##CURRENT
+* PD Budget Version > Print > #1 "Budget Costshare Summary
+  * Report" - missing column headers if no personnel costs.
+  * if only non-personnel expenses are in the budget, the costshare summary
+  * report does not include any column headers, making the report virtually
+  * unusable for submission to sponsors or internal use.
+  * To duplicate, create a budget version with only non-personnel items, add
+  * cost share to the details.
+  * Print the report following path: Budget Version > Print > #1 "Budget
+  * Costshare Summary Report"
+  * Results; There are no column headers to explain which column is the cost
+share, the total cost to sponsor, and total project cost.
+  * Desired Results: The column headers should appear on this report,
+  * whether or not there is personnel.
+  * Replicated in Res-Demo1 :1509.10 09-04-2015 18:01
+  * PD 828 
+  * Budget 1 - non personnel costs only no column headers
+  * Budget 2 - personnel only included column headers
+  * Budget 3 Personnel and non-personnel lines includes column headers
+  * Discovered by MIT; their PDF of each budget attached. 
+  * Screenshots from res demo 1  * vineeth on Fri, 27 Nov 2015 10:27:29 -0500 [View Commit](../../commit/e9329d62d5b1ae31ca242fecba1d69d63a8df04f)
+
+##coeus-1511.94
 * PD Budget Version > Action > Print > Budget Cumulative Report
   * printing formatting/subtotal & total display issues.
   * The printed report for Cumulative budget is not well formatted in KC.
