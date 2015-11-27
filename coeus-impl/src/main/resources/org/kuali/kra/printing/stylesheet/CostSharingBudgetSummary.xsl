@@ -121,17 +121,17 @@ information. -->
                                 </fo:table-cell>
                                 <fo:table-cell text-align="center" display-align="center">
                                     <fo:block white-space-collapse="true" text-align="end" color="#000000"  font-size="8.0pt" font-weight="bold">
-                                        <xsl:if test="count(ReportPage/BudgetSummary/SalarySummaryFromEDI/Group/Details) != 0">Total Cost to Sponsor</xsl:if>
+                                        Total Cost to Sponsor
                                     </fo:block>
                                 </fo:table-cell>
                                 <fo:table-cell text-align="center" display-align="center">
                                     <fo:block white-space-collapse="true" text-align="end" color="#000000"  font-size="8.0pt" font-weight="bold">
-                                        <xsl:if test="count(ReportPage/BudgetSummary/SalarySummaryFromEDI/Group/Details) != 0">Cost Sharing</xsl:if>
+                                        Cost Sharing
                                     </fo:block>
                                 </fo:table-cell>
                                 <fo:table-cell text-align="center" display-align="center">
                                     <fo:block white-space-collapse="true" text-align="end" color="#000000"  font-size="8.0pt" font-weight="bold">
-                                        <xsl:if test="count(ReportPage/BudgetSummary/SalarySummaryFromEDI/Group/Details) != 0">Total Cost of Project</xsl:if>
+                                        Total Cost of Project
                                     </fo:block>
                                 </fo:table-cell>
                             </fo:table-row>
