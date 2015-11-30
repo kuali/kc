@@ -1001,7 +1001,7 @@
 	<class-descriptor class="org.kuali.coeus.common.framework.org.audit.OrganizationAudit" table="ORGANIZATION_AUDIT">
 		<field-descriptor name="fiscalYear" column="FISCAL_YEAR" jdbc-type="CHAR" primarykey="true"/>
 		<field-descriptor name="organizationId" column="ORGANIZATION_ID" jdbc-type="VARCHAR" primarykey="true"/>
-		<field-descriptor name="auditAccepted" column="AUDIT_ACCEPTED" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+		<field-descriptor name="auditAcceptedCode" column="AUDIT_ACCEPTED" jdbc-type="VARCHAR" />
 		<field-descriptor name="auditComment" column="AUDIT_COMMENT" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
@@ -1009,8 +1009,21 @@
 		<reference-descriptor name="organization" class-ref="org.kuali.coeus.common.framework.org.Organization" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="organizationId"/> 
 		</reference-descriptor>
+
+		<reference-descriptor name="auditAcceptedType" class-ref="org.kuali.coeus.common.framework.org.audit.OrganizationAuditAcceptedType" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="auditAcceptedCode" />
+		</reference-descriptor>
 	</class-descriptor>
-	
+
+	<class-descriptor class="org.kuali.coeus.common.framework.org.audit.OrganizationAuditAcceptedType" table="ORGANIZATION_AUDIT_ACC_TYPE">
+		<field-descriptor name="code" column="CODE" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="active" column="ACTIVE_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" nullable="false" />
+	</class-descriptor>
+
 	<class-descriptor class="org.kuali.coeus.common.framework.org.OrganizationYnq" table="ORGANIZATION_YNQ">
 		<field-descriptor name="organizationId" column="ORGANIZATION_ID" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="questionId" column="QUESTION_ID" jdbc-type="VARCHAR" primarykey="true"/>

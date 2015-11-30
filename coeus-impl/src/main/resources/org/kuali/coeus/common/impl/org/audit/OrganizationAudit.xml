@@ -34,6 +34,7 @@
         <ref bean="OrganizationAudit-fiscalYear" />
         <ref bean="OrganizationAudit-organizationId" />
         <ref bean="OrganizationAudit-auditAccepted" />
+        <ref bean="OrganizationAudit-auditAcceptedCode" />
         <ref bean="OrganizationAudit-auditComment" />
       </list>
     </property>
@@ -98,6 +99,16 @@
     <property name="description" value="Audit Accepted" />
   </bean>
 
+  <bean id="OrganizationAudit-auditAcceptedCode" parent="OrganizationAudit-auditAcceptedCode-parentBean"/>
+  <bean id="OrganizationAudit-auditAcceptedCode-parentBean" abstract="true" parent="OrganizationAuditAcceptedType-code">
+    <property name="name" value="auditAcceptedCode" />
+    <property name="label" value="Audit Accepted Type" />
+    <property name="shortLabel" value="Audit Accepted Type" />
+    <property name="summary" value="Audit Accepted Type" />
+    <property name="description" value="Audit Accepted Type" />
+  </bean>
+
+
   <bean id="OrganizationAudit-auditComment" parent="OrganizationAudit-auditComment-parentBean"/>
   <bean id="OrganizationAudit-auditComment-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="auditComment" />
@@ -137,7 +148,7 @@
             <list>
               <bean parent="FieldDefinition" p:attributeName="fiscalYear" p:forceInquiry="true"/>
               <bean parent="FieldDefinition" p:attributeName="organizationId" p:forceInquiry="true"/>
-              <bean parent="FieldDefinition" p:attributeName="auditAccepted"/>
+              <bean parent="FieldDefinition" p:attributeName="auditAcceptedCode"/>
               <bean parent="FieldDefinition" p:attributeName="auditComment"/>
             </list>
           </property>
@@ -158,7 +169,7 @@
             <list>
               <bean p:propertyName="fiscalYear" parent="Uif-DataField"/>
               <bean p:propertyName="organizationId" parent="Uif-DataField"/>
-              <bean p:propertyName="auditAccepted" parent="Uif-DataField"/>
+              <bean p:propertyName="auditAcceptedCode" parent="Uif-DataField"/>
               <bean p:propertyName="auditComment" parent="Uif-DataField"/>
             </list>
           </property>
@@ -178,7 +189,7 @@
       <list>
         <bean parent="FieldDefinition" p:attributeName="fiscalYear"/>
         <bean parent="FieldDefinition" p:attributeName="organizationId"/>
-        <bean parent="FieldDefinition" p:attributeName="auditAccepted"/>
+        <bean parent="FieldDefinition" p:attributeName="auditAcceptedCode"/>
         <bean parent="FieldDefinition" p:attributeName="auditComment"/>
       </list>
     </property>
@@ -186,7 +197,7 @@
       <list>
         <bean parent="FieldDefinition" p:attributeName="fiscalYear" p:forceInquiry="true"/>
         <bean parent="FieldDefinition" p:attributeName="organizationId" p:forceInquiry="true"/>
-        <bean parent="FieldDefinition" p:attributeName="auditAccepted"/>
+        <bean parent="FieldDefinition" p:attributeName="auditAcceptedCode"/>
         <bean parent="FieldDefinition" p:attributeName="auditComment"/>
       </list>
     </property>
@@ -199,7 +210,7 @@
       <list>
         <bean p:propertyName="fiscalYear" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="organizationId" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="auditAccepted" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="auditAcceptedCode" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="auditComment" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
@@ -207,7 +218,7 @@
       <list>
         <bean p:propertyName="fiscalYear" parent="Uif-DataField"/>
         <bean p:propertyName="organizationId" parent="Uif-DataField"/>
-        <bean p:propertyName="auditAccepted" parent="Uif-DataField"/>
+        <bean p:propertyName="auditAcceptedCode" parent="Uif-DataField"/>
         <bean p:propertyName="auditComment" parent="Uif-DataField"/>
       </list>
     </property>

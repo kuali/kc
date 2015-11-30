@@ -22,11 +22,15 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.org.OrganizationYnq;
 import org.kuali.coeus.common.api.rolodex.RolodexService;
+import org.kuali.coeus.common.framework.org.audit.OrganizationAudit;
+import org.kuali.coeus.common.framework.org.audit.OrganizationAuditAcceptedType;
 import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+
+import java.util.Collections;
 
 public class OrganizationMaintenanceDocumentRule  extends KcMaintenanceDocumentRuleBase {
 
@@ -57,6 +61,7 @@ public class OrganizationMaintenanceDocumentRule  extends KcMaintenanceDocumentR
         
         result &= checkYNQ(document);
         result &= checkRolodexEntries(document);
+        result &= checkAudits(document);
         return result;
     }
     
@@ -64,8 +69,6 @@ public class OrganizationMaintenanceDocumentRule  extends KcMaintenanceDocumentR
     /**
      * 
      * This method to check Ynq's explanation and review date is required field based on answer.
-     * @param maintenanceDocument
-     * @return
      */
     private boolean checkYNQ(MaintenanceDocument maintenanceDocument) {
         ErrorReporter errorReporter = KcServiceLocator.getService(ErrorReporter.class);
@@ -82,8 +85,7 @@ public class OrganizationMaintenanceDocumentRule  extends KcMaintenanceDocumentR
             if( StringUtils.isBlank(organizationYnq.getAnswer()) ) {
                 errorReporter.reportError(String.format( "document.newMaintainableObject.organizationYnqs[%s].answer", i ), 
                         KeyConstants.ERROR_ORGANIZATION_QUESTIONYNQ_ANSWER_REQUIRED,
-                        new String[] { organizationYnq.getYnq().getQuestionId()}
-                    );
+                        organizationYnq.getYnq().getQuestionId());
                 valid=false;
             }
             
@@ -92,8 +94,7 @@ public class OrganizationMaintenanceDocumentRule  extends KcMaintenanceDocumentR
                 
                 errorReporter.reportError(String.format( "document.newMaintainableObject.organizationYnqs[%s].explanation", i ), 
                         KeyConstants.ERROR_ORGANIZATION_QUESTIONYNQ_EXPLANATION_REQUIRED,
-                        new String[] { organizationYnq.getYnq().getQuestionId()}
-                    );
+                        organizationYnq.getYnq().getQuestionId());
                 
                 valid = false;
             }
@@ -103,8 +104,7 @@ public class OrganizationMaintenanceDocumentRule  extends KcMaintenanceDocumentR
                    ) {
                     errorReporter.reportError(String.format( "document.newMaintainableObject.organizationYnqs[%s].reviewDate", i ), 
                             KeyConstants.ERROR_ORGANIZATION_QUESTIONYNQ_DATE_REQUIRED,
-                            new String[] { organizationYnq.getYnq().getQuestionId()}
-                        );
+                            organizationYnq.getYnq().getQuestionId());
                     valid = false;
             }
             i++;
@@ -122,34 +122,37 @@ public class OrganizationMaintenanceDocumentRule  extends KcMaintenanceDocumentR
         
         
         if( ( newOrganization.getOnrResidentRep() != null ) && rolodexService.getRolodex( newOrganization.getOnrResidentRep() ) == null )  { 
-            errorReporter.reportError(String.format( "document.newMaintainableObject.onrResidentRep" ), 
-                    KeyConstants.ERROR_INVALID_ROLODEX_ENTRY,
-                    new String[] { }
-                );
+            errorReporter.reportError("document.newMaintainableObject.onrResidentRep",
+                    KeyConstants.ERROR_INVALID_ROLODEX_ENTRY);
             valid = false;
         }
             
         if( ( newOrganization.getContactAddressId() != null ) && rolodexService.getRolodex( newOrganization.getContactAddressId() ) == null ) { 
-            errorReporter.reportError(String.format( "document.newMaintainableObject.contactAddressId" ), 
-                    KeyConstants.ERROR_INVALID_ROLODEX_ENTRY,
-                    new String[] { }
-                );
+            errorReporter.reportError("document.newMaintainableObject.contactAddressId",
+                    KeyConstants.ERROR_INVALID_ROLODEX_ENTRY);
             valid = false;
         }
         
         if( ( newOrganization.getCognizantAuditor() != null ) && rolodexService.getRolodex( newOrganization.getCognizantAuditor() ) == null ) {
-            errorReporter.reportError(String.format( "document.newMaintainableObject.cognizantAuditor" ), 
-                    KeyConstants.ERROR_INVALID_ROLODEX_ENTRY,
-                    new String[] { }
-                );
+            errorReporter.reportError("document.newMaintainableObject.cognizantAuditor",
+                    KeyConstants.ERROR_INVALID_ROLODEX_ENTRY);
             valid = false;
         }
         
         return valid;
     }
-    
-    
-    
+
+    private boolean checkAudits(MaintenanceDocument maintenanceDocument) {
+
+        boolean valid = true;
+        final Organization newOrganization = (Organization) maintenanceDocument.getNewMaintainableObject().getDataObject();
+        int i = 0;
+        for (OrganizationAudit organizationAudit : newOrganization.getOrganizationAudits()) {
+            valid &= checkExistenceFromTable(OrganizationAuditAcceptedType.class, Collections.singletonMap("code", organizationAudit.getAuditAcceptedCode()), String.format( "organizationAudits[%s].auditAcceptedCode", i ), "Accepted Type");
+            i++;
+        }
+        return valid;
+    }
     
 
 }

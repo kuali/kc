@@ -452,6 +452,8 @@
                 <value>classpath:org/kuali/kra/datadictionary/NsfCode.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/org/Organization.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/org/audit/OrganizationAudit.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/org/audit/OrganizationAuditAcceptedType.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/org/audit/OrganizationAuditAcceptedTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/org/crrspndnt/OrganizationCorrespondent.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/org/OrganizationIndirectcost.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/org/type/OrganizationType.xml</value>
