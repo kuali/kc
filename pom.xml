@@ -1494,26 +1494,6 @@
 
             <dependency>
                 <groupId>org.kuali.rice</groupId>
-                <artifactId>rice-development-tools</artifactId>
-                <version>${rice.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.kuali.rice</groupId>
-                        <artifactId>rice-krad-data</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.kuali.db.ojb</groupId>
-                        <artifactId>db-ojb</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>cglib</groupId>
-                        <artifactId>cglib-nodep</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-
-            <dependency>
-                <groupId>org.kuali.rice</groupId>
                 <artifactId>rice-edl-impl</artifactId>
                 <version>${rice.version}</version>
                 <exclusions>
