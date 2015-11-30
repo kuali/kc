@@ -53,6 +53,7 @@ import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -361,8 +362,11 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
         }
         DevelopmentProposal parent = budget.getDevelopmentProposal();
         budget.setDevelopmentProposal(null);
-		ProposalDevelopmentBudgetExt doServiceCopy = getDataObjectService().copyInstance(budget, CopyOption.RESET_OBJECT_ID, CopyOption.RESET_PK_FIELDS, CopyOption.RESET_VERSION_NUMBER);
-		doServiceCopy.setObjectId(UUID.randomUUID().toString());
+        ProposalDevelopmentBudgetExt doServiceCopy = getDataObjectService().copyInstance(budget, CopyOption.RESET_OBJECT_ID, CopyOption.RESET_PK_FIELDS, CopyOption.RESET_VERSION_NUMBER);
+        if (StringUtils.isBlank(doServiceCopy.getObjectId())) {
+            doServiceCopy.setObjectId(UUID.randomUUID().toString());
+        }
+
         budget.setDevelopmentProposal(parent);
 		if (developmentProposal != null) {
 			doServiceCopy.setDevelopmentProposal(developmentProposal);
@@ -370,14 +374,15 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
 			doServiceCopy.setDevelopmentProposal(parent);
 		}
 
-        for (int i = 0; i < doServiceCopy.getNextValues().size(); i++) {
-            DocumentNextvalue orig = budget.getNextValues().get(i);
-            DocumentNextvalue copy = doServiceCopy.getNextValues().get(i);
-
+        final List<DocumentNextvalue> nextValues = budget.getNextValues().stream().map(orig -> {
+            final DocumentNextvalue copy = new DocumentNextvalue();
             copy.setPropertyName(orig.getPropertyName());
             copy.setDocumentKey(doServiceCopy.getObjectId());
             copy.setNextValue(orig.getNextValue());
-        }
+            return copy;
+        }).collect(Collectors.toList());
+
+        doServiceCopy.setNextValues(nextValues);
 
 		return doServiceCopy;
     }
