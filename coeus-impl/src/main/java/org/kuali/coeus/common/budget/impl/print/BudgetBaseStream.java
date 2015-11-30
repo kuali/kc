@@ -336,20 +336,21 @@ public abstract class BudgetBaseStream implements XmlStream {
 		setReportTypeBudgetLASalary(reportTypeList, reportTypeVOList);
 	}
 
-	protected ReportTypeVO getReportTypeVOForBudgetLASalaryForRateBase(BudgetLineItem budgetLineItem, BudgetRateAndBase budgetRateAndBase) {
-		ReportTypeVO reportTypeVO = new ReportTypeVO();
-		reportTypeVO.setCostElementDesc(budgetLineItem.getCostElementBO().getDescription());
-		Date startDate = budgetRateAndBase.getStartDate();
-		Date endDate = budgetRateAndBase.getEndDate();
-		reportTypeVO.setStartDate(startDate);
-		reportTypeVO.setEndDate(endDate);
-		reportTypeVO.setSalaryRequested(budgetRateAndBase.getCalculatedCost());
+    protected ReportTypeVO getReportTypeVOForBudgetLASalaryForRateBase(BudgetLineItem budgetLineItem, BudgetRateAndBase budgetRateAndBase) {
+        ReportTypeVO reportTypeVO = new ReportTypeVO();
+        reportTypeVO.setCostElementDesc(budgetLineItem.getCostElementBO().getDescription());
+        Date startDate = budgetRateAndBase.getStartDate();
+        Date endDate = budgetRateAndBase.getEndDate();
+        reportTypeVO.setStartDate(startDate);
+        reportTypeVO.setEndDate(endDate);
+        reportTypeVO.setBudgetCategoryDesc(getBudgetCategoryDescForSalarySummary(budgetLineItem,budgetLineItem,budgetRateAndBase));
+        reportTypeVO.setSalaryRequested(budgetRateAndBase.getCalculatedCost());
         reportTypeVO.setFringe(getFringeForLASalaryForRateAndBase(budgetLineItem, startDate, endDate));
-		reportTypeVO.setCostSharingAmount(budgetRateAndBase.getCalculatedCostSharing());
+        reportTypeVO.setCostSharingAmount(budgetRateAndBase.getCalculatedCostSharing());
         reportTypeVO.setCalculatedCost(getFringeCostSharingLASalaryRateAndBase(budgetLineItem, startDate, endDate));
         reportTypeVO.setBudgetLineItemId(budgetLineItem.getBudgetLineItemId());
-		return reportTypeVO;
-	}
+        return reportTypeVO;
+    }
 
 	public BusinessObjectService getBusinessObjectService() {
 		return businessObjectService;
