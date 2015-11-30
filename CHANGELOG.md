@@ -1,6 +1,155 @@
 
 
 ##CURRENT
+*  Fix underrecovery in some situations and add tests
+  * If the Budget Settings > Unrecovered F&A Base selection is FUNSN, the system is not recognizing the the full difference. Cost Objects that are included in the FUNSN rate that are not charged F&A in the MTDC rate (like Equipment, Tuition, and Subawards) are not generating U/R when the rate pair of F&A = MTDC and UR F&A Base = FUNSN.
+  * The following F&A Rate Type/Unrecovered F&A Rate Type combinations are still not calculating Underrecovery correctly in the budget, specifically on the Equipment and Tuition RA Object Codes (this seems to be happening with the Object Codes that are set-up to NOT apply MTDC).
+  * F&A Rate Type/Unrecovered F&A Rate Type:
+  * > MTDC /FUNSN
+  * > FUNSN/MTDC
+  * Example Scenario 1: MTDC over FUNSN
+  * Proposal Activity Type: Other (or another one if you wish)
+  * In the Budget > Budget Settings:
+  * F&A Rate Type: MTDC
+  * Unrecovered F&A Rate Type: FUNSN
+  * In the Rates section, left the MTDC (56%) and FUNSN (M&S at 10%) rates at the Institute Rate
+  * Add an Equipment - Not MTDC Object Code with a Total Base Cost of $10000
+  * (while Equipment -Not MTDC is excluded from the MTDC base, it is included in the FUNSN base)
+  * In the Edit Assigned Non-Personnel window for the Equipment Object Code there is nothing in the Rates tab - which is CORRECT (since no F&A rate is applied to Equipment), but the
+  * Results: in all screens the KC Budget, this cost object displays 0.00
+  * Desired results:
+  * Details> Cost Sharing tab should display $1,000 for the over-recovery generated in the FUNSN UR BASE.
+  * Periods & Totals screen > Unrecovered F&A column, is blank, but the 1,000 should be listed.
+  * Add another line item of Travel of $10K.
+  * Results:
+  * The Details> Rates > MTDC = $5,6000
+  * The Details > Cost Sharing > Unrecovered F&A = $4,600.
+  * The Institutional Commitments > Unrecovered F&A is blank.
+  * Expected Results;
+  * The P&T screen > Underrecovered F&A should = $3,600 (-1000 + 4,600) Combining the unrecovered amounts of all lines.
+  * Example Scenario 2:
+  * Proposal Activity Type: Other (or another one if you wish)
+  * In the Budget > Budget Settings:
+  * F&A Rate Type: FUNSN
+  * Unrecovered F&A Rate Type: MTDC
+  * In the Rates section, left the MTDC (56%) and FUNSN (M&S at 10%) rates at the Institute Rate
+  * Add Equipment - Not MTDC Object Code with a Total Base Cost of $10000
+  * >Equipment -Not MTDC is excluded from the MTDC base, it is included in the FUNSN base
+  * In the Details > Rates tab there is a Rate Cost of 1,000 (This is CORRECT (since 10% rate is applied to Equipment in the FUNSN base)
+  * HOWEVER, in the Details> Cost Sharing tab> Underrecovered F&A is 0.00
+  * Desired Result: -1,000.00 in the Unrecovered F&A for this scenario in the line item details.
+  * Periods & Totals screen > Uncrecovered F&A is 0.00.
+  * Desired Result: should be -1,000.
+  * Next step > add travel expense of $10,000.
+  * Results: Details > Rates> F&A of FUNSN is corrrect at $1,000.
+  * Details > Cost Sharing > Unrecovered F&A = $4,600 (correct amount)
+  * Commitments > Unrecovered F&A: Total unallocated = $4,600 (INCORRECT)
+  * Periods & Totals> Unrecovered F&A = $4,600 (INCORRECT)
+  * Desired Results;
+  * Commitments > Unrecovered F&A: Total unallocated = $3,600 (-$1,000 + $4,600)
+  * Periods & Totals> Unrecovered F&A $3,600 (-$1,000 + $4,600)
+  * Gayathri Athreya on Mon, 30 Nov 2015 08:46:56 -0700 [View Commit](../../commit/1c1f0e48febc7a918a1c1b240bb168792f76fd6c)
+*  Refactor calculate breakpoints
+  * Gayathri Athreya on Tue, 24 Nov 2015 15:20:48 -0700 [View Commit](../../commit/7a4024df1a6907cd69c5cf86c80967fd5de817fb)
+* Proposal Hierarchy: Changes to the Budget Periods on the Child
+  * do NOT sync to the Parent Proposal.
+  * Confirmed in res-test1 on 7/27/2015
+  * Created a 4 year project period in initiating child> created parent.
+  * Updated Parent start/end dates to 3 year
+  * Updated Child proposal start/end dates; reset budget period boundaries.
+  * Synced to parent: parent budget did not update to 3 year period. (there
+  * were no budget details to delete; zero dollar budget).
+  * Tried creating a new budget version in child with correct 3 year
+  * periods: added budget details: marked for submission and synced to
+  * parent, but parent budget STILL did not remove the unsupported 4th
+  * period.
+  * See parent #6382 and child 6381 in res-test1.
+  * When a user creates a Proposal Hierarchy with certain project dates and
+  * then changes those dates at both the child and parent levels, the budget
+  * periods already created at the Parent Proposal do not update with the
+  * new budget periods (especially when Periods are removed).
+  * This happened last week in Production with Parent Proposal 27870 (the
+  * parent and the child proposals were set up with a 5 year project period
+  * but the parent proposal had 6 budget periods and the child proposals had
+  * 5 budget periods). User kept getting the error on the Parent Proposal
+  * Budget that 'Period 6 end date cannot exceed project end date' but there
+  * was no way for us to fix it. 
+  * Here are the steps to reproduce this:
+  * 1. Create a proposal (child 1) entering minimum info to save with
+  * Project Dates for example 07/01/2015 - 06/30/2021 
+  * 2. Add a PI to your proposal 
+  * 3. Create/Add a Budget Version (navigate to the Periods & Totals and you
+should see 6 budget periods) (no need to add cost to the budget) 
+  * 4. Click the Return to Proposal button to get back to the main proposal
+screen 
+  * 5. In the proposal screen, click the Hierarchy link in the toolbar and
+  * in the Hierarchy window: 
+  * a) Select Sub-Budget from the Hierarchy Budget Type 
+  * b) Click the Create Hierarchy button 
+  * 6. The Parent Proposal should be generated.
+  * 7. Now, navigate to your PARENT Proposal and view the Budget (you should
+see a Budget Version called 'Hierarchy Budget' and once you open it,
+  * there should be the 6 budget periods that were in the child proposal
+  * used to create the parent proposal) 
+  * 8. In the Parent Budget, click the Return to Proposal button to get back
+  * to the main proposal screen 
+  * 9. On the Parent Proposal, in the Proposal Details, change the Project
+  * End Date to 06/30/2020 
+  * 10. Save and Close your Parent proposal
+  * 11. Navigate to your CHILD proposal, and in the Proposal Details, change
+  * the Project End Date to 06/30/2020 
+  * 12. Then, open your budget and in the Periods & Totals section, click
+  * the Rest to periods defaults button. You should now see 5 budget periods
+  * (NOT 6) 
+  * 13. Save your budget and click the Return to Proposal button. 
+  * 14. In the proposal screen, click the Hierarchy link located in the
+  * toolbar. In the Hierarchy window that opens, click the Sync Hierarchy
+  * button (you should see a message that states 'Synchronization
+successful') 
+  * 15. Save and close out of your child proposal.
+  * 16. Navigate back to the PARENT Proposal. 
+  * 17. Navigate to the Budget and you still see the 6 Budget Periods that
+  * were originally there. The system did not sync the budget periods change
+  * from the child proposal. 
+  * 18. While in the budget, click the Data Validation link, and Turn On the
+  * Validations. You will get the error that 'Period 6 end date cannot
+  * exceed end date' BUT there is no way to get rid off that period 6
+  * You can see Parent Proposal Number 27496 in KC QA where this error is
+shown.
+  * Desired Behavior: The Parent Proposal Budget Periods should sync with
+  * the Child Proposal Budget Periods.
+  * MITKC-2023
+
+  * 8. In the Parent Budget, click the Return to Proposal button to get back
+  * to the main proposal screen 
+  * 9. On the Parent Proposal, in the Proposal Details, change the Project
+  * End Date to 06/30/2020 
+  * 10. Save and Close your Parent proposal
+  * 11. Navigate to your CHILD proposal, and in the Proposal Details, change
+  * the Project End Date to 06/30/2020 
+  * 12. Then, open your budget and in the Periods & Totals section, click
+  * the Rest to periods defaults button. You should now see 5 budget periods
+  * (NOT 6) 
+  * 13. Save your budget and click the Return to Proposal button. 
+  * 14. In the proposal screen, click the Hierarchy link located in the
+  * toolbar. In the Hierarchy window that opens, click the Sync Hierarchy
+  * button (you should see a message that states 'Synchronization
+successful') 
+  * 15. Save and close out of your child proposal.
+  * 16. Navigate back to the PARENT Proposal. 
+  * 17. Navigate to the Budget and you still see the 6 Budget Periods that
+  * were originally there. The system did not sync the budget periods change
+  * from the child proposal. 
+  * 18. While in the budget, click the Data Validation link, and Turn On the
+  * Validations. You will get the error that 'Period 6 end date cannot
+  * exceed end date' BUT there is no way to get rid off that period 6
+  * You can see Parent Proposal Number 27496 in KC QA where this error is
+shown.
+  * Desired Behavior: The Parent Proposal Budget Periods should sync with
+  * the Child Proposal Budget Periods.
+  * MITKC-2023  * vineeth on Wed, 25 Nov 2015 11:09:22 -0500 [View Commit](../../commit/291824ffed6b14ef16f17d71bf932d8caad05038)
+
+##coeus-1511.101
 * No Changes
 
 
