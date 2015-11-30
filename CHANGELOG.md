@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* Fix script to avoid failures
+
+  * Re-order such that all dml occurs between necessary ddl to avoid auto-commit on DDL changes.
+  * Add specific column names to avoid chances the default column ordering is different.
+  * Backup subaward_amount_info and subaward_attachments into versioned backup tables in case of errors.
+  * Geo Thomas on Mon, 30 Nov 2015 09:34:34 -0500 [View Commit](../../commit/5a7963a520ff47bdfe7740f2d9f6f16317866dbe)
+
+##coeus-1511.105
 * No Changes
 
 
