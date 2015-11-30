@@ -75,6 +75,7 @@ public class ProposalDevelopmentConstants {
     public static class Parameters {
         public static final String KEY_PERSON_CERTIFICATION_SELF_CERTIFY_ONLY = "KEY_PERSON_CERTIFICATION_SELF_CERTIFY_ONLY";
         public static final String NOTIFY_ALL_CERTIFICATIONS_COMPLETE = "notifyAggregatorWhenAllCertificationsComplete";
+        public static final String KEY_PERSON_PROJECT_ROLE = "keyPersonProjectRole";
     }
 
     public static class ParameterValues {

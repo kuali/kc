@@ -64,7 +64,6 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
     public static final String CERTIFICATION_UPDATE_FEATURE_FLAG = "CERTIFICATION_UPDATE_FEATURE_FLAG";
     public static final String CERTIFICATION_ACTION_TYPE_CODE = "104";
     public static final String CERTIFY_NOTIFICATION = "Certify Notification";
-    public static final String KEY_PERSON_PROJECT_ROLE = "keyPersonProjectRole";
     public static final String PERSON_ROLE = "personRole";
 	public static final String CERTIFICATION_ACTION_TYPE_COI = "107";
     @Autowired
@@ -188,8 +187,8 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
        }
 
        newProposalPerson.setProposalPersonRoleId((String) form.getAddKeyPersonHelper().getParameter(PERSON_ROLE));
-       if (form.getAddKeyPersonHelper().getParameterMap().containsKey(KEY_PERSON_PROJECT_ROLE)) {
-        newProposalPerson.setProjectRole((String) form.getAddKeyPersonHelper().getParameter(KEY_PERSON_PROJECT_ROLE));
+       if (form.getAddKeyPersonHelper().getParameterMap().containsKey(ProposalDevelopmentConstants.Parameters.KEY_PERSON_PROJECT_ROLE)) {
+        newProposalPerson.setProjectRole((String) form.getAddKeyPersonHelper().getParameter(ProposalDevelopmentConstants.Parameters.KEY_PERSON_PROJECT_ROLE));
        }
 
        if (!getKualiRuleService().applyRules(new AddKeyPersonEvent(form.getProposalDevelopmentDocument(),newProposalPerson))) {
