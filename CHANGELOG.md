@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1511.107
 *  Fixing role exemption certification and added tests.
   * I re-tested this case in 1511.58 and found that Key Persons with roles maintained in keypersonprojectrole who do not have to certify or disclose still show in Notify All and COI disclosure status modals but should not.
   * Gayathri Athreya on Mon, 30 Nov 2015 14:01:38 -0700 [View Commit](../../commit/4d170526406d6f4ff6a9990cb1f383dbe2e29474)
