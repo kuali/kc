@@ -52,10 +52,8 @@ import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.DocumentRequestAuthorizationCache;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -82,7 +80,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
 
     @Override
     public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
-        Set<String> editModes = new HashSet<String>();
+        Set<String> editModes = new HashSet<>();
          
         ProposalDevelopmentDocument proposalDoc = (ProposalDevelopmentDocument) document;
         DevelopmentProposal developmentProposal = proposalDoc.getDevelopmentProposal();
@@ -123,21 +121,17 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
     public boolean canDeleteDocument(Document document, Person user) {
     	if(document != null && document instanceof Permissionable)
     		return getKcAuthorizationService().hasPermission(user.getPrincipalId(), (Permissionable)document, PermissionConstants.DELETE_PROPOSAL);
-    	else 
+    	else
     		return false;
     }
     
     public boolean canCreateInstitutionalProposal(Document document, Person user) {
-        boolean hasPermission = true;
-        Map<String,String> permissionDetails =new HashMap<String,String>();
-        permissionDetails.put(PermissionConstants.DOCUMENT_TYPE_ATTRIBUTE_QUALIFIER, InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_DOCUMENT_NAME);
-        
-        hasPermission &= getPermissionService().hasPermission(user.getPrincipalId(), InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_NAMESPACE, 
+        boolean hasPermission = getPermissionService().hasPermission(user.getPrincipalId(), InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_NAMESPACE,
     			PermissionConstants.CREATE_INSTITUTIONAL_PROPOSAL);
         if (hasPermission) {
-        	hasPermission &= getPermissionService().hasPermission(user.getPrincipalId(), 
-                InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_NAMESPACE, 
-                PermissionConstants.SUBMIT_INSTITUTIONAL_PROPOSAL);
+        	hasPermission = getPermissionService().hasPermission(user.getPrincipalId(),
+                    InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_NAMESPACE,
+                    PermissionConstants.SUBMIT_INSTITUTIONAL_PROPOSAL);
     	}
         return hasPermission;
     }
@@ -604,7 +598,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
 
     protected boolean isAuthorizedToReplacePersonnelAttachement(Document document, Person user) {
         final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
-        ProposalState proposalState = pdDocument.getDevelopmentProposal().getProposalState();
+
         return getModifyNarrativePermission(pdDocument, user) || isAuthorizedToAlterProposalData(document, user);
     }
 
@@ -819,11 +813,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
     }
 
     protected boolean isAuthorizedToAddAddressBook(Document doc, Person user) {
-        final boolean hasPermission;
-        final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) doc);
-
-        hasPermission = getPermissionService().hasPermission(user.getPrincipalId(), Constants.MODULE_NAMESPACE_UNIT,PermissionConstants.ADD_ADDRESS_BOOK);
-        return hasPermission;
+        return getPermissionService().hasPermission(user.getPrincipalId(), Constants.MODULE_NAMESPACE_UNIT,PermissionConstants.ADD_ADDRESS_BOOK);
     }
 
     protected boolean isAuthorizedToModify(Document document, Person user) {
@@ -843,7 +833,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
 
         final String proposalNbr = proposal.getProposalNumber();
 
-        final boolean hasPermission;
+        boolean hasPermission;
         if (proposalNbr == null) {
             hasPermission = hasPermissionByOwnedByUnit(document, user);
         } else {
@@ -858,6 +848,10 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
                     getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.MODIFY_PROPOSAL) &&
                     (!getKcWorkflowService().isInWorkflow(document) || hasBeenRejected) &&
                     !proposal.getSubmitFlag();
+        }
+
+        if (proposal.isChild() && hasPermission) {
+            hasPermission = isAuthorizedToModify(proposal.getParent().getDocument(), user);
         }
 
         documentRequestAuthorizationCache.addPermissionResult(resultCacheKey, hasPermission);

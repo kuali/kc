@@ -40,7 +40,6 @@ import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
 import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
 import org.kuali.rice.kew.api.document.search.DocumentSearchResults;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.permission.Permission;
@@ -58,6 +57,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
 
@@ -129,7 +129,7 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
     protected Collection<?> executeSearch(Map<String, String> adjustedSearchCriteria,
                                           List<String> wildcardAsLiteralSearchCriteria, boolean bounded, Integer searchResultsLimit) {
 
-        Map<String,String> modifiedSearchCriteria = new HashMap<String,String>();
+        Map<String,String> modifiedSearchCriteria = new HashMap<>();
         modifiedSearchCriteria.putAll(adjustedSearchCriteria);
 
         String proposalNumberCriteria = adjustedSearchCriteria.get(PROPOSAL_NUMBER);
@@ -168,6 +168,8 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
         modifiedSearchCriteria.remove(PARTICIPANT);
         modifiedSearchCriteria.remove(AGGREGATOR);
 
+        final String hierarchyAwareProposalStatusCode = modifiedSearchCriteria.remove("hierarchyAwareProposalStatus.code");
+
         QueryByCriteria.Builder query = lookupCriteriaGenerator.generateCriteria(DevelopmentProposal.class, modifiedSearchCriteria,
                 wildcardAsLiteralSearchCriteria, getLookupService().allPrimaryKeyValuesPresentAndNotWildcard(DevelopmentProposal.class, modifiedSearchCriteria));
         if (searchResultsLimit != null) {
@@ -177,7 +179,7 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
         if ((StringUtils.isBlank(proposalNumberCriteria) || proposalNumberWildcarded)
                 && documentNumbers.size() > 0) {
             if (modifiedSearchCriteria.size() > 0){
-                List<Predicate> predicateList = new ArrayList(Arrays.asList(query.getPredicates()));
+                List<Predicate> predicateList = Arrays.asList(query.getPredicates());
                 predicateList.add(PredicateFactory.in(PROPOSAL_DOCUMENT_DOCUMENT_NUMBER, documentNumbers));
                 query.setPredicates(PredicateFactory.and(predicateList.toArray(new Predicate[predicateList.size()])));
             }
@@ -186,7 +188,12 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
             }
         }
 
-        final List<DevelopmentProposal> proposals = getDataObjectService().findMatching(DevelopmentProposal.class, query.build()).getResults();
+        final java.util.function.Predicate<DevelopmentProposal> statusCodePredicate = ((java.util.function.Predicate<DevelopmentProposal>) proposal -> StringUtils.isBlank(hierarchyAwareProposalStatusCode))
+                .or(proposal -> proposal.getHierarchyAwareProposalStatus().getCode().equals(hierarchyAwareProposalStatusCode));
+
+        final List<DevelopmentProposal> proposals = getDataObjectService().findMatching(DevelopmentProposal.class, query.build()).getResults().stream()
+                .filter(statusCodePredicate)
+                .collect(Collectors.toList());
 
         boolean doNotFilter = false;
         if (CollectionUtils.isNotEmpty(proposals) && proposals.size() > SMALL_NUMBER_OF_RESULTS) {
@@ -200,7 +207,7 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
     }
 
     private Collection<DevelopmentProposal> filterPermissions(Collection<DevelopmentProposal> results) {
-        Collection<DevelopmentProposal> filteredResults = new ArrayList<DevelopmentProposal>();
+        Collection<DevelopmentProposal> filteredResults = new ArrayList<>();
         for (DevelopmentProposal developmentProposal : results) {
             if (getKcAuthorizationService().hasPermission(getGlobalVariableService().getUserSession().getPrincipalId(),
                     developmentProposal.getDocument(),PermissionConstants.VIEW_PROPOSAL)){
@@ -254,7 +261,7 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
             return new ArrayList<>();
         }
 
-        List<String> piProposals = new ArrayList<String>();
+        List<String> piProposals = new ArrayList<>();
         Collection<ProposalPerson> proposalPersons = getDataObjectService().findMatching(ProposalPerson.class, QueryByCriteria.Builder.fromPredicates(
                 PredicateFactory.equal(PROPOSAL_PERSON_ROLE_ID, Constants.PRINCIPAL_INVESTIGATOR_ROLE),
                 buildProposalPersonOrPredicate(personSearchString)
@@ -277,7 +284,7 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
             return new ArrayList<>();
         }
 
-        List<String> personProposals = new ArrayList<String>();
+        List<String> personProposals = new ArrayList<>();
         Collection<ProposalPerson> proposalPersons = getDataObjectService().findMatching(ProposalPerson.class, QueryByCriteria.Builder.fromPredicates(
                 buildProposalPersonOrPredicate(personSearchString)
         )).getResults();
@@ -394,20 +401,18 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
      * Builds the or predicate used to find the person by userName, personId, and lastName for ProposalPerson objects.
      */
     private Predicate buildProposalPersonOrPredicate(String personSearchString) {
-        List<Predicate> orPredicates = new ArrayList<Predicate>();
+        List<Predicate> orPredicates = new ArrayList<>();
         orPredicates.add(PredicateFactory.likeIgnoreCase(USER_NAME, personSearchString));
         orPredicates.add(PredicateFactory.likeIgnoreCase(PERSON_ID, personSearchString));
         orPredicates.add(PredicateFactory.likeIgnoreCase(LAST_NAME, personSearchString));
-        Predicate orNamesPredicate = PredicateFactory.or(orPredicates.toArray(new Predicate[orPredicates.size()]));
-
-        return orNamesPredicate;
+        return PredicateFactory.or(orPredicates.toArray(new Predicate[orPredicates.size()]));
     }
 
     /**
      * Gets all initiator proposal development documents by principalName.
      */
     private List<String> getProposalDocumentIdsForInitiator(String initiator) {
-        List<String> documentIds = new ArrayList<String>();
+        List<String> documentIds = new ArrayList<>();
 
         DocumentSearchCriteria.Builder builder = DocumentSearchCriteria.Builder.create();
         builder.setInitiatorPrincipalName(initiator);
@@ -424,9 +429,10 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
     /**
      * Intersects all non-empty, non-null collections provided to this method.
      */
-    private List<String> intersectCollections(Collection<String>... collections) {
+    @SafeVarargs
+    private final List<String> intersectCollections(Collection<String>... collections) {
         Collection<String> finalCollection = new ArrayList<>();
-        for(Collection collection: collections) {
+        for(Collection<String> collection: collections) {
             if (CollectionUtils.isNotEmpty(collection) && CollectionUtils.isNotEmpty(finalCollection)) {
                 finalCollection = CollectionUtils.intersection(collection, finalCollection);
             }
@@ -446,7 +452,7 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
      * @param title will be assigned as the href text and title
      */
 	@Override
-	public void buildPropDevViewActionLink(Link actionLink, Object model, String title) throws WorkflowException {
+	public void buildPropDevViewActionLink(Link actionLink, Object model, String title) {
 		actionLink.setTitle(title);
 		actionLink.setLinkText(title);
 		actionLink.setHref(getDocumentTypeService().getDocumentTypeByName(PROPOSAL_DEVELOPMENT_DOCUMENT).getResolvedDocumentHandlerUrl()
@@ -461,16 +467,15 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
      * @param actionLink link that will be used to return the edit action URL
      * @param model lookup form containing the data
      * @param title will be assigned as the href text and title
-     * @throws WorkflowException 
      */
 	@Override
-	public void buildPropDevEditActionLink(Link actionLink, Object model,String title) throws WorkflowException {
-			actionLink.setTitle(title);
-			actionLink.setLinkText(title);
-			actionLink.setHref(getConfigurationService().getPropertyValueAsString(KRADConstants.WORKFLOW_URL_KEY)
-	                + KRADConstants.DOCHANDLER_DO_URL
-	                + actionLink.getHref()
-	                + KRADConstants.DOCHANDLER_URL_CHUNK);
+	public void buildPropDevEditActionLink(Link actionLink, Object model,String title) {
+        actionLink.setTitle(title);
+        actionLink.setLinkText(title);
+        actionLink.setHref(getConfigurationService().getPropertyValueAsString(KRADConstants.WORKFLOW_URL_KEY)
+                + KRADConstants.DOCHANDLER_DO_URL
+                + actionLink.getHref()
+                + KRADConstants.DOCHANDLER_URL_CHUNK);
 
 	}
 
@@ -480,13 +485,13 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
      * @param fieldGroup link that will be used to return the copy action
      * @param model lookup form containing the data
      * @param document the document to check
-     * @throws WorkflowException
      */
-    public void canModifyProposal(FieldGroup fieldGroup, Object model, ProposalDevelopmentDocument document) throws WorkflowException {
+    @Override
+    public void canModifyProposal(FieldGroup fieldGroup, Object model, ProposalDevelopmentDocument document) {
         final boolean canModifyProposal = getKcAuthorizationService().hasPermission(getGlobalVariableService().getUserSession().getPrincipalId(), document, PermissionConstants.MODIFY_PROPOSAL);
         final boolean canModifyBudget = getKcAuthorizationService().hasPermission(getGlobalVariableService().getUserSession().getPrincipalId(), document, PermissionConstants.MODIFY_BUDGET);
         if (!canModifyProposal && !canModifyBudget) {
-            fieldGroup.setRender(false);
+                fieldGroup.setRender(false);
         }
     }
 

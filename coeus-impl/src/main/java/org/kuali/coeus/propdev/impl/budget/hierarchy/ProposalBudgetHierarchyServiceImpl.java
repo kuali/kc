@@ -138,7 +138,7 @@ public class ProposalBudgetHierarchyServiceImpl implements ProposalBudgetHierarc
             }
             
             BudgetPerson newPerson;
-            Map<Integer, BudgetPerson> personMap = new HashMap<Integer, BudgetPerson>();
+            Map<Integer, BudgetPerson> personMap = new HashMap<>();
             for (BudgetPerson person : childBudget.getBudgetPersons()) {
                 newPerson = (BudgetPerson) deepCopy(person);
                 newPerson.setBudget(parentBudget);
@@ -189,11 +189,10 @@ public class ProposalBudgetHierarchyServiceImpl implements ProposalBudgetHierarc
                 throw new ProposalHierarchyException("Cannot find a parent budget period that corresponds to the child period.");
             }
 
-            List<BudgetPeriod> parentPeriods = parentBudget.getBudgetPeriods();
             List<BudgetPeriod> childPeriods = childBudget.getBudgetPeriods();
             BudgetPeriod parentPeriod, childPeriod;
             Long budgetId = parentBudget.getBudgetId();
-            Long budgetPeriodId;
+
             Integer budgetPeriod;
             BudgetCostShare newCostShare;
             for (BudgetCostShare costShare : childBudget.getBudgetCostShares()) {
@@ -225,10 +224,10 @@ public class ProposalBudgetHierarchyServiceImpl implements ProposalBudgetHierarc
                 }
             }
 
-            for (int i = 0; i < childPeriods.size(); i++) {
-                childPeriod = childPeriods.get(i);
-                parentPeriod = findOrCreateMatchingPeriod(childPeriod, parentBudget);                
-                budgetPeriodId = parentPeriod.getBudgetPeriodId();
+            for (BudgetPeriod childPeriod1 : childPeriods) {
+                childPeriod = childPeriod1;
+                parentPeriod = findOrCreateMatchingPeriod(childPeriod, parentBudget);
+
                 budgetPeriod = parentPeriod.getBudgetPeriod();
                 BudgetLineItem parentLineItem;
                 Integer lineItemNumber;
@@ -237,10 +236,10 @@ public class ProposalBudgetHierarchyServiceImpl implements ProposalBudgetHierarc
                     for (BudgetLineItem childLineItem : childPeriod.getBudgetLineItems()) {
                         parentLineItem = (BudgetLineItem) deepCopy(childLineItem);
                         lineItemNumber = parentBudget.getNextValue(Constants.BUDGET_LINEITEM_NUMBER);
-                        
+
                         parentLineItem.setHierarchyProposalNumber(childProposalNumber);
                         parentLineItem.setHierarchyProposal(childProposal);
-                        
+
                         parentLineItem.setBudgetLineItemId(null);
                         parentLineItem.setBudgetPeriodId(parentPeriod.getBudgetPeriodId());
                         parentLineItem.setBudgetPeriod(parentPeriod.getBudgetPeriod());
@@ -251,15 +250,15 @@ public class ProposalBudgetHierarchyServiceImpl implements ProposalBudgetHierarc
                         parentLineItem.setLineItemNumber(lineItemNumber);
                         parentLineItem.setVersionNumber(null);
                         parentLineItem.setObjectId(null);
-                        
+
                         if (parentLineItem.getSubAwardNumber() != null) {
-                        	BudgetSubAwards subAward = subAwardMap.get(childLineItem.getSubAwardNumber());
-                        	parentLineItem.setSubAwardNumber(subAward.getSubAwardNumber());
-                        	parentLineItem.setBudgetSubAward(subAward);
+                            BudgetSubAwards subAward = subAwardMap.get(childLineItem.getSubAwardNumber());
+                            parentLineItem.setSubAwardNumber(subAward.getSubAwardNumber());
+                            parentLineItem.setBudgetSubAward(subAward);
                         }
-                        
+
                         for (BudgetLineItemCalculatedAmount calAmt : parentLineItem.getBudgetLineItemCalculatedAmounts()) {
-                        	calAmt.setBudgetLineItem(parentLineItem);
+                            calAmt.setBudgetLineItem(parentLineItem);
                             calAmt.setBudgetLineItemCalculatedAmountId(null);
                             calAmt.setBudgetLineItemId(null);
                             calAmt.setBudgetId(budgetId);
@@ -286,7 +285,7 @@ public class ProposalBudgetHierarchyServiceImpl implements ProposalBudgetHierarc
                             details.setLineItemNumber(lineItemNumber);
                             details.setVersionNumber(null);
                             details.setObjectId(null);
-                            
+
                             for (BudgetPersonnelCalculatedAmount calAmt : details.getBudgetPersonnelCalculatedAmounts()) {
                                 calAmt.setBudgetPersonnelCalculatedAmountId(null);
                                 calAmt.setBudgetPersonnelLineItem(details);
@@ -300,15 +299,14 @@ public class ProposalBudgetHierarchyServiceImpl implements ProposalBudgetHierarc
                         }
                         parentPeriod.getBudgetLineItems().add(parentLineItem);
                     }
-                }
-                else { // subproject budget
-                    Map<String, String> primaryKeys;
+                } else { // subproject budget
+
                     CostElement costElement;
                     String directCostElement = parameterService.getParameterValueAsString(Budget.class, PARAMETER_NAME_DIRECT_COST_ELEMENT);
                     String indirectCostElement = parameterService.getParameterValueAsString(Budget.class, PARAMETER_NAME_INDIRECT_COST_ELEMENT);
-                    
+
                     if (childPeriod.getTotalIndirectCost().isNonZero()) {
-                        costElement = (CostElement)dataObjectService.findUnique(CostElement.class, QueryByCriteria.Builder.forAttribute("costElement", indirectCostElement).build());
+                        costElement = dataObjectService.findUnique(CostElement.class, QueryByCriteria.Builder.forAttribute("costElement", indirectCostElement).build());
                         parentLineItem = parentBudget.getNewBudgetLineItem();
                         parentLineItem.setLineItemDescription(childProposalNumber);
                         parentLineItem.setStartDate(parentPeriod.getStartDate());
@@ -335,7 +333,7 @@ public class ProposalBudgetHierarchyServiceImpl implements ProposalBudgetHierarc
                         parentPeriod.getBudgetLineItems().add(parentLineItem);
                     }
                     if (childPeriod.getTotalDirectCost().isNonZero()) {
-                        costElement = (CostElement)dataObjectService.findUnique(CostElement.class, QueryByCriteria.Builder.forAttribute("costElement", directCostElement).build());
+                        costElement = dataObjectService.findUnique(CostElement.class, QueryByCriteria.Builder.forAttribute("costElement", directCostElement).build());
                         parentLineItem = parentBudget.getNewBudgetLineItem();
                         parentLineItem.setLineItemDescription(childProposalNumber);
                         parentLineItem.setStartDate(parentPeriod.getStartDate());
@@ -479,39 +477,40 @@ public class ProposalBudgetHierarchyServiceImpl implements ProposalBudgetHierarc
     
     public List<ProposalHierarchyErrorWarningDto> validateChildBudgetPeriods(DevelopmentProposal hierarchyProposal,
             DevelopmentProposal childProposal, boolean allowEndDateChange) throws ProposalHierarchyException {
-    	ProposalDevelopmentBudgetExt parentBudget = getHierarchyBudget(hierarchyProposal);
-    	Budget childBudget = getSyncableBudget(childProposal);
-
         List<ProposalHierarchyErrorWarningDto> retval = new ArrayList<>();
-        // check that child budget starts on one of the budget period starts
-        int correspondingStart = getCorrespondingParentPeriod(parentBudget.getBudgetPeriods(), childBudget);
-        if (correspondingStart == -1) {
-            retval.add(new ProposalHierarchyErrorWarningDto(ERROR_BUDGET_START_DATE_INCONSISTENT, Boolean.TRUE, childProposal.getProposalNumber()));
-        }
-        // check that child budget periods map to parent periods
-        else {
-            List<BudgetPeriod> parentPeriods = parentBudget.getBudgetPeriods();
-            List<BudgetPeriod> childPeriods = childBudget.getBudgetPeriods();
-            BudgetPeriod parentPeriod, childPeriod;
-            int i;
-            int j;
-            for (i = correspondingStart, j = 0; i < parentPeriods.size() && j < childPeriods.size(); i++, j++) {
-                parentPeriod = parentPeriods.get(i);
-                childPeriod = childPeriods.get(j);
-                if (!parentPeriod.getStartDate().equals(childPeriod.getStartDate())
-                        || !parentPeriod.getEndDate().equals(childPeriod.getEndDate())) {
-                    retval.add(new ProposalHierarchyErrorWarningDto(ERROR_BUDGET_PERIOD_DURATION_INCONSISTENT, Boolean.TRUE, childProposal.getProposalNumber()));
-                    break;
+        ProposalDevelopmentBudgetExt parentBudget = getHierarchyBudget(hierarchyProposal);
+    	if (parentBudget != null) {
+            Budget childBudget = getSyncableBudget(childProposal);
+
+            // check that child budget starts on one of the budget period starts
+            int correspondingStart = getCorrespondingParentPeriod(parentBudget.getBudgetPeriods(), childBudget);
+            if (correspondingStart == -1) {
+                retval.add(new ProposalHierarchyErrorWarningDto(ERROR_BUDGET_START_DATE_INCONSISTENT, Boolean.TRUE, childProposal.getProposalNumber()));
+            }
+            // check that child budget periods map to parent periods
+            else {
+                List<BudgetPeriod> parentPeriods = parentBudget.getBudgetPeriods();
+                List<BudgetPeriod> childPeriods = childBudget.getBudgetPeriods();
+                BudgetPeriod parentPeriod, childPeriod;
+                int i;
+                int j;
+                for (i = correspondingStart, j = 0; i < parentPeriods.size() && j < childPeriods.size(); i++, j++) {
+                    parentPeriod = parentPeriods.get(i);
+                    childPeriod = childPeriods.get(j);
+                    if (!parentPeriod.getStartDate().equals(childPeriod.getStartDate())
+                            || !parentPeriod.getEndDate().equals(childPeriod.getEndDate())) {
+                        retval.add(new ProposalHierarchyErrorWarningDto(ERROR_BUDGET_PERIOD_DURATION_INCONSISTENT, Boolean.TRUE, childProposal.getProposalNumber()));
+                        break;
+                    }
+                }
+                if (retval.isEmpty()
+                        && !allowEndDateChange
+                        && (j < childPeriods.size()
+                        || childProposal.getRequestedEndDateInitial().after(hierarchyProposal.getRequestedEndDateInitial()))) {
+                    retval.add(new ProposalHierarchyErrorWarningDto(QUESTION_EXTEND_PROJECT_DATE_CONFIRM, Boolean.TRUE, childProposal.getProposalNumber()));
                 }
             }
-            if (retval == null 
-                    && !allowEndDateChange 
-                    && (j < childPeriods.size() 
-                            || childProposal.getRequestedEndDateInitial().after(hierarchyProposal.getRequestedEndDateInitial()))) {
-                retval.add(new ProposalHierarchyErrorWarningDto(QUESTION_EXTEND_PROJECT_DATE_CONFIRM, Boolean.TRUE, childProposal.getProposalNumber()));
-            }
         }
-        
         return retval;
     }    
     
@@ -543,9 +542,9 @@ public class ProposalBudgetHierarchyServiceImpl implements ProposalBudgetHierarc
         if (childStart.compareTo(parentStart) >= 0
                 && childStart.compareTo(parentEnd) < 0) {
             // check that child budget starts on one of the budget period starts
-            List<BudgetPeriod> parentPeriods = oldBudgetPeriods;
-            for (int i=0; i<parentPeriods.size(); i++) {
-                if (childStart.equals(parentPeriods.get(i).getStartDate())) {
+
+            for (int i=0; i<oldBudgetPeriods.size(); i++) {
+                if (childStart.equals(oldBudgetPeriods.get(i).getStartDate())) {
                     correspondingStart = i;
                     break;
                 }

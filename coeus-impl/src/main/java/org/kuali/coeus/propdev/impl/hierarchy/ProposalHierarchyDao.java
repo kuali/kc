@@ -22,20 +22,20 @@ import org.kuali.coeus.propdev.impl.budget.ProposalBudgetStatus;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonDegree;
-import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
+import org.kuali.coeus.propdev.impl.state.ProposalState;
 
 import java.util.List;
 
 
 public interface ProposalHierarchyDao {
-	public List<DevelopmentProposal> getHierarchyChildProposals(String parentProposalNumber);
-    public List<String> getHierarchyChildProposalNumbers(String proposalNumber);
-    public List<ProposalBudgetStatus> getHierarchyChildProposalBudgetStatuses(String proposalNumber);
-    public boolean personInMultipleChildProposals(String personId, String hierarchyProposalNumber);
-    public DevelopmentProposal getDevelopmentProposal(String proposalNumber);
-    public String getProposalState(String proposalNumber);
-    public List<ProposalPerson> isPersonOnProposal(String proposalNumber, String personId);
-    public void deleteDegreeInfo(String proposalNumber, Integer proposalPersonNumber, ProposalPerson person);
-    public List<ProposalPersonDegree> getDegreeInformation(String proposalNumber, ProposalPerson person);
+	List<DevelopmentProposal> getHierarchyChildProposals(String parentProposalNumber);
+    List<String> getHierarchyChildProposalNumbers(String proposalNumber);
+    List<ProposalBudgetStatus> getHierarchyChildProposalBudgetStatuses(String proposalNumber);
+    boolean personInMultipleChildProposals(String personId, String hierarchyProposalNumber);
+    DevelopmentProposal getDevelopmentProposal(String proposalNumber);
+    ProposalState getProposalState(String proposalNumber);
+    List<ProposalPerson> isPersonOnProposal(String proposalNumber, String personId);
+    void deleteDegreeInfo(String proposalNumber, Integer proposalPersonNumber, ProposalPerson person);
+    List<ProposalPersonDegree> getDegreeInformation(String proposalNumber, ProposalPerson person);
 
-    }
+}

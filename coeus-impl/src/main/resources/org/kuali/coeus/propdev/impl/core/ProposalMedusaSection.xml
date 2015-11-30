@@ -107,7 +107,7 @@
                     <property name="group" ref="Proposal-MedusaSection-PropDevSummary-Actions" />
                 </bean>
                 <bean parent="Proposal-ProposalDevelopment-Property" p:propertyName="proposalNumber" p:order="10"/>
-                <bean parent="Proposal-ProposalDevelopment-Property" p:propertyName="proposalState.description" p:order="20"/>
+                <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.getProposalStatusForDisplay(#np.proposalDocument.developmentProposal)}" p:fieldLabel.labelText="Proposal State" p:order="20"/>
                 <bean parent="Proposal-ProposalDevelopment-Property" p:propertyName="ownedByUnitNumber" p:order="30"/>
                 <bean parent="Proposal-ProposalDevelopment-Property" p:propertyName="requestedStartDateInitial" p:order="40"/>
                 <bean parent="Proposal-ProposalDevelopment-Property" p:propertyName="requestedEndDateInitial" p:order="50"/>
