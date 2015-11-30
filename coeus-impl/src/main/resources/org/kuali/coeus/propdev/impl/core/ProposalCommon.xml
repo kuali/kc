@@ -41,7 +41,7 @@
 					p:finalizeMethodAdditionalArguments="previous" p:order="10" />
 				<bean parent="Uif-SecondaryActionButton" p:ajaxSubmit="false"
 					p:performClientSideValidation="true" p:methodToCall="save"
-					p:actionLabel="Save" p:order="20" p:render="@{(!#parent.readOnly and canEdit) or #editModes[#proposalAuthConsts.CAN_SAVE_CERTIFICATION] or #editModes[#proposalAuthConsts.MODIFY_S2S]}"/>
+					p:actionLabel="Save" p:order="20" p:render="@{!#parent.readOnly and (canEdit or #editModes[#proposalAuthConsts.CAN_SAVE_CERTIFICATION] or #editModes[#proposalAuthConsts.MODIFY_S2S])}"/>
 				<bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="true"
 					p:performClientSideValidation="true" p:methodToCall="navigate"
 					p:actionLabel="Save and Continue" p:finalizeMethodToCall="finalizeNavigationLinks"
