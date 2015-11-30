@@ -908,12 +908,12 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     @Override
     public void rePopulateCalculatedAmount(Budget budget, BudgetLineItem budgetLineItem) {
         budgetLineItem.getBudgetCalculatedAmounts().clear();
-        new LineItemCalculator(budget,budgetLineItem).setCalculatedAmounts(budget, budgetLineItem);
+        new LineItemCalculator(budget,budgetLineItem).setCalculatedAmounts(budgetLineItem);
     }
     @Override
     public void rePopulateCalculatedAmount(Budget budget, BudgetPersonnelDetails newBudgetPersonnelDetails) {
         newBudgetPersonnelDetails.getBudgetCalculatedAmounts().clear();
-        new PersonnelLineItemCalculator(budget,newBudgetPersonnelDetails).setCalculatedAmounts(budget, newBudgetPersonnelDetails);
+        new PersonnelLineItemCalculator(budget,newBudgetPersonnelDetails).setCalculatedAmounts(newBudgetPersonnelDetails);
     }
     @Override
     public void updatePersonnelBudgetRate(BudgetLineItem budgetLineItem){

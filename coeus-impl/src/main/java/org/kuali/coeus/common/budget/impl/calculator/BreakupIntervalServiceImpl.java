@@ -46,6 +46,8 @@ import java.util.List;
  */
 @Component("breakupIntervalService")
 public class BreakupIntervalServiceImpl implements BreakupIntervalService {
+    public static final String RATE_CLASS_CODE = "rateClassCode";
+    public static final String RATE_TYPE_CODE = "rateTypeCode";
     @Autowired
     @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
@@ -83,13 +85,15 @@ public class BreakupIntervalServiceImpl implements BreakupIntervalService {
         breakupInterval.setUnderRecovery(rateAndCosts.sumObjects("underRecovery"));
     }
     private boolean canApplyRate(RateClassBaseInclusion rateClassBaseInclusion, QueryList<RateAndCost> rateAndCosts) {
-        Equals eqRateClassCode = new Equals("rateClassCode",rateClassBaseInclusion.getRateClassCode());
-        Equals eqRateTypeCode = new Equals("rateTypeCode",rateClassBaseInclusion.getRateTypeCode());
+        Equals eqRateClassCode = new Equals(RATE_CLASS_CODE,rateClassBaseInclusion.getRateClassCode());
+        Equals eqRateTypeCode = new Equals(RATE_TYPE_CODE,rateClassBaseInclusion.getRateTypeCode());
         QueryList<RateAndCost> applicableRateList = rateAndCosts.filter(rateClassBaseInclusion.getRateTypeCode()==null?
                                                                             eqRateClassCode:new And(eqRateClassCode,eqRateTypeCode));
         return !applicableRateList.isEmpty();
     }
-    private void findAndApplyRateRecursively(BreakUpInterval breakupInterval,RateClassBaseInclusion rateClassBaseInclusion, QueryList<RateAndCost> rateAndCosts) {
+
+    protected void findAndApplyRateRecursively(BreakUpInterval breakupInterval,RateClassBaseInclusion rateClassBaseInclusion,
+                                               QueryList<RateAndCost> rateAndCosts) {
         RateClassInclusionTree rateClassInclusionTree = getRateClassInclusionTree(rateClassBaseInclusion.getRateClassBaseInclusionId());
         List<Node<RateClassBaseInclusion>> rateClassInclusions = rateClassInclusionTree.toList();
         int numberOfNodes = rateClassInclusions.size();
@@ -97,18 +101,18 @@ public class BreakupIntervalServiceImpl implements BreakupIntervalService {
         ScaleTwoDecimal baseCostSharing = breakupInterval.getApplicableAmtCostSharing();
         ScaleTwoDecimal calculatedCost = ScaleTwoDecimal.ZERO;
         ScaleTwoDecimal calculatedCostSharing = ScaleTwoDecimal.ZERO;
-        for (int i = numberOfNodes - 1; i >= 0; i--) {
+        for(int i = numberOfNodes - 1; i >= 0; i--) {
             Node<RateClassBaseInclusion> rateClassInclusionNode = rateClassInclusions.get(i);
             RateClassBaseInclusion rcbi = rateClassInclusionNode.getData();
             QueryList<RateAndCost> applicableRateList = filterApplicableRates(rateAndCosts,rcbi);
-            if(!applicableRateList.isEmpty()){
+            if(!applicableRateList.isEmpty()) {
                 for (RateAndCost rateAndCost : applicableRateList) {
                     if(!rateAndCost.getRateClassType().equals(RateClassType.OVERHEAD.getRateClassType()) &&
                             !rateAndCost.isApplyRateFlag()) continue;
                     ScaleTwoDecimal rate = getAppliedRate(breakupInterval,rateAndCost);
                     calculatedCost = baseCost.percentage(rate);
                     calculatedCostSharing = baseCostSharing.percentage(rate);
-                    if(i==0){
+                    if(i == 0) {
                         rateAndCost.setAppliedRate(rate);
                         rateAndCost.setCalculatedCost(rateAndCost.getCalculatedCost().add(calculatedCost));
                         rateAndCost.setCalculatedCostSharing(rateAndCost.getCalculatedCostSharing().add(calculatedCostSharing));
@@ -122,16 +126,16 @@ public class BreakupIntervalServiceImpl implements BreakupIntervalService {
                 }
                 baseCost = calculatedCost;
                 baseCostSharing = calculatedCostSharing;
-            }else{
+            } else {
                 baseCost = ScaleTwoDecimal.ZERO;
                 baseCostSharing = ScaleTwoDecimal.ZERO;
             }
         }
     }
 
-    private ScaleTwoDecimal getAppliedRate(BreakUpInterval breakupInterval, RateAndCost rateAndCost) {
-        Equals eqRateClassCode = new Equals("rateClassCode",rateAndCost.getRateClassCode());
-        Equals eqRateTypeCode = new Equals("rateTypeCode",rateAndCost.getRateTypeCode());
+    protected ScaleTwoDecimal getAppliedRate(BreakUpInterval breakupInterval, RateAndCost rateAndCost) {
+        Equals eqRateClassCode = new Equals(RATE_CLASS_CODE,rateAndCost.getRateClassCode());
+        Equals eqRateTypeCode = new Equals(RATE_TYPE_CODE,rateAndCost.getRateTypeCode());
         And rcAndRt = new And(eqRateClassCode,eqRateTypeCode);
         QueryList<BudgetRate> breakupIntervalRates = breakupInterval.getBudgetProposalRates();
         QueryList<BudgetLaRate> breakupIntervalLaRates = breakupInterval.getBudgetProposalLaRates();
@@ -142,9 +146,10 @@ public class BreakupIntervalServiceImpl implements BreakupIntervalService {
         }
         return applicableRates.isEmpty()? ScaleTwoDecimal.ZERO:((AbstractBudgetRate)applicableRates.get(0)).getApplicableRate();
     }
-    private void calculateUnderRecovery(BreakUpInterval breakupInterval, RateAndCost rateAndCost) {
-        ScaleTwoDecimal underRecoveryRate = ScaleTwoDecimal.ZERO;
-        ScaleTwoDecimal instituteRate = ScaleTwoDecimal.ZERO;
+
+    public void calculateUnderRecovery(BreakUpInterval breakupInterval, RateAndCost rateAndCost) {
+        ScaleTwoDecimal underRecoveryRate;
+        ScaleTwoDecimal instituteRate;
         if (breakupInterval.getURRatesBean() != null) {
             instituteRate = breakupInterval.getURRatesBean().getInstituteRate();
         } else {
@@ -154,7 +159,7 @@ public class BreakupIntervalServiceImpl implements BreakupIntervalService {
             underRecoveryRate = instituteRate;
             rateAndCost.setCalculatedCost(ScaleTwoDecimal.ZERO);
             rateAndCost.setCalculatedCostSharing(ScaleTwoDecimal.ZERO);
-        }else {
+        } else {
             underRecoveryRate = instituteRate.subtract(getAppliedRate(breakupInterval, rateAndCost));
         }
         ScaleTwoDecimal underRecovery = rateAndCost.getBaseAmount().percentage(underRecoveryRate);
@@ -162,23 +167,24 @@ public class BreakupIntervalServiceImpl implements BreakupIntervalService {
         rateAndCost.setUnderRecovery(underRecovery.add(underRecoveryCostShare));
     }
 
-    private ScaleTwoDecimal filterInstituteRate(BreakUpInterval breakupInterval,RateAndCost rateAndCost) {
-        Equals eqRateClassCode = new Equals("rateClassCode",rateAndCost.getRateClassCode());
-        Equals eqRateTypeCode = new Equals("rateTypeCode",rateAndCost.getRateTypeCode());
+    protected ScaleTwoDecimal filterInstituteRate(BreakUpInterval breakupInterval,RateAndCost rateAndCost) {
+        Equals eqRateClassCode = new Equals(RATE_CLASS_CODE,rateAndCost.getRateClassCode());
+        Equals eqRateTypeCode = new Equals(RATE_TYPE_CODE,rateAndCost.getRateTypeCode());
         And rcAndRt = new And(eqRateClassCode,eqRateTypeCode);
         QueryList<BudgetRate> breakupIntervalRates = breakupInterval.getBudgetProposalRates();
         QueryList<BudgetRate> applicableRates = breakupIntervalRates.filter(rcAndRt);
         return applicableRates.isEmpty()? ScaleTwoDecimal.ZERO:applicableRates.get(0).getInstituteRate();
     }
-    private QueryList<RateAndCost> filterApplicableRates(QueryList<RateAndCost> rateAndCosts, RateClassBaseInclusion rcbi) {
-        Equals eqRateClassCode = new Equals("rateClassCode",rcbi.getRateClassCode());
-        Equals eqRateTypeCode = new Equals("rateTypeCode",rcbi.getRateTypeCode());
+
+    protected QueryList<RateAndCost> filterApplicableRates(QueryList<RateAndCost> rateAndCosts, RateClassBaseInclusion rcbi) {
+        Equals eqRateClassCode = new Equals(RATE_CLASS_CODE,rcbi.getRateClassCode());
+        Equals eqRateTypeCode = new Equals(RATE_TYPE_CODE,rcbi.getRateTypeCode());
         Operator rcAndRt = rcbi.getRateTypeCode()==null?eqRateClassCode:new And(eqRateClassCode,eqRateTypeCode);
         QueryList<RateAndCost> applicableRateList = rateAndCosts.filter(rcAndRt);
         List<RateClassBaseInclusion> rateClassInclusions = (List<RateClassBaseInclusion>) getBusinessObjectService().findAll(RateClassBaseInclusion.class);
         for (RateClassBaseInclusion rateClassInclusion : rateClassInclusions) {
             if(rcbi.getRateClassCode().equals(rateClassInclusion.getRateClassCode()) && rcbi.getRateTypeCode()==null && rateClassInclusion.getRateTypeCode()!=null){
-                NotEquals neRateTypeCode = new NotEquals("rateTypeCode",rateClassInclusion.getRateTypeCode());
+                NotEquals neRateTypeCode = new NotEquals(RATE_TYPE_CODE,rateClassInclusion.getRateTypeCode());
                 applicableRateList = applicableRateList.filter(neRateTypeCode);
             }
         }
@@ -209,11 +215,6 @@ public class BreakupIntervalServiceImpl implements BreakupIntervalService {
         return taskTree;
     }
 
-    /**
-     * Recursively descends the Tree and populates the TaskTree object.
-     * @param taskElement the root Node.
-     * @param tree the TaskTree object to populate.
-     */
     private void getRecursive(Node<RateClassBaseInclusion> taskElement, RateClassInclusionTree tree) {
         List<RateClassBaseInclusion> children = findRateClassInclusions(taskElement.getData().getRateClassCodeIncl(),taskElement.getData().getRateTypeCodeIncl());
         List<Node<RateClassBaseInclusion>> childElements = new ArrayList<Node<RateClassBaseInclusion>>();
@@ -229,8 +230,8 @@ public class BreakupIntervalServiceImpl implements BreakupIntervalService {
     }
 
     private boolean isExcluded(String rateClassCode,String rateTypeCode, Node<RateClassBaseInclusion> childElement) {
-        Equals eqRateClassCode = new Equals("rateClassCode",rateClassCode);
-        Equals eqRateTypeCode = new Equals("rateTypeCode",rateTypeCode);
+        Equals eqRateClassCode = new Equals(RATE_CLASS_CODE,rateClassCode);
+        Equals eqRateTypeCode = new Equals(RATE_TYPE_CODE,rateTypeCode);
         Operator rcAndRt = rateTypeCode==null?eqRateClassCode:new And(eqRateClassCode,eqRateTypeCode);
         Equals eqRateClassCodeExcl = new Equals("rateClassCodeExcl",childElement.getData().getRateClassCode());
         Equals eqRateTypeCodeExcl = new Equals("rateTypeCodeExcl",childElement.getData().getRateTypeCode());
@@ -244,8 +245,8 @@ public class BreakupIntervalServiceImpl implements BreakupIntervalService {
     private List<RateClassBaseInclusion> findRateClassInclusions(String rateClassCode,String rateTypeCode) {
         QueryList<RateClassBaseInclusion> rateInclusions = new QueryList<RateClassBaseInclusion>(getRateClassBaseInclusions());
         rateInclusions.sort("rateClassCodeIncl");
-        Equals eqRateClassCode = new Equals("rateClassCode",rateClassCode);
-        Equals eqRateTypeCode = new Equals("rateTypeCode",rateTypeCode);
+        Equals eqRateClassCode = new Equals(RATE_CLASS_CODE,rateClassCode);
+        Equals eqRateTypeCode = new Equals(RATE_TYPE_CODE,rateTypeCode);
         Operator rcAndRt = rateTypeCode==null?eqRateClassCode:new And(eqRateClassCode,eqRateTypeCode);
         List<RateClassBaseInclusion> inclusions = (List<RateClassBaseInclusion>) rateInclusions.filter(rcAndRt);
         for (RateClassBaseInclusion rateClassBaseInclusion : inclusions) {

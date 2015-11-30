@@ -82,7 +82,7 @@ public class Boundary {
     public int getStartDateTotalDays() {        
         calendar.setTime(startDate);
         return calendar.getActualMaximum(Calendar.DATE);
-    } // end getStartDateNoOfDays        
+    }
 
 /**
  * Returns the remaining no. of days in startDate
@@ -92,7 +92,7 @@ public class Boundary {
     public int getStartDateRemainingDays() {        
         calendar.setTime(startDate);
         return calendar.getActualMaximum(Calendar.DATE) - calendar.get(Calendar.DATE) + 1;
-    } // end getStartDateNoOfDays       
+    }
 
 /**
  * Returns the endDate Month * 
@@ -206,7 +206,7 @@ public class Boundary {
         this.applicableCostSharing = applicableCostSharing;
     }
     
- } // end Boundary
+ }
 
 
 

@@ -70,7 +70,7 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
 
     public void populateCalculatedAmountLineItems() {
         if (bli.getBudgetLineItemCalculatedAmounts().size() <= 0) {
-            setCalculatedAmounts(budget,bli);
+            setCalculatedAmounts(bli);
         }
 
         if(getBudgetRateService().performSyncFlag(budget)){
@@ -83,7 +83,7 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
 
             bli.setBudgetLineItemCalculatedAmounts(new ArrayList<BudgetLineItemCalculatedAmount>());
             
-            setCalculatedAmounts(budget,bli);
+            setCalculatedAmounts(bli);
             
             for(BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : bli.getBudgetLineItemCalculatedAmounts()){
                 if (versionNumber != null) {
