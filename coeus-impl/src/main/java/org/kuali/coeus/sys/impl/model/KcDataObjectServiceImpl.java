@@ -54,7 +54,9 @@ public class KcDataObjectServiceImpl implements KcDataObjectService {
 
     @Override
     public void initObjectIdForPersist(KcDataObject kcDataObject) {
-        kcDataObject.setObjectId(UUID.randomUUID().toString());
+        if (StringUtils.isBlank(kcDataObject.getObjectId())) {
+            kcDataObject.setObjectId(UUID.randomUUID().toString());
+        }
     }
 
     @Override
