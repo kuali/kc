@@ -31,6 +31,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetAuditRuleEvent;
+import org.kuali.coeus.common.budget.framework.core.BudgetSaveEvent;
 import org.kuali.coeus.common.budget.framework.core.BudgetService;
 import org.kuali.coeus.common.budget.framework.print.BudgetPrintService;
 import org.kuali.coeus.common.budget.impl.print.BudgetPrintForm;
@@ -191,11 +192,14 @@ public class ProposalBudgetSharedControllerServiceImpl implements ProposalBudget
     }
 
     public boolean isAllowedToCompleteBudget(ProposalDevelopmentBudgetExt budget, String errorPath) {
-        boolean isRulePassed = getKcBusinessRulesEngine().applyRules(new BudgetAuditRuleEvent(budget));
-        if(!isRulePassed) {
+        boolean isAuditRulePassed = getKcBusinessRulesEngine().applyRules(new BudgetAuditRuleEvent(budget));
+		boolean isRulePassed = getKcBusinessRulesEngine().applyRules(new BudgetSaveEvent(budget));
+        if(!isAuditRulePassed) {
             getGlobalVariableService().getMessageMap().putError(errorPath, KeyConstants.CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE);
             return false;
-        }
+        } else if (!isRulePassed) {
+			return false;
+		}
         return true;
     }
 	

@@ -21,7 +21,11 @@ package org.kuali.coeus.common.budget.impl.period;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.joda.time.DateTime;
+import org.joda.time.Interval;
 import org.kuali.coeus.common.budget.framework.core.AwardBudgetSaveEvent;
+import org.kuali.coeus.common.budget.framework.core.BudgetSaveEvent;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.coeus.common.budget.framework.core.Budget;
@@ -39,13 +43,13 @@ import org.kuali.coeus.common.framework.ruleengine.KcBusinessRule;
 import org.kuali.coeus.common.framework.ruleengine.KcEventMethod;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @KcBusinessRule("budgetPeriodRule")
 public class BudgetPeriodRule {
@@ -55,9 +59,12 @@ public class BudgetPeriodRule {
     private static final String DEFAULT_ERROR_PATH_PREFIX = "document.budgetPeriods";
     private static final String DEFAULT_COST_LIMIT_ERROR_PATH_PREFIX = "document.budget.budgetPeriods";
     private static final String DEFAULT_NEW_BUDGET_PERIOD_ERROR_PATH_PREFIX = "newBudgetPeriod.error";
-    
+    private static final String BUDGET_PERIOD_ERROR_PATH_PREFIX = "budget.budgetPeriods";
+
     private ParameterService parameterService;
-    
+
+    private GlobalVariableService globalVariableService;
+
     @KcEventMethod
     public boolean processAddBudgetPeriodBusinessRules(AddBudgetPeriodEvent event) {
         Budget budget = event.getBudget();
@@ -116,7 +123,7 @@ public class BudgetPeriodRule {
 
         if (!isValidBudgetPeriod(budget, event.getErrorPath())) {
             rulePassed = false;
-        }else if(!isValidBudgetPeriodBoundaries(budget, event.getErrorPath())){
+        } else if (!isValidBudgetPeriodBoundaries(budget, event.getErrorPath())){
             rulePassed = false;
         }
         if (!budget.isProposalBudget()) {
@@ -125,12 +132,32 @@ public class BudgetPeriodRule {
 
         return rulePassed;
     }
-    
+
+    @KcEventMethod
+    public boolean processSaveBudgetPeriodBusinessRules(BudgetSaveEvent event) {
+        Budget budget = event.getBudget();
+        boolean rulePassed = true;
+
+        if (!isValidBudgetPeriod(budget, BUDGET_PERIOD_ERROR_PATH_PREFIX)) {
+            rulePassed = false;
+        } else if (!isValidBudgetPeriodBoundaries(budget, BUDGET_PERIOD_ERROR_PATH_PREFIX)){
+            rulePassed = false;
+        } else if (!doBudgetPeriodsCoverProposal(budget)) {
+            rulePassed = false;
+        }
+        if (!budget.isProposalBudget()) {
+            rulePassed &= isValidBudgetPeriodCostLimit(budget, event.getErrorPath());
+        }
+
+        return rulePassed;
+    }
+
+
     @KcEventMethod
     public boolean processGenerateBudgetPeriodBusinessRules(GenerateBudgetPeriodEvent event) {
         Budget document = event.getBudget();
         BudgetPeriod newBudgetPeriod = event.getBudgetPeriod();
-        MessageMap errorMap = GlobalVariables.getMessageMap();
+        MessageMap errorMap = getGlobalVariableService().getMessageMap();
         boolean rulePassed = true;
         int budgetPeriodNumber = 0;
         
@@ -141,15 +168,15 @@ public class BudgetPeriodRule {
         //5. Make sure other periods have no pre-existing line items
         if (!isValidBudgetPeriod(document, DEFAULT_ERROR_PATH_PREFIX)) {
             rulePassed = false;
-        } else if(newBudgetPeriod != null && !isValidNewBudgetPeriod(document, newBudgetPeriod, NEW_BUDGET_PERIOD)) {
+        } else if (newBudgetPeriod != null && !isValidNewBudgetPeriod(document, newBudgetPeriod, NEW_BUDGET_PERIOD)) {
             rulePassed = false;
-        }else if(!isValidBudgetPeriodBoundaries(document, DEFAULT_ERROR_PATH_PREFIX)){
+        } else if (!isValidBudgetPeriodBoundaries(document, DEFAULT_ERROR_PATH_PREFIX)){
             rulePassed = false;
-        }else if(!getBudgetSummaryService().budgetLineItemExists(document, budgetPeriodNumber)) {
+        } else if(!getBudgetSummaryService().budgetLineItemExists(document, budgetPeriodNumber)) {
             errorMap.addToErrorPath(NEW_BUDGET_PERIOD);
             rulePassed = false;
             saveErrors("ERROR_PERIOD_LINE_ITEM_DOESNOT_EXIST", errorMap);
-        } else if(document.getBudgetPeriods().size() <= (budgetPeriodNumber+1)) {
+        } else if (document.getBudgetPeriods().size() <= (budgetPeriodNumber+1)) {
             errorMap.addToErrorPath(NEW_BUDGET_PERIOD);
             rulePassed = false;
             saveErrors("ERROR_NO_FUTURE_PERIOD_TO_GENERATE", errorMap);
@@ -175,7 +202,7 @@ public class BudgetPeriodRule {
     public boolean processDeleteBudgetPeriodBusinessRules(DeleteBudgetPeriodEvent event) {
         Budget budget = event.getBudget();
         int budgetPeriodNumber = event.getBudgetPeriodNumber();
-        MessageMap errorMap = GlobalVariables.getMessageMap();
+        MessageMap errorMap = getGlobalVariableService().getMessageMap();
         boolean rulePassed = true;
 
         if(getBudgetSummaryService().budgetLineItemExists(budget, budgetPeriodNumber)) {
@@ -186,11 +213,50 @@ public class BudgetPeriodRule {
         }
         return rulePassed;
     }
-    
+
+    private Interval createIntervalFromPeriod(BudgetPeriod budgetPeriod) {
+        DateTime startDate = new DateTime(budgetPeriod.getStartDate().getTime());
+        //add one to end date for joda time interval comparison
+        DateTime endDate = new DateTime(budgetPeriod.getEndDate().getTime()).plusDays(1);
+        return new Interval(startDate, endDate);
+    }
+
+    protected boolean doBudgetPeriodsCoverProposal(Budget budget) {
+        List<BudgetPeriod> sortedBudgetPeriods = budget.getBudgetPeriods()
+                .stream()
+                .sorted((period1, period2) -> period1.getStartDate().compareTo(period2.getStartDate())).collect(Collectors.toList());
+
+        int nextIndex = 1;
+        for (BudgetPeriod currentBudgetPeriod : sortedBudgetPeriods) {
+            if (nextIndex < budget.getBudgetPeriods().size()) {
+                BudgetPeriod nextBudgetPeriod = sortedBudgetPeriods.get(nextIndex);
+                Interval currentPeriodInterval =createIntervalFromPeriod(currentBudgetPeriod);
+                Interval nextPeriodInterval = createIntervalFromPeriod(nextBudgetPeriod);
+                if (!currentPeriodInterval.abuts(nextPeriodInterval)) {
+                    saveErrors("ERROR_PERIOD_GAPS", getGlobalVariableService().getMessageMap());
+                    return false;
+                }
+            }
+            nextIndex++;
+        }
+
+        Interval budgetInterval = new Interval(sortedBudgetPeriods.get(0).getStartDate().getTime(),
+                sortedBudgetPeriods.get(sortedBudgetPeriods.size() - 1).getEndDate().getTime());
+
+        Interval proposalInterval = new Interval(budget.getBudgetParent().getRequestedStartDateInitial().getTime(),
+                budget.getBudgetParent().getRequestedEndDateInitial().getTime());
+
+        if (!budgetInterval.equals(proposalInterval)) {
+            saveErrors("ERROR_PERIOD_GAPS", getGlobalVariableService().getMessageMap());
+            return false;
+        }
+        return true;
+    }
+
     private boolean isValidBudgetPeriodBoundaries(Budget budget, String errorPathPrefix) {
         boolean validBoundaries = true;
         List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
-        MessageMap errorMap = GlobalVariables.getMessageMap();
+        MessageMap errorMap = getGlobalVariableService().getMessageMap();
         for(BudgetPeriod budgetPeriod: budgetPeriods) {
             String[] dateParams = {budgetPeriod.getBudgetPeriod()+""};
             /* get all line items for each budget period */
@@ -238,11 +304,11 @@ public class BudgetPeriodRule {
     private boolean isValidBudgetPeriodCostLimit(Budget budget, String errorPathPrefix) {
         boolean valid = true;
         List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
-        MessageMap errorMap = GlobalVariables.getMessageMap();
+        MessageMap errorMap = getGlobalVariableService().getMessageMap();
         int i = 0;
         for(BudgetPeriod budgetPeriod: budgetPeriods) {
             if (budgetPeriod.getTotalCostLimit().isGreaterThan(((AwardBudgetExt)budget).getObligatedTotal())) {
-                GlobalVariables.getMessageMap().putError(errorPathPrefix+"["+ i +"].totalCostLimit", 
+                getGlobalVariableService().getMessageMap().putError(errorPathPrefix+"["+ i +"].totalCostLimit", 
                         KeyConstants.ERROR_PERIOD_COST_LIMIT_EXCEED_OBLIGATED_TOTAL);
                valid = false;
             }
@@ -254,7 +320,7 @@ public class BudgetPeriodRule {
 
     /* check new budget period */
     private boolean isValidNewBudgetPeriod(Budget budget, BudgetPeriod newBudgetPeriod, String errorPathPrefix) {
-        MessageMap errorMap = GlobalVariables.getMessageMap();
+        MessageMap errorMap = getGlobalVariableService().getMessageMap();
         boolean validNewBudgetPeriod = true;
         List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
         Date previousPeriodStartDate = null;
@@ -367,7 +433,7 @@ public class BudgetPeriodRule {
         Date periodStartDate = null;
         Date periodEndDate = null;
         int index = 0;
-        MessageMap errorMap = GlobalVariables.getMessageMap();
+        MessageMap errorMap = getGlobalVariableService().getMessageMap();
 
         /* verify existing budget periods */
         for(BudgetPeriod budgetPeriod: budgetPeriods) {
@@ -457,7 +523,7 @@ public class BudgetPeriodRule {
     private boolean isValidToInsert(Budget budget, BudgetPeriod newBudgetPeriod, String errorPathPrefix) {
         
         int expenseExistStatus = checkExpenseInBudget(budget);
-        MessageMap errorMap = GlobalVariables.getMessageMap();
+        MessageMap errorMap = getGlobalVariableService().getMessageMap();
         if (CollectionUtils.isNotEmpty(budget.getBudgetPeriods())) {
             if (newBudgetPeriod.getEndDate().before(budget.getBudgetPeriod(0).getStartDate())) {
                 // insert before 1st period
@@ -488,6 +554,17 @@ public class BudgetPeriodRule {
             this.parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return this.parameterService;
+    }
+
+    public GlobalVariableService getGlobalVariableService() {
+        if (globalVariableService == null) {
+            globalVariableService = KcServiceLocator.getService(GlobalVariableService.class);
+        }
+        return globalVariableService;
+    }
+
+    public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+        this.globalVariableService = globalVariableService;
     }
 }
 

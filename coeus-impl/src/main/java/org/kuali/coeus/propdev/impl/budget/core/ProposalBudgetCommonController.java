@@ -172,8 +172,11 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 	@RequestMapping(params = "methodToCall=closeWithSave")
 	public ModelAndView closeWithSave(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		super.save(form);
-		getProposalBudgetLockService().deleteBudgetLock(form.getBudget());
-		return getNavigationControllerService().returnToHub(form);
+		if (getGlobalVariableService().getMessageMap().hasNoErrors()) {
+			getProposalBudgetLockService().deleteBudgetLock(form.getBudget());
+			return getNavigationControllerService().returnToHub(form);
+		}
+		return getModelAndViewService().getModelAndView(form);
 	}
 
 	@Transactional

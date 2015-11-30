@@ -39,7 +39,8 @@ public enum BudgetSummaryErrorConstants {
         ERROR_LINE_ITEM_EXISTS("error.lineItem.exists", "startDate"),
         ERROR_PERIOD_LINE_ITEM_DOESNOT_EXIST("error.periodLineItem.doesNot.exist", "noFocus"),
         ERROR_GENERATE_PERIOD("error.generatePeriod", "noFocus"),
-        ERROR_NO_FUTURE_PERIOD_TO_GENERATE("error.noFuturePeriodToGenerate", "noFocus");
+        ERROR_NO_FUTURE_PERIOD_TO_GENERATE("error.noFuturePeriodToGenerate", "noFocus"),
+        ERROR_PERIOD_GAPS("error.budgetPeriodGaps", "noFocus");
         private final String errorKey;   
         private final String errorProperty;
 
