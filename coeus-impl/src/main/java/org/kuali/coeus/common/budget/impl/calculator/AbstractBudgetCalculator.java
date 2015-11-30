@@ -63,7 +63,10 @@ public abstract class AbstractBudgetCalculator {
     public static final String RATE_CLASS_TYPE = "rateClassType";
     public static final String CALCULATED_COST_SHARING = "calculatedCostSharing";
     public static final String ACTIVITY_TYPE_CODE = "activityTypeCode";
-    String CALCULATED_COST = "calculatedCost";
+    public static final String VALID_CE_RATE_TYPES = "validCeRateTypes";
+    public static final String CALCULATED_COST = "calculatedCost";
+    private static final Log LOG = LogFactory.getLog(AbstractBudgetCalculator.class);
+
     private LegacyDataAdapter legacyDataAdapter;
     private DateTimeService dateTimeService;
     protected Budget budget;
@@ -75,7 +78,6 @@ public abstract class AbstractBudgetCalculator {
     private QueryList<BudgetRate> underrecoveryRates;
     private QueryList<BudgetRate> inflationRates;
     private ParameterService parameterService;
-    private static final Log LOG = LogFactory.getLog(AbstractBudgetCalculator.class);
 
 
     public AbstractBudgetCalculator(Budget budget, BudgetLineItemBase budgetLineItem) {
@@ -153,7 +155,7 @@ public abstract class AbstractBudgetCalculator {
     }
 
     protected QueryList filterBasedOnDate(Date lineItemEndDate, QueryList budgetProposalRates) {
-        if (budgetProposalRates != null && !budgetProposalRates.isEmpty()) {
+        if (CollectionUtils.isNotEmpty(budgetProposalRates)) {
             Or startsBeforeLineItemEndDate = new Or(new LesserThan(START_DATE, lineItemEndDate), new Equals(START_DATE, lineItemEndDate));
             budgetProposalRates = budgetProposalRates.filter(startsBeforeLineItemEndDate);
         }
@@ -170,21 +172,21 @@ public abstract class AbstractBudgetCalculator {
     }
 
     protected void addInflationRates(String activityTypeCode, QueryList unfilteredRates, QueryList budgetProposalRates) {
-        if (infltionValidCalcCeRates != null && !infltionValidCalcCeRates.isEmpty()) {
-            for (ValidCeRateType inflationValidceRate : infltionValidCalcCeRates) {
+        if (CollectionUtils.isNotEmpty(infltionValidCalcCeRates)) {
+            infltionValidCalcCeRates.forEach(inflationValidceRate -> {
                 Equals equalsRC = new Equals(RATE_CLASS_CODE, inflationValidceRate.getRateClassCode());
                 Equals equalsRT = new Equals(RATE_TYPE_CODE, inflationValidceRate.getRateTypeCode());
                 Equals equalsOnOff = new Equals(ON_OFF_CAMPUS_FLAG, budgetLineItem.getOnOffCampusFlag());
                 And RCandRT = new And(equalsRC, equalsRT);
                 And RCRTandOnOff = new And(RCandRT, equalsOnOff);
                 Equals eActType = new Equals(ACTIVITY_TYPE_CODE, activityTypeCode);
-                And RCRTandOnOffandActType = new And(RCRTandOnOff,eActType);
+                And RCRTandOnOffandActType = new And(RCRTandOnOff, eActType);
                 QueryList<BudgetRate> filteredRates = unfilteredRates.filter(RCRTandOnOffandActType);
-                if (filteredRates != null && !filteredRates.isEmpty()) {
+                if (CollectionUtils.isNotEmpty(filteredRates)) {
                     setInflationRates(filteredRates);
                     budgetProposalRates.addAll(filteredRates);
                 }
-            }
+            });
         }
     }
 
@@ -274,7 +276,7 @@ public abstract class AbstractBudgetCalculator {
                 equalsRC = new Equals(RATE_CLASS_CODE, rateClassCode);
                 equalsRT = new Equals(RATE_TYPE_CODE, rateTypeCode);
                 RCandRT = new And(equalsRC, equalsRT);
-                totalCalculatedCost = cvCombinedAmtDetails.sumObjects("calculatedCost", RCandRT);
+                totalCalculatedCost = cvCombinedAmtDetails.sumObjects(CALCULATED_COST, RCandRT);
 
                 calculatedAmount.setCalculatedCost(totalCalculatedCost);
 
@@ -292,7 +294,7 @@ public abstract class AbstractBudgetCalculator {
              * Sum up all direct costs ie, rates for RateClassType <> 'O', for each breakup interval plus the line item cost, and
              * then update the line item details.
              */
-            NotEquals notEqualsOH = new NotEquals("rateClassType", RateClassType.OVERHEAD.getRateClassType());
+            NotEquals notEqualsOH = new NotEquals(AbstractBudgetCalculator.RATE_CLASS_TYPE, RateClassType.OVERHEAD.getRateClassType());
             boolean directCostRolledUp = false;
             boolean resetTotalUnderRecovery = false;
             ScaleTwoDecimal newTotalUrAmount = ScaleTwoDecimal.ZERO;
@@ -307,7 +309,7 @@ public abstract class AbstractBudgetCalculator {
                             if (personnelCalAmt.getRateClass() == null) {
                                 personnelCalAmt.refreshReferenceObject(RATE_CLASS);
                             }
-                            if (!personnelCalAmt.getRateClass().getRateClassTypeCode().equals("O")) {
+                            if (!personnelCalAmt.getRateClass().getRateClassTypeCode().equals(RateClassType.OVERHEAD.getRateClassType())) {
                                 directCost = directCost.add(personnelCalAmt.getCalculatedCost());
                             } else {
                                 indirectCost = indirectCost.add(personnelCalAmt.getCalculatedCost());
@@ -325,16 +327,16 @@ public abstract class AbstractBudgetCalculator {
                 budgetLineItem.setUnderrecoveryAmount(newTotalUrAmount);
             }
             if (!directCostRolledUp) {
-                directCost = cvCombinedAmtDetails.sumObjects("calculatedCost", notEqualsOH);
+                directCost = cvCombinedAmtDetails.sumObjects(CALCULATED_COST, notEqualsOH);
             }
             budgetLineItem.setDirectCost(directCost.add(budgetLineItem.getLineItemCost()));
             /*
              * Sum up all Indirect costs ie, rates for RateClassType = 'O', for each breakup interval and then update the line item
              * details.
              */
-            Equals equalsOH = new Equals("rateClassType", RateClassType.OVERHEAD.getRateClassType());
+            Equals equalsOH = new Equals(AbstractBudgetCalculator.RATE_CLASS_TYPE, RateClassType.OVERHEAD.getRateClassType());
             if (!directCostRolledUp) {
-                indirectCost = cvCombinedAmtDetails.sumObjects("calculatedCost", equalsOH);
+                indirectCost = cvCombinedAmtDetails.sumObjects(CALCULATED_COST, equalsOH);
             }
             budgetLineItem.setIndirectCost(indirectCost);
 
@@ -415,7 +417,7 @@ public abstract class AbstractBudgetCalculator {
                 breakUpInterval.setApplicableAmt(boundary.getApplicableCost());
                 breakUpInterval.setApplicableAmtCostSharing(boundary.getApplicableCostSharing());
 
-                List<AbstractBudgetCalculatedAmount> budgetCalculatedAmounts = (List<AbstractBudgetCalculatedAmount>) budgetLineItem.getBudgetCalculatedAmounts();
+                List<AbstractBudgetCalculatedAmount> budgetCalculatedAmounts = budgetLineItem.getBudgetCalculatedAmounts();
                 for (AbstractBudgetCalculatedAmount budgetLineItemCalculatedAmount : budgetCalculatedAmounts) {
                     Boolean applyRateFlag = budgetLineItemCalculatedAmount.getApplyRateFlag();
                     refreshRateClass(budgetLineItemCalculatedAmount.getRateClassCode(), budgetLineItemCalculatedAmount);
@@ -465,29 +467,40 @@ public abstract class AbstractBudgetCalculator {
 
     protected void setBreakupIntervalRates(QueryList<BudgetRate> lineItemPropRates, Boundary boundary, BreakUpInterval breakUpInterval, QueryList<RateAndCost> rateAndCosts, QueryList<BudgetRate> breakupPropRates, QueryList<BudgetLaRate> breakupPropLARates) {
         // set the values for the breakup interval in the BreakupInterval bean
-        if (rateAndCosts != null && rateAndCosts.size() > 0) {
+        if (CollectionUtils.isNotEmpty(rateAndCosts)) {
             breakUpInterval.setRateAndCosts(rateAndCosts);
             breakUpInterval.setBudgetProposalRates(breakupPropRates);
             breakUpInterval.setBudgetProposalLaRates(breakupPropLARates);
             breakupIntervals.add(breakUpInterval);
         }
 
-        setUnderrecoveryRate(lineItemPropRates, boundary, breakUpInterval);
+        setUnderrecoveryRateBean(lineItemPropRates, boundary, breakUpInterval);
     }
 
-    protected void setUnderrecoveryRate(QueryList<BudgetRate> lineItemPropRates, Boundary boundary, BreakUpInterval breakUpInterval) {
-        QueryList<ValidCeRateType> underrecoveryRates = getRateMappedToCostElement();
+    /*
+    Unrecovered F & A Rate - F&A Rate = underrecovery. This method gets the unrecoveredF&A rate.
+     */
+    public void setUnderrecoveryRateBean(QueryList<BudgetRate> lineItemPropRates, Boundary boundary, BreakUpInterval breakUpInterval) {
+        QueryList<ValidCeRateType> underrecoveryRates = getUnderrecoveryRateMappedToCostElement(new QueryList<>(budgetLineItem.getCostElementBO().getValidCeRateTypes()));
         // get the rate class, rate type from the cost element and use that.
-        if (!isUndercoveryMatchesOverhead() && !underrecoveryRates.isEmpty()) {
+        if (!isUndercoveryMatchesOverhead()) {
             // you cannot have more than one rate mapped to this cost element, so always use the first.
             // if there's more than one mapped, it is wrong.
-            QueryList<BudgetRate> underRecoveryRates = getUnderrecoveryRatesFromPropRates(lineItemPropRates, underrecoveryRates);
-            if (underRecoveryRates != null && underRecoveryRates.size() > 0) {
-                QueryList filteredUnderrecoveryRates = filterUnderrecoveryByEndDate(boundary, underRecoveryRates);
-                if (filteredUnderrecoveryRates != null && filteredUnderrecoveryRates.size() > 0) {
-                    filteredUnderrecoveryRates.sort(START_DATE, false);
-                    breakUpInterval.setURRatesBean((BudgetRate) filteredUnderrecoveryRates.get(0));
+            if (!underrecoveryRates.isEmpty()) {
+                QueryList<BudgetRate> underRecoveryRates = getUnderrecoveryRatesFromPropRates(lineItemPropRates, underrecoveryRates);
+                if (CollectionUtils.isNotEmpty(underRecoveryRates)) {
+                    QueryList filteredUnderrecoveryRates = filterUnderrecoveryByEndDate(boundary, underRecoveryRates);
+                    if (CollectionUtils.isNotEmpty(filteredUnderrecoveryRates)) {
+                        filteredUnderrecoveryRates.sort(START_DATE, false);
+                        breakUpInterval.setURRatesBean((BudgetRate) filteredUnderrecoveryRates.get(0));
+                    }
                 }
+            } else {
+                // if there are no rates, it means the line item does not have overhead but
+                // it can still have underrecovery.
+                BudgetRate rate = new BudgetRate();
+                rate.setInstituteRate(ScaleTwoDecimal.ZERO);
+                breakUpInterval.setURRatesBean(rate);
             }
         }
     }
@@ -564,7 +577,7 @@ public abstract class AbstractBudgetCalculator {
 
         QueryList validProposalRates = lineItemPropRates.filter(RCRTandLtStartDate);
 
-        if (validProposalRates != null && validProposalRates.size() > 0) {
+        if (CollectionUtils.isNotEmpty(validProposalRates)) {
             multipleRates = lineItemPropRates.filter(RCRTandgtStartDateAndltEndDate);
             if (multipleRates != null && multipleRates.size() > 1) {
                 message = multipleRatesMesgTemplate + simpleDateFormat.format(boundary.getStartDate()) + " to "
@@ -587,10 +600,11 @@ public abstract class AbstractBudgetCalculator {
     }
 
     protected void breakupLARates(String multipleRatesMesgTemplate, String message, QueryList<BudgetLaRate> lineItemPropLaRates,
-                                SimpleDateFormat simpleDateFormat, Boundary boundary, QueryList<BudgetLaRate> breakupPropLARates, QueryList multipleRates, List<String> warningMessages, AbstractBudgetCalculatedAmount budgetLineItemCalculatedAmount) {
+                                SimpleDateFormat simpleDateFormat, Boundary boundary, QueryList<BudgetLaRate> breakupPropLARates,
+                                  QueryList multipleRates, List<String> warningMessages, AbstractBudgetCalculatedAmount budgetLineItemCalculatedAmount) {
         And RCRTandLtStartDate = getRateClassAndRateTypeAndLessThanStartDateCondition(boundary, budgetLineItemCalculatedAmount);
         QueryList validLARates = lineItemPropLaRates.filter(RCRTandLtStartDate);
-        if (validLARates != null && validLARates.size() > 0) {
+        if (CollectionUtils.isNotEmpty(validLARates)) {
             if (multipleRates != null && multipleRates.size() > 1) {
                 message = multipleRatesMesgTemplate + simpleDateFormat.format(boundary.getStartDate()) + " to "
                         + simpleDateFormat.format(boundary.getEndDate()) + " for Rate Class - \'"
@@ -615,19 +629,18 @@ public abstract class AbstractBudgetCalculator {
         return rateClassType.equalsIgnoreCase(RateClassType.LAB_ALLOCATION.getRateClassType()) || rateClassType.equalsIgnoreCase(RateClassType.LA_SALARIES.getRateClassType());
     }
 
-    protected QueryList<ValidCeRateType> getRateMappedToCostElement() {
+    protected QueryList<ValidCeRateType> getUnderrecoveryRateMappedToCostElement(QueryList<ValidCeRateType> validCeRateTypes) {
         Equals equalsRC = new Equals(RATE_CLASS_CODE, budget.getUrRateClassCode());
-        Equals equalsRCT = new Equals("rateClassType", RateClassType.OVERHEAD.getRateClassType());
+        Equals equalsRCT = new Equals(RATE_CLASS_TYPE, RateClassType.OVERHEAD.getRateClassType());
         And RCRTandRCT = new And(equalsRC, equalsRCT);
         if(budgetLineItem.getCostElementBO()!=null && budgetLineItem.getCostElementBO().getValidCeRateTypes().isEmpty() ){
-            budgetLineItem.getCostElementBO().refreshReferenceObject("validCeRateTypes");
+            budgetLineItem.getCostElementBO().refreshReferenceObject(VALID_CE_RATE_TYPES);
         }
-        QueryList<ValidCeRateType> validCeRateTypes = new QueryList<>(budgetLineItem.getCostElementBO().getValidCeRateTypes());
         return validCeRateTypes.filter(RCRTandRCT);
     }
 
     public String getPersonnelBudgetCategoryTypeCode() {
-        return getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_BUDGET, ParameterConstants.DOCUMENT_COMPONENT,Constants.BUDGET_CATEGORY_TYPE_PERSONNEL);
+        return getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_BUDGET, ParameterConstants.DOCUMENT_COMPONENT, Constants.BUDGET_CATEGORY_TYPE_PERSONNEL);
     }
 
     /**
@@ -862,7 +875,7 @@ public abstract class AbstractBudgetCalculator {
         }
 
        if (budgetLineItem.getCostElementBO().getValidCeRateTypes().isEmpty()) {
-        	budgetLineItem.getCostElementBO().refreshReferenceObject("validCeRateTypes");
+        	budgetLineItem.getCostElementBO().refreshReferenceObject(VALID_CE_RATE_TYPES);
        }
 
         setInflationRateOnLineItem(budgetLineItem);
@@ -889,7 +902,7 @@ public abstract class AbstractBudgetCalculator {
         if(filteredBudgetRates.isEmpty() && filteredBudgetLaRates.isEmpty()) return;
 
         AbstractBudgetCalculatedAmount budgetCalculatedAmount = getNewBudgetCalculatedAmount(rateClassType, rateClassCode, rateType.getRateTypeCode(),
-                                                                                                rateType.getDescription());
+                rateType.getDescription());
         budgetCalculatedAmount.refreshReferenceObject(RATE_CLASS);
         addCalculatedAmount(budgetCalculatedAmount);
     }

@@ -29,7 +29,7 @@ import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
  * has to be performed.
  *
  */
-public class BreakUpInterval{
+public class BreakUpInterval {
     private Boundary boundary;
     private ScaleTwoDecimal underRecovery;
     private QueryList<BudgetRate> breakupIntervalRates;
@@ -48,8 +48,7 @@ public class BreakUpInterval{
     private QueryList<BudgetRateAndBase> rateBaseList ;
    
 
-/**return the vector which contains Budget Rate and Base data
-    *
+    /**return the vector which contains Budget Rate and Base data
     */
     public QueryList getRateBase() {
         return rateBaseList;
