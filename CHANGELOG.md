@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+*  Remove unused proposal budget status
+  * Travis Schneeberger on Wed, 25 Nov 2015 22:01:37 -0500 [View Commit](../../commit/bbc2db9642be59de708e74e76d4ca8ae2c212355)
+
+##coeus-1511.102
 *  Fix underrecovery in some situations and add tests
   * If the Budget Settings > Unrecovered F&A Base selection is FUNSN, the system is not recognizing the the full difference. Cost Objects that are included in the FUNSN rate that are not charged F&A in the MTDC rate (like Equipment, Tuition, and Subawards) are not generating U/R when the rate pair of F&A = MTDC and UR F&A Base = FUNSN.
   * The following F&A Rate Type/Unrecovered F&A Rate Type combinations are still not calculating Underrecovery correctly in the budget, specifically on the Equipment and Tuition RA Object Codes (this seems to be happening with the Object Codes that are set-up to NOT apply MTDC).

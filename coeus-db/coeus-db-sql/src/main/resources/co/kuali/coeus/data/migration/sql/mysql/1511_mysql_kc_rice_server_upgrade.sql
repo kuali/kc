@@ -23,4 +23,5 @@
 \. ./rice/bootstrap/V1511_006__RESKC-996-BatchCorrespondenceRenewalCorrespTypes.sql
 \. ./rice/bootstrap/V1511_007__RESKC-972.sql
 \. ./rice/bootstrap/V1511_008__RESKC-978.sql
+\. ./rice/bootstrap/V1511_017__remove_pd_budget_status.sql
 commit;
