@@ -296,7 +296,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
      
         childProposal.setHierarchyStatus(HierarchyStatusConstants.None.code());
         childProposal.setHierarchyParentProposalNumber(null);
-        if (StringUtils.equalsIgnoreCase(hierarchyProposal.getHierarchyOriginatingChildProposalNumber(), childProposal.getProposalNumber())) {
+        if (StringUtils.equalsIgnoreCase(hierarchyProposal.getHierarchyOriginatingChildProposalNumber(), childProposal.getProposalNumber()) && hierarchyProposal.getPrincipalInvestigator() != null) {
             hierarchyProposal.getPrincipalInvestigator().setHierarchyProposalNumber(null);
         }
 
