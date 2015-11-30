@@ -1,6 +1,75 @@
 
 
 ##CURRENT
+* IRB - Review Comments not displaying in some Amendments
+  * Issue here is when a schedule is selected at the time of approval and review comments are added prior to it,
+  * a default schedule is set of each review comments.
+  * Referenced schedule id is not changed based on switching schedule at the time of approval.
+  * Fix to reprocess the review comments collection and update the latest schedule id prior to persisting.
+  * rmancher on Thu, 26 Nov 2015 10:10:51 -0500 [View Commit](../../commit/bc910645fe3f226d7aad76ff98b75406ff8cee74)
+*  STE occurs if initiating child proposal is unlinked before a non-lead unit child proposal.
+
+*Step 1: create the initiating child proposal*
+  * Create a proposal in lead unit IN-CARD
+  * Add PI > user dusher
+  * Create a new budget> zero dollars > mark complete/for submission
+*Step 2*: create parent from initiating child
+  * Toolbar> hierarchy > subbudget> *create parent* (Note proposal number of new parent)
+
+*Step 3: create another matching lead unit child proposal*
+  * While still in the initiating child proposal > toolbar > Copy proposal
+  * Select IN-CARD as the unit (same as initiating) > copy budget
+  * In new proposal, toolbar> budget versions > mark budget as for submission
+  * Toolbar > hierarchy > subbudget > enter parent proposal number from step 2.> link to parent
+
+*Step 4: create a new proposal in non-lead unit.*
+  * Create proposal in unit IN-MED
+  * Key Personnel > Add RHANLON as PI
+  * Create Budget > zero $, complete & mark for submission
+  * Return to proposal
+  * Toolbar > Hiearchy > enter Parent proposal number from step 2, subbudget > link to parent
+  * Close proposal
+
+*Step 5: locate initiating child proposal*
+ open in edit mode
+  * Toolbar > hierarchy > unlink from hierarchy
+save & close
+
+*Step 6: located NON-LEAD child proposal*
+  * Open in edit mode
+  * Toolbar> hierarchy>unlink from hierarchy
+
+  * {color:red}RESULT: STE{color}
+
+  * java.lang.NullPointerException at org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyServiceImpl.removeFromHierarchy(ProposalHierarchyServiceImpl.java:300) at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) at java.lang.reflect.Method.invoke(Method.java:497) at
+  * Travis Schneeberger on Mon, 30 Nov 2015 08:32:19 -0500 [View Commit](../../commit/8be198573da32ae9bb4942c29f2b728fbe9b5244)
+*  Maintenance Doc > Organization > Audit > Audit Accepted field needs more than "Yes/No" options.
+  * Options should include: Accepted, Rejected, Requested, and Reviewed.
+  * In KC, the Organization "Audit Accepted" field is a checkbox, indicating a binary yes/no option.
+  * In Coeus, the Audit Accepted field is a drop down with 4 options. (The dropdown has been in place since at least before Coeus 4.4.4, if not originally.)
+
+  * This field is used by Research Subawards administrators to maintain a central, electronic record of detailed Audit status for subawardee organizations.
+  * Field in KC needs to provide the same more detailed selection options as Coeus.
+  * Travis Schneeberger on Wed, 25 Nov 2015 19:05:47 -0500 [View Commit](../../commit/1401811e891dfe428b766d7572c7c217f9826dde)
+*  Fixing numerious bugs related to proposal development.
+
+  * The user expects all proposals linked in a proposal hierarchy to be the same; therefore a children's status should match the status of the parent and should not be editable if in a status that does not allow edits.
+           Currently, when a Hierarhcy Proposal Routes, the status of the parent becomes "Approval Pending" but the status of all the children remains as "In Progress."
+           When the status of the Hierarchy Parent changes, the statuses of any linked children should be updated to match.  This should be reflected on the hierarchy tab, the medusa section, and in search results.
+
+           From PD Search results, even when Parent is status of "Approval Pending" the children with "In Progress" have "Edit" action option enabled. When a hierarchy proposal is routing, parents AND children should all be locked down for editing as regular proposals are.
+
+           From PD Search results, when Parent is status of "Approved and Submitted " the children with "In Progress" have "Edit" action option enabled. When a hierarchy proposal "Approved and Submitted, parents AND children should all be locked down from an further editing as regular proposals are.
+
+           User with Edit permission for child proposal IS indeed able to open the hierarchy children with the Edit action link, even after parent is Approved & Submitted and they shouldn't be able to make any edits
+           Note that when Hierarchy Parent is "Returned for Revisions," the child proposals should also be updated match the Proposal Status of the parent.
+
+ Avoided a NullPointerException when creating a Proposal Hiearchy on a proposal without a budget.  Now a validation error occurs.
+ Avoided a NullPointerException when linking a parent proposal to another proposal (child) that does not have a budget.  Now a validation error occurs.
+ Corrected the proposal status inquiry so that it no longer uses the proposal type code but the proposal state code for the inquiry key.
+  * Travis Schneeberger on Wed, 25 Nov 2015 11:14:47 -0500 [View Commit](../../commit/a92e0e0c9b15d3009c460d7d7e3beed5e53c4e66)
+
+##coeus-1511.97
 * No Changes
 
 
