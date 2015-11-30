@@ -1,6 +1,15 @@
 
 
 ##CURRENT
+*  Fixing role exemption certification and added tests.
+  * I re-tested this case in 1511.58 and found that Key Persons with roles maintained in keypersonprojectrole who do not have to certify or disclose still show in Notify All and COI disclosure status modals but should not.
+  * Gayathri Athreya on Mon, 30 Nov 2015 14:01:38 -0700 [View Commit](../../commit/4d170526406d6f4ff6a9990cb1f383dbe2e29474)
+*  Budget category desciption was not setting properly for LA Vacation overhead items and NPE was throiwng while sorting these records of rate and base line items
+  * Geo Thomas on Mon, 30 Nov 2015 15:35:53 -0500 [View Commit](../../commit/f288b2261b453b9133ec524b28387d96bc26dcd5)
+* PD - "Save" button and proposal person certification "Clear All Answers" button is enabled in view mode
+  * rmancher on Mon, 30 Nov 2015 15:19:57 -0500 [View Commit](../../commit/df4f9b609e3fc34b05ed2b2bdfdbd196d16ea829)
+
+##coeus-1511.106
 * Fix script to avoid failures
 
   * Re-order such that all dml occurs between necessary ddl to avoid auto-commit on DDL changes.
