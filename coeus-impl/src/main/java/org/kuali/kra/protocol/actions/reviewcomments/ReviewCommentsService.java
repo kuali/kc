@@ -226,4 +226,6 @@ public interface ReviewCommentsService<PRA extends ProtocolReviewAttachmentBase>
      */
     boolean setHideViewButton(List<PRA> reviewAttachments);
 
+    public void updateScheduleForReviewComments(ProtocolBase protocol, List<CommitteeScheduleMinuteBase> reviewComments);
+    
 }
