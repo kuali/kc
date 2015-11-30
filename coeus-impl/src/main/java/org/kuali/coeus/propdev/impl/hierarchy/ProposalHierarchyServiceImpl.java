@@ -24,7 +24,6 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.budget.framework.personnel.*;
 import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
 import org.kuali.coeus.propdev.impl.attachment.*;
-import org.kuali.coeus.propdev.impl.budget.ProposalBudgetStatus;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
@@ -1179,20 +1178,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         catch (Exception e) {
             throw new ProposalHierarchyException( String.format( "Exception encountrered while attempting to update App Doc Status of proposal %s ( document #%s )", doc.getDevelopmentProposal().getProposalNumber(), doc.getDocumentNumber() ), e);
         }
-    }
-    
-    
-    
-    public boolean allChildBudgetsAreComplete(String parentProposalNumber) {
-        boolean retval = true;
-        String completeCode = parameterService.getParameterValueAsString(Budget.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
-        for (ProposalBudgetStatus status : proposalHierarchyDao.getHierarchyChildProposalBudgetStatuses(parentProposalNumber)) {
-            if (!StringUtils.equalsIgnoreCase(completeCode, status.getBudgetStatusCode())) {
-                retval = false;
-                break;
-            }
-        }
-        return retval;
     }
     
     protected boolean rolesAreSimilar(ProposalPerson person1, ProposalPerson person2) {

@@ -62,7 +62,6 @@ import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularService;
 import org.kuali.coeus.common.budget.framework.print.BudgetPrintService;
 import org.kuali.coeus.propdev.impl.budget.subaward.PropDevBudgetSubAwardService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarcyActionHelper;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
@@ -112,8 +111,6 @@ public class BudgetAction extends BudgetActionBase {
     public static final String ROUTE = "route";
     public static final String SYNC_QUESTION_ASKED = "syncQuestionAsked";
 
-
-    private ProposalHierarcyActionHelper hierarchyHelper;
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -471,14 +468,6 @@ public class BudgetAction extends BudgetActionBase {
         KcServiceLocator.getService(PropDevBudgetSubAwardService.class).prepareBudgetSubAwards(budget);
         return mapping.findForward(Constants.BUDGET_ACTIONS_PAGE);
     }
-
-    protected ProposalHierarcyActionHelper getHierarchyHelper() {
-        if (hierarchyHelper == null) {
-            hierarchyHelper = new ProposalHierarcyActionHelper();
-        }
-        return hierarchyHelper;
-    }
-
 
     private void populateBudgetPrintForms(Budget budget) {
         if(budget.getBudgetPrintForms().isEmpty()){

@@ -18,7 +18,6 @@
  */
 package org.kuali.coeus.propdev.impl.hierarchy;
 
-import org.kuali.coeus.propdev.impl.budget.ProposalBudgetStatus;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonDegree;
@@ -30,7 +29,6 @@ import java.util.List;
 public interface ProposalHierarchyDao {
 	List<DevelopmentProposal> getHierarchyChildProposals(String parentProposalNumber);
     List<String> getHierarchyChildProposalNumbers(String proposalNumber);
-    List<ProposalBudgetStatus> getHierarchyChildProposalBudgetStatuses(String proposalNumber);
     boolean personInMultipleChildProposals(String personId, String hierarchyProposalNumber);
     DevelopmentProposal getDevelopmentProposal(String proposalNumber);
     ProposalState getProposalState(String proposalNumber);

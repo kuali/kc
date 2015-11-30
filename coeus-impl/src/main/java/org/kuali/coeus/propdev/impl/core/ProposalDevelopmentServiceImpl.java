@@ -24,7 +24,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
-import org.kuali.coeus.propdev.impl.budget.ProposalBudgetStatus;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.common.framework.auth.SystemAuthorizationService;
@@ -203,10 +202,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     @Override
     public ProposalDevelopmentDocument deleteProposal(ProposalDevelopmentDocument proposalDocument) throws WorkflowException {
 
-        final DevelopmentProposal developmentProposal = proposalDocument.getDevelopmentProposal();
-        final String proposalNumber = developmentProposal.getProposalNumber();
-        getDataObjectService().deleteMatching(ProposalBudgetStatus.class, QueryByCriteria.Builder.andAttributes(Collections.singletonMap("proposalNumber", proposalNumber)).build());
-        dataObjectService.delete(developmentProposal);
+        dataObjectService.delete(proposalDocument.getDevelopmentProposal());
         proposalDocument.setDevelopmentProposal(null);
         proposalDocument.setProposalDeleted(true);
 

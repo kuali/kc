@@ -51,7 +51,6 @@ import java.util.Collection;
  * }
  * }
  */
-@Deprecated
 public abstract class CompositeDescriptorCustomizer implements DescriptorCustomizer {
 
     protected abstract Collection<DescriptorCustomizer> getCustomizers();
