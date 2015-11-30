@@ -1,6 +1,21 @@
 
 
 ##CURRENT
+*  Budget > P&T > Delete period or modify budget period date range > User allowed to continue with mismatched dates to proposal
+
+  * As a user with limited training in budget, I assume I can add or delete budget periods on the Budget >  Periods & Totals screen using the trashcan icon for any reason I choose. The period can have been generated and contain data, or be empty of values because no budget details have been generated or added.
+  * I believe I can do this because the system lets me take that action, confirms that the budget period has been deleted, and lets me continue using the budget.
+  * Issue(s):
+  * Budget Period DATES are not being validated on the P&T screen, or at Complete.
+  * -users can delete budget periods and continue.
+  * -user can create a budget with missing date range
+
+  * Desired Behavior:
+  * After modifying periods on the P&T screen (*add, delete, edit existing dates*), System should validate the start and end dates in the budget to verify that they match the date range in the proposal details. *System should not let user save or leave the P&T screen until the Budget Start and End Date ranges matches the proposal start/end date range.*
+  * Present an Error message to alert the user:  The budget period date range does not match the Start and/or End dates of the proposal. Use the 'reset to period defaults' option to restore the periods, or manually adjust the periods to include all days in the proposal date range.
+  * Joe Williams on Mon, 30 Nov 2015 15:28:42 -0600 [View Commit](../../commit/07c6d44c97ab975b295044ed66ec51b5e8930e17)
+
+##coeus-1511.108
 * No Changes
 
 
