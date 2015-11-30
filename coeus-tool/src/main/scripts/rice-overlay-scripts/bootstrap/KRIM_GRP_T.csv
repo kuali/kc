@@ -1,9 +1,0 @@
-"GRP_ID","GRP_NM","NMSPC_CD","GRP_DESC","KIM_TYP_ID","ACTV_IND","OBJ_ID","VER_NBR"
-"10010000","IACUCAdmin","KC-WKFLW","IACUC Administrator","1","Y","43bdcc61-0f24-4be6-afd8-ac378edcaa1e",3
-"1002001","KcAdmin","KC-WKFLW","Kuali Coeus Administrator","1","Y","B6A90093ABEE8D60E040DC0A1F8A1D16",1
-"1002002","OSP Superuser","KC-WKFLW","Kuali Coeus Administrator","1","Y","B6A90093ABEF8D60E040DC0A1F8A1D16",1
-"1002003","ProposalAdmin","KC-WKFLW","Proposal Workflow Administrator","1","Y","B6A90093ABF08D60E040DC0A1F8A1D16",1
-"1002004","IRBAdmin","KC-WKFLW","IRB Administrator","1","Y","B6A90093ABF18D60E040DC0A1F8A1D16",1
-"1002005","Proposal Development - Department Reviewers","KC-WKFLW","Reviewes for DepartmentalReview route node.","1","Y","B6A90093ABF28D60E040DC0A1F8A1D16",1
-"1002006","Proposal Development - Custom Approval Reviewers","KC-WKFLW","Reviewes for CustomApproval route node.","1","Y","B6A90093ABF38D60E040DC0A1F8A1D16",1
-"1002007","QuestionnaireAdmin","KC-WKFLW","Questionnaire Blanket Approver","1","Y","B6A9050127EE65A3E040DC0A1F8A1D4C",1

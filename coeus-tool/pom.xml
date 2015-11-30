@@ -43,16 +43,4 @@
         <maven.skip.packaging>true</maven.skip.packaging>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.kuali.coeus</groupId>
-            <artifactId>coeus-impl</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.kuali.rice</groupId>
-            <artifactId>rice-development-tools</artifactId>
-        </dependency>
-    </dependencies>
 </project>
