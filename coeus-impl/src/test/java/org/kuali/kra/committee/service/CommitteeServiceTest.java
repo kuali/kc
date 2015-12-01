@@ -60,6 +60,8 @@ public class CommitteeServiceTest {
     private static final String RESEARCH_AREA_CODE_2 = "01.0102";
     private static final String RESEARCH_AREA_CODE_3 = "01.0103";
     DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+    private static final String COMMITTEE_DOCUMENT_STATUS_CODE = "committeeDocument.docStatusCode";
+    private static final String DOC_STATUS_CODE = "F";
     
     private Mockery context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
     
@@ -79,6 +81,7 @@ public class CommitteeServiceTest {
          */
         final Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("committeeId", "999");
+        fieldValues.put(COMMITTEE_DOCUMENT_STATUS_CODE, DOC_STATUS_CODE);
         
         final Collection<Committee> committees = new ArrayList<Committee>();
         Committee committee = new Committee();
@@ -109,6 +112,7 @@ public class CommitteeServiceTest {
          */
         final Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("committeeId", "999");
+        fieldValues.put(COMMITTEE_DOCUMENT_STATUS_CODE, DOC_STATUS_CODE);
         
         final Collection<Committee> committees = new ArrayList<Committee>();
         
@@ -312,6 +316,7 @@ public class CommitteeServiceTest {
     private void initCommitteeService(CommitteeServiceImpl committeeService, Committee committee) {
         final Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("committeeId", "999");
+        fieldValues.put(COMMITTEE_DOCUMENT_STATUS_CODE, DOC_STATUS_CODE);
         
         final Collection<Committee> committees = new ArrayList<Committee>();
         committees.add(committee);
@@ -350,6 +355,7 @@ public class CommitteeServiceTest {
         
          final Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("committeeId", "test");
+        fieldValues.put(COMMITTEE_DOCUMENT_STATUS_CODE, DOC_STATUS_CODE);
         
         
         Committee oldCommittee = getCommittee("test",1);
@@ -359,7 +365,6 @@ public class CommitteeServiceTest {
         
         final Collection<Committee> committees = new ArrayList<Committee>();
         committees.add(oldCommittee);
-        committees.add(newCommittee);
         
         final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
         context.checking(new Expectations() {{
@@ -368,7 +373,7 @@ public class CommitteeServiceTest {
             one(businessObjectService).delete(newSchedules);
         }});
         committeeService.setBusinessObjectService(businessObjectService);
-        List<CommitteeSchedule> schedules = committeeService.mergeCommitteeSchedule("test");
+        List<CommitteeSchedule> schedules = committeeService.mergeCommitteeSchedule(newCommittee);
         Assert.assertTrue(schedules.size() == 2);
         CommitteeSchedule schedule = schedules.get(0);
         ScheduleAgenda agenda = (ScheduleAgenda) schedule.getScheduleAgendas().get(0);
