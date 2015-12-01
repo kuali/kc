@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - Kuali Coeus, a comprehensive research administration system for higher education.
+   - 
+   - Copyright 2005-2015 Kuali, Inc.
+   - 
+   - This program is free software: you can redistribute it and/or modify
+   - it under the terms of the GNU Affero General Public License as
+   - published by the Free Software Foundation, either version 3 of the
+   - License, or (at your option) any later version.
+   - 
+   - This program is distributed in the hope that it will be useful,
+   - but WITHOUT ANY WARRANTY; without even the implied warranty of
+   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   - GNU Affero General Public License for more details.
+   - 
+   - You should have received a copy of the GNU Affero General Public License
+   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- BUKC-0002: Add Award Extension Fields -->
+    <bean id="AwardExtension" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="edu.bu.kuali.kra.award.home.AwardExtension"/>
+        <property name="objectLabel" value="Award Extension"/>
+
+        <property name="attributes">
+            <list>
+                <ref bean="AwardExtension-awardId"/>
+                <ref bean="AwardExtension-proposedForTransmissionIndicator"/>
+                <ref bean="AwardExtension-lastTransmissionDate"/>
+                <ref bean="AwardExtension-childType"/>
+                <ref bean="AwardExtension-childDescription"/>
+                <ref bean="AwardExtension-majorProject"/>
+                <ref bean="AwardExtension-arraCode"/>
+                <ref bean="AwardExtension-avcIndicator"/>
+                <ref bean="AwardExtension-a133Cluster"/>
+                <ref bean="AwardExtension-fringeNotAllowedIndicator"/>
+                <ref bean="AwardExtension-interestEarned"/>
+                <ref bean="AwardExtension-interestEarnedAccountNumber"/>
+                <ref bean="AwardExtension-federalRateDate"/>
+                <ref bean="AwardExtension-buBmcFaSplit"/>
+                <ref bean="AwardExtension-conferenceGrant"/>
+                <ref bean="AwardExtension-programIncome"/>
+                <ref bean="AwardExtension-stockAward"/>
+                <ref bean="AwardExtension-foreignCurrencyAward"/>
+                <ref bean="AwardExtension-NCENotificationDate"/>
+                <ref bean="AwardExtension-clinicalTrialInitiatedBy"/>
+                <ref bean="AwardExtension-INDIDEResponsibility"/>
+                <ref bean="AwardExtension-clinicalTrialRegistrationDate"/>
+                <ref bean="AwardExtension-spudsRecordNumber"/>
+                <ref bean="AwardExtension-walkerSourceNumber"/>
+                <ref bean="AwardExtension-primeSponsorAwardId"/>
+                <ref bean="AwardExtension-grantNumber"/>
+                <!-- BUKC-0167: Award: request that a Federal Clinical Trial field be added to the KC awards module (ENHC0013482) -->
+                <ref bean="AwardExtension-federalClinicalTrial"/>
+                <!-- BUKC-0090: Adding new custom data element needed in KC: FAIN (ENHC0012305) -->
+                <ref bean="AwardExtension-fain"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="AwardExtension-awardId" parent="Award-awardId"/>
+
+    <bean id="AwardExtension-proposedForTransmissionIndicator" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="proposedForTransmissionIndicator"/>
+        <property name="label" value="Proposed for Transmission"/>
+        <property name="shortLabel" value="Proposed?"/>
+    </bean>
+
+    <bean id="AwardExtension-lastTransmissionDate" parent="AttributeReferenceDummy-genericDate">
+        <property name="name" value="lastTransmissionDate"/>
+        <property name="label" value="Last Transmission Date"/>
+        <property name="shortLabel" value="Last Transmission Date"/>
+    </bean>
+
+    <bean id="AwardExtension-childType" parent="AttributeDefinition">
+        <property name="name" value="childType"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Child Type"/>
+        <property name="shortLabel" value="Child Type"/>
+        <property name="maxLength" value="25"/>
+        <property name="validationPattern">
+            <bean parent="AlphaNumericValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="SelectControlDefinition"
+                  p:valuesFinderClass="edu.bu.kuali.kra.award.options.ChildTypeValuesFinder"/>
+        </property>
+        <property name="summary" value="Child Type"/>
+        <property name="description" value="Child Type"/>
+    </bean>
+
+    <bean id="AwardExtension-childDescription" parent="AttributeDefinition">
+        <property name="name" value="childDescription"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Child Description"/>
+        <property name="shortLabel" value="Child Description"/>
+        <property name="maxLength" value="30"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="summary" value="Child Description"/>
+        <property name="description" value="Child Description"/>
+    </bean>
+
+    <bean id="AwardExtension-majorProject" parent="AttributeDefinition">
+        <property name="name" value="majorProject"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Major Project"/>
+        <property name="shortLabel" value="Major Project"/>
+        <property name="maxLength" value="5"/>
+        <property name="validationPattern">
+            <bean parent="AlphaNumericValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="SelectControlDefinition"
+                  p:valuesFinderClass="edu.bu.kuali.kra.award.options.MajorProjectValuesFinder"/>
+        </property>
+        <property name="summary" value="Major Project"/>
+        <property name="description" value="Major Project"/>
+    </bean>
+
+    <bean id="AwardExtension-arraCode" parent="AttributeDefinition">
+        <property name="name" value="arraCode"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="ARRA Code"/>
+        <property name="shortLabel" value="ARRA Code"/>
+        <property name="maxLength" value="5"/>
+        <property name="validationPattern">
+            <bean parent="AlphaNumericValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="SelectControlDefinition"
+                  p:valuesFinderClass="edu.bu.kuali.kra.award.options.ARRAValuesFinder"/>
+        </property>
+        <property name="summary" value="ARRA Code"/>
+        <property name="description" value="ARRA Code"/>
+    </bean>
+
+    <bean id="AwardExtension-avcIndicator" parent="AttributeDefinition">
+        <property name="name" value="avcIndicator"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="AVC Indicator"/>
+        <property name="shortLabel" value="AVC Indicator"/>
+        <property name="maxLength" value="5"/>
+        <property name="validationPattern">
+            <bean parent="AlphaNumericValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="SelectControlDefinition"
+                  p:valuesFinderClass="edu.bu.kuali.kra.award.options.AVCIndicatorValuesFinder"/>
+        </property>
+        <property name="summary" value="AVC Indicator"/>
+        <property name="description" value="AVC Indicator"/>
+    </bean>
+
+    <bean id="AwardExtension-a133Cluster" parent="AttributeDefinition">
+        <property name="name" value="a133Cluster"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="A133 Cluster"/>
+        <property name="shortLabel" value="A133 Cluster"/>
+        <property name="maxLength" value="25"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="SelectControlDefinition"
+                  p:valuesFinderClass="edu.bu.kuali.kra.award.options.A133ClusterValuesFinder"/>
+        </property>
+        <property name="summary" value="A133 Cluster"/>
+        <property name="description" value="A133 Cluster"/>
+    </bean>
+
+    <bean id="AwardExtension-fringeNotAllowedIndicator" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="fringeNotAllowedIndicator"/>
+        <property name="label" value="Fringe not allowed"/>
+        <property name="shortLabel" value="No Fringe"/>
+        <property name="summary" value="Fringe not allowed"/>
+        <property name="description" value="Fringe not allowed"/>
+    </bean>
+
+    <bean id="AwardExtension-interestEarned" parent="AttributeDefinition">
+        <property name="name" value="interestEarned"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Interest Earned"/>
+        <property name="shortLabel" value="Interest Earned"/>
+        <property name="maxLength" value="25"/>
+        <property name="validationPattern">
+            <bean parent="AlphaNumericValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="SelectControlDefinition"
+                  p:valuesFinderClass="edu.bu.kuali.kra.award.options.InterestEarnedValuesFinder"/>
+        </property>
+        <property name="summary" value="Interest Earned"/>
+        <property name="description" value="Interest Earned"/>
+    </bean>
+
+    <bean id="AwardExtension-interestEarnedAccountNumber" parent="AttributeDefinition">
+        <property name="name" value="interestEarnedAccountNumber"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Interest Earned Account Number"/>
+        <property name="shortLabel" value="Account"/>
+        <property name="maxLength" value="10"/>
+        <property name="validationPattern">
+            <bean parent="AlphaNumericValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="12"/>
+        </property>
+    </bean>
+
+    <bean id="AwardExtension-federalRateDate" parent="AttributeDefinition">
+        <property name="name" value="federalRateDate"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Subject to Federal Rate Agreement Dated"/>
+        <property name="shortLabel" value="Federal Rate Date"/>
+        <property name="maxLength" value="25"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="SelectControlDefinition"
+                  p:valuesFinderClass="edu.bu.kuali.kra.award.options.FederalRateAgreementDateValuesFinder"/>
+        </property>
+        <property name="summary" value="Federal Rate Date"/>
+        <property name="description" value="Federal Rate Date"/>
+    </bean>
+
+    <bean id="AwardExtension-buBmcFaSplit" parent="AttributeDefinition">
+        <property name="name" value="buBmcFaSplit"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="BU/BMC FA Split"/>
+        <property name="shortLabel" value="BU/BMC FA Split"/>
+        <property name="maxLength" value="5"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="SelectControlDefinition"
+                  p:valuesFinderClass="edu.bu.kuali.kra.award.options.BuBmcFaSplitValuesFinder"/>
+        </property>
+        <property name="summary" value="BU/BMC FA Split"/>
+        <property name="description" value="BU/BMC FA Split"/>
+    </bean>
+
+    <bean id="AwardExtension-conferenceGrant" parent="AttributeDefinition">
+        <property name="name" value="conferenceGrant"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Conference Grant"/>
+        <property name="shortLabel" value="Conference Grant"/>
+        <property name="maxLength" value="25"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="SelectControlDefinition"
+                  p:valuesFinderClass="edu.bu.kuali.kra.award.options.ConferenceGrantValuesFinder"/>
+        </property>
+        <property name="summary" value="Conference Grant"/>
+        <property name="description" value="Conference Grant"/>
+    </bean>
+
+    <bean id="AwardExtension-programIncome" parent="AttributeDefinition">
+        <property name="name" value="programIncome"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Program Income"/>
+        <property name="shortLabel" value="Program Income"/>
+        <property name="maxLength" value="25"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="SelectControlDefinition"
+                  p:valuesFinderClass="edu.bu.kuali.kra.award.options.ProgramIncomeValuesFinder"/>
+        </property>
+        <property name="summary" value="Program Income"/>
+        <property name="description" value="Program Income"/>
+    </bean>
+
+    <bean id="AwardExtension-stockAward" parent="AttributeDefinition">
+        <property name="name" value="stockAward"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Stock Award"/>
+        <property name="shortLabel" value="Stock Award"/>
+        <property name="maxLength" value="25"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="SelectControlDefinition"
+                  p:valuesFinderClass="edu.bu.kuali.kra.award.options.StockAwardValuesFinder"/>
+        </property>
+        <property name="summary" value="Stock Award"/>
+        <property name="description" value="Stock Award"/>
+    </bean>
+
+    <bean id="AwardExtension-foreignCurrencyAward" parent="AttributeDefinition">
+        <property name="name" value="foreignCurrencyAward"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Foreign Currency Award"/>
+        <property name="shortLabel" value="Foreign Currency Award"/>
+        <property name="maxLength" value="25"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="SelectControlDefinition"
+                  p:valuesFinderClass="edu.bu.kuali.kra.award.options.ForeignCurrencyAwardValuesFinder"/>
+        </property>
+        <property name="summary" value="Foreign Currency Award"/>
+        <property name="description" value="Foreign Currency Award"/>
+    </bean>
+
+    <bean id="AwardExtension-NCENotificationDate" parent="AttributeReferenceDummy-genericDate">
+        <property name="name" value="NCENotificationDate"/>
+        <property name="label" value="NCE Notification Date"/>
+        <property name="shortLabel" value="NCE Notification Date"/>
+        <property name="required" value="false"/>
+        <property name="summary" value="NCE Notification Date"/>
+        <property name="description" value="NCE Notification Date"/>
+    </bean>
+
+    <bean id="AwardExtension-clinicalTrialInitiatedBy" parent="AttributeDefinition">
+        <property name="name" value="clinicalTrialInitiatedBy"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Clinical Trial Initiated by"/>
+        <property name="shortLabel" value="Clinical Trial Initiated by"/>
+        <property name="maxLength" value="25"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="SelectControlDefinition"
+                  p:valuesFinderClass="edu.bu.kuali.kra.award.options.ClinicalTrialInitiatedByValuesFinder"/>
+        </property>
+        <property name="summary" value="Clinical Trial Initiated by"/>
+        <property name="description" value="Clinical Trial Initiated by"/>
+    </bean>
+
+    <bean id="AwardExtension-INDIDEResponsibility" parent="AttributeDefinition">
+        <property name="name" value="INDIDEResponsibility"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="IND/IDE Responsibility Rests with"/>
+        <property name="shortLabel" value="IND/IDE Responsibility Rests with"/>
+        <property name="maxLength" value="25"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="SelectControlDefinition"
+                  p:valuesFinderClass="edu.bu.kuali.kra.award.options.INDIDEResponsibilityValuesFinder"/>
+        </property>
+        <property name="summary" value="IND/IDE Responsibility Rests with"/>
+        <property name="description" value="IND/IDE Responsibility Rests with"/>
+    </bean>
+
+    <bean id="AwardExtension-clinicalTrialRegistrationDate" parent="AttributeReferenceDummy-genericDate">
+        <property name="name" value="clinicalTrialRegistrationDate"/>
+        <property name="label"
+                  value="Date ClinicalTrials.gov Registration Submitted"/>
+        <property name="shortLabel"
+                  value="Date ClinicalTrials.gov Registration Submitted"/>
+        <property name="required" value="false"/>
+        <property name="summary"
+                  value="Date ClinicalTrials.gov Registration Submitted"/>
+        <property name="description"
+                  value="Date ClinicalTrials.gov Registration Submitted"/>
+    </bean>
+
+    <bean id="AwardExtension-spudsRecordNumber" parent="AttributeDefinition">
+        <property name="name" value="spudsRecordNumber"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="SPUDS Record Number"/>
+        <property name="shortLabel" value="Account"/>
+        <property name="maxLength" value="5"/>
+        <property name="validationPattern">
+            <bean parent="AlphaNumericValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="12"/>
+        </property>
+    </bean>
+
+    <bean id="AwardExtension-walkerSourceNumber" parent="AttributeDefinition">
+        <property name="name" value="walkerSourceNumber"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Walker Source Number"/>
+        <property name="shortLabel" value="Walker Source Number"/>
+        <property name="maxLength" value="25"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="12"/>
+        </property>
+    </bean>
+
+    <bean id="AwardExtension-primeSponsorAwardId" parent="AttributeDefinition">
+        <property name="name" value="primeSponsorAwardId"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Prime Sponsor Award ID"/>
+        <property name="shortLabel" value="Prime Sponsor Award ID"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="AwardExtension-grantNumber" parent="AttributeDefinition">
+        <property name="name" value="grantNumber"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Grant Number"/>
+        <property name="shortLabel" value="Grant Number"/>
+        <property name="maxLength" value="10"/>
+        <property name="validationPattern">
+            <bean parent="AlphaNumericValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+    </bean>
+    <bean id="AwardExtension-fain" parent="AttributeDefinition">
+        <property name="name" value="fain"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="FAIN"/>
+        <property name="shortLabel" value="fain"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="AlphaNumericValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+    </bean>
+    <bean id="AwardExtension-federalClinicalTrial" parent="AttributeDefinition">
+        <property name="name" value="federalClinicalTrial" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Federal Clinical Trial" />
+    <property name="shortLabel" value="Federal Clinical Trial" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="Federal Clinical Trial" />
+    <property name="description" value="Federal Clinical Trial" />
+    </bean>
+</beans>

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - Kuali Coeus, a comprehensive research administration system for higher education.
+   - 
+   - Copyright 2005-2015 Kuali, Inc.
+   - 
+   - This program is free software: you can redistribute it and/or modify
+   - it under the terms of the GNU Affero General Public License as
+   - published by the Free Software Foundation, either version 3 of the
+   - License, or (at your option) any later version.
+   - 
+   - This program is distributed in the hope that it will be useful,
+   - but WITHOUT ANY WARRANTY; without even the implied warranty of
+   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   - GNU Affero General Public License for more details.
+   - 
+   - You should have received a copy of the GNU Affero General Public License
+   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="Award" parent="Award-parentBean">
+        <property name="attributes">
+            <list merge="true">
+                <ref bean="Award-extension-proposedForTransmissionIndicator"/>
+                <ref bean="Award-extension-lastTransmissionDate"/>
+                <ref bean="Award-extension-childType"/>
+                <ref bean="Award-extension-childDescription"/>
+                <ref bean="Award-extension-majorProject"/>
+                <ref bean="Award-extension-arraCode"/>
+                <ref bean="Award-extension-avcIndicator"/>
+                <ref bean="Award-extension-a133Cluster"/>
+                <ref bean="Award-extension-fringeNotAllowedIndicator"/>
+                <ref bean="Award-extension-interestEarned"/>
+                <ref bean="Award-extension-interestEarnedAccountNumber"/>
+                <ref bean="Award-extension-federalRateDate"/>
+                <ref bean="Award-extension-buBmcFaSplit"/>
+                <ref bean="Award-extension-conferenceGrant"/>
+                <ref bean="Award-extension-programIncome"/>
+                <ref bean="Award-extension-stockAward"/>
+                <ref bean="Award-extension-foreignCurrencyAward"/>
+                <ref bean="Award-extension-NCENotificationDate"/>
+                <ref bean="Award-extension-clinicalTrialInitiatedBy"/>
+                <ref bean="Award-extension-INDIDEResponsibility"/>
+                <ref bean="Award-extension-clinicalTrialRegistrationDate"/>
+                <ref bean="Award-extension-spudsRecordNumber"/>
+                <ref bean="Award-extension-walkerSourceNumber"/>
+                <ref bean="Award-extension-primeSponsorAwardId"/>
+                <ref bean="Award-extension-grantNumber"/>
+                <!-- BUKC-0090: Adding new custom data element needed in KC: FAIN (ENHC0012305) -->
+                <ref bean="Award-extension-fain"/>
+                <!-- BUKC-0167: Award: request that a Federal Clinical Trial field be added to the KC awards module (ENHC0013482) -->
+                 <ref bean="Award-extension-federalClinicalTrial"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    <bean id="Award-extension-proposedForTransmissionIndicator"
+          parent="AwardExtension-proposedForTransmissionIndicator">
+        <property name="name" value="extension.proposedForTransmissionIndicator"/>
+    </bean>
+    <bean id="Award-extension-a133Cluster" parent="AwardExtension-a133Cluster">
+        <property name="name" value="extension.a133Cluster"/>
+    </bean>
+    <bean id="Award-extension-fain" parent="AwardExtension-fain">
+        <property name="name" value="extension.fain"/>
+    </bean>
+    <bean id="Award-extension-lastTransmissionDate" parent="AwardExtension-lastTransmissionDate">
+        <property name="name" value="extension.lastTransmissionDate"/>
+    </bean>
+
+    <bean id="Award-extension-childType" parent="AwardExtension-childType">
+        <property name="name" value="extension.childType"/>
+    </bean>
+
+    <bean id="Award-extension-childDescription" parent="AwardExtension-childDescription">
+        <property name="name" value="extension.childDescription"/>
+    </bean>
+
+    <bean id="Award-extension-majorProject" parent="AwardExtension-majorProject">
+        <property name="name" value="extension.majorProject"/>
+    </bean>
+
+    <bean id="Award-extension-arraCode" parent="AwardExtension-arraCode">
+        <property name="name" value="extension.arraCode"/>
+    </bean>
+    <bean id="Award-extension-avcIndicator" parent="AwardExtension-avcIndicator">
+        <property name="name" value="extension.avcIndicator"/>
+    </bean>
+
+    <bean id="Award-extension-fringeNotAllowedIndicator" parent="AwardExtension-fringeNotAllowedIndicator">
+        <property name="name" value="extension.fringeNotAllowedIndicator"/>
+    </bean>
+
+    <bean id="Award-extension-interestEarned" parent="AwardExtension-interestEarned">
+        <property name="name" value="extension.interestEarned"/>
+    </bean>
+    <bean id="Award-extension-interestEarnedAccountNumber" parent="AwardExtension-interestEarnedAccountNumber">
+        <property name="name" value="extension.interestEarnedAccountNumber"/>
+    </bean>
+    <bean id="Award-extension-federalRateDate" parent="AwardExtension-federalRateDate">
+        <property name="name" value="extension.federalRateDate"/>
+    </bean>
+    <bean id="Award-extension-buBmcFaSplit" parent="AwardExtension-buBmcFaSplit">
+        <property name="name" value="extension.buBmcFaSplit"/>
+    </bean>
+
+    <bean id="Award-extension-conferenceGrant" parent="AwardExtension-conferenceGrant">
+        <property name="name" value="extension.conferenceGrant"/>
+    </bean>
+
+    <bean id="Award-extension-programIncome" parent="AwardExtension-programIncome">
+        <property name="name" value="extension.programIncome"/>
+    </bean>
+
+    <bean id="Award-extension-stockAward" parent="AwardExtension-stockAward">
+        <property name="name" value="extension.stockAward"/>
+    </bean>
+    <bean id="Award-extension-foreignCurrencyAward" parent="AwardExtension-foreignCurrencyAward">
+        <property name="name" value="extension.foreignCurrencyAward"/>
+    </bean>
+
+    <bean id="Award-extension-NCENotificationDate" parent="AwardExtension-NCENotificationDate">
+        <property name="name" value="extension.NCENotificationDate"/>
+    </bean>
+    <bean id="Award-extension-clinicalTrialInitiatedBy" parent="AwardExtension-clinicalTrialInitiatedBy">
+        <property name="name" value="extension.clinicalTrialInitiatedBy"/>
+    </bean>
+    <bean id="Award-extension-INDIDEResponsibility" parent="AwardExtension-INDIDEResponsibility">
+        <property name="name" value="extension.INDIDEResponsibility"/>
+    </bean>
+    <bean id="Award-extension-clinicalTrialRegistrationDate" parent="AwardExtension-clinicalTrialRegistrationDate">
+        <property name="name" value="extension.clinicalTrialRegistrationDate"/>
+    </bean>
+    <bean id="Award-extension-spudsRecordNumber" parent="AwardExtension-spudsRecordNumber">
+        <property name="name" value="extension.spudsRecordNumber"/>
+    </bean>
+
+    <bean id="Award-extension-walkerSourceNumber" parent="AwardExtension-walkerSourceNumber">
+        <property name="name" value="extension.walkerSourceNumber"/>
+    </bean>
+
+    <bean id="Award-extension-primeSponsorAwardId" parent="AwardExtension-primeSponsorAwardId">
+        <property name="name" value="extension.primeSponsorAwardId"/>
+    </bean>
+    <bean id="Award-extension-grantNumber" parent="AwardExtension-grantNumber">
+        <property name="name" value="extension.grantNumber"/>
+    </bean>
+    <bean id="Award-extension-federalClinicalTrial" parent="AwardExtension-federalClinicalTrial">
+        <property name="name" value="extension.federalClinicalTrial"/>
+    </bean>
+
+
+</beans>
