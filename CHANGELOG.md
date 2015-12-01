@@ -1,6 +1,20 @@
 
 
 ##CURRENT
+*  Cannot consistently copy a budget version from the Budget Versions Modal without generating an error.
+
+  * Create a proposal with basic requirements to save.
+  * Create a budget version > add a personnel line item, add a non-personnel line item: Save.
+  * From the budget toolbar, select Budget Versions.
+  * In the modal, select Actions> Copy. Select P1 only or all periods > copy.
+  * Result:
+  * The modal will close, but the dimmed background screen stays gray and the STE text can be seen.
+  * The same results happened when I tried the Toolbar > Budget Versions >Copy from the proposal side.
+
+  * Caused by: javax.persistence.PersistenceException: Exception [EclipseLink-7251] (Eclipse Persistence Services - 2.6.0.v20150309-bf26070): org.eclipse.persistence.exceptions.ValidationException Exception Description: The attribute [documentKey] of class [org.kuali.kra.bo.DocumentNextvalue] is mapped to a primary key column in the database. Updates are not allowed. at org.eclipse.persistence.internal.jpa.EntityManagerSetupImpl$1.handleException(EntityManagerSetupImpl.java:742) at
+  * Travis Schneeberger on Mon, 30 Nov 2015 17:28:57 -0500 [View Commit](../../commit/b05ccd4648db10f4ed22b4ee6db726b2b7dc3033)
+
+##coeus-1511.109
 *  Budget > P&T > Delete period or modify budget period date range > User allowed to continue with mismatched dates to proposal
 
   * As a user with limited training in budget, I assume I can add or delete budget periods on the Budget >  Periods & Totals screen using the trashcan icon for any reason I choose. The period can have been generated and contain data, or be empty of values because no budget details have been generated or added.
