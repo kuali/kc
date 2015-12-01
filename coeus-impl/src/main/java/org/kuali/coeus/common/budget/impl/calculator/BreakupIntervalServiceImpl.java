@@ -77,13 +77,14 @@ public class BreakupIntervalServiceImpl implements BreakupIntervalService {
         initializeRateClassBases();
         QueryList<RateAndCost> rateAndCosts = breakupInterval.getRateAndCosts();
         List<RateClassBaseInclusion> rateClassInclusions = (List<RateClassBaseInclusion>) getBusinessObjectService().findAll(RateClassBaseInclusion.class);
-        for (RateClassBaseInclusion rateClassBaseInclusion : rateClassInclusions) {
-            if(canApplyRate(rateClassBaseInclusion,rateAndCosts)){
-                findAndApplyRateRecursively(breakupInterval,rateClassBaseInclusion,rateAndCosts);
+            for (RateClassBaseInclusion rateClassBaseInclusion : rateClassInclusions) {
+                if (canApplyRate(rateClassBaseInclusion, rateAndCosts)) {
+                    findAndApplyRateRecursively(breakupInterval, rateClassBaseInclusion, rateAndCosts);
+                }
             }
-        }
-        breakupInterval.setUnderRecovery(rateAndCosts.sumObjects("underRecovery"));
+            breakupInterval.setUnderRecovery(rateAndCosts.sumObjects("underRecovery"));
     }
+
     private boolean canApplyRate(RateClassBaseInclusion rateClassBaseInclusion, QueryList<RateAndCost> rateAndCosts) {
         Equals eqRateClassCode = new Equals(RATE_CLASS_CODE,rateClassBaseInclusion.getRateClassCode());
         Equals eqRateTypeCode = new Equals(RATE_TYPE_CODE,rateClassBaseInclusion.getRateTypeCode());
