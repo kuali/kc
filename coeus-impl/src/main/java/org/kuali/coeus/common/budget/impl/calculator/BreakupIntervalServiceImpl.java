@@ -151,7 +151,7 @@ public class BreakupIntervalServiceImpl implements BreakupIntervalService {
         ScaleTwoDecimal underRecoveryRate;
         ScaleTwoDecimal instituteRate;
         if (breakupInterval.getURRatesBean() != null) {
-            instituteRate = breakupInterval.getURRatesBean().getInstituteRate();
+            instituteRate = breakupInterval.getURRatesBean().getApplicableRate();
         } else {
             instituteRate = filterInstituteRate(breakupInterval,rateAndCost);
         }
