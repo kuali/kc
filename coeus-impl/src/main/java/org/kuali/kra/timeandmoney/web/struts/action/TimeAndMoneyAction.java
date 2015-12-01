@@ -116,7 +116,7 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
         List<TransactionDetail> moneyTransactionDetailItems = new ArrayList<>();
         updateAwardAmountTransactions(timeAndMoneyDocument);
         // Capture amount changes in hierarchy view
-        if (timeAndMoneyDocument.getAwardHierarchyNodes().size() == 1) {
+        if (timeAndMoneyDocument.getAwardHierarchyNodes().size() == 1 && !timeAndMoneyForm.getDisableCurrentValues()) {
             for(Entry<String, AwardHierarchyNode> awardHierarchyNode : timeAndMoneyDocument.getAwardHierarchyNodes().entrySet()){
                 Award award = getAwardVersionService().getWorkingAwardVersion(awardHierarchyNode.getValue().getAwardNumber());
                 AwardAmountInfo aai = getAwardAmountInfoService().fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos());
