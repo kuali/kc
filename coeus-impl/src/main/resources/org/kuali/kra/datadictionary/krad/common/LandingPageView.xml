@@ -43,41 +43,10 @@
     <bean id="Kc-LandingPage-DefaultPage-parentBean" abstract="true" parent="Uif-Page">
     	<property name="items">
     		<list>
-    			<bean parent="Kc-LandingPage-Kc60Text" p:render="@{!(#getParamAsBoolean('KC-GEN','All','HOMEPAGE_DISPLAY_NEW') == null ? false : #getParamAsBoolean('KC-GEN','All','HOMEPAGE_DISPLAY_NEW'))}"/>
-    			<bean parent="Kc-LandingPage-Links" p:render="@{(#getParamAsBoolean('KC-GEN','All','HOMEPAGE_DISPLAY_NEW') == null ? false : #getParamAsBoolean('KC-GEN','All','HOMEPAGE_DISPLAY_NEW'))}"/>
+    			<bean parent="Kc-LandingPage-Links" />
     		</list>
     	</property>
-    </bean>
-    
-    <bean id="Kc-LandingPage-Kc60Text" parent="Uif-VerticalBoxSection">
-    	<property name="items">
-            <list>
-                <bean parent="Uif-Message" p:messageText="Kuali Research is the first of several releases designed to provide a new and more intuitive User Experience."/>
-                <bean parent="Uif-Message" p:messageText="[/br]"/>
-                <bean parent="Uif-Message" p:messageText="The process for developing a Proposal and accompanying Budget has been streamlined. The design emphasizes ease of use for casual or infrequent users of the system while retaining the full set of powerful features from previous KC releases."/>
-                <bean parent="Uif-Message" p:messageText="[/br]"/>
-                <bean parent="Uif-Message" p:messageText="Specific Features include:"/>
-                <bean parent="Uif-Message" p:messageText="[/br]"/>
-                <bean parent="Uif-ListSection">
-                  <property name="layoutManager">
-		            <bean parent="Uif-OrderedListLayout"/>
-		          </property>	
-		          <property name="items">
-		            <list>
-                		<bean parent="Uif-Message" p:messageText="&amp;bull; Re-organized and intuitive data entry."/>
-                		<bean parent="Uif-Message" p:messageText="&amp;bull; Left hand navigation and 'Save and Continue' options for linear navigation through the system. No more 'where do I go next'?"/>
-                		<bean parent="Uif-Message" p:messageText="&amp;bull; Quick access to tools: validation, print, copy, medusa, hierarchy management, and budget version management is always one-click away in a Proposal Development Document."/>
-                		<bean parent="Uif-Message" p:messageText="&amp;bull; Search while you type for several frequently entered data fields."/>
-                		<bean parent="Uif-Message" p:messageText="&amp;bull; Modal-based user interactions that provide context and continuity while performing lookups and entering large amounts of data."/>
-                		<bean parent="Uif-Message" p:messageText="&amp;bull; Drag and drop capabilities for file attachments allow users to upload and manage multiple files at one time."/>
-                		<bean parent="Uif-Message" p:messageText="&amp;bull; Detailed Budget Summary information is available from the Proposal, without opening a full budget."/>
-                		<bean parent="Uif-Message" p:messageText="&amp;bull; Budget navigation improvements focus users on fast expense allocation instead of setup and maintenance."/>
-		            </list>
-		          </property>
-		        </bean>
-            </list>
-        </property>
-    </bean>
+    </bean>    
     
     <bean id="Kc-LandingPage-Links" parent="Kc-LandingPage-Links-parentBean"/>
     <bean id="Kc-LandingPage-Links-parentBean" abstract="true" parent="Uif-CssGridGroup">
