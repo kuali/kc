@@ -1,29 +1,29 @@
 <%--
    - Kuali Coeus, a comprehensive research administration system for higher education.
-   - 
+   -
    - Copyright 2005-2015 Kuali, Inc.
-   - 
+   -
    - This program is free software: you can redistribute it and/or modify
    - it under the terms of the GNU Affero General Public License as
    - published by the Free Software Foundation, either version 3 of the
    - License, or (at your option) any later version.
-   - 
+   -
    - This program is distributed in the hope that it will be useful,
    - but WITHOUT ANY WARRANTY; without even the implied warranty of
    - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    - GNU Affero General Public License for more details.
-   - 
+   -
    - You should have received a copy of the GNU Affero General Public License
    - along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --%>
 <%-- member of AwardHome.jsp --%>
 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-
+<c:set var="awardExtensionAttributes" value="${DataDictionary.AwardExtension.attributes}"/>
 <c:set var="awardAttributes" value="${DataDictionary.Award.attributes}" />
 <c:set var="awardAmountInfoAttributes" value="${DataDictionary.AwardAmountInfo.attributes}" />
 <c:set var="awardCurrentActionCommentAttributes" value="${DataDictionary.AwardComment.attributes}" />
-<kul:tab tabTitle="Details & Dates" defaultOpen="true" 
+<kul:tab tabTitle="Details & Dates" defaultOpen="true"
 	tabErrorKey="document.awardList[0].awardTransactionTypeCode,document.award.version, document.awardList[0].statusCode,document.awardList[0].activityTypeCode,document.awardList[0].awardTypeCode,document.awardList[0].financialChartOfAccountsCode,document.awardList[0].title,document.awardList[0].beginDate,document.awardList[0].awardExecutionDate,document.awardList[0].sponsorCode,document.awardList[0].unitNumber, detailsAndDatesFormHelper*,document.awardList[0].awardAmountInfos[${KualiForm.document.award.indexOfLastAwardAmountInfo}].*, document.awardList[0].modificationNumber,document.awardList[0].cfdaNumber,document.awardList[0].primeSponsorCode"
 	tabAuditKey="document.awardList[0].awardEffectiveDate,document.awardList[0].sponsorCode,document.awardList[0].primeSponsorCode"
 	auditCluster="homePageAuditWarnings,homePageAuditErrors" useRiceAuditMode="true">
@@ -56,6 +56,8 @@
     			<kul:htmlControlAttribute property="document.awardList[0].awardTransactionTypeCode" attributeEntry="${awardAttributes.awardTransactionTypeCode}" readOnlyAlternateDisplay="${KualiForm.awardDocument.award.awardTransactionType.description}" />
 			</div>
 		</td>
+
+                    <%-- BU MOD changes ends here--%>
 		<td width="100">
 			<div align="center">
     			<kul:htmlControlAttribute property="document.awardList[0].noticeDate" attributeEntry="${awardAttributes.noticeDate}" />
@@ -68,7 +70,7 @@
 		</td>
   	</tr>
 </table>
-</kul:innerTab>	
+</kul:innerTab>
 
 <kul:innerTab parentTab="Details & Dates" tabItemCount="" defaultOpen="true" tabTitle="Institution" tabErrorKey="document.awardList[0].accountNumber" >
 
@@ -116,7 +118,7 @@
     	<td>
     		<kul:htmlControlAttribute property="document.awardList[0].statusCode" attributeEntry="${awardAttributes.statusCode}" readOnlyAlternateDisplay="${KualiForm.awardDocument.award.awardStatus.description}" />
       	</td>
-    	
+
     	<th>
     		<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.activityTypeCode}" /></div>
     	</th>
@@ -126,7 +128,7 @@
   	</tr>
   	<tr>
     	<kra:section permission="viewAccountElement">
-    	
+
       	<th>
     		<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.accountNumber}" /></div>
       	</th>
@@ -141,7 +143,64 @@
     		<kul:htmlControlAttribute property="document.awardList[0].awardTypeCode" attributeEntry="${awardAttributes.awardTypeCode}" readOnlyAlternateDisplay="${KualiForm.awardDocument.award.awardType.description}" />
       	</td>
   	</tr>
-  	
+  	 <%-- BU MOD changes starts here--%>
+                <c:if test="${!KualiForm.parentAward}">
+
+                    <tr>
+                        <th>
+                            <div align="right">
+                                <kul:htmlAttributeLabel attributeEntry="${awardExtensionAttributes.childType}"/>
+                            </div>
+                        </th>
+                        <td>
+                            <kul:htmlControlAttribute property="document.awardList[0].extension.childType"
+                                                      attributeEntry="${awardExtensionAttributes.childType}"
+                                                      readOnlyAlternateDisplay="${KualiForm.awardDocument.award.extension.childType}"/>
+                        </td>
+                        <th>
+                            <div align="right"><kul:htmlAttributeLabel
+                                    attributeEntry="${awardExtensionAttributes.childDescription}"/></div>
+                        </th>
+                        <td>
+                            <kul:htmlControlAttribute property="document.awardList[0].extension.childDescription"
+                                                      attributeEntry="${awardExtensionAttributes.childDescription}"
+                                                      readOnlyAlternateDisplay="${KualiForm.awardDocument.award.extension.childDescription}"/>
+                        </td>
+                    </tr>
+                </c:if>
+                <tr>
+                    <th>
+                        <div align="right">
+                            <kul:htmlAttributeLabel attributeEntry="${awardExtensionAttributes.grantNumber}"/>
+                        </div>
+                    </th>
+                    <td>
+                        <kul:htmlControlAttribute property="document.awardList[0].extension.grantNumber"
+                                                  attributeEntry="${awardExtensionAttributes.grantNumber}" readOnly="true"
+                                                  readOnlyAlternateDisplay="${KualiForm.awardDocument.award.extension.grantNumber}"/>
+                    </td>
+                    <c:choose>
+                        <c:when test="${KualiForm.parentAward}">
+                            <th>
+                                <div align="right">
+                                    <kul:htmlAttributeLabel attributeEntry="${awardExtensionAttributes.federalClinicalTrial}"/>
+                                </div>
+                            </th>
+                            <td>
+                                <kul:htmlControlAttribute property="document.awardList[0].extension.federalClinicalTrial"
+                                                          attributeEntry="${awardExtensionAttributes.federalClinicalTrial}"
+                                                          readOnlyAlternateDisplay="${KualiForm.awardDocument.award.extension.federalClinicalTrial? 'Yes' : 'No'}"/>
+                            </td>
+                        </c:when>
+                        <c:otherwise>
+                            <th align="right">
+                            </th>
+                            <td align="left" valign="middle">
+                            </td>
+                        </c:otherwise>
+                    </c:choose>
+                </tr>
+                    <%-- BU MOD changes ends here--%>
   	<!-- Char of Accounts code element viewable only when the fin integration param is on -->
     <kra:section permission="viewChartOfAccountsElement">
     <tr>
@@ -172,7 +231,7 @@
     	</td>
   	</tr>
 </table>
-</kul:innerTab>	
+</kul:innerTab>
 
 <!-- Sponsor -->
 
@@ -184,7 +243,7 @@
             <div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.sponsorCode}" /></div>
         </th>
         <td>
-        	<kul:htmlControlAttribute property="document.awardList[0].sponsorCode" attributeEntry="${awardAttributes.sponsorCode}" 
+        	<kul:htmlControlAttribute property="document.awardList[0].sponsorCode" attributeEntry="${awardAttributes.sponsorCode}"
         	                          onblur="loadSponsorName('document.awardList[0].sponsorCode', 'sponsorName');" readOnly="${readOnly}" />
         	<c:if test="${!readOnly}">
                 <kul:lookup boClassName="org.kuali.coeus.common.framework.sponsor.Sponsor" fieldConversions="sponsorCode:document.awardList[0].sponsorCode,sponsorName:document.awardList[0].sponsor.sponsorName" anchor="${tabKey}" />
@@ -210,7 +269,7 @@
             <div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.primeSponsorCode}" /></div>
         </th>
         <td>
-        	<kul:htmlControlAttribute property="document.awardList[0].primeSponsorCode" attributeEntry="${awardAttributes.primeSponsorCode}" 
+        	<kul:htmlControlAttribute property="document.awardList[0].primeSponsorCode" attributeEntry="${awardAttributes.primeSponsorCode}"
         	                          onblur="loadSponsorName('document.awardList[0].primeSponsorCode', 'primeSponsorName');" readOnly="${readOnly}" />
         	<c:if test="${!readOnly}">
                 <kul:lookup boClassName="org.kuali.coeus.common.framework.sponsor.Sponsor" fieldConversions="sponsorCode:document.awardList[0].primeSponsorCode,sponsorName:document.awardList[0].primeSponsor.sponsorName" anchor="${tabKey}" />
@@ -259,6 +318,25 @@
 		</td>
     </tr>
     <tr>
+    <c:choose>
+                    <c:when test="${KualiForm.parentAward}">
+                        <th align="right">
+                            <div align="right"><kul:htmlAttributeLabel
+                                    attributeEntry="${awardExtensionAttributes.fain}"/>
+                            </div>
+                        </th>
+                        <td align="left" valign="middle">
+                            <kul:htmlControlAttribute property="document.awardList[0].extension.fain"
+                                                      attributeEntry="${awardExtensionAttributes.fain}"/>
+                        </td>
+                    </c:when>
+                    <c:otherwise>
+                    <th align="right">
+                    </th>
+                    <td align="left" valign="middle">
+                        </c:otherwise>
+                        </c:choose>
+
         <th align="right">
             <div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.modificationNumber}" /></div>
         </th>
@@ -272,7 +350,7 @@
         </td>
     </tr>
 </table>
-</kul:innerTab>	
+</kul:innerTab>
 
 <!-- Sponsor Funding Transferred -->
 
@@ -339,10 +417,52 @@
 				</div>
 	    	</td>
 		</tr>
-    </c:forEach> 
+    </c:forEach>
 </table>
-</kul:innerTab>	
+</kul:innerTab>
+<%-- BU MOD starts here--%>
+        <kul:innerTab parentTab="Details & Dates" tabItemCount="" defaultOpen="true" tabTitle="Project" tabErrorKey="">
+            <table cellpAdding="0" cellspacing="0" summary="" id="project-table">
+                <tr>
+                    <th width="25%">
+                        <div align="right">
+                            <kul:htmlAttributeLabel attributeEntry="${awardExtensionAttributes.majorProject}"/>
+                        </div>
+                    </th>
+                    <td width="25%">
+                        <kul:htmlControlAttribute property="document.awardList[0].extension.majorProject"
+                                                  attributeEntry="${awardExtensionAttributes.majorProject}"/>
+                    </td>
+                    <th width="25%">
+                        <div align="right"><kul:htmlAttributeLabel attributeEntry="${awardExtensionAttributes.arraCode}"/></div>
+                    </th>
+                    <td width="25%">
+                        <kul:htmlControlAttribute property="document.awardList[0].extension.arraCode"
+                                                  attributeEntry="${awardExtensionAttributes.arraCode}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th width="25%">
+                        <div align="right"><kul:htmlAttributeLabel
+                                attributeEntry="${awardExtensionAttributes.conferenceGrant}"/></div>
+                    </th>
+                    <td width="25%">
+                        <kul:htmlControlAttribute property="document.awardList[0].extension.conferenceGrant"
+                                                  attributeEntry="${awardExtensionAttributes.conferenceGrant}"/>
+                    </td>
+                    <th width="25%">
+                        <div align="right">
+                        </div>
+                    </th>
+                    <td width="25%" valign="middle">
+                        <div align="left">
+                        </div>
+                    </td>
+                </tr>
 
+            </table>
+        </kul:innerTab>
+            <%-- BU MOD ends here--%>
 <!-- Time &amp; Money -->
 
 <kul:innerTab parentTab="Details & Dates" tabItemCount="" defaultOpen="true" tabTitle="Time & Money" tabErrorKey="" >
@@ -462,7 +582,7 @@
 									<tr>
 								        <th>
 								            <div align="right">Anticipated Direct:</div>
-								        </th>	
+								        </th>
 										<td align="left" valign="middle">
 					            			<fmt:formatNumber currencySymbol="$" type="currency" value="${KualiForm.document.awardList[0].awardAmountInfos[KualiForm.indexOfAwardAmountInfoForDisplay].anticipatedTotalDirect}"/>
 					        			</td>
@@ -594,7 +714,7 @@
 						</c:otherwise>
 					</c:choose>
  </table>
-</kul:innerTab>	
+</kul:innerTab>
 
 </div>
 
