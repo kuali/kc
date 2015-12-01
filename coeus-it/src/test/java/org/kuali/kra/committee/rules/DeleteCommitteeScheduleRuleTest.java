@@ -41,6 +41,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionLite;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -51,6 +52,9 @@ import java.util.List;
 import java.util.Map;
 
 public class DeleteCommitteeScheduleRuleTest extends CommitteeRuleTestBase {
+	
+	private static final String COMMITTEE_DOCUMENT_STATUS_CODE = "committeeDocument.docStatusCode";
+	
     private DeleteCommitteeScheduleRule rule;
     private Mockery context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
     private CommitteeServiceImpl committeeService;
@@ -129,6 +133,7 @@ public class DeleteCommitteeScheduleRuleTest extends CommitteeRuleTestBase {
         final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
         final Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("committeeId", "test");
+        fieldValues.put(COMMITTEE_DOCUMENT_STATUS_CODE, KewApiConstants.ROUTE_HEADER_FINAL_CD);
         context.checking(new Expectations() {{
             one(businessObjectService).findMatching(Committee.class, fieldValues);
             will(returnValue(getCommittees(false)));
@@ -151,6 +156,7 @@ public class DeleteCommitteeScheduleRuleTest extends CommitteeRuleTestBase {
         final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
         final Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("committeeId", "test");
+        fieldValues.put(COMMITTEE_DOCUMENT_STATUS_CODE, KewApiConstants.ROUTE_HEADER_FINAL_CD);
         context.checking(new Expectations() {{
             one(businessObjectService).findMatching(Committee.class, fieldValues);
             will(returnValue(getCommittees(true)));

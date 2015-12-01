@@ -48,6 +48,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -215,6 +216,7 @@ public class ProtocolAssignToAgendaServiceTest extends KcIntegrationTestBase {
         
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         ProtocolSubmission submission = createSubmission(protocolDocument.getProtocol(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
+        String passedInCommitteeName = "testCommitteeName";
         
         Committee com = new Committee();
         com.setCommitteeId("1");
@@ -222,7 +224,6 @@ public class ProtocolAssignToAgendaServiceTest extends KcIntegrationTestBase {
         com.setCommitteeTypeCode("1");
         com.setAdvancedSubmissionDaysRequired(1);
         com.setReviewTypeCode("1");
-        String passedInCommitteeName = "testCommitteeName";
         com.setMaxProtocols(1);
         com.setMinimumMembersRequired(1);
         com.setCommitteeName(passedInCommitteeName);
@@ -237,7 +238,7 @@ public class ProtocolAssignToAgendaServiceTest extends KcIntegrationTestBase {
         com.setCommitteeDocument(cd);
 
         documentService.saveDocument(cd);
-        legacyDataAdapter.save(com);
+        documentService.blanketApproveDocument(cd, "Test Committee", Collections.emptyList());
         
         protocolDocument.getProtocol().getProtocolSubmissions().add(submission);
         
@@ -292,6 +293,7 @@ public class ProtocolAssignToAgendaServiceTest extends KcIntegrationTestBase {
         com.setCommitteeDocument(cd);
         
         documentService.saveDocument(cd);
+        documentService.blanketApproveDocument(cd, "Test Committee", Collections.emptyList());
         legacyDataAdapter.save(com);
         legacyDataAdapter.save(cs);
         
