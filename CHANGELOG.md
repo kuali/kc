@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* Revert "Remove feature flag for new homepage and make it the default"
+  * Travis Schneeberger on Tue, 1 Dec 2015 13:17:51 -0500 [View Commit](../../commit/5bdeac82c8f0e81e9bc3d43ed72ca1e787fcfb8d)
+* Remove feature flag for new homepage and make it the default
+  * blackcathacker on Tue, 1 Dec 2015 09:27:17 -0800 [View Commit](../../commit/1431ddc2974b38c295a9751639e654fce1814d90)
+
+##coeus-1512.1
 * No Changes
 
 
