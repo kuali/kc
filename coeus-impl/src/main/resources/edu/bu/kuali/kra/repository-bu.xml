@@ -1,0 +1,109 @@
+<!--
+   - Kuali Coeus, a comprehensive research administration system for higher education.
+   -
+   - Copyright 2005-2015 Kuali, Inc.
+   -
+   - This program is free software: you can redistribute it and/or modify
+   - it under the terms of the GNU Affero General Public License as
+   - published by the Free Software Foundation, either version 3 of the
+   - License, or (at your option) any later version.
+   -
+   - This program is distributed in the hope that it will be useful,
+   - but WITHOUT ANY WARRANTY; without even the implied warranty of
+   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   - GNU Affero General Public License for more details.
+   -
+   - You should have received a copy of the GNU Affero General Public License
+   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<descriptor-repository version="1.0">
+
+
+  <!-- Add Award Extension Fields -->
+    <class-descriptor class="edu.bu.kuali.kra.award.home.AwardExtension" table="AWARD_EXTENSION">
+        <field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT" primarykey="true"/>
+        <field-descriptor name="proposedForTransmissionIndicator" column="PROPOSED_INDICATOR" jdbc-type="VARCHAR"/>
+        <field-descriptor name="lastTransmissionDate" column="LAST_TRANS_DATE" jdbc-type="DATE"/>
+        <field-descriptor name="childType" column="CHILD_TYPE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="childDescription" column="CHILD_DESCRIPTION" jdbc-type="VARCHAR"/>
+        <field-descriptor name="majorProject" column="MAJOR_PROJECT" jdbc-type="VARCHAR"/>
+        <field-descriptor name="arraCode" column="ARRA_CODE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="avcIndicator" column="AVC_INDICATOR" jdbc-type="VARCHAR"/>
+        <field-descriptor name="a133Cluster" column="A133_CLUSTER" jdbc-type="VARCHAR"/>
+        <field-descriptor name="fringeNotAllowedIndicator" column="FRINGE_NOT_ALLOWED_INDICATOR" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="interestEarned" column="INTEREST_EARNED" jdbc-type="VARCHAR"/>
+        <field-descriptor name="interestEarnedAccountNumber" column="INTEREST_EARNED_ACCOUNT_NUMBER"
+                          jdbc-type="VARCHAR"/>
+        <field-descriptor name="federalRateDate" column="FEDERAL_RATE_DATE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="buBmcFaSplit" column="BU_BMC_FA_SPLIT" jdbc-type="VARCHAR"/>
+        <field-descriptor name="conferenceGrant" column="CONFERENCE_GRANT" jdbc-type="VARCHAR"/>
+        <field-descriptor name="programIncome" column="PROGRAM_INCOME" jdbc-type="VARCHAR"/>
+        <field-descriptor name="stockAward" column="STOCK_AWARD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="foreignCurrencyAward" column="FOREIGN_CURRENCY_AWARD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="NCENotificationDate" column="NCE_NOTIFICATION_DATE" jdbc-type="DATE"/>
+        <field-descriptor name="clinicalTrialInitiatedBy" column="CLINICAL_TRIAL_INITIATED_BY" jdbc-type="VARCHAR"/>
+        <field-descriptor name="INDIDEResponsibility" column="IND_IDE_RESPONSIBILITY" jdbc-type="VARCHAR"/>
+        <field-descriptor name="clinicalTrialRegistrationDate" column="CLINICAL_TRIAL_REG_DATE" jdbc-type="DATE"/>
+        <field-descriptor name="spudsRecordNumber" column="SPUDS_RECORD_NUMBER" jdbc-type="VARCHAR"/>
+        <field-descriptor name="walkerSourceNumber" column="WALKER_SOURCE_NUMBER" jdbc-type="VARCHAR"/>
+        <field-descriptor name="primeSponsorAwardId" column="PRIME_SPONSOR_AWARD_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="grantNumber" column="GRANT_NUMBER" jdbc-type="VARCHAR"/>
+        <!-- BUKC-0090: Adding new custom data element needed in KC: FAIN (ENHC0012305) -->
+        <field-descriptor name="fain" column="FAIN" jdbc-type="VARCHAR"/>
+        <!-- BUKC-0167: Award: request that a Federal Clinical Trial field be added to the KC awards module (ENHC0013482)-->
+        <field-descriptor name="federalClinicalTrial" column="FEDERAL_CLINICAL_TRIAL" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <!-- BUKC-0014: KC/SAP Interface - add SAP Transmission collection  -->
+        <collection-descriptor name="awardTransmissions" proxy="true"
+                               element-class-ref="edu.bu.kuali.kra.bo.AwardTransmission"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="awardId"/>
+        </collection-descriptor>
+
+    </class-descriptor>
+
+<!-- BUKC-0014: KC/SAP Interface - add SAP Transmission tables -->
+    <class-descriptor class="edu.bu.kuali.kra.bo.AwardTransmission" table="AWARD_TRANSMISSION">
+        <field-descriptor name="transmissionId" column="TRANSMISSION_ID" jdbc-type="BIGINT" primarykey="true"
+                          autoincrement="true" sequence-name="SEQUENCE_AWARD_TRANSMISSION_ID"/>
+        <field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="initiatorId" column="INITIATOR_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="transmitterId" column="TRANSMITTER_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="successIndicator" column="SUCCESS_INDICATOR" jdbc-type="VARCHAR"/>
+        <field-descriptor name="transmissionDate" column="TRANSMISSION_DATE" jdbc-type="DATE"/>
+        <field-descriptor name="sentData" column="SENT_DATA" jdbc-type="VARCHAR"/>
+        <field-descriptor name="returnedData" column="RETURNED_DATA" jdbc-type="VARCHAR"/>
+        <field-descriptor name="basisOfPaymentCode" column="BASIS_OF_PAYMENT_CODE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="accountTypeCode" column="ACCOUNT_TYPE_CODE" jdbc-type="INTEGER"/>
+        <field-descriptor name="sponsorCode" column="SPONSOR_CODE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="methodOfPaymentCode" column="METHOD_OF_PAYMENT_CODE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="documentNumber" column="DOC_NBR" jdbc-type="VARCHAR"/>
+        <collection-descriptor name="transmissionChildren" proxy="true"
+                               element-class-ref="edu.bu.kuali.kra.bo.AwardTransmissionChild"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="transmissionId"/>
+        </collection-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="edu.bu.kuali.kra.bo.AwardTransmissionChild" table="AWARD_TRANSMISSION_CHILD">
+        <field-descriptor name="transmissionChildId" column="TRANSMISSION_CHILD_ID" jdbc-type="BIGINT" primarykey="true"
+                          autoincrement="true" sequence-name="SEQUENCE_AWARD_TRANS_CHILD_ID"/>
+        <field-descriptor name="transmissionId" column="TRANSMISSION_ID" jdbc-type="BIGINT"/>
+        <field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="parentDocumentNumber" column="PARENT_DOC_NBR" jdbc-type="VARCHAR"/>
+        <field-descriptor name="childDocumentNumber" column="CHILD_DOC_NBR" jdbc-type="VARCHAR"/>
+        <field-descriptor name="leadUnitNumber" column="LEAD_UNIT_NBR" jdbc-type="VARCHAR"/>
+        <field-descriptor name="childType" column="CHILD_TYPE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR"/>
+        <field-descriptor name="overheadKey" column="OVERHEAD_KEY" jdbc-type="VARCHAR"/>
+        <field-descriptor name="baseCode" column="BASE_CODE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="offCampus" column="OFF_CAMPUS" jdbc-type="VARCHAR"/>
+    </class-descriptor>
+
+</descriptor-repository>
