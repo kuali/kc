@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+*  Fixing UR calculation when OH rate is TDC and institute rate is set to 0.00
+  * Gayathri Athreya on Mon, 30 Nov 2015 16:56:00 -0700 [View Commit](../../commit/0529a80f54d7839c3ac072b1cb0dbe7b866aff9b)
+
+##coeus-1511.110
 *  Cannot consistently copy a budget version from the Budget Versions Modal without generating an error.
 
   * Create a proposal with basic requirements to save.
