@@ -30,6 +30,7 @@ import org.kuali.kra.committee.dao.CustomCommitteeDao;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionLiteBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.text.SimpleDateFormat;
@@ -48,6 +49,7 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
     private static final String COMMITTEE_ID = "committeeId";
     private static final String NO_PLACE = "[no location]";
     private static final int SCHEDULED = 1;
+    private static final String COMMITTEE_DOCUMENT_STATUS_CODE = "committeeDocument.docStatusCode";
 
     private BusinessObjectService businessObjectService;
     private VersioningService versioningService;
@@ -93,6 +95,7 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
         if (!StringUtils.isBlank(committeeId)) {
             Map<String, Object> fieldValues = new HashMap<String, Object>();
             fieldValues.put(COMMITTEE_ID, committeeId);
+            fieldValues.put(COMMITTEE_DOCUMENT_STATUS_CODE, KewApiConstants.ROUTE_HEADER_FINAL_CD);
             Collection<CMT> committees = businessObjectService.findMatching(getCommitteeBOClassHook(), fieldValues);
             if (committees.size() > 0) {
                 /*
@@ -281,14 +284,10 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
     }
     
     @Override
-    public List<CS> mergeCommitteeSchedule(String committeeId) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(COMMITTEE_ID, committeeId);
-        List<CMT> committees = (List<CMT>) getBusinessObjectService().findMatching(getCommitteeBOClassHook(), fieldValues);
-        Collections.sort(committees);
-        CMT newCommittee = committees.get(committees.size() - 1);
-        CMT oldCommittee = committees.get(committees.size() - 2);
-        List<CS> newMasterSchedules = new ArrayList<CS>();
+    public List<CS> mergeCommitteeSchedule(CMT committee) {
+        CMT newCommittee = committee;
+        CMT oldCommittee = getCommitteeById(committee.getCommitteeId());
+    	List<CS> newMasterSchedules = new ArrayList<CS>();
         
         List<CS> oldMasterSchedules = oldCommittee.getCommitteeSchedules();
         List<CS> newSchedules = newCommittee.getCommitteeSchedules();

@@ -80,7 +80,7 @@ public interface CommitteeServiceBase<CMT extends CommitteeBase<CMT, ?, CS>,
      * @param committeeId
      * @return
      */
-    List<CS> mergeCommitteeSchedule(String committeeId);
+    List<CS> mergeCommitteeSchedule(CMT committee);
     
     
     
