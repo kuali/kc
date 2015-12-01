@@ -260,7 +260,6 @@ public abstract class AbstractBudgetCalculator {
             String rateTypeCode;
             ScaleTwoDecimal totalCalculatedCost;
             ScaleTwoDecimal totalCalculatedCostSharing;
-            ScaleTwoDecimal totalUnderRecovery;
             ScaleTwoDecimal directCost = ScaleTwoDecimal.ZERO;
             ScaleTwoDecimal indirectCost = ScaleTwoDecimal.ZERO;
             Equals equalsRC;
@@ -284,17 +283,13 @@ public abstract class AbstractBudgetCalculator {
                 calculatedAmount.setCalculatedCostSharing(totalCalculatedCostSharing);
             }
 
-            /*
-             * Sum up all the underRecovery costs for each breakup interval and then update the line item details.
-             */
-            totalUnderRecovery = new QueryList<BreakUpInterval>(cvLIBreakupIntervals).sumObjects("underRecovery");
-            budgetLineItem.setUnderrecoveryAmount(totalUnderRecovery);
+            updateLineItemUnderrecovery(cvLIBreakupIntervals, budgetLineItem);
 
             /*
              * Sum up all direct costs ie, rates for RateClassType <> 'O', for each breakup interval plus the line item cost, and
              * then update the line item details.
              */
-            NotEquals notEqualsOH = new NotEquals(AbstractBudgetCalculator.RATE_CLASS_TYPE, RateClassType.OVERHEAD.getRateClassType());
+            NotEquals notEqualsOH = new NotEquals(RATE_CLASS_TYPE, RateClassType.OVERHEAD.getRateClassType());
             boolean directCostRolledUp = false;
             boolean resetTotalUnderRecovery = false;
             ScaleTwoDecimal newTotalUrAmount = ScaleTwoDecimal.ZERO;
@@ -362,6 +357,15 @@ public abstract class AbstractBudgetCalculator {
                   calculatedAmount.setCalculatedCostSharing(ScaleTwoDecimal.ZERO);
           }
         } 
+    }
+
+    protected void updateLineItemUnderrecovery(List<BreakUpInterval> cvLIBreakupIntervals, BudgetLineItemBase budgetLineItem) {
+        boolean itemHasOverhead = cvLIBreakupIntervals.stream().anyMatch(breakupInterval -> doesLineItemHaveOverhead(breakupInterval.getRateAndCosts()));
+        if (itemHasOverhead) {
+            ScaleTwoDecimal totalUnderRecovery;
+            totalUnderRecovery = new QueryList<>(cvLIBreakupIntervals).sumObjects("underRecovery");
+            budgetLineItem.setUnderrecoveryAmount(totalUnderRecovery);
+        }
     }
 
 
@@ -475,6 +479,21 @@ public abstract class AbstractBudgetCalculator {
         }
 
         setUnderrecoveryRateBean(lineItemPropRates, boundary, breakUpInterval);
+        calculateUnderrecoveryForLineItemsWithoutOverhead(breakUpInterval, rateAndCosts);
+    }
+
+    protected void calculateUnderrecoveryForLineItemsWithoutOverhead(BreakUpInterval breakUpInterval, QueryList<RateAndCost> rateAndCosts) {
+        if (CollectionUtils.isEmpty(rateAndCosts) || !doesLineItemHaveOverhead(rateAndCosts)) {
+            ScaleTwoDecimal underrecoveryRate = breakUpInterval.getURRatesBean().getApplicableRate();
+            ScaleTwoDecimal overheadRate = ScaleTwoDecimal.ZERO;
+            underrecoveryRate = underrecoveryRate.subtract(overheadRate);
+            ScaleTwoDecimal underrecoveryAmount = breakUpInterval.getApplicableAmt().percentage(underrecoveryRate);
+            budgetLineItem.setUnderrecoveryAmount(underrecoveryAmount);
+        }
+    }
+
+    protected boolean doesLineItemHaveOverhead(QueryList<RateAndCost> rateAndCosts) {
+        return rateAndCosts.stream().anyMatch(rateAndCost -> RateClassType.OVERHEAD.getRateClassType().equalsIgnoreCase(rateAndCost.getRateClassType()));
     }
 
     /*
@@ -892,12 +911,12 @@ public abstract class AbstractBudgetCalculator {
     protected void addBudgetLineItemCalculatedAmount(String rateClassCode, RateType rateType, String rateClassType){
         
         QueryList<BudgetRate> budgetRates = new QueryList<>(budget.getBudgetRates());
-        QueryList<BudgetLaRate> qlBudgetLaRates = new QueryList<>(budget.getBudgetLaRates());
+        QueryList<BudgetLaRate> budgetLaRates = new QueryList<>(budget.getBudgetLaRates());
         Equals eqValidRateClassCode = new Equals(RATE_CLASS_CODE,rateClassCode);
         Equals eqValidRateTypeCode = new Equals(RATE_TYPE_CODE,rateType.getRateTypeCode());
         And eqRateClassCodeAndRateTypeCode = new And(eqValidRateClassCode,eqValidRateTypeCode);
         List<BudgetRate> filteredBudgetRates = budgetRates.filter(eqRateClassCodeAndRateTypeCode);
-        List<BudgetLaRate> filteredBudgetLaRates = qlBudgetLaRates.filter(eqRateClassCodeAndRateTypeCode);
+        List<BudgetLaRate> filteredBudgetLaRates = budgetLaRates.filter(eqRateClassCodeAndRateTypeCode);
         
         if(filteredBudgetRates.isEmpty() && filteredBudgetLaRates.isEmpty()) return;
 
