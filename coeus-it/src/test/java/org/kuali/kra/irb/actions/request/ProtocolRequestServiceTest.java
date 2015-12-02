@@ -73,6 +73,7 @@ public class ProtocolRequestServiceTest extends KcIntegrationTestBase {
     
     private ProtocolRequestServiceImpl service;
     private BusinessObjectService businessObjectService;
+    private DocumentService documentService;
     
     private Mockery context = new JUnit4Mockery() {{
         setImposteriser(ClassImposteriser.INSTANCE);
@@ -88,6 +89,8 @@ public class ProtocolRequestServiceTest extends KcIntegrationTestBase {
         service.setBusinessObjectService(businessObjectService);
         service.setProtocolActionService(KcServiceLocator.getService(ProtocolActionService.class));
         service.setDocumentService(KcServiceLocator.getService(DocumentService.class));
+        
+        documentService = KcServiceLocator.getService(DocumentService.class);
     }
 
     @After
@@ -199,7 +202,8 @@ public class ProtocolRequestServiceTest extends KcIntegrationTestBase {
         schedule.setProtocolSubDeadline(new Date(System.currentTimeMillis() - 500));
         schedule.setScheduleStatusCode(1);
         committee.getCommitteeSchedules().add(schedule);
-        businessObjectService.save(committeeDocument);
+        documentService.saveDocument(committeeDocument);
+        documentService.blanketApproveDocument(committeeDocument, "Test Committee", Collections.emptyList());
         return committeeDocument;
     }
 

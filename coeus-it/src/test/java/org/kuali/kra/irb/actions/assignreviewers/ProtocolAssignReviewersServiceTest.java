@@ -45,10 +45,12 @@ import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
 /**
@@ -70,6 +72,7 @@ public class ProtocolAssignReviewersServiceTest extends KcIntegrationTestBase {
     private static final String RESEARCH_AREA_CODE_5 = "01.0201";
 
     private BusinessObjectService businessObjectService;
+    private DocumentService documentService;
     private ProtocolAssignCmtSchedService protocolAssignCmtSchedService;
     private CommitteeMembershipService committeeMembershipService;
     private CommitteeDocument committeeDocument;
@@ -77,6 +80,7 @@ public class ProtocolAssignReviewersServiceTest extends KcIntegrationTestBase {
     @Before
     public void setUp() throws Exception {
         GlobalVariables.setUserSession(new UserSession("quickstart"));
+        documentService = KcServiceLocator.getService(DocumentService.class);
         businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         protocolAssignCmtSchedService = KcServiceLocator.getService(ProtocolAssignCmtSchedService.class);
         committeeMembershipService = KcServiceLocator.getService(CommitteeMembershipService.class);
@@ -150,6 +154,9 @@ public class ProtocolAssignReviewersServiceTest extends KcIntegrationTestBase {
         schedule.setScheduleStatusCode(1);
         committee.getCommitteeSchedules().add(schedule);
         
+        documentService.saveDocument(committeeDocument);
+        documentService.blanketApproveDocument(committeeDocument, "Test Committee", Collections.emptyList());
+        
         CommitteeMembership committeeMembership = getMembership(PERSON_ID, null, MEMBERSHIP_TYPE_CD, TERM_START_DATE, TERM_END_DATE);
         committeeMembership.getMembershipExpertise().add(getExpertise(RESEARCH_AREA_CODE_1));
         committeeMembership.getMembershipExpertise().add(getExpertise(RESEARCH_AREA_CODE_3));
@@ -159,8 +166,7 @@ public class ProtocolAssignReviewersServiceTest extends KcIntegrationTestBase {
         committeeMembership.getMembershipRoles().add(getRole(MEMBERSHIP_ROLE_CD_7, ROLE_START_DATE, ROLE_END_DATE));
         
         committeeMembershipService.addCommitteeMembership(committee, committeeMembership);
-        
-        businessObjectService.save(committeeDocument);
+        businessObjectService.save(committee);
         return committeeDocument;
     }
     

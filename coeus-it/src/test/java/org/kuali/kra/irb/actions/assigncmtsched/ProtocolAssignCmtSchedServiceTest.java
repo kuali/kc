@@ -39,10 +39,12 @@ import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -51,14 +53,14 @@ import static org.junit.Assert.assertTrue;
  */
 public class ProtocolAssignCmtSchedServiceTest extends KcIntegrationTestBase {
 
-    private BusinessObjectService businessObjectService;
+    private DocumentService documentService;
     private ProtocolAssignCmtSchedService protocolAssignCmtSchedService;
     private CommitteeDocument committeeDocument;
     
     @Before
     public void setUp() throws Exception {
         GlobalVariables.setUserSession(new UserSession("quickstart"));
-        businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
+        documentService = KcServiceLocator.getService(DocumentService.class);
         protocolAssignCmtSchedService = KcServiceLocator.getService(ProtocolAssignCmtSchedService.class);
         committeeDocument = createCommittee("666");
     }
@@ -188,7 +190,8 @@ public class ProtocolAssignCmtSchedServiceTest extends KcIntegrationTestBase {
         schedule.setProtocolSubDeadline(new Date(System.currentTimeMillis() - 500));
         schedule.setScheduleStatusCode(1);
         committee.getCommitteeSchedules().add(schedule);
-        businessObjectService.save(committeeDocument);
+        documentService.saveDocument(committeeDocument);
+        documentService.blanketApproveDocument(committeeDocument, "Test Committee", Collections.emptyList());
         return committeeDocument;
     }
 }

@@ -52,6 +52,7 @@ import org.kuali.rice.krad.service.DocumentService;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,6 +68,7 @@ public class ProtocolNotifyIrbServiceTest extends KcIntegrationTestBase {
     
     private ProtocolNotifyIrbServiceImpl service;
     private BusinessObjectService businessObjectService;
+    private DocumentService documentService;
     
     private Mockery context = new JUnit4Mockery() {{
         setImposteriser(ClassImposteriser.INSTANCE);
@@ -82,6 +84,7 @@ public class ProtocolNotifyIrbServiceTest extends KcIntegrationTestBase {
         
         businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         service.setBusinessObjectService(businessObjectService);
+        documentService = KcServiceLocator.getService(DocumentService.class);
     }
 
     @After
@@ -147,7 +150,8 @@ public class ProtocolNotifyIrbServiceTest extends KcIntegrationTestBase {
         schedule.setProtocolSubDeadline(new Date(System.currentTimeMillis() - 500));
         schedule.setScheduleStatusCode(1);
         committee.getCommitteeSchedules().add(schedule);
-        businessObjectService.save(committeeDocument);
+        documentService.saveDocument(committeeDocument);
+        documentService.blanketApproveDocument(committeeDocument, "Test Committee", Collections.emptyList());
         return committeeDocument;
     }
 
