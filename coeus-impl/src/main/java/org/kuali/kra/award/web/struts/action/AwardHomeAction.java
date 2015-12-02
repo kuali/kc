@@ -228,36 +228,9 @@ public class AwardHomeAction extends AwardAction {
         
         AwardForm awardForm = (AwardForm) form;
         AwardDocument awardDocument = awardForm.getAwardDocument();
-        
-        //if award is a root Award and direct/indirect view is enabled, then we need to sum the obligated and anticipated totals until we create
-        //initial T&M doc.
-        if(awardDocument.getAward().getAwardNumber().endsWith("-00000")) {
-            awardDocument.getAward().getLastAwardAmountInfo().resetChangeValues();
-        } else if(awardDocument.getAward().getAwardNumber().endsWith("-00001")) {
-            if (isDirectIndirectViewEnabled()) {
-                setTotalsOnAward(awardDocument.getAward());
-            }
-            Award oldAward = getAwardVersionService().getActiveAwardVersion(awardDocument.getAward().getAwardNumber());
-            AwardAmountInfo aaiNew = awardDocument.getAward().getLastAwardAmountInfo();
-            if (oldAward != null && oldAward.getLastAwardAmountInfo() != null) {
-                AwardAmountInfo aaiOld = oldAward.getLastAwardAmountInfo();
-                try {
-                aaiNew.setObligatedChange(aaiNew.getAmountObligatedToDate().subtract(aaiOld.getAmountObligatedToDate()));
-                aaiNew.setObligatedChangeDirect(aaiNew.getObligatedTotalDirect().subtract(aaiOld.getObligatedTotalDirect()));
-                aaiNew.setObligatedChangeIndirect(aaiNew.getObligatedTotalIndirect().subtract(aaiOld.getObligatedTotalIndirect()));
-                aaiNew.setAnticipatedChange(aaiNew.getAnticipatedTotalAmount().subtract(aaiOld.getAnticipatedTotalAmount()));
-                aaiNew.setAnticipatedChangeDirect(aaiNew.getAnticipatedTotalDirect().subtract(aaiOld.getAnticipatedTotalDirect()));
-                aaiNew.setAnticipatedChangeIndirect(aaiNew.getAnticipatedTotalIndirect().subtract(aaiOld.getAnticipatedTotalIndirect()));
-                aaiNew.setObliDistributableAmount(aaiNew.getObliDistributableAmount().add(aaiNew.getObligatedChange()));
-                aaiNew.setAntDistributableAmount(aaiNew.getAntDistributableAmount().add(aaiNew.getAnticipatedChange()));
-                } catch (NullPointerException e) {
-                  aaiNew.resetChangeValues();
-                }
-            } else {
-                aaiNew.resetChangeValues();
-            }
-        }
-        
+
+        updateCurrentAwardAmountInfo(awardDocument);
+
         /**
          * the following two null overrides are per KCAWD-1001
          */
@@ -288,6 +261,40 @@ public class AwardHomeAction extends AwardAction {
         }
 
         return forward;
+    }
+
+    protected void updateCurrentAwardAmountInfo(AwardDocument awardDocument) {
+        if (awardDocument.getAward().getAwardNumber().endsWith("-00000")) {
+            awardDocument.getAward().getLastAwardAmountInfo().resetChangeValues();
+        } else if (awardDocument.getAward().getAwardNumber().endsWith("-00001")) {
+            if (isDirectIndirectViewEnabled()) {
+                setTotalsOnAward(awardDocument.getAward());
+            }
+            AwardAmountInfo currentAwardAmountInfo = awardDocument.getAward().getLastAwardAmountInfo();
+            AwardAmountInfo previousAwardAmountInfo = getPreviousAwardAmountInfo(awardDocument);
+
+            if (previousAwardAmountInfo != null) {
+                currentAwardAmountInfo.setObligatedChange(currentAwardAmountInfo.getAmountObligatedToDate().subtract(previousAwardAmountInfo.getAmountObligatedToDate()));
+                currentAwardAmountInfo.setObligatedChangeDirect(currentAwardAmountInfo.getObligatedTotalDirect().subtract(previousAwardAmountInfo.getObligatedTotalDirect()));
+                currentAwardAmountInfo.setObligatedChangeIndirect(currentAwardAmountInfo.getObligatedTotalIndirect().subtract(previousAwardAmountInfo.getObligatedTotalIndirect()));
+                currentAwardAmountInfo.setAnticipatedChange(currentAwardAmountInfo.getAnticipatedTotalAmount().subtract(previousAwardAmountInfo.getAnticipatedTotalAmount()));
+                currentAwardAmountInfo.setAnticipatedChangeDirect(currentAwardAmountInfo.getAnticipatedTotalDirect().subtract(previousAwardAmountInfo.getAnticipatedTotalDirect()));
+                currentAwardAmountInfo.setAnticipatedChangeIndirect(currentAwardAmountInfo.getAnticipatedTotalIndirect().subtract(previousAwardAmountInfo.getAnticipatedTotalIndirect()));
+                currentAwardAmountInfo.setObliDistributableAmount(previousAwardAmountInfo.getObliDistributableAmount().add(currentAwardAmountInfo.getObligatedChange()));
+                currentAwardAmountInfo.setAntDistributableAmount(previousAwardAmountInfo.getAntDistributableAmount().add(currentAwardAmountInfo.getAnticipatedChange()));
+            }
+        }
+    }
+
+    protected AwardAmountInfo getPreviousAwardAmountInfo(AwardDocument awardDocument) {
+        int awardAmountInfosSize = awardDocument.getAward().getAwardAmountInfos().size();
+        if (awardAmountInfosSize > 1) {
+            int previousAwardAmountInfoIndex = awardAmountInfosSize - 2;
+            return awardDocument.getAward().getAwardAmountInfos().get(previousAwardAmountInfoIndex);
+        } else {
+            Award oldAward = getAwardVersionService().getActiveAwardVersion(awardDocument.getAward().getAwardNumber());
+            return oldAward != null ? oldAward.getLastAwardAmountInfo() : null;
+        }
     }
 
     protected void setTotalsOnAward(final Award award) {
