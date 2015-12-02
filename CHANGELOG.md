@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+*  setting character set and collation type for audit type table
+  * Travis Schneeberger on Tue, 1 Dec 2015 20:08:08 -0500 [View Commit](../../commit/dcaee6235706f6d8b5891bb7c74e7fd9ac9aa0bf)
+
+##coeus-1512.3
 * Correct logic so maintenance documents without error can be deleted
 
   * Attempting to delete an unreferenced record would result in errorneous "business rule evaluation failed" despite there being no errors.
