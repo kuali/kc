@@ -201,7 +201,6 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
 	            String groupName = customAttribute.getGroupName();
 	            String attributeLabel = customAttribute.getLabel();
 	            String attributeValue = awardCustomData.getValue();
-	            if(attributeValue!=null){
     	            if(groupName!=null && !groupName.equals(prevGroupName)){
     	                otherGroupType = otherData.addNewOtherDetails();
     	                otherGroupType.setDescription(groupName);
@@ -212,7 +211,6 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
     	                otherGroupDetailsType.setColumnName(attributeLabel);
     	                otherGroupDetailsType.setColumnValue(attributeValue);
     	            }
-	            }
 	                
 	        }
 		}

@@ -21,10 +21,7 @@ package org.kuali.kra.award.printing.service.impl;
 import static org.junit.Assert.*;
 
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 
 import org.jmock.Expectations;
@@ -34,13 +31,15 @@ import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
+import org.kuali.coeus.common.framework.unit.UnitService;
+import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
+import org.kuali.coeus.common.framework.unit.admin.UnitAdministratorType;
 import org.kuali.coeus.common.impl.print.PrintingServiceImpl;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.printing.AwardPrintParameters;
 import org.kuali.kra.award.printing.AwardPrintType;
 import org.kuali.kra.award.printing.print.AwardNoticePrint;
-import org.kuali.kra.award.printing.service.impl.AwardPrintingServiceImpl;
 import org.kuali.kra.award.printing.xmlstream.AwardNoticeXmlStream;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.printing.schema.AwardType;
@@ -53,6 +52,7 @@ public class AwardPrintingServiceImplTest {
 	private Mockery context;
 	
 	private PrintingServiceImpl printService;
+	private UnitService unitService;
 
 	@Before
 	public void setUp() throws Exception {
@@ -97,7 +97,25 @@ public class AwardPrintingServiceImplTest {
 			}
 		});
 		printService.setKualiConfigurationService(configurationService);
-		
+		unitService = context.mock(UnitService.class);
+
+		context.checking(new Expectations() {
+			{
+				oneOf(unitService).retrieveUnitAdministratorsByUnitNumber("123456");
+
+				UnitAdministrator admin = new UnitAdministrator();
+				admin.setUnitNumber("123456");
+
+				UnitAdministratorType type = new UnitAdministratorType();
+				type.setCode(UnitAdministratorType.ADMINISTRATIVE_OFFICER_TYPE_CODE);
+				type.setDefaultGroupFlag("Bleh");
+
+				admin.setUnitAdministratorTypeCode(UnitAdministratorType.ADMINISTRATIVE_OFFICER_TYPE_CODE);
+				admin.setUnitAdministratorType(type);
+
+				will(returnValue(Collections.singletonList(admin)));
+			}
+		});
 	}
 	
 	@Test
@@ -160,6 +178,8 @@ public class AwardPrintingServiceImplTest {
 		ad.setDocumentNumber("123");
 		ad.setAward(award);
 		award.setAwardDocument(ad);
+		award.setUnitNumber("123456");
+		award.setUnitService(unitService);
 		return award;
 	}
 	
