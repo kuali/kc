@@ -93,6 +93,9 @@ public class ProposalDevelopmentSubmitController extends
 
     private final Logger LOGGER = Logger.getLogger(ProposalDevelopmentSubmitController.class);
 
+    private static final String AUTO_SUBMIT_TO_SPONSOR_ON_FINAL_APPROVAL = "autoSubmitToSponsorOnFinalApproval";
+	private static final String SUBMIT_TO_SPONSOR = "submitToSponsor";
+
     @Autowired
     @Qualifier("kcNotificationService")
     private KcNotificationService kcNotificationService;
@@ -675,8 +678,8 @@ public class ProposalDevelopmentSubmitController extends
         getPessimisticLockService().releaseWorkflowPessimisticLocking(form.getProposalDevelopmentDocument());
 		if (getKcWorkflowService().isFinalApproval(workflowDoc)) {
 			updateProposalAdminDetailsForFinalApproval(form.getDevelopmentProposal());
-			if (form.getActionFlags().containsKey("submitToSponsor")
-					&& getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, "autoSubmitToSponsorOnFinalApproval")) {
+			if (form.getActionFlags().containsKey(SUBMIT_TO_SPONSOR)
+					&& getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, AUTO_SUBMIT_TO_SPONSOR_ON_FINAL_APPROVAL)) {
 				return submitToSponsor(form);
 			}
 		}
