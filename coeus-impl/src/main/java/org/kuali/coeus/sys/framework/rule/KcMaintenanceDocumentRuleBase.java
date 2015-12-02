@@ -37,14 +37,14 @@ public class KcMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
 
     @Override
     protected boolean processGlobalRouteDocumentBusinessRules(MaintenanceDocument document) {
-        boolean retVal = super.processGlobalRouteDocumentBusinessRules(document);
+        boolean success = super.processGlobalRouteDocumentBusinessRules(document);
 
         if (document.getNewMaintainableObject().getMaintenanceAction().equals(KRADConstants.MAINTENANCE_DELETE_ACTION)) {
             MessageMap messages = getPersistenceVerificationService().verifyRelationshipsForDelete(getNewBo(), relationshipDeleteVerificationIgnores());
-            retVal &= messages.hasErrors();
+            success &= !messages.hasErrors();
             getGlobalVariableService().getMessageMap().merge(messages);
         }
-        return retVal;
+        return success;
     }
 
     public boolean processRules(KcDocumentEventBaseExtension event) {
