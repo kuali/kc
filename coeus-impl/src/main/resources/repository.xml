@@ -1220,11 +1220,11 @@
 
 <class-descriptor class="org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails" table="PROPOSAL_ADMIN_DETAILS">
     <field-descriptor name="proposalAdminDetailId" column="PROPOSAL_ADMIN_DETAIL_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PROPOSAL_ADMIN_DETAILS_ID" />
-    <field-descriptor name="dateSubmittedByDept" column="DATE_SUBMITTED_BY_DEPT" jdbc-type="DATE" />
-	<field-descriptor name="dateReturnedToDept" column="DATE_RETURNED_TO_DEPT" jdbc-type="DATE" />
-	<field-descriptor name="dateApprovedByOsp" column="DATE_APPROVED_BY_OSP" jdbc-type="DATE" />
-	<field-descriptor name="dateSubmittedToAgency" column="DATE_SUBMITTED_TO_AGENCY" jdbc-type="DATE" />
-	<field-descriptor name="instPropCreateDate" column="INST_PROP_CREATE_DATE" jdbc-type="DATE" />
+    <field-descriptor name="dateSubmittedByDept" column="DATE_SUBMITTED_BY_DEPT" jdbc-type="TIMESTAMP" />
+	<field-descriptor name="dateReturnedToDept" column="DATE_RETURNED_TO_DEPT" jdbc-type="TIMESTAMP" />
+	<field-descriptor name="dateApprovedByOsp" column="DATE_APPROVED_BY_OSP" jdbc-type="TIMESTAMP" />
+	<field-descriptor name="dateSubmittedToAgency" column="DATE_SUBMITTED_TO_AGENCY" jdbc-type="TIMESTAMP" />
+	<field-descriptor name="instPropCreateDate" column="INST_PROP_CREATE_DATE" jdbc-type="TIMESTAMP" />
 	<field-descriptor name="instPropCreateUser" column="INST_PROP_CREATE_USER" jdbc-type="VARCHAR" />
 	<field-descriptor name="signedBy" column="SIGNED_BY" jdbc-type="VARCHAR" />
 	<field-descriptor name="submissionType" column="SUBMISSION_TYPE" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
@@ -1232,8 +1232,6 @@
     <field-descriptor name="instProposalId" column="INST_PROPOSAL_ID" jdbc-type="BIGINT" nullable="true" />
     <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 	<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-	<field-descriptor name="createTimestamp" column="CREATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-	<field-descriptor name="createUser" column="CREATE_USER" jdbc-type="VARCHAR" />
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 </class-descriptor>

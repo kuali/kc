@@ -316,7 +316,9 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
             Collection<? extends ProposalAdminDetailsContract> proposalAdminDetails = proposalAdminDetailsService.findProposalAdminDetailsByPropDevNumber(pdDoc.getDevelopmentProposal().getProposalNumber());
 
             for(ProposalAdminDetailsContract pad : proposalAdminDetails){
-                instPropSponsorService.updateSponsorProposalNumber(pad.getInstProposalId(), appSubmission.getAgencyTrackingId());
+            	if (pad.getInstProposalId() != null) {
+            		instPropSponsorService.updateSponsorProposalNumber(pad.getInstProposalId(), appSubmission.getAgencyTrackingId());
+            	}
             }
 
         }
