@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1512.9
 * Populate additional date related fields on ProposalAdminDetails
 
   * Populate the additional date and create fields for proposaladmindetails. This includes DATE_SUBMITTED_BY_DEPT, DATE_RETURNED_TO_DEPT, DATE_APPROVED_BY_OSP, DATE_SUBMITTED_TO_AGENCY, INST_PROP_CREATE_DATE, and INST_PROP_CREATE_USER
