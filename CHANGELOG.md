@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* Populate additional date related fields on ProposalAdminDetails
+
+  * Populate the additional date and create fields for proposaladmindetails. This includes DATE_SUBMITTED_BY_DEPT, DATE_RETURNED_TO_DEPT, DATE_APPROVED_BY_OSP, DATE_SUBMITTED_TO_AGENCY, INST_PROP_CREATE_DATE, and INST_PROP_CREATE_USER
+  * blackcathacker on Wed, 2 Dec 2015 12:56:17 -0800 [View Commit](../../commit/ff9c4f55eb153f06ec334db28db7a1329f3477ee)
+*  When the Award Notice is printed, the PI's name is displaying as the Administrative Contact. See attached - highlighted area. This isn't correct. Should be a value from the Central Contact panel on the award. To recreate the issue, open any award in resdemo1, navigate to the Award Actions tab, open the print panel, and select the print button to the right of the Award Notice area.
+  * Travis Schneeberger on Wed, 2 Dec 2015 12:23:15 -0500 [View Commit](../../commit/75c7094a0eadf622c67e29f20b98d8e71a6a38a6)
+
+##coeus-1512.7
 * IRB - STE In QA when trying to submit Agenda or Minutes
 
   * If i open a schedule for a meeting I get and STE when i try to generate the agenda or the minutes:
