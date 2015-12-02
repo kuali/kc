@@ -123,29 +123,11 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
                 Map attachments = extractAttachments(reader);
                 formBeans = extractAndPopulateXml(developmentProposal,reader,s2sUserAttachedForm,attachments);
             }
-            resetFormsAvailability(developmentProposal,formBeans);
+            setFormsAvailability(developmentProposal,formBeans);
         }finally{
             if(reader!=null) reader.close();
         }
         return formBeans;
-    }
-
-    private void resetFormsAvailability(ProposalDevelopmentDocument developmentProposal, List<S2sUserAttachedForm> savedFormBeans) {
-        S2sOpportunity opportunity = developmentProposal.getDevelopmentProposal().getS2sOpportunity();
-        if(opportunity!=null){
-            List<S2sOppForms> oppForms = opportunity.getS2sOppForms(); 
-            if(oppForms!=null){
-                for (S2sUserAttachedForm s2sUserAttachedForm : savedFormBeans) {
-                    for (S2sOppForms s2sOppForms : oppForms) {
-                        if(s2sOppForms.getS2sOppFormsId().getOppNameSpace().equals(s2sUserAttachedForm.getNamespace())){
-                            s2sOppForms.setAvailable(true);
-                            s2sOppForms.setUserAttachedForm(true);
-                        }
-                    }
-                }
-            }
-        }
-        
     }
 
     private Map extractAttachments(PdfReader reader)throws IOException{
@@ -538,19 +520,34 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
     @Override
     public void resetFormAvailability(ProposalDevelopmentDocument developmentProposal, String namespace) {
         S2sOpportunity opportunity = developmentProposal.getDevelopmentProposal().getS2sOpportunity();
-        if(opportunity!=null){
+        if(opportunity!=null) {
             List<S2sOppForms> oppForms = opportunity.getS2sOppForms(); 
-            if(oppForms!=null)
-            for (S2sOppForms s2sOppForms : oppForms) {
-                if(s2sOppForms.getS2sOppFormsId().getOppNameSpace().equals(namespace)){
-                    s2sOppForms.setInclude(false);
-                    s2sOppForms.setAvailable(false);
-                    s2sOppForms.setUserAttachedForm(false);
-                }
+            if(oppForms!=null) {
+            	setS2sOppFormsAvailability(oppForms, namespace, false);
             }
         }
     }
 
+    protected void setFormsAvailability(ProposalDevelopmentDocument developmentProposal, List<S2sUserAttachedForm> savedFormBeans) {
+        S2sOpportunity opportunity = developmentProposal.getDevelopmentProposal().getS2sOpportunity();
+        if(opportunity!=null){
+            List<S2sOppForms> oppForms = opportunity.getS2sOppForms(); 
+            if(oppForms!=null){
+            	savedFormBeans.forEach(s2sUserAttachedForm -> setS2sOppFormsAvailability(oppForms, s2sUserAttachedForm.getNamespace(), true));
+            }
+        }
+    }
+    
+    protected void setS2sOppFormsAvailability(List<S2sOppForms> oppForms, String namespace, boolean isAvailable) {
+    	oppForms.stream()
+    	.filter(s2sOppForms -> s2sOppForms.getS2sOppFormsId().getOppNameSpace().equals(namespace))
+    	.forEach(s2sOppForms -> {
+    	    s2sOppForms.setAvailable(isAvailable);
+    	    s2sOppForms.setUserAttachedForm(isAvailable);
+    	    s2sOppForms.setInclude(isAvailable);
+    	});
+    }
+    
     public FormMappingService getFormMappingService() {
         return formMappingService;
     }
