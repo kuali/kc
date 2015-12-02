@@ -6336,18 +6336,16 @@
 														<xsl:text>&#x2029;</xsl:text>
 													</fo:block>
 												</fo:inline-container>
-												<fo:table table-layout="fixed" width="100%"
-													border-spacing="2pt">
-													<fo:table-column column-width="200" />
-													<fo:table-column column-width="150" />
-													<fo:table-column column-width="150" />
-													<fo:table-column column-width="proportional-column-width(1)" />
+												<fo:table table-layout="fixed" width="100%" border-spacing="2pt">
+													<fo:table-column column-width="200"/>
+													<fo:table-column column-width="150"/>
+													<fo:table-column column-width="150"/>
+													<fo:table-column column-width="proportional-column-width(1)"/>
 													<fo:table-body start-indent="0pt">
 														<fo:table-row font-family="Arial" font-size="9pt">
 															<fo:table-cell padding="2pt" display-align="center">
 																<fo:block>
-																	<fo:inline font-family="Arial" font-size="9pt"
-																		font-weight="bold">
+																	<fo:inline font-family="Arial" font-size="9pt" font-weight="bold">
 																		<xsl:text>Total Project Period:</xsl:text>
 																	</fo:inline>
 																</fo:block>
@@ -6357,14 +6355,11 @@
 																	<xsl:for-each select="FundingSummary">
 																		<xsl:for-each select="TotalStartDate">
 																			<fo:inline>
-																				<xsl:value-of
-																					select="format-number(number(substring(string(string(.)), 6, 2)), '00')" />
+																				<xsl:value-of select="format-number(number(substring(string(string(.)), 6, 2)), '00')"/>
 																				<xsl:text>/</xsl:text>
-																				<xsl:value-of
-																					select="format-number(number(substring(string(string(.)), 9, 2)), '00')" />
+																				<xsl:value-of select="format-number(number(substring(string(string(.)), 9, 2)), '00')"/>
 																				<xsl:text>/</xsl:text>
-																				<xsl:value-of
-																					select="format-number(number(substring(string(string(string(.))), 1, 4)), '0000')" />
+																				<xsl:value-of select="format-number(number(substring(string(string(string(.))), 1, 4)), '0000')"/>
 																			</fo:inline>
 																		</xsl:for-each>
 																	</xsl:for-each>
@@ -6375,14 +6370,11 @@
 																	<xsl:for-each select="FundingSummary">
 																		<xsl:for-each select="TotalEndDate">
 																			<fo:inline>
-																				<xsl:value-of
-																					select="format-number(number(substring(string(string(.)), 6, 2)), '00')" />
+																				<xsl:value-of select="format-number(number(substring(string(string(.)), 6, 2)), '00')"/>
 																				<xsl:text>/</xsl:text>
-																				<xsl:value-of
-																					select="format-number(number(substring(string(string(.)), 9, 2)), '00')" />
+																				<xsl:value-of select="format-number(number(substring(string(string(.)), 9, 2)), '00')"/>
 																				<xsl:text>/</xsl:text>
-																				<xsl:value-of
-																					select="format-number(number(substring(string(string(string(.))), 1, 4)), '0000')" />
+																				<xsl:value-of select="format-number(number(substring(string(string(string(.))), 1, 4)), '0000')"/>
 																			</fo:inline>
 																		</xsl:for-each>
 																	</xsl:for-each>
@@ -6394,8 +6386,7 @@
 																		<xsl:text>$</xsl:text>
 																	</fo:inline>
 																	<fo:inline>
-																		<xsl:value-of
-																			select="format-number(number(FundingSummary/AnticipatedTotalAmt), '#,###,###,##0.00')" />
+																		<xsl:value-of select="format-number(number(FundingSummary/AnticipatedTotalAmt), '#,###,###,##0.00')"/>
 																	</fo:inline>
 																</fo:block>
 															</fo:table-cell>

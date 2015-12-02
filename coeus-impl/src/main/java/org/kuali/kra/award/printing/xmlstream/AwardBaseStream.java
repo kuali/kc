@@ -29,6 +29,7 @@ import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.sponsor.term.SponsorTermType;
 import org.kuali.coeus.common.framework.type.ActivityType;
 import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
+import org.kuali.coeus.common.framework.unit.admin.UnitAdministratorType;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
@@ -36,6 +37,7 @@ import org.kuali.kra.award.commitments.AwardCostShare;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardPersonUnit;
 import org.kuali.kra.award.contacts.AwardSponsorContact;
+import org.kuali.kra.award.contacts.AwardUnitContact;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.*;
 import org.kuali.kra.award.home.AwardAmountInfo;
@@ -94,7 +96,7 @@ public abstract class AwardBaseStream implements XmlStream {
     private static final String NOT_PRESENT_INDICATOR = "N";
     private static final String PRESENT_INDICATOR = "P";
     protected static final String OBLIGATED_DIRECT_INDIRECT_COST_CONSTANT = "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST";
-	private static final String ON_CAMPUS_FLAG_SET = "Y";
+	private static final String ON_CAMPUS_FLAG_SET = "N";
 	private static final Log LOG = LogFactory.getLog(AwardBaseStream.class);
 	private static final String NSF_CODE_PARAMETER = "nsfCode";
 	private static final String STRING_SEPARATER = ",";
@@ -524,19 +526,18 @@ public abstract class AwardBaseStream implements XmlStream {
 	 */
 	protected AODetails getAODetailsType() {
 
-		KcPerson person = null;
-		if (award.getPrincipalInvestigator() != null
-				&& award.getPrincipalInvestigator().getPerson() != null) {
-			person = award.getPrincipalInvestigator().getPerson();
+		final Optional<KcPerson> person = award.getCentralAdminContacts().stream()
+				.filter(contact -> contact.getUnitAdministratorType().getCode().equals(UnitAdministratorType.ADMINISTRATIVE_OFFICER_TYPE_CODE))
+				.map(AwardUnitContact::getPerson)
+				.findAny();
 
-		}
-		AODetails aODetailsType = AODetails.Factory.newInstance();
-		if (person != null) {
-			if (person.getOfficeLocation() != null) {
-				aODetailsType.setAOAddress(person.getOfficeLocation());
+		final AODetails aODetailsType = AODetails.Factory.newInstance();
+		if (person.isPresent()) {
+			if (person.get().getOfficeLocation() != null) {
+				aODetailsType.setAOAddress(person.get().getOfficeLocation());
 			}
-			if (person.getFullName() != null) {
-				aODetailsType.setAOName(person.getFullName());
+			if (person.get().getFullName() != null) {
+				aODetailsType.setAOName(person.get().getFullName());
 			}
 		}
 		return aODetailsType;
