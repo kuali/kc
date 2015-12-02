@@ -1,6 +1,15 @@
 
 
 ##CURRENT
+* IRB - STE In QA when trying to submit Agenda or Minutes
+
+  * If i open a schedule for a meeting I get and STE when i try to generate the agenda or the minutes:
+  * Go to the "Meeting Actions" tab >>agenda>submit & I get an STE
+  * or, go to the "Meeting Actions" tab >minutes>submit & I get an STE
+  * See the STEs pasted in the comment below
+  * Joe Williams on Wed, 2 Dec 2015 08:53:07 -0600 [View Commit](../../commit/f1765c4ae33954c53aff3c86c86696d155f91b8a)
+
+##coeus-1512.6
 * T&M History obligated change amounts always zero if Award not finalized prior
 
   * If the award is finalized after the T&M is in final status, the T&M history obligated change amount shows as zero, even though the T&M added money and the history shows the obligated cumulative as updated amounts
