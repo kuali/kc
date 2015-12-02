@@ -37,15 +37,15 @@ public class ProposalAdminDetails extends KcPersistableBusinessObjectBase implem
 
     private Long instProposalId;
 
-    private Date dateSubmittedByDept;
+    private Timestamp dateSubmittedByDept;
 
-    private Date dateReturnedToDept;
+    private Timestamp dateReturnedToDept;
 
-    private Date dateApprovedByOsp;
+    private Timestamp dateApprovedByOsp;
 
-    private Date dateSubmittedToAgency;
+    private Timestamp dateSubmittedToAgency;
 
-    private Date instPropCreateDate;
+    private Timestamp instPropCreateDate;
 
     private String instPropCreateUser;
 
@@ -56,52 +56,50 @@ public class ProposalAdminDetails extends KcPersistableBusinessObjectBase implem
     private DevelopmentProposal developmentProposal;
 
     private InstitutionalProposal institutionalProposal;
-    private Timestamp createTimestamp;
-    private String createUser;
 
 
     @Override
-    public Date getDateSubmittedByDept() {
+    public Timestamp getDateSubmittedByDept() {
         return dateSubmittedByDept;
     }
 
-    public void setDateSubmittedByDept(Date dateSubmittedByDept) {
+    public void setDateSubmittedByDept(Timestamp dateSubmittedByDept) {
         this.dateSubmittedByDept = dateSubmittedByDept;
     }
 
     @Override
-    public Date getDateReturnedToDept() {
+    public Timestamp getDateReturnedToDept() {
         return dateReturnedToDept;
     }
 
-    public void setDateReturnedToDept(Date dateReturnedToDept) {
+    public void setDateReturnedToDept(Timestamp dateReturnedToDept) {
         this.dateReturnedToDept = dateReturnedToDept;
     }
 
     @Override
-    public Date getDateApprovedByOsp() {
+    public Timestamp getDateApprovedByOsp() {
         return dateApprovedByOsp;
     }
 
-    public void setDateApprovedByOsp(Date dateApprovedByOsp) {
+    public void setDateApprovedByOsp(Timestamp dateApprovedByOsp) {
         this.dateApprovedByOsp = dateApprovedByOsp;
     }
 
     @Override
-    public Date getDateSubmittedToAgency() {
+    public Timestamp getDateSubmittedToAgency() {
         return dateSubmittedToAgency;
     }
 
-    public void setDateSubmittedToAgency(Date dateSubmittedToAgency) {
+    public void setDateSubmittedToAgency(Timestamp dateSubmittedToAgency) {
         this.dateSubmittedToAgency = dateSubmittedToAgency;
     }
 
     @Override
-    public Date getInstPropCreateDate() {
+    public Timestamp getInstPropCreateDate() {
         return instPropCreateDate;
     }
 
-    public void setInstPropCreateDate(Date instPropCreateDate) {
+    public void setInstPropCreateDate(Timestamp instPropCreateDate) {
         this.instPropCreateDate = instPropCreateDate;
     }
 
@@ -176,21 +174,5 @@ public class ProposalAdminDetails extends KcPersistableBusinessObjectBase implem
 
     public void setInstitutionalProposal(InstitutionalProposal institutionalProposal) {
         this.institutionalProposal = institutionalProposal;
-    }
-
-    public Timestamp getCreateTimestamp() {
-        return createTimestamp;
-    }
-
-    public void setCreateTimestamp(Timestamp createTimestamp) {
-        this.createTimestamp = createTimestamp;
-    }
-
-    public String getCreateUser() {
-        return createUser;
-    }
-
-    public void setCreateUser(String createUser) {
-        this.createUser = createUser;
     }
 }

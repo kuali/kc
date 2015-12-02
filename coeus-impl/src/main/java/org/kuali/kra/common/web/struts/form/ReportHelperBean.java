@@ -106,13 +106,9 @@ public class ReportHelperBean implements Serializable {
     }
 
     protected boolean doesInstitutionalProposalExistForProposalNumber() {
-        return findProposalAdminDetails() != null;
-    }
-
-    protected ProposalAdminDetails findProposalAdminDetails() {
         Map map = Collections.singletonMap(DEV_PROPOSAL_NUMBER_FIELD_NAME, findProposalNumberFromDevelopmentProposal());
-        Collection proposalAdminDetailses = getBusinessObjectService().findMatching(ProposalAdminDetails.class, map);
-        return proposalAdminDetailses.size() > 0 ? ((ProposalAdminDetails) proposalAdminDetailses.iterator().next()) : null;
+        return ((Collection<ProposalAdminDetails>)getBusinessObjectService().findMatching(ProposalAdminDetails.class, map)).stream()
+        	.anyMatch(adminDetails -> adminDetails.getInstProposalId() != null);
     }
 
     protected BusinessObjectService getBusinessObjectService() {

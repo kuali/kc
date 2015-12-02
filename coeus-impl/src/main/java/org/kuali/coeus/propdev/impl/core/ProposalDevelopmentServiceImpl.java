@@ -232,7 +232,9 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         Collection<ProposalAdminDetails> proposalAdminDetails = getBusinessObjectService().findMatching(ProposalAdminDetails.class,values);
 
         for (ProposalAdminDetails pad : proposalAdminDetails) {
-            return getBusinessObjectService().findBySinglePrimaryKey(InstitutionalProposal.class, pad.getInstProposalId());
+        	if (pad.getInstProposalId() != null) {
+        		return getBusinessObjectService().findBySinglePrimaryKey(InstitutionalProposal.class, pad.getInstProposalId());
+        	}
         }
         return null;
     }
