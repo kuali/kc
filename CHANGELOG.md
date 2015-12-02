@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* T&M History obligated change amounts always zero if Award not finalized prior
+
+  * If the award is finalized after the T&M is in final status, the T&M history obligated change amount shows as zero, even though the T&M added money and the history shows the obligated cumulative as updated amounts
+  * Joe Williams on Wed, 2 Dec 2015 07:59:47 -0600 [View Commit](../../commit/cf1e2cfa92fdcca5ecb1e3aa8be7e041d0271ee8)
+
+##coeus-1512.5
 *  setting character set and collation type for audit type table
   * Travis Schneeberger on Tue, 1 Dec 2015 20:08:08 -0500 [View Commit](../../commit/dcaee6235706f6d8b5891bb7c74e7fd9ac9aa0bf)
 
