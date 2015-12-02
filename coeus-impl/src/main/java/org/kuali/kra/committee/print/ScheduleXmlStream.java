@@ -103,7 +103,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
 
         committeeSchedule.getLatestProtocolSubmissions().stream()
         .sorted(Comparator.comparing(ProtocolSubmissionLite::getProtocolReviewTypeCode).thenComparing(ProtocolSubmissionLite::getSubmissionTypeCode)
-                .thenComparingInt(protocolSubmission -> Integer.parseInt(protocolSubmission.getProtocolNumber())))
+                .thenComparing(ProtocolSubmissionLite::getProtocolNumber))
                 .forEach(protocolSubmission -> {
 
                     ProtocolSubmission protocolSubmissionType = schedule.addNewProtocolSubmission();
