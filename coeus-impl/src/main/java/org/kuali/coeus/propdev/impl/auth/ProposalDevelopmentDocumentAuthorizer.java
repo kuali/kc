@@ -401,15 +401,21 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
     }
     
     protected boolean canSaveCertification(ProposalDevelopmentDocument document, Person user) {
-        for(ProposalPerson person : document.getDevelopmentProposal().getProposalPersons()) {
-            if (getProposalDevelopmentPermissionsService().hasCertificationPermissions(document, user, person)) {
-                return true;
-            }
-        }
-
+    	if(isProposalStateEditableForCertification(document.getDevelopmentProposal())) {
+    		if (document.getDevelopmentProposal().getProposalPersons().stream()
+    				.filter(person -> getProposalDevelopmentPermissionsService().hasCertificationPermissions(document, user, person))
+    				.anyMatch(person -> true)) { 
+    			return true; 
+    		}    		
+    	}
         return false;
     }
 
+    protected boolean isProposalStateEditableForCertification(DevelopmentProposal developmentProposal) {
+    	return developmentProposal.getProposalStateTypeCode().equalsIgnoreCase(ProposalState.IN_PROGRESS) || 
+    	developmentProposal.getProposalStateTypeCode().equalsIgnoreCase(ProposalState.REVISIONS_REQUESTED);
+    }
+    
     protected boolean isAuthorizedToReplaceNarrative(Narrative narrative, Person user) {
         final ProposalDevelopmentDocument pdDocument = (ProposalDevelopmentDocument) narrative.getDevelopmentProposal().getDocument();
 
