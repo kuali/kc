@@ -1,6 +1,27 @@
 
 
 ##CURRENT
+* Correct logic so maintenance documents without error can be deleted
+
+  * Attempting to delete an unreferenced record would result in errorneous "business rule evaluation failed" despite there being no errors.
+  * blackcathacker on Tue, 1 Dec 2015 15:06:48 -0800 [View Commit](../../commit/5e11d839fc7c42ca2dedfed0977e7ce9965a5e71)
+*  Handles items with no overhead or line item calculated amounts
+  * Gayathri Athreya on Tue, 1 Dec 2015 14:04:53 -0700 [View Commit](../../commit/fd1891b80e4c1895655d31225b55ad25cb02bf55)
+* Remove feature flag for new homepage and make it the default
+  * blackcathacker on Tue, 1 Dec 2015 12:53:34 -0800 [View Commit](../../commit/c602d9f0c0c3e98e6f028c54d7bb1e8a4bd9a8dc)
+* Submitting T&M document without a transaction zeros out obligated and anticipated totals in some cases
+
+  * When the MAKE_AWD_CUM_ANTICIPATED_OBL_EDITABLE parameter is set to Y or the amounts on the T&M hierarchy panel are un-editable for other reasons, saving or submitting the T&M document will cause a new transaction to be errornously created that zeros out the totals. This prevents this by not creating single-node transactions based on changes when those fields are disabled.
+  * blackcathacker on Tue, 1 Dec 2015 12:46:30 -0800 [View Commit](../../commit/c1156c0890a62cde910e7272d2a6a1ac6710b3ee)
+* IRB - Edits to committee is disconnecting minutes, agenda and schedule data
+  * Edit committee and approve is disconnecting minutes, agenda and schedule data.
+  * This occurs when prior document is not finalized.
+  * During approval process we are merging changes from old committee document to new versioned document.
+  * We need to select the latest finalized committee document as old committee document
+  * to merge these changes (ignore any disconected or cancelled document).
+  * rmancher on Tue, 1 Dec 2015 11:43:21 -0500 [View Commit](../../commit/65a88b6dc3b79aaf5a5c89b40c0044d16d8b9a09)
+
+##coeus-1512.2
 * Revert "Remove feature flag for new homepage and make it the default"
   * Travis Schneeberger on Tue, 1 Dec 2015 13:17:51 -0500 [View Commit](../../commit/5bdeac82c8f0e81e9bc3d43ed72ca1e787fcfb8d)
 * Remove feature flag for new homepage and make it the default
