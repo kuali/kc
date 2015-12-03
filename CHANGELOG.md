@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* Towson null pointer
+  * Gayathri Athreya on Thu, 3 Dec 2015 14:50:13 -0700 [View Commit](../../commit/f1f758cb0ffa45eac0a647f92fb6c0a5acd3a670)
+
+##coeus-1512.16
 * No Changes
 
 
