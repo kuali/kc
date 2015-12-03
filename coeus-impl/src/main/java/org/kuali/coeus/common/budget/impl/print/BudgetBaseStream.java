@@ -343,7 +343,7 @@ public abstract class BudgetBaseStream implements XmlStream {
         Date endDate = budgetRateAndBase.getEndDate();
         reportTypeVO.setStartDate(startDate);
         reportTypeVO.setEndDate(endDate);
-        reportTypeVO.setBudgetCategoryDesc(getBudgetCategoryDescForSalarySummary(budgetLineItem,budgetLineItem,budgetRateAndBase));
+        reportTypeVO.setBudgetCategoryDesc(getBudgetCategoryDescForSalarySummary(budgetLineItem, budgetLineItem, budgetRateAndBase));
         reportTypeVO.setSalaryRequested(budgetRateAndBase.getCalculatedCost());
         reportTypeVO.setFringe(getFringeForLASalaryForRateAndBase(budgetLineItem, startDate, endDate));
         reportTypeVO.setCostSharingAmount(budgetRateAndBase.getCalculatedCostSharing());
@@ -1116,13 +1116,27 @@ public abstract class BudgetBaseStream implements XmlStream {
 		}
 	}
 
-	private ReportTypeVO getReportTypeVOForBudgetPersonnelRateAndBase(BudgetPersonnelRateAndBase budgetPersRateAndBase) {
+
+    private ScaleTwoDecimal getBaseCost(BudgetPersonnelRateAndBase budgetPersRateAndBase) {
+        if (budgetPersRateAndBase.getAppliedRate().equals(ScaleTwoDecimal.ZERO)) {
+            return budgetPersRateAndBase.getSalaryRequested();
+        }
+
+        return budgetPersRateAndBase.getCalculatedCost().divide(getRate(budgetPersRateAndBase.getAppliedRate()));
+    }
+
+    private ScaleTwoDecimal getRate(ScaleTwoDecimal appliedRate) {
+        return appliedRate.divide(ScaleTwoDecimal.ONE_HUNDRED);
+    }
+
+
+    private ReportTypeVO getReportTypeVOForBudgetPersonnelRateAndBase(BudgetPersonnelRateAndBase budgetPersRateAndBase) {
 		ReportTypeVO reportTypeVO = new ReportTypeVO();
 		reportTypeVO.setRateClassDesc(budgetPersRateAndBase.getRateClass().getDescription());
 		reportTypeVO.setStartDate(budgetPersRateAndBase.getStartDate());
 		reportTypeVO.setEndDate(budgetPersRateAndBase.getEndDate());
 		reportTypeVO.setAppliedRate(budgetPersRateAndBase.getAppliedRate());
-		reportTypeVO.setSalaryRequested(budgetPersRateAndBase.getSalaryRequested());
+		reportTypeVO.setSalaryRequested(getBaseCost(budgetPersRateAndBase));
 		reportTypeVO.setCalculatedCost(budgetPersRateAndBase.getCalculatedCost());
 		reportTypeVO.setOnOffCampusFlag(budgetPersRateAndBase.getOnOffCampusFlag());
 		return reportTypeVO;
