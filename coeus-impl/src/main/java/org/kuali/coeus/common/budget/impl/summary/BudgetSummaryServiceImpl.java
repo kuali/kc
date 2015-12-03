@@ -551,61 +551,23 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
 
     @Override
     public List<Date> getNewStartEndDates(List<Date> startEndDates, int gap, int duration, Date prevDate, boolean leapDayInPeriod,  boolean leapDayInGap) {
-        // duration is < (enddate - start date)
         Date startDate = startEndDates.get(0);
-        Date endDate = startEndDates.get(1);
-        Date newStartDate = startDate;
-        Date newEndDate = endDate;
-        boolean endDateAdjusted = false;
-        if (gap == 0) {
-            newEndDate = add(startDate,duration);;
-        } else {
-                // keep the gap between child start date and parent start date
-            newStartDate=add(startDate,gap);
-            newEndDate = add(newStartDate,duration);;
-            if (newStartDate.after(endDate)) {
-                newStartDate = startDate;
-                newEndDate=add(startDate,duration);
-            } else  if(newEndDate.after(endDate)) {
-                endDateAdjusted = true;
-                newEndDate=endDate;
-                newStartDate = add(endDate,duration *(-1));                
-            } 
-        }
-        boolean isLeapDayInNewGap = isLeapDaysInPeriod(startDate, newStartDate);
+        final Date newStartDate = add(startDate, gap);
+        Date newEndDate = add(newStartDate,duration);
 
-        startEndDates.clear();
-        if (leapDayInGap && !endDateAdjusted) {
-           if (newStartDate.after(startDate)) {
-              // shift non-leap year date
-              newStartDate = add(newStartDate, -1);                
-              newEndDate = add(newEndDate, -1);                                
-           }
-        } else if (isLeapDayInNewGap) {
-          if (newEndDate.before(endDate)) {
-          // shift leap year date
-              newStartDate = add(newStartDate, 1);                
-              newEndDate = add(newEndDate, 1);                                
-          }
-      
-        }
-        boolean isLeapDayInNewPeriod = isLeapDaysInPeriod(newStartDate, newEndDate);
+        boolean isLeapDayInNewPeriod = isLeapDaysInPeriod(startDate, newEndDate);
+        boolean isLeapDayInInitialPeriod = leapDayInPeriod || leapDayInGap;
 
-        if (leapDayInPeriod && !isLeapDayInNewPeriod) {
-           newEndDate = add(newEndDate, -1);
-        } else if (!leapDayInPeriod && isLeapDayInNewPeriod) {
-            if (endDate.after(newEndDate)) {
-                newEndDate = add(newEndDate, 1);   
-            } else if (startDate.before(newStartDate)) {
-                newStartDate = add(newStartDate, 1);                
-                         
-            }
-            
+        if (isLeapDayInInitialPeriod && !isLeapDayInNewPeriod) {
+            newEndDate = add(newEndDate, -1);
+        } else if (!isLeapDayInInitialPeriod && isLeapDayInNewPeriod) {
+            newEndDate = add(newEndDate, 1);
         }
 
-        startEndDates.add(0, newStartDate);
-        startEndDates.add(1, newEndDate);
-        return startEndDates;
+        List<Date> newStartEndDates = new ArrayList<>();
+        newStartEndDates.add(0,newStartDate);
+        newStartEndDates.add(1,newEndDate);
+        return newStartEndDates;
     }
 
     protected boolean isLeapYear(Date date) {
