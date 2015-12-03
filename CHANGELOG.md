@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* Setting a default underrecovery bean to avoid any null pointers.
+  * Gayathri Athreya on Thu, 3 Dec 2015 16:01:17 -0700 [View Commit](../../commit/4b70f1570da421952296e20d74a7d734872a55b9)
+
+##coeus-1512.17
 * Towson null pointer
   * Gayathri Athreya on Thu, 3 Dec 2015 14:50:13 -0700 [View Commit](../../commit/f1f758cb0ffa45eac0a647f92fb6c0a5acd3a670)
 
