@@ -1,3 +1,21 @@
+/*
+ * Kuali Coeus, a comprehensive research administration system for higher education.
+ *
+ * Copyright 2005-2015 Kuali, Inc.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.kuali.coeus.common.budget.impl.summary;
 
 import org.junit.Before;
@@ -109,6 +127,14 @@ public class BudgetSummaryServiceImplTest {
         List<Date> newDates = budgetSummaryService.getNewStartEndDates(dates, 19, 346, null, false, true);
         Assert.assertEquals("start date should be 03/05/2016", createDateFromString("03/05/2016"), newDates.get(0));
         Assert.assertEquals("end date should be 02/14/2017", dates.get(1), newDates.get(1));
+    }
+
+    @Test
+    public void getNewStartEndDates_gapNo_gapLeapNo_initPeriodLeapNo_currentPeriodLeapNo_Yearly_EndBeforeLeap() throws Exception {
+        List<Date> dates = createStartEndDates("07/01/2015", "06/31/2016");
+        List<Date> newDates = budgetSummaryService.getNewStartEndDates(dates, 0, 183, null, false, false);
+        Assert.assertEquals("start date should be 07/01/2015", dates.get(0), newDates.get(0));
+        Assert.assertEquals("end date should be 12/31/2015", createDateFromString("12/31/2015"), newDates.get(1));
     }
 
     @Test
