@@ -500,28 +500,29 @@ public abstract class AbstractBudgetCalculator {
     Unrecovered F & A Rate - F&A Rate = underrecovery. This method gets the unrecoveredF&A rate.
      */
     public void setUnderrecoveryRateBean(QueryList<BudgetRate> lineItemPropRates, Boundary boundary, BreakUpInterval breakUpInterval) {
+        setEmptyUnderrecoveryRate(breakUpInterval);
         QueryList<ValidCeRateType> underrecoveryRates = getUnderrecoveryRateMappedToCostElement(new QueryList<>(budgetLineItem.getCostElementBO().getValidCeRateTypes()));
         // get the rate class, rate type from the cost element and use that.
-        if (!isUndercoveryMatchesOverhead()) {
+        if (!isUndercoveryMatchesOverhead() && !underrecoveryRates.isEmpty()) {
             // you cannot have more than one rate mapped to this cost element, so always use the first.
             // if there's more than one mapped, it is wrong.
-            if (!underrecoveryRates.isEmpty()) {
-                QueryList<BudgetRate> underRecoveryRates = getUnderrecoveryRatesFromPropRates(lineItemPropRates, underrecoveryRates);
-                if (CollectionUtils.isNotEmpty(underRecoveryRates)) {
-                    QueryList filteredUnderrecoveryRates = filterUnderrecoveryByEndDate(boundary, underRecoveryRates);
-                    if (CollectionUtils.isNotEmpty(filteredUnderrecoveryRates)) {
-                        filteredUnderrecoveryRates.sort(START_DATE, false);
-                        breakUpInterval.setURRatesBean((BudgetRate) filteredUnderrecoveryRates.get(0));
-                    }
+            QueryList<BudgetRate> underRecoveryRates = getUnderrecoveryRatesFromPropRates(lineItemPropRates, underrecoveryRates);
+            if (CollectionUtils.isNotEmpty(underRecoveryRates)) {
+                QueryList filteredUnderrecoveryRates = filterUnderrecoveryByEndDate(boundary, underRecoveryRates);
+                if (CollectionUtils.isNotEmpty(filteredUnderrecoveryRates)) {
+                    filteredUnderrecoveryRates.sort(START_DATE, false);
+                    breakUpInterval.setURRatesBean((BudgetRate) filteredUnderrecoveryRates.get(0));
                 }
-            } else {
-                // if there are no rates, it means the line item does not have overhead but
-                // it can still have underrecovery.
-                BudgetRate rate = new BudgetRate();
-                rate.setInstituteRate(ScaleTwoDecimal.ZERO);
-                breakUpInterval.setURRatesBean(rate);
             }
         }
+    }
+
+    protected void setEmptyUnderrecoveryRate(BreakUpInterval breakUpInterval) {
+        // if there are no rates, it means the line item does not have overhead but
+        // it can still have underrecovery.
+        BudgetRate rate = new BudgetRate();
+        rate.setInstituteRate(ScaleTwoDecimal.ZERO);
+        breakUpInterval.setURRatesBean(rate);
     }
 
     protected And getRateClassRateTypeAndWithinStartAndEndDateCondition(Boundary boundary, AbstractBudgetCalculatedAmount calculatedAmount) {
