@@ -483,7 +483,7 @@ public abstract class AbstractBudgetCalculator {
     }
 
     protected void calculateUnderrecoveryForLineItemsWithoutOverhead(BreakUpInterval breakUpInterval, QueryList<RateAndCost> rateAndCosts) {
-        if (CollectionUtils.isEmpty(rateAndCosts) || !doesLineItemHaveOverhead(rateAndCosts)) {
+        if (breakUpInterval.getURRatesBean() != null && (CollectionUtils.isEmpty(rateAndCosts) || !doesLineItemHaveOverhead(rateAndCosts))) {
             ScaleTwoDecimal underrecoveryRate = breakUpInterval.getURRatesBean().getApplicableRate();
             ScaleTwoDecimal overheadRate = ScaleTwoDecimal.ZERO;
             underrecoveryRate = underrecoveryRate.subtract(overheadRate);
