@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1512.15
 *  refactor getNewStartEndDates
   * Joe Williams on Thu, 3 Dec 2015 11:25:47 -0600 [View Commit](../../commit/c84aad092761d4ca6cb697438399e00bdafeac9c)
 *  Budget: Leap Year Issue: Personnel Costs Dates are Wrong when Start Date is other than 1st of the month and Autocalculate Periods is Performed
