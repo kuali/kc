@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+*  refactor getNewStartEndDates
+  * Joe Williams on Thu, 3 Dec 2015 11:25:47 -0600 [View Commit](../../commit/c84aad092761d4ca6cb697438399e00bdafeac9c)
+*  Budget: Leap Year Issue: Personnel Costs Dates are Wrong when Start Date is other than 1st of the month and Autocalculate Periods is Performed
+
+  * This issue was identified in the comments received from the community: "There seems to be a leap year error. Some of our staff account for 20 days' vacation by starting the person 20 days after their actual appointment. If you do this in KC, for year 2 it will start it 19 days later. Also an appointment that should have ended on e.g. Oct 31, for year 2 will end on Oct 30. This can be manually edited but it's inconvenient.:
+  * Joe Williams on Thu, 3 Dec 2015 10:00:08 -0600 [View Commit](../../commit/704458ebbfd358eebecd7a6608dffa4efe71bded)
+
+##coeus-1512.14
 * No Changes
 
 
