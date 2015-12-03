@@ -566,16 +566,19 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
             if (newStartDate.after(endDate)) {
                 newStartDate = startDate;
                 newEndDate=add(startDate,duration);
-            } else  if(newEndDate.after(endDate)) {
+            } else  if(newEndDate.after(endDate) && !leapDayInPeriod) {
                 endDateAdjusted = true;
                 newEndDate=endDate;
                 newStartDate = add(endDate,duration *(-1));                
-            } 
+            }
         }
         boolean isLeapDayInNewGap = isLeapDaysInPeriod(startDate, newStartDate);
 
-        startEndDates.clear();
-        if (leapDayInGap && !endDateAdjusted) {
+        if (leapDayInGap && endDateAdjusted) {
+            newStartDate = add(newStartDate, 1);
+        }
+
+        if (leapDayInGap && !endDateAdjusted && !isLeapDayInNewGap) {
            if (newStartDate.after(startDate)) {
               // shift non-leap year date
               newStartDate = add(newStartDate, -1);                
@@ -603,9 +606,10 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
             
         }
 
-        startEndDates.add(0, newStartDate);
-        startEndDates.add(1, newEndDate);
-        return startEndDates;
+        List<Date> newStartEndDates = new ArrayList<Date>();
+        newStartEndDates.add(0, newStartDate);
+        newStartEndDates.add(1, newEndDate);
+        return newStartEndDates;
     }
 
     protected boolean isLeapYear(Date date) {
