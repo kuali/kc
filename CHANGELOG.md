@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* Fix null pointer and not mess up situations wher eUR and OH rate are same.
+  * Gayathri Athreya on Thu, 3 Dec 2015 19:00:59 -0700 [View Commit](../../commit/f776fa98ebbb923cbcf571b1fe8d44b1d5235f57)
+
+##coeus-1512.18
 * Setting a default underrecovery bean to avoid any null pointers.
   * Gayathri Athreya on Thu, 3 Dec 2015 16:01:17 -0700 [View Commit](../../commit/4b70f1570da421952296e20d74a7d734872a55b9)
 
