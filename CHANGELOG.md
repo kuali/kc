@@ -1,6 +1,25 @@
 
 
 ##CURRENT
+*  Preventing empty files from being uploaded.
+  * Travis Schneeberger on Fri, 4 Dec 2015 09:55:48 -0500 [View Commit](../../commit/687c8f6f5ffefec0206b5b4c7be03f7b8712d491)
+*  Users are unable to create a Parent Proposal from a Child Proposal that includes a PERSONNEL attachment(s). When users try, they get the STE identified below.
+
+  * Steps to Reproduce:
+  * 1. Create a Proposal (with minimum info to save)
+  * 2. Add a PI in the Key Personnel section
+  * 3. Navigate to the Attachments section and upload an attachment in the Personnel Tab [ I tested this separately with the Biosketch and the CurrentPending Personnel attachments. Same STE for each] - Important. Make sure you add the two attachments listed above without using the standard save button at the bottom of the page. Only save after the second attachment is added.
+  * 4. Save
+  * 5. Navigate to the Budget section and create/add Budget (no need to add any costs - budget just needs to be initiated to create/link hierarchy)
+  * a. In the Budget, click the [Return to proposal] button
+  * 6. In the Proposal, click the Hierarchy link in the toolbar. In the Hierarchy window select:
+  * a. Hierarchy Budget Type: Sub Budget
+  * b. Click the [Create Hierarchy] button
+
+  * STE happens
+  * Travis Schneeberger on Thu, 3 Dec 2015 11:18:52 -0500 [View Commit](../../commit/5847c8711ee914b07471cf60d5a1af10bc1b64a0)
+
+##coeus-1512.24
 *  PD - Budget Underrecovered F&A error warning that Fiscal Year outside of project period is not correct.
 
   * By default, when UR is present in the budget, this screen generates rows pairs for On and Off Campus rates (as maintained): One (1) pair for each Fiscal Year present at the Project Year Start.
