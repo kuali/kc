@@ -1,6 +1,13 @@
 
 
 ##CURRENT
+* PD - "Save" button and proposal person certification "Clear All Answers" button is enabled in view mode.
+  * Updating changes along with merged MIT code for certification where investigators should be able to make changes to certification
+  * questions in view mode. Changes are allowed only when proposal is pending
+  * or current state is revision requested.
+  * rmancher on Wed, 2 Dec 2015 16:54:28 -0500 [View Commit](../../commit/becc0b61c399cfc15ab9f85d89c1d472fc501ea9)
+
+##coeus-1512.20
 *  Indirect cost base calculation.
   * In KC budget, in the line item details (both in Non-Personnel Costs and SPE screens) or personnel group Details & Rates, if you uncheck the "Apply Rate" box for MTDC, the IDC in the budget is correctly adjusted to exclude the unchecked amounts.
   * However, when you print the budget forms, the full Indirect Cost Base is still populating in the Indirect Cost Base section when the unapplied item is an Other Direct Cost expense. When Personnel expenses use the 'unapply rate' option, the Base is incorrect by an undetermined amount. Please investigate.
