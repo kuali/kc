@@ -20,7 +20,6 @@ package org.kuali.coeus.propdev.impl.attachment;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
 import org.kuali.coeus.propdev.impl.core.*;
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationContext;
@@ -30,33 +29,32 @@ import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
+import org.kuali.rice.krad.util.GrowlMessage;
+import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krad.web.service.FileControllerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 @Controller
 public class ProposalDevelopmentAttachmentController extends ProposalDevelopmentControllerBase {
 
-    private static final Logger LOG = Logger.getLogger(ProposalDevelopmentAttachmentController.class);
+    private static final String ATTACHMENT_FILE = "multipartFile";
 
     @Autowired
     @Qualifier("legacyNarrativeService")
@@ -79,56 +77,80 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
     private KualiRuleService kualiRuleService;
 
     @Autowired
-    @Qualifier("personService")
-    private PersonService personService;
+    @Qualifier("multipartFileValidationService")
+    private MultipartFileValidationService multipartFileValidationService;
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addFileUploadLine")
-    public ModelAndView addFileUploadLine(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
-                                          MultipartHttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView addFileUploadLine(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form,
+                                          MultipartHttpServletRequest request) throws Exception {
         final String selectedCollectionPath = request.getParameter(ProposalDevelopmentConstants.KradConstants.BINDING_PATH);
 
         addEditableCollectionLine(form, selectedCollectionPath);
 
-        synchronized (ObjectPropertyUtils.getPropertyValue(form, selectedCollectionPath)) {
-            return getFileControllerService().addFileUploadLine(form);
+        final MessageMap messages = new MessageMap();
+        request.getFileNames().forEachRemaining(name -> messages.merge(multipartFileValidationService.validateMultipartFile(ATTACHMENT_FILE, request.getFile(name))));
+
+        if (!messages.hasMessages()) {
+            synchronized (ObjectPropertyUtils.getPropertyValue(form, selectedCollectionPath)) {
+                return getFileControllerService().addFileUploadLine(form);
+            }
+        } else {
+            getGlobalVariableService().getMessageMap().merge(messages);
+            doErrorMessageWorkaround(messages);
+            form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATECOMPONENT.getKey());
+            form.setAjaxRequest(true);
+
+            return getRefreshControllerService().refresh(form);
         }
     }
 
+    /**
+     * workaround because regular message are not working in KRAD for fileUploadLine.  Using growls
+     */
+    protected void doErrorMessageWorkaround(MessageMap messages) {
+        messages.getAllPropertiesWithErrors().stream()
+                .flatMap(prop -> messages.getMessages(prop).stream())
+                .forEach(message -> {
+                    final GrowlMessage growl = new GrowlMessage();
+                    growl.setMessageKey(message.getErrorKey());
+                    growl.setMessageParameters(message.getMessageParameters());
+                    growl.setComponentCode(message.getComponentCode());
+                    growl.setNamespaceCode(message.getNamespaceCode());
+                    growl.setTitle("Error");
+                    getGlobalVariableService().getMessageMap().addGrowlMessage(growl);
+                });
+    }
+
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=deleteFileUploadLine")
-    public ModelAndView deleteFileUploadLine(@ModelAttribute("KualiForm") final UifFormBase uifForm,
-                                             BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView deleteFileUploadLine(@ModelAttribute("KualiForm") final UifFormBase uifForm) throws Exception {
         return getFileControllerService().deleteFileUploadLine(uifForm);
     }
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=getFileFromLine")
-    public void getFileFromLine(@ModelAttribute("KualiForm") final UifFormBase uifForm, BindingResult result,
-                                HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void getFileFromLine(@ModelAttribute("KualiForm") final UifFormBase uifForm, HttpServletResponse response) throws Exception {
         getKcFileControllerService().getFileFromLine(uifForm,response);
     }
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=markAllProposalAttachments")
-    public ModelAndView markAllProposalAttachments(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form,
-                                        BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception{
+    public ModelAndView markAllProposalAttachments(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
     	return markAllAttachmentStatus(form, form.getProposalDevelopmentAttachmentHelper().getProposalAttachmentModuleStatusCode());
     }
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=markAllInternalAttachments")
-    public ModelAndView markAllInternalAttachments(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form,
-                                        BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception{
+    public ModelAndView markAllInternalAttachments(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
     	return markAllAttachmentStatus(form, form.getProposalDevelopmentAttachmentHelper().getInternalAttachmentModuleStatusCode());
      }
     
     protected ModelAndView markAllAttachmentStatus(ProposalDevelopmentDocumentForm form, String moduleStatusCode) {
         final String collectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(form, collectionPath);
-
-        for (Object object : collection) {
-            if(object instanceof Narrative) {
-            	Narrative narrative = (Narrative) object;
-            	narrative.setModuleStatusCode(moduleStatusCode);
-                getDataObjectService().wrap(object).fetchRelationship(ProposalDevelopmentConstants.KradConstants.NARRATIVE_STATUS);
-            }
-        }
+        collection.stream()
+                .filter(object -> object instanceof Narrative)
+                .map (object -> (Narrative) object)
+                .forEach(narrative -> {
+                    narrative.setModuleStatusCode(moduleStatusCode);
+                    getDataObjectService().wrap(narrative).fetchRelationship(ProposalDevelopmentConstants.KradConstants.NARRATIVE_STATUS);
+                });
         return getRefreshControllerService().refresh(form);
    }
     
@@ -251,13 +273,14 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         return getModelAndViewService().getModelAndView(form);
     }
 
-    protected void initializeNarrative(Narrative narrative, ProposalDevelopmentDocumentForm form) {
+    protected void initializeNarrative(Narrative narrative, ProposalDevelopmentDocumentForm form) throws Exception {
         getLegacyNarrativeService().prepareNarrative(form.getProposalDevelopmentDocument(), narrative);
-        try {
+        final MessageMap messages = multipartFileValidationService.validateMultipartFile(ATTACHMENT_FILE, narrative.getMultipartFile());
+        if (!messages.hasMessages()) {
             narrative.init(narrative.getMultipartFile());
-            ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).updateAttachmentInformation(narrative.getNarrativeAttachment());
-        } catch (Exception e) {
-            LOG.info("No File Attached");
+            ((ProposalDevelopmentViewHelperServiceImpl) form.getViewHelperService()).updateAttachmentInformation(narrative.getNarrativeAttachment());
+        } else {
+            getGlobalVariableService().getMessageMap().merge(messages);
         }
     }
 
@@ -281,19 +304,21 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         biography.setUpdateUser(globalVariableService.getUserSession().getPrincipalName());
         biography.setUpdateTimestamp(getDateTimeService().getCurrentTimestamp());
         getDataObjectService().wrap(biography).fetchRelationship(ProposalDevelopmentConstants.KradConstants.PROP_PER_DOC_TYPE);
-        try {
+
+        final MessageMap messages = multipartFileValidationService.validateMultipartFile(ATTACHMENT_FILE, biography.getMultipartFile());
+        if (!messages.hasMessages()) {
             biography.init(biography.getMultipartFile());
             ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).updateAttachmentInformation(biography.getPersonnelAttachment());
-        } catch (Exception e) {
-            LOG.info("No File Attached");
-        }
 
-        if (getKualiRuleService().applyRules(new AddPersonnelAttachmentEvent(ProposalDevelopmentConstants.KradConstants.PROPOSAL_DEVELOPMENT_ATTACHMENT_HELPER_BIOGRAPHY, document, biography))){
-            form.getDevelopmentProposal().getPropPersonBios().add(0,biography);
-            form.getProposalDevelopmentAttachmentHelper().reset();
+            if (getKualiRuleService().applyRules(new AddPersonnelAttachmentEvent(ProposalDevelopmentConstants.KradConstants.PROPOSAL_DEVELOPMENT_ATTACHMENT_HELPER_BIOGRAPHY, document, biography))){
+                form.getDevelopmentProposal().getPropPersonBios().add(0,biography);
+                form.getProposalDevelopmentAttachmentHelper().reset();
+            } else {
+                form.setUpdateComponentId(ProposalDevelopmentConstants.KradConstants.PROP_DEV_ATTACHMENTS_PAGE_PERSONNEL_DETAILS);
+                form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATECOMPONENT.getKey());
+            }
         } else {
-            form.setUpdateComponentId(ProposalDevelopmentConstants.KradConstants.PROP_DEV_ATTACHMENTS_PAGE_PERSONNEL_DETAILS);
-            form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATECOMPONENT.getKey());
+            getGlobalVariableService().getMessageMap().merge(messages);
         }
         return getRefreshControllerService().refresh(form);
     }
@@ -304,34 +329,36 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         int selectedLineIndex = Integer.parseInt(form.getProposalDevelopmentAttachmentHelper().getSelectedLineIndex());
         narrative.refreshReferenceObject(ProposalDevelopmentConstants.KradConstants.NARRATIVE_TYPE);
         narrative.refreshReferenceObject(ProposalDevelopmentConstants.KradConstants.NARRATIVE_STATUS);
-        try {
+        final MessageMap messages = multipartFileValidationService.validateMultipartFile(ATTACHMENT_FILE, narrative.getMultipartFile());
+
+        if (!messages.hasMessages()) {
             narrative.init(narrative.getMultipartFile());
             ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).updateAttachmentInformation(narrative.getNarrativeAttachment());
-        } catch (Exception e) {
-            LOG.info("No File Attached");
-        }
 
-        if ( getKualiRuleService().applyRules(new AddNarrativeEvent(ProposalDevelopmentConstants.KradConstants.PROPOSAL_DEVELOPMENT_ATTACHMENT_HELPER_NARRATIVE,form.getProposalDevelopmentDocument(),form.getProposalDevelopmentAttachmentHelper().getNarrative()))) {
-            form.getDevelopmentProposal().getNarratives().set(selectedLineIndex,narrative);
-            form.getProposalDevelopmentAttachmentHelper().reset();
+            if ( getKualiRuleService().applyRules(new AddNarrativeEvent(ProposalDevelopmentConstants.KradConstants.PROPOSAL_DEVELOPMENT_ATTACHMENT_HELPER_NARRATIVE,form.getProposalDevelopmentDocument(),form.getProposalDevelopmentAttachmentHelper().getNarrative()))) {
+                form.getDevelopmentProposal().getNarratives().set(selectedLineIndex,narrative);
+                form.getProposalDevelopmentAttachmentHelper().reset();
+            } else {
+                form.setUpdateComponentId(ProposalDevelopmentConstants.KradConstants.PROP_DEV_ATTACHMENTS_PAGE_PROPOSAL_DETAILS);
+                form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATECOMPONENT.getKey());
+            }
+
+            if(form.getProposalDevelopmentDocument().getDocumentHeader().getWorkflowDocument().isEnroute()) {
+                ProposalDevelopmentNotificationContext context = new ProposalDevelopmentNotificationContext(form.getProposalDevelopmentDocument().getDevelopmentProposal(),
+                    Constants.DATA_OVERRIDE_NOTIFICATION_ACTION, Constants.DATA_OVERRIDE_CONTEXT);
+                ((ProposalDevelopmentNotificationRenderer) context.getRenderer()).setModifiedNarrative(narrative);
+
+                ((ProposalDevelopmentNotificationRenderer) context.getRenderer()).setDevelopmentProposal(form.getProposalDevelopmentDocument().getDevelopmentProposal());
+                if (form.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
+                    form.getNotificationHelper().initializeDefaultValues(context);
+                    form.setSendNarrativeChangeNotification(true);
+                }
+                else {
+                    getKcNotificationService().sendNotification(context);
+                }
+            }
         } else {
-            form.setUpdateComponentId(ProposalDevelopmentConstants.KradConstants.PROP_DEV_ATTACHMENTS_PAGE_PROPOSAL_DETAILS);
-            form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATECOMPONENT.getKey());
-        }
-
-        if(form.getProposalDevelopmentDocument().getDocumentHeader().getWorkflowDocument().isEnroute()) {
-            ProposalDevelopmentNotificationContext context = new ProposalDevelopmentNotificationContext(form.getProposalDevelopmentDocument().getDevelopmentProposal(),
-                Constants.DATA_OVERRIDE_NOTIFICATION_ACTION, Constants.DATA_OVERRIDE_CONTEXT);
-            ((ProposalDevelopmentNotificationRenderer) context.getRenderer()).setModifiedNarrative(narrative);
-
-            ((ProposalDevelopmentNotificationRenderer) context.getRenderer()).setDevelopmentProposal(form.getProposalDevelopmentDocument().getDevelopmentProposal());
-            if (form.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
-                form.getNotificationHelper().initializeDefaultValues(context);
-                form.setSendNarrativeChangeNotification(true);
-            }
-            else {
-                getKcNotificationService().sendNotification(context);
-            }
+            getGlobalVariableService().getMessageMap().merge(messages);
         }
         return super.save(form);
     }
@@ -354,18 +381,21 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         biography.setUpdateUser(globalVariableService.getUserSession().getPrincipalName());
         biography.setUpdateTimestamp(getDateTimeService().getCurrentTimestamp());
         getDataObjectService().wrap(biography).fetchRelationship(ProposalDevelopmentConstants.KradConstants.PROP_PER_DOC_TYPE);
-        try {
+        final MessageMap messages = multipartFileValidationService.validateMultipartFile(ATTACHMENT_FILE, biography.getMultipartFile());
+
+        if (!messages.hasMessages()) {
             biography.init(biography.getMultipartFile());
-            ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).updateAttachmentInformation(biography.getPersonnelAttachment());
-        } catch (Exception e) {
-            LOG.info("No File Attached");
-        }
-        if (getKualiRuleService().applyRules(new AddPersonnelAttachmentEvent(ProposalDevelopmentConstants.KradConstants.PROPOSAL_DEVELOPMENT_ATTACHMENT_HELPER_BIOGRAPHY,form.getProposalDevelopmentDocument(),biography))){
-            form.getDevelopmentProposal().getPropPersonBios().set(selectedLineIndex, biography);
-            form.getProposalDevelopmentAttachmentHelper().reset();
+            ((ProposalDevelopmentViewHelperServiceImpl) form.getViewHelperService()).updateAttachmentInformation(biography.getPersonnelAttachment());
+
+            if (getKualiRuleService().applyRules(new AddPersonnelAttachmentEvent(ProposalDevelopmentConstants.KradConstants.PROPOSAL_DEVELOPMENT_ATTACHMENT_HELPER_BIOGRAPHY, form.getProposalDevelopmentDocument(), biography))) {
+                form.getDevelopmentProposal().getPropPersonBios().set(selectedLineIndex, biography);
+                form.getProposalDevelopmentAttachmentHelper().reset();
+            } else {
+                form.setUpdateComponentId(ProposalDevelopmentConstants.KradConstants.PROP_DEV_ATTACHMENTS_PAGE_PERSONNEL_DETAILS);
+                form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATECOMPONENT.getKey());
+            }
         } else {
-            form.setUpdateComponentId(ProposalDevelopmentConstants.KradConstants.PROP_DEV_ATTACHMENTS_PAGE_PERSONNEL_DETAILS);
-            form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATECOMPONENT.getKey());
+            getGlobalVariableService().getMessageMap().merge(messages);
         }
         return super.save(form);
     }
@@ -375,14 +405,17 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         Narrative narrative = form.getProposalDevelopmentAttachmentHelper().getInstituteAttachment();
         int selectedLineIndex = Integer.parseInt(form.getProposalDevelopmentAttachmentHelper().getSelectedLineIndex());
         getDataObjectService().wrap(narrative).fetchRelationship(ProposalDevelopmentConstants.KradConstants.NARRATIVE_TYPE);
-        try {
+        final MessageMap messages = multipartFileValidationService.validateMultipartFile(ATTACHMENT_FILE, narrative.getMultipartFile());
+
+        if (!messages.hasMessages()) {
             narrative.init(narrative.getMultipartFile());
-            ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).updateAttachmentInformation(narrative.getNarrativeAttachment());
-        } catch (Exception e) {
-            LOG.info("No File Attached");
+            ((ProposalDevelopmentViewHelperServiceImpl) form.getViewHelperService()).updateAttachmentInformation(narrative.getNarrativeAttachment());
+
+            form.getDevelopmentProposal().getInstituteAttachments().set(selectedLineIndex, narrative);
+            form.getProposalDevelopmentAttachmentHelper().reset();
+        } else {
+            getGlobalVariableService().getMessageMap().merge(messages);
         }
-        form.getDevelopmentProposal().getInstituteAttachments().set(selectedLineIndex,narrative);
-        form.getProposalDevelopmentAttachmentHelper().reset();
         return super.save(form);
     }
 
@@ -402,7 +435,9 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         Note note = form.getProposalDevelopmentAttachmentHelper().getNote();
         int selectedLineIndex = Integer.parseInt(form.getProposalDevelopmentAttachmentHelper().getSelectedLineIndex());
 
-        form.getProposalDevelopmentDocument().getNotes().set(selectedLineIndex, note);
+        @SuppressWarnings("unchecked")
+        final List<Note> notes = form.getProposalDevelopmentDocument().getNotes();
+        notes.set(selectedLineIndex, note);
         form.getProposalDevelopmentAttachmentHelper().reset();
 
         return getRefreshControllerService().refresh(form);
@@ -416,6 +451,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
 
         ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).toggleAttachmentFile(form, collectionPath, selectedLine);
+        @SuppressWarnings("unchecked")
         List<ProposalDevelopmentAttachment> attachments = (List<ProposalDevelopmentAttachment>)PropertyUtils.getNestedProperty(form, collectionPath);
         attachments.get(Integer.parseInt(selectedLine)).setMultipartFile(null);
 
@@ -428,6 +464,8 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         String selectedLine = form.getProposalDevelopmentAttachmentHelper().getSelectedLineIndex();
 
         ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).toggleAttachmentFile(form, ProposalDevelopmentConstants.PropertyConstants.NARRATIVES, form.getProposalDevelopmentAttachmentHelper().getSelectedLineIndex());
+
+        @SuppressWarnings("unchecked")
         List<ProposalDevelopmentAttachment> attachments = (List<ProposalDevelopmentAttachment>)PropertyUtils.getNestedProperty(form, collectionPath);
         attachments.get(Integer.parseInt(selectedLine)).setMultipartFile(null);
 
@@ -454,7 +492,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         form.getDevelopmentProposal().populatePersonNameForNarrativeUserRights(Integer.parseInt(selectedLine));
         Narrative selectedNarrative= form.getDevelopmentProposal().getNarratives().get(Integer.parseInt(selectedLine));
 
-        List<NarrativeUserRights> editableRights = new ArrayList<NarrativeUserRights>();
+        List<NarrativeUserRights> editableRights = new ArrayList<>();
         for (NarrativeUserRights right : selectedNarrative.getNarrativeUserRights()) {
             NarrativeUserRights editableRight = new NarrativeUserRights();
             PropertyUtils.copyProperties(editableRight,right);
@@ -487,7 +525,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         form.getDevelopmentProposal().populatePersonNameForInstituteAttachmentUserRights(Integer.parseInt(selectedLine));
         Narrative selectedNarrative= form.getDevelopmentProposal().getInstituteAttachment(Integer.parseInt(selectedLine));
 
-        List<NarrativeUserRights> editableRights = new ArrayList<NarrativeUserRights>();
+        List<NarrativeUserRights> editableRights = new ArrayList<>();
         for (NarrativeUserRights right : selectedNarrative.getNarrativeUserRights()) {
             NarrativeUserRights editableRight = new NarrativeUserRights();
             PropertyUtils.copyProperties(editableRight,right);
@@ -539,13 +577,4 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
     public void setKualiRuleService(KualiRuleService kualiRuleService) {
         this.kualiRuleService = kualiRuleService;
     }
-
-    public PersonService getPersonService() {
-        return personService;
-    }
-
-    public void setPersonService(PersonService personService) {
-        this.personService = personService;
-    }
-
 }
