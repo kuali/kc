@@ -142,11 +142,11 @@ public class BudgetPeriodRule {
             rulePassed = false;
         } else if (!isValidBudgetPeriodBoundaries(budget, BUDGET_PERIOD_ERROR_PATH_PREFIX)){
             rulePassed = false;
-        } else if (!doBudgetPeriodsCoverProposal(budget)) {
-            rulePassed = false;
         }
         if (!budget.isProposalBudget()) {
             rulePassed &= isValidBudgetPeriodCostLimit(budget, event.getErrorPath());
+        } else {
+            rulePassed &= doBudgetPeriodsCoverProposal(budget);
         }
 
         return rulePassed;
@@ -222,6 +222,9 @@ public class BudgetPeriodRule {
     }
 
     protected boolean doBudgetPeriodsCoverProposal(Budget budget) {
+        if (CollectionUtils.isEmpty(budget.getBudgetPeriods())) {
+            return false;
+        }
         List<BudgetPeriod> sortedBudgetPeriods = budget.getBudgetPeriods()
                 .stream()
                 .sorted((period1, period2) -> period1.getStartDate().compareTo(period2.getStartDate())).collect(Collectors.toList());
