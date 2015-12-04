@@ -40,7 +40,7 @@ import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.questionnaire.framework.question.Question;
 import org.kuali.coeus.common.questionnaire.framework.question.QuestionExplanation;
-import org.apache.log4j.Logger;
+import org.kuali.coeus.propdev.impl.attachment.MultipartFileValidationService;
 import org.kuali.coeus.propdev.impl.attachment.ProposalDevelopmentAttachmentHelper;
 import org.kuali.coeus.propdev.impl.auth.perm.ProposalDevelopmentPermissionsService;
 import org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataGroupDto;
@@ -101,8 +101,8 @@ import org.springframework.stereotype.Service;
 public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServiceImpl implements ProposalDevelopmentViewHelperService {
 
     private static final long serialVersionUID = -5122498699317873886L;
-    private static final Logger LOG = Logger.getLogger(ProposalDevelopmentViewHelperServiceImpl.class);
     private static final String PARENT_PROPOSAL_TYPE_CODE = "PRDV";
+    private static final String ATTACHMENT_FILE = "multipartFile";
 
     @Autowired
     @Qualifier("dateTimeService")
@@ -181,6 +181,10 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     @Autowired
     @Qualifier("proposalPersonCoiIntegrationService")
     ProposalPersonCoiIntegrationService proposalPersonCoiIntegrationService;
+
+    @Autowired
+    @Qualifier("multipartFileValidationService")
+    private MultipartFileValidationService multipartFileValidationService;
 
     @Override
     public void processBeforeAddLine(ViewModel model, Object addLine, String collectionId, final String collectionPath) {
@@ -351,16 +355,26 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     public void processAfterSaveLine(ViewModel model, Object lineObject, String collectionId, String collectionPath) {
            getDataObjectService().save(lineObject);
            if (lineObject instanceof ProposalPersonBiography) {
-               try {
-                   ((ProposalPersonBiography)lineObject).init(((ProposalPersonBiography) lineObject).getMultipartFile());
-               } catch (Exception e) {
-                   LOG.info("No File Attached");
+               final MessageMap messages = multipartFileValidationService.validateMultipartFile(ATTACHMENT_FILE, ((ProposalPersonBiography) lineObject).getMultipartFile());
+               if (!messages.hasMessages()) {
+                   try {
+                       ((ProposalPersonBiography)lineObject).init(((ProposalPersonBiography) lineObject).getMultipartFile());
+                   } catch (Exception e) {
+                       throw new RuntimeException(e);
+                   }
+               } else {
+                   getGlobalVariableService().getMessageMap().merge(messages);
                }
            } else if (lineObject instanceof  Narrative) {
-               try {
-                   ((Narrative)lineObject).init(((Narrative) lineObject).getMultipartFile());
-               } catch (Exception e) {
-                   LOG.info("No File Attached");
+               final MessageMap messages = multipartFileValidationService.validateMultipartFile(ATTACHMENT_FILE, ((Narrative) lineObject).getMultipartFile());
+               if (!messages.hasMessages()) {
+                   try {
+                       ((Narrative)lineObject).init(((Narrative) lineObject).getMultipartFile());
+                   } catch (Exception e) {
+                       throw new RuntimeException(e);
+                   }
+               } else {
+                   getGlobalVariableService().getMessageMap().merge(messages);
                }
            }
     }
@@ -1081,5 +1095,21 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
 
     public void setProposalPersonCoiIntegrationService(ProposalPersonCoiIntegrationService proposalPersonCoiIntegrationService) {
         this.proposalPersonCoiIntegrationService = proposalPersonCoiIntegrationService;
+    }
+
+    public MultipartFileValidationService getMultipartFileValidationService() {
+        return multipartFileValidationService;
+    }
+
+    public void setMultipartFileValidationService(MultipartFileValidationService multipartFileValidationService) {
+        this.multipartFileValidationService = multipartFileValidationService;
+    }
+
+    public KcAuthorizationService getKraAuthorizationService() {
+        return kraAuthorizationService;
+    }
+
+    public void setKraAuthorizationService(KcAuthorizationService kraAuthorizationService) {
+        this.kraAuthorizationService = kraAuthorizationService;
     }
 }
