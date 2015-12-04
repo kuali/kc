@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* Getting stack trace error when trying to create budget
+  * Joe Williams on Fri, 4 Dec 2015 11:48:38 -0600 [View Commit](../../commit/1a3572e6deb7a2e4735f3075dfedd2ab229d117a)
+
+##coeus-1512.21
 * PD - "Save" button and proposal person certification "Clear All Answers" button is enabled in view mode.
   * Updating changes along with merged MIT code for certification where investigators should be able to make changes to certification
   * questions in view mode. Changes are allowed only when proposal is pending
