@@ -649,7 +649,7 @@
                       p:order="20" />
                 <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="clearAnswers" p:actionLabel="Clear All Answers"
                       p:actionParameters="personNumber:@{(#line.proposalPersonNumber)}"
-                      p:render="@{!#ViewHelper.isCertQuestViewOnly(document,#line)  and !document.developmentProposal.isChild() and !#parent.readOnly}"
+                      p:render="@{!document.developmentProposal.isChild() and (!#parent.readOnly or #editModes[#proposalAuthConsts.CAN_SAVE_CERTIFICATION])}"
                       p:order="30">
                     <property name="confirmationDialog">
                         <bean parent="Uif-DialogGroup-OkCancel" p:promptText="Are you sure you want to clear all the answers?"/>
@@ -657,8 +657,14 @@
                 </bean>
                 <bean parent="Questionnaire-QuestionsGroup" p:propertyName="questionnaireHelper.answerHeaders[0].questions"
                       p:render="@{#ViewHelper.renderQuestionnaire(#line)}"
-                      p:readOnly="@{document.developmentProposal.isChild() or (#parent.readOnly and !#editModes[#proposalAuthConsts.CAN_SAVE_CERTIFICATION])}"
-                      p:order="40" />
+                      p:order="40">
+                      <property name="subCollections">
+						<list>
+							<bean parent="PropDev-PersonnelPage-Questionnaire-SubCollection" p:order="10"/>
+						</list>
+					</property> 
+                      
+                 </bean>
             </list>
         </property>
     </bean>
@@ -675,12 +681,15 @@
             </property>
     </bean>
 
-    <bean id="proposalPersonQuestionnaire-SubCollection-parentBean" parent="Questionnaire-SubCollection-parentBean">
+	<bean id="PropDev-PersonnelPage-Questionnaire-SubCollection" parent="PropDev-PersonnelPage-Questionnaire-SubCollection-parentBean"/>
+    <bean id="PropDev-PersonnelPage-Questionnaire-SubCollection-parentBean" abstract="true" parent="Questionnaire-SubCollection-parentBean">
 		<property name="items">
 			<list>
                 <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.getQuestionMoreInfo(#lp.questionnaireQuestion.question)}"
                         p:hidden="true"/>
-				<bean id="proposalPersonQuestionnaire-InputField" parent="Questionnaire-InputField-parentBean" p:readOnly="@{document.developmentProposal.isChild() or document.getCertifyViewOnly()}" p:order="10" />
+				<bean id="proposalPersonQuestionnaire-InputField" parent="Questionnaire-InputField-parentBean" 
+                    p:readOnly="@{document.developmentProposal.isChild() and (#parent.readOnly or !#editModes[#proposalAuthConsts.CAN_SAVE_CERTIFICATION])}"
+					p:order="10" />
                 <bean parent="Uif-InputField" p:propertyName="question.lookupReturn" p:fieldLabel.render="false">
                     <property name="control">
                         <bean parent="Uif-HiddenControl" />
