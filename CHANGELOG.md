@@ -1,6 +1,33 @@
 
 
 ##CURRENT
+*  Indirect cost base calculation.
+  * In KC budget, in the line item details (both in Non-Personnel Costs and SPE screens) or personnel group Details & Rates, if you uncheck the "Apply Rate" box for MTDC, the IDC in the budget is correctly adjusted to exclude the unchecked amounts.
+  * However, when you print the budget forms, the full Indirect Cost Base is still populating in the Indirect Cost Base section when the unapplied item is an Other Direct Cost expense. When Personnel expenses use the 'unapply rate' option, the Base is incorrect by an undetermined amount. Please investigate.
+  * The MTDC costs rate amounts that are unchecked for Apply Rates should not appear on the budget form Indirect Cost Base fields.
+  * Screenshot attached for Budget Versions > Print > Budget Summary Report (report 4 on the list).
+  * Steps to reproduce: (See proposal #830 in Res Demo 1)
+  * Create a budget for a research proposal
+  * Add a Personnel, and assign them to the period.
+  * Once added, click Details & Rates to open that window. Click on the Rates tab and uncheck the "Apply" box for MTDC. Save.
+  * Add some other personnel, but do not unapply their MTDC rates.
+  * Save ( you can autogenerate periods or just review P1)
+  * Toolbar > Budget Versions > Print > #4 Budget Summary Report > Create PDF.
+  * ON p2 in the methodology - review the total exemptions to F&A. Subtract that value from the Total Direct Costs on P1.
+  * Review the F&A Base in the next section on the form: it does not match your calculated amount.
+  * Calculate the printed amount x the F&A rate: compare that to the published amount: that doesn't add up either.
+  * Scenario 2:
+  * Create another budget version.
+  * Do not add personnel
+  * Add Other Direct Cost items that will bear overhead, like M&S or Travel
+  * Once added, click'details' and unapply the MTDC.
+  * Print the #4 report.
+  * Note that in this example, clearly the unapplied line item is not excluded from the F&A base in the next section.
+  * Gayathri Athreya on Thu, 3 Dec 2015 12:54:46 -0700 [View Commit](../../commit/8a25dc7af07b8a3f4f2a42a20772245acc8aab6e)
+* View S2S Submission Search
+  * blackcathacker on Thu, 3 Dec 2015 18:13:53 -0800 [View Commit](../../commit/eaf60b2c969dd0b14725716f3e3f9b40e6dee36f)
+
+##coeus-1512.19
 * Fix null pointer and not mess up situations wher eUR and OH rate are same.
   * Gayathri Athreya on Thu, 3 Dec 2015 19:00:59 -0700 [View Commit](../../commit/f776fa98ebbb923cbcf571b1fe8d44b1d5235f57)
 

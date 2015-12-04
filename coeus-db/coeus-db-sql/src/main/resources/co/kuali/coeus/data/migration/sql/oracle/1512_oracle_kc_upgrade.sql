@@ -22,4 +22,5 @@ set sqlblanklines on
 
 spool 1512_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V1512_002__RESKC-486.sql
+@./kc/bootstrap/V1512_003__RESKC-791.sql
 commit;
