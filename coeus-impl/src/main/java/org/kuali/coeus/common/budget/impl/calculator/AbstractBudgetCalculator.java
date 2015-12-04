@@ -500,18 +500,20 @@ public abstract class AbstractBudgetCalculator {
     Unrecovered F & A Rate - F&A Rate = underrecovery. This method gets the unrecoveredF&A rate.
      */
     public void setUnderrecoveryRateBean(QueryList<BudgetRate> lineItemPropRates, Boundary boundary, BreakUpInterval breakUpInterval) {
-        setEmptyUnderrecoveryRate(breakUpInterval);
         QueryList<ValidCeRateType> underrecoveryRates = getUnderrecoveryRateMappedToCostElement(new QueryList<>(budgetLineItem.getCostElementBO().getValidCeRateTypes()));
         // get the rate class, rate type from the cost element and use that.
-        if (!isUndercoveryMatchesOverhead() && !underrecoveryRates.isEmpty()) {
-            // you cannot have more than one rate mapped to this cost element, so always use the first.
-            // if there's more than one mapped, it is wrong.
-            QueryList<BudgetRate> underRecoveryRates = getUnderrecoveryRatesFromPropRates(lineItemPropRates, underrecoveryRates);
-            if (CollectionUtils.isNotEmpty(underRecoveryRates)) {
-                QueryList filteredUnderrecoveryRates = filterUnderrecoveryByEndDate(boundary, underRecoveryRates);
-                if (CollectionUtils.isNotEmpty(filteredUnderrecoveryRates)) {
-                    filteredUnderrecoveryRates.sort(START_DATE, false);
-                    breakUpInterval.setURRatesBean((BudgetRate) filteredUnderrecoveryRates.get(0));
+        if (!isUndercoveryMatchesOverhead()) {
+            setEmptyUnderrecoveryRate(breakUpInterval);
+            if (!underrecoveryRates.isEmpty()) {
+                // you cannot have more than one rate mapped to this cost element, so always use the first.
+                // if there's more than one mapped, it is wrong.
+                QueryList<BudgetRate> underRecoveryRates = getUnderrecoveryRatesFromPropRates(lineItemPropRates, underrecoveryRates);
+                if (CollectionUtils.isNotEmpty(underRecoveryRates)) {
+                    QueryList filteredUnderrecoveryRates = filterUnderrecoveryByEndDate(boundary, underRecoveryRates);
+                    if (CollectionUtils.isNotEmpty(filteredUnderrecoveryRates)) {
+                        filteredUnderrecoveryRates.sort(START_DATE, false);
+                        breakUpInterval.setURRatesBean((BudgetRate) filteredUnderrecoveryRates.get(0));
+                    }
                 }
             }
         }
