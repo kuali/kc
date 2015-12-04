@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* PD - S2S Forms when USer Attached Include column should show YES or be editable by OSP
+  * Fix is have to checkbox be automatically selected when a user adds via user attached forms.
+  * rmancher on Wed, 2 Dec 2015 17:39:50 -0500 [View Commit](../../commit/73355557e537041475122cda2532dfff686b83b5)
+
+##coeus-1512.22
 * Getting stack trace error when trying to create budget
   * Joe Williams on Fri, 4 Dec 2015 11:48:38 -0600 [View Commit](../../commit/1a3572e6deb7a2e4735f3075dfedd2ab229d117a)
 
