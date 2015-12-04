@@ -32,6 +32,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.kim.bo.KcKimAttributes;
+import org.kuali.rice.core.api.criteria.AndPredicate;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -178,18 +179,19 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
 
         if ((StringUtils.isBlank(proposalNumberCriteria) || proposalNumberWildcarded)
                 && documentNumbers.size() > 0) {
-            if (modifiedSearchCriteria.size() > 0){
-                List<Predicate> predicateList = Arrays.asList(query.getPredicates());
-                predicateList.add(PredicateFactory.in(PROPOSAL_DOCUMENT_DOCUMENT_NUMBER, documentNumbers));
-                query.setPredicates(PredicateFactory.and(predicateList.toArray(new Predicate[predicateList.size()])));
+            final Predicate documentNumberPredicate = PredicateFactory.in(PROPOSAL_DOCUMENT_DOCUMENT_NUMBER, documentNumbers);
+			if (modifiedSearchCriteria.size() > 0){
+                addPredicate(documentNumberPredicate, query);
             }
             else{
-                query.setPredicates(PredicateFactory.in(PROPOSAL_DOCUMENT_DOCUMENT_NUMBER, documentNumbers));
+                query.setPredicates(documentNumberPredicate);
             }
         }
 
         final java.util.function.Predicate<DevelopmentProposal> statusCodePredicate = ((java.util.function.Predicate<DevelopmentProposal>) proposal -> StringUtils.isBlank(hierarchyAwareProposalStatusCode))
                 .or(proposal -> proposal.getHierarchyAwareProposalStatus().getCode().equals(hierarchyAwareProposalStatusCode));
+        
+        modifyCriteria(query);
 
         final List<DevelopmentProposal> proposals = getDataObjectService().findMatching(DevelopmentProposal.class, query.build()).getResults().stream()
                 .filter(statusCodePredicate)
@@ -204,6 +206,28 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
 
         return doNotFilter ? proposals : filterPermissions(proposals);
 
+    }
+
+	protected void addPredicate(final Predicate predicate, QueryByCriteria.Builder query) {
+		if (query.getPredicates().length != 0) {
+			//special case to work around a bug in Rice where an empty search criteria is a single And predicate with no members
+			//and wrapping that empty And and the new predicate together in a new And causes an exception in DoService
+			if (query.getPredicates()[0] instanceof AndPredicate && ((AndPredicate)query.getPredicates()[0]).getPredicates().size() == 0) {
+				Predicate[] predicates = query.getPredicates();
+				predicates[0] = predicate;
+				query.setPredicates(predicates);
+			} else {
+				List<Predicate> predicateList = new ArrayList<>(Arrays.asList(query.getPredicates()));
+				predicateList.add(predicate);
+				query.setPredicates(PredicateFactory.and(predicateList.toArray(new Predicate[predicateList.size()])));
+			}
+		} else {
+			query.setPredicates(predicate);
+		}
+	}
+    
+    protected void modifyCriteria(QueryByCriteria.Builder query) {
+    	//noop default implementation
     }
 
     private Collection<DevelopmentProposal> filterPermissions(Collection<DevelopmentProposal> results) {
