@@ -1,6 +1,34 @@
 
 
 ##CURRENT
+*  PD - Budget Underrecovered F&A error warning that Fiscal Year outside of project period is not correct.
+
+  * By default, when UR is present in the budget, this screen generates rows pairs for On and Off Campus rates (as maintained): One (1) pair for each Fiscal Year present at the Project Year Start.
+           Users may delete any row, and add new rows.
+           But the user is not allowed to enter a Fiscal Year that is outside the range of the project period.
+           *Currently, the system is not recognizing all applicable FY's for budgets.
+           It seems to be restricting the user to FY's that match Calendar Year Start Dates for project periods*.
+           (See proposal #896 in Res Demo 1 on build 1509.42 09-18-2015 10:25
+           To Reproduce:
+           Create a activity type = Research with Start Date of 10/1/2015 and End Date of 9/30/2019.
+           Create a detailed budget
+           Change the MTDC rate to LESS than the institute rate.
+           Add a Non-personnel Line item
+           Generate all periods (autocalculate periods)
+           Open the Institutional Commitments > Underrecovered F&A
+           (Note the default rows for eligible Fiscal Years align with the Start Date of each period.)
+           Maintain the source and amounts in each row
+           Add a new row and enter FY 2020 - which does fall within this project period and can be found in the Rate > Inflation table
+           distribute some details in the FY 2020 row
+           Save
+           Turn on Validations
+           Result: error warnings state that the Fiscal Year is outside the project period.
+           Desired Results;
+           The system should recognize all applicable FY's - not just those that match the period start date year.
+           (Note: I was able to add 2015 FY row to this proposal, even though that year is NOT valid for this range starting 10/15).
+  * Travis Schneeberger on Fri, 4 Dec 2015 14:43:58 -0500 [View Commit](../../commit/7c677f39874563c5f89fc1e5e0a38038337c0a86)
+
+##coeus-1512.23
 * PD - S2S Forms when USer Attached Include column should show YES or be editable by OSP
   * Fix is have to checkbox be automatically selected when a user adds via user attached forms.
   * rmancher on Wed, 2 Dec 2015 17:39:50 -0500 [View Commit](../../commit/73355557e537041475122cda2532dfff686b83b5)
