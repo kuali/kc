@@ -368,11 +368,11 @@
  <bean id="SubAwardAmountReleased-inquiryDefinition" parent="SubAwardAmountReleased-inquiryDefinition-parentBean" />
   <bean id="SubAwardAmountReleased-InquiryView" parent="SubAwardAmountReleased-InquiryView-parentBean"/>
   <bean id="SubAwardAmountReleased-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="SubAwardAmountReleased" />
+    <property name="title" value="Subaward Invoice" />
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="SubAwardAmountReleased" />
+          <property name="title" value="Subaward Invoice" />
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
@@ -393,12 +393,12 @@
   </bean>
   
   <bean id="SubAwardAmountReleased-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
-    <property name="headerText" value="SubAwardAmountReleased"/>
+    <property name="headerText" value="Subaward Invoice"/>
     <property name="dataObjectClassName" value="org.kuali.kra.subaward.bo.SubAwardAmountReleased"/>
     <property name="items">
       <list>
         <bean parent="Uif-Disclosure-GridSection">
-          <property name="headerText" value="SubAwardAmountReleased"/>
+          <property name="headerText" value="Subaward Invoice"/>
           <property name="layoutManager.numberOfColumns" value="2"/>
           <property name="items">
             <list>

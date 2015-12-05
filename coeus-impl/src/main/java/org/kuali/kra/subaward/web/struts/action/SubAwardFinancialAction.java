@@ -46,15 +46,6 @@ public class SubAwardFinancialAction extends SubAwardAction{
     
     private static final String LINE_NUMBER = "line";
 
-    /**.
-     * This method is for addAmountInfo
-     * @param mapping the ActionMapping
-     * @param form the ActionForm
-     * @param request the Request
-     * @param response the Response
-     * @return
-     * @throws Exception
-     */
     public ActionForward addAmountInfo(ActionMapping mapping,
     ActionForm form, HttpServletRequest request,
     HttpServletResponse response) throws Exception {
@@ -68,12 +59,7 @@ public class SubAwardFinancialAction extends SubAwardAction{
         KcServiceLocator.getService(SubAwardService.class).getAmountInfo(subAwardForm.getSubAwardDocument().getSubAward());
         return mapping.findForward(Constants.MAPPING_FINANCIAL_PAGE);
      }
-    /**.
-     * This method is for addAmountInfoToSubAward
-     * @param subAward the SubAward
-     * @param amountInfo the SubAwardAmountInfo
-     * @return boolean
-     */
+
     boolean addAmountInfoToSubAward(SubAward subAward,SubAwardAmountInfo amountInfo){
         amountInfo.setSubAward(subAward);
         amountInfo.populateAttachment();
@@ -100,15 +86,7 @@ public class SubAwardFinancialAction extends SubAwardAction{
         saveSubAwardAmountInfo(subAwardAmountInfo);
         return mapping.findForward(Constants.MAPPING_FINANCIAL_PAGE);
     }
-    /**.
-     * This method is for addAmountReleased
-     * @param mapping the ActionMapping
-     * @param form the ActionForm
-     * @param request the Request
-     * @param response the Response
-     * @return ActionForward
-     * @throws Exception
-     */
+
     public ActionForward addAmountReleased(ActionMapping mapping,
     		ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -124,23 +102,14 @@ public class SubAwardFinancialAction extends SubAwardAction{
         }
         return null;
     }
-    
-    /**.
-     * Open amount released, or invoice
-     * @param mapping the ActionMapping
-     * @param form the ActionForm
-     * @param request the Request
-     * @param response the Response
-     * @return ActionForward
-     * @throws Exception
-     */
+
     public ActionForward openAmountReleased(ActionMapping mapping,
             ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
         SubAwardForm subAwardForm = (SubAwardForm) form;
         SubAward subAward = subAwardForm.getSubAwardDocument().getSubAward();
-        Integer invoiceIdx = null;
+        final Integer invoiceIdx;
         if (request.getParameter("line") != null) {
             invoiceIdx = Integer.parseInt(request.getParameter("line"));
         } else {
@@ -150,7 +119,7 @@ public class SubAwardFinancialAction extends SubAwardAction{
         String backUrl = URLEncoder.encode(buildActionUrl(subAward.getSubAwardDocument().getDocumentNumber(), Constants.MAPPING_FINANCIAL_PAGE, "SubAwardDocument"), StandardCharsets.UTF_8.name());
         response.sendRedirect("kr/maintenance.do?methodToCall=docHandler&docId=" + invoice.getDocumentNumber() + "&command=displayDocSearchView&backLocation=" + backUrl);
         return null;
-    }    
+    }
 
     public ActionForward downloadHistoryOfChangesAttachment(
     	ActionMapping mapping, ActionForm form, HttpServletRequest request,
@@ -170,15 +139,6 @@ public class SubAwardFinancialAction extends SubAwardAction{
         return null;
     }
 
-       /**.
-     * This method is for replaceHistoryOfChangesAttachment
-      * @param mapping the ActionMapping
-     * @param form the ActionForm
-     * @param request the Request
-     * @param response the Response
-     * @return ActionForward
-     * @throws Exception
-     */
     public ActionForward replaceHistoryOfChangesAttachment(
     	ActionMapping mapping, ActionForm form, HttpServletRequest request,
                HttpServletResponse response) throws Exception {
@@ -188,16 +148,7 @@ public class SubAwardFinancialAction extends SubAwardAction{
            subAwardAmountInfo.populateAttachment();
            saveSubAwardAmountInfo(subAwardAmountInfo);
            return mapping.findForward(MAPPING_BASIC);
-       }
-       /**.
-     * This method is for downloadInvoiceAttachment
-     * @param mapping the ActionMapping
-     * @param form the ActionForm
-     * @param request the Request
-     * @param response the Response
-     * @return ActionForward
-     * @throws Exception
-     */
+    }
 
     public ActionForward downloadInvoiceAttachment(ActionMapping mapping,
      ActionForm form, HttpServletRequest request,
@@ -221,15 +172,6 @@ public class SubAwardFinancialAction extends SubAwardAction{
         return null;
     }
 
-       /**.
-     * This method is for replaceInvoiceAttachment
-     * @param mapping the ActionMapping
-     * @param form the ActionForm
-     * @param request the Request
-     * @param response the Response
-     * @return ActionForward
-     * @throws Exception
-     */
     public ActionForward replaceInvoiceAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
                HttpServletResponse response) throws Exception {
            SubAwardForm subAwardForm = (SubAwardForm) form;

@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
    - Kuali Coeus, a comprehensive research administration system for higher education.
    - 
@@ -84,7 +85,9 @@
 			   <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountReleasedAttributes.invoiceStatus}" noColon="true" readOnly="true"/></div></th>               
                <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountReleasedAttributes.newFile}" noColon="true" readOnly="true"/></div></th>
             </tr>
-   			
+
+		  	<c:set var="useInvoiceInquiry" value="${KualiForm.useInvoiceInquiry}" />
+
    			<c:forEach var="subAwardInvoice" items="${KualiForm.document.subAwardList[0].subAwardAmountReleasedList}" varStatus="status">
    					<tbody class="docStatus${subAwardInvoice.invoiceStatus}">
 		             <tr>
@@ -92,7 +95,18 @@
 							<c:out value="${status.index+1}" />
 						</th>
 						<td style="text-align: center;" rowspan="2">
-							<a href="#" onClick="openNewWindow('subAwardFinancial','openAmountReleased','${status.index}','${KualiForm.formKey}','${KualiForm.document.sessionDocument}');return false;">open</a> 
+							<c:if test="${not useInvoiceInquiry}">
+							    <a href="#" onClick="openNewWindow('subAwardFinancial','openAmountReleased','${status.index}','${KualiForm.formKey}','${KualiForm.document.sessionDocument}');return false;">open</a>
+							</c:if>
+
+							<c:if test="${useInvoiceInquiry}">
+								<input type="hidden" name="document.subAwardList[0].subAwardAmountReleasedList[${status.index}].subAwardAmtReleasedId" value="${subAwardInvoice.subAwardAmtReleasedId}" />
+								<c:set var="boClassName" value="org.kuali.kra.subaward.bo.SubAwardAmountReleased"/>
+								<c:set var="inquiryParameters" value="document.subAwardList[0].subAwardAmountReleasedList[${status.index}].subAwardAmtReleasedId:subAwardAmtReleasedId"/>
+								<c:set var="epMethodToCallAttribute" value="methodToCall.performInquiry.(!!${boClassName}!!).((`${inquiryParameters}`)).anchor${status.index}"/>
+									${kfunc:registerEditableProperty(KualiForm, epMethodToCallAttribute)}
+								<a href="#" onclick="javascript:inquiryPop('${boClassName}','${inquiryParameters}'); return false">view</a>
+							</c:if>
 						</td>	                
 		                <td>
 						<div align="center">
