@@ -19,4 +19,5 @@
 
 
 \. ./rice/bootstrap/V1512_001__RESKC-979.sql
+\. ./rice/bootstrap/V1512_004__invoice_inquiry.sql
 commit;

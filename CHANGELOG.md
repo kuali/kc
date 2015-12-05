@@ -1,6 +1,18 @@
 
 
 ##CURRENT
+*  Either display subaward invoice 'open' link to open an invoice document or a  subaward invoice 'view' link that does an inquiry.  This supports invoices that do not have corresponding maintenance documents. This feature is controlled by a parameter.
+
+  * As a customer with migrated data in the Subaward Module, I need to be able to review my prior invoice entry data on current and prior invoices. In the current version, when I use the 'open' link to generate a view of the invoice entry screen, I get an error message..
+           Please provide an 'inquiry' view option for migrated Subaward Invoice data.
+           Subaward > Financial tab > Invoices panel
+           User was unable to select the OPEN link in the right-hand column of the financial tab/invoice panel.
+           By selecting the open link on migrated data, the user receives an error message.
+           The link should bring the user to the details of the invoice in KC.
+           The link will generate a view for invoices created after go live weekend (5/3/15). However, the invoices migrated do not open.
+  * Travis Schneeberger on Fri, 4 Dec 2015 16:22:57 -0500 [View Commit](../../commit/e17b97e4209bccd2895419b17770a10894fbc04c)
+
+##coeus-1512.25
 *  Preventing empty files from being uploaded.
   * Travis Schneeberger on Fri, 4 Dec 2015 09:55:48 -0500 [View Commit](../../commit/687c8f6f5ffefec0206b5b4c7be03f7b8712d491)
 *  Users are unable to create a Parent Proposal from a Child Proposal that includes a PERSONNEL attachment(s). When users try, they get the STE identified below.
