@@ -105,10 +105,9 @@ public abstract class AbstractBudgetCalculator {
      * @return
      */
     public QueryList filterRates(List rates) {
-        String activityTypeCode = budget.getBudgetParent().getActivityTypeCode();
         if (!rates.isEmpty() && rates.get(0) instanceof BudgetRate) {
-            QueryList qList = filterRates(rates, budgetLineItem.getEndDate(), activityTypeCode);
-            if (qList.isEmpty() && !budget.getActivityTypeCode().equals(activityTypeCode)) {
+            QueryList qList = filterRates(rates, budgetLineItem.getEndDate(), getActivityTypeCodeFromParent());
+            if (qList.isEmpty() && !budget.getActivityTypeCode().equals(getActivityTypeCodeFromParent())) {
                 qList = filterRates(rates, budgetLineItem.getEndDate(), budget.getActivityTypeCode());
             }
             return qList;
@@ -116,6 +115,10 @@ public abstract class AbstractBudgetCalculator {
         else {
             return filterRates(rates, budgetLineItem.getEndDate(), null);
         }
+    }
+
+    protected String getActivityTypeCodeFromParent() {
+        return budget.getBudgetParent().getActivityTypeCode();
     }
 
     protected QueryList filterRates(List rates, Date lineItemEndDate, String activityTypeCode) {
@@ -800,7 +803,7 @@ public abstract class AbstractBudgetCalculator {
         for (ValidCeRateType validCeRateType : rateTypes) {
             String rateClassType = validCeRateType.getRateClass().getRateClassTypeCode();
             if(rateClassType.equals(RateClassType.OVERHEAD.getRateClassType()) && 
-                    !budget.getBudgetParent().isProposalBudget()){
+                    !isProposalBudget()){
                 addOHBudgetLineItemCalculatedAmountForAward( validCeRateType.getRateClassCode(), validCeRateType.getRateType(), 
                         validCeRateType.getRateClass().getRateClassTypeCode());
             }else{
@@ -808,6 +811,10 @@ public abstract class AbstractBudgetCalculator {
                                             validCeRateType.getRateClass().getRateClassTypeCode());
             }
         }
+    }
+
+    protected boolean isProposalBudget() {
+        return budget.getBudgetParent().isProposalBudget();
     }
 
     protected void addOHBudgetLineItemCalculatedAmountForAward(String rateClassCode,
