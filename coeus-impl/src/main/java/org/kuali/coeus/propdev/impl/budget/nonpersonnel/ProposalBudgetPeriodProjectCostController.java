@@ -284,7 +284,9 @@ public class ProposalBudgetPeriodProjectCostController extends ProposalBudgetCon
 			return getModelAndViewService().showDialog(ProposalBudgetConstants.KradConstants.PROP_BUDGET_NON_PERSONNEL_COSTS_APPLY_TO_LATER_PERIODS, true, form);
 		} else if ((dialogResponse !=null && dialogResponse.getResponseAsBoolean()) || !lineItemInLaterPeriods) {
 			getBudgetCalculationService().applyToLaterPeriods(budget, currentTabBudgetPeriod, budgetLineItem);
-            resetCalculatedAmountsForAllPeriods(budget, budgetLineItem);
+			if (costElementChanged(budgetLineItem, form.getAddProjectBudgetLineItemHelper().getBudgetLineItem())) {
+				resetCalculatedAmountsForAllPeriods(budget, budgetLineItem);
+			}
             validateBudgetExpenses(budget, currentTabBudgetPeriod);
 			super.save(form);
 			return getKcCommonControllerService().closeDialog(ProposalBudgetConstants.KradConstants.EDIT_NONPERSONNEL_PERIOD_DIALOG_ID,form);
@@ -296,7 +298,7 @@ public class ProposalBudgetPeriodProjectCostController extends ProposalBudgetCon
         for(BudgetPeriod period : budget.getBudgetPeriods()) {
             for(BudgetLineItem lineItem : period.getBudgetLineItems()) {
                 if(lineItem.getLineItemNumber().equals(budgetLineItem.getLineItemNumber())) {
-                    resetCalculatedAmounts(lineItem);
+					resetCalculatedAmounts(lineItem);
                 }
             }
         }
@@ -318,8 +320,10 @@ public class ProposalBudgetPeriodProjectCostController extends ProposalBudgetCon
 	    setLineItemBudgetCategory(budgetLineItem);
 	    int editLineIndex = Integer.parseInt(form.getAddProjectBudgetLineItemHelper().getEditLineIndex());
         BudgetLineItem newBudgetLineItem = getDataObjectService().save(budgetLineItem);
-        // force recalculation
-        resetCalculatedAmounts(newBudgetLineItem);
+		// force recalculation if cost element has changed
+		if (costElementChanged(budgetPeriod.getBudgetLineItems().get(editLineIndex), newBudgetLineItem)) {
+			resetCalculatedAmounts(newBudgetLineItem);
+		}
         budgetPeriod.getBudgetLineItems().set(editLineIndex, newBudgetLineItem);
 
 	}
@@ -440,6 +444,10 @@ public class ProposalBudgetPeriodProjectCostController extends ProposalBudgetCon
 	
 	protected boolean costElementChanged(BudgetLineItem budgetLineItem) {
 		return !budgetLineItem.getCostElement().equals(budgetLineItem.getCostElementBO().getCostElement());
+	}
+
+	protected boolean costElementChanged(BudgetLineItem budgetLineItem, BudgetLineItem previousBudgetLineItem) {
+		return !budgetLineItem.getCostElement().equals(previousBudgetLineItem.getCostElement());
 	}
 
 	protected boolean budgetCategoryChanged(BudgetLineItem budgetLineItem) {
