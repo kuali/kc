@@ -96,6 +96,51 @@
         </property>
         <property name="onLoadScript" value="Kc.Medusa.externalMedusaLoader();"/>
     </bean>
+    
+    <bean id="PropDev-S2sSubmisisonDetailsView" parent="PropDev-S2sSubmisisonDetailsView-parentBean"/>
+    <bean id="PropDev-S2sSubmisisonDetailsView-parentBean" abstract="true"
+          parent="Uif-FormView" p:header.render="false" p:breadcrumbs.render="false"
+          p:formClass="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm"
+          p:viewHelperService="#{#getService('proposalDevelopmentViewHelperService')}">
+        <property name="stickyFooter" value="@{renderedInDialog}"/>
+        <property name="applicationHeader.render" value="@{!renderedInDialog}"/>
+        <property name="singlePageView" value="true"/>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>scripts/common/medusa.js</value>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>css/common/core.css</value>
+            </list>
+        </property>
+		<property name="context">
+			<map>
+                <entry key="proposalAuthConsts" value="@{T(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants.AuthConstants)}"/>
+			</map>
+		</property>
+        <property name="page">
+            <bean parent="Uif-Page" p:header.render="false">
+                <property name="items">
+                    <list>
+                        <bean parent="PropDev-OpportunityPage-Info" p:defaultActiveTabId="PropDev-OpportunityPage-SubmissionDetailsSection" p:readOnly="true"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="footer">
+            <bean parent="Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Close"
+                              p:onClickScript="e.preventDefault();closeIframeDialog();return false;"
+                              p:dialogResponse="false" p:order="20"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
 
     <!--Special proposal summary view for the Action List -->
     <bean id="PropDev-SummaryView" parent="PropDev-SummaryView-parentBean"/>

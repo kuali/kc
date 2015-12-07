@@ -1562,7 +1562,14 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     public void setS2sAppSubmission(List<S2sAppSubmission> appSubmission) {
         s2sAppSubmission = appSubmission;
     }
-
+    
+    public S2sAppSubmission getDisplayedS2sAppSubmission() {
+        if (CollectionUtils.isNotEmpty(getS2sAppSubmission())){
+            return getS2sAppSubmission().get(getS2sAppSubmission().size()-1);
+        }
+        return null;
+    }
+    
     public List<ProposalChangedData> getProposalChangedDataList() {
         return proposalChangedDataList;
     }

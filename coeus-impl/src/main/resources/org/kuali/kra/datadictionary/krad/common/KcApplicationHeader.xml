@@ -291,8 +291,14 @@ Portions of Kuali are copyrighted by other parties as described in the [link='@{
                       p:actionParameters="viewName:DevelopmentProposals-LookupViewName"
                       p:actionUrl.controllerMapping="/lookup"
                       p:order="60" />
+                <bean parent="Uif-MenuAction" p:actionLabel="View S2S Submissions"
+                      p:actionUrl.baseUrl="@{#ConfigProperties['application.url']}/kr-krad"
+                      p:actionUrl.viewId="PropDev-S2SSubmissions-LookupView"
+                      p:actionParameters="viewName:PropDev-S2SSubmissions-Lookup"
+                      p:actionUrl.controllerMapping="/lookup"
+                      p:order="70" />                      
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Search Proposal Log" p:order="70" >
+                      p:actionLabel="Search Proposal Log" p:order="80" >
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -301,7 +307,7 @@ Portions of Kuali are copyrighted by other parties as described in the [link='@{
                     </property>
                 </bean>
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Search Institutional Proposals" p:order="80" >
+                      p:actionLabel="Search Institutional Proposals" p:order="90" >
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
