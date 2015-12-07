@@ -1,6 +1,22 @@
 
 
 ##CURRENT
+* Sort proposal number as a numeric field instead of string based
+  * blackcathacker on Mon, 7 Dec 2015 14:06:54 -0800 [View Commit](../../commit/77c608bac66906ef07c0da9c20637ad66e9b8728)
+*  Non-personnel rates unchecked will not save
+
+  * The non-personnel rates cannot be unselected
+
+  * Create a proposal budget
+  * Add non-personnel budget item, such as travel
+  * Open Details
+  * On Rates tab, uncheck all the rates
+save
+  * open details
+  * Boxes are all checked again.
+  * Joe Williams on Mon, 7 Dec 2015 15:51:35 -0600 [View Commit](../../commit/97921f39805c3d5a03dcb132a18c51eb7267a237)
+
+##coeus-1512.32
 * Improvments to View S2S Submissions search page
 
   * Include more pertinent information in the results
