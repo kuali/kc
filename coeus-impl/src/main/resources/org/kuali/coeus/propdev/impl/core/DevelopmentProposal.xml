@@ -1289,8 +1289,8 @@
     </property>
     <property name="resultFields">
       <list>
-        <bean p:propertyName="proposalNumber" parent="Uif-DataField"/>
-        <bean p:propertyName="proposalDocument.documentNumber" parent="Uif-DataField"/> 
+        <bean p:propertyName="proposalNumber" parent="Uif-DataField" p:sortAs="numeric"/>
+        <bean p:propertyName="proposalDocument.documentNumber" parent="Uif-DataField" p:sortAs="numeric"/> 
         <bean p:propertyName="proposalType.description" parent="Uif-DataField">
           <property name="inquiry">
                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.coeus.common.framework.type.ProposalType"
@@ -1460,8 +1460,8 @@
 		</property>
     <property name="resultFields">
       <list>
-        <bean p:propertyName="proposalNumber" parent="Uif-DataField"/>
-        <bean p:propertyName="proposalDocument.documentNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="proposalNumber" parent="Uif-DataField" p:sortAs="numeric"/>
+        <bean p:propertyName="proposalDocument.documentNumber" parent="Uif-DataField" p:sortAs="numeric"/>
         <bean p:propertyName="deadlineDate" parent="Uif-DataField"/> 
         <bean p:propertyName="displayedS2sAppSubmission.ggTrackingId" parent="Uif-DataField"
 			p:dictionaryAttributeName="ggTrackingId" p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission" />
