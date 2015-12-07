@@ -1,6 +1,25 @@
 
 
 ##CURRENT
+* Budget> Personnel Line item double inflates in Year 2 if Salary Anniversary field equals Proposal Start Date Month & Day
+
+  * If a users enters a Salary Anniversary date for budgetpersonnel with a Month and Day that equals the proposal start date/salary effective date, the calculated Year 2 salary expense will double inflate (ie: if inflation rate is 3%, year 2 charge will show 6% inflation). Later periods resume expected % increase, but the salary base from Y2 is over-inflated, making all the later periods for that person incorrect.
+  * Joe Williams on Fri, 4 Dec 2015 13:47:41 -0600 [View Commit](../../commit/95efbcf54a7907f94d3304698695ab03e9b5d8f3)
+*  Fix single point entry dates and added tests.
+  * The Single Point Entry screen appears to always display the default project period start and end dates for personnel, even though the actual details for the person use defined dates.
+  * Steps to reproduce:
+  * Create a proposal
+  * Create a budget
+  * Add several budget persons if they were not existing in the proposal
+  * Assign the personnel to the periods, being sure to change the start date /month so that it is not on the first day of the project period. Also, make at least one person end before default end date
+  * autocalculate periods
+  * Navigate to the Single Point Entry screen
+  * Results: All personnel line show the proposal default start and end dates even though they have different details available to display.
+  * Expected results:
+  * If a person was added via Assign Personnel Details and has specific start and end dates for their effort, those dates should be displayed in the SPE screen.
+  * Gayathri Athreya on Fri, 4 Dec 2015 15:45:31 -0700 [View Commit](../../commit/206efb45ffcb679d2c17964f98573395ea26703c)
+
+##coeus-1512.29
 * PD - S2S - User Attached S2S Forms Cannot view PDF in view mode
   * PD - S2S - User Attached S2S Forms - No way to view form unless in Edit mode.
   * Cannot view while Approval In Progress (approvers & OSP) or if Approved and Submitted.
