@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1512.26
 *  Either display subaward invoice 'open' link to open an invoice document or a  subaward invoice 'view' link that does an inquiry.  This supports invoices that do not have corresponding maintenance documents. This feature is controlled by a parameter.
 
   * As a customer with migrated data in the Subaward Module, I need to be able to review my prior invoice entry data on current and prior invoices. In the current version, when I use the 'open' link to generate a view of the invoice entry screen, I get an error message..
