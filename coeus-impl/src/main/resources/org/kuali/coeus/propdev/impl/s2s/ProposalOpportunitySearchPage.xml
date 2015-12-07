@@ -338,6 +338,30 @@
         </property>
           </bean>
 
+	<bean id="PropDev-OpportunityPage-UserAttachedForms-MenuActions" parent="PropDev-OpportunityPage-UserAttachedForms-MenuActions-parentBean"/>
+	<bean id="PropDev-OpportunityPage-UserAttachedForms-MenuActions-parentBean" abstract="true" parent="Kc-Dropdown-Button">
+		<property name="listPrototype.items">
+			<list>
+            	<bean parent="Uif-MenuAction" p:actionLabel="View XML" p:style="float:left" p:order="10">
+                	<property name="actionUrl">
+                    	<bean parent="Uif-Url" p:href="?methodToCall=viewUserAttachedFormXML&amp;formKey=@{formKey}&amp;selectedLine=@{#index}"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-MenuAction" p:actionLabel="View PDF" p:style="float:left" p:order="20">
+                	<property name="actionUrl">
+                    	<bean parent="Uif-Url" p:href="?methodToCall=viewUserAttachedFormPDF&amp;formKey=@{formKey}&amp;selectedLine=@{#index}"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-MenuAction" p:actionLabel="Edit" p:style="float:left" p:order="30"
+                	p:methodToCall="editCollectionLine"
+                    p:hidden="@{#parent.readOnly or #ViewHelper.isCollectionLineEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableCollectionLines)}"/>
+                <bean parent="Uif-MenuAction" p:actionLabel="Save" p:style="float:left" p:order="40"
+                    p:methodToCall="saveUserAttachedForm"
+                    p:hidden="@{!#ViewHelper.isCollectionLineEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableCollectionLines)}"/>
+			</list>
+		</property>
+	</bean>
+
     <bean id="PropDev-OpportunityPage-UserAttachedForms-Collection" parent="PropDev-OpportunityPage-UserAttachedForms-Collection-parentBean"/>
     <bean id="PropDev-OpportunityPage-UserAttachedForms-Collection-parentBean" abstract="true" parent="Uif-TableCollectionSection"
           p:propertyName="document.developmentProposal.s2sUserAttachedForms" p:collectionObjectClass="org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedForm"
@@ -345,28 +369,6 @@
           p:layoutManager.richTable.render="false" p:renderAddLine="false">
         <property name="lineActions">
             <list>
-                <bean parent="Uif-DropdownToggleMenu" p:toggleText="Actions"  p:align="right" p:order="20">
-                    <property name="menuItems">
-                        <list>
-                            <bean parent="Uif-MenuAction" p:actionLabel="View XML" p:style="float:left" p:order="10">
-                                <property name="actionUrl">
-                                    <bean parent="Uif-Url" p:href="?methodToCall=viewUserAttachedFormXML&amp;formKey=@{formKey}&amp;selectedLine=@{#index}"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-MenuAction" p:actionLabel="View PDF" p:style="float:left" p:order="20">
-                                <property name="actionUrl">
-                                    <bean parent="Uif-Url" p:href="?methodToCall=viewUserAttachedFormPDF&amp;formKey=@{formKey}&amp;selectedLine=@{#index}"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-MenuAction" p:actionLabel="Edit" p:style="float:left" p:order="30"
-                                    p:methodToCall="editCollectionLine"
-                                    p:hidden="@{#ViewHelper.isCollectionLineEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableCollectionLines)}"/>
-                            <bean parent="Uif-MenuAction" p:actionLabel="Save" p:style="float:left" p:order="40"
-                                  p:methodToCall="saveUserAttachedForm"
-                                  p:hidden="@{!#ViewHelper.isCollectionLineEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableCollectionLines)}"/>
-                        </list>
-                    </property>
-                </bean>
                 <bean parent="Uif-DeleteLineAction" p:actionLabel="" p:methodToCall="deleteUserAttachedForm"
                       p:iconClass="icon-trash" p:order="30" p:render="@{!#parent.readOnly}"
                       p:additionalSubmitData="selectedLine:@{#index}">
@@ -387,6 +389,11 @@
                       p:fieldLabel.labelText="Form Name" />
                 <bean parent="Uif-DataField" p:propertyName="formFileName" p:order="40"
                       p:fieldLabel.labelText="File Name" />
+				<bean parent="Uif-FieldGroupBase" p:label="Actions" p:order="50">
+					<property name="group">
+						<bean parent="PropDev-OpportunityPage-UserAttachedForms-MenuActions" p:order="10"/>
+					</property>
+				</bean>
             </list>
         </property>
         <property name="layoutManager.libraryCssClasses">
