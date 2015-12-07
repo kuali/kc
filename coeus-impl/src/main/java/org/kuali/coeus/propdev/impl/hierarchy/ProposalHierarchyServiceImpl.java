@@ -815,6 +815,10 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             if (firstIndex == -1 || (firstIndex == lastIndex && !rolesAreSimilar(person, firstInstance))) {
                 ProposalPerson newPerson;
                 newPerson = deepCopy(person);
+                newPerson.setCertifiedBy(null);
+                newPerson.setCertifiedTime(null);
+                newPerson.setCertifiedTimeStamp(null);
+                newPerson.setCertifiedPersonName(null);
                 newPerson.setDevelopmentProposal(hierarchyProposal);
                 newPerson.getProposalPersonYnqs().clear();
                 for (ProposalPersonUnit unit : newPerson.getUnits()) {
