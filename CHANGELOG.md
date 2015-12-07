@@ -1,6 +1,13 @@
 
 
 ##CURRENT
+* Improvments to View S2S Submissions search page
+
+  * Include more pertinent information in the results
+  * The action links includes a dialog to show the s2s details
+  * blackcathacker on Mon, 7 Dec 2015 13:02:41 -0800 [View Commit](../../commit/831784caa14763d36d2a4c6f310400f35542a031)
+
+##coeus-1512.31
 *  avoiding a NullPointerException when creating a PD hierarchy.
   * Travis Schneeberger on Mon, 7 Dec 2015 16:19:44 -0500 [View Commit](../../commit/e356f4a41fc8475bdc32d538403dc53f7b5bc836)
 *  Making sure that Unrecovered F and A are merged when the fiscal year, account, rate, oncampus flag are the same across budgets.  This fixes hierarchy sync and avoids the below scenario where Institutional Proposals are generated during PD routing.
