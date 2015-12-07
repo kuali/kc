@@ -1,6 +1,68 @@
 
 
 ##CURRENT
+*  avoiding a NullPointerException when creating a PD hierarchy.
+  * Travis Schneeberger on Mon, 7 Dec 2015 16:19:44 -0500 [View Commit](../../commit/e356f4a41fc8475bdc32d538403dc53f7b5bc836)
+*  Making sure that Unrecovered F and A are merged when the fiscal year, account, rate, oncampus flag are the same across budgets.  This fixes hierarchy sync and avoids the below scenario where Institutional Proposals are generated during PD routing.
+
+  * Hierarchy proposal parent was able to route all the way to the approving liaison(final stop). When the liaison clicked Approve, the following presented STE error "A row duplicates another. Enter different Unrecovered F&A information."
+
+  * Steps to reproduce:
+  * Create a proposal with basic information
+  * Key person: PI
+  * Create a Budget: add non-personnel line item, in Details, uncheck the Apply MTDC rate flag.
+  * Autogenerate periods.
+  * On Commitments > UR . enter source code as "123" in each row for on campus rate, and distribute the $.
+  * Complete the budget
+  * Return to the proposal >
+  * Toolbar > Hierarchy > create a parent with this proposal as sub-budget. Make note of the parent proposal number.
+  * Toolbar > Copy > copy this proposal including the budget.
+  * In the new proposal > toolbar > budget versions > mark the budget as for submission and complete. (it is identical to first proposal, including the UR source code).
+  * Toolbar > Hierarchy > link this as sub-budget, child to the parent created initially.
+  * Save & close the proposal
+  * Open the Parent proposal, turn on Validations and make the necessary updates to finalize the proposal.
+  * Submit this parent.
+  * Open the route log on the Summary/Submit screen and note the next approver . close
+  * Log in as that next approver and approve.
+  * Repeat this step until you get to the final approver (shulte in res-demo 1)
+  * Approve as Schulte:
+  * Result: The STE occurs here - A row duplicates another. Enter different Unrecovered F&A information.
+  * As well as the full STE Text (see comments).
+  * Desired result:
+  * There should be no restrictions on the use of duplicate sources for any of the Commitments - U/R orCost Sharing (not tested)
+  * Travis Schneeberger on Mon, 7 Dec 2015 16:18:31 -0500 [View Commit](../../commit/f5e12f708b46b6ae592c0c3d88dfaebb592f1ea0)
+* PD Budget: Modular KC should NOT Include the LA Amounts
+  * Calculated on 'Subcontractors F&A - Subject to MIT F&A' Line Item in the
+  * Consortium F&A field on the Modular Budget Screen. (MITKC 2316).
+  * Currently, for those Units that have Lab Allocations, when their
+  * Detailed Budget includes Subaward F&A Cost - Subject to MIT F&A and then
+  * that detailed Budget is converted to a Modular Budget, KC includes the
+  * LA Amounts calculated on 'Subcontractors F&A - Subject to MIT F&A' Line
+  * Item in the Consortium F&A field on the Modular Budget Screen. These LA
+  * amounts in Modular Budgets, should be part of the Direct Cost Less
+  * Consortium F&A amount (which rounds up to the nearest 25K module).
+  * Steps to reproduce/demonstrate: 
+  * 1. Create a proposal with minimum info to save in a Lead Unit that has
+  * Lab Allocation rates. 
+  * 2. Create a new budget version. 
+  * 3. In the Non-Personnel Costs section: 
+  * a. Add the 'Subcontractor F&A - Subject to MIT F&A' Object Code with an
+  * associated cost (e.g. 1,000). 
+  * b. Click the [Details] button for the added Object Code and in the Rates
+  * Tab you should see LA calculated. 
+  * 4. Navigate to the Modular section, and click the [Sync] button. 
+  * a. You should see a number populate in the Consortium F&A field. 
+  * b. Currently the number you see, is the total of the Total Base Cost
+  * plus the LA amounts of 'Subcontractors F&A - Subject to MIT F&A' Object
+  * Code - which is NOT correct 
+  * c. If in your example, you entered $1,000 in the Total Base Cost field
+  * for the 'Subcontractors F&A - Subject to MIT F&A' Object Code (and you
+  * have no other costs in your budget), then you should see only the $1,000
+  * in the Consortium F&A field. The LA amounts should be part of the Direct
+  * Cost Less Consortium F&A amount.
+  * vineeth on Mon, 7 Dec 2015 11:35:19 -0500 [View Commit](../../commit/1e63b8bb6fb5586291ab3078fa953753799983ed)
+
+##coeus-1512.30
 * Budget> Personnel Line item double inflates in Year 2 if Salary Anniversary field equals Proposal Start Date Month & Day
 
   * If a users enters a Salary Anniversary date for budgetpersonnel with a Month and Day that equals the proposal start date/salary effective date, the calculated Year 2 salary expense will double inflate (ie: if inflation rate is 3%, year 2 charge will show 6% inflation). Later periods resume expected % increase, but the salary base from Y2 is over-inflated, making all the later periods for that person incorrect.
