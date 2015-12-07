@@ -25,11 +25,8 @@ import static org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyKeyConstan
 import static org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyKeyConstants.QUESTION_EXTEND_PROJECT_DATE_CONFIRM;
 
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -114,7 +111,8 @@ public class ProposalBudgetHierarchyServiceImpl implements ProposalBudgetHierarc
     
     public void synchronizeAllChildBudgets(DevelopmentProposal hierarchyProposal) {
     	List<BudgetPeriod> oldBudgetPeriods = getHierarchyBudget(hierarchyProposal).getBudgetPeriods();
-    	for (DevelopmentProposal childProposal : proposalHierarchyDao.getHierarchyChildProposals(hierarchyProposal.getProposalNumber())) {
+        removeMergeableChildBudgetElements(getHierarchyBudget(hierarchyProposal));
+        for (DevelopmentProposal childProposal : proposalHierarchyDao.getHierarchyChildProposals(hierarchyProposal.getProposalNumber())) {
     		ProposalDevelopmentBudgetExt budget = getSyncableBudget(childProposal);
     		synchronizeChildBudget(hierarchyProposal, childProposal, budget, oldBudgetPeriods);
     		dataObjectService.save(budget);
@@ -195,11 +193,9 @@ public class ProposalBudgetHierarchyServiceImpl implements ProposalBudgetHierarc
             BudgetPeriod parentPeriod, childPeriod;
             Long budgetId = parentBudget.getBudgetId();
 
-            Integer budgetPeriod;
-            BudgetCostShare newCostShare;
             for (BudgetCostShare costShare : childBudget.getBudgetCostShares()) {
                 if (StringUtils.isNotEmpty(costShare.getSourceAccount())) {
-                    newCostShare = (BudgetCostShare) deepCopy(costShare);
+                    final BudgetCostShare newCostShare = (BudgetCostShare) deepCopy(costShare);
                     newCostShare.setBudget(parentBudget);
                     newCostShare.setBudgetId(budgetId);
                     newCostShare.setDocumentComponentId(parentBudget.getNextValue(newCostShare.getDocumentComponentIdKey()));
@@ -210,19 +206,30 @@ public class ProposalBudgetHierarchyServiceImpl implements ProposalBudgetHierarc
                     parentBudget.add(newCostShare);
                 }
             }
-            
-            BudgetUnrecoveredFandA newUnrecoveredFandA;
+
             for (BudgetUnrecoveredFandA unrecoveredFandA : childBudget.getBudgetUnrecoveredFandAs()) {
                 if (StringUtils.isNotEmpty(unrecoveredFandA.getSourceAccount())) {
-                    newUnrecoveredFandA = (BudgetUnrecoveredFandA) deepCopy(unrecoveredFandA);
-                    newUnrecoveredFandA.setBudget(parentBudget);
-                    newUnrecoveredFandA.setBudgetId(budgetId);
-                    newUnrecoveredFandA.setDocumentComponentId(parentBudget.getNextValue(newUnrecoveredFandA.getDocumentComponentIdKey()));
-                    newUnrecoveredFandA.setObjectId(null);
-                    newUnrecoveredFandA.setVersionNumber(null);
-                    newUnrecoveredFandA.setHierarchyProposalNumber(childProposalNumber);
-                    newUnrecoveredFandA.setHiddenInHierarchy(true);
-                    parentBudget.add(newUnrecoveredFandA);
+                    final Optional<BudgetUnrecoveredFandA> matchedUnrecoveredFandA = parentBudget.getBudgetUnrecoveredFandAs().stream().filter(parentUnrecoveredFandA ->
+                        parentUnrecoveredFandA.getFiscalYear().equals(unrecoveredFandA.getFiscalYear()) &&
+                                parentUnrecoveredFandA.getApplicableRate().equals(unrecoveredFandA.getApplicableRate()) &&
+                                parentUnrecoveredFandA.getOnCampusFlag().equals(unrecoveredFandA.getOnCampusFlag()) &&
+                                parentUnrecoveredFandA.getSourceAccount().equals(unrecoveredFandA.getSourceAccount())
+                    ).findFirst();
+
+                    if (matchedUnrecoveredFandA.isPresent()) {
+                        final BudgetUnrecoveredFandA parentUnrecoveredFandA = matchedUnrecoveredFandA.get();
+                        parentUnrecoveredFandA.setAmount(parentUnrecoveredFandA.getAmount().add(unrecoveredFandA.getAmount()));
+                    } else {
+                        final BudgetUnrecoveredFandA newUnrecoveredFandA = (BudgetUnrecoveredFandA) deepCopy(unrecoveredFandA);
+                        newUnrecoveredFandA.setBudget(parentBudget);
+                        newUnrecoveredFandA.setBudgetId(budgetId);
+                        newUnrecoveredFandA.setDocumentComponentId(parentBudget.getNextValue(newUnrecoveredFandA.getDocumentComponentIdKey()));
+                        newUnrecoveredFandA.setObjectId(null);
+                        newUnrecoveredFandA.setVersionNumber(null);
+                        newUnrecoveredFandA.setHierarchyProposalNumber(childProposalNumber);
+                        newUnrecoveredFandA.setHiddenInHierarchy(true);
+                        parentBudget.add(newUnrecoveredFandA);
+                    }
                 }
             }
 
@@ -230,7 +237,7 @@ public class ProposalBudgetHierarchyServiceImpl implements ProposalBudgetHierarc
                 childPeriod = childPeriod1;
                 parentPeriod = findOrCreateMatchingPeriod(childPeriod, parentBudget);
 
-                budgetPeriod = parentPeriod.getBudgetPeriod();
+                Integer budgetPeriod = parentPeriod.getBudgetPeriod();
                 BudgetLineItem parentLineItem;
                 Integer lineItemNumber;
 
@@ -414,11 +421,21 @@ public class ProposalBudgetHierarchyServiceImpl implements ProposalBudgetHierarc
         return result;
     }
 
+    @Override
+    public void removeMergeableChildBudgetElements(ProposalDevelopmentBudgetExt parentBudget) {
+        QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(PredicateFactory.isNotNull("hierarchyProposalNumber"), PredicateFactory.equal("budgetId", parentBudget.getBudgetId()));
+        dataObjectService.deleteMatching(BudgetUnrecoveredFandA.class, query);
+
+        parentBudget.setBudgetUnrecoveredFandAs(parentBudget.getBudgetUnrecoveredFandAs().stream()
+                .filter(fAndA -> fAndA.getHierarchyProposalNumber() == null)
+                .collect(Collectors.toList()));
+    }
+
+    @Override
     public void removeChildBudgetElements(DevelopmentProposal parentProposal, ProposalDevelopmentBudgetExt parentBudget, String childProposalNumber) {
         QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(PredicateFactory.equal("hierarchyProposalNumber", childProposalNumber), PredicateFactory.equal("budgetId", parentBudget.getBudgetId()));
         dataObjectService.deleteMatching(BudgetProjectIncome.class, query);
         dataObjectService.deleteMatching(BudgetCostShare.class, query);
-        dataObjectService.deleteMatching(BudgetUnrecoveredFandA.class, query);
         
         for (Iterator<BudgetSubAwards> iter = parentBudget.getBudgetSubAwards().iterator(); iter.hasNext();) {
         	BudgetSubAwards subAward = iter.next();
@@ -584,12 +601,7 @@ public class ProposalBudgetHierarchyServiceImpl implements ProposalBudgetHierarc
     } 
     
     public List<ProposalDevelopmentBudgetExt> getHierarchyBudgets(DevelopmentProposal hierarchyProposal) throws ProposalHierarchyException {
-        List<ProposalDevelopmentBudgetExt> hierarchyBudgets = new ArrayList<>();
-        for (ProposalDevelopmentBudgetExt budgetVersion : hierarchyProposal.getProposalDocument().getDevelopmentProposal().getBudgets()) {
-            hierarchyBudgets.add(budgetVersion);
-        }
-    
-        return hierarchyBudgets;
+        return hierarchyProposal.getProposalDocument().getDevelopmentProposal().getBudgets().stream().collect(Collectors.toList());
     }
     
     protected KcDataObject deepCopy(KcDataObject oldObject) {
