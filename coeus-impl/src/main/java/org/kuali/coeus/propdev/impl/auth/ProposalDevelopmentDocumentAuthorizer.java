@@ -612,14 +612,11 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
         return pdDocument.getDocumentHeader().hasWorkflowDocument() && pdDocument.getDocumentHeader().getWorkflowDocument().isEnroute()
                 && getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.RECALL_DOCUMENT)
-                && !isRevisionRequested(pdDocument.getDevelopmentProposal().getProposalState());
+                && !isRevisionRequested(pdDocument.getDevelopmentProposal().getProposalStateTypeCode());
     }
 
-    protected boolean isRevisionRequested(ProposalState proposalState) {
-        if (proposalState != null){
-            return StringUtils.equalsIgnoreCase(proposalState.getDescription(), ProposalStateConstants.REVISION_REQUESTED);
-        }
-        return false;
+    protected boolean isRevisionRequested(String code) {
+        return StringUtils.equalsIgnoreCase(code, ProposalState.REVISIONS_REQUESTED);
     }
 
     protected boolean isAuthorizedToRejectProposal(Document document, Person user) {
@@ -848,7 +845,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
              * and the user has the require permission.
              */
 
-           final boolean hasBeenRejected = proposal.getProposalState().getCode().equals(ProposalState.REVISIONS_REQUESTED);
+           final boolean hasBeenRejected = ProposalState.REVISIONS_REQUESTED.equals(proposal.getProposalStateTypeCode());
 
             hasPermission = !pdDocument.isViewOnly() &&
                     getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.MODIFY_PROPOSAL) &&
