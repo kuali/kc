@@ -18,6 +18,7 @@
  */
 package org.kuali.coeus.common.budget.impl.calculator;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.query.QueryList;
 import org.kuali.coeus.common.budget.api.rate.RateClassType;
@@ -369,16 +370,16 @@ public class SalaryCalculator {
                 }
                 else {
                     filteredCombinedList.add(dateSortable);
-                    filteredCombinedList.addAll(createAnnualInflationRates(budgetPerson));
+                    filteredCombinedList.addAll(createAnnualInflationRates(budgetPerson, endDate));
                 }
             }
         }
         return filteredCombinedList;
     }
 
-    private List<BudgetRate> createAnnualInflationRates(BudgetPerson budgetPerson) {
+    private List<BudgetRate> createAnnualInflationRates(BudgetPerson budgetPerson, Date endDate) {
         List<BudgetRate> budgetRates = new ArrayList<BudgetRate>();
-        List<BudgetRate> inflationRatesList = filterInflationRates(budgetPerson.getEffectiveDate(), this.endDate);
+        List<BudgetRate> inflationRatesList = filterInflationRates(budgetPerson.getEffectiveDate(), endDate);
         if (inflationRatesList.isEmpty()) {
             return budgetRates;
         }
@@ -392,8 +393,9 @@ public class SalaryCalculator {
             budgetRates.add(budgetRate);
         }
         Calendar salaryDateCalendar = getDateTimeService().getCalendar(budgetPerson.getSalaryAnniversaryDate());
-        int startYear = salaryDateCalendar.get(Calendar.YEAR);
         Calendar endCalendar = getDateTimeService().getCalendar(endDate);
+
+        int startYear = salaryDateCalendar.get(Calendar.YEAR);
         int endYear = endCalendar.get(Calendar.YEAR);
         if (startYear != endYear) {
             while (salaryDateCalendar.get(Calendar.YEAR) <= endYear) {
@@ -615,15 +617,48 @@ public class SalaryCalculator {
         if (budgetPerson.getEffectiveDate().before(p1StartDate)) {
             p1StartDate = budgetPerson.getEffectiveDate();
         }
-        QueryList<BudgetRate> qlist = filterInflationRates(p1StartDate, startDate);
+        QueryList<BudgetRate> qlist = new QueryList<>();
+
+        Date previousEndDate = getPreviousPeriodEndDate();
+
+        if (isAnniversarySalaryDateEnabled() && budgetPerson.getSalaryAnniversaryDate() != null) {
+            qlist.addAll(createAnnualInflationRates(budgetPerson, previousEndDate));
+        } else {
+            qlist.addAll(filterInflationRates(p1StartDate, previousEndDate));
+        }
         for (BudgetRate budgetProposalrate : qlist) {
             if (budgetProposalrate.getStartDate().after(budgetPerson.getEffectiveDate())
-                    && budgetProposalrate.getStartDate().before(startDate)) {
+                    && budgetProposalrate.getStartDate().before(previousEndDate)) {
                 calBase = calBase.add(calBase.multiply(budgetProposalrate.getApplicableRate().bigDecimalValue()).divide(new ScaleTwoDecimal(100.00).bigDecimalValue(), RoundingMode.HALF_UP));
             }
         }
         return new ScaleTwoDecimal(calBase);
 
+    }
+
+    private Date getPreviousPeriodEndDate() {
+        int previousPeriod = personnelLineItem.getBudgetPeriod() - 1;
+
+        List<BudgetPersonnelDetails> previousPeriodsPersonnelDetails = budget.getBudgetPeriods()
+                .stream()
+                .filter(budgetPeriod -> budgetPeriod.getBudgetPeriod().equals(previousPeriod))
+                .flatMap(l -> l.getBudgetLineItems().stream())
+                .flatMap(l -> l.getBudgetPersonnelDetailsList().stream())
+                .filter(budgetPersonnelDetail -> (
+                    budgetPersonnelDetail.getBudgetPerson() != null &&
+                    personnelLineItem.getBudgetPerson() != null &&
+                    StringUtils.equals(budgetPersonnelDetail.getBudgetPerson().getPersonRolodexTbnId(), personnelLineItem.getBudgetPerson().getPersonRolodexTbnId()) &&
+                    StringUtils.equals(budgetPersonnelDetail.getCostElement(), personnelLineItem.getCostElement())))
+                .sorted((detail1, detail2) -> detail1.getEndDate().compareTo(detail2.getEndDate()))
+                .collect(Collectors.toList());
+
+        Date previousEndDate = startDate;
+
+        if (!CollectionUtils.isEmpty(previousPeriodsPersonnelDetails)) {
+            previousEndDate =  previousPeriodsPersonnelDetails.get(previousPeriodsPersonnelDetails.size()-1).getEndDate();
+        }
+
+        return previousEndDate;
     }
 
     private BudgetPerson getBudgetPersonApplied(BudgetPerson budgetPerson, Boundary boundary) {
