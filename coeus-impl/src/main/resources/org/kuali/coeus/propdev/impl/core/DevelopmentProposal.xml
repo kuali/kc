@@ -1447,52 +1447,83 @@
 	<bean id="PropDev-S2SSubmissions-LookupView-parentBean" abstract="true" parent="DevelopmentProposal-LookupView" 
 		p:viewName="PropDev-S2SSubmissions-Lookup" p:headerText="View S2S Submission List" p:viewHelperService="#{#getService('s2sSubmissionProposalLookupable')}">
 		<property name="criteriaFields">
-			<list>
-				<bean p:propertyName="proposalNumber" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField" />
-				<bean p:propertyName="proposalDocument.documentNumber" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField" />
-				<bean p:propertyName="deadlineDate" parent="Uif-LookupCriteriaInputField" p:ranged="true" />
-
-				<bean p:propertyName="s2sAppSubmission.ggTrackingId" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField" />
-				<bean p:propertyName="s2sAppSubmission.status" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField" />
-				<bean p:propertyName="s2sAppSubmission.agencyTrackingId" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField" />
-
-
-				<bean p:propertyName="cfdaNumber" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField" />
-				<bean p:propertyName="principalInvestigatorName" parent="Uif-LookupCriteriaInputField" />
-				<bean p:propertyName="title" parent="Uif-LookupCriteriaInputField" />
-
-				<bean p:propertyName="ownedByUnitNumber" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField">
-					<property name="inquiry">
-						<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.coeus.common.framework.unit.Unit"
-							p:inquiryParameters="ownedByUnitNumber:unitNumber" />
-					</property>
-				</bean>
-				<bean p:propertyName="ownedByUnit.unitName" parent="Uif-LookupCriteriaInputField">
-					<property name="inquiry">
-						<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.coeus.common.framework.unit.Unit"
-							p:inquiryParameters="ownedByUnit.unitName:unitName" />
-					</property>
-				</bean>
-
-				<bean p:propertyName="sponsorCode" parent="Uif-LookupCriteriaInputField">
-					<property name="inquiry">
-						<bean parent="Uif-Inquiry"
-							p:dataObjectClassName="org.kuali.coeus.common.framework.sponsor.Sponsor"
-							p:inquiryParameters="sponsorCode:sponsorCode" />
-					</property>
-				</bean>
-				<bean p:propertyName="sponsor.sponsorName" parent="Uif-LookupCriteriaInputField">
-					<property name="inquiry">
-						<bean parent="Uif-Inquiry"
-							p:dataObjectClassName="org.kuali.coeus.common.framework.sponsor.Sponsor"
-							p:inquiryParameters="sponsorCode:sponsorCode" />
-					</property>
-				</bean>
-
-				<bean p:propertyName="s2sAppSubmission.comments" parent="Uif-LookupCriteriaInputField" />
-
+			<list merge="true">
+				<bean p:propertyName="s2sAppSubmission.ggTrackingId" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField"
+					p:dictionaryAttributeName="ggTrackingId" p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission" />
+				<bean p:propertyName="s2sAppSubmission.status" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField" 
+					p:dictionaryAttributeName="status" p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission" />
+				<bean p:propertyName="s2sAppSubmission.agencyTrackingId" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField" 
+					p:dictionaryAttributeName="agencyTrackingId" p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission" />
+				<bean p:propertyName="s2sAppSubmission.comments" parent="Uif-LookupCriteriaInputField" 
+					p:dictionaryAttributeName="comments" p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission" />
 			</list>
 		</property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="proposalNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="proposalDocument.documentNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="deadlineDate" parent="Uif-DataField"/> 
+        <bean p:propertyName="displayedS2sAppSubmission.ggTrackingId" parent="Uif-DataField"
+			p:dictionaryAttributeName="ggTrackingId" p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission" />
+		<bean p:propertyName="displayedS2sAppSubmission.status" parent="Uif-DataField" 
+			p:dictionaryAttributeName="status" p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission" />
+		<bean p:propertyName="displayedS2sAppSubmission.agencyTrackingId" parent="Uif-DataField" 
+			p:dictionaryAttributeName="agencyTrackingId" p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission" />
+		<bean p:propertyName="programAnnouncementNumber" parent="Uif-DataField"/>
+		<bean p:propertyName="cfdaNumber" parent="Uif-DataField"/>
+		<bean p:propertyName="programAnnouncementTitle" parent="Uif-DataField"/>
+		<bean p:propertyName="s2sOpportunity.competetionId" parent="Uif-DataField"/>
+		<bean p:propertyName="principalInvestigatorName" parent="Uif-DataField"/>
+		<bean p:propertyName="title" parent="Uif-DataField"/>
+        <bean p:propertyName="ownedByUnitNumber" parent="Uif-DataField">
+            <property name="inquiry">
+                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.coeus.common.framework.unit.Unit"
+                      p:inquiryParameters="ownedByUnitNumber:unitNumber"/>
+            </property>
+        </bean>
+        <bean p:propertyName="ownedByUnit.unitName" parent="Uif-DataField">
+            <property name="inquiry">
+                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.coeus.common.framework.unit.Unit"
+                      p:inquiryParameters="ownedByUnitNumber:unitNumber"/>
+            </property>
+        </bean>
+        <bean p:propertyName="sponsor.sponsorCode" parent="Uif-DataField">
+            <property name="inquiry">
+                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.coeus.common.framework.sponsor.Sponsor"
+                      p:inquiryParameters="sponsor.sponsorCode:sponsorCode"/>
+            </property>
+        </bean>
+        <bean p:propertyName="sponsor.sponsorName" parent="Uif-DataField">
+            <property name="inquiry">
+                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.coeus.common.framework.sponsor.Sponsor"
+                      p:inquiryParameters="sponsor.sponsorCode:sponsorCode"/>
+            </property>
+        </bean>
+		<bean p:propertyName="displayedS2sAppSubmission.comments" parent="Uif-DataField" 
+			p:dictionaryAttributeName="comments" p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission" />
+		<bean p:propertyName="displayedS2sAppSubmission.receivedDate" parent="Uif-DataField" 
+			p:dictionaryAttributeName="receivedDate" p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission" />
+		<bean p:propertyName="displayedS2sAppSubmission.lastModifiedDate" parent="Uif-DataField" 
+			p:dictionaryAttributeName="lastModifiedDate" p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission" />
+      </list>
+    </property>
+	  <property name="resultsGroup.useServerPaging" value="true"/>
+      <property name="resultsGroup.lineActions">
+          <list>
+              <bean parent="Uif-ActionLink" p:actionLabel="submission details" p:order="10"
+                    p:actionScript="openIframeDialog('@{#ConfigProperties['application.url']}/kc-pd-krad/proposalDevelopment?methodToCall=viewUtility&amp;viewId=PropDev-S2sSubmisisonDetailsView&amp;docId=@{#line.document.documentNumber}&amp;renderedInDialog=true','Development-Proposal-Lookup-S2SDialog@{#lineSuffix}');"
+                    p:render="@{!#view.renderReturnLink}"/>
+              <bean id="Development-Proposal-Lookup-S2SDialog" parent="Uif-DialogGroup-Iframe"
+                    p:headerText="Submission Details" p:retrieveViaAjax="true" p:order="20"/>                    
+              <bean parent="Development-Proposal-Lookup-result-ViewLink" p:order="30"/>
+              <bean parent="Uif-ActionLink" p:actionLabel="medusa" p:order="40"
+                    p:actionScript="openIframeDialog('@{#ConfigProperties['application.url']}/kc-pd-krad/proposalDevelopment?methodToCall=viewUtility&amp;viewId=PropDev-MedusaView&amp;docId=@{#line.document.documentNumber}&amp;renderedInDialog=true','Development-Proposal-Lookup-MedusaDialog@{#lineSuffix}');"
+                    p:render="@{!#view.renderReturnLink}"/>
+              <bean id="Development-Proposal-Lookup-MedusaDialog" parent="Uif-DialogGroup-Iframe"
+                    p:headerText="Medusa" p:retrieveViaAjax="true" p:order="50"/>
+              <bean parent="Uif-Lookup-MaintenanceReturnLink" p:order="60"/>
+          </list>
+      </property>		
 	</bean>
 
 </beans>

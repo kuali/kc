@@ -537,10 +537,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     }
 
     public S2sAppSubmission getDisplayedS2sAppSubmission() {
-        if (CollectionUtils.isNotEmpty(this.getDevelopmentProposal().getS2sAppSubmission())){
-            return this.getDevelopmentProposal().getS2sAppSubmission().get(this.getDevelopmentProposal().getS2sAppSubmission().size()-1);
-        }
-        return null;
+        return this.getDevelopmentProposal().getDisplayedS2sAppSubmission();
     }
 
     public AnswerHeader getUpdateAnswerHeader() {
