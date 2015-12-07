@@ -1,6 +1,15 @@
 
 
 ##CURRENT
+* PD - S2S - User Attached S2S Forms Cannot view PDF in view mode
+  * PD - S2S - User Attached S2S Forms - No way to view form unless in Edit mode.
+  * Cannot view while Approval In Progress (approvers & OSP) or if Approved and Submitted.
+  * Actions > View PDF/View XML/ is only available when in Edit Mode.
+  * In View mode, have display of form and file names, but no link to view.
+  * Need to able to view all uploaded forms when simply viewing proposal, not just when editing.
+  * rmancher on Fri, 4 Dec 2015 16:36:45 -0500 [View Commit](../../commit/f5c3cbc961c8303f02589d38dd6aa79d72a45885)
+
+##coeus-1512.28
 * No Changes
 
 
