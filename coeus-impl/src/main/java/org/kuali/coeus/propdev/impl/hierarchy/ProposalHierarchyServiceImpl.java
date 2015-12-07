@@ -486,11 +486,13 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
 
         // delete all multiple inst attachments right at the beginning
         deleteAllMultipleInternal(hierarchyProposal);
+        final ProposalDevelopmentBudgetExt budget = proposalBudgetHierarchyService.getHierarchyBudget(hierarchyProposal);
+        proposalBudgetHierarchyService.removeMergeableChildBudgetElements(budget);
 
         finalizeHierarchySync(hierarchyProposal.getProposalDocument());
 
         for (DevelopmentProposal childProposal : getHierarchyChildren(hierarchyProposal.getProposalNumber())) {
-            List<BudgetPeriod> oldBudgetPeriods = getOldBudgetPeriods(proposalBudgetHierarchyService.getHierarchyBudget(hierarchyProposal));
+            List<BudgetPeriod> oldBudgetPeriods = getOldBudgetPeriods(budget);
             ProposalPerson principalInvestigator = hierarchyProposal.getPrincipalInvestigator();
             childProposal.setHierarchyLastSyncHashCode(computeHierarchyHashCode(childProposal));
             

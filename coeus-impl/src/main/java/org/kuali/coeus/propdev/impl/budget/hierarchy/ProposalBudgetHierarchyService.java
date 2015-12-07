@@ -31,39 +31,35 @@ public interface ProposalBudgetHierarchyService {
 	
 	/**
 	 * Persists changes to child proposal and budget, but does not persist changes to hierarchy proposal. Caller is responsible for this
-	 * @param hierarchyProposal
 	 */
-	public void synchronizeAllChildBudgets(DevelopmentProposal hierarchyProposal);
+	void synchronizeAllChildBudgets(DevelopmentProposal hierarchyProposal);
 
 	/**
-	 * Does not persist changes to either proposal. Caller is responsible for this
-	 * @param hierarchyProposal
-	 * @param childProposal
-	 * @param oldBudgetPeriods
+	 * Does not persist changes to either proposal. Caller is responsible for this.
 	 */
-    public void synchronizeChildBudget(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal, List<BudgetPeriod> oldBudgetPeriods);
+    void synchronizeChildBudget(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal, List<BudgetPeriod> oldBudgetPeriods);
     
     /**
-     * Does not persist changes to proposal or budget. Caller is responsible for this
-     * @param hierarchyProposal
-     * @param budget
+     * Does not persist changes to proposal or budget. Caller is responsible for this.
      */
-    public void synchronizeChildBudget(DevelopmentProposal hierarchyProposal, ProposalDevelopmentBudgetExt budget);
+    void synchronizeChildBudget(DevelopmentProposal hierarchyProposal, ProposalDevelopmentBudgetExt budget);
     
-    public void persistProposalHierarchyBudget(DevelopmentProposal hierarchyProposal);
+    void persistProposalHierarchyBudget(DevelopmentProposal hierarchyProposal);
+
+    void removeMergeableChildBudgetElements(ProposalDevelopmentBudgetExt parentBudget);
+
+    void removeChildBudgetElements(DevelopmentProposal parentProposal, ProposalDevelopmentBudgetExt parentBudget, String childProposalNumber);
     
-    public void removeChildBudgetElements(DevelopmentProposal parentProposal, ProposalDevelopmentBudgetExt parentBudget, String childProposalNumber);
-    
-    public void initializeBudget (DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal) throws ProposalHierarchyException;
+    void initializeBudget (DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal) throws ProposalHierarchyException;
  
-    public List<ProposalHierarchyErrorWarningDto> validateChildBudgetPeriods(DevelopmentProposal hierarchyProposal,
+    List<ProposalHierarchyErrorWarningDto> validateChildBudgetPeriods(DevelopmentProposal hierarchyProposal,
             DevelopmentProposal childProposal, boolean allowEndDateChange) throws ProposalHierarchyException;
     
-    public ProposalDevelopmentBudgetExt getHierarchyBudget(DevelopmentProposal hierarchyProposal) throws ProposalHierarchyException;
+    ProposalDevelopmentBudgetExt getHierarchyBudget(DevelopmentProposal hierarchyProposal) throws ProposalHierarchyException;
     
-    public ProposalDevelopmentBudgetExt getSyncableBudget(DevelopmentProposal childProposal) throws ProposalHierarchyException;
+    ProposalDevelopmentBudgetExt getSyncableBudget(DevelopmentProposal childProposal) throws ProposalHierarchyException;
     
-    public int computeHierarchyHashCode(Budget budget);
+    int computeHierarchyHashCode(Budget budget);
     
-    public List<ProposalDevelopmentBudgetExt> getHierarchyBudgets(DevelopmentProposal hierarchyProposal) throws ProposalHierarchyException;
+    List<ProposalDevelopmentBudgetExt> getHierarchyBudgets(DevelopmentProposal hierarchyProposal) throws ProposalHierarchyException;
 }
