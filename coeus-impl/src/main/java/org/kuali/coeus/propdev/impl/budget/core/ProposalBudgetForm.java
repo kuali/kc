@@ -18,15 +18,17 @@
  */
 package org.kuali.coeus.propdev.impl.budget.core;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.core.BudgetContainer;
 import org.kuali.coeus.common.budget.framework.income.BudgetPeriodIncomeTotal;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetJustificationWrapper;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularSummary;
 import org.kuali.coeus.propdev.impl.budget.nonpersonnel.AddProjectBudgetLineItemHelper;
@@ -156,6 +158,31 @@ public class ProposalBudgetForm extends UifFormBase implements BudgetContainer, 
         }
         return budgetPeriodIncomeTotalSummary;
     }
+
+    public Date getLineItemStartDate(BudgetLineItem lineItem) {
+        if(CollectionUtils.isNotEmpty(lineItem.getBudgetPersonnelDetailsList())) {
+            List<BudgetPersonnelDetails> personnelDetailsWithDifferentDates = lineItem.getBudgetPersonnelDetailsList().stream().filter(
+                    budgetPersonnelDetails -> budgetPersonnelDetails.getStartDate() == null ||
+                            lineItem.getBudgetPersonnelDetailsList().get(0).getStartDate() == null ||
+                            budgetPersonnelDetails.getStartDate().compareTo(lineItem.getBudgetPersonnelDetailsList().get(0).getStartDate()) != 0).
+                    collect(Collectors.toList());
+            return personnelDetailsWithDifferentDates.isEmpty() ? lineItem.getBudgetPersonnelDetails(0).getStartDate() : lineItem.getStartDate();
+        }
+        return lineItem.getStartDate();
+    }
+
+    public Date getLineItemEndDate(BudgetLineItem lineItem) {
+        if(CollectionUtils.isNotEmpty(lineItem.getBudgetPersonnelDetailsList())) {
+            List<BudgetPersonnelDetails> personnelDetailsWithDifferentDates = lineItem.getBudgetPersonnelDetailsList().stream().filter(
+                    budgetPersonnelDetails -> budgetPersonnelDetails.getEndDate() == null ||
+                            lineItem.getBudgetPersonnelDetailsList().get(0).getEndDate() == null ||
+                            budgetPersonnelDetails.getEndDate().compareTo(lineItem.getBudgetPersonnelDetailsList().get(0).getEndDate()) != 0).
+                    collect(Collectors.toList());
+            return personnelDetailsWithDifferentDates.isEmpty() ? lineItem.getBudgetPersonnelDetails(0).getEndDate() : lineItem.getEndDate();
+        }
+        return lineItem.getEndDate();
+    }
+
     public boolean isUnrecoveredFandAEditFormVisible() {
         return budget != null && budget.isUnrecoveredFandAApplicable() && budget.isUnrecoveredFandAAvailable();
     }

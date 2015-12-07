@@ -49,7 +49,7 @@
 
           <property name="items">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="startDate" 
+                <bean parent="Uif-DataField" p:propertyName="startDate"
                       p:order="10" />
                 <bean parent="Uif-DataField" p:propertyName="endDate" 
                       p:order="20" />
@@ -140,20 +140,24 @@
 		</property>
 		<property name="items">
 			<list>
-				<bean parent="Uif-InputField" p:propertyName="startDate"
-					p:order="10" p:required="true" p:readOnly="@{!#isAddLine}"/>
-				<bean parent="Uif-InputField" p:propertyName="endDate" p:order="20"
-					p:required="true" p:readOnly="@{!#isAddLine}"/>
+                <bean parent="Uif-InputField" p:propertyName="startDate"
+                      p:order="10" p:required="true" p:render="@{#isAddLine}" p:readOnly="@{!#isAddLine}"/>
+                <bean parent="Uif-InputField" p:propertyName="endDate" p:order="20"
+                      p:required="true" p:render="@{#isAddLine}" p:readOnly="@{!#isAddLine}"/>
+                <bean parent="Uif-MessageField" p:messageText="@{getLineItemStartDate(#line)}"
+                      p:label="Start Date" p:order="30" p:render="@{!#isAddLine}" p:readOnly="@{!#isAddLine}"/>
+                <bean parent="Uif-MessageField" p:messageText="@{getLineItemEndDate(#line)}"
+                      p:label="End Date" p:order="40" p:render="@{!#isAddLine}" p:readOnly="@{!#isAddLine}"/>
 				<bean parent="Uif-InputField" p:propertyName="costElement" 
 					p:optionsFinder="#{#getService('costElementValuesFinder')}"
 					p:optionsFinder.addBlankOption="false"
-					p:label="Object Code Name" p:order="30" p:required="true" p:readOnly="@{!#isAddLine}"/>
+					p:label="Object Code Name" p:order="50" p:required="true" p:readOnly="@{!#isAddLine}"/>
 				<bean parent="Uif-InputField" p:propertyName="lineItemCost"
-					p:label="Total Base Cost" p:order="40" p:required="false" p:readOnly="@{!#isAddLine}"/>
+					p:label="Total Base Cost" p:order="60" p:required="false" p:readOnly="@{!#isAddLine}"/>
 				<bean parent="Uif-InputField" p:propertyName="quantity"
-					p:order="50" p:required="false" p:readOnly="@{!#isAddLine}"/>
+					p:order="70" p:required="false" p:readOnly="@{!#isAddLine}"/>
 				<bean parent="Uif-InputField" p:propertyName="lineItemDescription"
-					p:order="60" p:required="false" p:readOnly="@{!#isAddLine}"/>
+					p:order="80" p:required="false" p:readOnly="@{!#isAddLine}"/>
 			</list>
 		</property>
 		<property name="lineActions">
