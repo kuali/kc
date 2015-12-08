@@ -1,6 +1,16 @@
 
 
 ##CURRENT
+* Do not display certification toggle functionality when Prop Person COI Status param is enabled
+
+  * The COI Disclosure Status flag feature is designed to control if the proposal person certification questionnaire should appear for proposal personnel.
+  * When the contribution was initially merged, it 'broke' the manual 'include certification questions' button that appears for Key Persons. RESKC-688 restored that manual option.
+  * This case is to hide the manual 'include certification questions' button when the COI Disclosure Status feature is enabled. (PROP_PERSON_COI_STATUS_FLAG = Y)
+
+  * The contributed feature provided an override mechanism (custom attribute) that lets the user apply the PPC questionnaire if the sponsor is not in the COI Hierarchy, so this button is not needed.
+  * blackcathacker on Tue, 8 Dec 2015 12:59:02 -0800 [View Commit](../../commit/9d3e515c9d1c3657684fba0c34c342e478669ac0)
+
+##coeus-1512.35
 *  Fixing completed by message.
   * Reproduced basic issue: PD: Hierarchy > Certification shows as Complete, but there are no answers in Hierarchy Parent
   * With Certification completed at child then child linked to a hierarchy, the parent has Proposal Personnel > Certification status as Complete with timestamp and user pulled in from child, but none of the answers.
