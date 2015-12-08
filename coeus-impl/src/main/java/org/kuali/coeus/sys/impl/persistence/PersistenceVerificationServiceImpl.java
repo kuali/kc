@@ -170,20 +170,18 @@ public class PersistenceVerificationServiceImpl implements PersistenceVerificati
         @SuppressWarnings("unchecked")
         final List<String> fields = (List<String>) getKcPersistenceStructureService().listFieldNames(bo.getClass());
         fields.forEach(field -> {
-             final Map<String, org.kuali.rice.krad.bo.DataObjectRelationship> relationships = getKcPersistenceStructureService().getRelationshipMetadata(bo.getClass(), field);
-             if (relationships != null) {
-                 relationships.entrySet().stream()
-                         .filter(entry -> !ignoredRelationships.contains(entry.getValue().getRelatedClass()))
-                         .forEach(entry -> {
-
-                             if (getBusinessObjectService().countMatching(entry.getValue().getRelatedClass(),
-                                     Collections.singletonMap(entry.getValue().getParentToChildReferences().get(field), getProperty(bo, field))) == 0) {
-
-                                 errors.putError(entry.getValue().getParentAttributeName(), RiceKeyConstants.ERROR_EXISTENCE,
-                                         dataDictionaryService.getDataDictionary().getBusinessObjectEntry(entry.getValue().getRelatedClass().getName()).getObjectLabel());
-                     }
-                 });
-             }
+            final Map<String, org.kuali.rice.krad.bo.DataObjectRelationship> relationships = getKcPersistenceStructureService().getRelationshipMetadata(bo.getClass(), field);
+            if (relationships != null) {
+                relationships.entrySet().stream()
+                        .filter(entry -> !ignoredRelationships.contains(entry.getValue().getRelatedClass()))
+                        .forEach(entry -> {
+                            Map<String, Object> criteria = Collections.singletonMap(entry.getValue().getParentToChildReferences().get(field), getProperty(bo, field));
+                            if (!criteria.isEmpty() &&  getBusinessObjectService().countMatching(entry.getValue().getRelatedClass(),
+                                    criteria) == 0) {
+                                errors.putError(entry.getValue().getParentAttributeName(), RiceKeyConstants.ERROR_EXISTENCE, getRelationshipDescriptor(entry.getValue().getParentClass()));
+                            }
+                        });
+            }
         });
         return errors;
     }
@@ -195,17 +193,17 @@ public class PersistenceVerificationServiceImpl implements PersistenceVerificati
         ddRelationships.stream()
                 .filter(relationship -> !ignoredRelationships.contains(relationship.getTargetClass()))
                 .forEach(relationship -> {
-            final Map<String, Object> criteria = new HashMap<>();
-            for (PrimitiveAttributeDefinition attr : relationship.getPrimitiveAttributes()) {
-                criteria.put(attr.getTargetName(), getProperty(bo, attr.getSourceName()));
-            }
+                    final Map<String, Object> criteria = new HashMap<>();
+                    for (PrimitiveAttributeDefinition attr : relationship.getPrimitiveAttributes()) {
+                        criteria.put(attr.getTargetName(), getProperty(bo, attr.getSourceName()));
+                    }
 
-            if (!criteria.values().stream().anyMatch(Objects::isNull) && getBusinessObjectService().countMatching(relationship.getTargetClass(), criteria) == 0) {
+                    if (!criteria.values().stream().anyMatch(Objects::isNull) && getBusinessObjectService().countMatching(relationship.getTargetClass(), criteria) == 0) {
 
-                relationship.getPrimitiveAttributes().forEach(attr -> errors.putError(attr.getSourceName(), RiceKeyConstants.ERROR_EXISTENCE,
-                        dataDictionaryService.getDataDictionary().getBusinessObjectEntry(relationship.getTargetClass().getName()).getObjectLabel()));
-            }
-        });
+                        relationship.getPrimitiveAttributes().forEach(attr -> errors.putError(attr.getSourceName(), RiceKeyConstants.ERROR_EXISTENCE,
+                                getRelationshipDescriptor(relationship.getTargetClass())));
+                    }
+                });
         return errors;
     }
 
@@ -221,17 +219,17 @@ public class PersistenceVerificationServiceImpl implements PersistenceVerificati
                 .filter(relationship -> !ignoredRelationships.contains(relationship.getRelatedType()))
                 .forEach(relationship -> {
 
-            final Map<String, Object> criteria = relationship.getAttributeRelationships().stream()
-                    .map(attr -> entry(attr.getChildAttributeName(), getProperty(bo, attr.getParentAttributeName())))
-                    .collect(entriesToMap());
+                    final Map<String, Object> criteria = relationship.getAttributeRelationships().stream()
+                            .map(attr -> entry(attr.getChildAttributeName(), getProperty(bo, attr.getParentAttributeName())))
+                            .collect(entriesToMap());
 
-            if (getDataObjectService().findMatching(relationship.getRelatedType(),
-                    QueryByCriteria.Builder.andAttributes(criteria).setCountFlag(CountFlag.ONLY).build()).getTotalRowCount() == 0) {
+                    if (!criteria.isEmpty() && getDataObjectService().findMatching(relationship.getRelatedType(),
+                            QueryByCriteria.Builder.andAttributes(criteria).setCountFlag(CountFlag.ONLY).build()).getTotalRowCount() == 0) {
 
-                relationship.getAttributeRelationships().forEach(rel -> errors.putError(rel.getParentAttributeName(), KeyConstants.ERROR_DELETION_BLOCKED,
-                        dataDictionaryService.getDataDictionary().getDataObjectEntry(relationship.getRelatedType().getName()).getObjectLabel()));
-            }
-        });
+                        relationship.getAttributeRelationships().forEach(rel -> errors.putError(rel.getParentAttributeName(), KeyConstants.ERROR_DELETION_BLOCKED,
+                                getRelationshipDescriptor(relationship.getRelatedType())));
+                    }
+                });
         return errors;
     }
 
@@ -246,19 +244,11 @@ public class PersistenceVerificationServiceImpl implements PersistenceVerificati
                     .map(entry -> entry(entry.getKey(), getProperty(bo, entry.getValue())))
                     .collect(entriesToMap());
 
-            if (getBusinessObjectService().countMatching(relationship.getParentClass(), criteria) > 0) {
-                errors.putError(KRADConstants.GLOBAL_ERRORS, KeyConstants.ERROR_DELETION_BLOCKED, getOjbRelationshipDescriptor(relationship));
+            if (!criteria.isEmpty() && getBusinessObjectService().countMatching(relationship.getParentClass(), criteria) > 0) {
+                errors.putError(KRADConstants.GLOBAL_ERRORS, KeyConstants.ERROR_DELETION_BLOCKED, getRelationshipDescriptor(relationship.getParentClass()));
             }
         });
         return errors;
-    }
-
-    protected String getOjbRelationshipDescriptor(DataObjectRelationship relationship) {
-        BusinessObjectEntry entry = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(relationship.getParentClass().getName());
-        if (entry != null && StringUtils.isNotEmpty(entry.getObjectLabel())) {
-            return entry.getObjectLabel();
-        }
-        return relationship.getParentClass().getSimpleName();
     }
 
     protected MessageMap verifyDDRelationshipsForDelete(Object bo, Collection<Class<?>> ignoredRelationships) {
@@ -276,9 +266,9 @@ public class PersistenceVerificationServiceImpl implements PersistenceVerificati
                     .map(attr -> entry(attr.getSourceName(), getProperty(bo, attr.getTargetName())))
                     .collect(entriesToMap());
 
-            if (getBusinessObjectService().countMatching(relationship.getSourceClass(), criteria) > 0) {
+            if (!criteria.isEmpty() && getBusinessObjectService().countMatching(relationship.getSourceClass(), criteria) > 0) {
                 errors.putError(KRADConstants.GLOBAL_ERRORS, KeyConstants.ERROR_DELETION_BLOCKED,
-                        dataDictionaryService.getDataDictionary().getBusinessObjectEntry(relationship.getSourceClass().getName()).getObjectLabel());
+                        getRelationshipDescriptor(relationship.getSourceClass()));
             }
         });
         return errors;
@@ -304,10 +294,18 @@ public class PersistenceVerificationServiceImpl implements PersistenceVerificati
             if (!criteria.isEmpty() && getDataObjectService().findMatching(relationship.getKey(),
                     QueryByCriteria.Builder.andAttributes(criteria).setCountFlag(CountFlag.ONLY).build()).getTotalRowCount() > 0) {
                 errors.putError(KRADConstants.GLOBAL_ERRORS, KeyConstants.ERROR_DELETION_BLOCKED,
-                        dataDictionaryService.getDataDictionary().getDataObjectEntry(relationship.getKey().getName()).getObjectLabel());
+                        getRelationshipDescriptor(relationship.getKey()));
             }
         });
         return errors;
+    }
+
+    protected String getRelationshipDescriptor(Class clazz) {
+        BusinessObjectEntry entry = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(clazz.getName());
+        if (entry != null && StringUtils.isNotEmpty(entry.getObjectLabel())) {
+            return entry.getObjectLabel();
+        }
+        return clazz.getSimpleName();
     }
 
     private Object getProperty(Object o, String prop) {
