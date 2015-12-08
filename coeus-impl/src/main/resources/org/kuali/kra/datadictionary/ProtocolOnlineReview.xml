@@ -62,26 +62,6 @@
 				<ref bean="ProtocolOnlineReview-resultDueDate"/>
 			</list>
 		</property>
-		<property name="relationships">
-      		<list>
-        		<bean parent="RelationshipDefinition">
-          			<property name="objectAttributeName" value="lookupReviewerRolodex"/>
-	          		<property name="primitiveAttributes">
-            			<list>
-              				<bean p:sourceName="lookupReviewerRolodexId" p:targetName="rolodexId" parent="PrimitiveAttributeDefinition"/>
-            			</list>
-          			</property>
-        		</bean>
-        		<bean parent="RelationshipDefinition">
-          			<property name="objectAttributeName" value="lookupReviewerPerson"/>
-	          		<property name="primitiveAttributes">
-            			<list>
-              				<bean p:sourceName="lookupReviewerPersonId" p:targetName="personId" parent="PrimitiveAttributeDefinition"/>
-            			</list>
-          			</property>
-        		</bean>
-			</list>
-		</property>	
 	</bean>
 	
   <!-- Attribute Definitions -->
