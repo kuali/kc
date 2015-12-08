@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1512.36
 * Do not display certification toggle functionality when Prop Person COI Status param is enabled
 
   * The COI Disclosure Status flag feature is designed to control if the proposal person certification questionnaire should appear for proposal personnel.
