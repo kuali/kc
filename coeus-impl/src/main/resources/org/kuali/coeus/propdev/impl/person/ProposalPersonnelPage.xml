@@ -642,7 +642,7 @@
         <property name="items">
             <list>
                 <bean parent="PropDev-PersonnelPage-KeyPersonCertificationToggle"
-                      p:render="@{!#line.getRole().getCertificationRequired()}"
+                      p:render="@{!#line.getRole().getCertificationRequired() and !#ViewHelper.displayCoiDisclosureStatus()}"
                       p:order="10"/>
                 <bean parent="Uif-Message" p:messageText="[color=red]Proposal is a Child in Proposal Hierarchy. Certifications must take place in the Parent proposal.[/color]"
                       p:render="@{document.developmentProposal.isChild()}"
