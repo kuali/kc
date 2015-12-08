@@ -1851,7 +1851,7 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements N
 	}
 	
 	public String getCertifiedTimeStamp() {
-		if(this.certifiedTime!=null){
+		if(this.certifiedTime != null){
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.MM_DD_YYYY_HH_MM_A_DATE_FORMAT);
             certifiedTimeStamp = simpleDateFormat.format(certifiedTime);
 		}
