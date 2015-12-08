@@ -1,6 +1,15 @@
 
 
 ##CURRENT
+*  Fixing completed by message.
+  * Reproduced basic issue: PD: Hierarchy > Certification shows as Complete, but there are no answers in Hierarchy Parent
+  * With Certification completed at child then child linked to a hierarchy, the parent has Proposal Personnel > Certification status as Complete with timestamp and user pulled in from child, but none of the answers.
+  * There is no problem, however, with PI or Co-I completing the certification at parent level when a Notify request is sent from parent. The completion timestamp updates and answers are pulled in with the PI/Co-I's completion of certification at parent level.
+  * The only real issue that needs fixing is: when linked to a hierarchy, if a child proposal has had a certification completed, the completion status, timestamp and user should NOT be pulled into and displayed on the parent proposal for that person.
+  * Certification should not be listed as complete at parent when only done at the/a child.
+  * Gayathri Athreya on Mon, 7 Dec 2015 13:33:52 -0700 [View Commit](../../commit/5b487d3c5193f5a24ec9931b58f89cfe9b939d73)
+
+##coeus-1512.34
 * No Changes
 
 
