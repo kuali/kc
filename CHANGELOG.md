@@ -1,6 +1,13 @@
 
 
 ##CURRENT
+* In PD Budget, underrecovery detail row can have on/off campus set as invalid select value
+
+  * This change adds validation to ensure on/off campus is selected and provides a message when it is invalid.
+  * It also does a null safe comparison when looking for duplicate rows to ensure stack traces do not occur if a valid is left empty.
+  * blackcathacker on Tue, 8 Dec 2015 16:41:45 -0800 [View Commit](../../commit/b91795b92b369e16271a79cae1a84dd42df53e93)
+
+##coeus-1512.38
 * No Changes
 
 
