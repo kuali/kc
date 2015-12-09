@@ -475,7 +475,7 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
         if (requisitionerUserName != null) {
             KcPerson requisitioner = KcServiceLocator.
             getService(KcPersonService.class).getKcPersonByUserName(
-            		requisitionerUserName);
+                    requisitionerUserName);
             if (requisitioner != null) {
                 requisitionerId = requisitioner.getPersonId();
             }
@@ -1607,6 +1607,13 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
 	public List<SubAwardAmountInfo> getAllSubAwardAmountInfos() {
 		return allSubAwardAmountInfos;
 	}
+
+    public SubAwardAmountInfo getLatestSubAwardAmountInfo() {
+        if (allSubAwardAmountInfos.size() > 0) {
+            return allSubAwardAmountInfos.get(allSubAwardAmountInfos.size() - 1);
+        }
+        return null;
+    }
 
 	public void setAllSubAwardAmountInfos(
 			List<SubAwardAmountInfo> allSubAwardAmountInfos) {

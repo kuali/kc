@@ -128,7 +128,14 @@
 						</td>
                  					<td>${awardLinkedSubawards.organizationName}&nbsp; </td>
                  					<td>${awardLinkedSubawards.subAwardCode}&nbsp; </td>
-                 					<td>${awardLinkedSubawards.allSubAwardAmountInfos[0].obligatedChange}&nbsp;</td>                 					
+									<c:choose>
+										<c:when test="${awardLinkedSubawards.latestSubAwardAmountInfo != null}">
+											<td>${awardLinkedSubawards.latestSubAwardAmountInfo.obligatedAmount}&nbsp;</td>
+										</c:when>
+										<c:otherwise>
+											<td>0.00&nbsp;</td>
+										</c:otherwise>
+									</c:choose>
                  					<td>${awardLinkedSubawards.subAwardStatus.description}</td>
                   	</tr>
         			</c:forEach>
