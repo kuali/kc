@@ -1,6 +1,17 @@
 
 
 ##CURRENT
+* move fixes to other methods
+  * Joe Williams on Tue, 8 Dec 2015 15:12:44 -0600 [View Commit](../../commit/bd0f7f3ae7e0ff03a4a4658cf9501ef8fd82b7fb)
+*  STE trying to delete address book entry
+
+  * When I tried to delete the address book that was not tied to any other record but when I clicked submit I get the following Stack trace error
+
+  * "The system has encountered an error and is unable to complete your request at this time. Please provide more information regarding this error by completing this Incident Report.
+  * Error Details: OJB operation; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'lookupReviewerRolodexId' in 'where clause'" I have attached the screen shot of the error also.
+  * Joe Williams on Tue, 8 Dec 2015 13:58:14 -0600 [View Commit](../../commit/3d42c673c575883c8343a65582703dbf4939c78e)
+
+##coeus-1512.39
 * In PD Budget, underrecovery detail row can have on/off campus set as invalid select value
 
   * This change adds validation to ensure on/off campus is selected and provides a message when it is invalid.
