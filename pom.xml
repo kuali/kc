@@ -68,7 +68,7 @@
         <cas-client-core.version>3.3.3</cas-client-core.version>
         <cglib.version>3.1</cglib.version>
         <coeus-api-all.version>1509.0003</coeus-api-all.version>
-        <coeus-s2sgen.version>1512.0009</coeus-s2sgen.version>
+        <coeus-s2sgen.version>1512.0010</coeus-s2sgen.version>
         <commons-beanutils.version>1.8.3-kuali-4</commons-beanutils.version>
         <commons-codec.version>1.10</commons-codec.version>
         <commons-collections.version>3.2.2</commons-collections.version>
@@ -121,7 +121,7 @@
         <pdfbox.version>1.8.6</pdfbox.version>
         <quartz.version>1.8.4</quartz.version>
         <schemaspy.version>1508.0162</schemaspy.version>
-        <rice.version>2.5.3.1512.0002-kualico</rice.version>
+        <rice.version>2.5.3.1512.0003-kualico</rice.version>
         <servlet.version>3.0.1</servlet.version>
         <slf4j.version>1.7.13</slf4j.version>
         <spring.version>3.2.13.RELEASE</spring.version>

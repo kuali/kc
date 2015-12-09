@@ -21,6 +21,7 @@ package org.kuali.coeus.sys.framework.controller;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kew.routing.web.ClientAppDocHandlerRedirectAction;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -36,7 +37,6 @@ import javax.servlet.http.HttpServletResponse;
         
 public class CustomDocHandlerRedirectAction extends ClientAppDocHandlerRedirectAction {
 
-    public static final String PROPOSAL_DEVELOPMENT_DOCUMENT = "ProposalDevelopmentDocument";
     public static final String DOCUMENT_TYPE_NAME = "documentTypeName";
     public static final String PROTOCOL_DOCUMENT = "ProtocolDocument";
     public static final String IACUC_PROTOCOL_DOCUMENT = "IacucProtocolDocument";
@@ -51,7 +51,7 @@ public class CustomDocHandlerRedirectAction extends ClientAppDocHandlerRedirectA
         ActionForward returnForward = super.execute(mapping, form, request, response);
         
         String docHandler = returnForward.getPath();
-        if (PROPOSAL_DEVELOPMENT_DOCUMENT.equals(request.getParameter(DOCUMENT_TYPE_NAME))) {
+        if (ProposalDevelopmentConstants.KewConstants.PROPOSAL_DEVELOPMENT_DOCUMENT.equals(request.getParameter(DOCUMENT_TYPE_NAME))) {
             docHandler = docHandler.replace(KRADConstants.DOC_HANDLER_METHOD, Constants.PROPOSAL_ACTIONS_PAGE);
         } else if (PROTOCOL_DOCUMENT.equals(request.getParameter(DOCUMENT_TYPE_NAME)) ||
                 IACUC_PROTOCOL_DOCUMENT.equals(request.getParameter(DOCUMENT_TYPE_NAME))) {
