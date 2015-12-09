@@ -110,6 +110,28 @@
                 <ref bean="Award-latestAwardAmountInfo.amountObligatedToDate"/>
             </list>
         </property>
+      	<property name="relationships">
+	      	<list>
+		     	<bean parent="RelationshipDefinition">
+			    	<property name="objectAttributeName" value="investigator" />
+			      	<property name="primitiveAttributes">
+				    <list>
+					    <bean parent="PrimitiveAttributeDefinition" p:sourceName="projectPersons.fullName"
+						      p:targetName="fullName" />
+				     </list>
+			       	</property>
+		        </bean>
+		        <bean parent="RelationshipDefinition">
+				    <property name="objectAttributeName" value="ospAdministrator" />
+				    <property name="primitiveAttributes">
+				    	<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="lookupOspAdministratorName"
+							      p:targetName="fullName" />
+					    </list>
+				    </property>
+		        </bean>
+	        </list>
+        </property>
         <property name="collections">
             <list>
                 <bean parent="CollectionDefinition" p:name="awardUnitContacts" p:label="Unit Contacts"
@@ -1485,7 +1507,7 @@
                 <bean p:attributeName="statusCode" parent="FieldDefinition"/>
                 <bean p:attributeName="sponsorCode" parent="FieldDefinition"/>
                 <bean p:attributeName="title" parent="FieldDefinition"/>
-                <bean p:attributeName="projectPersons.fullName" parent="FieldDefinition"/>
+                <bean p:attributeName="projectPersons.fullName" p:noDirectInquiry="true" parent="FieldDefinition"/>
                 <bean p:attributeName="unitNumber" parent="FieldDefinition"/>
                 <bean p:attributeName="leadUnit.unitName" parent="FieldDefinition"/>
                 <bean p:attributeName="leadUnit.unitAdministrators.person.userName" parent="FieldDefinition"/>
@@ -1529,10 +1551,10 @@
                 <bean p:propertyName="statusCode" parent="Uif-LookupCriteriaInputField"/>
                 <bean p:propertyName="sponsorCode" parent="Uif-LookupCriteriaInputField"/>
                 <bean p:propertyName="title" parent="Uif-LookupCriteriaInputField"/>
-                <bean p:propertyName="projectPersons.fullName" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="projectPersons.fullName" p:enableAutoDirectInquiry="false" parent="Uif-LookupCriteriaInputField"/>
                 <bean p:propertyName="unitNumber" parent="Uif-LookupCriteriaInputField"/>
                 <bean p:propertyName="leadUnit.unitName" parent="Uif-LookupCriteriaInputField"/>
-                <bean p:propertyName="lookupOspAdministratorName" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="lookupOspAdministratorName" p:enableAutoDirectInquiry="false" parent="Uif-LookupCriteriaInputField"/>
                 <bean p:propertyName="awardUnitContacts.awardContactId" parent="Uif-LookupCriteriaInputField"/>
                 <bean p:propertyName="archiveLocation" parent="Uif-LookupCriteriaInputField"/>
                 <bean p:propertyName="closeoutDate" parent="Uif-LookupCriteriaInputField"/>
