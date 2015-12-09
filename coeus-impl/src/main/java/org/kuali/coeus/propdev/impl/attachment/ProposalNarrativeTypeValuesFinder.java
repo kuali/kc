@@ -25,6 +25,7 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants;
 import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
@@ -38,7 +39,9 @@ import org.kuali.rice.krad.uif.view.ViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Finds the available set of supported Narrative Types.  See
@@ -73,13 +76,13 @@ public class ProposalNarrativeTypeValuesFinder  extends UifKeyValuesFinderBase {
     @Override
     public List<KeyValue> getKeyValues(ViewModel model, InputField field){
         DevelopmentProposal developmentProposal = ((ProposalDevelopmentDocumentForm) model).getDevelopmentProposal();
-        Collection<NarrativeType> allNarrativeTypes = loadAllNarrativeTypes(developmentProposal);
+        List<NarrativeType> allNarrativeTypes = new ArrayList<>(loadAllNarrativeTypes(developmentProposal));
         String narrativeTypeCode = "";
 
         try {
-           narrativeTypeCode = (String) PropertyUtils.getProperty(model, field.getBindingInfo().getBindingPath());
+           narrativeTypeCode = getNarrativeTypeCodeFromModelValue(model, field);
            if (StringUtils.isNotEmpty(narrativeTypeCode)) {
-           NarrativeType currentNarrativeType = getDataObjectService().find(NarrativeType.class,narrativeTypeCode);
+           NarrativeType currentNarrativeType = getNarrativeType(narrativeTypeCode);
                 if (currentNarrativeType != null) {
                     if (!allNarrativeTypes.contains(currentNarrativeType)) {
                         allNarrativeTypes.add(currentNarrativeType);
@@ -89,15 +92,35 @@ public class ProposalNarrativeTypeValuesFinder  extends UifKeyValuesFinderBase {
         } catch (Exception e) {
             throw new RiceRuntimeException("could not retrieve narrative type from the input field", e);
         }
+        
+        if (shouldAlphabetizeNarrativeTypes()) {
+        	allNarrativeTypes.sort(Comparator.comparing(NarrativeType::getDescription, Comparator.nullsFirst(Comparator.naturalOrder())));
+        }
 
         return getFilteredKeyValues(allNarrativeTypes, developmentProposal, narrativeTypeCode);
 
     }
 
+	protected NarrativeType getNarrativeType(String narrativeTypeCode) {
+		return getDataObjectService().find(NarrativeType.class,narrativeTypeCode);
+	}
+
+	protected String getNarrativeTypeCodeFromModelValue(ViewModel model, InputField field)
+			throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+		return (String) PropertyUtils.getProperty(model, field.getBindingInfo().getBindingPath());
+	}
+
+	protected Boolean shouldAlphabetizeNarrativeTypes() {
+		return getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, ProposalDevelopmentConstants.Parameters.ALPHABETIZE_ATTACHMENT_TYPES);
+	}
+
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
         DevelopmentProposal developmentProposal = ((ProposalDevelopmentDocumentForm) model).getDevelopmentProposal();
-        Collection<NarrativeType> allNarrativeTypes = loadAllNarrativeTypes(developmentProposal);
+        List<NarrativeType> allNarrativeTypes = new ArrayList<>(loadAllNarrativeTypes(developmentProposal));
+        if (shouldAlphabetizeNarrativeTypes()) {
+        	allNarrativeTypes.sort(Comparator.comparing(NarrativeType::getDescription, Comparator.nullsFirst(Comparator.naturalOrder())));
+        }
         return getFilteredKeyValues(allNarrativeTypes, developmentProposal, "");
     }
     
