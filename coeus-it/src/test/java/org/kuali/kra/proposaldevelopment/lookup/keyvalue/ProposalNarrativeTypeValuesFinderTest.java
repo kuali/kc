@@ -25,11 +25,15 @@ import org.junit.Test;
 import org.kuali.coeus.propdev.impl.attachment.ProposalNarrativeTypeValuesFinder;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeType;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.uif.component.BindingInfo;
+import org.kuali.rice.krad.uif.field.InputField;
+import org.kuali.rice.krad.uif.field.InputFieldBase;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -41,9 +45,11 @@ public class ProposalNarrativeTypeValuesFinderTest extends KcIntegrationTestBase
     private ProposalDevelopmentDocument document;
     private ProposalNarrativeTypeValuesFinder finder;
     private NarrativeType otherNarrativeType;
+    private NarrativeType firstAlphabeticallyNarrativeType;
     private NarrativeType proposalNarrativeType;
     private List<KeyValue> allNarrativeTypesAsKeyValues;
     private Collection<NarrativeType> allNarrativeTypes;
+    private Boolean alphabetizeCollection = false;
     
     @Before
     public void setUp() throws Exception {
@@ -61,26 +67,47 @@ public class ProposalNarrativeTypeValuesFinderTest extends KcIntegrationTestBase
     @Test
     public void testFindingNarrativeValues() throws Exception {
         document.getDevelopmentProposal().getNarratives().add(createNarrative(proposalNarrativeType));
-        Assert.assertEquals(3, finder.getFilteredKeyValues(copyMasterNarrativeTypeList(),document.getDevelopmentProposal(),"").size());
-        Assert.assertEquals(4, finder.getFilteredKeyValues(copyMasterNarrativeTypeList(),document.getDevelopmentProposal(),createNarrative(proposalNarrativeType).getNarrativeTypeCode()).size());
+        Assert.assertEquals(4, finder.getFilteredKeyValues(copyMasterNarrativeTypeList(),document.getDevelopmentProposal(),"").size());
+        Assert.assertEquals(5, finder.getFilteredKeyValues(copyMasterNarrativeTypeList(),document.getDevelopmentProposal(),createNarrative(proposalNarrativeType).getNarrativeTypeCode()).size());
         document.getDevelopmentProposal().getNarratives().clear();
         
         document.getDevelopmentProposal().getNarratives().add(createNarrative(bioNarrativeType));
-        Assert.assertEquals(3, finder.getFilteredKeyValues(copyMasterNarrativeTypeList(),document.getDevelopmentProposal(),"").size());
-        Assert.assertEquals(4, finder.getFilteredKeyValues(copyMasterNarrativeTypeList(),document.getDevelopmentProposal(),createNarrative(bioNarrativeType).getNarrativeTypeCode()).size());
+        Assert.assertEquals(4, finder.getFilteredKeyValues(copyMasterNarrativeTypeList(),document.getDevelopmentProposal(),"").size());
+        Assert.assertEquals(5, finder.getFilteredKeyValues(copyMasterNarrativeTypeList(),document.getDevelopmentProposal(),createNarrative(bioNarrativeType).getNarrativeTypeCode()).size());
         document.getDevelopmentProposal().getNarratives().clear();
         
         document.getDevelopmentProposal().getNarratives().add(createNarrative(otherNarrativeType));
-        Assert.assertEquals(4, finder.getFilteredKeyValues(copyMasterNarrativeTypeList(),document.getDevelopmentProposal(),"").size());
+        Assert.assertEquals(5, finder.getFilteredKeyValues(copyMasterNarrativeTypeList(),document.getDevelopmentProposal(),"").size());
         document.getDevelopmentProposal().getNarratives().clear();
     }
+    
+    @Test
+    public void testFindingNarrativeValues_alphabetize() throws Exception {
+    	this.alphabetizeCollection = true;
+        document.getDevelopmentProposal().getNarratives().add(createNarrative(proposalNarrativeType));
+        ProposalDevelopmentDocumentForm form = new ProposalDevelopmentDocumentForm();
+        form.setDocument(document);
+        List<KeyValue> values = finder.getKeyValues(form);
+        Assert.assertEquals(4, values.size());
+        Assert.assertEquals(firstAlphabeticallyNarrativeType.getCode(), values.get(1).getKey());
+        Assert.assertEquals(firstAlphabeticallyNarrativeType.getDescription(), values.get(1).getValue());
+        
+        InputField typeField = new InputFieldBase();
+        typeField.setBindingInfo(new BindingInfo());
+        typeField.getBindingInfo().setBindingPath("document.developmentProposal.narratives[0].narrativeTypeCode");
+        values = finder.getKeyValues(form, typeField);
+        Assert.assertEquals(5, values.size());
+        Assert.assertEquals(firstAlphabeticallyNarrativeType.getCode(), values.get(1).getKey());
+        Assert.assertEquals(firstAlphabeticallyNarrativeType.getDescription(), values.get(1).getValue());
+    }
+
 
     private ArrayList<NarrativeType> copyMasterNarrativeTypeList() {
         return new ArrayList<NarrativeType>(allNarrativeTypes);
     }
 
     private Narrative createNarrative(NarrativeType narrativeType) {
-        Narrative narrative = new MockNarrative();
+        Narrative narrative = new Narrative();
         narrative.setNarrativeType(narrativeType);
         narrative.setNarrativeTypeCode(narrativeType.getCode());
         
@@ -113,15 +140,8 @@ public class ProposalNarrativeTypeValuesFinderTest extends KcIntegrationTestBase
         allNarrativeTypesAsKeyValues = new ArrayList<KeyValue>();
         proposalNarrativeType = createNarrativeType("1", "Proposal", false);
         bioNarrativeType = createNarrativeType("2", "Bio Sketch", false);
-        otherNarrativeType = createNarrativeType("3", "Other", true);        
-    }
-    
-    // Mock out methods that rely on infrastructure services
-    @SuppressWarnings("serial")
-    private class MockNarrative extends Narrative {
-
-
-        
+        otherNarrativeType = createNarrativeType("3", "Other", true);
+        firstAlphabeticallyNarrativeType = createNarrativeType("4", "AAA1", false);
     }
     
     // Mock out methods that rely on infrastructure services 
@@ -130,6 +150,16 @@ public class ProposalNarrativeTypeValuesFinderTest extends KcIntegrationTestBase
         @Override
         public Collection<NarrativeType> loadAllNarrativeTypes(DevelopmentProposal developmentProposal) {
             return allNarrativeTypes;
+        }
+        
+        @Override
+        protected Boolean shouldAlphabetizeNarrativeTypes() {
+        	return alphabetizeCollection;
+        }
+        
+        @Override
+        protected NarrativeType getNarrativeType(String narrativeTypeCode) {
+        	return proposalNarrativeType;
         }
         
     }
