@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* Support alphabetizing attachment types in proposal development
+
+  * A new parameter called 'alphabetizeAttachmentTypes' has been added to enable or disable this functionality. Disabled by default which is the previous behavior.
+  * blackcathacker on Wed, 9 Dec 2015 10:48:09 -0800 [View Commit](../../commit/051c1071d992c5ef342f9067e0a4480e0dabfb30)
+* preventing subaward files from returning null in s2s generator code due to strange jpa lazy fetch behavior.  upgrading s2sgen
+  * Travis Schneeberger on Wed, 9 Dec 2015 08:41:34 -0500 [View Commit](../../commit/7d2e99409faebe4326e58e942abfccaa0cc4a692)
+
+##coeus-1512.41
 * Subaward Obligated Fund modifications do not update associated Award record
 
   * As an Award and Subaward user, I reference the Award module > Subaward where this award is a funding source panel to confirm the funding amount obligated to those records.
