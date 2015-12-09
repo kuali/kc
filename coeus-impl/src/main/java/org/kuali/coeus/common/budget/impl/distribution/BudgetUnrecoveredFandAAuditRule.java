@@ -19,6 +19,7 @@
 package org.kuali.coeus.common.budget.impl.distribution;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.kuali.coeus.common.framework.fiscalyear.FiscalYearMonthService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.Budget;
@@ -199,8 +200,6 @@ public class BudgetUnrecoveredFandAAuditRule extends BudgetAuditRuleBase {
         String source;
         Integer fiscalYear;
 
-        int i=0;
-        int j;
         BudgetParent budgetParent = budget.getBudgetParent();
 
         BudgetConstants.BudgetAuditRules budgetUnrecoveredFARule = BudgetConstants.BudgetAuditRules.UNRECOVERED_FA;
@@ -225,6 +224,12 @@ public class BudgetUnrecoveredFandAAuditRule extends BudgetAuditRuleBase {
                                                     budgetUnrecoveredFARule.getPageId(), PARAMS));
                 retval = false;
             }
+            if (StringUtils.isBlank(unrecoveredFandA.getOnCampusFlag())) {
+                auditErrors.add(new AuditError(budgetUnrecoveredFARule.getPageId(),
+                        KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_ONCAMPUS_FLAG_MISSING,
+                        budgetUnrecoveredFARule.getPageId(), PARAMS));
+                retval = false;
+            }
 
             final Calendar projectStartDate = Calendar.getInstance();
             projectStartDate.setTime(budgetParent.getRequestedStartDateInitial());
@@ -240,27 +245,28 @@ public class BudgetUnrecoveredFandAAuditRule extends BudgetAuditRuleBase {
             }
 
             if(!duplicateEntryFound) {
-                j=0;
-                for (BudgetUnrecoveredFandA unrecoveredFandAForComparison : unrecoveredFandAs) {
-                    if(i != j && unrecoveredFandA.getFiscalYear() != null && unrecoveredFandAForComparison.getFiscalYear() != null &&
-                            unrecoveredFandA.getFiscalYear().intValue() == unrecoveredFandAForComparison.getFiscalYear().intValue() &&
-                            unrecoveredFandA.getApplicableRate().equals( unrecoveredFandAForComparison.getApplicableRate()) &&
-                            unrecoveredFandA.getOnCampusFlag().equalsIgnoreCase(unrecoveredFandAForComparison.getOnCampusFlag()) &&
-                            StringUtils.equalsIgnoreCase(unrecoveredFandA.getSourceAccount(), unrecoveredFandAForComparison.getSourceAccount()) &&
-                            unrecoveredFandA.getAmount().equals( unrecoveredFandAForComparison.getAmount())) {
-                        auditErrors.add(new AuditError(budgetUnrecoveredFARule.getPageId(),
-                                KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_DUPLICATE_UNRECOVERED_FA,
-                                budgetUnrecoveredFARule.getPageId(), PARAMS));
-                        duplicateEntryFound = true;
-                        retval = false;
-                        break;
-                    }
-                    j++;
+                if (unrecoveredFandAs.stream()
+                		.anyMatch(duplicateFandA -> unrecoveredFandA != duplicateFandA && unrecoveredFAMatches(unrecoveredFandA, duplicateFandA))) {
+                	auditErrors.add(new AuditError(budgetUnrecoveredFARule.getPageId(),
+							KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_DUPLICATE_UNRECOVERED_FA,
+							budgetUnrecoveredFARule.getPageId(), PARAMS));
+					duplicateEntryFound = true;
+					retval = false;
+					break;
                 }
             }
-            i++;
         }
         return retval;
+    }
+    
+    protected boolean unrecoveredFAMatches(BudgetUnrecoveredFandA obj1, BudgetUnrecoveredFandA obj2) {
+    	return new EqualsBuilder()
+    			.append(obj1.getFiscalYear(), obj2.getFiscalYear())
+    			.append(obj1.getApplicableRate(), obj2.getApplicableRate())
+    			.append(obj1.getOnCampusFlag(), obj2.getOnCampusFlag())
+    			.append(obj1.getSourceAccount(), obj2.getSourceAccount())
+    			.append(obj1.getAmount(), obj2.getAmount())
+    			.isEquals();
     }
     
     /**
