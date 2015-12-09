@@ -1,6 +1,20 @@
 
 
 ##CURRENT
+*  Fix eraCommonsValidation
+  * As a result of removing the 6-character minimum validation error for the Proposal > Key Personnel > Details > eRA Commons User ID field to support ID's for non-NIH systems, we need to provide a System warning for when the eRA Commons ID field is less than 6 characters for NIH submissions.
+  * Warning message should state: "For NIH proposals, the eRA Commons ID must be a minimum of 6 characters"
+  * We've been advised that Because there this eRA Commons ID field appears for every proposal person, thus not a unique field, this validation may not be easily managed via a KRMS property.
+  * So if there is no KRMS solution, the desired result of this JIRA is to reinstate the system-wide validation for the eRA Commons User ID field at 6 characters, but to make it a WARNING, not an ERROR.
+  * Gayathri Athreya on Wed, 9 Dec 2015 13:49:44 -0700 [View Commit](../../commit/1fae9994da2caeb74c80c1263aefd1bd55bac2cc)
+* Upgrade rice
+  * Fix for person search. Verified RESMER-99 connecting to MIT QA WKLY
+  * Search is now returning appropriate results (person searhc, PD key personnel).
+  * Assuming this will reflect in mit_master when merged so that I don't have
+  * to update same for mit_master.
+  * rmancher on Wed, 9 Dec 2015 15:02:07 -0500 [View Commit](../../commit/f85b03ff5008080edff2151068c2f003d22ef76e)
+
+##coeus-1512.43
 * No Changes
 
 
