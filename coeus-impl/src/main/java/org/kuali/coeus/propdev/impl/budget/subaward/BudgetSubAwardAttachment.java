@@ -31,7 +31,6 @@ public class BudgetSubAwardAttachment extends KcPersistableBusinessObjectBase im
     private static final long serialVersionUID = -2467480179750426256L;
 
     @Column(name = "ATTACHMENT")
-    @Basic(fetch = FetchType.LAZY)
     @Lob
     private byte[] data;
 
