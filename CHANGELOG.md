@@ -1,6 +1,13 @@
 
 
 ##CURRENT
+* Subaward Obligated Fund modifications do not update associated Award record
+
+  * As an Award and Subaward user, I reference the Award module > Subaward where this award is a funding source panel to confirm the funding amount obligated to those records.
+  * Currently, the Award record will successfully update with the initial subaward fund allocation. But successive modifications that alter the funding level of the subaward are not reflected in the award.
+  * Joe Williams on Wed, 9 Dec 2015 09:54:53 -0600 [View Commit](../../commit/8740515dbbbb24c82ad4ce16ee766bde8fb07696)
+
+##coeus-1512.40
 * move fixes to other methods
   * Joe Williams on Tue, 8 Dec 2015 15:12:44 -0600 [View Commit](../../commit/bd0f7f3ae7e0ff03a4a4658cf9501ef8fd82b7fb)
 *  STE trying to delete address book entry
