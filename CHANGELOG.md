@@ -1,6 +1,21 @@
 
 
 ##CURRENT
+* PD - include lookup for investigator and OSP administrator in award search criteria
+  * This is part of fix required for RESMER-89 where MIT has configured relationship for investigator and OSP administrator
+  * fields used in search criteria. Merging that code to base in this PR.
+  * KRAD is building inquiry on full name. RESMER-89 fix is to disable auto inquiry on this field.
+  * RESMER-89 indicates - Production and QA users are unable to search and select an Award ID from the Proposal > Details screen.
+  * This conditional field appears for certain submission types, example: Renewal.
+  * Create or edit a Proposal Development document.
+  * Select Proposal Type = Renewal
+  * Fill in the required fields for saving if a new proposal and Save.
+  * In the Details screen, use the search icon on the Award ID field.
+  * Result: when the modal window appears on screen, the search does not function:
+  * An STE fills the modal screen
+  * rmancher on Wed, 9 Dec 2015 16:32:04 -0500 [View Commit](../../commit/642977f1bb121d3e4c66a19c039c4c8dfbe1c02b)
+
+##coeus-1512.52
 * No Changes
 
 
