@@ -46,8 +46,6 @@ public class ProposalStateServiceImpl implements ProposalStateService {
             return ProposalState.IN_PROGRESS;
         } else if (wd.isSaved()) {
             return computeProposalStateForSaved(proposalDevelopmentDocument, isRejectAction);
-        } else if( isRejectAction && wd.isEnroute()  ) {
-            return ProposalState.REVISIONS_REQUESTED;
         } else if (wd.isEnroute()) {
             return computeProposalStateForEnRoute(proposalDevelopmentDocument);
         } else if (wd.isApproved()) {

@@ -53,6 +53,7 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPA
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.action.ActionTaken;
 import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
 import org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent;
@@ -281,7 +282,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
                 }
             }
             String pCode = getDevelopmentProposal().getProposalStateTypeCode();
-            getDevelopmentProposal().setProposalStateTypeCode(getProposalStateService().getProposalStateTypeCode(this, getKcDocumentRejectionService().isDocumentOnInitialNode(this.getDocumentHeader().getWorkflowDocument())));
+            getDevelopmentProposal().setProposalStateTypeCode(getProposalStateService().getProposalStateTypeCode(this, hasProposalBeenReject(getDocumentHeader().getWorkflowDocument())));
             if (!StringUtils.equals(pCode, getDevelopmentProposal().getProposalStateTypeCode())) {
                 getDataObjectService().save(getDevelopmentProposal());
                 getDevelopmentProposal().refreshReferenceObject("proposalState");
@@ -298,6 +299,10 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
                 this.setInstitutionalProposalNumber(institutionalProposal.getProposalNumber());
             }
         }
+    }
+
+    private boolean hasProposalBeenReject(WorkflowDocument document) {
+        return document.getPreviousNodeNames().contains(getKcDocumentRejectionService().getWorkflowInitialNodeName(document.getDocumentTypeName()));
     }
 
     private boolean isLastSubmitterApprovalAction(ActionTaken actionTaken) {
