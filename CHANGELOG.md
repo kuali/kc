@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1512.50
 *  Reject workflow changes.
   * As a proposal user, I often add several aggregators to a proposal so multiple users can complete their assigned tasks. When a proposal is submitted to routing by one aggregator, if rejected for correction, the aggregator that submitted the proposal is now automatically added to the workflow and must approve the document before it commences with the expected routing. This is not the desired routing path.
   * Alternate common scenario: As a support person, I am frequently an added aggregator to 'problem' proposals to aid in preparation and submission. If the proposal get's submitted, I am automatically added as an approver when I should not be.
