@@ -1,6 +1,30 @@
 
 
 ##CURRENT
+*  Reject workflow changes.
+  * As a proposal user, I often add several aggregators to a proposal so multiple users can complete their assigned tasks. When a proposal is submitted to routing by one aggregator, if rejected for correction, the aggregator that submitted the proposal is now automatically added to the workflow and must approve the document before it commences with the expected routing. This is not the desired routing path.
+  * Alternate common scenario: As a support person, I am frequently an added aggregator to 'problem' proposals to aid in preparation and submission. If the proposal get's submitted, I am automatically added as an approver when I should not be.
+  * Steps to reproduce:
+  * As User A: example (rhanlon)
+  * Create a proposal with all the required information to submit to routing.
+  * On the Access screen, add another Aggregator. (User B: example aslusar)
+  * On the Summary/Submit screen, submit the proposal to routing.
+  * View the Route Log to determine the user at the next stop. (ex. rrabbit)
+  * Close the proposal.
+  * Login as the user identified in the route log. (Ex. rrabbit)
+  * Via the action list, locate the proposal and open it.
+  * Reject the proposal.
+  * Log out as the approver (rrabbit)
+  * Login as User B: ex. aslusar
+search for the proposal used in the example.
+  * On the Summary Submit screen, review the Route Log.
+  * Results:
+  * Notice that User A (ex. rhanlon) is required to approve the proposal because that user submitted the proposal in the first routing session.
+  * Expected Result:
+  * The prior submitter should not be required to approve. ANY aggregator should be able to submit and move the proposal directly into the workflow.
+  * Gayathri Athreya on Wed, 9 Dec 2015 16:09:28 -0700 [View Commit](../../commit/827ff9a2eb94631a90fe4ff46a78bbdb7f428aab)
+
+##coeus-1512.45
 *  Fix eraCommonsValidation
   * As a result of removing the 6-character minimum validation error for the Proposal > Key Personnel > Details > eRA Commons User ID field to support ID's for non-NIH systems, we need to provide a System warning for when the eRA Commons ID field is less than 6 characters for NIH submissions.
   * Warning message should state: "For NIH proposals, the eRA Commons ID must be a minimum of 6 characters"
