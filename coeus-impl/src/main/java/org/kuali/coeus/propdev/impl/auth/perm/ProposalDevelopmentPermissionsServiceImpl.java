@@ -171,7 +171,7 @@ public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelo
 
     public boolean doesPersonRequireCertification(ProposalPerson person) {
         if (person.getPerson() == null) {
-            return isAddressBookMultiPiCertificationExempt(person) ? false : isRolodexCertificationEnabled();
+        	return canCertifyAddressBookPerson(person);
         }
         if (!person.isKeyPerson()) return true;
         return isRoleCustomDataOrSponsorExempt(person);
@@ -180,7 +180,7 @@ public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelo
     protected boolean canCertify(String userPrincipalId, ProposalPerson proposalPerson, boolean isLoggedInUserPi, boolean canProxyCertify) {
     	// person is null for rolodex entries
     	if (Objects.isNull(proposalPerson.getPerson())) {
-    		return isRolodexCertificationEnabled() && !isAddressBookMultiPiCertificationExempt(proposalPerson) ? canProxyCertify : false;
+    		return canCertifyAddressBookPerson(proposalPerson) ? canProxyCertify : false;
     	}
   	  	
         if (isPiOrProxyCertificationPossible(userPrincipalId, proposalPerson, isLoggedInUserPi, canProxyCertify)) return true;
@@ -203,6 +203,19 @@ public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelo
 
         return false;
     }
+    
+    protected Boolean canCertifyAddressBookPerson(ProposalPerson proposalPerson) {
+		if (!isRolodexCertificationEnabled()) {
+			return false;
+		}
+		if (proposalPerson.isMultiplePi()) {
+			return !isAddressBookMultiPiCertificationExempt(proposalPerson);
+		}
+		if (proposalPerson.isKeyPerson()) {
+			return !isKeyPersonRoleExempt(proposalPerson);
+		}
+		return true;
+	}
 
     protected Boolean isRoleCustomDataOrSponsorExempt(ProposalPerson proposalPerson) {
         if (isKeyPersonRoleExempt(proposalPerson)) return false;
