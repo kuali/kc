@@ -137,6 +137,11 @@ public class ProposalDevelopmentConstants {
         public static final String CAN_SAVE_CERTIFICATION = "canSaveCertification";
         public static final String MODIFY_S2S = "modifyS2s";
     }
+
+    public static class KewConstants {
+
+        public static final String PROPOSAL_DEVELOPMENT_DOCUMENT = "ProposalDevelopmentDocument";
+    }
     
     
 }

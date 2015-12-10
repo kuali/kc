@@ -35,4 +35,7 @@
 
     <bean id="viewLifecyclePhaseBuilder" class="org.kuali.coeus.org.kuali.rice.krad.uif.lifecycle.KcViewLifecyclePhaseBuilderBase"/>
 
+    <bean id="enWorkflowDocumentService" class="org.kuali.coeus.sys.impl.workflow.KcWorkflowDocumentServiceImpl"/>
+
+
 </beans>
