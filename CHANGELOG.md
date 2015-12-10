@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+*  Re-enable delivery info for s2s submissions.
+  * Gayathri Athreya on Thu, 10 Dec 2015 13:03:00 -0700 [View Commit](../../commit/63ddd6e230c3559753c723239628776de12ba418)
+
+##coeus-1512.55
 * No Changes
 
 
