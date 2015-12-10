@@ -73,7 +73,7 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
             setCalculatedAmounts(bli);
         }
 
-        if(getBudgetRateService().performSyncFlag(budget)){
+        if(performSync()){
             Long versionNumber = null;
             if (CollectionUtils.isNotEmpty(bli.getBudgetLineItemCalculatedAmounts())) {
                 versionNumber = bli.getBudgetLineItemCalculatedAmounts().get(0).getVersionNumber();
@@ -96,8 +96,15 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
             }
         }
          
-    }    
+    }
 
+    protected boolean performSync() {
+        return getBudgetRateService().performSyncFlag(budget);
+    }
+
+    protected BudgetCalculationService getBudgetCalculationService() {
+        return budgetCalculationService;
+    }
     /*
      * unitcost = (totalcost/totalnumofdays)*actualnumofdays
      * 
@@ -112,7 +119,7 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
         ScaleTwoDecimal costSharingRequested = ScaleTwoDecimal.ZERO;
         if(!personnelDetailsList.isEmpty()){
             for (BudgetPersonnelDetails budgetPersonnelDetails : personnelDetailsList) {
-                budgetCalculationService.calculateBudgetLineItem(budget, budgetPersonnelDetails);
+                getBudgetCalculationService().calculateBudgetLineItem(budget, budgetPersonnelDetails);
                 salaryRequested = salaryRequested.add(budgetPersonnelDetails.getSalaryRequested());
                 costSharingRequested = costSharingRequested.add(budgetPersonnelDetails.getCostSharingAmount());
             }

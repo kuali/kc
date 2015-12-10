@@ -76,7 +76,7 @@ public class PersonnelLineItemCalculator extends AbstractBudgetCalculator {
        Long versionNumber = -1L;
        Map<String, Boolean> applyRateFlags = null;
        
-       if (getBudgetRateService().performSyncFlag(budget)){
+       if (isPerformSync()){
            if (budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts().size() > 0) {
                versionNumber = budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts().get(0).getVersionNumber();
            }
@@ -102,6 +102,10 @@ public class PersonnelLineItemCalculator extends AbstractBudgetCalculator {
                budgetPersonnelCalculatedAmount.setApplyRateFlag(applyRateFlags.get(budgetPersonnelCalculatedAmount.getRateClassCode()+budgetPersonnelCalculatedAmount.getRateTypeCode()));
            }
        }        
+    }
+
+    protected boolean isPerformSync() {
+        return getBudgetRateService().performSyncFlag(budget);
     }
 
     @Override

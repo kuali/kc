@@ -112,6 +112,9 @@ public class BreakupIntervalServiceImpl implements BreakupIntervalService {
                             !rateAndCost.isApplyRateFlag()) continue;
                     ScaleTwoDecimal rate = getAppliedRate(breakupInterval,rateAndCost);
                     calculatedCost = baseCost.percentage(rate);
+                    if(baseCostSharing == null) {
+                        baseCostSharing = ScaleTwoDecimal.ZERO;
+                    }
                     calculatedCostSharing = baseCostSharing.percentage(rate);
                     if(i == 0) {
                         rateAndCost.setAppliedRate(rate);
