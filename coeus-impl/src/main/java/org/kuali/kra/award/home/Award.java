@@ -268,6 +268,11 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     private Unit leadUnit;
     private String unitNumber;
 
+    /* 
+     * This is just to provide lookup tool for investigator.
+     * We need to set this to satisfy DD validation.
+     */
+    private transient KcPerson investigator;
     private KcPerson ospAdministrator;
     private String principalInvestigatorName;
 
@@ -2836,4 +2841,8 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     public void setUnitService(UnitService unitService) {
         this.unitService = unitService;
     }
+
+	public KcPerson getInvestigator() {
+		return investigator;
+	}
 }
