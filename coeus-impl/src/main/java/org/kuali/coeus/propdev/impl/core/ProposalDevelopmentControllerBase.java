@@ -579,7 +579,9 @@ public abstract class ProposalDevelopmentControllerBase {
     	ProposalDevelopmentNotificationContext context = new ProposalDevelopmentNotificationContext(developmentProposal, COI_DISCLOSURE_REQUIRED_ACTION_TYPE_CODE, COI_DISCLOSURE_REQUIRED_NOTIFICATION);
         ((ProposalDevelopmentNotificationRenderer) context.getRenderer()).setDevelopmentProposal(developmentProposal);
     	KcNotification notification = getKcNotificationService().createNotificationObject(context);
-        getKcNotificationService().sendNotification(context,notification,createRecipientFromPerson(person));
+        if (notification.getMessage() != null) {
+           getKcNotificationService().sendNotification(context,notification,createRecipientFromPerson(person));
+        }
     }
     
     protected List<NotificationTypeRecipient> createRecipientFromPerson(ProposalPerson person) {
