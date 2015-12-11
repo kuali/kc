@@ -1,6 +1,15 @@
 
 
 ##CURRENT
+* only send coi required noticiation if prop person coi flag is on
+  * Joe Williams on Fri, 11 Dec 2015 13:29:04 -0600 [View Commit](../../commit/bae8a479317738a98b8601fb41ba175923bfe5be)
+* Certification question are not locked while enroute
+  * The key person certifications are editable while the proposal is enroute, the document should be view only while enroute unless the feature for enroute certification is enabled and even then only the key person themselves should be able to edit.
+  * Fix is to refer to KEY_PERSON_CERTIFICATION_DEFERRAL parameter to decide the proposal states that will enable
+  * certification questions.
+  * rmancher on Fri, 11 Dec 2015 14:10:27 -0500 [View Commit](../../commit/516c519e0471434df92f7b60508845fa5c01b652)
+
+##coeus-1512.61
 *  PD - Notification null to PI after certification questions completed
   * Joe Williams on Fri, 11 Dec 2015 11:19:59 -0600 [View Commit](../../commit/809c34ee23be604969a94ab00ad40a72ac8056d1)
 * PD - Exempt Address Book person PI/Multiple from certification
