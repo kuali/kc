@@ -87,7 +87,6 @@ public class ProposalStateServiceTest extends KcIntegrationTestBase {
     public void testEnroute() {
         runTest(ENROUTE, false, false, ProposalState.APPROVAL_PENDING, ProposalState.APPROVAL_PENDING, ProposalState.APPROVAL_PENDING);
         runTest(ENROUTE, true, false, ProposalState.APPROVAL_PENDING_SUBMITTED, ProposalState.APPROVAL_PENDING_SUBMITTED, ProposalState.APPROVAL_PENDING);
-        runTest(ENROUTE, true, true, ProposalState.REVISIONS_REQUESTED, ProposalState.REVISIONS_REQUESTED, null);
     }
     
     /**
