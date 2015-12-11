@@ -41,7 +41,7 @@ import org.kuali.coeus.propdev.impl.s2s.S2sSubmissionType;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
-public class RRSF424_2_0_V2GeneratorTest extends S2STestBase {
+public class RRSF424_2_0V2_0GeneratorTest extends S2STestBase {
 
     @Override
     protected void prepareS2sData(ProposalDevelopmentDocument document) {
@@ -230,7 +230,7 @@ public class RRSF424_2_0_V2GeneratorTest extends S2STestBase {
 
 	@Override
 	protected String getFormGeneratorName() {		
-		return RRSF424_2_0_V2Generator.class.getSimpleName();
+		return RRSF424_2_0V2_0Generator.class.getSimpleName();
 	}
 
 }

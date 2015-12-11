@@ -18,11 +18,11 @@
  */
 package org.kuali.coeus.s2sgen.impl.generate.support;
 
-public class PerformanceSiteV2_0GeneratorTest extends PerformanceSiteBaseGeneratorTest {
+public class PerformanceSiteV1_4GeneratorTest extends PerformanceSiteBaseGeneratorTest {
 
 
     @Override
     protected String getFormGeneratorName() {
-        return PerformanceSiteV2_0Generator.class.getSimpleName();
+        return PerformanceSiteV1_4Generator.class.getSimpleName();
     }
 }
