@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* Proposal Log Permament -> Temporary merge bug fix
+
+  * Fixing a bug whereby in some cases a new permament proposal log would not prompt to merge with qualifying temporary proposal logs.
+  * blackcathacker on Thu, 10 Dec 2015 18:18:08 -0800 [View Commit](../../commit/596062c151797646de121ebfae85d37202498e2e)
+
+##coeus-1512.57
 *  PD - In Progress Proposal not yet submitted for review showing status Revisions Requested
   * Joe Williams on Thu, 10 Dec 2015 13:09:44 -0600 [View Commit](../../commit/c188692f255f2d5893b2dd06fa1323a42ba95ab7)
 
