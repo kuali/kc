@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1512.58
 * Proposal Log Permament -> Temporary merge bug fix
 
   * Fixing a bug whereby in some cases a new permament proposal log would not prompt to merge with qualifying temporary proposal logs.
