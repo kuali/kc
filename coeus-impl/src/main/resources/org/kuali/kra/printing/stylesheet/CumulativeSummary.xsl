@@ -201,12 +201,12 @@
                                 </fo:table-row>
                                  <fo:table-row>
                                     <fo:table-cell  padding-left="0pt" padding-right="0pt" padding-top="0pt" border-style="solid" border-width="1pt" border-color="white" width="235pt" padding-start="3pt" padding-end="3pt" padding-before="3pt"  display-align="center" text-align="start">
-                                        <fo:block border-bottom-width="1pt" border-bottom-style="solid" border-bottom-color="black">
+                                        <fo:block>
                                             <fo:inline font-size="9.5pt" font-weight="bold">Comments&#160; </fo:inline>
                                         </fo:block>
                                     </fo:table-cell>
                                     <fo:table-cell  padding-left="0pt" padding-right="0pt" padding-top="0pt" border-style="solid" border-width="1pt" border-color="white" number-columns-spanned="3" padding-start="3pt" padding-end="3pt" padding-before="3pt"  display-align="center" text-align="start">
-                                        <fo:block border-bottom-width="1pt" border-bottom-style="solid" border-bottom-color="black">
+                                        <fo:block>
                                             <xsl:for-each select="BudgetSummaryReport">
                                                 <xsl:for-each select="ReportHeader">
                                                     <xsl:for-each select="Comments">
@@ -216,6 +216,15 @@
                                                     </xsl:for-each>
                                                 </xsl:for-each>
                                             </xsl:for-each>
+                                        </fo:block>
+                                    </fo:table-cell>
+                                </fo:table-row>
+                                <fo:table-row>
+                                    <fo:table-cell  padding-left="0pt" padding-right="0pt" padding-top="0pt" border-style="solid" border-width="1pt" border-color="white" height="22pt" number-columns-spanned="4" padding-start="3pt" padding-end="3pt" padding-before="3pt"  display-align="center" text-align="start">
+                                        <fo:block>
+                                            <fo:block color="black" space-before.optimum="-8pt">
+                                                <fo:leader leader-length="100%" leader-pattern="rule" rule-thickness="1pt" />
+                                            </fo:block>
                                         </fo:block>
                                     </fo:table-cell>
                                 </fo:table-row>

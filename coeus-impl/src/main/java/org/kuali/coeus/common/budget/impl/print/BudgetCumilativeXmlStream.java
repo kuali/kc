@@ -258,7 +258,7 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 		for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
 		    reportTypeVOList.addAll(getReportTypeVOList(budgetPeriod));
         }
-		reportTypeVOList.sort(Comparator.comparing(ReportTypeVO::getBudgetCategoryDesc));
+		reportTypeVOList.sort(Comparator.comparing(ReportTypeVO::getBudgetCategoryCode));
         setReportTypeListFromReportTypeVoListForCumulativeBudgetSalary(
                 reportTypeList, reportTypeVOList);
 	}
