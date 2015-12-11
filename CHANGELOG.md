@@ -1,6 +1,37 @@
 
 
 ##CURRENT
+*  PD - Notification null to PI after certification questions completed
+  * Joe Williams on Fri, 11 Dec 2015 11:19:59 -0600 [View Commit](../../commit/809c34ee23be604969a94ab00ad40a72ac8056d1)
+* PD - Exempt Address Book person PI/Multiple from certification
+  * & notification.
+  * MIT requires some non-employees to participate in the system to perform
+  * the proposal person certification. The parameter to exempt identified
+  * key person roles is utilized to manage excluding those identified Key
+  * Persons. Another solution is required to exempt non-employee/address
+  * book persons added as the Proposal Role of PI/Multiple.
+  * Per MIT compliance policy and procedure, proposal persons added to a
+  * proposal via Non-Employee search (address book) and given the role of
+  * PI/Multiple are exempt from the proposal person certification process.
+  * Therefore, If the proposal role is PI/Multiple and the person is a
+  * Non-Employee/ address book, 
+  * THEN:
+  * do not present the proposal person certification questionnaire
+  * do not display certification status in the role header row
+  * do not have a 'notify' option button in the role header row
+  * do not include this proposal person in the "notify all' option in the
+  * COI Disclosure Status window.
+  * DO show 'Not Required" as the certification status in the COI Disclosure
+  * Status window
+  * The behavior should be the same as that of the parameterized Key Persons
+  * exemption (KeyPersonProjectRole), but used for the assigned proposal
+  * role of PI/Multiple.
+  * Providing this as a parameter option is appropriate to allow other
+  * implementers to include or exempt, as determined by their local policy.
+  * Suggested name: EXEMPT_ADDRESSBOOK_MULTI-PI_CERT
+  * vineeth on Thu, 10 Dec 2015 18:49:32 -0500 [View Commit](../../commit/2ae05460fbd58040f39bb6ae7379658ee71274db)
+
+##coeus-1512.60
 * PD Budget Version > Action > Print > Budget Cumulative Report
   * printing formatting/subtotal & total display issues.
   * The printed report for Cumulative budget is not well formatted in KC.
