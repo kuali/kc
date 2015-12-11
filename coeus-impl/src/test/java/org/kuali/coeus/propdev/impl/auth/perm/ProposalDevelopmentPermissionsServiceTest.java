@@ -19,6 +19,7 @@ public class ProposalDevelopmentPermissionsServiceTest {
     public static boolean CUSTOM_DATA_ENFORCED = true;
     public static boolean SPONSOR_REQUIRED = true;
     public static boolean EXEMPT_ADDRESSBOOK_MULTI_PI_CERT = true;
+    public static boolean EXEMPT_ADDRESSBOOK_KP_CERT = true;
 
     String USER_ID = "100";
 
@@ -54,6 +55,11 @@ public class ProposalDevelopmentPermissionsServiceTest {
         @Override
         public boolean isAddressBookMultiPiCertificationExempt(ProposalPerson proposalPerson) {
         	return EXEMPT_ADDRESSBOOK_MULTI_PI_CERT;
+        }
+        
+        @Override
+        public boolean isKeyPersonRoleExempt(ProposalPerson proposalPerson) {
+        	return EXEMPT_ADDRESSBOOK_KP_CERT;
         }
 
     }
@@ -292,6 +298,7 @@ public class ProposalDevelopmentPermissionsServiceTest {
         keyPerson.setPersonId(USER_ID);
         keyPerson.setProposalPersonRoleId(PropAwardPersonRole.KEY_PERSON);
         keyPerson.setProjectRole(POSTDOC);
+        EXEMPT_ADDRESSBOOK_KP_CERT = true;
         boolean needsToCertify = permissionService.doesPersonRequireCertification(keyPerson);
         Assert.assertFalse(needsToCertify);
     }
@@ -358,6 +365,24 @@ public class ProposalDevelopmentPermissionsServiceTest {
         boolean needsToCertify = permissionService.doesPersonRequireCertification(keyPerson);
         Assert.assertTrue(needsToCertify);
     }
-
-
+    
+    @Test
+    public void testCanCertifyAddressBookPersonWithKeyPersonRoleAndNotExempt() throws Exception {
+        class ProposalRolodexPersonTestImpl extends ProposalPerson {
+            @Override
+            public KcPerson getPerson() {
+                return null;
+            }
+        }
+        ProposalDevelopmentPermissionsServiceTestImpl permissionService = new ProposalDevelopmentPermissionsServiceTestImpl();
+        ProposalPerson keyPerson = new ProposalRolodexPersonTestImpl();
+        keyPerson.setPersonId(USER_ID);
+        keyPerson.setProposalPersonRoleId(PropAwardPersonRole.KEY_PERSON);
+        EXEMPT_ADDRESSBOOK_KP_CERT = false;
+        boolean isLoggedInUserPi = false;
+        boolean canProxyCertify = true;
+        boolean needsToCertify = permissionService.canCertify(USER_ID, keyPerson, isLoggedInUserPi, canProxyCertify);
+        Assert.assertTrue(needsToCertify);
+    }
+    
 }
