@@ -23,7 +23,7 @@ var routeSelector = 'input[name*="route"]';
 var mergeNumberId = 'document.newMaintainableObject.mergedWith';
 var mergeNumberSelector = jq_escape(mergeNumberId);
 jQuery(document).ready(function() { 
-	jQuery(routeSelector).click(function() { loadMatchingTemporaryLogs(this); return false; });
+	jQuery(routeSelector).click(function() { loadMatchingTemporaryLogs(); return false; });
 	jQuery(mergeNumberSelector).parent().find('input').hide();
 	var span = jQuery('<span/>').attr('id', mergeNumberId + '.span');
 	span.html(jQuery(mergeNumberSelector).val());
@@ -31,11 +31,18 @@ jQuery(document).ready(function() {
 });
 
 function loadMatchingTemporaryLogs() {
+	var proposalLogTypeCode = jQuery(jq_escape('document.newMaintainableObject.proposalLogTypeCode')).val();	
+	var proposalLogTypeDescription = jQuery(jq_escape('document.newMaintainableObject.proposalLogTypeCode.div')).html();
+	var queryString = 'methodToCall=getMatchingTemporaryProposals' + 
+          	'&proposalLogTypeCode=' + (proposalLogTypeCode ? proposalLogTypeCode : '') +
+          	'&proposalLogTypeCodeDescription=' + (proposalLogTypeDescription ? jQuery.trim(proposalLogTypeDescription) : '') +
+          	'&piId=' + jQuery(jq_escape('document.newMaintainableObject.piId')).val() + 
+          	'&rolodexId=' + jQuery(jq_escape('document.newMaintainableObject.rolodexId')).val();
 	  jQuery.ajax({
           url: "../mergeProposalLog.do",
           type: 'GET',
           dataType: 'html',
-          data: 'methodToCall=getMatchingTemporaryProposals&proposalLogTypeCode=' + jQuery(jq_escape('document.newMaintainableObject.proposalLogTypeCode')).val() + '&piId=' + jQuery(jq_escape('document.newMaintainableObject.piId')).val() + '&rolodexId=' + jQuery(jq_escape('document.newMaintainableObject.rolodexId')).val(),
+          data: queryString,
           cache: false,
           async: true,
           timeout: 30000,

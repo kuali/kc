@@ -19,6 +19,7 @@
 package org.kuali.kra.institutionalproposal.proposallog.service;
 
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
+import org.kuali.kra.institutionalproposal.proposallog.ProposalLogType;
 
 import java.util.List;
 
@@ -61,5 +62,12 @@ public interface ProposalLogService {
      * @param piId
      * @return
      */
-    List<ProposalLog> getMatchingTemporaryProposalLogs(String proposalLogTypeCode, String piId, String rolodexId);    
+    List<ProposalLog> getMatchingTemporaryProposalLogs(String proposalLogTypeCode, String piId, String rolodexId); 
+    
+    /**
+     * Based on the provided description will return the associated ProposalLogType. If no exact matches are found, then null is returned.
+     * @param description
+     * @return
+     */
+    ProposalLogType getProposalLogTypeFromDescription(String description);
 }

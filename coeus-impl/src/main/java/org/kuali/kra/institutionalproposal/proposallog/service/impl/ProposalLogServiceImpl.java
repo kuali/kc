@@ -20,6 +20,7 @@ package org.kuali.kra.institutionalproposal.proposallog.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
+import org.kuali.kra.institutionalproposal.proposallog.ProposalLogType;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLogUtils;
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -107,6 +108,11 @@ public class ProposalLogServiceImpl implements ProposalLogService {
             purgeAlreadyMergedLogs(matchedLogs);
         }
         return matchedLogs;
+    }
+    
+    public ProposalLogType getProposalLogTypeFromDescription(String description) {
+    	return getBusinessObjectService().findMatching(ProposalLogType.class, Collections.singletonMap("description", description))
+    			.stream().findFirst().orElse(null);
     }
 
     /**
