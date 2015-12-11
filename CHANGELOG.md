@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+*  PD - In Progress Proposal not yet submitted for review showing status Revisions Requested
+  * Joe Williams on Thu, 10 Dec 2015 13:09:44 -0600 [View Commit](../../commit/c188692f255f2d5893b2dd06fa1323a42ba95ab7)
+
+##coeus-1512.56
 *  Re-enable delivery info for s2s submissions.
   * Gayathri Athreya on Thu, 10 Dec 2015 13:03:00 -0700 [View Commit](../../commit/63ddd6e230c3559753c723239628776de12ba418)
 
