@@ -55,5 +55,7 @@ public interface KcDocumentRejectionService {
      * @return if doc is on initial node
      */
     boolean isDocumentOnInitialNode(WorkflowDocument document);
+
+    String getWorkflowInitialNodeName(String docTypeName);
 }
 

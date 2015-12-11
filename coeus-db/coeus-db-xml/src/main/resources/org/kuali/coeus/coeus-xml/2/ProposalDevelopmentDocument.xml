@@ -44,6 +44,10 @@
           <name>INITIATOR_MUST_CANCEL</name>
           <value>false</value>
         </policy>
+	    <policy>
+		  <name>INITIATOR_MUST_SAVE</name>
+		  <value>false</value>
+	    </policy>
         <policy>
           <name>DOCUMENT_STATUS_POLICY</name>
           <stringValue>app</stringValue>
