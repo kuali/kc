@@ -332,7 +332,7 @@ public abstract class BudgetBaseStream implements XmlStream {
                 }
 			}
         }
-		reportTypeVOList.sort(Comparator.comparing(ReportTypeVO::getBudgetCategoryDesc));
+		reportTypeVOList.sort(Comparator.comparing(ReportTypeVO::getBudgetCategoryCode));
 		setReportTypeBudgetLASalary(reportTypeList, reportTypeVOList);
 	}
 
