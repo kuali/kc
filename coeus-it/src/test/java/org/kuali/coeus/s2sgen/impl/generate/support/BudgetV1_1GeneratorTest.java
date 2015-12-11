@@ -37,7 +37,7 @@ import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
  * This class tests the BudgetV1_1 Generator
  */
 
-public class BudgetV1_1GeneratorTest extends S2STestBase<BudgetV1_1Generator> {
+public class BudgetV1_1GeneratorTest extends S2STestBase {
 
     @Override
     protected String getFormGeneratorName() {

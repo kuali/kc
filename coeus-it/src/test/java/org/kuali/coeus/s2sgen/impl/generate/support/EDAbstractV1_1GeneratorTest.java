@@ -36,7 +36,7 @@ import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 /**
  * This class tests the EDAbstractV1_1Generator
  */
-public class EDAbstractV1_1GeneratorTest extends S2STestBase<EDAbstractV1_1Generator> {
+public class EDAbstractV1_1GeneratorTest extends S2STestBase {
 
     @Override
     protected String getFormGeneratorName() {

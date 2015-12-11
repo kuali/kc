@@ -64,7 +64,7 @@ import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 /**
  * This is the base class for all generator Junit test classes.
  */
-public abstract class S2STestBase<T> extends KcIntegrationTestBase {
+public abstract class S2STestBase extends KcIntegrationTestBase {
     private S2SBaseFormGenerator generatorObject;
 
     @Before

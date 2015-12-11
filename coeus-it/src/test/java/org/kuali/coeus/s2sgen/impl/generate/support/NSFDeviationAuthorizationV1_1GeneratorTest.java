@@ -27,7 +27,7 @@ import java.util.List;
 /**
  * This class tests the NSFDeviationAuthorizationV1_1 Generator
  */
-public class NSFDeviationAuthorizationV1_1GeneratorTest extends S2STestBase<NSFDeviationAuthorizationV1_1Generator> {
+public class NSFDeviationAuthorizationV1_1GeneratorTest extends S2STestBase {
 
     @Override
     protected String getFormGeneratorName() {

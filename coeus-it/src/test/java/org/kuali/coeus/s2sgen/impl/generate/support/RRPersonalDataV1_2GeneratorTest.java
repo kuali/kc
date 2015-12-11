@@ -29,7 +29,7 @@ import java.util.List;
  * This class is used to test RRPersonalDataV1_1 form
  */
 public class RRPersonalDataV1_2GeneratorTest extends
-		S2STestBase<RRPersonalDataV1_2Generator> {
+		S2STestBase {
 
 	@Override
 	protected String getFormGeneratorName() {

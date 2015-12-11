@@ -34,7 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
-public class PHS398ResearchPlanV1_1GeneratorTest extends S2STestBase<PHS398ResearchPlanV1_1Generator> {
+public class PHS398ResearchPlanV1_1GeneratorTest extends S2STestBase {
 
     @Override
     protected String getFormGeneratorName() {

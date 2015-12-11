@@ -36,7 +36,7 @@ import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 /**
  * This class tests the EDGEPA427V1_1Generator
  */
-public class EDGEPA427V1_1GeneratorTest extends S2STestBase<EDGEPA427V1_1Generator> {
+public class EDGEPA427V1_1GeneratorTest extends S2STestBase {
 
     @Override
     protected String getFormGeneratorName() {

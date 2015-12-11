@@ -30,7 +30,7 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.rice.krad.data.DataObjectService;
 
 public class PHS398ModularBudgetV1_2GeneratorTest extends
-		S2SModularBudgetTestBase<PHS398ModularBudgetV1_2Generator> {
+		S2SModularBudgetTestBase {
 
 	@Override
 	protected String getFormGeneratorName() {

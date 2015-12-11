@@ -51,7 +51,7 @@ import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 
 public class PHS398FellowshipSupplementalV2_0GeneratorTest extends
-		S2SModularBudgetTestBase<PHS398FellowshipSupplementalV2_0Generator> {
+		S2SModularBudgetTestBase {
 
 	@Override
 	protected String getFormGeneratorName() {

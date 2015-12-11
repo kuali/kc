@@ -54,7 +54,7 @@ import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 
 public class RRSubAwardBudget5_30V1_2GeneratorTest extends
-		S2SModularBudgetTestBase<RRSubAwardBudget5_30V1_2Generator> {
+		S2SModularBudgetTestBase {
 
 	@Override
 	protected String getFormGeneratorName() {

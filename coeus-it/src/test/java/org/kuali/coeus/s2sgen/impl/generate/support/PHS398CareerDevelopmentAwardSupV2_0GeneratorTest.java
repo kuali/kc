@@ -36,7 +36,7 @@ import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 
 public class PHS398CareerDevelopmentAwardSupV2_0GeneratorTest extends
-		S2SModularBudgetTestBase<PHS398CareerDevelopmentAwardSupV2_0Generator> {
+		S2SModularBudgetTestBase {
 
 	@Override
 	protected String getFormGeneratorName() {

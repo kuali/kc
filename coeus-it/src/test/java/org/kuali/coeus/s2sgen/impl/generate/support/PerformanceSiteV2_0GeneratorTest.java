@@ -30,7 +30,7 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.location.CongressionalDistrict;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 
-public class PerformanceSiteV2_0GeneratorTest extends S2STestBase<PerformanceSiteV2_0Generator> {
+public class PerformanceSiteV2_0GeneratorTest extends S2STestBase {
 
 	@Override
 	protected void prepareData(ProposalDevelopmentDocument document)

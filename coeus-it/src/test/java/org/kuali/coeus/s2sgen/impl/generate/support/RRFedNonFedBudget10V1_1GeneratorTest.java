@@ -41,7 +41,7 @@ import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 
 public class RRFedNonFedBudget10V1_1GeneratorTest extends
-		S2SModularBudgetTestBase<RRFedNonFedBudget10V1_1Generator> {
+		S2SModularBudgetTestBase {
 
 	@Override
 	protected String getFormGeneratorName() {

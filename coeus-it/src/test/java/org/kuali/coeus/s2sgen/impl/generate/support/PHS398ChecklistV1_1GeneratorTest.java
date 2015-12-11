@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * This class tests the PHS398ChecklistV1_1 generator
  */
-public class PHS398ChecklistV1_1GeneratorTest extends S2STestBase<PHS398ChecklistV1_1Generator> {
+public class PHS398ChecklistV1_1GeneratorTest extends S2STestBase {
 
     @Override
     protected String getFormGeneratorName() {

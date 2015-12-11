@@ -33,7 +33,7 @@ import java.sql.Date;
 import java.util.*;
 
 
-public class NSFCoverPageV1_6GeneratorTest extends S2STestBase<NSFCoverPageV1_6Generator> {
+public class NSFCoverPageV1_6GeneratorTest extends S2STestBase {
 
     private static final String NAMESPACE = "http://apply.grants.gov/forms/NSF_CoverPage_1_6-V1.6";
     private static final String FORM_NAME = "NSF_CoverPage_1_6-V1.6";
