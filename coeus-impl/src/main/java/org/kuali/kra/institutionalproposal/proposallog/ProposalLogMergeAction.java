@@ -18,6 +18,7 @@
  */
 package org.kuali.kra.institutionalproposal.proposallog;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -66,9 +67,21 @@ public class ProposalLogMergeAction extends KualiAction {
     //http://127.0.0.1:8080/kc-dev/mergeProposalLog.do?methodToCall=getMatchingTemporaryProposals&proposalLogTypeCode=1&piId=10000000002
     public ActionForward getMatchingTemporaryProposals(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalLogMergeForm proposalLogMergeForm = (ProposalLogMergeForm) form;
-        proposalLogMergeForm.setMatchedProposalLogs(getProposalLogService().getMatchingTemporaryProposalLogs(proposalLogMergeForm.getProposalLogTypeCode(), proposalLogMergeForm.getPiId(), proposalLogMergeForm.getRolodexId()));
+        proposalLogMergeForm.setMatchedProposalLogs(
+        		getProposalLogService().getMatchingTemporaryProposalLogs(getProposalLogTypeCodeFromForm(proposalLogMergeForm), 
+        				proposalLogMergeForm.getPiId(), proposalLogMergeForm.getRolodexId()));
         return mapping.findForward("temporaryList");
     }
+
+	protected String getProposalLogTypeCodeFromForm(ProposalLogMergeForm proposalLogMergeForm) {
+        if (StringUtils.isEmpty(proposalLogMergeForm.getProposalLogTypeCode())) {
+        	ProposalLogType type = getProposalLogService().getProposalLogTypeFromDescription(proposalLogMergeForm.getProposalLogTypeCodeDescription());
+        	if (type != null) {
+        		return type.getProposalLogTypeCode();
+        	}
+        }
+        return proposalLogMergeForm.getProposalLogTypeCode();
+	}
     
     protected ProposalLogService getProposalLogService() {
         return KcServiceLocator.getService(ProposalLogService.class);

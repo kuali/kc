@@ -30,6 +30,7 @@ public class ProposalLogMergeForm extends KualiForm {
     private String institutionalProposalNumber;
     
     private String proposalLogTypeCode;
+    private String proposalLogTypeCodeDescription;
     private String piId;
     private String rolodexId;
     private List<ProposalLog> matchedProposalLogs;
@@ -81,5 +82,13 @@ public class ProposalLogMergeForm extends KualiForm {
     public void setRolodexId(String rolodexId) {
         this.rolodexId = rolodexId;
     }
+
+	public String getProposalLogTypeCodeDescription() {
+		return proposalLogTypeCodeDescription;
+	}
+
+	public void setProposalLogTypeCodeDescription(String proposalLogTypeCodeDescription) {
+		this.proposalLogTypeCodeDescription = proposalLogTypeCodeDescription;
+	}
     
 }
