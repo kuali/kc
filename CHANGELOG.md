@@ -1,6 +1,46 @@
 
 
 ##CURRENT
+* PD Budget Version > Action > Print > Budget Cumulative Report
+  * printing formatting/subtotal & total display issues.
+  * The printed report for Cumulative budget is not well formatted in KC.
+  * The MIT Coeus version has been uploaded to compare and contrast to the
+  * KC version. It would benefit end users if the print format could be
+  * restored to match the MIT Coeus grouping on this report output.
+  * PD Budget Version > Action > Print > Budget Cumulative Report printing
+  * formatting/subtotal & total display issues
+  * 1) The Budget Cumulative Report currently has a major display issue that
+  * needs to be fixed for the Personnel section of the report. 
+  * The report should display each Personnel Budget Category header once,
+  * with multiple entries (one for each person per period entry in KC
+  * budget) listed under it, followed by a single (sub)total calculation for
+  * all budget entries using that personnel category. 
+  * The report is currently printing with a unique Personnel Budget Category
+  * header for each budget period instead of grouping.
+  * See the uploaded pdf attachment example (KC PD 28061) : 
+  * This budget contains a single Graduate Student and a single Senior
+  * Personnel entry for each budget period on a 5 year budget. 
+  * Rather than two headings & subtotals – one each for Graduate Students
+  * and Senior Personnel – the personnel section has 5 of each, and in no
+  * place is the "Total Graduate Students" or "Total Senior Personnel"
+  * calculated for the cumulative budget period. 
+  * In the pdf "KC PD 28061" The Personnel Headings and totals that should
+  * remain are highlighted in green. All individual personnel entries should
+  * be grouped under these.
+  * For comparison, see pdf from Coeus Production, where grouping & totals
+  * under personnel category headings is correct. (Coeus PD 00022845)
+  * 2) The formatting needs to be corrected so that the line separating
+  * Proposal info from start of budget report does is above the budget
+  * report column headers and does not run through them.
+  * 3) The Proposal Info at top of report – "Project" should instead be
+  * labeled "Project Period" or just "Period"
+  * 4) Formatting needs to be corrected so that longer Proposal Titles wrap
+  * rather than extend beyond end of page and are cut off. See screenshot
+  * "Long Title cut off"
+  * MITKC 2210
+  * vineeth on Fri, 11 Dec 2015 11:34:55 -0500 [View Commit](../../commit/51c8817094bbfbd263ffdf372f5563a5db052584)
+
+##coeus-1512.59
 * No Changes
 
 
