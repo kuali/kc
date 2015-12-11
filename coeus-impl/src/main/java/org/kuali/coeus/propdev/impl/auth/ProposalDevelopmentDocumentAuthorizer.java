@@ -28,6 +28,7 @@ import org.kuali.coeus.propdev.impl.attachment.NarrativeUserRights;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentUtils;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyException;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyService;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
@@ -412,8 +413,30 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
     }
 
     protected boolean isProposalStateEditableForCertification(DevelopmentProposal developmentProposal) {
-    	return developmentProposal.getProposalStateTypeCode().equalsIgnoreCase(ProposalState.IN_PROGRESS) || 
-    	developmentProposal.getProposalStateTypeCode().equalsIgnoreCase(ProposalState.REVISIONS_REQUESTED);
+    	return getProposalStatesEditableForCertification().contains(developmentProposal.getProposalStateTypeCode());
+    }
+    
+    protected Set<String> getProposalStatesEditableForCertification() {
+        Set<String> proposalStates = new HashSet<String>();
+        if(isCertificationRequiredOnlyBeforeApproval()) {
+        	proposalStates.add(ProposalState.IN_PROGRESS);
+        	proposalStates.add(ProposalState.REVISIONS_REQUESTED);
+        	proposalStates.add(ProposalState.APPROVAL_PENDING);
+        	proposalStates.add(ProposalState.APPROVAL_PENDING_SUBMITTED);
+        }else {
+        	proposalStates.add(ProposalState.IN_PROGRESS);
+        	proposalStates.add(ProposalState.REVISIONS_REQUESTED);
+        }
+        return proposalStates;
+    }
+   
+    protected boolean isCertificationRequiredOnlyBeforeApproval() {
+        String keyPersonCertDefferalParam =  ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(ProposalDevelopmentUtils.KEY_PERSON_CERTIFICATION_DEFERRAL_PARM);
+        if(keyPersonCertDefferalParam.equalsIgnoreCase(ProposalDevelopmentConstants.ParameterValues.KEY_PERSON_CERTIFICATION_BEFORE_APPROVE)) {
+        	return true;
+        }else {
+        	return false;
+        }
     }
     
     protected boolean isAuthorizedToReplaceNarrative(Narrative narrative, Person user) {

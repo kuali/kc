@@ -688,7 +688,7 @@
                 <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.getQuestionMoreInfo(#lp.questionnaireQuestion.question)}"
                         p:hidden="true"/>
 				<bean id="proposalPersonQuestionnaire-InputField" parent="Questionnaire-InputField-parentBean" 
-                    p:readOnly="@{document.developmentProposal.isChild() and (#parent.readOnly or !#editModes[#proposalAuthConsts.CAN_SAVE_CERTIFICATION])}"
+                    p:readOnly="@{document.developmentProposal.isChild() or (#parent.readOnly and !#editModes[#proposalAuthConsts.CAN_SAVE_CERTIFICATION])}"
 					p:order="10" />
                 <bean parent="Uif-InputField" p:propertyName="question.lookupReturn" p:fieldLabel.render="false">
                     <property name="control">
