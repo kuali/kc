@@ -38,7 +38,7 @@ import static org.junit.Assert.assertNull;
 import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 
 
-public abstract class S2SModularBudgetTestBase<T> extends S2STestBase<T> {
+public abstract class S2SModularBudgetTestBase extends S2STestBase {
 	private S2SBaseFormGenerator generatorObject;
 
 	@Test

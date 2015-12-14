@@ -18,11 +18,17 @@
  */
 package org.kuali.coeus.s2sgen.impl.generate.support;
 
-public class PerformanceSiteV2_0GeneratorTest extends PerformanceSiteBaseGeneratorTest {
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 
+public class CD511V1_1GeneratorTest extends S2STestBase {
+
+    @Override
+    protected void prepareData(ProposalDevelopmentDocument document) throws Exception {
+        document.getDevelopmentProposal().getApplicantOrganization().refreshReferenceObject("organization");
+    }
 
     @Override
     protected String getFormGeneratorName() {
-        return PerformanceSiteV2_0Generator.class.getSimpleName();
+        return CD511V1_1Generator.class.getSimpleName();
     }
 }

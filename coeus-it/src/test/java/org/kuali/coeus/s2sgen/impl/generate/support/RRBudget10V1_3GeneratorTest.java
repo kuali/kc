@@ -39,7 +39,7 @@ import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 
 public class RRBudget10V1_3GeneratorTest extends
-		S2SModularBudgetTestBase<RRBudget10V1_3Generator> {
+		S2SModularBudgetTestBase {
 
 	@Override
 	protected String getFormGeneratorName() {

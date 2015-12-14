@@ -38,7 +38,7 @@ import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
  * 
  * This class is used to test PHS398ResearchPlanV1_0 form
  */
-public class PHS398ResearchPlanV1_0GeneratorTest extends S2STestBase<PHS398ResearchPlanV1_0Generator> {
+public class PHS398ResearchPlanV1_0GeneratorTest extends S2STestBase {
 
     @Override
     protected String getFormGeneratorName() {

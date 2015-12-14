@@ -48,7 +48,7 @@ import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
  * 
  * This class is used to test NasaOtherProjectInformationV1_0 form
  */
-public class NASAOtherProjectInformationV1_0GeneratorTest extends S2STestBase<NASAOtherProjectInformationV1_0Generator> {
+public class NASAOtherProjectInformationV1_0GeneratorTest extends S2STestBase {
 
     @Override
     protected String getFormGeneratorName() {

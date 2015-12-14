@@ -27,7 +27,7 @@ import java.util.List;
 /**
  * This class tests the NSFSuggestedReviewersV1_0 Generator
  */
-public class NSFSuggestedReviewersV1_0GeneratorTest extends S2STestBase<NSFSuggestedReviewersV1_0Generator> {
+public class NSFSuggestedReviewersV1_0GeneratorTest extends S2STestBase {
 
     @Override
     protected String getFormGeneratorName() {

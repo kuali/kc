@@ -37,7 +37,7 @@ import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
  * 
  * This class is used to test Project form
  */
-public class ProjectV1_0GeneratorTest extends S2STestBase<ProjectV1_0Generator> {
+public class ProjectV1_0GeneratorTest extends S2STestBase {
 
     @Override
     protected String getFormGeneratorName() {

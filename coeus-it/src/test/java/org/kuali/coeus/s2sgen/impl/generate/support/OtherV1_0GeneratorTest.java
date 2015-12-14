@@ -37,7 +37,7 @@ import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
  * 
  * This class is used to test OtherNarrativeAttachmentsV1_0 form
  */
-public class OtherV1_0GeneratorTest extends S2STestBase<OtherV1_0Generator> {
+public class OtherV1_0GeneratorTest extends S2STestBase {
 
     @Override
     protected String getFormGeneratorName() {

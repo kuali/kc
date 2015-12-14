@@ -18,11 +18,23 @@
  */
 package org.kuali.coeus.s2sgen.impl.generate.support;
 
-public class PerformanceSiteV2_0GeneratorTest extends PerformanceSiteBaseGeneratorTest {
+public class NSFCoverPageV1_0GeneratorTest extends NSFCoverPageLegacyBaseGeneratorTest {
 
+    private static final String NAMESPACE = "http://apply.grants.gov/forms/NSF_CoverPage-V1.0";
+    private static final String FORM_NAME = "NSF_CoverPage-V1.0";
+
+    @Override
+    protected String getFormName() {
+        return FORM_NAME;
+    }
+
+    @Override
+    protected String getNamespace() {
+        return NAMESPACE;
+    }
 
     @Override
     protected String getFormGeneratorName() {
-        return PerformanceSiteV2_0Generator.class.getSimpleName();
+        return NSFCoverPageV1_0Generator.class.getSimpleName();
     }
 }

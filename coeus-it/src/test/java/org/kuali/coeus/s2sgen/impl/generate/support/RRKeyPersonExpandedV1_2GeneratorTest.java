@@ -40,7 +40,7 @@ import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
  * This class is used to test RRKeypersonExpandedV1_2 form
  */
 public class RRKeyPersonExpandedV1_2GeneratorTest extends
-		S2STestBase<RRKeyPersonExpandedV1_2Generator> {
+		S2STestBase {
 
 	@Override
 	protected String getFormGeneratorName() {

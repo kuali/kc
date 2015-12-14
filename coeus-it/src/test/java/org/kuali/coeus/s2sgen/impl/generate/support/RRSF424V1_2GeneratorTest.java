@@ -44,9 +44,7 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class RRSF424V1_2GeneratorTest extends
-		S2STestBase<RRSF424V1_2Generator> {
-
-	private BusinessObjectService businessObjectService = null;
+		S2STestBase {
 
     @Override
     protected void prepareS2sData(ProposalDevelopmentDocument document) {
@@ -77,7 +75,7 @@ public class RRSF424V1_2GeneratorTest extends
     @Override
 	protected void prepareData(ProposalDevelopmentDocument document)
 			throws Exception {
-		businessObjectService = KcServiceLocator
+		BusinessObjectService businessObjectService = KcServiceLocator
 				.getService(BusinessObjectService.class);
 
 		prepareS2sData(document);
