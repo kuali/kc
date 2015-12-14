@@ -1345,6 +1345,7 @@ public class AwardAction extends BudgetParentActionBase {
         awardForm.setTemplateLookup(false);
         awardForm.setCurrentSyncScopes(null);
         awardForm.setCurrentSyncQuestionId(null);
+        awardForm.buildReportTrackingBeans();
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }    
     
