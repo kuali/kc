@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1512.68
 * Award - Template sync with reports - partial screen reload -hidden STE
   * Syncing report terms from a template to some accounts is causing the page to partially reload, then we get errors when trying to further navigate.
   * Exception - Index out of bound.
