@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* Award - Template sync with reports - partial screen reload -hidden STE
+  * Syncing report terms from a template to some accounts is causing the page to partially reload, then we get errors when trying to further navigate.
+  * Exception - Index out of bound.
+  * Total report term items changed during sync and we need to initialize report tracking beans to match
+  * total report items.
+  * rmancher on Mon, 14 Dec 2015 14:55:12 -0500 [View Commit](../../commit/d3a6e8b2fad8297754165609f4e2dd5cbd65f7e9)
+
+##coeus-1512.67
 * No Changes
 
 
