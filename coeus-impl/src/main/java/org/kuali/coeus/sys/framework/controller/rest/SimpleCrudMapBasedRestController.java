@@ -93,4 +93,9 @@ public class SimpleCrudMapBasedRestController<T extends PersistableBusinessObjec
 
 		return fields.stream().filter(field -> !IGNORED_FIELDS.contains(field)).collect(Collectors.toList());
 	}
+
+	@Override
+	protected List<String> getListOfTrackedProperties() {
+		return getExposedProperties();
+	}
 }

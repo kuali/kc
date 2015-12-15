@@ -27,8 +27,10 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.kuali.coeus.common.api.budget.rates.InstituteRateDto;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 import com.codiform.moo.Moo;
@@ -100,5 +102,18 @@ public class SimpleCrudDtoRestController<T extends PersistableBusinessObject, R>
 
 	public void setDtoObjectClazz(Class<R> dtoObjectClazz) {
 		this.dtoObjectClazz = dtoObjectClazz;
+	}
+
+	@Override
+	protected List<String> getListOfTrackedProperties() {
+		try {
+			List<String> ignoredProperties = Stream.of("class").collect(Collectors.toList());
+			return Arrays.asList(Introspector.getBeanInfo(dtoObjectClazz).getPropertyDescriptors()).stream()
+					.map(PropertyDescriptor::getName)
+					.filter(prop -> {return !ignoredProperties.contains(prop);})
+					.collect(Collectors.toList());
+		} catch (IntrospectionException e) {
+			throw new RuntimeException(e);
+		}
 	}
 }

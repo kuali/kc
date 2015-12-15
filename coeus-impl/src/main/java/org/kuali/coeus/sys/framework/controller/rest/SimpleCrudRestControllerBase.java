@@ -25,6 +25,9 @@ import javax.validation.Valid;
 
 import com.google.common.base.CaseFormat;
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.budget.framework.rate.InstituteRate;
+import org.kuali.coeus.sys.framework.controller.rest.audit.RestAuditLogger;
+import org.kuali.coeus.sys.framework.controller.rest.audit.RestAuditLoggerFactory;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.persistence.PersistenceVerificationService;
 import org.kuali.coeus.sys.framework.rest.DataDictionaryValidationException;
@@ -79,12 +82,16 @@ public abstract class SimpleCrudRestControllerBase<T extends PersistableBusiness
 	@Autowired
 	@Qualifier("persistenceVerificationService")
 	private PersistenceVerificationService persistenceVerificationService;
-
+	
 	@Autowired
 	@Qualifier("autoRegisterMapping")
 	private RestSimpleUrlHandlerMapping autoRegisterMapping;
 
 	private boolean registerMapping = true;
+	
+	@Autowired
+	@Qualifier("restAuditLoggerFactory")
+	private RestAuditLoggerFactory restAuditLoggerFactory;
 
 	private Class<T> dataObjectClazz;
 	
@@ -168,13 +175,26 @@ public abstract class SimpleCrudRestControllerBase<T extends PersistableBusiness
 		if (dataObject == null) {
 			throw new ResourceNotFoundException("not found");
 		}
-		
+		RestAuditLogger logger = getAuditLogger();
+		logUpdateToObject(dataObject, dto, logger);
 		updateDataObjectFromInput(dataObject, dto);
 		
 		validateBusinessObject(dataObject);
 		validateUpdateDataObject(dataObject);
 		save(dataObject);
+		logger.saveAuditLog();
 	}
+	
+	protected RestAuditLogger getAuditLogger() {
+		return restAuditLoggerFactory.getNewAuditLogger(dataObjectClazz, getListOfTrackedProperties());
+	}
+	
+	protected void logUpdateToObject(T currentObject, R newObject, RestAuditLogger logger) {
+		T newDataObject = translateInputToDataObject(newObject);
+		logger.addModifiedItem(currentObject, newDataObject);
+	}
+	
+	protected abstract List<String> getListOfTrackedProperties();
 	
 	protected abstract T translateInputToDataObject(R input);
 	
@@ -189,11 +209,14 @@ public abstract class SimpleCrudRestControllerBase<T extends PersistableBusiness
 			throw new UnprocessableEntityException("already exists");
 		}
 		
+		RestAuditLogger logger = getAuditLogger();
 		T newDataObject = translateInputToDataObject(dto);
 		
 		validateBusinessObject(newDataObject);
 		validateInsertDataObject(newDataObject);
 		save(newDataObject);
+		logger.addNewItem(newDataObject);
+		logger.saveAuditLog();
 	}
 	
 	@RequestMapping(value="/{code}", method=RequestMethod.DELETE)
@@ -205,9 +228,12 @@ public abstract class SimpleCrudRestControllerBase<T extends PersistableBusiness
 			throw new ResourceNotFoundException("not found");
 		}
 		
+		RestAuditLogger logger = getAuditLogger();
 		validateDeleteDataObject(existingDataObject);
 		
 		delete(existingDataObject);
+		logger.addDeletedItem(existingDataObject);
+		logger.saveAuditLog();
 	}
 	
 	protected boolean validateDeleteDataObject(T dataObject) {
