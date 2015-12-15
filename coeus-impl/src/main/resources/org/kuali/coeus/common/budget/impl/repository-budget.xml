@@ -615,13 +615,14 @@
 		
 	</class-descriptor>
 	<class-descriptor class="org.kuali.coeus.common.budget.framework.rate.InstituteRate" table="INSTITUTE_RATES">
-		<field-descriptor name="activityTypeCode" column="ACTIVITY_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
-		<field-descriptor name="fiscalYear" column="FISCAL_YEAR" jdbc-type="CHAR" primarykey="true"/>
-		<field-descriptor name="onOffCampusFlag" column="ON_OFF_CAMPUS_FLAG" jdbc-type="CHAR" primarykey="true" conversion="org.kuali.kra.infrastructure.OjbOnOffCampusFlagFieldConversion"/>
-		<field-descriptor name="rateClassCode" column="RATE_CLASS_CODE" jdbc-type="VARCHAR" primarykey="true"/>
-		<field-descriptor name="rateTypeCode" column="RATE_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
-		<field-descriptor name="startDate" column="START_DATE" jdbc-type="DATE" primarykey="true"/>
-		<field-descriptor name="unitNumber" column="UNIT_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="id" column="INSTITUTE_RATE_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_INSTITUTE_RATES_ID"/>
+		<field-descriptor name="activityTypeCode" column="ACTIVITY_TYPE_CODE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="fiscalYear" column="FISCAL_YEAR" jdbc-type="CHAR" />
+		<field-descriptor name="onOffCampusFlag" column="ON_OFF_CAMPUS_FLAG" jdbc-type="CHAR" conversion="org.kuali.kra.infrastructure.OjbOnOffCampusFlagFieldConversion"/>
+		<field-descriptor name="rateClassCode" column="RATE_CLASS_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="rateTypeCode" column="RATE_TYPE_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="startDate" column="START_DATE" jdbc-type="DATE" />
+		<field-descriptor name="unitNumber" column="UNIT_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="instituteRate" column="RATE" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion"/>
 		<field-descriptor name="active" column="ACTIVE_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>

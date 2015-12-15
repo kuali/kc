@@ -73,21 +73,6 @@ public class BudgetRatesRestController extends RestController {
 	@Qualifier("globalVariableService")
 	private GlobalVariableService globalVariableService;
 	
-	@RequestMapping(value="/api/v1/rate-class-types", method=RequestMethod.GET)
-	public @ResponseBody Collection<RateClassTypeDto> getRateClassTypes() {
-		return Translate.to(RateClassTypeDto.class).fromEach(getBusinessObjectService().findAll(RateClassType.class));
-	}
-	
-	@RequestMapping(value="/api/v1/rate-classes", method=RequestMethod.GET)
-	public @ResponseBody Collection<RateClassDto> getRateClasses() {
-		return Translate.to(RateClassDto.class).fromEach(getBusinessObjectService().findAll(RateClass.class));
-	}
-	
-	@RequestMapping(value="/api/v1/rate-types", method=RequestMethod.GET)
-	public @ResponseBody Collection<RateTypeDto> getRateTypes() {
-		return Translate.to(RateTypeDto.class).fromEach(getBusinessObjectService().findAll(RateType.class));
-	}
-	
 	@RequestMapping(value="/api/v1/institute-rates", method=RequestMethod.GET)
 	public @ResponseBody Collection<InstituteRateDto> getInstituteRates(@RequestParam(value="rateClassTypeCode", required=false) String rateClassTypeCode) {
 		Collection<InstituteRateDto> rates;
