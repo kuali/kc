@@ -155,8 +155,7 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
         }
         
         BudgetPeriod firstPeriod = budgetPeriods.get(0);
-        List<BudgetLineItem> firstPerLineItems = firstPeriod.getBudgetLineItems();
-        for (BudgetLineItem budgetLineItem : firstPerLineItems) {
+        for (BudgetLineItem budgetLineItem : new ArrayList<>(firstPeriod.getBudgetLineItems())) {
             budgetCalculationService.applyToLaterPeriods(budget, firstPeriod, budgetLineItem);
         }
         
