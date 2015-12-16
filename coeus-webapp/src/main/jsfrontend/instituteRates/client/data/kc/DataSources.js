@@ -51,11 +51,11 @@ class RestFetcher {
 const apiRoot = '../research-common/api/v1/';
 
 module.exports = {
-	rateClassType : new RestFetcher(apiRoot + 'rate-class-types'), 
-	rateClass : new RestFetcher(apiRoot + 'rate-classes'),
-	rateType : new RestFetcher(apiRoot + 'rate-types'),
-	activityType : new RestFetcher(apiRoot + 'activity-types'),
-	unit : new RestFetcher(apiRoot + 'units'),
+	rateClassType : new RestFetcher(apiRoot + 'rate-class-types/'), 
+	rateClass : new RestFetcher(apiRoot + 'rate-classes/'),
+	rateType : new RestFetcher(apiRoot + 'rate-types/'),
+	activityType : new RestFetcher(apiRoot + 'activity-types/'),
+	unit : new RestFetcher(apiRoot + 'units/'),
 	topUnit : new RestFetcher(apiRoot + 'units/top-unit'),
-	rate : new RestFetcher(apiRoot + 'institute-rates'),
+	rate : new RestFetcher(apiRoot + 'institute-rates/'),
 };

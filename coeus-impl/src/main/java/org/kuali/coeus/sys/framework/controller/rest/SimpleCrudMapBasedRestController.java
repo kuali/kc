@@ -48,7 +48,7 @@ public class SimpleCrudMapBasedRestController<T extends PersistableBusinessObjec
 	protected Map<String, Object> createMapFromPropsOnBean(DynaBean dynaBean) {
 		return getExposedProperties().stream()
 				.map(name -> CollectionUtils.entry(name, dynaBean.get(name)))
-				.collect(CollectionUtils.entriesToMap());
+				.collect(CollectionUtils.nullSafeEntriesToMap());
 	}
 
 	@SuppressWarnings("unchecked")

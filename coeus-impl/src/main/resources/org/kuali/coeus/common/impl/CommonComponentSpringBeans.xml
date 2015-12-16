@@ -265,11 +265,51 @@
 		p:writePermissionNamespace="KC-M"
 		p:writePermissionName="Maintain Institute Rates">
 	</bean>
+
+	<bean id="rateClassTypeController"
+		class="org.kuali.coeus.sys.framework.controller.rest.SimpleCrudMapBasedRestController"
+		p:dataObjectClazz="org.kuali.coeus.common.budget.framework.rate.RateClassType"
+		p:writePermissionNamespace="KC-M"
+		p:writePermissionName="Maintain Institute Rates">
+	</bean>
+	
+	<bean id="rateClassController"
+		class="org.kuali.coeus.sys.framework.controller.rest.SimpleCrudMapBasedRestController"
+		p:dataObjectClazz="org.kuali.coeus.common.budget.framework.rate.RateClass"
+		p:writePermissionNamespace="KC-M"
+		p:writePermissionName="Maintain Institute Rates">
+	</bean>
+	
+	<bean id="rateTypeController"
+		class="org.kuali.coeus.sys.framework.controller.rest.SimpleCrudMapBasedRestController"
+		p:dataObjectClazz="org.kuali.coeus.common.budget.framework.rate.RateType"
+		p:writePermissionNamespace="KC-M"
+		p:writePermissionName="Maintain Institute Rates">
+	</bean>
+
+	<bean id="activityTypeController"
+		class="org.kuali.coeus.sys.framework.controller.rest.SimpleCrudMapBasedRestController"
+		p:dataObjectClazz="org.kuali.coeus.common.framework.type.ActivityType"
+		p:writePermissionNamespace="KC-M"
+		p:writePermissionName="Maintain Institute Rates">
+	</bean>
+	
+	<bean id="unitController"
+		class="org.kuali.coeus.sys.framework.controller.rest.SimpleCrudMapBasedRestController"
+		p:dataObjectClazz="org.kuali.coeus.common.framework.unit.Unit"
+		p:writePermissionNamespace="KC-M"
+		p:writePermissionName="Maintain Institute Rates">
+	</bean>
 	
 	<bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
 	    <property name="mappings">
 	        <value>
 	            /api/v1/cost-elements/*=costElementController
+	            /api/v1/rate-class-types/*=rateClassTypeController
+	            /api/v1/rate-classes/*=rateClassController
+	            /api/v1/rate-types/*=rateTypeController
+	            /api/v1/activity-types/*=activityTypeController
+	            /api/v1/units/*=unitController
 	        </value>
 	    </property>
 	</bean>
