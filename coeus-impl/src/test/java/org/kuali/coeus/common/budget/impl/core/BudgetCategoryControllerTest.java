@@ -42,6 +42,11 @@ public class BudgetCategoryControllerTest {
 			protected Collection<BudgetCategory> getAllFromDataStore() {
 				return Stream.of(budgetCat1, budgetCat2).collect(Collectors.toList());
 			}
+
+			@Override
+			protected void assertUserHasReadAccess() {
+
+			}
 		};
 		
 		Collection<BudgetCategoryDto> categories = controller.getAll();
@@ -63,6 +68,11 @@ public class BudgetCategoryControllerTest {
 				assertEquals(budgetCat1.getCode(), code);
 				return budgetCat1;
 			}
+
+			@Override
+			protected void assertUserHasReadAccess() {
+
+			}
 		};
 		
 		BudgetCategoryDto dto = controller.get(budgetCat1.getCode());
@@ -83,8 +93,17 @@ public class BudgetCategoryControllerTest {
 			protected void save(BudgetCategory bo) {
 				updatedCategory = bo;
 			}
+
 			@Override
-			protected void assertUserHasAccess() { }
+			protected void assertUserHasWriteAccess() {
+
+			}
+
+			@Override
+			protected void assertUserHasReadAccess() {
+
+			}
+
 			@Override
 			protected void validateBusinessObject(BudgetCategory budgetCategory) { }
 			@Override
@@ -113,8 +132,17 @@ public class BudgetCategoryControllerTest {
 			protected void save(BudgetCategory bo) {
 				updatedCategory = bo;
 			}
+
 			@Override
-			protected void assertUserHasAccess() { }
+			protected void assertUserHasWriteAccess() {
+
+			}
+
+			@Override
+			protected void assertUserHasReadAccess() {
+
+			}
+
 			@Override
 			protected void validateBusinessObject(BudgetCategory budgetCategory) { }
 		};
@@ -138,8 +166,17 @@ public class BudgetCategoryControllerTest {
 			protected void save(BudgetCategory bo) {
 				updatedCategory = bo;
 			}
+
 			@Override
-			protected void assertUserHasAccess() { }
+			protected void assertUserHasWriteAccess() {
+
+			}
+
+			@Override
+			protected void assertUserHasReadAccess() {
+
+			}
+
 			@Override
 			protected void validateBusinessObject(BudgetCategory budgetCategory) { }
 			@Override
@@ -168,8 +205,17 @@ public class BudgetCategoryControllerTest {
 			protected void save(BudgetCategory bo) {
 				updatedCategory = bo;
 			}
+
 			@Override
-			protected void assertUserHasAccess() { }
+			protected void assertUserHasWriteAccess() {
+
+			}
+
+			@Override
+			protected void assertUserHasReadAccess() {
+
+			}
+
 			@Override
 			protected void validateBusinessObject(BudgetCategory budgetCategory) { }
 		};
@@ -192,8 +238,17 @@ public class BudgetCategoryControllerTest {
 			protected void delete(BudgetCategory bo) {
 				updatedCategory = bo;
 			}
+
 			@Override
-			protected void assertUserHasAccess() { }
+			protected void assertUserHasWriteAccess() {
+
+			}
+
+			@Override
+			protected void assertUserHasReadAccess() {
+
+			}
+
 			@Override
 			protected void validateBusinessObject(BudgetCategory budgetCategory) { }
 		};
@@ -214,8 +269,17 @@ public class BudgetCategoryControllerTest {
 			protected void delete(BudgetCategory bo) {
 				assertTrue(false);
 			}
+
 			@Override
-			protected void assertUserHasAccess() { }
+			protected void assertUserHasWriteAccess() {
+
+			}
+
+			@Override
+			protected void assertUserHasReadAccess() {
+
+			}
+
 			@Override
 			protected void validateBusinessObject(BudgetCategory budgetCategory) { }
 		};

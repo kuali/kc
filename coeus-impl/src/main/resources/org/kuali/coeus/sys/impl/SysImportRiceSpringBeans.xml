@@ -66,6 +66,8 @@
     <bean id="personService" parent="grlImporter" p:serviceName="personService" />
     <bean id="groupService" parent="grlImporter" p:serviceName="kimGroupService" />
     <bean id="providerRegistry" parent="grlImporter" p:serviceName="providerRegistry" />
+    <bean id="dictionaryValidationService" parent="grlImporter" p:serviceName="dictionaryValidationService" />
+    <bean id="legacyDataAdapter" parent="grlImporter" p:serviceName="legacyDataAdapter" />
 
     <bean id="ccImporter" abstract="true" class="org.kuali.coeus.sys.framework.service.ConfigContextConfigObjectFactoryBean" p:singleton="true" p:mustExist="true" />
 

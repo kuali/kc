@@ -49,6 +49,7 @@
 
     <import resource="classpath:org/kuali/coeus/sys/impl/SysImportRiceSpringBeans.xml"/>
     <import resource="classpath:org/kuali/coeus/sys/impl/SysImportModuleSpringBeans.xml"/>
+    <import resource="classpath:org/kuali/coeus/sys/framework/ImportEndpointSpringBeans.xml" />
 
     <!-- only brought in on the grm profile -->
     <import resource="classpath:co/kuali/coeus/grm/impl/GrmSysComponentSpringBeans.xml"/>
@@ -340,5 +341,24 @@
     <bean id="jdbcOperations" class="org.springframework.jdbc.core.JdbcTemplate">
         <property name="dataSource" ref="dataSource" />
     </bean>
+
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.ResourceHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.xml.SourceHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.xml.XmlAwareFormHttpMessageConverter"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="autoRegisterMapping" class="org.kuali.coeus.sys.framework.controller.rest.RestSimpleUrlHandlerMapping" />
+
+    <bean id="simpleCrudMapBasedRestController" class="org.kuali.coeus.sys.framework.controller.rest.SimpleCrudMapBasedRestController" abstract="true" />
+
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.krad.document.authorization.PessimisticLock" />
 
 </beans>

@@ -38,7 +38,6 @@
     <tx:annotation-driven transaction-manager="transactionManager" />
     <context:annotation-config />
     <context:component-scan base-package="org.kuali.coeus.propdev" />
-    <!--<mvc:annotation-driven/> -->
 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="properties" value="#{T(org.kuali.rice.core.api.config.property.ConfigContext).getCurrentContextConfig().getProperties()}" />

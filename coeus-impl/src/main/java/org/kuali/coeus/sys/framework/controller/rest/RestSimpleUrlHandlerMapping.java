@@ -16,15 +16,16 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.kra.negotiations;
+package org.kuali.coeus.sys.framework.controller.rest;
 
-import org.kuali.coeus.sys.framework.security.SpringRestSecurity;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
+import org.springframework.beans.BeansException;
+import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
 
-@Configuration
-@EnableWebMvcSecurity
-public class NegotiationSpringRestSecurity extends SpringRestSecurity {
-    //noop class to pull SpringRestSecurity class into the award spring context
+public class RestSimpleUrlHandlerMapping extends SimpleUrlHandlerMapping {
 
+    //making public for external access
+    @Override
+    public void registerHandler(String urlPath, Object handler) throws BeansException, IllegalStateException {
+        super.registerHandler(urlPath, handler);
+    }
 }

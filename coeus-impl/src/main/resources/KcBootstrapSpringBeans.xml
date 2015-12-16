@@ -47,6 +47,7 @@
     <import resource="classpath:org/kuali/kra/institutionalproposal/InstPropBootstrapSpringBeans.xml"/>
     <import resource="classpath:org/kuali/kra/award/AwardBootstrapSpringBeans.xml"/>
     <import resource="classpath:org/kuali/coeus/propdev/impl/PropDevBootstrapSpringBeans.xml"/>
+    <import resource="classpath:org/kuali/coeus/propdev/impl/PropDevRestBootstrapSpringBeans.xml"/>
     <import resource="classpath:org/kuali/kra/subaward/SubAwardBootstrapSpringBeans.xml"/>
     <import resource="classpath:org/kuali/kra/negotiation/NegotiationBootstrapSpringBeans.xml"/>
     <import resource="classpath:org/kuali/kra/coi/CoiBootstrapSpringBeans.xml"/>

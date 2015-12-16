@@ -31,6 +31,7 @@
         <ref bean="KcKimAttributes-subunits" />
         <ref bean="KcKimAttributes-sectionName" />
         <ref bean="KcKimAttributes-documentAction" />
+        <ref bean="KcKimAttributes-className" />
       </list>
     </property>
 	<property name="relationships" >
@@ -96,5 +97,18 @@
       <bean p:size="50" parent="Uif-TextControl"/>
     </property>
    </bean>
-   
+
+    <bean id="KcKimAttributes-className" parent="KcKimAttributes-className-parentBean" />
+    <bean id="KcKimAttributes-className-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="className"/>
+        <property name="label" value="Class Name"/>
+        <property name="shortLabel" value="Class Name"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="50"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="50" parent="Uif-TextControl"/>
+        </property>
+    </bean>
+
 </beans>

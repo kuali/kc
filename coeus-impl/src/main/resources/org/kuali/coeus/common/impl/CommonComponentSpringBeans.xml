@@ -50,7 +50,8 @@
 
     <import resource="classpath:org/kuali/coeus/common/impl/CommonImportRiceSpringBeans.xml"/>
     <import resource="classpath:org/kuali/coeus/common/impl/CommonImportModuleSpringBeans.xml"/>
-    
+    <import resource="classpath:org/kuali/coeus/sys/framework/ImportEndpointSpringBeans.xml" />
+
     <!-- configure SpringMVC for this module -->
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
@@ -259,69 +260,118 @@
 		</property>
 	</bean>
 
-	<bean id="costElementController"
-		class="org.kuali.coeus.sys.framework.controller.rest.SimpleCrudMapBasedRestController"
-		p:dataObjectClazz="org.kuali.coeus.common.budget.framework.core.CostElement"
-		p:writePermissionNamespace="KC-M"
-		p:writePermissionName="Maintain Institute Rates">
-	</bean>
+    <bean id="autoRegisterMapping" class="org.kuali.coeus.sys.framework.controller.rest.RestSimpleUrlHandlerMapping"/>
 
-	<bean id="rateClassTypeController"
-		class="org.kuali.coeus.sys.framework.controller.rest.SimpleCrudMapBasedRestController"
-		p:dataObjectClazz="org.kuali.coeus.common.budget.framework.rate.RateClassType"
-		p:writePermissionNamespace="KC-M"
-		p:writePermissionName="Maintain Institute Rates">
-	</bean>
-	
-	<bean id="rateClassController"
-		class="org.kuali.coeus.sys.framework.controller.rest.SimpleCrudMapBasedRestController"
-		p:dataObjectClazz="org.kuali.coeus.common.budget.framework.rate.RateClass"
-		p:writePermissionNamespace="KC-M"
-		p:writePermissionName="Maintain Institute Rates">
-	</bean>
-	
-	<bean id="rateTypeController"
-		class="org.kuali.coeus.sys.framework.controller.rest.SimpleCrudMapBasedRestController"
-		p:dataObjectClazz="org.kuali.coeus.common.budget.framework.rate.RateType"
-		p:writePermissionNamespace="KC-M"
-		p:writePermissionName="Maintain Institute Rates">
-	</bean>
-
-	<bean id="activityTypeController"
-		class="org.kuali.coeus.sys.framework.controller.rest.SimpleCrudMapBasedRestController"
-		p:dataObjectClazz="org.kuali.coeus.common.framework.type.ActivityType"
-		p:writePermissionNamespace="KC-M"
-		p:writePermissionName="Maintain Institute Rates">
-	</bean>
-	
-	<bean id="unitController"
-		class="org.kuali.coeus.sys.framework.controller.rest.SimpleCrudMapBasedRestController"
-		p:dataObjectClazz="org.kuali.coeus.common.framework.unit.Unit"
-		p:writePermissionNamespace="KC-M"
-		p:writePermissionName="Maintain Institute Rates">
-	</bean>
-	
-	<bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-	    <property name="mappings">
-	        <value>
-	            /api/v1/cost-elements/*=costElementController
-	            /api/v1/rate-class-types/*=rateClassTypeController
-	            /api/v1/rate-classes/*=rateClassController
-	            /api/v1/rate-types/*=rateTypeController
-	            /api/v1/activity-types/*=activityTypeController
-	            /api/v1/units/*=unitController
-	        </value>
-	    </property>
-	</bean>
-
-    <bean id="commonEndpointController" class="org.kuali.coeus.sys.framework.controller.rest.RestEndpointController" />
-
-    <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-        <property name="mappings">
-            <value>
-                /api/v1/endpoints/*=commonEndpointController
-            </value>
-        </property>
-    </bean>
+    <bean id="simpleCrudMapBasedRestController" class="org.kuali.coeus.sys.framework.controller.rest.SimpleCrudMapBasedRestController" abstract="true" />
+    
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.questionnaire.framework.answer.Answer" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.attachment.AttachmentFile" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.home.CFDA" p:camelCasePluralName="Cfdas" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.bo.CostShareType" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.bo.CreditType" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.custom.attr.CustomAttribute" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.custom.attr.CustomAttributeDataType" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.type.DeadlineType" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.person.attr.DegreeType" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.auth.docperm.DocumentAccess" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.bo.FundingSourceType" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.type.InvestigatorCreditType" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.krms.KcKrmsTermFunction" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.krms.KcKrmsTermFunctionParam" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.notification.impl.bo.KcNotification" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.person.attr.KcPersonExtendedAttributes" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.motd.MessageOfTheDay" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.noo.NoticeOfOpportunity" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.bo.NsfCode" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.org.Organization" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.org.crrspndnt.OrganizationCorrespondent" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.org.type.OrganizationTypeList" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.person.attr.PersonAppointment" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.person.attr.PersonBiosketch" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.person.attr.PersonCustomData" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.person.attr.PersonDegree" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.person.attr.PersonEditableField" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.personmasschange.bo.PersonMassChange" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.person.signature.PersonSignature" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.person.signature.PersonSignatureModule" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.person.attr.PersonTraining" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.person.PropAwardPersonRole" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.type.ProposalType" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.questionnaire.framework.question.Question" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.questionnaire.framework.question.QuestionCategory" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.questionnaire.framework.question.QuestionExplanation" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.questionnaire.framework.question.QuestionMultiChoice" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.questionnaire.framework.question.QuestionType" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.questionnaire.framework.core.Questionnaire" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireQuestion" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireUsage" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.bo.SchoolCode" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.keyword.ScienceKeyword" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.compliance.core.SpecialReviewApprovalType" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.compliance.core.SpecialReviewType" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.compliance.core.SpecialReviewUsage" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.sponsor.Sponsor" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.sponsor.form.SponsorFormTemplate" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.sponsor.form.SponsorFormTemplateList" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.sponsor.form.SponsorForms" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.sponsor.term.SponsorTerm" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.sponsor.term.SponsorTermType" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.sponsor.SponsorType" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.bo.Training" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.personmasschange.bo.UnitAdministratorPersonMassChange" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.compliance.core.ValidSpecialReviewApproval" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.version.history.VersionHistory" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.person.attr.CitizenshipType" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.module.CoeusModule" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.module.CoeusSubModule" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.bo.AccountType" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.type.ActivityType" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.budget.framework.personnel.AppointmentType" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.custom.arg.ArgValueLookup" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.budget.framework.personnel.TbnPerson" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.unit.Unit" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.unit.admin.UnitAdministratorType" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.unit.crrspndnt.UnitCorrespondent" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.budget.impl.rate.UnitFormulatedCost" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.print.watermark.Watermark" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.ynq.Ynq" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.ynq.YnqExplanationType" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.impl.rpt.cust.CustReportDetails" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.impl.rpt.cust.CustReportType" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.budget.framework.core.Budget" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.budget.framework.core.category.BudgetCategory" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.budget.framework.core.category.BudgetCategoryType" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.propdev.impl.budget.editable.BudgetColumnsToAlter" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetFormulatedCostDetail" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.budget.framework.rate.BudgetLaRate" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalculatedAmount"/>
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.budget.framework.period.BudgetPeriod"/>
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.budget.framework.period.BudgetPeriodType"/>
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.budget.framework.personnel.BudgetPersonSalaryDetails"/>
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelCalculatedAmount"/>
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails"/>
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelRateAndBase"/>
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.budget.framework.rate.BudgetRate"/>
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetRateAndBase"/>
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.external.budget.FinancialObjectCodeMapping"/>
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.budget.framework.personnel.JobCode"/>
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.budget.framework.rate.RateClass"/>
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.budget.framework.rate.RateClassBaseExclusion"/>
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.budget.framework.rate.RateClassBaseInclusion"/>
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.budget.framework.rate.RateClassType"/>
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.budget.framework.rate.RateType"/>
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.budget.framework.rate.TrainingStipendRate"/>
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.budget.framework.core.CostElement"/>
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.budget.framework.rate.FormulatedType"/>
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.proposal.framework.mail.MailBy" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.proposal.framework.mail.MailType" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.rolodex.Rolodex" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.notification.impl.bo.NotificationModuleRole" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.notification.impl.bo.NotificationModuleRoleQualifier" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.notification.impl.bo.NotificationType" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.notification.impl.bo.NotificationTypeRecipient" />
 
 </beans>

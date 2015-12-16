@@ -2,7 +2,7 @@
 <!--
    - Kuali Coeus, a comprehensive research administration system for higher education.
    - 
-   - Copyright 2005-2015 Kuali, Inc.
+   - Copyright 2005-2016 Kuali, Inc.
    - 
    - This program is free software: you can redistribute it and/or modify
    - it under the terms of the GNU Affero General Public License as
@@ -31,21 +31,9 @@
 
     <bean id="grlImporter" abstract="true" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
 
-    <bean id="krmsCacheAdminService" parent="grlImporter" p:serviceName="krmsCacheAdminService" />
-    <bean id="errorReporter" parent="grlImporter" p:serviceName="errorReporter"/>
-    <bean id="globalVariableService" parent="grlImporter" p:serviceName="globalVariableService" />
-
-    <!-- making singleton false to prevent caching and avoid an NPE, this indicates a dependency issue across modules -->
-    <bean id="awardAmountInfoService" parent="grlImporter" p:serviceName="awardAmountInfoService" p:singleton="false" />
-    <bean id="negotiationService" parent="grlImporter" p:serviceName="negotiationService" p:singleton="false"/>
-    <bean id="subAwardService" parent="grlImporter" p:serviceName="subAwardService" p:singleton="false" />
-    <bean id="awardService" parent="grlImporter" p:serviceName="awardService" p:singleton="false"/>
-    <bean id="institutionalProposalService" parent="grlImporter" p:serviceName="institutionalProposalService" p:singleton="false"/>
-    <bean id="protocolFinderDao" parent="grlImporter" p:serviceName="protocolFinderDao" p:singleton="false" />
-    <bean id="iacucProtocolFinderDao" parent="grlImporter" p:serviceName="iacucProtocolFinderDao" p:singleton="false"/>
-    <bean id="awardBudgetService" parent="grlImporter" p:serviceName="awardBudgetService" p:singleton="false" />
-    <bean id="kcEntityManager" parent="grlImporter" p:serviceName="kcEntityManager" />
+    <!-- SYS -->
     <bean id="persistenceVerificationService" parent="grlImporter" p:serviceName="persistenceVerificationService" />
     <bean id="errorHandlingUtilService" parent="grlImporter" p:serviceName="errorHandlingUtilService" />
+    <bean id="globalVariableService" parent="grlImporter" p:serviceName="globalVariableService" />
 
 </beans>

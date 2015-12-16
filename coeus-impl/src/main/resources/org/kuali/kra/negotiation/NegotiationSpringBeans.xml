@@ -291,4 +291,45 @@
         </property>
     </bean>
 
+    <bean id="legacyDataAdapter" parent="grlImporter" p:serviceName="legacyDataAdapter" />
+    <bean id="permissionService" parent="grlImporter" p:serviceName="kimPermissionService" />
+    <bean id="globalVariableService" parent="grlImporter" p:serviceName="globalVariableService"/>
+    <bean id="dictionaryValidationService" parent="grlImporter" p:serviceName="dictionaryValidationService"/>
+    <bean id="errorHandlingUtilService" parent="grlImporter" p:serviceName="errorHandlingUtilService"/>
+
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.ResourceHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.xml.SourceHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.xml.XmlAwareFormHttpMessageConverter"/>
+            </list>
+        </property>
+    </bean>
+
+    <import resource="classpath:org/kuali/coeus/sys/framework/ImportEndpointSpringBeans.xml" />
+
+    <bean id="persistenceVerificationService" parent="grlImporter" p:serviceName="persistenceVerificationService" />
+
+    <bean id="autoRegisterMapping" class="org.kuali.coeus.sys.framework.controller.rest.RestSimpleUrlHandlerMapping"/>
+
+    <bean id="simpleCrudMapBasedRestController" class="org.kuali.coeus.sys.framework.controller.rest.SimpleCrudMapBasedRestController" abstract="true" />
+
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.negotiations.bo.Negotiation" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.negotiations.bo.NegotiationActivity" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.negotiations.bo.NegotiationActivityAttachment" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.negotiations.bo.NegotiationActivityType" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.negotiations.bo.NegotiationAgreementType" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.negotiations.bo.NegotiationAssociationType" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.negotiations.customdata.NegotiationCustomData" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.negotiations.document.NegotiationDocument" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.negotiations.bo.NegotiationLocation" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.negotiations.notifications.NegotiationNotification" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.personmasschange.bo.NegotiationPersonMassChange" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.negotiations.bo.NegotiationStatus" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail" />
+
 </beans>

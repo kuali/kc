@@ -26,6 +26,7 @@
     <param name="kc.common.mode">LOCAL</param>
 	<param name="kc.core.mode">LOCAL</param>
 	<param name="kc.pd.mode">LOCAL</param>
+	<param name="kc.pd.rest.mode">LOCAL</param>
 	<param name="kc.ip.mode">LOCAL</param>
 	<param name="kc.award.mode">LOCAL</param>
 	<param name="kc.subaward.mode">LOCAL</param>
