@@ -327,8 +327,12 @@ public class ProtocolForm extends ProtocolFormBase {
 
 
     @Override
-    protected ActionHelperBase createNewActionHelperInstanceHook(ProtocolFormBase protocolForm) throws Exception {
-        return new ActionHelper((ProtocolForm) protocolForm);
+    protected ActionHelperBase createNewActionHelperInstanceHook(ProtocolFormBase protocolForm, boolean initializeActions) throws Exception {
+    	ActionHelper actionHelper = new ActionHelper((ProtocolForm) protocolForm);
+    	if(initializeActions) {
+    		actionHelper.initializeProtocolActions();
+    	}
+    	return actionHelper;
     }
 
 

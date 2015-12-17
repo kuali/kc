@@ -114,8 +114,9 @@ public abstract class ProtocolActionBase extends KcTransactionalDocumentActionBa
         return branchToPanelOrNotificationEditor(mapping, protocolForm, getProtocolForwardNameHook());
     }
 
-    public ActionForward permissions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+    public ActionForward permissions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolFormBase protocolForm = (ProtocolFormBase)form;
+        protocolForm.initializePermission();
         protocolForm.getPermissionsHelper().prepareView();
         return branchToPanelOrNotificationEditor(mapping, protocolForm, getProtocolPermissionsForwardNameHook());
     }    
@@ -153,8 +154,9 @@ public abstract class ProtocolActionBase extends KcTransactionalDocumentActionBa
      * @return the Action Forward
      */
     public ActionForward noteAndAttachment(ActionMapping mapping, ActionForm form
-            , HttpServletRequest request, HttpServletResponse response) {        
+            , HttpServletRequest request, HttpServletResponse response) throws Exception {        
         ProtocolFormBase protocolForm = (ProtocolFormBase)form;
+        protocolForm.initializeNotesAttachments();
         protocolForm.getNotesAttachmentsHelper().prepareView();
         return branchToPanelOrNotificationEditor(mapping, protocolForm, getNoteAndAttachmentForwardNameHook());
     }
@@ -192,30 +194,33 @@ public abstract class ProtocolActionBase extends KcTransactionalDocumentActionBa
             protocolForm.setDocument(retrievedDocument);
             request.setAttribute(KRADConstants.PARAMETER_DOC_ID, docIdRequestParameter);        
        }
+       protocolForm.initializeProtocolAction();
        // make sure current submission is displayed when navigate to action page.
        protocolForm.getActionHelper().setCurrentSubmissionNumber(Constants.PROTOCOL_DEFAULT_SUBMISSION_NUMBER);
        protocolForm.getActionHelper().prepareView();
        protocolForm.getActionHelper().prepareCommentsView();
- 
-       
-       //When a user selects the Questionnaires tab, empty answerHeaders are generated and saved to the database so that subsequent methods relying
-       //on that persisted data have it available to render panels.  Make Protocol Actions tab work in this same manner so it's sub-tab 
-       //Print ==> Questionnaires will render when a user enters a protocol but does not select the Questionnaire tab to answer the questions.
-       protocolForm.getQuestionnaireHelper().prepareView();
-       protocolForm.getQuestionnaireHelper().populateAnswers();
-       protocolForm.getQuestionnaireHelper().setQuestionnaireActiveStatuses();
-       Document document = protocolForm.getDocument();
-       List<AnswerHeader> answerHeaders = protocolForm.getQuestionnaireHelper().getAnswerHeaders();       
-       if (applyRules(new SaveQuestionnaireAnswerEvent(document, answerHeaders)) && applyRules(new SaveProtocolQuestionnaireEvent(document, answerHeaders)) ) {
-           protocolForm.getQuestionnaireHelper().preSave();
-           getBusinessObjectService().save(answerHeaders);
-       }
-  
+       saveQuestionnaire(protocolForm);
        return branchToPanelOrNotificationEditor(mapping, protocolForm, getProtocolActionsForwardNameHook());
+    }
+    
+    protected void saveQuestionnaire(ProtocolFormBase protocolForm) {
+        //When a user selects the Questionnaires tab, empty answerHeaders are generated and saved to the database so that subsequent methods relying
+        //on that persisted data have it available to render panels.  Make Protocol Actions tab work in this same manner so it's sub-tab 
+        //Print ==> Questionnaires will render when a user enters a protocol but does not select the Questionnaire tab to answer the questions.
+        protocolForm.getQuestionnaireHelper().prepareView();
+        protocolForm.getQuestionnaireHelper().populateAnswers();
+        protocolForm.getQuestionnaireHelper().setQuestionnaireActiveStatuses();
+        Document document = protocolForm.getDocument();
+        List<AnswerHeader> answerHeaders = protocolForm.getQuestionnaireHelper().getAnswerHeaders();       
+        if (applyRules(new SaveQuestionnaireAnswerEvent(document, answerHeaders)) && applyRules(new SaveProtocolQuestionnaireEvent(document, answerHeaders)) ) {
+            protocolForm.getQuestionnaireHelper().preSave();
+            getBusinessObjectService().save(answerHeaders);
+        }
     }
     
     public ActionForward protocolHistory(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception  {
         ProtocolFormBase protocolForm = (ProtocolFormBase) form;
+        protocolForm.initializeProtocolHistory();
         protocolForm.getActionHelper().setCurrentSubmissionNumber(Constants.PROTOCOL_DEFAULT_SUBMISSION_NUMBER);
         protocolForm.getActionHelper().initSubmissionDetails();
         return branchToPanelOrNotificationEditor(mapping, protocolForm, getProtocolHistoryForwardNameHook());
