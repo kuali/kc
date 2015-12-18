@@ -1,6 +1,22 @@
 
 
 ##CURRENT
+* Correcting autocalculate period stack trace exception
+
+  * When there are multiple years and at least one person line item and multiple non-personnel costs the follow stack trace occurs when autocalculate periods is initiated.
+
+  * java.util.ConcurrentModificationException
+  * at java.util.Vector$Itr.checkForComodification(Vector.java:1184)
+  * at java.util.Vector$Itr.next(Vector.java:1137)
+  * at org.eclipse.persistence.indirection.IndirectList$1.next(IndirectList.java:618)
+  * at org.kuali.coeus.common.budget.impl.summary.BudgetSummaryServiceImpl.generateAllPeriods(BudgetSummaryServiceImpl.java:159)
+  * blackcathacker on Tue, 15 Dec 2015 15:53:57 -0800 [View Commit](../../commit/12d5318b99021674855b4d19e1af36ced8ac8ba1)
+* Add new synthetic key to institute rates to replace the composite key
+
+  * Move simple rest endpoints and DTOs to use the new common rest controller
+  * blackcathacker on Tue, 15 Dec 2015 10:42:59 -0800 [View Commit](../../commit/793154fe2db9ca55a684b2cec31041b5c3032479)
+
+##coeus-1512.70
 * No Changes
 
 

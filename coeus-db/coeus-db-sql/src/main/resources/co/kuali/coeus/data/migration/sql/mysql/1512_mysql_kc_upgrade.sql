@@ -20,4 +20,5 @@
 
 \. ./kc/bootstrap/V1512_002__RESKC-486.sql
 \. ./kc/bootstrap/V1512_003__RESKC-791.sql
+\. ./kc/bootstrap/V1512_006__BudgetRates_Improvements.sql
 commit;
