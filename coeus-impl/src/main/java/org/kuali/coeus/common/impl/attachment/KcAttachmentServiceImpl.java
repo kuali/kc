@@ -132,7 +132,9 @@ public class KcAttachmentServiceImpl implements KcAttachmentService {
 
     @Override
     public boolean validPDFFile(FileMeta fileInQuestion, ErrorReporter errorReporter, String errorPrefix) {
-        if (!Constants.PDF_REPORT_CONTENT_TYPE.equals(fileInQuestion.getContentType())) {
+        if (fileInQuestion.getName() == null) {
+        	errorReporter.reportError(errorPrefix, KeyConstants.ERROR_ATTACHMENT_FILE_REQURIED);
+        } else if (!Constants.PDF_REPORT_CONTENT_TYPE.equals(fileInQuestion.getContentType())) {
            errorReporter.reportWarning(errorPrefix, KeyConstants.INVALID_FILE_TYPE,
                     fileInQuestion.getName(), Constants.PDF_REPORT_CONTENT_TYPE);
         }

@@ -20,6 +20,7 @@ package org.kuali.coeus.propdev.impl.attachment;
 
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.util.MessageMap;
 import org.springframework.stereotype.Component;
@@ -34,12 +35,10 @@ public class MultipartFileValidationServiceImpl implements MultipartFileValidati
             throw new IllegalArgumentException("errorPath cannot be blank");
         }
 
-        if (file == null) {
-            throw new IllegalArgumentException("file cannot be null");
-        }
         final MessageMap messages = new MessageMap();
-
-        if (file.getSize() == 0) {
+        if (file == null) {
+            messages.putError(errorPath, KeyConstants.ERROR_ATTACHMENT_FILE_REQURIED);
+        }else if (file.getSize() == 0) {
             messages.putError(errorPath, RiceKeyConstants.ERROR_UPLOADFILE_EMPTY, file.getOriginalFilename());
         }
         return messages;

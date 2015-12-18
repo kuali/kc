@@ -20,6 +20,7 @@ package org.kuali.coeus.propdev.impl.attachment;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.springframework.mock.web.MockMultipartFile;
 
@@ -37,10 +38,9 @@ public class MultipartFileValidationServiceImplTest {
         mp.validateMultipartFile(" ", new MockMultipartFile("foo.txt", new byte[] {}));
     }
 
-    @Test(expected = IllegalArgumentException.class)
     public void test_validate_null_file() {
         final MultipartFileValidationServiceImpl mp = new MultipartFileValidationServiceImpl();
-        mp.validateMultipartFile("a_prop", null);
+        Assert.assertTrue(mp.validateMultipartFile("a_prop", null).containsMessageKey(KeyConstants.ERROR_ATTACHMENT_FILE_REQURIED));
     }
 
     @Test
