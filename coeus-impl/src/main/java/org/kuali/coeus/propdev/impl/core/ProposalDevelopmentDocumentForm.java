@@ -41,9 +41,11 @@ import org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles;
 import org.kuali.coeus.propdev.impl.editable.ProposalChangedData;
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationContext;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.coeus.propdev.impl.person.ProposalPersonCoiIntegrationService;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalCreditSplitListDto;
 import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelper;
 import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnaireHelper;
+import org.kuali.coeus.propdev.impl.coi.CoiConstants;
 import org.kuali.coeus.propdev.impl.copy.ProposalCopyCriteria;
 import org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission;
 import org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedForm;
@@ -342,6 +344,19 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         return persons;
     }
 
+    public List<ProposalPerson> getPersonnelWhoRequireDisclosure() {
+    	ProposalPersonCoiIntegrationService proposalPersonCoiIntegrationService = getProposalPersonCoiIntegrationService();
+    	List<ProposalPerson> persons = getPersonnelWhoRequireCertification().stream().filter(person -> {
+    		String coiStatus = proposalPersonCoiIntegrationService.getProposalPersonCoiStatus(person);
+    		return !coiStatus.equals(CoiConstants.CERTIFICATION_INCOMPLETE) && !coiStatus.equals(CoiConstants.DISCLOSURE_NOT_REQUIRED);
+    	}).collect(Collectors.toList());
+    	return persons;
+    }
+    
+    private ProposalPersonCoiIntegrationService getProposalPersonCoiIntegrationService() {
+        return KcServiceLocator.getService(ProposalPersonCoiIntegrationService.class);
+    }
+    
     private ProposalDevelopmentPermissionsService getProposalDevelopmentPermissionsService() {
         return KcServiceLocator.getService(ProposalDevelopmentPermissionsService.class);
     }

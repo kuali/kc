@@ -53,7 +53,7 @@
                             <bean parent="Uif-PrimaryActionButton" p:actionLabel="COI Disclosure Status"
                                                p:order="35"  p:actionScript="showDialog('PropDev-PersonnelPage-COIStatus-Dialog');"
                                                 p:render="@{#ViewHelper.displayCoiDisclosureStatus() and
-                                                document.developmentProposal.proposalPersons.size() > 0}"/>
+                                                personnelWhoRequireDisclosure.size() > 0}"/>
                         </list>
                     </property>
                 </bean>
@@ -794,7 +794,7 @@
         <bean id="PropDev-PersonnelPage-COIStatus-Collection1" parent="PropDev-PersonnelPage-COIStatus-Collection1-parent" />
         <bean id="PropDev-PersonnelPage-COIStatus-Collection1-parent" 
          parent="Uif-TableCollectionSection" p:collectionObjectClass="org.kuali.coeus.propdev.impl.person.ProposalPerson"
-          p:propertyName="personnelWhoRequireCertification" p:addWithDialog="false"
+          p:propertyName="personnelWhoRequireDisclosure" p:addWithDialog="false"
 		p:renderAddLine="false" p:layoutManager.renderSequenceField="false"
 		p:renderInactiveToggleButton="false" p:layoutManager.richTable.render="true" p:renderLineActions="false">
 		
