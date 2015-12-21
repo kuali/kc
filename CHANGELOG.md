@@ -1,6 +1,19 @@
 
 
 ##CURRENT
+* Resubmission options dialog is read only when accessing proposals from proposal search (not doc search)
+
+  * Steps:
+
+  * 1.) Create Proposal with type 'Renewal'
+  * 2.) submit proposal.
+  * 3.) take proposal threw final approval
+  * 4.) open with view link from proposal search (not doc search)
+  * 5.) try to submit to sponsor
+  * 6.) dialog pops up with no options.
+  * Joe Williams on Mon, 21 Dec 2015 15:00:47 -0600 [View Commit](../../commit/b56ea69264af20fc33296f3a11b00a6eb6bc5ad6)
+
+##coeus-1512.76
 * No Changes
 
 
