@@ -105,7 +105,7 @@ import java.util.List;
 public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRuleBase implements AddCongressionalDistrictRule, AddKeyPersonRule, AddNarrativeRule, ReplaceNarrativeRule, SaveNarrativesRule, AddInstituteAttachmentRule, ReplaceInstituteAttachmentRule, AddPersonnelAttachmentRule, ReplacePersonnelAttachmentRule, AddProposalSiteRule, KcBusinessRule, SaveProposalSitesRule, AbstractsRule, CopyProposalRule, ChangeKeyPersonRule, DeleteCongressionalDistrictRule, PermissionsRule, NewNarrativeUserRightsRule, SaveKeyPersonRule,CalculateCreditSplitRule, ProposalDataOverrideRule, ResubmissionPromptRule, BudgetDataOverrideRule, DocumentAuditRule {
 
 
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentDocumentRule.class); 
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentDocumentRule.class);
     private static final String PROPOSAL_QUESTIONS_KEY="proposalYnq[%d].%s";
     private static final String PROPOSAL_QUESTIONS_KEY_PROPERTY_ANSWER="answer";
     private static final String PROPOSAL_QUESTIONS_KEY_PROPERTY_REVIEW_DATE="reviewDate";
@@ -506,7 +506,9 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
             auditErrors.add(new AuditError("document.developmentProposal.budgets", KeyConstants.AUDIT_ERROR_NO_BUDGETVERSION_COMPLETE_AND_FINAL, ProposalDevelopmentDataValidationConstants.BUDGET_PAGE_ID));
             retval = false;
         } else if (proposal.getFinalBudget() != null && (!proposal.getFinalBudget().getStartDate().equals(proposal.getRequestedStartDateInitial()) ||
-        		!proposal.getFinalBudget().getEndDate().equals(proposal.getRequestedEndDateInitial()))) {
+        		!proposal.getFinalBudget().getEndDate().equals(proposal.getRequestedEndDateInitial()) ||
+                !proposal.getFinalBudget().getSummaryPeriodStartDate().equals(proposal.getRequestedStartDateInitial()) ||
+                !proposal.getFinalBudget().getSummaryPeriodEndDate().equals(proposal.getRequestedEndDateInitial()))) {
         	auditErrors.add(new AuditError("document.developmentProposal.budgets", KeyConstants.ERROR_BUDGET_DATES_NOT_MATCH_PROPOSAL_DATES, ProposalDevelopmentDataValidationConstants.BUDGET_PAGE_ID));
             retval = false;
         }
