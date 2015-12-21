@@ -282,7 +282,7 @@ public class AwardHomeAction extends AwardAction {
             
             awardDocument.getAward().refreshReferenceObject("sponsor");
             Award award = awardDocument.getAward();
-            award.setSponsorNihMultiplePi(getSponsorHierarchyService().isSponsorNihMultiplePi(award));
+            award.setSponsorNihMultiplePi(getSponsorHierarchyService().isSponsorableNihMultiplePi(award));
             
             persistSpecialReviewProtocolFundingSourceLink(award, isAwardProtocolLinkingEnabled);
         }

@@ -997,7 +997,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     }
 
     public boolean isShowModularBudgetQuestion(Sponsorable sponsorable) {
-        return getSponsorHierarchyService().isSponsorNihMultiplePi(sponsorable);
+        return getSponsorHierarchyService().isSponsorableNihMultiplePi(sponsorable);
     }
 
     public boolean syncRequiresEndDateExtension(DevelopmentProposal proposal) {

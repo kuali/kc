@@ -218,7 +218,7 @@ public class ProposalBudgetViewHelperServiceImpl extends KcViewHelperServiceImpl
     }
 
     public boolean isShowModularBudgetQuestion(Sponsorable sponsorable) {
-        return getSponsorHierarchyService().isSponsorNihMultiplePi(sponsorable);
+        return getSponsorHierarchyService().isSponsorableNihMultiplePi(sponsorable);
     }
 
     public boolean displayPersonSalaryByPeriod() {

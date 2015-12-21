@@ -371,7 +371,7 @@ public class InstitutionalProposalAction extends KcTransactionalDocumentActionBa
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.loadDocument(kualiDocumentFormBase);
         InstitutionalProposal proposal = ((InstitutionalProposalForm) kualiDocumentFormBase).getInstitutionalProposalDocument().getInstitutionalProposal();
-        proposal.setSponsorNihMultiplePi(getSponsorHierarchyService().isSponsorNihMultiplePi(proposal));
+        proposal.setSponsorNihMultiplePi(getSponsorHierarchyService().isSponsorableNihMultiplePi(proposal));
         //work around to make sure project person reference to inst prop is to the same instance as the document has
         //without this the references were different causing issues when the sponsor was changed.
         if (!proposal.getProjectPersons().isEmpty()) {

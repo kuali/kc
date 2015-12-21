@@ -901,7 +901,7 @@ public class NIHResearchAndRelatedXmlStream extends
             BudgetModular budgetModular = budgetPeriod.getBudgetModular();
             consortiumDirectCost = budgetModular.getConsortiumFna();
         }else{
-            boolean isNih = getSponsorHierarchyService().isSponsorNihOsc(developmentProposal.getSponsorCode()) || getSponsorHierarchyService().isSponsorNihMultiplePi(developmentProposal);
+            boolean isNih = getSponsorHierarchyService().isSponsorNihOsc(developmentProposal.getSponsorCode()) || getSponsorHierarchyService().isSponsorableNihMultiplePi(developmentProposal);
             String mappingName = isNih?"NIH_PRINTING":"NSF_PRINTING";
 
             String fnaGt25KParamValue = getParameterService().getParameterValueAsString(Budget.class, "SUBCONTRACTOR_F_AND_A_GT_25K");
@@ -986,7 +986,7 @@ public class NIHResearchAndRelatedXmlStream extends
     private void setNSFOtherPersonnels(DevelopmentProposal developmentProposal, BudgetPeriod budgetPeriod,
             gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod budgetPeriodType) {
         NSFOtherPersonnelType otherPersonnelType  = budgetPeriodType.addNewNSFOtherPersonnel();
-        boolean isNih = getSponsorHierarchyService().isSponsorNihOsc(developmentProposal.getSponsorCode()) || getSponsorHierarchyService().isSponsorNihMultiplePi(developmentProposal);
+        boolean isNih = getSponsorHierarchyService().isSponsorNihOsc(developmentProposal.getSponsorCode()) || getSponsorHierarchyService().isSponsorableNihMultiplePi(developmentProposal);
         String mappingName = isNih?"NIH_PRINTING":"NSF_PRINTING";
 
         OtherPersonInfo otherPersonInfo = getOtherPersonInfo(budgetPeriod,mappingName,"01-Secretarial");
