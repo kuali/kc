@@ -211,9 +211,11 @@ opacity:1;
             	                </c:if>
 						   </c:when>
 						   <c:otherwise>
+							   <c:if test="${!readOnly && !empty KualiForm.editingMode['CAN_MAINTAIN_AWARD_ATTACHMENTS']}">
 								<html:image property="methodToCall.deleteAttachment.line${itrStatus.index}.anchor${currentTabIndex}"
 									   src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"
 									   alt="Delete Attachment"/>
+							   </c:if>
 						  </c:otherwise>
 						   </c:choose>
 						</c:if>
