@@ -1,6 +1,32 @@
 
 
 ##CURRENT
+* PD - Aggregator should not be able to proxy certify for
+  * proposal personnel.
+  * user kdenutte in MITKC qa pd 30447 added atat as Aggregator Document
+  * Level then logged out closed browser.
+  * Backdoor logged in as atat searched for 30447 and on Key Personnel
+screen was able to answer proposal certification questions for Key
+  * Person, Hammond.
+  * In Roles I find "Proposal Proxy Certify" showing only three users
+  * assigned, rhanlon, aeh and sdowdy but not atat. 
+  * In Permissions I find "Certify" is contained in derived roles for
+  * investigator and other central admin roles but no departmental
+  * users/aggregators are assigned to any of those roles nor should they
+  * have derived role.  * vineeth on Fri, 18 Dec 2015 18:07:39 -0500 [View Commit](../../commit/1d17c2ac9bb1eb065e6ec8e1c9c5713facc68ada)
+* PD - Key Personnel Modals Notify All and COI Disclosure Status
+  * must only display personnel required to certify.
+  * Currently, when the COI Disclosure Status feature is enabled, _all _key
+  * personnel are listed in the Disclosure Status window. This case is to
+  * update the COI Disclosure Status window and restrict the listed persons
+  * to _only _those key persons that are required to disclose. This update
+  * will better convey locally implemented Conflict of Interest compliance
+  * policy and procedure as maintained via the COI Hierarchy, the
+  * keypersonprojectrole parameter, RESKC-972 which will exempt
+  * non-personnel Multiple PI, or the parameter to exempt ALL address book
+  * non-personnel, if enabled.  * vineeth on Thu, 17 Dec 2015 17:48:53 -0500 [View Commit](../../commit/78d37f44e24c63145ff77ff1335097879ecafb1f)
+
+##coeus-1512.71
 * Correcting autocalculate period stack trace exception
 
   * When there are multiple years and at least one person line item and multiple non-personnel costs the follow stack trace occurs when autocalculate periods is initiated.
