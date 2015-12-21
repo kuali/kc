@@ -1,6 +1,38 @@
 
 
 ##CURRENT
+* PD: Attachments: STE after clicking the [Save] button in the Attachment Details window
+  * STE when I go to the Detail of an Attachment and click the [Save] button (happens in all attachments: Proposal, Personnel, Internal)
+  * Steps to Reproduce:
+  * 1. Create a Proposal with min. info to save
+  * 2. Navigate to the Attachments section and upload an attachment in the Proposal tab (or Personnel or Internal)
+  * 3. Once the attachment is added, click the [Details] button for that attachment
+  * 4. In the Details window that opens, click the [Save] button (without selecting a New File). The following STE should appear; (it appears as though the system is looking for a new file because if I search for a new file and click the [save] button the STE does not come up - users should be able to update that window without selecting/re-selecting the file):
+  * Fixing issue for Detail as well as new attachments.
+  * STE when attachment is not selected for new attachment options where as detail is expecting to add a new
+  * attachment even though one already exist.
+  * Also fixing dialog issue with validation and close.
+  * rmancher on Fri, 18 Dec 2015 16:58:00 -0500 [View Commit](../../commit/3c2b46fd05ae936f3eea3c2b21c02acf776e2746)
+*  Proposal Budget: changing proposal date after completing budget can cause data to get corrupted
+
+  * Steps:
+
+  * 1.) create proposal with start date 01/01/2016 and end date 01/01/2017
+  * 2.) create and complete budget
+  * 3.) change proposal end date to 12/31/2016
+  * 4.) close and return to proposal (something about this resets budget start end dates to proposals, but doesn't change the period)
+  * 5.) submit proposal
+  * 6.) submit to sponsor - get error about initial end date being after total end date
+  * Joe Williams on Mon, 21 Dec 2015 11:08:24 -0600 [View Commit](../../commit/106d6ce3b113a4fa8769d9f6e9074a785d286279)
+* Fix term spec
+  * Unable to open proposal due to incorrect term spec - at MIT
+  * Stacktrace (only in dev mode)
+  * org.kuali.rice.krms.api.engine.TermResolutionException: Unable to plan the resolution of Term([sumUnderrecoveryAmountFromPeriods]) [TermResolver=null, parameters={}] at org.kuali.rice.krms.framework.engine.TermResolutionEngineImpl.resolveTerm(TermResolutionEngineImpl.java:121) at org.kuali.rice.krms.framework.engine.BasicExecutionEnvironment.resolveTerm(BasicExecutionEnvironment.java:100) at
+  * This property does not exist in budget. It still has reference to old properties
+  * Reverting it.
+  * rmancher on Mon, 21 Dec 2015 12:17:12 -0500 [View Commit](../../commit/34ede5f31b2b8b8af243a70acacec3428113fafd)
+
+##coeus-1512.73
 *  remove delete attachment button from readOnly awards
 
   * Multiple reports from PI's that there is a "delete" button in their "read only" view of awards.

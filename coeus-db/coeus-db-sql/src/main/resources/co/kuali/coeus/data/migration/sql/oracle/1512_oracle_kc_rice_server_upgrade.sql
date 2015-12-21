@@ -24,4 +24,5 @@ spool 1512_oracle_kc_rice_server_upgrade.sql.log
 @./rice/bootstrap/V1512_001__RESKC-979.sql
 @./rice/bootstrap/V1512_004__invoice_inquiry.sql
 @./rice/bootstrap/V1512_005__RESOPS-195-AlphaSortNarrativeType.sql
+@./rice/bootstrap/V1512_007__REVERT_term_spec.sql
 commit;
