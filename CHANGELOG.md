@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+*  remove delete attachment button from readOnly awards
+
+  * Multiple reports from PI's that there is a "delete" button in their "read only" view of awards.
+  * Joe Williams on Mon, 21 Dec 2015 09:30:30 -0600 [View Commit](../../commit/c930cc30748954c301ef2dcb97edfc7b9c80b8c7)
+
+##coeus-1512.72
 * PD - Aggregator should not be able to proxy certify for
   * proposal personnel.
   * user kdenutte in MITKC qa pd 30447 added atat as Aggregator Document
