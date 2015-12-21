@@ -1076,7 +1076,7 @@ public class AwardAction extends BudgetParentActionBase {
         super.loadDocument(kualiForm);
         Award award = ((AwardForm) kualiForm).getAwardDocument().getAward();
         if (!((AwardForm) kualiForm).getAwardDocument().isPlaceHolderDocument()) {
-        	award.setSponsorNihMultiplePi(getSponsorHierarchyService().isSponsorNihMultiplePi(award.getSponsorCode()));
+        	award.setSponsorNihMultiplePi(getSponsorHierarchyService().isSponsorNihMultiplePi(award));
         }
     }
 

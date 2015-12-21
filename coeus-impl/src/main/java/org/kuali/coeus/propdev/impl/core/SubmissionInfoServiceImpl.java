@@ -130,7 +130,7 @@ public class SubmissionInfoServiceImpl implements SubmissionInfoService {
                 }
             }
         }
-        if (federalId != null && getSponsorHierarchyService().isSponsorNihMultiplePi(proposal.getSponsorCode())) {
+        if (federalId != null && getSponsorHierarchyService().isSponsorNihMultiplePi(proposal)) {
             return fromatFederalId(federalId);
         }
         return federalId;

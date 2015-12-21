@@ -18,7 +18,7 @@
  */
 package org.kuali.coeus.common.framework.rolodex;
 
-import org.kuali.coeus.common.framework.sponsor.Sponsorable;
+import org.kuali.coeus.common.api.sponsor.Sponsorable;
 import org.kuali.kra.award.home.ContactRole;
 
 
