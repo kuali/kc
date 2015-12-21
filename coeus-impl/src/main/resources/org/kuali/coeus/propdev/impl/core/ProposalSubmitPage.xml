@@ -434,7 +434,7 @@
 		</property>
         <property name="items">
 			   <list>
-				    <bean id="PropDev-Resumbit-OptionsRadio" parent="Uif-InputField" p:required="true" p:propertyName="resubmissionOption" p:order="10" >
+				    <bean id="PropDev-Resumbit-OptionsRadio" parent="Uif-InputField" p:readOnly="false" p:required="true" p:propertyName="resubmissionOption" p:order="10" >
 				     <property name="control">
 					      <bean parent="Uif-VerticalRadioControl">
 					         <property name="options">
@@ -467,7 +467,7 @@
 				     </property>
 	    			</bean>
 	    			<bean id="PropDev-Resumbit-Options-InstitutionalProposalToVersion"
-					   parent="Uif-InputField" p:propertyName="institutionalProposalToVersion"
+					   parent="Uif-InputField" p:readOnly="false" p:propertyName="institutionalProposalToVersion"
 					  p:progressiveRender="@{resubmissionOption == '#{T(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants.ResubmissionOptions).GENERATE_NEW_VERSION_OF_IP}'}" p:fieldLabel.labelText="Institutional Proposal To Version">
 					  	<property name="quickfinder">
 						   <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kra.institutionalproposal.home.InstitutionalProposal"
