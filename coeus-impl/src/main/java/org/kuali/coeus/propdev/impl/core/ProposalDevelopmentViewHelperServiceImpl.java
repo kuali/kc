@@ -25,6 +25,7 @@ import java.util.*;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
+import org.kuali.coeus.common.api.sponsor.Sponsorable;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
@@ -995,8 +996,8 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
         this.sponsorHierarchyService = sponsorHierarchyService;
     }
 
-    public boolean isShowModularBudgetQuestion(String sponsorCode) {
-        return getSponsorHierarchyService().isSponsorNihMultiplePi(sponsorCode);
+    public boolean isShowModularBudgetQuestion(Sponsorable sponsorable) {
+        return getSponsorHierarchyService().isSponsorableNihMultiplePi(sponsorable);
     }
 
     public boolean syncRequiresEndDateExtension(DevelopmentProposal proposal) {

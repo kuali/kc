@@ -280,7 +280,7 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
             getProposalLogService().promoteProposalLog(proposalLog.getProposalNumber());
             this.getNegotationService().promoteProposalLogNegotiation(proposalLog.getProposalNumber(), ip.getProposalNumber());
         }
-        ip.setSponsorNihMultiplePi(getSponsorHierarchyService().isSponsorNihMultiplePi(ip.getSponsorCode()));
+        ip.setSponsorNihMultiplePi(getSponsorHierarchyService().isSponsorableNihMultiplePi(ip));
         return forward;
     }   
     

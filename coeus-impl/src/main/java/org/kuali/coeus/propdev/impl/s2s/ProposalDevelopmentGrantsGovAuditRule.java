@@ -71,7 +71,7 @@ public class ProposalDevelopmentGrantsGovAuditRule  implements DocumentAuditRule
             getAuditErrors(S2S_PAGE_NAME,S2S_OPPORTUNITY_SECTION_NAME,"").add(new org.kuali.rice.krad.util.AuditError(REVISION_CODE_KEY, KeyConstants.ERROR_IF_PROPOSALTYPE_IS_REVISION, S2S_PAGE_ID+"."+S2S_OPPORTUNITY_SECTION_ID));
         }
         if((getSponsorHierarchyService().isSponsorNihOsc(proposalDevelopmentDocument.getDevelopmentProposal().getSponsorCode())||
-                    getSponsorHierarchyService().isSponsorNihMultiplePi(proposalDevelopmentDocument.getDevelopmentProposal().getSponsorCode()))&&
+                    getSponsorHierarchyService().isSponsorableNihMultiplePi(proposalDevelopmentDocument.getDevelopmentProposal()))&&
                     proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity()!=null &&
                     proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getCompetetionId()!=null &&
                     proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getCompetetionId().equals("ADOBE-FORMS-A")){

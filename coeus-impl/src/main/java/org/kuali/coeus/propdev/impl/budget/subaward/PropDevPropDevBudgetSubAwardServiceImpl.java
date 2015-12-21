@@ -178,7 +178,7 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
     
     public void generateSubAwardLineItems(BudgetSubAwards subAward, ProposalDevelopmentBudgetExt budget) {
         ScaleTwoDecimal amountChargeFA = new ScaleTwoDecimal(25000);
-        boolean isNihProposal = getSponsorHierarchyService().isSponsorNihMultiplePi(budget.getDevelopmentProposal().getSponsorCode());
+        boolean isNihProposal = getSponsorHierarchyService().isSponsorableNihMultiplePi(budget.getDevelopmentProposal());
         String directLtCostElement = getParameterService().getParameterValueAsString(Budget.class, Constants.SUBCONTRACTOR_DIRECT_LT_25K_PARAM);
         String directGtCostElement = getParameterService().getParameterValueAsString(Budget.class, Constants.SUBCONTRACTOR_DIRECT_GT_25K_PARAM);
         String inDirectLtCostElement = getParameterService().getParameterValueAsString(Budget.class, Constants.SUBCONTRACTOR_F_AND_A_LT_25K_PARAM);

@@ -181,7 +181,7 @@
 					</property>
 				</bean>
 				<bean parent="Uif-InputField" p:propertyName="modularBudget" p:label="Will this be a modular budget?" p:order="60"
-                      p:required="true" p:render="@{#ViewHelper.isShowModularBudgetQuestion(developmentProposal.sponsorCode)}">
+                      p:required="true" p:render="@{#ViewHelper.isShowModularBudgetQuestion(developmentProposal)}">
 					<property name="control">
 						<bean parent="Uif-HorizontalRadioControl">
 							<property name="options">

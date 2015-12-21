@@ -116,7 +116,7 @@ public class ProposalDevelopmentProposalAttachmentsAuditRule extends KcTransacti
 
     public boolean checkNihRelatedAttachments(DevelopmentProposal developmentProposal) {
         boolean valid = true;
-            if(getSponsorHierarchyService().isSponsorNihMultiplePi(developmentProposal.getSponsorCode())
+            if(getSponsorHierarchyService().isSponsorableNihMultiplePi(developmentProposal)
                     && developmentProposal.getS2sOpportunity() != null){
                 boolean attachment = false;   
                 boolean hasPI= false;

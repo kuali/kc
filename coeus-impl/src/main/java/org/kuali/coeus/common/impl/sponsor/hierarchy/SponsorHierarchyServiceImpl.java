@@ -20,6 +20,7 @@ package org.kuali.coeus.common.impl.sponsor.hierarchy;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
+import org.kuali.coeus.common.api.sponsor.Sponsorable;
 import org.kuali.coeus.common.framework.sponsor.hierarchy.SponsorHierarchy;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,6 +83,15 @@ public class SponsorHierarchyServiceImpl implements SponsorHierarchyService {
         return isSponsorInHierarchy(sponsorCode, SPONSOR_HIERARCHY_NIH_MULT_PI);
     }
 
+    @Override
+    public boolean isSponsorableNihMultiplePi(Sponsorable sponsorable) {
+    	if (sponsorable == null) {
+            throw new IllegalArgumentException("The Sponsorable cannot be null");
+        }
+    	return isSponsorNihMultiplePi(sponsorable.getSponsorCode()) || 
+	  (sponsorable.getPrimeSponsorCode() != null && isSponsorNihMultiplePi(sponsorable.getPrimeSponsorCode()));
+    }
+    
     @Override
     public boolean isSponsorNihOsc(String sponsorCode) {
         return isSponsorInHierarchy(sponsorCode, SPONSOR_HIERARCHY_NIH_OSC);

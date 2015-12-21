@@ -35,7 +35,7 @@ import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.PersonRolodex;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
-import org.kuali.coeus.common.framework.sponsor.Sponsorable;
+import org.kuali.coeus.common.api.sponsor.Sponsorable;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
@@ -45,6 +45,7 @@ import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 /**
  * BudgetPerson business object
@@ -669,7 +670,7 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Per
 	}
 
 	@Override
-	public Sponsorable getParent() {
+	public PersistableBusinessObject getParent() {
 		return getPersonRolodex() != null ? getPersonRolodex().getParent() : null;
 	}
 

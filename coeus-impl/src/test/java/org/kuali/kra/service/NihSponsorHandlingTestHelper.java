@@ -19,7 +19,7 @@
 package org.kuali.kra.service;
 
 import org.junit.Assert;
-import org.kuali.coeus.common.framework.sponsor.Sponsorable;
+import org.kuali.coeus.common.api.sponsor.Sponsorable;
 import org.kuali.coeus.common.framework.sponsor.hierarchy.SponsorHierarchy;
 import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
@@ -53,6 +53,11 @@ class NihSponsorHandlingTestHelper {
         verifyNihMultiplePiSponsorFound(getSponsorHierarchyNodes().get(1));
     }
 
+    public void testIsPrimeSponsorNihMultiplePi_DevelopmentProposal_SponsorAdded() {
+        setUpSponsorNihMultiplePi();
+        verifyNihMultiplePiPrimeSponsorFound(getSponsorHierarchyNodes().get(1));
+    }
+    
     private void init() {
         prepareSponsorHierarchy();
     }
@@ -82,12 +87,19 @@ class NihSponsorHandlingTestHelper {
     private void verifyNihMultiplePiSponsorFound(SponsorHierarchy sponsorHierarchy) {
         save(sponsorHierarchy);
         sponsorable.setSponsorCode(sponsorHierarchy.getSponsorCode());
-        Assert.assertTrue(spService.isSponsorNihMultiplePi(sponsorable.getSponsorCode()));
+        Assert.assertTrue(spService.isSponsorableNihMultiplePi(sponsorable));
     }
 
+    private void verifyNihMultiplePiPrimeSponsorFound(SponsorHierarchy sponsorHierarchy) {
+        save(sponsorHierarchy);
+        sponsorable.setSponsorCode(SPONSOR_CODE_FOR_HIERARCHY_A);
+        sponsorable.setPrimeSponsorCode(sponsorHierarchy.getSponsorCode());        
+        Assert.assertTrue(spService.isSponsorableNihMultiplePi(sponsorable));
+    }
+    
     private void verifyNonNihMultiplePiSponsorFound(SponsorHierarchy sponsorHierarchy) {
         save(sponsorHierarchy);
         sponsorable.setSponsorCode(sponsorHierarchy.getSponsorCode());
-        Assert.assertFalse(spService.isSponsorNihMultiplePi(sponsorable.getSponsorCode()));
+        Assert.assertFalse(spService.isSponsorableNihMultiplePi(sponsorable));
     }
 }

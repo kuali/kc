@@ -247,7 +247,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
 
     private BudgetCategoryMap getBudgetCategoryMap(DevelopmentProposal developmentProposal, BudgetLineItem budgetLineItem) {
         boolean isNih = getSponsorHierarchyService().isSponsorNihOsc(developmentProposal.getSponsorCode())
-                                || getSponsorHierarchyService().isSponsorNihMultiplePi(developmentProposal.getSponsorCode());
+                                || getSponsorHierarchyService().isSponsorableNihMultiplePi(developmentProposal);
         String mappingName = isNih?"NIH_PRINTING":"NSF_PRINTING";
         BudgetCategoryMap budgetCategoryMap = null;
         Map<String, String> categoryMap = new HashMap<String, String>();

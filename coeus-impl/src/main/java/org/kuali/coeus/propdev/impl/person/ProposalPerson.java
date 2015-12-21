@@ -30,7 +30,7 @@ import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.framework.person.PropAwardPersonRoleService;
 import org.kuali.coeus.common.framework.person.attr.CitizenshipType;
-import org.kuali.coeus.common.framework.sponsor.Sponsorable;
+import org.kuali.coeus.common.api.sponsor.Sponsorable;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
@@ -48,6 +48,7 @@ import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireH
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.util.CollectionUtils;
@@ -1612,7 +1613,7 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements N
     }
 
     @Override
-    public Sponsorable getParent() {
+    public PersistableBusinessObject getParent() {
         return getDevelopmentProposal();
     }
 

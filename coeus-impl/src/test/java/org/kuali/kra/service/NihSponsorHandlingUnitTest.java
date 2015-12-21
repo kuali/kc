@@ -22,7 +22,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
-import org.kuali.coeus.common.framework.sponsor.Sponsorable;
+import org.kuali.coeus.common.api.sponsor.Sponsorable;
 import org.kuali.coeus.common.framework.sponsor.hierarchy.SponsorHierarchy;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.Constants;
@@ -77,6 +77,11 @@ public class NihSponsorHandlingUnitTest {
     @Test
     public void testIsSponsorNihMultiplePi_DevelopmentProposal_SponsorAdded() {
       helper.testIsSponsorNihMultiplePi_DevelopmentProposal_SponsorAdded();
+    }
+
+    @Test
+    public void testIsPrimeSponsorNihMultiplePi_DevelopmentProposal_SponsorAdded() {
+      helper.testIsPrimeSponsorNihMultiplePi_DevelopmentProposal_SponsorAdded();
     }
 
     private List<PropAwardPersonRole> defineRoles() {

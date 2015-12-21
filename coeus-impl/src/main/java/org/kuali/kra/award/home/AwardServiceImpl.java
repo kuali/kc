@@ -98,7 +98,7 @@ public class AwardServiceImpl implements AwardService {
         newVersion.getAwardAmountInfos().get(0).setOriginatingAwardVersion(newVersion.getSequenceNumber());
         newVersion.getAwardAmountInfos().get(0).setTimeAndMoneyDocumentNumber(null);
         newVersion.getAwardAmountInfos().get(0).setSequenceNumber(newVersion.getSequenceNumber());
-        newVersion.setSponsorNihMultiplePi(getSponsorHierarchyService().isSponsorNihMultiplePi(newVersion.getSponsorCode()));
+        newVersion.setSponsorNihMultiplePi(getSponsorHierarchyService().isSponsorableNihMultiplePi(newVersion));
         
         synchNewCustomAttributes(newVersion, awardDocument.getAward());
         
