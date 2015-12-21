@@ -290,9 +290,8 @@ public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelo
         return proposalPerson.getPersonId().equals(userPrincipalId);
     }
 
-    protected boolean canProxyCertify(ProposalDevelopmentDocument document, Person user){
-        return getKraAuthorizationService().hasPermission(user.getPrincipalId(), document, PermissionConstants.VIEW_CERTIFICATION)
-                || getKraAuthorizationService().hasPermission(user.getPrincipalId(), document, PermissionConstants.CERTIFY);
+   protected boolean canProxyCertify(ProposalDevelopmentDocument document, Person user) {
+        return getKraAuthorizationService().hasPermission(user.getPrincipalId(), document, PermissionConstants.CERTIFY);
    }
 
    // Aggregators can use custom data to choose if PCK should disclose.
