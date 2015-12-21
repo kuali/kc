@@ -45,10 +45,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
+
 import java.util.*;
 
 @Controller
@@ -305,7 +307,9 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         biography.setUpdateTimestamp(getDateTimeService().getCurrentTimestamp());
         getDataObjectService().wrap(biography).fetchRelationship(ProposalDevelopmentConstants.KradConstants.PROP_PER_DOC_TYPE);
 
-        final MessageMap messages = multipartFileValidationService.validateMultipartFile(ATTACHMENT_FILE, biography.getMultipartFile());
+        String errorPath = ProposalDevelopmentConstants.KradConstants.PROPOSAL_DEVELOPMENT_ATTACHMENT_HELPER_BIOGRAPHY + "." + ATTACHMENT_FILE; 
+        final MessageMap messages = multipartFileValidationService.validateMultipartFile(errorPath, biography.getMultipartFile());
+        boolean rulePassed = true;
         if (!messages.hasMessages()) {
             biography.init(biography.getMultipartFile());
             ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).updateAttachmentInformation(biography.getPersonnelAttachment());
@@ -314,11 +318,15 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
                 form.getDevelopmentProposal().getPropPersonBios().add(0,biography);
                 form.getProposalDevelopmentAttachmentHelper().reset();
             } else {
-                form.setUpdateComponentId(ProposalDevelopmentConstants.KradConstants.PROP_DEV_ATTACHMENTS_PAGE_PERSONNEL_DETAILS);
-                form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATECOMPONENT.getKey());
+                rulePassed = false;
             }
         } else {
             getGlobalVariableService().getMessageMap().merge(messages);
+            rulePassed = false;
+        }
+        if(!rulePassed) {
+            form.setUpdateComponentId(ProposalDevelopmentConstants.KradConstants.PROP_DEV_ATTACHMENTS_PAGE_PERSONNEL_DETAILS);
+            form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATECOMPONENT.getKey());
         }
         return getRefreshControllerService().refresh(form);
     }
@@ -329,40 +337,47 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         int selectedLineIndex = Integer.parseInt(form.getProposalDevelopmentAttachmentHelper().getSelectedLineIndex());
         narrative.refreshReferenceObject(ProposalDevelopmentConstants.KradConstants.NARRATIVE_TYPE);
         narrative.refreshReferenceObject(ProposalDevelopmentConstants.KradConstants.NARRATIVE_STATUS);
-        final MessageMap messages = multipartFileValidationService.validateMultipartFile(ATTACHMENT_FILE, narrative.getMultipartFile());
 
-        if (!messages.hasMessages()) {
+        if(isAttachmentFileChanged(narrative.getMultipartFile())) {
             narrative.init(narrative.getMultipartFile());
             ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).updateAttachmentInformation(narrative.getNarrativeAttachment());
-
-            if ( getKualiRuleService().applyRules(new AddNarrativeEvent(ProposalDevelopmentConstants.KradConstants.PROPOSAL_DEVELOPMENT_ATTACHMENT_HELPER_NARRATIVE,form.getProposalDevelopmentDocument(),form.getProposalDevelopmentAttachmentHelper().getNarrative()))) {
-                form.getDevelopmentProposal().getNarratives().set(selectedLineIndex,narrative);
-                form.getProposalDevelopmentAttachmentHelper().reset();
-            } else {
-                form.setUpdateComponentId(ProposalDevelopmentConstants.KradConstants.PROP_DEV_ATTACHMENTS_PAGE_PROPOSAL_DETAILS);
-                form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATECOMPONENT.getKey());
-            }
-
-            if(form.getProposalDevelopmentDocument().getDocumentHeader().getWorkflowDocument().isEnroute()) {
-                ProposalDevelopmentNotificationContext context = new ProposalDevelopmentNotificationContext(form.getProposalDevelopmentDocument().getDevelopmentProposal(),
-                    Constants.DATA_OVERRIDE_NOTIFICATION_ACTION, Constants.DATA_OVERRIDE_CONTEXT);
-                ((ProposalDevelopmentNotificationRenderer) context.getRenderer()).setModifiedNarrative(narrative);
-
-                ((ProposalDevelopmentNotificationRenderer) context.getRenderer()).setDevelopmentProposal(form.getProposalDevelopmentDocument().getDevelopmentProposal());
-                if (form.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
-                    form.getNotificationHelper().initializeDefaultValues(context);
-                    form.setSendNarrativeChangeNotification(true);
-                }
-                else {
-                    getKcNotificationService().sendNotification(context);
-                }
-            }
+        }
+        if ( getKualiRuleService().applyRules(new AddNarrativeEvent(ProposalDevelopmentConstants.KradConstants.PROPOSAL_DEVELOPMENT_ATTACHMENT_HELPER_NARRATIVE,form.getProposalDevelopmentDocument(),form.getProposalDevelopmentAttachmentHelper().getNarrative()))) {
+            form.getDevelopmentProposal().getNarratives().set(selectedLineIndex,narrative);
+            form.getProposalDevelopmentAttachmentHelper().reset();
         } else {
-            getGlobalVariableService().getMessageMap().merge(messages);
+            form.setUpdateComponentId(ProposalDevelopmentConstants.KradConstants.PROP_DEV_ATTACHMENTS_PAGE_PROPOSAL_DETAILS);
+            form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATECOMPONENT.getKey());
+        }
+
+        if(form.getProposalDevelopmentDocument().getDocumentHeader().getWorkflowDocument().isEnroute()) {
+            ProposalDevelopmentNotificationContext context = new ProposalDevelopmentNotificationContext(form.getProposalDevelopmentDocument().getDevelopmentProposal(),
+                Constants.DATA_OVERRIDE_NOTIFICATION_ACTION, Constants.DATA_OVERRIDE_CONTEXT);
+            ((ProposalDevelopmentNotificationRenderer) context.getRenderer()).setModifiedNarrative(narrative);
+
+            ((ProposalDevelopmentNotificationRenderer) context.getRenderer()).setDevelopmentProposal(form.getProposalDevelopmentDocument().getDevelopmentProposal());
+            if (form.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
+                form.getNotificationHelper().initializeDefaultValues(context);
+                form.setSendNarrativeChangeNotification(true);
+            }
+            else {
+                getKcNotificationService().sendNotification(context);
+            }
         }
         return super.save(form);
     }
 
+    protected boolean isAttachmentFileChanged(MultipartFile multipartFile) {
+    	boolean fileChanged = multipartFile != null;
+    	if(fileChanged) {
+            final MessageMap messages = multipartFileValidationService.validateMultipartFile(ATTACHMENT_FILE, multipartFile);
+            if (messages.hasMessages()) {
+                getGlobalVariableService().getMessageMap().merge(messages);
+            }
+    	}
+    	return fileChanged;
+    }
+    
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=sendNarrativeChangeNotification")
     public ModelAndView sendNarrativeChangeNotification(ProposalDevelopmentDocumentForm proposalDevelopmentDocumentForm) {
         if (proposalDevelopmentDocumentForm.isSendNarrativeChangeNotification()) {
@@ -381,21 +396,18 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         biography.setUpdateUser(globalVariableService.getUserSession().getPrincipalName());
         biography.setUpdateTimestamp(getDateTimeService().getCurrentTimestamp());
         getDataObjectService().wrap(biography).fetchRelationship(ProposalDevelopmentConstants.KradConstants.PROP_PER_DOC_TYPE);
-        final MessageMap messages = multipartFileValidationService.validateMultipartFile(ATTACHMENT_FILE, biography.getMultipartFile());
 
-        if (!messages.hasMessages()) {
-            biography.init(biography.getMultipartFile());
+        if(isAttachmentFileChanged(biography.getMultipartFile())) {
+        	biography.init(biography.getMultipartFile());
             ((ProposalDevelopmentViewHelperServiceImpl) form.getViewHelperService()).updateAttachmentInformation(biography.getPersonnelAttachment());
+        }
 
-            if (getKualiRuleService().applyRules(new AddPersonnelAttachmentEvent(ProposalDevelopmentConstants.KradConstants.PROPOSAL_DEVELOPMENT_ATTACHMENT_HELPER_BIOGRAPHY, form.getProposalDevelopmentDocument(), biography))) {
-                form.getDevelopmentProposal().getPropPersonBios().set(selectedLineIndex, biography);
-                form.getProposalDevelopmentAttachmentHelper().reset();
-            } else {
-                form.setUpdateComponentId(ProposalDevelopmentConstants.KradConstants.PROP_DEV_ATTACHMENTS_PAGE_PERSONNEL_DETAILS);
-                form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATECOMPONENT.getKey());
-            }
+        if (getKualiRuleService().applyRules(new AddPersonnelAttachmentEvent(ProposalDevelopmentConstants.KradConstants.PROPOSAL_DEVELOPMENT_ATTACHMENT_HELPER_BIOGRAPHY, form.getProposalDevelopmentDocument(), biography))) {
+            form.getDevelopmentProposal().getPropPersonBios().set(selectedLineIndex, biography);
+            form.getProposalDevelopmentAttachmentHelper().reset();
         } else {
-            getGlobalVariableService().getMessageMap().merge(messages);
+            form.setUpdateComponentId(ProposalDevelopmentConstants.KradConstants.PROP_DEV_ATTACHMENTS_PAGE_PERSONNEL_DETAILS);
+            form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATECOMPONENT.getKey());
         }
         return super.save(form);
     }

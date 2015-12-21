@@ -208,9 +208,11 @@
             <list>
                 <bean parent="Uif-PrimaryActionButton" p:actionLabel="Save" p:methodToCall="addNarrative"
                       p:successCallback="Kc.Dialog.closeDialogWithoutError('PropDev-AttachmentsPage-ProposalDetails')"
+                      p:performClientSideValidation="true"
                       p:render="@{proposalDevelopmentAttachmentHelper.selectedLineIndex eq null}" p:order="0"/>
                 <bean parent="Uif-PrimaryActionButton" p:actionLabel="Save" p:methodToCall="saveNarrative"
                       p:successCallback="ajaxSubmitForm('sendNarrativeChangeNotification');"
+                      p:performClientSideValidation="true"
                       p:render="@{proposalDevelopmentAttachmentHelper.selectedLineIndex ne null}" p:order="10"/>
             </list>
         </property>
@@ -330,8 +332,10 @@
             <list>
                 <bean parent="Uif-PrimaryActionButton" p:actionLabel="Save" p:methodToCall="addBiography"
                       p:successCallback="Kc.Dialog.closeDialogWithoutError('PropDev-AttachmentsPage-PersonnelDetails')"
+                      p:performClientSideValidation="true"
                       p:render="@{proposalDevelopmentAttachmentHelper.selectedLineIndex eq null}" p:order="0"/>
                 <bean parent="Uif-PrimaryActionButton" p:actionLabel="Save" p:methodToCall="saveBiography"
+                    p:performClientSideValidation="true"
                     p:successCallback="Kc.Dialog.closeDialogWithoutError('PropDev-AttachmentsPage-PersonnelDetails')"
                     p:render="@{proposalDevelopmentAttachmentHelper.selectedLineIndex ne null}" p:order="10"/>
             </list>
