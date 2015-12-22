@@ -1,6 +1,28 @@
 
 
 ##CURRENT
+* Fix integration test
+  * rmancher on Tue, 22 Dec 2015 15:03:41 -0500 [View Commit](../../commit/9665036b24f17d7a4a0e6766f2ca803409909ca2)
+* STE - PD - Trying to Print various Budget Print Reports of Approved and Submitted PDs
+  * Joe Williams on Tue, 22 Dec 2015 12:58:28 -0600 [View Commit](../../commit/f9bc76171c7b3b65b0fa85a857a0568eb0b290d0)
+* Protocol Performance Issue
+  * Protocols take excessive time to open.
+  * To reproduce, just search for a protocol and either "Edit" it or "View" it.
+  * Minor tweaks to adjust the initialization depending on the tab invoked.
+  * Form initialization is invoked while accessing each tab and all tab helpers are
+  * initialized each time. Moving it to invoke when required - depending on the tab accessed.
+  * Protocol actions tab is packed with permissions and validations. We need this only when
+  * user navigate to actions tab.
+  * Also questionaire data is persisted each time navigating to actions tab. For printing purpose
+  * we need to save the default questionnaire once irrespective of whether user accessed questionnaire tab or not.
+  * Adding a check to persist the default once.
+  * There is more to this. We need to look at what is required for Actions and History tab.
+  * Just started with that process but it is not complete. Currently it is the same as before
+  * where we initialize all permissions and helpers for both Actions and History irrespective of its usage.
+  * Just want to get this out for review.
+  * rmancher on Thu, 17 Dec 2015 14:55:34 -0500 [View Commit](../../commit/aaf1342068c2f393d21bc0db34f456ea2a1b30d5)
+
+##coeus-1512.80
 * clean up code
   * Joe Williams on Tue, 22 Dec 2015 10:32:49 -0600 [View Commit](../../commit/6fc063a4a5b0ccb785d14c296333eb918a62d1eb)
 * Subaward: Funding Source panel does not reflect information as it is updated in the Award.
