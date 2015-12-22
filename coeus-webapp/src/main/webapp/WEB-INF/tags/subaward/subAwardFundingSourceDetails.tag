@@ -35,7 +35,7 @@
                 <div align="right"><kul:htmlAttributeLabel attributeEntry="${fundingSourceAttributes.fainId}" skipHelpUrl="true" /></div>
             </th>
             <td>
-                <c:out value="${subAwardFundingSource.award.fainId}" />
+                <c:out value="${subAwardFundingSource.activeAward.fainId}" />
             </td>
         </tr>
         <tr>
@@ -43,7 +43,7 @@
                 <div align="right"><kul:htmlAttributeLabel attributeEntry="${fundingSourceAttributes.fedAwardDate}"  skipHelpUrl="true" /></div>
             </th>
             <td>
-                <c:out value="${subAwardFundingSource.award.fedAwardDate}" />
+                <c:out value="${subAwardFundingSource.activeAward.fedAwardDate}" />
             </td>
         </tr>
         <tr>
@@ -51,7 +51,7 @@
                 <div align="right"><kul:htmlAttributeLabel attributeEntry="${fundingSourceAttributes.obligatedTotal}"  skipHelpUrl="true" /></div>
             </th>
             <td>
-                <c:out value="${subAwardFundingSource.award.obligatedTotal}" />
+                <c:out value="${subAwardFundingSource.activeAward.obligatedTotal}" />
             </td>
         </tr>
         <tr>
@@ -59,21 +59,21 @@
                 <div align="right"><kul:htmlAttributeLabel attributeEntry="${fundingSourceAttributes.sponsorCode}" skipHelpUrl="true" /></div>
             </th>
             <td>
-                <kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${index}].award.sponsorCode" attributeEntry="${fundingSourceAttributes.sponsorCode}"
-                                          onblur="loadSponsorName('document.subAwardList[0].subAwardFundingSourceList[${index}].award.sponsorCode', '${index}sponsorName');" readOnly="true" />
+                <kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${index}].activeAward.sponsorCode" attributeEntry="${fundingSourceAttributes.sponsorCode}"
+                                          onblur="loadSponsorName('document.subAwardList[0].subAwardFundingSourceList[${index}].activeAward.sponsorCode', '${index}sponsorName');" readOnly="true" />
 
-                <html:hidden property="document.subAwardList[0].subAwardFundingSourceList[${index}].award.sponsorCode" />
-                <c:if test="${!empty subAwardFundingSource.award.sponsorCode}">
-                    <kul:directInquiry boClassName="org.kuali.coeus.common.framework.sponsor.Sponsor" inquiryParameters="document.subAwardList[0].subAwardFundingSourceList[${index}].award.sponsorCode:sponsorCode" anchor="${tabKey}" />
+                <html:hidden property="document.subAwardList[0].subAwardFundingSourceList[${index}].activeAward.sponsorCode" />
+                <c:if test="${!empty subAwardFundingSource.activeAward.sponsorCode}">
+                    <kul:directInquiry boClassName="org.kuali.coeus.common.framework.sponsor.Sponsor" inquiryParameters="document.subAwardList[0].subAwardFundingSourceList[${index}].activeAward.sponsorCode:sponsorCode" anchor="${tabKey}" />
                 </c:if>
                 <div id="${index}sponsorName.div" >
-                    <c:if test="${!empty subAwardFundingSource.award.sponsorCode}">
+                    <c:if test="${!empty subAwardFundingSource.activeAward.sponsorCode}">
                         <c:choose>
-                            <c:when test="${empty subAwardFundingSource.award.sponsor}">
+                            <c:when test="${empty subAwardFundingSource.activeAward.sponsor}">
                                 <span style='color: red;'>not found</span>
                             </c:when>
                             <c:otherwise>
-                                <c:out value="${subAwardFundingSource.award.sponsor.sponsorName}" />
+                                <c:out value="${subAwardFundingSource.activeAward.sponsor.sponsorName}" />
                             </c:otherwise>
                         </c:choose>
                     </c:if>
@@ -85,21 +85,21 @@
                 <div align="right">Prime Sponsor ID:</div>
             </th>
             <td>
-                <kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${index}].award.primeSponsorCode" attributeEntry="${fundingSourceAttributes.primeSponsorCode}"
-                                          onblur="loadSponsorName('document.subAwardList[0].subAwardFundingSourceList[${index}].award.primeSponsorCode', '${index}primeSponsorName');" readOnly="true" />
+                <kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${index}].activeAward.primeSponsorCode" attributeEntry="${fundingSourceAttributes.primeSponsorCode}"
+                                          onblur="loadSponsorName('document.subAwardList[0].subAwardFundingSourceList[${index}].activeAward.primeSponsorCode', '${index}primeSponsorName');" readOnly="true" />
 
-                <html:hidden property="document.subAwardList[0].subAwardFundingSourceList[${index}].award.primeSponsorCode" />
-                <c:if test="${!empty subAwardFundingSource.award.primeSponsorCode}">
-                    <kul:directInquiry boClassName="org.kuali.coeus.common.framework.sponsor.Sponsor" inquiryParameters="document.subAwardList[0].subAwardFundingSourceList[${index}].award.primeSponsorCode:sponsorCode" anchor="${tabKey}" />
+                <html:hidden property="document.subAwardList[0].subAwardFundingSourceList[${index}].activeAward.primeSponsorCode" />
+                <c:if test="${!empty subAwardFundingSource.activeAward.primeSponsorCode}">
+                    <kul:directInquiry boClassName="org.kuali.coeus.common.framework.sponsor.Sponsor" inquiryParameters="document.subAwardList[0].subAwardFundingSourceList[${index}].activeAward.primeSponsorCode:sponsorCode" anchor="${tabKey}" />
                 </c:if>
                 <div id="${index}primeSponsorName.div" >
-                    <c:if test="${!empty subAwardFundingSource.award.primeSponsorCode}">
+                    <c:if test="${!empty subAwardFundingSource.activeAward.primeSponsorCode}">
                         <c:choose>
-                            <c:when test="${empty subAwardFundingSource.award.primeSponsor}">
+                            <c:when test="${empty subAwardFundingSource.activeAward.primeSponsor}">
                                 <span style='color: red;'>not found</span>
                             </c:when>
                             <c:otherwise>
-                                <c:out value="${subAwardFundingSource.award.primeSponsor.sponsorName}" />
+                                <c:out value="${subAwardFundingSource.activeAward.primeSponsor.sponsorName}" />
                             </c:otherwise>
                         </c:choose>
                     </c:if>
@@ -111,7 +111,7 @@
                 <div align="right"><kul:htmlAttributeLabel attributeEntry="${fundingSourceAttributes.cfdaNumber}"  skipHelpUrl="true" /></div>
             </th>
             <td>
-                <c:out value="${subAwardFundingSource.award.cfdaNumber}" />
+                <c:out value="${subAwardFundingSource.activeAward.cfdaNumber}" />
             </td>
         </tr>
         <tr>
@@ -119,9 +119,9 @@
                 <div align="right">Activity Type:</div>
             </th>
             <td>
-                <kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${index}].award.activityTypeCode" attributeEntry="${fundingSourceAttributes.activityTypeCode}" readOnly="true" readOnlyAlternateDisplay="${subAwardFundingSource.award.activityType.description}"/>
-                <c:if test="${!empty subAwardFundingSource.award.activityTypeCode}">
-                    <kul:directInquiry boClassName="org.kuali.coeus.common.framework.type.ActivityType" inquiryParameters="document.subAwardList[0].subAwardFundingSourceList[${index}].award.activityTypeCode:code" anchor="${tabKey}" />
+                <kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${index}].activeAward.activityTypeCode" attributeEntry="${fundingSourceAttributes.activityTypeCode}" readOnly="true" readOnlyAlternateDisplay="${subAwardFundingSource.activeAward.activityType.description}"/>
+                <c:if test="${!empty subAwardFundingSource.activeAward.activityTypeCode}">
+                    <kul:directInquiry boClassName="org.kuali.coeus.common.framework.type.ActivityType" inquiryParameters="document.subAwardList[0].subAwardFundingSourceList[${index}].activeAward.activityTypeCode:code" anchor="${tabKey}" />
                 </c:if>
             </td>
         </tr>

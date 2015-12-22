@@ -18,17 +18,27 @@
  */
 package org.kuali.kra.subaward.bo;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.kuali.coeus.common.framework.version.VersionStatus;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.sql.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class SubAwardFundingSource extends SubAwardAssociate { 
+public class SubAwardFundingSource extends SubAwardAssociate {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
+	private static final String AWARD_NUMBER = "awardNumber";
+	private static final String AWARD_SEQUENCE_STATUS = "awardSequenceStatus";
+	private static final String SEQUENCE_NUMBER = "sequenceNumber";
 
-    private Integer subAwardFundingSourceId;
+	private Integer subAwardFundingSourceId;
     private Long subAwardId; 
     private String subAwardCode;
     private Long awardId;
@@ -43,6 +53,8 @@ public class SubAwardFundingSource extends SubAwardAssociate {
 
     private Award award;
 
+	private transient Award activeAward;
+
     private ScaleTwoDecimal amountObligatedToDate;
 
     private Date obligationExpirationDate;
@@ -50,7 +62,8 @@ public class SubAwardFundingSource extends SubAwardAssociate {
     private String awardNumber;
 
     private AwardAmountInfo awardAmountInfo;
-    
+
+	private transient BusinessObjectService businessObjectService;
 
     public SubAwardFundingSource() { 
 
@@ -219,6 +232,23 @@ public class SubAwardFundingSource extends SubAwardAssociate {
 		this.award = award;
 	}
 
+	public Award getActiveAward() {
+		if (getAward() != null) {
+			Map<String,Object> criteria = new HashMap<>();
+			criteria.put(AWARD_NUMBER, award.getAwardNumber());
+			criteria.put(AWARD_SEQUENCE_STATUS, VersionStatus.ACTIVE.toString());
+			List<Award> awards = (List<Award>) getBusinessObjectService().findMatchingOrderBy(Award.class, criteria, SEQUENCE_NUMBER, false);
+			if (CollectionUtils.isNotEmpty(awards)) {
+				activeAward = awards.get(0);
+			}
+		}
+		return activeAward;
+	}
+
+	public void setActiveAward(Award activeAward) {
+		this.activeAward = activeAward;
+	}
+
 	/**.
 	 * This is the Getter Method for amountObligatedToDate
 	 * @return Returns the amountObligatedToDate.
@@ -285,7 +315,13 @@ public class SubAwardFundingSource extends SubAwardAssociate {
 
 	@Override
     public void resetPersistenceState() {
-
         this.subAwardFundingSourceId = null;
     }
+
+	protected BusinessObjectService getBusinessObjectService(){
+		if (businessObjectService == null) {
+			businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
+		}
+		return businessObjectService;
+	}
 }
