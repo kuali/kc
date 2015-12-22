@@ -142,39 +142,39 @@
 								</c:if>
 							</div>
 						</td>
-						<c:set  var="documentNumber" value="${subAwardFundingSource.award.awardDocument.documentNumber}"/> 
+						<c:set  var="documentNumber" value="${subAwardFundingSource.activeAward.awardDocument.documentNumber}"/>
 
 		                 <td class="tab-subhead">
 		               
 		                  
 		                 
 						<div align="center">
-	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${status.index}].award.awardNumber" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.awardId}" />
+	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${status.index}].activeAward.awardNumber" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.awardId}" />
 						</div>
 						</td> 
 		                <td class="tab-subhead">
 						<div align="center">
-	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${status.index}].award.accountNumber" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.accountNumber}"/>                		
+	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${status.index}].activeAward.accountNumber" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.accountNumber}"/>
 						</div>
 						</td>
 		                <td class="tab-subhead">
 						<div align="center">
-	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${status.index}].award.awardStatus.description" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.statusCode}"/>
+	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${status.index}].activeAward.awardStatus.description" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.statusCode}"/>
 						</div>
 						</td>
 						<td class="tab-subhead">
 						<div align="center">
-							<kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${status.index}].award.sponsorCode" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.sponsorCode}"/> : <kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${status.index}].award.sponsorName" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.sponsorCode}"/>         
+							<kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${status.index}].activeAward.sponsorCode" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.sponsorCode}"/> : <kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${status.index}].award.sponsorName" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.sponsorCode}"/>
 						</div>
 						</td>
 						<td class="tab-subhead">
 						<div align="center">
-							<kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${status.index}].award.latestAwardAmountInfo.amountObligatedToDate" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.amountObligatedToDate}"/>
+							<kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${status.index}].activeAward.latestAwardAmountInfo.amountObligatedToDate" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.amountObligatedToDate}"/>
 						</div>
 						</td>
 						<td class="tab-subhead">
 						<div align="center">
-							<kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${status.index}].award.latestAwardAmountInfo.obligationExpirationDate" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.obligationExpirationDate}" datePicker="false"/>
+							<kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${status.index}].activeAward.latestAwardAmountInfo.obligationExpirationDate" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.obligationExpirationDate}" datePicker="false"/>
 						</div>
 						</td>
 						<td class="tab-subhead">
