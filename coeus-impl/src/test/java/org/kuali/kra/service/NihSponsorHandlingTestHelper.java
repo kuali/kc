@@ -19,7 +19,7 @@
 package org.kuali.kra.service;
 
 import org.junit.Assert;
-import org.kuali.coeus.common.framework.sponsor.Sponsorable;
+import org.kuali.coeus.common.api.sponsor.Sponsorable;
 import org.kuali.coeus.common.framework.sponsor.hierarchy.SponsorHierarchy;
 import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;

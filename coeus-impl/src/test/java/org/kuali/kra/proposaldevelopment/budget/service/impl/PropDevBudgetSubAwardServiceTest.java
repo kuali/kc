@@ -108,8 +108,9 @@ public class PropDevBudgetSubAwardServiceTest {
     
     @Test
     public void testExample1WithNoLineItems() throws Exception {
+        budget.getDevelopmentProposal().setSponsorCode(NIH_SPONSOR_CODE);
         context.checking(new Expectations(){{
-            one(sponsorHierarchyService).isSponsorNihMultiplePi(NIH_SPONSOR_CODE);
+            one(sponsorHierarchyService).isSponsorableNihMultiplePi(budget.getDevelopmentProposal());
             will(returnValue(true));
         }});
         
@@ -137,8 +138,9 @@ public class PropDevBudgetSubAwardServiceTest {
     
     @Test
     public void testExample2WithNoLineItems() throws Exception {
+        budget.getDevelopmentProposal().setSponsorCode(NIH_SPONSOR_CODE);
         context.checking(new Expectations(){{
-            one(sponsorHierarchyService).isSponsorNihMultiplePi(NIH_SPONSOR_CODE);
+            one(sponsorHierarchyService).isSponsorableNihMultiplePi(budget.getDevelopmentProposal());
             will(returnValue(true));
         }});
         
@@ -166,8 +168,9 @@ public class PropDevBudgetSubAwardServiceTest {
     
     @Test
     public void testExample3WithNoLineItems() throws Exception {
+        budget.getDevelopmentProposal().setSponsorCode(NIH_SPONSOR_CODE);
         context.checking(new Expectations(){{
-            one(sponsorHierarchyService).isSponsorNihMultiplePi(NIH_SPONSOR_CODE);
+            one(sponsorHierarchyService).isSponsorableNihMultiplePi(budget.getDevelopmentProposal());
             will(returnValue(true));
         }});
         
@@ -195,8 +198,9 @@ public class PropDevBudgetSubAwardServiceTest {
     
     @Test
     public void testExample1WithCostShare() throws Exception {
+        budget.getDevelopmentProposal().setSponsorCode(NIH_SPONSOR_CODE);
         context.checking(new Expectations(){{
-            one(sponsorHierarchyService).isSponsorNihMultiplePi(NIH_SPONSOR_CODE);
+            one(sponsorHierarchyService).isSponsorableNihMultiplePi(budget.getDevelopmentProposal());
             will(returnValue(true));
         }});
         
@@ -261,8 +265,9 @@ public class PropDevBudgetSubAwardServiceTest {
     
     @Test
     public void testExample1WithLineItems() throws Exception {
+	budget.getDevelopmentProposal().setSponsorCode(NIH_SPONSOR_CODE);
         context.checking(new Expectations(){{
-            one(sponsorHierarchyService).isSponsorNihMultiplePi(NIH_SPONSOR_CODE);
+            one(sponsorHierarchyService).isSponsorableNihMultiplePi(budget.getDevelopmentProposal());
             will(returnValue(true));
         }});
         
@@ -356,11 +361,12 @@ public class PropDevBudgetSubAwardServiceTest {
     
     @Test
     public void testExample1WithNonNih() throws Exception {
+        budget.getDevelopmentProposal().setSponsorCode(NON_NIH_SPONSOR_CODE);
         context.checking(new Expectations(){{
-            one(sponsorHierarchyService).isSponsorNihMultiplePi(NON_NIH_SPONSOR_CODE);
+            one(sponsorHierarchyService).isSponsorableNihMultiplePi(budget.getDevelopmentProposal());
             will(returnValue(false));
         }});
-        budget.getDevelopmentProposal().setSponsorCode(NON_NIH_SPONSOR_CODE);
+        
         
         subAward.getBudgetSubAwardPeriodDetails().get(0).setDirectCost(new ScaleTwoDecimal(150000L));
         subAward.getBudgetSubAwardPeriodDetails().get(0).setIndirectCost(new ScaleTwoDecimal(75000L));
