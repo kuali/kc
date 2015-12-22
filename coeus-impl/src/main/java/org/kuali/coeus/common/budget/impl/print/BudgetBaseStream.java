@@ -344,6 +344,7 @@ public abstract class BudgetBaseStream implements XmlStream {
         reportTypeVO.setStartDate(startDate);
         reportTypeVO.setEndDate(endDate);
         reportTypeVO.setBudgetCategoryDesc(getBudgetCategoryDescForSalarySummary(budgetLineItem, budgetLineItem, budgetRateAndBase));
+		reportTypeVO.setBudgetCategoryCode(getBudgetCategoryCodeFroBudgetSalarySummary(budgetRateAndBase, budgetLineItem));
         reportTypeVO.setSalaryRequested(budgetRateAndBase.getCalculatedCost());
         reportTypeVO.setFringe(getFringeForLASalaryForRateAndBase(budgetLineItem, startDate, endDate));
         reportTypeVO.setCostSharingAmount(budgetRateAndBase.getCalculatedCostSharing());
