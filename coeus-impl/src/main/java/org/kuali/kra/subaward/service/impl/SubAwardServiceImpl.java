@@ -33,6 +33,7 @@ import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardAmountInfo;
 import org.kuali.kra.subaward.bo.SubAwardAmountReleased;
 import org.kuali.kra.subaward.bo.SubAwardFundingSource;
+import org.kuali.kra.subaward.dao.SubAwardDao;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.kra.subaward.service.SubAwardService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
@@ -54,7 +55,6 @@ public class SubAwardServiceImpl implements SubAwardService {
     public static final String SUB_AWARD_SEQUENCE_STATUS = "subAwardSequenceStatus";
     public static final String SUBAWARD_FOLLOW_UP = "Subaward Follow Up";
     public static final String AWARD_AWARD_NUMBER = "award.awardNumber";
-    public static final String SEQUENCE_OWNER_VERSION_NAME_VALUE = "sequenceOwnerVersionNameValue";
 
     private BusinessObjectService businessObjectService;
     private VersioningService versioningService;
@@ -62,6 +62,7 @@ public class SubAwardServiceImpl implements SubAwardService {
     private DocumentService documentService;
     private SequenceAccessorService sequenceAccessorService;
     private ParameterService parameterService;
+    private SubAwardDao subAwardDao;
 
     public SubAwardDocument createNewSubAwardVersion(SubAwardDocument subAwardDocument) throws VersionException, WorkflowException {
 
@@ -76,8 +77,8 @@ public class SubAwardServiceImpl implements SubAwardService {
     }
 
     protected void incrementVersionNumberIfCanceledVersionsExist(SubAward subAward) {
-        List<VersionHistory> versionHistory = (List<VersionHistory>) businessObjectService.findMatching(VersionHistory.class, Collections.singletonMap(SEQUENCE_OWNER_VERSION_NAME_VALUE, subAward.getSubAwardCode()));
-        subAward.setSequenceNumber(versionHistory.size() + 1);
+        int sequenceNumber = subAwardDao.getNextSequenceNumber(subAward.getSubAwardCode());
+        subAward.setSequenceNumber(sequenceNumber);
     }
 
 	@Override
@@ -291,5 +292,13 @@ public class SubAwardServiceImpl implements SubAwardService {
 
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
+    }
+
+    public SubAwardDao getSubAwardDao() {
+        return this.subAwardDao;
+    }
+
+    public void setSubAwardDao(SubAwardDao subAwardDao) {
+        this.subAwardDao = subAwardDao;
     }
 }
