@@ -1,6 +1,29 @@
 
 
 ##CURRENT
+* Merge PD > S2S Opportunity > Forms: For Approved and Submitted
+  * Migrated Proposals, Create PDF prints form but does NOT print any
+  * attachments.
+  * PD > S2S Opportunity > Forms: For Approved and Submitted Migrated
+  * Proposals, Create PDF prints form but does NOT print any attachments.
+  * Any migrated Coeus proposal in Approved and Submitted status that was
+submitted to Grants.gov - when you open in KC and select the Create PDF
+  * option for any form, the form prints but the pdf does not include any
+  * attachments. This seems to be true for ALL forms and all attachment
+  * types.
+  * It does include attachments when printing for proposals that were NOT
+  * migrated from Coeus.
+  * See for example PD 25607 (in either KC Wkly or KC Production)
+  * One example of why this is needed to be fixed is sponsor requests for
+  * copies of the proposal materials submitted to grants.gov (including
+  * print of forms and attachments). The KC electronic proposal is the
+system of record for this.
+  * NOTE: Some migrated "Submitted" proposals from Coeus have the status of
+  * "Approval Granted" in KC. This status for migrated proposals also is not
+  * printing the attachments for the G.gov forms. See for example PD 23373
+  * MITKC 2096  * vineeth on Mon, 21 Dec 2015 18:28:12 -0500 [View Commit](../../commit/b6b02f3fbeee539d032f9a4dce0f2a92055dbcb5)
+
+##coeus-1512.78
 * No Changes
 
 
