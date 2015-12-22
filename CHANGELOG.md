@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1512.77
 * Resubmission options dialog is read only when accessing proposals from proposal search (not doc search)
 
   * Steps:
