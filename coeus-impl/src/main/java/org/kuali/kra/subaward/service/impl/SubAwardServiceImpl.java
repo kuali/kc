@@ -54,6 +54,7 @@ public class SubAwardServiceImpl implements SubAwardService {
     public static final String SUB_AWARD_SEQUENCE_STATUS = "subAwardSequenceStatus";
     public static final String SUBAWARD_FOLLOW_UP = "Subaward Follow Up";
     public static final String AWARD_AWARD_NUMBER = "award.awardNumber";
+    public static final String SEQUENCE_OWNER_VERSION_NAME_VALUE = "sequenceOwnerVersionNameValue";
 
     private BusinessObjectService businessObjectService;
     private VersioningService versioningService;
@@ -65,12 +66,18 @@ public class SubAwardServiceImpl implements SubAwardService {
     public SubAwardDocument createNewSubAwardVersion(SubAwardDocument subAwardDocument) throws VersionException, WorkflowException {
 
         SubAward newVersion = getVersioningService().createNewVersion(subAwardDocument.getSubAward());
+        incrementVersionNumberIfCanceledVersionsExist(newVersion);//Canceled versions retain their own version number.
         newVersion.getSubAwardAmountInfoList().clear();
         SubAwardDocument newSubAwardDocument = (SubAwardDocument) getDocumentService().getNewDocument(SubAwardDocument.class);
         newSubAwardDocument.getDocumentHeader().setDocumentDescription(subAwardDocument.getDocumentHeader().getDocumentDescription());
         newSubAwardDocument.setSubAward(newVersion);
         newVersion.setSubAwardDocument(newSubAwardDocument);
         return newSubAwardDocument;
+    }
+
+    protected void incrementVersionNumberIfCanceledVersionsExist(SubAward subAward) {
+        List<VersionHistory> versionHistory = (List<VersionHistory>) businessObjectService.findMatching(VersionHistory.class, Collections.singletonMap(SEQUENCE_OWNER_VERSION_NAME_VALUE, subAward.getSubAwardCode()));
+        subAward.setSequenceNumber(versionHistory.size() + 1);
     }
 
 	@Override
