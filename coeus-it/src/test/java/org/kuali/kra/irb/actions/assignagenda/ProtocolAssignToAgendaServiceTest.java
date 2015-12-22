@@ -113,6 +113,7 @@ public class ProtocolAssignToAgendaServiceTest extends KcIntegrationTestBase {
         protocolDocument.getProtocol().getProtocolSubmissions().add(submission);
         ProtocolForm form = new ProtocolForm();
         ActionHelper actionHelper = new ActionHelper(form);
+        actionHelper.initializeProtocolActions();
         ProtocolAssignToAgendaBean actionBean = (ProtocolAssignToAgendaBean) actionHelper.getAssignToAgendaBean();
         actionBean.setComments("this is a comment");
         actionBean.setCommitteName("committee name");
