@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* clean up code
+  * Joe Williams on Tue, 22 Dec 2015 10:32:49 -0600 [View Commit](../../commit/6fc063a4a5b0ccb785d14c296333eb918a62d1eb)
+* Subaward: Funding Source panel does not reflect information as it is updated in the Award.
+
+  * I noticed that the Funding Source panel > Current Funding Sources subpanel in the Subaward tab does 'refresh' the information from the most recent Award Version (instead the info is static). Also, when a user clicks the Open award link (in the Funding Source panel of Subaward tab), the system opens up the Award Version document that was available at the time this award was added to the Funding Source panel of the Subaward Document and NOT the latest finalized Award Version that is available in the system now.
+  * Joe Williams on Tue, 22 Dec 2015 09:51:15 -0600 [View Commit](../../commit/0abb7fb558ea7febbd46d43fd3ebcbd475b8da50)
+
+##coeus-1512.79
 * Merge PD > S2S Opportunity > Forms: For Approved and Submitted
   * Migrated Proposals, Create PDF prints form but does NOT print any
   * attachments.
