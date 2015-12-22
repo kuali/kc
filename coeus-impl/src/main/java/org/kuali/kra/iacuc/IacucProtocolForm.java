@@ -307,8 +307,12 @@ public class IacucProtocolForm extends ProtocolFormBase {
     }
     
     @Override
-    protected ActionHelperBase createNewActionHelperInstanceHook(ProtocolFormBase protocolForm) throws Exception{
-        return new IacucActionHelper((IacucProtocolForm) protocolForm);
+    protected ActionHelperBase createNewActionHelperInstanceHook(ProtocolFormBase protocolForm, boolean initializeActions) throws Exception{
+    	IacucActionHelper iacucActionHelper = new IacucActionHelper((IacucProtocolForm) protocolForm);
+    	if(initializeActions) {
+    		iacucActionHelper.initializeProtocolActions();
+    	}
+    	return iacucActionHelper;
     }
     
     @Override

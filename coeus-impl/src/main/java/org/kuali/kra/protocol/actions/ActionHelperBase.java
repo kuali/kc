@@ -337,7 +337,10 @@ public abstract class ActionHelperBase implements Serializable {
      */
     public ActionHelperBase(ProtocolFormBase form) throws Exception {
         this.form = form;
-
+    }
+    
+    
+    public void initializeProtocolActions() throws Exception {
         protocolSubmitAction = getNewProtocolSubmitActionInstanceHook(this);
         protocolWithdrawBean = getNewProtocolWithdrawBeanInstanceHook(this);
 
@@ -382,8 +385,6 @@ public abstract class ActionHelperBase implements Serializable {
         
         initActionBeanTaskMap();        
     }
-    
-    
     
 
     protected abstract String getSRRProtocolActionTypeHook();
@@ -720,6 +721,9 @@ public abstract class ActionHelperBase implements Serializable {
     private void prepareProtocolSubmitActionView() {        
         canSubmitProtocol = hasSubmitProtocolPermission();
         canSubmitProtocolUnavailable = hasSubmitProtocolUnavailablePermission();
+        if(protocolSubmitAction == null) {
+        	protocolSubmitAction = getNewProtocolSubmitActionInstanceHook(this);
+        }
         protocolSubmitAction.prepareView();
         // Initialize the submit committee key values (expensive call) only after checking the conditions for the display of the committee selection
         if(canSubmitProtocol && isShowCommittee()) {            

@@ -198,6 +198,11 @@ public class ActionHelper extends ActionHelperBase {
      */
     public ActionHelper(ProtocolForm form) throws Exception {
         super(form);
+    }
+
+    @Override
+    public void initializeProtocolActions() throws Exception {
+    	super.initializeProtocolActions();
         protocolNotifyIrbBean = new ProtocolNotifyIrbBean(this, "protocolNotifyIrbBean");
         // setting the attachment here so new files can be attached to newActionAttachment
         protocolNotifyIrbBean.setNewActionAttachment(new ProtocolActionAttachment());
@@ -245,6 +250,7 @@ public class ActionHelper extends ActionHelperBase {
 
         initIRBSpecificActionBeanTaskMap();
     }
+    
     
     /**
      * Initializes the mapping between the task names and the beans.  This is used to get the bean associated to the task name passed in from the tag file.
