@@ -164,7 +164,7 @@
 						</td>
 						<td class="tab-subhead">
 						<div align="center">
-							<kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${status.index}].activeAward.sponsorCode" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.sponsorCode}"/> : <kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${status.index}].award.sponsorName" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.sponsorCode}"/>
+							<kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${status.index}].activeAward.sponsorCode" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.sponsorCode}"/> : <kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${status.index}].activeAward.sponsorName" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.sponsorCode}"/>
 						</div>
 						</td>
 						<td class="tab-subhead">
