@@ -216,8 +216,10 @@
         <property name="sequenceAccessorService" ref="sequenceAccessorService" />
         <property name="parameterService" ref="parameterService" />
         <property name="versionHistoryService" ref="versionHistoryService" />
+        <property name="subAwardDao" ref="subAwardDao" />
     </bean>
-    
+
+
 	<bean id="subAwardLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
   		<property name="lookupableHelperService" ref="subAwardLookupableHelperService" />  
 	</bean>
@@ -277,5 +279,9 @@
 	<bean id="subAwardFactBuilderService" class="org.kuali.kra.subaward.service.impl.SubAwardFactBuilderServiceImpl">
 		  <property name="documentService" ref="documentService" />
 	</bean>
+
+    <bean id="subAwardDao" class="org.kuali.kra.subaward.dao.SubAwardDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
 	
 </beans>	

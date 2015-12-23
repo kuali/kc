@@ -33,6 +33,7 @@ import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardAmountInfo;
 import org.kuali.kra.subaward.bo.SubAwardAmountReleased;
 import org.kuali.kra.subaward.bo.SubAwardFundingSource;
+import org.kuali.kra.subaward.dao.SubAwardDao;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.kra.subaward.service.SubAwardService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
@@ -61,16 +62,23 @@ public class SubAwardServiceImpl implements SubAwardService {
     private DocumentService documentService;
     private SequenceAccessorService sequenceAccessorService;
     private ParameterService parameterService;
+    private SubAwardDao subAwardDao;
 
     public SubAwardDocument createNewSubAwardVersion(SubAwardDocument subAwardDocument) throws VersionException, WorkflowException {
 
         SubAward newVersion = getVersioningService().createNewVersion(subAwardDocument.getSubAward());
+        incrementVersionNumberIfCanceledVersionsExist(newVersion);//Canceled versions retain their own version number.
         newVersion.getSubAwardAmountInfoList().clear();
         SubAwardDocument newSubAwardDocument = (SubAwardDocument) getDocumentService().getNewDocument(SubAwardDocument.class);
         newSubAwardDocument.getDocumentHeader().setDocumentDescription(subAwardDocument.getDocumentHeader().getDocumentDescription());
         newSubAwardDocument.setSubAward(newVersion);
         newVersion.setSubAwardDocument(newSubAwardDocument);
         return newSubAwardDocument;
+    }
+
+    protected void incrementVersionNumberIfCanceledVersionsExist(SubAward subAward) {
+        int sequenceNumber = subAwardDao.getNextSequenceNumber(subAward.getSubAwardCode());
+        subAward.setSequenceNumber(sequenceNumber);
     }
 
 	@Override
@@ -284,5 +292,13 @@ public class SubAwardServiceImpl implements SubAwardService {
 
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
+    }
+
+    public SubAwardDao getSubAwardDao() {
+        return this.subAwardDao;
+    }
+
+    public void setSubAwardDao(SubAwardDao subAwardDao) {
+        this.subAwardDao = subAwardDao;
     }
 }
