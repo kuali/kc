@@ -1,6 +1,21 @@
 
 
 ##CURRENT
+*  Addding NO_FIELD attribute to messageKeyMap to display message properly
+  * Geo Thomas on Wed, 23 Dec 2015 14:11:23 -0500 [View Commit](../../commit/1ec4ae2dda56914744db83914db3835598038866)
+* IRB - Duplication of Review Comments in Minutes
+  * In IRB protocol minutes are duplicated while generating minutes through schedule/minutes actions.
+  * Steps to reproduce.
+  * 1. Create protocol, submit to a schedule, add review comments and perform expedited approval
+  * 2. Create amendment 1, submit to same schedule, add review comments and perform expedited approval
+  * 3. Create amendment 2, submit to same schedule, add review comments and perform expedited approval
+  * 4. View above schedule and generate minutes.
+  * Review comments are duplicated for both amendments.
+  * Now that we have versioned schedule minutes, we need to look at the original protocol and corresponding submission number to display the minutes.
+  * Same fix is applied to IACUC.
+  * rmancher on Wed, 23 Dec 2015 12:52:59 -0500 [View Commit](../../commit/3c822a1c359691e42e20c6d5dd330de66ea69a3c)
+
+##coeus-1512.85
 *  display active award sponsor name on subaward funding source
   * Joe Williams on Wed, 23 Dec 2015 09:56:13 -0600 [View Commit](../../commit/545cc96f0e19dfb40508d769bb1a29f5044b93b1)
 
