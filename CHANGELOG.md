@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* get sequence number from subaward table using dao
+  * Joe Williams on Tue, 22 Dec 2015 15:39:38 -0600 [View Commit](../../commit/73f4167612dc7d5e42eefa770c7a7518e260ffdb)
+*  Subaward: System generates wrong Subaward version numbers when not the latest Subaward Document is selected to be edited.
+
+  * The system is not generating the Subaward Versions correctly. If, for example, my Subaward has 4 Versions and I open and edit the Subaward Document that corresponds to Version 1 (searching for it in the doc search). The system will assign the new Subaward Document version 2 as opposed to version 5. It's assigning the next version number from the Document opened and not the next version number in the whole sequence. This is also causing the system to create duplicate/multiple Subawards with the same Subaward ID.
+  * Joe Williams on Tue, 22 Dec 2015 14:19:23 -0600 [View Commit](../../commit/1a617c1ef1ee3af316a28a76b818ca25e19c245c)
+
+##coeus-1512.82
 * Fix IACUC protocol actions
   * rmancher on Tue, 22 Dec 2015 18:15:40 -0500 [View Commit](../../commit/e687fedc6352762ba3ad14a8501660d8a780c1e0)
 
