@@ -88,7 +88,8 @@ public class SponsorHierarchyServiceImpl implements SponsorHierarchyService {
     	if (sponsorable == null) {
             throw new IllegalArgumentException("The Sponsorable cannot be null");
         }
-    	return isSponsorNihMultiplePi(sponsorable.getSponsorCode()) || isSponsorNihMultiplePi(sponsorable.getPrimeSponsorCode());
+    	return isSponsorNihMultiplePi(sponsorable.getSponsorCode()) || 
+	  (sponsorable.getPrimeSponsorCode() != null && isSponsorNihMultiplePi(sponsorable.getPrimeSponsorCode()));
     }
     
     @Override

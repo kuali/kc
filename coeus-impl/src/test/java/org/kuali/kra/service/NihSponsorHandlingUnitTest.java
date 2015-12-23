@@ -79,6 +79,11 @@ public class NihSponsorHandlingUnitTest {
       helper.testIsSponsorNihMultiplePi_DevelopmentProposal_SponsorAdded();
     }
 
+    @Test
+    public void testIsPrimeSponsorNihMultiplePi_DevelopmentProposal_SponsorAdded() {
+      helper.testIsPrimeSponsorNihMultiplePi_DevelopmentProposal_SponsorAdded();
+    }
+
     private List<PropAwardPersonRole> defineRoles() {
         List<PropAwardPersonRole> roles = new ArrayList<PropAwardPersonRole>();
         PropAwardPersonRole role = new PropAwardPersonRole();
