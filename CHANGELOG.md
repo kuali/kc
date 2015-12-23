@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* Fix IACUC protocol actions
+  * rmancher on Tue, 22 Dec 2015 18:15:40 -0500 [View Commit](../../commit/e687fedc6352762ba3ad14a8501660d8a780c1e0)
+
+##coeus-1512.81
 * Fix integration test
   * rmancher on Tue, 22 Dec 2015 15:03:41 -0500 [View Commit](../../commit/9665036b24f17d7a4a0e6766f2ca803409909ca2)
 * STE - PD - Trying to Print various Budget Print Reports of Approved and Submitted PDs
