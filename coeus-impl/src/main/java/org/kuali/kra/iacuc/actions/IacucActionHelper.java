@@ -220,6 +220,7 @@ public class IacucActionHelper extends ActionHelperBase {
     
     @Override
     public void initializeProtocolActions() throws Exception {
+    	super.initializeProtocolActions();
         protocolAssignCmtBean = new IacucProtocolAssignCmtBean(this);
         iacucProtocolTableBean = new IacucProtocolTableBean(this);
         iacucProtocolModifySubmissionBean = new IacucProtocolModifySubmissionBean(this);
