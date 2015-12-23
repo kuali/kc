@@ -516,7 +516,7 @@ public class ProposalDevelopmentSubmitController extends
                 proposalDevelopmentDocument.getDevelopmentProposal(),
                 proposalDevelopmentDocument.getDevelopmentProposal().getFinalBudget());
 
-        getGlobalVariableService().getMessageMap().putInfo(KeyConstants.MESSAGE_INSTITUTIONAL_PROPOSAL_VERSIONED, versionNumber, proposalDevelopmentForm.getInstitutionalProposalToVersion());
+        getGlobalVariableService().getMessageMap().putInfo(Constants.NO_FIELD,KeyConstants.MESSAGE_INSTITUTIONAL_PROPOSAL_VERSIONED, versionNumber, proposalDevelopmentForm.getInstitutionalProposalToVersion());
 
         Long institutionalProposalId = getActiveProposalId(proposalDevelopmentForm.getInstitutionalProposalToVersion());
         updateProposalAdminDetailsAfterInstPropCreation(proposalDevelopmentDocument.getDevelopmentProposal(), institutionalProposalId);
