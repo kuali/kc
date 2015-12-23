@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+*  display active award sponsor name on subaward funding source
+  * Joe Williams on Wed, 23 Dec 2015 09:56:13 -0600 [View Commit](../../commit/545cc96f0e19dfb40508d769bb1a29f5044b93b1)
+
+##coeus-1512.84
 * No Changes
 
 
