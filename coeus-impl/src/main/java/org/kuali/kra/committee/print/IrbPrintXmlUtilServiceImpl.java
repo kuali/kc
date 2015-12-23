@@ -54,7 +54,6 @@ public class IrbPrintXmlUtilServiceImpl implements IrbPrintXmlUtilService {
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
     private ReviewCommentsService reviewCommentsService;
-    private ProtocolAmendRenewService protocolAmendRenewService;
     
     public void setPersonXml(KcPerson person, Person personType) {
         personType.setPersonID(person.getPersonId());
@@ -242,7 +241,7 @@ public class IrbPrintXmlUtilServiceImpl implements IrbPrintXmlUtilService {
         for (CommitteeScheduleMinute minuteEntryInfoBean : minutes) {
             ProtocolBase protocol = minuteEntryInfoBean.getProtocol();
             if (protocol != null && protocol.getProtocolNumber() != null) {
-            	String minutesProtocolNumber = getProtocolAmendRenewService().getAmendedOrRenewalProtocolNumber(protocol.getProtocolNumber());
+            	String minutesProtocolNumber = protocol.getProtocolNumber();
                 if (minutesProtocolNumber.equals(protocolSubmission.getProtocolNumber())
                         && protocol.getProtocolSubmission() != null
                         && protocol.getProtocolSubmission().getSubmissionNumber().equals(protocolSubmission.getSubmissionNumber())) {
@@ -345,14 +344,5 @@ public class IrbPrintXmlUtilServiceImpl implements IrbPrintXmlUtilService {
     public DateTimeService getDateTimeService() {
         return dateTimeService;
     }
-
-	public ProtocolAmendRenewService getProtocolAmendRenewService() {
-		return protocolAmendRenewService;
-	}
-
-	public void setProtocolAmendRenewService(
-			ProtocolAmendRenewService protocolAmendRenewService) {
-		this.protocolAmendRenewService = protocolAmendRenewService;
-	}
 
 }

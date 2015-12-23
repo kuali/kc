@@ -63,8 +63,6 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="reviewCommentsService" ref="reviewCommentsService" />
-		<property name="protocolAmendRenewService" ref="protocolAmendRenewService" />
-		
 	</bean>
 
 	<bean id="templatePrint" class="org.kuali.kra.committee.print.TemplatePrint"
