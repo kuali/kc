@@ -247,7 +247,6 @@
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="reviewCommentsService" ref="iacucReviewCommentsService" />
 		<property name="businessObjectService" ref="businessObjectService" />
-		<property name="protocolAmendRenewService" ref="iacucProtocolAmendRenewService" />
 	</bean>
 	
 	
