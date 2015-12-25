@@ -1170,7 +1170,6 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
     private KeyPersonInfo getKeyPersonFromProposalPerson(ProposalPerson proposalPerson) {
         KeyPersonInfo keyPerson = null;
         if (proposalPerson.getRolodexId() != null) {
-            proposalPerson.refreshReferenceObject("rolodex");
             Rolodex rolodexPerson = getBusinessObjectService().findBySinglePrimaryKey(Rolodex.class, proposalPerson.getRolodexId());
             keyPerson = getKeyPeronInfo(rolodexPerson);
         }
