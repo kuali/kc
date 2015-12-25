@@ -1,6 +1,19 @@
 
 
 ##CURRENT
+* Print > Sponsor form Packages > all Generic & Sponsor forms cause STE (when address book Key Persons?)
+  * From proposal > Print > Sposnor Forms, try to print any generic or NIH print form and receive STE:
+  * Error Message:
+  * Stacktrace (only in dev mode)
+  * java.lang.IllegalArgumentException: Failed to locate a valid relationship from class org.kuali.coeus.propdev.impl.person.ProposalPerson with the given relationship name 'rolodex' at org.kuali.rice.krad.data.provider.impl.DataObjectWrapperBase.findAndValidateRelationship(DataObjectWrapperBase.java:1006) at org.kuali.rice.krad.data.provider.impl.DataObjectWrapperBase.fetchRelationship(DataObjectWrapperBase.java:718) at
+  * Rolodex is fetched. There is no relationship set.
+  * rmancher on Wed, 23 Dec 2015 17:13:02 -0500 [View Commit](../../commit/69356ce74ee45f8b8860efe4fc0f6794a356e510)
+* Subaward: Last Update field in the Document Header does not display the correct Username once the Subaward Document is in Final status
+
+  * In the Subaward Document Header, the Last Update field displays the wrong username (of the user that made the update/change) when the document status is set to 'FINAL'. Instead, the system displays user 'kr' as the one who made the Last Update. When the Document is in 'SAVED' status the correct user name displays.
+  * Joe Williams on Wed, 23 Dec 2015 13:30:48 -0600 [View Commit](../../commit/56f2b78d4a40415d3c2fe3092441b01e0c75e3e7)
+
+##coeus-1512.86
 *  Addding NO_FIELD attribute to messageKeyMap to display message properly
   * Geo Thomas on Wed, 23 Dec 2015 14:11:23 -0500 [View Commit](../../commit/1ec4ae2dda56914744db83914db3835598038866)
 * IRB - Duplication of Review Comments in Minutes
