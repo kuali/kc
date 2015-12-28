@@ -1743,15 +1743,7 @@ public abstract class AwardBaseStream implements XmlStream {
 	 */
 	private String getFinalProbSubDateModified(AwardCloseout awardCloseout,
 			AwardCloseout preAwardCloseout) {
-		String finalPropSubDateModified = null;
-		if (awardCloseout.getFinalSubmissionDate() != null) {
-			finalPropSubDateModified = END_ASTERISK_SPACE_INDICATOR;
-		} else if (preAwardCloseout.getFinalSubmissionDate() == null
-				|| !awardCloseout.getFinalSubmissionDate().equals(
-						preAwardCloseout.getFinalSubmissionDate())) {
-			finalPropSubDateModified = END_ASTERISK_SPACE_INDICATOR;
-		}
-		return finalPropSubDateModified;
+		return getIndicatorIfDatesChanged(preAwardCloseout.getFinalSubmissionDate(),awardCloseout.getFinalSubmissionDate());
 	}
 
 	/*
@@ -1759,15 +1751,16 @@ public abstract class AwardBaseStream implements XmlStream {
 	 */
 	private String getCloseOutDateModified(AwardCloseout awardCloseout,
 			AwardCloseout preAwardCloseout) {
-		String closeOutDateModified = null;
-		if (awardCloseout.getDueDate() != null) {
-			closeOutDateModified = END_ASTERISK_SPACE_INDICATOR;
-		} else if (preAwardCloseout.getDueDate() == null
-				|| !awardCloseout.getDueDate().equals(
-						preAwardCloseout.getDueDate())) {
-			closeOutDateModified = END_ASTERISK_SPACE_INDICATOR;
+		return getIndicatorIfDatesChanged(preAwardCloseout.getDueDate(),awardCloseout.getDueDate());
+	}
+	private String getIndicatorIfDatesChanged(Date preAwardDate, Date awardDate) {
+		String finalPropSubDateModified = null;
+		if (preAwardDate == null && awardDate != null) {
+			finalPropSubDateModified = END_ASTERISK_SPACE_INDICATOR;
+		} else if (preAwardDate != null && !preAwardDate.equals(awardDate)) {
+			finalPropSubDateModified = END_ASTERISK_SPACE_INDICATOR;
 		}
-		return closeOutDateModified;
+		return finalPropSubDateModified;
 	}
 
 	/*
