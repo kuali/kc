@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+*  adding null check for closeout dates while printing award modification
+  * Geo Thomas on Mon, 28 Dec 2015 13:35:18 -0500 [View Commit](../../commit/0a24a4ddb2c5f942a60303645fb9217b167e1bdb)
+
+##coeus-1512.88
 * No Changes
 
 
