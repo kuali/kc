@@ -322,7 +322,7 @@
                                         <bean parent="Uif-PrimaryActionButton-Mini" p:actionLabel="Notify @{#lp.fullName}" p:methodToCall="prepareVerifyCertificationDialog"
                                               p:render="@{#actionFlags[#{T(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants.PropDevDocumentActions).NOTIFY_PROPOSAL_PERSONS}] 
                                               and !#empty(#lp.versionNumber) 
-                                              and #ViewHelper.canViewCertificationTab(document,#line) 
+                                              and personnelWhoRequireCertification.contains(#line) 
                                               and !document.developmentProposal.isChild()
                                               and !#parent.readOnly}"
                                               p:order="10"/>
@@ -742,7 +742,7 @@
             <list>
             	<bean parent="Uif-InputField" p:propertyName="selectedPerson" p:order="20">
 					<property name="control">
-						<bean parent="Uif-CheckboxControl" p:disabled="@{!#ViewHelper.canViewCertificationTab(document,#line) or #lp.questionnairesCompleted}"/>
+						<bean parent="Uif-CheckboxControl" p:disabled="@{#lp.questionnairesCompleted}"/>
 					</property>
 				</bean>
                 <bean parent="Uif-InputField" p:label="Name" p:propertyName="fullName" p:order="10" p:readOnly="true"/>
