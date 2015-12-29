@@ -18,19 +18,21 @@
  */
 package org.kuali.kra.iacuc.actions.submit;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.committee.impl.service.CommitteeServiceBase;
+import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.actions.IacucActionsKeyValuesBase;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Finds the available set of Submission Types when a protocol
@@ -139,17 +141,28 @@ public class SubmissionTypeValuesFinder extends IacucActionsKeyValuesBase {
     private boolean hasContinuationProtocolNumber(String protocolNumber) {
         return protocolNumber.contains("C");
     }
-    
+
+    private boolean hasFyiProtocolNumber(String protocolNumber) {
+        return protocolNumber.contains("F");
+    }
+
     private boolean displayResubmission(String currentStatus) {
         String validStatuses[] = {IacucProtocolStatus.WITHDRAWN, IacucProtocolStatus.SUBMITTED_TO_IACUC};
         return validateCurrentStatus(currentStatus, validStatuses);
     }
-    
+
     protected boolean displayNotifyIacuc(String currentStatus, ProtocolBase protocol) {
-        String validStatuses[] = { IacucProtocolStatus.ACTIVE,  IacucProtocolStatus.ADMINISTRATIVELY_APPROVED };
-        String validSumissionStatuses[] = { IacucProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE, IacucProtocolSubmissionStatus.PENDING};        
-        String currentSubmissionStatus = protocol.getProtocolSubmission().getSubmissionStatusCode();
-        return validateCurrentStatus(currentStatus, validStatuses)  && validateCurrentSubmissionStatus(currentSubmissionStatus, validSumissionStatuses);
+        boolean useAlternateNotifyIacucAction = getParameterService().getParameterValueAsBoolean(IacucProtocolDocument.class, Constants.ALTERNATE_NOTIFY_IACUC_ACTION_PARAM, false);
+        if (useAlternateNotifyIacucAction) {
+            String validStatuses[] = {IacucProtocolStatus.WITHDRAWN, IacucProtocolStatus.FYI_IN_PROGRESS, IacucProtocolStatus.SUBMITTED_TO_IACUC};
+            return validateCurrentStatus(currentStatus, validStatuses) && hasFyiProtocolNumber(protocol.getProtocolNumber());
+        }
+        else {
+            String validStatuses[] = { IacucProtocolStatus.ACTIVE,  IacucProtocolStatus.ADMINISTRATIVELY_APPROVED };
+            String validSumissionStatuses[] = { IacucProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE, IacucProtocolSubmissionStatus.PENDING};
+            String currentSubmissionStatus = protocol.getProtocolSubmission().getSubmissionStatusCode();
+            return validateCurrentStatus(currentStatus, validStatuses)  && validateCurrentSubmissionStatus(currentSubmissionStatus, validSumissionStatuses);
+        }
     }
     
     private boolean validateCurrentStatus(String currentStatus, String[] validStatuses) {

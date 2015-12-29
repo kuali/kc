@@ -73,9 +73,13 @@ public class IacucProtocolStatus extends ProtocolStatusBase {
     
     public static final String RENEWAL_IN_PROGRESS = "206";
 
+    public static final String FYI_IN_PROGRESS = "900";
+
     public static final String AMENDMENT_MERGED = "400";
 
     public static final String RENEWAL_MERGED = "401";
+
+    public static final String FYI_MERGED = "901";
     
     public static final String CONTINUATION_IN_PROGRESS = "207";
 

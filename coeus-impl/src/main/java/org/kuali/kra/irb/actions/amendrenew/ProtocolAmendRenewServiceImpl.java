@@ -18,18 +18,22 @@
  */
 package org.kuali.kra.irb.actions.amendrenew;
 
+import org.kuali.coeus.common.questionnaire.framework.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
+import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbBean;
 import org.kuali.kra.irb.questionnaire.ProtocolModuleQuestionnaireBean;
 import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
+import org.kuali.kra.protocol.actions.ActionHelperBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewModuleBase;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewServiceImplBase;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewalBase;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendmentBean;
-import org.kuali.coeus.common.questionnaire.framework.answer.ModuleQuestionnaireBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +59,11 @@ public class ProtocolAmendRenewServiceImpl extends ProtocolAmendRenewServiceImpl
     }
 
     @Override
+    protected ProtocolActionBase getNewFyiProtocolActionInstanceHook(ProtocolBase protocol) {
+        return new ProtocolAction((Protocol)protocol, ProtocolActionType.NOTIFY_IRB);
+    }
+
+    @Override
     protected ModuleQuestionnaireBean getNewProtocolModuleQuestionnaireBeanInstanceHook(ProtocolBase protocol) {
         return new ProtocolModuleQuestionnaireBean((Protocol) protocol);
     }
@@ -67,6 +76,11 @@ public class ProtocolAmendRenewServiceImpl extends ProtocolAmendRenewServiceImpl
     @Override
     protected String getRenewalInProgressStatusHook() {
         return ProtocolStatus.RENEWAL_IN_PROGRESS;
+    }
+
+    @Override
+    protected String getFyiInProgressStatusHook() {
+        return ProtocolStatus.FYI_IN_PROGRESS;
     }
 
     @Override
@@ -175,6 +189,18 @@ public class ProtocolAmendRenewServiceImpl extends ProtocolAmendRenewServiceImpl
             amendmentEntry.removeModule(ProtocolModule.QUESTIONNAIRE);
         }
 
+    }
+
+    @Override
+    public String createFYI(ProtocolDocumentBase protocolDocument, ProtocolNotifyIrbBean fyiBean) throws Exception {
+        return createFYI(protocolDocument, fyiBean.getActionHelper(), fyiBean.getComment());
+    }
+
+    @Override
+    protected ProtocolAmendmentBean getFyiAttachmentsBean(ActionHelperBase actionHelper) {
+        ProtocolAmendmentBean fyiAttachmentsBean = new org.kuali.kra.irb.actions.amendrenew.ProtocolAmendmentBean((ActionHelper) actionHelper);
+        fyiAttachmentsBean.setAddModifyAttachments(true);
+        return fyiAttachmentsBean;
     }
 
     @Override

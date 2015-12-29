@@ -187,7 +187,7 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
                 }
             }
             catch (Exception e) {
-
+                LOG.error(e.getMessage(), e);
             }
         }
         else if (isDisapproved(statusChangeEvent)) { 
@@ -275,7 +275,7 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
         
 
     protected abstract void mergeProtocolAmendment();
-    
+
     /**
      * Add a new protocol action to the protocol and update the status.
      * @param actionTypeCode the new action
@@ -371,6 +371,10 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
     public boolean isAmendment() {
         return getProtocol().isAmendment();
     }
+
+    public boolean isFYI() {
+        return getProtocol().isFYI();
+    }
     
     /**
      * Is this an amendment protocol document?
@@ -385,7 +389,7 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
      * @return
      */
     public boolean isNormal() {
-        return !isAmendment() && !isRenewal();
+        return !isAmendment() && !isRenewal() && !isFYI();
     }
     
     

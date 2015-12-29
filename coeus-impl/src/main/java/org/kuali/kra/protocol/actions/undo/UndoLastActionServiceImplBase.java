@@ -104,7 +104,9 @@ public abstract class UndoLastActionServiceImplBase implements UndoLastActionSer
     protected abstract String getAmendmentInProgressStatusHook();
     
     protected abstract String getRenewalInProgressStatusHook();
-    
+
+    protected abstract String getFyiInProgressStatusHook();
+
     protected abstract String getInProgressStatusHook();
     
     protected abstract boolean isApprovedActionTypeCode(String actionTypeCode);
@@ -118,6 +120,8 @@ public abstract class UndoLastActionServiceImplBase implements UndoLastActionSer
             prevProtocolStatusCode = getAmendmentInProgressStatusHook();
         } else if (protocol.isRenewal()) {
             prevProtocolStatusCode = getRenewalInProgressStatusHook();
+        } else if (protocol.isFYI()) {
+            prevProtocolStatusCode = getFyiInProgressStatusHook();
         }
         protocol.setProtocolStatusCode(prevProtocolStatusCode);
         protocol.setActive(true);

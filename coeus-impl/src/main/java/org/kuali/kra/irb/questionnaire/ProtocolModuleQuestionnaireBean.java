@@ -70,6 +70,9 @@ public class ProtocolModuleQuestionnaireBean extends ProtocolModuleQuestionnaire
                 subModuleCode = CoeusSubModule.RENEWAL;
             }
         }
+        if (protocol.isFYI()) {
+            subModuleCode = CoeusSubModule.FYI;
+        }
         if (protocol.isAmendment()) {
             subModuleCode = CoeusSubModule.AMENDMENT;
         }

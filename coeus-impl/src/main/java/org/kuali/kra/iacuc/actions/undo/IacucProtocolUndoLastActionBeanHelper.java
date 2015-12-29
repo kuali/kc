@@ -41,7 +41,7 @@ public class IacucProtocolUndoLastActionBeanHelper extends UndoLastActionBeanHel
         IacucProtocolActionType.SUBMITTED_TO_IACUC, IacucProtocolActionType.AMENDMENT_CREATED, 
         IacucProtocolActionType.RENEWAL_CREATED, IacucProtocolActionType.EXPIRED, 
         IacucProtocolActionType.IACUC_WITHDRAWN, IacucProtocolActionType.ADMINISTRATIVELY_WITHDRAWN, 
-        IacucProtocolActionType.ADMINISTRATIVE_CORRECTION};
+        IacucProtocolActionType.ADMINISTRATIVE_CORRECTION, IacucProtocolActionType.NOTIFY_IACUC};
 
     protected String[] getNotUndoableActions() {
         return notUndoableActions;

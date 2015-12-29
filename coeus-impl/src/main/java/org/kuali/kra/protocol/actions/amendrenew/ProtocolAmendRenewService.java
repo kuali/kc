@@ -59,7 +59,7 @@ public interface ProtocolAmendRenewService {
      * @throws Exception
      */
     public String createRenewalWithAmendment(ProtocolDocumentBase protocolDocument, ProtocolAmendmentBean amendmentBean) throws Exception;
-    
+
     /**
      * Update the summary and amendment sections.
      * @param protocolDocument the protocol document of the amendment/renewal to be updated

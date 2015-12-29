@@ -28,7 +28,7 @@ public class ProtocolGrantExemptionAuthorizer extends ProtocolAuthorizer {
 
     @Override
     public boolean isAuthorized(String userId, ProtocolTask task) {
-        return !task.getProtocol().isAmendment() && !task.getProtocol().isRenewal() &&
+        return task.getProtocol().isNew() &&
                canExecuteAction(task.getProtocol(), ProtocolActionType.GRANT_EXEMPTION) &&
                hasPermission(userId, task.getProtocol(), PermissionConstants.MAINTAIN_PROTOCOL_SUBMISSIONS);
     }

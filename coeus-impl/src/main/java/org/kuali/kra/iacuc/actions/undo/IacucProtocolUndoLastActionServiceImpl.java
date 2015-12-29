@@ -51,6 +51,11 @@ public class IacucProtocolUndoLastActionServiceImpl extends UndoLastActionServic
     }
 
     @Override
+    protected String getFyiInProgressStatusHook() {
+        return IacucProtocolStatus.FYI_IN_PROGRESS;
+    }
+
+    @Override
     protected boolean isApprovedActionTypeCode(String actionTypeCode) {
         return StringUtils.equals(actionTypeCode, IacucProtocolActionType.IACUC_APPROVED) 
             || StringUtils.equals(actionTypeCode, IacucProtocolActionType.DESIGNATED_REVIEW_APPROVAL);
