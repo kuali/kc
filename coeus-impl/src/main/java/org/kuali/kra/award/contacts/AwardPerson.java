@@ -24,7 +24,6 @@ import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex;
 import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.framework.person.PropAwardPersonRoleService;
-//import org.kuali.coeus.common.api.sponsor.Sponsorable;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncableProperty;
 import org.kuali.kra.award.home.ContactRole;
@@ -32,7 +31,6 @@ import org.kuali.kra.bo.AbstractProjectPerson;
 import org.kuali.coeus.common.framework.rolodex.PersonRolodex;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
