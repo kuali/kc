@@ -1,6 +1,40 @@
 
 
 ##CURRENT
+* PD: Aggregator cannot send Notification to Key Personnel to
+  * certify.
+  * In MIT QA Weekly instance (version 1512.82), if I am logged in as myself
+  * (kmann), and create a proposal, I have the ability to use either "Notify
+  * All" or "Notify (individual)" to send the certification requests to
+  * those who must certify. But, when I am backdoor logged in as an
+  * Aggregator in the Department, I only have the "Notify All" button
+  * available, and when I access this, I am unable to send the certification
+  * request. I believe this may be related to the fix that was done for
+  * RESMER-415.
+  * Steps to reproduce issue (this was in PD #30536):
+  * 1) Backdoor login as Aggregator in Department (I used "coombs")
+  * 2) Create Proposal - enter basic proposal information, then click on
+  * Save and Continue
+  * 3) Go to Key Personnel section - add person (I added Carol Wood as
+  * PI/Contact), click on Save
+  * 4) Aggregator only has "Notify All" button available - there is no
+  * "Notify (individual)" button available
+  * 5) Click on "Notify All" button and window opens - I can see Carol Wood,
+  * but when I try to select her, I have the red circle with the line
+  * through it)
+  * 6) Exit proposal, and logout as "coombs"
+  * 7) Logged in as "kmann", go into PD #30536 in edit mode
+  * 8) Add myself as "Aggregator" in Access section of proposal, click Save
+  * and Continue
+  * 9) Go to Key Personnel section - as "kmann", I have neither the "Notify
+  * All" button, or the "Notify (individual)" buttons available.
+  * When I am logged in as myself (kmann) and create proposal (PD #30535),
+  * then add Key Personnel, I have both "Notify All" and "Notify
+  * (individual)" buttons available, and I am able to send the certification
+  * request.
+  * vineeth on Tue, 29 Dec 2015 11:54:27 -0500 [View Commit](../../commit/5b614deafa796b00c491d0eb879137adc3147962)
+
+##coeus-1512.89
 *  adding null check for closeout dates while printing award modification
   * Geo Thomas on Mon, 28 Dec 2015 13:35:18 -0500 [View Commit](../../commit/0a24a4ddb2c5f942a60303645fb9217b167e1bdb)
 
