@@ -411,6 +411,10 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
     	}
         return false;
     }
+    
+    protected boolean canViewCertification(ProposalDevelopmentDocument document, Person user) {
+    	return getKcAuthorizationService().hasPermission(user.getPrincipalId(), document, PermissionConstants.VIEW_CERTIFICATION);
+    }
 
     protected boolean isProposalStateEditableForCertification(DevelopmentProposal developmentProposal) {
     	return getProposalStatesEditableForCertification().contains(developmentProposal.getProposalStateTypeCode());
