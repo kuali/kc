@@ -19,8 +19,9 @@
 package org.kuali.coeus.common.impl.custom.arg;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.framework.custom.arg.ArgValueLookup;
+import org.kuali.coeus.sys.framework.keyvalue.KeyValueComparator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -30,7 +31,11 @@ import java.util.*;
 
 public class ArgValueLookupValuesFinder extends UifKeyValuesFinderBase {
 
+    private static final String INACTIVE_IND = "(inactive)";
+
     private String argName;
+    private String currentValue;
+    private boolean excludeInactive = true;
 
     @Override
     public List<KeyValue> getKeyValues() {
@@ -39,10 +44,25 @@ public class ArgValueLookupValuesFinder extends UifKeyValuesFinderBase {
         fieldValues.put("argumentName", argName);
         Collection<ArgValueLookup> argValueLookups = (Collection<ArgValueLookup>) KcServiceLocator.getService(BusinessObjectService.class).findMatching(ArgValueLookup.class, fieldValues);
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        List<KeyValue> inactiveKeyValues = new ArrayList<KeyValue>();
+
         for (ArgValueLookup argValueLookup : argValueLookups) {
-            keyValues.add(new ConcreteKeyValue(argValueLookup.getValue(), StringUtils.isNotBlank(argValueLookup.getDescription()) ? argValueLookup.getDescription() : argValueLookup.getValue()));
+            String description = StringUtils.isNotBlank(argValueLookup.getDescription()) ? argValueLookup.getDescription() : argValueLookup.getValue();
+            if (argValueLookup.isActive()) {
+                keyValues.add(new ConcreteKeyValue(argValueLookup.getValue(), description));
+            }
+            else {
+                if (!isExcludeInactive() || StringUtils.equals(currentValue, argValueLookup.getValue())) {
+                    inactiveKeyValues.add(new ConcreteKeyValue(argValueLookup.getValue(), description + " " + INACTIVE_IND));
+                }
+            }
         }
+
+        // Added comparator below to alphabetize lists on value
+        Collections.sort(keyValues, new KeyValueComparator());
+        Collections.sort(inactiveKeyValues, new KeyValueComparator());
         keyValues.add(0, new ConcreteKeyValue("", "select"));
+        keyValues.addAll(inactiveKeyValues);
         return keyValues;
     }
 
@@ -54,4 +74,19 @@ public class ArgValueLookupValuesFinder extends UifKeyValuesFinderBase {
         this.argName = argName;
     }
 
+    public String getCurrentValue() {
+        return currentValue;
+    }
+
+    public void setCurrentValue(String currentValue) {
+        this.currentValue = currentValue;
+    }
+
+    public boolean isExcludeInactive() {
+        return excludeInactive;
+    }
+
+    public void setExcludeInactive(boolean excludeInactive) {
+        this.excludeInactive = excludeInactive;
+    }
 }

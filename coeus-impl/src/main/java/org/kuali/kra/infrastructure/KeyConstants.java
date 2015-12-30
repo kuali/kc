@@ -245,6 +245,7 @@ public final class KeyConstants {
 
     public static final String SESSION_EXPIRED_IND = "sessionExpired";
     public static final String ERROR_INVALID_CUSTOM_ATT_ID = "error.invalid.customAttributeid";
+    public static final String ERROR_INACTIVE_ARGUMENT_VALUE="error.inactive.argument.value";
     public static final String ERROR_WORKFLOW_SUBMISSION = "error.workflow.submission";
 
     //Budget Expense

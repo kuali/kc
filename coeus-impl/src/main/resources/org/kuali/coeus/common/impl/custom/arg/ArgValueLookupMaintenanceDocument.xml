@@ -25,7 +25,7 @@
     <bean id="ArgValueLookupMaintenanceDocument" parent="ArgValueLookupMaintenanceDocument-parentBean" />
     <bean id="ArgValueLookupMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
         <property name="businessObjectClass" value="org.kuali.coeus.common.framework.custom.arg.ArgValueLookup" />
-        <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl" />
+        <property name="maintainableClass" value="org.kuali.coeus.common.impl.custom.arg.ArgValueLookupMaintainableImpl" />
         <property name="maintainableSections" >
             <list>
                 <ref bean="ArgValueLookupMaintenanceDocument-EditArgValueLookup" />
@@ -50,9 +50,6 @@
         <property name="maintainableItems" >
             <list>
                 <bean parent="MaintainableFieldDefinition"
-                    p:name="id"
-                    p:required="true" />
-                <bean parent="MaintainableFieldDefinition"
                     p:name="argumentName"
                     p:required="true" />
                 <bean parent="MaintainableFieldDefinition"
@@ -62,6 +59,7 @@
                     p:name="description" />
                 <bean parent="MaintainableFieldDefinition"
                     p:name="versionNumber" />
+                <bean parent="MaintainableFieldDefinition" p:name="active" />
             </list>
         </property>
     </bean>

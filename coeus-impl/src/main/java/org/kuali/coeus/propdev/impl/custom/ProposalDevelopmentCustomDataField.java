@@ -48,6 +48,7 @@ public class ProposalDevelopmentCustomDataField extends InputFieldBase {
                 ArgValueLookupValuesFinder valuesFinder = new ArgValueLookupValuesFinder();
                 valuesFinder.setArgName(customData.getCustomAttribute().getLookupReturn());
                 valuesFinder.setAddBlankOption(false);
+                valuesFinder.setCurrentValue(customData.getValue());
                 setOptionsFinder(valuesFinder);
                 getInquiry().setRender(true);
             } else {

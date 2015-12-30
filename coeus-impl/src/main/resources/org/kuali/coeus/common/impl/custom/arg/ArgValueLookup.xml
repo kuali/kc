@@ -36,6 +36,7 @@
                 <ref bean="ArgValueLookup-value" />
                 <ref bean="ArgValueLookup-description" />
                 <ref bean="ArgValueLookup-versionNumber" />
+                <ref bean="ArgValueLookup-active" />
             </list>
         </property>
     </bean>
@@ -139,6 +140,16 @@
 
     <bean id="ArgValueLookup-versionNumber" parent="ArgValueLookup-versionNumber-parentBean" />
   <bean id="ArgValueLookup-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
+
+    <bean id="ArgValueLookup-active" parent="ArgValueLookup-active-parentBean"/>
+    <bean id="ArgValueLookup-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="active"/>
+        <property name="label" value="Active"/>
+        <property name="shortLabel" value="Active"/>
+        <property name="summary" value="Active"/>
+        <property name="description" value="Active"/>
+    </bean>
+
     <!-- Business Object Inquiry Definition -->
     <bean id="ArgValueLookup-inquiryDefinition" parent="ArgValueLookup-inquiryDefinition-parentBean" />
   <bean id="ArgValueLookup-InquiryView" parent="ArgValueLookup-InquiryView-parentBean"/>
@@ -155,6 +166,7 @@
               <bean parent="FieldDefinition" p:attributeName="argumentName"/>
               <bean parent="FieldDefinition" p:attributeName="value"/>
               <bean parent="FieldDefinition" p:attributeName="description"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -176,55 +188,61 @@
               <bean p:propertyName="argumentName" parent="Uif-DataField"/>
               <bean p:propertyName="value" parent="Uif-DataField"/>
               <bean p:propertyName="description" parent="Uif-DataField"/>
-                        </list>
-                    </property>
-                </bean>
+              <bean p:propertyName="active" parent="Uif-DataField"/>
             </list>
-        </property>
-    </bean>
-
-    <!-- Business Object Lookup Definition -->
-    <bean id="ArgValueLookup-lookupDefinition" parent="ArgValueLookup-lookupDefinition-parentBean" />
-  <bean id="ArgValueLookup-LookupView" parent="ArgValueLookup-LookupView-parentBean"/>
-    <bean id="ArgValueLookup-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="Arg Value Lookup Lookup" /><property name="defaultSort" >
-      <bean parent="SortDefinition"/>
-        </property>
-        <property name="lookupFields" >
-            <list>
-        <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
-        <bean parent="FieldDefinition" p:attributeName="argumentName"/>
-        <bean parent="FieldDefinition" p:attributeName="value"/>
-        <bean parent="FieldDefinition" p:attributeName="description"/>
-      </list>
-    </property>
-    <property name="resultFields">
-      <list>
-        <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
-        <bean parent="FieldDefinition" p:attributeName="argumentName"/>
-        <bean parent="FieldDefinition" p:attributeName="value"/>
-        <bean parent="FieldDefinition" p:attributeName="description"/>
+          </property>
+        </bean>
       </list>
     </property>
   </bean>
 
-  <bean id="ArgValueLookup-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
-    <property name="dataObjectClassName" value="org.kuali.coeus.common.framework.custom.arg.ArgValueLookup"/>
-    <property name="headerText" value="Arg Value Lookup Lookup"/>
-    <property name="criteriaFields">
-      <list>
-        <bean p:propertyName="id" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="argumentName" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="value" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
+    <!-- Business Object Lookup Definition -->
+    <bean id="ArgValueLookup-lookupDefinition" parent="ArgValueLookup-lookupDefinition-parentBean" />
+    <bean id="ArgValueLookup-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Arg Value Lookup Lookup" />
+        <property name="defaultSort" >
+            <bean parent="SortDefinition"/>
+        </property>
+        <property name="lookupFields" >
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
+                <bean parent="FieldDefinition" p:attributeName="argumentName"/>
+                <bean parent="FieldDefinition" p:attributeName="value"/>
+                <bean parent="FieldDefinition" p:attributeName="description"/>
+                <bean parent="FieldDefinition" p:attributeName="active"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
+                <bean parent="FieldDefinition" p:attributeName="argumentName"/>
+                <bean parent="FieldDefinition" p:attributeName="value"/>
+                <bean parent="FieldDefinition" p:attributeName="description"/>
+                <bean parent="FieldDefinition" p:attributeName="active"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ArgValueLookup-LookupView" parent="ArgValueLookup-LookupView-parentBean"/>
+    <bean id="ArgValueLookup-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+        <property name="dataObjectClassName" value="org.kuali.coeus.common.framework.custom.arg.ArgValueLookup"/>
+        <property name="headerText" value="Arg Value Lookup Lookup"/>
+        <property name="criteriaFields">
+            <list>
+                <bean p:propertyName="id" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="argumentName" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="value" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="active" parent="Uif-LookupCriteriaInputField"/>
             </list>
         </property>
         <property name="resultFields" >
             <list>
-        <bean p:propertyName="id" parent="Uif-DataField"/>
-        <bean p:propertyName="argumentName" parent="Uif-DataField"/>
-        <bean p:propertyName="value" parent="Uif-DataField"/>
-        <bean p:propertyName="description" parent="Uif-DataField"/>
+                <bean p:propertyName="id" parent="Uif-DataField"/>
+                <bean p:propertyName="argumentName" parent="Uif-DataField"/>
+                <bean p:propertyName="value" parent="Uif-DataField"/>
+                <bean p:propertyName="description" parent="Uif-DataField"/>
+                <bean p:propertyName="active" parent="Uif-DataField"/>
             </list>
         </property>
     </bean>

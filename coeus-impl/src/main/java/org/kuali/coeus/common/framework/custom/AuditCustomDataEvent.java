@@ -36,16 +36,29 @@ public class AuditCustomDataEvent extends SaveCustomDataEvent {
     }
     
     public void reportError(CustomAttribute customAttribute, String propertyName, String errorKey, String... errorParams) {
-        String key = "CustomData" + StringUtils.deleteWhitespace(customAttribute.getGroupName()) + "Errors";
+        reportErrorOrWarning(customAttribute, propertyName, errorKey, Constants.AUDIT_ERRORS, errorParams);
+    }
+
+    public void reportWarning(CustomAttribute customAttribute, String propertyName, String errorKey, String... errorParams) {
+        reportErrorOrWarning(customAttribute, propertyName, errorKey, Constants.AUDIT_WARNINGS, errorParams);
+    }
+
+    public void reportErrorOrWarning(CustomAttribute customAttribute, String propertyName, String errorKey, String errorCategory, String... errorParams) {
+        String key = "CustomData" + StringUtils.deleteWhitespace(customAttribute.getGroupName());
+        if (Constants.AUDIT_ERRORS.equals(errorCategory)) {
+            key += "Errors";
+        }
+        else {
+            key += "Warnings";
+        }
         AuditCluster auditCluster = (AuditCluster) GlobalVariables.getAuditErrorMap().get(key);
         if (auditCluster == null) {
             List<AuditError> auditErrors = new ArrayList<AuditError>();
-            auditCluster = new AuditCluster(customAttribute.getGroupName(), auditErrors, Constants.AUDIT_ERRORS);
+            auditCluster = new AuditCluster(customAttribute.getGroupName(), auditErrors, errorCategory);
             GlobalVariables.getAuditErrorMap().put(key, auditCluster);
         }
         List<AuditError> auditErrors = auditCluster.getAuditErrorList();
         auditErrors.add(new AuditError(propertyName, errorKey, StringUtils.deleteWhitespace(Constants.CUSTOM_ATTRIBUTES_PAGE + "." + customAttribute.getGroupName()), errorParams));
-
     }
 
 }

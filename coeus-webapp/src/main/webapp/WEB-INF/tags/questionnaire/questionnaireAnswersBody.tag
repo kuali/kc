@@ -117,6 +117,7 @@
                             <c:when test = "${answer.question.questionTypeId == 6 and answer.question.lookupClass == 'org.kuali.coeus.common.framework.custom.arg.ArgValueLookup'}" >
                                 <jsp:useBean id="paramMap" class="java.util.HashMap"/>
 		                        <c:set target="${paramMap}" property="argName" value="${answer.question.lookupReturn}" />
+                                <c:set target="${paramMap}" property="currentValue" value="${answer.answer}" />
 		                        <c:forEach items="${krafn:getOptionList('org.kuali.coeus.common.impl.custom.arg.ArgValueLookupValuesFinder', paramMap)}" var="option">
 		        	                <c:if test="${answer.answer == option.key}">
 		        	                    ${option.value}

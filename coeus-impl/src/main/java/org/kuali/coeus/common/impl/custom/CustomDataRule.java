@@ -19,6 +19,7 @@
 package org.kuali.coeus.common.impl.custom;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.custom.AuditCustomDataEvent;
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.custom.arg.ArgValueLookup;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
@@ -210,6 +211,14 @@ public class CustomDataRule extends KcTransactionalDocumentRuleBase implements K
                 for (ArgValueLookup argValueLookup : searchResults) {
                     if (customAttribute.getValue().equals(argValueLookup.getValue())){
                         argValueValid = true;
+                        if (event instanceof AuditCustomDataEvent) {
+                            AuditCustomDataEvent auditEvent = (AuditCustomDataEvent) event;
+                            if (!argValueLookup.isActive()) {
+                                isValid = false;
+                                auditEvent.reportWarning(customAttribute, errorKey, KeyConstants.ERROR_INACTIVE_ARGUMENT_VALUE,
+                                        customAttribute.getLabel());
+                            }
+                        }
                         break;
                     }
                 }
@@ -250,7 +259,7 @@ public class CustomDataRule extends KcTransactionalDocumentRuleBase implements K
         }
         return validFormat;
     }
-    
+
     /**
      * Gets the Custom Attribute Service.
      * @return the Custom Attribute Service

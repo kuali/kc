@@ -78,6 +78,7 @@ public class QuestionField extends InputFieldBase {
             ArgValueLookupValuesFinder valuesFinder = new ArgValueLookupValuesFinder();
             valuesFinder.setArgName(answer.getQuestion().getLookupReturn());
             valuesFinder.setAddBlankOption(false);
+            valuesFinder.setCurrentValue(answer.getAnswer());
             setOptionsFinder(valuesFinder);
             getInquiry().setRender(true);
         } else if (StringUtils.isNotBlank(answer.getQuestion().getLookupClass())) {
