@@ -1,6 +1,17 @@
 
 
 ##CURRENT
+* PD - PI can proxy certify other personnel from within
+  * proposal on key Personnel screen.
+  * user kdenutte created pd 30474 with PI mjcima. Logged out closed
+  * browser.
+  * Backdoor logged in as mjcima, searched for pd, opened in view mode. 
+  * Navigated to Key Personnel, expanded Key Person details of KP, Holden,
+  * and was able to proxy answer the cert questions for holden.
+  * Derived role for PI Certify should not include proxy permission.
+  * vineeth on Wed, 30 Dec 2015 14:17:55 -0500 [View Commit](../../commit/80195fe4b9468cd5eb96cf69923b9bd20c6deb86)
+
+##coeus-1512.91
 * No Changes
 
 
