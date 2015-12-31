@@ -51,7 +51,8 @@ public class ProposalDevelopmentDocumentViewAuthorizer extends KcKradTransaction
             int index = getIndexFromCollectionGroupId(ProposalDevelopmentConstants.KradConstants.PERSONNEL_QUESTIONNAIRE, groupId);
             ProposalPerson proposalPerson = document.getDevelopmentProposal().getProposalPersons().get(index);
 
-            success &= ((ProposalDevelopmentDocumentAuthorizer)getDocumentAuthorizer()).hasCertificationPermissions(document, user, proposalPerson);
+            success &= ((ProposalDevelopmentDocumentAuthorizer)getDocumentAuthorizer()).canViewCertification(document, user) ||
+            		((ProposalDevelopmentDocumentAuthorizer)getDocumentAuthorizer()).hasCertificationPermissions(document, user, proposalPerson);
         }
 
         return success;

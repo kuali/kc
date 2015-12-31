@@ -954,7 +954,8 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     public boolean canViewCertificationTab(ProposalDevelopmentDocument document,ProposalPerson proposalPerson) {
     	String currentUser = getGlobalVariableService().getUserSession().getPrincipalName();
     	Person person = getPersonService().getPersonByPrincipalName(currentUser);
-    	return getProposalDevelopmentPermissionsService().hasCertificationPermissions(document, person, proposalPerson);
+    	return getProposalDevelopmentPermissionsService().hasCertificationPermissions(document, person, proposalPerson) || 
+    			getKraAuthorizationService().hasPermission(person.getPrincipalId(), document, PermissionConstants.VIEW_CERTIFICATION);
     }
 
     public boolean displayCoiDisclosureStatus() {
