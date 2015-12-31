@@ -69,10 +69,8 @@
     <c:when test="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].question.questionTypeId == 6}" >
         <c:choose>
             <c:when test = "${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].question.lookupClass == 'org.kuali.coeus.common.framework.custom.arg.ArgValueLookup'}">
-                <kra-questionnaire:argValueLookupQuestion question="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].question}"
-                    answer="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex]}" questionIndex="${questionIndex}"
-                    bean="${bean}" property="${property}" answerHeaderIndex = "${answerHeaderIndex}"
-                    answerValidationError = "${answerValidationError}"/>
+                <kra:argValueLookupOptions property="${fieldName}" argName="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].question.lookupReturn}"
+                    currentValue="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].answer}" styleClass="Qanswer answer questionnaireAnswer" readOnly="false"/>
             </c:when>
             <c:otherwise>
                 <kra-questionnaire:lookupQuestion question="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].question}"
