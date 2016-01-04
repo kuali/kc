@@ -1,6 +1,18 @@
 
 
 ##CURRENT
+*  IP & Award: System is allowing users to edit prior document versions when a later version of the document exists.
+
+  * The system is allowing users to edit prior Institutional and Award document Versions but it does not pull in the data from the latest finalized version.
+
+  * For example, in the Institutional Proposal module, if I edit an IP record - the correct Version number gets assigned regardless of what version I click the [edit] button in. However, I noticed that the information in the newly created version pulls in from the IP version I have clicked the [edit] button in and NOT from the latest finalized IP version that exists. (SAME IS HAPPENING IN THE AWARD).
+
+  * For example, let's assume I have an IP that has a latest finalized Version 3 with title 'Kat - Version 3'. I edit that version to create Version 4 with title 'Kat - Version 4' and finalize that. I then go back to Version 3 and I edit that version, KC will assign the correct Version number (Version 5), however, the title that will pull in will be 'Kat - Version 3' and not 'Kat - Version 4'.
+
+  * If a user jots down a doc number – they won’t look to see if a later version exists so we will run into wrong data being pulled into the IPs and Awards. To avoid this problem, the system should only allow users to EDIT the LATEST FINALIZED VERSION. Prior document versions should NOT have an [edit] button.
+  * Joe Williams on Mon, 4 Jan 2016 10:10:37 -0600 [View Commit](../../commit/2ac2c8af70f6bf9c6752180c3d711977da9c6c86)
+
+##coeus-1512.93
 * No Changes
 
 
