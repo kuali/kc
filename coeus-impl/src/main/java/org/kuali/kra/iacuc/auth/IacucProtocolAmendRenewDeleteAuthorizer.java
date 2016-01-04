@@ -36,6 +36,7 @@ public class IacucProtocolAmendRenewDeleteAuthorizer extends IacucProtocolAuthor
     }
     
     private boolean inProgress(ProtocolBase protocol) {
-        return StringUtils.equals(protocol.getProtocolStatusCode(), IacucProtocolStatus.IN_PROGRESS);
+        return StringUtils.equals(protocol.getProtocolStatusCode(), IacucProtocolStatus.IN_PROGRESS) ||
+               StringUtils.equals(protocol.getProtocolStatusCode(), IacucProtocolStatus.FYI_IN_PROGRESS);
     }
 }

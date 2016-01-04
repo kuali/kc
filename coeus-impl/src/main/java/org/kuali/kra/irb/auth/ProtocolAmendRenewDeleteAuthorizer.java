@@ -38,6 +38,7 @@ public class ProtocolAmendRenewDeleteAuthorizer extends ProtocolAuthorizer {
     private boolean inProgress(Protocol protocol) {
         return StringUtils.equals(protocol.getProtocolStatusCode(), ProtocolStatus.IN_PROGRESS) ||
                StringUtils.equals(protocol.getProtocolStatusCode(), ProtocolStatus.AMENDMENT_IN_PROGRESS) ||
-               StringUtils.equals(protocol.getProtocolStatusCode(), ProtocolStatus.RENEWAL_IN_PROGRESS);
+               StringUtils.equals(protocol.getProtocolStatusCode(), ProtocolStatus.RENEWAL_IN_PROGRESS) ||
+               StringUtils.equals(protocol.getProtocolStatusCode(), ProtocolStatus.FYI_IN_PROGRESS);
     }
 }

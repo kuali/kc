@@ -23,6 +23,7 @@ import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KeyValuesService;
 
@@ -40,6 +41,7 @@ public abstract class ProtocolActionsKeyValuesBase extends FormViewAwareUifKeyVa
     private RolodexService rolodexService;
     private CommitteeServiceBase committeeService;
     private KeyValuesService keyValuesService;
+    private ParameterService parameterService;
     
     /**
      * This method returns an instance of BusinessObjectServe from the KcServiceLocator.
@@ -101,5 +103,12 @@ public abstract class ProtocolActionsKeyValuesBase extends FormViewAwareUifKeyVa
             this.keyValuesService = KcServiceLocator.getService(KeyValuesService.class);
         }
         return this.keyValuesService;
+    }
+
+    protected ParameterService getParameterService() {
+        if (this.parameterService == null) {
+            this.parameterService = KcServiceLocator.getService(ParameterService.class);
+        }
+        return this.parameterService;
     }
 }

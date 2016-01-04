@@ -18,13 +18,6 @@
  */
 package org.kuali.kra.iacuc.actions;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.commons.logging.Log;
@@ -33,9 +26,10 @@ import org.kuali.coeus.common.committee.impl.bo.CommitteeBase;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase;
 import org.kuali.coeus.common.committee.impl.lookup.keyvalue.CommitteeIdByUnitValuesFinderService;
 import org.kuali.coeus.common.committee.impl.service.CommitteeScheduleServiceBase;
+import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.common.framework.module.CoeusSubModule;
-import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.common.questionnaire.framework.answer.ModuleQuestionnaireBean;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.kra.iacuc.IacucProtocol;
@@ -85,11 +79,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.protocol.ProtocolBase;
-import org.kuali.kra.protocol.ProtocolDocumentBase;
-import org.kuali.kra.protocol.ProtocolFormBase;
-import org.kuali.kra.protocol.ProtocolOnlineReviewDocumentBase;
-import org.kuali.kra.protocol.ProtocolVersionService;
+import org.kuali.kra.protocol.*;
 import org.kuali.kra.protocol.actions.ActionHelperBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBean;
 import org.kuali.kra.protocol.actions.ProtocolEditableBean;
@@ -125,11 +115,13 @@ import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceAuthorization
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBeanBase;
 import org.kuali.kra.protocol.questionnaire.ProtocolSubmissionQuestionnaireHelper;
-import org.kuali.coeus.common.questionnaire.framework.answer.ModuleQuestionnaireBean;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.sql.Date;
+import java.util.*;
 
 /**
  * The form helper class for the ProtocolBase Actions tab.
@@ -139,7 +131,7 @@ public class IacucActionHelper extends ActionHelperBase {
     private static final Log LOG = LogFactory.getLog(IacucActionHelper.class);
 
     private static final long serialVersionUID = 777750088765246427L;
-    
+
     /**
      * Each Helper must contain a reference to its document form
      * so that it can access the document.
@@ -400,8 +392,12 @@ public class IacucActionHelper extends ActionHelperBase {
         
 
     }
- 
-    
+
+    @Override
+    protected void initializeAlternateNotifyActionFlag() {
+        useAlternateNotifyAction = getParameterService().getParameterValueAsBoolean(getProtocolDocumentBOClassHook(), Constants.ALTERNATE_NOTIFY_IACUC_ACTION_PARAM, false);
+    }
+
     /**
      * Refreshes the comments for all the beans from the database.  Use sparingly since this will erase non-persisted comments.
      */
@@ -1492,8 +1488,7 @@ public class IacucActionHelper extends ActionHelperBase {
     protected ProtocolAmendmentBean configureAmendmentBean(ProtocolAmendmentBean amendmentBean) throws Exception {
         List<String> moduleTypeCodes;
 
-        if (StringUtils.isNotEmpty(getProtocol().getProtocolNumber()) && (getProtocol().isAmendment() || getProtocol().isRenewal() || 
-                getProtocol().isContinuation())) {
+        if (StringUtils.isNotEmpty(getProtocol().getProtocolNumber()) && !getProtocol().isNew()) {
             moduleTypeCodes = getProtocolAmendRenewServiceHook().getAvailableModules(getProtocol().getAmendedProtocolNumber());
             populateExistingAmendmentBean(amendmentBean, moduleTypeCodes);
         } else {

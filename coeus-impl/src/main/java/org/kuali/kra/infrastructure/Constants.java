@@ -172,6 +172,9 @@ public interface Constants {
     public static final String PROPOSAL_DEVELOPMENT_CREATE_IACUC_PROTOCOL_ENABLED_PARAMETER = "ENABLE_CREATE_PROPOSAL_TO_IACUC_PROTOCOL";
     public static final String PROPOSAL_DEVELOPMENT_CREATE_IRB_PROTOCOL_ENABLED_PARAMETER = "ENABLE_CREATE_PROPOSAL_TO_IRB_PROTOCOL";
 
+    public static final String ALTERNATE_NOTIFY_IRB_ACTION_PARAM = "ALTERNATE_NOTIFY_IRB_ACTION_PARAM";
+    public static final String ALTERNATE_NOTIFY_IACUC_ACTION_PARAM = "ALTERNATE_NOTIFY_IACUC_ACTION_PARAM";
+
     // Key Personnel Mojo
     public static final String KEY_PERSONNEL_PAGE = "PropDev-PersonnelPage";
     public static final String CREDIT_ALLOCATION_PAGE = "PropDev-CreditAllocationPage";

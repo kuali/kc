@@ -87,94 +87,96 @@
                     </td>
                 </tr>
                 </table>
-                
-                <table cellpadding="0" cellspacing="0" summary="">
-                    <tr>
-                        <td class="subhead" colspan="4">Attachments</td>
-                    </tr>
-                    <tr>
-         	            <th>
-         	    	       &nbsp;
-         	            </th>
-         		        <th>
-         			        <div align="center">
-         				        Attachment
-         			        </div>
-         		        </th>
-         		        <th>
-         			        <div align="center">
-         				        Description
-         			        </div>
-         		        </th>
-         		        <th>
-         			        <div align="center">
-         				        Actions
-         			        </div>
-         		        </th>
-                    </tr>
-                    <tr>
-					<th class="infoline">
-						<c:out value="Add:" />
-					</th>
-					    <td align="left" valign="middle" class="infoline">
-	              		    <div align="center">
-	              		        <c:set var="property" value="actionHelper.iacucProtocolNotifyIacucBean.newActionAttachment.file" />
-	              		
-	              		    <%-- attachment file error handling logic start--%>
-	               				<kul:checkErrors keyMatch="${property}" auditMatch="${property}"/>
-	               				<%-- highlighting does not work in firefox but does in ie... --%>
-	               			<%-- attachment file error handling logic start--%>
-	              		
-	              			    <html:file property="${property}"/>
-	               			    <c:if test="${hasErrors}">
-                    	 		    <kul:fieldShowErrorIcon />
-                                </c:if>
-	           			    </div>
-					    </td>
-					    <td align="left" valign="middle" class="infoline">
-						    <div align="left">
-                                <kul:htmlControlAttribute property="actionHelper.iacucProtocolNotifyIacucBean.newActionAttachment.description" attributeEntry="${submissionDocAttributes.description}" />
-						    </div>
-					    </td>
-					    <td align="center" valign="middle" class="infoline">
-						    <div align="center">
-							    <html:image property="methodToCall.addNotifyIacucAttachment.anchor${tabKey}"
-							    src="${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton"/>
-						    </div>
-					    </td>
-				    </tr>
-                    
- 			        <c:forEach var="actionAttachment" items="${KualiForm.actionHelper.iacucProtocolNotifyIacucBean.actionAttachments}" varStatus="itrStatus">
-				        <tr>
-	         		        <td>
-	         			        <div align="center">
-	                		        ${itrStatus.index + 1}
-		            	        </div>
-	         		        </td>
-	       			        <td align="left" valign="middle">
-	           			        <div align="center" id="attachmentFileName${itrStatus.index}">
-	              			        ${actionAttachment.file.fileName}
-	           			        </div>
-					        </td>
-	       			        <td align="left" valign="middle">
-	           			        <div align="left" >
-                                   <kul:htmlControlAttribute property="actionHelper.iacucProtocolNotifyIacucBean.actionAttachments[${itrStatus.index}].description" attributeEntry="${submissionDocAttributes.description}" />
-	           			        </div>
-					        </td>
-					        <td align="center" valign="middle">
-						        <div align="center">
-							        <html:image property="methodToCall.viewNotifyIacucAttachment.line${itrStatus.index}.anchor${currentTabIndex}"
-								        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
-								        alt="View Notify Iacuc Attachment" onclick="excludeSubmitRestriction = true;"/>
-								    <html:image property="methodToCall.deleteNotifyIacucAttachment.line${itrStatus.index}.anchor${currentTabIndex}"
-									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"
-									alt="Delete Notify Iacuc Attachment"/>
-						        </div>
-					        </td>
-	         	        </tr>
-			        </c:forEach>
-                    
-                </table>
+
+				<c:if test="${!KualiForm.actionHelper.useAlternateNotifyAction}">
+					<table cellpadding="0" cellspacing="0" summary="">
+						<tr>
+							<td class="subhead" colspan="4">Attachments</td>
+						</tr>
+						<tr>
+							<th>
+							   &nbsp;
+							</th>
+							<th>
+								<div align="center">
+									Attachment
+								</div>
+							</th>
+							<th>
+								<div align="center">
+									Description
+								</div>
+							</th>
+							<th>
+								<div align="center">
+									Actions
+								</div>
+							</th>
+						</tr>
+						<tr>
+						<th class="infoline">
+							<c:out value="Add:" />
+						</th>
+							<td align="left" valign="middle" class="infoline">
+								<div align="center">
+									<c:set var="property" value="actionHelper.iacucProtocolNotifyIacucBean.newActionAttachment.file" />
+
+								<%-- attachment file error handling logic start--%>
+									<kul:checkErrors keyMatch="${property}" auditMatch="${property}"/>
+									<%-- highlighting does not work in firefox but does in ie... --%>
+								<%-- attachment file error handling logic start--%>
+
+									<html:file property="${property}"/>
+									<c:if test="${hasErrors}">
+										<kul:fieldShowErrorIcon />
+									</c:if>
+								</div>
+							</td>
+							<td align="left" valign="middle" class="infoline">
+								<div align="left">
+									<kul:htmlControlAttribute property="actionHelper.iacucProtocolNotifyIacucBean.newActionAttachment.description" attributeEntry="${submissionDocAttributes.description}" />
+								</div>
+							</td>
+							<td align="center" valign="middle" class="infoline">
+								<div align="center">
+									<html:image property="methodToCall.addNotifyIacucAttachment.anchor${tabKey}"
+									src="${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton"/>
+								</div>
+							</td>
+						</tr>
+
+						<c:forEach var="actionAttachment" items="${KualiForm.actionHelper.iacucProtocolNotifyIacucBean.actionAttachments}" varStatus="itrStatus">
+							<tr>
+								<td>
+									<div align="center">
+										${itrStatus.index + 1}
+									</div>
+								</td>
+								<td align="left" valign="middle">
+									<div align="center" id="attachmentFileName${itrStatus.index}">
+										${actionAttachment.file.fileName}
+									</div>
+								</td>
+								<td align="left" valign="middle">
+									<div align="left" >
+									   <kul:htmlControlAttribute property="actionHelper.iacucProtocolNotifyIacucBean.actionAttachments[${itrStatus.index}].description" attributeEntry="${submissionDocAttributes.description}" />
+									</div>
+								</td>
+								<td align="center" valign="middle">
+									<div align="center">
+										<html:image property="methodToCall.viewNotifyIacucAttachment.line${itrStatus.index}.anchor${currentTabIndex}"
+											src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
+											alt="View Notify Iacuc Attachment" onclick="excludeSubmitRestriction = true;"/>
+										<html:image property="methodToCall.deleteNotifyIacucAttachment.line${itrStatus.index}.anchor${currentTabIndex}"
+										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"
+										alt="Delete Notify Iacuc Attachment"/>
+									</div>
+								</td>
+							</tr>
+						</c:forEach>
+
+					</table>
+				</c:if>
                 
            	<c:forEach var="answerHeader" items="${KualiForm.actionHelper.iacucProtocolNotifyIacucBean.questionnaireHelper.answerHeaders}" varStatus="status">
 				<kra-questionnaire:questionnaireAnswersInnerTab 

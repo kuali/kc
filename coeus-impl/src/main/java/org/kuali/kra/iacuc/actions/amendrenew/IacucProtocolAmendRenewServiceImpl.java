@@ -18,24 +18,29 @@
  */
 package org.kuali.kra.iacuc.actions.amendrenew;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
+import org.kuali.coeus.common.questionnaire.framework.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
+import org.kuali.kra.iacuc.actions.IacucActionHelper;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
+import org.kuali.kra.iacuc.actions.notifyiacuc.IacucProtocolNotifyIacucBean;
 import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
+import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbBean;
 import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
+import org.kuali.kra.protocol.actions.ActionHelperBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewModuleBase;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewServiceImplBase;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewalBase;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendmentBean;
-import org.kuali.coeus.common.questionnaire.framework.answer.ModuleQuestionnaireBean;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * The ProtocolBase Amendment/Renewal Service Implementation.
@@ -160,6 +165,18 @@ public class IacucProtocolAmendRenewServiceImpl extends ProtocolAmendRenewServic
     }
 
     @Override
+    public String createFYI(ProtocolDocumentBase protocolDocument, IacucProtocolNotifyIacucBean fyiBean) throws Exception {
+        return createFYI(protocolDocument, fyiBean.getActionHelper(), fyiBean.getComment());
+    }
+
+    @Override
+    protected ProtocolAmendmentBean getFyiAttachmentsBean(ActionHelperBase actionHelper) {
+        ProtocolAmendmentBean fyiAttachmentsBean = new IacucProtocolAmendmentBean((IacucActionHelper) actionHelper);
+        fyiAttachmentsBean.setAddModifyAttachments(true);
+        return fyiAttachmentsBean;
+    }
+
+    @Override
     protected ProtocolActionBase getNewAmendmentProtocolActionInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolAction((IacucProtocol)protocol, IacucProtocolActionType.AMENDMENT_CREATED);
     }
@@ -175,6 +192,11 @@ public class IacucProtocolAmendRenewServiceImpl extends ProtocolAmendRenewServic
     }
 
     @Override
+    protected ProtocolActionBase getNewFyiProtocolActionInstanceHook(ProtocolBase protocol) {
+        return new IacucProtocolAction((IacucProtocol)protocol, IacucProtocolActionType.NOTIFY_IACUC);
+    }
+
+    @Override
     protected ModuleQuestionnaireBean getNewProtocolModuleQuestionnaireBeanInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolModuleQuestionnaireBean((IacucProtocol) protocol);
     }
@@ -187,6 +209,11 @@ public class IacucProtocolAmendRenewServiceImpl extends ProtocolAmendRenewServic
     @Override
     protected String getRenewalInProgressStatusHook() {
         return IacucProtocolStatus.RENEWAL_IN_PROGRESS;
+    }
+
+    @Override
+    protected String getFyiInProgressStatusHook() {
+        return IacucProtocolStatus.FYI_IN_PROGRESS;
     }
 
     protected List<String> getAllModuleTypeCodes() {

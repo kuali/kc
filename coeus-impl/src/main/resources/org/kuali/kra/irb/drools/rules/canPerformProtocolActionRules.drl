@@ -10,7 +10,7 @@ function void setAction(ProtocolActionMapping protocolAction, boolean flag) {
 rule "Submit for Review"
 salience 100
 when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "101", protocolStatusCode in ("100", "102", "103", "104", "105", "106", "107", "304", "402"))
+	protocolAction : ProtocolActionMapping(actionTypeCode == "101", protocolStatusCode in ("100", "102", "103", "104", "105", "106", "107", "304", "402", "900"))
 then	
 	setAction(protocolAction, true);
 end
@@ -82,7 +82,7 @@ end
 rule "Close Protocol 1"
 salience 100
 when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "300", protocolStatusCode in ("100", "102", "104", "105", "106", "200", "201", "202", "203", "302", "308",  "304", "311", "402"), submissionCount == true)
+	protocolAction : ProtocolActionMapping(actionTypeCode == "300", protocolStatusCode in ("100", "102", "104", "105", "106", "200", "201", "202", "203", "302", "308",  "304", "311", "402", "900"), submissionCount == true)
 then	
 	setAction(protocolAction, true);
 end
@@ -225,7 +225,7 @@ end
 rule "Expedited Approval Protocol"
 salience 100
 when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "205", submissionNumber != null, submissionStatusCode in ("100","101"), protocolReviewTypeCode == "2")
+	protocolAction : ProtocolActionMapping(actionTypeCode == "205", submissionNumber != null, submissionStatusCode in ("100","101"), protocolReviewTypeCode in ("2", "7"))
 then	
 	setAction(protocolAction, true);
 end
@@ -233,7 +233,7 @@ end
 rule "Response Approval Protocol"
 salience 100
 when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "208", submissionNumber != null, submissionStatusCode in ("100","101"), protocolReviewTypeCode == "6")
+	protocolAction : ProtocolActionMapping(actionTypeCode == "208", submissionNumber != null, submissionStatusCode in ("100","101"), protocolReviewTypeCode in ("6", "7"))
 then	
 	setAction(protocolAction, true);
 end

@@ -42,7 +42,7 @@ public class IacucProtocolApproveServiceImpl extends ProtocolApproveServiceImplB
         if (protocol.getApprovalDate() == null) {
             protocol.setApprovalDate(actionBean.getApprovalDate());
         }              
-        if (protocol.isRenewal() || ((IacucProtocol)protocol).isContinuation() || protocol.isAmendment()) {
+        if (!protocol.isNew()) {
             protocol.setLastApprovalDate(actionBean.getApprovalDate());
         }
         protocol.setExpirationDate(actionBean.getExpirationDate());

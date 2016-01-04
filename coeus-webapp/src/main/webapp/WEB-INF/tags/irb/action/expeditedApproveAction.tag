@@ -54,7 +54,7 @@ function enableDisableCheckbox() {
 <c:set var="scheduleAttr" value="${DataDictionary.ProtocolAssignCmtSchedBean.attributes}" />
 <c:set var="kraAttributeReferenceDummyAttributes" value="${DataDictionary.KraAttributeReferenceDummy.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
-<c:set var="datesReadOnly" value="${KualiForm.actionHelper.protocol.amendment and not KualiForm.actionHelper.protocol.renewal}" />
+<c:set var="datesReadOnly" value="${(KualiForm.actionHelper.protocol.FYI or KualiForm.actionHelper.protocol.amendment) and not KualiForm.actionHelper.protocol.renewal}" />
 
 <c:if test="${empty defaultOpen}">
     <c:set var="defaultOpen" value="false" />

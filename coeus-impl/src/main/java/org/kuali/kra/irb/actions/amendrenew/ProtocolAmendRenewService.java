@@ -18,9 +18,14 @@
  */
 package org.kuali.kra.irb.actions.amendrenew;
 
+import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbBean;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
+
 /**
  * Protocol Amendment/Renewal Service.
  */
 public interface ProtocolAmendRenewService extends org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewService {
+
+    public String createFYI(ProtocolDocumentBase protocolDocument, ProtocolNotifyIrbBean fyiBean) throws Exception;
 
 }

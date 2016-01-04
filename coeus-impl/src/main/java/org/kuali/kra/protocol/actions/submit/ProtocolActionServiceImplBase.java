@@ -18,14 +18,7 @@
  */
 package org.kuali.kra.protocol.actions.submit;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.kuali.coeus.common.framework.auth.UnitAuthorizationService;
@@ -33,17 +26,18 @@ import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
-import org.kuali.kra.protocol.drools.util.DroolsRuleHandler;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDao;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.followup.FollowupActionService;
+import org.kuali.kra.protocol.drools.util.DroolsRuleHandler;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-import com.google.common.collect.Lists;
+import java.io.IOException;
+import java.util.*;
 
 
 /**
@@ -53,6 +47,8 @@ import com.google.common.collect.Lists;
  * post-update will update protocol status or submission status.
  */
 public abstract class ProtocolActionServiceImplBase implements ProtocolActionService {
+
+    protected static final String FYI = "F";
 
     protected static final String AMEND = "A";
 
@@ -204,7 +200,7 @@ public abstract class ProtocolActionServiceImplBase implements ProtocolActionSer
      */
     public void updateProtocolStatus(ProtocolActionBase protocolActionBo, ProtocolBase protocol) {
         String protocolNumberUpper = protocol.getProtocolNumber().toUpperCase();
-        String specialCondition = protocolNumberUpper.contains(AMEND) ? AMEND : (protocolNumberUpper.contains(RENEW) ? RENEW : NONE);
+        String specialCondition = protocolNumberUpper.contains(AMEND) ? AMEND : (protocolNumberUpper.contains(RENEW) ? RENEW : (protocolNumberUpper.contains(FYI) ? FYI : NONE));
 
         ProtocolActionUpdateMapping protocolAction = getNewProtocolActionUpdateMappingHook(protocolActionBo.getProtocolActionTypeCode(),
             protocol.getProtocolSubmission().getProtocolSubmissionType().getSubmissionTypeCode(), protocol.getProtocolStatusCode(),

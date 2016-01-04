@@ -26,6 +26,8 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
 <c:set var="canUpdateIACUCCorrespondence" value="${KualiForm.actionHelper.allowedToUpdateProtocolCorrespondence}" />
 <c:set var="canRegenerateIACUCCorrespondence" value="${KualiForm.actionHelper.allowedToRegenerateProtocolCorrespondence}" />
 
+<c:set var="iacucAdmin" value="${KualiForm.actionHelper.iacucAdmin}" />
+
 <kul:innerTab tabTitle="History" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.filteredHistory*">
 
     <div class="innerTab-container" align="left">
@@ -246,10 +248,10 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
 	            			</tr>
 	            		</c:if>
 	
-	            		<c:if test="${fn:length(protocolAction.protocolSubmissionDocs) > 0}">
+	            		<c:if test="${fn:length(protocolAction.protocolSubmissionDocs) > 0 || protocolAction.protocolActionTypeCode == '114'}">
 	            			<tr>
 	            				<td class="infoline">&nbsp;</td>
-	            		        <td colspan="4">
+	            		        <td colspan="6">
 	            		        	<kul:innerTab tabTitle="Actions Attachments" tabItemCount="${fn:length(protocolAction.protocolSubmissionDocs)}" parentTab="attachment${status.index}" defaultOpen="false" tabErrorKey="">
 	            		        		<div class="innerTab-container" align="left">
 		                                    <table class="tab" cellpadding="0" cellspacing="0" summary="">
@@ -260,6 +262,36 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
 		                                               <th style="text-align:center">Description</th>
 		                                               <th style="text-align:center">Actions</th>
 		                                            </tr>
+													<c:if test="${iacucAdmin && protocolAction.protocolActionTypeCode == '114'}">
+														<tr>
+															<td align="left" valign="middle" class="infoline">
+																<div align="center">
+																	<c:set var="property" value="document.protocol.protocolActions[${status.index}].newActionAttachment.file" />
+
+																		<%-- attachment file error handling logic start--%>
+																	<kul:checkErrors keyMatch="${property}" auditMatch="${property}"/>
+																		<%-- highlighting does not work in firefox but does in ie... --%>
+																		<%-- attachment file error handling logic start--%>
+
+																	<html:file property="${property}"/>
+																	<c:if test="${hasErrors}">
+																		<kul:fieldShowErrorIcon />
+																	</c:if>
+																</div>
+															</td>
+															<td align="left" valign="middle" class="infoline">
+																<div align="left">
+																	<kul:htmlControlAttribute property="document.protocol.protocolActions[${status.index}].newActionAttachment.description" attributeEntry="${submissionDocAttributes.description}" />
+																</div>
+															</td>
+															<td align="center" valign="middle" class="infoline">
+																<div align="center">
+																	<html:image property="methodToCall.addSubmissionDoc.line${status.index}.anchor${currentTabIndex}"
+																				src="${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton"/>
+																</div>
+															</td>
+														</tr>
+													</c:if>
 		           		                            <c:forEach items="${protocolAction.protocolSubmissionDocs}" var="submissionDoc" varStatus="attachmentStatus">
 		           		    	                        <tr>
 		           		    	                            <td><div align="left">${submissionDoc.fileName}</div></td>
@@ -272,6 +304,11 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
 										                                    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif'
 										                                    alt="View Action Attachment" onclick="excludeSubmitRestriction = true;"
 										                                    styleClass="tinybutton"/>
+																<c:if test="${iacucAdmin && protocolAction.protocolActionTypeCode == '114'}">
+																	<html:image property="methodToCall.deleteSubmissionDoc.line${status.index}.attachment${attachmentStatus.index}.anchor${currentTabIndex}"
+																				src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"
+																				alt="Delete Action Attachment" title="Delete Action Attachment" onclick="excludeSubmitRestriction = true;"/>
+																</c:if>
 								                               </div>
 							                               </td>
 		           		    	                        </tr>

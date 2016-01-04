@@ -1721,6 +1721,10 @@ public class ActionHelper extends ActionHelperBase {
         submissionConstraint = getParameterValue(Constants.PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION);        
     }
    
+    @Override
+    protected void initializeAlternateNotifyActionFlag() {
+        useAlternateNotifyAction = getParameterService().getParameterValueAsBoolean(getProtocolDocumentBOClassHook(), Constants.ALTERNATE_NOTIFY_IRB_ACTION_PARAM, false);
+    }
 
     @Override
     protected ProtocolTaskBase getNewProtocolTaskInstanceHook(String taskName) {
