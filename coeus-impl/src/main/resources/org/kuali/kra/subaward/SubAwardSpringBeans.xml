@@ -216,10 +216,8 @@
         <property name="sequenceAccessorService" ref="sequenceAccessorService" />
         <property name="parameterService" ref="parameterService" />
         <property name="versionHistoryService" ref="versionHistoryService" />
-        <property name="subAwardDao" ref="subAwardDao" />
     </bean>
-
-
+    
 	<bean id="subAwardLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
   		<property name="lookupableHelperService" ref="subAwardLookupableHelperService" />  
 	</bean>
@@ -283,5 +281,55 @@
     <bean id="subAwardDao" class="org.kuali.kra.subaward.dao.SubAwardDaoImpl">
         <property name="dataSource" ref="dataSource"/>
     </bean>
-	
-</beans>	
+
+    <bean id="legacyDataAdapter" parent="grlImporter" p:serviceName="legacyDataAdapter" />
+    <bean id="permissionService" parent="grlImporter" p:serviceName="kimPermissionService" />
+    <bean id="globalVariableService" parent="grlImporter" p:serviceName="globalVariableService"/>
+    <bean id="dictionaryValidationService" parent="grlImporter" p:serviceName="dictionaryValidationService"/>
+    <bean id="errorHandlingUtilService" parent="grlImporter" p:serviceName="errorHandlingUtilService"/>
+
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.ResourceHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.xml.SourceHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.xml.XmlAwareFormHttpMessageConverter"/>
+            </list>
+        </property>
+    </bean>
+
+    <import resource="classpath:org/kuali/coeus/sys/framework/ImportEndpointSpringBeans.xml" />
+
+    <bean id="persistenceVerificationService" parent="grlImporter" p:serviceName="persistenceVerificationService" />
+
+    <bean id="autoRegisterMapping" class="org.kuali.coeus.sys.framework.controller.rest.RestSimpleUrlHandlerMapping"/>
+
+    <bean id="simpleCrudMapBasedRestController" class="org.kuali.coeus.sys.framework.controller.rest.SimpleCrudMapBasedRestController" abstract="true" />
+
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.subaward.bo.CloseoutType" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.subaward.bo.SubAward" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.subaward.bo.SubAwardAmountInfo" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.subaward.bo.SubAwardAmountReleased" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.subaward.bo.SubAwardApprovalType" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.subaward.bo.SubAwardAttachmentType" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.subaward.bo.SubAwardAttachments" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.subaward.bo.SubAwardCloseout" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.subaward.bo.SubAwardContact" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.subaward.bo.SubAwardCopyRightsType" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.subaward.bo.SubAwardCostType" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.subaward.customdata.SubAwardCustomData" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.subaward.document.SubAwardDocument" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.subaward.bo.SubAwardForms" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.subaward.bo.SubAwardFundingSource" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.subaward.bo.SubAwardPrintAgreement" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.subaward.bo.SubAwardReportType" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.subaward.bo.SubAwardReports" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.subaward.bo.SubAwardStatus" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.subaward.bo.SubAwardTemplateInfo" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.personmasschange.bo.SubawardPersonMassChange" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.subaward.bo.SubawardTemplateType" />
+
+</beans>

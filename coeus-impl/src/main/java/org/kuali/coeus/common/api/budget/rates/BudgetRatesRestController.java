@@ -25,9 +25,6 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.kuali.coeus.common.budget.framework.rate.InstituteRate;
-import org.kuali.coeus.common.budget.framework.rate.RateClass;
-import org.kuali.coeus.common.budget.framework.rate.RateClassType;
-import org.kuali.coeus.common.budget.framework.rate.RateType;
 import org.kuali.coeus.common.framework.fiscalyear.FiscalYearMonthService;
 import org.kuali.coeus.sys.framework.controller.rest.RestController;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
@@ -35,6 +32,7 @@ import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
 import org.kuali.coeus.sys.framework.rest.UnauthorizedAccessException;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -56,7 +54,7 @@ import com.codiform.moo.curry.Translate;
 
 @Controller("budgetRatesRestController")
 public class BudgetRatesRestController extends RestController {
-	
+
 	@Autowired
 	@Qualifier("businessObjectService")
 	private BusinessObjectService businessObjectService;
@@ -91,8 +89,8 @@ public class BudgetRatesRestController extends RestController {
 	@RequestMapping(value="/api/v1/institute-rates", method=RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseStatus(value = HttpStatus.OK)
 	public void updateInstituteRates(@Valid @RequestBody List<InstituteRateDto> updatedRates) {
-		if (!permissionService.hasPermission(globalVariableService.getUserSession().getPrincipalId(), 
-				Constants.MODULE_NAMESPACE_MAINTENANCE, PermissionConstants.MAINTAIN_INSTITUTE_RATES)) {
+		if (!permissionService.hasPermissionByTemplate(globalVariableService.getUserSession().getPrincipalId(),
+				Constants.MODULE_NAMESPACE_SYSTEM, PermissionConstants.WRITE_CLASS, Collections.singletonMap(KcKimAttributes.CLASS_NAME, InstituteRate.class.getName()))) {
 			throw new UnauthorizedAccessException();
 		}
 		Configuration mooConfig = new Configuration();
@@ -100,16 +98,14 @@ public class BudgetRatesRestController extends RestController {
 		Moo moo = new Moo(mooConfig);
 		Collection<InstituteRate> currentRates = getBusinessObjectService().findAll(InstituteRate.class);
 		updatedRates.forEach(updatedRate -> {
-			InstituteRate currentRate = currentRates.stream().filter(rate -> { 
-				return new EqualsBuilder()
-					.append(rate.getRateClassCode(), updatedRate.getRateClassCode())
-					.append(rate.getRateTypeCode(), updatedRate.getRateTypeCode())
-					.append(rate.getActivityTypeCode(), updatedRate.getActivityTypeCode())
-					.append(rate.getFiscalYear(), updatedRate.getFiscalYear())
-					.append(rate.getOnOffCampusFlag(), updatedRate.getOnOffCampusFlag())
-					.append(rate.getUnitNumber(), updatedRate.getUnitNumber())
-					.isEquals();
-			}).findFirst().orElse(null);
+			InstituteRate currentRate = currentRates.stream().filter(rate -> new EqualsBuilder()
+                .append(rate.getRateClassCode(), updatedRate.getRateClassCode())
+                .append(rate.getRateTypeCode(), updatedRate.getRateTypeCode())
+                .append(rate.getActivityTypeCode(), updatedRate.getActivityTypeCode())
+                .append(rate.getFiscalYear(), updatedRate.getFiscalYear())
+                .append(rate.getOnOffCampusFlag(), updatedRate.getOnOffCampusFlag())
+                .append(rate.getUnitNumber(), updatedRate.getUnitNumber())
+                .isEquals()).findFirst().orElse(null);
 			if (currentRate != null) {
 				currentRate.setInstituteRate(updatedRate.getInstituteRate());
 				getBusinessObjectService().save(currentRate);

@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.kra.negotiations;
+package org.kuali.coeus.propdevrest.impl.auth;
 
 import org.kuali.coeus.sys.framework.security.SpringRestSecurity;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +24,7 @@ import org.springframework.security.config.annotation.web.servlet.configuration.
 
 @Configuration
 @EnableWebMvcSecurity
-public class NegotiationSpringRestSecurity extends SpringRestSecurity {
-    //noop class to pull SpringRestSecurity class into the award spring context
+public class PropDevRestSpringRestSecurity extends SpringRestSecurity {
+    //noop class to pull SpringRestSecurity class into the propdev rest spring context
 
 }

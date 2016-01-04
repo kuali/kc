@@ -1352,4 +1352,122 @@
 
     <import resource="classpath:org/kuali/kra/external/AwardOverrideSpringBeans.xml" />
 
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.ResourceHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.xml.SourceHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.xml.XmlAwareFormHttpMessageConverter"/>
+            </list>
+        </property>
+    </bean>
+
+    <import resource="classpath:org/kuali/coeus/sys/framework/ImportEndpointSpringBeans.xml" />
+
+    <bean id="permissionService" parent="grlImporter" p:serviceName="kimPermissionService" />
+    <bean id="dictionaryValidationService" parent="grlImporter" p:serviceName="dictionaryValidationService"/>
+    <bean id="persistenceVerificationService" parent="grlImporter" p:serviceName="persistenceVerificationService" />
+
+    <bean id="autoRegisterMapping" class="org.kuali.coeus.sys.framework.controller.rest.RestSimpleUrlHandlerMapping"/>
+
+    <bean id="simpleCrudMapBasedRestController" class="org.kuali.coeus.sys.framework.controller.rest.SimpleCrudMapBasedRestController" abstract="true" />
+
+    <!-- already a controller for award.  need to reconcile this -->
+   <!-- <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.home.Award" />-->
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.award.finance.AwardAccount" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.home.AwardAmountInfo" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipment" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravel" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.notesandattachments.attachments.AwardAttachment" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.notesandattachments.attachments.AwardAttachmentType" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.home.AwardBasisOfPayment" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.budget.document.AwardBudgetDocument" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.budget.AwardBudgetExt" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.budget.AwardBudgetLimit" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.budget.AwardBudgetLineItemCalculatedAmountExt" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.budget.AwardBudgetLineItemExt" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.budget.AwardBudgetPeriodExt" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.budget.AwardBudgetPeriodSummaryCalculatedAmount" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.budget.AwardBudgetPersonnelCalculatedAmountExt" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.budget.AwardBudgetPersonnelDetailsExt" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.budget.AwardBudgetStatus" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.budget.AwardBudgetType" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.budget.AwardBudgetVersionOverviewExt" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.contacts.AwardCentralAdminContact" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.cgb.AwardCgb" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.paymentreports.closeout.AwardCloseout" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.home.AwardComment" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.commitments.AwardCostShare" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.customdata.AwardCustomData" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.document.AwardDocument" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.commitments.AwardFandaRate" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.home.fundingproposal.AwardFundingProposal" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.awardhierarchy.AwardHierarchy" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.timeandmoney.AwardHierarchyNode" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.home.AwardMethodOfPayment" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.notesandattachments.notes.AwardNotepad" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.notification.AwardNoticePrintout" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentSchedule" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.contacts.AwardPerson" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.contacts.AwardPersonCreditSplit" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.personmasschange.bo.AwardPersonMassChange" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.contacts.AwardPersonUnit" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.contacts.AwardPersonUnitCreditSplit" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.printing.AwardPrintNotice" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.home.keywords.AwardScienceKeyword" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.specialreview.AwardSpecialReview" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.specialreview.AwardSpecialReviewExemption" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.contacts.AwardSponsorContact" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.home.AwardSponsorTerm" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.home.AwardStatus" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.subcontracting.goalsAndExpenditures.AwardSubcontractingBudgetedGoals" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.awardhierarchy.sync.AwardSyncLog" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.awardhierarchy.sync.AwardSyncStatus" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.home.AwardTemplate" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.home.AwardTemplateComment" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.home.AwardTemplateContact" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.home.AwardTemplateReportTerm" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.home.AwardTemplateReportTermRecipient" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.home.AwardTemplateTerm" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.printing.AwardTransactionSelectorBean" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.timeandmoney.transactions.AwardTransactionType" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.home.AwardTransferringSponsor" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.home.AwardType" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.contacts.AwardUnitContact" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.paymentreports.closeout.CloseoutReportType" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.home.ContactType" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.home.ContactUsage" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.home.Distribution" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.external.dunningcampaign.DunningCampaign" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.commitments.FandaRateType" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.external.award.FinancialIndirectCostRecoveryTypeCode" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.paymentreports.Frequency" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.paymentreports.FrequencyBase" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.timeandmoney.transactions.PendingTransaction" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.paymentreports.Report" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.paymentreports.ReportClass" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.paymentreports.ReportStatus" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.paymentreports.ReportTrackingView" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.timeandmoney.history.TransactionDetail" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.home.ValidAwardBasisPayment" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.home.ValidBasisMethodPayment" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.paymentreports.ValidClassReportFrequency" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.paymentreports.ValidFrequencyBase" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.home.ValidRates" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.paymentreports.awardreports.reporting.service.SentReportNotification" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.subcontracting.reporting.SubcontractingExpenditureCategoryAmounts" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.subcontracting.reporting.SubcontractingExpenditureCategoryAmountsInDateRange" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.subcontracting.reporting.SubcontractingExpenditureCategoryDetails" />
+
 </beans>

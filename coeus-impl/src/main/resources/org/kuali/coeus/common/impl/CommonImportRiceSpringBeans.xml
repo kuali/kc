@@ -69,6 +69,7 @@
     <bean id="kimTypeInfoService" parent="grlImporter" p:serviceName="kimTypeInfoService" />
     <bean id="kradApplicationDataSource" parent="grlImporter" p:serviceName="kradApplicationDataSource"/>
     <bean id="documentTypeService" parent="grlImporter" p:serviceName="rice.kew.documentTypeService" />
+    <bean id="dictionaryValidationService" parent="grlImporter" p:serviceName="dictionaryValidationService"/>
 
     <bean id="ccImporter" abstract="true" class="org.kuali.coeus.sys.framework.service.ConfigContextConfigObjectFactoryBean" p:singleton="true" p:mustExist="true" />
 

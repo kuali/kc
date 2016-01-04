@@ -2,7 +2,7 @@
 <!--
    - Kuali Coeus, a comprehensive research administration system for higher education.
    - 
-   - Copyright 2005-2015 Kuali, Inc.
+   - Copyright 2005-2016 Kuali, Inc.
    - 
    - This program is free software: you can redistribute it and/or modify
    - it under the terms of the GNU Affero General Public License as
@@ -30,16 +30,14 @@
 
     <context:annotation-config />
 
-    <bean id="kcProposalDevelopmentConfigurer" parent="apiConfigurer-parentBean">
-        <property name="moduleName" value="kc.pd"/>
-        <property name="moduleTitle" value="KC Proposal Development"/>
-        <property name="dispatchServletName" value="kc-pd-krad"/>
-        <!-- always map auth filters for KRAD contexts -->
-        <property name="mapFilters" value="true"/>
-        <property name="bootstrapSpringFile" value="classpath:org/kuali/coeus/propdev/impl/PropDevComponentSpringBeans.xml"/>
+    <bean id="kcRestProposalDevelopmentConfigurer" parent="apiConfigurer-parentBean">
+        <property name="moduleName" value="kc.pd.rest"/>
+        <property name="moduleTitle" value="KC Proposal Development REST"/>
+        <property name="dispatchServletName" value="propdev"/>
+        <property name="bootstrapSpringFile" value="classpath:org/kuali/coeus/propdev/impl/PropDevRestComponentSpringBeans.xml"/>
         <property name="dispatchServletMappings">
             <list>
-                <value>kc-pd-krad</value>
+                <value>propdev</value>
             </list>
         </property>
     </bean>

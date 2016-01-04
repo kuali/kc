@@ -21,17 +21,20 @@ package org.kuali.coeus.common.budget.impl.core.category;
 
 import org.kuali.coeus.common.budget.framework.core.category.BudgetCategory;
 import org.kuali.coeus.sys.framework.controller.rest.SimpleCrudDtoRestController;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.PermissionConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+
 
 @Controller(value="budgetCategoryController")
 @RequestMapping(value="/api/v1/budget-categories")
 public class BudgetCategoryController extends SimpleCrudDtoRestController<BudgetCategory, BudgetCategoryDto> {
 
 	public BudgetCategoryController() {
-		super(BudgetCategory.class, BudgetCategoryDto.class, "code", 
-				Constants.MODULE_NAMESPACE_MAINTENANCE, PermissionConstants.MAINTAIN_INSTITUTE_RATES);
+		setDataObjectClazz(BudgetCategory.class);
+		setDtoObjectClazz(BudgetCategoryDto.class);
+		setPrimaryKeyColumn("code");
+
+		setRegisterMapping(false);
 	}
 }
