@@ -80,13 +80,13 @@
 				</c:if>
 					
 				<c:choose>
-                	<c:when test="${readOnly and customAttributeDocument.customAttribute.lookupClass ne 'org.kuali.coeus.common.framework.custom.arg.ArgValueLookup'}">
+                	<c:when test="${readOnly and customAttributeDocument.customAttribute.lookupClass ne 'org.kuali.coeus.common.framework.custom.arg.ArgValueLookup' and customAttributeDocument.customAttribute.customAttributeDataType.description != 'Boolean'}">
                 		<c:out value="${fn:escapeXml(customAttributeValue)}" />
                 	</c:when>
                 	<c:otherwise>
                 		${kfunc:registerEditableProperty(KualiForm, customAttributeId)}
 
-						<c:if test="${customAttributeDocument.customAttribute.lookupClass ne 'org.kuali.coeus.common.framework.custom.arg.ArgValueLookup'}">
+						<c:if test="${customAttributeDocument.customAttribute.lookupClass ne 'org.kuali.coeus.common.framework.custom.arg.ArgValueLookup' and customAttributeDocument.customAttribute.customAttributeDataType.description != 'Boolean'}">
                         	<input size="60" id="${customAttributeId}" type="text" name="${customAttributeId}" value='${fn:escapeXml(customAttributeValue)}' style="${customAttributeErrorStyle}" />
 						</c:if>
 
@@ -115,7 +115,15 @@
 					             );
 					        </script>
 						</c:if>
-						</c:otherwise>
+
+						<c:if test="${customAttributeDocument.customAttribute.customAttributeDataType.description == 'Boolean'}">
+							<input type="radio" class="Custom Data answer QanswerYesNo" name="${customAttributeId}" value="Y"
+								${customAttributeValue == 'Y' ? "checked='true'" : ''} ${readOnly == 'true' ? "disabled" : ''} />Yes
+							<input type="radio" class="Custom Data answer QanswerYesNo" name="${customAttributeId}" value="N"
+								${customAttributeValue == 'N' ? "checked='true'" : ''} ${readOnly == 'true' ? "disabled" : ''} />No
+						</c:if>
+
+					</c:otherwise>
 					</c:choose>
 				</td>
 			</tr>
