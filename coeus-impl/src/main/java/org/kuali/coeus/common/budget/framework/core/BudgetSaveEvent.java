@@ -24,4 +24,8 @@ public class BudgetSaveEvent extends BudgetEventBase {
 	public BudgetSaveEvent(Budget budget) {
 		super(budget);
 	}
+	
+	public BudgetSaveEvent(Budget budget, String path) {
+		super(budget, path);
+	}
 }

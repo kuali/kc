@@ -53,6 +53,7 @@ import java.util.List;
 @KcBusinessRule("budgetDocumentRule")
 public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implements DocumentAuditRule {
 
+	private static final String BUDGETS = "budgets";
 	@Autowired
 	@Qualifier("kcBusinessRulesEngine")
 	private KcBusinessRulesEngine kcBusinessRulesEngine;
@@ -61,7 +62,7 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
 		boolean result = true;
         GlobalVariables.getMessageMap().addToErrorPath(KRADConstants.DOCUMENT_PROPERTY_NAME);
         result &= getDictionaryValidationService().validateDefaultExistenceChecksForTransDoc((TransactionalDocument) document);
-		result &= getKcBusinessRulesEngine().applyRules(new BudgetSaveEvent(((AwardBudgetDocument)document).getBudget()));
+		result &= getKcBusinessRulesEngine().applyRules(new BudgetSaveEvent(((AwardBudgetDocument)document).getBudget(), BUDGETS));
 		GlobalVariables.getMessageMap().removeFromErrorPath(KRADConstants.DOCUMENT_PROPERTY_NAME);
 		return result;
 	}
