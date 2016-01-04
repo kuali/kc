@@ -24,6 +24,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.award.AccountInformationBean;
 import org.kuali.coeus.award.finance.AwardAccount;
+import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
 import org.kuali.coeus.common.notification.impl.NotificationHelper;
 import org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsForm;
@@ -1293,7 +1294,7 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
     }
     
     public boolean getDisplayEditButton() {
-        return !getAwardDocument().isCanceled();
+        return !getAwardDocument().isCanceled() && VersionStatus.ACTIVE.toString().equals(getAwardDocument().getAward().getAwardSequenceStatus());
     }
     
     protected VersionHistoryService getVersionHistoryService() {
