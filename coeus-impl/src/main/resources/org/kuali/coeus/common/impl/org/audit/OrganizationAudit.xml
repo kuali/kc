@@ -106,6 +106,21 @@
     <property name="shortLabel" value="Audit Accepted Type" />
     <property name="summary" value="Audit Accepted Type" />
     <property name="description" value="Audit Accepted Type" />
+    <property name="control">
+      <bean p:businessObjectClass="org.kuali.coeus.common.framework.org.audit.OrganizationAuditAcceptedType" p:includeBlankRow="false" p:includeKeyInLabel="false" p:keyAttribute="code" p:labelAttribute="description" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" parent="SelectControlDefinition"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.coeus.common.framework.org.audit.OrganizationAuditAcceptedType"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="keyAttributeName" value="code"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
+    </property>
   </bean>
 
 
