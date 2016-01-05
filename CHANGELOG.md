@@ -1,6 +1,21 @@
 
 
 ##CURRENT
+* IRB - STE when saving data in the Personnel tab
+
+  * I'm creating a new protocol in QA, i enter data i add a CoI in the personnel tab and hit "save" and i get the STE below.
+  * If instead of hitting "Save" i navigate to another tab, i.e. "Questionnaire" i also get the STE error
+  * Joe Williams on Mon, 4 Jan 2016 15:34:29 -0600 [View Commit](../../commit/3b2bf814dc409e5385f534910861e303c6e51385)
+* Not able to post second version of budget
+
+  * When an Award Budget has period cost limits and is a second or later version, the transient and missing obligated total causes validation errors during workflow process throwing the award budget into exception routing with the following appearing in the logs
+
+  * ```
+  * ValidationException when validating event: null. Check log entries preceding this error for details. Errors: document.null[0].totalCostLimit=error.period.costlimit.exceed.obligatedtotal[]document.null[1].totalCostLimit=error.period.costlimit.exceed.obligatedtotal[]
+  * ```
+  * blackcathacker on Mon, 4 Jan 2016 12:18:05 -0800 [View Commit](../../commit/bf51ad0771a8d6577306ce53e0af43693df12a2a)
+
+##coeus-1601.1
 *  IP & Award: System is allowing users to edit prior document versions when a later version of the document exists.
 
   * The system is allowing users to edit prior Institutional and Award document Versions but it does not pull in the data from the latest finalized version.
