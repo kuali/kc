@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1601.4
 *  Program Code field limited to 4 characters. While this may be a correct validation for the NSF forms, the SF 424R&R allows up to 75 characters in Agency Routing Number field 4b where this data is mapping. The limit of 4 characters is an overly restrictive validation for the field in this usage.
   * Travis Schneeberger on Tue, 5 Jan 2016 11:22:59 -0500 [View Commit](../../commit/0f7317a91858a1f88a1faebad5e074e6eb91a873)
 
