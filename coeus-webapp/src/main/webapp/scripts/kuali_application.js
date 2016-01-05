@@ -1340,7 +1340,6 @@ function getIndex(what) {
           }
        }
        return -1;
-       alert("leaveIndex");
 }
 
 function setupBudgetStatusSummary(document) {
@@ -1428,9 +1427,6 @@ function setAllItemsIn(id, value) {
 	jQuery("#" + id + " INPUT[type='checkbox']").attr('checked', value);
 }
 
-
-//End Award module
-
 function selectAllInstitutionalProposalKeywords(document) {
     var j = 0;
 	for (var i = 0; i < document.KualiForm.elements.length; i++) {
@@ -1445,43 +1441,54 @@ function selectAllInstitutionalProposalKeywords(document) {
 	}
 }
 
+/*
+ * Load the Organization Data field based on the Organization Code passed in and a fetch function that takes an organization Code and a dwr callback.
+ */
+function loadOrganizationData(organizationIdFieldName, organizationDataFieldName, organizationFetchFunction) {
 
+	var organizationId = dwr.util.getValue( organizationIdFieldName );
+	if (organizationId=='') {
+		clearRecipients( organizationDataFieldName, "" );
+	} else {
+		var dwrReply = {
+			callback:function(data) {
+				if ( data != null ) {
+					if ( organizationDataFieldName != null && organizationDataFieldName != "" ) {
+						setRecipientValue( organizationDataFieldName, data );
+					}
+				} else {
+					if ( organizationDataFieldName != null && organizationDataFieldName != "" ) {
+						setRecipientValue(  organizationDataFieldName, wrapError( "not found" ), true );
+					}
+				}
+			},
+			errorHandler:function( errorMessage ) {
+				window.status = errorMessage;
+				setRecipientValue( organizationDataFieldName, wrapError( "not found" ), true );
+			}
+		};
+		organizationFetchFunction(organizationId,dwrReply);
+	}
+}
 
 
 /*
  * Load the Organization Name field based on the Organization Code passed in.
  */
 function loadOrganizationName(organizationIdFieldName, organizationNameFieldName ) {
-	
-	var organizationId = dwr.util.getValue( organizationIdFieldName );
-	if (organizationId=='') {
-		clearRecipients( organizationNameFieldName, "" );
-	} else {
-		var dwrReply = {
-			callback:function(data) {
-				if ( data != null ) {
-					if ( organizationNameFieldName != null && organizationNameFieldName != "" ) {
-						setRecipientValue( organizationNameFieldName, data );
-					}
-				} else {
-					if ( organizationNameFieldName != null && organizationNameFieldName != "" ) {
-						setRecipientValue(  organizationNameFieldName, wrapError( "not found" ), true );
-					}
-				}
-			},
-			errorHandler:function( errorMessage ) {
-				window.status = errorMessage;
-				setRecipientValue( organizationNameFieldName, wrapError( "not found" ), true );
-			}
-		};
-		OrganizationService.getOrganizationName(organizationId,dwrReply);
-	}
+	loadOrganizationData(organizationIdFieldName, organizationNameFieldName, OrganizationService.getOrganizationName);
+}
+
+/*
+ * Load the Organization Duns field based on the Organization Code passed in.
+ */
+function loadOrganizationDuns(organizationIdFieldName, organizationDunsFieldName ) {
+	loadOrganizationData(organizationIdFieldName, organizationDunsFieldName, OrganizationService.getOrganizationDuns);
 }
 
 function loadAwardBasisOfPaymentCodes( awardTypeCode, basisOfPaymentCodeFieldName ) {
 
 	if ( awardTypeCode=='' || awardTypeCode== "") {
-		//clearMethodOfPaymentCodes( methodOfPaymentCodeFieldName, "" );
 	} else {
 		var dwrReply = {
 			callback:function(data) {
@@ -1501,15 +1508,10 @@ function loadAwardBasisOfPaymentCodes( awardTypeCode, basisOfPaymentCodeFieldNam
 							}
 						}
 					}		
-				} else {
-					if ( basisOfPaymentCodeFieldName != null && basisOfPaymentCodeFieldName != "" ) {
-						//setRecipientValue(  frequencyCodeFieldName, wrapError( "not found" ), true );
-					}
 				}
 			},
 			errorHandler:function( errorMessage ) {
 				window.status = errorMessage;
-				//setRecipientValue( frequencyCodeFieldName, wrapError( "not found" ), true );
 			}
 		};
 		AwardPaymentAndInvoicesService.getEncodedValidAwardBasisPaymentsByAwardTypeCode( awardTypeCode, dwrReply )
@@ -1520,7 +1522,6 @@ function loadAwardBasisOfPaymentCodes( awardTypeCode, basisOfPaymentCodeFieldNam
 function loadAwardMethodOfPaymentCodes( basisOfPaymentCodeFieldName, methodOfPaymentCodeFieldName) {    
     var basisOfPaymentCode = dwr.util.getValue( basisOfPaymentCodeFieldName );
 	if ( basisOfPaymentCode=='' || basisOfPaymentCode== "") {
-		//clearMethodOfPaymentCodes( methodOfPaymentCodeFieldName, "" );
 	} else {
 		var dwrReply = {
 			callback:function(data) {
@@ -1542,15 +1543,10 @@ function loadAwardMethodOfPaymentCodes( basisOfPaymentCodeFieldName, methodOfPay
 							}
 						}
 					}		
-				} else {
-					if ( basisOfPaymentCodeFieldName != null && basisOfPaymentCodeFieldName != "" ) {
-						//setRecipientValue(  frequencyCodeFieldName, wrapError( "not found" ), true );
-					}
 				}
 			},
 			errorHandler:function( errorMessage ) {
 				window.status = errorMessage;
-				//setRecipientValue( frequencyCodeFieldName, wrapError( "not found" ), true );
 			}
 		};
 		AwardPaymentAndInvoicesService.getEncodedValidBasisMethodPaymentsByBasisCode( basisOfPaymentCode, dwrReply )
@@ -1666,9 +1662,9 @@ function loadExpeditedDates(approveDateElementId, expiredDateElementId, differen
 				var YY = myDate.getFullYear();
 				  if(MM<10) MM="0"+MM;
 				  if(DD<10) DD="0"+DD;
-		    // alert(MM+"/"+DD+"/"+YY);				
+
 				  var expirationDate = MM+"/"+DD+"/"+YY;			
-			//alert('updated my date:'+ myDate );								
+
 				  $j(jq_escape(expiredDateElementId)).val(expirationDate);
 		}
 	}

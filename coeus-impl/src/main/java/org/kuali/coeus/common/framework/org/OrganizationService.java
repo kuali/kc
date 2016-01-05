@@ -28,10 +28,18 @@ public interface OrganizationService {
     /**
      * This method returns the organization name for a given organization id.
      * @param organizationId identifier for the organization
-     * @return The name of the organization identified by this id. 
+     * @return The name of the organization identified by this id.
      * null value is returned if organization not found
      */
-    public String getOrganizationName(String organizationId);
+    String getOrganizationName(String organizationId);
+
+    /**
+     * This method returns the organization duns for a given organization id.
+     * @param organizationId identifier for the organization
+     * @return The duns number identified by this id.
+     * null value is returned if organization not found
+     */
+    String getOrganizationDuns(String organizationId);
     
     /**
      * This method returns the organization
@@ -40,7 +48,7 @@ public interface OrganizationService {
      * @return organization
      * null value is returned if organization not found
      */
-    public Organization getOrganization(String organizationId);
+    Organization getOrganization(String organizationId);
     
     /**
      * This method returns a list of OrganizationCorrespondent
@@ -49,7 +57,7 @@ public interface OrganizationService {
      * @return list of OrganizationCorrespondent objects
      * null value is returned if organization not found
      */
-    public List<OrganizationCorrespondent> retrieveOrganizationCorrespondentsByOrganizationId(String organizationId);
+    List<OrganizationCorrespondent> retrieveOrganizationCorrespondentsByOrganizationId(String organizationId);
     
     /**
      * This method returns a list of IacucOrganizationCorrespondent
@@ -58,6 +66,6 @@ public interface OrganizationService {
      * @return list of IacucOrganizationCorrespondent objects
      * null value is returned if organization not found
      */
-    public List<IacucOrganizationCorrespondent> retrieveIacucOrganizationCorrespondentsByOrganizationId(String organizationId); 
+    List<IacucOrganizationCorrespondent> retrieveIacucOrganizationCorrespondentsByOrganizationId(String organizationId);
 
 }

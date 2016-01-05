@@ -38,57 +38,18 @@
                 <td>
                     ${KualiForm.subAwardDocument.subAward.subAwardCode}&nbsp; 
                </td>
-				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.siteInvestigator}" /></div></th>
+                <th>&nbsp;</th>
                 <td>
-                     <kul:htmlControlAttribute property="document.subAwardList[0].siteInvestigatorId" 
-                                                attributeEntry="${subAwardAttributes.siteInvestigator}"
-                                                onblur="loadRolodexPersonName('document.subAwardList[0].siteInvestigatorId',
-	                               							'sub.fullName.div',
-	                               							'sub.siteInvestigatorId.div');"
-           	        							  			readOnly="${readOnly}"/>           	         						  			  
-                      <c:if test="${!readOnly}">
-                      	<kul:lookup boClassName="org.kuali.coeus.common.framework.rolodex.Rolodex" 
-								fieldConversions="rolodexId:document.subAwardList[0].siteInvestigator" 			
-          						anchor="${tabKey}"/> 
-          			  </c:if>			
-          			  	<kul:directInquiry boClassName="org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex" inquiryParameters="document.subAwardList[0].siteInvestigator:rolodexId" anchor="${tabKey}" />
-          			  
-          			  <div id="sub.fullName.div">
-          			      &nbsp; 
-          			      <c:if test="${!empty KualiForm.document.subAwardList[0].siteInvestigatorId}">
-					          <c:if test="${!empty KualiForm.document.subAwardList[0].rolodex}">
-						          <c:choose>
-						              <c:when test="${empty KualiForm.document.subAwardList[0].rolodex.fullName}">
-						                  <c:out value="${KualiForm.document.subAwardList[0].rolodex.organization}"/>
-                                      </c:when>
-                                      <c:otherwise>						                      
-							              <c:out value="${KualiForm.document.subAwardList[0].rolodex.fullName}" />
-							          </c:otherwise>
-							      </c:choose>
-				              </c:if>
-				          </c:if>
-				      </div>
-          			  <html:hidden styleId ="sub.siteInvestigatorId.div" property="document.subAwardList[0].siteInvestigator" />  
-          			   ${kfunc:registerEditableProperty(KualiForm, "document.subAwardList[0].siteInvestigator")} 
+                    &nbsp;
                 </td>
             </tr>
         	<tr>
-				<th>
-					<div align="right">Version:</div></th>
-				
-					<td>${KualiForm.subAwardDocument.subAward.sequenceNumber}&nbsp; </td>              
-				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.organizationId}" /></div></th>
+				<th><div align="right">Version:</div></th>
+                <td>${KualiForm.subAwardDocument.subAward.sequenceNumber}&nbsp; </td>
+
+                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.executionDate}" /></div></th>
                 <td>
-                  <kul:htmlControlAttribute property="document.subAwardList[0].organizationId" readOnly="${readOnly}" 
-                  				onblur="loadOrganizationName('document.subAwardList[0].organizationId', 'sub.organizationName');" 
-                  				attributeEntry="${subAwardAttributes.organizationId}" />
-                  <c:if test="${!readOnly}">
-                  	<kul:lookup boClassName="org.kuali.coeus.common.framework.org.Organization" fieldConversions="organizationId:document.subAwardList[0].organizationId,organizationName:document.subAwardList[0].organization.organizationName" anchor="${tabKey}" />
-            	  </c:if>	
-            	  	<kul:directInquiry boClassName="org.kuali.coeus.common.framework.org.Organization" inquiryParameters="document.subAwardList[0].organizationId:organizationId" anchor="${tabKey}" /> 
-                 
-                <div id="sub.organizationName.div">${KualiForm.document.subAwardList[0].organization.organizationName}&nbsp;</div>
-                 <c:if test="${readOnly}"><html:hidden styleId ="sub.organizationName" property="document.subAwardList[0].organizationId" /></c:if>            		
+                    <kul:htmlControlAttribute property="document.subAwardList[0].executionDate" readOnly="${readOnly}" attributeEntry="${subAwardAttributes.executionDate}" datePicker="true" />
                 </td>
             </tr>
         	<tr>
@@ -234,9 +195,38 @@
                 <td>
                       <kul:htmlControlAttribute property="document.subAwardList[0].costType" readOnly="${readOnly}" attributeEntry="${subAwardAttributes.costType}" />
                 </td>
-                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.executionDate}" /></div></th>
+                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.siteInvestigator}" /></div></th>
                 <td>
-                      <kul:htmlControlAttribute property="document.subAwardList[0].executionDate" readOnly="${readOnly}" attributeEntry="${subAwardAttributes.executionDate}" datePicker="true" />
+                    <kul:htmlControlAttribute property="document.subAwardList[0].siteInvestigatorId"
+                                              attributeEntry="${subAwardAttributes.siteInvestigator}"
+                                              onblur="loadRolodexPersonName('document.subAwardList[0].siteInvestigatorId',
+	                               							'sub.fullName.div',
+	                               							'sub.siteInvestigatorId.div');"
+                                              readOnly="${readOnly}"/>
+                    <c:if test="${!readOnly}">
+                        <kul:lookup boClassName="org.kuali.coeus.common.framework.rolodex.Rolodex"
+                                    fieldConversions="rolodexId:document.subAwardList[0].siteInvestigator"
+                                    anchor="${tabKey}"/>
+                    </c:if>
+                    <kul:directInquiry boClassName="org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex" inquiryParameters="document.subAwardList[0].siteInvestigator:rolodexId" anchor="${tabKey}" />
+
+                    <div id="sub.fullName.div">
+                        &nbsp;
+                        <c:if test="${!empty KualiForm.document.subAwardList[0].siteInvestigatorId}">
+                            <c:if test="${!empty KualiForm.document.subAwardList[0].rolodex}">
+                                <c:choose>
+                                    <c:when test="${empty KualiForm.document.subAwardList[0].rolodex.fullName}">
+                                        <c:out value="${KualiForm.document.subAwardList[0].rolodex.organization}"/>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:out value="${KualiForm.document.subAwardList[0].rolodex.fullName}" />
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:if>
+                        </c:if>
+                    </div>
+                    <html:hidden styleId ="sub.siteInvestigatorId.div" property="document.subAwardList[0].siteInvestigator" />
+                        ${kfunc:registerEditableProperty(KualiForm, "document.subAwardList[0].siteInvestigator")}
                 </td>
             </tr>
             
@@ -245,11 +235,20 @@
                 <td>
                       <kul:htmlControlAttribute property="document.subAwardList[0].requisitionId" readOnly="${readOnly}" attributeEntry="${subAwardAttributes.requisitionId}" />
                 </td>
-                 <th>&nbsp;</th>
+                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.organizationId}" /></div></th>
                 <td>
-                      &nbsp;
+                    <kul:htmlControlAttribute property="document.subAwardList[0].organizationId" readOnly="${readOnly}"
+                                              onblur="loadOrganizationName('document.subAwardList[0].organizationId', 'sub.organizationName'); loadOrganizationDuns('document.subAwardList[0].organizationId', 'sub.organizationDuns');"
+                                              attributeEntry="${subAwardAttributes.organizationId}" />
+                    <c:if test="${!readOnly}">
+                        <kul:lookup boClassName="org.kuali.coeus.common.framework.org.Organization" fieldConversions="organizationId:document.subAwardList[0].organizationId,organizationName:document.subAwardList[0].organization.organizationName,dunsNumber:document.subAwardList[0].organization.dunsNumber" anchor="${tabKey}" />
+                    </c:if>
+                    <kul:directInquiry boClassName="org.kuali.coeus.common.framework.org.Organization" inquiryParameters="document.subAwardList[0].organizationId:organizationId" anchor="${tabKey}" />
+
+                    <div id="sub.organizationName.div">${KualiForm.document.subAwardList[0].organization.organizationName}&nbsp;</div>
+                    <div id="sub.organizationDuns.div">${KualiForm.document.subAwardList[0].organization.dunsNumber}&nbsp;</div>
+                    <c:if test="${readOnly}"><html:hidden styleId ="sub.organizationName" property="document.subAwardList[0].organizationId" /></c:if>
                 </td>
-            </tr>
             </tr>
         </table>
     </div>
