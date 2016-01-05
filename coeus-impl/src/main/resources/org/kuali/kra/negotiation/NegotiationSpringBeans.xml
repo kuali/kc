@@ -296,6 +296,8 @@
     <bean id="globalVariableService" parent="grlImporter" p:serviceName="globalVariableService"/>
     <bean id="dictionaryValidationService" parent="grlImporter" p:serviceName="dictionaryValidationService"/>
     <bean id="errorHandlingUtilService" parent="grlImporter" p:serviceName="errorHandlingUtilService"/>
+    <bean id="persistenceVerificationService" parent="grlImporter" p:serviceName="persistenceVerificationService" />
+    <bean id="restAuditLoggerFactory" parent="grlImporter" p:serviceName="restAuditLoggerFactory" />
 
     <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
         <property name="messageConverters">
@@ -311,8 +313,6 @@
     </bean>
 
     <import resource="classpath:org/kuali/coeus/sys/framework/ImportEndpointSpringBeans.xml" />
-
-    <bean id="persistenceVerificationService" parent="grlImporter" p:serviceName="persistenceVerificationService" />
 
     <bean id="autoRegisterMapping" class="org.kuali.coeus.sys.framework.controller.rest.RestSimpleUrlHandlerMapping"/>
 

@@ -304,6 +304,7 @@
     <import resource="classpath:org/kuali/coeus/sys/framework/ImportEndpointSpringBeans.xml" />
 
     <bean id="persistenceVerificationService" parent="grlImporter" p:serviceName="persistenceVerificationService" />
+    <bean id="restAuditLoggerFactory" parent="grlImporter" p:serviceName="restAuditLoggerFactory" />
 
     <bean id="autoRegisterMapping" class="org.kuali.coeus.sys.framework.controller.rest.RestSimpleUrlHandlerMapping"/>
 
