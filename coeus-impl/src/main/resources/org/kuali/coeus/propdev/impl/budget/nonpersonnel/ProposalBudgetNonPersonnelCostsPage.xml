@@ -247,13 +247,13 @@
 		<property name="items">
 			<list>
 				<bean parent="PropBudget-NonPersonnelCosts-Details-Tab" p:fieldBindingObjectPath="addProjectBudgetLineItemHelper"
-					p:headerText="Details" p:order="10" p:readOnly="@{!#empty(addProjectBudgetLineItemHelper.budgetLineItem.subAwardNumber)}"/>
+					p:headerText="Details" p:order="10" p:readOnly="@{#parent.readOnly or !#empty(addProjectBudgetLineItemHelper.budgetLineItem.subAwardNumber)}"/>
 				<bean parent="PropBudget-NonPersonnelCosts-FormulatedCost-Tab"
 					p:headerText="Formulated Cost" p:order="20" p:render="@{addProjectBudgetLineItemHelper.budgetLineItem.formulatedCostElementFlag}"
-					  p:readOnly="@{!#empty(addProjectBudgetLineItemHelper.budgetLineItem.subAwardNumber)}"/>
+					  p:readOnly="@{#parent.readOnly or !#empty(addProjectBudgetLineItemHelper.budgetLineItem.subAwardNumber)}"/>
 				<bean parent="PropBudget-NonPersonnelCosts-CostSharing-Tab"
 					p:headerText="Cost Sharing" p:order="30" p:fieldBindingObjectPath="addProjectBudgetLineItemHelper"
-					  p:readOnly="@{!#empty(addProjectBudgetLineItemHelper.budgetLineItem.subAwardNumber)}"/>
+					  p:readOnly="@{#parent.readOnly or !#empty(addProjectBudgetLineItemHelper.budgetLineItem.subAwardNumber)}"/>
 				<bean parent="PropBudget-NonPersonnelCosts-Rates-Tab"
 					p:headerText="Rates" p:order="40"/>
 			</list>

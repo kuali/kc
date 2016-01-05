@@ -47,6 +47,7 @@
 				<bean parent="Uif-DataField" p:propertyName="calculatedCostSharing"
 					p:order="40"/>
 				<bean parent="Uif-InputField" p:propertyName="applyRateFlag"
+					p:readOnlyDisplayReplacement="@{#fp.applyRateFlag ? 'Yes' : 'No'}"
 					p:order="50"/>
 			</list>
 		</property>
