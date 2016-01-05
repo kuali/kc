@@ -22,7 +22,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.kuali.coeus</groupId>
     <artifactId>coeus</artifactId>
-    <version>1601.2-SNAPSHOT</version>
+    <version>1601.2</version>
     <packaging>pom</packaging>
     <name>Kuali Coeus</name>
     <description>
@@ -2467,7 +2467,7 @@
         <connection>${scm.connection}</connection>
         <developerConnection>${scm.developerConnection}</developerConnection>
         <url>${scm.url}</url>
-        <tag>coeus-1512.46-SNAPSHOT</tag>
+        <tag>coeus-1601.2</tag>
   </scm>
 
     <distributionManagement>
