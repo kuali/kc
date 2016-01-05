@@ -183,7 +183,7 @@ For example, we currently have a dependency on a node project called drafter tha
 
 ##**Creating DB**
 
-Kuali Coeus supports MySQL 5.6 and Oracle. We recommend MySQL though as that is the database we develop and support internally and are more easily able to respond to problems with that database.
+Kuali Coeus supports MySQL 5.6 and Oracle. We recommend MySQL though as that is the database we develop and support internally and are more easily able to respond to problems with that database.  If you choose to use Oracle, please be sure to use the latest Oracle driver version 12 or higher.  The version 12 driver will work correctly with older Oracle database servers such as version 11.
 
 * [Database Installation Instructions](coeus-db/coeus-db-sql/src/main/resources/co/kuali/coeus/data/migration/sql/README.md)
 
