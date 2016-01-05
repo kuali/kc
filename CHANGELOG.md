@@ -1,6 +1,17 @@
 
 
 ##CURRENT
+*  putting the unrecovered f & a negative value warning behind a parameter
+  * Travis Schneeberger on Tue, 5 Jan 2016 16:19:16 -0500 [View Commit](../../commit/4ba5e9b589bf0ced4332270e28c18bc7788a6610)
+* PD Budget - Non-personnel costs > Details have all fields appear editable for PD statuses where they should not
+  * Setting non personnel cost tabs to read only when in view mode.
+  * Also updated rates tab checkbox readonly to display 'Yes'/'No' instead of 'true'/'false' in order to be
+  * consistent with other tabs.
+  * rmancher on Tue, 5 Jan 2016 15:51:04 -0500 [View Commit](../../commit/657ae9963cccae5379afb48deeecb1d4a0302bf7)
+*  Organization Maintenance: Accepted Audit should be a dropdown menu.
+  * Travis Schneeberger on Tue, 5 Jan 2016 11:41:41 -0500 [View Commit](../../commit/95ca842ed84c4e68aa886ee5c9064692c180928d)
+
+##coeus-1601.5
 * No Changes
 
 
