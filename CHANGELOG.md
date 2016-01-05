@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1601.2
 * IRB - STE when saving data in the Personnel tab
 
   * I'm creating a new protocol in QA, i enter data i add a CoI in the personnel tab and hit "save" and i get the STE below.
