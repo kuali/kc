@@ -53,9 +53,9 @@ public abstract class BudgetAuditRuleBase {
 			auditCategory = Constants.AUDIT_ERRORS;
 		}
 		
-        AuditCluster auditCluster = (AuditCluster) getGlobalVariableService().getAuditErrorMap().get(auditKey);
+        AuditCluster auditCluster = getGlobalVariableService().getAuditErrorMap().get(auditKey);
         if (auditCluster == null) {
-            List<AuditError> auditErrors = new ArrayList<AuditError>();
+            List<AuditError> auditErrors = new ArrayList<>();
             auditCluster = new AuditCluster(auditRule.getLabel(), auditErrors, auditCategory);
             getGlobalVariableService().getAuditErrorMap().put(auditKey, auditCluster);
         }
