@@ -47,59 +47,45 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     public String getOrganizationName(String organizationId) {
-        String organizationName = null;
-        Organization organization = getOrganization(organizationId);
-        if(organization != null) {
-            organizationName = organization.getOrganizationName();
-        }
-        return organizationName;
+        final Organization organization = getOrganization(organizationId);
+        return organization != null ? organization.getOrganizationName() : null;
+    }
+
+    @Override
+    public String getOrganizationDuns(String organizationId) {
+        final Organization organization = getOrganization(organizationId);
+        return organization != null ? organization.getDunsNumber() : null;
     }
 
     @Override
     public Organization getOrganization(String organizationId) {
         Organization organization = null;
         if (StringUtils.isNotEmpty(organizationId)) {
-            Map<String, Object> primaryKeys = new HashMap<String, Object>();
+            Map<String, Object> primaryKeys = new HashMap<>();
             primaryKeys.put(ORGANIZATION_ID, organizationId);
-            organization = (Organization) getBusinessObjectService().findByPrimaryKey(Organization.class, primaryKeys);
+            organization = getBusinessObjectService().findByPrimaryKey(Organization.class, primaryKeys);
         }
 
         return organization;
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public List<OrganizationCorrespondent> retrieveOrganizationCorrespondentsByOrganizationId(String organizationId) {
-        Map<String, String> queryMap = new HashMap<String, String>();
+        Map<String, String> queryMap = new HashMap<>();
         queryMap.put(ORGANIZATION_ID, organizationId);
-        List<OrganizationCorrespondent> organizationCorrespondents = 
-            (List<OrganizationCorrespondent>) getBusinessObjectService().findMatching(OrganizationCorrespondent.class, queryMap);
-        return organizationCorrespondents;
+        return (List<OrganizationCorrespondent>) getBusinessObjectService().findMatching(OrganizationCorrespondent.class, queryMap);
     }
     
     @Override
-    @SuppressWarnings("unchecked")
     public List<IacucOrganizationCorrespondent> retrieveIacucOrganizationCorrespondentsByOrganizationId(String organizationId) {
-        Map<String, String> queryMap = new HashMap<String, String>();
+        Map<String, String> queryMap = new HashMap<>();
         queryMap.put(ORGANIZATION_ID, organizationId);
-        List<IacucOrganizationCorrespondent> organizationCorrespondents = 
-            (List<IacucOrganizationCorrespondent>) getBusinessObjectService().findMatching(IacucOrganizationCorrespondent.class, queryMap);
-        return organizationCorrespondents;
+        return (List<IacucOrganizationCorrespondent>) getBusinessObjectService().findMatching(IacucOrganizationCorrespondent.class, queryMap);
     }
-    
-    /**
-     * Sets the businessObjectService attribute value.
-     * 
-     * @param businessObjectService The businessObjectService to set.
-     */
+
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-    /**
-     * Accessor for <code>{@link BusinessObjectService}</code>
-     *
-     * @return BusinessObjectService
-     */
 
     public BusinessObjectService getBusinessObjectService() {
         return this.businessObjectService;

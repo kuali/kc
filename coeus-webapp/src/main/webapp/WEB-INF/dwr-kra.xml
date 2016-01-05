@@ -104,6 +104,7 @@
 		<create creator="spring" javascript="OrganizationService">
 			<param name="beanName" value="organizationService" />
 			<include method="getOrganizationName" />
+			<include method="getOrganizationDuns" />
 		</create>
         <create creator="spring" javascript="ProtocolFundingSourceService">
             <param name="beanName" value="protocolFundingSourceService" />
