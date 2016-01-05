@@ -53,7 +53,7 @@
                             <bean parent="Uif-PrimaryActionButton" p:actionLabel="COI Disclosure Status"
                                                p:order="35"  p:actionScript="showDialog('PropDev-PersonnelPage-COIStatus-Dialog');"
                                                 p:render="@{#ViewHelper.displayCoiDisclosureStatus() and
-                                                personnelWhoRequireDisclosure.size() > 0}"/>
+                                                document.developmentProposal.proposalPersons.size() > 0}"/>
                         </list>
                     </property>
                 </bean>
@@ -797,8 +797,9 @@
          parent="Uif-TableCollectionSection" p:collectionObjectClass="org.kuali.coeus.propdev.impl.person.ProposalPerson"
           p:propertyName="personnelWhoRequireDisclosure" p:addWithDialog="false"
 		p:renderAddLine="false" p:layoutManager.renderSequenceField="false"
-		p:renderInactiveToggleButton="false" p:layoutManager.richTable.render="true" p:renderLineActions="false">
-		
+		p:renderInactiveToggleButton="false" p:layoutManager.richTable.render="true" p:renderLineActions="false"
+                p:render="@{personnelWhoRequireDisclosure.size() > 0}">
+
 		<property name="layoutManager.richTable.templateOptions">
 			<map>
 				<entry key="sDom" value="tip" />
@@ -813,9 +814,9 @@
 			<property name="items">
 				<list>
 					<bean parent="Uif-Message"
-						p:messageText="Project: @{#line.developmentProposal.proposalNumber}"
+						p:messageText="Project: @{developmentProposal.proposalNumber}"
 						p:order="10" p:style="font-weight: bold; font-size: larger;" />
-					<bean parent="Uif-Message" p:messageText="Title: @{#line.developmentProposal.title}"
+					<bean parent="Uif-Message" p:messageText="Title: @{developmentProposal.title}"
 						p:order="20" p:style="font-weight: bold; font-size: larger;" />
 				</list>
 			</property>
