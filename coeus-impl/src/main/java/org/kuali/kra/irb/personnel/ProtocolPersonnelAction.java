@@ -369,7 +369,9 @@ public class ProtocolPersonnelAction extends ProtocolAction {
                     // Assign the Other Role To Viewer the AGGREGATOR role.
                     KcAuthorizationService kraAuthService = KcServiceLocator.getService(KcAuthorizationService.class);
                     kraAuthService.addDocumentLevelRole(protocolPerson.getPersonId(), RoleConstants.PROTOCOL_VIEWER, protocol);
-                    protocolForm.getPermissionsHelper().resetUserStates();
+                    if (protocolForm.getPermissionsHelper() != null) {
+                        protocolForm.getPermissionsHelper().resetUserStates();
+                    }
                 }
             }
             
