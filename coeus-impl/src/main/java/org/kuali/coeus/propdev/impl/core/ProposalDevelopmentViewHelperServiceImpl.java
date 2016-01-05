@@ -42,6 +42,8 @@ import org.kuali.coeus.common.questionnaire.framework.question.Question;
 import org.kuali.coeus.common.questionnaire.framework.question.QuestionExplanation;
 import org.kuali.coeus.propdev.impl.attachment.MultipartFileValidationService;
 import org.kuali.coeus.propdev.impl.attachment.ProposalDevelopmentAttachmentHelper;
+import org.kuali.coeus.propdev.impl.auth.ProposalDevelopmentDocumentAuthorizer;
+import org.kuali.coeus.propdev.impl.auth.ProposalDevelopmentDocumentViewAuthorizer;
 import org.kuali.coeus.propdev.impl.auth.perm.ProposalDevelopmentPermissionsService;
 import org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataGroupDto;
 import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants;
@@ -185,6 +187,10 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     @Autowired
     @Qualifier("multipartFileValidationService")
     private MultipartFileValidationService multipartFileValidationService;
+
+    @Autowired
+    @Qualifier("proposalDevelopmentDocumentViewAuthorizer")
+    private ProposalDevelopmentDocumentViewAuthorizer proposalDevelopmentDocumentViewAuthorizer;
 
     @Override
     public void processBeforeAddLine(ViewModel model, Object addLine, String collectionId, final String collectionPath) {
@@ -959,34 +965,16 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     }
 
     public boolean displayCoiDisclosureStatus() {
-       return getParameterService().getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE,Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.PROP_PERSON_COI_STATUS_FLAG);
+       return getParameterService().getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.PROP_PERSON_COI_STATUS_FLAG);
     }
  
-    public boolean isCertQuestViewOnly(ProposalDevelopmentDocument document ,ProposalPerson proposalPerson){
-    	 if (proposalPerson.getPerson() == null) {
-      	   return false;
-         }
-    	 String currentUser = getGlobalVariableService().getUserSession().getPrincipalId();
-    	 boolean canViewCertification = kraAuthorizationService.hasPermission(currentUser, document, PermissionConstants.VIEW_CERTIFICATION);
-    	 boolean canCertify = kraAuthorizationService.hasPermission(currentUser, document, PermissionConstants.CERTIFY);
-         boolean renderQuestionnaire = renderQuestionnaire(proposalPerson);
-
-        if (canCertify) {
-            document.setCertifyViewOnly(false);
-            return !renderQuestionnaire;
-        }
-        if (canViewCertification) {
-            if (proposalPerson.getPersonId().equals(currentUser)){
-                document.setCertifyViewOnly(false);
-                return !renderQuestionnaire;
-            } else {
-                document.setCertifyViewOnly(true);
-                return true;
-            }
-        } else {
-            document.setCertifyViewOnly(false);
-            return !renderQuestionnaire;
-        }
+    public boolean canSaveCertification(ProposalDevelopmentDocument document ,ProposalPerson proposalPerson){
+        proposalDevelopmentDocumentViewAuthorizer.initializeDocumentAuthorizerIfNecessary(document);
+        ProposalDevelopmentDocumentAuthorizer proposalDevelopmentDocumentAuthorizer = (ProposalDevelopmentDocumentAuthorizer) proposalDevelopmentDocumentViewAuthorizer.getDocumentAuthorizer();
+        Person currentUser = getGlobalVariableService().getUserSession().getPerson();
+        boolean canSaveCertify = proposalDevelopmentDocumentAuthorizer.canSaveCertificationForPerson(document,currentUser,proposalPerson);
+        document.setCertifyViewOnly(!canSaveCertify);
+        return canSaveCertify;
     }
 
     public boolean isViewOnly(ProposalDevelopmentDocument document){
@@ -1113,4 +1101,14 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     public void setKraAuthorizationService(KcAuthorizationService kraAuthorizationService) {
         this.kraAuthorizationService = kraAuthorizationService;
     }
+
+    public ProposalDevelopmentDocumentViewAuthorizer getProposalDevelopmentDocumentViewAuthorizer() {
+        return proposalDevelopmentDocumentViewAuthorizer;
+    }
+
+    public void setProposalDevelopmentDocumentViewAuthorizer(ProposalDevelopmentDocumentViewAuthorizer proposalDevelopmentDocumentViewAuthorizer) {
+        this.proposalDevelopmentDocumentViewAuthorizer = proposalDevelopmentDocumentViewAuthorizer;
+    }
+
+
 }

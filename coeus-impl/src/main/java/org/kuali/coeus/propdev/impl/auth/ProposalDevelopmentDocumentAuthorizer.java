@@ -400,7 +400,10 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
     public boolean hasCertificationPermissions(ProposalDevelopmentDocument document, Person user,ProposalPerson proposalPerson){
     	return getProposalDevelopmentPermissionsService().hasCertificationPermissions(document, user, proposalPerson);
     }
-    
+
+    public boolean canSaveCertificationForPerson(ProposalDevelopmentDocument document, Person user,ProposalPerson proposalPerson){
+        return isProposalStateEditableForCertification(document.getDevelopmentProposal()) && hasCertificationPermissions(document,user,proposalPerson);
+    }
     protected boolean canSaveCertification(ProposalDevelopmentDocument document, Person user) {
     	if(isProposalStateEditableForCertification(document.getDevelopmentProposal())) {
     		if (document.getDevelopmentProposal().getProposalPersons().stream()
