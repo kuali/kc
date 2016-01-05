@@ -263,7 +263,7 @@ public class BudgetSummaryAction extends BudgetAction {
             HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         boolean rulePassed = getKcBusinessRulesEngine().applyRules(
-                new GenerateBudgetPeriodEvent(budgetForm.getBudget(), budgetForm.getNewBudgetPeriod()));
+                new GenerateBudgetPeriodEvent(budgetForm.getBudget(), null));
         Budget budget = budgetForm.getBudget();
         if (rulePassed) {
             if (StringUtils.isBlank(budgetForm.getPrevOnOffCampusFlag())

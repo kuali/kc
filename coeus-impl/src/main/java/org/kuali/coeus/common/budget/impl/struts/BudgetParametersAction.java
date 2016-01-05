@@ -299,7 +299,7 @@ public class BudgetParametersAction extends BudgetAction {
         
         BudgetForm budgetForm = (BudgetForm) form;
         boolean rulePassed = getKcBusinessRulesEngine().applyRules(
-                new GenerateBudgetPeriodEvent(budgetForm.getBudget(), budgetForm.getNewBudgetPeriod()));
+                new GenerateBudgetPeriodEvent(budgetForm.getBudget(), null));
         if (rulePassed) {
             if (isRateTypeChanged(budgetForm)) {
                 return confirm(buildRecalculateBudgetConfirmationQuestion(mapping, form, request, response), 

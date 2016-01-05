@@ -1046,6 +1046,7 @@
 		<field-descriptor name="awardBudgetStatusCode" column="AWARD_BUDGET_STATUS_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="awardBudgetTypeCode" column="AWARD_BUDGET_TYPE_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="obligatedAmount" column="OBLIGATED_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion" />
+		<field-descriptor name="obligatedTotal" column="OBLIGATED_TOTAL" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
