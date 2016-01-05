@@ -34,6 +34,7 @@ import org.kuali.coeus.common.framework.ruleengine.KcBusinessRule;
 import org.kuali.coeus.common.framework.ruleengine.KcEventMethod;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.AuditCluster;
 import org.kuali.rice.krad.util.AuditError;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,10 +46,15 @@ import java.util.List;
 @KcBusinessRule("budgetExpensesAuditRule")
 public class BudgetExpensesAuditRule extends BudgetAuditRuleBase {
 
-	@Autowired
+    private static final String WARN_NEGATIVE_UNRECOVERED_F_AND_A_PARM = "WARN_NEGATIVE_UNRECOVERED_F_AND_A";
+    @Autowired
 	@Qualifier("budgetExpenseService")
 	private BudgetExpenseService budgetExpenseService;
-	
+
+    @Autowired
+    @Qualifier("parameterService")
+    private ParameterService parameterService;
+
     /**
      * 
      * This method is to validate budget expense business rules
@@ -98,20 +104,22 @@ public class BudgetExpensesAuditRule extends BudgetAuditRuleBase {
             // budget personnel budget effective warning 
             int j = 0;
             for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
-                String panelName = budgetExpenseService.getBudgetExpensePanelName(budgetPeriod, budgetLineItem);
+                final String panelName = budgetExpenseService.getBudgetExpensePanelName(budgetPeriod, budgetLineItem);
                 
-                if(budgetLineItem.getUnderrecoveryAmount() != null && budgetLineItem.getUnderrecoveryAmount().isNegative()) {
-                    String key = "budgetNonPersonnelAuditWarnings" + budgetPeriod.getBudgetPeriod()+panelName;
+                if (budgetLineItem.getUnderrecoveryAmount() != null && budgetLineItem.getUnderrecoveryAmount().isNegative() &&
+                        parameterService.getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_BUDGET, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, WARN_NEGATIVE_UNRECOVERED_F_AND_A_PARM) ) {
+                    final String key = "budgetNonPersonnelAuditWarnings" + budgetPeriod.getBudgetPeriod() + panelName;
                     AuditCluster auditCluster = getGlobalVariableService().getAuditErrorMap().get(key);
                     if (auditCluster == null) {
-                        List<AuditError> auditErrors = new ArrayList<>();
-                        auditCluster = new AuditCluster(panelName+" Budget Period "+budgetPeriod.getBudgetPeriod(), auditErrors, Constants.AUDIT_WARNINGS);
+                        final List<AuditError> auditErrors = new ArrayList<>();
+                        auditCluster = new AuditCluster(panelName + " Budget Period "+budgetPeriod.getBudgetPeriod(), auditErrors, Constants.AUDIT_WARNINGS);
                         getGlobalVariableService().getAuditErrorMap().put(key, auditCluster);
                     }
+
                     @SuppressWarnings("unchecked")
-                    List<AuditError> auditErrors = auditCluster.getAuditErrorList();
-                    auditErrors.add(new AuditError("document.budgetPeriod[" + (budgetPeriod.getBudgetPeriod() - 1) + "].budgetLineItem["+j+"].underrecoveryAmount", KeyConstants.WARNING_UNRECOVERED_FA_NEGATIVE, Constants.BUDGET_EXPENSES_PAGE_METHOD + "." + budgetLineItem.getBudgetCategory().getBudgetCategoryType().getDescription() + "&viewBudgetPeriod=" + budgetPeriod.getBudgetPeriod() + "&selectedBudgetLineItemIndex=" + j + "&activePanelName=" + panelName));
-                    retval=false;
+                    final List<AuditError> auditErrors = auditCluster.getAuditErrorList();
+                    auditErrors.add(new AuditError("document.budgetPeriod[" + (budgetPeriod.getBudgetPeriod() - 1) + "].budgetLineItem[" + j + "].underrecoveryAmount", KeyConstants.WARNING_UNRECOVERED_FA_NEGATIVE, Constants.BUDGET_EXPENSES_PAGE_METHOD + "." + budgetLineItem.getBudgetCategory().getBudgetCategoryType().getDescription() + "&viewBudgetPeriod=" + budgetPeriod.getBudgetPeriod() + "&selectedBudgetLineItemIndex=" + j + "&activePanelName=" + panelName));
+                    retval = false;
                 }
                     
                 int k = 0;
@@ -197,11 +205,11 @@ public class BudgetExpensesAuditRule extends BudgetAuditRuleBase {
 	}
 	
 	protected boolean verifyUnderRecoveryAmount(BudgetLineItem budgetLineItem) {
-        if(budgetLineItem.getUnderrecoveryAmount() != null && budgetLineItem.getUnderrecoveryAmount().isNegative()) {
-        	BudgetPeriod budgetPeriod = budgetLineItem.getBudgetPeriodBO();
-            BudgetConstants.BudgetAuditRules budgetNonPersonnelRule = BudgetConstants.BudgetAuditRules.NON_PERSONNEL_COSTS;
-            String additionalMessage = " Budget Period "+ budgetPeriod.getBudgetPeriod() + "Line item " + budgetLineItem.getCostElementBO().getDescription();
-			List<AuditError> auditErrors = getAuditErrors(budgetNonPersonnelRule, additionalMessage, false);
+        if (budgetLineItem.getUnderrecoveryAmount() != null && budgetLineItem.getUnderrecoveryAmount().isNegative()  &&
+                parameterService.getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_BUDGET, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, WARN_NEGATIVE_UNRECOVERED_F_AND_A_PARM)) {
+            final BudgetConstants.BudgetAuditRules budgetNonPersonnelRule = BudgetConstants.BudgetAuditRules.NON_PERSONNEL_COSTS;
+            final String additionalMessage = " Budget Period "+ budgetLineItem.getBudgetPeriodBO().getBudgetPeriod() + "Line item " + budgetLineItem.getCostElementBO().getDescription();
+			final List<AuditError> auditErrors = getAuditErrors(budgetNonPersonnelRule, additionalMessage, false);
             auditErrors.add(new AuditError(budgetNonPersonnelRule.getPageId(), 
             		KeyConstants.WARNING_UNRECOVERED_FA_NEGATIVE, budgetNonPersonnelRule.getPageId(), 
             		new String[]{additionalMessage}));
@@ -238,6 +246,14 @@ public class BudgetExpensesAuditRule extends BudgetAuditRuleBase {
 	public void setBudgetExpenseService(BudgetExpenseService budgetExpenseService) {
 		this.budgetExpenseService = budgetExpenseService;
 	}
+
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
 }
 
 
