@@ -58,7 +58,7 @@ import java.util.concurrent.TimeUnit;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 public class KcNotificationServiceTest {
-    
+
     private static final String PRINCIPAL_ID_VALUE_QUICKSTART = "10000000001";
 	private static final String MODULE_CODE_FIELD = "moduleCode";
     private static final String ACTION_CODE_FIELD = "actionCode";
@@ -83,7 +83,9 @@ public class KcNotificationServiceTest {
     private static final String EMAIL_ADDRESS_VALUE_APP_ADMIN = "kcnotification@gmail.com";
     private static final String EMAIL_ADDRESS_UNIVERSITY = "firstname@kuali.org";
     private static final String DEFAULT_FROM_ADDRESS_VALUE = "bogus@kuali.org";
-    
+    private static final String TRUE = "true";
+    private static final String ACTIVE = "active";
+
     private Mockery context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
     
     private KcNotificationServiceImpl service;
@@ -340,6 +342,7 @@ public class KcNotificationServiceTest {
                 Map<String, String> fieldValues = new HashMap<String, String>();
                 fieldValues.put(MODULE_CODE_FIELD, moduleCode);
                 fieldValues.put(ACTION_CODE_FIELD, actionTypeCode);
+                fieldValues.put(ACTIVE, TRUE);
                 matchers.add(equal(fieldValues));
             }
             Matcher<Map<String, ?>>[] matcherArray = matchers.toArray(new Matcher[matchers.size()]);

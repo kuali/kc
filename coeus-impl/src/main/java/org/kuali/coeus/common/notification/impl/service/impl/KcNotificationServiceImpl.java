@@ -79,7 +79,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
  * Defines methods for creating and sending KC Notifications.
  */
 public class KcNotificationServiceImpl implements KcNotificationService {
-    
+
     private static final String MODULE_CODE = "moduleCode";
     private static final String ACTION_CODE = "actionCode";
     private static final String NOTIFICATION_TYPE_ID = "notificationTypeId";
@@ -89,6 +89,8 @@ public class KcNotificationServiceImpl implements KcNotificationService {
     private static final String KC_NOTIFICATION_DOC_TYPE_NAME = "KcNotificationDocumentTypeName";
     
     private static final String KC_DEFAULT_EMAIL_RECIPIENT = "KC_DEFAULT_EMAIL_RECIPIENT";
+    private static final String ACTIVE = "active";
+    private static final String TRUE = "true";
 
     protected NotificationChannel kcNotificationChannel;
     protected NotificationProducer systemNotificationProducer;
@@ -120,6 +122,7 @@ public class KcNotificationServiceImpl implements KcNotificationService {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(MODULE_CODE, moduleCode);
         fieldValues.put(ACTION_CODE, actionTypeCode);
+        fieldValues.put(ACTIVE, TRUE);
         notificationTypes.addAll(getBusinessObjectService().findMatching(NotificationType.class, fieldValues));
         
         if (!notificationTypes.isEmpty()) {
