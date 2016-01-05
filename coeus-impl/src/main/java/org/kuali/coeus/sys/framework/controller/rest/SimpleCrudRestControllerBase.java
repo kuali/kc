@@ -432,6 +432,12 @@ public abstract class SimpleCrudRestControllerBase<T extends PersistableBusiness
 	 * @return a plural word
      */
 	private String toPlural(String singular) {
+
+		//some rice mapped classes end with Bo.  We should remove this.
+		if (singular.endsWith("Bo")) {
+			singular = singular.substring(0, singular.length() - 2);
+		}
+
 		if (singular.endsWith("y") && !singular.endsWith("ay") && !singular.endsWith("ey") && !singular.endsWith("iy") && !singular.endsWith("oy") && !singular.endsWith("uy")) {
 			return singular.substring(0, singular.length() - 1) + "ies";
 		} else if (singular.endsWith("s") || singular.endsWith("x") || singular.endsWith("z") || singular.endsWith("ch") || singular.endsWith("sh")) {
