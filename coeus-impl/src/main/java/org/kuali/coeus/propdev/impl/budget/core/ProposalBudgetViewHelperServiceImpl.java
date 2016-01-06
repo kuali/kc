@@ -45,9 +45,9 @@ import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyService;
+import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.impl.validation.DataValidationItem;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.uif.element.Action;
@@ -77,10 +77,6 @@ public class ProposalBudgetViewHelperServiceImpl extends KcViewHelperServiceImpl
     @Autowired
     @Qualifier("dateTimeService")
     private DateTimeService dateTimeService;
-
-    @Autowired
-    @Qualifier("globalVariableService")
-    private GlobalVariableService globalVariableService;
 
     @Autowired
     @Qualifier("kcBusinessRulesEngine")
@@ -122,26 +118,19 @@ public class ProposalBudgetViewHelperServiceImpl extends KcViewHelperServiceImpl
     public void processBeforeAddLine(ViewModel model, Object addLine, String collectionId, String collectionPath) {
         if (addLine instanceof BudgetProjectIncome) {
             BudgetProjectIncome budgetProjectIncome = (BudgetProjectIncome) addLine;
-            if (budgetProjectIncome != null) {
-                budgetProjectIncome.setBudgetId(((ProposalBudgetForm) model).getBudget().getBudgetId());
-                budgetProjectIncome.setDocumentComponentId(((ProposalBudgetForm) model).getBudget().getNextValue(budgetProjectIncome.getDocumentComponentIdKey()));
-                budgetProjectIncome.setBudgetPeriod(((ProposalBudgetForm) model).getBudget().getBudgetPeriod(budgetProjectIncome));
-            }
+            budgetProjectIncome.setBudgetId(((ProposalBudgetForm) model).getBudget().getBudgetId());
+            budgetProjectIncome.setDocumentComponentId(((ProposalBudgetForm) model).getBudget().getNextValue(budgetProjectIncome.getDocumentComponentIdKey()));
+            budgetProjectIncome.setBudgetPeriod(((ProposalBudgetForm) model).getBudget().getBudgetPeriod(budgetProjectIncome));
         }
-
         if (addLine instanceof BudgetUnrecoveredFandA) {
             BudgetUnrecoveredFandA budgetUnrecoveredFandA = (BudgetUnrecoveredFandA) addLine;
-            if (budgetUnrecoveredFandA != null) {
-                budgetUnrecoveredFandA.setBudget(((ProposalBudgetForm) model).getBudget());
-                budgetUnrecoveredFandA.setDocumentComponentId(((ProposalBudgetForm) model).getBudget().getNextValue(budgetUnrecoveredFandA.getDocumentComponentIdKey()));
-            }
+            budgetUnrecoveredFandA.setBudget(((ProposalBudgetForm) model).getBudget());
+            budgetUnrecoveredFandA.setDocumentComponentId(((ProposalBudgetForm) model).getBudget().getNextValue(budgetUnrecoveredFandA.getDocumentComponentIdKey()));
         }
         if (addLine instanceof BudgetCostShare) {
             BudgetCostShare budgetCostShare = (BudgetCostShare) addLine;
-            if (budgetCostShare != null) {
-                budgetCostShare.setBudget(((ProposalBudgetForm) model).getBudget());
-                budgetCostShare.setDocumentComponentId(((ProposalBudgetForm) model).getBudget().getNextValue(budgetCostShare.getDocumentComponentIdKey()));
-            }
+            budgetCostShare.setBudget(((ProposalBudgetForm) model).getBudget());
+            budgetCostShare.setDocumentComponentId(((ProposalBudgetForm) model).getBudget().getNextValue(budgetCostShare.getDocumentComponentIdKey()));
         }
         if (addLine instanceof BudgetModularIdc) {
             BudgetModularIdc budgetModularIdc = (BudgetModularIdc) addLine;
@@ -170,10 +159,11 @@ public class ProposalBudgetViewHelperServiceImpl extends KcViewHelperServiceImpl
         }
         else if (deleteLine instanceof BudgetPeriod) {
             try {
-                Object periods = PropertyUtils.getProperty(model, collectionPath);
+                @SuppressWarnings("unchecked")
+                final List<BudgetPeriod> periods = (List<BudgetPeriod>) PropertyUtils.getProperty(model, collectionPath);
 
                 // Do not allow deletion of last budget period
-                if (periods != null && ((List<BudgetPeriod>) periods).size() == 1) {
+                if (periods != null && periods.size() == 1) {
                     getGlobalVariableService().getMessageMap().putError(collectionPath, ERROR_BUDGET_PERIOD_MINIMUM);
                     return false;
                 }
@@ -183,6 +173,11 @@ public class ProposalBudgetViewHelperServiceImpl extends KcViewHelperServiceImpl
             }
         }
        return super.performDeleteLineValidation(model,collectionId,collectionPath,deleteLine);
+    }
+
+    public String getProposalStatusForDisplay(DevelopmentProposal proposal) {
+        final ProposalState state = proposal.getHierarchyAwareProposalStatus();
+        return state != null ? state.getDescription() : "";
     }
 
     public String getWizardMaxResults() {
@@ -294,9 +289,7 @@ public class ProposalBudgetViewHelperServiceImpl extends KcViewHelperServiceImpl
 
     public boolean budgetLineItemsExistInLaterPeriods(List<BudgetPeriod> budgetPeriods) {
         for (BudgetPeriod budgetPeriod : budgetPeriods) {
-            if (budgetPeriod.getBudgetPeriod() == 1) {
-              continue;
-            } else if (!budgetPeriod.getBudgetLineItems().isEmpty()) {
+            if (budgetPeriod.getBudgetPeriod() != 1 && !budgetPeriod.getBudgetLineItems().isEmpty()) {
                 return true;
             }
         }
@@ -307,11 +300,9 @@ public class ProposalBudgetViewHelperServiceImpl extends KcViewHelperServiceImpl
         if (form.getDevelopmentProposal().isInHierarchy()) {
             form.setHierarchyDevelopmentProposals(getProposalHierarchyService().getHierarchyProposals(form.getDevelopmentProposal()));
 
-            for (DevelopmentProposal developmentProposal : form.getHierarchyDevelopmentProposals()) {
-                if (developmentProposal.getHierarchySummaryBudget().getBudgetSummaryDetails().isEmpty()){
-                    getBudgetCalculationService().populateBudgetSummaryTotals(developmentProposal.getHierarchySummaryBudget());
-                }
-            }
+            form.getHierarchyDevelopmentProposals().stream()
+                    .filter(developmentProposal -> developmentProposal.getHierarchySummaryBudget().getBudgetSummaryDetails().isEmpty())
+                    .forEach(developmentProposal -> getBudgetCalculationService().populateBudgetSummaryTotals(developmentProposal.getHierarchySummaryBudget()));
         }
     }
 
