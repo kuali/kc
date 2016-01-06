@@ -94,29 +94,29 @@ VALUES (SEQ_QUESTIONNAIRE_REF_ID.NEXTVAL, 'http://apply.grants.gov/forms/NSF_Cov
 
 -- might have to do this dynamically
 insert into ARG_VALUE_LOOKUP (ARG_VALUE_LOOKUP_ID,ARGUMENT_NAME,VALUE,DESCRIPTION,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID)
-    values(1078, 'FundingMechanism','RAPID','RAPID','admin',sysdate,sys_guid());
+    values((select max(ARG_VALUE_LOOKUP_ID)+1 from ARG_VALUE_LOOKUP), 'FundingMechanism','RAPID','RAPID','admin',sysdate,sys_guid());
 
 insert into ARG_VALUE_LOOKUP (ARG_VALUE_LOOKUP_ID,ARGUMENT_NAME,VALUE,DESCRIPTION,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID)
-    values(1079, 'FundingMechanism','EAGER','EAGER','admin',sysdate,sys_guid());
+    values((select max(ARG_VALUE_LOOKUP_ID)+1 from ARG_VALUE_LOOKUP), 'FundingMechanism','EAGER','EAGER','admin',sysdate,sys_guid());
 
 insert into ARG_VALUE_LOOKUP (ARG_VALUE_LOOKUP_ID,ARGUMENT_NAME,VALUE,DESCRIPTION,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID)
-    values(1080, 'FundingMechanism','Research - Other than RAPID or EAGER','Research - Other than RAPID or EAGER','admin',sysdate,sys_guid());
+    values((select max(ARG_VALUE_LOOKUP_ID)+1 from ARG_VALUE_LOOKUP), 'FundingMechanism','Research - Other than RAPID or EAGER','Research - Other than RAPID or EAGER','admin',sysdate,sys_guid());
 
 insert into ARG_VALUE_LOOKUP (ARG_VALUE_LOOKUP_ID,ARGUMENT_NAME,VALUE,DESCRIPTION,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID)
-    values(1081, 'FundingMechanism','Ideas Lab','Ideas Lab','admin',sysdate,sys_guid());
+    values((select max(ARG_VALUE_LOOKUP_ID)+1 from ARG_VALUE_LOOKUP), 'FundingMechanism','Ideas Lab','Ideas Lab','admin',sysdate,sys_guid());
 
 insert into ARG_VALUE_LOOKUP (ARG_VALUE_LOOKUP_ID,ARGUMENT_NAME,VALUE,DESCRIPTION,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID)
-    values(1082, 'FundingMechanism','Equipment','Equipment','admin',sysdate,sys_guid());
+    values((select max(ARG_VALUE_LOOKUP_ID)+1 from ARG_VALUE_LOOKUP), 'FundingMechanism','Equipment','Equipment','admin',sysdate,sys_guid());
 
 insert into ARG_VALUE_LOOKUP (ARG_VALUE_LOOKUP_ID,ARGUMENT_NAME,VALUE,DESCRIPTION,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID)
-    values(1083, 'FundingMechanism','Conference','Conference','admin',sysdate,sys_guid());
+    values((select max(ARG_VALUE_LOOKUP_ID)+1 from ARG_VALUE_LOOKUP), 'FundingMechanism','Conference','Conference','admin',sysdate,sys_guid());
 
 insert into ARG_VALUE_LOOKUP (ARG_VALUE_LOOKUP_ID,ARGUMENT_NAME,VALUE,DESCRIPTION,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID)
-    values(1084, 'FundingMechanism','International Travel','International Travel','admin',sysdate,sys_guid());
+    values((select max(ARG_VALUE_LOOKUP_ID)+1 from ARG_VALUE_LOOKUP), 'FundingMechanism','International Travel','International Travel','admin',sysdate,sys_guid());
 
 insert into ARG_VALUE_LOOKUP (ARG_VALUE_LOOKUP_ID,ARGUMENT_NAME,VALUE,DESCRIPTION,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID)
-    values(1085, 'FundingMechanism','Fellowship','Fellowship','admin',sysdate,sys_guid());
+    values((select max(ARG_VALUE_LOOKUP_ID)+1 from ARG_VALUE_LOOKUP), 'FundingMechanism','Fellowship','Fellowship','admin',sysdate,sys_guid());
 
 insert into ARG_VALUE_LOOKUP (ARG_VALUE_LOOKUP_ID,ARGUMENT_NAME,VALUE,DESCRIPTION,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID)
-    values(1086, 'FundingMechanism','Fecility/Center','Fecility/Center','admin',sysdate,sys_guid());
+    values((select max(ARG_VALUE_LOOKUP_ID)+1 from ARG_VALUE_LOOKUP), 'FundingMechanism','Fecility/Center','Fecility/Center','admin',sysdate,sys_guid());
 

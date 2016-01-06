@@ -22,4 +22,5 @@ set sqlblanklines on
 
 spool 1508_oracle_kc_rice_server_upgrade.sql.log
 @./rice/bootstrap/V1508_007__fix_parms.sql
+@./rice/bootstrap/V1508_011__financial_rest_apis_parm.sql
 commit;

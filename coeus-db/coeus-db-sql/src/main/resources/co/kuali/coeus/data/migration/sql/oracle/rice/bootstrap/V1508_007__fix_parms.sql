@@ -17,7 +17,17 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-update krcr_parm_t set CMPNT_CD = 'All' where APPL_ID = 'KC' and NMSPC_CD = 'KC-GEN' and PARM_NM = 'POST_DOCTORAL_COSTELEMENT' and CMPNT_CD = 'A';
+DECLARE
+  parmcnt number;
+BEGIN
+  select count(*) into parmcnt from krcr_parm_t where APPL_ID = 'KC' and NMSPC_CD = 'KC-GEN' and PARM_NM = 'POST_DOCTORAL_COSTELEMENT' and CMPNT_CD = 'All';
+  if parmcnt = 0 THEN
+    update krcr_parm_t set CMPNT_CD = 'All' where APPL_ID = 'KC' and NMSPC_CD = 'KC-GEN' and PARM_NM = 'POST_DOCTORAL_COSTELEMENT' and CMPNT_CD = 'A';
+  ELSE
+    delete from krcr_parm_t where APPL_ID = 'KC' and NMSPC_CD = 'KC-GEN' and PARM_NM = 'POST_DOCTORAL_COSTELEMENT' and CMPNT_CD = 'A';
+  END IF;
+END;
+/
 
 insert into krcr_cmpnt_t (NMSPC_CD, CMPNT_CD, NM, ACTV_IND, OBJ_ID, VER_NBR) VALUES ('KC-AB', 'All', 'All', 'Y', SYS_GUID(), 1);
 insert into krcr_cmpnt_t (NMSPC_CD, CMPNT_CD, NM, ACTV_IND, OBJ_ID, VER_NBR) VALUES ('KC-IP', 'All', 'All', 'Y', SYS_GUID(), 1);
