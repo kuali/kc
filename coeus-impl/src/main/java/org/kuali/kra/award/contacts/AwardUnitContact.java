@@ -48,8 +48,6 @@ public class AwardUnitContact extends AwardContact {
     private String unitAdministratorUnitNumber;
     private boolean defaultUnitContact;
 
-
-
     public AwardUnitContact() {
         super();
     }
