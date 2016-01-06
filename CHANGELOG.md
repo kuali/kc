@@ -1,6 +1,40 @@
 
 
 ##CURRENT
+* Add additional information to financial api award endpoint
+
+  * The following information needed to be added to the financial api endpoint
+
+  * ```
+* Award Number
+* Award Lead Unit
+* Project Title
+* Sponsor
+* Prime Sponsor
+* PI
+* Unit Administrator
+* Project Start Date
+* Project End Date
+* Award Status
+* Total Obligated Direct
+* Total Obligated F&A
+* Total Obligated
+* Total Anticipated Direct
+* Total Anticipated F&A
+* Total Anticipated
+* Award Type
+* Account Type
+* CFDA Number
+* Sponsor Award ID
+* F&A Rate Class
+* F&A Rate Type
+* F&A Rate
+* Custom Data
+* Transaction History
+  * ```
+  * blackcathacker on Tue, 5 Jan 2016 17:06:12 -0800 [View Commit](../../commit/e326776fb4c523c554bf09923b449ad5e5b29897)
+
+##coeus-1601.11
 * No Changes
 
 
