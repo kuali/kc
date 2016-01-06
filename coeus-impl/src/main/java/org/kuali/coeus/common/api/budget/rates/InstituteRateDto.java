@@ -18,16 +18,20 @@
  */
 package org.kuali.coeus.common.api.budget.rates;
 
-import java.sql.Date;
+import java.util.Date;
 
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
+import com.codiform.moo.annotation.Property;
+
 public class InstituteRateDto {
 
+	private Long id;
     private String fiscalYear;
     private Boolean onOffCampusFlag;
     private String rateClassCode;
     private String rateTypeCode;
+    @Property(translate = true)
     private Date startDate;
     private ScaleTwoDecimal instituteRate;
     private String unitNumber;
@@ -81,5 +85,10 @@ public class InstituteRateDto {
 	public void setActivityTypeCode(String activityTypeCode) {
 		this.activityTypeCode = activityTypeCode;
 	}
-	
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 }

@@ -1365,11 +1365,12 @@
         </property>
     </bean>
 
-    <import resource="classpath:org/kuali/coeus/sys/framework/ImportEndpointSpringBeans.xml" />
-
     <bean id="permissionService" parent="grlImporter" p:serviceName="kimPermissionService" />
     <bean id="dictionaryValidationService" parent="grlImporter" p:serviceName="dictionaryValidationService"/>
     <bean id="persistenceVerificationService" parent="grlImporter" p:serviceName="persistenceVerificationService" />
+    <bean id="restAuditLoggerFactory" parent="grlImporter" p:serviceName="restAuditLoggerFactory" />
+
+    <import resource="classpath:org/kuali/coeus/sys/framework/ImportEndpointSpringBeans.xml" />
 
     <bean id="autoRegisterMapping" class="org.kuali.coeus.sys.framework.controller.rest.RestSimpleUrlHandlerMapping"/>
 
