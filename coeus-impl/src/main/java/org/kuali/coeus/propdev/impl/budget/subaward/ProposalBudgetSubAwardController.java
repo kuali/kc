@@ -56,10 +56,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller("proposalBudgetSubAwardController")
 @RequestMapping("/proposalBudget")
-public class ProposalBudgetSubAwardController extends
-		ProposalBudgetControllerBase {
+public class ProposalBudgetSubAwardController extends ProposalBudgetControllerBase {
 	
-	protected Log LOG = LogFactory.getLog(ProposalBudgetSubAwardController.class);
+	private static final Log LOG = LogFactory.getLog(ProposalBudgetSubAwardController.class);
 
 	@Autowired
 	@Qualifier("propDevBudgetSubAwardService")
@@ -238,19 +237,19 @@ public class ProposalBudgetSubAwardController extends
         boolean success = true;
         getPropDevBudgetSubAwardService().populateBudgetSubAwardFiles(budget, subAward, fileName, fileData);
         if (subAward.getNewSubAwardFile().getContentType().equalsIgnoreCase(Constants.PDF_REPORT_CONTENT_TYPE)) {
-	        success &= updateSubAwardBudgetDetails(budget, subAward, errorPath);
+	        success = updateSubAwardBudgetDetails(budget, subAward, errorPath);
         }
-    	if (subAward.getSubAwardXmlFileData() != null && kcAttachmentService.getSpecialCharacter(subAward.getSubAwardXmlFileData().toString())) {
+    	if (subAward.getSubAwardXmlFileData() != null && kcAttachmentService.getSpecialCharacter(subAward.getSubAwardXmlFileData())) {
     		globalVariableService.getMessageMap().putWarning(ProposalBudgetConstants.KradConstants.SUBAWARDS_COLLECTION, Constants.SUBAWARD_FILE_SPECIAL_CHARECTOR);
             subAward.getBudgetSubAwardFiles().get(0).setSubAwardXmlFileData(kcAttachmentService.
-                    checkAndReplaceSpecialCharacters(subAward.getBudgetSubAwardFiles().get(0).getSubAwardXmlFileData().toString()));
+                    checkAndReplaceSpecialCharacters(subAward.getBudgetSubAwardFiles().get(0).getSubAwardXmlFileData()));
             subAward.setSubAwardXmlFileData(subAward.getBudgetSubAwardFiles().get(0).getSubAwardXmlFileData());
     	}
         return success;
     }
 
     protected boolean updateSubAwardBudgetDetails(Budget budget, BudgetSubAwards subAward, String errorPath) throws Exception {
-        List<String[]> errorMessages = new ArrayList<String[]>();
+        List<String[]> errorMessages = new ArrayList<>();
         boolean success = getPropDevBudgetSubAwardService().updateSubAwardBudgetDetails(budget, subAward, errorMessages);
         if (!errorMessages.isEmpty()) {
             for (String[] message : errorMessages) {
