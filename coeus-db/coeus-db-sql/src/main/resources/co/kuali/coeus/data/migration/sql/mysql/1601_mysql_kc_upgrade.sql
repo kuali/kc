@@ -20,4 +20,5 @@
 
 \. ./kc/bootstrap/V1601_003__RESOPS-581.sql
 \. ./kc/bootstrap/V1601_005__RestAuditLog.sql
+\. ./kc/bootstrap/V1601_006__fix_create_ip_link.sql
 commit;

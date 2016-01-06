@@ -1,6 +1,15 @@
 
 
 ##CURRENT
+*  Create Institute Proposal and canceling via search box results in an STE.
+            selected "Create Institute Proposal" from the KC Home screen via search box.
+            In the resulting "Proposal Log Lookup" window, I selected Cancel as I did NOT want to create a new Institute Proposal.
+            The following STE was returned (in a window with double headers...):
+            Stacktrace (only in dev mode)
+            org.kuali.rice.krad.datadictionary.DataDictionaryException: Unable to find View with id: Kc-LandingPage-RedirectView?forInstitutionalProposal at org.kuali.rice.krad.datadictionary.uif.UifDictionaryIndex.getImmutableViewById(UifDictionaryIndex.java:142) at org.kuali.rice.krad.datadictionary.uif.UifDictionaryIndex.getViewById(UifDictionaryIndex.java:128) at org.kuali.rice.krad.datadictionary.DataDictionaryIndexMapper.getViewById(DataDictionaryIndexMapper.java:280) at org.kuali.rice.krad.datadictionary.DataDictionary.getViewById(DataDictionary.java:671) at org.kuali.rice.krad.service.impl.DataDictionaryServiceImpl.getViewById(DataDictionaryServiceImpl.java:875) at org.kuali.rice.krad.uif.service.impl.ViewServiceImpl.getViewById(ViewServiceImpl.java:56) at org.kuali.rice.krad.web.bind.UifServletRequestDataBinder.bind(UifServletRequestDataBinder.java:199) at org.springframework.web.servlet.mvc.method.annotation.ServletModelAttributeMethodProcessor.bindRequestParameters(ServletModelAttributeMethodProcessor.java:153) at org.springframework.web.method.annotation.ModelAttributeMethodProcessor.resolveArgument(ModelAttributeMethodProcessor.java:106) at org.springframework.web.method.support.HandlerMethodArgumentResolverComposite.resolveArgument(HandlerMethodArgumentResolverComposite.java:77) at org.springframework.web.method.support.InvocableHandlerMethod.getMethodArgumentValues(InvocableHandlerMethod.java:157) at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:124) at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:104) at
+  * Travis Schneeberger on Wed, 6 Jan 2016 15:24:28 -0500 [View Commit](../../commit/5b305be9a7c98230388374fea2abd5c49ae365ae)
+
+##coeus-1601.13
 *  edit existing subaward results in an STE.
   * Create subaward with required fields
   * Route to final
