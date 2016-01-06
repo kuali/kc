@@ -1,6 +1,30 @@
 
 
 ##CURRENT
+*  adding new method to check if proposal is in one of the modifiable stauses and user has enough permissions to edit specific questionnaire
+  * Geo Thomas on Tue, 5 Jan 2016 17:22:52 -0500 [View Commit](../../commit/4603e1671131a2e37e35ce708b1be00ed91348fb)
+*   The subrecipient DUNS number needs to display on screen near the other FAIN information related to Uniform Guidance to ease reporting.
+
+  * The field for subrecpient's display of name was not large enough to accomodate the DUNS as well. Therefore, we should move that field to the bottom of the section so that the area can expand to show the DUNS and subrecipient name in one location. This would seperate the Subrecipient from the Sub Investigator however, so we also require that the sub Investigator move to be directly above the new subrecipient display placement. To do that, we will move the execution date to the former placement of the subrecipient.
+  * Travis Schneeberger on Tue, 5 Jan 2016 17:08:57 -0500 [View Commit](../../commit/03f6a7359bb10b00df251441426ca643d57b0fe8)
+* PD - COI Disclosure Status button and Window should display if logic requires certification
+
+  * This is a business process requirement.
+  * The COI Disclosure status button and window should display if any and all logic triggers the requirement for any proposal person to certify (sponsor hierarchy, PCK flag, proposal types, etc).
+  * The button should display when personnel are added to the proposal.
+  * When opened the window should remain unpopulated unless and until a proposal person answers with a Yes to one of the COI screening questions in proposal certifications maintained in PROP_PERSON_COI_CERTIFY_QID.
+
+  * Currently the COI Disclosure status button will not display until a person has answered a yes to one of the COI screening questions in proposal certifications. Showing no COI Disclosure Status button is confusing as could mean no requirement for certification by logic or by a persons answers. The window should display if logic requires certification by any proposal persons.
+  * Joe Williams on Tue, 5 Jan 2016 09:27:21 -0600 [View Commit](../../commit/1cc5f48ce7de824b8a1c190eb7b2b8f37a2b5b85)
+* PD - Inactive COI Notification based on answers still generating
+
+  * Confirmed the PD notification 10407 "Notification based on answers to the COI screening questions" was not Active in MITQA.
+  * Created PD 30523 added personnel. Backdoor logged in as co-Investigator user mgb who answered Yes to all three COI screening questions. We got the on screen prompt modal instructing user to disclose in Coeus lite. And the attached email notification was generated to mgb stating user must complete a full disclosure before proposal can be routed.
+
+  * Since this notification is not active it should not generate.
+  * Joe Williams on Mon, 4 Jan 2016 14:36:27 -0600 [View Commit](../../commit/530f1b667502df8da65dec64316948448657f4bf)
+
+##coeus-1601.7
 * No Changes
 
 
