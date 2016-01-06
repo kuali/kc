@@ -1,6 +1,54 @@
 
 
 ##CURRENT
+*  edit existing subaward results in an STE.
+  * Create subaward with required fields
+  * Route to final
+  * Search for Subaward through doc search, open
+  * Click edit
+  * Results in STE:
+
+  * java.lang.NullPointerException
+  * at org.kuali.kra.subaward.service.impl.SubAwardServiceImpl.incrementVersionNumberIfCanceledVersionsExist(SubAwardServiceImpl.java:80)
+  * at org.kuali.kra.subaward.service.impl.SubAwardServiceImpl.createNewSubAwardVersion(SubAwardServiceImpl.java:70)
+  * at org.kuali.kra.subaward.web.struts.action.SubAwardHomeAction.createAndSaveNewSubAwardVersion(SubAwardHomeAction.java:232)
+  * at org.kuali.kra.subaward.web.struts.action.SubAwardHomeAction.editOrVersion(SubAwardHomeAction.java:145)
+  * at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+  * at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+  * at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+  * at java.lang.reflect.Method.invoke(Method.java:497)
+  * at org.apache.struts.actions.DispatchAction.dispatchMethod(DispatchAction.java:269)
+  * at org.kuali.rice.kns.web.struts.action.KualiAction.dispatchMethod(KualiAction.java:1
+  * Travis Schneeberger on Wed, 6 Jan 2016 15:50:57 -0500 [View Commit](../../commit/e6db4868ec8537e897d062088a0d3d2358c798c4)
+*  Prop Dev Budget Hierarchy causes STE on Hierarchy Summary screen.
+
+  * Successfully created parent.
+  * Opened parent 30575 in Edit mode.
+  * Opened Budget.
+  * Navigated successfully to all sections of the budget from left nav options through Budget Summary
+  * Selected Hierarchy summary from left nav
+  * Received STE:
+
+  * java.lang.RuntimeException: Exception evaluating expression: #ViewHelper.getProposalStatusForDisplay(#line) at org.kuali.rice.krad.uif.view.DefaultExpressionEvaluator.evaluateExpression(DefaultExpressionEvaluator.java:448) at org.kuali.rice.krad.uif.view.DefaultExpressionEvaluator.evaluatePropertyExpression(DefaultExpressionEvaluator.java:514) at org.kuali.rice.krad.uif.view.DefaultExpressionEvaluator.evaluatePropertyExpressions(DefaultExpressionEvaluator.java:735) at org.kuali.rice.krad.uif.view.DefaultExpressionEvaluator.evaluateExpressionsOnConfigurable(DefaultExpressionEvaluator.java:421) at org.kuali.rice.krad.uif.lifecycle.model.EvaluateExpressionsTask.performLifecycleTask(EvaluateExpressionsTask.java:93) at org.kuali.rice.krad.uif.lifecycle.ViewLifecycleTaskBase.run(ViewLifecycleTaskBase.java:66) at org.kuali.rice.krad.uif.lifecycle.ViewLifecyclePhaseBase.run(ViewLifecyclePhaseBase.java:173) at org.kuali.rice.krad.uif.lifecycle.SynchronousViewLifecycleProcessor.performPhase(SynchronousViewLifecycleProcessor.java:192) at org.kuali.rice.krad.uif.lifecycle.ViewLifecycleBuild.runApplyModelPhase(ViewLifecycleBuild.java:201) at org.kuali.rice.krad.uif.lifecycle.ViewLifecycleBuild.run(ViewLifecycleBuild.java:70) at org.kuali.rice.krad.uif.lifecycle.ViewLifecycle.encapsulateLifecycle(ViewLifecyc
+  * Travis Schneeberger on Wed, 6 Jan 2016 14:57:38 -0500 [View Commit](../../commit/4bce4b55caa60e040b142739f3a79ee372dacd16)
+*  It's not possible to delete a subaward from a PD budget that has any costs associated with it.
+
+  * The steps are as follows:
+  * 1) Create a new proposal.
+  * 2) Create a new detailed budget within the proposal.
+  * 3) Go to the Subaward panel within the budget and click "Add subaward".
+  * 4) Select an organization and click Add Subaward.
+  * 5) Click the Details button on the subaward and fill out the Direct/F&A costs for the subaward, then click "Save Changes".
+  * 6) Back on the Subaward screen, click the Delete button to attempt to remove the subaward.
+  * 7) A blank screen is displayed. (On my dev instance I got a stack trace indicating "integrity constraint (KCSO.FK2_BUDGET_DETAILS) violated")
+  * 8) Navigate back to the proposal and open the budget again. The subaward is still present and has not been deleted.
+  * Travis Schneeberger on Wed, 6 Jan 2016 10:31:16 -0500 [View Commit](../../commit/43eebaedae1cf8b0092f5e3a116215865b008113)
+* Rest service audit logging support
+
+  * Saves all rest changes as JSON to REST_AUDIT_LOG table.
+  * blackcathacker on Tue, 15 Dec 2015 15:35:53 -0800 [View Commit](../../commit/32c656c27f26faf725a41c5898a87aeb9a9709dd)
+
+##coeus-1601.12
 * Add additional information to financial api award endpoint
 
   * The following information needed to be added to the financial api endpoint
