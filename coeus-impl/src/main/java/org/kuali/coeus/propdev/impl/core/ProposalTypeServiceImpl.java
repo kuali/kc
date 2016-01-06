@@ -25,9 +25,9 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component("proposalTypeService")
+@Service("proposalTypeService")
 public class ProposalTypeServiceImpl implements ProposalTypeService {
 	
     @Autowired

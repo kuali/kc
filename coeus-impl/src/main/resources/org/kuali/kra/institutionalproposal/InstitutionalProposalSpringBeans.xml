@@ -40,6 +40,7 @@
     <mvc:annotation-driven/>
 
     <context:component-scan base-package="org.kuali.coeus.instprop"/>
+    <context:component-scan base-package="org.kuali.kra.institutionalproposal"/>
 
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
@@ -250,6 +251,7 @@
         <property name="parameterService" ref="parameterService" />
         <property name="institutionalProposalDao" ref="institutionalProposalDao"/>
         <property name="instPropProjectRetrievalService" ref="instPropProjectRetrievalService" />
+        <property name="dataObjectService" ref="dataObjectService" />
     </bean>
 
     <bean id="institutionalProposalDao" parent="platformAwareDao" class="org.kuali.kra.institutionalproposal.dao.ojb.InstitutionalProposalDaoOjb"/>
