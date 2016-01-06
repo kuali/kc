@@ -23,13 +23,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.common.framework.org.Organization;
@@ -38,7 +38,6 @@ import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetControllerBase;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetForm;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
@@ -216,15 +215,19 @@ public class ProposalBudgetSubAwardController extends
 	
 	@Transactional @RequestMapping(params={"methodToCall=deleteLine", "actionParameters[selectedCollectionPath]=budget.budgetSubAwards"})
 	public ModelAndView deleteLine(@RequestParam("actionParameters[lineIndex]") Integer subAwardIndex, @ModelAttribute("KualiForm") ProposalBudgetForm form) {
-		BudgetSubAwards subAwardToDelete = form.getBudget().getBudgetSubAwards().get(subAwardIndex);
-		List<BudgetLineItem> lineItems = getDataObjectService().findMatching(BudgetLineItem.class, QueryByCriteria.Builder.fromPredicates(
-				PredicateFactory.equal("budgetId", subAwardToDelete.getBudgetId()), 
-				PredicateFactory.equal("subAwardNumber", subAwardToDelete.getSubAwardNumber()))).getResults();
-		for (BudgetPeriod period : form.getBudget().getBudgetPeriods()) {
-			period.getBudgetLineItems().removeAll(lineItems);
-		}
-        getCollectionControllerService().deleteLine(form);
-        return super.save(form);
+		final BudgetSubAwards subAwardToDelete = form.getBudget().getBudgetSubAwards().get(subAwardIndex);
+
+		form.getBudget().getBudgetPeriods().stream().forEach(period ->
+			period.setBudgetLineItems(period.getBudgetLineItems().stream()
+					.filter(lineItem -> !lineItem.getBudgetId().equals(subAwardToDelete.getBudgetId()))
+					.filter(lineItem -> !lineItem.getSubAwardNumber().equals(subAwardToDelete.getSubAwardNumber()))
+					.collect(Collectors.toList())));
+
+		form.setBudget(getDataObjectService().save(form.getBudget()));
+
+		getCollectionControllerService().deleteLine(form);
+
+		return super.save(form);
 	}
 	
 	
