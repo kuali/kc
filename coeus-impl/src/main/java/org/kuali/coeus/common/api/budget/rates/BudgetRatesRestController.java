@@ -109,10 +109,9 @@ public class BudgetRatesRestController extends RestController {
 	}
 
 	protected List<String> getDtoProperties() throws IntrospectionException {
-		List<String> ignoredProperties = Stream.of("class").collect(Collectors.toList());
 		return Arrays.asList(Introspector.getBeanInfo(InstituteRateDto.class).getPropertyDescriptors()).stream()
 				.map(PropertyDescriptor::getName)
-				.filter(prop -> {return !ignoredProperties.contains(prop);})
+				.filter(prop -> !"class".equals(prop))
 				.collect(Collectors.toList());
 	}
 	

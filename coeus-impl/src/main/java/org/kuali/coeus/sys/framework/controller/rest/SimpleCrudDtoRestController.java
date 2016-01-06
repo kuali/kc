@@ -107,10 +107,9 @@ public class SimpleCrudDtoRestController<T extends PersistableBusinessObject, R>
 	@Override
 	protected List<String> getListOfTrackedProperties() {
 		try {
-			List<String> ignoredProperties = Stream.of("class").collect(Collectors.toList());
 			return Arrays.asList(Introspector.getBeanInfo(dtoObjectClazz).getPropertyDescriptors()).stream()
 					.map(PropertyDescriptor::getName)
-					.filter(prop -> {return !ignoredProperties.contains(prop);})
+					.filter(name -> !"class".equals(name))
 					.collect(Collectors.toList());
 		} catch (IntrospectionException e) {
 			throw new RuntimeException(e);

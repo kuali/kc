@@ -54,14 +54,14 @@ public class RestAuditLoggerDaoImpl implements RestAuditLoggerDao {
 	@Override
 	public List<RestAuditLog> getAuditLogsForDataObject(Class<?> dataObjectClass) {
 		return getRestAuditLogsFromDatabase(dataObjectClass).stream()
-				.map(dataObject -> {
-					return new RestAuditLog(dataObject.getUsername(),
+				.map(dataObject -> 
+					new RestAuditLog(dataObject.getUsername(),
 							dataObject.getDate().toInstant(),
 							dataObject.getClassName(),
 							transformJsonToMap(dataObject.getId(), dataObject.getAdded()),
 							transformJsonToMap(dataObject.getId(), dataObject.getModified()),
-							transformJsonToMap(dataObject.getId(), dataObject.getDeleted()));
-				}).collect(Collectors.toList());
+							transformJsonToMap(dataObject.getId(), dataObject.getDeleted()))
+				).collect(Collectors.toList());
 	}
 
 	protected List<RestAuditLogDataObject> getRestAuditLogsFromDatabase(Class<?> dataObjectClass) {

@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 public class RestAuditLog {
 
 	private String username;
@@ -87,6 +89,10 @@ public class RestAuditLog {
 	}
 	public void setClassName(String className) {
 		this.className = className;
+	}
+	@Override
+	public String toString() {
+		return new ToStringBuilder(this).append("username", username).append("date", date).append("className", className).build();
 	}
 	
 	
