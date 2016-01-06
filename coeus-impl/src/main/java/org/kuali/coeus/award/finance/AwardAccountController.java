@@ -95,17 +95,12 @@ public class AwardAccountController extends RestController {
             AccountInformationDto accountInformation = accountService.createAccountInformation(award);
             List<AccountInformationDto> accountsInformation = new ArrayList<>();
             accountsInformation.add(accountInformation);
-            accountInformationResults = Translate.to(AccountInformationResults.class).from(transformAwardInformation(accountsInformation));
+            accountInformationResults.setAccounts(accountsInformation);
+            accountInformationResults.setCount(1);
+            accountInformationResults.setTotalFound(1);
             return accountInformationResults;
         }
         return accountInformationResults;
-    }
-
-    SearchResults<AccountInformationDto> transformAwardInformation(List<AccountInformationDto> accountsInformation) {
-        SearchResults<AccountInformationDto> result = new SearchResults<>();
-        result.setResults(accountsInformation);
-        result.setTotalResults(accountsInformation.size());
-        return result;
     }
 
     AccountSearchResults<AwardAccount> transformSearchResults(List<AwardAccount> accounts, List<Long> awardIds) {

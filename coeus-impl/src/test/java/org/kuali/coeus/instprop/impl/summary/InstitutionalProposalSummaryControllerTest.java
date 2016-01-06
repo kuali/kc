@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.instprop.impl.api.InstitutionalProposalResults;
 import org.kuali.coeus.instprop.impl.api.InstitutionalProposalSummaryDto;
 import org.kuali.coeus.sys.framework.summary.SearchResults;
@@ -48,6 +49,30 @@ public class InstitutionalProposalSummaryControllerTest {
 			}
 			public void setPersonId(String personId) {
 				this.personId = personId;
+			}
+			public String getAddressLine1() {
+				return "123 Nowhere";
+			}
+			public String getAddressLine2() {
+				return null;
+			}
+			public String getAddressLine3() {
+				return null;
+			}
+			public String getCity() {
+				return "Nowhere";
+			}
+			public String getState() {
+				return "NA";
+			}
+			public String getPostalCode() {
+				return "55555";
+			}
+			public String getUserName() {
+				return "Foobar";
+			}
+			public String getEmailAddress() {
+				return "noarealemail@nowhere.com";
 			}
 		};
 		piPerson.setPersonId(PERSON_ID123);
@@ -109,7 +134,7 @@ public class InstitutionalProposalSummaryControllerTest {
 	}
 	
 	@Test
-	public void testOrganizationSummary() {
+	public void testInstPropSummary() {
 		institutionalProposalSummaryController = new InstitutionalProposalSummaryController() {
 			@Override
 			SearchResults<InstitutionalProposal> getProposals(Date updatedSince, Integer page, Integer numberPerPage) {

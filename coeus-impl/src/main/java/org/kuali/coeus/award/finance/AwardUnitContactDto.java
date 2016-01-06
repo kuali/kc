@@ -1,7 +1,7 @@
 /*
  * Kuali Coeus, a comprehensive research administration system for higher education.
  * 
- * Copyright 2005-2015 Kuali, Inc.
+ * Copyright 2005-2016 Kuali, Inc.
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,60 +16,33 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.coeus.sys.framework.summary;
+package org.kuali.coeus.award.finance;
 
 import org.kuali.coeus.common.framework.person.KcPersonDto;
+import org.kuali.coeus.common.framework.unit.admin.UnitAdministratorTypeDto;
 
 import com.codiform.moo.annotation.Optionality;
 import com.codiform.moo.annotation.Property;
 
-public class InvestigatorDto {
+public class AwardUnitContactDto {
 
-	private String personId;
-	private String fullName;
-	private String emailAddress;
-	@Property(source = "mvel:person.?userName", optionality=Optionality.OPTIONAL)
-	private String userName;
-	private String roleCode;
-	private String projectRole;
+	@Property(translate = true)
+	private UnitAdministratorTypeDto unitAdministratorType;
+	@Property(source = "unitAdministratorUnitNumber")
+	private String unitNumber;
 	@Property(translate = true, optionality = Optionality.OPTIONAL)
 	private KcPersonDto person;
-	
-	public String getPersonId() {
-		return personId;
+	public UnitAdministratorTypeDto getUnitAdministratorType() {
+		return unitAdministratorType;
 	}
-	public void setPersonId(String personId) {
-		this.personId = personId;
+	public void setUnitAdministratorType(UnitAdministratorTypeDto unitAdministratorType) {
+		this.unitAdministratorType = unitAdministratorType;
 	}
-	public String getFullName() {
-		return fullName;
+	public String getUnitNumber() {
+		return unitNumber;
 	}
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
-	}
-	public String getEmailAddress() {
-		return emailAddress;
-	}
-	public void setEmailAddress(String emailAddress) {
-		this.emailAddress = emailAddress;
-	}
-	public String getUserName() {
-		return userName;
-	}
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-	public String getRoleCode() {
-		return roleCode;
-	}
-	public void setRoleCode(String roleCode) {
-		this.roleCode = roleCode;
-	}
-	public String getProjectRole() {
-		return projectRole;
-	}
-	public void setProjectRole(String projectRole) {
-		this.projectRole = projectRole;
+	public void setUnitNumber(String unitNumber) {
+		this.unitNumber = unitNumber;
 	}
 	public KcPersonDto getPerson() {
 		return person;

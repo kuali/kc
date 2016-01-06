@@ -1,33 +1,110 @@
 package org.kuali.coeus.award.finance;
 
-
 import java.sql.Date;
+import java.util.List;
+
+import org.kuali.coeus.award.api.AwardStatusDto;
+import org.kuali.coeus.common.api.unit.UnitDto;
+import org.kuali.coeus.common.framework.sponsor.SponsorDto;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.summary.InvestigatorDto;
+import org.kuali.kra.award.customdata.AwardCustomDataDto;
+import org.kuali.kra.award.home.AwardAmountInfoDto;
+import org.kuali.kra.award.home.AwardTypeDto;
+
+import com.codiform.moo.annotation.CollectionProperty;
+import com.codiform.moo.annotation.Optionality;
+import com.codiform.moo.annotation.Property;
 
 public class AccountInformationDto {
 
-    protected String accountName;
-    protected String accountNumber;
-    protected String adminContactAddressCityName;
-    protected String adminContactAddressStateCode;
-    protected String adminContactAddressStreetAddress;
-    protected String adminContactAddressZipCode;
+	protected String awardNumber;
+	@Property(translate = true)
+	protected UnitDto leadUnit;
+	protected String title;
+	@Property(translate = true)
+	protected SponsorDto sponsor;
+	@Property(translate = true)
+	protected SponsorDto primeSponsor;
+	@Property(translate = true)
+	private InvestigatorDto principalInvestigator;
+	@CollectionProperty(source = "centralAdminContacts", itemClass=AwardUnitContactDto.class)
+	protected List<AwardUnitContactDto> unitAdministrators;
+	@Property(source = "beginDate")
+	protected Date projectStartDate;	
+	@Property(translate = true)
+	protected AwardStatusDto awardStatus;
+	@Property(translate = true)
+	protected AwardTypeDto awardType;
+	protected Integer accountTypeCode;
+	protected String sponsorAwardNumber;
+	@CollectionProperty(source = "awardFandaRate", itemClass=AwardFandARateDto.class)
+	protected List<AwardFandARateDto> fAndARates;
     protected String cfdaNumber;
-    protected String defaultAddressCityName;
-    protected String defaultAddressStateCode;
-    protected String defaultAddressStreetAddress;
-    protected String defaultAddressZipCode;
+    @Property(source = "awardEffectiveDate")
     protected Date effectiveDate;
-    protected String expenseGuidelineText;
+    @Property(source = "projectEndDate")
     protected Date expirationDate;
-    protected String higherEdFunctionCode;
-    protected String incomeGuidelineText;
-    protected String indirectCostRate;
-    protected String indirectCostTypeCode;
-    protected boolean offCampusIndicator;
-    protected String principalId;
+    @Property(source = "title")
     protected String purposeText;
+    @Property(source = "awardNumber")
+    protected String expenseGuidelineText;
+    @Property(source = "principalInvestigator.personId")
+    protected String principalId;
+    @Property(source = "unitNumber")
     protected String unit;
-
+    
+	@Property(source = "awardAmountInfoForDisplay.finalExpirationDate")
+	protected Date projectEndDate;
+    @Property(source = "awardAmountInfoForDisplay.anticipatedTotalAmount")
+    private ScaleTwoDecimal anticipatedTotalAmount;
+    @Property(source = "awardAmountInfoForDisplay.amountObligatedToDate")
+    private ScaleTwoDecimal amountObligatedToDate;
+    @Property(source = "awardAmountInfoForDisplay.anticipatedTotalDirect")
+    private ScaleTwoDecimal anticipatedTotalDirect;
+    @Property(source = "awardAmountInfoForDisplay.anticipatedTotalIndirect")
+    private ScaleTwoDecimal anticipatedTotalIndirect;
+    @Property(source = "awardAmountInfoForDisplay.obligatedTotalDirect")
+    private ScaleTwoDecimal obligatedTotalDirect;
+    @Property(source = "awardAmountInfoForDisplay.obligatedTotalIndirect")
+    private ScaleTwoDecimal obligatedTotalIndirect;
+    
+    @CollectionProperty(source = "awardCustomDataList", itemClass=AwardCustomDataDto.class)
+    private List<AwardCustomDataDto> customData;
+    
+    @CollectionProperty(source = "awardAmountInfos", itemClass=AwardAmountInfoDto.class)
+    private List<AwardAmountInfoDto> transactions;
+	
+	@Property(optionality=Optionality.OPTIONAL)
+    protected String accountName;
+	@Property(optionality=Optionality.OPTIONAL)
+    protected String accountNumber;
+	@Property(optionality=Optionality.OPTIONAL)
+    protected String adminContactAddressCityName;
+	@Property(optionality=Optionality.OPTIONAL)
+    protected String adminContactAddressStateCode;
+	@Property(optionality=Optionality.OPTIONAL)
+    protected String adminContactAddressStreetAddress;
+	@Property(optionality=Optionality.OPTIONAL)
+    protected String adminContactAddressZipCode;    
+    @Property(optionality=Optionality.OPTIONAL)
+    protected String defaultAddressCityName;
+    @Property(optionality=Optionality.OPTIONAL)
+    protected String defaultAddressStateCode;
+    @Property(optionality=Optionality.OPTIONAL)
+    protected String defaultAddressStreetAddress;
+    @Property(optionality=Optionality.OPTIONAL)
+    protected String defaultAddressZipCode;
+    @Property(optionality=Optionality.OPTIONAL)
+    protected String higherEdFunctionCode;
+    @Property(optionality=Optionality.OPTIONAL)
+    protected String incomeGuidelineText;
+    @Property(optionality=Optionality.OPTIONAL)
+    protected String indirectCostRate;
+    @Property(optionality=Optionality.OPTIONAL)
+    protected String indirectCostTypeCode;
+    @Property(optionality=Optionality.OPTIONAL)
+    protected boolean offCampusIndicator;
 
     public String getAccountName() {
         return accountName;
@@ -204,6 +281,182 @@ public class AccountInformationDto {
     public void setUnit(String value) {
         this.unit = value;
     }
+
+	public String getAwardNumber() {
+		return awardNumber;
+	}
+
+	public void setAwardNumber(String awardNumber) {
+		this.awardNumber = awardNumber;
+	}
+
+	public UnitDto getLeadUnit() {
+		return leadUnit;
+	}
+
+	public void setLeadUnit(UnitDto leadUnit) {
+		this.leadUnit = leadUnit;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public SponsorDto getSponsor() {
+		return sponsor;
+	}
+
+	public void setSponsor(SponsorDto sponsor) {
+		this.sponsor = sponsor;
+	}
+
+	public SponsorDto getPrimeSponsor() {
+		return primeSponsor;
+	}
+
+	public void setPrimeSponsor(SponsorDto primeSponsor) {
+		this.primeSponsor = primeSponsor;
+	}
+
+	public InvestigatorDto getPrincipalInvestigator() {
+		return principalInvestigator;
+	}
+
+	public void setPrincipalInvestigator(InvestigatorDto principalInvestigator) {
+		this.principalInvestigator = principalInvestigator;
+	}
+
+	public List<AwardUnitContactDto> getUnitAdministrators() {
+		return unitAdministrators;
+	}
+
+	public void setUnitAdministrators(List<AwardUnitContactDto> unitAdministrators) {
+		this.unitAdministrators = unitAdministrators;
+	}
+
+	public Date getProjectStartDate() {
+		return projectStartDate;
+	}
+
+	public void setProjectStartDate(Date projectStartDate) {
+		this.projectStartDate = projectStartDate;
+	}
+
+	public Date getProjectEndDate() {
+		return projectEndDate;
+	}
+
+	public void setProjectEndDate(Date projectEndDate) {
+		this.projectEndDate = projectEndDate;
+	}
+
+	public AwardStatusDto getAwardStatus() {
+		return awardStatus;
+	}
+
+	public void setAwardStatus(AwardStatusDto awardStatus) {
+		this.awardStatus = awardStatus;
+	}
+
+	public List<AwardFandARateDto> getfAndARates() {
+		return fAndARates;
+	}
+
+	public void setfAndARates(List<AwardFandARateDto> fAndARates) {
+		this.fAndARates = fAndARates;
+	}
+
+	public String getSponsorAwardNumber() {
+		return sponsorAwardNumber;
+	}
+
+	public void setSponsorAwardNumber(String sponsorAwardNumber) {
+		this.sponsorAwardNumber = sponsorAwardNumber;
+	}
+
+	public Integer getAccountTypeCode() {
+		return accountTypeCode;
+	}
+
+	public void setAccountTypeCode(Integer accountTypeCode) {
+		this.accountTypeCode = accountTypeCode;
+	}
+
+	public ScaleTwoDecimal getAnticipatedTotalAmount() {
+		return anticipatedTotalAmount;
+	}
+
+	public void setAnticipatedTotalAmount(ScaleTwoDecimal anticipatedTotalAmount) {
+		this.anticipatedTotalAmount = anticipatedTotalAmount;
+	}
+
+	public ScaleTwoDecimal getAmountObligatedToDate() {
+		return amountObligatedToDate;
+	}
+
+	public void setAmountObligatedToDate(ScaleTwoDecimal amountObligatedToDate) {
+		this.amountObligatedToDate = amountObligatedToDate;
+	}
+
+	public ScaleTwoDecimal getAnticipatedTotalDirect() {
+		return anticipatedTotalDirect;
+	}
+
+	public void setAnticipatedTotalDirect(ScaleTwoDecimal anticipatedTotalDirect) {
+		this.anticipatedTotalDirect = anticipatedTotalDirect;
+	}
+
+	public ScaleTwoDecimal getAnticipatedTotalIndirect() {
+		return anticipatedTotalIndirect;
+	}
+
+	public void setAnticipatedTotalIndirect(ScaleTwoDecimal anticipatedTotalIndirect) {
+		this.anticipatedTotalIndirect = anticipatedTotalIndirect;
+	}
+
+	public ScaleTwoDecimal getObligatedTotalDirect() {
+		return obligatedTotalDirect;
+	}
+
+	public void setObligatedTotalDirect(ScaleTwoDecimal obligatedTotalDirect) {
+		this.obligatedTotalDirect = obligatedTotalDirect;
+	}
+
+	public ScaleTwoDecimal getObligatedTotalIndirect() {
+		return obligatedTotalIndirect;
+	}
+
+	public void setObligatedTotalIndirect(ScaleTwoDecimal obligatedTotalIndirect) {
+		this.obligatedTotalIndirect = obligatedTotalIndirect;
+	}
+
+	public List<AwardCustomDataDto> getCustomData() {
+		return customData;
+	}
+
+	public void setCustomData(List<AwardCustomDataDto> customData) {
+		this.customData = customData;
+	}
+
+	public List<AwardAmountInfoDto> getTransactions() {
+		return transactions;
+	}
+
+	public void setTransactions(List<AwardAmountInfoDto> transactions) {
+		this.transactions = transactions;
+	}
+
+	public AwardTypeDto getAwardType() {
+		return awardType;
+	}
+
+	public void setAwardType(AwardTypeDto awardType) {
+		this.awardType = awardType;
+	}
 
 }
 
