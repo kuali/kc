@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* Add additional fields to the ip and award summary apis
+
+  * Adds lead unit to both award and ip summary apis.
+  * Adds proposal log proposal number to the ip summary.
+  * Add additional id information for both award and ip in summary and in funding proposal info
+  * blackcathacker on Wed, 6 Jan 2016 16:53:28 -0800 [View Commit](../../commit/8df89753e47c0855017533d2b09e78a483e66fad)
+
+##coeus-1601.14
 *  Create Institute Proposal and canceling via search box results in an STE.
             selected "Create Institute Proposal" from the KC Home screen via search box.
             In the resulting "Proposal Log Lookup" window, I selected Cancel as I did NOT want to create a new Institute Proposal.
