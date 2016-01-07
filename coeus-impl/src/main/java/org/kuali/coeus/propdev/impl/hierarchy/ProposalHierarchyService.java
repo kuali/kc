@@ -34,27 +34,13 @@ import java.util.List;
 
 public interface ProposalHierarchyService {
     
-    //Constants for Proposal Routing
-    String HIERARCHY_CHILD_ENROUTE_APPSTATUS="message.proposalDevelopment.workflow.applicationStatus.parentEnroute";
-    String HIERARCHY_CHILD_CANCEL_APPSTATUS="message.proposalDevelopment.workflow.applicationStatus.parentCancel";
-    String HIERARCHY_CHILD_DISAPPROVE_APPSTATUS="message.proposalDevelopment.workflow.applicationStatus.parentDisapprove";
-    String HIERARCHY_CHILD_PROCESSED_APPSTATUS="message.proposalDevelopment.workflow.applicationStatus.parentProcessed";
-    String HIERARCHY_CHILD_FINAL_APPSTATUS="message.proposalDevelopment.workflow.applicationStatus.parentFinal";
-    String HIERARCHY_CHILD_REJECTED_APPSTATUS="message.proposalDevelopment.workflow.applicationStatus.parentRejected";
-    
     String HIERARCHY_REJECTED_APPSTATUS="message.proposalDevelopment.workflow.applicationStatus.rejected";
     String HIERARCHY_ENROUTE_APPSTATUS="message.proposalDevelopment.workflow.applicationStatus.enroute";
     String HIERARCHY_CANCEL_APPSTATUS="message.proposalDevelopment.workflow.applicationStatus.cancel";
     String HIERARCHY_DISAPPROVE_APPSTATUS="message.proposalDevelopment.workflow.applicationStatus.disapprove";
     String HIERARCHY_PROCESSED_APPSTATUS="message.proposalDevelopment.workflow.applicationStatus.processed";
     String HIERARCHY_FINAL_APPSTATUS="message.proposalDevelopment.workflow.applicationStatus.final";
-    
-    String HIERARCHY_ROUTING_PARENT_DISAPPROVED_ANNOTATION = "message.proposalDevelopment.workflow.annotation.parentDisapproved";
-    String HIERARCHY_ROUTING_PARENT_APPROVED_ANNOTATION = "message.proposalDevelopment.workflow.annotation.parentApproved";
-    String HIERARCHY_ROUTING_PARENT_CANCELLED_ANNOTATION = "message.proposalDevelopment.workflow.annotation.parentCanceled";
-    String HIERARCHY_ROUTING_PARENT_SUBMITTED_ANNOTATION = "message.proposalDevelopment.workflow.annotation.parentSubmitted";
-    String HIERARCHY_ROUTING_PARENT_RESUBMITTED_ANNOTATION = "message.proposalDevelopment.workflow.annotation.parentResubmitted";
-    String HIERARCHY_ROUTING_PARENT_REJECTED_ANNOTATION = "message.proposalDevelopment.workflow.annotation.parentRejected";
+
     String PROPOSAL_ROUTING_REJECTED_ANNOTATION = "message.proposalDevelopment.workflow.annotation.rejected";
     
     String PROPOSAL_DEVELOPMENT_DOCUMENT_TYPE = "ProposalDevelopmentDocument";
@@ -179,8 +165,10 @@ public interface ProposalHierarchyService {
 
     List<ProposalHierarchyErrorWarningDto> validateSponsor(DevelopmentProposal childProposal, DevelopmentProposal parentProposal);
 
-    boolean personInMultipleProposals(String personId, DevelopmentProposal childProposal);
-    
+    boolean employeePersonInMultipleProposals(String personId, DevelopmentProposal childProposal);
+
+    boolean nonEmployeePersonInMultipleProposals(Integer rolodexId, DevelopmentProposal childProposal);
+
     boolean needToExtendProjectDate(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal);
     
     boolean needToExtendProjectDate(DevelopmentProposal hierarchyProposal);

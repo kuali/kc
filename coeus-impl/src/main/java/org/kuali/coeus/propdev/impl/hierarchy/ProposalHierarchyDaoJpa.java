@@ -52,24 +52,28 @@ public class ProposalHierarchyDaoJpa implements ProposalHierarchyDao {
     @Qualifier("kcEntityManager")
     private EntityManager entityManager;
 
-    /*
-        select * from EPS_PROP_PERSON_BIO where PROPOSAL_NUMBER IN (
-    select PROPOSAL_NUMBER from EPS_PROPOSAL where HIERARCHY_PROPOSAL_NUMBER =
-    (select HIERARCHY_PROPOSAL_NUMBER from EPS_PROPOSAL where PROPOSAL_NUMBER = '13'))
-    AND PERSON_ID = '10000000018';
-         */
-    public boolean personInMultipleChildProposals(String personId, String hierarchyProposalNumber) {
-        List<String> childProposalNumbers = getHierarchyChildProposalNumbers(hierarchyProposalNumber);
+    @Override
+    public boolean employeePersonInMultipleChildProposals(String personId, String hierarchyProposalNumber) {
+        return personInMultipleChildProposals(equal("personId", personId), hierarchyProposalNumber);
+    }
+
+    @Override
+    public boolean nonEmployeePersonInMultipleChildProposals(Integer rolodexId, String hierarchyProposalNumber) {
+        return personInMultipleChildProposals(equal("rolodexId", rolodexId), hierarchyProposalNumber);
+    }
+
+    protected boolean personInMultipleChildProposals(Predicate personPredicate, String hierarchyProposalNumber) {
+        final List<String> childProposalNumbers = getHierarchyChildProposalNumbers(hierarchyProposalNumber);
         if (childProposalNumbers.isEmpty()) {
             return false;
         }
 
-        QueryByCriteria.Builder builder = QueryByCriteria.Builder.create();
-        List<Predicate> predicates = new ArrayList<>();
-        predicates.add(equal("personId", personId));
+        final QueryByCriteria.Builder builder = QueryByCriteria.Builder.create();
+        final List<Predicate> predicates = new ArrayList<>();
+        predicates.add(personPredicate);
         predicates.add(in("developmentProposal.proposalNumber", childProposalNumbers));
 
-        Predicate[] preds = predicates.toArray(new Predicate[predicates.size()]);
+        final Predicate[] preds = predicates.toArray(new Predicate[predicates.size()]);
         builder.setCountFlag(CountFlag.ONLY);
         builder.setPredicates(preds);
 
@@ -77,6 +81,7 @@ public class ProposalHierarchyDaoJpa implements ProposalHierarchyDao {
     }
 
     //select PROPOSAL_NUMBER from EPS_PROPOSAL where HIERARCHY_PROPOSAL_NUMBER =18
+    @Override
     public List<DevelopmentProposal> getHierarchyChildProposals(String parentProposalNumber) {
         QueryByCriteria.Builder builder = QueryByCriteria.Builder.create();
         List<Predicate> predicates = new ArrayList<>();
@@ -91,6 +96,7 @@ public class ProposalHierarchyDaoJpa implements ProposalHierarchyDao {
         return results.getResults();
     }
 
+    @Override
     public DevelopmentProposal getDevelopmentProposal(String proposalNumber) {
         return (dataObjectService.findUnique(DevelopmentProposal.class, QueryByCriteria.Builder.forAttribute("proposalNumber", proposalNumber).build()));
     }
@@ -100,6 +106,7 @@ public class ProposalHierarchyDaoJpa implements ProposalHierarchyDao {
         return (ProposalState) entityManager.createQuery(PROPOSAL_STATE_QUERY).setParameter("proposalNumber", proposalNumber).getSingleResult();
      }
 
+    @Override
     public List<ProposalPerson> isPersonOnProposal(String proposalNumber, String personId) {
         QueryByCriteria.Builder builder = QueryByCriteria.Builder.create();
         List<Predicate> predicates = new ArrayList<>();
@@ -125,6 +132,7 @@ public class ProposalHierarchyDaoJpa implements ProposalHierarchyDao {
         return proposalNumbers;
     }
 
+    @Override
     public void deleteDegreeInfo(String proposalNumber, Integer proposalPersonNumber, ProposalPerson person) {
         Map<String, String> param = new HashMap<>();
         param.put("proposalPerson.developmentProposal.proposalNumber", proposalNumber);
@@ -132,6 +140,7 @@ public class ProposalHierarchyDaoJpa implements ProposalHierarchyDao {
         getDataObjectService().deleteMatching(ProposalPersonDegree.class, QueryByCriteria.Builder.andAttributes(param).build());
     }
 
+    @Override
     public List<ProposalPersonDegree> getDegreeInformation(String proposalNumber, ProposalPerson person) {
         Map<String, String> param = new HashMap<>();
         param.put("proposalPerson.developmentProposal.proposalNumber", proposalNumber);

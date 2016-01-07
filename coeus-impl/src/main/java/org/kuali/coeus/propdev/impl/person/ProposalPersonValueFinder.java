@@ -34,7 +34,7 @@ public class ProposalPersonValueFinder extends UifKeyValuesFinderBase{
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
         ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm) model;
-        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        List<KeyValue> keyValues = new ArrayList<>();
         // if a person is in multiple child proposals, then personnel attachments for that
         // person can only be managed at the parent. If however, the person is not in multiple children,
         // then they can only be managed at the child.
@@ -52,7 +52,7 @@ public class ProposalPersonValueFinder extends UifKeyValuesFinderBase{
 
     protected boolean renderEditForPersonnelAttachment(String personId, DevelopmentProposal proposal) {
         if (personId != null) {
-            boolean inMultiple = getHierarchyService().personInMultipleProposals(personId, proposal);
+            boolean inMultiple = getHierarchyService().employeePersonInMultipleProposals(personId, proposal);
             return (proposal.isParent()) ? inMultiple : !inMultiple;
         }
         return true;

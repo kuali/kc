@@ -32,8 +32,9 @@ import java.util.*;
 @Component("pendingReportDao")
 public class PendingReportDaoOjb extends BaseReportDaoOjb implements PendingReportDao {
 
+    @Override
     public List<PendingReportBean> queryForPendingSupport(String personId) throws WorkflowException {
-        List<PendingReportBean> data = new ArrayList<PendingReportBean>();
+        List<PendingReportBean> data = new ArrayList<>();
         for(InstitutionalProposalPerson ipPerson: executePendingSupportQuery(personId)) {
             lazyLoadProposal(ipPerson);
             PendingReportBean bean = buildPendingReportBean(ipPerson);
@@ -53,19 +54,17 @@ public class PendingReportDaoOjb extends BaseReportDaoOjb implements PendingRepo
         return bean;
     }
 
-    @SuppressWarnings("unchecked")
     private Collection<InstitutionalProposalPerson> executePendingSupportQuery(String personId) {
         return getBusinessObjectService().findMatching(InstitutionalProposalPerson.class, Collections.singletonMap("personId", personId));
     }
 
     private void lazyLoadProposal(InstitutionalProposalPerson ipPerson) {
         if(ipPerson.getInstitutionalProposal() == null) {
-            Map<String, Object> searchParams = new HashMap<String, Object>();
+            Map<String, Object> searchParams = new HashMap<>();
             searchParams.put("proposalNumber", ipPerson.getProposalNumber());
             searchParams.put("sequenceNumber", ipPerson.getSequenceNumber());
-//            Map searchParms = svcHelper.buildCriteriaMap(new String[]{"proposalNumber", "sequenceNumber"},
-//                                                                           new Object[]{ipPerson.getProposalNumber(), ipPerson.getSequenceNumber()});
-            InstitutionalProposal proposal = (InstitutionalProposal) getBusinessObjectService().findMatching(InstitutionalProposal.class, searchParams).iterator().next();
+
+            InstitutionalProposal proposal = getBusinessObjectService().findMatching(InstitutionalProposal.class, searchParams).iterator().next();
             ipPerson.setInstitutionalProposal(proposal);
         }
     }
