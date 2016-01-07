@@ -19,6 +19,8 @@
 package org.kuali.kra.timeandmoney.document;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.permissions.impl.PermissionableKeys;
@@ -56,6 +58,7 @@ public class TimeAndMoneyDocument extends KcTransactionalDocumentBase implements
     
 
     private static final long serialVersionUID = -2554022334215932544L;
+    private static final Log LOG = LogFactory.getLog(TimeAndMoneyDocument.class);
 
     public static final String DOCUMENT_TYPE_CODE = "TAMD";
     
@@ -128,6 +131,18 @@ public class TimeAndMoneyDocument extends KcTransactionalDocumentBase implements
             }
             getActivePendingTransactionsService().approveTransactions(this, awardAmountTransactions.get(0));
             getTimeAndMoneyVersionService().updateDocumentStatus(this, VersionStatus.ACTIVE);
+            if (LOG.isDebugEnabled()) {
+            	LOG.debug("TimeAndMoneyDocument in Processed status and saved with document status of " + this.getDocumentStatus());
+            }
+        } else if (StringUtils.equals(KewApiConstants.ROUTE_HEADER_FINAL_CD, statusChangeEvent.getNewRouteStatus())) {
+        	//this should have occurred when the document went to ROUTE_HEADER_PROCESSED_CD, but in some instances this hasn't happened causing unusable awards and T&M docs so double check here. 
+        	if (!VersionStatus.ACTIVE.name().equals(this.getDocumentStatus())) {
+                if (LOG.isWarnEnabled()) {
+                	LOG.warn("TimeAndMoneyDocument in final status but document status still " + this.getDocumentStatus() + " so setting to ACTIVE again");
+                }
+
+                getTimeAndMoneyVersionService().updateDocumentStatus(this, VersionStatus.ACTIVE);
+        	}
         }
     }
     
