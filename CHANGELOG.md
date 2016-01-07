@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+*  remove getSupplementProposalType as it is same as continuation. At MIT it renamed as Supplement and so for SupplementChangeCorrected it should use Continuation as proposal type
+  * Geo Thomas on Wed, 6 Jan 2016 14:19:31 -0500 [View Commit](../../commit/66567a0e462fc66ba48e7e20bfbfc5e61815ca9d)
+
+##coeus-1601.17
 * PD: Re-Routing Questionnaire is missing when OSP rejects proposal
   * When a dev proposal routes and reaches the OSP approval level, and OSP "rejects" the proposal back to the Aggregator, the "Re-Routing Questionnaire" is missing - it's no available for the Aggregator to answer before re-routing the proposal.
   * We were looking at the node Initiated to figure out whether it is routed for the first time.
