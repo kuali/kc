@@ -1,6 +1,13 @@
 
 
 ##CURRENT
+* Proposals with Leap Year Feb 1 start date mishandle budget autocalculation period start day in non-leap years
+
+  * If a proposal & thus budget has a February 1 start date in a Leap Year, the autocalculate tool mishandles the non-leap year start date for some personnel.
+  * Specifically, if the person has a row that is not assigned start on 2/1, in non-leap years, that row starts on the 2nd of the month.
+  * Joe Williams on Thu, 7 Jan 2016 07:58:53 -0600 [View Commit](../../commit/11fa92c98f95c3960d4334b84f4c94d078d9b368)
+
+##coeus-1601.15
 * Add additional fields to the ip and award summary apis
 
   * Adds lead unit to both award and ip summary apis.
