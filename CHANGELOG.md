@@ -1,6 +1,15 @@
 
 
 ##CURRENT
+* PD: Re-Routing Questionnaire is missing when OSP rejects proposal
+  * When a dev proposal routes and reaches the OSP approval level, and OSP "rejects" the proposal back to the Aggregator, the "Re-Routing Questionnaire" is missing - it's no available for the Aggregator to answer before re-routing the proposal.
+  * We were looking at the node Initiated to figure out whether it is routed for the first time.
+  * This doesn't work.
+  * Changing it to check whether the proposal is rejected / returned to previous.
+  * Verified in MIT QA.
+  * rmancher on Thu, 7 Jan 2016 11:07:18 -0500 [View Commit](../../commit/1548ce67cd700d17da4a7b03dfbd21f40a574010)
+
+##coeus-1601.16
 * Proposals with Leap Year Feb 1 start date mishandle budget autocalculation period start day in non-leap years
 
   * If a proposal & thus budget has a February 1 start date in a Leap Year, the autocalculate tool mishandles the non-leap year start date for some personnel.
