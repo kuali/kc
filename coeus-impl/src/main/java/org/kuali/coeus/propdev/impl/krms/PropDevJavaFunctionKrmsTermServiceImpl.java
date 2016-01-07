@@ -59,8 +59,8 @@ import org.kuali.coeus.common.questionnaire.framework.answer.QuestionnaireAnswer
 import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.action.ActionRequest;
+import org.kuali.rice.kew.api.action.ActionType;
 import org.kuali.rice.kim.api.identity.Person;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -1081,17 +1081,10 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
      * FN_ROUTING_SEQ_RULE
      */
     public String routingSequenceRule(DevelopmentProposal developmentProposal) {
-        List<ActionRequest> actionRequests = developmentProposal.getProposalDocument().getDocumentHeader().getWorkflowDocument().getDocumentDetail().getActionRequests();
-        int submitCount = 0;
-        for(ActionRequest actionRequest : actionRequests) {
-            if(actionRequest.getNodeName().equals(Constants.PD_INITIATED_ROUTE_NODE_NAME)) {
-                submitCount++;
-            }
-            if(submitCount > 1) {
-                return FALSE;
-            }
-        }
-        return TRUE;
+    	List<ActionRequest> actionRequests = developmentProposal.getProposalDocument().getDocumentHeader().getWorkflowDocument().getDocumentDetail().getActionRequests();
+        return actionRequests.stream()
+		 .filter(actionRequest -> actionRequest.getActionTaken() != null)
+		 .anyMatch(actionRequest -> actionRequest.getActionTaken().getActionTaken().equals(ActionType.RETURN_TO_PREVIOUS)) ? FALSE : TRUE;
     }
     
     public DateTimeService getDateTimeService() {
