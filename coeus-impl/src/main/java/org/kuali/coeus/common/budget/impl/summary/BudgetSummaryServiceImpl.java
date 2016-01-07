@@ -551,16 +551,21 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
     @Override
     public List<Date> getNewStartEndDates(List<Date> startEndDates, int gap, int duration, Date prevDate, boolean leapDayInPeriod,  boolean leapDayInGap) {
         Date startDate = startEndDates.get(0);
-        final Date newStartDate = add(startDate, gap);
+        Date newStartDate = add(startDate, gap);
         Date newEndDate = add(newStartDate,duration);
 
         boolean isLeapDayInNewPeriod = isLeapDaysInPeriod(startDate, newEndDate);
+        boolean isLeapDayInNewGap = isLeapDaysInPeriod(startDate,newStartDate);
         boolean isLeapDayInInitialPeriod = leapDayInPeriod || leapDayInGap;
 
         if (isLeapDayInInitialPeriod && !isLeapDayInNewPeriod) {
             newEndDate = add(newEndDate, -1);
         } else if (!isLeapDayInInitialPeriod && isLeapDayInNewPeriod) {
             newEndDate = add(newEndDate, 1);
+        }
+
+        if (!isLeapDayInNewGap && leapDayInGap) {
+            newStartDate = add(newStartDate, -1);
         }
 
         List<Date> newStartEndDates = new ArrayList<>();
