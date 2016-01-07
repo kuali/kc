@@ -246,8 +246,7 @@
           p:localServiceName="documentAccessDerivedRoleTypeService"
           p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
 
-          
-	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
 		<property name="messageConverters">
 			<list>
                 <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>

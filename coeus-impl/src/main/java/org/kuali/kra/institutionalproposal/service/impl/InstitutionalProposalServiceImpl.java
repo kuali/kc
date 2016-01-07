@@ -30,6 +30,7 @@ import org.kuali.coeus.common.framework.version.VersionException;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.VersioningService;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.coeus.propdev.impl.core.ProposalTypeService;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalPersonCreditSplit;
@@ -68,8 +69,6 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
@@ -110,13 +109,22 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
     private SequenceAccessorService sequenceAccessorService;
     private ParameterService parameterService;
     private InstitutionalProposalDao institutionalProposalDao;
-
-    @Autowired
-    @Qualifier("dataObjectService")
     private DataObjectService dataObjectService;
 
     private ProjectRetrievalService instPropProjectRetrievalService;
+
+    private ProposalTypeService proposalTypeService;
     private ProjectPublisher projectPublisher;
+
+    public ProposalTypeService getProposalTypeService() {
+        //since PD is loaded after IP and @Lazy does not work, we have to use the ServiceLocator
+        if (proposalTypeService == null) {
+            proposalTypeService = KcServiceLocator.getService(ProposalTypeService.class);
+        }
+
+
+        return proposalTypeService;
+    }
 
     public ProjectPublisher getProjectPublisher() {
         //since COI is loaded last and @Lazy does not work, we have to use the ServiceLocator
@@ -170,10 +178,10 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         try {
             InstitutionalProposalDocument newInstitutionalProposalDocument = versionProposal(proposalNumber, developmentProposal, budget);
             setInstitutionalProposalIndicators(newInstitutionalProposalDocument.getInstitutionalProposal());
-            documentService.routeDocument(newInstitutionalProposalDocument, ROUTE_MESSAGE + developmentProposal.getProposalNumber(), 
-            		new ArrayList<>());
-            institutionalProposalVersioningService.updateInstitutionalProposalVersionStatus(newInstitutionalProposalDocument.getInstitutionalProposal(), 
-            		VersionStatus.ACTIVE);
+            documentService.routeDocument(newInstitutionalProposalDocument, ROUTE_MESSAGE + developmentProposal.getProposalNumber(),
+                    new ArrayList<>());
+            institutionalProposalVersioningService.updateInstitutionalProposalVersionStatus(newInstitutionalProposalDocument.getInstitutionalProposal(),
+                    VersionStatus.ACTIVE);
             getProjectPublisher().publishProject(getInstPropProjectRetrievalService().retrieveProject(newInstitutionalProposalDocument.getInstitutionalProposal().getProposalId().toString()));
             return newInstitutionalProposalDocument.getInstitutionalProposal();
         } catch (WorkflowException|VersionException e) {
@@ -430,7 +438,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
     }
     
     protected void doBaseFieldsDataFeed(InstitutionalProposal institutionalProposal, DevelopmentProposal developmentProposal) {
-        institutionalProposal.setProposalTypeCode(Integer.parseInt(developmentProposal.getProposalTypeCode()));
+        institutionalProposal.setProposalTypeCode(convertToInstitutionalProposalTypeCode(institutionalProposal.getProposalTypeCode(), developmentProposal.getProposalTypeCode()));
         institutionalProposal.setActivityTypeCode(developmentProposal.getActivityTypeCode());
         if (developmentProposal.getProposalDocument().getDocumentHeader().getWorkflowDocument().isDisapproved()) {
             //if rejected set status code to WITHDRAWN
@@ -470,7 +478,21 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
             institutionalProposal.setAwardTypeCode(developmentProposal.getAnticipatedAwardType().getCode());
         }
     }
-    
+
+    private int convertToInstitutionalProposalTypeCode(Integer institutionalProposalProposalTypeCode, String developmentProposalTypeCode) {
+        if(StringUtils.equals(developmentProposalTypeCode, getProposalTypeService().getNewChangedOrCorrectedProposalTypeCode())) {
+            return Integer.parseInt(getProposalTypeService().getNewProposalTypeCode());
+        } else if(StringUtils.equals(developmentProposalTypeCode,getProposalTypeService().getSupplementChangedOrCorrectedProposalTypeCode())) {
+            return  Integer.parseInt(getProposalTypeService().getContinuationProposalTypeCode());
+        } else if(StringUtils.equals(developmentProposalTypeCode,getProposalTypeService().getRenewalChangedOrCorrectedProposalTypeCode())) {
+            return Integer.parseInt(getProposalTypeService().getRenewProposalTypeCode());
+        } else if(StringUtils.equals(developmentProposalTypeCode,getProposalTypeService().getBudgetSowUpdateProposalTypeCode())) {
+            return institutionalProposalProposalTypeCode;
+        } else {
+            return Integer.parseInt(developmentProposalTypeCode);
+        }
+    }
+
     protected void doCustomAttributeDataFeed(InstitutionalProposalDocument institutionalProposalDocument, DevelopmentProposal developmentProposal) throws WorkflowException {
         Map<String, CustomAttributeDocument> dpCustomAttributes = developmentProposal.getProposalDocument().getCustomAttributeDocuments();
         Map<String, CustomAttributeDocument> ipCustomAttributes = institutionalProposalDocument.getCustomAttributeDocuments();
@@ -494,7 +516,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
 
     protected String getCustomAttributeValue(List<CustomAttributeDocValue> values, String key) {
         for (CustomAttributeDocValue value : values) {
-            if (StringUtils.equals(String.valueOf(value.getId()),key)) {
+            if (StringUtils.equals(String.valueOf(value.getId()), key)) {
                 return value.getValue();
             }
         }
@@ -656,7 +678,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
             WorkflowException, IOException{
         InstitutionalProposal newVersion = getVersioningService().createNewVersion(currentInstitutionalProposal);
         Map<String, String> fieldValues = new HashMap<>();
-		fieldValues.put("proposalNumber", currentInstitutionalProposal.getProposalNumber());
+		fieldValues.put(PROPOSAL_NUMBER, currentInstitutionalProposal.getProposalNumber());
     	List<InstitutionalProposal> instProp = (List<InstitutionalProposal>) businessObjectService.findMatchingOrderBy(InstitutionalProposal.class, fieldValues, "sequenceNumber", false);
     	if (instProp != null && instProp.size() > 0) {
     		for(InstitutionalProposal instProposal:instProp) {
@@ -801,4 +823,10 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
     public void setInstPropProjectRetrievalService(ProjectRetrievalService instPropProjectRetrievalService) {
         this.instPropProjectRetrievalService = instPropProjectRetrievalService;
     }
+
+    public void setProposalTypeService(ProposalTypeService proposalTypeService) {
+        this.proposalTypeService = proposalTypeService;
+    }
+
+
 }
