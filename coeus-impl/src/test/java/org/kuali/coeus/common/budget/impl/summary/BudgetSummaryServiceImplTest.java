@@ -117,7 +117,7 @@ public class BudgetSummaryServiceImplTest {
     public void getNewStartEndDates_gapYes_gapLeapYes_initPeriodLeapNo_currentPeriodLeapNo_Yearly() throws Exception {
         List<Date> dates = createStartEndDates("02/15/2015", "02/14/2016");
         List<Date> newDates = budgetSummaryService.getNewStartEndDates(dates, 19, 346, null, false, true);
-        Assert.assertEquals("start date should be 03/06/2015", createDateFromString("03/06/2015"), newDates.get(0));
+        Assert.assertEquals("start date should be 03/05/2015", createDateFromString("03/05/2015"), newDates.get(0));
         Assert.assertEquals("end date should be 02/14/2016", dates.get(1), newDates.get(1));
     }
 
@@ -143,6 +143,22 @@ public class BudgetSummaryServiceImplTest {
         List<Date> newDates = budgetSummaryService.getNewStartEndDates(dates, 0, 180, null, false, false);
         Assert.assertEquals("start date should be 01/01/2015", dates.get(0), newDates.get(0));
         Assert.assertEquals("end date should be 06/30/2015", dates.get(1), newDates.get(1));
+    }
+
+    @Test
+    public void getNewStartEndDates_gapYes_gapLeapYes_initPeriodLeapNo_currentPeriodLeapYes() throws Exception {
+        List<Date> dates = createStartEndDates("02/01/2016", "01/31/2017");
+        List<Date> newDates = budgetSummaryService.getNewStartEndDates(dates, 213, 152, null, false, true);
+        Assert.assertEquals("start date should be 09/01/2016", createDateFromString("09/01/2016"), newDates.get(0));
+        Assert.assertEquals("end date should be 01/31/2017", dates.get(1), newDates.get(1));
+    }
+
+    @Test
+    public void getNewStartEndDates_gapYes_gapLeapYes_initPeriodLeapNo_currentPeriodLeapNo() throws Exception {
+        List<Date> dates = createStartEndDates("02/01/2017", "01/31/2018");
+        List<Date> newDates = budgetSummaryService.getNewStartEndDates(dates, 213, 152, null, false, true);
+        Assert.assertEquals("start date should be 09/01/2017", createDateFromString("09/01/2017"), newDates.get(0));
+        Assert.assertEquals("end date should be 01/31/2018", dates.get(1), newDates.get(1));
     }
 
 }
