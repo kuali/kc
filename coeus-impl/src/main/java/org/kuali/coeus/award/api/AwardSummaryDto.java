@@ -24,6 +24,7 @@ import java.util.List;
 import org.kuali.coeus.sys.framework.summary.FundingProposalSummaryDto;
 import org.kuali.coeus.sys.framework.summary.InvestigatorDto;
 import org.kuali.coeus.common.api.type.ActivityTypeDto;
+import org.kuali.coeus.common.api.unit.UnitDto;
 import org.kuali.coeus.common.framework.sponsor.SponsorDto;
 
 import com.codiform.moo.annotation.CollectionProperty;
@@ -50,6 +51,8 @@ public class AwardSummaryDto {
 	private List<FundingProposalSummaryDto> fundingProposals;
 	@Property(translate = true)
 	private InvestigatorDto principalInvestigator;
+	@Property(translate = true)
+	private UnitDto leadUnit;
 	
 	public String getAwardNumber() {
 		return awardNumber;
@@ -134,6 +137,12 @@ public class AwardSummaryDto {
 	}
 	public void setUpdateTimestamp(Date updateTimestamp) {
 		this.updateTimestamp = updateTimestamp;
+	}
+	public UnitDto getLeadUnit() {
+		return leadUnit;
+	}
+	public void setLeadUnit(UnitDto leadUnit) {
+		this.leadUnit = leadUnit;
 	}
 
 

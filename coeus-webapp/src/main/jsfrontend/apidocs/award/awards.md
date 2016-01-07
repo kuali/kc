@@ -28,30 +28,39 @@ Summary of Awards
 			   "count" : 1,
 			   "awards" : [
 			   	{
+			         "awardId" : 2238,
+			         "awardNumber" : "999901-00001",
+			         "sequenceNumber": 1,
+			         "accountNumber" : "0211401",
 			         "title" : "LOC - by award",
 			         "sponsorAwardNumber" : null,
-			         "fundingProposals" : [
-			            {
-			               "awardSequenceNumber" : 1,
-			               "awardNumber" : "999901-00001",
-			               "proposalNumber" : "80070",
-			               "proposalSequenceNumber" : 1
-			            }
-			         ],
 			         "modificationNumber" : null,
+			         "cfdaNumber" : "00.000",
+			         "fundingProposals" : [
+				        {
+				          "proposalSequenceNumber": 1,
+				          "awardNumber": "999908-00001",
+				          "awardSequenceNumber": 1,
+				          "awardId": 2511,
+				          "proposalId": 7,
+				          "proposalNumber": "80068"
+				        }
+			         ],
 			         "activityType" : {
 			            "code" : "3",
 			            "description" : "Public Service"
 			         },
-			         "accountNumber" : "0211401",
-			         "awardId" : 2238,
-			         "awardNumber" : "999901-00001",
 			         "sponsor" : {
 			            "sponsorCode" : "055125",
 			            "sponsorName" : "Kuali LOC Testing3",
 			            "acronym" : null
 			         },
-			         "cfdaNumber" : "00.000",
+			         "leadUnit": {
+				        "unitNumber": "000001",
+				        "unitName": "University",
+				        "parentUnitNumber": null,
+				        "organizationId": "000001"
+				      },
 			         "awardStatus" : {
 			            "code" : "1",
 			            "description" : "Active"
@@ -62,9 +71,23 @@ Summary of Awards
 			            "roleCode" : "PI",
 			            "projectRole" : "Principal Investigator",
 			            "fullName" : "Joe  Tester",
-			            "userName" : "jtester"
-			         },
-			         "sequenceNumber" : 1
+			            "userName" : "jtester",
+				        "person": {
+				          "state": "MA",
+				          "emailAddress": "kcnotification+jtester@gmail.com",
+				          "addressLine2": "",
+				          "firstName": "Joe",
+				          "addressLine3": "",
+				          "lastName": "Tester",
+				          "personId": "10000000002",
+				          "middleName": "",
+				          "userName": "jtester",
+				          "fullName": "Joe Tester",
+				          "city": "Coeus",
+				          "postalCode": "53421",
+				          "addressLine1": "1119 Kuali Drive"
+				        },
+			         }
 			      },
 			   ],
 			   "totalFound" : 112

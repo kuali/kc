@@ -99,10 +99,12 @@ public class InstitutionalProposalSummaryControllerTest {
 		award2.setSequenceNumber(1);
 		
 		proposalLite1 = new InstitutionalProposalBoLite();
+		proposalLite1.setProposalId(1L);
 		proposalLite1.setProposalNumber("123");
 		proposalLite1.setSequenceNumber(1);
 		
 		proposalLite2 = new InstitutionalProposalBoLite();
+		proposalLite2.setProposalId(2L);
 		proposalLite2.setProposalNumber("345");
 		proposalLite2.setSequenceNumber(2);
 		
