@@ -774,7 +774,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
 
     protected boolean renderEditForPersonnelAttachment(String personId, DevelopmentProposal proposal) {
         if (personId != null) {
-            boolean inMultiple = getProposalHierarchyService().personInMultipleProposals(personId, proposal);
+            boolean inMultiple = getProposalHierarchyService().employeePersonInMultipleProposals(personId, proposal);
             return (proposal.isParent()) ? inMultiple : !inMultiple;
         }
         return true;

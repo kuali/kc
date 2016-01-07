@@ -29,7 +29,8 @@ import java.util.List;
 public interface ProposalHierarchyDao {
 	List<DevelopmentProposal> getHierarchyChildProposals(String parentProposalNumber);
     List<String> getHierarchyChildProposalNumbers(String proposalNumber);
-    boolean personInMultipleChildProposals(String personId, String hierarchyProposalNumber);
+    boolean employeePersonInMultipleChildProposals(String personId, String hierarchyProposalNumber);
+    boolean nonEmployeePersonInMultipleChildProposals(Integer rolodexId, String hierarchyProposalNumber);
     DevelopmentProposal getDevelopmentProposal(String proposalNumber);
     ProposalState getProposalState(String proposalNumber);
     List<ProposalPerson> isPersonOnProposal(String proposalNumber, String personId);
