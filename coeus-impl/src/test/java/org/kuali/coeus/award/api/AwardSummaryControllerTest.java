@@ -54,10 +54,12 @@ public class AwardSummaryControllerTest {
 		activityType.setDescription("Test");
 		
 		proposal1 = new InstitutionalProposalBoLite();
+		proposal1.setProposalId(1L);
 		proposal1.setProposalNumber(accountNumber);
 		proposal1.setSequenceNumber(1);
 		
 		proposal2 = new InstitutionalProposalBoLite();
+		proposal2.setProposalId(2L);
 		proposal2.setProposalNumber("345");
 		proposal2.setSequenceNumber(2);
 		

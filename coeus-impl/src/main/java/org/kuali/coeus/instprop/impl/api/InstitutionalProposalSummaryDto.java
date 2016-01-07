@@ -22,6 +22,7 @@ import com.codiform.moo.annotation.CollectionProperty;
 import com.codiform.moo.annotation.Property;
 
 import org.kuali.coeus.sys.framework.summary.FundingProposalSummaryDto;
+import org.kuali.coeus.common.api.unit.UnitDto;
 import org.kuali.coeus.common.framework.sponsor.SponsorDto;
 import org.kuali.coeus.sys.framework.summary.InvestigatorDto;
 
@@ -29,7 +30,11 @@ import java.util.Date;
 import java.util.List;
 
 public class InstitutionalProposalSummaryDto {
+	private Long proposalId;
     private String proposalNumber;
+    private Integer sequenceNumber;
+    @Property(source = "instProposalNumber")
+    private String proposalLogProposalNumber;
     private Date updateTimestamp;
     @Property(translate = true)
     private InvestigatorDto principalInvestigator;
@@ -37,6 +42,8 @@ public class InstitutionalProposalSummaryDto {
     private SponsorDto sponsor;
     @CollectionProperty(source = "allFundingProposals", itemClass=FundingProposalSummaryDto.class)
     private List<FundingProposalSummaryDto> fundingProposals;
+	@Property(translate = true)
+	private UnitDto leadUnit;
 
     public String getProposalNumber() {
         return proposalNumber;
@@ -76,5 +83,37 @@ public class InstitutionalProposalSummaryDto {
 
 	public void setUpdateTimestamp(Date updateTimestamp) {
 		this.updateTimestamp = updateTimestamp;
+	}
+
+	public UnitDto getLeadUnit() {
+		return leadUnit;
+	}
+
+	public void setLeadUnit(UnitDto leadUnit) {
+		this.leadUnit = leadUnit;
+	}
+
+	public Long getProposalId() {
+		return proposalId;
+	}
+
+	public void setProposalId(Long proposalId) {
+		this.proposalId = proposalId;
+	}
+
+	public Integer getSequenceNumber() {
+		return sequenceNumber;
+	}
+
+	public void setSequenceNumber(Integer sequenceNumber) {
+		this.sequenceNumber = sequenceNumber;
+	}
+
+	public String getProposalLogProposalNumber() {
+		return proposalLogProposalNumber;
+	}
+
+	public void setProposalLogProposalNumber(String proposalLogProposalNumber) {
+		this.proposalLogProposalNumber = proposalLogProposalNumber;
 	}
 }

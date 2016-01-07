@@ -6,7 +6,7 @@ Summary of all Institutional Proposals in the system
 
 + Parameters
 	+ summary: (boolean, required) - Renders the proposals in a summary view instead of the full data from the proposal. Currently the only option and required.
-	+ updatedSince: `1446630596000` (date, optional) - Criteria to restrict the proposals returned to those updated since the date specified. Formatted as milliseconds since epoch.
+	+ updatedSince: `1452126023000` (date, optional) - Criteria to restrict the proposals returned to those updated since the date specified. Formatted as milliseconds since epoch.
 	+ limit: `50` (number, optional) - Number of results to return. If not included, all proposals matching the date,if specified, are returned.
 	+ page: `8` (number, optional) - If a numberPerPage is specified this determines what page of the result set will be returned on this request.
 
@@ -27,25 +27,41 @@ Summary of all Institutional Proposals in the system
 			   "count" : 1,
 			   "institutionalProposals" : [
 			      {
+			      	 "proposalId": 10,
+			         "proposalNumber" : "80070",
+			         "sequenceNumber": 1
+			         "proposalLogProposalNumber": "00000009",
+				      "leadUnit": {
+				        "unitNumber": "000001",
+				        "unitName": "University",
+				        "parentUnitNumber": null,
+				        "organizationId": "000001"
+				      },
 			         "fundingProposals" : [
-			            {
-			               "proposalSequenceNumber" : 1,
-			               "awardNumber" : "999901-00001",
-			               "awardSequenceNumber" : 1,
-			               "proposalNumber" : "80070"
-			            },
-			            {
-			               "awardNumber" : "999901-00002",
-			               "proposalSequenceNumber" : 1,
-			               "awardSequenceNumber" : 1,
-			               "proposalNumber" : "80070"
-			            },
-			            {
-			               "proposalNumber" : "80070",
-			               "awardSequenceNumber" : 1,
-			               "proposalSequenceNumber" : 1,
-			               "awardNumber" : "999901-00003"
-			            }
+				        {
+				          "proposalSequenceNumber": 1,
+				          "awardNumber": "999901-00001",
+				          "awardSequenceNumber": 1,
+				          "awardId": 2238,
+				          "proposalId": 1,
+				          "proposalNumber": "80070"
+				        },
+				        {
+				          "proposalSequenceNumber": 1,
+				          "awardNumber": "999901-00002",
+				          "awardSequenceNumber": 1,
+				          "awardId": 2251,
+				          "proposalId": 1,
+				          "proposalNumber": "80070"
+				        },
+				        {
+				          "proposalSequenceNumber": 1,
+				          "awardNumber": "999901-00003",
+				          "awardSequenceNumber": 1,
+				          "awardId": 2264,
+				          "proposalId": 1,
+				          "proposalNumber": "80070"
+				        }
 			         ],
 			         "principalInvestigator" : {
 			            "fullName" : "Inez  Chew",
@@ -59,8 +75,7 @@ Summary of all Institutional Proposals in the system
 			            "sponsorCode" : "055075",
 			            "acronym" : null,
 			            "sponsorName" : "Kuali LOC Testing"
-			         },
-			         "proposalNumber" : "80070"
+			         }
 			      },
 			   ]
 			}

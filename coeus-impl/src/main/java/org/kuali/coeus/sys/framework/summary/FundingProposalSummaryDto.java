@@ -21,6 +21,10 @@ package org.kuali.coeus.sys.framework.summary;
 import com.codiform.moo.annotation.Property;
 
 public class FundingProposalSummaryDto {
+	@Property(source = "mvel:award.awardId")
+	private Long awardId;
+	@Property(source = "mvel:proposal.proposalId")
+	private Long proposalId;
 	@Property(source = "mvel:proposal.proposalNumber")
 	private String proposalNumber;
 	@Property(source = "mvel:proposal.sequenceNumber")
@@ -60,5 +64,21 @@ public class FundingProposalSummaryDto {
 
 	public void setAwardSequenceNumber(Integer awardSequenceNumber) {
 		this.awardSequenceNumber = awardSequenceNumber;
+	}
+
+	public Long getAwardId() {
+		return awardId;
+	}
+
+	public void setAwardId(Long awardId) {
+		this.awardId = awardId;
+	}
+
+	public Long getProposalId() {
+		return proposalId;
+	}
+
+	public void setProposalId(Long proposalId) {
+		this.proposalId = proposalId;
 	}
 }

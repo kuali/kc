@@ -47,7 +47,6 @@ public class InstitutionalProposalSummaryController {
     public @ResponseBody
     InstitutionalProposalResults getInstitutionalProposalSummary(@RequestParam(value="updatedSince", required=false) Date updatedSince,
                                  @RequestParam(value="page", required=false) Integer page, @RequestParam(value="numberPerPage", required=false) Integer numberPerPage) {
-        Moo moo = new Moo();
         return Translate.to(InstitutionalProposalResults.class).from(getProposals(updatedSince, page, numberPerPage));
     }
 
