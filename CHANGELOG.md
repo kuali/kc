@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1601.20
 * Attempt to ensure that the Time&Money document status is always updated
 
   * In some rare cases it appears that the T&M document status is not being updated during the doRouteStatusChange. This is a rare event that we have been unable to reproduce to date. This adds an additional check to verify and if incorrect, fix the document status when the document moves to final.
