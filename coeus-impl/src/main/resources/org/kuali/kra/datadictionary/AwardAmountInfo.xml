@@ -476,12 +476,13 @@
         <property name="shortLabel" value="Anticipated Total Direct" />
         <property name="maxLength" value="12" />
     	<property name="validationPattern" >
-      <bean parent="FixedPointValidationPattern" p:precision="12" p:scale="2"/>
+      <bean parent="FixedPointValidationPattern" p:precision="12" p:scale="2" p:allowNegative="true"/>
     </property>
     <property name="validCharactersConstraint">
       <bean parent="FixedPointPatternConstraint">
         <property name="precision" value="12"/>
         <property name="scale" value="2"/>
+        <property name="allowNegative" value="true"/>
       </bean>
    		</property>
     	<property name="required" value="false" />
@@ -503,12 +504,13 @@
         <property name="shortLabel" value="Anticipated Total Indirect" />
         <property name="maxLength" value="12" />
     	<property name="validationPattern" >
-      <bean parent="FixedPointValidationPattern" p:precision="12" p:scale="2"/>
+      <bean parent="FixedPointValidationPattern" p:precision="12" p:scale="2" p:allowNegative="true"/>
     </property>
     <property name="validCharactersConstraint">
       <bean parent="FixedPointPatternConstraint">
         <property name="precision" value="12"/>
         <property name="scale" value="2"/>
+        <property name="allowNegative" value="true"/>
       </bean>
    	 	</property>
     	<property name="required" value="false" />
@@ -530,12 +532,13 @@
         <property name="shortLabel" value="Obligated Total Direct" />
         <property name="maxLength" value="12" />
     	<property name="validationPattern" >
-      <bean parent="FixedPointValidationPattern" p:precision="12" p:scale="2"/>
+      <bean parent="FixedPointValidationPattern" p:precision="12" p:scale="2" p:allowNegative="true"/>
     </property>
     <property name="validCharactersConstraint">
       <bean parent="FixedPointPatternConstraint">
         <property name="precision" value="12"/>
         <property name="scale" value="2"/>
+        <property name="allowNegative" value="true"/>
       </bean>
     	</property>
    		<property name="required" value="false" />
@@ -557,12 +560,13 @@
         <property name="shortLabel" value="Obligated Total Indirect" />
        <property name="maxLength" value="12" />
     	<property name="validationPattern" >
-      <bean parent="FixedPointValidationPattern" p:precision="12" p:scale="2"/>
+      <bean parent="FixedPointValidationPattern" p:precision="12" p:scale="2" p:allowNegative="true"/>
     </property>
     <property name="validCharactersConstraint">
       <bean parent="FixedPointPatternConstraint">
         <property name="precision" value="12"/>
         <property name="scale" value="2"/>
+        <property name="allowNegative" value="true"/>
       </bean>
    		</property>
     	<property name="required" value="false" />
