@@ -96,19 +96,23 @@ public class ProposalBudgetHierarchyServiceImpl implements ProposalBudgetHierarc
 	@Autowired
 	@Qualifier("proposalHierarchyDao")
 	private ProposalHierarchyDao proposalHierarchyDao;
-	
+
+    @Override
 	public void persistProposalHierarchyBudget(DevelopmentProposal hierarchyProposal) {
 		dataObjectService.save(getHierarchyBudget(hierarchyProposal));
 	}
-	
+
+    @Override
     public void synchronizeChildBudget(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal, List<BudgetPeriod> oldBudgetPeriods) {
     	synchronizeChildBudget(hierarchyProposal, childProposal, getSyncableBudget(childProposal), oldBudgetPeriods);
     }
-    
+
+    @Override
     public void synchronizeChildBudget(DevelopmentProposal hierarchyProposal, ProposalDevelopmentBudgetExt budget) {
     	synchronizeChildBudget(hierarchyProposal, budget.getBudgetParent(), budget, budget.getBudgetPeriods());
     }
-    
+
+    @Override
     public void synchronizeAllChildBudgets(DevelopmentProposal hierarchyProposal) {
     	List<BudgetPeriod> oldBudgetPeriods = getHierarchyBudget(hierarchyProposal).getBudgetPeriods();
         removeMergeableChildBudgetElements(getHierarchyBudget(hierarchyProposal));
@@ -483,6 +487,7 @@ public class ProposalBudgetHierarchyServiceImpl implements ProposalBudgetHierarc
         parentBudget.setEndDate(parentBudget.getBudgetPeriods().get(parentBudget.getBudgetPeriods().size()-1).getEndDate());       
     }
 
+    @Override
     public void initializeBudget (DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal) throws ProposalHierarchyException {
     	budgetService.addBudgetVersion(hierarchyProposal.getProposalDocument(), "Hierarchy Budget", null);
     	
@@ -594,6 +599,7 @@ public class ProposalBudgetHierarchyServiceImpl implements ProposalBudgetHierarc
     /**
      * Creates a hash of the data pertinent to a hierarchy for comparison during hierarchy syncing. 
      */
+    @Override
     public int computeHierarchyHashCode(Budget budget) {
         int prime = 31;
         int result = 1;
@@ -601,8 +607,9 @@ public class ProposalBudgetHierarchyServiceImpl implements ProposalBudgetHierarc
         budgetCalculationService.calculateBudgetSummaryTotals(budget);
         result = prime * result + budget.getBudgetSummaryTotals().hashCode();
         return result;
-    } 
-    
+    }
+
+    @Override
     public List<ProposalDevelopmentBudgetExt> getHierarchyBudgets(DevelopmentProposal hierarchyProposal) throws ProposalHierarchyException {
         return hierarchyProposal.getProposalDocument().getDevelopmentProposal().getBudgets().stream().collect(Collectors.toList());
     }

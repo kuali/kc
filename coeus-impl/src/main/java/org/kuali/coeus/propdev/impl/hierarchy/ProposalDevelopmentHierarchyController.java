@@ -50,7 +50,7 @@ public class ProposalDevelopmentHierarchyController extends ProposalDevelopmentC
         if (!displayErrors(errors)) {
             String userId = getGlobalVariableService().getUserSession().getPrincipalId();
             String hierarchyProposalNumber = getProposalHierarchyService().createHierarchy(initialChildProposal, userId);
-            displayMessage(ProposalHierarchyKeyConstants.MESSAGE_CREATE_SUCCESS, new String[]{hierarchyProposalNumber});
+            displayMessage(ProposalHierarchyKeyConstants.MESSAGE_CREATE_SUCCESS, hierarchyProposalNumber);
             form.setAuditActivated(false);
             form.setEvaluateFlagsAndModes(true);
             form.setCanEditView(null);
@@ -66,7 +66,7 @@ public class ProposalDevelopmentHierarchyController extends ProposalDevelopmentC
         List<ProposalHierarchyErrorWarningDto> errors = getProposalHierarchyService().validateParent(hierarchyProposalDoc.getDevelopmentProposal());
         if (!displayErrors(errors)) {
             getProposalHierarchyService().synchronizeAllChildren(hierarchyProposalDoc.getDevelopmentProposal());
-            displayMessage(ProposalHierarchyKeyConstants.MESSAGE_SYNC_SUCCESS, new String[]{});
+            displayMessage(ProposalHierarchyKeyConstants.MESSAGE_SYNC_SUCCESS);
         }
 
         return updateHierarchySummaryIfNeeded(form);
@@ -93,7 +93,7 @@ public class ProposalDevelopmentHierarchyController extends ProposalDevelopmentC
 		        List<ProposalHierarchyErrorWarningDto> errors = getProposalHierarchyService().validateLinkToHierarchy(hierarchyProposal, newChildProposal);
 		        if (!displayErrors(errors)) {
 	                getProposalHierarchyService().linkToHierarchy(hierarchyProposal, newChildProposal, hierarchyBudgetTypeCode);
-	                displayMessage(ProposalHierarchyKeyConstants.MESSAGE_LINK_SUCCESS, new String[]{newChildProposal.getProposalNumber(), hierarchyProposal.getProposalNumber()});
+	                displayMessage(ProposalHierarchyKeyConstants.MESSAGE_LINK_SUCCESS, newChildProposal.getProposalNumber(), hierarchyProposal.getProposalNumber());
                     form.setAuditActivated(false);
 	                form.setEvaluateFlagsAndModes(true);
 	                form.setCanEditView(null);
@@ -115,9 +115,9 @@ public class ProposalDevelopmentHierarchyController extends ProposalDevelopmentC
         DevelopmentProposal hierarchyProposal = form.getProposalDevelopmentDocument().getDevelopmentProposal();
         DevelopmentProposal newChildProposal = getProposalHierarchyService().getDevelopmentProposal(hierarchyProposalNumber);
         DialogResponse response = form.getDialogResponse(ProposalHierarchyKeyConstants.HIERARCHY_CONFIRMATION_DIALOG);
-        List<ProposalHierarchyErrorWarningDto> errors = new ArrayList<ProposalHierarchyErrorWarningDto>();
+        List<ProposalHierarchyErrorWarningDto> errors = new ArrayList<>();
         if (newChildProposal == null) {
-            errors.add(new ProposalHierarchyErrorWarningDto(ProposalHierarchyKeyConstants.ERROR_PROPOSAL_DOES_NOT_EXIST, Boolean.TRUE, new String[0]));
+            errors.add(new ProposalHierarchyErrorWarningDto(ProposalHierarchyKeyConstants.ERROR_PROPOSAL_DOES_NOT_EXIST, Boolean.TRUE));
             displayErrors(errors);
         } else if (response == null && getProposalHierarchyService().needToExtendProjectDate(hierarchyProposal, newChildProposal)) {
         	return getModelAndViewService().showDialog(ProposalHierarchyKeyConstants.HIERARCHY_CONFIRMATION_DIALOG, true, form);
@@ -131,7 +131,7 @@ public class ProposalDevelopmentHierarchyController extends ProposalDevelopmentC
 
 	        if (!displayErrors(errors)) {
 	            getProposalHierarchyService().linkToHierarchy(hierarchyProposal, newChildProposal, hierarchyBudgetTypeCode);
-	            displayMessage(ProposalHierarchyKeyConstants.MESSAGE_LINK_SUCCESS, new String[]{hierarchyProposal.getProposalNumber(), newChildProposal.getProposalNumber()});
+	            displayMessage(ProposalHierarchyKeyConstants.MESSAGE_LINK_SUCCESS, hierarchyProposal.getProposalNumber(), newChildProposal.getProposalNumber());
 	        }
         }
 
@@ -150,7 +150,7 @@ public class ProposalDevelopmentHierarchyController extends ProposalDevelopmentC
         List<ProposalHierarchyErrorWarningDto> errors = getProposalHierarchyService().validateChildForSync(childProposal, hierarchy, false);
         if (!displayErrors(errors)) {
             getProposalHierarchyService().synchronizeChild(childProposal);
-            displayMessage(ProposalHierarchyKeyConstants.MESSAGE_SYNC_SUCCESS, new String[]{});
+            displayMessage(ProposalHierarchyKeyConstants.MESSAGE_SYNC_SUCCESS);
         }
 
         return updateHierarchySummaryIfNeeded(form);
