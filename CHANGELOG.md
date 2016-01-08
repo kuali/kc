@@ -1,6 +1,18 @@
 
 
 ##CURRENT
+* IRB - History Tab>Submission Details missing fields
+  * We need to invoke prepare view as we are checking for permissions in history subpanels
+  * This was removed earlier as part of performance tuning.
+  * This will take care of RESMER-524 as well.
+  * rmancher on Fri, 8 Jan 2016 14:44:41 -0500 [View Commit](../../commit/94e80e2610680f57b6957feb7a71950a696f76fe)
+* Invalid field constraints prevent Award save when amounts are negative
+
+  * When a T&M transaction includes negative amounts and the indirect flag is enabled, incorrect character constraints would prevent an award from being saved.
+  * Additionally fixing saving amounts in the award itself, in particular when the award is new. This ensures the distributable amounts and change values are correct even when entered on the award home screen.
+  * blackcathacker on Fri, 8 Jan 2016 11:39:36 -0800 [View Commit](../../commit/bba272b2366f6413e712ee9965099246db418316)
+
+##coeus-1601.24
 * PD Budget: new validation to enforce Proposal and Budget Start/End dates breaks several business processes
 
   * The current fix does not allow the flexibility needed for different types of proposal submissions to comply with sponsor requested preparation (e.g. supplement proposals where the entire project period is to be entered in the proposal but the budget is to include on the start and end date covering the supplemental funds spending), or for syncing child proposal budget date changes to a hierarchy.
