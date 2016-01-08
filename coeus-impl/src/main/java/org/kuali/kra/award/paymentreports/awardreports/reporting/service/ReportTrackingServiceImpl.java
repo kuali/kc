@@ -20,6 +20,7 @@ package org.kuali.kra.award.paymentreports.awardreports.reporting.service;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.AwardConstants;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.paymentreports.ReportRegenerationType;
 import org.kuali.kra.award.paymentreports.ReportStatus;
@@ -45,7 +46,6 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
     public static final String REPORT_CLASS = "reportClass";
     private static final String AWARD_REPORT_TRACKING_ID = "awardReportTrackingId";
     public static final String REPORT_STATUS_CODE = "REPORT_STATUS_CODE";
-    public static final String ROOT_AWARD_SUFFIX = "-00001";
     public static final String AWARD_NUMBER = "AWARD_NUMBER";
     public static final String OSP_DISTRIBUTION_CODE = "ospDistributionCode";
     public static final String FREQUENCY_BASE_CODE = "frequencyBaseCode";
@@ -346,7 +346,7 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
     
     @Override
     public boolean autoRegenerateReports(Award award) {
-        boolean retVal = StringUtils.endsWith(award.getAwardNumber(), ROOT_AWARD_SUFFIX);
+        boolean retVal = StringUtils.endsWith(award.getAwardNumber(), AwardConstants.ROOT_AWARD_SUFFIX);
         if (!retVal) {
             for (AwardReportTerm term : award.getAwardReportTermItems()) {
                 List<ReportTracking> tracking = getReportTacking(term);
