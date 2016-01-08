@@ -47,7 +47,6 @@
                             <bean parent="Uif-PrimaryActionButton" p:order="20" p:actionLabel="Notify All" p:actionScript="showDialog('PropDev-Personal-NotifyPersonsDialog')"  p:cssClasses="pull-right"
                                   p:render="@{#actionFlags[#{T(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants.PropDevDocumentActions).NOTIFY_PROPOSAL_PERSONS}]
                                   and document.developmentProposal.proposalPersons.size() > 0
-                                  and !#ViewHelper.areAllCertificationsComplete(document.developmentProposal.proposalPersons)
                                   and !document.developmentProposal.isChild()
                                   and !#parent.readOnly}"/>
                             <bean parent="Uif-PrimaryActionButton" p:actionLabel="COI Disclosure Status"
@@ -323,7 +322,6 @@
                                               p:render="@{#actionFlags[#{T(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants.PropDevDocumentActions).NOTIFY_PROPOSAL_PERSONS}] 
                                               and !#empty(#lp.versionNumber) 
                                               and #ViewHelper.canViewCertificationTab(document,#line) 
-                                              and !#lp.questionnairesCompleted 
                                               and !document.developmentProposal.isChild()
                                               and !#parent.readOnly}"
                                               p:order="10"/>
@@ -743,7 +741,7 @@
             <list>
             	<bean parent="Uif-InputField" p:propertyName="selectedPerson" p:order="20">
 					<property name="control">
-						<bean parent="Uif-CheckboxControl" p:disabled="@{#lp.questionnairesCompleted}"/>
+						<bean parent="Uif-CheckboxControl"/>
 					</property>
 				</bean>
                 <bean parent="Uif-InputField" p:label="Name" p:propertyName="fullName" p:order="10" p:readOnly="true"/>
