@@ -170,15 +170,13 @@ public abstract class ProposalBudgetControllerBase {
             validateBudgetExpenses(form);
         }
 
-        if (form.isAuditActivated()){
-        	((ProposalBudgetViewHelperServiceImpl)form.getViewHelperService()).applyBudgetAuditRules(form);
-        }
         checkAudit(form);
         return getModelAndViewService().getModelAndView(form);
     }
 
     protected void checkAudit(ProposalBudgetForm form) {
         if (form.isAuditActivated()){
+            getGlobalVariableService().getAuditErrorMap().clear();
             ((ProposalBudgetViewHelperServiceImpl)form.getViewHelperService()).applyBudgetAuditRules(form);
         }
     }

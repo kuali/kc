@@ -43,6 +43,7 @@ import org.kuali.coeus.propdev.impl.lock.ProposalBudgetLockService;
 import org.kuali.coeus.sys.framework.controller.ControllerFileUtils;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.validation.Auditable;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -192,8 +193,12 @@ public class ProposalBudgetSharedControllerServiceImpl implements ProposalBudget
     }
 
     public boolean isAllowedToCompleteBudget(ProposalDevelopmentBudgetExt budget, String errorPath) {
-        boolean isAuditRulePassed = getKcBusinessRulesEngine().applyRules(new BudgetAuditRuleEvent(budget));
+		getKcBusinessRulesEngine().applyRules(new BudgetAuditRuleEvent(budget));
 		boolean isRulePassed = getKcBusinessRulesEngine().applyRules(new BudgetSaveEvent(budget));
+
+		boolean isAuditRulePassed = !getGlobalVariableService().getAuditErrorMap().entrySet().stream()
+				.anyMatch(entry -> entry.getValue().getCategory().equals(Constants.AUDIT_ERRORS) &&
+						!entry.getValue().getAuditErrorList().isEmpty());
         if(!isAuditRulePassed) {
             getGlobalVariableService().getMessageMap().putError(errorPath, KeyConstants.CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE);
             return false;

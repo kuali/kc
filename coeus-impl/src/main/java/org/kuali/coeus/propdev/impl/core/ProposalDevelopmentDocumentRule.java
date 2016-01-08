@@ -505,10 +505,10 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
         		!StringUtils.equals(budgetStatusCompleteCode, proposal.getFinalBudget().getBudgetStatus())) {
             auditErrors.add(new AuditError("document.developmentProposal.budgets", KeyConstants.AUDIT_ERROR_NO_BUDGETVERSION_COMPLETE_AND_FINAL, ProposalDevelopmentDataValidationConstants.BUDGET_PAGE_ID));
             retval = false;
-        } else if (proposal.getFinalBudget() != null && (!proposal.getFinalBudget().getStartDate().equals(proposal.getRequestedStartDateInitial()) ||
-        		!proposal.getFinalBudget().getEndDate().equals(proposal.getRequestedEndDateInitial()) ||
-                !proposal.getFinalBudget().getSummaryPeriodStartDate().equals(proposal.getRequestedStartDateInitial()) ||
-                !proposal.getFinalBudget().getSummaryPeriodEndDate().equals(proposal.getRequestedEndDateInitial()))) {
+        } else if (proposal.getFinalBudget() != null && (proposal.getFinalBudget().getStartDate().before(proposal.getRequestedStartDateInitial()) ||
+        		proposal.getFinalBudget().getEndDate().after(proposal.getRequestedEndDateInitial()) ||
+                proposal.getFinalBudget().getSummaryPeriodStartDate().before(proposal.getRequestedStartDateInitial()) ||
+                proposal.getFinalBudget().getSummaryPeriodEndDate().after(proposal.getRequestedEndDateInitial()))) {
         	auditErrors.add(new AuditError("document.developmentProposal.budgets", KeyConstants.ERROR_BUDGET_DATES_NOT_MATCH_PROPOSAL_DATES, ProposalDevelopmentDataValidationConstants.BUDGET_PAGE_ID));
             retval = false;
         }
