@@ -947,16 +947,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
        return getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, "propSummaryDisclaimerText");
     }
 
-    public boolean areAllCertificationsComplete(List<ProposalPerson> proposalPersons) {
-        for (ProposalPerson person : proposalPersons) {
-            for (AnswerHeader answerHeader : person.getQuestionnaireHelper().getAnswerHeaders())  {
-                if (!answerHeader.isCompleted()) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
     public boolean canViewCertificationTab(ProposalDevelopmentDocument document,ProposalPerson proposalPerson) {
     	String currentUser = getGlobalVariableService().getUserSession().getPrincipalName();
     	Person person = getPersonService().getPersonByPrincipalName(currentUser);
