@@ -372,5 +372,5 @@
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.notification.impl.bo.NotificationModuleRoleQualifier" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.notification.impl.bo.NotificationType" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.notification.impl.bo.NotificationTypeRecipient" />
-
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.bo.CommentType" />
 </beans>
