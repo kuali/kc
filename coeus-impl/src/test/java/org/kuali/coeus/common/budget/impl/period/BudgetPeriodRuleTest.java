@@ -106,32 +106,4 @@ public class BudgetPeriodRuleTest {
         boolean isValid = budgetPeriodRule.doBudgetPeriodsCoverProposal(budget);
         Assert.assertFalse("budget is invalid", isValid);
     }
-
-    @Test
-    public void doBudgetPeriodsCoverProposalTest_firstBudgetPeriodStartsAfterProposalStartDate() throws Exception {
-        budget.getBudgetPeriods().add(createBudgetPeriod("02/01/2016", "12/31/2019"));
-        boolean isValid = budgetPeriodRule.doBudgetPeriodsCoverProposal(budget);
-        Assert.assertFalse("budget is invalid", isValid);
-    }
-
-    @Test
-    public void doBudgetPeriodsCoverProposalTest_firstBudgetPeriodStartsBeforeProposalStartDate() throws Exception {
-        budget.getBudgetPeriods().add(createBudgetPeriod("02/01/2015", "12/31/2019"));
-        boolean isValid = budgetPeriodRule.doBudgetPeriodsCoverProposal(budget);
-        Assert.assertFalse("budget is invalid", isValid);
-    }
-
-    @Test
-    public void doBudgetPeriodsCoverProposalTest_lastBudgetPeriodEndsBeforeProposalEndDate() throws Exception {
-        budget.getBudgetPeriods().add(createBudgetPeriod("01/01/2015", "11/31/2019"));
-        boolean isValid = budgetPeriodRule.doBudgetPeriodsCoverProposal(budget);
-        Assert.assertFalse("budget is invalid", isValid);
-    }
-
-    @Test
-    public void doBudgetPeriodsCoverProposalTest_lastBudgetPeriodEndsAfterProposalEndDate() throws Exception {
-        budget.getBudgetPeriods().add(createBudgetPeriod("01/01/2015", "12/31/2020"));
-        boolean isValid = budgetPeriodRule.doBudgetPeriodsCoverProposal(budget);
-        Assert.assertFalse("budget is invalid", isValid);
-    }
 }

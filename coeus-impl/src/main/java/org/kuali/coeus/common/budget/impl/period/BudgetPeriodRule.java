@@ -243,16 +243,6 @@ public class BudgetPeriodRule {
             nextIndex++;
         }
 
-        Interval budgetInterval = new Interval(sortedBudgetPeriods.get(0).getStartDate().getTime(),
-                sortedBudgetPeriods.get(sortedBudgetPeriods.size() - 1).getEndDate().getTime());
-
-        Interval proposalInterval = new Interval(budget.getBudgetParent().getRequestedStartDateInitial().getTime(),
-                budget.getBudgetParent().getRequestedEndDateInitial().getTime());
-
-        if (!budgetInterval.equals(proposalInterval)) {
-            saveErrors("ERROR_PERIOD_GAPS", getGlobalVariableService().getMessageMap());
-            return false;
-        }
         return true;
     }
 
