@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* Attempt to ensure that the Time&Money document status is always updated
+
+  * In some rare cases it appears that the T&M document status is not being updated during the doRouteStatusChange. This is a rare event that we have been unable to reproduce to date. This adds an additional check to verify and if incorrect, fix the document status when the document moves to final.
+  * blackcathacker on Thu, 7 Jan 2016 14:39:04 -0800 [View Commit](../../commit/9514877b7b0845281bff9a260e9c82bffd5fbc6b)
+
+##coeus-1601.19
 *  adding or removing a non-employee from a PD hierarchy causes sync to fail with an STE.
 
   * java.lang.IllegalArgumentException: Given criteria value cannot be null. at org.kuali.rice.core.api.criteria.CriteriaSupportUtils.determineCriteriaValue(CriteriaSupportUtils.java:152) at org.kuali.rice.core.api.criteria.PredicateFactory.equal(PredicateFactory.java:99) at org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyDaoJpa.personInMultipleChildProposals(ProposalHierarchyDaoJpa.java:69) at org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyServiceImpl.personInMultipleProposals(ProposalHierarchyServiceImpl.java:776) at org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyServiceImpl.syncDegreeInfo(ProposalHierarchyServiceImpl.java:861) at org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyServiceImpl.syncDegreeInfo(ProposalHierarchyServiceImpl.java:853) at org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyServiceImpl.synchronizeChildProposal(ProposalHierarchyServiceImpl.java:552) at org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyServiceImpl.synchronizeChild(ProposalHierarchyServiceImpl.java:392) at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) at
