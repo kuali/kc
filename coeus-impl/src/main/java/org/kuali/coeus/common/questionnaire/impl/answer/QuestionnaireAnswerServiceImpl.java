@@ -43,6 +43,7 @@ import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireUsage;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.questionnaire.framework.answer.ModuleQuestionnaireBean;
 import org.kuali.coeus.common.questionnaire.framework.question.QuestionDTO;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,13 +69,18 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     public static final String SEQUENCE_NUMBER = "sequenceNumber";
     public static final String QUESTIONNAIRE_AGENDA_TYPE_ID = "KC1004";
 
-    @Autowired()
+    @Autowired
     @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
 
     @Autowired
+    @Qualifier("parameterService")
+    private ParameterService parameterService;
+
+    @Autowired
     @Qualifier("questionnaireService")
     private QuestionnaireService questionnaireService;
+
     @Autowired
     @Qualifier("krmsRulesExecutionService")
     private KrmsRulesExecutionService krmsRulesExecutionService;
@@ -846,7 +852,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         } else if (CoeusModule.IRB_MODULE_CODE.equals(moduleItemCode)) {
             return new ProtocolModuleQuestionnaireBean(moduleItemCode, moduleItemKey, moduleSubItemCode, moduleSubItemKey, finalDoc);
         } else if (CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE.equals(moduleItemCode)) {
-            if (CoeusSubModule.PROPOSAL_PERSON_CERTIFICATION.equals(moduleSubItemCode)) {
+            if (isProposalPersonSubModule(moduleSubItemCode)) {
                 return new ProposalPersonModuleQuestionnaireBean(moduleItemCode, moduleItemKey, moduleSubItemCode, moduleSubItemKey, finalDoc);
             } else if (CoeusSubModule.PROPOSAL_S2S_SUBMODULE.equals(moduleSubItemCode)) {
                 return new ProposalDevelopmentS2sModuleQuestionnaireBean(moduleItemCode, moduleItemKey, moduleSubItemCode, moduleSubItemKey, finalDoc);
@@ -857,7 +863,16 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
             throw new IllegalArgumentException("Unrecognized moduleItemCode");
         }
     }
-    
+
+    protected boolean isProposalPersonSubModule(String moduleSubItemCode) {
+        return StringUtils.equals(moduleSubItemCode,CoeusSubModule.PROPOSAL_PERSON_CERTIFICATION) ||
+                StringUtils.equals(moduleSubItemCode, getParameterService().getParameterValueAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE,
+                        Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, ProposalPersonModuleQuestionnaireBean.MODULE_SUB_ITEM_CODE_COI_CERTIFICATION)) ||
+                StringUtils.equals(moduleSubItemCode, getParameterService().getParameterValueAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE,
+                        Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, ProposalPersonModuleQuestionnaireBean.MODULE_SUB_ITEM_CODE_KP_CERTIFICATION)) ||
+                StringUtils.equals(moduleSubItemCode, getParameterService().getParameterValueAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE,
+                        Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, ProposalPersonModuleQuestionnaireBean.MODULE_SUB_ITEM_CODE_PI_CERTIFICATION));
+    }
 
     protected QuestionnaireService getQuestionnaireService() {
         return questionnaireService;
@@ -892,5 +907,13 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
 
     public void setGlobalVariableService(GlobalVariableService globalVariableService) {
         this.globalVariableService = globalVariableService;
+    }
+
+    public ParameterService getParameterService() {
+        return this.parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 }
