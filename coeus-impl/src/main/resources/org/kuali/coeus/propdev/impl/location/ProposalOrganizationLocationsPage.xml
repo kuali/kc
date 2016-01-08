@@ -312,7 +312,8 @@
           p:layoutManager.summaryTitle="@{#lp.congressionalDistrict}"
           p:addWithDialog="true">
         <property name="addWithDialogAction">
-            <bean parent="Uif-AddWithDialogAction" p:actionLabel="Add Congressional District" p:iconClass="icon-plus"/>
+            <bean parent="Uif-AddWithDialogAction" p:actionLabel="Add Congressional District" p:iconClass="icon-plus"
+                  p:render="@{!#parent.readOnly}"/>
         </property>
         <property name="items">
             <list>
