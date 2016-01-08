@@ -4,6 +4,10 @@
 * No Changes
 
 
+##coeus-1601.26
+* No Changes
+
+
 ##coeus-1601.25
 * IRB - History Tab>Submission Details missing fields
   * We need to invoke prepare view as we are checking for permissions in history subpanels
