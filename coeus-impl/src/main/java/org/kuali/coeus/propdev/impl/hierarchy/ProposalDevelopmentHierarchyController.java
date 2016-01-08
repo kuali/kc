@@ -127,6 +127,7 @@ public class ProposalDevelopmentHierarchyController extends ProposalDevelopmentC
             errors.addAll(getProposalHierarchyService().validateChildCandidateForHierarchy(hierarchyProposal, newChildProposal, true));
             errors.addAll(getProposalHierarchyService().validateSponsor(newChildProposal, hierarchyProposal));
             errors.addAll(getProposalHierarchyService().validateIsAggregatorOnChild(newChildProposal));
+            errors.addAll(getProposalHierarchyService().validateChildBudgetPeriods(hierarchyProposal, newChildProposal, true));
 
 	        if (!displayErrors(errors)) {
 	            getProposalHierarchyService().linkToHierarchy(hierarchyProposal, newChildProposal, hierarchyBudgetTypeCode);

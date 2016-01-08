@@ -509,7 +509,8 @@ public class ProposalBudgetHierarchyServiceImpl implements ProposalBudgetHierarc
         parentBudget.setUrRateClassCode(childBudget.getUrRateClassCode());
         dataObjectService.save(parentBudget);
     }
-    
+
+    @Override
     public List<ProposalHierarchyErrorWarningDto> validateChildBudgetPeriods(DevelopmentProposal hierarchyProposal,
             DevelopmentProposal childProposal, boolean allowEndDateChange) throws ProposalHierarchyException {
         List<ProposalHierarchyErrorWarningDto> retval = new ArrayList<>();
@@ -548,7 +549,8 @@ public class ProposalBudgetHierarchyServiceImpl implements ProposalBudgetHierarc
         }
         return retval;
     }    
-    
+
+    @Override
     public ProposalDevelopmentBudgetExt getHierarchyBudget(DevelopmentProposal hierarchyProposal) throws ProposalHierarchyException {
     	if (!hierarchyProposal.getBudgets().isEmpty()) {
     		return hierarchyProposal.getBudgets().get(0);
@@ -556,7 +558,8 @@ public class ProposalBudgetHierarchyServiceImpl implements ProposalBudgetHierarc
     		return null;
     	}
     }
- 
+
+    @Override
     public ProposalDevelopmentBudgetExt getSyncableBudget(DevelopmentProposal childProposal) throws ProposalHierarchyException {
     	if (childProposal.getFinalBudget() == null) {
     		return childProposal.getLatestBudget();
