@@ -1,6 +1,38 @@
 
 
 ##CURRENT
+* PD - STE on Approved and Submitted proposal, Performance Site Locations & Other Organizations tabs > 'Add Congressional District'
+
+  * When a proposal dev record is in the Status Approved and Submitted, there should not be an option to Add Congressional District in any of the sub tabs on the Organization and Location screen.
+  * Currently, when there is a Performance Site Location or Other Organization is entered, the Add Congressional District button is available, and if clicked, modal appears, with an active Add button, which, when clicked, returns an STE.
+  * Joe Williams on Fri, 8 Jan 2016 16:31:58 -0600 [View Commit](../../commit/546abe56807e603e555284016a9987e635e859b5)
+* PD - STE on Summary Submit screen > Personnel > select 'Print All'
+
+  * Steps taken:
+  * Searched for PD 26126 (Approved & Submitted status, Migrated poposal)
+  * From results Action column, selected View
+  * When to Summay/Submit screen > Personnel tab
+  * Selected "Print All" button
+  * Received STE:
+
+  * Document Id: 139613
+  * View Id: PropDev-DefaultView
+
+  * Stacktrace (only in dev mode)
+
+  * java.lang.NullPointerException at org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentModuleQuestionnaireBean.loadKrmsRulesContext(ProposalDevelopmentModuleQuestionnaireBean.java:61) at org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentModuleQuestionnaireBean.getKrmsRulesContextFromBean(ProposalDevelopmentModuleQuestionnaireBean.java:54) at org.kuali.coeus.common.questionnaire.impl.answer.QuestionnaireAnswerServiceImpl.runApplicableRules(QuestionnaireAnswerServiceImpl.java:828) at org.kuali.coeus.common.questionnaire.impl.answer.QuestionnaireAnswerServiceImpl.getPublishedQuestionnaire(QuestionnaireAnswerServiceImpl.java:121) at org.kuali.coeus.common.questionnaire.impl.answer.QuestionnaireAnswerServiceImpl.initAnswerHeaders(QuestionnaireAnswerServiceImpl.java:149) at org.kuali.coeus.common.questionnaire.impl.answer.QuestionnaireAnswerServiceImpl.getQuestionnaireAnswer(QuestionnaireAnswerServiceImpl.java:266) at org.kuali.coeus.common.questionnaire.impl.print.QuestionnaireXmlStream.setQuestionInfoData(QuestionnaireXmlStream.java:779) at org.kuali.coeus.common.questionnaire.impl.print.QuestionnaireXmlStream.getQuestionnaireData(QuestionnaireXmlStream.java:217) at org.kuali.coeus.common.questionnaire.impl.print.QuestionnaireXmlStream.generateXmlStream(QuestionnaireXmlStream.java:148) at
+  * Joe Williams on Fri, 8 Jan 2016 16:01:52 -0600 [View Commit](../../commit/3481d992f29c35623a0b320f3105e92ccf609829)
+*  validating period dates to avoid an exception when linking a child proposal to a parent.
+  * Travis Schneeberger on Fri, 8 Jan 2016 17:00:15 -0500 [View Commit](../../commit/e7a1d76f18d351e9886ff26bc360dfdea0698456)
+* IRB - Duplicated Review Comments in History Tab
+  * Check for the protocol number since we have versioned review comments.
+  * rmancher on Fri, 8 Jan 2016 15:58:29 -0500 [View Commit](../../commit/a5079d31bc4bc38b2e520813a703f3ea168cc4a6)
+*  PD - Notify to certify option should not disappear once certifications are complete
+
+  * Aggregators must be able to resend Notification requests to proposal persons to re-answer certifications correctly.
+  * Joe Williams on Fri, 8 Jan 2016 12:39:14 -0600 [View Commit](../../commit/8bbe11cecffff0f6dc647433008d2fdccf8d88fb)
+
+##coeus-1601.27
 * No Changes
 
 
