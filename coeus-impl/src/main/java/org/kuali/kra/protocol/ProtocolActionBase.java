@@ -222,6 +222,8 @@ public abstract class ProtocolActionBase extends KcTransactionalDocumentActionBa
         ProtocolFormBase protocolForm = (ProtocolFormBase) form;
         protocolForm.initializeProtocolHistory();
         protocolForm.getActionHelper().setCurrentSubmissionNumber(Constants.PROTOCOL_DEFAULT_SUBMISSION_NUMBER);
+        protocolForm.getActionHelper().prepareView();
+        protocolForm.getActionHelper().prepareCommentsView();
         protocolForm.getActionHelper().initSubmissionDetails();
         return branchToPanelOrNotificationEditor(mapping, protocolForm, getProtocolHistoryForwardNameHook());
     }
