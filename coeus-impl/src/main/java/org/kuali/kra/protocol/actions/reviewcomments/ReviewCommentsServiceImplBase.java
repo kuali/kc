@@ -120,7 +120,7 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
         List<ProtocolSubmissionBase> protocolSubmissions = protocolFinderDao.findProtocolSubmissions(protocolNumber, submissionNumber);
 
         for (ProtocolSubmissionBase protocolSubmission : protocolSubmissions) {
-            if (protocolSubmission.getCommitteeScheduleMinutes() != null) {
+            if (protocolNumber.equals(protocolSubmission.getProtocolNumber()) && protocolSubmission.getCommitteeScheduleMinutes() != null) {
                 // search table directly as ProtocolBase Submission is not refreshed as commit happens later
                 Map fieldValues = new HashMap();
                 fieldValues.put("protocolIdFk", protocolSubmission.getProtocolId());
