@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* PD - Submit S2S button should only be available to users with Submit to Sponsor permission/Propsoal Submission Role
+  * Submit S2S button availability should be tied to Submit to Sponsor permission.
+  * rmancher on Fri, 8 Jan 2016 11:00:49 -0500 [View Commit](../../commit/d3dfd0b8f27c0f6c949e41c38217326b31cabe0f)
+
+##coeus-1601.22
 * No Changes
 
 
