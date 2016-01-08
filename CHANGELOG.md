@@ -1,6 +1,15 @@
 
 
 ##CURRENT
+* PD Budget: new validation to enforce Proposal and Budget Start/End dates breaks several business processes
+
+  * The current fix does not allow the flexibility needed for different types of proposal submissions to comply with sponsor requested preparation (e.g. supplement proposals where the entire project period is to be entered in the proposal but the budget is to include on the start and end date covering the supplemental funds spending), or for syncing child proposal budget date changes to a hierarchy.
+
+  * The validation needs to be changed from requiring budget start and end dates to match the proposal start and end dates to instead enforcing that the budget start date falls after the proposal start date and the budget end date falls before the proposal period end date.
+  * The budget start and end dates must both fall within the project period, rather than match exactly.
+  * Joe Williams on Fri, 8 Jan 2016 10:42:43 -0600 [View Commit](../../commit/e323207d16d7eb6a933321b9172842c27cfaf9eb)
+
+##coeus-1601.23
 * PD - Submit S2S button should only be available to users with Submit to Sponsor permission/Propsoal Submission Role
   * Submit S2S button availability should be tied to Submit to Sponsor permission.
   * rmancher on Fri, 8 Jan 2016 11:00:49 -0500 [View Commit](../../commit/d3dfd0b8f27c0f6c949e41c38217326b31cabe0f)
