@@ -376,18 +376,20 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
         }
 
         List<CommitteeMembershipBase> committeeMemberships = committeeSchedule.getParentCommittee().getCommitteeMemberships();
-        for (CommitteeMembershipBase committeeMembership : committeeMemberships) {
-            if (!getCommitteeMembershipService().isMemberAttendedMeeting(committeeMembership, committeeSchedule.getParentCommittee().getCommitteeId())) {
-                Attendents attendents = schedule.addNewAttendents();
-                attendents.setAttendentName(committeeMembership.getPersonName());
-                attendents.setAlternateFlag(false);
-                attendents.setGuestFlag(false);
-                attendents.setPresentFlag(false);
-            }
-        }
+        committeeMemberships.stream().filter(committeeMembership -> isAbsent(attendenceList, committeeMembership)).forEach(committeeMembership -> {
+            Attendents attendents = schedule.addNewAttendents();
+            attendents.setAttendentName(committeeMembership.getPersonName());
+            attendents.setAlternateFlag(false);
+            attendents.setGuestFlag(false);
+            attendents.setPresentFlag(false);
+        });
     }
 
-
+    private boolean isAbsent(List<CommitteeScheduleAttendanceBase> attendenceList, CommitteeMembershipBase committeeMembership) {
+        return !attendenceList.stream()
+                .anyMatch(committeeScheduleAttendanceBase -> committeeScheduleAttendanceBase.getPersonId().equals(committeeMembership.getPersonId())) &&
+                committeeMembership.isActive();
+    }
 
     public ScheduleMasterData setScheduleMasterData(CommitteeSchedule scheduleDetailsBean, ScheduleMasterData currentSchedule) {
         scheduleDetailsBean.refreshNonUpdateableReferences();
