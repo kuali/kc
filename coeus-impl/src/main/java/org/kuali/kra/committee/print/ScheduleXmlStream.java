@@ -376,7 +376,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
         }
 
         List<CommitteeMembershipBase> committeeMemberships = committeeSchedule.getParentCommittee().getCommitteeMemberships();
-        committeeMemberships.stream().filter(committeeMembership -> isAbsent(attendenceList, committeeMembership)).forEach(committeeMembership -> {
+        committeeMemberships.stream().filter(committeeMembership -> isAbsent(attendenceList, committeeMembership, committeeSchedule.getScheduledDate())).forEach(committeeMembership -> {
             Attendents attendents = schedule.addNewAttendents();
             attendents.setAttendentName(committeeMembership.getPersonName());
             attendents.setAlternateFlag(false);
@@ -385,10 +385,10 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
         });
     }
 
-    private boolean isAbsent(List<CommitteeScheduleAttendanceBase> attendenceList, CommitteeMembershipBase committeeMembership) {
+    private boolean isAbsent(List<CommitteeScheduleAttendanceBase> attendenceList, CommitteeMembershipBase committeeMembership, java.sql.Date scheduledDate) {
         return !attendenceList.stream()
                 .anyMatch(committeeScheduleAttendanceBase -> committeeScheduleAttendanceBase.getPersonId().equals(committeeMembership.getPersonId())) &&
-                committeeMembership.isActive();
+                committeeMembership.isActive(scheduledDate);
     }
 
     public ScheduleMasterData setScheduleMasterData(CommitteeSchedule scheduleDetailsBean, ScheduleMasterData currentSchedule) {
