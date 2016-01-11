@@ -1,6 +1,16 @@
 
 
 ##CURRENT
+*  PD: STE when I try to generate GG Form Preview
+
+  * Steps to Reproduce:
+  * 1. Create a proposal with min. info to save
+  * 2. In the S2S Opportunity search connect to a GG opportunity (e.g. PA-C-R01)
+  * 3. While in the Opportunity search window, go to the Forms tab and check the Select checkbox for PerformanceSite_2_0 form (the proposal doesn't have much info so this is the only form that will generate at this time) and click the [Create PDF] button. The form preview should generate fine.
+*4. While remaining in the Opportunity Search section, click on the Print link located in the Proposal toolbar. In the Print window > Grants.gov section, the checkbox for the PerformanceSite_2_0 form should be already selected, click the [Create PDF] button. get STE.
+  * Joe Williams on Sat, 9 Jan 2016 21:58:15 -0600 [View Commit](../../commit/8a69f7632173df3ae2132fed3bf0445a5351fdc2)
+
+##coeus-1601.38
 * IRB - Incorrect button displaying when doing a renewal
 
   * I just performed a renewal without amendment to a protocol and I a button that I don’t recall ever seeing before for renewals…
