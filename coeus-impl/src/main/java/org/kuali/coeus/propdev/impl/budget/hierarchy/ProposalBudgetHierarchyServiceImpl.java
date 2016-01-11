@@ -18,14 +18,9 @@
  */
 package org.kuali.coeus.propdev.impl.budget.hierarchy;
 
-import static org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyKeyConstants.ERROR_BUDGET_PERIOD_DURATION_INCONSISTENT;
-import static org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyKeyConstants.ERROR_BUDGET_START_DATE_INCONSISTENT;
-import static org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyKeyConstants.PARAMETER_NAME_DIRECT_COST_ELEMENT;
-import static org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyKeyConstants.PARAMETER_NAME_INDIRECT_COST_ELEMENT;
-import static org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyKeyConstants.QUESTION_EXTEND_PROJECT_DATE_CONFIRM;
-
 import java.sql.Date;
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
@@ -50,10 +45,7 @@ import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardAttachment;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardFiles;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.coeus.propdev.impl.hierarchy.HierarchyBudgetTypeConstants;
-import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyDao;
-import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyErrorWarningDto;
-import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyException;
+import org.kuali.coeus.propdev.impl.hierarchy.*;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.model.KcDataObject;
 import org.kuali.kra.infrastructure.Constants;
@@ -315,8 +307,8 @@ public class ProposalBudgetHierarchyServiceImpl implements ProposalBudgetHierarc
                 } else { // subproject budget
 
                     CostElement costElement;
-                    String directCostElement = parameterService.getParameterValueAsString(Budget.class, PARAMETER_NAME_DIRECT_COST_ELEMENT);
-                    String indirectCostElement = parameterService.getParameterValueAsString(Budget.class, PARAMETER_NAME_INDIRECT_COST_ELEMENT);
+                    String directCostElement = parameterService.getParameterValueAsString(Budget.class, ProposalHierarchyKeyConstants.PARAMETER_NAME_DIRECT_COST_ELEMENT);
+                    String indirectCostElement = parameterService.getParameterValueAsString(Budget.class, ProposalHierarchyKeyConstants.PARAMETER_NAME_INDIRECT_COST_ELEMENT);
 
                     if (childPeriod.getTotalIndirectCost().isNonZero()) {
                         costElement = dataObjectService.findUnique(CostElement.class, QueryByCriteria.Builder.forAttribute("costElement", indirectCostElement).build());
@@ -427,11 +419,19 @@ public class ProposalBudgetHierarchyServiceImpl implements ProposalBudgetHierarc
 
     @Override
     public void removeMergeableChildBudgetElements(ProposalDevelopmentBudgetExt parentBudget) {
-        QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(PredicateFactory.isNotNull("hierarchyProposalNumber"), PredicateFactory.equal("budgetId", parentBudget.getBudgetId()));
-        dataObjectService.deleteMatching(BudgetUnrecoveredFandA.class, query);
+        final Predicate<HierarchyMaintainable> notFromHierarchy =  mergeable -> mergeable.getHierarchyProposalNumber() == null;
+
+        QueryByCriteria inHierarchyQuery = QueryByCriteria.Builder.fromPredicates(PredicateFactory.isNotNull("hierarchyProposalNumber"), PredicateFactory.equal("budgetId", parentBudget.getBudgetId()));
+        dataObjectService.deleteMatching(BudgetUnrecoveredFandA.class, inHierarchyQuery);
 
         parentBudget.setBudgetUnrecoveredFandAs(parentBudget.getBudgetUnrecoveredFandAs().stream()
-                .filter(fAndA -> fAndA.getHierarchyProposalNumber() == null)
+                .filter(notFromHierarchy)
+                .collect(Collectors.toList()));
+
+        dataObjectService.deleteMatching(BudgetCostShare.class, inHierarchyQuery);
+
+        parentBudget.setBudgetCostShares(parentBudget.getBudgetCostShares().stream()
+                .filter(notFromHierarchy)
                 .collect(Collectors.toList()));
     }
 
@@ -526,7 +526,7 @@ public class ProposalBudgetHierarchyServiceImpl implements ProposalBudgetHierarc
             // check that child budget starts on one of the budget period starts
             int correspondingStart = getCorrespondingParentPeriod(parentBudget.getBudgetPeriods(), childBudget);
             if (correspondingStart == -1) {
-                retval.add(new ProposalHierarchyErrorWarningDto(ERROR_BUDGET_START_DATE_INCONSISTENT, Boolean.TRUE, childProposal.getProposalNumber()));
+                retval.add(new ProposalHierarchyErrorWarningDto(ProposalHierarchyKeyConstants.ERROR_BUDGET_START_DATE_INCONSISTENT, Boolean.TRUE, childProposal.getProposalNumber()));
             }
             // check that child budget periods map to parent periods
             else {
@@ -540,7 +540,7 @@ public class ProposalBudgetHierarchyServiceImpl implements ProposalBudgetHierarc
                     childPeriod = childPeriods.get(j);
                     if (!parentPeriod.getStartDate().equals(childPeriod.getStartDate())
                             || !parentPeriod.getEndDate().equals(childPeriod.getEndDate())) {
-                        retval.add(new ProposalHierarchyErrorWarningDto(ERROR_BUDGET_PERIOD_DURATION_INCONSISTENT, Boolean.TRUE, childProposal.getProposalNumber()));
+                        retval.add(new ProposalHierarchyErrorWarningDto(ProposalHierarchyKeyConstants.ERROR_BUDGET_PERIOD_DURATION_INCONSISTENT, Boolean.TRUE, childProposal.getProposalNumber()));
                         break;
                     }
                 }
@@ -548,7 +548,7 @@ public class ProposalBudgetHierarchyServiceImpl implements ProposalBudgetHierarc
                         && !allowEndDateChange
                         && (j < childPeriods.size()
                         || childProposal.getRequestedEndDateInitial().after(hierarchyProposal.getRequestedEndDateInitial()))) {
-                    retval.add(new ProposalHierarchyErrorWarningDto(QUESTION_EXTEND_PROJECT_DATE_CONFIRM, Boolean.TRUE, childProposal.getProposalNumber()));
+                    retval.add(new ProposalHierarchyErrorWarningDto(ProposalHierarchyKeyConstants.QUESTION_EXTEND_PROJECT_DATE_CONFIRM, Boolean.TRUE, childProposal.getProposalNumber()));
                 }
             }
         }
