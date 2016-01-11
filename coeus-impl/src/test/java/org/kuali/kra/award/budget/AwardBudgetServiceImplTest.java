@@ -189,6 +189,60 @@ public class AwardBudgetServiceImplTest {
     	assertEquals(convertToSqlDate(awardBudgetEndDate), awardBudgetPeriod1.getBudgetLineItems().get(0).getBudgetPersonnelDetailsList().get(0).getEndDate());
     	assertEquals(1, GlobalVariables.getMessageMap().getWarningCount());
     }
+    
+    @Test
+    public void testCopyProposalBudgetLineItemsToAwardBudget_BeforePeriod() {
+    	awardBudgetService = new AwardBudgetServiceImpl() {
+    		@Override
+    		protected void populateCalculatedAmount(AwardBudgetPeriodExt awardBudgetPeriod, AwardBudgetLineItemExt awardBudgetLineItem) {
+    			return;
+    		}
+    	};
+    	LocalDateTime awardBudgetStartDate = LocalDateTime.now();
+    	LocalDateTime awardBudgetEndDate = awardBudgetStartDate.plusYears(1);
+    	final LocalDateTime proposalBudgetStartDate = awardBudgetStartDate.minusYears(5);
+    	final LocalDateTime proposalBudgetEndDate = awardBudgetEndDate.minusYears(5);
+    	
+    	AwardBudgetPeriodExt awardBudgetPeriod1 = prepareAwardBudgetPeriod(awardBudgetStartDate, awardBudgetEndDate);
+    	
+    	BudgetPeriod proposalBudgetPeriod = prepareProposalBudgetPeriod(proposalBudgetStartDate, proposalBudgetEndDate);
+    	
+    	GlobalVariables.getMessageMap().clearErrorMessages();
+    	awardBudgetService.copyProposalBudgetLineItemsToAwardBudget(awardBudgetPeriod1, proposalBudgetPeriod);
+    	assertEquals(1, awardBudgetPeriod1.getBudgetLineItems().size());
+    	assertEquals(convertToSqlDate(awardBudgetStartDate), awardBudgetPeriod1.getBudgetLineItems().get(0).getStartDate());
+    	assertEquals(convertToSqlDate(awardBudgetEndDate), awardBudgetPeriod1.getBudgetLineItems().get(0).getEndDate());
+    	assertEquals(convertToSqlDate(awardBudgetStartDate), awardBudgetPeriod1.getBudgetLineItems().get(0).getBudgetPersonnelDetailsList().get(0).getStartDate());
+    	assertEquals(convertToSqlDate(awardBudgetEndDate), awardBudgetPeriod1.getBudgetLineItems().get(0).getBudgetPersonnelDetailsList().get(0).getEndDate());
+    	assertEquals(1, GlobalVariables.getMessageMap().getWarningCount());
+    }
+    
+    @Test
+    public void testCopyProposalBudgetLineItemsToAwardBudget_AfterPeriod() {
+    	awardBudgetService = new AwardBudgetServiceImpl() {
+    		@Override
+    		protected void populateCalculatedAmount(AwardBudgetPeriodExt awardBudgetPeriod, AwardBudgetLineItemExt awardBudgetLineItem) {
+    			return;
+    		}
+    	};
+    	LocalDateTime awardBudgetStartDate = LocalDateTime.now();
+    	LocalDateTime awardBudgetEndDate = awardBudgetStartDate.plusYears(1);
+    	final LocalDateTime proposalBudgetStartDate = awardBudgetStartDate.plusYears(5);
+    	final LocalDateTime proposalBudgetEndDate = awardBudgetEndDate.plusYears(5);
+    	
+    	AwardBudgetPeriodExt awardBudgetPeriod1 = prepareAwardBudgetPeriod(awardBudgetStartDate, awardBudgetEndDate);
+    	
+    	BudgetPeriod proposalBudgetPeriod = prepareProposalBudgetPeriod(proposalBudgetStartDate, proposalBudgetEndDate);
+    	
+    	GlobalVariables.getMessageMap().clearErrorMessages();
+    	awardBudgetService.copyProposalBudgetLineItemsToAwardBudget(awardBudgetPeriod1, proposalBudgetPeriod);
+    	assertEquals(1, awardBudgetPeriod1.getBudgetLineItems().size());
+    	assertEquals(convertToSqlDate(awardBudgetStartDate), awardBudgetPeriod1.getBudgetLineItems().get(0).getStartDate());
+    	assertEquals(convertToSqlDate(awardBudgetEndDate), awardBudgetPeriod1.getBudgetLineItems().get(0).getEndDate());
+    	assertEquals(convertToSqlDate(awardBudgetStartDate), awardBudgetPeriod1.getBudgetLineItems().get(0).getBudgetPersonnelDetailsList().get(0).getStartDate());
+    	assertEquals(convertToSqlDate(awardBudgetEndDate), awardBudgetPeriod1.getBudgetLineItems().get(0).getBudgetPersonnelDetailsList().get(0).getEndDate());
+    	assertEquals(1, GlobalVariables.getMessageMap().getWarningCount());
+    }
 
 	protected BudgetPeriod prepareProposalBudgetPeriod(
 			final LocalDateTime proposalBudgetStartDate,
@@ -245,7 +299,7 @@ public class AwardBudgetServiceImplTest {
 	}
 
 	protected Date convertToSqlDate(LocalDateTime awardBudgetStartDate) {
-		return new java.sql.Date(awardBudgetStartDate.toEpochSecond(ZoneOffset.ofHours(0)));
+		return new java.sql.Date(awardBudgetStartDate.toInstant(ZoneOffset.ofHours(0)).toEpochMilli());
 	}
     
     protected List<AwardFundingProposal> getTestAwardFundingProposals() {
