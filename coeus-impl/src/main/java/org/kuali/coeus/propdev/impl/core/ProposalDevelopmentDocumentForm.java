@@ -48,6 +48,7 @@ import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnai
 import org.kuali.coeus.propdev.impl.coi.CoiConstants;
 import org.kuali.coeus.propdev.impl.copy.ProposalCopyCriteria;
 import org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission;
+import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
 import org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedForm;
 import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireHelper;
 import org.kuali.coeus.propdev.impl.specialreview.SpecialReviewHelper;
@@ -111,7 +112,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private ReportHelper reportHelper;
     private List<DevelopmentProposal> hierarchyDevelopmentProposals;
     private boolean viewOnly = false;
-
+    private List<S2sOppForms> printS2sOppForms;
     private AnswerHeader updateAnswerHeader;
 
     /* These 2 properties are used for autogenerating an institutional proposal for a resubmission */
@@ -200,6 +201,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
 
         hierarchyDevelopmentProposals = new ArrayList<DevelopmentProposal>();
 
+        printS2sOppForms = new ArrayList<>();
     }
 
     public int findIndexOfPageId(List<Action> actions) {
@@ -705,5 +707,13 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
             return false;
         }
         return isCanEditView();
+    }
+
+    public List<S2sOppForms> getPrintS2sOppForms() {
+        return this.printS2sOppForms;
+    }
+
+    public void setPrintS2sOppForms(List<S2sOppForms> printS2sOppForms) {
+        this.printS2sOppForms = printS2sOppForms;
     }
 }

@@ -48,7 +48,8 @@
           p:disclosure.defaultOpen="false">
         <property name="items">
             <list>
-                <bean parent="PropDev-OpportunityPage-Forms" p:order="10" p:render="@{document.developmentProposal.s2sOppForms.size() > 0}"/>
+                <bean parent="PropDev-OpportunityPage-Forms"
+                      p:propertyName="printS2sOppForms" p:order="10" p:render="@{printS2sOppForms.size() > 0}"/>
             </list>
         </property>
     </bean>
