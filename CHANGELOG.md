@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* IRB - Incorrect button displaying when doing a renewal
+
+  * I just performed a renewal without amendment to a protocol and I a button that I don’t recall ever seeing before for renewals…
+  * [Edit]
+  * Users are not supposed to be able to edit renewals…
+  * Joe Williams on Mon, 11 Jan 2016 09:32:22 -0600 [View Commit](../../commit/355e48dc708062f534493b94cc175eacf6e15e87)
+
+##coeus-1601.37
 *  In Proposal Dev, Proposal Hierarchy Parent Budget cost share lines are being duplicated in Institutional Commitments.
 
   * In Proposal Dev, Proposal Hierarchy Parent Budget cost share lines are being duplicated in Institutional Commitments > Cost Sharing when the Hierarchy > Sync All action is taken at the parent budget level.
