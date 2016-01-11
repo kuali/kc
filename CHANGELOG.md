@@ -1,6 +1,22 @@
 
 
 ##CURRENT
+*  Fixing personnel attachments.
+  * STE at view of Personnel Attachment files at Hierarchy Parent when files are brought up from child proposals – either on initial create of hierarchy or when second child is linked.
+  * KC Wkly build 1601.07
+  * User = AEH
+  * Child proposal 1 = 30614 (created hierarchy)
+  * Child proposal 2 = 30619
+  * Parent proposal = 30617
+  * Created parent from child 30614 (child contained Proposal, Internal, and 2 Personnel attachments)
+  * Opened parent 30619
+  * Went to Attachments > Personnel
+  * Selected to view file.
+  * Received STE.
+  * Note: in child proposal the personnel attachments are able to be viewed without any problem. At parent, all Proposal and Internal attachments can be viewed with now problem.
+  * Gayathri Athreya on Mon, 11 Jan 2016 07:19:34 -0700 [View Commit](../../commit/8e2b16e1759bd5171dbf3ad2fabe75eb7586c986)
+
+##coeus-1601.35
 * No Changes
 
 
