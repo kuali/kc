@@ -34,6 +34,7 @@ import org.kuali.coeus.propdev.impl.person.ProposalPersonDegree;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
+import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographyAttachment;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalPersonCreditSplit;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalUnitCreditSplit;
 import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
@@ -746,22 +747,23 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         }
 
             // go over the child bios list and if person is not in multiple proposals add it
-            for (ProposalPersonBiography srcPropPersonBio : childProposal.getPropPersonBios()) {
-                // if the proposal is JUST being linked to a hierarchy and if this proposal has bios for
-                // people that exist on the parent, ignore those bios.
-                if (!isBioInNewChildDuplicate(isNewChild, hierarchyProposal, srcPropPersonBio)
+        for (ProposalPersonBiography srcPropPersonBio : childProposal.getPropPersonBios()) {
+            // if the proposal is JUST being linked to a hierarchy and if this proposal has bios for
+            // people that exist on the parent, ignore those bios.
+            if (!isBioInNewChildDuplicate(isNewChild, hierarchyProposal, srcPropPersonBio)
                     && personInMultipleProp.get(srcPropPersonBio.getPersonId()) != null &&
                     !personInMultipleProp.get(srcPropPersonBio.getPersonId())) {
-                        ProposalPersonBiography destPropPersonBio;
-                        destPropPersonBio = deepCopy(srcPropPersonBio);
-                        destPropPersonBio.setDevelopmentProposal(hierarchyProposal);
-                        destPropPersonBio.setProposalNumber(hierarchyProposal.getProposalNumber());
-                        destPropPersonBio.setProposalPersonNumber(getProposalPersonNumber(destPropPersonBio.getPersonId(), hierarchyProposal));
-                        destPropPersonBio.setVersionNumber(0L);
-                        newList.add(destPropPersonBio);
-                }
+                ProposalPersonBiography destPropPersonBio;
+                destPropPersonBio = deepCopy(srcPropPersonBio);
+                copyPersonnelAttachmentData(destPropPersonBio, srcPropPersonBio);
+                destPropPersonBio.setDevelopmentProposal(hierarchyProposal);
+                destPropPersonBio.setProposalNumber(hierarchyProposal.getProposalNumber());
+                destPropPersonBio.setProposalPersonNumber(getProposalPersonNumber(destPropPersonBio.getPersonId(), hierarchyProposal));
+                destPropPersonBio.setVersionNumber(0L);
+                newList.add(destPropPersonBio);
             }
-            hierarchyProposal.getPropPersonBios().addAll(newList);
+        }
+        hierarchyProposal.getPropPersonBios().addAll(newList);
     }
 
     protected boolean isBioInNewChildDuplicate(boolean isNewChild, DevelopmentProposal hierarchyProposal, ProposalPersonBiography srcPropPersonBio) {
@@ -1055,15 +1057,12 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 }
             }
             destPropPersonBio = deepCopy(srcPropPersonBio);
+            copyPersonnelAttachmentData(destPropPersonBio, srcPropPersonBio);
             destPropPersonBio.setDevelopmentProposal(destProposal);
             destPropPersonBio.setProposalNumber(destProposal.getProposalNumber());
             destPropPersonBio.setProposalPersonNumber(destPerson.getProposalPersonNumber());
             destPropPersonBio.setPersonId(destPerson.getPersonId());
             destPropPersonBio.setRolodexId(destPerson.getRolodexId());
-
-            if (destPropPersonBio.getPersonnelAttachment() != null) {
-                destPropPersonBio.getPersonnelAttachment().setData(srcPropPersonBio.getData());
-            }
             destProposal.getPropPersonBios().add(destPropPersonBio);
         }
 
@@ -1079,7 +1078,17 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             addNarrativeToParent(destProposal, srcProposal, attInternal, destProposal.getInstituteAttachments());
         }
     }
-    
+
+    protected void copyPersonnelAttachmentData(ProposalPersonBiography destPropPersonBio, ProposalPersonBiography srcPropPersonBio) {
+        ProposalPersonBiographyAttachment attachmentCopy = deepCopy(srcPropPersonBio.getPersonnelAttachment());
+        attachmentCopy.setProposalPersonBiography(destPropPersonBio);
+        destPropPersonBio.setPersonnelAttachment(attachmentCopy);
+        if (destPropPersonBio.getPersonnelAttachment() != null) {
+            destPropPersonBio.getPersonnelAttachment().setProposalPersonBiography(destPropPersonBio);
+            destPropPersonBio.getPersonnelAttachment().setData(srcPropPersonBio.getData());
+        }
+    }
+
     /**
      * Creates a hash of the data pertinent to a hierarchy for comparison during hierarchy syncing. 
      */
