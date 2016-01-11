@@ -488,5 +488,9 @@ public abstract class ProtocolFormBase extends KcTransactionalDocumentFormBase i
         }
         return StringUtils.equals(status.getCode(), DocumentStatus.SAVED.getCode());
     }
+
+    public boolean getDisplayEditButton() {
+        return !getProtocolDocument().getProtocol().isRenewalWithoutAmendment();
+    }
     
 }
