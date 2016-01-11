@@ -1,6 +1,56 @@
 
 
 ##CURRENT
+*  In Proposal Dev, Proposal Hierarchy Parent Budget cost share lines are being duplicated in Institutional Commitments.
+
+  * In Proposal Dev, Proposal Hierarchy Parent Budget cost share lines are being duplicated in Institutional Commitments > Cost Sharing when the Hierarchy > Sync All action is taken at the parent budget level.
+
+  * Each time the sync is performed, additional lines are pulled into the distribution screen, rather than the existing ones being updated (or all deleted then written anew from the child budgets upon sync).
+
+  * This does NOT happen when the Budget > Hierarchy > Sync to parent action is taken from an individual child. However, there are scenarios when it is not feasible to sync individually from each child rather than from the parent, particularly when children are from different units with different aggregators.
+
+*Desired result:*
+  * Syncing All from Hierarchy Parent Budget should not add new rows to those already existing at the parent budget Commitments - Cost Sharing.
+  * Sync All from Parent Budget should remove all existing rows replace with the current rows from each child proposal budget with cost sharing commitments entered.
+
+  * Steps to reproduce:
+
+  * Create a 2 year proposal with basic information
+  * Key person: PI
+  * Create a Budget: add non-personnel line item at $1000, in Details, add same $1000 amount in the Cost Sharing field. Unclick the "Apply Inflation" for the line item.
+  * Autogenerate periods.
+  * On Commitments > Cost Sharing, enter source account as "1234567" in a row for each year for the $1000 direct costs; leave unit number blank and percentage at 0% (MIT does not usually use).
+  * Add an additional row for each period for the F&A amount ($5,600 at in MIT KC WKLy): enter source account as 1402600 (all MIT uses this account for Cost Sharing F&A); leave unit number blank and percentage at 0%
+  * Complete the budget.
+  * Return to the proposal >
+  * Toolbar > Hierarchy > create a parent with this proposal as sub-budget. Make note of the parent proposal number.
+  * Toolbar > Copy > copy this proposal including the budget.
+
+  * In the new proposal > toolbar > budget versions >Open the budget.
+  * In the cost sharing distribution, change the source account for the direct costs lines for each year to "7654321".
+  * Save and mark the budget as for submission and complete. (it is identical to first proposal, except for the Cost sharing direct cost source code).
+  * Make a note of this child #2 proposal number.
+  * Save and close proposal.
+
+  * Open the Parent proposal .
+  * Proposal Details > Toolbar > Hierarchy >  select sub-budget, enter second child proposal number and click Link a child to this Parent> Link a child to this Parent.
+  * Open Budget.
+  * Note Cost Sharing total by year in Periods and Totals.
+  * Go to Commitments > Cost Sharing > Summary. Ensure same as the P&T amounts.
+  * Note number of lines in distribution.
+  * Still in budget -  Toolbar > Hierarchy >  Sync All.
+
+  * Return to Commitments > Cost Sharing -- note that number of lines has increased, but Summary total has remained the same as have P&T total cost sharing.
+
+  * Try to mark Budget Complete -- error regarding need to allocate all cost sharing funds will be received.
+
+  * Turn on Validations - same error will be received.
+
+  * Try Sync All again - it does not fix the problem but brings in yet more duplicate rows.
+  * proposal.
+  * Travis Schneeberger on Mon, 11 Jan 2016 10:38:41 -0500 [View Commit](../../commit/6e7b2ad4075beba81832578f81f1583043b6c57d)
+
+##coeus-1601.36
 *  Fixing personnel attachments.
   * STE at view of Personnel Attachment files at Hierarchy Parent when files are brought up from child proposals – either on initial create of hierarchy or when second child is linked.
   * KC Wkly build 1601.07
