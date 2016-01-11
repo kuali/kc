@@ -68,7 +68,6 @@ import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -404,6 +403,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
             if (s2sUserAttachedForm != null) {
                 S2sUserAttachedForm copiedForm;
                 try {
+                	refreshUserAttachedFormAttachments(s2sUserAttachedForm.getS2sUserAttachedFormFileList());
                     copiedForm = (S2sUserAttachedForm) deepCopy(s2sUserAttachedForm);
                 } catch (Exception e) {
                     throw new RuntimeException("Error while copying user attached form ", e);
@@ -419,6 +419,12 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         }
 
         developmentProposal.setS2sUserAttachedForms(newList);
+    }
+    
+    protected void refreshUserAttachedFormAttachments(List<S2sUserAttachedFormFile> s2sUserAttachedFormFileList) {
+    	s2sUserAttachedFormFileList.forEach(s2sUserAttachedFormFile -> {
+ 			 s2sUserAttachedFormFile.getFormFile();
+        });
     }
 
     /**
