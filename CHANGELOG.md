@@ -1,6 +1,15 @@
 
 
 ##CURRENT
+* PD - View User Attached S2S Forms on copied proposals results in STE
+  * Copied proposal did not include user attached form attachments.
+  * Attachment is lazy loaded. Refreshing prior to copy so that attachment is included
+  * in copied proposal.
+  * rmancher on Sun, 10 Jan 2016 12:33:03 -0500 [View Commit](../../commit/a2248259a3a84f9e227127147922db539bd6a34b)
+* IRB - Absent members not displaying properly in the Minutes PDF
+  * Joe Williams on Fri, 8 Jan 2016 21:00:26 -0600 [View Commit](../../commit/bc9b1494b95d8a8791d296b3c7342e3462ab5497)
+
+##coeus-1601.32
 * No Changes
 
 
