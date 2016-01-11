@@ -55,7 +55,7 @@
 <kra-irb:protocolParticipants />
 
 <kul:panelFooter />
-	<c:if test="${readOnly && KualiForm.editingMode['canModify']}">
+	<c:if test="${readOnly && KualiForm.editingMode['canModify'] && KualiForm.displayEditButton}">
 		<c:set var="extraButtonSource" value="${ConfigProperties.kra.externalizable.images.url}buttonsmall_edit_temp.gif"/>
 		<c:set var="extraButtonProperty" value="methodToCall.edit"/>
 		<c:set var="extraButtonAlt" value="Edit"/>
