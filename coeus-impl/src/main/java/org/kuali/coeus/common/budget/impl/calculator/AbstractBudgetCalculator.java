@@ -899,6 +899,9 @@ public abstract class AbstractBudgetCalculator {
     }
     
     public final void setCalculatedAmounts(BudgetLineItemBase budgetLineItem) {
+    	
+    	budgetLineItem.getBudgetCalculatedAmounts().clear();
+    	
         if (budgetLineItem.getCostElementBO() == null) {
         	budgetLineItem.refreshReferenceObject("costElementBO");
         }

@@ -80,8 +80,6 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
             }
             //Save applyRateFlag to set it back on the new Calculated Amounts
             Map<String, Boolean> applyRateFlags = saveApplyRateFlagsForReset();
-
-            bli.setBudgetLineItemCalculatedAmounts(new ArrayList<BudgetLineItemCalculatedAmount>());
             
             setCalculatedAmounts(bli);
             

@@ -48,6 +48,7 @@ import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemBase;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPerson;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
@@ -703,14 +704,8 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
             awardBudgetLineItem.setLineItemNumber(awardBudgetPeriod.getBudget().getNextValue(Constants.BUDGET_LINEITEM_NUMBER));
             awardBudgetLineItem.setBudgetId(awardBudgetPeriod.getBudgetId());
             boolean changeLineItemDates = false;
-            if (awardBudgetPeriod.getStartDate() != null && awardBudgetPeriod.getStartDate().after(awardBudgetLineItem.getStartDate())) {
-            	awardBudgetLineItem.setStartDate(awardBudgetPeriod.getStartDate());
-            	changeLineItemDates = true;
-            }
-            if (awardBudgetPeriod.getEndDate() != null && awardBudgetPeriod.getEndDate().before(awardBudgetLineItem.getEndDate())) {
-            	awardBudgetLineItem.setEndDate(awardBudgetPeriod.getEndDate());
-            	changeLineItemDates = true;
-            }
+            changeLineItemDates = adjustLineItemDatesIfNecessary(awardBudgetLineItem, awardBudgetPeriod.getStartDate(), awardBudgetPeriod.getEndDate());
+            
             List<BudgetPersonnelDetails> awardBudgetPersonnelLineItems = awardBudgetLineItem.getBudgetPersonnelDetailsList();
             List<BudgetPersonnelDetails> budgetPersonnelLineItems = budgetLineItem.getBudgetPersonnelDetailsList();
             for (BudgetPersonnelDetails budgetPersonnelDetails : budgetPersonnelLineItems) {
@@ -736,14 +731,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
                 awardBudgetPerDetails.setBudget(awardBudgetPeriod.getBudget());
                 awardBudgetPerDetails.setBudgetId(awardBudgetPeriod.getBudgetId());
                 awardBudgetPerDetails.setCostElement(awardBudgetLineItem.getCostElement());
-                if (awardBudgetLineItem.getStartDate() != null && awardBudgetLineItem.getStartDate().after(awardBudgetPerDetails.getStartDate())) {
-                	awardBudgetPerDetails.setStartDate(awardBudgetLineItem.getStartDate());
-                	changeLineItemDates = true;
-                }
-                if (awardBudgetLineItem.getEndDate() != null && awardBudgetLineItem.getEndDate().before(awardBudgetPerDetails.getEndDate())) {
-                	awardBudgetPerDetails.setEndDate(awardBudgetLineItem.getEndDate());
-                	changeLineItemDates = true;
-                }
+                changeLineItemDates &= adjustLineItemDatesIfNecessary(awardBudgetPerDetails, awardBudgetLineItem.getStartDate(), awardBudgetLineItem.getEndDate());
                 awardBudgetPersonnelLineItems.add(awardBudgetPerDetails);
             }
             if (changeLineItemDates) {
@@ -756,6 +744,31 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
             populateCalculatedAmount(awardBudgetPeriod, awardBudgetLineItem);
         }
     }
+
+	protected boolean adjustLineItemDatesIfNecessary(BudgetLineItemBase awardBudgetLineItem, java.sql.Date startDate, java.sql.Date endDate) {
+		boolean changeLineItemDates = false;
+		if (startDate != null) {
+			if (startDate.after(awardBudgetLineItem.getStartDate())) {
+				awardBudgetLineItem.setStartDate(startDate);
+				changeLineItemDates = true;
+			}
+			if (startDate.after(awardBudgetLineItem.getEndDate())) {
+				awardBudgetLineItem.setEndDate(endDate);
+				changeLineItemDates = true;
+			}
+		}
+		if (endDate != null) {
+			if (endDate.before(awardBudgetLineItem.getEndDate())) {
+				awardBudgetLineItem.setEndDate(endDate);
+				changeLineItemDates = true;
+			}
+			if (endDate.before(awardBudgetLineItem.getStartDate())) {
+				awardBudgetLineItem.setStartDate(startDate);
+				changeLineItemDates = true;
+			}
+		}
+		return changeLineItemDates;
+	}
 
 	protected void populateCalculatedAmount(AwardBudgetPeriodExt awardBudgetPeriod, AwardBudgetLineItemExt awardBudgetLineItem) {
 		getAwardBudgetCalculationService().populateCalculatedAmount(awardBudgetPeriod.getBudget(), awardBudgetLineItem);
