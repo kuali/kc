@@ -1,6 +1,20 @@
 
 
 ##CURRENT
+* S2S Project-Performance: Updating performing organization does not update org NAME on S2S form
+
+  * If the Performing Organization on a grants.gov proposal is changed, the PerformanceSite_2_0 form is updated to reflect the address and DUNS of the new organization, but the organization name is not updated.
+
+  * Steps to reproduce:
+  * 1) Create a new proposal.
+  * 2) Select a grants.gov opportunity that utilizes the PerformanceSite_2_0 form (seems to be very common)
+  * 3) Go to the Organization and Location page, and click the 'Select Different Organization' button on the Performing Organization tab.
+  * 4) Select an organization other than the applicant organization (which is the default) and save the changes
+  * 5) Go to the S2S -> Forms page and generate a PDF for the PerformanceSite_2_0 form.
+  * 6) The "Project/Performance Site Primary Location" section will list the organization name of the original performing organization, but the DUNS/address/congressional district of the new one.
+  * Joe Williams on Tue, 12 Jan 2016 12:43:31 -0600 [View Commit](../../commit/6a6aea7ba51be9765ff357f08ede6ba295901048)
+
+##coeus-1601.46
 * Fix constantly growing personnel calculated amounts and invalid imports from PD
 
   * When award budget audit mode is enabled the personnel line item amounts constantly grow after each save or navigation.
