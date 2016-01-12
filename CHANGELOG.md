@@ -1,6 +1,22 @@
 
 
 ##CURRENT
+*  use schedule date when determining if member is active
+  * Joe Williams on Mon, 11 Jan 2016 17:02:22 -0600 [View Commit](../../commit/3a58c0e1d952ac905c90bf0152f0061696ee76ac)
+*  Award budget totals don't match in different tabs
+
+  * Calculation issue with Budget versions 2+
+  * – enter a second (or third, or fourth) budget version.
+  * – go to summary tab and enter overridden values for Fringe and F&A
+  * – hit save
+  * – go to parameters: Total will not match total on summary tab.
+  * The F&A amount will be the amount you entered
+  * The direct costs will not match
+  * – go to non-personnel tab
+  * Summary of direct/indirect will match parameters, not summary page:
+  * Joe Williams on Mon, 11 Jan 2016 15:25:44 -0600 [View Commit](../../commit/34f6ff806fb6623ed7d4d85b3e3542c650dc7236)
+
+##coeus-1601.40
 * No Changes
 
 
