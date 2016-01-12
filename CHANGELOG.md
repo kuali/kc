@@ -1,6 +1,16 @@
 
 
 ##CURRENT
+* Fix constantly growing personnel calculated amounts and invalid imports from PD
+
+  * When award budget audit mode is enabled the personnel line item amounts constantly grow after each save or navigation.
+  * blackcathacker on Tue, 12 Jan 2016 10:04:41 -0800 [View Commit](../../commit/d4f831b0568fb911bdc207f5df11a807b626de98)
+*  Fix PD budget import dates
+
+  * When a PD budget is imported into award and the PD budget period falls competely outside of the award budget period the dates would not be corrected and would cause un-correctable business rule errors
+  * blackcathacker on Mon, 11 Jan 2016 12:54:57 -0800 [View Commit](../../commit/07399c74f00b17250036ec7d1b8f169f05b5b03c)
+
+##coeus-1601.45
 * PD: GG form preview list is duplicated (tripled, quadrupled, etc)
   * Joe Williams on Tue, 12 Jan 2016 10:33:07 -0600 [View Commit](../../commit/2f0bfc5256f98561ec995660e6a3b7d901ed226f)
 
