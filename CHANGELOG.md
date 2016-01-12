@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+*  pending support error
+
+  * When a proposal person doesn't have a valid institutional proposal, log person id for analysis instead of STE.
+  * Joe Williams on Tue, 12 Jan 2016 13:54:23 -0600 [View Commit](../../commit/fed1b05d800eac569ab7d6df85f16a5e4d6b8c0c)
+
+##coeus-1601.47
 * S2S Project-Performance: Updating performing organization does not update org NAME on S2S form
 
   * If the Performing Organization on a grants.gov proposal is changed, the PerformanceSite_2_0 form is updated to reflect the address and DUNS of the new organization, but the organization name is not updated.
