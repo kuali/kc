@@ -112,7 +112,7 @@
 		<property name="quickfinder">
 			<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.coeus.common.framework.org.Organization"
 				p:hideCriteriaOnSearch="true"
-                p:fieldConversions="rolodex.rolodexId:rolodexId,organizationId:organizationId">
+                p:fieldConversions="rolodex.rolodexId:rolodexId,organizationId:organizationId,organizationName:locationName">
 				<property name="quickfinderAction">
 					<bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="performLookup"
 					    p:focusOnIdAfterSubmit="NEXT_INPUT" p:wrapperCssClasses="input-group-btn"
