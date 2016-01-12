@@ -18,6 +18,8 @@
  */
 package org.kuali.coeus.common.proposal.impl.report;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.print.PendingReportBean;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -32,7 +34,8 @@ import java.util.*;
 @Component("pendingReportDao")
 public class PendingReportDaoOjb extends BaseReportDaoOjb implements PendingReportDao {
 
-    @Override
+    private static final Log LOG = LogFactory.getLog(PendingReportDaoOjb.class);
+
     public List<PendingReportBean> queryForPendingSupport(String personId) throws WorkflowException {
         List<PendingReportBean> data = new ArrayList<>();
         for(InstitutionalProposalPerson ipPerson: executePendingSupportQuery(personId)) {
@@ -48,7 +51,7 @@ public class PendingReportDaoOjb extends BaseReportDaoOjb implements PendingRepo
     private PendingReportBean buildPendingReportBean(InstitutionalProposalPerson ipPerson) throws WorkflowException {
         InstitutionalProposal proposal = ipPerson.getInstitutionalProposal();
         PendingReportBean bean = null;
-        if(shouldDataBeIncluded(proposal.getInstitutionalProposalDocument()) && proposal.isActiveVersion()) {
+        if(proposal !=null &&  shouldDataBeIncluded(proposal.getInstitutionalProposalDocument()) && proposal.isActiveVersion()) {
             bean = new PendingReportBean(ipPerson);
         }
         return bean;
@@ -64,7 +67,15 @@ public class PendingReportDaoOjb extends BaseReportDaoOjb implements PendingRepo
             searchParams.put("proposalNumber", ipPerson.getProposalNumber());
             searchParams.put("sequenceNumber", ipPerson.getSequenceNumber());
 
-            InstitutionalProposal proposal = getBusinessObjectService().findMatching(InstitutionalProposal.class, searchParams).iterator().next();
+            List<InstitutionalProposal> proposals = (List<InstitutionalProposal>) getBusinessObjectService().findMatching(InstitutionalProposal.class, searchParams);
+            InstitutionalProposal proposal = null;
+            if (!proposals.isEmpty()) {
+                proposal = proposals.get(0);
+            } else {
+                if (LOG.isInfoEnabled()) {
+                    LOG.info("institute proposal person found with out valid institutional proposal (id: " + ipPerson.getInstitutionalProposalContactId() + ")");
+                }
+            }
             ipPerson.setInstitutionalProposal(proposal);
         }
     }
