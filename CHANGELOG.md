@@ -1,6 +1,36 @@
 
 
 ##CURRENT
+* Update warning message when effective start date has changed during import
+  * blackcathacker on Wed, 13 Jan 2016 11:25:49 -0800 [View Commit](../../commit/3f338bc10ce844edfbe9537dfbcc2adb87cd33b3)
+*  Fixing person search.
+  * looking for an active proposal for Browning Neddeau so she navigated to PD, searched for (first name) Browning from the Person Search and then searched for proposals. Screen shot attached. Results show proposals where Browning does not appear.
+  * This happens with any of the person search fields. Also found another bug. If I type "olgin" into aggregator field and search, I get the following STE
+  * java.lang.IllegalArgumentException: Criteria values cannot be empty. at org.kuali.rice.core.api.criteria.CriteriaSupportUtils.validateValuesForMultiValuedPredicate(CriteriaSupportUtils.java:269)
+  * Same with participant field.
+  * Gayathri Athreya on Wed, 13 Jan 2016 12:13:19 -0700 [View Commit](../../commit/8b05d6cd097da62e6490ab2e9de17777d4e47dfc)
+*  Budget document shows updated when nothing changes
+
+  * I have been able to reproduce this with these steps.
+
+  * 1.) Create Award Budget, Approve and Post.
+  * 2.) Open posted award budget.
+  * 3.) on budget versions tab, click on the open button for the posted budget version. updated date gets updated.
+  * Joe Williams on Wed, 13 Jan 2016 09:21:40 -0600 [View Commit](../../commit/cd26a96c3bcbab1cd6e1060fc135a7071947fd49)
+* Warn user during PD budget import if effective rate start date changes
+
+  * When importing PD budget line items into award, it is possible for the effective start dates of rates to change based on the effective salary dates of persons imported. This change displays a warning to the user when this occurs so they can take approiate action related to rates that may now need to be synced.
+  * blackcathacker on Tue, 12 Jan 2016 16:35:38 -0800 [View Commit](../../commit/1cfa9ec2ae8c8ea46ae887e3cbefea03c6631f80)
+*  Fixing base calculation.
+  * The PD Budget Print > "2 Budget Cumulative Report" & "4 Budget Summary Report" had previously been fixed and passed testing.
+  * Now, several issues have returned.
+  * In both print reports, in the Calculation Methodology "Allocated Administrative Support and Lab Expense Rates and Base" section, the Bases are populating incorrectly.
+  * For LA - Utilities, LA - Salaries, and LA- M&S, the bases should always be the same.
+  * Now, they are printing differently the Salaries base correct and the others each wrong, even though the calculated costs are correct.
+  * See attached print forms with highlighted (identical) population problems.
+  * Gayathri Athreya on Tue, 12 Jan 2016 16:03:17 -0700 [View Commit](../../commit/45f18f9fc478dbedac32f1ae7f817bdbb2c7ec19)
+
+##coeus-1601.48
 *  pending support error
 
   * When a proposal person doesn't have a valid institutional proposal, log person id for analysis instead of STE.
