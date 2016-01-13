@@ -63,6 +63,7 @@
         <property name="awardService" ref="awardService" />
         <property name="dataObjectService" ref="dataObjectService"/>
         <property name="legacyDataAdapter" ref="legacyDataAdapter"/>
+        <property name="budgetRatesService" ref="budgetRatesService" />
     </bean>
     
     <bean id="awardBudgetCalculationService" class="org.kuali.kra.award.budget.calculator.AwardBudgetCalculationServiceImpl">

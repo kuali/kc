@@ -53,6 +53,7 @@ import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPerson;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
+import org.kuali.coeus.common.budget.framework.rate.BudgetRatesService;
 import org.kuali.coeus.common.budget.framework.rate.RateType;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
 import org.kuali.coeus.common.budget.framework.version.AddBudgetVersionEvent;
@@ -126,6 +127,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     private BudgetVersionRule addBudgetVersionRule;
     private DataObjectService dataObjectService;
     private LegacyDataAdapter legacyDataAdapter;
+    private BudgetRatesService budgetRatesService;
     
     @Override
     public void post(AwardBudgetDocument awardBudgetDocument) {
@@ -694,6 +696,9 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
 
     
     protected void copyProposalBudgetLineItemsToAwardBudget(AwardBudgetPeriodExt awardBudgetPeriod, BudgetPeriod proposalBudgetPeriod) {
+    	boolean warnOfRateEffectiveDateChange = false;
+    	final Budget awardBudget = awardBudgetPeriod.getBudget();
+		Date currentEffectiveDate = getEffectiveRateStartDate(awardBudget);
         List<BudgetLineItem> awardBudgetLineItems = awardBudgetPeriod.getBudgetLineItems();
         List<BudgetLineItem> lineItems = proposalBudgetPeriod.getBudgetLineItems();
         for (BudgetLineItem budgetLineItem : lineItems) {
@@ -701,7 +706,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
                     BUDGET_LINE_ITEM_CALCULATED_AMOUNTS, BUDGET_PERSONNEL_DETAILS_LIST, BUDGET_RATE_AND_BASE_LIST, BUDGET_SUB_AWARD};
             AwardBudgetLineItemExt awardBudgetLineItem = new AwardBudgetLineItemExt(); 
             BeanUtils.copyProperties(budgetLineItem, awardBudgetLineItem, ignoreProperties);
-            awardBudgetLineItem.setLineItemNumber(awardBudgetPeriod.getBudget().getNextValue(Constants.BUDGET_LINEITEM_NUMBER));
+            awardBudgetLineItem.setLineItemNumber(awardBudget.getNextValue(Constants.BUDGET_LINEITEM_NUMBER));
             awardBudgetLineItem.setBudgetId(awardBudgetPeriod.getBudgetId());
             boolean changeLineItemDates = false;
             changeLineItemDates = adjustLineItemDatesIfNecessary(awardBudgetLineItem, awardBudgetPeriod.getStartDate(), awardBudgetPeriod.getEndDate());
@@ -715,20 +720,24 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
                 BeanUtils.copyProperties(budgetPersonnelDetails, awardBudgetPerDetails, 
                         BUDGET_PERSONNEL_LINE_ITEM_ID, BUDGET_LINE_ITEM_ID, BUDGET_ID, SUBMIT_COST_SHARING_FLAG,
                                 BUDGET_PERSONNEL_CALCULATED_AMOUNTS, BUDGET_PERSONNEL_RATE_AND_BASE_LIST, VALID_TO_APPLY_IN_RATE);
-                awardBudgetPerDetails.setPersonNumber(awardBudgetPeriod.getBudget().getNextValue(Constants.BUDGET_PERSON_LINE_NUMBER));
+                awardBudgetPerDetails.setPersonNumber(awardBudget.getNextValue(Constants.BUDGET_PERSON_LINE_NUMBER));
                 BudgetPerson oldBudgetPerson = budgetPersonnelDetails.getBudgetPerson();
-                BudgetPerson currentBudgetPerson = findMatchingPersonInBudget(awardBudgetPeriod.getBudget(), 
+                BudgetPerson currentBudgetPerson = findMatchingPersonInBudget(awardBudget, 
                 		oldBudgetPerson, budgetPersonnelDetails.getJobCode());
                 if (currentBudgetPerson == null) {
                 	currentBudgetPerson = new BudgetPerson();
                 	BeanUtils.copyProperties(oldBudgetPerson, currentBudgetPerson, BUDGET_ID, PERSON_SEQUENCE_NUMBER);
                 	currentBudgetPerson.setBudgetId(awardBudgetPeriod.getBudgetId());
-                	currentBudgetPerson.setPersonSequenceNumber(awardBudgetPeriod.getBudget().getNextValue(Constants.PERSON_SEQUENCE_NUMBER));
-                	awardBudgetPeriod.getBudget().getBudgetPersons().add(currentBudgetPerson);
+                	currentBudgetPerson.setPersonSequenceNumber(awardBudget.getNextValue(Constants.PERSON_SEQUENCE_NUMBER));
+                	awardBudget.getBudgetPersons().add(currentBudgetPerson);
+                	if (currentBudgetPerson.getEffectiveDate() != null 
+                			&& currentEffectiveDate.after(currentBudgetPerson.getEffectiveDate())) {
+                		warnOfRateEffectiveDateChange = true;
+                	}
                 }
                 awardBudgetPerDetails.setBudgetPerson(currentBudgetPerson);
                 awardBudgetPerDetails.setPersonSequenceNumber(currentBudgetPerson.getPersonSequenceNumber());
-                awardBudgetPerDetails.setBudget(awardBudgetPeriod.getBudget());
+                awardBudgetPerDetails.setBudget(awardBudget);
                 awardBudgetPerDetails.setBudgetId(awardBudgetPeriod.getBudgetId());
                 awardBudgetPerDetails.setCostElement(awardBudgetLineItem.getCostElement());
                 changeLineItemDates &= adjustLineItemDatesIfNecessary(awardBudgetPerDetails, awardBudgetLineItem.getStartDate(), awardBudgetLineItem.getEndDate());
@@ -740,10 +749,22 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
                         awardBudgetLineItem.getBudgetCategory() != null ? awardBudgetLineItem.getBudgetCategory().getDescription() : "", 
                         		awardBudgetLineItem.getCostElementName());
             }
+            if (warnOfRateEffectiveDateChange) {
+                GlobalVariables.getMessageMap().putWarning(KRADConstants.GLOBAL_ERRORS, 
+                        KeyConstants.WARNING_AWARD_BUDGET_PERSON_EFFECTIVE_DATE);            	
+            }
             awardBudgetLineItems.add(awardBudgetLineItem);
             populateCalculatedAmount(awardBudgetPeriod, awardBudgetLineItem);
         }
     }
+
+	Date getEffectiveRateStartDate(final Budget awardBudget) {
+		Date salaryEffectiveDate = getBudgetRatesService().getBudgetPersonSalaryEffectiveDate(awardBudget);
+		if (salaryEffectiveDate == null || salaryEffectiveDate.after(awardBudget.getStartDate())) {
+			salaryEffectiveDate = awardBudget.getStartDate();
+		}
+		return salaryEffectiveDate;
+	}
 
 	protected boolean adjustLineItemDatesIfNecessary(BudgetLineItemBase awardBudgetLineItem, java.sql.Date startDate, java.sql.Date endDate) {
 		boolean changeLineItemDates = false;
@@ -1265,4 +1286,12 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     public void setLegacyDataAdapter(LegacyDataAdapter legacyDataAdapter) {
         this.legacyDataAdapter = legacyDataAdapter;
     }
+
+	public BudgetRatesService getBudgetRatesService() {
+		return budgetRatesService;
+	}
+
+	public void setBudgetRatesService(BudgetRatesService budgetRatesService) {
+		this.budgetRatesService = budgetRatesService;
+	}
 }
