@@ -64,7 +64,7 @@ public class ProposalDevelopmentPrintController extends ProposalDevelopmentContr
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=preparePrintDialog")
     public ModelAndView preparePrintDialog(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) {
         getProposalDevelopmentPrintingService().populateSponsorForms(form.getSponsorFormTemplates(),form.getDevelopmentProposal().getSponsorCode());
-        form.setPrintS2sOppForms(form.getDevelopmentProposal().getS2sOpportunity().getS2sOppForms());
+        form.setPrintS2sOppForms(form.getDevelopmentProposal().getS2sOppForms());
         return getModelAndViewService().showDialog("PropDev-Print-Dialog",true,form);
     }
 
