@@ -185,7 +185,7 @@ public class BudgetVersionsAction extends BudgetAction {
 
         BudgetRatesService budgetService = KcServiceLocator.getService(BudgetRatesService.class);
         
-        if (!"TRUE".equals(budgetForm.getEditingMode().get(AuthorizationConstants.EditMode.VIEW_ONLY))) {
+        if (!budgetForm.getEditingMode().containsKey(AuthorizationConstants.EditMode.VIEW_ONLY)) {
             save(mapping, form, request, response);
         }
         AwardBudgetDocument budgetDoc = budgetForm.getBudgetDocument();
