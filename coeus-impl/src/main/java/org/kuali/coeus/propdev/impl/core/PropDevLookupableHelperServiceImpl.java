@@ -156,6 +156,14 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
             Collection<String> aggregatorProposals = getAggregatorDocumentNumbers(aggregator);
             Collection<String> participantProposals = getParticipantDocumentNumbers(participant);
 
+            if (!StringUtils.isEmpty(principalInvestigatorName) && piProposals.isEmpty() ||
+                    !StringUtils.isEmpty(proposalPerson) && personProposals.isEmpty() ||
+                    !StringUtils.isEmpty(initiator) && initiatorProposals.isEmpty() ||
+                    !StringUtils.isEmpty(aggregator) && aggregatorProposals.isEmpty() ||
+                    !StringUtils.isEmpty(participant) && participantProposals.isEmpty()) {
+                return new ArrayList<>();
+            }
+
             documentNumbers = intersectCollections(piProposals,personProposals,initiatorProposals,aggregatorProposals,participantProposals);
 
             if (documentNumbers.size() > IN_OP_LIMIT) {
@@ -339,10 +347,13 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
 
         Set<String> principalIds = getMatchingPrincipalIds(personSearchString);
 
-        Collection<ProposalPerson> proposalPersons = getDataObjectService().findMatching(ProposalPerson.class, QueryByCriteria.Builder.fromPredicates(
-                PredicateFactory.in(PROPOSAL_PERSON_ROLE_ID, propRoles),
-                PredicateFactory.in(PERSON_ID, principalIds)
-        )).getResults();
+        Collection<ProposalPerson> proposalPersons = new ArrayList<>();
+        if (!proposalPersons.isEmpty()) {
+            proposalPersons = getDataObjectService().findMatching(ProposalPerson.class, QueryByCriteria.Builder.fromPredicates(
+                    PredicateFactory.in(PROPOSAL_PERSON_ROLE_ID, propRoles),
+                    PredicateFactory.in(PERSON_ID, principalIds)
+            )).getResults();
+        }
 
         for (ProposalPerson person : proposalPersons) {
             participantProposals.add(person.getDevelopmentProposal().getDocument().getDocumentNumber());
@@ -374,11 +385,14 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
             principalIds = getMatchingPrincipalIds(personSearchString);
         }
 
-        Collection<DocumentAccess> accesses = getDataObjectService().findMatching(DocumentAccess.class, QueryByCriteria.Builder.fromPredicates(
-                equal(ROLE_NAME, RoleConstants.AGGREGATOR_DOCUMENT_LEVEL),
-                equal(NAMESPACE_CODE, Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT),
-                PredicateFactory.in(PRINCIPAL_ID, principalIds)
-        )).getResults();
+        Collection<DocumentAccess> accesses = new ArrayList<>();
+        if(!principalIds.isEmpty()) {
+            accesses = getDataObjectService().findMatching(DocumentAccess.class, QueryByCriteria.Builder.fromPredicates(
+                    equal(ROLE_NAME, RoleConstants.AGGREGATOR_DOCUMENT_LEVEL),
+                    equal(NAMESPACE_CODE, Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT),
+                    PredicateFactory.in(PRINCIPAL_ID, principalIds)
+            )).getResults();
+        }
 
         List<String> documentNumbers = new ArrayList<>();
         for (DocumentAccess access: accesses) {
