@@ -1,6 +1,23 @@
 
 
 ##CURRENT
+*  Fix null pointer.
+  * For any status proposal – Migrated or KC-Native proposal - where the sponsor is NSF (000500), STE returned when you select the Print option from the top action bar, an STE is returned.
+  * STE:
+  * Document Id:
+  * 1576742
+  * View Id:
+  * PropDev-DefaultView
+  * Error Message:
+  * The system has encountered an error and is unable to complete your request at this time. Please provide more information regarding this error by completing this Incident Report.
+  * User Feedback:
+  * Enter user feedback here...
+  * Submit Report Retry Cancel
+  * Stacktrace (only in dev mode)
+  * java.lang.NullPointerException at org.kuali.coeus.propdev.impl.print.ProposalDevelopmentPrintController.preparePrintDialog(ProposalDevelopmentPrintController.java:67) at
+  * Gayathri Athreya on Wed, 13 Jan 2016 14:31:45 -0700 [View Commit](../../commit/c3da96feff187743ae65affa24d9dbd6cfc185af)
+
+##coeus-1601.49
 * Update warning message when effective start date has changed during import
   * blackcathacker on Wed, 13 Jan 2016 11:25:49 -0800 [View Commit](../../commit/3f338bc10ce844edfbe9537dfbcc2adb87cd33b3)
 *  Fixing person search.
