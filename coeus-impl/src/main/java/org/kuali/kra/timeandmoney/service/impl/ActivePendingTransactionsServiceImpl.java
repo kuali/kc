@@ -808,7 +808,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
             AwardAmountInfo awardAmountInfo, Map<String, AwardAmountTransaction> awardAmountTransactionItems, 
             AwardAmountTransaction newAwardAmountTransaction, String documentNumber, Award award) {
         
-        AwardAmountInfo newAwardAmountInfo = new AwardAmountInfo();
+        AwardAmountInfo newAwardAmountInfo = getNewAwardAmountInfo();
         newAwardAmountInfo.setAwardNumber(awardAmountInfo.getAwardNumber());
         newAwardAmountInfo.setSequenceNumber(award.getSequenceNumber());
         newAwardAmountInfo.setOriginatingAwardVersion(award.getSequenceNumber());
@@ -839,6 +839,10 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
 
         return newAwardAmountInfo;
     }
+
+	AwardAmountInfo getNewAwardAmountInfo() {
+		return new AwardAmountInfo();
+	}
     
     /*
      * add money to amount info Totals, and Distributables.
@@ -848,7 +852,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
             AwardAmountInfo awardAmountInfo, Map<String, AwardAmountTransaction> awardAmountTransactionItems, 
             AwardAmountTransaction newAwardAmountTransaction, String documentNumber, Award award) {
         
-        AwardAmountInfo newAwardAmountInfo = new AwardAmountInfo();
+        AwardAmountInfo newAwardAmountInfo = getNewAwardAmountInfo();
         newAwardAmountInfo.setAwardNumber(awardAmountInfo.getAwardNumber());
         newAwardAmountInfo.setSequenceNumber(award.getSequenceNumber());
         newAwardAmountInfo.setOriginatingAwardVersion(award.getSequenceNumber());
@@ -927,7 +931,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
             AwardAmountInfo awardAmountInfo, Map<String, AwardAmountTransaction> awardAmountTransactionItems, 
             AwardAmountTransaction newAwardAmountTransaction, String documentNumber, Award award) {
         
-        AwardAmountInfo newAwardAmountInfo = new AwardAmountInfo();
+        AwardAmountInfo newAwardAmountInfo = getNewAwardAmountInfo();
         newAwardAmountInfo.setAwardNumber(awardAmountInfo.getAwardNumber());
         newAwardAmountInfo.setSequenceNumber(award.getSequenceNumber());
         newAwardAmountInfo.setOriginatingAwardVersion(award.getSequenceNumber());
@@ -968,7 +972,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
             AwardAmountInfo awardAmountInfo, Map<String, AwardAmountTransaction> awardAmountTransactionItems, 
             AwardAmountTransaction newAwardAmountTransaction, String documentNumber, Award award) {
         
-        AwardAmountInfo newAwardAmountInfo = new AwardAmountInfo();
+        AwardAmountInfo newAwardAmountInfo = getNewAwardAmountInfo();
         newAwardAmountInfo.setAwardNumber(awardAmountInfo.getAwardNumber());
         newAwardAmountInfo.setSequenceNumber(award.getSequenceNumber());
         newAwardAmountInfo.setOriginatingAwardVersion(award.getSequenceNumber());
@@ -1047,7 +1051,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
             AwardAmountInfo awardAmountInfo, Map<String, AwardAmountTransaction> awardAmountTransactionItems, 
             AwardAmountTransaction newAwardAmountTransaction, String documentNumber, Award award) {
         
-        AwardAmountInfo newAwardAmountInfo = new AwardAmountInfo();
+        AwardAmountInfo newAwardAmountInfo = getNewAwardAmountInfo();
         newAwardAmountInfo.setAwardNumber(awardAmountInfo.getAwardNumber());
         newAwardAmountInfo.setSequenceNumber(award.getSequenceNumber());
         newAwardAmountInfo.setOriginatingAwardVersion(award.getSequenceNumber());
@@ -1085,7 +1089,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
             AwardAmountInfo awardAmountInfo, Map<String, AwardAmountTransaction> awardAmountTransactionItems, 
             AwardAmountTransaction newAwardAmountTransaction, String documentNumber, Award award) {
         
-        AwardAmountInfo newAwardAmountInfo = new AwardAmountInfo();
+        AwardAmountInfo newAwardAmountInfo = getNewAwardAmountInfo();
         newAwardAmountInfo.setAwardNumber(awardAmountInfo.getAwardNumber());
         newAwardAmountInfo.setSequenceNumber(award.getSequenceNumber());
         newAwardAmountInfo.setOriginatingAwardVersion(award.getSequenceNumber());

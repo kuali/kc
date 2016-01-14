@@ -19,17 +19,35 @@
 package org.kuali.kra.timeandmoney.service.impl;
 
 
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
+
+import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.award.AwardAmountInfoService;
+import org.kuali.kra.award.AwardAmountInfoServiceImpl;
+import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.AwardAmountInfo;
+import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
+import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
+import org.kuali.kra.timeandmoney.history.TransactionDetail;
+import org.kuali.kra.timeandmoney.history.TransactionDetailType;
+import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
 import org.kuali.kra.timeandmoney.transactions.PendingTransaction;
+import org.mockito.Mockito;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class ActivePendingTransactionServiceImplTest {
     
@@ -37,13 +55,13 @@ public class ActivePendingTransactionServiceImplTest {
     public static final ScaleTwoDecimal TWENTY_THOUSAND = new ScaleTwoDecimal(20000);
     public static final ScaleTwoDecimal ZERO = new ScaleTwoDecimal(0);
     
-    public static final String awardNumber1 = "000021-00001";
-    public static final String awardNumber2 = "000021-00002";
-    public static final String awardNumber3 = "000021-00003";
-    public static final String awardNumber4 = "000021-00004";
-    public static final String awardNumber5 = "000021-00005";
-    public static final String awardNumber6 = "000021-00006";
-    public static final String awardNumber7 = "000021-00007";
+    private final String rootAwardNumber = "000021-00001";
+    private final String awardChild1 = "000021-00002";
+    private final String awardChild2 = "000021-00003";
+    private final String awardGrandChild1Of1 = "000021-00004";
+    private final String awardGrandChild2Of1 = "000021-00005";
+    private final String awardGrandChild1Of2 = "000021-00006";
+    private final String awardGrandChild2Of2 = "000021-00007";
     
     ActivePendingTransactionsServiceImpl activePendingTransactionsServiceImpl;
     Map<String, AwardHierarchyNode> awardHierarchyNodes;
@@ -52,11 +70,27 @@ public class ActivePendingTransactionServiceImplTest {
 
     @Before
     public void setUp() throws Exception {
-        activePendingTransactionsServiceImpl = new ActivePendingTransactionsServiceImpl();
+        activePendingTransactionsServiceImpl = new ActivePendingTransactionsServiceImpl() {
+    		@Override
+    		AwardAmountInfo getNewAwardAmountInfo() {
+    			return getAwardAmountInfoForTesting();
+    		}
+    	};
         awardHierarchyNodes = new HashMap<String, AwardHierarchyNode>();
         awardHierarchyNode = new AwardHierarchyNode();
         pt = new PendingTransaction();
+        buildDefaultAwardHierarchy();
     }
+
+	public void buildDefaultAwardHierarchy() {
+		addAwardHierarchyNode(rootAwardNumber, Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT, rootAwardNumber);        
+        addAwardHierarchyNode(rootAwardNumber, rootAwardNumber, awardChild1);        
+        addAwardHierarchyNode(rootAwardNumber, rootAwardNumber, awardChild2);        
+        addAwardHierarchyNode(rootAwardNumber, awardChild1, awardGrandChild1Of1);
+        addAwardHierarchyNode(rootAwardNumber, awardChild1, awardGrandChild2Of1);
+        addAwardHierarchyNode(rootAwardNumber, awardChild2, awardGrandChild1Of2);
+        addAwardHierarchyNode(rootAwardNumber, awardChild2, awardGrandChild2Of2);
+	}
 
     @After
     public void tearDown() throws Exception {
@@ -67,77 +101,504 @@ public class ActivePendingTransactionServiceImplTest {
     }
     
     @Test
+    public void testProcessTransactionsFromParentToChild() {
+    	
+    	final String sourceAwardNumber = rootAwardNumber;
+    	final String destinationAwardNumber = awardChild1;
+    	
+    	
+    	final Award sourceAward = createSourceAward(sourceAwardNumber);
+    	final Award destinationAward = createDestinationAward(destinationAwardNumber);
+    	
+    	AwardAmountInfo rootAwardAmountInfo = getMostRecentAwardAmountInfo(sourceAward);
+    	AwardAmountInfo childAwardAmountInfo = getMostRecentAwardAmountInfo(destinationAward);    	
+    	AwardVersionService mockedAwardVersionService = mock(AwardVersionService.class);
+    	when(mockedAwardVersionService.getPendingAwardVersion(anyString())).thenReturn(null);
+    	when(mockedAwardVersionService.getActiveAwardVersion(anyString())).thenReturn(getEmptyAward());
+    	when(mockedAwardVersionService.getActiveAwardVersion(destinationAwardNumber)).thenReturn(destinationAward);
+    	when(mockedAwardVersionService.getActiveAwardVersion(sourceAwardNumber)).thenReturn(sourceAward);
+    	when(mockedAwardVersionService.getWorkingAwardVersion(anyString())).thenReturn(getEmptyAward());
+    	when(mockedAwardVersionService.getWorkingAwardVersion(destinationAwardNumber)).thenReturn(destinationAward);
+    	when(mockedAwardVersionService.getWorkingAwardVersion(sourceAwardNumber)).thenReturn(sourceAward);
+    	
+    	AwardAmountInfoService awardAmountInfoService = mock(AwardAmountInfoServiceImpl.class);
+    	when(awardAmountInfoService.fetchAwardAmountInfoWithHighestTransactionId(anyList())).thenCallRealMethod();
+    	
+    	activePendingTransactionsServiceImpl.setAwardVersionService(mockedAwardVersionService);
+    	activePendingTransactionsServiceImpl.setAwardAmountInfoService(awardAmountInfoService);
+    	
+    	TimeAndMoneyDocument timeAndMoneyDoc = buildTimeAndMoneyDocument(sourceAwardNumber, destinationAwardNumber, sourceAward);
+		PendingTransaction trans1 = timeAndMoneyDoc.getPendingTransactions().get(0);
+    	ArrayList<TransactionDetail> transactionDetailItems = new ArrayList<TransactionDetail>();
+    	final HashMap<String, AwardAmountTransaction> awardAmountTransactionItems = new HashMap<String, AwardAmountTransaction>();
+    	
+		final AwardAmountTransaction newAwardAmountTransaction = new AwardAmountTransaction();
+		newAwardAmountTransaction.setTransactionTypeCode(1);
+		newAwardAmountTransaction.setComments("Test Comment");
+		List<AwardAmountTransaction> newAwardTransactions = activePendingTransactionsServiceImpl.processTransactions(timeAndMoneyDoc, newAwardAmountTransaction, awardAmountTransactionItems, 
+    			new ArrayList<Award>(), transactionDetailItems, Boolean.TRUE);
+		
+    	AwardAmountInfo newRootAwardAmountInfo = getMostRecentAwardAmountInfo(sourceAward);
+    	assertEquals(rootAwardAmountInfo.getObliDistributableAmount().subtract(trans1.getObligatedAmount()), newRootAwardAmountInfo.getObliDistributableAmount());
+    	AwardAmountInfo newChildAwardAmountInfo = getMostRecentAwardAmountInfo(destinationAward);
+    	assertEquals(childAwardAmountInfo.getObliDistributableAmount().add(trans1.getObligatedAmount()), newChildAwardAmountInfo.getObliDistributableAmount());
+    	assertEquals(2, newAwardTransactions.size());
+    	assertEquals(2, transactionDetailItems.size());
+    	assertEquals(1, getTransactionDetailTypeCount(transactionDetailItems, TransactionDetailType.PRIMARY));
+    	assertEquals(1, getTransactionDetailTypeCount(transactionDetailItems, TransactionDetailType.INTERMEDIATE));
+    	assertTrue(awardAmountTransactionItems.containsKey(newRootAwardAmountInfo.getAwardNumber()));
+    	assertEquals(newAwardAmountTransaction.getTransactionTypeCode(), awardAmountTransactionItems.get(newRootAwardAmountInfo.getAwardNumber()).getTransactionTypeCode());
+    	assertEquals(newAwardAmountTransaction.getComments(), awardAmountTransactionItems.get(newRootAwardAmountInfo.getAwardNumber()).getComments());
+    	assertTrue(awardAmountTransactionItems.containsKey(destinationAward.getAwardNumber()));
+    	assertEquals(newAwardAmountTransaction.getTransactionTypeCode(), awardAmountTransactionItems.get(destinationAward.getAwardNumber()).getTransactionTypeCode());
+    	assertEquals(newAwardAmountTransaction.getComments(), awardAmountTransactionItems.get(destinationAward.getAwardNumber()).getComments());
+    	
+    	
+    }
+    
+    @Test
+    public void testProcessTransactionsWhenSourceIsExternal() {
+    	final String sourceAwardNumber = Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT;
+    	final String destinationAwardNumber = awardChild1;
+    	
+    	
+    	final Award rootAward = createSourceAward(rootAwardNumber);
+    	final Award destinationAward = createDestinationAward(destinationAwardNumber);
+    	
+    	AwardAmountInfo rootAwardAmountInfo = getMostRecentAwardAmountInfo(rootAward);
+    	AwardAmountInfo childAwardAmountInfo = getMostRecentAwardAmountInfo(destinationAward);
+    	
+    	AwardVersionService mockedAwardVersionService = mock(AwardVersionService.class);
+    	when(mockedAwardVersionService.getPendingAwardVersion(anyString())).thenReturn(null);
+    	when(mockedAwardVersionService.getActiveAwardVersion(anyString())).thenReturn(getEmptyAward());
+    	when(mockedAwardVersionService.getActiveAwardVersion(rootAwardNumber)).thenReturn(rootAward);
+    	when(mockedAwardVersionService.getActiveAwardVersion(destinationAwardNumber)).thenReturn(destinationAward);
+    	when(mockedAwardVersionService.getWorkingAwardVersion(anyString())).thenReturn(getEmptyAward());
+    	when(mockedAwardVersionService.getWorkingAwardVersion(rootAwardNumber)).thenReturn(rootAward);
+    	when(mockedAwardVersionService.getWorkingAwardVersion(destinationAwardNumber)).thenReturn(destinationAward);
+    	
+    	AwardAmountInfoService awardAmountInfoService = mock(AwardAmountInfoServiceImpl.class);
+    	when(awardAmountInfoService.fetchAwardAmountInfoWithHighestTransactionId(anyList())).thenCallRealMethod();
+    	
+    	activePendingTransactionsServiceImpl.setAwardVersionService(mockedAwardVersionService);
+    	activePendingTransactionsServiceImpl.setAwardAmountInfoService(awardAmountInfoService);
+
+    	TimeAndMoneyDocument timeAndMoneyDoc = buildTimeAndMoneyDocument(sourceAwardNumber, destinationAwardNumber, rootAward);
+		PendingTransaction pendingTransaction = timeAndMoneyDoc.getPendingTransactions().get(0);
+    	ArrayList<TransactionDetail> transactionDetailItems = new ArrayList<TransactionDetail>();
+    	
+		final HashMap<String, AwardAmountTransaction> awardAmountTransactionItems = new HashMap<String, AwardAmountTransaction>();
+		final AwardAmountTransaction newAwardAmountTransaction = new AwardAmountTransaction();
+		newAwardAmountTransaction.setTransactionTypeCode(1);
+		newAwardAmountTransaction.setComments("Test Comment");
+		List<AwardAmountTransaction> newAwardTransactions = activePendingTransactionsServiceImpl.processTransactions(timeAndMoneyDoc, newAwardAmountTransaction, awardAmountTransactionItems, 
+    			new ArrayList<Award>(), transactionDetailItems, Boolean.TRUE);
+		
+    	AwardAmountInfo newRootAwardAmountInfo = getMostRecentAwardAmountInfo(rootAward);
+    	assertEquals(rootAwardAmountInfo.getObliDistributableAmount(), newRootAwardAmountInfo.getObliDistributableAmount());
+    	AwardAmountInfo newChildAwardAmountInfo = getMostRecentAwardAmountInfo(destinationAward);
+    	assertEquals(childAwardAmountInfo.getObliDistributableAmount().add(pendingTransaction.getObligatedAmount()), newChildAwardAmountInfo.getObliDistributableAmount());
+    	assertEquals(2, newAwardTransactions.size());
+    	assertEquals(3, transactionDetailItems.size());
+    	assertEquals(1, getTransactionDetailTypeCount(transactionDetailItems, TransactionDetailType.PRIMARY));
+    	assertEquals(2, getTransactionDetailTypeCount(transactionDetailItems, TransactionDetailType.INTERMEDIATE));
+    	assertTrue(awardAmountTransactionItems.containsKey(rootAwardNumber));
+    	assertEquals(newAwardAmountTransaction.getTransactionTypeCode(), awardAmountTransactionItems.get(rootAwardNumber).getTransactionTypeCode());
+    	assertEquals(newAwardAmountTransaction.getComments(), awardAmountTransactionItems.get(rootAwardNumber).getComments());
+    	assertTrue(awardAmountTransactionItems.containsKey(destinationAwardNumber));
+    	assertEquals(newAwardAmountTransaction.getTransactionTypeCode(), awardAmountTransactionItems.get(destinationAwardNumber).getTransactionTypeCode());
+    	assertEquals(newAwardAmountTransaction.getComments(), awardAmountTransactionItems.get(destinationAwardNumber).getComments());
+    	
+    }
+    
+    @Test
+    public void testProcessTransactionsWhenSourceIsExternalAndDestinationIsRoot() {
+    	final String sourceAwardNumber = Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT;
+    	final String destinationAwardNumber = rootAwardNumber;
+    	final Award rootAward = createSourceAward(rootAwardNumber);    	
+    	AwardAmountInfo rootAwardAmountInfo = getMostRecentAwardAmountInfo(rootAward);
+    	
+    	AwardVersionService mockedAwardVersionService = mock(AwardVersionService.class);
+    	when(mockedAwardVersionService.getPendingAwardVersion(anyString())).thenReturn(null);
+    	when(mockedAwardVersionService.getPendingAwardVersion(destinationAwardNumber)).thenReturn(null);
+    	when(mockedAwardVersionService.getActiveAwardVersion(anyString())).thenReturn(getEmptyAward());
+    	when(mockedAwardVersionService.getActiveAwardVersion(destinationAwardNumber)).thenReturn(rootAward);
+    	when(mockedAwardVersionService.getWorkingAwardVersion(anyString())).thenReturn(getEmptyAward());
+    	when(mockedAwardVersionService.getWorkingAwardVersion(destinationAwardNumber)).thenReturn(rootAward);
+    	
+    	AwardAmountInfoService awardAmountInfoService = mock(AwardAmountInfoServiceImpl.class);
+    	when(awardAmountInfoService.fetchAwardAmountInfoWithHighestTransactionId(anyList())).thenCallRealMethod();
+    	
+    	activePendingTransactionsServiceImpl.setAwardVersionService(mockedAwardVersionService);
+    	activePendingTransactionsServiceImpl.setAwardAmountInfoService(awardAmountInfoService);
+    	
+    	TimeAndMoneyDocument timeAndMoneyDoc = buildTimeAndMoneyDocument(sourceAwardNumber, destinationAwardNumber, rootAward);
+		PendingTransaction pendingTransaction = timeAndMoneyDoc.getPendingTransactions().get(0);
+    	ArrayList<TransactionDetail> transactionDetailItems = new ArrayList<TransactionDetail>();
+    	
+		final HashMap<String, AwardAmountTransaction> awardAmountTransactionItems = new HashMap<String, AwardAmountTransaction>();
+		final AwardAmountTransaction newAwardAmountTransaction = new AwardAmountTransaction();
+		newAwardAmountTransaction.setTransactionTypeCode(1);
+		newAwardAmountTransaction.setComments("Test Comment");
+		List<AwardAmountTransaction> newAwardTransactions = activePendingTransactionsServiceImpl.processTransactions(timeAndMoneyDoc, newAwardAmountTransaction, awardAmountTransactionItems, 
+    			new ArrayList<Award>(), transactionDetailItems, Boolean.TRUE);
+		
+    	AwardAmountInfo newChildAwardAmountInfo = getMostRecentAwardAmountInfo(rootAward);
+    	
+    	assertEquals(rootAwardAmountInfo.getObliDistributableAmount().add(pendingTransaction.getObligatedAmount()), newChildAwardAmountInfo.getObliDistributableAmount());
+    	assertEquals(1, newAwardTransactions.size());
+    	assertEquals(2, transactionDetailItems.size());
+    	assertEquals(1,  getTransactionDetailTypeCount(transactionDetailItems, TransactionDetailType.PRIMARY));
+    	assertEquals(1, getTransactionDetailTypeCount(transactionDetailItems, TransactionDetailType.INTERMEDIATE));
+    	assertTrue(awardAmountTransactionItems.containsKey(rootAwardNumber));
+    	assertEquals(newAwardAmountTransaction.getTransactionTypeCode(), awardAmountTransactionItems.get(rootAwardNumber).getTransactionTypeCode());
+    	assertEquals(newAwardAmountTransaction.getComments(), awardAmountTransactionItems.get(rootAwardNumber).getComments());
+    	
+    }
+    
+    @Test
+    public void testProcessTransactionsFromChildToParent() {
+    	
+    	final String sourceAwardNumber = awardChild1;
+    	final String destinationAwardNumber = rootAwardNumber;
+    	
+    	final Award sourceAward = createSourceAward(sourceAwardNumber);
+    	final Award destinationAward = createDestinationAward(destinationAwardNumber);
+    	
+    	AwardAmountInfo rootAwardAmountInfo = getMostRecentAwardAmountInfo(sourceAward);
+    	AwardAmountInfo childAwardAmountInfo = getMostRecentAwardAmountInfo(destinationAward);    
+    		
+    	AwardVersionService mockedAwardVersionService = mock(AwardVersionService.class);
+    	when(mockedAwardVersionService.getPendingAwardVersion(anyString())).thenReturn(null);
+    	when(mockedAwardVersionService.getActiveAwardVersion(anyString())).thenReturn(getEmptyAward());
+    	when(mockedAwardVersionService.getActiveAwardVersion(destinationAwardNumber)).thenReturn(destinationAward);
+    	when(mockedAwardVersionService.getActiveAwardVersion(sourceAwardNumber)).thenReturn(sourceAward);
+    	when(mockedAwardVersionService.getWorkingAwardVersion(anyString())).thenReturn(getEmptyAward());
+    	when(mockedAwardVersionService.getWorkingAwardVersion(destinationAwardNumber)).thenReturn(destinationAward);
+    	when(mockedAwardVersionService.getWorkingAwardVersion(sourceAwardNumber)).thenReturn(sourceAward);
+    	
+    	AwardAmountInfoService awardAmountInfoService = mock(AwardAmountInfoServiceImpl.class);
+    	when(awardAmountInfoService.fetchAwardAmountInfoWithHighestTransactionId(anyList())).thenCallRealMethod();
+    	
+    	activePendingTransactionsServiceImpl.setAwardVersionService(mockedAwardVersionService);
+    	activePendingTransactionsServiceImpl.setAwardAmountInfoService(awardAmountInfoService);
+    	
+    	TimeAndMoneyDocument timeAndMoneyDoc = buildTimeAndMoneyDocument(sourceAwardNumber, destinationAwardNumber, sourceAward);
+		PendingTransaction trans1 = timeAndMoneyDoc.getPendingTransactions().get(0);
+    	ArrayList<TransactionDetail> transactionDetailItems = new ArrayList<TransactionDetail>();
+    	
+		final HashMap<String, AwardAmountTransaction> awardAmountTransactionItems = new HashMap<String, AwardAmountTransaction>();
+		final AwardAmountTransaction newAwardAmountTransaction = new AwardAmountTransaction();
+		newAwardAmountTransaction.setTransactionTypeCode(1);
+		newAwardAmountTransaction.setComments("Test Comment");
+		List<AwardAmountTransaction> newAwardTransactions = activePendingTransactionsServiceImpl.processTransactions(timeAndMoneyDoc, newAwardAmountTransaction, awardAmountTransactionItems, 
+    			new ArrayList<Award>(), transactionDetailItems, Boolean.TRUE);
+		
+    	AwardAmountInfo newRootAwardAmountInfo = getMostRecentAwardAmountInfo(sourceAward);
+    	assertEquals(rootAwardAmountInfo.getObliDistributableAmount().subtract(trans1.getObligatedAmount()), newRootAwardAmountInfo.getObliDistributableAmount());
+    	AwardAmountInfo newChildAwardAmountInfo = getMostRecentAwardAmountInfo(destinationAward);
+    	assertEquals(childAwardAmountInfo.getObliDistributableAmount().add(trans1.getObligatedAmount()), newChildAwardAmountInfo.getObliDistributableAmount());
+    	assertEquals(2, newAwardTransactions.size());
+    	assertEquals(2, transactionDetailItems.size());
+    	assertEquals(1, getTransactionDetailTypeCount(transactionDetailItems, TransactionDetailType.PRIMARY));
+    	assertEquals(1, getTransactionDetailTypeCount(transactionDetailItems, TransactionDetailType.INTERMEDIATE));
+    	assertTrue(awardAmountTransactionItems.containsKey(rootAwardNumber));
+    	assertEquals(newAwardAmountTransaction.getTransactionTypeCode(), awardAmountTransactionItems.get(rootAwardNumber).getTransactionTypeCode());
+    	assertEquals(newAwardAmountTransaction.getComments(), awardAmountTransactionItems.get(rootAwardNumber).getComments());
+    	assertTrue(awardAmountTransactionItems.containsKey(sourceAwardNumber));
+    	assertEquals(newAwardAmountTransaction.getTransactionTypeCode(), awardAmountTransactionItems.get(sourceAwardNumber).getTransactionTypeCode());
+    	assertEquals(newAwardAmountTransaction.getComments(), awardAmountTransactionItems.get(sourceAwardNumber).getComments());
+    	
+    }
+    
+    @Test
+    public void testProcessTransactionsWhenDestinationIsExternal() {
+    	final String sourceAwardNumber = awardChild1;
+    	final String destinationAwardNumber = Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT;
+    	
+    	final Award rootAward = createSourceAward(rootAwardNumber);
+    	final Award sourceAward = createDestinationAward(sourceAwardNumber);
+    	
+    	AwardAmountInfo rootAwardAmountInfo = getMostRecentAwardAmountInfo(rootAward);
+    	AwardAmountInfo childAwardAmountInfo = getMostRecentAwardAmountInfo(sourceAward);    	
+    	
+    	AwardVersionService mockedAwardVersionService = mock(AwardVersionService.class);
+    	when(mockedAwardVersionService.getPendingAwardVersion(anyString())).thenReturn(null);
+    	when(mockedAwardVersionService.getActiveAwardVersion(anyString())).thenReturn(getEmptyAward());
+    	when(mockedAwardVersionService.getActiveAwardVersion(rootAwardNumber)).thenReturn(rootAward);
+    	when(mockedAwardVersionService.getActiveAwardVersion(sourceAwardNumber)).thenReturn(sourceAward);
+    	when(mockedAwardVersionService.getWorkingAwardVersion(anyString())).thenReturn(getEmptyAward());
+    	when(mockedAwardVersionService.getWorkingAwardVersion(rootAwardNumber)).thenReturn(rootAward);
+    	when(mockedAwardVersionService.getWorkingAwardVersion(sourceAwardNumber)).thenReturn(sourceAward);
+    	
+    	AwardAmountInfoService awardAmountInfoService = mock(AwardAmountInfoServiceImpl.class);
+    	when(awardAmountInfoService.fetchAwardAmountInfoWithHighestTransactionId(anyList())).thenCallRealMethod();
+    	
+    	activePendingTransactionsServiceImpl.setAwardVersionService(mockedAwardVersionService);
+    	activePendingTransactionsServiceImpl.setAwardAmountInfoService(awardAmountInfoService);
+    	
+    	TimeAndMoneyDocument timeAndMoneyDoc = buildTimeAndMoneyDocument(sourceAwardNumber, destinationAwardNumber, rootAward);
+		PendingTransaction pendingTransaction = timeAndMoneyDoc.getPendingTransactions().get(0);
+    	ArrayList<TransactionDetail> transactionDetailItems = new ArrayList<TransactionDetail>();
+		final HashMap<String, AwardAmountTransaction> awardAmountTransactionItems = new HashMap<String, AwardAmountTransaction>();
+		final AwardAmountTransaction newAwardAmountTransaction = new AwardAmountTransaction();
+		newAwardAmountTransaction.setTransactionTypeCode(1);
+		newAwardAmountTransaction.setComments("Test Comment");
+		List<AwardAmountTransaction> newAwardTransactions = activePendingTransactionsServiceImpl.processTransactions(timeAndMoneyDoc, newAwardAmountTransaction, awardAmountTransactionItems, 
+    			new ArrayList<Award>(), transactionDetailItems, Boolean.TRUE);
+		
+    	AwardAmountInfo newRootAwardAmountInfo = getMostRecentAwardAmountInfo(rootAward);
+    	assertEquals(rootAwardAmountInfo.getObliDistributableAmount(), newRootAwardAmountInfo.getObliDistributableAmount());
+    	AwardAmountInfo newChildAwardAmountInfo = getMostRecentAwardAmountInfo(sourceAward);
+    	assertEquals(childAwardAmountInfo.getObliDistributableAmount().subtract(pendingTransaction.getObligatedAmount()), newChildAwardAmountInfo.getObliDistributableAmount());
+    	assertEquals(2, newAwardTransactions.size());
+    	assertEquals(3, transactionDetailItems.size());
+    	assertEquals(1, getTransactionDetailTypeCount(transactionDetailItems, TransactionDetailType.PRIMARY));
+    	assertEquals(2, getTransactionDetailTypeCount(transactionDetailItems, TransactionDetailType.INTERMEDIATE));
+    	assertTrue(awardAmountTransactionItems.containsKey(rootAwardNumber));
+    	assertEquals(newAwardAmountTransaction.getTransactionTypeCode(), awardAmountTransactionItems.get(rootAwardNumber).getTransactionTypeCode());
+    	assertEquals(newAwardAmountTransaction.getComments(), awardAmountTransactionItems.get(rootAwardNumber).getComments());
+    	assertTrue(awardAmountTransactionItems.containsKey(sourceAwardNumber));
+    	assertEquals(newAwardAmountTransaction.getTransactionTypeCode(), awardAmountTransactionItems.get(sourceAwardNumber).getTransactionTypeCode());
+    	assertEquals(newAwardAmountTransaction.getComments(), awardAmountTransactionItems.get(sourceAwardNumber).getComments());
+    	
+    }
+    
+    @Test
+    public void testProcessTransactionsWhenDestinationIsExternalAndSourceIsRoot() {
+    	final String sourceAwardNumber = rootAwardNumber;
+    	final String destinationAwardNumber = Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT;
+    	
+    	
+    	final Award rootAward = createSourceAward(rootAwardNumber);
+    	final Award sourceAward = rootAward;
+    	
+    	AwardAmountInfo childAwardAmountInfo = getMostRecentAwardAmountInfo(sourceAward);
+    	
+    	AwardVersionService mockedAwardVersionService = mock(AwardVersionService.class);
+    	when(mockedAwardVersionService.getPendingAwardVersion(anyString())).thenReturn(null);
+    	when(mockedAwardVersionService.getActiveAwardVersion(anyString())).thenReturn(getEmptyAward());
+    	when(mockedAwardVersionService.getActiveAwardVersion(rootAwardNumber)).thenReturn(rootAward);
+    	when(mockedAwardVersionService.getActiveAwardVersion(sourceAwardNumber)).thenReturn(sourceAward);
+    	when(mockedAwardVersionService.getWorkingAwardVersion(anyString())).thenReturn(getEmptyAward());
+    	when(mockedAwardVersionService.getWorkingAwardVersion(rootAwardNumber)).thenReturn(rootAward);
+    	when(mockedAwardVersionService.getWorkingAwardVersion(sourceAwardNumber)).thenReturn(sourceAward);
+    	
+    	AwardAmountInfoService awardAmountInfoService = mock(AwardAmountInfoServiceImpl.class);
+    	when(awardAmountInfoService.fetchAwardAmountInfoWithHighestTransactionId(anyList())).thenCallRealMethod();
+    	
+    	activePendingTransactionsServiceImpl.setAwardVersionService(mockedAwardVersionService);
+    	activePendingTransactionsServiceImpl.setAwardAmountInfoService(awardAmountInfoService);
+    	
+    	TimeAndMoneyDocument timeAndMoneyDoc = buildTimeAndMoneyDocument(sourceAwardNumber, destinationAwardNumber, rootAward);
+		PendingTransaction pendingTransaction = timeAndMoneyDoc.getPendingTransactions().get(0);
+    	ArrayList<TransactionDetail> transactionDetailItems = new ArrayList<TransactionDetail>();
+		final HashMap<String, AwardAmountTransaction> awardAmountTransactionItems = new HashMap<String, AwardAmountTransaction>();
+		final AwardAmountTransaction newAwardAmountTransaction = new AwardAmountTransaction();
+		newAwardAmountTransaction.setTransactionTypeCode(1);
+		newAwardAmountTransaction.setComments("Test Comment");
+		List<AwardAmountTransaction> newAwardTransactions = activePendingTransactionsServiceImpl.processTransactions(timeAndMoneyDoc, newAwardAmountTransaction, awardAmountTransactionItems, 
+    			new ArrayList<Award>(), transactionDetailItems, Boolean.TRUE);
+		
+    	AwardAmountInfo newChildAwardAmountInfo = getMostRecentAwardAmountInfo(sourceAward);
+    	assertEquals(childAwardAmountInfo.getObliDistributableAmount().subtract(pendingTransaction.getObligatedAmount()), newChildAwardAmountInfo.getObliDistributableAmount());
+    	assertEquals(1, newAwardTransactions.size());
+    	assertEquals(2, transactionDetailItems.size());
+    	assertEquals(1, getTransactionDetailTypeCount(transactionDetailItems, TransactionDetailType.PRIMARY));
+    	assertEquals(1, getTransactionDetailTypeCount(transactionDetailItems, TransactionDetailType.INTERMEDIATE));
+    	assertTrue(awardAmountTransactionItems.containsKey(rootAwardNumber));
+    	assertEquals(newAwardAmountTransaction.getTransactionTypeCode(), awardAmountTransactionItems.get(rootAwardNumber).getTransactionTypeCode());
+    	assertEquals(newAwardAmountTransaction.getComments(), awardAmountTransactionItems.get(rootAwardNumber).getComments());
+    	
+    }
+    
+    int getTransactionDetailTypeCount(ArrayList<TransactionDetail> transactionDetailItems, TransactionDetailType type) {
+    	int count = 0;
+    	for (TransactionDetail transactionDetailItem : transactionDetailItems) {
+    		if (type.toString().equals(transactionDetailItem.getTransactionDetailType())) {
+    			count++;
+    		}
+    	}
+    	return count;
+    }
+
+	TimeAndMoneyDocument buildTimeAndMoneyDocument(final String sourceAwardNumber, final String destinationAwardNumber, final Award sourceAward) {
+		TimeAndMoneyDocument timeAndMoneyDoc = new TimeAndMoneyDocument();
+    	timeAndMoneyDoc.setAwardHierarchyNodes(awardHierarchyNodes);
+    	timeAndMoneyDoc.setAward(sourceAward);
+    	PendingTransaction pendingTransaction = new PendingTransaction();
+    	pendingTransaction.setSourceAwardNumber(sourceAwardNumber);
+    	pendingTransaction.setDestinationAwardNumber(destinationAwardNumber);
+    	pendingTransaction.setObligatedAmount(TEN_THOUSAND);
+    	pendingTransaction.setAnticipatedAmount(TEN_THOUSAND);
+		timeAndMoneyDoc.getPendingTransactions().add(pendingTransaction);
+		return timeAndMoneyDoc;
+	}
+
+	Award createDestinationAward(final String destinationAwardNumber) {
+		final Award childAward1 = new Award();
+		childAward1.setAwardNumber(destinationAwardNumber);
+    	childAward1.setSequenceNumber(1);
+    	AwardAmountInfo childAwardAmountInfo = new AwardAmountInfo() {
+    		@Override
+    		protected void changeUpdateElements(Object newObject, Object oldObject) {
+    			
+    		}
+    	};
+    	childAwardAmountInfo.setObliDistributableAmount(TEN_THOUSAND);
+    	childAwardAmountInfo.setAmountObligatedToDate(TEN_THOUSAND);
+    	childAwardAmountInfo.setAnticipatedTotalAmount(TEN_THOUSAND);
+    	childAwardAmountInfo.setAmountObligatedToDate(TEN_THOUSAND);
+    	childAwardAmountInfo.setAntDistributableAmount(TEN_THOUSAND);
+    	childAwardAmountInfo.setTransactionId(0L);
+    	childAwardAmountInfo.setAwardNumber(destinationAwardNumber);
+    	childAward1.getAwardAmountInfos().add(childAwardAmountInfo);
+		return childAward1;
+	}
+
+	Award createSourceAward(final String sourceAwardNumber) {
+		final Award rootAward = createDestinationAward(sourceAwardNumber);
+		return rootAward;
+	}
+    
+    @Test
+    public void testProcessTransactionsWithIndirectRelationship() {
+    	final Award rootAward = new Award();
+    	rootAward.setAwardNumber(awardGrandChild1Of1);
+    	rootAward.setSequenceNumber(1);
+    	AwardAmountInfo rootAwardAmountInfo = getAwardAmountInfoForTesting();
+    	rootAwardAmountInfo.setObliDistributableAmount(TEN_THOUSAND);
+    	rootAwardAmountInfo.setAmountObligatedToDate(TEN_THOUSAND);
+    	rootAwardAmountInfo.setAnticipatedTotalAmount(TEN_THOUSAND);
+    	rootAwardAmountInfo.setAmountObligatedToDate(TEN_THOUSAND);
+    	rootAwardAmountInfo.setAntDistributableAmount(TEN_THOUSAND);
+    	rootAwardAmountInfo.setTransactionId(0L);
+    	rootAwardAmountInfo.setAwardNumber(awardGrandChild1Of1);
+    	rootAward.getAwardAmountInfos().add(rootAwardAmountInfo);
+    	
+    	final Award childAward1 = new Award();
+    	childAward1.setAwardNumber(awardGrandChild1Of2);
+    	childAward1.setSequenceNumber(1);
+    	AwardAmountInfo childAwardAmountInfo = getAwardAmountInfoForTesting();
+    	childAwardAmountInfo.setObliDistributableAmount(TEN_THOUSAND);
+    	childAwardAmountInfo.setAmountObligatedToDate(TEN_THOUSAND);
+    	childAwardAmountInfo.setAnticipatedTotalAmount(TEN_THOUSAND);
+    	childAwardAmountInfo.setAmountObligatedToDate(TEN_THOUSAND);
+    	childAwardAmountInfo.setAntDistributableAmount(TEN_THOUSAND);
+    	childAwardAmountInfo.setTransactionId(0L);
+    	childAwardAmountInfo.setAwardNumber(awardGrandChild1Of2);
+    	childAward1.getAwardAmountInfos().add(childAwardAmountInfo);
+    	
+    	AwardVersionService mockedAwardVersionService = mock(AwardVersionService.class);
+    	when(mockedAwardVersionService.getPendingAwardVersion(anyString())).thenReturn(null);
+    	when(mockedAwardVersionService.getActiveAwardVersion(anyString())).thenReturn(getEmptyAward());
+    	when(mockedAwardVersionService.getActiveAwardVersion(awardGrandChild1Of1)).thenReturn(rootAward);
+    	when(mockedAwardVersionService.getActiveAwardVersion(awardGrandChild1Of2)).thenReturn(childAward1);
+    	when(mockedAwardVersionService.getWorkingAwardVersion(anyString())).thenReturn(getEmptyAward());
+    	when(mockedAwardVersionService.getWorkingAwardVersion(awardGrandChild1Of1)).thenReturn(rootAward);
+    	when(mockedAwardVersionService.getWorkingAwardVersion(awardGrandChild1Of2)).thenReturn(childAward1);
+    	
+    	AwardAmountInfoService awardAmountInfoService = mock(AwardAmountInfoServiceImpl.class);
+    	when(awardAmountInfoService.fetchAwardAmountInfoWithHighestTransactionId(anyList())).thenCallRealMethod();
+    	
+    	activePendingTransactionsServiceImpl.setAwardVersionService(mockedAwardVersionService);
+    	activePendingTransactionsServiceImpl.setAwardAmountInfoService(awardAmountInfoService);
+
+    	TimeAndMoneyDocument timeAndMoneyDoc = new TimeAndMoneyDocument();
+    	timeAndMoneyDoc.setAwardHierarchyNodes(awardHierarchyNodes);
+    	timeAndMoneyDoc.setAward(rootAward);
+    	PendingTransaction pendingTransaction = new PendingTransaction();
+    	pendingTransaction.setSourceAwardNumber(awardGrandChild1Of1);
+    	pendingTransaction.setDestinationAwardNumber(awardGrandChild1Of2);
+    	pendingTransaction.setObligatedAmount(TEN_THOUSAND);
+    	pendingTransaction.setAnticipatedAmount(TEN_THOUSAND);
+		timeAndMoneyDoc.getPendingTransactions().add(pendingTransaction);
+    	ArrayList<TransactionDetail> transactionDetailItems = new ArrayList<TransactionDetail>();
+		List<AwardAmountTransaction> newAwardTransactions = activePendingTransactionsServiceImpl.processTransactions(timeAndMoneyDoc, new AwardAmountTransaction(), new HashMap<String, AwardAmountTransaction>(), 
+    			new ArrayList<Award>(), transactionDetailItems, Boolean.TRUE);
+    	AwardAmountInfo newRootAwardAmountInfo = getMostRecentAwardAmountInfo(rootAward);
+    	assertEquals(rootAwardAmountInfo.getObliDistributableAmount().subtract(pendingTransaction.getObligatedAmount()), newRootAwardAmountInfo.getObliDistributableAmount());
+    	AwardAmountInfo newChildAwardAmountInfo = getMostRecentAwardAmountInfo(childAward1);
+    	assertEquals(childAwardAmountInfo.getObliDistributableAmount().add(pendingTransaction.getObligatedAmount()), newChildAwardAmountInfo.getObliDistributableAmount());
+    	System.out.println(newAwardTransactions.stream().map(trans -> trans.getAwardNumber()).collect(Collectors.toList()));
+    	assertEquals(3, newAwardTransactions.size());
+    	assertEquals(5, transactionDetailItems.size());
+    	assertTransactionDetailsContainsOnePrimaryTransaction(transactionDetailItems);
+    	
+    }
+    
+    private void assertTransactionDetailsContainsOnePrimaryTransaction(List<TransactionDetail> transactionDetails) {
+    	for (TransactionDetail detail : transactionDetails) {
+    		if (StringUtils.equals(TransactionDetailType.PRIMARY.toString(), detail.getTransactionDetailType())) {
+    			return;
+    		}
+    	}
+    	fail("No primary transaction found in transaction details");
+    }
+    
+    @Test
     public void testIndirectParentChildRelationshipExists(){        
         
-        addAwardHierarchyNode(awardNumber1, Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT, awardNumber1);
+        addAwardHierarchyNode(rootAwardNumber, Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT, rootAwardNumber);
         
-        addAwardHierarchyNode(awardNumber1, awardNumber1, awardNumber2);
+        addAwardHierarchyNode(rootAwardNumber, rootAwardNumber, awardChild1);
         
-        addAwardHierarchyNode(awardNumber1, awardNumber1, awardNumber3);
+        addAwardHierarchyNode(rootAwardNumber, rootAwardNumber, awardChild2);
         
-        addAwardHierarchyNode(awardNumber1, awardNumber2, awardNumber4);
+        addAwardHierarchyNode(rootAwardNumber, awardChild1, awardGrandChild1Of1);
         
-        AwardHierarchyNode parent = new AwardHierarchyNode();        
-        Assert.assertTrue(activePendingTransactionsServiceImpl.parentChildRelationshipExists(awardNumber1, awardNumber2, awardHierarchyNodes, parent));
-        Assert.assertEquals(awardNumber1, parent.getAwardNumber());
-     
+        AwardHierarchyNode parent = new AwardHierarchyNode();
+        Assert.assertTrue(activePendingTransactionsServiceImpl.parentChildRelationshipExists(rootAwardNumber, awardChild1, awardHierarchyNodes, parent));
+        Assert.assertEquals(rootAwardNumber, parent.getAwardNumber());
+        
         parent = new AwardHierarchyNode();
-        Assert.assertTrue(activePendingTransactionsServiceImpl.parentChildRelationshipExists(awardNumber1, awardNumber3, awardHierarchyNodes, parent));
-        Assert.assertEquals(awardNumber1, parent.getAwardNumber());
-     
+        Assert.assertTrue(activePendingTransactionsServiceImpl.parentChildRelationshipExists(rootAwardNumber, awardChild2, awardHierarchyNodes, parent));
+        Assert.assertEquals(rootAwardNumber, parent.getAwardNumber());
+        
+        parent = new AwardHierarchyNode();        
+        Assert.assertTrue(activePendingTransactionsServiceImpl.parentChildRelationshipExists(rootAwardNumber, awardGrandChild1Of1, awardHierarchyNodes, parent));
+        Assert.assertEquals(rootAwardNumber, parent.getAwardNumber());
+        
         parent = new AwardHierarchyNode();
-        Assert.assertTrue(activePendingTransactionsServiceImpl.parentChildRelationshipExists(awardNumber1, awardNumber4, awardHierarchyNodes, parent));
-        Assert.assertEquals(awardNumber1, parent.getAwardNumber());
-     
-        parent = new AwardHierarchyNode();
-        Assert.assertFalse(activePendingTransactionsServiceImpl.parentChildRelationshipExists(awardNumber2, awardNumber3, awardHierarchyNodes, parent));
+        Assert.assertFalse(activePendingTransactionsServiceImpl.parentChildRelationshipExists(awardChild1, awardChild2, awardHierarchyNodes, parent));
         Assert.assertEquals(null, parent.getAwardNumber());
         
         parent = new AwardHierarchyNode();
-        Assert.assertTrue(activePendingTransactionsServiceImpl.parentChildRelationshipExists(awardNumber2, awardNumber4, awardHierarchyNodes, parent));
-        Assert.assertEquals(awardNumber2, parent.getAwardNumber());
-     
+        Assert.assertTrue(activePendingTransactionsServiceImpl.parentChildRelationshipExists(awardChild1, awardGrandChild1Of1, awardHierarchyNodes, parent));
+        Assert.assertEquals(awardChild1, parent.getAwardNumber());
         
         parent = new AwardHierarchyNode();
-        Assert.assertTrue(activePendingTransactionsServiceImpl.childParentRelationshipExists(awardNumber1, awardNumber2, awardHierarchyNodes, parent));
-        Assert.assertEquals(awardNumber1, parent.getAwardNumber());
-             
-        parent = new AwardHierarchyNode();
-        Assert.assertTrue(activePendingTransactionsServiceImpl.childParentRelationshipExists(awardNumber1, awardNumber3, awardHierarchyNodes, parent));
-        Assert.assertEquals(awardNumber1, parent.getAwardNumber());
-     
-        parent = new AwardHierarchyNode();
-        Assert.assertTrue(activePendingTransactionsServiceImpl.childParentRelationshipExists(awardNumber1, awardNumber4, awardHierarchyNodes, parent));
-        Assert.assertEquals(awardNumber1, parent.getAwardNumber());
-     
-        parent = new AwardHierarchyNode();
-        Assert.assertFalse(activePendingTransactionsServiceImpl.childParentRelationshipExists(awardNumber2, awardNumber3, awardHierarchyNodes, parent));
+        Assert.assertFalse(activePendingTransactionsServiceImpl.childParentRelationshipExists(awardChild1, rootAwardNumber, awardHierarchyNodes, parent));
         Assert.assertEquals(null, parent.getAwardNumber());
         
         parent = new AwardHierarchyNode();
-        Assert.assertTrue(activePendingTransactionsServiceImpl.childParentRelationshipExists(awardNumber2, awardNumber4, awardHierarchyNodes, parent));
-        Assert.assertEquals(awardNumber2, parent.getAwardNumber());
+        Assert.assertFalse(activePendingTransactionsServiceImpl.childParentRelationshipExists(awardChild2, rootAwardNumber, awardHierarchyNodes, parent));
+        Assert.assertEquals(null, parent.getAwardNumber());
+        
+        parent = new AwardHierarchyNode();
+        Assert.assertFalse(activePendingTransactionsServiceImpl.childParentRelationshipExists(awardGrandChild1Of1, rootAwardNumber, awardHierarchyNodes, parent));
+        Assert.assertEquals(null, parent.getAwardNumber());
+        
+        parent = new AwardHierarchyNode();
+        Assert.assertFalse(activePendingTransactionsServiceImpl.childParentRelationshipExists(awardChild2, awardChild1, awardHierarchyNodes, parent));
+        Assert.assertEquals(null, parent.getAwardNumber());
+        
+        parent = new AwardHierarchyNode();
+        Assert.assertFalse(activePendingTransactionsServiceImpl.childParentRelationshipExists(awardGrandChild1Of1, awardChild1, awardHierarchyNodes, parent));
+        Assert.assertEquals(null, parent.getAwardNumber());
      
                 
     }
     
     @Test
-    public void testFindCommonParent(){
-        addAwardHierarchyNode(awardNumber1, Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT, awardNumber1);        
-        addAwardHierarchyNode(awardNumber1, awardNumber1, awardNumber2);        
-        addAwardHierarchyNode(awardNumber1, awardNumber1, awardNumber3);        
-        addAwardHierarchyNode(awardNumber1, awardNumber2, awardNumber4);
-        addAwardHierarchyNode(awardNumber1, awardNumber2, awardNumber5);
-        addAwardHierarchyNode(awardNumber1, awardNumber3, awardNumber6);
-        addAwardHierarchyNode(awardNumber1, awardNumber3, awardNumber7);
-        
-        Assert.assertEquals(awardNumber1, activePendingTransactionsServiceImpl.findCommonParent(awardHierarchyNodes, awardNumber1, awardNumber2, awardNumber3));
-        Assert.assertEquals(awardNumber1, activePendingTransactionsServiceImpl.findCommonParent(awardHierarchyNodes, awardNumber1, awardNumber2, awardNumber4));
-        Assert.assertEquals(awardNumber1, activePendingTransactionsServiceImpl.findCommonParent(awardHierarchyNodes, awardNumber1, awardNumber4, awardNumber6));
-        Assert.assertEquals(awardNumber2, activePendingTransactionsServiceImpl.findCommonParent(awardHierarchyNodes, awardNumber1, awardNumber4, awardNumber5));
-        Assert.assertEquals(awardNumber3, activePendingTransactionsServiceImpl.findCommonParent(awardHierarchyNodes, awardNumber1, awardNumber6, awardNumber7));
-        Assert.assertEquals(awardNumber1, activePendingTransactionsServiceImpl.findCommonParent(awardHierarchyNodes, awardNumber1, awardNumber2, awardNumber7));
-        Assert.assertEquals(awardNumber1, activePendingTransactionsServiceImpl.findCommonParent(awardHierarchyNodes, awardNumber1, awardNumber3, awardNumber4));
+    public void testFindCommonParent(){        
+        Assert.assertEquals(rootAwardNumber, activePendingTransactionsServiceImpl.findCommonParent(awardHierarchyNodes, rootAwardNumber, awardChild1, awardChild2));
+        Assert.assertEquals(rootAwardNumber, activePendingTransactionsServiceImpl.findCommonParent(awardHierarchyNodes, rootAwardNumber, awardChild1, awardGrandChild1Of1));
+        Assert.assertEquals(rootAwardNumber, activePendingTransactionsServiceImpl.findCommonParent(awardHierarchyNodes, rootAwardNumber, awardGrandChild1Of1, awardGrandChild1Of2));
+        Assert.assertEquals(awardChild1, activePendingTransactionsServiceImpl.findCommonParent(awardHierarchyNodes, rootAwardNumber, awardGrandChild1Of1, awardGrandChild2Of1));
+        Assert.assertEquals(awardChild2, activePendingTransactionsServiceImpl.findCommonParent(awardHierarchyNodes, rootAwardNumber, awardGrandChild1Of2, awardGrandChild2Of2));
+        Assert.assertEquals(rootAwardNumber, activePendingTransactionsServiceImpl.findCommonParent(awardHierarchyNodes, rootAwardNumber, awardChild1, awardGrandChild2Of2));
+        Assert.assertEquals(rootAwardNumber, activePendingTransactionsServiceImpl.findCommonParent(awardHierarchyNodes, rootAwardNumber, awardChild2, awardGrandChild1Of1));
     }
 
     private void addAwardHierarchyNode(String rootAwardNumber, String parentAwardNumber, String awardNumber) {
@@ -147,4 +608,23 @@ public class ActivePendingTransactionServiceImplTest {
         awardHierarchyNode.setRootAwardNumber(rootAwardNumber);        
         awardHierarchyNodes.put(awardNumber, awardHierarchyNode);
     }
+
+	private AwardAmountInfo getMostRecentAwardAmountInfo(Award award) {
+		return award.getAwardAmountInfos().get(award.getAwardAmountInfos().size() - 1);
+	}
+
+	Award getEmptyAward() {
+		Award throwAwayAward = new Award();
+		throwAwayAward.getAwardAmountInfos().add(new AwardAmountInfo());
+		return throwAwayAward;
+	}
+
+	AwardAmountInfo getAwardAmountInfoForTesting() {
+		return new AwardAmountInfo() {
+			@Override
+		    protected void changeUpdateElements(Object newObject, Object oldObject) {
+		    	
+		    }
+		};
+	}
 }
