@@ -33,8 +33,8 @@ public interface ProposalHierarchyDao {
     boolean nonEmployeePersonInMultipleChildProposals(Integer rolodexId, String hierarchyProposalNumber);
     DevelopmentProposal getDevelopmentProposal(String proposalNumber);
     ProposalState getProposalState(String proposalNumber);
-    List<ProposalPerson> isPersonOnProposal(String proposalNumber, String personId);
+    List<ProposalPerson> isEmployeePersonOnProposal(String proposalNumber, String personId);
+    List<ProposalPerson> isNonEmployeePersonOnProposal(String proposalNumber, Integer rolodexId);
     void deleteDegreeInfo(String proposalNumber, Integer proposalPersonNumber, ProposalPerson person);
     List<ProposalPersonDegree> getDegreeInformation(String proposalNumber, ProposalPerson person);
-
 }

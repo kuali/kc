@@ -80,6 +80,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.replace;
 import static org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyKeyConstants.*;
@@ -719,8 +720,9 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
 
     protected void syncAllPersonnelAttachments(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal, boolean isNewChild) {
 
-        Map<String, Boolean> personInMultipleProp = new HashMap<>();
-        List<ProposalPersonBiography> newList = new ArrayList<>();
+        final Map<String, Boolean> employeeInMultipleProp = new HashMap<>();
+        final Map<Integer, Boolean> nonEmployeeInMultipleProp = new HashMap<>();
+        final List<ProposalPersonBiography> newList = new ArrayList<>();
 
         /*
          Go thro list of personBios in child, if it is not in multiple proposals, then remove instance from parent so you
@@ -730,17 +732,34 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         for (ProposalPersonBiography srcPropPersonBio : childProposal.getPropPersonBios()) {
             // if the proposal is JUST being linked to a hierarchy and if this proposal has bios for
             // people that exist on the parent, ignore those bios.
-            if (!isBioInNewChildDuplicate(isNewChild, hierarchyProposal, srcPropPersonBio)
-                    && !employeePersonInMultipleProposals(srcPropPersonBio.getPersonId(), hierarchyProposal)) {
-                // mark those persons that are not in multiple proposals
-                // and remove this persons bio from parent
-                // since they will be copied over again later. We need to do this so if a bio is updated at the
-                // child it will sync up.
-                personInMultipleProp.put(srcPropPersonBio.getPersonId(), false);
-                for (Iterator<ProposalPersonBiography> iteratorParent = hierarchyProposal.getPropPersonBios().iterator(); iteratorParent.hasNext(); ) {
-                    ProposalPersonBiography parentPropPersonBio = iteratorParent.next();
-                    if (StringUtils.equals(srcPropPersonBio.getPersonId(), parentPropPersonBio.getPersonId())) {
-                        iteratorParent.remove();
+            if (!isEmployeeBioInNewChildDuplicate(isNewChild, hierarchyProposal, srcPropPersonBio)) {
+                if(StringUtils.isNotBlank(srcPropPersonBio.getPersonId()) && !employeePersonInMultipleProposals(srcPropPersonBio.getPersonId(), hierarchyProposal)) {
+                    // mark those persons that are not in multiple proposals
+                    // and remove this persons bio from parent
+                    // since they will be copied over again later. We need to do this so if a bio is updated at the
+                    // child it will sync up.
+                    employeeInMultipleProp.put(srcPropPersonBio.getPersonId(), false);
+                    for (Iterator<ProposalPersonBiography> iteratorParent = hierarchyProposal.getPropPersonBios().iterator(); iteratorParent.hasNext(); ) {
+                        ProposalPersonBiography parentPropPersonBio = iteratorParent.next();
+                        if (StringUtils.isNotBlank(srcPropPersonBio.getPersonId()) && StringUtils.equals(srcPropPersonBio.getPersonId(), parentPropPersonBio.getPersonId())) {
+                            iteratorParent.remove();
+                        }
+                    }
+                }
+            }
+
+            if (!isNonEmployeeBioInNewChildDuplicate(isNewChild, hierarchyProposal, srcPropPersonBio)) {
+                if(srcPropPersonBio.getRolodexId() != null && !nonEmployeePersonInMultipleProposals(srcPropPersonBio.getRolodexId(), hierarchyProposal)) {
+                    // mark those persons that are not in multiple proposals
+                    // and remove this persons bio from parent
+                    // since they will be copied over again later. We need to do this so if a bio is updated at the
+                    // child it will sync up.
+                    nonEmployeeInMultipleProp.put(srcPropPersonBio.getRolodexId(), false);
+                    for (Iterator<ProposalPersonBiography> iteratorParent = hierarchyProposal.getPropPersonBios().iterator(); iteratorParent.hasNext(); ) {
+                        ProposalPersonBiography parentPropPersonBio = iteratorParent.next();
+                        if (srcPropPersonBio.getRolodexId() != null && srcPropPersonBio.getRolodexId().equals(parentPropPersonBio.getRolodexId())) {
+                            iteratorParent.remove();
+                        }
                     }
                 }
             }
@@ -749,16 +768,31 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             // go over the child bios list and if person is not in multiple proposals add it
         for (ProposalPersonBiography srcPropPersonBio : childProposal.getPropPersonBios()) {
             // if the proposal is JUST being linked to a hierarchy and if this proposal has bios for
-            // people that exist on the parent, ignore those bios.
-            if (!isBioInNewChildDuplicate(isNewChild, hierarchyProposal, srcPropPersonBio)
-                    && personInMultipleProp.get(srcPropPersonBio.getPersonId()) != null &&
-                    !personInMultipleProp.get(srcPropPersonBio.getPersonId())) {
+            // employee people that exist on the parent, ignore those bios.
+            if (!isEmployeeBioInNewChildDuplicate(isNewChild, hierarchyProposal, srcPropPersonBio)
+                    && employeeInMultipleProp.get(srcPropPersonBio.getPersonId()) != null &&
+                    !employeeInMultipleProp.get(srcPropPersonBio.getPersonId())) {
                 ProposalPersonBiography destPropPersonBio;
                 destPropPersonBio = deepCopy(srcPropPersonBio);
                 copyPersonnelAttachmentData(destPropPersonBio, srcPropPersonBio);
                 destPropPersonBio.setDevelopmentProposal(hierarchyProposal);
                 destPropPersonBio.setProposalNumber(hierarchyProposal.getProposalNumber());
-                destPropPersonBio.setProposalPersonNumber(getProposalPersonNumber(destPropPersonBio.getPersonId(), hierarchyProposal));
+                destPropPersonBio.setProposalPersonNumber(getEmployeeProposalPersonNumber(destPropPersonBio.getPersonId(), hierarchyProposal));
+                destPropPersonBio.setVersionNumber(0L);
+                newList.add(destPropPersonBio);
+            }
+
+            // if the proposal is JUST being linked to a hierarchy and if this proposal has bios for
+            // employee people that exist on the parent, ignore those bios.
+            if (!isNonEmployeeBioInNewChildDuplicate(isNewChild, hierarchyProposal, srcPropPersonBio)
+                    && nonEmployeeInMultipleProp.get(srcPropPersonBio.getRolodexId()) != null &&
+                    !nonEmployeeInMultipleProp.get(srcPropPersonBio.getRolodexId())) {
+                ProposalPersonBiography destPropPersonBio;
+                destPropPersonBio = deepCopy(srcPropPersonBio);
+                copyPersonnelAttachmentData(destPropPersonBio, srcPropPersonBio);
+                destPropPersonBio.setDevelopmentProposal(hierarchyProposal);
+                destPropPersonBio.setProposalNumber(hierarchyProposal.getProposalNumber());
+                destPropPersonBio.setProposalPersonNumber(getNonEmployeeProposalPersonNumber(destPropPersonBio.getRolodexId(), hierarchyProposal));
                 destPropPersonBio.setVersionNumber(0L);
                 newList.add(destPropPersonBio);
             }
@@ -766,13 +800,26 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         hierarchyProposal.getPropPersonBios().addAll(newList);
     }
 
-    protected boolean isBioInNewChildDuplicate(boolean isNewChild, DevelopmentProposal hierarchyProposal, ProposalPersonBiography srcPropPersonBio) {
-        return isNewChild && isPersonOnParent(hierarchyProposal, srcPropPersonBio.getPersonId(), srcPropPersonBio);
+    protected boolean isEmployeeBioInNewChildDuplicate(boolean isNewChild, DevelopmentProposal hierarchyProposal, ProposalPersonBiography srcPropPersonBio) {
+        return isNewChild && StringUtils.isNotBlank(srcPropPersonBio.getPersonId()) && isEmployeePersonOnParent(hierarchyProposal, srcPropPersonBio.getPersonId(), srcPropPersonBio);
     }
 
-    protected Integer getProposalPersonNumber(String personId, DevelopmentProposal hierarchyProposal) {
+    protected boolean isNonEmployeeBioInNewChildDuplicate(boolean isNewChild, DevelopmentProposal hierarchyProposal, ProposalPersonBiography srcPropPersonBio) {
+        return isNewChild && srcPropPersonBio.getRolodexId() != null && isNonEmployeePersonOnParent(hierarchyProposal, srcPropPersonBio.getRolodexId(), srcPropPersonBio);
+    }
+
+    protected Integer getEmployeeProposalPersonNumber(String personId, DevelopmentProposal hierarchyProposal) {
         for (ProposalPerson person : hierarchyProposal.getProposalPersons()) {
-            if (StringUtils.equalsIgnoreCase(person.getPersonId(), personId)) {
+            if (StringUtils.isNotBlank(personId) && StringUtils.equalsIgnoreCase(person.getPersonId(), personId)) {
+                return person.getProposalPersonNumber();
+            }
+        }
+        return null;
+    }
+
+    protected Integer getNonEmployeeProposalPersonNumber(Integer rolodexId, DevelopmentProposal hierarchyProposal) {
+        for (ProposalPerson person : hierarchyProposal.getProposalPersons()) {
+            if (rolodexId != null && rolodexId.equals(person.getRolodexId())) {
                 return person.getProposalPersonNumber();
             }
         }
@@ -797,8 +844,16 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         }
     }
 
-    protected boolean isPersonOnParent(DevelopmentProposal proposal, String id, ProposalPersonBiography srcPropPersonBio) {
-        List<ProposalPerson> persons = getProposalHierarchyDao().isPersonOnProposal(proposal.getProposalNumber(), id);
+    protected boolean isEmployeePersonOnParent(DevelopmentProposal proposal, String id, ProposalPersonBiography srcPropPersonBio) {
+        List<ProposalPerson> persons = getProposalHierarchyDao().isEmployeePersonOnProposal(proposal.getProposalNumber(), id);
+        // if person is on parent, then check if the person has been added by the same proposal linked to
+        // the current bio. If latter is true, the srcBio can be added, if not, bio has been added by a different proposal
+        // and needs to be maintained at the parent.
+        return persons.size() > 0 && !StringUtils.equals(persons.get(0).getHierarchyProposalNumber(), srcPropPersonBio.getDevelopmentProposal().getProposalNumber());
+    }
+
+    protected boolean isNonEmployeePersonOnParent(DevelopmentProposal proposal, Integer id, ProposalPersonBiography srcPropPersonBio) {
+        List<ProposalPerson> persons = getProposalHierarchyDao().isNonEmployeePersonOnProposal(proposal.getProposalNumber(), id);
         // if person is on parent, then check if the person has been added by the same proposal linked to
         // the current bio. If latter is true, the srcBio can be added, if not, bio has been added by a different proposal
         // and needs to be maintained at the parent.
@@ -816,11 +871,9 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             ProposalPerson principalInvestigator) {
         
         synchronizePersons(hierarchyProposal, primaryChildProposal, principalInvestigator);
-        for (DevelopmentProposal childProposal : getHierarchyChildren(hierarchyProposal.getProposalNumber())) {
-            if (!StringUtils.equals(primaryChildProposal.getProposalNumber(), childProposal.getProposalNumber())) {
-                synchronizePersons(hierarchyProposal, childProposal, principalInvestigator);
-            }
-        }
+        getHierarchyChildren(hierarchyProposal.getProposalNumber()).stream()
+                .filter(childProposal -> !StringUtils.equals(primaryChildProposal.getProposalNumber(), childProposal.getProposalNumber()))
+                .forEach(childProposal -> synchronizePersons(hierarchyProposal, childProposal, principalInvestigator));
     }
 
     /**
@@ -1040,9 +1093,9 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
      */
     protected void copyInitialAttachments(DevelopmentProposal srcProposal, DevelopmentProposal destProposal) {
 
-        ProposalPersonBiography destPropPersonBio;
         ProposalPerson srcPerson = null;
         ProposalPerson destPerson = null;
+
         for (ProposalPersonBiography srcPropPersonBio : srcProposal.getPropPersonBios()) {
             for (ProposalPerson person : srcProposal.getProposalPersons()) {
                 if (person.getProposalPersonNumber().equals(srcPropPersonBio.getProposalPersonNumber())) {
@@ -1056,14 +1109,16 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                     break;
                 }
             }
-            destPropPersonBio = deepCopy(srcPropPersonBio);
-            copyPersonnelAttachmentData(destPropPersonBio, srcPropPersonBio);
-            destPropPersonBio.setDevelopmentProposal(destProposal);
-            destPropPersonBio.setProposalNumber(destProposal.getProposalNumber());
-            destPropPersonBio.setProposalPersonNumber(destPerson.getProposalPersonNumber());
-            destPropPersonBio.setPersonId(destPerson.getPersonId());
-            destPropPersonBio.setRolodexId(destPerson.getRolodexId());
-            destProposal.getPropPersonBios().add(destPropPersonBio);
+            if (destPerson != null) {
+                ProposalPersonBiography destPropPersonBio = deepCopy(srcPropPersonBio);
+                copyPersonnelAttachmentData(destPropPersonBio, srcPropPersonBio);
+                destPropPersonBio.setDevelopmentProposal(destProposal);
+                destPropPersonBio.setProposalNumber(destProposal.getProposalNumber());
+                destPropPersonBio.setProposalPersonNumber(destPerson.getProposalPersonNumber());
+                destPropPersonBio.setPersonId(destPerson.getPersonId());
+                destPropPersonBio.setRolodexId(destPerson.getRolodexId());
+                destProposal.getPropPersonBios().add(destPropPersonBio);
+            }
         }
 
         for (Narrative srcNarrative : srcProposal.getNarratives()) {
@@ -1112,11 +1167,9 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
 
     @Override
     public List<DevelopmentProposal> getHierarchyChildren(String parentProposalNumber) {
-        List<DevelopmentProposal> children = new ArrayList<>();
-        for( String childProposalNumber : proposalHierarchyDao.getHierarchyChildProposalNumbers(parentProposalNumber)) {
-            children.add(getDevelopmentProposal(childProposalNumber));
-        }
-        return children;
+        return proposalHierarchyDao.getHierarchyChildProposalNumbers(parentProposalNumber).stream()
+                .map(this::getDevelopmentProposal)
+                .collect(Collectors.toList());
     }
     
     @Override
@@ -1252,13 +1305,9 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         for (String proposalNumber : proposalNumbers) {
             HierarchyPersonnelSummary summary = new HierarchyPersonnelSummary();
             
-            DevelopmentProposal childProposal = getDevelopmentProposal(proposalNumber);
-            List<Budget> hierarchyBudgets = new ArrayList<>();
-            for (ProposalDevelopmentBudgetExt hierarchyBudget : proposalBudgetHierarchyService.getHierarchyBudgets(childProposal)) {
-                hierarchyBudgets.add(hierarchyBudget);
-            }
-            Collections.sort(hierarchyBudgets);
-            
+            final DevelopmentProposal childProposal = getDevelopmentProposal(proposalNumber);
+            final List<Budget> hierarchyBudgets = proposalBudgetHierarchyService.getHierarchyBudgets(childProposal).stream().sorted().collect(Collectors.toList());
+
             summary.setProposalNumber(proposalNumber);
             summary.setHierarchyBudgets(hierarchyBudgets);
             summaries.add(summary);
