@@ -1,6 +1,21 @@
 
 
 ##CURRENT
+*  STE when sync from Parent after adding a PI biosketch attachment to originating child with an non employee.
+  * Create PD Hierarchy.
+  * I went to parent in edit mode.
+  * Went to Key Personnel.
+  * Moved the new Key Person down in the list below the Co-I from child #2.
+  * Saved. Closed
+  * Then I went back to the initiating child where I had just added the Key Person.
+  * I uploaded a Biosketch for that Key Person, a different file from the others, but the same Description "Biosketch" as I had used for the PI's on both children.
+  * I synced from the child, not the parent, and got an STE again. It is slightly different.
+  * I then went to Parent and tried Sync all from there, and received STE as well (Same IllegalArgumentException: Given criteria value cannot be null )
+
+  * java.lang.IllegalArgumentException: Given criteria value cannot be null. at org.kuali.rice.core.api.criteria.CriteriaSupportUtils.determineCriteriaValue(CriteriaSupportUtils.java:152) at org.kuali.rice.core.api.criteria.PredicateFactory.equal(PredicateFactory.java:99) at org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyDaoJpa.employeePersonInMultipleChildProposals(ProposalHierarchyDaoJpa.java:57) at org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyServiceImpl.employeePersonInMultipleProposals(ProposalHierarchyServiceImpl.java:787) at org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyServiceImpl.syncAllPersonnelAttachments(ProposalHierarchyServiceImpl.java:734) at org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyServiceImpl.synchronizeChildProposal(ProposalHierarchyServiceImpl.java:567) at org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyServiceImpl.synchronizeChild(ProposalHierarchyServiceImpl.java:400) at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) at java.lang.reflect.Method.invoke(Method.java:497) at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:317) at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:183) at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation
+  * Travis Schneeberger on Wed, 13 Jan 2016 11:06:32 -0500 [View Commit](../../commit/289fdbf6d73f7eafc4339e8b660ce5987ab4aa0f)
+
+##coeus-1601.52
 * No Changes
 
 
