@@ -715,6 +715,9 @@ public class AwardAction extends BudgetParentActionBase {
             Award rootAward = getAwardVersionService().getWorkingAwardVersion(rootAwardNumber);   
 
             if(documentNumber == null) {
+            	if (!getTimeAndMoneyVersionService().validateCreateNewTimeAndMoneyDocument(rootAwardNumber)) {
+            		return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+            	}
                 generateDirectFandADistribution(currentAward);
                 TimeAndMoneyDocument timeAndMoneyDocument = (TimeAndMoneyDocument) documentService.getNewDocument(TimeAndMoneyDocument.class);
                 timeAndMoneyDocument.getDocumentHeader().setDocumentDescription(TIMEANDMONEY_DOCUMENT);

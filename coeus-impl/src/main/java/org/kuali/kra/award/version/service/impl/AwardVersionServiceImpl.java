@@ -76,15 +76,18 @@ public class AwardVersionServiceImpl extends PlatformAwareDaoBaseOjb implements 
     
     @Override
     public List<Award> getAllActiveAwardsForHierarchy(String awardNumber) {
-    	Criteria crit = new Criteria();
-    	crit.addLike(AWARD_NUMBER, awardNumber.substring(0, 6) + "%");
-    	crit.addEqualTo(AWARD_SEQUENCE_STATUS, VersionStatus.ACTIVE.toString());
-    	QueryByCriteria queryCrit = QueryFactory.newQuery(Award.class, crit);
+    	QueryByCriteria queryCrit = getQueryForAwardHierarchyByStatus(awardNumber, VersionStatus.ACTIVE.toString());
     	queryCrit.addPrefetchedRelationship(AWARD_AMOUNT_INFOS);
     	return new ArrayList<Award>(getPersistenceBrokerTemplate().getCollectionByQuery(queryCrit));
     }
-    
-    
+
+	QueryByCriteria getQueryForAwardHierarchyByStatus(String awardNumber, final String status) {
+		Criteria crit = new Criteria();
+    	crit.addLike(AWARD_NUMBER, awardNumber.substring(0, 6) + "%");
+		crit.addEqualTo(AWARD_SEQUENCE_STATUS, status);
+    	QueryByCriteria queryCrit = QueryFactory.newQuery(Award.class, crit);
+		return queryCrit;
+	}
     
     @Override
     public Award getActiveAwardVersion(String awardNumber) {
@@ -93,16 +96,12 @@ public class AwardVersionServiceImpl extends PlatformAwareDaoBaseOjb implements 
         return (result == null) ? null : (Award) result.getSequenceOwner();
     }
 
-
-
     @Override
     public Award getPendingAwardVersion(String awardNumber) {
         List<VersionHistory> versions = versionHistoryService.findVersionHistory(Award.class, awardNumber);
         VersionHistory result = getPendingVersionHistory(versions);
         return (result == null) ? null : (Award) result.getSequenceOwner();
     }
-
-
 
     private VersionHistory getPendingVersionHistory (List<VersionHistory> list) {
         VersionHistory returnVal = null;
@@ -122,6 +121,16 @@ public class AwardVersionServiceImpl extends PlatformAwareDaoBaseOjb implements 
             }
         }
         return returnVal;
+    }
+    
+    @Override
+    public boolean isPendingAwardInAwardHierarchy(String awardNumber) {
+    	return getPersistenceBrokerTemplate().getCount(getQueryForAwardHierarchyByStatus(awardNumber, VersionStatus.PENDING.toString())) != 0;
+    }
+    
+    @Override
+    public boolean isActiveAwardInAwardHierarchy(String awardNumber) {
+    	return getPersistenceBrokerTemplate().getCount(getQueryForAwardHierarchyByStatus(awardNumber, VersionStatus.ACTIVE.toString())) != 0;    	
     }
 
     public VersionHistoryService getVersionHistoryService() {

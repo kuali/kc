@@ -29,4 +29,6 @@ public interface TimeAndMoneyVersionService {
     public void updateDocumentStatus(TimeAndMoneyDocument document, VersionStatus status);
     
     public String getCurrentTimeAndMoneyDocumentNumber(String awardNumber);
+    
+    public boolean validateCreateNewTimeAndMoneyDocument(String awardNumber);
 }

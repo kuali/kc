@@ -40,5 +40,9 @@ public interface AwardVersionService {
     
     public List<Award> getAllActiveAwardsForHierarchy(String awardNumber);
     
+    public boolean isPendingAwardInAwardHierarchy(String awardNumber);
+    
+    public boolean isActiveAwardInAwardHierarchy(String awardNumber);
+    
 
 }
