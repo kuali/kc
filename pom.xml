@@ -87,7 +87,7 @@
         <drools.version>6.3.0.Final</drools.version>
         <dwr.version>3.0.1-RELEASE</dwr.version>
         <ecj.version>4.4.2</ecj.version>
-        <ehcache.version>2.6.11</ehcache.version>
+        <ehcache.version>2.6.9</ehcache.version>
         <el.version>2.2.1</el.version>
         <fop.version>1.1</fop.version>
         <guava.version>18.0</guava.version>
