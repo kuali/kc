@@ -24,4 +24,5 @@ spool 1601_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V1601_003__RESOPS-581.sql
 @./kc/bootstrap/V1601_005__RestAuditLog.sql
 @./kc/bootstrap/V1601_006__fix_create_ip_link.sql
+@./kc/bootstrap/V1601_007__support_new_pd_attachment.sql
 commit;

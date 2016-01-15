@@ -1,6 +1,15 @@
 
 
 ##CURRENT
+* IRB - Absent members not displaying properly in the Minutes PDF
+  * Scott, Peter C" duplicated, displaying in both the Absentees and the voting members present areas
+  * This case needs a little more work. Tested with schedule 12/17/15
+  * This occurs while adding a non employee (rolodex person).
+  * rmancher on Fri, 15 Jan 2016 09:09:54 -0500 [View Commit](../../commit/2f05842261852485554c4a684ec34cb95fbb14ec)
+*  adding support for new personnel narrative type: NSF_Collaborators
+  * Travis Schneeberger on Thu, 14 Jan 2016 14:08:30 -0500 [View Commit](../../commit/220f48bfeca692c720bd637f44413bedc2b8663a)
+
+##coeus-1601.54
 * No Changes
 
 
