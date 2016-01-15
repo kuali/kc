@@ -57,7 +57,8 @@
     	<property name="businessObjectService" ref="businessObjectService" />
 		<property name="awardAmountInfoService" ref="awardAmountInfoService" />
 		<property name="awardVersionService" ref="awardVersionService" />
-		<property name="personService" ref="personService" />        
+		<property name="personService" ref="personService" />
+		<property name="parameterService" ref="parameterService"/>
     </bean>
 
     <bean id="dbPlatform" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">

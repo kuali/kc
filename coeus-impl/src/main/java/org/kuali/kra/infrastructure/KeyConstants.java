@@ -890,6 +890,7 @@ public final class KeyConstants {
     public static final String ERROR_DATE_NOT_SET = "error.date.not.set";
     public static final String ERROR_NET_TOTALS_TRANSACTION = "error.net.totals.transaction";
     public static final String WARNING_TRANSACTION_OBLI_LESS_THAN_BUDGET_LIMIT = "warning.transaction.obligated.less.than.limit";
+    public static final String CREATE_TIME_AND_MONEY_PENDING_AWARD_EXISTS_ERROR = "error.timeandmoney.create.pending.award.exists";
 
     //Award Hierarchy
     public static final String ERROR_CREATE_NEW_CHILD_OTHER_AWARD_NOT_SELECTED = "error.create.new.child.other.award.not.selected";

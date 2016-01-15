@@ -20,15 +20,21 @@ package org.kuali.kra.timeandmoney.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.version.VersionStatus;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.version.service.AwardVersionService;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.service.TimeAndMoneyVersionService;
 import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.KRADConstants;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -46,11 +52,14 @@ public class TimeAndMoneyVersionServiceImpl implements TimeAndMoneyVersionServic
     private DocumentService documentService;
     private BusinessObjectService businessObjectService;
     private DataSource dataSource;
+    private ParameterService parameterService;
+    private GlobalVariableService globalVariableService;
 
     /*
      * Find any existing T&amp;M document for the given award number, with the intent to
      * edit it.  If open one is found, return it. If no open one is found, create new one.
      */
+    @Override
     public TimeAndMoneyDocument findOpenedTimeAndMoney(String rootAwardNumber) throws WorkflowException {
         TimeAndMoneyDocument result = null;
         TimeAndMoneyDocument timeAndMoneyDocument = getBusinessObjectService().findBySinglePrimaryKey(TimeAndMoneyDocument.class, 
@@ -59,11 +68,31 @@ public class TimeAndMoneyVersionServiceImpl implements TimeAndMoneyVersionServic
             throw new WorkflowException("Missing Time and Money Document");
         } else {
             if (!VersionStatus.PENDING.toString().equals(timeAndMoneyDocument.getDocumentStatus())) {
-                timeAndMoneyDocument = editOrVersionTandMDocument(rootAwardNumber);
+            	if (validateCreateNewTimeAndMoneyDocument(rootAwardNumber)) {
+            		timeAndMoneyDocument = editOrVersionTandMDocument(rootAwardNumber);
+            	} else {
+            		return null;
+            	}
             }
         }
         return timeAndMoneyDocument;
     }
+    
+    @Override
+    public boolean validateCreateNewTimeAndMoneyDocument(String awardNumber) {
+    	if (!allowTimeAndMoneyWhenPendingAwardExists() 
+    			&& awardVersionService.isPendingAwardInAwardHierarchy(awardNumber)
+    			&& awardVersionService.isActiveAwardInAwardHierarchy(awardNumber)) {
+    		globalVariableService.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, KeyConstants.CREATE_TIME_AND_MONEY_PENDING_AWARD_EXISTS_ERROR);
+    		return false;
+    	}
+    	return true;
+    }
+    
+    protected boolean allowTimeAndMoneyWhenPendingAwardExists() {
+    	return parameterService.getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_TIME_AND_MONEY, ParameterConstants.DOCUMENT_COMPONENT, Constants.ALLOW_TM_WHEN_PENDING_AWARD_PARAM);
+    }
+
 
     private TimeAndMoneyDocument editOrVersionTandMDocument(String rootAwardNumber) throws WorkflowException {
         Award rootAward = getAwardVersionService().getWorkingAwardVersion(rootAwardNumber);
@@ -161,5 +190,21 @@ public class TimeAndMoneyVersionServiceImpl implements TimeAndMoneyVersionServic
 
 	public void setDataSource(DataSource dataSource) {
 		this.dataSource = dataSource;
+	}
+
+	public ParameterService getParameterService() {
+		return parameterService;
+	}
+
+	public void setParameterService(ParameterService parameterService) {
+		this.parameterService = parameterService;
+	}
+
+	public GlobalVariableService getGlobalVariableService() {
+		return globalVariableService;
+	}
+
+	public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+		this.globalVariableService = globalVariableService;
 	}
 }
