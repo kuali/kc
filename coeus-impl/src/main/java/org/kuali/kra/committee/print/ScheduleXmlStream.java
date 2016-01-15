@@ -386,8 +386,8 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
     }
 
     private boolean isAbsent(List<CommitteeScheduleAttendanceBase> attendenceList, CommitteeMembershipBase committeeMembership, java.sql.Date scheduledDate) {
-        return !attendenceList.stream()
-                .anyMatch(committeeScheduleAttendanceBase -> committeeScheduleAttendanceBase.getPersonId().equals(committeeMembership.getPersonId())) &&
+    	return !attendenceList.stream()
+                .anyMatch(committeeScheduleAttendanceBase -> committeeScheduleAttendanceBase.isCommitteeMember(committeeMembership)) &&
                 committeeMembership.isActive(scheduledDate);
     }
 
