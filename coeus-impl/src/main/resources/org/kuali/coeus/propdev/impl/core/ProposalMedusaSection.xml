@@ -254,6 +254,7 @@
                 <bean parent="Proposal-Award-Property" p:propertyName="awardType.description" p:label="Award Type" p:order="20" />
                 <bean parent="Proposal-Award-Property" p:propertyName="sponsorAwardNumber" p:order="30" />
                 <bean parent="Proposal-Award-Property" p:propertyName="activityType.description" p:label="Activity Type" p:order="40" />
+                <bean parent="Proposal-Award-Property" p:propertyName="modificationNumber" p:label="Modification ID" p:order="45" />
                 <bean parent="Proposal-Award-Property" p:propertyName="accountNumber" p:order="50" />
                 <bean parent="Proposal-Award-Property" p:propertyName="accountTypeDescription" p:order="60" />
                 <bean parent="Proposal-Award-Property" p:propertyName="awardStatus.description" p:label="Award Status" p:order="70" />
