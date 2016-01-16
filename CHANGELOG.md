@@ -1,6 +1,18 @@
 
 
 ##CURRENT
+*  Adding error message when rolodex person that needs to certify is added to pd.
+
+  * Key Person screen should present an error message for Address Book personnel when added to proposals in roles requiring proposal certification according to COI Hierarchy, exempt roles maintained in keypersonprojectrole and Supplemental Info screen indicator PCK flag.
+  * This error should also trigger upon, save, copy, PCK selection, or submit for routing.
+  * This message should read:
+  * "Non-Employee,
+  * {Name}
+  * , has been added in a role that requires proposal certification. Creation of an MIT Employee guest account may be needed. Contact kc-help@mit.edu with questions."
+  * Note: this error should work with RESKC-972 Exempt Address book Person PI/Multi from Cert and notify as that remains.
+  * Gayathri Athreya on Fri, 15 Jan 2016 09:28:12 -0700 [View Commit](../../commit/46fabae9c99a59bf6a081d3c7b843946cad2c4bd)
+
+##coeus-1601.60
 * Add flag to disallow T&M when pending award exists
 
   * When a pending award exists we are currently duplicating transactions across the most recent active and pending award versions. This is change will allow us to disallow T&M documents when the pending award version exists to eliminate this error. The new parameter ALLOW_TM_WHEN_PENDING_AWARD_EXISTS controls this functionality. Currently the default is to allow T&M, but this will likely be removed in the future.
