@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* Add flag to disallow T&M when pending award exists
+
+  * When a pending award exists we are currently duplicating transactions across the most recent active and pending award versions. This is change will allow us to disallow T&M documents when the pending award version exists to eliminate this error. The new parameter ALLOW_TM_WHEN_PENDING_AWARD_EXISTS controls this functionality. Currently the default is to allow T&M, but this will likely be removed in the future.
+  * blackcathacker on Thu, 14 Jan 2016 16:01:06 -0800 [View Commit](../../commit/a63d9c822ae0c62e8f40929bd74e2b0ac925897d)
+* Refactor to remove duplicated code and add tests to active pending transcation service
+  * blackcathacker on Thu, 14 Jan 2016 10:56:26 -0800 [View Commit](../../commit/1669505c77f2a957371930c18ecee4d7c73b6c7d)
+
+##coeus-1601.59
 * No Changes
 
 
