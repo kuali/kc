@@ -67,6 +67,7 @@ public class KeyPersonnelAuditRule extends KcTransactionalDocumentRuleBase imple
             keyPersonnelService = KcServiceLocator.getService(KeyPersonnelService.class);
         return keyPersonnelService;
     }
+
     @Override
     public boolean processRunAuditBusinessRules(Document document) {
         ProposalDevelopmentDocument pd = (ProposalDevelopmentDocument) document;
