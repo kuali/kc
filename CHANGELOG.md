@@ -1,6 +1,15 @@
 
 
 ##CURRENT
+*  When searching awards through award module, i am able to edit dates and money in display mode. On some accounts i am able to edit all dates and money in display mode. On most accounts i am able to edit execution date and modification date.
+
+  * Steps to reproduce:
+  * 1.Search award through award module
+  * 2. Open award in display mod
+  * 3. Dates and money are editable
+  * Travis Schneeberger on Mon, 18 Jan 2016 14:57:56 -0500 [View Commit](../../commit/34d7acfb81b2b7d22575d44e323630ab87aee239)
+
+##coeus-1601.62
 * fix period 2 inflation calculation
 
   * This is not fixed in demo 1 either. And all calculations are impacted in a negative way.

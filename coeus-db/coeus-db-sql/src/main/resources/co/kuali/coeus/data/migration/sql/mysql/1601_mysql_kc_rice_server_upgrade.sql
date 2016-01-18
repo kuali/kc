@@ -22,4 +22,5 @@
 \. ./rice/bootstrap/V1601_002__budget_BO_permissions.sql
 \. ./rice/bootstrap/V1601_004__neg_unrecovered_f_a.sql
 \. ./rice/bootstrap/V1601_008__RESKC-767.sql
+\. ./rice/bootstrap/V1601_010__update_editable_param.sql
 commit;
