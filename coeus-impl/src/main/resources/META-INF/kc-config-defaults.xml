@@ -265,5 +265,5 @@
 	<param name="auth.user.push.dev.password" override="false">password</param>
 
 	<param name="auth.system.token"></param>
-
+	<param name="kuali.reports.url">/reports/#/index</param>
 </config>
