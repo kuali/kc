@@ -566,6 +566,8 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
 
         if (!isLeapDayInNewGap && leapDayInGap) {
             newStartDate = add(newStartDate, -1);
+        } else if (isLeapDayInNewGap && !leapDayInGap) {
+            newStartDate = add(newStartDate, 1);
         }
 
         List<Date> newStartEndDates = new ArrayList<>();

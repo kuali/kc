@@ -338,7 +338,7 @@ public class SalaryCalculator {
             populateAppointmentType(budgetPerson);
             BudgetPerson newBudgetPerson = getBudgetPersonApplied(budgetPerson, boundary);
             if (budgetRate != null
-                    && ((newBudgetPerson == null && budgetPerson.getEffectiveDate().before(budgetRate.getStartDate())) 
+                    && ((newBudgetPerson == null && budgetPerson.getEffectiveDate().before(budgetRate.getStartDate()))
                             || (newBudgetPerson != null && newBudgetPerson
                             .getEffectiveDate().before(budgetRate.getStartDate())))) {
                 salaryDetails.calculateActualBaseSalary(budgetRate.getApplicableRate());
@@ -621,14 +621,16 @@ public class SalaryCalculator {
 
         Date previousEndDate = getPreviousPeriodEndDate();
 
+        Date effectiveDate;
         if (isAnniversarySalaryDateEnabled() && budgetPerson.getSalaryAnniversaryDate() != null) {
             qlist.addAll(createAnnualInflationRates(budgetPerson, previousEndDate));
+            effectiveDate = budgetPerson.getSalaryAnniversaryDate();
         } else {
-            qlist.addAll(filterInflationRates(p1StartDate, previousEndDate));
+            qlist.addAll(filterInflationRates(p1StartDate, startDate));
+            effectiveDate = budgetPerson.getEffectiveDate();
         }
         for (BudgetRate budgetProposalrate : qlist) {
-            if (budgetProposalrate.getStartDate().after(budgetPerson.getEffectiveDate())
-                    && budgetProposalrate.getStartDate().before(previousEndDate)) {
+            if (budgetProposalrate.getStartDate().after(effectiveDate)) {
                 calBase = calBase.add(calBase.multiply(budgetProposalrate.getApplicableRate().bigDecimalValue()).divide(new ScaleTwoDecimal(100.00).bigDecimalValue(), RoundingMode.HALF_UP));
             }
         }
@@ -652,7 +654,7 @@ public class SalaryCalculator {
                 .sorted((detail1, detail2) -> detail1.getEndDate().compareTo(detail2.getEndDate()))
                 .collect(Collectors.toList());
 
-        Date previousEndDate = startDate;
+        Date previousEndDate = budget.getStartDate();
 
         if (!CollectionUtils.isEmpty(previousPeriodsPersonnelDetails)) {
             previousEndDate =  previousPeriodsPersonnelDetails.get(previousPeriodsPersonnelDetails.size()-1).getEndDate();
