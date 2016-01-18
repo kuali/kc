@@ -82,6 +82,31 @@ You should review these messages and cleanup duplicates within the subawards men
 insert into subaward_amount_info select * from subaward_amount_info_dups;
 ```
 
+Time And Money Award Amount Info Duplicate Removal (tm-dups)
+
+Since August 2015 in an attempt to resolve issues related to Time And Money when pending awards exist Research was duplicating `award_amount_info` records to both the active and pending award. This has caused other issues and we have changed this behavior and have a parameter to disallow Time & Money documents when pending awards exist. This conversion uses complex logic to determine which duplicates exist and which version of the duplicates to remove. It attempts to also resolve date changes which were applied differently and therefore we copy the dates forward.
+
+This script again does the best it can to mitigate any loss of data, but there are edge cases that might not be handled perfectly(modifying dates in the pending award separate from Time & Money transaction to be specific), and in those cases we print out log messages for what awards should specifically be reviewed for correctness after running this script. The log message should look similar too the following, providing information on what transaction_ids and award numbers should be reviewed after the running of this script.
+
+```
+Feb 09, 2016 10:24:57 AM org.kuali.coeus.dc.award.amntinfo.AwardAmountInfoDuplicatesDaoImpl fixAwardAmountInfoDuplicates
+WARNING: Deleting duplicate award_amount_infos with transaction id = 60492 but it is not equal to later amount info. award_amount_info_ids(800925, 800922). 
+Feb 09, 2016 10:24:57 AM org.kuali.coeus.dc.award.amntinfo.AwardAmountInfoDuplicatesDaoImpl fixAwardAmountInfoDuplicates
+FINE: Deleting duplicate award_amount_info with transaction id = 60491 and award_amount_info_id = 800924
+Feb 09, 2016 10:24:59 AM org.kuali.coeus.dc.award.amntinfo.AwardAmountInfoDuplicatesDaoImpl fixAwardAmountInfoDuplicates
+WARNING: Deleting duplicate award_amount_info for PENDING award with transaction id = 60853 and award_amount_info_id = 808425
+Feb 09, 2016 10:25:03 AM org.kuali.coeus.dc.award.amntinfo.AwardAmountInfoDuplicatesDaoImpl fixAwardAmountInfoDuplicates
+INFO: Removed 238 duplicate award_amount_info transactions removed from previous award versions.
+Feb 09, 2016 10:25:03 AM org.kuali.coeus.dc.award.amntinfo.AwardAmountInfoDuplicatesDaoImpl fixAwardAmountInfoDuplicates
+WARNING: The following 119 transaction ids had duplicates that were not equal. These have still been removed as they were likely modified in the award after the T&M doc finalization, but confirm that these records still reflect correct amounts. 59141, 59138, 60560, 60559, 59197, 59295, 59294, 59025, 59023, 59222, 59221, 59220, 59331, 59326, 59286, 60307, 60305, 60381, 60532, 60531, 60530, 60529, 59147, 59145, 60955, 60954, 60953, 60952, 60352, 60351, 61104, 61100, 61099, 61098, 60704, 60660, 60378, 59039, 59038, 59477, 59169, 60277, 60276, 60275, 60781, 59026, 59173, 60832, 60828, 60827, 60359, 59159, 60483, 60482, 59182, 60510, 59482, 59174, 59170, 58997, 58989, 58988, 59368, 59367, 59366, 60838, 60837, 58992, 58991, 58990, 59215, 59212, 60479, 60567, 58996, 59433, 59432, 59431, 60603, 60428, 60427, 60636, 60635, 60634, 60907, 60640, 59351, 60518, 60517, 60516, 60709, 59392, 59277, 59276, 59454, 59442, 59441, 60471, 60468, 60467, 59092, 59048, 60637, 59237, 59150, 59368, 59186, 59278, 59271, 59269, 60451, 59388, 60850, 60849, 60848, 60478, 60477, 60474, 60492
+Feb 09, 2016 10:25:03 AM org.kuali.coeus.dc.award.amntinfo.AwardAmountInfoDuplicatesDaoImpl fixAwardAmountInfoDuplicates
+WARNING: The following 12 awards had transactions removed that were different. Verify they are still correct. (151153-00001, 160003-00001, 160018-00001, 160082-00001, 160097-00001, 160101-00001, 160260-00001, 200056-00001, 200068-00001, 200078-00001, 200115-00001, 943129-00001)
+Feb 09, 2016 10:25:03 AM org.kuali.coeus.dc.award.amntinfo.AwardAmountInfoDuplicatesDaoImpl fixAwardAmountInfoDuplicates
+WARNING: The following awards were affected by duplicate transactions. (200086-00002, 160101-00002, 160101-00002, 090868-00001, 090868-00001, 090868-00001, 130217-00002, 130621-00002, 130641-00002, 140480-00002, 140480-00002, 140480-00002, 200115-00001, 200115-00001, 200115-00001, 120992-00002, 120992-00002, 120992-00002, 120992-00002, 130833-00002, 200138-00001, 200138-00001, 200166-00002)
+```
+
+All `award_amount_info` removed during this process are copied into a table named `award_amount_info_dups` if data from this process needs to be reviewed or restored based on review.
+
 IRB (irb)
 
 For future use
