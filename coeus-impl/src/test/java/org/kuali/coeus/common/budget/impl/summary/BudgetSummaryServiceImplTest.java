@@ -161,4 +161,11 @@ public class BudgetSummaryServiceImplTest {
         Assert.assertEquals("end date should be 01/31/2018", dates.get(1), newDates.get(1));
     }
 
+    @Test
+    public void getNewStartEndDates_gapYes_gapLeapNo_initPeriodLeapNo_currentPeriodLeapYes() throws Exception {
+        List<Date> dates = createStartEndDates("01/01/2020", "12/31/2020");
+        List<Date> newDates = budgetSummaryService.getNewStartEndDates(dates, 181, 30, null, false, false);
+        Assert.assertEquals("start date should be 07/01/2020", createDateFromString("07/01/2020"), newDates.get(0));
+        Assert.assertEquals("end date should be 07/31/2020", createDateFromString("07/31/2020"), newDates.get(1));
+    }
 }
