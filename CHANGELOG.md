@@ -1,6 +1,19 @@
 
 
 ##CURRENT
+* fix period 2 inflation calculation
+
+  * This is not fixed in demo 1 either. And all calculations are impacted in a negative way.
+  * P1 - All salaries are correctly calculating for period 1 to reflect anniversary or regular inflation start date.
+  * P2: Anniversary salary and regular salary inflation are not being inflated in period 2.
+  * P3: 9 and 10 month appointments begin inflation, amounts that should have appeared in p2.
+  * But the 12 month appointments vary; anniversary rate 'caught up' and correct for the period, but the regular inflation salary is at what should have been p2.
+  * P4: inconsistent rate amount applied: no amounts match the expected salary
+  * P's5, 6 & 7: SOME salaries match the projected amount; But the 9 and 10 month Anniversary rates salaries display what was expected for the prior period.
+  * Ps 8, 9, and 10: most of the salary calculations are incorrect, with several examples REDUCING amounts from the prior period.
+  * Joe Williams on Mon, 18 Jan 2016 12:16:43 -0600 [View Commit](../../commit/66db4fd817b8d8f75d2d31f97ff02c2f60e5e3c5)
+
+##coeus-1601.61
 *  Adding error message when rolodex person that needs to certify is added to pd.
 
   * Key Person screen should present an error message for Address Book personnel when added to proposals in roles requiring proposal certification according to COI Hierarchy, exempt roles maintained in keypersonprojectrole and Supplemental Info screen indicator PCK flag.
