@@ -50,9 +50,6 @@ public class KcHoldingPageAction extends AbstractHoldingPageAction {
      * Basically, this method performs double indirection on the user session key. It will first check if the user session key
      * Constants.ALTERNATE_DOC_ID_SESSION_KEY has any value inserted for it, and if so will use that value again as a key into the
      * user session to get the alternate doc id (and then use that doc id to obtain the document from the doc service).
-     * 
-     * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -62,7 +59,7 @@ public class KcHoldingPageAction extends AbstractHoldingPageAction {
         // check if there is an alternate doc id key set in the user session
         String alternateDocIdSessionKey = (String) GlobalVariables.getUserSession().retrieveObject(
                 Constants.ALTERNATE_DOC_ID_SESSION_KEY);
-        Object documentId = null;
+        final Object documentId;
         if (alternateDocIdSessionKey != null) {
             // get the id from the user session (double indirection)
             documentId = GlobalVariables.getUserSession().retrieveObject(alternateDocIdSessionKey);
@@ -91,16 +88,12 @@ public class KcHoldingPageAction extends AbstractHoldingPageAction {
     }
 
     /**
-     * This method is to get the return location and clean up session
-     * @param alternateDocIdSessionKey
-     * @return
+     * This method is to get the return location and clean up session.
      */
     private ActionForward getReturnPath(String alternateDocIdSessionKey) {
-        ActionForward forward = null;
-            String backLocation = (String) GlobalVariables.getUserSession().retrieveObject(Constants.HOLDING_PAGE_RETURN_LOCATION);
-            cleanupUserSession(alternateDocIdSessionKey);
-            forward = new ActionForward(backLocation, true);
-        return forward;
+        String backLocation = (String) GlobalVariables.getUserSession().retrieveObject(Constants.HOLDING_PAGE_RETURN_LOCATION);
+        cleanupUserSession(alternateDocIdSessionKey);
+        return new ActionForward(backLocation, true);
     }
 
     private void cleanupUserSession(String alternateDocIdSessionKey) {
