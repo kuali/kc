@@ -250,8 +250,18 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
         if (values == null) {
             return new ArrayList<Negotiation>();
         }
-        values.put("awardSequenceStatus", VersionStatus.ACTIVE.name());
         Criteria criteria = getCollectionCriteriaFromMap(new Award(), values);
+
+        Criteria activeAwardSubCriteria = new Criteria();
+        Collection<String> versionStatuses = new ArrayList();
+        versionStatuses.add("PENDING");
+        versionStatuses.add("ACTIVE");
+        activeAwardSubCriteria.addIn("awardSequenceStatus",versionStatuses);
+        ReportQueryByCriteria activeAwardIdsQuery = QueryFactory.newReportQuery(Award.class, activeAwardSubCriteria);
+        activeAwardIdsQuery.setAttributes(new String[]{"max(awardId)"});
+        activeAwardIdsQuery.addGroupBy("awardNumber");
+        criteria.addIn("awardId", activeAwardIdsQuery);
+
         Criteria negotiationCrit = new Criteria();
         ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(Award.class, criteria);
         subQuery.setAttributes(new String[] {"awardNumber"});

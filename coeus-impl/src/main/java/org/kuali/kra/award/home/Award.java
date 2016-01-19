@@ -22,11 +22,16 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.coeus.common.framework.custom.CustomDataContainer;
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
+import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.BudgetParent;
+import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
+import org.kuali.coeus.common.framework.auth.SystemAuthorizationService;
+import org.kuali.coeus.common.framework.auth.perm.Permissionable;
 import org.kuali.coeus.common.framework.keyword.KeywordsManager;
 import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
-import org.kuali.coeus.common.framework.version.sequence.owner.SequenceOwner;
+import org.kuali.coeus.common.framework.rolodex.PersonRolodex;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.sponsor.Sponsorable;
 import org.kuali.coeus.common.framework.type.ActivityType;
@@ -36,9 +41,9 @@ import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.history.VersionHistorySearchBo;
+import org.kuali.coeus.common.framework.version.sequence.owner.SequenceOwner;
 import org.kuali.coeus.common.permissions.impl.PermissionableKeys;
-import org.kuali.coeus.common.framework.auth.SystemAuthorizationService;
-import org.kuali.coeus.common.framework.auth.perm.Permissionable;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.SkipVersioning;
@@ -63,6 +68,7 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.award.home.keywords.AwardScienceKeyword;
+import org.kuali.kra.award.lookup.AwardDocumentStatusConstants;
 import org.kuali.kra.award.notesandattachments.attachments.AwardAttachment;
 import org.kuali.kra.award.notesandattachments.notes.AwardNotepad;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
@@ -72,11 +78,7 @@ import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.Awar
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravel;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
-import org.kuali.kra.bo.*;
-import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.core.BudgetParent;
-import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
-import org.kuali.coeus.common.framework.rolodex.PersonRolodex;
+import org.kuali.kra.bo.AccountType;
 import org.kuali.kra.coi.Disclosurable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -197,6 +199,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     private Date financialAccountCreationDate;
     private String financialChartOfAccountsCode;
     private String awardSequenceStatus;
+    private String awardSequenceStatusResult;
 
 
     private boolean newVersion;
@@ -337,6 +340,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         setCurrentActionComments("");
         setNewVersion(false);
         awardSequenceStatus = VersionStatus.PENDING.name();
+        awardSequenceStatusResult = VersionStatus.PENDING.name();
     }
 
 
@@ -2554,6 +2558,20 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 
     public void setAwardSequenceStatus(String awardSequenceStatus) {
         this.awardSequenceStatus = awardSequenceStatus;
+    }
+
+    public String getAwardSequenceStatusResult() {
+        awardSequenceStatusResult = AwardDocumentStatusConstants.Pending.description();
+        for (AwardDocumentStatusConstants status : AwardDocumentStatusConstants.values()) {
+            if (status.code().equals(getAwardSequenceStatus())) {
+                awardSequenceStatusResult = status.description();
+            }
+        }
+        return awardSequenceStatusResult;
+    }
+
+    public void setAwardSequenceStatusResult(String awardSequenceStatusResult) {
+        this.awardSequenceStatusResult = awardSequenceStatusResult;
     }
 
     @Override
