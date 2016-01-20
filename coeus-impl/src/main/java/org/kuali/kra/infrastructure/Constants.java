@@ -66,12 +66,6 @@ public interface Constants {
     public static final String MAPPING_NARRATIVE_ATTACHMENT_RIGHTS_PAGE = "attachmentRights";
     public static final String MAPPING_INSTITUTE_ATTACHMENT_RIGHTS_PAGE = "instituteAttachmentRights";
     public static final String MAPPING_RESUBMISSION_PROMPT = "resubmissionPrompt";
-    public static final String MAPPING_HOLDING_PAGE = "kraHoldingPage";
-    public static final String ALTERNATE_DOC_ID_SESSION_KEY = "alternateDocIdSessionKey";
-    
-    public static final String HOLDING_PAGE_MESSAGES = "holdingPageMessages";
-    public static final String HOLDING_PAGE_RETURN_LOCATION = "holdingPageReturnLocation";
-    public static final String HOLDING_PAGE_DOCUMENT_ID = "holdingPageDocumentId";
 
     public static final String FORCE_HOLDING_PAGE_FOR_ACTION_LIST = "forceHoldingForActionList";
     

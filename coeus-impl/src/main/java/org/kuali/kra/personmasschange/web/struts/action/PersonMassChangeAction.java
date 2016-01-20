@@ -21,6 +21,8 @@ package org.kuali.kra.personmasschange.web.struts.action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionRedirect;
+import org.kuali.coeus.sys.framework.controller.KcHoldingPageConstants;
 import org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
@@ -97,8 +99,9 @@ public class PersonMassChangeAction extends KcTransactionalDocumentActionBase {
         String returnLocation = buildActionUrl(routeHeaderId, command, "PersonMassChangeDocument");
         
         ActionForward basicForward = mapping.findForward(Constants.MAPPING_BASIC);
-        ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
-        return routeToHoldingPage(basicForward, basicForward, holdingPageForward, returnLocation);
+        ActionRedirect holdingPageForward = new ActionRedirect(mapping.findForward(KcHoldingPageConstants.MAPPING_HOLDING_PAGE));
+        holdingPageForward.addParameter(KcHoldingPageConstants.HOLDING_PAGE_DOCUMENT_ID, routeHeaderId);
+        return routeToHoldingPage(basicForward, basicForward, holdingPageForward, returnLocation, routeHeaderId);
     }
     
     public final boolean applyRules(DocumentEvent event) {

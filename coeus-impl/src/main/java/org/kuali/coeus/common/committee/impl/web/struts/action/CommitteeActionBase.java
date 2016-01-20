@@ -22,10 +22,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionRedirect;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeBase;
 import org.kuali.coeus.common.committee.impl.document.CommitteeDocumentBase;
 import org.kuali.coeus.common.committee.impl.document.authorization.CommitteeTaskBase;
 import org.kuali.coeus.common.committee.impl.web.struts.form.CommitteeFormBase;
+import org.kuali.coeus.sys.framework.controller.KcHoldingPageConstants;
 import org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
@@ -116,7 +118,6 @@ public abstract class CommitteeActionBase extends KcTransactionalDocumentActionB
     /**
      * We override this method to add in support for multi-lookups.
      * 
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#refresh(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -284,10 +285,10 @@ public abstract class CommitteeActionBase extends KcTransactionalDocumentActionB
         String routeHeaderId = ((CommitteeFormBase) form).getCommitteeDocument().getDocumentNumber();
 
         String returnLocation = buildActionUrl(routeHeaderId, "committeeActions", getCommitteeDocumentTypeSimpleNameHook());
-        
-        //ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
-        ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
-        return routeToHoldingPage(forward, forward, holdingPageForward, returnLocation);
+
+        ActionRedirect holdingPageForward = new ActionRedirect(mapping.findForward(KcHoldingPageConstants.MAPPING_HOLDING_PAGE));
+        holdingPageForward.addParameter(KcHoldingPageConstants.HOLDING_PAGE_DOCUMENT_ID, routeHeaderId);
+        return routeToHoldingPage(forward, forward, holdingPageForward, returnLocation, routeHeaderId);
     }
 
     protected abstract String getCommitteeDocumentTypeSimpleNameHook();
@@ -300,10 +301,11 @@ public abstract class CommitteeActionBase extends KcTransactionalDocumentActionB
         String routeHeaderId = ((CommitteeFormBase) form).getCommitteeDocument().getDocumentNumber();
 
         String returnLocation = buildActionUrl(routeHeaderId, "committeeActions", getCommitteeDocumentTypeSimpleNameHook());
-              
-        //ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
-        ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
-        return routeToHoldingPage(forward, forward, holdingPageForward, returnLocation);
+
+        ActionRedirect holdingPageForward = new ActionRedirect(mapping.findForward(KcHoldingPageConstants.MAPPING_HOLDING_PAGE));
+        holdingPageForward.addParameter(KcHoldingPageConstants.HOLDING_PAGE_DOCUMENT_ID, routeHeaderId);
+
+        return routeToHoldingPage(forward, forward, holdingPageForward, returnLocation, routeHeaderId);
     }
     
     @Override

@@ -22,6 +22,7 @@ import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -97,6 +98,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
+import java.nio.charset.Charset;
 import java.util.*;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
@@ -137,10 +139,10 @@ public class KcTransactionalDocumentActionBase extends KualiTransactionalDocumen
         /*
          * Restore messages passed through the holding page
          */
-        MessageList messageList = (MessageList) GlobalVariables.getUserSession().retrieveObject(Constants.HOLDING_PAGE_MESSAGES);
+        MessageList messageList = (MessageList) GlobalVariables.getUserSession().retrieveObject(KcHoldingPageConstants.HOLDING_PAGE_MESSAGES);
         if (messageList != null) {
             KNSGlobalVariables.getMessageList().addAll(messageList);
-            GlobalVariables.getUserSession().removeObject(Constants.HOLDING_PAGE_MESSAGES);
+            GlobalVariables.getUserSession().removeObject(KcHoldingPageConstants.HOLDING_PAGE_MESSAGES);
         }
 
 
@@ -1059,7 +1061,7 @@ public class KcTransactionalDocumentActionBase extends KualiTransactionalDocumen
             // here we are forcing to route through holding page when an action is performed through action list
             // and we need to send the user back to action list.
             GlobalVariables.getUserSession().addObject(Constants.FORCE_HOLDING_PAGE_FOR_ACTION_LIST, true);
-            return routeActionListToHoldingPage(mapping, superForward);
+            return routeActionListToHoldingPage(mapping, superForward, form.getDocument().getDocumentNumber());
         }else {
             
             return superForward;
@@ -1067,11 +1069,14 @@ public class KcTransactionalDocumentActionBase extends KualiTransactionalDocumen
         
     }
     
-    private ActionForward routeActionListToHoldingPage(ActionMapping mapping, ActionForward actionForward) {
+    private ActionForward routeActionListToHoldingPage(ActionMapping mapping, ActionForward actionForward, String documentId) {
         String returnLocation = actionForward.getPath();
         ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
-        ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
-        return routeToHoldingPage(basicForward, basicForward, holdingPageForward, returnLocation);
+
+        ActionRedirect holdingPageForward = new ActionRedirect(mapping.findForward(KcHoldingPageConstants.MAPPING_HOLDING_PAGE));
+        holdingPageForward.addParameter(KcHoldingPageConstants.HOLDING_PAGE_DOCUMENT_ID, documentId);
+
+        return routeToHoldingPage(basicForward, basicForward, holdingPageForward, returnLocation, documentId);
     }
     
     /**
@@ -1081,8 +1086,8 @@ public class KcTransactionalDocumentActionBase extends KualiTransactionalDocumen
      * @param holdingPageForward Forward going to the holding page
      * @return
      */
-    protected ActionForward routeToHoldingPage(ActionForward forward, ActionForward returnForward, ActionForward holdingPageForward, String returnLocation) {
-        return routeToHoldingPage(Collections.singletonList(forward), returnForward, holdingPageForward, returnLocation);
+    protected ActionForward routeToHoldingPage(ActionForward forward, ActionForward returnForward, ActionRedirect holdingPageForward, String returnLocation, String documentId) {
+        return routeToHoldingPage(Collections.singletonList(forward), returnForward, holdingPageForward, returnLocation, documentId);
     }
     
     /**
@@ -1092,7 +1097,7 @@ public class KcTransactionalDocumentActionBase extends KualiTransactionalDocumen
      * @param holdingPageForward Forward going to the holding page
      * @return
      */
-    protected ActionForward routeToHoldingPage(List<ActionForward> forwards, ActionForward returnForward, ActionForward holdingPageForward, String returnLocation) {
+    protected ActionForward routeToHoldingPage(List<ActionForward> forwards, ActionForward returnForward, ActionRedirect holdingPageForward, String returnLocation, String documentId) {
         boolean knownForward = false;
         for (ActionForward forward : forwards) {
             if (StringUtils.equals(forward.getPath(), returnForward.getPath())) {
@@ -1102,8 +1107,14 @@ public class KcTransactionalDocumentActionBase extends KualiTransactionalDocumen
         if (!knownForward) {
             return returnForward;
         } else {
-            GlobalVariables.getUserSession().addObject(Constants.HOLDING_PAGE_MESSAGES, KNSGlobalVariables.getMessageList());
-            GlobalVariables.getUserSession().addObject(Constants.HOLDING_PAGE_RETURN_LOCATION, (Object) returnLocation);
+            GlobalVariables.getUserSession().addObject(KcHoldingPageConstants.HOLDING_PAGE_MESSAGES, KNSGlobalVariables.getMessageList());
+            holdingPageForward.addParameter(KcHoldingPageConstants.HOLDING_PAGE_RETURN_LOCATION, returnLocation);
+            GlobalVariables.getUserSession().addObject(KcHoldingPageConstants.HOLDING_PAGE_RETURN_LOCATION, returnLocation);
+
+            if (!URLEncodedUtils.parse(holdingPageForward.getParameterString(), Charset.forName("UTF-8")).stream().anyMatch(pair -> KcHoldingPageConstants.HOLDING_PAGE_DOCUMENT_ID.equals(pair.getName()))) {
+                holdingPageForward.addParameter(KcHoldingPageConstants.HOLDING_PAGE_DOCUMENT_ID, documentId);
+            }
+
             return holdingPageForward;
         }
     }    

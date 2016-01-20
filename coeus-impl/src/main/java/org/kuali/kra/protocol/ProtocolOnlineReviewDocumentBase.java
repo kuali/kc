@@ -20,6 +20,7 @@
 package org.kuali.kra.protocol;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.sys.framework.controller.KcHoldingPageConstants;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.RolePersons;
@@ -118,7 +119,7 @@ public abstract class ProtocolOnlineReviewDocumentBase extends KcTransactionalDo
     public boolean isProcessComplete() {
         boolean isComplete = true;
         
-        String backLocation = (String) GlobalVariables.getUserSession().retrieveObject(Constants.HOLDING_PAGE_RETURN_LOCATION);
+        String backLocation = (String) GlobalVariables.getUserSession().retrieveObject(KcHoldingPageConstants.HOLDING_PAGE_RETURN_LOCATION);
         String olrDocId = getURLParamValue(backLocation, OLR_DOC_ID_PARAM);
         if (olrDocId != null) {
             String olrEvent = getURLParamValue(backLocation, OLR_EVENT_PARAM);
