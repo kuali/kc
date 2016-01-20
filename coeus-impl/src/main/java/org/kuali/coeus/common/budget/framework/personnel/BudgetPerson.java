@@ -44,6 +44,7 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.ContactRole;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
 /**
@@ -166,6 +167,8 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Per
     @Transient
     private BudgetPersonSalaryDetails personSalaryDetails;
 
+    @Transient
+    private transient DataObjectService dataObjectService;
 
     public BudgetPerson() {
         super();
@@ -348,10 +351,6 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Per
         return this.kcPersonService;
     }
 
-    public Rolodex getRoldex() {
-        return rolodex;
-    }
-
     public void setRoldex(Rolodex rolodex) {
         this.rolodex = rolodex;
     }
@@ -375,6 +374,9 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Per
     }
 
     public Rolodex getRolodex() {
+    	if(this.rolodex == null && this.rolodexId != null) {
+    		getDataObjectService().wrap(this).fetchRelationship("rolodex");
+    	}
         return rolodex;
     }
 
@@ -604,7 +606,7 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Per
 	}
 	
 	@PostLoad
-	protected void syncPersonRoldex() {
+	protected void syncPersonRolodex() {
 		setPersonRolodex(getBudgetPersonService().getBudgetPersonRolodex(getBudget(), this));
 	}
 
@@ -697,7 +699,7 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Per
 	public String getLastName() {
 		String lastName = null;
 		if(getTbnId() == null) {
-			lastName = getRolodexId() == null ? getKcPersonService().getKcPersonByPersonId(personId).getLastName() : getRoldex().getLastName();
+			lastName = getRolodexId() == null ? getKcPersonService().getKcPersonByPersonId(personId).getLastName() : getRolodex().getLastName();
 		}
 		return lastName;
 	}
@@ -714,5 +716,12 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Per
 	public void setHierarchyProposal(DevelopmentProposal hierarchyProposal) {
 		this.hierarchyProposal = hierarchyProposal;
 	}
+
+    public DataObjectService getDataObjectService() {
+        if (this.dataObjectService == null) {
+            this.dataObjectService = KcServiceLocator.getService(DataObjectService.class);
+        }
+        return this.dataObjectService;
+    }
 
 }
