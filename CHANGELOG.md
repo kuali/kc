@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* STE Award Budget
+  * STE when clicking on budget persons in Award Budget module.
+  * Navigating to personnel tab java.lang.NullPointerException
+  * Rolodex is not populated. Looks like a OJB - JPA lazy load issue.
+  * Fix to fetch relation when not found.
+  * rmancher on Wed, 20 Jan 2016 14:41:52 -0500 [View Commit](../../commit/6a14a75f2020d0564a17405ff082e46147fcd17a)
+
+##coeus-1601.65
 * No Changes
 
 
