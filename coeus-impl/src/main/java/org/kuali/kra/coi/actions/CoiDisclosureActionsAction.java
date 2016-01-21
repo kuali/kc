@@ -21,6 +21,8 @@ package org.kuali.kra.coi.actions;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionRedirect;
+import org.kuali.coeus.sys.framework.controller.KcHoldingPageConstants;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.kra.coi.*;
@@ -57,9 +59,10 @@ public class CoiDisclosureActionsAction extends CoiNoteAndAttachmentAction {
             ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
             String routeHeaderId = coiDisclosureDocument.getDocumentNumber();
             String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_COI_DISCLOSURE_ACTIONS_PAGE, "CoiDisclosureDocument");
-            ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
+            ActionRedirect holdingPageForward = new ActionRedirect(mapping.findForward(KcHoldingPageConstants.MAPPING_HOLDING_PAGE));
+            holdingPageForward.addParameter(KcHoldingPageConstants.HOLDING_PAGE_DOCUMENT_ID, routeHeaderId);
     
-            return routeToHoldingPage(basicForward, basicForward, holdingPageForward, returnLocation);
+            return routeToHoldingPage(basicForward, basicForward, holdingPageForward, returnLocation, routeHeaderId);
         } else {
             return forward;
         }
@@ -84,9 +87,10 @@ public class CoiDisclosureActionsAction extends CoiNoteAndAttachmentAction {
             ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
             String routeHeaderId = coiDisclosureDocument.getDocumentNumber();
             String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_COI_DISCLOSURE_ACTIONS_PAGE, "CoiDisclosureDocument");
-            ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
+            ActionRedirect holdingPageForward = new ActionRedirect(mapping.findForward(KcHoldingPageConstants.MAPPING_HOLDING_PAGE));
+            holdingPageForward.addParameter(KcHoldingPageConstants.HOLDING_PAGE_DOCUMENT_ID, routeHeaderId);
     
-            return routeToHoldingPage(basicForward, basicForward, holdingPageForward, returnLocation);
+            return routeToHoldingPage(basicForward, basicForward, holdingPageForward, returnLocation, routeHeaderId);
         } else {
             return forward;
         }

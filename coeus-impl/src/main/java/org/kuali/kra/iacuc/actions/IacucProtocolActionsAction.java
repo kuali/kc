@@ -24,6 +24,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionRedirect;
 import org.kuali.coeus.common.committee.impl.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.coeus.common.committee.impl.meeting.MinuteEntryType;
 import org.kuali.coeus.common.framework.attachment.AttachmentFile;
@@ -37,6 +38,7 @@ import org.kuali.coeus.common.notification.impl.bo.NotificationType;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.coeus.common.framework.auth.task.ApplicationTask;
 import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.sys.framework.controller.KcHoldingPageConstants;
 import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -316,7 +318,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     }
 
     /**
-     * Method dispatched from <code>{@link org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase#confirm(StrutsQuestion, String, String)}</code> for
+     * Method dispatched from org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase for
      * when a "yes" condition is met.
      * 
      * @param mapping The mapping associated with this action.
@@ -325,7 +327,6 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
      * @param response the HTTP response
      * @return the destination
      * @throws Exception
-     * @see org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase#confirm(StrutsQuestion, String, String)
      */
     public ActionForward confirmSubmitForReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
         throws Exception {
@@ -367,8 +368,9 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_PROTOCOL_ACTIONS, "IacucProtocolDocument");
         
         ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
-        ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
-        return routeToHoldingPage(basicForward, basicForward, holdingPageForward, returnLocation);
+        ActionRedirect holdingPageForward = new ActionRedirect(mapping.findForward(KcHoldingPageConstants.MAPPING_HOLDING_PAGE));
+        holdingPageForward.addParameter(KcHoldingPageConstants.HOLDING_PAGE_DOCUMENT_ID, routeHeaderId);
+        return routeToHoldingPage(basicForward, basicForward, holdingPageForward, returnLocation, routeHeaderId);
     }
     
     
@@ -819,9 +821,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     
     /**
      * 
-     * This method for applying the selected watermark to the attachment 
-     * @param protocolForm form
-     * @param protocolAttachmentBase attachment
+     * This method for applying the selected watermark to the attachment
      * @return attachment file
      */
     private byte[] getProtocolAttachmentFile(ProtocolFormBase form,ProtocolAttachmentProtocolBase attachment) {
@@ -1104,7 +1104,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
                 return mapping.findForward(CORRESPONDENCE);
             }else {
-                forward = routeProtocolToHoldingPage(mapping, protocolForm);                                    
+                forward = routeProtocolToHoldingPage(mapping, protocolForm);
             }
         }
         return forward;

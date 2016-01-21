@@ -35,7 +35,10 @@
           transactionalDocument="false"
           htmlFormAction="kraHoldingPage"
           defaultMethodToCall="returnToPortal">
-          
+
+	<input type="hidden" name="holdingPageDocumentId" value="${holdingPageDocumentId}">
+	<input type="hidden" name="holdingPageReturnLocation" value="${holdingPageReturnLocation}">
+
     <div class="topblurb">
         <div align="center">
 	        <table cellpadding="10" cellspacing="0" border="0">
