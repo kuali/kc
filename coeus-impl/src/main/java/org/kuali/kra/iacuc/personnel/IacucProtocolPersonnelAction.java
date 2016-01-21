@@ -363,7 +363,7 @@ public class IacucProtocolPersonnelAction extends IacucProtocolAction {
                 if (protocolPerson.getPersonId() != null) {
                     KcAuthorizationService kraAuthService = getKraAuthorizationService();
                     kraAuthService.addDocumentLevelRole(protocolPerson.getPersonId(), RoleConstants.IACUC_PROTOCOL_APPROVER, protocol);
-                    protocolForm.getPermissionsHelper().resetUserStates();
+                    protocolForm.resetUserPermissionStates();
                 }
             }
             else if (!protocolPerson.isPrincipalInvestigator() &&
@@ -373,7 +373,7 @@ public class IacucProtocolPersonnelAction extends IacucProtocolAction {
                     // Assign the Other Role To Viewer the AGGREGATOR role.
                     KcAuthorizationService kraAuthService = KcServiceLocator.getService(KcAuthorizationService.class);
                     kraAuthService.addDocumentLevelRole(protocolPerson.getPersonId(), RoleConstants.IACUC_PROTOCOL_VIEWER, protocol);
-                    protocolForm.getPermissionsHelper().resetUserStates();
+                    protocolForm.resetUserPermissionStates();
                 }
             }
         }

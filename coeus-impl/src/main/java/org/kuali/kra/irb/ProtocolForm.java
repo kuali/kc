@@ -241,10 +241,6 @@ public class ProtocolForm extends ProtocolFormBase {
         return (PersonnelHelper) super.getPersonnelHelper();
     }
     
-    public PermissionsHelper getPermissionsHelper() {
-        return (PermissionsHelper) super.getPermissionsHelper();
-    }
-    
     public ProtocolReferenceBean getNewProtocolReferenceBean() {
         return (ProtocolReferenceBean) super.getNewProtocolReferenceBean();
     }
