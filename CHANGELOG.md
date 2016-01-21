@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+*  move holding page information from from session scope to request scope when possible.  Prefer request scope when information is available.  While not a complete solution, this minimises the chance that the holding page will navigate to the wrong document when multiple documents are submitted at the same time within the same user session
+  * Travis Schneeberger on Wed, 20 Jan 2016 11:35:04 -0500 [View Commit](../../commit/d297d84e5475451eab7c7d11e6c96fbb1e580376)
+
+##coeus-1601.69
 * No Changes
 
 
