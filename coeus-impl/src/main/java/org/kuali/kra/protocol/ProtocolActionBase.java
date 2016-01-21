@@ -116,7 +116,6 @@ public abstract class ProtocolActionBase extends KcTransactionalDocumentActionBa
 
     public ActionForward permissions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolFormBase protocolForm = (ProtocolFormBase)form;
-        protocolForm.initializePermission();
         protocolForm.getPermissionsHelper().prepareView();
         return branchToPanelOrNotificationEditor(mapping, protocolForm, getProtocolPermissionsForwardNameHook());
     }    
