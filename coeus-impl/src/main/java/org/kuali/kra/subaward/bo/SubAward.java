@@ -41,6 +41,7 @@ import org.kuali.kra.negotiations.bo.NegotiationPersonDTO;
 import org.kuali.kra.subaward.customdata.SubAwardCustomData;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.kra.subaward.lookup.SubAwardDocumentStatusConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.util.AutoPopulatingList;
 
@@ -352,6 +353,15 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
 	public void setSubAwardSequenceStatus(String subAwardSequenceStatus) {
 		this.subAwardSequenceStatus = subAwardSequenceStatus;
 	}
+
+    public String getSubAwardSequenceStatusResult() {
+        if (SubAwardDocumentStatusConstants.Active.code().equals(getSubAwardSequenceStatus())) {
+            return SubAwardDocumentStatusConstants.Active.description();
+        }
+        else {
+            return SubAwardDocumentStatusConstants.Pending.description();
+        }
+    }
 
 	public String getRolodexFirstName() {
         if (getRolodex() == null) {

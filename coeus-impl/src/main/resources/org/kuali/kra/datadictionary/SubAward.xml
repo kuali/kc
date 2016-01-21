@@ -72,6 +72,8 @@
         <ref bean="SubAward-modificationId" /> 
         <ref bean="SubAward-performanceStartDate" /> 
         <ref bean="SubAward-performanceEnddate" />
+        <ref bean="SubAward-documentStatus" />
+        <ref bean="SubAward-documentStatusResult" />
       </list>
     </property>
   </bean>
@@ -886,6 +888,42 @@
     <property name="description" value="Period of Performance End Date" />    
   </bean>
 
+  <bean id="SubAward-documentStatus" parent="SubAward-documentStatus-parentBean" />
+  <bean id="SubAward-documentStatus-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="subAwardSequenceStatus" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Document Status" />
+    <property name="shortLabel" value="Document Status" />
+    <property name="maxLength" value="20" />
+    <property name="validationPattern" >
+      <bean parent="AlphaValidationPattern"
+            p:allowWhitespace="false" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control">
+      <bean parent="RadioControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.subaward.lookup.SubAwardDocumentStatusValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="Document Status" />
+    <property name="description" value="Document Status" />
+  </bean>
+
+  <bean id="SubAward-documentStatusResult" parent="SubAward-documentStatusResult-parentBean" />
+  <bean id="SubAward-documentStatusResult-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="subAwardSequenceStatusResult" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Document Status" />
+    <property name="shortLabel" value="Document Status" />
+    <property name="maxLength" value="20" />
+    <property name="required" value="false" />
+    <property name="control">
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="Document Status" />
+    <property name="description" value="Document Status" />
+  </bean>
+
   <!-- Business Object Inquiry Definition -->
   <bean id="SubAward-inquiryDefinition" parent="SubAward-inquiryDefinition-parentBean" />
   <bean id="SubAward-InquiryView" parent="SubAward-InquiryView-parentBean"/>
@@ -950,6 +988,7 @@
         <bean p:attributeName="requisitionerUnit" parent="FieldDefinition" p:forceInquiry="true" />
         <bean p:attributeName="archiveLocation" parent="FieldDefinition" p:forceInquiry="true" />
         <bean p:attributeName="closeoutDate" parent="FieldDefinition" p:forceInquiry="true" />
+        <bean p:attributeName="subAwardSequenceStatus" parent="FieldDefinition" p:defaultValue="BOTH" />
       </list>
     </property>
     <property name="resultFields" >
@@ -969,6 +1008,7 @@
         <bean p:attributeName="unit.unitName" parent="FieldDefinition" p:forceInquiry="true" />
         <bean p:attributeName="archiveLocation" parent="FieldDefinition" p:forceInquiry="true" />
         <bean p:attributeName="closeoutDate" parent="FieldDefinition" p:forceInquiry="true" />
+        <bean p:attributeName="subAwardSequenceStatusResult" parent="FieldDefinition"/>
       </list>
     </property>
   </bean>
@@ -994,6 +1034,7 @@
         <bean p:propertyName="requisitionerUnit" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="archiveLocation" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="closeoutDate" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="subAwardSequenceStatus" parent="Uif-LookupCriteriaInputField" p:defaultValue="BOTH" />
       </list>
     </property>
     <property name="resultFields">
@@ -1013,6 +1054,7 @@
         <bean p:propertyName="unit.unitName" parent="Uif-DataField"/>
         <bean p:propertyName="archiveLocation" parent="Uif-DataField"/>
         <bean p:propertyName="closeoutDate" parent="Uif-DataField"/>
+        <bean p:propertyName="subAwardSequenceStatusResult" parent="Uif-DataField" />
       </list>
     </property>
   </bean>

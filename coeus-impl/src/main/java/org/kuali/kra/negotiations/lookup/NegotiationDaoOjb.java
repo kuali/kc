@@ -323,6 +323,17 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
             return new ArrayList<Negotiation>();
         }
         Criteria criteria = getCollectionCriteriaFromMap(new SubAward(), values);
+
+        Criteria activeSubAwardSubCriteria = new Criteria();
+        Collection<String> versionStatuses = new ArrayList();
+        versionStatuses.add("PENDING");
+        versionStatuses.add("ACTIVE");
+        activeSubAwardSubCriteria.addIn("subAwardSequenceStatus",versionStatuses);
+        ReportQueryByCriteria activeSubAwardIdsQuery = QueryFactory.newReportQuery(SubAward.class, activeSubAwardSubCriteria);
+        activeSubAwardIdsQuery.setAttributes(new String[]{"max(subAwardId)"});
+        activeSubAwardIdsQuery.addGroupBy("subAwardCode");
+        criteria.addIn("subAwardId",activeSubAwardIdsQuery);
+
         Criteria negotiationCrit = new Criteria();
         ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(SubAward.class, criteria);
         subQuery.setAttributes(new String[] {"subAwardId"});
@@ -330,7 +341,7 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
         negotiationCrit.addEqualTo(NEGOTIATION_TYPE_ATTR, 
                 getNegotiationService().getNegotiationAssociationType(NegotiationAssociationType.SUB_AWARD_ASSOCIATION).getId());
         Collection<Negotiation> result = this.findCollectionBySearchHelper(Negotiation.class, negotiationValues, false, false, negotiationCrit);
-        
+
         return result;
     }  
     
