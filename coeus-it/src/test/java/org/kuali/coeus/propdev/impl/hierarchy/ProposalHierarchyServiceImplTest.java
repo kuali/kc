@@ -24,10 +24,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -35,7 +32,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.personnel.HierarchyPersonnelSummary;
-import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
@@ -45,7 +41,6 @@ import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeAttachment;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeType;
 import org.kuali.coeus.propdev.impl.budget.BudgetStatus;
-import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.budget.hierarchy.ProposalBudgetHierarchyService;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
@@ -59,6 +54,7 @@ import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.util.DateUtils;
 import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -76,9 +72,9 @@ import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
 
-	private ProposalDevelopmentDocument pdDocument;
-	private DevelopmentProposal hierarchyProposal;
-	private DevelopmentProposal childProposal;
+    public static final String FIRST_NAME = "firstname";
+    public static final String LAST_NAME = "lastName";
+    public static final String PERSON_ID = "10000000001";
 	private ProposalHierarchyServiceImpl hierarchyService;
 	private DataObjectService dataObjectService;
     private KcAuthorizationService kcAuthorizationService;
@@ -87,61 +83,148 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
 	public void setup() throws Exception {
 		dataObjectService = KcServiceLocator.getService(DataObjectService.class);
         kcAuthorizationService = KcServiceLocator.getService(KcAuthorizationService.class);
-		pdDocument = initializeProposalDevelopmentDocument();
-		childProposal = getChildProposal(this.pdDocument.getDevelopmentProposal());
-		hierarchyProposal = setDevelopmentProposalAdditionalData(
-				this.pdDocument.getDevelopmentProposal(), childProposal);
-		getBudget(hierarchyProposal);
 		initializeProposalHierarchyService();
 	}
 
 	@After
 	public void teardown() {
 		dataObjectService = null;
-		pdDocument = null;
-		childProposal = null;
-		hierarchyProposal = null;
 	}
 
 	@Test
-	public void test_createHierarchy() {
-		String userId = "10000000001";
-		String proposalNumber = "";
-		proposalNumber = hierarchyService.createHierarchy(hierarchyProposal, userId);
-		assertNotNull(proposalNumber);
-		assertTrue(proposalNumber.length() > 0);
-	}
+	public void test_createHierarchy() throws Exception {
+        ProposalDevelopmentDocument pdDocument = initializeProposalDevelopmentDocument();
+        DevelopmentProposal childProposal = getChildProposal(pdDocument.getDevelopmentProposal());
+        DevelopmentProposal hierarchyProposal = setDevelopmentProposalAdditionalData(pdDocument.getDevelopmentProposal(), childProposal);
+        getBudget(hierarchyProposal);
+		String userId = PERSON_ID;
+		String parentProposalNumber = hierarchyService.createHierarchy(childProposal, userId);
+		assertNotNull(parentProposalNumber);
+		assertTrue(parentProposalNumber.length() > 0);
+        DevelopmentProposal parentDevelopmentProposal = getDevelopmentProposal(parentProposalNumber);
+        ProposalPerson person = parentDevelopmentProposal.getProposalPerson(0);
+        assertEquals(person.getFirstName(), FIRST_NAME);
+        assertEquals(person.getPersonId(), PERSON_ID);
+        assertEquals(person.getProposalPersonRoleId(), Constants.PRINCIPAL_INVESTIGATOR_ROLE);
+        test_validateChildCandidate_inHierarchy(childProposal);
+        test_validateChildForSync(parentDevelopmentProposal, childProposal);
+        test_validateChildForRemoval(childProposal);
+        test_validateChildCandidateForHierarchy(parentDevelopmentProposal, childProposal);
+        test_validateLinkToHierarchy_inHierarchy(parentDevelopmentProposal, childProposal);
+        test_validateParent(parentDevelopmentProposal);
+        test_getSyncableBudget(childProposal);
+        test_lookupParent(parentDevelopmentProposal, childProposal);
+        test_getHierarchyProposalSummaries(parentDevelopmentProposal);
+        test_validateChildBudgetPeriods(parentDevelopmentProposal, childProposal);
+        test_validateChildBudgetPeriods_startDateInconsistent(parentDevelopmentProposal, childProposal);
+        test_getHierarchyProposals(childProposal);
+        test_getParentWorkflowDocument(childProposal);
+        test_getParentDocument(childProposal, parentDevelopmentProposal.getProposalDocument());
+        test_getHierarchyChildren(childProposal);
+        test_calculateAndSetProposalAppDocStatus(childProposal);
+        test_getProposalSummary(parentDevelopmentProposal);
+        test_validateRemovePermissions(childProposal);
+        test_validateParent_noParent(parentDevelopmentProposal);
+        test_validateChildCandidateForHierarchy_differentSponsorCode(parentDevelopmentProposal, childProposal);
+        test_validateChildCandidate(childProposal);
+        test_validateChildCandidate_finalBudgetNull(parentDevelopmentProposal);
+        test_validateChildForSync_nullPI(parentDevelopmentProposal, childProposal);
+        test_isSynchronized(childProposal);
+        childProposal.setHierarchyStatus(HierarchyStatusConstants.Child.code());
+        childProposal.setHierarchyParentProposalNumber(parentDevelopmentProposal.getProposalNumber());
+    }
+
+    public DevelopmentProposal getDevelopmentProposal(String proposalNumber) {
+        String PROPOSAL_NUMBER = "proposalNumber";
+        Map<String, String> fieldMap = new HashMap<>();
+        fieldMap.put(PROPOSAL_NUMBER, proposalNumber);
+        final List<DevelopmentProposal> developmentProposals = dataObjectService.findMatching(DevelopmentProposal.class,
+                QueryByCriteria.Builder.andAttributes(fieldMap).build()).getResults();
+        return developmentProposals.get(0);
+    }
+
+    @Test
+    public void test_synchronize_Child_After_Pi_Change() throws Exception {
+        ProposalDevelopmentDocument pdDocument = initializeProposalDevelopmentDocument();
+        DevelopmentProposal childProposal = getChildProposal(pdDocument.getDevelopmentProposal());
+        String userId = PERSON_ID;
+        String parentProposalNumber = hierarchyService.createHierarchy(childProposal, userId);
+        childProposal.setProposalPersons(new ArrayList<>());
+        createProposalPerson2(childProposal);
+        DevelopmentProposal changedChildProposal = dataObjectService.save(childProposal);
+        hierarchyService.synchronizeChild(changedChildProposal);
+        DevelopmentProposal parentProposal = changedChildProposal.getParent();
+        assertTrue(parentProposal.getProposalPerson(0).getPersonId().equalsIgnoreCase("999"));
+        assertTrue(parentProposal.getProposalPerson(0).getProposalPersonRoleId().equalsIgnoreCase(Constants.CO_INVESTIGATOR_ROLE));
+        hierarchyService.removeFromHierarchy(changedChildProposal);
+        assertTrue(changedChildProposal.getHierarchyParentProposalNumber() == null);
+        parentProposal = getDevelopmentProposal(parentProposalNumber);
+        assertTrue(parentProposal.getProposalPersons().isEmpty());
+        assertTrue(hierarchyService.getHierarchyChildren(parentProposalNumber).isEmpty());
+    }
 
 	@Test
-	public void test_linkToHierarchy() {
-		String hierarchyBudgetTypeCode = "B";
+	public void test_linkToHierarchy() throws Exception {
+        ProposalDevelopmentDocument pdDocument = initializeProposalDevelopmentDocument();
+        DevelopmentProposal childProposal = getChildProposal(pdDocument.getDevelopmentProposal());
+        DevelopmentProposal hierarchyProposal = setDevelopmentProposalAdditionalData(pdDocument.getDevelopmentProposal(), childProposal);
+        getBudget(hierarchyProposal);
+        String hierarchyBudgetTypeCode = "B";
 		hierarchyService.linkToHierarchy(hierarchyProposal, childProposal, hierarchyBudgetTypeCode);
 	}
 
 	@Test
-	public void test_removeFromHierarchy() {
-		hierarchyService.removeFromHierarchy(childProposal);
+	public void test_removeFromHierarchy() throws Exception {
+        ProposalDevelopmentDocument pdDocument = initializeProposalDevelopmentDocument();
+        DevelopmentProposal childProposal = getChildProposal(pdDocument.getDevelopmentProposal());
+        DevelopmentProposal hierarchyProposal = setDevelopmentProposalAdditionalData(pdDocument.getDevelopmentProposal(), childProposal);
+        getBudget(hierarchyProposal);
+        String hierarchyBudgetTypeCode = "B";
+        hierarchyService.linkToHierarchy(hierarchyProposal, childProposal, hierarchyBudgetTypeCode);
+        hierarchyService.removeFromHierarchy(childProposal);
 	}
 
 	@Test
-	public void test_synchronizeChild() {
-		hierarchyService.synchronizeChild(childProposal);
+	public void test_synchronizeChild() throws Exception {
+        ProposalDevelopmentDocument pdDocument = initializeProposalDevelopmentDocument();
+        DevelopmentProposal childProposal = getChildProposal(pdDocument.getDevelopmentProposal());
+        DevelopmentProposal hierarchyProposal = setDevelopmentProposalAdditionalData(pdDocument.getDevelopmentProposal(), childProposal);
+        getBudget(hierarchyProposal);
+        String hierarchyBudgetTypeCode = "B";
+        hierarchyService.linkToHierarchy(hierarchyProposal, childProposal, hierarchyBudgetTypeCode);
+        hierarchyService.synchronizeChild(childProposal);
 	}
 
 	@Test
-	public void test_synchronizeChildProposalBudget() {
-		ProposalDevelopmentBudgetExt budget = childProposal.getLatestBudget();
+	public void test_synchronizeChildProposalBudget() throws Exception {
+        ProposalDevelopmentDocument pdDocument = initializeProposalDevelopmentDocument();
+        DevelopmentProposal childProposal = getChildProposal(pdDocument.getDevelopmentProposal());
+        DevelopmentProposal hierarchyProposal = setDevelopmentProposalAdditionalData(pdDocument.getDevelopmentProposal(), childProposal);
+        getBudget(hierarchyProposal);
+        String hierarchyBudgetTypeCode = "B";
+        hierarchyService.linkToHierarchy(hierarchyProposal, childProposal, hierarchyBudgetTypeCode);
+        ProposalDevelopmentBudgetExt budget = childProposal.getLatestBudget();
 		hierarchyService.synchronizeChildBudget(hierarchyProposal, budget);
 	}
 
 	@Test
-	public void test_synchronizeAllChildren() {
-		hierarchyService.synchronizeAllChildren(pdDocument.getDevelopmentProposal());
+	public void test_synchronizeAllChildren() throws Exception {
+        ProposalDevelopmentDocument pdDocument = initializeProposalDevelopmentDocument();
+        DevelopmentProposal childProposal = getChildProposal(pdDocument.getDevelopmentProposal());
+        DevelopmentProposal hierarchyProposal = setDevelopmentProposalAdditionalData(pdDocument.getDevelopmentProposal(), childProposal);
+        getBudget(hierarchyProposal);
+        String hierarchyBudgetTypeCode = "B";
+        hierarchyService.linkToHierarchy(hierarchyProposal, childProposal, hierarchyBudgetTypeCode);
+        hierarchyService.synchronizeAllChildren(pdDocument.getDevelopmentProposal());
 	}
 
 	@Test
-	public void test_getDevelopmentProposal() {
-		DevelopmentProposal developmentProposal = null;
+	public void test_getDevelopmentProposal() throws Exception {
+        ProposalDevelopmentDocument pdDocument = initializeProposalDevelopmentDocument();
+        DevelopmentProposal childProposal = getChildProposal(pdDocument.getDevelopmentProposal());
+        DevelopmentProposal hierarchyProposal = setDevelopmentProposalAdditionalData(pdDocument.getDevelopmentProposal(), childProposal);
+
+        DevelopmentProposal developmentProposal = null;
 		String proposalNumber = hierarchyProposal.getProposalNumber();
 		developmentProposal = hierarchyService.getDevelopmentProposal(proposalNumber);
 		assertNotNull(developmentProposal);
@@ -149,26 +232,23 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
 		assertEquals(proposalNumber, developmentProposal.getProposalNumber());
 	}
 
-	@Test
-	public void test_lookupParent() {
-		DevelopmentProposal developmentProposal = null;
+	public void test_lookupParent(DevelopmentProposal parentProposal, DevelopmentProposal childProposal) {
+		DevelopmentProposal developmentProposal;
 		developmentProposal = hierarchyService.lookupParent(childProposal);
 		assertNotNull(developmentProposal);
-		assertEquals(hierarchyProposal, developmentProposal);
-		assertEquals(hierarchyProposal.getProposalNumber(),
+		assertEquals(parentProposal, developmentProposal);
+		assertEquals(parentProposal.getProposalNumber(),
 				developmentProposal.getProposalNumber());
 	}
 
-	@Test
-	public void test_getHierarchyPersonnelSummaries() {
+	public void test_getHierarchyPersonnelSummaries(DevelopmentProposal hierarchyProposal) {
 		List<HierarchyPersonnelSummary> hierarchyPersonnelSummaries = null;
 		hierarchyPersonnelSummaries = hierarchyService
 				.getHierarchyPersonnelSummaries(hierarchyProposal.getProposalNumber());
 		assertNotNull(hierarchyPersonnelSummaries);
 	}
 
-	@Test
-	public void test_getHierarchyProposalSummaries() {
+	public void test_getHierarchyProposalSummaries(DevelopmentProposal hierarchyProposal) {
 		List<HierarchyProposalSummary> hierarchyProposalSummaries = null;
 		hierarchyProposalSummaries = hierarchyService
 				.getHierarchyProposalSummaries(hierarchyProposal.getProposalNumber());
@@ -176,16 +256,14 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
 		assertTrue(hierarchyProposalSummaries.size() > 0);
 	}
 
-	@Test
-	public void test_validateChildBudgetPeriods() {
+	public void test_validateChildBudgetPeriods(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal) {
 		List<ProposalHierarchyErrorWarningDto> hierarchyErrorWarningDto = null;
 		hierarchyErrorWarningDto = hierarchyService.validateChildBudgetPeriods(
 				hierarchyProposal, childProposal, true);
 		assertTrue(hierarchyErrorWarningDto.isEmpty());
 	}
 
-	@Test
-	public void test_validateChildBudgetPeriods_startDateInconsistent() {
+	public void test_validateChildBudgetPeriods_startDateInconsistent(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal) {
 		List<ProposalHierarchyErrorWarningDto> hierarchyErrorWarningDto = null;
 		List<ProposalDevelopmentBudgetExt> budgets = hierarchyProposal.getBudgets();
 		List<BudgetPeriod> budgetPeriods = budgets.get(0).getBudgetPeriods();
@@ -204,8 +282,7 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
 		assertEquals(errorKey, hierarchyErrorWarningDto.get(0).getErrorKey());
 	}
 
-	@Test
-	public void test_getHierarchyProposals() {
+	public void test_getHierarchyProposals(DevelopmentProposal childProposal) {
 		List<DevelopmentProposal> developmentProposals = null;
 		developmentProposals = hierarchyService.getHierarchyProposals(childProposal);
 		assertNotNull(developmentProposals);
@@ -214,41 +291,34 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
 				developmentProposals.get(0).getProposalNumber());
 	}
 
-	@Test
-	public void test_getParentWorkflowDocument() throws Exception {
+	public void test_getParentWorkflowDocument(DevelopmentProposal childProposal) throws Exception {
 		WorkflowDocument workflowDocument = null;
 		workflowDocument = hierarchyService
 				.getParentWorkflowDocument(childProposal.getProposalDocument());
 		assertNotNull(workflowDocument);
 	}
 
-	@Test
-	public void test_getParentDocument() throws Exception {
-		ProposalDevelopmentDocument document = null;
-		document = hierarchyService.getParentDocument(childProposal
-				.getProposalDocument());
+	public void test_getParentDocument(DevelopmentProposal childProposal, ProposalDevelopmentDocument parentDocument) throws Exception {
+        ProposalDevelopmentDocument document = hierarchyService.getParentDocument(childProposal.getProposalDocument());
 		assertNotNull(document);
-		assertEquals(this.pdDocument, document);
+		assertEquals(parentDocument.getDocumentNumber(), document.getDocumentNumber());
 	}
 
-	@Test
-	public void test_getHierarchyChildren() {
+	public void test_getHierarchyChildren(DevelopmentProposal childProposal) {
 		List<DevelopmentProposal> developmentProposals = null;
 		developmentProposals = hierarchyService
 				.getHierarchyChildren(childProposal.getHierarchyParentProposalNumber());
 		assertNotNull(developmentProposals);
 	}
 
-	@Test
-	public void test_validateRemovePermissions() {
+	public void test_validateRemovePermissions(DevelopmentProposal childProposal) {
         hierarchyService.removeFromHierarchy(childProposal);
 		boolean valid = true;
-		valid = hierarchyService.validateRemovePermissions(childProposal, "10000000001");
+		valid = hierarchyService.validateRemovePermissions(childProposal, PERSON_ID);
 		assertFalse(valid);
 	}
 
-	@Test
-	public void test_calculateAndSetProposalAppDocStatus() {
+	public void test_calculateAndSetProposalAppDocStatus(DevelopmentProposal childProposal) {
 		DocumentRouteStatusChange dto = new DocumentRouteStatusChange(
 				childProposal.getProposalDocument().getDocumentNumber(), null,
 				KewApiConstants.ROUTE_HEADER_INITIATED_CD,
@@ -257,96 +327,85 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
 				childProposal.getProposalDocument(), dto);
 	}
 
-	@Test
-	public void test_getSyncableBudget() {
+	public void test_getSyncableBudget(DevelopmentProposal childProposal) {
 		ProposalDevelopmentBudgetExt budgetExt = null;
 		budgetExt = hierarchyService.getSyncableBudget(childProposal);
 		assertNotNull(budgetExt);
 		assertEquals(childProposal.getLatestBudget(), budgetExt);
 	}
 
-	@Test
-	public void test_getProposalSummary() {
+	public void test_getProposalSummary(DevelopmentProposal hierarchyProposal) {
 		HierarchyProposalSummary proposalSummary = null;
-		proposalSummary = hierarchyService.getProposalSummary(hierarchyProposal
-				.getProposalNumber());
+		proposalSummary = hierarchyService.getProposalSummary(hierarchyProposal.getProposalNumber());
 		assertNotNull(proposalSummary);
 		assertEquals(hierarchyProposal.getProposalNumber(),
 				proposalSummary.getProposalNumber());
 	}
 
-	@Test
-	public void test_validateChildCandidate() {
-		hierarchyProposal.setHierarchyStatus(HierarchyStatusConstants.None
-				.code());
-		ProposalDevelopmentBudgetExt finalBudget = hierarchyProposal
-				.getLatestBudget();
+	public void test_validateChildCandidate(DevelopmentProposal hierarchyProposal) {
+		hierarchyProposal.setHierarchyStatus(HierarchyStatusConstants.None.code());
+		ProposalDevelopmentBudgetExt finalBudget = hierarchyProposal.getLatestBudget();
 		hierarchyProposal.setFinalBudget(finalBudget);
-		List<ProposalHierarchyErrorWarningDto> errors = new ArrayList<ProposalHierarchyErrorWarningDto>();
+		List<ProposalHierarchyErrorWarningDto> errors;
 		errors = hierarchyService.validateChildCandidate(hierarchyProposal);
 		assertTrue(errors.isEmpty());
 	}
 
-	@Test
-	public void test_validateChildCandidate_inHierarchy() {
-		ProposalDevelopmentBudgetExt finalBudget = hierarchyProposal
-				.getLatestBudget();
-		hierarchyProposal.setFinalBudget(finalBudget);
-		List<ProposalHierarchyErrorWarningDto> errors = new ArrayList<ProposalHierarchyErrorWarningDto>();
+	public void test_validateChildCandidate_inHierarchy(DevelopmentProposal childProposal) {
+		ProposalDevelopmentBudgetExt finalBudget = childProposal.getLatestBudget();
+		childProposal.setFinalBudget(finalBudget);
+		List<ProposalHierarchyErrorWarningDto> errors;
 		String errorKey = "error.hierarchy.link.alreadyHierarchyMember";
-		errors = hierarchyService.validateChildCandidate(hierarchyProposal);
+		errors = hierarchyService.validateChildCandidate(childProposal);
 		assertNotNull(errors);
 		assertTrue(errors.size() == 1);
 		assertEquals(errorKey, errors.get(0).getErrorKey());
 	}
 
-	@Test
-	public void test_validateChildCandidate_finalBudgetNull() {
+	public void test_validateChildCandidate_finalBudgetNull(DevelopmentProposal hierarchyProposal) {
 		hierarchyProposal.setHierarchyStatus(HierarchyStatusConstants.None
 				.code());
-		List<ProposalHierarchyErrorWarningDto> errors = new ArrayList<ProposalHierarchyErrorWarningDto>();
-		String errorKey = "warning.hierarchy.link.noFinalBudget";
-		errors = hierarchyService.validateChildCandidate(hierarchyProposal);
+        hierarchyProposal.setFinalBudget(null);
+        List<ProposalHierarchyErrorWarningDto> errors;
+		String errorKey1 = "warning.hierarchy.link.noFinalBudget";
+        String errorKey2 = "error.hierarchy.link.noPrincipleInvestigator";
+        errors = hierarchyService.validateChildCandidate(hierarchyProposal);
 		assertNotNull(errors);
-		assertTrue(errors.size() == 1);
-		assertEquals(errorKey, errors.get(0).getErrorKey());
-	}
+		assertTrue(errors.size() == 2);
+        assertTrue(errors.get(0).getErrorKey().equalsIgnoreCase(errorKey1));
+        assertTrue(errors.get(1).getErrorKey().equalsIgnoreCase(errorKey2));
+    }
 
-	@Test
-	public void test_validateChildForSync() {
-		List<ProposalHierarchyErrorWarningDto> errors = new ArrayList<ProposalHierarchyErrorWarningDto>();
+	public void test_validateChildForSync(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal) {
+		List<ProposalHierarchyErrorWarningDto> errors;
 		errors = hierarchyService.validateChildForSync(childProposal, hierarchyProposal, true);
 		assertTrue(errors.isEmpty());
 	}
 
-	@Test
-	public void test_validateChildForSync_nullPI() {
-		List<ProposalHierarchyErrorWarningDto> errors = new ArrayList<ProposalHierarchyErrorWarningDto>();
+	public void test_validateChildForSync_nullPI(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal) {
+		List<ProposalHierarchyErrorWarningDto> errors;
 		String errorKey = "error.hierarchy.sync.noPrincipleInvestigator";
 		childProposal.getProposalPersons().clear();
 		errors = hierarchyService.validateChildForSync(childProposal, hierarchyProposal, true);
 		assertNotNull(errors);
-		assertTrue(errors.size() == 1);
+		assertTrue(errors.size() == 3);
 		assertEquals(errorKey, errors.get(0).getErrorKey());
 	}
 
-	@Test
-	public void test_validateChildForRemoval() {
-		List<ProposalHierarchyErrorWarningDto> errors = new ArrayList<ProposalHierarchyErrorWarningDto>();
+	public void test_validateChildForRemoval(DevelopmentProposal childProposal) {
+		List<ProposalHierarchyErrorWarningDto> errors;
 		errors = hierarchyService.validateChildForRemoval(childProposal);
 		assertTrue(errors.isEmpty());
 	}
 
-	@Test
-	public void test_validateParent() {
-		List<ProposalHierarchyErrorWarningDto> errors = new ArrayList<ProposalHierarchyErrorWarningDto>();
+	public void test_validateParent(DevelopmentProposal hierarchyProposal) {
+		List<ProposalHierarchyErrorWarningDto> errors;
 		errors = hierarchyService.validateParent(hierarchyProposal);
 		assertTrue(errors.isEmpty());
 	}
 
-	@Test
-	public void test_validateParent_noParent() {
-		List<ProposalHierarchyErrorWarningDto> errors = new ArrayList<ProposalHierarchyErrorWarningDto>();
+	public void test_validateParent_noParent(DevelopmentProposal hierarchyProposal) {
+		List<ProposalHierarchyErrorWarningDto> errors;
 		String errorKey = "error.hierarchy.link.notParent";
 		hierarchyProposal.setHierarchyStatus(HierarchyStatusConstants.None.code());
 		errors = hierarchyService.validateParent(hierarchyProposal);
@@ -355,17 +414,15 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
 		assertEquals(errorKey, errors.get(0).getErrorKey());
 	}
 
-	@Test
-	public void test_validateChildCandidateForHierarchy() {
-		List<ProposalHierarchyErrorWarningDto> errors = new ArrayList<ProposalHierarchyErrorWarningDto>();
+	public void test_validateChildCandidateForHierarchy(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal) {
+		List<ProposalHierarchyErrorWarningDto> errors;
 		errors = hierarchyService.validateChildCandidateForHierarchy(
 				hierarchyProposal, childProposal, true);
 		assertTrue(errors.isEmpty());
 	}
 
-	@Test
-	public void test_validateChildCandidateForHierarchy_differentSponsorCode() {
-		List<ProposalHierarchyErrorWarningDto> errors = new ArrayList<ProposalHierarchyErrorWarningDto>();
+	public void test_validateChildCandidateForHierarchy_differentSponsorCode(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal) {
+		List<ProposalHierarchyErrorWarningDto> errors;
 		childProposal.setSponsorCode("000010");
 		String errorKey = "warning.hierarchy.link.differentSponsor";
 		errors = hierarchyService.validateChildCandidateForHierarchy(
@@ -375,17 +432,8 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
 		assertEquals(errorKey, errors.get(0).getErrorKey());
 	}
 
-	@Test
-	public void test_validateLinkToHierarchy() {
-		List<ProposalHierarchyErrorWarningDto> errors = new ArrayList<ProposalHierarchyErrorWarningDto>();
-		childProposal.setHierarchyStatus(HierarchyStatusConstants.None.code());
-		errors = hierarchyService.validateLinkToHierarchy(hierarchyProposal, childProposal);
-		assertTrue(errors.toString(), errors.isEmpty());
-	}
-
-	@Test
-	public void test_validateLinkToHierarchy_inHierarchy() {
-		List<ProposalHierarchyErrorWarningDto> errors = new ArrayList<ProposalHierarchyErrorWarningDto>();
+	public void test_validateLinkToHierarchy_inHierarchy(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal) {
+		List<ProposalHierarchyErrorWarningDto> errors;
 		String errorKey = "error.hierarchy.proposal.not.hierarchy.child";
 		errors = hierarchyService.validateLinkToHierarchy(hierarchyProposal, childProposal);
 		assertNotNull(errors);
@@ -393,8 +441,7 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
 		assertEquals(errorKey, errors.get(0).getErrorKey());
 	}
 
-	@Test
-	public void test_isSynchronized() {
+	public void test_isSynchronized(DevelopmentProposal childProposal) {
 		boolean sync = false;
 		sync = hierarchyService.isSynchronized(childProposal);
 		assertFalse(sync);
@@ -453,22 +500,19 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
 		initializeDevelopmentProposal(document);
 		Assert.assertNotNull(document.getDocumentHeader().getWorkflowDocument());
 		saveProposalDocument(document);
-		document = (ProposalDevelopmentDocument) KRADServiceLocatorWeb
-				.getDocumentService().getByDocumentHeaderId(
-						document.getDocumentHeader().getDocumentNumber());
+		document = (ProposalDevelopmentDocument) getDocumentService().getByDocumentHeaderId(document.getDocumentHeader().getDocumentNumber());
 		assertNotNull(document.getDevelopmentProposal());
 		return document;
 	}
 
 	private ProposalDevelopmentDocument initializeDocument() throws Exception {
-		ProposalDevelopmentDocument pd = (ProposalDevelopmentDocument) KRADServiceLocatorWeb
-				.getDocumentService().getNewDocument(
-						"ProposalDevelopmentDocument");
+		ProposalDevelopmentDocument pd = (ProposalDevelopmentDocument) getDocumentService().getNewDocument(
+                "ProposalDevelopmentDocument");
 		Assert.assertNotNull(pd.getDocumentHeader().getWorkflowDocument());
 		ProposalDevelopmentService pdService = getService(ProposalDevelopmentService.class);
 		pdService.initializeUnitOrganizationLocation(pd);
 		pdService.initializeProposalSiteNumbers(pd);
-        kcAuthorizationService.addDocumentLevelRole("10000000001", RoleConstants.AGGREGATOR_DOCUMENT_LEVEL,pd);
+        kcAuthorizationService.addDocumentLevelRole(PERSON_ID, RoleConstants.AGGREGATOR_DOCUMENT_LEVEL,pd);
 		return pd;
 	}
 
@@ -511,15 +555,10 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
 		return developmentProposal;
 	}
 
-	private DevelopmentProposal setDevelopmentProposalAdditionalData(
-			DevelopmentProposal developmentProposal,
-			DevelopmentProposal childProposal) {
+	private DevelopmentProposal setDevelopmentProposalAdditionalData(DevelopmentProposal developmentProposal, DevelopmentProposal childProposal) {
 		if (childProposal != null) {
-			developmentProposal
-					.setHierarchyOriginatingChildProposalNumber(childProposal
-							.getProposalNumber());
-			developmentProposal.setHierarchyParentProposalNumber(childProposal
-					.getProposalNumber());
+			developmentProposal.setHierarchyOriginatingChildProposalNumber(childProposal.getProposalNumber());
+			developmentProposal.setHierarchyParentProposalNumber(childProposal.getProposalNumber());
 		}
 		createProposalPerson(developmentProposal);
 		createSponsor(developmentProposal);
@@ -534,29 +573,47 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
 	private void createProposalPerson(DevelopmentProposal developmentProposal) {
 		ProposalPerson person = new ProposalPerson();
 		person.setProposalPersonNumber(1);
-		person.setProposalPersonRoleId("PI");
-		person.setFirstName("firstname");
-		person.setLastName("argLastName");
-		person.setMiddleName("argMiddleName");
-		person.setOfficePhone("321-321-1228");
-		person.setEmailAddress("kcnotification@gmail.com");
-		person.setFaxNumber("321-321-1289");
-		person.setAddressLine1("argAddressLine1");
-		person.setAddressLine2("argAddressLine2");
-		person.setCity("Coeus");
-		person.setPostalCode("53421");
-		person.setCounty("UNITED STATES");
-		person.setCountryCode("USA");
-		person.setState("MA");
-		person.setDirectoryTitle("argDirectoryTitle");
-		person.setDivision("division");
-		person.setPersonId("10000000001");
+		person.setProposalPersonRoleId(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
+		person.setFirstName(FIRST_NAME);
+		person.setLastName(LAST_NAME);
+		person.setMiddleName("middleName");
+        setPersonData(person);
 		person.setRolodexId(1);
 		person.setDevelopmentProposal(developmentProposal);
 		developmentProposal.getProposalPersons().add(person);
-	}
+        person.setPersonId(PERSON_ID);
+    }
 
-	private void createSponsor(DevelopmentProposal developmentProposal) {
+    private void createProposalPerson2(DevelopmentProposal developmentProposal) {
+        ProposalPerson person = new ProposalPerson();
+        person.setProposalPersonNumber(2);
+        person.setProposalPersonRoleId(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
+        person.setFirstName("Bruce");
+        person.setLastName("Wayne");
+        person.setMiddleName("middleName");
+        setPersonData(person);
+        person.setRolodexId(1);
+        person.setDevelopmentProposal(developmentProposal);
+        developmentProposal.getProposalPersons().add(person);
+        person.setPersonId("999");
+    }
+
+        public void setPersonData(ProposalPerson person) {
+        person.setOfficePhone("321-321-1228");
+        person.setEmailAddress("kcnotification@gmail.com");
+        person.setFaxNumber("321-321-1289");
+        person.setAddressLine1("addressLine1");
+        person.setAddressLine2("addressLine2");
+        person.setCity("Coeus");
+        person.setPostalCode("53421");
+        person.setCounty("UNITED STATES");
+        person.setCountryCode("USA");
+        person.setState("MA");
+        person.setDirectoryTitle("directoryTitle");
+        person.setDivision("division");
+    }
+
+    private void createSponsor(DevelopmentProposal developmentProposal) {
 		Sponsor sponsor = null;
 		sponsor = dataObjectService.findUnique(Sponsor.class,
 				QueryByCriteria.Builder.forAttribute("sponsorCode", "000100")
@@ -688,10 +745,14 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
 		String docNumber = docHeader.getDocumentNumber();
 		assertNotNull(docNumber);
 		assertNotNull(pd.getDevelopmentProposal());
-		KRADServiceLocatorWeb.getDocumentService().saveDocument(pd);
+		getDocumentService().saveDocument(pd);
 	}
 
-	public DevelopmentProposal getChildProposal(
+    public DocumentService getDocumentService() {
+        return KRADServiceLocatorWeb.getDocumentService();
+    }
+
+    public DevelopmentProposal getChildProposal(
 			DevelopmentProposal hierarchyProposal) throws Exception {
 		ProposalDevelopmentDocument document = initializeProposalDevelopmentDocument();
 		DevelopmentProposal childProposal = document.getDevelopmentProposal();
@@ -704,4 +765,5 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
 		getBudget(childProposal);
 		return childProposal;
 	}
+
 }
