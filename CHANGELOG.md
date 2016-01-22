@@ -4,6 +4,38 @@
 * No Changes
 
 
+##coeus-1601.72
+* No Changes
+
+
+##coeus-1601.71
+* Prevent NPE from occuring when permissions helper has not yet been inititialized
+
+  * When changing personnel on an amendment or renewal protocol the following stack trace was generated on save
+  * ```
+*****************Stack Trace-Only shown when not in production****************
+  * java.lang.NullPointerException
+  * at org.kuali.kra.irb.personnel.ProtocolPersonnelAction.preSave(ProtocolPersonnelAction.java:362)
+  * at org.kuali.kra.protocol.ProtocolActionBase.save(ProtocolActionBase.java:285)
+  * at sun.reflect.GeneratedMethodAccessor4448.invoke(Unknown Source)
+  * at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+  * at java.lang.reflect.Method.invoke(Method.java:497)
+  * at org.apache.struts.actions.DispatchAction.dispatchMethod(DispatchAction.java:269)
+  * at org.kuali.rice.kns.web.struts.action.KualiAction.dispatchMethod(KualiAction.java:173)
+  * at org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase.dispatchMethod(KcTransactionalDocumentActionBase.java:168)
+  * at org.kuali.rice.kns.web.struts.action.KualiAction.execute(KualiAction.java:131)
+  * at org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase.execute(KualiDocumentActionBase.java:190)
+  * ```
+  * blackcathacker on Thu, 21 Jan 2016 14:37:43 -0800 [View Commit](../../commit/ca1c4f906e5cb5e781e3a4240c90be4e497adaa4)
+
+##coeus-1601.70
+*  move holding page information from from session scope to request scope when possible.  Prefer request scope when information is available.  While not a complete solution, this minimises the chance that the holding page will navigate to the wrong document when multiple documents are submitted at the same time within the same user session
+  * Travis Schneeberger on Wed, 20 Jan 2016 11:35:04 -0500 [View Commit](../../commit/d297d84e5475451eab7c7d11e6c96fbb1e580376)
+
+##coeus-1601.69
+* No Changes
+
+
 ##coeus-1601.68
 * No Changes
 

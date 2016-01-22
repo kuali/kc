@@ -222,6 +222,7 @@
 	<param name="kc.flyway.enabled" override="false">true</param>
     <param name="kc.flyway.sql.migration.path" override="false">co/kuali/coeus/data/migration/sql/mysql</param>
     <param name="kc.flyway.java.migration.path" override="false">co/kuali/coeus/data/migration/custom/coeus</param>
+    <param name="kc.flyway.baseline.version">0</param>
 
 	<!-- Auto-ingester properties -->
 	<param name="kc.kew.auto.ingestion.paths" override="false">org/kuali/coeus/rice-xml,org/kuali/coeus/coeus-xml</param>

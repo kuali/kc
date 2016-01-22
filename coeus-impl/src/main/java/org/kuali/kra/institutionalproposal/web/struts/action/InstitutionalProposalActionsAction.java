@@ -22,8 +22,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionRedirect;
 import org.kuali.coeus.common.framework.print.PrintConstants;
 import org.kuali.coeus.common.proposal.framework.report.CurrentAndPendingReportService;
+import org.kuali.coeus.sys.framework.controller.KcHoldingPageConstants;
 import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -203,8 +205,9 @@ public class InstitutionalProposalActionsAction extends InstitutionalProposalAct
         String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_INSTITUTIONAL_PROPOSAL_ACTIONS_PAGE, "InstitutionalProposalDocument");
         
         ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
-        ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
-        return routeToHoldingPage(basicForward, forward, holdingPageForward, returnLocation);
+        ActionRedirect holdingPageForward = new ActionRedirect(mapping.findForward(KcHoldingPageConstants.MAPPING_HOLDING_PAGE));
+        holdingPageForward.addParameter(KcHoldingPageConstants.HOLDING_PAGE_DOCUMENT_ID, routeHeaderId);
+        return routeToHoldingPage(basicForward, forward, holdingPageForward, returnLocation, routeHeaderId);
     }
 
     @Override
@@ -224,8 +227,9 @@ public class InstitutionalProposalActionsAction extends InstitutionalProposalAct
         String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_INSTITUTIONAL_PROPOSAL_ACTIONS_PAGE, "InstitutionalProposalDocument");
         
         ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
-        ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
-        return routeToHoldingPage(basicForward, forward, holdingPageForward, returnLocation);
+        ActionRedirect holdingPageForward = new ActionRedirect(mapping.findForward(KcHoldingPageConstants.MAPPING_HOLDING_PAGE));
+        holdingPageForward.addParameter(KcHoldingPageConstants.HOLDING_PAGE_DOCUMENT_ID, routeHeaderId);
+        return routeToHoldingPage(basicForward, forward, holdingPageForward, returnLocation, routeHeaderId);
     }
 	
     
@@ -248,8 +252,9 @@ public class InstitutionalProposalActionsAction extends InstitutionalProposalAct
         String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_INSTITUTIONAL_PROPOSAL_ACTIONS_PAGE, "InstitutionalProposalDocument");
         
         ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
-        ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
-        return routeToHoldingPage(basicForward, forward, holdingPageForward, returnLocation);
+        ActionRedirect holdingPageForward = new ActionRedirect(mapping.findForward(KcHoldingPageConstants.MAPPING_HOLDING_PAGE));
+        holdingPageForward.addParameter(KcHoldingPageConstants.HOLDING_PAGE_DOCUMENT_ID, routeHeaderId);
+        return routeToHoldingPage(basicForward, forward, holdingPageForward, returnLocation, routeHeaderId);
     }
 
     private int submissionStatus(InstitutionalProposalDocument institutionalProposalDocument) {

@@ -109,8 +109,6 @@
 <!-- Rice content End -->
        	
        	<forward name="kraHoldingPage" path="/kraHoldingPage.do" redirect="true" />
-       	<forward name="irbHoldingPage" path="/irbHoldingPage.do" redirect="true" />       	
-       	
        	<forward name="closePage" path="/EmptyClosePage.html" />
     </global-forwards>
 
@@ -140,7 +138,7 @@
        	<!-- End required KNS mappings -->
 <!-- Rice content End -->
 
-        <action path="/kraHoldingPage" name="KualiForm" type="org.kuali.coeus.sys.framework.controller.KcHoldingPageAction">
+        <action path="/kraHoldingPage" name="KualiForm" type="org.kuali.coeus.sys.framework.controller.KcHoldingPageAction" >
             <forward name="basic" path="/kraHoldingPage.jsp" />
         </action>
                

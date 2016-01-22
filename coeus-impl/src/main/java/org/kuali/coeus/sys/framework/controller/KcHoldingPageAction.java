@@ -18,11 +18,21 @@
  */
 package org.kuali.coeus.sys.framework.controller;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.document.authorization.PessimisticLock;
+import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -34,40 +44,24 @@ import javax.servlet.http.HttpServletResponse;
  * Checks to see whether the document specified in the session has completed its asynchronous processing and is ready to be
  * reloaded.
  */
-public class KcHoldingPageAction extends AbstractHoldingPageAction {
+public class KcHoldingPageAction extends KualiAction {
 
     private static final String RETURN_TO_PORTAL = "returnToPortal";
 
-    /**
-     * If this method is invoked due to a simple refresh from the holding page JSP, and not because the user has clicked 'return
-     * to portal', then it will check if the 'current document' has completed its processing and if so it will return the back
-     * location for that document as given in the user session by the key Constants.HOLDING_PAGE_RETURN_LOCATION. 
-     * The 'current document' is the one that is obtained via the document service using the doc id provided in the session. 
-     * By default this method will get this doc id from the top-level http session using the key KNSConstants.DOCUMENT_HTTP_SESSION_KEY. 
-     * However, if you want a different doc id to be used, then before calling this method, then the following two steps must be performed: 
-     *      1. insert the alternate doc id in the user session with some key constant, say 'X'. 
-     *      2. insert 'X' also into the user session using the key Constants.ALTERNATE_DOC_ID_SESSION_KEY.
-     * Basically, this method performs double indirection on the user session key. It will first check if the user session key
-     * Constants.ALTERNATE_DOC_ID_SESSION_KEY has any value inserted for it, and if so will use that value again as a key into the
-     * user session to get the alternate doc id (and then use that doc id to obtain the document from the doc service).
-     * 
-     * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
+    private DocumentService documentService;
+    private PersonService personService;
+
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        
+
         ActionForward forward = super.execute(mapping, form, request, response);
-        // check if there is an alternate doc id key set in the user session
-        String alternateDocIdSessionKey = (String) GlobalVariables.getUserSession().retrieveObject(
-                Constants.ALTERNATE_DOC_ID_SESSION_KEY);
-        Object documentId = null;
-        if (alternateDocIdSessionKey != null) {
-            // get the id from the user session (double indirection)
-            documentId = GlobalVariables.getUserSession().retrieveObject(alternateDocIdSessionKey);
-        }
-        else {
+
+        final String documentIdParameter = request.getParameter(KcHoldingPageConstants.HOLDING_PAGE_DOCUMENT_ID);
+        final Object documentId;
+        if (StringUtils.isNotBlank(documentIdParameter)) {
+            documentId = documentIdParameter;
+        } else {
             // get the id from the top level http session
             documentId = request.getSession().getAttribute(KRADConstants.DOCUMENT_HTTP_SESSION_KEY);
         }
@@ -75,40 +69,114 @@ public class KcHoldingPageAction extends AbstractHoldingPageAction {
         // check if the user clicked the 'Return to Portal' button
         if (RETURN_TO_PORTAL.equals(findMethodToCall(form, request))) {
             // clean up the session and also remove the messages meant for the return page
-            cleanupUserSession(alternateDocIdSessionKey);
-            GlobalVariables.getUserSession().removeObject(Constants.HOLDING_PAGE_MESSAGES);
+            cleanupUserSession();
+            GlobalVariables.getUserSession().removeObject(KcHoldingPageConstants.HOLDING_PAGE_MESSAGES);
         } else if(GlobalVariables.getUserSession().retrieveObject(Constants.FORCE_HOLDING_PAGE_FOR_ACTION_LIST) != null) {
             // this is a temporary solution
             // introduced to unload the block ui in embedded mode
             GlobalVariables.getUserSession().removeObject(Constants.FORCE_HOLDING_PAGE_FOR_ACTION_LIST); 
-            forward = getReturnPath(alternateDocIdSessionKey);
+            forward = getReturnPath(request);
         }
         else if (isDocumentPostprocessingComplete(document)) {
-            forward = getReturnPath(alternateDocIdSessionKey);
+            forward = getReturnPath(request);
         }
         
         return forward;
     }
 
     /**
-     * This method is to get the return location and clean up session
-     * @param alternateDocIdSessionKey
-     * @return
+     * This method is to get the return location and clean up session.
      */
-    private ActionForward getReturnPath(String alternateDocIdSessionKey) {
-        ActionForward forward = null;
-            String backLocation = (String) GlobalVariables.getUserSession().retrieveObject(Constants.HOLDING_PAGE_RETURN_LOCATION);
-            cleanupUserSession(alternateDocIdSessionKey);
-            forward = new ActionForward(backLocation, true);
-        return forward;
+    private ActionForward getReturnPath(HttpServletRequest request) {
+
+        final String documentIdParameter = request.getParameter(KcHoldingPageConstants.HOLDING_PAGE_RETURN_LOCATION);
+        final String backLocation;
+        if (StringUtils.isNotBlank(documentIdParameter)) {
+            backLocation = documentIdParameter;
+        } else {
+            backLocation = (String) GlobalVariables.getUserSession().retrieveObject(KcHoldingPageConstants.HOLDING_PAGE_RETURN_LOCATION);
+        }
+
+        cleanupUserSession();
+        return new ActionForward(backLocation, true);
     }
 
-    private void cleanupUserSession(String alternateDocIdSessionKey) {
-        GlobalVariables.getUserSession().removeObject(Constants.HOLDING_PAGE_RETURN_LOCATION);
-        if (alternateDocIdSessionKey != null) {
-            GlobalVariables.getUserSession().removeObject(Constants.ALTERNATE_DOC_ID_SESSION_KEY);
-            GlobalVariables.getUserSession().removeObject(alternateDocIdSessionKey);
+    private void cleanupUserSession() {
+        GlobalVariables.getUserSession().removeObject(KcHoldingPageConstants.HOLDING_PAGE_RETURN_LOCATION);
+    }
+
+    /**
+     * Returns the user directly to the Portal instead of having to wait for the document to reload.
+     */
+    public ActionForward returnToPortal(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        return mapping.findForward(KRADConstants.MAPPING_PORTAL);
+    }
+
+    /**
+     * Checks whether the postprocessing on the given document is complete.
+     *
+     * @param document the document to check
+     * @return true if the postprocessing is complete, false otherwise
+     */
+    protected boolean isDocumentPostprocessingComplete(Document document) {
+        return document.getDocumentHeader().hasWorkflowDocument() && !isPessimisticallyLocked(document) && isProcessComplete(document);
+    }
+
+    /**
+     *
+     * This method checks for pessimistic locks
+     * @param document - the workflow document
+     * @return true if the document is still locked.
+     */
+    protected boolean isPessimisticallyLocked(Document document) {
+        boolean isPessimisticallyLocked = false;
+
+        Person pessimisticLockHolder = getPersonService().getPersonByPrincipalName(KewApiConstants.SYSTEM_USER);
+        for (PessimisticLock pessimisticLock : document.getPessimisticLocks()) {
+            if (pessimisticLock.isOwnedByUser(pessimisticLockHolder)) {
+                isPessimisticallyLocked = true;
+                break;
+            }
         }
+
+        return isPessimisticallyLocked;
+    }
+
+    protected boolean isProcessComplete(Document document) {
+        boolean isProcessComplete = false;
+
+        if (document instanceof KcTransactionalDocumentBase) {
+            isProcessComplete = ((KcTransactionalDocumentBase) document).isProcessComplete();
+        }
+
+        return isProcessComplete;
+    }
+
+
+    protected Document getByDocumentHeaderId(String documentId) throws WorkflowException {
+        return getDocumentService().getByDocumentHeaderId(documentId);
+    }
+
+    public DocumentService getDocumentService() {
+        if (documentService == null) {
+            documentService = KcServiceLocator.getService(DocumentService.class);
+        }
+        return documentService;
+    }
+
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
+    }
+
+    public PersonService getPersonService() {
+        if (personService == null) {
+            personService = KcServiceLocator.getService(PersonService.class);
+        }
+        return personService;
+    }
+
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
     }
 
 }
