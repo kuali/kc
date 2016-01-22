@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* Revert " upgrading JPA to try to avoid potential ConcurrentModific…"
+  * Douglas Pace on Fri, 22 Jan 2016 11:57:08 -0800 [View Commit](../../commit/52ea3a02511ceb2f95c92445e92eed02bbbc3475)
+
+##coeus-1601.75
 *  Adding ability to change proposal person role after addition. Cannot reproduce the STE mentioned so added test to verify.
   * Duplicated in res-test1.
   * Created initiating child proposal #6379 with PI user rhanlon
