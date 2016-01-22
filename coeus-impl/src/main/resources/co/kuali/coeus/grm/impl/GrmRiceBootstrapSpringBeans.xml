@@ -49,6 +49,7 @@
         <property name="enabled" value="${kc.flyway.enabled}"/>
         <property name="sqlMigrationPath" value="${kc.flyway.sql.migration.path}" />
         <property name="javaMigrationPath" value="${kc.flyway.java.migration.path}" />
+        <property name="initVersion" value="${kc.flyway.baseline.version}" />
     </bean>
 
 </beans>
