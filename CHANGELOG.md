@@ -4,6 +4,10 @@
 * No Changes
 
 
+##coeus-1601.72
+* No Changes
+
+
 ##coeus-1601.71
 * Prevent NPE from occuring when permissions helper has not yet been inititialized
 
