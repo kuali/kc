@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1601.71
 * Prevent NPE from occuring when permissions helper has not yet been inititialized
 
   * When changing personnel on an amendment or renewal protocol the following stack trace was generated on save
