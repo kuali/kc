@@ -1,6 +1,76 @@
 
 
 ##CURRENT
+*  Adding ability to change proposal person role after addition. Cannot reproduce the STE mentioned so added test to verify.
+  * Duplicated in res-test1.
+  * Created initiating child proposal #6379 with PI user rhanlon
+  * Created parent #6380. Using Summary/submit screen, confirmed rhanlon was PI in both parent and child.
+  * Key Persons> deleted rhanlon as PI, searched and added Eagle as PI.
+  * Synced to parent.
+  * On Summary/Submit screen: Eagle was listed as Co-i on Parent proposal, and PI on child.
+  * Using the Toolbar> Hierarchy> I tried to unlink the proposal from the parent. I got an STE. see comments.
+  * In a Proposal Hierarchy, the PI on the Child proposal that creates the Parent proposal, becomes the lead PI on the Parent proposal. However, if after creating the Parent proposal, the PI changes and the user goes to the Child Proposal and changes the PI there first and syncs the change to the Parent proposal. The 'old' PI is removed (or role is modified - depending on the change made) from the Parent proposal BUT the new PI that was designated, synced as a Co-Investigator to the Parent proposal. This resulted in the Parent not having a PI - no matter what the user did (everyone appeared as a Co-Investigator or Key Person). We tried deleting and adding people back in and syncing and nothing work.
+  * This happened in Production last week - DBA had to change the Role assignment for the PI in the Database.
+  * Desired Behavior: If there is a PI change on the Child proposal that created the Parent proposal, the system should sync that change to the Parent proposal - assigning the PI role and NOT as Co-Investigator on the Parent proposal.
+  * WORK AROUND: Create a new parent from the corrected lead child proposal.
+  * Steps to Reproduce:
+  * 1.    Create a Proposal (with minimum info to save)
+  * 2.    Add a PI in the Key Personnel section
+  * 3.    Create/add Budget (no need to add any costs - budget just needs to be initiated to create/link hierarchy)
+  * 4.    In the Budget, click the Return to proposal button
+  * 5.    In the Proposal, click the Hierarchy link in the toolbar. In the Hierarchy window select:
+  * a.    Hierarchy Budget Type: Sub Budget
+  * b.    Click the Create Hierarchy button
+  * c.    Note the Parent Proposal number generated
+  * d.    Close out of your proposal
+  * 6.    Go to the Parent Proposal and navigate to the Key Personnel section. You should see the Person you designed as the PI in your Child proposal, appear as the PI in your Parent proposal
+  * 7.    Close out of the Parent proposal
+  * 8.    Navigate back to your Child Proposal and go to the Key Personnel Section
+  * 9.    In the Key Personnel Section, delete the current PI
+  * 10.   Add a different person as the new PI and save
+  * 11.   Click the Hierarchy (C) link in the toolbar. In the Hierarchy window:
+  * a.    Click the Sync Hierarchy button. (You should get a Synchronization successful message)
+  * 12.   Navigate to the Parent Proposal -> Key Personnel section
+  * 13.   You will see that the old PI that you deleted from the Child proposal, was removed from the Parent proposal.
+  * 14.   BUT the new Person you added to the child proposal as the new PI, synced to the Parent as a Co-Investigator. - see Parent Proposal Number 27528 in KC QA
+  * (There is no way from this point on, to get someone to appear as the PI on that Parent Proposal. Other individuals from the any additional child proposals will automatically sync as Co-Investigators or Key Persons.)
+  * The only work-around for this is to unlink and create a new Proposal Hierarchy with the correct PI or have the role assignment changed by DB Admin.
+  * MITKC-2033
+  * ISSUE #2
+  * STE upon trying to unlink the child proposal after changing the PI from Hanlon to Eagle, now Eagle as Co-I in parent and PI in only child:
+  * when-present<#else>when-missing. (These only cover the last step of the expression; to cover the whole expression, use parenthessis: (myOptionVar.foo)!myDefault, (myOptionVar.foo)?? The failing instruction (FTL stack trace): ---------- ==> $
+  * {request.contextPath}
+  * Gayathri Athreya on Thu, 21 Jan 2016 23:21:05 -0700 [View Commit](../../commit/832b53c8c99a525cd846d38e6f886247b8a67e58)
+*  upgrading JPA to try to avoid potential ConcurrentModificationException
+  * Travis Schneeberger on Fri, 22 Jan 2016 12:54:57 -0500 [View Commit](../../commit/4e35b4bfaa0749314e82400c2510afbf94c39101)
+*  Budget Calculation can sometimes cause an STE:
+
+  * java.util.ConcurrentModificationException
+    at java.util.Vector$Itr.checkForComodification(Vector.java:1184)
+    at java.util.Vector$Itr.next(Vector.java:1137)
+    at org.eclipse.persistence.indirection.IndirectList$1.next(IndirectList.java:618)
+    at org.kuali.coeus.common.budget.impl.calculator.BudgetPeriodCalculator.calculate(BudgetPeriodCalculator.java:78)
+    at org.kuali.coeus.common.budget.impl.calculator.BudgetCalculationServiceImpl.calculateBudgetPeriod(BudgetCalculationServiceImpl.java:331)
+    at org.kuali.coeus.common.budget.impl.calculator.BudgetCalculationServiceImpl.calculateBudget(BudgetCalculationServiceImpl.java:127)
+    at org.kuali.coeus.propdev.impl.budget.ProposalBudgetServiceImpl.recalculateBudget(ProposalBudgetServiceImpl.java:187)
+    at org.kuali.coeus.propdev.impl.budget.ProposalBudgetServiceImpl.calculateBudgetOnSave(ProposalBudgetServiceImpl.java:194)
+    at org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetControllerBase.saveBudget(ProposalBudgetControllerBase.java:186)
+    at org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetControllerBase.save(ProposalBudgetControllerBase.java:165)
+    at org.kuali.coeus.propdev.impl.budget.person.ProposalBudgetProjectPersonnelController.applyToLaterPeriods(ProposalBudgetProjectPersonnelController.java:477)
+    at org.kuali.coeus.propdev.impl.budget.person.ProposalBudgetProjectPersonnelController$$FastClassBySpringCGLIB$$5d3b0281.invoke(<generated>)
+    at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:204)
+    at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:700)
+    at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:150)
+    at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:96)
+    at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:260)
+    at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:94)
+    at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:172)
+    at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:633)
+    at org.kuali.coeus.propdev.impl.budget.person.ProposalBudgetProjectPersonnelController$$EnhancerBySpringCGLIB$$eb47e929.applyToLaterPeriods(<generated>)
+    at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+  * Travis Schneeberger on Fri, 22 Jan 2016 11:42:45 -0500 [View Commit](../../commit/044b4deecac9a4c705ab6aa1316a37eec9df281a)
+
+##coeus-1601.73
 * No Changes
 
 
