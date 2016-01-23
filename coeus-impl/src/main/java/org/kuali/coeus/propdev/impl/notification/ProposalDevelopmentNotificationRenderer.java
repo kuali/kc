@@ -92,8 +92,8 @@ public class ProposalDevelopmentNotificationRenderer extends NotificationRendere
         result.put("{SPONSOR_NAME}", developmentProposal.getSponsorName());
         result.put("{START_DATE}", developmentProposal.getRequestedStartDateInitial().toString());
         result.put("{END_DATE}", developmentProposal.getRequestedEndDateInitial().toString());
-        result.put("{PROGRAM_ANNOUNCEMENT_NUMBER}", developmentProposal.getProgramAnnouncementNumber());
-        result.put("{PROGRAM_ANNOUNCEMENT_TITLE}", developmentProposal.getProgramAnnouncementTitle());
+        result.put("{PROGRAM_ANNOUNCEMENT_NUMBER}", developmentProposal.getProgramAnnouncementNumber() == null ? StringUtils.EMPTY : developmentProposal.getProgramAnnouncementNumber());
+        result.put("{PROGRAM_ANNOUNCEMENT_TITLE}", developmentProposal.getProgramAnnouncementTitle() == null ? StringUtils.EMPTY : developmentProposal.getProgramAnnouncementTitle());
         result.put("{CFDA_NUMBER}", developmentProposal.getCfdaNumber());
         if (developmentProposal.getDeadlineDate() != null) {
             result.put("{DEADLINE_DATE}", dateFormatter.format(developmentProposal.getDeadlineDate()));

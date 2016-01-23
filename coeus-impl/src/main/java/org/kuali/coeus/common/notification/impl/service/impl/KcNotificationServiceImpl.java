@@ -339,7 +339,7 @@ public class KcNotificationServiceImpl implements KcNotificationService {
     }
     
     public Set<NotificationRecipient.Builder> getNotificationRecipients(NotificationContext context) {
-        Set<NotificationRecipient.Builder> uniqueRecipients = new TreeSet<NotificationRecipient.Builder>(new Comparator<NotificationRecipient.Builder>() {
+        Set<NotificationRecipient.Builder> uniqueRecipients = new TreeSet<>(new Comparator<NotificationRecipient.Builder>() {
             public int compare(NotificationRecipient.Builder o1, NotificationRecipient.Builder o2) {
                 return o1.getRecipientId().compareTo(o2.getRecipientId());
             }
