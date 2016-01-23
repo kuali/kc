@@ -4,6 +4,10 @@
 * No Changes
 
 
+##coeus-1601.77
+* No Changes
+
+
 ##coeus-1601.76
 * Revert " upgrading JPA to try to avoid potential ConcurrentModific…"
   * Douglas Pace on Fri, 22 Jan 2016 11:57:08 -0800 [View Commit](../../commit/52ea3a02511ceb2f95c92445e92eed02bbbc3475)
