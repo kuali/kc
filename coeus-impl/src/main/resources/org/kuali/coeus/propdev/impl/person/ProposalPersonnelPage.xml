@@ -373,8 +373,8 @@
           parent="Uif-CssGridSection-2FieldLabelColumn" p:headerText="Details">
         <property name="items">
             <list>
-                <bean p:propertyName="proposalPersonRoleId" parent="PropDev-PersonnelPage-InputField"
-                      p:readOnly="@{#parent.readOnly}" p:order="10"/>
+                <bean parent="PropDev-PersonnelPage-EditableInputField" p:propertyName="proposalPersonRoleId"
+                      p:order="10"/>
                 <bean parent="PropDev-PersonnelPage-EditableInputField" p:propertyName="projectRole"
                       p:required="true" p:label="Key Person's role will be"
                       p:progressiveRender="@{#fp.proposalPersonRoleId == '#{T(org.kuali.coeus.common.framework.person.PropAwardPersonRole).KEY_PERSON_CODE}'}"
