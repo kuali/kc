@@ -25,7 +25,9 @@ import org.kuali.coeus.common.framework.auth.KcKradTransactionalDocumentViewAuth
 import org.kuali.coeus.propdev.impl.core.*;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.datadictionary.DocumentEntry;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.uif.UifConstants;
@@ -134,10 +136,59 @@ public class ProposalDevelopmentDocumentViewAuthorizer extends KcKradTransaction
     public boolean canEditView(View view, ViewModel model, Person user) {
         ProposalDevelopmentDocumentForm proposalDevelopmentDocumentForm = (ProposalDevelopmentDocumentForm) model;
         if(!proposalDevelopmentDocumentForm.isViewOnly()) {
-            return super.canEditView(view, model, user) && userHasLock(user, model);
+            return transactionDocumentViewAuthorizerCanEditView(view, model, user) && userHasLock(user, model);
         }
 
         return false;
+    }
+
+    /**
+     * canEditView method copied from TransactionalDocumentViewAuthorizerBase with Pessimistic Lock Service.
+     */
+    public boolean transactionDocumentViewAuthorizerCanEditView(View view, ViewModel model, Person user) {
+        boolean canEditView = documentViewAuthorizerCanEditView(view, model, user);
+
+        Map<String, Object> context = view.getContext();
+        DocumentEntry documentEntry = (DocumentEntry) context.get(UifConstants.ContextVariableNames.DOCUMENT_ENTRY);
+
+        if (!documentEntry.getUsePessimisticLocking()) {
+            return canEditView;
+        }
+
+        DocumentFormBase documentForm = (DocumentFormBase) model;
+        Document document = documentForm.getDocument();
+
+        if (canEditView) {
+            return getPessimisticLockService().establishPessimisticLocks(document, user, canEditView);
+        }
+        return canEditView;
+    }
+
+    /**
+     * canEditView method copied from DocumentViewAuthorizerBase.
+     */
+    public boolean documentViewAuthorizerCanEditView(View view, ViewModel model, Person user) {
+        DocumentFormBase documentForm = (DocumentFormBase) model;
+
+        return viewHelperServiceCanEditView(view, model, user) && canEdit(documentForm.getDocument(), user);
+    }
+
+    /**
+     * canEditView method copied from ViewHelperServiceImpl.
+     */
+    public boolean viewHelperServiceCanEditView(View view, ViewModel model, Person user) {
+        Map<String, String> additionalPermissionDetails = new HashMap<>();
+        additionalPermissionDetails.put(KimConstants.AttributeConstants.NAMESPACE_CODE, view.getNamespaceCode());
+        additionalPermissionDetails.put(KimConstants.AttributeConstants.VIEW_ID, model.getViewId());
+
+        if (permissionExistsByTemplate(model, KRADConstants.KRAD_NAMESPACE,
+                KimConstants.PermissionTemplateNames.EDIT_VIEW, additionalPermissionDetails)) {
+            return isAuthorizedByTemplate(model, KRADConstants.KRAD_NAMESPACE,
+                    KimConstants.PermissionTemplateNames.EDIT_VIEW, user.getPrincipalId(), additionalPermissionDetails,
+                    null);
+        }
+
+        return true;
     }
 
     public boolean userHasLock(Person user, ViewModel model) {
