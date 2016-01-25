@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1601.83
 *  Reject notification
   * As one of several approvers at a routing stop, I need to be notified if another user has rejected a proposal where I am either primary or alternate approver.
   * Currently, there is no notification available to provide this service. This means users have to check every notice in their action list.
