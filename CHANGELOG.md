@@ -1,6 +1,23 @@
 
 
 ##CURRENT
+* Check submit to sponsor permission before allowing submit to sponsor
+
+  * Previously we were only checking if they could create and edit an institutional proposal before allowing them to submit the proposal to sponsor.
+  * blackcathacker on Mon, 25 Jan 2016 16:18:12 -0500 [View Commit](../../commit/c400e97dec7bab15e5ec1e3729a40de334817d38)
+* IRB-IACUC change validation to accept any character for funding source number and name.
+  * At MIT unable to create and amendment for a protocol and
+  * this is due to validation message The Funding Number (Funding Number) may only consist of visible characters, spaces, or tabs
+  * on migrated protocol where special character exists in funding source details.
+  * Also null allowed in source name but restricted in application.
+  * The above protocol has funding source details with special characters in number and source name is empty.
+  * Changing to any character validation and forced required option as funding source "other" might have
+  * details where only source number is available.
+  * Source name validation is update to check when funding source type code is not Other.
+  * Also updated test.
+  * rmancher on Sat, 23 Jan 2016 10:51:46 -0500 [View Commit](../../commit/249874a5c0174135e17f2e61cdbc2d26807d76fb)
+
+##coeus-1601.85
 * No Changes
 
 
