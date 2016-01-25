@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+*  For addressbook it should apply the same logic as like it does for persons. Now, it would look for exempt key person roles, sponsor hierarchy and pck flag logic to see if an addressbook person need to certify or not
+  * Geo Thomas on Mon, 25 Jan 2016 11:52:20 -0500 [View Commit](../../commit/749b0a0221378bd76e3c48ece4dbcea7f069fbe8)
+*  Reverting change and adding bootstrap value for proposalPersonRoleId
+  * Gayathri Athreya on Sat, 23 Jan 2016 20:11:40 -0700 [View Commit](../../commit/4e41c08ce3d7aeaffdf76f6338c90314395f2b4a)
+
+##coeus-1601.80
 * No Changes
 
 
