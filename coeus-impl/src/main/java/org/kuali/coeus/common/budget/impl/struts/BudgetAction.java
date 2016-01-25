@@ -136,6 +136,9 @@ public class BudgetAction extends BudgetActionBase {
             ((BudgetForm)KNSGlobalVariables.getKualiForm()).setUrRateClassCodePrevValue(budget.getUrRateClassCode());
         }
         
+        budget.setStartDate(budget.getBudgetParent().getRequestedStartDateInitial());
+        budget.setEndDate(budget.getBudgetParent().getRequestedEndDateInitial());
+        
         if (isAwardBudget(budget) && StringUtils.isNotBlank(budgetForm.getSyncBudgetRate()) && budgetForm.getSyncBudgetRate().equals("Y")) {
             getBudgetRatesService().syncParentDocumentRates(budget);
             getBudgetCommonService(budget.getBudgetParent()).recalculateBudget(budget);
