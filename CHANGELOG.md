@@ -1,6 +1,38 @@
 
 
 ##CURRENT
+*  fixing number proposal hierarchy issues.
+
+  * 1 - When hierarchy parent status is Approval Pending, and children are displayed as such, when child is opened with the View link in the PD search results Actions link, the following are available:
+  * Edit button
+  * Save button
+  * From top menu Hierarchy > Sync Hierarchy and Unlink Hierarchy
+  * Child proposals that are routing should be locked down and NOT able to be edited, synced to parent or unlinked.
+  * 2 - When hierarchy parent status is Approved and Submitted, and children are displayed as such, when child is opened with the View link in the PD search results Actions link, the following are available:
+  * Edit button
+  * Save button
+  * From top menu Hierarchy > Sync Hierarchy and Unlink Hierarchy
+  * Child proposals that are Approved and Submitted should NOT be able to be edited Synced, linked or unlinked.
+  * 3)
+  * log on with quickstart (or some other user)
+  * create a proposal with budget
+  * create hierarchy
+  * do not close child with close button or manually delete any pessimistic locks but use proposal search or doc search to find the parent proposal
+  * open parent proposal, fill in required fields, submit
+  * with the same user, in the same browser session, open the child proposal
+  * Notice that the child proposal is fully editable but should not be. This is because the child has a pessimistic lock and rice thinks that if a user has a lock then the user can edit.
+  * Travis Schneeberger on Mon, 25 Jan 2016 17:46:56 -0500 [View Commit](../../commit/764aed4decbb4eb78f3666cbaf4e2053405119b0)
+* Remove unnecessary and invalid error message.
+
+  * When auto-generating periods the following error would be generated erronously.
+  * ```
+  * Error: Intended message with key: This line item contains personnel budget details and there is already a line item on period org.kuali.coeus.common.budget.framework.period.BudgetPeriod@62f67a94,numberOfParticipants=,budgetParentId=,institutionalProposalNumber=,institutionalProposalVersion=,updateUser=quickstart,updateUserSet=false,serialVersionUID=-3519927021539948875,serialVersionUID=1451642350593233282,versionNumber=0,objectId=440794f5-b380-4c2b-98b9-fb488334a426,newCollectionRecord=false,serialVersionUID=5563310175227245001,_persistence_shouldRefreshFetchGroup=false> based on this line item.Cannot apply the changes to later periods. not found.
+  * ```
+
+  * Additionally the apply to later periods on personnel line items was not properly validating the action, althought there were no negative side effects. Now the proper error message will be presented to the user when the person already exists in later periods.
+  * blackcathacker on Mon, 25 Jan 2016 16:01:31 -0500 [View Commit](../../commit/0f884ee66f4295a43afc56afcf313f3af422a431)
+
+##coeus-1601.87
 * No Changes
 
 
