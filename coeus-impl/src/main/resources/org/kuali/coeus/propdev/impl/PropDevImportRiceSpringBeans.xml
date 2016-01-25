@@ -30,6 +30,8 @@
                            http://www.springframework.org/schema/util/spring-util.xsd">
 
     <bean id="grlImporter" abstract="true" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+    <bean id="actionTakenService" parent="grlImporter" p:serviceName="enActionTakenService" />
+    <bean id="actionRequestService" parent="grlImporter" p:serviceName="enActionRequestService" />
     <bean id="legacyDataAdapter" parent="grlImporter" p:serviceName="legacyDataAdapter" />
     <bean id="dataObjectService" parent="grlImporter" p:serviceName="dataObjectService" />
     <bean id="businessObjectService" parent="grlImporter" p:serviceName="businessObjectService" />

@@ -329,15 +329,6 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
     	return context;
     }
 
-    protected List<NotificationTypeRecipient> createRecipientFromPerson(ProposalPerson person) {
-    	List<NotificationTypeRecipient> notificationRecipients = new ArrayList<>();
-        NotificationTypeRecipient recipient = new NotificationTypeRecipient();
-        recipient.setPersonId(person.getPersonId());
-        recipient.setFullName(person.getFullName());
-        notificationRecipients.add(recipient);
-        return notificationRecipients;
-    }
-
     @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=sendCertificationNotification")
     public ModelAndView sendCertificationNotification(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
         NotificationHelper<ProposalDevelopmentNotificationContext> notificationHelper = form.getNotificationHelper();
