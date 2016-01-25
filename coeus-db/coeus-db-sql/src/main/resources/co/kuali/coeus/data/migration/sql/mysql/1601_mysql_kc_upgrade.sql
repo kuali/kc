@@ -23,4 +23,5 @@
 \. ./kc/bootstrap/V1601_006__fix_create_ip_link.sql
 \. ./kc/bootstrap/V1601_007__support_new_pd_attachment.sql
 \. ./kc/bootstrap/V1601_012__person_editable_fields.sql
+\. ./kc/bootstrap/V1601_013__reject_notification.sql
 commit;

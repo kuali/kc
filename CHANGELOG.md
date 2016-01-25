@@ -1,6 +1,26 @@
 
 
 ##CURRENT
+*  Reject notification
+  * As one of several approvers at a routing stop, I need to be notified if another user has rejected a proposal where I am either primary or alternate approver.
+  * Currently, there is no notification available to provide this service. This means users have to check every notice in their action list.
+  * MIT Coeus notification engine provided this type of message and it is immensely important to the campus business process.
+  * When a proposal is routing, it often routes to a People Flow (routing map) containing a Primary Approver and at least one Secondary Approver. When someone on the People Flow rejects the proposal, an email notification to the Other Approvers listed on the People Flow (but who did not approve the proposal) should be sent to let them know this proposal was already rejected. This email notification should *not *be sent to the Approver who to the action to reject the proposal.
+  * This notification should support the standard ability to customize the Subject Line as well as adding supplemental text to the body of the email.
+  * For example, MIT would customize the email notification subject line to " PI Name's Proposal # has been returned to the Aggregator by another User", and the information in the email will contain the pre-programed details: Proposal #, PI Name, Unit Name, and Proposal Title.
+  * The attached template includes how MIT would customize this email notification for reference.
+  * This issue is related to RESKC-701, another notification MIT utilizes to support routing notifications.
+  * Gayathri Athreya on Sat, 23 Jan 2016 16:33:30 -0700 [View Commit](../../commit/e4b05ca1eecd5099c7f3b638fcffdf7485e247dc)
+* Allow changing of budget category and type separate from object code
+
+  * This has the side effect of making the object code un-editable in the current UI, similar to the KNS version of budget.
+  * blackcathacker on Sun, 24 Jan 2016 19:10:02 -0800 [View Commit](../../commit/fc417d8f3a8809a519d61bb1e90fd5acf84436bf)
+* Set budget start and end dates when opening award budget
+
+  * Otherwise when opening the award budget it will display the obligated dates, but the internal budget dates will still reflect the previous dates causing things like default period and budget printouts to behave incorrectly.
+  * blackcathacker on Sun, 24 Jan 2016 19:56:06 -0800 [View Commit](../../commit/ca54538b20cd10e0f408120b9c2e535a6fbf5e4a)
+
+##coeus-1601.82
 * No Changes
 
 
