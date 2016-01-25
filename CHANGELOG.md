@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1601.86
 * Check submit to sponsor permission before allowing submit to sponsor
 
   * Previously we were only checking if they could create and edit an institutional proposal before allowing them to submit the proposal to sponsor.
