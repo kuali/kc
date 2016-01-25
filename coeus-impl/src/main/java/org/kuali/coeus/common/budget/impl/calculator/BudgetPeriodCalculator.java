@@ -101,15 +101,6 @@ public class BudgetPeriodCalculator {
                     budgetLineItemToBeApplied.setApplyInRateFlag(prevBudgetLineItem.getApplyInRateFlag());
                     if (prevBudgetLineItem.getApplyInRateFlag()){
                     // calculate no matter what because applyinrateflag maybe changed ??
-                    
-                        if (KeyConstants.PERSONNEL_CATEGORY.equals(budgetLineItemToBeApplied.getBudgetCategory().getBudgetCategoryTypeCode())
-                                && (!budgetLineItemToBeApplied.getBudgetPersonnelDetailsList().isEmpty())) {
-                            errorMessages.add("This line item contains personnel budget details"
-                                    + " and there is already a line item on period " + budgetPeriod + " based on this line item."
-                                    + "Cannot apply the changes to later periods.");
-                            return;
-                        }
-                        
                         ScaleTwoDecimal lineItemCost = calculateInflation(budget, prevBudgetLineItem, budgetLineItemToBeApplied
                                 .getStartDate());
                         if(!budgetLineItemToBeApplied.getCostElement().equals(prevBudgetLineItem.getCostElement())){

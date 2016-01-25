@@ -55,7 +55,9 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping(value = "/proposalBudget")
 public class ProposalBudgetProjectPersonnelController extends ProposalBudgetControllerBase {
 
-    @Autowired
+    private static final String ADD_PERSONNEL_HELPER_ERROR_PATH = "addProjectPersonnelHelper.editBudgetPersonnelDetail.";
+
+	@Autowired
     @Qualifier("wizardControllerService")
     private WizardControllerService wizardControllerService;
 
@@ -314,7 +316,7 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 	
 	private boolean isSaveRulePassed(Budget budget, BudgetPeriod budgetPeriod, BudgetLineItem newBudgetLineItem, BudgetPersonnelDetails newBudgetPersonnelDetail, int editLineIndex) {
 		return getKcBusinessRulesEngine().applyRules(new BudgetSavePersonnelPeriodEvent(budget, budgetPeriod, newBudgetLineItem, newBudgetPersonnelDetail, 
-				editLineIndex, "addProjectPersonnelHelper.editBudgetPersonnelDetail."));
+				editLineIndex, ADD_PERSONNEL_HELPER_ERROR_PATH));
 	}
 
     private boolean isProjectPersonnelDeleteRulePassed(Budget budget, BudgetPerson budgetPerson) {
@@ -373,7 +375,7 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 		BudgetLineItem editBudgetLineItem = form.getAddProjectPersonnelHelper().getBudgetLineItem();
 	    int budgetLineItemIndex = budgetPeriod.getBudgetLineItems().indexOf(budgetLineItem);
 	    if(isSummaryPersonChanged(editBudgetLineItem, editBudgetPersonnel)) {
-	    	addNewPersonnelLineItemToPeriod(form, budget, budgetPeriod, editBudgetLineItem, editBudgetPersonnel, "addProjectPersonnelHelper.editBudgetPersonnelDetail.");
+	    	addNewPersonnelLineItemToPeriod(form, budget, budgetPeriod, editBudgetLineItem, editBudgetPersonnel, ADD_PERSONNEL_HELPER_ERROR_PATH);
 	    }else {
 			syncLineItemDates(editBudgetLineItem, editBudgetPersonnel);
 			if(!isSummaryPersonnel(editBudgetPersonnel)) {
@@ -473,8 +475,12 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 		Budget budget = form.getBudget();
 		BudgetPeriod currentTabBudgetPeriod = form.getAddProjectPersonnelHelper().getCurrentTabBudgetPeriod();
 	    BudgetLineItem budgetLineItem = form.getAddProjectPersonnelHelper().getBudgetLineItem();
-	    getBudgetCalculationService().applyToLaterPeriods(budget, currentTabBudgetPeriod, budgetLineItem);
-		return super.save(form);
+	    if (getKcBusinessRulesEngine().applyRules(new PersonnelApplyToPeriodsBudgetEvent(budget, ADD_PERSONNEL_HELPER_ERROR_PATH, budgetLineItem, currentTabBudgetPeriod))) {
+	    	getBudgetCalculationService().applyToLaterPeriods(budget, currentTabBudgetPeriod, budgetLineItem);
+	    	return super.save(form);
+	    } else {
+	    	return getModelAndViewService().getModelAndView(form);
+	    }
 	}
 
 	@Transactional @RequestMapping(params="methodToCall=deletePersonnelLineItem")
