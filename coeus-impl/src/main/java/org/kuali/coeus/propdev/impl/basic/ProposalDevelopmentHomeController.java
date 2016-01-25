@@ -292,7 +292,7 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
    public ModelAndView docHandler(@ModelAttribute("KualiForm") DocumentFormBase form, @RequestParam(required = false) String auditActivated, @RequestParam(required = false) String viewOnly,
                                   @RequestParam(required = false) String navigateToPageId, @RequestParam(required = false) String defaultOpenTab
                                   ) throws Exception {
-       ProposalDevelopmentDocument document;
+        ProposalDevelopmentDocument document;
        boolean isDeleted = false;
        if(!ObjectUtils.isNull(form.getDocId())) {
            document = (ProposalDevelopmentDocument) getDocumentService().getByDocumentHeaderId(form.getDocId());
