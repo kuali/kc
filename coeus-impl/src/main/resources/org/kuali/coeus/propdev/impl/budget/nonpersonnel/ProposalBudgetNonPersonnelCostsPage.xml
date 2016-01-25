@@ -424,14 +424,8 @@
                         <bean parent="Uif-DropdownControl"/>
                     </property>
                  </bean>
-                <bean parent="Uif-InputField" p:propertyName="budgetLineItem.costElement"
-                      p:refreshWhenChangedPropertyNames="#fp.budgetLineItem.budgetCategoryCode,#fp.budgetCategoryTypeCode"
-                      p:label="Object Code Name"
-                      p:optionsFinder="#{#getService('budgetNonPersonnelCostElementValuesFinder')}"
-                      p:optionsFinder.addBlankOption="false" p:order="30"
-                      p:readOnly="@{#fp.budgetLineItem.formulatedCostElementFlag or #parent.readOnly}"
-                      p:onChangeScript="ajaxSubmitForm('refresh',{'refreshCaller': 'PropBudget-EditNonPersonnelPeriod-Section'})">
-                </bean>
+                <bean parent="Uif-DataField" p:propertyName="budgetLineItem.costElementBO.description"
+                      p:label="Object Code Name" p:order="30" />
 				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.lineItemCost"
 					p:label="Total Base Cost" p:order="40" p:required="false" p:readOnly="@{#fp.budgetLineItem.formulatedCostElementFlag or #parent.readOnly}"/>
 				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.quantity" p:readOnly="@{#fp.budgetLineItem.formulatedCostElementFlag or #parent.readOnly}"
