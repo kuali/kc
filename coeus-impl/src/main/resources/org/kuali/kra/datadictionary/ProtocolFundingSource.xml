@@ -175,16 +175,16 @@
         <property name="label" value="Funding Number" />
         <property name="shortLabel" value="Funding Number" />
         <property name="maxLength" value="200" />
-        <property name="validationPattern" >
-            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
-        </property>
-    <property name="validCharactersConstraint">
-      <bean parent="AnyCharacterPatternConstraint">
-        <property name="allowWhitespace" value="true"/>
-      </bean>
-    </property>
 	    <property name="control" >
       <bean parent="TextControlDefinition" p:size="21"/>
+    </property>
+    <property name="validationPattern" >
+    	<bean parent="UTF8AnyCharacterValidationPattern" p:allowWhitespace="true" />
+    </property>
+    <property name="validCharactersConstraint">
+    	<bean parent="UTF8AnyCharacterPatternConstraint">
+        	<property name="allowWhitespace" value="true"/>
+      	</bean>
     </property>
     <property name="controlField">
       <bean p:size="21" parent="Uif-TextControl"/>
@@ -202,16 +202,16 @@
         <property name="label" value="Source" />
         <property name="shortLabel" value="Source" />
         <property name="maxLength" value="200" />
-        <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="AnyCharacterPatternConstraint">
-        <property name="allowWhitespace" value="true"/>
-      </bean>
-        </property>
         <property name="control" >
       <bean parent="TextControlDefinition" p:size="21"/>
+    </property>
+    <property name="validationPattern" >
+    	<bean parent="UTF8AnyCharacterValidationPattern" p:allowWhitespace="true" />
+    </property>
+    <property name="validCharactersConstraint">
+    	<bean parent="UTF8AnyCharacterPatternConstraint">
+        	<property name="allowWhitespace" value="true"/>
+      	</bean>
     </property>
     <property name="controlField">
       <bean p:size="21" parent="Uif-TextControl"/>

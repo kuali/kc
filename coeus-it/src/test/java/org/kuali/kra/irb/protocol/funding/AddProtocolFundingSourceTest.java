@@ -166,6 +166,28 @@ public class AddProtocolFundingSourceTest extends KcIntegrationTestBase {
     }
 
     @Test
+    public void testBlankNameFundingSourceOther() { 
+        TemplateRuleTest<AddProtocolFundingSourceEvent, ProtocolFundingSourceRule>  theTest = 
+            new  TemplateRuleTest<AddProtocolFundingSourceEvent, ProtocolFundingSourceRule> (){            
+                @Override
+                protected void prerequisite() {        
+                    fundingSource.setFundingSourceName("");
+                    fundingSource.setFundingSourceTypeCode(FundingSourceType.OTHER);
+                    event = new AddProtocolFundingSourceEvent(Constants.EMPTY_STRING, doc, fundingSource, protocolFundingSources);
+                    rule = new ProtocolFundingSourceRule();
+                    rule.setBusinessObjectService(null);
+                    rule.setProtocolFundingSourceService(getProtocolFundingSourceService());
+                    expectedReturnValue = false;
+                }                
+                @Override
+                public void checkRuleAssertions() {
+                    Assert.assertFalse(getErrorMap().containsMessageKey(KeyConstants.ERROR_PROTOCOL_FUNDING_SOURCE_NAME_NOT_FOUND));
+                }
+            };
+            theTest.checkRuleAssertions();            
+    }
+    
+    @Test
     public void testNullTypeFundingSource() { 
         TemplateRuleTest<AddProtocolFundingSourceEvent, ProtocolFundingSourceRule>  theTest = 
             new  TemplateRuleTest<AddProtocolFundingSourceEvent, ProtocolFundingSourceRule> (){            
