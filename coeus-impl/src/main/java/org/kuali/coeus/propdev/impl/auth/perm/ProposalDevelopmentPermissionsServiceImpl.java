@@ -201,7 +201,7 @@ public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelo
 			return !isAddressBookMultiPiCertificationExempt(proposalPerson);
 		}
 		if (proposalPerson.isKeyPerson()) {
-			return !isKeyPersonRoleExempt(proposalPerson);
+			return isRoleCustomDataOrSponsorExempt(proposalPerson);
 		}
 		return true;
 	}
