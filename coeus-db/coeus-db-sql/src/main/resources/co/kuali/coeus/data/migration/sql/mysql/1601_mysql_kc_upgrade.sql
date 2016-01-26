@@ -24,4 +24,5 @@
 \. ./kc/bootstrap/V1601_007__support_new_pd_attachment.sql
 \. ./kc/bootstrap/V1601_012__person_editable_fields.sql
 \. ./kc/bootstrap/V1601_013__reject_notification.sql
+\. ./kc/bootstrap/V1601_014__approve_notification.sql
 commit;

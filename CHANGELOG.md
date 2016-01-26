@@ -1,6 +1,16 @@
 
 
 ##CURRENT
+*  Creating notification when proposal approved.
+  * If I am one of several approvers at a routing stop where only one approval is required, (need the system to check if the peopleflow map stop is set to all or first and only perform notification if first) I need to be notified if another user has approved a proposal where I am either primary or alternate.
+  * Currently, there is no notification available to provide this service. This means users have to check every notice in their action list.
+  * MIT Coeus notification engine provided this type of message and it is immensely important to the campus business process.
+  * When a proposal is routing, it often routes to a People Flow (routing map) containing a Primary Approver and at least one Secondary Approver. When someone on the People Flow approves the proposal, an email notification to the Other Approvers listed on the People Flow (but who did not approve the proposal) should be sent to let them know this proposal was already approved. This email notification should not be sent to the Approver who approved the proposal.
+  * The email notification subject line should contain a subject line "Proposal _____ Approved by Other User", and the information in the email should contain the Proposal #, PI Name, Unit Name, and Proposal Title.
+  * Please execute this in the notification service so that the message body can be changes and implementers can choose if the message is active and or requires a prompt window at action or approved by another
+  * Gayathri Athreya on Mon, 25 Jan 2016 19:13:41 -0700 [View Commit](../../commit/4567ec37aba19c92ff56da46e1757be7309aad98)
+
+##coeus-1601.95
 * No Changes
 
 
