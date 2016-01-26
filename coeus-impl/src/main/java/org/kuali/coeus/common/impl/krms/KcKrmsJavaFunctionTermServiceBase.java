@@ -44,7 +44,7 @@ public abstract class KcKrmsJavaFunctionTermServiceBase {
     private DocumentService documentService;
 
     protected String[] buildArrayFromCommaList(String commaList) {
-        String[] newArray = commaList.split(","); // MIT Equity Interests
+        String[] newArray = commaList.split(",");
         if (newArray.length == 0) {
             newArray = new String[] { commaList.trim() };
         }
