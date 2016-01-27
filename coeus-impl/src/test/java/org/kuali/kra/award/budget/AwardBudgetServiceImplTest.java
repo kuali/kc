@@ -22,9 +22,11 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jmock.lib.concurrent.Synchroniser;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
@@ -350,4 +352,59 @@ public class AwardBudgetServiceImplTest {
         }
         return result;
     }
+
+	@Test
+	public void test_calculate_calculateTotalDirectCost_unset_previous_fringe_amount_current_fringe_amount() {
+		AwardBudgetPeriodExt period = new AwardBudgetPeriodExt();
+		final ScaleTwoDecimal currentTdc = new ScaleTwoDecimal(100);
+		period.setTotalDirectCost(currentTdc);
+
+		final ScaleTwoDecimal newTdc = new AwardBudgetServiceImpl().calculateTotalDirectCost(period);
+
+		Assert.assertEquals(currentTdc, newTdc);
+	}
+
+	@Test
+	public void test_calculate_calculateTotalDirectCost_unset_previous_fringe_amount() {
+		AwardBudgetPeriodExt period = new AwardBudgetPeriodExt();
+		final ScaleTwoDecimal currentTdc = new ScaleTwoDecimal(100);
+		final ScaleTwoDecimal fringeAmount = new ScaleTwoDecimal(500);
+		period.setTotalDirectCost(currentTdc);
+		period.setTotalFringeAmount(fringeAmount);
+
+		final ScaleTwoDecimal newTdc = new AwardBudgetServiceImpl().calculateTotalDirectCost(period);
+
+		//since the previous fringe amount and the new fringe amount are initialized to the same, the currentTdc will be 100
+		Assert.assertEquals(currentTdc, newTdc);
+	}
+
+	@Test
+	public void test_calculate_calculateTotalDirectCostAdd() {
+		AwardBudgetPeriodExt period = new AwardBudgetPeriodExt();
+		final ScaleTwoDecimal currentTdc = new ScaleTwoDecimal(100);
+		final ScaleTwoDecimal fringeAmount = new ScaleTwoDecimal(500);
+		final ScaleTwoDecimal previousFringeAmount = ScaleTwoDecimal.ZERO;
+		period.setTotalDirectCost(currentTdc);
+		period.setTotalFringeAmount(fringeAmount);
+		period.setPrevTotalFringeAmount(previousFringeAmount);
+
+		final ScaleTwoDecimal newTdc = new AwardBudgetServiceImpl().calculateTotalDirectCost(period);
+
+		Assert.assertEquals(currentTdc.add(fringeAmount.subtract(previousFringeAmount)), newTdc);
+	}
+
+	@Test
+	public void test_calculate_calculateTotalDirectCostSubtract() {
+		AwardBudgetPeriodExt period = new AwardBudgetPeriodExt();
+		final ScaleTwoDecimal currentTdc = new ScaleTwoDecimal(100);
+		final ScaleTwoDecimal fringeAmount = ScaleTwoDecimal.ZERO;
+		final ScaleTwoDecimal previousFringeAmount = new ScaleTwoDecimal(500);
+		period.setTotalDirectCost(currentTdc);
+		period.setTotalFringeAmount(fringeAmount);
+		period.setPrevTotalFringeAmount(previousFringeAmount);
+
+		final ScaleTwoDecimal newTdc = new AwardBudgetServiceImpl().calculateTotalDirectCost(period);
+
+		Assert.assertEquals(currentTdc.add(fringeAmount.subtract(previousFringeAmount)), newTdc);
+	}
 }

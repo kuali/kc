@@ -1021,23 +1021,29 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     public void calculateBudgetOnSave(Budget budget) {
     	awardBudgetCalculationService.calculateBudget(budget);
     	awardBudgetCalculationService.calculateBudgetSummaryTotals(budget);
-        List<BudgetPeriod> awardBudgetPeriods = budget.getBudgetPeriods();
-        for (BudgetPeriod awardBudgetPeriod : awardBudgetPeriods) {
-            AwardBudgetPeriodExt budgetPeriod = (AwardBudgetPeriodExt)awardBudgetPeriod;
-            ScaleTwoDecimal periodFringeTotal = budgetPeriod.getPrevTotalFringeAmount();
-            ScaleTwoDecimal totalFringeAmount = budgetPeriod.getTotalFringeAmount();
-            ScaleTwoDecimal fringeAmountDiff = totalFringeAmount.subtract(periodFringeTotal);
-        	ScaleTwoDecimal totalDirect = budgetPeriod.getTotalDirectCost().add(fringeAmountDiff);
-			if(!totalDirect.equals(budgetPeriod.getTotalDirectCost())){
-				budgetPeriod.setTotalDirectCost(totalDirect);
-			}
-            budgetPeriod.setTotalCost(budgetPeriod.getTotalDirectCost().add(budgetPeriod.getTotalIndirectCost()));
-        }
+        budget.getBudgetPeriods().stream()
+                .map(period -> (AwardBudgetPeriodExt) period)
+                .forEach(period -> {
+            period.setTotalDirectCost(calculateTotalDirectCost(period));
+            period.setTotalCost(calculateTotalCost(period));
+        });
+
         setBudgetCostsFromPeriods(budget);
     }
-    
 
-	public void populateSummaryCalcAmounts(Budget budget,BudgetPeriod budgetPeriod) {
+    protected ScaleTwoDecimal calculateTotalDirectCost(AwardBudgetPeriodExt budgetPeriod) {
+        ScaleTwoDecimal previousFringeTotal = budgetPeriod.getPrevTotalFringeAmount();
+        ScaleTwoDecimal totalFringeAmount = budgetPeriod.getTotalFringeAmount();
+        ScaleTwoDecimal fringeAmountDiff = totalFringeAmount.subtract(previousFringeTotal);
+        return budgetPeriod.getTotalDirectCost().add(fringeAmountDiff);
+    }
+
+    protected ScaleTwoDecimal calculateTotalCost(AwardBudgetPeriodExt budgetPeriod) {
+        return budgetPeriod.getTotalDirectCost().add(budgetPeriod.getTotalIndirectCost());
+    }
+
+
+    public void populateSummaryCalcAmounts(Budget budget,BudgetPeriod budgetPeriod) {
         AwardBudgetPeriodExt awardBudgetPeriod = (AwardBudgetPeriodExt)budgetPeriod;
         List<AwardBudgetPeriodSummaryCalculatedAmount> awardBudgetPeriodFringeAmounts = awardBudgetPeriod.getAwardBudgetPeriodFringeAmounts();
         awardBudgetPeriodFringeAmounts.clear();

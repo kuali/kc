@@ -439,17 +439,6 @@ public class BudgetAction extends BudgetActionBase {
         BudgetForm budgetForm = (BudgetForm) form;
         Budget budget = budgetForm.getBudget();
         populatePersonnelRoles(budget);
-        List<BudgetPeriod> awardBudgetPeriods = new ArrayList<BudgetPeriod>();
-        if(isAwardBudget(budget)){
-        	for(BudgetPeriod period : budget.getBudgetPeriods()) {
-
-        		AwardBudgetPeriodExt awardBudgetPeriod = (AwardBudgetPeriodExt)period;
-        		awardBudgetPeriod.setPrevTotalFringeAmount(awardBudgetPeriod.getTotalFringeAmount());
-        		awardBudgetPeriods.add(awardBudgetPeriod);
-
-        	}
-        	budget.setBudgetPeriods(awardBudgetPeriods);
-        }
         for(BudgetPeriod period : budget.getBudgetPeriods()) {
         	
         	for(BudgetLineItem lineItem : period.getBudgetLineItems()) {
