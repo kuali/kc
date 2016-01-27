@@ -54,6 +54,8 @@ public class SalaryCalculator {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(SalaryCalculator.class);
     private static final String STRING_1 = "1";
     private static final int DEFAULT_WORKING_MONTHS = 12;
+    private static final String APPOINTMENT_TYPE = "appointmentType";
+
     private Budget budget;
     private BudgetPersonnelDetails personnelLineItem;
     private Date startDate;
@@ -124,6 +126,10 @@ public class SalaryCalculator {
             dateTimeService = KcServiceLocator.getService(DateTimeService.class);
         }
         return dateTimeService;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
     }
 
     private QueryList<BudgetPerson> filterBudgetPersons() {
@@ -268,9 +274,7 @@ public class SalaryCalculator {
                 budgetPerson = (BudgetPerson) changedObject;
                 rateChangeDate = budgetPerson.getStartDate();
                 prevSalaryDetails.setActualBaseSalary(budgetPerson.getCalculationBase());
-                if (budgetPerson.getAppointmentType() == null) {
-                    budgetPerson.refreshReferenceObject("appointmentType");
-                }
+                updateBudgetPerson(budgetPerson);
                 prevSalaryDetails.setWorkingMonths(budgetPerson.getAppointmentType().getDuration());
 
             }
@@ -345,7 +349,7 @@ public class SalaryCalculator {
             }
 
             if (newBudgetPerson != null) {
-                newBudgetPerson.refreshReferenceObject("appointmentType");
+                updateBudgetPerson(newBudgetPerson);
                 salaryDetails.setWorkingMonths(newBudgetPerson.getAppointmentType() == null ? DEFAULT_WORKING_MONTHS
                         : newBudgetPerson.getAppointmentType().getDuration());
             }
@@ -358,6 +362,12 @@ public class SalaryCalculator {
         breakUpIntervals.add(salaryDetails);
         return breakUpIntervals;
 
+    }
+
+    private void updateBudgetPerson(BudgetPerson budgetPerson) {
+        if (budgetPerson.getAppointmentType() == null) {
+            budgetPerson.refreshReferenceObject(APPOINTMENT_TYPE);
+        }
     }
 
     private QueryList<DateSortable> processAnniversarySalaryDateInflationRates(QueryList<DateSortable> combinedList) {
@@ -431,7 +441,7 @@ public class SalaryCalculator {
         return qlFilteredRates.isEmpty() ? null : qlFilteredRates.get(0);
     }
 
-    private boolean isAnniversarySalaryDateEnabled() {
+    protected boolean isAnniversarySalaryDateEnabled() {
         return getParameterService().getParameterValueAsString(Budget.class, Constants.ENABLE_SALARY_INFLATION_ANNIV_DATE)
                 .equals(STRING_1);
     }
@@ -440,7 +450,7 @@ public class SalaryCalculator {
         return KcServiceLocator.getService(ParameterService.class);
     }
 
-    private void populateAppointmentType(BudgetPerson budgetPerson) {
+    protected void populateAppointmentType(BudgetPerson budgetPerson) {
         Map<String, String> qPersonMap = new HashMap<String, String>();
         qPersonMap.put("appointmentTypeCode", budgetPerson.getAppointmentTypeCode());
         AppointmentType appointmentType =  KcServiceLocator.getService(BusinessObjectService.class)
@@ -504,7 +514,7 @@ public class SalaryCalculator {
                             totalSalary += (perMonthSalary / noOfDaysInMonth * noOfActualDays);
                             startDateCalendar.set(Calendar.DAY_OF_MONTH, effdtCalendar.get(Calendar.DAY_OF_MONTH));
                         }
-                        altBudgetPerson.refreshReferenceObject("appointmentType");
+                        updateAltBudgetPerson();
                         paidMonths = (altBudgetPerson.getAppointmentType().getDuration() == null) ? 12 : (altBudgetPerson
                                 .getAppointmentType().getDuration().intValue());
                         perMonthSalary = this.getActualBaseSalary().doubleValue() / paidMonths;
@@ -527,6 +537,11 @@ public class SalaryCalculator {
             }
             return calculatedSalary.add(new ScaleTwoDecimal(totalSalary));
         }
+
+        private void updateAltBudgetPerson() {
+            altBudgetPerson.refreshReferenceObject(APPOINTMENT_TYPE);
+        }
+
 
         /**
          * Calculate the salary by using base salary and applicable rate
@@ -624,13 +639,11 @@ public class SalaryCalculator {
         Date effectiveDate;
         if (isAnniversarySalaryDateEnabled() && budgetPerson.getSalaryAnniversaryDate() != null) {
             qlist.addAll(createAnnualInflationRates(budgetPerson, previousEndDate));
-            effectiveDate = budgetPerson.getSalaryAnniversaryDate();
         } else {
-            qlist.addAll(filterInflationRates(p1StartDate, startDate));
-            effectiveDate = budgetPerson.getEffectiveDate();
+            qlist.addAll(filterInflationRates(p1StartDate, add(startDate, -1)));
         }
         for (BudgetRate budgetProposalrate : qlist) {
-            if (budgetProposalrate.getStartDate().after(effectiveDate)) {
+            if (budgetProposalrate.getStartDate().after(budgetPerson.getEffectiveDate())) {
                 calBase = calBase.add(calBase.multiply(budgetProposalrate.getApplicableRate().bigDecimalValue()).divide(new ScaleTwoDecimal(100.00).bigDecimalValue(), RoundingMode.HALF_UP));
             }
         }
