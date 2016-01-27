@@ -302,7 +302,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     }
 
     private boolean hasProposalBeenReject(WorkflowDocument document) {
-        return document.getPreviousNodeNames().contains(getKcDocumentRejectionService().getWorkflowInitialNodeName(document.getDocumentTypeName()));
+        return getKcDocumentRejectionService().isDocumentOnInitialNode(this.getDocumentHeader().getWorkflowDocument());
     }
 
     private boolean isLastSubmitterApprovalAction(ActionTaken actionTaken) {
