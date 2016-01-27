@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+*  fixes salary inflation issues and adds unit test
+  * Joe Williams on Wed, 27 Jan 2016 13:15:44 -0600 [View Commit](../../commit/9d70702c2d75ed56e9b83d6a6cd62782174acb0e)
+
+##coeus-1601.98
 *  award budget totals in the summary tab and the parameters tab do not match when a fringe amount is entered and later changed
   * Travis Schneeberger on Wed, 27 Jan 2016 15:39:23 -0500 [View Commit](../../commit/f46926e9797c53e2c29d08f7cd3f40513299c7ce)
 
