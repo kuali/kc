@@ -1,6 +1,16 @@
 
 
 ##CURRENT
+*  fix budget cost. I reverted the fix for REKC-818 since that fix was causing rounding errors reported in this jira
+  * and added a new fix for 818.
+  * The PD Budget Print > "2 Budget Cumulative Report" & "4 Budget Summary Report" had previously been fixed and passed testing.
+  * Now, several issues have returned.
+  * In both print reports, in the Calculation Methodology "Allocated Administrative Support and Lab Expense Rates and Base" section, the Bases are populating incorrectly.
+  * For LA - Utilities, LA - Salaries, and LA- M&S, the bases should always be the same.
+  * Now, they are printing differently the Salaries base correct and the others each wrong, even though the calculated costs are correct.
+  * Gayathri Athreya on Tue, 26 Jan 2016 16:32:22 -0700 [View Commit](../../commit/b21b508ff6e776b41a2fd63617a3ae359e327752)
+
+##coeus-1601.96
 *  Creating notification when proposal approved.
   * If I am one of several approvers at a routing stop where only one approval is required, (need the system to check if the peopleflow map stop is set to all or first and only perform notification if first) I need to be notified if another user has approved a proposal where I am either primary or alternate.
   * Currently, there is no notification available to provide this service. This means users have to check every notice in their action list.
