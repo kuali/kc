@@ -33,7 +33,6 @@ import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
 import org.kuali.kra.award.budget.AwardBudgetExt;
-import org.kuali.kra.award.budget.AwardBudgetPeriodExt;
 import org.kuali.kra.award.budget.calculator.AwardBudgetCalculationService;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.document.AwardDocument;
@@ -129,10 +128,10 @@ public class BudgetAction extends BudgetActionBase {
             budget.setActivityTypeCode(KcServiceLocator.getService(BudgetService.class).getActivityTypeForBudget(budget));
         }
 
-        if(budget.getOhRateClassCode()!=null && ((BudgetForm)KNSGlobalVariables.getKualiForm())!=null){
+        if(budget.getOhRateClassCode()!=null && (KNSGlobalVariables.getKualiForm())!=null){
             ((BudgetForm)KNSGlobalVariables.getKualiForm()).setOhRateClassCodePrevValue(budget.getOhRateClassCode());
         }        
-        if(budget.getUrRateClassCode()!=null && ((BudgetForm)KNSGlobalVariables.getKualiForm())!=null){
+        if(budget.getUrRateClassCode()!=null && (KNSGlobalVariables.getKualiForm())!=null){
             ((BudgetForm)KNSGlobalVariables.getKualiForm()).setUrRateClassCodePrevValue(budget.getUrRateClassCode());
         }
         
@@ -190,7 +189,7 @@ public class BudgetAction extends BudgetActionBase {
         return KcServiceLocator.getService(BudgetRatesService.class);
     }
     public List<HeaderNavigation> getBudgetHeaderNavigatorList(){
-        DataDictionaryService dataDictionaryService = (DataDictionaryService) KcServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
+        DataDictionaryService dataDictionaryService = KcServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
         KNSDocumentEntry docEntry = (KNSDocumentEntry) dataDictionaryService.getDataDictionary().getDocumentEntry(Budget.class.getName());
         return docEntry.getHeaderNavigationList();
       }
@@ -242,8 +241,7 @@ public class BudgetAction extends BudgetActionBase {
         	getBudgetCalculationService().calculateBudget(budget);
         }
         ActionForward forward = super.save(mapping, form, request, response);
-        BudgetForm savedBudgetForm = (BudgetForm) form;
-        AwardBudgetDocument savedBudgetDoc = savedBudgetForm.getBudgetDocument();
+
 
         if (budgetForm.getMethodToCall().equals(SAVE) && budgetForm.isAuditActivated()) {
             forward = mapping.findForward(BUDGET_ACTIONS);
@@ -278,18 +276,13 @@ public class BudgetAction extends BudgetActionBase {
         return forward;
     }
     
-    @SuppressWarnings("rawtypes")
     protected void updateBudgetAttributes(ActionForm form, HttpServletRequest request) {
         final BudgetForm budgetForm = (BudgetForm) form;
         AwardBudgetDocument awardBudgetDocument = budgetForm.getBudgetDocument();
-        BudgetParent budgetParent = awardBudgetDocument.getBudget().getBudgetParent();
         populateBudgetPrintForms(awardBudgetDocument.getBudget());
     }
     
     public ActionForward versions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        BudgetForm budgetForm = (BudgetForm) form;
-        AwardBudgetDocument awardBudgetDocument = budgetForm.getBudgetDocument();
-        BudgetParent budgetParent = awardBudgetDocument.getBudget().getBudgetParent();
         return mapping.findForward(Constants.BUDGET_VERSIONS_PAGE);
     }
 
@@ -341,16 +334,16 @@ public class BudgetAction extends BudgetActionBase {
         Budget budget = budgetForm.getBudget();
         
         BudgetCategoryTypeValuesFinder budgetCategoryTypeValuesFinder = new BudgetCategoryTypeValuesFinder();
-        List<KeyValue> budgetCategoryTypes = new ArrayList<KeyValue>();   
+        List<KeyValue> budgetCategoryTypes = new ArrayList<>();
         String personnelBudgetCategoryTypeCode = getPersonnelBudgetCategoryTypeCode();
         
         for(KeyValue budgetCategoryType: budgetCategoryTypeValuesFinder.getKeyValues()){
-            String budgetCategoryTypeCode = (String) budgetCategoryType.getKey();
+            String budgetCategoryTypeCode = budgetCategoryType.getKey();
             if(StringUtils.isNotBlank(budgetCategoryTypeCode) && StringUtils.equalsIgnoreCase(budgetCategoryTypeCode, personnelBudgetCategoryTypeCode)) {
                 budgetCategoryTypes.add(budgetCategoryType);
                 BudgetLineItem newBudgetLineItem = budget.getNewBudgetLineItem();
                 if (budgetForm.getNewBudgetLineItems() == null) {
-                    budgetForm.setNewBudgetLineItems(new ArrayList<BudgetLineItem>());
+                    budgetForm.setNewBudgetLineItems(new ArrayList<>());
                 }
                 budgetForm.getNewBudgetLineItems().add(newBudgetLineItem);
             }
@@ -362,11 +355,11 @@ public class BudgetAction extends BudgetActionBase {
         Budget budget = budgetForm.getBudget();
         
         BudgetCategoryTypeValuesFinder budgetCategoryTypeValuesFinder = new BudgetCategoryTypeValuesFinder();
-        List<KeyValue> budgetCategoryTypes = new ArrayList<KeyValue>();      
+        List<KeyValue> budgetCategoryTypes = new ArrayList<>();
         String personnelBudgetCategoryTypeCode = getPersonnelBudgetCategoryTypeCode();
         
         for(KeyValue budgetCategoryType: budgetCategoryTypeValuesFinder.getKeyValues()){
-            String budgetCategoryTypeCode = (String) budgetCategoryType.getKey();
+            String budgetCategoryTypeCode = budgetCategoryType.getKey();
             if(StringUtils.isNotBlank(budgetCategoryTypeCode) && !StringUtils.equalsIgnoreCase(budgetCategoryTypeCode, personnelBudgetCategoryTypeCode)) {
                 budgetCategoryTypes.add(budgetCategoryType);
                 BudgetLineItem newBudgetLineItem = budget.getNewBudgetLineItem();
@@ -507,7 +500,7 @@ public class BudgetAction extends BudgetActionBase {
         assert budgetForm != null : "the form is null";
         
         final DocumentService docService = KcServiceLocator.getService(DocumentService.class);
-        Award award = (Award) budgetForm.getBudgetDocument().getBudget().getBudgetParent();
+        Award award = budgetForm.getBudgetDocument().getBudget().getBudgetParent();
         
         //find the newest, uncanceled award document to return to
         String docNumber = award.getAwardDocument().getDocumentNumber();
@@ -568,10 +561,7 @@ public class BudgetAction extends BudgetActionBase {
 
     /**
      * 
-     * Handy method to stream the byte array to response object
-     * @param attachmentDataSource
-     * @param response
-     * @throws Exception
+     * Handy method to stream the byte array to response object.
      */
     public void streamToResponse(AttachmentDataSource attachmentDataSource,HttpServletResponse response) throws Exception{
         byte[] xbts = attachmentDataSource.getData();
@@ -660,12 +650,7 @@ public class BudgetAction extends BudgetActionBase {
     protected BudgetCommonService<BudgetParent> getBudgetCommonService(BudgetParent budgetParent) {
         return BudgetCommonServiceFactory.createInstance(budgetParent);
     }
-    /**
-     * This method is to recalculate the budget period
-     * @param budgetForm
-     * @param budget
-     * @param budgetPeriod
-     */
+
     protected void recalculateBudgetPeriod(BudgetForm budgetForm, Budget budget, BudgetPeriod budgetPeriod) {
         getBudgetCommonService(budget.getBudgetParent()).recalculateBudgetPeriod(budget, budgetPeriod);
     }  

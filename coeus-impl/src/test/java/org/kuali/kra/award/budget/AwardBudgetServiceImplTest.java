@@ -42,6 +42,7 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposalBoLite;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectExtension;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -73,7 +74,7 @@ public class AwardBudgetServiceImplTest {
     @Test
     public void testFindBudgetPeriodsFromLinkedProposal() {
         awardBudgetService = new AwardBudgetServiceImpl(){
-            protected List findMatching(Class clazz, String key, Object value){
+            protected <T extends BusinessObject> List<T>  findMatching(Class<T> clazz, String key, Object value){
                 return mockedFindObjectsWithSingleKey(clazz, key, value);
             }
         };
@@ -243,7 +244,7 @@ public class AwardBudgetServiceImplTest {
 		return new AwardBudgetServiceImpl() {
     		@Override
     		protected void populateCalculatedAmount(AwardBudgetPeriodExt awardBudgetPeriod, AwardBudgetLineItemExt awardBudgetLineItem) {
-    			return;
+
     		}
     		@Override
     		Date getEffectiveRateStartDate(final Budget awardBudget) {
@@ -325,9 +326,9 @@ public class AwardBudgetServiceImplTest {
 	    result.add(temp);
 	    return result;
     }
-    
-    @SuppressWarnings("unchecked")
-    protected List mockedFindObjectsWithSingleKey(Class clazz, String key, Object value) {
+
+	@SuppressWarnings("unchecked")
+    protected <T extends BusinessObject> List<T>  mockedFindObjectsWithSingleKey(Class<T> clazz, String key, Object value) {
     	List result = new ArrayList();
     	if (clazz == AwardFundingProposal.class) {
             assertEquals(awardId, value);
