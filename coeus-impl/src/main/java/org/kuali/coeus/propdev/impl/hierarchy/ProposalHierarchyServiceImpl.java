@@ -1236,11 +1236,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             throw new UnsupportedOperationException(String.format("Cannot reject proposal %s it is a hierarchy child or ", proposalNumber));
         }
 
-        boolean pdNeedsToBeSaved = false;
-        if (!ProposalState.REVISIONS_REQUESTED.equals(pDoc.getDevelopmentProposal().getProposalStateTypeCode())) {
-        	pDoc.getDevelopmentProposal().setProposalStateTypeCode(ProposalState.REVISIONS_REQUESTED);
-        	pdNeedsToBeSaved = true;
-        }
         if (rejectFile != null && rejectFile.getBytes().length > 0) {
             Narrative narrative = new Narrative();
             narrative.setName(rejectFile.getOriginalFilename());
@@ -1260,10 +1255,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             narrative.setEmailAddress(globalVariableService.getUserSession().getPerson().getEmailAddress());
             getLegacyNarrativeService().prepareNarrative(pDoc, narrative);
             pDoc.getDevelopmentProposal().getInstituteAttachments().add(narrative);
-            pdNeedsToBeSaved = true;
-        }
-        if (pdNeedsToBeSaved) {
-        	dataObjectService.save(pDoc);
+            dataObjectService.save(pDoc);
         }
 
     }

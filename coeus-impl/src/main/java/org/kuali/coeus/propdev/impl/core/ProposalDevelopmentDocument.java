@@ -282,7 +282,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
                 }
             }
             String pCode = getDevelopmentProposal().getProposalStateTypeCode();
-            getDevelopmentProposal().setProposalStateTypeCode(getProposalStateService().getProposalStateTypeCode(this, hasProposalBeenReject(getDocumentHeader().getWorkflowDocument())));
+            getDevelopmentProposal().setProposalStateTypeCode(getProposalStateService().getProposalStateTypeCode(this, hasProposalBeenRejected(getDocumentHeader().getWorkflowDocument())));
             if (!StringUtils.equals(pCode, getDevelopmentProposal().getProposalStateTypeCode())) {
                 getDataObjectService().save(getDevelopmentProposal());
                 getDevelopmentProposal().refreshReferenceObject("proposalState");
@@ -301,8 +301,8 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         }
     }
 
-    private boolean hasProposalBeenReject(WorkflowDocument document) {
-        return getKcDocumentRejectionService().isDocumentOnInitialNode(this.getDocumentHeader().getWorkflowDocument());
+    private boolean hasProposalBeenRejected(WorkflowDocument document) {
+        return getKcDocumentRejectionService().isDocumentOnInitialNode(document);
     }
 
     private boolean isLastSubmitterApprovalAction(ActionTaken actionTaken) {

@@ -249,9 +249,7 @@ public class ProposalDevelopmentSubmitController extends
         		form.getProposalDevelopmentDocument().getActionRequests().stream()
         			.filter(actionRequest -> ProposalDevelopmentConstants.KewConstants.AGGREGATORS_REQUEST_FOR_REVIEW_ANNOTATION.equals(actionRequest.getAnnotation()))
         			.map(actionRequest -> getActionRequestService().findByActionRequestId(actionRequest.getId()))
-        			.forEach(actionRequest -> {
-        				getActionRequestService().deactivateRequest(null, actionRequest);        				
-        			});
+        			.forEach(actionRequest -> getActionRequestService().deactivateRequest(null, actionRequest));
         		getTransactionalDocumentControllerService().route(form);
         	}
     	} else {
