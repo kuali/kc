@@ -854,7 +854,6 @@ public abstract class BudgetBaseStream implements XmlStream {
 	}
 
 	protected List<ReportType> getReportTypeListForBudgetOHRateAndBase() {
-        String OVERHEAD_RATE_CLASS_TYPE = RateClassType.OVERHEAD.getRateClassType();
 		List<ReportTypeVO> tempReportTypeVOList = new ArrayList<ReportTypeVO>();
 		List<ReportType> reportTypeList;
 		Map<String, ReportType> reportTypeMap = new HashMap<String, ReportType>();
@@ -1001,7 +1000,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 	}
 
 	protected void setBudgetRateAndBaseListForBudgetOHRateAndBase(List<ReportTypeVO> reportTypeVOList, BudgetLineItem budgetLineItem) {
-		Map<String, BudgetRateAndBase> ohBudgetRateBaseMap = new HashMap<String, BudgetRateAndBase>();
+		Map<String, BudgetRateAndBase> ohBudgetRateBaseMap = new HashMap<>();
 		for (BudgetRateAndBase budgetRateAndBase : budgetLineItem.getBudgetRateAndBaseList()) {
 			budgetRateAndBase.refreshReferenceObject(RATE_CLASS);
 			if (budgetRateAndBase.getRateClass().getRateClassTypeCode().equals(RateClassType.OVERHEAD.getRateClassType())) {
@@ -1036,8 +1035,11 @@ public abstract class BudgetBaseStream implements XmlStream {
 		reportTypeVO.setStartDate(budgetRateAndBase.getStartDate());
 		reportTypeVO.setEndDate(budgetRateAndBase.getEndDate());
 		reportTypeVO.setAppliedRate(budgetRateAndBase.getAppliedRate());
-		reportTypeVO.setSalaryRequested(budgetRateAndBase.getBaseCost());
-		reportTypeVO.setCalculatedCost(budgetRateAndBase.getCalculatedCost());
+        reportTypeVO.setCalculatedCost(budgetRateAndBase.getCalculatedCost());
+        reportTypeVO.setSalaryRequested(ScaleTwoDecimal.ZERO);
+        if(budgetRateAndBase.getCalculatedCost().isNonZero()) {
+            reportTypeVO.setSalaryRequested(budgetRateAndBase.getBaseCost());
+        }
 		reportTypeVO.setOnOffCampusFlag(budgetRateAndBase.getOnOffCampusFlag());
 		return reportTypeVO;
 	}
@@ -1119,30 +1121,18 @@ public abstract class BudgetBaseStream implements XmlStream {
 		}
 	}
 
-
-    protected ScaleTwoDecimal getBaseCost(BudgetPersonnelRateAndBase budgetPersRateAndBase) {
-        if (budgetPersRateAndBase.getAppliedRate().equals(ScaleTwoDecimal.ZERO)) {
-            return budgetPersRateAndBase.getSalaryRequested();
-        }
-
-        BigDecimal baseCost = budgetPersRateAndBase.getCalculatedCost().bigDecimalValue().divide(
-                getRate(budgetPersRateAndBase.getAppliedRate()), 5, RoundingMode.HALF_UP);
-        return new ScaleTwoDecimal(baseCost);
-    }
-
-    protected BigDecimal getRate(ScaleTwoDecimal appliedRate) {
-        return appliedRate.bigDecimalValue().divide(new BigDecimal(100));
-    }
-
-
     protected ReportTypeVO getReportTypeVOForBudgetPersonnelRateAndBase(BudgetPersonnelRateAndBase budgetPersRateAndBase) {
 		ReportTypeVO reportTypeVO = new ReportTypeVO();
 		reportTypeVO.setRateClassDesc(budgetPersRateAndBase.getRateClass().getDescription());
 		reportTypeVO.setStartDate(budgetPersRateAndBase.getStartDate());
 		reportTypeVO.setEndDate(budgetPersRateAndBase.getEndDate());
 		reportTypeVO.setAppliedRate(budgetPersRateAndBase.getAppliedRate());
-        reportTypeVO.setSalaryRequested(getBaseCost(budgetPersRateAndBase));
-		reportTypeVO.setCalculatedCost(budgetPersRateAndBase.getCalculatedCost());
+        reportTypeVO.setCalculatedCost(budgetPersRateAndBase.getCalculatedCost());
+        reportTypeVO.setSalaryRequested(ScaleTwoDecimal.ZERO);
+        // this means this rate was not applied or base cost is 0
+        if (budgetPersRateAndBase.getCalculatedCost().isNonZero()) {
+            reportTypeVO.setSalaryRequested(budgetPersRateAndBase.getSalaryRequested());
+        }
 		reportTypeVO.setOnOffCampusFlag(budgetPersRateAndBase.getOnOffCampusFlag());
 		return reportTypeVO;
 	}
