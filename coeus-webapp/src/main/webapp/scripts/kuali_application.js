@@ -2595,6 +2595,7 @@ function setRateOverrideFlag(budgetPeriod){
 function updateFringeCalcAmounts(budgetPeriodFringeTotal,budgetPeriod,calcAmontsCount){
 	var fringeTotal = dwr.util.getValue("document.budget.budgetPeriods["+(budgetPeriod-1)+"].totalFringeAmount");
 	if(budgetPeriodFringeTotal!=fringeTotal){
+		dwr.util.setValue("document.budget.budgetPeriods["+(budgetPeriod-1)+"].prevTotalFringeAmount",budgetPeriodFringeTotal);
 		setRateOverrideFlag(budgetPeriod);
 		for(var i= 0; i < calcAmontsCount; i++) {
 			dwr.util.setValue("document.budget.budgetPeriods["+(budgetPeriod-1)+"].awardBudgetPeriodFringeAmounts["+i+"].calculatedCost","");

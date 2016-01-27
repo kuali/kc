@@ -270,7 +270,10 @@
 							<kul:htmlControlAttribute styleClass="align-right" property="document.budget.budgetPeriods[${period.budgetPeriod-1}].totalFringeAmount" 
 												attributeEntry="${awardBudgetPeriodAttributes.totalFringeAmount}" 
 												onchange="updateFringeCalcAmounts('${KualiForm.document.budget.budgetPeriods[period.budgetPeriod-1].totalFringeAmount}','${period.budgetPeriod}','${fn:length(fringeCalcAmountList)}');"/>
-		           	  </div>
+					  </div>
+						<c:set var="prevTotalFringeAmountProperty" value="document.budget.budgetPeriods[${period.budgetPeriod-1}].prevTotalFringeAmount" />
+						<input type="hidden" id="${prevTotalFringeAmountProperty}" name="${prevTotalFringeAmountProperty}" value="${document.budget.budgetPeriods[period.budgetPeriod-1].prevTotalFringeAmount}" />
+						  ${kfunc:registerEditableProperty(KualiForm, prevTotalFringeAmountProperty)}
 		           	</td>
 		          </c:if>
                	  <c:set target="${personnelSubTotalsMap}" property="${periodTotalVar}" value="${personnelSubTotalsMap[periodTotalVar] + krafn:getBigDecimal(KualiForm.document.budget.budgetPeriods[period.budgetPeriod-1].totalFringeAmount)}" />

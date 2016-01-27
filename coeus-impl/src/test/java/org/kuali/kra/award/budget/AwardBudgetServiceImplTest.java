@@ -22,9 +22,11 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jmock.lib.concurrent.Synchroniser;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
@@ -40,6 +42,7 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposalBoLite;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectExtension;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -71,7 +74,7 @@ public class AwardBudgetServiceImplTest {
     @Test
     public void testFindBudgetPeriodsFromLinkedProposal() {
         awardBudgetService = new AwardBudgetServiceImpl(){
-            protected List findMatching(Class clazz, String key, Object value){
+            protected <T extends BusinessObject> List<T>  findMatching(Class<T> clazz, String key, Object value){
                 return mockedFindObjectsWithSingleKey(clazz, key, value);
             }
         };
@@ -241,7 +244,7 @@ public class AwardBudgetServiceImplTest {
 		return new AwardBudgetServiceImpl() {
     		@Override
     		protected void populateCalculatedAmount(AwardBudgetPeriodExt awardBudgetPeriod, AwardBudgetLineItemExt awardBudgetLineItem) {
-    			return;
+
     		}
     		@Override
     		Date getEffectiveRateStartDate(final Budget awardBudget) {
@@ -323,9 +326,9 @@ public class AwardBudgetServiceImplTest {
 	    result.add(temp);
 	    return result;
     }
-    
-    @SuppressWarnings("unchecked")
-    protected List mockedFindObjectsWithSingleKey(Class clazz, String key, Object value) {
+
+	@SuppressWarnings("unchecked")
+    protected <T extends BusinessObject> List<T>  mockedFindObjectsWithSingleKey(Class<T> clazz, String key, Object value) {
     	List result = new ArrayList();
     	if (clazz == AwardFundingProposal.class) {
             assertEquals(awardId, value);
@@ -350,4 +353,59 @@ public class AwardBudgetServiceImplTest {
         }
         return result;
     }
+
+	@Test
+	public void test_calculate_calculateTotalDirectCost_unset_previous_fringe_amount_current_fringe_amount() {
+		AwardBudgetPeriodExt period = new AwardBudgetPeriodExt();
+		final ScaleTwoDecimal currentTdc = new ScaleTwoDecimal(100);
+		period.setTotalDirectCost(currentTdc);
+
+		final ScaleTwoDecimal newTdc = new AwardBudgetServiceImpl().calculateTotalDirectCost(period);
+
+		Assert.assertEquals(currentTdc, newTdc);
+	}
+
+	@Test
+	public void test_calculate_calculateTotalDirectCost_unset_previous_fringe_amount() {
+		AwardBudgetPeriodExt period = new AwardBudgetPeriodExt();
+		final ScaleTwoDecimal currentTdc = new ScaleTwoDecimal(100);
+		final ScaleTwoDecimal fringeAmount = new ScaleTwoDecimal(500);
+		period.setTotalDirectCost(currentTdc);
+		period.setTotalFringeAmount(fringeAmount);
+
+		final ScaleTwoDecimal newTdc = new AwardBudgetServiceImpl().calculateTotalDirectCost(period);
+
+		//since the previous fringe amount and the new fringe amount are initialized to the same, the currentTdc will be 100
+		Assert.assertEquals(currentTdc, newTdc);
+	}
+
+	@Test
+	public void test_calculate_calculateTotalDirectCostAdd() {
+		AwardBudgetPeriodExt period = new AwardBudgetPeriodExt();
+		final ScaleTwoDecimal currentTdc = new ScaleTwoDecimal(100);
+		final ScaleTwoDecimal fringeAmount = new ScaleTwoDecimal(500);
+		final ScaleTwoDecimal previousFringeAmount = ScaleTwoDecimal.ZERO;
+		period.setTotalDirectCost(currentTdc);
+		period.setTotalFringeAmount(fringeAmount);
+		period.setPrevTotalFringeAmount(previousFringeAmount);
+
+		final ScaleTwoDecimal newTdc = new AwardBudgetServiceImpl().calculateTotalDirectCost(period);
+
+		Assert.assertEquals(currentTdc.add(fringeAmount.subtract(previousFringeAmount)), newTdc);
+	}
+
+	@Test
+	public void test_calculate_calculateTotalDirectCostSubtract() {
+		AwardBudgetPeriodExt period = new AwardBudgetPeriodExt();
+		final ScaleTwoDecimal currentTdc = new ScaleTwoDecimal(100);
+		final ScaleTwoDecimal fringeAmount = ScaleTwoDecimal.ZERO;
+		final ScaleTwoDecimal previousFringeAmount = new ScaleTwoDecimal(500);
+		period.setTotalDirectCost(currentTdc);
+		period.setTotalFringeAmount(fringeAmount);
+		period.setPrevTotalFringeAmount(previousFringeAmount);
+
+		final ScaleTwoDecimal newTdc = new AwardBudgetServiceImpl().calculateTotalDirectCost(period);
+
+		Assert.assertEquals(currentTdc.add(fringeAmount.subtract(previousFringeAmount)), newTdc);
+	}
 }
