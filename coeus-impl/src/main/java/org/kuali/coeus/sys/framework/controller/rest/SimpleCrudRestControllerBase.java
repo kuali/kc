@@ -25,7 +25,6 @@ import javax.validation.Valid;
 
 import com.google.common.base.CaseFormat;
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.budget.framework.rate.InstituteRate;
 import org.kuali.coeus.sys.framework.controller.rest.audit.RestAuditLogger;
 import org.kuali.coeus.sys.framework.controller.rest.audit.RestAuditLoggerFactory;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
@@ -202,7 +201,7 @@ public abstract class SimpleCrudRestControllerBase<T extends PersistableBusiness
 	
 	@RequestMapping(method=RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
-	public void add(@Valid @RequestBody R dto) {
+	public @ResponseBody R add(@Valid @RequestBody R dto) {
 		assertUserHasWriteAccess();
 		T existingDataObject = getFromDataStore(getPrimaryKeyIncomingObject(dto));
 		if (existingDataObject != null) {
@@ -214,9 +213,10 @@ public abstract class SimpleCrudRestControllerBase<T extends PersistableBusiness
 		
 		validateBusinessObject(newDataObject);
 		validateInsertDataObject(newDataObject);
-		save(newDataObject);
+		T savedDataObject = save(newDataObject);
 		logger.addNewItem(newDataObject);
 		logger.saveAuditLog();
+		return convertDataObject(savedDataObject);
 	}
 	
 	@RequestMapping(value="/{code}", method=RequestMethod.DELETE)
@@ -281,8 +281,8 @@ public abstract class SimpleCrudRestControllerBase<T extends PersistableBusiness
 		return getLegacyDataAdapter().findBySinglePrimaryKey(getDataObjectClazz(), code);
 	}
 
-	protected void save(T dataObject) {
-		getLegacyDataAdapter().save(dataObject);
+	protected T save(T dataObject) {
+		return getLegacyDataAdapter().save(dataObject);
 	}
 	
 	protected void delete(T dataObject) {
