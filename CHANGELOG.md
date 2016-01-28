@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1601.99
 *  fixes salary inflation issues and adds unit test
   * Joe Williams on Wed, 27 Jan 2016 13:15:44 -0600 [View Commit](../../commit/9d70702c2d75ed56e9b83d6a6cd62782174acb0e)
 
