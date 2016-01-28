@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* When no stop is created during reject, the PD continues workflow immedietly after reject.
+
+  * When this happen the default workflow falls to the KRMS Agendas and Peopleflow immedietly meaning that changes to the proposal during revisions requested will not affect the KRMS rules for routing and approvals.
+
+  * This change adds an approval stop for all current document level Aggregators. It also allows any user with the permission to submit the proposal to deactivate those approval requests so the proposal will continue into workflow.
+  * blackcathacker on Wed, 27 Jan 2016 09:27:24 -0500 [View Commit](../../commit/9851014305040ea53cac37b6a256f4c0cc93240b)
+
+##coeus-1601.100
 * No Changes
 
 
