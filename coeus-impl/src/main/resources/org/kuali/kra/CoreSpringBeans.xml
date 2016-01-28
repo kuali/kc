@@ -1536,4 +1536,9 @@
       p:localServiceName="kcNotificationDocumentSecurityTypeService"
       p:serviceInterface="org.kuali.rice.kew.framework.document.security.DocumentSecurityAttribute"/>
 
+    <bean id="dictionaryValidationService" parent="grlImporter" p:serviceName="dictionaryValidationService"/>
+    <bean id="errorHandlingUtilService" parent="grlImporter" p:serviceName="errorHandlingUtilService" />
+    <bean id="restAuditLoggerFactory" parent="grlImporter" p:serviceName="restAuditLoggerFactory" />
+    <bean id="persistenceVerificationService" parent="grlImporter" p:serviceName="persistenceVerificationService" />
+
 </beans>

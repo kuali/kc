@@ -39,8 +39,7 @@
         <property name="bootstrapSpringFile" value="classpath:org/kuali/kra/core/CoreComponentSpringBeans.xml"/>
         <property name="dispatchServletMappings">
             <list>
-                <value>irb</value>
-                <value>iacuc</value>
+                <value>protocol</value>
             </list>
         </property>
     </bean>
