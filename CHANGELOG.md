@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+*  Adding base when rate is 0 but removing when rate is not applied.
+  * Gayathri Athreya on Thu, 28 Jan 2016 08:40:34 -0700 [View Commit](../../commit/026ee4e1d413593c5a8c0565513b13879cda00cc)
+
+##coeus-1601.101
 * When no stop is created during reject, the PD continues workflow immedietly after reject.
 
   * When this happen the default workflow falls to the KRMS Agendas and Peopleflow immedietly meaning that changes to the proposal during revisions requested will not affect the KRMS rules for routing and approvals.
