@@ -142,6 +142,7 @@ public class ProposalDevelopmentConstants {
     public static class KewConstants {
 
         public static final String PROPOSAL_DEVELOPMENT_DOCUMENT = "ProposalDevelopmentDocument";
+		public static final String AGGREGATORS_REQUEST_FOR_REVIEW_ANNOTATION = "Aggregators Request for Review";
     }
     
     

@@ -47,7 +47,7 @@ public class ProposalStateServiceImpl implements ProposalStateService {
         } else if (wd.isSaved()) {
             return computeProposalStateForSaved(proposalDevelopmentDocument, isRejectAction);
         } else if (wd.isEnroute()) {
-            return computeProposalStateForEnRoute(proposalDevelopmentDocument);
+            return computeProposalStateForEnRoute(proposalDevelopmentDocument, isRejectAction);
         } else if (wd.isApproved()) {
             return computeProposalStateForApproved(proposalDevelopmentDocument);
         } else if (wd.isDisapproved()) {
@@ -69,9 +69,11 @@ public class ProposalStateServiceImpl implements ProposalStateService {
         }
     }
 
-    protected String computeProposalStateForEnRoute(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+    protected String computeProposalStateForEnRoute(ProposalDevelopmentDocument proposalDevelopmentDocument, boolean isRejectAction) {
         String proposalStateTypeCode = proposalDevelopmentDocument.getDevelopmentProposal().getProposalStateTypeCode();
-        if ((isSubmitted(proposalDevelopmentDocument) && !isFinalApproval(proposalDevelopmentDocument.getDocumentHeader().getWorkflowDocument())) ||
+        if (isRejectAction) {
+        	return ProposalState.REVISIONS_REQUESTED;
+        } else if ((isSubmitted(proposalDevelopmentDocument) && !isFinalApproval(proposalDevelopmentDocument.getDocumentHeader().getWorkflowDocument())) ||
                 StringUtils.equals(proposalStateTypeCode,ProposalState.APPROVAL_PENDING_SUBMITTED)) {
             return ProposalState.APPROVAL_PENDING_SUBMITTED;
         } else {
