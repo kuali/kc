@@ -18,25 +18,30 @@
  */
 package org.kuali.coeus.sys.impl.workflow;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
+import org.kuali.coeus.sys.framework.workflow.LastActionService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.kew.api.action.ActionTaken;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.action.ActionType;
-import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.*;
 import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.PostProcessorService;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.LegacyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.concurrent.Callable;
 
 /**
  * A {@link PostProcessorService} to record the actual user performing an action on a workflow status change.
@@ -47,9 +52,11 @@ public class KcPostProcessorServiceImpl implements PostProcessorService {
 
     private static final Log LOG = LogFactory.getLog(KcPostProcessorServiceImpl.class);
 
+    private static final String KC_POST_PROCESSOR_LEGACY_SAVE = "KC_POST_PROCESSOR_LEGACY_SAVE";
+
     @Autowired
-    @Qualifier("kewWorkflowDocumentService")
-    private WorkflowDocumentService workflowDocumentService;
+    @Qualifier("lastActionService")
+    private LastActionService lastActionService;
 
     @Autowired
     @Qualifier("postProcessorService")
@@ -59,26 +66,108 @@ public class KcPostProcessorServiceImpl implements PostProcessorService {
     @Qualifier("globalVariableService")
     private GlobalVariableService globalVariableService;
 
+    @Autowired
+    @Qualifier("documentService")
+    private DocumentService documentService;
+
+    @Autowired
+    @Qualifier("parameterService")
+    private ParameterService parameterService;
+
+    /**
+     * This is an exact copy of Rice's default doRouteStatusChangeMethod except that this method does not do a full document save.
+     */
+    public ProcessDocReport doNonDocumentSavingRouteStatusChange(final DocumentRouteStatusChange statusChangeEvent) throws Exception {
+        return LegacyUtils.doInLegacyContext(statusChangeEvent.getDocumentId(), establishPostProcessorUserSession(), () -> {
+            try {
+                if (LOG.isInfoEnabled()) {
+                    LOG.info(new StringBuilder("started handling route status change from ").append(
+                            statusChangeEvent.getOldRouteStatus()).append(" to ").append(
+                            statusChangeEvent.getNewRouteStatus()).append(" for document ").append(
+                            statusChangeEvent.getDocumentId()));
+                }
+
+                Document document = documentService.getByDocumentHeaderId(statusChangeEvent.getDocumentId());
+                if (document == null) {
+                    if (!KewApiConstants.ROUTE_HEADER_CANCEL_CD.equals(statusChangeEvent.getNewRouteStatus())) {
+                        throw new RuntimeException("unable to load document " + statusChangeEvent.getDocumentId());
+                    }
+                } else {
+                    document.doRouteStatusChange(statusChangeEvent);
+                    if (!document.getDocumentHeader().getWorkflowDocument().isSaved()) {
+                        document.getDocumentHeader().getWorkflowDocument().saveDocumentData();
+                    }
+
+                }
+                if (LOG.isInfoEnabled()) {
+                    LOG.info(new StringBuilder("finished handling route status change from ").append(
+                            statusChangeEvent.getOldRouteStatus()).append(" to ").append(
+                            statusChangeEvent.getNewRouteStatus()).append(" for document ").append(
+                            statusChangeEvent.getDocumentId()));
+                }
+            } catch (Exception e) {
+                logAndRethrow("route status", e);
+            }
+            return new ProcessDocReport(true, "");
+        });
+    }
+
+    private void logAndRethrow(String changeType, Exception e) throws RuntimeException {
+        LOG.error("caught exception while handling " + changeType + " change", e);
+        logOptimisticDetails(5, e);
+
+        throw new RuntimeException("post processor caught exception while handling " + changeType + " change: " + e.getMessage(), e);
+    }
+
+    private void logOptimisticDetails(int depth, Throwable t) {
+        if ((depth > 0) && (t != null)) {
+            Object sourceObject = null;
+            boolean optLockException = false;
+            if ( t instanceof javax.persistence.OptimisticLockException ) {
+                sourceObject = ((javax.persistence.OptimisticLockException)t).getEntity();
+                optLockException = true;
+            } else if ( t instanceof OptimisticLockingFailureException) {
+                sourceObject = (t).getMessage();
+                optLockException = true;
+            } else if ( t.getClass().getName().equals( "org.apache.ojb.broker.OptimisticLockException" ) ) {
+                try {
+                    sourceObject = PropertyUtils.getSimpleProperty(t, "sourceObject");
+                } catch (Exception ex) {
+                    LOG.warn( "Unable to retrieve source object from OJB OptimisticLockException", ex );
+                }
+                optLockException = true;
+            }
+            if ( optLockException ) {
+                if (sourceObject != null) {
+                    if ( sourceObject instanceof String ) {
+                        LOG.error("source of OptimisticLockException Unknown.  Message: " + sourceObject);
+                    } else {
+                        LOG.error("source of OptimisticLockException = " + sourceObject.getClass().getName() + " ::= " + sourceObject);
+                    }
+                }
+            } else {
+                Throwable cause = t.getCause();
+                if (cause != t) {
+                    logOptimisticDetails(--depth, cause);
+                }
+            }
+        }
+    }
+
     @Override
     public ProcessDocReport doRouteStatusChange(final DocumentRouteStatusChange statusChangeEvent) throws Exception {
-        return globalVariableService.doInNewGlobalVariables(establishPostProcessorUserSession(), new Callable<ProcessDocReport>() {
-            @Override
-            public ProcessDocReport call() throws Exception {
-                establishLastActionPrincipalId(statusChangeEvent.getDocumentId());
+        return globalVariableService.doInNewGlobalVariables(establishPostProcessorUserSession(), () -> {
+            if (parameterService.getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_SYSTEM, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, KC_POST_PROCESSOR_LEGACY_SAVE)) {
                 return postProcessorService.doRouteStatusChange(statusChangeEvent);
+            } else {
+                return this.doNonDocumentSavingRouteStatusChange(statusChangeEvent);
             }
         });
     }
 
     @Override
     public ProcessDocReport doRouteLevelChange(final DocumentRouteLevelChange levelChangeEvent) throws Exception {
-        return globalVariableService.doInNewGlobalVariables(establishPostProcessorUserSession(), new Callable<ProcessDocReport>() {
-            @Override
-            public ProcessDocReport call() throws Exception {
-                establishLastActionPrincipalId(levelChangeEvent.getDocumentId());
-                return postProcessorService.doRouteLevelChange(levelChangeEvent);
-            }
-        });
+        return globalVariableService.doInNewGlobalVariables(establishPostProcessorUserSession(), () -> postProcessorService.doRouteLevelChange(levelChangeEvent));
     }
 
     @Override
@@ -88,13 +177,7 @@ public class KcPostProcessorServiceImpl implements PostProcessorService {
 
     @Override
     public ProcessDocReport doActionTaken(final ActionTakenEvent event) throws Exception {
-        return globalVariableService.doInNewGlobalVariables(establishPostProcessorUserSession(), new Callable<ProcessDocReport>() {
-            @Override
-            public ProcessDocReport call() throws Exception {
-                establishLastActionPrincipalId(event.getDocumentId());
-                return postProcessorService.doActionTaken(event);
-            }
-        });
+        return globalVariableService.doInNewGlobalVariables(establishPostProcessorUserSession(), () -> postProcessorService.doActionTaken(event));
     }
 
     @Override
@@ -117,42 +200,6 @@ public class KcPostProcessorServiceImpl implements PostProcessorService {
         return postProcessorService.getDocumentIdsToLock(lockingEvent);
     }
 
-    /**
-     * This finds the last workflow action taken on the Document that corresponds to the passed in event.  It then finds
-     * the principal who triggered that event and places the principal id in a {@link GlobalVariableService#getUserSession()}.
-     * Once in the UserSession, the principal Id can be used with in any workflow callbacks.
-     *
-     * @param routeHeaderId the route header id (document id)
-     */
-    protected void establishLastActionPrincipalId(final String routeHeaderId) {
-
-        final ActionTaken lastActionTaken = findLastActionTaken(routeHeaderId);
-
-        if (lastActionTaken != null) {
-            globalVariableService.getUserSession().addObject(Constants.LAST_ACTION_PRINCIPAL_ID, lastActionTaken.getPrincipalId());
-        }
-    }
-
-    /**
-     * Finds the last action taken on a Document.
-     * @param routeHeaderId the route header id (document id)
-     * @return the last action taken or null if non could be found.
-     */
-    protected ActionTaken findLastActionTaken(String routeHeaderId) {
-        final List<ActionTaken> actionsTaken = workflowDocumentService.getActionsTaken(routeHeaderId);
-
-        if (actionsTaken != null) {
-            ActionTaken lastActionTaken = null;
-            for (ActionTaken actionTaken : actionsTaken) {
-                if (lastActionTaken == null || actionTaken.getActionDate().toDate().after(lastActionTaken.getActionDate().toDate())) {
-                    lastActionTaken = actionTaken;
-                }
-            }
-            return lastActionTaken;
-        }
-        return null;
-    }
-
     /* Replicating utilitity methods from rice post processor service */
     protected UserSession establishPostProcessorUserSession() throws WorkflowException {
         if (globalVariableService.getUserSession() == null) {
@@ -162,19 +209,43 @@ public class KcPostProcessorServiceImpl implements PostProcessorService {
         }
     }
 
-    public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
-        this.workflowDocumentService = workflowDocumentService;
-    }
-
     public void setPostProcessorService(PostProcessorService postProcessorService) {
         this.postProcessorService = postProcessorService;
     }
 
-    public WorkflowDocumentService getWorkflowDocumentService() {
-        return workflowDocumentService;
-    }
-
     public PostProcessorService getPostProcessorService() {
         return postProcessorService;
+    }
+
+    public GlobalVariableService getGlobalVariableService() {
+        return globalVariableService;
+    }
+
+    public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+        this.globalVariableService = globalVariableService;
+    }
+
+    public LastActionService getLastActionService() {
+        return lastActionService;
+    }
+
+    public void setLastActionService(LastActionService lastActionService) {
+        this.lastActionService = lastActionService;
+    }
+
+    public DocumentService getDocumentService() {
+        return documentService;
+    }
+
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
+    }
+
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 }

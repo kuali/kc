@@ -36,7 +36,6 @@
             <description>Create a KC IACUC Protocol Review Document</description>
             <label>KC IACUC Protocol Review</label>
             <parent>KC</parent>
-            <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
             <superUserGroupName namespace="KC-WKFLW">IACUCAdmin</superUserGroupName>
             <blanketApproveGroupName namespace="KC-WKFLW">IACUCAdmin</blanketApproveGroupName>
             <defaultExceptionGroupName namespace="KC-WKFLW">IACUCAdmin</defaultExceptionGroupName>

@@ -26,7 +26,6 @@
 			<description>Create an Award Budget</description>
 			<label>Award Budget Document</label>
 			<parent>KC</parent>
-			<postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 			<superUserWorkgroupName>KC-WKFLW:KcAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>KC-WKFLW:KcAdmin</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>KC-WKFLW:KcAdmin</defaultExceptionWorkgroupName>
@@ -69,21 +68,16 @@
             </policies>
 			<routePaths>
 				<routePath>
-					<start name="Initiated" nextNode="AwardBudgetOSPApproval"/><!--
-					<requests name="AwardBudgetInitialApproval" nextNode="AwardBudgetOSPApproval"/>
-					--><requests name="AwardBudgetOSPApproval" nextNode="PeopleFlows"/>
+					<start name="Initiated" nextNode="AwardBudgetOSPApproval"/>
+					<requests name="AwardBudgetOSPApproval" nextNode="PeopleFlows"/>
 					<requests name="PeopleFlows" />
 				</routePath>
 			</routePaths>
 			<routeNodes>
 				<start name="Initiated">
 					<activationType>S</activationType>
-				</start><!--
-				<role name="AwardBudgetInitialApproval">
-					<qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
-                    <activationType>S</activationType>
-	            </role>
-				--><role name="AwardBudgetOSPApproval">
+				</start>
+				<role name="AwardBudgetOSPApproval">
 					<qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
                     <activationType>S</activationType>
                     <finalApproval>true</finalApproval>

@@ -36,17 +36,20 @@ public class SponsorMaintainableImpl extends org.kuali.coeus.common.impl.sponsor
 
 	@Override
 	public void doRouteStatusChange(DocumentHeader documentHeader) {
-        WorkflowDocument workflowDocument = documentHeader.getWorkflowDocument();
-        Sponsor sponsor = (Sponsor) getDataObject();
-        sponsor.refreshReferenceObject("rolodex");
-        if (workflowDocument.isProcessed() && StringUtils.equals(sponsor.getCustomerExists(), CustomerConstants.CustomerOptions.Types.NEW.getCode())) {
-        	Person initiator = this.getPersonService().getPerson(workflowDocument.getInitiatorPrincipalId());
-        	List<String> errors = getCustomerCreationClient().createCustomer((Sponsor) getDataObject(), initiator.getPrincipalName());
-        	if (errors != null && !errors.isEmpty()) {
-        		throw new RuntimeException("Error creating the remote customer from the sponsor: " + errors.get(0));
-        	}
-        }
-        super.doRouteStatusChange(documentHeader);
+        executeAsLastActionUser(() -> {
+            WorkflowDocument workflowDocument = documentHeader.getWorkflowDocument();
+            Sponsor sponsor = (Sponsor) getDataObject();
+            sponsor.refreshReferenceObject("rolodex");
+            if (workflowDocument.isProcessed() && StringUtils.equals(sponsor.getCustomerExists(), CustomerConstants.CustomerOptions.Types.NEW.getCode())) {
+                Person initiator = this.getPersonService().getPerson(workflowDocument.getInitiatorPrincipalId());
+                List<String> errors = getCustomerCreationClient().createCustomer((Sponsor) getDataObject(), initiator.getPrincipalName());
+                if (errors != null && !errors.isEmpty()) {
+                    throw new RuntimeException("Error creating the remote customer from the sponsor: " + errors.get(0));
+                }
+            }
+            super.doRouteStatusChange(documentHeader);
+            return null;
+        });
 	}
 
     public void setCustomerCreationClient(CustomerCreationClient customerCreationClient) {

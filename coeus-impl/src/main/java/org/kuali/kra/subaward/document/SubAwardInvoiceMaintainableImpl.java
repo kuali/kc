@@ -68,10 +68,13 @@ public class SubAwardInvoiceMaintainableImpl extends KraMaintainableImpl {
     
     @Override
     public void doRouteStatusChange(DocumentHeader documentHeader) {
-        SubAwardAmountReleased invoice = (SubAwardAmountReleased) this.getBusinessObject();
-        invoice.setInvoiceStatus(documentHeader.getWorkflowDocument().getStatus().getCode());
-        invoice.populateAttachment();
-        KNSServiceLocator.getBusinessObjectService().save(invoice);
+        executeAsLastActionUser(() -> {
+            SubAwardAmountReleased invoice = (SubAwardAmountReleased) this.getBusinessObject();
+            invoice.setInvoiceStatus(documentHeader.getWorkflowDocument().getStatus().getCode());
+            invoice.populateAttachment();
+            KNSServiceLocator.getBusinessObjectService().save(invoice);
+            return null;
+        });
     }
 
     protected DateTimeService getDateTimeService() {

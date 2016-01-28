@@ -219,39 +219,46 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
     
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
-        super.doRouteStatusChange(statusChangeEvent);
-        
-        String newStatus = statusChangeEvent.getNewRouteStatus();
-        
-        if (LOG.isDebugEnabled()) {
-            LOG.debug(String.format("********************* Status Change: from %s to %s", statusChangeEvent.getOldRouteStatus(), newStatus));
-        }
-        
-        if (KewApiConstants.ROUTE_HEADER_FINAL_CD.equalsIgnoreCase(newStatus) || KewApiConstants.ROUTE_HEADER_PROCESSED_CD.equalsIgnoreCase(newStatus)) {
-            getAwardService().updateAwardSequenceStatus(getAward(), VersionStatus.ACTIVE);
-            getVersionHistoryService().updateVersionHistory(getAward(), VersionStatus.ACTIVE, GlobalVariables.getUserSession().getPrincipalName());
-        }
-        if (newStatus.equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_CANCEL_CD) || newStatus.equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_DISAPPROVED_CD)) {
-            revertFundedProposals();
-            disableAwardComments();
-            getAwardService().updateAwardSequenceStatus(getAward(), VersionStatus.CANCELED);
-            getVersionHistoryService().updateVersionHistory(getAward(), VersionStatus.CANCELED, GlobalVariables.getUserSession().getPrincipalName());
-        }
-        
-        //reset Award List with updated document - in some scenarios the change in status is not reflected.
-        for (Award award : awardList) {
-            award.setAwardDocument(this);
-        }
+        executeAsLastActionUser(() -> {
+            super.doRouteStatusChange(statusChangeEvent);
+
+            String newStatus = statusChangeEvent.getNewRouteStatus();
+
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(String.format("********************* Status Change: from %s to %s", statusChangeEvent.getOldRouteStatus(), newStatus));
+            }
+
+            if (KewApiConstants.ROUTE_HEADER_FINAL_CD.equalsIgnoreCase(newStatus) || KewApiConstants.ROUTE_HEADER_PROCESSED_CD.equalsIgnoreCase(newStatus)) {
+                getAwardService().updateAwardSequenceStatus(getAward(), VersionStatus.ACTIVE);
+                getVersionHistoryService().updateVersionHistory(getAward(), VersionStatus.ACTIVE, GlobalVariables.getUserSession().getPrincipalName());
+            }
+            if (newStatus.equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_CANCEL_CD) || newStatus.equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_DISAPPROVED_CD)) {
+                revertFundedProposals();
+                disableAwardComments();
+                getAwardService().updateAwardSequenceStatus(getAward(), VersionStatus.CANCELED);
+                getVersionHistoryService().updateVersionHistory(getAward(), VersionStatus.CANCELED, GlobalVariables.getUserSession().getPrincipalName());
+            }
+
+            //reset Award List with updated document - in some scenarios the change in status is not reflected.
+            for (Award award : awardList) {
+                award.setAwardDocument(this);
+            }
+            return null;
+        });
     }
     
     public void doRouteLevelChange(DocumentRouteLevelChange levelChangeEvent) {
-        if (StringUtils.equalsIgnoreCase(levelChangeEvent.getNewNodeName(), Constants.AWARD_SYNC_VALIDATION_NODE_NAME)
-                && !getAward().getSyncChanges().isEmpty()) {
-            getAwardSyncService().validateHierarchyChanges(getAward());
-        } else if (StringUtils.equalsIgnoreCase(levelChangeEvent.getNewNodeName(), Constants.AWARD_APPLY_SYNC_NODE_NAME)
-                && !getAward().getSyncChanges().isEmpty()) {
-            getAwardSyncService().applyAwardSyncChangesToHierarchy(getAward());
-        }
+        executeAsLastActionUser(() -> {
+
+            if (StringUtils.equalsIgnoreCase(levelChangeEvent.getNewNodeName(), Constants.AWARD_SYNC_VALIDATION_NODE_NAME)
+                    && !getAward().getSyncChanges().isEmpty()) {
+                getAwardSyncService().validateHierarchyChanges(getAward());
+            } else if (StringUtils.equalsIgnoreCase(levelChangeEvent.getNewNodeName(), Constants.AWARD_APPLY_SYNC_NODE_NAME)
+                    && !getAward().getSyncChanges().isEmpty()) {
+                getAwardSyncService().applyAwardSyncChangesToHierarchy(getAward());
+            }
+            return null;
+        });
     }
     
     @Override

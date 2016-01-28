@@ -28,11 +28,7 @@
             <label>KC</label>
 			<parent>KualiDocument</parent>
 			<serviceNamespace>KC</serviceNamespace>
-			<!--Does not work when using param replacement-->
-			<!--<serviceNamespace>${service.namespace}</serviceNamespace>-->
-			<postProcessorName>
-				org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor
-			</postProcessorName>
+			<postProcessorName>org.kuali.coeus.sys.framework.workflow.KcPostProcessor</postProcessorName>
 		</documentType>
 	</documentTypes>
 </data>

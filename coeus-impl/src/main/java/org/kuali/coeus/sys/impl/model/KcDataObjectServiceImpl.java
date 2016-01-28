@@ -22,7 +22,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.model.KcDataObject;
 import org.kuali.coeus.sys.framework.model.KcDataObjectService;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -82,13 +81,7 @@ public class KcDataObjectServiceImpl implements KcDataObjectService {
 
     private void setUpdateFields(KcDataObject kcDataObject) {
         if (!kcDataObject.isUpdateUserSet() && globalVariableService.getUserSession() != null) {
-            String principalName = globalVariableService.getUserSession().getPrincipalName();
-            String lastPrincipalId = (String) globalVariableService.getUserSession().retrieveObject(Constants.LAST_ACTION_PRINCIPAL_ID);
-            if (StringUtils.isNotBlank(lastPrincipalId)) {
-                principalName = identityService.getPrincipal(lastPrincipalId).getPrincipalName();
-            }
-
-            kcDataObject.setUpdateUser(principalName);
+            kcDataObject.setUpdateUser(globalVariableService.getUserSession().getPrincipalName());
         }
 
         kcDataObject.setUpdateTimestamp(new Timestamp(new java.util.Date().getTime()));

@@ -27,13 +27,18 @@ import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeService;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.workflow.LastActionService;
 import org.kuali.coeus.sys.framework.workflow.SimpleBooleanSplitNodeAware;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectExtension;
@@ -49,6 +54,7 @@ import javax.persistence.*;
 
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.concurrent.Callable;
 
 @DisableVersioning
 @MappedSuperclass
@@ -84,9 +90,18 @@ public abstract class KcTransactionalDocumentBase extends TransactionalDocumentB
     @Transient
     private transient CustomAttributeService customAttributeService;
 
+    @Transient
+    private transient GlobalVariableService globalVariableService;
+
+    @Transient
+    private transient LastActionService lastActionService;
+
+    @Transient
+    private transient IdentityService identityService;
+
     public KcTransactionalDocumentBase() {
         super();
-        documentNextvalues = new ArrayList<DocumentNextvalue>();
+        documentNextvalues = new ArrayList<>();
     }
 
     public void initialize() {
@@ -136,8 +151,7 @@ public abstract class KcTransactionalDocumentBase extends TransactionalDocumentB
     }
 
     /**
-     * Override to provide more meaningful error message
-     * @param event
+     * Override to provide more meaningful error message.
      */
     @Override
     public void validateBusinessRules(DocumentEvent event) {
@@ -291,7 +305,7 @@ public abstract class KcTransactionalDocumentBase extends TransactionalDocumentB
      * @return the list of roles and the users in those roles for this document
      */
     protected List<RolePersons> getAllRolePersons() {
-        return new ArrayList<RolePersons>();
+        return new ArrayList<>();
     }
 
     public abstract String getDocumentTypeCode();
@@ -406,4 +420,52 @@ public abstract class KcTransactionalDocumentBase extends TransactionalDocumentB
 			throws PersistenceBrokerException {
 		preRemove();
 	}
+
+    protected <T> T executeAsLastActionUser(Callable<T> callable) {
+        try {
+            final String lastPrincipalId = getLastActionService().findLastUserActionTakenPrincipalId(getDocumentNumber());
+            if (StringUtils.isNotBlank(lastPrincipalId) && !lastPrincipalId.equals(getGlobalVariableService().getUserSession().getPrincipalId())) {
+                final Principal principal = getIdentityService().getPrincipal(lastPrincipalId);
+                if (principal != null && StringUtils.isNotBlank(principal.getPrincipalName())) {
+                    return GlobalVariables.doInNewGlobalVariables(new UserSession(principal.getPrincipalName()), callable);
+                }
+            }
+            return callable.call();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    protected GlobalVariableService getGlobalVariableService() {
+        if (this.globalVariableService == null) {
+            this.globalVariableService = KcServiceLocator.getService(GlobalVariableService.class);
+        }
+        return this.globalVariableService;
+    }
+
+    protected void setGlobalVariableService(GlobalVariableService globalVariableService) {
+        this.globalVariableService = globalVariableService;
+    }
+
+    LastActionService getLastActionService() {
+        if (this.lastActionService == null) {
+            this.lastActionService = KcServiceLocator.getService(LastActionService.class);
+        }
+        return this.lastActionService;
+    }
+
+    void setLastActionService(LastActionService lastActionService) {
+        this.lastActionService = lastActionService;
+    }
+
+    IdentityService getIdentityService() {
+        if (this.identityService == null) {
+            this.identityService = KcServiceLocator.getService(IdentityService.class);
+        }
+        return this.identityService;
+    }
+
+    void setIdentityService(IdentityService identityService) {
+        this.identityService = identityService;
+    }
 }

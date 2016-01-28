@@ -24,7 +24,6 @@
 			<parent>KC</parent>
 			<description>Manage COI Disclosure</description>
 			<label>KC COI Disclosure</label>
-			<postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 			<superUserWorkgroupName>KC-WKFLW:KcAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>KC-WKFLW:KcAdmin</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>KC-WKFLW:KcAdmin</defaultExceptionWorkgroupName>
