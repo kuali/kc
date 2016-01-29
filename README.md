@@ -1,6 +1,6 @@
-**Kuali Coeus**
+**Kuali Research**
 ==
-Kuali Coeus (KC) for Research Administration is a comprehensive system to manage the complexities of research administration needs from the faculty researcher through grants administration to federal funding agencies. KC is using MIT’s proven COEUS system as its baseline design, updating its technical architecture for vendor independence and integration with other administration systems.
+Kuali Research (KC) for Research Administration is a comprehensive system to manage the complexities of research administration needs from the faculty researcher through grants administration to federal funding agencies. KC is using MIT’s proven COEUS system as its baseline design, updating its technical architecture for vendor independence and integration with other administration systems.
 
 ----------
 ##**Installation**
@@ -12,20 +12,20 @@ Kuali Coeus (KC) for Research Administration is a comprehensive system to manage
 [Git 2.4.x][5]
 
 **Instructions**
-The Kuali Coeus application uses Apache Maven as it's build tool.  Inside of Kuali Coeus's Maven configuration is a list of dependencies.  Some of these dependencies may not be available in a publicly available Maven repository.  At the very least you will need to install the following projects into your maven repo.  These projects may have more than one submodule.
+The Kuali Research application uses Apache Maven as it's build tool.  Inside of Kuali Research's Maven configuration is a list of dependencies.  Some of these dependencies may not be available in a publicly available Maven repository.  At the very least you will need to install the following projects into your maven repo.  These projects may have more than one submodule.
 
 * [SchemaSpy](https://github.com/kuali/schemaspy)
-* [Kuali Coeus Rice](https://github.com/kuali/kc-rice)
-* [Kuali Coeus API](https://github.com/kuali/kc-api)
-* [Kuali Coeus S2S Gen](https://github.com/kuali/kc-s2sgen)
+* [Kuali Research Rice](https://github.com/kuali/kc-rice)
+* [Kuali Research API](https://github.com/kuali/kc-api)
+* [Kuali Research S2S Gen](https://github.com/kuali/kc-s2sgen)
 
 
-> **Build Order:** The projects required to install Kuali Coeus must be built in the following order:
+> **Build Order:** The projects required to install Kuali Research must be built in the following order:
  1. SchemaSpy
- 2. Kuali Coeus Rice
- 3. Kuali Coeus API
- 4. Kuali Coeus S2s Generator
- 5. Kuali Coeus 
+ 2. Kuali Research Rice
+ 3. Kuali Research API
+ 4. Kuali Research S2s Generator
+ 5. Kuali Research 
 
 **Step 1. clone all required projects**
 ```
@@ -37,7 +37,7 @@ git clone https://github.com/kuali/kc-s2sgen
 git clone https://github.com/kuali/kc
 ```
 **Step 2. determine correct tag versions for dependent projects.**
-Manually search the pom.xml file in the root directory of the Kuali Coeus project, and find the version numbers for KC Rice, KC Api, Kc S2s Generator, and SchemaSpy
+Manually search the pom.xml file in the root directory of the Kuali Research project, and find the version numbers for KC Rice, KC Api, Kc S2s Generator, and SchemaSpy
 
 ```
 <coeus-api-all.version>x.x.x.x</coeus-api-all.version>
@@ -53,19 +53,19 @@ Then check out the correct tag before installing.
 We provide several maven build profiles that may be useful.  Some of these profiles are specific to a project while others are available in all projects.
 When a project specific profile is available, it will be documented in the build step.  The following are a list of profiles available in all projects:
 
-> **GRM Profile:** When building Kuali Coeus Projects you should turn the grm maven profile off as it is on by default.  You can do this by commenting out the activation section of the profile or sending the following system parameter grm.off on the command line. 
+> **GRM Profile:** When building Kuali Research Projects you should turn the grm maven profile off as it is on by default.  You can do this by commenting out the activation section of the profile or sending the following system parameter grm.off on the command line. 
 > 
 *mvn clean install -Dgrm.off=true*
 
-> **Enforcer Profile:** When building Kuali Coeus Projects you can turn the enforcer profile on as it is off by default.  This will turn on the maven enforcer plugin and fail the build if certain project quality rules are violated. 
+> **Enforcer Profile:** When building Kuali Research Projects you can turn the enforcer profile on as it is off by default.  This will turn on the maven enforcer plugin and fail the build if certain project quality rules are violated. 
 > 
 *mvn clean install -Penforcer*
 
-> **jdeps Profile:** When building Kuali Coeus Projects you can turn the jdeps profile on as it is off by default.  This will turn on the jdk jdeps tool and fail the build if internal jdk apis are detected. 
+> **jdeps Profile:** When building Kuali Research Projects you can turn the jdeps profile on as it is off by default.  This will turn on the jdk jdeps tool and fail the build if internal jdk apis are detected. 
 > 
 *mvn clean install -Pjdeps*
 
-> **Error Prone Profile:** When building Kuali Coeus Projects you can turn the error-prone profile on as it is off by default.  This will turn on the strict error prone compiler and fail the compile step if certain source code errors are detected. 
+> **Error Prone Profile:** When building Kuali Research Projects you can turn the error-prone profile on as it is off by default.  This will turn on the strict error prone compiler and fail the compile step if certain source code errors are detected. 
 > 
 *mvn clean install -Perror-prone*
 
@@ -81,9 +81,9 @@ When a project specific profile is available, it will be documented in the build
 >
 *mvn clean install -Dclean-jsfrontend-node.off*
 
-All Kuali Coeus projects use standard maven conventions to build and install artifacts.  The following documents how to install source, javadoc, and primary artifacts for each maven projects.
+All Kuali Research projects use standard maven conventions to build and install artifacts.  The following documents how to install source, javadoc, and primary artifacts for each maven projects.
 
-> **Source and Javadoc jars:** When building Kuali Coeus Projects it may be helpful to also build source and javadoc jars.  These jars can be consumed by tools such as debuggers.  Note: due to changes in the javadoc tool in Java 8, you may need to execute the compile phase before attempting to create a javadoc jar. 
+> **Source and Javadoc jars:** When building Kuali Research Projects it may be helpful to also build source and javadoc jars.  These jars can be consumed by tools such as debuggers.  Note: due to changes in the javadoc tool in Java 8, you may need to execute the compile phase before attempting to create a javadoc jar. 
 >
 *mvn clean compile source:jar javadoc:jar install*
 
@@ -96,8 +96,8 @@ git checkout tags/schemaspy-xxxx.xx
 mvn clean compile source:jar javadoc:jar install -Dgrm.off=true
 ```
 
-**Step 4: Build Kuali Coeus Rice**
-Checkout the correct version of kuali coeus rice and install.
+**Step 4: Build Kuali Research Rice**
+Checkout the correct version of Kuali Research rice and install.
 ```
 cd ../kc-rice
 git checkout tags/rice-x.x.x.xxxxx.xx
@@ -106,8 +106,8 @@ mvn clean compile source:jar javadoc:jar install -Dgrm.off=true
 
 Wait until coeus-api has installed successfully before moving to the next step.
 
-**Step 5: Build Kuali Coeus Api**
-Checkout the correct version of coeus api and install.
+**Step 5: Build Kuali Research Api**
+Checkout the correct version of Kuali Research api and install.
 ```
 cd ../kc-api
 git checkout tags/coeus-api-xxxx.xx
@@ -116,7 +116,7 @@ mvn clean compile source:jar javadoc:jar install -Dgrm.off=true
 
 Wait until coeus-api has installed successfully before moving to the next step.
 
-**Step 6: Build Kuali Coeus S2sGen**
+**Step 6: Build Kuali Research S2sGen**
 Checkout the correct version of coeus-s2sgen and install
 ```
 cd ../kc-s2sgen
@@ -126,8 +126,8 @@ mvn clean compile source:jar javadoc:jar install -Dgrm.off=true
 
 Wait until coeus-s2sgen has installed successfully before moving to the next step.
 
-**Step 7: Build Kuali Coeus**
-Installing Kuali Coeus
+**Step 7: Build Kuali Research**
+Installing Kuali Research
 
 Install without Oracle support
 ```
@@ -145,12 +145,12 @@ mvn clean install -Dgrm.off=true -Poracle
 mvn clean install -Dgrm.off=true -Pitests
 ```
 
-> **Precompile jsps:** This precompiles the Kuali Coeus jsps for Tomcat 7.  This is useful to verify the absence of compile errors in jsps while the Kuali Coeus Application is being built.  Precompilation also helps the initial page load time for all jsps.
+> **Precompile jsps:** This precompiles the Kuali Research jsps for Tomcat 7.  This is useful to verify the absence of compile errors in jsps while the Kuali Research Application is being built.  Precompilation also helps the initial page load time for all jsps.
 ```
 mvn clean install -Dgrm.off=true -Pprecompile-jsp-tomcat-7
 ```
 
-> **System Dependent Requirements:** Kuali Coeus is now using some node and npm dependencies as part of its build process. These dependencies have all been designed to be downloaded, installed and run without any additional system level requirements, but there are some system specific requirements that cannot be managed by our build process. This seems to primarily affect Windows, but additional systems may be affected depending on local configuration. If you are seeing errors attempting to build Kuali Coeus that relate to node or npm, please see the failing node project's documentation for what might be expected to be installed on your system.
+> **System Dependent Requirements:** Kuali Research is now using some node and npm dependencies as part of its build process. These dependencies have all been designed to be downloaded, installed and run without any additional system level requirements, but there are some system specific requirements that cannot be managed by our build process. This seems to primarily affect Windows, but additional systems may be affected depending on local configuration. If you are seeing errors attempting to build Kuali Research that relate to node or npm, please see the failing node project's documentation for what might be expected to be installed on your system.
 For example, we currently have a dependency on a node project called drafter that builds our api documentation. From their [Windows specific documentation][10], drafter appears to require Visual Studio Express 2012 and Python 2.7. These types of dependencies are beyond our control, but we strive to make the build process as simple as possible.
 
 **Step 8: Install Spring Instrumentation**
@@ -183,19 +183,19 @@ For example, we currently have a dependency on a node project called drafter tha
 
 ##**Creating DB**
 
-Kuali Coeus supports MySQL 5.6 and Oracle. We recommend MySQL though as that is the database we develop and support internally and are more easily able to respond to problems with that database.  If you choose to use Oracle, please be sure to use the latest Oracle driver version 12 or higher.  The version 12 driver will work correctly with older Oracle database servers such as version 11.
+Kuali Research supports MySQL 5.6 and Oracle. We recommend MySQL though as that is the database we develop and support internally and are more easily able to respond to problems with that database.  If you choose to use Oracle, please be sure to use the latest Oracle driver version 12 or higher.  The version 12 driver will work correctly with older Oracle database servers such as version 11.
 
 * [Database Installation Instructions](coeus-db/coeus-db-sql/src/main/resources/co/kuali/coeus/data/migration/sql/README.md)
 
 **Configuration Information**
 
-This section contains some useful information about configuring the Kuali Coeus Application.  This is not an exhaustive list of configuration options or a tutorial on configuration.  For more options see coeus-impl/src/main/resources/META-INF/kc-config-defaults.xml inside the Kuali Coeus Application source or the Kuali Rice public documentation.
-> **SchemaSpy:** The kc.schemaspy.enabled config param turns SchemaSpy on or off.  SchemaSpy is a great tool for visualizing the Kuali Coeus database and is generally useful on server instances.  It does create additional CPU upon application startup while gathering database information.  After information gathering is complete, CPU usage will go back to normal as all SchemaSpy information is cached as static content.  It is recommended to disable SchemaSpy on developer machines and during integration test runs. 
+This section contains some useful information about configuring the Kuali Research Application.  This is not an exhaustive list of configuration options or a tutorial on configuration.  For more options see coeus-impl/src/main/resources/META-INF/kc-config-defaults.xml inside the Kuali Research Application source or the Kuali Rice public documentation.
+> **SchemaSpy:** The kc.schemaspy.enabled config param turns SchemaSpy on or off.  SchemaSpy is a great tool for visualizing the Kuali Research database and is generally useful on server instances.  It does create additional CPU upon application startup while gathering database information.  After information gathering is complete, CPU usage will go back to normal as all SchemaSpy information is cached as static content.  It is recommended to disable SchemaSpy on developer machines and during integration test runs. 
 ```
 <param name="kc.schemaspy.enabled">false</param>
 ```
 
-> **Monitoring** The kc.monitoring.enabled config param turns Monitoring on or off.  Monitoring is done through Java Melody and is great for learning about the runtime characteristics of the Kuali Coeus Application.  Java Melody has low overhead and in general can be left on.
+> **Monitoring** The kc.monitoring.enabled config param turns Monitoring on or off.  Monitoring is done through Java Melody and is great for learning about the runtime characteristics of the Kuali Research Application.  Java Melody has low overhead and in general can be left on.
 ```
 <param name="kc.monitoring.enabled">false</param>
 ```
