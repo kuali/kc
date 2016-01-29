@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* Disable new notifcations by default
+  * blackcathacker on Fri, 29 Jan 2016 09:53:41 -0500 [View Commit](../../commit/f01b85451cb35524549c3c3becbe24e9fca4543c)
+*  returning the saved object on post
+  * Travis Schneeberger on Thu, 28 Jan 2016 17:59:36 -0500 [View Commit](../../commit/b909857aa76c75d2c54d03f945fc19aa1579229f)
+
+##coeus-1601.102
 *  Adding base when rate is 0 but removing when rate is not applied.
   * Gayathri Athreya on Thu, 28 Jan 2016 08:40:34 -0700 [View Commit](../../commit/026ee4e1d413593c5a8c0565513b13879cda00cc)
 

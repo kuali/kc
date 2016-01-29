@@ -28,4 +28,5 @@ spool 1601_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V1601_012__person_editable_fields.sql
 @./kc/bootstrap/V1601_013__reject_notification.sql
 @./kc/bootstrap/V1601_014__approve_notification.sql
+@./kc/bootstrap/V1601_015__disable_new_notifications.sql
 commit;
