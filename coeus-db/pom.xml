@@ -24,7 +24,7 @@
     <parent>
         <groupId>org.kuali.coeus</groupId>
         <artifactId>coeus</artifactId>
-        <version>1601.105</version>
+        <version>1601.106-SNAPSHOT</version>
     </parent>
     <artifactId>coeus-db</artifactId>
     <packaging>pom</packaging>
