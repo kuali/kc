@@ -27,6 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.coeus.common.framework.krms.KrmsRulesExecutionService;
+import org.kuali.coeus.common.notification.impl.bo.NotificationType;
 import org.kuali.coeus.common.view.wizard.framework.WizardControllerService;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.framework.ruleengine.KcBusinessRulesEngine;
@@ -729,7 +730,9 @@ public class ProposalDevelopmentSubmitController extends
         ProposalDevelopmentNotificationContext notificationContext = new ProposalDevelopmentNotificationContext(form.getDevelopmentProposal(),
                 ANOTHER_USER_APPROVED_ACTION_TYPE_CODE, ANOTHER_USER_APPROVED_NOTIFICATION, getRenderer());
         form.getNotificationHelper().initializeDefaultValues(notificationContext);
-        getKcNotificationService().sendNotification(notificationContext, form.getNotificationHelper().getNotification(), recipients);
+        if (getKcNotificationService().getNotificationType(notificationContext) != null) {
+            getKcNotificationService().sendNotification(notificationContext, form.getNotificationHelper().getNotification(), recipients);
+        }
     }
 
     private boolean canGenerateRequestsInFuture(WorkflowDocument workflowDoc, String principalId) throws Exception {
@@ -836,7 +839,9 @@ public class ProposalDevelopmentSubmitController extends
                                                                         form.getDevelopmentProposal(),
                                                                         REJECT_ACTION_TYPE_CODE, REJECT_NOTIFICATION, getRenderer());
         form.getNotificationHelper().initializeDefaultValues(notificationContext);
-        getKcNotificationService().sendNotification(notificationContext, form.getNotificationHelper().getNotification(), recipients);
+        if (getKcNotificationService().getNotificationType(notificationContext) != null) {
+            getKcNotificationService().sendNotification(notificationContext, form.getNotificationHelper().getNotification(), recipients);
+        }
     }
 
     protected void prepareNotification(DevelopmentProposal developmentProposal) {
