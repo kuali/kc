@@ -243,7 +243,7 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
     protected void setBudgetLASalaryForBudgetRateAndBaseForCumulativeReport(List<ReportType> reportTypeList) {
         for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
                 this.budgetPeriod = budgetPeriod;
-                setBudgetLASalaryForBudgetRateAndBase(reportTypeList);
+                setBudgetLASalaryForBudgetRateAndBase(reportTypeList, new ArrayList<ReportTypeVO>());
 
         }
     }
