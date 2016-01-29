@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* Making it so unless a notification type is found, a notification is not sent. The notification service or the helper should be handling this stuff but
+  * I am not messing with those the day of the release.
+  * Gayathri Athreya on Fri, 29 Jan 2016 11:33:34 -0700 [View Commit](../../commit/ae7358868223b2ae7370ca16a054b262c9f94b18)
+
+##coeus-1601.105
 * No Changes
 
 
