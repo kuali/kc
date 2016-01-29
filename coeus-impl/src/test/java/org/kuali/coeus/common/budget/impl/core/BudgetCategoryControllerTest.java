@@ -97,8 +97,9 @@ public class BudgetCategoryControllerTest {
 				return budgetCat1;
 			}
 			@Override
-			protected void save(BudgetCategory bo) {
+			protected BudgetCategory save(BudgetCategory bo) {
 				updatedCategory = bo;
+				return updatedCategory;
 			}
 
 			@Override
@@ -154,8 +155,9 @@ public class BudgetCategoryControllerTest {
 				return null;
 			}
 			@Override
-			protected void save(BudgetCategory bo) {
+			protected BudgetCategory save(BudgetCategory bo) {
 				updatedCategory = bo;
+				return updatedCategory;
 			}
 
 			@Override
@@ -188,8 +190,9 @@ public class BudgetCategoryControllerTest {
 				return null;
 			}
 			@Override
-			protected void save(BudgetCategory bo) {
+			protected BudgetCategory save(BudgetCategory bo) {
 				updatedCategory = bo;
+				return updatedCategory;
 			}
 
 			@Override
@@ -234,8 +237,9 @@ public class BudgetCategoryControllerTest {
 				return budgetCat1;
 			}
 			@Override
-			protected void save(BudgetCategory bo) {
+			protected BudgetCategory save(BudgetCategory bo) {
 				updatedCategory = bo;
+				return updatedCategory;
 			}
 
 			@Override
