@@ -1,6 +1,18 @@
 
 
 ##CURRENT
+*  Fixing fringe calculation when budget period spans 2 fiscal years.
+  * KC Stage build 1601.64
+  * PD Budget Print Reports: issues with Lab Allocation Fringe calculation when budget period crosses FY and change of rates
+  * the PD Budget Print > "2 Budget Cumulative Report" & "4 Budget Summary Report" are not populating/calculating the Fringe Benefits on the Lab Allocation - Allocated Admin Support lines correctly where the budget period spans two fiscal years with a change of LA, EB and Vacation rates occurring at start of new fiscal year.
+  * PD 28876 is an Approved and Submitted proposal.
+  * Period one of the budget is 2/1/2015-1/31/2016.
+  * Fiscal Year 2015 ends 6/30/2015 and FY2016 starts 7/1/2015 with a new LA rate for M&A added, a change in LA Salary rate, and Change in EB, Vacation, and EB & VA on LA rates.
+  * On the budget print forms, the Lab Allocation - Allocated Admin Support line entries for Fringe include only the amoutn for EB & Vac on LA for FY2016, and do not include the FY2015 (2/1/2015-6/30/2015) amounts as they should.
+  * See attached pdf print forms with highlighted incorrect fields.
+  * Gayathri Athreya on Fri, 29 Jan 2016 10:32:43 -0700 [View Commit](../../commit/81489e4308c3fc9bd15f1aada5f156e7df81aa92)
+
+##coeus-1601.106
 * Making it so unless a notification type is found, a notification is not sent. The notification service or the helper should be handling this stuff but
   * I am not messing with those the day of the release.
   * Gayathri Athreya on Fri, 29 Jan 2016 11:33:34 -0700 [View Commit](../../commit/ae7358868223b2ae7370ca16a054b262c9f94b18)
