@@ -27,7 +27,7 @@ public interface AuthServiceRestUtilService {
 	 * @return Headers for connecting to auth service style rest endpoints. Will contain invalid/blank authentication token in the case that
 	 * a valid user session does not exist.
 	 */
-	HttpHeaders getAuthServiceStyleHttpHeadersForUser(RestServiceConstants.RestApiVersions version);
+	HttpHeaders getAuthServiceStyleHttpHeadersForUser();
 	
-	HttpHeaders getAuthServiceStyleHttpHeadersForToken(RestServiceConstants.RestApiVersions version, String authToken);
+	HttpHeaders getAuthServiceStyleHttpHeadersForToken(String authToken);
 }

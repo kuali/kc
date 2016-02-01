@@ -81,8 +81,6 @@ public class AuthServiceFilter implements Filter {
 		if (StringUtils.isNotBlank(apiUserName) && StringUtils.isNotBlank(apiPassword)) {
 			hashedApiAdminBasicAuth = "Basic " + new String(Base64.getEncoder().encode((apiUserName + ":" + apiPassword).getBytes()));
 		}
-		
-		
 	}
 	
 	protected List<Pattern> buildRestUrlRegexPatterns(String restUrlPatterns) {
@@ -172,7 +170,7 @@ public class AuthServiceFilter implements Filter {
 		}
 		
 		ResponseEntity<AuthUser> result = getRestTemplate().exchange(currentGetUserUrl, HttpMethod.GET, 
-				new HttpEntity<String>(getAuthServiceRestUtilService().getAuthServiceStyleHttpHeadersForToken(RestServiceConstants.RestApiVersions.VER_1, authTokenValue)), AuthUser.class);
+				new HttpEntity<String>(getAuthServiceRestUtilService().getAuthServiceStyleHttpHeadersForToken(authTokenValue)), AuthUser.class);
 		
 		authedUser = result.getBody();
 		if (authedUser != null) {
