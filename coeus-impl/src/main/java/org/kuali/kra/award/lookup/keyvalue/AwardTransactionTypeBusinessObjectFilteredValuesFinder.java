@@ -2,7 +2,6 @@ package org.kuali.kra.award.lookup.keyvalue;
 
 import java.util.*;
 
-import jdk.internal.org.objectweb.asm.tree.analysis.Value;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.ValidRates;
 import org.kuali.kra.infrastructure.Constants;
@@ -77,17 +76,12 @@ public class AwardTransactionTypeBusinessObjectFilteredValuesFinder extends Pers
         KeyValue [] labelsArray = labels.toArray(new KeyValue[labels.size()]);
         Iterator iter = transactionValues.iterator();
 
-                //        ValidAwardBasisPayment vBasisPayment = (ValidAwardBasisPayment)businessObjectService.findByPrimaryKey(ValidAwardBasisPayment.class, Collections.singletonMap(VALIDAWARDBASISPAYMENT_ID, validAwardBasisPaymentId));
-
         while (iter.hasNext()) {
             String filteredTransactionType = (String) iter.next();
-            Map<String,Object> qMap = new HashMap<>();
-            qMap.put(TRANSACTION_TYPE_CODE, filteredTransactionType);
-            AwardTransactionType awardTransactionType = (AwardTransactionType)businessObjectService.findByPrimaryKey(AwardTransactionType.class,qMap );
             for (int i = 0; i < labelsArray.length; i++) {
 
-                if (!StringUtils.isBlank(labelsArray[i].getValue()) && !StringUtils.isBlank(filteredTransactionType)) {
-                    if (awardTransactionType.getDescription().equalsIgnoreCase(labelsArray[i].getValue())) {
+                if (!StringUtils.isBlank(labelsArray[i].getKey()) && !StringUtils.isBlank(filteredTransactionType)) {
+                    if (StringUtils.equals(filteredTransactionType,labelsArray[i].getKey())) {
 
                         // The same index (key) should be used for the filtered list.
                         // Otherwise the value of the transaction type cannot be displayed for
