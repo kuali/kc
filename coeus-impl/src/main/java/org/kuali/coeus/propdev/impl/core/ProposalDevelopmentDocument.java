@@ -55,7 +55,9 @@ import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.action.ActionTaken;
+import org.kuali.rice.kew.api.action.ActionType;
 import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
+import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kim.api.identity.Person;
@@ -108,9 +110,12 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     private transient ProposalStateService proposalStateService;
 	
 	@Transient
-    private transient KcDocumentRejectionService kcDocumentRejectionService; 
+    private transient KcDocumentRejectionService kcDocumentRejectionService;
 
-	@Transient
+    @Transient
+    private transient WorkflowDocumentService workflowDocumentService;
+
+    @Transient
 	InstitutionalProposalService institutionalProposalService;
 	
     @Transient
@@ -200,6 +205,13 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
 		}
 		return kcDocumentRejectionService;
 	}
+
+    protected WorkflowDocumentService getWorkflowDocumentService() {
+        if (workflowDocumentService == null){
+            workflowDocumentService = KewApiServiceLocator.getWorkflowDocumentService();
+        }
+        return workflowDocumentService;
+    }
 	
 	protected InstitutionalProposalService getInstitutionalProposalService () {
 		if ( institutionalProposalService == null){
@@ -302,7 +314,9 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     }
 
     private boolean hasProposalBeenRejected(WorkflowDocument document) {
-        return getKcDocumentRejectionService().isDocumentOnInitialNode(document);
+        return getKcDocumentRejectionService().isDocumentOnInitialNode(document) &&
+            getWorkflowDocumentService().getAllActionsTaken(getDocumentNumber())
+                .stream().anyMatch(actionTaken -> actionTaken.getActionTaken() == ActionType.COMPLETE);
     }
 
     private boolean isLastSubmitterApprovalAction(ActionTaken actionTaken) {
