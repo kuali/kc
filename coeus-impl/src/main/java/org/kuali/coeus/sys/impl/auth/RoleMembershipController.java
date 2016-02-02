@@ -31,7 +31,7 @@ public class RoleMembershipController extends RestController {
 	private RoleService roleService;
 
 	@RequestMapping(method= RequestMethod.GET, value="v1/roles/{roleId}/principals/{memberId}")
-	public @ResponseBody List<RoleMembershipDto> getRoleMembership(@PathVariable String roleId, @PathVariable String memberId, @RequestParam(value="qualification", required=false) String[] qualification) {
+	public @ResponseBody List<RoleMembershipDto> getRoleMembershipsForMemberId(@PathVariable String roleId, @PathVariable String memberId, @RequestParam(value="qualification", required=false) String[] qualification) {
 		if (StringUtils.isBlank(roleId)) {
 			throw new ResourceNotFoundException("roleId is blank");
 		}
@@ -54,6 +54,26 @@ public class RoleMembershipController extends RestController {
 		return Translate.to(RoleMembershipDto.class).fromEach(roleMembers);
 
 	}
+
+    @RequestMapping(method= RequestMethod.GET, value="v1/roles/{roleId}/principals")
+    public @ResponseBody List<RoleMembershipDto> getRoleMemberships(@PathVariable String roleId, @RequestParam(value="qualification", required=false) String[] qualification) {
+        if (StringUtils.isBlank(roleId)) {
+            throw new ResourceNotFoundException("roleId is blank");
+        }
+
+        final Map<String, String> qualificationMap = getQualifierMap(qualification != null ? Arrays.asList(qualification) : Collections.emptyList());
+
+        final List<RoleMembership> roleMembers = roleService.getRoleMembers(Collections.singletonList(getActualRoleId(roleId)), qualificationMap).stream()
+                .filter(m -> m.getType() == MemberType.PRINCIPAL)
+                .collect(Collectors.toList());
+
+        if (roleMembers.isEmpty()) {
+            throw new ResourceNotFoundException("no results");
+        }
+
+        return Translate.to(RoleMembershipDto.class).fromEach(roleMembers);
+
+    }
 
 	/**
 	 * Some roles like the user role require a principal qualifier to make a match.
