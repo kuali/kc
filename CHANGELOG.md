@@ -4,6 +4,10 @@
 * No Changes
 
 
+##coeus-1602.3
+* No Changes
+
+
 ##coeus-1602.2
 *  Better logic for determining when a proposal has been rejected
   * Joe Williams on Mon, 1 Feb 2016 16:54:05 -0600 [View Commit](../../commit/a530b38a7aa975dc67085238ac246e0ed9dd0846)
