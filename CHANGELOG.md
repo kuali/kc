@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1602.5
 *  Allow the activemq datasource unique name to be configured.
   * Travis Schneeberger on Tue, 2 Feb 2016 10:18:10 -0500 [View Commit](../../commit/58759821bd08c7956bc8568417e7fc03192074fc)
 *  add membership end point to get all principals with a specified role
