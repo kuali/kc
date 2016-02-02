@@ -22,6 +22,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.kuali.coeus.sys.framework.controller.KcCommonControllerService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.service.ControllerService;
 import org.kuali.rice.krad.web.service.ModelAndViewService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +52,14 @@ public class LandingPageController {
     @Autowired
     @Qualifier("kcCommonControllerService")
     private KcCommonControllerService kcCommonControllerService;
+    
+    @Autowired
+    @Qualifier("parameterService")
+    private ParameterService parameterService;
+    
+    @Autowired
+    @Qualifier("kualiConfigurationService")
+    private ConfigurationService configurationService;
     
     @Transactional @RequestMapping(value = "/landingPage")
     public ModelAndView defaultRequest(@ModelAttribute("KualiForm") LandingPageForm form, BindingResult result,
@@ -80,6 +93,28 @@ public class LandingPageController {
     public ModelAndView checkForm(@ModelAttribute(value = "KualiForm") LandingPageForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
         return getModelAndViewService().checkForm(form);
     }
+    
+    @RequestMapping(value = "/landingPage", params = "methodToCall=logout")
+    public ModelAndView logout(@ModelAttribute(value = "KualiForm") LandingPageForm form, HttpServletRequest request) {
+         UserSession userSession = (UserSession) request.getSession().getAttribute(KRADConstants.USER_SESSION_KEY);
+         if (userSession != null && userSession.isBackdoorInUse()) {
+        	 userSession.clearBackdoorUser();
+        	 return getModelAndViewService().getModelAndView(form);
+         } else {
+        	 request.getSession().invalidate();
+        	 GlobalVariables.clear();
+        	 return getModelAndViewService().performRedirect(form, getLogoutUrlRedirect());
+         }
+    }
+
+	String getLogoutUrlRedirect() {
+		String redirectString = getParameterService().getParameterValueAsString(KRADConstants.KNS_NAMESPACE, KRADConstants.DetailTypes.ALL_DETAIL_TYPE, KRADConstants.LOGOFF_REDIRECT_URL_PARAMETER);
+
+         if(redirectString == null) {
+             redirectString = getConfigurationService().getPropertyValueAsString(KRADConstants.LOGOFF_REDIRECT_URL_PROPERTY);
+         }
+		return redirectString;
+	}
 
     public ModelAndViewService getModelAndViewService() {
         return modelAndViewService;
@@ -104,4 +139,20 @@ public class LandingPageController {
     public void setControllerService(ControllerService controllerService) {
         this.controllerService = controllerService;
     }
+
+	public ParameterService getParameterService() {
+		return parameterService;
+	}
+
+	public void setParameterService(ParameterService parameterService) {
+		this.parameterService = parameterService;
+	}
+
+	public ConfigurationService getConfigurationService() {
+		return configurationService;
+	}
+
+	public void setConfigurationService(ConfigurationService configurationService) {
+		this.configurationService = configurationService;
+	}
 }
