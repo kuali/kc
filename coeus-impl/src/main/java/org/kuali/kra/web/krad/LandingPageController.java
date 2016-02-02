@@ -25,6 +25,7 @@ import org.kuali.coeus.sys.framework.controller.KcCommonControllerService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.service.ControllerService;
 import org.kuali.rice.krad.web.service.ModelAndViewService;
@@ -101,6 +102,7 @@ public class LandingPageController {
         	 return getModelAndViewService().getModelAndView(form);
          } else {
         	 request.getSession().invalidate();
+        	 GlobalVariables.clear();
         	 return getModelAndViewService().performRedirect(form, getLogoutUrlRedirect());
          }
     }
