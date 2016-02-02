@@ -17,22 +17,19 @@ public class AuthServiceRestUtilServiceImpl implements AuthServiceRestUtilServic
 
 	private static final String AUTHORIZATION_PREFIX = "Bearer ";
 	private static final String AUTHORIZATION_HEADER_NAME = "Authorization";
-	private static final String KUALICO_VERSION_MEDIA_TYPE = "application/vnd.kuali.v%s+json";
 	
 	@Autowired
 	@Qualifier("globalVariableService")
 	private GlobalVariableService globalVariableService;
 	
 	@Override
-	public HttpHeaders getAuthServiceStyleHttpHeadersForUser(RestServiceConstants.RestApiVersions version) {
-		return getAuthServiceStyleHttpHeadersForToken(version,
-				getAuthTokenValueForCurrentUser());
+	public HttpHeaders getAuthServiceStyleHttpHeadersForUser() {
+		return getAuthServiceStyleHttpHeadersForToken(getAuthTokenValueForCurrentUser());
 	}
 
 	@Override
-	public HttpHeaders getAuthServiceStyleHttpHeadersForToken(RestServiceConstants.RestApiVersions version, final String authTokenValueForCurrentUser) {
+	public HttpHeaders getAuthServiceStyleHttpHeadersForToken(final String authTokenValueForCurrentUser) {
 		HttpHeaders headers = new HttpHeaders();
-		headers.setAccept(Arrays.asList(MediaType.parseMediaType(String.format(KUALICO_VERSION_MEDIA_TYPE, version.getVersion()))));
 		headers.set(AUTHORIZATION_HEADER_NAME, authTokenValueForCurrentUser.startsWith(AUTHORIZATION_PREFIX) 
 				? authTokenValueForCurrentUser 
 				: AUTHORIZATION_PREFIX + authTokenValueForCurrentUser);

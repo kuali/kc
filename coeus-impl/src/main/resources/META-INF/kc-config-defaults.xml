@@ -247,7 +247,7 @@
 	<param name="coi.projects.url">${coi.standalone.base.url}/api/coi/projects</param>
 	<param name="coi.projects.enabled">false</param>
 	<param name="auth.base.url">${application.rest.services.base.url}</param>
-	<param name="auth.users.url">${auth.base.url}/api/users</param>
+	<param name="auth.users.url">${auth.base.url}/api/v1/users</param>
 	<param name="auth.rest.urls.regex">.*api.*,.*v1.*</param>
 	<param name="auth.core.enabled">false</param>
 

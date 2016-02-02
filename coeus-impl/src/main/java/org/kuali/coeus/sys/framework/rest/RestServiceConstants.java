@@ -19,17 +19,6 @@
 package org.kuali.coeus.sys.framework.rest;
 
 public class RestServiceConstants {
-
-	public static enum RestApiVersions {
-		VER_1("1");
-		private String version;
-		private RestApiVersions(String version) {
-			this.version = version;
-		}
-		public String getVersion() {
-			return version;
-		}
-	}
 	
 	public final class Configuration {
 		public static final String AUTH_USERS_URL = "auth.users.url";
