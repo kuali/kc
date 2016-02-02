@@ -106,7 +106,10 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
-            
+
+        if (((ProtocolForm) form).getActionHelper() == null) {
+            ((ProtocolForm) form).initializeProtocolAction();
+        }
         ((ProtocolForm) form).getActionHelper().prepareView();
         ((ProtocolForm) form).getOnlineReviewsActionHelper().init(false);
         return actionForward;
