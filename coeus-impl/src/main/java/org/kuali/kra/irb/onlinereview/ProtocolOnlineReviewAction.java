@@ -106,7 +106,10 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
-            
+
+        if (((ProtocolForm) form).getActionHelper() == null) {
+            ((ProtocolForm) form).initializeProtocolAction();
+        }
         ((ProtocolForm) form).getActionHelper().prepareView();
         ((ProtocolForm) form).getOnlineReviewsActionHelper().init(false);
         return actionForward;
@@ -136,7 +139,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
      * @param request the HTTP request
      * @param response the HTTP response
      * @return the name of the HTML page to display
-     * @throws Exception doesn't ever really happen
+     * 
      */
     public ActionForward refreshPage(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -159,25 +162,21 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         
         if (protocolForm.getOnlineReviewsActionHelper().getNewProtocolReviewCommitteeMembershipId()==null) {
             valid = false;
-            GlobalVariables.getMessageMap().putError("onlineReviewsActionHelper.newProtocolReviewCommitteeMembershipId", "error.protocol.onlinereview.create.requiresReviewer", new String[0]);
+            GlobalVariables.getMessageMap().putError("onlineReviewsActionHelper.newProtocolReviewCommitteeMembershipId", "error.protocol.onlinereview.create.requiresReviewer");
         }
         
         if( protocolForm.getOnlineReviewsActionHelper().getNewReviewDateRequested() != null && protocolForm.getOnlineReviewsActionHelper().getNewReviewDateDue() != null ) {
-            if ( (DateUtils.isSameDay(protocolForm.getOnlineReviewsActionHelper().getNewReviewDateDue(), 
-                                      protocolForm.getOnlineReviewsActionHelper().getNewReviewDateRequested())) || 
-                 (protocolForm.getOnlineReviewsActionHelper().getNewReviewDateDue().after(protocolForm.getOnlineReviewsActionHelper().getNewReviewDateRequested())) ) {
-                //no-op
-            }
-            else
-            {   //dates are not the same or due date is before requested date
-                valid=false;
-                GlobalVariables.getMessageMap().putError("onlineReviewsActionHelper.newReviewDateDue", "error.protocol.onlinereview.create.dueDateAfterRequestedDate", new String[0]);
+            if ((!DateUtils.isSameDay(protocolForm.getOnlineReviewsActionHelper().getNewReviewDateDue(),
+                    protocolForm.getOnlineReviewsActionHelper().getNewReviewDateRequested())) &&
+                    (!protocolForm.getOnlineReviewsActionHelper().getNewReviewDateDue().after(protocolForm.getOnlineReviewsActionHelper().getNewReviewDateRequested()))) {   //dates are not the same or due date is before requested date
+                     valid=false;
+                     GlobalVariables.getMessageMap().putError("onlineReviewsActionHelper.newReviewDateDue", "error.protocol.onlinereview.create.dueDateAfterRequestedDate");
             }
         }
         
         if( StringUtils.isEmpty(protocolForm.getOnlineReviewsActionHelper().getNewReviewerTypeCode())) {
             valid=false;
-            GlobalVariables.getMessageMap().putError("onlineReviewsActionHelper.newReviewerTypeCode", "error.protocol.onlinereview.create.protocolReviewerTypeCode", new String[0]);
+            GlobalVariables.getMessageMap().putError("onlineReviewsActionHelper.newReviewerTypeCode", "error.protocol.onlinereview.create.protocolReviewerTypeCode");
         }
         
         return valid;        
@@ -192,7 +191,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
      * @param request the HTTP request
      * @param response the HTTP response
      * @return the name of the HTML page to display
-     * @throws Exception doesn't ever really happen
+     * 
      */
     public ActionForward createOnlineReview(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -219,7 +218,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
             recordOnlineReviewActionSuccess("created", document);
             
             //send notification now that the online review has been created.
-            Protocol protocol = (Protocol)submission.getProtocol();
+            Protocol protocol = submission.getProtocol();
             ProtocolOnlineReview protocolOnlineReview = (ProtocolOnlineReview)document.getProtocolOnlineReview();
             AssignReviewerNotificationRenderer renderer = new AssignReviewerNotificationRenderer(protocol, "added");
             return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_OLR_TAB), protocolForm, renderer, new ProtocolNotificationRequestBean(protocol, protocolOnlineReview, ProtocolActionType.ASSIGN_REVIEWER, "Assign Reviewer", null, null));
@@ -241,13 +240,11 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
      *   
      * @param parameterName The parameter being decoded, usually retrieved from the request parameters as KNSConstants.METHOD_TO_CALL_ATTRIBUTE. 
      * @param actionMethodToCall The methodToCall ( function name in the action being executed. ).
-     * 
-     * @return
      */
     protected String getOnlineReviewActionDocumentNumber(String parameterName, String actionMethodToCall) {
         
-        String idxStr = null;
-        if (StringUtils.isBlank(parameterName)||parameterName.indexOf("."+actionMethodToCall+".") == -1) {
+        String idxStr;
+        if (StringUtils.isBlank(parameterName)|| !parameterName.contains("." + actionMethodToCall + ".")) {
             throw new IllegalArgumentException(
                     String.format("getOnlineReviewActionIndex expects a non-empty value for parameterName parameter, "+
                             "and it must contain as a substring the parameter actionMethodToCall. "+
@@ -269,7 +266,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
     
     protected int getOnlineReviewActionIndexNumber(String parameterName, String actionMethodToCall) {
         int result = -1;
-        if (StringUtils.isBlank(parameterName)||parameterName.indexOf("."+actionMethodToCall+".") == -1) {
+        if (StringUtils.isBlank(parameterName)|| !parameterName.contains("." + actionMethodToCall + ".")) {
             throw new IllegalArgumentException(
                     String.format("getOnlineReviewActionIndex expects a non-empty value for parameterName parameter, "+
                             "and it must contain as a substring the parameter actionMethodToCall. "+
@@ -286,16 +283,10 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
      * 
      * This method is to render protocol review page.  It is redirected to by the protocol online review redirect action
      * when the edit link is clicked on in the action list.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
      * @throws Exception
      */
     public ActionForward startProtocolOnlineReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        Map<String, String> fieldValues = new HashMap<String, String>();
         String protocolDocumentNumber = request.getParameter(PROTOCOL_DOCUMENT_NUMBER);
         ((ProtocolForm) form).setDocument(getDocumentService().getByDocumentHeaderId(
                 protocolDocumentNumber));
@@ -311,7 +302,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
      * @param request the HTTP request
      * @param response the HTTP response
      * @return the name of the HTML page to display
-     * @throws Exception doesn't ever really happen
+     * 
      */
     public ActionForward approveOnlineReview(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -340,10 +331,8 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
                 getDocumentService().saveDocument(prDoc);
                 statusIsOk = true;
         }
-        
-        if (!validComments || !statusIsOk) {
-            //nothing to do here.
-        } else {
+
+        if (validComments && statusIsOk) {
             getReviewCommentsService().saveReviewComments(reviewCommentsBean.getReviewComments(), reviewCommentsBean.getDeletedReviewComments());
             getReviewCommentsService().saveReviewAttachments(reviewAttachmentsBean.getReviewAttachments(), reviewAttachmentsBean.getDeletedReviewAttachments());           
 
@@ -362,8 +351,8 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
             }
             getProtocolActionRequestService().assignedReviewComplete(protocolForm);
             return checkToSendNotificationWithHoldingPage(mapping, forward, protocolForm, renderer, new ProtocolNotificationRequestBean(protocol, protocolOnlineReview, ProtocolActionType.REVIEW_COMPLETE, "Review Complete", prDoc.getDocumentNumber(), "Approve"));
-        }                
-       
+        }
+
         return mapping.findForward(Constants.MAPPING_BASIC);
         
     }
@@ -425,7 +414,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
      * @param request the HTTP request
      * @param response the HTTP response
      * @return the name of the HTML page to display
-     * @throws Exception doesn't ever really happen
+     * 
      */
     public ActionForward blanketApproveOnlineReview(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -448,7 +437,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
      * @param request the HTTP request
      * @param response the HTTP response
      * @return the name of the HTML page to display
-     * @throws Exception doesn't ever really happen
+     * 
      */
     public ActionForward saveOnlineReview(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -460,9 +449,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         ProtocolOnlineReviewDocument prDoc = (ProtocolOnlineReviewDocument) protocolForm.getOnlineReviewsActionHelper().getDocumentFromHelperMap(onlineReviewDocumentNumber);
         ReviewCommentsBean reviewCommentsBean = (ReviewCommentsBean) protocolForm.getOnlineReviewsActionHelper().getReviewCommentsBeanFromHelperMap(onlineReviewDocumentNumber);
         ReviewAttachmentsBean reviewAttachmentsBean = (ReviewAttachmentsBean) protocolForm.getOnlineReviewsActionHelper().getReviewAttachmentsBeanFromHelperMap(onlineReviewDocumentNumber);
-        if ( !this.applyRules(new SaveProtocolOnlineReviewEvent(prDoc, reviewCommentsBean.getReviewComments(), protocolForm.getOnlineReviewsActionHelper().getIndexByDocumentNumber(onlineReviewDocumentNumber)))) {
-            //nothing to do, we failed validation return them to the screen.
-        } else {
+        if (this.applyRules(new SaveProtocolOnlineReviewEvent(prDoc, reviewCommentsBean.getReviewComments(), protocolForm.getOnlineReviewsActionHelper().getIndexByDocumentNumber(onlineReviewDocumentNumber)))) {
             ProtocolReviewer reviewer = (ProtocolReviewer) prDoc.getProtocolOnlineReview().getProtocolReviewer();
             getBusinessObjectService().save(reviewer);
             getReviewCommentsService().saveReviewComments(reviewCommentsBean.getReviewComments(), reviewCommentsBean.getDeletedReviewComments());
@@ -482,7 +469,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
      * @param request the HTTP request
      * @param response the HTTP response
      * @return the name of the HTML page to display
-     * @throws Exception doesn't ever really happen
+     * 
      */
     public ActionForward rejectOnlineReview(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -499,13 +486,8 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         String callerString = String.format("rejectOnlineReview.%s.anchor%s",prDoc.getDocumentNumber(),0);
         if(question == null){
             return this.performQuestionWithInput(mapping, form, request, response, DOCUMENT_REJECT_QUESTION,"Are you sure you want to return this document to reviewer ?" , KRADConstants.CONFIRMATION_QUESTION, callerString, "");
-         } 
-        else if((DOCUMENT_REJECT_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked))  {
-            //nothing to do.
-        }
-        else
-        {
-            if (!this.applyRules(new RejectProtocolOnlineReviewCommentEvent(prDoc, reason, new Integer(DOCUMENT_REJECT_REASON_MAXLENGTH).intValue()))) {
+         } else if ((!DOCUMENT_REJECT_QUESTION.equals(question)) || !ConfirmationQuestion.NO.equals(buttonClicked)) {
+            if (!this.applyRules(new RejectProtocolOnlineReviewCommentEvent(prDoc, reason, Integer.valueOf(DOCUMENT_REJECT_REASON_MAXLENGTH)))) {
                 if (reason == null) {
                     reason = ""; //Prevents null pointer exception in performQuestion
                 }
@@ -589,7 +571,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
                 deleteNoteText = introNoteMessage + reason;
 
                 // get note text max length from DD
-                int noteTextMaxLength = getDataDictionaryService().getAttributeMaxLength(Note.class, KRADConstants.NOTE_TEXT_PROPERTY_NAME).intValue();
+                int noteTextMaxLength = getDataDictionaryService().getAttributeMaxLength(Note.class, KRADConstants.NOTE_TEXT_PROPERTY_NAME);
 
                 if (!this.applyRules(new DeleteProtocolOnlineReviewEvent(prDoc, reason, deleteNoteText, noteTextMaxLength))) {
                     // figure out exact number of characters that the user can enter
@@ -638,7 +620,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
      * @param request the HTTP request
      * @param response the HTTP response
      * @return the name of the HTML page to display
-     * @throws Exception doesn't ever really happen
+     * 
      */
     public ActionForward cancelOnlineReview(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -658,10 +640,6 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         }
         else {
             Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
-            if ((KRADConstants.DOCUMENT_CANCEL_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
-                // if no button clicked just reload the doc
-                
-            }
             
             KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
             doProcessingAfterPost( kualiDocumentFormBase, request );
@@ -686,7 +664,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
      * @param request the HTTP request
      * @param response the HTTP response
      * @return the name of the HTML page to display
-     * @throws Exception doesn't ever really happen
+     * 
      */
     public ActionForward addOnlineReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -719,17 +697,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }    
-
-    /**
-     * 
-     * This method is for action to add OLR review attachment
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
+    
     public ActionForward addOnlineReviewAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
@@ -766,7 +734,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
      * @param request the HTTP request
      * @param response the HTTP response
      * @return the name of the HTML page to display
-     * @throws Exception doesn't ever really happen
+     * 
      */
     public ActionForward moveUpOnlineReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -802,7 +770,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
      * @param request the HTTP request
      * @param response the HTTP response
      * @return the name of the HTML page to display
-     * @throws Exception doesn't ever really happen
+     * 
      */
     public ActionForward moveDownOnlineReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -838,7 +806,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
      * @param request the HTTP request
      * @param response the HTTP response
      * @return the name of the HTML page to display
-     * @throws Exception doesn't ever really happen
+     * 
      */
     public ActionForward deleteOnlineReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -866,16 +834,6 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         return mapping.findForward(Constants.MAPPING_BASIC);
     }    
     
-    /**
-     * 
-     * This method is to delete the OLR review attachment and persist it
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
     public ActionForward deleteOnlineReviewAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
@@ -924,16 +882,6 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         }
     }
     
-    /**
-     * 
-     * This method is for 'view' OLR review attachment
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
     public ActionForward viewOnlineReviewAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
