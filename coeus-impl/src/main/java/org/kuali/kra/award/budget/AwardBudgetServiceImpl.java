@@ -490,9 +490,8 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         } else {
             awardBudgetDocument = (AwardBudgetDocument) documentService.getNewDocument(AwardBudgetDocument.class);
         }
-
         awardBudgetDocument.getDocumentHeader().setDocumentDescription(documentDescription);
-        
+
         AwardBudgetExt awardBudget = awardBudgetDocument.getAwardBudget();
         awardBudget.setBudgetVersionNumber(budgetVersionNumber);
         awardBudget.setBudgetDocument(awardBudgetDocument);
@@ -508,6 +507,8 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         
         awardBudget.setStartDate(award.getRequestedStartDateInitial());
         awardBudget.setEndDate(award.getRequestedEndDateInitial());
+        defaultPeriodsIfNeeded(awardBudget);
+
         if(awardBudget.getOhRatesNonEditable()){
             awardBudget.setOhRateClassCode(getAwardParameterValue(Constants.AWARD_BUDGET_DEFAULT_FNA_RATE_CLASS_CODE));
             awardBudget.setUrRateClassCode(getAwardParameterValue( Constants.AWARD_BUDGET_DEFAULT_UNDERRECOVERY_RATE_CLASS_CODE));
@@ -515,6 +516,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
             awardBudget.setOhRateClassCode(getBudgetParameterValue(Constants.BUDGET_DEFAULT_OVERHEAD_RATE_CODE));
             awardBudget.setUrRateClassCode(getBudgetParameterValue( Constants.BUDGET_DEFAULT_UNDERRECOVERY_RATE_CODE));
         }
+
         awardBudget.setOhRateTypeCode(getBudgetParameterValue( Constants.BUDGET_DEFAULT_OVERHEAD_RATE_TYPE_CODE));
         awardBudget.setModularBudgetFlag(getParameterService().getParameterValueAsBoolean(Budget.class, Constants.BUDGET_DEFAULT_MODULAR_FLAG));
         awardBudget.setAwardBudgetStatusCode(getAwardParameterValue( KeyConstants.AWARD_BUDGET_STATUS_IN_PROGRESS));
@@ -528,11 +530,36 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
                 rebudget = true;
             }
         }
+
         recalculateBudget(awardBudgetDocument.getBudget());
         saveBudgetDocument(awardBudgetDocument,rebudget);
         awardBudgetDocument = (AwardBudgetDocument) documentService.getByDocumentHeaderId(awardBudgetDocument.getDocumentNumber());
 
         return awardBudgetDocument;
+    }
+
+    protected void defaultPeriodsIfNeeded(Budget awardBudget) {
+        if(incorrectBudgetPeriodDates(awardBudget.getBudgetStartDate(), awardBudget.getBudgetEndDate(), awardBudget.getBudgetPeriods())) {
+            awardBudget.getBudgetPeriods().stream().forEach(budgetPeriod -> {
+                                                                budgetPeriod.setOldEndDate(budgetPeriod.getEndDate());
+                                                                budgetPeriod.setOldStartDate(budgetPeriod.getStartDate());
+                                                                });
+
+            awardBudget.getBudgetSummaryService().defaultBudgetPeriods(awardBudget);
+            GlobalVariables.getMessageMap().putWarning(KRADConstants.GLOBAL_ERRORS,
+                    KeyConstants.WARNING_AWARD_BUDGET_PERIODS_DEFAULTED);
+        }
+    }
+
+    protected boolean incorrectBudgetPeriodDates(Date startDate, Date endDate, List<BudgetPeriod> budgetPeriods) {
+        java.sql.Date budgetEndDate = new java.sql.Date(endDate.getTime());
+        java.sql.Date budgetStartDate = new java.sql.Date(startDate.getTime());
+        return budgetPeriods.stream().anyMatch(
+                                                budgetPeriod -> budgetPeriod.getStartDate().before(budgetStartDate)
+                                                                || budgetPeriod.getStartDate().after(budgetEndDate)
+                                                                || budgetPeriod.getEndDate().after(budgetEndDate)
+                                                                || budgetPeriod.getEndDate().before(budgetStartDate)
+                                                );
     }
 
     private String getBudgetParameterValue(String parameter) {
