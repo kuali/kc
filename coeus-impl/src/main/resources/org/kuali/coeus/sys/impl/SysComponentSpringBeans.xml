@@ -277,7 +277,7 @@
     <bean id="xaJmsConnectionFactory" class="bitronix.tm.resource.jms.PoolingConnectionFactory"
           init-method="init" destroy-method="close" depends-on="embeddedBroker">
         <property name="className" value="org.apache.activemq.ActiveMQXAConnectionFactory" />
-        <property name="uniqueName" value="activemq" />
+        <property name="uniqueName" value="${mq.datasource.uniqueName}" />
         <property name="minPoolSize" value="${mq.datasource.minPoolSize}" />
         <property name="maxPoolSize" value="${mq.datasource.maxPoolSize}" />
         <property name="allowLocalTransactions" value="true" />

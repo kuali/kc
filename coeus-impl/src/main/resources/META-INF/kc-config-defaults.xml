@@ -257,6 +257,7 @@
 	<param name="mq.redelivery.default.useExponentialBackOff">true</param>
 	<param name="mq.redelivery.default.backOffMultiplier">2</param>
 
+	<param name="mq.datasource.uniqueName">activemq</param>
 	<param name="mq.datasource.minPoolSize">1</param>
 	<param name="mq.datasource.maxPoolSize">20</param>
 	<param name="mq.broker.dataDirectory">activemq-data</param>
