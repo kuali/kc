@@ -1,6 +1,16 @@
 
 
 ##CURRENT
+*  Allow the activemq datasource unique name to be configured.
+  * Travis Schneeberger on Tue, 2 Feb 2016 10:18:10 -0500 [View Commit](../../commit/58759821bd08c7956bc8568417e7fc03192074fc)
+*  add membership end point to get all principals with a specified role
+  * Joe Williams on Tue, 2 Feb 2016 13:31:56 -0600 [View Commit](../../commit/20475b4ae1c088fcb2d262179d1c4c73b9341ec6)
+* Support logout better for krad pages
+
+  * Support the existing configuration options that the KualiLogoutAction users for logout from the KRAD portal.
+  * blackcathacker on Mon, 1 Feb 2016 16:11:31 -0800 [View Commit](../../commit/52e5a892bc66fbcce07c1e5878e216d60a6c63a9)
+
+##coeus-1602.4
 * No Changes
 
 
