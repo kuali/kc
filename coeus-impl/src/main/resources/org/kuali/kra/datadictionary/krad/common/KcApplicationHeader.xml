@@ -1509,8 +1509,8 @@ value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&
                         </map>
                     </property>
                 </bean>
-                <bean parent="Uif-MenuAction" p:actionLabel="Logout" p:actionUrl.viewId="DummyLoginView"
-                      p:actionUrl.controllerMapping="/login" p:actionUrl.methodToCall="logout"/>
+                <bean parent="Uif-MenuAction" p:actionLabel="Logout" p:actionUrl.baseUrl="@{#ConfigProperties['application.url']}/kc-krad"
+                	p:actionUrl.viewId="Kc-LandingPage-DefaultView" p:actionUrl.controllerMapping="/landingPage" p:actionUrl.methodToCall="logout"/>
             </list>
         </property>
     </bean>
