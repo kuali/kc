@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+*  fix a NPE when opening protocol online review from doc search
+  * Travis Schneeberger on Tue, 2 Feb 2016 13:44:33 -0500 [View Commit](../../commit/6f4a2cf4346dcdc1be21725eb9fb4fbc6163c605)
+
+##coeus-1602.6
 * No Changes
 
 
