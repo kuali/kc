@@ -66,7 +66,6 @@
         <property name="serviceName" value="institutionalProposalService" />
     </bean>
 
-
     <bean id="protocolCorrespondenceTemplateAuthorizationService" class="org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateAuthorizationServiceImpl">
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
         <property name="kcPersonService" ref="kcPersonService" />
@@ -77,8 +76,9 @@
         <property name="kcPersonService" ref="kcPersonService" />
     </bean>
 
-
-
+    <bean id="versionHistoryService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="versionHistoryService" />
+    </bean>
 
     <!-- Protocol Services -->
     <bean id="protocolReferenceService" class="org.kuali.kra.irb.protocol.reference.ProtocolReferenceServiceImpl">
@@ -1127,10 +1127,6 @@
 		
 		
     <bean id="protocolJavaFunctionKrmsTermService" class="org.kuali.kra.protocol.ProtocolJavaFunctionKrmsTermServiceBase" abstract="true">
-    	<property name="businessObjectService" ref="businessObjectService" />
-    	<property name="unitService" ref="unitService" />
-    	<property name="parameterService" ref="parameterService" />
-    	<property name="documentService" ref="documentService" />
         <property name="kcPersonService" ref="kcPersonService" />
     </bean>
 	<bean id="irbProtocolFactBuilderService" class="org.kuali.kra.irb.IrbProtocolFactBuilderServiceImpl">

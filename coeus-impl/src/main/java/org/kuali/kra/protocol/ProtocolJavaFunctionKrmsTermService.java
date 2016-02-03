@@ -18,6 +18,8 @@
  */
 package org.kuali.kra.protocol;
 
+import org.kuali.coeus.common.framework.krms.KcKrmsJavaFunctionTermService;
+
 public interface ProtocolJavaFunctionKrmsTermService {
 
     /**
@@ -188,5 +190,11 @@ public interface ProtocolJavaFunctionKrmsTermService {
      * @return
      */
     public Boolean hasSubmissionType(ProtocolBase protocol,Integer submissionNumber,String submissionTypeCode);
+
+    Boolean hasProtocolContainsAmendRenewModule(ProtocolBase protocol, String moduleName);
+
+    Boolean hasProtocolContainsSponsorType(ProtocolBase protocol, String sponsorTypeCode);
+
+    Boolean hasBaseProtocolHasLastApprovalDate(ProtocolBase protocol);
     
 }
