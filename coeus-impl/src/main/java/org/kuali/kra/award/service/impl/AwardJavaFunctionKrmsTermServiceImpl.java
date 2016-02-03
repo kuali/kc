@@ -23,11 +23,36 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.service.AwardJavaFunctionKrmsTermService;
 import org.kuali.coeus.common.impl.krms.KcKrmsJavaFunctionTermServiceBase;
+import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.AwardComment;
+import org.kuali.kra.award.service.AwardJavaFunctionKrmsTermService;
+import org.kuali.kra.award.specialreview.AwardSpecialReview;
 
 import java.math.BigDecimal;
 import java.util.Objects;
 
 public class AwardJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTermServiceBase implements AwardJavaFunctionKrmsTermService {
+
+    public Boolean checkCommentEntered(Award award, String commentTypeCode) {
+        for (AwardComment comment : award.getAwardComments()) {
+            if (StringUtils.equals(comment.getCommentTypeCode(), commentTypeCode) && StringUtils.isNotBlank(comment.getComments())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Boolean hasSpecialReviewOfType(Award award, String specialReviewType) {
+        for (AwardSpecialReview specialReview : award.getSpecialReviews()) {
+            if (StringUtils.equals(specialReview.getSpecialReviewTypeCode(), specialReviewType)) {
+                return true;
+            }
+            else if (specialReview.getSpecialReviewType() != null && StringUtils.equals(specialReview.getSpecialReviewType().getDescription(), specialReviewType)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     @Override
     public Boolean awardPersonnelTotalEffort(Award award, String effortToMatch) {

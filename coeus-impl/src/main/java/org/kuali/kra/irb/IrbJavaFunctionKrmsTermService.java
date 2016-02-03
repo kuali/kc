@@ -18,6 +18,7 @@
  */
 package org.kuali.kra.irb;
 
+import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolJavaFunctionKrmsTermService;
 
 
@@ -30,6 +31,8 @@ public interface IrbJavaFunctionKrmsTermService extends ProtocolJavaFunctionKrms
      * @param subjectTypeCode
      * @return
      */
-    public Boolean hasProtocolContainsSubjectType(Protocol irbProtocol,String subjectTypeCode);
-    
+    Boolean hasProtocolContainsSubjectType(Protocol irbProtocol,String subjectTypeCode);
+
+    Integer getProtocolParticipantTypeCount(Protocol protocol, String participantType);
+
 }
