@@ -1,6 +1,31 @@
 
 
 ##CURRENT
+*  fixing questionnaire maintenance where an explicit save is not needed.
+  * Travis Schneeberger on Wed, 3 Feb 2016 15:04:53 -0500 [View Commit](../../commit/3fd06d301af068c5d299118c983620cefe244e18)
+*  while synching costshare from childproposal budget to parent budget, it was not resetting the costshare list after removing those records from database. This fix would remove the child proposal costshare list from budget parent before resynching it again
+  * Geo Thomas on Wed, 3 Feb 2016 12:39:06 -0500 [View Commit](../../commit/e357019f085f036d110653439d32cb66023410be)
+*  Can't create Award Budget after Award end date is adjusted
+  * Tested 1/29/16 in version 1601.102
+  * Award *354-00001 created in this build for award budget testing of related issue (resops-584 and reskc-1126)
+  * Followed steps in ops-584 to create Award + T&M, and then create Award Budget (but not edit); return to T&M and revise end date (later). Returned to Award Budget: can successfully update AB to extend the end date via adjust boundaries.
+  * Followed up with this variation - reskc-759.
+  * Edit Award 354: deobligation - submit.
+  * T&M: Edit> Transaction = deobligation
+  * Revise Project End date and Obligation End Date from 6/30/17 to 5/31/17 - descope 1 month
+  * Transactions: Move funds from current award to external: $5000 direct, 2.5K indirect.
+  * Submit
+  * Return to Award
+  * Award Budget > try to create a new award budget (2 posted versions already exist)
+  * RESULTS: Cannot create a new award budget: error condition:
+  * Period 1 end date cannot exceed project end date
+  * System must allow a user to create an award budget even when the dates and/or funding levels in prior versions are less than values that existed in prior versions. AKA Deobligated levels.
+  * This deobligation can happen because a sponsor reduces funds/time from an entire project, or because a PI wants to reduce funds/effort in one project and move it to another.
+  * Gayathri Athreya on Tue, 2 Feb 2016 11:45:20 -0700 [View Commit](../../commit/2eb3e8711545eb628cbd7ddc85242d33514b1d4a)
+*  Making sure that the update user and update timestamp are set correctly in workflow routing hooks.  Starting to replace the KcPostProcessor in favor or a solution that does not require setting session variables for update user and update timestamp.
+  * Travis Schneeberger on Thu, 28 Jan 2016 15:05:21 -0500 [View Commit](../../commit/13c74a3918e12a206ef3505bcd2dbe83c0ec47fc)
+
+##coeus-1602.7
 *  fix a NPE when opening protocol online review from doc search
   * Travis Schneeberger on Tue, 2 Feb 2016 13:44:33 -0500 [View Commit](../../commit/6f4a2cf4346dcdc1be21725eb9fb4fbc6163c605)
 
