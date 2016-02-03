@@ -454,6 +454,9 @@ public class ProposalBudgetHierarchyServiceImpl implements ProposalBudgetHierarc
         	}
         }
 
+        parentBudget.setBudgetCostShares(parentBudget.getBudgetCostShares().stream()
+                .filter(costShare -> !costShare.getHierarchyProposalNumber().equals(childProposalNumber)).collect(Collectors.toList()));
+
         for (Iterator<BudgetPerson> iter = parentBudget.getBudgetPersons().iterator(); iter.hasNext(); ) {
         	BudgetPerson person = iter.next();
         	if (StringUtils.equals(childProposalNumber, person.getHierarchyProposalNumber())) {
