@@ -419,6 +419,7 @@ public final class KeyConstants {
     
     //Award Budget
     public static final String WARNING_AWARD_BUDGET_COSTLIMIT_NOTEQUAL_OBLIGATED = "warning.awardbudget.limitNotEqual.obligated";
+    public static final String WARNING_AWARD_BUDGET_PERIODS_DEFAULTED = "warn.award.budget.period.dates.updated";
     
     //Award Cost Share
     public static final String ERROR_FISCAL_YEAR_RANGE = "error.awardCostShare.fiscalYear.range";

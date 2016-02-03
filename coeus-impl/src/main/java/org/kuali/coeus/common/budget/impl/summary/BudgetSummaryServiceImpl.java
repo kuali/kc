@@ -392,11 +392,11 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
     public void adjustStartEndDatesForLineItems(BudgetPeriod budgetPeriod) {
         if ( (budgetPeriod.getOldStartDate() != null && budgetPeriod.getStartDate().compareTo(budgetPeriod.getOldStartDate()) != 0) || 
                 (budgetPeriod.getOldEndDate() != null && budgetPeriod.getEndDate().compareTo(budgetPeriod.getOldEndDate()) != 0) ) {
-            List <BudgetLineItem >budgetLineItems = budgetPeriod.getBudgetLineItems();
+            List <BudgetLineItem > budgetLineItems = budgetPeriod.getBudgetLineItems();
             setupOldStartEndDate(budgetLineItems);
             for(BudgetLineItem budgetLineItem: budgetLineItems) {
-                Date newStartDate = budgetLineItem.getStartDate();
-                Date newEndDate = budgetLineItem.getEndDate();
+                Date newStartDate;
+                Date newEndDate;
                 List <Date> startEndDates = new ArrayList<Date>();
                 startEndDates.add(0, budgetLineItem.getStartDate());
                 startEndDates.add(1, budgetLineItem.getEndDate());
