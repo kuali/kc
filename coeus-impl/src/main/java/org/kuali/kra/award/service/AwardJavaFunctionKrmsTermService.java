@@ -18,6 +18,13 @@
  */
 package org.kuali.kra.award.service;
 
-public interface AwardJavaFunctionKrmsTermService {
+import org.kuali.coeus.common.framework.krms.KcKrmsJavaFunctionTermService;
+import org.kuali.kra.award.home.Award;
+
+public interface AwardJavaFunctionKrmsTermService extends KcKrmsJavaFunctionTermService {
+
+    Boolean checkCommentEntered(Award award, String commentTypeCode);
+
+    Boolean hasSpecialReviewOfType(Award award, String specialReviewTypeCode);
 
 }

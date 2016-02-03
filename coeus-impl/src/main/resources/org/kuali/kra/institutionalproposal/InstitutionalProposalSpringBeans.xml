@@ -160,12 +160,20 @@
         <property name="serviceName" value="versioningService" />
     </bean>
 
+    <bean id="versionHistoryService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="versionHistoryService" />
+    </bean>
+
     <bean id="kcPersonService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="kcPersonService" />
     </bean>
 
     <bean id="documentDictionaryService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="documentDictionaryService" />
+    </bean>
+
+    <bean id="fiscalYearMonthService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="fiscalYearMonthService" />
     </bean>
 
     <bean id="dbPlatform" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
@@ -314,7 +322,11 @@
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="versioningService" ref="versioningService" />
     </bean>
-    
+
+    <bean id="institutionalProposalJavaFunctionKrmsTermService" class="org.kuali.kra.institutionalproposal.service.impl.InstitutionalProposalJavaFunctionKrmsTermServiceImpl">
+        <property name="fiscalYearMonthService" ref="fiscalYearMonthService" />
+    </bean>
+
     <!-- Institutional Proposal Printing Services -->
     
     <bean id="institutionalProposalPrintingService" class="org.kuali.kra.institutionalproposal.printing.service.impl.InstitutionalProposalPrintingServiceImpl">
