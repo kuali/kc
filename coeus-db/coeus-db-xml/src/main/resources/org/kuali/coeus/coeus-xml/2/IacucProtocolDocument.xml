@@ -23,7 +23,6 @@
             <name>IacucProtocolDocument</name>
             <description>Manage IACUC Protocol</description>
             <label>KC IACUC Protocol</label>
-            <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
             <superUserWorkgroupName>KC-WKFLW:KcAdmin</superUserWorkgroupName>
             <blanketApproveWorkgroupName>KC-WKFLW:KcAdmin</blanketApproveWorkgroupName>
             <defaultExceptionWorkgroupName>KC-WKFLW:KcAdmin</defaultExceptionWorkgroupName>

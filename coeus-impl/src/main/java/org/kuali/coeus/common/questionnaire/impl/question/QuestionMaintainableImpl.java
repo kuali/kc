@@ -102,7 +102,11 @@ public class QuestionMaintainableImpl extends KraMaintainableImpl {
     
     @Override
     public void doRouteStatusChange(DocumentHeader documentHeader) {
-        clearUnusedFieldValues();
+        executeAsLastActionUser(() -> {
+            clearUnusedFieldValues();
+            getBusinessObjectService().save(businessObject);
+            return null;
+        });
     }
     
     /**

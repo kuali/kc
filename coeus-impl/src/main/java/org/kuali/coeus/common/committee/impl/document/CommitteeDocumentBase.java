@@ -162,15 +162,18 @@ public abstract class CommitteeDocumentBase<CD extends CommitteeDocumentBase<CD,
 
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
-        super.doRouteStatusChange(statusChangeEvent);
-        this.setDocStatusCode(statusChangeEvent.getNewRouteStatus());
-        if (isFinal(statusChangeEvent) && this.getCommittee().getSequenceNumber() > 1) {
-            List<CS> newMasterSchedules = getCommitteeService().mergeCommitteeSchedule(this.getCommittee());
-            this.getCommittee().setCommitteeSchedules(newMasterSchedules);
-            getBusinessObjectService().save(this);
-            // finally update all submissions to point to the new committee
-            getCommitteeService().updateCommitteeForProtocolSubmissions(this.getCommittee());
-        }
+        executeAsLastActionUser(() -> {
+            super.doRouteStatusChange(statusChangeEvent);
+            this.setDocStatusCode(statusChangeEvent.getNewRouteStatus());
+            if (isFinal(statusChangeEvent) && this.getCommittee().getSequenceNumber() > 1) {
+                List<CS> newMasterSchedules = getCommitteeService().mergeCommitteeSchedule(this.getCommittee());
+                this.getCommittee().setCommitteeSchedules(newMasterSchedules);
+                getBusinessObjectService().save(this);
+                // finally update all submissions to point to the new committee
+                getCommitteeService().updateCommitteeForProtocolSubmissions(this.getCommittee());
+            }
+            return null;
+        });
     }
     
     protected abstract CommitteeServiceBase<CMT, CS> getCommitteeService();

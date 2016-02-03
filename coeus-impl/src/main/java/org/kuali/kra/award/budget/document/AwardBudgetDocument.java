@@ -180,33 +180,31 @@ public class AwardBudgetDocument extends KcTransactionalDocumentBase implements 
      * @see org.kuali.rice.krad.document.DocumentBase#doRouteStatusChange(org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange)
      */
     public void doRouteStatusChange(DocumentRouteStatusChange dto) {
-        super.doRouteStatusChange(dto);
-        String newStatus = dto.getNewRouteStatus();
-        String oldStatus = dto.getOldRouteStatus();
-        boolean changeStatus = false;
-        this.setCurrentAward((Award) getBudget().getBudgetParent());
-      
-        if( LOG.isDebugEnabled() )
-            LOG.debug(String.format( "Route status change on AwardBudgetDocument #%s from %s to %s.", getDocumentNumber(), oldStatus, newStatus ));
-        
-        //Only know what to do with disapproved right now, left the
-        if( StringUtils.equals( newStatus, KewApiConstants.ROUTE_HEADER_DISAPPROVED_CD )) {
-            getAwardBudget().setAwardBudgetStatusCode(Constants.BUDGET_STATUS_CODE_DISAPPROVED );
-        } else if( StringUtils.equals( newStatus, KewApiConstants.ROUTE_HEADER_CANCEL_CD ) ) {
-            getAwardBudget().setAwardBudgetStatusCode(Constants.BUDGET_STATUS_CODE_CANCELLED );
-        } else if( StringUtils.equals( newStatus, KewApiConstants.ROUTE_HEADER_FINAL_CD )) {
-            getAwardBudget().setAwardBudgetStatusCode(Constants.BUDGET_STATUS_CODE_TO_BE_POSTED);
-            changeStatus = true;
-        }
-        
-        if( changeStatus ) {
-            try {
-                KcServiceLocator.getService(DocumentService.class).saveDocument(this);
+        executeAsLastActionUser(() -> {
+
+            super.doRouteStatusChange(dto);
+            String newStatus = dto.getNewRouteStatus();
+            String oldStatus = dto.getOldRouteStatus();
+
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(String.format("Route status change on AwardBudgetDocument #%s from %s to %s.", getDocumentNumber(), oldStatus, newStatus));
             }
-            catch (WorkflowException e) {
-                throw new RuntimeException( "Could not save award document on action  taken.");
+
+            this.setCurrentAward(getBudget().getBudgetParent());
+
+            if (StringUtils.equals(newStatus, KewApiConstants.ROUTE_HEADER_DISAPPROVED_CD)) {
+                getAwardBudget().setAwardBudgetStatusCode(Constants.BUDGET_STATUS_CODE_DISAPPROVED);
+                getBusinessObjectService().save(getAwardBudget());
+            } else if (StringUtils.equals(newStatus, KewApiConstants.ROUTE_HEADER_CANCEL_CD)) {
+                getAwardBudget().setAwardBudgetStatusCode(Constants.BUDGET_STATUS_CODE_CANCELLED);
+                getBusinessObjectService().save(getAwardBudget());
+            } else if (StringUtils.equals(newStatus, KewApiConstants.ROUTE_HEADER_FINAL_CD)) {
+                getAwardBudget().setAwardBudgetStatusCode(Constants.BUDGET_STATUS_CODE_TO_BE_POSTED);
+                getBusinessObjectService().save(getAwardBudget());
             }
-        }  
+
+            return null;
+        });
     }
     
     
@@ -214,29 +212,24 @@ public class AwardBudgetDocument extends KcTransactionalDocumentBase implements 
      * Added method to detect when the document is being approved from the initial node.  In this case
      * the document is actually being re-submitted after a rejection.  The award budget status then 
      * changes back to In Progress.
-     * @see org.kuali.rice.krad.document.DocumentBase#doActionTaken(org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent)
      */
     public void doActionTaken(ActionTakenEvent event) {
-        super.doActionTaken(event);
-        ActionTaken actionTaken = event.getActionTaken();
-        KcDocumentRejectionService documentRejectionService = KcServiceLocator.getService(KcDocumentRejectionService.class);
-        if( LOG.isDebugEnabled() ) {
-            LOG.debug( String.format( "Action taken on document %s: event code %s, action taken is %s"  , getDocumentNumber(), event.getDocumentEventCode(), actionTaken.getActionTaken().getCode()) );
-        }
-        if( StringUtils.equals( KewApiConstants.ACTION_TAKEN_APPROVED_CD, actionTaken.getActionTaken().getCode()) && documentRejectionService.isDocumentOnInitialNode(this.getDocumentHeader().getWorkflowDocument()) ) {
-            //the document is being approved from the initial node.
-            //this means it was rejected and is now being approved by the initiator.
-            //set the status back to in progress
-            getAwardBudget().setAwardBudgetStatusCode( Constants.BUDGET_STATUS_CODE_IN_PROGRESS);
-            try {
-                KcServiceLocator.getService(DocumentService.class).saveDocument(this);
+        executeAsLastActionUser( () -> {
+            super.doActionTaken(event);
+            ActionTaken actionTaken = event.getActionTaken();
+            KcDocumentRejectionService documentRejectionService = KcServiceLocator.getService(KcDocumentRejectionService.class);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(String.format("Action taken on document %s: event code %s, action taken is %s", getDocumentNumber(), event.getDocumentEventCode(), actionTaken.getActionTaken().getCode()));
             }
-            catch (WorkflowException e) {
-                throw new RuntimeException( "Could not save award document on action  taken.");
+            if (StringUtils.equals(KewApiConstants.ACTION_TAKEN_APPROVED_CD, actionTaken.getActionTaken().getCode()) && documentRejectionService.isDocumentOnInitialNode(this.getDocumentHeader().getWorkflowDocument())) {
+                //the document is being approved from the initial node.
+                //this means it was rejected and is now being approved by the initiator.
+                //set the status back to in progress
+                getAwardBudget().setAwardBudgetStatusCode(Constants.BUDGET_STATUS_CODE_IN_PROGRESS);
+                getBusinessObjectService().save(getAwardBudget());
             }
-        }
-        
-      
+            return null;
+        });
     }
 
     public void documentHasBeenRejected( String reason ) {

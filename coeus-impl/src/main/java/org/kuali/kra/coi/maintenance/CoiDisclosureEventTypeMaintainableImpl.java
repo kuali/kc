@@ -29,8 +29,11 @@ public class CoiDisclosureEventTypeMaintainableImpl extends KraMaintainableImpl 
     
     @Override
     public void doRouteStatusChange(DocumentHeader documentHeader) {
-        CoiDisclosureEventTypeToCoeusSubModuleSynchronizerService synchronizer =  getSynchronizerService();
-        synchronizer.synchronizeCoeusSubModulesWithActiveCoiDisclosureEventTypes();
+        executeAsLastActionUser(() -> {
+            CoiDisclosureEventTypeToCoeusSubModuleSynchronizerService synchronizer = getSynchronizerService();
+            synchronizer.synchronizeCoeusSubModulesWithActiveCoiDisclosureEventTypes();
+            return null;
+        });
     }
     
     public CoiDisclosureEventTypeToCoeusSubModuleSynchronizerService getSynchronizerService() {

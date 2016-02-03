@@ -20,21 +20,35 @@ package org.kuali.kra.maintenance;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.workflow.LastActionService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.editable.ProposalColumnsToAlter;
+import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
+import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 
+import javax.persistence.Transient;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 
 public class KraMaintainableImpl extends KualiMaintainableImpl {
+
+    private transient GlobalVariableService globalVariableService;
+
+    private transient LastActionService lastActionService;
+
+    private transient IdentityService identityService;
 
     @Override
     public void prepareForSave() {
@@ -84,5 +98,53 @@ public class KraMaintainableImpl extends KualiMaintainableImpl {
         }
         
         return super.getSections(document, oldMaintainable);
+    }
+
+    protected <T> T executeAsLastActionUser(Callable<T> callable) {
+        try {
+            final String lastPrincipalId = getLastActionService().findLastUserActionTakenPrincipalId(getDocumentNumber());
+            if (StringUtils.isNotBlank(lastPrincipalId) && !lastPrincipalId.equals(getGlobalVariableService().getUserSession().getPrincipalId())) {
+                final Principal principal = getIdentityService().getPrincipal(lastPrincipalId);
+                if (principal != null && StringUtils.isNotBlank(principal.getPrincipalName())) {
+                    return GlobalVariables.doInNewGlobalVariables(new UserSession(principal.getPrincipalName()), callable);
+                }
+            }
+            return callable.call();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    protected GlobalVariableService getGlobalVariableService() {
+        if (this.globalVariableService == null) {
+            this.globalVariableService = KcServiceLocator.getService(GlobalVariableService.class);
+        }
+        return this.globalVariableService;
+    }
+
+    protected void setGlobalVariableService(GlobalVariableService globalVariableService) {
+        this.globalVariableService = globalVariableService;
+    }
+
+    LastActionService getLastActionService() {
+        if (this.lastActionService == null) {
+            this.lastActionService = KcServiceLocator.getService(LastActionService.class);
+        }
+        return this.lastActionService;
+    }
+
+    void setLastActionService(LastActionService lastActionService) {
+        this.lastActionService = lastActionService;
+    }
+
+    IdentityService getIdentityService() {
+        if (this.identityService == null) {
+            this.identityService = KcServiceLocator.getService(IdentityService.class);
+        }
+        return this.identityService;
+    }
+
+    void setIdentityService(IdentityService identityService) {
+        this.identityService = identityService;
     }
 }

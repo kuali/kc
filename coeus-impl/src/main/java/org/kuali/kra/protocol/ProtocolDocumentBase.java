@@ -21,8 +21,6 @@ package org.kuali.kra.protocol;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.coeus.common.framework.person.KcPerson;
-import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -44,13 +42,11 @@ import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
-import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.krad.document.SessionDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.workflow.KualiDocumentXmlMaterializer;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
@@ -165,47 +161,28 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
     
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
-        super.doRouteStatusChange(statusChangeEvent);
-        if (isFinal(statusChangeEvent)) {
-            // this is implementing option#1 for kcinfr-30.  save original usersession person
-            // after merge is done, then reset to the original usersession person.  
-            // this is workaround for async.  There will be rice enhancement to resolve this issue.
-            try {
-                DocumentRouteHeaderValue document = getDocumentRouteHeaderValue();
-                String principalId = document.getActionsTaken().get(document.getActionsTaken().size() - 1).getPrincipalId();
-                String asyncPrincipalId = GlobalVariables.getUserSession().getPrincipalId();
-                String asyncPrincipalName = GlobalVariables.getUserSession().getPrincipalName();
-                if (!principalId.equals(asyncPrincipalId)) {
-                    KcPerson person = KcServiceLocator.getService(KcPersonService.class).getKcPersonByPersonId(principalId);
-                    GlobalVariables.setUserSession(new UserSession(person.getUserName()));                    
-                }
-                
-                mergeProtocolAmendment();
-                
-                if (!principalId.equals(asyncPrincipalId)) {
-                    GlobalVariables.setUserSession(new UserSession(asyncPrincipalName));                    
-                }
-            }
-            catch (Exception e) {
 
+        executeAsLastActionUser(() -> {
+            super.doRouteStatusChange(statusChangeEvent);
+            if (isFinal(statusChangeEvent)) {
+                    mergeProtocolAmendment();
+            } else if (isDisapproved(statusChangeEvent)) {
+                if (!isNormal()) {
+                    this.getProtocol().setActive(false);
+                    getBusinessObjectService().save(this);
+                }
+                try {
+                    // create editable version of protocol and document if appropriate in this disapproval context
+                    performVersioningOperationsOnProtocolAfterDisapproval();
+                } catch (Exception e) {
+                    // TODO Need to figure out what to do if the versioning throws exceptions
+                    LOG.error(e.getMessage(), e);
+                }
+            } else if (isRecall(statusChangeEvent)) {
+                getProtocolGenericActionService().recall(getProtocol());
             }
-        }
-        else if (isDisapproved(statusChangeEvent)) { 
-            if (!isNormal()){
-                this.getProtocol().setActive(false);
-                getBusinessObjectService().save(this);
-            }
-            try {
-                // create editable version of protocol and document if appropriate in this disapproval context            
-                performVersioningOperationsOnProtocolAfterDisapproval();
-            }
-            catch (Exception e) {
-                // TODO Need to figure out what to do if the versioning throws exceptions
-                LOG.error(e.getMessage(), e);
-            }
-        } else if (isRecall(statusChangeEvent)) {
-            getProtocolGenericActionService().recall(getProtocol());
-        }
+            return null;
+        });
     }
     
     protected DocumentRouteHeaderValue getDocumentRouteHeaderValue() {

@@ -162,32 +162,39 @@ public class ProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocumentB
     
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
-        super.doRouteStatusChange(statusChangeEvent);
-        if (StringUtils.equals(statusChangeEvent.getNewRouteStatus(), KewApiConstants.ROUTE_HEADER_CANCEL_CD) 
-                || StringUtils.equals(statusChangeEvent.getNewRouteStatus(), KewApiConstants.ROUTE_HEADER_DISAPPROVED_CD)) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(String.format("Protocol Online Review Document %s has been cancelled, deleting associated review comments.", getDocumentNumber()));
+
+        executeAsLastActionUser(() -> {
+            super.doRouteStatusChange(statusChangeEvent);
+            if (StringUtils.equals(statusChangeEvent.getNewRouteStatus(), KewApiConstants.ROUTE_HEADER_CANCEL_CD)
+                    || StringUtils.equals(statusChangeEvent.getNewRouteStatus(), KewApiConstants.ROUTE_HEADER_DISAPPROVED_CD)) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug(String.format("Protocol Online Review Document %s has been cancelled, deleting associated review comments.", getDocumentNumber()));
+                }
+                getProtocolOnlineReview().getProtocolSubmission().getProtocolReviewers().remove(getProtocolOnlineReview().getProtocolReviewer());
+
+                List<CommitteeScheduleMinuteBase> reviewComments = getProtocolOnlineReview().getCommitteeScheduleMinutes();
+                List<CommitteeScheduleMinuteBase> deletedReviewComments = new ArrayList<CommitteeScheduleMinuteBase>();
+                getReviewerCommentsService().deleteAllReviewComments(reviewComments, deletedReviewComments);
+                getReviewerCommentsService().saveReviewComments(reviewComments, deletedReviewComments);
+
+                List<ProtocolReviewAttachmentBase> reviewAttachments = getProtocolOnlineReview().getReviewAttachments();
+                List<ProtocolReviewAttachmentBase> deletedReviewAttachments = new ArrayList<ProtocolReviewAttachmentBase>();
+                getReviewerCommentsService().deleteAllReviewAttachments(reviewAttachments, deletedReviewAttachments);
+                getReviewerCommentsService().saveReviewAttachments(reviewAttachments, deletedReviewAttachments);
+
+                getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD);
+                getBusinessObjectService().save(getProtocolOnlineReview());
             }
-            getProtocolOnlineReview().getProtocolSubmission().getProtocolReviewers().remove(getProtocolOnlineReview().getProtocolReviewer());
-            
-            List<CommitteeScheduleMinuteBase> reviewComments = getProtocolOnlineReview().getCommitteeScheduleMinutes();
-            List<CommitteeScheduleMinuteBase> deletedReviewComments = new ArrayList<CommitteeScheduleMinuteBase>();
-            getReviewerCommentsService().deleteAllReviewComments(reviewComments, deletedReviewComments);
-            getReviewerCommentsService().saveReviewComments(reviewComments, deletedReviewComments);
-
-            List<ProtocolReviewAttachmentBase> reviewAttachments = getProtocolOnlineReview().getReviewAttachments();
-            List<ProtocolReviewAttachmentBase> deletedReviewAttachments = new ArrayList<ProtocolReviewAttachmentBase>();
-            getReviewerCommentsService().deleteAllReviewAttachments(reviewAttachments, deletedReviewAttachments);
-            getReviewerCommentsService().saveReviewAttachments(reviewAttachments, deletedReviewAttachments);
-
-            getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD);
-            getBusinessObjectService().save(getProtocolOnlineReview());
-        }
+            return null;
+        });
     }
 
     @Override
     public void doActionTaken( ActionTakenEvent event ) {
-        super.doActionTaken(event);
+        executeAsLastActionUser( () -> {
+            super.doActionTaken(event);
+            return null;
+        });
     }
     
     private BusinessObjectService getBusinessObjectService() {

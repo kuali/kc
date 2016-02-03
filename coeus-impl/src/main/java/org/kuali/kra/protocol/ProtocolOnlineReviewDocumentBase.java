@@ -100,12 +100,18 @@ public abstract class ProtocolOnlineReviewDocumentBase extends KcTransactionalDo
     
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
-        super.doRouteStatusChange(statusChangeEvent);
+        executeAsLastActionUser(() -> {
+            super.doRouteStatusChange(statusChangeEvent);
+            return null;
+        });
     }
   
     @Override
     public void doActionTaken( ActionTakenEvent event ) {
-        super.doActionTaken(event);
+        executeAsLastActionUser( () -> {
+            super.doActionTaken(event);
+            return null;
+        });
     }
 
     @Override
