@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-<!--
-   - Kuali Coeus, a comprehensive research administration system for higher education.
-   - 
-   - Copyright 2005-2015 Kuali, Inc.
-   - 
-   - This program is free software: you can redistribute it and/or modify
-   - it under the terms of the GNU Affero General Public License as
-   - published by the Free Software Foundation, either version 3 of the
-   - License, or (at your option) any later version.
-   - 
-   - This program is distributed in the hope that it will be useful,
-   - but WITHOUT ANY WARRANTY; without even the implied warranty of
-   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   - GNU Affero General Public License for more details.
-   - 
-   - You should have received a copy of the GNU Affero General Public License
-   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+  <!--
+     - Kuali Coeus, a comprehensive research administration system for higher education.
+     -
+     - Copyright 2005-2015 Kuali, Inc.
+     -
+     - This program is free software: you can redistribute it and/or modify
+     - it under the terms of the GNU Affero General Public License as
+     - published by the Free Software Foundation, either version 3 of the
+     - License, or (at your option) any later version.
+     -
+     - This program is distributed in the hope that it will be useful,
+     - but WITHOUT ANY WARRANTY; without even the implied warranty of
+     - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     - GNU Affero General Public License for more details.
+     -
+     - You should have received a copy of the GNU Affero General Public License
+     - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+   -->
 
   <bean id="CustomAttributeDocumentMaintenanceDocument" parent="CustomAttributeDocumentMaintenanceDocument-parentBean"/>
 
@@ -33,20 +33,20 @@
     <property name="lockingKeys">
       <list>
         <value>id</value>
-        <value>documentTypeName</value> 
+        <value>documentTypeName</value>
       </list>
     </property>
     <property name="allowsRecordDeletion" value="true" />
-    
-    
-    
-    
+
+
+
+
     <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
-    
-    
+
+
   </bean>
 
-<!-- Maintenance Section Definitions -->
+  <!-- Maintenance Section Definitions -->
 
 
   <bean id="CustomAttributeDocumentMaintenanceDocument-EditCustomAttributeDocument" parent="CustomAttributeDocumentMaintenanceDocument-EditCustomAttributeDocument-parentBean"/>
@@ -61,6 +61,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="required"/>
         <bean parent="MaintainableFieldDefinition" p:name="typeName"/>
         <bean parent="MaintainableFieldDefinition" p:name="active"/>
+        <bean parent="MaintainableFieldDefinition" p:name="sortId"/>
         <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
       </list>
     </property>

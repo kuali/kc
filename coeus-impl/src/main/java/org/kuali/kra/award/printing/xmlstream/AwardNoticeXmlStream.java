@@ -34,6 +34,8 @@ import org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentSchedule;
 import org.kuali.kra.award.printing.AwardPrintType;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
+import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
+import org.kuali.coeus.common.framework.custom.CustomAttributeSortIdComparator;
 import org.kuali.kra.printing.schema.*;
 import org.kuali.kra.printing.schema.AwardNoticeDocument.AwardNotice.PrintRequirement;
 import org.kuali.kra.printing.schema.AwardType.*;
@@ -193,7 +195,26 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
 		OtherData otherData = null;
 		String prevGroupName = null;
 		OtherGroupType otherGroupType = null;
-		for (AwardCustomData awardCustomData : awardCustomDataList) {
+
+		Map<String, CustomAttributeDocument> customAttributeDocuments = awardDocument.getCustomAttributeDocuments();
+		List<CustomAttributeDocument> customAttributeDocumentList = new ArrayList<CustomAttributeDocument>();
+		List<AwardCustomData> sortedAwardCustomDataList = new ArrayList<AwardCustomData>();
+
+		for (Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry : customAttributeDocuments.entrySet()) {
+			CustomAttributeDocument customAttributeDocument = customAttributeDocumentEntry.getValue();
+			customAttributeDocumentList.add(customAttributeDocument);
+		}
+		Collections.sort(customAttributeDocumentList, new CustomAttributeSortIdComparator());
+
+		for (CustomAttributeDocument customAttributeDocument : customAttributeDocumentList) {
+			for (AwardCustomData awardCustomData : awardCustomDataList) {
+				if (customAttributeDocument.getId() == awardCustomData.getCustomAttributeId().longValue()) {
+					sortedAwardCustomDataList.add(awardCustomData);
+				}
+			}
+		}
+
+		for (AwardCustomData awardCustomData : sortedAwardCustomDataList) {
 	        awardCustomData.refreshReferenceObject("customAttribute");
 	        CustomAttribute customAttribute = awardCustomData.getCustomAttribute();
 	        if (customAttribute != null) {
