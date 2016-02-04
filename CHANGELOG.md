@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* add additional fields to the RoleMemberShip end points
+  * Joe Williams on Wed, 3 Feb 2016 17:03:14 -0600 [View Commit](../../commit/b682a7c1cbc42f448c4567d64eaa668387c2c474)
+
+##coeus-1602.9
 *  fixing questionnaire maintenance where an explicit save is not needed.
   * Travis Schneeberger on Wed, 3 Feb 2016 15:04:53 -0500 [View Commit](../../commit/3fd06d301af068c5d299118c983620cefe244e18)
 *  while synching costshare from childproposal budget to parent budget, it was not resetting the costshare list after removing those records from database. This fix would remove the child proposal costshare list from budget parent before resynching it again
