@@ -218,18 +218,15 @@ public class ProposalBudgetSubAwardController extends ProposalBudgetControllerBa
 
 		form.getBudget().getBudgetPeriods().stream().forEach(period ->
 			period.setBudgetLineItems(period.getBudgetLineItems().stream()
-					.filter(lineItem -> !lineItem.getBudgetId().equals(subAwardToDelete.getBudgetId()))
-					.filter(lineItem -> !lineItem.getSubAwardNumber().equals(subAwardToDelete.getSubAwardNumber()))
-					.collect(Collectors.toList())));
+                    .filter(lineItem -> !subAwardToDelete.getSubAwardNumber().equals(lineItem.getSubAwardNumber()))
+                    .collect(Collectors.toList())));
 
 		form.setBudget(getDataObjectService().save(form.getBudget()));
-
 		getCollectionControllerService().deleteLine(form);
-
 		return super.save(form);
 	}
-	
-	
+
+
     protected boolean updateBudgetAttachment(Budget budget, BudgetSubAwards subAward, String fileName, byte[] fileData, String errorPath) throws Exception {
         subAward.setSubAwardXmlFileData(null);
         subAward.setFormName(null);
