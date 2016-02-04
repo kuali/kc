@@ -42,6 +42,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -125,48 +126,80 @@ public class BreakupIntervalServiceImpl implements BreakupIntervalService {
     
     protected RateAndCost calculateRateAndCost(RateAndCost rateAndCost, BreakUpInterval breakupInterval, 
     		List<RateAndCost> allRateAndCosts, List<RateClassBaseInclusion> inclusions, List<RateClassBaseExclusion> exclusions) {
-    	List<RateClassBaseInclusion> rateInclusions = inclusions.stream()
-    			.filter(inclusion -> 
-    				StringUtils.equals(rateAndCost.getRateClassCode(), inclusion.getRateClassCode()) 
-    				&& (inclusion.getRateTypeCode() == null || StringUtils.equals(rateAndCost.getRateTypeCode(), inclusion.getRateTypeCode())))
-    			.collect(Collectors.toList());
+    	
+    	List<RateClassBaseInclusion> rateInclusions = getRelatedInclusions(rateAndCost, inclusions);
+    	
     	ScaleTwoDecimal rateBaseAmount = ScaleTwoDecimal.ZERO;
     	ScaleTwoDecimal rateCostShareAmount = ScaleTwoDecimal.ZERO;
+    	
     	for (RateClassBaseInclusion inclusion : rateInclusions) {
     		if ("0".equals(inclusion.getRateClassCodeIncl()) && !isExcluded(rateAndCost.getRateClassCode(), rateAndCost.getRateTypeCode(), "0", null, exclusions)) {
     			rateBaseAmount = rateBaseAmount.add(breakupInterval.getApplicableAmt());
     			rateCostShareAmount = rateCostShareAmount.add(breakupInterval.getApplicableAmtCostSharing());
     		} else {
-	    		List<RateAndCost> applicableRates = getApplicableRates(inclusion, allRateAndCosts);
-	    		applicableRates = applicableRates.stream()
-	    				.map(currentRateAndCost -> calculateRateAndCost(currentRateAndCost, breakupInterval, allRateAndCosts, inclusions, exclusions))
-	    				.collect(Collectors.toList());
-	    		rateBaseAmount = applicableRates.stream()
-	    			.filter(RateAndCost::isApplyRateFlag)
-	    			.filter(currentRateAndCost -> !isExcluded(rateAndCost, currentRateAndCost, exclusions))
-	    			.map(RateAndCost::getCalculatedCost)
-	    			.reduce(rateBaseAmount, ScaleTwoDecimal::add);
-	    		rateCostShareAmount = applicableRates.stream()
-					.filter(RateAndCost::isApplyRateFlag)
-					.filter(currentRateAndCost -> !isExcluded(rateAndCost, currentRateAndCost, exclusions))
-					.map(RateAndCost::getCalculatedCostSharing)
-					.reduce(rateCostShareAmount, ScaleTwoDecimal::add);
+				List<RateAndCost> applicableRates = getApplicableRateAndCostsForInclusion(inclusion, allRateAndCosts, 
+					breakupInterval, inclusions, exclusions);
+				rateBaseAmount = calculateNewAmountBasedOnApplicableRates(rateBaseAmount, rateAndCost, exclusions,
+					RateAndCost::getCalculatedCost, applicableRates);
+				rateCostShareAmount = calculateNewAmountBasedOnApplicableRates(rateCostShareAmount, rateAndCost, exclusions,
+					RateAndCost::getCalculatedCostSharing, applicableRates);
     		}
     	}
+    	
     	if (rateAndCost.isApplyRateFlag() || rateAndCost.getRateClassType().equals(RateClassType.OVERHEAD.getRateClassType())) {
-			ScaleTwoDecimal rate = getAppliedRate(breakupInterval,rateAndCost);
-			rateAndCost.setBaseAmount(rateBaseAmount);
-			rateAndCost.setBaseCostSharingAmount(rateCostShareAmount);
-			rateAndCost.setAppliedRate(rate);
-			rateAndCost.setCalculated(true);
-	        rateAndCost.setCalculatedCost(rateAndCost.getBaseAmount().percentage(rate));
-	        rateAndCost.setCalculatedCostSharing(rateAndCost.getBaseCostSharingAmount().percentage(rate));
+    		calculateRateAndCostCalculatedAmounts(rateAndCost, rateBaseAmount, rateCostShareAmount, 
+    				getAppliedRate(breakupInterval,rateAndCost));
     	}
         if(rateAndCost.getRateClassType().equals(RateClassType.OVERHEAD.getRateClassType())){
             calculateUnderRecovery(breakupInterval,rateAndCost);
         }
         return rateAndCost;
     }
+    
+	protected List<RateAndCost> getApplicableRateAndCostsForInclusion(RateClassBaseInclusion inclusion,
+			List<RateAndCost> allRateAndCosts, BreakUpInterval breakupInterval, List<RateClassBaseInclusion> inclusions,
+			List<RateClassBaseExclusion> exclusions) {
+		
+		List<RateAndCost> applicableRates = getApplicableRates(inclusion, allRateAndCosts);
+		applicableRates = applicableRates.stream()
+				.map(currentRateAndCost -> calculateRateAndCost(currentRateAndCost, breakupInterval, allRateAndCosts, inclusions, exclusions))
+				.collect(Collectors.toList());
+		return applicableRates;
+	}
+    
+	protected ScaleTwoDecimal calculateNewAmountBasedOnApplicableRates(ScaleTwoDecimal rateBaseAmount,
+			RateAndCost rateAndCost, List<RateClassBaseExclusion> exclusions,
+			final Function<RateAndCost, ScaleTwoDecimal> costMapper, List<RateAndCost> applicableRates) {
+		
+		rateBaseAmount = applicableRates.stream()
+			.filter(RateAndCost::isApplyRateFlag)
+			.filter(currentRateAndCost -> !isExcluded(rateAndCost, currentRateAndCost, exclusions))
+			.map(costMapper)
+			.reduce(rateBaseAmount, ScaleTwoDecimal::add);
+		return rateBaseAmount;
+	}
+	
+	protected void calculateRateAndCostCalculatedAmounts(RateAndCost rateAndCost, ScaleTwoDecimal rateBaseAmount,
+			ScaleTwoDecimal rateCostShareAmount, ScaleTwoDecimal rate) {
+		
+		rateAndCost.setBaseAmount(rateBaseAmount);
+		rateAndCost.setBaseCostSharingAmount(rateCostShareAmount);
+		rateAndCost.setAppliedRate(rate);
+		rateAndCost.setCalculated(true);
+		rateAndCost.setCalculatedCost(rateAndCost.getBaseAmount().percentage(rate));
+		rateAndCost.setCalculatedCostSharing(rateAndCost.getBaseCostSharingAmount().percentage(rate));
+	}
+	
+	protected List<RateClassBaseInclusion> getRelatedInclusions(RateAndCost rateAndCost,
+			List<RateClassBaseInclusion> inclusions) {
+		
+		List<RateClassBaseInclusion> rateInclusions = inclusions.stream()
+    			.filter(inclusion -> 
+    				StringUtils.equals(rateAndCost.getRateClassCode(), inclusion.getRateClassCode()) 
+    				&& (inclusion.getRateTypeCode() == null || StringUtils.equals(rateAndCost.getRateTypeCode(), inclusion.getRateTypeCode())))
+    			.collect(Collectors.toList());
+		return rateInclusions;
+	}
     
     protected List<RateAndCost> getApplicableRates(RateClassBaseInclusion inclusion, List<RateAndCost> allRateAndCosts) {
     	return allRateAndCosts.stream()
