@@ -24,7 +24,7 @@
     <parent>
         <groupId>org.kuali.coeus</groupId>
         <artifactId>coeus-db</artifactId>
-        <version>1602.10</version>
+        <version>1602.11-SNAPSHOT</version>
     </parent>
     <artifactId>coeus-db-xml</artifactId>
     <packaging>jar</packaging>
