@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
    - Kuali Coeus, a comprehensive research administration system for higher education.
-   - 
+   -
    - Copyright 2005-2015 Kuali, Inc.
-   - 
+   -
    - This program is free software: you can redistribute it and/or modify
    - it under the terms of the GNU Affero General Public License as
    - published by the Free Software Foundation, either version 3 of the
    - License, or (at your option) any later version.
-   - 
+   -
    - This program is distributed in the hope that it will be useful,
    - but WITHOUT ANY WARRANTY; without even the implied warranty of
    - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    - GNU Affero General Public License for more details.
-   - 
+   -
    - You should have received a copy of the GNU Affero General Public License
    - along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
@@ -21,7 +21,7 @@
   <bean id="CustomAttributeDocument" parent="CustomAttributeDocument-parentBean"/>
   <bean abstract="true" id="CustomAttributeDocument-parentBean" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument"/>
-		<property name="objectLabel" value="Custom Attribute Document"/>
+    <property name="objectLabel" value="Custom Attribute Document"/>
     <property name="inquiryDefinition">
       <ref bean="CustomAttributeDocument-inquiryDefinition"/>
     </property>
@@ -36,6 +36,7 @@
         <ref bean="CustomAttributeDocument-required"/>
         <ref bean="CustomAttributeDocument-typeName"/>
         <ref bean="CustomAttributeDocument-active"/>
+        <ref bean="CustomAttributeDocument-sortId"/>
         <ref bean="CustomAttributeDocument-versionNumber"/>
       </list>
     </property>
@@ -53,7 +54,7 @@
     </property>
   </bean>
 
-<!-- Attribute Definitions -->
+  <!-- Attribute Definitions -->
 
 
   <bean id="CustomAttributeDocument-id" parent="CustomAttributeDocument-id-parentBean"/>
@@ -137,11 +138,30 @@
 
   <bean id="CustomAttributeDocument-versionNumber" parent="CustomAttributeDocument-versionNumber-parentBean"/>
   <bean abstract="true" id="CustomAttributeDocument-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber"/>
-<!-- Business Object Inquiry Definition -->
+
+  <bean id="CustomAttributeDocument-sortId" parent="CustomAttributeDocument-sortId-parentBean" />
+  <bean id="CustomAttributeDocument-sortId-parentBean" abstract="true" parent="AttributeDefinition" >
+    <property name="name" value="sortId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Sort Id" />
+    <property name="shortLabel" value="Sort Id" />
+    <property name="maxLength" value="6" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="Sort Id" />
+    <property name="description" value="This sort id is used for sorting custom data fields" />
+  </bean>
+
+  <!-- Business Object Inquiry Definition -->
   <bean id="CustomAttributeDocument-inquiryDefinition" parent="CustomAttributeDocument-inquiryDefinition-parentBean"/>
   <bean id="CustomAttributeDocument-InquiryView" parent="CustomAttributeDocument-InquiryView-parentBean"/>
   <bean abstract="true" id="CustomAttributeDocument-inquiryDefinition-parentBean" parent="InquiryDefinition">
-  <property name="inquirableClass" value ="org.kuali.coeus.common.impl.custom.attr.CustomAtttributeDocumentInquirableImpl"/>
+    <property name="inquirableClass" value ="org.kuali.coeus.common.impl.custom.attr.CustomAtttributeDocumentInquirableImpl"/>
     <property name="title" value="Custom Attribute Document"/>
     <property name="inquirySections">
       <list>
@@ -155,6 +175,7 @@
               <bean p:attributeName="required" parent="FieldDefinition"/>
               <bean p:attributeName="typeName" parent="FieldDefinition"/>
               <bean p:attributeName="active" parent="FieldDefinition"/>
+              <bean p:attributeName="sortId" parent="FieldDefinition"/>
             </list>
           </property>
         </bean>
@@ -190,8 +211,8 @@
   <bean abstract="true" id="CustomAttributeDocument-lookupDefinition-parentBean" parent="LookupDefinition">
     <property name="title" value="Custom Attribute Document Lookup"/>
     <property name="lookupableID" value="customAttributeDocumentLookupable" /><property name="defaultSort">
-      <bean parent="SortDefinition"/>
-    </property>
+    <bean parent="SortDefinition"/>
+  </property>
     <property name="lookupFields">
       <list>
         <bean p:attributeName="id" parent="FieldDefinition"/>
@@ -199,6 +220,7 @@
         <bean p:attributeName="required" parent="FieldDefinition"/>
         <bean p:attributeName="typeName" parent="FieldDefinition"/>
         <bean p:attributeName="active" parent="FieldDefinition"/>
+        <bean p:attributeName="sortId" parent="FieldDefinition"/>
       </list>
     </property>
     <property name="resultFields">
@@ -208,6 +230,7 @@
         <bean p:attributeName="required" parent="FieldDefinition"/>
         <bean p:attributeName="typeName" parent="FieldDefinition"/>
         <bean p:attributeName="active" p:forceInquiry="true" parent="FieldDefinition"/>
+        <bean p:attributeName="sortId" parent="FieldDefinition"/>
       </list>
     </property>
   </bean>
