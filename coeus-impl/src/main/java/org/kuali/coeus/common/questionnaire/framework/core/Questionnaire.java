@@ -155,6 +155,11 @@ public class Questionnaire extends KcPersistableBusinessObjectBase implements Co
         return QuestionnaireConstants.QUESTIONNAIRE_SEQUENCE_ID_PARAMETER_NAME;
     }
 
+    @Override
+    public String getVersionNameFieldValue() {
+        return questionnaireSeqId;
+    }
+
     public void incrementSequenceNumber() {
         sequenceNumber++;
     }

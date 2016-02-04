@@ -59,7 +59,7 @@ public class ProtocolParticipant extends ProtocolAssociateBase {
     }
 
     public Integer getParticipantCount() {
-        return participantCount;
+        return (participantCount == null) ? 0 : participantCount;
     }
 
     public void setParticipantCount(Integer participantCount) {

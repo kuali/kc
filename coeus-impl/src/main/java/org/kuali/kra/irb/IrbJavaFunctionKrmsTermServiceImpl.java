@@ -29,6 +29,7 @@ import org.kuali.kra.protocol.ProtocolJavaFunctionKrmsTermServiceBase;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class IrbJavaFunctionKrmsTermServiceImpl extends ProtocolJavaFunctionKrmsTermServiceBase implements IrbJavaFunctionKrmsTermService {
 
@@ -46,16 +47,13 @@ public class IrbJavaFunctionKrmsTermServiceImpl extends ProtocolJavaFunctionKrms
     }
 
     public Integer getProtocolParticipantTypeCount(Protocol protocol, String participantType) {
-        Integer count = 0;
-        for (ProtocolParticipant participant : protocol.getProtocolParticipants()) {
-            if (StringUtils.equals(participant.getParticipantTypeCode(), participantType)) {
-                count += participant.getParticipantCount();
-            }
-            else if (participant.getParticipantType() != null && StringUtils.equals(participant.getParticipantType().getDescription(), participantType)) {
-                count += participant.getParticipantCount();
-            }
-        }
-        return count;
+        return protocol.getProtocolParticipants().stream().filter(participant -> isMatchOnParticipantType(participantType, participant)).
+                map(ProtocolParticipant::getParticipantCount).reduce(0, Integer::sum);
+    }
+
+    protected boolean isMatchOnParticipantType(String participantType, ProtocolParticipant participant) {
+        return StringUtils.equals(participant.getParticipantTypeCode(), participantType) ||
+                participant.getParticipantType() != null && StringUtils.equals(participant.getParticipantType().getDescription(), participantType);
     }
 
     @Override

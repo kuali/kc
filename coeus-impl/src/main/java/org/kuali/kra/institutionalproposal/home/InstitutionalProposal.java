@@ -1217,6 +1217,11 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
     }
 
     @Override
+    public String getVersionNameFieldValue() {
+        return proposalNumber;
+    }
+
+    @Override
     protected void postPersist() {
         super.postPersist();
         updateProposalIpReviewJoin();

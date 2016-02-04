@@ -446,6 +446,11 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
     }
 
     @Override
+    public String getVersionNameFieldValue() {
+        return getProposalNumber();
+    }
+
+    @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;

@@ -2012,6 +2012,11 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         return AWARD_NUMBER;
     }
 
+    @Override
+    public String getVersionNameFieldValue() {
+        return getAwardNumber();
+    }
+
     public ActivityType getActivityType() {
         return activityType;
     }

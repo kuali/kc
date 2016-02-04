@@ -310,51 +310,49 @@ public abstract class ProtocolJavaFunctionKrmsTermServiceBase extends KcKrmsJava
     }
 
     public Boolean hasProtocolContainsAmendRenewModule(ProtocolBase protocol, String moduleName) {
-        boolean matches = false;
         if (protocol.isAmendment() || protocol.isRenewalWithAmendment()) {
-            for (ProtocolAmendRenewModuleBase module : protocol.getProtocolAmendRenewal().getModules()) {
-                if (StringUtils.equals(module.getProtocolModuleTypeCode(), moduleName)) {
-                    matches = true;
-                    break;
-                }
-
-                if(module.getProtocolModule() == null) {
-                    module.refreshReferenceObject("protocolModule");
-                }
-                if (module.getProtocolModule() != null && StringUtils.equals(module.getProtocolModule().getDescription(), moduleName)) {
-                    matches = true;
-                    break;
-                }
-            }
+            return  protocol.getProtocolAmendRenewal().getModules().stream().anyMatch(module ->
+                    StringUtils.equals(module.getProtocolModuleTypeCode(), moduleName) || doesProtocolModuleDescriptionMatch(moduleName, module));
         }
-        return matches;
+        return false;
+    }
+
+    protected boolean doesProtocolModuleDescriptionMatch(String moduleName, ProtocolAmendRenewModuleBase module) {
+        if (module.getProtocolModule() == null) {
+            module.refreshReferenceObject("protocolModule");
+        }
+        return module.getProtocolModule() != null && StringUtils.equals(module.getProtocolModule().getDescription(), moduleName);
     }
 
     public Boolean hasProtocolContainsSponsorType(ProtocolBase protocol, String sponsorTypeCode) {
-        for (ProtocolFundingSourceBase fundingSource : protocol.getProtocolFundingSources()) {
-            if (StringUtils.equals(fundingSource.getFundingSourceTypeCode(), FundingSourceType.SPONSOR)) {
-                Sponsor sponsor = getBusinessObjectService().findBySinglePrimaryKey(Sponsor.class, fundingSource.getFundingSourceNumber());
-                if (sponsor != null && StringUtils.equals(sponsor.getSponsorTypeCode(), sponsorTypeCode)) {
-                    return true;
-                }
-                if (sponsor != null && StringUtils.equals(sponsor.getSponsorType().getDescription(), sponsorTypeCode)) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        return protocol.getProtocolFundingSources().stream().anyMatch(fundingSource ->
+                                                                            isFundingSourceSponsor(fundingSource) &&
+                                                                                    isSponsorTypeMatch(sponsorTypeCode, fundingSource)
+                                                                    );
+    }
+
+    protected boolean isSponsorTypeMatch(String sponsorTypeCode, ProtocolFundingSourceBase fundingSource) {
+        Sponsor sponsor = getSponsorByFundingSourceNumber(fundingSource);
+        return (sponsor != null && StringUtils.equals(sponsor.getSponsorTypeCode(), sponsorTypeCode)) ||
+                (sponsor != null && sponsor.getSponsorType() != null && StringUtils.equals(sponsor.getSponsorType().getDescription(), sponsorTypeCode));
+    }
+
+    protected boolean isFundingSourceSponsor(ProtocolFundingSourceBase fundingSource) {
+        return StringUtils.equals(fundingSource.getFundingSourceTypeCode(), FundingSourceType.SPONSOR);
+    }
+
+    protected Sponsor getSponsorByFundingSourceNumber(ProtocolFundingSourceBase fundingSource) {
+        return getBusinessObjectService().findBySinglePrimaryKey(Sponsor.class, fundingSource.getFundingSourceNumber());
     }
 
     public Boolean hasBaseProtocolHasLastApprovalDate(ProtocolBase protocol) {
         ProtocolBase parentProtocol = protocol;
         if (!protocol.isNew()) {
-            String parentProtocolNumber = protocol.getAmendedProtocolNumber();
-            ProtocolBase potentialParentProtocol = getActiveProtocol(parentProtocolNumber);
+            ProtocolBase potentialParentProtocol = getActiveProtocol(protocol.getAmendedProtocolNumber());
             if (potentialParentProtocol != null) {
                 parentProtocol = potentialParentProtocol;
             }
         }
-
         return parentProtocol.getLastApprovalDate() != null;
     }
 

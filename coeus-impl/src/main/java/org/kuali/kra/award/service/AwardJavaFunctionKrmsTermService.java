@@ -18,19 +18,12 @@
  */
 package org.kuali.kra.award.service;
 
-import org.kuali.kra.award.home.Award;
-
-public interface AwardJavaFunctionKrmsTermService {
-    public Boolean awardPersonnelTotalEffort(Award award, String effortToMatch);
-    public Boolean awardPersonnelCalendarEffort(Award award, String effortToMatch);
-    public Boolean awardCommentsRule(Award award, String comments);
 import org.kuali.coeus.common.framework.krms.KcKrmsJavaFunctionTermService;
 import org.kuali.kra.award.home.Award;
 
 public interface AwardJavaFunctionKrmsTermService extends KcKrmsJavaFunctionTermService {
-
-    Boolean checkCommentEntered(Award award, String commentTypeCode);
-
-    Boolean hasSpecialReviewOfType(Award award, String specialReviewTypeCode);
-
+    public Boolean awardPersonnelTotalEffort(Award award, String effortToMatch);
+    public Boolean awardPersonnelCalendarEffort(Award award, String effortToMatch);
+    public Boolean awardCommentsRule(Award award, String comments, String commentTypeCode);
+    public Boolean hasSpecialReviewOfType(Award award, String specialReviewTypeCode);
 }

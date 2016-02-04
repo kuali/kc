@@ -23,12 +23,9 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.service.AwardJavaFunctionKrmsTermService;
 import org.kuali.coeus.common.impl.krms.KcKrmsJavaFunctionTermServiceBase;
-import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardComment;
-import org.kuali.kra.award.service.AwardJavaFunctionKrmsTermService;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 
-import java.math.BigDecimal;
 import java.util.Objects;
 
 public class AwardJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTermServiceBase implements AwardJavaFunctionKrmsTermService {
@@ -43,15 +40,12 @@ public class AwardJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTerm
     }
 
     public Boolean hasSpecialReviewOfType(Award award, String specialReviewType) {
-        for (AwardSpecialReview specialReview : award.getSpecialReviews()) {
-            if (StringUtils.equals(specialReview.getSpecialReviewTypeCode(), specialReviewType)) {
-                return true;
-            }
-            else if (specialReview.getSpecialReviewType() != null && StringUtils.equals(specialReview.getSpecialReviewType().getDescription(), specialReviewType)) {
-                return true;
-            }
-        }
-        return false;
+        return award.getSpecialReviews().stream().anyMatch(awardReview -> doesSpecialReviewMatch(awardReview, specialReviewType));
+    }
+
+    public boolean doesSpecialReviewMatch(AwardSpecialReview specialReview, String specialReviewType) {
+        return (StringUtils.equals(specialReview.getSpecialReviewTypeCode(), specialReviewType) ||
+                specialReview.getSpecialReviewType() != null && StringUtils.equals(specialReview.getSpecialReviewType().getDescription(), specialReviewType));
     }
 
     @Override
@@ -67,9 +61,16 @@ public class AwardJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTerm
     }
 
     @Override
-    public Boolean awardCommentsRule(Award award, String comments) {
-        return award.getAwardCurrentActionComments().getComments() == null && comments.equalsIgnoreCase("null") ||
-                comments.equalsIgnoreCase(award.getAwardCurrentActionComments().getComments());
+    public Boolean awardCommentsRule(Award award, String comments, String commentTypeCode) {
+        String commentOfSameType = getCommentOfType(commentTypeCode, award);
+        return commentOfSameType == null && comments.equalsIgnoreCase("null") ||
+                StringUtils.equalsIgnoreCase(comments, commentOfSameType);
+    }
+
+    private String getCommentOfType(String commentTypeCode, Award award) {
+        AwardComment awardComment = award.getAwardComments().stream().filter(comment -> StringUtils.equals(comment.getCommentTypeCode(), commentTypeCode)).
+                                                                                findFirst().orElse(null);
+        return awardComment == null? null : awardComment.getComments();
     }
 
     protected ScaleTwoDecimal convertToScaleTwoDecimal(String effortToMatch) {

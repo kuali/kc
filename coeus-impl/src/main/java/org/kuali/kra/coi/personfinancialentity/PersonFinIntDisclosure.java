@@ -319,8 +319,12 @@ public class PersonFinIntDisclosure extends KcPersistableBusinessObjectBase impl
     }
 
     public String getVersionNameField() {
-
         return "entityNumber";
+    }
+
+    @Override
+    public String getVersionNameFieldValue() {
+        return entityNumber;
     }
 
     public List<PersonFinIntDisclosure> getVersions() {

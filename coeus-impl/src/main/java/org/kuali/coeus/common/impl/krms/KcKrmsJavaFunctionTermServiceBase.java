@@ -27,6 +27,8 @@ import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.history.VersionHistory;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
 import org.kuali.coeus.common.framework.version.sequence.owner.SequenceOwner;
+import org.kuali.coeus.sys.api.model.ScaleThreeDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -37,6 +39,9 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public abstract class KcKrmsJavaFunctionTermServiceBase {
 
@@ -63,27 +68,25 @@ public abstract class KcKrmsJavaFunctionTermServiceBase {
     @Qualifier("versionHistoryService")
     private VersionHistoryService versionHistoryService;
 
-    public Boolean checkPropertyValueForAnyPreviousVersion(SequenceOwner<?> currentVersion, String property, String comparison) {
-        if (currentVersion != null && property != null && comparison != null) {
-            // I can't believe there isn't a way to retrieve a "documentBoNumber" equivalent from the SequenceOwner interface...
-            Object versionNumber = getPropertyValue(currentVersion, currentVersion.getVersionNameField());
-            if (versionNumber == null) {
-                return false;
-            }
+    public Boolean checkPropertyValueForAnyPreviousVersion(SequenceOwner<?> currentVersion, String property, String valueToCompare) {
+        return currentVersion.getVersionNameFieldValue() == null ? false:
+           getVersionHistories(currentVersion, currentVersion.getVersionNameFieldValue()).stream().filter(pastVersion ->
+                    isArchivedOrActive(pastVersion)).collect(Collectors.toList()).
+                    stream().anyMatch(pastVersion -> isPropertyValueMatches(currentVersion, property, valueToCompare, pastVersion));
+    }
 
-            for (VersionHistory pastVersion : getVersionHistoryService().loadVersionHistory(currentVersion.getClass(), versionNumber.toString())) {
-                if (VersionStatus.ARCHIVED == pastVersion.getStatus() || VersionStatus.ACTIVE == pastVersion.getStatus()) {
-                    Object propertyValue = getPropertyValue(pastVersion.getSequenceOwner(), property);
-                    if (propertyValue == null || currentVersion.getSequenceNumber().equals(pastVersion.getSequenceOwnerSequenceNumber())) {
-                        continue;
-                    }
-                    if (propertyValueEqualsString(property, propertyValue, comparison)) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
+    protected boolean isPropertyValueMatches(SequenceOwner<?> currentVersion, String property, String valueToCompare, VersionHistory pastVersion) {
+        Object propertyValue = getPropertyValue(pastVersion.getSequenceOwner(), property);
+        return propertyValue != null && !currentVersion.getSequenceNumber().equals(pastVersion.getSequenceOwnerSequenceNumber()) &&
+                propertyValueEqualsString(property, propertyValue, valueToCompare);
+    }
+
+    protected boolean isArchivedOrActive(VersionHistory pastVersion) {
+        return VersionStatus.ARCHIVED == pastVersion.getStatus() || VersionStatus.ACTIVE == pastVersion.getStatus();
+    }
+
+    protected List<VersionHistory> getVersionHistories(SequenceOwner<?> currentVersion, String versionNumber) {
+        return getVersionHistoryService().loadVersionHistory(currentVersion.getClass(), versionNumber);
     }
 
     protected Object getPropertyValue (Object propertyObject, String property) {
@@ -96,50 +99,54 @@ public abstract class KcKrmsJavaFunctionTermServiceBase {
                     propertyValue = propDescriptor.getReadMethod().invoke(propertyObject);
                 }
             }
-        }catch (IllegalArgumentException e) {
-            LOG.error("Could not find property " + property, e);
-        }catch (IllegalAccessException e) {
-            LOG.error("Could not find property " + property, e);
-        }catch (InvocationTargetException e) {
-            LOG.error("Could not find property " + property, e);
-        }catch (NoSuchMethodException e) {
-            LOG.error("Could not find property " + property, e);
+        } catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            throw new RuntimeException("Count not find property " + property + "on object" + propertyObject, e);
         }
         return propertyValue;
     }
 
-    protected Boolean propertyValueEqualsString(String propertyName, Object propertyValue, String comparison) {
+    protected Boolean propertyValueEqualsString(String propertyName, Object propertyValue, String valueToCompare) {
         try {
             if (propertyValue instanceof Integer) {
-                if (propertyValue.equals(Integer.valueOf(comparison))) {
+                if (propertyValue.equals(Integer.valueOf(valueToCompare))) {
                     return true;
                 }
             }
             if (propertyValue instanceof Long) {
-                if (propertyValue.equals(Long.valueOf(comparison))) {
+                if (propertyValue.equals(Long.valueOf(valueToCompare))) {
                     return true;
                 }
             }
             if (propertyValue instanceof Double) {
-                if (propertyValue.equals(Double.valueOf(comparison))) {
+                if (propertyValue.equals(Double.valueOf(valueToCompare))) {
                     return true;
                 }
             }
             if (propertyValue instanceof BigDecimal) {
-                if (propertyValue.equals(new BigDecimal(comparison))) {
+                if (propertyValue.equals(new BigDecimal(valueToCompare))) {
+                    return true;
+                }
+            }
+            if (propertyValue instanceof ScaleTwoDecimal) {
+                if (propertyValue.equals(new ScaleTwoDecimal(valueToCompare))) {
+                    return true;
+                }
+            }
+            if (propertyValue instanceof ScaleThreeDecimal) {
+                if (propertyValue.equals(new ScaleThreeDecimal(valueToCompare))) {
                     return true;
                 }
             }
         }
         catch (NumberFormatException e) {
-            LOG.error("Value " + comparison + " cannot be numerically compared to property " + propertyName, e);
+            throw new RuntimeException("Value " + valueToCompare + " cannot be numerically compared to property " + propertyName, e);
         }
         if (propertyValue instanceof Boolean) {
-            if (propertyValue.equals(Boolean.valueOf(comparison))) {
+            if (propertyValue.equals(Boolean.valueOf(valueToCompare))) {
                 return true;
             }
         }
-        return comparison.equals(propertyValue.toString());
+        return valueToCompare.equals(propertyValue.toString());
     }
 
     protected String[] buildArrayFromCommaList(String commaList) {
@@ -155,61 +162,30 @@ public abstract class KcKrmsJavaFunctionTermServiceBase {
             return false;
         }
         SequenceOwner<?> previousVersion = getLastActiveVersion(currentVersion);
-        if (previousVersion == null) {
-            return false;
-        }
-
         Object currentPropertyValue = getPropertyValue(currentVersion, property);
         Object previousPropertyValue = getPropertyValue(previousVersion, property);
-
-        if (currentPropertyValue == null && previousPropertyValue != null || currentPropertyValue != null && previousPropertyValue == null) {
-            return true;
-        }
-        else if (currentPropertyValue == null && previousPropertyValue == null) {
-            return false;
-        }
-        return !currentPropertyValue.equals(previousPropertyValue);
+        return !Objects.equals(currentPropertyValue,previousPropertyValue);
     }
 
     protected SequenceOwner<?> getLastActiveVersion(SequenceOwner<?> currentVersion) {
         SequenceOwner<?> highestActiveVersion = null;
-        if (currentVersion != null) {
-            // I can't believe there isn't a way to retrieve a "documentBoNumber" equivalent from the SequenceOwner interface...
-            Object versionNumber = getPropertyValue(currentVersion, currentVersion.getVersionNameField());
-            if (versionNumber != null) {
-                for (VersionHistory pastVersion : getVersionHistoryService().loadVersionHistory(currentVersion.getClass(), versionNumber.toString())) {
-                    if (pastVersion.getSequenceOwnerSequenceNumber() != currentVersion.getSequenceNumber()) {
-                        if ((VersionStatus.ARCHIVED == pastVersion.getStatus() || VersionStatus.ACTIVE == pastVersion.getStatus()) &&
-                                (highestActiveVersion == null || pastVersion.getSequenceOwnerSequenceNumber() > highestActiveVersion.getSequenceNumber())) {
-                            highestActiveVersion = pastVersion.getSequenceOwner();
-                        }
-                    }
+        if (currentVersion.getVersionNameFieldValue() != null) {
+            for (VersionHistory pastVersion : getVersionHistories(currentVersion, currentVersion.getVersionNameFieldValue().toString())) {
+                if (isHighestActiveVersion(highestActiveVersion, pastVersion, currentVersion)) {
+                    highestActiveVersion = pastVersion.getSequenceOwner();
                 }
             }
         }
         return highestActiveVersion;
     }
 
-    public Boolean doSponsorAndPrimeSponsorMatch(Sponsorable grantsBo) {
-        String sponsorCode = grantsBo.getSponsorCode();
-        // There should REALLY be an interface for this...
-        String primeSponsorCode = null;
-        try {
-            PropertyDescriptor propDescriptor = PropertyUtils.getPropertyDescriptor(grantsBo, "primeSponsorCode");
-            if (propDescriptor != null){
-                Method readMethod = propDescriptor.getReadMethod();
-                if (readMethod != null){
-                    primeSponsorCode = (String) propDescriptor.getReadMethod().invoke(grantsBo);
-                }
-            }
-        }catch (Exception e) {
-            LOG.error("Could not read Prime Sponsor code from BO", e);
-        }
+    private boolean isHighestActiveVersion(SequenceOwner<?> highestActiveVersion, VersionHistory pastVersion, SequenceOwner<?> currentVersion) {
+        return (pastVersion.getSequenceOwnerSequenceNumber() != currentVersion.getSequenceNumber() && isArchivedOrActive(pastVersion)) &&
+                (highestActiveVersion == null || pastVersion.getSequenceOwnerSequenceNumber() > highestActiveVersion.getSequenceNumber());
+    }
 
-        if (sponsorCode != null && primeSponsorCode != null && sponsorCode.equals(primeSponsorCode)) {
-            return true;
-        }
-        return false;
+    public Boolean doSponsorAndPrimeSponsorMatch(Sponsorable grantsBo) {
+        return Objects.equals(grantsBo.getSponsorCode(), grantsBo.getPrimeSponsorCode());
     }
 
     /**
