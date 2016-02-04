@@ -1,5 +1,6 @@
 package org.kuali.coeus.sys.framework.auth;
 
+import com.codiform.moo.annotation.Ignore;
 import com.codiform.moo.annotation.MapProperty;
 import org.joda.time.DateTime;
 
@@ -15,6 +16,10 @@ public class RoleMembershipDto {
     private Map<String, String> qualifiers;
     private DateTime activeFromDate;
     private DateTime activeToDate;
+    @Ignore
+    private String fullName;
+    @Ignore
+    private String email;
 
     public String getRoleId() {
         return roleId;
@@ -62,5 +67,21 @@ public class RoleMembershipDto {
 
     public void setActiveToDate(DateTime activeToDate) {
         this.activeToDate = activeToDate;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

@@ -7,6 +7,8 @@ import org.kuali.coeus.sys.framework.controller.rest.RestController;
 import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +29,12 @@ public class RoleMembershipController extends RestController {
 	private static final String QUALIFIER_NAME_VALUE_DELIMETER = ":";
 
 	@Autowired
-	@Qualifier("roleService")
-	private RoleService roleService;
+    @Qualifier("roleService")
+    private RoleService roleService;
+
+    @Autowired
+    @Qualifier("personService")
+    private PersonService personService;
 
 	@RequestMapping(method= RequestMethod.GET, value="v1/roles/{roleId}/principals/{memberId}")
 	public @ResponseBody List<RoleMembershipDto> getRoleMembershipsForMemberId(@PathVariable String roleId, @PathVariable String memberId, @RequestParam(value="qualification", required=false) String[] qualification) {
@@ -51,7 +57,11 @@ public class RoleMembershipController extends RestController {
 			throw new ResourceNotFoundException("no results");
 		}
 
-		return Translate.to(RoleMembershipDto.class).fromEach(roleMembers);
+        List<RoleMembershipDto> roleMembershipDtoList = Translate.to(RoleMembershipDto.class).fromEach(roleMembers);
+        Map<String, Person> personMap = new HashMap<>();
+        roleMembershipDtoList.stream().forEach(roleMembershipDto -> populatePersonData(roleMembershipDto, personMap));
+
+        return roleMembershipDtoList;
 
 	}
 
@@ -71,11 +81,30 @@ public class RoleMembershipController extends RestController {
             throw new ResourceNotFoundException("no results");
         }
 
-        return Translate.to(RoleMembershipDto.class).fromEach(roleMembers);
+        List<RoleMembershipDto> roleMembershipDtoList = Translate.to(RoleMembershipDto.class).fromEach(roleMembers);
 
+        Map<String, Person> personMap = new HashMap<>();
+        roleMembershipDtoList.stream().forEach(roleMembershipDto -> populatePersonData(roleMembershipDto,personMap));
+
+        return roleMembershipDtoList;
     }
 
-	/**
+    protected void populatePersonData(RoleMembershipDto roleMembershipDto, Map<String, Person> personMap) {
+        final Person person;
+        if (!personMap.containsKey(roleMembershipDto.getMemberId())) {
+            person = getPersonService().getPerson(roleMembershipDto.getMemberId());
+            personMap.put(roleMembershipDto.getMemberId(), person);
+        } else {
+            person = personMap.get(roleMembershipDto.getMemberId());
+        }
+
+        if (person != null) {
+            roleMembershipDto.setFullName((person.getFirstName() + " " + person.getLastName()).trim());
+            roleMembershipDto.setEmail(person.getEmailAddress());
+        }
+    }
+
+    /**
 	 * Some roles like the user role require a principal qualifier to make a match.
 	 */
 	protected Map<String, String> withPrincipalQualifier(String memberId, Map<String, String> qualificationMap) {
@@ -123,4 +152,12 @@ public class RoleMembershipController extends RestController {
 	public void setRoleService(RoleService roleService) {
 		this.roleService = roleService;
 	}
+
+    public PersonService getPersonService() {
+        return personService;
+    }
+
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
+    }
 }
