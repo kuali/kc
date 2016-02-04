@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1602.10
 * add additional fields to the RoleMemberShip end points
   * Joe Williams on Wed, 3 Feb 2016 17:03:14 -0600 [View Commit](../../commit/b682a7c1cbc42f448c4567d64eaa668387c2c474)
 
