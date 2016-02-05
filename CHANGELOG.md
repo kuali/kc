@@ -1,6 +1,26 @@
 
 
 ##CURRENT
+*  Fixed prop person bio sync- fixed biography number and created new bio instead of deep copy.
+
+  * STEPS TO RECREATE:
+  * Create a PD with a PI (employee search) and a Key Person (employee search) with KP role "Subaward Investigator"
+  * Go to Attachments > Personnel.
+  * Upload a biosketch attachment for the PI and one for the KP.
+  * Save.
+  * From top action bar, go to Hierarchy. Select Sub-budget and Create Hierarchy.
+  * Note the Parent number.
+  * Save and close PD.
+  * Both the parent and the child will have a PI with a biosketch and a Key Person with a biosketch.
+  * Open PD Child again to edit.
+  * In Personnel, add a second Key Person – using Non-Employee/Address book, KP Role "Subaward Investigator."
+  * Do NOT upload a biosketch.
+  * Save
+  * From top action bar, go to Hierarchy. Select Sync to Hierarchy.
+ste will result.
+  * Travis Schneeberger on Fri, 5 Feb 2016 09:52:14 -0500 [View Commit](../../commit/f87c52aac11c02aff8249ab817afe72c41689ad9)
+
+##coeus-1602.14
 * No Changes
 
 
