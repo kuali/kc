@@ -1,6 +1,24 @@
 
 
 ##CURRENT
+*  Added fringe totals to exclusion list when Overhead not applied.
+  * In KC budget, in the line item details (both in Non-Personnel Costs and SPE screens) or personnel group Details & Rates, if you uncheck the "Apply Rate" box for MTDC, the IDC in the budget is correctly adjusted to exclude the unchecked amounts.
+  * However, when you print the budget forms, the calculated fringe amount is not listed in the Page 2: Calculation Methodology: exclusions. When Personnel expenses use the 'unapply rate' option, the _salary _is listed as excluded, but associated fringes are not there.
+  * The correct BASE does appear in the next section (F&A Cost Rates and Base), and is correct Page 1.
+  * But a user should be able to manually calculate the Base by subtracting the Total exclusions from the F&A Base from the Total Direct Costs. We cannot get to this value the way the report prints today.
+  * Steps to reproduce:
+  * Create a budget for a research proposal
+  * Add a Personnel, and assign them to the period.
+  * Once added, click Details & Rates to open that window. Click on the Rates tab and uncheck the "Apply" box for MTDC. Save.
+  * Save ( you can autogenerate periods or just review P1)
+  * Toolbar > Budget Versions > Print > #4 Budget Summary Report > Create PDF.
+  * ON p2 in the methodology - review the total exclusions to F&A.
+  * Notice: the salary row appears in the list exclusions, but the calculated fringe does not.
+  * Subtract that Total Exclusions value from the Total Direct Costs on P1.
+  * Review the F&A Base in the next section on the form: it does not match your calculated amount.
+  * Gayathri Athreya on Fri, 5 Feb 2016 14:03:54 -0700 [View Commit](../../commit/c59d3278b9aabcb32453ecf90824ca708285da85)
+
+##coeus-1602.18
 *  only recalculate formulated costs for a line item if formulated cost elements are present
   * Joe Williams on Fri, 5 Feb 2016 13:44:56 -0600 [View Commit](../../commit/1a8e0ef423d304b88a70c187e60f48ce26fab8df)
 
