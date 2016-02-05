@@ -17,10 +17,6 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-set define off
-set sqlblanklines on
 
-spool 1602_oracle_kc_rice_server_upgrade.sql.log
-@./rice/bootstrap/V1602_001__kc_post_processor.sql
-@./rice/bootstrap/V1602_003__new_breakupinterval_rate_calc_param.sql
+\. ./kc/bootstrap/V1602_002__add_exclusions_for_type_specific_rates.sql
 commit;

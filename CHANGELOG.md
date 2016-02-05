@@ -1,6 +1,15 @@
 
 
 ##CURRENT
+* BreakupInterval service calculates incorrectly when multiple dependent rates existing in a single rate class
+
+  * For example when MTDC(rate class code = 1) depends on EB(rate class code = 5) but there exists multiple EB rate types
+  * mapped to a single cost element, the rate calculation would only include one of the EB rate types in the MTDC calculation.
+  * Additionally there was a chance that based on the order that the rate inclusions were returned from the database that the
+  * calculation would be incorrect for rates that shouldn't include the base amount(LA rates for example).
+  * blackcathacker on Thu, 28 Jan 2016 10:16:35 -0500 [View Commit](../../commit/8ffbe701349aa3ad5c1a8f90bebbddb9241872c6)
+
+##coeus-1602.11
 * No Changes
 
 

@@ -19,4 +19,5 @@
 
 
 \. ./rice/bootstrap/V1602_001__kc_post_processor.sql
+\. ./rice/bootstrap/V1602_003__new_breakupinterval_rate_calc_param.sql
 commit;
