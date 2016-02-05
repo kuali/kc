@@ -1,6 +1,13 @@
 
 
 ##CURRENT
+* Fix STE when importing hierarchy proposal budget into award
+
+  * When importing line items into an award budget from a hierarchy proposal a STE was generated due to it attempting to retreive rates from the original child proposal.
+  * Hierarchy proposal number is now stripped from the line items during import as that information is no longer applicable.
+  * blackcathacker on Fri, 5 Feb 2016 11:05:06 -0800 [View Commit](../../commit/40bbc531fed188e6fee827734a545b7e5d9ff640)
+
+##coeus-1602.16
 *  Fixed logic that finds line items not associated with subaward.
   * See proposal 1171.
   * Budget version 1 has the subaward file uploaded.
