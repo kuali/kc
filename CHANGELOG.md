@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+*  only recalculate formulated costs for a line item if formulated cost elements are present
+  * Joe Williams on Fri, 5 Feb 2016 13:44:56 -0600 [View Commit](../../commit/1a8e0ef423d304b88a70c187e60f48ce26fab8df)
+
+##coeus-1602.17
 * Fix STE when importing hierarchy proposal budget into award
 
   * When importing line items into an award budget from a hierarchy proposal a STE was generated due to it attempting to retreive rates from the original child proposal.
