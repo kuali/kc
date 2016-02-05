@@ -1272,7 +1272,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     }
     
     public void calculateAndUpdateFormulatedCost(BudgetLineItem budgetLineItem) {
-        if(budgetLineItem.getFormulatedCostElementFlag()){
+        if(budgetLineItem.getFormulatedCostElementFlag() && !CollectionUtils.isEmpty(budgetLineItem.getBudgetFormulatedCosts())){
             ScaleTwoDecimal formulatedCostTotal = getFormulatedCostsTotal(budgetLineItem);
             if(formulatedCostTotal!=null){
                 budgetLineItem.setLineItemCost(formulatedCostTotal);
