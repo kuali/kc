@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1602.12
 * BreakupInterval service calculates incorrectly when multiple dependent rates existing in a single rate class
 
   * For example when MTDC(rate class code = 1) depends on EB(rate class code = 5) but there exists multiple EB rate types
