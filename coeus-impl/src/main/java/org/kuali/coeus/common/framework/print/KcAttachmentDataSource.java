@@ -124,6 +124,7 @@ public abstract class KcAttachmentDataSource extends KcPersistableBusinessObject
 	}
 	
     @Override
+    @PrePersist
     protected void prePersist() {
     	super.prePersist();
     	if (StringUtils.isBlank(uploadUser)) {
@@ -134,5 +135,15 @@ public abstract class KcAttachmentDataSource extends KcPersistableBusinessObject
     	}
     }
 
-
+    @Override
+    @PreUpdate
+    protected void preUpdate() {
+        super.preUpdate();
+        if (StringUtils.isBlank(uploadUser)) {
+            uploadUser = getUpdateUser();
+        }
+        if (uploadTimestamp == null) {
+            uploadTimestamp = getUpdateTimestamp();
+        }
+    }
 }

@@ -48,6 +48,9 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.coeus.propdev.impl.person.attachment.PropPerDocType;
+import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
+import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographyAttachment;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographyService;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
@@ -69,13 +72,15 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.service.PessimisticLockService;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
+import org.springframework.mock.web.MockMultipartFile;
 
 public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
 
     public static final String FIRST_NAME = "firstname";
     public static final String LAST_NAME = "lastName";
     public static final String PERSON_ID = "10000000001";
-	private ProposalHierarchyServiceImpl hierarchyService;
+    private static final String DOC_TYPE_DESCRIPTION = "description";
+    private ProposalHierarchyServiceImpl hierarchyService;
 	private DataObjectService dataObjectService;
     private KcAuthorizationService kcAuthorizationService;
 
@@ -163,7 +168,62 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
         assertTrue(hierarchyService.getHierarchyChildren(parentProposalNumber).isEmpty());
     }
 
-	@Test
+    @Test
+    public void test_adding_key_personnel_to_child_with_propBios() throws Exception {
+        ProposalDevelopmentDocument pdDocument = initializeProposalDevelopmentDocument();
+        DevelopmentProposal childProposal = getChildProposal(pdDocument.getDevelopmentProposal());
+        String userId = PERSON_ID;
+        String parentProposalNumber = hierarchyService.createHierarchy(childProposal, userId);
+        childProposal.setProposalPersons(new ArrayList<>());
+        createProposalPerson2(childProposal);
+        addPersonBios(childProposal);
+        childProposal = dataObjectService.save(childProposal);
+        hierarchyService.synchronizeChild(childProposal);
+        DevelopmentProposal parentProposal = childProposal.getParent();
+        assertTrue(parentProposal.getProposalPerson(0).getPersonId().equalsIgnoreCase("999"));
+        assertTrue(parentProposal.getProposalPerson(0).getProposalPersonRoleId().equalsIgnoreCase(Constants.CO_INVESTIGATOR_ROLE));
+        assertTrue(!parentProposal.getPropPersonBios().isEmpty());
+        assertTrue(parentProposal.getPropPersonBios().get(0).getPersonnelAttachment().getData() != null);
+        createKeyPerson(childProposal);
+        hierarchyService.synchronizeChild(childProposal);
+        parentProposal = childProposal.getParent();
+        assertTrue(parentProposal.getProposalPersons().size() == 2);
+        assertTrue(parentProposal.getProposalPersons().get(1).getProposalPersonRoleId().equalsIgnoreCase(Constants.KEY_PERSON_ROLE));
+        assertTrue(!parentProposal.getPropPersonBios().isEmpty());
+        assertTrue(parentProposal.getPropPersonBios().get(0).getPersonnelAttachment().getData() != null);
+    }
+
+    private void addPersonBios(DevelopmentProposal proposal) throws Exception {
+        ProposalPersonBiography proposalPersonBiography = new ProposalPersonBiography();
+        proposalPersonBiography.setDescription("Test");
+        proposalPersonBiography.setContentType("MIME");
+        proposalPersonBiography.setDocumentTypeCode("1");
+        proposalPersonBiography.setName("Test");
+        proposalPersonBiography.setPersonId(proposal.getProposalPerson(0).getPersonId());
+        proposalPersonBiography.setPositionNumber(1);
+        proposalPersonBiography.setPropPerDocType(getAPropPerDocType());
+        proposalPersonBiography.setDevelopmentProposal(proposal);
+        proposalPersonBiography.setBiographyNumber(proposal.getProposalDocument().getDocumentNextValue(Constants.PROP_PERSON_BIO_NUMBER));
+        proposalPersonBiography.setProposalPersonNumber(proposal.getProposalPerson(0).getProposalPersonNumber());
+
+        ProposalPersonBiographyAttachment attachment = new ProposalPersonBiographyAttachment();
+        attachment.setName("Test");
+		attachment.setType("MIME");
+        attachment.setFileDataId("00111");
+        MockMultipartFile mockMultipartFile = new MockMultipartFile(
+                "test.txt",                //filename
+                "Hello World".getBytes()); //content
+        proposalPersonBiography.init(mockMultipartFile);
+        proposal.getPropPersonBios().add(proposalPersonBiography);
+    }
+
+    protected PropPerDocType getAPropPerDocType() {
+            Map<String,String> criteria = new HashMap<String,String>();
+            criteria.put(DOC_TYPE_DESCRIPTION, "Biosketch");
+            return dataObjectService.findMatching(PropPerDocType.class, QueryByCriteria.Builder.andAttributes(criteria).build()).getResults().get(0);
+    }
+
+    @Test
 	public void test_linkToHierarchy() throws Exception {
         ProposalDevelopmentDocument pdDocument = initializeProposalDevelopmentDocument();
         DevelopmentProposal childProposal = getChildProposal(pdDocument.getDevelopmentProposal());
@@ -596,6 +656,21 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
         person.setDevelopmentProposal(developmentProposal);
         developmentProposal.getProposalPersons().add(person);
         person.setPersonId("999");
+    }
+
+    private void createKeyPerson(DevelopmentProposal developmentProposal) {
+        ProposalPerson person = new ProposalPerson();
+        person.setProposalPersonNumber(3);
+        person.setProposalPersonRoleId(Constants.KEY_PERSON_ROLE);
+        person.setFirstName("The");
+        person.setLastName("Dude");
+        person.setMiddleName("middleName");
+        setPersonData(person);
+        person.setRolodexId(1);
+        person.setDevelopmentProposal(developmentProposal);
+        developmentProposal.getProposalPersons().add(person);
+        person.setPersonId("555");
+        person.setProjectRole("Big Lebowski");
     }
 
         public void setPersonData(ProposalPerson person) {

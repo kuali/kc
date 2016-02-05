@@ -773,8 +773,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                     && employeeInMultipleProp.get(srcPropPersonBio.getPersonId()) != null &&
                     !employeeInMultipleProp.get(srcPropPersonBio.getPersonId())) {
                 ProposalPersonBiography destPropPersonBio;
-                destPropPersonBio = deepCopy(srcPropPersonBio);
-                copyPersonnelAttachmentData(destPropPersonBio, srcPropPersonBio);
+                destPropPersonBio = getNewPropPersonBio(srcPropPersonBio, hierarchyProposal);
                 destPropPersonBio.setDevelopmentProposal(hierarchyProposal);
                 destPropPersonBio.setProposalNumber(hierarchyProposal.getProposalNumber());
                 destPropPersonBio.setProposalPersonNumber(getEmployeeProposalPersonNumber(destPropPersonBio.getPersonId(), hierarchyProposal));
@@ -788,8 +787,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                     && nonEmployeeInMultipleProp.get(srcPropPersonBio.getRolodexId()) != null &&
                     !nonEmployeeInMultipleProp.get(srcPropPersonBio.getRolodexId())) {
                 ProposalPersonBiography destPropPersonBio;
-                destPropPersonBio = deepCopy(srcPropPersonBio);
-                copyPersonnelAttachmentData(destPropPersonBio, srcPropPersonBio);
+                destPropPersonBio = getNewPropPersonBio(srcPropPersonBio, hierarchyProposal);
                 destPropPersonBio.setDevelopmentProposal(hierarchyProposal);
                 destPropPersonBio.setProposalNumber(hierarchyProposal.getProposalNumber());
                 destPropPersonBio.setProposalPersonNumber(getNonEmployeeProposalPersonNumber(destPropPersonBio.getRolodexId(), hierarchyProposal));
@@ -798,6 +796,29 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             }
         }
         hierarchyProposal.getPropPersonBios().addAll(newList);
+    }
+
+    protected ProposalPersonBiography getNewPropPersonBio(ProposalPersonBiography srcPropPersonBio, DevelopmentProposal hierarchyProposal) {
+        ProposalPersonBiography proposalPersonBiography = new ProposalPersonBiography();
+        proposalPersonBiography.setDescription(srcPropPersonBio.getDescription());
+        proposalPersonBiography.setContentType(srcPropPersonBio.getContentType());
+        proposalPersonBiography.setDocumentTypeCode(srcPropPersonBio.getDocumentTypeCode());
+        proposalPersonBiography.setName(srcPropPersonBio.getName());
+        proposalPersonBiography.setPersonId(srcPropPersonBio.getPersonId());
+        proposalPersonBiography.setPositionNumber(srcPropPersonBio.getPositionNumber());
+        proposalPersonBiography.setPropPerDocType(srcPropPersonBio.getPropPerDocType());
+        proposalPersonBiography.setDevelopmentProposal(hierarchyProposal);
+        proposalPersonBiography.setBiographyNumber(hierarchyProposal.getProposalDocument().getDocumentNextValue(Constants.PROP_PERSON_BIO_NUMBER));
+
+        ProposalPersonBiographyAttachment attachment = new ProposalPersonBiographyAttachment();
+        attachment.setType(srcPropPersonBio.getPersonnelAttachment().getType());
+        attachment.setName(srcPropPersonBio.getPersonnelAttachment().getName());
+        attachment.setFileDataId(srcPropPersonBio.getPersonnelAttachment().getFileDataId());
+        attachment.setUploadUser(srcPropPersonBio.getPersonnelAttachment().getUploadUser());
+        attachment.setUploadTimestamp(srcPropPersonBio.getPersonnelAttachment().getUploadTimestamp());
+
+        proposalPersonBiography.setPersonnelAttachment(attachment);
+        return  proposalPersonBiography;
     }
 
     protected boolean isEmployeeBioInNewChildDuplicate(boolean isNewChild, DevelopmentProposal hierarchyProposal, ProposalPersonBiography srcPropPersonBio) {
@@ -1110,8 +1131,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 }
             }
             if (destPerson != null) {
-                ProposalPersonBiography destPropPersonBio = deepCopy(srcPropPersonBio);
-                copyPersonnelAttachmentData(destPropPersonBio, srcPropPersonBio);
+                ProposalPersonBiography destPropPersonBio = getNewPropPersonBio(srcPropPersonBio, destProposal);
                 destPropPersonBio.setDevelopmentProposal(destProposal);
                 destPropPersonBio.setProposalNumber(destProposal.getProposalNumber());
                 destPropPersonBio.setProposalPersonNumber(destPerson.getProposalPersonNumber());
@@ -1131,16 +1151,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
 
         for (Narrative attInternal : srcProposal.getInstituteAttachments()) {
             addNarrativeToParent(destProposal, srcProposal, attInternal, destProposal.getInstituteAttachments());
-        }
-    }
-
-    protected void copyPersonnelAttachmentData(ProposalPersonBiography destPropPersonBio, ProposalPersonBiography srcPropPersonBio) {
-        ProposalPersonBiographyAttachment attachmentCopy = deepCopy(srcPropPersonBio.getPersonnelAttachment());
-        attachmentCopy.setProposalPersonBiography(destPropPersonBio);
-        destPropPersonBio.setPersonnelAttachment(attachmentCopy);
-        if (destPropPersonBio.getPersonnelAttachment() != null) {
-            destPropPersonBio.getPersonnelAttachment().setProposalPersonBiography(destPropPersonBio);
-            destPropPersonBio.getPersonnelAttachment().setData(srcPropPersonBio.getData());
         }
     }
 
