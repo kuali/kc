@@ -1,6 +1,17 @@
 
 
 ##CURRENT
+*  Fixed logic that finds line items not associated with subaward.
+  * See proposal 1171.
+  * Budget version 1 has the subaward file uploaded.
+  * Copied entire budget to Version 2.
+  * > Deleted uploaded subaward.
+  * Result: ALL budget details deleted in ALL periods.
+  * REGRESSION ISSUE
+  * I have created a budget for 10 years, 10 periods. I upload a Subaward file, and system generates the Subaward line items. Then I delete the Subaward file, and all budget line items are deleted, not just the Subaward budget line items.
+  * Gayathri Athreya on Thu, 4 Feb 2016 14:01:31 -0700 [View Commit](../../commit/de42a02ded1b11241bdada38abd1e532df3c5062)
+
+##coeus-1602.15
 *  Fixed prop person bio sync- fixed biography number and created new bio instead of deep copy.
 
   * STEPS TO RECREATE:
