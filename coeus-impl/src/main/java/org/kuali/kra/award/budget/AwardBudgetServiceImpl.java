@@ -85,6 +85,8 @@ import java.util.*;
  * This class is to process all basic services required for AwardBudget
  */
 public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> implements AwardBudgetService {
+	private static final String HIERARCHY_PROPOSAL_NUMBER = "hierarchyProposalNumber";
+	private static final String HIERARCHY_PROPOSAL = "hierarchyProposal";
 	private static final Log LOG = LogFactory.getLog(AwardBudgetServiceImpl.class);
     private final static String BUDGET_VERSION_ERROR_PREFIX = "document.parentDocument.budgetDocumentVersion";
     private static final String INST_PROPOSAL_ID = "instProposalId";
@@ -702,7 +704,8 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         List<BudgetLineItem> lineItems = proposalBudgetPeriod.getBudgetLineItems();
         for (BudgetLineItem budgetLineItem : lineItems) {
             String[] ignoreProperties = {BUDGET_ID, BUDGET_LINE_ITEM_ID, BUDGET_PERIOD_ID, SUBMIT_COST_SHARING_FLAG,
-                    BUDGET_LINE_ITEM_CALCULATED_AMOUNTS, BUDGET_PERSONNEL_DETAILS_LIST, BUDGET_RATE_AND_BASE_LIST, BUDGET_SUB_AWARD};
+                    BUDGET_LINE_ITEM_CALCULATED_AMOUNTS, BUDGET_PERSONNEL_DETAILS_LIST, BUDGET_RATE_AND_BASE_LIST, BUDGET_SUB_AWARD, 
+                    HIERARCHY_PROPOSAL, HIERARCHY_PROPOSAL_NUMBER};
             AwardBudgetLineItemExt awardBudgetLineItem = new AwardBudgetLineItemExt(); 
             BeanUtils.copyProperties(budgetLineItem, awardBudgetLineItem, ignoreProperties);
             awardBudgetLineItem.setLineItemNumber(awardBudget.getNextValue(Constants.BUDGET_LINEITEM_NUMBER));
