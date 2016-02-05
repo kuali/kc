@@ -241,6 +241,10 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
             rulePassed = false;
             reportError("moduleStatusCode", ERROR_ATTACHMENT_STATUS_NOT_SELECTED);
         }
+
+        // KC-1319 STE if an attachment is added with a # symbol in the filename
+        rulePassed &= validFileNameCharacters(narrative);
+
         if (rulePassed) {
             String[] param = {PROPOSAL, narrative.getNarrativeType().getDescription()};
             if (!narrative.getNarrativeType().isAllowMultiple()) {
