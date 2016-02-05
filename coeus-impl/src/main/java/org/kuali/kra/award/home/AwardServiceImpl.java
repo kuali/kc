@@ -209,6 +209,7 @@ public class AwardServiceImpl implements AwardService {
         for (Award award : awards) {
             award.setAwardSequenceStatus(VersionStatus.ARCHIVED.name());
             award.setAllowUpdateTimestampToBeReset(false);
+            award.setAllowUpdateUserToBeReset(false);
             businessObjectService.save(award);
         }
     }

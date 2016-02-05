@@ -303,6 +303,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     private List<SubAward> subAwardList;
     
     private transient boolean allowUpdateTimestampToBeReset = true;
+    private transient boolean allowUpdateUserToBeReset = true;
     
     private VersionHistorySearchBo versionHistory;
     private transient KcPersonService kcPersonService;
@@ -2603,6 +2604,27 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
             super.setUpdateTimestamp(updateTimestamp);
         } else {
             setAllowUpdateTimestampToBeReset(true);
+        }
+    }
+
+    /**
+     *
+     * Setting this value to false will prevent the update user field from being update just once.  After that, the update user field will update as regular.
+     */
+    public boolean isAllowUpdateUserToBeReset() {
+        return allowUpdateUserToBeReset;
+    }
+
+    public void setAllowUpdateUserToBeReset(boolean allowUpdateUserToBeReset) {
+        this.allowUpdateUserToBeReset = allowUpdateUserToBeReset;
+    }
+
+    @Override
+    public void setUpdateUser(String updateUser) {
+        if (isAllowUpdateUserToBeReset()) {
+            super.setUpdateUser(updateUser);
+        } else {
+            setAllowUpdateUserToBeReset(true);
         }
     }
     
