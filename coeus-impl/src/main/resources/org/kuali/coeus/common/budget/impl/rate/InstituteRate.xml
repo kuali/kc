@@ -31,7 +31,8 @@
     <property name="titleAttribute" value="unitNumber" />
     <property name="attributes" >
       <list>
-        <ref bean="InstituteRate-activityTypeCode" />
+          <ref bean="InstituteRate-id" />
+          <ref bean="InstituteRate-activityTypeCode" />
         <ref bean="InstituteRate-fiscalYear" />
         <ref bean="InstituteRate-onOffCampusFlag" />
         <ref bean="InstituteRate-active" />
@@ -50,8 +51,31 @@
 
 <!-- Attribute Definitions -->
 
+    <bean id="InstituteRate-id" parent="InstituteRate-id-parentBean" />
+    <bean id="InstituteRate-id-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="id" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Id" />
+        <property name="shortLabel" value="Id" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition" p:size="8"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="8" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="id" />
+        <property name="description" value="id" />
+    </bean>
 
-  <bean id="InstituteRate-activityTypeCode" parent="InstituteRate-activityTypeCode-parentBean" />
+
+    <bean id="InstituteRate-activityTypeCode" parent="InstituteRate-activityTypeCode-parentBean" />
 
   <bean id="InstituteRate-activityTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="activityTypeCode" />
