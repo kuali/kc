@@ -41,8 +41,6 @@
     <property name="allowsRecordDeletion" value="true" />
     
     
-    
-    
     <property name="documentTypeName" value="InstituteLaRateMaintenanceDocument"/>
     <property name="businessRulesClass" value="org.kuali.coeus.common.budget.impl.rate.InstituteRateMaintenanceDocumentRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
