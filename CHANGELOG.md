@@ -1,6 +1,21 @@
 
 
 ##CURRENT
+*  Fixed rates maintenance edit and copy.
+  * Currently, when an administrator attempts to edit an existing Rate, a random rate maintenance document is opened, not the one selected.
+  * Please modify the Edit & Copy features for Institute Rates and Institute LA Rates maintenance documents so that they present the selected item (missing primary key).
+  * To duplicate:
+  * From the System Admin Portal > Maintenance Screen > Shared >
+  * -Institute Rate > search
+  * -Institute LA Rate > search
+  * or Miscellaneous > Unit Hierarchy > [rates] or [LA rates] button(s)
+  * Perform a rate search using one of the above navigation paths.
+  * In the result set: Select either Edit or Copy of a particular rate.
+  * Result: The selected rate type will NOT open (unless it is the first action of the day after a rebuild).
+  * Instead, either a random rate is opened, or often, the MTDC rate (Activity, Rate Class and Rate Type codes all equal 1) But for a random FY period.
+  * Gayathri Athreya on Fri, 5 Feb 2016 19:23:29 -0700 [View Commit](../../commit/b57effa9413f066ef346d71ae5ea0126af551c3d)
+
+##coeus-1602.19
 *  Added fringe totals to exclusion list when Overhead not applied.
   * In KC budget, in the line item details (both in Non-Personnel Costs and SPE screens) or personnel group Details & Rates, if you uncheck the "Apply Rate" box for MTDC, the IDC in the budget is correctly adjusted to exclude the unchecked amounts.
   * However, when you print the budget forms, the calculated fringe amount is not listed in the Page 2: Calculation Methodology: exclusions. When Personnel expenses use the 'unapply rate' option, the _salary _is listed as excluded, but associated fringes are not there.
