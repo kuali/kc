@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1602.20
 *  Fixed rates maintenance edit and copy.
   * Currently, when an administrator attempts to edit an existing Rate, a random rate maintenance document is opened, not the one selected.
   * Please modify the Edit & Copy features for Institute Rates and Institute LA Rates maintenance documents so that they present the selected item (missing primary key).
