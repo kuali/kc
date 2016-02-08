@@ -19,4 +19,5 @@
 
 
 \. ./kc/bootstrap/V1602_002__add_exclusions_for_type_specific_rates.sql
+\. ./kc/bootstrap/V1602_004__cleanup_procedures.sql
 commit;

@@ -4,6 +4,10 @@
 * No Changes
 
 
+##coeus-1602.21
+* No Changes
+
+
 ##coeus-1602.20
 *  Fixed rates maintenance edit and copy.
   * Currently, when an administrator attempts to edit an existing Rate, a random rate maintenance document is opened, not the one selected.
