@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+*  fixing potential NPEs
+  * Travis Schneeberger on Mon, 8 Feb 2016 16:04:25 -0500 [View Commit](../../commit/f7501a379304874cc2f0961da43765aecfb775be)
+
+##coeus-1602.23
 * No Changes
 
 
