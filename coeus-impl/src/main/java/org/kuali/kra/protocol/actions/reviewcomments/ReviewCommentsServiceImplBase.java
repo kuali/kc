@@ -410,12 +410,14 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
     }
 
     public void deleteAllReviewComments(List<CommitteeScheduleMinuteBase> reviewComments, List<CommitteeScheduleMinuteBase> deletedReviewComments) {
-        for (CommitteeScheduleMinuteBase reviewerComment : reviewComments) {
-            if (reviewerComment.getCommScheduleMinutesId() != null) {
-                deletedReviewComments.add(reviewerComment);
+        if (reviewComments != null) {
+            for (CommitteeScheduleMinuteBase reviewerComment : reviewComments) {
+                if (reviewerComment.getCommScheduleMinutesId() != null) {
+                    deletedReviewComments.add(reviewerComment);
+                }
             }
+            reviewComments.clear();
         }
-        reviewComments.clear();
     }
 
     @Override
@@ -980,13 +982,15 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
     @Override
     public void deleteAllReviewAttachments(List<PRA> reviewAttachments,
             List<PRA> deletedReviewAttachments) {
-        for (PRA reviewerAttachment : reviewAttachments) {
-            if (reviewerAttachment.getReviewerAttachmentId() != null) {
-                deletedReviewAttachments.add(reviewerAttachment);
-            }
-        }
-        reviewAttachments.clear();
 
+        if (reviewAttachments != null) {
+            for (PRA reviewerAttachment : reviewAttachments) {
+                if (reviewerAttachment.getReviewerAttachmentId() != null) {
+                    deletedReviewAttachments.add(reviewerAttachment);
+                }
+            }
+            reviewAttachments.clear();
+        }
     }
 
     public ProtocolFinderDao getProtocolFinderDao() {
