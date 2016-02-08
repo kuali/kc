@@ -17,6 +17,8 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
+drop PROCEDURE if exists p;
+
 DELIMITER /
 CREATE PROCEDURE p()
   BEGIN
@@ -46,3 +48,5 @@ CREATE PROCEDURE p()
 /
 DELIMITER ;
 CALL p();
+
+drop PROCEDURE if exists p;
