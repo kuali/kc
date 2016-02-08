@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+*  Changing the dropdown field to an advanced multiselect on object code and adding object code to dropdown display. 1. Single Point Entry. User cannot type any info in the Object Code Name field. Instead, the system opens up the menu where user can scroll alphabetically to select the Object Code Name they want: Desired result - User should be able to start typing name or number in Object Code Name field when adding a line item. 2. After adding a line item, the user only see the Object Code Name, and does not see the Object Code Number. Desired result - After entering a line item, user should see both the Object Code Number and Name in the Object Code Name field.
+  * Gayathri Athreya on Mon, 8 Feb 2016 13:54:42 -0700 [View Commit](../../commit/f671ddb5aa13839e38e33ad74c50cce9079e74bf)
+
+##coeus-1602.24
 *  fixing potential NPEs
   * Travis Schneeberger on Mon, 8 Feb 2016 16:04:25 -0500 [View Commit](../../commit/f7501a379304874cc2f0961da43765aecfb775be)
 
