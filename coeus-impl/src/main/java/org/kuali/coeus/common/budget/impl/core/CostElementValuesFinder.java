@@ -63,9 +63,13 @@ public class CostElementValuesFinder extends UifKeyValuesFinderBase {
         return getCostElementKeyValues(budgetCategoryTypeCode, budgetCategoryTypeCodeEqual, budgetCategoryCode);
     }
     
-    private List<KeyValue> getCostElementKeyValues(String budgetCategoryTypeCode, boolean budgetCategoryTypeCodeEqual, String budgetCategoryCode) {
-        List<KeyValue> keyValues = new ArrayList<KeyValue>();        
+    protected List<KeyValue> getCostElementKeyValues(String budgetCategoryTypeCode, boolean budgetCategoryTypeCodeEqual, String budgetCategoryCode) {
         List<CostElement> costElements = (List<CostElement>)getDataObjectService().findMatching(CostElement.class, QueryByCriteria.Builder.fromPredicates(getPredicates(budgetCategoryTypeCode, budgetCategoryTypeCodeEqual,budgetCategoryCode))).getResults();
+        return getDropDownDisplay(costElements);
+    }
+
+    protected List<KeyValue> getDropDownDisplay(List<CostElement> costElements) {
+        List<KeyValue> keyValues = new ArrayList<>();
         for (CostElement costElement : costElements) {
             keyValues.add(new ConcreteKeyValue(costElement.getCostElement(), costElement.getDescription()));
         }
@@ -74,8 +78,8 @@ public class CostElementValuesFinder extends UifKeyValuesFinderBase {
         keyValues.add(0, new ConcreteKeyValue("", "select"));
         return keyValues;
     }
-    
-    private List<Predicate> getPredicates(String budgetCategoryTypeCode, boolean budgetCategoryTypeCodeEqual, String budgetCategoryCode) {
+
+    protected List<Predicate> getPredicates(String budgetCategoryTypeCode, boolean budgetCategoryTypeCodeEqual, String budgetCategoryCode) {
         List<Predicate> predicates = new ArrayList<Predicate>();
         predicates.add(PredicateFactory.equal(KRADPropertyConstants.ACTIVE, Boolean.TRUE));
         if (!StringUtils.isBlank(budgetCategoryTypeCode)){

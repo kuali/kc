@@ -148,10 +148,9 @@
                       p:label="Start Date" p:order="30" p:render="@{!#isAddLine}" p:readOnly="@{!#isAddLine}"/>
                 <bean parent="Uif-MessageField" p:messageText="@{getLineItemEndDate(#line)}"
                       p:label="End Date" p:order="40" p:render="@{!#isAddLine}" p:readOnly="@{!#isAddLine}"/>
-				<bean parent="Uif-InputField" p:propertyName="costElement" 
-					p:optionsFinder="#{#getService('costElementValuesFinder')}"
-					p:optionsFinder.addBlankOption="false"
-					p:label="Object Code Name" p:order="50" p:required="true" p:readOnly="@{!#isAddLine}"/>
+                <bean parent="PropBudget-SinglePointEntryPage-ObjectCodeField"
+                      p:enableAutoQuickfinder="false" p:label="Object Code Name" p:required="true" p:readOnly="@{!#isAddLine}"
+                      p:order="50"/>
 				<bean parent="Uif-InputField" p:propertyName="lineItemCost"
 					p:label="Total Base Cost" p:order="60" p:required="false" p:readOnly="@{!#isAddLine}"/>
 				<bean parent="Uif-InputField" p:propertyName="quantity"
@@ -183,7 +182,21 @@
 		</property>
 	</bean>
 
-	
+    <bean id="PropBudget-SinglePointEntryPage-ObjectCodeField" parent="PropBudget-SinglePointEntryPage-ObjectCodeField-parentBean" />
+    <bean id="PropBudget-SinglePointEntryPage-ObjectCodeField-parentBean"
+          abstract="true" parent="Uif-InputField" p:propertyName="costElement">
+        <property name="control">
+            <bean parent="Uif-AdvancedMultiSelectControl" p:multiple="false">
+                <property name="templateOptions">
+                    <map merge="true">
+                        <entry key="&quot;position&quot;" value="{&quot;my&quot;:&quot;left bottom&quot;, &quot;at&quot;:&quot;left top&quot;}"/>
+                    </map>
+                </property>
+            </bean>
+        </property>
+        <property name="optionsFinder" value="#{#getService('costElementValuesFinderForSinglePointEntry')}" />
+    </bean>
+
 	<bean id="PropBudget-SinglePointEntryPage-AssignNonPersonnel"
 		parent="PropBudget-SinglePointEntryPage-AssignNonPersonnel-parentBean" />
 	<bean id="PropBudget-SinglePointEntryPage-AssignNonPersonnel-parentBean"
