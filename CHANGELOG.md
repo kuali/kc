@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+*  Make total base cost field editable in Single Point Entry page.
+  * Gayathri Athreya on Tue, 9 Feb 2016 11:03:13 -0700 [View Commit](../../commit/239b0528884e17d6347dac4114e27fd5d8596cf4)
+
+##coeus-1602.27
 * No Changes
 
 
