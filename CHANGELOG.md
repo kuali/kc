@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+*  reviewAttachments list was not initialized and so it was throwing NPE while trying to delete attachments list from OnlineReviewComments document
+  * Geo Thomas on Tue, 9 Feb 2016 11:20:26 -0500 [View Commit](../../commit/979c3716b1cda9826d43def8a2f0c87947a6d513)
+
+##coeus-1602.25
 *  Changing the dropdown field to an advanced multiselect on object code and adding object code to dropdown display. 1. Single Point Entry. User cannot type any info in the Object Code Name field. Instead, the system opens up the menu where user can scroll alphabetically to select the Object Code Name they want: Desired result - User should be able to start typing name or number in Object Code Name field when adding a line item. 2. After adding a line item, the user only see the Object Code Name, and does not see the Object Code Number. Desired result - After entering a line item, user should see both the Object Code Number and Name in the Object Code Name field.
   * Gayathri Athreya on Mon, 8 Feb 2016 13:54:42 -0700 [View Commit](../../commit/f671ddb5aa13839e38e33ad74c50cce9079e74bf)
 
