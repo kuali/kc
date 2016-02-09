@@ -103,7 +103,8 @@ public abstract class ProtocolOnlineReviewBase extends KcPersistableBusinessObje
     private transient String reviewerTypeCode;
 
     public ProtocolOnlineReviewBase() {
-        this.committeeScheduleMinutes = new ArrayList<CommitteeScheduleMinuteBase>();
+        this.committeeScheduleMinutes = new ArrayList<>();
+        this.reviewAttachments = new ArrayList<>();
     }
 
     /**
