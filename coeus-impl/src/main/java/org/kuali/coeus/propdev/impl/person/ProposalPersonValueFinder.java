@@ -18,6 +18,7 @@
  */
 package org.kuali.coeus.propdev.impl.person;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyService;
@@ -40,7 +41,7 @@ public class ProposalPersonValueFinder extends UifKeyValuesFinderBase{
         // then they can only be managed at the child.
         for (ProposalPerson person : form.getDevelopmentProposal().getProposalPersons()) {
             if (form.getDevelopmentProposal().isInHierarchy()) {
-                if (renderEditForPersonnelAttachment(person.getPersonId(), form.getDevelopmentProposal())) {
+                if (renderEditForPersonnelAttachment(person.getPersonId(), person.getRolodexId(), form.getDevelopmentProposal())) {
                     keyValues.add(new ConcreteKeyValue(person.getProposalPersonNumber().toString(), person.getFullName()));
                 }
             } else {
@@ -50,15 +51,13 @@ public class ProposalPersonValueFinder extends UifKeyValuesFinderBase{
         return keyValues;
     }
 
-    protected boolean renderEditForPersonnelAttachment(String personId, DevelopmentProposal proposal) {
-        if (personId != null) {
-            boolean inMultiple = getHierarchyService().employeePersonInMultipleProposals(personId, proposal);
-            return (proposal.isParent()) ? inMultiple : !inMultiple;
-        }
-        return true;
+    protected boolean renderEditForPersonnelAttachment(String personId, Integer rolodexId, DevelopmentProposal proposal) {
+        boolean inMultiple = StringUtils.isNotBlank(personId) ? getProposalHierarchyService().employeePersonInMultipleProposals(personId, proposal)
+                : getProposalHierarchyService().nonEmployeePersonInMultipleProposals(rolodexId, proposal);
+        return (proposal.isParent()) ? inMultiple : !inMultiple;
     }
 
-    protected ProposalHierarchyService getHierarchyService() {
+    protected ProposalHierarchyService getProposalHierarchyService() {
         return KcServiceLocator.getService(ProposalHierarchyService.class);
     }
 
