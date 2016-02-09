@@ -152,7 +152,7 @@
                       p:enableAutoQuickfinder="false" p:label="Object Code Name" p:required="true" p:readOnly="@{!#isAddLine}"
                       p:order="50"/>
 				<bean parent="Uif-InputField" p:propertyName="lineItemCost"
-					p:label="Total Base Cost" p:order="60" p:required="false" p:readOnly="@{!#isAddLine}"/>
+					p:label="Total Base Cost" p:order="60" p:required="false" p:readOnly="@{#parent.readOnly}"/>
 				<bean parent="Uif-InputField" p:propertyName="quantity"
 					p:order="70" p:required="false" p:readOnly="@{!#isAddLine}"/>
 				<bean parent="Uif-InputField" p:propertyName="lineItemDescription"
