@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1602.26
 *  reviewAttachments list was not initialized and so it was throwing NPE while trying to delete attachments list from OnlineReviewComments document
   * Geo Thomas on Tue, 9 Feb 2016 11:20:26 -0500 [View Commit](../../commit/979c3716b1cda9826d43def8a2f0c87947a6d513)
 
