@@ -416,6 +416,7 @@
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.location.impl.campus.CampusTypeBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.coreservice.impl.namespace.NamespaceBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.coreservice.impl.parameter.ParameterTypeBo" />
+    <bean class="org.kuali.coeus.sys.impl.controller.rest.ParameterRestController" p:dataObjectClazz="org.kuali.rice.coreservice.impl.parameter.ParameterBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.coreservice.impl.style.StyleBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.ken.bo.UserChannelSubscriptionBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.identity.citizenship.EntityCitizenshipStatusBo" />
@@ -560,6 +561,5 @@
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.ksb.messaging.PersistedMessagePayload" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.ksb.messaging.bam.BAMParam" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.ksb.messaging.bam.BAMTargetEntry" />
-
 
 </beans>
