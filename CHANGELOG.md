@@ -1,6 +1,70 @@
 
 
 ##CURRENT
+*  Added tests
+  * Gayathri Athreya on Tue, 9 Feb 2016 20:58:52 -0700 [View Commit](../../commit/b2126c699796405a60314484751b86b79cfd0d76)
+*  Proposal Hierarchy does not delete personnel attachment from parent, Sync on non-employee personnel attachments cause an STE, In the Personnel Attachments Screen, when the User adds Personnel and their corresponding attachments, then clicks Save, the Personnel name disappears.
+
+  * Steps to reproduce 
+  * 1) create a proposal.
+  * 2) add two persons
+  * 3) add a biosketch attachment for each person (two in total)
+  * 4) save
+  * 5) add budget
+  * 6) return to proposal
+  * 7) create sub budget hierarchy
+  * 8) close child, open parent, confirm the two biosketch attachments exist on the parent
+  * 9) close parent, open child
+  * 10) delete one biosketch attachment
+  * 11) save
+  * 12) sync to parent
+  * 13) close child, open parent
+  * you will notice the parent still has two biosketch attachments even though it should only have one attachment.
+
+  * Steps to reproduce 
+  * 1) add non employee Key Person to a child in a hierarchy, save
+  * 2) sync to parent
+  * 3) close child
+  * 4) open parent
+  * 5) confirm the Key Person is listed at the parent
+  * 6) close parent
+  * 7) open child
+  * 8) add a biosketch attachments for this KP at the child, save
+  * 9) either:  sync to parent
+  * STE 1 results.
+  * OR close child. open parent. Sync All from parent.
+  * STE 2 Results
+  * you will notice both attachments are still on the parent.
+
+  * Steps to reproduce 
+  * To reproduce:
+  * Create a proposal, or find one that is In Progress to edit.
+  * if new proposal, enter the required fields to save.
+  * Navigate to Key Personnel screen.
+  * if new proposal, add personnel, and search for an Employee and add them as PI
+  * Click Add Personnel> click 'Non Employee' to search the Address Book
+  * locate and add the address book person as a co-investigator
+  * Navigate to Attachments,
+  * Select Personnel tab> Click Add
+  * Choose the Address book Person from dropdown list
+  * Add File and Description
+  * At this point the name will be visible in the list of Personnel (FIG 1)
+  * Click Save and the names disappear. (FIG 2)
+
+  * Other issues also fixed:
+
+  * 1) when a duplicate personnel attachment exists across child proposals, syncing from the parent will cause the duplicates to show up on the parent. Syncing from a child will filter out the duplicates. This is now corrected.
+  * 2) non employee personnel attachments do not show the proposal person name
+  * 3) non employee personnel attachments do not allow edits on the parent when duplicates exist on children. This differs from how employee personnel attachments work when duplicates exist on children.
+  * 4) non employee personnel attachments can be added and maintained at the parent even when duplicates do not exist
+  * 5) when a duplicate personnel attachment exists across child proposals, the child attachments should not be editable. This is correct exception the description textarea is still editable
+  * Travis Schneeberger on Tue, 9 Feb 2016 13:56:30 -0500 [View Commit](../../commit/28a53db44887b88f6a76704f27ef5eb8d75665a4)
+* Process to remove duplicate amount infos generated when pending awards exist during T&M
+
+  * When a T&M doc is created while a pending award exists, duplicate award_amount_info records were being generated against the pending and active awards. This process will attempt remove these duplciates.
+  * blackcathacker on Sun, 17 Jan 2016 17:49:35 -0800 [View Commit](../../commit/79e76c1fdde9005dcc13234aad2bd346553c765c)
+
+##coeus-1602.29
 * No Changes
 
 
