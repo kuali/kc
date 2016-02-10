@@ -132,6 +132,10 @@ public final class Main {
             if (options.containsSubawardAmountInfo()) {
             	factory.getSubAwardAmountInfoDao().fixSubAwardAmountInfoHistory();
             }
+            
+            if (options.containsTimeAndMoneyDups()) {
+            	factory.getAwardAmountInfoDuplicatesDao().fixAwardAmountInfoDuplicates();
+            }
 
             if (options.containsDryRun()) {
                 coeusConnection.rollback();
