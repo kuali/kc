@@ -242,10 +242,10 @@
         <property name="collection.lineActions">
             <list merge="true">
                 <bean parent="PropDev-AttachmentPage-DetailsButton" p:methodToCall="prepareBiography" p:order="10"
-                      p:render="@{#ViewHelper.renderPersonnelEditForHierarchyProposal(#line.personId, document.developmentProposal)}"/>
+                      p:render="@{#ViewHelper.renderPersonnelEditForHierarchyProposal(#line.personId, #line.rolodexId, document.developmentProposal)}"/>
 
                 <bean parent="PropDev-AttachmentPage-DeleteFileButton" p:order="20"
-                      p:render="@{#ViewHelper.renderPersonnelEditForHierarchyProposal(#line.personId, document.developmentProposal)}"/>
+                      p:render="@{#ViewHelper.renderPersonnelEditForHierarchyProposal(#line.personId, #line.rolodexId, document.developmentProposal)}"/>
             </list>
         </property>
         <property name="collection.items">
@@ -261,26 +261,26 @@
                         <bean class="org.kuali.coeus.propdev.impl.person.ProposalPersonValueFinder"/>
                     </property>
                 </bean>
-                <bean parent="Uif-MessageField" p:fieldLabel.LabelText="Person" p:messageText="@{#ViewHelper.getPropPersonName(#line.personId)}" p:order="50"
+                <bean parent="Uif-MessageField" p:fieldLabel.LabelText="Person" p:messageText="@{#ViewHelper.getPropPersonName(#line.personId, #line.rolodexId)}" p:order="50"
                       p:render="@{!#empty(#line.versionNumber) or #parent.readOnly}"/>
                 <bean parent="Uif-InputField" p:propertyName="documentTypeCode"
                       p:readOnlyDisplayReplacementPropertyName="propPerDocType.description"
                       p:fieldLabel.labelText="Type" p:order="60"
-                      p:enableAutoQuickfinder="false" p:readOnly="@{#parent.readOnly or !#ViewHelper.renderPersonnelEditForHierarchyProposal(#line.personId, document.developmentProposal)}">
+                      p:enableAutoQuickfinder="false" p:readOnly="@{#parent.readOnly or !#ViewHelper.renderPersonnelEditForHierarchyProposal(#line.personId, #line.rolodexId, document.developmentProposal)}">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:cssClasses="fluidInputField"/>
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="description" p:order="70">
                     <property name="control">
-                        <bean parent="Uif-TextAreaControl" p:cssClasses="fluidInputField"/>
+                        <bean parent="Uif-TextAreaControl" p:cssClasses="fluidInputField" p:readOnly="@{#parent.readOnly or !#ViewHelper.renderPersonnelEditForHierarchyProposal(#line.personId, #line.rolodexId, document.developmentProposal)}" />
                     </property>
                 </bean>
                 <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.displayFullName(#line.#line.uploadUserDisplay)}" p:fieldLabel.labelText="Uploaded By" p:width="20%" p:order="80" />
                 <bean parent="Uif-InputField" p:propertyName="timestampDisplay"
                       p:fieldLabel.labelText="Posted Timestamp"
                       p:readOnly="true" p:width="20%" p:order="90"/>
-                <bean parent="Uif-FieldGroupBase" p:order="100" p:render="@{#parent.readOnly and #editModes['replaceNarratives'] and #ViewHelper.renderPersonnelEditForHierarchyProposal(#line.personId, document.developmentProposal) and pageId eq 'PropDev-AttachmentsPage'}" p:fieldLabel.labelText="Actions">
+                <bean parent="Uif-FieldGroupBase" p:order="100" p:render="@{#parent.readOnly and #editModes['replaceNarratives'] and #ViewHelper.renderPersonnelEditForHierarchyProposal(#line.personId, #line.rolodexId, document.developmentProposal) and pageId eq 'PropDev-AttachmentsPage'}" p:fieldLabel.labelText="Actions">
                     <property name="group">
                         <bean parent="Uif-HorizontalBoxGroup">
                             <property name="items">
@@ -310,7 +310,7 @@
                         <bean class="org.kuali.coeus.propdev.impl.person.ProposalPersonValueFinder"/>
                     </property>
                 </bean>
-                <bean parent="Uif-MessageField" p:fieldLabel.LabelText="Person" p:messageText="@{#ViewHelper.getPropPersonName(proposalDevelopmentAttachmentHelper.biography.personId)}" p:order="20"
+                <bean parent="Uif-MessageField" p:fieldLabel.LabelText="Person" p:messageText="@{#ViewHelper.getPropPersonName(proposalDevelopmentAttachmentHelper.biography.personId, proposalDevelopmentAttachmentHelper.biography.rolodexId)}" p:order="20"
                       p:render="@{!#empty(proposalDevelopmentAttachmentHelper.biography.versionNumber) or #parent.readOnly}"/>
                 <bean parent="Uif-InputField" p:propertyName="biography.documentTypeCode"
                       p:readOnlyDisplayReplacementPropertyName="biography.propPerDocType.description"

@@ -611,7 +611,7 @@
           p:propertyName="proposalPersonDegrees"
           p:collectionObjectClass="org.kuali.coeus.propdev.impl.person.ProposalPersonDegree"
           p:layoutManager.renderSequenceField="false"
-          p:addWithDialog="true" p:readOnly="@{!#ViewHelper.renderPersonnelEditForHierarchyProposal(#lp.personId, document.developmentProposal)}">
+          p:addWithDialog="true" p:readOnly="@{!#ViewHelper.renderPersonnelEditForHierarchyProposal(#lp.personId, #lp.rolodexId, document.developmentProposal)}">
         <property name="addWithDialogAction">
             <bean parent="Uif-AddWithDialogAction" p:actionLabel="Add Degree" p:cssClasses="pull-right" p:iconClass="icon-plus"
                   p:render="@{!#parent.readOnly}"/>
