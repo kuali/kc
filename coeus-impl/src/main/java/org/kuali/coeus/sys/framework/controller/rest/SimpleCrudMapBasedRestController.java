@@ -31,13 +31,14 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public class SimpleCrudMapBasedRestController<T extends PersistableBusinessObject> extends SimpleCrudRestControllerBase<T, Map<String, Object>> {
 
+	protected static final String SYNTHETIC_FIELD_PK = "$primaryKey";
 	private static final Collection<String> IGNORED_FIELDS = Stream.of("versionNumber", "objectId", "updateUser", "updateTimestamp").collect(Collectors.toList());
 
 	private List<String> exposedProperties;
-	
+
 	@Override
-	protected Object getPrimaryKeyIncomingObject(Map<String, Object> dataObject) {
-		return dataObject.get(getPrimaryKeyColumn());
+	protected Object getPropertyFromIncomingObject(String propertyName, Map<String, Object> dataObject) {
+		return dataObject.get(propertyName);
 	}
 
 	@Override
@@ -55,9 +56,11 @@ public class SimpleCrudMapBasedRestController<T extends PersistableBusinessObjec
 	}
 	
 	protected Map<String, Object> createMapFromPropsOnBean(DynaBean dynaBean) {
-		return getExposedProperties().stream()
+		final Map<String, Object> map = getExposedProperties().stream()
 				.map(name -> CollectionUtils.entry(name, dynaBean.get(name)))
 				.collect(CollectionUtils.nullSafeEntriesToMap());
+        map.put(SYNTHETIC_FIELD_PK, primaryKeyToString(getPrimaryKeyIncomingObject(map)));
+		return map;
 	}
 
 	@SuppressWarnings("unchecked")

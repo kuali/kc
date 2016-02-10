@@ -411,12 +411,16 @@
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kew.rule.bo.RuleTemplateBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kew.rule.RuleTemplateOptionBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.location.impl.state.StateBo" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.location.impl.county.CountyBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.location.impl.country.CountryBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.location.impl.campus.CampusBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.location.impl.campus.CampusTypeBo" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.location.impl.postalcode.PostalCodeBo" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.coreservice.impl.component.ComponentBo" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.coreservice.impl.component.DerivedComponentBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.coreservice.impl.namespace.NamespaceBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.coreservice.impl.parameter.ParameterTypeBo" />
-    <bean class="org.kuali.coeus.sys.impl.controller.rest.ParameterRestController" p:dataObjectClazz="org.kuali.rice.coreservice.impl.parameter.ParameterBo" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.coreservice.impl.parameter.ParameterBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.coreservice.impl.style.StyleBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.ken.bo.UserChannelSubscriptionBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.identity.citizenship.EntityCitizenshipStatusBo" />
@@ -470,6 +474,7 @@
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.krad.bo.MultiDocumentAttachment" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.krad.bo.Note" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.krad.bo.NoteType" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.krad.bo.SessionDocument" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.identity.employment.EntityEmploymentBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.role.RolePermissionBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.identity.address.EntityAddressBo" />
@@ -522,7 +527,9 @@
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kew.routeheader.DocumentRouteHeaderValueContent" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kew.rule.RuleExtensionBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kew.rule.RuleExtensionValue" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kew.useroptions.UserOptions" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.identity.EntityDefaultInfoCacheBo" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.identity.type.EntityTypeContactInfoBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.krms.impl.repository.ActionAttributeBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.krms.impl.repository.ActionBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.krms.impl.repository.AgendaAttributeBo" />

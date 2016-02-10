@@ -387,5 +387,28 @@
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.bo.RiskLevel" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.meeting.ProtocolVoteRecused" />
 
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.impl.rpt.cust.CustRptDefaultParms" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.budget.framework.rate.InstituteLaRate" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.version.history.VersionHistorySearchBo" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.org.OrganizationIndirectcost" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.org.type.OrganizationType" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.budget.framework.personnel.BudgetPerson" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.budget.framework.personnel.ValidCeJobCode" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.bo.DocumentNextvalue" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.budget.framework.rate.ValidCeRateType" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.unit.admin.UnitAdministrator" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.org.OrganizationYnq" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.org.audit.OrganizationAudit" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.impl.rpt.cust.CustRptTypeDocument" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.budget.framework.distribution.BudgetUnrecoveredFandA" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.ynq.YnqExplanation" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.budget.framework.core.category.BudgetCategoryMapping" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.sponsor.hierarchy.SponsorHierarchy" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.budget.framework.core.category.BudgetCategoryMap" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.budget.framework.calculator.ValidCalcType" />
 
 </beans>
