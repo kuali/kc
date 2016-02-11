@@ -1,6 +1,15 @@
 
 
 ##CURRENT
+*  Fix STE when new bio is added to a child in a hierarchy with a bio for the same person.
+  * Steps to reproduce.
+  * 1. Create a proposal, add a PI add a bio for this PI.
+  * 2. Create a new hierarchy.
+  * 3. Go to child and try to add a second bio for the same person, STE.
+  * java.lang.RuntimeException: Exception evaluating expression: #parent.readOnly or !#ViewHelper.renderPersonnelEditForHierarchyProposal(#line.personId, #line.rolodexId, document.developmentProposal) at org.kuali.rice.krad.uif.view.DefaultExpressionEvaluator.evaluateExpression(DefaultExpressionEvaluator.java:448) at org.kuali.rice.krad.uif.view.DefaultExpressionEvaluator.evaluatePropertyExpression(DefaultExpressionEvaluator.java:514) at org.kuali.rice.krad.uif.layout.TableLayoutManagerBase.buildLine(TableLayoutManagerBase.java:590) at org.kuali.rice.krad.uif.container.CollectionGroupLineBuilder.buildLine(CollectionGroupLineBuilder.java:114) at org.kuali.rice.krad.uif.container.CollectionGroupBuilder.buildLinesForDisplayedRows(CollectionGroupBuilder.java:208) at org.kuali.rice.krad.uif.container.CollectionGroupBuilder.build(CollectionGroupBuilder.java:126) at org.kuali.coeus.org.kuali.rice.krad.uif.container.KcCollectionGroupBase.performApplyModel(KcCollectionGroupBase.java:397) at
+  * Gayathri Athreya on Wed, 10 Feb 2016 17:02:34 -0700 [View Commit](../../commit/424f47898350953882fdf6192189ad65483a58aa)
+
+##coeus-1602.32
 * No Changes
 
 
