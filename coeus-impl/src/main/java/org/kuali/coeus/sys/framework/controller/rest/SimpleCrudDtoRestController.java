@@ -27,10 +27,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.kuali.coeus.common.api.budget.rates.InstituteRateDto;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 import com.codiform.moo.Moo;
@@ -42,28 +40,35 @@ public class SimpleCrudDtoRestController<T extends PersistableBusinessObject, R>
 	private Class<R> dtoObjectClazz;
 
 	@Override
-	protected Object getPrimaryKeyIncomingObject(Object dataObject) {
-		return getProperty(dataObject, getPrimaryKeyColumn());
+	protected Object getPropertyFromIncomingObject(String propertyName, Object dataObject) {
+		try {
+			return PropertyUtils.getProperty(dataObject, propertyName);
+		} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+			throw new RuntimeException(e);
+		}
 	}
-	
-	private Object getProperty(Object o, String prop) {
-        try {
-            return PropertyUtils.getProperty(o, prop);
-        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
-    }
 	
 	@Override
 	protected Collection<R> translateAllDataObjects(Collection<T> dataObjects) {
-		return Translate.to(dtoObjectClazz).fromEach(dataObjects);
+		final Collection<R> dtos = Translate.to(dtoObjectClazz).fromEach(dataObjects);
+		dtos.forEach(this::setPrimaryKeyField);
+		return dtos;
 	}
 	
 	@Override
 	protected R convertDataObject(T dataObject) {
-		return Translate.to(dtoObjectClazz).from(dataObject);
+		final R dto = Translate.to(dtoObjectClazz).from(dataObject);
+		setPrimaryKeyField(dto);
+
+		return dto;
 	}
-	
+
+	protected void setPrimaryKeyField(R dto) {
+		if (dto instanceof PrimaryKeyDto) {
+			((PrimaryKeyDto) dto).set$primaryKey(primaryKeyToString(getPrimaryKeyIncomingObject(dto)));
+		}
+	}
+
 	@Override
 	protected T translateInputToDataObject(R input) {
 		Configuration mooConfig = new Configuration();

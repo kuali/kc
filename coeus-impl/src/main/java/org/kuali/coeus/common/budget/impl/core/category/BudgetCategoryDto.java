@@ -18,11 +18,16 @@
  */
 package org.kuali.coeus.common.budget.impl.core.category;
 
-public class BudgetCategoryDto {
+import com.codiform.moo.annotation.Ignore;
+import org.kuali.coeus.sys.framework.controller.rest.PrimaryKeyDto;
+
+public class BudgetCategoryDto implements PrimaryKeyDto {
 
 	private String code;
 	private String budgetCategoryTypeCode;
 	private String description;
+	@Ignore
+	private String $primaryKey;
 	
 	public String getCode() {
 		return code;
@@ -41,5 +46,15 @@ public class BudgetCategoryDto {
 	}
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	@Override
+	public String get$primaryKey() {
+		return $primaryKey;
+	}
+
+	@Override
+	public void set$primaryKey(String $primaryKey) {
+		this.$primaryKey = $primaryKey;
 	}
 }

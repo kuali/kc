@@ -39,6 +39,7 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.data.CompoundKey;
 import org.kuali.rice.krad.service.DictionaryValidationService;
 import org.kuali.rice.krad.service.LegacyDataAdapter;
 import org.kuali.rice.krad.util.MessageMap;
@@ -54,9 +55,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import static org.kuali.coeus.sys.framework.util.CollectionUtils.entriesToMap;
 import static org.kuali.coeus.sys.framework.util.CollectionUtils.entry;
 
 public abstract class SimpleCrudRestControllerBase<T extends PersistableBusinessObject, R> extends RestController implements InitializingBean {
+
+	protected static final String DELIMETER = ":";
 
 	@Autowired
 	@Qualifier("legacyDataAdapter")
@@ -125,9 +129,34 @@ public abstract class SimpleCrudRestControllerBase<T extends PersistableBusiness
 			throw new RuntimeException("cannot create new data object", e);
 		}
 	}
-	
-	protected abstract Object getPrimaryKeyIncomingObject(R dataObject);
-	
+
+	protected Object getPrimaryKeyIncomingObject(R dataObject) {
+		if (isCompoundPrimaryKey()) {
+			final List<String> pkColumns = Arrays.asList(getPrimaryKeyColumn().split(DELIMETER));
+			return new CompoundKey(pkColumns.stream()
+					.map(pk -> entry(pk, getPropertyFromIncomingObject(pk, dataObject)))
+					.collect(entriesToMap()));
+		} else {
+			return getPropertyFromIncomingObject(getPrimaryKeyColumn(), dataObject);
+		}
+	}
+
+	protected String primaryKeyToString(Object pkValues) {
+		final String key;
+		if (pkValues instanceof CompoundKey){
+			final List<String> keyNames = Arrays.asList(getPrimaryKeyColumn().split(DELIMETER));
+			key = keyNames.stream()
+					.map(name -> ((CompoundKey) pkValues).getKeys().get(name).toString())
+					.reduce((t, u) -> t + DELIMETER + u)
+					.get();
+		} else {
+			key = pkValues.toString();
+		}
+		return key;
+	}
+
+	protected abstract Object getPropertyFromIncomingObject(String propertyName, R dataObject);
+
 	@RequestMapping(method=RequestMethod.GET)
 	public @ResponseBody Collection<R> getAll() {
 		assertUserHasReadAccess();
@@ -237,6 +266,11 @@ public abstract class SimpleCrudRestControllerBase<T extends PersistableBusiness
 	}
 	
 	protected boolean validateDeleteDataObject(T dataObject) {
+		if (isCompoundPrimaryKey()) {
+			//no validations yet
+			return true;
+		}
+
 		MessageMap messages = persistenceVerificationService.verifyRelationshipsForDelete(dataObject, Collections.emptyList());
 		if (messages.hasErrors()) {
 			throw new DataDictionaryValidationException(errorHandlingUtilService.extractErrorMessages(messages));
@@ -245,6 +279,11 @@ public abstract class SimpleCrudRestControllerBase<T extends PersistableBusiness
 	}
 
 	protected boolean validateUpdateDataObject(T dataObject) {
+		if (isCompoundPrimaryKey()) {
+			//no validations yet
+			return true;
+		}
+
 		final MessageMap messages = persistenceVerificationService.verifyRelationshipsForUpdate(dataObject, Collections.emptyList());
 		if (messages.hasErrors()) {
 			throw new DataDictionaryValidationException(errorHandlingUtilService.extractErrorMessages(messages));
@@ -253,6 +292,11 @@ public abstract class SimpleCrudRestControllerBase<T extends PersistableBusiness
 	}
 
 	protected boolean validateInsertDataObject(T dataObject) {
+		if (isCompoundPrimaryKey()) {
+			//no validations yet
+			return true;
+		}
+
 		final MessageMap messages = persistenceVerificationService.verifyRelationshipsForInsert(dataObject, Collections.emptyList());
 		if (messages.hasErrors()) {
 			throw new DataDictionaryValidationException(errorHandlingUtilService.extractErrorMessages(messages));
@@ -276,9 +320,30 @@ public abstract class SimpleCrudRestControllerBase<T extends PersistableBusiness
 	protected Collection<T> getAllFromDataStore() {
 		return getLegacyDataAdapter().findAll(getDataObjectClazz());
 	}
-	
+
 	protected T getFromDataStore(Object code) {
-		return getLegacyDataAdapter().findBySinglePrimaryKey(getDataObjectClazz(), code);
+		if (isCompoundPrimaryKey() && code instanceof CompoundKey) {
+			return getLegacyDataAdapter().findByPrimaryKey(getDataObjectClazz(), ((CompoundKey) code).getKeys());
+		} else if (isCompoundPrimaryKey() && code instanceof String) {
+			return getLegacyDataAdapter().findByPrimaryKey(getDataObjectClazz(), getCompoundKeyMap((String)code));
+		} else {
+			return getLegacyDataAdapter().findBySinglePrimaryKey(getDataObjectClazz(), code);
+		}
+	}
+
+	protected Map<String, String> getCompoundKeyMap(String compoundKey) {
+
+		if (compoundKey.contains(DELIMETER)) {
+			final String[] keyNames = getPrimaryKeyColumn().split(DELIMETER);
+			final String[] keyValues = compoundKey.split(DELIMETER);
+			if (keyNames.length != keyValues.length) {
+				throw new ResourceNotFoundException("compoundKey value does not contain the same number key elements in format: " + getPrimaryKeyColumn());
+			}
+
+			return org.kuali.coeus.sys.framework.util.CollectionUtils.zipMap(keyNames, keyValues);
+		} else {
+			throw new ResourceNotFoundException("compoundKey value does not contain the same number key elements in format: " + getPrimaryKeyColumn());
+		}
 	}
 
 	protected T save(T dataObject) {
@@ -413,14 +478,15 @@ public abstract class SimpleCrudRestControllerBase<T extends PersistableBusiness
 
 	public String getPrimaryKeyColumn() {
 		if (StringUtils.isBlank(primaryKeyColumn)) {
-			List<String> pks = persistenceVerificationService.pkFields(dataObjectClazz);
-			if (pks.size() > 1) {
-				throw new UnsupportedOperationException("compound primary keys are not supported");
-			}
-			primaryKeyColumn = pks.get(0);
+			final List<String> pks = persistenceVerificationService.pkFields(dataObjectClazz);
+			primaryKeyColumn = pks.stream().sorted().reduce((t, u) -> t + DELIMETER + u).get();
 		}
 
 		return primaryKeyColumn;
+	}
+
+	public boolean isCompoundPrimaryKey() {
+		return getPrimaryKeyColumn().contains(DELIMETER);
 	}
 
 	public void setPrimaryKeyColumn(String primaryKeyColumn) {
