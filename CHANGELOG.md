@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+*  Fixing rejection STE.
+  * STE happens when approver tries to reject proposal.
+  * org.kuali.rice.kew.api.WorkflowRuntimeException: java.lang.RuntimeException: post processor caught exception while handling route level change: Exception [EclipseLink-4002] (Eclipse Persistence Services - 2.6.0.v20150309-bf26070): org.eclipse.persistence.exceptions.DatabaseException Internal Exception: java.sql.SQLIntegrityConstraintViolationException: ORA-01400: cannot insert NULL into ("KCSO"."KRNS_PESSIMISTIC_LOCK_T"."SESN_ID") Error Code: 1400 Call: INSERT INTO KRNS_PESSIMISTIC_LOCK_T (PESSIMISTIC_LOCK_ID, DOC_HDR_ID, GNRT_DT, LOCK_DESC_TXT, OBJ_ID, PRNCPL_ID, SESN_ID, VER_NBR) VALUES (?, ?, ?, ?, ?, ?, ?, ?) bind => [8 parameters bound] Query:
+  * Gayathri Athreya on Wed, 10 Feb 2016 17:57:51 -0700 [View Commit](../../commit/38ce156c6d675b9b0eb583f9faeb4bb30c55e93e)
+
+##coeus-1602.33
 *  Fix STE when new bio is added to a child in a hierarchy with a bio for the same person.
   * Steps to reproduce.
   * 1. Create a proposal, add a PI add a bio for this PI.
