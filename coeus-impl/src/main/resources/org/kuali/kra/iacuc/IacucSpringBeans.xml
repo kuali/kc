@@ -30,6 +30,7 @@
                            http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
     <context:annotation-config />
+    <import resource="classpath:org/kuali/coeus/sys/framework/ImportSimpleCrudRestSpringBeans.xml" />
 
     <bean id="iacucModuleConfiguration" parent="iacucModuleConfiguration-parentBean" />
     
@@ -1304,10 +1305,6 @@
             </list>
         </property>
     </bean>
-
-    <bean id="autoRegisterMapping" class="org.kuali.coeus.sys.framework.controller.rest.RestSimpleUrlHandlerMapping"/>
-
-    <bean id="simpleCrudMapBasedRestController" class="org.kuali.coeus.sys.framework.controller.rest.SimpleCrudMapBasedRestController" abstract="true" />
 
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.iacuc.committee.document.CommonCommitteeDocument" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.iacuc.committee.meeting.IacucCommScheduleActItem" />

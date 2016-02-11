@@ -50,6 +50,7 @@
     <import resource="classpath:org/kuali/coeus/sys/impl/SysImportRiceSpringBeans.xml"/>
     <import resource="classpath:org/kuali/coeus/sys/impl/SysImportModuleSpringBeans.xml"/>
     <import resource="classpath:org/kuali/coeus/sys/framework/ImportEndpointSpringBeans.xml" />
+    <import resource="classpath:org/kuali/coeus/sys/framework/ImportSimpleCrudRestSpringBeans.xml" />
 
     <!-- only brought in on the grm profile -->
     <import resource="classpath:co/kuali/coeus/grm/impl/GrmSysComponentSpringBeans.xml"/>
@@ -354,10 +355,6 @@
             </list>
         </property>
     </bean>
-
-    <bean id="autoRegisterMapping" class="org.kuali.coeus.sys.framework.controller.rest.RestSimpleUrlHandlerMapping" />
-
-    <bean id="simpleCrudMapBasedRestController" class="org.kuali.coeus.sys.framework.controller.rest.SimpleCrudMapBasedRestController" abstract="true" />
 
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kew.routeheader.DocumentStatusTransition" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kew.doctype.bo.DocumentType" />

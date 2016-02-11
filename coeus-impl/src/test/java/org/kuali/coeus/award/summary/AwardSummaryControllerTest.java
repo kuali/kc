@@ -13,7 +13,7 @@ import org.kuali.coeus.award.api.AwardSummaryDto;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.type.ActivityType;
-import org.kuali.coeus.sys.framework.summary.SearchResults;
+import org.kuali.coeus.sys.framework.rest.SearchResults;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardStatus;

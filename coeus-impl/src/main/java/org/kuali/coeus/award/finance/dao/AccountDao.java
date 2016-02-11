@@ -1,10 +1,8 @@
 package org.kuali.coeus.award.finance.dao;
 
 import org.kuali.coeus.award.finance.AwardAccount;
-import org.kuali.coeus.sys.framework.summary.SearchResults;
 import org.kuali.kra.award.home.Award;
 
-import java.util.Collection;
 import java.util.List;
 
 public interface AccountDao {

@@ -65,7 +65,7 @@ public class SimpleCrudDtoRestController<T extends PersistableBusinessObject, R>
 
 	protected void setPrimaryKeyField(R dto) {
 		if (dto instanceof PrimaryKeyDto) {
-			((PrimaryKeyDto) dto).set$primaryKey(primaryKeyToString(getPrimaryKeyIncomingObject(dto)));
+			((PrimaryKeyDto) dto).set_primaryKey(primaryKeyToString(getPrimaryKeyIncomingObject(dto)));
 		}
 	}
 

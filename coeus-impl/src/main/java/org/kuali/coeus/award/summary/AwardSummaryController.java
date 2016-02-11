@@ -22,7 +22,8 @@ import java.util.Date;
 import java.util.HashMap;
 
 import org.kuali.coeus.award.api.AwardResults;
-import org.kuali.coeus.sys.framework.summary.SearchResults;
+import org.kuali.coeus.sys.framework.controller.rest.RestController;
+import org.kuali.coeus.sys.framework.rest.SearchResults;
 import org.kuali.kra.award.dao.AwardDao;
 import org.kuali.kra.award.home.Award;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.codiform.moo.curry.Translate;
 
 @Controller("awardSummaryController")
-public class AwardSummaryController {
+public class AwardSummaryController extends RestController {
 
 	@Autowired
 	@Qualifier("awardDao")

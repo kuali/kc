@@ -20,6 +20,6 @@ package org.kuali.coeus.sys.framework.controller.rest;
 
 public interface PrimaryKeyDto {
 
-    String get$primaryKey();
-    void set$primaryKey(String primaryKey);
+    String get_primaryKey();
+    void set_primaryKey(String primaryKey);
 }
