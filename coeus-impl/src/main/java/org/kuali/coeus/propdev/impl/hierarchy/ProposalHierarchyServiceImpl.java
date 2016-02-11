@@ -818,11 +818,14 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
 
     @Override
     public boolean nonEmployeePersonInMultipleProposals(Integer rolodexId, DevelopmentProposal proposal) {
-        if (proposal.isChild()) {
-            return getProposalHierarchyDao().nonEmployeePersonInMultipleChildProposals(rolodexId, proposal.getHierarchyParentProposalNumber());
-        } else {
-            return getProposalHierarchyDao().nonEmployeePersonInMultipleChildProposals(rolodexId, proposal.getProposalNumber());
+        if (rolodexId != null) {
+            if (proposal.isChild()) {
+                return getProposalHierarchyDao().nonEmployeePersonInMultipleChildProposals(rolodexId, proposal.getHierarchyParentProposalNumber());
+            } else {
+                return getProposalHierarchyDao().nonEmployeePersonInMultipleChildProposals(rolodexId, proposal.getProposalNumber());
+            }
         }
+        return false;
     }
 
     protected boolean isEmployeePersonOnParent(DevelopmentProposal proposal, String id, ProposalPersonBiography srcPropPersonBio) {
@@ -1190,7 +1193,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
      * @throws WorkflowException
      */
     protected void rejectProposal( ProposalDevelopmentDocument proposalDoc, String reason, String principalId, String appDocStatus ) throws WorkflowException  {
-        getKcDocumentRejectionService().reject(proposalDoc.getDocumentHeader().getWorkflowDocument(), reason, principalId, appDocStatus );
+        getKcDocumentRejectionService().reject(proposalDoc.getDocumentHeader().getWorkflowDocument(), reason, principalId, appDocStatus);
     }
 
 
