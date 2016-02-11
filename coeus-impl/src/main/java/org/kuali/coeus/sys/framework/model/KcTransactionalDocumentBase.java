@@ -427,7 +427,9 @@ public abstract class KcTransactionalDocumentBase extends TransactionalDocumentB
             if (StringUtils.isNotBlank(lastPrincipalId) && !lastPrincipalId.equals(getGlobalVariableService().getUserSession().getPrincipalId())) {
                 final Principal principal = getIdentityService().getPrincipal(lastPrincipalId);
                 if (principal != null && StringUtils.isNotBlank(principal.getPrincipalName())) {
-                    return GlobalVariables.doInNewGlobalVariables(new UserSession(principal.getPrincipalName()), callable);
+                    final UserSession session = new UserSession(principal.getPrincipalName());
+                    session.setKualiSessionId(getGlobalVariableService().getUserSession().getKualiSessionId());
+                    return GlobalVariables.doInNewGlobalVariables(session, callable);
                 }
             }
             return callable.call();
