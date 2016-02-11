@@ -21,4 +21,5 @@
 \. ./rice/bootstrap/V1602_001__kc_post_processor.sql
 \. ./rice/bootstrap/V1602_003__new_breakupinterval_rate_calc_param.sql
 \. ./rice/bootstrap/V1602_005__cleanup_procedures.sql
+\. ./rice/bootstrap/V1602_006__enable_new_breakupinterval_rate_calc.sql
 commit;
