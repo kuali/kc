@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1602.34
 *  Fixing rejection STE.
   * STE happens when approver tries to reject proposal.
   * org.kuali.rice.kew.api.WorkflowRuntimeException: java.lang.RuntimeException: post processor caught exception while handling route level change: Exception [EclipseLink-4002] (Eclipse Persistence Services - 2.6.0.v20150309-bf26070): org.eclipse.persistence.exceptions.DatabaseException Internal Exception: java.sql.SQLIntegrityConstraintViolationException: ORA-01400: cannot insert NULL into ("KCSO"."KRNS_PESSIMISTIC_LOCK_T"."SESN_ID") Error Code: 1400 Call: INSERT INTO KRNS_PESSIMISTIC_LOCK_T (PESSIMISTIC_LOCK_ID, DOC_HDR_ID, GNRT_DT, LOCK_DESC_TXT, OBJ_ID, PRNCPL_ID, SESN_ID, VER_NBR) VALUES (?, ?, ?, ?, ?, ?, ?, ?) bind => [8 parameters bound] Query:
