@@ -80,6 +80,7 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
     public static final String LAST_NAME = "lastName";
     public static final String PERSON_ID = "10000000001";
     private static final String DOC_TYPE_DESCRIPTION = "description";
+    public static final String DOCUMENT_TYPE_CODE = "2";
     private ProposalHierarchyServiceImpl hierarchyService;
 	private DataObjectService dataObjectService;
     private KcAuthorizationService kcAuthorizationService;
@@ -155,7 +156,7 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
         String userId = PERSON_ID;
         String parentProposalNumber = hierarchyService.createHierarchy(childProposal, userId);
         childProposal.setProposalPersons(new ArrayList<>());
-        createProposalPerson2(childProposal);
+        createProposalPerson2(childProposal, Constants.PRINCIPAL_INVESTIGATOR_ROLE);
         DevelopmentProposal changedChildProposal = dataObjectService.save(childProposal);
         hierarchyService.synchronizeChild(changedChildProposal);
         DevelopmentProposal parentProposal = changedChildProposal.getParent();
@@ -175,8 +176,8 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
         String userId = PERSON_ID;
         String parentProposalNumber = hierarchyService.createHierarchy(childProposal, userId);
         childProposal.setProposalPersons(new ArrayList<>());
-        createProposalPerson2(childProposal);
-        addPersonBios(childProposal, "Test", "Name1", childProposal.getProposalPerson(0).getPersonId(), 1, childProposal.getProposalPerson(0).getProposalPersonNumber());
+        createProposalPerson2(childProposal, Constants.PRINCIPAL_INVESTIGATOR_ROLE);
+        addEmpPersonBios(childProposal, "Test", "Name1", childProposal.getProposalPerson(0).getPersonId(), 1, childProposal.getProposalPerson(0).getProposalPersonNumber(), "1");
         childProposal = dataObjectService.save(childProposal);
         hierarchyService.synchronizeChild(childProposal);
         DevelopmentProposal parentProposal = childProposal.getParent();
@@ -200,8 +201,8 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
 		String userId = PERSON_ID;
 		String parentProposalNumber = hierarchyService.createHierarchy(childProposal, userId);
 		childProposal.setProposalPersons(new ArrayList<>());
-		createProposalPerson2(childProposal);
-		addPersonBios(childProposal, "Test", "Name1", childProposal.getProposalPerson(0).getPersonId(), 1, childProposal.getProposalPerson(0).getProposalPersonNumber());
+		createProposalPerson2(childProposal, Constants.PRINCIPAL_INVESTIGATOR_ROLE);
+		addEmpPersonBios(childProposal, "Test", "Name1", childProposal.getProposalPerson(0).getPersonId(), 1, childProposal.getProposalPerson(0).getProposalPersonNumber(), "1");
 		childProposal = dataObjectService.save(childProposal);
 		hierarchyService.synchronizeChild(childProposal);
 		DevelopmentProposal parentProposal = childProposal.getParent();
@@ -232,8 +233,8 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
 		DevelopmentProposal childProposal1 = getChildProposal(initializeProposalDevelopmentDocument().getDevelopmentProposal());
 		hierarchyService.createHierarchy(childProposal1, PERSON_ID);
 		childProposal1.setProposalPersons(new ArrayList<>());
-		createProposalPerson2(childProposal1);
-		addPersonBios(childProposal1, "Test", "Name1", childProposal1.getProposalPerson(0).getPersonId(), 1, childProposal1.getProposalPerson(0).getProposalPersonNumber());
+		createProposalPerson2(childProposal1, Constants.PRINCIPAL_INVESTIGATOR_ROLE);
+		addEmpPersonBios(childProposal1, "Test", "Name1", childProposal1.getProposalPerson(0).getPersonId(), 1, childProposal1.getProposalPerson(0).getProposalPersonNumber(), "1");
 		childProposal1 = dataObjectService.save(childProposal1);
 		hierarchyService.synchronizeChild(childProposal1);
 		DevelopmentProposal parentProposal = childProposal1.getParent();
@@ -252,8 +253,8 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
 		DevelopmentProposal childProposal2 = getChildProposal(initializeProposalDevelopmentDocument().getDevelopmentProposal());
 		hierarchyService.createHierarchy(childProposal2, PERSON_ID);
 		hierarchyService.linkToHierarchy(childProposal1.getParent(), childProposal2, HierarchyBudgetTypeConstants.SubBudget.code());
-		createProposalPerson2(childProposal2);
-		addPersonBios(childProposal2, "Test", "Name1", childProposal2.getProposalPerson(0).getPersonId(), 1, childProposal2.getProposalPerson(0).getProposalPersonNumber());
+		createProposalPerson2(childProposal2, Constants.PRINCIPAL_INVESTIGATOR_ROLE);
+		addEmpPersonBios(childProposal2, "Test", "Name1", childProposal2.getProposalPerson(0).getPersonId(), 1, childProposal2.getProposalPerson(0).getProposalPersonNumber(), "1");
 		hierarchyService.synchronizeChild(childProposal2);
 
 		childProposal2.getPropPersonBios().remove(0);
@@ -271,19 +272,19 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
     public void samePersonWithBiosInMultipleChildren() throws Exception {
         DevelopmentProposal childProposal = getNewProposal();
         childProposal.setProposalPersons(new ArrayList<>());
-        createProposalPerson(childProposal);
+        createEmpProposalPerson(childProposal, Constants.PRINCIPAL_INVESTIGATOR_ROLE, FIRST_NAME, LAST_NAME, 1);
         childProposal = dataObjectService.save(childProposal);
-        addPersonBios(childProposal, "Test", "Name1", childProposal.getProposalPerson(0).getPersonId(), 1, childProposal.getProposalPerson(0).getProposalPersonNumber());
+        addEmpPersonBios(childProposal, "Test", "Name1", childProposal.getProposalPerson(0).getPersonId(), 1, childProposal.getProposalPerson(0).getProposalPersonNumber(), "1");
         childProposal = dataObjectService.save(childProposal);
         String parentProposalNumber = hierarchyService.createHierarchy(childProposal, PERSON_ID);
 
         DevelopmentProposal childProposal2 = getNewProposal();
         childProposal2.setProposalPersons(new ArrayList<>());
-        createProposalPerson(childProposal2);
-        createProposalPerson2(childProposal2);
+        createEmpProposalPerson(childProposal2, Constants.PRINCIPAL_INVESTIGATOR_ROLE, FIRST_NAME, LAST_NAME, 1);
+        createProposalPerson2(childProposal2, Constants.PRINCIPAL_INVESTIGATOR_ROLE);
         childProposal2 = dataObjectService.save(childProposal2);
-        addPersonBios(childProposal2, "Test2", "Name2", childProposal2.getProposalPerson(0).getPersonId(), 1, childProposal2.getProposalPerson(0).getProposalPersonNumber());
-        addPersonBios(childProposal2, "Test3", "Name3", childProposal2.getProposalPerson(1).getPersonId(), 2, childProposal2.getProposalPerson(1).getProposalPersonNumber());
+        addEmpPersonBios(childProposal2, "Test2", "Name2", childProposal2.getProposalPerson(0).getPersonId(), 1, childProposal2.getProposalPerson(0).getProposalPersonNumber(), "1");
+        addEmpPersonBios(childProposal2, "Test3", "Name3", childProposal2.getProposalPerson(1).getPersonId(), 2, childProposal2.getProposalPerson(1).getProposalPersonNumber(), "1");
         childProposal2 = dataObjectService.save(childProposal2);
         DevelopmentProposal parentProposal = getDevelopmentProposal(parentProposalNumber);
         hierarchyService.linkChild(parentProposal, childProposal2, "", true);
@@ -300,13 +301,13 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
     public void changeAttachmentInChildAfterLink() throws Exception {
         DevelopmentProposal childProposal = getNewProposal();
         childProposal.setProposalPersons(new ArrayList<>());
-        createProposalPerson(childProposal);
+        createEmpProposalPerson(childProposal, Constants.PRINCIPAL_INVESTIGATOR_ROLE, FIRST_NAME, LAST_NAME, 1);
         childProposal = dataObjectService.save(childProposal);
-        addPersonBios(childProposal, "Name1", "Name1", childProposal.getProposalPerson(0).getPersonId(), 1, childProposal.getProposalPerson(0).getProposalPersonNumber());
+        addEmpPersonBios(childProposal, "Name1", "Name1", childProposal.getProposalPerson(0).getPersonId(), 1, childProposal.getProposalPerson(0).getProposalPersonNumber(), "1");
         childProposal = dataObjectService.save(childProposal);
         String parentProposalNumber = hierarchyService.createHierarchy(childProposal, PERSON_ID);
         childProposal.setPropPersonBios(new ArrayList<>());
-        addPersonBios(childProposal, "Name2", "Name2", childProposal.getProposalPerson(0).getPersonId(), 1, childProposal.getProposalPerson(0).getProposalPersonNumber());
+        addEmpPersonBios(childProposal, "Name2", "Name2", childProposal.getProposalPerson(0).getPersonId(), 1, childProposal.getProposalPerson(0).getProposalPersonNumber(), "1");
         DevelopmentProposal parentProposal = getDevelopmentProposal(parentProposalNumber);
         hierarchyService.synchronizeAll(parentProposal);
         Assert.assertTrue(parentProposal.getPropPersonBios().size() == 1);
@@ -323,9 +324,9 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
     public void samePersonWithBiosInMultipleChildrenSyncSimultaneously() throws Exception {
         DevelopmentProposal childProposal = getNewProposal();
         childProposal.setProposalPersons(new ArrayList<>());
-        createProposalPerson(childProposal);
+        createEmpProposalPerson(childProposal, Constants.PRINCIPAL_INVESTIGATOR_ROLE, FIRST_NAME, LAST_NAME, 1);
         childProposal = dataObjectService.save(childProposal);
-        addPersonBios(childProposal, "Name1", "Name1", childProposal.getProposalPerson(0).getPersonId(), 1, childProposal.getProposalPerson(0).getProposalPersonNumber());
+        addEmpPersonBios(childProposal, "Name1", "Name1", childProposal.getProposalPerson(0).getPersonId(), 1, childProposal.getProposalPerson(0).getProposalPersonNumber(), "1");
         childProposal = dataObjectService.save(childProposal);
         String parentProposalNumber = hierarchyService.createHierarchy(childProposal, PERSON_ID);
 
@@ -338,12 +339,12 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
         hierarchyService.linkChild(parentProposal, childProposal3, "", true);
 
         childProposal2.setProposalPersons(new ArrayList<>());
-        createProposalPerson2(childProposal2);
-        addPersonBios(childProposal2, "Name2", "Name2", childProposal2.getProposalPerson(0).getPersonId(), 1, childProposal2.getProposalPerson(0).getProposalPersonNumber());
+        createProposalPerson2(childProposal2, Constants.PRINCIPAL_INVESTIGATOR_ROLE);
+        addEmpPersonBios(childProposal2, "Name2", "Name2", childProposal2.getProposalPerson(0).getPersonId(), 1, childProposal2.getProposalPerson(0).getProposalPersonNumber(), "1");
         childProposal2 = dataObjectService.save(childProposal2);
         childProposal3.setProposalPersons(new ArrayList<>());
-        createProposalPerson2(childProposal3);
-        addPersonBios(childProposal3, "Name3", "Name3", childProposal2.getProposalPerson(0).getPersonId(), 1, childProposal2.getProposalPerson(0).getProposalPersonNumber());
+        createProposalPerson2(childProposal3, Constants.PRINCIPAL_INVESTIGATOR_ROLE);
+        addEmpPersonBios(childProposal3, "Name3", "Name3", childProposal2.getProposalPerson(0).getPersonId(), 1, childProposal2.getProposalPerson(0).getProposalPersonNumber(), "1");
         childProposal3 = dataObjectService.save(childProposal3);
         parentProposal = getDevelopmentProposal(parentProposalNumber);
         hierarchyService.synchronizeAll(parentProposal);
@@ -353,13 +354,64 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
         Assert.assertTrue(parentProposal.getPropPersonBio(0).getDescription().equalsIgnoreCase("Name1"));
     }
 
-    private void addPersonBios(DevelopmentProposal proposal, String description, String name, String personId, int bioPositionNumber, Integer proposalPersonNumber) throws Exception {
+    @Test
+    public void twoChildrenOneWithRolodexKPTest() throws Exception {
+        DevelopmentProposal childProposal = getNewProposal();
+        childProposal.setProposalPersons(new ArrayList<>());
+        createEmpProposalPerson(childProposal, Constants.PRINCIPAL_INVESTIGATOR_ROLE, FIRST_NAME, LAST_NAME, 1);
+        createNonEmpProposalPerson(childProposal, new Integer(1), Constants.PRINCIPAL_INVESTIGATOR_ROLE, "foo", "bar", 2);
+        childProposal = dataObjectService.save(childProposal);
+
+        addEmpPersonBios(childProposal, "Name1", "Name1", childProposal.getProposalPerson(0).getPersonId(), 1, childProposal.getProposalPerson(0).getProposalPersonNumber(), "1");
+        addNonEmpPersonBios(childProposal, "nonEmp1", "nonEmp1", childProposal.getProposalPerson(1).getRolodexId(), 2, childProposal.getProposalPerson(1).getProposalPersonNumber(), "1");
+        childProposal = dataObjectService.save(childProposal);
+
+        String parentProposalNumber = hierarchyService.createHierarchy(childProposal, PERSON_ID);
+
+        DevelopmentProposal childProposal2 = getNewProposal();
+        createEmpProposalPerson(childProposal2, Constants.PRINCIPAL_INVESTIGATOR_ROLE, FIRST_NAME, LAST_NAME, 1);
+        createNonEmpProposalPerson(childProposal2, new Integer(1), Constants.PRINCIPAL_INVESTIGATOR_ROLE, "foo", "bar", 2);
+        createNonEmpProposalPerson(childProposal2, new Integer(2), Constants.KEY_PERSON_ROLE, "Leonard", "Hofstadter", 3);
+        childProposal2 = dataObjectService.save(childProposal2);
+
+        int bioPositionNumber = 1;
+        addEmpPersonBios(childProposal2, "Name1", "Name1", childProposal2.getProposalPerson(0).getPersonId(), bioPositionNumber, childProposal.getProposalPerson(0).getProposalPersonNumber(), "1");
+        bioPositionNumber = 2;
+        addNonEmpPersonBios(childProposal2, "nonEmp1", "nonEmp1", childProposal2.getProposalPerson(1).getRolodexId(), bioPositionNumber, childProposal.getProposalPerson(1).getProposalPersonNumber(), "1");
+        childProposal2 = dataObjectService.save(childProposal2);
+
+        DevelopmentProposal parentProposal = getDevelopmentProposal(parentProposalNumber);
+        hierarchyService.linkChild(parentProposal, childProposal2, "", true);
+        parentProposal = getDevelopmentProposal(parentProposalNumber);
+        Assert.assertTrue(parentProposal.getPropPersonBios().size() == 2);
+        bioPositionNumber = 3;
+        final String documentTypeCode3 = "3";
+        addEmpPersonBios(parentProposal, "parent1", "parent1", parentProposal.getProposalPerson(0).getPersonId(), bioPositionNumber,
+                                        parentProposal.getProposalPerson(0).getProposalPersonNumber(), documentTypeCode3);
+        parentProposal = dataObjectService.save(parentProposal);
+        Assert.assertTrue(parentProposal.getPropPersonBios().size() == 3);
+        hierarchyService.synchronizeAll(parentProposal);
+        Assert.assertTrue(parentProposal.getPropPersonBios().size() == 3);
+    }
+
+    private void addEmpPersonBios(DevelopmentProposal proposal, String description, String name, String personId, int bioPositionNumber, Integer proposalPersonNumber, String documentTypeCode) throws Exception {
+        ProposalPersonBiography proposalPersonBiography = createProposalPersonBiography(proposal, description, name, bioPositionNumber, proposalPersonNumber, documentTypeCode);
+        proposalPersonBiography.setPersonId(personId);
+        proposal.getPropPersonBios().add(proposalPersonBiography);
+    }
+
+    private void addNonEmpPersonBios(DevelopmentProposal proposal, String description, String name, Integer rolodexId, int bioPositionNumber, Integer proposalPersonNumber, String documentTypeCode) throws Exception {
+        ProposalPersonBiography proposalPersonBiography = createProposalPersonBiography(proposal, description, name, bioPositionNumber, proposalPersonNumber, documentTypeCode);
+        proposalPersonBiography.setRolodexId(rolodexId);
+        proposal.getPropPersonBios().add(proposalPersonBiography);
+    }
+
+    private ProposalPersonBiography createProposalPersonBiography(DevelopmentProposal proposal, String description, String name, int bioPositionNumber, Integer proposalPersonNumber, String documentTypeCode) throws Exception {
         ProposalPersonBiography proposalPersonBiography = new ProposalPersonBiography();
         proposalPersonBiography.setDescription(description);
         proposalPersonBiography.setContentType("MIME");
-        proposalPersonBiography.setDocumentTypeCode("1");
+        proposalPersonBiography.setDocumentTypeCode(documentTypeCode);
         proposalPersonBiography.setName(name);
-        proposalPersonBiography.setPersonId(personId);
         proposalPersonBiography.setPositionNumber(bioPositionNumber);
         proposalPersonBiography.setPropPerDocType(getAPropPerDocType());
         proposalPersonBiography.setDevelopmentProposal(proposal);
@@ -375,7 +427,7 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
                 name, "MIME",
                 "Hello World".getBytes()); //content
         proposalPersonBiography.init(mockMultipartFile);
-        proposal.getPropPersonBios().add(proposalPersonBiography);
+        return proposalPersonBiography;
     }
 
     protected PropPerDocType getAPropPerDocType() {
@@ -781,7 +833,7 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
 			developmentProposal.setHierarchyOriginatingChildProposalNumber(childProposal.getProposalNumber());
 			developmentProposal.setHierarchyParentProposalNumber(childProposal.getProposalNumber());
 		}
-		createProposalPerson(developmentProposal);
+		createEmpProposalPerson(developmentProposal, Constants.PRINCIPAL_INVESTIGATOR_ROLE, FIRST_NAME, LAST_NAME, 1);
         createSponsorActivity(developmentProposal);
 		createPropScienceKeyword(developmentProposal);
 		createNarrative(developmentProposal);
@@ -795,24 +847,38 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
         createActivityType(developmentProposal);
     }
 
-    private void createProposalPerson(DevelopmentProposal developmentProposal) {
+    private void createEmpProposalPerson(DevelopmentProposal developmentProposal, String role, String firstName, String lastName, int proposalPersonNumber) {
 		ProposalPerson person = new ProposalPerson();
-		person.setProposalPersonNumber(1);
-		person.setProposalPersonRoleId(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
-		person.setFirstName(FIRST_NAME);
-		person.setLastName(LAST_NAME);
+		person.setProposalPersonNumber(proposalPersonNumber);
+		person.setProposalPersonRoleId(role);
+		person.setFirstName(firstName);
+		person.setLastName(lastName);
 		person.setMiddleName("middleName");
         setPersonData(person);
-		person.setRolodexId(1);
+		person.setRolodexId(null);
 		person.setDevelopmentProposal(developmentProposal);
 		developmentProposal.getProposalPersons().add(person);
         person.setPersonId(PERSON_ID);
     }
 
-    private void createProposalPerson2(DevelopmentProposal developmentProposal) {
+    private void createNonEmpProposalPerson(DevelopmentProposal developmentProposal, int rolodexId, String role, String firstName, String lastName, int proposalPersonNumber) {
+        ProposalPerson person = new ProposalPerson();
+        person.setProposalPersonNumber(proposalPersonNumber);
+        person.setProposalPersonRoleId(role);
+        person.setFirstName(firstName);
+        person.setLastName(lastName);
+        person.setMiddleName("middleName");
+        setPersonData(person);
+        person.setRolodexId(rolodexId);
+        person.setPersonId(null);
+        person.setDevelopmentProposal(developmentProposal);
+        developmentProposal.getProposalPersons().add(person);
+    }
+
+    private void createProposalPerson2(DevelopmentProposal developmentProposal, String role) {
         ProposalPerson person = new ProposalPerson();
         person.setProposalPersonNumber(2);
-        person.setProposalPersonRoleId(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
+        person.setProposalPersonRoleId(role);
         person.setFirstName("Bruce");
         person.setLastName("Wayne");
         person.setMiddleName("middleName");
@@ -831,7 +897,6 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
         person.setLastName("Dude");
         person.setMiddleName("middleName");
         setPersonData(person);
-        person.setRolodexId(3);
         person.setDevelopmentProposal(developmentProposal);
         developmentProposal.getProposalPersons().add(person);
         person.setPersonId("555");
