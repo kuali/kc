@@ -1,6 +1,38 @@
 
 
 ##CURRENT
+*  Fix null pointer in hierarchy sync.
+
+  * Child 1:
+  * Attachments added via Upload & Add
+  * PI – Biosketch
+  * KP Non employee Add. Bk. – Biosketch
+  * Proposal Attachments – via “Add” - Budget Justification.
+  * Basic budget with Non-Personnel expenses. Year one only. (M&S unchecked inflateion)
+  * Created Hierarchy Parent 30809
+  * Edited title
+  * Confirmed Key Personnel were broght up
+  * Confirmed that Proposal and Personnel Attchments brought up. (Biosketches not editable, as is expected.
+  * Saved. Closed.
+  * Opened Child 1 in View. Copied to create 30811
+  * Selected Copy. Lead unit 154500 BCS. Budget all versions Yes. Attachments Yes.
+  * Changed title
+  * Added KP Employee “OSC”. Uploaded Biosketch with “Add”
+  * From Child 2 30811, linked to parent 30809
+  * Select Hierarchy from top menu, manually enter parent PD number, select sub-budget from drop down, click link to hiearhcy.
+  * (Java errors when search for proposal from hierarchy modal)
+  * Save. Close.
+  * Open Parent 30809 with Edit.
+  * Confirm KP From child 2 was synced up
+  * -Confirm KP Biosketch from chld 2 was synced up (Not editeable, as is expected)
+  * PI & KP Add. Bk personnel attachments are editable now at parent as expected, since the individuals are in multiple children.
+  * Still at parent, select “Add for Address book KP. Upload Current and Pending attachment at parent.
+  * Save.
+  * Go to Hierarchy: Select Sub Budget & Click Sync All.
+  * STE Results.
+  * Gayathri Athreya on Fri, 12 Feb 2016 10:35:56 -0700 [View Commit](../../commit/19eff407dd59948f65e1bc96d8cc61111d6d74f5)
+
+##coeus-1602.40
 * No Changes
 
 
