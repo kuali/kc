@@ -752,7 +752,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
 
     protected boolean hasBeenAdded(List<ProposalPersonBiography> bios, ProposalPersonBiography srcPropPersonBio) {
         return bios.stream()
-                .filter(bio -> (StringUtils.isNotBlank(srcPropPersonBio.getPersonId()) && bio.getPersonId().equals(srcPropPersonBio.getPersonId()) || srcPropPersonBio.getRolodexId() != null && bio.getRolodexId().equals(srcPropPersonBio.getRolodexId())))
+                .filter(bio -> (StringUtils.isNotBlank(srcPropPersonBio.getPersonId()) && srcPropPersonBio.getPersonId().equals(bio.getPersonId())
+                                                    || srcPropPersonBio.getRolodexId() != null && srcPropPersonBio.getRolodexId().equals(bio.getRolodexId())))
                 .filter(bio -> bio.getDocumentTypeCode().equals(srcPropPersonBio.getDocumentTypeCode()))
                 .findAny().isPresent();
     }
