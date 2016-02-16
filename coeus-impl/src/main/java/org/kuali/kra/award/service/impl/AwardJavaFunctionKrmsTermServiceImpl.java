@@ -18,9 +18,42 @@
  */
 package org.kuali.kra.award.service.impl;
 
+import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.service.AwardJavaFunctionKrmsTermService;
 import org.kuali.coeus.common.impl.krms.KcKrmsJavaFunctionTermServiceBase;
 
+import java.math.BigDecimal;
+import java.util.Objects;
+
 public class AwardJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTermServiceBase implements AwardJavaFunctionKrmsTermService {
 
+    @Override
+    public Boolean awardPersonnelTotalEffort(Award award, String effortToMatch) {
+        ScaleTwoDecimal effort = convertToScaleTwoDecimal(effortToMatch);
+        return award.getProjectPersons().size() == 0 ? Boolean.FALSE : award.getProjectPersons().stream().anyMatch(person -> Objects.equals(person.getTotalEffort(), effort));
+    }
+
+    @Override
+    public Boolean awardPersonnelCalendarEffort(Award award, String effortToMatch) {
+        ScaleTwoDecimal effort = convertToScaleTwoDecimal(effortToMatch);
+        return award.getProjectPersons().size() == 0 ? Boolean.FALSE : award.getProjectPersons().stream().anyMatch(person -> Objects.equals(person.getCalendarYearEffort(), effort));
+    }
+
+    @Override
+    public Boolean awardCommentsRule(Award award, String comments) {
+        return award.getAwardCurrentActionComments().getComments() == null && comments.equalsIgnoreCase("null") ||
+                comments.equalsIgnoreCase(award.getAwardCurrentActionComments().getComments());
+    }
+
+    protected ScaleTwoDecimal convertToScaleTwoDecimal(String effortToMatch) {
+        ScaleTwoDecimal effort;
+        if (effortToMatch.equalsIgnoreCase("null") || StringUtils.isEmpty(effortToMatch)) {
+            effort = null;
+        } else {
+            effort = new ScaleTwoDecimal(effortToMatch);
+        }
+        return effort;
+    }
 }

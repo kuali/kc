@@ -18,6 +18,11 @@
  */
 package org.kuali.kra.award.service;
 
+import org.kuali.kra.award.home.Award;
+
 public interface AwardJavaFunctionKrmsTermService {
+    public Boolean awardPersonnelTotalEffort(Award award, String effortToMatch);
+    public Boolean awardPersonnelCalendarEffort(Award award, String effortToMatch);
+    public Boolean awardCommentsRule(Award award, String comments);
 
 }
