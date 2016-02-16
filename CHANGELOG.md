@@ -1,6 +1,13 @@
 
 
 ##CURRENT
+*  Added new KRMS functions for Award.
+  * – Effort
+  * – Calendar Effort
+  * – Comments (Award tab comments)
+  * Gayathri Athreya on Tue, 16 Feb 2016 09:25:09 -0700 [View Commit](../../commit/0c4d30a249f252dffb4856966a2785a4b4e318fe)
+
+##coeus-1602.44
 * Support role and independent requests
 
   * New other approve and reject notifications did not handle role and separate, independent, similtaneous requests correctly. This handles those and child requests more accurately.
