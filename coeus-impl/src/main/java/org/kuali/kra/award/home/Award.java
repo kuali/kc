@@ -459,6 +459,10 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         return returnVal;
     }
 
+    public double getAmountObligatedToDate() {
+        return awardAmountInfos.get(0).getAmountObligatedToDate().doubleValue();
+    }
+
     /**
      * If the Award is copied then initially the AwardAmountInfos will
      * have two entries without AwardAmountInfoId's.  We need to recognize this

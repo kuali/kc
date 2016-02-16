@@ -57,6 +57,18 @@
         <convert converter="bean" match="org.kuali.rice.location.framework.state.StateEbo">
             <param name="include" value="code,name,countryCode" />
         </convert>
+		<convert converter="bean" match="org.kuali.kra.award.home.Award">
+			<param name="include" value="accountNumber,statusCode,sponsorCode,amountObligatedToDate,obligationExpirationDate, sponsorName,statusDescription,awardId,awardNumber,awardDocument" />
+		</convert>
+		<convert converter="bean" match="org.kuali.kra.award.home.AwardStatus">
+			<param name="include" value="statusCode,description" />
+		</convert>
+		<convert converter="bean" match="org.kuali.kra.award.home.AwardAmountInfo">
+			<param name="include" value="amountObligatedToDate,obligationExpirationDate" />
+		</convert>
+		<convert converter="bean" match="org.kuali.kra.award.document.AwardDocument">
+			<param name="include" value="documentNumber" />
+		</convert>
 
         <create creator="spring" javascript="SponsorService">
             <param name="beanName" value="sponsorService" />
@@ -127,6 +139,23 @@
 			<param name="beanName" value="awardPaymentAndInvoicesService" />			
 			<include method="getEncodedValidAwardBasisPaymentsByAwardTypeCode" />
 			<include method="getEncodedValidBasisMethodPaymentsByBasisCode" />
+		</create>
+		<create creator="spring" javascript="AwardService">
+			<param name="beanName" value="awardService" />
+			<include method="getActiveOrNewestAward" />
+			<include method="getAwardStatus" />
+			<include method="getAccountNumber" />
+			<include method="getStatusCode" />
+			<include method="getStatusDescription" />
+			<include method="getDescription" />
+			<include method="getSponsorCode" />
+			<include method="getSponsorName" />
+			<include method="getAwardId" />
+			<include method="getAmountObligatedToDate" />
+			<include method="getObligationExpirationDate" />
+			<include method="getAwardNumber" />
+			<include method="getAwardDocument" />
+			<include method="getDocumentNumber" />
 		</create>
 		<create creator="spring" javascript="ProtocolActionAjaxService">
 		    <param name="beanName" value="protocolActionAjaxService" />
