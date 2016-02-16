@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* Support role and independent requests
+
+  * New other approve and reject notifications did not handle role and separate, independent, similtaneous requests correctly. This handles those and child requests more accurately.
+  * blackcathacker on Fri, 29 Jan 2016 20:15:06 -0500 [View Commit](../../commit/4c92f0ac2fdda6a88a5de02b8bfcde8b4f2a96a5)
+
+##coeus-1602.43
 * No Changes
 
 
