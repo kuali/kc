@@ -82,14 +82,7 @@ public class AwardHomeAction extends AwardAction {
     }
     
     /**
-     * This method is used to add a new Award Cost Share
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return mapping forward
-     * @throws Exception
+     * This method is used to add a new Award Cost Share.
      */
     public ActionForward addApprovedSubaward(ActionMapping mapping, ActionForm form, 
                                                 HttpServletRequest request,
@@ -99,14 +92,7 @@ public class AwardHomeAction extends AwardAction {
     }
     
     /**
-     * This method is used to delete an Award Cost Share
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return mapping forward
-     * @throws Exception
+     * This method is used to delete an Award Cost Share.
      */
     public ActionForward deleteApprovedSubaward(ActionMapping mapping, ActionForm form, 
                                                     HttpServletRequest request,
@@ -122,13 +108,7 @@ public class AwardHomeAction extends AwardAction {
     
     /**
      * 
-     * This method opens a document in read-only mode
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * This method opens a document in read-only mode.
      */
     public ActionForward open(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
@@ -145,13 +125,6 @@ public class AwardHomeAction extends AwardAction {
     
     /**
      * This method is used to recalculate the Total Subaward amount in the Subaward panel.
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return mapping forward
-     * @throws Exception
      */
     public ActionForward recalculateSubawardTotal(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -190,12 +163,7 @@ public class AwardHomeAction extends AwardAction {
 
     /**
      * This takes care of populating the ScienceKeywords in keywords list after the selected Keywords returns from <code>multilookup</code>
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#refresh(org.apache.struts.action.ActionMapping, 
-     *                                                                          org.apache.struts.action.ActionForm, 
-     *                                                                          javax.servlet.http.HttpServletRequest, 
-     *                                                                          javax.servlet.http.HttpServletResponse)
      */
-    @SuppressWarnings("unchecked")
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -215,13 +183,7 @@ public class AwardHomeAction extends AwardAction {
     }
 
     /**
-     * Override to update funding proposal status as needed
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * Override to update funding proposal status as needed.
      */
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -241,7 +203,7 @@ public class AwardHomeAction extends AwardAction {
         boolean isAwardProtocolLinkingEnabled = getParameterService().getParameterValueAsBoolean(
                 "KC-PROTOCOL", "Document", "irb.protocol.award.linking.enabled");
         List<AwardSpecialReview> specialReviews = awardDocument.getAward().getSpecialReviews();
-        if (!isAwardProtocolLinkingEnabled || applyRules(new SaveSpecialReviewLinkEvent<AwardSpecialReview>(awardDocument, specialReviews))) {
+        if (!isAwardProtocolLinkingEnabled || applyRules(new SaveSpecialReviewLinkEvent<>(awardDocument, specialReviews))) {
             forward = super.save(mapping, form, request, response);
             
             awardDocument.getAward().refreshReferenceObject("sponsor");
@@ -366,18 +328,12 @@ public class AwardHomeAction extends AwardAction {
     }
     
     /**
-     * Override to add lookup helper params to global variables
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * Override to add lookup helper params to global variables.
      */
     @Override
     public ActionForward performLookup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
-        if (StringUtils.isNotBlank(parameterName) && parameterName.indexOf(".performLookup") != -1 && parameterName.contains("InstitutionalProposal")) {
+        if (StringUtils.isNotBlank(parameterName) && parameterName.contains(".performLookup") && parameterName.contains("InstitutionalProposal")) {
             GlobalVariables.getUserSession().addObject(Constants.LINKED_FUNDING_PROPOSALS_KEY, ((AwardForm) form).getLinkedProposals());
         }
 
@@ -385,18 +341,12 @@ public class AwardHomeAction extends AwardAction {
     }
 
     @SuppressWarnings("unchecked")
-    protected KeywordsService getKeywordService(){
+    protected KeywordsService<AwardScienceKeyword> getKeywordService(){
         return KcServiceLocator.getService(KeywordsService.class);
     }
     /**
      * 
-     * This method is for selecting all keywords if javascript is disabled on a browser. 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return Basic ActionForward
-     * @throws Exception
+     * This method is for selecting all keywords if javascript is disabled on a browser.
      */
     public ActionForward selectAllScienceKeyword(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -413,21 +363,13 @@ public class AwardHomeAction extends AwardAction {
     /**
      * 
      * This method is to delete selected keywords from the keywords list. 
-     * It uses {@link KeywordsService} to process the request 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * It uses {@link KeywordsService} to process the request.
      */
-    @SuppressWarnings("unchecked")
     public ActionForward deleteSelectedScienceKeyword(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         AwardDocument awardDocument = awardForm.getAwardDocument();
-        KeywordsService keywordsService = KcServiceLocator.getService(KeywordsService.class);
-        keywordsService.deleteKeyword(awardDocument.getAward()); 
+        getKeywordService().deleteKeyword(awardDocument.getAward());
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
@@ -435,14 +377,7 @@ public class AwardHomeAction extends AwardAction {
      * This method is used to handle the edit button action on an ACTIVE Award. If no Pending version exists for the same
      * awardNumber, a new Award version is created. If a Pending version exists, the user is prompted as to whether she would
      * like to edit the Pending version. Answering Yes results in that Pending version AwardDocument to be opened. Answering No 
-     * simply returns the user to the ACTIVE document screen 
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * simply returns the user to the ACTIVE document screen.
      */
     public ActionForward editOrVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request,
                                         HttpServletResponse response) throws Exception {
@@ -470,7 +405,7 @@ public class AwardHomeAction extends AwardAction {
                 forward = question == null ? showPromptForEditingPendingVersion(mapping, form, request, response) :
                                              processPromptForEditingPendingVersionResponse(mapping, request, response, awardForm, foundPending);
             } else {
-                forward = createAndSaveNewAwardVersion(response, awardForm, awardDocument, award);
+                forward = createAndSaveNewAwardVersion(awardForm);
             }    
         }else{
             getTimeAndMoneyExistenceService().addAwardVersionErrorMessage();
@@ -479,8 +414,7 @@ public class AwardHomeAction extends AwardAction {
         return forward;
     }
 
-    private ActionForward createAndSaveNewAwardVersion(HttpServletResponse response, AwardForm awardForm,
-                                                        AwardDocument awardDocument, Award award) throws Exception {
+    private ActionForward createAndSaveNewAwardVersion(AwardForm awardForm) throws Exception {
         awardForm.getAwardDocument().getAward().setNewVersion(true); 
         AwardDocument newAwardDocument = getAwardService().createNewAwardVersion(awardForm.getAwardDocument());
         getDocumentService().saveDocument(newAwardDocument);
@@ -494,13 +428,7 @@ public class AwardHomeAction extends AwardAction {
     /**
      * 
      * This method adds a new AwardTransferringSponsor to the list. 
-     * It uses {@link KeywordsService} to process the request 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * It uses {@link KeywordsService} to process the request
      */
     public ActionForward addAwardTransferringSponsor(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -510,29 +438,14 @@ public class AwardHomeAction extends AwardAction {
     
     /** 
      * This method removes an AwardTransferringSponsor from the list. 
-     * It uses {@link KeywordsService} to process the request 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * It uses {@link KeywordsService} to process the request
      */
     public ActionForward deleteAwardTransferringSponsor(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ((AwardForm) form).getDetailsAndDatesFormHelper().deleteAwardTransferringSponsor(getLineToDelete(request));
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
-    /**
-     * This method deletes a Funding proposal
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
+
     public ActionForward deleteAwardFundingProposal(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ((AwardForm) form).getFundingProposalBean().deleteAwardFundingProposal(getLineToDelete(request));
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -543,16 +456,13 @@ public class AwardHomeAction extends AwardAction {
     }
     
     /**
-     * This method locates an award for the specified awardId
-     * @param awardId
-     * @return
+     * This method locates an award for the specified awardId.
      */
-    @SuppressWarnings("unchecked")
     protected Award findSelectedAward(String awardId) {
-        Map<String, Object> fieldMap = new HashMap<String, Object>();
+        Map<String, Object> fieldMap = new HashMap<>();
         fieldMap.put(AWARD_ID_PARAMETER_NAME, awardId);
         List<Award> awards = (List<Award>) getBusinessObjectService().findMatching(Award.class, fieldMap);
-        return (Award) awards.get(0);
+        return awards.get(0);
     }
 
     private void initializeFormWithAward(AwardForm awardForm, Award award) throws WorkflowException {
@@ -567,9 +477,7 @@ public class AwardHomeAction extends AwardAction {
     
     /**
      * This method prepares the AwardForm with the document found via the Award lookup
-     * Because the helper beans may have preserved a different AwardForm, we need to reset these too
-     * @param awardForm
-     * @param document
+     * Because the helper beans may have preserved a different AwardForm, we need to reset these too.
      */
     private void reinitializeAwardForm(AwardForm awardForm, AwardDocument document) throws WorkflowException {
         awardForm.populateHeaderFields(document.getDocumentHeader().getWorkflowDocument());

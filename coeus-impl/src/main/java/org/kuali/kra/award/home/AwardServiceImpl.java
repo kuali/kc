@@ -34,7 +34,6 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class AwardServiceImpl implements AwardService {
 
