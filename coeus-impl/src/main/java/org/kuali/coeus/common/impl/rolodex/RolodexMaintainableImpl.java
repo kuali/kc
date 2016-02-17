@@ -124,7 +124,7 @@ public class RolodexMaintainableImpl extends KraMaintainableImpl {
 
     protected List<KeyValue> getFieldValues(String alternateCode) {
         StateValuesFinder valuesFinder = new StateValuesFinder();
-        if (Objects.nonNull(alternateCode)) {
+        if (StringUtils.isNotBlank(alternateCode)) {
             Country country = this.getCountryService().getCountryByAlternateCode(alternateCode);
             valuesFinder.setCountryCode(country.getCode());
         } else {
