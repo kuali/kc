@@ -88,7 +88,7 @@ public class AwardServiceImpl implements AwardService {
         newAwardDocument.getDocumentHeader().setDocumentDescription(awardDocument.getDocumentHeader().getDocumentDescription());
         newAwardDocument.setAward(newVersion);
         newAwardDocument.setDocumentNextvalues(awardDocument.getDocumentNextvalues());
-        newAwardDocument.getDocumentNextvalues().forEach((nextValue) -> { nextValue.setDocumentKey(newAwardDocument.getDocumentNumber()); });
+        newAwardDocument.getDocumentNextvalues().forEach(nextValue ->  nextValue.setDocumentKey(newAwardDocument.getDocumentNumber()));
         newVersion.setAwardDocument(newAwardDocument);
         newVersion.setAwardTransactionTypeCode(0);
         newVersion.getSyncChanges().clear();
@@ -98,8 +98,7 @@ public class AwardServiceImpl implements AwardService {
         newVersion.getAwardAmountInfos().get(0).setOriginatingAwardVersion(newVersion.getSequenceNumber());
         newVersion.getAwardAmountInfos().get(0).setTimeAndMoneyDocumentNumber(null);
         newVersion.getAwardAmountInfos().get(0).setSequenceNumber(newVersion.getSequenceNumber());
-        newVersion.setSponsorNihMultiplePi(getSponsorHierarchyService().isSponsorNihMultiplePi(newVersion.getSponsorCode()));
-        
+
         synchNewCustomAttributes(newVersion, awardDocument.getAward());
         
         return newAwardDocument;

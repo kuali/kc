@@ -1077,15 +1077,6 @@ public class AwardAction extends BudgetParentActionBase {
         }
         
         return forward;
-    }    
-    
-    
-    protected void loadDocument(KualiDocumentFormBase kualiForm) throws WorkflowException {
-        super.loadDocument(kualiForm);
-        Award award = ((AwardForm) kualiForm).getAwardDocument().getAward();
-        if (!((AwardForm) kualiForm).getAwardDocument().isPlaceHolderDocument()) {
-        	award.setSponsorNihMultiplePi(getSponsorHierarchyService().isSponsorNihMultiplePi(award.getSponsorCode()));
-        }
     }
 
     protected void loadDocumentInForm(HttpServletRequest request, AwardForm awardForm)

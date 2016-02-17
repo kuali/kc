@@ -19,7 +19,7 @@
 package org.kuali.kra.award.home;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.award.finance.AwardAccount;
+import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.coeus.common.framework.keyword.KeywordsManager;
 import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
 import org.kuali.coeus.common.framework.person.KcPerson;
@@ -89,12 +89,8 @@ import org.kuali.kra.timeandmoney.service.TimeAndMoneyHistoryService;
 import org.kuali.kra.timeandmoney.transactions.AwardTransactionType;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.rice.core.api.criteria.CountFlag;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.role.Role;
-import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.util.AutoPopulatingList;
 
@@ -282,7 +278,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     private transient boolean awardInMultipleNodeHierarchy;
     private transient boolean awardHasAssociatedTandMOrIsVersioned;
 
-    private transient boolean sponsorNihMultiplePi;
+    private transient Boolean sponsorNihMultiplePi;
 
     private transient List<AwardHierarchyTempObject> awardHierarchyTempObjects;
 
@@ -306,6 +302,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     
     private VersionHistorySearchBo versionHistory;
     private transient KcPersonService kcPersonService;
+    private transient SponsorHierarchyService sponsorHierarchyService;
 
     private List<AwardCgb> awardCgbList;
     
@@ -508,6 +505,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 
     public void setSponsorCode(String sponsorCode) {
         this.sponsorCode = sponsorCode;
+        this.setSponsorNihMultiplePi(null);
     }
 
     public String getAccountTypeDescription() {
@@ -2132,7 +2130,11 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         return getLeadUnit();
     }
 
-    public boolean isSponsorNihMultiplePi() {
+    public Boolean isSponsorNihMultiplePi() {
+        if (sponsorNihMultiplePi == null) {
+            sponsorNihMultiplePi = getSponsorHierarchyService().isSponsorNihMultiplePi(getSponsorCode());
+        }
+
         return sponsorNihMultiplePi;
     }
 
@@ -2345,7 +2347,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         this.syncStatuses = syncStatuses;
     }
 
-    public void setSponsorNihMultiplePi(boolean sponsorNihMultiplePi) {
+    public void setSponsorNihMultiplePi(Boolean sponsorNihMultiplePi) {
         this.sponsorNihMultiplePi = sponsorNihMultiplePi;
     }
 
@@ -2853,4 +2855,15 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 	public KcPerson getInvestigator() {
 		return investigator;
 	}
+
+    public SponsorHierarchyService getSponsorHierarchyService() {
+        if (sponsorHierarchyService == null) {
+            sponsorHierarchyService = KcServiceLocator.getService(SponsorHierarchyService.class);
+        }
+        return sponsorHierarchyService;
+    }
+
+    public void setSponsorHierarchyService(SponsorHierarchyService sponsorHierarchyService) {
+        this.sponsorHierarchyService = sponsorHierarchyService;
+    }
 }
