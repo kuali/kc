@@ -1,6 +1,38 @@
 
 
 ##CURRENT
+*  Modified scripts, refactored, tested and added tests.
+  * Gayathri Athreya on Thu, 4 Feb 2016 10:52:03 -0700 [View Commit](../../commit/bcbc7ec9e8684baa188d549cf2704d18da72d6f5)
+*  Added new KRMS functions for award, PD, IP and IRB
+
+  * This contribution is a series of KRMS functions for use in a variety of modules as well as the code necessary to allow functions in IP to work properly.  That code was left out of IP and Subaward when KRMS was linked to those modules.
+
+  * Included Functions:
+
+  * IRB: Does the Protocol contain a specified participant type?:  This function takes a parameter that is the participant type code or label and then returns true if any members of that participant type are included in the protocol.
+
+  * How many participants does Protocol have of Type(_)?: This function accepts a participating type code or description and then returns a number equal to the number of participants of that type listed in the protocol.  This allows the user to use a variety of comparison operands with this function such as > < or =.
+
+  * Check Protocol has Amendment Section(_): This function checks to see if a certain section of the protocol is being modified by an amendment and then returns true if it is.  It accepts the application labels for the various amendment sections listed in the protocol amendment action panel.
+
+  * Check Protocol has Funding Source with Sponsor Type(_): This accepts a sponsor type label or code and then returns true if a funding source of sponsor is listed with a sponsor of that type.  It does not check the sponsor on linked grants documents.
+
+  * Check if Base Protocol has Last Approval Date: This function will return true if the base protocol associated with a given document has a "Last Approval Date" listed.
+
+  * Check if Sponsor and Prime Sponsor are the same: This function will return true if the sponsor and prime sponsor in a document are the same.  This function is being submitted for PD, IP and Award.  This is to accommodate schools that do not want prime sponsor listed if there is not one.
+
+  * Check if Award has a Comment Entered of Type(_): This function is setup for Award and accepts Comment Type Code.  If there is any text in that comment for the award document it will return true.  This is to accomodate schools that have KFS integration turned on and want to check for fields that are required for account setup, but not OOB Award setup before an award is finalized to minimize award correction.
+
+  * Check if Award/IP has a special review with the specified type(_) This accepts a special review type code and will return true if the award/IP has a special review entry listed of that type.
+
+  * Check if Property has changed since the previous award version(_) This award function accepts a Property name.  It will return true if that field has changed since the last version of the award.  This will accept any variable name that can be used by the Term Specification property system, but the variable doesn't have to be setup in advance as a property.  If there are certain values in an award that are not supposed to be changed by general staff this is a good way to catch data entry errors.
+
+  * Check Previous Version has Property matching value(_,_): This award function accepts a property name that follows the same variable rules as the last function.  It also accepts a value.  If any previous version of the award has that value then it will return true.  At IU there are certain things the staff are not supposed to change once an award has been made active.  They have more leeway to make changes while an award is in pre-award expenditure or pending status.  This allowed us to build validations based on those fields.  We specifically didn't hard code this to those fields so it could be flexible for other schools to utilize for other purposes.
+
+  * Check if IP has a fiscal month the same as the current fiscal month: This will return true if the fiscal month is the same as the one listed on the IP.  This basically checks to see if the IP was finalized in a previous fiscal month.  This was necessary to prevent the alteration of certain data in historic records.
+  * Gayathri Athreya on Wed, 3 Feb 2016 11:35:23 -0700 [View Commit](../../commit/ffa49617fe5bc19fc1a183d5f8eb1c2fe9958bcf)
+
+##coeus-1602.49
 * No Changes
 
 
