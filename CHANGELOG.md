@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1602.47
 *  A person entered as Multi-PI on an proposal or institute proposal is not being brought forward when funded to an award. All Key Personnel listed on Proposal should populate on an initiated institute proposal, and all personnel on an institutional proposal should populate on a linked award. The person in the Multi-PI role is currently dropped from award completely. They must still appear with the same role as from institutional proposal.
 
             *steps to reproduce*
