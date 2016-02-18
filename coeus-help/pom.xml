@@ -24,7 +24,7 @@
     <parent>
         <groupId>org.kuali.coeus</groupId>
         <artifactId>coeus</artifactId>
-        <version>1602.51</version>
+        <version>1602.52-SNAPSHOT</version>
     </parent>
     <artifactId>coeus-help</artifactId>
     <packaging>jar</packaging>
