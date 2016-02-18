@@ -1,6 +1,20 @@
 
 
 ##CURRENT
+*  A person entered as Multi-PI on an proposal or institute proposal is not being brought forward when funded to an award. All Key Personnel listed on Proposal should populate on an initiated institute proposal, and all personnel on an institutional proposal should populate on a linked award. The person in the Multi-PI role is currently dropped from award completely. They must still appear with the same role as from institutional proposal.
+
+            *steps to reproduce*
+            Create an Ip
+            Add a PI and  a Multi PI,
+            Complete the other fields required to submit
+            Start a new award
+            Link to the previous IP
+            Complete fields required to save
+            Navigate to the Award Contacts.
+            Notice not all award contacts appear, since the Multi-pi is not there.
+  * Travis Schneeberger on Tue, 16 Feb 2016 22:35:52 -0500 [View Commit](../../commit/af99bfe513b8ed0d91c20343daca8f7358a97ec0)
+
+##coeus-1602.46
 * fix STE that occurs when country code is left blank on an address book record
   * Joe Williams on Wed, 17 Feb 2016 16:57:01 -0600 [View Commit](../../commit/040827e8dd1b38f5ff501873a174e2e8fddf81c1)
 
