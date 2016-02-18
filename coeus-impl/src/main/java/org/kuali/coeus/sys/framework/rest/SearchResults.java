@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.coeus.sys.framework.summary;
+package org.kuali.coeus.sys.framework.rest;
 
 import java.util.Collection;
 

@@ -19,11 +19,11 @@
 package org.kuali.coeus.award.finance;
 
 import com.codiform.moo.annotation.CollectionProperty;
-import org.kuali.coeus.sys.framework.summary.SearchResults;
+import org.kuali.coeus.sys.framework.rest.SearchResults;
 
 import java.util.Collection;
 
-public class AccountSearchResults<T> extends SearchResults{
+public class AccountSearchResults extends SearchResults<AwardAccount> {
 
 
     @CollectionProperty(source="awards")

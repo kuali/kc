@@ -45,6 +45,7 @@
 
   <bean id="DeadlineType-deadlineTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="deadlineTypeCode" />
+    <property name="required" value="true" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Deadline Type Code" />
     <property name="shortLabel" value="Deadline Type Code" />
@@ -60,7 +61,7 @@
   </bean>
 
   <bean id="DeadlineType-description" parent="DeadlineType-description-parentBean"/>
-  <bean id="DeadlineType-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description"/>
+  <bean id="DeadlineType-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description" p:required="true"/>
   <bean id="DeadlineType-versionNumber" parent="DeadlineType-versionNumber-parentBean" />
   <bean id="DeadlineType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
 <!-- Business Object Inquiry Definition -->

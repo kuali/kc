@@ -20,10 +20,9 @@ package org.kuali.coeus.instprop.impl.api;
 
 import com.codiform.moo.curry.Translate;
 
-import org.kuali.coeus.instprop.impl.api.InstitutionalProposalResults;
 import org.kuali.coeus.sys.framework.controller.rest.RestController;
 import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
-import org.kuali.coeus.sys.framework.summary.SearchResults;
+import org.kuali.coeus.sys.framework.rest.SearchResults;
 import org.kuali.kra.institutionalproposal.dao.InstitutionalProposalDao;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -42,12 +42,14 @@ public class ClassNameTypeServiceImpl extends PermissionTypeServiceBase {
     @Override
     protected boolean performMatch(Map<String, String> inputAttributes, Map<String, String> storedAttributes) {
 
-        if (storedAttributes == null || inputAttributes == null) {
+        if (storedAttributes == null || inputAttributes == null || !storedAttributes.containsKey(KcKimAttributes.CLASS_NAME)) {
             return false;
         }
 
-        return !storedAttributes.entrySet().stream()
-                .anyMatch(entry -> inputAttributes.containsKey(entry.getKey()) && !matches(inputAttributes.get(entry.getKey()), entry.getValue().replaceAll("\\*", ".*")));
+        final String inputClassName = inputAttributes.get(KcKimAttributes.CLASS_NAME);
+        final String storedClassName = storedAttributes.get(KcKimAttributes.CLASS_NAME).replaceAll("\\*", ".*");
+
+        return matches(inputClassName, storedClassName);
     }
 
     private boolean matches(String s, String regex) {

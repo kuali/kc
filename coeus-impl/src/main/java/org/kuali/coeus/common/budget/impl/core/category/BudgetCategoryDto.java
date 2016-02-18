@@ -27,7 +27,7 @@ public class BudgetCategoryDto implements PrimaryKeyDto {
 	private String budgetCategoryTypeCode;
 	private String description;
 	@Ignore
-	private String $primaryKey;
+	private String _primaryKey;
 	
 	public String getCode() {
 		return code;
@@ -49,12 +49,12 @@ public class BudgetCategoryDto implements PrimaryKeyDto {
 	}
 
 	@Override
-	public String get$primaryKey() {
-		return $primaryKey;
+	public String get_primaryKey() {
+		return _primaryKey;
 	}
 
 	@Override
-	public void set$primaryKey(String $primaryKey) {
-		this.$primaryKey = $primaryKey;
+	public void set_primaryKey(String _primaryKey) {
+		this._primaryKey = _primaryKey;
 	}
 }

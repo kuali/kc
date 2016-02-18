@@ -2,9 +2,9 @@ package org.kuali.coeus.common.budget.impl.core;
 
 import static org.junit.Assert.*;
 
-import java.time.Instant;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -56,7 +56,7 @@ public class BudgetCategoryControllerTest {
 			}
 		};
 		
-		Collection<BudgetCategoryDto> categories = controller.getAll();
+		Collection<BudgetCategoryDto> categories = controller.getAll(Collections.emptyMap());
 		assertEquals(2, categories.size());
 		assertEquals(budgetCat1.getDescription(), 
 				categories.stream().filter(cat -> budgetCat1.getCode().equals(cat.getCode()))
@@ -115,7 +115,7 @@ public class BudgetCategoryControllerTest {
 			@Override
 			protected void validateBusinessObject(BudgetCategory budgetCategory) { }
 			@Override
-			protected boolean validateUpdateDataObject(BudgetCategory budgetCategory) { return true; }
+			protected void validateUpdateDataObject(BudgetCategory budgetCategory) { }
 			@Override
 			protected RestAuditLogger getAuditLogger() {
 				return getTestRestAuditLogger();
@@ -208,7 +208,7 @@ public class BudgetCategoryControllerTest {
 			@Override
 			protected void validateBusinessObject(BudgetCategory budgetCategory) { }
 			@Override
-			protected boolean validateInsertDataObject(BudgetCategory budgetCategory) { return true; }
+			protected void validateInsertDataObject(BudgetCategory budgetCategory) { }
 			@Override
 			protected RestAuditLogger getAuditLogger() {
 				return getTestRestAuditLogger();

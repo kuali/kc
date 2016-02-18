@@ -18,7 +18,7 @@
  */
 package org.kuali.kra.institutionalproposal.dao;
 
-import org.kuali.coeus.sys.framework.summary.SearchResults;
+import org.kuali.coeus.sys.framework.rest.SearchResults;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 

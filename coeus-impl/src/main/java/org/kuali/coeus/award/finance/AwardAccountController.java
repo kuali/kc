@@ -5,7 +5,6 @@ import com.codiform.moo.curry.Translate;
 import org.kuali.coeus.award.finance.dao.AccountDao;
 import org.kuali.coeus.sys.framework.controller.rest.RestController;
 import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
-import org.kuali.coeus.sys.framework.summary.SearchResults;
 import org.kuali.kra.award.home.Award;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -103,8 +102,8 @@ public class AwardAccountController extends RestController {
         return accountInformationResults;
     }
 
-    AccountSearchResults<AwardAccount> transformSearchResults(List<AwardAccount> accounts, List<Long> awardIds) {
-        AccountSearchResults<AwardAccount> result = new AccountSearchResults<>();
+    AccountSearchResults transformSearchResults(List<AwardAccount> accounts, List<Long> awardIds) {
+        AccountSearchResults result = new AccountSearchResults();
         result.setResults(accounts);
         result.setTotalResults(accounts.size());
         result.setAwards(awardIds);

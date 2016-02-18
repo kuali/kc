@@ -43,17 +43,15 @@ import org.kuali.rice.krad.data.CompoundKey;
 import org.kuali.rice.krad.service.DictionaryValidationService;
 import org.kuali.rice.krad.service.LegacyDataAdapter;
 import org.kuali.rice.krad.util.MessageMap;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
+import org.springframework.beans.TypeMismatchException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 
 import static org.kuali.coeus.sys.framework.util.CollectionUtils.entriesToMap;
 import static org.kuali.coeus.sys.framework.util.CollectionUtils.entry;
@@ -85,16 +83,18 @@ public abstract class SimpleCrudRestControllerBase<T extends PersistableBusiness
 	@Autowired
 	@Qualifier("persistenceVerificationService")
 	private PersistenceVerificationService persistenceVerificationService;
-	
+
+	@Autowired
+	@Qualifier("restAuditLoggerFactory")
+	private RestAuditLoggerFactory restAuditLoggerFactory;
+
 	@Autowired
 	@Qualifier("autoRegisterMapping")
 	private RestSimpleUrlHandlerMapping autoRegisterMapping;
 
 	private boolean registerMapping = true;
-	
-	@Autowired
-	@Qualifier("restAuditLoggerFactory")
-	private RestAuditLoggerFactory restAuditLoggerFactory;
+
+	private BeanWrapper beanWrapper;
 
 	private Class<T> dataObjectClazz;
 	
@@ -134,7 +134,15 @@ public abstract class SimpleCrudRestControllerBase<T extends PersistableBusiness
 		if (isCompoundPrimaryKey()) {
 			final List<String> pkColumns = Arrays.asList(getPrimaryKeyColumn().split(DELIMETER));
 			return new CompoundKey(pkColumns.stream()
-					.map(pk -> entry(pk, getPropertyFromIncomingObject(pk, dataObject)))
+					.map(pk -> {
+						final Object val = getPropertyFromIncomingObject(pk, dataObject);
+						if (val instanceof String && StringUtils.isBlank((String) val)) {
+							throw new ResourceNotFoundException(pk + " is blank.");
+						} else if (val == null) {
+							throw new ResourceNotFoundException(pk + " is not present.");
+						}
+						return entry(pk, val);
+					})
 					.collect(entriesToMap()));
 		} else {
 			return getPropertyFromIncomingObject(getPrimaryKeyColumn(), dataObject);
@@ -144,9 +152,14 @@ public abstract class SimpleCrudRestControllerBase<T extends PersistableBusiness
 	protected String primaryKeyToString(Object pkValues) {
 		final String key;
 		if (pkValues instanceof CompoundKey){
-			final List<String> keyNames = Arrays.asList(getPrimaryKeyColumn().split(DELIMETER));
+			final String keyNamesStr = getPrimaryKeyColumn();
+			final List<String> keyNames = Arrays.asList(keyNamesStr.split(DELIMETER));
+			final Map<String, ?> keys = ((CompoundKey) pkValues).getKeys();
+			if (keyNames.size() != keys.size()) {
+				throw new IllegalArgumentException("compoundKey value does not contain the same number key elements in format: " + keyNamesStr);
+			}
 			key = keyNames.stream()
-					.map(name -> ((CompoundKey) pkValues).getKeys().get(name).toString())
+					.map(name -> keys.get(name).toString())
 					.reduce((t, u) -> t + DELIMETER + u)
 					.get();
 		} else {
@@ -158,23 +171,44 @@ public abstract class SimpleCrudRestControllerBase<T extends PersistableBusiness
 	protected abstract Object getPropertyFromIncomingObject(String propertyName, R dataObject);
 
 	@RequestMapping(method=RequestMethod.GET)
-	public @ResponseBody Collection<R> getAll() {
+	public @ResponseBody Collection<R> getAll(@RequestParam(required=false) Map<String,String> parameters) {
 		assertUserHasReadAccess();
 
-		Collection<T> dataObjects = getAllFromDataStore();
+		final Collection<T> dataObjects;
+		final Map<String, Object> searchCriteria = parameters != null ? parameters.entrySet().stream()
+				.filter(e -> getExposedProperties().contains(e.getKey()))
+				.map(entry -> {
+					try {
+						final Object val = translateValue(entry.getKey(), entry.getValue());
+						return entry(entry.getKey(), val);
+					} catch (TypeMismatchException e) {
+						throw new ResourceNotFoundException(e.getMessage());
+					}
+				})
+				.collect(entriesToMap()) : Collections.emptyMap();
+		if (!CollectionUtils.isEmpty(searchCriteria)) {
+			dataObjects = getMatchingFromDataStore(searchCriteria);
+		} else {
+			dataObjects = getAllFromDataStore();
+		}
+
 		if (dataObjects == null || dataObjects.size() == 0) {
 			throw new ResourceNotFoundException("not found");
 		}
 		return translateAllDataObjects(dataObjects);
 	}
+
+	protected Object translateValue(String name, String value) {
+		return beanWrapper.convertIfNecessary(value, beanWrapper.getPropertyType(name));
+	}
 	
 	protected abstract Collection<R> translateAllDataObjects(Collection<T> dataObjects);
 	
-	@RequestMapping(method=RequestMethod.GET, params={"schema"})
+	@RequestMapping(method=RequestMethod.GET, params={"_schema"})
 	public @ResponseBody Map<String, Object> getSchema() {
 		assertUserHasReadAccess();
 
-		Map<String, Object> schema = new HashMap<>();
+		final Map<String, Object> schema = new HashMap<>();
 		schema.put("primaryKey", getPrimaryKeyColumn());
 		schema.put("columns", getExposedProperties());
 		return schema;
@@ -265,55 +299,30 @@ public abstract class SimpleCrudRestControllerBase<T extends PersistableBusiness
 		logger.saveAuditLog();
 	}
 	
-	protected boolean validateDeleteDataObject(T dataObject) {
-		if (isCompoundPrimaryKey()) {
-			//no validations yet
-			return true;
-		}
-
-		MessageMap messages = persistenceVerificationService.verifyRelationshipsForDelete(dataObject, Collections.emptyList());
-		if (messages.hasErrors()) {
-			throw new DataDictionaryValidationException(errorHandlingUtilService.extractErrorMessages(messages));
-		}
-		return true;
+	protected void validateDeleteDataObject(T dataObject) {
+		throwIfErrorMessages(persistenceVerificationService.verifyRelationshipsForDelete(dataObject, Collections.emptyList()));
 	}
 
-	protected boolean validateUpdateDataObject(T dataObject) {
-		if (isCompoundPrimaryKey()) {
-			//no validations yet
-			return true;
-		}
-
-		final MessageMap messages = persistenceVerificationService.verifyRelationshipsForUpdate(dataObject, Collections.emptyList());
-		if (messages.hasErrors()) {
-			throw new DataDictionaryValidationException(errorHandlingUtilService.extractErrorMessages(messages));
-		}
-		return true;
+	protected void validateUpdateDataObject(T dataObject) {
+		throwIfErrorMessages(persistenceVerificationService.verifyRelationshipsForUpdate(dataObject, Collections.emptyList()));
 	}
 
-	protected boolean validateInsertDataObject(T dataObject) {
-		if (isCompoundPrimaryKey()) {
-			//no validations yet
-			return true;
-		}
-
-		final MessageMap messages = persistenceVerificationService.verifyRelationshipsForInsert(dataObject, Collections.emptyList());
-		if (messages.hasErrors()) {
-			throw new DataDictionaryValidationException(errorHandlingUtilService.extractErrorMessages(messages));
-		}
-		return true;
+	protected void validateInsertDataObject(T dataObject) {
+		throwIfErrorMessages(persistenceVerificationService.verifyRelationshipsForInsert(dataObject, Collections.emptyList()));
 	}
 	
 	protected void validateBusinessObject(T dataObject) {
 		if (!dictionaryValidationService.isBusinessObjectValid(dataObject)) {
-			throwErrorMessages();
+			throwIfErrorMessages(getGlobalVariableService().getMessageMap());
 		}
 	}
 
-	protected void throwErrorMessages() {
-		Map<String, List<String>> errors = errorHandlingUtilService.extractErrorMessages(getGlobalVariableService().getMessageMap());
-		if (errors != null && !errors.isEmpty()) {
-			throw new DataDictionaryValidationException(errors);
+	protected void throwIfErrorMessages(MessageMap messageMap) {
+		if (messageMap != null && messageMap.hasErrors()) {
+			Map<String, List<String>> errors = errorHandlingUtilService.extractErrorMessages(messageMap);
+			if (errors != null && !errors.isEmpty()) {
+				throw new DataDictionaryValidationException(errors);
+			}
 		}
 	}
 	
@@ -321,17 +330,30 @@ public abstract class SimpleCrudRestControllerBase<T extends PersistableBusiness
 		return getLegacyDataAdapter().findAll(getDataObjectClazz());
 	}
 
+	protected Collection<T> getMatchingFromDataStore(Map<String, ?> criteria) {
+		return getLegacyDataAdapter().findMatching(getDataObjectClazz(), criteria);
+	}
+
 	protected T getFromDataStore(Object code) {
 		if (isCompoundPrimaryKey() && code instanceof CompoundKey) {
 			return getLegacyDataAdapter().findByPrimaryKey(getDataObjectClazz(), ((CompoundKey) code).getKeys());
 		} else if (isCompoundPrimaryKey() && code instanceof String) {
 			return getLegacyDataAdapter().findByPrimaryKey(getDataObjectClazz(), getCompoundKeyMap((String)code));
+		} else if (code instanceof String) {
+			if (StringUtils.isBlank((String) code)) {
+				throw new ResourceNotFoundException(getPrimaryKeyColumn() + " is blank.");
+			}
+			return getLegacyDataAdapter().findBySinglePrimaryKey(getDataObjectClazz(), translateValue(getPrimaryKeyColumn(), (String) code));
 		} else {
+			if (code == null) {
+				throw new ResourceNotFoundException(getPrimaryKeyColumn() + " is not present.");
+			}
+
 			return getLegacyDataAdapter().findBySinglePrimaryKey(getDataObjectClazz(), code);
 		}
 	}
 
-	protected Map<String, String> getCompoundKeyMap(String compoundKey) {
+	protected Map<String, Object> getCompoundKeyMap(String compoundKey) {
 
 		if (compoundKey.contains(DELIMETER)) {
 			final String[] keyNames = getPrimaryKeyColumn().split(DELIMETER);
@@ -340,7 +362,10 @@ public abstract class SimpleCrudRestControllerBase<T extends PersistableBusiness
 				throw new ResourceNotFoundException("compoundKey value does not contain the same number key elements in format: " + getPrimaryKeyColumn());
 			}
 
-			return org.kuali.coeus.sys.framework.util.CollectionUtils.zipMap(keyNames, keyValues);
+			return org.kuali.coeus.sys.framework.util.CollectionUtils.zipMap(keyNames, keyValues).entrySet()
+					.stream()
+					.map(e -> entry(e.getKey(), translateValue(e.getKey(), e.getValue())))
+					.collect(entriesToMap());
 		} else {
 			throw new ResourceNotFoundException("compoundKey value does not contain the same number key elements in format: " + getPrimaryKeyColumn());
 		}
@@ -501,6 +526,14 @@ public abstract class SimpleCrudRestControllerBase<T extends PersistableBusiness
 		this.camelCasePluralName = camelCasePluralName;
 	}
 
+	public RestAuditLoggerFactory getRestAuditLoggerFactory() {
+		return restAuditLoggerFactory;
+	}
+
+	public void setRestAuditLoggerFactory(RestAuditLoggerFactory restAuditLoggerFactory) {
+		this.restAuditLoggerFactory = restAuditLoggerFactory;
+	}
+
 	public boolean isRegisterMapping() {
 		return registerMapping;
 	}
@@ -523,9 +556,9 @@ public abstract class SimpleCrudRestControllerBase<T extends PersistableBusiness
 	 * @param singular a singular word
 	 * @return a plural word
      */
-	private String toPlural(String singular) {
+	String toPlural(String singular) {
 
-		//some rice mapped classes end with Bo.  We should remove this.
+		//some rice mapped classes end with Bo.  We should remove this suffix.
 		if (singular.endsWith("Bo")) {
 			singular = singular.substring(0, singular.length() - 2);
 		}
@@ -579,5 +612,8 @@ public abstract class SimpleCrudRestControllerBase<T extends PersistableBusiness
 			autoRegisterMapping.setUrlMap(Collections.singletonMap(path, this));
 			autoRegisterMapping.registerHandler(path, this);
 		}
+
+		beanWrapper = new BeanWrapperImpl(dataObjectClazz);
+
 	}
 }
