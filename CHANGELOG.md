@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* fix STE that occurs when country code is left blank on an address book record
+  * Joe Williams on Wed, 17 Feb 2016 16:57:01 -0600 [View Commit](../../commit/040827e8dd1b38f5ff501873a174e2e8fddf81c1)
+
+##coeus-1602.45
 *  Added new KRMS functions for Award.
   * – Effort
   * – Calendar Effort
