@@ -24,4 +24,5 @@
 \. ./rice/bootstrap/V1602_006__enable_new_breakupinterval_rate_calc.sql
 \. ./rice/bootstrap/V1602_007__awardFunctions.sql
 \. ./rice/bootstrap/V1602_008__KRMS_Functions.sql
+\. ./rice/bootstrap/V1602_009__rename_bo_class.sql
 commit;
