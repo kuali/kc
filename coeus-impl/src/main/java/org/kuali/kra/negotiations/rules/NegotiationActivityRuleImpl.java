@@ -101,8 +101,7 @@ public class NegotiationActivityRuleImpl implements NegotiationActivityAddRule {
         }
         if (activity.getEndDate() != null && negotiation.getNegotiationEndDate() != null
                 && activity.getEndDate().compareTo(negotiation.getNegotiationEndDate()) > 0) {
-            result = false;
-            getErrorReporter().reportError(END_DATE_PROPERTY, KeyConstants.NEGOTIATION_ACTIVITY_END_AFTER_NEGOTIATION);
+            getErrorReporter().reportWarning(END_DATE_PROPERTY, KeyConstants.NEGOTIATION_ACTIVITY_END_AFTER_NEGOTIATION);
         }
 
         return result;
