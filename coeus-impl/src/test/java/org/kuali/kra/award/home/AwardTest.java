@@ -94,6 +94,7 @@ public class AwardTest {
     public void testGetProjectPesons() {
         this.addProjectPersonsToAward();
         //test getProjectPersons
+        awardBo.setSponsorNihMultiplePi(false);
         List<AwardPerson> aList = awardBo.getProjectPersons();
         Assert.assertEquals(3, aList.size());
         
