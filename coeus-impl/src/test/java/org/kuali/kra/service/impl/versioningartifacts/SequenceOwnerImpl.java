@@ -177,6 +177,11 @@ public class SequenceOwnerImpl implements SequenceOwner<SequenceOwnerImpl> {
     }
 
     @Override
+    public String getVersionNameFieldValue() {
+        return name;
+    }
+
+    @Override
     public int hashCode() {
         final int PRIME = 31;
         int result = 1;

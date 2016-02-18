@@ -26,4 +26,7 @@ public interface Sponsorable extends PersistableBusinessObject {
     String getSponsorCode();
 
     void setSponsorCode(String sponsorCode);
+
+    String getPrimeSponsorCode();
+
 }

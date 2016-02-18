@@ -215,7 +215,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
         protocolReferences = new ArrayList<ProtocolReferenceBase>(); 
         newDescription = getDefaultNewDescription();
         protocolStatus = getProtocolStatusNewInstanceHook();
-        protocolStatusCode = protocolStatus.getProtocolStatusCode();
+        protocolStatusCode = getProtocolStatus().getProtocolStatusCode();
         protocolLocations = new ArrayList<ProtocolLocationBase>(); 
         protocolPersons = new ArrayList<ProtocolPersonBase>();
         
@@ -230,7 +230,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
         
         // set statuscode default
         setProtocolStatusCode(getDefaultProtocolStatusCodeHook());
-        this.refreshReferenceObject(Constants.PROPERTY_PROTOCOL_STATUS);
+        refreshReferenceObject(Constants.PROPERTY_PROTOCOL_STATUS);
         initializeProtocolAttachmentFilter();
     }
     
@@ -1071,6 +1071,11 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     @Override
     public String getVersionNameField() {
         return "protocolNumber";
+    }
+
+    @Override
+    public String getVersionNameFieldValue() {
+        return protocolNumber;
     }
 
     @Override

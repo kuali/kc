@@ -211,4 +211,9 @@ public class OwnerAssociate implements SequenceOwner<SequenceOwnerImpl> {
     public String getVersionNameField() {
         return "name";
     }
+
+    @Override
+    public String getVersionNameFieldValue() {
+        return name;
+    }
 }

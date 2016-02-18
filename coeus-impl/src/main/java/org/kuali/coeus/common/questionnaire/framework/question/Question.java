@@ -389,6 +389,11 @@ public class Question extends KcPersistableBusinessObjectBase implements Compara
         return QuestionnaireConstants.QUESTION_SEQEQUENCE_ID;
     }
 
+    @Override
+    public String getVersionNameFieldValue() {
+        return questionSeqId.toString();
+    }
+
     public void incrementSequenceNumber() {
         sequenceNumber++;
     }

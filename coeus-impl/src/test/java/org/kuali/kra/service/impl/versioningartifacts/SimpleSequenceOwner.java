@@ -143,4 +143,9 @@ public class SimpleSequenceOwner implements SequenceOwner<SimpleSequenceOwner> {
     public String getVersionNameField() {
         return "name";
     }
+
+    @Override
+    public String getVersionNameFieldValue() {
+        return name;
+    }
 }

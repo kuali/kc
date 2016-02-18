@@ -97,4 +97,9 @@ public class SelfReferenceOwner implements SequenceOwner<SelfReferenceOwner>{
     public String getVersionNameField() {
         return "id";
     }
+
+    @Override
+    public String getVersionNameFieldValue() {
+        return id.toString();
+    }
 }

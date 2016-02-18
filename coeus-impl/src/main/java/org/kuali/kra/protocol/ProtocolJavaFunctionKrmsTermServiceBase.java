@@ -18,10 +18,13 @@
  */
 package org.kuali.kra.protocol;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPersonService;
+import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.common.impl.krms.KcKrmsJavaFunctionTermServiceBase;
+import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.ProtocolActionTypeBase;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewModuleBase;
@@ -304,6 +307,53 @@ public abstract class ProtocolJavaFunctionKrmsTermServiceBase extends KcKrmsJava
             }
         }
         return result;
+    }
+
+    public Boolean hasProtocolContainsAmendRenewModule(ProtocolBase protocol, String moduleName) {
+        if (protocol.isAmendment() || protocol.isRenewalWithAmendment()) {
+            return  protocol.getProtocolAmendRenewal().getModules().stream().anyMatch(module ->
+                    StringUtils.equals(module.getProtocolModuleTypeCode(), moduleName) || doesProtocolModuleDescriptionMatch(moduleName, module));
+        }
+        return false;
+    }
+
+    protected boolean doesProtocolModuleDescriptionMatch(String moduleName, ProtocolAmendRenewModuleBase module) {
+        if (module.getProtocolModule() == null) {
+            module.refreshReferenceObject("protocolModule");
+        }
+        return module.getProtocolModule() != null && StringUtils.equals(module.getProtocolModule().getDescription(), moduleName);
+    }
+
+    public Boolean hasProtocolContainsSponsorType(ProtocolBase protocol, String sponsorTypeCode) {
+        return protocol.getProtocolFundingSources().stream().anyMatch(fundingSource ->
+                                                                            isFundingSourceSponsor(fundingSource) &&
+                                                                                    isSponsorTypeMatch(sponsorTypeCode, fundingSource)
+                                                                    );
+    }
+
+    protected boolean isSponsorTypeMatch(String sponsorTypeCode, ProtocolFundingSourceBase fundingSource) {
+        Sponsor sponsor = getSponsorByFundingSourceNumber(fundingSource);
+        return (sponsor != null && StringUtils.equals(sponsor.getSponsorTypeCode(), sponsorTypeCode)) ||
+                (sponsor != null && sponsor.getSponsorType() != null && StringUtils.equals(sponsor.getSponsorType().getDescription(), sponsorTypeCode));
+    }
+
+    protected boolean isFundingSourceSponsor(ProtocolFundingSourceBase fundingSource) {
+        return StringUtils.equals(fundingSource.getFundingSourceTypeCode(), FundingSourceType.SPONSOR);
+    }
+
+    protected Sponsor getSponsorByFundingSourceNumber(ProtocolFundingSourceBase fundingSource) {
+        return getBusinessObjectService().findBySinglePrimaryKey(Sponsor.class, fundingSource.getFundingSourceNumber());
+    }
+
+    public Boolean hasBaseProtocolHasLastApprovalDate(ProtocolBase protocol) {
+        ProtocolBase parentProtocol = protocol;
+        if (!protocol.isNew()) {
+            ProtocolBase potentialParentProtocol = getActiveProtocol(protocol.getAmendedProtocolNumber());
+            if (potentialParentProtocol != null) {
+                parentProtocol = potentialParentProtocol;
+            }
+        }
+        return parentProtocol.getLastApprovalDate() != null;
     }
 
     public KcPersonService getKcPersonService() {

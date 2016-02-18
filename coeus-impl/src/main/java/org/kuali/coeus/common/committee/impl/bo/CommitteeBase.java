@@ -370,6 +370,10 @@ public abstract class CommitteeBase<CMT extends CommitteeBase<CMT, CD, CS>,
         return "committeeName";
     }
 
+    public String getVersionNameFieldValue() {
+        return committeeName;
+    }
+
     @Override
     public String getDocumentKey() {
         return PermissionableKeys.COMMITTEE_KEY;

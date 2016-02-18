@@ -18,6 +18,7 @@
  */
 package org.kuali.kra.irb;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
@@ -28,8 +29,10 @@ import org.kuali.kra.protocol.ProtocolJavaFunctionKrmsTermServiceBase;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class IrbJavaFunctionKrmsTermServiceImpl extends ProtocolJavaFunctionKrmsTermServiceBase implements IrbJavaFunctionKrmsTermService {
+
     @Override
     public Boolean hasProtocolContainsSubjectType(Protocol protocol, String subjectTypeCode) {
         boolean result = false;
@@ -41,6 +44,16 @@ public class IrbJavaFunctionKrmsTermServiceImpl extends ProtocolJavaFunctionKrms
             }
         }
         return result;
+    }
+
+    public Integer getProtocolParticipantTypeCount(Protocol protocol, String participantType) {
+        return protocol.getProtocolParticipants().stream().filter(participant -> isMatchOnParticipantType(participantType, participant)).
+                map(ProtocolParticipant::getParticipantCount).reduce(0, Integer::sum);
+    }
+
+    protected boolean isMatchOnParticipantType(String participantType, ProtocolParticipant participant) {
+        return StringUtils.equals(participant.getParticipantTypeCode(), participantType) ||
+                participant.getParticipantType() != null && StringUtils.equals(participant.getParticipantType().getDescription(), participantType);
     }
 
     @Override

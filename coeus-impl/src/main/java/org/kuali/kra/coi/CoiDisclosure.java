@@ -718,6 +718,11 @@ public class CoiDisclosure extends KcPersistableBusinessObjectBase implements Se
         return "coiDisclosureNumber";
     }
 
+    @Override
+    public String getVersionNameFieldValue() {
+        return coiDisclosureNumber;
+    }
+
     public KcPersistableBusinessObjectBase getEventBo() {
         return eventBo;
     }

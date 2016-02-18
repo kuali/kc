@@ -42,4 +42,6 @@ public interface SequenceOwner<T extends SequenceOwner<?>> extends SequenceAssoc
      */
     String getVersionNameField();
 
+    String getVersionNameFieldValue();
+
 }

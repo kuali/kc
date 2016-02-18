@@ -1157,6 +1157,10 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
         return "subAwardCode";
     }
 
+    @Override
+    public String getVersionNameFieldValue() {
+        return subAwardCode;
+    }
 
 
     /**.
