@@ -1,6 +1,21 @@
 
 
 ##CURRENT
+*  When attempting to add an Activity or modify Activity End date, user receives incorrect validation message if Activity End Date is later than Negotiation End Date.
+
+  * Message says "Activity End Date must be the same or later than the Activity Start Date". This message is incorrect and only way to resolve is to fix Negotiation End Date or Activity End Date (not Activity Start Date). This affects "Complete" Negotiation docs.
+  * Steps to Reproduce
+  * 1. Open/Create and complete Negotiation doc (End Date listed).
+  * 2. Add/Modify Activity with Activity End Date later than Negotiation End Date (but with Activity Start Date before Activity End Date)
+  * 3. Validation will say that Activity Start date must be before Activity End Date, even though it already is.
+  * 4. Extend Negotiation End Date or shorten Activity End date to fix error.
+  * Expected: The system should be checking if the activity end date is >= to the activity start date and show the message "Activity End Date must be the same or later than the Activity Start Date" whenever that is not true. Activity dates should not run against the Negotiation Dates
+  * It seems like the error message that is displaying is for another situation
+
+  * Contrib: https://github.com/kuali/kc/pull/1596/
+  * Travis Schneeberger on Thu, 18 Feb 2016 16:21:57 -0500 [View Commit](../../commit/1501dd299d3564a9ac4ad413316fd708d6a0b0b5)
+
+##coeus-1602.51
 * No Changes
 
 
