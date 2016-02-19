@@ -36,7 +36,9 @@ import com.codiform.moo.configuration.Configuration;
 import com.codiform.moo.curry.Translate;
 
 public class SimpleCrudDtoRestController<T extends PersistableBusinessObject, R> extends SimpleCrudRestControllerBase<T, R> {
-	
+
+	private static final String CLASS = "class";
+
 	private Class<R> dtoObjectClazz;
 
 	@Override
@@ -97,7 +99,7 @@ public class SimpleCrudDtoRestController<T extends PersistableBusinessObject, R>
 		}
 		return Arrays.asList(beanInfo.getPropertyDescriptors()).stream()
 				.map(PropertyDescriptor::getName)
-				.filter(name -> !"class".equals(name))
+				.filter(name -> !CLASS.equals(name))
 				.collect(Collectors.toList());
 	}
 
@@ -111,10 +113,13 @@ public class SimpleCrudDtoRestController<T extends PersistableBusinessObject, R>
 
 	@Override
 	protected List<String> getListOfTrackedProperties() {
+		final boolean primaryKeyDto = PrimaryKeyDto.class.isAssignableFrom(dtoObjectClazz);
+
 		try {
 			return Arrays.asList(Introspector.getBeanInfo(dtoObjectClazz).getPropertyDescriptors()).stream()
 					.map(PropertyDescriptor::getName)
-					.filter(name -> !"class".equals(name))
+					.filter(name -> !CLASS.equals(name))
+					.filter(name -> !(primaryKeyDto && PrimaryKeyDto.SYNTHETIC_FIELD_PK.equals(name)))
 					.collect(Collectors.toList());
 		} catch (IntrospectionException e) {
 			throw new RuntimeException(e);

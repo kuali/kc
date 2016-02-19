@@ -19,6 +19,7 @@
 package org.kuali.coeus.sys.framework.controller.rest;
 
 public interface PrimaryKeyDto {
+    String SYNTHETIC_FIELD_PK = "_primaryKey";
 
     String get_primaryKey();
     void set_primaryKey(String primaryKey);
