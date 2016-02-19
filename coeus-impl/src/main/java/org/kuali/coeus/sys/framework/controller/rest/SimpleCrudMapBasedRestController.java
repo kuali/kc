@@ -108,6 +108,6 @@ public class SimpleCrudMapBasedRestController<T extends PersistableBusinessObjec
 
 	@Override
 	protected List<String> getListOfTrackedProperties() {
-		return getExposedProperties();
+		return getExposedProperties().stream().filter(p -> !SYNTHETIC_FIELD_PK.equals(p)).collect(Collectors.toList());
 	}
 }
