@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+*  check that event.orginalEvent.data is a string before performing string functions on it
+  * Joe Williams on Fri, 19 Feb 2016 10:19:29 -0600 [View Commit](../../commit/34cbd3f27f8fb5050937644c5b8059c278ac57c8)
+
+##coeus-1602.52
 *  When attempting to add an Activity or modify Activity End date, user receives incorrect validation message if Activity End Date is later than Negotiation End Date.
 
   * Message says "Activity End Date must be the same or later than the Activity Start Date". This message is incorrect and only way to resolve is to fix Negotiation End Date or Activity End Date (not Activity Start Date). This affects "Complete" Negotiation docs.
