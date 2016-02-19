@@ -72,8 +72,13 @@ public class OrganizationSummaryControllerTest {
 	public void testOrganizationSummary() {
 		organizationSummaryController = new OrganizationController() {
 			@Override
-			Collection<Organization> getAllOrganizations() {
+			protected Collection<Organization> getAllFromDataStore() {
 				return organizationList;
+			}
+
+			@Override
+			protected void assertUserHasReadAccess() {
+				//no op
 			}
 		};
 		

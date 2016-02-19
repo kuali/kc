@@ -21,15 +21,16 @@ package org.kuali.coeus.award.api;
 import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
-import org.kuali.coeus.sys.framework.controller.rest.RestController;
+import org.kuali.coeus.sys.framework.controller.rest.SimpleCrudMapBasedRestController;
 import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
 import org.kuali.coeus.sys.framework.rest.SearchResults;
 import org.kuali.kra.award.dao.AwardDao;
 import org.kuali.kra.award.home.Award;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,16 +38,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.codiform.moo.curry.Translate;
 
-@Controller("awardController")
-public class AwardController extends RestController {
+public class AwardController extends SimpleCrudMapBasedRestController<Award> {
 
 	@Autowired
 	@Qualifier("awardDao")
 	private AwardDao awardDao;
 	
-	@RequestMapping(value="/api/v1/awards", params="summary", method=RequestMethod.GET)
+	@RequestMapping(params="summary", method=RequestMethod.GET)
 	public @ResponseBody AwardResults getAwardSummary(@RequestParam(value="updatedSince", required=false) Instant updatedSince,
 			@RequestParam(value="page", required=false) Integer page, @RequestParam(value="limit", required=false) Integer limit) {
+		assertUserHasReadAccess();
 		AwardResults result = Translate.to(AwardResults.class).from(getAwards(updatedSince == null ? null : Date.from(updatedSince), page, limit));
 		if (result == null || result.getCount() == null || result.getCount() == 0) {
 			throw new ResourceNotFoundException("not found");
@@ -55,7 +56,7 @@ public class AwardController extends RestController {
 	}
 
 	SearchResults<Award> getAwards(Date updatedSince, Integer page, Integer numberPerPage) {
-		return getAwardDao().retrieveActiveAwardsByCriteria(new HashMap<String, Object>(), updatedSince, page, numberPerPage);
+		return getAwardDao().retrieveActiveAwardsByCriteria(new HashMap<>(), updatedSince, page, numberPerPage);
 	}
 	
 	public AwardDao getAwardDao() {
@@ -64,5 +65,10 @@ public class AwardController extends RestController {
 
 	public void setAwardDao(AwardDao awardDao) {
 		this.awardDao = awardDao;
-	}	
+	}
+
+	@Override
+	public List<String> getExposedProperties() {
+		return super.getExposedProperties().stream().filter(p -> !"documentNumber".equals(p)).collect(Collectors.toList());
+	}
 }

@@ -106,6 +106,11 @@ public class AwardSummaryControllerTest {
 				result.setTotalResults(2);
 				return result;
 			}
+
+			@Override
+			protected void assertUserHasReadAccess() {
+				//no op
+			}
 		};
 		
 		AwardResults result = awardController.getAwardSummary(null, null, null);
