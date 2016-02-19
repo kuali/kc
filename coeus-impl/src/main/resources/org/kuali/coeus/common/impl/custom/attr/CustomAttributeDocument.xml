@@ -28,7 +28,7 @@
     <property name="lookupDefinition">
       <ref bean="CustomAttributeDocument-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="id"/>
+    <property name="titleAttribute" value="documentTypeName"/>
     <property name="attributes">
       <list>
         <ref bean="CustomAttributeDocument-id"/>
