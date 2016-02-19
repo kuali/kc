@@ -1376,8 +1376,7 @@
     <import resource="classpath:org/kuali/coeus/sys/framework/ImportSimpleCrudRestSpringBeans.xml" />
 
 
-    <!-- already a controller for award.  need to reconcile this -->
-   <!-- <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.home.Award" />-->
+    <bean class="org.kuali.coeus.award.api.AwardController" p:dataObjectClazz="org.kuali.kra.award.home.Award" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.award.finance.AwardAccount" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.home.AwardAmountInfo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction" />

@@ -20,14 +20,13 @@ package org.kuali.coeus.instprop.impl.api;
 
 import com.codiform.moo.curry.Translate;
 
-import org.kuali.coeus.sys.framework.controller.rest.RestController;
+import org.kuali.coeus.sys.framework.controller.rest.SimpleCrudMapBasedRestController;
 import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
 import org.kuali.coeus.sys.framework.rest.SearchResults;
 import org.kuali.kra.institutionalproposal.dao.InstitutionalProposalDao;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,18 +35,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
-@Controller("institutionalProposalController")
-public class InstitutionalProposalController extends RestController {
+public class InstitutionalProposalController extends SimpleCrudMapBasedRestController<InstitutionalProposal> {
 
     @Autowired
     @Qualifier("institutionalProposalDao")
     private InstitutionalProposalDao institutionalProposalDao;
 
-    @RequestMapping(value="/api/v1/institutional-proposals", params="summary", method=RequestMethod.GET)
+    @RequestMapping(params="summary", method=RequestMethod.GET)
     public @ResponseBody
     InstitutionalProposalResults getInstitutionalProposalSummary(@RequestParam(value="updatedSince", required=false) Instant updatedSince,
                                  @RequestParam(value="page", required=false) Integer page, @RequestParam(value="limit", required=false) Integer limit) {
+        assertUserHasReadAccess();
         InstitutionalProposalResults result = Translate.to(InstitutionalProposalResults.class).from(getProposals(updatedSince == null ? null : Date.from(updatedSince), page, limit));
 		if (result == null || result.getCount() == null || result.getCount() == 0) {
 			throw new ResourceNotFoundException("not found");
@@ -56,7 +57,7 @@ public class InstitutionalProposalController extends RestController {
     }
     
 	SearchResults<InstitutionalProposal> getProposals(Date updatedSince, Integer page, Integer numberPerPage) {
-		return getInstitutionalProposalDao().retrievePopulatedInstitutionalProposalByCriteria(new HashMap<String, Object>(), updatedSince, page, numberPerPage);
+		return getInstitutionalProposalDao().retrievePopulatedInstitutionalProposalByCriteria(new HashMap<>(), updatedSince, page, numberPerPage);
 	}
 
     public InstitutionalProposalDao getInstitutionalProposalDao() {
@@ -65,5 +66,10 @@ public class InstitutionalProposalController extends RestController {
 
     public void setInstitutionalProposalDao(InstitutionalProposalDao institutionalProposalDao) {
         this.institutionalProposalDao = institutionalProposalDao;
+    }
+
+    @Override
+    public List<String> getExposedProperties() {
+        return super.getExposedProperties().stream().filter(p -> !"documentNumber".equals(p)).collect(Collectors.toList());
     }
 }
