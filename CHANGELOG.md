@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1602.54
 *  User Story: As a system administrator I need to be able to tell which custom attributes are linked to which modules in a single lookup view.
 
             User acceptance Criteria: Given that I am a user who has access to the Custom Attribute Document lookup when I click on a link in the Custom Attribute ID column of the search returns I will be shown an inquiry screen of the Custom Attribute listed. (Currently you are just shown an inquiry of the association document which still doesn't let you know which field is being linked)
