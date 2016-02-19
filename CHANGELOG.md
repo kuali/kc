@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+*  User Story: As a system administrator I need to be able to tell which custom attributes are linked to which modules in a single lookup view.
+
+            User acceptance Criteria: Given that I am a user who has access to the Custom Attribute Document lookup when I click on a link in the Custom Attribute ID column of the search returns I will be shown an inquiry screen of the Custom Attribute listed. (Currently you are just shown an inquiry of the association document which still doesn't let you know which field is being linked)
+  * Travis Schneeberger on Fri, 19 Feb 2016 08:36:21 -0500 [View Commit](../../commit/86fef4a329ad5274a88b77032651ed6ffb2dfa0e)
+
+##coeus-1602.53
 *  check that event.orginalEvent.data is a string before performing string functions on it
   * Joe Williams on Fri, 19 Feb 2016 10:19:29 -0600 [View Commit](../../commit/34cbd3f27f8fb5050937644c5b8059c278ac57c8)
 
