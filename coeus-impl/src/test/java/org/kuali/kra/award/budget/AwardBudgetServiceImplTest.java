@@ -46,6 +46,7 @@ import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectExtension;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 import java.sql.Date;
 import java.time.LocalDateTime;
@@ -69,6 +70,7 @@ public class AwardBudgetServiceImplTest {
     @Before
     public void setUp() {
         context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
+        GlobalVariables.setMessageMap(new MessageMap());
     }
     
     @Test
@@ -144,7 +146,6 @@ public class AwardBudgetServiceImplTest {
     	
     	BudgetPeriod proposalBudgetPeriod = prepareProposalBudgetPeriod(proposalBudgetStartDate, proposalBudgetEndDate);
     	
-    	GlobalVariables.getMessageMap().clearErrorMessages();
     	awardBudgetService.copyProposalBudgetLineItemsToAwardBudget(awardBudgetPeriod1, proposalBudgetPeriod);
     	assertEquals(1, awardBudgetPeriod1.getBudgetLineItems().size());
     	assertEquals(convertToSqlDate(awardBudgetStartDate), awardBudgetPeriod1.getBudgetLineItems().get(0).getStartDate());
@@ -166,14 +167,13 @@ public class AwardBudgetServiceImplTest {
     	
     	BudgetPeriod proposalBudgetPeriod = prepareProposalBudgetPeriod(proposalBudgetStartDate, proposalBudgetEndDate);
     	
-    	GlobalVariables.getMessageMap().clearErrorMessages();
     	awardBudgetService.copyProposalBudgetLineItemsToAwardBudget(awardBudgetPeriod1, proposalBudgetPeriod);
     	assertEquals(1, awardBudgetPeriod1.getBudgetLineItems().size());
     	assertEquals(convertToSqlDate(proposalBudgetStartDate), awardBudgetPeriod1.getBudgetLineItems().get(0).getStartDate());
     	assertEquals(convertToSqlDate(awardBudgetEndDate), awardBudgetPeriod1.getBudgetLineItems().get(0).getEndDate());
     	assertEquals(convertToSqlDate(proposalBudgetStartDate), awardBudgetPeriod1.getBudgetLineItems().get(0).getBudgetPersonnelDetailsList().get(0).getStartDate());
     	assertEquals(convertToSqlDate(awardBudgetEndDate), awardBudgetPeriod1.getBudgetLineItems().get(0).getBudgetPersonnelDetailsList().get(0).getEndDate());
-    	assertEquals(2, GlobalVariables.getMessageMap().getWarningCount());
+    	assertEquals(1, GlobalVariables.getMessageMap().getWarningCount());
     }
     
     @Test
@@ -188,7 +188,6 @@ public class AwardBudgetServiceImplTest {
     	
     	BudgetPeriod proposalBudgetPeriod = prepareProposalBudgetPeriod(proposalBudgetStartDate, proposalBudgetEndDate);
     	
-    	GlobalVariables.getMessageMap().clearErrorMessages();
     	awardBudgetService.copyProposalBudgetLineItemsToAwardBudget(awardBudgetPeriod1, proposalBudgetPeriod);
     	assertEquals(1, awardBudgetPeriod1.getBudgetLineItems().size());
     	assertEquals(convertToSqlDate(awardBudgetStartDate), awardBudgetPeriod1.getBudgetLineItems().get(0).getStartDate());
@@ -210,14 +209,13 @@ public class AwardBudgetServiceImplTest {
     	
     	BudgetPeriod proposalBudgetPeriod = prepareProposalBudgetPeriod(proposalBudgetStartDate, proposalBudgetEndDate);
     	
-    	GlobalVariables.getMessageMap().clearErrorMessages();
     	awardBudgetService.copyProposalBudgetLineItemsToAwardBudget(awardBudgetPeriod1, proposalBudgetPeriod);
     	assertEquals(1, awardBudgetPeriod1.getBudgetLineItems().size());
     	assertEquals(convertToSqlDate(awardBudgetStartDate), awardBudgetPeriod1.getBudgetLineItems().get(0).getStartDate());
     	assertEquals(convertToSqlDate(awardBudgetEndDate), awardBudgetPeriod1.getBudgetLineItems().get(0).getEndDate());
     	assertEquals(convertToSqlDate(awardBudgetStartDate), awardBudgetPeriod1.getBudgetLineItems().get(0).getBudgetPersonnelDetailsList().get(0).getStartDate());
     	assertEquals(convertToSqlDate(awardBudgetEndDate), awardBudgetPeriod1.getBudgetLineItems().get(0).getBudgetPersonnelDetailsList().get(0).getEndDate());
-    	assertEquals(2, GlobalVariables.getMessageMap().getWarningCount());
+    	assertEquals(1, GlobalVariables.getMessageMap().getWarningCount());
     }
     
     @Test
@@ -233,7 +231,6 @@ public class AwardBudgetServiceImplTest {
     	BudgetPeriod proposalBudgetPeriod = prepareProposalBudgetPeriod(proposalBudgetStartDate, proposalBudgetEndDate);
     	proposalBudgetPeriod.getBudget().getBudgetPersons().get(0).setEffectiveDate(convertToSqlDate(proposalBudgetStartDate.minusYears(1)));
     	
-    	GlobalVariables.getMessageMap().clearErrorMessages();
     	awardBudgetService.copyProposalBudgetLineItemsToAwardBudget(awardBudgetPeriod1, proposalBudgetPeriod);
     	assertEquals(1, awardBudgetPeriod1.getBudgetLineItems().size());
     	assertEquals(1, awardBudgetPeriod1.getBudget().getBudgetPersons().size());
