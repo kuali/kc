@@ -18,7 +18,7 @@
  */
 package org.kuali.coeus.common.impl.shortUrl;
 
-import org.kuali.coeus.common.framework.exceptions.ResourceNotFoundException;
+import org.kuali.coeus.common.framework.shortUrl.ResourceNotFoundException;
 import org.kuali.coeus.common.framework.shortUrl.ShortUrlService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

@@ -18,8 +18,6 @@
  */
 package org.kuali.coeus.common.framework.shortUrl;
 
-import org.kuali.coeus.common.framework.exceptions.ResourceNotFoundException;
-
 public interface ShortUrlService {
     String constructUrl(String id) throws ResourceNotFoundException;
     String constructUrl(String id, String table, String column) throws ResourceNotFoundException;

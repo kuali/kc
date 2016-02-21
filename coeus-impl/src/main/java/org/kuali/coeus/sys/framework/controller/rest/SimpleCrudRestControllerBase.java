@@ -60,6 +60,9 @@ public abstract class SimpleCrudRestControllerBase<T extends PersistableBusiness
 
 	protected static final String DELIMETER = ":";
 
+	protected static final String ALLOW_MULTI_PARM = "_allowMulti";
+	private static final String SCHEMA_PARM = "_schema";
+
 	@Autowired
 	@Qualifier("legacyDataAdapter")
 	private LegacyDataAdapter legacyDataAdapter;
@@ -173,29 +176,7 @@ public abstract class SimpleCrudRestControllerBase<T extends PersistableBusiness
 	@RequestMapping(method=RequestMethod.GET)
 	public @ResponseBody Collection<R> getAll(@RequestParam(required=false) Map<String,String> parameters) {
 		assertUserHasReadAccess();
-
-		final Collection<T> dataObjects;
-		final Map<String, Object> searchCriteria = parameters != null ? parameters.entrySet().stream()
-				.filter(e -> getExposedProperties().contains(e.getKey()))
-				.map(entry -> {
-					try {
-						final Object val = translateValue(entry.getKey(), entry.getValue());
-						return entry(entry.getKey(), val);
-					} catch (TypeMismatchException e) {
-						throw new ResourceNotFoundException(e.getMessage());
-					}
-				})
-				.collect(entriesToMap()) : Collections.emptyMap();
-		if (!CollectionUtils.isEmpty(searchCriteria)) {
-			dataObjects = getMatchingFromDataStore(searchCriteria);
-		} else {
-			dataObjects = getAllFromDataStore();
-		}
-
-		if (dataObjects == null || dataObjects.size() == 0) {
-			throw new ResourceNotFoundException("not found");
-		}
-		return translateAllDataObjects(dataObjects);
+		return translateAllDataObjects(doGetAll(parameters));
 	}
 
 	protected Object translateValue(String name, String value) {
@@ -204,7 +185,7 @@ public abstract class SimpleCrudRestControllerBase<T extends PersistableBusiness
 	
 	protected abstract Collection<R> translateAllDataObjects(Collection<T> dataObjects);
 	
-	@RequestMapping(method=RequestMethod.GET, params={"_schema"})
+	@RequestMapping(method=RequestMethod.GET, params={SCHEMA_PARM})
 	public @ResponseBody Map<String, Object> getSchema() {
 		assertUserHasReadAccess();
 
@@ -222,7 +203,7 @@ public abstract class SimpleCrudRestControllerBase<T extends PersistableBusiness
 
 		T dataObject = getFromDataStore(code);
 		if (dataObject == null) {
-			throw new ResourceNotFoundException("not found");
+			throw new ResourceNotFoundException("not found for key " + code);
 		}
 		return convertDataObject(dataObject);
 	}
@@ -235,7 +216,7 @@ public abstract class SimpleCrudRestControllerBase<T extends PersistableBusiness
 		assertUserHasWriteAccess();
 		T dataObject = getFromDataStore(code);
 		if (dataObject == null) {
-			throw new ResourceNotFoundException("not found");
+			throw new ResourceNotFoundException("not found for key " + code);
 		}
 		RestAuditLogger logger = getAuditLogger();
 		logUpdateToObject(dataObject, dto, logger);
@@ -266,9 +247,10 @@ public abstract class SimpleCrudRestControllerBase<T extends PersistableBusiness
 	@ResponseStatus(HttpStatus.CREATED)
 	public @ResponseBody R add(@Valid @RequestBody R dto) {
 		assertUserHasWriteAccess();
-		T existingDataObject = getFromDataStore(getPrimaryKeyIncomingObject(dto));
+		final Object code = getPrimaryKeyIncomingObject(dto);
+		T existingDataObject = getFromDataStore(code);
 		if (existingDataObject != null) {
-			throw new UnprocessableEntityException("already exists");
+			throw new UnprocessableEntityException("already exists for key " + code);
 		}
 		
 		RestAuditLogger logger = getAuditLogger();
@@ -286,19 +268,53 @@ public abstract class SimpleCrudRestControllerBase<T extends PersistableBusiness
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public @ResponseBody void delete(@PathVariable String code) {
 		assertUserHasWriteAccess();
-		T existingDataObject = getFromDataStore(code);
+		doDelete(getFromDataStore(code));
+	}
+
+	protected void doDelete(T existingDataObject) {
 		if (existingDataObject == null) {
 			throw new ResourceNotFoundException("not found");
 		}
-		
+
 		RestAuditLogger logger = getAuditLogger();
 		validateDeleteDataObject(existingDataObject);
-		
+
 		delete(existingDataObject);
 		logger.addDeletedItem(existingDataObject);
 		logger.saveAuditLog();
 	}
-	
+
+	@RequestMapping(method=RequestMethod.DELETE, params={ALLOW_MULTI_PARM})
+	public @ResponseBody void deleteAll(@RequestParam(required=false) Map<String,String> parameters) {
+		assertUserHasWriteAccess();
+		doGetAll(parameters).stream().forEach(this::doDelete);
+	}
+
+	protected Collection<T> doGetAll(@RequestParam(required = false) Map<String, String> parameters) {
+		final Collection<T> dataObjects;
+		final Map<String, Object> searchCriteria = parameters != null ? parameters.entrySet().stream()
+				.filter(e -> getExposedProperties().contains(e.getKey()))
+				.map(entry -> {
+					try {
+						final Object val = translateValue(entry.getKey(), entry.getValue());
+						return entry(entry.getKey(), val);
+					} catch (TypeMismatchException e) {
+						throw new ResourceNotFoundException(e.getMessage());
+					}
+				})
+				.collect(entriesToMap()) : Collections.emptyMap();
+		if (!CollectionUtils.isEmpty(searchCriteria)) {
+			dataObjects = getMatchingFromDataStore(searchCriteria);
+		} else {
+			dataObjects = getAllFromDataStore();
+		}
+
+		if (dataObjects == null || dataObjects.isEmpty()) {
+			throw new ResourceNotFoundException("not found" + (searchCriteria.isEmpty() ? "" : " for search criteria " + searchCriteria));
+		}
+		return dataObjects;
+	}
+
 	protected void validateDeleteDataObject(T dataObject) {
 		throwIfErrorMessages(persistenceVerificationService.verifyRelationshipsForDelete(dataObject, Collections.emptyList()));
 	}
