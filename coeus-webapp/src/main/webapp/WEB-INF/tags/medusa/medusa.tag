@@ -68,7 +68,19 @@
         	</c:choose> 
         	Award > Proposal
         </th>
-        <th style="text-align: center; background-color: rgb(195, 195, 195); width: 60px;">				
+        <c:if test="${KualiForm.medusaBean.moduleName != 'irb' && KualiForm.medusaBean.moduleName != 'iacuc'}" >
+	        <th style="text-align: center; background-color: rgb(195, 195, 195); width: 250px;">
+	        	<c:choose>
+		        	<c:when test="${KualiForm.medusaBean.complianceModulesCheckbox == 'includeComplianceModules'}">
+						<input id="complianceModulesCheckbox" type="checkbox" checked="true" />Include Compliance Modules
+					</c:when>
+					<c:otherwise>
+						<input id="complianceModulesCheckbox" type="checkbox" />Include Compliance Modules
+					</c:otherwise>
+				</c:choose>
+			</th>
+		</c:if>
+        <th style="text-align: center; background-color: rgb(195, 195, 195); width: 60px;">
 				<html:image src="${ConfigProperties.kra.externalizable.images.url}tinybutton-refresh.gif" styleClass="tinybutton" alt="Refresh" property="methodToCall.refreshView" />
 		</th>	
     </tr>
@@ -88,11 +100,25 @@
 
 </c:if>
 
+${kfunc:registerEditableProperty(KualiForm, "medusaBean.complianceModulesCheckbox")}
+<input type="hidden" id="medusaBean.complianceModulesCheckbox" name="medusaBean.complianceModulesCheckbox" value="${KualiForm.medusaBean.complianceModulesCheckbox}">
 ${kfunc:registerEditableProperty(KualiForm, "medusaBean.medusaViewRadio")}
 <input type="hidden" id = "medusaBean.medusaViewRadio" name="medusaBean.medusaViewRadio" value="${KualiForm.medusaBean.medusaViewRadio}">
 ${kfunc:registerEditableProperty(KualiForm, "medusaBean.moduleName")}
 <input type="hidden" id = "medusaBean.moduleName" name="medusaBean.moduleName" value="${KualiForm.medusaBean.moduleName}">
 ${kfunc:registerEditableProperty(KualiForm, "medusaBean.moduleIdentifier")}
 <input type="hidden" id = "medusaBean.moduleIdentifier" name="medusaBean.moduleIdentifier" value="${KualiForm.medusaBean.moduleIdentifier}">
+
+<script type="text/javascript">
+   $jq(document).ready(function() {
+      $jq("#complianceModulesCheckbox").change(function() {
+    	  if($jq(this).is(":checked")) {
+    		  $jq("#medusaBean\\.complianceModulesCheckbox").val("includeComplianceModules");
+    	  } else {
+    		  $jq("#medusaBean\\.complianceModulesCheckbox").val("dontIncludeComplianceModules");
+    	  }
+      });
+   });
+</script>
 
 </div>

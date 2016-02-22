@@ -24,6 +24,8 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
 
 public class MedusaBean implements Serializable{
 
@@ -31,12 +33,17 @@ public class MedusaBean implements Serializable{
     private static final long serialVersionUID = -8727199559530816767L;
     private String medusaViewRadio;
     private String moduleName;
+    private String complianceModulesCheckbox;
     private Long moduleIdentifier;
     private List<MedusaNode> parentNodes;
     private MedusaNode currentNode;
-    
+
+    ParameterService parameterService = CoreFrameworkServiceLocator.getParameterService();
+    String complianceModuleCheckboxDefault = parameterService.getParameterValueAsString("KC-GEN","Document","KC_MEDUSA_COMPLIANCE_MODULE_CHECKBOX_DEFAULT");
+
     public MedusaBean() {
         setMedusaViewRadio("0");
+        setComplianceModulesCheckbox("complianceModuleCheckboxDefault");
     }
     
     public void init(String moduleName, Long moduleIdentifier) {
@@ -64,6 +71,19 @@ public class MedusaBean implements Serializable{
             generateParentNodes();
         }
     }
+
+    /* Begin UITSRA-4129 */
+    public String getComplianceModulesCheckbox() {
+        return this.complianceModulesCheckbox;
+    }
+
+    public void setComplianceModulesCheckbox(String complianceModulesCheckbox) {
+        if (!StringUtils.equals(this.complianceModulesCheckbox, complianceModulesCheckbox)) {
+            this.complianceModulesCheckbox = complianceModulesCheckbox;
+            generateParentNodes();
+        }
+    }
+    /* End UITSRA-4129 */
 
     /**
      * Gets the moduleName attribute. 
@@ -103,10 +123,11 @@ public class MedusaBean implements Serializable{
     }
     
     public void generateParentNodes() {
+        boolean includeComplianceModules = StringUtils.equals("includeComplianceModules", getComplianceModulesCheckbox());
         if(StringUtils.equalsIgnoreCase("0", getMedusaViewRadio())){
-            setParentNodes(getMedusaService().getMedusaByProposal(getModuleName(), getModuleIdentifier()));    
+            setParentNodes(getMedusaService().getMedusaByProposal(getModuleName(), getModuleIdentifier(), includeComplianceModules));
         }else if(StringUtils.equalsIgnoreCase("1", getMedusaViewRadio())){
-            setParentNodes(getMedusaService().getMedusaByAward(getModuleName(), getModuleIdentifier()));    
+            setParentNodes(getMedusaService().getMedusaByAward(getModuleName(), getModuleIdentifier(), includeComplianceModules));
         }
         sortNodes(parentNodes);        
     }
