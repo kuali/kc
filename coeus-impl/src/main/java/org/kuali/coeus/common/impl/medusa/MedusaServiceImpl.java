@@ -608,7 +608,7 @@ public class MedusaServiceImpl implements MedusaService {
         }
         SubAward currentSubAward = (SubAward) getActiveOrCurrentVersion(SubAward.class, subAward.getSubAwardCode());
         if (currentSubAward != null) {
-            getSubAwardService().getAmountInfo(currentSubAward);
+            getSubAwardService().calculateAmountInfo(currentSubAward);
         }
         return currentSubAward == null ? subAward : currentSubAward;
     }

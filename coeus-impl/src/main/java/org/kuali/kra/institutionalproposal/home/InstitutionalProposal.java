@@ -22,6 +22,8 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.framework.custom.CustomDataContainer;
+import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.fiscalyear.FiscalYearMonthService;
 import org.kuali.coeus.common.framework.keyword.KeywordsManager;
 import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
@@ -75,7 +77,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class InstitutionalProposal extends KcPersistableBusinessObjectBase implements
-        KeywordsManager<InstitutionalProposalScienceKeyword>, SequenceOwner<InstitutionalProposal>, Sponsorable, Negotiable {
+        KeywordsManager<InstitutionalProposalScienceKeyword>, SequenceOwner<InstitutionalProposal>, Sponsorable, CustomDataContainer, Negotiable {
 
     public static final String PROPOSAL_ID_PROPERTY_STRING = "proposalId";
     public static final String PROPOSAL_NUMBER_PROPERTY_STRING = "proposalNumber";
@@ -389,6 +391,11 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
 
     public List<InstitutionalProposalCustomData> getInstitutionalProposalCustomDataList() {
         return institutionalProposalCustomDataList;
+    }
+
+    @Override
+    public List<? extends DocumentCustomData> getCustomDataList() {
+        return getInstitutionalProposalCustomDataList();
     }
 
     public List<InstitutionalProposalNotepad> getInstitutionalProposalNotepads() {

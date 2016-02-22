@@ -19,6 +19,8 @@
 package org.kuali.kra.irb;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.custom.CustomDataContainer;
+import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.notification.impl.bo.KcNotification;
 import org.kuali.coeus.common.permissions.impl.PermissionableKeys;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -61,7 +63,7 @@ import java.util.List;
  * 
  * This class is Protocol Business Object.
  */
-public class Protocol extends ProtocolBase {
+public class Protocol extends ProtocolBase implements CustomDataContainer {
 
     private static final long serialVersionUID = 4396393806439396971L;
     
@@ -443,4 +445,8 @@ public class Protocol extends ProtocolBase {
 		this.protocolVersionService = protocolVersionService;
 	}
 
+    @Override
+    public List<? extends DocumentCustomData> getCustomDataList() {
+        return getProtocolDocument().getDocumentCustomData();
+    }
 }

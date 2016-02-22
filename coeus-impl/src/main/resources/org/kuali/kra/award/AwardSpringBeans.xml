@@ -362,6 +362,11 @@
         </property>
     </bean>
 
+    <bean id="awardCustomDataResolverTypeServiceCallback" parent="kcCoreCallbackService"
+          p:callbackService-ref="awardCustomDataResolverTypeService"
+          p:localServiceName="awardCustomDataResolverTypeService"
+          p:serviceInterface="org.kuali.rice.krms.framework.type.TermResolverTypeService"/>
+
     <bean id= "awardAllUnitAdministratorDerivedRoleTypeServiceCallback" parent="kcCoreCallbackService"
 		p:callbackService-ref="awardAllUnitAdministratorDerivedRoleTypeService" 
 		p:localServiceName="awardAllUnitAdministratorDerivedRoleTypeService" 

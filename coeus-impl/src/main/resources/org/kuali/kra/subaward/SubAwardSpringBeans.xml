@@ -172,6 +172,11 @@
     </bean>
     
     <!-- SubAward Services -->
+    <bean id="subawardCustomDataResolverTypeServiceCallback" parent="kcCoreCallbackService"
+          p:callbackService-ref="subawardCustomDataResolverTypeService"
+          p:localServiceName="subawardCustomDataResolverTypeService"
+          p:serviceInterface="org.kuali.rice.krms.framework.type.TermResolverTypeService"/>
+
     <bean id="subAwardPrintingService" class="org.kuali.kra.subaward.reporting.printing.service.impl.SubAwardPrintingServiceImpl">
     	<property name="subAwardSF294Print" ref="subAwardSF294Print" />
     	<property name="subAwardSF295Print" ref="subAwardSF295Print" />

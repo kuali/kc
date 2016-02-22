@@ -27,6 +27,8 @@ import org.eclipse.persistence.expressions.Expression;
 import org.eclipse.persistence.expressions.ExpressionBuilder;
 import org.eclipse.persistence.mappings.ForeignReferenceMapping;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
+import org.kuali.coeus.common.framework.custom.CustomDataContainer;
+import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.noo.NoticeOfOpportunity;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
@@ -97,7 +99,7 @@ import java.util.stream.Collectors;
 @Entity
 @Table(name = "EPS_PROPOSAL")
 @Customizer(DevelopmentProposal.DevelopmentProposalCustomizer.class)
-public class DevelopmentProposal extends KcPersistableBusinessObjectBase implements BudgetParent, Sponsorable, Disclosurable, KcKrmsContextBo, DevelopmentProposalContract {
+public class DevelopmentProposal extends KcPersistableBusinessObjectBase implements BudgetParent, Sponsorable, Disclosurable, KcKrmsContextBo, CustomDataContainer, DevelopmentProposalContract {
 
     private static final long serialVersionUID = -9211313487776934111L;
 
@@ -1890,6 +1892,11 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
             }
         }
         return StringUtils.join(unitNumbers,',');
+    }
+
+    @Override
+    public List<? extends DocumentCustomData> getCustomDataList() {
+        return getDocument().getDocumentCustomData();
     }
 
     public static class NarrativeCustomizer  implements DescriptorCustomizer{

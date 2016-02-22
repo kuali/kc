@@ -153,6 +153,11 @@
         </property>
     </bean>
 
+    <bean id="proposalDevelopmentCustomDataResolverTypeServiceCallback" parent="kcCoreCallbackService"
+          p:callbackService-ref="proposalDevelopmentCustomDataResolverTypeService"
+          p:localServiceName="proposalDevelopmentCustomDataResolverTypeService"
+          p:serviceInterface="org.kuali.rice.krms.framework.type.TermResolverTypeService"/>
+
     <bean id="proposalAllUnitAdministratorDerivedRoleTypeServiceCallback" parent="kcCoreCallbackService"
           p:callbackService-ref="proposalAllUnitAdministratorDerivedRoleTypeService"
           p:localServiceName="proposalAllUnitAdministratorDerivedRoleTypeService"

@@ -30,6 +30,8 @@
                            http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
     <context:annotation-config />
+    <context:component-scan base-package="org.kuali.kra.iacuc"/>
+
     <import resource="classpath:org/kuali/coeus/sys/framework/ImportSimpleCrudRestSpringBeans.xml" />
 
     <bean id="iacucModuleConfiguration" parent="iacucModuleConfiguration-parentBean" />
@@ -617,6 +619,11 @@
         <property name="jcdAlias" value="kradApplicationDataSource" />
         <property name="dbPlatform" ref="dbPlatform" />
     </bean>
+
+    <bean id="iacucProtocolCustomDataResolverTypeServiceCallback" parent="kcCoreCallbackService"
+          p:callbackService-ref="iacucProtocolCustomDataResolverTypeService"
+          p:localServiceName="iacucProtocolCustomDataResolverTypeService"
+          p:serviceInterface="org.kuali.rice.krms.framework.type.TermResolverTypeService"/>
 
     <bean id="iacucProtocolDao" parent="platformAwareDao" class="org.kuali.kra.iacuc.IacucProtocolDaoOjb">
         <property name="lookupDao">

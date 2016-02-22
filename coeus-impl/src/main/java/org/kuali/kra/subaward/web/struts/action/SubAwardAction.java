@@ -31,6 +31,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.common.framework.krms.KrmsRulesExecutionService;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
@@ -73,9 +74,6 @@ import org.kuali.rice.krad.util.KRADConstants;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * This class is ActionClass for SubAward...
- */
 public class SubAwardAction extends KcTransactionalDocumentActionBase {
 
     public static final String DISABLE_ATTACHMENT_REMOVAL = "disableAttachmentRemoval";
@@ -84,14 +82,6 @@ public class SubAwardAction extends KcTransactionalDocumentActionBase {
     private static final String SUBAWARD_AGREEMENT = "fdpAgreement";
     private static final String DOCUMENT_ROUTE_QUESTION="DocRoute";
 
-    /**
-     * @see org.kuali.kra.web.struts.action.
-     * KraTransactionalDocumentActionBase#execute(
-     * org.apache.struts.action.ActionMapping,
-     * org.apache.struts.action.ActionForm,
-     * javax.servlet.http.HttpServletRequest,
-     *  javax.servlet.http.HttpServletResponse)
-     */
     @Override
     public ActionForward execute(ActionMapping mapping,
     ActionForm form, HttpServletRequest request,
@@ -99,14 +89,16 @@ public class SubAwardAction extends KcTransactionalDocumentActionBase {
 
         SubAwardForm subAwardForm = (SubAwardForm) form;
         if (subAwardForm.getSubAward() != null) {
-            SubAward subAward = 
-                KcServiceLocator.getService(SubAwardService.class).getAmountInfo(subAwardForm.getSubAward());
+                getSubAwardService().calculateAmountInfo(subAwardForm.getSubAward());
         }
-        
+
         ActionForward actionForward = super.
         execute(mapping, form, request, response);
         if (GlobalVariables.getAuditErrorMap().isEmpty()) {
             KcServiceLocator.getService(AuditHelper.class).auditConditionally((SubAwardForm) form);
+        }
+        if (subAwardForm.isAuditActivated()){
+            subAwardForm.setUnitRulesMessages(getUnitRulesMessages(subAwardForm.getSubAwardDocument()));
         }
 
         if(subAwardForm.getSubAwardDocument().getSubAwardList() != null) {
@@ -136,13 +128,12 @@ public class SubAwardAction extends KcTransactionalDocumentActionBase {
 
         return actionForward;
     }
-    /**
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#docHandler(
-     * org.apache.struts.action.ActionMapping,
-     *  org.apache.struts.action.ActionForm,
-     * javax.servlet.http.HttpServletRequest,
-     *  javax.servlet.http.HttpServletResponse)
-     */
+
+    protected List<String> getUnitRulesMessages(SubAwardDocument subAwardDocument) {
+        KrmsRulesExecutionService rulesService = KcServiceLocator.getService(KrmsRulesExecutionService.class);
+        return rulesService.processUnitValidations(subAwardDocument.getSubAward().getRequisitionerUnit(), subAwardDocument);
+    }
+
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form
             , HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -153,8 +144,7 @@ public class SubAwardAction extends KcTransactionalDocumentActionBase {
         SubAwardDocument subAwardDocument =
         (SubAwardDocument) subAwardForm.getDocument();
         subAwardForm.initializeFormOrDocumentBasedOnCommand();
-        SubAward subAward = KcServiceLocator.getService(
-                SubAwardService.class).getAmountInfo(subAwardDocument.getSubAward());
+        SubAward subAward = getSubAwardService().calculateAmountInfo(subAwardDocument.getSubAward());
         subAwardForm.getSubAwardDocument().setSubAward(subAward);
 
 
@@ -427,14 +417,11 @@ public SubAwardService getSubAwardService() {
     }
     return subAwardService;
 }
-/**.
- * This method sets the subAwardService
- * @return subAwardService
- * @param subAward
- */
+
 public void setSubAwardService(SubAwardService subAwardService) {
     this.subAwardService = subAwardService;
 }
+
 /**
  * This method sets an subAwardCode on an subAward if
  * the subAwardCode hasn't been initialized yet.
