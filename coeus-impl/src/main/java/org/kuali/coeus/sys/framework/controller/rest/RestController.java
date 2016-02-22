@@ -53,7 +53,7 @@ public abstract class RestController implements HandlerExceptionResolver, Ordere
 
 	private static Log LOG = LogFactory.getLog(RestController.class);
 
-	private int order = 1;
+	private int order = 0;
 
 	@InitBinder
 	public void initInstantBinder(WebDataBinder binder) {

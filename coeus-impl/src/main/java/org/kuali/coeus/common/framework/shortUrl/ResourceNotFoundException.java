@@ -1,4 +1,4 @@
-package org.kuali.coeus.common.framework.exceptions;
+package org.kuali.coeus.common.framework.shortUrl;
 
 public class ResourceNotFoundException extends RuntimeException {
     public ResourceNotFoundException(Throwable cause) {
