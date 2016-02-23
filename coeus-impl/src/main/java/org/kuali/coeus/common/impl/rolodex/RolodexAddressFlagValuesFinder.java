@@ -39,7 +39,7 @@ public class RolodexAddressFlagValuesFinder extends UifKeyValuesFinderBase {
 
     @Override
     public List<KeyValue> getKeyValues() {
-        List<KeyValue> keyValues = super.getKeyValues();
+        List<KeyValue> keyValues = KEY_VALUES;
         keyValues.add(0, new ConcreteKeyValue(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));
         return keyValues;
     }
