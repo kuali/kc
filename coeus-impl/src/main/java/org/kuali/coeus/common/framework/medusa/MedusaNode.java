@@ -32,9 +32,13 @@ import java.util.List;
 
 public class MedusaNode extends Node<Object, String> implements Serializable {
     private static final long serialVersionUID = 6899695450845010658L;
-    
+
     private Object extraInfo;
-    
+
+
+
+    private String coeusModuleCode;
+
     public Object getBo() {
         return getData();
     }
@@ -58,7 +62,14 @@ public class MedusaNode extends Node<Object, String> implements Serializable {
     }
     public void setExtraInfo(Object extraInfo) {
         this.extraInfo = extraInfo;
-    }   
+    }
+    public String getCoeusModuleCode() {
+        return coeusModuleCode;
+    }
+
+    public void setCoeusModuleCode(String coeusModuleCode) {
+        this.coeusModuleCode = coeusModuleCode;
+    }
     public void addChildNode(MedusaNode node) {
     	getChildren().add(node);
     }
@@ -85,6 +96,6 @@ public class MedusaNode extends Node<Object, String> implements Serializable {
     		return "---";
     	}
     }
-    
-    
+
+
 }     
