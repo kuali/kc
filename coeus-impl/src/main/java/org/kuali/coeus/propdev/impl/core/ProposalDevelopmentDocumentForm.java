@@ -386,7 +386,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
 			rootNode.setNodeLabel("Medusa Tree");
 			medusaTree.setRootElement(rootNode);
 			if (getDevelopmentProposal().getProposalNumber() != null) {
-			    rootNode.setChildNodes(getMedusaService().getMedusaByProposal("DP", Long.valueOf(getDevelopmentProposal().getProposalNumber())));
+			    rootNode.setChildNodes(getMedusaService().getMedusaByProposal("DP", Long.valueOf(getDevelopmentProposal().getProposalNumber()), true));
 			}
 			return medusaTree;
     	}

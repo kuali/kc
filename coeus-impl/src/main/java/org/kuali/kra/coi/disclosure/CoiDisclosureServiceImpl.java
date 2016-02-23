@@ -1823,7 +1823,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             String userId) {
         List<CoiDisclosedProjectBean> disclosedProjects = new ArrayList<CoiDisclosedProjectBean>();
         for(DevelopmentProposal devProposal : devProposalsToCompleteDiscl) {
-            List<MedusaNode> medusaNodes = getMedusaService().getMedusaByProposal(Constants.DEVELOPMENT_PROPOSAL_MODULE, Long.parseLong(devProposal.getProposalNumber()));
+            List<MedusaNode> medusaNodes = getMedusaService().getMedusaByProposal(Constants.DEVELOPMENT_PROPOSAL_MODULE, Long.parseLong(devProposal.getProposalNumber()),true);
             CoiDisclosedProjectBean disclosedProjectBean = new CoiDisclosedProjectBean();
             populateDisclosedAwardsAndProposals(medusaNodes, userId, disclosedProjectBean);
             disclosedProjects.add(disclosedProjectBean);
@@ -1846,7 +1846,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             String userId) {
         List<CoiDisclosedProjectBean> disclosedProjects = new ArrayList<CoiDisclosedProjectBean>();
         for(InstitutionalProposal instProposal : instProposalsToCompleteDiscl) {
-            List<MedusaNode> medusaNodes = getMedusaService().getMedusaByProposal(Constants.INSTITUTIONAL_PROPOSAL_MODULE, instProposal.getProposalId());
+            List<MedusaNode> medusaNodes = getMedusaService().getMedusaByProposal(Constants.INSTITUTIONAL_PROPOSAL_MODULE, instProposal.getProposalId(),true);
             CoiDisclosedProjectBean disclosedProjectBean = new CoiDisclosedProjectBean();
             populateDisclosedAwardsAndProposals(medusaNodes, userId, disclosedProjectBean);
             disclosedProjects.add(disclosedProjectBean);
@@ -1869,7 +1869,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             String userId) {
         List<CoiDisclosedProjectBean> disclosedProjects = new ArrayList<CoiDisclosedProjectBean>();
         for(Award award : awardsToCompleteDiscl) {
-            List<MedusaNode> medusaNodes = getMedusaService().getMedusaByAward(Constants.AWARD_MODULE, award.getAwardId());
+            List<MedusaNode> medusaNodes = getMedusaService().getMedusaByAward(Constants.AWARD_MODULE, award.getAwardId(), true);
             CoiDisclosedProjectBean disclosedProjectBean = new CoiDisclosedProjectBean();
             populateDisclosedAwardsAndProposals(medusaNodes, userId, disclosedProjectBean);
             disclosedProjects.add(disclosedProjectBean);
