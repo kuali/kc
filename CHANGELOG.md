@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+*  updating existing copyright header, adding missing copyright header
+  * Travis Schneeberger on Wed, 24 Feb 2016 09:34:31 -0500 [View Commit](../../commit/cdc6aadb890c850ef9285378fa6eec6c97c87783)
+* add needed permissions to coi administrator role
+  * Joe Williams on Tue, 23 Feb 2016 14:58:06 -0600 [View Commit](../../commit/d3234f024b9d33fc62b27cf404dab7f51753e84d)
+
+##coeus-1602.62
 * No Changes
 
 
