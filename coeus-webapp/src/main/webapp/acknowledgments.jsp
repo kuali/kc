@@ -6,7 +6,7 @@
 <%--
    - Kuali Coeus, a comprehensive research administration system for higher education.
    - 
-   - Copyright 2005-2015 Kuali, Inc.
+   - Copyright 2005-2016 Kuali, Inc.
    - 
    - This program is free software: you can redistribute it and/or modify
    - it under the terms of the GNU Affero General Public License as
@@ -43,7 +43,7 @@
 <h3><a name="Acknowledgements-"></a><font color="maroon">Acknowledgments</font></h3>
 
 <p><img src="http://opensource.org/trademarks/osi-certified/web/osi-certified-60x50.png" align="right" border="0" /><br/>
-Copyright 2005-2015 Kuali, Inc. All rights reserved. This software is licensed for use pursuant to the <a href="http://www.gnu.org/licenses/agpl-3.0.html">Affero General Public License, version 3</a>. Portions of this software are copyrighted by other parties, including the parties listed below, and you should see the licenses directory for complete copyright and licensing information.
+Copyright 2005-2016 Kuali, Inc. All rights reserved. This software is licensed for use pursuant to the <a href="http://www.gnu.org/licenses/agpl-3.0.html">Affero General Public License, version 3</a>. Portions of this software are copyrighted by other parties, including the parties listed below, and you should see the licenses directory for complete copyright and licensing information.
 <h3><a name="LicensingandAcknowledgments-ThirdPartyContributions"></a>Third Party Contributions</h3>
 
 <%
