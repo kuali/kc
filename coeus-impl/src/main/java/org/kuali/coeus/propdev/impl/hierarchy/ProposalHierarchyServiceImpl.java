@@ -47,6 +47,7 @@ import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
+import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -462,7 +463,9 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             }
             hierarchyProposal.addProposalSite(newSite);
         }
-            
+
+        setDocumentNextValueForProposalSites(hierarchyProposal);
+
         // Delivery info
         hierarchyProposal.setMailBy(srcProposal.getMailBy());
         hierarchyProposal.setMailType(srcProposal.getMailType());
@@ -470,6 +473,16 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         hierarchyProposal.setNumberOfCopies(srcProposal.getNumberOfCopies());
         hierarchyProposal.setMailingAddressId(srcProposal.getMailingAddressId());
         hierarchyProposal.setMailDescription(srcProposal.getMailDescription());
+    }
+
+    private void setDocumentNextValueForProposalSites(DevelopmentProposal hierarchyProposal) {
+        List<DocumentNextvalue> documentNextValues = hierarchyProposal.getProposalDocument().getDocumentNextvalues();
+        DocumentNextvalue documentNextvalue = new DocumentNextvalue();
+        documentNextvalue.setPropertyName(Constants.PROPOSAL_LOCATION_SEQUENCE_NUMBER);
+        documentNextvalue.setNextValue(hierarchyProposal.getProposalSites().size() + 1);
+        documentNextvalue.setDocumentKey(hierarchyProposal.getProposalDocument().getDocumentNumber());
+        documentNextValues.add(documentNextvalue);
+        hierarchyProposal.getProposalDocument().setDocumentNextvalues(documentNextValues);
     }
 
     protected void copyOpportunity(DevelopmentProposal srcProposal, DevelopmentProposal hierarchyProposal) {

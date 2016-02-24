@@ -36,6 +36,7 @@ import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.type.ActivityType;
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.propdev.impl.attachment.LegacyNarrativeService;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeAttachment;
@@ -43,10 +44,9 @@ import org.kuali.coeus.propdev.impl.attachment.NarrativeType;
 import org.kuali.coeus.propdev.impl.budget.BudgetStatus;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.budget.hierarchy.ProposalBudgetHierarchyService;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
+import org.kuali.coeus.propdev.impl.core.*;
 import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
+import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.attachment.PropPerDocType;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
@@ -167,6 +167,54 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
         parentProposal = getDevelopmentProposal(parentProposalNumber);
         assertTrue(parentProposal.getProposalPersons().isEmpty());
         assertTrue(hierarchyService.getHierarchyChildren(parentProposalNumber).isEmpty());
+    }
+
+    @Test
+    public void test_Org_sync() throws Exception {
+        ProposalDevelopmentDocument pdDocument = initializeProposalDevelopmentDocument();
+        DevelopmentProposal childProposal = getChildProposal(pdDocument.getDevelopmentProposal());
+
+        String userId = PERSON_ID;
+        String parentProposalNumber = hierarchyService.createHierarchy(childProposal, userId);
+        DevelopmentProposal parentProposal = getDevelopmentProposal(parentProposalNumber);
+        Assert.assertTrue(parentProposal.getProposalSites().size() == 2);
+        Assert.assertTrue(parentProposal.getProposalSites().get(0).getLocationTypeCode().equals(ProposalSite.PROPOSAL_SITE_APPLICANT_ORGANIZATION));
+        Assert.assertTrue(parentProposal.getProposalSites().get(1).getLocationTypeCode().equals(ProposalSite.PROPOSAL_SITE_PERFORMING_ORGANIZATION));
+
+        ProposalSite site3 = new ProposalSite();
+        site3.setLocationName("PROPOSAL_SITE_OTHER_ORGANIZATION");
+        site3.setRolodexId(10031);
+        site3.setLocationTypeCode(ProposalSite.PROPOSAL_SITE_OTHER_ORGANIZATION);
+        parentProposal.addOtherOrganization(site3);
+        ProposalSite site4 = new ProposalSite();
+        site4.setLocationName("PROPOSAL_SITE_OTHER_ORGANIZATION");
+        site4.setRolodexId(10030);
+        site4.setLocationTypeCode(ProposalSite.PROPOSAL_SITE_OTHER_ORGANIZATION);
+        parentProposal.addOtherOrganization(site4);
+        getProposalDevService().initializeUnitOrganizationLocation(parentProposal.getProposalDocument());
+        getProposalDevService().initializeProposalSiteNumbers(parentProposal.getProposalDocument());
+        parentProposal = dataObjectService.save(parentProposal);
+
+        Assert.assertTrue(parentProposal.getProposalSites().size() == 4);
+        Assert.assertEquals(parentProposal.getProposalSites().stream().filter(
+                proposalSite -> proposalSite.getLocationTypeCode().intValue() == ProposalSite.PROPOSAL_SITE_APPLICANT_ORGANIZATION).count(), 1);
+        Assert.assertEquals(parentProposal.getProposalSites().stream().filter(
+                proposalSite -> proposalSite.getLocationTypeCode().intValue() == ProposalSite.PROPOSAL_SITE_PERFORMING_ORGANIZATION).count(), 1);
+        Assert.assertEquals(parentProposal.getProposalSites().stream().filter(
+                proposalSite -> proposalSite.getLocationTypeCode().intValue() == ProposalSite.PROPOSAL_SITE_OTHER_ORGANIZATION).count(), 2);
+
+        Assert.assertEquals(parentProposal.getProposalSites().stream().filter(
+                proposalSite -> proposalSite.getSiteNumber() == 1).count(),1);
+        Assert.assertEquals(parentProposal.getProposalSites().stream().filter(
+                proposalSite -> proposalSite.getSiteNumber() == 2).count(),1);
+        Assert.assertEquals(parentProposal.getProposalSites().stream().filter(
+                proposalSite -> proposalSite.getSiteNumber() == 3).count(),1);
+        Assert.assertEquals(parentProposal.getProposalSites().stream().filter(
+                proposalSite -> proposalSite.getSiteNumber() == 4).count(),1);
+    }
+
+    public ProposalDevelopmentService getProposalDevService() {
+        return KcServiceLocator.getService(ProposalDevelopmentService.class);
     }
 
     @Test
@@ -783,6 +831,9 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
                 "ProposalDevelopmentDocument");
 		Assert.assertNotNull(pd.getDocumentHeader().getWorkflowDocument());
 		ProposalDevelopmentService pdService = getService(ProposalDevelopmentService.class);
+        Unit result = hierarchyService.getDataObjectService().find(Unit.class, "000001");
+        pd.getDevelopmentProposal().setOwnedByUnit(result);
+        pd.getDevelopmentProposal().setOwnedByUnitNumber("000001");
 		pdService.initializeUnitOrganizationLocation(pd);
 		pdService.initializeProposalSiteNumbers(pd);
         kcAuthorizationService.addDocumentLevelRole(PERSON_ID, RoleConstants.AGGREGATOR_DOCUMENT_LEVEL, pd);
