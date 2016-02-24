@@ -32,6 +32,7 @@ public class RolodexAddressFlagValuesFinder extends UifKeyValuesFinderBase {
     private static final List<KeyValue> KEY_VALUES;
     static {
         final List<KeyValue> temp = new ArrayList<>();
+        temp.add(0, new ConcreteKeyValue(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));
         temp.add(new ConcreteKeyValue("No","No"));
         temp.add(new ConcreteKeyValue("Yes","Yes"));
         KEY_VALUES = Collections.unmodifiableList(temp);
@@ -39,8 +40,6 @@ public class RolodexAddressFlagValuesFinder extends UifKeyValuesFinderBase {
 
     @Override
     public List<KeyValue> getKeyValues() {
-        List<KeyValue> keyValues = KEY_VALUES;
-        keyValues.add(0, new ConcreteKeyValue(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));
-        return keyValues;
+        return KEY_VALUES;
     }
 }
