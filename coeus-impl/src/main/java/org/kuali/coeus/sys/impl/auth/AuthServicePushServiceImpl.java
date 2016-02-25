@@ -54,10 +54,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestOperations;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Service("authServicePushService")
 public class AuthServicePushServiceImpl implements AuthServicePushService {
 	
+	private static final Integer NUMBER_OF_USERS_LIMIT = 100000;
+	private static final String LIMIT_PARAM = "limit";
 	private static final String AUTH_USER_PUSH_USE_DEV_PASSWORD = "auth.user.push.use.dev.password";
 	private static final String AUTH_USER_PUSH_DEV_PASSWORD = "auth.user.push.dev.password";
 	private static final String USER_ROLE = "user";
@@ -202,7 +205,8 @@ public class AuthServicePushServiceImpl implements AuthServicePushService {
 	}
 	
 	protected List<AuthUser> getAllAuthServiceUsers() {
-		ResponseEntity<List<AuthUser>> result = restOperations.exchange(getUsersApiUrl(), HttpMethod.GET, 
+		String uri = UriComponentsBuilder.fromHttpUrl(getUsersApiUrl()).queryParam(LIMIT_PARAM, NUMBER_OF_USERS_LIMIT).build().encode().toString();
+		ResponseEntity<List<AuthUser>> result = restOperations.exchange(uri, HttpMethod.GET, 
 				new HttpEntity<String>(authServiceRestUtilService.getAuthServiceStyleHttpHeadersForUser()), new ParameterizedTypeReference<List<AuthUser>>() { });
 		return result.getBody();
 	}
