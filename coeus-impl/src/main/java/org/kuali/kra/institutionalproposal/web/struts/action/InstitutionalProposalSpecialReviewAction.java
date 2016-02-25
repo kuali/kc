@@ -27,15 +27,18 @@ import org.kuali.coeus.common.framework.compliance.core.AddSpecialReviewEvent;
 import org.kuali.coeus.common.framework.compliance.core.SaveSpecialReviewEvent;
 import org.kuali.coeus.common.framework.compliance.core.SaveSpecialReviewLinkEvent;
 import org.kuali.coeus.common.framework.compliance.core.SpecialReviewService;
+import org.kuali.coeus.common.notification.impl.NotificationRenderer;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.framework.compliance.core.SpecialReviewType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.notification.InstitutionalProposalNotificationContext;
+import org.kuali.kra.institutionalproposal.notification.InstitutionalProposalNotificationRenderer;
 import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.coeus.common.notification.impl.SpecialReviewNotificationRenderer;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -122,8 +125,9 @@ public class InstitutionalProposalSpecialReviewAction extends InstitutionalPropo
                 specialReview.refreshReferenceObject("specialReviewType");
             }
             if (StringUtils.equals(specialReview.getSpecialReviewType().getSpecialReviewTypeCode(), SpecialReviewType.HUMAN_SUBJECTS)) {
-                InstitutionalProposalNotificationContext context = 
-                    new InstitutionalProposalNotificationContext(document.getInstitutionalProposal(), "552", "Special Review Inserted", Constants.MAPPING_INSTITUTIONAL_PROPOSAL_SPECIAL_REVIEW_PAGE);
+                NotificationRenderer renderer = new SpecialReviewNotificationRenderer(new InstitutionalProposalNotificationRenderer(document.getInstitutionalProposal()), specialReview);
+                InstitutionalProposalNotificationContext context =
+                        new InstitutionalProposalNotificationContext(document.getInstitutionalProposal(), "552", "Special Review Inserted", renderer, Constants.MAPPING_INSTITUTIONAL_PROPOSAL_SPECIAL_REVIEW_PAGE);
                 if (institutionalProposalForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
                     institutionalProposalForm.getNotificationHelper().initializeDefaultValues(context);
                     forward = mapping.findForward("notificationEditor");
@@ -175,8 +179,9 @@ public class InstitutionalProposalSpecialReviewAction extends InstitutionalPropo
             InstitutionalProposalSpecialReview specialReview = document.getInstitutionalProposal().getSpecialReviews().get(getLineToDelete(request));
             document.getInstitutionalProposal().getSpecialReviews().remove(specialReview);
             if (StringUtils.equals(specialReview.getSpecialReviewType().getSpecialReviewTypeCode(), SpecialReviewType.HUMAN_SUBJECTS)) {
-                InstitutionalProposalNotificationContext context = 
-                    new InstitutionalProposalNotificationContext(document.getInstitutionalProposal(), "553", "Special Review Deleted", Constants.MAPPING_INSTITUTIONAL_PROPOSAL_SPECIAL_REVIEW_PAGE);
+                NotificationRenderer renderer = new SpecialReviewNotificationRenderer(new InstitutionalProposalNotificationRenderer(document.getInstitutionalProposal()), specialReview);
+                InstitutionalProposalNotificationContext context =
+                        new InstitutionalProposalNotificationContext(document.getInstitutionalProposal(), "553", "Special Review Deleted", renderer, Constants.MAPPING_INSTITUTIONAL_PROPOSAL_SPECIAL_REVIEW_PAGE);
                 if (institutionalProposalForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
                     institutionalProposalForm.getNotificationHelper().initializeDefaultValues(context);
                     forward = mapping.findForward("notificationEditor");

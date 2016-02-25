@@ -27,11 +27,14 @@ import org.kuali.coeus.common.framework.compliance.core.AddSpecialReviewEvent;
 import org.kuali.coeus.common.framework.compliance.core.SaveSpecialReviewEvent;
 import org.kuali.coeus.common.framework.compliance.core.SaveSpecialReviewLinkEvent;
 import org.kuali.coeus.common.framework.compliance.core.SpecialReviewService;
+import org.kuali.coeus.common.notification.impl.SpecialReviewNotificationRenderer;
+import org.kuali.coeus.common.notification.impl.NotificationRenderer;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.notification.AwardNotificationContext;
+import org.kuali.kra.award.notification.AwardNotificationRenderer;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.coeus.common.framework.compliance.core.SpecialReviewType;
 import org.kuali.kra.infrastructure.Constants;
@@ -122,13 +125,14 @@ public class AwardSpecialReviewAction extends AwardAction {
             if (specialReview.getSpecialReviewType() == null) {
                 specialReview.refreshReferenceObject("specialReviewType");
             }
-            AwardNotificationContext context = null; 
+            AwardNotificationContext context = null;
+            NotificationRenderer renderer = new SpecialReviewNotificationRenderer(new AwardNotificationRenderer(document.getAward()), specialReview);
             if (StringUtils.equals(specialReview.getSpecialReviewType().getSpecialReviewTypeCode(), SpecialReviewType.HUMAN_SUBJECTS)) {
-                context = new AwardNotificationContext(document.getAward(), Award.NOTIFICATION_IRB_SPECIAL_REVIEW_LINK_ADDED, "Special Review Inserted", 
-                                                       Constants.MAPPING_AWARD_SPECIAL_REVIEW_PAGE);
+                context = new AwardNotificationContext(document.getAward(), Award.NOTIFICATION_IRB_SPECIAL_REVIEW_LINK_ADDED, "Special Review Inserted",
+                        renderer, Constants.MAPPING_AWARD_SPECIAL_REVIEW_PAGE);
             } else if (StringUtils.equals(specialReview.getSpecialReviewType().getSpecialReviewTypeCode(), SpecialReviewType.ANIMAL_USAGE)) {
-                context = new AwardNotificationContext(document.getAward(), Award.NOTIFICATION_IACUC_SPECIAL_REVIEW_LINK_ADDED, "Special Review Inserted", 
-                        Constants.MAPPING_AWARD_SPECIAL_REVIEW_PAGE);
+                context = new AwardNotificationContext(document.getAward(), Award.NOTIFICATION_IACUC_SPECIAL_REVIEW_LINK_ADDED, "Special Review Inserted",
+                        renderer, Constants.MAPPING_AWARD_SPECIAL_REVIEW_PAGE);
             }
             if (context != null) {
                 if (awardForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
@@ -184,13 +188,14 @@ public class AwardSpecialReviewAction extends AwardAction {
             if (specialReview.getSpecialReviewType() == null) {
                 specialReview.refreshReferenceObject("specialReviewType");
             }
-            AwardNotificationContext context = null; 
+            AwardNotificationContext context = null;
+            NotificationRenderer renderer = new SpecialReviewNotificationRenderer(new AwardNotificationRenderer(document.getAward()), specialReview);
             if (StringUtils.equals(specialReview.getSpecialReviewType().getSpecialReviewTypeCode(), SpecialReviewType.HUMAN_SUBJECTS)) {
-                    context = new AwardNotificationContext(document.getAward(), Award.NOTIFICATION_IRB_SPECIAL_REVIEW_LINK_DELETED, "Special Review Deleted", 
-                                                           Constants.MAPPING_AWARD_SPECIAL_REVIEW_PAGE);
+                    context = new AwardNotificationContext(document.getAward(), Award.NOTIFICATION_IRB_SPECIAL_REVIEW_LINK_DELETED, "Special Review Deleted",
+                            renderer, Constants.MAPPING_AWARD_SPECIAL_REVIEW_PAGE);
             } else if (StringUtils.equals(specialReview.getSpecialReviewType().getSpecialReviewTypeCode(), SpecialReviewType.ANIMAL_USAGE)) {
-                    context = new AwardNotificationContext(document.getAward(), Award.NOTIFICATION_IACUC_SPECIAL_REVIEW_LINK_DELETED, "Special Review Deleted", 
-                                                           Constants.MAPPING_AWARD_SPECIAL_REVIEW_PAGE);
+                    context = new AwardNotificationContext(document.getAward(), Award.NOTIFICATION_IACUC_SPECIAL_REVIEW_LINK_DELETED, "Special Review Deleted",
+                            renderer,  Constants.MAPPING_AWARD_SPECIAL_REVIEW_PAGE);
             }
             if (context != null) {
                 if (awardForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
