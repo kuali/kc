@@ -898,9 +898,13 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     @Override
     public ProposalSite getApplicantOrganization() {
         ProposalSite applicant = getProposalSiteForType(ProposalSite.PROPOSAL_SITE_APPLICANT_ORGANIZATION);
-        if (applicant != null)
+        if (applicant != null) {
+            if (applicant.getOrganization() == null && applicant.getOrganizationId() != null) {
+                applicant.refreshReferenceObject("organization");
+            }
             applicant.setRolodex(applicant.getOrganization() == null ? null : applicant.getOrganization().getRolodex());
-        return applicant;
+        }
+            return applicant;
     }
 
     public void setPerformingOrganization(ProposalSite performingOrganization) {
