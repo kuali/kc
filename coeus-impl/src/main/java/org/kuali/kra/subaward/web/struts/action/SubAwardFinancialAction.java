@@ -56,7 +56,7 @@ public class SubAwardFinancialAction extends SubAwardAction{
             addAmountInfoToSubAward(subAwardForm.getSubAwardDocument(). getSubAward(), amountInfo);
             subAwardForm.setNewSubAwardAmountInfo(new SubAwardAmountInfo());
         }
-        KcServiceLocator.getService(SubAwardService.class).getAmountInfo(subAwardForm.getSubAwardDocument().getSubAward());
+        KcServiceLocator.getService(SubAwardService.class).calculateAmountInfo(subAwardForm.getSubAwardDocument().getSubAward());
         return mapping.findForward(Constants.MAPPING_FINANCIAL_PAGE);
      }
 

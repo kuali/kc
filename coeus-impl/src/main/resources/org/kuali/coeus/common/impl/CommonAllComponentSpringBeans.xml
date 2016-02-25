@@ -49,4 +49,6 @@
     <import resource="classpath:org/kuali/coeus/common/budget/impl/CommonBudgetComponentSpringBeans.xml"/>
     <import resource="classpath:org/kuali/coeus/common/questionnaire/impl/CommonQuestionnaireComponentSpringBeans.xml"/>
     <import resource="classpath:org/kuali/coeus/common/proposal/impl/CommonProposalComponentSpringBeans.xml"/>
+
+
 </beans>

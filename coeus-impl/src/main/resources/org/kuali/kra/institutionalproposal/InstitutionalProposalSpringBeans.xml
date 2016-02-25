@@ -281,8 +281,13 @@
     
     <bean id="dataObjectService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="dataObjectService" />
-    </bean>    
-    
+    </bean>
+
+    <bean id="institutionalProposalCustomDataResolverTypeServiceCallback" parent="kcCoreCallbackService"
+          p:callbackService-ref="institutionalProposalCustomDataResolverTypeService"
+          p:localServiceName="institutionalProposalCustomDataResolverTypeService"
+          p:serviceInterface="org.kuali.rice.krms.framework.type.TermResolverTypeService"/>
+
     <bean id="institutionalProposalLockService" class="org.kuali.kra.institutionalproposal.service.impl.InstitutionalProposalLockServiceImpl">
         <property name="dataDictionaryService" ref="dataDictionaryService"/>
     		<property name="dataObjectService" ref="dataObjectService" />

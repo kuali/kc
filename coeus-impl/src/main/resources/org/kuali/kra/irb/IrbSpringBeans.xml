@@ -30,6 +30,8 @@
                            http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
     <context:annotation-config />
+    <context:component-scan base-package="org.kuali.kra.irb"/>
+
     <import resource="classpath:org/kuali/coeus/sys/framework/ImportSimpleCrudRestSpringBeans.xml" />
 
     <bean id="irbModuleConfiguration" parent="irbModuleConfiguration-parentBean" />
@@ -1116,6 +1118,11 @@
 		p:callbackService-ref="iacucCorrespondentDerivedRoleTypeService" 
 		p:localServiceName="iacucCorrespondentDerivedRoleTypeService" 
 		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
+
+    <bean id="irbProtocolCustomDataResolverTypeServiceCallback" parent="kcCoreCallbackService"
+          p:callbackService-ref="irbProtocolCustomDataResolverTypeService"
+          p:localServiceName="irbProtocolCustomDataResolverTypeService"
+          p:serviceInterface="org.kuali.rice.krms.framework.type.TermResolverTypeService"/>
 
     <bean id="irbCorrespondentDerivedRoleTypeService"
           class="org.kuali.kra.irb.kim.service.impl.IrbCorrespondentDerivedRoleTypeServiceImpl">

@@ -18,6 +18,8 @@
  */
 package org.kuali.kra.subaward.bo;
 
+import org.kuali.coeus.common.framework.custom.CustomDataContainer;
+import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.org.OrganizationService;
 import org.kuali.coeus.common.framework.person.KcPerson;
@@ -56,7 +58,7 @@ import java.util.stream.Collectors;
  * This class is using for SubAward...
  */
 public class SubAward extends KcPersistableBusinessObjectBase
-implements Permissionable, SequenceOwner<SubAward>, Negotiable {
+implements Permissionable, SequenceOwner<SubAward>, CustomDataContainer, Negotiable {
 
     private static final long serialVersionUID = 1L;
     private static final String ROLODEX_ID_FIELD_NAME = "rolodexId";
@@ -1631,4 +1633,9 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
 				.filter(amountInfo -> !currentAmountInfoIds.contains(amountInfo.getSubAwardAmountInfoId()))
 				.collect(Collectors.toList());
 	}
+
+    @Override
+    public List<? extends DocumentCustomData> getCustomDataList() {
+        return getSubAwardCustomDataList();
+    }
 }

@@ -20,6 +20,8 @@ package org.kuali.kra.award.home;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
+import org.kuali.coeus.common.framework.custom.CustomDataContainer;
+import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.keyword.KeywordsManager;
 import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
 import org.kuali.coeus.common.framework.person.KcPerson;
@@ -100,7 +102,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Award extends KcPersistableBusinessObjectBase implements KeywordsManager<AwardScienceKeyword>, Permissionable,
-        SequenceOwner<Award>, BudgetParent, Sponsorable, Negotiable, Disclosurable {
+        SequenceOwner<Award>, BudgetParent, Sponsorable, Negotiable, CustomDataContainer, Disclosurable {
     public static final String DEFAULT_AWARD_NUMBER = "000000-00000";
     public static final String BLANK_COMMENT = "";
     public static final String ICR_RATE_CODE_NONE = "ICRNONE";
@@ -1790,6 +1792,11 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 
     public boolean isNew() {
         return awardId == null;
+    }
+
+    @Override
+    public List<? extends DocumentCustomData> getCustomDataList() {
+        return getAwardCustomDataList();
     }
 
     static class ARTComparator implements Comparator<AwardReportTerm>

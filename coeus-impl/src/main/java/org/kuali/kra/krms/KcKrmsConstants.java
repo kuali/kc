@@ -168,4 +168,5 @@ public final class KcKrmsConstants {
         public static final String VALIDATIONS_ACTION_NAVIGATE_TO_PAGE_ID_ATTRIBUTE = "actionNavigateToPageId";
         public static final String VALIDATIONS_ACTION_NAVIGATE_TO_SECTION_ID_ATTRIBUTE = "actionNavigateToSectionId";
     }
+
 }

@@ -188,7 +188,6 @@
           p:localServiceName="javaFunctionTermResolverTypeService"
           p:serviceInterface="org.kuali.rice.krms.framework.type.TermResolverTypeService"/>
 
-
     <bean id= "kcPeopleFlowTypeServiceCallback" parent="kcCoreCallbackService"
           p:callbackService-ref="kcPeopleFlowTypeService"
           p:localServiceName="kcPeopleFlowTypeService"

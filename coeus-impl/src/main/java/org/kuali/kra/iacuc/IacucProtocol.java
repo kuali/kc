@@ -20,6 +20,8 @@ package org.kuali.kra.iacuc;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.custom.CustomDataContainer;
+import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.notification.impl.bo.KcNotification;
 import org.kuali.coeus.common.permissions.impl.PermissionableKeys;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -69,7 +71,7 @@ import java.util.*;
  * 
  * This class is ProtocolBase Business Object.
  */
-public class IacucProtocol extends ProtocolBase {
+public class IacucProtocol extends ProtocolBase implements CustomDataContainer {
     
 
     private static final long serialVersionUID = 7380281405644745576L;
@@ -816,4 +818,8 @@ public class IacucProtocol extends ProtocolBase {
     }
 
 
+    @Override
+    public List<? extends DocumentCustomData> getCustomDataList() {
+        return getProtocolDocument().getDocumentCustomData();
+    }
 }

@@ -123,7 +123,7 @@ public class SubAwardServiceImpl implements SubAwardService {
         this.sequenceAccessorService = sequenceAccessorService;
     }
 
-    public SubAward getAmountInfo(SubAward subAward) {
+    public SubAward calculateAmountInfo(SubAward subAward) {
 
         List<SubAwardAmountInfo> subAwardAmountInfoList = subAward.getAllSubAwardAmountInfos();
         List<SubAwardAmountReleased> subAwardAmountReleasedList = subAward.getSubAwardAmountReleasedList();
@@ -234,7 +234,7 @@ public class SubAwardServiceImpl implements SubAwardService {
         values.put(SUB_AWARD_ID, subAwardId);
         List<SubAward> subAwards = (List<SubAward>) getBusinessObjectService().findMatching(SubAward.class, values);
         SubAward subAward = subAwards.get(0);
-        getAmountInfo(subAward);
+        calculateAmountInfo(subAward);
         return subAward;
     }
 

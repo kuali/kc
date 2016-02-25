@@ -65,7 +65,7 @@ public interface SubAwardService {
      * @param subAward
      * @return
      */
-    public SubAward getAmountInfo(SubAward subAward);
+    public SubAward calculateAmountInfo(SubAward subAward);
 
      /**.
       * 

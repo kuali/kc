@@ -63,7 +63,7 @@ public class SubAwardInvoiceMaintenanceDocumentRule extends KcMaintenanceDocumen
                 subAward.getSubAwardAmountReleasedList().remove(invoice);
             } 
             subAward.getSubAwardAmountReleasedList().add(invoice);
-            subAwardService.getAmountInfo(subAward);          
+            subAwardService.calculateAmountInfo(subAward);
             if (invoice.getSubAward().getTotalAvailableAmount().isNegative()) {
                 valid = false;
                 errorReporter.reportError("amountReleased", KeyConstants.ERROR_SUBAWARD_AMOUNT_RELEASED_GREATER_OBLIGATED_AMOUNT);
