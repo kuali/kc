@@ -114,6 +114,12 @@ public class SimpleCrudRestControllerTest {
             return null;
         }
 
+        @SuppressWarnings("unchecked")
+        @Override
+        protected Map<String, Object> objectToDto(Object o) {
+            return (Map<String, Object>) o;
+        }
+
         @Override
         protected List<String> getListOfTrackedProperties() {
             return null;

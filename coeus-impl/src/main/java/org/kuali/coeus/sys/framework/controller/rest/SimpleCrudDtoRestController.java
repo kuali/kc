@@ -26,9 +26,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.beanutils.WrapDynaBean;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 import com.codiform.moo.Moo;
@@ -100,6 +102,7 @@ public class SimpleCrudDtoRestController<T extends PersistableBusinessObject, R>
 		return Arrays.asList(beanInfo.getPropertyDescriptors()).stream()
 				.map(PropertyDescriptor::getName)
 				.filter(name -> !CLASS.equals(name))
+				.filter(name -> !(isPrimaryKeyDto() && PrimaryKeyDto.SYNTHETIC_FIELD_PK.equals(name)))
 				.collect(Collectors.toList());
 	}
 
@@ -113,16 +116,37 @@ public class SimpleCrudDtoRestController<T extends PersistableBusinessObject, R>
 
 	@Override
 	protected List<String> getListOfTrackedProperties() {
-		final boolean primaryKeyDto = PrimaryKeyDto.class.isAssignableFrom(dtoObjectClazz);
-
 		try {
 			return Arrays.asList(Introspector.getBeanInfo(dtoObjectClazz).getPropertyDescriptors()).stream()
 					.map(PropertyDescriptor::getName)
 					.filter(name -> !CLASS.equals(name))
-					.filter(name -> !(primaryKeyDto && PrimaryKeyDto.SYNTHETIC_FIELD_PK.equals(name)))
+					.filter(name -> !(isPrimaryKeyDto() && PrimaryKeyDto.SYNTHETIC_FIELD_PK.equals(name)))
 					.collect(Collectors.toList());
 		} catch (IntrospectionException e) {
 			throw new RuntimeException(e);
+		}
+	}
+
+	protected boolean isPrimaryKeyDto() {
+		return PrimaryKeyDto.class.isAssignableFrom(dtoObjectClazz);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	protected R objectToDto(Object o) {
+		if (dtoObjectClazz.isAssignableFrom(o.getClass())) {
+			return (R) o;
+		} else if (o instanceof Map){
+			final WrapDynaBean dynaBean;
+			try {
+				dynaBean = new WrapDynaBean(dtoObjectClazz.newInstance());
+			} catch (InstantiationException|IllegalAccessException e) {
+				throw new RuntimeException(e);
+			}
+			getExposedProperties().forEach(name -> dynaBean.set(name, ((Map)o).get(name)));
+			return new Moo().translate(dynaBean.getInstance(), dtoObjectClazz);
+		} else {
+			throw new RuntimeException("unknown dto type " + o.getClass().getName());
 		}
 	}
 }

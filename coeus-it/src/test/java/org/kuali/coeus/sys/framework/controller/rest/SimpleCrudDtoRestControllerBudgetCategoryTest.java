@@ -21,7 +21,8 @@ package org.kuali.coeus.sys.framework.controller.rest;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.coeus.common.framework.type.DeadlineType;
+import org.kuali.coeus.common.budget.impl.core.category.BudgetCategoryController;
+import org.kuali.coeus.common.budget.impl.core.category.BudgetCategoryDto;
 import org.kuali.coeus.sys.framework.rest.DataDictionaryValidationException;
 import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
 import org.kuali.coeus.sys.framework.rest.UnauthorizedAccessException;
@@ -33,116 +34,119 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.junit.Assert.*;
 
-public class SimpleCrudMapBasedRestControllerDeadlineTypeTest extends KcIntegrationTestBase {
+public class SimpleCrudDtoRestControllerBudgetCategoryTest extends KcIntegrationTestBase {
 
     private static final String AUTHORIZED_USER = "admin";
     private static final String UNAUTHORIZED_USER = "mwmartin";
 
-    private SimpleCrudMapBasedRestController<DeadlineType> deadlineTypeController;
+    private BudgetCategoryController budgetCategoryController;
 
-    @SuppressWarnings("unchecked")
     @Before
     public void findActivityTypeRestController() {
-        deadlineTypeController = KcServiceLocator.getServicesOfType(SimpleCrudMapBasedRestController.class)
-                .stream()
-                .filter(c -> c.getDataObjectClazz().equals(DeadlineType.class))
-                .findAny()
-                .get();
+        budgetCategoryController = KcServiceLocator.getService("budgetCategoryController");
     }
 
     @Test(expected = UnauthorizedAccessException.class)
     public void test_unauthorized_getAll() {
         GlobalVariables.setUserSession(new UserSession(UNAUTHORIZED_USER));
-        deadlineTypeController.getAll(Collections.emptyMap());
+        budgetCategoryController.getAll(Collections.emptyMap());
     }
 
     @Test(expected = UnauthorizedAccessException.class)
     public void test_unauthorized_get() {
         GlobalVariables.setUserSession(new UserSession(UNAUTHORIZED_USER));
-        deadlineTypeController.get("P");
+        budgetCategoryController.get("1");
     }
 
     @Test(expected = UnauthorizedAccessException.class)
     public void test_unauthorized_create() {
         GlobalVariables.setUserSession(new UserSession(UNAUTHORIZED_USER));
-        deadlineTypeController.add(Collections.emptyMap());
+        budgetCategoryController.add(Collections.emptyMap());
     }
 
     @Test(expected = UnauthorizedAccessException.class)
     public void test_unauthorized_update() {
         GlobalVariables.setUserSession(new UserSession(UNAUTHORIZED_USER));
-        deadlineTypeController.update("P", Collections.emptyMap());
+        budgetCategoryController.update("1", new BudgetCategoryDto());
     }
 
     @Test(expected = UnauthorizedAccessException.class)
     public void test_unauthorized_delete() {
         GlobalVariables.setUserSession(new UserSession(UNAUTHORIZED_USER));
-        deadlineTypeController.delete("P");
+        budgetCategoryController.delete("1");
     }
 
     @Test(expected = UnauthorizedAccessException.class)
     public void test_unauthorized_schema() {
         GlobalVariables.setUserSession(new UserSession(UNAUTHORIZED_USER));
-        deadlineTypeController.getSchema();
+        budgetCategoryController.getSchema();
     }
 
     @Test
     public void test_authorized_getAll() {
         GlobalVariables.setUserSession(new UserSession(AUTHORIZED_USER));
-        Collection<Map<String,Object>> all = deadlineTypeController.getAll(Collections.emptyMap());
+        Collection<BudgetCategoryDto> all = budgetCategoryController.getAll(Collections.emptyMap());
         assertTrue(all != null && !all.isEmpty());
     }
 
     @Test
     public void test_authorized_get() {
         GlobalVariables.setUserSession(new UserSession(AUTHORIZED_USER));
-        Map<String, Object> object = deadlineTypeController.get("P");
-        assertTrue(object != null && !object.isEmpty());
-        assertEquals(object.get("deadlineTypeCode"), "P");
-        assertEquals(object.get("description"), "Postmark");
-        assertEquals(object.get("_primaryKey"), "P");
+        BudgetCategoryDto object = budgetCategoryController.get("1");
+        assertTrue(object != null);
+        assertEquals("1", object.getCode());
+        assertEquals("Senior Personnel", object.getDescription());
+        assertEquals("P", object.getBudgetCategoryTypeCode());
+        assertEquals("1", object.get_primaryKey());
     }
 
     @Test
     public void test_authorized_create() {
         GlobalVariables.setUserSession(new UserSession(AUTHORIZED_USER));
-        Map<String, Object> object = new HashMap<String, Object>() {{
-            put("deadlineTypeCode", "S");
-            put("description", "Squirrel");
+        BudgetCategoryDto object = new BudgetCategoryDto() {{
+            setCode("80");
+            setDescription("GnR hires a new Teacup Pig mascot");
+            setBudgetCategoryTypeCode("P");
         }};
 
-        @SuppressWarnings("unchecked")
-        Map<String, Object> added = (Map<String, Object>) deadlineTypeController.add(object);
-        assertEquals(added.get("deadlineTypeCode"), "S");
-        assertEquals(added.get("description"), "Squirrel");
-        assertEquals(added.get("_primaryKey"), "S");
+        BudgetCategoryDto added = (BudgetCategoryDto) budgetCategoryController.add(object);
+        assertEquals(added.getCode(), "80");
+        assertEquals(added.getDescription(), "GnR hires a new Teacup Pig mascot");
+        assertEquals(added.getBudgetCategoryTypeCode(), "P");
+        assertEquals(added.get_primaryKey(), "80");
     }
 
     @Test
     public void test_authorized_update() {
         GlobalVariables.setUserSession(new UserSession(AUTHORIZED_USER));
-        Map<String, Object> object = new HashMap<String, Object>() {{
-            put("deadlineTypeCode", "P");
-            put("description", "Teacup Pig");
+        BudgetCategoryDto object = new BudgetCategoryDto() {{
+            setCode("1");
+            setDescription("Give the Pig a buttermilk bath like in Charlotte's Web");
+            setBudgetCategoryTypeCode("P");
         }};
-        deadlineTypeController.update("P", object);
-        Map<String, Object> updated = deadlineTypeController.get("P");
-        assertEquals(updated.get("description"), "Teacup Pig");
+        budgetCategoryController.update("1", object);
+        BudgetCategoryDto updated = budgetCategoryController.get("1");
+        assertEquals(updated.getDescription(), "Give the Pig a buttermilk bath like in Charlotte's Web");
+    }
+
+    @Test(expected = DataDictionaryValidationException.class)
+    public void test_authorized_delete_references_exist() {
+        GlobalVariables.setUserSession(new UserSession(AUTHORIZED_USER));
+        budgetCategoryController.delete("1");
     }
 
     @Test
     public void test_authorized_delete() {
         GlobalVariables.setUserSession(new UserSession(AUTHORIZED_USER));
-        deadlineTypeController.delete("R");
+        budgetCategoryController.delete("34");
         try {
-            deadlineTypeController.get("R");
+            budgetCategoryController.get("34");
         } catch (ResourceNotFoundException e) {
             return;
         }
@@ -153,89 +157,90 @@ public class SimpleCrudMapBasedRestControllerDeadlineTypeTest extends KcIntegrat
     public void test_authorized_schema() {
         GlobalVariables.setUserSession(new UserSession(AUTHORIZED_USER));
 
-        final Map<String, Object> schema = deadlineTypeController.getSchema();
+        final Map<String, Object> schema = budgetCategoryController.getSchema();
         assertTrue(schema != null && !schema.isEmpty());
-        assertEquals(schema.get("primaryKey"), "deadlineTypeCode");
-        assertEquals(schema.get("columns"), Stream.of("deadlineTypeCode", "description").collect(Collectors.toList()));
+        assertEquals(schema.get("primaryKey"), "code");
+        assertEquals(Stream.of("budgetCategoryTypeCode", "code", "description").collect(Collectors.toList()), schema.get("columns"));
     }
 
     @Test
     public void test_getAll_filtered() {
         GlobalVariables.setUserSession(new UserSession(AUTHORIZED_USER));
-        Collection<Map<String, Object>> all = deadlineTypeController.getAll(Collections.singletonMap("description", "Target"));
+        Collection<BudgetCategoryDto> all = budgetCategoryController.getAll(Collections.singletonMap("description", "Duplicating"));
         assertTrue(all != null && !all.isEmpty() && all.size() == 1);
-        assertEquals(all.iterator().next().get("deadlineTypeCode"), "T");
-        assertEquals(all.iterator().next().get("description"), "Target");
-        assertEquals(all.iterator().next().get("_primaryKey"), "T");
+        assertEquals(all.iterator().next().getCode(), "10");
+        assertEquals(all.iterator().next().getDescription(), "Duplicating");
+        assertEquals(all.iterator().next().getBudgetCategoryTypeCode(), "O");
+        assertEquals(all.iterator().next().get_primaryKey(), "10");
     }
 
     @Test(expected = ResourceNotFoundException.class)
     public void test_not_found_getAll() {
         GlobalVariables.setUserSession(new UserSession(AUTHORIZED_USER));
-        deadlineTypeController.getAll(Collections.singletonMap("description", "Not Found"));
+        budgetCategoryController.getAll(Collections.singletonMap("description", "Not Found"));
     }
 
     @Test(expected = ResourceNotFoundException.class)
     public void test_not_found_get() {
         GlobalVariables.setUserSession(new UserSession(AUTHORIZED_USER));
-        deadlineTypeController.get("FOO");
+        budgetCategoryController.get("FOO");
     }
 
     @Test(expected = ResourceNotFoundException.class)
     public void test_not_found_update() {
         GlobalVariables.setUserSession(new UserSession(AUTHORIZED_USER));
-        Map<String, Object> object = new HashMap<String, Object>() {{
-            put("deadlineTypeCode", "Pig");
-            put("description", "Teacup Pig");
+        BudgetCategoryDto object = new BudgetCategoryDto() {{
+            setBudgetCategoryTypeCode("Pig");
+            setDescription("Teacup Pig");
         }};
-        deadlineTypeController.update("Pig", object);
+        budgetCategoryController.update("Pig", object);
     }
 
     @Test(expected = ResourceNotFoundException.class)
     public void test_not_found_delete() {
         GlobalVariables.setUserSession(new UserSession(AUTHORIZED_USER));
-        deadlineTypeController.delete("FOO");
+        budgetCategoryController.delete("FOO");
     }
 
     @Test(expected = UnprocessableEntityException.class)
     public void test_duplicate_create() {
         GlobalVariables.setUserSession(new UserSession(AUTHORIZED_USER));
 
-        Map<String, Object> object = new HashMap<String, Object>() {{
-            put("deadlineTypeCode", "P");
-            put("description", "Pork");
+        BudgetCategoryDto object = new BudgetCategoryDto() {{
+            setCode("1");
+            setDescription("Pork");
         }};
-        deadlineTypeController.add(object);
+        budgetCategoryController.add(object);
     }
 
     @Test(expected = ResourceNotFoundException.class)
     public void test_missing_user_supplied_pk() {
         GlobalVariables.setUserSession(new UserSession(AUTHORIZED_USER));
 
-        Map<String, Object> object = new HashMap<String, Object>() {{
-            put("description", "Pork");
+        BudgetCategoryDto object = new BudgetCategoryDto() {{
+            setDescription("Pork");
         }};
-        deadlineTypeController.add(object);
+        budgetCategoryController.add(object);
     }
 
     @Test(expected = DataDictionaryValidationException.class)
     public void test_missing_required_field() {
         GlobalVariables.setUserSession(new UserSession(AUTHORIZED_USER));
 
-        Map<String, Object> object = new HashMap<String, Object>() {{
-            put("deadlineTypeCode", "A");
+        BudgetCategoryDto object = new BudgetCategoryDto() {{
+            setCode("80");
         }};
-        deadlineTypeController.add(object);
+        budgetCategoryController.add(object);
     }
 
     @Test(expected = DataDictionaryValidationException.class)
     public void test_invalid_field() {
         GlobalVariables.setUserSession(new UserSession(AUTHORIZED_USER));
 
-        Map<String, Object> object = new HashMap<String, Object>() {{
-            put("deadlineTypeCode", "A");
-            put("description", StringUtils.repeat("LongString","",21));
+        BudgetCategoryDto object = new BudgetCategoryDto() {{
+            setCode("80");
+            setDescription(StringUtils.repeat("LongString","",21));
         }};
-        deadlineTypeController.add(object);
+        budgetCategoryController.add(object);
     }
 }

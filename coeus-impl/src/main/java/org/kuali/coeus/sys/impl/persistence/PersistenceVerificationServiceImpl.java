@@ -50,8 +50,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static org.kuali.coeus.sys.framework.util.CollectionUtils.entriesToMap;
 import static org.kuali.coeus.sys.framework.util.CollectionUtils.entry;
+import static org.kuali.coeus.sys.framework.util.CollectionUtils.nullSafeEntriesToMap;
 
 @Component("persistenceVerificationService")
 public class PersistenceVerificationServiceImpl implements PersistenceVerificationService {
@@ -226,7 +226,7 @@ public class PersistenceVerificationServiceImpl implements PersistenceVerificati
 
                     final Map<String, Object> criteria = relationship.getAttributeRelationships().stream()
                             .map(attr -> entry(attr.getChildAttributeName(), getProperty(bo, attr.getParentAttributeName())))
-                            .collect(entriesToMap());
+                            .collect(nullSafeEntriesToMap());
 
                     if (!criteria.isEmpty() && getDataObjectService().findMatching(relationship.getRelatedType(),
                             QueryByCriteria.Builder.andAttributes(criteria).setCountFlag(CountFlag.ONLY).build()).getTotalRowCount() == 0) {
@@ -247,7 +247,7 @@ public class PersistenceVerificationServiceImpl implements PersistenceVerificati
                 .forEach(relationship -> {
             final Map<String, Object> criteria = relationship.getParentToChildReferences().entrySet().stream()
                     .map(entry -> entry(entry.getKey(), getProperty(bo, entry.getValue())))
-                    .collect(entriesToMap());
+                    .collect(nullSafeEntriesToMap());
 
             if (!criteria.isEmpty() && getBusinessObjectService().countMatching(relationship.getParentClass(), criteria) > 0) {
                 errors.putError(KRADConstants.GLOBAL_ERRORS, KeyConstants.ERROR_DELETION_BLOCKED, getRelationshipDescriptor(relationship.getParentClass()));
@@ -269,7 +269,7 @@ public class PersistenceVerificationServiceImpl implements PersistenceVerificati
                 .forEach(relationship -> {
             final Map<String, Object> criteria = relationship.getPrimitiveAttributes().stream()
                     .map(attr -> entry(attr.getSourceName(), getProperty(bo, attr.getTargetName())))
-                    .collect(entriesToMap());
+                    .collect(nullSafeEntriesToMap());
 
                 try {
                     if (!criteria.isEmpty() && getBusinessObjectService().countMatching(relationship.getSourceClass(), criteria) > 0) {
@@ -298,7 +298,7 @@ public class PersistenceVerificationServiceImpl implements PersistenceVerificati
                 .forEach(relationship -> {
             final Map<String, Object> criteria = relationship.getValue().getAttributeRelationships().stream()
                     .map(attr -> entry(attr.getParentAttributeName(), getProperty(bo, attr.getChildAttributeName())))
-                    .collect(entriesToMap());
+                    .collect(nullSafeEntriesToMap());
 
             if (!criteria.isEmpty() && getDataObjectService().findMatching(relationship.getKey(),
                     QueryByCriteria.Builder.andAttributes(criteria).setCountFlag(CountFlag.ONLY).build()).getTotalRowCount() > 0) {

@@ -20,6 +20,7 @@ package org.kuali.coeus.sys.framework.controller.rest;
 
 import java.lang.reflect.Modifier;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -227,7 +228,38 @@ public abstract class SimpleCrudRestControllerBase<T extends PersistableBusiness
 		save(dataObject);
 		logger.saveAuditLog();
 	}
-	
+
+	@RequestMapping(method=RequestMethod.PUT)
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@SuppressWarnings("unchecked")
+	public void update(@Valid @RequestBody Object dto) {
+		assertUserHasWriteAccess();
+
+		if (dto instanceof List) {
+			((List<Object>) dto).stream().map(this::objectToDto).forEach(this::doUpdate);
+		} else {
+			doUpdate(objectToDto(dto));
+		}
+	}
+
+	protected abstract R objectToDto(Object o);
+
+	protected void doUpdate(R dto) {
+		final Object pk = getPrimaryKeyIncomingObject(dto);
+		final T dataObject = getFromDataStore(pk);
+		if (dataObject == null) {
+			throw new ResourceNotFoundException("not found for key " + pk);
+		}
+		RestAuditLogger logger = getAuditLogger();
+		logUpdateToObject(dataObject, dto, logger);
+		updateDataObjectFromInput(dataObject, dto);
+
+		validateBusinessObject(dataObject);
+		validateUpdateDataObject(dataObject);
+		save(dataObject);
+		logger.saveAuditLog();
+	}
+
 	protected RestAuditLogger getAuditLogger() {
 		return restAuditLoggerFactory.getNewAuditLogger(dataObjectClazz, getListOfTrackedProperties());
 	}
@@ -245,17 +277,27 @@ public abstract class SimpleCrudRestControllerBase<T extends PersistableBusiness
 	
 	@RequestMapping(method=RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
-	public @ResponseBody R add(@Valid @RequestBody R dto) {
+	@SuppressWarnings("unchecked")
+	public @ResponseBody Object add(@Valid @RequestBody Object dto) {
 		assertUserHasWriteAccess();
+
+		if (dto instanceof List) {
+			return ((List<Object>) dto).stream().map(this::objectToDto).map(this::doAdd).collect(Collectors.toList());
+		} else {
+			return doAdd(objectToDto(dto));
+		}
+	}
+
+	protected R doAdd(R dto) {
 		final Object code = getPrimaryKeyIncomingObject(dto);
 		T existingDataObject = getFromDataStore(code);
 		if (existingDataObject != null) {
 			throw new UnprocessableEntityException("already exists for key " + code);
 		}
-		
+
 		RestAuditLogger logger = getAuditLogger();
 		T newDataObject = translateInputToDataObject(dto);
-		
+
 		validateBusinessObject(newDataObject);
 		validateInsertDataObject(newDataObject);
 		T savedDataObject = save(newDataObject);
@@ -263,7 +305,7 @@ public abstract class SimpleCrudRestControllerBase<T extends PersistableBusiness
 		logger.saveAuditLog();
 		return convertDataObject(savedDataObject);
 	}
-	
+
 	@RequestMapping(value="/{code}", method=RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public @ResponseBody void delete(@PathVariable String code) {
@@ -290,7 +332,7 @@ public abstract class SimpleCrudRestControllerBase<T extends PersistableBusiness
 		doGetAll(parameters).stream().forEach(this::doDelete);
 	}
 
-	protected Collection<T> doGetAll(@RequestParam(required = false) Map<String, String> parameters) {
+	protected Collection<T> doGetAll(Map<String, String> parameters) {
 		final Collection<T> dataObjects;
 		final Map<String, Object> searchCriteria = parameters != null ? parameters.entrySet().stream()
 				.filter(e -> getExposedProperties().contains(e.getKey()))

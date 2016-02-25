@@ -86,7 +86,8 @@ public class SimpleCrudMapBasedRestControllerStateBoTest extends KcIntegrationTe
             put("active", Boolean.TRUE);
         }};
 
-        Map<String, Object> added = stateController.add(object);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> added = (Map<String, Object>) stateController.add(object);
         assertEquals(added.get("code"), "MR");
         assertEquals(added.get("countryCode"), "US");
         assertEquals(added.get("name"), "MARS");
