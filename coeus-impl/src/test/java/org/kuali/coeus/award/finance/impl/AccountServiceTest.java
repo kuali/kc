@@ -159,7 +159,7 @@ public class AccountServiceTest {
 			public void refreshReferenceObject(String prop) {
 				
 			}
-			public int getIndexOfAwardAmountInfoForDisplay() throws WorkflowException {
+			public Integer getIndexOfAwardAmountInfoForDisplay() {
 				return 0;
 			}
 		};

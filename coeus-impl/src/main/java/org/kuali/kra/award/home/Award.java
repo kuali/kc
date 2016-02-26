@@ -41,6 +41,7 @@ import org.kuali.coeus.common.framework.auth.SystemAuthorizationService;
 import org.kuali.coeus.common.framework.auth.perm.Permissionable;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.award.AwardAmountInfoService;
 import org.kuali.kra.award.AwardTemplateSyncScope;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
@@ -308,6 +309,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 
     private List<AwardCgb> awardCgbList;
     
+    @SkipVersioning
     private transient Integer indexOfAwardAmountInfoForDisplay;
     private String fainId;
     private Integer fedAwardYear;
@@ -402,11 +404,11 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         return awardAmountInfos.get(getIndexOfLastAwardAmountInfo());
     }
     
-    public AwardAmountInfo getAwardAmountInfoForDisplay() throws WorkflowException {
+    public AwardAmountInfo getAwardAmountInfoForDisplay() {
     	return awardAmountInfos.get(getIndexOfAwardAmountInfoForDisplay());
     }
 
-    public int getIndexOfAwardAmountInfoForDisplay() throws WorkflowException {
+    public Integer getIndexOfAwardAmountInfoForDisplay() {
     	if (indexOfAwardAmountInfoForDisplay != null) {
     		return indexOfAwardAmountInfoForDisplay;
     	}
@@ -433,7 +435,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         indexOfAwardAmountInfoForDisplay = returnVal;
         return indexOfAwardAmountInfoForDisplay;
     }
-
+    
     public int getIndexOfAwardAmountInfoForDisplayFromTimeAndMoneyDocNumber(String docNum) throws WorkflowException {
         AwardAmountInfo aai = getAwardAmountInfoService().fetchLastAwardAmountInfoForDocNum(this, docNum);
         int returnVal = 0;

@@ -107,13 +107,8 @@ public class AwardNotificationRenderer extends NotificationRendererBase {
             result.put("{SPONSOR_CODE}", StringUtils.EMPTY);
             result.put("{SPONSOR_NAME}", StringUtils.EMPTY);
         }
-        AwardAmountInfo awardAmountInfo = null;
-        try {
-            awardAmountInfo = award.getAwardAmountInfos().get(award.getIndexOfAwardAmountInfoForDisplay());
-        }
-        catch (WorkflowException e) {
-            LOG.warn("Unable to load award amount info information.", e);
-        } 
+        AwardAmountInfo awardAmountInfo = award.getAwardAmountInfos().get(award.getIndexOfAwardAmountInfoForDisplay());
+
         if (awardAmountInfo != null && awardAmountInfo.getFinalExpirationDate() != null) {
             result.put("{FINAL_EXPIRATION_DATE}", dateFormatter.format(awardAmountInfo.getFinalExpirationDate()));
         } else {
