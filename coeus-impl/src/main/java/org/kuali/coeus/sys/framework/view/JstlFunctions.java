@@ -60,6 +60,10 @@ public final class JstlFunctions {
         return getConfigurationService().getPropertyValueAsString("spring.profiles.active").contains("grm");
     }
 
+    public static boolean getConfigValueAsBoolean(String key) {
+        return getConfigurationService().getPropertyValueAsBoolean(key);
+    }
+
     /**
      * Returns a list of key/value pairs for displaying in an HTML option for a select list. This is a customized approach to retrieving
      * key/value data from database based on criteria specified in the <code>params {@link Map}</code>

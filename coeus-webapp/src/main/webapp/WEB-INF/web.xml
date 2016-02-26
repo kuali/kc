@@ -184,7 +184,17 @@
         <filter-name>UserLoginFilter</filter-name>
         <url-pattern>/schemaspy/*</url-pattern>
     </filter-mapping>
-    
+
+    <filter-mapping>
+        <filter-name>BootstrapFilter</filter-name>
+        <url-pattern>/legacyCoeusSchemaspy/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>UserLoginFilter</filter-name>
+        <url-pattern>/legacyCoeusSchemaspy/*</url-pattern>
+    </filter-mapping>
+
     <filter-mapping>
         <filter-name>BootstrapFilter</filter-name>
         <url-pattern>/monitoring/*</url-pattern>

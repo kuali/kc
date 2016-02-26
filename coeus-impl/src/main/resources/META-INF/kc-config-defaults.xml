@@ -237,7 +237,7 @@
     <param name="kc.schemaspy.enabled">true</param>
 	<param name="kc.monitoring.enabled">true</param>
 	<param name="kc.monitoring.verbose.logging">false</param>
-	<param name="kc.monitoring.exclude.pattern">.*/static/.*|/healthCheck/.*|.*/css/.*|.*/images/.*|.*/help/.*|.*/plugins/.*|.*/themes/.*|.*/rice-contrib/.*|.*/scripts/.*|/schemaspy/.*</param>
+	<param name="kc.monitoring.exclude.pattern">.*/static/.*|/healthCheck/.*|.*/css/.*|.*/images/.*|.*/help/.*|.*/plugins/.*|.*/themes/.*|.*/rice-contrib/.*|.*/scripts/.*|/schemaspy/.*|/legacyCoeusSchemaspy/.*</param>
 	<param name="rice.krad.jpa.global.jpa.vendor.adapter.class">co.kuali.coeus.sys.impl.monitor.MonitoringEclipseLinkJpaVendorAdapter</param>
 
     <param name="kc.rest.admin.username" override="false"></param>
@@ -272,4 +272,12 @@
 
 	<param name="kuali.reports.base.url">${application.rest.services.base.url}</param>
 	<param name="kuali.reports.url">${kuali.reports.base.url}/reports/#/index</param>
+
+	<!-- for grm legacy coeus schemaspy config -->
+	<param name="legacy.coeus.kc.schemaspy.enabled">false</param>
+	<param name="legacy.coeus.datasource.url"></param>
+	<param name="legacy.coeus.datasource.username"></param>
+	<param name="legacy.coeus.datasource.password"></param>
+	<param name="legacy.coeus.datasource.ojb.platform">Oracle9i</param>
+	<param name="legacy.coeus.datasource.driver.name">${datasource.driver.name.${legacy.coeus.datasource.ojb.platform}}</param>
 </config>

@@ -22,7 +22,6 @@ package co.kuali.coeus.sys.impl.monitor;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 
 import org.kuali.coeus.sys.framework.util.HttpUtils;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.krad.UserSession;
@@ -40,12 +39,11 @@ import java.util.Collections;
 public class MonitoringFilter implements Filter {
 
     private static final String KIM_MONITORING_VIEW_ID = "monitoring";
-    private static final String MONITORING_CONFIG_PARAM = "kc.monitoring.enabled";
 
     private FilterConfig filterConfig;
-    private ConfigurationService configurationService;
     private PermissionService permissionService;
     private GlobalVariableService globalVariableService;
+    private boolean monitoringEnabled;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -66,7 +64,7 @@ public class MonitoringFilter implements Filter {
             return;
         }
 
-        if (!getConfigurationService().getPropertyValueAsBoolean(MONITORING_CONFIG_PARAM)) {
+        if (!monitoringEnabled) {
             HttpUtils.disableCache((HttpServletResponse) response);
             response.getWriter().write("Monitoring has been disabled.");
             return;
@@ -78,14 +76,6 @@ public class MonitoringFilter implements Filter {
     @Override
     public void destroy() {
         filterConfig = null;
-    }
-
-    public ConfigurationService getConfigurationService() {
-        return configurationService;
-    }
-
-    public void setConfigurationService(ConfigurationService configurationService) {
-        this.configurationService = configurationService;
     }
 
     public PermissionService getPermissionService() {
@@ -102,5 +92,13 @@ public class MonitoringFilter implements Filter {
 
     public void setGlobalVariableService(GlobalVariableService globalVariableService) {
         this.globalVariableService = globalVariableService;
+    }
+
+    public boolean isMonitoringEnabled() {
+        return monitoringEnabled;
+    }
+
+    public void setMonitoringEnabled(boolean monitoringEnabled) {
+        this.monitoringEnabled = monitoringEnabled;
     }
 }
