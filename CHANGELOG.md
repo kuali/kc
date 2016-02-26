@@ -1,6 +1,16 @@
 
 
 ##CURRENT
+* Copied awards with multiple award amount info errors on save
+
+  * Awards copied that contain multiple award amount infos from a time and money document fail on initial save with the following error.
+  * ```
+  * org.springframework.dao.DataIntegrityViolationException: OJB operation; SQL []; Column 'AWARD_NUMBER' cannot be null; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'AWARD_NUMBER' cannot be null
+  * ```
+  * This was because the indexOfAwardAmountInfoToDisplay would get set during versioning/sequencing due to a lazy initializer. After the versioning the amount info list is truncated leaving the indexOfAmountInfoToDisplay at a much higher number than exists. Then the KNS view of the initial page would populate the awardAmountInfo list with new, uninitialized values. Attempting to save these new items would throw the exception above.
+  * blackcathacker on Thu, 25 Feb 2016 18:02:50 -0800 [View Commit](../../commit/7f9543a6e7df757d541b948968ecb2f58bff9645)
+
+##coeus-1602.65
 * RESKC-1117: Adding new KRMS functions for custom data.
 
   * Need a new function for KRMs in all Namespaces to search for a custom data entry. We're imagining this could work in a similar manner to the Questionnaire Category.
