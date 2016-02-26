@@ -103,7 +103,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
         // Unit number chosen, set Applicant Organization
         if (developmentProposal.getOwnedByUnitNumber() != null &&
-                applicantOrganization == null || applicantOrganization.getOrganization() == null) {
+                (applicantOrganization == null || applicantOrganization.getOrganization() == null)) {
             // get Lead Unit details
             developmentProposal.refreshReferenceObject("ownedByUnit");
             String applicantOrganizationId = developmentProposal.getOwnedByUnit().getOrganizationId();
