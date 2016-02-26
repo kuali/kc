@@ -157,15 +157,13 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         initialInfo.setFinalExpirationDate(awardAmount.getFinalExpirationDate());
         initialInfo.setCurrentFundEffectiveDate(awardAmount.getCurrentFundEffectiveDate());
         initialInfo.setObligationExpirationDate(awardAmount.getObligationExpirationDate());
+        awardAmountInfo.setOriginatingAwardVersion(1); 
+        
         awardAmountInfo.setAward(copy);
         initialInfo.setAward(copy);
-        if(awardAmount.getOriginatingAwardVersion() != null) {
-           awardAmountInfo.setOriginatingAwardVersion(1); 
-        }
-        awardAmountInfoList.add(initialInfo);
-        awardAmountInfoList.add(awardAmountInfo);
-            
         
+        awardAmountInfoList.add(initialInfo);
+        awardAmountInfoList.add(awardAmountInfo);       
         copy.setAwardAmountInfos(awardAmountInfoList);
     }
     /**
@@ -381,11 +379,11 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
             copyAwardAmountDateInfo(award, newAward);
             award.setBudgets(new ArrayList<>());
             newAward.setCurrentVersionBudgets(new ArrayList<>());
-
-            List<AwardSpecialReview> awardSpecialReviews = new ArrayList<AwardSpecialReview>();
-            newAward.setSpecialReviews(awardSpecialReviews);
+            
+            newAward.setSpecialReviews(new ArrayList<AwardSpecialReview>());
             clearFilteredAttributes(newAward);
             getAwardService().synchNewCustomAttributes(newAward, award);
+            
             
         } catch(Exception e) { 
             throw uncheckedException(e);
