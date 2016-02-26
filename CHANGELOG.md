@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* allowing schemaspy to be used for the legacy coeus database.  refactoring the monitoring filter to be consistent with the SchemaSpy filter refactor.  adding links to download the raw schema information in xml form
+  * Travis Schneeberger on Thu, 25 Feb 2016 21:37:50 -0500 [View Commit](../../commit/4742f2a45b4f9c00bd36e4a72a974e9382a03c8a)
+
+##coeus-1602.66
 * Copied awards with multiple award amount info errors on save
 
   * Awards copied that contain multiple award amount infos from a time and money document fail on initial save with the following error.
