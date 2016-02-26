@@ -1,11 +1,39 @@
 
 
 ##CURRENT
+* RESKC-1117: Adding new KRMS functions for custom data.
+
+  * Need a new function for KRMs in all Namespaces to search for a custom data entry. We're imagining this could work in a similar manner to the Questionnaire Category.
+  * For Parameters, user may need to specify the specific Custom Attribute ID and the Document Type Code so that the specific field in question can be searched.
+*Needs to work for Comparison of Null and !=Null, *
+  * Would be nice to work where it can reference specific Value also
+  * Gayathri Athreya on Mon, 22 Feb 2016 12:58:35 -0700 [View Commit](../../commit/d6e3c8e41c6e40c0f649b959f8f56cd45e9bb356)
+* RESKC-1184: supporting list based put and post
+  * Travis Schneeberger on Thu, 25 Feb 2016 11:51:54 -0500 [View Commit](../../commit/aba13d6eb2872a1ca0540549329dee5b421e4aa3)
+* update auth bulk push to set limit=100000
+
+  * This change will allow us to more gracefully convert to the new node base core-auth. In the future the bulk push will likely be changed to do specific queries for each user instead of bulk pulling down all users from core-auth as we are doing now.
+  * blackcathacker on Wed, 24 Feb 2016 18:07:23 -0800 [View Commit](../../commit/2dd037c0e61cf14393b3d410ce8b0311397709da)
+* RESKC-1179: Fixed hierarchy org issue.
+
+  * A user creates a proposal hierarchy with at least two proposals. The proposal is finalized and submitted for routing. User realizes that the budget entries mean that there should be "other organizations" listed. User recalls the proposal.
+  * User navigates to the parent proposal and then to the organization section, other organization tab. User searches for and adds four organizations. Save and Continue and all seems fine, as soon as the user chooses another tab in the left navigation there is a STE.
+  * User expects to see new organizations added, and be able to navigate normally with the ability to re-submit for review.
+steps to reproduce
+  * Hierarchy had been successfully created, routed, and then returned for revisions.
+  * With PD Status of Revisions Requested, DLC user had gone into Parent to edit and add several "Other Organizations" in Organization and Location section at request of OSP Approver.
+  * User successfully added 4 Other Organizations.
+  * Then began getting Incident reports with every attempt at navigating in the PD while editing.
+  * When opened with Edit on Basics > Proposal Details screen, any attempt at navigating results in an Incident report, even simply clicking Proposal Details (the same screen user is on).
+  * NOTE - at parent, when user opens in View and navigates to the Organizations & Locations, the Applicant Organization and Performing Organization tabs are both blank. This is normally populated with data by default. Child proposals still have this filled with data.
+  * Gayathri Athreya on Wed, 24 Feb 2016 10:07:21 -0700 [View Commit](../../commit/d538690fcc49a47f2264943cf13013a25b039319)
+
+##coeus-1602.64
 * No Changes
 
 
 ##coeus-1602.63
-*  updating existing copyright header, adding missing copyright header
+* RESKC-1180: updating existing copyright header, adding missing copyright header
   * Travis Schneeberger on Wed, 24 Feb 2016 09:34:31 -0500 [View Commit](../../commit/cdc6aadb890c850ef9285378fa6eec6c97c87783)
 * add needed permissions to coi administrator role
   * Joe Williams on Tue, 23 Feb 2016 14:58:06 -0600 [View Commit](../../commit/d3234f024b9d33fc62b27cf404dab7f51753e84d)
@@ -39,17 +67,17 @@
 
 
 ##coeus-1602.54
-*  User Story: As a system administrator I need to be able to tell which custom attributes are linked to which modules in a single lookup view.
+* RESKC-1151: User Story: As a system administrator I need to be able to tell which custom attributes are linked to which modules in a single lookup view.
 
             User acceptance Criteria: Given that I am a user who has access to the Custom Attribute Document lookup when I click on a link in the Custom Attribute ID column of the search returns I will be shown an inquiry screen of the Custom Attribute listed. (Currently you are just shown an inquiry of the association document which still doesn't let you know which field is being linked)
   * Travis Schneeberger on Fri, 19 Feb 2016 08:36:21 -0500 [View Commit](../../commit/86fef4a329ad5274a88b77032651ed6ffb2dfa0e)
 
 ##coeus-1602.53
-*  check that event.orginalEvent.data is a string before performing string functions on it
+* check that event.orginalEvent.data is a string before performing string functions on it
   * Joe Williams on Fri, 19 Feb 2016 10:19:29 -0600 [View Commit](../../commit/34cbd3f27f8fb5050937644c5b8059c278ac57c8)
 
 ##coeus-1602.52
-*  When attempting to add an Activity or modify Activity End date, user receives incorrect validation message if Activity End Date is later than Negotiation End Date.
+* RESKC-1038: When attempting to add an Activity or modify Activity End date, user receives incorrect validation message if Activity End Date is later than Negotiation End Date.
 
   * Message says "Activity End Date must be the same or later than the Activity Start Date". This message is incorrect and only way to resolve is to fix Negotiation End Date or Activity End Date (not Activity Start Date). This affects "Complete" Negotiation docs.
   * Steps to Reproduce
@@ -68,9 +96,9 @@
 
 
 ##coeus-1602.50
-*  Modified scripts, refactored, tested and added tests.
+* RESKC-1152: Modified scripts, refactored, tested and added tests.
   * Gayathri Athreya on Thu, 4 Feb 2016 10:52:03 -0700 [View Commit](../../commit/bcbc7ec9e8684baa188d549cf2704d18da72d6f5)
-*  Added new KRMS functions for award, PD, IP and IRB
+* RESKC-1152: Added new KRMS functions for award, PD, IP and IRB
 
   * This contribution is a series of KRMS functions for use in a variety of modules as well as the code necessary to allow functions in IP to work properly.  That code was left out of IP and Subaward when KRMS was linked to those modules.
 
@@ -108,7 +136,7 @@
 
 
 ##coeus-1602.47
-*  A person entered as Multi-PI on an proposal or institute proposal is not being brought forward when funded to an award. All Key Personnel listed on Proposal should populate on an initiated institute proposal, and all personnel on an institutional proposal should populate on a linked award. The person in the Multi-PI role is currently dropped from award completely. They must still appear with the same role as from institutional proposal.
+* RESKC-1166: A person entered as Multi-PI on an proposal or institute proposal is not being brought forward when funded to an award. All Key Personnel listed on Proposal should populate on an initiated institute proposal, and all personnel on an institutional proposal should populate on a linked award. The person in the Multi-PI role is currently dropped from award completely. They must still appear with the same role as from institutional proposal.
 
             *steps to reproduce*
             Create an Ip
@@ -126,14 +154,14 @@
   * Joe Williams on Wed, 17 Feb 2016 16:57:01 -0600 [View Commit](../../commit/040827e8dd1b38f5ff501873a174e2e8fddf81c1)
 
 ##coeus-1602.45
-*  Added new KRMS functions for Award.
+* RESKC-1171: Added new KRMS functions for Award.
   * – Effort
   * – Calendar Effort
   * – Comments (Award tab comments)
   * Gayathri Athreya on Tue, 16 Feb 2016 09:25:09 -0700 [View Commit](../../commit/0c4d30a249f252dffb4856966a2785a4b4e318fe)
 
 ##coeus-1602.44
-* Support role and independent requests
+* RESKC-701,RESKC-918:Support role and independent requests
 
   * New other approve and reject notifications did not handle role and separate, independent, similtaneous requests correctly. This handles those and child requests more accurately.
   * blackcathacker on Fri, 29 Jan 2016 20:15:06 -0500 [View Commit](../../commit/4c92f0ac2fdda6a88a5de02b8bfcde8b4f2a96a5)
@@ -143,11 +171,11 @@
 
 
 ##coeus-1602.42
-*  Added test for when one child has a rolodex and is synced to parent after a new bio is added for one of the personnel at parent.
+* RESKC-1170: Added test for when one child has a rolodex and is synced to parent after a new bio is added for one of the personnel at parent.
   * Gayathri Athreya on Fri, 12 Feb 2016 13:34:27 -0700 [View Commit](../../commit/b017130a48fcd19d50decec08a8be43837dca852)
 
 ##coeus-1602.41
-*  Fix null pointer in hierarchy sync.
+* RESKC-1170: Fix null pointer in hierarchy sync.
 
   * Child 1:
   * Attachments added via Upload & Add
@@ -191,7 +219,7 @@
 
 
 ##coeus-1602.37
-* Enable new breakup rate inclusion calculation code by default.
+* RESKC-1120:Enable new breakup rate inclusion calculation code by default.
   * blackcathacker on Thu, 11 Feb 2016 08:44:01 -0800 [View Commit](../../commit/d0fccf46af4627bdfa41e4cb6431271dcd49254e)
 
 ##coeus-1602.36
@@ -203,13 +231,13 @@
 
 
 ##coeus-1602.34
-*  Fixing rejection STE.
+* Fixing rejection STE.
   * STE happens when approver tries to reject proposal.
   * org.kuali.rice.kew.api.WorkflowRuntimeException: java.lang.RuntimeException: post processor caught exception while handling route level change: Exception [EclipseLink-4002] (Eclipse Persistence Services - 2.6.0.v20150309-bf26070): org.eclipse.persistence.exceptions.DatabaseException Internal Exception: java.sql.SQLIntegrityConstraintViolationException: ORA-01400: cannot insert NULL into ("KCSO"."KRNS_PESSIMISTIC_LOCK_T"."SESN_ID") Error Code: 1400 Call: INSERT INTO KRNS_PESSIMISTIC_LOCK_T (PESSIMISTIC_LOCK_ID, DOC_HDR_ID, GNRT_DT, LOCK_DESC_TXT, OBJ_ID, PRNCPL_ID, SESN_ID, VER_NBR) VALUES (?, ?, ?, ?, ?, ?, ?, ?) bind => [8 parameters bound] Query:
   * Gayathri Athreya on Wed, 10 Feb 2016 17:57:51 -0700 [View Commit](../../commit/38ce156c6d675b9b0eb583f9faeb4bb30c55e93e)
 
 ##coeus-1602.33
-*  Fix STE when new bio is added to a child in a hierarchy with a bio for the same person.
+* Fix STE when new bio is added to a child in a hierarchy with a bio for the same person.
   * Steps to reproduce.
   * 1. Create a proposal, add a PI add a bio for this PI.
   * 2. Create a new hierarchy.
@@ -226,11 +254,11 @@
 
 
 ##coeus-1602.30
-*  Added tests
+* RESKC-1162: Added tests
   * Gayathri Athreya on Tue, 9 Feb 2016 20:58:52 -0700 [View Commit](../../commit/b2126c699796405a60314484751b86b79cfd0d76)
-*  Proposal Hierarchy does not delete personnel attachment from parent, Sync on non-employee personnel attachments cause an STE, In the Personnel Attachments Screen, when the User adds Personnel and their corresponding attachments, then clicks Save, the Personnel name disappears.
+* RESKC-1162, Proposal Hierarchy does not delete personnel attachment from parent, Sync on non-employee personnel attachments cause an STE, In the Personnel Attachments Screen, when the User adds Personnel and their corresponding attachments, then clicks Save, the Personnel name disappears.
 
-  * Steps to reproduce 
+  * Steps to reproduce RESKC-1162:
   * 1) create a proposal.
   * 2) add two persons
   * 3) add a biosketch attachment for each person (two in total)
@@ -284,7 +312,7 @@
   * 4) non employee personnel attachments can be added and maintained at the parent even when duplicates do not exist
   * 5) when a duplicate personnel attachment exists across child proposals, the child attachments should not be editable. This is correct exception the description textarea is still editable
   * Travis Schneeberger on Tue, 9 Feb 2016 13:56:30 -0500 [View Commit](../../commit/28a53db44887b88f6a76704f27ef5eb8d75665a4)
-* Process to remove duplicate amount infos generated when pending awards exist during T&M
+* RESKC-767:Process to remove duplicate amount infos generated when pending awards exist during T&M
 
   * When a T&M doc is created while a pending award exists, duplicate award_amount_info records were being generated against the pending and active awards. This process will attempt remove these duplciates.
   * blackcathacker on Sun, 17 Jan 2016 17:49:35 -0800 [View Commit](../../commit/79e76c1fdde9005dcc13234aad2bd346553c765c)
@@ -294,7 +322,7 @@
 
 
 ##coeus-1602.28
-*  Make total base cost field editable in Single Point Entry page.
+* RESKC-1159: Make total base cost field editable in Single Point Entry page.
   * Gayathri Athreya on Tue, 9 Feb 2016 11:03:13 -0700 [View Commit](../../commit/239b0528884e17d6347dac4114e27fd5d8596cf4)
 
 ##coeus-1602.27
@@ -302,15 +330,15 @@
 
 
 ##coeus-1602.26
-*  reviewAttachments list was not initialized and so it was throwing NPE while trying to delete attachments list from OnlineReviewComments document
+* reviewAttachments list was not initialized and so it was throwing NPE while trying to delete attachments list from OnlineReviewComments document
   * Geo Thomas on Tue, 9 Feb 2016 11:20:26 -0500 [View Commit](../../commit/979c3716b1cda9826d43def8a2f0c87947a6d513)
 
 ##coeus-1602.25
-*  Changing the dropdown field to an advanced multiselect on object code and adding object code to dropdown display. 1. Single Point Entry. User cannot type any info in the Object Code Name field. Instead, the system opens up the menu where user can scroll alphabetically to select the Object Code Name they want: Desired result - User should be able to start typing name or number in Object Code Name field when adding a line item. 2. After adding a line item, the user only see the Object Code Name, and does not see the Object Code Number. Desired result - After entering a line item, user should see both the Object Code Number and Name in the Object Code Name field.
+* RESKC-1158, RESKC-1160: Changing the dropdown field to an advanced multiselect on object code and adding object code to dropdown display. 1. Single Point Entry. User cannot type any info in the Object Code Name field. Instead, the system opens up the menu where user can scroll alphabetically to select the Object Code Name they want: Desired result - User should be able to start typing name or number in Object Code Name field when adding a line item. 2. After adding a line item, the user only see the Object Code Name, and does not see the Object Code Number. Desired result - After entering a line item, user should see both the Object Code Number and Name in the Object Code Name field.
   * Gayathri Athreya on Mon, 8 Feb 2016 13:54:42 -0700 [View Commit](../../commit/f671ddb5aa13839e38e33ad74c50cce9079e74bf)
 
 ##coeus-1602.24
-*  fixing potential NPEs
+* fixing potential NPEs
   * Travis Schneeberger on Mon, 8 Feb 2016 16:04:25 -0500 [View Commit](../../commit/f7501a379304874cc2f0961da43765aecfb775be)
 
 ##coeus-1602.23
@@ -326,7 +354,7 @@
 
 
 ##coeus-1602.20
-*  Fixed rates maintenance edit and copy.
+* RESKC-1153: Fixed rates maintenance edit and copy.
   * Currently, when an administrator attempts to edit an existing Rate, a random rate maintenance document is opened, not the one selected.
   * Please modify the Edit & Copy features for Institute Rates and Institute LA Rates maintenance documents so that they present the selected item (missing primary key).
   * To duplicate:
@@ -341,7 +369,7 @@
   * Gayathri Athreya on Fri, 5 Feb 2016 19:23:29 -0700 [View Commit](../../commit/b57effa9413f066ef346d71ae5ea0126af551c3d)
 
 ##coeus-1602.19
-*  Added fringe totals to exclusion list when Overhead not applied.
+* RESKC-1145: Added fringe totals to exclusion list when Overhead not applied.
   * In KC budget, in the line item details (both in Non-Personnel Costs and SPE screens) or personnel group Details & Rates, if you uncheck the "Apply Rate" box for MTDC, the IDC in the budget is correctly adjusted to exclude the unchecked amounts.
   * However, when you print the budget forms, the calculated fringe amount is not listed in the Page 2: Calculation Methodology: exclusions. When Personnel expenses use the 'unapply rate' option, the _salary _is listed as excluded, but associated fringes are not there.
   * The correct BASE does appear in the next section (F&A Cost Rates and Base), and is correct Page 1.
@@ -359,18 +387,18 @@
   * Gayathri Athreya on Fri, 5 Feb 2016 14:03:54 -0700 [View Commit](../../commit/c59d3278b9aabcb32453ecf90824ca708285da85)
 
 ##coeus-1602.18
-*  only recalculate formulated costs for a line item if formulated cost elements are present
+* RESKC-1155: only recalculate formulated costs for a line item if formulated cost elements are present
   * Joe Williams on Fri, 5 Feb 2016 13:44:56 -0600 [View Commit](../../commit/1a8e0ef423d304b88a70c187e60f48ce26fab8df)
 
 ##coeus-1602.17
-* Fix STE when importing hierarchy proposal budget into award
+* RESKC-1156:Fix STE when importing hierarchy proposal budget into award
 
   * When importing line items into an award budget from a hierarchy proposal a STE was generated due to it attempting to retreive rates from the original child proposal.
   * Hierarchy proposal number is now stripped from the line items during import as that information is no longer applicable.
   * blackcathacker on Fri, 5 Feb 2016 11:05:06 -0800 [View Commit](../../commit/40bbc531fed188e6fee827734a545b7e5d9ff640)
 
 ##coeus-1602.16
-*  Fixed logic that finds line items not associated with subaward.
+* RESKC-1154: Fixed logic that finds line items not associated with subaward.
   * See proposal 1171.
   * Budget version 1 has the subaward file uploaded.
   * Copied entire budget to Version 2.
@@ -381,7 +409,7 @@
   * Gayathri Athreya on Thu, 4 Feb 2016 14:01:31 -0700 [View Commit](../../commit/de42a02ded1b11241bdada38abd1e532df3c5062)
 
 ##coeus-1602.15
-*  Fixed prop person bio sync- fixed biography number and created new bio instead of deep copy.
+* RESKC-489: Fixed prop person bio sync- fixed biography number and created new bio instead of deep copy.
 
   * STEPS TO RECREATE:
   * Create a PD with a PI (employee search) and a Key Person (employee search) with KP role "Subaward Investigator"
@@ -409,7 +437,7 @@ ste will result.
 
 
 ##coeus-1602.12
-* BreakupInterval service calculates incorrectly when multiple dependent rates existing in a single rate class
+* RESKC-1120:BreakupInterval service calculates incorrectly when multiple dependent rates existing in a single rate class
 
   * For example when MTDC(rate class code = 1) depends on EB(rate class code = 5) but there exists multiple EB rate types
   * mapped to a single cost element, the rate calculation would only include one of the EB rate types in the MTDC calculation.
@@ -426,11 +454,11 @@ ste will result.
   * Joe Williams on Wed, 3 Feb 2016 17:03:14 -0600 [View Commit](../../commit/b682a7c1cbc42f448c4567d64eaa668387c2c474)
 
 ##coeus-1602.9
-*  fixing questionnaire maintenance where an explicit save is not needed.
+* RESKC-1119: fixing questionnaire maintenance where an explicit save is not needed.
   * Travis Schneeberger on Wed, 3 Feb 2016 15:04:53 -0500 [View Commit](../../commit/3fd06d301af068c5d299118c983620cefe244e18)
-*  while synching costshare from childproposal budget to parent budget, it was not resetting the costshare list after removing those records from database. This fix would remove the child proposal costshare list from budget parent before resynching it again
+* while synching costshare from childproposal budget to parent budget, it was not resetting the costshare list after removing those records from database. This fix would remove the child proposal costshare list from budget parent before resynching it again
   * Geo Thomas on Wed, 3 Feb 2016 12:39:06 -0500 [View Commit](../../commit/e357019f085f036d110653439d32cb66023410be)
-*  Can't create Award Budget after Award end date is adjusted
+* RESKC-759: Can't create Award Budget after Award end date is adjusted
   * Tested 1/29/16 in version 1601.102
   * Award *354-00001 created in this build for award budget testing of related issue (resops-584 and reskc-1126)
   * Followed steps in ops-584 to create Award + T&M, and then create Award Budget (but not edit); return to T&M and revise end date (later). Returned to Award Budget: can successfully update AB to extend the end date via adjust boundaries.
@@ -447,11 +475,11 @@ ste will result.
   * System must allow a user to create an award budget even when the dates and/or funding levels in prior versions are less than values that existed in prior versions. AKA Deobligated levels.
   * This deobligation can happen because a sponsor reduces funds/time from an entire project, or because a PI wants to reduce funds/effort in one project and move it to another.
   * Gayathri Athreya on Tue, 2 Feb 2016 11:45:20 -0700 [View Commit](../../commit/2eb3e8711545eb628cbd7ddc85242d33514b1d4a)
-*  Making sure that the update user and update timestamp are set correctly in workflow routing hooks.  Starting to replace the KcPostProcessor in favor or a solution that does not require setting session variables for update user and update timestamp.
+* RESKC-1119: Making sure that the update user and update timestamp are set correctly in workflow routing hooks.  Starting to replace the KcPostProcessor in favor or a solution that does not require setting session variables for update user and update timestamp.
   * Travis Schneeberger on Thu, 28 Jan 2016 15:05:21 -0500 [View Commit](../../commit/13c74a3918e12a206ef3505bcd2dbe83c0ec47fc)
 
 ##coeus-1602.7
-*  fix a NPE when opening protocol online review from doc search
+* RESKC-1148: fix a NPE when opening protocol online review from doc search
   * Travis Schneeberger on Tue, 2 Feb 2016 13:44:33 -0500 [View Commit](../../commit/6f4a2cf4346dcdc1be21725eb9fb4fbc6163c605)
 
 ##coeus-1602.6
@@ -459,11 +487,11 @@ ste will result.
 
 
 ##coeus-1602.5
-*  Allow the activemq datasource unique name to be configured.
+* RESKC-1149: Allow the activemq datasource unique name to be configured.
   * Travis Schneeberger on Tue, 2 Feb 2016 10:18:10 -0500 [View Commit](../../commit/58759821bd08c7956bc8568417e7fc03192074fc)
-*  add membership end point to get all principals with a specified role
+* add membership end point to get all principals with a specified role
   * Joe Williams on Tue, 2 Feb 2016 13:31:56 -0600 [View Commit](../../commit/20475b4ae1c088fcb2d262179d1c4c73b9341ec6)
-* Support logout better for krad pages
+* RESKC-1030:Support logout better for krad pages
 
   * Support the existing configuration options that the KualiLogoutAction users for logout from the KRAD portal.
   * blackcathacker on Mon, 1 Feb 2016 16:11:31 -0800 [View Commit](../../commit/52e5a892bc66fbcce07c1e5878e216d60a6c63a9)
@@ -477,7 +505,7 @@ ste will result.
 
 
 ##coeus-1602.2
-*  Better logic for determining when a proposal has been rejected
+* Better logic for determining when a proposal has been rejected
   * Joe Williams on Mon, 1 Feb 2016 16:54:05 -0600 [View Commit](../../commit/a530b38a7aa975dc67085238ac246e0ed9dd0846)
 
 ##coeus-1602.1
@@ -489,7 +517,7 @@ ste will result.
 
 
 ##coeus-1601.107
-*  Fixing fringe calculation when budget period spans 2 fiscal years.
+* RESKC-1136: Fixing fringe calculation when budget period spans 2 fiscal years.
   * KC Stage build 1601.64
   * PD Budget Print Reports: issues with Lab Allocation Fringe calculation when budget period crosses FY and change of rates
   * the PD Budget Print > "2 Budget Cumulative Report" & "4 Budget Summary Report" are not populating/calculating the Fringe Benefits on the Lab Allocation - Allocated Admin Support lines correctly where the budget period spans two fiscal years with a change of LA, EB and Vacation rates occurring at start of new fiscal year.
@@ -510,13 +538,13 @@ ste will result.
 
 
 ##coeus-1601.104
-* Disable new notifcations by default
+* RESKC-701,RESKC-918:Disable new notifcations by default
   * blackcathacker on Fri, 29 Jan 2016 09:53:41 -0500 [View Commit](../../commit/f01b85451cb35524549c3c3becbe24e9fca4543c)
-*  returning the saved object on post
+* RESKC-1100: returning the saved object on post
   * Travis Schneeberger on Thu, 28 Jan 2016 17:59:36 -0500 [View Commit](../../commit/b909857aa76c75d2c54d03f945fc19aa1579229f)
 
 ##coeus-1601.102
-*  Adding base when rate is 0 but removing when rate is not applied.
+* Adding base when rate is 0 but removing when rate is not applied.
   * Gayathri Athreya on Thu, 28 Jan 2016 08:40:34 -0700 [View Commit](../../commit/026ee4e1d413593c5a8c0565513b13879cda00cc)
 
 ##coeus-1601.101
@@ -532,15 +560,15 @@ ste will result.
 
 
 ##coeus-1601.99
-*  fixes salary inflation issues and adds unit test
+* RESKC-572: fixes salary inflation issues and adds unit test
   * Joe Williams on Wed, 27 Jan 2016 13:15:44 -0600 [View Commit](../../commit/9d70702c2d75ed56e9b83d6a6cd62782174acb0e)
 
 ##coeus-1601.98
-*  award budget totals in the summary tab and the parameters tab do not match when a fringe amount is entered and later changed
+* RESKC-1134: award budget totals in the summary tab and the parameters tab do not match when a fringe amount is entered and later changed
   * Travis Schneeberger on Wed, 27 Jan 2016 15:39:23 -0500 [View Commit](../../commit/f46926e9797c53e2c29d08f7cd3f40513299c7ce)
 
 ##coeus-1601.97
-*  fix budget cost. I reverted the fix for REKC-818 since that fix was causing rounding errors reported in this jira
+* fix budget cost. I reverted the fix for REKC-818 since that fix was causing rounding errors reported in this jira
   * and added a new fix for 818.
   * The PD Budget Print > "2 Budget Cumulative Report" & "4 Budget Summary Report" had previously been fixed and passed testing.
   * Now, several issues have returned.
@@ -550,7 +578,7 @@ ste will result.
   * Gayathri Athreya on Tue, 26 Jan 2016 16:32:22 -0700 [View Commit](../../commit/b21b508ff6e776b41a2fd63617a3ae359e327752)
 
 ##coeus-1601.96
-*  Creating notification when proposal approved.
+* RESKC-701: Creating notification when proposal approved.
   * If I am one of several approvers at a routing stop where only one approval is required, (need the system to check if the peopleflow map stop is set to all or first and only perform notification if first) I need to be notified if another user has approved a proposal where I am either primary or alternate.
   * Currently, there is no notification available to provide this service. This means users have to check every notice in their action list.
   * MIT Coeus notification engine provided this type of message and it is immensely important to the campus business process.
@@ -588,7 +616,7 @@ ste will result.
 
 
 ##coeus-1601.88
-*  fixing number proposal hierarchy issues.
+* RESKC-883: fixing number proposal hierarchy issues.
 
   * 1 - When hierarchy parent status is Approval Pending, and children are displayed as such, when child is opened with the View link in the PD search results Actions link, the following are available:
   * Edit button
@@ -609,7 +637,7 @@ ste will result.
   * with the same user, in the same browser session, open the child proposal
   * Notice that the child proposal is fully editable but should not be. This is because the child has a pessimistic lock and rice thinks that if a user has a lock then the user can edit.
   * Travis Schneeberger on Mon, 25 Jan 2016 17:46:56 -0500 [View Commit](../../commit/764aed4decbb4eb78f3666cbaf4e2053405119b0)
-* Remove unnecessary and invalid error message.
+* RESKC-1130:Remove unnecessary and invalid error message.
 
   * When auto-generating periods the following error would be generated erronously.
   * ```
@@ -628,7 +656,7 @@ ste will result.
 
   * Previously we were only checking if they could create and edit an institutional proposal before allowing them to submit the proposal to sponsor.
   * blackcathacker on Mon, 25 Jan 2016 16:18:12 -0500 [View Commit](../../commit/c400e97dec7bab15e5ec1e3729a40de334817d38)
-* IRB-IACUC change validation to accept any character for funding source number and name.
+* RESKC-1127:IRB-IACUC change validation to accept any character for funding source number and name.
   * At MIT unable to create and amendment for a protocol and
   * this is due to validation message The Funding Number (Funding Number) may only consist of visible characters, spaces, or tabs
   * on migrated protocol where special character exists in funding source details.
@@ -649,7 +677,7 @@ ste will result.
 
 
 ##coeus-1601.83
-*  Reject notification
+* RESKC-918: Reject notification
   * As one of several approvers at a routing stop, I need to be notified if another user has rejected a proposal where I am either primary or alternate approver.
   * Currently, there is no notification available to provide this service. This means users have to check every notice in their action list.
   * MIT Coeus notification engine provided this type of message and it is immensely important to the campus business process.
@@ -659,7 +687,7 @@ ste will result.
   * The attached template includes how MIT would customize this email notification for reference.
   * This issue is related to RESKC-701, another notification MIT utilizes to support routing notifications.
   * Gayathri Athreya on Sat, 23 Jan 2016 16:33:30 -0700 [View Commit](../../commit/e4b05ca1eecd5099c7f3b638fcffdf7485e247dc)
-* Allow changing of budget category and type separate from object code
+* RESKC-792:Allow changing of budget category and type separate from object code
 
   * This has the side effect of making the object code un-editable in the current UI, similar to the KNS version of budget.
   * blackcathacker on Sun, 24 Jan 2016 19:10:02 -0800 [View Commit](../../commit/fc417d8f3a8809a519d61bb1e90fd5acf84436bf)
@@ -673,9 +701,9 @@ ste will result.
 
 
 ##coeus-1601.81
-*  For addressbook it should apply the same logic as like it does for persons. Now, it would look for exempt key person roles, sponsor hierarchy and pck flag logic to see if an addressbook person need to certify or not
+* For addressbook it should apply the same logic as like it does for persons. Now, it would look for exempt key person roles, sponsor hierarchy and pck flag logic to see if an addressbook person need to certify or not
   * Geo Thomas on Mon, 25 Jan 2016 11:52:20 -0500 [View Commit](../../commit/749b0a0221378bd76e3c48ece4dbcea7f069fbe8)
-*  Reverting change and adding bootstrap value for proposalPersonRoleId
+* RESKC-671: Reverting change and adding bootstrap value for proposalPersonRoleId
   * Gayathri Athreya on Sat, 23 Jan 2016 20:11:40 -0700 [View Commit](../../commit/4e41c08ce3d7aeaffdf76f6338c90314395f2b4a)
 
 ##coeus-1601.80
@@ -695,11 +723,11 @@ ste will result.
 
 
 ##coeus-1601.76
-* Revert " upgrading JPA to try to avoid potential ConcurrentModific…"
+* Revert "RESKC-1124: upgrading JPA to try to avoid potential ConcurrentModific…"
   * Douglas Pace on Fri, 22 Jan 2016 11:57:08 -0800 [View Commit](../../commit/52ea3a02511ceb2f95c92445e92eed02bbbc3475)
 
 ##coeus-1601.75
-*  Adding ability to change proposal person role after addition. Cannot reproduce the STE mentioned so added test to verify.
+* RESKC-671: Adding ability to change proposal person role after addition. Cannot reproduce the STE mentioned so added test to verify.
   * Duplicated in res-test1.
   * Created initiating child proposal #6379 with PI user rhanlon
   * Created parent #6380. Using Summary/submit screen, confirmed rhanlon was PI in both parent and child.
@@ -739,9 +767,9 @@ ste will result.
   * when-present<#else>when-missing. (These only cover the last step of the expression; to cover the whole expression, use parenthessis: (myOptionVar.foo)!myDefault, (myOptionVar.foo)?? The failing instruction (FTL stack trace): ---------- ==> $
   * {request.contextPath}
   * Gayathri Athreya on Thu, 21 Jan 2016 23:21:05 -0700 [View Commit](../../commit/832b53c8c99a525cd846d38e6f886247b8a67e58)
-*  upgrading JPA to try to avoid potential ConcurrentModificationException
+* RESKC-1124: upgrading JPA to try to avoid potential ConcurrentModificationException
   * Travis Schneeberger on Fri, 22 Jan 2016 12:54:57 -0500 [View Commit](../../commit/4e35b4bfaa0749314e82400c2510afbf94c39101)
-*  Budget Calculation can sometimes cause an STE:
+* RESKC-1124: Budget Calculation can sometimes cause an STE:
 
   * java.util.ConcurrentModificationException
     at java.util.Vector$Itr.checkForComodification(Vector.java:1184)
@@ -777,7 +805,7 @@ ste will result.
 
 
 ##coeus-1601.71
-* Prevent NPE from occuring when permissions helper has not yet been inititialized
+* RESKC-1123:Prevent NPE from occuring when permissions helper has not yet been inititialized
 
   * When changing personnel on an amendment or renewal protocol the following stack trace was generated on save
   * ```
@@ -797,7 +825,7 @@ ste will result.
   * blackcathacker on Thu, 21 Jan 2016 14:37:43 -0800 [View Commit](../../commit/ca1c4f906e5cb5e781e3a4240c90be4e497adaa4)
 
 ##coeus-1601.70
-*  move holding page information from from session scope to request scope when possible.  Prefer request scope when information is available.  While not a complete solution, this minimises the chance that the holding page will navigate to the wrong document when multiple documents are submitted at the same time within the same user session
+* RESKC-1119: move holding page information from from session scope to request scope when possible.  Prefer request scope when information is available.  While not a complete solution, this minimises the chance that the holding page will navigate to the wrong document when multiple documents are submitted at the same time within the same user session
   * Travis Schneeberger on Wed, 20 Jan 2016 11:35:04 -0500 [View Commit](../../commit/d297d84e5475451eab7c7d11e6c96fbb1e580376)
 
 ##coeus-1601.69
@@ -813,7 +841,7 @@ ste will result.
 
 
 ##coeus-1601.66
-* STE Award Budget
+* RESKC-1122:STE Award Budget
   * STE when clicking on budget persons in Award Budget module.
   * Navigating to personnel tab java.lang.NullPointerException
   * Rolodex is not populated. Looks like a OJB - JPA lazy load issue.
@@ -829,7 +857,7 @@ ste will result.
 
 
 ##coeus-1601.63
-*  When searching awards through award module, i am able to edit dates and money in display mode. On some accounts i am able to edit all dates and money in display mode. On most accounts i am able to edit execution date and modification date.
+* RESKC-1118: When searching awards through award module, i am able to edit dates and money in display mode. On some accounts i am able to edit all dates and money in display mode. On most accounts i am able to edit execution date and modification date.
 
   * Steps to reproduce:
   * 1.Search award through award module
@@ -838,7 +866,7 @@ ste will result.
   * Travis Schneeberger on Mon, 18 Jan 2016 14:57:56 -0500 [View Commit](../../commit/34d7acfb81b2b7d22575d44e323630ab87aee239)
 
 ##coeus-1601.62
-* fix period 2 inflation calculation
+* RESKC-572:fix period 2 inflation calculation
 
   * This is not fixed in demo 1 either. And all calculations are impacted in a negative way.
   * P1 - All salaries are correctly calculating for period 1 to reflect anniversary or regular inflation start date.
@@ -851,7 +879,7 @@ ste will result.
   * Joe Williams on Mon, 18 Jan 2016 12:16:43 -0600 [View Commit](../../commit/66db4fd817b8d8f75d2d31f97ff02c2f60e5e3c5)
 
 ##coeus-1601.61
-*  Adding error message when rolodex person that needs to certify is added to pd.
+* RESKC-1116: Adding error message when rolodex person that needs to certify is added to pd.
 
   * Key Person screen should present an error message for Address Book personnel when added to proposals in roles requiring proposal certification according to COI Hierarchy, exempt roles maintained in keypersonprojectrole and Supplemental Info screen indicator PCK flag.
   * This error should also trigger upon, save, copy, PCK selection, or submit for routing.
@@ -863,11 +891,11 @@ ste will result.
   * Gayathri Athreya on Fri, 15 Jan 2016 09:28:12 -0700 [View Commit](../../commit/46fabae9c99a59bf6a081d3c7b843946cad2c4bd)
 
 ##coeus-1601.60
-* Add flag to disallow T&M when pending award exists
+* RESKC-767:Add flag to disallow T&M when pending award exists
 
   * When a pending award exists we are currently duplicating transactions across the most recent active and pending award versions. This is change will allow us to disallow T&M documents when the pending award version exists to eliminate this error. The new parameter ALLOW_TM_WHEN_PENDING_AWARD_EXISTS controls this functionality. Currently the default is to allow T&M, but this will likely be removed in the future.
   * blackcathacker on Thu, 14 Jan 2016 16:01:06 -0800 [View Commit](../../commit/a63d9c822ae0c62e8f40929bd74e2b0ac925897d)
-* Refactor to remove duplicated code and add tests to active pending transcation service
+* RESKC-767:Refactor to remove duplicated code and add tests to active pending transcation service
   * blackcathacker on Thu, 14 Jan 2016 10:56:26 -0800 [View Commit](../../commit/1669505c77f2a957371930c18ecee4d7c73b6c7d)
 
 ##coeus-1601.59
@@ -883,12 +911,12 @@ ste will result.
 
 
 ##coeus-1601.55
-* IRB - Absent members not displaying properly in the Minutes PDF
+* RESKC-1105:IRB - Absent members not displaying properly in the Minutes PDF
   * Scott, Peter C" duplicated, displaying in both the Absentees and the voting members present areas
   * This case needs a little more work. Tested with schedule 12/17/15
   * This occurs while adding a non employee (rolodex person).
   * rmancher on Fri, 15 Jan 2016 09:09:54 -0500 [View Commit](../../commit/2f05842261852485554c4a684ec34cb95fbb14ec)
-*  adding support for new personnel narrative type: NSF_Collaborators
+* RESKC-1025: adding support for new personnel narrative type: NSF_Collaborators
   * Travis Schneeberger on Thu, 14 Jan 2016 14:08:30 -0500 [View Commit](../../commit/220f48bfeca692c720bd637f44413bedc2b8663a)
 
 ##coeus-1601.54
@@ -896,7 +924,7 @@ ste will result.
 
 
 ##coeus-1601.53
-*  STE when sync from Parent after adding a PI biosketch attachment to originating child with an non employee.
+* STE when sync from Parent after adding a PI biosketch attachment to originating child with an non employee.
   * Create PD Hierarchy.
   * I went to parent in edit mode.
   * Went to Key Personnel.
@@ -919,7 +947,7 @@ ste will result.
 
 
 ##coeus-1601.50
-*  Fix null pointer.
+* Fix null pointer.
   * For any status proposal – Migrated or KC-Native proposal - where the sponsor is NSF (000500), STE returned when you select the Print option from the top action bar, an STE is returned.
   * STE:
   * Document Id:
@@ -938,13 +966,13 @@ ste will result.
 ##coeus-1601.49
 * Update warning message when effective start date has changed during import
   * blackcathacker on Wed, 13 Jan 2016 11:25:49 -0800 [View Commit](../../commit/3f338bc10ce844edfbe9537dfbcc2adb87cd33b3)
-*  Fixing person search.
+* Fixing person search.
   * looking for an active proposal for Browning Neddeau so she navigated to PD, searched for (first name) Browning from the Person Search and then searched for proposals. Screen shot attached. Results show proposals where Browning does not appear.
   * This happens with any of the person search fields. Also found another bug. If I type "olgin" into aggregator field and search, I get the following STE
   * java.lang.IllegalArgumentException: Criteria values cannot be empty. at org.kuali.rice.core.api.criteria.CriteriaSupportUtils.validateValuesForMultiValuedPredicate(CriteriaSupportUtils.java:269)
   * Same with participant field.
   * Gayathri Athreya on Wed, 13 Jan 2016 12:13:19 -0700 [View Commit](../../commit/8b05d6cd097da62e6490ab2e9de17777d4e47dfc)
-*  Budget document shows updated when nothing changes
+* RESKC-1114: Budget document shows updated when nothing changes
 
   * I have been able to reproduce this with these steps.
 
@@ -956,7 +984,7 @@ ste will result.
 
   * When importing PD budget line items into award, it is possible for the effective start dates of rates to change based on the effective salary dates of persons imported. This change displays a warning to the user when this occurs so they can take approiate action related to rates that may now need to be synced.
   * blackcathacker on Tue, 12 Jan 2016 16:35:38 -0800 [View Commit](../../commit/1cfa9ec2ae8c8ea46ae887e3cbefea03c6631f80)
-*  Fixing base calculation.
+* Fixing base calculation.
   * The PD Budget Print > "2 Budget Cumulative Report" & "4 Budget Summary Report" had previously been fixed and passed testing.
   * Now, several issues have returned.
   * In both print reports, in the Calculation Methodology "Allocated Administrative Support and Lab Expense Rates and Base" section, the Bases are populating incorrectly.
@@ -966,13 +994,13 @@ ste will result.
   * Gayathri Athreya on Tue, 12 Jan 2016 16:03:17 -0700 [View Commit](../../commit/45f18f9fc478dbedac32f1ae7f817bdbb2c7ec19)
 
 ##coeus-1601.48
-*  pending support error
+* pending support error
 
   * When a proposal person doesn't have a valid institutional proposal, log person id for analysis instead of STE.
   * Joe Williams on Tue, 12 Jan 2016 13:54:23 -0600 [View Commit](../../commit/fed1b05d800eac569ab7d6df85f16a5e4d6b8c0c)
 
 ##coeus-1601.47
-* S2S Project-Performance: Updating performing organization does not update org NAME on S2S form
+* RESKC-834:S2S Project-Performance: Updating performing organization does not update org NAME on S2S form
 
   * If the Performing Organization on a grants.gov proposal is changed, the PerformanceSite_2_0 form is updated to reflect the address and DUNS of the new organization, but the organization name is not updated.
 
@@ -990,13 +1018,13 @@ ste will result.
 
   * When award budget audit mode is enabled the personnel line item amounts constantly grow after each save or navigation.
   * blackcathacker on Tue, 12 Jan 2016 10:04:41 -0800 [View Commit](../../commit/d4f831b0568fb911bdc207f5df11a807b626de98)
-*  Fix PD budget import dates
+* Fix PD budget import dates
 
   * When a PD budget is imported into award and the PD budget period falls competely outside of the award budget period the dates would not be corrected and would cause un-correctable business rule errors
   * blackcathacker on Mon, 11 Jan 2016 12:54:57 -0800 [View Commit](../../commit/07399c74f00b17250036ec7d1b8f169f05b5b03c)
 
 ##coeus-1601.45
-* PD: GG form preview list is duplicated (tripled, quadrupled, etc)
+* RESKC-1110:PD: GG form preview list is duplicated (tripled, quadrupled, etc)
   * Joe Williams on Tue, 12 Jan 2016 10:33:07 -0600 [View Commit](../../commit/2f0bfc5256f98561ec995660e6a3b7d901ed226f)
 
 ##coeus-1601.43
@@ -1008,9 +1036,9 @@ ste will result.
 
 
 ##coeus-1601.41
-*  use schedule date when determining if member is active
+* RESKC-1105: use schedule date when determining if member is active
   * Joe Williams on Mon, 11 Jan 2016 17:02:22 -0600 [View Commit](../../commit/3a58c0e1d952ac905c90bf0152f0061696ee76ac)
-*  Award budget totals don't match in different tabs
+* RESKC-1109: Award budget totals don't match in different tabs
 
   * Calculation issue with Budget versions 2+
   * – enter a second (or third, or fourth) budget version.
@@ -1028,7 +1056,7 @@ ste will result.
 
 
 ##coeus-1601.39
-*  PD: STE when I try to generate GG Form Preview
+* RESKC-1096: PD: STE when I try to generate GG Form Preview
 
   * Steps to Reproduce:
   * 1. Create a proposal with min. info to save
@@ -1038,7 +1066,7 @@ ste will result.
   * Joe Williams on Sat, 9 Jan 2016 21:58:15 -0600 [View Commit](../../commit/8a69f7632173df3ae2132fed3bf0445a5351fdc2)
 
 ##coeus-1601.38
-* IRB - Incorrect button displaying when doing a renewal
+* RESKC-1107:IRB - Incorrect button displaying when doing a renewal
 
   * I just performed a renewal without amendment to a protocol and I a button that I don’t recall ever seeing before for renewals…
   * [Edit]
@@ -1046,7 +1074,7 @@ ste will result.
   * Joe Williams on Mon, 11 Jan 2016 09:32:22 -0600 [View Commit](../../commit/355e48dc708062f534493b94cc175eacf6e15e87)
 
 ##coeus-1601.37
-*  In Proposal Dev, Proposal Hierarchy Parent Budget cost share lines are being duplicated in Institutional Commitments.
+* RESKC-1097: In Proposal Dev, Proposal Hierarchy Parent Budget cost share lines are being duplicated in Institutional Commitments.
 
   * In Proposal Dev, Proposal Hierarchy Parent Budget cost share lines are being duplicated in Institutional Commitments > Cost Sharing when the Hierarchy > Sync All action is taken at the parent budget level.
 
@@ -1096,7 +1124,7 @@ ste will result.
   * Travis Schneeberger on Mon, 11 Jan 2016 10:38:41 -0500 [View Commit](../../commit/6e7b2ad4075beba81832578f81f1583043b6c57d)
 
 ##coeus-1601.36
-*  Fixing personnel attachments.
+* Fixing personnel attachments.
   * STE at view of Personnel Attachment files at Hierarchy Parent when files are brought up from child proposals – either on initial create of hierarchy or when second child is linked.
   * KC Wkly build 1601.07
   * User = AEH
@@ -1120,12 +1148,12 @@ ste will result.
 
 
 ##coeus-1601.33
-* PD - View User Attached S2S Forms on copied proposals results in STE
+* RESKC-1106:PD - View User Attached S2S Forms on copied proposals results in STE
   * Copied proposal did not include user attached form attachments.
   * Attachment is lazy loaded. Refreshing prior to copy so that attachment is included
   * in copied proposal.
   * rmancher on Sun, 10 Jan 2016 12:33:03 -0500 [View Commit](../../commit/a2248259a3a84f9e227127147922db539bd6a34b)
-* IRB - Absent members not displaying properly in the Minutes PDF
+* RESKC-1105:IRB - Absent members not displaying properly in the Minutes PDF
   * Joe Williams on Fri, 8 Jan 2016 21:00:26 -0600 [View Commit](../../commit/bc9b1494b95d8a8791d296b3c7342e3462ab5497)
 
 ##coeus-1601.32
@@ -1141,7 +1169,7 @@ ste will result.
 
 
 ##coeus-1601.29
-* PD - STE on Approved and Submitted proposal, Performance Site Locations & Other Organizations tabs > 'Add Congressional District'
+* RESKC-1104:PD - STE on Approved and Submitted proposal, Performance Site Locations & Other Organizations tabs > 'Add Congressional District'
 
   * When a proposal dev record is in the Status Approved and Submitted, there should not be an option to Add Congressional District in any of the sub tabs on the Organization and Location screen.
   * Currently, when there is a Performance Site Location or Other Organization is entered, the Add Congressional District button is available, and if clicked, modal appears, with an active Add button, which, when clicked, returns an STE.
@@ -1162,12 +1190,12 @@ ste will result.
 
   * java.lang.NullPointerException at org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentModuleQuestionnaireBean.loadKrmsRulesContext(ProposalDevelopmentModuleQuestionnaireBean.java:61) at org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentModuleQuestionnaireBean.getKrmsRulesContextFromBean(ProposalDevelopmentModuleQuestionnaireBean.java:54) at org.kuali.coeus.common.questionnaire.impl.answer.QuestionnaireAnswerServiceImpl.runApplicableRules(QuestionnaireAnswerServiceImpl.java:828) at org.kuali.coeus.common.questionnaire.impl.answer.QuestionnaireAnswerServiceImpl.getPublishedQuestionnaire(QuestionnaireAnswerServiceImpl.java:121) at org.kuali.coeus.common.questionnaire.impl.answer.QuestionnaireAnswerServiceImpl.initAnswerHeaders(QuestionnaireAnswerServiceImpl.java:149) at org.kuali.coeus.common.questionnaire.impl.answer.QuestionnaireAnswerServiceImpl.getQuestionnaireAnswer(QuestionnaireAnswerServiceImpl.java:266) at org.kuali.coeus.common.questionnaire.impl.print.QuestionnaireXmlStream.setQuestionInfoData(QuestionnaireXmlStream.java:779) at org.kuali.coeus.common.questionnaire.impl.print.QuestionnaireXmlStream.getQuestionnaireData(QuestionnaireXmlStream.java:217) at org.kuali.coeus.common.questionnaire.impl.print.QuestionnaireXmlStream.generateXmlStream(QuestionnaireXmlStream.java:148) at
   * Joe Williams on Fri, 8 Jan 2016 16:01:52 -0600 [View Commit](../../commit/3481d992f29c35623a0b320f3105e92ccf609829)
-*  validating period dates to avoid an exception when linking a child proposal to a parent.
+* validating period dates to avoid an exception when linking a child proposal to a parent.
   * Travis Schneeberger on Fri, 8 Jan 2016 17:00:15 -0500 [View Commit](../../commit/e7a1d76f18d351e9886ff26bc360dfdea0698456)
-* IRB - Duplicated Review Comments in History Tab
+* RESKC-1103:IRB - Duplicated Review Comments in History Tab
   * Check for the protocol number since we have versioned review comments.
   * rmancher on Fri, 8 Jan 2016 15:58:29 -0500 [View Commit](../../commit/a5079d31bc4bc38b2e520813a703f3ea168cc4a6)
-*  PD - Notify to certify option should not disappear once certifications are complete
+* PD - Notify to certify option should not disappear once certifications are complete
 
   * Aggregators must be able to resend Notification requests to proposal persons to re-answer certifications correctly.
   * Joe Williams on Fri, 8 Jan 2016 12:39:14 -0600 [View Commit](../../commit/8bbe11cecffff0f6dc647433008d2fdccf8d88fb)
@@ -1181,10 +1209,10 @@ ste will result.
 
 
 ##coeus-1601.25
-* IRB - History Tab>Submission Details missing fields
+* RESKC-1102:IRB - History Tab>Submission Details missing fields
   * We need to invoke prepare view as we are checking for permissions in history subpanels
   * This was removed earlier as part of performance tuning.
-  * This will take care of RESMER-524 as well.
+  * This will take care of as well.
   * rmancher on Fri, 8 Jan 2016 14:44:41 -0500 [View Commit](../../commit/94e80e2610680f57b6957feb7a71950a696f76fe)
 * Invalid field constraints prevent Award save when amounts are negative
 
@@ -1193,7 +1221,7 @@ ste will result.
   * blackcathacker on Fri, 8 Jan 2016 11:39:36 -0800 [View Commit](../../commit/bba272b2366f6413e712ee9965099246db418316)
 
 ##coeus-1601.24
-* PD Budget: new validation to enforce Proposal and Budget Start/End dates breaks several business processes
+* RESKC-1095:PD Budget: new validation to enforce Proposal and Budget Start/End dates breaks several business processes
 
   * The current fix does not allow the flexibility needed for different types of proposal submissions to comply with sponsor requested preparation (e.g. supplement proposals where the entire project period is to be entered in the proposal but the budget is to include on the start and end date covering the supplemental funds spending), or for syncing child proposal budget date changes to a hierarchy.
 
@@ -1202,7 +1230,7 @@ ste will result.
   * Joe Williams on Fri, 8 Jan 2016 10:42:43 -0600 [View Commit](../../commit/e323207d16d7eb6a933321b9172842c27cfaf9eb)
 
 ##coeus-1601.23
-* PD - Submit S2S button should only be available to users with Submit to Sponsor permission/Propsoal Submission Role
+* RESKC-1098:PD - Submit S2S button should only be available to users with Submit to Sponsor permission/Propsoal Submission Role
   * Submit S2S button availability should be tied to Submit to Sponsor permission.
   * rmancher on Fri, 8 Jan 2016 11:00:49 -0500 [View Commit](../../commit/d3dfd0b8f27c0f6c949e41c38217326b31cabe0f)
 
@@ -1221,17 +1249,17 @@ ste will result.
   * blackcathacker on Thu, 7 Jan 2016 14:39:04 -0800 [View Commit](../../commit/9514877b7b0845281bff9a260e9c82bffd5fbc6b)
 
 ##coeus-1601.19
-*  adding or removing a non-employee from a PD hierarchy causes sync to fail with an STE.
+* adding or removing a non-employee from a PD hierarchy causes sync to fail with an STE.
 
   * java.lang.IllegalArgumentException: Given criteria value cannot be null. at org.kuali.rice.core.api.criteria.CriteriaSupportUtils.determineCriteriaValue(CriteriaSupportUtils.java:152) at org.kuali.rice.core.api.criteria.PredicateFactory.equal(PredicateFactory.java:99) at org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyDaoJpa.personInMultipleChildProposals(ProposalHierarchyDaoJpa.java:69) at org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyServiceImpl.personInMultipleProposals(ProposalHierarchyServiceImpl.java:776) at org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyServiceImpl.syncDegreeInfo(ProposalHierarchyServiceImpl.java:861) at org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyServiceImpl.syncDegreeInfo(ProposalHierarchyServiceImpl.java:853) at org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyServiceImpl.synchronizeChildProposal(ProposalHierarchyServiceImpl.java:552) at org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyServiceImpl.synchronizeChild(ProposalHierarchyServiceImpl.java:392) at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) at
   * Travis Schneeberger on Thu, 7 Jan 2016 17:16:11 -0500 [View Commit](../../commit/08ae3dd3dce711b92e40fe905e41fa3f7506efcf)
 
 ##coeus-1601.18
-*  remove getSupplementProposalType as it is same as continuation. At MIT it renamed as Supplement and so for SupplementChangeCorrected it should use Continuation as proposal type
+* RESKC-1092: remove getSupplementProposalType as it is same as continuation. At MIT it renamed as Supplement and so for SupplementChangeCorrected it should use Continuation as proposal type
   * Geo Thomas on Wed, 6 Jan 2016 14:19:31 -0500 [View Commit](../../commit/66567a0e462fc66ba48e7e20bfbfc5e61815ca9d)
 
 ##coeus-1601.17
-* PD: Re-Routing Questionnaire is missing when OSP rejects proposal
+* RESKC-1094:PD: Re-Routing Questionnaire is missing when OSP rejects proposal
   * When a dev proposal routes and reaches the OSP approval level, and OSP "rejects" the proposal back to the Aggregator, the "Re-Routing Questionnaire" is missing - it's no available for the Aggregator to answer before re-routing the proposal.
   * We were looking at the node Initiated to figure out whether it is routed for the first time.
   * This doesn't work.
@@ -1240,7 +1268,7 @@ ste will result.
   * rmancher on Thu, 7 Jan 2016 11:07:18 -0500 [View Commit](../../commit/1548ce67cd700d17da4a7b03dfbd21f40a574010)
 
 ##coeus-1601.16
-* Proposals with Leap Year Feb 1 start date mishandle budget autocalculation period start day in non-leap years
+* RESKC-1091:Proposals with Leap Year Feb 1 start date mishandle budget autocalculation period start day in non-leap years
 
   * If a proposal & thus budget has a February 1 start date in a Leap Year, the autocalculate tool mishandles the non-leap year start date for some personnel.
   * Specifically, if the person has a row that is not assigned start on 2/1, in non-leap years, that row starts on the 2nd of the month.
@@ -1255,7 +1283,7 @@ ste will result.
   * blackcathacker on Wed, 6 Jan 2016 16:53:28 -0800 [View Commit](../../commit/8df89753e47c0855017533d2b09e78a483e66fad)
 
 ##coeus-1601.14
-*  Create Institute Proposal and canceling via search box results in an STE.
+* RESKC-1060: Create Institute Proposal and canceling via search box results in an STE.
             selected "Create Institute Proposal" from the KC Home screen via search box.
             In the resulting "Proposal Log Lookup" window, I selected Cancel as I did NOT want to create a new Institute Proposal.
             The following STE was returned (in a window with double headers...):
@@ -1264,7 +1292,7 @@ ste will result.
   * Travis Schneeberger on Wed, 6 Jan 2016 15:24:28 -0500 [View Commit](../../commit/5b305be9a7c98230388374fea2abd5c49ae365ae)
 
 ##coeus-1601.13
-*  edit existing subaward results in an STE.
+* RESKC-1093: edit existing subaward results in an STE.
   * Create subaward with required fields
   * Route to final
   * Search for Subaward through doc search, open
@@ -1283,7 +1311,7 @@ ste will result.
   * at org.apache.struts.actions.DispatchAction.dispatchMethod(DispatchAction.java:269)
   * at org.kuali.rice.kns.web.struts.action.KualiAction.dispatchMethod(KualiAction.java:1
   * Travis Schneeberger on Wed, 6 Jan 2016 15:50:57 -0500 [View Commit](../../commit/e6db4868ec8537e897d062088a0d3d2358c798c4)
-*  Prop Dev Budget Hierarchy causes STE on Hierarchy Summary screen.
+* RESKC-1087: Prop Dev Budget Hierarchy causes STE on Hierarchy Summary screen.
 
   * Successfully created parent.
   * Opened parent 30575 in Edit mode.
@@ -1294,7 +1322,7 @@ ste will result.
 
   * java.lang.RuntimeException: Exception evaluating expression: #ViewHelper.getProposalStatusForDisplay(#line) at org.kuali.rice.krad.uif.view.DefaultExpressionEvaluator.evaluateExpression(DefaultExpressionEvaluator.java:448) at org.kuali.rice.krad.uif.view.DefaultExpressionEvaluator.evaluatePropertyExpression(DefaultExpressionEvaluator.java:514) at org.kuali.rice.krad.uif.view.DefaultExpressionEvaluator.evaluatePropertyExpressions(DefaultExpressionEvaluator.java:735) at org.kuali.rice.krad.uif.view.DefaultExpressionEvaluator.evaluateExpressionsOnConfigurable(DefaultExpressionEvaluator.java:421) at org.kuali.rice.krad.uif.lifecycle.model.EvaluateExpressionsTask.performLifecycleTask(EvaluateExpressionsTask.java:93) at org.kuali.rice.krad.uif.lifecycle.ViewLifecycleTaskBase.run(ViewLifecycleTaskBase.java:66) at org.kuali.rice.krad.uif.lifecycle.ViewLifecyclePhaseBase.run(ViewLifecyclePhaseBase.java:173) at org.kuali.rice.krad.uif.lifecycle.SynchronousViewLifecycleProcessor.performPhase(SynchronousViewLifecycleProcessor.java:192) at org.kuali.rice.krad.uif.lifecycle.ViewLifecycleBuild.runApplyModelPhase(ViewLifecycleBuild.java:201) at org.kuali.rice.krad.uif.lifecycle.ViewLifecycleBuild.run(ViewLifecycleBuild.java:70) at org.kuali.rice.krad.uif.lifecycle.ViewLifecycle.encapsulateLifecycle(ViewLifecyc
   * Travis Schneeberger on Wed, 6 Jan 2016 14:57:38 -0500 [View Commit](../../commit/4bce4b55caa60e040b142739f3a79ee372dacd16)
-*  It's not possible to delete a subaward from a PD budget that has any costs associated with it.
+* RESKC-908: It's not possible to delete a subaward from a PD budget that has any costs associated with it.
 
   * The steps are as follows:
   * 1) Create a new proposal.
@@ -1306,7 +1334,7 @@ ste will result.
   * 7) A blank screen is displayed. (On my dev instance I got a stack trace indicating "integrity constraint (KCSO.FK2_BUDGET_DETAILS) violated")
   * 8) Navigate back to the proposal and open the budget again. The subaward is still present and has not been deleted.
   * Travis Schneeberger on Wed, 6 Jan 2016 10:31:16 -0500 [View Commit](../../commit/43eebaedae1cf8b0092f5e3a116215865b008113)
-* Rest service audit logging support
+* RESKC-1064:Rest service audit logging support
 
   * Saves all rest changes as JSON to REST_AUDIT_LOG table.
   * blackcathacker on Tue, 15 Dec 2015 15:35:53 -0800 [View Commit](../../commit/32c656c27f26faf725a41c5898a87aeb9a9709dd)
@@ -1354,9 +1382,9 @@ ste will result.
 
 
 ##coeus-1601.9
-*  adding new method to check if proposal is in one of the modifiable stauses and user has enough permissions to edit specific questionnaire
+* RESKC-1022: adding new method to check if proposal is in one of the modifiable stauses and user has enough permissions to edit specific questionnaire
   * Geo Thomas on Tue, 5 Jan 2016 17:22:52 -0500 [View Commit](../../commit/4603e1671131a2e37e35ce708b1be00ed91348fb)
-*   The subrecipient DUNS number needs to display on screen near the other FAIN information related to Uniform Guidance to ease reporting.
+*  RESKC-1058: The subrecipient DUNS number needs to display on screen near the other FAIN information related to Uniform Guidance to ease reporting.
 
   * The field for subrecpient's display of name was not large enough to accomodate the DUNS as well. Therefore, we should move that field to the bottom of the section so that the area can expand to show the DUNS and subrecipient name in one location. This would seperate the Subrecipient from the Sub Investigator however, so we also require that the sub Investigator move to be directly above the new subrecipient display placement. To do that, we will move the execution date to the former placement of the subrecipient.
   * Travis Schneeberger on Tue, 5 Jan 2016 17:08:57 -0500 [View Commit](../../commit/03f6a7359bb10b00df251441426ca643d57b0fe8)
@@ -1382,14 +1410,14 @@ ste will result.
 
 
 ##coeus-1601.6
-*  putting the unrecovered f & a negative value warning behind a parameter
+* putting the unrecovered f & a negative value warning behind a parameter
   * Travis Schneeberger on Tue, 5 Jan 2016 16:19:16 -0500 [View Commit](../../commit/4ba5e9b589bf0ced4332270e28c18bc7788a6610)
-* PD Budget - Non-personnel costs > Details have all fields appear editable for PD statuses where they should not
+* RESKC-1088:PD Budget - Non-personnel costs > Details have all fields appear editable for PD statuses where they should not
   * Setting non personnel cost tabs to read only when in view mode.
   * Also updated rates tab checkbox readonly to display 'Yes'/'No' instead of 'true'/'false' in order to be
   * consistent with other tabs.
   * rmancher on Tue, 5 Jan 2016 15:51:04 -0500 [View Commit](../../commit/657ae9963cccae5379afb48deeecb1d4a0302bf7)
-*  Organization Maintenance: Accepted Audit should be a dropdown menu.
+* RESKC-178: Organization Maintenance: Accepted Audit should be a dropdown menu.
   * Travis Schneeberger on Tue, 5 Jan 2016 11:41:41 -0500 [View Commit](../../commit/95ca842ed84c4e68aa886ee5c9064692c180928d)
 
 ##coeus-1601.5
@@ -1397,7 +1425,7 @@ ste will result.
 
 
 ##coeus-1601.4
-*  Program Code field limited to 4 characters. While this may be a correct validation for the NSF forms, the SF 424R&R allows up to 75 characters in Agency Routing Number field 4b where this data is mapping. The limit of 4 characters is an overly restrictive validation for the field in this usage.
+* RESKC-858: Program Code field limited to 4 characters. While this may be a correct validation for the NSF forms, the SF 424R&R allows up to 75 characters in Agency Routing Number field 4b where this data is mapping. The limit of 4 characters is an overly restrictive validation for the field in this usage.
   * Travis Schneeberger on Tue, 5 Jan 2016 11:22:59 -0500 [View Commit](../../commit/0f7317a91858a1f88a1faebad5e074e6eb91a873)
 
 ##coeus-1601.3
@@ -1405,7 +1433,7 @@ ste will result.
 
 
 ##coeus-1601.2
-* IRB - STE when saving data in the Personnel tab
+* RESKC-1089:IRB - STE when saving data in the Personnel tab
 
   * I'm creating a new protocol in QA, i enter data i add a CoI in the personnel tab and hit "save" and i get the STE below.
   * If instead of hitting "Save" i navigate to another tab, i.e. "Questionnaire" i also get the STE error
@@ -1420,7 +1448,7 @@ ste will result.
   * blackcathacker on Mon, 4 Jan 2016 12:18:05 -0800 [View Commit](../../commit/bf51ad0771a8d6577306ce53e0af43693df12a2a)
 
 ##coeus-1601.1
-*  IP & Award: System is allowing users to edit prior document versions when a later version of the document exists.
+* IP & Award: System is allowing users to edit prior document versions when a later version of the document exists.
 
   * The system is allowing users to edit prior Institutional and Award document Versions but it does not pull in the data from the latest finalized version.
 
@@ -1460,7 +1488,7 @@ ste will result.
   * Aggregator in the Department, I only have the "Notify All" button
   * available, and when I access this, I am unable to send the certification
   * request. I believe this may be related to the fix that was done for
-  * RESMER-415.
+  * .
   * Steps to reproduce issue (this was in PD #30536):
   * 1) Backdoor login as Aggregator in Department (I used "coombs")
   * 2) Create Proposal - enter basic proposal information, then click on
@@ -1485,7 +1513,7 @@ ste will result.
   * vineeth on Tue, 29 Dec 2015 11:54:27 -0500 [View Commit](../../commit/5b614deafa796b00c491d0eb879137adc3147962)
 
 ##coeus-1512.89
-*  adding null check for closeout dates while printing award modification
+* adding null check for closeout dates while printing award modification
   * Geo Thomas on Mon, 28 Dec 2015 13:35:18 -0500 [View Commit](../../commit/0a24a4ddb2c5f942a60303645fb9217b167e1bdb)
 
 ##coeus-1512.88
@@ -1493,7 +1521,7 @@ ste will result.
 
 
 ##coeus-1512.87
-* Print > Sponsor form Packages > all Generic & Sponsor forms cause STE (when address book Key Persons?)
+* RESKC-1086:Print > Sponsor form Packages > all Generic & Sponsor forms cause STE (when address book Key Persons?)
   * From proposal > Print > Sposnor Forms, try to print any generic or NIH print form and receive STE:
   * Error Message:
   * Stacktrace (only in dev mode)
@@ -1506,9 +1534,9 @@ ste will result.
   * Joe Williams on Wed, 23 Dec 2015 13:30:48 -0600 [View Commit](../../commit/56f2b78d4a40415d3c2fe3092441b01e0c75e3e7)
 
 ##coeus-1512.86
-*  Addding NO_FIELD attribute to messageKeyMap to display message properly
+* Addding NO_FIELD attribute to messageKeyMap to display message properly
   * Geo Thomas on Wed, 23 Dec 2015 14:11:23 -0500 [View Commit](../../commit/1ec4ae2dda56914744db83914db3835598038866)
-* IRB - Duplication of Review Comments in Minutes
+* RESKC-1085:IRB - Duplication of Review Comments in Minutes
   * In IRB protocol minutes are duplicated while generating minutes through schedule/minutes actions.
   * Steps to reproduce.
   * 1. Create protocol, submit to a schedule, add review comments and perform expedited approval
@@ -1521,7 +1549,7 @@ ste will result.
   * rmancher on Wed, 23 Dec 2015 12:52:59 -0500 [View Commit](../../commit/3c822a1c359691e42e20c6d5dd330de66ea69a3c)
 
 ##coeus-1512.85
-*  display active award sponsor name on subaward funding source
+* display active award sponsor name on subaward funding source
   * Joe Williams on Wed, 23 Dec 2015 09:56:13 -0600 [View Commit](../../commit/545cc96f0e19dfb40508d769bb1a29f5044b93b1)
 
 ##coeus-1512.84
@@ -1531,21 +1559,21 @@ ste will result.
 ##coeus-1512.83
 * get sequence number from subaward table using dao
   * Joe Williams on Tue, 22 Dec 2015 15:39:38 -0600 [View Commit](../../commit/73f4167612dc7d5e42eefa770c7a7518e260ffdb)
-*  Subaward: System generates wrong Subaward version numbers when not the latest Subaward Document is selected to be edited.
+* Subaward: System generates wrong Subaward version numbers when not the latest Subaward Document is selected to be edited.
 
   * The system is not generating the Subaward Versions correctly. If, for example, my Subaward has 4 Versions and I open and edit the Subaward Document that corresponds to Version 1 (searching for it in the doc search). The system will assign the new Subaward Document version 2 as opposed to version 5. It's assigning the next version number from the Document opened and not the next version number in the whole sequence. This is also causing the system to create duplicate/multiple Subawards with the same Subaward ID.
   * Joe Williams on Tue, 22 Dec 2015 14:19:23 -0600 [View Commit](../../commit/1a617c1ef1ee3af316a28a76b818ca25e19c245c)
 
 ##coeus-1512.82
-* Fix IACUC protocol actions
+* RESKC-1069:Fix IACUC protocol actions
   * rmancher on Tue, 22 Dec 2015 18:15:40 -0500 [View Commit](../../commit/e687fedc6352762ba3ad14a8501660d8a780c1e0)
 
 ##coeus-1512.81
-* Fix integration test
+* RESKC-1069:Fix integration test
   * rmancher on Tue, 22 Dec 2015 15:03:41 -0500 [View Commit](../../commit/9665036b24f17d7a4a0e6766f2ca803409909ca2)
 * STE - PD - Trying to Print various Budget Print Reports of Approved and Submitted PDs
   * Joe Williams on Tue, 22 Dec 2015 12:58:28 -0600 [View Commit](../../commit/f9bc76171c7b3b65b0fa85a857a0568eb0b290d0)
-* Protocol Performance Issue
+* RESKC-1069:Protocol Performance Issue
   * Protocols take excessive time to open.
   * To reproduce, just search for a protocol and either "Edit" it or "View" it.
   * Minor tweaks to adjust the initialization depending on the tab invoked.
@@ -1598,7 +1626,7 @@ system of record for this.
 
 
 ##coeus-1512.77
-* Resubmission options dialog is read only when accessing proposals from proposal search (not doc search)
+* RESKC-1072:Resubmission options dialog is read only when accessing proposals from proposal search (not doc search)
 
   * Steps:
 
@@ -1619,7 +1647,7 @@ system of record for this.
 
 
 ##coeus-1512.74
-* PD: Attachments: STE after clicking the [Save] button in the Attachment Details window
+* RESKC-1066:PD: Attachments: STE after clicking the [Save] button in the Attachment Details window
   * STE when I go to the Detail of an Attachment and click the [Save] button (happens in all attachments: Proposal, Personnel, Internal)
   * Steps to Reproduce:
   * 1. Create a Proposal with min. info to save
@@ -1631,7 +1659,7 @@ system of record for this.
   * attachment even though one already exist.
   * Also fixing dialog issue with validation and close.
   * rmancher on Fri, 18 Dec 2015 16:58:00 -0500 [View Commit](../../commit/3c2b46fd05ae936f3eea3c2b21c02acf776e2746)
-*  Proposal Budget: changing proposal date after completing budget can cause data to get corrupted
+* RESKC-1071: Proposal Budget: changing proposal date after completing budget can cause data to get corrupted
 
   * Steps:
 
@@ -1642,7 +1670,7 @@ system of record for this.
   * 5.) submit proposal
   * 6.) submit to sponsor - get error about initial end date being after total end date
   * Joe Williams on Mon, 21 Dec 2015 11:08:24 -0600 [View Commit](../../commit/106d6ce3b113a4fa8769d9f6e9074a785d286279)
-* Fix term spec
+* RESKC-1070:Fix term spec
   * Unable to open proposal due to incorrect term spec - at MIT
   * Stacktrace (only in dev mode)
   * org.kuali.rice.krms.api.engine.TermResolutionException: Unable to plan the resolution of Term([sumUnderrecoveryAmountFromPeriods]) [TermResolver=null, parameters={}] at org.kuali.rice.krms.framework.engine.TermResolutionEngineImpl.resolveTerm(TermResolutionEngineImpl.java:121) at org.kuali.rice.krms.framework.engine.BasicExecutionEnvironment.resolveTerm(BasicExecutionEnvironment.java:100) at
@@ -1651,7 +1679,7 @@ system of record for this.
   * rmancher on Mon, 21 Dec 2015 12:17:12 -0500 [View Commit](../../commit/34ede5f31b2b8b8af243a70acacec3428113fafd)
 
 ##coeus-1512.73
-*  remove delete attachment button from readOnly awards
+* RESKC-981: remove delete attachment button from readOnly awards
 
   * Multiple reports from PI's that there is a "delete" button in their "read only" view of awards.
   * Joe Williams on Mon, 21 Dec 2015 09:30:30 -0600 [View Commit](../../commit/c930cc30748954c301ef2dcb97edfc7b9c80b8c7)
@@ -1670,7 +1698,7 @@ screen was able to answer proposal certification questions for Key
   * investigator and other central admin roles but no departmental
   * users/aggregators are assigned to any of those roles nor should they
   * have derived role.  * vineeth on Fri, 18 Dec 2015 18:07:39 -0500 [View Commit](../../commit/1d17c2ac9bb1eb065e6ec8e1c9c5713facc68ada)
-* PD - Key Personnel Modals Notify All and COI Disclosure Status
+* RESKC-979:PD - Key Personnel Modals Notify All and COI Disclosure Status
   * must only display personnel required to certify.
   * Currently, when the COI Disclosure Status feature is enabled, _all _key
   * personnel are listed in the Disclosure Status window. This case is to
@@ -1683,7 +1711,7 @@ screen was able to answer proposal certification questions for Key
   * non-personnel, if enabled.  * vineeth on Thu, 17 Dec 2015 17:48:53 -0500 [View Commit](../../commit/78d37f44e24c63145ff77ff1335097879ecafb1f)
 
 ##coeus-1512.71
-* Correcting autocalculate period stack trace exception
+* RESKC-1059:Correcting autocalculate period stack trace exception
 
   * When there are multiple years and at least one person line item and multiple non-personnel costs the follow stack trace occurs when autocalculate periods is initiated.
 
@@ -1693,7 +1721,7 @@ screen was able to answer proposal certification questions for Key
   * at org.eclipse.persistence.indirection.IndirectList$1.next(IndirectList.java:618)
   * at org.kuali.coeus.common.budget.impl.summary.BudgetSummaryServiceImpl.generateAllPeriods(BudgetSummaryServiceImpl.java:159)
   * blackcathacker on Tue, 15 Dec 2015 15:53:57 -0800 [View Commit](../../commit/12d5318b99021674855b4d19e1af36ced8ac8ba1)
-* Add new synthetic key to institute rates to replace the composite key
+* RESKC-1064:Add new synthetic key to institute rates to replace the composite key
 
   * Move simple rest endpoints and DTOs to use the new common rest controller
   * blackcathacker on Tue, 15 Dec 2015 10:42:59 -0800 [View Commit](../../commit/793154fe2db9ca55a684b2cec31041b5c3032479)
@@ -1707,7 +1735,7 @@ screen was able to answer proposal certification questions for Key
 
 
 ##coeus-1512.68
-* Award - Template sync with reports - partial screen reload -hidden STE
+* RESKC-1061:Award - Template sync with reports - partial screen reload -hidden STE
   * Syncing report terms from a template to some accounts is causing the page to partially reload, then we get errors when trying to further navigate.
   * Exception - Index out of bound.
   * Total report term items changed during sync and we need to initialize report tracking beans to match
@@ -1729,16 +1757,16 @@ screen was able to answer proposal certification questions for Key
 ##coeus-1512.62
 * only send coi required noticiation if prop person coi flag is on
   * Joe Williams on Fri, 11 Dec 2015 13:29:04 -0600 [View Commit](../../commit/bae8a479317738a98b8601fb41ba175923bfe5be)
-* Certification question are not locked while enroute
+* RESKC-992:Certification question are not locked while enroute
   * The key person certifications are editable while the proposal is enroute, the document should be view only while enroute unless the feature for enroute certification is enabled and even then only the key person themselves should be able to edit.
   * Fix is to refer to KEY_PERSON_CERTIFICATION_DEFERRAL parameter to decide the proposal states that will enable
   * certification questions.
   * rmancher on Fri, 11 Dec 2015 14:10:27 -0500 [View Commit](../../commit/516c519e0471434df92f7b60508845fa5c01b652)
 
 ##coeus-1512.61
-*  PD - Notification null to PI after certification questions completed
+* PD - Notification null to PI after certification questions completed
   * Joe Williams on Fri, 11 Dec 2015 11:19:59 -0600 [View Commit](../../commit/809c34ee23be604969a94ab00ad40a72ac8056d1)
-* PD - Exempt Address Book person PI/Multiple from certification
+* RESKC-972:PD - Exempt Address Book person PI/Multiple from certification
   * & notification.
   * MIT requires some non-employees to participate in the system to perform
   * the proposal person certification. The parameter to exempt identified
@@ -1767,7 +1795,7 @@ screen was able to answer proposal certification questions for Key
   * vineeth on Thu, 10 Dec 2015 18:49:32 -0500 [View Commit](../../commit/2ae05460fbd58040f39bb6ae7379658ee71274db)
 
 ##coeus-1512.60
-* PD Budget Version > Action > Print > Budget Cumulative Report
+* RESKC-787:PD Budget Version > Action > Print > Budget Cumulative Report
   * printing formatting/subtotal & total display issues.
   * The printed report for Cumulative budget is not well formatted in KC.
   * The MIT Coeus version has been uploaded to compare and contrast to the
@@ -1811,17 +1839,17 @@ screen was able to answer proposal certification questions for Key
 
 
 ##coeus-1512.58
-* Proposal Log Permament -> Temporary merge bug fix
+* RESKC-763:Proposal Log Permament -> Temporary merge bug fix
 
   * Fixing a bug whereby in some cases a new permament proposal log would not prompt to merge with qualifying temporary proposal logs.
   * blackcathacker on Thu, 10 Dec 2015 18:18:08 -0800 [View Commit](../../commit/596062c151797646de121ebfae85d37202498e2e)
 
 ##coeus-1512.57
-*  PD - In Progress Proposal not yet submitted for review showing status Revisions Requested
+* PD - In Progress Proposal not yet submitted for review showing status Revisions Requested
   * Joe Williams on Thu, 10 Dec 2015 13:09:44 -0600 [View Commit](../../commit/c188692f255f2d5893b2dd06fa1323a42ba95ab7)
 
 ##coeus-1512.56
-*  Re-enable delivery info for s2s submissions.
+* RESKC-985: Re-enable delivery info for s2s submissions.
   * Gayathri Athreya on Thu, 10 Dec 2015 13:03:00 -0700 [View Commit](../../commit/63ddd6e230c3559753c723239628776de12ba418)
 
 ##coeus-1512.55
@@ -1833,11 +1861,11 @@ screen was able to answer proposal certification questions for Key
   * Gayathri Athreya on Mon, 7 Dec 2015 10:10:26 -0700 [View Commit](../../commit/9f11fb9b3a908ac3a54e4a8c96473231871eeac3)
 
 ##coeus-1512.53
-* PD - include lookup for investigator and OSP administrator in award search criteria
-  * This is part of fix required for RESMER-89 where MIT has configured relationship for investigator and OSP administrator
+* RESKC-1055:PD - include lookup for investigator and OSP administrator in award search criteria
+  * This is part of fix required for where MIT has configured relationship for investigator and OSP administrator
   * fields used in search criteria. Merging that code to base in this PR.
-  * KRAD is building inquiry on full name. RESMER-89 fix is to disable auto inquiry on this field.
-  * RESMER-89 indicates - Production and QA users are unable to search and select an Award ID from the Proposal > Details screen.
+  * KRAD is building inquiry on full name. fix is to disable auto inquiry on this field.
+  * indicates - Production and QA users are unable to search and select an Award ID from the Proposal > Details screen.
   * This conditional field appears for certain submission types, example: Renewal.
   * Create or edit a Proposal Development document.
   * Select Proposal Type = Renewal
@@ -1856,7 +1884,7 @@ screen was able to answer proposal certification questions for Key
 
 
 ##coeus-1512.50
-*  Reject workflow changes.
+* RESKC-639: Reject workflow changes.
   * As a proposal user, I often add several aggregators to a proposal so multiple users can complete their assigned tasks. When a proposal is submitted to routing by one aggregator, if rejected for correction, the aggregator that submitted the proposal is now automatically added to the workflow and must approve the document before it commences with the expected routing. This is not the desired routing path.
   * Alternate common scenario: As a support person, I am frequently an added aggregator to 'problem' proposals to aid in preparation and submission. If the proposal get's submitted, I am automatically added as an approver when I should not be.
   * Steps to reproduce:
@@ -1880,14 +1908,14 @@ search for the proposal used in the example.
   * Gayathri Athreya on Wed, 9 Dec 2015 16:09:28 -0700 [View Commit](../../commit/827ff9a2eb94631a90fe4ff46a78bbdb7f428aab)
 
 ##coeus-1512.45
-*  Fix eraCommonsValidation
+* RESKC-1013: Fix eraCommonsValidation
   * As a result of removing the 6-character minimum validation error for the Proposal > Key Personnel > Details > eRA Commons User ID field to support ID's for non-NIH systems, we need to provide a System warning for when the eRA Commons ID field is less than 6 characters for NIH submissions.
   * Warning message should state: "For NIH proposals, the eRA Commons ID must be a minimum of 6 characters"
   * We've been advised that Because there this eRA Commons ID field appears for every proposal person, thus not a unique field, this validation may not be easily managed via a KRMS property.
   * So if there is no KRMS solution, the desired result of this JIRA is to reinstate the system-wide validation for the eRA Commons User ID field at 6 characters, but to make it a WARNING, not an ERROR.
   * Gayathri Athreya on Wed, 9 Dec 2015 13:49:44 -0700 [View Commit](../../commit/1fae9994da2caeb74c80c1263aefd1bd55bac2cc)
-* Upgrade rice
-  * Fix for person search. Verified RESMER-99 connecting to MIT QA WKLY
+* RESKC-1053:Upgrade rice
+  * Fix for person search. Verified connecting to MIT QA WKLY
   * Search is now returning appropriate results (person searhc, PD key personnel).
   * Assuming this will reflect in mit_master when merged so that I don't have
   * to update same for mit_master.
@@ -1906,16 +1934,16 @@ search for the proposal used in the example.
   * Travis Schneeberger on Wed, 9 Dec 2015 08:41:34 -0500 [View Commit](../../commit/7d2e99409faebe4326e58e942abfccaa0cc4a692)
 
 ##coeus-1512.41
-* Subaward Obligated Fund modifications do not update associated Award record
+* RESKC-704:Subaward Obligated Fund modifications do not update associated Award record
 
   * As an Award and Subaward user, I reference the Award module > Subaward where this award is a funding source panel to confirm the funding amount obligated to those records.
   * Currently, the Award record will successfully update with the initial subaward fund allocation. But successive modifications that alter the funding level of the subaward are not reflected in the award.
   * Joe Williams on Wed, 9 Dec 2015 09:54:53 -0600 [View Commit](../../commit/8740515dbbbb24c82ad4ce16ee766bde8fb07696)
 
 ##coeus-1512.40
-* move fixes to other methods
+* RESKC-1052:move fixes to other methods
   * Joe Williams on Tue, 8 Dec 2015 15:12:44 -0600 [View Commit](../../commit/bd0f7f3ae7e0ff03a4a4658cf9501ef8fd82b7fb)
-*  STE trying to delete address book entry
+* RESKC-1052: STE trying to delete address book entry
 
   * When I tried to delete the address book that was not tied to any other record but when I clicked submit I get the following Stack trace error
 
@@ -1924,7 +1952,7 @@ search for the proposal used in the example.
   * Joe Williams on Tue, 8 Dec 2015 13:58:14 -0600 [View Commit](../../commit/3d42c673c575883c8343a65582703dbf4939c78e)
 
 ##coeus-1512.39
-* In PD Budget, underrecovery detail row can have on/off campus set as invalid select value
+* RESKC-948:In PD Budget, underrecovery detail row can have on/off campus set as invalid select value
 
   * This change adds validation to ensure on/off campus is selected and provides a message when it is invalid.
   * It also does a null safe comparison when looking for duplicate rows to ensure stack traces do not occur if a valid is left empty.
@@ -1939,7 +1967,7 @@ search for the proposal used in the example.
 
 
 ##coeus-1512.36
-* Do not display certification toggle functionality when Prop Person COI Status param is enabled
+* RESKC-980:Do not display certification toggle functionality when Prop Person COI Status param is enabled
 
   * The COI Disclosure Status flag feature is designed to control if the proposal person certification questionnaire should appear for proposal personnel.
   * When the contribution was initially merged, it 'broke' the manual 'include certification questions' button that appears for Key Persons. RESKC-688 restored that manual option.
@@ -1949,7 +1977,7 @@ search for the proposal used in the example.
   * blackcathacker on Tue, 8 Dec 2015 12:59:02 -0800 [View Commit](../../commit/9d3e515c9d1c3657684fba0c34c342e478669ac0)
 
 ##coeus-1512.35
-*  Fixing completed by message.
+* Fixing completed by message.
   * Reproduced basic issue: PD: Hierarchy > Certification shows as Complete, but there are no answers in Hierarchy Parent
   * With Certification completed at child then child linked to a hierarchy, the parent has Proposal Personnel > Certification status as Complete with timestamp and user pulled in from child, but none of the answers.
   * There is no problem, however, with PI or Co-I completing the certification at parent level when a Notify request is sent from parent. The completion timestamp updates and answers are pulled in with the PI/Co-I's completion of certification at parent level.
@@ -1964,7 +1992,7 @@ search for the proposal used in the example.
 ##coeus-1512.33
 * Sort proposal number as a numeric field instead of string based
   * blackcathacker on Mon, 7 Dec 2015 14:06:54 -0800 [View Commit](../../commit/77c608bac66906ef07c0da9c20637ad66e9b8728)
-*  Non-personnel rates unchecked will not save
+* RESKC-1042: Non-personnel rates unchecked will not save
 
   * The non-personnel rates cannot be unselected
 
@@ -1978,16 +2006,16 @@ save
   * Joe Williams on Mon, 7 Dec 2015 15:51:35 -0600 [View Commit](../../commit/97921f39805c3d5a03dcb132a18c51eb7267a237)
 
 ##coeus-1512.32
-* Improvments to View S2S Submissions search page
+* RESKC-791:Improvments to View S2S Submissions search page
 
   * Include more pertinent information in the results
   * The action links includes a dialog to show the s2s details
   * blackcathacker on Mon, 7 Dec 2015 13:02:41 -0800 [View Commit](../../commit/831784caa14763d36d2a4c6f310400f35542a031)
 
 ##coeus-1512.31
-*  avoiding a NullPointerException when creating a PD hierarchy.
+* RESKC-868: avoiding a NullPointerException when creating a PD hierarchy.
   * Travis Schneeberger on Mon, 7 Dec 2015 16:19:44 -0500 [View Commit](../../commit/e356f4a41fc8475bdc32d538403dc53f7b5bc836)
-*  Making sure that Unrecovered F and A are merged when the fiscal year, account, rate, oncampus flag are the same across budgets.  This fixes hierarchy sync and avoids the below scenario where Institutional Proposals are generated during PD routing.
+* RESKC-868: Making sure that Unrecovered F and A are merged when the fiscal year, account, rate, oncampus flag are the same across budgets.  This fixes hierarchy sync and avoids the below scenario where Institutional Proposals are generated during PD routing.
 
   * Hierarchy proposal parent was able to route all the way to the approving liaison(final stop). When the liaison clicked Approve, the following presented STE error "A row duplicates another. Enter different Unrecovered F&A information."
 
@@ -2015,7 +2043,7 @@ save
   * Desired result:
   * There should be no restrictions on the use of duplicate sources for any of the Commitments - U/R orCost Sharing (not tested)
   * Travis Schneeberger on Mon, 7 Dec 2015 16:18:31 -0500 [View Commit](../../commit/f5e12f708b46b6ae592c0c3d88dfaebb592f1ea0)
-* PD Budget: Modular KC should NOT Include the LA Amounts
+* RESKC-887:PD Budget: Modular KC should NOT Include the LA Amounts
   * Calculated on 'Subcontractors F&A - Subject to MIT F&A' Line Item in the
   * Consortium F&A field on the Modular Budget Screen. (MITKC 2316).
   * Currently, for those Units that have Lab Allocations, when their
@@ -2047,11 +2075,11 @@ save
   * vineeth on Mon, 7 Dec 2015 11:35:19 -0500 [View Commit](../../commit/1e63b8bb6fb5586291ab3078fa953753799983ed)
 
 ##coeus-1512.30
-* Budget> Personnel Line item double inflates in Year 2 if Salary Anniversary field equals Proposal Start Date Month & Day
+* RESKC-572:Budget> Personnel Line item double inflates in Year 2 if Salary Anniversary field equals Proposal Start Date Month & Day
 
   * If a users enters a Salary Anniversary date for budgetpersonnel with a Month and Day that equals the proposal start date/salary effective date, the calculated Year 2 salary expense will double inflate (ie: if inflation rate is 3%, year 2 charge will show 6% inflation). Later periods resume expected % increase, but the salary base from Y2 is over-inflated, making all the later periods for that person incorrect.
   * Joe Williams on Fri, 4 Dec 2015 13:47:41 -0600 [View Commit](../../commit/95efbcf54a7907f94d3304698695ab03e9b5d8f3)
-*  Fix single point entry dates and added tests.
+* RESKC-804: Fix single point entry dates and added tests.
   * The Single Point Entry screen appears to always display the default project period start and end dates for personnel, even though the actual details for the person use defined dates.
   * Steps to reproduce:
   * Create a proposal
@@ -2066,7 +2094,7 @@ save
   * Gayathri Athreya on Fri, 4 Dec 2015 15:45:31 -0700 [View Commit](../../commit/206efb45ffcb679d2c17964f98573395ea26703c)
 
 ##coeus-1512.29
-* PD - S2S - User Attached S2S Forms Cannot view PDF in view mode
+* RESKC-1043:PD - S2S - User Attached S2S Forms Cannot view PDF in view mode
   * PD - S2S - User Attached S2S Forms - No way to view form unless in Edit mode.
   * Cannot view while Approval In Progress (approvers & OSP) or if Approved and Submitted.
   * Actions > View PDF/View XML/ is only available when in Edit Mode.
@@ -2083,7 +2111,7 @@ save
 
 
 ##coeus-1512.26
-*  Either display subaward invoice 'open' link to open an invoice document or a  subaward invoice 'view' link that does an inquiry.  This supports invoices that do not have corresponding maintenance documents. This feature is controlled by a parameter.
+* RESKC-723: Either display subaward invoice 'open' link to open an invoice document or a  subaward invoice 'view' link that does an inquiry.  This supports invoices that do not have corresponding maintenance documents. This feature is controlled by a parameter.
 
   * As a customer with migrated data in the Subaward Module, I need to be able to review my prior invoice entry data on current and prior invoices. In the current version, when I use the 'open' link to generate a view of the invoice entry screen, I get an error message..
            Please provide an 'inquiry' view option for migrated Subaward Invoice data.
@@ -2095,9 +2123,9 @@ save
   * Travis Schneeberger on Fri, 4 Dec 2015 16:22:57 -0500 [View Commit](../../commit/e17b97e4209bccd2895419b17770a10894fbc04c)
 
 ##coeus-1512.25
-*  Preventing empty files from being uploaded.
+* RESKC-1033: Preventing empty files from being uploaded.
   * Travis Schneeberger on Fri, 4 Dec 2015 09:55:48 -0500 [View Commit](../../commit/687c8f6f5ffefec0206b5b4c7be03f7b8712d491)
-*  Users are unable to create a Parent Proposal from a Child Proposal that includes a PERSONNEL attachment(s). When users try, they get the STE identified below.
+* RESKC-1033: Users are unable to create a Parent Proposal from a Child Proposal that includes a PERSONNEL attachment(s). When users try, they get the STE identified below.
 
   * Steps to Reproduce:
   * 1. Create a Proposal (with minimum info to save)
@@ -2114,7 +2142,7 @@ save
   * Travis Schneeberger on Thu, 3 Dec 2015 11:18:52 -0500 [View Commit](../../commit/5847c8711ee914b07471cf60d5a1af10bc1b64a0)
 
 ##coeus-1512.24
-*  PD - Budget Underrecovered F&A error warning that Fiscal Year outside of project period is not correct.
+* RESKC-859: PD - Budget Underrecovered F&A error warning that Fiscal Year outside of project period is not correct.
 
   * By default, when UR is present in the budget, this screen generates rows pairs for On and Off Campus rates (as maintained): One (1) pair for each Fiscal Year present at the Project Year Start.
            Users may delete any row, and add new rows.
@@ -2142,23 +2170,23 @@ save
   * Travis Schneeberger on Fri, 4 Dec 2015 14:43:58 -0500 [View Commit](../../commit/7c677f39874563c5f89fc1e5e0a38038337c0a86)
 
 ##coeus-1512.23
-* PD - S2S Forms when USer Attached Include column should show YES or be editable by OSP
+* RESKC-968:PD - S2S Forms when USer Attached Include column should show YES or be editable by OSP
   * Fix is have to checkbox be automatically selected when a user adds via user attached forms.
   * rmancher on Wed, 2 Dec 2015 17:39:50 -0500 [View Commit](../../commit/73355557e537041475122cda2532dfff686b83b5)
 
 ##coeus-1512.22
-* Getting stack trace error when trying to create budget
+* RESKC-1040:Getting stack trace error when trying to create budget
   * Joe Williams on Fri, 4 Dec 2015 11:48:38 -0600 [View Commit](../../commit/1a3572e6deb7a2e4735f3075dfedd2ab229d117a)
 
 ##coeus-1512.21
-* PD - "Save" button and proposal person certification "Clear All Answers" button is enabled in view mode.
+* RESKC-1022:PD - "Save" button and proposal person certification "Clear All Answers" button is enabled in view mode.
   * Updating changes along with merged MIT code for certification where investigators should be able to make changes to certification
   * questions in view mode. Changes are allowed only when proposal is pending
   * or current state is revision requested.
   * rmancher on Wed, 2 Dec 2015 16:54:28 -0500 [View Commit](../../commit/becc0b61c399cfc15ab9f85d89c1d472fc501ea9)
 
 ##coeus-1512.20
-*  Indirect cost base calculation.
+* RESKC-818: Indirect cost base calculation.
   * In KC budget, in the line item details (both in Non-Personnel Costs and SPE screens) or personnel group Details & Rates, if you uncheck the "Apply Rate" box for MTDC, the IDC in the budget is correctly adjusted to exclude the unchecked amounts.
   * However, when you print the budget forms, the full Indirect Cost Base is still populating in the Indirect Cost Base section when the unapplied item is an Other Direct Cost expense. When Personnel expenses use the 'unapply rate' option, the Base is incorrect by an undetermined amount. Please investigate.
   * The MTDC costs rate amounts that are unchecked for Apply Rates should not appear on the budget form Indirect Cost Base fields.
@@ -2181,7 +2209,7 @@ save
   * Print the #4 report.
   * Note that in this example, clearly the unapplied line item is not excluded from the F&A base in the next section.
   * Gayathri Athreya on Thu, 3 Dec 2015 12:54:46 -0700 [View Commit](../../commit/8a25dc7af07b8a3f4f2a42a20772245acc8aab6e)
-* View S2S Submission Search
+* RESKC-791:View S2S Submission Search
   * blackcathacker on Thu, 3 Dec 2015 18:13:53 -0800 [View Commit](../../commit/eaf60b2c969dd0b14725716f3e3f9b40e6dee36f)
 
 ##coeus-1512.19
@@ -2201,9 +2229,9 @@ save
 
 
 ##coeus-1512.15
-*  refactor getNewStartEndDates
+* RESKC-731: refactor getNewStartEndDates
   * Joe Williams on Thu, 3 Dec 2015 11:25:47 -0600 [View Commit](../../commit/c84aad092761d4ca6cb697438399e00bdafeac9c)
-*  Budget: Leap Year Issue: Personnel Costs Dates are Wrong when Start Date is other than 1st of the month and Autocalculate Periods is Performed
+* RESKC-731: Budget: Leap Year Issue: Personnel Costs Dates are Wrong when Start Date is other than 1st of the month and Autocalculate Periods is Performed
 
   * This issue was identified in the comments received from the community: "There seems to be a leap year error. Some of our staff account for 20 days' vacation by starting the person 20 days after their actual appointment. If you do this in KC, for year 2 it will start it 19 days later. Also an appointment that should have ended on e.g. Oct 31, for year 2 will end on Oct 30. This can be manually edited but it's inconvenient.:
   * Joe Williams on Thu, 3 Dec 2015 10:00:08 -0600 [View Commit](../../commit/704458ebbfd358eebecd7a6608dffa4efe71bded)
@@ -2229,15 +2257,15 @@ save
 
 
 ##coeus-1512.9
-* Populate additional date related fields on ProposalAdminDetails
+* RESKC-486:Populate additional date related fields on ProposalAdminDetails
 
   * Populate the additional date and create fields for proposaladmindetails. This includes DATE_SUBMITTED_BY_DEPT, DATE_RETURNED_TO_DEPT, DATE_APPROVED_BY_OSP, DATE_SUBMITTED_TO_AGENCY, INST_PROP_CREATE_DATE, and INST_PROP_CREATE_USER
   * blackcathacker on Wed, 2 Dec 2015 12:56:17 -0800 [View Commit](../../commit/ff9c4f55eb153f06ec334db28db7a1329f3477ee)
-*  When the Award Notice is printed, the PI's name is displaying as the Administrative Contact. See attached - highlighted area. This isn't correct. Should be a value from the Central Contact panel on the award. To recreate the issue, open any award in resdemo1, navigate to the Award Actions tab, open the print panel, and select the print button to the right of the Award Notice area.
+* RESKC-1026: When the Award Notice is printed, the PI's name is displaying as the Administrative Contact. See attached - highlighted area. This isn't correct. Should be a value from the Central Contact panel on the award. To recreate the issue, open any award in resdemo1, navigate to the Award Actions tab, open the print panel, and select the print button to the right of the Award Notice area.
   * Travis Schneeberger on Wed, 2 Dec 2015 12:23:15 -0500 [View Commit](../../commit/75c7094a0eadf622c67e29f20b98d8e71a6a38a6)
 
 ##coeus-1512.7
-* IRB - STE In QA when trying to submit Agenda or Minutes
+* RESKC-1029:IRB - STE In QA when trying to submit Agenda or Minutes
 
   * If i open a schedule for a meeting I get and STE when i try to generate the agenda or the minutes:
   * Go to the "Meeting Actions" tab >>agenda>submit & I get an STE
@@ -2246,29 +2274,29 @@ save
   * Joe Williams on Wed, 2 Dec 2015 08:53:07 -0600 [View Commit](../../commit/f1765c4ae33954c53aff3c86c86696d155f91b8a)
 
 ##coeus-1512.6
-* T&M History obligated change amounts always zero if Award not finalized prior
+* RESKC-1020:T&M History obligated change amounts always zero if Award not finalized prior
 
   * If the award is finalized after the T&M is in final status, the T&M history obligated change amount shows as zero, even though the T&M added money and the history shows the obligated cumulative as updated amounts
   * Joe Williams on Wed, 2 Dec 2015 07:59:47 -0600 [View Commit](../../commit/cf1e2cfa92fdcca5ecb1e3aa8be7e041d0271ee8)
 
 ##coeus-1512.5
-*  setting character set and collation type for audit type table
+* RESKC-178: setting character set and collation type for audit type table
   * Travis Schneeberger on Tue, 1 Dec 2015 20:08:08 -0500 [View Commit](../../commit/dcaee6235706f6d8b5891bb7c74e7fd9ac9aa0bf)
 
 ##coeus-1512.3
-* Correct logic so maintenance documents without error can be deleted
+* RESKC-1027:Correct logic so maintenance documents without error can be deleted
 
   * Attempting to delete an unreferenced record would result in errorneous "business rule evaluation failed" despite there being no errors.
   * blackcathacker on Tue, 1 Dec 2015 15:06:48 -0800 [View Commit](../../commit/5e11d839fc7c42ca2dedfed0977e7ce9965a5e71)
-*  Handles items with no overhead or line item calculated amounts
+* RESKC-686: Handles items with no overhead or line item calculated amounts
   * Gayathri Athreya on Tue, 1 Dec 2015 14:04:53 -0700 [View Commit](../../commit/fd1891b80e4c1895655d31225b55ad25cb02bf55)
-* Remove feature flag for new homepage and make it the default
+* RESKC-979:Remove feature flag for new homepage and make it the default
   * blackcathacker on Tue, 1 Dec 2015 12:53:34 -0800 [View Commit](../../commit/c602d9f0c0c3e98e6f028c54d7bb1e8a4bd9a8dc)
 * Submitting T&M document without a transaction zeros out obligated and anticipated totals in some cases
 
   * When the MAKE_AWD_CUM_ANTICIPATED_OBL_EDITABLE parameter is set to Y or the amounts on the T&M hierarchy panel are un-editable for other reasons, saving or submitting the T&M document will cause a new transaction to be errornously created that zeros out the totals. This prevents this by not creating single-node transactions based on changes when those fields are disabled.
   * blackcathacker on Tue, 1 Dec 2015 12:46:30 -0800 [View Commit](../../commit/c1156c0890a62cde910e7272d2a6a1ac6710b3ee)
-* IRB - Edits to committee is disconnecting minutes, agenda and schedule data
+* RESKC-1024:IRB - Edits to committee is disconnecting minutes, agenda and schedule data
   * Edit committee and approve is disconnecting minutes, agenda and schedule data.
   * This occurs when prior document is not finalized.
   * During approval process we are merging changes from old committee document to new versioned document.
@@ -2277,9 +2305,9 @@ save
   * rmancher on Tue, 1 Dec 2015 11:43:21 -0500 [View Commit](../../commit/65a88b6dc3b79aaf5a5c89b40c0044d16d8b9a09)
 
 ##coeus-1512.2
-* Revert "Remove feature flag for new homepage and make it the default"
+* Revert "RESKC-979:Remove feature flag for new homepage and make it the default"
   * Travis Schneeberger on Tue, 1 Dec 2015 13:17:51 -0500 [View Commit](../../commit/5bdeac82c8f0e81e9bc3d43ed72ca1e787fcfb8d)
-* Remove feature flag for new homepage and make it the default
+* RESKC-979:Remove feature flag for new homepage and make it the default
   * blackcathacker on Tue, 1 Dec 2015 09:27:17 -0800 [View Commit](../../commit/1431ddc2974b38c295a9751639e654fce1814d90)
 
 ##coeus-1512.1
@@ -2291,11 +2319,11 @@ save
 
 
 ##coeus-1511.111
-*  Fixing UR calculation when OH rate is TDC and institute rate is set to 0.00
+* RESKC-686: Fixing UR calculation when OH rate is TDC and institute rate is set to 0.00
   * Gayathri Athreya on Mon, 30 Nov 2015 16:56:00 -0700 [View Commit](../../commit/0529a80f54d7839c3ac072b1cb0dbe7b866aff9b)
 
 ##coeus-1511.110
-*  Cannot consistently copy a budget version from the Budget Versions Modal without generating an error.
+* RESKC-1021: Cannot consistently copy a budget version from the Budget Versions Modal without generating an error.
 
   * Create a proposal with basic requirements to save.
   * Create a budget version > add a personnel line item, add a non-personnel line item: Save.
@@ -2309,7 +2337,7 @@ save
   * Travis Schneeberger on Mon, 30 Nov 2015 17:28:57 -0500 [View Commit](../../commit/b05ccd4648db10f4ed22b4ee6db726b2b7dc3033)
 
 ##coeus-1511.109
-*  Budget > P&T > Delete period or modify budget period date range > User allowed to continue with mismatched dates to proposal
+* RESKC-693: Budget > P&T > Delete period or modify budget period date range > User allowed to continue with mismatched dates to proposal
 
   * As a user with limited training in budget, I assume I can add or delete budget periods on the Budget >  Periods & Totals screen using the trashcan icon for any reason I choose. The period can have been generated and contain data, or be empty of values because no budget details have been generated or added.
   * I believe I can do this because the system lets me take that action, confirms that the budget period has been deleted, and lets me continue using the budget.
@@ -2328,12 +2356,12 @@ save
 
 
 ##coeus-1511.107
-*  Fixing role exemption certification and added tests.
+* RESKC-979: Fixing role exemption certification and added tests.
   * I re-tested this case in 1511.58 and found that Key Persons with roles maintained in keypersonprojectrole who do not have to certify or disclose still show in Notify All and COI disclosure status modals but should not.
   * Gayathri Athreya on Mon, 30 Nov 2015 14:01:38 -0700 [View Commit](../../commit/4d170526406d6f4ff6a9990cb1f383dbe2e29474)
-*  Budget category desciption was not setting properly for LA Vacation overhead items and NPE was throiwng while sorting these records of rate and base line items
+* Budget category desciption was not setting properly for LA Vacation overhead items and NPE was throiwng while sorting these records of rate and base line items
   * Geo Thomas on Mon, 30 Nov 2015 15:35:53 -0500 [View Commit](../../commit/f288b2261b453b9133ec524b28387d96bc26dcd5)
-* PD - "Save" button and proposal person certification "Clear All Answers" button is enabled in view mode
+* RESKC-1022:PD - "Save" button and proposal person certification "Clear All Answers" button is enabled in view mode
   * rmancher on Mon, 30 Nov 2015 15:19:57 -0500 [View Commit](../../commit/df4f9b609e3fc34b05ed2b2bdfdbd196d16ea829)
 
 ##coeus-1511.106
@@ -2353,11 +2381,11 @@ save
 
 
 ##coeus-1511.103
-*  Remove unused proposal budget status
+* RESKC-1009: Remove unused proposal budget status
   * Travis Schneeberger on Wed, 25 Nov 2015 22:01:37 -0500 [View Commit](../../commit/bbc2db9642be59de708e74e76d4ca8ae2c212355)
 
 ##coeus-1511.102
-*  Fix underrecovery in some situations and add tests
+* RESKC-686: Fix underrecovery in some situations and add tests
   * If the Budget Settings > Unrecovered F&A Base selection is FUNSN, the system is not recognizing the the full difference. Cost Objects that are included in the FUNSN rate that are not charged F&A in the MTDC rate (like Equipment, Tuition, and Subawards) are not generating U/R when the rate pair of F&A = MTDC and UR F&A Base = FUNSN.
   * The following F&A Rate Type/Unrecovered F&A Rate Type combinations are still not calculating Underrecovery correctly in the budget, specifically on the Equipment and Tuition RA Object Codes (this seems to be happening with the Object Codes that are set-up to NOT apply MTDC).
   * F&A Rate Type/Unrecovered F&A Rate Type:
@@ -2405,9 +2433,9 @@ save
   * Commitments > Unrecovered F&A: Total unallocated = $3,600 (-$1,000 + $4,600)
   * Periods & Totals> Unrecovered F&A $3,600 (-$1,000 + $4,600)
   * Gayathri Athreya on Mon, 30 Nov 2015 08:46:56 -0700 [View Commit](../../commit/1c1f0e48febc7a918a1c1b240bb168792f76fd6c)
-*  Refactor calculate breakpoints
+* RESKC-686: Refactor calculate breakpoints
   * Gayathri Athreya on Tue, 24 Nov 2015 15:20:48 -0700 [View Commit](../../commit/7a4024df1a6907cd69c5cf86c80967fd5de817fb)
-* Proposal Hierarchy: Changes to the Budget Periods on the Child
+* RESKC-672:Proposal Hierarchy: Changes to the Budget Periods on the Child
   * do NOT sync to the Parent Proposal.
   * Confirmed in res-test1 on 7/27/2015
   * Created a 4 year project period in initiating child> created parent.
@@ -2518,13 +2546,13 @@ shown.
 
 
 ##coeus-1511.98
-* IRB - Review Comments not displaying in some Amendments
+* RESKC-1017:IRB - Review Comments not displaying in some Amendments
   * Issue here is when a schedule is selected at the time of approval and review comments are added prior to it,
   * a default schedule is set of each review comments.
   * Referenced schedule id is not changed based on switching schedule at the time of approval.
   * Fix to reprocess the review comments collection and update the latest schedule id prior to persisting.
   * rmancher on Thu, 26 Nov 2015 10:10:51 -0500 [View Commit](../../commit/bc910645fe3f226d7aad76ff98b75406ff8cee74)
-*  STE occurs if initiating child proposal is unlinked before a non-lead unit child proposal.
+* RESKC-845: STE occurs if initiating child proposal is unlinked before a non-lead unit child proposal.
 
 *Step 1: create the initiating child proposal*
   * Create a proposal in lead unit IN-CARD
@@ -2560,7 +2588,7 @@ save & close
 
   * java.lang.NullPointerException at org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyServiceImpl.removeFromHierarchy(ProposalHierarchyServiceImpl.java:300) at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) at java.lang.reflect.Method.invoke(Method.java:497) at
   * Travis Schneeberger on Mon, 30 Nov 2015 08:32:19 -0500 [View Commit](../../commit/8be198573da32ae9bb4942c29f2b728fbe9b5244)
-*  Maintenance Doc > Organization > Audit > Audit Accepted field needs more than "Yes/No" options.
+* RESKC-178: Maintenance Doc > Organization > Audit > Audit Accepted field needs more than "Yes/No" options.
   * Options should include: Accepted, Rejected, Requested, and Reviewed.
   * In KC, the Organization "Audit Accepted" field is a checkbox, indicating a binary yes/no option.
   * In Coeus, the Audit Accepted field is a drop down with 4 options. (The dropdown has been in place since at least before Coeus 4.4.4, if not originally.)
@@ -2568,7 +2596,7 @@ save & close
   * This field is used by Research Subawards administrators to maintain a central, electronic record of detailed Audit status for subawardee organizations.
   * Field in KC needs to provide the same more detailed selection options as Coeus.
   * Travis Schneeberger on Wed, 25 Nov 2015 19:05:47 -0500 [View Commit](../../commit/1401811e891dfe428b766d7572c7c217f9826dde)
-*  Fixing numerious bugs related to proposal development.
+* RESKC-883: Fixing numerious bugs related to proposal development.
 
   * The user expects all proposals linked in a proposal hierarchy to be the same; therefore a children's status should match the status of the parent and should not be editable if in a status that does not allow edits.
            Currently, when a Hierarhcy Proposal Routes, the status of the parent becomes "Approval Pending" but the status of all the children remains as "In Progress."
@@ -2595,7 +2623,7 @@ save & close
 
 
 ##coeus-1511.95
-* PD Budget Version > Print > #1 "Budget Costshare Summary
+* RESKC-813:PD Budget Version > Print > #1 "Budget Costshare Summary
   * Report" - missing column headers if no personnel costs.
   * if only non-personnel expenses are in the budget, the costshare summary
   * report does not include any column headers, making the report virtually
@@ -2617,7 +2645,7 @@ share, the total cost to sponsor, and total project cost.
   * Screenshots from res demo 1  * vineeth on Fri, 27 Nov 2015 10:27:29 -0500 [View Commit](../../commit/e9329d62d5b1ae31ca242fecba1d69d63a8df04f)
 
 ##coeus-1511.94
-* PD Budget Version > Action > Print > Budget Cumulative Report
+* RESKC-787:PD Budget Version > Action > Print > Budget Cumulative Report
   * printing formatting/subtotal & total display issues.
   * The printed report for Cumulative budget is not well formatted in KC.
   * The MIT Coeus version has been uploaded to compare and contrast to the
@@ -2656,7 +2684,7 @@ share, the total cost to sponsor, and total project cost.
   * vineeth on Thu, 26 Nov 2015 19:17:45 -0500 [View Commit](../../commit/cc077d5470bd295f31c4b82d1767ae991351f002)
 
 ##coeus-1511.93
-* IRB - Review Comments not displaying while regenerating Amendment letter
+* RESKC-1018:IRB - Review Comments not displaying while regenerating Amendment letter
   * Amendment is merged on to main protocol and a new document is created. Minutes/review comments
   * are not versioned while versioning protocol when amendment is merged. The review comments are only tied
   * corresponding amendemnt. Fix is to version review comments and attached it to versioned protocol.
@@ -2687,9 +2715,9 @@ share, the total cost to sponsor, and total project cost.
 
 
 ##coeus-1511.87
-*  set default submissiontype while changing proposaltype in edit mode
+* set default submissiontype while changing proposaltype in edit mode
   * Geo Thomas on Tue, 24 Nov 2015 16:23:59 -0500 [View Commit](../../commit/19865b435cdbe1c092862db7f966c64eabcf7b2f)
-*  set default submissiontype in refresh method
+* set default submissiontype in refresh method
   * Geo Thomas on Tue, 24 Nov 2015 15:50:53 -0500 [View Commit](../../commit/c0cfedafa97d3cd512b1e242ac34b940c7f2373a)
 
 ##coeus-1511.86
@@ -2701,7 +2729,7 @@ share, the total cost to sponsor, and total project cost.
 
 
 ##coeus-1511.84
-*  When a rejected proposal is saved the status should remain Revisions Requested unless the proposal is submitted to workflow.
+* RESKC-659: When a rejected proposal is saved the status should remain Revisions Requested unless the proposal is submitted to workflow.
 
   * As a central support person, I have superuser role to aid campus users. When I open a rejected proposal where the Status is "Revisions Requested", the status incorrectly changes to "In Progress". When a regular aggregator edits the revisions requested proposal, it stays in 'revisions requested' status. While this seems trivial, campus users will often search for this status proposal; but if the OSP super user aids in fixing trouble proposals, this breaks the search option.
 
@@ -2722,11 +2750,11 @@ share, the total cost to sponsor, and total project cost.
 
 
 ##coeus-1511.82
-*  database conversion to fix subaward amount info
+* RESKC-862: database conversion to fix subaward amount info
 
   * Adds new java based data conversion to remove duplicates from the subaward amount info table. This conversion is documented in coeus-db/coeus-db-data-conv/README.md
   * blackcathacker on Thu, 19 Nov 2015 17:49:03 -0800 [View Commit](../../commit/34f38dfc911e4b406f5521b6baa1bb4494ef24e1)
-*  Display and use amount infos from previous subaward versions
+* RESKC-862: Display and use amount infos from previous subaward versions
 
   * This commit changes the way subawards handle amount infos. Previously amount infos were copied forward with each successive version of the subaward. This changes this such that amount infos stay
   * linked to the original subaward version, but future subawards use the entire history of amount infos for display and calculation of total amounts. This change requires a reasonably complex conversion
@@ -2734,7 +2762,7 @@ share, the total cost to sponsor, and total project cost.
   * blackcathacker on Wed, 4 Nov 2015 16:25:41 -0800 [View Commit](../../commit/f6471164b60cbe87f7878a036ee5609663c0db59)
 
 ##coeus-1511.81
-* Committee Edit - Performance issue
+* RESKC-1015:Committee Edit - Performance issue
   * IRB committee document has huge performance issue.
   * Also volume of data is high.
   * This is when committee document is edited to make changes and routed.
@@ -2751,7 +2779,7 @@ share, the total cost to sponsor, and total project cost.
 
   * Without this things like the redirect page in the core spring context will disallow being viewed in the iframe and thus break things like Close and Cancel buttons when used.
   * blackcathacker on Mon, 23 Nov 2015 13:02:55 -0800 [View Commit](../../commit/7c577fa0fe5b130990009f8e9d018c9a01712d63)
-*  Fixing calculation on cost element change
+* RESKC-1014: Fixing calculation on cost element change
   * PD Budget - Non Personnel Line items: Rate calculations not updated with change of Cost Object from one where F&A and/or LA rates apply to one where they do not
   * Discovered in MIT KC Production.
   * Replicated in MIT KC QA Wkly Build kc1510.32
@@ -2780,15 +2808,15 @@ share, the total cost to sponsor, and total project cost.
   * Gayathri Athreya on Mon, 23 Nov 2015 13:15:32 -0700 [View Commit](../../commit/3b715d603511c9f7f948e833951cd6a8898ac2c3)
 
 ##coeus-1511.78
-*  Budget Id and Budget Period Id are not set correctly when copying a proposal with a budget.
+* RESKC-1006: Budget Id and Budget Period Id are not set correctly when copying a proposal with a budget.
   * Travis Schneeberger on Fri, 20 Nov 2015 16:57:25 -0500 [View Commit](../../commit/370621df7b3ad2aa49b8360058530cdfbaaa960c)
-*  Make small change to line items search ot avoid duplicate addition
+* RESKC-283: Make small change to line items search ot avoid duplicate addition
   * Gayathri Athreya on Mon, 23 Nov 2015 11:20:21 -0700 [View Commit](../../commit/9fbbd86a58d58b43fdabcddb31fbd018101a4ba7)
-*  clean out unused deep copy post processor code
+* RESKC-1006: clean out unused deep copy post processor code
   * Travis Schneeberger on Thu, 19 Nov 2015 11:35:50 -0500 [View Commit](../../commit/2c3c6992a67b69f6d573b1adf8e7a4c870b48c4c)
 
 ##coeus-1511.77
-*  Attempt to fix cost sharing issues.
+* Attempt to fix cost sharing issues.
   * KC should not apply MTDC to Cost Sharing amount in Subaward cost elements that are populated to Non-Personnel expenses from Subawards entered in the Subawards Section of the budget.
   * Subawards with Cost Sharing input via the Subawards section - either with an uploaded grants.gov form or manually - result in subawardee Cost Share incurring F&A in the applicant organization budget. This causes incorrect amounts for the Cost Sharing Commitment, as well as for the Cost Sharing amount submitted to sponsor on the Grants.gov Coversheet (and budget if FNF form is included).
   * KC inputs the Subaward Cost Share amount that exist in Period 1 into the first Subcontract Object Code it adds to the Non-Personnel section, which in almost all cases is the Subcontracts - Subject to MIT F&A Object Code (that is set-up to apply F&A).
@@ -2842,7 +2870,7 @@ sorting order.
   * together  * vineeth on Fri, 20 Nov 2015 17:52:46 -0500 [View Commit](../../commit/d0f13deacd5ea76ed7de02adcca9b0485738ba87)
 
 ##coeus-1511.71
-*  fixing sequence name in ojb mapping for watermark.
+* RESKC-1005: fixing sequence name in ojb mapping for watermark.
   * Travis Schneeberger on Fri, 20 Nov 2015 10:57:16 -0500 [View Commit](../../commit/baaea09feec0b07e907e4221a633e3e360a852ac)
 
 ##coeus-1511.70
@@ -2858,7 +2886,7 @@ sorting order.
 
 
 ##coeus-1511.67
-*  remove the descriminator column DOCUMENT_NEXT_VALUE_TYPE from the table document_nextvalue.  It is not used.  Clean up next value code.
+* RESKC-1007: remove the descriminator column DOCUMENT_NEXT_VALUE_TYPE from the table document_nextvalue.  It is not used.  Clean up next value code.
   * Travis Schneeberger on Thu, 19 Nov 2015 11:06:43 -0500 [View Commit](../../commit/759372238b5fc8e51f3d7eb7f3add1dd839a382b)
 
 ##coeus-1511.66
@@ -2866,11 +2894,11 @@ sorting order.
 
 
 ##coeus-1511.65
-*   fixing a potential constraint violation when adding a propdev budget
+* RESKC-945:  fixing a potential constraint violation when adding a propdev budget
 
   * org.springframework.orm.jpa.JpaSystemException: Exception [EclipseLink-4002] (Eclipse Persistence Services - 2.6.0.v20150309-bf26070): org.eclipse.persistence.exceptions.DatabaseException Internal Exception: com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'DOCUMENT_NUMBER' cannot be null Error Code: 1048 Call: INSERT INTO DOCUMENT_NEXTVALUE (PROPERTY_NAME, DOCUMENT_NUMBER, NEXT_VALUE, OBJ_ID, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) VALUES (?, ?, ?, ?, ?, ?, ?) bind => [7 parameters bound] Query: InsertObjectQuery(org.kuali.kra.bo.DocumentNextvalue@6704e143[propertyName=personSequenceNumber,documentKey=<null>,nextValue=2,serialVersionUID=-9140148375067456625,updateUser=fchair,updateUserSet=false,serialVersionUID=-3519927021539948875,serialVersionUID=1451642350593233282,versionNumber=0,objectId=a647a7b8-7cc7-4c01-b41d-d45924e166cf,newCollectionRecord=false,serialVersionUID=5563310175227245001,_persistence_shouldRefreshFetchGroup=false]); nested exception is javax.persistence.PersistenceException: Exception [EclipseLink-4002] (Eclipse Persistence Services - 2.6.0.v20150309-bf26070): org.eclipse.persistence.exceptions.DatabaseException Internal Exception: com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'DOCUMENT_NUMBER' cannot be null Error Code: 1048 Call: INSERT INTO DOCUMENT_NEXTVALUE (PROPERTY_NAME, DOCUMENT_NUMBER, NEXT_VALUE, OBJ_ID, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) VALUES (?, ?, ?, ?, ?, ?, ?) bind => [7 parameters bound] Query: InsertObjectQuery(org.kuali.kra.bo.DocumentNextvalue@6704e143[propertyName=personSequenceNumber,documentKey=<null>,nextValue=2,serialVersionUID=-9140148375067456625,updateUser=fchair,updateUserSet=false,serialVersionUID=-3519927021539948875,serialVersionUID=1451642350593233282,versionNumber=0,objectId=a647a7b8-7cc7-4c01-b41d-d45924e166cf,newCollectionRecord=false,serialVersionUID=5563310175227245001,_persistence_shouldRefreshFetchGroup=false]) at org.springframework.orm.jpa.EntityManagerFactoryUtils.convertJpaAccessExceptionIfPossible(EntityManagerFactoryUtils.java:321) at org.springframework.orm.jpa.DefaultJpaDialect.translateExceptionIfPossible(DefaultJpaDialect.java:120) at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.translateExceptionIfPossible(AbstractEntityManagerFactoryBean.java:403) at org.kuali.rice.krad.data.jpa.KradEntityManagerFactoryBean.translateExceptionIfPossible(KradEntityManagerFactoryBean.java:546) at org.springframework.dao.support.ChainedPersistenceExceptionTranslator.translateExceptionIfPossible(ChainedPersistenceExceptionTranslator.java:58) at org.springframework.dao.support.DataAccessUtils.translateIfNecessary(DataAccessUtils.java:213) at org.kuali.rice.krad.data.jpa.JpaPersistenceProvider.doWithExceptionTranslation(JpaPersistenceProvider.java:555) at org.kuali.rice.krad.data.jpa.JpaPersistenceProvider.save(JpaPersistenceProvider.java:187) at sun.reflect.GeneratedMethodAccessor1106.invoke(Unknown Source) at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) at java.lang.reflect.Method.invoke(Method.java:497) at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:317) at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:183) at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:150) at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:96) at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:260) at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:94) at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:172) at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:204) at com.sun.proxy.$Proxy51.save(Unknown Source) at org.kuali.rice.krad.data.provider.impl.ProviderBasedDataObjectService.save(ProviderBasedDataObjectService.java:155) at org.kuali.coeus.propdev.impl.budget.ProposalBudgetServiceImpl.saveBudget(ProposalBudgetServiceImpl.java:185) at org.kuali.coeus.propdev.impl.budget.ProposalBudgetServiceImpl.getNewBudgetVersion(ProposalBudgetServiceImpl.java:144) at org.kuali.coeus.propdev.impl.budget.ProposalBudgetServiceImpl.getNewBudgetVersion(ProposalBudgetServiceImpl.java:64) at org.kuali.coeus.common.budget.impl.core.AbstractBudgetService.addBudgetVersion(AbstractBudgetService.java:70) at org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetSharedControllerServiceImpl.addBudget(ProposalBudgetSharedControllerServiceImpl.java:112) at org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetController.addBudget(ProposalBudgetController.java:59) at org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetController$$FastClassBySpringCGLIB$$ea143290.invoke(<generated>) at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:204) at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:629) at org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetController$$EnhancerBySpringCGLIB$$badf24d.addBudget(<generated>) at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) at java.lang.reflect.Method.invoke(Method.java:497) at org.springframework.web.method.support.InvocableHandlerMethod.invoke(InvocableHandlerMethod.java:215) at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:132) at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:104) at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandleMethod(RequestMappingHandlerAdapter.java:743) at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:672) at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:82) at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:919) at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:851) at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:953) at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:855) at javax.servlet.http.HttpServlet.service(HttpServlet.java:646) at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:829) at javax.servlet.http.HttpServlet.service(HttpServlet.java:727) at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:303) at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:208) at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:330) at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.invoke(FilterSecurityInterceptor.java:118) at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.doFilter(FilterSecurityInterceptor.java:84) at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:342) at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:113) at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:342) at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:103) at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:342) at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:113) at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:342) at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:154) at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:342) at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:45) at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:342) at org.springframework.security.web.authentication.www.BasicAuthenticationFilter.doFilter(BasicAuthenticationFilter.java:150) at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:342) at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:110) at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:342) at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:57) at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:106) at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:342) at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:87) at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:342) at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:50) at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:106) at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:342) at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:192) at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:160) at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:343) at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:260) at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:241) at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:208) at org.kuali.rice.kew.web.UserPreferencesFilter.doFilter(UserPreferencesFilter.java:78) at org.kuali.rice.kew.web.UserPreferencesFilter.doFilter(UserPreferencesFilter.java:62) at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:241) at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:208) at org.kuali.rice.krad.web.filter.UserLoginFilter.doFilter(UserLoginFilter.java:92) at org.kuali.rice.krad.web.filter.UserLoginFilter.doFilter(UserLoginFilter.java:80) at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:241) at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:208) at org.kuali.rice.krad.web.filter.BootstrapFilterChain.doFilter(BootstrapFilter.java:327) at org.kuali.rice.krad.web.filter.DummyLoginFilter.doFilter(DummyLoginFilter.java:82) at org.kuali.rice.krad.web.filter.DummyLoginFilter.doFilter(DummyLoginFilter.java:62) at org.kuali.rice.krad.web.filter.BootstrapFilterChain.doFilter(BootstrapFilter.java:320) at org.kuali.rice.krad.web.filter.BootstrapFilter.doFilter(BootstrapFilter.java:199) at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:241) at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:208) at net.bull.javamelody.MonitoringFilter.doFilter(MonitoringFilter.java:198) at net.bull.javamelody.MonitoringFilter.doFilter(MonitoringFilter.java:176) at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:241) at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:208) at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52) at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:241) at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:208) at org.kuali.coeus.sys.framework.controller.interceptor.PerformanceLoggingFilter.doFilter(PerformanceLoggingFilter.java:82) at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:241) at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:208) at org.kuali.coeus.sys.framework.controller.interceptor.SessionExpiredFilter.doFilter(SessionExpiredFilter.java:46) at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:241) at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:208) at org.kuali.rice.krad.web.filter.HideWebInfFilter.doFilter(HideWebInfFilter.java:68) at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:241) at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:208) at org.springframework.web.filter.AbstractRequestLoggingFilter.doFilterInternal(AbstractRequestLoggingFilter.java:223) at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:106) at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:241) at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:208) at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:88) at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:106) at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:241) at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:208) at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:220) at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:122) at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:170) at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:103) at org.apache.catalina.valves.RemoteIpValve.invoke(RemoteIpValve.java:683) at org.apache.catalina.valves.CrawlerSessionManagerValve.invoke(CrawlerSessionManagerValve.java:180) at org.apache.catalina.valves.AccessLogValve.invoke(AccessLogValve.java:950) at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:116) at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:421) at org.apache.coyote.ajp.AjpAprProcessor.process(AjpAprProcessor.java:188) at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:611) at org.apache.tomcat.util.net.AprEndpoint$SocketProcessor.doRun(AprEndpoint.java:2466) at org.apache.tomcat.util.net.AprEndpoint$SocketProcessor.run(AprEndpoint.java:2455) at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) at java.lang.Thread.run(Thread.java:745) Caused by: javax.persistence.PersistenceException: Exception [EclipseLink-4002] (Eclipse Persistence Services - 2.6.0.v20150309-bf26070): org.eclipse.persistence.exceptions.DatabaseException Internal Exception: com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'DOCUMENT_NUMBER' cannot be null Error Code: 1048 Call: INSERT INTO DOCUMENT_NEXTVALUE (PROPERTY_NAME, DOCUMENT_NUMBER, NEXT_VALUE, OBJ_ID, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) VALUES (?, ?, ?, ?, ?, ?, ?) bind => [7 parameters bound] Query: InsertObjectQuery(org.kuali.kra.bo.DocumentNextvalue@6704e143[propertyName=personSequenceNumber,documentKey=<null>,nextValue=2,serialVersionUID=-9140148375067456625,updateUser=fchair,updateUserSet=false,serialVersionUID=-3519927021539948875,serialVersionUID=1451642350593233282,versionNumber=0,objectId=a647a7b8-7cc7-4c01-b41d-d45924e166cf,newCollectionRecord=false,serialVersionUID=5563310175227245001,_persistence_shouldRefreshFetchGroup=false]) at org.eclipse.persistence.internal.jpa.EntityManagerImpl.flush(EntityManagerImpl.java:879) at sun.reflect.GeneratedMethodAccessor1104.invoke(Unknown Source) at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) at java.lang.reflect.Method.invoke(Method.java:497) at net.bull.javamelody.JpaWrapper.doInvoke(JpaWrapper.java:70) at net.bull.javamelody.JpaWrapper$EntityManagerHandler.invoke(JpaWrapper.java:130) at net.bull.javamelody.JdbcWrapper$DelegatingInvocationHandler.invoke(JdbcWrapper.java:286) at com.sun.proxy.$Proxy305.flush(Unknown Source) at sun.reflect.GeneratedMethodAccessor1104.invoke(Unknown Source) at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) at java.lang.reflect.Method.invoke(Method.java:497) at org.springframework.orm.jpa.ExtendedEntityManagerCreator$ExtendedEntityManagerInvocationHandler.invoke(ExtendedEntityManagerCreator.java:366) at com.sun.proxy.$Proxy49.flush(Unknown Source) at sun.reflect.GeneratedMethodAccessor1104.invoke(Unknown Source) at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) at java.lang.reflect.Method.invoke(Method.java:497) at org.springframework.orm.jpa.SharedEntityManagerCreator$SharedEntityManagerInvocationHandler.invoke(SharedEntityManagerCreator.java:241) at com.sun.proxy.$Proxy49.flush(Unknown Source) at org.kuali.rice.krad.data.jpa.JpaPersistenceProvider$1.call(JpaPersistenceProvider.java:204) at org.kuali.rice.krad.data.jpa.JpaPersistenceProvider.doWithExceptionTranslation(JpaPersistenceProvider.java:552) ... 131 more Caused by: Exception [EclipseLink-4002] (Eclipse Persistence Services - 2.6.0.v20150309-bf26070): org.eclipse.persistence.exceptions.DatabaseException Internal Exception: com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'DOCUMENT_NUMBER' cannot be null Error Code: 1048 Call: INSERT INTO DOCUMENT_NEXTVALUE (PROPERTY_NAME, DOCUMENT_NUMBER, NEXT_VALUE, OBJ_ID, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) VALUES (?, ?, ?, ?, ?, ?, ?) bind => [7 parameters bound] Query: InsertObjectQuery(org.kuali.kra.bo.DocumentNextvalue@6704e143[propertyName=personSequenceNumber,documentKey=<null>,nextValue=2,serialVersionUID=-9140148375067456625,updateUser=fchair,updateUserSet=false,serialVersionUID=-3519927021539948875,serialVersionUID=1451642350593233282,versionNumber=0,objectId=a647a7b8-7cc7-4c01-b41d-d45924e166cf,newCollectionRecord=false,serialVersionUID=5563310175227245001,_persistence_shouldRefreshFetchGroup=false]) at org.eclipse.persistence.exceptions.DatabaseException.sqlException(DatabaseException.java:331) at org.eclipse.persistence.internal.databaseaccess.DatabaseAccessor.executeDirectNoSelect(DatabaseAccessor.java:902) at org.eclipse.persistence.internal.databaseaccess.DatabaseAccessor.executeNoSelect(DatabaseAccessor.java:964) at org.eclipse.persistence.internal.databaseaccess.DatabaseAccessor.basicExecuteCall(DatabaseAccessor.java:633) at org.eclipse.persistence.internal.databaseaccess.DatabaseAccessor.executeCall(DatabaseAccessor.java:560) at org.eclipse.persistence.internal.sessions.AbstractSession.basicExecuteCall(AbstractSession.java:2055) at org.eclipse.persistence.sessions.server.ClientSession.executeCall(ClientSession.java:306) at org.eclipse.persistence.internal.queries.DatasourceCallQueryMechanism.executeCall(DatasourceCallQueryMechanism.java:242) at org.eclipse.persistence.internal.queries.DatasourceCallQueryMechanism.executeCall(DatasourceCallQueryMechanism.java:228) at org.eclipse.persistence.internal.queries.DatasourceCallQueryMechanism.insertObject(DatasourceCallQueryMechanism.java:377) at org.eclipse.persistence.internal.queries.StatementQueryMechanism.insertObject(StatementQueryMechanism.java:165) at org.eclipse.persistence.internal.queries.StatementQueryMechanism.insertObject(StatementQueryMechanism.java:180) at org.eclipse.persistence.internal.queries.DatabaseQueryMechanism.insertObjectForWrite(DatabaseQueryMechanism.java:489) at org.eclipse.persistence.queries.InsertObjectQuery.executeCommit(InsertObjectQuery.java:80) at org.eclipse.persistence.queries.InsertObjectQuery.executeCommitWithChangeSet(InsertObjectQuery.java:90) at org.eclipse.persistence.internal.queries.DatabaseQueryMechanism.executeWriteWithChangeSet(DatabaseQueryMechanism.java:301) at org.eclipse.persistence.queries.WriteObjectQuery.executeDatabaseQuery(WriteObjectQuery.java:58) at org.eclipse.persistence.queries.DatabaseQuery.execute(DatabaseQuery.java:904) at org.eclipse.persistence.queries.DatabaseQuery.executeInUnitOfWork(DatabaseQuery.java:803) at org.eclipse.persistence.queries.ObjectLevelModifyQuery.executeInUnitOfWorkObjectLevelModifyQuery(ObjectLevelModifyQuery.java:108) at org.eclipse.persistence.queries.ObjectLevelModifyQuery.executeInUnitOfWork(ObjectLevelModifyQuery.java:85) at org.eclipse.persistence.internal.sessions.UnitOfWorkImpl.internalExecuteQuery(UnitOfWorkImpl.java:2896) at org.eclipse.persistence.internal.sessions.AbstractSession.executeQuery(AbstractSession.java:1857) at org.eclipse.persistence.internal.sessions.AbstractSession.executeQuery(AbstractSession.java:1839) at org.eclipse.persistence.internal.sessions.AbstractSession.executeQuery(AbstractSession.java:1790) at org.eclipse.persistence.internal.sessions.CommitManager.commitNewObjectsForClassWithChangeSet(CommitManager.java:227) at org.eclipse.persistence.internal.sessions.CommitManager.commitAllObjectsForClassWithChangeSet(CommitManager.java:194) at org.eclipse.persistence.internal.sessions.CommitManager.commitAllObjectsWithChangeSet(CommitManager.java:139) at org.eclipse.persistence.internal.sessions.AbstractSession.writeAllObjectsWithChangeSet(AbstractSession.java:4260) at org.eclipse.persistence.internal.sessions.UnitOfWorkImpl.commitToDatabase(UnitOfWorkImpl.java:1441) at org.eclipse.persistence.internal.sessions.UnitOfWorkImpl.commitToDatabaseWithPreBuiltChangeSet(UnitOfWorkImpl.java:1587) at org.eclipse.persistence.internal.sessions.RepeatableWriteUnitOfWork.writeChanges(RepeatableWriteUnitOfWork.java:455) at org.eclipse.persistence.internal.jpa.EntityManagerImpl.flush(EntityManagerImpl.java:874) ... 150 more Caused by: com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'DOCUMENT_NUMBER' cannot be null at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method) at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62) at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45) at java.lang.reflect.Constructor.newInstance(Constructor.java:422) at com.mysql.jdbc.Util.handleNewInstance(Util.java:409) at com.mysql.jdbc.Util.getInstance(Util.java:384) at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1039) at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4232) at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4164) at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2615) at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2776) at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2838) at com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:2082) at com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:2334) at com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:2262) at com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:2246) at sun.reflect.GeneratedMethodAccessor253.invoke(Unknown Source) at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) at java.lang.reflect.Method.invoke(Method.java:497) at bitronix.tm.resource.jdbc.BaseProxyHandlerClass.invoke(BaseProxyHandlerClass.java:64) at com.sun.proxy.$Proxy23.executeUpdate(Unknown Source) at sun.reflect.GeneratedMethodAccessor253.invoke(Unknown Source) at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) at java.lang.reflect.Method.invoke(Method.java:497) at net.bull.javamelody.JdbcWrapper.doExecute(JdbcWrapper.java:404) at net.bull.javamelody.JdbcWrapper$StatementInvocationHandler.invoke(JdbcWrapper.java:129) at net.bull.javamelody.JdbcWrapper$DelegatingInvocationHandler.invoke(JdbcWrapper.java:286) at com.sun.proxy.$Proxy24.executeUpdate(Unknown Source) at org.eclipse.persistence.internal.databaseaccess.DatabaseAccessor.executeDirectNoSelect(DatabaseAccessor.java:892) ... 181 more
   * Travis Schneeberger on Thu, 19 Nov 2015 09:07:24 -0500 [View Commit](../../commit/ab61e699265a7b8fcdf3d67f7a829ea62b1181f8)
-*   removing dead code
+* RESKC-945:  removing dead code
   * Travis Schneeberger on Wed, 18 Nov 2015 20:21:10 -0500 [View Commit](../../commit/1d1f4c52a86823846cd1d358679ddeaf71e67124)
 
 ##coeus-1511.64
@@ -2878,7 +2906,7 @@ sorting order.
 
 
 ##coeus-1511.63
-* Modular Budget Sync incorrectly includes 'unapplied mtdc' in
+* RESKC-905:Modular Budget Sync incorrectly includes 'unapplied mtdc' in
   * F&A base.
   * In PD Budget, for a Modular budget, when you uncheck the "Apply Rate"
   * box for the MTDC in the details of a detailed budget line item, this is
@@ -2907,11 +2935,11 @@ sorting order.
   * Amounts are different than those in the Modular budget.  * vineeth on Wed, 18 Nov 2015 18:10:07 -0500 [View Commit](../../commit/7fa47ffbacfd679ff05955609c4b9fa423191a26)
 
 ##coeus-1511.62
-*   When a proposal with budget is copied and the budget contains line items that have rates applied, the copied budget cannot be deleted.  The following STE occurs:
+* RESKC-945:  When a proposal with budget is copied and the budget contains line items that have rates applied, the copied budget cannot be deleted.  The following STE occurs:
 
   * org.springframework.orm.jpa.JpaSystemException: Exception [EclipseLink-4002] (Eclipse Persistence Services - 2.6.0.v20150309-bf26070): org.eclipse.persistence.exceptions.DatabaseException Internal Exception: com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Cannot delete or update a parent row: a foreign key constraint fails (`res_e1db`.`budget_details_cal_amts`, CONSTRAINT `FK1_BUDGET_DETAILS_CAL_AMTS` FOREIGN KEY (`BUDGET_DETAILS_ID`) REFERENCES `budget_details` (`BUDGET_DETAILS_ID`)) Error Code: 1451 Call: DELETE FROM BUDGET_DETAILS WHERE (BUDGET_ID IN ) bind => [1 parameter bound] Query: DeleteAllQuery(referenceClass=BudgetLineItem sql="DELETE FROM BUDGET_DETAILS WHERE (BUDGET_ID IN )"); nested exception is javax.persistence.PersistenceException: Exception [EclipseLink-4002] (Eclipse Persistence Services - 2.6.0.v20150309-bf26070): org.eclipse.persistence.exceptions.DatabaseException Internal Exception: com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Cannot delete or update a parent row: a foreign key constraint fails (`res_e1db`.`budget_details_cal_amts`, CONSTRAINT `FK1_BUDGET_DETAILS_CAL_AMTS` FOREIGN KEY (`BUDGET_DETAILS_ID`) REFERENCES `budget_details` (`BUDGET_DETAILS_ID`)) Error Code: 1451 Call: DELETE FROM BUDGET_DETAILS WHERE (BUDGET_ID IN ) bind => [1 parameter bound] Query: DeleteAllQuery(referenceClass=BudgetLineItem sql="DELETE FROM BUDGET_DETAILS WHERE (BUDGET_ID IN )") at org.springframework.orm.jpa.EntityManagerFactoryUtils.convertJpaAccessExceptionIfPossible(EntityManagerFactoryUtils.java:321) at org.springframework.orm.jpa.DefaultJpaDialect.translateExceptionIfPossible(DefaultJpaDialect.java:120) at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.translateExceptionIfPossible(AbstractEntityManagerFactoryBean.java:403) at org.kuali.rice.krad.data.jpa.KradEntityManagerFactoryBean.translateExceptionIfPossible(KradEntityManagerFactoryBean.java:546) at org.springframework.dao.support.ChainedPersistenceExceptionTranslator.translateExceptionIfPossible(ChainedPersistenceExceptionTranslator.java:58) at org.springframework.dao.support.DataAccessUtils.translateIfNecessary(DataAccessUtils.java:213) at org.kuali.rice.krad.data.jpa.JpaPersistenceProvider.doWithExceptionTranslation(JpaPersistenceProvider.java:555) at org.kuali.rice.krad.data.jpa.JpaPersistenceProvider.deleteMatching(JpaPersistenceProvider.java:317) at sun.reflect.GeneratedMethodAccessor1967.invoke(Unknown Source) at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) at java.lang.reflect.Method.invoke(Method.java:497) at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:317) at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:183) at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:150) at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:96) at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:260) at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:94) at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:172) at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:204) at com.sun.proxy.$Proxy52.deleteMatching(Unknown Source) at org.kuali.rice.krad.data.provider.impl.ProviderBasedDataObjectService.deleteMatching(ProviderBasedDataObjectService.java:136) at org.kuali.coeus.propdev.impl.core.ProposalDevelopmentServiceImpl.cleanupBudgetObjects(ProposalDevelopmentServiceImpl.java:255) at org.kuali.coeus.propdev.impl.core.ProposalDevelopmentServiceImpl.deleteProposal(ProposalDevelopmentServiceImpl.java:222) at org.kuali.coeus.propdev.impl.core.ProposalDevelopmentSubmitController.deleteProposal(ProposalDevelopmentSubmitController.java:198) at org.kuali.coeus.propdev.impl.core.ProposalDevelopmentSubmitController$$FastClassBySpringCGLIB$$aff09485.invoke(<generated>) at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:204) at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:700) at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:150) at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:96) at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:260) at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:94) at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:172) at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:633) at org.kuali.coeus.propdev.impl.core.ProposalDevelopmentSubmitController$$EnhancerBySpringCGLIB$$aba74b42.deleteProposal(<generated>) at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) at java.lang.reflect.Method.invoke(Method.java:497) at org.springframework.web.method.support.InvocableHandlerMethod.invoke(InvocableHandlerMethod.java:215) at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:132) at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:104) at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandleMethod(RequestMappingHandlerAdapter.java:743) at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:672) at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:82) at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:919) at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:851) at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:953) at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:855) at javax.servlet.http.HttpServlet.service(HttpServlet.java:646) at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:829) at javax.servlet.http.HttpServlet.service(HttpServlet.java:727) at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:303) at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:208) at org.kuali.rice.kew.web.UserPreferencesFilter.doFilter(UserPreferencesFilter.java:78) at org.kuali.rice.kew.web.UserPreferencesFilter.doFilter(UserPreferencesFilter.java:62) at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:241) at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:208) at org.kuali.rice.krad.web.filter.UserLoginFilter.doFilter(UserLoginFilter.java:92) at org.kuali.rice.krad.web.filter.UserLoginFilter.doFilter(UserLoginFilter.java:80) at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:241) at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:208) at org.kuali.rice.krad.web.filter.BootstrapFilterChain.doFilter(BootstrapFilter.java:327) at org.kuali.coeus.sys.framework.auth.AuthServiceFilter.validateWebUserLoginToken(AuthServiceFilter.java:117) at org.kuali.coeus.sys.framework.auth.AuthServiceFilter.authenticateWebBasedUser(AuthServiceFilter.java:101) at org.kuali.coeus.sys.framework.auth.AuthServiceFilter.doFilter(AuthServiceFilter.java:90) at org.kuali.rice.krad.web.filter.BootstrapFilterChain.doFilter(BootstrapFilter.java:320) at org.kuali.rice.krad.web.filter.BootstrapFilter.doFilter(BootstrapFilter.java:199) at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:241) at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:208) at net.bull.javamelody.MonitoringFilter.doFilter(MonitoringFilter.java:198) at net.bull.javamelody.MonitoringFilter.doFilter(MonitoringFilter.java:176) at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:241) at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:208) at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52) at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:241) at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:208) at org.kuali.coeus.sys.framework.controller.interceptor.PerformanceLoggingFilter.doFilter(PerformanceLoggingFilter.java:82) at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:241) at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:208) at org.kuali.coeus.sys.framework.controller.interceptor.SessionExpiredFilter.doFilter(SessionExpiredFilter.java:46) at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:241) at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:208) at org.kuali.rice.krad.web.filter.HideWebInfFilter.doFilter(HideWebInfFilter.java:68) at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:241) at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:208) at org.springframework.web.filter.AbstractRequestLoggingFilter.doFilterInternal(AbstractRequestLoggingFilter.java:223) at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:106) at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:241) at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:208) at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:88) at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:106) at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:241) at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:208) at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:220) at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:122) at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:170) at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:103) at org.apache.catalina.valves.RemoteIpValve.invoke(RemoteIpValve.java:683) at org.apache.catalina.valves.CrawlerSessionManagerValve.invoke(CrawlerSessionManagerValve.java:180) at org.apache.catalina.valves.AccessLogValve.invoke(AccessLogValve.java:950) at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:116) at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:421) at org.apache.coyote.ajp.AjpAprProcessor.process(AjpAprProcessor.java:188) at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:611) at org.apache.tomcat.util.net.AprEndpoint$SocketWithOptionsProcessor.run(AprEndpoint.java:2403) at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) at java.lang.Thread.run(Thread.java:745) Caused by: javax.persistence.PersistenceException: Exception [EclipseLink-4002] (Eclipse Persistence Services - 2.6.0.v20150309-bf26070): org.eclipse.persistence.exceptions.DatabaseException Internal Exception: com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Cannot delete or update a parent row: a foreign key constraint fails (`res_e1db`.`budget_details_cal_amts`, CONSTRAINT `FK1_BUDGET_DETAILS_CAL_AMTS` FOREIGN KEY (`BUDGET_DETAILS_ID`) REFERENCES `budget_details` (`BUDGET_DETAILS_ID`)) Error Code: 1451 Call: DELETE FROM BUDGET_DETAILS WHERE (BUDGET_ID IN ) bind => [1 parameter bound] Query: DeleteAllQuery(referenceClass=BudgetLineItem sql="DELETE FROM BUDGET_DETAILS WHERE (BUDGET_ID IN )") at org.eclipse.persistence.internal.jpa.QueryImpl.executeUpdate(QueryImpl.java:308) at sun.reflect.GeneratedMethodAccessor1968.invoke(Unknown Source) at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) at java.lang.reflect.Method.invoke(Method.java:497) at net.bull.javamelody.JpaWrapper.doInvoke(JpaWrapper.java:70) at net.bull.javamelody.JpaWrapper$QueryHandler.invoke(JpaWrapper.java:203) at net.bull.javamelody.JdbcWrapper$DelegatingInvocationHandler.invoke(JdbcWrapper.java:285) at com.sun.proxy.$Proxy308.executeUpdate(Unknown Source) at org.kuali.rice.krad.data.jpa.JpaCriteriaQuery.executeUpdate(JpaCriteriaQuery.java:66) at org.kuali.rice.krad.data.jpa.DataObjectCriteriaQueryBase.deleteMatching(DataObjectCriteriaQueryBase.java:95) at org.kuali.rice.krad.data.jpa.JpaPersistenceProvider$6.call(JpaPersistenceProvider.java:320) at org.kuali.rice.krad.data.jpa.JpaPersistenceProvider.doWithExceptionTranslation(JpaPersistenceProvider.java:552) ... 102 more Caused by: Exception [EclipseLink-4002] (Eclipse Persistence Services - 2.6.0.v20150309-bf26070): org.eclipse.persistence.exceptions.DatabaseException Internal Exception: com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Cannot delete or update a parent row: a foreign key constraint fails (`res_e1db`.`budget_details_cal_amts`, CONSTRAINT `FK1_BUDGET_DETAILS_CAL_AMTS` FOREIGN KEY (`BUDGET_DETAILS_ID`) REFERENCES `budget_details` (`BUDGET_DETAILS_ID`)) Error Code: 1451 Call: DELETE FROM BUDGET_DETAILS WHERE (BUDGET_ID IN ) bind => [1 parameter bound] Query: DeleteAllQuery(referenceClass=BudgetLineItem sql="DELETE FROM BUDGET_DETAILS WHERE (BUDGET_ID IN )") at org.eclipse.persistence.exceptions.DatabaseException.sqlException(DatabaseException.java:331) at org.eclipse.persistence.internal.databaseaccess.DatabaseAccessor.executeDirectNoSelect(DatabaseAccessor.java:902) at org.eclipse.persistence.internal.databaseaccess.DatabaseAccessor.executeNoSelect(DatabaseAccessor.java:964) at org.eclipse.persistence.internal.databaseaccess.DatabaseAccessor.basicExecuteCall(DatabaseAccessor.java:633) at org.eclipse.persistence.internal.databaseaccess.DatabaseAccessor.executeCall(DatabaseAccessor.java:560) at org.eclipse.persistence.internal.sessions.AbstractSession.basicExecuteCall(AbstractSession.java:2055) at org.eclipse.persistence.sessions.server.ClientSession.executeCall(ClientSession.java:306) at org.eclipse.persistence.internal.queries.DatasourceCallQueryMechanism.executeCall(DatasourceCallQueryMechanism.java:242) at org.eclipse.persistence.internal.queries.DatasourceCallQueryMechanism.executeCall(DatasourceCallQueryMechanism.java:228) at org.eclipse.persistence.internal.queries.DatasourceCallQueryMechanism.deleteAll(DatasourceCallQueryMechanism.java:127) at org.eclipse.persistence.queries.DeleteAllQuery.executeDatabaseQuery(DeleteAllQuery.java:201) at org.eclipse.persistence.queries.DatabaseQuery.execute(DatabaseQuery.java:904) at org.eclipse.persistence.queries.DatabaseQuery.executeInUnitOfWork(DatabaseQuery.java:803) at org.eclipse.persistence.queries.ModifyAllQuery.executeInUnitOfWork(ModifyAllQuery.java:148) at org.eclipse.persistence.queries.DeleteAllQuery.executeInUnitOfWork(DeleteAllQuery.java:124) at org.eclipse.persistence.internal.sessions.UnitOfWorkImpl.internalExecuteQuery(UnitOfWorkImpl.java:2896) at org.eclipse.persistence.internal.sessions.AbstractSession.executeQuery(AbstractSession.java:1857) at org.eclipse.persistence.internal.sessions.AbstractSession.executeQuery(AbstractSession.java:1839) at org.eclipse.persistence.internal.sessions.AbstractSession.executeQuery(AbstractSession.java:1804) at org.eclipse.persistence.internal.jpa.QueryImpl.executeUpdate(QueryImpl.java:298) ... 113 more Caused by: com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Cannot delete or update a parent row: a foreign key constraint fails (`res_e1db`.`budget_details_cal_amts`, CONSTRAINT `FK1_BUDGET_DETAILS_CAL_AMTS` FOREIGN KEY (`BUDGET_DETAILS_ID`) REFERENCES `budget_details` (`BUDGET_DETAILS_ID`)) at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method) at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62) at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45) at java.lang.reflect.Constructor.newInstance(Constructor.java:422) at com.mysql.jdbc.Util.handleNewInstance(Util.java:409) at com.mysql.jdbc.Util.getInstance(Util.java:384) at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1039) at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4232) at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4164) at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2615) at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2776) at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2838) at com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:2082) at com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:2334) at com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:2262) at com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:2246) at sun.reflect.GeneratedMethodAccessor267.invoke(Unknown Source) at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) at java.lang.reflect.Method.invoke(Method.java:497) at bitronix.tm.resource.jdbc.BaseProxyHandlerClass.invoke(BaseProxyHandlerClass.java:64) at com.sun.proxy.$Proxy24.executeUpdate(Unknown Source) at sun.reflect.GeneratedMethodAccessor267.invoke(Unknown Source) at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) at java.lang.reflect.Method.invoke(Method.java:497) at net.bull.javamelody.JdbcWrapper.doExecute(JdbcWrapper.java:403) at net.bull.javamelody.JdbcWrapper$StatementInvocationHandler.invoke(JdbcWrapper.java:128) at net.bull.javamelody.JdbcWrapper$DelegatingInvocationHandler.invoke(JdbcWrapper.java:285) at com.sun.proxy.$Proxy25.executeUpdate(Unknown Source) at org.eclipse.persistence.internal.databaseaccess.DatabaseAccessor.executeDirectNoSelect(DatabaseAccessor.java:892) ... 131 more
   * Travis Schneeberger on Wed, 18 Nov 2015 17:30:20 -0500 [View Commit](../../commit/310e44557de2df7e8d076e43ccd5b664be882fa3)
-*  Attempt to fix LA print issues.
+* Attempt to fix LA print issues.
   * Single remaining issue in MIT KC Wkly when testing MITKC-2251 (which is marked Resolved & Ready to Deploy for the majority of issues in the case passing testing).
   * The line for "Allocated Lab Expense" that should appear under Other Direct Costs category is missing.
   * This is should be the sum of the M&A and the Utilities Lab Allocations entered in a single line.
@@ -2949,7 +2977,7 @@ sorting order.
 
 
 ##coeus-1511.60
-* Award with Multi-PI does not show Multi-PI on printed NOA.
+* RESKC-931:Award with Multi-PI does not show Multi-PI on printed NOA.
   * If an Award contains a contact of type PI/Multiple, that Multiple PI/MPI
   * is not populated in the Award Notice printed report, or the Award
   * Modification report
@@ -3002,7 +3030,7 @@ sorting order.
   * Travis Schneeberger on Tue, 17 Nov 2015 16:08:22 -0500 [View Commit](../../commit/b94c41efa3baa319eb39dad3498de16797f7b150)
 
 ##coeus-1511.47
-*  Fix calculated direct cost calculation
+* RESKC-983: Fix calculated direct cost calculation
   * A recent case fixed the Assigned Personnel screen's "Fringe" field to accurately display the combined personnel rate expenses of EB and Vacation. The field name was updated to 'calculated fringe.' (RESKC-416)
   * An unexpected result is that the Budget Summary screen is now incorrectly duplicating expenses.
   * Discovered in MIT's testing of fix for RESKC-416
@@ -3029,13 +3057,13 @@ sorting order.
   * Gayathri Athreya on Mon, 16 Nov 2015 13:34:57 -0700 [View Commit](../../commit/6444809495cee223c908cb78ca0396343ac74144)
 
 ##coeus-1511.46
-* New Research Home page with suggest text box and quicklinks
+* RESKC-978:New Research Home page with suggest text box and quicklinks
   * blackcathacker on Mon, 16 Nov 2015 15:36:18 -0800 [View Commit](../../commit/22de7a3838b80077d336348a55aabe3ebe10b471)
-*  Fix rest issue
+* RESKC-1000: Fix rest issue
   * ISSUE4:
   * Errors sometimes have html in them
   * Gayathri Athreya on Mon, 16 Nov 2015 15:52:59 -0700 [View Commit](../../commit/0625957403c472e7e4463d69b21138bdd65f80ca)
-* PD - Exempt Address Book person PI/Multiple from certification
+* RESKC-972:PD - Exempt Address Book person PI/Multiple from certification
   * & notification
   * MIT requires some non-employees to participate in the system to perform
   * the proposal person certification. The parameter to exempt identified
@@ -3072,7 +3100,7 @@ sorting order.
 
 
 ##coeus-1511.42
-* IRB - Batch Correspondence is producing Blank renewal reminder letters.
+* RESKC-996:IRB - Batch Correspondence is producing Blank renewal reminder letters.
   * Prior fix to eliminate blank closure letter removed renewal stream and set the correspondence stream which now
   * broke the renewal reminders. Current cofiguration requires renewal stream to generate renewal reminders and correspondence
 stream for other correspodences. While generating batch correspodence, all expiring and expired protocols are fetched
@@ -3103,7 +3131,7 @@ stream for other correspodences. While generating batch correspodence, all expir
   * Travis Schneeberger on Fri, 13 Nov 2015 17:52:10 -0500 [View Commit](../../commit/92defe2bd53a566f7e8835c6f3f7052bc77dc197)
 
 ##coeus-1511.37
-* PD: S2S: eRA Commons ID field needs to accommodate other
+* RESKC-1003:PD: S2S: eRA Commons ID field needs to accommodate other
   * Gov't agency credentials without error.
   * For S2S proposals, users need the ability to enter Agency Credentials
   * for sponsors other than NIH, in the eRA Commons ID field in Key
@@ -3192,14 +3220,14 @@ system warning, rather than an error message, so it may accommodate all
 
 
 ##coeus-1511.22
-*  NumberFormatException
+* RESKC-1000: NumberFormatException
   * curl --user coeus-kualico:password https://res-demo1.kuali.co/kc-dev/award/api/v1/accounts/awards/16586noah
   * curl --user coeus-kualico:password https://res-demo1.kuali.co/kc-dev/award/api/v1/accounts/awards/16586noah
   * this gives a number format exception
   * Gayathri Athreya on Mon, 9 Nov 2015 16:26:46 -0600 [View Commit](../../commit/7def55f9519c1163476cf541d4fdb83ad14aea16)
 
 ##coeus-1511.21
-*  Fixing null pointer
+* RESKC-1000: Fixing null pointer
   * curl --user coeus-kualico:password https://res-demo1.kuali.co/kc-dev/award/api/v1/accounts/awards/3342
   * curl --user coeus-kualico:password https://res-demo1.kuali.co/kc-dev/award/api/v1/accounts/awards/3342
   * results in
@@ -3210,7 +3238,7 @@ system warning, rather than an error message, so it may accommodate all
         org.kuali.coeus.award.finance.impl.AccountServiceImpl.createAccountInformation(AccountServiceImpl.java:61)
         org.kuali.coeus.award.finance.AwardAccountController.getAccountInformation(AwardAccountController.java:97)
   * Gayathri Athreya on Mon, 9 Nov 2015 15:40:45 -0600 [View Commit](../../commit/3aa447bfd7aa0ccc10583201f7fbb5e7611722ec)
-*  Fixing validation.
+* RESKC-1000: Fixing validation.
   * When hitting REST endpoint with integerrs greater than db length, fails with db error.
   * Gayathri Athreya on Mon, 9 Nov 2015 14:56:10 -0600 [View Commit](../../commit/3207a09b5306828a7b5447fcc26d9a25dc5a28bd)
 
@@ -3219,7 +3247,7 @@ system warning, rather than an error message, so it may accommodate all
 
 
 ##coeus-1511.18
-* Update award account apis to match url standards
+* RESKC-995:Update award account apis to match url standards
   * blackcathacker on Sun, 8 Nov 2015 17:15:33 -0600 [View Commit](../../commit/95ce9fee9c9d768a75d11f3f247962ab633e6a35)
 
 ##coeus-1511.17
@@ -3227,7 +3255,7 @@ system warning, rather than an error message, so it may accommodate all
 
 
 ##coeus-1511.16
-* Updating existing apis to match current Kuali standards
+* RESKC-995:Updating existing apis to match current Kuali standards
   * blackcathacker on Fri, 6 Nov 2015 14:48:09 -0800 [View Commit](../../commit/64c2a22a21e4553300f9d23b21a049b44abcbd08)
 
 ##coeus-1511.15
@@ -3245,15 +3273,15 @@ system warning, rather than an error message, so it may accommodate all
 
 
 ##coeus-1511.12
-*  Changing logic since it was wrong.
+* RESKC-879: Changing logic since it was wrong.
   * Gayathri Athreya on Fri, 6 Nov 2015 12:00:06 -0700 [View Commit](../../commit/2fb16d6970ddaf8040d18f5b8d778ae1ebfd6aa0)
-* Budget Rates - Use fontawesome from cdn and slight style changes
+* RESKC-708:Budget Rates - Use fontawesome from cdn and slight style changes
 
   * Include link to new URL on maintenance page
   * blackcathacker on Thu, 5 Nov 2015 16:24:56 -0800 [View Commit](../../commit/5de02a7cb7c1da42ae724ddde6b0de8161061803)
 
 ##coeus-1511.11
-*  update award summary api to match standards
+* RESKC-995: update award summary api to match standards
   * blackcathacker on Thu, 5 Nov 2015 13:56:00 -0800 [View Commit](../../commit/21d2956709bcba4d8be11374608c9f865c073e5d)
 
 ##coeus-1511.10
@@ -3265,13 +3293,13 @@ system warning, rather than an error message, so it may accommodate all
 
 
 ##coeus-1511.8
-*  fixing integration test
+* RESKC-712: fixing integration test
   * Travis Schneeberger on Wed, 4 Nov 2015 18:20:24 -0500 [View Commit](../../commit/1be364e45b28ff1fcd77c772df116a762f682f24)
-*  Fix issues with cancelled awards
+* RESKC-879: Fix issues with cancelled awards
   * Gayathri Athreya on Wed, 4 Nov 2015 14:36:29 -0700 [View Commit](../../commit/f24b0e9c32a3c407ee0a35d06e86c2c5300d65f8)
-*  Fixing propsal types for s2s namespace with the proposal types defined in the bootstrap data. Since these params need to be more user friendly to map different proposal types to one s2s proposal type, changed the @PARAM defnitions and used individual values or comma separated ones for S2S namespace
+* RESKC-975: Fixing propsal types for s2s namespace with the proposal types defined in the bootstrap data. Since these params need to be more user friendly to map different proposal types to one s2s proposal type, changed the @PARAM defnitions and used individual values or comma separated ones for S2S namespace
   * Geo Thomas on Tue, 3 Nov 2015 16:24:59 -0500 [View Commit](../../commit/3b57984a610dc1475bfbd87fc346315bbb081673)
-*  (User Story) As an IRB/IACUC Admin, I can configure the watermark for protocol attachments to include key data about the protocol so that it is clearly displayed on protocol attachments.
+* RESKC-712: (User Story) As an IRB/IACUC Admin, I can configure the watermark for protocol attachments to include key data about the protocol so that it is clearly displayed on protocol attachments.
 
   * Acceptance Criteria:
   * Given an IRB Admin is maintaining watermarks for IRB protocol attachments, when they edit or add a watermark, then they can optionally include these data elements to the watermark:
@@ -3297,7 +3325,7 @@ system warning, rather than an error message, so it may accommodate all
 
 
 ##coeus-1511.6
-* Fixing STE with Additional Budget Persons with RR Budget
+* RESKC-817:Fixing STE with Additional Budget Persons with RR Budget
 
   * When a proposal budget has more than 8 personnel across multiple periods, printing the S2S Form RR_Budget_1_3 requires generating of system narrative attachments. This fixes an exception that is generated due to incorrectly persisting of these attachments. Additional information on issue
 
@@ -3309,10 +3337,10 @@ system warning, rather than an error message, so it may accommodate all
   * blackcathacker on Tue, 3 Nov 2015 12:09:27 -0800 [View Commit](../../commit/8f1bf9de7b848d8d4d30f24f0b1cac423114c317)
 
 ##coeus-1511.5
-*  Filter persons who do not need certs.
+* RESKC-979: Filter persons who do not need certs.
   * Currently, when the COI Disclosure Status feature is enabled, _all _key personnel are listed in the Disclosure Status window. This case is to update the COI Disclosure Status window and restrict the listed persons to _only _those key persons that are required to disclose. This update will better convey locally implemented Conflict of Interest compliance policy and procedure as maintained via the COI Hierarchy, the keypersonprojectrole parameter, RESKC-972 which will exempt non-personnel Multiple PI, or the parameter to exempt ALL address book non-personnel, if enabled.
   * Gayathri Athreya on Tue, 3 Nov 2015 09:05:15 -0700 [View Commit](../../commit/9741076ed4c6fc6c2db697727493a361f77400e6)
-*  IACUC: Reviewers cannot be assigned if schedule is selected on DMR (Committee Reviewers appear and then disappear)
+* RESKC-768: IACUC: Reviewers cannot be assigned if schedule is selected on DMR (Committee Reviewers appear and then disappear)
   * Create IACUC protocol
   * Submit for Review
   * Modify Submission Request:
@@ -3324,7 +3352,7 @@ system warning, rather than an error message, so it may accommodate all
   * Expected: Available Reviewers should be displayed for selection
   * Workaround is to not select a schedule so you can select reviewers, but that doesn't work some some school's processes. See screen shot without schedule selected.
   * Travis Schneeberger on Tue, 3 Nov 2015 10:52:16 -0500 [View Commit](../../commit/29de8afb0abf05ff631ee2b6d623fe5a5c7f3144)
-* Notification needed to informDisclosure Required for
+* RESKC-603:Notification needed to informDisclosure Required for
   * Contributed COI Disclosure Status feature.
   * Noticed during testing and documentation of the contributed COI
   * Disclosure Status feature in PD.
@@ -3376,9 +3404,9 @@ screening questions, a message is presented to the user stating that due
   * <br/>Dealine Date:
   * {DEADLINE_DATE}
   * vineeth on Tue, 3 Nov 2015 10:34:37 -0500 [View Commit](../../commit/f338dd1158048616f26edbac8d206cfe0e4f3c8c)
-* Budget rates feature development of edit mode and styling improvements
+* RESKC-708:Budget rates feature development of edit mode and styling improvements
   * blackcathacker on Sun, 1 Nov 2015 19:44:25 -0800 [View Commit](../../commit/1471f811d24953ab831cfd6a0df25b59a22c2bf8)
-* SpringMVC endpoint for rates SPA and code cleanup
+* RESKC-708:SpringMVC endpoint for rates SPA and code cleanup
   * blackcathacker on Fri, 30 Oct 2015 17:52:52 -0700 [View Commit](../../commit/9a62212ef6f2b45706ed629801747f56689a3bf7)
 
 ##coeus-1511.4
@@ -3386,9 +3414,9 @@ screening questions, a message is presented to the user stating that due
 
 
 ##coeus-1511.3
-*  show the data validation message 'Validation errors exist. Please correct these errors prior to submitting to workflow routing.' inside the data validation tab and not at the bottom in the 'Other Errors' section
+* RESKC-643: show the data validation message 'Validation errors exist. Please correct these errors prior to submitting to workflow routing.' inside the data validation tab and not at the bottom in the 'Other Errors' section
   * Travis Schneeberger on Mon, 2 Nov 2015 16:58:50 -0500 [View Commit](../../commit/a39cca7979f365d4742a20b75fb937a36180770a)
-*  As an award administrator, I need to add Approved Subawards to award documents. Sometimes, multiple unique subawards are issued to the same organization; these could be to support separate investigators, projects, tasks, timeframes, etc. Currently, the system will let me add the organization on the Award tab, but will error on Validation when I try to submit.
+* RESKC-643: As an award administrator, I need to add Approved Subawards to award documents. Sometimes, multiple unique subawards are issued to the same organization; these could be to support separate investigators, projects, tasks, timeframes, etc. Currently, the system will let me add the organization on the Award tab, but will error on Validation when I try to submit.
   * Steps to duplicate:
   * Open an existing Award document (example: 002692-* in res-test1)
   * Edit
@@ -3401,7 +3429,7 @@ screening questions, a message is presented to the user stating that due
   * Travis Schneeberger on Mon, 2 Nov 2015 16:57:31 -0500 [View Commit](../../commit/cbc4d656c317a2d48b6f02ba39fc50ebeceabff4)
 
 ##coeus-1511.2
-*  As an Award administrator, I can maintain the Federal award identification number (FAIN) and Year, and Federal Award Date in my Awards and Subawards so that I can comply with the OMB's Uniform Grant Guidance.
+* RESKC-438: As an Award administrator, I can maintain the Federal award identification number (FAIN) and Year, and Federal Award Date in my Awards and Subawards so that I can comply with the OMB's Uniform Grant Guidance.
   * Background:
   * See Uniform Grant Guidance policy statements: https://www.whitehouse.gov/omb/grants_docs/
   * Federal Award Identification Number (FAIN) is unique within the Federal agency, and required for each financial assistance award to assist recipients in correctly reporting subawards. The Federal agency may not - with limited exceptions - modify the FAIN during the life of the award. A unique number assigned to a financial assistance award. Needs to be alphanumberic and should be at least as long as Sponsor Award Number in KC. Agencies use different formats. For example, NIH implements the FAIN by deriving it from the core elements of the grant number. For example, the FAIN for 1R0lGM654321-01 would be R01GM654321.
@@ -3420,7 +3448,7 @@ screening questions, a message is presented to the user stating that due
   * Travis Schneeberger on Sat, 31 Oct 2015 08:21:38 -0400 [View Commit](../../commit/80a9a451cce07d69f2e8832732e34eb843b673e8)
 
 ##coeus-1511.1
-*  Fixing opp title
+* RESKC-919: Fixing opp title
   * The xml _header _data being submitted S2S and not part of the form schemas that is causing the problem. So we need to correct why are we putting incorrect information into the Header, and to correctly handle when to populate and NOT populate the SF 424 CFDA Activity Title field.
   * Legacy Coeus also populated both these xml fields with the "OpportunityTitle" data, but trimmed to 119 characters to prevent errors on Submission.
   * Suggested Improvement:
@@ -3440,9 +3468,9 @@ screening questions, a message is presented to the user stating that due
 
 
 ##coeus-1510.63
-*  sorting protocol submissions by submission type and protocol Id so they will display sorted under each review type in the printed committee agenda.
+* sorting protocol submissions by submission type and protocol Id so they will display sorted under each review type in the printed committee agenda.
   * Travis Schneeberger on Thu, 29 Oct 2015 16:55:48 -0400 [View Commit](../../commit/bc7163b89dec71c65a14274737e3004d423628aa)
-*  code cleanup
+* code cleanup
   * Travis Schneeberger on Thu, 29 Oct 2015 16:24:23 -0400 [View Commit](../../commit/f0259062e012fd3ddd5ee9f999c39e26aae56f72)
 
 ##coeus-1510.62
@@ -3450,15 +3478,15 @@ screening questions, a message is presented to the user stating that due
 
 
 ##coeus-1510.61
-* Resolving issue with editing undefined/adding rates
+* RESKC-708:Resolving issue with editing undefined/adding rates
   * blackcathacker on Thu, 29 Oct 2015 16:34:19 -0700 [View Commit](../../commit/eb04b1ecc639dfdb78ad6f6758defa1d8f5a7f4d)
 
 ##coeus-1510.60
-* Budget Institute Rates new interface first commit
+* RESKC-708:Budget Institute Rates new interface first commit
   * blackcathacker on Thu, 4 Jun 2015 08:58:22 -0700 [View Commit](../../commit/fd5b1c307b731907297a8f2297162c0e5fdd02db)
 
 ##coeus-1510.58
-* Missing PD Notification specific for Contributed COI
+* RESKC-591:Missing PD Notification specific for Contributed COI
   * Disclosure Status feature.
   * Noticed during testing and documentation of the RESKC-504 contributed
   * feature for COI Disclosure Status in PD.
@@ -3477,7 +3505,7 @@ sponsors identified in the Hierarchy > COI Disclosures with KP Req.
   * vineeth on Wed, 28 Oct 2015 11:43:08 -0400 [View Commit](../../commit/e7b1e6b5ec3933fe3daaec409e826eb93f89a46a)
 
 ##coeus-1510.57
-*  Adding COI links
+* RESKC-960: Adding COI links
   * If instance is set to use new COI, display links to COI in monolith portal as:
   * Researcher:
   * -COI Dashboard
@@ -3491,19 +3519,19 @@ sponsors identified in the Hierarchy > COI Disclosures with KP Req.
 
 
 ##coeus-1510.55
-*  pushing COI project data for generated IP documents.  Also, fixing a NullPointerException when generating an IP and the subcontracts flag is false on the proposal development document.
+* pushing COI project data for generated IP documents.  Also, fixing a NullPointerException when generating an IP and the subcontracts flag is false on the proposal development document.
   * Travis Schneeberger on Mon, 26 Oct 2015 10:41:54 -0400 [View Commit](../../commit/7b242ae66e1288478444b6f39a3e90afb051549f)
-* Provide config param for graceful switching of api security
+* RESKC-916:Provide config param for graceful switching of api security
 
   * When auth.core.enabled is set to true spring security will be disabled for the 3 contexts with current rest apis. This will assume that the auth filter will handle all authentication for rest apis.
 
   * Also additional code review comments responsded too.
   * blackcathacker on Wed, 28 Oct 2015 12:28:10 -0700 [View Commit](../../commit/5d22ca1a70684c60dc37e50b2ddd0eea45c0c070)
-* Split out api and web auth filters as at least partial CSRF protection
+* RESKC-916:Split out api and web auth filters as at least partial CSRF protection
   * blackcathacker on Mon, 26 Oct 2015 14:02:44 -0700 [View Commit](../../commit/e3d63f0acd9038004835ceb2283ed53e99fc4082)
 
 ##coeus-1510.54
-*  Fixing custom data migration
+* Fixing custom data migration
   * Search for a migrated institutional proposal.
   * Open the proposal.
   * Click Edit
@@ -3511,7 +3539,7 @@ sponsors identified in the Hierarchy > COI Disclosures with KP Req.
   * Gayathri Athreya on Tue, 27 Oct 2015 15:49:36 -0700 [View Commit](../../commit/43859b403ef11d70aa7c8f82ab3c4a56bbfd09a5)
 
 ##coeus-1510.53
-*  Cannot edit IP or subaward.
+* RESKC-959: Cannot edit IP or subaward.
   * 1. edit an Institutional Proposal document to create a new version.
   * 2. save the version.
   * 3. close the document without submitting.
@@ -3522,7 +3550,7 @@ sponsors identified in the Hierarchy > COI Disclosures with KP Req.
   * Gayathri Athreya on Tue, 27 Oct 2015 12:36:41 -0700 [View Commit](../../commit/9256584d34c9337a5af003b0604d0ce728bf946b)
 
 ##coeus-1510.52
-*  Fix budget inflation flag.
+* RESKC-944: Fix budget inflation flag.
   * If the user includes inflation for a non-personnel item, when the periods are generated inflation is not applied, if user tries to check inflation box and apply to other periods, amounts do not update and the apply inflation for future periods is not checked
   * As an alternate, tried checking the apply inflation and saving in the period. open the expense again and it is still not checked.
 steps to reproduce
@@ -3538,19 +3566,19 @@ steps to reproduce
   * Gayathri Athreya on Fri, 23 Oct 2015 15:18:29 -0700 [View Commit](../../commit/88ae0f1557f5af0a27847cd06861a6513688ca65)
 
 ##coeus-1510.51
-*  fix a broken test
+* RESKC-796: fix a broken test
   * Travis Schneeberger on Mon, 26 Oct 2015 16:32:54 -0400 [View Commit](../../commit/fab68b7abc03779f2c32d95372131f18fd5791df)
-*  Adding Derived role for Award PI and plugged this role into Report Tracking Notifications Type
+* RESKC-955: Adding Derived role for Award PI and plugged this role into Report Tracking Notifications Type
   * Geo Thomas on Thu, 22 Oct 2015 16:39:46 -0400 [View Commit](../../commit/72993461481409f88ccc87b33afe6a2bd52a20de)
-*  adding a configuration for the system to system auth token
+* adding a configuration for the system to system auth token
   * Travis Schneeberger on Mon, 26 Oct 2015 14:16:54 -0400 [View Commit](../../commit/fb198add95928fcd75f3218937016b44ed885d3c)
-*  time and money documents are not properly getting their doc status column set during the tmdocstatus conversion.  This is due to a treating a character column as numeric.
+* RESKC-910: time and money documents are not properly getting their doc status column set during the tmdocstatus conversion.  This is due to a treating a character column as numeric.
   * Travis Schneeberger on Mon, 26 Oct 2015 12:12:36 -0400 [View Commit](../../commit/db0b37dbb1c3c24ffd8647377db8beee603a9904)
-*  code cleanup
+* RESKC-796: code cleanup
   * Travis Schneeberger on Fri, 23 Oct 2015 18:11:05 -0400 [View Commit](../../commit/fb5ffb23210f039fcdc80d5f658344ed44eb3e9d)
-*  On committee, when deleting a member role, a member expertise or the entire member the deleted element successfully deletes on save.  Then when the committee document is submitted or blanket approved the previously deleted element is no longer deleted.  The expected result is any deleted element will stay deleted after document submission.
+* RESKC-796: On committee, when deleting a member role, a member expertise or the entire member the deleted element successfully deletes on save.  Then when the committee document is submitted or blanket approved the previously deleted element is no longer deleted.  The expected result is any deleted element will stay deleted after document submission.
   * Travis Schneeberger on Fri, 23 Oct 2015 18:08:54 -0400 [View Commit](../../commit/ab3c76417d89eb1acd9ba7aefed468c6fd811f1c)
-* Viewing PD causes whitescreen when no keywords defined
+* RESKC-961:Viewing PD causes whitescreen when no keywords defined
 
   * When viewing a PD in readonly mode(from the PD lookup or after enroute/final) and keywords are enabled and there are no keywords defined in the system a stacktrace is generated in the logs and only a whitescreen is displayed to the user. This fixes that and the read-only display of the keywords which was previously broken as well. The following is a snippet from the stack trace
 
@@ -3561,7 +3589,7 @@ steps to reproduce
   * blackcathacker on Fri, 23 Oct 2015 11:58:46 -0700 [View Commit](../../commit/30bd9958a1a41f3e530503e08afb280973624e89)
 * On committee, when deleting a role from a member the role successfully deletes on save.  Then when the committee document is submitted or blanket approved the previously deleted role is no longer deleted.  The expected result is any deleted roles will stay deleted after document submission.
   * Travis Schneeberger on Fri, 23 Oct 2015 12:27:12 -0400 [View Commit](../../commit/0d104187f666b6999edc94d3b3db003f0e0c1b73)
-*  Making lead unit field bigger.
+* RESKC-798: Making lead unit field bigger.
   * After upgrading to 1508.3 repo version we are finding that PD copy proposal has a strange "Lead Unit" selection box. it only fits one unit at a time so it is very difficult to use.
 steps to reproduce
   * log in as a user with create access in many units, such as quickstart
@@ -3618,17 +3646,17 @@ steps to reproduce
   * javax.servlet.http.HttpServlet.service(HttpServlet.java:728)  * vineeth on Fri, 23 Oct 2015 11:14:10 -0400 [View Commit](../../commit/c65c0202b32d0fe5788833f54fee3fabae23f25a)
 
 ##coeus-1510.49
-*  supporting multiple project sponsors
+* supporting multiple project sponsors
   * Travis Schneeberger on Thu, 22 Oct 2015 19:12:48 -0400 [View Commit](../../commit/c0b4c4fc916ba11fe5731478159b4d3bd5832b86)
 
 ##coeus-1510.48
-* Protocol Review comments entered at time of approval not persisting while generating correspondence and not appearing on letters
+* RESKC-957:Protocol Review comments entered at time of approval not persisting while generating correspondence and not appearing on letters
   * Fix is to persist review comments prior to performing protocol actions/generating correspondence so that those comments are
   * available in correspondence.
   * rmancher on Thu, 22 Oct 2015 16:11:53 -0400 [View Commit](../../commit/94b0cb54b1954bd17c6c108a58102de8f31387f7)
 
 ##coeus-1510.47
-* Initialize allFundingProposal collection to avoid NPE when none exist
+* RESKC-958:Initialize allFundingProposal collection to avoid NPE when none exist
 
   * On navigating to the institutional proposal actions tab the page would not complete loading and the following stack trace could be found in the logs
   * java.lang.NullPointerException
@@ -3640,11 +3668,11 @@ steps to reproduce
 
 
 ##coeus-1510.45
-*  setting a compatible xstream for the batch correspondence print for irb and iacuc.  This avoids a blank pdf file that is generated when printing protocol expiration from committee actions.
+* RESKC-920: setting a compatible xstream for the batch correspondence print for irb and iacuc.  This avoids a blank pdf file that is generated when printing protocol expiration from committee actions.
   * Travis Schneeberger on Wed, 21 Oct 2015 18:00:39 -0400 [View Commit](../../commit/295a3a9810808eba2337809851557b5a7e220984)
-*  avoid NPE when ProtocolPerson is a non-employee
+* RESKC-920: avoid NPE when ProtocolPerson is a non-employee
   * Travis Schneeberger on Wed, 21 Oct 2015 14:41:34 -0400 [View Commit](../../commit/bc0f124aed907ac99fe7efb2844b5de70b84b2b7)
-*  undo last action throws an exception when the last action is a batch correspondence generation
+* RESKC-920: undo last action throws an exception when the last action is a batch correspondence generation
   * Travis Schneeberger on Wed, 21 Oct 2015 14:06:32 -0400 [View Commit](../../commit/133c9c875efd0dba91fc6970bc837eed6d68b158)
 
 ##coeus-1510.44
@@ -3676,13 +3704,13 @@ steps to reproduce
 
 
 ##coeus-1510.38
-* Ignore test and update email validation default
+* RESKC-916:Ignore test and update email validation default
   * blackcathacker on Tue, 20 Oct 2015 16:43:36 -0700 [View Commit](../../commit/194ab4989c7ff8dcb353b218c0063fa7552aa646)
-* chaning kc-sql pom version and adding headers to sql scripts
+* RESKC-947:chaning kc-sql pom version and adding headers to sql scripts
   * Geo Thomas on Tue, 20 Oct 2015 19:30:09 -0400 [View Commit](../../commit/95b0ef3a750d13efc188f70786679eee63a868df)
-*  since there was a conflict between hosted customers proposal types and bootstrap proposal types, new proposal types have changed to start from 500 onwards.
+* RESKC-947: since there was a conflict between hosted customers proposal types and bootstrap proposal types, new proposal types have changed to start from 500 onwards.
   * Geo Thomas on Tue, 20 Oct 2015 16:34:49 -0400 [View Commit](../../commit/bd08cf1687c2e39dd7ddfce07b5e592550b8becb)
-*  fixing oracle and mysql SQL migrations for a rice embedded configuration as contributed by: https://github.com/kuali/kc/pull/1590
+* RESKC-911: fixing oracle and mysql SQL migrations for a rice embedded configuration as contributed by: https://github.com/kuali/kc/pull/1590
   * Travis Schneeberger on Tue, 20 Oct 2015 16:38:32 -0400 [View Commit](../../commit/75c36bd31f317fc9fd17cf5ae51c27da55dfed27)
 * MIT IRB - Full Board Protocols not Assigned to Agenda should
   * not display in the Minutes PDF.
@@ -3699,9 +3727,9 @@ shows up in the minutes even when it is not assigned to the agenda.
   * The protocol was submitted to the 5/21/15 schedule but never put "in
   * agenda", nevertheless, it shows in the minutes, it should not.
   * vineeth on Tue, 20 Oct 2015 12:59:43 -0400 [View Commit](../../commit/4ddd5eaf997bbd1e427c58c5745aa32d6df46ca2)
-* Use configurable password for dev password during push
+* RESKC-916:Use configurable password for dev password during push
   * blackcathacker on Tue, 20 Oct 2015 12:36:11 -0700 [View Commit](../../commit/61b461aebc780305c7feaba366d4d191a1902b86)
-* Bulk push from KC to Core Auth Service
+* RESKC-916:Bulk push from KC to Core Auth Service
   * blackcathacker on Tue, 13 Oct 2015 18:45:45 -0700 [View Commit](../../commit/c2102841453fc893fbf45aad723d214fb610b0ca)
 
 ##coeus-1510.36
@@ -3726,23 +3754,23 @@ screen
   * vineeth on Fri, 16 Oct 2015 19:25:01 -0400 [View Commit](../../commit/d9f81a4235be00af043fe3db2d607a3c63fec478)
 
 ##coeus-1510.34
-*  Implement some kind of cahcing for Units list and gets refreshed every minute. The pefromance issue was to fetch the entire unit list for all Agendas. With this fix, it would not call  getUnits() method if the request gets completed within a min
+* RESKC-913: Implement some kind of cahcing for Units list and gets refreshed every minute. The pefromance issue was to fetch the entire unit list for all Agendas. With this fix, it would not call  getUnits() method if the request gets completed within a min
   * Geo Thomas on Thu, 15 Oct 2015 17:50:16 -0400 [View Commit](../../commit/69f121f5ba46c5e2c8b568c1ee90f716b0e7cf8f)
 
 ##coeus-1510.33
-*  adding admin auth token
+* adding admin auth token
   * Travis Schneeberger on Mon, 19 Oct 2015 11:44:04 -0400 [View Commit](../../commit/1234699de5a4100594bc2ce601da044374cd5e07)
-*  adding qualifier so the Derived User Role will resolve its members
+* adding qualifier so the Derived User Role will resolve its members
   * Travis Schneeberger on Mon, 19 Oct 2015 10:13:43 -0400 [View Commit](../../commit/4638abe46fc812a242ac7c07271b8222cc54c4e8)
-*  Use a parameter called enableIPGenerationPromptDialog for enabling/disabling IP generation dialog. This is an MIT customization done as part of newly added proposal types to decide whether IP has to be created as a new version of existing one or entirely new IP. It checks for all changed corrected proposal types and if its one of them, it would generate a new version of existing IP or else, it generates new IP. It never prompted user to select an option for IP generation
+* Use a parameter called enableIPGenerationPromptDialog for enabling/disabling IP generation dialog. This is an MIT customization done as part of newly added proposal types to decide whether IP has to be created as a new version of existing one or entirely new IP. It checks for all changed corrected proposal types and if its one of them, it would generate a new version of existing IP or else, it generates new IP. It never prompted user to select an option for IP generation
   * Geo Thomas on Wed, 14 Oct 2015 16:47:06 -0400 [View Commit](../../commit/d2b6b54d461939cb4798e401bccfc0517ad43f2e)
 
 ##coeus-1510.32
-* Auth service improvements to support more config options
+* RESKC-915,RESKC-885:Auth service improvements to support more config options
   * blackcathacker on Fri, 16 Oct 2015 14:03:11 -0700 [View Commit](../../commit/58a271ff1ba10fe42698f875a20ff99847a21230)
 
 ##coeus-1510.31
-*  implementing kim api from the monolith for use in COI
+* implementing kim api from the monolith for use in COI
   * Travis Schneeberger on Fri, 16 Oct 2015 15:44:22 -0400 [View Commit](../../commit/e35ba626e1f3347d1e3ace61e82226d3b87e1514)
 
 ##coeus-1510.30
@@ -3795,7 +3823,7 @@ screen.
 
 
 ##coeus-1510.27
-* Handle null sortid on budget_category_type compare
+* RESKC-928:Handle null sortid on budget_category_type compare
 
   * Budget Category Types allow null sort ids, but the compareTo method would throw an NPE when it encountered one.
   * java.lang.NullPointerException
@@ -3857,11 +3885,11 @@ screen
 
 
 ##coeus-1510.25
-*  fixing bug where we are gather project data by proposal number rather than proposal id for InstitutionalProposal which is causing a NullPointerException on save
+* fixing bug where we are gather project data by proposal number rather than proposal id for InstitutionalProposal which is causing a NullPointerException on save
   * Travis Schneeberger on Thu, 15 Oct 2015 10:48:59 -0400 [View Commit](../../commit/5ce0af0205d7d260a452046fd6eb7c09839301a0)
 
 ##coeus-1510.24
-* Improvements to the new auth service filter
+* RESKC-915,RESKC-885:Improvements to the new auth service filter
 
   * Should improve the ability to use the auth service token for external REST requests and improve the ease of using micro-services in development by being able to configure a global RestTemplate that ignores ssl validation
   * blackcathacker on Mon, 5 Oct 2015 17:03:32 -0700 [View Commit](../../commit/efccb5b9f9a703948b4539207c2a79f90a4068a0)
@@ -3873,11 +3901,11 @@ screen
   * blackcathacker on Thu, 8 Oct 2015 13:20:51 -0700 [View Commit](../../commit/a9da4668f3dbce0b049a5901e6b8ad8485dee514)
 
 ##coeus-1510.22
-*  implementing a full project push for all modules to COI, removing incorrect and not necessary join
+* implementing a full project push for all modules to COI, removing incorrect and not necessary join
   * Travis Schneeberger on Wed, 14 Oct 2015 15:25:50 -0400 [View Commit](../../commit/957aaee7aa5f48e7d12a2dbe211b965e08fb00c6)
 
 ##coeus-1510.21
-* IRB - Unable to see Deferred Letter in Protocol History for a production protocols - due to versioning
+* RESKC-895:IRB - Unable to see Deferred Letter in Protocol History for a production protocols - due to versioning
   * This is to fix NPE when protocol is submitted for full board, assigned to agenda and defer action is performed.
   * Correspondence is null in above case.
   * rmancher on Wed, 14 Oct 2015 11:39:07 -0400 [View Commit](../../commit/29ed69db8e95c961a8a921b1bfcc824b5b6361f9)
@@ -3887,7 +3915,7 @@ screen
 
 
 ##coeus-1510.19
-* Existing protocols where user has more than one role in a Protocol cannot be submitted or edited.
+* RESKC-909:Existing protocols where user has more than one role in a Protocol cannot be submitted or edited.
   * MIT, and other Coeus schools are experiencing problems with migrated IRB data because Kuali research restricts a Protocol person to only one role.
   * Testing this case, there is no issue with migrated protocols where same user has multiple roles.
   * Currently add personnel does not let user add same person with multiple roles. This is now driven by parameter where
@@ -3899,13 +3927,13 @@ schools can enable duplicate personnel with different roles. Application does no
 
 
 ##coeus-1510.16
-*  Adding certification questions to KRMS
+* RESKC-507: Adding certification questions to KRMS
   * User needs to make a proposition in KRMS that will allow user to specify if a proposal key person has answered a specific question. The function should allow user to specify results that are = value, != value, =null, =!null
   * This should be set up similar to the current KRMS Category for Questionnaire where the user can specify the Question and the Questionnaire being used; only this function will check the multiple occurrences (for each person listed in a proposal) that happen for a person certification questionnaire.
   * Gayathri Athreya on Tue, 13 Oct 2015 14:48:01 -0700 [View Commit](../../commit/42fbb79fcff991254d58948ac482d52cb6060024)
 
 ##coeus-1510.15
-*  Fixing address book STE
+* RESKC-917: Fixing address book STE
   * User receives STE when trying to create new address book entry.
   * Steps to recreate:
   * 1. Select the System Admin tab
@@ -3920,7 +3948,7 @@ schools can enable duplicate personnel with different roles. Application does no
 
 
 ##coeus-1510.13
-*  implementing a full project push for all modules to COI
+* implementing a full project push for all modules to COI
   * Travis Schneeberger on Thu, 8 Oct 2015 13:33:48 -0400 [View Commit](../../commit/5d7fdd98d09cb919d29f79450f6a54ffb6e4da42)
 
 ##coeus-1510.12
@@ -3928,7 +3956,7 @@ schools can enable duplicate personnel with different roles. Application does no
 
 
 ##coeus-1510.11
-* IRB Agenda template missing meeting date in Heading and
+* RESKC-772:IRB Agenda template missing meeting date in Heading and
   * displays the previous meeting date instead of next meeting date in Next
   * Meeting item.
   * In the out of the box template IRB agenda template:
@@ -3945,7 +3973,7 @@ schools can enable duplicate personnel with different roles. Application does no
 
 
 ##coeus-1510.8
-* IRB/IACUC - Sections to amend or edit via admin correction on protocols are not unlocked after amendment is approved.
+* RESKC-902:IRB/IACUC - Sections to amend or edit via admin correction on protocols are not unlocked after amendment is approved.
   * Modules are released once the amendment is approved and final. We need to load the document via document service to
   * get the workflow document to check for document status.
   * rmancher on Tue, 6 Oct 2015 11:53:05 -0400 [View Commit](../../commit/b65427e0376f1b9a07b89f28ec0edc23fea84447)
@@ -3955,16 +3983,16 @@ schools can enable duplicate personnel with different roles. Application does no
 
 
 ##coeus-1510.6
-* Change award budget warning message
+* RESKC-847:Change award budget warning message
   * blackcathacker on Tue, 6 Oct 2015 10:43:01 -0700 [View Commit](../../commit/4caf83a5c9c63879b0c579009e28fafbb75b4813)
 
 ##coeus-1510.5
-* Award budget line items imported with wrong dates
+* RESKC-847:Award budget line items imported with wrong dates
 
   * PB expenses where end dates are not period end dates shows wrong amounts pulled into AB.
   * When personnel is added to a proposal budget in a way that the end date for personnel expense is not the same as the period end date, it is not converting properly when adding the award budget. The award budget shows those end dates as the period end date and causes an STE when user tries to correct the end dates.
   * blackcathacker on Mon, 5 Oct 2015 16:05:15 -0700 [View Commit](../../commit/88034f0e9a2067624489f8bb15e747ac99826fdd)
-* Approval letter not generating correctly for amendments after
+* RESKC-874:Approval letter not generating correctly for amendments after
   * an SMR or SRR.
   * 1. Create protocol 
   * 2. Submit and Approve 
@@ -3990,7 +4018,7 @@ submitted as a response.
 
 
 ##coeus-1510.3
-* IRB - Unable to see Deferred Letter in Protocol History for a production protocols.
+* RESKC-895:IRB - Unable to see Deferred Letter in Protocol History for a production protocols.
   * The deferred letters don't seem to make it to the Protocol History. Action is available but the letter cannot be opened or viewed.
   * The issue here is that the current document is cancelled and a new document is created. Correspondence is tied only to the
   * old version. While analyzing data found that there is a mismatch in protocol sequence number. That is fixed along with this since
@@ -4003,7 +4031,7 @@ sequence mismatch and create version for protocol correspondence.
 
 
 ##coeus-1510.1
-*  Attempting to fix tim sort issue.
+* RESKC-897: Attempting to fix tim sort issue.
   * User experiences the attached error message on award 337 when attempting to click on any other tab of the award. This error seems to be local only to award 337 and not happening to other awards.
   * Stack trace error displays. See below.
   * java.lang.IllegalArgumentException: Comparison method violates its general contract!
@@ -4019,13 +4047,13 @@ sequence mismatch and create version for protocol correspondence.
   * at org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingServiceImpl.shouldAlertReportTrackingDetailChange(ReportTrackingServiceImpl.java:405)
   * at org.kuali.kra.award.web.struts.action.AwardHomeAction.save(AwardHomeAction.java:272)
   * Gayathri Athreya on Thu, 1 Oct 2015 15:14:21 -0700 [View Commit](../../commit/4ce4d30f00ee279c1c265e90cd17b01fed79624e)
-*  changing s2s version in pom file
+* changing s2s version in pom file
   * Geo Thomas on Thu, 1 Oct 2015 18:07:21 -0400 [View Commit](../../commit/37e4d5af94340f2d4b76d806e768a03263b030bb)
-*  implementing project push (allowing any role code to be sent)
+* implementing project push (allowing any role code to be sent)
   * Travis Schneeberger on Thu, 1 Oct 2015 17:10:18 -0400 [View Commit](../../commit/37a96bf1d3d4812deb954842830f68275ddede34)
-*  New proposal types have been added to support new submission type settings in RR SF424 Form V2.0. The script also have parameters to define comma separated values for these parameters. If school wants to use different proposal types to set Application Type and Submission Type in RR SF424 forms, they should change these PROPOSAL_TYPE_X_X parameters and set appropriate values
+* New proposal types have been added to support new submission type settings in RR SF424 Form V2.0. The script also have parameters to define comma separated values for these parameters. If school wants to use different proposal types to set Application Type and Submission Type in RR SF424 forms, they should change these PROPOSAL_TYPE_X_X parameters and set appropriate values
   * Geo Thomas on Wed, 30 Sep 2015 14:09:56 -0400 [View Commit](../../commit/185045b3ccab915c4ebd114bdd787e490849168b)
-*  Fixing budget cost share summary print
+* RESKC-782: Fixing budget cost share summary print
   * Budget Print Report: "1 Cost Share Summary Report"
   * Issue 1: When more than one person is detailed in a group, only the salary of the first person is published, making the remaining sums on the form incorrect.
   * Issue 2: Due to incorrect LA total, other values on the print out are incorrect
@@ -4046,11 +4074,11 @@ sequence mismatch and create version for protocol correspondence.
   * Gayathri Athreya on Thu, 1 Oct 2015 09:31:34 -0700 [View Commit](../../commit/e1d67a2257b387703080af021c1345544d3c1190)
 
 ##coeus-1509.65
-*  Rolodex state display issues.
+* RESKC-771: Rolodex state display issues.
   * Gayathri Athreya on Wed, 30 Sep 2015 11:15:34 -0700 [View Commit](../../commit/eee8cc9d466974b92d4de355771b44b66e4a1901)
 
 ##coeus-1509.64
-*  Adding support for canadian provinces.
+* RESKC-771: Adding support for canadian provinces.
   * Need new field to capture Canadian Providences in both Addressbook and Person Record for Key Personnel use and Records for Subcontracts, these should map to the R&R forms
   * NIH requires the Canadian province code as a separate field
   * NIH began enforcing this recently without announcing
@@ -4062,11 +4090,11 @@ sequence mismatch and create version for protocol correspondence.
   * Gayathri Athreya on Wed, 23 Sep 2015 15:53:16 -0700 [View Commit](../../commit/503eeeaa3088f9e7914d7f401e044f8f38e8c4dd)
 
 ##coeus-1509.63
-*  implementing project push
+* implementing project push
   * Travis Schneeberger on Mon, 28 Sep 2015 11:13:39 -0400 [View Commit](../../commit/f7d169fe3e12b9e6ab2593cbf378608df8dea79e)
 
 ##coeus-1509.62
-* Cannot submit IRB protocol because of The Reviewer N is not
+* RESKC-875:Cannot submit IRB protocol because of The Reviewer N is not
   * available.
   * Create protocol or use existing one. Test Protocol #: 1509002481
   * Added an attachment (probably not relevant)
@@ -4090,9 +4118,9 @@ sequence mismatch and create version for protocol correspondence.
 
 
 ##coeus-1509.60
-* Code review comments
+* RESKC-885:Code review comments
   * blackcathacker on Mon, 28 Sep 2015 10:03:33 -0700 [View Commit](../../commit/ca56985955f262f7c1a0e150a0fa9e0a877ca353)
-* Filter capable of integrating into the new Core Auth Service
+* RESKC-885:Filter capable of integrating into the new Core Auth Service
   * blackcathacker on Thu, 24 Sep 2015 11:33:17 -0700 [View Commit](../../commit/48474ea8f8949282ce653ba732bea078ed8f7a6b)
 
 ##coeus-1509.59
@@ -4104,7 +4132,7 @@ sequence mismatch and create version for protocol correspondence.
 
 
 ##coeus-1509.57
-* PD - Budget Rates screen allows Edits when marked Complete -
+* RESKC-850:PD - Budget Rates screen allows Edits when marked Complete -
   * it should not.
   * budget was marked complete and then edits were made to budget > rates
 screen. Rates were applied causing Underrecovery but no errors or
@@ -4140,7 +4168,7 @@ still in the budget session after they marked the budget as complete.
 
 
 ##coeus-1509.55
-* IP cannot remove Award Linking
+* RESKC-788:IP cannot remove Award Linking
   * As a user, if i accidentally add an IP as a funding source to award and
 save, then I would normally be able to select that award in the IP and
   * unlink the two by choosing unlock. This is no longer available in 6.0
@@ -4157,19 +4185,19 @@ save the award
 ##coeus-1509.54
 * Preventing an error from being thrown when moving the cursor into the sponsor template code field but not typing anything and then moving the cursor away.  Previously an ajax call would occur and return an error 500 because the sponsor template code code was blank.  Now the lookup isn't executed and a blank response is generated.
   * Travis Schneeberger on Wed, 23 Sep 2015 17:53:03 -0400 [View Commit](../../commit/0e6660eeb37d9be22a63fee332270494f6e94bbd)
-*  making the placeholder document handling more robust.  Removing the assumption that if a document header is found containing a description "*****PLACEHOLDER*****" then you can retrieve a valid AwardDocument from it.  Also removing the assumption that their will only ever be one Document Header with a description  "*****PLACEHOLDER*****".  These assumptions can create an issue where the root Award Hierarchy record is not being created because the placeholder document is not found.
+* making the placeholder document handling more robust.  Removing the assumption that if a document header is found containing a description "*****PLACEHOLDER*****" then you can retrieve a valid AwardDocument from it.  Also removing the assumption that their will only ever be one Document Header with a description  "*****PLACEHOLDER*****".  These assumptions can create an issue where the root Award Hierarchy record is not being created because the placeholder document is not found.
   * Travis Schneeberger on Wed, 23 Sep 2015 17:44:57 -0400 [View Commit](../../commit/c1a71ab0035ed5a71ac1f59743e6b22f82bdd4d0)
 
 ##coeus-1509.53
 * Code review changes and additional unit test
   * blackcathacker on Wed, 23 Sep 2015 09:26:35 -0700 [View Commit](../../commit/0eb0c44e0307cad90af7285413d3c8c014bd9446)
-*  Move Proposal workflow fully to KRMS
+* Move Proposal workflow fully to KRMS
 
   * In order to support more dynamic routing for PD and without putting the burden of always having to modify KEW files these changes implement our current PD workflow fully in KRMS. This will allow more flexibility in building and modifying workflows to suit various needs across multiple institutions and units within a single institution.
   * blackcathacker on Mon, 21 Sep 2015 11:30:26 -0700 [View Commit](../../commit/8db7be726d83bd775d6e26ad24f368cdaa0dd323)
 
 ##coeus-1509.52
-* T&M end dates error message cannot be fixed.
+* RESKC-832:T&M end dates error message cannot be fixed.
   * Award was originally created with a larger budget and multiyear time
   * frame, but at the last minute the sponsor reduced the funding and time
   * to one year. I tried to make adjustments in the amounts, but the T&M
@@ -4197,12 +4225,12 @@ submit
   * Direct/F&A Fund Distribution should have saved to the database.  * vineeth on Tue, 22 Sep 2015 17:15:43 -0400 [View Commit](../../commit/6ac7a349c596e6934217919e97f316e0ef0a2f87)
 
 ##coeus-1509.51
-*  For oracle implementations, the char(200) length on the budget category type causes issues because oracle pads the category type with 199 spaces, this causes the categories to not match
+* RESKC-836: For oracle implementations, the char(200) length on the budget category type causes issues because oracle pads the category type with 199 spaces, this causes the categories to not match
   * with the code and hence causes printing issues.
   * Gayathri Athreya on Wed, 23 Sep 2015 07:55:10 -0700 [View Commit](../../commit/cb3726e720278704ef97c4816168bd111bcf9d4b)
 
 ##coeus-1509.50
-*  Obligated Distributable not updating if Award amount lowered.
+* RESKC-753: Obligated Distributable not updating if Award amount lowered.
   * If award ant T&M are created, but then award amount is decreased on award side, a new T&M is submitted to show the new decreased amounts, then the T&M obligated distributable is not updated to show lower amount. This causes problems with the award budget not showing accurate information.
   * Steps to reproduce
   * create an award with 100000 direct budget
@@ -4220,7 +4248,7 @@ submit award
 
 
 ##coeus-1509.48
-* Migration script to create expedited and exempt checklist versions.Protocol checklist was not versioned when an amendment/renewal is merged.There is a java code fix to create versions during merge process and this script is to take care of existing data.
+* RESKC-852:Migration script to create expedited and exempt checklist versions.Protocol checklist was not versioned when an amendment/renewal is merged.There is a java code fix to create versions during merge process and this script is to take care of existing data.
   * rmancher on Tue, 22 Sep 2015 09:28:14 -0400 [View Commit](../../commit/bc71e8b2e150428d925acd8c88558ef653fc5bd4)
 
 ##coeus-1509.46
@@ -4232,7 +4260,7 @@ submit award
   * Travis Schneeberger on Mon, 21 Sep 2015 20:25:32 -0400 [View Commit](../../commit/b25fcc220780146fee781ab1b6d09af10e3dfb8f)
 
 ##coeus-1509.44
-* Some Proposal Validations for Attachments have Incorrect fix 
+* RESKC-793:Some Proposal Validations for Attachments have Incorrect fix 
   * path for Grants.gov validation type-issue fixed
   * vineeth on Mon, 21 Sep 2015 12:19:32 -0400 [View Commit](../../commit/43b9a3e4f1148f44d172732a316259cd51472fd4)
 * Making active mq data directory configurable through kc config files.  This allows the directory to be set without a environment variable:  org.apache.activemq.default.directory.prefix
@@ -4243,21 +4271,21 @@ submit award
 
 
 ##coeus-1509.42
-* PD: System should enforce Proposal and Budget Start/End dates
+* RESKC-809:PD: System should enforce Proposal and Budget Start/End dates
   * match prior to submitting-issue fixed  * vineeth on Fri, 18 Sep 2015 11:22:54 -0400 [View Commit](../../commit/67bdc5b372e0efb052ceaadec83923d586db78f3)
 
 ##coeus-1509.41
-*  Creating Admin Screen for ActiveMQ messages
+* RESKC-802: Creating Admin Screen for ActiveMQ messages
   * Travis Schneeberger on Wed, 16 Sep 2015 17:58:45 -0400 [View Commit](../../commit/b79475cc702f145e8409ac12ce1465c56edcbdd0)
-* Direct/F&A Funds Distribution not getting deleted from T&M
+* RESKC-832:Direct/F&A Funds Distribution not getting deleted from T&M
   * document-issue fixed  * vineeth on Thu, 17 Sep 2015 12:51:28 -0400 [View Commit](../../commit/50d7a21d09d6fe3ef080dab4f56e3d52c7c43754)
 
 ##coeus-1509.40
-* Move IRB and IACUC Protocol History to a separate tab to address performance issues when opening the history for protocols with many versions/submissions. Moving history to separate tab helps users to take actions on protocol much quicker.
+* RESKC-786:Move IRB and IACUC Protocol History to a separate tab to address performance issues when opening the history for protocols with many versions/submissions. Moving history to separate tab helps users to take actions on protocol much quicker.
   * rmancher on Tue, 15 Sep 2015 17:23:37 -0400 [View Commit](../../commit/66ea1800b20906fff44da99b63f5ec042eb27ae1)
 
 ##coeus-1509.39
-* Fix IRB protocol history checklist items. Create version for expedited and exempt checklist items
+* RESKC-843:Fix IRB protocol history checklist items. Create version for expedited and exempt checklist items
   * once amendment is approved.
   * rmancher on Wed, 16 Sep 2015 10:06:51 -0400 [View Commit](../../commit/efa6cc173ef6cd1deafb2c44ab028efcf7e199c9)
 
@@ -4266,17 +4294,17 @@ submit award
 
 
 ##coeus-1509.37
-* Budget Line Item Details > On/Off campus flag re-sets to ON
+* RESKC-820:Budget Line Item Details > On/Off campus flag re-sets to ON
   * with certain actions when it should not-issue fixed  * vineeth on Wed, 16 Sep 2015 11:22:47 -0400 [View Commit](../../commit/030118d513b8d3d8318f92bc40a85441cb5519ae)
 
 ##coeus-1509.36
-*  adding a merge function
+* RESKC-823: adding a merge function
   * Travis Schneeberger on Wed, 16 Sep 2015 15:27:01 -0400 [View Commit](../../commit/258884c1a372f3b8a4b69d2b640332c71701f0a6)
-*  Fix STE
+* RESKC-765: Fix STE
   * Gayathri Athreya on Wed, 16 Sep 2015 08:25:10 -0700 [View Commit](../../commit/a72a3bcb3735efbf0c69cf303bca7e4c43a0d4a1)
 
 ##coeus-1509.35
-* IRB - Admin Correction don't allow to delete personnel issue
+* RESKC-749:IRB - Admin Correction don't allow to delete personnel issue
   * fixed  * vineeth on Tue, 15 Sep 2015 11:15:00 -0400 [View Commit](../../commit/717b670ac72c8bb85663015af8916c7bbfc10b5b)
 
 ##coeus-1509.34
@@ -4284,9 +4312,9 @@ submit award
 
 
 ##coeus-1509.33
-* PI/Multiple on Institutional Proposal does not carry over
+* RESKC-776:PI/Multiple on Institutional Proposal does not carry over
   * -issue fix  * vineeth on Tue, 15 Sep 2015 10:15:06 -0400 [View Commit](../../commit/d4925347d0b93d7852b87073745cff2f07edccff)
-*  Fix fringe calculations.
+* RESKC-765: Fix fringe calculations.
   * When a budget groups personnel (automatically by cost object or manually by created groups), and the unit has Lab Allocation rates, the printed budget report is not correctly publishing the correct Salaries & Wages amount for the Allocated Admin Support > personnel row because it only displays the calculated amount for the FIRST PERSON in each Group.
   * The Fringe Benefits field is correctly calculating against the correct value of ALL persons.
   * The incorrect value for LA > Salaries causes the remaining S&W totals in the section to be incorrect in this report and inconsistent with the "Calculation Methodology" section.
@@ -4308,7 +4336,7 @@ submit award
 
   * ref
   * Gayathri Athreya on Mon, 14 Sep 2015 12:40:18 -0700 [View Commit](../../commit/e4139d2cd744979761ed6a5b33fd0e9febcb8d26)
-*  Code cleanup
+* RESKC-765: Code cleanup
   * Gayathri Athreya on Fri, 11 Sep 2015 14:52:10 -0700 [View Commit](../../commit/bc1ec5f37c7fba3c85e36dd6e8a7fb0577312f20)
 
 ##coeus-1509.32
@@ -4316,14 +4344,14 @@ submit award
 
 
 ##coeus-1509.31
-* Modular Budget Sync issue fix  * vineeth on Mon, 14 Sep 2015 14:52:33 -0400 [View Commit](../../commit/93edbdc0c59f9b12b2b332ea5e3ca9df6fb7cfce)
-*  JMS based REST support via activemq
+* RESKC-811:Modular Budget Sync issue fix  * vineeth on Mon, 14 Sep 2015 14:52:33 -0400 [View Commit](../../commit/93edbdc0c59f9b12b2b332ea5e3ca9df6fb7cfce)
+* RESKC-802: JMS based REST support via activemq
   * Travis Schneeberger on Fri, 4 Sep 2015 10:48:49 -0400 [View Commit](../../commit/2f4907fc068c1ae91ebb6c5cc49f42d64c42d156)
 
 ##coeus-1509.30
-*  iacuc schedule print code cleanup
+* RESKC-821: iacuc schedule print code cleanup
   * Travis Schneeberger on Thu, 10 Sep 2015 11:31:05 -0400 [View Commit](../../commit/0ae9032b4125ad85ffbe1432bd2a9649c4caa3be)
-*  fixing iacuc schedule minutes print when iacuc protocol submissions exist
+* RESKC-821: fixing iacuc schedule minutes print when iacuc protocol submissions exist
   * Travis Schneeberger on Thu, 10 Sep 2015 10:59:06 -0400 [View Commit](../../commit/fefd030ed8e072f116900529bd953b10514f6d7e)
 
 ##coeus-1509.29
@@ -4335,7 +4363,7 @@ submit award
   * Travis Schneeberger on Fri, 11 Sep 2015 16:55:57 -0400 [View Commit](../../commit/8f57ef9d485fa32a673fc55ca7ece2975b52be9b)
 
 ##coeus-1509.27
-*  Fixing budget base calculations
+* RESKC-765: Fixing budget base calculations
   * When a budget groups personnel (automatically by cost object or manually by created groups), and the unit has Lab Allocation rates, the printed budget report is not correctly publishing the correct Salaries & Wages amount for the Allocated Admin Support > personnel row because it only displays the calculated amount for the FIRST PERSON in each Group.
   * The Fringe Benefits field is correctly calculating against the correct value of ALL persons.
   * The incorrect value for LA > Salaries causes the remaining S&W totals in the section to be incorrect in this report and inconsistent with the "Calculation Methodology" section.
@@ -4357,7 +4385,7 @@ submit award
   * Gayathri Athreya on Fri, 11 Sep 2015 11:30:53 -0700 [View Commit](../../commit/b7b5c582cc7d268e554e08e341600b304434016f)
 
 ##coeus-1509.26
-* Display review comments in CR
+* RESKC-805:Display review comments in CR
   * rmancher on Fri, 11 Sep 2015 09:39:07 -0400 [View Commit](../../commit/99cab9c50faf2bf5bd351613d7ba6ff88bc3f239)
 
 ##coeus-1509.25
@@ -4373,13 +4401,13 @@ submit award
 
 
 ##coeus-1509.22
-* Fix failing test
+* RESKC-715:Fix failing test
   * rmancher on Thu, 10 Sep 2015 15:16:21 -0400 [View Commit](../../commit/5bfee0fc1145d9f9182c27c16c288f5b0d5fa933)
 
 ##coeus-1509.21
-* set created user and timestamp
+* RESKC-715:set created user and timestamp
   * rmancher on Thu, 10 Sep 2015 11:30:47 -0400 [View Commit](../../commit/6fd5ad46376a00b64fa81dfaeef11822a25eda8f)
-* Correspondence sort issue
+* RESKC-750:Correspondence sort issue
   * Fix protocol batch correspondence panel not loading
   * rmancher on Thu, 10 Sep 2015 10:52:21 -0400 [View Commit](../../commit/b8515f383d8595fc5e8c2f936994f09e2404489c)
 
@@ -4388,7 +4416,7 @@ submit award
 
 
 ##coeus-1509.18
-*  Fix award budget error message
+* RESKC-759: Fix award budget error message
   * If an award end date is changed to an earlier date after an award budget version was created with the original end date, user is unable to create a budget version with new end dates.
   * To reproduce:
   * 1. locate an existing Award with an Award Budget in Posted status:
@@ -4405,11 +4433,11 @@ submit award
 
 
 ##coeus-1509.16
-*  Create basic integration tests
+* RESKC-819: Create basic integration tests
   * Travis Schneeberger on Wed, 9 Sep 2015 09:42:03 -0400 [View Commit](../../commit/38175ecd195f9b41323ecb29c88a05c74e2f8830)
 
 ##coeus-1509.15
-*  Fix printing issues
+* RESKC-766: Fix printing issues
   * Budget Print Report: "2 Budget Cumulative Report"
   * Issue 1: When more than one person is detailed in a group, only the salary of the first person is published, making the remaining sums on the form incorrect.
   * Issue 2: Calculation Methodology > F&A Exclusions duplicates Allocated Lab Expense row and thus doubles the total of exclusions from the F&A Base in the published total. This is a display issue on the form; that incorrect value is not being used in the actual F&A calculation. (Note: this duplicate row always appears and is not related to the salary group issue.)
@@ -4417,7 +4445,7 @@ submit award
   * Gayathri Athreya on Wed, 9 Sep 2015 08:06:02 -0700 [View Commit](../../commit/029ad74682ffee447ca7277c34f908af02b10757)
 
 ##coeus-1509.14
-* Clicking doc link in TM History causes STE.
+* RESKC-800:Clicking doc link in TM History causes STE.
 
   * When using Award or T&M History clicking on a document link for a T&M doc would cause a stack trace due to a small bug in the generation of the URL.
   * ```java.lang.NoSuchMethodException: Action[/timeAndMoney] does not contain specified method (check logs)
@@ -4425,7 +4453,7 @@ submit award
   * blackcathacker on Tue, 8 Sep 2015 17:42:25 -0700 [View Commit](../../commit/f0fe260d997e1d2c7a9e397bd73cf232f43abdb7)
 
 ##coeus-1509.13
-*  Fix budget calculation print.
+* RESKC-765: Fix budget calculation print.
   * See proposal # 789 in res-demo-1.
   * Steps to duplicate:
   * Create a proposal in a unit with lab allocations (ex. 000001)
@@ -4442,7 +4470,7 @@ submit award
   * Gayathri Athreya on Tue, 8 Sep 2015 14:52:57 -0700 [View Commit](../../commit/8eb2b74301f9e05a3ee599e004ec3d77ab8290d5)
 
 ##coeus-1509.12
-*  Cannot Sync a hierarchy proposal with attachments from the child or the parent.
+* RESKC-375: Cannot Sync a hierarchy proposal with attachments from the child or the parent.
 
   * As a user, I need to create and maintain a hierarchy proposal. I wish to maintain the narrative attachments in the child proposal in case I need to copy and resubmit.
   * Steps to reproduce:
@@ -4460,7 +4488,7 @@ submit award
   * Travis Schneeberger on Tue, 8 Sep 2015 09:40:46 -0400 [View Commit](../../commit/207454a5fad5ab52b755a632273e3f69292ce0ab)
 
 ##coeus-1509.11
-*  Fix Protocol copy.
+* RESKC-807: Fix Protocol copy.
 
   * Attempt to copy an IRB or IACUC protocol. Tested on newly created protocol and older ones.
   * Get:
@@ -4472,9 +4500,9 @@ submit award
 
 
 ##coeus-1509.8
-*  Fixing budget print summary LA calculations.
+* RESKC-764: Fixing budget print summary LA calculations.
   * Gayathri Athreya on Fri, 4 Sep 2015 15:02:17 -0700 [View Commit](../../commit/9eb77869ba865b4f738bb6bf62566bff90765b48)
-*  another button fix
+* RESKC-780: another button fix
   * Gayathri Athreya on Fri, 4 Sep 2015 09:16:39 -0700 [View Commit](../../commit/78758e16d25d5dfdf5a3ce7a588f562a8bdcb663)
 
 ##coeus-1509.7
@@ -4494,11 +4522,11 @@ submit award
 
 
 ##coeus-1509.3
-*  Fix spelling.
+* RESKC-678: Fix spelling.
   * Gayathri Athreya on Thu, 3 Sep 2015 14:29:40 -0700 [View Commit](../../commit/cefe6d013009ab215b7561f1aa4cf3cadf9cf185)
-*  Fixing budget rates button and award institute rates.
+* RESKC-780: Fixing budget rates button and award institute rates.
   * Gayathri Athreya on Thu, 3 Sep 2015 13:56:37 -0700 [View Commit](../../commit/18fa853f0e2c18b838f578d108d5bdd8a8af8d56)
-*  Restoring key person certification functionality.
+* RESKC-688: Restoring key person certification functionality.
   * Somewhere between the Foundation 6.0 release and the current Kuali.co environments, the out of the box ability to 'include certification questions' for Key Persons has been lost.
   * The MIT contribution for COI Disclosure Status provided an automated way to add the proposal person certification for key persons, but that feature is enabled via a parameter.
   * Current 5.2.1 users undergoing upgrade review noted the feature is missing.
@@ -4510,7 +4538,7 @@ submit award
   * blackcathacker on Mon, 31 Aug 2015 14:47:02 -0700 [View Commit](../../commit/cfa96829fc79c802b0843b346abbadab242d3f42)
 
 ##coeus-1509.1
-*  Trying to fix budget rates button.
+* Trying to fix budget rates button.
   * 1. Copy IP or Dev Proposal with budget
   * 2. Created the Award
   * 3. Created time and money and obligated the first year funding
@@ -4520,7 +4548,7 @@ submit award
   * 7. tried to open the new budget to select the proposal budget
   * I get this message and cannot get out of it with yes or no. This is a NEW ISSUE when creating a new award budget.
   * Gayathri Athreya on Mon, 31 Aug 2015 16:47:33 -0700 [View Commit](../../commit/48aa9e5808478df446256dd91e69743bc09278ba)
-*  Fix correspondence redirection after SMR or SRR.
+* RESKC-748: Fix correspondence redirection after SMR or SRR.
   * With Correspondence set up (as not Final) for SMR and SRR.
   * Create protocol
   * Submit Protocol
@@ -4546,16 +4574,16 @@ submit award
 * Update V1508_008__financial_rest_apis.sql  * tdurkin on Tue, 25 Aug 2015 18:31:11 -0500 [View Commit](../../commit/b5912207ca7da1d06ff6f2a784f5d9de412102f5)
 
 ##coeus-1508.44
-* fixing compile error
+* RESKC-147:fixing compile error
   * blackcathacker on Wed, 26 Aug 2015 12:29:14 -0700 [View Commit](../../commit/6301334bebe64cf3ea7a3fd24ef12f89ef6672ce)
-* Award Contribution: Delivery Mechanism to send out Award Notice pdf via the Notification System
+* RESKC-147:Award Contribution: Delivery Mechanism to send out Award Notice pdf via the Notification System
   * Joe Williams on Tue, 25 Aug 2015 15:25:22 -0500 [View Commit](../../commit/187686a1307ad72b0a124359d1721e0f23c14d15)
 * RESKC-353-Fixing cost sharing validations in IP
   * Issue: A proposal was routed last week after a validation check showed no errors. There are no source accounts listed for the costshare. The budgetUnrecoveredFandAEnforcementFlag and budgetCostSharingEnforcementFlag parameters and both are disabled, so the system should not be checking for a source account. There should not be an error. The Turn on Validation worked correctly, but the validation upon submission did not.
   * Gayathri Athreya on Wed, 26 Aug 2015 11:12:05 -0700 [View Commit](../../commit/7dd99dfb0991c772bdb29fadc732fe2369e5c1aa)
 
 ##coeus-1508.42
-*  Reverting previous performance fixes that caused a bunch of bugs and fixing current issue with final flag.
+* RESKC-756: Reverting previous performance fixes that caused a bunch of bugs and fixing current issue with final flag.
   * Create IACUC protocol
   * Submit
   * Modify submission to assign, committee, and reviewers. (Use DMR review type in testing.)
@@ -4579,7 +4607,7 @@ submit award
 
 
 ##coeus-1508.40
-*  Fix undo last action.
+* RESKC-747: Fix undo last action.
   * Create protocol
   * Submit Protocol
   * -Assign committee
@@ -4592,7 +4620,7 @@ submit award
   * Get:
   * org.springframework.dao.DataIntegrityViolationException: OJB operation; SQL []; Duplicate entry '2012-2023-2024' for key 'UQ1_PROTOCOL_ONLN_RVWS'; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '2012-2023-2024' for key 'UQ1_PROTOCOL_ONLN_RVWS'
   * Gayathri Athreya on Tue, 25 Aug 2015 12:21:03 -0700 [View Commit](../../commit/026d30a0798d928684fce33218dbb290a926d899)
-* when there is a pending and active award when a time and money document is submitted add award amount info to both versions of the award
+* RESKC-695:when there is a pending and active award when a time and money document is submitted add award amount info to both versions of the award
   * Joe Williams on Fri, 21 Aug 2015 14:26:35 -0500 [View Commit](../../commit/5457c4d191f3b1c375b5b51e355cd32227b60ddf)
 
 ##coeus-1508.39
@@ -4608,23 +4636,23 @@ submit award
 
 
 ##coeus-1508.36
-*  Making All My Reviews link under the IRB section link to IRB Online Reviews not IACUC Online Reviews
+* RESKC-757: Making All My Reviews link under the IRB section link to IRB Online Reviews not IACUC Online Reviews
   * Travis Schneeberger on Tue, 25 Aug 2015 11:23:16 -0400 [View Commit](../../commit/211892292dea896be530fe621fbd16e73f85c9f8)
 
 ##coeus-1508.35
-*  Adding risk levels
+* RESKC-710: Adding risk levels
   * Gayathri Athreya on Mon, 24 Aug 2015 15:57:24 -0700 [View Commit](../../commit/efd380fe9dadb3b25e3bca48e35462a4f7f67268)
 
 ##coeus-1508.34
-*  extra documentation
+* RESKC-677: extra documentation
   * Gayathri Athreya on Mon, 24 Aug 2015 13:36:12 -0700 [View Commit](../../commit/c4a5b3e484f2f59512d54f36f02cc1e598d65f1a)
-*  fixing budget period lookup in award budget when a modular budget exists.
+* fixing budget period lookup in award budget when a modular budget exists.
   * Travis Schneeberger on Mon, 24 Aug 2015 16:04:07 -0400 [View Commit](../../commit/a8562fa5e5f4d04b07ac8ed33c5f0f555fca5867)
-*  Documentation and minor added functionality of getting awards linked to an account.
+* RESKC-677: Documentation and minor added functionality of getting awards linked to an account.
   * Gayathri Athreya on Fri, 21 Aug 2015 17:12:01 -0700 [View Commit](../../commit/a88b09110bfbd3e136e4dc7e7fd4fe0d6eba7caa)
 
 ##coeus-1508.33
-* correctly set faculty flag on institutional proposal persons
+* RESKC-752:correctly set faculty flag on institutional proposal persons
 
   * Issue: Proposal Summary printout inaccurate Affiliation Type for PI
 
@@ -4646,9 +4674,9 @@ submit award
   * Gayathri Athreya on Fri, 21 Aug 2015 14:26:57 -0700 [View Commit](../../commit/539e96153bf82dcc78b843b804955559b2a5b864)
 
 ##coeus-1508.31
-*  Financial account REST api
+* RESKC-677: Financial account REST api
   * Gayathri Athreya on Wed, 5 Aug 2015 12:12:02 -0700 [View Commit](../../commit/1e77bb650c34fe27348ac2942979b8b9467d555e)
-*  return saved adhoc recipient when saving document to avoid sql exception
+* RESKC-696: return saved adhoc recipient when saving document to avoid sql exception
 
   * Steps to reproduce:
   * 1. Create an Award or edit an existing award, complete required fields and submit.
@@ -4671,7 +4699,7 @@ submit award
 
 
 ##coeus-1508.29
-* display the correct award project end date on lookups
+* RESKC-746:display the correct award project end date on lookups
 
   * Issue: Award lookup not displaying correct Project End Date
 
@@ -4685,7 +4713,7 @@ submit award
   * Joe Williams on Thu, 20 Aug 2015 09:40:16 -0500 [View Commit](../../commit/df37dda1ae5e21182b454b7e1b2aa724def79e46)
 
 ##coeus-1508.28
-* Multiple award budget versions cause incorrect olbigated amounts
+* RESKC-739:Multiple award budget versions cause incorrect olbigated amounts
 
   * Once there are more than 2 award budget versions, obligated amounts begin to not match correct values due to a bad conflict between some budget summary code and other logic expectations. This change creates new properties used to store the total costs of the current and all previous award budgets to resolve this issue such that the total cost is maintained on the budget.
   * blackcathacker on Wed, 19 Aug 2015 17:51:01 -0700 [View Commit](../../commit/55ce7461d89faa491f88221a05ace6f9547f3d3e)
@@ -4699,11 +4727,11 @@ submit award
 
 
 ##coeus-1508.25
-*  Fixing subaward
+* RESKC-743: Fixing subaward
   * Subaward Medusa lists two different Id sometimes.
   * Subaward listed as #33 under Award but as #27 in dropdown panel
   * Gayathri Athreya on Mon, 17 Aug 2015 15:47:37 -0700 [View Commit](../../commit/ab876026ea7234a37203987636a2d9ef1b25624c)
-*  Fixing F&A validations
+* Fixing F&A validations
   * When creating a proposal with underrecovery, when you omit the Unverrecovery Account, the data validation allows the proposal to be submitted into routing and passes all the validations, but does not allow the proposal to be submitted to sponsor.
   * (I think this error is the result of a fix to allow the proposal to be entered with no underrecovery account)
   * 1. create a proposal that has UR
@@ -4716,11 +4744,11 @@ submit award
 
   * There is no way to correct this error since the proposal "approval granted" as the document is not accessible.
   * Gayathri Athreya on Mon, 17 Aug 2015 14:13:18 -0700 [View Commit](../../commit/32e504f1625bb1a8fc6f945ecc5071119b675ed6)
-*  ensure that all parameters point to a valid component record.
+* RESKC-744: ensure that all parameters point to a valid component record.
   * Travis Schneeberger on Mon, 17 Aug 2015 15:02:09 -0400 [View Commit](../../commit/47ca00520a53c5817bbbb2e0e78f56abf86b6893)
-* Duplicate rows when importing budget details in award budget
+* RESKC-226:Duplicate rows when importing budget details in award budget
   * blackcathacker on Fri, 14 Aug 2015 10:23:56 -0700 [View Commit](../../commit/7acffb09aa3c4bb4b09dc9e09994923dabce6a2d)
-* Sponsor Forms not including non-final budget amounts in printouts
+* RESKC-742:Sponsor Forms not including non-final budget amounts in printouts
 
   * Instead of using a null budget in the case that a final budget does not exist, we will use the newest budget added to the proposal.
   * blackcathacker on Fri, 14 Aug 2015 10:18:11 -0700 [View Commit](../../commit/f2422d1d9d93bc126a5f4dfb0bbed893cfdcb501)
@@ -4730,13 +4758,13 @@ submit award
 
 
 ##coeus-1508.23
-* Add back in feature to replace Versions.do with Parameters.do
+* RESKC-738:Add back in feature to replace Versions.do with Parameters.do
 
   * A regression was introduced that removed a replacement in the forwardUrl that replaced Versions.do with Parameters.do. This adds this feature back in such that navigating from award to budget will open the parameters page instead of the versions.
   * blackcathacker on Wed, 12 Aug 2015 19:03:15 -0700 [View Commit](../../commit/63a1568129fea78ba95aa5ed45813066972edf04)
 
 ##coeus-1508.22
-* Validate correct budget line item when validating sync to period limit
+* RESKC-740:Validate correct budget line item when validating sync to period limit
 
   * When attempting to sync to period cost limit on a non-personnel line item, when a personnel line item does exist in the budget the following erroneous error is sometimes reported. "Cannot perform this operation on a line item with personnel budget details."
   * blackcathacker on Wed, 12 Aug 2015 17:17:48 -0700 [View Commit](../../commit/5b565883f776f2d147ea8f205c75aae45dd8171f)
@@ -4746,15 +4774,15 @@ submit award
   * blackcathacker on Tue, 11 Aug 2015 15:33:34 -0700 [View Commit](../../commit/629bf4712ff7fc670b3fb68f080f846036e5e7dc)
 * Update readme to include information about node and npm dependencies
   * blackcathacker on Wed, 12 Aug 2015 12:19:19 -0700 [View Commit](../../commit/65d2cb20e65896aa9d0aacf259a80672d47b5c3e)
-*  as per code review no longer versioning award funding proposals
+* RESKC-718: as per code review no longer versioning award funding proposals
   * Travis Schneeberger on Wed, 12 Aug 2015 09:31:58 -0400 [View Commit](../../commit/591f3c1fd9ca695bf47db0cdd7aa15b5da8a6e5a)
-*  code cleanup
+* RESKC-718: code cleanup
   * Travis Schneeberger on Tue, 11 Aug 2015 15:20:42 -0400 [View Commit](../../commit/ffc59ab901e0922fea260969bad97de99cc04d94)
-*  Fixing award funding proposal versioning where the funding proposals were not versioned when an institutional proposal was versioned.
+* RESKC-718: Fixing award funding proposal versioning where the funding proposals were not versioned when an institutional proposal was versioned.
   * Travis Schneeberger on Tue, 11 Aug 2015 14:22:35 -0400 [View Commit](../../commit/3dfa1507d5c406efe09f7947735563903ef32a8e)
 
 ##coeus-1508.20
-*  Fix award budget data issue
+* Fix award budget data issue
   * Gayathri Athreya on Tue, 11 Aug 2015 14:14:31 -0700 [View Commit](../../commit/385e3473f65bb238cbf5e242d62ea0c095c6398c)
 
 ##coeus-1508.19
@@ -4774,19 +4802,19 @@ submit award
   * blackcathacker on Tue, 11 Aug 2015 12:24:15 -0700 [View Commit](../../commit/d4eb56ca2f7f18560afb30f4d762aff72ad57c00)
 
 ##coeus-1508.18
-* IRB - Create Amendment - Duplicate persons
+* RESKC-709:IRB - Create Amendment - Duplicate persons
 
   * When creating an IRB protocol, the document is saved multiple times and the personnel are copied and merged multiple times and it appears that the deletion aware lists don't work properly within the same transaction. Removing the unnecessary saves clears that up.
   * blackcathacker on Mon, 10 Aug 2015 20:35:02 -0700 [View Commit](../../commit/c0f1206ced5ad63b6886ae41cd4028896fcdd7c1)
 
 ##coeus-1508.17
-*  Trying to fix lazy loading elements in rates
+* Trying to fix lazy loading elements in rates
   * Gayathri Athreya on Mon, 10 Aug 2015 15:50:31 -0700 [View Commit](../../commit/50c482315d450786628caad21deea283e046da3b)
 
 ##coeus-1508.16
-*  allowing the attachment tab to load with an attachment and in read only mode
+* RESKC-717: allowing the attachment tab to load with an attachment and in read only mode
   * Travis Schneeberger on Mon, 10 Aug 2015 15:26:26 -0400 [View Commit](../../commit/c7d9ddfff7f0b2497a50d27008f366b8028d75ad)
-*  allowing whitespace in attachment names
+* RESKC-737: allowing whitespace in attachment names
   * Travis Schneeberger on Mon, 10 Aug 2015 15:18:44 -0400 [View Commit](../../commit/21e02df9ac57ee33a54805bd7b3ccd557f8f9c8d)
 
 ##coeus-1508.15
@@ -4794,23 +4822,23 @@ submit award
 
 
 ##coeus-1508.14
-*  adding missing indexes and foreign keys for iacuc and irb
+* RESKC-522: adding missing indexes and foreign keys for iacuc and irb
   * Travis Schneeberger on Fri, 7 Aug 2015 17:37:43 -0400 [View Commit](../../commit/ccbd09fd5f3b5a293bfdae6d4aa1f241d1f8ca88)
-*  not getting the total protcol submissions in a getter but using a previously retrieved value to increase performance
+* RESKC-522: not getting the total protcol submissions in a getter but using a previously retrieved value to increase performance
   * Travis Schneeberger on Fri, 7 Aug 2015 16:29:33 -0400 [View Commit](../../commit/96b501554ebe0d2337d077e1833ba37a26b92724)
-*  reducing the amount of find protocol calls to improve performance
+* RESKC-522: reducing the amount of find protocol calls to improve performance
   * Travis Schneeberger on Fri, 7 Aug 2015 16:05:44 -0400 [View Commit](../../commit/0f0b69f63b0ce8d95f8a58d073cc13f1a9547b76)
-*  removing search that's not working.
+* removing search that's not working.
   * Gayathri Athreya on Fri, 7 Aug 2015 11:00:55 -0700 [View Commit](../../commit/580bf0c9df9779d6881c65594507c9ff1487de5a)
 
 ##coeus-1508.13
-*  making email and notification asynchronous rather than blocking.  This will help performance where these features are used.
+* RESKC-522: making email and notification asynchronous rather than blocking.  This will help performance where these features are used.
   * Travis Schneeberger on Thu, 6 Aug 2015 18:10:07 -0400 [View Commit](../../commit/5fd79136a405c012bdcaa974c856720fc1a4771e)
 
 ##coeus-1508.12
-*  adding index to prevent full table scan
+* RESKC-522: adding index to prevent full table scan
   * Travis Schneeberger on Thu, 6 Aug 2015 16:54:22 -0400 [View Commit](../../commit/f96070f502c04c1688b681c85890e116bf7e3e67)
-*  prevent schedule status fetch from being executed for every available schedule date.  Also, using the schedule status code value rather than description.
+* RESKC-522: prevent schedule status fetch from being executed for every available schedule date.  Also, using the schedule status code value rather than description.
   * Travis Schneeberger on Thu, 6 Aug 2015 16:51:13 -0400 [View Commit](../../commit/2dd1f047e3a93b2c1c54afcdd58d6ad710df0a0f)
 
 ##coeus-1508.11
@@ -4818,7 +4846,7 @@ submit award
 
 
 ##coeus-1508.10
-*  Attempting to fix OJB issue.
+* Attempting to fix OJB issue.
   * Unable to open award budget.
   * Steps to reproduce:
   * 1. Create an award with all required fields, including amounts.
@@ -4847,26 +4875,26 @@ submit award
   * Gayathri Athreya on Wed, 5 Aug 2015 17:18:23 -0700 [View Commit](../../commit/9f7797c1204a5dd1435a7b5a207cb3523b309bc7)
 
 ##coeus-1508.9
-*  making sure the index handling logic is working with the correct collection.
+* making sure the index handling logic is working with the correct collection.
   * Travis Schneeberger on Wed, 5 Aug 2015 16:20:32 -0400 [View Commit](../../commit/c4c14df29e7242ad2cfd1fb471659798e1382e7e)
 * Remove duplicate T&M Docs when retreiving based on aai
 
   * When doing query by criteria searches referencing a collection, it appears to return duplicate T&M results. This removes the duplication before returning from the dao.
   * Additionally when hitting reload on the new T&M History tab the necessary data to render the page was not being populated on the BO.
   * blackcathacker on Wed, 5 Aug 2015 12:01:45 -0700 [View Commit](../../commit/db357854318392c4448c267cdc81851494dd6b1b)
-*  Fixing index out of bounds on funding proposal delete on award document.
+* Fixing index out of bounds on funding proposal delete on award document.
   * Travis Schneeberger on Wed, 5 Aug 2015 11:39:43 -0400 [View Commit](../../commit/002728e7a968f362b0e16c25cf8bca2e6beaed97)
 
 ##coeus-1508.8
-*  changing lookup helper service to prototype scope so that custom data lookups or "data to alter" lookups do not throw an exception related to unknown properties.  Fixing our integration test to now confirm that lookup helper services are always prototype scope.
+* changing lookup helper service to prototype scope so that custom data lookups or "data to alter" lookups do not throw an exception related to unknown properties.  Fixing our integration test to now confirm that lookup helper services are always prototype scope.
   * Travis Schneeberger on Tue, 4 Aug 2015 16:01:47 -0400 [View Commit](../../commit/bd0b2d0da6869930dd6420d96e647a4a399652c7)
 
 ##coeus-1508.7
-*  Fixing STE
+* RESKC-694: Fixing STE
   * Gayathri Athreya on Thu, 30 Jul 2015 18:39:21 -0700 [View Commit](../../commit/a496543b9f08e8b15d7d9912d81d0d277e909d73)
 
 ##coeus-1508.6
-* fixes issues with differences in total direct cost between award summary and award parameters
+* RESKC-682:fixes issues with differences in total direct cost between award summary and award parameters
 
   * Edited an award node to add funds; submitted.
   * Edited the T&M doc to fund the node; submitted.
@@ -4882,11 +4910,11 @@ submit award
   * Joe Williams on Mon, 3 Aug 2015 16:42:02 -0500 [View Commit](../../commit/3b294a9654f62d920decb27a1572e540b4a5534b)
 
 ##coeus-1508.5
-* sync question id seq table with question table
+* RESKC-654:sync question id seq table with question table
   * Joe Williams on Fri, 31 Jul 2015 13:23:04 -0500 [View Commit](../../commit/586be857622bfc7c6b520be454be4d11dc678561)
 
 ##coeus-1508.4
-*  fix issue with edit button not opening pending award
+* RESKC-687: fix issue with edit button not opening pending award
   * Joe Williams on Mon, 3 Aug 2015 12:25:13 -0500 [View Commit](../../commit/d63c0eec06b9b7fb3c876543dd4534e8e0a59377)
 
 ##coeus-1508.3
@@ -4921,13 +4949,13 @@ submit award
   * when-present<#else>when-missing. (These only cover the last step of the expression; to cover the whole expression, use parenthessis: (myOptionVar.foo)!myDefault, (myOptionVar.foo)?? The failing instruction (FTL stack trace): ---------- ==> ${request.contextPath} [in template "krad/WEB-INF/ftl/lib/html.ftl" in macro "html" at line 51, column 25] #else [in template "krad/WEB-INF/ftl/lib/html.ftl" in macro "html" at line 50, column 9] @krad.html view=view [in template "krad/WEB-INF/ftl/fullView.ftl" at line 18, column 1] #include "fullView.ftl" [in template "krad/WEB-INF/ftl/uifRender.ftl" at line 69, column 9] #else [in template "krad/WEB-INF/ftl/uifRender.ftl" at line 68, column 5] ---------- Java stack trace (for programmers): ---------- freemarker.core.InvalidReferenceException: [... Exception message was already printed; see it above ...] at freemarker.core.InvalidReferenceException.getInstance(InvalidReferenceExcept
   * ```
   * blackcathacker on Fri, 31 Jul 2015 10:40:53 -0700 [View Commit](../../commit/750e2766552f759917b67af13da9a4b62184fc75)
-* Fix award hierarchy/award actions for very large hierarchies
+* RESKC-561:Fix award hierarchy/award actions for very large hierarchies
   * blackcathacker on Fri, 26 Jun 2015 23:23:40 -0400 [View Commit](../../commit/13fbdc2018597ffcaa2e8b8d0b5b953db64c9cb0)
 * make the award sequence number values finder more efficient to make the print section load faster
   * Travis Schneeberger on Thu, 25 Jun 2015 14:34:30 -0400 [View Commit](../../commit/2f6b1b4bc8ba46ccf84bd9026b4bb87e0c9d601c)
 
 ##coeus-1507.74
-* fix calculated fringe and calculated direct cost display on proposal budget
+* RESKC-416:fix calculated fringe and calculated direct cost display on proposal budget
 
   * As a proposal user, I am trying to verify that salaries and  employee benefits are being calculated correctly.
   * When I add a person to a proposal in a unit with Lab Allocation rates, the value displayed in the "Calculated Fringe" field is not correct.
@@ -4955,7 +4983,7 @@ submit award
   * Joe Williams on Wed, 29 Jul 2015 15:34:31 -0500 [View Commit](../../commit/caeb8c6c307a6a6cf22a89ec8e71d5224daa85c5)
 
 ##coeus-1507.73
-* apply inflation rates from child budget when calculating line items on parent budget
+* RESKC-664:apply inflation rates from child budget when calculating line items on parent budget
 
   * In a Proposal Hierarchy, when you have one child proposal budget that applies inflation to a particular Cost Category and then in another Child Proposal, you set the Inflation Rate for that Cost Category to '0'. When synced to the Parent Proposal, the Parent budget will apply inflation to the Cost, even if the Cost in the child proposal did not have inflation applied. This is causing the Parent budget numbers to be different from the child budget numbers.
   * Desired Behavior: The Parent Budget should not make any changes/recalculations to the numbers that are brought from the Child Proposal Budgets.
@@ -4997,11 +5025,11 @@ submit award
   * Joe Williams on Thu, 30 Jul 2015 12:49:27 -0500 [View Commit](../../commit/7ce30372b4a05e2bf6974d2d9b0c0e54a3eecb98)
 
 ##coeus-1507.72
-* Fix T&M summary for single node hierarchies
+* RESKC-561:Fix T&M summary for single node hierarchies
   * blackcathacker on Fri, 26 Jun 2015 14:40:23 -0400 [View Commit](../../commit/90abff1f46e7e1fa39245a0349f23176278c8522)
-* Fixes to the summary and history tab
+* RESKC-561:Fixes to the summary and history tab
   * blackcathacker on Thu, 25 Jun 2015 15:51:30 -0400 [View Commit](../../commit/a9f3efb2ba6c26a23f027076b256d2f08cb4ebdf)
-* Award Time and Money Improvements
+* RESKC-561:Award Time and Money Improvements
   * blackcathacker on Wed, 24 Jun 2015 17:56:08 -0400 [View Commit](../../commit/ee71818851e2f92960a9b95c92599e4ff5f4274b)
 
 ##coeus-1507.71
@@ -5013,19 +5041,19 @@ submit award
 
 
 ##coeus-1507.69
-*  fix irb committee submission when there is a protocol submission using the committee.  Rice will attempt to validate a large object graph and cause the committee to go into exception routing.  Fix irb and iacuc committee submission when there is a protocol submission where routing to final will attempt to save protocol submission lite bo which are mapped to views.
+* RESKC-684: fix irb committee submission when there is a protocol submission using the committee.  Rice will attempt to validate a large object graph and cause the committee to go into exception routing.  Fix irb and iacuc committee submission when there is a protocol submission where routing to final will attempt to save protocol submission lite bo which are mapped to views.
   * Travis Schneeberger on Wed, 29 Jul 2015 17:20:13 -0400 [View Commit](../../commit/b426e1a655a5cfa2fe65c23855b42a937af66c8a)
 
 ##coeus-1507.68
-*  fix doc handler url for iacuc committee document
+* RESKC-691: fix doc handler url for iacuc committee document
   * Travis Schneeberger on Wed, 29 Jul 2015 16:31:40 -0400 [View Commit](../../commit/fc7f4ddfd623283524194f8a8811b3eb43571d61)
 
 ##coeus-1507.67
-*  adding missing primary key attribute to iacuc submission lite bo ojb mapping
+* RESKC-690: adding missing primary key attribute to iacuc submission lite bo ojb mapping
   * Travis Schneeberger on Wed, 29 Jul 2015 15:06:00 -0400 [View Commit](../../commit/9b07e4546212857e247de4bced114871e45071d4)
 
 ##coeus-1507.66
-* allow modular budget actions from parent budgets in prop dev
+* RESKC-652:allow modular budget actions from parent budgets in prop dev
 
   * As a proposal user, I need to build hierarchies to satisfy my multiple campus locations.
   * Currently, when I need to prepare a modular budget with a hierarchy, I cannot populate the Modular Budget screen in the Parent proposal.
@@ -5037,19 +5065,19 @@ submit award
   * Joe Williams on Wed, 29 Jul 2015 08:14:14 -0500 [View Commit](../../commit/6b5e9ce0ca35a7975038e47d390c3e5753da28f4)
 
 ##coeus-1507.65
-*  Trying to fix award budget intermittent issues.
+* RESKC-680: Trying to fix award budget intermittent issues.
   * Open an award budget document, navigate into any screen, aka Personnel.
   * I had been able to create an AB, and Edit it, but eventually, I get the 'not finished loading' message and have to exit out by means of selecting a portal, leaving a lock on the document.
   * Gayathri Athreya on Tue, 28 Jul 2015 16:05:32 -0700 [View Commit](../../commit/cc29147decd3a9ef49c13ccc7c8bdda32540a66a)
 
 ##coeus-1507.64
-*  Budget print doesnt work after assigning a person to period fix
+* RESKC-668: Budget print doesnt work after assigning a person to period fix
 
   * This removes an update line that was causing some fields to become null.  The line appears to be unneeded and fixes the bug by removing it.
   * bsmith83 on Tue, 28 Jul 2015 15:52:29 -0700 [View Commit](../../commit/45affb6fe7d235b65f83f8112edab9681d242e70)
 
 ##coeus-1507.63
-* fixes issue where propdev documents are not editable
+* RESKC-651:fixes issue where propdev documents are not editable
   * Joe Williams on Tue, 28 Jul 2015 16:54:05 -0500 [View Commit](../../commit/e1c7cc698212a8294887a518be3c09a1b6db358c)
 
 ##coeus-1507.62
@@ -5057,7 +5085,7 @@ submit award
 
 
 ##coeus-1507.61
-*  Fixing error
+* RESKC-683: Fixing error
   * Steps to reproduce:
   * 1.    Create a proposal with project dates 9/1/15 - 12/31/16 for example. Make sure the project end date is within one Calendar year but spans next fiscal year. In this example the project ends Calendar year 2016 but December 2016 falls into MIT’s F/Y 2017 which runs from 7/1/16 – 6/30/17.
   * 2.    Create detailed budget with default periods.
@@ -5069,15 +5097,15 @@ submit award
   * Gayathri Athreya on Tue, 28 Jul 2015 12:31:44 -0700 [View Commit](../../commit/dc57197592f7a238c782ab29ca27827a1b36c2fd)
 
 ##coeus-1507.60
-* revert unwanted changed
+* RESKC-651:revert unwanted changed
   * Joe Williams on Tue, 28 Jul 2015 13:29:47 -0500 [View Commit](../../commit/c93189ee4cf6b3b35e961a54800f124180eaaf63)
-* fix STE when editing budget settings on hierarchy parent
+* RESKC-651:fix STE when editing budget settings on hierarchy parent
   * Joe Williams on Tue, 28 Jul 2015 12:55:42 -0500 [View Commit](../../commit/b023e869dfe3576e86095cc84491fd9e78bd86b9)
-* add validation on add proposal person to check for key person role
+* RESKC-666:add validation on add proposal person to check for key person role
   * Joe Williams on Mon, 27 Jul 2015 13:59:13 -0500 [View Commit](../../commit/e8672434c80a4c99f1e23fa35fca2bceb810f88b)
 
 ##coeus-1507.59
-* fixed error with expanding award note text
+* RESKC-658:fixed error with expanding award note text
   * Joe Williams on Tue, 28 Jul 2015 09:48:18 -0500 [View Commit](../../commit/910160fa8e6b60bd5ce6447d63da60eec1cdfef4)
 
 ##coeus-1507.58
@@ -5098,21 +5126,21 @@ submit award
   * blackcathacker on Mon, 27 Jul 2015 14:50:41 -0700 [View Commit](../../commit/a5591c00923645ebd6320ef8aaf3556ec4878433)
 
 ##coeus-1507.56
-* Time and Money improvements
+* RESKC-561:Time and Money improvements
   * blackcathacker on Tue, 23 Jun 2015 15:38:27 -0400 [View Commit](../../commit/22d9d79e8a106eab0ab54a5c26c8c30d0e77b2f0)
 * Fix issue with award special review and missing next values
   * blackcathacker on Mon, 27 Jul 2015 10:55:32 -0700 [View Commit](../../commit/ff099349a33fede777902a0f9e64ce8fa454922c)
 
 ##coeus-1507.55
-* Using Comparator.comparing and helper method
+* RESKC-561:Using Comparator.comparing and helper method
   * blackcathacker on Fri, 24 Jul 2015 19:54:15 -0700 [View Commit](../../commit/143325aaa6c528d4a5bf63fcb80facf8be4d9cd7)
-* Use funding proposals instead of award versions
+* RESKC-561:Use funding proposals instead of award versions
   * blackcathacker on Tue, 23 Jun 2015 14:59:37 -0400 [View Commit](../../commit/ba66e750155171e37c718d80351dcb34f659d4f5)
-*  more UR fixes
+* RESKC-635: more UR fixes
   * Gayathri Athreya on Fri, 24 Jul 2015 16:37:56 -0700 [View Commit](../../commit/6e5bbb939abdadd2dcd807d16d69c51b2344170b)
 
 ##coeus-1507.54
-* add short url link
+* RESKC-615:add short url link
   * Joe Williams on Thu, 23 Jul 2015 10:13:19 -0500 [View Commit](../../commit/2e3e6d4a2d601a9439f7bd008eed0adbf30130e8)
 
 ##coeus-1507.53
@@ -5124,11 +5152,11 @@ submit award
   * Travis Schneeberger on Fri, 24 Jul 2015 10:48:02 -0400 [View Commit](../../commit/15a13cd315fd821d33a433163b03939fd4359918)
 
 ##coeus-1507.51
-* Award and T&M Improvements
+* RESKC-561:Award and T&M Improvements
   * blackcathacker on Tue, 23 Jun 2015 11:38:33 -0400 [View Commit](../../commit/21087b492d8d05f38482a08bc66601a2179ab683)
-* Data conversion to support new status column
+* RESKC-561:Data conversion to support new status column
   * blackcathacker on Thu, 23 Jul 2015 12:34:07 -0700 [View Commit](../../commit/f69bdc3dd1f888ca7aa5b4a310016522c4231604)
-*  Time and money document status performance
+* RESKC-561: Time and money document status performance
   * Brandon Nicholls on Mon, 22 Jun 2015 16:16:25 -0400 [View Commit](../../commit/7160ff88e64918afdebc52cb5cbb3b2668e3d8f7)
 
 ##coeus-1507.50
@@ -5156,11 +5184,11 @@ submit award
   * Travis Schneeberger on Wed, 22 Jul 2015 14:22:04 -0400 [View Commit](../../commit/106ffc5c0ed22e9d637e9028a4fbdb4ac2f0d1cb)
 
 ##coeus-1507.45
-* Add 'edit' buttons to read-only instances of Kuali Research Docs
+* RESKC-617:Add 'edit' buttons to read-only instances of Kuali Research Docs
 
   * As a user I need to be able to begin editing a document that is entered via read-only mode. This already works for Inst Prop and Award. Needs to be added to Prop Dev and any compliance docs where applicable. Should only show up when user otherwise would have edit permissions.
   * Joe Williams on Mon, 20 Jul 2015 17:02:52 -0500 [View Commit](../../commit/18cc0437c270003c345bb79bf4629bf4c18a4d0e)
-* Update Grants.gov for SHA-2, port 443, TLS-1.1/1.2
+* RESKC-610:Update Grants.gov for SHA-2, port 443, TLS-1.1/1.2
 
   * Grants.gov needs to be updated. Details on certificate and port requirements:
   * Additionally, you must utilize Port 443 with the SHA-2 based digital signature. Please note that all intermediate certificates in the certificate chain must also be SHA-2 in order to work with port 443.
@@ -5172,21 +5200,21 @@ submit award
   * Joe Williams on Tue, 21 Jul 2015 13:25:33 -0500 [View Commit](../../commit/b0bc615492063caaac0f612c789663a9d312b705)
 
 ##coeus-1507.44
-*  fix issue with budget line item group names displaying wrong
+* RESKC-653: fix issue with budget line item group names displaying wrong
 
   * When a budget line item group name is blank and not null extra parentheses are added to the groupname. These extra parentheses cause issues when opening the detail and rates modal.
   * Joe Williams on Wed, 22 Jul 2015 16:41:03 -0500 [View Commit](../../commit/9bab1bf73efdeed2025b07001b270a7fe861715d)
-*  removal of the target tag
+* RESKC-642: removal of the target tag
   * Abraham Heward on Wed, 22 Jul 2015 13:30:47 -0700 [View Commit](../../commit/5e04fe7a37c7c393a7ab664c5b3d764cc783ce62)
 
 ##coeus-1507.43
 * Fix jenkins build by moving node install directory to working directory
   * blackcathacker on Wed, 22 Jul 2015 12:48:33 -0700 [View Commit](../../commit/00c9a2866284141c5dc7fd32dffa4ac09ca8d9a5)
-*  Improvement to All My Proposals Search person fields
+* RESKC-645: Improvement to All My Proposals Search person fields
 
   * This commit adds/fixes aggregator, participant, and initiator fields on proposal search.  Changes what All My Proposal retrieves to include aggregator and pi,coi,and mpi for proposals for the current user.Improves some of the logic around how these searches work - unfortunately it is still sub-optimal due to a bug in Rice, see jira https://jira.kuali.org/browse/KULRICE-14269.  Includes small performance improvements due to these changes and using server side paging.
   * bsmith83 on Wed, 15 Jul 2015 10:09:43 -0700 [View Commit](../../commit/a2427487acb43ead29e54f3ef99ed033390b1f78)
-*  Fixing underrecovery
+* RESKC-635: Fixing underrecovery
   * Create a proposal type Research.
   * Create a budget;
   * in Settings: select Rate Type of TDC and select Unrecovered Rate Type of MTDC
@@ -5202,9 +5230,9 @@ submit award
   * blackcathacker on Fri, 17 Jul 2015 19:51:18 -0700 [View Commit](../../commit/4ec81dc72fe61e3cd01f4757d4815f69baad3358)
 
 ##coeus-1507.42
-* add create amendment permission to iacuc admin role
+* RESKC-637:add create amendment permission to iacuc admin role
   * Joe Williams on Wed, 22 Jul 2015 08:48:05 -0500 [View Commit](../../commit/6ab5d0f1c2b163f7d72853bdbde7e278718da6d4)
-* fix ip attachment validation
+* RESKC-613:fix ip attachment validation
 
   * When IP Attachment type is turned on (INSTITUTIONAL_PROPOSAL_ATTACHMENTS_FLAG) and user adds an attachment type to pending IP, If user accesses the IP via document search then an error message appears on screen without the ability to clear it.
 
@@ -5246,21 +5274,21 @@ submit award
 
 
 ##coeus-1507.36
-*  Fix for copy dialog STE on ownedByUnit readonly replacement
+* RESKC-638: Fix for copy dialog STE on ownedByUnit readonly replacement
 
   * Read-only replacement was causing an issue with the copy dialog because those fields dont exist on the object for the dialog copy object, copy is never read-only so this removes the replacement
   * bsmith83 on Mon, 20 Jul 2015 11:48:55 -0700 [View Commit](../../commit/b0e85c6f63a7803023f1d391b37ebdaf19fa0ced)
 
 ##coeus-1507.35
-*  creating lite bo for protocol submission to help committee maintenance performance
+* RESKC-518: creating lite bo for protocol submission to help committee maintenance performance
   * Travis Schneeberger on Wed, 24 Jun 2015 14:51:54 -0400 [View Commit](../../commit/5440f35e53dcfeecebc01eb690dc619db46fe1e6)
 
 ##coeus-1507.34
-* fix broken iacuc validation preventing submission
+* RESKC-631:fix broken iacuc validation preventing submission
   * Joe Williams on Thu, 16 Jul 2015 14:31:36 -0500 [View Commit](../../commit/b22d404797541ea63f320f00b4c291201fed146b)
-*  restore valid krms actions to PD and budget contexts
+* RESKC-633: restore valid krms actions to PD and budget contexts
   * Joe Williams on Thu, 16 Jul 2015 14:06:29 -0500 [View Commit](../../commit/8b0ed453a48fe0f03bb09f4cb665eb171562ed55)
-* added dialog to edit notification message and subject when sending certification notification for single users
+* RESKC-542:added dialog to edit notification message and subject when sending certification notification for single users
 
   * As a system Admin I set the 'Prompt User" option to "on" for the Maintenance Documents> Notification >Proposal Person Certification Request Notification)
   * Currently: the Notification is not generating in proposals for the user to customize the message since the addition of RESKC-504 contribution.
@@ -5272,7 +5300,7 @@ submit award
 *Result*: Notification is immediately sent.
 *Desired Result*: If Prompt User flag is set to On for this notification, a notification window should present to the user allowing the standard notification options.
   * Joe Williams on Thu, 16 Jul 2015 13:05:46 -0500 [View Commit](../../commit/2d333bc46f2f84fb3018a2fcc7b430e7af1ecc71)
-*  Online review not getting created for non-employee reviewer and then protocol cannot be approved
+* RESKC-538: Online review not getting created for non-employee reviewer and then protocol cannot be approved
   * Steps to reproduce:
   * As IACUC Admin:
   * Create new IACUC committee.
@@ -5291,31 +5319,31 @@ submit award
   * Gayathri Athreya on Wed, 15 Jul 2015 17:19:59 -0700 [View Commit](../../commit/869410ee2afddc052d710409bb749ae93fd5f953)
 
 ##coeus-1507.33
-*  Inactive indication on inactive units on in progress/old proposals
+* RESKC-629: Inactive indication on inactive units on in progress/old proposals
   * bsmith83 on Wed, 15 Jul 2015 14:39:25 -0700 [View Commit](../../commit/fb7d691698459ed04963ded59f43acd7c514ae80)
-* Fix bug with unit hierarchy maint expand all
+* RESKC-622:Fix bug with unit hierarchy maint expand all
 
   * Code to ensure page has finished loading was broken on the unit hierarchy page. This fixes that by adding approriate span to allow script to determine if entire form has loaded.
   * blackcathacker on Wed, 15 Jul 2015 14:12:06 -0700 [View Commit](../../commit/205ea78ad4e420a8513f69ef5027d23d95ecb031)
 
 ##coeus-1507.32
-*  reviewers available for designated review
+* RESKC-620: reviewers available for designated review
   * Travis Schneeberger on Wed, 15 Jul 2015 11:49:19 -0400 [View Commit](../../commit/f52c42538e961fbf118c426dcf55aaf5862b5da4)
 
 ##coeus-1507.31
-* short url service for quick access to specific records
+* RESKC-606:short url service for quick access to specific records
 
   * As a user, I want a short URL that I can save that will always resolve/redirect to the correct record in the system.  If a document can be versioned, then the URL should resolve/redirect to the most current active version.
   * Joe Williams on Mon, 13 Jul 2015 10:12:48 -0500 [View Commit](../../commit/b6131bfbf2f21357aeb169cd9dec6da4405b8b9a)
 
 ##coeus-1507.30
-*  Inactive Units Still Show up in Proposal Development Lead Unit Dropdown List
+* RESKC-592: Inactive Units Still Show up in Proposal Development Lead Unit Dropdown List
 
   * Previously, the inactive units would be selectable as an option for new proposals, this fixes that issue.  Read-only unit values in existing proposals still display inactive units correctly.
   * bsmith83 on Tue, 14 Jul 2015 15:01:17 -0700 [View Commit](../../commit/211e41a24589ee22a07ba71ef8272bc719ee8592)
 
 ##coeus-1507.29
-*  Cannot save existing committees
+* RESKC-619: Cannot save existing committees
   * Steps to reproduce:
   * 1. Create new IRB cmt doc.
   * 2. Fill out required fields, save, close.
@@ -5324,25 +5352,25 @@ submit award
   * Gayathri Athreya on Tue, 14 Jul 2015 14:35:04 -0700 [View Commit](../../commit/e4e83eae94a18ce8b6603d46b2521da80d73b165)
 
 ##coeus-1507.28
-*  Fix for invalid start and end date issues with proposal number
+* RESKC-612: Fix for invalid start and end date issues with proposal number
 
   * Previously, the first screen of Proposal Development would let a user through if there was a failing save business rule, and not give the new doc a proposal number which had the potential to cause strange behaviors because some functionality that was now clickable relied on it.  This fix insures that the document can pass the business rules it needs to before creation of the proposal document to avoid creating/assigning un-needed document numbers and creating proposals with incorrect information.  Now the user will be stopped on the first screen if they enter invalid data.
   * bsmith83 on Mon, 13 Jul 2015 17:34:06 -0700 [View Commit](../../commit/a903cfc7565c01b6841cd71fdaf1ef3b463aef70)
 
 ##coeus-1507.27
-*  Fixing validation constraint for principal investigtor id
+* RESKC-249: Fixing validation constraint for principal investigtor id
   * Gayathri Athreya on Tue, 14 Jul 2015 11:14:42 -0700 [View Commit](../../commit/da650712e7f302e5a582dab99cb20ff9744bc67b)
 * budget personnel perf improvements
   * Travis Schneeberger on Tue, 23 Jun 2015 13:33:07 -0400 [View Commit](../../commit/ed5a84ae31f5835b0af50d53b148af31a1abfc92)
 
 ##coeus-1507.26
-*  Fix for STE in PD if proposal person certification answered by a proposal person during aggregator's sesson
+* RESKC-551: Fix for STE in PD if proposal person certification answered by a proposal person during aggregator's sesson
 
   * If a user tried to update a certification at the same time as another user, this used to error in a optimisticLockException.  This fix checks the versions of the AnswerHeaders being saved and if their exists a newer version of the answer header, shows an error message which explains what happened - and updates the view with the most current answers and certification status/time.
   * bsmith83 on Thu, 9 Jul 2015 13:18:43 -0700 [View Commit](../../commit/ede7284d462eae80d1fd58640428bcaf0384fd82)
 
 ##coeus-1507.25
-*  Fixing copy
+* RESKC-616: Fixing copy
   * On trying to copy a protocol from the lookup results, I get the following STE.
   * 2015-07-13 15:18:11,185 [http-bio-8080-exec-10] u:quickstart/d: ERROR org.apache.struts.actions.DispatchAction - Action[/protocolProtocol] does not contain method named 'actions'
   * java.lang.NoSuchMethodException: org.kuali.kra.irb.protocol.ProtocolProtocolAction.actions(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -5354,13 +5382,13 @@ submit award
   * Gayathri Athreya on Mon, 13 Jul 2015 15:23:27 -0700 [View Commit](../../commit/ce269c9c35d23d063acf0d80d773ef636f4ae563)
 
 ##coeus-1507.24
-*  Display contact address as opposed to prg address in other organizations panel.
+* RESKC-614: Display contact address as opposed to prg address in other organizations panel.
   * Gayathri Athreya on Mon, 13 Jul 2015 08:51:05 -0700 [View Commit](../../commit/6b3d97476bb9a1deea8becb7fdb78cdffc48482e)
 * rename
   * Gayathri Athreya on Mon, 13 Jul 2015 07:26:44 -0700 [View Commit](../../commit/cd147542980ea6b6e5a22bcd1d4412fb946c2cc9)
 * adding indexes to help performance
   * Travis Schneeberger on Mon, 13 Jul 2015 09:54:34 -0400 [View Commit](../../commit/6aca467b73f81ecb32ab17aa2d96254561798643)
-*  Fixing update user and additional update timestamp issues.
+* RESKC-573: Fixing update user and additional update timestamp issues.
   * Gayathri Athreya on Wed, 8 Jul 2015 14:01:55 -0700 [View Commit](../../commit/46e70231a001d40fc66e4868e69d4675fa0c5b8d)
 
 ##coeus-1507.23
@@ -5374,7 +5402,7 @@ submit award
 ##coeus-1507.21
 * make edit link show for committee for cancelled document
   * Travis Schneeberger on Tue, 23 Jun 2015 20:41:42 -0400 [View Commit](../../commit/33e1b3ad9404b5aa7de55ef4698db8e1a43b23c1)
-* Fix cost_element being updated when adding personnel to PD budget
+* RESKC-611:Fix cost_element being updated when adding personnel to PD budget
 
   * When using some db analytics tools it was noticed that PD Budget would sometimes persist changes to a maint doc maintained code table. This was incorrect and can potentially contribute to database deadlocks.
   * blackcathacker on Fri, 10 Jul 2015 11:36:57 -0700 [View Commit](../../commit/b6ce96f7bc0ae3e4d4b3ed14f546073e05f9ddfc)
@@ -5404,7 +5432,7 @@ submit award
   * blackcathacker on Mon, 22 Jun 2015 11:01:59 -0400 [View Commit](../../commit/6ec4620d6260aeb2a3d35427b7a92db485041c5f)
 
 ##coeus-1507.20
-*  Fix reviewer selections on IACUC document.
+* RESKC-598: Fix reviewer selections on IACUC document.
 
   * Code Review Comments
   * Travis Schneeberger on Fri, 10 Jul 2015 12:03:02 -0400 [View Commit](../../commit/7cb276d7eedf8397dae878a61cbb3d61a55c1f5b)
@@ -5414,9 +5442,9 @@ submit award
   * Travis Schneeberger on Thu, 9 Jul 2015 16:23:53 -0400 [View Commit](../../commit/078d8290ab83a4a35691813e649546e4920e6a0f)
 * Replaces Jetty with Tomcat for Integration Tests
   * Travis Schneeberger on Thu, 9 Jul 2015 14:08:30 -0400 [View Commit](../../commit/f09bacdc513c2502313c9f546d04b86ea2b0a25e)
-* create unit hierarchy proposal creator and modify proposal roles
+* RESKC-607:create unit hierarchy proposal creator and modify proposal roles
   * Joe Williams on Thu, 9 Jul 2015 14:34:54 -0500 [View Commit](../../commit/9aa336a445b4ac86ba6c1515c04173b7b7c91df7)
-*  Fix reviewer selections on IACUC document.
+* RESKC-598: Fix reviewer selections on IACUC document.
 
   * To reproduce:
   * Create IACUC protocol
@@ -5452,7 +5480,7 @@ submit award
 ##coeus-1507.16
 * remove unused javascript.
   * Travis Schneeberger on Thu, 9 Jul 2015 11:06:02 -0400 [View Commit](../../commit/f1fb451ffe48c976f412492c68069006140499e2)
-* allow sub award budget non-personnel lineitem rates to be edited
+* RESKC-3:allow sub award budget non-personnel lineitem rates to be edited
 
   * User Story
   * As a budget creator or aggregator preparing a Subaward Budget for my proposal, I need to be remove the application of F&A rates In the Rates tab of the Details modal for these line items so that I do not have to request F&A on the first $25k of a subaward in a proposal when it is not appropriate to do so (for example, if the request is for supplemental funding for an existing subaward or for continuation funding.) I would expect that to add unrecovered F&A, but that may well be appropriate depending on how the school tracks that.
@@ -5499,7 +5527,7 @@ submit award
     The system allows the user to view details of each subaward line item, including the rates
     The user may modify the apply rate option of the details modal to include or not include the application of a specific rate
   * Joe Williams on Thu, 9 Jul 2015 08:50:58 -0500 [View Commit](../../commit/8c36c7ab04c48ceccdc073d494710131c2b3c2ef)
-* Support p6spy through the dev maven profile
+* RESKC-604:Support p6spy through the dev maven profile
   * blackcathacker on Wed, 8 Jul 2015 12:20:07 -0700 [View Commit](../../commit/e81a671cbb1d8729c866afd99ccb01a805923ac3)
 
 ##coeus-1507.15
@@ -5507,7 +5535,7 @@ submit award
   * Travis Schneeberger on Thu, 9 Jul 2015 08:51:30 -0400 [View Commit](../../commit/1edc6b767164af876cd820f3d6bc9c79fbdfa350)
 
 ##coeus-1507.14
-* Remove integration test for removed logic
+* RESKC-402:Remove integration test for removed logic
   * blackcathacker on Wed, 8 Jul 2015 16:11:01 -0700 [View Commit](../../commit/065827b774f952078968db71670688fc6b6765e6)
 * Remove dwr script that no longer exists.
   * Travis Schneeberger on Wed, 8 Jul 2015 18:58:37 -0400 [View Commit](../../commit/40ed4ed219d88635ad9afc798654764c56522f47)
@@ -5523,25 +5551,25 @@ submit award
         at javax.servlet.jsp.jstl.core.LoopTagSupport.doAfterBody(LoopTagSupport.java:330)
         at org.apache.jsp.tag.webaward.awardReportClasses_tag._jspx_meth_c_005fforEach_005f4(awardReportClasses_tag.java:2138)```
   * blackcathacker on Wed, 8 Jul 2015 15:22:17 -0700 [View Commit](../../commit/9613562ad80b7494919234e707eabb8b0d2f83e0)
-* disable severity sorting since we are grouping by severity
+* RESKC-401:disable severity sorting since we are grouping by severity
   * Joe Williams on Wed, 8 Jul 2015 15:40:44 -0500 [View Commit](../../commit/8604eac562232fb2929c0c5fef9fa2b8231f1fbe)
-* avoid concurrent modification exception in budget rates, create a new utility function to use in jsps & tags
+* RESKC-605:avoid concurrent modification exception in budget rates, create a new utility function to use in jsps & tags
 
   * Due to budget rate types getter doing an inline sorting, Java 8 now reports a concurrent modification exception during JSP iteration and access.
   * Travis Schneeberger on Wed, 24 Jun 2015 13:06:41 -0400 [View Commit](../../commit/ae9dd041143e5a65bd9f238910ad3a85a4e3f82f)
-*  Prevent the deletion of the last budget period
+* RESKC-563: Prevent the deletion of the last budget period
 
   * This adds an error message with suggestions on what to do when the user attempts to delete the last budget period on a budget.  This prevents the budget/proposal from breaking from a 0 period budget.
   * bsmith83 on Tue, 7 Jul 2015 18:14:35 -0700 [View Commit](../../commit/88a39689fd457acf7dd6390ed418da93e50583d2)
-*  rule cleanup
+* RESKC-402: rule cleanup
   * Travis Schneeberger on Wed, 8 Jul 2015 10:06:27 -0400 [View Commit](../../commit/7fa3a6fcc79a1c8a2d93cbb719ed61849bb933d0)
-*  Remove Negotiation follow up date validation
+* RESKC-402: Remove Negotiation follow up date validation
   * Travis Schneeberger on Wed, 8 Jul 2015 09:59:31 -0400 [View Commit](../../commit/a604812980b3775ce6dab8517c24d3a7bb2a32a1)
-*  Removing unused KRMS Validation Actions
+* RESKC-399: Removing unused KRMS Validation Actions
   * Travis Schneeberger on Wed, 8 Jul 2015 09:48:11 -0400 [View Commit](../../commit/8ffbc9f18f479f4e4daf1b97ca8a5d9066179a7f)
 
 ##coeus-1507.13
-* revert changes to ProtocolFormBase that were causing issues
+* RESKC-596:revert changes to ProtocolFormBase that were causing issues
 
   * Create a protocol
   * Submit and approve protocol
@@ -5555,11 +5583,11 @@ submit award
 
   * Expected Result: User cannot select the same section as selected on A001. The system should prevent the user from being able to amend the same section in more than one amendment in progress.
   * Joe Williams on Wed, 8 Jul 2015 08:00:01 -0500 [View Commit](../../commit/f04f7e6bc1ee7862b6b507d38eadbb3901433c22)
-*  Adding missing primary key columns and constraints
+* RESKC-595: Adding missing primary key columns and constraints
   * Travis Schneeberger on Tue, 7 Jul 2015 16:40:56 -0400 [View Commit](../../commit/eaf72e3e589d6bb08685f95c80d1f9f2a4666a76)
 
 ##coeus-1507.12
-* add prompt to warn users before they apply line items to later periods
+* RESKC-565:add prompt to warn users before they apply line items to later periods
 
   * If changes are made to a future year's existing expense via the Save and Apply to Other Periods, the user should confirm that change will impact future years, otherwise they may be surprised when data was unintentionally overwritten.
   * (see screenshot)
@@ -5578,9 +5606,9 @@ steps to reproduce
   * Joe Williams on Tue, 7 Jul 2015 10:06:20 -0500 [View Commit](../../commit/59fa4fe900c44a6c4e3efe7ed93fd54bde993a15)
 
 ##coeus-1507.11
-*  upgrading ojb to fix a concurrency issue under heavy load.
+* RESKC-594: upgrading ojb to fix a concurrency issue under heavy load.
   * Travis Schneeberger on Tue, 7 Jul 2015 14:11:26 -0400 [View Commit](../../commit/c6410385351fe187f79d5c1e88a4716f576bb56c)
-* only run cost share and unrecovered audit rules if flag is turned on
+* RESKC-333:only run cost share and unrecovered audit rules if flag is turned on
 
   * Changed parameter BudgetUnrecoveredFandAEnforcementFlag to N.
   * (This should allow the user to mark a budget complete without distributing the unrecovered f&A.)
@@ -5597,22 +5625,22 @@ steps to reproduce
   * Joe Williams on Tue, 7 Jul 2015 12:25:26 -0500 [View Commit](../../commit/4fcb55b2b7ecd85d7f9466287356389d47993986)
 
 ##coeus-1507.10
-*  Fix to search on OSP Administrator for awards
+* RESKC-425: Fix to search on OSP Administrator for awards
 
   * Previously the search was looking at the wrong table to pull out osp adminstrator ids for the search, this corrects this and searches within the object returned for the OSP administrator.  This also adds a quickfinder and changes the search to use username for OSP administrator.  Caveat: If there are multiple OSP administrators for a single award, the one you you search on may not be the one shown in the results as it only shows the first OSP Admin in the result rows.
   * bsmith83 on Mon, 6 Jul 2015 18:39:28 -0700 [View Commit](../../commit/47323a7744291659a4940ec0d54f8e676e489ef3)
 
 ##coeus-1507.9
-*  Fixing update timestamp for award amount info
+* RESKC-573: Fixing update timestamp for award amount info
   * Disrupts reporting.
   * Subsequent routing of T&M docs in award, changes the update timestamp of previous award amount info entries in the table. While routing a T&M doc, only the update timestamp field of the award amount info entries for that doc should be updated.
   * Gayathri Athreya on Mon, 6 Jul 2015 15:27:02 -0700 [View Commit](../../commit/6186a4a6fd21fe12b1abdb2ccfe0c6d46ec4b60e)
-* fix view attachment from IACUC Summary and History
+* RESKC-526:fix view attachment from IACUC Summary and History
 
   * In a new IACUC protocol add two attachments and navigate to IACUC Protocol Actions/Summary and History/Summary . Click "view" action for the two attachments displayed in Summary.
   * Result: Clicking "view" does not perform any action. The files do not open.
   * Joe Williams on Mon, 6 Jul 2015 14:31:54 -0500 [View Commit](../../commit/0f508705a49d5adfb981b8241563b8da68edd32f)
-* sort data validation screen
+* RESKC-401:sort data validation screen
 
   * Steps to Recreate
   * 1 Create a New Proposal Development Document
@@ -5628,13 +5656,13 @@ steps to reproduce
 
 
 ##coeus-1507.7
-* Changing unit back to a dropdown but using the advanced select box which includes a filter
+* RESKC-344:Changing unit back to a dropdown but using the advanced select box which includes a filter
 
   * This change will return the lead unit select to a drop down but using the advanced drop down currently in use by keywords and other places that also includes a filter such that a user can free-form type a partial number or name for the unit and have the displayed lists restricted by that value.
   * blackcathacker on Mon, 6 Jul 2015 10:47:26 -0700 [View Commit](../../commit/908fbbc3cb3f89e622870414aa647f4126227072)
 
 ##coeus-1507.6
-* display correct messaging on lookup resutls if the search is bounded
+* RESKC-550:display correct messaging on lookup resutls if the search is bounded
 
   * when some searches hit the upper limit for returned results, the system does not provide a message to user that not all results are displayed. 3 lookups found so far with no upper limit message:
   * The SysAdmin->Person lookup in Training
@@ -5649,7 +5677,7 @@ steps to reproduce
 
   * This was a bug in the lookupable code that would assume if id was entered it was the actual full id and would ignore some other properties entered, this corrects this and expands on the searches in a couple fields which use people by allowing username, person id, full name, and last name as valid search values for those fields.  It also corrects an error with bad values being inserted into the database that caused the fullName stored to have 2 spaces inbetween first and last names which previously caused Full Name searches to fail on the fields above.
   * bsmith83 on Thu, 2 Jul 2015 18:19:02 -0700 [View Commit](../../commit/6597e9e0db5cdd8dcb737b4f7872f4dbe0c8b641)
-*  Fixing proposal copy
+* RESKC-589: Fixing proposal copy
   * Tried to copy proposal (status Approved and Submitted) from search results Action link "Copy"
   * (proposal had no subawards)
 
@@ -5679,14 +5707,14 @@ steps to reproduce
   * at org.kuali.rice.krad.service.impl.DocumentServiceImpl.validateAndPersistDocumentAndSaveAdHocRoutingRecipients(DocumentServiceImpl.java:502)
   * at org.kuali.rice.krad.service.impl.DocumentServiceImpl.saveDocument(DocumentServiceImpl.java:156)
   * Gayathri Athreya on Thu, 2 Jul 2015 12:32:44 -0700 [View Commit](../../commit/50a08c95453104169de26d94960edfd8337fd22d)
-*  Adding confirmation dialog.
+* RESKC-588: Adding confirmation dialog.
   * PD Budget – Need a confirmation/warning prompt when user hits the Delete icon on Periods and Totals
   * We have had multiple users report that they have mistakenly deleted Period 1 of their budget by clicking on the "trash can" icon under the Actions header in PD Budget > Periods and totals.
   * There is no warning or confirmation message given to the user, and the deletion is immediate.
   * Gayathri Athreya on Thu, 2 Jul 2015 11:41:03 -0700 [View Commit](../../commit/91dff255d9fa02474e77ab00d173611b6468cd84)
 
 ##coeus-1507.4
-* fixes issues when adding coi role to an instituional proposal
+* RESKC-584:fixes issues when adding coi role to an instituional proposal
 
   * Steps:
 
@@ -5737,7 +5765,7 @@ steps to reproduce
   * Joe Williams on Tue, 30 Jun 2015 14:01:16 -0500 [View Commit](../../commit/dd5645ca605a59dbe79e6e3fae8bf3785941b2ac)
 
 ##coeus-1507.3
-* return user to landing page when canceling/closing proposal log
+* RESKC-40:return user to landing page when canceling/closing proposal log
 
   * Steps to Reproduce
   * 1. In the KRAD portal, Central Admin tab > Pre-Award > Proposal Log, create a proposal log,
@@ -5750,7 +5778,7 @@ steps to reproduce
 ##coeus-1507.2
 * RESKC-397 Rice update - people flow route log annotation fix
   * bsmith83 on Wed, 1 Jul 2015 09:01:00 -0700 [View Commit](../../commit/f12e907ac0a8a4e0f63eebe661d2ec705a120baa)
-* Display print actions on award budgets
+* RESKC-579:Display print actions on award budgets
 
   * Customer updated from 5.2.1 to 6.0 asked for instructions on how to print Award Budget.
   * 6.0 is missing the Actions > Print Forms panel!
@@ -5769,7 +5797,7 @@ steps to reproduce
   * bsmith83 on Tue, 30 Jun 2015 09:25:30 -0700 [View Commit](../../commit/e38a69e8b2cc22cf57e217c19d3700305c79ff72)
 
 ##coeus-1506.73
-* fix issue with adding award personnel details for rolodex and to be named
+* RESKC-585:fix issue with adding award personnel details for rolodex and to be named
 
   * Steps To Recreate:
 
@@ -5804,7 +5832,7 @@ steps to reproduce
   * Checking for both 'Y' and 'Yes' when matching on the descends units flag.  * tdurkin on Tue, 30 Jun 2015 11:16:41 -0400 [View Commit](../../commit/e335202b4ada74d12ac27c56887b3510f2508db5)
 
 ##coeus-1506.71
-* fix proposal credit allocation totals issue
+* RESKC-582:fix proposal credit allocation totals issue
 
   * Proposal Key Personnel Credit allocation calculations not accurate if one or more key personnel have three or four units assigned
 
@@ -5818,7 +5846,7 @@ steps to reproduce
   * Joe Williams on Tue, 30 Jun 2015 09:45:00 -0500 [View Commit](../../commit/f5a647c6bbd022514b6b8611552a4f007f047bc8)
 
 ##coeus-1506.70
-* fix issue when copying proposal with manually entered sub award budgets
+* RESKC-557:fix issue when copying proposal with manually entered sub award budgets
 
   * Copying Proposals that has Subaward budgets uploaded in the budget throws STE. You can copy proposal if you choose not to copy the budget.
 
@@ -5826,7 +5854,7 @@ steps to reproduce
 
   * Comments: User is having an issue copying a budget version. Has a Subaward manually entered, not file upload. Get incident report when trying to copy budget.
   * Joe Williams on Mon, 29 Jun 2015 09:49:48 -0500 [View Commit](../../commit/237a8977a0de5b938038cd95a4c911417c6be333)
-* display credit splits for award unit and persons home unit on award
+* RESKC-301:display credit splits for award unit and persons home unit on award
 
   * 1. Create an Award, completing all required fields to save the document, enter the following for Lead Unit ID: IN-IN
   * 2. Click the Contacts tab
@@ -5837,7 +5865,7 @@ steps to reproduce
   * Actual Behavior: The system displays a Unit Details subpanel row for the Lead Unit defined on the Award tab (IN-IN). The system does not display any rows for the Primary Department Code defined for the Person in the Person record (BL-RCEN). The system displays a Combined Credit Split subpanel row for the one Unit defined on the Unit Details subpanel (which is the Lead Unit entered on the Award tab).
   * Expected Behavior: The system should display a Unit Details subpanel row for the Lead Unit defined on the Award tab and a row for the Primary Department Code defined for the Person in the Person record. The system should display a Combined Credit Split subpanel row for each Unit defined on the Unit Details subpanel, one for the Lead Unit entered on the Award tab and one for the Primary Department Code defined for the person in the Person record.
   * Joe Williams on Mon, 29 Jun 2015 09:34:46 -0500 [View Commit](../../commit/78155087a4f526f691625685f801d4597f84a0cb)
-* display correcct obligated amount and end date immediately upon adding award to subward
+* RESKC-322:display correcct obligated amount and end date immediately upon adding award to subward
 
   * 1. Create and finalize an award.
   * 2. Create and finalize a T&M document for $50,000 using the Transactions panel for entering the amount.
@@ -5848,7 +5876,7 @@ steps to reproduce
 
   * EXPECTED RESULT: The amount appearing in the Funding Source panel should be $75,000.
   * Joe Williams on Mon, 29 Jun 2015 08:34:33 -0500 [View Commit](../../commit/55a2efc019e2cf6c47e6f78122fa81d9d117814c)
-* prevent users from being assigned derived roles on protocol copy
+* RESKC-574:prevent users from being assigned derived roles on protocol copy
 
   * Steps to add derived role to a principle.
 
@@ -5860,7 +5888,7 @@ steps to reproduce
   * Joe Williams on Fri, 26 Jun 2015 12:31:38 -0500 [View Commit](../../commit/1be730aacc797e9eb80a8bc3cb5b65ef403ba1e6)
 
 ##coeus-1506.69
-* add certification questions update mechanism
+* RESKC-569:add certification questions update mechanism
 
   * User needs to be able to answer newly added certification questions rather than being forced to create a new proposal to answer new question
 
@@ -5920,7 +5948,7 @@ steps to reproduce
 ##coeus-1506.66
 * Adding and clarifying project documentation.  Removing unused build logic such as the dev profile and maven jetty support.
   * Travis Schneeberger on Thu, 25 Jun 2015 20:10:25 -0400 [View Commit](../../commit/7cd22b8fc19e1f6f6d1815a3e94de072eec5bc07)
-*  Fixing attachment removal
+* RESKC-575: Fixing attachment removal
   * Application throws STE when attempting to copy proposal with personnel attachment.
   * User is copying the proposal with budget, does not want to copy attachments.
   * Got an STE and the exceptiojn in STE said constraint error on EPS_PROP_PERSON_BIO_ATTACH_FK1 - Child row exists. Looks like application is deleting rows from FILE_DATA for source proposal, this should not be happening.
@@ -5937,11 +5965,11 @@ steps to reproduce
 
   * This will make meeting schedules session based again and will alert the user with an error if they have 2 schedules open at the same time because of a multitude of issues cropping up based on the assumption that some data that is missing in a variety of areas would be there
   * bsmith83 on Thu, 25 Jun 2015 17:00:21 -0700 [View Commit](../../commit/99a26aae55836083a6a2413344ff6bd2036efcbb)
-* reevaluate canEditView on all workflow actions on proposal development
+* RESKC-288:reevaluate canEditView on all workflow actions on proposal development
   * Joe Williams on Thu, 25 Jun 2015 12:13:21 -0500 [View Commit](../../commit/d3e788d13841ec6e8bbebd0e02b12368560709d2)
 
 ##coeus-1506.63
-*  Add create user and timestamp
+* RESKC-486: Add create user and timestamp
   * Create Timestamp and Create User are missing; proposal admin details is missing several of the "date submitted by" fields.
   * Create time stamps are for auditing purposes and to show who updated records.
   * Additionally, these data values are used in several reports to senior leadership.
@@ -5952,7 +5980,7 @@ steps to reproduce
 
 
 ##coeus-1506.61
-* display correct amount and final expiration date on subaward funding source
+* RESKC-305:display correct amount and final expiration date on subaward funding source
 
   * PART ONE
   * 1. Create and finalize an Award document with the following:
@@ -5978,15 +6006,15 @@ steps to reproduce
 
   * Expected Behavior: The system should display the Award's Obligated Amount of $200,000 and final end date of 10/28/2015 from the linked Award in the Subward edoc.
   * Joe Williams on Thu, 25 Jun 2015 09:15:25 -0500 [View Commit](../../commit/5c2fac5d8e98f4c2acde7271aef829f2c990a62e)
-* allow editing of proposal immediately after recall action
+* RESKC-288:allow editing of proposal immediately after recall action
 
   * confirming returned for revisions is not allowing all editable functionality of an In Progress proposal. Which in essence makes return for revisions useless.
   * Joe Williams on Thu, 25 Jun 2015 08:23:44 -0500 [View Commit](../../commit/006ddc3a93c8efd675e975beba5fefb2b110cbdd)
-*  Fixing null pointer.
+* RESKC-555: Fixing null pointer.
   * Gayathri Athreya on Wed, 24 Jun 2015 16:25:23 -0700 [View Commit](../../commit/a7ab6c301e24f1b181af188852346148241e63af)
-* maintain reviewer section when send notificaiton button is clicked
+* RESKC-525:maintain reviewer section when send notificaiton button is clicked
   * Joe Williams on Wed, 24 Jun 2015 16:25:22 -0500 [View Commit](../../commit/8cfbbd780fc80abcee8d60412635c5517288bec1)
-* Fix issues with adding/removing committee members from present/absentee list
+* RESKC-560:Fix issues with adding/removing committee members from present/absentee list
 
   * Edit an IRB or IACUC schedule
   * In attendance:
@@ -6007,11 +6035,11 @@ steps to reproduce
   * Joe Williams on Tue, 23 Jun 2015 12:42:06 -0500 [View Commit](../../commit/6034c20fe68a627e01d1bde2deaaebaaf472d8e8)
 
 ##coeus-1506.60
-*  syncing DD with DB column sizes, allows symbols and whitespace for CommitteeScheduleMeetingDoc.minuteName and ScheduleAgenda.agendaName
+* syncing DD with DB column sizes, allows symbols and whitespace for CommitteeScheduleMeetingDoc.minuteName and ScheduleAgenda.agendaName
   * Travis Schneeberger on Fri, 19 Jun 2015 16:11:59 -0400 [View Commit](../../commit/9c04eeecee60aea69ac20c465de42bf7db526efd)
 
 ##coeus-1506.59
-* do not validate newly added custom attributes when document is enroute
+* RESKC-309:do not validate newly added custom attributes when document is enroute
 
   * Discovered this in UA's local 5.2.1 implementation and confirmed still an issue in 6.0.1
   * If a new Custom Data field is added for the Proposal module (and it is required) all enroute proposals will validate requiring the new field and be stuck in routing. However, if you return the document to the initiator (via 'return for edit' or superuser return to initiated) the newly added custom data field is not inserted into the document so the initiator can't fill it out even though it validates as required. The only way to update the proposal with the newly created Custom Data is for the initiator to 'recall' the document. However, typically on newly added Custom Data fields we want them to affect only new proposals not enroute proposals.
@@ -6031,7 +6059,7 @@ steps to reproduce
   * Joe Williams on Wed, 24 Jun 2015 08:28:29 -0500 [View Commit](../../commit/064b6728ec9871cfef789d68e776bebbd39a3ba1)
 
 ##coeus-1506.58
-* bring over award dates when award is copied
+* RESKC-312:bring over award dates when award is copied
 
   * 1. Create an Award, completing all required fields to submit the document
   * 2. Enter valid Project Start and End Dates and valid Obligated Start and End Dates
@@ -6045,26 +6073,26 @@ steps to reproduce
   * Joe Williams on Wed, 24 Jun 2015 08:57:59 -0500 [View Commit](../../commit/5f21d76a4e4ef56b244aa4bb25a41ac1dc983863)
 
 ##coeus-1506.57
-*  Fixing online review issue.
+* RESKC-554: Fixing online review issue.
   * Not easily reproducible but getting this in both IRB and IACUC protocols at times on performing Protocol Actions or trying to access an online review: org.kuali.rice.core.api.exception.RiceRuntimeException: The workflow document is null. This indicates that the DocumentHeader has not been initialized properly. This can be caused by not retrieving a document using the DocumentService. at org.kuali.rice.krad.bo.DocumentHeader.getWorkflowDocument(DocumentHeader.java:75)
   * In res1-demo1, login as oblood, got to All My Reviews, and open IACUC Protocol #: 1506000154, go to Online Review tab and see that it doesn't render correctly, then go to Protocol Actions, and see the error.
   * Gayathri Athreya on Tue, 23 Jun 2015 10:28:41 -0700 [View Commit](../../commit/a5dbfbe452b3bb36eccbad79edc0b2ea18462763)
 
 ##coeus-1506.56
-*  Do not create pessimistic locks in view mode.
+* RESKC-559: Do not create pessimistic locks in view mode.
   * Steps:
   * Open proposal from loolup in view mode. Without closing proposal, go to pessimistic locks lookup and search. See the proposal in the lookup.
   * Gayathri Athreya on Tue, 23 Jun 2015 13:36:49 -0700 [View Commit](../../commit/0562a80508f7fd8783306267106fb7e93a3e9591)
-* prevent award submission when krms errors are present
+* RESKC-320:prevent award submission when krms errors are present
 
   * Looks to be same issue as KRACOEUS-6343 and KRACOEUS-6502 but fixes not extended to all modules.
   * built a Term Specification, Term, and Agenda to create a validation that would not allow sponsorCode = 000400. I then created an award and selected the sponsor of 000400 and then 'turned on validations' and the error displayed appropriately in the Unit Business Rules Errors' section. However, even though there was an error present upon validation I was able to submit the Award into routing. I tested the very same field and validation in Propdev and the system prevented the user from submitting into routing because of the error. See attached screenshot for further reference.
   * Joe Williams on Tue, 23 Jun 2015 15:21:00 -0500 [View Commit](../../commit/1c6fb22fdcee3b99c34e53e6fa2978809cacf6d0)
-* code clean up
+* RESKC-320:code clean up
   * Joe Williams on Tue, 23 Jun 2015 15:20:19 -0500 [View Commit](../../commit/9f4d091488f99e2264b533db72217e2a5111fd70)
 
 ##coeus-1506.55
-* Always populate negotiation documents with most recent custom data attributes
+* RESKC-311:Always populate negotiation documents with most recent custom data attributes
 
   * Steps to Recreate:
   * 1 Create a Negotiation Document
@@ -6076,7 +6104,7 @@ steps to reproduce
 
 ##coeus-1506.54
 * Update README.md  * Gayathri Athreya on Tue, 23 Jun 2015 09:04:37 -0700 [View Commit](../../commit/89a2c48f9c9c1e85609db70e86a2afd45094e687)
-* Fix Calculate Button On Summary Personnel Item Details
+* RESKC-52:Fix Calculate Button On Summary Personnel Item Details
 
   * Testing and documenting the use of Summary instead of project person in the budget.
   * If I edit the entered Requested Salary field and click calculate, the screen does not refresh to display the revised Fringe amount. The user has to close the window and then the period screen refreshes to show the amount. The calculate works/refreshes fringe when a project person is used.
@@ -6107,13 +6135,13 @@ steps to reproduce
 
 
 ##coeus-1506.51
-*  Removing unnecessary logic from committee lookup, cleanup other lookup logic
+* RESKC-548: Removing unnecessary logic from committee lookup, cleanup other lookup logic
   * Travis Schneeberger on Fri, 19 Jun 2015 15:17:18 -0400 [View Commit](../../commit/5de793e2c61c313ade118771caa85b9f4850619f)
 * Removing global state that is mutated in places other than bean initialization
   * Travis Schneeberger on Fri, 19 Jun 2015 09:50:12 -0400 [View Commit](../../commit/5142a997dc91134321990cfbc03ccfe1c7388221)
-*  Code cleanup, removing unnecessary document service call
+* RESKC-548: Code cleanup, removing unnecessary document service call
   * Travis Schneeberger on Thu, 18 Jun 2015 15:18:12 -0400 [View Commit](../../commit/e74843ed9c2af797585ac54305211e65a235581c)
-*  Making "view active" committee open a committee with the highest sequence number that is also on a final document.
+* RESKC-548: Making "view active" committee open a committee with the highest sequence number that is also on a final document.
   * Travis Schneeberger on Thu, 18 Jun 2015 14:45:47 -0400 [View Commit](../../commit/09acbe59aff89744e0411d52b932c1ee77305e97)
 
 ##coeus-1506.50
@@ -6121,7 +6149,7 @@ steps to reproduce
 
 
 ##coeus-1506.49
-* Display Graduation Year on Generic and NSF Cover Page Forms
+* RESKC-55:Display Graduation Year on Generic and NSF Cover Page Forms
 
   * In Proposal Dev, the printing of the Cover Page for Generic Printing Forms and the NSF sponsor forms from Print > Sponsor From Packages > Cover Sheet does not populate the date of the PD/PI(S) graduation date(s)
 
@@ -6144,7 +6172,7 @@ steps to reproduce
   * Joe Williams on Thu, 18 Jun 2015 15:27:48 -0500 [View Commit](../../commit/84d71a8300eab3e098e47abcb54ef94a58ddb83a)
 
 ##coeus-1506.48
-* Assign Iacuc PI correct roles
+* RESKC-556:Assign Iacuc PI correct roles
 
   * Create an IACUC Protocol
   * Use person without any IACUC roles as PI
@@ -6154,11 +6182,11 @@ steps to reproduce
   * They should just be given the PI derived role on the protocol not IACUC Protocol aggregator.
   * This works as expected in IRB but not IACUC.
   * Joe Williams on Thu, 18 Jun 2015 10:41:09 -0500 [View Commit](../../commit/f951fd9c3ab8967cc36db73c93a8cf029cb609b0)
-*  Removing unused parameters
+* RESKC-413: Removing unused parameters
   * Travis Schneeberger on Thu, 18 Jun 2015 11:26:16 -0400 [View Commit](../../commit/b87d0dc978fc352bb8b4f6314082acf9c8e7accd)
 
 ##coeus-1506.47
-* add close button to proposal budget
+* RESKC-417:add close button to proposal budget
 
   * User needs to be able to exit the entire proposal from the budget screens. Budget missing a close option from ALL budget screens.
 
@@ -6179,7 +6207,7 @@ steps to reproduce
 
   * Also fixes issue with dirty checking on closing
   * Joe Williams on Thu, 18 Jun 2015 09:30:14 -0500 [View Commit](../../commit/b17f8606fb0ecd38c2714c2b83caa5f152f44e53)
-* return to award document from time and money document if accessed from award
+* RESKC-302:return to award document from time and money document if accessed from award
 
   * 1. Create an Award, completing all required fields to save the document and create a Time & Money
   * 2. Click Time & Money
@@ -6190,7 +6218,7 @@ steps to reproduce
   * Joe Williams on Wed, 17 Jun 2015 15:53:18 -0500 [View Commit](../../commit/e7600be15e9adca39b28f5749fc73a56bb2a7aa6)
 
 ##coeus-1506.46
-*  person bio deletion issues.
+* RESKC-555: person bio deletion issues.
   * Tried to delete the Co-Investigator from the proposal and each time got Incident report. Then navigation within proposal was not possible and more incident reports resulted when selecting any tab from left menu.
   * removing bio uploaded for person from db resolved issue.
   * Associated Personnel attachments should be deleted when person is deleted as Coeus did.
@@ -6204,9 +6232,9 @@ steps to reproduce
   * bsmith83 on Tue, 16 Jun 2015 19:11:50 -0700 [View Commit](../../commit/11aaaa3c7f1b0b09d099ca545eb413a4b9ef4d46)
 
 ##coeus-1506.44
-*  When canceling a saved committee document, rice refreshes all references on the BO.  This populates BOs which contains cycles.  When rice tries to serialize the document for the cancel action xstream gets stuck in the cycle between Organization & OrganizationYnq and causes a StackOverflow.  By adding workflow properties we specify which attributes to serialize avoiding the cycles.
+* RESKC-545: When canceling a saved committee document, rice refreshes all references on the BO.  This populates BOs which contains cycles.  When rice tries to serialize the document for the cancel action xstream gets stuck in the cycle between Organization & OrganizationYnq and causes a StackOverflow.  By adding workflow properties we specify which attributes to serialize avoiding the cycles.
   * Travis Schneeberger on Tue, 16 Jun 2015 16:53:44 -0400 [View Commit](../../commit/4089f0f213f27956eca0ce953f4dde0185a83242)
-* retain posted timestamp for award and IP notes and attachments
+* RESKC-406:retain posted timestamp for award and IP notes and attachments
 
   * As an Award Maintainer, or
   * As an IP Maintainer, I need to update aspects of existing (Awards or ) Institutional Proposals.
@@ -6214,9 +6242,9 @@ steps to reproduce
   * Currently, when I Edit an IP record or Award with existing Attachments, ALL those existing attachments update with MY user ID and the current time stamp.
   * Those attachments should maintain the User ID and time stamp from when they were originally added or actually last maintained. NOT with the info from the current edit.
   * Joe Williams on Thu, 11 Jun 2015 13:20:00 -0500 [View Commit](../../commit/49a65b7a5617cad0c55dea67ce5905c899134808)
-*  code cleanup
+* RESKC-200: code cleanup
   * Travis Schneeberger on Mon, 15 Jun 2015 13:52:54 -0400 [View Commit](../../commit/8695f890bcbde1ad2145ea83a3afcec6f92ed71b)
-*  Improve the performance of the ip lookup
+* RESKC-200: Improve the performance of the ip lookup
   * Travis Schneeberger on Mon, 15 Jun 2015 13:20:53 -0400 [View Commit](../../commit/7b597811463584c542079ccaf0e035d56f80b313)
 
 ##coeus-1506.43
@@ -6224,9 +6252,9 @@ steps to reproduce
 
 
 ##coeus-1506.42
-*  Fixing funds requested calculations and allocations and LA calculation
+* RESKC-475: Fixing funds requested calculations and allocations and LA calculation
   * Gayathri Athreya on Wed, 10 Jun 2015 15:16:46 -0700 [View Commit](../../commit/0a961a18201c18c3cbf5a60a04fc634dbeaf4ec7)
-*  Do not fail rules on warning
+* RESKC-546: Do not fail rules on warning
   * Gayathri Athreya on Mon, 15 Jun 2015 13:47:02 -0700 [View Commit](../../commit/799e0aa4465d00bc667a92aff5b34fc3fe3bef05)
 
 ##coeus-1506.41
@@ -6236,7 +6264,7 @@ steps to reproduce
 ##coeus-1506.40
 * changes
   * Joe Williams on Mon, 15 Jun 2015 11:19:32 -0500 [View Commit](../../commit/b7f8f13789177812981b7f10c5c440c316c057cc)
-* fix protocol submissions search when title and schedule date criterion are used
+* RESKC-517:fix protocol submissions search when title and schedule date criterion are used
 
   * Currently, the Protocol Submission search returns ALL submitted protocols, even with criteria entered in the search screen.
   * User Story:
@@ -6273,7 +6301,7 @@ steps to reproduce
 
 
 ##coeus-1506.36
-* update check specified narrative type krms function to check internal attachments
+* RESKC-544:update check specified narrative type krms function to check internal attachments
 
   * KRMS rule built using any internal attachment type with the function "check specified narrative type" either always shows or never shows. If user configures validation to show message when attachment is missing, it is not possible for the proposal user to make a selection (by adding the missing attachment) to clear the data validation.
 
@@ -6301,7 +6329,7 @@ steps to reproduce
   * Joe Williams on Fri, 12 Jun 2015 16:23:30 -0500 [View Commit](../../commit/72b53881f118b2c4954e6908090b1e612803325d)
 
 ##coeus-1506.35
-*  Improve the performance of the protocol authorizers by removing edit mode logic that is not used.
+* RESKC-522: Improve the performance of the protocol authorizers by removing edit mode logic that is not used.
   * Travis Schneeberger on Fri, 12 Jun 2015 14:27:37 -0400 [View Commit](../../commit/38e23b44be4f947f66dc0819a922b95e350b99ed)
 
 ##coeus-1506.34
@@ -6317,7 +6345,7 @@ steps to reproduce
   * blackcathacker on Thu, 11 Jun 2015 18:26:02 -0700 [View Commit](../../commit/9cf34d9a006a88e5a1eaba3a0bb2cab328cddd46)
 
 ##coeus-1506.32
-*  making log messages use one log statement (avoids interleave), make perf filter & monitoring filter use the same exclude configuration, make monitoring verbose logging configurable.
+* RESKC-540: making log messages use one log statement (avoids interleave), make perf filter & monitoring filter use the same exclude configuration, make monitoring verbose logging configurable.
   * Travis Schneeberger on Thu, 11 Jun 2015 11:21:04 -0400 [View Commit](../../commit/a21ce042d412b09fb9c8f88cc6090dc87449f5dc)
 
 ##coeus-1506.31
@@ -6325,7 +6353,7 @@ steps to reproduce
 
 
 ##coeus-1506.30
-* iacuc copy link redirects user to the copy action on the protocol
+* RESKC-456:iacuc copy link redirects user to the copy action on the protocol
 
   * Login as user who can edit/copy IACUC protocols.
   * From the Researcher portal, select Search IACUC Protocols
@@ -6350,17 +6378,17 @@ steps to reproduce
 
 
 ##coeus-1506.26
-*  Code Cleanup
+* RESKC-505: Code Cleanup
   * Travis Schneeberger on Wed, 10 Jun 2015 15:06:03 -0400 [View Commit](../../commit/8759f8779c7c36714234a2ac6fb4f08aa0121ada)
 * Budget Single Point Entry Enhancement
   * Joe Williams on Tue, 9 Jun 2015 16:34:58 -0500 [View Commit](../../commit/ff64bd468921aab9d39bebf9bbc76a13ac3283fa)
-*  Fixing an index out of bounds exception which is swallowed and then becomes visible to the end user as a exception creating java.util.List
+* RESKC-505: Fixing an index out of bounds exception which is swallowed and then becomes visible to the end user as a exception creating java.util.List
   * Travis Schneeberger on Wed, 10 Jun 2015 15:00:45 -0400 [View Commit](../../commit/22091cc7fbc5360ef58a4139a346ee7d6b67e76f)
-*  Fixing a hidden NPE when accessing a Protocol Amendment and the Protocol Person does not have an affiliation.
+* RESKC-505: Fixing a hidden NPE when accessing a Protocol Amendment and the Protocol Person does not have an affiliation.
   * Travis Schneeberger on Wed, 10 Jun 2015 14:58:44 -0400 [View Commit](../../commit/c6b573e15480da1fb8f95d33fe3f1cf22570d7d6)
 
 ##coeus-1506.25
-*  Adding indexes to prevent deadlock and increase performance
+* RESKC-500: Adding indexes to prevent deadlock and increase performance
   * Travis Schneeberger on Wed, 10 Jun 2015 12:11:11 -0400 [View Commit](../../commit/f6264ba08d874cb7f713c740bb51a43e13fab2fa)
 
 ##coeus-1506.24
@@ -6372,7 +6400,7 @@ steps to reproduce
 
 
 ##coeus-1506.22
-*  Fixing non personnel underrecovery rate calculation.
+* RESKC-524: Fixing non personnel underrecovery rate calculation.
   * As a user I need to create a budget with a reduced MTDC rate of 10% 'de minimus' rate for an NSF submission. My institution needs to capture the under recovered F&A, so I must set the Budget F&A Rate Type to MTDC (and manually set the rate to 10% as the applied rate) and set the UR Rate Type to FUNSN (which will apply the 56% F&A rate on Salaries and 10% F&A rate on Materials and Services). This follows my institute policy of capturing the UR on the salary&applied eb/fringe/vacation.
   * Steps to reproduce:
   * Create a proposal in Unit 000001 (rates modified)
@@ -6396,7 +6424,7 @@ select F&A Rate type of MTDC
   * Non-Personnel do NOT calculate correctly and are generating UR.
   * It appears that the first FUNSN rate for Salaries is being applied.
   * Gayathri Athreya on Mon, 8 Jun 2015 14:08:42 -0700 [View Commit](../../commit/bea3df997cabcd6625e24e150c86e428885ec9c9)
-* added coi hierarchy parameter
+* RESKC-533:added coi hierarchy parameter
   * Joe Williams on Tue, 9 Jun 2015 09:20:08 -0500 [View Commit](../../commit/ef589a6c01b4f7623880e53e6089620e9d23de93)
 
 ##coeus-1506.21
@@ -6410,7 +6438,7 @@ select F&A Rate type of MTDC
   * Travis Schneeberger on Mon, 8 Jun 2015 15:01:14 -0400 [View Commit](../../commit/df09356f3e3f64481c8ca2f3d335d55344557141)
 
 ##coeus-1506.19
-*  Hide delete attachment button when institutional proposals are view only
+* RESKC-385: Hide delete attachment button when institutional proposals are view only
 
   * A user should be required to edit the IP document before the Notes and Attachments allow 'delete' therefore delete button should be hid in view mode.
 
@@ -6425,7 +6453,7 @@ select F&A Rate type of MTDC
   * Results- delete button appears next to the file.
   * Expected Results- delete button should not appear when the IP is in view mode, user should be required to edit document first
   * Joe Williams on Mon, 8 Jun 2015 10:13:45 -0500 [View Commit](../../commit/3b75f94e0d8d74301058cefb7a845004b2820ba0)
-*  correctly display other degree type question
+* RESKC-365: correctly display other degree type question
 
   * Discovered in testing S2S questionnaire supporting the PHS Fellowship form:
   * Users answering the s2s form supporting Fellowship questionnaires presented with 2 follow up (requirement based) questions when one of five (5) specific "Other" Degree types are selected from the argument value list. The 5 questions include the full text word "other" in the question text, so question ID 100 requirement = "OTH" presents when it should not.
@@ -6450,7 +6478,7 @@ select F&A Rate type of MTDC
   * blackcathacker on Fri, 5 Jun 2015 20:16:24 -0700 [View Commit](../../commit/5922725d9eacb8d3f0de482facdf337621736236)
 
 ##coeus-1506.18
-* only return active version of subawards on subaward lookup
+* RESKC-321:only return active version of subawards on subaward lookup
 
   * 1. Create & blanket approve a subaward document with Subrecipient #000040 "University of Maine". Note that this is Version 1.
   * 2. Now edit & blanket approve the subaward from step 1, changing the Subrecipient to #000041 "University of Maryland". Note that this is Version 2.
@@ -6476,15 +6504,15 @@ select F&A Rate type of MTDC
   * blackcathacker on Fri, 5 Jun 2015 17:16:08 -0700 [View Commit](../../commit/dc576524f2d67bfa87e0be0f8caef2c8c2c8bb80)
 
 ##coeus-1506.16
-*  Make reject action permission based.
+* RESKC-521: Make reject action permission based.
   * Gayathri Athreya on Fri, 5 Jun 2015 08:36:11 -0700 [View Commit](../../commit/263dea90d8bc15669d9606e97a04d8fc8f4b0548)
 
 ##coeus-1506.15
-*  ignoring url patterns for static content and healthcheck
+* ignoring url patterns for static content and healthcheck
   * Travis Schneeberger on Fri, 5 Jun 2015 15:46:27 -0400 [View Commit](../../commit/1e9f9bd56ec096e1ef01a5e011d1fc9a6aad045a)
 
 ##coeus-1506.14
-* Warning should not count as rules errors.
+* RESKC-418:Warning should not count as rules errors.
   * In Kualico instance: Negative under recovered F&A generated in budget; values do not populate to Commitments> UR Distribution. Cannot resolve validation.
 
   * Create a proposal type Research.
@@ -6499,7 +6527,7 @@ select F&A Rate type of MTDC
   * Gayathri Athreya on Fri, 5 Jun 2015 12:12:43 -0700 [View Commit](../../commit/97c0fc0aeaf7fc96b3df8ba773d1be3c13c9c24c)
 
 ##coeus-1506.13
-*  adding java melody jpa monitoring
+* adding java melody jpa monitoring
   * Travis Schneeberger on Thu, 4 Jun 2015 16:39:44 -0400 [View Commit](../../commit/2641c16aef2cea6b1ce8fda6d0863ec1a267d662)
 
 ##coeus-1506.12
@@ -6507,7 +6535,7 @@ select F&A Rate type of MTDC
   * Joe Williams on Wed, 3 Jun 2015 14:06:23 -0500 [View Commit](../../commit/0f3bce441c0d94a98c081ea7f16a1737c915f2ad)
 
 ##coeus-1506.11
-*  allow iacuc online review without a schedule
+* RESKC-498: allow iacuc online review without a schedule
 
   * Steps to reproduce:
   * Create IACUC protocol
@@ -6524,7 +6552,7 @@ select F&A Rate type of MTDC
   * Joe Williams on Wed, 3 Jun 2015 16:54:56 -0500 [View Commit](../../commit/b55208952f2d315dddf5af1a34adb19e26a2e10b)
 
 ##coeus-1506.10
-* fix STE on award navigation after submission
+* RESKC-519:fix STE on award navigation after submission
 
   * Logged in as Admin to Res-Demo1
   * Searched for existing award using account number 2533529
@@ -6538,7 +6566,7 @@ select F&A Rate type of MTDC
   * Joe Williams on Thu, 4 Jun 2015 08:14:15 -0500 [View Commit](../../commit/65e8bb75b88ed9d266daa1daa112ed994d9fe1c3)
 
 ##coeus-1506.9
-*  fixing concurrent modification exception in Java 8 when sorting a collection in a getter without returning a copy.
+* fixing concurrent modification exception in Java 8 when sorting a collection in a getter without returning a copy.
   * Travis Schneeberger on Wed, 3 Jun 2015 17:59:45 -0400 [View Commit](../../commit/2f08417736f01e63714b9b578d7aa6fd0edee92e)
 
 ##coeus-1506.8
@@ -6586,9 +6614,9 @@ select F&A Rate type of MTDC
   * Travis Schneberger on Mon, 1 Jun 2015 11:44:26 -0400 [View Commit](../../commit/5a8152afd64213bd8031ba45324a885d1e8ee640)
 
 ##coeus-1506.1
-*  fixing test related to java melody datasource monitoring, code cleanup
+* fixing test related to java melody datasource monitoring, code cleanup
   * Travis Schneberger on Sat, 30 May 2015 11:25:04 -0400 [View Commit](../../commit/13b95b7ba487bb43590988cf594bc7e6ece3743d)
-*  Hierarchy copy fixes
+* RESKC-483: Hierarchy copy fixes
   * "Award Copy + Copy as child of" and "New Child + based on copy from parent" and "selected award" are also copying the budget.
   * Create an Award Hierarchy Structure
   * Test 1: New Child section > click button to ‘copy from parent’, then click [create]
@@ -6617,7 +6645,7 @@ select F&A Rate type of MTDC
   * 9.	Click on Budget Versions screen.
   * 10.	Click [open] on the rebudget version that is still in progress
   * Gayathri on Fri, 29 May 2015 16:20:15 -0700 [View Commit](../../commit/5140c119bb88e8c1d154dc2f78b891d4abf1509e)
-* Fixed Cost Sharing and U/R screens display 'NAN' instead of total unallocated
+* RESKC-492:Fixed Cost Sharing and U/R screens display 'NAN' instead of total unallocated
 
 steps to reproduce
   * Open an existing Proposal #564 in res-demo1
@@ -6641,7 +6669,7 @@ steps to reproduce
 
   * Expected Result: should display a numeric value = to 0 until user starts allocating, and then the numeric value should update based on the maintained amounts in the table rows.
   * Joe Williams on Fri, 29 May 2015 12:26:19 -0500 [View Commit](../../commit/93d1e02a83b7b2e4da1becc9272018adcd5d42ab)
-* added award audit rule to check for invalid sponsor codes
+* RESKC-306:added award audit rule to check for invalid sponsor codes
 
   * 1. Create an award document filling in only the required fields.
   * 2. For the Sponsor enter an invalid code such as '010002' which after it is entered will indicate in red "not found"
@@ -6657,7 +6685,7 @@ steps to reproduce
 ##coeus-1505.70
 * Fix Issue Where Multi Pis Are Removed From Award Upon Editing
   * Joe Williams on Fri, 29 May 2015 14:44:06 -0500 [View Commit](../../commit/9169df3b0c6f0e1411083e74c10949fb1280cee8)
-*  Rice upgrade for rice quartz job monitoring, ehcache statistics monitoring, kc quartz job monitoring, SQL monitoring.
+* Rice upgrade for rice quartz job monitoring, ehcache statistics monitoring, kc quartz job monitoring, SQL monitoring.
   * Travis Schneberger on Fri, 29 May 2015 17:19:03 -0400 [View Commit](../../commit/34fdc9dfad0dc9903e836f32e8075c0aca899b0f)
 * Disable Reset To Default Capabilities When Budget Is View Only
   * Joe Williams on Fri, 29 May 2015 12:48:47 -0500 [View Commit](../../commit/18df6cb41cc4a4c6b5269a7913bf6d6df8f64cee)
@@ -6670,9 +6698,9 @@ steps to reproduce
   * Travis Schneberger on Fri, 29 May 2015 10:25:31 -0400 [View Commit](../../commit/ea974ef658ffebca00714d4a4771e6b5c2b79472)
 * Removing unused integration test initalization logic
   * Travis Schneberger on Fri, 29 May 2015 10:13:08 -0400 [View Commit](../../commit/e06acb545eb6d1afe53730c9f60385699381e3eb)
-*  enable java melody
+* enable java melody
   * Travis Schneberger on Fri, 29 May 2015 10:12:43 -0400 [View Commit](../../commit/b60cf41839c3e97992cee3027fd7d5cb461cb705)
-*  Allow same person to be added under different roles.
+* RESKC-490: Allow same person to be added under different roles.
   * As an Award Maintainer, I need to set up new, and maintain existing Awards.
   * When adding Unit and Sponsor Contacts, I sometimes need to add the person to multiple project roles. This usually occurs with small/independent industrial and foundation sponsors in the Sponsor Contacts; and with small internal departments in the Unit Contacts panel.
   * Currently, the system will not let me add the same person to multiple roles. I get an error message on the top of the page, and a specific error above the panel identifying the person saying they are already added to contacts.
@@ -6691,7 +6719,7 @@ steps to reproduce
 
   * When adding fringe amounts in the award budget summary tab every time you navigate to the paramters tab, the fringe amount will increase
   * Joe Williams on Tue, 26 May 2015 13:02:49 -0500 [View Commit](../../commit/038a9cfa54d76af45ac8e1c68844bfc242d154fc)
-*  Suppress notification if business rule failure on data override
+* RESKC-494: Suppress notification if business rule failure on data override
   * In the Kualico instance, the system still presents the Data Override Notification even if entered item was invalid.The Notice should NOT be sent.
   * Steps:
   * In an enroute proposal; OSP admin uses Data Override. Example: Award ID:
@@ -6711,7 +6739,7 @@ steps to reproduce
   * Joe Williams on Wed, 27 May 2015 15:55:29 -0500 [View Commit](../../commit/6ec322368d14c0ebe58b3876d94e8dc8353a430f)
 
 ##coeus-1505.66
-*  Fixing report amounts for awards.
+* RESKC-479: Fixing report amounts for awards.
 steps to reproduce:
   * 1: Central Admin >click link for Current & Pending to open window
   * 2 click show. Print reports
@@ -6725,7 +6753,7 @@ steps to reproduce:
   * Actual result:
   * Some awards are showing double the amount obligated. In Kualico, some other multiple of the current obligated is appearing.
   * Gayathri on Wed, 27 May 2015 12:15:32 -0700 [View Commit](../../commit/e631f92ffd8a16f693eed90f1496cebf404f790f)
-* copy over modular budgets when proposal is copied
+* RESKC-459:copy over modular budgets when proposal is copied
 
   * As a proposal aggregator, I need to copy proposals & budgets. When I copy a proposal & budget with a modular budget filled with details that were either manually added or sync'd from the detailed budget, that screen is not being copied to the new proposal. If I am trying to quickly prepare a change/corrected s2s submission, this missing information will cause another error at the sponsor.
 
@@ -6742,7 +6770,7 @@ steps to reproduce:
   * Joe Williams on Wed, 27 May 2015 13:37:12 -0500 [View Commit](../../commit/4e3eb00e3b8799efae7189d928a43c2c352e0fcd)
 
 ##coeus-1505.65
-*  STE in dataoverride when using award id
+* RESKC-485: STE in dataoverride when using award id
   * As an OSP Contract Administrator and proposal approver, I need to use data override to correct information on routing proposals (defined in the maintenance doc 'proposal dev editable columns).
 
   * To duplicate;
@@ -6770,7 +6798,7 @@ steps to reproduce:
   * Gayathri on Tue, 26 May 2015 16:18:27 -0700 [View Commit](../../commit/b62b0145f680376a40523f1c68343f995d476e83)
 
 ##coeus-1505.64
-* disable autocalculate, and syns/recalculate modular budgets when in view only mode
+* RESKC-409:disable autocalculate, and syns/recalculate modular budgets when in view only mode
 
   * When proposal is opened in view mode, budget is also opened in view mode but user has access to generate all periods and sync, calculate buttons are enabled in modular budget.
 
@@ -6815,7 +6843,7 @@ steps to reproduce:
   * Gayathri on Tue, 26 May 2015 13:56:52 -0700 [View Commit](../../commit/e118ed16b6e4c9a0c99e82441af3e9fc28a2cf73)
 * Award Budget Approval Saving wrong FnA cost
   * Joe Williams on Tue, 26 May 2015 15:42:11 -0500 [View Commit](../../commit/34bd531130ba5a546579cb3be63bd4b9807ca432)
-*  Fixing award copy
+* RESKC-483: Fixing award copy
   * 1. Created award with all required fields to submit.
   * 2. Open T&M and add money, route.
   * 3. Open award, create budget for the obligated amnt in award.
@@ -6836,7 +6864,7 @@ steps to reproduce:
   * Travis Schneberger on Tue, 26 May 2015 15:58:53 -0400 [View Commit](../../commit/ca0c90838bd55f4b683b9e17d6e1c7550b29e632)
 * Fixes Issues With Sorting of Budget Persons
   * vineeth on Thu, 15 Jan 2015 16:49:20 -0500 [View Commit](../../commit/51fb5dc493e10c206496f3310234ac5eaae56058)
-*  Do not show cancelled award docs in T&M history
+* RESKC-453: Do not show cancelled award docs in T&M history
   * As an award administrator, I may need to cancel an award edit transaction instead of saving or submitting. The information may be incomplete, incorrect, or I may have selected the wrong award/node by mistake. I should be able to use the cancel button on the Actions panel to completely delete any updates or changes.
 
   * Steps:
@@ -6851,7 +6879,7 @@ steps to reproduce:
   * Expected Result: all evidence of the cancelled document are removed from the Award, T&M, or Award Budget documents.
   * Currently, any cancelled documents are appearing as a Version in the T&M History panel.
   * Gayathri on Tue, 26 May 2015 10:41:02 -0700 [View Commit](../../commit/f84addc63df91c0afcbb4bcb4464345f469b9bb3)
-* fix to display TBN table on add budget personnel
+* RESKC-477:fix to display TBN table on add budget personnel
 
   * Tried to add a TBA person to a budget; but the list does not appear and the modal window does not fully generate.
   * I verified that there are 7 defined TBA persons in the maintenance document.
@@ -6866,7 +6894,7 @@ steps to reproduce:
 
   * Current result: the field updates to To Be Named, but the rest of the modal window does not generate. There is only a letter-box window containing this type field. User cannot add a TBA person to the budget.
   * Joe Williams on Tue, 26 May 2015 09:50:22 -0500 [View Commit](../../commit/0d6467ccecdd72c6209a1ed2a4ce03910044d7aa)
-* display disaproved submitted protocols in meeting
+* RESKC-308:display disaproved submitted protocols in meeting
 
   * Amendment or Renewal with or without Amendment docs that are assigned to a Full Committee Meeting Agenda appear in the Protocol Submitted panel of the meeting document but disappear from that list after the recording of Disapprove decision on the amendment doc. This is the opposite of what is required.
 
@@ -6968,7 +6996,7 @@ steps to reproduce:
   * Travis Schneberger on Fri, 22 May 2015 18:35:52 -0400 [View Commit](../../commit/0d9d29050adddddb3c1eeed9d08ab6c278e08eb4)
 
 ##coeus-1505.55
-* Fix award budget versioning issues
+* RESKC-468:Fix award budget versioning issues
 
   * When versioning awards the budgets need to stay with the original award, but new awards need to display all budgets. Additionally the budget creation process wasn't looking at the correct list of budgets and only the current awards budgets which meant it could easily ignore previously posted budgets.
   * blackcathacker on Fri, 22 May 2015 14:36:31 -0700 [View Commit](../../commit/b6734a4345c6c7e08675860d3995a308c67bc54e)
@@ -6980,7 +7008,7 @@ steps to reproduce:
 
 
 ##coeus-1505.53
-*  fix award budget issues
+* RESKC-468: fix award budget issues
   * Award budget documents seem to be attached to a particular sequence of the award and when new award sequences are created you can no longer view the budget created on an earlier sequence. Such as today account 2388937. When this happens users are also able to create new budget versions in the new award sequence regardless of the status of the earlier budget version. So now account 2388937 has two budget documents 1440820 and 1439251. Which again, shouldn't affect our work or SAP but I don't think this is how we want this to work.
   * Award budget totals when editing / versioning an award are not right either.
   * Gayathri on Fri, 22 May 2015 09:29:50 -0700 [View Commit](../../commit/0a7c381178303321d9753e3c9436ea94ae5b81c7)
@@ -6990,7 +7018,7 @@ steps to reproduce:
 ##coeus-1505.52
 * code cleanup, minor schemaspy fixes.
   * Travis Schneberger on Fri, 22 May 2015 10:07:13 -0400 [View Commit](../../commit/e72cb2dedf7396823efc6e83f3030c1e11c930ed)
-* Validation for eRA Commons User Name is based on sponsor group NIH
+* RESKC-265:Validation for eRA Commons User Name is based on sponsor group NIH
 
   * Currently any proposal that has a sponsor under the 'NIH Multiple PI' Sponsor Hierarchy will require the eRA Commons username for PD/PIs, and if missing it will throw the following validation: eRA Commons User Name is missing for <insert PI name>.
 
@@ -7010,7 +7038,7 @@ steps to reproduce:
   * bsmith83 on Thu, 21 May 2015 16:16:45 -0700 [View Commit](../../commit/49277aa09477fec4d73531142a689b0a70f8146f)
 * Add Numeric Validation to BudgetLineItem Quantity
   * Joe Williams on Thu, 21 May 2015 15:56:35 -0500 [View Commit](../../commit/02c38d3ff0ce5d27c625588d8b496434c308a79b)
-*  STE while printing budget summary with TBS budget person
+* RESKC-474: STE while printing budget summary with TBS budget person
 
   * While priting budget summary with a TBS person in the budget, the following STE was received
   * ERROR org.kuali.rice.krad.web.controller.UifHandlerExceptionResolver - For input string: "TBA4650"
@@ -7042,9 +7070,9 @@ steps to reproduce:
   * Joe Williams on Wed, 20 May 2015 14:53:48 -0500 [View Commit](../../commit/203598d178e7b244f4bdab368b9c7c3eaefd2746)
 
 ##coeus-1505.49
-*  support the oracle thin driver in schemaspy
+* RESKC-451: support the oracle thin driver in schemaspy
   * Travis Schneberger on Thu, 21 May 2015 09:39:15 -0400 [View Commit](../../commit/e458426eafb623f3d04e349bfc6bf2772bb8d353)
-*  Fixing occasional STE in award
+* RESKC-458: Fixing occasional STE in award
   * This error cropts up occassionally when you try to save an award.
 
   * SEVERE: Servlet.service() for servlet [action] in context with path [/kc-qa-wkly] threw exception
@@ -7062,7 +7090,7 @@ steps to reproduce:
 ##coeus-1505.47
 * fix compilation issue on java 7 related to generics
   * Travis Schneberger on Wed, 20 May 2015 11:56:16 -0400 [View Commit](../../commit/53047746238ee7844f65271b4134fee78a00687e)
-*  Fixing printed dates and amounts
+* RESKC-266: Fixing printed dates and amounts
   * 1. Create a new Award, completing all fields required to save and submit the document and to create a Time & Money document, but do not submit the Award document
   * 2. Click Time & Money
   * 3. On the Transactions panel, add a transaction, such as the following:
@@ -7106,9 +7134,9 @@ steps to reproduce:
   * Gayathri on Tue, 19 May 2015 15:20:02 -0700 [View Commit](../../commit/b71459b454b890485c5a72e238ef9035bf26afe4)
 * Rice update for KULRICE-12991
   * bsmith83 on Tue, 19 May 2015 13:42:57 -0700 [View Commit](../../commit/0646694b70c3c8de7df65ee3e23287498a07303c)
-*  making award title required in the data dictionary to avoid a constraint violation when award title is not entered.
+* RESKC-439: making award title required in the data dictionary to avoid a constraint violation when award title is not entered.
   * Travis Schneberger on Tue, 19 May 2015 16:13:03 -0400 [View Commit](../../commit/2851c3ff2f392e08c626d024c41e2db801cd23c9)
-*  budget personnel STE
+* RESKC-449: budget personnel STE
   * Steps to reproduce
   * Create a new proposal
   * Add several persons to the Key Personnel screen for budget use
@@ -7124,13 +7152,13 @@ steps to reproduce:
   * Travis Schneberger on Tue, 19 May 2015 14:36:58 -0400 [View Commit](../../commit/1713c9255a506294259b2384c68695491dca83cf)
 
 ##coeus-1505.46
-*  Fix IP creation from proposal log
+* RESKC-446: Fix IP creation from proposal log
   * Create a proposal log and blanket approve.
   * Click on Create IP link, search for proposal log.
   * Results display with edit, copy buttons instead of select.
   * There's no way to select a proposal log.
   * Gayathri on Mon, 18 May 2015 20:41:50 -0700 [View Commit](../../commit/0a66d55d943809e4dd6df7615f1a4a28b8754649)
-*  Change column length of indicator fields in IP
+* RESKC-172: Change column length of indicator fields in IP
   * 1. Create and submit/blanket approve a Proposal Log
   * 2. Create a new Institutional Proposal, using the just-created Proposal Log
   * 3. Complete all required fields to save and submit the document
@@ -7143,7 +7171,7 @@ steps to reproduce:
   * Gayathri on Tue, 19 May 2015 09:47:04 -0700 [View Commit](../../commit/045bc87f662b10841c8339d5b98b098a01cf9c34)
 
 ##coeus-1505.45
-*  fix schemaspy authz when a user does not have a session established.
+* RESKC-447: fix schemaspy authz when a user does not have a session established.
   * Travis Schneberger on Tue, 19 May 2015 09:57:40 -0400 [View Commit](../../commit/e17a1c3923aecf2f43ac6d8ac43b23f9878ef943)
 
 ##coeus-1505.44
@@ -7165,7 +7193,7 @@ steps to reproduce:
 
 
 ##coeus-1505.42
-* return to award from award budget if budget was opened from award
+* RESKC-358:return to award from award budget if budget was opened from award
 
   * Open an Award
   * Go to Budget Versions
@@ -7178,7 +7206,7 @@ steps to reproduce:
   * Expected Results:
   * -User remains in the Award.
   * Joe Williams on Fri, 15 May 2015 14:59:20 -0500 [View Commit](../../commit/3248d256434f9643a6de6dc94b9134cd27360818)
-* Fix for award error when saving on Payment, Reports & Terms
+* RESKC-348:Fix for award error when saving on Payment, Reports & Terms
 
   * -Create new award
   * -Enter required data on Award tab, save
@@ -7205,9 +7233,9 @@ steps to reproduce:
   * Travis Schneberger on Fri, 15 May 2015 17:02:22 -0400 [View Commit](../../commit/dc938b3641a91ee4b488fe4b7c71fd5db7e3664e)
 * Java 8: Upgrading Drools and MVEL to support Java 8, removing incorrect references to drools string utils
   * Travis Schneberger on Fri, 15 May 2015 15:14:13 -0400 [View Commit](../../commit/f144fab784cfbe0d3998437e52406151b53b267e)
-* refactoring and added tests
+* RESKC-264:refactoring and added tests
   * Joe Williams on Fri, 15 May 2015 09:42:08 -0500 [View Commit](../../commit/695a397d36d1a398fc1fce040b5e3aa9041b0931)
-* Fix to display correct linked subawards when award is versioned
+* RESKC-264:Fix to display correct linked subawards when award is versioned
 
   * 1. Create and submit a new Award (just complete the required fields to save and submit, no need to do a T&M document)
   * 2. Create a new Subaward, adding the just-created Award as the Funding Source, and then submit the Subaward
@@ -7228,7 +7256,7 @@ steps to reproduce:
   * Actual Behavior: The system does not display the Subaward linkage from the Award, Institutional Proposal, and Negotiation Medusa views. The system does display all linkages from the Subaward Medusa view (see attached screen images).
   * Expected Behavior: The system should display the linkage to the Subaward from the Award, Institutional Proposal, and Negotiation Medusa views.
   * Joe Williams on Fri, 15 May 2015 09:39:13 -0500 [View Commit](../../commit/53db7d44ee996b0ac3408b22bceab708c77babec)
-* return user to krad portal when closing a transactional document
+* RESKC-176:return user to krad portal when closing a transactional document
   * Joe Williams on Fri, 15 May 2015 10:37:34 -0500 [View Commit](../../commit/3fb76b8f8c1a505707271e2765ee0aa0480af2ff)
 * Upgrading to Java 8: removing MaxPerm setting since java 8 does not have perm gen space
   * Travis Schneberger on Fri, 15 May 2015 12:46:55 -0400 [View Commit](../../commit/c747ca00a8e0dd01043bc42a9b50b3d5eb3cd84c)
@@ -7264,7 +7292,7 @@ steps to reproduce:
   * Travis Schneberger on Fri, 15 May 2015 09:27:28 -0400 [View Commit](../../commit/d681620f0f5808b553395d8b62f29af8958faa22)
 * Upgrading to Java 8: updating libraries, documentation, fixing test.
   * Travis Schneberger on Thu, 14 May 2015 21:18:16 -0400 [View Commit](../../commit/96c7e65fb0f166ead4e30826416721560f3a9854)
-*  Making field readOnly so the values do not get updated while enroute
+* RESKC-436: Making field readOnly so the values do not get updated while enroute
   * As a viewer of routing proposals, I navigate to review the included S2S Opportunity Forms. Upon opening this screen, all selected forms to include display as unchecked. Confirmed that the items were checked prior to routing; and remain checked if no one views them. But if the screen is opened prior to submitting to s2s, none of these optional forms & their attachments are being submitted.
   * Tried an alternate method to preview S2S forms via the Toolbar menu. At first opening, the checks were there. But when I reopened the toolbar print option in the same session - the checkmarks were gone.
   * This is a serious problem.
@@ -7276,7 +7304,7 @@ steps to reproduce:
   * As approver RRabbit - logged in, Action List> opened proposal
   * Navigated to S2S Opportunity screen > Forms - all optional forms unchecked.
   * Gayathri on Thu, 14 May 2015 14:46:01 -0700 [View Commit](../../commit/0ea3178b4ee77c0cd5074cbc3c78b1ff90404762)
-* fixes STE when cancelling from add instituional proposal lookup
+* RESKC-307:fixes STE when cancelling from add instituional proposal lookup
 
   * 1. Central Admin > Pre-Award > Institutional Proposal
   * 2. Click on plus sign for creating an institutional proposal
@@ -7288,7 +7316,7 @@ steps to reproduce:
   * at org.kuali.rice.krad.datadictionary.uif.UifDictionaryIndex.getImmutableViewById(UifDictionaryIndex.java:142)
   * at org.kuali.rice.krad.datadictionary.uif.UifDictionaryIndex.getViewById(UifDictionaryIndex.java:128)
   * Joe Williams on Thu, 14 May 2015 12:38:14 -0500 [View Commit](../../commit/9c26bbd42ab635382b1f0eacb9aa70f6755b14f9)
-* when proposal is view only don't prompt user to save on close
+* RESKC-332:when proposal is view only don't prompt user to save on close
 
   * User is confused if they enter a proposal in view mode and then select close that the modal asks if they want to save.
 
@@ -7306,13 +7334,13 @@ steps to reproduce:
   * Results: The modal asking the user if they would like to save document displays.
   * Expected Results: Whenever proposal is in view mode It should not generate the modal asking to save when when closing.
   * Joe Williams on Thu, 14 May 2015 11:21:33 -0500 [View Commit](../../commit/c2a77a56286bf1e1b3ee79196fddf4bba8ff6a38)
-* Allow modification of S2S Opportunity anytime before submit
+* RESKC-5:Allow modification of S2S Opportunity anytime before submit
 
   * Revise selections in S2S Opportunity screen pre- and post-submission
   * As a Superuser or Proposal Approver and Submitter of S2S proposals to Grants.gov, I need to be able revise selections on the S2S Opportunity screen > Opportunity, Forms, and User Attached Forms tabs in proposals that are enroute/under review as well as Approved status, because the Submit to S2S step normally takes place after approval and submit to sponsor.
   * A new permission called 'Modify Proposal Development S2s While Enroute' has been added that controls the ability for a user to make modifications after the proposal is enroute.
   * blackcathacker on Tue, 12 May 2015 20:10:52 -0700 [View Commit](../../commit/5b4625f60f7b28a9f719bb6a47951b2354e83bd0)
-* Fixed double headers for cache admin and proposal development documents
+* RESKC-367:Fixed double headers for cache admin and proposal development documents
 
   * 1) login as quickstart
   * 2) switch to System Admin Tab (or maintenance tab)
@@ -7322,7 +7350,7 @@ steps to reproduce:
   * Joe Williams on Thu, 14 May 2015 09:55:38 -0500 [View Commit](../../commit/2fe83a31e4911a57708e86cfb1f771f75deeabd6)
 * Sort Special Review Type Alphabetically
   * Joe Williams on Wed, 13 May 2015 16:11:13 -0500 [View Commit](../../commit/61b40cc2d03e36f9e5ea7cbe6ba57da375908e6c)
-* scale attachment collections better with page resize
+* RESKC-12:scale attachment collections better with page resize
 
   * The new kualico ui, many of the screens redraw when in edit/add mode, putting several columns/buttons out of the window view, requiring scrolling.
 
@@ -7336,13 +7364,13 @@ steps to reproduce:
 
   * Can something be done to address the expanding window content? Like allowing these columns to text-wrap? In Add Attachments - reducing the column width of the Description field?
   * Joe Williams on Wed, 13 May 2015 13:42:45 -0500 [View Commit](../../commit/e4c0c7b45f8b50236a02e5d7d62e9e45d7f4ec92)
-* fix to display sponsor name when proposal is view only
+* RESKC-410:fix to display sponsor name when proposal is view only
 
   * The proposal opens on the Basics screen where Sponsor field displays the sponsor code but not the sponsor name (see attached screen shot).
 
   * Expected Result: The sponsor name needs to appear along with the sponsor code.
   * Joe Williams on Wed, 13 May 2015 09:39:54 -0500 [View Commit](../../commit/0a4242d8d3e6a0164e38236cd9a6659b0ee11417)
-* Fix modular idc currency validation to allow commas
+* RESKC-421:Fix modular idc currency validation to allow commas
 
   * Attempting to verify an RESSUP case, I created a new budget in existing proposal 332, added details, and then synced to the modular budget screen.
   * At Save, I got Errors on all 5 budget periods.
@@ -7372,7 +7400,7 @@ steps to reproduce:
   * Joe Williams on Tue, 12 May 2015 12:39:57 -0500 [View Commit](../../commit/a560732a9ca958365fc7a0d14f52ad371ace275a)
 * Fixes inablility to open committee
   * sanju.b on Mon, 10 Nov 2014 21:32:40 +0530 [View Commit](../../commit/2cbe4e0b22efedd2e1750cc9a162034d70bd4865)
-* Fixed proposal copy action to keep original performance sites and other organizations
+* RESKC-285:Fixed proposal copy action to keep original performance sites and other organizations
 
   * Copied Proposals replace the user added organization record with the Applicant Organization data.
   * Steps to Duplicate:
@@ -7382,7 +7410,7 @@ steps to reproduce:
 
   * Occurs for Performance Sites as well Other Organizations. To reproduce use steps above for Performance Site Locations instead of Other Organizations
   * Joe Williams on Wed, 13 May 2015 08:57:42 -0500 [View Commit](../../commit/cb61949d861d36007865c2607b96da04dff61ddf)
-*  Creating proposal from s2s opportunity
+* RESKC-391: Creating proposal from s2s opportunity
   * Module: Proposal Development/Researcher Portal link
   * Issue: STE when clicking on Create Proposal for S2S Opportunity link
   * User Story: As a proposal creator, I want to click on the link in the portal to Create a Proposal for S2S opportunity so that I can submit via to Grants.gov
@@ -7391,14 +7419,14 @@ steps to reproduce:
   * Actual result: click on link and get error:
   * org.springframework.web.bind.UnsatisfiedServletRequestParameterException: Parameter conditions "methodToCall=preparePrintDialog" not met for actual request parameters: document.developmentProposal.proposalTypeCode={}, document.developmentProposal.ownedByUnitNumber={}, document.developmentProposal.activityTypeCode={}, document.developmentProposal.requestedStartDateInitial={}, document.developmentProposal.requestedEndDateInitial={}, document.developmentProposal.title={}, document.developmentProposal.sponsorCode={}
   * Gayathri on Mon, 11 May 2015 21:04:14 -0700 [View Commit](../../commit/be4d40f7e4eb9bedaa9d74e4679895f4bc66a83e)
-* added warning message when abstract detail character limit has been reached
+* RESKC-304:added warning message when abstract detail character limit has been reached
 
   * In a basic proposal, add an Abstract (Layman Abstract type used for test). Use text generator to get a 50,000-character (with spaces) block of text. Copy/paste into abstract details modal (actually called Add Line). Text is truncated at 49,000 characters (with spaces) with no warning message that not all of the text has been pasted.
   * User Story:
   * As a user, I would like to have a warning message that I have reached a system limit for entering text, especially so that I do not assume my entire selection has been pasted into the limited space.
   * Something like << Data entry for this field is limited to 49,000 characters (with spaces). >> would cover both the situation of a person typing directly into the field and hitting the limit, and a user pasting a block of text from another source.
   * Joe Williams on Mon, 11 May 2015 08:25:23 -0500 [View Commit](../../commit/7a9b5711af404d8c11a9bbbb46246a5c51d263c4)
-* Added the ability to view budget summary and print budget forms when proposal is view only
+* RESKC-395:Added the ability to view budget summary and print budget forms when proposal is view only
 
   * As an Approver and an Aggregator, I need to have access to the Budget Printed Reports for all status of proposals.
   * Issue: in the 1504 kuali co release; the Budget > Actions menu (where the Print menu for budget reports is located) does not appear to the user when the proposal is submitted to routing, and stays hidden when the proposal is submitted.
@@ -7417,7 +7445,7 @@ steps to reproduce:
   * Travis Schneberger on Wed, 6 May 2015 13:13:57 -0400 [View Commit](../../commit/f12527fbe308d39afd3507fc1dd39e3352c42003)
 * Upgrading libraries in preparation for the move to Java 8: Spring upgrade
   * Travis Schneberger on Mon, 11 May 2015 10:08:06 -0400 [View Commit](../../commit/2be0fe4903074768439f75c43d91ddf95923b5b3)
-* Fixes autocalculate dates error with dates not exactly the same as the period
+* RESKC-363:Fixes autocalculate dates error with dates not exactly the same as the period
 
   * If user adds a budget expense for tba personnel and the dates are not the same as the budget period start and end dates, then the autocalculate does not get dates for any budget items in additional years correct.
 
@@ -7445,7 +7473,7 @@ steps to reproduce
   * Joe Williams on Thu, 7 May 2015 09:01:38 -0500 [View Commit](../../commit/42654d78a834682b77f2042faa40154d2c40de2b)
 * Upgrading libraries in preparation for the move to Java 8
   * Travis Schneberger on Fri, 8 May 2015 10:33:46 -0400 [View Commit](../../commit/77db2617239fe2b95f7d24561e6050d9b67d5f10)
-* Ensure GlobalVariables is updated in IncidentReport
+* RESKC-393:Ensure GlobalVariables is updated in IncidentReport
 
   * The incident report in some cases(clicking cancel button for instance) doesn't update the GlobalVariables user session. This checks for and logs incidents of this nature but also overwrites the GlobalVariables with the request user session to ensure it is up to date.
   * blackcathacker on Thu, 7 May 2015 14:35:41 -0700 [View Commit](../../commit/5cac86e2863da970a4a1db64bce4d1be6ad10c3c)
@@ -7459,10 +7487,10 @@ steps to reproduce
 
   * This code change provides a solution to the problem of trying to edit IPs with Sponsors that have been inactivated since the IP was first approved, by replacing the hard save error with an audit warning instead.
   * Travis Schneberger on Mon, 4 May 2015 16:14:41 -0400 [View Commit](../../commit/674046f87b5f66f8b4856a519499787536947ae9)
-*  Cleaning up all the other terms
+* RESKC-114: Cleaning up all the other terms
   * While working on this jira, I noticed that the method mapped for the term was wrong. While checking other terms, I found that other terms were mapped wrong as well. So fixing those.
   * Gayathri on Wed, 6 May 2015 15:25:02 -0700 [View Commit](../../commit/06439fc9933399b11c2c33756027c555080a94b2)
-* When opening subaward for award use edit mode
+* RESKC-310:When opening subaward for award use edit mode
 
   * Link to Subaward in the Award funding should open with edit button if user has appropriate role/permissions
   * Award modifiers should be able to edit an existing subaward via the awards module by selecting subawards -> Open subaward and then an edit button. The edit button is currently missing from this page.
@@ -7474,7 +7502,7 @@ steps to reproduce
   * RESULT: Only close button appears. Even though user has role/permission to create & edit subawards, the edit button is missing.
   * EXPECTED RESULT: User with appropriate role/permission should see an edit button in the subaward document when opening it via the link from awards. This is similar to how the link from subaward to award works when it opens the award and displays the edit button on the award document.
   * blackcathacker on Wed, 6 May 2015 17:58:23 -0700 [View Commit](../../commit/3de848fa6f829f2f09373bbe57467d7ee130b349)
-*  Fix term spec to call the right method.
+* Fix term spec to call the right method.
   * If you build an agenda with the costShareAmount term and create a PD with budget, you cannot navigate to the submit or questionnaire pages. Following STE
   * org.kuali.rice.krms.api.engine.TermResolutionException: Unable to plan the resolution of Term([costShareAmount]) [TermResolver=null, parameters={}] at org.kuali.rice.krms.framework.engine.TermResolutionEngineImpl.resolveTerm(TermResolutionEngineImpl.java:121) at org.kuali.rice.krms.framework.engine.BasicExecutionEnvironment.resolveTerm(BasicExecutionEnvironment.java:100) at org.kuali.rice.krms.framework.engine.expression.TermExpression.invoke(TermExpression.java:46) at  org.kuali.coeus.common.impl.krms.KrmsRulesExecutionServiceImpl.runApplicableRules(KrmsRulesExecutionServiceImpl.java:134) at org.kuali.coeus.common.questionnaire.impl.answer.QuestionnaireAnswerServiceImpl.runApplicableRules(QuestionnaireAnswerServiceImpl.java:799) at org.kuali.coeus.common.questionnaire.impl.answer.QuestionnaireAnswerServiceImpl.setupChildAnswerIndicator(QuestionnaireAnswerServiceImpl.java:549) at org.kuali.coeus.common.questionnaire.impl.answer.QuestionnaireAnswerServiceImpl.getQuestionnaireAnswer(QuestionnaireAnswerServiceImpl.java:258) at org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireHelperBase.populateAnswers(QuestionnaireHelperBase.java:163) at org.kuali.coeus.propdev.impl.core.ProposalDevelopmentViewHelperServiceImpl.populateQuestionnaires(ProposalDevelopmentViewHelperServiceImpl.java:620) at org.kuali.coeus.propdev.impl.core.ProposalDevelopmentViewHelperServiceImpl.prepareSummaryPage(ProposalDevelopmentViewHelperServiceImpl.java:772) at org.kuali.coeus.propdev.impl.core.ProposalDevelopmentSubmitController.navigateToSubmit(ProposalDevelopmentSubmitController.java:244)
   * Gayathri on Wed, 6 May 2015 14:37:13 -0700 [View Commit](../../commit/9e1838e75ed3a9b250c778111506e5d0e173b124)
@@ -7485,7 +7513,7 @@ steps to reproduce
 
   * Fixing conversion program
   * Travis Schneberger on Wed, 6 May 2015 14:58:59 -0400 [View Commit](../../commit/6d099d70e752bbc2e43ab3b1526ddf571a734992)
-* validate attachment status when submitting to sponsor
+* RESKC-382:validate attachment status when submitting to sponsor
 
   * There is a parameter for Proposal Development named AUDIT_INCOMPLETE_PROPOSAL_ATTACHMENTS that has the following description:
   * "When set to Y, proposals will be audited for incomplete attachments up to and including sponsor submission. When set to N, incomplete attachments are valid on a proposal up to but excluding sponsor submission."
@@ -7497,15 +7525,15 @@ steps to reproduce
   * Joe Williams on Thu, 30 Apr 2015 15:27:12 -0500 [View Commit](../../commit/b3e54a17d2bffb04c83cad0bc8f1b5cc15ba89ea)
 * Sort Special Review Approval Status Alphabetically
   * Joe Williams on Tue, 5 May 2015 16:41:02 -0500 [View Commit](../../commit/e4d1de92e60910d6df9672992eb93843509d2847)
-*  Budget null pointer
-  * In trying to figure out RESOPS-114, I could not open budget because of a null pointer so I added a null check in the place where I think this is coming from. Not sure if this will fix it but attempting.
+* Budget null pointer
+  * In trying to figure out I could not open budget because of a null pointer so I added a null check in the place where I think this is coming from. Not sure if this will fix it but attempting.
   * java.lang.RuntimeException: Exception evaluating expression: #ViewHelper.getDateFromTimeStamp(budget.createTimestamp) at org.kuali.rice.krad.uif.view.DefaultExpressionEvaluator.evaluateExpression(DefaultExpressionEvaluator.java:448) at org.kuali.rice.krad.uif.view.DefaultExpressionEvaluator.evaluatePropertyExpression(DefaultExpressionEvaluator.java:514) at org.kuali.rice.krad.uif.view.DefaultExpressionEvaluator.evaluatePropertyExpressions(DefaultExpressionEvaluator.java:735) at org.kuali.rice.krad.uif.view.DefaultExpressionEvaluator.evaluateExpressionsOnConfigurable(DefaultExpressionEvaluator.java:421)
   * Caused by: java.lang.NullPointerException at org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetViewHelperServiceImpl.getDateFromTimeStamp(ProposalBudgetViewHelperServiceImpl.java:209) at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57) at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) at java.lang.reflect.Method.invoke(Method.java:606) at org.springframework.expression.spel.support.ReflectiveMethodExecutor.execute(ReflectiveMethodExecutor.java:69) at org.springframework.expression.spel.ast.MethodReference.getValueInternal(MethodReference.java:122) at org.springframework.expression.spel.ast.MethodReference.access$000(MethodReference.java:44) at org.springframework.expression.spel.ast.MethodReference$MethodValueRef.getValue(MethodReference.java:258) at org.springframework.expression.spel.ast.CompoundExpression.getValueInternal(CompoundExpression.java:82) at org.springframework.expression.spel.ast.SpelNodeImpl.getValue(SpelNodeImpl.java:93) at org.springframework.expression.spel.standard.SpelExpression.getValue(SpelExpression.java:89) at org.kuali.rice.krad.uif.view.DefaultExpressionEvaluator.evaluateExpression(DefaultExpressionEvaluator.java:445) ... 81 more
   * Gayathri on Tue, 5 May 2015 16:39:57 -0700 [View Commit](../../commit/a020e99dd03db54a2225fe4fd1278d94718043c1)
-*  Allow other roles to be assigned in addition to aggregator document level role
+* RESKC-354: Allow other roles to be assigned in addition to aggregator document level role
   * There should not be a constraint of adding of other roles when aggregator is selected. These roles may be modified by implementing school so it may be necessary for Aggregator to also have any other role, ex: delete proposal.
   * Gayathri on Tue, 5 May 2015 13:01:28 -0700 [View Commit](../../commit/64fb806bb2641bc0a2b06058187671f8e28a496b)
-* Fix character encoding in the app.
+* RESKC-270:Fix character encoding in the app.
   * Create or edit award
   * In a Word document, type in: 'single quote' "double quote" long—dash
   * Cut that from Word and past in Award Title
@@ -7521,7 +7549,7 @@ steps to reproduce
 
   * This will avoid the placeholder ever being created as the user who is only trying to create a new award and avoid creating an editable Placeholder as well. This prevents the situation of placeholder award showing up in the users action list as an item to complete. This change also depends on the 'admin' user still existing and still having superuser privileges.
   * blackcathacker on Thu, 30 Apr 2015 15:09:07 -0700 [View Commit](../../commit/992884c355e41320e9b76910cb1561c7accb9b0b)
-*  Accept lower case characters
+* RESKC-283: Accept lower case characters
   * In the S2S opportunity lookup, if user enters any lower case letters as part of the opportunity id, the system returns an error message.
   * The search field should not be case sensitive.
   * Search field is not case sensitive in 5.2.x.
@@ -7569,7 +7597,7 @@ steps to reproduce
   * ORA-01422: exact fetch returns more than requested number of rows
   * ORA-06512: at line 7
   * Gayathri on Mon, 4 May 2015 13:59:37 -0700 [View Commit](../../commit/ced5293396f1b9f30c9de75d5cd212f0448782de)
-* fixes issues with printing s2s forms after proposal has been submitted to s2s
+* RESKC-378:fixes issues with printing s2s forms after proposal has been submitted to s2s
 
   * As a user, I need to be able to open a previously submitted PD and generate the PDF form files. I use this tool to verify the attachments I uploaded are the same as those in the sponsor's grant image, and to reference when I am preparing a resubmitted version of this research project. In the current release, I cannot generate the PDF forms of a submitted proposal. I get an STE.
 
@@ -7585,7 +7613,7 @@ steps to reproduce
 
   * java.lang.NullPointerException at org.kuali.coeus.propdev.impl.s2s.ProposalDevelopmentS2SController.printForms(ProposalDevelopmentS2SController.java:196) at org.kuali.coeus.propdev.impl.s2s.ProposalDevelopmentS2SController$$FastClassBySpringCGLIB$$5f5dd18.invoke(<generated>) at
   * Joe Williams on Mon, 4 May 2015 16:26:12 -0500 [View Commit](../../commit/328288555a35833ae16ac9cecbd25e8774b25bab)
-* return user to the subaward document from subaward invoice if subaward invoice was opened from the subaward document
+* RESKC-23:return user to the subaward document from subaward invoice if subaward invoice was opened from the subaward document
 
   * Create/open subaward document.
   * Use Add Invoice Button on the Financial tab to open an invoice document.
@@ -7610,7 +7638,7 @@ steps to reproduce
 
   * Changing "Sponsor Award" label to "Sponsor Award ID" in Negotiation.
   * Travis Schneberger on Fri, 1 May 2015 14:48:22 -0400 [View Commit](../../commit/9e8c0d664922d138e3a91b41791a86e10325710b)
-* format currency values with commas
+* RESKC-130:format currency values with commas
 
   * Throughout the PD Budget, money values are formatted without any commas (or dollar signs). When populated, money value fields should be formatted with commas and decimal as for currency. And especially when you get into the millions not having the commas becomes a problem.
   * Joe Williams on Thu, 30 Apr 2015 11:24:24 -0500 [View Commit](../../commit/2b6865ce25af2cfc068be4d219f34fda113b3c08)
@@ -7622,7 +7650,7 @@ steps to reproduce
 
   * Change name of function to "Complete Narrative Rule"
   * Joe Williams on Thu, 30 Apr 2015 15:43:40 -0500 [View Commit](../../commit/3ebea27d494d8f720ce82cb1e7d8044d67dd089e)
-*  Do not regenerate periods if periods already exist!
+* RESKC-370: Do not regenerate periods if periods already exist!
   * As an award budget user, when I create a rebudget (new version of posted budget with no change to authorized amount), I expect to have all the budget details from the last posted version appear in the rebudget. I should be reducing funds from the existing line items and redistributing that amount to current or new line items, confined to matching the preexisting authorized total.
   * Current (4/29/15) release is not copying the posted budget details to the rebudget; the rebudget is blank, only letting me search for an IP to link details or manually reenter all items. This is not the intended functionality, and not consistent with prior releases.
   * Steps to recreate:
@@ -7680,13 +7708,13 @@ steps to reproduce
 
   * Given a system administrator has to edit a budget category, when the appropriate edits are made and submitted, then the budget category is updated with my changes.
   * Joe Williams on Thu, 30 Apr 2015 14:20:24 -0500 [View Commit](../../commit/e95f90171f079a8add01d288fc427a37711b5237)
-* Review comment updates for CONTRIB file
+* RESKC-372:Review comment updates for CONTRIB file
   * blackcathacker on Thu, 30 Apr 2015 09:13:52 -0700 [View Commit](../../commit/f20c423660567290a9a07223675d83d31fba7419)
-* Add contributing file for public contributions
+* RESKC-372:Add contributing file for public contributions
   * blackcathacker on Wed, 29 Apr 2015 10:19:55 -0700 [View Commit](../../commit/dabcec5c3c1d54eec3f3852f5e4f9db92364ebe9)
-*  Refactoring and small unit test to exercise code
+* RESKC-251: Refactoring and small unit test to exercise code
   * blackcathacker on Wed, 29 Apr 2015 20:11:52 -0700 [View Commit](../../commit/8bfb47b2ba80b14cbc294503e24062e17a0fe9cc)
-* Use awardDocument updated info instead of award
+* RESKC-251:Use awardDocument updated info instead of award
 
   * Award Time and Money - T&M updates should not alter Award Version update timestamp and user
   * The History view should not reflect the update of the T&M change, but maintain when the award was last updated.
@@ -7696,7 +7724,7 @@ steps to reproduce
   * Travis Schneberger on Thu, 30 Apr 2015 09:16:14 -0400 [View Commit](../../commit/42e27297087a985e47107aecc2729a60fdb8420e)
 * Fix unit test related to: Omit questionnaires when related forms are not marked as included
   * Travis Schneberger on Wed, 29 Apr 2015 19:38:44 -0400 [View Commit](../../commit/32b9392ebb5052ab2c9a79ce76dbfc2c513f5f54)
-* Set bounds on DevelopmentProposal lookups
+* RESKC-343:Set bounds on DevelopmentProposal lookups
 
   * When tested originally we were able to repo a outofmemory error and the search taking a LONG time. By setting bounds on the search always the search returns rather quickly. Further work needs to be done to resolve problems when a user has limited access to proposals as none may returned as the first 20 returned don't include any they have permission on.
   * blackcathacker on Wed, 29 Apr 2015 14:11:21 -0700 [View Commit](../../commit/479f8b3c87119a205dac441f16ba6dcaa8768215)
@@ -7708,7 +7736,7 @@ steps to reproduce
 
   * When an attachment exists such as a narrative or biography but the attachment does not have attachment data and the proposal attachment is copied with the copy attachments option then a NullPointerException occurs.  This scenario should not happen under normal circumstances and may indicate bad data in the system.
   * Travis Schneberger on Wed, 29 Apr 2015 15:18:45 -0400 [View Commit](../../commit/81e13a9a03d04e0e7aa131551524721ac16d239b)
-*  Moving schemaspy feature to public release.
+* Moving schemaspy feature to public release.
 
 * Moving schemaspy initialization logic and dependency info out of the grm profile
 * Making schemaspy a compile-time dependency, with current version
@@ -7718,10 +7746,10 @@ steps to reproduce
 * cleanup of poms
 * fix incorrect instructions for instrumentation in readme.md
   * Travis Schneberger on Tue, 28 Apr 2015 10:57:12 -0400 [View Commit](../../commit/090381e3152e2f78597122ff0bf1d8ef16c38310)
-*  IP versioning should not copy award funding proposals over.
+* RESKC-280: IP versioning should not copy award funding proposals over.
   * When a version of IP is linked to a version of the award, only that version needs to be linked instead of all edits of ths IP beling linked to the award. While displaying the awards linked in IP, display all the IP versions linked to awards.
   * Gayathri on Mon, 27 Apr 2015 11:28:20 -0700 [View Commit](../../commit/c96268ccb1fdc8e62bf13e0014cd8e971021a89c)
-* set correct update user after editing an institutional proposal
+* RESKC-278:set correct update user after editing an institutional proposal
 
   * Edit an IP
   * The Last Update field appropriately indicates the user that is updating the record while it is open.
@@ -7738,7 +7766,7 @@ steps to reproduce
 
   * This document currently has a 160-PROPOSAL DEVELOPMENT lock owned by KR
   * Joe Williams on Tue, 28 Apr 2015 08:39:16 -0500 [View Commit](../../commit/26b45e35514791bfbf5d4ea361946066b56dd864)
-* Fix Wrong Proposal Status after Proposal Approved at Final Stop and Submitted to Sponsor
+* RESKC-352:Fix Wrong Proposal Status after Proposal Approved at Final Stop and Submitted to Sponsor
 
   * Create Proposal
   * Submit for Review
@@ -7749,23 +7777,23 @@ steps to reproduce
   * Joe Williams on Mon, 27 Apr 2015 15:35:26 -0500 [View Commit](../../commit/47212200a0a570fdb927c032a01a0be28ebf9c42)
 * RESKC_352:clean up proposalHierarchyServiceImpl
   * Joe Williams on Mon, 27 Apr 2015 08:18:52 -0500 [View Commit](../../commit/530d493dd6db7a5eb6a6e4304e80c941a7ab0e30)
-*  added institutional proposal rest service
+* added institutional proposal rest service
   * Joe Williams on Thu, 23 Apr 2015 12:30:06 -0400 [View Commit](../../commit/a77012e0380744c91b4b96dc3ae7ad251ebccba1)
-*  depending on new kualico build of jasper token auth jar
+* depending on new kualico build of jasper token auth jar
   * Travis Schneberger on Mon, 27 Apr 2015 17:26:07 -0400 [View Commit](../../commit/7d09e80ead59320026a5f93474336f94ea695953)
-*  resequencing sql scripts, adding oracle script
+* RESKC-275: resequencing sql scripts, adding oracle script
   * Travis Schneberger on Fri, 24 Apr 2015 10:57:40 -0400 [View Commit](../../commit/3be9e0c54554a8d11f7f9ce74eb3a0daeeded7ae)
-*  code review comments
+* RESKC-275: code review comments
   * Travis Schneberger on Fri, 24 Apr 2015 10:18:51 -0400 [View Commit](../../commit/de832842dafaaeacbee2d0a34c3206f2a711e401)
-*  make award date change transactions show up with a transaction id in the various history views and transaction print dropdown menus
+* RESKC-275: make award date change transactions show up with a transaction id in the various history views and transaction print dropdown menus
   * Travis Schneberger on Wed, 15 Apr 2015 15:42:18 -0400 [View Commit](../../commit/3832977239e89c6d877c0e68219edf1cf77abc6e)
-*  cleanup
+* RESKC-275: cleanup
   * Travis Schneberger on Wed, 15 Apr 2015 09:02:54 -0400 [View Commit](../../commit/6a44b3b4a0e1c08183ca4895dae7217c5bab704f)
 * Make all xmlstream beans prototype scope
 
   * XMLStream beans contain state which means they all need to be prototype scope to avoid potential clashes when server is under load
   * blackcathacker on Fri, 24 Apr 2015 10:03:02 -0400 [View Commit](../../commit/9d03addaef34a426aaa43286af951c931d61028b)
-*  added correct s2s error message and fix it link for congressional district errors
+* RESKC-341: added correct s2s error message and fix it link for congressional district errors
 
   * The Fix button for Validation error on Congressional District in the Grants.gov Errors section takes you to S2S window; it should take you to Organization Tab where error can be fixed.
   * Joe Williams on Fri, 24 Apr 2015 09:40:05 -0400 [View Commit](../../commit/b3428ae736ac22b7d2d826b6de8792f5e9950ec8)
@@ -7777,7 +7805,7 @@ steps to reproduce
   * blackcathacker on Thu, 23 Apr 2015 09:30:24 -0400 [View Commit](../../commit/57f3a7f16a133ce76a23dd738db592748771da9e)
 * Remove duplicately versioned sql files
   * blackcathacker on Wed, 22 Apr 2015 16:43:11 -0400 [View Commit](../../commit/6c90e27d2050456d8a7a88dc59c4fc084b1e866b)
-* add warning message to autocalculate periods
+* RESKC-219:add warning message to autocalculate periods
   * Joe Williams on Fri, 17 Apr 2015 15:32:59 -0500 [View Commit](../../commit/0e0a7e0cde1e9cbcddfbd787a02d6fc570c959c4)
 * Code review comments
   * blackcathacker on Fri, 17 Apr 2015 09:25:18 -0700 [View Commit](../../commit/49aab06b0024335363541359a2150be529de8095)
@@ -7787,7 +7815,7 @@ steps to reproduce
 
   * When the placeholder doc was created by creating an award and not copying a hierarchy the resulting document doesn't have a valid award. Specifically no sponsor code which was causing an exception. This checks for the placeholder doc before checking for the sponsor groups.
   * blackcathacker on Wed, 22 Apr 2015 11:33:56 -0400 [View Commit](../../commit/29773eb718669a185ef526f2919b9358ea39d16d)
-*  Cleaning up commit. Since we are overriding refreshNonUpdateableReferences anyway, we do not need to override method in rule base. Serialization changes also not needed it appears.
+* Cleaning up commit. Since we are overriding refreshNonUpdateableReferences anyway, we do not need to override method in rule base. Serialization changes also not needed it appears.
   * Gayathri on Wed, 22 Apr 2015 05:59:13 -0700 [View Commit](../../commit/abbd850c9110b1bffe6e2c11166d7f5bd596e436)
 * fix rolodex persistence through sponsor maintenance document
 
@@ -7808,13 +7836,13 @@ steps to reproduce
 
   * A customer ended up with sponsor codes shorter than 6 characters and since it was allowed by the database and a minimal functional change the sponsor code can now be any alphanumeric up to 6 characters
   * blackcathacker on Tue, 21 Apr 2015 16:02:18 -0400 [View Commit](../../commit/ed1500ec3dd9bfa11425fcbf3519f7574ed64bea)
-* Oracle scripts
+* RESKC-342:Oracle scripts
 
   * Bring full oracle scripts renamed and numbered back into the project
   * blackcathacker on Tue, 21 Apr 2015 09:15:55 -0400 [View Commit](../../commit/14507ad004e32834d9cc4767d4186a1fceda7dc4)
-* added rolodex and ynq inquiry links to organization inquiry view
+* RESKC-316:added rolodex and ynq inquiry links to organization inquiry view
   * Joe Williams on Fri, 17 Apr 2015 14:59:43 -0500 [View Commit](../../commit/a1c752970037090bb002df5fb75632b13722a169)
-* added update user to data over history
+* RESKC-279:added update user to data over history
   * Joe Williams on Fri, 17 Apr 2015 13:58:48 -0500 [View Commit](../../commit/2f75317d94266a9cb1054511dec9cd090a2fb36f)
 * kc-sql version update
   * blackcathacker on Fri, 17 Apr 2015 21:48:12 -0700 [View Commit](../../commit/000b000c1bcb3c8ae91236e60f120b1e7863a1c4)
@@ -7824,7 +7852,7 @@ steps to reproduce
   * Travis Schneberger on Mon, 16 Mar 2015 12:51:00 -0400 [View Commit](../../commit/bb72f3def08e57a5f0b5cb18f8b6dcb4950849ed)
 
 ##coeus-1505.41
-* return to award from award budget if budget was opened from award
+* RESKC-358:return to award from award budget if budget was opened from award
 
   * Open an Award
   * Go to Budget Versions
@@ -7843,7 +7871,7 @@ steps to reproduce
 
 
 ##coeus-1505.39
-* Fix for award error when saving on Payment, Reports & Terms
+* RESKC-348:Fix for award error when saving on Payment, Reports & Terms
 
   * -Create new award
   * -Enter required data on Award tab, save
@@ -7880,13 +7908,13 @@ steps to reproduce
   * Travis Schneberger on Fri, 15 May 2015 15:14:13 -0400 [View Commit](../../commit/edc26dfe1b6c82769d11c051bae13c155a0dc5f7)
 * Upgrading to Java 8: removing MaxPerm setting since java 8 does not have perm gen space
   * Travis Schneberger on Fri, 15 May 2015 12:46:55 -0400 [View Commit](../../commit/7217b0a4096a69b468ccf40fa2597cc03add0604)
-* return user to krad portal when closing a transactional document
+* RESKC-176:return user to krad portal when closing a transactional document
   * Joe Williams on Fri, 15 May 2015 10:37:34 -0500 [View Commit](../../commit/3e3c3d50c6df0e90ffb3942d3311cb3c0ec245d3)
 * Upgrading to Java 8: switching version of cglib to use an updated/non-repackaged version of asm
   * Travis Schneberger on Fri, 15 May 2015 12:32:24 -0400 [View Commit](../../commit/cb8adf607d85b67a7d71e5defd1b00e0379bc8ac)
 * Upgrading to Java 8: upgrading jmock
   * Travis Schneberger on Fri, 15 May 2015 11:20:12 -0400 [View Commit](../../commit/2cd5e268c5ab56658c411f870d515ce7e7542925)
-* refactoring and added tests
+* RESKC-264:refactoring and added tests
   * Joe Williams on Fri, 15 May 2015 09:42:08 -0500 [View Commit](../../commit/d489080c07844d78585d69e085c3b5fefe7c93cd)
 * Multiple Choice enhancement for contribution.
 
@@ -7896,7 +7924,7 @@ steps to reproduce
 
   * code review comments
   * Travis Schneberger on Fri, 15 May 2015 10:43:38 -0400 [View Commit](../../commit/d9690e74dfec73c6431f932aca5d9525a13820ec)
-* Fix to display correct linked subawards when award is versioned
+* RESKC-264:Fix to display correct linked subawards when award is versioned
 
   * 1. Create and submit a new Award (just complete the required fields to save and submit, no need to do a T&M document)
   * 2. Create a new Subaward, adding the just-created Award as the Funding Source, and then submit the Subaward
@@ -7943,7 +7971,7 @@ steps to reproduce
 
 
 ##coeus-1505.34
-*  Making field readOnly so the values do not get updated while enroute
+* RESKC-436: Making field readOnly so the values do not get updated while enroute
   * As a viewer of routing proposals, I navigate to review the included S2S Opportunity Forms. Upon opening this screen, all selected forms to include display as unchecked. Confirmed that the items were checked prior to routing; and remain checked if no one views them. But if the screen is opened prior to submitting to s2s, none of these optional forms & their attachments are being submitted.
   * Tried an alternate method to preview S2S forms via the Toolbar menu. At first opening, the checks were there. But when I reopened the toolbar print option in the same session - the checkmarks were gone.
   * This is a serious problem.
@@ -7955,7 +7983,7 @@ steps to reproduce
   * As approver RRabbit - logged in, Action List> opened proposal
   * Navigated to S2S Opportunity screen > Forms - all optional forms unchecked.
   * Gayathri on Thu, 14 May 2015 14:46:01 -0700 [View Commit](../../commit/2fb0b7106cc3a7670d181a0f8cd34469f53a721b)
-* fixes STE when cancelling from add instituional proposal lookup
+* RESKC-307:fixes STE when cancelling from add instituional proposal lookup
 
   * 1. Central Admin > Pre-Award > Institutional Proposal
   * 2. Click on plus sign for creating an institutional proposal
@@ -7967,7 +7995,7 @@ steps to reproduce
   * at org.kuali.rice.krad.datadictionary.uif.UifDictionaryIndex.getImmutableViewById(UifDictionaryIndex.java:142)
   * at org.kuali.rice.krad.datadictionary.uif.UifDictionaryIndex.getViewById(UifDictionaryIndex.java:128)
   * Joe Williams on Thu, 14 May 2015 12:38:14 -0500 [View Commit](../../commit/f53d8d72fe0eed583664c258863efe2cde34872b)
-* when proposal is view only don't prompt user to save on close
+* RESKC-332:when proposal is view only don't prompt user to save on close
 
   * User is confused if they enter a proposal in view mode and then select close that the modal asks if they want to save.
 
@@ -7985,7 +8013,7 @@ steps to reproduce
   * Results: The modal asking the user if they would like to save document displays.
   * Expected Results: Whenever proposal is in view mode It should not generate the modal asking to save when when closing.
   * Joe Williams on Thu, 14 May 2015 11:21:33 -0500 [View Commit](../../commit/cea4ee4ed5816eff95400775ccc41448f64330d8)
-* Fixed double headers for cache admin and proposal development documents
+* RESKC-367:Fixed double headers for cache admin and proposal development documents
 
   * 1) login as quickstart
   * 2) switch to System Admin Tab (or maintenance tab)
@@ -7993,7 +8021,7 @@ steps to reproduce
   * 4) Open document
   * Result: Double Headers appear
   * Joe Williams on Thu, 14 May 2015 09:55:38 -0500 [View Commit](../../commit/5cfb32530579f088458d6b8bcc342aa69de4688b)
-* Allow modification of S2S Opportunity anytime before submit
+* RESKC-5:Allow modification of S2S Opportunity anytime before submit
 
   * Revise selections in S2S Opportunity screen pre- and post-submission
   * As a Superuser or Proposal Approver and Submitter of S2S proposals to Grants.gov, I need to be able revise selections on the S2S Opportunity screen > Opportunity, Forms, and User Attached Forms tabs in proposals that are enroute/under review as well as Approved status, because the Submit to S2S step normally takes place after approval and submit to sponsor.
@@ -8003,7 +8031,7 @@ steps to reproduce
   * Joe Williams on Wed, 13 May 2015 16:11:13 -0500 [View Commit](../../commit/28424fd6ca9a57554ed4cb0e90b675083e79b78c)
 
 ##coeus-1505.33
-* scale attachment collections better with page resize
+* RESKC-12:scale attachment collections better with page resize
 
   * The new kualico ui, many of the screens redraw when in edit/add mode, putting several columns/buttons out of the window view, requiring scrolling.
 
@@ -8027,7 +8055,7 @@ steps to reproduce
 
 
 ##coeus-1505.30
-* fix to display sponsor name when proposal is view only
+* RESKC-410:fix to display sponsor name when proposal is view only
 
   * The proposal opens on the Basics screen where Sponsor field displays the sponsor code but not the sponsor name (see attached screen shot).
 
@@ -8035,7 +8063,7 @@ steps to reproduce
   * Joe Williams on Wed, 13 May 2015 09:39:54 -0500 [View Commit](../../commit/c4c21ada04c0b92cc1d48bb309fc4f437bcc5669)
 * Fixes inablility to open committee
   * sanju.b on Mon, 10 Nov 2014 21:32:40 +0530 [View Commit](../../commit/2940fb7ce4a57e93426b4ebb1151b20f580246c3)
-* Fixed proposal copy action to keep original performance sites and other organizations
+* RESKC-285:Fixed proposal copy action to keep original performance sites and other organizations
 
   * Copied Proposals replace the user added organization record with the Applicant Organization data.
   * Steps to Duplicate:
@@ -8045,7 +8073,7 @@ steps to reproduce
 
   * Occurs for Performance Sites as well Other Organizations. To reproduce use steps above for Performance Site Locations instead of Other Organizations
   * Joe Williams on Wed, 13 May 2015 08:57:42 -0500 [View Commit](../../commit/3eb72b26048625fac9a3eb97f17975b16317792a)
-* Fix modular idc currency validation to allow commas
+* RESKC-421:Fix modular idc currency validation to allow commas
 
   * Attempting to verify an RESSUP case, I created a new budget in existing proposal 332, added details, and then synced to the modular budget screen.
   * At Save, I got Errors on all 5 budget periods.
@@ -8075,7 +8103,7 @@ steps to reproduce
   * Joe Williams on Tue, 12 May 2015 12:39:57 -0500 [View Commit](../../commit/46d635687f3609d414fed881453d6afe30a0c2c3)
 
 ##coeus-1505.29
-*  Creating proposal from s2s opportunity
+* RESKC-391: Creating proposal from s2s opportunity
   * Module: Proposal Development/Researcher Portal link
   * Issue: STE when clicking on Create Proposal for S2S Opportunity link
   * User Story: As a proposal creator, I want to click on the link in the portal to Create a Proposal for S2S opportunity so that I can submit via to Grants.gov
@@ -8086,7 +8114,7 @@ steps to reproduce
   * Gayathri on Mon, 11 May 2015 21:04:14 -0700 [View Commit](../../commit/9a9266531eac4e8ccdd16cff9250cc7a2d6326df)
 
 ##coeus-1505.28
-* added warning message when abstract detail character limit has been reached
+* RESKC-304:added warning message when abstract detail character limit has been reached
 
   * In a basic proposal, add an Abstract (Layman Abstract type used for test). Use text generator to get a 50,000-character (with spaces) block of text. Copy/paste into abstract details modal (actually called Add Line). Text is truncated at 49,000 characters (with spaces) with no warning message that not all of the text has been pasted.
   * User Story:
@@ -8099,7 +8127,7 @@ steps to reproduce
 
 
 ##coeus-1505.26
-* Added the ability to view budget summary and print budget forms when proposal is view only
+* RESKC-395:Added the ability to view budget summary and print budget forms when proposal is view only
 
   * As an Approver and an Aggregator, I need to have access to the Budget Printed Reports for all status of proposals.
   * Issue: in the 1504 kuali co release; the Budget > Actions menu (where the Print menu for budget reports is located) does not appear to the user when the proposal is submitted to routing, and stays hidden when the proposal is submitted.
@@ -8130,7 +8158,7 @@ steps to reproduce
 ##coeus-1505.22
 * Upgrading libraries in preparation for the move to Java 8
   * Travis Schneberger on Fri, 8 May 2015 10:33:46 -0400 [View Commit](../../commit/e077f0d99b1538aa7f56cd2f26253a588c87183d)
-* Fixes autocalculate dates error with dates not exactly the same as the period
+* RESKC-363:Fixes autocalculate dates error with dates not exactly the same as the period
 
   * If user adds a budget expense for tba personnel and the dates are not the same as the budget period start and end dates, then the autocalculate does not get dates for any budget items in additional years correct.
 
@@ -8162,7 +8190,7 @@ steps to reproduce
 
 
 ##coeus-1505.20
-* Ensure GlobalVariables is updated in IncidentReport
+* RESKC-393:Ensure GlobalVariables is updated in IncidentReport
 
   * The incident report in some cases(clicking cancel button for instance) doesn't update the GlobalVariables user session. This checks for and logs incidents of this nature but also overwrites the GlobalVariables with the request user session to ensure it is up to date.
   * blackcathacker on Thu, 7 May 2015 14:35:41 -0700 [View Commit](../../commit/c07238ae057f362a1ee301db6abb0b03fe822586)
@@ -8180,12 +8208,12 @@ steps to reproduce
   * Travis Schneberger on Mon, 4 May 2015 16:14:41 -0400 [View Commit](../../commit/f9204cfdc0c565c21f85ade541870f90873269c0)
 
 ##coeus-1505.18
-*  Cleaning up all the other terms
+* RESKC-114: Cleaning up all the other terms
   * While working on this jira, I noticed that the method mapped for the term was wrong. While checking other terms, I found that other terms were mapped wrong as well. So fixing those.
   * Gayathri on Wed, 6 May 2015 15:25:02 -0700 [View Commit](../../commit/a8fd87a4556c0b3d44399effcc160b7cf8811a00)
 
 ##coeus-1505.17
-* When opening subaward for award use edit mode
+* RESKC-310:When opening subaward for award use edit mode
 
   * Link to Subaward in the Award funding should open with edit button if user has appropriate role/permissions
   * Award modifiers should be able to edit an existing subaward via the awards module by selecting subawards -> Open subaward and then an edit button. The edit button is currently missing from this page.
@@ -8199,7 +8227,7 @@ steps to reproduce
   * blackcathacker on Wed, 6 May 2015 17:58:23 -0700 [View Commit](../../commit/310ee38bc3b3b082e18658eb41553bfef8b49cba)
 
 ##coeus-1505.16
-*  Fix term spec to call the right method.
+* Fix term spec to call the right method.
   * If you build an agenda with the costShareAmount term and create a PD with budget, you cannot navigate to the submit or questionnaire pages. Following STE
   * org.kuali.rice.krms.api.engine.TermResolutionException: Unable to plan the resolution of Term([costShareAmount]) [TermResolver=null, parameters={}] at org.kuali.rice.krms.framework.engine.TermResolutionEngineImpl.resolveTerm(TermResolutionEngineImpl.java:121) at org.kuali.rice.krms.framework.engine.BasicExecutionEnvironment.resolveTerm(BasicExecutionEnvironment.java:100) at org.kuali.rice.krms.framework.engine.expression.TermExpression.invoke(TermExpression.java:46) at  org.kuali.coeus.common.impl.krms.KrmsRulesExecutionServiceImpl.runApplicableRules(KrmsRulesExecutionServiceImpl.java:134) at org.kuali.coeus.common.questionnaire.impl.answer.QuestionnaireAnswerServiceImpl.runApplicableRules(QuestionnaireAnswerServiceImpl.java:799) at org.kuali.coeus.common.questionnaire.impl.answer.QuestionnaireAnswerServiceImpl.setupChildAnswerIndicator(QuestionnaireAnswerServiceImpl.java:549) at org.kuali.coeus.common.questionnaire.impl.answer.QuestionnaireAnswerServiceImpl.getQuestionnaireAnswer(QuestionnaireAnswerServiceImpl.java:258) at org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireHelperBase.populateAnswers(QuestionnaireHelperBase.java:163) at org.kuali.coeus.propdev.impl.core.ProposalDevelopmentViewHelperServiceImpl.populateQuestionnaires(ProposalDevelopmentViewHelperServiceImpl.java:620) at org.kuali.coeus.propdev.impl.core.ProposalDevelopmentViewHelperServiceImpl.prepareSummaryPage(ProposalDevelopmentViewHelperServiceImpl.java:772) at org.kuali.coeus.propdev.impl.core.ProposalDevelopmentSubmitController.navigateToSubmit(ProposalDevelopmentSubmitController.java:244)
   * Gayathri on Wed, 6 May 2015 14:37:13 -0700 [View Commit](../../commit/4990388e6b19fecbd00199b3fc777ff8a398b405)
@@ -8214,7 +8242,7 @@ steps to reproduce
   * Travis Schneberger on Wed, 6 May 2015 14:58:59 -0400 [View Commit](../../commit/f84886cc19d3068f3903be077ab96847ef2ac1d5)
 
 ##coeus-1505.14
-* validate attachment status when submitting to sponsor
+* RESKC-382:validate attachment status when submitting to sponsor
 
   * There is a parameter for Proposal Development named AUDIT_INCOMPLETE_PROPOSAL_ATTACHMENTS that has the following description:
   * "When set to Y, proposals will be audited for incomplete attachments up to and including sponsor submission. When set to N, incomplete attachments are valid on a proposal up to but excluding sponsor submission."
@@ -8228,8 +8256,8 @@ steps to reproduce
   * Joe Williams on Tue, 5 May 2015 16:41:02 -0500 [View Commit](../../commit/d514c3fa7b68e6b029917f521b2d512f169663b0)
 
 ##coeus-1505.13
-*  Budget null pointer
-  * In trying to figure out RESOPS-114, I could not open budget because of a null pointer so I added a null check in the place where I think this is coming from. Not sure if this will fix it but attempting.
+* Budget null pointer
+  * In trying to figure out I could not open budget because of a null pointer so I added a null check in the place where I think this is coming from. Not sure if this will fix it but attempting.
   * java.lang.RuntimeException: Exception evaluating expression: #ViewHelper.getDateFromTimeStamp(budget.createTimestamp) at org.kuali.rice.krad.uif.view.DefaultExpressionEvaluator.evaluateExpression(DefaultExpressionEvaluator.java:448) at org.kuali.rice.krad.uif.view.DefaultExpressionEvaluator.evaluatePropertyExpression(DefaultExpressionEvaluator.java:514) at org.kuali.rice.krad.uif.view.DefaultExpressionEvaluator.evaluatePropertyExpressions(DefaultExpressionEvaluator.java:735) at org.kuali.rice.krad.uif.view.DefaultExpressionEvaluator.evaluateExpressionsOnConfigurable(DefaultExpressionEvaluator.java:421)
   * Caused by: java.lang.NullPointerException at org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetViewHelperServiceImpl.getDateFromTimeStamp(ProposalBudgetViewHelperServiceImpl.java:209) at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57) at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) at java.lang.reflect.Method.invoke(Method.java:606) at org.springframework.expression.spel.support.ReflectiveMethodExecutor.execute(ReflectiveMethodExecutor.java:69) at org.springframework.expression.spel.ast.MethodReference.getValueInternal(MethodReference.java:122) at org.springframework.expression.spel.ast.MethodReference.access$000(MethodReference.java:44) at org.springframework.expression.spel.ast.MethodReference$MethodValueRef.getValue(MethodReference.java:258) at org.springframework.expression.spel.ast.CompoundExpression.getValueInternal(CompoundExpression.java:82) at org.springframework.expression.spel.ast.SpelNodeImpl.getValue(SpelNodeImpl.java:93) at org.springframework.expression.spel.standard.SpelExpression.getValue(SpelExpression.java:89) at org.kuali.rice.krad.uif.view.DefaultExpressionEvaluator.evaluateExpression(DefaultExpressionEvaluator.java:445) ... 81 more
   * Gayathri on Tue, 5 May 2015 16:39:57 -0700 [View Commit](../../commit/c5e10d16d8f151b88c137a77fb54beff47fe6777)
@@ -8239,12 +8267,12 @@ steps to reproduce
 
 
 ##coeus-1505.11
-*  Allow other roles to be assigned in addition to aggregator document level role
+* RESKC-354: Allow other roles to be assigned in addition to aggregator document level role
   * There should not be a constraint of adding of other roles when aggregator is selected. These roles may be modified by implementing school so it may be necessary for Aggregator to also have any other role, ex: delete proposal.
   * Gayathri on Tue, 5 May 2015 13:01:28 -0700 [View Commit](../../commit/fd979aa5554c8b42f2fde9412258c2217eb65ca6)
 
 ##coeus-1505.10
-* Fix character encoding in the app.
+* RESKC-270:Fix character encoding in the app.
   * Create or edit award
   * In a Word document, type in: 'single quote' "double quote" long—dash
   * Cut that from Word and past in Award Title
@@ -8258,7 +8286,7 @@ steps to reproduce
   * Gayathri on Tue, 5 May 2015 09:53:42 -0700 [View Commit](../../commit/feb6e0869f5dd368b6f2067b53f7e355757c47a4)
 * Avoid NullPointerException in KRMS when a narrative does not have a narrative status.
   * Travis Schneberger on Tue, 5 May 2015 14:10:01 -0400 [View Commit](../../commit/85e1c3fb8d3d566c0f1ba92759cb9d5a17966572)
-*  Accept lower case characters
+* RESKC-283: Accept lower case characters
   * In the S2S opportunity lookup, if user enters any lower case letters as part of the opportunity id, the system returns an error message.
   * The search field should not be case sensitive.
   * Search field is not case sensitive in 5.2.x.
@@ -8318,7 +8346,7 @@ steps to reproduce
 
 
 ##coeus-1505.6
-* fixes issues with printing s2s forms after proposal has been submitted to s2s
+* RESKC-378:fixes issues with printing s2s forms after proposal has been submitted to s2s
 
   * As a user, I need to be able to open a previously submitted PD and generate the PDF form files. I use this tool to verify the attachments I uploaded are the same as those in the sponsor's grant image, and to reference when I am preparing a resubmitted version of this research project. In the current release, I cannot generate the PDF forms of a submitted proposal. I get an STE.
 
@@ -8336,7 +8364,7 @@ steps to reproduce
   * Joe Williams on Mon, 4 May 2015 16:26:12 -0500 [View Commit](../../commit/0b9d8a26de48a35bd0d6ac15975f6c019df988bc)
 
 ##coeus-1505.5
-* return user to the subaward document from subaward invoice if subaward invoice was opened from the subaward document
+* RESKC-23:return user to the subaward document from subaward invoice if subaward invoice was opened from the subaward document
 
   * Create/open subaward document.
   * Use Add Invoice Button on the Financial tab to open an invoice document.
@@ -8381,7 +8409,7 @@ steps to reproduce
 
   * Change name of function to "Complete Narrative Rule"
   * Joe Williams on Thu, 30 Apr 2015 15:43:40 -0500 [View Commit](../../commit/e7cb52c9b5bd23ebf1b714c7eb4394a9033ac402)
-* format currency values with commas
+* RESKC-130:format currency values with commas
 
   * Throughout the PD Budget, money values are formatted without any commas (or dollar signs). When populated, money value fields should be formatted with commas and decimal as for currency. And especially when you get into the millions not having the commas becomes a problem.
   * Joe Williams on Thu, 30 Apr 2015 11:24:24 -0500 [View Commit](../../commit/c5d86877ac264163546d13cb259231f96de22d37)
@@ -8391,7 +8419,7 @@ steps to reproduce
 
 
 ##coeus-1504.16
-*  Do not regenerate periods if periods already exist!
+* RESKC-370: Do not regenerate periods if periods already exist!
   * As an award budget user, when I create a rebudget (new version of posted budget with no change to authorized amount), I expect to have all the budget details from the last posted version appear in the rebudget. I should be reducing funds from the existing line items and redistributing that amount to current or new line items, confined to matching the preexisting authorized total.
   * Current (4/29/15) release is not copying the posted budget details to the rebudget; the rebudget is blank, only letting me search for an IP to link details or manually reenter all items. This is not the intended functionality, and not consistent with prior releases.
   * Steps to recreate:
@@ -8449,15 +8477,15 @@ steps to reproduce
 
   * Given a system administrator has to edit a budget category, when the appropriate edits are made and submitted, then the budget category is updated with my changes.
   * Joe Williams on Thu, 30 Apr 2015 14:20:24 -0500 [View Commit](../../commit/261e859ae06470ad7a7d44c7890d80dabf98f23a)
-* Review comment updates for CONTRIB file
+* RESKC-372:Review comment updates for CONTRIB file
   * blackcathacker on Thu, 30 Apr 2015 09:13:52 -0700 [View Commit](../../commit/b7605bb14d3a16800523ad86ad7da20a7f7939b9)
-* Add contributing file for public contributions
+* RESKC-372:Add contributing file for public contributions
   * blackcathacker on Wed, 29 Apr 2015 10:19:55 -0700 [View Commit](../../commit/5a54613840fd271df6650d4ec9ff54180333f254)
 * Award: Increase system performance on structure with many child accounts
   * Travis Schneberger on Thu, 30 Apr 2015 09:16:14 -0400 [View Commit](../../commit/790971bf9c1e21abbfb82d04b78132aafa35a9db)
-*  Refactoring and small unit test to exercise code
+* RESKC-251: Refactoring and small unit test to exercise code
   * blackcathacker on Wed, 29 Apr 2015 20:11:52 -0700 [View Commit](../../commit/31c692bece2a7316e85c62af70b319d7f9d5ef3a)
-* Use awardDocument updated info instead of award
+* RESKC-251:Use awardDocument updated info instead of award
 
   * Award Time and Money - T&M updates should not alter Award Version update timestamp and user
   * The History view should not reflect the update of the T&M change, but maintain when the award was last updated.
@@ -8465,7 +8493,7 @@ steps to reproduce
   * blackcathacker on Wed, 29 Apr 2015 17:58:30 -0700 [View Commit](../../commit/f03dc89bc3732fbfc12ac87ead09987350ff8b84)
 * Fix unit test related to: Omit questionnaires when related forms are not marked as included
   * Travis Schneberger on Wed, 29 Apr 2015 19:38:44 -0400 [View Commit](../../commit/abac58680d59d3ca592e1740159e9b50ed651785)
-* Set bounds on DevelopmentProposal lookups
+* RESKC-343:Set bounds on DevelopmentProposal lookups
 
   * When tested originally we were able to repo a outofmemory error and the search taking a LONG time. By setting bounds on the search always the search returns rather quickly. Further work needs to be done to resolve problems when a user has limited access to proposals as none may returned as the first 20 returned don't include any they have permission on.
   * blackcathacker on Wed, 29 Apr 2015 14:11:21 -0700 [View Commit](../../commit/5fa5fff9f459bff9db49cdc183685bef9fdca608)
@@ -8483,7 +8511,7 @@ steps to reproduce
 
 
 ##coeus-1504.14
-*  Moving schemaspy feature to public release.
+* Moving schemaspy feature to public release.
 
 * Moving schemaspy initialization logic and dependency info out of the grm profile
 * Making schemaspy a compile-time dependency, with current version
@@ -8493,10 +8521,10 @@ steps to reproduce
 * cleanup of poms
 * fix incorrect instructions for instrumentation in readme.md
   * Travis Schneberger on Tue, 28 Apr 2015 10:57:12 -0400 [View Commit](../../commit/12995f562722e950f551547999a069b875014137)
-*  IP versioning should not copy award funding proposals over.
+* RESKC-280: IP versioning should not copy award funding proposals over.
   * When a version of IP is linked to a version of the award, only that version needs to be linked instead of all edits of ths IP beling linked to the award. While displaying the awards linked in IP, display all the IP versions linked to awards.
   * Gayathri on Mon, 27 Apr 2015 11:28:20 -0700 [View Commit](../../commit/d7220558d85e3cdd9889898462c87baedcd797a7)
-* set correct update user after editing an institutional proposal
+* RESKC-278:set correct update user after editing an institutional proposal
 
   * Edit an IP
   * The Last Update field appropriately indicates the user that is updating the record while it is open.
@@ -8515,9 +8543,9 @@ steps to reproduce
   * Joe Williams on Tue, 28 Apr 2015 08:39:16 -0500 [View Commit](../../commit/c85a0f15a28626e69ec1bf61468d2d751afa2fb1)
 
 ##coeus-1504.13
-*  depending on new kualico build of jasper token auth jar
+* depending on new kualico build of jasper token auth jar
   * Travis Schneberger on Mon, 27 Apr 2015 17:26:07 -0400 [View Commit](../../commit/c690912d6b92bd4e13dcfa48e2f9977a980cee9b)
-* Fix Wrong Proposal Status after Proposal Approved at Final Stop and Submitted to Sponsor
+* RESKC-352:Fix Wrong Proposal Status after Proposal Approved at Final Stop and Submitted to Sponsor
 
   * Create Proposal
   * Submit for Review
@@ -8528,15 +8556,15 @@ steps to reproduce
   * Joe Williams on Mon, 27 Apr 2015 15:35:26 -0500 [View Commit](../../commit/e886230a92b6eff85f03c7c6281038af0d539cca)
 * RESKC_352:clean up proposalHierarchyServiceImpl
   * Joe Williams on Mon, 27 Apr 2015 08:18:52 -0500 [View Commit](../../commit/18e3411729d385aaf45ef68227ee2f02c2fff205)
-*  resequencing sql scripts, adding oracle script
+* RESKC-275: resequencing sql scripts, adding oracle script
   * Travis Schneberger on Fri, 24 Apr 2015 10:57:40 -0400 [View Commit](../../commit/497023f9082dd4fc2a659d04c17674cbe267e1a2)
-*  code review comments
+* RESKC-275: code review comments
   * Travis Schneberger on Fri, 24 Apr 2015 10:18:51 -0400 [View Commit](../../commit/090ce7405cf9ce13a1efe4704b84b456e0d88f23)
-*  make award date change transactions show up with a transaction id in the various history views and transaction print dropdown menus
+* RESKC-275: make award date change transactions show up with a transaction id in the various history views and transaction print dropdown menus
   * Travis Schneberger on Wed, 15 Apr 2015 15:42:18 -0400 [View Commit](../../commit/89271da4bc2bdc7ced2643f05b5d46200dbebc66)
-*  cleanup
+* RESKC-275: cleanup
   * Travis Schneberger on Wed, 15 Apr 2015 09:02:54 -0400 [View Commit](../../commit/90f296b210c720b318d9eea90379c57676f3f431)
-*  added institutional proposal rest service
+* added institutional proposal rest service
   * Joe Williams on Thu, 23 Apr 2015 12:30:06 -0400 [View Commit](../../commit/15f392cb5600d3c13017bc2840d0930f7535e6b0)
 
 ##coeus-1504.12
@@ -8544,7 +8572,7 @@ steps to reproduce
 
   * XMLStream beans contain state which means they all need to be prototype scope to avoid potential clashes when server is under load
   * blackcathacker on Fri, 24 Apr 2015 10:03:02 -0400 [View Commit](../../commit/99f10d6cdf0244dd1d5fa52e80c334f1aea21cf7)
-*  added correct s2s error message and fix it link for congressional district errors
+* RESKC-341: added correct s2s error message and fix it link for congressional district errors
 
   * The Fix button for Validation error on Congressional District in the Grants.gov Errors section takes you to S2S window; it should take you to Organization Tab where error can be fixed.
   * Joe Williams on Fri, 24 Apr 2015 09:40:05 -0400 [View Commit](../../commit/e43cc0dfc627da384a9d38f44400cce0de94a106)
@@ -8560,7 +8588,7 @@ steps to reproduce
   * blackcathacker on Thu, 23 Apr 2015 09:30:24 -0400 [View Commit](../../commit/de24948ab4c31f1f667ec43b6c0c63fe9e23764e)
 * Remove duplicately versioned sql files
   * blackcathacker on Wed, 22 Apr 2015 16:43:11 -0400 [View Commit](../../commit/79a52c523bd8a4a0d3a0e420ead15ddc848c5313)
-* add warning message to autocalculate periods
+* RESKC-219:add warning message to autocalculate periods
   * Joe Williams on Fri, 17 Apr 2015 15:32:59 -0500 [View Commit](../../commit/ba6d6074d5f63f4a3e54b722726a8f0e1cb12494)
 * Code review comments
   * blackcathacker on Fri, 17 Apr 2015 09:25:18 -0700 [View Commit](../../commit/998b02c569c33888517c6b390099c608af2a4a1f)
@@ -8574,7 +8602,7 @@ steps to reproduce
   * blackcathacker on Wed, 22 Apr 2015 11:33:56 -0400 [View Commit](../../commit/bc28f8e7a6016e15b6b550f1c9c906f1100c8422)
 
 ##coeus-1504.8
-*  Cleaning up commit. Since we are overriding refreshNonUpdateableReferences anyway, we do not need to override method in rule base. Serialization changes also not needed it appears.
+* Cleaning up commit. Since we are overriding refreshNonUpdateableReferences anyway, we do not need to override method in rule base. Serialization changes also not needed it appears.
   * Gayathri on Wed, 22 Apr 2015 05:59:13 -0700 [View Commit](../../commit/f888b9beac9a478fa7740bb0af028fcbefa37cbd)
 
 ##coeus-1504.7
@@ -8603,13 +8631,13 @@ steps to reproduce
 
   * A customer ended up with sponsor codes shorter than 6 characters and since it was allowed by the database and a minimal functional change the sponsor code can now be any alphanumeric up to 6 characters
   * blackcathacker on Tue, 21 Apr 2015 16:02:18 -0400 [View Commit](../../commit/0cc7dfba835c8343524a797e540d6d65871ee780)
-* Oracle scripts
+* RESKC-342:Oracle scripts
 
   * Bring full oracle scripts renamed and numbered back into the project
   * blackcathacker on Tue, 21 Apr 2015 09:15:55 -0400 [View Commit](../../commit/4df62ebd31a478844448a5e7d0a250953058cfc4)
-* added rolodex and ynq inquiry links to organization inquiry view
+* RESKC-316:added rolodex and ynq inquiry links to organization inquiry view
   * Joe Williams on Fri, 17 Apr 2015 14:59:43 -0500 [View Commit](../../commit/c7cf6e478b5d2a48414ed0ef7c91c94b3495317e)
-* added update user to data over history
+* RESKC-279:added update user to data over history
   * Joe Williams on Fri, 17 Apr 2015 13:58:48 -0500 [View Commit](../../commit/c07944d2ec00d457defeb1ce99ccecec973c7e4a)
 
 ##coeus-1504.4
@@ -8621,13 +8649,13 @@ steps to reproduce
   * rojlarge on Tue, 7 Apr 2015 18:39:30 -0400 [View Commit](../../commit/c0c22a523dc0f8e0c7361343eb0e03af5a5d4b75)
 
 ##coeus-1504.2
-*  Renaming log files to right version
+* Renaming log files to right version
   * Gayathri on Fri, 17 Apr 2015 16:19:58 -0700 [View Commit](../../commit/aaa91348c850f74e22f028619b714954ccb15c6b)
 * Documentation for public release and build
   * blackcathacker on Fri, 17 Apr 2015 16:04:52 -0700 [View Commit](../../commit/80748ea9cb76f523f7d50f4a6b975aec7c96263f)
 * renaming files and removing temp files
   * Gayathri on Fri, 17 Apr 2015 15:45:36 -0700 [View Commit](../../commit/bcb851a18f8bbde30d3df87fa1bc4e083debd1c3)
-*  Adding 1504 mysql and oracle release scripts
+* Adding 1504 mysql and oracle release scripts
   * Gayathri on Fri, 17 Apr 2015 15:23:03 -0700 [View Commit](../../commit/cc29093c62e019bb200c83a02d8088137a407be5)
 
 ##coeus-1504.1
@@ -8639,11 +8667,11 @@ steps to reproduce
   * Travis Schneberger on Thu, 16 Apr 2015 19:48:55 -0400 [View Commit](../../commit/56974b1f0ed5bd1440569d2ad0b6fbb307e0557b)
 
 ##coeus-6.0.2.26
-* fix report tracking to hide update user and timestamp when date entry hasn't been entered
+* RESKC-290:fix report tracking to hide update user and timestamp when date entry hasn't been entered
   * Joe Williams on Thu, 16 Apr 2015 12:20:32 -0500 [View Commit](../../commit/fd64b8d58279084f53791420b1746ae10b73b205)
-* allow printing of sponsor form when view only
+* RESKC-296:allow printing of sponsor form when view only
   * Joe Williams on Wed, 15 Apr 2015 13:03:16 -0500 [View Commit](../../commit/d4321526420059f0232fb283391ebb2461d34c03)
-* populated budget formulated costs from unit formulated cost tables
+* RESKC-325:populated budget formulated costs from unit formulated cost tables
   * Joe Williams on Wed, 15 Apr 2015 09:46:54 -0500 [View Commit](../../commit/47bdb61e409299b37e172b931d8970b6846c435b)
 
 ##coeus-6.0.2.25
@@ -8651,7 +8679,7 @@ steps to reproduce
 
 
 ##coeus-6.0.2.24
-*  upgrade rice
+* RESKC-330: upgrade rice
   * Joe Williams on Thu, 16 Apr 2015 08:22:34 -0500 [View Commit](../../commit/8bae0b0bdc31c5833a25aa5f7f42a92c44e8a569)
 
 ##coeus-6.0.2.23
@@ -8661,31 +8689,31 @@ steps to reproduce
   * blackcathacker on Wed, 15 Apr 2015 17:59:49 -0700 [View Commit](../../commit/985d7f88218dd871624148d4faa2ec84ca152d55)
 
 ##coeus-6.0.2.22
-* Update rice version
+* RESKC-330:Update rice version
   * Joe Williams on Wed, 15 Apr 2015 17:03:38 -0500 [View Commit](../../commit/bf02c41a3b57ecc550aaf04ee416e959c5debf00)
 
 ##coeus-6.0.2.21
-*  rice upgrade
+* RESKC-329: rice upgrade
   * Gayathri on Wed, 15 Apr 2015 08:37:43 -0700 [View Commit](../../commit/95dc07436f1afb7fcd8d5414ca83801fd943e591)
 
 ##coeus-6.0.2.20
-*  fixing date calculation
+* RESKC-317: fixing date calculation
   * Travis Schneberger on Tue, 14 Apr 2015 09:13:19 -0400 [View Commit](../../commit/8d546ff3ffc857bc2507d8f6fe0390a4a26905ff)
 
 ##coeus-6.0.2.19
 * review comments
   * Gayathri on Mon, 13 Apr 2015 16:55:43 -0700 [View Commit](../../commit/a1a7ed197223235358f56d9aadbbd8947a77c04f)
-*  moving rejected docs to saved state
+* RESKC-297: moving rejected docs to saved state
   * Gayathri on Mon, 13 Apr 2015 10:34:44 -0700 [View Commit](../../commit/8e741a6bcc9030cd8f0883138b01026eb181f91c)
 
 ##coeus-6.0.2.18
-* Update Rice Version
+* RESKC-250:Update Rice Version
   * blackcathacker on Mon, 13 Apr 2015 14:07:58 -0700 [View Commit](../../commit/aa01f02f4b30a4cef77f9bfe333829eabb27275c)
 
 ##coeus-6.0.2.17
 * Code review comments and copyright notices
   * blackcathacker on Mon, 13 Apr 2015 13:04:01 -0700 [View Commit](../../commit/c829857a50660bd18ad5a996665f937fdd02bd13)
-*  PSU Award Summary Service
+* PSU Award Summary Service
   * blackcathacker on Wed, 18 Feb 2015 15:40:02 -0800 [View Commit](../../commit/a35bf7b3a4d80385e0ccbcdc2cd712bfe35ad371)
 
 ##coeus-6.0.2.16
@@ -8693,21 +8721,21 @@ steps to reproduce
   * Joe Williams on Mon, 13 Apr 2015 11:11:00 -0500 [View Commit](../../commit/733b6f6a9cd23d536427815261db896f9b2756f5)
 
 ##coeus-6.0.2.15
-*  fixing key person unit validation
+* RESKC-293: fixing key person unit validation
   * Travis Schneberger on Mon, 13 Apr 2015 11:07:51 -0400 [View Commit](../../commit/74065cd3dc7c96c0216ec2235fd8ae2e72d3575a)
 
 ##coeus-6.0.2.14
-* make non personnel budget line items detail viewable when budget is readOnly
+* RESKC-286:make non personnel budget line items detail viewable when budget is readOnly
   * Joe Williams on Fri, 10 Apr 2015 10:44:30 -0500 [View Commit](../../commit/858e55f9b573132f6673f5d4d4c7ddb5f7d32f6e)
-* make personnel details viewable in view mode
+* RESKC-287:make personnel details viewable in view mode
   * Joe Williams on Fri, 10 Apr 2015 13:33:55 -0500 [View Commit](../../commit/4f6ab6dd0ef5b843815a615bd91573d9a834c62a)
 
 ##coeus-6.0.2.13
 * Jasper Report Links
   * blackcathacker on Fri, 10 Apr 2015 12:41:03 -0700 [View Commit](../../commit/dec341bf9aed3ce0c2f175760636c453e1d0da46)
-* remove narrative locking region
+* RESKC-318:remove narrative locking region
   * Joe Williams on Fri, 10 Apr 2015 12:38:06 -0500 [View Commit](../../commit/a15fc1881b9d22be5da065cd6e1bf430ab9c4179)
-*  upgrading rice
+* RESKC-256: upgrading rice
   * Gayathri on Fri, 10 Apr 2015 09:14:14 -0700 [View Commit](../../commit/814d625c456c7c9c12a1dc8d29d0103120264169)
 
 ##coeus-6.0.2.12
@@ -8715,17 +8743,17 @@ steps to reproduce
 
 
 ##coeus-6.0.2.11
-* removed duplicate headers on krms and people flow documents
+* RESKC-318:removed duplicate headers on krms and people flow documents
   * Joe Williams on Fri, 10 Apr 2015 10:08:02 -0500 [View Commit](../../commit/926204a501f784b198b07b46fe70fa887bcef87d)
-* add warning message when adding a narrative type to the child that is already on the parent
+* RESKC-18:add warning message when adding a narrative type to the child that is already on the parent
   * Joe Williams on Thu, 9 Apr 2015 09:19:57 -0500 [View Commit](../../commit/f7ddacadd29371782ffa032c7d992cb3edb1464a)
 
 ##coeus-6.0.2.10
-* Make PD unit number search field uniform and not restricted
+* RESKC-267:Make PD unit number search field uniform and not restricted
   * blackcathacker on Thu, 9 Apr 2015 22:06:18 -0700 [View Commit](../../commit/f9021255f95f95f159989f5a831eb6209f5c3ab4)
 
 ##coeus-6.0.2.9
-*  Award authorization issue
+* RESKC-262: Award authorization issue
   * Gayathri on Thu, 9 Apr 2015 12:11:36 -0700 [View Commit](../../commit/0df17791f67164c47d6b08e4130f8ec49b973c1f)
 
 ##coeus-6.0.2.8
@@ -8733,41 +8761,41 @@ steps to reproduce
   * Joe Williams on Thu, 9 Apr 2015 13:42:24 -0500 [View Commit](../../commit/d42d12a23f0eb631ca324174af5702bd26ac670d)
 
 ##coeus-6.0.2.7
-* make personnel budget line items details viewable when budget is readOnly
+* RESKC-284:make personnel budget line items details viewable when budget is readOnly
   * Joe Williams on Thu, 9 Apr 2015 12:52:40 -0500 [View Commit](../../commit/436b252792a8d6bed66678b6c7b3a95dcabb5b0c)
 
 ##coeus-6.0.2.6
-*  Budget STE fix
+* RESKC-281: Budget STE fix
   * Gayathri on Wed, 8 Apr 2015 10:55:26 -0700 [View Commit](../../commit/ba7600fabcee66f9673d8c09fcbddbbc40a65b40)
 
 ##coeus-6.0.2.5
-*  Add fyi and acknowledge to action list.
+* Add fyi and acknowledge to action list.
   * Gayathri on Wed, 8 Apr 2015 09:21:18 -0700 [View Commit](../../commit/3f8bfb1d44a959edd717a52544ddac1ac492f104)
 
 ##coeus-6.0.2.4
-* Fix sql to avoid primary key conflicts
+* RESKC-204:Fix sql to avoid primary key conflicts
   * blackcathacker on Tue, 7 Apr 2015 20:33:23 -0700 [View Commit](../../commit/22a4b96beaed5dc64aba04825f751192094f0e56)
 
 ##coeus-6.0.2.3
-* Fix integration test
+* RESKC-204:Fix integration test
   * blackcathacker on Tue, 7 Apr 2015 18:02:21 -0700 [View Commit](../../commit/d056987b4666d51b996e984854df5904e6381370)
 * Fix attachment problem by never doing orphanRemoval
   * blackcathacker on Tue, 7 Apr 2015 16:50:30 -0700 [View Commit](../../commit/ea2f774303c1b476579ebf90155be07e334a4108)
 
 ##coeus-6.0.2.2
-*  updating pom, fixing db scripts that were changed as a part of a code review
+* RESKC-204: updating pom, fixing db scripts that were changed as a part of a code review
   * Travis Schneberger on Tue, 7 Apr 2015 16:58:28 -0400 [View Commit](../../commit/d468f72bc90cdc47f8266e19b7c355fbef075d5b)
-*  nsf cover page 1-6
+* RESKC-204: nsf cover page 1-6
   * Gayathri on Wed, 25 Mar 2015 12:22:35 -0700 [View Commit](../../commit/b00fdc8f2e00e08da81104485e8502f53b299f4e)
-*  displaying sponsor award id not sponsor code
+* RESKC-154: displaying sponsor award id not sponsor code
   * Travis Schneberger on Tue, 7 Apr 2015 16:23:56 -0400 [View Commit](../../commit/3a5288b201bc8f7540f332c5e6215e3b19a95fe2)
-* fix broken test
+* RESKC-80:fix broken test
   * Joe Williams on Tue, 7 Apr 2015 09:57:15 -0500 [View Commit](../../commit/1f8f4ffe0e61702bc04d00f1e41741cb2fa7d259)
-*  making PeopleFlow lookup not open in an iframe
+* making PeopleFlow lookup not open in an iframe
   * Travis Schneberger on Tue, 7 Apr 2015 10:47:00 -0400 [View Commit](../../commit/883318884f03f90eab034b83b01f53967b9c2715)
-* apply unit agenda to all units in hierarchy
+* RESKC-259:apply unit agenda to all units in hierarchy
   * Joe Williams on Mon, 6 Apr 2015 15:06:51 -0500 [View Commit](../../commit/06939b293f62441f7acf74f549439ec4be32d81b)
-* rename asdf custrom attribute group name to additional data
+* RESKC-80:rename asdf custrom attribute group name to additional data
   * Joe Williams on Mon, 6 Apr 2015 16:07:16 -0500 [View Commit](../../commit/0c6c27bb02bb3c7543f7338be56f653769fe6665)
 
 ##coeus-6.0.2.1
@@ -8775,12 +8803,12 @@ steps to reproduce
   * Travis Schneberger on Mon, 6 Apr 2015 21:36:12 -0400 [View Commit](../../commit/7313e436dac0e1dec0d339a982bd13678937e935)
 
 ##coeus-6.0.2.0
-* Fix questionnaire test -- apparently didn't stage changes
+* RESKC-246:Fix questionnaire test -- apparently didn't stage changes
   * blackcathacker on Mon, 6 Apr 2015 16:09:09 -0700 [View Commit](../../commit/7ebc716812c82ca06b83d46783beb77d26326b4a)
-* Fix questionnaire test
+* RESKC-246:Fix questionnaire test
   * Test was broken when switching viewing questionnaires from using the last document verison to using the database version always
   * blackcathacker on Mon, 6 Apr 2015 10:15:07 -0700 [View Commit](../../commit/8529b0d786b69d04ed2a98bced752aac7f7360e3)
-* fix issues with person biosketch on prop dev
+* RESKC-253:fix issues with person biosketch on prop dev
   * Joe Williams on Mon, 6 Apr 2015 08:28:26 -0500 [View Commit](../../commit/4a9d5ee0c8fb954e22a6d17f63619ab1e22582b3)
 * release process
   * Travis Schneberger on Mon, 6 Apr 2015 10:16:45 -0400 [View Commit](../../commit/69b167e22afd71c8ea6dbbab40fd38ec777e635b)
@@ -8807,54 +8835,54 @@ steps to reproduce
   * blackcathacker on Wed, 1 Apr 2015 15:59:19 -0600 [View Commit](../../commit/5a6f2e5102bd766a450cf6a3ec35723fc5a8d69e)
 * Fix up abstractBudgetService
   * Joe Williams on Thu, 2 Apr 2015 13:01:34 -0600 [View Commit](../../commit/3a9dc171391f24bbfb27a2b46fb998672504a7d6)
-* Refactor/test time and money trans history
+* RESKC-263:Refactor/test time and money trans history
   * blackcathacker on Tue, 31 Mar 2015 16:52:08 -0600 [View Commit](../../commit/1f39073e2a318206b794ea2fe3eb737addeb5055)
 * Refactoring UnitServiceImpl
   * Travis Schneberger on Tue, 31 Mar 2015 11:43:05 -0400 [View Commit](../../commit/f4b6e5137e7c601695ce9d58417484cb16af9721)
-* Modify and refactor unit and jetty memory arguments
+* RESKC-257:Modify and refactor unit and jetty memory arguments
   * blackcathacker on Fri, 27 Mar 2015 15:36:55 -0700 [View Commit](../../commit/4e7152bf30f5a6f8a8863bba3b10cb993d366396)
-* Add citizenship type to clear error
+* RESKC-257:Add citizenship type to clear error
   * blackcathacker on Thu, 26 Mar 2015 19:51:35 -0700 [View Commit](../../commit/a73050fea047564acbeefa8569ffa86990b3c2ce)
-* View questionnaire using table instead of doc
+* RESKC-246:View questionnaire using table instead of doc
   * This is to avoid serialization issues that occur due to questionnaire class repackaging
   * blackcathacker on Thu, 26 Mar 2015 17:52:57 -0700 [View Commit](../../commit/f0a41a0001fa963fe965483c29b3686aec0d92bb)
 * Fix GRM SQL Error
   * blackcathacker on Thu, 26 Mar 2015 16:44:04 -0700 [View Commit](../../commit/c7113ca039623421b63f44ac81f51e1ea0706ef9)
-* once a budget line item is added summary rows are no longer editable
+* RESKC-17:once a budget line item is added summary rows are no longer editable
   * Joe Williams on Wed, 25 Mar 2015 16:33:47 -0500 [View Commit](../../commit/e3ba5d7beb67c6f5600561ad2095d590296b3a5b)
-* save budget when applying rates to later periods
+* RESKC-248:save budget when applying rates to later periods
   * Joe Williams on Wed, 25 Mar 2015 16:23:20 -0500 [View Commit](../../commit/2e7aa920e36fe2ffb550b73e1fc797a679e8117a)
-* fix issue with escalating award budget total costs
+* RESKC-230:fix issue with escalating award budget total costs
   * Joe Williams on Wed, 25 Mar 2015 14:34:40 -0500 [View Commit](../../commit/f07ed082e40e3fecce2923c64f07a02fbf85c942)
 * RESKC_239:update attachment handling to be compatible with oracle and mysql
   * Joe Williams on Wed, 25 Mar 2015 12:34:23 -0500 [View Commit](../../commit/40bf50c3ab7ed4ee560a20ef6a908f43f6a89008)
-* fix print s2s xml button
+* RESKC-218:fix print s2s xml button
   * Joe Williams on Wed, 25 Mar 2015 13:15:33 -0500 [View Commit](../../commit/572e2d6cf531cba3c986cb7a86a81c38d95a09ca)
-* fix STE on award budget navigation
+* RESKC-244:fix STE on award budget navigation
   * Joe Williams on Tue, 24 Mar 2015 16:41:34 -0500 [View Commit](../../commit/4c1371b4689abd9ea38d842d37adbe0917e1c739)
-* filter on inflation rateClassType and add ID to table
+* RESKC-228:filter on inflation rateClassType and add ID to table
   * Joe Williams on Tue, 24 Mar 2015 11:43:16 -0500 [View Commit](../../commit/b5be2afb71ccbe6cc22dd148535812ded8e0aeec)
-* added campus code and unit quickfinders to add personnel wizard
+* RESKC-13,RESKC-14:added campus code and unit quickfinders to add personnel wizard
   * Joe Williams on Tue, 24 Mar 2015 10:21:29 -0500 [View Commit](../../commit/27e5fec98788f52c467d05666babee428da27e39)
-* fix STE on navigation to award budget summary
+* RESKC-227:fix STE on navigation to award budget summary
   * Joe Williams on Tue, 24 Mar 2015 09:33:42 -0500 [View Commit](../../commit/7dded8ecc47fcb1575a887b4d6e8150fb2a0049d)
-* fix award labels on medusa view
+* RESKC-38:fix award labels on medusa view
   * Joe Williams on Mon, 23 Mar 2015 14:22:30 -0500 [View Commit](../../commit/32163e1b7400461130fde7d17293242cb9f1a799)
-* create s2s error for missing citizenshiptype instead of throwing exception
+* RESKC-229:create s2s error for missing citizenshiptype instead of throwing exception
   * Joe Williams on Mon, 23 Mar 2015 10:16:26 -0500 [View Commit](../../commit/80c865922b44fb588e89a14d69bf4665248ca649)
-* add inflation rate info to add budget line item modals
+* RESKC-228:add inflation rate info to add budget line item modals
   * Joe Williams on Thu, 19 Mar 2015 16:09:11 -0500 [View Commit](../../commit/40561a4ba47d0cf06a7b9e53ceeb9643a6c58bec)
-*  Verify that the Instrumentation Configuration is correct
+* RESKC-240: Verify that the Instrumentation Configuration is correct
   * Travis Schneberger on Sat, 21 Mar 2015 21:21:40 -0400 [View Commit](../../commit/e208c6be03ab8e444a5254083b3e98714bd2890e)
-* set default period to calendar
+* RESKC-10:set default period to calendar
   * Joe Williams on Fri, 20 Mar 2015 17:01:31 -0500 [View Commit](../../commit/5b4be2c7bf7c82dc432f76182d9d8bda7ce1f8cc)
-* fix STE on award notice print
+* RESKC-235:fix STE on award notice print
   * Joe Williams on Fri, 20 Mar 2015 15:40:06 -0500 [View Commit](../../commit/adc64c4239a0b93f2f4a9df97a944f4062c5bed0)
-* allow edit/copy of person training
+* RESKC-231:allow edit/copy of person training
   * Joe Williams on Fri, 20 Mar 2015 11:06:09 -0500 [View Commit](../../commit/9e29536a64c4d0cffe4eaf25cc6d456b359575ac)
-*  updating error prone compiler, fixing several bugs found by compiler
+* updating error prone compiler, fixing several bugs found by compiler
   * Travis Schneberger on Fri, 20 Mar 2015 09:41:19 -0400 [View Commit](../../commit/1ef2966853ddc1328f74fc02ada486a926340dee)
-* get xml file from subaward
+* RESKC-1:get xml file from subaward
   * Joe Williams on Fri, 20 Mar 2015 08:34:58 -0500 [View Commit](../../commit/13c43dc9386e327e7eb1929d57af27554c631493)
 * Fix remaining integration tests
   * This also makes it so system properties always override configuration params
@@ -8862,42 +8890,42 @@ steps to reproduce
 * OJB mapping test configurable by system prop
   * In order to support configuring Jenkins CI test runs through Jenkins itself we need to be able to configure the OJB mapping test through system props
   * blackcathacker on Thu, 19 Mar 2015 11:04:51 -0700 [View Commit](../../commit/4edf73fa983f9bed8da46e8f0de29a9298dedf3f)
-* Disable OJB mappings for subaward attachments
+* RESKC-233:Disable OJB mappings for subaward attachments
   * Subawards are only used by prop dev and therefore only relevent under JPA
   * blackcathacker on Thu, 19 Mar 2015 11:01:33 -0700 [View Commit](../../commit/6ad78c73a8bc378d3bd1011014478ac582c6c330)
-*  resequencing db script
+* resequencing db script
   * Travis Schneberger on Thu, 19 Mar 2015 10:44:03 -0400 [View Commit](../../commit/8e5c516212ec97cb1250c717efa9eedb550cc48c)
-*  fixing staging data
+* fixing staging data
   * Travis Schneberger on Thu, 19 Mar 2015 10:41:56 -0400 [View Commit](../../commit/4338fdb21b561862ba26e8ede085c28102aa91d6)
-*  fixing coeus-it dependency and build order
+* fixing coeus-it dependency and build order
   * Travis Schneberger on Thu, 19 Mar 2015 10:00:35 -0400 [View Commit](../../commit/e4cdd867c4ef8de28e23205626097cb5e26d62a3)
-*  turning on flyway grm by default
+* turning on flyway grm by default
   * Travis Schneberger on Thu, 19 Mar 2015 08:08:02 -0400 [View Commit](../../commit/dba00aac7ff22230ddda6560ab5983056502e95a)
 * KCSUPPORT-661: properly reading logging files from the classpath
   * Travis Schneberger on Wed, 18 Mar 2015 20:18:57 -0400 [View Commit](../../commit/d9c57d4c0e914e71839cdd6e29ceebffc58edfd2)
-*  adding schemaspy to our project
+* adding schemaspy to our project
   * Travis Schneberger on Wed, 18 Mar 2015 17:36:02 -0400 [View Commit](../../commit/f453ad29308a3220c8b5affe202f7f058fe62bd7)
-*  more help fixes
+* RESKC-158: more help fixes
   * Gayathri on Thu, 12 Mar 2015 15:38:39 -0700 [View Commit](../../commit/e4be54df3781059509869faf9ce205be8388ec3b)
-*  approver cannot view budget
+* RESKC-170: approver cannot view budget
   * Gayathri on Wed, 18 Mar 2015 15:28:39 -0700 [View Commit](../../commit/ab3135b5d0e8e0e3d451bc860c071c4f640b03ed)
-* dismiss add person modal on add person request
+* RESKC-8:dismiss add person modal on add person request
   * Joe Williams on Wed, 18 Mar 2015 12:39:36 -0500 [View Commit](../../commit/47bc4c819ca6f8d87854d6a1a61760ee20ed9595)
-* fix sql scripts
+* RESKC-1:fix sql scripts
   * Joe Williams on Wed, 18 Mar 2015 08:33:28 -0500 [View Commit](../../commit/98f7c4632c10426a1b688eb9d8613f442c001bb7)
-*  IACUC and IRB help fixes
+* RESKC-158: IACUC and IRB help fixes
   * Gayathri on Wed, 11 Mar 2015 17:10:28 -0700 [View Commit](../../commit/f7e55fa9231bfd5d074ac54d8140489ad4b36113)
-*  info text
+* RESKC-6: info text
   * Gayathri on Tue, 17 Mar 2015 12:28:12 -0700 [View Commit](../../commit/1dfae9b559380ca2c39e22b286c7d684b7cd317c)
-*  fixing budget rules
+* RESKC-213: fixing budget rules
   * Gayathri on Mon, 16 Mar 2015 15:19:26 -0700 [View Commit](../../commit/f1be1a318f120bf0f3b9b9e62ed9b6688a2ae40b)
-* fixed extended attribute biosketch validation
+* RESKC-222:fixed extended attribute biosketch validation
   * Joe Williams on Tue, 17 Mar 2015 10:11:25 -0500 [View Commit](../../commit/6a4a190622ad563ad15fdc94d246acb5226038cc)
-* added budget category to non-budget add and edit modals
+* RESKC-9:added budget category to non-budget add and edit modals
   * Joe Williams on Thu, 12 Mar 2015 14:34:01 -0500 [View Commit](../../commit/9b978e22af59cfa60c3b4b720495eaf70d7203cd)
-* fix attachment deletion on copy and hierarchy
+* RESKC-2:fix attachment deletion on copy and hierarchy
   * Joe Williams on Wed, 11 Mar 2015 13:24:19 -0500 [View Commit](../../commit/b3488496f6b224525b13f433eb95cdaae2a865b0)
-* fix subaward attachment data
+* RESKC-1:fix subaward attachment data
   * Joe Williams on Tue, 10 Mar 2015 16:55:33 -0500 [View Commit](../../commit/3b8220e13d57a0c148d55eecb1db52620e39d378)
 * Support supplying test config via -Dvar=value
   * In order to support more easily configuring the CI server we want to move to -Dvar=value configuration for integration tests. By making these params not override previous values the -Dvar values are automatically pulled in and used.
@@ -8907,15 +8935,15 @@ steps to reproduce
 * Update pom.xml  * Travis Schneeberger on Mon, 16 Mar 2015 14:24:25 -0400 [View Commit](../../commit/4580ff0b6e7541519476735526612290a0fb3dbb)
 * Make debug logging debug
   * blackcathacker on Mon, 16 Mar 2015 09:56:34 -0700 [View Commit](../../commit/dc19e393ad5def2beeb2ffb12240865082d238ab)
-* fix STE on unlink hierarchy
+* RESKC-215:fix STE on unlink hierarchy
   * Joe Williams on Mon, 16 Mar 2015 09:06:49 -0500 [View Commit](../../commit/133f49a1f5053263661403c2b33ff8f8f2f930f1)
-* return authorization exception messaeg instead of STE
+* RESKC-170:return authorization exception messaeg instead of STE
   * Joe Williams on Fri, 13 Mar 2015 15:22:01 -0500 [View Commit](../../commit/bc1a27dc1dbeec2eb35aabc71946f4746698ed19)
-* fix enroute attachment saving
+* RESKC-221:fix enroute attachment saving
   * Joe Williams on Fri, 13 Mar 2015 09:16:56 -0500 [View Commit](../../commit/d779cdb339a5adb7365e6a1a938d666c39a4e41c)
-* fix attachment errors when linking to child from parent
+* RESKC-160:fix attachment errors when linking to child from parent
   * Joe Williams on Wed, 11 Mar 2015 10:33:15 -0500 [View Commit](../../commit/5beb381422c896a3623eaa0908d536e9e22731eb)
-*  Award locks fix
+* RESKC-16: Award locks fix
   * Gayathri on Tue, 10 Mar 2015 15:04:11 -0700 [View Commit](../../commit/42ef8b17a34420e6bff58d6d1c69f4a3822ffcd3)
 
 ##coeus-6.0.1
@@ -8925,27 +8953,27 @@ steps to reproduce
   * Travis Schneberger on Mon, 16 Mar 2015 12:51:00 -0400 [View Commit](../../commit/bb72f3def08e57a5f0b5cb18f8b6dcb4950849ed)
 * KRACOEUS-8949: releasing s2s
   * Travis Schneberger on Mon, 16 Mar 2015 10:18:12 -0400 [View Commit](../../commit/4bf6fc11c1d7e71abb46a4260e01b00781dea35d)
-*  adding documentation
+* RESKC-223: adding documentation
   * Travis Schneberger on Fri, 13 Mar 2015 21:48:55 -0400 [View Commit](../../commit/e63af1d39cecdfbc28e064d7ea6039efcdfcb59c)
 * KCSUPPORT-661: adding documentation, fixing bug related to http://bugs.java.com/view_bug.do?bug_id=6476706
   * Travis Schneberger on Fri, 13 Mar 2015 21:09:05 -0400 [View Commit](../../commit/662d50db4abbe64022a44a7ffae43ff6f24fbf6c)
-* Fix license in files
+* RESKC-201:Fix license in files
   * blackcathacker on Thu, 12 Mar 2015 11:24:03 -0700 [View Commit](../../commit/237357f04bff1866ab6a099c184f19786924a7cd)
 * KRACOEUS-8947: fixing data length problems, a serialization issue after submit, no need for oracle script change
   * Travis Schneberger on Thu, 12 Mar 2015 17:34:41 -0400 [View Commit](../../commit/8d4191bf20a98bbac28fb060c3b4903d0831b14d)
 * KRACOEUS-8902: fix notification text
   * Gayathri on Thu, 12 Mar 2015 10:54:23 -0700 [View Commit](../../commit/a4484743ea134628ed757d6fc1c64bdddd0fabba)
-*  fixing int tests for the grm profile
+* RESKC-195: fixing int tests for the grm profile
   * Travis Schneberger on Wed, 11 Mar 2015 21:23:10 -0400 [View Commit](../../commit/db2eea4081080f78157a08669d4a1cccd3224e93)
-*  using a set to remove duplicate unit qualifications
+* RESKC-206: using a set to remove duplicate unit qualifications
   * Travis Schneberger on Wed, 11 Mar 2015 13:58:12 -0400 [View Commit](../../commit/f55da36e837ffdcc39b89760753940b5d8ca9603)
 * KRACOEUS-8931: oracle scripts for release 6.0.1
   * Gayathri on Mon, 9 Mar 2015 14:40:01 -0700 [View Commit](../../commit/deb2667c659616e8e11e7481791a287e9f7e36b1)
-*  supporting grm sql files
+* RESKC-193: supporting grm sql files
   * Travis Schneberger on Mon, 9 Mar 2015 23:41:30 -0400 [View Commit](../../commit/c15970262dc57fc22f473437ec2b1992ebf5e12f)
 * KRACOEUS-8931: fixing mysql file placement
   * Gayathri on Mon, 9 Mar 2015 15:15:44 -0700 [View Commit](../../commit/67d49af07d9490a5b477abf71732d666d983b51f)
-*  fixing hr import
+* RESKC-192: fixing hr import
   * Travis Schneberger on Mon, 9 Mar 2015 15:33:38 -0400 [View Commit](../../commit/d11559e28810e38dcc86878e07311f74dda7b1a9)
 * KRACOEUS-8936:fix unit hierarchy view
   * Joe Williams on Mon, 9 Mar 2015 11:35:15 -0500 [View Commit](../../commit/5763260fdcbdca17f1b3c97dccfea92dafe7ea39)

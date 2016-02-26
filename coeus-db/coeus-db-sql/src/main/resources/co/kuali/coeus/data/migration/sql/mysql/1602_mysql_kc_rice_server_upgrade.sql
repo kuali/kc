@@ -26,4 +26,5 @@
 \. ./rice/bootstrap/V1602_008__KRMS_Functions.sql
 \. ./rice/bootstrap/V1602_009__rename_bo_class.sql
 \. ./rice/bootstrap/V1602_010__coi_admin_bo_permissions.sql
+\. ./rice/bootstrap/V1602_011__CustomData_KRMS_Function.sql
 commit;
