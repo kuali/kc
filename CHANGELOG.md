@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* Fix Oracle KRMS
+  * Gayathri Athreya on Fri, 26 Feb 2016 14:46:14 -0700 [View Commit](../../commit/4a2cc83ce546ae967d13a195dc6282acae12181c)
+
+##coeus-1602.68
 * RESKC-1190:Fixing KRMS PK names
   * Gayathri Athreya on Fri, 26 Feb 2016 13:47:02 -0700 [View Commit](../../commit/80ad9acd053dc59db5e41dbbe3e37d274b222483)
 
