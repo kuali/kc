@@ -73,4 +73,12 @@
         <example>&lt;c:set var="grm" value="${krafn:isGrm()}" /"&gt;</example>
     </function>
 
+    <function>
+        <description>Gets a Configuration Value as a boolean</description>
+        <name>getConfigValueAsBoolean</name>
+        <function-class>org.kuali.coeus.sys.framework.view.JstlFunctions</function-class>
+        <function-signature>boolean getConfigValueAsBoolean(java.lang.String)</function-signature>
+        <example>&lt;c:set var="enabled" value="${krafn:getConfigValueAsBoolean('legacy.coeus.kc.schemaspy.enabled')}" /"&gt;</example>
+    </function>
+
 </taglib>

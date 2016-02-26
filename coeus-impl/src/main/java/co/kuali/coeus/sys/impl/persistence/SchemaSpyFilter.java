@@ -25,7 +25,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.util.HttpUtils;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.krad.UserSession;
@@ -55,7 +54,7 @@ public class SchemaSpyFilter implements Filter {
 
     private static final Log LOG = LogFactory.getLog(SchemaSpyFilter.class);
 
-    private static final Pattern MYSQL_DB_URL_PATTERN = Pattern.compile("(jdbc:mysql://)(.*)(:)(\\d*)(/)(.*)");
+    private static final Pattern MYSQL_DB_URL_PATTERN = Pattern.compile("(jdbc:mysql://)(.*)(:)(\\d*)(/)(.*)(\\?.*)");
     private static final Pattern ORACLE_DB_URL_PATTERN = Pattern.compile("(jdbc:oracle.thin:@)(.*)(:)(\\d*)(:)(.*)");
     private static final String DB_TYPE_FLAG = "-t";
     private static final String MYSQL_DB_TYPE = "mysql";
@@ -68,9 +67,6 @@ public class SchemaSpyFilter implements Filter {
     private static final String DB_USER_FLAG = "-u";
     private static final String DB_PASSWORD_FLAG = "-p";
     private static final String OUTPUT_DIR_FLAG = "-o";
-    private static final String SCHEMASPY_DIR_NAME = "schemaspy";
-    private static final String MYSQL_DRIVER_CONFIG_PARAM = "datasource.driver.name.MySQL";
-    private static final String ORACLE_DRIVER_CONFIG_PARAM = "datasource.driver.name.Oracle";
     private static final String KIM_SCHEMA_SPY_VIEW_ID = "schemaspy";
     private static final String LOGLEVEL_FLAG = "-loglevel";
     private static final String FINEST_LEVEL = "finest";
@@ -85,40 +81,44 @@ public class SchemaSpyFilter implements Filter {
     private static final String SVG_FORMAT = "svg";
     private static final String RENDERER_FLAG = "-renderer";
     private static final String NO_RENDERER = "";
-    private static final String SCHEMA_SPY_CONFIG_PARAM = "kc.schemaspy.enabled";
+    private static final String NO_LOGO = "-nologo";
     private static final String MYSQL_PLATFORM_NAME = "MySQL";
     private static final String ORACLE_PLATFORM_NAME = "Oracle";
     private static final String ORACLE_9I_PLATFORM_NAME = "Oracle9i";
-    private static final String DATASOURCE_PLATFORM_PARAM = "datasource.ojb.platform";
     private static final String ORACLE_THIN_CON_STR_FRAGMENT = "oracle:thin";
+    private static final String SCHEMA_XML = "_schema.xml";
 
     private FilterConfig filterConfig;
-    private ConfigurationService configurationService;
     private PermissionService permissionService;
     private GlobalVariableService globalVariableService;
     private SchemaAnalyzer schemaAnalyzer;
+    private boolean schemaSpyEnabled;
+    private String datasourceUrl;
+    private String dataSourceUsername;
+    private String dataSourcePassword;
+    private String dataSourcePlatform;
+    private String datasourceDriverName;
+    private String directoryName;
 
     private final AtomicBoolean initialized = new AtomicBoolean(false);
-    private final Runnable refreshSchemaSpy = new Runnable() {
-        @Override
-        public void run() {
-            if (getConfigurationService().getPropertyValueAsBoolean(SCHEMA_SPY_CONFIG_PARAM)) {
-                LOG.info("Refresh SchemaSpy Started");
+    private final Runnable refreshSchemaSpy = () -> {
+        if (isSchemaSpyEnabled()) {
+            LOG.info("Refresh SchemaSpy Started");
 
-                initialized.set(false);
+            initialized.set(false);
 
-                deleteSchemaSpyContent();
-                final String[] args = createArgs().toArray(new String[]{});
-                final Config config = new Config(args);
-                try {
-                    getSchemaAnalyzer().analyze(config);
-                } catch (SQLException|IOException e) {
-                    throw new RuntimeException(e);
-                }
-                initialized.set(true);
-
-                LOG.info("Refresh SchemaSpy Completed");
+            deleteSchemaSpyContent();
+            final List<String> argsList = createArgs();
+            final String[] args = argsList.toArray(new String[argsList.size()]);
+            final Config config = new Config(args);
+            try {
+                getSchemaAnalyzer().analyze(config);
+            } catch (SQLException|IOException e) {
+                throw new RuntimeException(e);
             }
+            initialized.set(true);
+
+            LOG.info("Refresh SchemaSpy Completed");
         }
     };
 
@@ -143,7 +143,7 @@ public class SchemaSpyFilter implements Filter {
             return;
         }
 
-        if (!getConfigurationService().getPropertyValueAsBoolean(SCHEMA_SPY_CONFIG_PARAM)) {
+        if (!isSchemaSpyEnabled()) {
             HttpUtils.disableCache((HttpServletResponse) response);
             response.getWriter().write("SchemaSpy has been disabled.");
             return;
@@ -161,28 +161,41 @@ public class SchemaSpyFilter implements Filter {
             }
         }
 
+        if (requestingSchemaXml(((HttpServletRequest) request).getRequestURL())) {
+            ((HttpServletResponse) response).sendRedirect(getSchemaXmlLocation(((HttpServletRequest) request).getRequestURL()));
+            return;
+        }
+
         chain.doFilter(request, response);
+    }
+
+    private boolean requestingSchemaXml(StringBuffer url) {
+        return url.indexOf(SCHEMA_XML) != -1;
+    }
+
+    private String getSchemaXmlLocation(StringBuffer url) {
+        int index = url.indexOf(SCHEMA_XML);
+        return url.replace(index, index + SCHEMA_XML.length(), parseDatabase(getDatasourceUrl()) + (isOracle(getDatasourceUrl()) ? "." + getDataSourceUsername() : "") + ".xml").toString();
     }
 
     private List<String> createArgs() {
         final List<String> args = new ArrayList<>();
 
-        final String dbUrl = getConfigurationService().getPropertyValueAsString(org.kuali.rice.core.api.config.property.Config.DATASOURCE_URL);
 
         args.add(DB_TYPE_FLAG);
-        args.add(getDbType(dbUrl));
+        args.add(getDbType(getDatasourceUrl()));
         args.add(DB_HOST_FLAG);
-        args.add(parseHost(dbUrl));
+        args.add(parseHost(getDatasourceUrl()));
         args.add(DB_PORT_FLAG);
-        args.add(parsePort(dbUrl));
+        args.add(parsePort(getDatasourceUrl()));
         args.add(DP_DRIVER_LOCATION_FLAG);
         args.add(getDriverLocation());
         args.add(DB_NAME_FLAG);
-        args.add(parseDatabase(dbUrl));
+        args.add(parseDatabase(getDatasourceUrl()));
         args.add(DB_USER_FLAG);
-        args.add(getConfigurationService().getPropertyValueAsString(org.kuali.rice.core.api.config.property.Config.DATASOURCE_USERNAME));
+        args.add(getDataSourceUsername());
         args.add(DB_PASSWORD_FLAG);
-        args.add(getConfigurationService().getPropertyValueAsString(org.kuali.rice.core.api.config.property.Config.DATASOURCE_PASSWORD));
+        args.add(getDataSourcePassword());
         args.add(OUTPUT_DIR_FLAG);
         args.add(getSchemaSpyPath().toString());
         args.add(LOGLEVEL_FLAG);
@@ -206,21 +219,22 @@ public class SchemaSpyFilter implements Filter {
         args.add(SVG_FORMAT);
         args.add(RENDERER_FLAG);
         args.add(NO_RENDERER);
+        args.add(NO_LOGO);
         return args;
     }
 
     private boolean isMySql() {
-        return MYSQL_PLATFORM_NAME.equals(getConfigurationService().getPropertyValueAsString(DATASOURCE_PLATFORM_PARAM));
+        return MYSQL_PLATFORM_NAME.equals(getDataSourcePlatform());
     }
 
     private boolean isOracle(String url) {
-        return ORACLE_PLATFORM_NAME.equals(getConfigurationService().getPropertyValueAsString(DATASOURCE_PLATFORM_PARAM)) ||
-                ORACLE_9I_PLATFORM_NAME.equals(getConfigurationService().getPropertyValueAsString(DATASOURCE_PLATFORM_PARAM)) && !url.contains(ORACLE_THIN_CON_STR_FRAGMENT);
+        return ORACLE_PLATFORM_NAME.equals(getDataSourcePlatform()) ||
+                ORACLE_9I_PLATFORM_NAME.equals(getDataSourcePlatform()) && !url.contains(ORACLE_THIN_CON_STR_FRAGMENT);
     }
 
     private boolean isOracleThin(String url) {
-        return ORACLE_PLATFORM_NAME.equals(getConfigurationService().getPropertyValueAsString(DATASOURCE_PLATFORM_PARAM)) ||
-                ORACLE_9I_PLATFORM_NAME.equals(getConfigurationService().getPropertyValueAsString(DATASOURCE_PLATFORM_PARAM)) && url.contains(ORACLE_THIN_CON_STR_FRAGMENT);
+        return ORACLE_PLATFORM_NAME.equals(getDataSourcePlatform()) ||
+                ORACLE_9I_PLATFORM_NAME.equals(getDataSourcePlatform()) && url.contains(ORACLE_THIN_CON_STR_FRAGMENT);
     }
 
     private String getDbType(String url) {
@@ -237,7 +251,7 @@ public class SchemaSpyFilter implements Filter {
 
     private String getDriverLocation() {
         try {
-            return Class.forName(getConfigurationService().getPropertyValueAsString(isMySql() ? MYSQL_DRIVER_CONFIG_PARAM : ORACLE_DRIVER_CONFIG_PARAM)).getProtectionDomain().getCodeSource().getLocation().getPath();
+            return Class.forName(getDatasourceDriverName()).getProtectionDomain().getCodeSource().getLocation().getPath();
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -272,7 +286,7 @@ public class SchemaSpyFilter implements Filter {
     }
 
     private Path getSchemaSpyPath() {
-        return Paths.get(filterConfig.getServletContext().getRealPath(File.separator), SCHEMASPY_DIR_NAME);
+        return Paths.get(filterConfig.getServletContext().getRealPath(File.separator), getDirectoryName());
     }
 
     private void deleteSchemaSpyContent() {
@@ -291,10 +305,6 @@ public class SchemaSpyFilter implements Filter {
         filterConfig = null;
     }
 
-    public ConfigurationService getConfigurationService() {
-        return configurationService;
-    }
-
     public SchemaAnalyzer getSchemaAnalyzer() {
         return schemaAnalyzer;
     }
@@ -307,10 +317,6 @@ public class SchemaSpyFilter implements Filter {
         return globalVariableService;
     }
 
-    public void setConfigurationService(ConfigurationService configurationService) {
-        this.configurationService = configurationService;
-    }
-
     public void setPermissionService(PermissionService permissionService) {
         this.permissionService = permissionService;
     }
@@ -321,5 +327,61 @@ public class SchemaSpyFilter implements Filter {
 
     public void setSchemaAnalyzer(SchemaAnalyzer schemaAnalyzer) {
         this.schemaAnalyzer = schemaAnalyzer;
+    }
+
+    public boolean isSchemaSpyEnabled() {
+        return schemaSpyEnabled;
+    }
+
+    public void setSchemaSpyEnabled(boolean schemaSpyEnabled) {
+        this.schemaSpyEnabled = schemaSpyEnabled;
+    }
+
+    public String getDatasourceUrl() {
+        return datasourceUrl;
+    }
+
+    public void setDatasourceUrl(String datasourceUrl) {
+        this.datasourceUrl = datasourceUrl;
+    }
+
+    public String getDataSourceUsername() {
+        return dataSourceUsername;
+    }
+
+    public void setDataSourceUsername(String dataSourceUsername) {
+        this.dataSourceUsername = dataSourceUsername;
+    }
+
+    public String getDataSourcePassword() {
+        return dataSourcePassword;
+    }
+
+    public void setDataSourcePassword(String dataSourcePassword) {
+        this.dataSourcePassword = dataSourcePassword;
+    }
+
+    public String getDataSourcePlatform() {
+        return dataSourcePlatform;
+    }
+
+    public void setDataSourcePlatform(String dataSourcePlatform) {
+        this.dataSourcePlatform = dataSourcePlatform;
+    }
+
+    public String getDatasourceDriverName() {
+        return datasourceDriverName;
+    }
+
+    public void setDatasourceDriverName(String datasourceDriverName) {
+        this.datasourceDriverName = datasourceDriverName;
+    }
+
+    public String getDirectoryName() {
+        return directoryName;
+    }
+
+    public void setDirectoryName(String directoryName) {
+        this.directoryName = directoryName;
     }
 }

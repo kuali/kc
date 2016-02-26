@@ -152,9 +152,15 @@
         <property name="filter">
             <bean class="co.kuali.coeus.sys.impl.persistence.SchemaSpyFilter">
                 <property name="schemaAnalyzer" ref="schemaAnalyzer"/>
-                <property name="configurationService" ref="kualiConfigurationService" />
                 <property name="globalVariableService" ref="globalVariableService" />
                 <property name="permissionService" ref="permissionService" />
+                <property name="schemaSpyEnabled" value="${kc.schemaspy.enabled}" />
+                <property name="datasourceUrl" value="${datasource.url}" />
+                <property name="dataSourceUsername" value="${datasource.username}"/>
+                <property name="dataSourcePassword" value="${datasource.password}"/>
+                <property name="dataSourcePlatform" value="${datasource.ojb.platform}" />
+                <property name="datasourceDriverName" value="${datasource.driver.name}" />
+                <property name="directoryName" value="schemaspy" />
             </bean>
         </property>
         <property name="filterName" value="SchemaSpyFilter"/>
@@ -175,7 +181,7 @@
             <bean class="co.kuali.coeus.sys.impl.monitor.MonitoringFilter">
                 <property name="globalVariableService" ref="globalVariableService" />
                 <property name="permissionService" ref="permissionService" />
-                <property name="configurationService" ref="kualiConfigurationService" />
+                <property name="monitoringEnabled" value="${kc.monitoring.enabled}" />
             </bean>
         </property>
         <property name="filterName" value="monitoring"/>

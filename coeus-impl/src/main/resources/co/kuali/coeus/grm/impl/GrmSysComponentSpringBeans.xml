@@ -53,4 +53,32 @@
         <property name="tokenGenerator" ref="tokenGenerator"/>
     </bean>
 
+    <bean class="org.kuali.coeus.sys.framework.controller.interceptor.FilterRegistrator">
+        <property name="filter">
+            <bean class="co.kuali.coeus.sys.impl.persistence.SchemaSpyFilter">
+                <property name="schemaAnalyzer" ref="schemaAnalyzer"/>
+                <property name="globalVariableService" ref="globalVariableService" />
+                <property name="permissionService" ref="permissionService" />
+                <property name="schemaSpyEnabled" value="${legacy.coeus.kc.schemaspy.enabled}" />
+                <property name="datasourceUrl" value="${legacy.coeus.datasource.url}" />
+                <property name="dataSourceUsername" value="${legacy.coeus.datasource.username}"/>
+                <property name="dataSourcePassword" value="${legacy.coeus.datasource.password}"/>
+                <property name="dataSourcePlatform" value="${legacy.coeus.datasource.ojb.platform}" />
+                <property name="datasourceDriverName" value="${legacy.coeus.datasource.driver.name}" />
+                <property name="directoryName" value="legacyCoeusSchemaspy" />
+            </bean>
+        </property>
+        <property name="filterName" value="LegacyCoeusSchemaSpyFilter"/>
+        <property name="urlMapping">
+            <bean class="org.kuali.coeus.sys.framework.controller.interceptor.FilterRegistrator.Mapping">
+                <property name="matchAfter" value="true"/>
+                <property name="maps">
+                    <list>
+                        <value>/legacyCoeusSchemaspy/*</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
 </beans>
