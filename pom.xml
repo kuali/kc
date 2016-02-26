@@ -110,7 +110,7 @@
         <moo-mvel.version>2.0</moo-mvel.version>
         <mysql.groupId>mysql</mysql.groupId>
         <mysql.artifactId>mysql-connector-java</mysql.artifactId>
-        <mysql.version>5.1.37</mysql.version>
+        <mysql.version>5.1.38</mysql.version>
         <mvel.version>2.2.4.Final</mvel.version>
         <opencsv.version>2.3</opencsv.version>
         <opensaml.version>2.6.1</opensaml.version>
@@ -2028,6 +2028,50 @@
             </properties>
             <dependencyManagement>
                 <dependencies>
+                    <dependency>
+                        <groupId>org.eclipse.persistence</groupId>
+                        <artifactId>org.eclipse.persistence.oracle</artifactId>
+                        <version>${org.eclipse.persistence.version}</version>
+                        <scope>runtime</scope>
+                    </dependency>
+                </dependencies>
+            </dependencyManagement>
+        </profile>
+
+        <profile>
+            <id>include-mysql-driver</id>
+            <activation>
+                <property>
+                    <name>!grm.off</name>
+                </property>
+            </activation>
+            <dependencyManagement>
+                <dependencies>
+                    <dependency>
+                        <groupId>${mysql.groupId}</groupId>
+                        <artifactId>${mysql.artifactId}</artifactId>
+                        <version>${mysql.version}</version>
+                        <scope>runtime</scope>
+                    </dependency>
+                </dependencies>
+            </dependencyManagement>
+        </profile>
+
+        <profile>
+            <id>include-oracle-driver</id>
+            <activation>
+                <property>
+                    <name>!grm.off</name>
+                </property>
+            </activation>
+            <dependencyManagement>
+                <dependencies>
+                    <dependency>
+                        <groupId>${oracle.groupId}</groupId>
+                        <artifactId>${oracle.artifactId}</artifactId>
+                        <version>${oracle.version}</version>
+                        <scope>runtime</scope>
+                    </dependency>
                     <dependency>
                         <groupId>org.eclipse.persistence</groupId>
                         <artifactId>org.eclipse.persistence.oracle</artifactId>
