@@ -21,7 +21,7 @@
 insert into krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr)
 values ('RES-BOOT10002', 'Institutional Proposal Java Function Term Service', 'KC-IP', 'institutionalProposalJavaFunctionKrmsTermService', 'Y', 1);
 insert into krms_func_t (func_id, nmspc_cd, nm, desc_txt, rtrn_typ, typ_id, actv, ver_nbr)
-values ('RES-BOOT10016', 'KC-IP', 'doSponsorAndPrimeSponsorMatch', 'Check if Sponsor and Prime Sponsor are the same', 'java.lang.Boolean', 'KC10002', 'Y', 1);
+values ('RES-BOOT10016', 'KC-IP', 'doSponsorAndPrimeSponsorMatch', 'Check if Sponsor and Prime Sponsor are the same', 'java.lang.Boolean', 'RES-BOOT10002', 'Y', 1);
 insert into krms_func_parm_t (func_parm_id, nm, desc_txt, typ, func_id, seq_no)
 values ('RES-BOOT10026', 'InstitutionalProposal', 'Institutional Proposal BO', 'org.kuali.coeus.common.framework.sponsor.Sponsorable', 'RES-BOOT10016', 1);
 insert into krms_term_spec_t (term_spec_id, nm, typ, actv, ver_nbr, desc_txt, nmspc_cd)
@@ -37,7 +37,7 @@ values ('RES-BOOT2093', 'KC1016');
 
 -- hasSpecialReviewOfType
 insert into krms_func_t (func_id, nmspc_cd, nm, desc_txt, rtrn_typ, typ_id, actv, ver_nbr)
-values ('RES-BOOT10017', 'KC-IP', 'hasSpecialReviewOfType', 'Check if IP has a special review with the specified type', 'java.lang.Boolean', 'KC10002', 'Y', 1);
+values ('RES-BOOT10017', 'KC-IP', 'hasSpecialReviewOfType', 'Check if IP has a special review with the specified type', 'java.lang.Boolean', 'RES-BOOT10002', 'Y', 1);
 insert into krms_func_parm_t (func_parm_id, nm, desc_txt, typ, func_id, seq_no)
 values ('RES-BOOT10027', 'InstitutionalProposal', 'Institutional Proposal BO', 'org.kuali.kra.institutionalproposal.home.InstitutionalProposal',  'RES-BOOT10017', 1);
 insert into krms_func_parm_t (func_parm_id, nm, desc_txt, typ, func_id, seq_no)
@@ -55,7 +55,7 @@ values ('RES-BOOT2094', 'KC1016');
 
 -- isCurrentFiscalMonth
 insert into krms_func_t (func_id, nmspc_cd, nm, desc_txt, rtrn_typ, typ_id, actv, ver_nbr)
-values ('RES-BOOT10018', 'KC-IP', 'isCurrentFiscalMonth', 'Check if IP has a fiscal month the same as the current fiscal month', 'java.lang.Boolean', 'KC10002', 'Y', 1);
+values ('RES-BOOT10018', 'KC-IP', 'isCurrentFiscalMonth', 'Check if IP has a fiscal month the same as the current fiscal month', 'java.lang.Boolean', 'RES-BOOT10002', 'Y', 1);
 insert into krms_func_parm_t (func_parm_id, nm, desc_txt, typ, func_id, seq_no)
 values ('RES-BOOT10029', 'InstitutionalProposal', 'Institutional Proposal BO', 'org.kuali.kra.institutionalproposal.home.InstitutionalProposal', 'RES-BOOT10018', 1);
 insert into krms_term_spec_t (term_spec_id, nm, typ, actv, ver_nbr, desc_txt, nmspc_cd)
