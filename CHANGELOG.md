@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1190:Fixing KRMS PK names
+  * Gayathri Athreya on Fri, 26 Feb 2016 13:47:02 -0700 [View Commit](../../commit/80ad9acd053dc59db5e41dbbe3e37d274b222483)
+
+##coeus-1602.67
 * allowing schemaspy to be used for the legacy coeus database.  refactoring the monitoring filter to be consistent with the SchemaSpy filter refactor.  adding links to download the raw schema information in xml form
   * Travis Schneeberger on Thu, 25 Feb 2016 21:37:50 -0500 [View Commit](../../commit/4742f2a45b4f9c00bd36e4a72a974e9382a03c8a)
 
