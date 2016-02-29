@@ -53,40 +53,37 @@ Then check out the correct tag before installing.
 We provide several maven build profiles that may be useful.  Some of these profiles are specific to a project while others are available in all projects.
 When a project specific profile is available, it will be documented in the build step.  The following are a list of profiles available in all projects:
 
-> **GRM Profile:** When building Kuali Research Projects you should turn the grm maven profile off as it is on by default.  You can do this by commenting out the activation section of the profile or sending the following system parameter grm.off on the command line. 
-> 
-*mvn clean install -Dgrm.off=true*
+> **GRM Profile:** When building Kuali Research Projects you should turn the grm maven profile off as it is on by default.  You can do this by sending the following system parameter grm.off on the command line. 
+```
+mvn clean install -Dgrm.off=true
+```
 
 > **Enforcer Profile:** When building Kuali Research Projects you can turn the enforcer profile on as it is off by default.  This will turn on the maven enforcer plugin and fail the build if certain project quality rules are violated. 
-> 
-*mvn clean install -Penforcer*
+``` 
+mvn clean install -Penforcer
+```
 
 > **jdeps Profile:** When building Kuali Research Projects you can turn the jdeps profile on as it is off by default.  This will turn on the jdk jdeps tool and fail the build if internal jdk apis are detected. 
-> 
-*mvn clean install -Pjdeps*
+``` 
+mvn clean install -Pjdeps
+```
 
 > **Error Prone Profile:** When building Kuali Research Projects you can turn the error-prone profile on as it is off by default.  This will turn on the strict error prone compiler and fail the compile step if certain source code errors are detected. 
-> 
-*mvn clean install -Perror-prone*
+``` 
+mvn clean install -Perror-prone
+```
 
 > **enforce-project-quality Property:** This property turns on the enforcer, jdeps, and error prone profiles.  These profiles are off by default.
-> 
-*mvn clean install -Denforce-project-quality*
-
-> **Dev Profile:**When developing with KC there are some features that are useful only for development purposes. In order to enable these features you should enable the dev profile. Currently the dev profile only provides the p6spy dependency. See the section below on Configuration for how to use this feature.
->
-*mvn clean install -Pdev*
-
-> **Node Clean:**When building our api documentation, our build process will download node.js and various node dependencies.  By default, these artifacts are deleted on every mvn clean execution.  You can avoid this clean step by sending the following system parameter clean-jsfrontend-node.off on the command line.  This is useful to speed up project builds by avoiding the installation node.js on subsequent clean install iterations. 
->
-*mvn clean install -Dclean-jsfrontend-node.off*
+``` 
+mvn clean install -Denforce-project-quality
+```
 
 All Kuali Research projects use standard maven conventions to build and install artifacts.  The following documents how to install source, javadoc, and primary artifacts for each maven projects.
 
 > **Source and Javadoc jars:** When building Kuali Research Projects it may be helpful to also build source and javadoc jars.  These jars can be consumed by tools such as debuggers.  Note: due to changes in the javadoc tool in Java 8, you may need to execute the compile phase before attempting to create a javadoc jar. 
->
-*mvn clean compile source:jar javadoc:jar install*
-
+```
+mvn clean compile source:jar javadoc:jar install
+```
 
 **Step 3: Build SchemaSpy**
 Check out the correct schemaspy version and run maven clean install.
@@ -150,6 +147,26 @@ mvn clean install -Dgrm.off=true -Pitests
 mvn clean install -Dgrm.off=true -Pprecompile-jsp-tomcat-7
 ```
 
+> **Include Mysql Driver:** This adds the mysql driver to the classpath and is on by default.  This profile can be turned off by sending the following system parameter grm.off on the command line.
+```
+mvn clean install -Dgrm.off=true -Pinclude-mysql-driver
+```
+
+> **Include Oracle Driver:** This adds the oracle driver to the classpath and is on by default.  This profile can be turned off by sending the following system parameter grm.off on the command line.
+```
+mvn clean install -Dgrm.off=true -Pinclude-oracle-driver
+```
+
+> **Dev Profile:**When developing with KC there are some features that are useful only for development purposes. In order to enable these features you should enable the dev profile. Currently the dev profile only provides the p6spy dependency. See the section below on Configuration for how to use this feature.
+```
+mvn clean install -Pdev
+```
+
+> **Node Clean:**When building our api documentation, our build process will download node.js and various node dependencies.  By default, these artifacts are deleted on every mvn clean execution.  You can avoid this clean step by sending the following system parameter clean-jsfrontend-node.off on the command line.  This is useful to speed up project builds by avoiding the installation node.js on subsequent clean install iterations. 
+```
+mvn clean install -Dclean-jsfrontend-node.off
+```
+
 > **System Dependent Requirements:** Kuali Research is now using some node and npm dependencies as part of its build process. These dependencies have all been designed to be downloaded, installed and run without any additional system level requirements, but there are some system specific requirements that cannot be managed by our build process. This seems to primarily affect Windows, but additional systems may be affected depending on local configuration. If you are seeing errors attempting to build Kuali Research that relate to node or npm, please see the failing node project's documentation for what might be expected to be installed on your system.
 For example, we currently have a dependency on a node project called drafter that builds our api documentation. From their [Windows specific documentation][10], drafter appears to require Visual Studio Express 2012 and Python 2.7. These types of dependencies are beyond our control, but we strive to make the build process as simple as possible.
 
@@ -183,7 +200,7 @@ For example, we currently have a dependency on a node project called drafter tha
 
 ##**Creating DB**
 
-Kuali Research supports MySQL 5.6 and Oracle. We recommend MySQL though as that is the database we develop and support internally and are more easily able to respond to problems with that database.  If you choose to use Oracle, please be sure to use the latest Oracle driver version 12 or higher.  The version 12 driver will work correctly with older Oracle database servers such as version 11.
+Kuali Research supports MySQL 5.6 and Oracle. We recommend MySQL though as that is the database we develop and support internally and are more easily able to respond to problems with that database.  If you choose to use Oracle, please be sure to use the latest Oracle driver version 12 or higher.  The version 12 driver will work correctly with older Oracle database servers such as version 11. The build profiles include-mysql-driver and include-oracle-driver can be used to include the database drivers in the application.
 
 * [Database Installation Instructions](coeus-db/coeus-db-sql/src/main/resources/co/kuali/coeus/data/migration/sql/README.md)
 
