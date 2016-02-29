@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* added permissions to user needed for coi sponsor checking
+  * Joe Williams on Mon, 29 Feb 2016 09:07:05 -0600 [View Commit](../../commit/32d88f30944325d1262459d63ea7db9be0feda1f)
+* Revert "added permissions to user needed for coi sponsor checking"
+  * Travis Schneeberger on Mon, 29 Feb 2016 10:00:07 -0500 [View Commit](../../commit/3e015b0ae57764c66161a1177a54d7ef5e47b3f7)
+* added permissions to user needed for coi sponsor checking
+  * Joe Williams on Thu, 25 Feb 2016 16:20:01 -0600 [View Commit](../../commit/d7e6c0c1bfb180ecc3b03ab764ad4c19c88927f0)
+
+##coeus-1602.69
 * Fix Oracle KRMS
   * Gayathri Athreya on Fri, 26 Feb 2016 14:46:14 -0700 [View Commit](../../commit/4a2cc83ce546ae967d13a195dc6282acae12181c)
 
