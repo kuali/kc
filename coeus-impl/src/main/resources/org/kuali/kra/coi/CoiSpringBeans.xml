@@ -65,6 +65,14 @@
         <property name="serviceName" value="restMessageProducer" />
     </bean>
 
+    <bean id="kualiConfigurationService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kualiConfigurationService" />
+    </bean>
+
+    <bean id="restOperations" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="restOperations" />
+    </bean>
+
     <bean id="beanValidator" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="beanValidator" />
     </bean>

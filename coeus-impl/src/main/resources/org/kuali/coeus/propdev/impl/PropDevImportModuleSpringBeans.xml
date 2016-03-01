@@ -111,4 +111,8 @@
     <bean id="proposalAdminDetailsService" parent="grlImporter" p:serviceName="proposalAdminDetailsService" />
     <bean id="instPropSponsorService" parent="grlImporter" p:serviceName="instPropSponsorService" />
 
+    <!-- COI -->
+    <bean id="disclosureStatusRetrievalService" parent="grlImporter" p:serviceName="disclosureStatusRetrievalService" />
+
+
 </beans>

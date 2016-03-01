@@ -24,6 +24,8 @@ import java.sql.Timestamp;
 import java.util.*;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.kuali.coeus.coi.framework.DisclosureProjectStatus;
+import org.kuali.coeus.coi.framework.DisclosureStatusRetrievalService;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
@@ -59,6 +61,7 @@ import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnai
 import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireHelper;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.coeus.sys.framework.controller.KcFileService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.protocol.actions.ProtocolStatusBase;
@@ -197,6 +200,10 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     @Autowired
     @Qualifier("rolodexService")
     private RolodexService rolodexService;
+
+    @Autowired
+    @Qualifier("disclosureStatusRetrievalService")
+    private DisclosureStatusRetrievalService disclosureStatusRetrievalService;
 
     @Override
     public void processBeforeAddLine(ViewModel model, Object addLine, String collectionId, final String collectionPath) {
@@ -789,6 +796,24 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
         return state != null ? state.getDescription() : "";
     }
 
+    public String getAnnualDisclosureStatusForPerson(DevelopmentProposal proposal, ProposalPerson person) {
+        String personId = person.getPersonId() == null ? person.getRolodexId().toString() : person.getPersonId();
+        String sourceId = Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT;
+        String projectId = proposal.getProposalNumber();
+        DisclosureProjectStatus projectStatus = getDisclosureStatusRetrievalService().getDisclosureStatusForPerson(sourceId, projectId, personId);
+        return projectStatus.getStatus() == null ? "" : projectStatus.getStatus();
+    }
+
+    public DisclosureStatusRetrievalService getDisclosureStatusRetrievalService() {
+        return KcServiceLocator.getService(DisclosureStatusRetrievalService.class);
+    }
+
+    public boolean isCoiDisclosureStatusEnabled() {
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                Constants.PARAMETER_COMPONENT_DOCUMENT,
+                Constants.ENABLE_DISCLOSURE_STATUS_FROM_COI_MODULE);
+    }
+
     public void prepareSummaryPage(ProposalDevelopmentDocumentForm form) {
       populateCreditSplits(form);
         populateQuestionnaires(form);
@@ -959,7 +984,9 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     }
 
     public boolean displayCoiDisclosureStatus() {
-       return getParameterService().getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.PROP_PERSON_COI_STATUS_FLAG);
+       return getParameterService().getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE,
+                                                                Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
+                                                                Constants.PROP_PERSON_COI_STATUS_FLAG);
     }
  
     public boolean canSaveCertification(ProposalDevelopmentDocument document ,ProposalPerson proposalPerson){

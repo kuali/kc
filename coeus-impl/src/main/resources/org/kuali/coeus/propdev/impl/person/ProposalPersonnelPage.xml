@@ -284,8 +284,9 @@
           p:layoutManager.summaryTitle="@{#lp.fullName}
 		                                (@{#lp.role.description}
                                             @{#lp.keyPerson eq true ? ': ' + #lp.projectRole : '' })
-                                            	@{#lp.certifiedBy == null and #ViewHelper.canViewCertificationTab(document,#line) ? '(Certification Incomplete)' : ' '}
-		                                        @{#lp.certifiedBy != null ? '(Certification Completed and Answered By '+ #lp.certifiedPersonName+' - ' + #lp.certifiedTimeStamp+')' : ''}"
+                                                @{#ViewHelper.isCoiDisclosureStatusEnabled() ? '(' + #ViewHelper.getAnnualDisclosureStatusForPerson(document.developmentProposal,#line)+ ')' : ''}
+                                            	    @{#lp.certifiedBy == null and #ViewHelper.canViewCertificationTab(document,#line) ? '(Certification Incomplete)' : ' '}
+		                                            @{#lp.certifiedBy != null ? '(Certification Completed and Answered By '+ #lp.certifiedPersonName+' - ' + #lp.certifiedTimeStamp+')' : ''}"
 
           p:renderAddLine="false"
           p:renderInactiveToggleButton="false">

@@ -907,6 +907,7 @@ public interface Constants {
     //Prop Dev Parameters
     public static final String SPONSOR_HIERACHY_REQ_DIV_PROG_CODES = "SPONSOR_HIERACHY_REQ_DIV_PROG_CODES";
     public static final String PROP_PERSON_COI_STATUS_FLAG = "PROP_PERSON_COI_STATUS_FLAG";
+    String ENABLE_DISCLOSURE_STATUS_FROM_COI_MODULE = "ENABLE_DISCLOSURE_STATUS_FROM_COI_MODULE";
 
 
     public static final String MM_DD_YYYY_HH_MM_A_DATE_FORMAT = "MM/dd/yyyy hh:mm a";
@@ -920,5 +921,12 @@ public interface Constants {
     public static final int PROTOCOL_DEFAULT_SUBMISSION_NUMBER = -1;
 
     public static final String MAKE_AWD_CUM_ANTICIPATED_OBL_EDITABLE = "MAKE_AWD_CUM_ANTICIPATED_OBL_EDITABLE";
+    String COI_PROJECTS_ENABLED = "coi.projects.enabled";
+    String COI_PROJECTS = "coi.projects";
+    String CONTENT_TYPE = "Content-Type";
+    String APPLICATION_JSON = "application/json";
+    String COI_PROJECTS_DISCLOSURE_STATUS_URL = "coi.projects.disclosure.status.url";
+    String AUTHORIZATION_HEADER = "Authorization";
+    String BEARER_TOKEN = "Bearer ";
 }
 
