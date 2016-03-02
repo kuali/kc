@@ -244,8 +244,11 @@
     <param name="kc.rest.admin.password" override="false"></param>
 
     <param name="coi.standalone.base.url">${application.rest.services.base.url}</param>
-	<param name="coi.projects.url">${coi.standalone.base.url}/api/coi/projects</param>
-	<param name="coi.projects.enabled">false</param>
+    <param name="coi.api.url">${coi.standalone.base.url}/api/coi</param>
+    <param name="coi.projects.url">${coi.api.url}/projects</param>
+    <param name="coi.projects.disclosure.status.url">${coi.api.url}/project-disclosure-statuses/</param>
+
+    <param name="coi.projects.enabled">false</param>
 	<param name="auth.base.url">${application.rest.services.base.url}</param>
 	<param name="auth.users.url">${auth.base.url}/api/v1/users</param>
 	<param name="rice.portal.logout.redirectUrl">${application.url}/kc-krad/landingPage</param>

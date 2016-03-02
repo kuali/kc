@@ -198,8 +198,9 @@
     			</tr>
     			</tbody>
     			</c:if>
-    			
-    			<c:forEach var="awardContact" items="${KualiForm.document.awardList[0].projectPersons}" varStatus="awardContactRowStatus">
+
+                <c:set var="displayCoiDisclosureStatus" value="${KualiForm.displayCoiDisclosureStatus}" />
+                <c:forEach var="awardContact" items="${KualiForm.document.awardList[0].projectPersons}" varStatus="awardContactRowStatus">
     				<tr>
     					<th class="infoline" scope="row" rowspan="4">
     						<c:out value="${awardContactRowStatus.index + 1}" />
@@ -216,6 +217,11 @@
     		                			<kul:directInquiry boClassName="org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex" inquiryParameters="award_person.identifier_${awardContactRowStatus.index}:rolodexId" anchor="${tabKey}" />
     		                		</c:otherwise>
     		                	</c:choose>
+                                 <c:choose>
+                                    <c:when test="${displayCoiDisclosureStatus}">
+                                        <br><b>(${awardContact.disclosureStatus})</b>&nbsp;
+                                    </c:when>
+                                 </c:choose>
     						</div>
     					</td>
     	                <td valign="middle">

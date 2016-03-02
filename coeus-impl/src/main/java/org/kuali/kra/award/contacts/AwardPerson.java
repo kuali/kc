@@ -20,6 +20,8 @@ package org.kuali.kra.award.contacts;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.coi.framework.DisclosureProjectStatus;
+import org.kuali.coeus.coi.framework.DisclosureStatusRetrievalService;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex;
 import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
@@ -31,6 +33,7 @@ import org.kuali.kra.bo.AbstractProjectPerson;
 import org.kuali.coeus.common.framework.rolodex.PersonRolodex;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.infrastructure.Constants;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -73,6 +76,7 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
     private transient boolean roleChanged;
     
     private transient PropAwardPersonRoleService propAwardPersonRoleService;
+    private transient DisclosureStatusRetrievalService disclosureStatusRetrievalService;
 
     public AwardPerson() {
         super();
@@ -97,12 +101,6 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
         creditSplit.setAwardPerson(this);
     }
 
-    /**
-     * 
-     * This method associates a unit to the 
-     * @param unit
-     * @param isLeadUnit
-     */
     public void add(AwardPersonUnit awardPersonUnit) {
         units.add(awardPersonUnit);
         awardPersonUnit.setAwardPerson(this);
@@ -422,5 +420,20 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
 	public boolean isInvestigator() {
 		return isPrincipalInvestigator() || isMultiplePi() || isCoInvestigator() || (isKeyPerson() && isOptInUnitStatus());
 	}
+
+    public String getDisclosureStatus() {
+        DisclosureStatusRetrievalService disclosureStatusRetrievalService = getDisclosureStatusRetrievalService();
+        DisclosureProjectStatus projectStatus =  disclosureStatusRetrievalService.getDisclosureStatusForPerson(Constants.MODULE_NAMESPACE_AWARD,
+                                                                                                                getAward().getAwardId().toString(),
+                                                                                                                getPersonId());
+        return projectStatus.getStatus();
+    }
+
+    protected DisclosureStatusRetrievalService getDisclosureStatusRetrievalService() {
+        if (disclosureStatusRetrievalService == null) {
+            disclosureStatusRetrievalService = KcServiceLocator.getService(DisclosureStatusRetrievalService.class);
+        }
+        return disclosureStatusRetrievalService;
+    }
 
 }

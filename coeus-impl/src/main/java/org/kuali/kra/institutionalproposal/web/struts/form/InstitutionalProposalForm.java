@@ -409,4 +409,9 @@ public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase i
         return getBaseShortUrl() + "/kc-common/proposals/" + getInstitutionalProposalDocument().getInstitutionalProposal().getInstProposalNumber();
     }
 
+    public boolean getDisplayCoiDisclosureStatus() {
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL,
+                Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ENABLE_DISCLOSURE_STATUS_FROM_COI_MODULE);
+    }
+
 }
