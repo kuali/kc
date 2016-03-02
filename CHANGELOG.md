@@ -1,6 +1,26 @@
 
 
 ##CURRENT
+* RESKC-949: Adding disclosure status to award and IP personnel.
+  * As a researcher or admin responsible for a project, I can see the COI disclosure status of project person to determine if the project can move forward or if project personnel need disclosures for the project to proceed.
+  * General Acceptance Criteria:
+  * See subtasks.
+  * Configurable in monolith so it is only displayed in a module if desired by the school.
+  * For each project person, display the latest status of the annual disclosure that includes that project.
+  * if the project is not on annnual yet, display "Not yet disclosed"
+  * if a project is not required to disclose display "Not Required"
+  * Gayathri Athreya on Wed, 2 Mar 2016 08:36:23 -0700 [View Commit](../../commit/689936b6f1cf5c43d739a723ed6b6f9e21c0ea69)
+* RESKC-949: Adding coi disclosure status to Prop dev personnel.
+  * As a researcher or admin responsible for a project, I can see the COI disclosure status of project person to determine if the project can move forward or if project personnel need disclosures for the project to proceed.
+  * General Acceptance Criteria:
+  * See subtasks.
+  * Configurable in monolith so it is only displayed in a module if desired by the school.
+  * For each project person, display the latest status of the annual disclosure that includes that project.
+  * if the project is not on annnual yet, display "Not yet disclosed"
+  * if a project is not required to disclose display "Not Required"
+  * Gayathri Athreya on Tue, 1 Mar 2016 14:46:47 -0700 [View Commit](../../commit/d0a7e608a03980f0613b3f3ec1e6995692ed82f9)
+
+##coeus-1603.2
 * No Changes
 
 
