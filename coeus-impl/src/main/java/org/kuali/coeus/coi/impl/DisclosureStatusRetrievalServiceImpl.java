@@ -1,3 +1,22 @@
+/*
+ * Kuali Coeus, a comprehensive research administration system for higher education.
+ *
+ * Copyright 2005-2016 Kuali, Inc.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package org.kuali.coeus.coi.impl;
 
 import org.apache.commons.logging.Log;
@@ -33,27 +52,25 @@ public class DisclosureStatusRetrievalServiceImpl implements DisclosureStatusRet
 
     @Override
     public DisclosureProjectStatus getDisclosureStatusForPerson(String sourceId, String projectId, String personId) {
-        final String url = getCoiStandaloneBaseUrl() + sourceId + "/" + projectId + "/" + personId;
+        final String url = getCoiApiUrl() + sourceId + "/" + projectId + "/" + personId;
 
         final RestRequest request = new RestRequest();
         final HttpHeaders headers = new HttpHeaders();
         headers.put(Constants.CONTENT_TYPE, Collections.singletonList(Constants.APPLICATION_JSON));
         headers.put(Constants.AUTHORIZATION_HEADER, Collections.singletonList(getAuthToken()));
         final HttpEntity<String> entity = new HttpEntity<>(request.getBody(), headers);
-
-        return isAnnualDisclosuresAvailable(url, entity, org.springframework.http.HttpMethod.GET);
-
+        return getDisclosureProjectStatus(url, entity, org.springframework.http.HttpMethod.GET);
     }
 
     protected String getAuthToken() {
         return Constants.BEARER_TOKEN + getConfigurationService().getPropertyValueAsString(AuthConstants.AUTH_SYSTEM_TOKEN_PARAM);
     }
 
-    protected String getCoiStandaloneBaseUrl() {
+    protected String getCoiApiUrl() {
         return getConfigurationService().getPropertyValueAsString(Constants.COI_PROJECTS_DISCLOSURE_STATUS_URL);
     }
 
-    protected DisclosureProjectStatus isAnnualDisclosuresAvailable(String url, HttpEntity<String> entity, HttpMethod method) {
+    protected DisclosureProjectStatus getDisclosureProjectStatus(String url, HttpEntity<String> entity, HttpMethod method) {
         try {
             ResponseEntity<DisclosureProjectStatus> response = getDisclosureStatusFromCoi(url, entity, method);
             DisclosureProjectStatus projectStatus = response.getBody();

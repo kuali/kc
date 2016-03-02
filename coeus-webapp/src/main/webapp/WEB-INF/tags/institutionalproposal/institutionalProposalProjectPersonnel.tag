@@ -128,6 +128,7 @@
 			</tr>
 			</c:if>
 
+            <c:set var="displayCoiDisclosureStatus" value="${KualiForm.displayCoiDisclosureStatus}" />
 			<c:forEach var="institutionalProposalContact" items="${KualiForm.document.institutionalProposalList[0].sortedProjectPersons}" varStatus="institutionalProposalContactRowStatus">
 				<tr>
 					<th class="infoline" scope="row" rowspan="4">
@@ -137,7 +138,7 @@
 	                	<input type="hidden" name="institutionalproposal_person.identifier_${institutionalProposalContactRowStatus.index}" value="${institutionalProposalContact.contact.identifier}" />
 	                	<div align="center">
 	                		${institutionalProposalContact.fullName}&nbsp;
-	                		<c:choose>
+                                <c:choose>
 		                		<c:when test="${institutionalProposalContact.employee}">
 		                			<kul:directInquiry boClassName="org.kuali.coeus.common.framework.person.KcPerson" inquiryParameters="institutionalproposal_person.identifier_${institutionalProposalContactRowStatus.index}:personId" anchor="${tabKey}" />
 		                		</c:when>
@@ -145,6 +146,11 @@
 		                			<kul:directInquiry boClassName="org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex" inquiryParameters="institutionalproposal_person.identifier_${institutionalProposalContactRowStatus.index}:rolodexId" anchor="${tabKey}" />
 		                		</c:otherwise>
 		                	</c:choose>
+                            <c:choose>
+                                <c:when test="${displayCoiDisclosureStatus}">
+                                    <br><b>(${institutionalProposalContact.disclosureStatus})</b>&nbsp;
+                                </c:when>
+                            </c:choose>
 						</div>
 					</td>
 	                <td valign="middle">

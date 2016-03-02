@@ -201,10 +201,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     @Qualifier("rolodexService")
     private RolodexService rolodexService;
 
-    @Autowired
-    @Qualifier("disclosureStatusRetrievalService")
-    private DisclosureStatusRetrievalService disclosureStatusRetrievalService;
-
     @Override
     public void processBeforeAddLine(ViewModel model, Object addLine, String collectionId, final String collectionPath) {
         ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm) model;

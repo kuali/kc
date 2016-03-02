@@ -19,6 +19,8 @@
 package org.kuali.kra.institutionalproposal.contacts;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.coi.framework.DisclosureProjectStatus;
+import org.kuali.coeus.coi.framework.DisclosureStatusRetrievalService;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex;
 import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
@@ -30,6 +32,8 @@ import org.kuali.kra.bo.AbstractProjectPerson;
 import org.kuali.coeus.common.framework.rolodex.PersonRolodex;
 import org.kuali.coeus.common.framework.type.InvestigatorCreditType;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.printing.schema.ApprovedDisclosureDocument;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,6 +62,7 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
     private List<InstitutionalProposalPersonCreditSplit> creditSplits;
     
     private transient PropAwardPersonRoleService propAwardPersonRoleService;
+    private transient DisclosureStatusRetrievalService disclosureStatusRetrievalService;
 
     public InstitutionalProposalPerson() {
         super();
@@ -82,12 +87,6 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
         creditSplit.setInstitutionalProposalPerson(this);
     }
 
-    /**
-     * 
-     * This method associates a unit to the 
-     * @param unit
-     * @param isLeadUnit
-     */
     public void add(InstitutionalProposalPersonUnit institutionalProposalPersonUnit) {
         units.add(institutionalProposalPersonUnit);
         institutionalProposalPersonUnit.setInstitutionalProposalPerson(this);
@@ -364,5 +363,20 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
         }
         return lastName;
     }
-    
+
+    public String getDisclosureStatus() {
+        DisclosureStatusRetrievalService disclosureStatusRetrievalService = getDisclosureRetrievalService();
+        DisclosureProjectStatus projectStatus =  disclosureStatusRetrievalService.getDisclosureStatusForPerson(Constants.MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL,
+                                                                                                                getInstitutionalProposal().getInstProposalNumber(),
+                                                                                                                getPersonId());
+        return projectStatus.getStatus();
+    }
+
+    protected DisclosureStatusRetrievalService getDisclosureRetrievalService() {
+        if(disclosureStatusRetrievalService == null) {
+            disclosureStatusRetrievalService = KcServiceLocator.getService(DisclosureStatusRetrievalService.class);
+        }
+        return disclosureStatusRetrievalService;
+    }
+
 }

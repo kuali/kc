@@ -31,7 +31,7 @@
 
     <bean id="grlImporter" abstract="true" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
     <bean id="institutionalProposalService" parent="grlImporter" p:serviceName="institutionalProposalService" />
-    <bean id="specialReviewService" parent="grlImporter" p:serviceName="specialReviewService"/> 
+    <bean id="specialReviewService" parent="grlImporter" p:serviceName="specialReviewService"/>
 
     <!-- SYS -->
 
@@ -110,9 +110,5 @@
 
     <bean id="proposalAdminDetailsService" parent="grlImporter" p:serviceName="proposalAdminDetailsService" />
     <bean id="instPropSponsorService" parent="grlImporter" p:serviceName="instPropSponsorService" />
-
-    <!-- COI -->
-    <bean id="disclosureStatusRetrievalService" parent="grlImporter" p:serviceName="disclosureStatusRetrievalService" />
-
 
 </beans>
