@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-936: add new narrative types for: S2S Form D: PHS 398 Research Plan 3.0 form update for 2016
+  * Travis Schneeberger on Tue, 1 Mar 2016 15:48:04 -0500 [View Commit](../../commit/c6f265ae3df8fb5f9a56f013db07ebb60d0270f0)
+
+##coeus-1603.3
 * RESKC-949: Adding disclosure status to award and IP personnel.
   * As a researcher or admin responsible for a project, I can see the COI disclosure status of project person to determine if the project can move forward or if project personnel need disclosures for the project to proceed.
   * General Acceptance Criteria:
