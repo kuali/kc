@@ -327,6 +327,8 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
                 .stream().anyMatch(actionTaken -> actionTaken.getActionTaken() == ActionType.COMPLETE);
     }
 
+
+
     private boolean isLastSubmitterApprovalAction(ActionTaken actionTaken) {
         return actionTaken.getActionTaken().getCode().equals(KewApiConstants.ACTION_TAKEN_APPROVED_CD) && getWorkflowDocumentActionsService().isFinalApprover(actionTaken.getDocumentId(), actionTaken.getPrincipalId());
     }

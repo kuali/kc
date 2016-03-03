@@ -152,7 +152,7 @@ public class ProposalStateServiceTest extends KcIntegrationTestBase {
         ProposalDevelopmentDocument doc = createProposalDevelopmentDocument(workflowState, isSubmitted);
 
         doc.getDevelopmentProposal().setProposalStateTypeCode(previousStateTypeCode);
-        String state = service.getProposalStateTypeCode(doc, isRejected );
+        String state = service.getProposalStateTypeCode(doc, isRejected);
         assertEquals("Proposal State", expectedState1, state);
         
         state = service.getProposalStateTypeCode(doc, isRejected);

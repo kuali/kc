@@ -37,11 +37,10 @@ public class ProposalStateServiceImpl implements ProposalStateService {
     @Autowired
     @Qualifier("kcWorkflowService")
     private KcWorkflowService kcWorkflowService;
-    
+
     @Override
     public String getProposalStateTypeCode(ProposalDevelopmentDocument proposalDevelopmentDocument, boolean isRejectAction) {
         final WorkflowDocument wd = proposalDevelopmentDocument.getDocumentHeader().getWorkflowDocument();
-        
         if (wd.isInitiated()) {
             return ProposalState.IN_PROGRESS;
         } else if (wd.isSaved()) {
