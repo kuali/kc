@@ -22,7 +22,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.kuali.coeus</groupId>
     <artifactId>coeus</artifactId>
-    <version>1603.6</version>
+    <version>1603.7-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Kuali Coeus</name>
     <description>
