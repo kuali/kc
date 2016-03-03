@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-949: Minor change to prevent STE when KC cannot connect to coi.
+  * Gayathri Athreya on Thu, 3 Mar 2016 10:12:40 -0700 [View Commit](../../commit/9ae6da7febf197b5a1632990f05a718d425e0152)
+
+##coeus-1603.9
 * putting back the same fix Rajeev did for RESKC-805. Its not showing review comments for continuing review submitted protocols. For this, review comments should be taken from minutes which happens on amendments and renewals
   * Geo Thomas on Thu, 3 Mar 2016 15:43:16 -0500 [View Commit](../../commit/111e318169285a803af37057cf0ab216740212bf)
 
