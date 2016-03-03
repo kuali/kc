@@ -71,25 +71,23 @@ public class DisclosureStatusRetrievalServiceImpl implements DisclosureStatusRet
     }
 
     protected DisclosureProjectStatus getDisclosureProjectStatus(String url, HttpEntity<String> entity, HttpMethod method) {
+        DisclosureProjectStatus projectStatus = new DisclosureProjectStatus();
         try {
             ResponseEntity<DisclosureProjectStatus> response = getDisclosureStatusFromCoi(url, entity, method);
-            DisclosureProjectStatus projectStatus = response.getBody();
+            projectStatus = response.getBody();
             if (LOG.isDebugEnabled()) {
                 LOG.debug(url+ "returned status code "  + response.getStatusCode());
             }
-
-            return projectStatus;
         } catch (UnknownHttpStatusCodeException e) {
             if (LOG.isWarnEnabled()) {
                 LOG.warn(url+ "returned status code "  + e.getRawStatusCode());
             }
-            throw e;
         } catch (RuntimeException e) {
             if (LOG.isErrorEnabled()) {
                 LOG.error(url+ "returned error " + e.getMessage());
             }
-            throw e;
         }
+        return projectStatus;
     }
 
     protected ResponseEntity<DisclosureProjectStatus> getDisclosureStatusFromCoi(String url, HttpEntity<String> entity, HttpMethod method) {
