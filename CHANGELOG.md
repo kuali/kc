@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1603.10
 * RESKC-949: Minor change to prevent STE when KC cannot connect to coi.
   * Gayathri Athreya on Thu, 3 Mar 2016 10:12:40 -0700 [View Commit](../../commit/9ae6da7febf197b5a1632990f05a718d425e0152)
 
