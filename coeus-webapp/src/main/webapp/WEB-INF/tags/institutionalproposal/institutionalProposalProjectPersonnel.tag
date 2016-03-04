@@ -146,11 +146,6 @@
 		                			<kul:directInquiry boClassName="org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex" inquiryParameters="institutionalproposal_person.identifier_${institutionalProposalContactRowStatus.index}:rolodexId" anchor="${tabKey}" />
 		                		</c:otherwise>
 		                	</c:choose>
-                            <c:choose>
-                                <c:when test="${displayCoiDisclosureStatus}">
-                                    <br><b>(${institutionalProposalContact.disclosureStatus})</b>&nbsp;
-                                </c:when>
-                            </c:choose>
 						</div>
 					</td>
 	                <td valign="middle">
@@ -192,7 +187,18 @@
 						</div>
 	                </td>
 	            </tr>
-	            
+                <c:choose>
+                    <c:when test="${displayCoiDisclosureStatus}">
+                <tr>
+                    <td colspan="1" nowrap class="tab-subhead">
+                        Coi Disclosure Status:
+                    </td>
+                    <td colspan="5" nowrap class="tab-subhead">
+                        ${institutionalProposalContact.disclosureStatus}
+                    </td>
+                </tr>
+                    </c:when>
+                </c:choose>
 	            <tr>
 	            	<td colspan="6">
 	            		<kra-ip:institutionalProposalProjectPersonnelPersonDetails institutionalProposalContact="${institutionalProposalContact}" institutionalProposalContactRowStatusIndex="${institutionalProposalContactRowStatus.index}" />
