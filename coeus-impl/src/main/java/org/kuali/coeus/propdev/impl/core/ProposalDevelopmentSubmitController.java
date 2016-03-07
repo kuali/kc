@@ -102,6 +102,8 @@ public class ProposalDevelopmentSubmitController extends
 
     public static final String ANOTHER_USER_APPROVED_ACTION_TYPE_CODE = "501";
     public static final String ANOTHER_USER_APPROVED_NOTIFICATION = "Another User Approved Notification";
+    public static final String PROPOSAL_NUMBER = "proposalNumber";
+    public static final String PROPOSAL_STATE = "proposalState";
 
     private final Logger LOGGER = Logger.getLogger(ProposalDevelopmentSubmitController.class);
 
@@ -295,16 +297,19 @@ public class ProposalDevelopmentSubmitController extends
            String recallExplanation = form.getDialogExplanations().get(KRADConstants.QUESTION_ACTION_RECALL_REASON);
            getDocumentService().recallDocument(document, recallExplanation, false);
            successMessageKey = RiceKeyConstants.MESSAGE_ROUTE_RECALLED;
+           final ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) document;
+           proposalDevelopmentDocument.getDevelopmentProposal().setProposalStateTypeCode(ProposalState.REVISIONS_REQUESTED);
+           DevelopmentProposal developmentProposal = getDataObjectService().save(proposalDevelopmentDocument.getDevelopmentProposal());
+           developmentProposal.refreshReferenceObject(PROPOSAL_STATE);
        }
        if (successMessageKey != null) {
            getGlobalVariableService().getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, successMessageKey);
        }
-       form.setCanEditView(null);
-       form.setEvaluateFlagsAndModes(true);
-       return getModelAndViewService().getModelAndView(form);
-  } 
-  
-   @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=disapproveProposal")
+
+       return getTransactionalDocumentControllerService().reload(form);
+   }
+
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=disapproveProposal")
    public  ModelAndView disapproveProposal(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form)throws Exception {
 	   String applicationUrl = getConfigurationService().getPropertyValueAsString(KRADConstants.APPLICATION_URL_KEY);
 	   form.setReturnLocation(applicationUrl);
@@ -485,7 +490,7 @@ public class ProposalDevelopmentSubmitController extends
                 proposalDevelopmentDocument.getDevelopmentProposal().refresh();
                 getDataObjectService().save(proposalDevelopmentDocument.getDevelopmentProposal());
             }
-            
+
             updateProposalAdminDetailsForSubmitToSponsor(proposalDevelopmentDocument.getDevelopmentProposal());
     
             if (autogenerateInstitutionalProposal()) {
@@ -616,7 +621,7 @@ public class ProposalDevelopmentSubmitController extends
     }
     
     private Long getActiveProposalId(String proposalNumber) {
-        Collection<InstitutionalProposal> ips = getLegacyDataAdapter().findMatching(InstitutionalProposal.class, Collections.singletonMap("proposalNumber", proposalNumber));
+        Collection<InstitutionalProposal> ips = getLegacyDataAdapter().findMatching(InstitutionalProposal.class, Collections.singletonMap(PROPOSAL_NUMBER, proposalNumber));
         return ((InstitutionalProposal) ips.toArray()[0]).getProposalId();
     }
     
