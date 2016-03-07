@@ -1,6 +1,41 @@
 
 
 ##CURRENT
+* RESKC-1132: Fixed proposal development document when recalled.
+
+  * Proposal Status is "Approval Pending" instead of "Revisions Requested" on proposals recalled during routing
+  * Proposal Routed for approval and was Recalled before the Investigator approved.
+  * When in the same session, the submit status changed to save and the document became editable, user navigated to the key personnel section, searched for and added a multi-pi. selected the person certifications and noticed that answers to questions were not editable.
+  * Left proposal and searched for proposal in proposal search.
+  * Can edit some areas of proposal persons (such as commons name) but cannot certify the newly added multipi. Document status shows as approval pending and submit screen shows as saved (not routing)
+  * Route log shows that the initiator recalled the proposal
+  * yet the proposal is not entirely editable and the document status is incorrectly approval pending
+  * To reproduce:
+  * Searched for Proposal enroute that was awaiting PI approval
+  * Clicked Edit from Search Results
+  * Went to Submit on left Nav
+  * Recalled
+  * added Recall reason
+  * navigated to key persons
+  * added key person to Multi PI role
+  * Closed.
+  * Searched for PD again
+  * Edit proposal
+  * proposal shows as approval in progress and is not completely editable
+  * Gayathri Athreya on Thu, 3 Mar 2016 10:24:52 -0700 [View Commit](../../commit/3031eaca41c3fbf7263df0513234d63e442e68cd)
+* RESKC-1203: Recalculating budget periods if posted budget exists.
+
+  * On an award we are not able to create a new budget revision because it gives us an error "Period 2 end date cannot exceed project end date" But we can not change this in any way. The project was shortened after the previous budget was posted but now it will not allow us to rebudget using the new date. Please advise as how we should accomplish this and why this is a problem.
+steps to reproduce
+  * Create an award,
+  * create an award budget,
+  * approve, post.
+  * Via T&M document,
+  * change award dates
+  * now try to create a new budget, get error message.
+  * Gayathri Athreya on Mon, 7 Mar 2016 11:13:17 -0700 [View Commit](../../commit/ee0194982794b2a0da563e91ac8f76fc25ac8e15)
+
+##coeus-1603.12
 * moving scripts
   * Gayathri Athreya on Fri, 4 Mar 2016 14:46:53 -0700 [View Commit](../../commit/55687de35384a0856cb2765ff20f4ce64a55a1bc)
 * RESKC-949: Making minor display related changes that were requested.
