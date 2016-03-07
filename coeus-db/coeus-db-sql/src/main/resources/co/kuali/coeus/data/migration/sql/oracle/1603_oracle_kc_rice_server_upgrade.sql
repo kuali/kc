@@ -22,4 +22,6 @@ set sqlblanklines on
 
 spool 1603_oracle_kc_rice_server_upgrade.sql.log
 @./rice/bootstrap/V1603_001__add_read_sponsor_hierarchy_to_user.sql
+@./rice/bootstrap/V1603_002__RESKC-1044.sql
+@./rice/bootstrap/V1603_005__RESKC-949.sql
 commit;

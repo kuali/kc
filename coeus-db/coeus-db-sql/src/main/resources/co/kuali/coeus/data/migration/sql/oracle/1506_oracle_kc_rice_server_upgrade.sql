@@ -25,6 +25,7 @@ spool 1506_oracle_kc_rice_server_upgrade.sql.log
 @./rice/bootstrap/V1506_002__DefaultEmailRecipient.sql
 @./rice/bootstrap/V1506_003__add_monitoring_auth.sql
 @./rice/bootstrap/V1506_004__CertificationNotification.sql
+@./rice/bootstrap/V1506_006__KR_Adding_reject_permission.sql
 @./rice/bootstrap/V1506_008__RESKC-533.sql
 @./rice/bootstrap/V1506_010__SinglePointEntry.sql
 @./rice/bootstrap/V1506_017__remove_unused_parms.sql

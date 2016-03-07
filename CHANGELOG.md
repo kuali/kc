@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* moving scripts
+  * Gayathri Athreya on Fri, 4 Mar 2016 14:46:53 -0700 [View Commit](../../commit/55687de35384a0856cb2765ff20f4ce64a55a1bc)
+* RESKC-949: Making minor display related changes that were requested.
+  * Gayathri Athreya on Fri, 4 Mar 2016 09:02:13 -0700 [View Commit](../../commit/07d87ef90d8a5b54ce4a8237e3c64f8c7421a881)
+
+##coeus-1603.11
 * No Changes
 
 
