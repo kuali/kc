@@ -137,17 +137,13 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     }
 
     public AwardBudgetDocument copyBudgetVersion(AwardBudgetDocument budgetDocument, boolean onlyOnePeriod) throws WorkflowException {
-        AwardDocument awardDocument = (AwardDocument)budgetDocument.getBudget().getBudgetParent().getDocument();
-		String parentDocumentNumber = awardDocument.getDocumentNumber();
-        budgetDocument.toCopy();
-        awardDocument.getDocumentHeader().setDocumentNumber(parentDocumentNumber);
-        awardDocument.setDocumentNumber(parentDocumentNumber);
-        if(budgetDocument.getBudget() == null) {
-            throw new RuntimeException("Not able to find any Budget Version associated with this document");
-        }
         Budget budget = budgetDocument.getBudget();
-        AwardBudgetExt copiedBudget = (AwardBudgetExt) copyBudgetVersion(budget,onlyOnePeriod);
+        AwardDocument awardDocument = (AwardDocument)budgetDocument.getBudget().getBudgetParent().getDocument();
+        AwardBudgetExt copiedBudget = copyAwardBudget(budgetDocument, onlyOnePeriod, budget, awardDocument);
         budgetDocument.getBudgets().add(copiedBudget);
+
+        fixStartAndEndDatesAndPeriods(awardDocument, copiedBudget);
+
         budgetDocument = (AwardBudgetDocument) documentService.saveDocument(budgetDocument);
         
         Map<String, Object> objectMap = new HashMap<>();
@@ -158,6 +154,23 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         AwardDocument savedAwardDocument = (AwardDocument)budgetDocument.getBudget().getBudgetParent().getDocument();
         savedAwardDocument.refreshBudgetDocumentVersions();
     	return budgetDocument;
+    }
+
+    protected void fixStartAndEndDatesAndPeriods(AwardDocument awardDocument, AwardBudgetExt copiedBudget) {
+        copiedBudget.setStartDate(awardDocument.getAward().getRequestedStartDateInitial());
+        copiedBudget.setEndDate(awardDocument.getAward().getRequestedEndDateInitial());
+        defaultPeriodsIfNeeded(copiedBudget);
+    }
+
+    protected AwardBudgetExt copyAwardBudget(AwardBudgetDocument budgetDocument, boolean onlyOnePeriod, Budget budget, AwardDocument awardDocument) throws WorkflowException {
+        String parentDocumentNumber = awardDocument.getDocumentNumber();
+        budgetDocument.toCopy();
+        awardDocument.getDocumentHeader().setDocumentNumber(parentDocumentNumber);
+        awardDocument.setDocumentNumber(parentDocumentNumber);
+        if(budgetDocument.getBudget() == null) {
+            throw new RuntimeException("Not able to find any Budget Version associated with this document");
+        }
+        return (AwardBudgetExt) copyBudgetVersion(budget,onlyOnePeriod);
     }
 
     public Budget copyBudgetVersionSuper(Budget budget, boolean onlyOnePeriod){
