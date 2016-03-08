@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1203: Adding award budget integration tests
+  * Gayathri Athreya on Tue, 8 Mar 2016 12:41:40 -0700 [View Commit](../../commit/746c1b8a3a5978a51c53fc8867bcf762cada5bf4)
+
+##coeus-1603.14
 * No Changes
 
 
