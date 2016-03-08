@@ -306,7 +306,8 @@ public class AwardBudgetServiceImplTest {
 		return awardBudgetPeriod1;
 	}
 
-	protected Date convertToSqlDate(LocalDateTime awardBudgetStartDate) {
+
+    protected Date convertToSqlDate(LocalDateTime awardBudgetStartDate) {
 		return new java.sql.Date(awardBudgetStartDate.toInstant(ZoneOffset.ofHours(0)).toEpochMilli());
 	}
     
