@@ -273,10 +273,10 @@
     <property name="shortLabel" value="Budget Justification"/>
     <property name="maxLength" value="4000"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <bean parent="UTF8AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
     <property name="validCharactersConstraint">
-      <bean parent="AnyCharacterPatternConstraint">
+      <bean parent="UTF8AnyCharacterPatternConstraint">
         <property name="allowWhitespace" value="true"/>
       </bean>
     </property>
