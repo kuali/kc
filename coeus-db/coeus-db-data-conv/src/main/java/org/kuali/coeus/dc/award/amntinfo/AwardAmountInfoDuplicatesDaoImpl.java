@@ -48,11 +48,16 @@ public class AwardAmountInfoDuplicatesDaoImpl implements AwardAmountInfoDuplicat
 			"order by transaction_id desc, sequence_number desc";
 	private static final String UPDATE_AWARD_AMOUNT_INFO_DATES = "update award_amount_info set final_expiration_date = ?, current_fund_effective_date = ?, obligation_expiration_date = ? " +
 		" where award_amount_info_id = ?";
+	private static final String UPDATE_AWARD_AMOUNT_INFO_CHANGE = "update award_amount_info set ANTICIPATED_CHANGE = ?, ANTICIPATED_CHANGE_DIRECT = ?, ANTICIPATED_CHANGE_INDIRECT = ?, " +
+		" OBLIGATED_CHANGE = ?, OBLIGATED_CHANGE_DIRECT = ?, OBLIGATED_CHANGE_INDIRECT = ?, ANT_DISTRIBUTABLE_AMOUNT = ?, OBLI_DISTRIBUTABLE_AMOUNT = ? where award_amount_info_id = ?";
 	private static final String SELECT_AWARD_NUMBERS = "select distinct award_number from award_amount_info";
 	private static final String QUERY_DUPED_TABLE = "select count(*) from award_amount_info_dups";
 	private static final String CREATE_DUPED_TABLE = "create table award_amount_info_dups as select * from award_amount_info where 1 = 0";
+	private static final String QUERY_MOD_TABLE = "select count(*) from award_amount_info_dup_mods";
+	private static final String CREATE_MOD_TABLE = "create table award_amount_info_dup_mods as select * from award_amount_info where 1 = 0";
 	private static final String INSERT_DUP_RECORD = "insert into award_amount_info_dups " + 
 			"select * from award_amount_info where award_amount_info_id = ?";
+	private static final String INSERT_MOD_RECORD = "insert into award_amount_info_dup_mods select * from award_amount_info where award_amount_info_id = ?";
 	private static final String SELECT_AWARD_DOC_NBR = "select document_number from award where award_id = ?";
 	private static final String VALIDATE_DOCUMENT_STATUS = "select doc_hdr_stat_cd from krew_doc_hdr_t where doc_hdr_id = ?";
 	private static final List<String> UNSUCCESSFUL_STATUSES = Arrays.asList("D", "X", "C");
@@ -66,6 +71,7 @@ public class AwardAmountInfoDuplicatesDaoImpl implements AwardAmountInfoDuplicat
 	public void fixAwardAmountInfoDuplicates() {
 		int numberOfDupsRemoved = 0;
 		List<AmountInfo> dupsNotEqual = new ArrayList<>();
+		List<AmountInfo> totalsNotEqual = new ArrayList<>();
 		List<AmountInfo> amountInfosAffected = new ArrayList<>();
 		Connection conn = connectionDaoService.getCoeusConnection();
 		Connection riceConn = connectionDaoService.getRiceConnection();
@@ -77,11 +83,20 @@ public class AwardAmountInfoDuplicatesDaoImpl implements AwardAmountInfoDuplicat
 				PreparedStatement insertDupedRecord = conn.prepareStatement(INSERT_DUP_RECORD);
 				PreparedStatement selectAwardDocumentNumber = conn.prepareStatement(SELECT_AWARD_DOC_NBR);
 				PreparedStatement validateDocumentStatus = riceConn.prepareStatement(VALIDATE_DOCUMENT_STATUS);
-				PreparedStatement updateAwardAmountInfoDates = conn.prepareStatement(UPDATE_AWARD_AMOUNT_INFO_DATES);) {
+				PreparedStatement updateAwardAmountInfoDates = conn.prepareStatement(UPDATE_AWARD_AMOUNT_INFO_DATES);
+				PreparedStatement updateAwardAmountInfoChangeAmnts = conn.prepareStatement(UPDATE_AWARD_AMOUNT_INFO_CHANGE);
+				PreparedStatement queryForModTable = conn.prepareStatement(QUERY_MOD_TABLE);
+				PreparedStatement createModTable = conn.prepareStatement(CREATE_MOD_TABLE);
+				PreparedStatement insertModRecord = conn.prepareStatement(INSERT_MOD_RECORD);) {
 			try (ResultSet rs = queryForDupTable.executeQuery()) {
 				//table exists so do nothing
 			} catch (SQLException e) {
 				createDupedTable.execute();
+			}
+			try (ResultSet rs= queryForModTable.executeQuery()) {
+				//table exists
+			} catch (SQLException e) {
+				createModTable.execute();
 			}
 			try (ResultSet awardNumbersRs = selectAwardNumbers.executeQuery()) {
 				while (awardNumbersRs.next()) {
@@ -97,11 +112,20 @@ public class AwardAmountInfoDuplicatesDaoImpl implements AwardAmountInfoDuplicat
 								final AmountInfo newerAmountInfo = amountInfos.get(currentAmountInfo.transactionId);
 								if (!newerAmountInfo.equals(currentAmountInfo)) {
 									dupsNotEqual.add(currentAmountInfo);
+									insertModRecord.setLong(1, newerAmountInfo.awardAmountInfoId);
+									insertModRecord.execute();
 									LOG.warning("Deleting duplicate award_amount_infos with transaction id = " + currentAmountInfo.transactionId + 
 											" but it is not equal to later amount info. award_amount_info_ids(" + 
 											currentAmountInfo.awardAmountInfoId + ", " + 
 											newerAmountInfo.awardAmountInfoId + "). ");
 									updateNewerAmountInfoDates(newerAmountInfo, currentAmountInfo, updateAwardAmountInfoDates);
+									if (newerAmountInfo.totalAmountsEqual(currentAmountInfo)) {
+										//update change and distributable amounts
+										updateNewerAmountInfoChangeAmnts(newerAmountInfo, currentAmountInfo,
+											updateAwardAmountInfoChangeAmnts);
+									} else {
+										totalsNotEqual.add(currentAmountInfo);
+									}
 								} else if (PENDING_STATUSES.contains(newerAmountInfo.docStatus)) {
 									LOG.warning("Deleting duplicate award_amount_info for PENDING award with transaction id = " + currentAmountInfo.transactionId + " and award_amount_info_id = " + currentAmountInfo.awardAmountInfoId);
 								} else {
@@ -141,9 +165,31 @@ public class AwardAmountInfoDuplicatesDaoImpl implements AwardAmountInfoDuplicat
 			LOG.warning("The following " + potentialAwardsChanged.size() + " awards had transactions removed that were different. Verify they are still correct. (" + 
 					potentialAwardsChanged.stream().collect(Collectors.joining(", ")) + ")");
 		}
+		if (!totalsNotEqual.isEmpty()) {
+			List<String> potentialAwardsChanged = totalsNotEqual.stream().map((amountInfo) -> amountInfo.awardNumber).distinct().sorted().collect(Collectors.toList());
+			LOG.warning("The following " + totalsNotEqual.size() + " transaction ids had duplicates where the total amounts were not equal. These have still been removed as they were likely modified in the award after the T&M doc finalization, but confirm that these records still reflect correct amounts. " +
+				totalsNotEqual.stream().map((amountInfo) -> String.valueOf(amountInfo.transactionId)).collect(Collectors.joining(", ")));
+			LOG.warning("The following " + potentialAwardsChanged.size() + " awards had transactions removed where the totals were not equal. Verify they are still correct. (" + 
+					potentialAwardsChanged.stream().collect(Collectors.joining(", ")) + ")");	
+		}
 		if (!amountInfosAffected.isEmpty()) {
 			LOG.warning("The following awards were affected by duplicate transactions. (" + amountInfosAffected.stream().map(amountInfo -> amountInfo.awardNumber).collect(Collectors.joining(", ")) + ")");
 		}
+	}
+
+
+	protected void updateNewerAmountInfoChangeAmnts(final AmountInfo newerAmountInfo, AmountInfo currentAmountInfo,
+		PreparedStatement updateAwardAmountInfoChangeAmnts) throws SQLException {
+		updateAwardAmountInfoChangeAmnts.setBigDecimal(1, currentAmountInfo.anticipatedChange);
+		updateAwardAmountInfoChangeAmnts.setBigDecimal(2, currentAmountInfo.anticipatedChangeDirect);
+		updateAwardAmountInfoChangeAmnts.setBigDecimal(3, currentAmountInfo.anticipatedChangeIndirect);
+		updateAwardAmountInfoChangeAmnts.setBigDecimal(4, currentAmountInfo.obligatedChange);
+		updateAwardAmountInfoChangeAmnts.setBigDecimal(5, currentAmountInfo.obligatedChangeDirect);
+		updateAwardAmountInfoChangeAmnts.setBigDecimal(6, currentAmountInfo.obligatedChangeIndirect);
+		updateAwardAmountInfoChangeAmnts.setBigDecimal(7, currentAmountInfo.anticipatedDistributableAmount);
+		updateAwardAmountInfoChangeAmnts.setBigDecimal(8, currentAmountInfo.obligatedDistributableAmount);
+		updateAwardAmountInfoChangeAmnts.setLong(9, newerAmountInfo.awardAmountInfoId);
+		updateAwardAmountInfoChangeAmnts.execute();
 	}
 
 
@@ -401,6 +447,40 @@ public class AwardAmountInfoDuplicatesDaoImpl implements AwardAmountInfoDuplicat
 				if (other.tnmDocumentNumber != null)
 					return false;
 			} else if (!tnmDocumentNumber.equals(other.tnmDocumentNumber))
+				return false;
+			return true;
+		}
+		
+		public boolean totalAmountsEqual(AmountInfo other) {
+			if (amountObligatedToDate == null) {
+				if (other.amountObligatedToDate != null)
+					return false;
+			} else if (!amountObligatedToDate.equals(other.amountObligatedToDate))
+				return false;
+			if (anticipatedTotalAmount == null) {
+				if (other.anticipatedTotalAmount != null)
+					return false;
+			} else if (!anticipatedTotalAmount.equals(other.anticipatedTotalAmount))
+				return false;
+			if (anticipatedTotalDirect == null) {
+				if (other.anticipatedTotalDirect != null)
+					return false;
+			} else if (!anticipatedTotalDirect.equals(other.anticipatedTotalDirect))
+				return false;
+			if (anticipatedTotalIndirect == null) {
+				if (other.anticipatedTotalIndirect != null)
+					return false;
+			} else if (!anticipatedTotalIndirect.equals(other.anticipatedTotalIndirect))
+				return false;
+			if (obligatedTotalDirect == null) {
+				if (other.obligatedTotalDirect != null)
+					return false;
+			} else if (!obligatedTotalDirect.equals(other.obligatedTotalDirect))
+				return false;
+			if (obligatedTotalIndirect == null) {
+				if (other.obligatedTotalIndirect != null)
+					return false;
+			} else if (!obligatedTotalIndirect.equals(other.obligatedTotalIndirect))
 				return false;
 			return true;
 		}
