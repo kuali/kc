@@ -37,4 +37,5 @@ public interface KraLookupDao extends LookupDao {
     @SuppressWarnings("unchecked")
     Collection findCollectionUsingWildCard(Class businessObjectClass, String field, String wildCard, boolean unbounded);
 
+    Collection findCollectionUsingWildCardWithSorting(Class businessObjectClass, String field, String wildCard, String sortProprtyName,boolean ascending,boolean unbounded);
 }

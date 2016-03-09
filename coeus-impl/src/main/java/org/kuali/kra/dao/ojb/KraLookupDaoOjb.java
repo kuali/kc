@@ -40,13 +40,26 @@ public class KraLookupDaoOjb extends LookupDaoOjb implements KraLookupDao {
     public Collection findCollectionUsingWildCard(Class businessObjectClass, String field, String wildCard, boolean unbounded) {
         Criteria criteria = new Criteria();
         criteria.addLike(field, wildCard);
+        return findBoCollection(businessObjectClass, unbounded, criteria);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Collection findCollectionUsingWildCardWithSorting(Class businessObjectClass, String field, String wildCard, String sortPropertyName, boolean ascending, boolean unbounded) {
+        Criteria criteria = new Criteria();
+        criteria.addLike(field, wildCard);
+        criteria.addOrderBy(sortPropertyName, ascending);
+        return findBoCollection(businessObjectClass, unbounded, criteria);
+    }
+
+    private Collection findBoCollection(Class businessObjectClass, boolean unbounded, Criteria criteria) {
         Collection searchResults = new ArrayList();
         try {
             Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(businessObjectClass);
             if (!unbounded && (searchResultsLimit != null)) {
                 LookupUtils.applySearchResultsLimit(businessObjectClass, criteria, getDbPlatform());
             }
-            searchResults = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(businessObjectClass, criteria));   
+            searchResults = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(businessObjectClass, criteria));
             List bos = new ArrayList();
             bos.addAll(searchResults);
             searchResults = bos;
@@ -59,5 +72,4 @@ public class KraLookupDaoOjb extends LookupDaoOjb implements KraLookupDao {
         }
         return searchResults;
     }
-
 }
