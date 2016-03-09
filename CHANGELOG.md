@@ -1,6 +1,26 @@
 
 
 ##CURRENT
+* RESKC-1008: Allow utf-8 characters for budget notes.
+
+  * Steps to reproduce:
+  * Create a proposal with basic info to save.
+  * Create a new budget version - detailed or summary.
+  * Go to Budget Notes.
+  * In the Notes field, PASTE in some text from a MSWord doc with some special formatting like curly quotes, curly apostrophes, or em-dashes.
+  * Immediately click Periods & Totals from the left navigation menu.
+  * You will see the validation message here.
+  * Select Budget version from top menu bar, select Actions > Mark Budget complete for this budget.
+  * Close budget (by closing browser window if necessary).
+  * Open proposal to edit. Go to Summary Submit screen. Select [Submit For Review]
+  * Result: the validation error message appears.
+
+  * DESIRED RESULTS:
+  * 1. Eliminate the Error. Budget Notes are not utilized in S2S submissions where special text is a problem, so any entries should be allowed as long as they are compatible with the database. There is no need to validate this so strictly. Warn the user: "*Pasted in text may include formatting that will not appear, please use plain text or manually type in the notes. *"
+  * 2. Alternative: reduce it to a warning.
+  * Gayathri Athreya on Tue, 8 Mar 2016 15:58:07 -0700 [View Commit](../../commit/96d84d2156438f057df5ddaceb827fb450480c95)
+
+##coeus-1603.16
 * RESKC-1203: Adding award budget integration tests
   * Gayathri Athreya on Tue, 8 Mar 2016 12:41:40 -0700 [View Commit](../../commit/746c1b8a3a5978a51c53fc8867bcf762cada5bf4)
 
