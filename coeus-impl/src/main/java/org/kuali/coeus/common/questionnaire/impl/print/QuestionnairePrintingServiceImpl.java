@@ -90,22 +90,21 @@ public class QuestionnairePrintingServiceImpl implements QuestionnairePrintingSe
 
     
     private Questionnaire getQuestionnaire(Long questionnaireRefId) {
-        Map pkMap = new HashMap();
+        Map<String, Object> pkMap = new HashMap<>();
         pkMap.put("id", questionnaireRefId);
-        return (Questionnaire)businessObjectService.findByPrimaryKey(Questionnaire.class, pkMap);
+        return businessObjectService.findByPrimaryKey(Questionnaire.class, pkMap);
         
     }
 
     @Override
     public List<Printable> getQuestionnairePrintable(KcPersistableBusinessObjectBase printableBusinessObject,
                                                      List<QuestionnairePrintOption> questionnairesToPrints) {
-        List<Printable> printables = new ArrayList<Printable>();
+        List<Printable> printables = new ArrayList<>();
         for (QuestionnairePrintOption printOption : questionnairesToPrints) {
             if (printOption.isSelected()) {
-                //   AbstractPrint printable = getQuestionnairePrint();
                 AbstractPrint printable =  new QuestionnairePrint();
                 printable.setXmlStream(getQuestionnairePrint().getXmlStream());
-                Map<String, Object> reportParameters = new HashMap<String, Object>();
+                Map<String, Object> reportParameters = new HashMap<>();
                 Questionnaire questionnaire = getQuestionnaire(printOption.getQuestionnaireId());
                 reportParameters.put(QuestionnaireConstants.QUESTIONNAIRE_SEQUENCE_ID_PARAMETER_NAME, questionnaire.getQuestionnaireSeqIdAsInteger());
                 reportParameters.put(QuestionnaireConstants.QUESTIONNAIRE_ID_PARAMETER_NAME, questionnaire.getId());
@@ -117,11 +116,10 @@ public class QuestionnairePrintingServiceImpl implements QuestionnairePrintingSe
                     reportParameters.put(SUBMISSION_NUMBER, printOption.getSubItemKey());
                 }
 
-                if (printable != null) {
-                    printable.setPrintableBusinessObject(getProtocolPrintable(printOption));
-                    printable.setReportParameters(reportParameters);
-                    printables.add(printable);
-                }
+                printable.setPrintableBusinessObject(getProtocolPrintable(printOption));
+                printable.setReportParameters(reportParameters);
+                printables.add(printable);
+
             }
         }
         return printables;
@@ -134,14 +132,14 @@ public class QuestionnairePrintingServiceImpl implements QuestionnairePrintingSe
      */
     private Protocol getProtocolPrintable(QuestionnairePrintOption printOption) {
         if (CoeusSubModule.PROTOCOL_SUBMISSION.equals(printOption.getSubItemCode())) {
-            Map keyValues = new HashMap();
+            Map<String, Object> keyValues = new HashMap<>();
             keyValues.put("protocolNumber", printOption.getItemKey());
             keyValues.put("submissionNumber", printOption.getSubItemKey());
-            return (Protocol) ((List<ProtocolSubmission>) businessObjectService.findMatchingOrderBy(ProtocolSubmission.class, keyValues,
+            return ((List<ProtocolSubmission>) businessObjectService.findMatchingOrderBy(ProtocolSubmission.class, keyValues,
                     "submissionId", false)).get(0).getProtocol();
         }
         else {
-            Map keyValues = new HashMap();
+            Map<String, Object> keyValues = new HashMap<>();
             keyValues.put("protocolNumber", printOption.getItemKey());
             keyValues.put("sequenceNumber", printOption.getSubItemKey());
             return ((List<Protocol>) businessObjectService.findMatching(Protocol.class, keyValues)).get(0);
@@ -149,16 +147,10 @@ public class QuestionnairePrintingServiceImpl implements QuestionnairePrintingSe
 
     }
 
-    /**
-     * @return the printingService
-     */
     public PrintingService getPrintingService() {
         return printingService;
     }
 
-    /**
-     * @param printingService the printingService to set
-     */
     public void setPrintingService(PrintingService printingService) {
         this.printingService = printingService;
     }

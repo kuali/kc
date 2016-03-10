@@ -76,13 +76,14 @@
                     </list>
                 </property>
 
-				<!-- data attributes to support the associated kradQuestionnaireAnswer.js 
+				<!-- data attributes to support the associated questionnaire.js
 					which toggles display of questions based on questionnaire rules -->
 				<property name="dataAttributes">
 					<map merge="true">
 						<entry key="kc-questionindex" value="@{#index}" />
 						<entry key="kc-questionid" value="@{#lp.questionnaireQuestion.questionNumber}" />
 						<entry key="kc-question-matched" value="@{#lp.childMatched}" />
+						<entry key="kc-question-displayed-answers" value="@{#lp.questionnaireQuestion.question.displayedAnswers}" />
 						<entry key="kc-question-parentid"
 							value="@{#lp.questionnaireQuestion.parentQuestionNumber}" />
 						<entry key="kc-question-condition"

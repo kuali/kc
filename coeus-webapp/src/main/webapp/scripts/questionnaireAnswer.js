@@ -55,34 +55,19 @@ var ruleReferenced;
      * questionnaire panel to toggle hide/show of panel
      */
     $j(".questionpanel").toggle(
-            function() 
-            {
-                $j(this).parent().parent().next().slideUp(500);
-                $j(this).html("<img src='kr/images/tinybutton-show.gif' alt='Show panel' width='45' height='15' border='0' align='absmiddle'>");
-                $j(this).parent().parent().parent().prev().attr("value","N");
-            },
-            function()
-            {
-                $j(this).parent().parent().next().slideDown(500);
-                $j(this).html("<img src='kr/images/tinybutton-hide.gif' alt='Hide panel' width='45' height='15' border='0' align='absmiddle'>");
-                $j(this).parent().parent().parent().prev().attr("value","Y");
-            }
-        );
-
-
-    /*
-     * go thru each question. if display flag is 'N', then hide this question/
-     */
-    
-        
-    // this is for root-node, for PD/opportunity/forname equivalency.  not ready yet.  so, comment out
-//    $j('input[id^=childDisplay-0]').each(
-//			function() {
-//			    if ($j(this).attr("value") == 'N') {
-//				    $j(this).parents('table[id^=table-0]').hide();
-//			    }
-//			});
-
+		function()
+		{
+			$j(this).parent().parent().next().slideUp(500);
+			$j(this).html("<img src='kr/images/tinybutton-show.gif' alt='Show panel' width='45' height='15' border='0' align='absmiddle'>");
+			$j(this).parent().parent().parent().prev().attr("value","N");
+		},
+		function()
+		{
+			$j(this).parent().parent().next().slideDown(500);
+			$j(this).html("<img src='kr/images/tinybutton-hide.gif' alt='Hide panel' width='45' height='15' border='0' align='absmiddle'>");
+			$j(this).parent().parent().parent().prev().attr("value","Y");
+		}
+	);
 
     /*
      * set up 'change' event trigger for answer fields.
