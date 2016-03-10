@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* RESKC-1205:Special review protocol number needs to accomodate spaces
+
+  * Customer requirement from converted data that protocol numbers need to accept spaces in the in special review.
+  * blackcathacker on Wed, 9 Mar 2016 16:19:05 -0800 [View Commit](../../commit/2dcddf65b57c02837fe98a41d1ea023bf5beca23)
+
+##coeus-1603.17
 * RESKC-1008: Allow utf-8 characters for budget notes.
 
   * Steps to reproduce:
