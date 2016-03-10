@@ -136,10 +136,10 @@
 		<property name="shortLabel" value="Protocol Number" />
 		<property name="maxLength" value="20" />
 		<property name="validationPattern" >
-			<bean parent="AnyCharacterValidationPattern" />
+			<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
 		</property>
     <property name="validCharactersConstraint">
-      <bean parent="AnyCharacterPatternConstraint"/>
+      <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true" p:omitNewline="true"/>
     </property>
 		<property name="control" >
       <bean parent="TextControlDefinition" p:size="10"/>
