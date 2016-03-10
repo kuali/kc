@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1603.18
 * RESKC-1205:Special review protocol number needs to accomodate spaces
 
   * Customer requirement from converted data that protocol numbers need to accept spaces in the in special review.
