@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1206:Display prime sponsor name as well as code in read-only
+  * blackcathacker on Thu, 10 Mar 2016 11:06:14 -0800 [View Commit](../../commit/25182c4e2b53b85b028f36ec3740b4414d613ca8)
+
+##coeus-1603.19
 * No Changes
 
 
