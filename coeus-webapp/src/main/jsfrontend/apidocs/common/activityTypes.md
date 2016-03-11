@@ -1,4 +1,4 @@
-## Activity Types [/research-common/api/v1/activity-types]
+## Activity Types [/research-common/api/v1/activity-types/]
 
 ### List All Activity Types [GET]
 	 
@@ -6,12 +6,13 @@
 
     + Headers
 
-            Authorization: Bearer {api-key}             
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 200
     + Headers
 
-            Content-Type:application/json;charset=UTF-8
+            Content-Type: application/json;charset=UTF-8
 
     + Body
     

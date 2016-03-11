@@ -1,6 +1,6 @@
-## Institutional Proposal [/instprop/v1/institutional-proposals]
+## Institutional Proposal [/instprop/v1/institutional-proposals/]
 
-### Proposal Summary [GET /instprop/v1/institutional-proposals?summary{&updatedSince=&page=1&limit=5}]
+### Proposal Summary [GET /instprop/v1/institutional-proposals/?summary{&updatedSince=&page=1&limit=5}]
 
 Summary of all Institutional Proposals in the system
 
@@ -13,12 +13,13 @@ Summary of all Institutional Proposals in the system
 + Request
     + Headers
 
-            Authorization: Bearer {api-key}        
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 200
     + Headers
 
-            Content-Type:application/json;charset=UTF-8
+            Content-Type: application/json;charset=UTF-8
 
     + Body
 

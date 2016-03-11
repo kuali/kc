@@ -2,7 +2,7 @@
 
 Kuali Research Awards providing Post Award management
 
-### Awards Summary [GET /award/api/v1/awards?summary{&updatedSince=1446630596000&limit=50&page=8}]
+### Awards Summary [GET /award/api/v1/awards/?summary{&updatedSince=1446630596000&limit=50&page=8}]
 
 Summary of Awards
 
@@ -16,11 +16,12 @@ Summary of Awards
     + Headers
 
             Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 200
     + Headers
 
-            Content-Type:application/json;charset=UTF-8
+            Content-Type: application/json;charset=UTF-8
 
     + Body
 

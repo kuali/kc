@@ -1,4 +1,4 @@
-## Rate Class Types [/research-common/api/v1/rate-class-types]
+## Rate Class Types [/research-common/api/v1/rate-class-types/]
 
 ### List All Rate Class Types [GET]
 	 
@@ -6,12 +6,13 @@
 
     + Headers
 
-            Authorization: Bearer {api-key}             
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 200
     + Headers
 
-            Content-Type:application/json;charset=UTF-8
+            Content-Type: application/json;charset=UTF-8
 
     + Body
     
@@ -30,7 +31,7 @@
 			  }
 			]
 
-## Rate Classes [/research-common/api/v1/rate-classes]
+## Rate Classes [/research-common/api/v1/rate-classes/]
 
 ### List All Rate Classes [GET]
 	 
@@ -38,12 +39,13 @@
 
     + Headers
 
-            Authorization: Bearer {api-key}             
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 200
     + Headers
 
-            Content-Type:application/json;charset=UTF-8
+            Content-Type: application/json;charset=UTF-8
 
     + Body
     
@@ -60,7 +62,7 @@
 			  }
 			]
 		
-## Rate Types [/research-common/api/v1/rate-types]
+## Rate Types [/research-common/api/v1/rate-types/]
 
 ### List All Rate Types [GET]
 	 
@@ -68,12 +70,13 @@
 
     + Headers
 
-            Authorization: Bearer {api-key}             
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 200
     + Headers
 
-            Content-Type:application/json;charset=UTF-8
+            Content-Type: application/json;charset=UTF-8
 
     + Body
     
@@ -90,7 +93,7 @@
 			  }
 			]
 
-## Institute Rates [/research-common/api/v1/institute-rates]
+## Institute Rates [/research-common/api/v1/institute-rates/]
 
 ### List All Institute Rates [GET]
 	 
@@ -98,12 +101,13 @@
 
     + Headers
 
-            Authorization: Bearer {api-key}             
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 200
     + Headers
 
-            Content-Type:application/json;charset=UTF-8
+            Content-Type: application/json;charset=UTF-8
 
     + Body
     
@@ -137,6 +141,7 @@
     + Headers
 
             Authorization: Bearer {api-key}   
+            Content-Type: application/json
 
     + Body
     

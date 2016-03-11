@@ -1,6 +1,6 @@
 ## Organizations [/research-common/api/v1/organizations]
 
-### Organization Summary [GET /research-common/api/v1/organizations?summary]
+### Organization Summary [GET /research-common/api/v1/organizations/?summary]
 
 Summary of all Organizations in the system
 
@@ -11,12 +11,13 @@ Summary of all Organizations in the system
 
     + Headers
 
-            Authorization: Bearer {api-key}             
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 200
     + Headers
 
-            Content-Type:application/json;charset=UTF-8
+            Content-Type: application/json;charset=UTF-8
 
     + Body
     

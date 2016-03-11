@@ -1,6 +1,6 @@
 ## Award Accounts [/award/api/v1/accounts]  
 
-### List All Accounts [GET /award/api/v1/accounts{?startIndex=0&size=5}]
+### List All Accounts [GET /award/api/v1/accounts/{?startIndex=0&size=5}]
 
 Get all accounts that are available for use
 
@@ -11,8 +11,8 @@ Get all accounts that are available for use
 + Request
     + Headers
 
-            Authorization:Basic
-            Content-Type:application/json
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
     + Body
 
@@ -21,7 +21,7 @@ Get all accounts that are available for use
 + Response 200
     + Headers
 
-            Content-Type:application/json;
+            Content-Type: application/json;
 
     + Body
 
@@ -37,8 +37,8 @@ Get information on a particular account
 + Request
     + Headers
 
-            Authorization:Basic
-            Content-Type:application/json
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
     + Body
 
@@ -47,7 +47,7 @@ Get information on a particular account
 + Response 200
     + Headers
 
-            Content-Type:application/json;charset=UTF-8
+            Content-Type: application/json;charset=UTF-8
 
 
     + Body
@@ -61,8 +61,8 @@ Get award details required to create an account using award id
 + Request
      + Headers
 
-             Authorization:Basic
-             Content-Type:application/json
+             Authorization: Bearer {api-key}
+             Content-Type: application/json
 
      + Body
 
@@ -71,7 +71,7 @@ Get award details required to create an account using award id
 + Response 200
      + Headers
 
-             Content-Type:application/json;charset=UTF-8
+             Content-Type: application/json;charset=UTF-8
 
      + Body
 
@@ -402,8 +402,8 @@ Set various fields on an account. Fields not provided will not be updated.
 + Request
     + Headers
 
-            Authorization:Basic
-            Content-Type:application/json
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
     + Body
 
