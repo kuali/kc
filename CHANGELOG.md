@@ -1,6 +1,28 @@
 
 
 ##CURRENT
+* RESKC-904:Fixed obligated amounts datatype.
+
+  * In the Award Budget, the user must budget to exactly match the Obligated Total in order to submit the budget.
+  * Currently, the system displays the Obligated Total rounded to whole dollar values in several fields:
+  * > in the Non-Personnel Budget Overview
+  * > rebudget >  line item detail if cents were in original item.
+
+  * In Res demo 1: Award 000295-00001
+  * Award budget versions screen displays the actual Obligated 144,638.69
+  * Non-Personnel Budget Overview displays 144,639
+  * (my expenses were full dollar amounts, so I did not see the rounding in the obligated column in the line item detail, but I expect this to be consistent with MIT's report.)
+
+  * Desired Result: NONE of the Obligated total fields in Award Budget should round: they should ALWAYS display the exact value as this is the target amount the users must reach.
+
+  * In an example budget, the obligated amount from Version 1 in the first screenshot (MITKC 2231a) does not match the obligated amount in Version 2 in the second screen shot (MITKC 2231b)
+  * Version 1  award budget non-personnel tab displays "1686.00" for obligated amount (ROUNDED)
+  * Version 2 award budget non-personnel tab displays for obligated amt 1685.51. (Actual obligated amount)
+
+  * Calculations are correct, display is wrong. There should NOT be rounding.
+  * Gayathri Athreya on Fri, 11 Mar 2016 13:31:15 -0700 [View Commit](../../commit/a1a337460ed4e84811fe362875aee4c52b5e1904)
+
+##coeus-1603.21
 * No Changes
 
 

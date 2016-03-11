@@ -20,4 +20,5 @@
 
 \. ./kc/bootstrap/V1603_003__support_new_pd_attachments.sql
 \. ./kc/bootstrap/V1603_004__add_new_form.sql
+\. ./kc/bootstrap/V1603_007__fix_obligated_amount_fields.sql
 commit;
