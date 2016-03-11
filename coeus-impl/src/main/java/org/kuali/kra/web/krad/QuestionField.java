@@ -48,10 +48,9 @@ public class QuestionField extends InputFieldBase {
     private static final long serialVersionUID = -940684402907403282L;
     private Map<String, String> controlMappings;
     private boolean useSuggest;
-    private String bindingInfo;
 
     public QuestionField() {
-        controlMappings = new HashMap<String, String>();
+        controlMappings = new HashMap<>();
     }
     
     @Override
@@ -146,6 +145,7 @@ public class QuestionField extends InputFieldBase {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public QuestionField copy() {
         final QuestionField copy =  super.copy();
         copy.setControlMappings(new HashMap<>(controlMappings));

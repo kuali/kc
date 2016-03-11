@@ -21,14 +21,64 @@ Kc.Questionnaire = Kc.Questionnaire || {};
 Kc.Questionnaire.Answer = Kc.Questionnaire.Answer || {};
 (function(namespace, $) {
     namespace.questionnaireDateFormat = "%m/%e/%Y";
+	namespace.answerIdRegex = /(.*)(\.answers\[)(\d+)(\])/;
 
     namespace.initQuestions = function(){
-        $(".uif-documentPage").find(".question").each(function(){
-           $(this).on('change',function(e){
-               namespace.answerChanged(this);
-           });
+		$(".uif-documentPage").find(".question").each(function(){
+			$(this).on('change',function(e){
+			   namespace.answerChanged(this);
+			});
+
+			var displayedAnswers = ($(this).data('kc-question-displayed-answers'));
+			if (displayedAnswers && displayedAnswers !== 0) {
+				var hasValue = false;
+				var hidAnswers = false;
+				$($(this).find(".answer").get().reverse()).each(function() {
+					if ($(this).val()) {
+						hasValue = true;
+					}
+
+					if (!hasValue && !namespace.isVisibleIndex($(this).attr('name'), displayedAnswers)) {
+						$(this).parents("li").first().hide();
+						hidAnswers = true;
+					}
+				});
+
+				if (hidAnswers) {
+					namespace.addDisplayMore($(this));
+				}
+			}
+
         });
     };
+
+	namespace.isVisibleIndex = function(id, displayedAnswers) {
+		var match = namespace.answerIdRegex.exec(id);
+		if (match && match[3]) {
+			return match[3] < displayedAnswers;
+		}
+
+		return true;
+	};
+
+	namespace.addDisplayMore = function(answerWrapper) {
+		var answerList = answerWrapper.find('ul');
+		var addmore = answerList.children('.addmore');
+
+		if (!addmore.length) {
+			answerList.append(
+				$('<li>').attr('class', 'addmore').append(
+					$('<div>').attr('class', 'uif-boxSection clearfix').attr('style', 'padding-bottom: 20px').append(
+						$('<a>').on('click', function(e){
+							answerList.children('li:hidden:lt(10)').each(function() {
+								$(this).show();
+							});
+						}).append(
+							$('<span>').append('More answers...')
+						))));
+		}
+	};
+
     /*
      * function that handles answer change.   It will check whether to hide or show the affected descendant answers.
      * Notes : 1. check the siblings (of "input") of 'div[class^=Qresponsediv]', this input id contains answer header and question answer index

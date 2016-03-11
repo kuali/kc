@@ -19,17 +19,18 @@
 package org.kuali.coeus.s2sgen.impl.generate.support;
 
 import org.kuali.coeus.common.framework.type.ProposalType;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PHS398ResearchPlanV1_2GeneratorTest extends PHS398ResearchPlanBaseGeneratorTest {
+
+public class PHS398ResearchPlanV1_3GeneratorTest extends PHS398ResearchPlanBaseGeneratorTest {
 
 	@Override
 	protected String getFormGeneratorName() {
-		return PHS398ResearchPlanV1_1Generator.class.getSimpleName();
+		return PHS398ResearchPlanV1_3Generator.class.getSimpleName();
 	}
 
 	@Override
@@ -46,6 +47,11 @@ public class PHS398ResearchPlanV1_2GeneratorTest extends PHS398ResearchPlanBaseG
 
 		narrative1.setDevelopmentProposal(document.getDevelopmentProposal());
 		naList.add(narrative1);
+
+		Narrative narrative4 = createNarrative("111");
+
+		narrative4.setDevelopmentProposal(document.getDevelopmentProposal());
+		naList.add(narrative4);
 		developmentProposal.setNarratives(naList);
 		document.setDevelopmentProposal(developmentProposal);
 	}
