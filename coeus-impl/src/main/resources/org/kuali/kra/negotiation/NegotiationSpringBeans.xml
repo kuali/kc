@@ -321,7 +321,7 @@
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.negotiations.bo.NegotiationActivityType" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.negotiations.bo.NegotiationAgreementType" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.negotiations.bo.NegotiationAssociationType" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.negotiations.customdata.NegotiationCustomData" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.negotiations.customdata.NegotiationCustomData" p:camelCasePluralName="NegotiationCustomData"/>
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.negotiations.document.NegotiationDocument" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.negotiations.bo.NegotiationLocation" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.negotiations.notifications.NegotiationNotification" />
