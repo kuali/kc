@@ -18,7 +18,12 @@
  */
 package org.kuali.kra.protocol.actions.amendrenew;
 
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.dao.KraLookupDao;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
@@ -40,7 +45,10 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * The ProtocolBase Amendment/Renewal Service Implementation.
@@ -48,6 +56,7 @@ import java.util.List;
 
 public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmendRenewService {
 
+    private static Log LOGGER = LogFactory.getLog(ProtocolAmendRenewServiceImplBase.class);
     protected static final String AMEND_ID = "A";
     protected static final String RENEW_ID = "R";
     protected static final int DIGIT_COUNT = 3;
@@ -58,7 +67,8 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
     protected static final String CREATED = "Created";
     protected static final String PROTOCOL_NUMBER = "protocolNumber";
     protected static final String PROTOCOL_STATUS = "protocolStatus";
-    
+    protected static final String PROTOCOL_ID = "protocolId";
+
     protected DocumentService documentService;
     protected ProtocolCopyService protocolCopyService;
     protected KraLookupDao kraLookupDao;
@@ -66,6 +76,15 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
 
     protected QuestionnaireAnswerService questionnaireAnswerService;
     protected BusinessObjectService businessObjectService;
+
+    private LoadingCache<String,List<ProtocolBase>> amendmentAndRenewalsCache = CacheBuilder.newBuilder().expireAfterWrite(2, TimeUnit.MINUTES)
+            .maximumSize(1000)
+            .build(new CacheLoader<String, List<ProtocolBase>>() {
+                @Override
+                public List<ProtocolBase> load(String protocolNumber) throws Exception {
+                    return Collections.unmodifiableList(new ArrayList<ProtocolBase>(kraLookupDao.findCollectionUsingWildCardWithSorting(getProtocolBOClassHook(), PROTOCOL_NUMBER, protocolNumber + "_%", PROTOCOL_ID, true, true)));
+                }
+            });
 
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
@@ -316,13 +335,15 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
     }
 
     @Override
-    public List<ProtocolBase> getAmendmentAndRenewals(String protocolNumber) throws Exception {
-        List<ProtocolBase> protocols = new ArrayList<ProtocolBase>();
-        protocols.addAll(getAmendments(protocolNumber));
-        protocols.addAll(getRenewals(protocolNumber));
-        return protocols;
+    public List<ProtocolBase> getAmendmentAndRenewals(String protocolNumber)  throws Exception {
+        try {
+            return amendmentAndRenewalsCache.get(protocolNumber);
+        } catch (ExecutionException e) {
+            LOGGER.error("amendmentAndRenewalsCache for fetching amendment renewals did not execute properly. Trying to fetch it from database with DAO",e);
+            return new ArrayList<ProtocolBase>(kraLookupDao.findCollectionUsingWildCardWithSorting(getProtocolBOClassHook(), PROTOCOL_NUMBER, protocolNumber + "_%", PROTOCOL_ID, true, true));
+        }
     }
-    
+
     @SuppressWarnings("unchecked")
     public Collection<ProtocolBase> getAmendments(String protocolNumber) throws Exception {
         return new ArrayList<>( kraLookupDao.findCollectionUsingWildCard(getProtocolBOClassHook(), PROTOCOL_NUMBER, protocolNumber + AMEND_ID + "%", true));

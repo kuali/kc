@@ -226,7 +226,7 @@ public abstract class ProtocolActionBase extends KcTransactionalDocumentActionBa
         protocolForm.getActionHelper().initSubmissionDetails();
         return branchToPanelOrNotificationEditor(mapping, protocolForm, getProtocolHistoryForwardNameHook());
     }
-    
+
     public ActionForward customData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         ProtocolFormBase protocolForm = (ProtocolFormBase)form;
         protocolForm.getCustomDataHelper().prepareCustomData();

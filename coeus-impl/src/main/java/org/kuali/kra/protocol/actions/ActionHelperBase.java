@@ -326,10 +326,7 @@ public abstract class ActionHelperBase implements Serializable {
     // check if there is submission questionnaire to answer
     protected boolean toAnswerSubmissionQuestionnaire;
     protected ProtocolSubmissionQuestionnaireHelper protocolSubmissionQuestionnaireHelper;
-    
-    
-    
-    
+
     /**
      * Constructs an ActionHelperBase.
      * @param form the protocol form
@@ -422,7 +419,6 @@ public abstract class ActionHelperBase implements Serializable {
     protected abstract AdminCorrectionBean getNewAdminCorrectionBeanInstanceHook(ActionHelperBase actionHelper);
     
     protected abstract UndoLastActionBean getNewUndoLastActionBeanInstanceHook();
-   
 
     /**
      * Initializes the mapping between the task names and the beans.  This is used to get the bean associated to the task name passed in from the tag file.
@@ -2719,6 +2715,8 @@ public abstract class ActionHelperBase implements Serializable {
     
     public class AmendmentSummary {
         private String amendmentType;
+
+        private String protocolNumber;
         private String versionNumber;
         private String versionNumberUrl;
         private String description;
@@ -2729,6 +2727,9 @@ public abstract class ActionHelperBase implements Serializable {
         
         public String getAmendmentType() {
             return amendmentType;
+        }
+        public String getProtocolNumber() {
+            return protocolNumber;
         }
         public String getVersionNumber() {
             return versionNumber;
@@ -2754,6 +2755,7 @@ public abstract class ActionHelperBase implements Serializable {
         
         public AmendmentSummary(ProtocolBase protocol) {
             amendmentType = protocol.isRenewalWithoutAmendment() ? "Renewal" : protocol.isRenewal() ? "Renewal with Amendment" : protocol.isAmendment() ? "Amendment" : "New";
+            protocolNumber = protocol.getProtocolNumber();
             versionNumber = protocol.getProtocolNumber().substring(protocol.getProtocolNumber().length() - 3);
             versionNumberUrl = buildForwardUrl(protocol.getProtocolDocument().getDocumentNumber());
             if (protocol.isAmendment() || protocol.isRenewal()) {
@@ -2790,18 +2792,12 @@ public abstract class ActionHelperBase implements Serializable {
             // Amendment details needs to be displayed even after the amendment has been merged with the protocol.
             String originalProtocolNumber = getProtocol().getProtocolNumber();
             List<ProtocolBase> protocols = getProtocolAmendRenewServiceHook().getAmendmentAndRenewals(originalProtocolNumber);
-            Collections.sort(protocols, new Comparator<ProtocolBase>(){
-                public int compare(ProtocolBase p1, ProtocolBase p2) {
-                    return p1.getProtocolDocument().getDocumentNumber().compareTo(p2.getProtocolDocument().getDocumentNumber());
-                }
-            });
             for (ProtocolBase protocol: protocols) {
                 results.add(new AmendmentSummary(protocol));
             }
         }
         return results;
     }
-
     protected String buildForwardUrl(String routeHeaderId) {
     	DocHandlerService researchDocumentService = KcServiceLocator.getService(DocHandlerService.class);
         String forward = researchDocumentService.getDocHandlerUrl(routeHeaderId);
