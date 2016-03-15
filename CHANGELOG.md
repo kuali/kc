@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-904: Changing the script to address the issue in oracle, which restricts to alter the column to decrease its scale precision
+  * Geo Thomas on Tue, 15 Mar 2016 15:12:59 -0400 [View Commit](../../commit/c5e9617b0091faa154e9653734b5ead9520a6976)
+
+##coeus-1603.24
 * Fix negotiation days calculation.
   * Gayathri Athreya on Mon, 14 Mar 2016 11:21:41 -0700 [View Commit](../../commit/d949eb2fbd8a838375d954549770aed57bebc758)
 * RESKC-1204: When user clicks on Protocol history tab, it was fetching all the amendments and renewals for that protocol many times. Changed DAO service to fetch amendments and renewals in one call. Moved sorting the list from java to database. Added cache for holding amendements and renewals for each protocol for two minutes. Fixed jsp tags where it was calling getter of amendementRenewal in a loop unnecessarily. As part of this optimization, removed the section of displaying proposal summary for each amendment. User can always look at each amendments and renewal details by clicking on the link next to the summary and open entire protocol in a new window
