@@ -1396,17 +1396,17 @@
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.notesandattachments.attachments.AwardAttachmentType" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.home.AwardBasisOfPayment" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.budget.document.AwardBudgetDocument" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.budget.AwardBudgetExt" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.budget.AwardBudgetExt" p:camelCasePluralName="AwardBudgets" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.budget.AwardBudgetLimit" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.budget.AwardBudgetLineItemCalculatedAmountExt" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.budget.AwardBudgetLineItemExt" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.budget.AwardBudgetPeriodExt" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.budget.AwardBudgetLineItemCalculatedAmountExt" p:camelCasePluralName="AwardBudgetLineItemCalculatedAmounts" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.budget.AwardBudgetLineItemExt" p:camelCasePluralName="AwardBudgetLineItems" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.budget.AwardBudgetPeriodExt" p:camelCasePluralName="AwardBudgetPeriods" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.budget.AwardBudgetPeriodSummaryCalculatedAmount" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.budget.AwardBudgetPersonnelCalculatedAmountExt" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.budget.AwardBudgetPersonnelDetailsExt" p:camelCasePluralName="AwardBudgetPersonnelDetailExts" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.budget.AwardBudgetPersonnelCalculatedAmountExt" p:camelCasePluralName="AwardBudgetPersonnelCalculatedAmounts" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.budget.AwardBudgetPersonnelDetailsExt" p:camelCasePluralName="AwardBudgetPersonnelDetails" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.budget.AwardBudgetStatus" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.budget.AwardBudgetType" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.budget.AwardBudgetVersionOverviewExt" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.budget.AwardBudgetVersionOverviewExt" p:camelCasePluralName="AwardBudgetVersionOverviews" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.contacts.AwardCentralAdminContact" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.cgb.AwardCgb" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.award.paymentreports.closeout.AwardCloseout" />
