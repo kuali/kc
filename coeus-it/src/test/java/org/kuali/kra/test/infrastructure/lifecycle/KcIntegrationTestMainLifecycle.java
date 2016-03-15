@@ -19,6 +19,7 @@
 package org.kuali.kra.test.infrastructure.lifecycle;
 
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewServiceImplBase;
 import org.kuali.kra.test.infrastructure.ApplicationServerLifecycle;
 import org.kuali.rice.core.api.config.property.Config;
 import org.kuali.rice.core.api.config.property.ConfigContext;
@@ -28,6 +29,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -109,6 +112,21 @@ public class KcIntegrationTestMainLifecycle extends KcIntegrationTestBaseLifecyc
         else {
             perTestTransactionStatus = null;
         }
+
+        //clear service specific cache
+        clearCache();
+    }
+
+    private void clearCache() throws Throwable {
+        KcServiceLocator.getServicesOfType(ProtocolAmendRenewServiceImplBase.class).forEach(s -> {
+            try {
+                final Field cache = ProtocolAmendRenewServiceImplBase.class.getDeclaredField("amendmentAndRenewalsCache");
+                cache.setAccessible(true);
+                cache.getType().getMethod("invalidateAll").invoke(cache.get(s));
+            } catch (NoSuchFieldException|NoSuchMethodException|IllegalAccessException|InvocationTargetException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     @Override
@@ -116,6 +134,9 @@ public class KcIntegrationTestMainLifecycle extends KcIntegrationTestBaseLifecyc
         if (perTestTransactionStatus != null) {
             getTransactionManager().rollback(perTestTransactionStatus);
         }
+
+        //clear service specific cache
+        clearCache();
     }
 
     private PlatformTransactionManager getTransactionManager() {
