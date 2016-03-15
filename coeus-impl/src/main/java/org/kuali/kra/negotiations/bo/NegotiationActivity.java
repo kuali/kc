@@ -19,9 +19,6 @@
 package org.kuali.kra.negotiations.bo;
 
 import org.apache.commons.lang3.ObjectUtils;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.Days;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
@@ -29,8 +26,9 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class NegotiationActivity extends KcPersistableBusinessObjectBase {
@@ -101,16 +99,15 @@ public class NegotiationActivity extends KcPersistableBusinessObjectBase {
         if (startDate == null) {
             return "";
         } else {
-            long start = startDate.getTime();
-            final long end;
+            LocalDate start = startDate.toLocalDate();
+            final LocalDate end;
             if (endDate == null) {
-                end = Calendar.getInstance().getTimeInMillis();
+                end = LocalDate.now();
             } else {
-                end = endDate.getTime();
+                end = endDate.toLocalDate();
             }
-            Days days = Days.daysBetween(new DateTime(Long.valueOf(start), DateTimeZone.UTC).withTimeAtStartOfDay(),
-                                            new DateTime(Long.valueOf(end), DateTimeZone.UTC).withTimeAtStartOfDay());
-            return days.getDays() + "";
+            long days = ChronoUnit.DAYS.between(start, end);
+            return days + "";
         }
     }
 
