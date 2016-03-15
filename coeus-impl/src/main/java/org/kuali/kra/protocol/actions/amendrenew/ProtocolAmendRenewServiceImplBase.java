@@ -337,10 +337,10 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
     @Override
     public List<ProtocolBase> getAmendmentAndRenewals(String protocolNumber)  throws Exception {
         try {
-            return amendmentAndRenewalsCache.get(protocolNumber);
+            return new ArrayList<>(amendmentAndRenewalsCache.get(protocolNumber));
         } catch (ExecutionException e) {
             LOGGER.error("amendmentAndRenewalsCache for fetching amendment renewals did not execute properly. Trying to fetch it from database with DAO",e);
-            return new ArrayList<ProtocolBase>(kraLookupDao.findCollectionUsingWildCardWithSorting(getProtocolBOClassHook(), PROTOCOL_NUMBER, protocolNumber + "_%", PROTOCOL_ID, true, true));
+            return new ArrayList<>(kraLookupDao.findCollectionUsingWildCardWithSorting(getProtocolBOClassHook(), PROTOCOL_NUMBER, protocolNumber + "_%", PROTOCOL_ID, true, true));
         }
     }
 
