@@ -82,8 +82,8 @@
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.propdev.impl.editable.ProposalColumnsToAlter" p:camelCasePluralName="ProposalColumnsToAlter" />
 
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.propdev.impl.copy.ProposalCopyCriteria" p:camelCasePluralName="ProposalCopyCriteria" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetOverviewExt" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt" p:camelCasePluralName="ProposalDevelopmentBudgets" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetOverviewExt" p:camelCasePluralName="ProposalDevelopmentBudgetOverviews" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.propdev.impl.person.masschange.ProposalDevelopmentPersonMassChange" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.propdev.impl.person.ProposalInvestigatorCertification" />
