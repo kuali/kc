@@ -4,6 +4,10 @@
 * No Changes
 
 
+##coeus-1603.27
+* No Changes
+
+
 ##coeus-1603.25
 * RESKC-904: Changing the script to address the issue in oracle, which restricts to alter the column to decrease its scale precision
   * Geo Thomas on Tue, 15 Mar 2016 15:12:59 -0400 [View Commit](../../commit/c5e9617b0091faa154e9653734b5ead9520a6976)
