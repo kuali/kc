@@ -616,8 +616,8 @@ public abstract class SimpleCrudRestControllerBase<T extends PersistableBusiness
      */
 	String toPlural(String singular) {
 
-		//some rice mapped classes end with Bo.  We should remove this suffix.
-		if (singular.endsWith("Bo")) {
+		//some rice mapped classes end with Bo or BO.  We should remove these suffixes.
+		if (singular.endsWith("Bo") || singular.endsWith("BO")) {
 			singular = singular.substring(0, singular.length() - 2);
 		}
 

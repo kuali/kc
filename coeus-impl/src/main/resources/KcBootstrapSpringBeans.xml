@@ -44,6 +44,8 @@
     <import resource="classpath:org/kuali/coeus/sys/impl/SysBootstrapSpringBeans.xml"/>
     <import resource="classpath:org/kuali/coeus/common/impl/CommonBootstrapSpringBeans.xml"/>
     <import resource="classpath:org/kuali/kra/core/CoreBootstrapSpringBeans.xml"/>
+    <import resource="classpath:org/kuali/kra/irb/IrbRestBootstrapSpringBeans.xml"/>
+    <import resource="classpath:org/kuali/kra/iacuc/IacucRestBootstrapSpringBeans.xml"/>
     <import resource="classpath:org/kuali/kra/institutionalproposal/InstPropBootstrapSpringBeans.xml"/>
     <import resource="classpath:org/kuali/kra/award/AwardBootstrapSpringBeans.xml"/>
     <import resource="classpath:org/kuali/coeus/propdev/impl/PropDevBootstrapSpringBeans.xml"/>

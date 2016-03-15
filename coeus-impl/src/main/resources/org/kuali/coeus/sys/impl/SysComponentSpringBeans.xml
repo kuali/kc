@@ -397,7 +397,7 @@
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.bo.ui.PersonDocumentGroup" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.bo.ui.PersonDocumentName" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.bo.ui.PersonDocumentPhone" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.bo.ui.PersonDocumentPrivacy" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.bo.ui.PersonDocumentPrivacy" p:camelCasePluralName="PersonDocumentPrivacyEntries" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.bo.ui.PersonDocumentRole" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kew.rule.PersonRuleResponsibility" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.responsibility.ResponsibilityTemplateBo" />
@@ -405,10 +405,10 @@
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.bo.ui.RoleDocumentDelegation" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.bo.ui.RoleDocumentDelegationMember" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.bo.ui.RoleDocumentDelegationMemberQualifier" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kew.rule.bo.RuleAttribute" p:camelCasePluralName="KewRuleAttribute" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kew.rule.RuleBaseValues" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kew.rule.bo.RuleAttribute" p:camelCasePluralName="KewRuleAttributes" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kew.rule.RuleBaseValues" p:camelCasePluralName="RuleBaseValues" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kew.rule.RuleDelegationBo" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kew.rule.RuleExpressionDef" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kew.rule.RuleExpressionDef" p:camelCasePluralName="RuleExpressionDefinitions" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kew.rule.RuleResponsibilityBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kew.rule.bo.RuleTemplateAttributeBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kew.rule.bo.RuleTemplateBo" />
@@ -440,21 +440,21 @@
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.identity.email.EntityEmailTypeBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.identity.residency.EntityResidencyStatusBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.identity.residency.EntityResidencyTypeBo" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.identity.personal.EntityDisabilityAccomodationNeededBo" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.identity.personal.EntityDisabilityAccomodationNeededBo" p:camelCasePluralName="EntityDisabilityAccomodationNeededEntries" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.type.KimTypeAttributeBo" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.role.RoleBoLite" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.role.RoleBoLite" p:camelCasePluralName="LiteViewRoles" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.identity.residency.EntityResidencyBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.identity.external.EntityExternalIdentifierBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.identity.phone.EntityPhoneBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.role.RoleResponsibilityBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.identity.visa.EntityVisaBo" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.common.delegate.DelegateMemberAttributeDataBo" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.role.RoleMemberAttributeDataBo" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.common.delegate.DelegateMemberAttributeDataBo" p:camelCasePluralName="DelegateMemberAttributeData" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.role.RoleMemberAttributeDataBo" p:camelCasePluralName="RoleMemberAttributeData" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.group.GroupAttributeBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.responsibility.ResponsibilityAttributeBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.permission.PermissionAttributeBo" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.identity.privacy.EntityPrivacyPreferencesBo" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.identity.privacy.EntityPrivacyPreferencesBo" p:camelCasePluralName="EntityPrivacyPreferences" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.group.GroupMemberBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.common.delegate.DelegateMemberBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.role.RoleMemberBo" />
@@ -484,7 +484,7 @@
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.identity.personal.EntityEthnicityBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.identity.principal.PrincipalBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.identity.citizenship.EntityCitizenshipBo" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.identity.personal.EntityBioDemographicsBo" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.identity.personal.EntityBioDemographicsBo" p:camelCasePluralName="EntityBioDemographics" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.identity.affiliation.EntityAffiliationBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.identity.EntityTypeBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.common.delegate.DelegateTypeBo" />
@@ -495,7 +495,7 @@
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.krad.maintenance.MaintenanceLock" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.coreservice.impl.component.ComponentSetBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.edl.impl.extract.Dump" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.edl.impl.extract.Fields" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.edl.impl.extract.Fields" p:camelCasePluralName="Fields" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kcb.bo.Message" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kcb.bo.MessageDelivery" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kcb.bo.RecipientDelivererConfig" />
@@ -530,7 +530,7 @@
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kew.routeheader.DocumentRouteHeaderValueContent" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kew.rule.RuleExtensionBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kew.rule.RuleExtensionValue" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kew.useroptions.UserOptions" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kew.useroptions.UserOptions" p:camelCasePluralName="UserOptions" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.identity.EntityDefaultInfoCacheBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.identity.type.EntityTypeContactInfoBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.krms.impl.repository.ActionAttributeBo" />
@@ -556,7 +556,7 @@
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.krms.impl.repository.PropositionBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.krms.impl.repository.PropositionParameterBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.krms.impl.repository.ReferenceObjectBindingBo" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.krms.impl.repository.RuleAttributeBo" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.krms.impl.repository.RuleAttributeBo" p:camelCasePluralName="RuleAttributes" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.krms.impl.repository.RuleBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.krms.impl.repository.TermBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.krms.impl.repository.TermParameterBo" />
