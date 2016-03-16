@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1213: make 'always ask' questions not have parent questions or conditions for questionnaire -1
+  * Travis Schneeberger on Tue, 15 Mar 2016 18:27:48 -0400 [View Commit](../../commit/b0ff601b87b848cfff0dc3d895ea4ed8a2bd862d)
+
+##coeus-1603.28
 * No Changes
 
 
