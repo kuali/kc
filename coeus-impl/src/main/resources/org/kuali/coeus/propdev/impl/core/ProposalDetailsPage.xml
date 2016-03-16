@@ -166,7 +166,7 @@
     <bean id="PropDev-DetailsPage-PrimeSponsorField-parentBean"
           abstract="true" parent="PropDev-DetailsPage-SponsorField-Defaults"
           p:propertyName="primeSponsorCode"
-          p:readOnlyDisplayReplacement="@{document.developmentProposal.primeSponsorCode} &amp;nbsp;-&amp;nbsp; @{document.developmentProposal.primeSponsor?.sponsorName?:'&amp;nbsp;'}"
+          p:readOnlyDisplayReplacement="@{document.developmentProposal.primeSponsorCode != null ? document.developmentProposal.primeSponsorCode + ' &amp;nbsp;-&amp;nbsp; ' + document.developmentProposal.primeSponsor?.sponsorName : '&amp;nbsp;'}"
           p:instructionalMessage.messageText="@{document.developmentProposal.primeSponsor?.sponsorName?:'&amp;nbsp;'}">
         <property name="quickfinder">
             <bean parent="PropDev-DetailsPage-SponsorQuickFinder"
