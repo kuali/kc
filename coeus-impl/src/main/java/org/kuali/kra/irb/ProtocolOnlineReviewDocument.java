@@ -75,7 +75,7 @@ public class ProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocumentB
 
 	public ProtocolOnlineReviewDocument() { 
         super();
-        protocolOnlineReviewList = new ArrayList<ProtocolOnlineReview>();
+        protocolOnlineReviewList = new ArrayList<>();
         ProtocolOnlineReview newProtocolReview = new ProtocolOnlineReview();
         newProtocolReview.setProtocolOnlineReviewDocument(this);
         protocolOnlineReviewList.add(newProtocolReview);
@@ -149,10 +149,7 @@ public class ProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocumentB
     
     @Override
     protected List<RolePersons> getAllRolePersons() {
-        KcAuthorizationService kraAuthService =
-               (KcAuthorizationService) KcServiceLocator.getService(KcAuthorizationService.class);
-        //return kraAuthService.getAllRolePersons(getProtocolOnlineReview());
-        return new ArrayList<RolePersons>();
+        return new ArrayList<>();
     }
     
     public String getDocumentTypeCode() {
