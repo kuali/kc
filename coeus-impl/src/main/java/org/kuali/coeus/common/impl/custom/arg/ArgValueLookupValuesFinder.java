@@ -20,9 +20,11 @@ package org.kuali.coeus.common.impl.custom.arg;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.common.framework.custom.arg.ArgValueLookup;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
@@ -30,6 +32,8 @@ import java.util.*;
 
 public class ArgValueLookupValuesFinder extends UifKeyValuesFinderBase {
 
+	private static final String ARG_VALUE_VALUES_FINDER_PREFER_DESCRIPTION = "ARG_VALUE_VALUES_FINDER_PREFER_DESCRIPTION";
+	private ParameterService parameterService;
     private String argName;
 
     @Override
@@ -40,11 +44,21 @@ public class ArgValueLookupValuesFinder extends UifKeyValuesFinderBase {
         Collection<ArgValueLookup> argValueLookups = (Collection<ArgValueLookup>) KcServiceLocator.getService(BusinessObjectService.class).findMatching(ArgValueLookup.class, fieldValues);
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         for (ArgValueLookup argValueLookup : argValueLookups) {
-            keyValues.add(new ConcreteKeyValue(argValueLookup.getValue(), StringUtils.isNotBlank(argValueLookup.getDescription()) ? argValueLookup.getDescription() : argValueLookup.getValue()));
+            keyValues.add(new ConcreteKeyValue(argValueLookup.getValue(), getKeyValueValue(argValueLookup)));
         }
         keyValues.add(0, new ConcreteKeyValue("", "select"));
         return keyValues;
     }
+
+	protected String getKeyValueValue(ArgValueLookup argValueLookup) {
+		if (StringUtils.isBlank(argValueLookup.getDescription()) 
+			|| !getParameterService().getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE, 
+				Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, ARG_VALUE_VALUES_FINDER_PREFER_DESCRIPTION)) {
+			return argValueLookup.getValue();
+		} else {
+			return argValueLookup.getDescription();
+		}
+	}
 
     public String getArgName() {
         return argName;
@@ -53,5 +67,16 @@ public class ArgValueLookupValuesFinder extends UifKeyValuesFinderBase {
     public void setArgName(String argName) {
         this.argName = argName;
     }
+
+	public ParameterService getParameterService() {
+		if (parameterService == null) {
+			parameterService = KcServiceLocator.getService(ParameterService.class);
+		}
+		return parameterService;
+	}
+
+	public void setParameterService(ParameterService parameterService) {
+		this.parameterService = parameterService;
+	}
 
 }
