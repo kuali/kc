@@ -21,4 +21,5 @@
 \. ./rice/bootstrap/V1603_001__add_read_sponsor_hierarchy_to_user.sql
 \. ./rice/bootstrap/V1603_002__RESKC-1044.sql
 \. ./rice/bootstrap/V1603_005__RESKC-949.sql
+\. ./rice/bootstrap/V1603_010__ArgValuesDescriptionParam.sql
 commit;

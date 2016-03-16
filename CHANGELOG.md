@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* RESKC-1218:Add parameter to control whether arg value dropdowns display the description or the value
+
+  * Currently if an arg value entry has a description the description is displayed in the dropdown and the value is only used for persistence. This change adds a new parameter 'ARG_VALUE_VALUES_FINDER_PREFER_DESCRIPTION' that allows you to change this behavior to more closer match how IP and Award arg value lookups behave, and only display the value instead of the description.
+  * blackcathacker on Wed, 16 Mar 2016 12:23:06 -0700 [View Commit](../../commit/eb3bac0c93a38542882bea15fbee3057d3b975bb)
+
+##coeus-1603.29
 * RESKC-1213: make 'always ask' questions not have parent questions or conditions for questionnaire -1
   * Travis Schneeberger on Tue, 15 Mar 2016 18:27:48 -0400 [View Commit](../../commit/b0ff601b87b848cfff0dc3d895ea4ed8a2bd862d)
 
