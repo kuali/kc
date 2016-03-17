@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.coeus.instprop.impl.summary;
+package org.kuali.coeus.instprop.impl.api;
 
 import static org.junit.Assert.assertEquals;
 
@@ -28,8 +28,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
-import org.kuali.coeus.instprop.impl.api.InstitutionalProposalResults;
-import org.kuali.coeus.instprop.impl.api.InstitutionalProposalSummaryDto;
 import org.kuali.coeus.sys.framework.rest.SearchResults;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
@@ -40,7 +38,7 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposalBoLite;
 public class InstitutionalProposalSummaryControllerTest {
 	
 	private static final String PERSON_ID123 = "personId123";
-	private InstitutionalProposalSummaryController institutionalProposalSummaryController;
+	private InstitutionalProposalController institutionalProposalSummaryController;
 	private Award award1;
 	private Award award2;
 	private InstitutionalProposalBoLite proposalLite1;
@@ -154,7 +152,13 @@ public class InstitutionalProposalSummaryControllerTest {
 	
 	@Test
 	public void testInstPropSummary() {
-		institutionalProposalSummaryController = new InstitutionalProposalSummaryController() {
+		institutionalProposalSummaryController = new InstitutionalProposalController() {
+
+			@Override
+			protected void assertUserHasReadAccess() {
+				//no op
+			}
+
 			@Override
 			SearchResults<InstitutionalProposal> getProposals(Date updatedSince, Integer page, Integer numberPerPage) {
 				SearchResults<InstitutionalProposal> result = new SearchResults<>();

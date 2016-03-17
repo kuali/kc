@@ -1,6 +1,6 @@
-## Institutional Proposal [/instprop/v1/institutional-proposals/]
+## Institutional Proposal [/instprop/api/v1/institutional-proposals/]
 
-### Proposal Summary [GET /instprop/v1/institutional-proposals/?summary{&updatedSince=&page=1&limit=5}]
+### Proposal Summary [GET /instprop/api/v1/institutional-proposals/?summary{&updatedSince=&page=1&limit=5}]
 
 Summary of all Institutional Proposals in the system
 
