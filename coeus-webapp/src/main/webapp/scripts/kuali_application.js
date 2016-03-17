@@ -1810,7 +1810,7 @@ function displayReviewers(protocolId) {
     var protocolReviewTypeCode = dwr.util.getValue('actionHelper.protocolSubmitAction.protocolReviewTypeCode');
     
     // we suppress the reviewer display if a committee is not selected, or if a schedule is not selected in case of a non-expedited review type
-    if ( ((scheduleId === "") && (protocolReviewTypeCode != '2')) || (committeeId === "") ) {
+    if ( ((scheduleId === "") && (protocolReviewTypeCode != '2' && protocolReviewTypeCode != '3')) || (committeeId === "") ) {
     	document.getElementById("reviewers").style.display = 'none';
     }
     else {
