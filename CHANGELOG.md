@@ -1,6 +1,23 @@
 
 
 ##CURRENT
+* RESKC-1219: Fixing online review and assign reviewers for protocol.
+
+  * Online Review tab does not display after a protocol is submitted and assigned reviewers.
+  * Steps
+  * Create protocol
+  * Submit protocol as Exempt
+  * Select committee but not a schedule
+  * -Issue One Result: You should be able to select reviewers but they are not appearing as part of the submit screen unless you have selected a schedule.
+  * -Expected: A schedule should not be required for selecting reviewers if the review type is exempt (or expedited). Expedited is behaving correctly.
+  * Submit the protocol without the schedule
+  * Then assign a reviewer via Assign Reviewers action
+  * -Issue Two result: The review assignment is saved but the Review tab does not appear. See screen shot
+  * -Expected: The protocol review tab should appear
+  * Note: If you add a schedule via Modify Submission Request at this point, then the OLR tab will appear
+  * Gayathri Athreya on Wed, 16 Mar 2016 13:28:02 -0700 [View Commit](../../commit/eb23deebdc60fdbc48cf95c13ee10f70a1f7c92f)
+
+##coeus-1603.32
 * No Changes
 
 
