@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1603.31
 * RESKC-1218:Add parameter to control whether arg value dropdowns display the description or the value
 
   * Currently if an arg value entry has a description the description is displayed in the dropdown and the value is only used for persistence. This change adds a new parameter 'ARG_VALUE_VALUES_FINDER_PREFER_DESCRIPTION' that allows you to change this behavior to more closer match how IP and Award arg value lookups behave, and only display the value instead of the description.
