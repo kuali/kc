@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1217: fix the valid_narr_forms records for narrative type 23 and 44.
+  * Travis Schneeberger on Thu, 17 Mar 2016 12:54:03 -0400 [View Commit](../../commit/be95be966552c2894461bfb0f87068662e475e3f)
+
+##coeus-1603.33
 * RESKC-1219: Fixing online review and assign reviewers for protocol.
 
   * Online Review tab does not display after a protocol is submitted and assigned reviewers.
