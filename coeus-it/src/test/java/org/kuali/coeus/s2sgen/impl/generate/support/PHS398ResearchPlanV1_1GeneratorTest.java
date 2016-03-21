@@ -25,7 +25,7 @@ import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PHS398ResearchPlanV1_1GeneratorTest extends PHS398ResearchPlanBaseGeneratorTest {
+public class PHS398ResearchPlanV1_1GeneratorTest extends S2STestBase {
 
     @Override
     protected String getFormGeneratorName() {

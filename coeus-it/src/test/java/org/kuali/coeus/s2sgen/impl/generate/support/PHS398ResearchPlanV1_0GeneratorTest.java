@@ -28,7 +28,7 @@ import java.util.List;
  * 
  * This class is used to test PHS398ResearchPlanV1_0 form
  */
-public class PHS398ResearchPlanV1_0GeneratorTest extends PHS398ResearchPlanBaseGeneratorTest {
+public class PHS398ResearchPlanV1_0GeneratorTest extends S2STestBase {
 
     @Override
     protected String getFormGeneratorName() {
