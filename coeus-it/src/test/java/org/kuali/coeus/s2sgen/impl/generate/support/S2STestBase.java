@@ -26,6 +26,8 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.propdev.impl.attachment.Narrative;
+import org.kuali.coeus.propdev.impl.attachment.NarrativeAttachment;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
@@ -45,6 +47,7 @@ import org.kuali.coeus.s2sgen.api.generate.AttachmentData;
 import org.kuali.coeus.s2sgen.impl.validate.S2SValidatorService;
 import org.kuali.coeus.s2sgen.api.core.AuditError;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
+import org.kuali.rice.core.api.util.ClassLoaderUtils;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -53,7 +56,12 @@ import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.Resource;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -108,9 +116,9 @@ public abstract class S2STestBase extends KcIntegrationTestBase {
 
         document = saveDocument(document);
 
-        ArrayList<AuditError> errors = new ArrayList<AuditError>();
+        ArrayList<AuditError> errors = new ArrayList<>();
         generatorObject.setAuditErrors(errors);
-        generatorObject.setAttachments(new ArrayList<AttachmentData>());
+        generatorObject.setAttachments(new ArrayList<>());
         XmlObject object=generatorObject.getFormObject(document);
         getService(S2SValidatorService.class).validate(object, errors, generatorObject.getFormName());
         for (AuditError auditError : errors) {
@@ -241,5 +249,25 @@ public abstract class S2STestBase extends KcIntegrationTestBase {
         for (S2sOppForms form : document.getDevelopmentProposal().getS2sOppForms()) {
             form.setSelectToPrint(true);
         }
+    }
+    protected Narrative createNarrative(String narrativeTypeCode) throws IOException {
+        Narrative narrative = new Narrative();
+        NarrativeAttachment narrativeAttachment = new NarrativeAttachment();
+        DefaultResourceLoader resourceLoader = new DefaultResourceLoader(ClassLoaderUtils.getDefaultClassLoader());
+        Resource resource = resourceLoader.getResource(S2STestConstants.ATT_PACKAGE + "/exercise1.pdf");
+        InputStream inStream = resource.getInputStream();
+        BufferedInputStream bis = new BufferedInputStream(inStream);
+        byte[] narrativePdf = new byte[bis.available()];
+        narrativeAttachment.setData(narrativePdf);
+        narrativeAttachment.setName("exercise1.pdf");
+        narrative.setModuleNumber(1);
+        narrative.setModuleSequenceNumber(1);
+        narrative.setModuleStatusCode("C");
+        narrative.setNarrativeTypeCode(narrativeTypeCode);
+        narrative.refreshReferenceObject("narrativeType");
+        narrative.setNarrativeAttachment(narrativeAttachment);
+        narrative.setObjectId("12345678890abcd");
+        narrative.setName("exercise1");
+        return narrative;
     }
 }

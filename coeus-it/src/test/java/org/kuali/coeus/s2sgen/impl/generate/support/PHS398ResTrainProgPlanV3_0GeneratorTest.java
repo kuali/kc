@@ -19,10 +19,10 @@
 package org.kuali.coeus.s2sgen.impl.generate.support;
 
 import org.kuali.coeus.common.framework.type.ProposalType;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeAttachment;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeType;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.rice.core.api.util.ClassLoaderUtils;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.springframework.core.io.DefaultResourceLoader;
@@ -34,7 +34,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
-public class PHS398ResTrainProgPlanV1_0GeneratorTest extends S2STestBase {
+
+public class PHS398ResTrainProgPlanV3_0GeneratorTest extends S2STestBase {
 
     @Override
     protected String getFormGeneratorName() {
@@ -52,6 +53,16 @@ public class PHS398ResTrainProgPlanV1_0GeneratorTest extends S2STestBase {
 
         narrative1.setDevelopmentProposal(document.getDevelopmentProposal());
         naList.add(narrative1);
+
+        Narrative narrative2 = createNarrative("151");
+
+        narrative2.setDevelopmentProposal(document.getDevelopmentProposal());
+        naList.add(narrative2);
+
+        Narrative narrative3 = createNarrative("152");
+
+        narrative3.setDevelopmentProposal(document.getDevelopmentProposal());
+        naList.add(narrative3);
         document.getDevelopmentProposal().setNarratives(naList);
         
     }

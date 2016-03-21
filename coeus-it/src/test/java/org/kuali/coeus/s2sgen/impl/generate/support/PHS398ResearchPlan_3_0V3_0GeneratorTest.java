@@ -7,7 +7,7 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PHS398ResearchPlan_3_0V3_0GeneratorTest extends PHS398ResearchPlanBaseGeneratorTest  {
+public class PHS398ResearchPlan_3_0V3_0GeneratorTest extends S2STestBase {
 
     @Override
     protected String getFormGeneratorName() {
