@@ -142,7 +142,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         AwardBudgetExt copiedBudget = copyAwardBudget(budgetDocument, onlyOnePeriod, budget, awardDocument);
         budgetDocument.getBudgets().add(copiedBudget);
 
-        fixStartAndEndDatesAndPeriods(awardDocument, copiedBudget);
+        fixStartAndEndDatesAndPeriods(((AwardBudgetExt) budget).getAward(), copiedBudget);
 
         budgetDocument = (AwardBudgetDocument) getDocumentService().saveDocument(budgetDocument);
         
@@ -156,9 +156,9 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     	return budgetDocument;
     }
 
-    protected void fixStartAndEndDatesAndPeriods(AwardDocument awardDocument, AwardBudgetExt copiedBudget) {
-        copiedBudget.setStartDate(awardDocument.getAward().getRequestedStartDateInitial());
-        copiedBudget.setEndDate(awardDocument.getAward().getRequestedEndDateInitial());
+    protected void fixStartAndEndDatesAndPeriods(Award award, AwardBudgetExt copiedBudget) {
+        copiedBudget.setStartDate(award.getRequestedStartDateInitial());
+        copiedBudget.setEndDate(award.getRequestedEndDateInitial());
         defaultPeriodsIfNeeded(copiedBudget);
     }
 
