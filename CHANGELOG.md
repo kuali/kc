@@ -1,6 +1,24 @@
 
 
 ##CURRENT
+* RESKC-1232: Fix award budget date issue.
+
+  * Award budget created and posted with those dates.
+  * Award & T&M Modified end date to reduce scope: finalized with 12/01/2017 end date.
+  * User tries to create a new award budget: gets a stack trace error when clicking the new button in budget versions tab.
+  * java.lang.NullPointerException
+  * at java.util.Calendar.setTime(Calendar.java:1770)
+  * at org.kuali.coeus.common.budget.impl.summary.BudgetSummaryServiceImpl.generateBudgetPeriods(BudgetSummaryServiceImpl.java:180)
+  * at org.kuali.coeus.common.budget.impl.summary.BudgetSummaryServiceImpl.defaultBudgetPeriods(BudgetSummaryServiceImpl.java:209)
+  * at org.kuali.kra.award.budget.AwardBudgetServiceImpl.defaultPeriodsIfNeeded(AwardBudgetServiceImpl.java:567)
+  * Gayathri Athreya on Mon, 21 Mar 2016 10:19:23 -0700 [View Commit](../../commit/b51c78034f6d52710f5c6862988196c4a27f1a4b)
+* RESKC-1226: NSF forms - the 1.6 cover page is not usable as it has been released.
+  * 1. NSF cover page 1-6 Questionnaire ID 1012 :question to check the disclosure of lobbying activities is not mapping to the form. (it appears to have the same Question ID (103) as the Funding Mechanism question that was also added for this form version.
+  * 2. The system has an error validation requiring  Data Management Plan attachment (narrative id 146). This attachment is NOT mandatory. (I tried changing the status to not mandatory in the Valid Narrative Forms maintenance doc: but this functionality is broken.)
+  * 3. The system has an error validation requiring the Mentoring Plan attachment (narrative ID 147) This attachment is NOT mandatory and will cause submission to ERROR at the sponsor. (Again; could not change to not mandatory in the Valid Narrative Forms maintenance doc).
+  * Travis Schneeberger on Mon, 21 Mar 2016 11:17:58 -0400 [View Commit](../../commit/cb7b918c58e72306961c74a06949255118143e58)
+
+##coeus-1603.38
 * RESKC-937: S2S Form D: PHS 398 Research Training program Plan 3.0 update for 2016
   * Travis Schneeberger on Mon, 21 Mar 2016 08:36:40 -0400 [View Commit](../../commit/559c6ac354469b48790838bf4c640358c231c632)
 

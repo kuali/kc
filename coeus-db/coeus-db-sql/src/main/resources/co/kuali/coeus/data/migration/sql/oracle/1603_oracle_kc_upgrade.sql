@@ -28,4 +28,5 @@ spool 1603_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V1603_009__fix_new_form_support.sql
 @./kc/bootstrap/V1603_011__fix_valid_narr_forms_23_44.sql
 @./kc/bootstrap/V1603_012__new_form_support.sql
+@./kc/bootstrap/V1603_013__fix_nsf_cover_page_1_6_form.sql
 commit;
