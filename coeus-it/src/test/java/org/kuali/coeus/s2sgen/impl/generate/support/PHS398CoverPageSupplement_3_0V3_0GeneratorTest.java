@@ -146,7 +146,7 @@ public class PHS398CoverPageSupplement_3_0V3_0GeneratorTest  extends S2STestBase
                         answer.setAnswer("Y");
                     } else if (6 == answer.getQuestion().getQuestionSeqId()) {
                         answer.setAnswer("1234");
-                    } else if (142 == answer.getQuestion().getQuestionSeqId()) {
+                    } else if (149 == answer.getQuestion().getQuestionSeqId()) {
                         answer.setAnswer("Y");
                     } else if (118 == answer.getQuestion().getQuestionSeqId()) {
                         answer.setAnswer("Y");
