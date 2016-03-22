@@ -27,6 +27,7 @@ import org.kuali.coeus.common.committee.impl.print.service.CommitteePrintingServ
 import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.questionnaire.framework.print.CorrespondencePrintingService;
+import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsService;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule;
 import org.kuali.kra.iacuc.committee.print.service.IacucCommitteePrintingService;
@@ -37,6 +38,7 @@ import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceType;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionLiteBase;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -44,6 +46,8 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class IacucMeetingActionsAction extends MeetingActionsActionBase {
 
@@ -74,8 +78,16 @@ public class IacucMeetingActionsAction extends MeetingActionsActionBase {
     }
 
     @Override
+    protected String getDocumentNumber(ProtocolSubmissionLiteBase protocolSubmission) {
+        Map<String, String> criteria = new HashMap<>();
+        criteria.put(PROTOCOL_ID, protocolSubmission.getProtocolId().toString());
+        IacucProtocol protocol = getBusinessObjectService().findByPrimaryKey(IacucProtocol.class, criteria);
+        return protocol.getProtocolDocument().getDocumentNumber();
+    }
+
+    @Override
     protected String getActionIdHook() {
-        return "iacucProtocolActions";
+        return "iacucProtocolProtocol";
     }
 
     @Override
