@@ -45,6 +45,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Collections;
 
 
+
 /**
  * This class is for all meeting actions. A couple of methods, which are for text area update, are copied from
  * KraTransactionalDocumentActionBase.
@@ -58,6 +59,11 @@ public abstract class MeetingActionBase extends KualiAction {
     private static final String REFRESH_CALLER = "refreshCaller";
     private static final String COMMITTEE_SCHEDULE_ERROR_PATH = "meetingHelper.committeeSchedule";
     private static final String SCHEDULE_ID = "scheduleId";
+    public static final String DOC_TYPE_NAME = "docTypeName";
+    public static final String PROTOCOL_DOCUMENT = "ProtocolDocument";
+    public static final String SUBMISSION_ID = "submissionId";
+    public static final String VIEW_DOCUMENT = "viewDocument=";
+    public static final String PROTOCOL_ID = "protocolId";
 
     /**
      * This method is for the initial load of meeting page. It is called when 'maintain' button of committee schedule is clicked.
@@ -114,8 +120,6 @@ public abstract class MeetingActionBase extends KualiAction {
             valid &= applyRules(new MeetingSaveEvent(Constants.EMPTY_STRING, getCommitteeDocument(meetingHelper.getCommitteeSchedule()
                     .getParentCommittee().getCommitteeDocument().getDocumentHeader().getDocumentNumber()), meetingHelper, ErrorType.HARDERROR));
         } catch (NullPointerException e) {
-            // NPE When Accessing Meeting Actions Tab on IRB Schedule
-            // https://github.com/rSmart/issues/issues/449
             LOG.warn("Possible behavior change; not changing value of `valid` variable. It remains: " + valid);
         }
         return valid;
@@ -151,13 +155,17 @@ public abstract class MeetingActionBase extends KualiAction {
         ProtocolSubmissionLiteBase protocolSubmission = ((MeetingFormBase) form).getMeetingHelper().getCommitteeSchedule()
                 .getLatestProtocolSubmissions().get(Integer.parseInt(request.getParameter("line")));
 
-
-        response.sendRedirect(getActionIdHook() + ".do?methodToCall=start&submissionId=" + protocolSubmission.getSubmissionId());
+        response.sendRedirect(
+                getActionIdHook() + ".do?" + VIEW_DOCUMENT + "true&" + KRADConstants.PARAMETER_DOC_ID + "=" +
+                        getDocumentNumber(protocolSubmission) + "&" + SUBMISSION_ID + "=" + protocolSubmission.getSubmissionId() +
+                        "&" + DOC_TYPE_NAME + "=" + PROTOCOL_DOCUMENT + "&" + KRADConstants.DISPATCH_REQUEST_PARAMETER +
+                        "=" + KRADConstants.DOC_HANDLER_METHOD + "&" + KRADConstants.DOCHANDLER_URL_CHUNK);
         return null;
     }
 
-    protected abstract String getActionIdHook();
+    protected abstract String getDocumentNumber(ProtocolSubmissionLiteBase protocolSubmission);
 
+    protected abstract String getActionIdHook();
 
     protected BusinessObjectService getBusinessObjectService() {
         return KcServiceLocator.getService(BusinessObjectService.class);

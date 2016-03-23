@@ -24,11 +24,16 @@ import org.kuali.coeus.common.committee.impl.meeting.*;
 import org.kuali.coeus.common.committee.impl.meeting.MeetingEventBase.ErrorType;
 import org.kuali.coeus.common.committee.impl.service.CommitteeScheduleServiceBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsService;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule;
 import org.kuali.kra.iacuc.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeScheduleService;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionLiteBase;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class IacucMeetingManagementAction extends MeetingManagementActionBase {
 
@@ -54,7 +59,7 @@ public class IacucMeetingManagementAction extends MeetingManagementActionBase {
 
     @Override
     protected String getActionIdHook() {
-        return "iacucProtocolActions";
+        return "iacucProtocolProtocol";
     }
 
     @Override
@@ -87,4 +92,11 @@ public class IacucMeetingManagementAction extends MeetingManagementActionBase {
         return KcServiceLocator.getService("iacucMeetingControllerService");
     }
 
+    @Override
+    protected String getDocumentNumber(ProtocolSubmissionLiteBase protocolSubmission) {
+        Map<String, String> criteria = new HashMap<>();
+        criteria.put(PROTOCOL_ID, protocolSubmission.getProtocolId().toString());
+        IacucProtocol protocol = getBusinessObjectService().findByPrimaryKey(IacucProtocol.class, criteria);
+        return protocol.getProtocolDocument().getDocumentNumber();
+    }
 }
