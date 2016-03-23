@@ -114,6 +114,10 @@ public class CliOptions {
     public boolean containsTimeAndMoneyDups() {
     	return contains("tm-dups");
     }
+    
+    public boolean containsProposalYnq() {
+    	return contains("proposal-ynq");
+    }
 
     private boolean contains(String name) {
         for (String arg : args) {

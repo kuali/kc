@@ -107,6 +107,16 @@ WARNING: The following awards were affected by duplicate transactions. (200086-0
 
 All `award_amount_info` removed during this process are copied into a table named `award_amount_info_dups` if data from this process needs to be reviewed or restored based on review.
 
+Proposal YNQ -> Questionnaire Conversion (proposal-ynq)
+
+During the Kuali Coeus 6.0 release, Proposal Development YNQs were deprecated. This conversion will take any previously answered YNQs and turn 
+them into deprecated questionnaires allowing the viewing of Proposal and Personnel certification questions from these YNQs. Proposal YNQs are 
+converted into a questionnaire named 'Proposal Converted YNQs' and personnel certification questionnaire is named 'Certification Converted 
+YNQs'. A new version of these questionnaires are added based on the questions available and answered for each proposal so many versions of each 
+questionnaire can be created. Finally a questionnaire version which disables the usage of the questionnaire ensuring that these deprecated 
+questionnaires do no show up in new proposals. In the database these YNQ are stored in a copy of the original tables at 'eps_prop_ynq_bak' and 
+'eps_prop_pers_ynq_bak'. 
+
 IRB (irb)
 
 For future use

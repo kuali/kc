@@ -27,6 +27,8 @@ import org.kuali.coeus.dc.award.amntinfo.AwardAmountInfoDuplicatesDaoImpl;
 import org.kuali.coeus.dc.common.db.*;
 import org.kuali.coeus.dc.pprole.ProposalPersonRoleDao;
 import org.kuali.coeus.dc.pprole.ProposalPersonRoleDaoImpl;
+import org.kuali.coeus.dc.propynq.ProposalYnqConversionDao;
+import org.kuali.coeus.dc.propynq.ProposalYnqConversionDaoImpl;
 import org.kuali.coeus.dc.questseq.QuestSeqDao;
 import org.kuali.coeus.dc.questseq.QuestSeqDaoImpl;
 import org.kuali.coeus.dc.subaward.SubAwardAmountInfoDao;
@@ -164,6 +166,12 @@ public final class CliOptionsBasedDaoFactory {
     
     public AwardAmountInfoDuplicatesDao getAwardAmountInfoDuplicatesDao() {
     	AwardAmountInfoDuplicatesDaoImpl dao = new AwardAmountInfoDuplicatesDaoImpl();
+    	dao.setConnectionDaoService(getConnectionDaoService());
+    	return dao;
+    }
+    
+    public ProposalYnqConversionDao getProposalYnqConversionDao() {
+    	ProposalYnqConversionDaoImpl dao = new ProposalYnqConversionDaoImpl();
     	dao.setConnectionDaoService(getConnectionDaoService());
     	return dao;
     }

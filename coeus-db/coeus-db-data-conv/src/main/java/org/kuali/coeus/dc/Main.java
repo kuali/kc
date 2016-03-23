@@ -136,6 +136,10 @@ public final class Main {
             if (options.containsTimeAndMoneyDups()) {
             	factory.getAwardAmountInfoDuplicatesDao().fixAwardAmountInfoDuplicates();
             }
+            
+            if (options.containsProposalYnq()) {
+            	factory.getProposalYnqConversionDao().convertProposalYnqs();
+            }
 
             if (options.containsDryRun()) {
                 coeusConnection.rollback();

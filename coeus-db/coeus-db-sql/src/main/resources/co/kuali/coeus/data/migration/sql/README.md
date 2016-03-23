@@ -37,13 +37,15 @@ For embedded mode databases that are being maintained and upgraded separately fr
 ##Custom Java Database Conversion Process
 Finally KC has a few more complicated and cross KC->Rice database conversions included. These conversions could not be done through plain sql similarly to the rest of these conversions due to the complicated nature to trying to transfer data between KC and Rice databases for embedded mode instances. Information on running these scripts can be found in this [README.md](../../../../../../../../../../coeus-db-data-conv/README.md) file.
 
-There are currently 5 custom conversion processes and they should be run as follows. Each conversion type supported by the database conversion process should only be run once when upgrading a database.
+There are currently 7 custom conversion processes and they should be run as follows. Each conversion type supported by the database conversion process should only be run once when upgrading a database.
 
 * Proposal (proposal) after all 600* scripts are run
 * Proposal Person Role (pprole) after all 600* scripts are run
 * KRMS Question & Questionnaire Sequence (questseq) after the 1505* scripts are run
 * Time & Money Document Status (tmdocstatus) after the 1507* scripts are run
 * Subaward Amount Info (subaward-amountinfo) after the 1511* scripts are run
+* Time And Money Award Amount Info Duplicate Removal (tm-dups) after the 1603* scripts are run
+* Proposal YNQ -> Questionnaire Conversion (proposal-ynq) after the 1603* scripts are run
 
 
 ##Mysql Specifics
