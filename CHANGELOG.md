@@ -1,6 +1,25 @@
 
 
 ##CURRENT
+* RESKC-1233:PropDev YNQ conversion script
+
+  * A new Java based data conversion that will convert historical YNQ into questionnaires.
+  * blackcathacker on Tue, 22 Mar 2016 13:30:27 -0700 [View Commit](../../commit/1b128c6901389c6faf4bb562826d56858966d87d)
+* RESKC-1221: Fix view protocol submission link in schedule.
+
+  * Issue occurs in IRB and IACUC
+  * Submit a protocol to a schedule
+  * Edit the schedule the protocol was submitted to
+  * Open Submitted Protocols list
+  * click View for the protocol
+
+  * Result: Get error when trying to view a protocol from a schedule:
+  * java.lang.IndexOutOfBoundsException: Index: 8, Size: 0
+  * at java.util.ArrayList.rangeCheck(ArrayList.java:653)
+  * at java.util.ArrayList.get(ArrayList.java:429)
+  * Gayathri Athreya on Tue, 22 Mar 2016 13:41:54 -0700 [View Commit](../../commit/aa8ad815b378bb72eb95b0b32bbe90155b7d9ebe)
+
+##coeus-1603.44
 * No Changes
 
 
