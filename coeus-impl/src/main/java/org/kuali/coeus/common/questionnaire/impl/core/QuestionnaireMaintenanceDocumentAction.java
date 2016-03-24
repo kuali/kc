@@ -46,7 +46,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
 
@@ -64,6 +63,7 @@ import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 /**
  * This is the maintenance action class is for questionnaire.
  */
+@SuppressWarnings("deprecation")
 public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocumentAction {
     private static final String PCP = "#;#";
     private static final String PQP = "#q#";
@@ -123,7 +123,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
                 newQuestionnaire.setTemplate(qnForm.getTemplateFile().getFileData());
             }
             qnForm.setNewQuestionnaireUsage(new QuestionnaireUsage());
-            newQuestionnaire.setDocumentNumber(((MaintenanceDocumentBase) qnForm.getDocument()).getDocumentNumber());
+            newQuestionnaire.setDocumentNumber((qnForm.getDocument()).getDocumentNumber());
             ActionForward forward = super.save(mapping, form, request, response);
             
             checkAndSetAllQuestionsAreUpToDate(qnForm);
@@ -141,13 +141,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
                 GlobalVariables.getMessageMap().putError(fieldName, KeyConstants.ERROR_QUESTIONNAIRE_FILENAME_INVALID);
                 retVal = false;
             }
-        }
-        catch (FileNotFoundException e) {
-            LOG.error(e.getMessage(), e);
-            GlobalVariables.getMessageMap().putError(fieldName, KeyConstants.ERROR_QUESTIONNAIRE_FILENAME_INVALID);
-            retVal = false;
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             LOG.error(e.getMessage(), e);
             GlobalVariables.getMessageMap().putError(fieldName, KeyConstants.ERROR_QUESTIONNAIRE_FILENAME_INVALID);
             retVal = false;
@@ -230,7 +224,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
     private String getQuestionReturnResult(QuestionnaireMaintenanceForm questionnaireForm, Questionnaire questionnaire) {
         Collections.sort(questionnaire.getQuestionnaireQuestions(), new QuestionnaireQuestionComparator());
         String result = "parent-0";
-        List<QuestionnaireQuestion> remainQuestions = new ArrayList<QuestionnaireQuestion>();
+        List<QuestionnaireQuestion> remainQuestions = new ArrayList<>();
         for (QuestionnaireQuestion question : questionnaire.getQuestionnaireQuestions()) {
             if (!question.getParentQuestionNumber().equals(0)) {
                 remainQuestions.add((QuestionnaireQuestion) ObjectUtils.deepCopy(question));
@@ -273,7 +267,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
     private String getQeustionResponse(Question question) {
         // for 'lookup', there is no maxlength set up.  so, use this field for lookup return type
         String retString = "";
-        if (question.getQuestionTypeId().equals(new Integer(6))) {
+        if (question.getQuestionTypeId().equals(6L)) {
             String className = question.getLookupClass();
             if(className!=null){
                 className = className.substring(className.lastIndexOf(".") + 1);
@@ -296,7 +290,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         try {
             lookupReturnType = Class.forName(className).getDeclaredField(lookReturn).getType().getSimpleName();
         } catch (Exception e) {
-            
+            LOG.error(e.getMessage(), e);
         }
         if ("String".equals(lookupReturnType)) {
             retVal= "5";
@@ -313,7 +307,6 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
      */
     private String getChildrenQuestions(QuestionnaireQuestion questionnaireQuestion, List<QuestionnaireQuestion> questionnaireQuestions) {
         String result = "";
-        List<QuestionnaireQuestion> remainQuestions = new ArrayList<QuestionnaireQuestion>();
         for (QuestionnaireQuestion question : questionnaireQuestions) {
             if (question.getParentQuestionNumber().equals(questionnaireQuestion.getQuestionNumber())) {
                 result = result + PQP + getQnReturnfields(question);
@@ -390,8 +383,8 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
     private CoeusSubModule getSubModule(String moduleCode, String subModuleCode) {
         CoeusSubModule retVal = null;
         
-        List<CoeusSubModule> subModules = new ArrayList<CoeusSubModule>();
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        List<CoeusSubModule> subModules = new ArrayList<>();
+        Map<String, Object> fieldValues = new HashMap<>();
         fieldValues.put(MODULE_CODE, moduleCode);
         fieldValues.put(SUB_MODULE_CODE, subModuleCode);
         subModules.addAll(getBusinessObjectService().findMatching(CoeusSubModule.class, fieldValues));
@@ -440,9 +433,8 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         }
 
         ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject().getDataObject())
-        .setDocumentNumber(((MaintenanceDocumentBase) qnForm.getDocument()).getDocumentNumber());
-//        ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject().getDataObject())
-//        .setIsFinal(true);
+        .setDocumentNumber(( qnForm.getDocument()).getDocumentNumber());
+
         setupQuestionAndUsage(form);
         qnForm.setNewQuestionnaireUsage(new QuestionnaireUsage());
         if (qnForm.getDocument() != null && ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject() != null) {
@@ -467,9 +459,8 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
             preRouteCopy(form);
         }
         ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject().getDataObject())
-        .setDocumentNumber(((MaintenanceDocumentBase) qnForm.getDocument()).getDocumentNumber());
-//        ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject().getDataObject())
-//        .setIsFinal(true);
+        .setDocumentNumber(( qnForm.getDocument()).getDocumentNumber());
+
         setupQuestionAndUsage(form);
         if (qnForm.getDocument() != null && ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject() != null) {
             Questionnaire newQuestionnaire = (Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument())
@@ -487,10 +478,10 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
      */
     private void preRouteCopy(ActionForm form) {
         QuestionnaireMaintenanceForm qnForm = (QuestionnaireMaintenanceForm) form;
-        Map fieldValues = new HashMap<String, Object>();
+        Map<String, Object> fieldValues = new HashMap<>();
         fieldValues.put(QuestionnaireConstants.QUESTIONNAIRE_ID_PARAMETER_NAME, ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument())
                 .getOldMaintainableObject().getDataObject()).getId());
-        Questionnaire oldQuestionnaire = (Questionnaire) getBusinessObjectService().findByPrimaryKey(Questionnaire.class,
+        Questionnaire oldQuestionnaire = getBusinessObjectService().findByPrimaryKey(Questionnaire.class,
                 fieldValues);
         Questionnaire questionnaire = (Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject()
                 .getBusinessObject();
@@ -541,7 +532,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
     @Override
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        ActionForward forward = null;
+
         QuestionnaireMaintenanceForm qnForm = (QuestionnaireMaintenanceForm) form;
         Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
         if (buttonClicked != null && ConfirmationQuestion.YES.equals(buttonClicked)) {
@@ -555,7 +546,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
                 questionnaire.setTemplate(qnForm.getTemplateFile().getFileData());
             }
         }
-        forward = super.close(mapping, form, request, response);
+        ActionForward forward = super.close(mapping, form, request, response);
         if (buttonClicked == null || ConfirmationQuestion.NO.equals(buttonClicked)) {
             Questionnaire questionnaire = (Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument())
                     .getNewMaintainableObject().getDataObject();
@@ -563,7 +554,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
             // also need to save usages data in form to be restored if 'yes' is clicked
             // this is processed twice, so questionnaireUsage will be reset in qnform.reset
             // that's why we need to save this for restoration later
-            questionnaire.setQuestionnaireUsages(new ArrayList<QuestionnaireUsage>());
+            questionnaire.setQuestionnaireUsages(new ArrayList<>());
            
         }
         return forward;
@@ -576,16 +567,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
     }
 
 
-    /**
-     * 
-     * This method is to print Questionnaire
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
+
     public ActionForward printQuestionnaire(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         // TODO : this is only available after questionnaire is saved ?
@@ -659,9 +641,9 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
             HttpServletResponse response) throws Exception {
         QuestionnaireMaintenanceForm qnForm = (QuestionnaireMaintenanceForm) form;
         if (StringUtils.isNotBlank(qnForm.getQuestionId())) {
-            Map pkMap = new HashMap();
+            Map<String, Object> pkMap = new HashMap<>();
             pkMap.put(ID, qnForm.getQuestionId());
-            qnForm.setQuestion((Question)getBusinessObjectService().findByPrimaryKey(Question.class, pkMap));
+            qnForm.setQuestion(getBusinessObjectService().findByPrimaryKey(Question.class, pkMap));
             
             //lets check for a more current version
             pkMap.clear();
@@ -680,9 +662,9 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
             HttpServletResponse response) throws Exception {
         QuestionnaireMaintenanceForm qnForm = (QuestionnaireMaintenanceForm) form;
         if (StringUtils.isNotBlank(qnForm.getQuestionId())) {
-            Map pkMap = new HashMap();
+            Map<String, Object> pkMap = new HashMap<>();
             pkMap.put(ID, qnForm.getQuestionId());
-            Question oldQ = (Question)getBusinessObjectService().findByPrimaryKey(Question.class, pkMap);
+            Question oldQ = getBusinessObjectService().findByPrimaryKey(Question.class, pkMap);
             if (oldQ != null) {
                 pkMap.clear();
                 pkMap.put(QuestionnaireConstants.QUESTION_SEQEQUENCE_ID, oldQ.getQuestionSeqId());
@@ -712,11 +694,11 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         // populateAuthorizationFields will override the isReadOnly property of the form. if it is 'view'
         super.populateAuthorizationFields(formBase);
         if (isReadOnly && StringUtils.equals(qnForm.getMethodToCall(), "edit")) {
-            qnForm.setReadOnly(isReadOnly);
+            qnForm.setReadOnly(true);
         }
         
         if (qnForm.isReadOnly() && formBase.getDocumentActions().containsKey(KRADConstants.KUALI_ACTION_CAN_CLOSE)) {
-            Map<String, String> documentActions = new HashMap<String, String>();
+            Map<String, String> documentActions = new HashMap<>();
             documentActions.put(KRADConstants.KUALI_ACTION_CAN_CLOSE, "TRUE");
             qnForm.setDocumentActions(documentActions);
             
