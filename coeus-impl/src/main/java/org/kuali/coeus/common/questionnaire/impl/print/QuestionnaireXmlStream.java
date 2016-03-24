@@ -164,13 +164,13 @@ public class QuestionnaireXmlStream implements XmlStream {
         Questionnaire questionnaireType = questionnaireDocument.addNewQuestionnaire();
         
         String documentNumber = (String)params.get(DOCUMENT_NUMBER);
-        Long questionnaireSeqenceId= Long.parseLong(params.get(QuestionnaireConstants.QUESTIONNAIRE_SEQUENCE_ID_PARAMETER_NAME).toString());
+        Object questionnaireSeqenceId= params.get(QuestionnaireConstants.QUESTIONNAIRE_SEQUENCE_ID_PARAMETER_NAME);
         org.kuali.coeus.common.questionnaire.framework.core.Questionnaire questionnaire =
                 (org.kuali.coeus.common.questionnaire.framework.core.Questionnaire)params.get(QUESTIONNAIRE);
         if (questionnaire == null) {
             if (questionnaireSeqenceId != null) { 
                 Map<String,Long> qParam = new HashMap<String,Long>();
-                qParam.put(QuestionnaireConstants.QUESTIONNAIRE_SEQUENCE_ID_PARAMETER_NAME, questionnaireSeqenceId);
+                qParam.put(QuestionnaireConstants.QUESTIONNAIRE_SEQUENCE_ID_PARAMETER_NAME, Long.parseLong(questionnaireSeqenceId.toString()));
                 List<org.kuali.coeus.common.questionnaire.framework.core.Questionnaire> questionnaires =
                     (List)businessObjectService.findMatchingOrderBy(
                             org.kuali.coeus.common.questionnaire.framework.core.Questionnaire.class, qParam, ID, false);
