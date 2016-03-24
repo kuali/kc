@@ -20,7 +20,8 @@
 /* These override styles exist to get the new look. Eventually these rules will be
    placed in a more appropriate place. */
 .logoBrand .actionImage {
-	width: 195px;
+	padding-top: 5px;
+	height: 45px;
 	padding-left: 9px;
 }
 
@@ -248,7 +249,7 @@ body#Uif-Application {
 
 #Uif-GlobalApplicationHeader div:first-child .nav.navbar-nav {
 	float: left !important;
-	margin-left: 200px;
+	margin-left: 150px;
 }
 
 #Uif-GlobalApplicationHeader #upils8b {
