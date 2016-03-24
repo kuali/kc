@@ -200,7 +200,7 @@ Portions of Kuali are copyrighted by other parties as described in the [link='@{
          parent="Kc-Header-IframeView" p:location.baseUrl="@{#ConfigProperties['rice.server.url']}" p:location.controllerMapping="/kew/DocumentSearch.do"/>
     <bean id="Kc-Header-ApplicationLogo" parent="Kc-Header-ApplicationLogo-parentBean"/>
     <bean id="Kc-Header-ApplicationLogo-parentBean" parent="Uif-Image"
-          abstract="true" p:source="../static/images/KualiCo.png"/>
+          abstract="true" p:source="../static/images/KualiLogo.png"/>
 
     <bean id="Kc-Header-ResearcherMenu" parent="Kc-Header-ResearcherMenu-parentBean"/>
     <bean id="Kc-Header-ResearcherMenu-parentBean" abstract="true"
