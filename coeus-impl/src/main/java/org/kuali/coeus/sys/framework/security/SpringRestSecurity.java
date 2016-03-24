@@ -30,16 +30,17 @@ import org.springframework.security.config.annotation.web.servlet.configuration.
 import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
 import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter.XFrameOptionsMode;
 
+import java.util.stream.Stream;
+
 @Configuration
 @EnableWebMvcSecurity
 @Deprecated
 public class SpringRestSecurity extends WebSecurityConfigurerAdapter {
-	
-	private static final String V1_REST_SERVICES_REGEX = ".*/v1/.*";
-	private static final String API_REST_SERVICES_REGEX = ".*/api/.*";
+
 	private static final String ADMIN_ROLE = "ADMIN";
 	private static final String KC_REST_ADMIN_PASSWORD = "kc.rest.admin.password";
 	private static final String KC_REST_ADMIN_USERNAME = "kc.rest.admin.username";
+	private static final String AUTH_REST_URLS_REGEX = "auth.rest.urls.regex";
 	@Autowired
 	@Qualifier("kualiConfigurationService")
 	private ConfigurationService configurationService;
@@ -57,8 +58,19 @@ public class SpringRestSecurity extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.headers().xssProtection().addHeaderWriter(new XFrameOptionsHeaderWriter(XFrameOptionsMode.SAMEORIGIN));
-	    http.authorizeRequests().regexMatchers(V1_REST_SERVICES_REGEX).hasRole(ADMIN_ROLE).and().httpBasic();
-	    http.authorizeRequests().regexMatchers(API_REST_SERVICES_REGEX).hasRole(ADMIN_ROLE).and().httpBasic();
+
+		final String authRestUrlsRegex = configurationService.getPropertyValueAsString(AUTH_REST_URLS_REGEX);
+		if (StringUtils.isNotBlank(authRestUrlsRegex)) {
+			Stream.of(authRestUrlsRegex.split(","))
+					.map(String::trim)
+					.forEach(regex -> {
+				try {
+					http.authorizeRequests().regexMatchers(regex).hasRole(ADMIN_ROLE).and().httpBasic();
+				} catch (Exception e) {
+					throw new RuntimeException(e);
+				}
+			});
+		}
 	}
 
 	public ConfigurationService getConfigurationService() {
