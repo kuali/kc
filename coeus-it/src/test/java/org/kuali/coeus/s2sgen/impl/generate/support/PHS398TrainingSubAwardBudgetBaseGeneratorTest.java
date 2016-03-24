@@ -3,7 +3,6 @@ package org.kuali.coeus.s2sgen.impl.generate.support;
 import gov.grants.apply.system.metaGrantApplication.GrantApplicationDocument;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlObject;
-import org.junit.Assert;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
@@ -11,13 +10,11 @@ import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.s2sgen.impl.generate.S2SBaseFormGenerator;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.krad.data.DataObjectService;
-import org.kuali.rice.krad.service.DocumentService;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -57,11 +54,11 @@ public abstract class PHS398TrainingSubAwardBudgetBaseGeneratorTest extends S2ST
         S2SBaseFormGenerator generatorObject1;
         generatorObject1 = KcServiceLocator.getService(PHS398TrainingBudgetV1_0Generator.class.getSimpleName());
         generatorObject1.setAttachments(new ArrayList<>());
-        ProposalDevelopmentDocument doc = initializeDocument();
-        initializeDevelopmentProposal(doc);
-        prepareDocData(doc);
-        doc = saveDocument(doc);
-        XmlObject object = generatorObject1.getFormObject(doc);
+
+        initializeDevelopmentProposal(document);
+        prepareDocData(document);
+        document = saveDocument(document);
+        XmlObject object = generatorObject1.getFormObject(document);
         GrantApplicationDocument.GrantApplication.Forms forms = GrantApplicationDocument.GrantApplication.Forms.Factory.newInstance();
         setFormObject(forms, object);
         GrantApplicationDocument.GrantApplication grantApplication = GrantApplicationDocument.GrantApplication.Factory.newInstance();
@@ -84,18 +81,12 @@ public abstract class PHS398TrainingSubAwardBudgetBaseGeneratorTest extends S2ST
         document.getDevelopmentProposal().setFinalBudget(proposalDevelopmentBudgetExt);
     }
 
-    private ProposalDevelopmentDocument initializeDocument() throws Exception {
-        ProposalDevelopmentDocument pd = (ProposalDevelopmentDocument) KcServiceLocator.getService(DocumentService.class).getNewDocument("ProposalDevelopmentDocument");
-        Assert.assertNotNull(pd.getDocumentHeader().getWorkflowDocument());
-        ProposalDevelopmentService pdService = getService(ProposalDevelopmentService.class);
-        pdService.initializeUnitOrganizationLocation(pd);
-        pdService.initializeProposalSiteNumbers(pd);
-        return pd;
-    }
+
 
     private DevelopmentProposal initializeDevelopmentProposal(
             ProposalDevelopmentDocument pd) {
         DevelopmentProposal developmentProposal = pd.getDevelopmentProposal();
+
         developmentProposal.setPrimeSponsorCode("000120");
         developmentProposal.setActivityTypeCode("1");
         developmentProposal.refreshReferenceObject("activityType");
