@@ -41,7 +41,7 @@ public class RestAuditLoggerFactoryImpl implements RestAuditLoggerFactory {
 	
 	@Override
 	public RestAuditLogger getNewAuditLogger(Class<?> dataObjectClass, List<String> propertiesToLog) {
-		return new RestAuditLoggerImpl(globalVariableService.getUserSession().getPrincipalName(), 
+		return new RestAuditLoggerImpl(globalVariableService.getUserSession().getPrincipalName(),
 				dataObjectClass, propertiesToLog, restAuditLoggerDao);
 	}
 

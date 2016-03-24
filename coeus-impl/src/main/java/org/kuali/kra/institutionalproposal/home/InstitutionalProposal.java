@@ -125,7 +125,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
     private String numberOfCopies;
     private Date deadlineDate;
     private String deadlineTime;
-    private Date createTimeStamp;
+    private Date createTimestamp;
     private String deadlineType;
     private String mailBy;
     private String mailType;
@@ -216,7 +216,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
      * part of skeleton. As various panels are developed;
      * corresponding field initializations should be removed from this method.
      */
-    private void initializeInstitutionalProposalWithDefaultValues() {
+    public void initializeInstitutionalProposalWithDefaultValues() {
         setSequenceNumber(INITIAL_SEQUENCE_NUMBER);
         setCostSharingIndicator(DEFAULT_VALUE);
         setIdcRateIndicator(DEFAULT_VALUE);
@@ -224,7 +224,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         setScienceCodeIndicator(DEFAULT_VALUE);
         ipReviewActivityIndicator = ACTIVE;
         Calendar cl = Calendar.getInstance();
-        setCreateTimeStamp(new Date(cl.getTime().getTime()));
+        setCreateTimestamp(new Date(cl.getTime().getTime()));
         setTotalDirectCostInitial(ScaleTwoDecimal.ZERO);
         setTotalDirectCostTotal(ScaleTwoDecimal.ZERO);
         setTotalIndirectCostInitial(ScaleTwoDecimal.ZERO);
@@ -236,7 +236,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         showReturnLink = true; // we usually show proposal in lookup
     }
 
-    protected void initializeCollections() {
+    public void initializeCollections() {
         institutionalProposalCustomDataList = new ArrayList<>();
         specialReviews = new ArrayList<>();
         institutionalProposalScienceKeywords = new ArrayList<>();
@@ -1128,12 +1128,12 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         this.institutionalProposalUnrecoveredFandAs = institutionalProposalUnrecoveredFandAs;
     }
 
-    public Date getCreateTimeStamp() {
-        return createTimeStamp;
+    public Date getCreateTimestamp() {
+        return createTimestamp;
     }
 
-    public void setCreateTimeStamp(Date createTimeStamp) {
-        this.createTimeStamp = createTimeStamp;
+    public void setCreateTimestamp(Date createTimestamp) {
+        this.createTimestamp = createTimestamp;
     }
 
     public String getDefaultNewDescription() {
@@ -1340,7 +1340,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         this.setPrincipalInvestigator(ipPerson);
     }
 
-    private void initializeDefaultPrincipalInvestigator(InstitutionalProposalPerson ipPerson) {
+    public void initializeDefaultPrincipalInvestigator(InstitutionalProposalPerson ipPerson) {
         ipPerson.setProposalNumber(this.getProposalNumber());
         ipPerson.setSequenceNumber(this.getSequenceNumber());
         ipPerson.initializeDefaultCreditSplits();

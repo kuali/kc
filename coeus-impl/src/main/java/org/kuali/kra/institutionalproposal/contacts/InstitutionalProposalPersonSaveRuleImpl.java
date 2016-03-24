@@ -46,7 +46,7 @@ public class InstitutionalProposalPersonSaveRuleImpl implements InstitutionalPro
      * @return
      */
     boolean processSaveInstitutionalProposalProjectPersonsBusinessRules(List<InstitutionalProposalPerson> projectPersons) {
-        if (projectPersons.size() == 0) {
+        if (projectPersons == null || projectPersons.size() == 0) {
             return true;
         }
 

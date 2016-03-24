@@ -77,7 +77,7 @@
                 <ref bean="InstitutionalProposal-opportunity" />
                 <ref bean="InstitutionalProposal-awardTypeCode" />
                 <ref bean="InstitutionalProposal-versionNumber" />
-                <ref bean="InstitutionalProposal-createTimeStamp" />
+                <ref bean="InstitutionalProposal-createTimestamp" />
                 <ref bean="InstitutionalProposal-updateUser" />
 				<ref bean="InstitutionalProposal-updateTimestamp" />
 				<ref bean="InstitutionalProposal-leadUnit.unitNumber" />
@@ -746,9 +746,9 @@
     	<property name="summary" value="Number of Copies"/>
     	<property name="description" value="The number of paper copies of the proposal that should be mailed to the agency/sponsor."/>
   </bean>
-	<bean id="InstitutionalProposal-createTimeStamp" parent="InstitutionalProposal-createTimeStamp-parentBean" />
-    <bean id="InstitutionalProposal-createTimeStamp-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
-        <property name="name" value="createTimeStamp" />
+	<bean id="InstitutionalProposal-createTimestamp" parent="InstitutionalProposal-createTimestamp-parentBean" />
+    <bean id="InstitutionalProposal-createTimestamp-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+        <property name="name" value="createTimestamp" />
         <property name="label" value="Proposal Create Date" />
         <property name="shortLabel" value="Proposal Create Date" />
         <property name="summary" value="Proposal Create Date" />
@@ -1000,6 +1000,7 @@
         <property name="label" value="Ip Review Activity Indicator" />
         <property name="shortLabel" value="Ip Review Activity Indicator" />
         <property name="maxLength" value="2" />
+        <property name="required" value="true" />
         <property name="validationPattern" >
             <bean p:allowWhitespace="true" parent="AlphaNumericValidationPattern" />
         </property>

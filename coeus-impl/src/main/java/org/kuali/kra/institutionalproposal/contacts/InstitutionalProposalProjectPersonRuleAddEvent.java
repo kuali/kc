@@ -32,7 +32,7 @@ private static final Log LOG = LogFactory.getLog(AwardProjectPersonRuleAddEvent.
     
     private InstitutionalProposalPerson newProjectPerson;
     
-    protected InstitutionalProposalProjectPersonRuleAddEvent(String description, String errorPathPrefix, Document document, InstitutionalProposalPerson newProjectPerson) {
+    public InstitutionalProposalProjectPersonRuleAddEvent(String description, String errorPathPrefix, Document document, InstitutionalProposalPerson newProjectPerson) {
         super(description, errorPathPrefix, document);
         this.newProjectPerson = newProjectPerson;
     }

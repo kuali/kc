@@ -24,6 +24,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.kuali.coeus.sys.framework.controller.rest.CustomEditors.CustomSqlDateEditor;
+import org.kuali.coeus.sys.framework.controller.rest.CustomEditors.CustomSqlTimestampEditor;
 import org.kuali.coeus.sys.framework.rest.UnprocessableEntityException;
 import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.springframework.beans.BeanWrapper;
@@ -52,7 +54,17 @@ public class SimpleCrudMapBasedRestController<T> extends SimpleCrudRestControlle
 	protected T convertDtoToDataObject(Map<String, Object> input) {
 		T newDataObject = this.getNewDataObject();
 		BeanWrapper beanWrapper = new BeanWrapperImpl(newDataObject);
+        beanWrapper.registerCustomEditor(java.sql.Timestamp.class, new CustomSqlTimestampEditor());
+        beanWrapper.registerCustomEditor(java.sql.Date.class, new CustomSqlDateEditor());
+
 		try {
+			getExposedProperties().forEach(name -> {
+                final Object val = input.get(name);
+                if (val != null || (val == null && !isPrimitive(name))) {
+                    beanWrapper.setPropertyValue(name, translateValue(name, val != null ? val.toString() : null));
+                }
+            });
+		} catch (IllegalArgumentException e) {
 			getExposedProperties().forEach(name -> beanWrapper.setPropertyValue(name, input.get(name)));
 		} catch (TypeMismatchException e) {
 			throw new UnprocessableEntityException(e.getMessage());

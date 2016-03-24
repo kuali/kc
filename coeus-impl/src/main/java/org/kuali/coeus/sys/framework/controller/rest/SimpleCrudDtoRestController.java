@@ -59,7 +59,7 @@ public class SimpleCrudDtoRestController<T, R> extends SimpleCrudRestControllerB
 	}
 
 	@Override
-	protected T convertDtoToDataObject(R input) {
+	public T convertDtoToDataObject(R input) {
 		Configuration mooConfig = new Configuration();
 		mooConfig.setSourcePropertiesRequired(false);
 		Moo moo = new Moo(mooConfig);

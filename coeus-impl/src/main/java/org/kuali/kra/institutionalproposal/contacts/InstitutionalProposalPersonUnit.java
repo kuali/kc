@@ -50,7 +50,6 @@ public class InstitutionalProposalPersonUnit extends KcPersistableBusinessObject
 
     private List<InstitutionalProposalPersonUnitCreditSplit> creditSplits;
 
-    // OJB Hack  
     private String unitNumber;
 
     private Long institutionalProposalContactId;
@@ -64,7 +63,7 @@ public class InstitutionalProposalPersonUnit extends KcPersistableBusinessObject
      * Constructs a institutionalProposalPersonUnit.
      * @param institutionalProposalPerson
      */
-    InstitutionalProposalPersonUnit(InstitutionalProposalPerson institutionalProposalPerson) {
+    public InstitutionalProposalPersonUnit(InstitutionalProposalPerson institutionalProposalPerson) {
         this();
         setInstitutionalProposalPerson(institutionalProposalPerson);
     }
@@ -75,7 +74,7 @@ public class InstitutionalProposalPersonUnit extends KcPersistableBusinessObject
      * @param unit
      * @param isLeadUnit
      */
-    InstitutionalProposalPersonUnit(InstitutionalProposalPerson institutionalProposalPerson, Unit unit, boolean isLeadUnit) {
+    public InstitutionalProposalPersonUnit(InstitutionalProposalPerson institutionalProposalPerson, Unit unit, boolean isLeadUnit) {
         this();
         this.institutionalProposalPerson = institutionalProposalPerson;
         setUnit(unit);
