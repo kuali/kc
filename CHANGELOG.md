@@ -1,6 +1,21 @@
 
 
 ##CURRENT
+* Revert "Add affil and emp info for admin and make Superuser defaul…"
+  * Travis Schneeberger on Fri, 25 Mar 2016 14:57:58 -0400 [View Commit](../../commit/70a1cb249394c1ac529dc866b409fb3b510582ef)
+* RESKC-1227: Multiple fixes for PHS398CoverPageSupplement 3.0.
+
+  * 1. Multiple issues to correct with the Stem Cell question branch:
+  * a. Question ID 5 are stem cells used, is a parent ALWAYS ask question, but is currently still a child of Question ID 3 (phase 3 clinical trial) and thus only renders if the user answers Y to ID 5. Please correct this so it Always presents.
+  * b. Question ID 142 needs to be reverted to it's prior state (text and 20 answer limit) so it continues to support its appearance in the S2S Questionnaire. Kuali prior stem cell answer q is ID7; 142 was used by Legacy Coeus.
+  * c. New Question ID 149 should assigned to manage the 200 answer response for listing the registration numbers of stem cell lines. ALSO; this question should only present if the answer to QID 6 = Y.
+  * Stem Cell Question branch revised as follows:
+  * ALWAYS ASK	5	Does the proposed project involve human embryonic stem cells?
+  * IF YES	6	Can a specific stem cell line be referenced at this time? If stem cells will be used, but a specific line cannot be referenced at the time of application submission, include a statement that one from the registry will be used.
+  * IF YES	*149	*List the registration number of the specific cell line(s) from the stem cell registry found at: http://stemcells.nih.gov/research/registry/
+  * Travis Schneeberger on Fri, 25 Mar 2016 14:54:03 -0400 [View Commit](../../commit/8aa7fa0e1d6538e55d61db0f7e8b3b34981a5f13)
+
+##coeus-1603.47
 * RESKC-1238: Fixing NullPointerException from Questionnaire print.
 
   * 1) lookup a Questionnaire from doc search

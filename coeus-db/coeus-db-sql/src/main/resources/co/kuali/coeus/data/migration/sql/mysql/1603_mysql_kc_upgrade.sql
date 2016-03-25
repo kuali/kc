@@ -28,4 +28,5 @@
 \. ./kc/bootstrap/V1603_013__fix_nsf_cover_page_1_6_form.sql
 \. ./kc/bootstrap/V1603_014__fix_new_form_support.sql
 \. ./kc/bootstrap/V1603_015__fix_nsf_cover_page_narratives.sql
+\. ./kc/bootstrap/V1603_016__fix_questionnaire_for_form.sql
 commit;
