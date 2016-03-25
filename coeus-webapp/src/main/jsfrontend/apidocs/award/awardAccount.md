@@ -1,4 +1,4 @@
-## Award Accounts [/award/api/v1/accounts]  
+## Award Accounts [/award/api/v1/accounts/]  
 
 ### List All Accounts [GET /award/api/v1/accounts/{?startIndex=0&size=5}]
 

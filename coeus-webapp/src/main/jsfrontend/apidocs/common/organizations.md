@@ -1,4 +1,4 @@
-## Organizations [/research-common/api/v1/organizations]
+## Organizations [/research-common/api/v1/organizations/]
 
 ### Organization Summary [GET /research-common/api/v1/organizations/?summary]
 

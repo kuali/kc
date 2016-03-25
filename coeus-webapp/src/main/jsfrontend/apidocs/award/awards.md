@@ -1,4 +1,4 @@
-## Awards [/award/api/v1/awards]
+## Awards [/award/api/v1/awards/]
 
 Kuali Research Awards providing Post Award management
 
