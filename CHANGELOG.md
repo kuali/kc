@@ -1,6 +1,17 @@
 
 
 ##CURRENT
+* RESKC-1238: Fixing NullPointerException from Questionnaire print.
+
+  * 1) lookup a Questionnaire from doc search
+  * 2) open the Questionnaire
+  * 3) click the print button
+  * A NullPointerException occurs
+  * Travis Schneeberger on Thu, 24 Mar 2016 15:50:01 -0400 [View Commit](../../commit/ab13cca7cc4fc3b4be2bbd55caae07fdff1703ad)
+* RESKC-1234: fixing valid narratives forms entries for nsf cover page forms
+  * Travis Schneeberger on Thu, 24 Mar 2016 10:33:45 -0400 [View Commit](../../commit/8692ce822a36d38ee12164cfa804a9069dd4da9d)
+
+##coeus-1603.46
 * No Changes
 
 
