@@ -24,6 +24,7 @@ import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.procedures.IacucProcedurePersonResponsible;
 import org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService;
 import org.kuali.kra.iacuc.procedures.IacucProtocolSpeciesStudyGroup;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 
 import java.util.ArrayList;
@@ -53,7 +54,12 @@ public class IacucProtocolPerson extends ProtocolPersonBase {
         super();
         setIacucPersonTrainings(new ArrayList<IacucPersonTraining>());
     }
-    
+
+    @Override
+    protected String getModuleNamespace() {
+        return Constants.MODULE_NAMESPACE_IACUC;
+    }
+
     public IacucProtocol getIacucProtocol() {
         return (IacucProtocol) getProtocol();
     }

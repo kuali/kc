@@ -510,7 +510,7 @@ public abstract class ProtocolFormBase extends KcTransactionalDocumentFormBase i
     public boolean getDisplayCoiDisclosureStatus() {
         return getParameterService().getParameterValueAsBoolean(getModuleName(),
                Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ENABLE_DISCLOSURE_STATUS_FROM_COI_MODULE);
-        }
+    }
 
     protected abstract String getModuleName();
 

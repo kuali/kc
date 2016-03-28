@@ -41,7 +41,11 @@
     </c:if> 
     	<c:set var="descri" value="${person.protocolPersonRole.description}" />
 	<c:set var="personIndex" value="${status.index}" />
-	<kul:tab tabTitle="${fn:substring(person.personName, 0, 22)}"
+    <c:set var="displayCoiDisclosureStatus" value="${KualiForm.displayCoiDisclosureStatus}" />
+    <c:if test="${displayCoiDisclosureStatus}">
+        <c:set var="descri" value="${descri}<br><b>COI Status:</b>${KualiForm.document.protocolList[0].protocolPersons[personIndex].disclosureStatus}" />
+    </c:if>
+    <kul:tab tabTitle="${fn:substring(person.personName, 0, 22)}"
 			 tabErrorKey="document.protocolList[0].protocolPersons[${personIndex}]*"
 			 auditCluster="personnelAuditErrors" 
 			 tabAuditKey="document.protocolList[0].protocolPersons[${personIndex}].*" 

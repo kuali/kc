@@ -18,10 +18,15 @@
  */
 package org.kuali.kra.irb.personnel;
 
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 
 public class ProtocolPerson extends ProtocolPersonBase {
 
     private static final long serialVersionUID = 3226064839786525909L;
-    
+
+    @Override
+    protected String getModuleNamespace() {
+        return Constants.MODULE_NAMESPACE_IRB;
+    }
 }

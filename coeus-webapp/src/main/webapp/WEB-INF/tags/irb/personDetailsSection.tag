@@ -43,7 +43,6 @@
 <c:set var="personTrainingRequired" value="${KualiForm.document.protocolList[0].protocolPersons[personIndex].protocolPersonRole.trainingDetailsRequired}" />
 <c:set var="commentsRequired" value="${KualiForm.document.protocolList[0].protocolPersons[personIndex].protocolPersonRole.commentsDetailsRequired}" />
 <c:set var="readOnly" value="${!KualiForm.personnelHelper.modifyPersonnel}" />
-
 <table cellpadding=0 cellspacing=0 summary="">
 	<tr>
 		<td>

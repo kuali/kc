@@ -31,9 +31,14 @@
     <c:if test="${status.first}">
       <c:set var="transparent" value="true" />
     </c:if> 
-    	<c:set var="descri" value="${person.protocolPersonRole.description}" />
+    <c:set var="descri" value="${person.protocolPersonRole.description}" />
 	<c:set var="personIndex" value="${status.index}" />
-	<kul:tab tabTitle="${fn:substring(person.personName, 0, 22)}"
+    <c:set var="displayCoiDisclosureStatus" value="${KualiForm.displayCoiDisclosureStatus}" />
+    <c:if test="${displayCoiDisclosureStatus}">
+        <c:set var="descri" value="${descri}<br><b>COI Status:</b>${KualiForm.document.protocolList[0].protocolPersons[personIndex].disclosureStatus}" />
+    </c:if>
+
+    <kul:tab tabTitle="${fn:substring(person.personName, 0, 22)} "
 			 tabErrorKey="document.protocolList[0].protocolPersons[${personIndex}].*"
 			 auditCluster="personnelAuditErrors" 
 			 tabAuditKey="document.protocolList[0].protocolPersons[${personIndex}].*" 
@@ -50,6 +55,7 @@
 				<h3>
 					<span class="subhead-left"><bean:write name="KualiForm" property="${protocolPersonProperty}.personName"/></span>
 				</h3>
+
 				<kra-irb:personDetailsSection personIndex="${status.index}" protocolPerson="${protocolPersonProperty}"/>
 				<kra-irb:personContactInformationSection personIndex="${status.index}" protocolPerson="${protocolPersonProperty}"/>
   				<kra-irb:personAttachmentSection personIndex="${status.index}" protocolPerson="${protocolPersonProperty}"/> 
