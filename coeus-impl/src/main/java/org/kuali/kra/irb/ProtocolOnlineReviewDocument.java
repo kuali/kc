@@ -22,7 +22,6 @@ package org.kuali.kra.irb;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.committee.impl.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
-import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.controller.KcHoldingPageConstants;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.RolePersons;
@@ -59,7 +58,7 @@ import java.util.List;
  * Also we have provided convenient getter and setter methods so that to the outside world;
  * Protocol and ProtocolDocument can have a 1:1 relationship.
  */
-@NAMESPACE(namespace=Constants.MODULE_NAMESPACE_PROTOCOL)
+@NAMESPACE(namespace=Constants.MODULE_NAMESPACE_IRB)
 @COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
 public class ProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocumentBase { 
 	

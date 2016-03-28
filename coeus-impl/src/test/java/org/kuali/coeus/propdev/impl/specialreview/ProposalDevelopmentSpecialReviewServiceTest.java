@@ -91,7 +91,7 @@ public class ProposalDevelopmentSpecialReviewServiceTest {
 		context.checking(new Expectations() {
 			{
 				oneOf(parameterService).getParameterValueAsBoolean(
-								Constants.MODULE_NAMESPACE_PROTOCOL,
+								Constants.MODULE_NAMESPACE_IRB,
 								Constants.PARAMETER_COMPONENT_DOCUMENT,
 								Constants.PROTOCOL_DEVELOPMENT_PROPOSAL_LINKING_ENABLED_PARAMETER);
 				will(returnValue(true));
@@ -101,7 +101,7 @@ public class ProposalDevelopmentSpecialReviewServiceTest {
 								Constants.PROPOSAL_DEVELOPMENT_CREATE_IRB_PROTOCOL_ENABLED_PARAMETER);
 				will(returnValue(true));
 				allowing(parameterService).getParameterValueAsBoolean(
-								Constants.MODULE_NAMESPACE_PROTOCOL,
+								Constants.MODULE_NAMESPACE_IRB,
 								Constants.PARAMETER_COMPONENT_DOCUMENT,
 								Constants.PROTOCOL_DEVELOPMENT_PROPOSAL_LINKING_ENABLED_PARAMETER);
 				will(returnValue(true));
@@ -143,7 +143,7 @@ public class ProposalDevelopmentSpecialReviewServiceTest {
 								Constants.PROPOSAL_DEVELOPMENT_CREATE_IACUC_PROTOCOL_ENABLED_PARAMETER);
 				will(returnValue(true));
 				oneOf(parameterService).getParameterValueAsBoolean(
-								Constants.MODULE_NAMESPACE_PROTOCOL,
+								Constants.MODULE_NAMESPACE_IRB,
 								Constants.PARAMETER_COMPONENT_DOCUMENT,
 								Constants.PROTOCOL_DEVELOPMENT_PROPOSAL_LINKING_ENABLED_PARAMETER);
 				will(returnValue(true));
@@ -178,7 +178,7 @@ public class ProposalDevelopmentSpecialReviewServiceTest {
 		context.checking(new Expectations() {
 			{
 				oneOf(parameterService).getParameterValueAsBoolean(
-								Constants.MODULE_NAMESPACE_PROTOCOL,
+								Constants.MODULE_NAMESPACE_IRB,
 								Constants.PARAMETER_COMPONENT_DOCUMENT,
 								Constants.PROTOCOL_DEVELOPMENT_PROPOSAL_LINKING_ENABLED_PARAMETER);
 				will(returnValue(true));
@@ -223,7 +223,7 @@ public class ProposalDevelopmentSpecialReviewServiceTest {
 		context.checking(new Expectations() {
 			{
 				oneOf(parameterService).getParameterValueAsBoolean(
-								Constants.MODULE_NAMESPACE_PROTOCOL,
+								Constants.MODULE_NAMESPACE_IRB,
 								Constants.PARAMETER_COMPONENT_DOCUMENT,
 								Constants.PROTOCOL_DEVELOPMENT_PROPOSAL_LINKING_ENABLED_PARAMETER);
 				will(returnValue(true));
@@ -257,7 +257,7 @@ public class ProposalDevelopmentSpecialReviewServiceTest {
 		context.checking(new Expectations() {
 			{
 				oneOf(parameterService).getParameterValueAsBoolean(
-								Constants.MODULE_NAMESPACE_PROTOCOL,
+								Constants.MODULE_NAMESPACE_IRB,
 								Constants.PARAMETER_COMPONENT_DOCUMENT,
 								Constants.PROTOCOL_DEVELOPMENT_PROPOSAL_LINKING_ENABLED_PARAMETER);
 				will(returnValue(true));

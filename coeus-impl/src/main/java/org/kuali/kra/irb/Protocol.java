@@ -345,7 +345,7 @@ public class Protocol extends ProtocolBase implements CustomDataContainer {
     }
     
     public String getNamespace() {
-        return Constants.MODULE_NAMESPACE_PROTOCOL;
+        return Constants.MODULE_NAMESPACE_IRB;
     }
 
     @Override

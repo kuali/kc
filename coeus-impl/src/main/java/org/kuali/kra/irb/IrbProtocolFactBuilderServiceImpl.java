@@ -46,7 +46,7 @@ public class IrbProtocolFactBuilderServiceImpl extends KcKrmsFactBuilderServiceH
     public void addFacts(Facts.Builder factsBuilder, KrmsRulesContext document) {
         ProtocolDocument  protocolDocument = (ProtocolDocument)document;
         Protocol protocol = protocolDocument.getProtocol();
-        addObjectMembersAsFacts(factsBuilder,protocol,KcKrmsConstants.IrbProtocol.IRB_PROTOCOL_CONTEXT_ID,Constants.MODULE_NAMESPACE_PROTOCOL);
+        addObjectMembersAsFacts(factsBuilder,protocol,KcKrmsConstants.IrbProtocol.IRB_PROTOCOL_CONTEXT_ID,Constants.MODULE_NAMESPACE_IRB);
         factsBuilder.addFact(KcKrmsConstants.IrbProtocol.IRB_PROTOCOL, protocol);
         factsBuilder.addFact(QuestionnaireConstants.MODULE_CODE, CoeusModule.IRB_MODULE_CODE);
         factsBuilder.addFact(QuestionnaireConstants.MODULE_ITEM_KEY, protocol.getProtocolNumber());

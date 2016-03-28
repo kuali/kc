@@ -38,7 +38,7 @@ public class IrbCommitteeIdByUnitValuesFinderServiceImpl extends CommitteeIdByUn
 
     @Override
     protected String getAssignCommitteePermissionNamespaceHook() {
-        return Constants.MODULE_NAMESPACE_PROTOCOL;
+        return Constants.MODULE_NAMESPACE_IRB;
     }
 
     @Override

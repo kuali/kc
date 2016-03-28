@@ -76,6 +76,6 @@ public class ProtocolPersonnelServiceImpl extends ProtocolPersonnelServiceImplBa
 
 	@Override
 	protected boolean isDuplicatePersonAllowed() {
-		return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROTOCOL, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.IRB_PROTOCOL_DUPLICATE_PERSON_ENABLED);
+		return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_IRB, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.IRB_PROTOCOL_DUPLICATE_PERSON_ENABLED);
 	}
 }

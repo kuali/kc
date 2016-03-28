@@ -111,7 +111,7 @@ public class ReviewCommentsServiceImpl extends ReviewCommentsServiceImplBase<Pro
 
     @Override
     protected String getNamespaceHook() {
-        return Constants.MODULE_NAMESPACE_PROTOCOL;
+        return Constants.MODULE_NAMESPACE_IRB;
     }
 
     @Override

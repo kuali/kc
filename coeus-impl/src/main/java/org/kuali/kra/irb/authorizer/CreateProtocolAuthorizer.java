@@ -32,6 +32,6 @@ public class CreateProtocolAuthorizer extends TaskAuthorizerBase {
 
     @Override
     public boolean isAuthorized(String userId, Task task) {
-        return hasUnitPermission(userId, Constants.MODULE_NAMESPACE_PROTOCOL, PermissionConstants.CREATE_PROTOCOL);
+        return hasUnitPermission(userId, Constants.MODULE_NAMESPACE_IRB, PermissionConstants.CREATE_PROTOCOL);
     }
 }

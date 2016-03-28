@@ -67,7 +67,7 @@ public class ProtocolActionsCorrespondence extends ProtocolActionsCorrespondence
 
     @Override
     protected String getModuleNameSpace() {
-        return Constants.MODULE_NAMESPACE_PROTOCOL;
+        return Constants.MODULE_NAMESPACE_IRB;
     }    
 
 }

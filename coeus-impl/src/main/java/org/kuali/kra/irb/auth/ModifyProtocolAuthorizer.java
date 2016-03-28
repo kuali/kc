@@ -44,7 +44,7 @@ public class ModifyProtocolAuthorizer extends ProtocolAuthorizer {
             
             // We have to consider the case when we are saving the protocol for the first time.
             
-            hasPermission = hasUnitPermission(userId, Constants.MODULE_NAMESPACE_PROTOCOL, PermissionConstants.CREATE_PROTOCOL);
+            hasPermission = hasUnitPermission(userId, Constants.MODULE_NAMESPACE_IRB, PermissionConstants.CREATE_PROTOCOL);
         } 
         else {
             /*

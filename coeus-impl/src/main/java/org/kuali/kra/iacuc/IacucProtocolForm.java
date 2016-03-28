@@ -371,6 +371,11 @@ public class IacucProtocolForm extends ProtocolFormBase {
         return retVal;
     }
 
+    @Override
+    protected String getModuleName() {
+        return Constants.MODULE_NAMESPACE_IACUC;
+    }
+
     public String getShortUrl() {
         return  getBaseShortUrl() + "/kc-common/iacuc-protocols/" + getIacucProtocolDocument().getProtocol().getProtocolNumber();
     }

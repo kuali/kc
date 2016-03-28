@@ -396,7 +396,12 @@ public class ProtocolForm extends ProtocolFormBase {
         retVal.add(Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME);
         return retVal;
     }
-    
+
+    @Override
+    protected String getModuleName() {
+        return Constants.MODULE_NAMESPACE_IRB;
+    }
+
     public boolean isReinitializeModifySubmissionFields() {
         return reinitializeModifySubmissionFields;
     }

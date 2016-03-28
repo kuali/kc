@@ -30,7 +30,7 @@ public interface RoleConstants {
     public static final String PROPOSAL_ROLE_TYPE = Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT;
     public static final String OSP_ROLE_TYPE = "KC-ADM";
     public static final String DEPARTMENT_ROLE_TYPE = "KC-UNT";
-    public static final String PROTOCOL_ROLE_TYPE = Constants.MODULE_NAMESPACE_PROTOCOL;
+    public static final String PROTOCOL_ROLE_TYPE = Constants.MODULE_NAMESPACE_IRB;
     public static final String PROTOCOL_DOC_ROLE_TYPE = Constants.MODULE_DOC_ROLE_NAMESPACE_PROTOCOL;
     public static final String AWARD_ROLE_TYPE = Constants.MODULE_NAMESPACE_AWARD;
     public static final String NEGOTIATION_ROLE_TYPE = Constants.MODULE_NAMESPACE_NEGOTIATION;

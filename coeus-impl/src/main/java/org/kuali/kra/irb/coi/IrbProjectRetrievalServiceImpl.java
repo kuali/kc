@@ -41,7 +41,7 @@ public class IrbProjectRetrievalServiceImpl extends AbstractMultiSponsorProjectR
         final Project project = new Project();
         project.setTitle(rs.getString(1));
         project.setTypeCode(ProjectTypeCode.IRB_PROTOCOL.getId());
-        project.setSourceSystem(Constants.MODULE_NAMESPACE_PROTOCOL);
+        project.setSourceSystem(Constants.MODULE_NAMESPACE_IRB);
         project.setSourceIdentifier(rs.getString(2));
         project.setSourceStatus(rs.getString(3));
         project.setStartDate(rs.getDate(4));
@@ -53,7 +53,7 @@ public class IrbProjectRetrievalServiceImpl extends AbstractMultiSponsorProjectR
     @Override
     protected ProjectPerson toProjectPerson(ResultSet rs) throws SQLException {
         final ProjectPerson person = new ProjectPerson();
-        person.setSourceSystem(Constants.MODULE_NAMESPACE_PROTOCOL);
+        person.setSourceSystem(Constants.MODULE_NAMESPACE_IRB);
         person.setSourceIdentifier(rs.getString(1));
         final String personId = rs.getString(2);
         final String rolodexId = rs.getString(3);
@@ -67,7 +67,7 @@ public class IrbProjectRetrievalServiceImpl extends AbstractMultiSponsorProjectR
     @Override
     protected ProjectSponsor toProjectSponsor(ResultSet rs) throws SQLException {
         final ProjectSponsor sponsor = new ProjectSponsor();
-        sponsor.setSourceSystem(Constants.MODULE_NAMESPACE_PROTOCOL);
+        sponsor.setSourceSystem(Constants.MODULE_NAMESPACE_IRB);
         sponsor.setSourceIdentifier(rs.getString(1));
         sponsor.setSponsorCode(rs.getString(2));
         sponsor.setSponsorName(rs.getString(3));
