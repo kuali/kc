@@ -24,27 +24,25 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.beanutils.WrapDynaBean;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 import com.codiform.moo.Moo;
 import com.codiform.moo.configuration.Configuration;
 import com.codiform.moo.curry.Translate;
 
-public class SimpleCrudDtoRestController<T extends PersistableBusinessObject, R> extends SimpleCrudRestControllerBase<T, R> {
+public class SimpleCrudDtoRestController<T, R> extends SimpleCrudRestControllerBase<T, R> {
 
 	private static final String CLASS = "class";
 
 	private Class<R> dtoObjectClazz;
 
 	@Override
-	protected Object getPropertyFromIncomingObject(String propertyName, Object dataObject) {
+	protected Object getPropertyValueFromDto(String propertyName, Object dataObject) {
 		try {
 			return PropertyUtils.getProperty(dataObject, propertyName);
 		} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
@@ -53,28 +51,15 @@ public class SimpleCrudDtoRestController<T extends PersistableBusinessObject, R>
 	}
 	
 	@Override
-	protected Collection<R> translateAllDataObjects(Collection<T> dataObjects) {
-		final Collection<R> dtos = Translate.to(dtoObjectClazz).fromEach(dataObjects);
-		dtos.forEach(this::setPrimaryKeyField);
-		return dtos;
-	}
-	
-	@Override
-	protected R convertDataObject(T dataObject) {
+	protected R convertDataObjectToDto(T dataObject) {
 		final R dto = Translate.to(dtoObjectClazz).from(dataObject);
 		setPrimaryKeyField(dto);
 
 		return dto;
 	}
 
-	protected void setPrimaryKeyField(R dto) {
-		if (dto instanceof PrimaryKeyDto) {
-			((PrimaryKeyDto) dto).set_primaryKey(primaryKeyToString(getPrimaryKeyIncomingObject(dto)));
-		}
-	}
-
 	@Override
-	protected T translateInputToDataObject(R input) {
+	protected T convertDtoToDataObject(R input) {
 		Configuration mooConfig = new Configuration();
 		mooConfig.setSourcePropertiesRequired(false);
 		Moo moo = new Moo(mooConfig);
@@ -84,7 +69,7 @@ public class SimpleCrudDtoRestController<T extends PersistableBusinessObject, R>
 	}
 
 	@Override
-	protected void updateDataObjectFromInput(T existingDataObject, R input) {
+	protected void updateDataObjectFromDto(T existingDataObject, R input) {
 		Configuration mooConfig = new Configuration();
 		mooConfig.setSourcePropertiesRequired(false);
 		Moo moo = new Moo(mooConfig);
@@ -106,14 +91,6 @@ public class SimpleCrudDtoRestController<T extends PersistableBusinessObject, R>
 				.collect(Collectors.toList());
 	}
 
-	public Class<R> getDtoObjectClazz() {
-		return dtoObjectClazz;
-	}
-
-	public void setDtoObjectClazz(Class<R> dtoObjectClazz) {
-		this.dtoObjectClazz = dtoObjectClazz;
-	}
-
 	@Override
 	protected List<String> getListOfTrackedProperties() {
 		try {
@@ -127,13 +104,9 @@ public class SimpleCrudDtoRestController<T extends PersistableBusinessObject, R>
 		}
 	}
 
-	protected boolean isPrimaryKeyDto() {
-		return PrimaryKeyDto.class.isAssignableFrom(dtoObjectClazz);
-	}
-
 	@Override
 	@SuppressWarnings("unchecked")
-	protected R objectToDto(Object o) {
+	protected R convertObjectToDto(Object o) {
 		if (dtoObjectClazz.isAssignableFrom(o.getClass())) {
 			return (R) o;
 		} else if (o instanceof Map){
@@ -148,5 +121,23 @@ public class SimpleCrudDtoRestController<T extends PersistableBusinessObject, R>
 		} else {
 			throw new RuntimeException("unknown dto type " + o.getClass().getName());
 		}
+	}
+
+	protected boolean isPrimaryKeyDto() {
+		return PrimaryKeyDto.class.isAssignableFrom(dtoObjectClazz);
+	}
+
+	protected void setPrimaryKeyField(R dto) {
+		if (dto instanceof PrimaryKeyDto) {
+			((PrimaryKeyDto) dto).set_primaryKey(primaryKeyToString(getPrimaryKeyIncomingObject(dto)));
+		}
+	}
+
+	public Class<R> getDtoObjectClazz() {
+		return dtoObjectClazz;
+	}
+
+	public void setDtoObjectClazz(Class<R> dtoObjectClazz) {
+		this.dtoObjectClazz = dtoObjectClazz;
 	}
 }
