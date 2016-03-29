@@ -39,7 +39,7 @@ public class ModifyCommitteeAuthorizer extends ModifyCommitteeAuthorizerBase {
 
     @Override
     protected String getModuleNamespaceCodeHook() {
-        return Constants.MODULE_NAMESPACE_PROTOCOL;
+        return Constants.MODULE_NAMESPACE_IRB;
     }
 
     @Override

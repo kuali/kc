@@ -37,7 +37,7 @@ public class IrbProtocolRulesEngineExecutorImpl  extends KcRulesEngineExecuter {
     
     public EngineResults performExecute(RouteContext routeContext, Engine engine) {
         Map<String, String> contextQualifiers = new HashMap<String, String>();
-        contextQualifiers.put("namespaceCode", Constants.MODULE_NAMESPACE_PROTOCOL);
+        contextQualifiers.put("namespaceCode", Constants.MODULE_NAMESPACE_IRB);
         contextQualifiers.put("name", KcKrmsConstants.IrbProtocol.IRB_PROTOCOL_CONTEXT);
 
         // extract facts from routeContext

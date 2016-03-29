@@ -51,7 +51,7 @@ import java.util.List;
  * Also we have provided convenient getter and setter methods so that to the outside world;
  * ProtocolBase and ProtocolDocumentBase can have a 1:1 relationship.
  */
-@NAMESPACE(namespace=Constants.MODULE_NAMESPACE_PROTOCOL)
+@NAMESPACE(namespace=Constants.MODULE_NAMESPACE_IRB)
 @COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
 public abstract class ProtocolOnlineReviewDocumentBase extends KcTransactionalDocumentBase implements Copyable, SessionDocument {
 	

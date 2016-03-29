@@ -126,7 +126,7 @@ public abstract class ProtocolAuthorizerTestBase extends KcIntegrationTestBase {
         final UnitAuthorizationService service = context.mock(UnitAuthorizationService.class);
         
         context.checking(new Expectations() {{
-            allowing(service).hasPermission(USERNAME, Constants.MODULE_NAMESPACE_PROTOCOL, permissionConstant); 
+            allowing(service).hasPermission(USERNAME, Constants.MODULE_NAMESPACE_IRB, permissionConstant);
             will(returnValue(hasPermission));
         }});
         

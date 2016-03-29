@@ -20,6 +20,8 @@ package org.kuali.kra.protocol.personnel;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.coi.framework.DisclosureProjectStatus;
+import org.kuali.coeus.coi.framework.DisclosureStatusRetrievalService;
 import org.kuali.coeus.common.framework.person.editable.PersonEditable;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
@@ -201,6 +203,8 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
     private Integer citizenshipTypeCode;
     
     private transient boolean affiliationTypeCodeChanged = false;
+    private transient DisclosureStatusRetrievalService disclosureStatusRetrievalService;
+
 
     public ProtocolPersonBase() {
         this.protocolUnits = new ArrayList<ProtocolUnitBase>();
@@ -1082,5 +1086,22 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
 	public void setCitizenshipTypeCode(Integer citizenshipTypeCode) {
 		this.citizenshipTypeCode = citizenshipTypeCode;
 	}
+
+    public String getDisclosureStatus() {
+        DisclosureStatusRetrievalService disclosureStatusRetrievalService = getDisclosureStatusRetrievalService();
+        DisclosureProjectStatus projectStatus =  disclosureStatusRetrievalService.getDisclosureStatusForPerson(getModuleNamespace(),
+                getProtocol().getProtocolId().toString(),
+                getPersonId());
+        return projectStatus.getStatus();
+    }
+
+    protected abstract String getModuleNamespace();
+
+    protected DisclosureStatusRetrievalService getDisclosureStatusRetrievalService() {
+        if (disclosureStatusRetrievalService == null) {
+            disclosureStatusRetrievalService = KcServiceLocator.getService(DisclosureStatusRetrievalService.class);
+        }
+        return disclosureStatusRetrievalService;
+    }
 
 }

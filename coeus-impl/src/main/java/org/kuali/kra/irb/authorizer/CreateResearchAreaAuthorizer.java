@@ -27,7 +27,7 @@ public class CreateResearchAreaAuthorizer extends TaskAuthorizerBase {
 
     @Override
     public boolean isAuthorized(String userId, Task task) {
-        boolean retVal = hasUnitPermission(userId, Constants.MODULE_NAMESPACE_PROTOCOL, PermissionConstants.MAINTAIN_AREA_OF_RESEARCH);
+        boolean retVal = hasUnitPermission(userId, Constants.MODULE_NAMESPACE_IRB, PermissionConstants.MAINTAIN_AREA_OF_RESEARCH);
         return retVal;
     }
 }

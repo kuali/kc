@@ -52,7 +52,7 @@ public class Committee extends CommitteeBase<Committee, CommitteeDocument, Commi
 
     @Override
     protected String getModuleNamespaceCodeHook() {
-        return Constants.MODULE_NAMESPACE_PROTOCOL;
+        return Constants.MODULE_NAMESPACE_IRB;
     }
 
 }

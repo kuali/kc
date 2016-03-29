@@ -31,7 +31,7 @@ public class IrbPersonSignatureServiceImpl extends PersonSignatureServiceImpl im
 
     @Override
     protected String getModuleNameSpaceHook() {
-        return Constants.MODULE_NAMESPACE_PROTOCOL;
+        return Constants.MODULE_NAMESPACE_IRB;
     }
 
 

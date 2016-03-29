@@ -26,7 +26,7 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 public class IrbBatchCorrespondenceXmlStream extends BatchCorrespondenceXmlStreamBase {
 	
 	  public String getRenewalReminderCorrespondenceTypesParamValues() {
-		  return getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_PROTOCOL, ParameterConstants.DOCUMENT_COMPONENT, ComplianceConstants.IRB_RENEWAL_REMINDER_CORRESP_TYPES);
+		  return getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_IRB, ParameterConstants.DOCUMENT_COMPONENT, ComplianceConstants.IRB_RENEWAL_REMINDER_CORRESP_TYPES);
 	  }
 
 }

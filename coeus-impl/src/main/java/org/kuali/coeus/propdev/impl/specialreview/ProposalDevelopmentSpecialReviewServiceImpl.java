@@ -145,7 +145,7 @@ public class ProposalDevelopmentSpecialReviewServiceImpl implements ProposalDeve
     
     @Override
     public boolean isIrbLinkingEnabled() {
-    	return isProtocolLinkEnabled(Constants.MODULE_NAMESPACE_PROTOCOL, Constants.PROTOCOL_DEVELOPMENT_PROPOSAL_LINKING_ENABLED_PARAMETER);
+    	return isProtocolLinkEnabled(Constants.MODULE_NAMESPACE_IRB, Constants.PROTOCOL_DEVELOPMENT_PROPOSAL_LINKING_ENABLED_PARAMETER);
     }
 
     @Override

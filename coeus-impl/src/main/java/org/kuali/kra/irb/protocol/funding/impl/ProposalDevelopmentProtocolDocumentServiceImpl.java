@@ -94,7 +94,7 @@ public class ProposalDevelopmentProtocolDocumentServiceImpl
 
     @Override
     protected String getProtocolNameSpaceHook() {
-        return Constants.MODULE_NAMESPACE_PROTOCOL;
+        return Constants.MODULE_NAMESPACE_IRB;
     }
 
     @Override
@@ -109,7 +109,7 @@ public class ProposalDevelopmentProtocolDocumentServiceImpl
 
     @Override
     protected String getCreateProposalPermissionNamespaceHook() {
-        return Constants.MODULE_NAMESPACE_PROTOCOL;
+        return Constants.MODULE_NAMESPACE_IRB;
     }
 
     @Override

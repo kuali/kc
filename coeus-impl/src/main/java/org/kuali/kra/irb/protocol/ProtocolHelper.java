@@ -158,7 +158,7 @@ public class ProtocolHelper extends ProtocolHelperBase {
     }
         
     protected boolean getProtocolProposalDevelopmentLinkingHook() {
-        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROTOCOL, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.PROTOCOL_DEVELOPMENT_PROPOSAL_LINKING_ENABLED_PARAMETER);
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_IRB, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.PROTOCOL_DEVELOPMENT_PROPOSAL_LINKING_ENABLED_PARAMETER);
     }
 
     @Override

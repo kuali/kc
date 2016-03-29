@@ -377,7 +377,7 @@ public class MedusaServiceImpl implements MedusaService {
         }
         if (irbLinkingName != null) {
             result.put(SpecialReviewType.HUMAN_SUBJECTS, 
-                    getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROTOCOL, Constants.PARAMETER_COMPONENT_DOCUMENT, irbLinkingName));
+                    getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_IRB, Constants.PARAMETER_COMPONENT_DOCUMENT, irbLinkingName));
         } else {
             result.put(SpecialReviewType.HUMAN_SUBJECTS, Boolean.FALSE);
         }

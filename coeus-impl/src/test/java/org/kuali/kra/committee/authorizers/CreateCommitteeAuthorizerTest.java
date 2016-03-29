@@ -50,7 +50,7 @@ public class CreateCommitteeAuthorizerTest {
         
         final UnitAuthorizationService unitAuthorizationService = context.mock(UnitAuthorizationService.class);
         context.checking(new Expectations() {{
-            one(unitAuthorizationService).hasPermission(USERNAME, Constants.MODULE_NAMESPACE_PROTOCOL, PermissionConstants.ADD_COMMITTEE); will(returnValue(true));
+            one(unitAuthorizationService).hasPermission(USERNAME, Constants.MODULE_NAMESPACE_IRB, PermissionConstants.ADD_COMMITTEE); will(returnValue(true));
         }});
         authorizer.setUnitAuthorizationService(unitAuthorizationService);
         
@@ -64,7 +64,7 @@ public class CreateCommitteeAuthorizerTest {
         
         final UnitAuthorizationService unitAuthorizationService = context.mock(UnitAuthorizationService.class);
         context.checking(new Expectations() {{
-            one(unitAuthorizationService).hasPermission(USERNAME, Constants.MODULE_NAMESPACE_PROTOCOL, PermissionConstants.ADD_COMMITTEE); will(returnValue(false));
+            one(unitAuthorizationService).hasPermission(USERNAME, Constants.MODULE_NAMESPACE_IRB, PermissionConstants.ADD_COMMITTEE); will(returnValue(false));
         }});
         authorizer.setUnitAuthorizationService(unitAuthorizationService);
         

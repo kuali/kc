@@ -45,6 +45,7 @@ import org.kuali.coeus.common.questionnaire.framework.core.QuestionableFormInter
 import org.kuali.coeus.common.framework.custom.CustomDataDocumentForm;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
@@ -505,5 +506,17 @@ public abstract class ProtocolFormBase extends KcTransactionalDocumentFormBase i
     public boolean getDisplayEditButton() {
         return !getProtocolDocument().getProtocol().isRenewalWithoutAmendment();
     }
-    
+
+    public boolean getDisplayCoiDisclosureStatus() {
+        return getParameterService().getParameterValueAsBoolean(getModuleName(),
+               Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ENABLE_DISCLOSURE_STATUS_FROM_COI_MODULE);
+    }
+
+    protected abstract String getModuleName();
+
+    public ParameterService getParameterService() {
+        return KcServiceLocator.getService(ParameterService.class);
+    }
+
+
 }
