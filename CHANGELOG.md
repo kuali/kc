@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1603.52
 * RESKC-1165, RESKC-1048: Adding Coi disclosure status to IRB and IACUC protocol persons.
 
   * As a researcher or admin responsible for a protocol, I can see the COI disclosure status of project person to determine if the protocol can be approved as is or or if project personnel need to disclose to proceed.
