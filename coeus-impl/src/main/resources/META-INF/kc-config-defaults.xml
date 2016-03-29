@@ -211,6 +211,8 @@
 	<param name="connection.pool.impl">Bitronix</param>
 	 
 	<param name="rice.portal.allowed.regex" override="false">^(${application.url}|${rice.server.url})(/.*|)</param>
+	<param name="rice.backLocation.allowed.regex">^(${application.url}|${rice.server.url}|${appserver.url})[^@]*</param>
+	<param name="rice.backLocation.default.url" override="false">${application.url}</param>
 	<param name="kc.config.verifier.hard.error">true</param>
 	
 	<!-- Flyway Properties -->
