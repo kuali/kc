@@ -1,6 +1,25 @@
 
 
 ##CURRENT
+* RESKC-1165, RESKC-1048: Adding Coi disclosure status to IRB and IACUC protocol persons.
+
+  * As a researcher or admin responsible for a protocol, I can see the COI disclosure status of project person to determine if the protocol can be approved as is or or if project personnel need to disclose to proceed.
+  * General Acceptance Criteria:
+  * Configurable in monolith so it is only displayed in a module if desired by the school.
+  * For each project person, display the latest status of the annual disclosure that includes that project.
+  * if the project is not on annual yet, display "Not yet disclosed"
+  * if a project is not required to disclose display "Disclosure Not Required"
+  * Acceptance Criteria:
+  * Admin can configure IRB to link with new COI module
+  * COI disclosure status for protocol project persons displays in IRB protocol based new module
+  * Design: display "COI Disclosure Status: [status]" in Person header
+  * Gayathri Athreya on Mon, 28 Mar 2016 14:24:36 -0700 [View Commit](../../commit/2cd0b68c303d7aa70958cf8e5f776fa8aa5e90cf)
+* Fix bug whereby un-qualified perms on KC Superuser role were ignored due to qualified role
+  * blackcathacker on Tue, 29 Mar 2016 09:23:58 -0700 [View Commit](../../commit/271b07d21eaf0a7ffb1779b065e9d605fa1b19a8)
+* RESKC-1165: Constant rename.
+  * Gayathri Athreya on Mon, 28 Mar 2016 10:25:26 -0700 [View Commit](../../commit/3c8a81ed9fa2d2d346b2b70fd95601e9037ca5d4)
+
+##coeus-1603.50
 * No Changes
 
 
