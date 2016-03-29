@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1111:Bring in Rice change to process peopleflow by priority
+  * blackcathacker on Tue, 29 Mar 2016 14:08:12 -0700 [View Commit](../../commit/fad323dcf525725931b06392b6d8cc96b5137c0e)
+
+##coeus-1603.53
 * No Changes
 
 
