@@ -117,7 +117,7 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
 	            		        <nobr>${protocolAction.createUser}</nobr>
 	            		    </td>
 	            		    <td class="infoline">
-	            		        <nobr>${protocolAction.createTimestamp}</nobr>
+                                <fmt:formatDate value="${protocolAction.createTimestamp}" pattern="MM/dd/yyyy KK:mm a" />
 	            		    </td>
 	            		</tr>
 	            		
