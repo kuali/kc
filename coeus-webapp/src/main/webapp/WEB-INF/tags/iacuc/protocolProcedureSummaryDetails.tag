@@ -34,41 +34,33 @@
 </c:if>
 
 	<kul:innerTab tabTitle="Summary" parentTab="${parentTabName}" defaultOpen="true" tabErrorKey="" useCurrentTabIndexAsKey="true">
-		<h3>
-  			<span class="subhead-left">View Summary by : </span>
-	        <span class="subhead-left">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-	        <span class="subhead-left">
+  			<b>View Summary by : </b>
 			    <html:image property="methodToCall.summaryByGroup" title="Summary by group"
 					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-group.gif' styleClass="tinybutton"/>
-	        </span>
-	        <span class="subhead-left">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-	        <span class="subhead-left">
 			    <html:image property="methodToCall.summaryBySpecies" title="Summary by species"
 					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-species.gif' styleClass="tinybutton"/>
-	        </span>
-	        <span class="subhead-left">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-	        <span class="subhead-left">
+            <br>
 	        	<c:out value="${currentSummaryDisplay}"/>
-	        </span>
-  			<span class="subhead-right"><kul:help parameterNamespace="KC-IACUC" parameterDetailType="Document" parameterName="iacucProtocolProcedureSummaryHelp" altText="Help"/></span>
-     	</h3>
-		<c:forEach items="${KualiForm.document.protocolList[0].iacucProtocolStudyGroupSpeciesList}" var="procedureSpecies" varStatus="status">
-			<c:set var="tabTitle" value="${procedureSpecies.iacucSpecies.speciesName}" />
-			<c:set var="studyProcedureCollectionReference" value="${procedureSpecies.responsibleProcedures}" />
-			<c:set var="totalSpeciesCount" value="${procedureSpecies.totalSpeciesCount}" />
-  			<c:choose>
-  				<c:when test="${summaryBySpecies}">
-					<c:set var="tabTitle" value="${procedureSpecies.iacucSpecies.speciesName}" />
-  				</c:when>
-  				<c:otherwise>
+  			<span class="subhead-right"><kul:help parameterNamespace="KC-IACUC" parameterDetailType="Document"
+                                                  parameterName="iacucProtocolProcedureSummaryHelp" altText="Help"/>
+            </span>
+		    <c:forEach items="${KualiForm.document.protocolList[0].iacucProtocolStudyGroupSpeciesList}" var="procedureSpecies" varStatus="status">
+			    <c:set var="tabTitle" value="${procedureSpecies.iacucSpecies.speciesName}" />
+			    <c:set var="studyProcedureCollectionReference" value="${procedureSpecies.responsibleProcedures}" />
+			    <c:set var="totalSpeciesCount" value="${procedureSpecies.totalSpeciesCount}" />
+  			    <c:choose>
+  				    <c:when test="${summaryBySpecies}">
+					    <c:set var="tabTitle" value="${procedureSpecies.iacucSpecies.speciesName}" />
+  				    </c:when>
+  				    <c:otherwise>
 						<c:set var="tabTitle" value="${procedureSpecies.groupAndSpecies}" />
-  				</c:otherwise>
-  			</c:choose>
- 			<kra-iacuc:procedureSummaryGrouped
- 				groupIndex="${status.index}"
-            	tabTitle="${tabTitle}"
-            	totalSpeciesCount="${totalSpeciesCount}"
-                studyProcedureCollectionReference="${studyProcedureCollectionReference}"/>
-		</c:forEach>
+  				    </c:otherwise>
+  			    </c:choose>
+ 			    <kra-iacuc:procedureSummaryGrouped
+ 				    groupIndex="${status.index}"
+            	    tabTitle="${tabTitle}"
+            	    totalSpeciesCount="${totalSpeciesCount}"
+                    studyProcedureCollectionReference="${studyProcedureCollectionReference}"/>
+		    </c:forEach>
 	</kul:innerTab>
 
