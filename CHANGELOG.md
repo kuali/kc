@@ -1,6 +1,23 @@
 
 
 ##CURRENT
+* RESKC-28: Reskinned iacuc procedures.
+
+  * IACUC procedures summary screen needs UI clean up. Lines and labels are overlapping data and buttons. It is not really readable.
+  * To reproduce:
+  * Create IACUC protocol
+  * Enter Data required to save
+  * Go to Species/Groups tab
+  * Add a couple of groups with different species
+  * Save
+  * Go to Procedures Tab
+  * In Procedure Details panel in procedures subpanel, Check some Procedures categories
+  * Assign the procedures to the Groups, Add
+  * Save
+  * Got to Summary subpanel
+  * Gayathri Athreya on Wed, 30 Mar 2016 11:02:53 -0700 [View Commit](../../commit/7eda5f8b181bbab4781ca29750bfb44bcd2dc322)
+
+##coeus-1603.55
 * RESKC-1224: Fix time display on protocol history.
   * Gayathri Athreya on Tue, 29 Mar 2016 13:08:01 -0700 [View Commit](../../commit/54ed0fcdf87ed0a39c4eb599c0fe45f2e094ea32)
 
