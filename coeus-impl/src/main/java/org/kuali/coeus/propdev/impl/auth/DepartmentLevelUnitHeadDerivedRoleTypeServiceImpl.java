@@ -32,7 +32,7 @@ public class DepartmentLevelUnitHeadDerivedRoleTypeServiceImpl extends ProposalA
 	private String unitAdministratorTypeCode;
 	
 	@Override
-	protected String getUnitAdministratorTypeCode(Map<String, String> qualifications) {
+	protected String getUnitAdministratorTypeCode(Map<String, String> qualifications, String roleName) {
 		return getUnitAdministratorTypeCode();
 	}
 

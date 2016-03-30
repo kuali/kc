@@ -173,6 +173,11 @@
           p:localServiceName="collegeLevelUnitHeadDerivedRoleTypeService"
           p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
           
+    <bean id="genericUnitAdminDerivedRoleTypeServiceCallback" parent="kcCoreCallbackService"
+          p:callbackService-ref="genericUnitAdminDerivedRoleTypeService"
+          p:localServiceName="genericUnitAdminDerivedRoleTypeService"
+          p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>          
+          
     <bean id= "proposalPeopleFlowTypeServiceCallback" parent="kcCoreCallbackService"
           p:callbackService-ref="proposalPeopleFlowTypeService"
           p:localServiceName="proposalPeopleFlowTypeService"
