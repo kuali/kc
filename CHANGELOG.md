@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1224: Fix time display on protocol history.
+  * Gayathri Athreya on Tue, 29 Mar 2016 13:08:01 -0700 [View Commit](../../commit/54ed0fcdf87ed0a39c4eb599c0fe45f2e094ea32)
+
+##coeus-1603.54
 * RESKC-1111:Bring in Rice change to process peopleflow by priority
   * blackcathacker on Tue, 29 Mar 2016 14:08:12 -0700 [View Commit](../../commit/fad323dcf525725931b06392b6d8cc96b5137c0e)
 
