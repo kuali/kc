@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-1240: Fix for merging amendment back to original protocol after the response approval.
+  * It was not checking for RESPONSE_APPROVAL action type code while finiding last approval action. The check for GRANT_EXEMPTION was also not right. Fixed both issues by adding those action type codes in the lastApprovalAction method
+  * Geo Thomas on Thu, 31 Mar 2016 13:31:01 -0400 [View Commit](../../commit/51a89a6b255bff56bcdf9f12f5485601046517a6)
+
+##coeus-1603.58
 * RESKC-1236: adding ability to generate an api blueprint file.
   * Travis Schneeberger on Thu, 31 Mar 2016 10:19:59 -0400 [View Commit](../../commit/ca0bfd4acc00d266a080410c13924cae25eb73e4)
 * RESKC-1236: cleanup generic rest api logic
