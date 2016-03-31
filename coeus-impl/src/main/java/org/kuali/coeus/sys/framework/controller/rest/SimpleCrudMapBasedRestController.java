@@ -32,7 +32,6 @@ import org.springframework.beans.TypeMismatchException;
 
 public class SimpleCrudMapBasedRestController<T> extends SimpleCrudRestControllerBase<T, Map<String, Object>> {
 
-	private static final String SYNTHETIC_FIELD_PK = "_primaryKey";
 	private static final Collection<String> IGNORED_FIELDS = Stream.of("versionNumber", "objectId", "updateUser", "updateTimestamp").collect(Collectors.toList());
 
 	private List<String> exposedProperties;

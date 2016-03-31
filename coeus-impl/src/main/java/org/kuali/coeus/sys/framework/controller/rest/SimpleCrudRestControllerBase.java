@@ -18,14 +18,21 @@
  */
 package org.kuali.coeus.sys.framework.controller.rest;
 
+import java.io.IOException;
 import java.lang.reflect.Modifier;
+import java.nio.charset.Charset;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.validation.Valid;
+import javax.xml.namespace.QName;
 
 import com.google.common.base.CaseFormat;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.WordUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.sys.framework.config.KcConfigurer;
 import org.kuali.coeus.sys.framework.controller.rest.audit.RestAuditLogger;
 import org.kuali.coeus.sys.framework.controller.rest.audit.RestAuditLoggerFactory;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
@@ -38,6 +45,7 @@ import org.kuali.coeus.sys.framework.validation.ErrorHandlingUtilService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.kim.bo.KcKimAttributes;
+import org.kuali.rice.core.framework.config.module.ModuleConfigurer;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.krad.data.CompoundKey;
 import org.kuali.rice.krad.service.DictionaryValidationService;
@@ -46,9 +54,13 @@ import org.kuali.rice.krad.util.MessageMap;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.TypeMismatchException;
+import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
@@ -56,11 +68,13 @@ import org.springframework.web.bind.annotation.*;
 import static org.kuali.coeus.sys.framework.util.CollectionUtils.entriesToMap;
 import static org.kuali.coeus.sys.framework.util.CollectionUtils.entry;
 
-public abstract class SimpleCrudRestControllerBase<T, R> extends RestController implements InitializingBean {
+public abstract class SimpleCrudRestControllerBase<T, R> extends RestController implements InitializingBean, BeanNameAware {
 
 	private static final String DELIMETER = ":";
 	private static final String ALLOW_MULTI_PARM = "_allowMulti";
 	private static final String SCHEMA_PARM = "_schema";
+	private static final String BLUEPRINT_PARM = "_blueprint";
+	protected static final String SYNTHETIC_FIELD_PK = "_primaryKey";
 
 	@Autowired
 	@Qualifier("legacyDataAdapter")
@@ -93,6 +107,17 @@ public abstract class SimpleCrudRestControllerBase<T, R> extends RestController 
 	@Autowired
 	@Qualifier("autoRegisterMapping")
 	private RestSimpleUrlHandlerMapping autoRegisterMapping;
+
+	@Value("classpath:org/kuali/coeus/sys/framework/controller/rest/SimpleCrudRestControllerBlueprintTemplate.md")
+	private Resource blueprintTemplate;
+
+	//this is all of the module configurers for the kc monolith.  It is used to get the base servlet path for the
+	//module this bean belongs to.  Set this as object type so spring doesn't try to do special Collection wiring
+	@Autowired
+	@Qualifier("moduleConfigurers")
+	private Object moduleConfigurers;
+
+	private String beanName;
 
 	private boolean registerMapping = true;
 
@@ -141,6 +166,25 @@ public abstract class SimpleCrudRestControllerBase<T, R> extends RestController 
 			throw new ResourceNotFoundException("not found for key " + code);
 		}
 		return convertDataObjectToDto(dataObject);
+	}
+
+	@RequestMapping(method=RequestMethod.GET, params={BLUEPRINT_PARM})
+	public @ResponseBody Resource getBlueprint() {
+		assertUserHasReadAccess();
+
+		String templateText;
+		try {
+			templateText = IOUtils.toString(blueprintTemplate.getInputStream(), "UTF-8"); ;
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		templateText = templateText.replaceAll("\\$\\{resourceName\\}", WordUtils.capitalizeFully(CaseFormat.UPPER_CAMEL.converterTo(CaseFormat.LOWER_HYPHEN).convert(this.getCamelCasePluralName()).replaceAll("-", " ")));
+		templateText = templateText.replaceAll("\\$\\{endpoint\\}", "/" + getModuleMapping() + getPath());
+		templateText = templateText.replaceAll("\\$\\{sampleKey\\}", "(key)");
+		templateText = templateText.replaceAll("\\$\\{sampleMatchCriteria\\}", getListOfTrackedProperties().stream().collect(Collectors.joining("\n            + ", "+ ", "\n")));
+		templateText = templateText.replaceAll("\\$\\{sampleResource1\\}", Stream.concat(getExposedProperties().stream(), Stream.of(SYNTHETIC_FIELD_PK)).collect(Collectors.joining("\": \"(val)\",\"", "{\"", "\": \"(val)\"}")));
+		templateText = templateText.replaceAll("\\$\\{sampleResource2\\}", Stream.concat(getExposedProperties().stream(), Stream.of(SYNTHETIC_FIELD_PK)).collect(Collectors.joining("\": \"(val)\",\"", "{\"", "\": \"(val)\"}")));
+		return new ByteArrayResource(templateText.getBytes(Charset.forName("UTF-8")));
 	}
 
 	@RequestMapping(value="/{code}", method=RequestMethod.PUT)
@@ -195,6 +239,7 @@ public abstract class SimpleCrudRestControllerBase<T, R> extends RestController 
 	}
 
 	@RequestMapping(method=RequestMethod.DELETE, params={ALLOW_MULTI_PARM})
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteAll(@RequestParam(required=false) Map<String,String> parameters) {
 		assertUserHasWriteAccess();
 		doGetAll(parameters).stream().forEach(this::doDelete);
@@ -475,6 +520,20 @@ public abstract class SimpleCrudRestControllerBase<T, R> extends RestController 
 		}
 	}
 
+	//this is a very roundabout way to get module path.  A better approach is preferred.
+	private String getModuleMapping() {
+		final KcConfigurer configurer = getModuleConfigurers().stream()
+				.filter(mc -> mc instanceof KcConfigurer)
+				.map(mc -> (KcConfigurer) mc)
+				.filter(mc -> mc.getRootResourceLoader().getService(new QName(getBeanName())) != null)
+				.findFirst().get();
+		return configurer.getDispatchServletMappings().stream().filter(mapping -> !mapping.contains("krad")).findFirst().get();
+	}
+
+	private String getPath() {
+		return "/api/v1/" + (CaseFormat.UPPER_CAMEL.converterTo(CaseFormat.LOWER_HYPHEN).convert(this.getCamelCasePluralName()) + "/");
+	}
+
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		if (Modifier.isAbstract(dataObjectClazz.getModifiers())) {
@@ -510,14 +569,12 @@ public abstract class SimpleCrudRestControllerBase<T, R> extends RestController 
 		}
 
 		if (isRegisterMapping() && autoRegisterMapping != null) {
-			final String path = "/api/v1/" + (CaseFormat.UPPER_CAMEL.converterTo(CaseFormat.LOWER_HYPHEN).convert(this.getCamelCasePluralName()) + "/*");
-
-			autoRegisterMapping.setUrlMap(Collections.singletonMap(path, this));
+			final String path = getPath() + "*";
+			autoRegisterMapping.setUrlMap(Collections.singletonMap(getPath(), this));
 			autoRegisterMapping.registerHandler(path, this);
 		}
 
 		beanWrapper = new BeanWrapperImpl(dataObjectClazz);
-
 	}
 
 	public PermissionService getPermissionService() {
@@ -675,5 +732,22 @@ public abstract class SimpleCrudRestControllerBase<T, R> extends RestController 
 
 	public void setAutoRegisterMapping(RestSimpleUrlHandlerMapping autoRegisterMapping) {
 		this.autoRegisterMapping = autoRegisterMapping;
+	}
+
+	public Collection<ModuleConfigurer> getModuleConfigurers() {
+		return (Collection<ModuleConfigurer>) moduleConfigurers;
+	}
+
+	public void setModuleConfigurers(Collection<ModuleConfigurer> moduleConfigurers) {
+		this.moduleConfigurers = moduleConfigurers;
+	}
+
+	public String getBeanName() {
+		return beanName;
+	}
+
+	@Override
+	public void setBeanName(String beanName) {
+		this.beanName = beanName;
 	}
 }

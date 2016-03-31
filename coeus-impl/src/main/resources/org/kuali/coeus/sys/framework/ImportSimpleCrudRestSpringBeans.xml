@@ -34,6 +34,9 @@
     <!-- this spring file is meant to be imported into other modules as needed -->
 
     <bean id="grlImporter" abstract="true" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+    <bean id="ccImporter" abstract="true" class="org.kuali.coeus.sys.framework.service.ConfigContextConfigObjectFactoryBean" p:singleton="true" p:mustExist="true" />
+
+    <bean id="moduleConfigurers" parent="ccImporter" p:objectName="ModuleConfigurers" />
 
     <bean id="autoRegisterMapping" class="org.kuali.coeus.sys.framework.controller.rest.RestSimpleUrlHandlerMapping" />
     <bean id="simpleCrudMapBasedRestController" class="org.kuali.coeus.sys.framework.controller.rest.SimpleCrudMapBasedRestController" abstract="true" />
