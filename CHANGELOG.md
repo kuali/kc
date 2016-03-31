@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* RESKC-1235:Upgrade Rice to bring in backlocation security fix
+  * blackcathacker on Tue, 29 Mar 2016 09:10:20 -0700 [View Commit](../../commit/c5504417b6946d0f0f2c323c7cddf64587642711)
+* RESKC-1242:Create generic unit admin derived role
+
+  * The new generic kim type will qualify the unit administrators by the unit admin type whose description matches the role name. This will allow easier configuration of new unit admin types and plugging them into Peopleflow.
+  * blackcathacker on Tue, 29 Mar 2016 18:22:19 -0700 [View Commit](../../commit/238870112ee608da4d50e0c8a90c02306bfdda96)
+
+##coeus-1603.56
 * RESKC-28: Reskinned iacuc procedures.
 
   * IACUC procedures summary screen needs UI clean up. Lines and labels are overlapping data and buttons. It is not really readable.
