@@ -19,7 +19,7 @@
 package org.kuali.coeus.common.framework.custom.attr;
 
 import org.kuali.coeus.common.api.custom.attr.CustomAttributeDocumentContract;
-import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.kra.bo.KraSortablePersistableBusinessObjectBase;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
 
@@ -27,7 +27,7 @@ import org.kuali.rice.kew.doctype.bo.DocumentType;
  *
  * This class bo of CustomAttributeDocument.
  */
-public class CustomAttributeDocument extends KcPersistableBusinessObjectBase implements MutableInactivatable, CustomAttributeDocumentContract {
+public class CustomAttributeDocument extends KraSortablePersistableBusinessObjectBase implements MutableInactivatable, CustomAttributeDocumentContract {
 
     private Long id;
 
@@ -43,7 +43,6 @@ public class CustomAttributeDocument extends KcPersistableBusinessObjectBase imp
 
     private boolean active;
 
-    private Integer sortId;
 
     public CustomAttributeDocument() {
         super();
@@ -110,8 +109,5 @@ public class CustomAttributeDocument extends KcPersistableBusinessObjectBase imp
     public void setDocumentType(DocumentType documentType) {
         this.documentType = documentType;
     }
-
-    public Integer getSortId() { return sortId; }
-
-    public void setSortId(Integer sortId) { this.sortId = sortId; }
+    
 }
