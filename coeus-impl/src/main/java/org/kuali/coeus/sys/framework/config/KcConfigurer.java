@@ -148,7 +148,7 @@ public class KcConfigurer extends ModuleConfigurer {
         this.filtersToMap = filtersToMap;
     }
 
-    protected ResourceLoader getRootResourceLoader() {
+    public ResourceLoader getRootResourceLoader() {
         return rootResourceLoader;
     }
 
@@ -187,5 +187,10 @@ public class KcConfigurer extends ModuleConfigurer {
 	public void setMapFilters(boolean mapFilters) {
 		this.mapFilters = mapFilters;
 	}
+
+    @Override
+    public ServletContext getServletContext() {
+        return super.getServletContext();
+    }
 
 }

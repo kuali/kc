@@ -95,7 +95,7 @@ public class SimpleCrudRestControllerTest {
     static class TestSimpleCrudRestController extends SimpleCrudRestControllerBase<TestBo, Map<String, Object>> {
 
         @Override
-        protected Object getPropertyFromIncomingObject(String propertyName, Map<String, Object> dataObject) {
+        protected Object getPropertyValueFromDto(String propertyName, Map<String, Object> dataObject) {
             return null;
         }
 
@@ -110,13 +110,13 @@ public class SimpleCrudRestControllerTest {
         }
 
         @Override
-        protected Map<String, Object> convertDataObject(TestBo dataObject) {
+        protected Map<String, Object> convertDataObjectToDto(TestBo dataObject) {
             return null;
         }
 
         @SuppressWarnings("unchecked")
         @Override
-        protected Map<String, Object> objectToDto(Object o) {
+        protected Map<String, Object> convertObjectToDto(Object o) {
             return (Map<String, Object>) o;
         }
 
@@ -126,12 +126,12 @@ public class SimpleCrudRestControllerTest {
         }
 
         @Override
-        protected TestBo translateInputToDataObject(Map<String, Object> input) {
+        protected TestBo convertDtoToDataObject(Map<String, Object> input) {
             return null;
         }
 
         @Override
-        protected void updateDataObjectFromInput(TestBo existingDataObject, Map<String, Object> input) {
+        protected void updateDataObjectFromDto(TestBo existingDataObject, Map<String, Object> input) {
 
         }
     }

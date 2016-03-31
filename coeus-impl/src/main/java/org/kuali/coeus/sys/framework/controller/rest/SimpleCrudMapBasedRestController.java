@@ -24,68 +24,70 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.apache.commons.beanutils.DynaBean;
-import org.apache.commons.beanutils.WrapDynaBean;
 import org.kuali.coeus.sys.framework.rest.UnprocessableEntityException;
 import org.kuali.coeus.sys.framework.util.CollectionUtils;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
+import org.springframework.beans.TypeMismatchException;
 
-public class SimpleCrudMapBasedRestController<T extends PersistableBusinessObject> extends SimpleCrudRestControllerBase<T, Map<String, Object>> {
+public class SimpleCrudMapBasedRestController<T> extends SimpleCrudRestControllerBase<T, Map<String, Object>> {
 
-	protected static final String SYNTHETIC_FIELD_PK = "_primaryKey";
 	private static final Collection<String> IGNORED_FIELDS = Stream.of("versionNumber", "objectId", "updateUser", "updateTimestamp").collect(Collectors.toList());
 
 	private List<String> exposedProperties;
 
 	@Override
-	protected Object getPropertyFromIncomingObject(String propertyName, Map<String, Object> dataObject) {
+	protected Object getPropertyValueFromDto(String propertyName, Map<String, Object> dataObject) {
 		return dataObject.get(propertyName);
 	}
 
 	@Override
-	protected Collection<Map<String, Object>> translateAllDataObjects(Collection<T> dataObjects) {
-		 return dataObjects.stream()
-			.map(WrapDynaBean::new)
-			.map(this::createMapFromPropsOnBean)
-			.collect(Collectors.toList());
-	}
-
-	@Override
-	protected Map<String, Object> convertDataObject(T dataObject) {
-		DynaBean dynaBean = new WrapDynaBean(dataObject);
-		return createMapFromPropsOnBean(dynaBean);
-	}
-	
-	protected Map<String, Object> createMapFromPropsOnBean(DynaBean dynaBean) {
-		final Map<String, Object> map = getExposedProperties().stream()
-				.map(name -> CollectionUtils.entry(name, dynaBean.get(name)))
-				.collect(CollectionUtils.nullSafeEntriesToMap());
-        map.put(SYNTHETIC_FIELD_PK, primaryKeyToString(getPrimaryKeyIncomingObject(map)));
-		return map;
+	protected Map<String, Object> convertDataObjectToDto(T dataObject) {
+		BeanWrapper beanWrapper = new BeanWrapperImpl(dataObject);
+		return createMapFromPropsOnBean(beanWrapper);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	protected T translateInputToDataObject(Map<String, Object> input) {
+	protected T convertDtoToDataObject(Map<String, Object> input) {
 		T newDataObject = this.getNewDataObject();
-		WrapDynaBean dynaBean = new WrapDynaBean(newDataObject);
+		BeanWrapper beanWrapper = new BeanWrapperImpl(newDataObject);
 		try {
-			getExposedProperties().forEach(name -> dynaBean.set(name, input.get(name)));
-		} catch (IllegalArgumentException e) {
+			getExposedProperties().forEach(name -> beanWrapper.setPropertyValue(name, input.get(name)));
+		} catch (TypeMismatchException e) {
 			throw new UnprocessableEntityException(e.getMessage());
 		}
-		return (T) dynaBean.getInstance();
+		return (T) beanWrapper.getWrappedInstance();
 	}
 
 	@Override
-	protected void updateDataObjectFromInput(T existingDataObject,
+	protected void updateDataObjectFromDto(T existingDataObject,
 			Map<String, Object> input) {
-		WrapDynaBean dynaBean = new WrapDynaBean(existingDataObject);
+		BeanWrapper beanWrapper = new BeanWrapperImpl(existingDataObject);
 		try {
-			getExposedProperties().forEach(name -> dynaBean.set(name, input.get(name)));
-		} catch (IllegalArgumentException e) {
+			getExposedProperties().forEach(name -> beanWrapper.setPropertyValue(name, input.get(name)));
+		} catch (TypeMismatchException e) {
 			throw new UnprocessableEntityException(e.getMessage());
 		}
+	}
+
+	@Override
+	protected List<String> getListOfTrackedProperties() {
+		return getExposedProperties().stream().filter(p -> !SYNTHETIC_FIELD_PK.equals(p)).collect(Collectors.toList());
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	protected Map<String, Object> convertObjectToDto(Object o) {
+		return (Map<String, Object>) o;
+	}
+
+	protected Map<String, Object> createMapFromPropsOnBean(BeanWrapper dynaBean) {
+		final Map<String, Object> map = getExposedProperties().stream()
+				.map(name -> CollectionUtils.entry(name, dynaBean.getPropertyValue(name)))
+				.collect(CollectionUtils.nullSafeEntriesToMap());
+		map.put(SYNTHETIC_FIELD_PK, primaryKeyToString(getPrimaryKeyIncomingObject(map)));
+		return map;
 	}
 
 	public List<String> getExposedProperties() {
@@ -104,16 +106,5 @@ public class SimpleCrudMapBasedRestController<T extends PersistableBusinessObjec
 		final List<String> fields = getPersistenceVerificationService().persistableFields(getDataObjectClazz());
 
 		return fields.stream().filter(field -> !IGNORED_FIELDS.contains(field)).collect(Collectors.toList());
-	}
-
-	@Override
-	protected List<String> getListOfTrackedProperties() {
-		return getExposedProperties().stream().filter(p -> !SYNTHETIC_FIELD_PK.equals(p)).collect(Collectors.toList());
-	}
-
-	@Override
-	@SuppressWarnings("unchecked")
-	protected Map<String, Object> objectToDto(Object o) {
-		return (Map<String, Object>) o;
 	}
 }
