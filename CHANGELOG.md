@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* RESKC-1236: adding ability to generate an api blueprint file.
+  * Travis Schneeberger on Thu, 31 Mar 2016 10:19:59 -0400 [View Commit](../../commit/ca0bfd4acc00d266a080410c13924cae25eb73e4)
+* RESKC-1236: cleanup generic rest api logic
+  * Travis Schneeberger on Mon, 28 Mar 2016 14:42:28 -0400 [View Commit](../../commit/f97b953531ad5a78f40cb143c51a162824011feb)
+
+##coeus-1603.57
 * RESKC-1235:Upgrade Rice to bring in backlocation security fix
   * blackcathacker on Tue, 29 Mar 2016 09:10:20 -0700 [View Commit](../../commit/c5504417b6946d0f0f2c323c7cddf64587642711)
 * RESKC-1242:Create generic unit admin derived role
