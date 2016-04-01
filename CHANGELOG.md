@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1248: fix null point when displaying COI status
+  * Joe Williams on Fri, 1 Apr 2016 13:04:43 -0500 [View Commit](../../commit/3f611927bd2e12ee9ee42cb6335474496a7d0917)
+
+##coeus-1604.2
 * RESKC-1227: Question 149 is not entered properly. It is a child of Q 5.
             It is supposed to be a child of Q6.
             With this set-up, if user answers Yes - stem cells will be used, they MUST enter cell lines in Q149, else the questionnaire will not update to Complete.
