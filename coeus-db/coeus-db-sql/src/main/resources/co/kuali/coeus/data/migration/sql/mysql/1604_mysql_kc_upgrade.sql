@@ -21,4 +21,5 @@
 \. ./kc/bootstrap/V1604_004__RESKC-1048.sql
 \. ./kc/bootstrap/V1604_005__RESKC-1165.sql
 \. ./kc/bootstrap/V1604_006__RESKC-1224.sql
+\. ./kc/bootstrap/V1604_008__fix_questionnaire_for_form.sql
 commit;

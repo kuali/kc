@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* RESKC-1227: Question 149 is not entered properly. It is a child of Q 5.
+            It is supposed to be a child of Q6.
+            With this set-up, if user answers Yes - stem cells will be used, they MUST enter cell lines in Q149, else the questionnaire will not update to Complete.
+  * Travis Schneeberger on Thu, 31 Mar 2016 15:40:14 -0400 [View Commit](../../commit/7712b8e2391ff4c7c506e3a75035e3f8feba2e86)
+
+##coeus-1604.1
 * No Changes
 
 
