@@ -1,18 +1,9 @@
 ## Awards [/award/api/v1/awards/]
 
-Kuali Research Awards providing Post Award management
-
-### Awards Summary [GET /award/api/v1/awards/?summary{&updatedSince=1446630596000&limit=50&page=8}]
-
-Summary of Awards
-
-+ Parameters
-	+ summary: (boolean, required) - Renders the awards in a summary view instead of the full data from the award. Currently the only option and required. 
-	+ updatedSince: `1446630596000` (date, optional) - Criteria to restrict the awards returned to those updated since the date specified. Formatted as milliseconds since epoch.
-	+ limit: `50` (number, optional) - Number of results to return. If not included, all awards matching the date, if specified, are returned.
-	+ page: `8` (number, optional) - If a limit is specified this determines what page of the result set will be returned on this request.
-
+### Get Awards by Key [GET /award/api/v1/awards/(key)]
+	 
 + Request
+
     + Headers
 
             Authorization: Bearer {api-key}
@@ -24,73 +15,319 @@ Summary of Awards
             Content-Type: application/json;charset=UTF-8
 
     + Body
+    
+            {"awardNumber": "(val)","sequenceNumber": "(val)","sponsorCode": "(val)","statusCode": "(val)","templateCode": "(val)","accountNumber": "(val)","approvedEquipmentIndicator": "(val)","approvedForeignTripIndicator": "(val)","subContractIndicator": "(val)","awardEffectiveDate": "(val)","awardExecutionDate": "(val)","beginDate": "(val)","costSharingIndicator": "(val)","indirectCostIndicator": "(val)","modificationNumber": "(val)","nsfCode": "(val)","paymentScheduleIndicator": "(val)","scienceCodeIndicator": "(val)","specialReviewIndicator": "(val)","sponsorAwardNumber": "(val)","transferSponsorIndicator": "(val)","accountTypeCode": "(val)","activityTypeCode": "(val)","awardTypeCode": "(val)","primeSponsorCode": "(val)","awardId": "(val)","basisOfPaymentCode": "(val)","cfdaNumber": "(val)","documentFundingId": "(val)","methodOfPaymentCode": "(val)","preAwardAuthorizedAmount": "(val)","preAwardEffectiveDate": "(val)","preAwardInstitutionalAuthorizedAmount": "(val)","preAwardInstitutionalEffectiveDate": "(val)","procurementPriorityCode": "(val)","proposalNumber": "(val)","specialEbRateOffCampus": "(val)","specialEbRateOnCampus": "(val)","subPlanFlag": "(val)","title": "(val)","archiveLocation": "(val)","closeoutDate": "(val)","awardTransactionTypeCode": "(val)","noticeDate": "(val)","unitNumber": "(val)","financialAccountDocumentNumber": "(val)","financialAccountCreationDate": "(val)","financialChartOfAccountsCode": "(val)","syncChild": "(val)","awardSequenceStatus": "(val)","fainId": "(val)","fedAwardYear": "(val)","fedAwardDate": "(val)","_primaryKey": "(val)"}
 
-			{
-			   "count" : 1,
-			   "awards" : [
-			   	{
-			         "awardId" : 2238,
-			         "awardNumber" : "999901-00001",
-			         "sequenceNumber": 1,
-			         "accountNumber" : "0211401",
-			         "title" : "LOC - by award",
-			         "sponsorAwardNumber" : null,
-			         "modificationNumber" : null,
-			         "cfdaNumber" : "00.000",
-			         "fundingProposals" : [
-				        {
-				          "proposalSequenceNumber": 1,
-				          "awardNumber": "999908-00001",
-				          "awardSequenceNumber": 1,
-				          "awardId": 2511,
-				          "proposalId": 7,
-				          "proposalNumber": "80068"
-				        }
-			         ],
-			         "activityType" : {
-			            "code" : "3",
-			            "description" : "Public Service"
-			         },
-			         "sponsor" : {
-			            "sponsorCode" : "055125",
-			            "sponsorName" : "Kuali LOC Testing3",
-			            "acronym" : null
-			         },
-			         "leadUnit": {
-				        "unitNumber": "000001",
-				        "unitName": "University",
-				        "parentUnitNumber": null,
-				        "organizationId": "000001"
-				      },
-			         "awardStatus" : {
-			            "code" : "1",
-			            "description" : "Active"
-			         },
-			         "principalInvestigator" : {
-			            "emailAddress" : "kcnotification@gmail.com",
-			            "personId" : "10000000002",
-			            "roleCode" : "PI",
-			            "projectRole" : "Principal Investigator",
-			            "fullName" : "Joe  Tester",
-			            "userName" : "jtester",
-				        "person": {
-				          "state": "MA",
-				          "emailAddress": "kcnotification+jtester@gmail.com",
-				          "addressLine2": "",
-				          "firstName": "Joe",
-				          "addressLine3": "",
-				          "lastName": "Tester",
-				          "personId": "10000000002",
-				          "middleName": "",
-				          "userName": "jtester",
-				          "fullName": "Joe Tester",
-				          "city": "Coeus",
-				          "postalCode": "53421",
-				          "addressLine1": "1119 Kuali Drive"
-				        },
-			         }
-			      },
-			   ],
-			   "totalFound" : 112
-			}
+### Get All Awards [GET /award/api/v1/awards/]
+	 
++ Request
 
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
+
++ Response 200
+    + Headers
+
+            Content-Type: application/json;charset=UTF-8
+
+    + Body
+    
+            [
+              {"awardNumber": "(val)","sequenceNumber": "(val)","sponsorCode": "(val)","statusCode": "(val)","templateCode": "(val)","accountNumber": "(val)","approvedEquipmentIndicator": "(val)","approvedForeignTripIndicator": "(val)","subContractIndicator": "(val)","awardEffectiveDate": "(val)","awardExecutionDate": "(val)","beginDate": "(val)","costSharingIndicator": "(val)","indirectCostIndicator": "(val)","modificationNumber": "(val)","nsfCode": "(val)","paymentScheduleIndicator": "(val)","scienceCodeIndicator": "(val)","specialReviewIndicator": "(val)","sponsorAwardNumber": "(val)","transferSponsorIndicator": "(val)","accountTypeCode": "(val)","activityTypeCode": "(val)","awardTypeCode": "(val)","primeSponsorCode": "(val)","awardId": "(val)","basisOfPaymentCode": "(val)","cfdaNumber": "(val)","documentFundingId": "(val)","methodOfPaymentCode": "(val)","preAwardAuthorizedAmount": "(val)","preAwardEffectiveDate": "(val)","preAwardInstitutionalAuthorizedAmount": "(val)","preAwardInstitutionalEffectiveDate": "(val)","procurementPriorityCode": "(val)","proposalNumber": "(val)","specialEbRateOffCampus": "(val)","specialEbRateOnCampus": "(val)","subPlanFlag": "(val)","title": "(val)","archiveLocation": "(val)","closeoutDate": "(val)","awardTransactionTypeCode": "(val)","noticeDate": "(val)","unitNumber": "(val)","financialAccountDocumentNumber": "(val)","financialAccountCreationDate": "(val)","financialChartOfAccountsCode": "(val)","syncChild": "(val)","awardSequenceStatus": "(val)","fainId": "(val)","fedAwardYear": "(val)","fedAwardDate": "(val)","_primaryKey": "(val)"},
+              {"awardNumber": "(val)","sequenceNumber": "(val)","sponsorCode": "(val)","statusCode": "(val)","templateCode": "(val)","accountNumber": "(val)","approvedEquipmentIndicator": "(val)","approvedForeignTripIndicator": "(val)","subContractIndicator": "(val)","awardEffectiveDate": "(val)","awardExecutionDate": "(val)","beginDate": "(val)","costSharingIndicator": "(val)","indirectCostIndicator": "(val)","modificationNumber": "(val)","nsfCode": "(val)","paymentScheduleIndicator": "(val)","scienceCodeIndicator": "(val)","specialReviewIndicator": "(val)","sponsorAwardNumber": "(val)","transferSponsorIndicator": "(val)","accountTypeCode": "(val)","activityTypeCode": "(val)","awardTypeCode": "(val)","primeSponsorCode": "(val)","awardId": "(val)","basisOfPaymentCode": "(val)","cfdaNumber": "(val)","documentFundingId": "(val)","methodOfPaymentCode": "(val)","preAwardAuthorizedAmount": "(val)","preAwardEffectiveDate": "(val)","preAwardInstitutionalAuthorizedAmount": "(val)","preAwardInstitutionalEffectiveDate": "(val)","procurementPriorityCode": "(val)","proposalNumber": "(val)","specialEbRateOffCampus": "(val)","specialEbRateOnCampus": "(val)","subPlanFlag": "(val)","title": "(val)","archiveLocation": "(val)","closeoutDate": "(val)","awardTransactionTypeCode": "(val)","noticeDate": "(val)","unitNumber": "(val)","financialAccountDocumentNumber": "(val)","financialAccountCreationDate": "(val)","financialChartOfAccountsCode": "(val)","syncChild": "(val)","awardSequenceStatus": "(val)","fainId": "(val)","fedAwardYear": "(val)","fedAwardDate": "(val)","_primaryKey": "(val)"}
+            ]
+
+### Get All Awards with Filtering [GET /award/api/v1/awards/]
+	 
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
+    
+    + Parameters
+    
+            + awardNumber
+            + sequenceNumber
+            + sponsorCode
+            + statusCode
+            + templateCode
+            + accountNumber
+            + approvedEquipmentIndicator
+            + approvedForeignTripIndicator
+            + subContractIndicator
+            + awardEffectiveDate
+            + awardExecutionDate
+            + beginDate
+            + costSharingIndicator
+            + indirectCostIndicator
+            + modificationNumber
+            + nsfCode
+            + paymentScheduleIndicator
+            + scienceCodeIndicator
+            + specialReviewIndicator
+            + sponsorAwardNumber
+            + transferSponsorIndicator
+            + accountTypeCode
+            + activityTypeCode
+            + awardTypeCode
+            + primeSponsorCode
+            + awardId
+            + basisOfPaymentCode
+            + cfdaNumber
+            + documentFundingId
+            + methodOfPaymentCode
+            + preAwardAuthorizedAmount
+            + preAwardEffectiveDate
+            + preAwardInstitutionalAuthorizedAmount
+            + preAwardInstitutionalEffectiveDate
+            + procurementPriorityCode
+            + proposalNumber
+            + specialEbRateOffCampus
+            + specialEbRateOnCampus
+            + subPlanFlag
+            + title
+            + archiveLocation
+            + closeoutDate
+            + awardTransactionTypeCode
+            + noticeDate
+            + unitNumber
+            + financialAccountDocumentNumber
+            + financialAccountCreationDate
+            + financialChartOfAccountsCode
+            + syncChild
+            + awardSequenceStatus
+            + fainId
+            + fedAwardYear
+            + fedAwardDate
+ 
+
++ Response 200
+    + Headers
+
+            Content-Type: application/json;charset=UTF-8
+
+    + Body
+    
+            [
+              {"awardNumber": "(val)","sequenceNumber": "(val)","sponsorCode": "(val)","statusCode": "(val)","templateCode": "(val)","accountNumber": "(val)","approvedEquipmentIndicator": "(val)","approvedForeignTripIndicator": "(val)","subContractIndicator": "(val)","awardEffectiveDate": "(val)","awardExecutionDate": "(val)","beginDate": "(val)","costSharingIndicator": "(val)","indirectCostIndicator": "(val)","modificationNumber": "(val)","nsfCode": "(val)","paymentScheduleIndicator": "(val)","scienceCodeIndicator": "(val)","specialReviewIndicator": "(val)","sponsorAwardNumber": "(val)","transferSponsorIndicator": "(val)","accountTypeCode": "(val)","activityTypeCode": "(val)","awardTypeCode": "(val)","primeSponsorCode": "(val)","awardId": "(val)","basisOfPaymentCode": "(val)","cfdaNumber": "(val)","documentFundingId": "(val)","methodOfPaymentCode": "(val)","preAwardAuthorizedAmount": "(val)","preAwardEffectiveDate": "(val)","preAwardInstitutionalAuthorizedAmount": "(val)","preAwardInstitutionalEffectiveDate": "(val)","procurementPriorityCode": "(val)","proposalNumber": "(val)","specialEbRateOffCampus": "(val)","specialEbRateOnCampus": "(val)","subPlanFlag": "(val)","title": "(val)","archiveLocation": "(val)","closeoutDate": "(val)","awardTransactionTypeCode": "(val)","noticeDate": "(val)","unitNumber": "(val)","financialAccountDocumentNumber": "(val)","financialAccountCreationDate": "(val)","financialChartOfAccountsCode": "(val)","syncChild": "(val)","awardSequenceStatus": "(val)","fainId": "(val)","fedAwardYear": "(val)","fedAwardDate": "(val)","_primaryKey": "(val)"},
+              {"awardNumber": "(val)","sequenceNumber": "(val)","sponsorCode": "(val)","statusCode": "(val)","templateCode": "(val)","accountNumber": "(val)","approvedEquipmentIndicator": "(val)","approvedForeignTripIndicator": "(val)","subContractIndicator": "(val)","awardEffectiveDate": "(val)","awardExecutionDate": "(val)","beginDate": "(val)","costSharingIndicator": "(val)","indirectCostIndicator": "(val)","modificationNumber": "(val)","nsfCode": "(val)","paymentScheduleIndicator": "(val)","scienceCodeIndicator": "(val)","specialReviewIndicator": "(val)","sponsorAwardNumber": "(val)","transferSponsorIndicator": "(val)","accountTypeCode": "(val)","activityTypeCode": "(val)","awardTypeCode": "(val)","primeSponsorCode": "(val)","awardId": "(val)","basisOfPaymentCode": "(val)","cfdaNumber": "(val)","documentFundingId": "(val)","methodOfPaymentCode": "(val)","preAwardAuthorizedAmount": "(val)","preAwardEffectiveDate": "(val)","preAwardInstitutionalAuthorizedAmount": "(val)","preAwardInstitutionalEffectiveDate": "(val)","procurementPriorityCode": "(val)","proposalNumber": "(val)","specialEbRateOffCampus": "(val)","specialEbRateOnCampus": "(val)","subPlanFlag": "(val)","title": "(val)","archiveLocation": "(val)","closeoutDate": "(val)","awardTransactionTypeCode": "(val)","noticeDate": "(val)","unitNumber": "(val)","financialAccountDocumentNumber": "(val)","financialAccountCreationDate": "(val)","financialChartOfAccountsCode": "(val)","syncChild": "(val)","awardSequenceStatus": "(val)","fainId": "(val)","fedAwardYear": "(val)","fedAwardDate": "(val)","_primaryKey": "(val)"}
+            ]
+			
+### Get Schema for Awards [GET /award/api/v1/awards/]
+	 
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
+    
+    + Parameters
+
+            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+
++ Response 200
+    + Headers
+
+            Content-Type: application/json;charset=UTF-8
+
+    + Body
+    
+            ${sampleSchema}
+		
+### Get Blueprint API specification for Awards [GET /award/api/v1/awards/]
+	 
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: text/markdown
+    
+    + Parameters
+    
+            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+
++ Response 200
+    + Headers
+
+            Content-Type: text/markdown;charset=UTF-8
+            Content-Disposition:attachment; filename="Awards.md"
+            transfer-encoding:chunked
+
+
+### Update Awards [PUT /award/api/v1/awards/(key)]
+
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}   
+            Content-Type: application/json
+
+    + Body
+    
+            {"awardNumber": "(val)","sequenceNumber": "(val)","sponsorCode": "(val)","statusCode": "(val)","templateCode": "(val)","accountNumber": "(val)","approvedEquipmentIndicator": "(val)","approvedForeignTripIndicator": "(val)","subContractIndicator": "(val)","awardEffectiveDate": "(val)","awardExecutionDate": "(val)","beginDate": "(val)","costSharingIndicator": "(val)","indirectCostIndicator": "(val)","modificationNumber": "(val)","nsfCode": "(val)","paymentScheduleIndicator": "(val)","scienceCodeIndicator": "(val)","specialReviewIndicator": "(val)","sponsorAwardNumber": "(val)","transferSponsorIndicator": "(val)","accountTypeCode": "(val)","activityTypeCode": "(val)","awardTypeCode": "(val)","primeSponsorCode": "(val)","awardId": "(val)","basisOfPaymentCode": "(val)","cfdaNumber": "(val)","documentFundingId": "(val)","methodOfPaymentCode": "(val)","preAwardAuthorizedAmount": "(val)","preAwardEffectiveDate": "(val)","preAwardInstitutionalAuthorizedAmount": "(val)","preAwardInstitutionalEffectiveDate": "(val)","procurementPriorityCode": "(val)","proposalNumber": "(val)","specialEbRateOffCampus": "(val)","specialEbRateOnCampus": "(val)","subPlanFlag": "(val)","title": "(val)","archiveLocation": "(val)","closeoutDate": "(val)","awardTransactionTypeCode": "(val)","noticeDate": "(val)","unitNumber": "(val)","financialAccountDocumentNumber": "(val)","financialAccountCreationDate": "(val)","financialChartOfAccountsCode": "(val)","syncChild": "(val)","awardSequenceStatus": "(val)","fainId": "(val)","fedAwardYear": "(val)","fedAwardDate": "(val)","_primaryKey": "(val)"}
+			
++ Response 204
+
+### Update Multiple Awards [PUT /award/api/v1/awards/]
+
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}   
+            Content-Type: application/json
+
+    + Body
+    
+            [
+              {"awardNumber": "(val)","sequenceNumber": "(val)","sponsorCode": "(val)","statusCode": "(val)","templateCode": "(val)","accountNumber": "(val)","approvedEquipmentIndicator": "(val)","approvedForeignTripIndicator": "(val)","subContractIndicator": "(val)","awardEffectiveDate": "(val)","awardExecutionDate": "(val)","beginDate": "(val)","costSharingIndicator": "(val)","indirectCostIndicator": "(val)","modificationNumber": "(val)","nsfCode": "(val)","paymentScheduleIndicator": "(val)","scienceCodeIndicator": "(val)","specialReviewIndicator": "(val)","sponsorAwardNumber": "(val)","transferSponsorIndicator": "(val)","accountTypeCode": "(val)","activityTypeCode": "(val)","awardTypeCode": "(val)","primeSponsorCode": "(val)","awardId": "(val)","basisOfPaymentCode": "(val)","cfdaNumber": "(val)","documentFundingId": "(val)","methodOfPaymentCode": "(val)","preAwardAuthorizedAmount": "(val)","preAwardEffectiveDate": "(val)","preAwardInstitutionalAuthorizedAmount": "(val)","preAwardInstitutionalEffectiveDate": "(val)","procurementPriorityCode": "(val)","proposalNumber": "(val)","specialEbRateOffCampus": "(val)","specialEbRateOnCampus": "(val)","subPlanFlag": "(val)","title": "(val)","archiveLocation": "(val)","closeoutDate": "(val)","awardTransactionTypeCode": "(val)","noticeDate": "(val)","unitNumber": "(val)","financialAccountDocumentNumber": "(val)","financialAccountCreationDate": "(val)","financialChartOfAccountsCode": "(val)","syncChild": "(val)","awardSequenceStatus": "(val)","fainId": "(val)","fedAwardYear": "(val)","fedAwardDate": "(val)","_primaryKey": "(val)"},
+              {"awardNumber": "(val)","sequenceNumber": "(val)","sponsorCode": "(val)","statusCode": "(val)","templateCode": "(val)","accountNumber": "(val)","approvedEquipmentIndicator": "(val)","approvedForeignTripIndicator": "(val)","subContractIndicator": "(val)","awardEffectiveDate": "(val)","awardExecutionDate": "(val)","beginDate": "(val)","costSharingIndicator": "(val)","indirectCostIndicator": "(val)","modificationNumber": "(val)","nsfCode": "(val)","paymentScheduleIndicator": "(val)","scienceCodeIndicator": "(val)","specialReviewIndicator": "(val)","sponsorAwardNumber": "(val)","transferSponsorIndicator": "(val)","accountTypeCode": "(val)","activityTypeCode": "(val)","awardTypeCode": "(val)","primeSponsorCode": "(val)","awardId": "(val)","basisOfPaymentCode": "(val)","cfdaNumber": "(val)","documentFundingId": "(val)","methodOfPaymentCode": "(val)","preAwardAuthorizedAmount": "(val)","preAwardEffectiveDate": "(val)","preAwardInstitutionalAuthorizedAmount": "(val)","preAwardInstitutionalEffectiveDate": "(val)","procurementPriorityCode": "(val)","proposalNumber": "(val)","specialEbRateOffCampus": "(val)","specialEbRateOnCampus": "(val)","subPlanFlag": "(val)","title": "(val)","archiveLocation": "(val)","closeoutDate": "(val)","awardTransactionTypeCode": "(val)","noticeDate": "(val)","unitNumber": "(val)","financialAccountDocumentNumber": "(val)","financialAccountCreationDate": "(val)","financialChartOfAccountsCode": "(val)","syncChild": "(val)","awardSequenceStatus": "(val)","fainId": "(val)","fedAwardYear": "(val)","fedAwardDate": "(val)","_primaryKey": "(val)"}
+            ]
+			
++ Response 204
+
+### Insert Awards [POST /award/api/v1/awards/]
+
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}   
+            Content-Type: application/json
+
+    + Body
+    
+            {"awardNumber": "(val)","sequenceNumber": "(val)","sponsorCode": "(val)","statusCode": "(val)","templateCode": "(val)","accountNumber": "(val)","approvedEquipmentIndicator": "(val)","approvedForeignTripIndicator": "(val)","subContractIndicator": "(val)","awardEffectiveDate": "(val)","awardExecutionDate": "(val)","beginDate": "(val)","costSharingIndicator": "(val)","indirectCostIndicator": "(val)","modificationNumber": "(val)","nsfCode": "(val)","paymentScheduleIndicator": "(val)","scienceCodeIndicator": "(val)","specialReviewIndicator": "(val)","sponsorAwardNumber": "(val)","transferSponsorIndicator": "(val)","accountTypeCode": "(val)","activityTypeCode": "(val)","awardTypeCode": "(val)","primeSponsorCode": "(val)","awardId": "(val)","basisOfPaymentCode": "(val)","cfdaNumber": "(val)","documentFundingId": "(val)","methodOfPaymentCode": "(val)","preAwardAuthorizedAmount": "(val)","preAwardEffectiveDate": "(val)","preAwardInstitutionalAuthorizedAmount": "(val)","preAwardInstitutionalEffectiveDate": "(val)","procurementPriorityCode": "(val)","proposalNumber": "(val)","specialEbRateOffCampus": "(val)","specialEbRateOnCampus": "(val)","subPlanFlag": "(val)","title": "(val)","archiveLocation": "(val)","closeoutDate": "(val)","awardTransactionTypeCode": "(val)","noticeDate": "(val)","unitNumber": "(val)","financialAccountDocumentNumber": "(val)","financialAccountCreationDate": "(val)","financialChartOfAccountsCode": "(val)","syncChild": "(val)","awardSequenceStatus": "(val)","fainId": "(val)","fedAwardYear": "(val)","fedAwardDate": "(val)","_primaryKey": "(val)"}
+			
++ Response 201
+    
+    + Body
+            
+            {"awardNumber": "(val)","sequenceNumber": "(val)","sponsorCode": "(val)","statusCode": "(val)","templateCode": "(val)","accountNumber": "(val)","approvedEquipmentIndicator": "(val)","approvedForeignTripIndicator": "(val)","subContractIndicator": "(val)","awardEffectiveDate": "(val)","awardExecutionDate": "(val)","beginDate": "(val)","costSharingIndicator": "(val)","indirectCostIndicator": "(val)","modificationNumber": "(val)","nsfCode": "(val)","paymentScheduleIndicator": "(val)","scienceCodeIndicator": "(val)","specialReviewIndicator": "(val)","sponsorAwardNumber": "(val)","transferSponsorIndicator": "(val)","accountTypeCode": "(val)","activityTypeCode": "(val)","awardTypeCode": "(val)","primeSponsorCode": "(val)","awardId": "(val)","basisOfPaymentCode": "(val)","cfdaNumber": "(val)","documentFundingId": "(val)","methodOfPaymentCode": "(val)","preAwardAuthorizedAmount": "(val)","preAwardEffectiveDate": "(val)","preAwardInstitutionalAuthorizedAmount": "(val)","preAwardInstitutionalEffectiveDate": "(val)","procurementPriorityCode": "(val)","proposalNumber": "(val)","specialEbRateOffCampus": "(val)","specialEbRateOnCampus": "(val)","subPlanFlag": "(val)","title": "(val)","archiveLocation": "(val)","closeoutDate": "(val)","awardTransactionTypeCode": "(val)","noticeDate": "(val)","unitNumber": "(val)","financialAccountDocumentNumber": "(val)","financialAccountCreationDate": "(val)","financialChartOfAccountsCode": "(val)","syncChild": "(val)","awardSequenceStatus": "(val)","fainId": "(val)","fedAwardYear": "(val)","fedAwardDate": "(val)","_primaryKey": "(val)"}
+            
+### Insert Multiple Awards [POST /award/api/v1/awards/]
+
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}   
+            Content-Type: application/json
+
+    + Body
+    
+            [
+              {"awardNumber": "(val)","sequenceNumber": "(val)","sponsorCode": "(val)","statusCode": "(val)","templateCode": "(val)","accountNumber": "(val)","approvedEquipmentIndicator": "(val)","approvedForeignTripIndicator": "(val)","subContractIndicator": "(val)","awardEffectiveDate": "(val)","awardExecutionDate": "(val)","beginDate": "(val)","costSharingIndicator": "(val)","indirectCostIndicator": "(val)","modificationNumber": "(val)","nsfCode": "(val)","paymentScheduleIndicator": "(val)","scienceCodeIndicator": "(val)","specialReviewIndicator": "(val)","sponsorAwardNumber": "(val)","transferSponsorIndicator": "(val)","accountTypeCode": "(val)","activityTypeCode": "(val)","awardTypeCode": "(val)","primeSponsorCode": "(val)","awardId": "(val)","basisOfPaymentCode": "(val)","cfdaNumber": "(val)","documentFundingId": "(val)","methodOfPaymentCode": "(val)","preAwardAuthorizedAmount": "(val)","preAwardEffectiveDate": "(val)","preAwardInstitutionalAuthorizedAmount": "(val)","preAwardInstitutionalEffectiveDate": "(val)","procurementPriorityCode": "(val)","proposalNumber": "(val)","specialEbRateOffCampus": "(val)","specialEbRateOnCampus": "(val)","subPlanFlag": "(val)","title": "(val)","archiveLocation": "(val)","closeoutDate": "(val)","awardTransactionTypeCode": "(val)","noticeDate": "(val)","unitNumber": "(val)","financialAccountDocumentNumber": "(val)","financialAccountCreationDate": "(val)","financialChartOfAccountsCode": "(val)","syncChild": "(val)","awardSequenceStatus": "(val)","fainId": "(val)","fedAwardYear": "(val)","fedAwardDate": "(val)","_primaryKey": "(val)"},
+              {"awardNumber": "(val)","sequenceNumber": "(val)","sponsorCode": "(val)","statusCode": "(val)","templateCode": "(val)","accountNumber": "(val)","approvedEquipmentIndicator": "(val)","approvedForeignTripIndicator": "(val)","subContractIndicator": "(val)","awardEffectiveDate": "(val)","awardExecutionDate": "(val)","beginDate": "(val)","costSharingIndicator": "(val)","indirectCostIndicator": "(val)","modificationNumber": "(val)","nsfCode": "(val)","paymentScheduleIndicator": "(val)","scienceCodeIndicator": "(val)","specialReviewIndicator": "(val)","sponsorAwardNumber": "(val)","transferSponsorIndicator": "(val)","accountTypeCode": "(val)","activityTypeCode": "(val)","awardTypeCode": "(val)","primeSponsorCode": "(val)","awardId": "(val)","basisOfPaymentCode": "(val)","cfdaNumber": "(val)","documentFundingId": "(val)","methodOfPaymentCode": "(val)","preAwardAuthorizedAmount": "(val)","preAwardEffectiveDate": "(val)","preAwardInstitutionalAuthorizedAmount": "(val)","preAwardInstitutionalEffectiveDate": "(val)","procurementPriorityCode": "(val)","proposalNumber": "(val)","specialEbRateOffCampus": "(val)","specialEbRateOnCampus": "(val)","subPlanFlag": "(val)","title": "(val)","archiveLocation": "(val)","closeoutDate": "(val)","awardTransactionTypeCode": "(val)","noticeDate": "(val)","unitNumber": "(val)","financialAccountDocumentNumber": "(val)","financialAccountCreationDate": "(val)","financialChartOfAccountsCode": "(val)","syncChild": "(val)","awardSequenceStatus": "(val)","fainId": "(val)","fedAwardYear": "(val)","fedAwardDate": "(val)","_primaryKey": "(val)"}
+            ]
+			
++ Response 201
+    
+    + Body
+            
+            [
+              {"awardNumber": "(val)","sequenceNumber": "(val)","sponsorCode": "(val)","statusCode": "(val)","templateCode": "(val)","accountNumber": "(val)","approvedEquipmentIndicator": "(val)","approvedForeignTripIndicator": "(val)","subContractIndicator": "(val)","awardEffectiveDate": "(val)","awardExecutionDate": "(val)","beginDate": "(val)","costSharingIndicator": "(val)","indirectCostIndicator": "(val)","modificationNumber": "(val)","nsfCode": "(val)","paymentScheduleIndicator": "(val)","scienceCodeIndicator": "(val)","specialReviewIndicator": "(val)","sponsorAwardNumber": "(val)","transferSponsorIndicator": "(val)","accountTypeCode": "(val)","activityTypeCode": "(val)","awardTypeCode": "(val)","primeSponsorCode": "(val)","awardId": "(val)","basisOfPaymentCode": "(val)","cfdaNumber": "(val)","documentFundingId": "(val)","methodOfPaymentCode": "(val)","preAwardAuthorizedAmount": "(val)","preAwardEffectiveDate": "(val)","preAwardInstitutionalAuthorizedAmount": "(val)","preAwardInstitutionalEffectiveDate": "(val)","procurementPriorityCode": "(val)","proposalNumber": "(val)","specialEbRateOffCampus": "(val)","specialEbRateOnCampus": "(val)","subPlanFlag": "(val)","title": "(val)","archiveLocation": "(val)","closeoutDate": "(val)","awardTransactionTypeCode": "(val)","noticeDate": "(val)","unitNumber": "(val)","financialAccountDocumentNumber": "(val)","financialAccountCreationDate": "(val)","financialChartOfAccountsCode": "(val)","syncChild": "(val)","awardSequenceStatus": "(val)","fainId": "(val)","fedAwardYear": "(val)","fedAwardDate": "(val)","_primaryKey": "(val)"},
+              {"awardNumber": "(val)","sequenceNumber": "(val)","sponsorCode": "(val)","statusCode": "(val)","templateCode": "(val)","accountNumber": "(val)","approvedEquipmentIndicator": "(val)","approvedForeignTripIndicator": "(val)","subContractIndicator": "(val)","awardEffectiveDate": "(val)","awardExecutionDate": "(val)","beginDate": "(val)","costSharingIndicator": "(val)","indirectCostIndicator": "(val)","modificationNumber": "(val)","nsfCode": "(val)","paymentScheduleIndicator": "(val)","scienceCodeIndicator": "(val)","specialReviewIndicator": "(val)","sponsorAwardNumber": "(val)","transferSponsorIndicator": "(val)","accountTypeCode": "(val)","activityTypeCode": "(val)","awardTypeCode": "(val)","primeSponsorCode": "(val)","awardId": "(val)","basisOfPaymentCode": "(val)","cfdaNumber": "(val)","documentFundingId": "(val)","methodOfPaymentCode": "(val)","preAwardAuthorizedAmount": "(val)","preAwardEffectiveDate": "(val)","preAwardInstitutionalAuthorizedAmount": "(val)","preAwardInstitutionalEffectiveDate": "(val)","procurementPriorityCode": "(val)","proposalNumber": "(val)","specialEbRateOffCampus": "(val)","specialEbRateOnCampus": "(val)","subPlanFlag": "(val)","title": "(val)","archiveLocation": "(val)","closeoutDate": "(val)","awardTransactionTypeCode": "(val)","noticeDate": "(val)","unitNumber": "(val)","financialAccountDocumentNumber": "(val)","financialAccountCreationDate": "(val)","financialChartOfAccountsCode": "(val)","syncChild": "(val)","awardSequenceStatus": "(val)","fainId": "(val)","fedAwardYear": "(val)","fedAwardDate": "(val)","_primaryKey": "(val)"}
+            ]
+            
+### Delete Awards by Key [DELETE /award/api/v1/awards/(key)]
+	 
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
+
++ Response 204
+
+### Delete All Awards [DELETE /award/api/v1/awards/]
+	 
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
+            
+    + Parameters
+    
+            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
++ Response 204
+
+### Delete All Awards with Matching [DELETE /award/api/v1/awards/]
+	 
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
+            
+    + Parameters
+    
+            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+            + awardNumber
+            + sequenceNumber
+            + sponsorCode
+            + statusCode
+            + templateCode
+            + accountNumber
+            + approvedEquipmentIndicator
+            + approvedForeignTripIndicator
+            + subContractIndicator
+            + awardEffectiveDate
+            + awardExecutionDate
+            + beginDate
+            + costSharingIndicator
+            + indirectCostIndicator
+            + modificationNumber
+            + nsfCode
+            + paymentScheduleIndicator
+            + scienceCodeIndicator
+            + specialReviewIndicator
+            + sponsorAwardNumber
+            + transferSponsorIndicator
+            + accountTypeCode
+            + activityTypeCode
+            + awardTypeCode
+            + primeSponsorCode
+            + awardId
+            + basisOfPaymentCode
+            + cfdaNumber
+            + documentFundingId
+            + methodOfPaymentCode
+            + preAwardAuthorizedAmount
+            + preAwardEffectiveDate
+            + preAwardInstitutionalAuthorizedAmount
+            + preAwardInstitutionalEffectiveDate
+            + procurementPriorityCode
+            + proposalNumber
+            + specialEbRateOffCampus
+            + specialEbRateOnCampus
+            + subPlanFlag
+            + title
+            + archiveLocation
+            + closeoutDate
+            + awardTransactionTypeCode
+            + noticeDate
+            + unitNumber
+            + financialAccountDocumentNumber
+            + financialAccountCreationDate
+            + financialChartOfAccountsCode
+            + syncChild
+            + awardSequenceStatus
+            + fainId
+            + fedAwardYear
+            + fedAwardDate
+
+
++ Response 204

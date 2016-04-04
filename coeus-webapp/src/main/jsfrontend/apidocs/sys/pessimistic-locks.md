@@ -1,0 +1,239 @@
+## Pessimistic Locks [/research-sys/api/v1/pessimistic-locks/]
+
+### Get Pessimistic Locks by Key [GET /research-sys/api/v1/pessimistic-locks/(key)]
+	 
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
+
++ Response 200
+    + Headers
+
+            Content-Type: application/json;charset=UTF-8
+
+    + Body
+    
+            {"id": "(val)","ownedByPrincipalIdentifier": "(val)","lockDescriptor": "(val)","generatedTimestamp": "(val)","documentNumber": "(val)","sessionId": "(val)","_primaryKey": "(val)"}
+
+### Get All Pessimistic Locks [GET /research-sys/api/v1/pessimistic-locks/]
+	 
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
+
++ Response 200
+    + Headers
+
+            Content-Type: application/json;charset=UTF-8
+
+    + Body
+    
+            [
+              {"id": "(val)","ownedByPrincipalIdentifier": "(val)","lockDescriptor": "(val)","generatedTimestamp": "(val)","documentNumber": "(val)","sessionId": "(val)","_primaryKey": "(val)"},
+              {"id": "(val)","ownedByPrincipalIdentifier": "(val)","lockDescriptor": "(val)","generatedTimestamp": "(val)","documentNumber": "(val)","sessionId": "(val)","_primaryKey": "(val)"}
+            ]
+
+### Get All Pessimistic Locks with Filtering [GET /research-sys/api/v1/pessimistic-locks/]
+	 
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
+    
+    + Parameters
+    
+            + id
+            + ownedByPrincipalIdentifier
+            + lockDescriptor
+            + generatedTimestamp
+            + documentNumber
+            + sessionId
+ 
+
++ Response 200
+    + Headers
+
+            Content-Type: application/json;charset=UTF-8
+
+    + Body
+    
+            [
+              {"id": "(val)","ownedByPrincipalIdentifier": "(val)","lockDescriptor": "(val)","generatedTimestamp": "(val)","documentNumber": "(val)","sessionId": "(val)","_primaryKey": "(val)"},
+              {"id": "(val)","ownedByPrincipalIdentifier": "(val)","lockDescriptor": "(val)","generatedTimestamp": "(val)","documentNumber": "(val)","sessionId": "(val)","_primaryKey": "(val)"}
+            ]
+			
+### Get Schema for Pessimistic Locks [GET /research-sys/api/v1/pessimistic-locks/]
+	 
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
+    
+    + Parameters
+
+            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+
++ Response 200
+    + Headers
+
+            Content-Type: application/json;charset=UTF-8
+
+    + Body
+    
+            ${sampleSchema}
+		
+### Get Blueprint API specification for Pessimistic Locks [GET /research-sys/api/v1/pessimistic-locks/]
+	 
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: text/markdown
+    
+    + Parameters
+    
+            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+
++ Response 200
+    + Headers
+
+            Content-Type: text/markdown;charset=UTF-8
+            Content-Disposition:attachment; filename="Pessimistic Locks.md"
+            transfer-encoding:chunked
+
+
+### Update Pessimistic Locks [PUT /research-sys/api/v1/pessimistic-locks/(key)]
+
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}   
+            Content-Type: application/json
+
+    + Body
+    
+            {"id": "(val)","ownedByPrincipalIdentifier": "(val)","lockDescriptor": "(val)","generatedTimestamp": "(val)","documentNumber": "(val)","sessionId": "(val)","_primaryKey": "(val)"}
+			
++ Response 204
+
+### Update Multiple Pessimistic Locks [PUT /research-sys/api/v1/pessimistic-locks/]
+
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}   
+            Content-Type: application/json
+
+    + Body
+    
+            [
+              {"id": "(val)","ownedByPrincipalIdentifier": "(val)","lockDescriptor": "(val)","generatedTimestamp": "(val)","documentNumber": "(val)","sessionId": "(val)","_primaryKey": "(val)"},
+              {"id": "(val)","ownedByPrincipalIdentifier": "(val)","lockDescriptor": "(val)","generatedTimestamp": "(val)","documentNumber": "(val)","sessionId": "(val)","_primaryKey": "(val)"}
+            ]
+			
++ Response 204
+
+### Insert Pessimistic Locks [POST /research-sys/api/v1/pessimistic-locks/]
+
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}   
+            Content-Type: application/json
+
+    + Body
+    
+            {"id": "(val)","ownedByPrincipalIdentifier": "(val)","lockDescriptor": "(val)","generatedTimestamp": "(val)","documentNumber": "(val)","sessionId": "(val)","_primaryKey": "(val)"}
+			
++ Response 201
+    
+    + Body
+            
+            {"id": "(val)","ownedByPrincipalIdentifier": "(val)","lockDescriptor": "(val)","generatedTimestamp": "(val)","documentNumber": "(val)","sessionId": "(val)","_primaryKey": "(val)"}
+            
+### Insert Multiple Pessimistic Locks [POST /research-sys/api/v1/pessimistic-locks/]
+
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}   
+            Content-Type: application/json
+
+    + Body
+    
+            [
+              {"id": "(val)","ownedByPrincipalIdentifier": "(val)","lockDescriptor": "(val)","generatedTimestamp": "(val)","documentNumber": "(val)","sessionId": "(val)","_primaryKey": "(val)"},
+              {"id": "(val)","ownedByPrincipalIdentifier": "(val)","lockDescriptor": "(val)","generatedTimestamp": "(val)","documentNumber": "(val)","sessionId": "(val)","_primaryKey": "(val)"}
+            ]
+			
++ Response 201
+    
+    + Body
+            
+            [
+              {"id": "(val)","ownedByPrincipalIdentifier": "(val)","lockDescriptor": "(val)","generatedTimestamp": "(val)","documentNumber": "(val)","sessionId": "(val)","_primaryKey": "(val)"},
+              {"id": "(val)","ownedByPrincipalIdentifier": "(val)","lockDescriptor": "(val)","generatedTimestamp": "(val)","documentNumber": "(val)","sessionId": "(val)","_primaryKey": "(val)"}
+            ]
+            
+### Delete Pessimistic Locks by Key [DELETE /research-sys/api/v1/pessimistic-locks/(key)]
+	 
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
+
++ Response 204
+
+### Delete All Pessimistic Locks [DELETE /research-sys/api/v1/pessimistic-locks/]
+	 
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
+            
+    + Parameters
+    
+            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
++ Response 204
+
+### Delete All Pessimistic Locks with Matching [DELETE /research-sys/api/v1/pessimistic-locks/]
+	 
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
+            
+    + Parameters
+    
+            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+            + id
+            + ownedByPrincipalIdentifier
+            + lockDescriptor
+            + generatedTimestamp
+            + documentNumber
+            + sessionId
+
+
++ Response 204

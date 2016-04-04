@@ -1,0 +1,251 @@
+## Award Cost Shares [/research-sys/api/v1/award-cost-shares/]
+
+### Get Award Cost Shares by Key [GET /research-sys/api/v1/award-cost-shares/(key)]
+	 
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
+
++ Response 200
+    + Headers
+
+            Content-Type: application/json;charset=UTF-8
+
+    + Body
+    
+            {"awardCostShareId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","projectPeriod": "(val)","costSharePercentage": "(val)","costShareTypeCode": "(val)","source": "(val)","destination": "(val)","commitmentAmount": "(val)","costShareMet": "(val)","verificationDate": "(val)","_primaryKey": "(val)"}
+
+### Get All Award Cost Shares [GET /research-sys/api/v1/award-cost-shares/]
+	 
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
+
++ Response 200
+    + Headers
+
+            Content-Type: application/json;charset=UTF-8
+
+    + Body
+    
+            [
+              {"awardCostShareId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","projectPeriod": "(val)","costSharePercentage": "(val)","costShareTypeCode": "(val)","source": "(val)","destination": "(val)","commitmentAmount": "(val)","costShareMet": "(val)","verificationDate": "(val)","_primaryKey": "(val)"},
+              {"awardCostShareId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","projectPeriod": "(val)","costSharePercentage": "(val)","costShareTypeCode": "(val)","source": "(val)","destination": "(val)","commitmentAmount": "(val)","costShareMet": "(val)","verificationDate": "(val)","_primaryKey": "(val)"}
+            ]
+
+### Get All Award Cost Shares with Filtering [GET /research-sys/api/v1/award-cost-shares/]
+	 
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
+    
+    + Parameters
+    
+            + awardCostShareId
+            + awardId
+            + awardNumber
+            + sequenceNumber
+            + projectPeriod
+            + costSharePercentage
+            + costShareTypeCode
+            + source
+            + destination
+            + commitmentAmount
+            + costShareMet
+            + verificationDate
+ 
+
++ Response 200
+    + Headers
+
+            Content-Type: application/json;charset=UTF-8
+
+    + Body
+    
+            [
+              {"awardCostShareId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","projectPeriod": "(val)","costSharePercentage": "(val)","costShareTypeCode": "(val)","source": "(val)","destination": "(val)","commitmentAmount": "(val)","costShareMet": "(val)","verificationDate": "(val)","_primaryKey": "(val)"},
+              {"awardCostShareId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","projectPeriod": "(val)","costSharePercentage": "(val)","costShareTypeCode": "(val)","source": "(val)","destination": "(val)","commitmentAmount": "(val)","costShareMet": "(val)","verificationDate": "(val)","_primaryKey": "(val)"}
+            ]
+			
+### Get Schema for Award Cost Shares [GET /research-sys/api/v1/award-cost-shares/]
+	 
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
+    
+    + Parameters
+
+            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+
++ Response 200
+    + Headers
+
+            Content-Type: application/json;charset=UTF-8
+
+    + Body
+    
+            ${sampleSchema}
+		
+### Get Blueprint API specification for Award Cost Shares [GET /research-sys/api/v1/award-cost-shares/]
+	 
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: text/markdown
+    
+    + Parameters
+    
+            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+
++ Response 200
+    + Headers
+
+            Content-Type: text/markdown;charset=UTF-8
+            Content-Disposition:attachment; filename="Award Cost Shares.md"
+            transfer-encoding:chunked
+
+
+### Update Award Cost Shares [PUT /research-sys/api/v1/award-cost-shares/(key)]
+
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}   
+            Content-Type: application/json
+
+    + Body
+    
+            {"awardCostShareId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","projectPeriod": "(val)","costSharePercentage": "(val)","costShareTypeCode": "(val)","source": "(val)","destination": "(val)","commitmentAmount": "(val)","costShareMet": "(val)","verificationDate": "(val)","_primaryKey": "(val)"}
+			
++ Response 204
+
+### Update Multiple Award Cost Shares [PUT /research-sys/api/v1/award-cost-shares/]
+
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}   
+            Content-Type: application/json
+
+    + Body
+    
+            [
+              {"awardCostShareId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","projectPeriod": "(val)","costSharePercentage": "(val)","costShareTypeCode": "(val)","source": "(val)","destination": "(val)","commitmentAmount": "(val)","costShareMet": "(val)","verificationDate": "(val)","_primaryKey": "(val)"},
+              {"awardCostShareId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","projectPeriod": "(val)","costSharePercentage": "(val)","costShareTypeCode": "(val)","source": "(val)","destination": "(val)","commitmentAmount": "(val)","costShareMet": "(val)","verificationDate": "(val)","_primaryKey": "(val)"}
+            ]
+			
++ Response 204
+
+### Insert Award Cost Shares [POST /research-sys/api/v1/award-cost-shares/]
+
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}   
+            Content-Type: application/json
+
+    + Body
+    
+            {"awardCostShareId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","projectPeriod": "(val)","costSharePercentage": "(val)","costShareTypeCode": "(val)","source": "(val)","destination": "(val)","commitmentAmount": "(val)","costShareMet": "(val)","verificationDate": "(val)","_primaryKey": "(val)"}
+			
++ Response 201
+    
+    + Body
+            
+            {"awardCostShareId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","projectPeriod": "(val)","costSharePercentage": "(val)","costShareTypeCode": "(val)","source": "(val)","destination": "(val)","commitmentAmount": "(val)","costShareMet": "(val)","verificationDate": "(val)","_primaryKey": "(val)"}
+            
+### Insert Multiple Award Cost Shares [POST /research-sys/api/v1/award-cost-shares/]
+
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}   
+            Content-Type: application/json
+
+    + Body
+    
+            [
+              {"awardCostShareId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","projectPeriod": "(val)","costSharePercentage": "(val)","costShareTypeCode": "(val)","source": "(val)","destination": "(val)","commitmentAmount": "(val)","costShareMet": "(val)","verificationDate": "(val)","_primaryKey": "(val)"},
+              {"awardCostShareId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","projectPeriod": "(val)","costSharePercentage": "(val)","costShareTypeCode": "(val)","source": "(val)","destination": "(val)","commitmentAmount": "(val)","costShareMet": "(val)","verificationDate": "(val)","_primaryKey": "(val)"}
+            ]
+			
++ Response 201
+    
+    + Body
+            
+            [
+              {"awardCostShareId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","projectPeriod": "(val)","costSharePercentage": "(val)","costShareTypeCode": "(val)","source": "(val)","destination": "(val)","commitmentAmount": "(val)","costShareMet": "(val)","verificationDate": "(val)","_primaryKey": "(val)"},
+              {"awardCostShareId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","projectPeriod": "(val)","costSharePercentage": "(val)","costShareTypeCode": "(val)","source": "(val)","destination": "(val)","commitmentAmount": "(val)","costShareMet": "(val)","verificationDate": "(val)","_primaryKey": "(val)"}
+            ]
+            
+### Delete Award Cost Shares by Key [DELETE /research-sys/api/v1/award-cost-shares/(key)]
+	 
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
+
++ Response 204
+
+### Delete All Award Cost Shares [DELETE /research-sys/api/v1/award-cost-shares/]
+	 
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
+            
+    + Parameters
+    
+            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
++ Response 204
+
+### Delete All Award Cost Shares with Matching [DELETE /research-sys/api/v1/award-cost-shares/]
+	 
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
+            
+    + Parameters
+    
+            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+            + awardCostShareId
+            + awardId
+            + awardNumber
+            + sequenceNumber
+            + projectPeriod
+            + costSharePercentage
+            + costShareTypeCode
+            + source
+            + destination
+            + commitmentAmount
+            + costShareMet
+            + verificationDate
+
+
++ Response 204
