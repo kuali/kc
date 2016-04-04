@@ -421,7 +421,7 @@ class RateStore {
 			actions.finishSave(data);
 		}).catch((errorMessage) => {
 			this.handleDataFailed(errorMessage);
-		}.bind(this));
+		}).bind(this);
 	}
 	finishSave() {
 		this.editMode = false;

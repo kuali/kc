@@ -18,9 +18,14 @@
  */
 package org.kuali.coeus.sys.framework.controller.rest;
 
+import com.google.common.base.CaseFormat;
 import org.apache.commons.lang3.text.WordUtils;
+import org.apache.poi.util.IOUtils;
 import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,19 +34,21 @@ import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 
 public class RestEndpointController extends RestController {
 
     private static final Pattern MAPPING_REGEX = Pattern.compile("/(api)/(v\\d*)/(.*)/(.*)");
+    private static final String BLUEPRINT_PARM = "_blueprint";
 
     @Autowired
     private List<HandlerMapping> mappings;
@@ -62,6 +69,41 @@ public class RestEndpointController extends RestController {
                 .orElseThrow(() -> new ResourceNotFoundException("endpoint not found"));
     }
 
+    @RequestMapping(method= RequestMethod.GET, params={BLUEPRINT_PARM})
+    public @ResponseBody Resource getAllBlueprint(HttpServletResponse response) throws IOException {
+        response.setContentType("application/zip");
+        response.setHeader("Content-Disposition", "attachment;filename=blueprint.zip");
+
+        try(final ByteArrayOutputStream stream = new ByteArrayOutputStream(); ZipOutputStream zipFile = new ZipOutputStream(stream)) {
+            getBlueprintEnabledControllers().collect(Collectors.toList()).stream()
+                    .forEach(ctrl -> {
+                        Resource file = ctrl.getBlueprintResource();
+                        try {
+                            zipFile.putNextEntry(new ZipEntry(CaseFormat.UPPER_CAMEL.converterTo(CaseFormat.LOWER_HYPHEN).convert(ctrl.getCamelCasePluralName()) + ".md"));
+                            zipFile.setMethod(ZipOutputStream.DEFLATED);
+                            zipFile.setLevel(5);
+                            IOUtils.copy(file.getInputStream(), zipFile);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
+            zipFile.flush();
+            zipFile.close();
+            return new ByteArrayResource(stream.toByteArray());
+        }
+    }
+
+    @RequestMapping(value="/{resource}", method=RequestMethod.GET, params={BLUEPRINT_PARM})
+    public @ResponseBody Resource getBlueprint(@PathVariable String resource, HttpServletResponse response) {
+        response.setContentType("text/markdown");
+        response.setHeader("Content-Disposition", "attachment;filename=" + resource + ".md");
+
+        return getBlueprintEnabledControllers().filter(ctrl -> resource.equals(CaseFormat.UPPER_CAMEL.converterTo(CaseFormat.LOWER_HYPHEN).convert(ctrl.getCamelCasePluralName())))
+                .map(SimpleCrudRestControllerBase::getBlueprintResource)
+                .findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException("endpoint not found"));
+    }
+
     protected Stream<String> getEndpointUrls() {
         return Stream.concat(
                 mappings.stream()
@@ -69,6 +111,7 @@ public class RestEndpointController extends RestController {
                         .map(mapping -> (SimpleUrlHandlerMapping) mapping)
                         .flatMap(mapping -> mapping.getHandlerMap().entrySet().stream())
                         .filter(entry -> entry.getValue() instanceof SimpleCrudRestControllerBase)
+                        .map(this::cast)
                         .map(Map.Entry::getKey)
                         .filter(url -> MAPPING_REGEX.matcher(url).matches()),
                 mappings.stream()
@@ -76,6 +119,7 @@ public class RestEndpointController extends RestController {
                         .map(mapping -> (RequestMappingHandlerMapping) mapping)
                         .flatMap(mapping -> mapping.getHandlerMethods().entrySet().stream())
                         .filter(entry -> SimpleCrudRestControllerBase.class.isAssignableFrom(entry.getValue().getBeanType()))
+                        .map(this::cast)
                         .map(Map.Entry::getKey)
                         .flatMap(mappingInfo -> mappingInfo.getPatternsCondition().getPatterns().stream())
                         .filter(pattern -> MAPPING_REGEX.matcher(pattern).matches()))
@@ -83,7 +127,34 @@ public class RestEndpointController extends RestController {
                 .distinct()
                 .sorted();
 
-        }
+    }
+
+    protected Stream<SimpleCrudRestControllerBase> getBlueprintEnabledControllers() {
+        final List<String> endpointUrls = getEndpointUrls().collect(Collectors.toList());
+        return Stream.concat(
+                mappings.stream()
+                        .filter(mapping -> mapping instanceof SimpleUrlHandlerMapping)
+                        .map(mapping -> (SimpleUrlHandlerMapping) mapping)
+                        .flatMap(mapping -> mapping.getHandlerMap().entrySet().stream())
+                        .filter(entry -> entry.getValue() instanceof SimpleCrudRestControllerBase)
+                        .map(this::cast)
+                        .filter(entry -> endpointUrls.stream().anyMatch(url -> url.equals(entry.getKey())))
+                        .map(Map.Entry::getValue),
+                mappings.stream()
+                        .filter(mapping -> mapping instanceof RequestMappingHandlerMapping)
+                        .map(mapping -> (RequestMappingHandlerMapping) mapping)
+                        .flatMap(mapping -> mapping.getHandlerMethods().entrySet().stream())
+                        .filter(entry -> SimpleCrudRestControllerBase.class.isAssignableFrom(entry.getValue().getBeanType()))
+                        .filter(entry -> endpointUrls.stream().anyMatch(url -> entry.getKey().getPatternsCondition().getPatterns().contains(url)))
+                        .map(entry ->  (SimpleCrudRestControllerBase) (entry.getValue().getBean() instanceof String ? KcServiceLocator.getService((String) entry.getValue().getBean()) : entry.getValue().getBean())))
+                .distinct()
+                .sorted(Comparator.comparing(mapping -> mapping.getDataObjectClazz().getName()));
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T> Map.Entry<T, SimpleCrudRestControllerBase> cast(Map.Entry<T, ?> entry) {
+        return (Map.Entry<T, SimpleCrudRestControllerBase>) entry;
+    }
 
     protected EndpointInfoDto mappingUrlToDto(String url) {
         return new EndpointInfoDto(this.mappingUrlToResourceName(url),

@@ -362,11 +362,18 @@
         </property>
     </bean>
 
+    <!-- these BOs are not properly configured in OJB or JPA
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.edl.impl.bo.EDocLiteAssociation" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.edl.impl.bo.EDocLiteDefinition" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.identity.visa.EntityVisaTypeBo" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kew.rule.document.RuleDocument" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.edl.impl.extract.Dump" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.edl.impl.extract.Fields" p:camelCasePluralName="Fields" />
+    -->
+
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kew.routeheader.DocumentStatusTransition" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kew.doctype.bo.DocumentType" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kew.doctype.DocumentTypePolicy" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.edl.impl.bo.EDocLiteAssociation" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.edl.impl.bo.EDocLiteDefinition" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.permission.GenericPermissionBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.bo.ui.GroupDocumentMember" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.bo.ui.GroupDocumentQualifier" />
@@ -432,7 +439,6 @@
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.identity.address.EntityAddressTypeBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.identity.affiliation.EntityAffiliationTypeBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.identity.external.EntityExternalIdentifierTypeBo" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.identity.visa.EntityVisaTypeBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.identity.employment.EntityEmploymentStatusBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.identity.phone.EntityPhoneTypeBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.identity.employment.EntityEmploymentTypeBo" />
@@ -462,17 +468,13 @@
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.role.RoleBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.role.RoleResponsibilityActionBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.responsibility.ResponsibilityBo" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kew.rule.document.RuleDocument" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.document.IdentityManagementKimDocument" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.document.IdentityManagementPersonDocument" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.type.IdentityManagementTypeAttributeTransactionalDocument" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.document.IdentityManagementRoleDocument" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.document.IdentityManagementGroupDocument" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.krad.maintenance.MaintenanceDocumentBase" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.krad.bo.Attachment" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.krad.document.authorization.PessimisticLock" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.krad.bo.DocumentHeader" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.krad.bo.PersistableAttachmentBase" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.krad.bo.DocumentAttachment" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.krad.bo.MultiDocumentAttachment" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.krad.bo.Note" />
@@ -494,8 +496,6 @@
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.group.GroupBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.krad.maintenance.MaintenanceLock" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.coreservice.impl.component.ComponentSetBo" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.edl.impl.extract.Dump" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.edl.impl.extract.Fields" p:camelCasePluralName="Fields" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kcb.bo.Message" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kcb.bo.MessageDelivery" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kcb.bo.RecipientDelivererConfig" />

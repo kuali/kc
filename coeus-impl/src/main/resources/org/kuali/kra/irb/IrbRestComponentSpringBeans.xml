@@ -78,11 +78,9 @@
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.meeting.CommitteeScheduleMinute" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.meeting.ScheduleAgenda" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.irb.correspondence.CorrespondentType" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.irb.actions.history.DateRangeFilter" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.irb.actions.submit.ExemptStudiesCheckListItem" p:camelCasePluralName="ExemptStudiesChecklistItems" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.irb.actions.submit.ExpeditedReviewCheckListItem" p:camelCasePluralName="ExpeditedReviewChecklistItems" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.irb.notification.IRBProtocolNotification" p:camelCasePluralName="IrbProtocolNotifications" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.irb.onlinereview.NewProtocolOnlineReviewBean" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.irb.protocol.participant.ParticipantType" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.irb.Protocol" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.irb.actions.ProtocolAction" />
@@ -121,7 +119,6 @@
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.irb.onlinereview.ProtocolReviewAttachment" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.irb.actions.submit.ProtocolReviewType" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.irb.actions.submit.ProtocolReviewer" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.irb.actions.submit.ProtocolReviewerBean" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.irb.actions.submit.ProtocolReviewerType" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevel" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.irb.specialreview.ProtocolSpecialReview" />
