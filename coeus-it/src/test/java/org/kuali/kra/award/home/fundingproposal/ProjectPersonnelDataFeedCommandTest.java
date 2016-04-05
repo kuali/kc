@@ -27,13 +27,13 @@ import org.kuali.kra.award.contacts.AwardPersonCreditSplit;
 import org.kuali.kra.award.contacts.AwardPersonUnit;
 import org.kuali.kra.award.contacts.AwardPersonUnitCreditSplit;
 import org.kuali.kra.award.home.ContactRole;
-import org.kuali.kra.bo.CreditType;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonCreditSplit;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonUnit;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonUnitCreditSplit;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
+import java.util.stream.Stream;
 import java.util.ArrayList;
 import java.util.Collection;
 import static org.junit.Assert.*;
@@ -57,10 +57,10 @@ public class ProjectPersonnelDataFeedCommandTest extends BaseDataFeedCommandTest
         retval.setFullName(personName);
         retval.setRoleCode(roleCode);
         if (creditSplit != null) {
-            for (CreditType type : getCreditTypes()) {
+            for (String type : getCreditTypes()) {
                 InstitutionalProposalPersonCreditSplit ipCredit = new InstitutionalProposalPersonCreditSplit();
                 ipCredit.setCredit(creditSplit);
-                ipCredit.setInvCreditTypeCode(type.getCreditTypeCode());
+                ipCredit.setInvCreditTypeCode(type);
                 retval.add(ipCredit);
             }
         }
@@ -73,10 +73,10 @@ public class ProjectPersonnelDataFeedCommandTest extends BaseDataFeedCommandTest
         ipUnit.setUnitNumber(unit.getUnitNumber());
         ipUnit.setLeadUnit(leadUnit);
         if (creditSplit != null) {
-            for (CreditType type : getCreditTypes()) {
+            for (String type : getCreditTypes()) {
                 InstitutionalProposalPersonUnitCreditSplit ipCredit = new InstitutionalProposalPersonUnitCreditSplit();
                 ipCredit.setCredit(creditSplit);
-                ipCredit.setInvCreditTypeCode(type.getCreditTypeCode());
+                ipCredit.setInvCreditTypeCode(type);
                 ipUnit.add(ipCredit);
             }
         }
@@ -88,10 +88,10 @@ public class ProjectPersonnelDataFeedCommandTest extends BaseDataFeedCommandTest
         retval.setPersonId(personId);
         retval.setFullName(personName);
         retval.setRoleCode(roleCode);
-        for (CreditType type : getCreditTypes()) {
+        for (String type : getCreditTypes()) {
             AwardPersonCreditSplit awardCredit = new AwardPersonCreditSplit();
             awardCredit.setCredit(creditSplit);
-            awardCredit.setInvCreditTypeCode(type.getCreditTypeCode());
+            awardCredit.setInvCreditTypeCode(type);
             retval.add(awardCredit);
         }
         return retval;
@@ -102,26 +102,17 @@ public class ProjectPersonnelDataFeedCommandTest extends BaseDataFeedCommandTest
         awardUnit.setUnitNumber(unit.getUnitNumber());
         awardUnit.setUnit(unit);
         awardUnit.setLeadUnit(leadUnit);
-        for (CreditType type : getCreditTypes()) {
+        for (String type : getCreditTypes()) {
             AwardPersonUnitCreditSplit awardCredit = new AwardPersonUnitCreditSplit();
             awardCredit.setCredit(creditSplit);
-            awardCredit.setInvCreditTypeCode(type.getCreditTypeCode());
+            awardCredit.setInvCreditTypeCode(type);
             awardUnit.add(awardCredit);
         }
         return awardUnit;
     }
-    
-    protected Collection<CreditType> getCreditTypes() {
-        Collection<CreditType> types = new ArrayList<CreditType>();
-        CreditType type = new CreditType();
-        type.setCreditTypeCode("0");
-        type.setDescription("CreditType1");
-        types.add(type);
-        type = new CreditType();
-        type.setCreditTypeCode("1");
-        type.setDescription("CreditType2");
-        types.add(type);
-        return types;
+
+    protected Collection<String> getCreditTypes() {
+        return Stream.of("1", "2").collect(java.util.stream.Collectors.toList());
     }
     
     

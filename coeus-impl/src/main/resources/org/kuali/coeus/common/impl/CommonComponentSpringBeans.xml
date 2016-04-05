@@ -245,10 +245,6 @@
 		</property>
 	</bean>
 
-    <!-- these BOs are not properly configured in OJB or JPA
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.bo.CreditType" />
-    -->
-
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.questionnaire.framework.answer.Answer" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.attachment.AttachmentFile" />

@@ -246,7 +246,6 @@
                 <value>classpath:org/kuali/kra/datadictionary/CorrespondentType.xml</value>
                 <value>classpath:org/kuali/coeus/common/budget/impl/core/CostElement.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/CostShareType.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/CreditType.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/custom/attr/CustomAttribute.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/custom/attr/CustomAttributeDataType.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/custom/attr/CustomAttributeDocument.xml</value>
@@ -385,14 +384,12 @@
                 <value>classpath:org/kuali/kra/datadictionary/InstitutionalProposal.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/InstitutionalProposalAttachment.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/InstitutionalProposalAttachmentType.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/InstitutionalProposalAdminDetails.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/InstitutionalProposalComment.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/InstitutionalProposalContact.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/InstitutionalProposalCostShare.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/InstitutionalProposalCreditSplit.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/InstitutionalProposalCustomData.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/InstitutionalProposalDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/InstitutionalProposalLog.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/InstitutionalProposalNotepad.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/InstitutionalProposalPerson.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/InstitutionalProposalPersonCreditSplit.xml</value>
@@ -402,7 +399,6 @@
                 <value>classpath:org/kuali/kra/datadictionary/InstitutionalProposalScienceKeyword.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/InstitutionalProposalSpecialReview.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/InstitutionalProposalSpecialReviewExemption.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/InstitutionalProposalUnit.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/InstitutionalProposalUnitContact.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/InstitutionalProposalUnrecoveredFandA.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/IntellectualPropertyReview.xml</value>

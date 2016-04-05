@@ -394,12 +394,6 @@
     <import resource="classpath:org/kuali/coeus/sys/framework/ImportEndpointSpringBeans.xml" />
     <import resource="classpath:org/kuali/coeus/sys/framework/ImportSimpleCrudRestSpringBeans.xml" />
 
-    <!-- these BOs are not properly configured in OJB or JPA
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.institutionalproposal.home.InstitutionalProposalAdminDetails" p:camelCasePluralName="InstitutionalProposalAdminDetails" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.institutionalproposal.home.InstitutionalProposalLog" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnit" />
-    -->
-
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.institutionalproposal.IndirectcostRateType" />
     <bean class="org.kuali.coeus.instprop.impl.api.InstitutionalProposalController" p:dataObjectClazz="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.institutionalproposal.attachments.InstitutionalProposalAttachment" />
