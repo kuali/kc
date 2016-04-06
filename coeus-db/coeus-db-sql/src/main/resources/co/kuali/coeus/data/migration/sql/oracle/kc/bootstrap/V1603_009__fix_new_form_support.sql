@@ -19,4 +19,4 @@
 
 update questionnaire_questions set parent_question_number = 0, condition_flag = 'N', CONDITION_TYPE  = null, CONDITION_VALUE = null where
   QUESTIONNAIRE_REF_ID_FK = (select QUESTIONNAIRE_REF_ID from questionnaire where QUESTIONNAIRE_ID = -1) and
-  QUESTION_REF_ID_FK in (select QUESTION_REF_ID from question where QUESTION_ID in (2, 145, 118, 114, 116))
+  QUESTION_REF_ID_FK in (select QUESTION_REF_ID from question where QUESTION_ID in (2, 145, 118, 114, 116));
