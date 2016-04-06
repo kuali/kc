@@ -30,25 +30,10 @@
        http://www.springframework.org/schema/util/spring-util.xsd">
 
     <context:annotation-config />
-    
-    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>
-    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
-		<property name="messageConverters">
-			<list>
-                <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
-                <bean class="org.springframework.http.converter.ResourceHttpMessageConverter"/>
-                <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
-                <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"/>
-                <bean class="org.springframework.http.converter.xml.SourceHttpMessageConverter"/>
-                <bean class="org.springframework.http.converter.xml.XmlAwareFormHttpMessageConverter"/>
-			</list>
-		</property>
-	</bean>
 
     <import resource="classpath:org/kuali/coeus/common/impl/CommonComponentSpringBeans.xml"/>
     <import resource="classpath:org/kuali/coeus/common/budget/impl/CommonBudgetComponentSpringBeans.xml"/>
     <import resource="classpath:org/kuali/coeus/common/questionnaire/impl/CommonQuestionnaireComponentSpringBeans.xml"/>
     <import resource="classpath:org/kuali/coeus/common/proposal/impl/CommonProposalComponentSpringBeans.xml"/>
-
 
 </beans>

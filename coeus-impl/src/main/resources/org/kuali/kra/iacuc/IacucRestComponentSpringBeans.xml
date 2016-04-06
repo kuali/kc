@@ -130,7 +130,6 @@
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.iacuc.onlinereview.IacucProtocolReviewAttachment" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewer" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerBean" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerType" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.iacuc.specialreview.IacucProtocolSpecialReview" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.iacuc.specialreview.IacucProtocolSpecialReviewExemption" />

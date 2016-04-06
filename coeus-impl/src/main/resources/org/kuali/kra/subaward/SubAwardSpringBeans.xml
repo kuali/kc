@@ -328,7 +328,6 @@
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.subaward.document.SubAwardDocument" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.subaward.bo.SubAwardForms" p:camelCasePluralName="SubAwardForms" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.subaward.bo.SubAwardFundingSource" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.subaward.bo.SubAwardPrintAgreement" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.subaward.bo.SubAwardReportType" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.subaward.bo.SubAwardReports" p:camelCasePluralName="SubAwardReports"/>
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.subaward.bo.SubAwardStatus" />

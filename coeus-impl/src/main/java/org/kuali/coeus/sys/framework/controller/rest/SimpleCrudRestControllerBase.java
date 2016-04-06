@@ -25,6 +25,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.xml.namespace.QName;
 
@@ -149,7 +150,6 @@ public abstract class SimpleCrudRestControllerBase<T, R> extends RestController 
 
 	@RequestMapping(method=RequestMethod.GET, params={SCHEMA_PARM})
 	public @ResponseBody Map<String, Object> getSchema() {
-		assertUserHasReadAccess();
 
 		final Map<String, Object> schema = new HashMap<>();
 		schema.put("primaryKey", getPrimaryKeyColumn());
@@ -169,9 +169,15 @@ public abstract class SimpleCrudRestControllerBase<T, R> extends RestController 
 	}
 
 	@RequestMapping(method=RequestMethod.GET, params={BLUEPRINT_PARM})
-	public @ResponseBody Resource getBlueprint() {
-		assertUserHasReadAccess();
+	public @ResponseBody Resource getBlueprint(HttpServletResponse response) {
 
+		response.setContentType("text/markdown");
+		response.setHeader("Content-Disposition", "attachment;filename=" + CaseFormat.UPPER_CAMEL.converterTo(CaseFormat.LOWER_HYPHEN).convert(this.getCamelCasePluralName()) + ".md");
+
+		return getBlueprintResource();
+	}
+
+	public Resource getBlueprintResource() {
 		String templateText;
 		try {
 			templateText = IOUtils.toString(blueprintTemplate.getInputStream(), "UTF-8"); ;

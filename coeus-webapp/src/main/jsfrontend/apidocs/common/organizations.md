@@ -1,11 +1,6 @@
 ## Organizations [/research-common/api/v1/organizations/]
 
-### Organization Summary [GET /research-common/api/v1/organizations/?summary]
-
-Summary of all Organizations in the system
-
-+ Parameters
-	+ summary: (boolean, required) - Renders the organizations in a summary view instead of the full data from the organization. Currently the only option and required.
+### Get Organizations by Key [GET /research-common/api/v1/organizations/(key)]
 	 
 + Request
 
@@ -21,39 +16,272 @@ Summary of all Organizations in the system
 
     + Body
     
-            {
-               "count" : 1,
-               "totalFound" : 1,
-               "organizations" : [
-                  {
-                     "organizationName" : "University",
-                     "address" : "1375 N Scottsdale Rd, Suite 480, Scottsdale, AZ 85257-3454",
-                     "organizationId" : "000001",
-                     "contact" : {
-                        "middleName" : null,
-                        "county" : "Maricopa",
-                        "emailAddress" : "sean.warren@rsmart.com",
-                        "active" : true,
-                        "city" : "Scottsdale",
-                        "suffix" : null,
-                        "postalCode" : "85257-3454",
-                        "lastName" : "Warren",
-                        "addressLine3" : null,
-                        "addressLine2" : "Suite 480",
-                        "state" : "AZ",
-                        "firstName" : "Sean",
-                        "sponsor" : null,
-                        "prefix" : null,
-                        "rolodexId" : 100013,
-                        "phoneNumber" : "480-414-0450",
-                        "countryCode" : "USA",
-                        "addressLine1" : "1375 N Scottsdale Rd, Scottsdale, AZ 85257-3454",
-                        "title" : "OSP Approver",
-                        "faxNumber" : "602-391-2172"
-                     }
-                  }
-               ]
-            }
-            
-            
+            {"organizationId": "(val)","address": "(val)","agencySymbol": "(val)","animalWelfareAssurance": "(val)","cableAddress": "(val)","cageNumber": "(val)","cognizantAuditor": "(val)","comGovEntityCode": "(val)","congressionalDistrict": "(val)","contactAddressId": "(val)","county": "(val)","dodacNumber": "(val)","dunsNumber": "(val)","dunsPlusFourNumber": "(val)","federalEmployerId": "(val)","humanSubAssurance": "(val)","incorporatedDate": "(val)","incorporatedIn": "(val)","indirectCostRateAgreement": "(val)","irsTaxExemption": "(val)","stateEmployeeClaim": "(val)","stateTaxExemptNum": "(val)","nsfInstitutionalCode": "(val)","numberOfEmployees": "(val)","onrResidentRep": "(val)","organizationName": "(val)","phsAccount": "(val)","scienceMisconductComplDate": "(val)","telexNumber": "(val)","vendorCode": "(val)","_primaryKey": "(val)"}
 
+### Get All Organizations [GET /research-common/api/v1/organizations/]
+	 
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
+
++ Response 200
+    + Headers
+
+            Content-Type: application/json;charset=UTF-8
+
+    + Body
+    
+            [
+              {"organizationId": "(val)","address": "(val)","agencySymbol": "(val)","animalWelfareAssurance": "(val)","cableAddress": "(val)","cageNumber": "(val)","cognizantAuditor": "(val)","comGovEntityCode": "(val)","congressionalDistrict": "(val)","contactAddressId": "(val)","county": "(val)","dodacNumber": "(val)","dunsNumber": "(val)","dunsPlusFourNumber": "(val)","federalEmployerId": "(val)","humanSubAssurance": "(val)","incorporatedDate": "(val)","incorporatedIn": "(val)","indirectCostRateAgreement": "(val)","irsTaxExemption": "(val)","stateEmployeeClaim": "(val)","stateTaxExemptNum": "(val)","nsfInstitutionalCode": "(val)","numberOfEmployees": "(val)","onrResidentRep": "(val)","organizationName": "(val)","phsAccount": "(val)","scienceMisconductComplDate": "(val)","telexNumber": "(val)","vendorCode": "(val)","_primaryKey": "(val)"},
+              {"organizationId": "(val)","address": "(val)","agencySymbol": "(val)","animalWelfareAssurance": "(val)","cableAddress": "(val)","cageNumber": "(val)","cognizantAuditor": "(val)","comGovEntityCode": "(val)","congressionalDistrict": "(val)","contactAddressId": "(val)","county": "(val)","dodacNumber": "(val)","dunsNumber": "(val)","dunsPlusFourNumber": "(val)","federalEmployerId": "(val)","humanSubAssurance": "(val)","incorporatedDate": "(val)","incorporatedIn": "(val)","indirectCostRateAgreement": "(val)","irsTaxExemption": "(val)","stateEmployeeClaim": "(val)","stateTaxExemptNum": "(val)","nsfInstitutionalCode": "(val)","numberOfEmployees": "(val)","onrResidentRep": "(val)","organizationName": "(val)","phsAccount": "(val)","scienceMisconductComplDate": "(val)","telexNumber": "(val)","vendorCode": "(val)","_primaryKey": "(val)"}
+            ]
+
+### Get All Organizations with Filtering [GET /research-common/api/v1/organizations/]
+	 
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
+    
+    + Parameters
+    
+            + organizationId
+            + address
+            + agencySymbol
+            + animalWelfareAssurance
+            + cableAddress
+            + cageNumber
+            + cognizantAuditor
+            + comGovEntityCode
+            + congressionalDistrict
+            + contactAddressId
+            + county
+            + dodacNumber
+            + dunsNumber
+            + dunsPlusFourNumber
+            + federalEmployerId
+            + humanSubAssurance
+            + incorporatedDate
+            + incorporatedIn
+            + indirectCostRateAgreement
+            + irsTaxExemption
+            + stateEmployeeClaim
+            + stateTaxExemptNum
+            + nsfInstitutionalCode
+            + numberOfEmployees
+            + onrResidentRep
+            + organizationName
+            + phsAccount
+            + scienceMisconductComplDate
+            + telexNumber
+            + vendorCode
+ 
+
++ Response 200
+    + Headers
+
+            Content-Type: application/json;charset=UTF-8
+
+    + Body
+    
+            [
+              {"organizationId": "(val)","address": "(val)","agencySymbol": "(val)","animalWelfareAssurance": "(val)","cableAddress": "(val)","cageNumber": "(val)","cognizantAuditor": "(val)","comGovEntityCode": "(val)","congressionalDistrict": "(val)","contactAddressId": "(val)","county": "(val)","dodacNumber": "(val)","dunsNumber": "(val)","dunsPlusFourNumber": "(val)","federalEmployerId": "(val)","humanSubAssurance": "(val)","incorporatedDate": "(val)","incorporatedIn": "(val)","indirectCostRateAgreement": "(val)","irsTaxExemption": "(val)","stateEmployeeClaim": "(val)","stateTaxExemptNum": "(val)","nsfInstitutionalCode": "(val)","numberOfEmployees": "(val)","onrResidentRep": "(val)","organizationName": "(val)","phsAccount": "(val)","scienceMisconductComplDate": "(val)","telexNumber": "(val)","vendorCode": "(val)","_primaryKey": "(val)"},
+              {"organizationId": "(val)","address": "(val)","agencySymbol": "(val)","animalWelfareAssurance": "(val)","cableAddress": "(val)","cageNumber": "(val)","cognizantAuditor": "(val)","comGovEntityCode": "(val)","congressionalDistrict": "(val)","contactAddressId": "(val)","county": "(val)","dodacNumber": "(val)","dunsNumber": "(val)","dunsPlusFourNumber": "(val)","federalEmployerId": "(val)","humanSubAssurance": "(val)","incorporatedDate": "(val)","incorporatedIn": "(val)","indirectCostRateAgreement": "(val)","irsTaxExemption": "(val)","stateEmployeeClaim": "(val)","stateTaxExemptNum": "(val)","nsfInstitutionalCode": "(val)","numberOfEmployees": "(val)","onrResidentRep": "(val)","organizationName": "(val)","phsAccount": "(val)","scienceMisconductComplDate": "(val)","telexNumber": "(val)","vendorCode": "(val)","_primaryKey": "(val)"}
+            ]
+			
+### Get Schema for Organizations [GET /research-common/api/v1/organizations/]
+	 
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
+    
+    + Parameters
+
+            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+
++ Response 200
+    + Headers
+
+            Content-Type: application/json;charset=UTF-8
+
+    + Body
+    
+            ${sampleSchema}
+		
+### Get Blueprint API specification for Organizations [GET /research-common/api/v1/organizations/]
+	 
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: text/markdown
+    
+    + Parameters
+    
+            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+
++ Response 200
+    + Headers
+
+            Content-Type: text/markdown;charset=UTF-8
+            Content-Disposition:attachment; filename="Organizations.md"
+            transfer-encoding:chunked
+
+
+### Update Organizations [PUT /research-common/api/v1/organizations/(key)]
+
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}   
+            Content-Type: application/json
+
+    + Body
+    
+            {"organizationId": "(val)","address": "(val)","agencySymbol": "(val)","animalWelfareAssurance": "(val)","cableAddress": "(val)","cageNumber": "(val)","cognizantAuditor": "(val)","comGovEntityCode": "(val)","congressionalDistrict": "(val)","contactAddressId": "(val)","county": "(val)","dodacNumber": "(val)","dunsNumber": "(val)","dunsPlusFourNumber": "(val)","federalEmployerId": "(val)","humanSubAssurance": "(val)","incorporatedDate": "(val)","incorporatedIn": "(val)","indirectCostRateAgreement": "(val)","irsTaxExemption": "(val)","stateEmployeeClaim": "(val)","stateTaxExemptNum": "(val)","nsfInstitutionalCode": "(val)","numberOfEmployees": "(val)","onrResidentRep": "(val)","organizationName": "(val)","phsAccount": "(val)","scienceMisconductComplDate": "(val)","telexNumber": "(val)","vendorCode": "(val)","_primaryKey": "(val)"}
+			
++ Response 204
+
+### Update Multiple Organizations [PUT /research-common/api/v1/organizations/]
+
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}   
+            Content-Type: application/json
+
+    + Body
+    
+            [
+              {"organizationId": "(val)","address": "(val)","agencySymbol": "(val)","animalWelfareAssurance": "(val)","cableAddress": "(val)","cageNumber": "(val)","cognizantAuditor": "(val)","comGovEntityCode": "(val)","congressionalDistrict": "(val)","contactAddressId": "(val)","county": "(val)","dodacNumber": "(val)","dunsNumber": "(val)","dunsPlusFourNumber": "(val)","federalEmployerId": "(val)","humanSubAssurance": "(val)","incorporatedDate": "(val)","incorporatedIn": "(val)","indirectCostRateAgreement": "(val)","irsTaxExemption": "(val)","stateEmployeeClaim": "(val)","stateTaxExemptNum": "(val)","nsfInstitutionalCode": "(val)","numberOfEmployees": "(val)","onrResidentRep": "(val)","organizationName": "(val)","phsAccount": "(val)","scienceMisconductComplDate": "(val)","telexNumber": "(val)","vendorCode": "(val)","_primaryKey": "(val)"},
+              {"organizationId": "(val)","address": "(val)","agencySymbol": "(val)","animalWelfareAssurance": "(val)","cableAddress": "(val)","cageNumber": "(val)","cognizantAuditor": "(val)","comGovEntityCode": "(val)","congressionalDistrict": "(val)","contactAddressId": "(val)","county": "(val)","dodacNumber": "(val)","dunsNumber": "(val)","dunsPlusFourNumber": "(val)","federalEmployerId": "(val)","humanSubAssurance": "(val)","incorporatedDate": "(val)","incorporatedIn": "(val)","indirectCostRateAgreement": "(val)","irsTaxExemption": "(val)","stateEmployeeClaim": "(val)","stateTaxExemptNum": "(val)","nsfInstitutionalCode": "(val)","numberOfEmployees": "(val)","onrResidentRep": "(val)","organizationName": "(val)","phsAccount": "(val)","scienceMisconductComplDate": "(val)","telexNumber": "(val)","vendorCode": "(val)","_primaryKey": "(val)"}
+            ]
+			
++ Response 204
+
+### Insert Organizations [POST /research-common/api/v1/organizations/]
+
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}   
+            Content-Type: application/json
+
+    + Body
+    
+            {"organizationId": "(val)","address": "(val)","agencySymbol": "(val)","animalWelfareAssurance": "(val)","cableAddress": "(val)","cageNumber": "(val)","cognizantAuditor": "(val)","comGovEntityCode": "(val)","congressionalDistrict": "(val)","contactAddressId": "(val)","county": "(val)","dodacNumber": "(val)","dunsNumber": "(val)","dunsPlusFourNumber": "(val)","federalEmployerId": "(val)","humanSubAssurance": "(val)","incorporatedDate": "(val)","incorporatedIn": "(val)","indirectCostRateAgreement": "(val)","irsTaxExemption": "(val)","stateEmployeeClaim": "(val)","stateTaxExemptNum": "(val)","nsfInstitutionalCode": "(val)","numberOfEmployees": "(val)","onrResidentRep": "(val)","organizationName": "(val)","phsAccount": "(val)","scienceMisconductComplDate": "(val)","telexNumber": "(val)","vendorCode": "(val)","_primaryKey": "(val)"}
+			
++ Response 201
+    
+    + Body
+            
+            {"organizationId": "(val)","address": "(val)","agencySymbol": "(val)","animalWelfareAssurance": "(val)","cableAddress": "(val)","cageNumber": "(val)","cognizantAuditor": "(val)","comGovEntityCode": "(val)","congressionalDistrict": "(val)","contactAddressId": "(val)","county": "(val)","dodacNumber": "(val)","dunsNumber": "(val)","dunsPlusFourNumber": "(val)","federalEmployerId": "(val)","humanSubAssurance": "(val)","incorporatedDate": "(val)","incorporatedIn": "(val)","indirectCostRateAgreement": "(val)","irsTaxExemption": "(val)","stateEmployeeClaim": "(val)","stateTaxExemptNum": "(val)","nsfInstitutionalCode": "(val)","numberOfEmployees": "(val)","onrResidentRep": "(val)","organizationName": "(val)","phsAccount": "(val)","scienceMisconductComplDate": "(val)","telexNumber": "(val)","vendorCode": "(val)","_primaryKey": "(val)"}
+            
+### Insert Multiple Organizations [POST /research-common/api/v1/organizations/]
+
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}   
+            Content-Type: application/json
+
+    + Body
+    
+            [
+              {"organizationId": "(val)","address": "(val)","agencySymbol": "(val)","animalWelfareAssurance": "(val)","cableAddress": "(val)","cageNumber": "(val)","cognizantAuditor": "(val)","comGovEntityCode": "(val)","congressionalDistrict": "(val)","contactAddressId": "(val)","county": "(val)","dodacNumber": "(val)","dunsNumber": "(val)","dunsPlusFourNumber": "(val)","federalEmployerId": "(val)","humanSubAssurance": "(val)","incorporatedDate": "(val)","incorporatedIn": "(val)","indirectCostRateAgreement": "(val)","irsTaxExemption": "(val)","stateEmployeeClaim": "(val)","stateTaxExemptNum": "(val)","nsfInstitutionalCode": "(val)","numberOfEmployees": "(val)","onrResidentRep": "(val)","organizationName": "(val)","phsAccount": "(val)","scienceMisconductComplDate": "(val)","telexNumber": "(val)","vendorCode": "(val)","_primaryKey": "(val)"},
+              {"organizationId": "(val)","address": "(val)","agencySymbol": "(val)","animalWelfareAssurance": "(val)","cableAddress": "(val)","cageNumber": "(val)","cognizantAuditor": "(val)","comGovEntityCode": "(val)","congressionalDistrict": "(val)","contactAddressId": "(val)","county": "(val)","dodacNumber": "(val)","dunsNumber": "(val)","dunsPlusFourNumber": "(val)","federalEmployerId": "(val)","humanSubAssurance": "(val)","incorporatedDate": "(val)","incorporatedIn": "(val)","indirectCostRateAgreement": "(val)","irsTaxExemption": "(val)","stateEmployeeClaim": "(val)","stateTaxExemptNum": "(val)","nsfInstitutionalCode": "(val)","numberOfEmployees": "(val)","onrResidentRep": "(val)","organizationName": "(val)","phsAccount": "(val)","scienceMisconductComplDate": "(val)","telexNumber": "(val)","vendorCode": "(val)","_primaryKey": "(val)"}
+            ]
+			
++ Response 201
+    
+    + Body
+            
+            [
+              {"organizationId": "(val)","address": "(val)","agencySymbol": "(val)","animalWelfareAssurance": "(val)","cableAddress": "(val)","cageNumber": "(val)","cognizantAuditor": "(val)","comGovEntityCode": "(val)","congressionalDistrict": "(val)","contactAddressId": "(val)","county": "(val)","dodacNumber": "(val)","dunsNumber": "(val)","dunsPlusFourNumber": "(val)","federalEmployerId": "(val)","humanSubAssurance": "(val)","incorporatedDate": "(val)","incorporatedIn": "(val)","indirectCostRateAgreement": "(val)","irsTaxExemption": "(val)","stateEmployeeClaim": "(val)","stateTaxExemptNum": "(val)","nsfInstitutionalCode": "(val)","numberOfEmployees": "(val)","onrResidentRep": "(val)","organizationName": "(val)","phsAccount": "(val)","scienceMisconductComplDate": "(val)","telexNumber": "(val)","vendorCode": "(val)","_primaryKey": "(val)"},
+              {"organizationId": "(val)","address": "(val)","agencySymbol": "(val)","animalWelfareAssurance": "(val)","cableAddress": "(val)","cageNumber": "(val)","cognizantAuditor": "(val)","comGovEntityCode": "(val)","congressionalDistrict": "(val)","contactAddressId": "(val)","county": "(val)","dodacNumber": "(val)","dunsNumber": "(val)","dunsPlusFourNumber": "(val)","federalEmployerId": "(val)","humanSubAssurance": "(val)","incorporatedDate": "(val)","incorporatedIn": "(val)","indirectCostRateAgreement": "(val)","irsTaxExemption": "(val)","stateEmployeeClaim": "(val)","stateTaxExemptNum": "(val)","nsfInstitutionalCode": "(val)","numberOfEmployees": "(val)","onrResidentRep": "(val)","organizationName": "(val)","phsAccount": "(val)","scienceMisconductComplDate": "(val)","telexNumber": "(val)","vendorCode": "(val)","_primaryKey": "(val)"}
+            ]
+            
+### Delete Organizations by Key [DELETE /research-common/api/v1/organizations/(key)]
+	 
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
+
++ Response 204
+
+### Delete All Organizations [DELETE /research-common/api/v1/organizations/]
+	 
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
+            
+    + Parameters
+    
+            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
++ Response 204
+
+### Delete All Organizations with Matching [DELETE /research-common/api/v1/organizations/]
+	 
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
+            
+    + Parameters
+    
+            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+            + organizationId
+            + address
+            + agencySymbol
+            + animalWelfareAssurance
+            + cableAddress
+            + cageNumber
+            + cognizantAuditor
+            + comGovEntityCode
+            + congressionalDistrict
+            + contactAddressId
+            + county
+            + dodacNumber
+            + dunsNumber
+            + dunsPlusFourNumber
+            + federalEmployerId
+            + humanSubAssurance
+            + incorporatedDate
+            + incorporatedIn
+            + indirectCostRateAgreement
+            + irsTaxExemption
+            + stateEmployeeClaim
+            + stateTaxExemptNum
+            + nsfInstitutionalCode
+            + numberOfEmployees
+            + onrResidentRep
+            + organizationName
+            + phsAccount
+            + scienceMisconductComplDate
+            + telexNumber
+            + vendorCode
+
+
++ Response 204
