@@ -286,7 +286,7 @@ public class SalaryCalculator {
                 continue;
             }
             int compareDateChange = rateChangeDate.compareTo(tempStartDate);
-            if (compareDateChange > 0) {
+            if (compareDateChange >= 0) {
                 Calendar rateChangeCal = getDateTimeService().getCalendar(rateChangeDate);
                 rateChangeCal.add(Calendar.DATE, -1);
                 tempEndDate = rateChangeCal.getTime();
@@ -329,7 +329,6 @@ public class SalaryCalculator {
                 tempStartDate = rateChangeDate;
             }
         }
-        salaryDetails = new SalaryDetails();
         Boundary boundary = new Boundary(tempStartDate, endDate);
         salaryDetails = new SalaryDetails();
         salaryDetails.setBoundary(boundary);
@@ -640,7 +639,7 @@ public class SalaryCalculator {
         if (isAnniversarySalaryDateEnabled() && budgetPerson.getSalaryAnniversaryDate() != null) {
             qlist.addAll(createAnnualInflationRates(budgetPerson, previousEndDate));
         } else {
-            qlist.addAll(filterInflationRates(p1StartDate, add(startDate, -1)));
+            qlist.addAll(filterInflationRates(p1StartDate, add(boundary.getStartDate(), -1)));
         }
         for (BudgetRate budgetProposalrate : qlist) {
             if (budgetProposalrate.getStartDate().after(budgetPerson.getEffectiveDate())) {
