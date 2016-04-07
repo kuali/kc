@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1604.5
 * RESKC-1208: fixing tests
   * Travis Schneeberger on Thu, 7 Apr 2016 12:15:27 -0400 [View Commit](../../commit/d25616980e1a4dcd3d69a1edec49ee260d381a21)
 * RESKC-1252:fix wrong salary calculations when budget periods have multiple inflation rates effective in the same period
