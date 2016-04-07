@@ -82,8 +82,9 @@ public class SimpleCrudDtoRestControllerBudgetCategoryTest extends KcIntegration
         budgetCategoryController.delete("1");
     }
 
-    @Test(expected = UnauthorizedAccessException.class)
+    @Test
     public void test_unauthorized_schema() {
+        //there is no authorization around _schema
         GlobalVariables.setUserSession(new UserSession(UNAUTHORIZED_USER));
         budgetCategoryController.getSchema();
     }

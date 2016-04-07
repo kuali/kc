@@ -87,8 +87,9 @@ public class SimpleCrudMapBasedRestControllerDeadlineTypeTest extends KcIntegrat
         deadlineTypeController.delete("P");
     }
 
-    @Test(expected = UnauthorizedAccessException.class)
+    @Test
     public void test_unauthorized_schema() {
+        //there is no authorization around _schema
         GlobalVariables.setUserSession(new UserSession(UNAUTHORIZED_USER));
         deadlineTypeController.getSchema();
     }
