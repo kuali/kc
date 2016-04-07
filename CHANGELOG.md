@@ -1,6 +1,19 @@
 
 
 ##CURRENT
+* RESKC-1208: fixing tests
+  * Travis Schneeberger on Thu, 7 Apr 2016 12:15:27 -0400 [View Commit](../../commit/d25616980e1a4dcd3d69a1edec49ee260d381a21)
+* RESKC-1252:fix wrong salary calculations when budget periods have multiple inflation rates effective in the same period
+  * Joe Williams on Wed, 6 Apr 2016 16:08:55 -0700 [View Commit](../../commit/599a40119963932f608f7d2336729d5eb44b7c56)
+* Update V1603_009__fix_new_form_support.sql  * tdurkin on Wed, 6 Apr 2016 08:25:01 -0700 [View Commit](../../commit/7978ec45ab7d0ffe0fc037b12bddfd7e2cf4e779)
+* RESKC-1208: removing unused BOs
+  * Travis Schneeberger on Mon, 4 Apr 2016 22:05:50 -0400 [View Commit](../../commit/3f9b1f546d6be6717daf95b9f565280b9d4bfa1b)
+* RESKC-1208: adding documentation for all rest apis
+  * Travis Schneeberger on Mon, 4 Apr 2016 19:58:55 -0400 [View Commit](../../commit/2d8dceb1e5251913093e425a72c81281b3f26c0c)
+* RESKC-1208: allowing blueprint docs to be retrieved with the "endpoints" api, cleaning up endpoints, upgrading dev dependencies for node packages
+  * Travis Schneeberger on Mon, 4 Apr 2016 19:58:05 -0400 [View Commit](../../commit/32f1b67e67437da1ed9af70ed848efaac0c67851)
+
+##coeus-1604.4
 * No Changes
 
 
