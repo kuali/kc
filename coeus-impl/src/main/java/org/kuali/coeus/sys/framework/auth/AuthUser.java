@@ -50,6 +50,8 @@ public class AuthUser implements Serializable {
 	private Instant lastValidated;
 	@JsonIgnore
 	private boolean active = true;
+	@JsonIgnore
+	private String actualUser;
 	
 	public AuthUser() { 
 		super();
@@ -180,5 +182,13 @@ public class AuthUser implements Serializable {
 
 	public void setSchoolId(String schoolId) {
 		this.schoolId = schoolId;
+	}
+
+	public String getActualUser() {
+		return actualUser;
+	}
+
+	public void setActualUser(String actualUser) {
+		this.actualUser = actualUser;
 	}
 }
