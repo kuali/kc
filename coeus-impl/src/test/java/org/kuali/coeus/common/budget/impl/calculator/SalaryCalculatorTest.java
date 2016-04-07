@@ -100,7 +100,7 @@ public class SalaryCalculatorTest {
         return budgetRate;
     }
 
-    public BudgetPerson createBudgetPerson(String personId, String effectiveDate, int calculationBase, int appointmentDuration, String anniversaryDate) throws Exception {
+    public BudgetPerson createBudgetPerson(String personId, String effectiveDate, double calculationBase, int appointmentDuration, String anniversaryDate) throws Exception {
         BudgetPerson budgetPerson = new BudgetPerson();
         budgetPerson.setPersonId(personId);
         budgetPerson.setEffectiveDate(createDateFromString(effectiveDate));
@@ -535,5 +535,74 @@ public class SalaryCalculatorTest {
                 new ScaleTwoDecimal(10400),
                 new ScaleTwoDecimal(10816),
                 new ScaleTwoDecimal(11248.64));
+    }
+
+
+
+    @Test
+    public void brokenStuffTest() throws Exception {
+        isAnniversarySalaryDateEnabled = true;
+        BudgetPerson budgetPerson = createBudgetPerson("1", "07/01/2015", 80953.50, 12, null);
+
+        Budget budget = createBudget("03/02/2016", "03/01/2020", budgetPerson,
+                createBudgetRate("07/01/2015", 3),
+                createBudgetRate("07/01/2016", 3),
+                createBudgetRate("07/01/2017", 3),
+                createBudgetRate("07/01/2018", 3),
+                createBudgetRate("07/01/2019", 3),
+                createBudgetRate("07/01/2020", 3));
+
+
+        BudgetPersonnelDetails budgetPersonnelDetails1 = createBudgetPersonnelDetails(1, budgetPerson, "03/02/2016", "09/01/2017");
+        BudgetPersonnelDetails budgetPersonnelDetails2 = createBudgetPersonnelDetails(2, budgetPerson, "09/02/2017", "03/01/2019");
+        BudgetPersonnelDetails budgetPersonnelDetails3 = createBudgetPersonnelDetails(3, budgetPerson, "03/02/2019", "03/01/2020");
+
+
+        BudgetLineItem budgetLineItem1 = createBudgetLineItem("03/02/2016", "09/01/2017",
+                budgetPersonnelDetails1);
+        BudgetLineItem budgetLineItem2 = createBudgetLineItem("09/02/2017", "03/01/2019",
+                budgetPersonnelDetails2);
+        BudgetLineItem budgetLineItem3 = createBudgetLineItem("03/02/2019", "03/01/2020",
+                budgetPersonnelDetails3);
+
+
+        budget.getBudgetPeriods().add(createBudgetPeriod(1, "03/02/2016", "09/01/2017", budgetLineItem1));
+        budget.getBudgetPeriods().add(createBudgetPeriod(2, "09/02/2017", "03/01/2019", budgetLineItem2));
+        budget.getBudgetPeriods().add(createBudgetPeriod(3, "03/02/2019", "03/01/2020", budgetLineItem3));
+
+        Assert.assertEquals(getCalculateSalary(budget, budgetPersonnelDetails1), new ScaleTwoDecimal(124701.48));
+        Assert.assertEquals(getCalculateSalary(budget, budgetPersonnelDetails2), new ScaleTwoDecimal(130542.26));
+    }
+
+
+    @Test
+    public void brokenStuffTest2() throws Exception {
+        isAnniversarySalaryDateEnabled = true;
+        BudgetPerson budgetPerson = createBudgetPerson("1", "01/01/2015", 10000, 12, null);
+
+        Budget budget = createBudget("01/01/2015", "12/31/2020", budgetPerson,
+                createBudgetRate("01/01/2015", 3),
+                createBudgetRate("01/01/2016", 3),
+                createBudgetRate("01/01/2017", 3),
+                createBudgetRate("01/01/2018", 3),
+                createBudgetRate("01/01/2019", 3),
+                createBudgetRate("01/01/2020", 3));
+
+
+        BudgetPersonnelDetails budgetPersonnelDetails1 = createBudgetPersonnelDetails(1, budgetPerson, "01/01/2015", "12/31/2016");
+        BudgetPersonnelDetails budgetPersonnelDetails2 = createBudgetPersonnelDetails(2, budgetPerson, "01/01/2017", "12/31/2018");
+
+
+        BudgetLineItem budgetLineItem1 = createBudgetLineItem("01/01/2015", "12/31/2016",
+                budgetPersonnelDetails1);
+        BudgetLineItem budgetLineItem2 = createBudgetLineItem("01/01/2017", "12/31/2018",
+                budgetPersonnelDetails2);
+
+
+        budget.getBudgetPeriods().add(createBudgetPeriod(1, "01/01/2015", "12/31/2016", budgetLineItem1));
+        budget.getBudgetPeriods().add(createBudgetPeriod(2, "01/01/2017", "12/31/2018", budgetLineItem2));
+
+        Assert.assertEquals(getCalculateSalary(budget, budgetPersonnelDetails1), new ScaleTwoDecimal(20300));
+        Assert.assertEquals(getCalculateSalary(budget, budgetPersonnelDetails2), new ScaleTwoDecimal(21536.27));
     }
 }
