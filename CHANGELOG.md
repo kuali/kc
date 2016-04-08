@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* Update CONTRIBUTING.md (#1648)
+
+* Update CONTRIBUTING.md
+  * 
+  * add func instructions to contrib file
+  * tdurkin on Thu, 7 Apr 2016 17:02:24 -0700 [View Commit](../../commit/49716e7a0c93fc3219465406616d827bdee09c01)
+
+##coeus-1604.6
 * No Changes
 
 
