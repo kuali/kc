@@ -24,3 +24,16 @@ Before submitting a pull request, please make sure you have done the following
 
 ##Contributor License Agreement ("CLA")
 In order to accept your pull request, we need you to submit a CLA. You only need to do this once, but we cannot accept any part of a PR until we have the CLA on file.
+
+## Functional Standards
+##Introduction
+The following standards outline at a high level the expectations of Kuali and the community subcommittees. Contributions to the Kuali codebase should follow these standards in order to maintain the highest level of UI quality possible in the product.  These standards are meant to be broad principles that could apply to a wide variety of contributions without stymieing the process of bringing new features into the application.  Each standard in this document is based on experience with a given contribution.  Additional standards may be added as we gain more experience with the contribution process.  This should both guide schools who want to contribute code, Kuali when they are deciding how to integrate contributed features, and subcommittee co-chairs when reviewing contributions and requesting revisions to contributed functionality.
+
+##Standard 1 - Naming and Terminology
+Contributions will use existing terminology for elements which mirror functionality that exists elsewhere in the application.  Where possible they will remain consistent with terminology within the module the functionality is enhancing.  If there is no similar terminology within the applicable module then enhancements will be consistent with terminology from other KC modules.
+
+##Standard 2 - User Interface/User Interaction
+Contributions will be built to utilize common user interactions that exist in the system and have been set as standards for future functionality.  Until all the modules are re-written and have the same interaction model, enhancements will honor the existing user interactions for the module they are a part of.  If a contribution is specifically designed to improve on the existing interface model it will be built to avoid UI regressions where possible.
+
+##Standard 3 - Existing Fields
+Contributions will not repurpose existing fields in ways that are inconsistent with their current design.
