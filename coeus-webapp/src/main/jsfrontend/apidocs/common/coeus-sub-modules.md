@@ -40,22 +40,22 @@
             ]
 
 ### Get All Coeus Sub Modules with Filtering [GET /research-sys/api/v1/coeus-sub-modules/]
-	 
+    
++ Parameters
+
+        + coeusSubModuleId
+            + moduleCode
+            + subModuleCode
+            + description
+            + requireUniqueQuestionnareUsage
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + coeusSubModuleId
-            + moduleCode
-            + subModuleCode
-            + description
-            + requireUniqueQuestionnareUsage
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -70,17 +70,17 @@
             ]
 			
 ### Get Schema for Coeus Sub Modules [GET /research-sys/api/v1/coeus-sub-modules/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -89,20 +89,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["coeusSubModuleId","moduleCode","subModuleCode","description","requireUniqueQuestionnareUsage"],"primaryKey":"coeusSubModuleId"}
 		
 ### Get Blueprint API specification for Coeus Sub Modules [GET /research-sys/api/v1/coeus-sub-modules/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -201,37 +201,37 @@
 + Response 204
 
 ### Delete All Coeus Sub Modules [DELETE /research-sys/api/v1/coeus-sub-modules/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Coeus Sub Modules with Matching [DELETE /research-sys/api/v1/coeus-sub-modules/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + coeusSubModuleId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + coeusSubModuleId
             + moduleCode
             + subModuleCode
             + description
             + requireUniqueQuestionnareUsage
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

@@ -40,24 +40,24 @@
             ]
 
 ### Get All Iacuc Committee Schedule Minute Docs with Filtering [GET /research-sys/api/v1/iacuc-committee-schedule-minute-docs/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + commScheduleMinuteDocId
++ Parameters
+
+        + commScheduleMinuteDocId
             + scheduleIdFk
             + minuteNumber
             + minuteName
             + pdfStore
             + createTimestamp
             + createUser
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -72,17 +72,17 @@
             ]
 			
 ### Get Schema for Iacuc Committee Schedule Minute Docs [GET /research-sys/api/v1/iacuc-committee-schedule-minute-docs/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -91,20 +91,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["commScheduleMinuteDocId","scheduleIdFk","minuteNumber","minuteName","pdfStore","createTimestamp","createUser"],"primaryKey":"commScheduleMinuteDocId"}
 		
 ### Get Blueprint API specification for Iacuc Committee Schedule Minute Docs [GET /research-sys/api/v1/iacuc-committee-schedule-minute-docs/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -203,33 +203,26 @@
 + Response 204
 
 ### Delete All Iacuc Committee Schedule Minute Docs [DELETE /research-sys/api/v1/iacuc-committee-schedule-minute-docs/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Iacuc Committee Schedule Minute Docs with Matching [DELETE /research-sys/api/v1/iacuc-committee-schedule-minute-docs/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + commScheduleMinuteDocId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + commScheduleMinuteDocId
             + scheduleIdFk
             + minuteNumber
             + minuteName
@@ -237,5 +230,12 @@
             + createTimestamp
             + createUser
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

@@ -40,21 +40,21 @@
             ]
 
 ### Get All Notification Type Recipients with Filtering [GET /research-sys/api/v1/notification-type-recipients/]
-	 
+    
++ Parameters
+
+        + notificationTypeRecipientId
+            + notificationTypeId
+            + roleName
+            + roleSubQualifier
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + notificationTypeRecipientId
-            + notificationTypeId
-            + roleName
-            + roleSubQualifier
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -69,17 +69,17 @@
             ]
 			
 ### Get Schema for Notification Type Recipients [GET /research-sys/api/v1/notification-type-recipients/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -88,20 +88,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["notificationTypeRecipientId","notificationTypeId","roleName","roleSubQualifier"],"primaryKey":"notificationTypeRecipientId"}
 		
 ### Get Blueprint API specification for Notification Type Recipients [GET /research-sys/api/v1/notification-type-recipients/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -200,36 +200,36 @@
 + Response 204
 
 ### Delete All Notification Type Recipients [DELETE /research-sys/api/v1/notification-type-recipients/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Notification Type Recipients with Matching [DELETE /research-sys/api/v1/notification-type-recipients/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + notificationTypeRecipientId
+            + notificationTypeId
+            + roleName
+            + roleSubQualifier
+
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + notificationTypeRecipientId
-            + notificationTypeId
-            + roleName
-            + roleSubQualifier
-
 
 + Response 204

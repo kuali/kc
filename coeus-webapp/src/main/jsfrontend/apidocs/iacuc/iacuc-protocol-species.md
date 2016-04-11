@@ -40,17 +40,10 @@
             ]
 
 ### Get All Iacuc Protocol Species with Filtering [GET /research-sys/api/v1/iacuc-protocol-species/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + iacucProtocolSpeciesId
++ Parameters
+
+        + iacucProtocolSpeciesId
             + protocolId
             + protocolNumber
             + sequenceNumber
@@ -64,7 +57,14 @@
             + speciesCountCode
             + procedureSummary
             + exceptionsPresent
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -79,17 +79,17 @@
             ]
 			
 ### Get Schema for Iacuc Protocol Species [GET /research-sys/api/v1/iacuc-protocol-species/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -98,20 +98,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["iacucProtocolSpeciesId","protocolId","protocolNumber","sequenceNumber","speciesId","speciesCode","speciesGroup","usdaCovered","strain","speciesCount","painCategoryCode","speciesCountCode","procedureSummary","exceptionsPresent"],"primaryKey":"iacucProtocolSpeciesId"}
 		
 ### Get Blueprint API specification for Iacuc Protocol Species [GET /research-sys/api/v1/iacuc-protocol-species/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -210,33 +210,26 @@
 + Response 204
 
 ### Delete All Iacuc Protocol Species [DELETE /research-sys/api/v1/iacuc-protocol-species/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Iacuc Protocol Species with Matching [DELETE /research-sys/api/v1/iacuc-protocol-species/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + iacucProtocolSpeciesId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + iacucProtocolSpeciesId
             + protocolId
             + protocolNumber
             + sequenceNumber
@@ -251,5 +244,12 @@
             + procedureSummary
             + exceptionsPresent
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

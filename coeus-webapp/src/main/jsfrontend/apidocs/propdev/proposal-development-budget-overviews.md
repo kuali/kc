@@ -40,17 +40,10 @@
             ]
 
 ### Get All Proposal Development Budget Overviews with Filtering [GET /research-sys/api/v1/proposal-development-budget-overviews/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + budgetId
++ Parameters
+
+        + budgetId
             + documentNumber
             + budgetVersionNumber
             + costSharingAmount
@@ -70,7 +63,14 @@
             + onOffCampusFlag
             + urRateClassCode
             + submitCostSharingFlag
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -85,17 +85,17 @@
             ]
 			
 ### Get Schema for Proposal Development Budget Overviews [GET /research-sys/api/v1/proposal-development-budget-overviews/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -104,20 +104,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["budgetId","documentNumber","budgetVersionNumber","costSharingAmount","endDate","modularBudgetFlag","ohRateTypeCode","ohRateClassCode","residualFunds","startDate","totalCost","totalCostLimit","totalDirectCostLimit","totalDirectCost","totalIndirectCost","underrecoveryAmount","comments","onOffCampusFlag","urRateClassCode","submitCostSharingFlag"],"primaryKey":"budgetId"}
 		
 ### Get Blueprint API specification for Proposal Development Budget Overviews [GET /research-sys/api/v1/proposal-development-budget-overviews/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -216,33 +216,26 @@
 + Response 204
 
 ### Delete All Proposal Development Budget Overviews [DELETE /research-sys/api/v1/proposal-development-budget-overviews/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Proposal Development Budget Overviews with Matching [DELETE /research-sys/api/v1/proposal-development-budget-overviews/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + budgetId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + budgetId
             + documentNumber
             + budgetVersionNumber
             + costSharingAmount
@@ -263,5 +256,12 @@
             + urRateClassCode
             + submitCostSharingFlag
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

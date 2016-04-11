@@ -40,19 +40,19 @@
             ]
 
 ### Get All B A M Params with Filtering [GET /research-sys/api/v1/b-a-m-params/]
-	 
+    
++ Parameters
+
+        + bamParamId
+            + param
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + bamParamId
-            + param
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -67,17 +67,17 @@
             ]
 			
 ### Get Schema for B A M Params [GET /research-sys/api/v1/b-a-m-params/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -86,20 +86,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["bamParamId","param"],"primaryKey":"bamParamId"}
 		
 ### Get Blueprint API specification for B A M Params [GET /research-sys/api/v1/b-a-m-params/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -198,34 +198,34 @@
 + Response 204
 
 ### Delete All B A M Params [DELETE /research-sys/api/v1/b-a-m-params/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All B A M Params with Matching [DELETE /research-sys/api/v1/b-a-m-params/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + bamParamId
+            + param
+
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + bamParamId
-            + param
-
 
 + Response 204

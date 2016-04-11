@@ -40,17 +40,10 @@
             ]
 
 ### Get All Organizations with Filtering [GET /research-common/api/v1/organizations/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + organizationId
++ Parameters
+
+        + organizationId
             + address
             + agencySymbol
             + animalWelfareAssurance
@@ -80,7 +73,14 @@
             + scienceMisconductComplDate
             + telexNumber
             + vendorCode
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -95,17 +95,17 @@
             ]
 			
 ### Get Schema for Organizations [GET /research-common/api/v1/organizations/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -114,20 +114,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["organizationId","address","agencySymbol","animalWelfareAssurance","cableAddress","cageNumber","cognizantAuditor","comGovEntityCode","congressionalDistrict","contactAddressId","county","dodacNumber","dunsNumber","dunsPlusFourNumber","federalEmployerId","humanSubAssurance","incorporatedDate","incorporatedIn","indirectCostRateAgreement","irsTaxExemption","stateEmployeeClaim","stateTaxExemptNum","nsfInstitutionalCode","numberOfEmployees","onrResidentRep","organizationName","phsAccount","scienceMisconductComplDate","telexNumber","vendorCode"],"primaryKey":"organizationId"}
 		
 ### Get Blueprint API specification for Organizations [GET /research-common/api/v1/organizations/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -226,33 +226,26 @@
 + Response 204
 
 ### Delete All Organizations [DELETE /research-common/api/v1/organizations/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Organizations with Matching [DELETE /research-common/api/v1/organizations/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + organizationId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + organizationId
             + address
             + agencySymbol
             + animalWelfareAssurance
@@ -283,5 +276,12 @@
             + telexNumber
             + vendorCode
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

@@ -40,22 +40,22 @@
             ]
 
 ### Get All Committee Schedule Action Items with Filtering [GET /research-sys/api/v1/committee-schedule-action-items/]
-	 
+    
++ Parameters
+
+        + commScheduleActItemsId
+            + scheduleIdFk
+            + actionItemNumber
+            + scheduleActItemTypeCode
+            + itemDescription
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + commScheduleActItemsId
-            + scheduleIdFk
-            + actionItemNumber
-            + scheduleActItemTypeCode
-            + itemDescription
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -70,17 +70,17 @@
             ]
 			
 ### Get Schema for Committee Schedule Action Items [GET /research-sys/api/v1/committee-schedule-action-items/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -89,20 +89,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["commScheduleActItemsId","scheduleIdFk","actionItemNumber","scheduleActItemTypeCode","itemDescription"],"primaryKey":"commScheduleActItemsId"}
 		
 ### Get Blueprint API specification for Committee Schedule Action Items [GET /research-sys/api/v1/committee-schedule-action-items/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -201,37 +201,37 @@
 + Response 204
 
 ### Delete All Committee Schedule Action Items [DELETE /research-sys/api/v1/committee-schedule-action-items/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Committee Schedule Action Items with Matching [DELETE /research-sys/api/v1/committee-schedule-action-items/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + commScheduleActItemsId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + commScheduleActItemsId
             + scheduleIdFk
             + actionItemNumber
             + scheduleActItemTypeCode
             + itemDescription
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

@@ -40,21 +40,21 @@
             ]
 
 ### Get All Valid Basis Method Payments with Filtering [GET /research-sys/api/v1/valid-basis-method-payments/]
-	 
+    
++ Parameters
+
+        + validBasisMethodPaymentId
+            + basisOfPaymentCode
+            + methodOfPaymentCode
+            + invInstructionsIndicator
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + validBasisMethodPaymentId
-            + basisOfPaymentCode
-            + methodOfPaymentCode
-            + invInstructionsIndicator
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -69,17 +69,17 @@
             ]
 			
 ### Get Schema for Valid Basis Method Payments [GET /research-sys/api/v1/valid-basis-method-payments/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -88,20 +88,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["validBasisMethodPaymentId","basisOfPaymentCode","methodOfPaymentCode","invInstructionsIndicator"],"primaryKey":"validBasisMethodPaymentId"}
 		
 ### Get Blueprint API specification for Valid Basis Method Payments [GET /research-sys/api/v1/valid-basis-method-payments/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -200,36 +200,36 @@
 + Response 204
 
 ### Delete All Valid Basis Method Payments [DELETE /research-sys/api/v1/valid-basis-method-payments/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Valid Basis Method Payments with Matching [DELETE /research-sys/api/v1/valid-basis-method-payments/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + validBasisMethodPaymentId
+            + basisOfPaymentCode
+            + methodOfPaymentCode
+            + invInstructionsIndicator
+
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + validBasisMethodPaymentId
-            + basisOfPaymentCode
-            + methodOfPaymentCode
-            + invInstructionsIndicator
-
 
 + Response 204

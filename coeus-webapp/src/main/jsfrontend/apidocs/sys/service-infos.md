@@ -40,17 +40,10 @@
             ]
 
 ### Get All Service Infos with Filtering [GET /research-sys/api/v1/service-infos/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + serviceId
++ Parameters
+
+        + serviceId
             + serviceName
             + endpointUrl
             + instanceId
@@ -61,7 +54,14 @@
             + statusCode
             + serviceDescriptorId
             + checksum
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -76,17 +76,17 @@
             ]
 			
 ### Get Schema for Service Infos [GET /research-sys/api/v1/service-infos/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -95,20 +95,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["serviceId","serviceName","endpointUrl","instanceId","applicationId","serverIpAddress","type","serviceVersion","statusCode","serviceDescriptorId","checksum"],"primaryKey":"serviceId"}
 		
 ### Get Blueprint API specification for Service Infos [GET /research-sys/api/v1/service-infos/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -207,33 +207,26 @@
 + Response 204
 
 ### Delete All Service Infos [DELETE /research-sys/api/v1/service-infos/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Service Infos with Matching [DELETE /research-sys/api/v1/service-infos/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + serviceId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + serviceId
             + serviceName
             + endpointUrl
             + instanceId
@@ -245,5 +238,12 @@
             + serviceDescriptorId
             + checksum
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

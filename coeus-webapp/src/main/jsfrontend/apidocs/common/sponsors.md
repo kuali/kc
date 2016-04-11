@@ -40,17 +40,10 @@
             ]
 
 ### Get All Sponsors with Filtering [GET /research-sys/api/v1/sponsors/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + sponsorCode
++ Parameters
+
+        + sponsorCode
             + acronym
             + auditReportSentForFy
             + cageNumber
@@ -68,7 +61,14 @@
             + dunningCampaignId
             + customerNumber
             + active
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -83,17 +83,17 @@
             ]
 			
 ### Get Schema for Sponsors [GET /research-sys/api/v1/sponsors/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -102,20 +102,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["sponsorCode","acronym","auditReportSentForFy","cageNumber","countryCode","dodacNumber","dunAndBradstreetNumber","dunsPlusFourNumber","ownedByUnit","postalCode","rolodexId","sponsorName","sponsorTypeCode","state","createUser","dunningCampaignId","customerNumber","active"],"primaryKey":"sponsorCode"}
 		
 ### Get Blueprint API specification for Sponsors [GET /research-sys/api/v1/sponsors/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -214,33 +214,26 @@
 + Response 204
 
 ### Delete All Sponsors [DELETE /research-sys/api/v1/sponsors/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Sponsors with Matching [DELETE /research-sys/api/v1/sponsors/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + sponsorCode
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + sponsorCode
             + acronym
             + auditReportSentForFy
             + cageNumber
@@ -259,5 +252,12 @@
             + customerNumber
             + active
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

@@ -40,24 +40,24 @@
             ]
 
 ### Get All Budget Formulated Cost Details with Filtering [GET /research-sys/api/v1/budget-formulated-cost-details/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + budgetFormulatedCostDetailId
++ Parameters
+
+        + budgetFormulatedCostDetailId
             + formulatedNumber
             + formulatedTypeCode
             + unitCost
             + count
             + frequency
             + calculatedExpenses
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -72,17 +72,17 @@
             ]
 			
 ### Get Schema for Budget Formulated Cost Details [GET /research-sys/api/v1/budget-formulated-cost-details/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -91,20 +91,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["budgetFormulatedCostDetailId","formulatedNumber","formulatedTypeCode","unitCost","count","frequency","calculatedExpenses"],"primaryKey":"budgetFormulatedCostDetailId"}
 		
 ### Get Blueprint API specification for Budget Formulated Cost Details [GET /research-sys/api/v1/budget-formulated-cost-details/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -203,33 +203,26 @@
 + Response 204
 
 ### Delete All Budget Formulated Cost Details [DELETE /research-sys/api/v1/budget-formulated-cost-details/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Budget Formulated Cost Details with Matching [DELETE /research-sys/api/v1/budget-formulated-cost-details/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + budgetFormulatedCostDetailId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + budgetFormulatedCostDetailId
             + formulatedNumber
             + formulatedTypeCode
             + unitCost
@@ -237,5 +230,12 @@
             + frequency
             + calculatedExpenses
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

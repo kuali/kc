@@ -40,17 +40,10 @@
             ]
 
 ### Get All Proposal Admin Details with Filtering [GET /research-sys/api/v1/proposal-admin-details/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + proposalAdminDetailId
++ Parameters
+
+        + proposalAdminDetailId
             + dateSubmittedByDept
             + dateReturnedToDept
             + dateApprovedByOsp
@@ -61,7 +54,14 @@
             + submissionType
             + devProposalNumber
             + instProposalId
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -76,17 +76,17 @@
             ]
 			
 ### Get Schema for Proposal Admin Details [GET /research-sys/api/v1/proposal-admin-details/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -95,20 +95,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["proposalAdminDetailId","dateSubmittedByDept","dateReturnedToDept","dateApprovedByOsp","dateSubmittedToAgency","instPropCreateDate","instPropCreateUser","signedBy","submissionType","devProposalNumber","instProposalId"],"primaryKey":"proposalAdminDetailId"}
 		
 ### Get Blueprint API specification for Proposal Admin Details [GET /research-sys/api/v1/proposal-admin-details/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -207,33 +207,26 @@
 + Response 204
 
 ### Delete All Proposal Admin Details [DELETE /research-sys/api/v1/proposal-admin-details/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Proposal Admin Details with Matching [DELETE /research-sys/api/v1/proposal-admin-details/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + proposalAdminDetailId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + proposalAdminDetailId
             + dateSubmittedByDept
             + dateReturnedToDept
             + dateApprovedByOsp
@@ -245,5 +238,12 @@
             + devProposalNumber
             + instProposalId
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

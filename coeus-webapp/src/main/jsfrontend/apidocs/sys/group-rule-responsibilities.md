@@ -40,17 +40,10 @@
             ]
 
 ### Get All Group Rule Responsibilities with Filtering [GET /research-sys/api/v1/group-rule-responsibilities/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + id
++ Parameters
+
+        + id
             + responsibilityId
             + ruleBaseValuesId
             + priority
@@ -58,7 +51,14 @@
             + ruleResponsibilityName
             + ruleResponsibilityType
             + approvePolicy
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -73,17 +73,17 @@
             ]
 			
 ### Get Schema for Group Rule Responsibilities [GET /research-sys/api/v1/group-rule-responsibilities/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -92,20 +92,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["id","responsibilityId","ruleBaseValuesId","priority","actionRequestedCd","ruleResponsibilityName","ruleResponsibilityType","approvePolicy"],"primaryKey":"id"}
 		
 ### Get Blueprint API specification for Group Rule Responsibilities [GET /research-sys/api/v1/group-rule-responsibilities/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -204,33 +204,26 @@
 + Response 204
 
 ### Delete All Group Rule Responsibilities [DELETE /research-sys/api/v1/group-rule-responsibilities/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Group Rule Responsibilities with Matching [DELETE /research-sys/api/v1/group-rule-responsibilities/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + id
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + id
             + responsibilityId
             + ruleBaseValuesId
             + priority
@@ -239,5 +232,12 @@
             + ruleResponsibilityType
             + approvePolicy
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

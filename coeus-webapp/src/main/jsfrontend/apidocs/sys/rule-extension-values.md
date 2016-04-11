@@ -40,21 +40,21 @@
             ]
 
 ### Get All Rule Extension Values with Filtering [GET /research-sys/api/v1/rule-extension-values/]
-	 
+    
++ Parameters
+
+        + ruleExtensionValueId
+            + value
+            + key
+            + lockVerNbr
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + ruleExtensionValueId
-            + value
-            + key
-            + lockVerNbr
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -69,17 +69,17 @@
             ]
 			
 ### Get Schema for Rule Extension Values [GET /research-sys/api/v1/rule-extension-values/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -88,20 +88,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["ruleExtensionValueId","value","key","lockVerNbr"],"primaryKey":"ruleExtensionValueId"}
 		
 ### Get Blueprint API specification for Rule Extension Values [GET /research-sys/api/v1/rule-extension-values/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -200,36 +200,36 @@
 + Response 204
 
 ### Delete All Rule Extension Values [DELETE /research-sys/api/v1/rule-extension-values/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Rule Extension Values with Matching [DELETE /research-sys/api/v1/rule-extension-values/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + ruleExtensionValueId
+            + value
+            + key
+            + lockVerNbr
+
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + ruleExtensionValueId
-            + value
-            + key
-            + lockVerNbr
-
 
 + Response 204

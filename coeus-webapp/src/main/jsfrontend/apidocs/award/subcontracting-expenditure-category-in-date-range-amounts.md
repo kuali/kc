@@ -40,17 +40,10 @@
             ]
 
 ### Get All Subcontracting Expenditure Category In Date Range Amounts with Filtering [GET /research-sys/api/v1/subcontracting-expenditure-category-in-date-range-amounts/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + awardNumber
++ Parameters
+
+        + awardNumber
             + rangeStartDate
             + rangeEndDate
             + largeBusinessExpenditureAmount
@@ -61,7 +54,14 @@
             + veteranOwnedExpenditureAmount
             + serviceDisabledVeteranOwnedExpenditureAmount
             + historicalBlackCollegeExpenditureAmount
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -76,17 +76,17 @@
             ]
 			
 ### Get Schema for Subcontracting Expenditure Category In Date Range Amounts [GET /research-sys/api/v1/subcontracting-expenditure-category-in-date-range-amounts/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -95,20 +95,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["awardNumber","rangeStartDate","rangeEndDate","largeBusinessExpenditureAmount","smallBusinessExpenditureAmount","womanOwnedExpenditureAmount","eightADisadvantageExpenditureAmount","hubZoneExpenditureAmount","veteranOwnedExpenditureAmount","serviceDisabledVeteranOwnedExpenditureAmount","historicalBlackCollegeExpenditureAmount"],"primaryKey":"awardNumber"}
 		
 ### Get Blueprint API specification for Subcontracting Expenditure Category In Date Range Amounts [GET /research-sys/api/v1/subcontracting-expenditure-category-in-date-range-amounts/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -207,33 +207,26 @@
 + Response 204
 
 ### Delete All Subcontracting Expenditure Category In Date Range Amounts [DELETE /research-sys/api/v1/subcontracting-expenditure-category-in-date-range-amounts/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Subcontracting Expenditure Category In Date Range Amounts with Matching [DELETE /research-sys/api/v1/subcontracting-expenditure-category-in-date-range-amounts/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + awardNumber
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + awardNumber
             + rangeStartDate
             + rangeEndDate
             + largeBusinessExpenditureAmount
@@ -245,5 +238,12 @@
             + serviceDisabledVeteranOwnedExpenditureAmount
             + historicalBlackCollegeExpenditureAmount
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

@@ -40,21 +40,21 @@
             ]
 
 ### Get All Committee Batch Correspondence Details with Filtering [GET /research-sys/api/v1/committee-batch-correspondence-details/]
-	 
+    
++ Parameters
+
+        + committeeBatchCorrespondenceDetailId
+            + committeeBatchCorrespondenceId
+            + protocolActionId
+            + protocolCorrespondenceId
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + committeeBatchCorrespondenceDetailId
-            + committeeBatchCorrespondenceId
-            + protocolActionId
-            + protocolCorrespondenceId
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -69,17 +69,17 @@
             ]
 			
 ### Get Schema for Committee Batch Correspondence Details [GET /research-sys/api/v1/committee-batch-correspondence-details/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -88,20 +88,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["committeeBatchCorrespondenceDetailId","committeeBatchCorrespondenceId","protocolActionId","protocolCorrespondenceId"],"primaryKey":"committeeBatchCorrespondenceDetailId"}
 		
 ### Get Blueprint API specification for Committee Batch Correspondence Details [GET /research-sys/api/v1/committee-batch-correspondence-details/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -200,36 +200,36 @@
 + Response 204
 
 ### Delete All Committee Batch Correspondence Details [DELETE /research-sys/api/v1/committee-batch-correspondence-details/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Committee Batch Correspondence Details with Matching [DELETE /research-sys/api/v1/committee-batch-correspondence-details/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + committeeBatchCorrespondenceDetailId
+            + committeeBatchCorrespondenceId
+            + protocolActionId
+            + protocolCorrespondenceId
+
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + committeeBatchCorrespondenceDetailId
-            + committeeBatchCorrespondenceId
-            + protocolActionId
-            + protocolCorrespondenceId
-
 
 + Response 204

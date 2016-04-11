@@ -40,22 +40,22 @@
             ]
 
 ### Get All Kc Krms Term Functions with Filtering [GET /research-sys/api/v1/kc-krms-term-functions/]
-	 
+    
++ Parameters
+
+        + kcKrmsTermFunctionId
+            + krmsTermName
+            + description
+            + returnType
+            + functionType
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + kcKrmsTermFunctionId
-            + krmsTermName
-            + description
-            + returnType
-            + functionType
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -70,17 +70,17 @@
             ]
 			
 ### Get Schema for Kc Krms Term Functions [GET /research-sys/api/v1/kc-krms-term-functions/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -89,20 +89,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["kcKrmsTermFunctionId","krmsTermName","description","returnType","functionType"],"primaryKey":"kcKrmsTermFunctionId"}
 		
 ### Get Blueprint API specification for Kc Krms Term Functions [GET /research-sys/api/v1/kc-krms-term-functions/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -201,37 +201,37 @@
 + Response 204
 
 ### Delete All Kc Krms Term Functions [DELETE /research-sys/api/v1/kc-krms-term-functions/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Kc Krms Term Functions with Matching [DELETE /research-sys/api/v1/kc-krms-term-functions/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + kcKrmsTermFunctionId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + kcKrmsTermFunctionId
             + krmsTermName
             + description
             + returnType
             + functionType
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

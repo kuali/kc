@@ -40,17 +40,10 @@
             ]
 
 ### Get All Budget Line Items with Filtering [GET /research-sys/api/v1/budget-line-items/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + costSharingAmount
++ Parameters
+
+        + costSharingAmount
             + budgetLineItemId
             + budgetPeriodId
             + lineItemNumber
@@ -75,7 +68,14 @@
             + subAwardNumber
             + hierarchyProposalNumber
             + hiddenInHierarchy
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -90,17 +90,17 @@
             ]
 			
 ### Get Schema for Budget Line Items [GET /research-sys/api/v1/budget-line-items/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -109,20 +109,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["costSharingAmount","budgetLineItemId","budgetPeriodId","lineItemNumber","budgetId","budgetPeriod","applyInRateFlag","basedOnLineItem","budgetCategoryCode","budgetJustification","costElement","groupName","endDate","lineItemCost","lineItemDescription","lineItemSequence","onOffCampusFlag","quantity","startDate","underrecoveryAmount","submitCostSharingFlag","formulatedCostElementFlag","subAwardNumber","hierarchyProposalNumber","hiddenInHierarchy"],"primaryKey":"budgetLineItemId"}
 		
 ### Get Blueprint API specification for Budget Line Items [GET /research-sys/api/v1/budget-line-items/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -221,33 +221,26 @@
 + Response 204
 
 ### Delete All Budget Line Items [DELETE /research-sys/api/v1/budget-line-items/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Budget Line Items with Matching [DELETE /research-sys/api/v1/budget-line-items/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + costSharingAmount
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + costSharingAmount
             + budgetLineItemId
             + budgetPeriodId
             + lineItemNumber
@@ -273,5 +266,12 @@
             + hierarchyProposalNumber
             + hiddenInHierarchy
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

@@ -40,22 +40,22 @@
             ]
 
 ### Get All Award Template Comments with Filtering [GET /research-sys/api/v1/award-template-comments/]
-	 
+    
++ Parameters
+
+        + templateCommentsId
+            + templateCode
+            + commentTypeCode
+            + checklistPrintFlag
+            + comments
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + templateCommentsId
-            + templateCode
-            + commentTypeCode
-            + checklistPrintFlag
-            + comments
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -70,17 +70,17 @@
             ]
 			
 ### Get Schema for Award Template Comments [GET /research-sys/api/v1/award-template-comments/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -89,20 +89,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["templateCommentsId","templateCode","commentTypeCode","checklistPrintFlag","comments"],"primaryKey":"templateCommentsId"}
 		
 ### Get Blueprint API specification for Award Template Comments [GET /research-sys/api/v1/award-template-comments/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -201,37 +201,37 @@
 + Response 204
 
 ### Delete All Award Template Comments [DELETE /research-sys/api/v1/award-template-comments/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Award Template Comments with Matching [DELETE /research-sys/api/v1/award-template-comments/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + templateCommentsId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + templateCommentsId
             + templateCode
             + commentTypeCode
             + checklistPrintFlag
             + comments
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

@@ -40,17 +40,10 @@
             ]
 
 ### Get All Iacuc Protocol Exceptions with Filtering [GET /research-sys/api/v1/iacuc-protocol-exceptions/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + iacucProtocolExceptionId
++ Parameters
+
+        + iacucProtocolExceptionId
             + speciesCode
             + protocolId
             + protocolNumber
@@ -59,7 +52,14 @@
             + exceptionCategoryCode
             + exceptionDescription
             + exceptionCount
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -74,17 +74,17 @@
             ]
 			
 ### Get Schema for Iacuc Protocol Exceptions [GET /research-sys/api/v1/iacuc-protocol-exceptions/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -93,20 +93,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["iacucProtocolExceptionId","speciesCode","protocolId","protocolNumber","sequenceNumber","exceptionId","exceptionCategoryCode","exceptionDescription","exceptionCount"],"primaryKey":"iacucProtocolExceptionId"}
 		
 ### Get Blueprint API specification for Iacuc Protocol Exceptions [GET /research-sys/api/v1/iacuc-protocol-exceptions/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -205,33 +205,26 @@
 + Response 204
 
 ### Delete All Iacuc Protocol Exceptions [DELETE /research-sys/api/v1/iacuc-protocol-exceptions/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Iacuc Protocol Exceptions with Matching [DELETE /research-sys/api/v1/iacuc-protocol-exceptions/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + iacucProtocolExceptionId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + iacucProtocolExceptionId
             + speciesCode
             + protocolId
             + protocolNumber
@@ -241,5 +234,12 @@
             + exceptionDescription
             + exceptionCount
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

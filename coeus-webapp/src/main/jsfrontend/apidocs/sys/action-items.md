@@ -40,17 +40,10 @@
             ]
 
 ### Get All Action Items with Filtering [GET /research-sys/api/v1/action-items/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + docHandlerURL
++ Parameters
+
+        + docHandlerURL
             + groupId
             + delegatorGroupId
             + docLabel
@@ -67,7 +60,14 @@
             + requestLabel
             + dateAssigned
             + actionRequestId
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -82,17 +82,17 @@
             ]
 			
 ### Get Schema for Action Items [GET /research-sys/api/v1/action-items/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -101,20 +101,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["docHandlerURL","groupId","delegatorGroupId","docLabel","responsibilityId","docTitle","principalId","delegatorPrincipalId","actionRequestCd","docName","delegationType","roleName","documentId","id","requestLabel","dateAssigned","actionRequestId"],"primaryKey":"id"}
 		
 ### Get Blueprint API specification for Action Items [GET /research-sys/api/v1/action-items/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -213,33 +213,26 @@
 + Response 204
 
 ### Delete All Action Items [DELETE /research-sys/api/v1/action-items/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Action Items with Matching [DELETE /research-sys/api/v1/action-items/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + docHandlerURL
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + docHandlerURL
             + groupId
             + delegatorGroupId
             + docLabel
@@ -257,5 +250,12 @@
             + dateAssigned
             + actionRequestId
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

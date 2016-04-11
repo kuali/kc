@@ -40,22 +40,22 @@
             ]
 
 ### Get All Kim Document Role Permissions with Filtering [GET /research-sys/api/v1/kim-document-role-permissions/]
-	 
+    
++ Parameters
+
+        + rolePermissionId
+            + roleId
+            + permissionId
+            + documentNumber
+            + active
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + rolePermissionId
-            + roleId
-            + permissionId
-            + documentNumber
-            + active
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -70,17 +70,17 @@
             ]
 			
 ### Get Schema for Kim Document Role Permissions [GET /research-sys/api/v1/kim-document-role-permissions/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -89,20 +89,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["rolePermissionId","roleId","permissionId","documentNumber","active"],"primaryKey":"rolePermissionId"}
 		
 ### Get Blueprint API specification for Kim Document Role Permissions [GET /research-sys/api/v1/kim-document-role-permissions/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -201,37 +201,37 @@
 + Response 204
 
 ### Delete All Kim Document Role Permissions [DELETE /research-sys/api/v1/kim-document-role-permissions/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Kim Document Role Permissions with Matching [DELETE /research-sys/api/v1/kim-document-role-permissions/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + rolePermissionId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + rolePermissionId
             + roleId
             + permissionId
             + documentNumber
             + active
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

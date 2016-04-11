@@ -40,17 +40,10 @@
             ]
 
 ### Get All Proposal Logs with Filtering [GET /research-sys/api/v1/proposal-logs/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + proposalNumber
++ Parameters
+
+        + proposalNumber
             + proposalTypeCode
             + proposalLogTypeCode
             + title
@@ -70,7 +63,14 @@
             + deadlineTime
             + fiscalMonth
             + fiscalYear
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -85,17 +85,17 @@
             ]
 			
 ### Get Schema for Proposal Logs [GET /research-sys/api/v1/proposal-logs/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -104,20 +104,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["proposalNumber","proposalTypeCode","proposalLogTypeCode","title","piId","mergedWith","instProposalNumber","rolodexId","piName","leadUnit","sponsorCode","sponsorName","logStatus","comments","createTimestamp","createUser","deadlineDate","deadlineTime","fiscalMonth","fiscalYear"],"primaryKey":"proposalNumber"}
 		
 ### Get Blueprint API specification for Proposal Logs [GET /research-sys/api/v1/proposal-logs/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -216,33 +216,26 @@
 + Response 204
 
 ### Delete All Proposal Logs [DELETE /research-sys/api/v1/proposal-logs/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Proposal Logs with Matching [DELETE /research-sys/api/v1/proposal-logs/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + proposalNumber
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + proposalNumber
             + proposalTypeCode
             + proposalLogTypeCode
             + title
@@ -263,5 +256,12 @@
             + fiscalMonth
             + fiscalYear
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

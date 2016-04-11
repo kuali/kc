@@ -40,17 +40,10 @@
             ]
 
 ### Get All Iacuc Protocol Actions with Filtering [GET /research-sys/api/v1/iacuc-protocol-actions/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + protocolActionId
++ Parameters
+
+        + protocolActionId
             + protocolNumber
             + sequenceNumber
             + actionId
@@ -68,7 +61,14 @@
             + prevProtocolStatusCode
             + followupActionCode
             + createdSubmission
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -83,17 +83,17 @@
             ]
 			
 ### Get Schema for Iacuc Protocol Actions [GET /research-sys/api/v1/iacuc-protocol-actions/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -102,20 +102,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["protocolActionId","protocolNumber","sequenceNumber","actionId","protocolActionTypeCode","submissionNumber","comments","createTimestamp","createUser","actionDate","protocolId","submissionIdFk","actualActionDate","prevSubmissionStatusCode","submissionTypeCode","prevProtocolStatusCode","followupActionCode","createdSubmission"],"primaryKey":"protocolActionId"}
 		
 ### Get Blueprint API specification for Iacuc Protocol Actions [GET /research-sys/api/v1/iacuc-protocol-actions/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -214,33 +214,26 @@
 + Response 204
 
 ### Delete All Iacuc Protocol Actions [DELETE /research-sys/api/v1/iacuc-protocol-actions/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Iacuc Protocol Actions with Matching [DELETE /research-sys/api/v1/iacuc-protocol-actions/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + protocolActionId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + protocolActionId
             + protocolNumber
             + sequenceNumber
             + actionId
@@ -259,5 +252,12 @@
             + followupActionCode
             + createdSubmission
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

@@ -40,23 +40,23 @@
             ]
 
 ### Get All Award Amount Transactions with Filtering [GET /research-sys/api/v1/award-amount-transactions/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + awardAmountTransactionId
++ Parameters
+
+        + awardAmountTransactionId
             + awardNumber
             + documentNumber
             + transactionTypeCode
             + noticeDate
             + comments
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -71,17 +71,17 @@
             ]
 			
 ### Get Schema for Award Amount Transactions [GET /research-sys/api/v1/award-amount-transactions/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -90,20 +90,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["awardAmountTransactionId","awardNumber","documentNumber","transactionTypeCode","noticeDate","comments"],"primaryKey":"awardAmountTransactionId"}
 		
 ### Get Blueprint API specification for Award Amount Transactions [GET /research-sys/api/v1/award-amount-transactions/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -202,38 +202,38 @@
 + Response 204
 
 ### Delete All Award Amount Transactions [DELETE /research-sys/api/v1/award-amount-transactions/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Award Amount Transactions with Matching [DELETE /research-sys/api/v1/award-amount-transactions/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + awardAmountTransactionId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + awardAmountTransactionId
             + awardNumber
             + documentNumber
             + transactionTypeCode
             + noticeDate
             + comments
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

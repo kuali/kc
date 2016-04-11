@@ -40,24 +40,24 @@
             ]
 
 ### Get All Iacuc Batch Correspondences with Filtering [GET /research-sys/api/v1/iacuc-batch-correspondences/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + batchCorrespondenceTypeCode
++ Parameters
+
+        + batchCorrespondenceTypeCode
             + description
             + daysToEventUiText
             + sendCorrespondence
             + finalActionDay
             + finalActionTypeCode
             + finalActionCorrespType
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -72,17 +72,17 @@
             ]
 			
 ### Get Schema for Iacuc Batch Correspondences [GET /research-sys/api/v1/iacuc-batch-correspondences/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -91,20 +91,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["batchCorrespondenceTypeCode","description","daysToEventUiText","sendCorrespondence","finalActionDay","finalActionTypeCode","finalActionCorrespType"],"primaryKey":"batchCorrespondenceTypeCode"}
 		
 ### Get Blueprint API specification for Iacuc Batch Correspondences [GET /research-sys/api/v1/iacuc-batch-correspondences/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -203,33 +203,26 @@
 + Response 204
 
 ### Delete All Iacuc Batch Correspondences [DELETE /research-sys/api/v1/iacuc-batch-correspondences/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Iacuc Batch Correspondences with Matching [DELETE /research-sys/api/v1/iacuc-batch-correspondences/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + batchCorrespondenceTypeCode
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + batchCorrespondenceTypeCode
             + description
             + daysToEventUiText
             + sendCorrespondence
@@ -237,5 +230,12 @@
             + finalActionTypeCode
             + finalActionCorrespType
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

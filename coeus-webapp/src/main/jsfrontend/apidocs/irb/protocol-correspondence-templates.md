@@ -40,22 +40,22 @@
             ]
 
 ### Get All Protocol Correspondence Templates with Filtering [GET /research-sys/api/v1/protocol-correspondence-templates/]
-	 
+    
++ Parameters
+
+        + protoCorrespTemplId
+            + protoCorrespTypeCode
+            + committeeId
+            + fileName
+            + correspondenceTemplate
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + protoCorrespTemplId
-            + protoCorrespTypeCode
-            + committeeId
-            + fileName
-            + correspondenceTemplate
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -70,17 +70,17 @@
             ]
 			
 ### Get Schema for Protocol Correspondence Templates [GET /research-sys/api/v1/protocol-correspondence-templates/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -89,20 +89,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["protoCorrespTemplId","protoCorrespTypeCode","committeeId","fileName","correspondenceTemplate"],"primaryKey":"protoCorrespTemplId"}
 		
 ### Get Blueprint API specification for Protocol Correspondence Templates [GET /research-sys/api/v1/protocol-correspondence-templates/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -201,37 +201,37 @@
 + Response 204
 
 ### Delete All Protocol Correspondence Templates [DELETE /research-sys/api/v1/protocol-correspondence-templates/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Protocol Correspondence Templates with Matching [DELETE /research-sys/api/v1/protocol-correspondence-templates/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + protoCorrespTemplId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + protoCorrespTemplId
             + protoCorrespTypeCode
             + committeeId
             + fileName
             + correspondenceTemplate
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

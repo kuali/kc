@@ -40,17 +40,10 @@
             ]
 
 ### Get All Rule Base Values with Filtering [GET /research-sys/api/v1/rule-base-values/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + id
++ Parameters
+
+        + id
             + name
             + ruleTemplateId
             + previousRuleId
@@ -67,7 +60,14 @@
             + activationDate
             + delegateRule
             + templateRuleInd
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -82,17 +82,17 @@
             ]
 			
 ### Get Schema for Rule Base Values [GET /research-sys/api/v1/rule-base-values/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -101,20 +101,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["id","name","ruleTemplateId","previousRuleId","active","description","docTypeName","documentId","fromDateValue","toDateValue","deactivationDate","currentInd","versionNbr","forceAction","activationDate","delegateRule","templateRuleInd"],"primaryKey":"id"}
 		
 ### Get Blueprint API specification for Rule Base Values [GET /research-sys/api/v1/rule-base-values/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -213,33 +213,26 @@
 + Response 204
 
 ### Delete All Rule Base Values [DELETE /research-sys/api/v1/rule-base-values/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Rule Base Values with Matching [DELETE /research-sys/api/v1/rule-base-values/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + id
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + id
             + name
             + ruleTemplateId
             + previousRuleId
@@ -257,5 +250,12 @@
             + delegateRule
             + templateRuleInd
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

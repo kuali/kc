@@ -40,17 +40,10 @@
             ]
 
 ### Get All Sponsor Hierarchies with Filtering [GET /research-sys/api/v1/sponsor-hierarchies/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + hierarchyName
++ Parameters
+
+        + hierarchyName
             + sponsorCode
             + level1
             + level10
@@ -72,7 +65,14 @@
             + level8Sortid
             + level9
             + level9Sortid
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -87,17 +87,17 @@
             ]
 			
 ### Get Schema for Sponsor Hierarchies [GET /research-sys/api/v1/sponsor-hierarchies/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -106,20 +106,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["hierarchyName","sponsorCode","level1","level10","level10Sortid","level1Sortid","level2","level2Sortid","level3","level3Sortid","level4","level4Sortid","level5","level5Sortid","level6","level6Sortid","level7","level7Sortid","level8","level8Sortid","level9","level9Sortid"],"primaryKey":"hierarchyName:sponsorCode"}
 		
 ### Get Blueprint API specification for Sponsor Hierarchies [GET /research-sys/api/v1/sponsor-hierarchies/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -218,33 +218,26 @@
 + Response 204
 
 ### Delete All Sponsor Hierarchies [DELETE /research-sys/api/v1/sponsor-hierarchies/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Sponsor Hierarchies with Matching [DELETE /research-sys/api/v1/sponsor-hierarchies/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + hierarchyName
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + hierarchyName
             + sponsorCode
             + level1
             + level10
@@ -267,5 +260,12 @@
             + level9
             + level9Sortid
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

@@ -40,22 +40,22 @@
             ]
 
 ### Get All Institutional Proposal Science Keywords with Filtering [GET /research-sys/api/v1/institutional-proposal-science-keywords/]
-	 
+    
++ Parameters
+
+        + proposalScienceKeywordId
+            + proposalId
+            + proposalNumber
+            + sequenceNumber
+            + scienceKeywordCode
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + proposalScienceKeywordId
-            + proposalId
-            + proposalNumber
-            + sequenceNumber
-            + scienceKeywordCode
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -70,17 +70,17 @@
             ]
 			
 ### Get Schema for Institutional Proposal Science Keywords [GET /research-sys/api/v1/institutional-proposal-science-keywords/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -89,20 +89,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["proposalScienceKeywordId","proposalId","proposalNumber","sequenceNumber","scienceKeywordCode"],"primaryKey":"proposalScienceKeywordId"}
 		
 ### Get Blueprint API specification for Institutional Proposal Science Keywords [GET /research-sys/api/v1/institutional-proposal-science-keywords/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -201,37 +201,37 @@
 + Response 204
 
 ### Delete All Institutional Proposal Science Keywords [DELETE /research-sys/api/v1/institutional-proposal-science-keywords/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Institutional Proposal Science Keywords with Matching [DELETE /research-sys/api/v1/institutional-proposal-science-keywords/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + proposalScienceKeywordId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + proposalScienceKeywordId
             + proposalId
             + proposalNumber
             + sequenceNumber
             + scienceKeywordCode
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

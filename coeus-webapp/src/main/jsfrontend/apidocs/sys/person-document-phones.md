@@ -40,17 +40,10 @@
             ]
 
 ### Get All Person Document Phones with Filtering [GET /research-sys/api/v1/person-document-phones/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + entityPhoneId
++ Parameters
+
+        + entityPhoneId
             + entityTypeCode
             + phoneTypeCode
             + phoneNumber
@@ -60,7 +53,14 @@
             + edit
             + documentNumber
             + active
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -75,17 +75,17 @@
             ]
 			
 ### Get Schema for Person Document Phones [GET /research-sys/api/v1/person-document-phones/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -94,20 +94,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["entityPhoneId","entityTypeCode","phoneTypeCode","phoneNumber","extensionNumber","countryCode","dflt","edit","documentNumber","active"],"primaryKey":"entityPhoneId"}
 		
 ### Get Blueprint API specification for Person Document Phones [GET /research-sys/api/v1/person-document-phones/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -206,33 +206,26 @@
 + Response 204
 
 ### Delete All Person Document Phones [DELETE /research-sys/api/v1/person-document-phones/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Person Document Phones with Matching [DELETE /research-sys/api/v1/person-document-phones/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + entityPhoneId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + entityPhoneId
             + entityTypeCode
             + phoneTypeCode
             + phoneNumber
@@ -243,5 +236,12 @@
             + documentNumber
             + active
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

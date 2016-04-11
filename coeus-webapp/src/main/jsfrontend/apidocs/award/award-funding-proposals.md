@@ -40,21 +40,21 @@
             ]
 
 ### Get All Award Funding Proposals with Filtering [GET /research-sys/api/v1/award-funding-proposals/]
-	 
+    
++ Parameters
+
+        + awardFundingProposalId
+            + awardId
+            + proposalId
+            + active
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + awardFundingProposalId
-            + awardId
-            + proposalId
-            + active
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -69,17 +69,17 @@
             ]
 			
 ### Get Schema for Award Funding Proposals [GET /research-sys/api/v1/award-funding-proposals/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -88,20 +88,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["awardFundingProposalId","awardId","proposalId","active"],"primaryKey":"awardFundingProposalId"}
 		
 ### Get Blueprint API specification for Award Funding Proposals [GET /research-sys/api/v1/award-funding-proposals/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -200,36 +200,36 @@
 + Response 204
 
 ### Delete All Award Funding Proposals [DELETE /research-sys/api/v1/award-funding-proposals/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Award Funding Proposals with Matching [DELETE /research-sys/api/v1/award-funding-proposals/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + awardFundingProposalId
+            + awardId
+            + proposalId
+            + active
+
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + awardFundingProposalId
-            + awardId
-            + proposalId
-            + active
-
 
 + Response 204

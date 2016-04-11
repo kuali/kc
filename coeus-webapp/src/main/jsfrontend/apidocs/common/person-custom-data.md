@@ -40,21 +40,21 @@
             ]
 
 ### Get All Person Custom Data with Filtering [GET /research-sys/api/v1/person-custom-data/]
-	 
+    
++ Parameters
+
+        + personCustomDataId
+            + personId
+            + customAttributeId
+            + value
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + personCustomDataId
-            + personId
-            + customAttributeId
-            + value
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -69,17 +69,17 @@
             ]
 			
 ### Get Schema for Person Custom Data [GET /research-sys/api/v1/person-custom-data/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -88,20 +88,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["personCustomDataId","personId","customAttributeId","value"],"primaryKey":"personCustomDataId"}
 		
 ### Get Blueprint API specification for Person Custom Data [GET /research-sys/api/v1/person-custom-data/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -200,36 +200,36 @@
 + Response 204
 
 ### Delete All Person Custom Data [DELETE /research-sys/api/v1/person-custom-data/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Person Custom Data with Matching [DELETE /research-sys/api/v1/person-custom-data/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + personCustomDataId
+            + personId
+            + customAttributeId
+            + value
+
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + personCustomDataId
-            + personId
-            + customAttributeId
-            + value
-
 
 + Response 204

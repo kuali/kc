@@ -40,22 +40,22 @@
             ]
 
 ### Get All Rate Class Base Inclusions with Filtering [GET /research-sys/api/v1/rate-class-base-inclusions/]
-	 
+    
++ Parameters
+
+        + rateClassBaseInclusionId
+            + rateClassCode
+            + rateTypeCode
+            + rateClassCodeIncl
+            + rateTypeCodeIncl
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + rateClassBaseInclusionId
-            + rateClassCode
-            + rateTypeCode
-            + rateClassCodeIncl
-            + rateTypeCodeIncl
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -70,17 +70,17 @@
             ]
 			
 ### Get Schema for Rate Class Base Inclusions [GET /research-sys/api/v1/rate-class-base-inclusions/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -89,20 +89,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["rateClassBaseInclusionId","rateClassCode","rateTypeCode","rateClassCodeIncl","rateTypeCodeIncl"],"primaryKey":"rateClassBaseInclusionId"}
 		
 ### Get Blueprint API specification for Rate Class Base Inclusions [GET /research-sys/api/v1/rate-class-base-inclusions/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -201,37 +201,37 @@
 + Response 204
 
 ### Delete All Rate Class Base Inclusions [DELETE /research-sys/api/v1/rate-class-base-inclusions/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Rate Class Base Inclusions with Matching [DELETE /research-sys/api/v1/rate-class-base-inclusions/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + rateClassBaseInclusionId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + rateClassBaseInclusionId
             + rateClassCode
             + rateTypeCode
             + rateClassCodeIncl
             + rateTypeCodeIncl
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

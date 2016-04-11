@@ -40,17 +40,10 @@
             ]
 
 ### Get All Proposal Person Biographies with Filtering [GET /research-sys/api/v1/proposal-person-biographies/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + proposalPersonNumber
++ Parameters
+
+        + proposalPersonNumber
             + personId
             + biographyNumber
             + rolodexId
@@ -58,7 +51,14 @@
             + documentTypeCode
             + name
             + type
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -73,17 +73,17 @@
             ]
 			
 ### Get Schema for Proposal Person Biographies [GET /research-sys/api/v1/proposal-person-biographies/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -92,20 +92,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["proposalPersonNumber","personId","biographyNumber","rolodexId","description","documentTypeCode","name","type"],"primaryKey":"biographyNumber:developmentProposal:proposalPersonNumber"}
 		
 ### Get Blueprint API specification for Proposal Person Biographies [GET /research-sys/api/v1/proposal-person-biographies/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -204,33 +204,26 @@
 + Response 204
 
 ### Delete All Proposal Person Biographies [DELETE /research-sys/api/v1/proposal-person-biographies/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Proposal Person Biographies with Matching [DELETE /research-sys/api/v1/proposal-person-biographies/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + proposalPersonNumber
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + proposalPersonNumber
             + personId
             + biographyNumber
             + rolodexId
@@ -239,5 +232,12 @@
             + name
             + type
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

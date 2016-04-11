@@ -40,22 +40,22 @@
             ]
 
 ### Get All Award Notice Printouts with Filtering [GET /research-sys/api/v1/award-notice-printouts/]
-	 
+    
++ Parameters
+
+        + awardNoticeId
+            + awardId
+            + awardNumber
+            + unitNumber
+            + pdfContent
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + awardNoticeId
-            + awardId
-            + awardNumber
-            + unitNumber
-            + pdfContent
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -70,17 +70,17 @@
             ]
 			
 ### Get Schema for Award Notice Printouts [GET /research-sys/api/v1/award-notice-printouts/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -89,20 +89,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["awardNoticeId","awardId","awardNumber","unitNumber","pdfContent"],"primaryKey":"awardNoticeId"}
 		
 ### Get Blueprint API specification for Award Notice Printouts [GET /research-sys/api/v1/award-notice-printouts/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -201,37 +201,37 @@
 + Response 204
 
 ### Delete All Award Notice Printouts [DELETE /research-sys/api/v1/award-notice-printouts/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Award Notice Printouts with Matching [DELETE /research-sys/api/v1/award-notice-printouts/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + awardNoticeId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + awardNoticeId
             + awardId
             + awardNumber
             + unitNumber
             + pdfContent
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

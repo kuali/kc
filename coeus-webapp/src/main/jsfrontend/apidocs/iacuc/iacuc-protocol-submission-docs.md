@@ -40,17 +40,10 @@
             ]
 
 ### Get All Iacuc Protocol Submission Docs with Filtering [GET /research-sys/api/v1/iacuc-protocol-submission-docs/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + submissionDocId
++ Parameters
+
+        + submissionDocId
             + protocolId
             + submissionIdFk
             + protocolNumber
@@ -61,7 +54,14 @@
             + contentType
             + description
             + document
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -76,17 +76,17 @@
             ]
 			
 ### Get Schema for Iacuc Protocol Submission Docs [GET /research-sys/api/v1/iacuc-protocol-submission-docs/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -95,20 +95,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["submissionDocId","protocolId","submissionIdFk","protocolNumber","sequenceNumber","submissionNumber","documentId","fileName","contentType","description","document"],"primaryKey":"submissionDocId"}
 		
 ### Get Blueprint API specification for Iacuc Protocol Submission Docs [GET /research-sys/api/v1/iacuc-protocol-submission-docs/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -207,33 +207,26 @@
 + Response 204
 
 ### Delete All Iacuc Protocol Submission Docs [DELETE /research-sys/api/v1/iacuc-protocol-submission-docs/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Iacuc Protocol Submission Docs with Matching [DELETE /research-sys/api/v1/iacuc-protocol-submission-docs/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + submissionDocId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + submissionDocId
             + protocolId
             + submissionIdFk
             + protocolNumber
@@ -245,5 +238,12 @@
             + description
             + document
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

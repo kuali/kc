@@ -40,21 +40,21 @@
             ]
 
 ### Get All Valid Class Report Frequencies with Filtering [GET /research-sys/api/v1/valid-class-report-frequencies/]
-	 
+    
++ Parameters
+
+        + validClassReportFreqId
+            + reportClassCode
+            + reportCode
+            + frequencyCode
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + validClassReportFreqId
-            + reportClassCode
-            + reportCode
-            + frequencyCode
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -69,17 +69,17 @@
             ]
 			
 ### Get Schema for Valid Class Report Frequencies [GET /research-sys/api/v1/valid-class-report-frequencies/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -88,20 +88,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["validClassReportFreqId","reportClassCode","reportCode","frequencyCode"],"primaryKey":"validClassReportFreqId"}
 		
 ### Get Blueprint API specification for Valid Class Report Frequencies [GET /research-sys/api/v1/valid-class-report-frequencies/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -200,36 +200,36 @@
 + Response 204
 
 ### Delete All Valid Class Report Frequencies [DELETE /research-sys/api/v1/valid-class-report-frequencies/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Valid Class Report Frequencies with Matching [DELETE /research-sys/api/v1/valid-class-report-frequencies/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + validClassReportFreqId
+            + reportClassCode
+            + reportCode
+            + frequencyCode
+
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + validClassReportFreqId
-            + reportClassCode
-            + reportCode
-            + frequencyCode
-
 
 + Response 204

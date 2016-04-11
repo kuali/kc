@@ -40,17 +40,10 @@
             ]
 
 ### Get All Committee Memberships with Filtering [GET /research-sys/api/v1/committee-memberships/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + committeeMembershipId
++ Parameters
+
+        + committeeMembershipId
             + committeeIdFk
             + personId
             + rolodexId
@@ -63,7 +56,14 @@
             + comments
             + contactNotes
             + trainingNotes
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -78,17 +78,17 @@
             ]
 			
 ### Get Schema for Committee Memberships [GET /research-sys/api/v1/committee-memberships/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -97,20 +97,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["committeeMembershipId","committeeIdFk","personId","rolodexId","personName","membershipId","paidMember","termStartDate","termEndDate","membershipTypeCode","comments","contactNotes","trainingNotes"],"primaryKey":"committeeMembershipId"}
 		
 ### Get Blueprint API specification for Committee Memberships [GET /research-sys/api/v1/committee-memberships/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -209,33 +209,26 @@
 + Response 204
 
 ### Delete All Committee Memberships [DELETE /research-sys/api/v1/committee-memberships/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Committee Memberships with Matching [DELETE /research-sys/api/v1/committee-memberships/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + committeeMembershipId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + committeeMembershipId
             + committeeIdFk
             + personId
             + rolodexId
@@ -249,5 +242,12 @@
             + contactNotes
             + trainingNotes
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

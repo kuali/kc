@@ -40,22 +40,22 @@
             ]
 
 ### Get All Delegate Types with Filtering [GET /research-sys/api/v1/delegate-types/]
-	 
+    
++ Parameters
+
+        + delegationId
+            + roleId
+            + active
+            + kimTypeId
+            + delegationTypeCode
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + delegationId
-            + roleId
-            + active
-            + kimTypeId
-            + delegationTypeCode
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -70,17 +70,17 @@
             ]
 			
 ### Get Schema for Delegate Types [GET /research-sys/api/v1/delegate-types/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -89,20 +89,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["delegationId","roleId","active","kimTypeId","delegationTypeCode"],"primaryKey":"delegationId"}
 		
 ### Get Blueprint API specification for Delegate Types [GET /research-sys/api/v1/delegate-types/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -201,37 +201,37 @@
 + Response 204
 
 ### Delete All Delegate Types [DELETE /research-sys/api/v1/delegate-types/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Delegate Types with Matching [DELETE /research-sys/api/v1/delegate-types/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + delegationId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + delegationId
             + roleId
             + active
             + kimTypeId
             + delegationTypeCode
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

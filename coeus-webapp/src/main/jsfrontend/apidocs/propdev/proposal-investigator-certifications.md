@@ -40,22 +40,22 @@
             ]
 
 ### Get All Proposal Investigator Certifications with Filtering [GET /research-sys/api/v1/proposal-investigator-certifications/]
-	 
+    
++ Parameters
+
+        + proposalPersonNumber
+            + proposalNumber
+            + certified
+            + dateCertified
+            + dateReceivedByOsp
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + proposalPersonNumber
-            + proposalNumber
-            + certified
-            + dateCertified
-            + dateReceivedByOsp
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -70,17 +70,17 @@
             ]
 			
 ### Get Schema for Proposal Investigator Certifications [GET /research-sys/api/v1/proposal-investigator-certifications/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -89,20 +89,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["proposalPersonNumber","proposalNumber","certified","dateCertified","dateReceivedByOsp"],"primaryKey":"proposalNumber:proposalPersonNumber"}
 		
 ### Get Blueprint API specification for Proposal Investigator Certifications [GET /research-sys/api/v1/proposal-investigator-certifications/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -201,37 +201,37 @@
 + Response 204
 
 ### Delete All Proposal Investigator Certifications [DELETE /research-sys/api/v1/proposal-investigator-certifications/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Proposal Investigator Certifications with Matching [DELETE /research-sys/api/v1/proposal-investigator-certifications/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + proposalPersonNumber
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + proposalPersonNumber
             + proposalNumber
             + certified
             + dateCertified
             + dateReceivedByOsp
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

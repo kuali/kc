@@ -40,21 +40,21 @@
             ]
 
 ### Get All Iacuc Protocol Study Custom Data with Filtering [GET /research-sys/api/v1/iacuc-protocol-study-custom-data/]
-	 
+    
++ Parameters
+
+        + iacucProtocolStudyCustomDataId
+            + iacucProtocolStudyGroupId
+            + procedureCustomAttributeId
+            + value
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + iacucProtocolStudyCustomDataId
-            + iacucProtocolStudyGroupId
-            + procedureCustomAttributeId
-            + value
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -69,17 +69,17 @@
             ]
 			
 ### Get Schema for Iacuc Protocol Study Custom Data [GET /research-sys/api/v1/iacuc-protocol-study-custom-data/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -88,20 +88,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["iacucProtocolStudyCustomDataId","iacucProtocolStudyGroupId","procedureCustomAttributeId","value"],"primaryKey":"iacucProtocolStudyCustomDataId"}
 		
 ### Get Blueprint API specification for Iacuc Protocol Study Custom Data [GET /research-sys/api/v1/iacuc-protocol-study-custom-data/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -200,36 +200,36 @@
 + Response 204
 
 ### Delete All Iacuc Protocol Study Custom Data [DELETE /research-sys/api/v1/iacuc-protocol-study-custom-data/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Iacuc Protocol Study Custom Data with Matching [DELETE /research-sys/api/v1/iacuc-protocol-study-custom-data/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + iacucProtocolStudyCustomDataId
+            + iacucProtocolStudyGroupId
+            + procedureCustomAttributeId
+            + value
+
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + iacucProtocolStudyCustomDataId
-            + iacucProtocolStudyGroupId
-            + procedureCustomAttributeId
-            + value
-
 
 + Response 204

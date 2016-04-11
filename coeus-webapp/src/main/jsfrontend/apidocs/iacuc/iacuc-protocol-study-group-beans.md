@@ -40,23 +40,23 @@
             ]
 
 ### Get All Iacuc Protocol Study Group Beans with Filtering [GET /research-sys/api/v1/iacuc-protocol-study-group-beans/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + iacucProtocolStudyGroupHeaderId
++ Parameters
+
+        + iacucProtocolStudyGroupHeaderId
             + protocolId
             + protocolNumber
             + sequenceNumber
             + procedureCategoryCode
             + procedureCode
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -71,17 +71,17 @@
             ]
 			
 ### Get Schema for Iacuc Protocol Study Group Beans [GET /research-sys/api/v1/iacuc-protocol-study-group-beans/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -90,20 +90,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["iacucProtocolStudyGroupHeaderId","protocolId","protocolNumber","sequenceNumber","procedureCategoryCode","procedureCode"],"primaryKey":"iacucProtocolStudyGroupHeaderId"}
 		
 ### Get Blueprint API specification for Iacuc Protocol Study Group Beans [GET /research-sys/api/v1/iacuc-protocol-study-group-beans/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -202,38 +202,38 @@
 + Response 204
 
 ### Delete All Iacuc Protocol Study Group Beans [DELETE /research-sys/api/v1/iacuc-protocol-study-group-beans/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Iacuc Protocol Study Group Beans with Matching [DELETE /research-sys/api/v1/iacuc-protocol-study-group-beans/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + iacucProtocolStudyGroupHeaderId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + iacucProtocolStudyGroupHeaderId
             + protocolId
             + protocolNumber
             + sequenceNumber
             + procedureCategoryCode
             + procedureCode
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

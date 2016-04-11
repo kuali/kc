@@ -40,21 +40,21 @@
             ]
 
 ### Get All Rule Delegations with Filtering [GET /research-sys/api/v1/rule-delegations/]
-	 
+    
++ Parameters
+
+        + ruleDelegationId
+            + responsibilityId
+            + delegateRuleId
+            + delegationTypeCode
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + ruleDelegationId
-            + responsibilityId
-            + delegateRuleId
-            + delegationTypeCode
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -69,17 +69,17 @@
             ]
 			
 ### Get Schema for Rule Delegations [GET /research-sys/api/v1/rule-delegations/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -88,20 +88,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["ruleDelegationId","responsibilityId","delegateRuleId","delegationTypeCode"],"primaryKey":"ruleDelegationId"}
 		
 ### Get Blueprint API specification for Rule Delegations [GET /research-sys/api/v1/rule-delegations/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -200,36 +200,36 @@
 + Response 204
 
 ### Delete All Rule Delegations [DELETE /research-sys/api/v1/rule-delegations/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Rule Delegations with Matching [DELETE /research-sys/api/v1/rule-delegations/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + ruleDelegationId
+            + responsibilityId
+            + delegateRuleId
+            + delegationTypeCode
+
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + ruleDelegationId
-            + responsibilityId
-            + delegateRuleId
-            + delegationTypeCode
-
 
 + Response 204

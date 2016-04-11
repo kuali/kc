@@ -40,17 +40,10 @@
             ]
 
 ### Get All Transaction Details with Filtering [GET /research-sys/api/v1/transaction-details/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + transactionDetailId
++ Parameters
+
+        + transactionDetailId
             + awardNumber
             + sequenceNumber
             + transactionId
@@ -65,7 +58,14 @@
             + anticipatedIndirectAmount
             + comments
             + transactionDetailType
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -80,17 +80,17 @@
             ]
 			
 ### Get Schema for Transaction Details [GET /research-sys/api/v1/transaction-details/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -99,20 +99,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["transactionDetailId","awardNumber","sequenceNumber","transactionId","timeAndMoneyDocumentNumber","sourceAwardNumber","destinationAwardNumber","obligatedAmount","obligatedDirectAmount","obligatedIndirectAmount","anticipatedAmount","anticipatedDirectAmount","anticipatedIndirectAmount","comments","transactionDetailType"],"primaryKey":"transactionDetailId"}
 		
 ### Get Blueprint API specification for Transaction Details [GET /research-sys/api/v1/transaction-details/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -211,33 +211,26 @@
 + Response 204
 
 ### Delete All Transaction Details [DELETE /research-sys/api/v1/transaction-details/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Transaction Details with Matching [DELETE /research-sys/api/v1/transaction-details/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + transactionDetailId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + transactionDetailId
             + awardNumber
             + sequenceNumber
             + transactionId
@@ -253,5 +246,12 @@
             + comments
             + transactionDetailType
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

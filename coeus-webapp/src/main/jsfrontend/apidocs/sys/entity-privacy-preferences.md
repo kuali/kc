@@ -40,23 +40,23 @@
             ]
 
 ### Get All Entity Privacy Preferences with Filtering [GET /research-sys/api/v1/entity-privacy-preferences/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + entityId
++ Parameters
+
+        + entityId
             + suppressName
             + suppressEmail
             + suppressAddress
             + suppressPhone
             + suppressPersonal
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -71,17 +71,17 @@
             ]
 			
 ### Get Schema for Entity Privacy Preferences [GET /research-sys/api/v1/entity-privacy-preferences/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -90,20 +90,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["entityId","suppressName","suppressEmail","suppressAddress","suppressPhone","suppressPersonal"],"primaryKey":"entityId"}
 		
 ### Get Blueprint API specification for Entity Privacy Preferences [GET /research-sys/api/v1/entity-privacy-preferences/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -202,38 +202,38 @@
 + Response 204
 
 ### Delete All Entity Privacy Preferences [DELETE /research-sys/api/v1/entity-privacy-preferences/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Entity Privacy Preferences with Matching [DELETE /research-sys/api/v1/entity-privacy-preferences/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + entityId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + entityId
             + suppressName
             + suppressEmail
             + suppressAddress
             + suppressPhone
             + suppressPersonal
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

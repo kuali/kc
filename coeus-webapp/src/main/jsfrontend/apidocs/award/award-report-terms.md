@@ -40,17 +40,10 @@
             ]
 
 ### Get All Award Report Terms with Filtering [GET /research-sys/api/v1/award-report-terms/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + awardReportTermId
++ Parameters
+
+        + awardReportTermId
             + awardId
             + awardNumber
             + sequenceNumber
@@ -60,7 +53,14 @@
             + frequencyBaseCode
             + ospDistributionCode
             + dueDate
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -75,17 +75,17 @@
             ]
 			
 ### Get Schema for Award Report Terms [GET /research-sys/api/v1/award-report-terms/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -94,20 +94,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["awardReportTermId","awardId","awardNumber","sequenceNumber","reportClassCode","reportCode","frequencyCode","frequencyBaseCode","ospDistributionCode","dueDate"],"primaryKey":"awardReportTermId"}
 		
 ### Get Blueprint API specification for Award Report Terms [GET /research-sys/api/v1/award-report-terms/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -206,33 +206,26 @@
 + Response 204
 
 ### Delete All Award Report Terms [DELETE /research-sys/api/v1/award-report-terms/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Award Report Terms with Matching [DELETE /research-sys/api/v1/award-report-terms/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + awardReportTermId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + awardReportTermId
             + awardId
             + awardNumber
             + sequenceNumber
@@ -243,5 +236,12 @@
             + ospDistributionCode
             + dueDate
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

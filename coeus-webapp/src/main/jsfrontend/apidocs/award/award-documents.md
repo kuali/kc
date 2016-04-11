@@ -40,18 +40,18 @@
             ]
 
 ### Get All Award Documents with Filtering [GET /research-sys/api/v1/award-documents/]
-	 
+    
++ Parameters
+
+        + documentNumber
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + documentNumber
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -66,17 +66,17 @@
             ]
 			
 ### Get Schema for Award Documents [GET /research-sys/api/v1/award-documents/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -85,20 +85,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["documentNumber"],"primaryKey":"documentNumber"}
 		
 ### Get Blueprint API specification for Award Documents [GET /research-sys/api/v1/award-documents/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -197,33 +197,33 @@
 + Response 204
 
 ### Delete All Award Documents [DELETE /research-sys/api/v1/award-documents/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Award Documents with Matching [DELETE /research-sys/api/v1/award-documents/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + documentNumber
+
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + documentNumber
-
 
 + Response 204

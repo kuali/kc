@@ -40,20 +40,20 @@
             ]
 
 ### Get All Award Template Terms with Filtering [GET /research-sys/api/v1/award-template-terms/]
-	 
+    
++ Parameters
+
+        + awardTemplateTermId
+            + templateCode
+            + sponsorTermId
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + awardTemplateTermId
-            + templateCode
-            + sponsorTermId
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -68,17 +68,17 @@
             ]
 			
 ### Get Schema for Award Template Terms [GET /research-sys/api/v1/award-template-terms/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -87,20 +87,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["awardTemplateTermId","templateCode","sponsorTermId"],"primaryKey":"awardTemplateTermId"}
 		
 ### Get Blueprint API specification for Award Template Terms [GET /research-sys/api/v1/award-template-terms/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -199,35 +199,35 @@
 + Response 204
 
 ### Delete All Award Template Terms [DELETE /research-sys/api/v1/award-template-terms/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Award Template Terms with Matching [DELETE /research-sys/api/v1/award-template-terms/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + awardTemplateTermId
+            + templateCode
+            + sponsorTermId
+
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + awardTemplateTermId
-            + templateCode
-            + sponsorTermId
-
 
 + Response 204

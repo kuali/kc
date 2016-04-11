@@ -40,17 +40,10 @@
             ]
 
 ### Get All Person Appointments with Filtering [GET /research-sys/api/v1/person-appointments/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + appointmentId
++ Parameters
+
+        + appointmentId
             + personId
             + unitNumber
             + startDate
@@ -60,7 +53,14 @@
             + preferedJobTitle
             + jobCode
             + salary
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -75,17 +75,17 @@
             ]
 			
 ### Get Schema for Person Appointments [GET /research-sys/api/v1/person-appointments/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -94,20 +94,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["appointmentId","personId","unitNumber","startDate","endDate","typeCode","jobTitle","preferedJobTitle","jobCode","salary"],"primaryKey":"appointmentId"}
 		
 ### Get Blueprint API specification for Person Appointments [GET /research-sys/api/v1/person-appointments/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -206,33 +206,26 @@
 + Response 204
 
 ### Delete All Person Appointments [DELETE /research-sys/api/v1/person-appointments/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Person Appointments with Matching [DELETE /research-sys/api/v1/person-appointments/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + appointmentId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + appointmentId
             + personId
             + unitNumber
             + startDate
@@ -243,5 +236,12 @@
             + jobCode
             + salary
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

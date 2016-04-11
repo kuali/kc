@@ -40,17 +40,10 @@
             ]
 
 ### Get All Award Attachments with Filtering [GET /research-sys/api/v1/award-attachments/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + awardAttachmentId
++ Parameters
+
+        + awardAttachmentId
             + awardId
             + awardNumber
             + sequenceNumber
@@ -61,7 +54,14 @@
             + documentStatusCode
             + lastUpdateTimestamp
             + lastUpdateUser
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -76,17 +76,17 @@
             ]
 			
 ### Get Schema for Award Attachments [GET /research-sys/api/v1/award-attachments/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -95,20 +95,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["awardAttachmentId","awardId","awardNumber","sequenceNumber","typeCode","documentId","fileId","description","documentStatusCode","lastUpdateTimestamp","lastUpdateUser"],"primaryKey":"awardAttachmentId"}
 		
 ### Get Blueprint API specification for Award Attachments [GET /research-sys/api/v1/award-attachments/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -207,33 +207,26 @@
 + Response 204
 
 ### Delete All Award Attachments [DELETE /research-sys/api/v1/award-attachments/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Award Attachments with Matching [DELETE /research-sys/api/v1/award-attachments/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + awardAttachmentId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + awardAttachmentId
             + awardId
             + awardNumber
             + sequenceNumber
@@ -245,5 +238,12 @@
             + lastUpdateTimestamp
             + lastUpdateUser
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204
