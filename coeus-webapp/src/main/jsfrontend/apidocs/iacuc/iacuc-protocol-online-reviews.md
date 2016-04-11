@@ -40,17 +40,10 @@
             ]
 
 ### Get All Iacuc Protocol Online Reviews with Filtering [GET /research-sys/api/v1/iacuc-protocol-online-reviews/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + protocolOnlineReviewId
++ Parameters
+
+        + protocolOnlineReviewId
             + documentNumber
             + protocolId
             + submissionIdFk
@@ -64,7 +57,14 @@
             + adminAccepted
             + determinationReviewTypeCode
             + determinationReviewDateDue
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -79,17 +79,17 @@
             ]
 			
 ### Get Schema for Iacuc Protocol Online Reviews [GET /research-sys/api/v1/iacuc-protocol-online-reviews/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -98,20 +98,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["protocolOnlineReviewId","documentNumber","protocolId","submissionIdFk","protocolReviewerId","protocolOnlineReviewStatusCode","protocolOnlineReviewDeterminationRecommendationCode","dateDue","dateRequested","actionsPerformed","reviewerApproved","adminAccepted","determinationReviewTypeCode","determinationReviewDateDue"],"primaryKey":"protocolOnlineReviewId"}
 		
 ### Get Blueprint API specification for Iacuc Protocol Online Reviews [GET /research-sys/api/v1/iacuc-protocol-online-reviews/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -210,33 +210,26 @@
 + Response 204
 
 ### Delete All Iacuc Protocol Online Reviews [DELETE /research-sys/api/v1/iacuc-protocol-online-reviews/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Iacuc Protocol Online Reviews with Matching [DELETE /research-sys/api/v1/iacuc-protocol-online-reviews/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + protocolOnlineReviewId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + protocolOnlineReviewId
             + documentNumber
             + protocolId
             + submissionIdFk
@@ -251,5 +244,12 @@
             + determinationReviewTypeCode
             + determinationReviewDateDue
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

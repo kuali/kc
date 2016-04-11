@@ -40,23 +40,23 @@
             ]
 
 ### Get All Award Templates with Filtering [GET /research-sys/api/v1/award-templates/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + templateCode
++ Parameters
+
+        + templateCode
             + statusCode
             + primeSponsorCode
             + description
             + basisOfPaymentCode
             + methodOfPaymentCode
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -71,17 +71,17 @@
             ]
 			
 ### Get Schema for Award Templates [GET /research-sys/api/v1/award-templates/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -90,20 +90,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["templateCode","statusCode","primeSponsorCode","description","basisOfPaymentCode","methodOfPaymentCode"],"primaryKey":"templateCode"}
 		
 ### Get Blueprint API specification for Award Templates [GET /research-sys/api/v1/award-templates/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -202,38 +202,38 @@
 + Response 204
 
 ### Delete All Award Templates [DELETE /research-sys/api/v1/award-templates/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Award Templates with Matching [DELETE /research-sys/api/v1/award-templates/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + templateCode
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + templateCode
             + statusCode
             + primeSponsorCode
             + description
             + basisOfPaymentCode
             + methodOfPaymentCode
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

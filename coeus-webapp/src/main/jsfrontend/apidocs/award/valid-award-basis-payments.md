@@ -40,20 +40,20 @@
             ]
 
 ### Get All Valid Award Basis Payments with Filtering [GET /research-sys/api/v1/valid-award-basis-payments/]
-	 
+    
++ Parameters
+
+        + validAwardBasisPaymentId
+            + basisOfPaymentCode
+            + awardTypeCode
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + validAwardBasisPaymentId
-            + basisOfPaymentCode
-            + awardTypeCode
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -68,17 +68,17 @@
             ]
 			
 ### Get Schema for Valid Award Basis Payments [GET /research-sys/api/v1/valid-award-basis-payments/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -87,20 +87,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["validAwardBasisPaymentId","basisOfPaymentCode","awardTypeCode"],"primaryKey":"validAwardBasisPaymentId"}
 		
 ### Get Blueprint API specification for Valid Award Basis Payments [GET /research-sys/api/v1/valid-award-basis-payments/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -199,35 +199,35 @@
 + Response 204
 
 ### Delete All Valid Award Basis Payments [DELETE /research-sys/api/v1/valid-award-basis-payments/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Valid Award Basis Payments with Matching [DELETE /research-sys/api/v1/valid-award-basis-payments/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + validAwardBasisPaymentId
+            + basisOfPaymentCode
+            + awardTypeCode
+
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + validAwardBasisPaymentId
-            + basisOfPaymentCode
-            + awardTypeCode
-
 
 + Response 204

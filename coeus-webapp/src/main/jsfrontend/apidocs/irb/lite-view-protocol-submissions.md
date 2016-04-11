@@ -40,17 +40,10 @@
             ]
 
 ### Get All Lite View Protocol Submissions with Filtering [GET /research-sys/api/v1/lite-view-protocol-submissions/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + submissionId
++ Parameters
+
+        + submissionId
             + submissionNumber
             + protocolNumber
             + sequenceNumber
@@ -78,7 +71,14 @@
             + piPersonId
             + piPersonName
             + piRolodexId
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -93,17 +93,17 @@
             ]
 			
 ### Get Schema for Lite View Protocol Submissions [GET /research-sys/api/v1/lite-view-protocol-submissions/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -112,20 +112,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["submissionId","submissionNumber","protocolNumber","sequenceNumber","scheduleId","committeeId","submissionTypeCode","submissionTypeQualifierCode","submissionStatusCode","protocolId","scheduleIdFk","committeeIdFk","protocolReviewTypeCode","submissionDate","comments","committeeDecisionMotionTypeCode","yesVoteCount","noVoteCount","abstainerCount","recusedCount","votingComments","billable","protocolActive","protocolStatusCode","protocolTitle","piPersonId","piPersonName","piRolodexId"],"primaryKey":"submissionId"}
 		
 ### Get Blueprint API specification for Lite View Protocol Submissions [GET /research-sys/api/v1/lite-view-protocol-submissions/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -224,33 +224,26 @@
 + Response 204
 
 ### Delete All Lite View Protocol Submissions [DELETE /research-sys/api/v1/lite-view-protocol-submissions/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Lite View Protocol Submissions with Matching [DELETE /research-sys/api/v1/lite-view-protocol-submissions/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + submissionId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + submissionId
             + submissionNumber
             + protocolNumber
             + sequenceNumber
@@ -279,5 +272,12 @@
             + piPersonName
             + piRolodexId
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

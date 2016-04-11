@@ -40,21 +40,21 @@
             ]
 
 ### Get All Searchable Attribute Long Values with Filtering [GET /research-sys/api/v1/searchable-attribute-long-values/]
-	 
+    
++ Parameters
+
+        + searchableAttributeValue
+            + documentId
+            + searchableAttributeValueId
+            + searchableAttributeKey
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + searchableAttributeValue
-            + documentId
-            + searchableAttributeValueId
-            + searchableAttributeKey
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -69,17 +69,17 @@
             ]
 			
 ### Get Schema for Searchable Attribute Long Values [GET /research-sys/api/v1/searchable-attribute-long-values/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -88,20 +88,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["searchableAttributeValue","documentId","searchableAttributeValueId","searchableAttributeKey"],"primaryKey":"searchableAttributeValueId"}
 		
 ### Get Blueprint API specification for Searchable Attribute Long Values [GET /research-sys/api/v1/searchable-attribute-long-values/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -200,36 +200,36 @@
 + Response 204
 
 ### Delete All Searchable Attribute Long Values [DELETE /research-sys/api/v1/searchable-attribute-long-values/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Searchable Attribute Long Values with Matching [DELETE /research-sys/api/v1/searchable-attribute-long-values/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + searchableAttributeValue
+            + documentId
+            + searchableAttributeValueId
+            + searchableAttributeKey
+
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + searchableAttributeValue
-            + documentId
-            + searchableAttributeValueId
-            + searchableAttributeKey
-
 
 + Response 204

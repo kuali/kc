@@ -40,24 +40,24 @@
             ]
 
 ### Get All Institutional Proposal Person Mass Changes with Filtering [GET /research-sys/api/v1/institutional-proposal-person-mass-changes/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + institutionalProposalPersonMassChangeId
++ Parameters
+
+        + institutionalProposalPersonMassChangeId
             + personMassChangeId
             + investigator
             + keyStudyPerson
             + unitContact
             + mailingInformation
             + ipReviewer
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -72,17 +72,17 @@
             ]
 			
 ### Get Schema for Institutional Proposal Person Mass Changes [GET /research-sys/api/v1/institutional-proposal-person-mass-changes/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -91,20 +91,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["institutionalProposalPersonMassChangeId","personMassChangeId","investigator","keyStudyPerson","unitContact","mailingInformation","ipReviewer"],"primaryKey":"institutionalProposalPersonMassChangeId"}
 		
 ### Get Blueprint API specification for Institutional Proposal Person Mass Changes [GET /research-sys/api/v1/institutional-proposal-person-mass-changes/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -203,33 +203,26 @@
 + Response 204
 
 ### Delete All Institutional Proposal Person Mass Changes [DELETE /research-sys/api/v1/institutional-proposal-person-mass-changes/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Institutional Proposal Person Mass Changes with Matching [DELETE /research-sys/api/v1/institutional-proposal-person-mass-changes/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + institutionalProposalPersonMassChangeId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + institutionalProposalPersonMassChangeId
             + personMassChangeId
             + investigator
             + keyStudyPerson
@@ -237,5 +230,12 @@
             + mailingInformation
             + ipReviewer
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

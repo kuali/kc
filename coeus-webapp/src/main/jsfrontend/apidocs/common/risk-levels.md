@@ -40,19 +40,19 @@
             ]
 
 ### Get All Risk Levels with Filtering [GET /research-sys/api/v1/risk-levels/]
-	 
+    
++ Parameters
+
+        + riskLevelCode
+            + description
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + riskLevelCode
-            + description
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -67,17 +67,17 @@
             ]
 			
 ### Get Schema for Risk Levels [GET /research-sys/api/v1/risk-levels/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -86,20 +86,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["riskLevelCode","description"],"primaryKey":"riskLevelCode"}
 		
 ### Get Blueprint API specification for Risk Levels [GET /research-sys/api/v1/risk-levels/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -198,34 +198,34 @@
 + Response 204
 
 ### Delete All Risk Levels [DELETE /research-sys/api/v1/risk-levels/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Risk Levels with Matching [DELETE /research-sys/api/v1/risk-levels/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + riskLevelCode
+            + description
+
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + riskLevelCode
-            + description
-
 
 + Response 204

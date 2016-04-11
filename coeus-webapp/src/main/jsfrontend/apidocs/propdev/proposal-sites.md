@@ -40,22 +40,22 @@
             ]
 
 ### Get All Proposal Sites with Filtering [GET /research-sys/api/v1/proposal-sites/]
-	 
+    
++ Parameters
+
+        + siteNumber
+            + locationName
+            + locationTypeCode
+            + organizationId
+            + rolodexId
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + siteNumber
-            + locationName
-            + locationTypeCode
-            + organizationId
-            + rolodexId
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -70,17 +70,17 @@
             ]
 			
 ### Get Schema for Proposal Sites [GET /research-sys/api/v1/proposal-sites/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -89,20 +89,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["siteNumber","locationName","locationTypeCode","organizationId","rolodexId"],"primaryKey":"developmentProposal:siteNumber"}
 		
 ### Get Blueprint API specification for Proposal Sites [GET /research-sys/api/v1/proposal-sites/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -201,37 +201,37 @@
 + Response 204
 
 ### Delete All Proposal Sites [DELETE /research-sys/api/v1/proposal-sites/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Proposal Sites with Matching [DELETE /research-sys/api/v1/proposal-sites/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + siteNumber
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + siteNumber
             + locationName
             + locationTypeCode
             + organizationId
             + rolodexId
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

@@ -40,17 +40,10 @@
             ]
 
 ### Get All Iacuc Committee Schedule Attendances with Filtering [GET /research-sys/api/v1/iacuc-committee-schedule-attendances/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + commScheduleAttendanceId
++ Parameters
+
+        + commScheduleAttendanceId
             + scheduleIdFk
             + personId
             + personName
@@ -59,7 +52,14 @@
             + alternateFor
             + nonEmployeeFlag
             + comments
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -74,17 +74,17 @@
             ]
 			
 ### Get Schema for Iacuc Committee Schedule Attendances [GET /research-sys/api/v1/iacuc-committee-schedule-attendances/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -93,20 +93,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["commScheduleAttendanceId","scheduleIdFk","personId","personName","guestFlag","alternateFlag","alternateFor","nonEmployeeFlag","comments"],"primaryKey":"commScheduleAttendanceId"}
 		
 ### Get Blueprint API specification for Iacuc Committee Schedule Attendances [GET /research-sys/api/v1/iacuc-committee-schedule-attendances/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -205,33 +205,26 @@
 + Response 204
 
 ### Delete All Iacuc Committee Schedule Attendances [DELETE /research-sys/api/v1/iacuc-committee-schedule-attendances/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Iacuc Committee Schedule Attendances with Matching [DELETE /research-sys/api/v1/iacuc-committee-schedule-attendances/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + commScheduleAttendanceId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + commScheduleAttendanceId
             + scheduleIdFk
             + personId
             + personName
@@ -241,5 +234,12 @@
             + nonEmployeeFlag
             + comments
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

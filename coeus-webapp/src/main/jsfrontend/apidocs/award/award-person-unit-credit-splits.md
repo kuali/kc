@@ -40,21 +40,21 @@
             ]
 
 ### Get All Award Person Unit Credit Splits with Filtering [GET /research-sys/api/v1/award-person-unit-credit-splits/]
-	 
+    
++ Parameters
+
+        + awardPersonUnitCreditSplitId
+            + awardPersonUnitId
+            + invCreditTypeCode
+            + credit
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + awardPersonUnitCreditSplitId
-            + awardPersonUnitId
-            + invCreditTypeCode
-            + credit
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -69,17 +69,17 @@
             ]
 			
 ### Get Schema for Award Person Unit Credit Splits [GET /research-sys/api/v1/award-person-unit-credit-splits/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -88,20 +88,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["awardPersonUnitCreditSplitId","awardPersonUnitId","invCreditTypeCode","credit"],"primaryKey":"awardPersonUnitCreditSplitId"}
 		
 ### Get Blueprint API specification for Award Person Unit Credit Splits [GET /research-sys/api/v1/award-person-unit-credit-splits/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -200,36 +200,36 @@
 + Response 204
 
 ### Delete All Award Person Unit Credit Splits [DELETE /research-sys/api/v1/award-person-unit-credit-splits/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Award Person Unit Credit Splits with Matching [DELETE /research-sys/api/v1/award-person-unit-credit-splits/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + awardPersonUnitCreditSplitId
+            + awardPersonUnitId
+            + invCreditTypeCode
+            + credit
+
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + awardPersonUnitCreditSplitId
-            + awardPersonUnitId
-            + invCreditTypeCode
-            + credit
-
 
 + Response 204

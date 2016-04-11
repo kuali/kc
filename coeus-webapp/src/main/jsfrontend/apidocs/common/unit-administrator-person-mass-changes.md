@@ -40,17 +40,10 @@
             ]
 
 ### Get All Unit Administrator Person Mass Changes with Filtering [GET /research-sys/api/v1/unit-administrator-person-mass-changes/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + unitAdministratorPersonMassChangeId
++ Parameters
+
+        + unitAdministratorPersonMassChangeId
             + personMassChangeId
             + administrativeOfficer
             + ospAdministrator
@@ -59,7 +52,14 @@
             + otherIndividualToNotify
             + administrativeContact
             + financialContact
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -74,17 +74,17 @@
             ]
 			
 ### Get Schema for Unit Administrator Person Mass Changes [GET /research-sys/api/v1/unit-administrator-person-mass-changes/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -93,20 +93,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["unitAdministratorPersonMassChangeId","personMassChangeId","administrativeOfficer","ospAdministrator","unitHead","deanVP","otherIndividualToNotify","administrativeContact","financialContact"],"primaryKey":"unitAdministratorPersonMassChangeId"}
 		
 ### Get Blueprint API specification for Unit Administrator Person Mass Changes [GET /research-sys/api/v1/unit-administrator-person-mass-changes/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -205,33 +205,26 @@
 + Response 204
 
 ### Delete All Unit Administrator Person Mass Changes [DELETE /research-sys/api/v1/unit-administrator-person-mass-changes/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Unit Administrator Person Mass Changes with Matching [DELETE /research-sys/api/v1/unit-administrator-person-mass-changes/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + unitAdministratorPersonMassChangeId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + unitAdministratorPersonMassChangeId
             + personMassChangeId
             + administrativeOfficer
             + ospAdministrator
@@ -241,5 +234,12 @@
             + administrativeContact
             + financialContact
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

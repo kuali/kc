@@ -40,17 +40,10 @@
             ]
 
 ### Get All Entity Phones with Filtering [GET /research-sys/api/v1/entity-phones/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + id
++ Parameters
+
+        + id
             + phoneNumber
             + countryCode
             + defaultValue
@@ -59,7 +52,14 @@
             + active
             + entityId
             + phoneTypeCode
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -74,17 +74,17 @@
             ]
 			
 ### Get Schema for Entity Phones [GET /research-sys/api/v1/entity-phones/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -93,20 +93,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["id","phoneNumber","countryCode","defaultValue","entityTypeCode","extensionNumber","active","entityId","phoneTypeCode"],"primaryKey":"id"}
 		
 ### Get Blueprint API specification for Entity Phones [GET /research-sys/api/v1/entity-phones/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -205,33 +205,26 @@
 + Response 204
 
 ### Delete All Entity Phones [DELETE /research-sys/api/v1/entity-phones/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Entity Phones with Matching [DELETE /research-sys/api/v1/entity-phones/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + id
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + id
             + phoneNumber
             + countryCode
             + defaultValue
@@ -241,5 +234,12 @@
             + entityId
             + phoneTypeCode
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

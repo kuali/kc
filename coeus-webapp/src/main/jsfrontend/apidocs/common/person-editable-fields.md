@@ -40,21 +40,21 @@
             ]
 
 ### Get All Person Editable Fields with Filtering [GET /research-sys/api/v1/person-editable-fields/]
-	 
+    
++ Parameters
+
+        + personEditableFieldId
+            + moduleCode
+            + fieldName
+            + active
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + personEditableFieldId
-            + moduleCode
-            + fieldName
-            + active
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -69,17 +69,17 @@
             ]
 			
 ### Get Schema for Person Editable Fields [GET /research-sys/api/v1/person-editable-fields/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -88,20 +88,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["personEditableFieldId","moduleCode","fieldName","active"],"primaryKey":"personEditableFieldId"}
 		
 ### Get Blueprint API specification for Person Editable Fields [GET /research-sys/api/v1/person-editable-fields/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -200,36 +200,36 @@
 + Response 204
 
 ### Delete All Person Editable Fields [DELETE /research-sys/api/v1/person-editable-fields/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Person Editable Fields with Matching [DELETE /research-sys/api/v1/person-editable-fields/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + personEditableFieldId
+            + moduleCode
+            + fieldName
+            + active
+
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + personEditableFieldId
-            + moduleCode
-            + fieldName
-            + active
-
 
 + Response 204

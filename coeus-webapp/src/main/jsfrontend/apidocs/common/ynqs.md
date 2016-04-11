@@ -40,17 +40,10 @@
             ]
 
 ### Get All Ynqs with Filtering [GET /research-sys/api/v1/ynqs/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + questionId
++ Parameters
+
+        + questionId
             + dateRequiredFor
             + description
             + effectiveDate
@@ -60,7 +53,14 @@
             + questionType
             + status
             + sortId
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -75,17 +75,17 @@
             ]
 			
 ### Get Schema for Ynqs [GET /research-sys/api/v1/ynqs/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -94,20 +94,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["questionId","dateRequiredFor","description","effectiveDate","explanationRequiredFor","groupName","noOfAnswers","questionType","status","sortId"],"primaryKey":"questionId"}
 		
 ### Get Blueprint API specification for Ynqs [GET /research-sys/api/v1/ynqs/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -206,33 +206,26 @@
 + Response 204
 
 ### Delete All Ynqs [DELETE /research-sys/api/v1/ynqs/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Ynqs with Matching [DELETE /research-sys/api/v1/ynqs/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + questionId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + questionId
             + dateRequiredFor
             + description
             + effectiveDate
@@ -243,5 +236,12 @@
             + status
             + sortId
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

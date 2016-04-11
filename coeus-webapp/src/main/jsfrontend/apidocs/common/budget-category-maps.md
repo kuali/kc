@@ -40,21 +40,21 @@
             ]
 
 ### Get All Budget Category Maps with Filtering [GET /research-sys/api/v1/budget-category-maps/]
-	 
+    
++ Parameters
+
+        + mappingName
+            + targetCategoryCode
+            + categoryType
+            + description
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + mappingName
-            + targetCategoryCode
-            + categoryType
-            + description
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -69,17 +69,17 @@
             ]
 			
 ### Get Schema for Budget Category Maps [GET /research-sys/api/v1/budget-category-maps/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -88,20 +88,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["mappingName","targetCategoryCode","categoryType","description"],"primaryKey":"mappingName:targetCategoryCode"}
 		
 ### Get Blueprint API specification for Budget Category Maps [GET /research-sys/api/v1/budget-category-maps/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -200,36 +200,36 @@
 + Response 204
 
 ### Delete All Budget Category Maps [DELETE /research-sys/api/v1/budget-category-maps/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Budget Category Maps with Matching [DELETE /research-sys/api/v1/budget-category-maps/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + mappingName
+            + targetCategoryCode
+            + categoryType
+            + description
+
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + mappingName
-            + targetCategoryCode
-            + categoryType
-            + description
-
 
 + Response 204

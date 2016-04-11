@@ -40,20 +40,20 @@
             ]
 
 ### Get All Rule Expression Definitions with Filtering [GET /research-sys/api/v1/rule-expression-definitions/]
-	 
+    
++ Parameters
+
+        + id
+            + type
+            + expression
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + id
-            + type
-            + expression
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -68,17 +68,17 @@
             ]
 			
 ### Get Schema for Rule Expression Definitions [GET /research-sys/api/v1/rule-expression-definitions/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -87,20 +87,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["id","type","expression"],"primaryKey":"id"}
 		
 ### Get Blueprint API specification for Rule Expression Definitions [GET /research-sys/api/v1/rule-expression-definitions/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -199,35 +199,35 @@
 + Response 204
 
 ### Delete All Rule Expression Definitions [DELETE /research-sys/api/v1/rule-expression-definitions/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Rule Expression Definitions with Matching [DELETE /research-sys/api/v1/rule-expression-definitions/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + id
+            + type
+            + expression
+
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + id
-            + type
-            + expression
-
 
 + Response 204

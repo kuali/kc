@@ -40,24 +40,24 @@
             ]
 
 ### Get All Award Sponsor Contacts with Filtering [GET /research-sys/api/v1/award-sponsor-contacts/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + awardContactId
++ Parameters
+
+        + awardContactId
             + rolodexId
             + fullName
             + roleCode
             + awardId
             + awardNumber
             + sequenceNumber
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -72,17 +72,17 @@
             ]
 			
 ### Get Schema for Award Sponsor Contacts [GET /research-sys/api/v1/award-sponsor-contacts/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -91,20 +91,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["awardContactId","rolodexId","fullName","roleCode","awardId","awardNumber","sequenceNumber"],"primaryKey":"awardContactId"}
 		
 ### Get Blueprint API specification for Award Sponsor Contacts [GET /research-sys/api/v1/award-sponsor-contacts/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -203,33 +203,26 @@
 + Response 204
 
 ### Delete All Award Sponsor Contacts [DELETE /research-sys/api/v1/award-sponsor-contacts/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Award Sponsor Contacts with Matching [DELETE /research-sys/api/v1/award-sponsor-contacts/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + awardContactId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + awardContactId
             + rolodexId
             + fullName
             + roleCode
@@ -237,5 +230,12 @@
             + awardNumber
             + sequenceNumber
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

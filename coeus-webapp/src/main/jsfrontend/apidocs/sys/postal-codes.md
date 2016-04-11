@@ -40,23 +40,23 @@
             ]
 
 ### Get All Postal Codes with Filtering [GET /research-sys/api/v1/postal-codes/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + code
++ Parameters
+
+        + code
             + countryCode
             + cityName
             + stateCode
             + countyCode
             + active
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -71,17 +71,17 @@
             ]
 			
 ### Get Schema for Postal Codes [GET /research-sys/api/v1/postal-codes/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -90,20 +90,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["code","countryCode","cityName","stateCode","countyCode","active"],"primaryKey":"code:countryCode"}
 		
 ### Get Blueprint API specification for Postal Codes [GET /research-sys/api/v1/postal-codes/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -202,38 +202,38 @@
 + Response 204
 
 ### Delete All Postal Codes [DELETE /research-sys/api/v1/postal-codes/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Postal Codes with Matching [DELETE /research-sys/api/v1/postal-codes/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + code
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + code
             + countryCode
             + cityName
             + stateCode
             + countyCode
             + active
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

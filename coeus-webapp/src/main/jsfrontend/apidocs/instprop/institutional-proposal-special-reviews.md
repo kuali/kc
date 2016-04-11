@@ -40,17 +40,10 @@
             ]
 
 ### Get All Institutional Proposal Special Reviews with Filtering [GET /research-sys/api/v1/institutional-proposal-special-reviews/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + proposalSpecialReviewId
++ Parameters
+
+        + proposalSpecialReviewId
             + proposalId
             + specialReviewNumber
             + specialReviewTypeCode
@@ -60,7 +53,14 @@
             + approvalDate
             + expirationDate
             + comments
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -75,17 +75,17 @@
             ]
 			
 ### Get Schema for Institutional Proposal Special Reviews [GET /research-sys/api/v1/institutional-proposal-special-reviews/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -94,20 +94,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["proposalSpecialReviewId","proposalId","specialReviewNumber","specialReviewTypeCode","approvalTypeCode","protocolNumber","applicationDate","approvalDate","expirationDate","comments"],"primaryKey":"proposalSpecialReviewId"}
 		
 ### Get Blueprint API specification for Institutional Proposal Special Reviews [GET /research-sys/api/v1/institutional-proposal-special-reviews/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -206,33 +206,26 @@
 + Response 204
 
 ### Delete All Institutional Proposal Special Reviews [DELETE /research-sys/api/v1/institutional-proposal-special-reviews/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Institutional Proposal Special Reviews with Matching [DELETE /research-sys/api/v1/institutional-proposal-special-reviews/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + proposalSpecialReviewId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + proposalSpecialReviewId
             + proposalId
             + specialReviewNumber
             + specialReviewTypeCode
@@ -243,5 +236,12 @@
             + expirationDate
             + comments
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

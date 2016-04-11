@@ -40,17 +40,10 @@
             ]
 
 ### Get All Person Document Employment Infos with Filtering [GET /research-sys/api/v1/person-document-employment-infos/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + entityEmploymentId
++ Parameters
+
+        + entityEmploymentId
             + entityAffiliationId
             + employmentStatusCode
             + employmentTypeCode
@@ -62,7 +55,14 @@
             + edit
             + documentNumber
             + active
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -77,17 +77,17 @@
             ]
 			
 ### Get Schema for Person Document Employment Infos [GET /research-sys/api/v1/person-document-employment-infos/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -96,20 +96,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["entityEmploymentId","entityAffiliationId","employmentStatusCode","employmentTypeCode","primaryDepartmentCode","baseSalaryAmount","employeeId","employmentRecordId","primary","edit","documentNumber","active"],"primaryKey":"entityEmploymentId"}
 		
 ### Get Blueprint API specification for Person Document Employment Infos [GET /research-sys/api/v1/person-document-employment-infos/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -208,33 +208,26 @@
 + Response 204
 
 ### Delete All Person Document Employment Infos [DELETE /research-sys/api/v1/person-document-employment-infos/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Person Document Employment Infos with Matching [DELETE /research-sys/api/v1/person-document-employment-infos/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + entityEmploymentId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + entityEmploymentId
             + entityAffiliationId
             + employmentStatusCode
             + employmentTypeCode
@@ -247,5 +240,12 @@
             + documentNumber
             + active
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

@@ -40,21 +40,21 @@
             ]
 
 ### Get All Entity Residency Statuses with Filtering [GET /research-sys/api/v1/entity-residency-statuses/]
-	 
+    
++ Parameters
+
+        + name
+            + active
+            + code
+            + sortCode
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + name
-            + active
-            + code
-            + sortCode
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -69,17 +69,17 @@
             ]
 			
 ### Get Schema for Entity Residency Statuses [GET /research-sys/api/v1/entity-residency-statuses/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -88,20 +88,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["name","active","code","sortCode"],"primaryKey":"code"}
 		
 ### Get Blueprint API specification for Entity Residency Statuses [GET /research-sys/api/v1/entity-residency-statuses/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -200,36 +200,36 @@
 + Response 204
 
 ### Delete All Entity Residency Statuses [DELETE /research-sys/api/v1/entity-residency-statuses/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Entity Residency Statuses with Matching [DELETE /research-sys/api/v1/entity-residency-statuses/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + name
+            + active
+            + code
+            + sortCode
+
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + name
-            + active
-            + code
-            + sortCode
-
 
 + Response 204

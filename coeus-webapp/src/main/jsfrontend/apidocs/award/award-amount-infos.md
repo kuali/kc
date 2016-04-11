@@ -40,17 +40,10 @@
             ]
 
 ### Get All Award Amount Infos with Filtering [GET /research-sys/api/v1/award-amount-infos/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + awardAmountInfoId
++ Parameters
+
+        + awardAmountInfoId
             + awardId
             + awardNumber
             + sequenceNumber
@@ -76,7 +69,14 @@
             + obligatedTotalDirect
             + obligatedTotalIndirect
             + originatingAwardVersion
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -91,17 +91,17 @@
             ]
 			
 ### Get Schema for Award Amount Infos [GET /research-sys/api/v1/award-amount-infos/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -110,20 +110,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["awardAmountInfoId","awardId","awardNumber","sequenceNumber","anticipatedTotalAmount","antDistributableAmount","finalExpirationDate","currentFundEffectiveDate","amountObligatedToDate","obliDistributableAmount","obligationExpirationDate","transactionId","timeAndMoneyDocumentNumber","entryType","eomProcessFlag","anticipatedChange","obligatedChange","obligatedChangeDirect","obligatedChangeIndirect","anticipatedChangeDirect","anticipatedChangeIndirect","anticipatedTotalDirect","anticipatedTotalIndirect","obligatedTotalDirect","obligatedTotalIndirect","originatingAwardVersion"],"primaryKey":"awardAmountInfoId"}
 		
 ### Get Blueprint API specification for Award Amount Infos [GET /research-sys/api/v1/award-amount-infos/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -222,33 +222,26 @@
 + Response 204
 
 ### Delete All Award Amount Infos [DELETE /research-sys/api/v1/award-amount-infos/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Award Amount Infos with Matching [DELETE /research-sys/api/v1/award-amount-infos/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + awardAmountInfoId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + awardAmountInfoId
             + awardId
             + awardNumber
             + sequenceNumber
@@ -275,5 +268,12 @@
             + obligatedTotalIndirect
             + originatingAwardVersion
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

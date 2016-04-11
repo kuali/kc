@@ -40,17 +40,10 @@
             ]
 
 ### Get All Person Document Groups with Filtering [GET /research-sys/api/v1/person-document-groups/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + groupMemberId
++ Parameters
+
+        + groupMemberId
             + groupType
             + groupId
             + groupName
@@ -61,7 +54,14 @@
             + edit
             + documentNumber
             + active
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -76,17 +76,17 @@
             ]
 			
 ### Get Schema for Person Document Groups [GET /research-sys/api/v1/person-document-groups/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -95,20 +95,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["groupMemberId","groupType","groupId","groupName","namespaceCode","principalId","activeFromDate","activeToDate","edit","documentNumber","active"],"primaryKey":"groupMemberId"}
 		
 ### Get Blueprint API specification for Person Document Groups [GET /research-sys/api/v1/person-document-groups/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -207,33 +207,26 @@
 + Response 204
 
 ### Delete All Person Document Groups [DELETE /research-sys/api/v1/person-document-groups/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Person Document Groups with Matching [DELETE /research-sys/api/v1/person-document-groups/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + groupMemberId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + groupMemberId
             + groupType
             + groupId
             + groupName
@@ -245,5 +238,12 @@
             + documentNumber
             + active
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

@@ -40,17 +40,10 @@
             ]
 
 ### Get All Awards with Filtering [GET /award/api/v1/awards/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + awardNumber
++ Parameters
+
+        + awardNumber
             + sequenceNumber
             + sponsorCode
             + statusCode
@@ -103,7 +96,14 @@
             + fainId
             + fedAwardYear
             + fedAwardDate
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -118,17 +118,17 @@
             ]
 			
 ### Get Schema for Awards [GET /award/api/v1/awards/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -137,20 +137,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["awardNumber","sequenceNumber","sponsorCode","statusCode","templateCode","accountNumber","approvedEquipmentIndicator","approvedForeignTripIndicator","subContractIndicator","awardEffectiveDate","awardExecutionDate","beginDate","costSharingIndicator","indirectCostIndicator","modificationNumber","nsfCode","paymentScheduleIndicator","scienceCodeIndicator","specialReviewIndicator","sponsorAwardNumber","transferSponsorIndicator","accountTypeCode","activityTypeCode","awardTypeCode","primeSponsorCode","awardId","basisOfPaymentCode","cfdaNumber","documentFundingId","methodOfPaymentCode","preAwardAuthorizedAmount","preAwardEffectiveDate","preAwardInstitutionalAuthorizedAmount","preAwardInstitutionalEffectiveDate","procurementPriorityCode","proposalNumber","specialEbRateOffCampus","specialEbRateOnCampus","subPlanFlag","title","archiveLocation","closeoutDate","awardTransactionTypeCode","noticeDate","unitNumber","financialAccountDocumentNumber","financialAccountCreationDate","financialChartOfAccountsCode","syncChild","awardSequenceStatus","fainId","fedAwardYear","fedAwardDate"],"primaryKey":"awardId"}
 		
 ### Get Blueprint API specification for Awards [GET /award/api/v1/awards/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -249,33 +249,26 @@
 + Response 204
 
 ### Delete All Awards [DELETE /award/api/v1/awards/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Awards with Matching [DELETE /award/api/v1/awards/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + awardNumber
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + awardNumber
             + sequenceNumber
             + sponsorCode
             + statusCode
@@ -329,5 +322,12 @@
             + fedAwardYear
             + fedAwardDate
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

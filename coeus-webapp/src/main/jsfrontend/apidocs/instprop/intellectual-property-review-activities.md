@@ -40,17 +40,10 @@
             ]
 
 ### Get All Intellectual Property Review Activities with Filtering [GET /research-sys/api/v1/intellectual-property-review-activities/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + ipReviewActivityTypeCode
++ Parameters
+
+        + ipReviewActivityTypeCode
             + activityDate
             + comments
             + proposalIpReviewActivityId
@@ -58,7 +51,14 @@
             + proposalNumber
             + sequenceNumber
             + activityNumber
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -73,17 +73,17 @@
             ]
 			
 ### Get Schema for Intellectual Property Review Activities [GET /research-sys/api/v1/intellectual-property-review-activities/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -92,20 +92,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["ipReviewActivityTypeCode","activityDate","comments","proposalIpReviewActivityId","ipReviewId","proposalNumber","sequenceNumber","activityNumber"],"primaryKey":"proposalIpReviewActivityId"}
 		
 ### Get Blueprint API specification for Intellectual Property Review Activities [GET /research-sys/api/v1/intellectual-property-review-activities/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -204,33 +204,26 @@
 + Response 204
 
 ### Delete All Intellectual Property Review Activities [DELETE /research-sys/api/v1/intellectual-property-review-activities/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Intellectual Property Review Activities with Matching [DELETE /research-sys/api/v1/intellectual-property-review-activities/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + ipReviewActivityTypeCode
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + ipReviewActivityTypeCode
             + activityDate
             + comments
             + proposalIpReviewActivityId
@@ -239,5 +232,12 @@
             + sequenceNumber
             + activityNumber
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

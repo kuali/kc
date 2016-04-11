@@ -40,17 +40,10 @@
             ]
 
 ### Get All Budget Personnel Details with Filtering [GET /research-sys/api/v1/budget-personnel-details/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + budgetPersonnelLineItemId
++ Parameters
+
+        + budgetPersonnelLineItemId
             + budgetLineItemId
             + lineItemNumber
             + budgetId
@@ -75,7 +68,14 @@
             + personSequenceNumber
             + underrecoveryAmount
             + submitCostSharingFlag
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -90,17 +90,17 @@
             ]
 			
 ### Get Schema for Budget Personnel Details [GET /research-sys/api/v1/budget-personnel-details/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -109,20 +109,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["budgetPersonnelLineItemId","budgetLineItemId","lineItemNumber","budgetId","budgetPeriod","onOffCampusFlag","endDate","startDate","budgetJustification","costSharingAmount","lineItemDescription","applyInRateFlag","personNumber","costSharingPercent","jobCode","percentCharged","percentEffort","periodTypeCode","personId","salaryRequested","sequenceNumber","budgetPeriodId","personSequenceNumber","underrecoveryAmount","submitCostSharingFlag"],"primaryKey":"budgetPersonnelLineItemId"}
 		
 ### Get Blueprint API specification for Budget Personnel Details [GET /research-sys/api/v1/budget-personnel-details/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -221,33 +221,26 @@
 + Response 204
 
 ### Delete All Budget Personnel Details [DELETE /research-sys/api/v1/budget-personnel-details/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Budget Personnel Details with Matching [DELETE /research-sys/api/v1/budget-personnel-details/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + budgetPersonnelLineItemId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + budgetPersonnelLineItemId
             + budgetLineItemId
             + lineItemNumber
             + budgetId
@@ -273,5 +266,12 @@
             + underrecoveryAmount
             + submitCostSharingFlag
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

@@ -40,20 +40,20 @@
             ]
 
 ### Get All Institutional Proposal Attachment Types with Filtering [GET /research-sys/api/v1/institutional-proposal-attachment-types/]
-	 
+    
++ Parameters
+
+        + attachmentTypeCode
+            + description
+            + allowMultiple
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + attachmentTypeCode
-            + description
-            + allowMultiple
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -68,17 +68,17 @@
             ]
 			
 ### Get Schema for Institutional Proposal Attachment Types [GET /research-sys/api/v1/institutional-proposal-attachment-types/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -87,20 +87,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["attachmentTypeCode","description","allowMultiple"],"primaryKey":"attachmentTypeCode"}
 		
 ### Get Blueprint API specification for Institutional Proposal Attachment Types [GET /research-sys/api/v1/institutional-proposal-attachment-types/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -199,35 +199,35 @@
 + Response 204
 
 ### Delete All Institutional Proposal Attachment Types [DELETE /research-sys/api/v1/institutional-proposal-attachment-types/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Institutional Proposal Attachment Types with Matching [DELETE /research-sys/api/v1/institutional-proposal-attachment-types/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + attachmentTypeCode
+            + description
+            + allowMultiple
+
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + attachmentTypeCode
-            + description
-            + allowMultiple
-
 
 + Response 204

@@ -40,22 +40,22 @@
             ]
 
 ### Get All Iacuc Protocol Research Areas with Filtering [GET /research-sys/api/v1/iacuc-protocol-research-areas/]
-	 
+    
++ Parameters
+
+        + id
+            + protocolId
+            + protocolNumber
+            + sequenceNumber
+            + researchAreaCode
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + id
-            + protocolId
-            + protocolNumber
-            + sequenceNumber
-            + researchAreaCode
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -70,17 +70,17 @@
             ]
 			
 ### Get Schema for Iacuc Protocol Research Areas [GET /research-sys/api/v1/iacuc-protocol-research-areas/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -89,20 +89,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["id","protocolId","protocolNumber","sequenceNumber","researchAreaCode"],"primaryKey":"id"}
 		
 ### Get Blueprint API specification for Iacuc Protocol Research Areas [GET /research-sys/api/v1/iacuc-protocol-research-areas/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -201,37 +201,37 @@
 + Response 204
 
 ### Delete All Iacuc Protocol Research Areas [DELETE /research-sys/api/v1/iacuc-protocol-research-areas/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Iacuc Protocol Research Areas with Matching [DELETE /research-sys/api/v1/iacuc-protocol-research-areas/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + id
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + id
             + protocolId
             + protocolNumber
             + sequenceNumber
             + researchAreaCode
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

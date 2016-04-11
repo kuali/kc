@@ -40,17 +40,10 @@
             ]
 
 ### Get All Budget Persons with Filtering [GET /research-sys/api/v1/budget-persons/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + personSequenceNumber
++ Parameters
+
+        + personSequenceNumber
             + budgetId
             + effectiveDate
             + jobCode
@@ -64,7 +57,14 @@
             + salaryAnniversaryDate
             + hierarchyProposalNumber
             + hiddenInHierarchy
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -79,17 +79,17 @@
             ]
 			
 ### Get Schema for Budget Persons [GET /research-sys/api/v1/budget-persons/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -98,20 +98,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["personSequenceNumber","budgetId","effectiveDate","jobCode","nonEmployeeFlag","personId","rolodexId","tbnId","appointmentTypeCode","calculationBase","personName","salaryAnniversaryDate","hierarchyProposalNumber","hiddenInHierarchy"],"primaryKey":"budget:personSequenceNumber"}
 		
 ### Get Blueprint API specification for Budget Persons [GET /research-sys/api/v1/budget-persons/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -210,33 +210,26 @@
 + Response 204
 
 ### Delete All Budget Persons [DELETE /research-sys/api/v1/budget-persons/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Budget Persons with Matching [DELETE /research-sys/api/v1/budget-persons/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + personSequenceNumber
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + personSequenceNumber
             + budgetId
             + effectiveDate
             + jobCode
@@ -251,5 +244,12 @@
             + hierarchyProposalNumber
             + hiddenInHierarchy
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

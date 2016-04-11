@@ -40,17 +40,10 @@
             ]
 
 ### Get All Kc Person Extended Attributes with Filtering [GET /research-sys/api/v1/kc-person-extended-attributes/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + personId
++ Parameters
+
+        + personId
             + ageByFiscalYear
             + race
             + educationLevel
@@ -81,7 +74,14 @@
             + multiCampusPrincipalName
             + salaryAnniversaryDate
             + eraCommonUserName
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -96,17 +96,17 @@
             ]
 			
 ### Get Schema for Kc Person Extended Attributes [GET /research-sys/api/v1/kc-person-extended-attributes/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -115,20 +115,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["personId","ageByFiscalYear","race","educationLevel","degree","major","handicappedFlag","handicapType","veteranFlag","veteranType","visaCode","visaType","visaRenewalDate","hasVisa","officeLocation","secondaryOfficeLocation","school","yearGraduated","directoryDepartment","primaryTitle","directoryTitle","vacationAccrualFlag","onSabbaticalFlag","idProvided","idVerified","county","citizenshipTypeCode","multiCampusPrincipalId","multiCampusPrincipalName","salaryAnniversaryDate","eraCommonUserName"],"primaryKey":"personId"}
 		
 ### Get Blueprint API specification for Kc Person Extended Attributes [GET /research-sys/api/v1/kc-person-extended-attributes/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -227,33 +227,26 @@
 + Response 204
 
 ### Delete All Kc Person Extended Attributes [DELETE /research-sys/api/v1/kc-person-extended-attributes/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Kc Person Extended Attributes with Matching [DELETE /research-sys/api/v1/kc-person-extended-attributes/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + personId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + personId
             + ageByFiscalYear
             + race
             + educationLevel
@@ -285,5 +278,12 @@
             + salaryAnniversaryDate
             + eraCommonUserName
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

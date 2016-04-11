@@ -40,21 +40,21 @@
             ]
 
 ### Get All Sponsor Form Template Lists with Filtering [GET /research-sys/api/v1/sponsor-form-template-lists/]
-	 
+    
++ Parameters
+
+        + sponsorFormTemplateId
+            + sponsorFormId
+            + pageNumber
+            + pageDescription
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + sponsorFormTemplateId
-            + sponsorFormId
-            + pageNumber
-            + pageDescription
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -69,17 +69,17 @@
             ]
 			
 ### Get Schema for Sponsor Form Template Lists [GET /research-sys/api/v1/sponsor-form-template-lists/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -88,20 +88,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["sponsorFormTemplateId","sponsorFormId","pageNumber","pageDescription"],"primaryKey":"sponsorFormTemplateId"}
 		
 ### Get Blueprint API specification for Sponsor Form Template Lists [GET /research-sys/api/v1/sponsor-form-template-lists/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -200,36 +200,36 @@
 + Response 204
 
 ### Delete All Sponsor Form Template Lists [DELETE /research-sys/api/v1/sponsor-form-template-lists/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Sponsor Form Template Lists with Matching [DELETE /research-sys/api/v1/sponsor-form-template-lists/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + sponsorFormTemplateId
+            + sponsorFormId
+            + pageNumber
+            + pageDescription
+
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + sponsorFormTemplateId
-            + sponsorFormId
-            + pageNumber
-            + pageDescription
-
 
 + Response 204

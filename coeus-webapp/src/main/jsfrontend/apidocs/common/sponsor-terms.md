@@ -40,21 +40,21 @@
             ]
 
 ### Get All Sponsor Terms with Filtering [GET /research-sys/api/v1/sponsor-terms/]
-	 
+    
++ Parameters
+
+        + sponsorTermId
+            + sponsorTermCode
+            + sponsorTermTypeCode
+            + description
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + sponsorTermId
-            + sponsorTermCode
-            + sponsorTermTypeCode
-            + description
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -69,17 +69,17 @@
             ]
 			
 ### Get Schema for Sponsor Terms [GET /research-sys/api/v1/sponsor-terms/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -88,20 +88,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["sponsorTermId","sponsorTermCode","sponsorTermTypeCode","description"],"primaryKey":"sponsorTermId"}
 		
 ### Get Blueprint API specification for Sponsor Terms [GET /research-sys/api/v1/sponsor-terms/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -200,36 +200,36 @@
 + Response 204
 
 ### Delete All Sponsor Terms [DELETE /research-sys/api/v1/sponsor-terms/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Sponsor Terms with Matching [DELETE /research-sys/api/v1/sponsor-terms/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + sponsorTermId
+            + sponsorTermCode
+            + sponsorTermTypeCode
+            + description
+
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + sponsorTermId
-            + sponsorTermCode
-            + sponsorTermTypeCode
-            + description
-
 
 + Response 204

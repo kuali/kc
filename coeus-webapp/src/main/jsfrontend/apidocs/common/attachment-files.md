@@ -40,22 +40,22 @@
             ]
 
 ### Get All Attachment Files with Filtering [GET /research-sys/api/v1/attachment-files/]
-	 
+    
++ Parameters
+
+        + id
+            + sequenceNumber
+            + name
+            + type
+            + data
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + id
-            + sequenceNumber
-            + name
-            + type
-            + data
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -70,17 +70,17 @@
             ]
 			
 ### Get Schema for Attachment Files [GET /research-sys/api/v1/attachment-files/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -89,20 +89,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["id","sequenceNumber","name","type","data"],"primaryKey":"id"}
 		
 ### Get Blueprint API specification for Attachment Files [GET /research-sys/api/v1/attachment-files/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -201,37 +201,37 @@
 + Response 204
 
 ### Delete All Attachment Files [DELETE /research-sys/api/v1/attachment-files/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Attachment Files with Matching [DELETE /research-sys/api/v1/attachment-files/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + id
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + id
             + sequenceNumber
             + name
             + type
             + data
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

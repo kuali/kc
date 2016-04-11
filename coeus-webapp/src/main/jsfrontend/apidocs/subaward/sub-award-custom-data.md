@@ -40,23 +40,23 @@
             ]
 
 ### Get All Sub Award Custom Data with Filtering [GET /research-sys/api/v1/sub-award-custom-data/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + subAwardCustomDataId
++ Parameters
+
+        + subAwardCustomDataId
             + subAwardId
             + sequenceNumber
             + subAwardCode
             + customAttributeId
             + value
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -71,17 +71,17 @@
             ]
 			
 ### Get Schema for Sub Award Custom Data [GET /research-sys/api/v1/sub-award-custom-data/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -90,20 +90,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["subAwardCustomDataId","subAwardId","sequenceNumber","subAwardCode","customAttributeId","value"],"primaryKey":"subAwardCustomDataId"}
 		
 ### Get Blueprint API specification for Sub Award Custom Data [GET /research-sys/api/v1/sub-award-custom-data/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -202,38 +202,38 @@
 + Response 204
 
 ### Delete All Sub Award Custom Data [DELETE /research-sys/api/v1/sub-award-custom-data/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Sub Award Custom Data with Matching [DELETE /research-sys/api/v1/sub-award-custom-data/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + subAwardCustomDataId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + subAwardCustomDataId
             + subAwardId
             + sequenceNumber
             + subAwardCode
             + customAttributeId
             + value
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

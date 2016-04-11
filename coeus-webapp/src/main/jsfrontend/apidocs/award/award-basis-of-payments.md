@@ -40,19 +40,19 @@
             ]
 
 ### Get All Award Basis Of Payments with Filtering [GET /research-sys/api/v1/award-basis-of-payments/]
-	 
+    
++ Parameters
+
+        + basisOfPaymentCode
+            + description
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + basisOfPaymentCode
-            + description
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -67,17 +67,17 @@
             ]
 			
 ### Get Schema for Award Basis Of Payments [GET /research-sys/api/v1/award-basis-of-payments/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -86,20 +86,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["basisOfPaymentCode","description"],"primaryKey":"basisOfPaymentCode"}
 		
 ### Get Blueprint API specification for Award Basis Of Payments [GET /research-sys/api/v1/award-basis-of-payments/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -198,34 +198,34 @@
 + Response 204
 
 ### Delete All Award Basis Of Payments [DELETE /research-sys/api/v1/award-basis-of-payments/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Award Basis Of Payments with Matching [DELETE /research-sys/api/v1/award-basis-of-payments/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + basisOfPaymentCode
+            + description
+
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + basisOfPaymentCode
-            + description
-
 
 + Response 204

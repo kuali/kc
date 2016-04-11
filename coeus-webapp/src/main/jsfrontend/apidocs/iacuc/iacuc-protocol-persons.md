@@ -40,17 +40,10 @@
             ]
 
 ### Get All Iacuc Protocol Persons with Filtering [GET /research-sys/api/v1/iacuc-protocol-persons/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + protocolPersonId
++ Parameters
+
+        + protocolPersonId
             + protocolId
             + protocolNumber
             + sequenceNumber
@@ -119,7 +112,14 @@
             + mobilePhoneNumber
             + eraCommonsUserName
             + procedureQualificationDescription
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -134,17 +134,17 @@
             ]
 			
 ### Get Schema for Iacuc Protocol Persons [GET /research-sys/api/v1/iacuc-protocol-persons/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -153,20 +153,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["protocolPersonId","protocolId","protocolNumber","sequenceNumber","personId","personName","protocolPersonRoleId","rolodexId","affiliationTypeCode","comments","lastName","firstName","middleName","fullName","priorName","userName","emailAddress","dateOfBirth","age","ageByFiscalYear","gender","race","educationLevel","degree","major","handicappedFlag","handicapType","veteranFlag","veteranType","visaCode","visaType","visaRenewalDate","hasVisa","officeLocation","officePhone","secondaryOfficeLocation","secondaryOfficePhone","school","yearGraduated","directoryDepartment","saluation","countryOfCitizenship","primaryTitle","directoryTitle","homeUnit","facultyFlag","graduateStudentStaffFlag","researchStaffFlag","serviceStaffFlag","supportStaffFlag","otherAcademicGroupFlag","medicalStaffFlag","vacationAccrualFlag","onSabbaticalFlag","idProvided","idVerified","addressLine1","addressLine2","addressLine3","city","county","state","postalCode","countryCode","faxNumber","pagerNumber","mobilePhoneNumber","eraCommonsUserName","procedureQualificationDescription"],"primaryKey":"protocolPersonId"}
 		
 ### Get Blueprint API specification for Iacuc Protocol Persons [GET /research-sys/api/v1/iacuc-protocol-persons/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -265,33 +265,26 @@
 + Response 204
 
 ### Delete All Iacuc Protocol Persons [DELETE /research-sys/api/v1/iacuc-protocol-persons/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Iacuc Protocol Persons with Matching [DELETE /research-sys/api/v1/iacuc-protocol-persons/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + protocolPersonId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + protocolPersonId
             + protocolId
             + protocolNumber
             + sequenceNumber
@@ -361,5 +354,12 @@
             + eraCommonsUserName
             + procedureQualificationDescription
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

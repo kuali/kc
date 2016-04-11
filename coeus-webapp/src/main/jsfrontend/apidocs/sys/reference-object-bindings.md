@@ -40,17 +40,10 @@
             ]
 
 ### Get All Reference Object Bindings with Filtering [GET /research-sys/api/v1/reference-object-bindings/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + id
++ Parameters
+
+        + id
             + collectionName
             + krmsDiscriminatorType
             + krmsObjectId
@@ -58,7 +51,14 @@
             + referenceDiscriminatorType
             + referenceObjectId
             + active
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -73,17 +73,17 @@
             ]
 			
 ### Get Schema for Reference Object Bindings [GET /research-sys/api/v1/reference-object-bindings/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -92,20 +92,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["id","collectionName","krmsDiscriminatorType","krmsObjectId","namespace","referenceDiscriminatorType","referenceObjectId","active"],"primaryKey":"id"}
 		
 ### Get Blueprint API specification for Reference Object Bindings [GET /research-sys/api/v1/reference-object-bindings/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -204,33 +204,26 @@
 + Response 204
 
 ### Delete All Reference Object Bindings [DELETE /research-sys/api/v1/reference-object-bindings/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Reference Object Bindings with Matching [DELETE /research-sys/api/v1/reference-object-bindings/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + id
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + id
             + collectionName
             + krmsDiscriminatorType
             + krmsObjectId
@@ -239,5 +232,12 @@
             + referenceObjectId
             + active
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

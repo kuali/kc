@@ -40,17 +40,10 @@
             ]
 
 ### Get All Questionnaire Usages with Filtering [GET /research-sys/api/v1/questionnaire-usages/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + id
++ Parameters
+
+        + id
             + moduleItemCode
             + moduleSubItemCode
             + questionnaireSequenceNumber
@@ -58,7 +51,14 @@
             + ruleId
             + questionnaireLabel
             + mandatory
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -73,17 +73,17 @@
             ]
 			
 ### Get Schema for Questionnaire Usages [GET /research-sys/api/v1/questionnaire-usages/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -92,20 +92,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["id","moduleItemCode","moduleSubItemCode","questionnaireSequenceNumber","questionnaireId","ruleId","questionnaireLabel","mandatory"],"primaryKey":"id"}
 		
 ### Get Blueprint API specification for Questionnaire Usages [GET /research-sys/api/v1/questionnaire-usages/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -204,33 +204,26 @@
 + Response 204
 
 ### Delete All Questionnaire Usages [DELETE /research-sys/api/v1/questionnaire-usages/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Questionnaire Usages with Matching [DELETE /research-sys/api/v1/questionnaire-usages/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + id
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + id
             + moduleItemCode
             + moduleSubItemCode
             + questionnaireSequenceNumber
@@ -239,5 +232,12 @@
             + questionnaireLabel
             + mandatory
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

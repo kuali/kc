@@ -40,20 +40,20 @@
             ]
 
 ### Get All Maintenance Locks with Filtering [GET /research-sys/api/v1/maintenance-locks/]
-	 
+    
++ Parameters
+
+        + lockId
+            + lockingRepresentation
+            + documentNumber
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + lockId
-            + lockingRepresentation
-            + documentNumber
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -68,17 +68,17 @@
             ]
 			
 ### Get Schema for Maintenance Locks [GET /research-sys/api/v1/maintenance-locks/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -87,20 +87,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["lockId","lockingRepresentation","documentNumber"],"primaryKey":"lockId"}
 		
 ### Get Blueprint API specification for Maintenance Locks [GET /research-sys/api/v1/maintenance-locks/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -199,35 +199,35 @@
 + Response 204
 
 ### Delete All Maintenance Locks [DELETE /research-sys/api/v1/maintenance-locks/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Maintenance Locks with Matching [DELETE /research-sys/api/v1/maintenance-locks/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + lockId
+            + lockingRepresentation
+            + documentNumber
+
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + lockId
-            + lockingRepresentation
-            + documentNumber
-
 
 + Response 204

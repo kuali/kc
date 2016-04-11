@@ -40,17 +40,10 @@
             ]
 
 ### Get All Person Document Names with Filtering [GET /research-sys/api/v1/person-document-names/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + entityNameId
++ Parameters
+
+        + entityNameId
             + nameCode
             + firstName
             + middleName
@@ -64,7 +57,14 @@
             + edit
             + documentNumber
             + active
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -79,17 +79,17 @@
             ]
 			
 ### Get Schema for Person Document Names [GET /research-sys/api/v1/person-document-names/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -98,20 +98,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["entityNameId","nameCode","firstName","middleName","lastName","namePrefix","nameTitle","nameSuffix","noteMessage","nameChangedDate","dflt","edit","documentNumber","active"],"primaryKey":"entityNameId"}
 		
 ### Get Blueprint API specification for Person Document Names [GET /research-sys/api/v1/person-document-names/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -210,33 +210,26 @@
 + Response 204
 
 ### Delete All Person Document Names [DELETE /research-sys/api/v1/person-document-names/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Person Document Names with Matching [DELETE /research-sys/api/v1/person-document-names/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + entityNameId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + entityNameId
             + nameCode
             + firstName
             + middleName
@@ -251,5 +244,12 @@
             + documentNumber
             + active
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

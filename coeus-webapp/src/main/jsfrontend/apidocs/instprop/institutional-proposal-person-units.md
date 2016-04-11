@@ -40,21 +40,21 @@
             ]
 
 ### Get All Institutional Proposal Person Units with Filtering [GET /research-sys/api/v1/institutional-proposal-person-units/]
-	 
+    
++ Parameters
+
+        + institutionalProposalPersonUnitId
+            + institutionalProposalContactId
+            + unitNumber
+            + leadUnit
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + institutionalProposalPersonUnitId
-            + institutionalProposalContactId
-            + unitNumber
-            + leadUnit
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -69,17 +69,17 @@
             ]
 			
 ### Get Schema for Institutional Proposal Person Units [GET /research-sys/api/v1/institutional-proposal-person-units/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -88,20 +88,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["institutionalProposalPersonUnitId","institutionalProposalContactId","unitNumber","leadUnit"],"primaryKey":"institutionalProposalPersonUnitId"}
 		
 ### Get Blueprint API specification for Institutional Proposal Person Units [GET /research-sys/api/v1/institutional-proposal-person-units/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -200,36 +200,36 @@
 + Response 204
 
 ### Delete All Institutional Proposal Person Units [DELETE /research-sys/api/v1/institutional-proposal-person-units/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Institutional Proposal Person Units with Matching [DELETE /research-sys/api/v1/institutional-proposal-person-units/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + institutionalProposalPersonUnitId
+            + institutionalProposalContactId
+            + unitNumber
+            + leadUnit
+
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + institutionalProposalPersonUnitId
-            + institutionalProposalContactId
-            + unitNumber
-            + leadUnit
-
 
 + Response 204

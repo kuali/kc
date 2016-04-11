@@ -40,17 +40,10 @@
             ]
 
 ### Get All Budgets with Filtering [GET /research-sys/api/v1/budgets/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + parentDocumentTypeCode
++ Parameters
+
+        + parentDocumentTypeCode
             + budgetJustification
             + createTimestamp
             + createUser
@@ -76,7 +69,14 @@
             + ohRateTypeCode
             + startDate
             + totalCost
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -91,17 +91,17 @@
             ]
 			
 ### Get Schema for Budgets [GET /research-sys/api/v1/budgets/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -110,20 +110,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["parentDocumentTypeCode","budgetJustification","createTimestamp","createUser","budgetAdjustmentDocumentNumber","residualFunds","endDate","modularBudgetFlag","documentNumber","totalDirectCostLimit","costSharingAmount","totalDirectCost","ohRateClassCode","comments","underrecoveryAmount","budgetId","budgetVersionNumber","urRateClassCode","totalIndirectCost","totalCostLimit","name","onOffCampusFlag","submitCostSharingFlag","ohRateTypeCode","startDate","totalCost"],"primaryKey":"budgetId"}
 		
 ### Get Blueprint API specification for Budgets [GET /research-sys/api/v1/budgets/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -222,33 +222,26 @@
 + Response 204
 
 ### Delete All Budgets [DELETE /research-sys/api/v1/budgets/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Budgets with Matching [DELETE /research-sys/api/v1/budgets/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + parentDocumentTypeCode
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + parentDocumentTypeCode
             + budgetJustification
             + createTimestamp
             + createUser
@@ -275,5 +268,12 @@
             + startDate
             + totalCost
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

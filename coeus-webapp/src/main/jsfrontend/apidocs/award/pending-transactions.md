@@ -40,17 +40,10 @@
             ]
 
 ### Get All Pending Transactions with Filtering [GET /research-sys/api/v1/pending-transactions/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + transactionId
++ Parameters
+
+        + transactionId
             + documentNumber
             + sourceAwardNumber
             + destinationAwardNumber
@@ -63,7 +56,14 @@
             + comments
             + processedFlag
             + singleNodeTransaction
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -78,17 +78,17 @@
             ]
 			
 ### Get Schema for Pending Transactions [GET /research-sys/api/v1/pending-transactions/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -97,20 +97,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["transactionId","documentNumber","sourceAwardNumber","destinationAwardNumber","obligatedAmount","obligatedDirectAmount","obligatedIndirectAmount","anticipatedAmount","anticipatedDirectAmount","anticipatedIndirectAmount","comments","processedFlag","singleNodeTransaction"],"primaryKey":"transactionId"}
 		
 ### Get Blueprint API specification for Pending Transactions [GET /research-sys/api/v1/pending-transactions/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -209,33 +209,26 @@
 + Response 204
 
 ### Delete All Pending Transactions [DELETE /research-sys/api/v1/pending-transactions/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Pending Transactions with Matching [DELETE /research-sys/api/v1/pending-transactions/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + transactionId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + transactionId
             + documentNumber
             + sourceAwardNumber
             + destinationAwardNumber
@@ -249,5 +242,12 @@
             + processedFlag
             + singleNodeTransaction
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

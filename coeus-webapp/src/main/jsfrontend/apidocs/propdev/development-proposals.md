@@ -40,17 +40,10 @@
             ]
 
 ### Get All Development Proposals with Filtering [GET /research-sys/api/v1/development-proposals/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + proposalNumber
++ Parameters
+
+        + proposalNumber
             + proposalTypeCode
             + continuedFrom
             + sponsorCode
@@ -94,7 +87,14 @@
             + prevGrantsGovTrackingID
             + createTimestamp
             + createUser
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -109,17 +109,17 @@
             ]
 			
 ### Get Schema for Development Proposals [GET /research-sys/api/v1/development-proposals/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -128,20 +128,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["proposalNumber","proposalTypeCode","continuedFrom","sponsorCode","activityTypeCode","ownedByUnitNumber","requestedStartDateInitial","requestedEndDateInitial","title","currentAwardNumber","deadlineDate","deadlineTime","noticeOfOpportunityCode","deadlineType","anticipatedAwardTypeCode","cfdaNumber","programAnnouncementNumber","primeSponsorCode","sponsorProposalNumber","nsfCode","subcontracts","agencyDivisionCode","agencyProgramCode","programAnnouncementTitle","mailBy","mailType","mailAccountNumber","mailDescription","mailingAddressId","numberOfCopies","proposalStateTypeCode","creationStatusCode","submitFlag","hierarchyStatus","hierarchyOriginatingChildProposalNumber","hierarchyParentProposalNumber","hierarchyLastSyncHashCode","hierarchyBudgetType","proposalNumberForGG","opportunityIdForGG","agencyRoutingIdentifier","prevGrantsGovTrackingID","createTimestamp","createUser"],"primaryKey":"proposalNumber"}
 		
 ### Get Blueprint API specification for Development Proposals [GET /research-sys/api/v1/development-proposals/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -240,33 +240,26 @@
 + Response 204
 
 ### Delete All Development Proposals [DELETE /research-sys/api/v1/development-proposals/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Development Proposals with Matching [DELETE /research-sys/api/v1/development-proposals/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + proposalNumber
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + proposalNumber
             + proposalTypeCode
             + continuedFrom
             + sponsorCode
@@ -311,5 +304,12 @@
             + createTimestamp
             + createUser
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

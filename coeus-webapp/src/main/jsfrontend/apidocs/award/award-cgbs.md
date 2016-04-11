@@ -40,17 +40,10 @@
             ]
 
 ### Get All Award Cgbs with Filtering [GET /research-sys/api/v1/award-cgbs/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + awardId
++ Parameters
+
+        + awardId
             + awardNumber
             + sequenceNumber
             + additionalFormsRequired
@@ -67,7 +60,14 @@
             + invoiceDocumentStatus
             + locCreationType
             + suspendInvoicing
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -82,17 +82,17 @@
             ]
 			
 ### Get Schema for Award Cgbs [GET /research-sys/api/v1/award-cgbs/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -101,20 +101,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["awardId","awardNumber","sequenceNumber","additionalFormsRequired","autoApproveInvoice","stopWork","minInvoiceAmount","invoicingOption","dunningCampaignId","lastBilledDate","previousLastBilledDate","finalBill","amountToDraw","letterOfCreditReviewIndicator","invoiceDocumentStatus","locCreationType","suspendInvoicing"],"primaryKey":"awardId"}
 		
 ### Get Blueprint API specification for Award Cgbs [GET /research-sys/api/v1/award-cgbs/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -213,33 +213,26 @@
 + Response 204
 
 ### Delete All Award Cgbs [DELETE /research-sys/api/v1/award-cgbs/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Award Cgbs with Matching [DELETE /research-sys/api/v1/award-cgbs/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + awardId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + awardId
             + awardNumber
             + sequenceNumber
             + additionalFormsRequired
@@ -257,5 +250,12 @@
             + locCreationType
             + suspendInvoicing
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

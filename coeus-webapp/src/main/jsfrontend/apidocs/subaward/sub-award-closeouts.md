@@ -40,17 +40,10 @@
             ]
 
 ### Get All Sub Award Closeouts with Filtering [GET /research-sys/api/v1/sub-award-closeouts/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + subAwardCloseoutId
++ Parameters
+
+        + subAwardCloseoutId
             + subAwardId
             + sequenceNumber
             + subAwardCode
@@ -60,7 +53,14 @@
             + dateFollowup
             + dateReceived
             + comments
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -75,17 +75,17 @@
             ]
 			
 ### Get Schema for Sub Award Closeouts [GET /research-sys/api/v1/sub-award-closeouts/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -94,20 +94,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["subAwardCloseoutId","subAwardId","sequenceNumber","subAwardCode","closeoutNumber","closeoutTypeCode","dateRequested","dateFollowup","dateReceived","comments"],"primaryKey":"subAwardCloseoutId"}
 		
 ### Get Blueprint API specification for Sub Award Closeouts [GET /research-sys/api/v1/sub-award-closeouts/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -206,33 +206,26 @@
 + Response 204
 
 ### Delete All Sub Award Closeouts [DELETE /research-sys/api/v1/sub-award-closeouts/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Sub Award Closeouts with Matching [DELETE /research-sys/api/v1/sub-award-closeouts/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + subAwardCloseoutId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + subAwardCloseoutId
             + subAwardId
             + sequenceNumber
             + subAwardCode
@@ -243,5 +236,12 @@
             + dateReceived
             + comments
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

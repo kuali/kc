@@ -40,17 +40,10 @@
             ]
 
 ### Get All Organization Indirect Costs with Filtering [GET /research-sys/api/v1/organization-indirect-costs/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + idcNumber
++ Parameters
+
+        + idcNumber
             + organizationId
             + applicableIndirectcostRate
             + endDate
@@ -58,7 +51,14 @@
             + idcRateTypeCode
             + requestedDate
             + startDate
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -73,17 +73,17 @@
             ]
 			
 ### Get Schema for Organization Indirect Costs [GET /research-sys/api/v1/organization-indirect-costs/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -92,20 +92,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["idcNumber","organizationId","applicableIndirectcostRate","endDate","idcComment","idcRateTypeCode","requestedDate","startDate"],"primaryKey":"idcNumber:organizationId"}
 		
 ### Get Blueprint API specification for Organization Indirect Costs [GET /research-sys/api/v1/organization-indirect-costs/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -204,33 +204,26 @@
 + Response 204
 
 ### Delete All Organization Indirect Costs [DELETE /research-sys/api/v1/organization-indirect-costs/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Organization Indirect Costs with Matching [DELETE /research-sys/api/v1/organization-indirect-costs/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + idcNumber
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + idcNumber
             + organizationId
             + applicableIndirectcostRate
             + endDate
@@ -239,5 +232,12 @@
             + requestedDate
             + startDate
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

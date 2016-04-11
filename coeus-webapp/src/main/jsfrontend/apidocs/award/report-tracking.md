@@ -40,17 +40,10 @@
             ]
 
 ### Get All Report Tracking with Filtering [GET /research-sys/api/v1/report-tracking/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + awardReportTrackingId
++ Parameters
+
+        + awardReportTrackingId
             + awardReportTermId
             + awardNumber
             + piPersonId
@@ -75,7 +68,14 @@
             + title
             + lastUpdateUser
             + lastUpdateDate
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -90,17 +90,17 @@
             ]
 			
 ### Get Schema for Report Tracking [GET /research-sys/api/v1/report-tracking/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -109,20 +109,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["awardReportTrackingId","awardReportTermId","awardNumber","piPersonId","piRolodexId","piName","leadUnitNumber","reportClassCode","reportCode","frequencyCode","frequencyBaseCode","ospDistributionCode","statusCode","baseDate","dueDate","overdue","activityDate","comments","preparerId","preparerName","sponsorCode","sponsorAwardNumber","title","lastUpdateUser","lastUpdateDate"],"primaryKey":"awardReportTrackingId"}
 		
 ### Get Blueprint API specification for Report Tracking [GET /research-sys/api/v1/report-tracking/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -221,33 +221,26 @@
 + Response 204
 
 ### Delete All Report Tracking [DELETE /research-sys/api/v1/report-tracking/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Report Tracking with Matching [DELETE /research-sys/api/v1/report-tracking/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + awardReportTrackingId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + awardReportTrackingId
             + awardReportTermId
             + awardNumber
             + piPersonId
@@ -273,5 +266,12 @@
             + lastUpdateUser
             + lastUpdateDate
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

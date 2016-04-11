@@ -40,17 +40,10 @@
             ]
 
 ### Get All Person Document Citizenships with Filtering [GET /research-sys/api/v1/person-document-citizenships/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + entityCitizenshipId
++ Parameters
+
+        + entityCitizenshipId
             + entityId
             + countryCode
             + citizenshipStatusCode
@@ -59,7 +52,14 @@
             + edit
             + documentNumber
             + active
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -74,17 +74,17 @@
             ]
 			
 ### Get Schema for Person Document Citizenships [GET /research-sys/api/v1/person-document-citizenships/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -93,20 +93,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["entityCitizenshipId","entityId","countryCode","citizenshipStatusCode","startDate","endDate","edit","documentNumber","active"],"primaryKey":"entityCitizenshipId"}
 		
 ### Get Blueprint API specification for Person Document Citizenships [GET /research-sys/api/v1/person-document-citizenships/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -205,33 +205,26 @@
 + Response 204
 
 ### Delete All Person Document Citizenships [DELETE /research-sys/api/v1/person-document-citizenships/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Person Document Citizenships with Matching [DELETE /research-sys/api/v1/person-document-citizenships/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + entityCitizenshipId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + entityCitizenshipId
             + entityId
             + countryCode
             + citizenshipStatusCode
@@ -241,5 +234,12 @@
             + documentNumber
             + active
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

@@ -40,23 +40,23 @@
             ]
 
 ### Get All Proposal Comments with Filtering [GET /research-sys/api/v1/proposal-comments/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + proposalCommentsId
++ Parameters
+
+        + proposalCommentsId
             + proposalId
             + proposalNumber
             + sequenceNumber
             + commentTypeCode
             + comments
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -71,17 +71,17 @@
             ]
 			
 ### Get Schema for Proposal Comments [GET /research-sys/api/v1/proposal-comments/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -90,20 +90,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["proposalCommentsId","proposalId","proposalNumber","sequenceNumber","commentTypeCode","comments"],"primaryKey":"proposalCommentsId"}
 		
 ### Get Blueprint API specification for Proposal Comments [GET /research-sys/api/v1/proposal-comments/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -202,38 +202,38 @@
 + Response 204
 
 ### Delete All Proposal Comments [DELETE /research-sys/api/v1/proposal-comments/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Proposal Comments with Matching [DELETE /research-sys/api/v1/proposal-comments/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + proposalCommentsId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + proposalCommentsId
             + proposalId
             + proposalNumber
             + sequenceNumber
             + commentTypeCode
             + comments
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

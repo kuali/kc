@@ -40,17 +40,10 @@
             ]
 
 ### Get All B A M Target Entries with Filtering [GET /research-sys/api/v1/b-a-m-target-entries/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + bamId
++ Parameters
+
+        + bamId
             + serviceName
             + methodName
             + threadName
@@ -60,7 +53,14 @@
             + exceptionToString
             + exceptionMessage
             + serverInvocation
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -75,17 +75,17 @@
             ]
 			
 ### Get Schema for B A M Target Entries [GET /research-sys/api/v1/b-a-m-target-entries/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -94,20 +94,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["bamId","serviceName","methodName","threadName","callDate","serviceURL","targetToString","exceptionToString","exceptionMessage","serverInvocation"],"primaryKey":"bamId"}
 		
 ### Get Blueprint API specification for B A M Target Entries [GET /research-sys/api/v1/b-a-m-target-entries/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -206,33 +206,26 @@
 + Response 204
 
 ### Delete All B A M Target Entries [DELETE /research-sys/api/v1/b-a-m-target-entries/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All B A M Target Entries with Matching [DELETE /research-sys/api/v1/b-a-m-target-entries/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + bamId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + bamId
             + serviceName
             + methodName
             + threadName
@@ -243,5 +236,12 @@
             + exceptionMessage
             + serverInvocation
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

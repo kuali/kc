@@ -40,17 +40,10 @@
             ]
 
 ### Get All Institutional Proposal Cost Shares with Filtering [GET /research-sys/api/v1/institutional-proposal-cost-shares/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + proposalCostShareId
++ Parameters
+
+        + proposalCostShareId
             + proposalId
             + proposalNumber
             + sequenceNumber
@@ -59,7 +52,14 @@
             + costShareTypeCode
             + sourceAccount
             + amount
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -74,17 +74,17 @@
             ]
 			
 ### Get Schema for Institutional Proposal Cost Shares [GET /research-sys/api/v1/institutional-proposal-cost-shares/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -93,20 +93,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["proposalCostShareId","proposalId","proposalNumber","sequenceNumber","projectPeriod","costSharePercentage","costShareTypeCode","sourceAccount","amount"],"primaryKey":"proposalCostShareId"}
 		
 ### Get Blueprint API specification for Institutional Proposal Cost Shares [GET /research-sys/api/v1/institutional-proposal-cost-shares/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -205,33 +205,26 @@
 + Response 204
 
 ### Delete All Institutional Proposal Cost Shares [DELETE /research-sys/api/v1/institutional-proposal-cost-shares/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Institutional Proposal Cost Shares with Matching [DELETE /research-sys/api/v1/institutional-proposal-cost-shares/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + proposalCostShareId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + proposalCostShareId
             + proposalId
             + proposalNumber
             + sequenceNumber
@@ -241,5 +234,12 @@
             + sourceAccount
             + amount
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

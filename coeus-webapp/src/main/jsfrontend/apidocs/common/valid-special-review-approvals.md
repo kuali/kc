@@ -40,24 +40,24 @@
             ]
 
 ### Get All Valid Special Review Approvals with Filtering [GET /research-sys/api/v1/valid-special-review-approvals/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + validSpecialReviewApprovalId
++ Parameters
+
+        + validSpecialReviewApprovalId
             + specialReviewTypeCode
             + approvalTypeCode
             + applicationDateFlag
             + approvalDateFlag
             + exemptNumberFlag
             + protocolNumberFlag
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -72,17 +72,17 @@
             ]
 			
 ### Get Schema for Valid Special Review Approvals [GET /research-sys/api/v1/valid-special-review-approvals/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -91,20 +91,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["validSpecialReviewApprovalId","specialReviewTypeCode","approvalTypeCode","applicationDateFlag","approvalDateFlag","exemptNumberFlag","protocolNumberFlag"],"primaryKey":"validSpecialReviewApprovalId"}
 		
 ### Get Blueprint API specification for Valid Special Review Approvals [GET /research-sys/api/v1/valid-special-review-approvals/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -203,33 +203,26 @@
 + Response 204
 
 ### Delete All Valid Special Review Approvals [DELETE /research-sys/api/v1/valid-special-review-approvals/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Valid Special Review Approvals with Matching [DELETE /research-sys/api/v1/valid-special-review-approvals/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + validSpecialReviewApprovalId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + validSpecialReviewApprovalId
             + specialReviewTypeCode
             + approvalTypeCode
             + applicationDateFlag
@@ -237,5 +230,12 @@
             + exemptNumberFlag
             + protocolNumberFlag
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

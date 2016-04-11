@@ -40,17 +40,10 @@
             ]
 
 ### Get All Award Payment Schedules with Filtering [GET /research-sys/api/v1/award-payment-schedules/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + awardPaymentScheduleId
++ Parameters
+
+        + awardPaymentScheduleId
             + awardId
             + awardNumber
             + sequenceNumber
@@ -67,7 +60,14 @@
             + reportStatusCode
             + submittedByPersonId
             + awardReportTermDescription
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -82,17 +82,17 @@
             ]
 			
 ### Get Schema for Award Payment Schedules [GET /research-sys/api/v1/award-payment-schedules/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -101,20 +101,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["awardPaymentScheduleId","awardId","awardNumber","sequenceNumber","dueDate","amount","submitDate","submittedBy","invoiceNumber","statusDescription","status","lastUpdateUser","lastUpdateTimestamp","overdue","reportStatusCode","submittedByPersonId","awardReportTermDescription"],"primaryKey":"awardPaymentScheduleId"}
 		
 ### Get Blueprint API specification for Award Payment Schedules [GET /research-sys/api/v1/award-payment-schedules/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -213,33 +213,26 @@
 + Response 204
 
 ### Delete All Award Payment Schedules [DELETE /research-sys/api/v1/award-payment-schedules/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Award Payment Schedules with Matching [DELETE /research-sys/api/v1/award-payment-schedules/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + awardPaymentScheduleId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + awardPaymentScheduleId
             + awardId
             + awardNumber
             + sequenceNumber
@@ -257,5 +250,12 @@
             + submittedByPersonId
             + awardReportTermDescription
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

@@ -40,19 +40,19 @@
             ]
 
 ### Get All Proposal Special Review Exemptions with Filtering [GET /research-sys/api/v1/proposal-special-review-exemptions/]
-	 
+    
++ Parameters
+
+        + id
+            + exemptionTypeCode
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + id
-            + exemptionTypeCode
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -67,17 +67,17 @@
             ]
 			
 ### Get Schema for Proposal Special Review Exemptions [GET /research-sys/api/v1/proposal-special-review-exemptions/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -86,20 +86,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["id","exemptionTypeCode"],"primaryKey":"id"}
 		
 ### Get Blueprint API specification for Proposal Special Review Exemptions [GET /research-sys/api/v1/proposal-special-review-exemptions/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -198,34 +198,34 @@
 + Response 204
 
 ### Delete All Proposal Special Review Exemptions [DELETE /research-sys/api/v1/proposal-special-review-exemptions/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Proposal Special Review Exemptions with Matching [DELETE /research-sys/api/v1/proposal-special-review-exemptions/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + id
+            + exemptionTypeCode
+
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + id
-            + exemptionTypeCode
-
 
 + Response 204

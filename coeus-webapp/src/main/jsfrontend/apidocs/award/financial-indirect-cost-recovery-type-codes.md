@@ -40,20 +40,20 @@
             ]
 
 ### Get All Financial Indirect Cost Recovery Type Codes with Filtering [GET /research-sys/api/v1/financial-indirect-cost-recovery-type-codes/]
-	 
+    
++ Parameters
+
+        + icrTypeCode
+            + rateClassCode
+            + rateTypeCode
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + icrTypeCode
-            + rateClassCode
-            + rateTypeCode
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -68,17 +68,17 @@
             ]
 			
 ### Get Schema for Financial Indirect Cost Recovery Type Codes [GET /research-sys/api/v1/financial-indirect-cost-recovery-type-codes/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -87,20 +87,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["icrTypeCode","rateClassCode","rateTypeCode"],"primaryKey":"rateClassCode:rateTypeCode"}
 		
 ### Get Blueprint API specification for Financial Indirect Cost Recovery Type Codes [GET /research-sys/api/v1/financial-indirect-cost-recovery-type-codes/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -199,35 +199,35 @@
 + Response 204
 
 ### Delete All Financial Indirect Cost Recovery Type Codes [DELETE /research-sys/api/v1/financial-indirect-cost-recovery-type-codes/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Financial Indirect Cost Recovery Type Codes with Matching [DELETE /research-sys/api/v1/financial-indirect-cost-recovery-type-codes/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + icrTypeCode
+            + rateClassCode
+            + rateTypeCode
+
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + icrTypeCode
-            + rateClassCode
-            + rateTypeCode
-
 
 + Response 204

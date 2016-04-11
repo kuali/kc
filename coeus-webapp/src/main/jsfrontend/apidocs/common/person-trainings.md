@@ -40,17 +40,10 @@
             ]
 
 ### Get All Person Trainings with Filtering [GET /research-sys/api/v1/person-trainings/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + personTrainingId
++ Parameters
+
+        + personTrainingId
             + personId
             + trainingNumber
             + trainingCode
@@ -61,7 +54,14 @@
             + score
             + comments
             + active
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -76,17 +76,17 @@
             ]
 			
 ### Get Schema for Person Trainings [GET /research-sys/api/v1/person-trainings/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -95,20 +95,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["personTrainingId","personId","trainingNumber","trainingCode","dateRequested","dateSubmitted","dateAcknowledged","followupDate","score","comments","active"],"primaryKey":"personTrainingId"}
 		
 ### Get Blueprint API specification for Person Trainings [GET /research-sys/api/v1/person-trainings/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -207,33 +207,26 @@
 + Response 204
 
 ### Delete All Person Trainings [DELETE /research-sys/api/v1/person-trainings/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Person Trainings with Matching [DELETE /research-sys/api/v1/person-trainings/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + personTrainingId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + personTrainingId
             + personId
             + trainingNumber
             + trainingCode
@@ -245,5 +238,12 @@
             + comments
             + active
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

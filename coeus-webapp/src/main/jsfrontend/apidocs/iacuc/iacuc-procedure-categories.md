@@ -40,20 +40,20 @@
             ]
 
 ### Get All Iacuc Procedure Categories with Filtering [GET /research-sys/api/v1/iacuc-procedure-categories/]
-	 
+    
++ Parameters
+
+        + procedureCategoryCode
+            + procedureCategory
+            + active
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + procedureCategoryCode
-            + procedureCategory
-            + active
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -68,17 +68,17 @@
             ]
 			
 ### Get Schema for Iacuc Procedure Categories [GET /research-sys/api/v1/iacuc-procedure-categories/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -87,20 +87,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["procedureCategoryCode","procedureCategory","active"],"primaryKey":"procedureCategoryCode"}
 		
 ### Get Blueprint API specification for Iacuc Procedure Categories [GET /research-sys/api/v1/iacuc-procedure-categories/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -199,35 +199,35 @@
 + Response 204
 
 ### Delete All Iacuc Procedure Categories [DELETE /research-sys/api/v1/iacuc-procedure-categories/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Iacuc Procedure Categories with Matching [DELETE /research-sys/api/v1/iacuc-procedure-categories/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + procedureCategoryCode
+            + procedureCategory
+            + active
+
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + procedureCategoryCode
-            + procedureCategory
-            + active
-
 
 + Response 204

@@ -40,22 +40,22 @@
             ]
 
 ### Get All Sub Award Reports with Filtering [GET /research-sys/api/v1/sub-award-reports/]
-	 
+    
++ Parameters
+
+        + subAwardReportId
+            + subAwardId
+            + subAwardCode
+            + sequenceNumber
+            + subAwardReportTypeCode
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + subAwardReportId
-            + subAwardId
-            + subAwardCode
-            + sequenceNumber
-            + subAwardReportTypeCode
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -70,17 +70,17 @@
             ]
 			
 ### Get Schema for Sub Award Reports [GET /research-sys/api/v1/sub-award-reports/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -89,20 +89,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["subAwardReportId","subAwardId","subAwardCode","sequenceNumber","subAwardReportTypeCode"],"primaryKey":"subAwardReportId"}
 		
 ### Get Blueprint API specification for Sub Award Reports [GET /research-sys/api/v1/sub-award-reports/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -201,37 +201,37 @@
 + Response 204
 
 ### Delete All Sub Award Reports [DELETE /research-sys/api/v1/sub-award-reports/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Sub Award Reports with Matching [DELETE /research-sys/api/v1/sub-award-reports/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + subAwardReportId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + subAwardReportId
             + subAwardId
             + subAwardCode
             + sequenceNumber
             + subAwardReportTypeCode
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

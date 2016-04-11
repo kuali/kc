@@ -40,20 +40,20 @@
             ]
 
 ### Get All Iacuc Protocol Review Types with Filtering [GET /research-sys/api/v1/iacuc-protocol-review-types/]
-	 
+    
++ Parameters
+
+        + reviewTypeCode
+            + description
+            + globalFlag
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + reviewTypeCode
-            + description
-            + globalFlag
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -68,17 +68,17 @@
             ]
 			
 ### Get Schema for Iacuc Protocol Review Types [GET /research-sys/api/v1/iacuc-protocol-review-types/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -87,20 +87,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["reviewTypeCode","description","globalFlag"],"primaryKey":"reviewTypeCode"}
 		
 ### Get Blueprint API specification for Iacuc Protocol Review Types [GET /research-sys/api/v1/iacuc-protocol-review-types/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -199,35 +199,35 @@
 + Response 204
 
 ### Delete All Iacuc Protocol Review Types [DELETE /research-sys/api/v1/iacuc-protocol-review-types/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Iacuc Protocol Review Types with Matching [DELETE /research-sys/api/v1/iacuc-protocol-review-types/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + reviewTypeCode
+            + description
+            + globalFlag
+
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + reviewTypeCode
-            + description
-            + globalFlag
-
 
 + Response 204

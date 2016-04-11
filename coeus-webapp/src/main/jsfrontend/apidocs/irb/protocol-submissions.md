@@ -40,17 +40,10 @@
             ]
 
 ### Get All Protocol Submissions with Filtering [GET /research-sys/api/v1/protocol-submissions/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + submissionId
++ Parameters
+
+        + submissionId
             + submissionNumber
             + protocolNumber
             + sequenceNumber
@@ -72,7 +65,14 @@
             + recusedCount
             + votingComments
             + billable
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -87,17 +87,17 @@
             ]
 			
 ### Get Schema for Protocol Submissions [GET /research-sys/api/v1/protocol-submissions/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -106,20 +106,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["submissionId","submissionNumber","protocolNumber","sequenceNumber","scheduleId","committeeId","submissionTypeCode","submissionTypeQualifierCode","submissionStatusCode","protocolId","scheduleIdFk","committeeIdFk","protocolReviewTypeCode","submissionDate","comments","committeeDecisionMotionTypeCode","yesVoteCount","noVoteCount","abstainerCount","recusedCount","votingComments","billable"],"primaryKey":"submissionId"}
 		
 ### Get Blueprint API specification for Protocol Submissions [GET /research-sys/api/v1/protocol-submissions/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -218,33 +218,26 @@
 + Response 204
 
 ### Delete All Protocol Submissions [DELETE /research-sys/api/v1/protocol-submissions/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Protocol Submissions with Matching [DELETE /research-sys/api/v1/protocol-submissions/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + submissionId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + submissionId
             + submissionNumber
             + protocolNumber
             + sequenceNumber
@@ -267,5 +260,12 @@
             + votingComments
             + billable
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

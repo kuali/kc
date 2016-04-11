@@ -40,22 +40,22 @@
             ]
 
 ### Get All Proposal Abstracts with Filtering [GET /research-sys/api/v1/proposal-abstracts/]
-	 
+    
++ Parameters
+
+        + proposalNumber
+            + abstractTypeCode
+            + abstractDetails
+            + timestampDisplay
+            + uploadUserDisplay
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + proposalNumber
-            + abstractTypeCode
-            + abstractDetails
-            + timestampDisplay
-            + uploadUserDisplay
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -70,17 +70,17 @@
             ]
 			
 ### Get Schema for Proposal Abstracts [GET /research-sys/api/v1/proposal-abstracts/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -89,20 +89,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["proposalNumber","abstractTypeCode","abstractDetails","timestampDisplay","uploadUserDisplay"],"primaryKey":"abstractTypeCode:proposalNumber"}
 		
 ### Get Blueprint API specification for Proposal Abstracts [GET /research-sys/api/v1/proposal-abstracts/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -201,37 +201,37 @@
 + Response 204
 
 ### Delete All Proposal Abstracts [DELETE /research-sys/api/v1/proposal-abstracts/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Proposal Abstracts with Matching [DELETE /research-sys/api/v1/proposal-abstracts/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + proposalNumber
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + proposalNumber
             + abstractTypeCode
             + abstractDetails
             + timestampDisplay
             + uploadUserDisplay
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

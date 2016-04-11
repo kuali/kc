@@ -40,24 +40,24 @@
             ]
 
 ### Get All Protocol Expedited Review Checklist Items with Filtering [GET /research-sys/api/v1/protocol-expedited-review-checklist-items/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + protocolExpeditedCheckListId
++ Parameters
+
+        + protocolExpeditedCheckListId
             + protocolId
             + submissionIdFk
             + protocolNumber
             + sequenceNumber
             + submissionNumber
             + expeditedReviewCheckListCode
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -72,17 +72,17 @@
             ]
 			
 ### Get Schema for Protocol Expedited Review Checklist Items [GET /research-sys/api/v1/protocol-expedited-review-checklist-items/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -91,20 +91,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["protocolExpeditedCheckListId","protocolId","submissionIdFk","protocolNumber","sequenceNumber","submissionNumber","expeditedReviewCheckListCode"],"primaryKey":"protocolExpeditedCheckListId"}
 		
 ### Get Blueprint API specification for Protocol Expedited Review Checklist Items [GET /research-sys/api/v1/protocol-expedited-review-checklist-items/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -203,33 +203,26 @@
 + Response 204
 
 ### Delete All Protocol Expedited Review Checklist Items [DELETE /research-sys/api/v1/protocol-expedited-review-checklist-items/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Protocol Expedited Review Checklist Items with Matching [DELETE /research-sys/api/v1/protocol-expedited-review-checklist-items/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + protocolExpeditedCheckListId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + protocolExpeditedCheckListId
             + protocolId
             + submissionIdFk
             + protocolNumber
@@ -237,5 +230,12 @@
             + submissionNumber
             + expeditedReviewCheckListCode
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

@@ -40,17 +40,10 @@
             ]
 
 ### Get All Award Closeouts with Filtering [GET /research-sys/api/v1/award-closeouts/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + awardCloseoutId
++ Parameters
+
+        + awardCloseoutId
             + awardId
             + closeoutReportCode
             + closeoutReportName
@@ -59,7 +52,14 @@
             + finalSubmissionDate
             + dueDate
             + multiple
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -74,17 +74,17 @@
             ]
 			
 ### Get Schema for Award Closeouts [GET /research-sys/api/v1/award-closeouts/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -93,20 +93,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["awardCloseoutId","awardId","closeoutReportCode","closeoutReportName","awardNumber","sequenceNumber","finalSubmissionDate","dueDate","multiple"],"primaryKey":"awardCloseoutId"}
 		
 ### Get Blueprint API specification for Award Closeouts [GET /research-sys/api/v1/award-closeouts/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -205,33 +205,26 @@
 + Response 204
 
 ### Delete All Award Closeouts [DELETE /research-sys/api/v1/award-closeouts/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Award Closeouts with Matching [DELETE /research-sys/api/v1/award-closeouts/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + awardCloseoutId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + awardCloseoutId
             + awardId
             + closeoutReportCode
             + closeoutReportName
@@ -241,5 +234,12 @@
             + dueDate
             + multiple
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

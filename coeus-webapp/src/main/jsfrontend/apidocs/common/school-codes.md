@@ -40,19 +40,19 @@
             ]
 
 ### Get All School Codes with Filtering [GET /research-sys/api/v1/school-codes/]
-	 
+    
++ Parameters
+
+        + schoolCode
+            + description
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + schoolCode
-            + description
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -67,17 +67,17 @@
             ]
 			
 ### Get Schema for School Codes [GET /research-sys/api/v1/school-codes/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -86,20 +86,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["schoolCode","description"],"primaryKey":"schoolCode"}
 		
 ### Get Blueprint API specification for School Codes [GET /research-sys/api/v1/school-codes/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -198,34 +198,34 @@
 + Response 204
 
 ### Delete All School Codes [DELETE /research-sys/api/v1/school-codes/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All School Codes with Matching [DELETE /research-sys/api/v1/school-codes/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + schoolCode
+            + description
+
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + schoolCode
-            + description
-
 
 + Response 204

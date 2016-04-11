@@ -40,20 +40,20 @@
             ]
 
 ### Get All Budget Sub Award Files with Filtering [GET /research-sys/api/v1/budget-sub-award-files/]
-	 
+    
++ Parameters
+
+        + subAwardXfdFileData
+            + subAwardXfdFileName
+            + subAwardXmlFileData
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + subAwardXfdFileData
-            + subAwardXfdFileName
-            + subAwardXmlFileData
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -68,17 +68,17 @@
             ]
 			
 ### Get Schema for Budget Sub Award Files [GET /research-sys/api/v1/budget-sub-award-files/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -87,20 +87,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["subAwardXfdFileData","subAwardXfdFileName","subAwardXmlFileData"],"primaryKey":"budgetSubAward"}
 		
 ### Get Blueprint API specification for Budget Sub Award Files [GET /research-sys/api/v1/budget-sub-award-files/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -199,35 +199,35 @@
 + Response 204
 
 ### Delete All Budget Sub Award Files [DELETE /research-sys/api/v1/budget-sub-award-files/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Budget Sub Award Files with Matching [DELETE /research-sys/api/v1/budget-sub-award-files/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + subAwardXfdFileData
+            + subAwardXfdFileName
+            + subAwardXmlFileData
+
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + subAwardXfdFileData
-            + subAwardXfdFileName
-            + subAwardXmlFileData
-
 
 + Response 204

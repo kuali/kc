@@ -40,17 +40,10 @@
             ]
 
 ### Get All Kim Document Role Members with Filtering [GET /research-sys/api/v1/kim-document-role-members/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + roleMemberId
++ Parameters
+
+        + roleMemberId
             + roleId
             + memberId
             + memberTypeCode
@@ -59,7 +52,14 @@
             + edit
             + documentNumber
             + active
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -74,17 +74,17 @@
             ]
 			
 ### Get Schema for Kim Document Role Members [GET /research-sys/api/v1/kim-document-role-members/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -93,20 +93,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["roleMemberId","roleId","memberId","memberTypeCode","activeFromDate","activeToDate","edit","documentNumber","active"],"primaryKey":"roleMemberId"}
 		
 ### Get Blueprint API specification for Kim Document Role Members [GET /research-sys/api/v1/kim-document-role-members/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -205,33 +205,26 @@
 + Response 204
 
 ### Delete All Kim Document Role Members [DELETE /research-sys/api/v1/kim-document-role-members/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Kim Document Role Members with Matching [DELETE /research-sys/api/v1/kim-document-role-members/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + roleMemberId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + roleMemberId
             + roleId
             + memberId
             + memberTypeCode
@@ -241,5 +234,12 @@
             + documentNumber
             + active
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

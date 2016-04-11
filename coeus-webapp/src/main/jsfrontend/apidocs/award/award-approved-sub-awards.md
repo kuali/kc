@@ -40,24 +40,24 @@
             ]
 
 ### Get All Award Approved Sub Awards with Filtering [GET /research-sys/api/v1/award-approved-sub-awards/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + awardApprovedSubawardId
++ Parameters
+
+        + awardApprovedSubawardId
             + awardId
             + awardNumber
             + sequenceNumber
             + organizationName
             + organizationId
             + amount
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -72,17 +72,17 @@
             ]
 			
 ### Get Schema for Award Approved Sub Awards [GET /research-sys/api/v1/award-approved-sub-awards/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -91,20 +91,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["awardApprovedSubawardId","awardId","awardNumber","sequenceNumber","organizationName","organizationId","amount"],"primaryKey":"awardApprovedSubawardId"}
 		
 ### Get Blueprint API specification for Award Approved Sub Awards [GET /research-sys/api/v1/award-approved-sub-awards/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -203,33 +203,26 @@
 + Response 204
 
 ### Delete All Award Approved Sub Awards [DELETE /research-sys/api/v1/award-approved-sub-awards/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Award Approved Sub Awards with Matching [DELETE /research-sys/api/v1/award-approved-sub-awards/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + awardApprovedSubawardId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + awardApprovedSubawardId
             + awardId
             + awardNumber
             + sequenceNumber
@@ -237,5 +230,12 @@
             + organizationId
             + amount
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

@@ -40,17 +40,10 @@
             ]
 
 ### Get All Document Types with Filtering [GET /research-sys/api/v1/document-types/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + documentTypeId
++ Parameters
+
+        + documentTypeId
             + docTypeParentId
             + name
             + version
@@ -74,7 +67,14 @@
             + actualNotificationFromAddress
             + documentTypeSecurityXml
             + customEmailStylesheet
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -89,17 +89,17 @@
             ]
 			
 ### Get Schema for Document Types [GET /research-sys/api/v1/document-types/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -108,20 +108,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["documentTypeId","docTypeParentId","name","version","active","currentInd","description","label","previousVersionId","documentId","unresolvedHelpDefinitionUrl","unresolvedDocSearchHelpUrl","unresolvedDocHandlerUrl","postProcessorName","workgroupId","blanketApproveWorkgroupId","blanketApprovePolicy","reportingWorkgroupId","actualApplicationId","authorizer","routingVersion","actualNotificationFromAddress","documentTypeSecurityXml","customEmailStylesheet"],"primaryKey":"documentTypeId"}
 		
 ### Get Blueprint API specification for Document Types [GET /research-sys/api/v1/document-types/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -220,33 +220,26 @@
 + Response 204
 
 ### Delete All Document Types [DELETE /research-sys/api/v1/document-types/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Document Types with Matching [DELETE /research-sys/api/v1/document-types/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + documentTypeId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + documentTypeId
             + docTypeParentId
             + name
             + version
@@ -271,5 +264,12 @@
             + documentTypeSecurityXml
             + customEmailStylesheet
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

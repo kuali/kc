@@ -40,22 +40,22 @@
             ]
 
 ### Get All Protocol Action Types with Filtering [GET /research-sys/api/v1/protocol-action-types/]
-	 
+    
++ Parameters
+
+        + protocolActionTypeCode
+            + description
+            + triggerSubmission
+            + triggerCorrespondence
+            + finalActionForBatchCorrespondence
+
+            
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
-            Content-Type: application/json
-    
-    + Parameters
-    
-            + protocolActionTypeCode
-            + description
-            + triggerSubmission
-            + triggerCorrespondence
-            + finalActionForBatchCorrespondence
- 
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -70,17 +70,17 @@
             ]
 			
 ### Get Schema for Protocol Action Types [GET /research-sys/api/v1/protocol-action-types/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -89,20 +89,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["protocolActionTypeCode","description","triggerSubmission","triggerCorrespondence","finalActionForBatchCorrespondence"],"primaryKey":"protocolActionTypeCode"}
 		
 ### Get Blueprint API specification for Protocol Action Types [GET /research-sys/api/v1/protocol-action-types/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -201,37 +201,37 @@
 + Response 204
 
 ### Delete All Protocol Action Types [DELETE /research-sys/api/v1/protocol-action-types/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Protocol Action Types with Matching [DELETE /research-sys/api/v1/protocol-action-types/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + protocolActionTypeCode
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + protocolActionTypeCode
             + description
             + triggerSubmission
             + triggerCorrespondence
             + finalActionForBatchCorrespondence
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

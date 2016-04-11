@@ -40,23 +40,23 @@
             ]
 
 ### Get All Valid Calculation Types with Filtering [GET /research-sys/api/v1/valid-calculation-types/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + calcTypeId
++ Parameters
+
+        + calcTypeId
             + dependentSeqNumber
             + rateClassType
             + dependentRateClassType
             + rateClassCode
             + rateTypeCode
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -71,17 +71,17 @@
             ]
 			
 ### Get Schema for Valid Calculation Types [GET /research-sys/api/v1/valid-calculation-types/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -90,20 +90,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["calcTypeId","dependentSeqNumber","rateClassType","dependentRateClassType","rateClassCode","rateTypeCode"],"primaryKey":"calcTypeId:dependentSeqNumber:rateClassType"}
 		
 ### Get Blueprint API specification for Valid Calculation Types [GET /research-sys/api/v1/valid-calculation-types/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -202,38 +202,38 @@
 + Response 204
 
 ### Delete All Valid Calculation Types [DELETE /research-sys/api/v1/valid-calculation-types/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Valid Calculation Types with Matching [DELETE /research-sys/api/v1/valid-calculation-types/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + calcTypeId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + calcTypeId
             + dependentSeqNumber
             + rateClassType
             + dependentRateClassType
             + rateClassCode
             + rateTypeCode
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

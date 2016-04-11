@@ -40,17 +40,10 @@
             ]
 
 ### Get All Sub Award Amount Infos with Filtering [GET /research-sys/api/v1/sub-award-amount-infos/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + subAwardAmountInfoId
++ Parameters
+
+        + subAwardAmountInfoId
             + subAwardId
             + sequenceNumber
             + subAwardCode
@@ -67,7 +60,14 @@
             + periodofPerformanceStartDate
             + periodofPerformanceEndDate
             + fileDataId
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -82,17 +82,17 @@
             ]
 			
 ### Get Schema for Sub Award Amount Infos [GET /research-sys/api/v1/sub-award-amount-infos/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -101,20 +101,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["subAwardAmountInfoId","subAwardId","sequenceNumber","subAwardCode","obligatedAmount","obligatedChange","anticipatedAmount","anticipatedChange","effectiveDate","comments","fileName","mimeType","modificationEffectiveDate","modificationID","periodofPerformanceStartDate","periodofPerformanceEndDate","fileDataId"],"primaryKey":"subAwardAmountInfoId"}
 		
 ### Get Blueprint API specification for Sub Award Amount Infos [GET /research-sys/api/v1/sub-award-amount-infos/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -213,33 +213,26 @@
 + Response 204
 
 ### Delete All Sub Award Amount Infos [DELETE /research-sys/api/v1/sub-award-amount-infos/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Sub Award Amount Infos with Matching [DELETE /research-sys/api/v1/sub-award-amount-infos/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + subAwardAmountInfoId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + subAwardAmountInfoId
             + subAwardId
             + sequenceNumber
             + subAwardCode
@@ -257,5 +250,12 @@
             + periodofPerformanceEndDate
             + fileDataId
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204

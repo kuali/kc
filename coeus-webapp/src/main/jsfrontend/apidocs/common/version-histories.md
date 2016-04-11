@@ -40,17 +40,10 @@
             ]
 
 ### Get All Version Histories with Filtering [GET /research-sys/api/v1/version-histories/]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
     
-    + Parameters
-    
-            + versionHistoryId
++ Parameters
+
+        + versionHistoryId
             + sequenceOwnerClassName
             + sequenceOwnerVersionNameField
             + sequenceOwnerVersionNameValue
@@ -58,7 +51,14 @@
             + statusForOjb
             + userId
             + versionDate
- 
+
+            
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json 
 
 + Response 200
     + Headers
@@ -73,17 +73,17 @@
             ]
 			
 ### Get Schema for Version Histories [GET /research-sys/api/v1/version-histories/]
-	 
+	                                          
++ Parameters
+
+      + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
+      
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-    
-    + Parameters
-
-            + _schema (required) - will instruct the endpoint to return a schema data structure for the resource
 
 + Response 200
     + Headers
@@ -92,20 +92,20 @@
 
     + Body
     
-            ${sampleSchema}
+            {"columns":["versionHistoryId","sequenceOwnerClassName","sequenceOwnerVersionNameField","sequenceOwnerVersionNameValue","sequenceOwnerSequenceNumber","statusForOjb","userId","versionDate"],"primaryKey":"versionHistoryId"}
 		
 ### Get Blueprint API specification for Version Histories [GET /research-sys/api/v1/version-histories/]
 	 
++ Parameters
+
+     + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
+                 
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: text/markdown
-    
-    + Parameters
-    
-            + _blueprint (required) - will instruct the endpoint to return an api blueprint markdown file for the resource
 
 + Response 200
     + Headers
@@ -204,33 +204,26 @@
 + Response 204
 
 ### Delete All Version Histories [DELETE /research-sys/api/v1/version-histories/]
-	 
+
++ Parameters
+
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+
 + Request
 
     + Headers
 
             Authorization: Bearer {api-key}
             Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
 
 + Response 204
 
 ### Delete All Version Histories with Matching [DELETE /research-sys/api/v1/version-histories/]
-	 
-+ Request
 
-    + Headers
++ Parameters
 
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-            
-    + Parameters
-    
-            + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-            + versionHistoryId
+      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+      + versionHistoryId
             + sequenceOwnerClassName
             + sequenceOwnerVersionNameField
             + sequenceOwnerVersionNameValue
@@ -239,5 +232,12 @@
             + userId
             + versionDate
 
+      
++ Request
+
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
 
 + Response 204
