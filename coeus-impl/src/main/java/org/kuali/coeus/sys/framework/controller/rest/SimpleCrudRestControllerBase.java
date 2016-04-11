@@ -33,6 +33,7 @@ import com.google.common.base.CaseFormat;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.WordUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.kuali.coeus.sys.framework.config.KcConfigurer;
 import org.kuali.coeus.sys.framework.controller.rest.audit.RestAuditLogger;
 import org.kuali.coeus.sys.framework.controller.rest.audit.RestAuditLoggerFactory;
@@ -150,6 +151,10 @@ public abstract class SimpleCrudRestControllerBase<T, R> extends RestController 
 
 	@RequestMapping(method=RequestMethod.GET, params={SCHEMA_PARM})
 	public @ResponseBody Map<String, Object> getSchema() {
+		return getSchemaMap();
+	}
+
+	public Map<String, Object> getSchemaMap() {
 
 		final Map<String, Object> schema = new HashMap<>();
 		schema.put("primaryKey", getPrimaryKeyColumn());
@@ -190,6 +195,11 @@ public abstract class SimpleCrudRestControllerBase<T, R> extends RestController 
 		templateText = templateText.replaceAll("\\$\\{sampleMatchCriteria\\}", getListOfTrackedProperties().stream().collect(Collectors.joining("\n            + ", "+ ", "\n")));
 		templateText = templateText.replaceAll("\\$\\{sampleResource1\\}", Stream.concat(getExposedProperties().stream(), Stream.of(SYNTHETIC_FIELD_PK)).collect(Collectors.joining("\": \"(val)\",\"", "{\"", "\": \"(val)\"}")));
 		templateText = templateText.replaceAll("\\$\\{sampleResource2\\}", Stream.concat(getExposedProperties().stream(), Stream.of(SYNTHETIC_FIELD_PK)).collect(Collectors.joining("\": \"(val)\",\"", "{\"", "\": \"(val)\"}")));
+		try {
+			templateText = templateText.replaceAll("\\$\\{sampleSchema\\}", new ObjectMapper().writeValueAsString(getSchemaMap()));
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 		return new ByteArrayResource(templateText.getBytes(Charset.forName("UTF-8")));
 	}
 
