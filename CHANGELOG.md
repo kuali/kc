@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* RESKC-1255: updating docs
+  * Travis Schneeberger on Mon, 11 Apr 2016 11:51:25 -0400 [View Commit](../../commit/0e522027978fd6cea0666cc597604047c9092679)
+* RESKC-1255: moved the Parameters section so it would display, added a schema sample.
+  * Travis Schneeberger on Mon, 11 Apr 2016 11:50:52 -0400 [View Commit](../../commit/6688437ad252568a71ae3faaf14af5880503fabd)
+
+##coeus-1604.9
 * No Changes
 
 
