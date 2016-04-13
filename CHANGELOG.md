@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* RESKC-1243: Change date fields to datetime to support extra data when provided by the app
+
+  * This is particularly necessary for the update_timestamp fields as they are always full java.sql.Timestamp but the data is truncated when the column is date.
+  * blackcathacker on Tue, 12 Apr 2016 15:43:00 -0700 [View Commit](../../commit/370a1eda56210f84bba7695999f75a963533274f)
+
+##coeus-1604.10
 * RESKC-1255: updating docs
   * Travis Schneeberger on Mon, 11 Apr 2016 11:51:25 -0400 [View Commit](../../commit/0e522027978fd6cea0666cc597604047c9092679)
 * RESKC-1255: moved the Parameters section so it would display, added a schema sample.

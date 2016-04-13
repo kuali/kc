@@ -22,4 +22,6 @@
 \. ./kc/bootstrap/V1604_005__RESKC-1165.sql
 \. ./kc/bootstrap/V1604_006__RESKC-1224.sql
 \. ./kc/bootstrap/V1604_008__fix_questionnaire_for_form.sql
+\. ./kc/bootstrap/V1604_009__modify_iacuc_dates.sql
+\. ./kc/bootstrap/V1604_010__set_all_updatetimestamps_to_datetime.sql
 commit;
