@@ -1,6 +1,9 @@
 
 
 ##CURRENT
+* RESKC-933: adding support for: S2S Form D: PHS 398 Career Development Award Supplemental Form 3.0 update for 2016 (#1656)  * Travis Schneeberger on Wed, 13 Apr 2016 13:34:30 -0400 [View Commit](../../commit/f82d6e25c51f429daf3b14ce2e4ee6072cab8a92)
+
+##coeus-1604.11
 * RESKC-1243: Change date fields to datetime to support extra data when provided by the app
 
   * This is particularly necessary for the update_timestamp fields as they are always full java.sql.Timestamp but the data is truncated when the column is date.

@@ -21,4 +21,5 @@
 \. ./rice/bootstrap/V1604_002__RemoveSuperuserQualifier.sql
 \. ./rice/bootstrap/V1604_003__Update_Parm_Desc.sql
 \. ./rice/bootstrap/V1604_007__Generic_Unit_Admin_Derived_Role.sql
+\. ./rice/bootstrap/V1604_012__add_citizen_type_params.sql
 commit;

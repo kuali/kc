@@ -24,4 +24,6 @@
 \. ./kc/bootstrap/V1604_008__fix_questionnaire_for_form.sql
 \. ./kc/bootstrap/V1604_009__modify_iacuc_dates.sql
 \. ./kc/bootstrap/V1604_010__set_all_updatetimestamps_to_datetime.sql
+\. ./kc/bootstrap/V1604_011__add_citizen_types.sql
+\. ./kc/bootstrap/V1604_013__add_configure_narr_for_form.sql
 commit;
