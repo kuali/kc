@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-933: adding support for: S2S Form D: PHS 398 Career Development Award Supplemental Form 3.0 update for 2016.  fixing sql for oracle
+  * Travis Schneeberger on Wed, 13 Apr 2016 16:37:14 -0400 [View Commit](../../commit/4f642ad5ac7679e0c3f54b1e66d7580010585f80)
+
+##coeus-1604.12
 * RESKC-933: adding support for: S2S Form D: PHS 398 Career Development Award Supplemental Form 3.0 update for 2016 (#1656)  * Travis Schneeberger on Wed, 13 Apr 2016 13:34:30 -0400 [View Commit](../../commit/f82d6e25c51f429daf3b14ce2e4ee6072cab8a92)
 
 ##coeus-1604.11
