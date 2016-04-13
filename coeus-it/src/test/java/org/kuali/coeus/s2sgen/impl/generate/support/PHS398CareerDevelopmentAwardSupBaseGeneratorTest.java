@@ -79,13 +79,17 @@ public abstract class PHS398CareerDevelopmentAwardSupBaseGeneratorTest extends
 		principalInvestigator.setPersonId("0001");
         principalInvestigator.setProposalPersonNumber(1);
         principalInvestigator.setDevelopmentProposal(document.getDevelopmentProposal());
-		CitizenshipType citizenshipType = new CitizenshipType();
-		
-		citizenshipType.setCode(1);
+		CitizenshipType citizenshipType = getCitizenshipType();
 		principalInvestigator.setCitizenshipType(citizenshipType);
 		proposalPersons.add(principalInvestigator);
 		document.getDevelopmentProposal().setProposalPersons(proposalPersons);
 		
 		
+	}
+
+	protected CitizenshipType getCitizenshipType() {
+		CitizenshipType citizenshipType = new CitizenshipType();
+		citizenshipType.setCode(1);
+		return citizenshipType;
 	}
 }

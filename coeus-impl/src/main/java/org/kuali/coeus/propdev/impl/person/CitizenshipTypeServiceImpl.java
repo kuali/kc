@@ -21,7 +21,6 @@ package org.kuali.coeus.propdev.impl.person;
 import org.kuali.coeus.common.api.person.attr.CitizenshipType;
 import org.kuali.coeus.common.api.person.attr.CitizenshipTypeService;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
-import org.kuali.coeus.s2sgen.api.core.ConfigurationConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +55,7 @@ public class CitizenshipTypeServiceImpl implements CitizenshipTypeService {
 		if (citizenshipTypeSourceInternal != null && !citizenshipTypeSourceInternal) {
 			return getCitizenshipDataFromExternalSource(proposalPerson);
 		} else {
-			Integer citizenshipTypeCode = null;
+			final Integer citizenshipTypeCode;
 			Boolean allowOverride = isAllowCitizenshipTypeOverride();
 			if (allowOverride && proposalPerson.getCitizenshipType() != null) {
 				citizenshipTypeCode = proposalPerson.getCitizenshipType().getCode();
@@ -94,6 +93,14 @@ public class CitizenshipTypeServiceImpl implements CitizenshipTypeService {
 				.equals(parameterService.getParameterValueAsString(Constants.KC_S2S_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, 
 						ConfigurationConstants.PERMANENT_RESIDENT_OF_US_PENDING))) {
 			return CitizenshipType.PERMANENT_RESIDENT_OF_US_PENDING;
+		} else if (citizenShipCode
+				.equals(parameterService.getParameterValueAsString(Constants.KC_S2S_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
+						ConfigurationConstants.NOT_RESIDING_IN_US))) {
+			return CitizenshipType.NOT_RESIDING_IN_US;
+		} else if (citizenShipCode
+				.equals(parameterService.getParameterValueAsString(Constants.KC_S2S_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
+						ConfigurationConstants.TEMP_VISA_ALSO_APPLIED_FOR_PERM_RESIDENT_STATUS))) {
+			return CitizenshipType.TEMP_VISA_ALSO_APPLIED_FOR_PERM_RESIDENT_STATUS;
 		} else {
 			return CitizenshipType.NOT_AVAILABLE;
 		}
@@ -107,6 +114,17 @@ public class CitizenshipTypeServiceImpl implements CitizenshipTypeService {
 	protected CitizenshipType getCitizenshipDataFromExternalSource(ProposalPersonContract proposalPerson) {
 		throw new UnsupportedOperationException(
 				"External Source Must be configured when system parameter PI_CITIZENSHIP_FROM_CUSTOM_DATA is set to '0'");
+	}
+
+	private static class ConfigurationConstants {
+		private static final String PI_CUSTOM_DATA = "PI_CITIZENSHIP_FROM_CUSTOM_DATA";
+		private static final String PERMANENT_RESIDENT_OF_US_TYPE_CODE = "PERMANENT_RESIDENT_OF_US_TYPE_CODE";
+		private static final String ALLOW_PROPOSAL_PERSON_TO_OVERRIDE_KC_PERSON_EXTENDED_ATTRIBUTES = "ALLOW_PROPOSAL_PERSON_TO_OVERRIDE_KC_PERSON_EXTENDED_ATTRIBUTES";
+		private static final String NON_US_CITIZEN_WITH_TEMPORARY_VISA_TYPE_CODE = "NON_US_CITIZEN_WITH_TEMPORARY_VISA_TYPE_CODE";
+		private static final String US_CITIZEN_OR_NONCITIZEN_NATIONAL_TYPE_CODE = "US_CITIZEN_OR_NONCITIZEN_NATIONAL_TYPE_CODE";
+		private static final String PERMANENT_RESIDENT_OF_US_PENDING = "PERMANENT_RESIDENT_OF_US_PENDING";
+		private static final String NOT_RESIDING_IN_US = "NOT_RESIDING_IN_US";
+		private static final String TEMP_VISA_ALSO_APPLIED_FOR_PERM_RESIDENT_STATUS = "TEMP_VISA_ALSO_APPLIED_FOR_PERM_RESIDENT_STATUS";
 	}
 
 }
