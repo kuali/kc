@@ -45,6 +45,7 @@ public class NotificationModuleRoleQualifierValuesFinder extends UifKeyValuesFin
         documentList.add(new ConcreteKeyValue("negotiation", "Negotiation Id"));
         documentList.add(new ConcreteKeyValue("coiDisclosureId", "Disclosure Id"));
         documentList.add(new ConcreteKeyValue(KcKimAttributes.PROPOSAL, "Proposal"));
+        documentList.add(new ConcreteKeyValue(KcKimAttributes.AWARD, "Award"));
         documentList.add(new ConcreteKeyValue(KimConstants.AttributeConstants.DOCUMENT_NUMBER, "Document Number"));
         
         return documentList;
