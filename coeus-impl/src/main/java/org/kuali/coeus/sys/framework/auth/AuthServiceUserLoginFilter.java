@@ -29,10 +29,18 @@ public class AuthServiceUserLoginFilter extends UserLoginFilter {
 	@Override
 	public void updateUserSession(UserSession userSession, HttpServletRequest request) {
 		if (userSession != null) {
-			userSession.addObject(AuthServiceFilter.AUTH_SERVICE_FILTER_AUTH_TOKEN_SESSION_ATTR, 
-					request.getSession().getAttribute(AuthServiceFilter.AUTH_SERVICE_FILTER_AUTH_TOKEN_SESSION_ATTR));
-			userSession.addObject(AuthServiceFilter.AUTH_SERVICE_FILTER_AUTHED_USER_ATTR,
-					request.getSession().getAttribute(AuthServiceFilter.AUTH_SERVICE_FILTER_AUTHED_USER_ATTR));
+			String authToken = (String) request.getSession().getAttribute(AuthServiceFilter.AUTH_SERVICE_FILTER_AUTH_TOKEN_SESSION_ATTR);
+			AuthUser authUser = (AuthUser) request.getSession().getAttribute(AuthServiceFilter.AUTH_SERVICE_FILTER_AUTHED_USER_ATTR);
+			if (authToken != null) {
+				userSession.addObject(AuthServiceFilter.AUTH_SERVICE_FILTER_AUTH_TOKEN_SESSION_ATTR, authToken);
+			} else {
+				userSession.removeObject(AuthServiceFilter.AUTH_SERVICE_FILTER_AUTH_TOKEN_SESSION_ATTR);
+			}
+			if (authUser != null) {
+				userSession.addObject(AuthServiceFilter.AUTH_SERVICE_FILTER_AUTHED_USER_ATTR, authUser);
+			} else {
+				userSession.removeObject(AuthServiceFilter.AUTH_SERVICE_FILTER_AUTHED_USER_ATTR);
+			}
 	        GlobalVariables.setUserSession(userSession);
 		}
 	}
