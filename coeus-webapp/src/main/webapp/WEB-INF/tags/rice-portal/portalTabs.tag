@@ -77,6 +77,10 @@
                   <c:if test="${param.invalidUser}">
                       Impersonating User:&nbsp;${invalidUserMsg}
                   </c:if>
+                  <c:if test="${UserSession.objectMap['AUTH_SERVICE_FILTER_AUTHED_USER'] != null 
+    					&& UserSession.objectMap['AUTH_SERVICE_FILTER_AUTHED_USER'].actualUser != null}">
+   					CoreAuth User: <c:out value="${UserSession.objectMap['AUTH_SERVICE_FILTER_AUTHED_USER'].actualUser}"/>
+    			  </c:if>
                 </c:otherwise>
               </c:choose>
               &nbsp;
