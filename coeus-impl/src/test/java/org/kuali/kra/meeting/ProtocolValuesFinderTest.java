@@ -26,7 +26,7 @@ import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionLite;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -56,13 +56,13 @@ public class ProtocolValuesFinderTest {
             protected BusinessObjectService getBusinessObjectService() {return businessObjectService;} 
                          
          }; 
-         final List<ProtocolSubmission> protocolSubmissions = new ArrayList<ProtocolSubmission>();
-         ProtocolSubmission protocolSubmission = new ProtocolSubmission();
+         final List<ProtocolSubmissionLite> protocolSubmissions = new ArrayList<ProtocolSubmissionLite>();
+         ProtocolSubmissionLite protocolSubmission = new ProtocolSubmissionLite();
          protocolSubmission.setScheduleIdFk(1L);
          protocolSubmission.setProtocolId(1L);
          protocolSubmission.setProtocolNumber("1001");
          protocolSubmissions.add(protocolSubmission);
-         protocolSubmission = new ProtocolSubmission();
+         protocolSubmission = new ProtocolSubmissionLite();
          protocolSubmission.setScheduleIdFk(1L);
          protocolSubmission.setProtocolId(2L);
          protocolSubmission.setProtocolNumber("1002");
@@ -70,7 +70,7 @@ public class ProtocolValuesFinderTest {
          context.checking(new Expectations() {{
              Map fieldValues = new HashMap();
              fieldValues.put("scheduleIdFk", "1");
-             one(businessObjectService).findMatching(ProtocolSubmission.class, fieldValues);
+             one(businessObjectService).findMatching(ProtocolSubmissionLite.class, fieldValues);
              will(returnValue(protocolSubmissions));
              
          }});

@@ -19,8 +19,8 @@
 package org.kuali.kra.meeting;
 
 import org.kuali.coeus.common.committee.impl.meeting.ProtocolValuesFinderBase;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionLite;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionLiteBase;
 
 /**
  * 
@@ -32,7 +32,7 @@ public class ProtocolValuesFinder extends ProtocolValuesFinderBase {
     private static final long serialVersionUID = -6742435002576211916L;
 
     @Override
-    protected Class<? extends ProtocolSubmissionBase> getProtocolSubmissionBOClassHook() {
-        return ProtocolSubmission.class;
+    protected Class<? extends ProtocolSubmissionLiteBase> getProtocolSubmissionBOClassHook() {
+        return ProtocolSubmissionLite.class;
     }
 }
