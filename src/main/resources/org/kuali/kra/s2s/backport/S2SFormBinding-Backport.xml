@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Copyright 2005-2014 The Kuali Foundation.
+	
+	Licensed under the Educational Community License, Version 1.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+	
+	http://www.opensource.org/licenses/ecl1.php
+	
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+-->
+<FormBinding>
+	<Form namespace="http://apply.grants.gov/forms/PHS398_TrainingBudget-V1.0">
+		<formName>PHS398_TrainingBudget-V1.0</formName>
+		<mainClass>
+			org.kuali.kra.s2s.generator.impl.PHS398TrainingBudgetV1_0Generator
+		</mainClass>
+		<stylesheet>
+			org/kuali/kra/s2s/backport/PHS398_TrainingBudget-V1.0.xsl
+		</stylesheet>
+		<pkgName>
+			gov.grants.apply.forms.phs398TrainingBudgetV10
+		</pkgName>
+		<sortIndex>160</sortIndex>
+	</Form>
+	<Form namespace="http://apply.grants.gov/forms/PHS398_ModularBudget_1_2-V1.2">
+		<formName>PHS398_ModularBudget_1_2-V1.2</formName>
+		<mainClass>
+			org.kuali.kra.s2s.phs398modularbudget.PHS398ModularBudgetV1_2Generator
+		</mainClass>
+		<stylesheet>
+			org/kuali/kra/s2s/backport/PHS398_ModularBudget-V1.2.xsl
+		</stylesheet>
+		<pkgName>gov.grants.apply.forms.phs398ModularBudget12V12</pkgName>
+		<sortIndex>190</sortIndex>
+	</Form>
+	<Form namespace="http://apply.grants.gov/forms/PHS398_ResearchPlan_3_0-V3.0">
+		<formName>PHS398_ResearchPlan_3_0</formName>
+		<mainClass>
+			org.kuali.kra.s2s.backport.PHS398ResearchPlan_3_0V3_0Generator
+		</mainClass>
+		<stylesheet>
+			org/kuali/kra/s2s/backport/PHS398_ResearchPlan-V3.0.xsl
+		</stylesheet>
+		<pkgName>gov.grants.apply.forms.phs398ResearchPlan30V30</pkgName>
+		<sortIndex>195</sortIndex>
+	</Form>
+	<Form namespace="http://apply.grants.gov/forms/PHS398_CoverPageSupplement_3_0-V3.0">
+		<formName>PHS398_CoverPageSupplement_3_0-V3.0</formName>
+		<mainClass>
+			org.kuali.kra.s2s.backport.PHS398CoverPageSupplement_3_0V3_0Generator
+		</mainClass>
+		<stylesheet>
+			org/kuali/kra/s2s/backport/PHS398_CoverPageSupplement-V3.0.xsl
+		</stylesheet>
+		<pkgName>
+			gov.grants.apply.forms.phs398CoverPageSupplement30V30
+		</pkgName>
+		<sortIndex>185</sortIndex>
+	</Form>
+	<Form namespace="http://apply.grants.gov/forms/PHS398_ResearchTrainingProgramPlan_3_0-V3.0">
+		<formName>PHS398_ResearchTrainingProgramPlan_3_0</formName>
+		<mainClass>
+			org.kuali.kra.s2s.backport.PHS398ResTrainProgPlanV3_0Generator
+		</mainClass>
+		<stylesheet>
+			org/kuali/kra/s2s/backport/PHS398_ResearchTrainProPlan-V3.0.xsl
+		</stylesheet>
+		<pkgName>
+			gov.grants.apply.forms.phs398ResearchTrainingProgramPlan30V30
+		</pkgName>
+		<sortIndex>220</sortIndex>
+	</Form>
+	<Form namespace="http://apply.grants.gov/forms/PHS398_CareerDevelopmentAwardSup_3_0-V3.0">
+		<formName>PHS398_CareerDevelopmentAwardSup_3_0</formName>
+		<mainClass>
+			org.kuali.kra.s2s.backport.PHS398CareerDevelopmentAwardSupV3_0Generator
+		</mainClass>
+		<stylesheet>
+			org/kuali/kra/s2s/backport/PHS398_CareerDevelopmentAwardSup-V3.0.xsl
+		</stylesheet>
+		<pkgName>
+			gov.grants.apply.forms.phs398CareerDevelopmentAwardSup30V30
+		</pkgName>
+		<sortIndex>200</sortIndex>
+	</Form>
+	<Form namespace="http://apply.grants.gov/forms/NSF_CoverPage_1_6-V1.6">
+		<formName>NSF_CoverPage_1_6-V1.6</formName>
+		<mainClass>
+			org.kuali.kra.s2s.backport.NSFCoverPageV1_6Generator
+		</mainClass>
+		<stylesheet>
+			org/kuali/kra/s2s/backport/NSF_CoverPage-V1.6.xsl
+		</stylesheet>
+		<pkgName>
+			gov.grants.apply.forms.nsfCoverPage16V16
+		</pkgName>
+		<sortIndex>1000</sortIndex>
+	</Form>
+	<Form namespace="http://apply.grants.gov/forms/NSF_KeyPersonExpanded-V1.0">
+		<formName>NSFKeyPersonExpanded_1_0</formName>
+		<mainClass>
+			org.kuali.kra.s2s.backport.NSFKeyPersonExpandedV1_0Generator
+		</mainClass>
+		<stylesheet>
+			org/kuali/kra/s2s/backport/NSF_KeyPersonExpanded-V1.0.xsl
+		</stylesheet>
+		<pkgName>
+			gov.grants.apply.forms.nsfKeyPersonExpandedV10
+		</pkgName>
+		<sortIndex>155</sortIndex>
+	</Form>
+</FormBinding>

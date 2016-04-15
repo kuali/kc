@@ -733,6 +733,7 @@ public interface Constants {
     
     //
     public static final String KC_GENERIC_PARAMETER_NAMESPACE = "KC-GEN";
+    public static final String KC_S2S_PARAMETER_NAMESPACE = "KC-S2S";
     public static final String KC_ALL_PARAMETER_DETAIL_TYPE_CODE = "All";
     public static final String MODULE_NAMESPACE_AWARD_BUDGET = "KC-AB";
     

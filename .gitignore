@@ -1,0 +1,16 @@
+**/.project
+**/.classpath
+**/.settings
+**/target
+**/.idea
+**/kc_project.iml
+**/.DS_Store
+**/Thumbs.db
+bin
+.project
+.classpath
+.settings
+target
+.idea
+kc_project.iml
+**/bin

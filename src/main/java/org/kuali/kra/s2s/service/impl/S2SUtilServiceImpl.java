@@ -113,7 +113,6 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     private static final String SEQUENCE_NUMBER = "sequenceNumber";
     private static final String QUESTIONNAIRE_ID = "questionnaireId";
     private static final String QUESTIONNAIRE_REF_ID_FK = "questionnaireRefIdFk";
-    private static final String PI_CUSTOM_DATA = "PI_CITIZENSHIP_FROM_CUSTOM_DATA";
 
     /**
      * This method creates and returns Map of submission details like submission type, description and Revision code
@@ -1161,7 +1160,8 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      */
     public CitizenshipTypes getCitizenship(ProposalPerson proposalPerson) {
         String citizenSource = "1";
-        String piCitizenShipValue = getParameterValue(PI_CUSTOM_DATA);
+        String piCitizenShipValue = parameterService.getParameterValueAsString(Constants.KC_S2S_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
+                ConfigurationConstants.PI_CUSTOM_DATA);
         if (piCitizenShipValue != null) {
             citizenSource = piCitizenShipValue;
         }
@@ -1171,8 +1171,8 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         }
         else {
             CitizenshipType citizenShip;
-            String allowOverride = parameterService.getParameterValueAsString("KC-GEN", "A",
-                    "ALLOW_PROPOSAL_PERSON_TO_OVERRIDE_KC_PERSON_EXTENDED_ATTRIBUTES");
+            String allowOverride = parameterService.getParameterValueAsString(Constants.KC_S2S_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
+                    ConfigurationConstants.ALLOW_PROPOSAL_PERSON_TO_OVERRIDE_KC_PERSON_EXTENDED_ATTRIBUTES);
             if ("Y".equals(allowOverride) && proposalPerson.getProposalPersonExtendedAttributes() != null) {
                 citizenShip = proposalPerson.getProposalPersonExtendedAttributes().getCitizenshipType();
             }
@@ -1181,24 +1181,31 @@ public class S2SUtilServiceImpl implements S2SUtilService {
             }
             CitizenshipTypes retVal = null;
             String citizenShipCode = String.valueOf(citizenShip.getCitizenshipTypeCode());
-            if (citizenShipCode.equals(parameterService.getParameterValueAsString("KC-GEN", "A",
-                    "NON_US_CITIZEN_WITH_TEMPORARY_VISA_TYPE_CODE"))) {
+            if (citizenShipCode.equals(parameterService.getParameterValueAsString(Constants.KC_S2S_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
+                    ConfigurationConstants.NON_US_CITIZEN_WITH_TEMPORARY_VISA_TYPE_CODE))) {
                 return CitizenshipTypes.NON_US_CITIZEN_WITH_TEMPORARY_VISA;
             }
-            else if (citizenShipCode.equals(parameterService.getParameterValueAsString("KC-GEN", "A",
-                    "PERMANENT_RESIDENT_OF_US_TYPE_CODE"))) {
+            else if (citizenShipCode.equals(parameterService.getParameterValueAsString(Constants.KC_S2S_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
+                    ConfigurationConstants.PERMANENT_RESIDENT_OF_US_TYPE_CODE))) {
                 return CitizenshipTypes.PERMANENT_RESIDENT_OF_US;
             }
-            else if (citizenShipCode.equals(parameterService.getParameterValueAsString("KC-GEN", "A",
-                    "US_CITIZEN_OR_NONCITIZEN_NATIONAL_TYPE_CODE"))) {
+            else if (citizenShipCode.equals(parameterService.getParameterValueAsString(Constants.KC_S2S_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
+                    ConfigurationConstants.US_CITIZEN_OR_NONCITIZEN_NATIONAL_TYPE_CODE))) {
                 return CitizenshipTypes.US_CITIZEN_OR_NONCITIZEN_NATIONAL;
             }
-            else if (citizenShipCode.equals(parameterService.getParameterValueAsString("KC-GEN", "A",
-                    "PERMANENT_RESIDENT_OF_US_PENDING"))) {
+            else if (citizenShipCode.equals(parameterService.getParameterValueAsString(Constants.KC_S2S_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
+                    ConfigurationConstants.PERMANENT_RESIDENT_OF_US_PENDING))) {
                 return CitizenshipTypes.PERMANENT_RESIDENT_OF_US_PENDING;
-            }
-            else {
-                throw new IllegalArgumentException("Invalid citizenship type provided");
+            } else if (citizenShipCode
+                    .equals(parameterService.getParameterValueAsString(Constants.KC_S2S_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
+                            ConfigurationConstants.NOT_RESIDING_IN_US))) {
+                return CitizenshipTypes.NOT_RESIDING_IN_US;
+            } else if (citizenShipCode
+                    .equals(parameterService.getParameterValueAsString(Constants.KC_S2S_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
+                            ConfigurationConstants.TEMP_VISA_ALSO_APPLIED_FOR_PERM_RESIDENT_STATUS))) {
+                return CitizenshipTypes.TEMP_VISA_ALSO_APPLIED_FOR_PERM_RESIDENT_STATUS;
+            } else {
+                return CitizenshipTypes.NOT_AVAILABLE;
             }
 
         }
@@ -1254,5 +1261,16 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         }
         String filteredApplicationStr = StringUtils.remove(applicationXmlText, offset);
         return filteredApplicationStr;
+    }
+
+    private static class ConfigurationConstants {
+        private static final String PI_CUSTOM_DATA = "PI_CITIZENSHIP_FROM_CUSTOM_DATA";
+        private static final String PERMANENT_RESIDENT_OF_US_TYPE_CODE = "PERMANENT_RESIDENT_OF_US_TYPE_CODE";
+        private static final String ALLOW_PROPOSAL_PERSON_TO_OVERRIDE_KC_PERSON_EXTENDED_ATTRIBUTES = "ALLOW_PROPOSAL_PERSON_TO_OVERRIDE_KC_PERSON_EXTENDED_ATTRIBUTES";
+        private static final String NON_US_CITIZEN_WITH_TEMPORARY_VISA_TYPE_CODE = "NON_US_CITIZEN_WITH_TEMPORARY_VISA_TYPE_CODE";
+        private static final String US_CITIZEN_OR_NONCITIZEN_NATIONAL_TYPE_CODE = "US_CITIZEN_OR_NONCITIZEN_NATIONAL_TYPE_CODE";
+        private static final String PERMANENT_RESIDENT_OF_US_PENDING = "PERMANENT_RESIDENT_OF_US_PENDING";
+        private static final String NOT_RESIDING_IN_US = "NOT_RESIDING_IN_US";
+        private static final String TEMP_VISA_ALSO_APPLIED_FOR_PERM_RESIDENT_STATUS = "TEMP_VISA_ALSO_APPLIED_FOR_PERM_RESIDENT_STATUS";
     }
 }

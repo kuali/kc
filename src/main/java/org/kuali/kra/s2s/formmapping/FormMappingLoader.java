@@ -49,6 +49,7 @@ public class FormMappingLoader {
     private static Map<Integer, List<String>> sortedNameSpaces;
     private static final String BINDING_FILE_NAME = "/S2SFormBinding.xml";
     private static final String BINDING_FILE_NAME_V2="/org/kuali/kra/s2s/s2sform/S2SFormBinding-V2.xml";
+    private static final String BINDING_FILE_NAME_BACKPORT="/org/kuali/kra/s2s/backport/S2SFormBinding-Backport.xml";
     private static final String NAMESPACE = "namespace";
     private static final String MAIN_CLASS = "mainClass";
     private static final String STYLE_SHEET = "stylesheet";
@@ -127,6 +128,8 @@ public class FormMappingLoader {
                 loadBindings(BINDING_FILE_NAME);
                 if((new FormMappingLoader().getClass().getResourceAsStream(BINDING_FILE_NAME_V2))!=null)
                 loadBindings(BINDING_FILE_NAME_V2);
+                if((new FormMappingLoader().getClass().getResourceAsStream(BINDING_FILE_NAME_BACKPORT))!=null)
+                    loadBindings(BINDING_FILE_NAME_BACKPORT);
             }
         }
         return bindings;
