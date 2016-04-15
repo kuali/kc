@@ -19,7 +19,7 @@
 package org.kuali.coeus.common.committee.impl.meeting;
 
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionLiteBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -43,7 +43,7 @@ public abstract class ProtocolValuesFinderBase extends UifKeyValuesFinderBase {
         // note: the following will overwrite existing elements in the tree; that's the whole point.  We
         // want discrete values in the list.
         TreeMap<String, KeyValue> valuesMap = new TreeMap<String, KeyValue>();
-        for (ProtocolSubmissionBase protocolSubmission : getProtocols()) {
+        for (ProtocolSubmissionLiteBase protocolSubmission : getProtocols()) {
             KeyValue keyValue = new ConcreteKeyValue(protocolSubmission.getProtocolId().toString(), protocolSubmission.getProtocolNumber());
             valuesMap.put(protocolSubmission.getProtocolNumber(), keyValue);
         }
@@ -52,14 +52,14 @@ public abstract class ProtocolValuesFinderBase extends UifKeyValuesFinderBase {
         return keyValues;
     }
 
-    private List<? extends ProtocolSubmissionBase> getProtocols() {
+    private List<? extends ProtocolSubmissionLiteBase> getProtocols() {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("scheduleIdFk", scheduleId);
 
-        return (List<? extends ProtocolSubmissionBase>) getBusinessObjectService().findMatching(getProtocolSubmissionBOClassHook(), fieldValues);
+        return (List<? extends ProtocolSubmissionLiteBase>) getBusinessObjectService().findMatching(getProtocolSubmissionBOClassHook(), fieldValues);
     }
 
-    protected abstract Class<? extends ProtocolSubmissionBase> getProtocolSubmissionBOClassHook();
+    protected abstract Class<? extends ProtocolSubmissionLiteBase> getProtocolSubmissionBOClassHook();
 
     protected BusinessObjectService getBusinessObjectService() {
         return KcServiceLocator.getService(BusinessObjectService.class);
