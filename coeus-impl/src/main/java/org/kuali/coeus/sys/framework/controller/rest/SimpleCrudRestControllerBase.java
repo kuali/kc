@@ -33,6 +33,8 @@ import com.google.common.base.CaseFormat;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.WordUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.kuali.coeus.sys.framework.config.KcConfigurer;
 import org.kuali.coeus.sys.framework.controller.rest.audit.RestAuditLogger;
@@ -50,6 +52,7 @@ import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.rice.core.framework.config.module.ModuleConfigurer;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.krad.data.CompoundKey;
+import org.kuali.rice.krad.service.DataDictionaryService;
 import org.kuali.rice.krad.service.DictionaryValidationService;
 import org.kuali.rice.krad.service.LegacyDataAdapter;
 import org.kuali.rice.krad.util.MessageMap;
@@ -77,6 +80,7 @@ public abstract class SimpleCrudRestControllerBase<T, R> extends RestController 
 	private static final String SCHEMA_PARM = "_schema";
 	private static final String BLUEPRINT_PARM = "_blueprint";
 	protected static final String SYNTHETIC_FIELD_PK = "_primaryKey";
+	private static final Log LOG = LogFactory.getLog(SimpleCrudRestControllerBase.class);
 
 	@Autowired
 	@Qualifier("legacyDataAdapter")
@@ -109,6 +113,10 @@ public abstract class SimpleCrudRestControllerBase<T, R> extends RestController 
 	@Autowired
 	@Qualifier("autoRegisterMapping")
 	private RestSimpleUrlHandlerMapping autoRegisterMapping;
+
+	@Autowired
+	@Qualifier("dataDictionaryService")
+	private DataDictionaryService dataDictionaryService;
 
 	@Value("classpath:org/kuali/coeus/sys/framework/controller/rest/SimpleCrudRestControllerBlueprintTemplate.md")
 	private Resource blueprintTemplate;
@@ -192,7 +200,7 @@ public abstract class SimpleCrudRestControllerBase<T, R> extends RestController 
 		templateText = templateText.replaceAll("\\$\\{resourceName\\}", WordUtils.capitalizeFully(CaseFormat.UPPER_CAMEL.converterTo(CaseFormat.LOWER_HYPHEN).convert(this.getCamelCasePluralName()).replaceAll("-", " ")));
 		templateText = templateText.replaceAll("\\$\\{endpoint\\}", "/" + getModuleMapping() + getPath());
 		templateText = templateText.replaceAll("\\$\\{sampleKey\\}", "(key)");
-		templateText = templateText.replaceAll("\\$\\{sampleMatchCriteria\\}", getListOfTrackedProperties().stream().collect(Collectors.joining("\n            + ", "+ ", "\n")));
+		templateText = templateText.replaceAll("\\$\\{sampleMatchCriteria\\}", getListOfTrackedProperties().stream().map(prop -> ("+ " + prop + " (optional) - " + getPropertyDescription(prop))).collect(Collectors.joining("\n    ", "", "\n")));
 		templateText = templateText.replaceAll("\\$\\{sampleResource1\\}", Stream.concat(getExposedProperties().stream(), Stream.of(SYNTHETIC_FIELD_PK)).collect(Collectors.joining("\": \"(val)\",\"", "{\"", "\": \"(val)\"}")));
 		templateText = templateText.replaceAll("\\$\\{sampleResource2\\}", Stream.concat(getExposedProperties().stream(), Stream.of(SYNTHETIC_FIELD_PK)).collect(Collectors.joining("\": \"(val)\",\"", "{\"", "\": \"(val)\"}")));
 		try {
@@ -308,6 +316,60 @@ public abstract class SimpleCrudRestControllerBase<T, R> extends RestController 
 		} else {
 			return getPropertyValueFromDto(getPrimaryKeyColumn(), dataObject);
 		}
+	}
+
+	protected String getPropertyDescription(String propertyName) {
+		if (isAttrDefined(propertyName)) {
+			final String desc = dataDictionaryService.getAttributeDescription(getDataObjectClazz(), propertyName);
+			final String summary = dataDictionaryService.getAttributeSummary(getDataObjectClazz(), propertyName);
+			final String label = dataDictionaryService.getAttributeLabel(getDataObjectClazz(), propertyName);
+			final String shortLabel = dataDictionaryService.getAttributeLabel(getDataObjectClazz(), propertyName);
+
+			final Integer max = dataDictionaryService.getAttributeMaxLength(getDataObjectClazz().getName(), propertyName);
+			final Integer min = dataDictionaryService.getAttributeMinLength(getDataObjectClazz().getName(), propertyName);
+
+			final String maxInclusive = dataDictionaryService.getAttributeInclusiveMax(getDataObjectClazz().getName(), propertyName);
+			final String minExclusive = dataDictionaryService.getAttributeExclusiveMin(getDataObjectClazz().getName(), propertyName);
+
+			final String description = appendPeriod(StringUtils.isNotBlank(desc) ? desc :
+					StringUtils.isNotBlank(summary) ? summary :
+							StringUtils.isNotBlank(label) ? label : StringUtils.isNotBlank(shortLabel) ? shortLabel : "");
+
+			final String maxLengthDescription = appendPeriod(max != null ? "Maximum length is " + max : "");
+			final String maxValueDescription = appendPeriod(StringUtils.isNoneBlank(maxInclusive) ? "Maximum inclusive value is " + maxInclusive : "");
+
+			final String minLengthDescription = appendPeriod(min != null ? "Minimum length is " + min : "");
+			final String minValueDescription = appendPeriod(StringUtils.isNoneBlank(minExclusive) ? "Minimum enclusive value is " + minExclusive : "");
+
+			return description + prependSpace(maxLengthDescription) +
+					prependSpace(minLengthDescription) + prependSpace(maxValueDescription) +
+					prependSpace(minValueDescription);
+		}
+		return "";
+	}
+
+	protected boolean isAttrDefined(String propertyName) {
+		try {
+			//some rice BOs are causing an exception while accessing the data dictionary
+			return dataDictionaryService.isAttributeDefined(getDataObjectClazz(), propertyName);
+		} catch (RuntimeException e) {
+			LOG.info(getDataObjectClazz().getName() + "." + propertyName + " not defined in the data dictionary because of an exception.", e);
+			return false;
+		}
+	}
+
+	protected String appendPeriod(String s) {
+		if (StringUtils.isNotBlank(s) && !StringUtils.endsWith(StringUtils.trim(s), ".")) {
+			return StringUtils.trim(s) + ".";
+		}
+		return s;
+	}
+
+	protected String prependSpace(String s) {
+		if (StringUtils.isNotBlank(s)) {
+			return " " + StringUtils.trim(s);
+		}
+		return s;
 	}
 
 	protected String primaryKeyToString(Object pkValues) {
@@ -541,7 +603,10 @@ public abstract class SimpleCrudRestControllerBase<T, R> extends RestController 
 		final KcConfigurer configurer = getModuleConfigurers().stream()
 				.filter(mc -> mc instanceof KcConfigurer)
 				.map(mc -> (KcConfigurer) mc)
-				.filter(mc -> mc.getRootResourceLoader().getService(new QName(getBeanName())) != null)
+				.filter(mc -> {
+					final SimpleCrudRestControllerBase<?, ?> controller = mc.getRootResourceLoader().getService(new QName(getBeanName()));
+					return controller != null && controller.getDataObjectClazz().equals(this.getDataObjectClazz());
+				})
 				.findFirst().get();
 		return configurer.getDispatchServletMappings().stream().filter(mapping -> !mapping.contains("krad")).findFirst().get();
 	}
@@ -765,5 +830,13 @@ public abstract class SimpleCrudRestControllerBase<T, R> extends RestController 
 	@Override
 	public void setBeanName(String beanName) {
 		this.beanName = beanName;
+	}
+
+	public DataDictionaryService getDataDictionaryService() {
+		return dataDictionaryService;
+	}
+
+	public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+		this.dataDictionaryService = dataDictionaryService;
 	}
 }

@@ -43,7 +43,7 @@
     
 + Parameters
 
-        ${sampleMatchCriteria}
+    ${sampleMatchCriteria}
             
 + Request
 
@@ -214,8 +214,8 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      ${sampleMatchCriteria}
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    ${sampleMatchCriteria}
       
 + Request
 
