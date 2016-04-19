@@ -417,7 +417,7 @@
                       p:order="20" p:label="Submit cost sharing"/>
                 <bean parent="Uif-InputField" p:propertyName="budgetLineItem.onOffCampusFlag"
                       p:order="30" p:label="On Campus"
-                      p:onChangeScript="ajaxSubmitForm('refresh',{'refreshCaller': 'PropBudget-AssignPersonnelToPeriodsPage-DetailsAndRates'})"/>
+                      p:onChangeScript="ajaxSubmitForm('refresh',{'refreshCaller': 'PropBudget-AssignPersonnelToPeriodsPage-DetailsAndRates'})" p:readOnly="@{#parent.readOnly or #fp.currentTabBudgetPeriod.budget.onOffCampusFlag != T(org.kuali.kra.infrastructure.OnOffCampusFlagConstants).Default.code}" />
             </list>
         </property>
     </bean>

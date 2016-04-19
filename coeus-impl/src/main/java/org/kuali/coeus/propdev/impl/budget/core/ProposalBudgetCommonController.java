@@ -31,6 +31,7 @@ import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants;
 import org.kuali.coeus.propdev.impl.lock.ProposalBudgetLockService;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.OnOffCampusFlagConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.krad.uif.UifConstants;
@@ -248,6 +249,11 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
     	if(isRateTypeChanged(originalBudget, budget)) {
         	return getModelAndViewService().showDialog(ProposalBudgetConstants.KradConstants.CONFIRM_RATE_CHANGES_DIALOG_ID, true, form);
     	}
+
+		if (applyOnOffCampusFlagToLineItems(originalBudget, budget)) {
+			getBudgetSummaryService().updateOnOffCampusFlag(budget, budget.getOnOffCampusFlag());
+		}
+
         super.save(form);
         form.setEvaluateFlagsAndModes(true);
 		//setting to null to force reevaluation
@@ -256,6 +262,10 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 		//the budgetStatusDo is not being synced with the budgetStatus from the settings screen
 		getDataObjectService().wrap(form.getBudget()).fetchRelationship("budgetStatusDo");
 		return getRefreshControllerService().refresh(form);
+	}
+
+	private boolean applyOnOffCampusFlagToLineItems(Budget originalBudget, Budget currentBudget) {
+		return !OnOffCampusFlagConstants.Default.getCode().equals(currentBudget.getOnOffCampusFlag());
 	}
 
     @Transactional @RequestMapping(params="methodToCall=markBudgetVersionComplete")
