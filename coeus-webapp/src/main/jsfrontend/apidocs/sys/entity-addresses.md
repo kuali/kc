@@ -43,25 +43,25 @@
     
 + Parameters
 
-        + id
-            + city
-            + defaultValue
-            + addressFormat
-            + postalCode
-            + active
-            + entityId
-            + attentionLine
-            + noteMessage
-            + stateProvinceCode
-            + addressTypeCode
-            + validated
-            + countryCode
-            + entityTypeCode
-            + validatedDate
-            + modifiedDate
-            + line3
-            + line2
-            + line1
+    + id (optional) - 
+    + city (optional) - 
+    + defaultValue (optional) - 
+    + addressFormat (optional) - 
+    + postalCode (optional) - 
+    + active (optional) - 
+    + entityId (optional) - 
+    + attentionLine (optional) - 
+    + noteMessage (optional) - 
+    + stateProvinceCode (optional) - 
+    + addressTypeCode (optional) - 
+    + validated (optional) - 
+    + countryCode (optional) - 
+    + entityTypeCode (optional) - 
+    + validatedDate (optional) - 
+    + modifiedDate (optional) - 
+    + line3 (optional) - 
+    + line2 (optional) - 
+    + line1 (optional) - 
 
             
 + Request
@@ -233,26 +233,26 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + city
-            + defaultValue
-            + addressFormat
-            + postalCode
-            + active
-            + entityId
-            + attentionLine
-            + noteMessage
-            + stateProvinceCode
-            + addressTypeCode
-            + validated
-            + countryCode
-            + entityTypeCode
-            + validatedDate
-            + modifiedDate
-            + line3
-            + line2
-            + line1
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - 
+    + city (optional) - 
+    + defaultValue (optional) - 
+    + addressFormat (optional) - 
+    + postalCode (optional) - 
+    + active (optional) - 
+    + entityId (optional) - 
+    + attentionLine (optional) - 
+    + noteMessage (optional) - 
+    + stateProvinceCode (optional) - 
+    + addressTypeCode (optional) - 
+    + validated (optional) - 
+    + countryCode (optional) - 
+    + entityTypeCode (optional) - 
+    + validatedDate (optional) - 
+    + modifiedDate (optional) - 
+    + line3 (optional) - 
+    + line2 (optional) - 
+    + line1 (optional) - 
 
       
 + Request

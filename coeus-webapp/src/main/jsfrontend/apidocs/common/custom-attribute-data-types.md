@@ -1,6 +1,6 @@
-## Custom Attribute Data Types [/research-sys/api/v1/custom-attribute-data-types/]
+## Custom Attribute Data Types [/research-common/api/v1/custom-attribute-data-types/]
 
-### Get Custom Attribute Data Types by Key [GET /research-sys/api/v1/custom-attribute-data-types/(key)]
+### Get Custom Attribute Data Types by Key [GET /research-common/api/v1/custom-attribute-data-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Custom Attribute Data Types [GET /research-sys/api/v1/custom-attribute-data-types/]
+### Get All Custom Attribute Data Types [GET /research-common/api/v1/custom-attribute-data-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Custom Attribute Data Types with Filtering [GET /research-sys/api/v1/custom-attribute-data-types/]
+### Get All Custom Attribute Data Types with Filtering [GET /research-common/api/v1/custom-attribute-data-types/]
     
 + Parameters
 
-        + code
-            + description
+    + code (optional) - Data Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Custom Attribute Data Types [GET /research-sys/api/v1/custom-attribute-data-types/]
+### Get Schema for Custom Attribute Data Types [GET /research-common/api/v1/custom-attribute-data-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["code","description"],"primaryKey":"code"}
 		
-### Get Blueprint API specification for Custom Attribute Data Types [GET /research-sys/api/v1/custom-attribute-data-types/]
+### Get Blueprint API specification for Custom Attribute Data Types [GET /research-common/api/v1/custom-attribute-data-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Custom Attribute Data Types [PUT /research-sys/api/v1/custom-attribute-data-types/(key)]
+### Update Custom Attribute Data Types [PUT /research-common/api/v1/custom-attribute-data-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Custom Attribute Data Types [PUT /research-sys/api/v1/custom-attribute-data-types/]
+### Update Multiple Custom Attribute Data Types [PUT /research-common/api/v1/custom-attribute-data-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Custom Attribute Data Types [POST /research-sys/api/v1/custom-attribute-data-types/]
+### Insert Custom Attribute Data Types [POST /research-common/api/v1/custom-attribute-data-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Custom Attribute Data Types [POST /research-sys/api/v1/custom-attribute-data-types/]
+### Insert Multiple Custom Attribute Data Types [POST /research-common/api/v1/custom-attribute-data-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Custom Attribute Data Types by Key [DELETE /research-sys/api/v1/custom-attribute-data-types/(key)]
+### Delete Custom Attribute Data Types by Key [DELETE /research-common/api/v1/custom-attribute-data-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Custom Attribute Data Types [DELETE /research-sys/api/v1/custom-attribute-data-types/]
+### Delete All Custom Attribute Data Types [DELETE /research-common/api/v1/custom-attribute-data-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Custom Attribute Data Types with Matching [DELETE /research-sys/api/v1/custom-attribute-data-types/]
+### Delete All Custom Attribute Data Types with Matching [DELETE /research-common/api/v1/custom-attribute-data-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + code
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + code (optional) - Data Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

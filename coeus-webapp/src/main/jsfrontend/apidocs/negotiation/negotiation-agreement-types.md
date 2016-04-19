@@ -1,6 +1,6 @@
-## Negotiation Agreement Types [/research-sys/api/v1/negotiation-agreement-types/]
+## Negotiation Agreement Types [/negotiation/api/v1/negotiation-agreement-types/]
 
-### Get Negotiation Agreement Types by Key [GET /research-sys/api/v1/negotiation-agreement-types/(key)]
+### Get Negotiation Agreement Types by Key [GET /negotiation/api/v1/negotiation-agreement-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"id": "(val)","code": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
 
-### Get All Negotiation Agreement Types [GET /research-sys/api/v1/negotiation-agreement-types/]
+### Get All Negotiation Agreement Types [GET /negotiation/api/v1/negotiation-agreement-types/]
 	 
 + Request
 
@@ -39,14 +39,14 @@
               {"id": "(val)","code": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Negotiation Agreement Types with Filtering [GET /research-sys/api/v1/negotiation-agreement-types/]
+### Get All Negotiation Agreement Types with Filtering [GET /negotiation/api/v1/negotiation-agreement-types/]
     
 + Parameters
 
-        + id
-            + code
-            + description
-            + active
+    + id (optional) - Id. Maximum length is 22.
+    + code (optional) - Agreement Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + active (optional) - Active. Maximum length is 1.
 
             
 + Request
@@ -68,7 +68,7 @@
               {"id": "(val)","code": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Negotiation Agreement Types [GET /research-sys/api/v1/negotiation-agreement-types/]
+### Get Schema for Negotiation Agreement Types [GET /negotiation/api/v1/negotiation-agreement-types/]
 	                                          
 + Parameters
 
@@ -90,7 +90,7 @@
     
             {"columns":["id","code","description","active"],"primaryKey":"id"}
 		
-### Get Blueprint API specification for Negotiation Agreement Types [GET /research-sys/api/v1/negotiation-agreement-types/]
+### Get Blueprint API specification for Negotiation Agreement Types [GET /negotiation/api/v1/negotiation-agreement-types/]
 	 
 + Parameters
 
@@ -111,7 +111,7 @@
             transfer-encoding:chunked
 
 
-### Update Negotiation Agreement Types [PUT /research-sys/api/v1/negotiation-agreement-types/(key)]
+### Update Negotiation Agreement Types [PUT /negotiation/api/v1/negotiation-agreement-types/(key)]
 
 + Request
 
@@ -126,7 +126,7 @@
 			
 + Response 204
 
-### Update Multiple Negotiation Agreement Types [PUT /research-sys/api/v1/negotiation-agreement-types/]
+### Update Multiple Negotiation Agreement Types [PUT /negotiation/api/v1/negotiation-agreement-types/]
 
 + Request
 
@@ -144,7 +144,7 @@
 			
 + Response 204
 
-### Insert Negotiation Agreement Types [POST /research-sys/api/v1/negotiation-agreement-types/]
+### Insert Negotiation Agreement Types [POST /negotiation/api/v1/negotiation-agreement-types/]
 
 + Request
 
@@ -163,7 +163,7 @@
             
             {"id": "(val)","code": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Negotiation Agreement Types [POST /research-sys/api/v1/negotiation-agreement-types/]
+### Insert Multiple Negotiation Agreement Types [POST /negotiation/api/v1/negotiation-agreement-types/]
 
 + Request
 
@@ -188,7 +188,7 @@
               {"id": "(val)","code": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Negotiation Agreement Types by Key [DELETE /research-sys/api/v1/negotiation-agreement-types/(key)]
+### Delete Negotiation Agreement Types by Key [DELETE /negotiation/api/v1/negotiation-agreement-types/(key)]
 	 
 + Request
 
@@ -199,7 +199,7 @@
 
 + Response 204
 
-### Delete All Negotiation Agreement Types [DELETE /research-sys/api/v1/negotiation-agreement-types/]
+### Delete All Negotiation Agreement Types [DELETE /negotiation/api/v1/negotiation-agreement-types/]
 
 + Parameters
 
@@ -214,15 +214,15 @@
 
 + Response 204
 
-### Delete All Negotiation Agreement Types with Matching [DELETE /research-sys/api/v1/negotiation-agreement-types/]
+### Delete All Negotiation Agreement Types with Matching [DELETE /negotiation/api/v1/negotiation-agreement-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + code
-            + description
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Id. Maximum length is 22.
+    + code (optional) - Agreement Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + active (optional) - Active. Maximum length is 1.
 
       
 + Request

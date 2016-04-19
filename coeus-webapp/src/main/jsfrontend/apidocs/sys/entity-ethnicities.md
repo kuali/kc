@@ -43,10 +43,10 @@
     
 + Parameters
 
-        + id
-            + entityId
-            + ethnicityCode
-            + subEthnicityCode
+    + id (optional) - 
+    + entityId (optional) - 
+    + ethnicityCode (optional) - 
+    + subEthnicityCode (optional) - 
 
             
 + Request
@@ -218,11 +218,11 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + entityId
-            + ethnicityCode
-            + subEthnicityCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - 
+    + entityId (optional) - 
+    + ethnicityCode (optional) - 
+    + subEthnicityCode (optional) - 
 
       
 + Request

@@ -43,11 +43,11 @@
     
 + Parameters
 
-        + attachmentId
-            + fileName
-            + fileLoc
-            + mimeType
-            + lockVerNbr
+    + attachmentId (optional) - 
+    + fileName (optional) - 
+    + fileLoc (optional) - 
+    + mimeType (optional) - 
+    + lockVerNbr (optional) - 
 
             
 + Request
@@ -219,12 +219,12 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + attachmentId
-            + fileName
-            + fileLoc
-            + mimeType
-            + lockVerNbr
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + attachmentId (optional) - 
+    + fileName (optional) - 
+    + fileLoc (optional) - 
+    + mimeType (optional) - 
+    + lockVerNbr (optional) - 
 
       
 + Request

@@ -1,6 +1,6 @@
-## Iacuc Protocol Exceptions [/research-sys/api/v1/iacuc-protocol-exceptions/]
+## Iacuc Protocol Exceptions [/iacuc/api/v1/iacuc-protocol-exceptions/]
 
-### Get Iacuc Protocol Exceptions by Key [GET /research-sys/api/v1/iacuc-protocol-exceptions/(key)]
+### Get Iacuc Protocol Exceptions by Key [GET /iacuc/api/v1/iacuc-protocol-exceptions/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"iacucProtocolExceptionId": "(val)","speciesCode": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","exceptionId": "(val)","exceptionCategoryCode": "(val)","exceptionDescription": "(val)","exceptionCount": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Protocol Exceptions [GET /research-sys/api/v1/iacuc-protocol-exceptions/]
+### Get All Iacuc Protocol Exceptions [GET /iacuc/api/v1/iacuc-protocol-exceptions/]
 	 
 + Request
 
@@ -39,19 +39,19 @@
               {"iacucProtocolExceptionId": "(val)","speciesCode": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","exceptionId": "(val)","exceptionCategoryCode": "(val)","exceptionDescription": "(val)","exceptionCount": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Protocol Exceptions with Filtering [GET /research-sys/api/v1/iacuc-protocol-exceptions/]
+### Get All Iacuc Protocol Exceptions with Filtering [GET /iacuc/api/v1/iacuc-protocol-exceptions/]
     
 + Parameters
 
-        + iacucProtocolExceptionId
-            + speciesCode
-            + protocolId
-            + protocolNumber
-            + sequenceNumber
-            + exceptionId
-            + exceptionCategoryCode
-            + exceptionDescription
-            + exceptionCount
+    + iacucProtocolExceptionId (optional) - Protocol Exception Id. Maximum length is 22.
+    + speciesCode (optional) - Species. Maximum length is 50.
+    + protocolId (optional) - 
+    + protocolNumber (optional) - 
+    + sequenceNumber (optional) - 
+    + exceptionId (optional) - Exception Id. Maximum length is 22.
+    + exceptionCategoryCode (optional) - Exception Category. Maximum length is 50.
+    + exceptionDescription (optional) - Exception Justification and Description. Maximum length is 1000.
+    + exceptionCount (optional) - Exception Count. Maximum length is 8.
 
             
 + Request
@@ -73,7 +73,7 @@
               {"iacucProtocolExceptionId": "(val)","speciesCode": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","exceptionId": "(val)","exceptionCategoryCode": "(val)","exceptionDescription": "(val)","exceptionCount": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Protocol Exceptions [GET /research-sys/api/v1/iacuc-protocol-exceptions/]
+### Get Schema for Iacuc Protocol Exceptions [GET /iacuc/api/v1/iacuc-protocol-exceptions/]
 	                                          
 + Parameters
 
@@ -95,7 +95,7 @@
     
             {"columns":["iacucProtocolExceptionId","speciesCode","protocolId","protocolNumber","sequenceNumber","exceptionId","exceptionCategoryCode","exceptionDescription","exceptionCount"],"primaryKey":"iacucProtocolExceptionId"}
 		
-### Get Blueprint API specification for Iacuc Protocol Exceptions [GET /research-sys/api/v1/iacuc-protocol-exceptions/]
+### Get Blueprint API specification for Iacuc Protocol Exceptions [GET /iacuc/api/v1/iacuc-protocol-exceptions/]
 	 
 + Parameters
 
@@ -116,7 +116,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Protocol Exceptions [PUT /research-sys/api/v1/iacuc-protocol-exceptions/(key)]
+### Update Iacuc Protocol Exceptions [PUT /iacuc/api/v1/iacuc-protocol-exceptions/(key)]
 
 + Request
 
@@ -131,7 +131,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Protocol Exceptions [PUT /research-sys/api/v1/iacuc-protocol-exceptions/]
+### Update Multiple Iacuc Protocol Exceptions [PUT /iacuc/api/v1/iacuc-protocol-exceptions/]
 
 + Request
 
@@ -149,7 +149,7 @@
 			
 + Response 204
 
-### Insert Iacuc Protocol Exceptions [POST /research-sys/api/v1/iacuc-protocol-exceptions/]
+### Insert Iacuc Protocol Exceptions [POST /iacuc/api/v1/iacuc-protocol-exceptions/]
 
 + Request
 
@@ -168,7 +168,7 @@
             
             {"iacucProtocolExceptionId": "(val)","speciesCode": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","exceptionId": "(val)","exceptionCategoryCode": "(val)","exceptionDescription": "(val)","exceptionCount": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Protocol Exceptions [POST /research-sys/api/v1/iacuc-protocol-exceptions/]
+### Insert Multiple Iacuc Protocol Exceptions [POST /iacuc/api/v1/iacuc-protocol-exceptions/]
 
 + Request
 
@@ -193,7 +193,7 @@
               {"iacucProtocolExceptionId": "(val)","speciesCode": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","exceptionId": "(val)","exceptionCategoryCode": "(val)","exceptionDescription": "(val)","exceptionCount": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Protocol Exceptions by Key [DELETE /research-sys/api/v1/iacuc-protocol-exceptions/(key)]
+### Delete Iacuc Protocol Exceptions by Key [DELETE /iacuc/api/v1/iacuc-protocol-exceptions/(key)]
 	 
 + Request
 
@@ -204,7 +204,7 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Exceptions [DELETE /research-sys/api/v1/iacuc-protocol-exceptions/]
+### Delete All Iacuc Protocol Exceptions [DELETE /iacuc/api/v1/iacuc-protocol-exceptions/]
 
 + Parameters
 
@@ -219,20 +219,20 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Exceptions with Matching [DELETE /research-sys/api/v1/iacuc-protocol-exceptions/]
+### Delete All Iacuc Protocol Exceptions with Matching [DELETE /iacuc/api/v1/iacuc-protocol-exceptions/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + iacucProtocolExceptionId
-            + speciesCode
-            + protocolId
-            + protocolNumber
-            + sequenceNumber
-            + exceptionId
-            + exceptionCategoryCode
-            + exceptionDescription
-            + exceptionCount
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + iacucProtocolExceptionId (optional) - Protocol Exception Id. Maximum length is 22.
+    + speciesCode (optional) - Species. Maximum length is 50.
+    + protocolId (optional) - 
+    + protocolNumber (optional) - 
+    + sequenceNumber (optional) - 
+    + exceptionId (optional) - Exception Id. Maximum length is 22.
+    + exceptionCategoryCode (optional) - Exception Category. Maximum length is 50.
+    + exceptionDescription (optional) - Exception Justification and Description. Maximum length is 1000.
+    + exceptionCount (optional) - Exception Count. Maximum length is 8.
 
       
 + Request

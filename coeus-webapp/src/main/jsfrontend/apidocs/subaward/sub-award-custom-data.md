@@ -1,6 +1,6 @@
-## Sub Award Custom Data [/research-sys/api/v1/sub-award-custom-data/]
+## Sub Award Custom Data [/subaward/api/v1/sub-award-custom-data/]
 
-### Get Sub Award Custom Data by Key [GET /research-sys/api/v1/sub-award-custom-data/(key)]
+### Get Sub Award Custom Data by Key [GET /subaward/api/v1/sub-award-custom-data/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"subAwardCustomDataId": "(val)","subAwardId": "(val)","sequenceNumber": "(val)","subAwardCode": "(val)","customAttributeId": "(val)","value": "(val)","_primaryKey": "(val)"}
 
-### Get All Sub Award Custom Data [GET /research-sys/api/v1/sub-award-custom-data/]
+### Get All Sub Award Custom Data [GET /subaward/api/v1/sub-award-custom-data/]
 	 
 + Request
 
@@ -39,16 +39,16 @@
               {"subAwardCustomDataId": "(val)","subAwardId": "(val)","sequenceNumber": "(val)","subAwardCode": "(val)","customAttributeId": "(val)","value": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Sub Award Custom Data with Filtering [GET /research-sys/api/v1/sub-award-custom-data/]
+### Get All Sub Award Custom Data with Filtering [GET /subaward/api/v1/sub-award-custom-data/]
     
 + Parameters
 
-        + subAwardCustomDataId
-            + subAwardId
-            + sequenceNumber
-            + subAwardCode
-            + customAttributeId
-            + value
+    + subAwardCustomDataId (optional) - 
+    + subAwardId (optional) - 
+    + sequenceNumber (optional) - 
+    + subAwardCode (optional) - 
+    + customAttributeId (optional) - 
+    + value (optional) - Value. Maximum length is 2000.
 
             
 + Request
@@ -70,7 +70,7 @@
               {"subAwardCustomDataId": "(val)","subAwardId": "(val)","sequenceNumber": "(val)","subAwardCode": "(val)","customAttributeId": "(val)","value": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Sub Award Custom Data [GET /research-sys/api/v1/sub-award-custom-data/]
+### Get Schema for Sub Award Custom Data [GET /subaward/api/v1/sub-award-custom-data/]
 	                                          
 + Parameters
 
@@ -92,7 +92,7 @@
     
             {"columns":["subAwardCustomDataId","subAwardId","sequenceNumber","subAwardCode","customAttributeId","value"],"primaryKey":"subAwardCustomDataId"}
 		
-### Get Blueprint API specification for Sub Award Custom Data [GET /research-sys/api/v1/sub-award-custom-data/]
+### Get Blueprint API specification for Sub Award Custom Data [GET /subaward/api/v1/sub-award-custom-data/]
 	 
 + Parameters
 
@@ -113,7 +113,7 @@
             transfer-encoding:chunked
 
 
-### Update Sub Award Custom Data [PUT /research-sys/api/v1/sub-award-custom-data/(key)]
+### Update Sub Award Custom Data [PUT /subaward/api/v1/sub-award-custom-data/(key)]
 
 + Request
 
@@ -128,7 +128,7 @@
 			
 + Response 204
 
-### Update Multiple Sub Award Custom Data [PUT /research-sys/api/v1/sub-award-custom-data/]
+### Update Multiple Sub Award Custom Data [PUT /subaward/api/v1/sub-award-custom-data/]
 
 + Request
 
@@ -146,7 +146,7 @@
 			
 + Response 204
 
-### Insert Sub Award Custom Data [POST /research-sys/api/v1/sub-award-custom-data/]
+### Insert Sub Award Custom Data [POST /subaward/api/v1/sub-award-custom-data/]
 
 + Request
 
@@ -165,7 +165,7 @@
             
             {"subAwardCustomDataId": "(val)","subAwardId": "(val)","sequenceNumber": "(val)","subAwardCode": "(val)","customAttributeId": "(val)","value": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Sub Award Custom Data [POST /research-sys/api/v1/sub-award-custom-data/]
+### Insert Multiple Sub Award Custom Data [POST /subaward/api/v1/sub-award-custom-data/]
 
 + Request
 
@@ -190,7 +190,7 @@
               {"subAwardCustomDataId": "(val)","subAwardId": "(val)","sequenceNumber": "(val)","subAwardCode": "(val)","customAttributeId": "(val)","value": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Sub Award Custom Data by Key [DELETE /research-sys/api/v1/sub-award-custom-data/(key)]
+### Delete Sub Award Custom Data by Key [DELETE /subaward/api/v1/sub-award-custom-data/(key)]
 	 
 + Request
 
@@ -201,7 +201,7 @@
 
 + Response 204
 
-### Delete All Sub Award Custom Data [DELETE /research-sys/api/v1/sub-award-custom-data/]
+### Delete All Sub Award Custom Data [DELETE /subaward/api/v1/sub-award-custom-data/]
 
 + Parameters
 
@@ -216,17 +216,17 @@
 
 + Response 204
 
-### Delete All Sub Award Custom Data with Matching [DELETE /research-sys/api/v1/sub-award-custom-data/]
+### Delete All Sub Award Custom Data with Matching [DELETE /subaward/api/v1/sub-award-custom-data/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + subAwardCustomDataId
-            + subAwardId
-            + sequenceNumber
-            + subAwardCode
-            + customAttributeId
-            + value
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + subAwardCustomDataId (optional) - 
+    + subAwardId (optional) - 
+    + sequenceNumber (optional) - 
+    + subAwardCode (optional) - 
+    + customAttributeId (optional) - 
+    + value (optional) - Value. Maximum length is 2000.
 
       
 + Request

@@ -43,12 +43,12 @@
     
 + Parameters
 
-        + entityId
-            + suppressName
-            + suppressEmail
-            + suppressAddress
-            + suppressPhone
-            + suppressPersonal
+    + entityId (optional) - 
+    + suppressName (optional) - 
+    + suppressEmail (optional) - 
+    + suppressAddress (optional) - 
+    + suppressPhone (optional) - 
+    + suppressPersonal (optional) - 
 
             
 + Request
@@ -220,13 +220,13 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + entityId
-            + suppressName
-            + suppressEmail
-            + suppressAddress
-            + suppressPhone
-            + suppressPersonal
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + entityId (optional) - 
+    + suppressName (optional) - 
+    + suppressEmail (optional) - 
+    + suppressAddress (optional) - 
+    + suppressPhone (optional) - 
+    + suppressPersonal (optional) - 
 
       
 + Request

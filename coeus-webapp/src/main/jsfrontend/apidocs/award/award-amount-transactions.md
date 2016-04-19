@@ -1,6 +1,6 @@
-## Award Amount Transactions [/research-sys/api/v1/award-amount-transactions/]
+## Award Amount Transactions [/award/api/v1/award-amount-transactions/]
 
-### Get Award Amount Transactions by Key [GET /research-sys/api/v1/award-amount-transactions/(key)]
+### Get Award Amount Transactions by Key [GET /award/api/v1/award-amount-transactions/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"awardAmountTransactionId": "(val)","awardNumber": "(val)","documentNumber": "(val)","transactionTypeCode": "(val)","noticeDate": "(val)","comments": "(val)","_primaryKey": "(val)"}
 
-### Get All Award Amount Transactions [GET /research-sys/api/v1/award-amount-transactions/]
+### Get All Award Amount Transactions [GET /award/api/v1/award-amount-transactions/]
 	 
 + Request
 
@@ -39,16 +39,16 @@
               {"awardAmountTransactionId": "(val)","awardNumber": "(val)","documentNumber": "(val)","transactionTypeCode": "(val)","noticeDate": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Award Amount Transactions with Filtering [GET /research-sys/api/v1/award-amount-transactions/]
+### Get All Award Amount Transactions with Filtering [GET /award/api/v1/award-amount-transactions/]
     
 + Parameters
 
-        + awardAmountTransactionId
-            + awardNumber
-            + documentNumber
-            + transactionTypeCode
-            + noticeDate
-            + comments
+    + awardAmountTransactionId (optional) - Award Amount Transaction Id. Maximum length is 22.
+    + awardNumber (optional) - Award ID. Maximum length is 12.
+    + documentNumber (optional) - Transaction Id. Maximum length is 10.
+    + transactionTypeCode (optional) - Transaction Type Code. Maximum length is 22.
+    + noticeDate (optional) - Notice Date. Maximum length is 10.
+    + comments (optional) - Comments. Maximum length is 2000.
 
             
 + Request
@@ -70,7 +70,7 @@
               {"awardAmountTransactionId": "(val)","awardNumber": "(val)","documentNumber": "(val)","transactionTypeCode": "(val)","noticeDate": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Award Amount Transactions [GET /research-sys/api/v1/award-amount-transactions/]
+### Get Schema for Award Amount Transactions [GET /award/api/v1/award-amount-transactions/]
 	                                          
 + Parameters
 
@@ -92,7 +92,7 @@
     
             {"columns":["awardAmountTransactionId","awardNumber","documentNumber","transactionTypeCode","noticeDate","comments"],"primaryKey":"awardAmountTransactionId"}
 		
-### Get Blueprint API specification for Award Amount Transactions [GET /research-sys/api/v1/award-amount-transactions/]
+### Get Blueprint API specification for Award Amount Transactions [GET /award/api/v1/award-amount-transactions/]
 	 
 + Parameters
 
@@ -113,7 +113,7 @@
             transfer-encoding:chunked
 
 
-### Update Award Amount Transactions [PUT /research-sys/api/v1/award-amount-transactions/(key)]
+### Update Award Amount Transactions [PUT /award/api/v1/award-amount-transactions/(key)]
 
 + Request
 
@@ -128,7 +128,7 @@
 			
 + Response 204
 
-### Update Multiple Award Amount Transactions [PUT /research-sys/api/v1/award-amount-transactions/]
+### Update Multiple Award Amount Transactions [PUT /award/api/v1/award-amount-transactions/]
 
 + Request
 
@@ -146,7 +146,7 @@
 			
 + Response 204
 
-### Insert Award Amount Transactions [POST /research-sys/api/v1/award-amount-transactions/]
+### Insert Award Amount Transactions [POST /award/api/v1/award-amount-transactions/]
 
 + Request
 
@@ -165,7 +165,7 @@
             
             {"awardAmountTransactionId": "(val)","awardNumber": "(val)","documentNumber": "(val)","transactionTypeCode": "(val)","noticeDate": "(val)","comments": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Award Amount Transactions [POST /research-sys/api/v1/award-amount-transactions/]
+### Insert Multiple Award Amount Transactions [POST /award/api/v1/award-amount-transactions/]
 
 + Request
 
@@ -190,7 +190,7 @@
               {"awardAmountTransactionId": "(val)","awardNumber": "(val)","documentNumber": "(val)","transactionTypeCode": "(val)","noticeDate": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Award Amount Transactions by Key [DELETE /research-sys/api/v1/award-amount-transactions/(key)]
+### Delete Award Amount Transactions by Key [DELETE /award/api/v1/award-amount-transactions/(key)]
 	 
 + Request
 
@@ -201,7 +201,7 @@
 
 + Response 204
 
-### Delete All Award Amount Transactions [DELETE /research-sys/api/v1/award-amount-transactions/]
+### Delete All Award Amount Transactions [DELETE /award/api/v1/award-amount-transactions/]
 
 + Parameters
 
@@ -216,17 +216,17 @@
 
 + Response 204
 
-### Delete All Award Amount Transactions with Matching [DELETE /research-sys/api/v1/award-amount-transactions/]
+### Delete All Award Amount Transactions with Matching [DELETE /award/api/v1/award-amount-transactions/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + awardAmountTransactionId
-            + awardNumber
-            + documentNumber
-            + transactionTypeCode
-            + noticeDate
-            + comments
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + awardAmountTransactionId (optional) - Award Amount Transaction Id. Maximum length is 22.
+    + awardNumber (optional) - Award ID. Maximum length is 12.
+    + documentNumber (optional) - Transaction Id. Maximum length is 10.
+    + transactionTypeCode (optional) - Transaction Type Code. Maximum length is 22.
+    + noticeDate (optional) - Notice Date. Maximum length is 10.
+    + comments (optional) - Comments. Maximum length is 2000.
 
       
 + Request

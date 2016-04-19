@@ -1,6 +1,6 @@
-## Proposal Person Credit Splits [/research-sys/api/v1/proposal-person-credit-splits/]
+## Proposal Person Credit Splits [/propdev/api/v1/proposal-person-credit-splits/]
 
-### Get Proposal Person Credit Splits by Key [GET /research-sys/api/v1/proposal-person-credit-splits/(key)]
+### Get Proposal Person Credit Splits by Key [GET /propdev/api/v1/proposal-person-credit-splits/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"invCreditTypeCode": "(val)","credit": "(val)","_primaryKey": "(val)"}
 
-### Get All Proposal Person Credit Splits [GET /research-sys/api/v1/proposal-person-credit-splits/]
+### Get All Proposal Person Credit Splits [GET /propdev/api/v1/proposal-person-credit-splits/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"invCreditTypeCode": "(val)","credit": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Proposal Person Credit Splits with Filtering [GET /research-sys/api/v1/proposal-person-credit-splits/]
+### Get All Proposal Person Credit Splits with Filtering [GET /propdev/api/v1/proposal-person-credit-splits/]
     
 + Parameters
 
-        + invCreditTypeCode
-            + credit
+    + invCreditTypeCode (optional) - Investigator Credit Type Code. Maximum length is 3.
+    + credit (optional) - Credit. Maximum length is 6.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"invCreditTypeCode": "(val)","credit": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Proposal Person Credit Splits [GET /research-sys/api/v1/proposal-person-credit-splits/]
+### Get Schema for Proposal Person Credit Splits [GET /propdev/api/v1/proposal-person-credit-splits/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["invCreditTypeCode","credit"],"primaryKey":"invCreditTypeCode:proposalPerson"}
 		
-### Get Blueprint API specification for Proposal Person Credit Splits [GET /research-sys/api/v1/proposal-person-credit-splits/]
+### Get Blueprint API specification for Proposal Person Credit Splits [GET /propdev/api/v1/proposal-person-credit-splits/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Proposal Person Credit Splits [PUT /research-sys/api/v1/proposal-person-credit-splits/(key)]
+### Update Proposal Person Credit Splits [PUT /propdev/api/v1/proposal-person-credit-splits/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Proposal Person Credit Splits [PUT /research-sys/api/v1/proposal-person-credit-splits/]
+### Update Multiple Proposal Person Credit Splits [PUT /propdev/api/v1/proposal-person-credit-splits/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Proposal Person Credit Splits [POST /research-sys/api/v1/proposal-person-credit-splits/]
+### Insert Proposal Person Credit Splits [POST /propdev/api/v1/proposal-person-credit-splits/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"invCreditTypeCode": "(val)","credit": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Proposal Person Credit Splits [POST /research-sys/api/v1/proposal-person-credit-splits/]
+### Insert Multiple Proposal Person Credit Splits [POST /propdev/api/v1/proposal-person-credit-splits/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"invCreditTypeCode": "(val)","credit": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Proposal Person Credit Splits by Key [DELETE /research-sys/api/v1/proposal-person-credit-splits/(key)]
+### Delete Proposal Person Credit Splits by Key [DELETE /propdev/api/v1/proposal-person-credit-splits/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Proposal Person Credit Splits [DELETE /research-sys/api/v1/proposal-person-credit-splits/]
+### Delete All Proposal Person Credit Splits [DELETE /propdev/api/v1/proposal-person-credit-splits/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Proposal Person Credit Splits with Matching [DELETE /research-sys/api/v1/proposal-person-credit-splits/]
+### Delete All Proposal Person Credit Splits with Matching [DELETE /propdev/api/v1/proposal-person-credit-splits/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + invCreditTypeCode
-            + credit
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + invCreditTypeCode (optional) - Investigator Credit Type Code. Maximum length is 3.
+    + credit (optional) - Credit. Maximum length is 6.
 
       
 + Request

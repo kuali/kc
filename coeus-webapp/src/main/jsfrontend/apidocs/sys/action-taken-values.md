@@ -43,17 +43,17 @@
     
 + Parameters
 
-        + actionTakenId
-            + documentId
-            + actionTaken
-            + actionDate
-            + annotation
-            + docVersion
-            + principalId
-            + delegatorPrincipalId
-            + delegatorGroupId
-            + currentIndicator
-            + lockVerNbr
+    + actionTakenId (optional) - 
+    + documentId (optional) - 
+    + actionTaken (optional) - 
+    + actionDate (optional) - 
+    + annotation (optional) - 
+    + docVersion (optional) - 
+    + principalId (optional) - 
+    + delegatorPrincipalId (optional) - 
+    + delegatorGroupId (optional) - 
+    + currentIndicator (optional) - 
+    + lockVerNbr (optional) - 
 
             
 + Request
@@ -225,18 +225,18 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + actionTakenId
-            + documentId
-            + actionTaken
-            + actionDate
-            + annotation
-            + docVersion
-            + principalId
-            + delegatorPrincipalId
-            + delegatorGroupId
-            + currentIndicator
-            + lockVerNbr
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + actionTakenId (optional) - 
+    + documentId (optional) - 
+    + actionTaken (optional) - 
+    + actionDate (optional) - 
+    + annotation (optional) - 
+    + docVersion (optional) - 
+    + principalId (optional) - 
+    + delegatorPrincipalId (optional) - 
+    + delegatorGroupId (optional) - 
+    + currentIndicator (optional) - 
+    + lockVerNbr (optional) - 
 
       
 + Request

@@ -1,6 +1,6 @@
-## Budget Sub Awards [/research-sys/api/v1/budget-sub-awards/]
+## Budget Sub Awards [/propdev/api/v1/budget-sub-awards/]
 
-### Get Budget Sub Awards by Key [GET /research-sys/api/v1/budget-sub-awards/(key)]
+### Get Budget Sub Awards by Key [GET /propdev/api/v1/budget-sub-awards/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"budgetId": "(val)","subAwardNumber": "(val)","comments": "(val)","organizationId": "(val)","subAwardStatusCode": "(val)","fileDataId": "(val)","subAwardXfdFileName": "(val)","xmlDataId": "(val)","translationComments": "(val)","xfdUpdateTimestamp": "(val)","xfdUpdateUser": "(val)","xmlUpdateTimestamp": "(val)","xmlUpdateUser": "(val)","namespace": "(val)","formName": "(val)","hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","_primaryKey": "(val)"}
 
-### Get All Budget Sub Awards [GET /research-sys/api/v1/budget-sub-awards/]
+### Get All Budget Sub Awards [GET /propdev/api/v1/budget-sub-awards/]
 	 
 + Request
 
@@ -39,27 +39,27 @@
               {"budgetId": "(val)","subAwardNumber": "(val)","comments": "(val)","organizationId": "(val)","subAwardStatusCode": "(val)","fileDataId": "(val)","subAwardXfdFileName": "(val)","xmlDataId": "(val)","translationComments": "(val)","xfdUpdateTimestamp": "(val)","xfdUpdateUser": "(val)","xmlUpdateTimestamp": "(val)","xmlUpdateUser": "(val)","namespace": "(val)","formName": "(val)","hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Budget Sub Awards with Filtering [GET /research-sys/api/v1/budget-sub-awards/]
+### Get All Budget Sub Awards with Filtering [GET /propdev/api/v1/budget-sub-awards/]
     
 + Parameters
 
-        + budgetId
-            + subAwardNumber
-            + comments
-            + organizationId
-            + subAwardStatusCode
-            + fileDataId
-            + subAwardXfdFileName
-            + xmlDataId
-            + translationComments
-            + xfdUpdateTimestamp
-            + xfdUpdateUser
-            + xmlUpdateTimestamp
-            + xmlUpdateUser
-            + namespace
-            + formName
-            + hierarchyProposalNumber
-            + hiddenInHierarchy
+    + budgetId (optional) - Budget Id.
+    + subAwardNumber (optional) - subAwardNumber. Maximum length is 3.
+    + comments (optional) - Comments. Maximum length is 2000.
+    + organizationId (optional) - Organization Id. Maximum length is 8.
+    + subAwardStatusCode (optional) - Subaward Status Code. Maximum length is 3.
+    + fileDataId (optional) - File Data Id.
+    + subAwardXfdFileName (optional) - Subaward PDF File Name. Maximum length is 256.
+    + xmlDataId (optional) - Xml Data Id.
+    + translationComments (optional) - Translation Comments. Maximum length is 2000.
+    + xfdUpdateTimestamp (optional) - This attribute should always be overriden on the descriptive elements. Maximum length is 21.
+    + xfdUpdateUser (optional) - xfdUpdateUser. Maximum length is 60.
+    + xmlUpdateTimestamp (optional) - This attribute should always be overriden on the descriptive elements. Maximum length is 21.
+    + xmlUpdateUser (optional) - xmlUpdateUser. Maximum length is 60.
+    + namespace (optional) - Namespace. Maximum length is 200.
+    + formName (optional) - Form Name. Maximum length is 100.
+    + hierarchyProposalNumber (optional) - Hierarchy Proposal Number.
+    + hiddenInHierarchy (optional) - Hidden In Hierarchy.
 
             
 + Request
@@ -81,7 +81,7 @@
               {"budgetId": "(val)","subAwardNumber": "(val)","comments": "(val)","organizationId": "(val)","subAwardStatusCode": "(val)","fileDataId": "(val)","subAwardXfdFileName": "(val)","xmlDataId": "(val)","translationComments": "(val)","xfdUpdateTimestamp": "(val)","xfdUpdateUser": "(val)","xmlUpdateTimestamp": "(val)","xmlUpdateUser": "(val)","namespace": "(val)","formName": "(val)","hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Budget Sub Awards [GET /research-sys/api/v1/budget-sub-awards/]
+### Get Schema for Budget Sub Awards [GET /propdev/api/v1/budget-sub-awards/]
 	                                          
 + Parameters
 
@@ -103,7 +103,7 @@
     
             {"columns":["budgetId","subAwardNumber","comments","organizationId","subAwardStatusCode","fileDataId","subAwardXfdFileName","xmlDataId","translationComments","xfdUpdateTimestamp","xfdUpdateUser","xmlUpdateTimestamp","xmlUpdateUser","namespace","formName","hierarchyProposalNumber","hiddenInHierarchy"],"primaryKey":"budget:subAwardNumber"}
 		
-### Get Blueprint API specification for Budget Sub Awards [GET /research-sys/api/v1/budget-sub-awards/]
+### Get Blueprint API specification for Budget Sub Awards [GET /propdev/api/v1/budget-sub-awards/]
 	 
 + Parameters
 
@@ -124,7 +124,7 @@
             transfer-encoding:chunked
 
 
-### Update Budget Sub Awards [PUT /research-sys/api/v1/budget-sub-awards/(key)]
+### Update Budget Sub Awards [PUT /propdev/api/v1/budget-sub-awards/(key)]
 
 + Request
 
@@ -139,7 +139,7 @@
 			
 + Response 204
 
-### Update Multiple Budget Sub Awards [PUT /research-sys/api/v1/budget-sub-awards/]
+### Update Multiple Budget Sub Awards [PUT /propdev/api/v1/budget-sub-awards/]
 
 + Request
 
@@ -157,7 +157,7 @@
 			
 + Response 204
 
-### Insert Budget Sub Awards [POST /research-sys/api/v1/budget-sub-awards/]
+### Insert Budget Sub Awards [POST /propdev/api/v1/budget-sub-awards/]
 
 + Request
 
@@ -176,7 +176,7 @@
             
             {"budgetId": "(val)","subAwardNumber": "(val)","comments": "(val)","organizationId": "(val)","subAwardStatusCode": "(val)","fileDataId": "(val)","subAwardXfdFileName": "(val)","xmlDataId": "(val)","translationComments": "(val)","xfdUpdateTimestamp": "(val)","xfdUpdateUser": "(val)","xmlUpdateTimestamp": "(val)","xmlUpdateUser": "(val)","namespace": "(val)","formName": "(val)","hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Budget Sub Awards [POST /research-sys/api/v1/budget-sub-awards/]
+### Insert Multiple Budget Sub Awards [POST /propdev/api/v1/budget-sub-awards/]
 
 + Request
 
@@ -201,7 +201,7 @@
               {"budgetId": "(val)","subAwardNumber": "(val)","comments": "(val)","organizationId": "(val)","subAwardStatusCode": "(val)","fileDataId": "(val)","subAwardXfdFileName": "(val)","xmlDataId": "(val)","translationComments": "(val)","xfdUpdateTimestamp": "(val)","xfdUpdateUser": "(val)","xmlUpdateTimestamp": "(val)","xmlUpdateUser": "(val)","namespace": "(val)","formName": "(val)","hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Budget Sub Awards by Key [DELETE /research-sys/api/v1/budget-sub-awards/(key)]
+### Delete Budget Sub Awards by Key [DELETE /propdev/api/v1/budget-sub-awards/(key)]
 	 
 + Request
 
@@ -212,7 +212,7 @@
 
 + Response 204
 
-### Delete All Budget Sub Awards [DELETE /research-sys/api/v1/budget-sub-awards/]
+### Delete All Budget Sub Awards [DELETE /propdev/api/v1/budget-sub-awards/]
 
 + Parameters
 
@@ -227,28 +227,28 @@
 
 + Response 204
 
-### Delete All Budget Sub Awards with Matching [DELETE /research-sys/api/v1/budget-sub-awards/]
+### Delete All Budget Sub Awards with Matching [DELETE /propdev/api/v1/budget-sub-awards/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + budgetId
-            + subAwardNumber
-            + comments
-            + organizationId
-            + subAwardStatusCode
-            + fileDataId
-            + subAwardXfdFileName
-            + xmlDataId
-            + translationComments
-            + xfdUpdateTimestamp
-            + xfdUpdateUser
-            + xmlUpdateTimestamp
-            + xmlUpdateUser
-            + namespace
-            + formName
-            + hierarchyProposalNumber
-            + hiddenInHierarchy
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + budgetId (optional) - Budget Id.
+    + subAwardNumber (optional) - subAwardNumber. Maximum length is 3.
+    + comments (optional) - Comments. Maximum length is 2000.
+    + organizationId (optional) - Organization Id. Maximum length is 8.
+    + subAwardStatusCode (optional) - Subaward Status Code. Maximum length is 3.
+    + fileDataId (optional) - File Data Id.
+    + subAwardXfdFileName (optional) - Subaward PDF File Name. Maximum length is 256.
+    + xmlDataId (optional) - Xml Data Id.
+    + translationComments (optional) - Translation Comments. Maximum length is 2000.
+    + xfdUpdateTimestamp (optional) - This attribute should always be overriden on the descriptive elements. Maximum length is 21.
+    + xfdUpdateUser (optional) - xfdUpdateUser. Maximum length is 60.
+    + xmlUpdateTimestamp (optional) - This attribute should always be overriden on the descriptive elements. Maximum length is 21.
+    + xmlUpdateUser (optional) - xmlUpdateUser. Maximum length is 60.
+    + namespace (optional) - Namespace. Maximum length is 200.
+    + formName (optional) - Form Name. Maximum length is 100.
+    + hierarchyProposalNumber (optional) - Hierarchy Proposal Number.
+    + hiddenInHierarchy (optional) - Hidden In Hierarchy.
 
       
 + Request

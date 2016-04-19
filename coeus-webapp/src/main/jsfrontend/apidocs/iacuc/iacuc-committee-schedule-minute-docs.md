@@ -1,6 +1,6 @@
-## Iacuc Committee Schedule Minute Docs [/research-sys/api/v1/iacuc-committee-schedule-minute-docs/]
+## Iacuc Committee Schedule Minute Docs [/iacuc/api/v1/iacuc-committee-schedule-minute-docs/]
 
-### Get Iacuc Committee Schedule Minute Docs by Key [GET /research-sys/api/v1/iacuc-committee-schedule-minute-docs/(key)]
+### Get Iacuc Committee Schedule Minute Docs by Key [GET /iacuc/api/v1/iacuc-committee-schedule-minute-docs/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"commScheduleMinuteDocId": "(val)","scheduleIdFk": "(val)","minuteNumber": "(val)","minuteName": "(val)","pdfStore": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Committee Schedule Minute Docs [GET /research-sys/api/v1/iacuc-committee-schedule-minute-docs/]
+### Get All Iacuc Committee Schedule Minute Docs [GET /iacuc/api/v1/iacuc-committee-schedule-minute-docs/]
 	 
 + Request
 
@@ -39,17 +39,17 @@
               {"commScheduleMinuteDocId": "(val)","scheduleIdFk": "(val)","minuteNumber": "(val)","minuteName": "(val)","pdfStore": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Committee Schedule Minute Docs with Filtering [GET /research-sys/api/v1/iacuc-committee-schedule-minute-docs/]
+### Get All Iacuc Committee Schedule Minute Docs with Filtering [GET /iacuc/api/v1/iacuc-committee-schedule-minute-docs/]
     
 + Parameters
 
-        + commScheduleMinuteDocId
-            + scheduleIdFk
-            + minuteNumber
-            + minuteName
-            + pdfStore
-            + createTimestamp
-            + createUser
+    + commScheduleMinuteDocId (optional) - 
+    + scheduleIdFk (optional) - 
+    + minuteNumber (optional) - 
+    + minuteName (optional) - 
+    + pdfStore (optional) - 
+    + createTimestamp (optional) - 
+    + createUser (optional) - 
 
             
 + Request
@@ -71,7 +71,7 @@
               {"commScheduleMinuteDocId": "(val)","scheduleIdFk": "(val)","minuteNumber": "(val)","minuteName": "(val)","pdfStore": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Committee Schedule Minute Docs [GET /research-sys/api/v1/iacuc-committee-schedule-minute-docs/]
+### Get Schema for Iacuc Committee Schedule Minute Docs [GET /iacuc/api/v1/iacuc-committee-schedule-minute-docs/]
 	                                          
 + Parameters
 
@@ -93,7 +93,7 @@
     
             {"columns":["commScheduleMinuteDocId","scheduleIdFk","minuteNumber","minuteName","pdfStore","createTimestamp","createUser"],"primaryKey":"commScheduleMinuteDocId"}
 		
-### Get Blueprint API specification for Iacuc Committee Schedule Minute Docs [GET /research-sys/api/v1/iacuc-committee-schedule-minute-docs/]
+### Get Blueprint API specification for Iacuc Committee Schedule Minute Docs [GET /iacuc/api/v1/iacuc-committee-schedule-minute-docs/]
 	 
 + Parameters
 
@@ -114,7 +114,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Committee Schedule Minute Docs [PUT /research-sys/api/v1/iacuc-committee-schedule-minute-docs/(key)]
+### Update Iacuc Committee Schedule Minute Docs [PUT /iacuc/api/v1/iacuc-committee-schedule-minute-docs/(key)]
 
 + Request
 
@@ -129,7 +129,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Committee Schedule Minute Docs [PUT /research-sys/api/v1/iacuc-committee-schedule-minute-docs/]
+### Update Multiple Iacuc Committee Schedule Minute Docs [PUT /iacuc/api/v1/iacuc-committee-schedule-minute-docs/]
 
 + Request
 
@@ -147,7 +147,7 @@
 			
 + Response 204
 
-### Insert Iacuc Committee Schedule Minute Docs [POST /research-sys/api/v1/iacuc-committee-schedule-minute-docs/]
+### Insert Iacuc Committee Schedule Minute Docs [POST /iacuc/api/v1/iacuc-committee-schedule-minute-docs/]
 
 + Request
 
@@ -166,7 +166,7 @@
             
             {"commScheduleMinuteDocId": "(val)","scheduleIdFk": "(val)","minuteNumber": "(val)","minuteName": "(val)","pdfStore": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Committee Schedule Minute Docs [POST /research-sys/api/v1/iacuc-committee-schedule-minute-docs/]
+### Insert Multiple Iacuc Committee Schedule Minute Docs [POST /iacuc/api/v1/iacuc-committee-schedule-minute-docs/]
 
 + Request
 
@@ -191,7 +191,7 @@
               {"commScheduleMinuteDocId": "(val)","scheduleIdFk": "(val)","minuteNumber": "(val)","minuteName": "(val)","pdfStore": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Committee Schedule Minute Docs by Key [DELETE /research-sys/api/v1/iacuc-committee-schedule-minute-docs/(key)]
+### Delete Iacuc Committee Schedule Minute Docs by Key [DELETE /iacuc/api/v1/iacuc-committee-schedule-minute-docs/(key)]
 	 
 + Request
 
@@ -202,7 +202,7 @@
 
 + Response 204
 
-### Delete All Iacuc Committee Schedule Minute Docs [DELETE /research-sys/api/v1/iacuc-committee-schedule-minute-docs/]
+### Delete All Iacuc Committee Schedule Minute Docs [DELETE /iacuc/api/v1/iacuc-committee-schedule-minute-docs/]
 
 + Parameters
 
@@ -217,18 +217,18 @@
 
 + Response 204
 
-### Delete All Iacuc Committee Schedule Minute Docs with Matching [DELETE /research-sys/api/v1/iacuc-committee-schedule-minute-docs/]
+### Delete All Iacuc Committee Schedule Minute Docs with Matching [DELETE /iacuc/api/v1/iacuc-committee-schedule-minute-docs/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + commScheduleMinuteDocId
-            + scheduleIdFk
-            + minuteNumber
-            + minuteName
-            + pdfStore
-            + createTimestamp
-            + createUser
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + commScheduleMinuteDocId (optional) - 
+    + scheduleIdFk (optional) - 
+    + minuteNumber (optional) - 
+    + minuteName (optional) - 
+    + pdfStore (optional) - 
+    + createTimestamp (optional) - 
+    + createUser (optional) - 
 
       
 + Request

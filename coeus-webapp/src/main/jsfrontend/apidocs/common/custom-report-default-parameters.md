@@ -1,6 +1,6 @@
-## Custom Report Default Parameters [/research-sys/api/v1/custom-report-default-parameters/]
+## Custom Report Default Parameters [/research-common/api/v1/custom-report-default-parameters/]
 
-### Get Custom Report Default Parameters by Key [GET /research-sys/api/v1/custom-report-default-parameters/(key)]
+### Get Custom Report Default Parameters by Key [GET /research-common/api/v1/custom-report-default-parameters/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"parameterName": "(val)","reportTypeCode": "(val)","className": "(val)","javaStatements": "(val)","unitForAuthCheck": "(val)","_primaryKey": "(val)"}
 
-### Get All Custom Report Default Parameters [GET /research-sys/api/v1/custom-report-default-parameters/]
+### Get All Custom Report Default Parameters [GET /research-common/api/v1/custom-report-default-parameters/]
 	 
 + Request
 
@@ -39,15 +39,15 @@
               {"parameterName": "(val)","reportTypeCode": "(val)","className": "(val)","javaStatements": "(val)","unitForAuthCheck": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Custom Report Default Parameters with Filtering [GET /research-sys/api/v1/custom-report-default-parameters/]
+### Get All Custom Report Default Parameters with Filtering [GET /research-common/api/v1/custom-report-default-parameters/]
     
 + Parameters
 
-        + parameterName
-            + reportTypeCode
-            + className
-            + javaStatements
-            + unitForAuthCheck
+    + parameterName (optional) - Parameter Name. Maximum length is 100.
+    + reportTypeCode (optional) - Report Type Code. Maximum length is 3.
+    + className (optional) - Class Name. Maximum length is 100.
+    + javaStatements (optional) - Java Statements. Maximum length is 2000.
+    + unitForAuthCheck (optional) - Unit For Auth Check. Maximum length is 1.
 
             
 + Request
@@ -69,7 +69,7 @@
               {"parameterName": "(val)","reportTypeCode": "(val)","className": "(val)","javaStatements": "(val)","unitForAuthCheck": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Custom Report Default Parameters [GET /research-sys/api/v1/custom-report-default-parameters/]
+### Get Schema for Custom Report Default Parameters [GET /research-common/api/v1/custom-report-default-parameters/]
 	                                          
 + Parameters
 
@@ -91,7 +91,7 @@
     
             {"columns":["parameterName","reportTypeCode","className","javaStatements","unitForAuthCheck"],"primaryKey":"className:parameterName:reportTypeCode"}
 		
-### Get Blueprint API specification for Custom Report Default Parameters [GET /research-sys/api/v1/custom-report-default-parameters/]
+### Get Blueprint API specification for Custom Report Default Parameters [GET /research-common/api/v1/custom-report-default-parameters/]
 	 
 + Parameters
 
@@ -112,7 +112,7 @@
             transfer-encoding:chunked
 
 
-### Update Custom Report Default Parameters [PUT /research-sys/api/v1/custom-report-default-parameters/(key)]
+### Update Custom Report Default Parameters [PUT /research-common/api/v1/custom-report-default-parameters/(key)]
 
 + Request
 
@@ -127,7 +127,7 @@
 			
 + Response 204
 
-### Update Multiple Custom Report Default Parameters [PUT /research-sys/api/v1/custom-report-default-parameters/]
+### Update Multiple Custom Report Default Parameters [PUT /research-common/api/v1/custom-report-default-parameters/]
 
 + Request
 
@@ -145,7 +145,7 @@
 			
 + Response 204
 
-### Insert Custom Report Default Parameters [POST /research-sys/api/v1/custom-report-default-parameters/]
+### Insert Custom Report Default Parameters [POST /research-common/api/v1/custom-report-default-parameters/]
 
 + Request
 
@@ -164,7 +164,7 @@
             
             {"parameterName": "(val)","reportTypeCode": "(val)","className": "(val)","javaStatements": "(val)","unitForAuthCheck": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Custom Report Default Parameters [POST /research-sys/api/v1/custom-report-default-parameters/]
+### Insert Multiple Custom Report Default Parameters [POST /research-common/api/v1/custom-report-default-parameters/]
 
 + Request
 
@@ -189,7 +189,7 @@
               {"parameterName": "(val)","reportTypeCode": "(val)","className": "(val)","javaStatements": "(val)","unitForAuthCheck": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Custom Report Default Parameters by Key [DELETE /research-sys/api/v1/custom-report-default-parameters/(key)]
+### Delete Custom Report Default Parameters by Key [DELETE /research-common/api/v1/custom-report-default-parameters/(key)]
 	 
 + Request
 
@@ -200,7 +200,7 @@
 
 + Response 204
 
-### Delete All Custom Report Default Parameters [DELETE /research-sys/api/v1/custom-report-default-parameters/]
+### Delete All Custom Report Default Parameters [DELETE /research-common/api/v1/custom-report-default-parameters/]
 
 + Parameters
 
@@ -215,16 +215,16 @@
 
 + Response 204
 
-### Delete All Custom Report Default Parameters with Matching [DELETE /research-sys/api/v1/custom-report-default-parameters/]
+### Delete All Custom Report Default Parameters with Matching [DELETE /research-common/api/v1/custom-report-default-parameters/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + parameterName
-            + reportTypeCode
-            + className
-            + javaStatements
-            + unitForAuthCheck
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + parameterName (optional) - Parameter Name. Maximum length is 100.
+    + reportTypeCode (optional) - Report Type Code. Maximum length is 3.
+    + className (optional) - Class Name. Maximum length is 100.
+    + javaStatements (optional) - Java Statements. Maximum length is 2000.
+    + unitForAuthCheck (optional) - Unit For Auth Check. Maximum length is 1.
 
       
 + Request

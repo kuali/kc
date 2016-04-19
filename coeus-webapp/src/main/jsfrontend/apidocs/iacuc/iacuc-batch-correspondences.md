@@ -1,6 +1,6 @@
-## Iacuc Batch Correspondences [/research-sys/api/v1/iacuc-batch-correspondences/]
+## Iacuc Batch Correspondences [/iacuc/api/v1/iacuc-batch-correspondences/]
 
-### Get Iacuc Batch Correspondences by Key [GET /research-sys/api/v1/iacuc-batch-correspondences/(key)]
+### Get Iacuc Batch Correspondences by Key [GET /iacuc/api/v1/iacuc-batch-correspondences/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"batchCorrespondenceTypeCode": "(val)","description": "(val)","daysToEventUiText": "(val)","sendCorrespondence": "(val)","finalActionDay": "(val)","finalActionTypeCode": "(val)","finalActionCorrespType": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Batch Correspondences [GET /research-sys/api/v1/iacuc-batch-correspondences/]
+### Get All Iacuc Batch Correspondences [GET /iacuc/api/v1/iacuc-batch-correspondences/]
 	 
 + Request
 
@@ -39,17 +39,17 @@
               {"batchCorrespondenceTypeCode": "(val)","description": "(val)","daysToEventUiText": "(val)","sendCorrespondence": "(val)","finalActionDay": "(val)","finalActionTypeCode": "(val)","finalActionCorrespType": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Batch Correspondences with Filtering [GET /research-sys/api/v1/iacuc-batch-correspondences/]
+### Get All Iacuc Batch Correspondences with Filtering [GET /iacuc/api/v1/iacuc-batch-correspondences/]
     
 + Parameters
 
-        + batchCorrespondenceTypeCode
-            + description
-            + daysToEventUiText
-            + sendCorrespondence
-            + finalActionDay
-            + finalActionTypeCode
-            + finalActionCorrespType
+    + batchCorrespondenceTypeCode (optional) - Batch Correspondence Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + daysToEventUiText (optional) - Days to Event UI Text. Maximum length is 400.
+    + sendCorrespondence (optional) - Send correspondence before/after event. Maximum length is 10.
+    + finalActionDay (optional) - Final Action Day. Maximum length is 3.
+    + finalActionTypeCode (optional) - Final Action Type Code. Maximum length is 3.
+    + finalActionCorrespType (optional) - Final Action Corresp Type. Maximum length is 3.
 
             
 + Request
@@ -71,7 +71,7 @@
               {"batchCorrespondenceTypeCode": "(val)","description": "(val)","daysToEventUiText": "(val)","sendCorrespondence": "(val)","finalActionDay": "(val)","finalActionTypeCode": "(val)","finalActionCorrespType": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Batch Correspondences [GET /research-sys/api/v1/iacuc-batch-correspondences/]
+### Get Schema for Iacuc Batch Correspondences [GET /iacuc/api/v1/iacuc-batch-correspondences/]
 	                                          
 + Parameters
 
@@ -93,7 +93,7 @@
     
             {"columns":["batchCorrespondenceTypeCode","description","daysToEventUiText","sendCorrespondence","finalActionDay","finalActionTypeCode","finalActionCorrespType"],"primaryKey":"batchCorrespondenceTypeCode"}
 		
-### Get Blueprint API specification for Iacuc Batch Correspondences [GET /research-sys/api/v1/iacuc-batch-correspondences/]
+### Get Blueprint API specification for Iacuc Batch Correspondences [GET /iacuc/api/v1/iacuc-batch-correspondences/]
 	 
 + Parameters
 
@@ -114,7 +114,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Batch Correspondences [PUT /research-sys/api/v1/iacuc-batch-correspondences/(key)]
+### Update Iacuc Batch Correspondences [PUT /iacuc/api/v1/iacuc-batch-correspondences/(key)]
 
 + Request
 
@@ -129,7 +129,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Batch Correspondences [PUT /research-sys/api/v1/iacuc-batch-correspondences/]
+### Update Multiple Iacuc Batch Correspondences [PUT /iacuc/api/v1/iacuc-batch-correspondences/]
 
 + Request
 
@@ -147,7 +147,7 @@
 			
 + Response 204
 
-### Insert Iacuc Batch Correspondences [POST /research-sys/api/v1/iacuc-batch-correspondences/]
+### Insert Iacuc Batch Correspondences [POST /iacuc/api/v1/iacuc-batch-correspondences/]
 
 + Request
 
@@ -166,7 +166,7 @@
             
             {"batchCorrespondenceTypeCode": "(val)","description": "(val)","daysToEventUiText": "(val)","sendCorrespondence": "(val)","finalActionDay": "(val)","finalActionTypeCode": "(val)","finalActionCorrespType": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Batch Correspondences [POST /research-sys/api/v1/iacuc-batch-correspondences/]
+### Insert Multiple Iacuc Batch Correspondences [POST /iacuc/api/v1/iacuc-batch-correspondences/]
 
 + Request
 
@@ -191,7 +191,7 @@
               {"batchCorrespondenceTypeCode": "(val)","description": "(val)","daysToEventUiText": "(val)","sendCorrespondence": "(val)","finalActionDay": "(val)","finalActionTypeCode": "(val)","finalActionCorrespType": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Batch Correspondences by Key [DELETE /research-sys/api/v1/iacuc-batch-correspondences/(key)]
+### Delete Iacuc Batch Correspondences by Key [DELETE /iacuc/api/v1/iacuc-batch-correspondences/(key)]
 	 
 + Request
 
@@ -202,7 +202,7 @@
 
 + Response 204
 
-### Delete All Iacuc Batch Correspondences [DELETE /research-sys/api/v1/iacuc-batch-correspondences/]
+### Delete All Iacuc Batch Correspondences [DELETE /iacuc/api/v1/iacuc-batch-correspondences/]
 
 + Parameters
 
@@ -217,18 +217,18 @@
 
 + Response 204
 
-### Delete All Iacuc Batch Correspondences with Matching [DELETE /research-sys/api/v1/iacuc-batch-correspondences/]
+### Delete All Iacuc Batch Correspondences with Matching [DELETE /iacuc/api/v1/iacuc-batch-correspondences/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + batchCorrespondenceTypeCode
-            + description
-            + daysToEventUiText
-            + sendCorrespondence
-            + finalActionDay
-            + finalActionTypeCode
-            + finalActionCorrespType
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + batchCorrespondenceTypeCode (optional) - Batch Correspondence Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + daysToEventUiText (optional) - Days to Event UI Text. Maximum length is 400.
+    + sendCorrespondence (optional) - Send correspondence before/after event. Maximum length is 10.
+    + finalActionDay (optional) - Final Action Day. Maximum length is 3.
+    + finalActionTypeCode (optional) - Final Action Type Code. Maximum length is 3.
+    + finalActionCorrespType (optional) - Final Action Corresp Type. Maximum length is 3.
 
       
 + Request

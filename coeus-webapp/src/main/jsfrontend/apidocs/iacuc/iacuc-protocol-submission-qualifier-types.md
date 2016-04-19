@@ -1,6 +1,6 @@
-## Iacuc Protocol Submission Qualifier Types [/research-sys/api/v1/iacuc-protocol-submission-qualifier-types/]
+## Iacuc Protocol Submission Qualifier Types [/iacuc/api/v1/iacuc-protocol-submission-qualifier-types/]
 
-### Get Iacuc Protocol Submission Qualifier Types by Key [GET /research-sys/api/v1/iacuc-protocol-submission-qualifier-types/(key)]
+### Get Iacuc Protocol Submission Qualifier Types by Key [GET /iacuc/api/v1/iacuc-protocol-submission-qualifier-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"submissionQualifierTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Protocol Submission Qualifier Types [GET /research-sys/api/v1/iacuc-protocol-submission-qualifier-types/]
+### Get All Iacuc Protocol Submission Qualifier Types [GET /iacuc/api/v1/iacuc-protocol-submission-qualifier-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"submissionQualifierTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Protocol Submission Qualifier Types with Filtering [GET /research-sys/api/v1/iacuc-protocol-submission-qualifier-types/]
+### Get All Iacuc Protocol Submission Qualifier Types with Filtering [GET /iacuc/api/v1/iacuc-protocol-submission-qualifier-types/]
     
 + Parameters
 
-        + submissionQualifierTypeCode
-            + description
+    + submissionQualifierTypeCode (optional) - Submission Qualifier Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"submissionQualifierTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Protocol Submission Qualifier Types [GET /research-sys/api/v1/iacuc-protocol-submission-qualifier-types/]
+### Get Schema for Iacuc Protocol Submission Qualifier Types [GET /iacuc/api/v1/iacuc-protocol-submission-qualifier-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["submissionQualifierTypeCode","description"],"primaryKey":"submissionQualifierTypeCode"}
 		
-### Get Blueprint API specification for Iacuc Protocol Submission Qualifier Types [GET /research-sys/api/v1/iacuc-protocol-submission-qualifier-types/]
+### Get Blueprint API specification for Iacuc Protocol Submission Qualifier Types [GET /iacuc/api/v1/iacuc-protocol-submission-qualifier-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Protocol Submission Qualifier Types [PUT /research-sys/api/v1/iacuc-protocol-submission-qualifier-types/(key)]
+### Update Iacuc Protocol Submission Qualifier Types [PUT /iacuc/api/v1/iacuc-protocol-submission-qualifier-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Protocol Submission Qualifier Types [PUT /research-sys/api/v1/iacuc-protocol-submission-qualifier-types/]
+### Update Multiple Iacuc Protocol Submission Qualifier Types [PUT /iacuc/api/v1/iacuc-protocol-submission-qualifier-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Iacuc Protocol Submission Qualifier Types [POST /research-sys/api/v1/iacuc-protocol-submission-qualifier-types/]
+### Insert Iacuc Protocol Submission Qualifier Types [POST /iacuc/api/v1/iacuc-protocol-submission-qualifier-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"submissionQualifierTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Protocol Submission Qualifier Types [POST /research-sys/api/v1/iacuc-protocol-submission-qualifier-types/]
+### Insert Multiple Iacuc Protocol Submission Qualifier Types [POST /iacuc/api/v1/iacuc-protocol-submission-qualifier-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"submissionQualifierTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Protocol Submission Qualifier Types by Key [DELETE /research-sys/api/v1/iacuc-protocol-submission-qualifier-types/(key)]
+### Delete Iacuc Protocol Submission Qualifier Types by Key [DELETE /iacuc/api/v1/iacuc-protocol-submission-qualifier-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Submission Qualifier Types [DELETE /research-sys/api/v1/iacuc-protocol-submission-qualifier-types/]
+### Delete All Iacuc Protocol Submission Qualifier Types [DELETE /iacuc/api/v1/iacuc-protocol-submission-qualifier-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Submission Qualifier Types with Matching [DELETE /research-sys/api/v1/iacuc-protocol-submission-qualifier-types/]
+### Delete All Iacuc Protocol Submission Qualifier Types with Matching [DELETE /iacuc/api/v1/iacuc-protocol-submission-qualifier-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + submissionQualifierTypeCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + submissionQualifierTypeCode (optional) - Submission Qualifier Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

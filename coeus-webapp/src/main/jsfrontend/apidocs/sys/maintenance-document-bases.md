@@ -43,8 +43,8 @@
     
 + Parameters
 
-        + xmlDocumentContents
-            + documentNumber
+    + xmlDocumentContents (optional) - 
+    + documentNumber (optional) - Document Number. Maximum length is 14.
 
             
 + Request
@@ -216,9 +216,9 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + xmlDocumentContents
-            + documentNumber
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + xmlDocumentContents (optional) - 
+    + documentNumber (optional) - Document Number. Maximum length is 14.
 
       
 + Request

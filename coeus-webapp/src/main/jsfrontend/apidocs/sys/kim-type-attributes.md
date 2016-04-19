@@ -43,11 +43,11 @@
     
 + Parameters
 
-        + id
-            + sortCode
-            + kimAttributeId
-            + kimTypeId
-            + active
+    + id (optional) - 
+    + sortCode (optional) - 
+    + kimAttributeId (optional) - 
+    + kimTypeId (optional) - 
+    + active (optional) - 
 
             
 + Request
@@ -219,12 +219,12 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + sortCode
-            + kimAttributeId
-            + kimTypeId
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - 
+    + sortCode (optional) - 
+    + kimAttributeId (optional) - 
+    + kimTypeId (optional) - 
+    + active (optional) - 
 
       
 + Request

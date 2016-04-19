@@ -1,6 +1,6 @@
-## Protocol Submission Docs [/research-sys/api/v1/protocol-submission-docs/]
+## Protocol Submission Docs [/irb/api/v1/protocol-submission-docs/]
 
-### Get Protocol Submission Docs by Key [GET /research-sys/api/v1/protocol-submission-docs/(key)]
+### Get Protocol Submission Docs by Key [GET /irb/api/v1/protocol-submission-docs/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"submissionDocId": "(val)","protocolId": "(val)","submissionIdFk": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","submissionNumber": "(val)","documentId": "(val)","fileName": "(val)","contentType": "(val)","description": "(val)","document": "(val)","_primaryKey": "(val)"}
 
-### Get All Protocol Submission Docs [GET /research-sys/api/v1/protocol-submission-docs/]
+### Get All Protocol Submission Docs [GET /irb/api/v1/protocol-submission-docs/]
 	 
 + Request
 
@@ -39,21 +39,21 @@
               {"submissionDocId": "(val)","protocolId": "(val)","submissionIdFk": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","submissionNumber": "(val)","documentId": "(val)","fileName": "(val)","contentType": "(val)","description": "(val)","document": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Protocol Submission Docs with Filtering [GET /research-sys/api/v1/protocol-submission-docs/]
+### Get All Protocol Submission Docs with Filtering [GET /irb/api/v1/protocol-submission-docs/]
     
 + Parameters
 
-        + submissionDocId
-            + protocolId
-            + submissionIdFk
-            + protocolNumber
-            + sequenceNumber
-            + submissionNumber
-            + documentId
-            + fileName
-            + contentType
-            + description
-            + document
+    + submissionDocId (optional) - Protocol Submission Doc Id. Maximum length is 22.
+    + protocolId (optional) - 
+    + submissionIdFk (optional) - Protocol Submission Id. Maximum length is 22.
+    + protocolNumber (optional) - Protocol Number. Maximum length is 20.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 22.
+    + submissionNumber (optional) - Submission Number. Maximum length is 22.
+    + documentId (optional) - Document Id. Maximum length is 22.
+    + fileName (optional) - File Name. Maximum length is 300.
+    + contentType (optional) - 
+    + description (optional) - Description. Maximum length is 200.
+    + document (optional) - Document. Maximum length is 4000.
 
             
 + Request
@@ -75,7 +75,7 @@
               {"submissionDocId": "(val)","protocolId": "(val)","submissionIdFk": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","submissionNumber": "(val)","documentId": "(val)","fileName": "(val)","contentType": "(val)","description": "(val)","document": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Protocol Submission Docs [GET /research-sys/api/v1/protocol-submission-docs/]
+### Get Schema for Protocol Submission Docs [GET /irb/api/v1/protocol-submission-docs/]
 	                                          
 + Parameters
 
@@ -97,7 +97,7 @@
     
             {"columns":["submissionDocId","protocolId","submissionIdFk","protocolNumber","sequenceNumber","submissionNumber","documentId","fileName","contentType","description","document"],"primaryKey":"submissionDocId"}
 		
-### Get Blueprint API specification for Protocol Submission Docs [GET /research-sys/api/v1/protocol-submission-docs/]
+### Get Blueprint API specification for Protocol Submission Docs [GET /irb/api/v1/protocol-submission-docs/]
 	 
 + Parameters
 
@@ -118,7 +118,7 @@
             transfer-encoding:chunked
 
 
-### Update Protocol Submission Docs [PUT /research-sys/api/v1/protocol-submission-docs/(key)]
+### Update Protocol Submission Docs [PUT /irb/api/v1/protocol-submission-docs/(key)]
 
 + Request
 
@@ -133,7 +133,7 @@
 			
 + Response 204
 
-### Update Multiple Protocol Submission Docs [PUT /research-sys/api/v1/protocol-submission-docs/]
+### Update Multiple Protocol Submission Docs [PUT /irb/api/v1/protocol-submission-docs/]
 
 + Request
 
@@ -151,7 +151,7 @@
 			
 + Response 204
 
-### Insert Protocol Submission Docs [POST /research-sys/api/v1/protocol-submission-docs/]
+### Insert Protocol Submission Docs [POST /irb/api/v1/protocol-submission-docs/]
 
 + Request
 
@@ -170,7 +170,7 @@
             
             {"submissionDocId": "(val)","protocolId": "(val)","submissionIdFk": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","submissionNumber": "(val)","documentId": "(val)","fileName": "(val)","contentType": "(val)","description": "(val)","document": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Protocol Submission Docs [POST /research-sys/api/v1/protocol-submission-docs/]
+### Insert Multiple Protocol Submission Docs [POST /irb/api/v1/protocol-submission-docs/]
 
 + Request
 
@@ -195,7 +195,7 @@
               {"submissionDocId": "(val)","protocolId": "(val)","submissionIdFk": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","submissionNumber": "(val)","documentId": "(val)","fileName": "(val)","contentType": "(val)","description": "(val)","document": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Protocol Submission Docs by Key [DELETE /research-sys/api/v1/protocol-submission-docs/(key)]
+### Delete Protocol Submission Docs by Key [DELETE /irb/api/v1/protocol-submission-docs/(key)]
 	 
 + Request
 
@@ -206,7 +206,7 @@
 
 + Response 204
 
-### Delete All Protocol Submission Docs [DELETE /research-sys/api/v1/protocol-submission-docs/]
+### Delete All Protocol Submission Docs [DELETE /irb/api/v1/protocol-submission-docs/]
 
 + Parameters
 
@@ -221,22 +221,22 @@
 
 + Response 204
 
-### Delete All Protocol Submission Docs with Matching [DELETE /research-sys/api/v1/protocol-submission-docs/]
+### Delete All Protocol Submission Docs with Matching [DELETE /irb/api/v1/protocol-submission-docs/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + submissionDocId
-            + protocolId
-            + submissionIdFk
-            + protocolNumber
-            + sequenceNumber
-            + submissionNumber
-            + documentId
-            + fileName
-            + contentType
-            + description
-            + document
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + submissionDocId (optional) - Protocol Submission Doc Id. Maximum length is 22.
+    + protocolId (optional) - 
+    + submissionIdFk (optional) - Protocol Submission Id. Maximum length is 22.
+    + protocolNumber (optional) - Protocol Number. Maximum length is 20.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 22.
+    + submissionNumber (optional) - Submission Number. Maximum length is 22.
+    + documentId (optional) - Document Id. Maximum length is 22.
+    + fileName (optional) - File Name. Maximum length is 300.
+    + contentType (optional) - 
+    + description (optional) - Description. Maximum length is 200.
+    + document (optional) - Document. Maximum length is 4000.
 
       
 + Request

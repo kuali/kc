@@ -1,6 +1,6 @@
-## Iacuc Protocol Types [/research-sys/api/v1/iacuc-protocol-types/]
+## Iacuc Protocol Types [/iacuc/api/v1/iacuc-protocol-types/]
 
-### Get Iacuc Protocol Types by Key [GET /research-sys/api/v1/iacuc-protocol-types/(key)]
+### Get Iacuc Protocol Types by Key [GET /iacuc/api/v1/iacuc-protocol-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"protocolTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Protocol Types [GET /research-sys/api/v1/iacuc-protocol-types/]
+### Get All Iacuc Protocol Types [GET /iacuc/api/v1/iacuc-protocol-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"protocolTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Protocol Types with Filtering [GET /research-sys/api/v1/iacuc-protocol-types/]
+### Get All Iacuc Protocol Types with Filtering [GET /iacuc/api/v1/iacuc-protocol-types/]
     
 + Parameters
 
-        + protocolTypeCode
-            + description
+    + protocolTypeCode (optional) - Protocol Type Code. Maximum length is 22.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"protocolTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Protocol Types [GET /research-sys/api/v1/iacuc-protocol-types/]
+### Get Schema for Iacuc Protocol Types [GET /iacuc/api/v1/iacuc-protocol-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["protocolTypeCode","description"],"primaryKey":"protocolTypeCode"}
 		
-### Get Blueprint API specification for Iacuc Protocol Types [GET /research-sys/api/v1/iacuc-protocol-types/]
+### Get Blueprint API specification for Iacuc Protocol Types [GET /iacuc/api/v1/iacuc-protocol-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Protocol Types [PUT /research-sys/api/v1/iacuc-protocol-types/(key)]
+### Update Iacuc Protocol Types [PUT /iacuc/api/v1/iacuc-protocol-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Protocol Types [PUT /research-sys/api/v1/iacuc-protocol-types/]
+### Update Multiple Iacuc Protocol Types [PUT /iacuc/api/v1/iacuc-protocol-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Iacuc Protocol Types [POST /research-sys/api/v1/iacuc-protocol-types/]
+### Insert Iacuc Protocol Types [POST /iacuc/api/v1/iacuc-protocol-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"protocolTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Protocol Types [POST /research-sys/api/v1/iacuc-protocol-types/]
+### Insert Multiple Iacuc Protocol Types [POST /iacuc/api/v1/iacuc-protocol-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"protocolTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Protocol Types by Key [DELETE /research-sys/api/v1/iacuc-protocol-types/(key)]
+### Delete Iacuc Protocol Types by Key [DELETE /iacuc/api/v1/iacuc-protocol-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Types [DELETE /research-sys/api/v1/iacuc-protocol-types/]
+### Delete All Iacuc Protocol Types [DELETE /iacuc/api/v1/iacuc-protocol-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Types with Matching [DELETE /research-sys/api/v1/iacuc-protocol-types/]
+### Delete All Iacuc Protocol Types with Matching [DELETE /iacuc/api/v1/iacuc-protocol-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + protocolTypeCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + protocolTypeCode (optional) - Protocol Type Code. Maximum length is 22.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

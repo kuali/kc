@@ -1,6 +1,6 @@
-## Budget Sub Award Period Details [/research-sys/api/v1/budget-sub-award-period-details/]
+## Budget Sub Award Period Details [/propdev/api/v1/budget-sub-award-period-details/]
 
-### Get Budget Sub Award Period Details by Key [GET /research-sys/api/v1/budget-sub-award-period-details/(key)]
+### Get Budget Sub Award Period Details by Key [GET /propdev/api/v1/budget-sub-award-period-details/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"id": "(val)","budgetPeriod": "(val)","directCost": "(val)","indirectCost": "(val)","costShare": "(val)","totalCost": "(val)","subAwardNumber": "(val)","_primaryKey": "(val)"}
 
-### Get All Budget Sub Award Period Details [GET /research-sys/api/v1/budget-sub-award-period-details/]
+### Get All Budget Sub Award Period Details [GET /propdev/api/v1/budget-sub-award-period-details/]
 	 
 + Request
 
@@ -39,17 +39,17 @@
               {"id": "(val)","budgetPeriod": "(val)","directCost": "(val)","indirectCost": "(val)","costShare": "(val)","totalCost": "(val)","subAwardNumber": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Budget Sub Award Period Details with Filtering [GET /research-sys/api/v1/budget-sub-award-period-details/]
+### Get All Budget Sub Award Period Details with Filtering [GET /propdev/api/v1/budget-sub-award-period-details/]
     
 + Parameters
 
-        + id
-            + budgetPeriod
-            + directCost
-            + indirectCost
-            + costShare
-            + totalCost
-            + subAwardNumber
+    + id (optional) - id. Maximum length is 3.
+    + budgetPeriod (optional) - Budget Period. Maximum length is 3.
+    + directCost (optional) - Direct Cost. Maximum length is 15.
+    + indirectCost (optional) - F&A Cost. Maximum length is 15.
+    + costShare (optional) - Cost Sharing. Maximum length is 15.
+    + totalCost (optional) - Total Cost. Maximum length is 15.
+    + subAwardNumber (optional) - subAwardNumber. Maximum length is 3.
 
             
 + Request
@@ -71,7 +71,7 @@
               {"id": "(val)","budgetPeriod": "(val)","directCost": "(val)","indirectCost": "(val)","costShare": "(val)","totalCost": "(val)","subAwardNumber": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Budget Sub Award Period Details [GET /research-sys/api/v1/budget-sub-award-period-details/]
+### Get Schema for Budget Sub Award Period Details [GET /propdev/api/v1/budget-sub-award-period-details/]
 	                                          
 + Parameters
 
@@ -93,7 +93,7 @@
     
             {"columns":["id","budgetPeriod","directCost","indirectCost","costShare","totalCost","subAwardNumber"],"primaryKey":"id"}
 		
-### Get Blueprint API specification for Budget Sub Award Period Details [GET /research-sys/api/v1/budget-sub-award-period-details/]
+### Get Blueprint API specification for Budget Sub Award Period Details [GET /propdev/api/v1/budget-sub-award-period-details/]
 	 
 + Parameters
 
@@ -114,7 +114,7 @@
             transfer-encoding:chunked
 
 
-### Update Budget Sub Award Period Details [PUT /research-sys/api/v1/budget-sub-award-period-details/(key)]
+### Update Budget Sub Award Period Details [PUT /propdev/api/v1/budget-sub-award-period-details/(key)]
 
 + Request
 
@@ -129,7 +129,7 @@
 			
 + Response 204
 
-### Update Multiple Budget Sub Award Period Details [PUT /research-sys/api/v1/budget-sub-award-period-details/]
+### Update Multiple Budget Sub Award Period Details [PUT /propdev/api/v1/budget-sub-award-period-details/]
 
 + Request
 
@@ -147,7 +147,7 @@
 			
 + Response 204
 
-### Insert Budget Sub Award Period Details [POST /research-sys/api/v1/budget-sub-award-period-details/]
+### Insert Budget Sub Award Period Details [POST /propdev/api/v1/budget-sub-award-period-details/]
 
 + Request
 
@@ -166,7 +166,7 @@
             
             {"id": "(val)","budgetPeriod": "(val)","directCost": "(val)","indirectCost": "(val)","costShare": "(val)","totalCost": "(val)","subAwardNumber": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Budget Sub Award Period Details [POST /research-sys/api/v1/budget-sub-award-period-details/]
+### Insert Multiple Budget Sub Award Period Details [POST /propdev/api/v1/budget-sub-award-period-details/]
 
 + Request
 
@@ -191,7 +191,7 @@
               {"id": "(val)","budgetPeriod": "(val)","directCost": "(val)","indirectCost": "(val)","costShare": "(val)","totalCost": "(val)","subAwardNumber": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Budget Sub Award Period Details by Key [DELETE /research-sys/api/v1/budget-sub-award-period-details/(key)]
+### Delete Budget Sub Award Period Details by Key [DELETE /propdev/api/v1/budget-sub-award-period-details/(key)]
 	 
 + Request
 
@@ -202,7 +202,7 @@
 
 + Response 204
 
-### Delete All Budget Sub Award Period Details [DELETE /research-sys/api/v1/budget-sub-award-period-details/]
+### Delete All Budget Sub Award Period Details [DELETE /propdev/api/v1/budget-sub-award-period-details/]
 
 + Parameters
 
@@ -217,18 +217,18 @@
 
 + Response 204
 
-### Delete All Budget Sub Award Period Details with Matching [DELETE /research-sys/api/v1/budget-sub-award-period-details/]
+### Delete All Budget Sub Award Period Details with Matching [DELETE /propdev/api/v1/budget-sub-award-period-details/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + budgetPeriod
-            + directCost
-            + indirectCost
-            + costShare
-            + totalCost
-            + subAwardNumber
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - id. Maximum length is 3.
+    + budgetPeriod (optional) - Budget Period. Maximum length is 3.
+    + directCost (optional) - Direct Cost. Maximum length is 15.
+    + indirectCost (optional) - F&A Cost. Maximum length is 15.
+    + costShare (optional) - Cost Sharing. Maximum length is 15.
+    + totalCost (optional) - Total Cost. Maximum length is 15.
+    + subAwardNumber (optional) - subAwardNumber. Maximum length is 3.
 
       
 + Request

@@ -1,6 +1,6 @@
-## Budget Statuses [/research-sys/api/v1/budget-statuses/]
+## Budget Statuses [/propdev/api/v1/budget-statuses/]
 
-### Get Budget Statuses by Key [GET /research-sys/api/v1/budget-statuses/(key)]
+### Get Budget Statuses by Key [GET /propdev/api/v1/budget-statuses/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"budgetStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Budget Statuses [GET /research-sys/api/v1/budget-statuses/]
+### Get All Budget Statuses [GET /propdev/api/v1/budget-statuses/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"budgetStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Budget Statuses with Filtering [GET /research-sys/api/v1/budget-statuses/]
+### Get All Budget Statuses with Filtering [GET /propdev/api/v1/budget-statuses/]
     
 + Parameters
 
-        + budgetStatusCode
-            + description
+    + budgetStatusCode (optional) - Budget Status Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"budgetStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Budget Statuses [GET /research-sys/api/v1/budget-statuses/]
+### Get Schema for Budget Statuses [GET /propdev/api/v1/budget-statuses/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["budgetStatusCode","description"],"primaryKey":"budgetStatusCode"}
 		
-### Get Blueprint API specification for Budget Statuses [GET /research-sys/api/v1/budget-statuses/]
+### Get Blueprint API specification for Budget Statuses [GET /propdev/api/v1/budget-statuses/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Budget Statuses [PUT /research-sys/api/v1/budget-statuses/(key)]
+### Update Budget Statuses [PUT /propdev/api/v1/budget-statuses/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Budget Statuses [PUT /research-sys/api/v1/budget-statuses/]
+### Update Multiple Budget Statuses [PUT /propdev/api/v1/budget-statuses/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Budget Statuses [POST /research-sys/api/v1/budget-statuses/]
+### Insert Budget Statuses [POST /propdev/api/v1/budget-statuses/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"budgetStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Budget Statuses [POST /research-sys/api/v1/budget-statuses/]
+### Insert Multiple Budget Statuses [POST /propdev/api/v1/budget-statuses/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"budgetStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Budget Statuses by Key [DELETE /research-sys/api/v1/budget-statuses/(key)]
+### Delete Budget Statuses by Key [DELETE /propdev/api/v1/budget-statuses/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Budget Statuses [DELETE /research-sys/api/v1/budget-statuses/]
+### Delete All Budget Statuses [DELETE /propdev/api/v1/budget-statuses/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Budget Statuses with Matching [DELETE /research-sys/api/v1/budget-statuses/]
+### Delete All Budget Statuses with Matching [DELETE /propdev/api/v1/budget-statuses/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + budgetStatusCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + budgetStatusCode (optional) - Budget Status Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

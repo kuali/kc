@@ -1,6 +1,6 @@
-## Subcontracting Expenditure Category Amounts [/research-sys/api/v1/subcontracting-expenditure-category-amounts/]
+## Subcontracting Expenditure Category Amounts [/award/api/v1/subcontracting-expenditure-category-amounts/]
 
-### Get Subcontracting Expenditure Category Amounts by Key [GET /research-sys/api/v1/subcontracting-expenditure-category-amounts/(key)]
+### Get Subcontracting Expenditure Category Amounts by Key [GET /award/api/v1/subcontracting-expenditure-category-amounts/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"awardNumber": "(val)","largeBusinessExpenditureAmount": "(val)","smallBusinessExpenditureAmount": "(val)","womanOwnedExpenditureAmount": "(val)","eightADisadvantageExpenditureAmount": "(val)","hubZoneExpenditureAmount": "(val)","veteranOwnedExpenditureAmount": "(val)","serviceDisabledVeteranOwnedExpenditureAmount": "(val)","historicalBlackCollegeExpenditureAmount": "(val)","_primaryKey": "(val)"}
 
-### Get All Subcontracting Expenditure Category Amounts [GET /research-sys/api/v1/subcontracting-expenditure-category-amounts/]
+### Get All Subcontracting Expenditure Category Amounts [GET /award/api/v1/subcontracting-expenditure-category-amounts/]
 	 
 + Request
 
@@ -39,19 +39,19 @@
               {"awardNumber": "(val)","largeBusinessExpenditureAmount": "(val)","smallBusinessExpenditureAmount": "(val)","womanOwnedExpenditureAmount": "(val)","eightADisadvantageExpenditureAmount": "(val)","hubZoneExpenditureAmount": "(val)","veteranOwnedExpenditureAmount": "(val)","serviceDisabledVeteranOwnedExpenditureAmount": "(val)","historicalBlackCollegeExpenditureAmount": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Subcontracting Expenditure Category Amounts with Filtering [GET /research-sys/api/v1/subcontracting-expenditure-category-amounts/]
+### Get All Subcontracting Expenditure Category Amounts with Filtering [GET /award/api/v1/subcontracting-expenditure-category-amounts/]
     
 + Parameters
 
-        + awardNumber
-            + largeBusinessExpenditureAmount
-            + smallBusinessExpenditureAmount
-            + womanOwnedExpenditureAmount
-            + eightADisadvantageExpenditureAmount
-            + hubZoneExpenditureAmount
-            + veteranOwnedExpenditureAmount
-            + serviceDisabledVeteranOwnedExpenditureAmount
-            + historicalBlackCollegeExpenditureAmount
+    + awardNumber (optional) - 
+    + largeBusinessExpenditureAmount (optional) - 
+    + smallBusinessExpenditureAmount (optional) - 
+    + womanOwnedExpenditureAmount (optional) - 
+    + eightADisadvantageExpenditureAmount (optional) - 
+    + hubZoneExpenditureAmount (optional) - 
+    + veteranOwnedExpenditureAmount (optional) - 
+    + serviceDisabledVeteranOwnedExpenditureAmount (optional) - 
+    + historicalBlackCollegeExpenditureAmount (optional) - 
 
             
 + Request
@@ -73,7 +73,7 @@
               {"awardNumber": "(val)","largeBusinessExpenditureAmount": "(val)","smallBusinessExpenditureAmount": "(val)","womanOwnedExpenditureAmount": "(val)","eightADisadvantageExpenditureAmount": "(val)","hubZoneExpenditureAmount": "(val)","veteranOwnedExpenditureAmount": "(val)","serviceDisabledVeteranOwnedExpenditureAmount": "(val)","historicalBlackCollegeExpenditureAmount": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Subcontracting Expenditure Category Amounts [GET /research-sys/api/v1/subcontracting-expenditure-category-amounts/]
+### Get Schema for Subcontracting Expenditure Category Amounts [GET /award/api/v1/subcontracting-expenditure-category-amounts/]
 	                                          
 + Parameters
 
@@ -95,7 +95,7 @@
     
             {"columns":["awardNumber","largeBusinessExpenditureAmount","smallBusinessExpenditureAmount","womanOwnedExpenditureAmount","eightADisadvantageExpenditureAmount","hubZoneExpenditureAmount","veteranOwnedExpenditureAmount","serviceDisabledVeteranOwnedExpenditureAmount","historicalBlackCollegeExpenditureAmount"],"primaryKey":"awardNumber"}
 		
-### Get Blueprint API specification for Subcontracting Expenditure Category Amounts [GET /research-sys/api/v1/subcontracting-expenditure-category-amounts/]
+### Get Blueprint API specification for Subcontracting Expenditure Category Amounts [GET /award/api/v1/subcontracting-expenditure-category-amounts/]
 	 
 + Parameters
 
@@ -116,7 +116,7 @@
             transfer-encoding:chunked
 
 
-### Update Subcontracting Expenditure Category Amounts [PUT /research-sys/api/v1/subcontracting-expenditure-category-amounts/(key)]
+### Update Subcontracting Expenditure Category Amounts [PUT /award/api/v1/subcontracting-expenditure-category-amounts/(key)]
 
 + Request
 
@@ -131,7 +131,7 @@
 			
 + Response 204
 
-### Update Multiple Subcontracting Expenditure Category Amounts [PUT /research-sys/api/v1/subcontracting-expenditure-category-amounts/]
+### Update Multiple Subcontracting Expenditure Category Amounts [PUT /award/api/v1/subcontracting-expenditure-category-amounts/]
 
 + Request
 
@@ -149,7 +149,7 @@
 			
 + Response 204
 
-### Insert Subcontracting Expenditure Category Amounts [POST /research-sys/api/v1/subcontracting-expenditure-category-amounts/]
+### Insert Subcontracting Expenditure Category Amounts [POST /award/api/v1/subcontracting-expenditure-category-amounts/]
 
 + Request
 
@@ -168,7 +168,7 @@
             
             {"awardNumber": "(val)","largeBusinessExpenditureAmount": "(val)","smallBusinessExpenditureAmount": "(val)","womanOwnedExpenditureAmount": "(val)","eightADisadvantageExpenditureAmount": "(val)","hubZoneExpenditureAmount": "(val)","veteranOwnedExpenditureAmount": "(val)","serviceDisabledVeteranOwnedExpenditureAmount": "(val)","historicalBlackCollegeExpenditureAmount": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Subcontracting Expenditure Category Amounts [POST /research-sys/api/v1/subcontracting-expenditure-category-amounts/]
+### Insert Multiple Subcontracting Expenditure Category Amounts [POST /award/api/v1/subcontracting-expenditure-category-amounts/]
 
 + Request
 
@@ -193,7 +193,7 @@
               {"awardNumber": "(val)","largeBusinessExpenditureAmount": "(val)","smallBusinessExpenditureAmount": "(val)","womanOwnedExpenditureAmount": "(val)","eightADisadvantageExpenditureAmount": "(val)","hubZoneExpenditureAmount": "(val)","veteranOwnedExpenditureAmount": "(val)","serviceDisabledVeteranOwnedExpenditureAmount": "(val)","historicalBlackCollegeExpenditureAmount": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Subcontracting Expenditure Category Amounts by Key [DELETE /research-sys/api/v1/subcontracting-expenditure-category-amounts/(key)]
+### Delete Subcontracting Expenditure Category Amounts by Key [DELETE /award/api/v1/subcontracting-expenditure-category-amounts/(key)]
 	 
 + Request
 
@@ -204,7 +204,7 @@
 
 + Response 204
 
-### Delete All Subcontracting Expenditure Category Amounts [DELETE /research-sys/api/v1/subcontracting-expenditure-category-amounts/]
+### Delete All Subcontracting Expenditure Category Amounts [DELETE /award/api/v1/subcontracting-expenditure-category-amounts/]
 
 + Parameters
 
@@ -219,20 +219,20 @@
 
 + Response 204
 
-### Delete All Subcontracting Expenditure Category Amounts with Matching [DELETE /research-sys/api/v1/subcontracting-expenditure-category-amounts/]
+### Delete All Subcontracting Expenditure Category Amounts with Matching [DELETE /award/api/v1/subcontracting-expenditure-category-amounts/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + awardNumber
-            + largeBusinessExpenditureAmount
-            + smallBusinessExpenditureAmount
-            + womanOwnedExpenditureAmount
-            + eightADisadvantageExpenditureAmount
-            + hubZoneExpenditureAmount
-            + veteranOwnedExpenditureAmount
-            + serviceDisabledVeteranOwnedExpenditureAmount
-            + historicalBlackCollegeExpenditureAmount
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + awardNumber (optional) - 
+    + largeBusinessExpenditureAmount (optional) - 
+    + smallBusinessExpenditureAmount (optional) - 
+    + womanOwnedExpenditureAmount (optional) - 
+    + eightADisadvantageExpenditureAmount (optional) - 
+    + hubZoneExpenditureAmount (optional) - 
+    + veteranOwnedExpenditureAmount (optional) - 
+    + serviceDisabledVeteranOwnedExpenditureAmount (optional) - 
+    + historicalBlackCollegeExpenditureAmount (optional) - 
 
       
 + Request

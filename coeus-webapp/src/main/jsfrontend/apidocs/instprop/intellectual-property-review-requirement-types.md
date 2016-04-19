@@ -1,6 +1,6 @@
-## Intellectual Property Review Requirement Types [/research-sys/api/v1/intellectual-property-review-requirement-types/]
+## Intellectual Property Review Requirement Types [/instprop/api/v1/intellectual-property-review-requirement-types/]
 
-### Get Intellectual Property Review Requirement Types by Key [GET /research-sys/api/v1/intellectual-property-review-requirement-types/(key)]
+### Get Intellectual Property Review Requirement Types by Key [GET /instprop/api/v1/intellectual-property-review-requirement-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"intellectualPropertyReviewRequirementTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Intellectual Property Review Requirement Types [GET /research-sys/api/v1/intellectual-property-review-requirement-types/]
+### Get All Intellectual Property Review Requirement Types [GET /instprop/api/v1/intellectual-property-review-requirement-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"intellectualPropertyReviewRequirementTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Intellectual Property Review Requirement Types with Filtering [GET /research-sys/api/v1/intellectual-property-review-requirement-types/]
+### Get All Intellectual Property Review Requirement Types with Filtering [GET /instprop/api/v1/intellectual-property-review-requirement-types/]
     
 + Parameters
 
-        + intellectualPropertyReviewRequirementTypeCode
-            + description
+    + intellectualPropertyReviewRequirementTypeCode (optional) - Intellectual Property Review Requirement Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"intellectualPropertyReviewRequirementTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Intellectual Property Review Requirement Types [GET /research-sys/api/v1/intellectual-property-review-requirement-types/]
+### Get Schema for Intellectual Property Review Requirement Types [GET /instprop/api/v1/intellectual-property-review-requirement-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["intellectualPropertyReviewRequirementTypeCode","description"],"primaryKey":"intellectualPropertyReviewRequirementTypeCode"}
 		
-### Get Blueprint API specification for Intellectual Property Review Requirement Types [GET /research-sys/api/v1/intellectual-property-review-requirement-types/]
+### Get Blueprint API specification for Intellectual Property Review Requirement Types [GET /instprop/api/v1/intellectual-property-review-requirement-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Intellectual Property Review Requirement Types [PUT /research-sys/api/v1/intellectual-property-review-requirement-types/(key)]
+### Update Intellectual Property Review Requirement Types [PUT /instprop/api/v1/intellectual-property-review-requirement-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Intellectual Property Review Requirement Types [PUT /research-sys/api/v1/intellectual-property-review-requirement-types/]
+### Update Multiple Intellectual Property Review Requirement Types [PUT /instprop/api/v1/intellectual-property-review-requirement-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Intellectual Property Review Requirement Types [POST /research-sys/api/v1/intellectual-property-review-requirement-types/]
+### Insert Intellectual Property Review Requirement Types [POST /instprop/api/v1/intellectual-property-review-requirement-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"intellectualPropertyReviewRequirementTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Intellectual Property Review Requirement Types [POST /research-sys/api/v1/intellectual-property-review-requirement-types/]
+### Insert Multiple Intellectual Property Review Requirement Types [POST /instprop/api/v1/intellectual-property-review-requirement-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"intellectualPropertyReviewRequirementTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Intellectual Property Review Requirement Types by Key [DELETE /research-sys/api/v1/intellectual-property-review-requirement-types/(key)]
+### Delete Intellectual Property Review Requirement Types by Key [DELETE /instprop/api/v1/intellectual-property-review-requirement-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Intellectual Property Review Requirement Types [DELETE /research-sys/api/v1/intellectual-property-review-requirement-types/]
+### Delete All Intellectual Property Review Requirement Types [DELETE /instprop/api/v1/intellectual-property-review-requirement-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Intellectual Property Review Requirement Types with Matching [DELETE /research-sys/api/v1/intellectual-property-review-requirement-types/]
+### Delete All Intellectual Property Review Requirement Types with Matching [DELETE /instprop/api/v1/intellectual-property-review-requirement-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + intellectualPropertyReviewRequirementTypeCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + intellectualPropertyReviewRequirementTypeCode (optional) - Intellectual Property Review Requirement Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

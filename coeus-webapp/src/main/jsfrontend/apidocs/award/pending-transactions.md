@@ -1,6 +1,6 @@
-## Pending Transactions [/research-sys/api/v1/pending-transactions/]
+## Pending Transactions [/award/api/v1/pending-transactions/]
 
-### Get Pending Transactions by Key [GET /research-sys/api/v1/pending-transactions/(key)]
+### Get Pending Transactions by Key [GET /award/api/v1/pending-transactions/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"transactionId": "(val)","documentNumber": "(val)","sourceAwardNumber": "(val)","destinationAwardNumber": "(val)","obligatedAmount": "(val)","obligatedDirectAmount": "(val)","obligatedIndirectAmount": "(val)","anticipatedAmount": "(val)","anticipatedDirectAmount": "(val)","anticipatedIndirectAmount": "(val)","comments": "(val)","processedFlag": "(val)","singleNodeTransaction": "(val)","_primaryKey": "(val)"}
 
-### Get All Pending Transactions [GET /research-sys/api/v1/pending-transactions/]
+### Get All Pending Transactions [GET /award/api/v1/pending-transactions/]
 	 
 + Request
 
@@ -39,23 +39,23 @@
               {"transactionId": "(val)","documentNumber": "(val)","sourceAwardNumber": "(val)","destinationAwardNumber": "(val)","obligatedAmount": "(val)","obligatedDirectAmount": "(val)","obligatedIndirectAmount": "(val)","anticipatedAmount": "(val)","anticipatedDirectAmount": "(val)","anticipatedIndirectAmount": "(val)","comments": "(val)","processedFlag": "(val)","singleNodeTransaction": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Pending Transactions with Filtering [GET /research-sys/api/v1/pending-transactions/]
+### Get All Pending Transactions with Filtering [GET /award/api/v1/pending-transactions/]
     
 + Parameters
 
-        + transactionId
-            + documentNumber
-            + sourceAwardNumber
-            + destinationAwardNumber
-            + obligatedAmount
-            + obligatedDirectAmount
-            + obligatedIndirectAmount
-            + anticipatedAmount
-            + anticipatedDirectAmount
-            + anticipatedIndirectAmount
-            + comments
-            + processedFlag
-            + singleNodeTransaction
+    + transactionId (optional) - Transaction. Maximum length is 22.
+    + documentNumber (optional) - 
+    + sourceAwardNumber (optional) - Source Award. Maximum length is 12.
+    + destinationAwardNumber (optional) - Destination Award. Maximum length is 12.
+    + obligatedAmount (optional) - Obligated Change. Maximum length is 22.
+    + obligatedDirectAmount (optional) - Obligated Direct. Maximum length is 22.
+    + obligatedIndirectAmount (optional) - Obligated F&A Change. Maximum length is 22.
+    + anticipatedAmount (optional) - Anticipated Change. Maximum length is 22.
+    + anticipatedDirectAmount (optional) - Anticipated Direct Change. Maximum length is 22.
+    + anticipatedIndirectAmount (optional) - Anticipated F&A Change. Maximum length is 22.
+    + comments (optional) - Comments. Maximum length is 200.
+    + processedFlag (optional) - Processed Flag. Maximum length is 1.
+    + singleNodeTransaction (optional) - Single Node Transaction. Maximum length is 1.
 
             
 + Request
@@ -77,7 +77,7 @@
               {"transactionId": "(val)","documentNumber": "(val)","sourceAwardNumber": "(val)","destinationAwardNumber": "(val)","obligatedAmount": "(val)","obligatedDirectAmount": "(val)","obligatedIndirectAmount": "(val)","anticipatedAmount": "(val)","anticipatedDirectAmount": "(val)","anticipatedIndirectAmount": "(val)","comments": "(val)","processedFlag": "(val)","singleNodeTransaction": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Pending Transactions [GET /research-sys/api/v1/pending-transactions/]
+### Get Schema for Pending Transactions [GET /award/api/v1/pending-transactions/]
 	                                          
 + Parameters
 
@@ -99,7 +99,7 @@
     
             {"columns":["transactionId","documentNumber","sourceAwardNumber","destinationAwardNumber","obligatedAmount","obligatedDirectAmount","obligatedIndirectAmount","anticipatedAmount","anticipatedDirectAmount","anticipatedIndirectAmount","comments","processedFlag","singleNodeTransaction"],"primaryKey":"transactionId"}
 		
-### Get Blueprint API specification for Pending Transactions [GET /research-sys/api/v1/pending-transactions/]
+### Get Blueprint API specification for Pending Transactions [GET /award/api/v1/pending-transactions/]
 	 
 + Parameters
 
@@ -120,7 +120,7 @@
             transfer-encoding:chunked
 
 
-### Update Pending Transactions [PUT /research-sys/api/v1/pending-transactions/(key)]
+### Update Pending Transactions [PUT /award/api/v1/pending-transactions/(key)]
 
 + Request
 
@@ -135,7 +135,7 @@
 			
 + Response 204
 
-### Update Multiple Pending Transactions [PUT /research-sys/api/v1/pending-transactions/]
+### Update Multiple Pending Transactions [PUT /award/api/v1/pending-transactions/]
 
 + Request
 
@@ -153,7 +153,7 @@
 			
 + Response 204
 
-### Insert Pending Transactions [POST /research-sys/api/v1/pending-transactions/]
+### Insert Pending Transactions [POST /award/api/v1/pending-transactions/]
 
 + Request
 
@@ -172,7 +172,7 @@
             
             {"transactionId": "(val)","documentNumber": "(val)","sourceAwardNumber": "(val)","destinationAwardNumber": "(val)","obligatedAmount": "(val)","obligatedDirectAmount": "(val)","obligatedIndirectAmount": "(val)","anticipatedAmount": "(val)","anticipatedDirectAmount": "(val)","anticipatedIndirectAmount": "(val)","comments": "(val)","processedFlag": "(val)","singleNodeTransaction": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Pending Transactions [POST /research-sys/api/v1/pending-transactions/]
+### Insert Multiple Pending Transactions [POST /award/api/v1/pending-transactions/]
 
 + Request
 
@@ -197,7 +197,7 @@
               {"transactionId": "(val)","documentNumber": "(val)","sourceAwardNumber": "(val)","destinationAwardNumber": "(val)","obligatedAmount": "(val)","obligatedDirectAmount": "(val)","obligatedIndirectAmount": "(val)","anticipatedAmount": "(val)","anticipatedDirectAmount": "(val)","anticipatedIndirectAmount": "(val)","comments": "(val)","processedFlag": "(val)","singleNodeTransaction": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Pending Transactions by Key [DELETE /research-sys/api/v1/pending-transactions/(key)]
+### Delete Pending Transactions by Key [DELETE /award/api/v1/pending-transactions/(key)]
 	 
 + Request
 
@@ -208,7 +208,7 @@
 
 + Response 204
 
-### Delete All Pending Transactions [DELETE /research-sys/api/v1/pending-transactions/]
+### Delete All Pending Transactions [DELETE /award/api/v1/pending-transactions/]
 
 + Parameters
 
@@ -223,24 +223,24 @@
 
 + Response 204
 
-### Delete All Pending Transactions with Matching [DELETE /research-sys/api/v1/pending-transactions/]
+### Delete All Pending Transactions with Matching [DELETE /award/api/v1/pending-transactions/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + transactionId
-            + documentNumber
-            + sourceAwardNumber
-            + destinationAwardNumber
-            + obligatedAmount
-            + obligatedDirectAmount
-            + obligatedIndirectAmount
-            + anticipatedAmount
-            + anticipatedDirectAmount
-            + anticipatedIndirectAmount
-            + comments
-            + processedFlag
-            + singleNodeTransaction
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + transactionId (optional) - Transaction. Maximum length is 22.
+    + documentNumber (optional) - 
+    + sourceAwardNumber (optional) - Source Award. Maximum length is 12.
+    + destinationAwardNumber (optional) - Destination Award. Maximum length is 12.
+    + obligatedAmount (optional) - Obligated Change. Maximum length is 22.
+    + obligatedDirectAmount (optional) - Obligated Direct. Maximum length is 22.
+    + obligatedIndirectAmount (optional) - Obligated F&A Change. Maximum length is 22.
+    + anticipatedAmount (optional) - Anticipated Change. Maximum length is 22.
+    + anticipatedDirectAmount (optional) - Anticipated Direct Change. Maximum length is 22.
+    + anticipatedIndirectAmount (optional) - Anticipated F&A Change. Maximum length is 22.
+    + comments (optional) - Comments. Maximum length is 200.
+    + processedFlag (optional) - Processed Flag. Maximum length is 1.
+    + singleNodeTransaction (optional) - Single Node Transaction. Maximum length is 1.
 
       
 + Request

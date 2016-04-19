@@ -1,6 +1,6 @@
-## Subcontracting Expenditure Category Details [/research-sys/api/v1/subcontracting-expenditure-category-details/]
+## Subcontracting Expenditure Category Details [/award/api/v1/subcontracting-expenditure-category-details/]
 
-### Get Subcontracting Expenditure Category Details by Key [GET /research-sys/api/v1/subcontracting-expenditure-category-details/(key)]
+### Get Subcontracting Expenditure Category Details by Key [GET /award/api/v1/subcontracting-expenditure-category-details/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"id": "(val)","awardNumber": "(val)","amount": "(val)","fiscalPeriod": "(val)","largeBusiness": "(val)","smallBusiness": "(val)","womanOwned": "(val)","eightADisadvantage": "(val)","hubZone": "(val)","veteranOwned": "(val)","serviceDisabledVeteranOwned": "(val)","historicalBlackCollege": "(val)","_primaryKey": "(val)"}
 
-### Get All Subcontracting Expenditure Category Details [GET /research-sys/api/v1/subcontracting-expenditure-category-details/]
+### Get All Subcontracting Expenditure Category Details [GET /award/api/v1/subcontracting-expenditure-category-details/]
 	 
 + Request
 
@@ -39,22 +39,22 @@
               {"id": "(val)","awardNumber": "(val)","amount": "(val)","fiscalPeriod": "(val)","largeBusiness": "(val)","smallBusiness": "(val)","womanOwned": "(val)","eightADisadvantage": "(val)","hubZone": "(val)","veteranOwned": "(val)","serviceDisabledVeteranOwned": "(val)","historicalBlackCollege": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Subcontracting Expenditure Category Details with Filtering [GET /research-sys/api/v1/subcontracting-expenditure-category-details/]
+### Get All Subcontracting Expenditure Category Details with Filtering [GET /award/api/v1/subcontracting-expenditure-category-details/]
     
 + Parameters
 
-        + id
-            + awardNumber
-            + amount
-            + fiscalPeriod
-            + largeBusiness
-            + smallBusiness
-            + womanOwned
-            + eightADisadvantage
-            + hubZone
-            + veteranOwned
-            + serviceDisabledVeteranOwned
-            + historicalBlackCollege
+    + id (optional) - 
+    + awardNumber (optional) - 
+    + amount (optional) - 
+    + fiscalPeriod (optional) - 
+    + largeBusiness (optional) - 
+    + smallBusiness (optional) - 
+    + womanOwned (optional) - 
+    + eightADisadvantage (optional) - 
+    + hubZone (optional) - 
+    + veteranOwned (optional) - 
+    + serviceDisabledVeteranOwned (optional) - 
+    + historicalBlackCollege (optional) - 
 
             
 + Request
@@ -76,7 +76,7 @@
               {"id": "(val)","awardNumber": "(val)","amount": "(val)","fiscalPeriod": "(val)","largeBusiness": "(val)","smallBusiness": "(val)","womanOwned": "(val)","eightADisadvantage": "(val)","hubZone": "(val)","veteranOwned": "(val)","serviceDisabledVeteranOwned": "(val)","historicalBlackCollege": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Subcontracting Expenditure Category Details [GET /research-sys/api/v1/subcontracting-expenditure-category-details/]
+### Get Schema for Subcontracting Expenditure Category Details [GET /award/api/v1/subcontracting-expenditure-category-details/]
 	                                          
 + Parameters
 
@@ -98,7 +98,7 @@
     
             {"columns":["id","awardNumber","amount","fiscalPeriod","largeBusiness","smallBusiness","womanOwned","eightADisadvantage","hubZone","veteranOwned","serviceDisabledVeteranOwned","historicalBlackCollege"],"primaryKey":"id"}
 		
-### Get Blueprint API specification for Subcontracting Expenditure Category Details [GET /research-sys/api/v1/subcontracting-expenditure-category-details/]
+### Get Blueprint API specification for Subcontracting Expenditure Category Details [GET /award/api/v1/subcontracting-expenditure-category-details/]
 	 
 + Parameters
 
@@ -119,7 +119,7 @@
             transfer-encoding:chunked
 
 
-### Update Subcontracting Expenditure Category Details [PUT /research-sys/api/v1/subcontracting-expenditure-category-details/(key)]
+### Update Subcontracting Expenditure Category Details [PUT /award/api/v1/subcontracting-expenditure-category-details/(key)]
 
 + Request
 
@@ -134,7 +134,7 @@
 			
 + Response 204
 
-### Update Multiple Subcontracting Expenditure Category Details [PUT /research-sys/api/v1/subcontracting-expenditure-category-details/]
+### Update Multiple Subcontracting Expenditure Category Details [PUT /award/api/v1/subcontracting-expenditure-category-details/]
 
 + Request
 
@@ -152,7 +152,7 @@
 			
 + Response 204
 
-### Insert Subcontracting Expenditure Category Details [POST /research-sys/api/v1/subcontracting-expenditure-category-details/]
+### Insert Subcontracting Expenditure Category Details [POST /award/api/v1/subcontracting-expenditure-category-details/]
 
 + Request
 
@@ -171,7 +171,7 @@
             
             {"id": "(val)","awardNumber": "(val)","amount": "(val)","fiscalPeriod": "(val)","largeBusiness": "(val)","smallBusiness": "(val)","womanOwned": "(val)","eightADisadvantage": "(val)","hubZone": "(val)","veteranOwned": "(val)","serviceDisabledVeteranOwned": "(val)","historicalBlackCollege": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Subcontracting Expenditure Category Details [POST /research-sys/api/v1/subcontracting-expenditure-category-details/]
+### Insert Multiple Subcontracting Expenditure Category Details [POST /award/api/v1/subcontracting-expenditure-category-details/]
 
 + Request
 
@@ -196,7 +196,7 @@
               {"id": "(val)","awardNumber": "(val)","amount": "(val)","fiscalPeriod": "(val)","largeBusiness": "(val)","smallBusiness": "(val)","womanOwned": "(val)","eightADisadvantage": "(val)","hubZone": "(val)","veteranOwned": "(val)","serviceDisabledVeteranOwned": "(val)","historicalBlackCollege": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Subcontracting Expenditure Category Details by Key [DELETE /research-sys/api/v1/subcontracting-expenditure-category-details/(key)]
+### Delete Subcontracting Expenditure Category Details by Key [DELETE /award/api/v1/subcontracting-expenditure-category-details/(key)]
 	 
 + Request
 
@@ -207,7 +207,7 @@
 
 + Response 204
 
-### Delete All Subcontracting Expenditure Category Details [DELETE /research-sys/api/v1/subcontracting-expenditure-category-details/]
+### Delete All Subcontracting Expenditure Category Details [DELETE /award/api/v1/subcontracting-expenditure-category-details/]
 
 + Parameters
 
@@ -222,23 +222,23 @@
 
 + Response 204
 
-### Delete All Subcontracting Expenditure Category Details with Matching [DELETE /research-sys/api/v1/subcontracting-expenditure-category-details/]
+### Delete All Subcontracting Expenditure Category Details with Matching [DELETE /award/api/v1/subcontracting-expenditure-category-details/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + awardNumber
-            + amount
-            + fiscalPeriod
-            + largeBusiness
-            + smallBusiness
-            + womanOwned
-            + eightADisadvantage
-            + hubZone
-            + veteranOwned
-            + serviceDisabledVeteranOwned
-            + historicalBlackCollege
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - 
+    + awardNumber (optional) - 
+    + amount (optional) - 
+    + fiscalPeriod (optional) - 
+    + largeBusiness (optional) - 
+    + smallBusiness (optional) - 
+    + womanOwned (optional) - 
+    + eightADisadvantage (optional) - 
+    + hubZone (optional) - 
+    + veteranOwned (optional) - 
+    + serviceDisabledVeteranOwned (optional) - 
+    + historicalBlackCollege (optional) - 
 
       
 + Request

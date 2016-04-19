@@ -1,6 +1,6 @@
-## Coeus Modules [/research-sys/api/v1/coeus-modules/]
+## Coeus Modules [/research-common/api/v1/coeus-modules/]
 
-### Get Coeus Modules by Key [GET /research-sys/api/v1/coeus-modules/(key)]
+### Get Coeus Modules by Key [GET /research-common/api/v1/coeus-modules/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"moduleCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Coeus Modules [GET /research-sys/api/v1/coeus-modules/]
+### Get All Coeus Modules [GET /research-common/api/v1/coeus-modules/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"moduleCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Coeus Modules with Filtering [GET /research-sys/api/v1/coeus-modules/]
+### Get All Coeus Modules with Filtering [GET /research-common/api/v1/coeus-modules/]
     
 + Parameters
 
-        + moduleCode
-            + description
+    + moduleCode (optional) - Module Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"moduleCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Coeus Modules [GET /research-sys/api/v1/coeus-modules/]
+### Get Schema for Coeus Modules [GET /research-common/api/v1/coeus-modules/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["moduleCode","description"],"primaryKey":"moduleCode"}
 		
-### Get Blueprint API specification for Coeus Modules [GET /research-sys/api/v1/coeus-modules/]
+### Get Blueprint API specification for Coeus Modules [GET /research-common/api/v1/coeus-modules/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Coeus Modules [PUT /research-sys/api/v1/coeus-modules/(key)]
+### Update Coeus Modules [PUT /research-common/api/v1/coeus-modules/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Coeus Modules [PUT /research-sys/api/v1/coeus-modules/]
+### Update Multiple Coeus Modules [PUT /research-common/api/v1/coeus-modules/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Coeus Modules [POST /research-sys/api/v1/coeus-modules/]
+### Insert Coeus Modules [POST /research-common/api/v1/coeus-modules/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"moduleCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Coeus Modules [POST /research-sys/api/v1/coeus-modules/]
+### Insert Multiple Coeus Modules [POST /research-common/api/v1/coeus-modules/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"moduleCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Coeus Modules by Key [DELETE /research-sys/api/v1/coeus-modules/(key)]
+### Delete Coeus Modules by Key [DELETE /research-common/api/v1/coeus-modules/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Coeus Modules [DELETE /research-sys/api/v1/coeus-modules/]
+### Delete All Coeus Modules [DELETE /research-common/api/v1/coeus-modules/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Coeus Modules with Matching [DELETE /research-sys/api/v1/coeus-modules/]
+### Delete All Coeus Modules with Matching [DELETE /research-common/api/v1/coeus-modules/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + moduleCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + moduleCode (optional) - Module Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

@@ -1,6 +1,6 @@
-## Award Attachment Types [/research-sys/api/v1/award-attachment-types/]
+## Award Attachment Types [/award/api/v1/award-attachment-types/]
 
-### Get Award Attachment Types by Key [GET /research-sys/api/v1/award-attachment-types/(key)]
+### Get Award Attachment Types by Key [GET /award/api/v1/award-attachment-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"typeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Award Attachment Types [GET /research-sys/api/v1/award-attachment-types/]
+### Get All Award Attachment Types [GET /award/api/v1/award-attachment-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"typeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Award Attachment Types with Filtering [GET /research-sys/api/v1/award-attachment-types/]
+### Get All Award Attachment Types with Filtering [GET /award/api/v1/award-attachment-types/]
     
 + Parameters
 
-        + typeCode
-            + description
+    + typeCode (optional) - Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"typeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Award Attachment Types [GET /research-sys/api/v1/award-attachment-types/]
+### Get Schema for Award Attachment Types [GET /award/api/v1/award-attachment-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["typeCode","description"],"primaryKey":"typeCode"}
 		
-### Get Blueprint API specification for Award Attachment Types [GET /research-sys/api/v1/award-attachment-types/]
+### Get Blueprint API specification for Award Attachment Types [GET /award/api/v1/award-attachment-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Award Attachment Types [PUT /research-sys/api/v1/award-attachment-types/(key)]
+### Update Award Attachment Types [PUT /award/api/v1/award-attachment-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Award Attachment Types [PUT /research-sys/api/v1/award-attachment-types/]
+### Update Multiple Award Attachment Types [PUT /award/api/v1/award-attachment-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Award Attachment Types [POST /research-sys/api/v1/award-attachment-types/]
+### Insert Award Attachment Types [POST /award/api/v1/award-attachment-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"typeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Award Attachment Types [POST /research-sys/api/v1/award-attachment-types/]
+### Insert Multiple Award Attachment Types [POST /award/api/v1/award-attachment-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"typeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Award Attachment Types by Key [DELETE /research-sys/api/v1/award-attachment-types/(key)]
+### Delete Award Attachment Types by Key [DELETE /award/api/v1/award-attachment-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Award Attachment Types [DELETE /research-sys/api/v1/award-attachment-types/]
+### Delete All Award Attachment Types [DELETE /award/api/v1/award-attachment-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Award Attachment Types with Matching [DELETE /research-sys/api/v1/award-attachment-types/]
+### Delete All Award Attachment Types with Matching [DELETE /award/api/v1/award-attachment-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + typeCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + typeCode (optional) - Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

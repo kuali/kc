@@ -1,6 +1,6 @@
-## Valid Ce Rate Types [/research-sys/api/v1/valid-ce-rate-types/]
+## Valid Ce Rate Types [/research-common/api/v1/valid-ce-rate-types/]
 
-### Get Valid Ce Rate Types by Key [GET /research-sys/api/v1/valid-ce-rate-types/(key)]
+### Get Valid Ce Rate Types by Key [GET /research-common/api/v1/valid-ce-rate-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"costElement": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","active": "(val)","_primaryKey": "(val)"}
 
-### Get All Valid Ce Rate Types [GET /research-sys/api/v1/valid-ce-rate-types/]
+### Get All Valid Ce Rate Types [GET /research-common/api/v1/valid-ce-rate-types/]
 	 
 + Request
 
@@ -39,14 +39,14 @@
               {"costElement": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Valid Ce Rate Types with Filtering [GET /research-sys/api/v1/valid-ce-rate-types/]
+### Get All Valid Ce Rate Types with Filtering [GET /research-common/api/v1/valid-ce-rate-types/]
     
 + Parameters
 
-        + costElement
-            + rateClassCode
-            + rateTypeCode
-            + active
+    + costElement (optional) - Cost Element. Maximum length is 8.
+    + rateClassCode (optional) - Rate Class Code. Maximum length is 3.
+    + rateTypeCode (optional) - Rate Type Code. Maximum length is 3.
+    + active (optional) - Active. Maximum length is 1.
 
             
 + Request
@@ -68,7 +68,7 @@
               {"costElement": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Valid Ce Rate Types [GET /research-sys/api/v1/valid-ce-rate-types/]
+### Get Schema for Valid Ce Rate Types [GET /research-common/api/v1/valid-ce-rate-types/]
 	                                          
 + Parameters
 
@@ -90,7 +90,7 @@
     
             {"columns":["costElement","rateClassCode","rateTypeCode","active"],"primaryKey":"costElement:rateClassCode:rateTypeCode"}
 		
-### Get Blueprint API specification for Valid Ce Rate Types [GET /research-sys/api/v1/valid-ce-rate-types/]
+### Get Blueprint API specification for Valid Ce Rate Types [GET /research-common/api/v1/valid-ce-rate-types/]
 	 
 + Parameters
 
@@ -111,7 +111,7 @@
             transfer-encoding:chunked
 
 
-### Update Valid Ce Rate Types [PUT /research-sys/api/v1/valid-ce-rate-types/(key)]
+### Update Valid Ce Rate Types [PUT /research-common/api/v1/valid-ce-rate-types/(key)]
 
 + Request
 
@@ -126,7 +126,7 @@
 			
 + Response 204
 
-### Update Multiple Valid Ce Rate Types [PUT /research-sys/api/v1/valid-ce-rate-types/]
+### Update Multiple Valid Ce Rate Types [PUT /research-common/api/v1/valid-ce-rate-types/]
 
 + Request
 
@@ -144,7 +144,7 @@
 			
 + Response 204
 
-### Insert Valid Ce Rate Types [POST /research-sys/api/v1/valid-ce-rate-types/]
+### Insert Valid Ce Rate Types [POST /research-common/api/v1/valid-ce-rate-types/]
 
 + Request
 
@@ -163,7 +163,7 @@
             
             {"costElement": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","active": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Valid Ce Rate Types [POST /research-sys/api/v1/valid-ce-rate-types/]
+### Insert Multiple Valid Ce Rate Types [POST /research-common/api/v1/valid-ce-rate-types/]
 
 + Request
 
@@ -188,7 +188,7 @@
               {"costElement": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Valid Ce Rate Types by Key [DELETE /research-sys/api/v1/valid-ce-rate-types/(key)]
+### Delete Valid Ce Rate Types by Key [DELETE /research-common/api/v1/valid-ce-rate-types/(key)]
 	 
 + Request
 
@@ -199,7 +199,7 @@
 
 + Response 204
 
-### Delete All Valid Ce Rate Types [DELETE /research-sys/api/v1/valid-ce-rate-types/]
+### Delete All Valid Ce Rate Types [DELETE /research-common/api/v1/valid-ce-rate-types/]
 
 + Parameters
 
@@ -214,15 +214,15 @@
 
 + Response 204
 
-### Delete All Valid Ce Rate Types with Matching [DELETE /research-sys/api/v1/valid-ce-rate-types/]
+### Delete All Valid Ce Rate Types with Matching [DELETE /research-common/api/v1/valid-ce-rate-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + costElement
-            + rateClassCode
-            + rateTypeCode
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + costElement (optional) - Cost Element. Maximum length is 8.
+    + rateClassCode (optional) - Rate Class Code. Maximum length is 3.
+    + rateTypeCode (optional) - Rate Type Code. Maximum length is 3.
+    + active (optional) - Active. Maximum length is 1.
 
       
 + Request

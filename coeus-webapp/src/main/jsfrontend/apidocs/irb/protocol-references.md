@@ -1,6 +1,6 @@
-## Protocol References [/research-sys/api/v1/protocol-references/]
+## Protocol References [/irb/api/v1/protocol-references/]
 
-### Get Protocol References by Key [GET /research-sys/api/v1/protocol-references/(key)]
+### Get Protocol References by Key [GET /irb/api/v1/protocol-references/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"protocolReferenceId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","protocolReferenceNumber": "(val)","protocolReferenceTypeCode": "(val)","referenceKey": "(val)","applicationDate": "(val)","approvalDate": "(val)","comments": "(val)","_primaryKey": "(val)"}
 
-### Get All Protocol References [GET /research-sys/api/v1/protocol-references/]
+### Get All Protocol References [GET /irb/api/v1/protocol-references/]
 	 
 + Request
 
@@ -39,20 +39,20 @@
               {"protocolReferenceId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","protocolReferenceNumber": "(val)","protocolReferenceTypeCode": "(val)","referenceKey": "(val)","applicationDate": "(val)","approvalDate": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Protocol References with Filtering [GET /research-sys/api/v1/protocol-references/]
+### Get All Protocol References with Filtering [GET /irb/api/v1/protocol-references/]
     
 + Parameters
 
-        + protocolReferenceId
-            + protocolId
-            + protocolNumber
-            + sequenceNumber
-            + protocolReferenceNumber
-            + protocolReferenceTypeCode
-            + referenceKey
-            + applicationDate
-            + approvalDate
-            + comments
+    + protocolReferenceId (optional) - Protocol Reference Id. Maximum length is 22.
+    + protocolId (optional) - Protocol Id. Maximum length is 22.
+    + protocolNumber (optional) - Protocol Number. Maximum length is 20.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 22.
+    + protocolReferenceNumber (optional) - Protocol Reference Number. Maximum length is 22.
+    + protocolReferenceTypeCode (optional) - Protocol Reference Type Code. Maximum length is 3.
+    + referenceKey (optional) - Reference Key. Maximum length is 50.
+    + applicationDate (optional) - Application Date. Maximum length is 10.
+    + approvalDate (optional) - Approval Date. Maximum length is 10.
+    + comments (optional) - Comments. Maximum length is 400.
 
             
 + Request
@@ -74,7 +74,7 @@
               {"protocolReferenceId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","protocolReferenceNumber": "(val)","protocolReferenceTypeCode": "(val)","referenceKey": "(val)","applicationDate": "(val)","approvalDate": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Protocol References [GET /research-sys/api/v1/protocol-references/]
+### Get Schema for Protocol References [GET /irb/api/v1/protocol-references/]
 	                                          
 + Parameters
 
@@ -96,7 +96,7 @@
     
             {"columns":["protocolReferenceId","protocolId","protocolNumber","sequenceNumber","protocolReferenceNumber","protocolReferenceTypeCode","referenceKey","applicationDate","approvalDate","comments"],"primaryKey":"protocolReferenceId"}
 		
-### Get Blueprint API specification for Protocol References [GET /research-sys/api/v1/protocol-references/]
+### Get Blueprint API specification for Protocol References [GET /irb/api/v1/protocol-references/]
 	 
 + Parameters
 
@@ -117,7 +117,7 @@
             transfer-encoding:chunked
 
 
-### Update Protocol References [PUT /research-sys/api/v1/protocol-references/(key)]
+### Update Protocol References [PUT /irb/api/v1/protocol-references/(key)]
 
 + Request
 
@@ -132,7 +132,7 @@
 			
 + Response 204
 
-### Update Multiple Protocol References [PUT /research-sys/api/v1/protocol-references/]
+### Update Multiple Protocol References [PUT /irb/api/v1/protocol-references/]
 
 + Request
 
@@ -150,7 +150,7 @@
 			
 + Response 204
 
-### Insert Protocol References [POST /research-sys/api/v1/protocol-references/]
+### Insert Protocol References [POST /irb/api/v1/protocol-references/]
 
 + Request
 
@@ -169,7 +169,7 @@
             
             {"protocolReferenceId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","protocolReferenceNumber": "(val)","protocolReferenceTypeCode": "(val)","referenceKey": "(val)","applicationDate": "(val)","approvalDate": "(val)","comments": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Protocol References [POST /research-sys/api/v1/protocol-references/]
+### Insert Multiple Protocol References [POST /irb/api/v1/protocol-references/]
 
 + Request
 
@@ -194,7 +194,7 @@
               {"protocolReferenceId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","protocolReferenceNumber": "(val)","protocolReferenceTypeCode": "(val)","referenceKey": "(val)","applicationDate": "(val)","approvalDate": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Protocol References by Key [DELETE /research-sys/api/v1/protocol-references/(key)]
+### Delete Protocol References by Key [DELETE /irb/api/v1/protocol-references/(key)]
 	 
 + Request
 
@@ -205,7 +205,7 @@
 
 + Response 204
 
-### Delete All Protocol References [DELETE /research-sys/api/v1/protocol-references/]
+### Delete All Protocol References [DELETE /irb/api/v1/protocol-references/]
 
 + Parameters
 
@@ -220,21 +220,21 @@
 
 + Response 204
 
-### Delete All Protocol References with Matching [DELETE /research-sys/api/v1/protocol-references/]
+### Delete All Protocol References with Matching [DELETE /irb/api/v1/protocol-references/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + protocolReferenceId
-            + protocolId
-            + protocolNumber
-            + sequenceNumber
-            + protocolReferenceNumber
-            + protocolReferenceTypeCode
-            + referenceKey
-            + applicationDate
-            + approvalDate
-            + comments
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + protocolReferenceId (optional) - Protocol Reference Id. Maximum length is 22.
+    + protocolId (optional) - Protocol Id. Maximum length is 22.
+    + protocolNumber (optional) - Protocol Number. Maximum length is 20.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 22.
+    + protocolReferenceNumber (optional) - Protocol Reference Number. Maximum length is 22.
+    + protocolReferenceTypeCode (optional) - Protocol Reference Type Code. Maximum length is 3.
+    + referenceKey (optional) - Reference Key. Maximum length is 50.
+    + applicationDate (optional) - Application Date. Maximum length is 10.
+    + approvalDate (optional) - Approval Date. Maximum length is 10.
+    + comments (optional) - Comments. Maximum length is 400.
 
       
 + Request

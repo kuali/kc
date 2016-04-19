@@ -1,6 +1,6 @@
-## Attachment Files [/research-sys/api/v1/attachment-files/]
+## Attachment Files [/research-common/api/v1/attachment-files/]
 
-### Get Attachment Files by Key [GET /research-sys/api/v1/attachment-files/(key)]
+### Get Attachment Files by Key [GET /research-common/api/v1/attachment-files/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"id": "(val)","sequenceNumber": "(val)","name": "(val)","type": "(val)","data": "(val)","_primaryKey": "(val)"}
 
-### Get All Attachment Files [GET /research-sys/api/v1/attachment-files/]
+### Get All Attachment Files [GET /research-common/api/v1/attachment-files/]
 	 
 + Request
 
@@ -39,15 +39,15 @@
               {"id": "(val)","sequenceNumber": "(val)","name": "(val)","type": "(val)","data": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Attachment Files with Filtering [GET /research-sys/api/v1/attachment-files/]
+### Get All Attachment Files with Filtering [GET /research-common/api/v1/attachment-files/]
     
 + Parameters
 
-        + id
-            + sequenceNumber
-            + name
-            + type
-            + data
+    + id (optional) - Id. Maximum length is 12.
+    + sequenceNumber (optional) - 
+    + name (optional) - File Name. Maximum length is 150.
+    + type (optional) - Type. Maximum length is 250.
+    + data (optional) - 
 
             
 + Request
@@ -69,7 +69,7 @@
               {"id": "(val)","sequenceNumber": "(val)","name": "(val)","type": "(val)","data": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Attachment Files [GET /research-sys/api/v1/attachment-files/]
+### Get Schema for Attachment Files [GET /research-common/api/v1/attachment-files/]
 	                                          
 + Parameters
 
@@ -91,7 +91,7 @@
     
             {"columns":["id","sequenceNumber","name","type","data"],"primaryKey":"id"}
 		
-### Get Blueprint API specification for Attachment Files [GET /research-sys/api/v1/attachment-files/]
+### Get Blueprint API specification for Attachment Files [GET /research-common/api/v1/attachment-files/]
 	 
 + Parameters
 
@@ -112,7 +112,7 @@
             transfer-encoding:chunked
 
 
-### Update Attachment Files [PUT /research-sys/api/v1/attachment-files/(key)]
+### Update Attachment Files [PUT /research-common/api/v1/attachment-files/(key)]
 
 + Request
 
@@ -127,7 +127,7 @@
 			
 + Response 204
 
-### Update Multiple Attachment Files [PUT /research-sys/api/v1/attachment-files/]
+### Update Multiple Attachment Files [PUT /research-common/api/v1/attachment-files/]
 
 + Request
 
@@ -145,7 +145,7 @@
 			
 + Response 204
 
-### Insert Attachment Files [POST /research-sys/api/v1/attachment-files/]
+### Insert Attachment Files [POST /research-common/api/v1/attachment-files/]
 
 + Request
 
@@ -164,7 +164,7 @@
             
             {"id": "(val)","sequenceNumber": "(val)","name": "(val)","type": "(val)","data": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Attachment Files [POST /research-sys/api/v1/attachment-files/]
+### Insert Multiple Attachment Files [POST /research-common/api/v1/attachment-files/]
 
 + Request
 
@@ -189,7 +189,7 @@
               {"id": "(val)","sequenceNumber": "(val)","name": "(val)","type": "(val)","data": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Attachment Files by Key [DELETE /research-sys/api/v1/attachment-files/(key)]
+### Delete Attachment Files by Key [DELETE /research-common/api/v1/attachment-files/(key)]
 	 
 + Request
 
@@ -200,7 +200,7 @@
 
 + Response 204
 
-### Delete All Attachment Files [DELETE /research-sys/api/v1/attachment-files/]
+### Delete All Attachment Files [DELETE /research-common/api/v1/attachment-files/]
 
 + Parameters
 
@@ -215,16 +215,16 @@
 
 + Response 204
 
-### Delete All Attachment Files with Matching [DELETE /research-sys/api/v1/attachment-files/]
+### Delete All Attachment Files with Matching [DELETE /research-common/api/v1/attachment-files/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + sequenceNumber
-            + name
-            + type
-            + data
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Id. Maximum length is 12.
+    + sequenceNumber (optional) - 
+    + name (optional) - File Name. Maximum length is 150.
+    + type (optional) - Type. Maximum length is 250.
+    + data (optional) - 
 
       
 + Request

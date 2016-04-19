@@ -1,6 +1,6 @@
-## S2s Errors [/research-sys/api/v1/s2s-errors/]
+## S2s Errors [/propdev/api/v1/s2s-errors/]
 
-### Get S2s Errors by Key [GET /research-sys/api/v1/s2s-errors/(key)]
+### Get S2s Errors by Key [GET /propdev/api/v1/s2s-errors/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"id": "(val)","key": "(val)","message": "(val)","link": "(val)","_primaryKey": "(val)"}
 
-### Get All S2s Errors [GET /research-sys/api/v1/s2s-errors/]
+### Get All S2s Errors [GET /propdev/api/v1/s2s-errors/]
 	 
 + Request
 
@@ -39,14 +39,14 @@
               {"id": "(val)","key": "(val)","message": "(val)","link": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All S2s Errors with Filtering [GET /research-sys/api/v1/s2s-errors/]
+### Get All S2s Errors with Filtering [GET /propdev/api/v1/s2s-errors/]
     
 + Parameters
 
-        + id
-            + key
-            + message
-            + link
+    + id (optional) - S2s Error Id. Maximum length is 12.
+    + key (optional) - Key. Maximum length is 200.
+    + message (optional) - Message. Maximum length is 200.
+    + link (optional) - Link. Maximum length is 200.
 
             
 + Request
@@ -68,7 +68,7 @@
               {"id": "(val)","key": "(val)","message": "(val)","link": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for S2s Errors [GET /research-sys/api/v1/s2s-errors/]
+### Get Schema for S2s Errors [GET /propdev/api/v1/s2s-errors/]
 	                                          
 + Parameters
 
@@ -90,7 +90,7 @@
     
             {"columns":["id","key","message","link"],"primaryKey":"id"}
 		
-### Get Blueprint API specification for S2s Errors [GET /research-sys/api/v1/s2s-errors/]
+### Get Blueprint API specification for S2s Errors [GET /propdev/api/v1/s2s-errors/]
 	 
 + Parameters
 
@@ -111,7 +111,7 @@
             transfer-encoding:chunked
 
 
-### Update S2s Errors [PUT /research-sys/api/v1/s2s-errors/(key)]
+### Update S2s Errors [PUT /propdev/api/v1/s2s-errors/(key)]
 
 + Request
 
@@ -126,7 +126,7 @@
 			
 + Response 204
 
-### Update Multiple S2s Errors [PUT /research-sys/api/v1/s2s-errors/]
+### Update Multiple S2s Errors [PUT /propdev/api/v1/s2s-errors/]
 
 + Request
 
@@ -144,7 +144,7 @@
 			
 + Response 204
 
-### Insert S2s Errors [POST /research-sys/api/v1/s2s-errors/]
+### Insert S2s Errors [POST /propdev/api/v1/s2s-errors/]
 
 + Request
 
@@ -163,7 +163,7 @@
             
             {"id": "(val)","key": "(val)","message": "(val)","link": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple S2s Errors [POST /research-sys/api/v1/s2s-errors/]
+### Insert Multiple S2s Errors [POST /propdev/api/v1/s2s-errors/]
 
 + Request
 
@@ -188,7 +188,7 @@
               {"id": "(val)","key": "(val)","message": "(val)","link": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete S2s Errors by Key [DELETE /research-sys/api/v1/s2s-errors/(key)]
+### Delete S2s Errors by Key [DELETE /propdev/api/v1/s2s-errors/(key)]
 	 
 + Request
 
@@ -199,7 +199,7 @@
 
 + Response 204
 
-### Delete All S2s Errors [DELETE /research-sys/api/v1/s2s-errors/]
+### Delete All S2s Errors [DELETE /propdev/api/v1/s2s-errors/]
 
 + Parameters
 
@@ -214,15 +214,15 @@
 
 + Response 204
 
-### Delete All S2s Errors with Matching [DELETE /research-sys/api/v1/s2s-errors/]
+### Delete All S2s Errors with Matching [DELETE /propdev/api/v1/s2s-errors/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + key
-            + message
-            + link
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - S2s Error Id. Maximum length is 12.
+    + key (optional) - Key. Maximum length is 200.
+    + message (optional) - Message. Maximum length is 200.
+    + link (optional) - Link. Maximum length is 200.
 
       
 + Request

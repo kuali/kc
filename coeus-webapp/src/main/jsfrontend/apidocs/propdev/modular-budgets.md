@@ -1,6 +1,6 @@
-## Modular Budgets [/research-sys/api/v1/modular-budgets/]
+## Modular Budgets [/propdev/api/v1/modular-budgets/]
 
-### Get Modular Budgets by Key [GET /research-sys/api/v1/modular-budgets/(key)]
+### Get Modular Budgets by Key [GET /propdev/api/v1/modular-budgets/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"budgetPeriodId": "(val)","budgetId": "(val)","budgetPeriod": "(val)","directCostLessConsortiumFna": "(val)","consortiumFna": "(val)","totalDirectCost": "(val)","_primaryKey": "(val)"}
 
-### Get All Modular Budgets [GET /research-sys/api/v1/modular-budgets/]
+### Get All Modular Budgets [GET /propdev/api/v1/modular-budgets/]
 	 
 + Request
 
@@ -39,16 +39,16 @@
               {"budgetPeriodId": "(val)","budgetId": "(val)","budgetPeriod": "(val)","directCostLessConsortiumFna": "(val)","consortiumFna": "(val)","totalDirectCost": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Modular Budgets with Filtering [GET /research-sys/api/v1/modular-budgets/]
+### Get All Modular Budgets with Filtering [GET /propdev/api/v1/modular-budgets/]
     
 + Parameters
 
-        + budgetPeriodId
-            + budgetId
-            + budgetPeriod
-            + directCostLessConsortiumFna
-            + consortiumFna
-            + totalDirectCost
+    + budgetPeriodId (optional) - Budget Period Id.
+    + budgetId (optional) - Budget Id.
+    + budgetPeriod (optional) - Budget Period. Maximum length is 3.
+    + directCostLessConsortiumFna (optional) - Direct Cost Less Consortium FNA. Maximum length is 15.
+    + consortiumFna (optional) - Consortium FNA. Maximum length is 15.
+    + totalDirectCost (optional) - Total Direct Cost. Maximum length is 15.
 
             
 + Request
@@ -70,7 +70,7 @@
               {"budgetPeriodId": "(val)","budgetId": "(val)","budgetPeriod": "(val)","directCostLessConsortiumFna": "(val)","consortiumFna": "(val)","totalDirectCost": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Modular Budgets [GET /research-sys/api/v1/modular-budgets/]
+### Get Schema for Modular Budgets [GET /propdev/api/v1/modular-budgets/]
 	                                          
 + Parameters
 
@@ -92,7 +92,7 @@
     
             {"columns":["budgetPeriodId","budgetId","budgetPeriod","directCostLessConsortiumFna","consortiumFna","totalDirectCost"],"primaryKey":"budgetPeriodObj"}
 		
-### Get Blueprint API specification for Modular Budgets [GET /research-sys/api/v1/modular-budgets/]
+### Get Blueprint API specification for Modular Budgets [GET /propdev/api/v1/modular-budgets/]
 	 
 + Parameters
 
@@ -113,7 +113,7 @@
             transfer-encoding:chunked
 
 
-### Update Modular Budgets [PUT /research-sys/api/v1/modular-budgets/(key)]
+### Update Modular Budgets [PUT /propdev/api/v1/modular-budgets/(key)]
 
 + Request
 
@@ -128,7 +128,7 @@
 			
 + Response 204
 
-### Update Multiple Modular Budgets [PUT /research-sys/api/v1/modular-budgets/]
+### Update Multiple Modular Budgets [PUT /propdev/api/v1/modular-budgets/]
 
 + Request
 
@@ -146,7 +146,7 @@
 			
 + Response 204
 
-### Insert Modular Budgets [POST /research-sys/api/v1/modular-budgets/]
+### Insert Modular Budgets [POST /propdev/api/v1/modular-budgets/]
 
 + Request
 
@@ -165,7 +165,7 @@
             
             {"budgetPeriodId": "(val)","budgetId": "(val)","budgetPeriod": "(val)","directCostLessConsortiumFna": "(val)","consortiumFna": "(val)","totalDirectCost": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Modular Budgets [POST /research-sys/api/v1/modular-budgets/]
+### Insert Multiple Modular Budgets [POST /propdev/api/v1/modular-budgets/]
 
 + Request
 
@@ -190,7 +190,7 @@
               {"budgetPeriodId": "(val)","budgetId": "(val)","budgetPeriod": "(val)","directCostLessConsortiumFna": "(val)","consortiumFna": "(val)","totalDirectCost": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Modular Budgets by Key [DELETE /research-sys/api/v1/modular-budgets/(key)]
+### Delete Modular Budgets by Key [DELETE /propdev/api/v1/modular-budgets/(key)]
 	 
 + Request
 
@@ -201,7 +201,7 @@
 
 + Response 204
 
-### Delete All Modular Budgets [DELETE /research-sys/api/v1/modular-budgets/]
+### Delete All Modular Budgets [DELETE /propdev/api/v1/modular-budgets/]
 
 + Parameters
 
@@ -216,17 +216,17 @@
 
 + Response 204
 
-### Delete All Modular Budgets with Matching [DELETE /research-sys/api/v1/modular-budgets/]
+### Delete All Modular Budgets with Matching [DELETE /propdev/api/v1/modular-budgets/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + budgetPeriodId
-            + budgetId
-            + budgetPeriod
-            + directCostLessConsortiumFna
-            + consortiumFna
-            + totalDirectCost
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + budgetPeriodId (optional) - Budget Period Id.
+    + budgetId (optional) - Budget Id.
+    + budgetPeriod (optional) - Budget Period. Maximum length is 3.
+    + directCostLessConsortiumFna (optional) - Direct Cost Less Consortium FNA. Maximum length is 15.
+    + consortiumFna (optional) - Consortium FNA. Maximum length is 15.
+    + totalDirectCost (optional) - Total Direct Cost. Maximum length is 15.
 
       
 + Request

@@ -43,13 +43,13 @@
     
 + Parameters
 
-        + roleId
-            + kimTypeId
-            + roleName
-            + namespaceCode
-            + edit
-            + documentNumber
-            + active
+    + roleId (optional) - Role. Maximum length is 40.
+    + kimTypeId (optional) - Type. Maximum length is 40.
+    + roleName (optional) - Name. Maximum length is 80.
+    + namespaceCode (optional) - Namespace Code. Maximum length is 40.
+    + edit (optional) - Edit.
+    + documentNumber (optional) - Document Number.
+    + active (optional) - Active.
 
             
 + Request
@@ -221,14 +221,14 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + roleId
-            + kimTypeId
-            + roleName
-            + namespaceCode
-            + edit
-            + documentNumber
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + roleId (optional) - Role. Maximum length is 40.
+    + kimTypeId (optional) - Type. Maximum length is 40.
+    + roleName (optional) - Name. Maximum length is 80.
+    + namespaceCode (optional) - Namespace Code. Maximum length is 40.
+    + edit (optional) - Edit.
+    + documentNumber (optional) - Document Number.
+    + active (optional) - Active.
 
       
 + Request

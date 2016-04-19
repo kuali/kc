@@ -1,6 +1,6 @@
-## Iacuc Committee Schedule Action Items [/research-sys/api/v1/iacuc-committee-schedule-action-items/]
+## Iacuc Committee Schedule Action Items [/iacuc/api/v1/iacuc-committee-schedule-action-items/]
 
-### Get Iacuc Committee Schedule Action Items by Key [GET /research-sys/api/v1/iacuc-committee-schedule-action-items/(key)]
+### Get Iacuc Committee Schedule Action Items by Key [GET /iacuc/api/v1/iacuc-committee-schedule-action-items/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"commScheduleActItemsId": "(val)","scheduleIdFk": "(val)","actionItemNumber": "(val)","scheduleActItemTypeCode": "(val)","itemDescription": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Committee Schedule Action Items [GET /research-sys/api/v1/iacuc-committee-schedule-action-items/]
+### Get All Iacuc Committee Schedule Action Items [GET /iacuc/api/v1/iacuc-committee-schedule-action-items/]
 	 
 + Request
 
@@ -39,15 +39,15 @@
               {"commScheduleActItemsId": "(val)","scheduleIdFk": "(val)","actionItemNumber": "(val)","scheduleActItemTypeCode": "(val)","itemDescription": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Committee Schedule Action Items with Filtering [GET /research-sys/api/v1/iacuc-committee-schedule-action-items/]
+### Get All Iacuc Committee Schedule Action Items with Filtering [GET /iacuc/api/v1/iacuc-committee-schedule-action-items/]
     
 + Parameters
 
-        + commScheduleActItemsId
-            + scheduleIdFk
-            + actionItemNumber
-            + scheduleActItemTypeCode
-            + itemDescription
+    + commScheduleActItemsId (optional) - 
+    + scheduleIdFk (optional) - 
+    + actionItemNumber (optional) - 
+    + scheduleActItemTypeCode (optional) - 
+    + itemDescription (optional) - 
 
             
 + Request
@@ -69,7 +69,7 @@
               {"commScheduleActItemsId": "(val)","scheduleIdFk": "(val)","actionItemNumber": "(val)","scheduleActItemTypeCode": "(val)","itemDescription": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Committee Schedule Action Items [GET /research-sys/api/v1/iacuc-committee-schedule-action-items/]
+### Get Schema for Iacuc Committee Schedule Action Items [GET /iacuc/api/v1/iacuc-committee-schedule-action-items/]
 	                                          
 + Parameters
 
@@ -91,7 +91,7 @@
     
             {"columns":["commScheduleActItemsId","scheduleIdFk","actionItemNumber","scheduleActItemTypeCode","itemDescription"],"primaryKey":"commScheduleActItemsId"}
 		
-### Get Blueprint API specification for Iacuc Committee Schedule Action Items [GET /research-sys/api/v1/iacuc-committee-schedule-action-items/]
+### Get Blueprint API specification for Iacuc Committee Schedule Action Items [GET /iacuc/api/v1/iacuc-committee-schedule-action-items/]
 	 
 + Parameters
 
@@ -112,7 +112,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Committee Schedule Action Items [PUT /research-sys/api/v1/iacuc-committee-schedule-action-items/(key)]
+### Update Iacuc Committee Schedule Action Items [PUT /iacuc/api/v1/iacuc-committee-schedule-action-items/(key)]
 
 + Request
 
@@ -127,7 +127,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Committee Schedule Action Items [PUT /research-sys/api/v1/iacuc-committee-schedule-action-items/]
+### Update Multiple Iacuc Committee Schedule Action Items [PUT /iacuc/api/v1/iacuc-committee-schedule-action-items/]
 
 + Request
 
@@ -145,7 +145,7 @@
 			
 + Response 204
 
-### Insert Iacuc Committee Schedule Action Items [POST /research-sys/api/v1/iacuc-committee-schedule-action-items/]
+### Insert Iacuc Committee Schedule Action Items [POST /iacuc/api/v1/iacuc-committee-schedule-action-items/]
 
 + Request
 
@@ -164,7 +164,7 @@
             
             {"commScheduleActItemsId": "(val)","scheduleIdFk": "(val)","actionItemNumber": "(val)","scheduleActItemTypeCode": "(val)","itemDescription": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Committee Schedule Action Items [POST /research-sys/api/v1/iacuc-committee-schedule-action-items/]
+### Insert Multiple Iacuc Committee Schedule Action Items [POST /iacuc/api/v1/iacuc-committee-schedule-action-items/]
 
 + Request
 
@@ -189,7 +189,7 @@
               {"commScheduleActItemsId": "(val)","scheduleIdFk": "(val)","actionItemNumber": "(val)","scheduleActItemTypeCode": "(val)","itemDescription": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Committee Schedule Action Items by Key [DELETE /research-sys/api/v1/iacuc-committee-schedule-action-items/(key)]
+### Delete Iacuc Committee Schedule Action Items by Key [DELETE /iacuc/api/v1/iacuc-committee-schedule-action-items/(key)]
 	 
 + Request
 
@@ -200,7 +200,7 @@
 
 + Response 204
 
-### Delete All Iacuc Committee Schedule Action Items [DELETE /research-sys/api/v1/iacuc-committee-schedule-action-items/]
+### Delete All Iacuc Committee Schedule Action Items [DELETE /iacuc/api/v1/iacuc-committee-schedule-action-items/]
 
 + Parameters
 
@@ -215,16 +215,16 @@
 
 + Response 204
 
-### Delete All Iacuc Committee Schedule Action Items with Matching [DELETE /research-sys/api/v1/iacuc-committee-schedule-action-items/]
+### Delete All Iacuc Committee Schedule Action Items with Matching [DELETE /iacuc/api/v1/iacuc-committee-schedule-action-items/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + commScheduleActItemsId
-            + scheduleIdFk
-            + actionItemNumber
-            + scheduleActItemTypeCode
-            + itemDescription
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + commScheduleActItemsId (optional) - 
+    + scheduleIdFk (optional) - 
+    + actionItemNumber (optional) - 
+    + scheduleActItemTypeCode (optional) - 
+    + itemDescription (optional) - 
 
       
 + Request

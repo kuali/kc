@@ -1,6 +1,6 @@
-## Sub Award Statuses [/research-sys/api/v1/sub-award-statuses/]
+## Sub Award Statuses [/subaward/api/v1/sub-award-statuses/]
 
-### Get Sub Award Statuses by Key [GET /research-sys/api/v1/sub-award-statuses/(key)]
+### Get Sub Award Statuses by Key [GET /subaward/api/v1/sub-award-statuses/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"subAwardStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Sub Award Statuses [GET /research-sys/api/v1/sub-award-statuses/]
+### Get All Sub Award Statuses [GET /subaward/api/v1/sub-award-statuses/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"subAwardStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Sub Award Statuses with Filtering [GET /research-sys/api/v1/sub-award-statuses/]
+### Get All Sub Award Statuses with Filtering [GET /subaward/api/v1/sub-award-statuses/]
     
 + Parameters
 
-        + subAwardStatusCode
-            + description
+    + subAwardStatusCode (optional) - Subaward Status Code. Maximum length is 22.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"subAwardStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Sub Award Statuses [GET /research-sys/api/v1/sub-award-statuses/]
+### Get Schema for Sub Award Statuses [GET /subaward/api/v1/sub-award-statuses/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["subAwardStatusCode","description"],"primaryKey":"subAwardStatusCode"}
 		
-### Get Blueprint API specification for Sub Award Statuses [GET /research-sys/api/v1/sub-award-statuses/]
+### Get Blueprint API specification for Sub Award Statuses [GET /subaward/api/v1/sub-award-statuses/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Sub Award Statuses [PUT /research-sys/api/v1/sub-award-statuses/(key)]
+### Update Sub Award Statuses [PUT /subaward/api/v1/sub-award-statuses/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Sub Award Statuses [PUT /research-sys/api/v1/sub-award-statuses/]
+### Update Multiple Sub Award Statuses [PUT /subaward/api/v1/sub-award-statuses/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Sub Award Statuses [POST /research-sys/api/v1/sub-award-statuses/]
+### Insert Sub Award Statuses [POST /subaward/api/v1/sub-award-statuses/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"subAwardStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Sub Award Statuses [POST /research-sys/api/v1/sub-award-statuses/]
+### Insert Multiple Sub Award Statuses [POST /subaward/api/v1/sub-award-statuses/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"subAwardStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Sub Award Statuses by Key [DELETE /research-sys/api/v1/sub-award-statuses/(key)]
+### Delete Sub Award Statuses by Key [DELETE /subaward/api/v1/sub-award-statuses/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Sub Award Statuses [DELETE /research-sys/api/v1/sub-award-statuses/]
+### Delete All Sub Award Statuses [DELETE /subaward/api/v1/sub-award-statuses/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Sub Award Statuses with Matching [DELETE /research-sys/api/v1/sub-award-statuses/]
+### Delete All Sub Award Statuses with Matching [DELETE /subaward/api/v1/sub-award-statuses/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + subAwardStatusCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + subAwardStatusCode (optional) - Subaward Status Code. Maximum length is 22.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

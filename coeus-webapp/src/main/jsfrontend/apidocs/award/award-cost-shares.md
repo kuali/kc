@@ -1,6 +1,6 @@
-## Award Cost Shares [/research-sys/api/v1/award-cost-shares/]
+## Award Cost Shares [/award/api/v1/award-cost-shares/]
 
-### Get Award Cost Shares by Key [GET /research-sys/api/v1/award-cost-shares/(key)]
+### Get Award Cost Shares by Key [GET /award/api/v1/award-cost-shares/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"awardCostShareId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","projectPeriod": "(val)","costSharePercentage": "(val)","costShareTypeCode": "(val)","source": "(val)","destination": "(val)","commitmentAmount": "(val)","costShareMet": "(val)","verificationDate": "(val)","_primaryKey": "(val)"}
 
-### Get All Award Cost Shares [GET /research-sys/api/v1/award-cost-shares/]
+### Get All Award Cost Shares [GET /award/api/v1/award-cost-shares/]
 	 
 + Request
 
@@ -39,22 +39,22 @@
               {"awardCostShareId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","projectPeriod": "(val)","costSharePercentage": "(val)","costShareTypeCode": "(val)","source": "(val)","destination": "(val)","commitmentAmount": "(val)","costShareMet": "(val)","verificationDate": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Award Cost Shares with Filtering [GET /research-sys/api/v1/award-cost-shares/]
+### Get All Award Cost Shares with Filtering [GET /award/api/v1/award-cost-shares/]
     
 + Parameters
 
-        + awardCostShareId
-            + awardId
-            + awardNumber
-            + sequenceNumber
-            + projectPeriod
-            + costSharePercentage
-            + costShareTypeCode
-            + source
-            + destination
-            + commitmentAmount
-            + costShareMet
-            + verificationDate
+    + awardCostShareId (optional) - Award Cost Share ID. Maximum length is 8.
+    + awardId (optional) - 
+    + awardNumber (optional) - Award ID. Maximum length is 12.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 4.
+    + projectPeriod (optional) - Project Period. Maximum length is 4.
+    + costSharePercentage (optional) - Cost Share Percentage. Maximum length is 10.
+    + costShareTypeCode (optional) - Cost Share Type Code. Maximum length is 3.
+    + source (optional) - Source. Maximum length is 32.
+    + destination (optional) - Destination. Maximum length is 32.
+    + commitmentAmount (optional) - Commitment Amount. Maximum length is 12.
+    + costShareMet (optional) - Cost Share Met. Maximum length is 12.
+    + verificationDate (optional) - Verification Date. Maximum length is 21.
 
             
 + Request
@@ -76,7 +76,7 @@
               {"awardCostShareId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","projectPeriod": "(val)","costSharePercentage": "(val)","costShareTypeCode": "(val)","source": "(val)","destination": "(val)","commitmentAmount": "(val)","costShareMet": "(val)","verificationDate": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Award Cost Shares [GET /research-sys/api/v1/award-cost-shares/]
+### Get Schema for Award Cost Shares [GET /award/api/v1/award-cost-shares/]
 	                                          
 + Parameters
 
@@ -98,7 +98,7 @@
     
             {"columns":["awardCostShareId","awardId","awardNumber","sequenceNumber","projectPeriod","costSharePercentage","costShareTypeCode","source","destination","commitmentAmount","costShareMet","verificationDate"],"primaryKey":"awardCostShareId"}
 		
-### Get Blueprint API specification for Award Cost Shares [GET /research-sys/api/v1/award-cost-shares/]
+### Get Blueprint API specification for Award Cost Shares [GET /award/api/v1/award-cost-shares/]
 	 
 + Parameters
 
@@ -119,7 +119,7 @@
             transfer-encoding:chunked
 
 
-### Update Award Cost Shares [PUT /research-sys/api/v1/award-cost-shares/(key)]
+### Update Award Cost Shares [PUT /award/api/v1/award-cost-shares/(key)]
 
 + Request
 
@@ -134,7 +134,7 @@
 			
 + Response 204
 
-### Update Multiple Award Cost Shares [PUT /research-sys/api/v1/award-cost-shares/]
+### Update Multiple Award Cost Shares [PUT /award/api/v1/award-cost-shares/]
 
 + Request
 
@@ -152,7 +152,7 @@
 			
 + Response 204
 
-### Insert Award Cost Shares [POST /research-sys/api/v1/award-cost-shares/]
+### Insert Award Cost Shares [POST /award/api/v1/award-cost-shares/]
 
 + Request
 
@@ -171,7 +171,7 @@
             
             {"awardCostShareId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","projectPeriod": "(val)","costSharePercentage": "(val)","costShareTypeCode": "(val)","source": "(val)","destination": "(val)","commitmentAmount": "(val)","costShareMet": "(val)","verificationDate": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Award Cost Shares [POST /research-sys/api/v1/award-cost-shares/]
+### Insert Multiple Award Cost Shares [POST /award/api/v1/award-cost-shares/]
 
 + Request
 
@@ -196,7 +196,7 @@
               {"awardCostShareId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","projectPeriod": "(val)","costSharePercentage": "(val)","costShareTypeCode": "(val)","source": "(val)","destination": "(val)","commitmentAmount": "(val)","costShareMet": "(val)","verificationDate": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Award Cost Shares by Key [DELETE /research-sys/api/v1/award-cost-shares/(key)]
+### Delete Award Cost Shares by Key [DELETE /award/api/v1/award-cost-shares/(key)]
 	 
 + Request
 
@@ -207,7 +207,7 @@
 
 + Response 204
 
-### Delete All Award Cost Shares [DELETE /research-sys/api/v1/award-cost-shares/]
+### Delete All Award Cost Shares [DELETE /award/api/v1/award-cost-shares/]
 
 + Parameters
 
@@ -222,23 +222,23 @@
 
 + Response 204
 
-### Delete All Award Cost Shares with Matching [DELETE /research-sys/api/v1/award-cost-shares/]
+### Delete All Award Cost Shares with Matching [DELETE /award/api/v1/award-cost-shares/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + awardCostShareId
-            + awardId
-            + awardNumber
-            + sequenceNumber
-            + projectPeriod
-            + costSharePercentage
-            + costShareTypeCode
-            + source
-            + destination
-            + commitmentAmount
-            + costShareMet
-            + verificationDate
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + awardCostShareId (optional) - Award Cost Share ID. Maximum length is 8.
+    + awardId (optional) - 
+    + awardNumber (optional) - Award ID. Maximum length is 12.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 4.
+    + projectPeriod (optional) - Project Period. Maximum length is 4.
+    + costSharePercentage (optional) - Cost Share Percentage. Maximum length is 10.
+    + costShareTypeCode (optional) - Cost Share Type Code. Maximum length is 3.
+    + source (optional) - Source. Maximum length is 32.
+    + destination (optional) - Destination. Maximum length is 32.
+    + commitmentAmount (optional) - Commitment Amount. Maximum length is 12.
+    + costShareMet (optional) - Cost Share Met. Maximum length is 12.
+    + verificationDate (optional) - Verification Date. Maximum length is 21.
 
       
 + Request

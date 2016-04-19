@@ -1,6 +1,6 @@
-## Negotiation Activity Attachments [/research-sys/api/v1/negotiation-activity-attachments/]
+## Negotiation Activity Attachments [/negotiation/api/v1/negotiation-activity-attachments/]
 
-### Get Negotiation Activity Attachments by Key [GET /research-sys/api/v1/negotiation-activity-attachments/(key)]
+### Get Negotiation Activity Attachments by Key [GET /negotiation/api/v1/negotiation-activity-attachments/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"attachmentId": "(val)","activityId": "(val)","fileId": "(val)","description": "(val)","restricted": "(val)","_primaryKey": "(val)"}
 
-### Get All Negotiation Activity Attachments [GET /research-sys/api/v1/negotiation-activity-attachments/]
+### Get All Negotiation Activity Attachments [GET /negotiation/api/v1/negotiation-activity-attachments/]
 	 
 + Request
 
@@ -39,15 +39,15 @@
               {"attachmentId": "(val)","activityId": "(val)","fileId": "(val)","description": "(val)","restricted": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Negotiation Activity Attachments with Filtering [GET /research-sys/api/v1/negotiation-activity-attachments/]
+### Get All Negotiation Activity Attachments with Filtering [GET /negotiation/api/v1/negotiation-activity-attachments/]
     
 + Parameters
 
-        + attachmentId
-            + activityId
-            + fileId
-            + description
-            + restricted
+    + attachmentId (optional) - attachmentId. Maximum length is 22.
+    + activityId (optional) - 
+    + fileId (optional) - 
+    + description (optional) - Attachment Description. Maximum length is 200.
+    + restricted (optional) - 
 
             
 + Request
@@ -69,7 +69,7 @@
               {"attachmentId": "(val)","activityId": "(val)","fileId": "(val)","description": "(val)","restricted": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Negotiation Activity Attachments [GET /research-sys/api/v1/negotiation-activity-attachments/]
+### Get Schema for Negotiation Activity Attachments [GET /negotiation/api/v1/negotiation-activity-attachments/]
 	                                          
 + Parameters
 
@@ -91,7 +91,7 @@
     
             {"columns":["attachmentId","activityId","fileId","description","restricted"],"primaryKey":"attachmentId"}
 		
-### Get Blueprint API specification for Negotiation Activity Attachments [GET /research-sys/api/v1/negotiation-activity-attachments/]
+### Get Blueprint API specification for Negotiation Activity Attachments [GET /negotiation/api/v1/negotiation-activity-attachments/]
 	 
 + Parameters
 
@@ -112,7 +112,7 @@
             transfer-encoding:chunked
 
 
-### Update Negotiation Activity Attachments [PUT /research-sys/api/v1/negotiation-activity-attachments/(key)]
+### Update Negotiation Activity Attachments [PUT /negotiation/api/v1/negotiation-activity-attachments/(key)]
 
 + Request
 
@@ -127,7 +127,7 @@
 			
 + Response 204
 
-### Update Multiple Negotiation Activity Attachments [PUT /research-sys/api/v1/negotiation-activity-attachments/]
+### Update Multiple Negotiation Activity Attachments [PUT /negotiation/api/v1/negotiation-activity-attachments/]
 
 + Request
 
@@ -145,7 +145,7 @@
 			
 + Response 204
 
-### Insert Negotiation Activity Attachments [POST /research-sys/api/v1/negotiation-activity-attachments/]
+### Insert Negotiation Activity Attachments [POST /negotiation/api/v1/negotiation-activity-attachments/]
 
 + Request
 
@@ -164,7 +164,7 @@
             
             {"attachmentId": "(val)","activityId": "(val)","fileId": "(val)","description": "(val)","restricted": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Negotiation Activity Attachments [POST /research-sys/api/v1/negotiation-activity-attachments/]
+### Insert Multiple Negotiation Activity Attachments [POST /negotiation/api/v1/negotiation-activity-attachments/]
 
 + Request
 
@@ -189,7 +189,7 @@
               {"attachmentId": "(val)","activityId": "(val)","fileId": "(val)","description": "(val)","restricted": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Negotiation Activity Attachments by Key [DELETE /research-sys/api/v1/negotiation-activity-attachments/(key)]
+### Delete Negotiation Activity Attachments by Key [DELETE /negotiation/api/v1/negotiation-activity-attachments/(key)]
 	 
 + Request
 
@@ -200,7 +200,7 @@
 
 + Response 204
 
-### Delete All Negotiation Activity Attachments [DELETE /research-sys/api/v1/negotiation-activity-attachments/]
+### Delete All Negotiation Activity Attachments [DELETE /negotiation/api/v1/negotiation-activity-attachments/]
 
 + Parameters
 
@@ -215,16 +215,16 @@
 
 + Response 204
 
-### Delete All Negotiation Activity Attachments with Matching [DELETE /research-sys/api/v1/negotiation-activity-attachments/]
+### Delete All Negotiation Activity Attachments with Matching [DELETE /negotiation/api/v1/negotiation-activity-attachments/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + attachmentId
-            + activityId
-            + fileId
-            + description
-            + restricted
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + attachmentId (optional) - attachmentId. Maximum length is 22.
+    + activityId (optional) - 
+    + fileId (optional) - 
+    + description (optional) - Attachment Description. Maximum length is 200.
+    + restricted (optional) - 
 
       
 + Request

@@ -1,6 +1,6 @@
-## School Codes [/research-sys/api/v1/school-codes/]
+## School Codes [/research-common/api/v1/school-codes/]
 
-### Get School Codes by Key [GET /research-sys/api/v1/school-codes/(key)]
+### Get School Codes by Key [GET /research-common/api/v1/school-codes/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"schoolCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All School Codes [GET /research-sys/api/v1/school-codes/]
+### Get All School Codes [GET /research-common/api/v1/school-codes/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"schoolCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All School Codes with Filtering [GET /research-sys/api/v1/school-codes/]
+### Get All School Codes with Filtering [GET /research-common/api/v1/school-codes/]
     
 + Parameters
 
-        + schoolCode
-            + description
+    + schoolCode (optional) - School Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"schoolCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for School Codes [GET /research-sys/api/v1/school-codes/]
+### Get Schema for School Codes [GET /research-common/api/v1/school-codes/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["schoolCode","description"],"primaryKey":"schoolCode"}
 		
-### Get Blueprint API specification for School Codes [GET /research-sys/api/v1/school-codes/]
+### Get Blueprint API specification for School Codes [GET /research-common/api/v1/school-codes/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update School Codes [PUT /research-sys/api/v1/school-codes/(key)]
+### Update School Codes [PUT /research-common/api/v1/school-codes/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple School Codes [PUT /research-sys/api/v1/school-codes/]
+### Update Multiple School Codes [PUT /research-common/api/v1/school-codes/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert School Codes [POST /research-sys/api/v1/school-codes/]
+### Insert School Codes [POST /research-common/api/v1/school-codes/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"schoolCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple School Codes [POST /research-sys/api/v1/school-codes/]
+### Insert Multiple School Codes [POST /research-common/api/v1/school-codes/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"schoolCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete School Codes by Key [DELETE /research-sys/api/v1/school-codes/(key)]
+### Delete School Codes by Key [DELETE /research-common/api/v1/school-codes/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All School Codes [DELETE /research-sys/api/v1/school-codes/]
+### Delete All School Codes [DELETE /research-common/api/v1/school-codes/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All School Codes with Matching [DELETE /research-sys/api/v1/school-codes/]
+### Delete All School Codes with Matching [DELETE /research-common/api/v1/school-codes/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + schoolCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + schoolCode (optional) - School Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

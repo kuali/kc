@@ -1,6 +1,6 @@
-## Budget Project Incomes [/research-sys/api/v1/budget-project-incomes/]
+## Budget Project Incomes [/research-common/api/v1/budget-project-incomes/]
 
-### Get Budget Project Incomes by Key [GET /research-sys/api/v1/budget-project-incomes/(key)]
+### Get Budget Project Incomes by Key [GET /research-common/api/v1/budget-project-incomes/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"documentComponentId": "(val)","budgetId": "(val)","budgetPeriodId": "(val)","budgetPeriodNumber": "(val)","description": "(val)","projectIncome": "(val)","hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","_primaryKey": "(val)"}
 
-### Get All Budget Project Incomes [GET /research-sys/api/v1/budget-project-incomes/]
+### Get All Budget Project Incomes [GET /research-common/api/v1/budget-project-incomes/]
 	 
 + Request
 
@@ -39,18 +39,18 @@
               {"documentComponentId": "(val)","budgetId": "(val)","budgetPeriodId": "(val)","budgetPeriodNumber": "(val)","description": "(val)","projectIncome": "(val)","hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Budget Project Incomes with Filtering [GET /research-sys/api/v1/budget-project-incomes/]
+### Get All Budget Project Incomes with Filtering [GET /research-common/api/v1/budget-project-incomes/]
     
 + Parameters
 
-        + documentComponentId
-            + budgetId
-            + budgetPeriodId
-            + budgetPeriodNumber
-            + description
-            + projectIncome
-            + hierarchyProposalNumber
-            + hiddenInHierarchy
+    + documentComponentId (optional) - Document Component Id. Maximum length is 5.
+    + budgetId (optional) - Budget Id.
+    + budgetPeriodId (optional) - Budget Period Id.
+    + budgetPeriodNumber (optional) - Budget Period. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 2000.
+    + projectIncome (optional) - Project Income. Maximum length is 15.
+    + hierarchyProposalNumber (optional) - Hierarchy Proposal Number.
+    + hiddenInHierarchy (optional) - Hidden In Hierarchy.
 
             
 + Request
@@ -72,7 +72,7 @@
               {"documentComponentId": "(val)","budgetId": "(val)","budgetPeriodId": "(val)","budgetPeriodNumber": "(val)","description": "(val)","projectIncome": "(val)","hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Budget Project Incomes [GET /research-sys/api/v1/budget-project-incomes/]
+### Get Schema for Budget Project Incomes [GET /research-common/api/v1/budget-project-incomes/]
 	                                          
 + Parameters
 
@@ -94,7 +94,7 @@
     
             {"columns":["documentComponentId","budgetId","budgetPeriodId","budgetPeriodNumber","description","projectIncome","hierarchyProposalNumber","hiddenInHierarchy"],"primaryKey":"budgetId:budgetPeriod:documentComponentId"}
 		
-### Get Blueprint API specification for Budget Project Incomes [GET /research-sys/api/v1/budget-project-incomes/]
+### Get Blueprint API specification for Budget Project Incomes [GET /research-common/api/v1/budget-project-incomes/]
 	 
 + Parameters
 
@@ -115,7 +115,7 @@
             transfer-encoding:chunked
 
 
-### Update Budget Project Incomes [PUT /research-sys/api/v1/budget-project-incomes/(key)]
+### Update Budget Project Incomes [PUT /research-common/api/v1/budget-project-incomes/(key)]
 
 + Request
 
@@ -130,7 +130,7 @@
 			
 + Response 204
 
-### Update Multiple Budget Project Incomes [PUT /research-sys/api/v1/budget-project-incomes/]
+### Update Multiple Budget Project Incomes [PUT /research-common/api/v1/budget-project-incomes/]
 
 + Request
 
@@ -148,7 +148,7 @@
 			
 + Response 204
 
-### Insert Budget Project Incomes [POST /research-sys/api/v1/budget-project-incomes/]
+### Insert Budget Project Incomes [POST /research-common/api/v1/budget-project-incomes/]
 
 + Request
 
@@ -167,7 +167,7 @@
             
             {"documentComponentId": "(val)","budgetId": "(val)","budgetPeriodId": "(val)","budgetPeriodNumber": "(val)","description": "(val)","projectIncome": "(val)","hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Budget Project Incomes [POST /research-sys/api/v1/budget-project-incomes/]
+### Insert Multiple Budget Project Incomes [POST /research-common/api/v1/budget-project-incomes/]
 
 + Request
 
@@ -192,7 +192,7 @@
               {"documentComponentId": "(val)","budgetId": "(val)","budgetPeriodId": "(val)","budgetPeriodNumber": "(val)","description": "(val)","projectIncome": "(val)","hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Budget Project Incomes by Key [DELETE /research-sys/api/v1/budget-project-incomes/(key)]
+### Delete Budget Project Incomes by Key [DELETE /research-common/api/v1/budget-project-incomes/(key)]
 	 
 + Request
 
@@ -203,7 +203,7 @@
 
 + Response 204
 
-### Delete All Budget Project Incomes [DELETE /research-sys/api/v1/budget-project-incomes/]
+### Delete All Budget Project Incomes [DELETE /research-common/api/v1/budget-project-incomes/]
 
 + Parameters
 
@@ -218,19 +218,19 @@
 
 + Response 204
 
-### Delete All Budget Project Incomes with Matching [DELETE /research-sys/api/v1/budget-project-incomes/]
+### Delete All Budget Project Incomes with Matching [DELETE /research-common/api/v1/budget-project-incomes/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + documentComponentId
-            + budgetId
-            + budgetPeriodId
-            + budgetPeriodNumber
-            + description
-            + projectIncome
-            + hierarchyProposalNumber
-            + hiddenInHierarchy
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + documentComponentId (optional) - Document Component Id. Maximum length is 5.
+    + budgetId (optional) - Budget Id.
+    + budgetPeriodId (optional) - Budget Period Id.
+    + budgetPeriodNumber (optional) - Budget Period. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 2000.
+    + projectIncome (optional) - Project Income. Maximum length is 15.
+    + hierarchyProposalNumber (optional) - Hierarchy Proposal Number.
+    + hiddenInHierarchy (optional) - Hidden In Hierarchy.
 
       
 + Request

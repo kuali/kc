@@ -1,6 +1,6 @@
-## Frequency Bases [/research-sys/api/v1/frequency-bases/]
+## Frequency Bases [/award/api/v1/frequency-bases/]
 
-### Get Frequency Bases by Key [GET /research-sys/api/v1/frequency-bases/(key)]
+### Get Frequency Bases by Key [GET /award/api/v1/frequency-bases/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"frequencyBaseCode": "(val)","description": "(val)","regenerationTypeName": "(val)","active": "(val)","_primaryKey": "(val)"}
 
-### Get All Frequency Bases [GET /research-sys/api/v1/frequency-bases/]
+### Get All Frequency Bases [GET /award/api/v1/frequency-bases/]
 	 
 + Request
 
@@ -39,14 +39,14 @@
               {"frequencyBaseCode": "(val)","description": "(val)","regenerationTypeName": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Frequency Bases with Filtering [GET /research-sys/api/v1/frequency-bases/]
+### Get All Frequency Bases with Filtering [GET /award/api/v1/frequency-bases/]
     
 + Parameters
 
-        + frequencyBaseCode
-            + description
-            + regenerationTypeName
-            + active
+    + frequencyBaseCode (optional) - Frequency Base Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + regenerationTypeName (optional) - Regeneration Policy. Maximum length is 200.
+    + active (optional) - Active. Maximum length is 1.
 
             
 + Request
@@ -68,7 +68,7 @@
               {"frequencyBaseCode": "(val)","description": "(val)","regenerationTypeName": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Frequency Bases [GET /research-sys/api/v1/frequency-bases/]
+### Get Schema for Frequency Bases [GET /award/api/v1/frequency-bases/]
 	                                          
 + Parameters
 
@@ -90,7 +90,7 @@
     
             {"columns":["frequencyBaseCode","description","regenerationTypeName","active"],"primaryKey":"frequencyBaseCode"}
 		
-### Get Blueprint API specification for Frequency Bases [GET /research-sys/api/v1/frequency-bases/]
+### Get Blueprint API specification for Frequency Bases [GET /award/api/v1/frequency-bases/]
 	 
 + Parameters
 
@@ -111,7 +111,7 @@
             transfer-encoding:chunked
 
 
-### Update Frequency Bases [PUT /research-sys/api/v1/frequency-bases/(key)]
+### Update Frequency Bases [PUT /award/api/v1/frequency-bases/(key)]
 
 + Request
 
@@ -126,7 +126,7 @@
 			
 + Response 204
 
-### Update Multiple Frequency Bases [PUT /research-sys/api/v1/frequency-bases/]
+### Update Multiple Frequency Bases [PUT /award/api/v1/frequency-bases/]
 
 + Request
 
@@ -144,7 +144,7 @@
 			
 + Response 204
 
-### Insert Frequency Bases [POST /research-sys/api/v1/frequency-bases/]
+### Insert Frequency Bases [POST /award/api/v1/frequency-bases/]
 
 + Request
 
@@ -163,7 +163,7 @@
             
             {"frequencyBaseCode": "(val)","description": "(val)","regenerationTypeName": "(val)","active": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Frequency Bases [POST /research-sys/api/v1/frequency-bases/]
+### Insert Multiple Frequency Bases [POST /award/api/v1/frequency-bases/]
 
 + Request
 
@@ -188,7 +188,7 @@
               {"frequencyBaseCode": "(val)","description": "(val)","regenerationTypeName": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Frequency Bases by Key [DELETE /research-sys/api/v1/frequency-bases/(key)]
+### Delete Frequency Bases by Key [DELETE /award/api/v1/frequency-bases/(key)]
 	 
 + Request
 
@@ -199,7 +199,7 @@
 
 + Response 204
 
-### Delete All Frequency Bases [DELETE /research-sys/api/v1/frequency-bases/]
+### Delete All Frequency Bases [DELETE /award/api/v1/frequency-bases/]
 
 + Parameters
 
@@ -214,15 +214,15 @@
 
 + Response 204
 
-### Delete All Frequency Bases with Matching [DELETE /research-sys/api/v1/frequency-bases/]
+### Delete All Frequency Bases with Matching [DELETE /award/api/v1/frequency-bases/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + frequencyBaseCode
-            + description
-            + regenerationTypeName
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + frequencyBaseCode (optional) - Frequency Base Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + regenerationTypeName (optional) - Regeneration Policy. Maximum length is 200.
+    + active (optional) - Active. Maximum length is 1.
 
       
 + Request

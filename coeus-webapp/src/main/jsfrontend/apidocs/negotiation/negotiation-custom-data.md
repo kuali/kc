@@ -1,6 +1,6 @@
-## Negotiation Custom Data [/research-sys/api/v1/negotiation-custom-data/]
+## Negotiation Custom Data [/negotiation/api/v1/negotiation-custom-data/]
 
-### Get Negotiation Custom Data by Key [GET /research-sys/api/v1/negotiation-custom-data/(key)]
+### Get Negotiation Custom Data by Key [GET /negotiation/api/v1/negotiation-custom-data/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"negotiationCustomDataId": "(val)","negotiationId": "(val)","negotiationNumber": "(val)","customAttributeId": "(val)","value": "(val)","_primaryKey": "(val)"}
 
-### Get All Negotiation Custom Data [GET /research-sys/api/v1/negotiation-custom-data/]
+### Get All Negotiation Custom Data [GET /negotiation/api/v1/negotiation-custom-data/]
 	 
 + Request
 
@@ -39,15 +39,15 @@
               {"negotiationCustomDataId": "(val)","negotiationId": "(val)","negotiationNumber": "(val)","customAttributeId": "(val)","value": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Negotiation Custom Data with Filtering [GET /research-sys/api/v1/negotiation-custom-data/]
+### Get All Negotiation Custom Data with Filtering [GET /negotiation/api/v1/negotiation-custom-data/]
     
 + Parameters
 
-        + negotiationCustomDataId
-            + negotiationId
-            + negotiationNumber
-            + customAttributeId
-            + value
+    + negotiationCustomDataId (optional) - 
+    + negotiationId (optional) - 
+    + negotiationNumber (optional) - 
+    + customAttributeId (optional) - 
+    + value (optional) - Value. Maximum length is 2000.
 
             
 + Request
@@ -69,7 +69,7 @@
               {"negotiationCustomDataId": "(val)","negotiationId": "(val)","negotiationNumber": "(val)","customAttributeId": "(val)","value": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Negotiation Custom Data [GET /research-sys/api/v1/negotiation-custom-data/]
+### Get Schema for Negotiation Custom Data [GET /negotiation/api/v1/negotiation-custom-data/]
 	                                          
 + Parameters
 
@@ -91,7 +91,7 @@
     
             {"columns":["negotiationCustomDataId","negotiationId","negotiationNumber","customAttributeId","value"],"primaryKey":"negotiationCustomDataId"}
 		
-### Get Blueprint API specification for Negotiation Custom Data [GET /research-sys/api/v1/negotiation-custom-data/]
+### Get Blueprint API specification for Negotiation Custom Data [GET /negotiation/api/v1/negotiation-custom-data/]
 	 
 + Parameters
 
@@ -112,7 +112,7 @@
             transfer-encoding:chunked
 
 
-### Update Negotiation Custom Data [PUT /research-sys/api/v1/negotiation-custom-data/(key)]
+### Update Negotiation Custom Data [PUT /negotiation/api/v1/negotiation-custom-data/(key)]
 
 + Request
 
@@ -127,7 +127,7 @@
 			
 + Response 204
 
-### Update Multiple Negotiation Custom Data [PUT /research-sys/api/v1/negotiation-custom-data/]
+### Update Multiple Negotiation Custom Data [PUT /negotiation/api/v1/negotiation-custom-data/]
 
 + Request
 
@@ -145,7 +145,7 @@
 			
 + Response 204
 
-### Insert Negotiation Custom Data [POST /research-sys/api/v1/negotiation-custom-data/]
+### Insert Negotiation Custom Data [POST /negotiation/api/v1/negotiation-custom-data/]
 
 + Request
 
@@ -164,7 +164,7 @@
             
             {"negotiationCustomDataId": "(val)","negotiationId": "(val)","negotiationNumber": "(val)","customAttributeId": "(val)","value": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Negotiation Custom Data [POST /research-sys/api/v1/negotiation-custom-data/]
+### Insert Multiple Negotiation Custom Data [POST /negotiation/api/v1/negotiation-custom-data/]
 
 + Request
 
@@ -189,7 +189,7 @@
               {"negotiationCustomDataId": "(val)","negotiationId": "(val)","negotiationNumber": "(val)","customAttributeId": "(val)","value": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Negotiation Custom Data by Key [DELETE /research-sys/api/v1/negotiation-custom-data/(key)]
+### Delete Negotiation Custom Data by Key [DELETE /negotiation/api/v1/negotiation-custom-data/(key)]
 	 
 + Request
 
@@ -200,7 +200,7 @@
 
 + Response 204
 
-### Delete All Negotiation Custom Data [DELETE /research-sys/api/v1/negotiation-custom-data/]
+### Delete All Negotiation Custom Data [DELETE /negotiation/api/v1/negotiation-custom-data/]
 
 + Parameters
 
@@ -215,16 +215,16 @@
 
 + Response 204
 
-### Delete All Negotiation Custom Data with Matching [DELETE /research-sys/api/v1/negotiation-custom-data/]
+### Delete All Negotiation Custom Data with Matching [DELETE /negotiation/api/v1/negotiation-custom-data/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + negotiationCustomDataId
-            + negotiationId
-            + negotiationNumber
-            + customAttributeId
-            + value
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + negotiationCustomDataId (optional) - 
+    + negotiationId (optional) - 
+    + negotiationNumber (optional) - 
+    + customAttributeId (optional) - 
+    + value (optional) - Value. Maximum length is 2000.
 
       
 + Request

@@ -1,6 +1,6 @@
-## Person Signature Modules [/research-sys/api/v1/person-signature-modules/]
+## Person Signature Modules [/research-common/api/v1/person-signature-modules/]
 
-### Get Person Signature Modules by Key [GET /research-sys/api/v1/person-signature-modules/(key)]
+### Get Person Signature Modules by Key [GET /research-common/api/v1/person-signature-modules/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"personSignatureModuleId": "(val)","personSignatureId": "(val)","defaultSignature": "(val)","signatureActive": "(val)","moduleCode": "(val)","_primaryKey": "(val)"}
 
-### Get All Person Signature Modules [GET /research-sys/api/v1/person-signature-modules/]
+### Get All Person Signature Modules [GET /research-common/api/v1/person-signature-modules/]
 	 
 + Request
 
@@ -39,15 +39,15 @@
               {"personSignatureModuleId": "(val)","personSignatureId": "(val)","defaultSignature": "(val)","signatureActive": "(val)","moduleCode": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Person Signature Modules with Filtering [GET /research-sys/api/v1/person-signature-modules/]
+### Get All Person Signature Modules with Filtering [GET /research-common/api/v1/person-signature-modules/]
     
 + Parameters
 
-        + personSignatureModuleId
-            + personSignatureId
-            + defaultSignature
-            + signatureActive
-            + moduleCode
+    + personSignatureModuleId (optional) - Person Signature Module ID. Maximum length is 12.
+    + personSignatureId (optional) - Person Signature Code. Maximum length is 12.
+    + defaultSignature (optional) - Indicate if this is the default module signature. Maximum length is 1.
+    + signatureActive (optional) - Indicate if this signature is active for the module. Maximum length is 1.
+    + moduleCode (optional) - Module Code. Maximum length is 5.
 
             
 + Request
@@ -69,7 +69,7 @@
               {"personSignatureModuleId": "(val)","personSignatureId": "(val)","defaultSignature": "(val)","signatureActive": "(val)","moduleCode": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Person Signature Modules [GET /research-sys/api/v1/person-signature-modules/]
+### Get Schema for Person Signature Modules [GET /research-common/api/v1/person-signature-modules/]
 	                                          
 + Parameters
 
@@ -91,7 +91,7 @@
     
             {"columns":["personSignatureModuleId","personSignatureId","defaultSignature","signatureActive","moduleCode"],"primaryKey":"personSignatureModuleId"}
 		
-### Get Blueprint API specification for Person Signature Modules [GET /research-sys/api/v1/person-signature-modules/]
+### Get Blueprint API specification for Person Signature Modules [GET /research-common/api/v1/person-signature-modules/]
 	 
 + Parameters
 
@@ -112,7 +112,7 @@
             transfer-encoding:chunked
 
 
-### Update Person Signature Modules [PUT /research-sys/api/v1/person-signature-modules/(key)]
+### Update Person Signature Modules [PUT /research-common/api/v1/person-signature-modules/(key)]
 
 + Request
 
@@ -127,7 +127,7 @@
 			
 + Response 204
 
-### Update Multiple Person Signature Modules [PUT /research-sys/api/v1/person-signature-modules/]
+### Update Multiple Person Signature Modules [PUT /research-common/api/v1/person-signature-modules/]
 
 + Request
 
@@ -145,7 +145,7 @@
 			
 + Response 204
 
-### Insert Person Signature Modules [POST /research-sys/api/v1/person-signature-modules/]
+### Insert Person Signature Modules [POST /research-common/api/v1/person-signature-modules/]
 
 + Request
 
@@ -164,7 +164,7 @@
             
             {"personSignatureModuleId": "(val)","personSignatureId": "(val)","defaultSignature": "(val)","signatureActive": "(val)","moduleCode": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Person Signature Modules [POST /research-sys/api/v1/person-signature-modules/]
+### Insert Multiple Person Signature Modules [POST /research-common/api/v1/person-signature-modules/]
 
 + Request
 
@@ -189,7 +189,7 @@
               {"personSignatureModuleId": "(val)","personSignatureId": "(val)","defaultSignature": "(val)","signatureActive": "(val)","moduleCode": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Person Signature Modules by Key [DELETE /research-sys/api/v1/person-signature-modules/(key)]
+### Delete Person Signature Modules by Key [DELETE /research-common/api/v1/person-signature-modules/(key)]
 	 
 + Request
 
@@ -200,7 +200,7 @@
 
 + Response 204
 
-### Delete All Person Signature Modules [DELETE /research-sys/api/v1/person-signature-modules/]
+### Delete All Person Signature Modules [DELETE /research-common/api/v1/person-signature-modules/]
 
 + Parameters
 
@@ -215,16 +215,16 @@
 
 + Response 204
 
-### Delete All Person Signature Modules with Matching [DELETE /research-sys/api/v1/person-signature-modules/]
+### Delete All Person Signature Modules with Matching [DELETE /research-common/api/v1/person-signature-modules/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + personSignatureModuleId
-            + personSignatureId
-            + defaultSignature
-            + signatureActive
-            + moduleCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + personSignatureModuleId (optional) - Person Signature Module ID. Maximum length is 12.
+    + personSignatureId (optional) - Person Signature Code. Maximum length is 12.
+    + defaultSignature (optional) - Indicate if this is the default module signature. Maximum length is 1.
+    + signatureActive (optional) - Indicate if this signature is active for the module. Maximum length is 1.
+    + moduleCode (optional) - Module Code. Maximum length is 5.
 
       
 + Request

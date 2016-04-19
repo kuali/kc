@@ -1,6 +1,6 @@
-## Appointment Types [/research-sys/api/v1/appointment-types/]
+## Appointment Types [/research-common/api/v1/appointment-types/]
 
-### Get Appointment Types by Key [GET /research-sys/api/v1/appointment-types/(key)]
+### Get Appointment Types by Key [GET /research-common/api/v1/appointment-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"appointmentTypeCode": "(val)","duration": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Appointment Types [GET /research-sys/api/v1/appointment-types/]
+### Get All Appointment Types [GET /research-common/api/v1/appointment-types/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"appointmentTypeCode": "(val)","duration": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Appointment Types with Filtering [GET /research-sys/api/v1/appointment-types/]
+### Get All Appointment Types with Filtering [GET /research-common/api/v1/appointment-types/]
     
 + Parameters
 
-        + appointmentTypeCode
-            + duration
-            + description
+    + appointmentTypeCode (optional) - Appointment Type Code. Maximum length is 3.
+    + duration (optional) - Duration. Maximum length is 6.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"appointmentTypeCode": "(val)","duration": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Appointment Types [GET /research-sys/api/v1/appointment-types/]
+### Get Schema for Appointment Types [GET /research-common/api/v1/appointment-types/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["appointmentTypeCode","duration","description"],"primaryKey":"appointmentTypeCode"}
 		
-### Get Blueprint API specification for Appointment Types [GET /research-sys/api/v1/appointment-types/]
+### Get Blueprint API specification for Appointment Types [GET /research-common/api/v1/appointment-types/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Appointment Types [PUT /research-sys/api/v1/appointment-types/(key)]
+### Update Appointment Types [PUT /research-common/api/v1/appointment-types/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Appointment Types [PUT /research-sys/api/v1/appointment-types/]
+### Update Multiple Appointment Types [PUT /research-common/api/v1/appointment-types/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Appointment Types [POST /research-sys/api/v1/appointment-types/]
+### Insert Appointment Types [POST /research-common/api/v1/appointment-types/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"appointmentTypeCode": "(val)","duration": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Appointment Types [POST /research-sys/api/v1/appointment-types/]
+### Insert Multiple Appointment Types [POST /research-common/api/v1/appointment-types/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"appointmentTypeCode": "(val)","duration": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Appointment Types by Key [DELETE /research-sys/api/v1/appointment-types/(key)]
+### Delete Appointment Types by Key [DELETE /research-common/api/v1/appointment-types/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Appointment Types [DELETE /research-sys/api/v1/appointment-types/]
+### Delete All Appointment Types [DELETE /research-common/api/v1/appointment-types/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Appointment Types with Matching [DELETE /research-sys/api/v1/appointment-types/]
+### Delete All Appointment Types with Matching [DELETE /research-common/api/v1/appointment-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + appointmentTypeCode
-            + duration
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + appointmentTypeCode (optional) - Appointment Type Code. Maximum length is 3.
+    + duration (optional) - Duration. Maximum length is 6.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

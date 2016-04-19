@@ -1,6 +1,6 @@
-## Award Person Unit Credit Splits [/research-sys/api/v1/award-person-unit-credit-splits/]
+## Award Person Unit Credit Splits [/award/api/v1/award-person-unit-credit-splits/]
 
-### Get Award Person Unit Credit Splits by Key [GET /research-sys/api/v1/award-person-unit-credit-splits/(key)]
+### Get Award Person Unit Credit Splits by Key [GET /award/api/v1/award-person-unit-credit-splits/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"awardPersonUnitCreditSplitId": "(val)","awardPersonUnitId": "(val)","invCreditTypeCode": "(val)","credit": "(val)","_primaryKey": "(val)"}
 
-### Get All Award Person Unit Credit Splits [GET /research-sys/api/v1/award-person-unit-credit-splits/]
+### Get All Award Person Unit Credit Splits [GET /award/api/v1/award-person-unit-credit-splits/]
 	 
 + Request
 
@@ -39,14 +39,14 @@
               {"awardPersonUnitCreditSplitId": "(val)","awardPersonUnitId": "(val)","invCreditTypeCode": "(val)","credit": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Award Person Unit Credit Splits with Filtering [GET /research-sys/api/v1/award-person-unit-credit-splits/]
+### Get All Award Person Unit Credit Splits with Filtering [GET /award/api/v1/award-person-unit-credit-splits/]
     
 + Parameters
 
-        + awardPersonUnitCreditSplitId
-            + awardPersonUnitId
-            + invCreditTypeCode
-            + credit
+    + awardPersonUnitCreditSplitId (optional) - 
+    + awardPersonUnitId (optional) - 
+    + invCreditTypeCode (optional) - 
+    + credit (optional) - Credit. Maximum length is 6.
 
             
 + Request
@@ -68,7 +68,7 @@
               {"awardPersonUnitCreditSplitId": "(val)","awardPersonUnitId": "(val)","invCreditTypeCode": "(val)","credit": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Award Person Unit Credit Splits [GET /research-sys/api/v1/award-person-unit-credit-splits/]
+### Get Schema for Award Person Unit Credit Splits [GET /award/api/v1/award-person-unit-credit-splits/]
 	                                          
 + Parameters
 
@@ -90,7 +90,7 @@
     
             {"columns":["awardPersonUnitCreditSplitId","awardPersonUnitId","invCreditTypeCode","credit"],"primaryKey":"awardPersonUnitCreditSplitId"}
 		
-### Get Blueprint API specification for Award Person Unit Credit Splits [GET /research-sys/api/v1/award-person-unit-credit-splits/]
+### Get Blueprint API specification for Award Person Unit Credit Splits [GET /award/api/v1/award-person-unit-credit-splits/]
 	 
 + Parameters
 
@@ -111,7 +111,7 @@
             transfer-encoding:chunked
 
 
-### Update Award Person Unit Credit Splits [PUT /research-sys/api/v1/award-person-unit-credit-splits/(key)]
+### Update Award Person Unit Credit Splits [PUT /award/api/v1/award-person-unit-credit-splits/(key)]
 
 + Request
 
@@ -126,7 +126,7 @@
 			
 + Response 204
 
-### Update Multiple Award Person Unit Credit Splits [PUT /research-sys/api/v1/award-person-unit-credit-splits/]
+### Update Multiple Award Person Unit Credit Splits [PUT /award/api/v1/award-person-unit-credit-splits/]
 
 + Request
 
@@ -144,7 +144,7 @@
 			
 + Response 204
 
-### Insert Award Person Unit Credit Splits [POST /research-sys/api/v1/award-person-unit-credit-splits/]
+### Insert Award Person Unit Credit Splits [POST /award/api/v1/award-person-unit-credit-splits/]
 
 + Request
 
@@ -163,7 +163,7 @@
             
             {"awardPersonUnitCreditSplitId": "(val)","awardPersonUnitId": "(val)","invCreditTypeCode": "(val)","credit": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Award Person Unit Credit Splits [POST /research-sys/api/v1/award-person-unit-credit-splits/]
+### Insert Multiple Award Person Unit Credit Splits [POST /award/api/v1/award-person-unit-credit-splits/]
 
 + Request
 
@@ -188,7 +188,7 @@
               {"awardPersonUnitCreditSplitId": "(val)","awardPersonUnitId": "(val)","invCreditTypeCode": "(val)","credit": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Award Person Unit Credit Splits by Key [DELETE /research-sys/api/v1/award-person-unit-credit-splits/(key)]
+### Delete Award Person Unit Credit Splits by Key [DELETE /award/api/v1/award-person-unit-credit-splits/(key)]
 	 
 + Request
 
@@ -199,7 +199,7 @@
 
 + Response 204
 
-### Delete All Award Person Unit Credit Splits [DELETE /research-sys/api/v1/award-person-unit-credit-splits/]
+### Delete All Award Person Unit Credit Splits [DELETE /award/api/v1/award-person-unit-credit-splits/]
 
 + Parameters
 
@@ -214,15 +214,15 @@
 
 + Response 204
 
-### Delete All Award Person Unit Credit Splits with Matching [DELETE /research-sys/api/v1/award-person-unit-credit-splits/]
+### Delete All Award Person Unit Credit Splits with Matching [DELETE /award/api/v1/award-person-unit-credit-splits/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + awardPersonUnitCreditSplitId
-            + awardPersonUnitId
-            + invCreditTypeCode
-            + credit
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + awardPersonUnitCreditSplitId (optional) - 
+    + awardPersonUnitId (optional) - 
+    + invCreditTypeCode (optional) - 
+    + credit (optional) - Credit. Maximum length is 6.
 
       
 + Request

@@ -1,6 +1,6 @@
-## Award Transaction Types [/research-sys/api/v1/award-transaction-types/]
+## Award Transaction Types [/award/api/v1/award-transaction-types/]
 
-### Get Award Transaction Types by Key [GET /research-sys/api/v1/award-transaction-types/(key)]
+### Get Award Transaction Types by Key [GET /award/api/v1/award-transaction-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"awardTransactionTypeCode": "(val)","description": "(val)","showInActionSummary": "(val)","_primaryKey": "(val)"}
 
-### Get All Award Transaction Types [GET /research-sys/api/v1/award-transaction-types/]
+### Get All Award Transaction Types [GET /award/api/v1/award-transaction-types/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"awardTransactionTypeCode": "(val)","description": "(val)","showInActionSummary": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Award Transaction Types with Filtering [GET /research-sys/api/v1/award-transaction-types/]
+### Get All Award Transaction Types with Filtering [GET /award/api/v1/award-transaction-types/]
     
 + Parameters
 
-        + awardTransactionTypeCode
-            + description
-            + showInActionSummary
+    + awardTransactionTypeCode (optional) - Award Transaction Type Code. Maximum length is 22.
+    + description (optional) - Description. Maximum length is 200.
+    + showInActionSummary (optional) - Show In Action Summary. Maximum length is 1.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"awardTransactionTypeCode": "(val)","description": "(val)","showInActionSummary": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Award Transaction Types [GET /research-sys/api/v1/award-transaction-types/]
+### Get Schema for Award Transaction Types [GET /award/api/v1/award-transaction-types/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["awardTransactionTypeCode","description","showInActionSummary"],"primaryKey":"awardTransactionTypeCode"}
 		
-### Get Blueprint API specification for Award Transaction Types [GET /research-sys/api/v1/award-transaction-types/]
+### Get Blueprint API specification for Award Transaction Types [GET /award/api/v1/award-transaction-types/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Award Transaction Types [PUT /research-sys/api/v1/award-transaction-types/(key)]
+### Update Award Transaction Types [PUT /award/api/v1/award-transaction-types/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Award Transaction Types [PUT /research-sys/api/v1/award-transaction-types/]
+### Update Multiple Award Transaction Types [PUT /award/api/v1/award-transaction-types/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Award Transaction Types [POST /research-sys/api/v1/award-transaction-types/]
+### Insert Award Transaction Types [POST /award/api/v1/award-transaction-types/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"awardTransactionTypeCode": "(val)","description": "(val)","showInActionSummary": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Award Transaction Types [POST /research-sys/api/v1/award-transaction-types/]
+### Insert Multiple Award Transaction Types [POST /award/api/v1/award-transaction-types/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"awardTransactionTypeCode": "(val)","description": "(val)","showInActionSummary": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Award Transaction Types by Key [DELETE /research-sys/api/v1/award-transaction-types/(key)]
+### Delete Award Transaction Types by Key [DELETE /award/api/v1/award-transaction-types/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Award Transaction Types [DELETE /research-sys/api/v1/award-transaction-types/]
+### Delete All Award Transaction Types [DELETE /award/api/v1/award-transaction-types/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Award Transaction Types with Matching [DELETE /research-sys/api/v1/award-transaction-types/]
+### Delete All Award Transaction Types with Matching [DELETE /award/api/v1/award-transaction-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + awardTransactionTypeCode
-            + description
-            + showInActionSummary
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + awardTransactionTypeCode (optional) - Award Transaction Type Code. Maximum length is 22.
+    + description (optional) - Description. Maximum length is 200.
+    + showInActionSummary (optional) - Show In Action Summary. Maximum length is 1.
 
       
 + Request

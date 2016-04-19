@@ -1,6 +1,6 @@
-## Institutional Proposal Unrecovered F And As [/research-sys/api/v1/institutional-proposal-unrecovered-f-and-as/]
+## Institutional Proposal Unrecovered F And As [/instprop/api/v1/institutional-proposal-unrecovered-f-and-as/]
 
-### Get Institutional Proposal Unrecovered F And As by Key [GET /research-sys/api/v1/institutional-proposal-unrecovered-f-and-as/(key)]
+### Get Institutional Proposal Unrecovered F And As by Key [GET /instprop/api/v1/institutional-proposal-unrecovered-f-and-as/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"proposalUnrecoveredFandAId": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","applicableIndirectcostRate": "(val)","indirectcostRateTypeCode": "(val)","fiscalYear": "(val)","onCampusFlag": "(val)","underrecoveryOfIndirectcost": "(val)","sourceAccount": "(val)","_primaryKey": "(val)"}
 
-### Get All Institutional Proposal Unrecovered F And As [GET /research-sys/api/v1/institutional-proposal-unrecovered-f-and-as/]
+### Get All Institutional Proposal Unrecovered F And As [GET /instprop/api/v1/institutional-proposal-unrecovered-f-and-as/]
 	 
 + Request
 
@@ -39,20 +39,20 @@
               {"proposalUnrecoveredFandAId": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","applicableIndirectcostRate": "(val)","indirectcostRateTypeCode": "(val)","fiscalYear": "(val)","onCampusFlag": "(val)","underrecoveryOfIndirectcost": "(val)","sourceAccount": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Institutional Proposal Unrecovered F And As with Filtering [GET /research-sys/api/v1/institutional-proposal-unrecovered-f-and-as/]
+### Get All Institutional Proposal Unrecovered F And As with Filtering [GET /instprop/api/v1/institutional-proposal-unrecovered-f-and-as/]
     
 + Parameters
 
-        + proposalUnrecoveredFandAId
-            + proposalId
-            + proposalNumber
-            + sequenceNumber
-            + applicableIndirectcostRate
-            + indirectcostRateTypeCode
-            + fiscalYear
-            + onCampusFlag
-            + underrecoveryOfIndirectcost
-            + sourceAccount
+    + proposalUnrecoveredFandAId (optional) - Proposal Unrecovered FNA Id. Maximum length is 22.
+    + proposalId (optional) - 
+    + proposalNumber (optional) - Proposal Number. Maximum length is 8.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 22.
+    + applicableIndirectcostRate (optional) - Applicable Indirectcost Rate. Maximum length is 10.
+    + indirectcostRateTypeCode (optional) - IDC Rate Type Code. Maximum length is 3.
+    + fiscalYear (optional) - Fiscal Year. Maximum length is 4.
+    + onCampusFlag (optional) - On CampusContractContract Flag. Maximum length is 1.
+    + underrecoveryOfIndirectcost (optional) - Underrecovery of Indirect Cost. Maximum length is 22.
+    + sourceAccount (optional) - Source Account. Maximum length is 32.
 
             
 + Request
@@ -74,7 +74,7 @@
               {"proposalUnrecoveredFandAId": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","applicableIndirectcostRate": "(val)","indirectcostRateTypeCode": "(val)","fiscalYear": "(val)","onCampusFlag": "(val)","underrecoveryOfIndirectcost": "(val)","sourceAccount": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Institutional Proposal Unrecovered F And As [GET /research-sys/api/v1/institutional-proposal-unrecovered-f-and-as/]
+### Get Schema for Institutional Proposal Unrecovered F And As [GET /instprop/api/v1/institutional-proposal-unrecovered-f-and-as/]
 	                                          
 + Parameters
 
@@ -96,7 +96,7 @@
     
             {"columns":["proposalUnrecoveredFandAId","proposalId","proposalNumber","sequenceNumber","applicableIndirectcostRate","indirectcostRateTypeCode","fiscalYear","onCampusFlag","underrecoveryOfIndirectcost","sourceAccount"],"primaryKey":"proposalUnrecoveredFandAId"}
 		
-### Get Blueprint API specification for Institutional Proposal Unrecovered F And As [GET /research-sys/api/v1/institutional-proposal-unrecovered-f-and-as/]
+### Get Blueprint API specification for Institutional Proposal Unrecovered F And As [GET /instprop/api/v1/institutional-proposal-unrecovered-f-and-as/]
 	 
 + Parameters
 
@@ -117,7 +117,7 @@
             transfer-encoding:chunked
 
 
-### Update Institutional Proposal Unrecovered F And As [PUT /research-sys/api/v1/institutional-proposal-unrecovered-f-and-as/(key)]
+### Update Institutional Proposal Unrecovered F And As [PUT /instprop/api/v1/institutional-proposal-unrecovered-f-and-as/(key)]
 
 + Request
 
@@ -132,7 +132,7 @@
 			
 + Response 204
 
-### Update Multiple Institutional Proposal Unrecovered F And As [PUT /research-sys/api/v1/institutional-proposal-unrecovered-f-and-as/]
+### Update Multiple Institutional Proposal Unrecovered F And As [PUT /instprop/api/v1/institutional-proposal-unrecovered-f-and-as/]
 
 + Request
 
@@ -150,7 +150,7 @@
 			
 + Response 204
 
-### Insert Institutional Proposal Unrecovered F And As [POST /research-sys/api/v1/institutional-proposal-unrecovered-f-and-as/]
+### Insert Institutional Proposal Unrecovered F And As [POST /instprop/api/v1/institutional-proposal-unrecovered-f-and-as/]
 
 + Request
 
@@ -169,7 +169,7 @@
             
             {"proposalUnrecoveredFandAId": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","applicableIndirectcostRate": "(val)","indirectcostRateTypeCode": "(val)","fiscalYear": "(val)","onCampusFlag": "(val)","underrecoveryOfIndirectcost": "(val)","sourceAccount": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Institutional Proposal Unrecovered F And As [POST /research-sys/api/v1/institutional-proposal-unrecovered-f-and-as/]
+### Insert Multiple Institutional Proposal Unrecovered F And As [POST /instprop/api/v1/institutional-proposal-unrecovered-f-and-as/]
 
 + Request
 
@@ -194,7 +194,7 @@
               {"proposalUnrecoveredFandAId": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","applicableIndirectcostRate": "(val)","indirectcostRateTypeCode": "(val)","fiscalYear": "(val)","onCampusFlag": "(val)","underrecoveryOfIndirectcost": "(val)","sourceAccount": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Institutional Proposal Unrecovered F And As by Key [DELETE /research-sys/api/v1/institutional-proposal-unrecovered-f-and-as/(key)]
+### Delete Institutional Proposal Unrecovered F And As by Key [DELETE /instprop/api/v1/institutional-proposal-unrecovered-f-and-as/(key)]
 	 
 + Request
 
@@ -205,7 +205,7 @@
 
 + Response 204
 
-### Delete All Institutional Proposal Unrecovered F And As [DELETE /research-sys/api/v1/institutional-proposal-unrecovered-f-and-as/]
+### Delete All Institutional Proposal Unrecovered F And As [DELETE /instprop/api/v1/institutional-proposal-unrecovered-f-and-as/]
 
 + Parameters
 
@@ -220,21 +220,21 @@
 
 + Response 204
 
-### Delete All Institutional Proposal Unrecovered F And As with Matching [DELETE /research-sys/api/v1/institutional-proposal-unrecovered-f-and-as/]
+### Delete All Institutional Proposal Unrecovered F And As with Matching [DELETE /instprop/api/v1/institutional-proposal-unrecovered-f-and-as/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + proposalUnrecoveredFandAId
-            + proposalId
-            + proposalNumber
-            + sequenceNumber
-            + applicableIndirectcostRate
-            + indirectcostRateTypeCode
-            + fiscalYear
-            + onCampusFlag
-            + underrecoveryOfIndirectcost
-            + sourceAccount
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + proposalUnrecoveredFandAId (optional) - Proposal Unrecovered FNA Id. Maximum length is 22.
+    + proposalId (optional) - 
+    + proposalNumber (optional) - Proposal Number. Maximum length is 8.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 22.
+    + applicableIndirectcostRate (optional) - Applicable Indirectcost Rate. Maximum length is 10.
+    + indirectcostRateTypeCode (optional) - IDC Rate Type Code. Maximum length is 3.
+    + fiscalYear (optional) - Fiscal Year. Maximum length is 4.
+    + onCampusFlag (optional) - On CampusContractContract Flag. Maximum length is 1.
+    + underrecoveryOfIndirectcost (optional) - Underrecovery of Indirect Cost. Maximum length is 22.
+    + sourceAccount (optional) - Source Account. Maximum length is 32.
 
       
 + Request

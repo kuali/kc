@@ -1,6 +1,6 @@
-## Transaction Details [/research-sys/api/v1/transaction-details/]
+## Transaction Details [/award/api/v1/transaction-details/]
 
-### Get Transaction Details by Key [GET /research-sys/api/v1/transaction-details/(key)]
+### Get Transaction Details by Key [GET /award/api/v1/transaction-details/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"transactionDetailId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","transactionId": "(val)","timeAndMoneyDocumentNumber": "(val)","sourceAwardNumber": "(val)","destinationAwardNumber": "(val)","obligatedAmount": "(val)","obligatedDirectAmount": "(val)","obligatedIndirectAmount": "(val)","anticipatedAmount": "(val)","anticipatedDirectAmount": "(val)","anticipatedIndirectAmount": "(val)","comments": "(val)","transactionDetailType": "(val)","_primaryKey": "(val)"}
 
-### Get All Transaction Details [GET /research-sys/api/v1/transaction-details/]
+### Get All Transaction Details [GET /award/api/v1/transaction-details/]
 	 
 + Request
 
@@ -39,25 +39,25 @@
               {"transactionDetailId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","transactionId": "(val)","timeAndMoneyDocumentNumber": "(val)","sourceAwardNumber": "(val)","destinationAwardNumber": "(val)","obligatedAmount": "(val)","obligatedDirectAmount": "(val)","obligatedIndirectAmount": "(val)","anticipatedAmount": "(val)","anticipatedDirectAmount": "(val)","anticipatedIndirectAmount": "(val)","comments": "(val)","transactionDetailType": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Transaction Details with Filtering [GET /research-sys/api/v1/transaction-details/]
+### Get All Transaction Details with Filtering [GET /award/api/v1/transaction-details/]
     
 + Parameters
 
-        + transactionDetailId
-            + awardNumber
-            + sequenceNumber
-            + transactionId
-            + timeAndMoneyDocumentNumber
-            + sourceAwardNumber
-            + destinationAwardNumber
-            + obligatedAmount
-            + obligatedDirectAmount
-            + obligatedIndirectAmount
-            + anticipatedAmount
-            + anticipatedDirectAmount
-            + anticipatedIndirectAmount
-            + comments
-            + transactionDetailType
+    + transactionDetailId (optional) - Transaction Detail Id. Maximum length is 22.
+    + awardNumber (optional) - Award Number. Maximum length is 12.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 4.
+    + transactionId (optional) - Transaction Id. Maximum length is 22.
+    + timeAndMoneyDocumentNumber (optional) - Document Number. Maximum length is 10.
+    + sourceAwardNumber (optional) - Source. Maximum length is 12.
+    + destinationAwardNumber (optional) - Destination. Maximum length is 12.
+    + obligatedAmount (optional) - Obligated. Maximum length is 22.
+    + obligatedDirectAmount (optional) - Obligated. Maximum length is 22.
+    + obligatedIndirectAmount (optional) - Obligated. Maximum length is 22.
+    + anticipatedAmount (optional) - Anticipated. Maximum length is 22.
+    + anticipatedDirectAmount (optional) - Anticipated. Maximum length is 22.
+    + anticipatedIndirectAmount (optional) - Anticipated. Maximum length is 22.
+    + comments (optional) - Comments. Maximum length is 2000.
+    + transactionDetailType (optional) - 
 
             
 + Request
@@ -79,7 +79,7 @@
               {"transactionDetailId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","transactionId": "(val)","timeAndMoneyDocumentNumber": "(val)","sourceAwardNumber": "(val)","destinationAwardNumber": "(val)","obligatedAmount": "(val)","obligatedDirectAmount": "(val)","obligatedIndirectAmount": "(val)","anticipatedAmount": "(val)","anticipatedDirectAmount": "(val)","anticipatedIndirectAmount": "(val)","comments": "(val)","transactionDetailType": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Transaction Details [GET /research-sys/api/v1/transaction-details/]
+### Get Schema for Transaction Details [GET /award/api/v1/transaction-details/]
 	                                          
 + Parameters
 
@@ -101,7 +101,7 @@
     
             {"columns":["transactionDetailId","awardNumber","sequenceNumber","transactionId","timeAndMoneyDocumentNumber","sourceAwardNumber","destinationAwardNumber","obligatedAmount","obligatedDirectAmount","obligatedIndirectAmount","anticipatedAmount","anticipatedDirectAmount","anticipatedIndirectAmount","comments","transactionDetailType"],"primaryKey":"transactionDetailId"}
 		
-### Get Blueprint API specification for Transaction Details [GET /research-sys/api/v1/transaction-details/]
+### Get Blueprint API specification for Transaction Details [GET /award/api/v1/transaction-details/]
 	 
 + Parameters
 
@@ -122,7 +122,7 @@
             transfer-encoding:chunked
 
 
-### Update Transaction Details [PUT /research-sys/api/v1/transaction-details/(key)]
+### Update Transaction Details [PUT /award/api/v1/transaction-details/(key)]
 
 + Request
 
@@ -137,7 +137,7 @@
 			
 + Response 204
 
-### Update Multiple Transaction Details [PUT /research-sys/api/v1/transaction-details/]
+### Update Multiple Transaction Details [PUT /award/api/v1/transaction-details/]
 
 + Request
 
@@ -155,7 +155,7 @@
 			
 + Response 204
 
-### Insert Transaction Details [POST /research-sys/api/v1/transaction-details/]
+### Insert Transaction Details [POST /award/api/v1/transaction-details/]
 
 + Request
 
@@ -174,7 +174,7 @@
             
             {"transactionDetailId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","transactionId": "(val)","timeAndMoneyDocumentNumber": "(val)","sourceAwardNumber": "(val)","destinationAwardNumber": "(val)","obligatedAmount": "(val)","obligatedDirectAmount": "(val)","obligatedIndirectAmount": "(val)","anticipatedAmount": "(val)","anticipatedDirectAmount": "(val)","anticipatedIndirectAmount": "(val)","comments": "(val)","transactionDetailType": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Transaction Details [POST /research-sys/api/v1/transaction-details/]
+### Insert Multiple Transaction Details [POST /award/api/v1/transaction-details/]
 
 + Request
 
@@ -199,7 +199,7 @@
               {"transactionDetailId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","transactionId": "(val)","timeAndMoneyDocumentNumber": "(val)","sourceAwardNumber": "(val)","destinationAwardNumber": "(val)","obligatedAmount": "(val)","obligatedDirectAmount": "(val)","obligatedIndirectAmount": "(val)","anticipatedAmount": "(val)","anticipatedDirectAmount": "(val)","anticipatedIndirectAmount": "(val)","comments": "(val)","transactionDetailType": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Transaction Details by Key [DELETE /research-sys/api/v1/transaction-details/(key)]
+### Delete Transaction Details by Key [DELETE /award/api/v1/transaction-details/(key)]
 	 
 + Request
 
@@ -210,7 +210,7 @@
 
 + Response 204
 
-### Delete All Transaction Details [DELETE /research-sys/api/v1/transaction-details/]
+### Delete All Transaction Details [DELETE /award/api/v1/transaction-details/]
 
 + Parameters
 
@@ -225,26 +225,26 @@
 
 + Response 204
 
-### Delete All Transaction Details with Matching [DELETE /research-sys/api/v1/transaction-details/]
+### Delete All Transaction Details with Matching [DELETE /award/api/v1/transaction-details/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + transactionDetailId
-            + awardNumber
-            + sequenceNumber
-            + transactionId
-            + timeAndMoneyDocumentNumber
-            + sourceAwardNumber
-            + destinationAwardNumber
-            + obligatedAmount
-            + obligatedDirectAmount
-            + obligatedIndirectAmount
-            + anticipatedAmount
-            + anticipatedDirectAmount
-            + anticipatedIndirectAmount
-            + comments
-            + transactionDetailType
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + transactionDetailId (optional) - Transaction Detail Id. Maximum length is 22.
+    + awardNumber (optional) - Award Number. Maximum length is 12.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 4.
+    + transactionId (optional) - Transaction Id. Maximum length is 22.
+    + timeAndMoneyDocumentNumber (optional) - Document Number. Maximum length is 10.
+    + sourceAwardNumber (optional) - Source. Maximum length is 12.
+    + destinationAwardNumber (optional) - Destination. Maximum length is 12.
+    + obligatedAmount (optional) - Obligated. Maximum length is 22.
+    + obligatedDirectAmount (optional) - Obligated. Maximum length is 22.
+    + obligatedIndirectAmount (optional) - Obligated. Maximum length is 22.
+    + anticipatedAmount (optional) - Anticipated. Maximum length is 22.
+    + anticipatedDirectAmount (optional) - Anticipated. Maximum length is 22.
+    + anticipatedIndirectAmount (optional) - Anticipated. Maximum length is 22.
+    + comments (optional) - Comments. Maximum length is 2000.
+    + transactionDetailType (optional) - 
 
       
 + Request

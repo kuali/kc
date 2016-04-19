@@ -1,6 +1,6 @@
-## Budget Unrecovered F And As [/research-sys/api/v1/budget-unrecovered-f-and-as/]
+## Budget Unrecovered F And As [/research-common/api/v1/budget-unrecovered-f-and-as/]
 
-### Get Budget Unrecovered F And As by Key [GET /research-sys/api/v1/budget-unrecovered-f-and-as/(key)]
+### Get Budget Unrecovered F And As by Key [GET /research-common/api/v1/budget-unrecovered-f-and-as/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"documentComponentId": "(val)","budgetId": "(val)","amount": "(val)","applicableRate": "(val)","onCampusFlag": "(val)","fiscalYear": "(val)","sourceAccount": "(val)","hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","_primaryKey": "(val)"}
 
-### Get All Budget Unrecovered F And As [GET /research-sys/api/v1/budget-unrecovered-f-and-as/]
+### Get All Budget Unrecovered F And As [GET /research-common/api/v1/budget-unrecovered-f-and-as/]
 	 
 + Request
 
@@ -39,19 +39,19 @@
               {"documentComponentId": "(val)","budgetId": "(val)","amount": "(val)","applicableRate": "(val)","onCampusFlag": "(val)","fiscalYear": "(val)","sourceAccount": "(val)","hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Budget Unrecovered F And As with Filtering [GET /research-sys/api/v1/budget-unrecovered-f-and-as/]
+### Get All Budget Unrecovered F And As with Filtering [GET /research-common/api/v1/budget-unrecovered-f-and-as/]
     
 + Parameters
 
-        + documentComponentId
-            + budgetId
-            + amount
-            + applicableRate
-            + onCampusFlag
-            + fiscalYear
-            + sourceAccount
-            + hierarchyProposalNumber
-            + hiddenInHierarchy
+    + documentComponentId (optional) - Document Component Id. Maximum length is 5.
+    + budgetId (optional) - Budget Id.
+    + amount (optional) - Amount. Maximum length is 15.
+    + applicableRate (optional) - Applicable Rate. Maximum length is 6.
+    + onCampusFlag (optional) - On CampusContractContract Flag. Maximum length is 1.
+    + fiscalYear (optional) - Fiscal Year. Maximum length is 4.
+    + sourceAccount (optional) - Source Account. Maximum length is 32.
+    + hierarchyProposalNumber (optional) - Hierarchy Proposal Number.
+    + hiddenInHierarchy (optional) - Hidden In Hierarchy.
 
             
 + Request
@@ -73,7 +73,7 @@
               {"documentComponentId": "(val)","budgetId": "(val)","amount": "(val)","applicableRate": "(val)","onCampusFlag": "(val)","fiscalYear": "(val)","sourceAccount": "(val)","hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Budget Unrecovered F And As [GET /research-sys/api/v1/budget-unrecovered-f-and-as/]
+### Get Schema for Budget Unrecovered F And As [GET /research-common/api/v1/budget-unrecovered-f-and-as/]
 	                                          
 + Parameters
 
@@ -95,7 +95,7 @@
     
             {"columns":["documentComponentId","budgetId","amount","applicableRate","onCampusFlag","fiscalYear","sourceAccount","hierarchyProposalNumber","hiddenInHierarchy"],"primaryKey":"budget:budgetId:documentComponentId"}
 		
-### Get Blueprint API specification for Budget Unrecovered F And As [GET /research-sys/api/v1/budget-unrecovered-f-and-as/]
+### Get Blueprint API specification for Budget Unrecovered F And As [GET /research-common/api/v1/budget-unrecovered-f-and-as/]
 	 
 + Parameters
 
@@ -116,7 +116,7 @@
             transfer-encoding:chunked
 
 
-### Update Budget Unrecovered F And As [PUT /research-sys/api/v1/budget-unrecovered-f-and-as/(key)]
+### Update Budget Unrecovered F And As [PUT /research-common/api/v1/budget-unrecovered-f-and-as/(key)]
 
 + Request
 
@@ -131,7 +131,7 @@
 			
 + Response 204
 
-### Update Multiple Budget Unrecovered F And As [PUT /research-sys/api/v1/budget-unrecovered-f-and-as/]
+### Update Multiple Budget Unrecovered F And As [PUT /research-common/api/v1/budget-unrecovered-f-and-as/]
 
 + Request
 
@@ -149,7 +149,7 @@
 			
 + Response 204
 
-### Insert Budget Unrecovered F And As [POST /research-sys/api/v1/budget-unrecovered-f-and-as/]
+### Insert Budget Unrecovered F And As [POST /research-common/api/v1/budget-unrecovered-f-and-as/]
 
 + Request
 
@@ -168,7 +168,7 @@
             
             {"documentComponentId": "(val)","budgetId": "(val)","amount": "(val)","applicableRate": "(val)","onCampusFlag": "(val)","fiscalYear": "(val)","sourceAccount": "(val)","hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Budget Unrecovered F And As [POST /research-sys/api/v1/budget-unrecovered-f-and-as/]
+### Insert Multiple Budget Unrecovered F And As [POST /research-common/api/v1/budget-unrecovered-f-and-as/]
 
 + Request
 
@@ -193,7 +193,7 @@
               {"documentComponentId": "(val)","budgetId": "(val)","amount": "(val)","applicableRate": "(val)","onCampusFlag": "(val)","fiscalYear": "(val)","sourceAccount": "(val)","hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Budget Unrecovered F And As by Key [DELETE /research-sys/api/v1/budget-unrecovered-f-and-as/(key)]
+### Delete Budget Unrecovered F And As by Key [DELETE /research-common/api/v1/budget-unrecovered-f-and-as/(key)]
 	 
 + Request
 
@@ -204,7 +204,7 @@
 
 + Response 204
 
-### Delete All Budget Unrecovered F And As [DELETE /research-sys/api/v1/budget-unrecovered-f-and-as/]
+### Delete All Budget Unrecovered F And As [DELETE /research-common/api/v1/budget-unrecovered-f-and-as/]
 
 + Parameters
 
@@ -219,20 +219,20 @@
 
 + Response 204
 
-### Delete All Budget Unrecovered F And As with Matching [DELETE /research-sys/api/v1/budget-unrecovered-f-and-as/]
+### Delete All Budget Unrecovered F And As with Matching [DELETE /research-common/api/v1/budget-unrecovered-f-and-as/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + documentComponentId
-            + budgetId
-            + amount
-            + applicableRate
-            + onCampusFlag
-            + fiscalYear
-            + sourceAccount
-            + hierarchyProposalNumber
-            + hiddenInHierarchy
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + documentComponentId (optional) - Document Component Id. Maximum length is 5.
+    + budgetId (optional) - Budget Id.
+    + amount (optional) - Amount. Maximum length is 15.
+    + applicableRate (optional) - Applicable Rate. Maximum length is 6.
+    + onCampusFlag (optional) - On CampusContractContract Flag. Maximum length is 1.
+    + fiscalYear (optional) - Fiscal Year. Maximum length is 4.
+    + sourceAccount (optional) - Source Account. Maximum length is 32.
+    + hierarchyProposalNumber (optional) - Hierarchy Proposal Number.
+    + hiddenInHierarchy (optional) - Hidden In Hierarchy.
 
       
 + Request

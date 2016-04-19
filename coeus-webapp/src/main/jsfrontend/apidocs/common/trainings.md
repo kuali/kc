@@ -1,6 +1,6 @@
-## Trainings [/research-sys/api/v1/trainings/]
+## Trainings [/research-common/api/v1/trainings/]
 
-### Get Trainings by Key [GET /research-sys/api/v1/trainings/(key)]
+### Get Trainings by Key [GET /research-common/api/v1/trainings/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"trainingCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Trainings [GET /research-sys/api/v1/trainings/]
+### Get All Trainings [GET /research-common/api/v1/trainings/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"trainingCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Trainings with Filtering [GET /research-sys/api/v1/trainings/]
+### Get All Trainings with Filtering [GET /research-common/api/v1/trainings/]
     
 + Parameters
 
-        + trainingCode
-            + description
+    + trainingCode (optional) - Training Code. Maximum length is 4.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"trainingCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Trainings [GET /research-sys/api/v1/trainings/]
+### Get Schema for Trainings [GET /research-common/api/v1/trainings/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["trainingCode","description"],"primaryKey":"trainingCode"}
 		
-### Get Blueprint API specification for Trainings [GET /research-sys/api/v1/trainings/]
+### Get Blueprint API specification for Trainings [GET /research-common/api/v1/trainings/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Trainings [PUT /research-sys/api/v1/trainings/(key)]
+### Update Trainings [PUT /research-common/api/v1/trainings/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Trainings [PUT /research-sys/api/v1/trainings/]
+### Update Multiple Trainings [PUT /research-common/api/v1/trainings/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Trainings [POST /research-sys/api/v1/trainings/]
+### Insert Trainings [POST /research-common/api/v1/trainings/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"trainingCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Trainings [POST /research-sys/api/v1/trainings/]
+### Insert Multiple Trainings [POST /research-common/api/v1/trainings/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"trainingCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Trainings by Key [DELETE /research-sys/api/v1/trainings/(key)]
+### Delete Trainings by Key [DELETE /research-common/api/v1/trainings/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Trainings [DELETE /research-sys/api/v1/trainings/]
+### Delete All Trainings [DELETE /research-common/api/v1/trainings/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Trainings with Matching [DELETE /research-sys/api/v1/trainings/]
+### Delete All Trainings with Matching [DELETE /research-common/api/v1/trainings/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + trainingCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + trainingCode (optional) - Training Code. Maximum length is 4.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

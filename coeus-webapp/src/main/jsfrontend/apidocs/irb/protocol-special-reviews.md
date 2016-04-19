@@ -1,6 +1,6 @@
-## Protocol Special Reviews [/research-sys/api/v1/protocol-special-reviews/]
+## Protocol Special Reviews [/irb/api/v1/protocol-special-reviews/]
 
-### Get Protocol Special Reviews by Key [GET /research-sys/api/v1/protocol-special-reviews/(key)]
+### Get Protocol Special Reviews by Key [GET /irb/api/v1/protocol-special-reviews/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"protocolSpecialReviewId": "(val)","protocolId": "(val)","specialReviewNumber": "(val)","specialReviewTypeCode": "(val)","approvalTypeCode": "(val)","protocolNumber": "(val)","applicationDate": "(val)","approvalDate": "(val)","expirationDate": "(val)","comments": "(val)","_primaryKey": "(val)"}
 
-### Get All Protocol Special Reviews [GET /research-sys/api/v1/protocol-special-reviews/]
+### Get All Protocol Special Reviews [GET /irb/api/v1/protocol-special-reviews/]
 	 
 + Request
 
@@ -39,20 +39,20 @@
               {"protocolSpecialReviewId": "(val)","protocolId": "(val)","specialReviewNumber": "(val)","specialReviewTypeCode": "(val)","approvalTypeCode": "(val)","protocolNumber": "(val)","applicationDate": "(val)","approvalDate": "(val)","expirationDate": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Protocol Special Reviews with Filtering [GET /research-sys/api/v1/protocol-special-reviews/]
+### Get All Protocol Special Reviews with Filtering [GET /irb/api/v1/protocol-special-reviews/]
     
 + Parameters
 
-        + protocolSpecialReviewId
-            + protocolId
-            + specialReviewNumber
-            + specialReviewTypeCode
-            + approvalTypeCode
-            + protocolNumber
-            + applicationDate
-            + approvalDate
-            + expirationDate
-            + comments
+    + protocolSpecialReviewId (optional) - Protocol Special Review Id. Maximum length is 22.
+    + protocolId (optional) - 
+    + specialReviewNumber (optional) - Special Review Number. Maximum length is 22.
+    + specialReviewTypeCode (optional) - Special Review Type Code. Maximum length is 3.
+    + approvalTypeCode (optional) - Approval Status Type Code. Maximum length is 3.
+    + protocolNumber (optional) - Protocol Number. Maximum length is 20.
+    + applicationDate (optional) - Application Date. Maximum length is 10.
+    + approvalDate (optional) - Approval Date. Maximum length is 10.
+    + expirationDate (optional) - Expiration Date. Maximum length is 10.
+    + comments (optional) - Comments. Maximum length is 2000.
 
             
 + Request
@@ -74,7 +74,7 @@
               {"protocolSpecialReviewId": "(val)","protocolId": "(val)","specialReviewNumber": "(val)","specialReviewTypeCode": "(val)","approvalTypeCode": "(val)","protocolNumber": "(val)","applicationDate": "(val)","approvalDate": "(val)","expirationDate": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Protocol Special Reviews [GET /research-sys/api/v1/protocol-special-reviews/]
+### Get Schema for Protocol Special Reviews [GET /irb/api/v1/protocol-special-reviews/]
 	                                          
 + Parameters
 
@@ -96,7 +96,7 @@
     
             {"columns":["protocolSpecialReviewId","protocolId","specialReviewNumber","specialReviewTypeCode","approvalTypeCode","protocolNumber","applicationDate","approvalDate","expirationDate","comments"],"primaryKey":"protocolSpecialReviewId"}
 		
-### Get Blueprint API specification for Protocol Special Reviews [GET /research-sys/api/v1/protocol-special-reviews/]
+### Get Blueprint API specification for Protocol Special Reviews [GET /irb/api/v1/protocol-special-reviews/]
 	 
 + Parameters
 
@@ -117,7 +117,7 @@
             transfer-encoding:chunked
 
 
-### Update Protocol Special Reviews [PUT /research-sys/api/v1/protocol-special-reviews/(key)]
+### Update Protocol Special Reviews [PUT /irb/api/v1/protocol-special-reviews/(key)]
 
 + Request
 
@@ -132,7 +132,7 @@
 			
 + Response 204
 
-### Update Multiple Protocol Special Reviews [PUT /research-sys/api/v1/protocol-special-reviews/]
+### Update Multiple Protocol Special Reviews [PUT /irb/api/v1/protocol-special-reviews/]
 
 + Request
 
@@ -150,7 +150,7 @@
 			
 + Response 204
 
-### Insert Protocol Special Reviews [POST /research-sys/api/v1/protocol-special-reviews/]
+### Insert Protocol Special Reviews [POST /irb/api/v1/protocol-special-reviews/]
 
 + Request
 
@@ -169,7 +169,7 @@
             
             {"protocolSpecialReviewId": "(val)","protocolId": "(val)","specialReviewNumber": "(val)","specialReviewTypeCode": "(val)","approvalTypeCode": "(val)","protocolNumber": "(val)","applicationDate": "(val)","approvalDate": "(val)","expirationDate": "(val)","comments": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Protocol Special Reviews [POST /research-sys/api/v1/protocol-special-reviews/]
+### Insert Multiple Protocol Special Reviews [POST /irb/api/v1/protocol-special-reviews/]
 
 + Request
 
@@ -194,7 +194,7 @@
               {"protocolSpecialReviewId": "(val)","protocolId": "(val)","specialReviewNumber": "(val)","specialReviewTypeCode": "(val)","approvalTypeCode": "(val)","protocolNumber": "(val)","applicationDate": "(val)","approvalDate": "(val)","expirationDate": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Protocol Special Reviews by Key [DELETE /research-sys/api/v1/protocol-special-reviews/(key)]
+### Delete Protocol Special Reviews by Key [DELETE /irb/api/v1/protocol-special-reviews/(key)]
 	 
 + Request
 
@@ -205,7 +205,7 @@
 
 + Response 204
 
-### Delete All Protocol Special Reviews [DELETE /research-sys/api/v1/protocol-special-reviews/]
+### Delete All Protocol Special Reviews [DELETE /irb/api/v1/protocol-special-reviews/]
 
 + Parameters
 
@@ -220,21 +220,21 @@
 
 + Response 204
 
-### Delete All Protocol Special Reviews with Matching [DELETE /research-sys/api/v1/protocol-special-reviews/]
+### Delete All Protocol Special Reviews with Matching [DELETE /irb/api/v1/protocol-special-reviews/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + protocolSpecialReviewId
-            + protocolId
-            + specialReviewNumber
-            + specialReviewTypeCode
-            + approvalTypeCode
-            + protocolNumber
-            + applicationDate
-            + approvalDate
-            + expirationDate
-            + comments
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + protocolSpecialReviewId (optional) - Protocol Special Review Id. Maximum length is 22.
+    + protocolId (optional) - 
+    + specialReviewNumber (optional) - Special Review Number. Maximum length is 22.
+    + specialReviewTypeCode (optional) - Special Review Type Code. Maximum length is 3.
+    + approvalTypeCode (optional) - Approval Status Type Code. Maximum length is 3.
+    + protocolNumber (optional) - Protocol Number. Maximum length is 20.
+    + applicationDate (optional) - Application Date. Maximum length is 10.
+    + approvalDate (optional) - Approval Date. Maximum length is 10.
+    + expirationDate (optional) - Expiration Date. Maximum length is 10.
+    + comments (optional) - Comments. Maximum length is 2000.
 
       
 + Request

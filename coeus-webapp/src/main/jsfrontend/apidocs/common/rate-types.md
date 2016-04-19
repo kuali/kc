@@ -1,6 +1,6 @@
-## Rate Types [/research-sys/api/v1/rate-types/]
+## Rate Types [/research-common/api/v1/rate-types/]
 
-### Get Rate Types by Key [GET /research-sys/api/v1/rate-types/(key)]
+### Get Rate Types by Key [GET /research-common/api/v1/rate-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"rateClassCode": "(val)","rateTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Rate Types [GET /research-sys/api/v1/rate-types/]
+### Get All Rate Types [GET /research-common/api/v1/rate-types/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"rateClassCode": "(val)","rateTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Rate Types with Filtering [GET /research-sys/api/v1/rate-types/]
+### Get All Rate Types with Filtering [GET /research-common/api/v1/rate-types/]
     
 + Parameters
 
-        + rateClassCode
-            + rateTypeCode
-            + description
+    + rateClassCode (optional) - Rate Class Code. Maximum length is 3.
+    + rateTypeCode (optional) - Rate Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"rateClassCode": "(val)","rateTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Rate Types [GET /research-sys/api/v1/rate-types/]
+### Get Schema for Rate Types [GET /research-common/api/v1/rate-types/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["rateClassCode","rateTypeCode","description"],"primaryKey":"rateClassCode:rateTypeCode"}
 		
-### Get Blueprint API specification for Rate Types [GET /research-sys/api/v1/rate-types/]
+### Get Blueprint API specification for Rate Types [GET /research-common/api/v1/rate-types/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Rate Types [PUT /research-sys/api/v1/rate-types/(key)]
+### Update Rate Types [PUT /research-common/api/v1/rate-types/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Rate Types [PUT /research-sys/api/v1/rate-types/]
+### Update Multiple Rate Types [PUT /research-common/api/v1/rate-types/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Rate Types [POST /research-sys/api/v1/rate-types/]
+### Insert Rate Types [POST /research-common/api/v1/rate-types/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"rateClassCode": "(val)","rateTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Rate Types [POST /research-sys/api/v1/rate-types/]
+### Insert Multiple Rate Types [POST /research-common/api/v1/rate-types/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"rateClassCode": "(val)","rateTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Rate Types by Key [DELETE /research-sys/api/v1/rate-types/(key)]
+### Delete Rate Types by Key [DELETE /research-common/api/v1/rate-types/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Rate Types [DELETE /research-sys/api/v1/rate-types/]
+### Delete All Rate Types [DELETE /research-common/api/v1/rate-types/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Rate Types with Matching [DELETE /research-sys/api/v1/rate-types/]
+### Delete All Rate Types with Matching [DELETE /research-common/api/v1/rate-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + rateClassCode
-            + rateTypeCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + rateClassCode (optional) - Rate Class Code. Maximum length is 3.
+    + rateTypeCode (optional) - Rate Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

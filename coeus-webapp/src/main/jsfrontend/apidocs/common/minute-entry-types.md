@@ -1,6 +1,6 @@
-## Minute Entry Types [/research-sys/api/v1/minute-entry-types/]
+## Minute Entry Types [/research-common/api/v1/minute-entry-types/]
 
-### Get Minute Entry Types by Key [GET /research-sys/api/v1/minute-entry-types/(key)]
+### Get Minute Entry Types by Key [GET /research-common/api/v1/minute-entry-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"minuteEntryTypeCode": "(val)","sortId": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Minute Entry Types [GET /research-sys/api/v1/minute-entry-types/]
+### Get All Minute Entry Types [GET /research-common/api/v1/minute-entry-types/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"minuteEntryTypeCode": "(val)","sortId": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Minute Entry Types with Filtering [GET /research-sys/api/v1/minute-entry-types/]
+### Get All Minute Entry Types with Filtering [GET /research-common/api/v1/minute-entry-types/]
     
 + Parameters
 
-        + minuteEntryTypeCode
-            + sortId
-            + description
+    + minuteEntryTypeCode (optional) - Minute Entry Type Code. Maximum length is 3.
+    + sortId (optional) - Sort Id. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"minuteEntryTypeCode": "(val)","sortId": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Minute Entry Types [GET /research-sys/api/v1/minute-entry-types/]
+### Get Schema for Minute Entry Types [GET /research-common/api/v1/minute-entry-types/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["minuteEntryTypeCode","sortId","description"],"primaryKey":"minuteEntryTypeCode"}
 		
-### Get Blueprint API specification for Minute Entry Types [GET /research-sys/api/v1/minute-entry-types/]
+### Get Blueprint API specification for Minute Entry Types [GET /research-common/api/v1/minute-entry-types/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Minute Entry Types [PUT /research-sys/api/v1/minute-entry-types/(key)]
+### Update Minute Entry Types [PUT /research-common/api/v1/minute-entry-types/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Minute Entry Types [PUT /research-sys/api/v1/minute-entry-types/]
+### Update Multiple Minute Entry Types [PUT /research-common/api/v1/minute-entry-types/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Minute Entry Types [POST /research-sys/api/v1/minute-entry-types/]
+### Insert Minute Entry Types [POST /research-common/api/v1/minute-entry-types/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"minuteEntryTypeCode": "(val)","sortId": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Minute Entry Types [POST /research-sys/api/v1/minute-entry-types/]
+### Insert Multiple Minute Entry Types [POST /research-common/api/v1/minute-entry-types/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"minuteEntryTypeCode": "(val)","sortId": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Minute Entry Types by Key [DELETE /research-sys/api/v1/minute-entry-types/(key)]
+### Delete Minute Entry Types by Key [DELETE /research-common/api/v1/minute-entry-types/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Minute Entry Types [DELETE /research-sys/api/v1/minute-entry-types/]
+### Delete All Minute Entry Types [DELETE /research-common/api/v1/minute-entry-types/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Minute Entry Types with Matching [DELETE /research-sys/api/v1/minute-entry-types/]
+### Delete All Minute Entry Types with Matching [DELETE /research-common/api/v1/minute-entry-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + minuteEntryTypeCode
-            + sortId
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + minuteEntryTypeCode (optional) - Minute Entry Type Code. Maximum length is 3.
+    + sortId (optional) - Sort Id. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

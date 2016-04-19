@@ -1,6 +1,6 @@
-## Question Multi Choices [/research-sys/api/v1/question-multi-choices/]
+## Question Multi Choices [/research-common/api/v1/question-multi-choices/]
 
-### Get Question Multi Choices by Key [GET /research-sys/api/v1/question-multi-choices/(key)]
+### Get Question Multi Choices by Key [GET /research-common/api/v1/question-multi-choices/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"id": "(val)","questionId": "(val)","prompt": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Question Multi Choices [GET /research-sys/api/v1/question-multi-choices/]
+### Get All Question Multi Choices [GET /research-common/api/v1/question-multi-choices/]
 	 
 + Request
 
@@ -39,14 +39,14 @@
               {"id": "(val)","questionId": "(val)","prompt": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Question Multi Choices with Filtering [GET /research-sys/api/v1/question-multi-choices/]
+### Get All Question Multi Choices with Filtering [GET /research-common/api/v1/question-multi-choices/]
     
 + Parameters
 
-        + id
-            + questionId
-            + prompt
-            + description
+    + id (optional) - Question Multi-Choice Id. Maximum length is 12.
+    + questionId (optional) - Question Ref Id. Maximum length is 12.
+    + prompt (optional) - Prompt. Maximum length is 200.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -68,7 +68,7 @@
               {"id": "(val)","questionId": "(val)","prompt": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Question Multi Choices [GET /research-sys/api/v1/question-multi-choices/]
+### Get Schema for Question Multi Choices [GET /research-common/api/v1/question-multi-choices/]
 	                                          
 + Parameters
 
@@ -90,7 +90,7 @@
     
             {"columns":["id","questionId","prompt","description"],"primaryKey":"id"}
 		
-### Get Blueprint API specification for Question Multi Choices [GET /research-sys/api/v1/question-multi-choices/]
+### Get Blueprint API specification for Question Multi Choices [GET /research-common/api/v1/question-multi-choices/]
 	 
 + Parameters
 
@@ -111,7 +111,7 @@
             transfer-encoding:chunked
 
 
-### Update Question Multi Choices [PUT /research-sys/api/v1/question-multi-choices/(key)]
+### Update Question Multi Choices [PUT /research-common/api/v1/question-multi-choices/(key)]
 
 + Request
 
@@ -126,7 +126,7 @@
 			
 + Response 204
 
-### Update Multiple Question Multi Choices [PUT /research-sys/api/v1/question-multi-choices/]
+### Update Multiple Question Multi Choices [PUT /research-common/api/v1/question-multi-choices/]
 
 + Request
 
@@ -144,7 +144,7 @@
 			
 + Response 204
 
-### Insert Question Multi Choices [POST /research-sys/api/v1/question-multi-choices/]
+### Insert Question Multi Choices [POST /research-common/api/v1/question-multi-choices/]
 
 + Request
 
@@ -163,7 +163,7 @@
             
             {"id": "(val)","questionId": "(val)","prompt": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Question Multi Choices [POST /research-sys/api/v1/question-multi-choices/]
+### Insert Multiple Question Multi Choices [POST /research-common/api/v1/question-multi-choices/]
 
 + Request
 
@@ -188,7 +188,7 @@
               {"id": "(val)","questionId": "(val)","prompt": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Question Multi Choices by Key [DELETE /research-sys/api/v1/question-multi-choices/(key)]
+### Delete Question Multi Choices by Key [DELETE /research-common/api/v1/question-multi-choices/(key)]
 	 
 + Request
 
@@ -199,7 +199,7 @@
 
 + Response 204
 
-### Delete All Question Multi Choices [DELETE /research-sys/api/v1/question-multi-choices/]
+### Delete All Question Multi Choices [DELETE /research-common/api/v1/question-multi-choices/]
 
 + Parameters
 
@@ -214,15 +214,15 @@
 
 + Response 204
 
-### Delete All Question Multi Choices with Matching [DELETE /research-sys/api/v1/question-multi-choices/]
+### Delete All Question Multi Choices with Matching [DELETE /research-common/api/v1/question-multi-choices/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + questionId
-            + prompt
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Question Multi-Choice Id. Maximum length is 12.
+    + questionId (optional) - Question Ref Id. Maximum length is 12.
+    + prompt (optional) - Prompt. Maximum length is 200.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

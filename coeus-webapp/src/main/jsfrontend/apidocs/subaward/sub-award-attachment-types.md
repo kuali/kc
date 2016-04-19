@@ -1,6 +1,6 @@
-## Sub Award Attachment Types [/research-sys/api/v1/sub-award-attachment-types/]
+## Sub Award Attachment Types [/subaward/api/v1/sub-award-attachment-types/]
 
-### Get Sub Award Attachment Types by Key [GET /research-sys/api/v1/sub-award-attachment-types/(key)]
+### Get Sub Award Attachment Types by Key [GET /subaward/api/v1/sub-award-attachment-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"subAwardAttachmentTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Sub Award Attachment Types [GET /research-sys/api/v1/sub-award-attachment-types/]
+### Get All Sub Award Attachment Types [GET /subaward/api/v1/sub-award-attachment-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"subAwardAttachmentTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Sub Award Attachment Types with Filtering [GET /research-sys/api/v1/sub-award-attachment-types/]
+### Get All Sub Award Attachment Types with Filtering [GET /subaward/api/v1/sub-award-attachment-types/]
     
 + Parameters
 
-        + subAwardAttachmentTypeCode
-            + description
+    + subAwardAttachmentTypeCode (optional) - Subaward Attachment Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"subAwardAttachmentTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Sub Award Attachment Types [GET /research-sys/api/v1/sub-award-attachment-types/]
+### Get Schema for Sub Award Attachment Types [GET /subaward/api/v1/sub-award-attachment-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["subAwardAttachmentTypeCode","description"],"primaryKey":"subAwardAttachmentTypeCode"}
 		
-### Get Blueprint API specification for Sub Award Attachment Types [GET /research-sys/api/v1/sub-award-attachment-types/]
+### Get Blueprint API specification for Sub Award Attachment Types [GET /subaward/api/v1/sub-award-attachment-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Sub Award Attachment Types [PUT /research-sys/api/v1/sub-award-attachment-types/(key)]
+### Update Sub Award Attachment Types [PUT /subaward/api/v1/sub-award-attachment-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Sub Award Attachment Types [PUT /research-sys/api/v1/sub-award-attachment-types/]
+### Update Multiple Sub Award Attachment Types [PUT /subaward/api/v1/sub-award-attachment-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Sub Award Attachment Types [POST /research-sys/api/v1/sub-award-attachment-types/]
+### Insert Sub Award Attachment Types [POST /subaward/api/v1/sub-award-attachment-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"subAwardAttachmentTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Sub Award Attachment Types [POST /research-sys/api/v1/sub-award-attachment-types/]
+### Insert Multiple Sub Award Attachment Types [POST /subaward/api/v1/sub-award-attachment-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"subAwardAttachmentTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Sub Award Attachment Types by Key [DELETE /research-sys/api/v1/sub-award-attachment-types/(key)]
+### Delete Sub Award Attachment Types by Key [DELETE /subaward/api/v1/sub-award-attachment-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Sub Award Attachment Types [DELETE /research-sys/api/v1/sub-award-attachment-types/]
+### Delete All Sub Award Attachment Types [DELETE /subaward/api/v1/sub-award-attachment-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Sub Award Attachment Types with Matching [DELETE /research-sys/api/v1/sub-award-attachment-types/]
+### Delete All Sub Award Attachment Types with Matching [DELETE /subaward/api/v1/sub-award-attachment-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + subAwardAttachmentTypeCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + subAwardAttachmentTypeCode (optional) - Subaward Attachment Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

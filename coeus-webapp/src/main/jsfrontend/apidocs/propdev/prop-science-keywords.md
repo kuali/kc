@@ -1,6 +1,6 @@
-## Prop Science Keywords [/research-sys/api/v1/prop-science-keywords/]
+## Prop Science Keywords [/propdev/api/v1/prop-science-keywords/]
 
-### Get Prop Science Keywords by Key [GET /research-sys/api/v1/prop-science-keywords/(key)]
+### Get Prop Science Keywords by Key [GET /propdev/api/v1/prop-science-keywords/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","_primaryKey": "(val)"}
 
-### Get All Prop Science Keywords [GET /research-sys/api/v1/prop-science-keywords/]
+### Get All Prop Science Keywords [GET /propdev/api/v1/prop-science-keywords/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Prop Science Keywords with Filtering [GET /research-sys/api/v1/prop-science-keywords/]
+### Get All Prop Science Keywords with Filtering [GET /propdev/api/v1/prop-science-keywords/]
     
 + Parameters
 
-        + hierarchyProposalNumber
-            + hiddenInHierarchy
+    + hierarchyProposalNumber (optional) - Hierarchy Proposal Number.
+    + hiddenInHierarchy (optional) - Hidden In Hierarchy.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Prop Science Keywords [GET /research-sys/api/v1/prop-science-keywords/]
+### Get Schema for Prop Science Keywords [GET /propdev/api/v1/prop-science-keywords/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["hierarchyProposalNumber","hiddenInHierarchy"],"primaryKey":"developmentProposal:scienceKeyword"}
 		
-### Get Blueprint API specification for Prop Science Keywords [GET /research-sys/api/v1/prop-science-keywords/]
+### Get Blueprint API specification for Prop Science Keywords [GET /propdev/api/v1/prop-science-keywords/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Prop Science Keywords [PUT /research-sys/api/v1/prop-science-keywords/(key)]
+### Update Prop Science Keywords [PUT /propdev/api/v1/prop-science-keywords/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Prop Science Keywords [PUT /research-sys/api/v1/prop-science-keywords/]
+### Update Multiple Prop Science Keywords [PUT /propdev/api/v1/prop-science-keywords/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Prop Science Keywords [POST /research-sys/api/v1/prop-science-keywords/]
+### Insert Prop Science Keywords [POST /propdev/api/v1/prop-science-keywords/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Prop Science Keywords [POST /research-sys/api/v1/prop-science-keywords/]
+### Insert Multiple Prop Science Keywords [POST /propdev/api/v1/prop-science-keywords/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Prop Science Keywords by Key [DELETE /research-sys/api/v1/prop-science-keywords/(key)]
+### Delete Prop Science Keywords by Key [DELETE /propdev/api/v1/prop-science-keywords/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Prop Science Keywords [DELETE /research-sys/api/v1/prop-science-keywords/]
+### Delete All Prop Science Keywords [DELETE /propdev/api/v1/prop-science-keywords/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Prop Science Keywords with Matching [DELETE /research-sys/api/v1/prop-science-keywords/]
+### Delete All Prop Science Keywords with Matching [DELETE /propdev/api/v1/prop-science-keywords/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + hierarchyProposalNumber
-            + hiddenInHierarchy
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + hierarchyProposalNumber (optional) - Hierarchy Proposal Number.
+    + hiddenInHierarchy (optional) - Hidden In Hierarchy.
 
       
 + Request

@@ -1,6 +1,6 @@
-## Iacuc Protocol Online Reviews [/research-sys/api/v1/iacuc-protocol-online-reviews/]
+## Iacuc Protocol Online Reviews [/iacuc/api/v1/iacuc-protocol-online-reviews/]
 
-### Get Iacuc Protocol Online Reviews by Key [GET /research-sys/api/v1/iacuc-protocol-online-reviews/(key)]
+### Get Iacuc Protocol Online Reviews by Key [GET /iacuc/api/v1/iacuc-protocol-online-reviews/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"protocolOnlineReviewId": "(val)","documentNumber": "(val)","protocolId": "(val)","submissionIdFk": "(val)","protocolReviewerId": "(val)","protocolOnlineReviewStatusCode": "(val)","protocolOnlineReviewDeterminationRecommendationCode": "(val)","dateDue": "(val)","dateRequested": "(val)","actionsPerformed": "(val)","reviewerApproved": "(val)","adminAccepted": "(val)","determinationReviewTypeCode": "(val)","determinationReviewDateDue": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Protocol Online Reviews [GET /research-sys/api/v1/iacuc-protocol-online-reviews/]
+### Get All Iacuc Protocol Online Reviews [GET /iacuc/api/v1/iacuc-protocol-online-reviews/]
 	 
 + Request
 
@@ -39,24 +39,24 @@
               {"protocolOnlineReviewId": "(val)","documentNumber": "(val)","protocolId": "(val)","submissionIdFk": "(val)","protocolReviewerId": "(val)","protocolOnlineReviewStatusCode": "(val)","protocolOnlineReviewDeterminationRecommendationCode": "(val)","dateDue": "(val)","dateRequested": "(val)","actionsPerformed": "(val)","reviewerApproved": "(val)","adminAccepted": "(val)","determinationReviewTypeCode": "(val)","determinationReviewDateDue": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Protocol Online Reviews with Filtering [GET /research-sys/api/v1/iacuc-protocol-online-reviews/]
+### Get All Iacuc Protocol Online Reviews with Filtering [GET /iacuc/api/v1/iacuc-protocol-online-reviews/]
     
 + Parameters
 
-        + protocolOnlineReviewId
-            + documentNumber
-            + protocolId
-            + submissionIdFk
-            + protocolReviewerId
-            + protocolOnlineReviewStatusCode
-            + protocolOnlineReviewDeterminationRecommendationCode
-            + dateDue
-            + dateRequested
-            + actionsPerformed
-            + reviewerApproved
-            + adminAccepted
-            + determinationReviewTypeCode
-            + determinationReviewDateDue
+    + protocolOnlineReviewId (optional) - Id. Maximum length is 10.
+    + documentNumber (optional) - 
+    + protocolId (optional) - Protocol Id. Maximum length is 10.
+    + submissionIdFk (optional) - Submission Id. Maximum length is 10.
+    + protocolReviewerId (optional) - Protocol Reviewer Id. Maximum length is 10.
+    + protocolOnlineReviewStatusCode (optional) - The status of the protocol review. Maximum length is 3.
+    + protocolOnlineReviewDeterminationRecommendationCode (optional) - Determination Recommendation. Maximum length is 3.
+    + dateDue (optional) - The date the online review is to be completed by. Maximum length is 10.
+    + dateRequested (optional) - The date the online review was requested. Maximum length is 10.
+    + actionsPerformed (optional) - 
+    + reviewerApproved (optional) - 
+    + adminAccepted (optional) - 
+    + determinationReviewTypeCode (optional) - Review Type Determination. Maximum length is 3.
+    + determinationReviewDateDue (optional) - Determination Due Date. Maximum length is 10.
 
             
 + Request
@@ -78,7 +78,7 @@
               {"protocolOnlineReviewId": "(val)","documentNumber": "(val)","protocolId": "(val)","submissionIdFk": "(val)","protocolReviewerId": "(val)","protocolOnlineReviewStatusCode": "(val)","protocolOnlineReviewDeterminationRecommendationCode": "(val)","dateDue": "(val)","dateRequested": "(val)","actionsPerformed": "(val)","reviewerApproved": "(val)","adminAccepted": "(val)","determinationReviewTypeCode": "(val)","determinationReviewDateDue": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Protocol Online Reviews [GET /research-sys/api/v1/iacuc-protocol-online-reviews/]
+### Get Schema for Iacuc Protocol Online Reviews [GET /iacuc/api/v1/iacuc-protocol-online-reviews/]
 	                                          
 + Parameters
 
@@ -100,7 +100,7 @@
     
             {"columns":["protocolOnlineReviewId","documentNumber","protocolId","submissionIdFk","protocolReviewerId","protocolOnlineReviewStatusCode","protocolOnlineReviewDeterminationRecommendationCode","dateDue","dateRequested","actionsPerformed","reviewerApproved","adminAccepted","determinationReviewTypeCode","determinationReviewDateDue"],"primaryKey":"protocolOnlineReviewId"}
 		
-### Get Blueprint API specification for Iacuc Protocol Online Reviews [GET /research-sys/api/v1/iacuc-protocol-online-reviews/]
+### Get Blueprint API specification for Iacuc Protocol Online Reviews [GET /iacuc/api/v1/iacuc-protocol-online-reviews/]
 	 
 + Parameters
 
@@ -121,7 +121,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Protocol Online Reviews [PUT /research-sys/api/v1/iacuc-protocol-online-reviews/(key)]
+### Update Iacuc Protocol Online Reviews [PUT /iacuc/api/v1/iacuc-protocol-online-reviews/(key)]
 
 + Request
 
@@ -136,7 +136,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Protocol Online Reviews [PUT /research-sys/api/v1/iacuc-protocol-online-reviews/]
+### Update Multiple Iacuc Protocol Online Reviews [PUT /iacuc/api/v1/iacuc-protocol-online-reviews/]
 
 + Request
 
@@ -154,7 +154,7 @@
 			
 + Response 204
 
-### Insert Iacuc Protocol Online Reviews [POST /research-sys/api/v1/iacuc-protocol-online-reviews/]
+### Insert Iacuc Protocol Online Reviews [POST /iacuc/api/v1/iacuc-protocol-online-reviews/]
 
 + Request
 
@@ -173,7 +173,7 @@
             
             {"protocolOnlineReviewId": "(val)","documentNumber": "(val)","protocolId": "(val)","submissionIdFk": "(val)","protocolReviewerId": "(val)","protocolOnlineReviewStatusCode": "(val)","protocolOnlineReviewDeterminationRecommendationCode": "(val)","dateDue": "(val)","dateRequested": "(val)","actionsPerformed": "(val)","reviewerApproved": "(val)","adminAccepted": "(val)","determinationReviewTypeCode": "(val)","determinationReviewDateDue": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Protocol Online Reviews [POST /research-sys/api/v1/iacuc-protocol-online-reviews/]
+### Insert Multiple Iacuc Protocol Online Reviews [POST /iacuc/api/v1/iacuc-protocol-online-reviews/]
 
 + Request
 
@@ -198,7 +198,7 @@
               {"protocolOnlineReviewId": "(val)","documentNumber": "(val)","protocolId": "(val)","submissionIdFk": "(val)","protocolReviewerId": "(val)","protocolOnlineReviewStatusCode": "(val)","protocolOnlineReviewDeterminationRecommendationCode": "(val)","dateDue": "(val)","dateRequested": "(val)","actionsPerformed": "(val)","reviewerApproved": "(val)","adminAccepted": "(val)","determinationReviewTypeCode": "(val)","determinationReviewDateDue": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Protocol Online Reviews by Key [DELETE /research-sys/api/v1/iacuc-protocol-online-reviews/(key)]
+### Delete Iacuc Protocol Online Reviews by Key [DELETE /iacuc/api/v1/iacuc-protocol-online-reviews/(key)]
 	 
 + Request
 
@@ -209,7 +209,7 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Online Reviews [DELETE /research-sys/api/v1/iacuc-protocol-online-reviews/]
+### Delete All Iacuc Protocol Online Reviews [DELETE /iacuc/api/v1/iacuc-protocol-online-reviews/]
 
 + Parameters
 
@@ -224,25 +224,25 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Online Reviews with Matching [DELETE /research-sys/api/v1/iacuc-protocol-online-reviews/]
+### Delete All Iacuc Protocol Online Reviews with Matching [DELETE /iacuc/api/v1/iacuc-protocol-online-reviews/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + protocolOnlineReviewId
-            + documentNumber
-            + protocolId
-            + submissionIdFk
-            + protocolReviewerId
-            + protocolOnlineReviewStatusCode
-            + protocolOnlineReviewDeterminationRecommendationCode
-            + dateDue
-            + dateRequested
-            + actionsPerformed
-            + reviewerApproved
-            + adminAccepted
-            + determinationReviewTypeCode
-            + determinationReviewDateDue
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + protocolOnlineReviewId (optional) - Id. Maximum length is 10.
+    + documentNumber (optional) - 
+    + protocolId (optional) - Protocol Id. Maximum length is 10.
+    + submissionIdFk (optional) - Submission Id. Maximum length is 10.
+    + protocolReviewerId (optional) - Protocol Reviewer Id. Maximum length is 10.
+    + protocolOnlineReviewStatusCode (optional) - The status of the protocol review. Maximum length is 3.
+    + protocolOnlineReviewDeterminationRecommendationCode (optional) - Determination Recommendation. Maximum length is 3.
+    + dateDue (optional) - The date the online review is to be completed by. Maximum length is 10.
+    + dateRequested (optional) - The date the online review was requested. Maximum length is 10.
+    + actionsPerformed (optional) - 
+    + reviewerApproved (optional) - 
+    + adminAccepted (optional) - 
+    + determinationReviewTypeCode (optional) - Review Type Determination. Maximum length is 3.
+    + determinationReviewDateDue (optional) - Determination Due Date. Maximum length is 10.
 
       
 + Request

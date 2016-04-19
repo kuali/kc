@@ -1,6 +1,6 @@
-## Congressional Districts [/research-sys/api/v1/congressional-districts/]
+## Congressional Districts [/propdev/api/v1/congressional-districts/]
 
-### Get Congressional Districts by Key [GET /research-sys/api/v1/congressional-districts/(key)]
+### Get Congressional Districts by Key [GET /propdev/api/v1/congressional-districts/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"id": "(val)","congressionalDistrict": "(val)","_primaryKey": "(val)"}
 
-### Get All Congressional Districts [GET /research-sys/api/v1/congressional-districts/]
+### Get All Congressional Districts [GET /propdev/api/v1/congressional-districts/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"id": "(val)","congressionalDistrict": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Congressional Districts with Filtering [GET /research-sys/api/v1/congressional-districts/]
+### Get All Congressional Districts with Filtering [GET /propdev/api/v1/congressional-districts/]
     
 + Parameters
 
-        + id
-            + congressionalDistrict
+    + id (optional) - Id.
+    + congressionalDistrict (optional) - State code plus congressional district number. Maximum length is 50.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"id": "(val)","congressionalDistrict": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Congressional Districts [GET /research-sys/api/v1/congressional-districts/]
+### Get Schema for Congressional Districts [GET /propdev/api/v1/congressional-districts/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["id","congressionalDistrict"],"primaryKey":"id"}
 		
-### Get Blueprint API specification for Congressional Districts [GET /research-sys/api/v1/congressional-districts/]
+### Get Blueprint API specification for Congressional Districts [GET /propdev/api/v1/congressional-districts/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Congressional Districts [PUT /research-sys/api/v1/congressional-districts/(key)]
+### Update Congressional Districts [PUT /propdev/api/v1/congressional-districts/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Congressional Districts [PUT /research-sys/api/v1/congressional-districts/]
+### Update Multiple Congressional Districts [PUT /propdev/api/v1/congressional-districts/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Congressional Districts [POST /research-sys/api/v1/congressional-districts/]
+### Insert Congressional Districts [POST /propdev/api/v1/congressional-districts/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"id": "(val)","congressionalDistrict": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Congressional Districts [POST /research-sys/api/v1/congressional-districts/]
+### Insert Multiple Congressional Districts [POST /propdev/api/v1/congressional-districts/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"id": "(val)","congressionalDistrict": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Congressional Districts by Key [DELETE /research-sys/api/v1/congressional-districts/(key)]
+### Delete Congressional Districts by Key [DELETE /propdev/api/v1/congressional-districts/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Congressional Districts [DELETE /research-sys/api/v1/congressional-districts/]
+### Delete All Congressional Districts [DELETE /propdev/api/v1/congressional-districts/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Congressional Districts with Matching [DELETE /research-sys/api/v1/congressional-districts/]
+### Delete All Congressional Districts with Matching [DELETE /propdev/api/v1/congressional-districts/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + congressionalDistrict
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Id.
+    + congressionalDistrict (optional) - State code plus congressional district number. Maximum length is 50.
 
       
 + Request

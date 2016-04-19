@@ -43,14 +43,14 @@
     
 + Parameters
 
-        + id
-            + responsibilityId
-            + ruleBaseValuesId
-            + actionRequestedCd
-            + ruleResponsibilityName
-            + ruleResponsibilityType
-            + priority
-            + approvePolicy
+    + id (optional) - 
+    + responsibilityId (optional) - 
+    + ruleBaseValuesId (optional) - 
+    + actionRequestedCd (optional) - 
+    + ruleResponsibilityName (optional) - 
+    + ruleResponsibilityType (optional) - 
+    + priority (optional) - 
+    + approvePolicy (optional) - 
 
             
 + Request
@@ -222,15 +222,15 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + responsibilityId
-            + ruleBaseValuesId
-            + actionRequestedCd
-            + ruleResponsibilityName
-            + ruleResponsibilityType
-            + priority
-            + approvePolicy
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - 
+    + responsibilityId (optional) - 
+    + ruleBaseValuesId (optional) - 
+    + actionRequestedCd (optional) - 
+    + ruleResponsibilityName (optional) - 
+    + ruleResponsibilityType (optional) - 
+    + priority (optional) - 
+    + approvePolicy (optional) - 
 
       
 + Request

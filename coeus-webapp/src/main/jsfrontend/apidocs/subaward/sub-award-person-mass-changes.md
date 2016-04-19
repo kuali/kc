@@ -1,6 +1,6 @@
-## Sub Award Person Mass Changes [/research-sys/api/v1/sub-award-person-mass-changes/]
+## Sub Award Person Mass Changes [/subaward/api/v1/sub-award-person-mass-changes/]
 
-### Get Sub Award Person Mass Changes by Key [GET /research-sys/api/v1/sub-award-person-mass-changes/(key)]
+### Get Sub Award Person Mass Changes by Key [GET /subaward/api/v1/sub-award-person-mass-changes/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"subawardPersonMassChangeId": "(val)","personMassChangeId": "(val)","requisitioner": "(val)","contact": "(val)","_primaryKey": "(val)"}
 
-### Get All Sub Award Person Mass Changes [GET /research-sys/api/v1/sub-award-person-mass-changes/]
+### Get All Sub Award Person Mass Changes [GET /subaward/api/v1/sub-award-person-mass-changes/]
 	 
 + Request
 
@@ -39,14 +39,14 @@
               {"subawardPersonMassChangeId": "(val)","personMassChangeId": "(val)","requisitioner": "(val)","contact": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Sub Award Person Mass Changes with Filtering [GET /research-sys/api/v1/sub-award-person-mass-changes/]
+### Get All Sub Award Person Mass Changes with Filtering [GET /subaward/api/v1/sub-award-person-mass-changes/]
     
 + Parameters
 
-        + subawardPersonMassChangeId
-            + personMassChangeId
-            + requisitioner
-            + contact
+    + subawardPersonMassChangeId (optional) - Subaward Person Mass Change Id. Maximum length is 12.
+    + personMassChangeId (optional) - Person Mass Change Id. Maximum length is 12.
+    + requisitioner (optional) - Requisitioner. Maximum length is 1.
+    + contact (optional) - Contact. Maximum length is 1.
 
             
 + Request
@@ -68,7 +68,7 @@
               {"subawardPersonMassChangeId": "(val)","personMassChangeId": "(val)","requisitioner": "(val)","contact": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Sub Award Person Mass Changes [GET /research-sys/api/v1/sub-award-person-mass-changes/]
+### Get Schema for Sub Award Person Mass Changes [GET /subaward/api/v1/sub-award-person-mass-changes/]
 	                                          
 + Parameters
 
@@ -90,7 +90,7 @@
     
             {"columns":["subawardPersonMassChangeId","personMassChangeId","requisitioner","contact"],"primaryKey":"subawardPersonMassChangeId"}
 		
-### Get Blueprint API specification for Sub Award Person Mass Changes [GET /research-sys/api/v1/sub-award-person-mass-changes/]
+### Get Blueprint API specification for Sub Award Person Mass Changes [GET /subaward/api/v1/sub-award-person-mass-changes/]
 	 
 + Parameters
 
@@ -111,7 +111,7 @@
             transfer-encoding:chunked
 
 
-### Update Sub Award Person Mass Changes [PUT /research-sys/api/v1/sub-award-person-mass-changes/(key)]
+### Update Sub Award Person Mass Changes [PUT /subaward/api/v1/sub-award-person-mass-changes/(key)]
 
 + Request
 
@@ -126,7 +126,7 @@
 			
 + Response 204
 
-### Update Multiple Sub Award Person Mass Changes [PUT /research-sys/api/v1/sub-award-person-mass-changes/]
+### Update Multiple Sub Award Person Mass Changes [PUT /subaward/api/v1/sub-award-person-mass-changes/]
 
 + Request
 
@@ -144,7 +144,7 @@
 			
 + Response 204
 
-### Insert Sub Award Person Mass Changes [POST /research-sys/api/v1/sub-award-person-mass-changes/]
+### Insert Sub Award Person Mass Changes [POST /subaward/api/v1/sub-award-person-mass-changes/]
 
 + Request
 
@@ -163,7 +163,7 @@
             
             {"subawardPersonMassChangeId": "(val)","personMassChangeId": "(val)","requisitioner": "(val)","contact": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Sub Award Person Mass Changes [POST /research-sys/api/v1/sub-award-person-mass-changes/]
+### Insert Multiple Sub Award Person Mass Changes [POST /subaward/api/v1/sub-award-person-mass-changes/]
 
 + Request
 
@@ -188,7 +188,7 @@
               {"subawardPersonMassChangeId": "(val)","personMassChangeId": "(val)","requisitioner": "(val)","contact": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Sub Award Person Mass Changes by Key [DELETE /research-sys/api/v1/sub-award-person-mass-changes/(key)]
+### Delete Sub Award Person Mass Changes by Key [DELETE /subaward/api/v1/sub-award-person-mass-changes/(key)]
 	 
 + Request
 
@@ -199,7 +199,7 @@
 
 + Response 204
 
-### Delete All Sub Award Person Mass Changes [DELETE /research-sys/api/v1/sub-award-person-mass-changes/]
+### Delete All Sub Award Person Mass Changes [DELETE /subaward/api/v1/sub-award-person-mass-changes/]
 
 + Parameters
 
@@ -214,15 +214,15 @@
 
 + Response 204
 
-### Delete All Sub Award Person Mass Changes with Matching [DELETE /research-sys/api/v1/sub-award-person-mass-changes/]
+### Delete All Sub Award Person Mass Changes with Matching [DELETE /subaward/api/v1/sub-award-person-mass-changes/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + subawardPersonMassChangeId
-            + personMassChangeId
-            + requisitioner
-            + contact
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + subawardPersonMassChangeId (optional) - Subaward Person Mass Change Id. Maximum length is 12.
+    + personMassChangeId (optional) - Person Mass Change Id. Maximum length is 12.
+    + requisitioner (optional) - Requisitioner. Maximum length is 1.
+    + contact (optional) - Contact. Maximum length is 1.
 
       
 + Request

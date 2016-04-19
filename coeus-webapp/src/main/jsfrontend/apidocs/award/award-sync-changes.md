@@ -1,6 +1,6 @@
-## Award Sync Changes [/research-sys/api/v1/award-sync-changes/]
+## Award Sync Changes [/award/api/v1/award-sync-changes/]
 
-### Get Award Sync Changes by Key [GET /research-sys/api/v1/award-sync-changes/(key)]
+### Get Award Sync Changes by Key [GET /award/api/v1/award-sync-changes/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"awardSyncChangeId": "(val)","awardId": "(val)","xml": "(val)","className": "(val)","attrName": "(val)","objectDesc": "(val)","dataDesc": "(val)","syncType": "(val)","syncDescendants": "(val)","syncFabricated": "(val)","syncCostSharing": "(val)","_primaryKey": "(val)"}
 
-### Get All Award Sync Changes [GET /research-sys/api/v1/award-sync-changes/]
+### Get All Award Sync Changes [GET /award/api/v1/award-sync-changes/]
 	 
 + Request
 
@@ -39,21 +39,21 @@
               {"awardSyncChangeId": "(val)","awardId": "(val)","xml": "(val)","className": "(val)","attrName": "(val)","objectDesc": "(val)","dataDesc": "(val)","syncType": "(val)","syncDescendants": "(val)","syncFabricated": "(val)","syncCostSharing": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Award Sync Changes with Filtering [GET /research-sys/api/v1/award-sync-changes/]
+### Get All Award Sync Changes with Filtering [GET /award/api/v1/award-sync-changes/]
     
 + Parameters
 
-        + awardSyncChangeId
-            + awardId
-            + xml
-            + className
-            + attrName
-            + objectDesc
-            + dataDesc
-            + syncType
-            + syncDescendants
-            + syncFabricated
-            + syncCostSharing
+    + awardSyncChangeId (optional) - Award Sync Change Id. Maximum length is 40.
+    + awardId (optional) - Award Id. Maximum length is 12.
+    + xml (optional) - XML describing the change for persistence. Maximum length is 999999999.
+    + className (optional) - Class Name. Maximum length is 100.
+    + attrName (optional) - Attribute Name. Maximum length is 50.
+    + objectDesc (optional) - Text description of the object changed. Maximum length is 500.
+    + dataDesc (optional) - Text description of the data changed. Maximum length is 500.
+    + syncType (optional) - Type of syncronization. Maximum length is 1.
+    + syncDescendants (optional) - Syncronize Descendents. Maximum length is 6.
+    + syncFabricated (optional) - Syncronize Fabricated Descendents. Maximum length is 1.
+    + syncCostSharing (optional) - Syncronize Cost Sharing Accounts. Maximum length is 1.
 
             
 + Request
@@ -75,7 +75,7 @@
               {"awardSyncChangeId": "(val)","awardId": "(val)","xml": "(val)","className": "(val)","attrName": "(val)","objectDesc": "(val)","dataDesc": "(val)","syncType": "(val)","syncDescendants": "(val)","syncFabricated": "(val)","syncCostSharing": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Award Sync Changes [GET /research-sys/api/v1/award-sync-changes/]
+### Get Schema for Award Sync Changes [GET /award/api/v1/award-sync-changes/]
 	                                          
 + Parameters
 
@@ -97,7 +97,7 @@
     
             {"columns":["awardSyncChangeId","awardId","xml","className","attrName","objectDesc","dataDesc","syncType","syncDescendants","syncFabricated","syncCostSharing"],"primaryKey":"awardSyncChangeId"}
 		
-### Get Blueprint API specification for Award Sync Changes [GET /research-sys/api/v1/award-sync-changes/]
+### Get Blueprint API specification for Award Sync Changes [GET /award/api/v1/award-sync-changes/]
 	 
 + Parameters
 
@@ -118,7 +118,7 @@
             transfer-encoding:chunked
 
 
-### Update Award Sync Changes [PUT /research-sys/api/v1/award-sync-changes/(key)]
+### Update Award Sync Changes [PUT /award/api/v1/award-sync-changes/(key)]
 
 + Request
 
@@ -133,7 +133,7 @@
 			
 + Response 204
 
-### Update Multiple Award Sync Changes [PUT /research-sys/api/v1/award-sync-changes/]
+### Update Multiple Award Sync Changes [PUT /award/api/v1/award-sync-changes/]
 
 + Request
 
@@ -151,7 +151,7 @@
 			
 + Response 204
 
-### Insert Award Sync Changes [POST /research-sys/api/v1/award-sync-changes/]
+### Insert Award Sync Changes [POST /award/api/v1/award-sync-changes/]
 
 + Request
 
@@ -170,7 +170,7 @@
             
             {"awardSyncChangeId": "(val)","awardId": "(val)","xml": "(val)","className": "(val)","attrName": "(val)","objectDesc": "(val)","dataDesc": "(val)","syncType": "(val)","syncDescendants": "(val)","syncFabricated": "(val)","syncCostSharing": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Award Sync Changes [POST /research-sys/api/v1/award-sync-changes/]
+### Insert Multiple Award Sync Changes [POST /award/api/v1/award-sync-changes/]
 
 + Request
 
@@ -195,7 +195,7 @@
               {"awardSyncChangeId": "(val)","awardId": "(val)","xml": "(val)","className": "(val)","attrName": "(val)","objectDesc": "(val)","dataDesc": "(val)","syncType": "(val)","syncDescendants": "(val)","syncFabricated": "(val)","syncCostSharing": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Award Sync Changes by Key [DELETE /research-sys/api/v1/award-sync-changes/(key)]
+### Delete Award Sync Changes by Key [DELETE /award/api/v1/award-sync-changes/(key)]
 	 
 + Request
 
@@ -206,7 +206,7 @@
 
 + Response 204
 
-### Delete All Award Sync Changes [DELETE /research-sys/api/v1/award-sync-changes/]
+### Delete All Award Sync Changes [DELETE /award/api/v1/award-sync-changes/]
 
 + Parameters
 
@@ -221,22 +221,22 @@
 
 + Response 204
 
-### Delete All Award Sync Changes with Matching [DELETE /research-sys/api/v1/award-sync-changes/]
+### Delete All Award Sync Changes with Matching [DELETE /award/api/v1/award-sync-changes/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + awardSyncChangeId
-            + awardId
-            + xml
-            + className
-            + attrName
-            + objectDesc
-            + dataDesc
-            + syncType
-            + syncDescendants
-            + syncFabricated
-            + syncCostSharing
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + awardSyncChangeId (optional) - Award Sync Change Id. Maximum length is 40.
+    + awardId (optional) - Award Id. Maximum length is 12.
+    + xml (optional) - XML describing the change for persistence. Maximum length is 999999999.
+    + className (optional) - Class Name. Maximum length is 100.
+    + attrName (optional) - Attribute Name. Maximum length is 50.
+    + objectDesc (optional) - Text description of the object changed. Maximum length is 500.
+    + dataDesc (optional) - Text description of the data changed. Maximum length is 500.
+    + syncType (optional) - Type of syncronization. Maximum length is 1.
+    + syncDescendants (optional) - Syncronize Descendents. Maximum length is 6.
+    + syncFabricated (optional) - Syncronize Fabricated Descendents. Maximum length is 1.
+    + syncCostSharing (optional) - Syncronize Cost Sharing Accounts. Maximum length is 1.
 
       
 + Request

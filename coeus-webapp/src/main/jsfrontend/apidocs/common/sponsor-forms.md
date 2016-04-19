@@ -1,6 +1,6 @@
-## Sponsor Forms [/research-sys/api/v1/sponsor-forms/]
+## Sponsor Forms [/research-common/api/v1/sponsor-forms/]
 
-### Get Sponsor Forms by Key [GET /research-sys/api/v1/sponsor-forms/(key)]
+### Get Sponsor Forms by Key [GET /research-common/api/v1/sponsor-forms/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"sponsorFormId": "(val)","packageName": "(val)","packageNumber": "(val)","sponsorCode": "(val)","sponsorHierarchyName": "(val)","_primaryKey": "(val)"}
 
-### Get All Sponsor Forms [GET /research-sys/api/v1/sponsor-forms/]
+### Get All Sponsor Forms [GET /research-common/api/v1/sponsor-forms/]
 	 
 + Request
 
@@ -39,15 +39,15 @@
               {"sponsorFormId": "(val)","packageName": "(val)","packageNumber": "(val)","sponsorCode": "(val)","sponsorHierarchyName": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Sponsor Forms with Filtering [GET /research-sys/api/v1/sponsor-forms/]
+### Get All Sponsor Forms with Filtering [GET /research-common/api/v1/sponsor-forms/]
     
 + Parameters
 
-        + sponsorFormId
-            + packageName
-            + packageNumber
-            + sponsorCode
-            + sponsorHierarchyName
+    + sponsorFormId (optional) - Sponsor Form Id. Maximum length is 12.
+    + packageName (optional) - Package Name. Maximum length is 200.
+    + packageNumber (optional) - Package Number. Maximum length is 3.
+    + sponsorCode (optional) - Sponsor Code. Maximum length is 6.
+    + sponsorHierarchyName (optional) - Sponsor Hierarchy Group Name. Maximum length is 50.
 
             
 + Request
@@ -69,7 +69,7 @@
               {"sponsorFormId": "(val)","packageName": "(val)","packageNumber": "(val)","sponsorCode": "(val)","sponsorHierarchyName": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Sponsor Forms [GET /research-sys/api/v1/sponsor-forms/]
+### Get Schema for Sponsor Forms [GET /research-common/api/v1/sponsor-forms/]
 	                                          
 + Parameters
 
@@ -91,7 +91,7 @@
     
             {"columns":["sponsorFormId","packageName","packageNumber","sponsorCode","sponsorHierarchyName"],"primaryKey":"sponsorFormId"}
 		
-### Get Blueprint API specification for Sponsor Forms [GET /research-sys/api/v1/sponsor-forms/]
+### Get Blueprint API specification for Sponsor Forms [GET /research-common/api/v1/sponsor-forms/]
 	 
 + Parameters
 
@@ -112,7 +112,7 @@
             transfer-encoding:chunked
 
 
-### Update Sponsor Forms [PUT /research-sys/api/v1/sponsor-forms/(key)]
+### Update Sponsor Forms [PUT /research-common/api/v1/sponsor-forms/(key)]
 
 + Request
 
@@ -127,7 +127,7 @@
 			
 + Response 204
 
-### Update Multiple Sponsor Forms [PUT /research-sys/api/v1/sponsor-forms/]
+### Update Multiple Sponsor Forms [PUT /research-common/api/v1/sponsor-forms/]
 
 + Request
 
@@ -145,7 +145,7 @@
 			
 + Response 204
 
-### Insert Sponsor Forms [POST /research-sys/api/v1/sponsor-forms/]
+### Insert Sponsor Forms [POST /research-common/api/v1/sponsor-forms/]
 
 + Request
 
@@ -164,7 +164,7 @@
             
             {"sponsorFormId": "(val)","packageName": "(val)","packageNumber": "(val)","sponsorCode": "(val)","sponsorHierarchyName": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Sponsor Forms [POST /research-sys/api/v1/sponsor-forms/]
+### Insert Multiple Sponsor Forms [POST /research-common/api/v1/sponsor-forms/]
 
 + Request
 
@@ -189,7 +189,7 @@
               {"sponsorFormId": "(val)","packageName": "(val)","packageNumber": "(val)","sponsorCode": "(val)","sponsorHierarchyName": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Sponsor Forms by Key [DELETE /research-sys/api/v1/sponsor-forms/(key)]
+### Delete Sponsor Forms by Key [DELETE /research-common/api/v1/sponsor-forms/(key)]
 	 
 + Request
 
@@ -200,7 +200,7 @@
 
 + Response 204
 
-### Delete All Sponsor Forms [DELETE /research-sys/api/v1/sponsor-forms/]
+### Delete All Sponsor Forms [DELETE /research-common/api/v1/sponsor-forms/]
 
 + Parameters
 
@@ -215,16 +215,16 @@
 
 + Response 204
 
-### Delete All Sponsor Forms with Matching [DELETE /research-sys/api/v1/sponsor-forms/]
+### Delete All Sponsor Forms with Matching [DELETE /research-common/api/v1/sponsor-forms/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + sponsorFormId
-            + packageName
-            + packageNumber
-            + sponsorCode
-            + sponsorHierarchyName
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + sponsorFormId (optional) - Sponsor Form Id. Maximum length is 12.
+    + packageName (optional) - Package Name. Maximum length is 200.
+    + packageNumber (optional) - Package Number. Maximum length is 3.
+    + sponsorCode (optional) - Sponsor Code. Maximum length is 6.
+    + sponsorHierarchyName (optional) - Sponsor Hierarchy Group Name. Maximum length is 50.
 
       
 + Request

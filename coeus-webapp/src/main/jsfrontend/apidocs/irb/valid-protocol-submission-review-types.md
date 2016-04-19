@@ -1,6 +1,6 @@
-## Valid Protocol Submission Review Types [/research-sys/api/v1/valid-protocol-submission-review-types/]
+## Valid Protocol Submission Review Types [/irb/api/v1/valid-protocol-submission-review-types/]
 
-### Get Valid Protocol Submission Review Types by Key [GET /research-sys/api/v1/valid-protocol-submission-review-types/(key)]
+### Get Valid Protocol Submission Review Types by Key [GET /irb/api/v1/valid-protocol-submission-review-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"validProtoSubRevTypeId": "(val)","submissionTypeCode": "(val)","protocolReviewTypeCode": "(val)","_primaryKey": "(val)"}
 
-### Get All Valid Protocol Submission Review Types [GET /research-sys/api/v1/valid-protocol-submission-review-types/]
+### Get All Valid Protocol Submission Review Types [GET /irb/api/v1/valid-protocol-submission-review-types/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"validProtoSubRevTypeId": "(val)","submissionTypeCode": "(val)","protocolReviewTypeCode": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Valid Protocol Submission Review Types with Filtering [GET /research-sys/api/v1/valid-protocol-submission-review-types/]
+### Get All Valid Protocol Submission Review Types with Filtering [GET /irb/api/v1/valid-protocol-submission-review-types/]
     
 + Parameters
 
-        + validProtoSubRevTypeId
-            + submissionTypeCode
-            + protocolReviewTypeCode
+    + validProtoSubRevTypeId (optional) - Valid Proto Sub Rev Type Id. Maximum length is 12.
+    + submissionTypeCode (optional) - Submission Type Code. Maximum length is 3.
+    + protocolReviewTypeCode (optional) - Protocol Review Type Code. Maximum length is 3.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"validProtoSubRevTypeId": "(val)","submissionTypeCode": "(val)","protocolReviewTypeCode": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Valid Protocol Submission Review Types [GET /research-sys/api/v1/valid-protocol-submission-review-types/]
+### Get Schema for Valid Protocol Submission Review Types [GET /irb/api/v1/valid-protocol-submission-review-types/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["validProtoSubRevTypeId","submissionTypeCode","protocolReviewTypeCode"],"primaryKey":"validProtoSubRevTypeId"}
 		
-### Get Blueprint API specification for Valid Protocol Submission Review Types [GET /research-sys/api/v1/valid-protocol-submission-review-types/]
+### Get Blueprint API specification for Valid Protocol Submission Review Types [GET /irb/api/v1/valid-protocol-submission-review-types/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Valid Protocol Submission Review Types [PUT /research-sys/api/v1/valid-protocol-submission-review-types/(key)]
+### Update Valid Protocol Submission Review Types [PUT /irb/api/v1/valid-protocol-submission-review-types/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Valid Protocol Submission Review Types [PUT /research-sys/api/v1/valid-protocol-submission-review-types/]
+### Update Multiple Valid Protocol Submission Review Types [PUT /irb/api/v1/valid-protocol-submission-review-types/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Valid Protocol Submission Review Types [POST /research-sys/api/v1/valid-protocol-submission-review-types/]
+### Insert Valid Protocol Submission Review Types [POST /irb/api/v1/valid-protocol-submission-review-types/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"validProtoSubRevTypeId": "(val)","submissionTypeCode": "(val)","protocolReviewTypeCode": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Valid Protocol Submission Review Types [POST /research-sys/api/v1/valid-protocol-submission-review-types/]
+### Insert Multiple Valid Protocol Submission Review Types [POST /irb/api/v1/valid-protocol-submission-review-types/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"validProtoSubRevTypeId": "(val)","submissionTypeCode": "(val)","protocolReviewTypeCode": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Valid Protocol Submission Review Types by Key [DELETE /research-sys/api/v1/valid-protocol-submission-review-types/(key)]
+### Delete Valid Protocol Submission Review Types by Key [DELETE /irb/api/v1/valid-protocol-submission-review-types/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Valid Protocol Submission Review Types [DELETE /research-sys/api/v1/valid-protocol-submission-review-types/]
+### Delete All Valid Protocol Submission Review Types [DELETE /irb/api/v1/valid-protocol-submission-review-types/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Valid Protocol Submission Review Types with Matching [DELETE /research-sys/api/v1/valid-protocol-submission-review-types/]
+### Delete All Valid Protocol Submission Review Types with Matching [DELETE /irb/api/v1/valid-protocol-submission-review-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + validProtoSubRevTypeId
-            + submissionTypeCode
-            + protocolReviewTypeCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + validProtoSubRevTypeId (optional) - Valid Proto Sub Rev Type Id. Maximum length is 12.
+    + submissionTypeCode (optional) - Submission Type Code. Maximum length is 3.
+    + protocolReviewTypeCode (optional) - Protocol Review Type Code. Maximum length is 3.
 
       
 + Request

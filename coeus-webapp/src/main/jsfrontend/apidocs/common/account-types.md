@@ -1,6 +1,6 @@
-## Account Types [/research-sys/api/v1/account-types/]
+## Account Types [/research-common/api/v1/account-types/]
 
-### Get Account Types by Key [GET /research-sys/api/v1/account-types/(key)]
+### Get Account Types by Key [GET /research-common/api/v1/account-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"accountTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Account Types [GET /research-sys/api/v1/account-types/]
+### Get All Account Types [GET /research-common/api/v1/account-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"accountTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Account Types with Filtering [GET /research-sys/api/v1/account-types/]
+### Get All Account Types with Filtering [GET /research-common/api/v1/account-types/]
     
 + Parameters
 
-        + accountTypeCode
-            + description
+    + accountTypeCode (optional) - Account Type Code. Maximum length is 22.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"accountTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Account Types [GET /research-sys/api/v1/account-types/]
+### Get Schema for Account Types [GET /research-common/api/v1/account-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["accountTypeCode","description"],"primaryKey":"accountTypeCode"}
 		
-### Get Blueprint API specification for Account Types [GET /research-sys/api/v1/account-types/]
+### Get Blueprint API specification for Account Types [GET /research-common/api/v1/account-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Account Types [PUT /research-sys/api/v1/account-types/(key)]
+### Update Account Types [PUT /research-common/api/v1/account-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Account Types [PUT /research-sys/api/v1/account-types/]
+### Update Multiple Account Types [PUT /research-common/api/v1/account-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Account Types [POST /research-sys/api/v1/account-types/]
+### Insert Account Types [POST /research-common/api/v1/account-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"accountTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Account Types [POST /research-sys/api/v1/account-types/]
+### Insert Multiple Account Types [POST /research-common/api/v1/account-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"accountTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Account Types by Key [DELETE /research-sys/api/v1/account-types/(key)]
+### Delete Account Types by Key [DELETE /research-common/api/v1/account-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Account Types [DELETE /research-sys/api/v1/account-types/]
+### Delete All Account Types [DELETE /research-common/api/v1/account-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Account Types with Matching [DELETE /research-sys/api/v1/account-types/]
+### Delete All Account Types with Matching [DELETE /research-common/api/v1/account-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + accountTypeCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + accountTypeCode (optional) - Account Type Code. Maximum length is 22.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

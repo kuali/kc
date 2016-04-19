@@ -1,6 +1,6 @@
-## Sponsors [/research-sys/api/v1/sponsors/]
+## Sponsors [/research-common/api/v1/sponsors/]
 
-### Get Sponsors by Key [GET /research-sys/api/v1/sponsors/(key)]
+### Get Sponsors by Key [GET /research-common/api/v1/sponsors/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"sponsorCode": "(val)","acronym": "(val)","auditReportSentForFy": "(val)","cageNumber": "(val)","countryCode": "(val)","dodacNumber": "(val)","dunAndBradstreetNumber": "(val)","dunsPlusFourNumber": "(val)","ownedByUnit": "(val)","postalCode": "(val)","rolodexId": "(val)","sponsorName": "(val)","sponsorTypeCode": "(val)","state": "(val)","createUser": "(val)","dunningCampaignId": "(val)","customerNumber": "(val)","active": "(val)","_primaryKey": "(val)"}
 
-### Get All Sponsors [GET /research-sys/api/v1/sponsors/]
+### Get All Sponsors [GET /research-common/api/v1/sponsors/]
 	 
 + Request
 
@@ -39,28 +39,28 @@
               {"sponsorCode": "(val)","acronym": "(val)","auditReportSentForFy": "(val)","cageNumber": "(val)","countryCode": "(val)","dodacNumber": "(val)","dunAndBradstreetNumber": "(val)","dunsPlusFourNumber": "(val)","ownedByUnit": "(val)","postalCode": "(val)","rolodexId": "(val)","sponsorName": "(val)","sponsorTypeCode": "(val)","state": "(val)","createUser": "(val)","dunningCampaignId": "(val)","customerNumber": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Sponsors with Filtering [GET /research-sys/api/v1/sponsors/]
+### Get All Sponsors with Filtering [GET /research-common/api/v1/sponsors/]
     
 + Parameters
 
-        + sponsorCode
-            + acronym
-            + auditReportSentForFy
-            + cageNumber
-            + countryCode
-            + dodacNumber
-            + dunAndBradstreetNumber
-            + dunsPlusFourNumber
-            + ownedByUnit
-            + postalCode
-            + rolodexId
-            + sponsorName
-            + sponsorTypeCode
-            + state
-            + createUser
-            + dunningCampaignId
-            + customerNumber
-            + active
+    + sponsorCode (optional) - Sponsor Code. Maximum length is 6.
+    + acronym (optional) - Acronym. Maximum length is 10.
+    + auditReportSentForFy (optional) - Audit Report Sent For Fy. Maximum length is 4.
+    + cageNumber (optional) - CAGE Number. Maximum length is 20.
+    + countryCode (optional) - Country Code. Maximum length is 3.
+    + dodacNumber (optional) - DODAC Number. Maximum length is 20.
+    + dunAndBradstreetNumber (optional) - DUN And Bradstreet Number. Maximum length is 20.
+    + dunsPlusFourNumber (optional) - DUNS Plus Four Number. Maximum length is 20.
+    + ownedByUnit (optional) - Owned By Unit. Maximum length is 8.
+    + postalCode (optional) - Postal Code. Maximum length is 15.
+    + rolodexId (optional) - Rolodex Id. Maximum length is 6.
+    + sponsorName (optional) - The name of the sponsoring agency. Maximum length is 200.
+    + sponsorTypeCode (optional) - Sponsor Type Code. Maximum length is 3.
+    + state (optional) - State. Maximum length is 30.
+    + createUser (optional) - Create User.
+    + dunningCampaignId (optional) - Dunning Campaign ID. Maximum length is 4.
+    + customerNumber (optional) - Customer Number. Maximum length is 40.
+    + active (optional) - Active. Maximum length is 1.
 
             
 + Request
@@ -82,7 +82,7 @@
               {"sponsorCode": "(val)","acronym": "(val)","auditReportSentForFy": "(val)","cageNumber": "(val)","countryCode": "(val)","dodacNumber": "(val)","dunAndBradstreetNumber": "(val)","dunsPlusFourNumber": "(val)","ownedByUnit": "(val)","postalCode": "(val)","rolodexId": "(val)","sponsorName": "(val)","sponsorTypeCode": "(val)","state": "(val)","createUser": "(val)","dunningCampaignId": "(val)","customerNumber": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Sponsors [GET /research-sys/api/v1/sponsors/]
+### Get Schema for Sponsors [GET /research-common/api/v1/sponsors/]
 	                                          
 + Parameters
 
@@ -104,7 +104,7 @@
     
             {"columns":["sponsorCode","acronym","auditReportSentForFy","cageNumber","countryCode","dodacNumber","dunAndBradstreetNumber","dunsPlusFourNumber","ownedByUnit","postalCode","rolodexId","sponsorName","sponsorTypeCode","state","createUser","dunningCampaignId","customerNumber","active"],"primaryKey":"sponsorCode"}
 		
-### Get Blueprint API specification for Sponsors [GET /research-sys/api/v1/sponsors/]
+### Get Blueprint API specification for Sponsors [GET /research-common/api/v1/sponsors/]
 	 
 + Parameters
 
@@ -125,7 +125,7 @@
             transfer-encoding:chunked
 
 
-### Update Sponsors [PUT /research-sys/api/v1/sponsors/(key)]
+### Update Sponsors [PUT /research-common/api/v1/sponsors/(key)]
 
 + Request
 
@@ -140,7 +140,7 @@
 			
 + Response 204
 
-### Update Multiple Sponsors [PUT /research-sys/api/v1/sponsors/]
+### Update Multiple Sponsors [PUT /research-common/api/v1/sponsors/]
 
 + Request
 
@@ -158,7 +158,7 @@
 			
 + Response 204
 
-### Insert Sponsors [POST /research-sys/api/v1/sponsors/]
+### Insert Sponsors [POST /research-common/api/v1/sponsors/]
 
 + Request
 
@@ -177,7 +177,7 @@
             
             {"sponsorCode": "(val)","acronym": "(val)","auditReportSentForFy": "(val)","cageNumber": "(val)","countryCode": "(val)","dodacNumber": "(val)","dunAndBradstreetNumber": "(val)","dunsPlusFourNumber": "(val)","ownedByUnit": "(val)","postalCode": "(val)","rolodexId": "(val)","sponsorName": "(val)","sponsorTypeCode": "(val)","state": "(val)","createUser": "(val)","dunningCampaignId": "(val)","customerNumber": "(val)","active": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Sponsors [POST /research-sys/api/v1/sponsors/]
+### Insert Multiple Sponsors [POST /research-common/api/v1/sponsors/]
 
 + Request
 
@@ -202,7 +202,7 @@
               {"sponsorCode": "(val)","acronym": "(val)","auditReportSentForFy": "(val)","cageNumber": "(val)","countryCode": "(val)","dodacNumber": "(val)","dunAndBradstreetNumber": "(val)","dunsPlusFourNumber": "(val)","ownedByUnit": "(val)","postalCode": "(val)","rolodexId": "(val)","sponsorName": "(val)","sponsorTypeCode": "(val)","state": "(val)","createUser": "(val)","dunningCampaignId": "(val)","customerNumber": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Sponsors by Key [DELETE /research-sys/api/v1/sponsors/(key)]
+### Delete Sponsors by Key [DELETE /research-common/api/v1/sponsors/(key)]
 	 
 + Request
 
@@ -213,7 +213,7 @@
 
 + Response 204
 
-### Delete All Sponsors [DELETE /research-sys/api/v1/sponsors/]
+### Delete All Sponsors [DELETE /research-common/api/v1/sponsors/]
 
 + Parameters
 
@@ -228,29 +228,29 @@
 
 + Response 204
 
-### Delete All Sponsors with Matching [DELETE /research-sys/api/v1/sponsors/]
+### Delete All Sponsors with Matching [DELETE /research-common/api/v1/sponsors/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + sponsorCode
-            + acronym
-            + auditReportSentForFy
-            + cageNumber
-            + countryCode
-            + dodacNumber
-            + dunAndBradstreetNumber
-            + dunsPlusFourNumber
-            + ownedByUnit
-            + postalCode
-            + rolodexId
-            + sponsorName
-            + sponsorTypeCode
-            + state
-            + createUser
-            + dunningCampaignId
-            + customerNumber
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + sponsorCode (optional) - Sponsor Code. Maximum length is 6.
+    + acronym (optional) - Acronym. Maximum length is 10.
+    + auditReportSentForFy (optional) - Audit Report Sent For Fy. Maximum length is 4.
+    + cageNumber (optional) - CAGE Number. Maximum length is 20.
+    + countryCode (optional) - Country Code. Maximum length is 3.
+    + dodacNumber (optional) - DODAC Number. Maximum length is 20.
+    + dunAndBradstreetNumber (optional) - DUN And Bradstreet Number. Maximum length is 20.
+    + dunsPlusFourNumber (optional) - DUNS Plus Four Number. Maximum length is 20.
+    + ownedByUnit (optional) - Owned By Unit. Maximum length is 8.
+    + postalCode (optional) - Postal Code. Maximum length is 15.
+    + rolodexId (optional) - Rolodex Id. Maximum length is 6.
+    + sponsorName (optional) - The name of the sponsoring agency. Maximum length is 200.
+    + sponsorTypeCode (optional) - Sponsor Type Code. Maximum length is 3.
+    + state (optional) - State. Maximum length is 30.
+    + createUser (optional) - Create User.
+    + dunningCampaignId (optional) - Dunning Campaign ID. Maximum length is 4.
+    + customerNumber (optional) - Customer Number. Maximum length is 40.
+    + active (optional) - Active. Maximum length is 1.
 
       
 + Request

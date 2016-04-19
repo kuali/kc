@@ -43,9 +43,9 @@
     
 + Parameters
 
-        + budgetCategoryTypeCode
-            + code
-            + description
+    + budgetCategoryTypeCode (optional) - Category Type. Maximum length is 3.
+    + code (optional) - Budget Category Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -217,10 +217,10 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + budgetCategoryTypeCode
-            + code
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + budgetCategoryTypeCode (optional) - Category Type. Maximum length is 3.
+    + code (optional) - Budget Category Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

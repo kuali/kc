@@ -1,6 +1,6 @@
-## Award Person Units [/research-sys/api/v1/award-person-units/]
+## Award Person Units [/award/api/v1/award-person-units/]
 
-### Get Award Person Units by Key [GET /research-sys/api/v1/award-person-units/(key)]
+### Get Award Person Units by Key [GET /award/api/v1/award-person-units/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"awardPersonUnitId": "(val)","awardContactId": "(val)","unitNumber": "(val)","leadUnit": "(val)","_primaryKey": "(val)"}
 
-### Get All Award Person Units [GET /research-sys/api/v1/award-person-units/]
+### Get All Award Person Units [GET /award/api/v1/award-person-units/]
 	 
 + Request
 
@@ -39,14 +39,14 @@
               {"awardPersonUnitId": "(val)","awardContactId": "(val)","unitNumber": "(val)","leadUnit": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Award Person Units with Filtering [GET /research-sys/api/v1/award-person-units/]
+### Get All Award Person Units with Filtering [GET /award/api/v1/award-person-units/]
     
 + Parameters
 
-        + awardPersonUnitId
-            + awardContactId
-            + unitNumber
-            + leadUnit
+    + awardPersonUnitId (optional) - AwardPersonUnit ID. Maximum length is 8.
+    + awardContactId (optional) - 
+    + unitNumber (optional) - Unit Number. Maximum length is 8.
+    + leadUnit (optional) - Lead Unit flag. Maximum length is 1.
 
             
 + Request
@@ -68,7 +68,7 @@
               {"awardPersonUnitId": "(val)","awardContactId": "(val)","unitNumber": "(val)","leadUnit": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Award Person Units [GET /research-sys/api/v1/award-person-units/]
+### Get Schema for Award Person Units [GET /award/api/v1/award-person-units/]
 	                                          
 + Parameters
 
@@ -90,7 +90,7 @@
     
             {"columns":["awardPersonUnitId","awardContactId","unitNumber","leadUnit"],"primaryKey":"awardPersonUnitId"}
 		
-### Get Blueprint API specification for Award Person Units [GET /research-sys/api/v1/award-person-units/]
+### Get Blueprint API specification for Award Person Units [GET /award/api/v1/award-person-units/]
 	 
 + Parameters
 
@@ -111,7 +111,7 @@
             transfer-encoding:chunked
 
 
-### Update Award Person Units [PUT /research-sys/api/v1/award-person-units/(key)]
+### Update Award Person Units [PUT /award/api/v1/award-person-units/(key)]
 
 + Request
 
@@ -126,7 +126,7 @@
 			
 + Response 204
 
-### Update Multiple Award Person Units [PUT /research-sys/api/v1/award-person-units/]
+### Update Multiple Award Person Units [PUT /award/api/v1/award-person-units/]
 
 + Request
 
@@ -144,7 +144,7 @@
 			
 + Response 204
 
-### Insert Award Person Units [POST /research-sys/api/v1/award-person-units/]
+### Insert Award Person Units [POST /award/api/v1/award-person-units/]
 
 + Request
 
@@ -163,7 +163,7 @@
             
             {"awardPersonUnitId": "(val)","awardContactId": "(val)","unitNumber": "(val)","leadUnit": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Award Person Units [POST /research-sys/api/v1/award-person-units/]
+### Insert Multiple Award Person Units [POST /award/api/v1/award-person-units/]
 
 + Request
 
@@ -188,7 +188,7 @@
               {"awardPersonUnitId": "(val)","awardContactId": "(val)","unitNumber": "(val)","leadUnit": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Award Person Units by Key [DELETE /research-sys/api/v1/award-person-units/(key)]
+### Delete Award Person Units by Key [DELETE /award/api/v1/award-person-units/(key)]
 	 
 + Request
 
@@ -199,7 +199,7 @@
 
 + Response 204
 
-### Delete All Award Person Units [DELETE /research-sys/api/v1/award-person-units/]
+### Delete All Award Person Units [DELETE /award/api/v1/award-person-units/]
 
 + Parameters
 
@@ -214,15 +214,15 @@
 
 + Response 204
 
-### Delete All Award Person Units with Matching [DELETE /research-sys/api/v1/award-person-units/]
+### Delete All Award Person Units with Matching [DELETE /award/api/v1/award-person-units/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + awardPersonUnitId
-            + awardContactId
-            + unitNumber
-            + leadUnit
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + awardPersonUnitId (optional) - AwardPersonUnit ID. Maximum length is 8.
+    + awardContactId (optional) - 
+    + unitNumber (optional) - Unit Number. Maximum length is 8.
+    + leadUnit (optional) - Lead Unit flag. Maximum length is 1.
 
       
 + Request

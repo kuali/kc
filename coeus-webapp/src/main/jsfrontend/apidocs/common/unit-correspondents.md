@@ -1,6 +1,6 @@
-## Unit Correspondents [/research-sys/api/v1/unit-correspondents/]
+## Unit Correspondents [/research-common/api/v1/unit-correspondents/]
 
-### Get Unit Correspondents by Key [GET /research-sys/api/v1/unit-correspondents/(key)]
+### Get Unit Correspondents by Key [GET /research-common/api/v1/unit-correspondents/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"correspondentId": "(val)","unitNumber": "(val)","correspondentTypeCode": "(val)","personId": "(val)","nonEmployeeFlag": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Unit Correspondents [GET /research-sys/api/v1/unit-correspondents/]
+### Get All Unit Correspondents [GET /research-common/api/v1/unit-correspondents/]
 	 
 + Request
 
@@ -39,16 +39,16 @@
               {"correspondentId": "(val)","unitNumber": "(val)","correspondentTypeCode": "(val)","personId": "(val)","nonEmployeeFlag": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Unit Correspondents with Filtering [GET /research-sys/api/v1/unit-correspondents/]
+### Get All Unit Correspondents with Filtering [GET /research-common/api/v1/unit-correspondents/]
     
 + Parameters
 
-        + correspondentId
-            + unitNumber
-            + correspondentTypeCode
-            + personId
-            + nonEmployeeFlag
-            + description
+    + correspondentId (optional) - 
+    + unitNumber (optional) - Unit Number. Maximum length is 8.
+    + correspondentTypeCode (optional) - Correspondent Type Code. Maximum length is 22.
+    + personId (optional) - This is a generic implementation of a 'SystemId' attribute. It should always be overriden on the label, shortLabel, summary, and description, as these are only generic placeholders. Maximum length is 40.
+    + nonEmployeeFlag (optional) - Non Employee Flag. Maximum length is 1.
+    + description (optional) - Description. Maximum length is 2000.
 
             
 + Request
@@ -70,7 +70,7 @@
               {"correspondentId": "(val)","unitNumber": "(val)","correspondentTypeCode": "(val)","personId": "(val)","nonEmployeeFlag": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Unit Correspondents [GET /research-sys/api/v1/unit-correspondents/]
+### Get Schema for Unit Correspondents [GET /research-common/api/v1/unit-correspondents/]
 	                                          
 + Parameters
 
@@ -92,7 +92,7 @@
     
             {"columns":["correspondentId","unitNumber","correspondentTypeCode","personId","nonEmployeeFlag","description"],"primaryKey":"correspondentId"}
 		
-### Get Blueprint API specification for Unit Correspondents [GET /research-sys/api/v1/unit-correspondents/]
+### Get Blueprint API specification for Unit Correspondents [GET /research-common/api/v1/unit-correspondents/]
 	 
 + Parameters
 
@@ -113,7 +113,7 @@
             transfer-encoding:chunked
 
 
-### Update Unit Correspondents [PUT /research-sys/api/v1/unit-correspondents/(key)]
+### Update Unit Correspondents [PUT /research-common/api/v1/unit-correspondents/(key)]
 
 + Request
 
@@ -128,7 +128,7 @@
 			
 + Response 204
 
-### Update Multiple Unit Correspondents [PUT /research-sys/api/v1/unit-correspondents/]
+### Update Multiple Unit Correspondents [PUT /research-common/api/v1/unit-correspondents/]
 
 + Request
 
@@ -146,7 +146,7 @@
 			
 + Response 204
 
-### Insert Unit Correspondents [POST /research-sys/api/v1/unit-correspondents/]
+### Insert Unit Correspondents [POST /research-common/api/v1/unit-correspondents/]
 
 + Request
 
@@ -165,7 +165,7 @@
             
             {"correspondentId": "(val)","unitNumber": "(val)","correspondentTypeCode": "(val)","personId": "(val)","nonEmployeeFlag": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Unit Correspondents [POST /research-sys/api/v1/unit-correspondents/]
+### Insert Multiple Unit Correspondents [POST /research-common/api/v1/unit-correspondents/]
 
 + Request
 
@@ -190,7 +190,7 @@
               {"correspondentId": "(val)","unitNumber": "(val)","correspondentTypeCode": "(val)","personId": "(val)","nonEmployeeFlag": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Unit Correspondents by Key [DELETE /research-sys/api/v1/unit-correspondents/(key)]
+### Delete Unit Correspondents by Key [DELETE /research-common/api/v1/unit-correspondents/(key)]
 	 
 + Request
 
@@ -201,7 +201,7 @@
 
 + Response 204
 
-### Delete All Unit Correspondents [DELETE /research-sys/api/v1/unit-correspondents/]
+### Delete All Unit Correspondents [DELETE /research-common/api/v1/unit-correspondents/]
 
 + Parameters
 
@@ -216,17 +216,17 @@
 
 + Response 204
 
-### Delete All Unit Correspondents with Matching [DELETE /research-sys/api/v1/unit-correspondents/]
+### Delete All Unit Correspondents with Matching [DELETE /research-common/api/v1/unit-correspondents/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + correspondentId
-            + unitNumber
-            + correspondentTypeCode
-            + personId
-            + nonEmployeeFlag
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + correspondentId (optional) - 
+    + unitNumber (optional) - Unit Number. Maximum length is 8.
+    + correspondentTypeCode (optional) - Correspondent Type Code. Maximum length is 22.
+    + personId (optional) - This is a generic implementation of a 'SystemId' attribute. It should always be overriden on the label, shortLabel, summary, and description, as these are only generic placeholders. Maximum length is 40.
+    + nonEmployeeFlag (optional) - Non Employee Flag. Maximum length is 1.
+    + description (optional) - Description. Maximum length is 2000.
 
       
 + Request

@@ -1,6 +1,6 @@
-## Unit Administrator Types [/research-sys/api/v1/unit-administrator-types/]
+## Unit Administrator Types [/research-common/api/v1/unit-administrator-types/]
 
-### Get Unit Administrator Types by Key [GET /research-sys/api/v1/unit-administrator-types/(key)]
+### Get Unit Administrator Types by Key [GET /research-common/api/v1/unit-administrator-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"code": "(val)","description": "(val)","multiplesFlag": "(val)","defaultGroupFlag": "(val)","_primaryKey": "(val)"}
 
-### Get All Unit Administrator Types [GET /research-sys/api/v1/unit-administrator-types/]
+### Get All Unit Administrator Types [GET /research-common/api/v1/unit-administrator-types/]
 	 
 + Request
 
@@ -39,14 +39,14 @@
               {"code": "(val)","description": "(val)","multiplesFlag": "(val)","defaultGroupFlag": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Unit Administrator Types with Filtering [GET /research-sys/api/v1/unit-administrator-types/]
+### Get All Unit Administrator Types with Filtering [GET /research-common/api/v1/unit-administrator-types/]
     
 + Parameters
 
-        + code
-            + description
-            + multiplesFlag
-            + defaultGroupFlag
+    + code (optional) - Unit Administrator Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + multiplesFlag (optional) - Multiples Flag. Maximum length is 3.
+    + defaultGroupFlag (optional) - Default Group Flag. Maximum length is 3.
 
             
 + Request
@@ -68,7 +68,7 @@
               {"code": "(val)","description": "(val)","multiplesFlag": "(val)","defaultGroupFlag": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Unit Administrator Types [GET /research-sys/api/v1/unit-administrator-types/]
+### Get Schema for Unit Administrator Types [GET /research-common/api/v1/unit-administrator-types/]
 	                                          
 + Parameters
 
@@ -90,7 +90,7 @@
     
             {"columns":["code","description","multiplesFlag","defaultGroupFlag"],"primaryKey":"code"}
 		
-### Get Blueprint API specification for Unit Administrator Types [GET /research-sys/api/v1/unit-administrator-types/]
+### Get Blueprint API specification for Unit Administrator Types [GET /research-common/api/v1/unit-administrator-types/]
 	 
 + Parameters
 
@@ -111,7 +111,7 @@
             transfer-encoding:chunked
 
 
-### Update Unit Administrator Types [PUT /research-sys/api/v1/unit-administrator-types/(key)]
+### Update Unit Administrator Types [PUT /research-common/api/v1/unit-administrator-types/(key)]
 
 + Request
 
@@ -126,7 +126,7 @@
 			
 + Response 204
 
-### Update Multiple Unit Administrator Types [PUT /research-sys/api/v1/unit-administrator-types/]
+### Update Multiple Unit Administrator Types [PUT /research-common/api/v1/unit-administrator-types/]
 
 + Request
 
@@ -144,7 +144,7 @@
 			
 + Response 204
 
-### Insert Unit Administrator Types [POST /research-sys/api/v1/unit-administrator-types/]
+### Insert Unit Administrator Types [POST /research-common/api/v1/unit-administrator-types/]
 
 + Request
 
@@ -163,7 +163,7 @@
             
             {"code": "(val)","description": "(val)","multiplesFlag": "(val)","defaultGroupFlag": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Unit Administrator Types [POST /research-sys/api/v1/unit-administrator-types/]
+### Insert Multiple Unit Administrator Types [POST /research-common/api/v1/unit-administrator-types/]
 
 + Request
 
@@ -188,7 +188,7 @@
               {"code": "(val)","description": "(val)","multiplesFlag": "(val)","defaultGroupFlag": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Unit Administrator Types by Key [DELETE /research-sys/api/v1/unit-administrator-types/(key)]
+### Delete Unit Administrator Types by Key [DELETE /research-common/api/v1/unit-administrator-types/(key)]
 	 
 + Request
 
@@ -199,7 +199,7 @@
 
 + Response 204
 
-### Delete All Unit Administrator Types [DELETE /research-sys/api/v1/unit-administrator-types/]
+### Delete All Unit Administrator Types [DELETE /research-common/api/v1/unit-administrator-types/]
 
 + Parameters
 
@@ -214,15 +214,15 @@
 
 + Response 204
 
-### Delete All Unit Administrator Types with Matching [DELETE /research-sys/api/v1/unit-administrator-types/]
+### Delete All Unit Administrator Types with Matching [DELETE /research-common/api/v1/unit-administrator-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + code
-            + description
-            + multiplesFlag
-            + defaultGroupFlag
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + code (optional) - Unit Administrator Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + multiplesFlag (optional) - Multiples Flag. Maximum length is 3.
+    + defaultGroupFlag (optional) - Default Group Flag. Maximum length is 3.
 
       
 + Request

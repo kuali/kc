@@ -1,6 +1,6 @@
-## Protocol Review Types [/research-sys/api/v1/protocol-review-types/]
+## Protocol Review Types [/irb/api/v1/protocol-review-types/]
 
-### Get Protocol Review Types by Key [GET /research-sys/api/v1/protocol-review-types/(key)]
+### Get Protocol Review Types by Key [GET /irb/api/v1/protocol-review-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"reviewTypeCode": "(val)","description": "(val)","globalFlag": "(val)","_primaryKey": "(val)"}
 
-### Get All Protocol Review Types [GET /research-sys/api/v1/protocol-review-types/]
+### Get All Protocol Review Types [GET /irb/api/v1/protocol-review-types/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"reviewTypeCode": "(val)","description": "(val)","globalFlag": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Protocol Review Types with Filtering [GET /research-sys/api/v1/protocol-review-types/]
+### Get All Protocol Review Types with Filtering [GET /irb/api/v1/protocol-review-types/]
     
 + Parameters
 
-        + reviewTypeCode
-            + description
-            + globalFlag
+    + reviewTypeCode (optional) - Protocol Review Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + globalFlag (optional) - Global Flag. Maximum length is 1.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"reviewTypeCode": "(val)","description": "(val)","globalFlag": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Protocol Review Types [GET /research-sys/api/v1/protocol-review-types/]
+### Get Schema for Protocol Review Types [GET /irb/api/v1/protocol-review-types/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["reviewTypeCode","description","globalFlag"],"primaryKey":"reviewTypeCode"}
 		
-### Get Blueprint API specification for Protocol Review Types [GET /research-sys/api/v1/protocol-review-types/]
+### Get Blueprint API specification for Protocol Review Types [GET /irb/api/v1/protocol-review-types/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Protocol Review Types [PUT /research-sys/api/v1/protocol-review-types/(key)]
+### Update Protocol Review Types [PUT /irb/api/v1/protocol-review-types/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Protocol Review Types [PUT /research-sys/api/v1/protocol-review-types/]
+### Update Multiple Protocol Review Types [PUT /irb/api/v1/protocol-review-types/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Protocol Review Types [POST /research-sys/api/v1/protocol-review-types/]
+### Insert Protocol Review Types [POST /irb/api/v1/protocol-review-types/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"reviewTypeCode": "(val)","description": "(val)","globalFlag": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Protocol Review Types [POST /research-sys/api/v1/protocol-review-types/]
+### Insert Multiple Protocol Review Types [POST /irb/api/v1/protocol-review-types/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"reviewTypeCode": "(val)","description": "(val)","globalFlag": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Protocol Review Types by Key [DELETE /research-sys/api/v1/protocol-review-types/(key)]
+### Delete Protocol Review Types by Key [DELETE /irb/api/v1/protocol-review-types/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Protocol Review Types [DELETE /research-sys/api/v1/protocol-review-types/]
+### Delete All Protocol Review Types [DELETE /irb/api/v1/protocol-review-types/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Protocol Review Types with Matching [DELETE /research-sys/api/v1/protocol-review-types/]
+### Delete All Protocol Review Types with Matching [DELETE /irb/api/v1/protocol-review-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + reviewTypeCode
-            + description
-            + globalFlag
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + reviewTypeCode (optional) - Protocol Review Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + globalFlag (optional) - Global Flag. Maximum length is 1.
 
       
 + Request

@@ -1,6 +1,6 @@
-## Sub Award Contacts [/research-sys/api/v1/sub-award-contacts/]
+## Sub Award Contacts [/subaward/api/v1/sub-award-contacts/]
 
-### Get Sub Award Contacts by Key [GET /research-sys/api/v1/sub-award-contacts/(key)]
+### Get Sub Award Contacts by Key [GET /subaward/api/v1/sub-award-contacts/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"subAwardContactId": "(val)","subAwardId": "(val)","sequenceNumber": "(val)","subAwardCode": "(val)","contactTypeCode": "(val)","rolodexId": "(val)","_primaryKey": "(val)"}
 
-### Get All Sub Award Contacts [GET /research-sys/api/v1/sub-award-contacts/]
+### Get All Sub Award Contacts [GET /subaward/api/v1/sub-award-contacts/]
 	 
 + Request
 
@@ -39,16 +39,16 @@
               {"subAwardContactId": "(val)","subAwardId": "(val)","sequenceNumber": "(val)","subAwardCode": "(val)","contactTypeCode": "(val)","rolodexId": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Sub Award Contacts with Filtering [GET /research-sys/api/v1/sub-award-contacts/]
+### Get All Sub Award Contacts with Filtering [GET /subaward/api/v1/sub-award-contacts/]
     
 + Parameters
 
-        + subAwardContactId
-            + subAwardId
-            + sequenceNumber
-            + subAwardCode
-            + contactTypeCode
-            + rolodexId
+    + subAwardContactId (optional) - Subaward Contact Id. Maximum length is 22.
+    + subAwardId (optional) - Subaward Id. Maximum length is 22.
+    + sequenceNumber (optional) - 
+    + subAwardCode (optional) - 
+    + contactTypeCode (optional) - Contact Type Code. Maximum length is 22.
+    + rolodexId (optional) - Rolodex Id. Maximum length is 22.
 
             
 + Request
@@ -70,7 +70,7 @@
               {"subAwardContactId": "(val)","subAwardId": "(val)","sequenceNumber": "(val)","subAwardCode": "(val)","contactTypeCode": "(val)","rolodexId": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Sub Award Contacts [GET /research-sys/api/v1/sub-award-contacts/]
+### Get Schema for Sub Award Contacts [GET /subaward/api/v1/sub-award-contacts/]
 	                                          
 + Parameters
 
@@ -92,7 +92,7 @@
     
             {"columns":["subAwardContactId","subAwardId","sequenceNumber","subAwardCode","contactTypeCode","rolodexId"],"primaryKey":"subAwardContactId"}
 		
-### Get Blueprint API specification for Sub Award Contacts [GET /research-sys/api/v1/sub-award-contacts/]
+### Get Blueprint API specification for Sub Award Contacts [GET /subaward/api/v1/sub-award-contacts/]
 	 
 + Parameters
 
@@ -113,7 +113,7 @@
             transfer-encoding:chunked
 
 
-### Update Sub Award Contacts [PUT /research-sys/api/v1/sub-award-contacts/(key)]
+### Update Sub Award Contacts [PUT /subaward/api/v1/sub-award-contacts/(key)]
 
 + Request
 
@@ -128,7 +128,7 @@
 			
 + Response 204
 
-### Update Multiple Sub Award Contacts [PUT /research-sys/api/v1/sub-award-contacts/]
+### Update Multiple Sub Award Contacts [PUT /subaward/api/v1/sub-award-contacts/]
 
 + Request
 
@@ -146,7 +146,7 @@
 			
 + Response 204
 
-### Insert Sub Award Contacts [POST /research-sys/api/v1/sub-award-contacts/]
+### Insert Sub Award Contacts [POST /subaward/api/v1/sub-award-contacts/]
 
 + Request
 
@@ -165,7 +165,7 @@
             
             {"subAwardContactId": "(val)","subAwardId": "(val)","sequenceNumber": "(val)","subAwardCode": "(val)","contactTypeCode": "(val)","rolodexId": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Sub Award Contacts [POST /research-sys/api/v1/sub-award-contacts/]
+### Insert Multiple Sub Award Contacts [POST /subaward/api/v1/sub-award-contacts/]
 
 + Request
 
@@ -190,7 +190,7 @@
               {"subAwardContactId": "(val)","subAwardId": "(val)","sequenceNumber": "(val)","subAwardCode": "(val)","contactTypeCode": "(val)","rolodexId": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Sub Award Contacts by Key [DELETE /research-sys/api/v1/sub-award-contacts/(key)]
+### Delete Sub Award Contacts by Key [DELETE /subaward/api/v1/sub-award-contacts/(key)]
 	 
 + Request
 
@@ -201,7 +201,7 @@
 
 + Response 204
 
-### Delete All Sub Award Contacts [DELETE /research-sys/api/v1/sub-award-contacts/]
+### Delete All Sub Award Contacts [DELETE /subaward/api/v1/sub-award-contacts/]
 
 + Parameters
 
@@ -216,17 +216,17 @@
 
 + Response 204
 
-### Delete All Sub Award Contacts with Matching [DELETE /research-sys/api/v1/sub-award-contacts/]
+### Delete All Sub Award Contacts with Matching [DELETE /subaward/api/v1/sub-award-contacts/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + subAwardContactId
-            + subAwardId
-            + sequenceNumber
-            + subAwardCode
-            + contactTypeCode
-            + rolodexId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + subAwardContactId (optional) - Subaward Contact Id. Maximum length is 22.
+    + subAwardId (optional) - Subaward Id. Maximum length is 22.
+    + sequenceNumber (optional) - 
+    + subAwardCode (optional) - 
+    + contactTypeCode (optional) - Contact Type Code. Maximum length is 22.
+    + rolodexId (optional) - Rolodex Id. Maximum length is 22.
 
       
 + Request

@@ -1,6 +1,6 @@
-## Iacuc Protocol Recused Votes [/research-sys/api/v1/iacuc-protocol-recused-votes/]
+## Iacuc Protocol Recused Votes [/iacuc/api/v1/iacuc-protocol-recused-votes/]
 
-### Get Iacuc Protocol Recused Votes by Key [GET /research-sys/api/v1/iacuc-protocol-recused-votes/(key)]
+### Get Iacuc Protocol Recused Votes by Key [GET /iacuc/api/v1/iacuc-protocol-recused-votes/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"protocolVoteRecusedId": "(val)","protocolIdFk": "(val)","submissionIdFk": "(val)","personId": "(val)","rolodexId": "(val)","nonEmployeeFlag": "(val)","comments": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Protocol Recused Votes [GET /research-sys/api/v1/iacuc-protocol-recused-votes/]
+### Get All Iacuc Protocol Recused Votes [GET /iacuc/api/v1/iacuc-protocol-recused-votes/]
 	 
 + Request
 
@@ -39,17 +39,17 @@
               {"protocolVoteRecusedId": "(val)","protocolIdFk": "(val)","submissionIdFk": "(val)","personId": "(val)","rolodexId": "(val)","nonEmployeeFlag": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Protocol Recused Votes with Filtering [GET /research-sys/api/v1/iacuc-protocol-recused-votes/]
+### Get All Iacuc Protocol Recused Votes with Filtering [GET /iacuc/api/v1/iacuc-protocol-recused-votes/]
     
 + Parameters
 
-        + protocolVoteRecusedId
-            + protocolIdFk
-            + submissionIdFk
-            + personId
-            + rolodexId
-            + nonEmployeeFlag
-            + comments
+    + protocolVoteRecusedId (optional) - 
+    + protocolIdFk (optional) - 
+    + submissionIdFk (optional) - 
+    + personId (optional) - 
+    + rolodexId (optional) - 
+    + nonEmployeeFlag (optional) - 
+    + comments (optional) - 
 
             
 + Request
@@ -71,7 +71,7 @@
               {"protocolVoteRecusedId": "(val)","protocolIdFk": "(val)","submissionIdFk": "(val)","personId": "(val)","rolodexId": "(val)","nonEmployeeFlag": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Protocol Recused Votes [GET /research-sys/api/v1/iacuc-protocol-recused-votes/]
+### Get Schema for Iacuc Protocol Recused Votes [GET /iacuc/api/v1/iacuc-protocol-recused-votes/]
 	                                          
 + Parameters
 
@@ -93,7 +93,7 @@
     
             {"columns":["protocolVoteRecusedId","protocolIdFk","submissionIdFk","personId","rolodexId","nonEmployeeFlag","comments"],"primaryKey":"protocolVoteRecusedId"}
 		
-### Get Blueprint API specification for Iacuc Protocol Recused Votes [GET /research-sys/api/v1/iacuc-protocol-recused-votes/]
+### Get Blueprint API specification for Iacuc Protocol Recused Votes [GET /iacuc/api/v1/iacuc-protocol-recused-votes/]
 	 
 + Parameters
 
@@ -114,7 +114,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Protocol Recused Votes [PUT /research-sys/api/v1/iacuc-protocol-recused-votes/(key)]
+### Update Iacuc Protocol Recused Votes [PUT /iacuc/api/v1/iacuc-protocol-recused-votes/(key)]
 
 + Request
 
@@ -129,7 +129,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Protocol Recused Votes [PUT /research-sys/api/v1/iacuc-protocol-recused-votes/]
+### Update Multiple Iacuc Protocol Recused Votes [PUT /iacuc/api/v1/iacuc-protocol-recused-votes/]
 
 + Request
 
@@ -147,7 +147,7 @@
 			
 + Response 204
 
-### Insert Iacuc Protocol Recused Votes [POST /research-sys/api/v1/iacuc-protocol-recused-votes/]
+### Insert Iacuc Protocol Recused Votes [POST /iacuc/api/v1/iacuc-protocol-recused-votes/]
 
 + Request
 
@@ -166,7 +166,7 @@
             
             {"protocolVoteRecusedId": "(val)","protocolIdFk": "(val)","submissionIdFk": "(val)","personId": "(val)","rolodexId": "(val)","nonEmployeeFlag": "(val)","comments": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Protocol Recused Votes [POST /research-sys/api/v1/iacuc-protocol-recused-votes/]
+### Insert Multiple Iacuc Protocol Recused Votes [POST /iacuc/api/v1/iacuc-protocol-recused-votes/]
 
 + Request
 
@@ -191,7 +191,7 @@
               {"protocolVoteRecusedId": "(val)","protocolIdFk": "(val)","submissionIdFk": "(val)","personId": "(val)","rolodexId": "(val)","nonEmployeeFlag": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Protocol Recused Votes by Key [DELETE /research-sys/api/v1/iacuc-protocol-recused-votes/(key)]
+### Delete Iacuc Protocol Recused Votes by Key [DELETE /iacuc/api/v1/iacuc-protocol-recused-votes/(key)]
 	 
 + Request
 
@@ -202,7 +202,7 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Recused Votes [DELETE /research-sys/api/v1/iacuc-protocol-recused-votes/]
+### Delete All Iacuc Protocol Recused Votes [DELETE /iacuc/api/v1/iacuc-protocol-recused-votes/]
 
 + Parameters
 
@@ -217,18 +217,18 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Recused Votes with Matching [DELETE /research-sys/api/v1/iacuc-protocol-recused-votes/]
+### Delete All Iacuc Protocol Recused Votes with Matching [DELETE /iacuc/api/v1/iacuc-protocol-recused-votes/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + protocolVoteRecusedId
-            + protocolIdFk
-            + submissionIdFk
-            + personId
-            + rolodexId
-            + nonEmployeeFlag
-            + comments
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + protocolVoteRecusedId (optional) - 
+    + protocolIdFk (optional) - 
+    + submissionIdFk (optional) - 
+    + personId (optional) - 
+    + rolodexId (optional) - 
+    + nonEmployeeFlag (optional) - 
+    + comments (optional) - 
 
       
 + Request

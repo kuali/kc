@@ -1,6 +1,6 @@
-## Units [/research-sys/api/v1/units/]
+## Units [/research-common/api/v1/units/]
 
-### Get Units by Key [GET /research-sys/api/v1/units/(key)]
+### Get Units by Key [GET /research-common/api/v1/units/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"unitNumber": "(val)","parentUnitNumber": "(val)","organizationId": "(val)","unitName": "(val)","active": "(val)","_primaryKey": "(val)"}
 
-### Get All Units [GET /research-sys/api/v1/units/]
+### Get All Units [GET /research-common/api/v1/units/]
 	 
 + Request
 
@@ -39,15 +39,15 @@
               {"unitNumber": "(val)","parentUnitNumber": "(val)","organizationId": "(val)","unitName": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Units with Filtering [GET /research-sys/api/v1/units/]
+### Get All Units with Filtering [GET /research-common/api/v1/units/]
     
 + Parameters
 
-        + unitNumber
-            + parentUnitNumber
-            + organizationId
-            + unitName
-            + active
+    + unitNumber (optional) - Unit Number. Maximum length is 8.
+    + parentUnitNumber (optional) - Parent Unit Number. Maximum length is 8.
+    + organizationId (optional) - Organization Id. Maximum length is 8.
+    + unitName (optional) - Unit Name. Maximum length is 60.
+    + active (optional) - Active. Maximum length is 1.
 
             
 + Request
@@ -69,7 +69,7 @@
               {"unitNumber": "(val)","parentUnitNumber": "(val)","organizationId": "(val)","unitName": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Units [GET /research-sys/api/v1/units/]
+### Get Schema for Units [GET /research-common/api/v1/units/]
 	                                          
 + Parameters
 
@@ -91,7 +91,7 @@
     
             {"columns":["unitNumber","parentUnitNumber","organizationId","unitName","active"],"primaryKey":"unitNumber"}
 		
-### Get Blueprint API specification for Units [GET /research-sys/api/v1/units/]
+### Get Blueprint API specification for Units [GET /research-common/api/v1/units/]
 	 
 + Parameters
 
@@ -112,7 +112,7 @@
             transfer-encoding:chunked
 
 
-### Update Units [PUT /research-sys/api/v1/units/(key)]
+### Update Units [PUT /research-common/api/v1/units/(key)]
 
 + Request
 
@@ -127,7 +127,7 @@
 			
 + Response 204
 
-### Update Multiple Units [PUT /research-sys/api/v1/units/]
+### Update Multiple Units [PUT /research-common/api/v1/units/]
 
 + Request
 
@@ -145,7 +145,7 @@
 			
 + Response 204
 
-### Insert Units [POST /research-sys/api/v1/units/]
+### Insert Units [POST /research-common/api/v1/units/]
 
 + Request
 
@@ -164,7 +164,7 @@
             
             {"unitNumber": "(val)","parentUnitNumber": "(val)","organizationId": "(val)","unitName": "(val)","active": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Units [POST /research-sys/api/v1/units/]
+### Insert Multiple Units [POST /research-common/api/v1/units/]
 
 + Request
 
@@ -189,7 +189,7 @@
               {"unitNumber": "(val)","parentUnitNumber": "(val)","organizationId": "(val)","unitName": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Units by Key [DELETE /research-sys/api/v1/units/(key)]
+### Delete Units by Key [DELETE /research-common/api/v1/units/(key)]
 	 
 + Request
 
@@ -200,7 +200,7 @@
 
 + Response 204
 
-### Delete All Units [DELETE /research-sys/api/v1/units/]
+### Delete All Units [DELETE /research-common/api/v1/units/]
 
 + Parameters
 
@@ -215,16 +215,16 @@
 
 + Response 204
 
-### Delete All Units with Matching [DELETE /research-sys/api/v1/units/]
+### Delete All Units with Matching [DELETE /research-common/api/v1/units/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + unitNumber
-            + parentUnitNumber
-            + organizationId
-            + unitName
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + unitNumber (optional) - Unit Number. Maximum length is 8.
+    + parentUnitNumber (optional) - Parent Unit Number. Maximum length is 8.
+    + organizationId (optional) - Organization Id. Maximum length is 8.
+    + unitName (optional) - Unit Name. Maximum length is 60.
+    + active (optional) - Active. Maximum length is 1.
 
       
 + Request

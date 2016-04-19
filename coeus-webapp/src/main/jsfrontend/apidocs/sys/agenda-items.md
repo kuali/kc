@@ -43,12 +43,12 @@
     
 + Parameters
 
-        + id
-            + agendaId
-            + subAgendaId
-            + whenTrueId
-            + whenFalseId
-            + alwaysId
+    + id (optional) - Id.
+    + agendaId (optional) - Agenda Id.
+    + subAgendaId (optional) - Sub-Agenda Id.
+    + whenTrueId (optional) - whenTrue Id.
+    + whenFalseId (optional) - whenFalse Id.
+    + alwaysId (optional) - Always Id.
 
             
 + Request
@@ -220,13 +220,13 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + agendaId
-            + subAgendaId
-            + whenTrueId
-            + whenFalseId
-            + alwaysId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Id.
+    + agendaId (optional) - Agenda Id.
+    + subAgendaId (optional) - Sub-Agenda Id.
+    + whenTrueId (optional) - whenTrue Id.
+    + whenFalseId (optional) - whenFalse Id.
+    + alwaysId (optional) - Always Id.
 
       
 + Request

@@ -1,6 +1,6 @@
-## Iacuc Committee Schedule Attendances [/research-sys/api/v1/iacuc-committee-schedule-attendances/]
+## Iacuc Committee Schedule Attendances [/iacuc/api/v1/iacuc-committee-schedule-attendances/]
 
-### Get Iacuc Committee Schedule Attendances by Key [GET /research-sys/api/v1/iacuc-committee-schedule-attendances/(key)]
+### Get Iacuc Committee Schedule Attendances by Key [GET /iacuc/api/v1/iacuc-committee-schedule-attendances/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"commScheduleAttendanceId": "(val)","scheduleIdFk": "(val)","personId": "(val)","personName": "(val)","guestFlag": "(val)","alternateFlag": "(val)","alternateFor": "(val)","nonEmployeeFlag": "(val)","comments": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Committee Schedule Attendances [GET /research-sys/api/v1/iacuc-committee-schedule-attendances/]
+### Get All Iacuc Committee Schedule Attendances [GET /iacuc/api/v1/iacuc-committee-schedule-attendances/]
 	 
 + Request
 
@@ -39,19 +39,19 @@
               {"commScheduleAttendanceId": "(val)","scheduleIdFk": "(val)","personId": "(val)","personName": "(val)","guestFlag": "(val)","alternateFlag": "(val)","alternateFor": "(val)","nonEmployeeFlag": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Committee Schedule Attendances with Filtering [GET /research-sys/api/v1/iacuc-committee-schedule-attendances/]
+### Get All Iacuc Committee Schedule Attendances with Filtering [GET /iacuc/api/v1/iacuc-committee-schedule-attendances/]
     
 + Parameters
 
-        + commScheduleAttendanceId
-            + scheduleIdFk
-            + personId
-            + personName
-            + guestFlag
-            + alternateFlag
-            + alternateFor
-            + nonEmployeeFlag
-            + comments
+    + commScheduleAttendanceId (optional) - 
+    + scheduleIdFk (optional) - 
+    + personId (optional) - 
+    + personName (optional) - 
+    + guestFlag (optional) - 
+    + alternateFlag (optional) - 
+    + alternateFor (optional) - 
+    + nonEmployeeFlag (optional) - 
+    + comments (optional) - 
 
             
 + Request
@@ -73,7 +73,7 @@
               {"commScheduleAttendanceId": "(val)","scheduleIdFk": "(val)","personId": "(val)","personName": "(val)","guestFlag": "(val)","alternateFlag": "(val)","alternateFor": "(val)","nonEmployeeFlag": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Committee Schedule Attendances [GET /research-sys/api/v1/iacuc-committee-schedule-attendances/]
+### Get Schema for Iacuc Committee Schedule Attendances [GET /iacuc/api/v1/iacuc-committee-schedule-attendances/]
 	                                          
 + Parameters
 
@@ -95,7 +95,7 @@
     
             {"columns":["commScheduleAttendanceId","scheduleIdFk","personId","personName","guestFlag","alternateFlag","alternateFor","nonEmployeeFlag","comments"],"primaryKey":"commScheduleAttendanceId"}
 		
-### Get Blueprint API specification for Iacuc Committee Schedule Attendances [GET /research-sys/api/v1/iacuc-committee-schedule-attendances/]
+### Get Blueprint API specification for Iacuc Committee Schedule Attendances [GET /iacuc/api/v1/iacuc-committee-schedule-attendances/]
 	 
 + Parameters
 
@@ -116,7 +116,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Committee Schedule Attendances [PUT /research-sys/api/v1/iacuc-committee-schedule-attendances/(key)]
+### Update Iacuc Committee Schedule Attendances [PUT /iacuc/api/v1/iacuc-committee-schedule-attendances/(key)]
 
 + Request
 
@@ -131,7 +131,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Committee Schedule Attendances [PUT /research-sys/api/v1/iacuc-committee-schedule-attendances/]
+### Update Multiple Iacuc Committee Schedule Attendances [PUT /iacuc/api/v1/iacuc-committee-schedule-attendances/]
 
 + Request
 
@@ -149,7 +149,7 @@
 			
 + Response 204
 
-### Insert Iacuc Committee Schedule Attendances [POST /research-sys/api/v1/iacuc-committee-schedule-attendances/]
+### Insert Iacuc Committee Schedule Attendances [POST /iacuc/api/v1/iacuc-committee-schedule-attendances/]
 
 + Request
 
@@ -168,7 +168,7 @@
             
             {"commScheduleAttendanceId": "(val)","scheduleIdFk": "(val)","personId": "(val)","personName": "(val)","guestFlag": "(val)","alternateFlag": "(val)","alternateFor": "(val)","nonEmployeeFlag": "(val)","comments": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Committee Schedule Attendances [POST /research-sys/api/v1/iacuc-committee-schedule-attendances/]
+### Insert Multiple Iacuc Committee Schedule Attendances [POST /iacuc/api/v1/iacuc-committee-schedule-attendances/]
 
 + Request
 
@@ -193,7 +193,7 @@
               {"commScheduleAttendanceId": "(val)","scheduleIdFk": "(val)","personId": "(val)","personName": "(val)","guestFlag": "(val)","alternateFlag": "(val)","alternateFor": "(val)","nonEmployeeFlag": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Committee Schedule Attendances by Key [DELETE /research-sys/api/v1/iacuc-committee-schedule-attendances/(key)]
+### Delete Iacuc Committee Schedule Attendances by Key [DELETE /iacuc/api/v1/iacuc-committee-schedule-attendances/(key)]
 	 
 + Request
 
@@ -204,7 +204,7 @@
 
 + Response 204
 
-### Delete All Iacuc Committee Schedule Attendances [DELETE /research-sys/api/v1/iacuc-committee-schedule-attendances/]
+### Delete All Iacuc Committee Schedule Attendances [DELETE /iacuc/api/v1/iacuc-committee-schedule-attendances/]
 
 + Parameters
 
@@ -219,20 +219,20 @@
 
 + Response 204
 
-### Delete All Iacuc Committee Schedule Attendances with Matching [DELETE /research-sys/api/v1/iacuc-committee-schedule-attendances/]
+### Delete All Iacuc Committee Schedule Attendances with Matching [DELETE /iacuc/api/v1/iacuc-committee-schedule-attendances/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + commScheduleAttendanceId
-            + scheduleIdFk
-            + personId
-            + personName
-            + guestFlag
-            + alternateFlag
-            + alternateFor
-            + nonEmployeeFlag
-            + comments
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + commScheduleAttendanceId (optional) - 
+    + scheduleIdFk (optional) - 
+    + personId (optional) - 
+    + personName (optional) - 
+    + guestFlag (optional) - 
+    + alternateFlag (optional) - 
+    + alternateFor (optional) - 
+    + nonEmployeeFlag (optional) - 
+    + comments (optional) - 
 
       
 + Request

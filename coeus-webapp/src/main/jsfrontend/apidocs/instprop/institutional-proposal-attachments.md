@@ -1,6 +1,6 @@
-## Institutional Proposal Attachments [/research-sys/api/v1/institutional-proposal-attachments/]
+## Institutional Proposal Attachments [/instprop/api/v1/institutional-proposal-attachments/]
 
-### Get Institutional Proposal Attachments by Key [GET /research-sys/api/v1/institutional-proposal-attachments/(key)]
+### Get Institutional Proposal Attachments by Key [GET /instprop/api/v1/institutional-proposal-attachments/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"proposalAttachmentId": "(val)","proposalId": "(val)","proposalNumber": "(val)","fileDataId": "(val)","sequenceNumber": "(val)","attachmentNumber": "(val)","attachmentTitle": "(val)","attachmentTypeCode": "(val)","fileName": "(val)","contentType": "(val)","comments": "(val)","documentStatusCode": "(val)","lastUpdateTimestamp": "(val)","lastUpdateUser": "(val)","_primaryKey": "(val)"}
 
-### Get All Institutional Proposal Attachments [GET /research-sys/api/v1/institutional-proposal-attachments/]
+### Get All Institutional Proposal Attachments [GET /instprop/api/v1/institutional-proposal-attachments/]
 	 
 + Request
 
@@ -39,24 +39,24 @@
               {"proposalAttachmentId": "(val)","proposalId": "(val)","proposalNumber": "(val)","fileDataId": "(val)","sequenceNumber": "(val)","attachmentNumber": "(val)","attachmentTitle": "(val)","attachmentTypeCode": "(val)","fileName": "(val)","contentType": "(val)","comments": "(val)","documentStatusCode": "(val)","lastUpdateTimestamp": "(val)","lastUpdateUser": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Institutional Proposal Attachments with Filtering [GET /research-sys/api/v1/institutional-proposal-attachments/]
+### Get All Institutional Proposal Attachments with Filtering [GET /instprop/api/v1/institutional-proposal-attachments/]
     
 + Parameters
 
-        + proposalAttachmentId
-            + proposalId
-            + proposalNumber
-            + fileDataId
-            + sequenceNumber
-            + attachmentNumber
-            + attachmentTitle
-            + attachmentTypeCode
-            + fileName
-            + contentType
-            + comments
-            + documentStatusCode
-            + lastUpdateTimestamp
-            + lastUpdateUser
+    + proposalAttachmentId (optional) - 
+    + proposalId (optional) - 
+    + proposalNumber (optional) - 
+    + fileDataId (optional) - 
+    + sequenceNumber (optional) - 
+    + attachmentNumber (optional) - 
+    + attachmentTitle (optional) - Description. Maximum length is 150.
+    + attachmentTypeCode (optional) - Code. Maximum length is 3.
+    + fileName (optional) - Id. Maximum length is 150.
+    + contentType (optional) - 
+    + comments (optional) - Comments. Maximum length is 2000.
+    + documentStatusCode (optional) - 
+    + lastUpdateTimestamp (optional) - The creation or last modification timestamp. Maximum length is 21.
+    + lastUpdateUser (optional) - The user who created or last modified the object. Maximum length is 60.
 
             
 + Request
@@ -78,7 +78,7 @@
               {"proposalAttachmentId": "(val)","proposalId": "(val)","proposalNumber": "(val)","fileDataId": "(val)","sequenceNumber": "(val)","attachmentNumber": "(val)","attachmentTitle": "(val)","attachmentTypeCode": "(val)","fileName": "(val)","contentType": "(val)","comments": "(val)","documentStatusCode": "(val)","lastUpdateTimestamp": "(val)","lastUpdateUser": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Institutional Proposal Attachments [GET /research-sys/api/v1/institutional-proposal-attachments/]
+### Get Schema for Institutional Proposal Attachments [GET /instprop/api/v1/institutional-proposal-attachments/]
 	                                          
 + Parameters
 
@@ -100,7 +100,7 @@
     
             {"columns":["proposalAttachmentId","proposalId","proposalNumber","fileDataId","sequenceNumber","attachmentNumber","attachmentTitle","attachmentTypeCode","fileName","contentType","comments","documentStatusCode","lastUpdateTimestamp","lastUpdateUser"],"primaryKey":"proposalAttachmentId"}
 		
-### Get Blueprint API specification for Institutional Proposal Attachments [GET /research-sys/api/v1/institutional-proposal-attachments/]
+### Get Blueprint API specification for Institutional Proposal Attachments [GET /instprop/api/v1/institutional-proposal-attachments/]
 	 
 + Parameters
 
@@ -121,7 +121,7 @@
             transfer-encoding:chunked
 
 
-### Update Institutional Proposal Attachments [PUT /research-sys/api/v1/institutional-proposal-attachments/(key)]
+### Update Institutional Proposal Attachments [PUT /instprop/api/v1/institutional-proposal-attachments/(key)]
 
 + Request
 
@@ -136,7 +136,7 @@
 			
 + Response 204
 
-### Update Multiple Institutional Proposal Attachments [PUT /research-sys/api/v1/institutional-proposal-attachments/]
+### Update Multiple Institutional Proposal Attachments [PUT /instprop/api/v1/institutional-proposal-attachments/]
 
 + Request
 
@@ -154,7 +154,7 @@
 			
 + Response 204
 
-### Insert Institutional Proposal Attachments [POST /research-sys/api/v1/institutional-proposal-attachments/]
+### Insert Institutional Proposal Attachments [POST /instprop/api/v1/institutional-proposal-attachments/]
 
 + Request
 
@@ -173,7 +173,7 @@
             
             {"proposalAttachmentId": "(val)","proposalId": "(val)","proposalNumber": "(val)","fileDataId": "(val)","sequenceNumber": "(val)","attachmentNumber": "(val)","attachmentTitle": "(val)","attachmentTypeCode": "(val)","fileName": "(val)","contentType": "(val)","comments": "(val)","documentStatusCode": "(val)","lastUpdateTimestamp": "(val)","lastUpdateUser": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Institutional Proposal Attachments [POST /research-sys/api/v1/institutional-proposal-attachments/]
+### Insert Multiple Institutional Proposal Attachments [POST /instprop/api/v1/institutional-proposal-attachments/]
 
 + Request
 
@@ -198,7 +198,7 @@
               {"proposalAttachmentId": "(val)","proposalId": "(val)","proposalNumber": "(val)","fileDataId": "(val)","sequenceNumber": "(val)","attachmentNumber": "(val)","attachmentTitle": "(val)","attachmentTypeCode": "(val)","fileName": "(val)","contentType": "(val)","comments": "(val)","documentStatusCode": "(val)","lastUpdateTimestamp": "(val)","lastUpdateUser": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Institutional Proposal Attachments by Key [DELETE /research-sys/api/v1/institutional-proposal-attachments/(key)]
+### Delete Institutional Proposal Attachments by Key [DELETE /instprop/api/v1/institutional-proposal-attachments/(key)]
 	 
 + Request
 
@@ -209,7 +209,7 @@
 
 + Response 204
 
-### Delete All Institutional Proposal Attachments [DELETE /research-sys/api/v1/institutional-proposal-attachments/]
+### Delete All Institutional Proposal Attachments [DELETE /instprop/api/v1/institutional-proposal-attachments/]
 
 + Parameters
 
@@ -224,25 +224,25 @@
 
 + Response 204
 
-### Delete All Institutional Proposal Attachments with Matching [DELETE /research-sys/api/v1/institutional-proposal-attachments/]
+### Delete All Institutional Proposal Attachments with Matching [DELETE /instprop/api/v1/institutional-proposal-attachments/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + proposalAttachmentId
-            + proposalId
-            + proposalNumber
-            + fileDataId
-            + sequenceNumber
-            + attachmentNumber
-            + attachmentTitle
-            + attachmentTypeCode
-            + fileName
-            + contentType
-            + comments
-            + documentStatusCode
-            + lastUpdateTimestamp
-            + lastUpdateUser
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + proposalAttachmentId (optional) - 
+    + proposalId (optional) - 
+    + proposalNumber (optional) - 
+    + fileDataId (optional) - 
+    + sequenceNumber (optional) - 
+    + attachmentNumber (optional) - 
+    + attachmentTitle (optional) - Description. Maximum length is 150.
+    + attachmentTypeCode (optional) - Code. Maximum length is 3.
+    + fileName (optional) - Id. Maximum length is 150.
+    + contentType (optional) - 
+    + comments (optional) - Comments. Maximum length is 2000.
+    + documentStatusCode (optional) - 
+    + lastUpdateTimestamp (optional) - The creation or last modification timestamp. Maximum length is 21.
+    + lastUpdateUser (optional) - The user who created or last modified the object. Maximum length is 60.
 
       
 + Request

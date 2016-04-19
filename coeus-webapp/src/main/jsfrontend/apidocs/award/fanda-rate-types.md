@@ -1,6 +1,6 @@
-## Fanda Rate Types [/research-sys/api/v1/fanda-rate-types/]
+## Fanda Rate Types [/award/api/v1/fanda-rate-types/]
 
-### Get Fanda Rate Types by Key [GET /research-sys/api/v1/fanda-rate-types/(key)]
+### Get Fanda Rate Types by Key [GET /award/api/v1/fanda-rate-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"fandaRateTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Fanda Rate Types [GET /research-sys/api/v1/fanda-rate-types/]
+### Get All Fanda Rate Types [GET /award/api/v1/fanda-rate-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"fandaRateTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Fanda Rate Types with Filtering [GET /research-sys/api/v1/fanda-rate-types/]
+### Get All Fanda Rate Types with Filtering [GET /award/api/v1/fanda-rate-types/]
     
 + Parameters
 
-        + fandaRateTypeCode
-            + description
+    + fandaRateTypeCode (optional) - F&A Rate Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"fandaRateTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Fanda Rate Types [GET /research-sys/api/v1/fanda-rate-types/]
+### Get Schema for Fanda Rate Types [GET /award/api/v1/fanda-rate-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["fandaRateTypeCode","description"],"primaryKey":"fandaRateTypeCode"}
 		
-### Get Blueprint API specification for Fanda Rate Types [GET /research-sys/api/v1/fanda-rate-types/]
+### Get Blueprint API specification for Fanda Rate Types [GET /award/api/v1/fanda-rate-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Fanda Rate Types [PUT /research-sys/api/v1/fanda-rate-types/(key)]
+### Update Fanda Rate Types [PUT /award/api/v1/fanda-rate-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Fanda Rate Types [PUT /research-sys/api/v1/fanda-rate-types/]
+### Update Multiple Fanda Rate Types [PUT /award/api/v1/fanda-rate-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Fanda Rate Types [POST /research-sys/api/v1/fanda-rate-types/]
+### Insert Fanda Rate Types [POST /award/api/v1/fanda-rate-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"fandaRateTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Fanda Rate Types [POST /research-sys/api/v1/fanda-rate-types/]
+### Insert Multiple Fanda Rate Types [POST /award/api/v1/fanda-rate-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"fandaRateTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Fanda Rate Types by Key [DELETE /research-sys/api/v1/fanda-rate-types/(key)]
+### Delete Fanda Rate Types by Key [DELETE /award/api/v1/fanda-rate-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Fanda Rate Types [DELETE /research-sys/api/v1/fanda-rate-types/]
+### Delete All Fanda Rate Types [DELETE /award/api/v1/fanda-rate-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Fanda Rate Types with Matching [DELETE /research-sys/api/v1/fanda-rate-types/]
+### Delete All Fanda Rate Types with Matching [DELETE /award/api/v1/fanda-rate-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + fandaRateTypeCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + fandaRateTypeCode (optional) - F&A Rate Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

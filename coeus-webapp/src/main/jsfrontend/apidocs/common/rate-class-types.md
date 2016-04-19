@@ -1,6 +1,6 @@
-## Rate Class Types [/research-sys/api/v1/rate-class-types/]
+## Rate Class Types [/research-common/api/v1/rate-class-types/]
 
-### Get Rate Class Types by Key [GET /research-sys/api/v1/rate-class-types/(key)]
+### Get Rate Class Types by Key [GET /research-common/api/v1/rate-class-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"code": "(val)","description": "(val)","sortId": "(val)","prefixActivityType": "(val)","_primaryKey": "(val)"}
 
-### Get All Rate Class Types [GET /research-sys/api/v1/rate-class-types/]
+### Get All Rate Class Types [GET /research-common/api/v1/rate-class-types/]
 	 
 + Request
 
@@ -39,14 +39,14 @@
               {"code": "(val)","description": "(val)","sortId": "(val)","prefixActivityType": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Rate Class Types with Filtering [GET /research-sys/api/v1/rate-class-types/]
+### Get All Rate Class Types with Filtering [GET /research-common/api/v1/rate-class-types/]
     
 + Parameters
 
-        + code
-            + description
-            + sortId
-            + prefixActivityType
+    + code (optional) - Rate Class Type. Maximum length is 1.
+    + description (optional) - Description. Maximum length is 200.
+    + sortId (optional) - This sort id is used for sorting budget category. Maximum length is 2.
+    + prefixActivityType (optional) - Prefix Activity Type in rates page. Maximum length is 1.
 
             
 + Request
@@ -68,7 +68,7 @@
               {"code": "(val)","description": "(val)","sortId": "(val)","prefixActivityType": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Rate Class Types [GET /research-sys/api/v1/rate-class-types/]
+### Get Schema for Rate Class Types [GET /research-common/api/v1/rate-class-types/]
 	                                          
 + Parameters
 
@@ -90,7 +90,7 @@
     
             {"columns":["code","description","sortId","prefixActivityType"],"primaryKey":"code"}
 		
-### Get Blueprint API specification for Rate Class Types [GET /research-sys/api/v1/rate-class-types/]
+### Get Blueprint API specification for Rate Class Types [GET /research-common/api/v1/rate-class-types/]
 	 
 + Parameters
 
@@ -111,7 +111,7 @@
             transfer-encoding:chunked
 
 
-### Update Rate Class Types [PUT /research-sys/api/v1/rate-class-types/(key)]
+### Update Rate Class Types [PUT /research-common/api/v1/rate-class-types/(key)]
 
 + Request
 
@@ -126,7 +126,7 @@
 			
 + Response 204
 
-### Update Multiple Rate Class Types [PUT /research-sys/api/v1/rate-class-types/]
+### Update Multiple Rate Class Types [PUT /research-common/api/v1/rate-class-types/]
 
 + Request
 
@@ -144,7 +144,7 @@
 			
 + Response 204
 
-### Insert Rate Class Types [POST /research-sys/api/v1/rate-class-types/]
+### Insert Rate Class Types [POST /research-common/api/v1/rate-class-types/]
 
 + Request
 
@@ -163,7 +163,7 @@
             
             {"code": "(val)","description": "(val)","sortId": "(val)","prefixActivityType": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Rate Class Types [POST /research-sys/api/v1/rate-class-types/]
+### Insert Multiple Rate Class Types [POST /research-common/api/v1/rate-class-types/]
 
 + Request
 
@@ -188,7 +188,7 @@
               {"code": "(val)","description": "(val)","sortId": "(val)","prefixActivityType": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Rate Class Types by Key [DELETE /research-sys/api/v1/rate-class-types/(key)]
+### Delete Rate Class Types by Key [DELETE /research-common/api/v1/rate-class-types/(key)]
 	 
 + Request
 
@@ -199,7 +199,7 @@
 
 + Response 204
 
-### Delete All Rate Class Types [DELETE /research-sys/api/v1/rate-class-types/]
+### Delete All Rate Class Types [DELETE /research-common/api/v1/rate-class-types/]
 
 + Parameters
 
@@ -214,15 +214,15 @@
 
 + Response 204
 
-### Delete All Rate Class Types with Matching [DELETE /research-sys/api/v1/rate-class-types/]
+### Delete All Rate Class Types with Matching [DELETE /research-common/api/v1/rate-class-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + code
-            + description
-            + sortId
-            + prefixActivityType
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + code (optional) - Rate Class Type. Maximum length is 1.
+    + description (optional) - Description. Maximum length is 200.
+    + sortId (optional) - This sort id is used for sorting budget category. Maximum length is 2.
+    + prefixActivityType (optional) - Prefix Activity Type in rates page. Maximum length is 1.
 
       
 + Request

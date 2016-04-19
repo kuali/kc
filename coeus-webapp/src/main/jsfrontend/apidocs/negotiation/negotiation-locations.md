@@ -1,6 +1,6 @@
-## Negotiation Locations [/research-sys/api/v1/negotiation-locations/]
+## Negotiation Locations [/negotiation/api/v1/negotiation-locations/]
 
-### Get Negotiation Locations by Key [GET /research-sys/api/v1/negotiation-locations/(key)]
+### Get Negotiation Locations by Key [GET /negotiation/api/v1/negotiation-locations/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"id": "(val)","code": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
 
-### Get All Negotiation Locations [GET /research-sys/api/v1/negotiation-locations/]
+### Get All Negotiation Locations [GET /negotiation/api/v1/negotiation-locations/]
 	 
 + Request
 
@@ -39,14 +39,14 @@
               {"id": "(val)","code": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Negotiation Locations with Filtering [GET /research-sys/api/v1/negotiation-locations/]
+### Get All Negotiation Locations with Filtering [GET /negotiation/api/v1/negotiation-locations/]
     
 + Parameters
 
-        + id
-            + code
-            + description
-            + active
+    + id (optional) - Id. Maximum length is 22.
+    + code (optional) - Location Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 30.
+    + active (optional) - Active. Maximum length is 1.
 
             
 + Request
@@ -68,7 +68,7 @@
               {"id": "(val)","code": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Negotiation Locations [GET /research-sys/api/v1/negotiation-locations/]
+### Get Schema for Negotiation Locations [GET /negotiation/api/v1/negotiation-locations/]
 	                                          
 + Parameters
 
@@ -90,7 +90,7 @@
     
             {"columns":["id","code","description","active"],"primaryKey":"id"}
 		
-### Get Blueprint API specification for Negotiation Locations [GET /research-sys/api/v1/negotiation-locations/]
+### Get Blueprint API specification for Negotiation Locations [GET /negotiation/api/v1/negotiation-locations/]
 	 
 + Parameters
 
@@ -111,7 +111,7 @@
             transfer-encoding:chunked
 
 
-### Update Negotiation Locations [PUT /research-sys/api/v1/negotiation-locations/(key)]
+### Update Negotiation Locations [PUT /negotiation/api/v1/negotiation-locations/(key)]
 
 + Request
 
@@ -126,7 +126,7 @@
 			
 + Response 204
 
-### Update Multiple Negotiation Locations [PUT /research-sys/api/v1/negotiation-locations/]
+### Update Multiple Negotiation Locations [PUT /negotiation/api/v1/negotiation-locations/]
 
 + Request
 
@@ -144,7 +144,7 @@
 			
 + Response 204
 
-### Insert Negotiation Locations [POST /research-sys/api/v1/negotiation-locations/]
+### Insert Negotiation Locations [POST /negotiation/api/v1/negotiation-locations/]
 
 + Request
 
@@ -163,7 +163,7 @@
             
             {"id": "(val)","code": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Negotiation Locations [POST /research-sys/api/v1/negotiation-locations/]
+### Insert Multiple Negotiation Locations [POST /negotiation/api/v1/negotiation-locations/]
 
 + Request
 
@@ -188,7 +188,7 @@
               {"id": "(val)","code": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Negotiation Locations by Key [DELETE /research-sys/api/v1/negotiation-locations/(key)]
+### Delete Negotiation Locations by Key [DELETE /negotiation/api/v1/negotiation-locations/(key)]
 	 
 + Request
 
@@ -199,7 +199,7 @@
 
 + Response 204
 
-### Delete All Negotiation Locations [DELETE /research-sys/api/v1/negotiation-locations/]
+### Delete All Negotiation Locations [DELETE /negotiation/api/v1/negotiation-locations/]
 
 + Parameters
 
@@ -214,15 +214,15 @@
 
 + Response 204
 
-### Delete All Negotiation Locations with Matching [DELETE /research-sys/api/v1/negotiation-locations/]
+### Delete All Negotiation Locations with Matching [DELETE /negotiation/api/v1/negotiation-locations/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + code
-            + description
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Id. Maximum length is 22.
+    + code (optional) - Location Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 30.
+    + active (optional) - Active. Maximum length is 1.
 
       
 + Request

@@ -1,6 +1,6 @@
-## Institutional Proposal Custom Data [/research-sys/api/v1/institutional-proposal-custom-data/]
+## Institutional Proposal Custom Data [/instprop/api/v1/institutional-proposal-custom-data/]
 
-### Get Institutional Proposal Custom Data by Key [GET /research-sys/api/v1/institutional-proposal-custom-data/(key)]
+### Get Institutional Proposal Custom Data by Key [GET /instprop/api/v1/institutional-proposal-custom-data/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"proposalCustomDataId": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","customAttributeId": "(val)","value": "(val)","_primaryKey": "(val)"}
 
-### Get All Institutional Proposal Custom Data [GET /research-sys/api/v1/institutional-proposal-custom-data/]
+### Get All Institutional Proposal Custom Data [GET /instprop/api/v1/institutional-proposal-custom-data/]
 	 
 + Request
 
@@ -39,16 +39,16 @@
               {"proposalCustomDataId": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","customAttributeId": "(val)","value": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Institutional Proposal Custom Data with Filtering [GET /research-sys/api/v1/institutional-proposal-custom-data/]
+### Get All Institutional Proposal Custom Data with Filtering [GET /instprop/api/v1/institutional-proposal-custom-data/]
     
 + Parameters
 
-        + proposalCustomDataId
-            + proposalId
-            + proposalNumber
-            + sequenceNumber
-            + customAttributeId
-            + value
+    + proposalCustomDataId (optional) - Proposal Custom Data Id. Maximum length is 22.
+    + proposalId (optional) - 
+    + proposalNumber (optional) - Proposal Number. Maximum length is 10.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 22.
+    + customAttributeId (optional) - Custom Attribute Id. Maximum length is 22.
+    + value (optional) - Value. Maximum length is 2000.
 
             
 + Request
@@ -70,7 +70,7 @@
               {"proposalCustomDataId": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","customAttributeId": "(val)","value": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Institutional Proposal Custom Data [GET /research-sys/api/v1/institutional-proposal-custom-data/]
+### Get Schema for Institutional Proposal Custom Data [GET /instprop/api/v1/institutional-proposal-custom-data/]
 	                                          
 + Parameters
 
@@ -92,7 +92,7 @@
     
             {"columns":["proposalCustomDataId","proposalId","proposalNumber","sequenceNumber","customAttributeId","value"],"primaryKey":"proposalCustomDataId"}
 		
-### Get Blueprint API specification for Institutional Proposal Custom Data [GET /research-sys/api/v1/institutional-proposal-custom-data/]
+### Get Blueprint API specification for Institutional Proposal Custom Data [GET /instprop/api/v1/institutional-proposal-custom-data/]
 	 
 + Parameters
 
@@ -113,7 +113,7 @@
             transfer-encoding:chunked
 
 
-### Update Institutional Proposal Custom Data [PUT /research-sys/api/v1/institutional-proposal-custom-data/(key)]
+### Update Institutional Proposal Custom Data [PUT /instprop/api/v1/institutional-proposal-custom-data/(key)]
 
 + Request
 
@@ -128,7 +128,7 @@
 			
 + Response 204
 
-### Update Multiple Institutional Proposal Custom Data [PUT /research-sys/api/v1/institutional-proposal-custom-data/]
+### Update Multiple Institutional Proposal Custom Data [PUT /instprop/api/v1/institutional-proposal-custom-data/]
 
 + Request
 
@@ -146,7 +146,7 @@
 			
 + Response 204
 
-### Insert Institutional Proposal Custom Data [POST /research-sys/api/v1/institutional-proposal-custom-data/]
+### Insert Institutional Proposal Custom Data [POST /instprop/api/v1/institutional-proposal-custom-data/]
 
 + Request
 
@@ -165,7 +165,7 @@
             
             {"proposalCustomDataId": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","customAttributeId": "(val)","value": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Institutional Proposal Custom Data [POST /research-sys/api/v1/institutional-proposal-custom-data/]
+### Insert Multiple Institutional Proposal Custom Data [POST /instprop/api/v1/institutional-proposal-custom-data/]
 
 + Request
 
@@ -190,7 +190,7 @@
               {"proposalCustomDataId": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","customAttributeId": "(val)","value": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Institutional Proposal Custom Data by Key [DELETE /research-sys/api/v1/institutional-proposal-custom-data/(key)]
+### Delete Institutional Proposal Custom Data by Key [DELETE /instprop/api/v1/institutional-proposal-custom-data/(key)]
 	 
 + Request
 
@@ -201,7 +201,7 @@
 
 + Response 204
 
-### Delete All Institutional Proposal Custom Data [DELETE /research-sys/api/v1/institutional-proposal-custom-data/]
+### Delete All Institutional Proposal Custom Data [DELETE /instprop/api/v1/institutional-proposal-custom-data/]
 
 + Parameters
 
@@ -216,17 +216,17 @@
 
 + Response 204
 
-### Delete All Institutional Proposal Custom Data with Matching [DELETE /research-sys/api/v1/institutional-proposal-custom-data/]
+### Delete All Institutional Proposal Custom Data with Matching [DELETE /instprop/api/v1/institutional-proposal-custom-data/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + proposalCustomDataId
-            + proposalId
-            + proposalNumber
-            + sequenceNumber
-            + customAttributeId
-            + value
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + proposalCustomDataId (optional) - Proposal Custom Data Id. Maximum length is 22.
+    + proposalId (optional) - 
+    + proposalNumber (optional) - Proposal Number. Maximum length is 10.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 22.
+    + customAttributeId (optional) - Custom Attribute Id. Maximum length is 22.
+    + value (optional) - Value. Maximum length is 2000.
 
       
 + Request

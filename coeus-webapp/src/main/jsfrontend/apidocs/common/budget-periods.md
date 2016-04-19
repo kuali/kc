@@ -1,6 +1,6 @@
-## Budget Periods [/research-sys/api/v1/budget-periods/]
+## Budget Periods [/research-common/api/v1/budget-periods/]
 
-### Get Budget Periods by Key [GET /research-sys/api/v1/budget-periods/(key)]
+### Get Budget Periods by Key [GET /research-common/api/v1/budget-periods/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"budgetPeriodId": "(val)","budgetPeriod": "(val)","comments": "(val)","costSharingAmount": "(val)","endDate": "(val)","startDate": "(val)","totalCost": "(val)","totalCostLimit": "(val)","totalDirectCost": "(val)","totalIndirectCost": "(val)","underrecoveryAmount": "(val)","numberOfParticipants": "(val)","directCostLimit": "(val)","_primaryKey": "(val)"}
 
-### Get All Budget Periods [GET /research-sys/api/v1/budget-periods/]
+### Get All Budget Periods [GET /research-common/api/v1/budget-periods/]
 	 
 + Request
 
@@ -39,23 +39,23 @@
               {"budgetPeriodId": "(val)","budgetPeriod": "(val)","comments": "(val)","costSharingAmount": "(val)","endDate": "(val)","startDate": "(val)","totalCost": "(val)","totalCostLimit": "(val)","totalDirectCost": "(val)","totalIndirectCost": "(val)","underrecoveryAmount": "(val)","numberOfParticipants": "(val)","directCostLimit": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Budget Periods with Filtering [GET /research-sys/api/v1/budget-periods/]
+### Get All Budget Periods with Filtering [GET /research-common/api/v1/budget-periods/]
     
 + Parameters
 
-        + budgetPeriodId
-            + budgetPeriod
-            + comments
-            + costSharingAmount
-            + endDate
-            + startDate
-            + totalCost
-            + totalCostLimit
-            + totalDirectCost
-            + totalIndirectCost
-            + underrecoveryAmount
-            + numberOfParticipants
-            + directCostLimit
+    + budgetPeriodId (optional) - Budget Period Id. Maximum length is 12.
+    + budgetPeriod (optional) - Budget Period. Maximum length is 3.
+    + comments (optional) - Comments. Maximum length is 2000.
+    + costSharingAmount (optional) - Cost Sharing. Maximum length is 15.
+    + endDate (optional) - Period End Date. Maximum length is 21.
+    + startDate (optional) - Period Start Date. Maximum length is 21.
+    + totalCost (optional) - Total Sponsor Cost. Maximum length is 15.
+    + totalCostLimit (optional) - Cost Limit. Maximum length is 15.
+    + totalDirectCost (optional) - Direct Cost. Maximum length is 15.
+    + totalIndirectCost (optional) - F&A Cost. Maximum length is 15.
+    + underrecoveryAmount (optional) - Unrecovered F&A. Maximum length is 15.
+    + numberOfParticipants (optional) - Number of Participants. Maximum length is 6.
+    + directCostLimit (optional) - Direct Cost Limit. Maximum length is 15.
 
             
 + Request
@@ -77,7 +77,7 @@
               {"budgetPeriodId": "(val)","budgetPeriod": "(val)","comments": "(val)","costSharingAmount": "(val)","endDate": "(val)","startDate": "(val)","totalCost": "(val)","totalCostLimit": "(val)","totalDirectCost": "(val)","totalIndirectCost": "(val)","underrecoveryAmount": "(val)","numberOfParticipants": "(val)","directCostLimit": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Budget Periods [GET /research-sys/api/v1/budget-periods/]
+### Get Schema for Budget Periods [GET /research-common/api/v1/budget-periods/]
 	                                          
 + Parameters
 
@@ -99,7 +99,7 @@
     
             {"columns":["budgetPeriodId","budgetPeriod","comments","costSharingAmount","endDate","startDate","totalCost","totalCostLimit","totalDirectCost","totalIndirectCost","underrecoveryAmount","numberOfParticipants","directCostLimit"],"primaryKey":"budgetPeriodId"}
 		
-### Get Blueprint API specification for Budget Periods [GET /research-sys/api/v1/budget-periods/]
+### Get Blueprint API specification for Budget Periods [GET /research-common/api/v1/budget-periods/]
 	 
 + Parameters
 
@@ -120,7 +120,7 @@
             transfer-encoding:chunked
 
 
-### Update Budget Periods [PUT /research-sys/api/v1/budget-periods/(key)]
+### Update Budget Periods [PUT /research-common/api/v1/budget-periods/(key)]
 
 + Request
 
@@ -135,7 +135,7 @@
 			
 + Response 204
 
-### Update Multiple Budget Periods [PUT /research-sys/api/v1/budget-periods/]
+### Update Multiple Budget Periods [PUT /research-common/api/v1/budget-periods/]
 
 + Request
 
@@ -153,7 +153,7 @@
 			
 + Response 204
 
-### Insert Budget Periods [POST /research-sys/api/v1/budget-periods/]
+### Insert Budget Periods [POST /research-common/api/v1/budget-periods/]
 
 + Request
 
@@ -172,7 +172,7 @@
             
             {"budgetPeriodId": "(val)","budgetPeriod": "(val)","comments": "(val)","costSharingAmount": "(val)","endDate": "(val)","startDate": "(val)","totalCost": "(val)","totalCostLimit": "(val)","totalDirectCost": "(val)","totalIndirectCost": "(val)","underrecoveryAmount": "(val)","numberOfParticipants": "(val)","directCostLimit": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Budget Periods [POST /research-sys/api/v1/budget-periods/]
+### Insert Multiple Budget Periods [POST /research-common/api/v1/budget-periods/]
 
 + Request
 
@@ -197,7 +197,7 @@
               {"budgetPeriodId": "(val)","budgetPeriod": "(val)","comments": "(val)","costSharingAmount": "(val)","endDate": "(val)","startDate": "(val)","totalCost": "(val)","totalCostLimit": "(val)","totalDirectCost": "(val)","totalIndirectCost": "(val)","underrecoveryAmount": "(val)","numberOfParticipants": "(val)","directCostLimit": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Budget Periods by Key [DELETE /research-sys/api/v1/budget-periods/(key)]
+### Delete Budget Periods by Key [DELETE /research-common/api/v1/budget-periods/(key)]
 	 
 + Request
 
@@ -208,7 +208,7 @@
 
 + Response 204
 
-### Delete All Budget Periods [DELETE /research-sys/api/v1/budget-periods/]
+### Delete All Budget Periods [DELETE /research-common/api/v1/budget-periods/]
 
 + Parameters
 
@@ -223,24 +223,24 @@
 
 + Response 204
 
-### Delete All Budget Periods with Matching [DELETE /research-sys/api/v1/budget-periods/]
+### Delete All Budget Periods with Matching [DELETE /research-common/api/v1/budget-periods/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + budgetPeriodId
-            + budgetPeriod
-            + comments
-            + costSharingAmount
-            + endDate
-            + startDate
-            + totalCost
-            + totalCostLimit
-            + totalDirectCost
-            + totalIndirectCost
-            + underrecoveryAmount
-            + numberOfParticipants
-            + directCostLimit
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + budgetPeriodId (optional) - Budget Period Id. Maximum length is 12.
+    + budgetPeriod (optional) - Budget Period. Maximum length is 3.
+    + comments (optional) - Comments. Maximum length is 2000.
+    + costSharingAmount (optional) - Cost Sharing. Maximum length is 15.
+    + endDate (optional) - Period End Date. Maximum length is 21.
+    + startDate (optional) - Period Start Date. Maximum length is 21.
+    + totalCost (optional) - Total Sponsor Cost. Maximum length is 15.
+    + totalCostLimit (optional) - Cost Limit. Maximum length is 15.
+    + totalDirectCost (optional) - Direct Cost. Maximum length is 15.
+    + totalIndirectCost (optional) - F&A Cost. Maximum length is 15.
+    + underrecoveryAmount (optional) - Unrecovered F&A. Maximum length is 15.
+    + numberOfParticipants (optional) - Number of Participants. Maximum length is 6.
+    + directCostLimit (optional) - Direct Cost Limit. Maximum length is 15.
 
       
 + Request

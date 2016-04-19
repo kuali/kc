@@ -43,14 +43,14 @@
     
 + Parameters
 
-        + id
-            + responsibilityId
-            + ruleBaseValuesId
-            + priority
-            + actionRequestedCd
-            + ruleResponsibilityName
-            + ruleResponsibilityType
-            + approvePolicy
+    + id (optional) - 
+    + responsibilityId (optional) - 
+    + ruleBaseValuesId (optional) - 
+    + priority (optional) - Priority. Maximum length is 30.
+    + actionRequestedCd (optional) - Action Request. Maximum length is 30.
+    + ruleResponsibilityName (optional) - 
+    + ruleResponsibilityType (optional) - 
+    + approvePolicy (optional) - 
 
             
 + Request
@@ -222,15 +222,15 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + responsibilityId
-            + ruleBaseValuesId
-            + priority
-            + actionRequestedCd
-            + ruleResponsibilityName
-            + ruleResponsibilityType
-            + approvePolicy
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - 
+    + responsibilityId (optional) - 
+    + ruleBaseValuesId (optional) - 
+    + priority (optional) - Priority. Maximum length is 30.
+    + actionRequestedCd (optional) - Action Request. Maximum length is 30.
+    + ruleResponsibilityName (optional) - 
+    + ruleResponsibilityType (optional) - 
+    + approvePolicy (optional) - 
 
       
 + Request

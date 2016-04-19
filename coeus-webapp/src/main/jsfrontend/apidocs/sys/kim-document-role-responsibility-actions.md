@@ -43,15 +43,15 @@
     
 + Parameters
 
-        + roleResponsibilityActionId
-            + roleResponsibilityId
-            + roleMemberId
-            + actionTypeCode
-            + actionPolicyCode
-            + priorityNumber
-            + forceAction
-            + edit
-            + documentNumber
+    + roleResponsibilityActionId (optional) - Role Responsibility Action Id. Maximum length is 40.
+    + roleResponsibilityId (optional) - Role Responsibility Id. Maximum length is 40.
+    + roleMemberId (optional) - Role Member Id. Maximum length is 40.
+    + actionTypeCode (optional) - Action Type Code. Maximum length is 40.
+    + actionPolicyCode (optional) - Action Policy Code. Maximum length is 40.
+    + priorityNumber (optional) - Priority Number. Maximum length is 3.
+    + forceAction (optional) - Require Redundant Action. Maximum length is 1.
+    + edit (optional) - Edit.
+    + documentNumber (optional) - Document Number.
 
             
 + Request
@@ -223,16 +223,16 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + roleResponsibilityActionId
-            + roleResponsibilityId
-            + roleMemberId
-            + actionTypeCode
-            + actionPolicyCode
-            + priorityNumber
-            + forceAction
-            + edit
-            + documentNumber
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + roleResponsibilityActionId (optional) - Role Responsibility Action Id. Maximum length is 40.
+    + roleResponsibilityId (optional) - Role Responsibility Id. Maximum length is 40.
+    + roleMemberId (optional) - Role Member Id. Maximum length is 40.
+    + actionTypeCode (optional) - Action Type Code. Maximum length is 40.
+    + actionPolicyCode (optional) - Action Policy Code. Maximum length is 40.
+    + priorityNumber (optional) - Priority Number. Maximum length is 3.
+    + forceAction (optional) - Require Redundant Action. Maximum length is 1.
+    + edit (optional) - Edit.
+    + documentNumber (optional) - Document Number.
 
       
 + Request

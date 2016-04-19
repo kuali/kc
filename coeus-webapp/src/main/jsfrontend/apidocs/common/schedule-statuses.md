@@ -1,6 +1,6 @@
-## Schedule Statuses [/research-sys/api/v1/schedule-statuses/]
+## Schedule Statuses [/research-common/api/v1/schedule-statuses/]
 
-### Get Schedule Statuses by Key [GET /research-sys/api/v1/schedule-statuses/(key)]
+### Get Schedule Statuses by Key [GET /research-common/api/v1/schedule-statuses/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"scheduleStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Schedule Statuses [GET /research-sys/api/v1/schedule-statuses/]
+### Get All Schedule Statuses [GET /research-common/api/v1/schedule-statuses/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"scheduleStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Schedule Statuses with Filtering [GET /research-sys/api/v1/schedule-statuses/]
+### Get All Schedule Statuses with Filtering [GET /research-common/api/v1/schedule-statuses/]
     
 + Parameters
 
-        + scheduleStatusCode
-            + description
+    + scheduleStatusCode (optional) - Schedule Status Code. Maximum length is 22.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"scheduleStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Schedule Statuses [GET /research-sys/api/v1/schedule-statuses/]
+### Get Schema for Schedule Statuses [GET /research-common/api/v1/schedule-statuses/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["scheduleStatusCode","description"],"primaryKey":"scheduleStatusCode"}
 		
-### Get Blueprint API specification for Schedule Statuses [GET /research-sys/api/v1/schedule-statuses/]
+### Get Blueprint API specification for Schedule Statuses [GET /research-common/api/v1/schedule-statuses/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Schedule Statuses [PUT /research-sys/api/v1/schedule-statuses/(key)]
+### Update Schedule Statuses [PUT /research-common/api/v1/schedule-statuses/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Schedule Statuses [PUT /research-sys/api/v1/schedule-statuses/]
+### Update Multiple Schedule Statuses [PUT /research-common/api/v1/schedule-statuses/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Schedule Statuses [POST /research-sys/api/v1/schedule-statuses/]
+### Insert Schedule Statuses [POST /research-common/api/v1/schedule-statuses/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"scheduleStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Schedule Statuses [POST /research-sys/api/v1/schedule-statuses/]
+### Insert Multiple Schedule Statuses [POST /research-common/api/v1/schedule-statuses/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"scheduleStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Schedule Statuses by Key [DELETE /research-sys/api/v1/schedule-statuses/(key)]
+### Delete Schedule Statuses by Key [DELETE /research-common/api/v1/schedule-statuses/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Schedule Statuses [DELETE /research-sys/api/v1/schedule-statuses/]
+### Delete All Schedule Statuses [DELETE /research-common/api/v1/schedule-statuses/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Schedule Statuses with Matching [DELETE /research-sys/api/v1/schedule-statuses/]
+### Delete All Schedule Statuses with Matching [DELETE /research-common/api/v1/schedule-statuses/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + scheduleStatusCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + scheduleStatusCode (optional) - Schedule Status Code. Maximum length is 22.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

@@ -43,9 +43,9 @@
     
 + Parameters
 
-        + docLinkId
-            + orgnDocId
-            + destDocId
+    + docLinkId (optional) - 
+    + orgnDocId (optional) - 
+    + destDocId (optional) - 
 
             
 + Request
@@ -217,10 +217,10 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + docLinkId
-            + orgnDocId
-            + destDocId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + docLinkId (optional) - 
+    + orgnDocId (optional) - 
+    + destDocId (optional) - 
 
       
 + Request

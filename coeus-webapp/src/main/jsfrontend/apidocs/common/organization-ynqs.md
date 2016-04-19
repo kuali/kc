@@ -1,6 +1,6 @@
-## Organization Ynqs [/research-sys/api/v1/organization-ynqs/]
+## Organization Ynqs [/research-common/api/v1/organization-ynqs/]
 
-### Get Organization Ynqs by Key [GET /research-sys/api/v1/organization-ynqs/(key)]
+### Get Organization Ynqs by Key [GET /research-common/api/v1/organization-ynqs/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"organizationId": "(val)","questionId": "(val)","answer": "(val)","explanation": "(val)","reviewDate": "(val)","_primaryKey": "(val)"}
 
-### Get All Organization Ynqs [GET /research-sys/api/v1/organization-ynqs/]
+### Get All Organization Ynqs [GET /research-common/api/v1/organization-ynqs/]
 	 
 + Request
 
@@ -39,15 +39,15 @@
               {"organizationId": "(val)","questionId": "(val)","answer": "(val)","explanation": "(val)","reviewDate": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Organization Ynqs with Filtering [GET /research-sys/api/v1/organization-ynqs/]
+### Get All Organization Ynqs with Filtering [GET /research-common/api/v1/organization-ynqs/]
     
 + Parameters
 
-        + organizationId
-            + questionId
-            + answer
-            + explanation
-            + reviewDate
+    + organizationId (optional) - Organization Id. Maximum length is 8.
+    + questionId (optional) - Question Id. Maximum length is 4.
+    + answer (optional) - Answer. Maximum length is 1.
+    + explanation (optional) - Explanation. Maximum length is 400.
+    + reviewDate (optional) - Review Date. Maximum length is 10.
 
             
 + Request
@@ -69,7 +69,7 @@
               {"organizationId": "(val)","questionId": "(val)","answer": "(val)","explanation": "(val)","reviewDate": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Organization Ynqs [GET /research-sys/api/v1/organization-ynqs/]
+### Get Schema for Organization Ynqs [GET /research-common/api/v1/organization-ynqs/]
 	                                          
 + Parameters
 
@@ -91,7 +91,7 @@
     
             {"columns":["organizationId","questionId","answer","explanation","reviewDate"],"primaryKey":"organizationId:questionId"}
 		
-### Get Blueprint API specification for Organization Ynqs [GET /research-sys/api/v1/organization-ynqs/]
+### Get Blueprint API specification for Organization Ynqs [GET /research-common/api/v1/organization-ynqs/]
 	 
 + Parameters
 
@@ -112,7 +112,7 @@
             transfer-encoding:chunked
 
 
-### Update Organization Ynqs [PUT /research-sys/api/v1/organization-ynqs/(key)]
+### Update Organization Ynqs [PUT /research-common/api/v1/organization-ynqs/(key)]
 
 + Request
 
@@ -127,7 +127,7 @@
 			
 + Response 204
 
-### Update Multiple Organization Ynqs [PUT /research-sys/api/v1/organization-ynqs/]
+### Update Multiple Organization Ynqs [PUT /research-common/api/v1/organization-ynqs/]
 
 + Request
 
@@ -145,7 +145,7 @@
 			
 + Response 204
 
-### Insert Organization Ynqs [POST /research-sys/api/v1/organization-ynqs/]
+### Insert Organization Ynqs [POST /research-common/api/v1/organization-ynqs/]
 
 + Request
 
@@ -164,7 +164,7 @@
             
             {"organizationId": "(val)","questionId": "(val)","answer": "(val)","explanation": "(val)","reviewDate": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Organization Ynqs [POST /research-sys/api/v1/organization-ynqs/]
+### Insert Multiple Organization Ynqs [POST /research-common/api/v1/organization-ynqs/]
 
 + Request
 
@@ -189,7 +189,7 @@
               {"organizationId": "(val)","questionId": "(val)","answer": "(val)","explanation": "(val)","reviewDate": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Organization Ynqs by Key [DELETE /research-sys/api/v1/organization-ynqs/(key)]
+### Delete Organization Ynqs by Key [DELETE /research-common/api/v1/organization-ynqs/(key)]
 	 
 + Request
 
@@ -200,7 +200,7 @@
 
 + Response 204
 
-### Delete All Organization Ynqs [DELETE /research-sys/api/v1/organization-ynqs/]
+### Delete All Organization Ynqs [DELETE /research-common/api/v1/organization-ynqs/]
 
 + Parameters
 
@@ -215,16 +215,16 @@
 
 + Response 204
 
-### Delete All Organization Ynqs with Matching [DELETE /research-sys/api/v1/organization-ynqs/]
+### Delete All Organization Ynqs with Matching [DELETE /research-common/api/v1/organization-ynqs/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + organizationId
-            + questionId
-            + answer
-            + explanation
-            + reviewDate
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + organizationId (optional) - Organization Id. Maximum length is 8.
+    + questionId (optional) - Question Id. Maximum length is 4.
+    + answer (optional) - Answer. Maximum length is 1.
+    + explanation (optional) - Explanation. Maximum length is 400.
+    + reviewDate (optional) - Review Date. Maximum length is 10.
 
       
 + Request

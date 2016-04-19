@@ -43,17 +43,17 @@
     
 + Parameters
 
-        + serviceId
-            + serviceName
-            + endpointUrl
-            + instanceId
-            + applicationId
-            + serverIpAddress
-            + type
-            + serviceVersion
-            + statusCode
-            + serviceDescriptorId
-            + checksum
+    + serviceId (optional) - 
+    + serviceName (optional) - 
+    + endpointUrl (optional) - 
+    + instanceId (optional) - 
+    + applicationId (optional) - 
+    + serverIpAddress (optional) - 
+    + type (optional) - 
+    + serviceVersion (optional) - 
+    + statusCode (optional) - 
+    + serviceDescriptorId (optional) - 
+    + checksum (optional) - 
 
             
 + Request
@@ -225,18 +225,18 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + serviceId
-            + serviceName
-            + endpointUrl
-            + instanceId
-            + applicationId
-            + serverIpAddress
-            + type
-            + serviceVersion
-            + statusCode
-            + serviceDescriptorId
-            + checksum
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + serviceId (optional) - 
+    + serviceName (optional) - 
+    + endpointUrl (optional) - 
+    + instanceId (optional) - 
+    + applicationId (optional) - 
+    + serverIpAddress (optional) - 
+    + type (optional) - 
+    + serviceVersion (optional) - 
+    + statusCode (optional) - 
+    + serviceDescriptorId (optional) - 
+    + checksum (optional) - 
 
       
 + Request

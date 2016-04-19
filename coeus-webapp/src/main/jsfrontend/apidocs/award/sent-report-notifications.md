@@ -1,6 +1,6 @@
-## Sent Report Notifications [/research-sys/api/v1/sent-report-notifications/]
+## Sent Report Notifications [/award/api/v1/sent-report-notifications/]
 
-### Get Sent Report Notifications by Key [GET /research-sys/api/v1/sent-report-notifications/(key)]
+### Get Sent Report Notifications by Key [GET /award/api/v1/sent-report-notifications/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"awardReportNotifSentId": "(val)","awardReportTermId": "(val)","awardNumber": "(val)","dueDate": "(val)","actionCode": "(val)","dateSent": "(val)","_primaryKey": "(val)"}
 
-### Get All Sent Report Notifications [GET /research-sys/api/v1/sent-report-notifications/]
+### Get All Sent Report Notifications [GET /award/api/v1/sent-report-notifications/]
 	 
 + Request
 
@@ -39,16 +39,16 @@
               {"awardReportNotifSentId": "(val)","awardReportTermId": "(val)","awardNumber": "(val)","dueDate": "(val)","actionCode": "(val)","dateSent": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Sent Report Notifications with Filtering [GET /research-sys/api/v1/sent-report-notifications/]
+### Get All Sent Report Notifications with Filtering [GET /award/api/v1/sent-report-notifications/]
     
 + Parameters
 
-        + awardReportNotifSentId
-            + awardReportTermId
-            + awardNumber
-            + dueDate
-            + actionCode
-            + dateSent
+    + awardReportNotifSentId (optional) - 
+    + awardReportTermId (optional) - 
+    + awardNumber (optional) - 
+    + dueDate (optional) - 
+    + actionCode (optional) - 
+    + dateSent (optional) - 
 
             
 + Request
@@ -70,7 +70,7 @@
               {"awardReportNotifSentId": "(val)","awardReportTermId": "(val)","awardNumber": "(val)","dueDate": "(val)","actionCode": "(val)","dateSent": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Sent Report Notifications [GET /research-sys/api/v1/sent-report-notifications/]
+### Get Schema for Sent Report Notifications [GET /award/api/v1/sent-report-notifications/]
 	                                          
 + Parameters
 
@@ -92,7 +92,7 @@
     
             {"columns":["awardReportNotifSentId","awardReportTermId","awardNumber","dueDate","actionCode","dateSent"],"primaryKey":"awardReportNotifSentId"}
 		
-### Get Blueprint API specification for Sent Report Notifications [GET /research-sys/api/v1/sent-report-notifications/]
+### Get Blueprint API specification for Sent Report Notifications [GET /award/api/v1/sent-report-notifications/]
 	 
 + Parameters
 
@@ -113,7 +113,7 @@
             transfer-encoding:chunked
 
 
-### Update Sent Report Notifications [PUT /research-sys/api/v1/sent-report-notifications/(key)]
+### Update Sent Report Notifications [PUT /award/api/v1/sent-report-notifications/(key)]
 
 + Request
 
@@ -128,7 +128,7 @@
 			
 + Response 204
 
-### Update Multiple Sent Report Notifications [PUT /research-sys/api/v1/sent-report-notifications/]
+### Update Multiple Sent Report Notifications [PUT /award/api/v1/sent-report-notifications/]
 
 + Request
 
@@ -146,7 +146,7 @@
 			
 + Response 204
 
-### Insert Sent Report Notifications [POST /research-sys/api/v1/sent-report-notifications/]
+### Insert Sent Report Notifications [POST /award/api/v1/sent-report-notifications/]
 
 + Request
 
@@ -165,7 +165,7 @@
             
             {"awardReportNotifSentId": "(val)","awardReportTermId": "(val)","awardNumber": "(val)","dueDate": "(val)","actionCode": "(val)","dateSent": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Sent Report Notifications [POST /research-sys/api/v1/sent-report-notifications/]
+### Insert Multiple Sent Report Notifications [POST /award/api/v1/sent-report-notifications/]
 
 + Request
 
@@ -190,7 +190,7 @@
               {"awardReportNotifSentId": "(val)","awardReportTermId": "(val)","awardNumber": "(val)","dueDate": "(val)","actionCode": "(val)","dateSent": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Sent Report Notifications by Key [DELETE /research-sys/api/v1/sent-report-notifications/(key)]
+### Delete Sent Report Notifications by Key [DELETE /award/api/v1/sent-report-notifications/(key)]
 	 
 + Request
 
@@ -201,7 +201,7 @@
 
 + Response 204
 
-### Delete All Sent Report Notifications [DELETE /research-sys/api/v1/sent-report-notifications/]
+### Delete All Sent Report Notifications [DELETE /award/api/v1/sent-report-notifications/]
 
 + Parameters
 
@@ -216,17 +216,17 @@
 
 + Response 204
 
-### Delete All Sent Report Notifications with Matching [DELETE /research-sys/api/v1/sent-report-notifications/]
+### Delete All Sent Report Notifications with Matching [DELETE /award/api/v1/sent-report-notifications/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + awardReportNotifSentId
-            + awardReportTermId
-            + awardNumber
-            + dueDate
-            + actionCode
-            + dateSent
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + awardReportNotifSentId (optional) - 
+    + awardReportTermId (optional) - 
+    + awardNumber (optional) - 
+    + dueDate (optional) - 
+    + actionCode (optional) - 
+    + dateSent (optional) - 
 
       
 + Request

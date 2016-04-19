@@ -1,6 +1,6 @@
-## Iacuc Protocol Study Custom Data [/research-sys/api/v1/iacuc-protocol-study-custom-data/]
+## Iacuc Protocol Study Custom Data [/iacuc/api/v1/iacuc-protocol-study-custom-data/]
 
-### Get Iacuc Protocol Study Custom Data by Key [GET /research-sys/api/v1/iacuc-protocol-study-custom-data/(key)]
+### Get Iacuc Protocol Study Custom Data by Key [GET /iacuc/api/v1/iacuc-protocol-study-custom-data/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"iacucProtocolStudyCustomDataId": "(val)","iacucProtocolStudyGroupId": "(val)","procedureCustomAttributeId": "(val)","value": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Protocol Study Custom Data [GET /research-sys/api/v1/iacuc-protocol-study-custom-data/]
+### Get All Iacuc Protocol Study Custom Data [GET /iacuc/api/v1/iacuc-protocol-study-custom-data/]
 	 
 + Request
 
@@ -39,14 +39,14 @@
               {"iacucProtocolStudyCustomDataId": "(val)","iacucProtocolStudyGroupId": "(val)","procedureCustomAttributeId": "(val)","value": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Protocol Study Custom Data with Filtering [GET /research-sys/api/v1/iacuc-protocol-study-custom-data/]
+### Get All Iacuc Protocol Study Custom Data with Filtering [GET /iacuc/api/v1/iacuc-protocol-study-custom-data/]
     
 + Parameters
 
-        + iacucProtocolStudyCustomDataId
-            + iacucProtocolStudyGroupId
-            + procedureCustomAttributeId
-            + value
+    + iacucProtocolStudyCustomDataId (optional) - IACUC Protocol Study Custom Data Id. Maximum length is 22.
+    + iacucProtocolStudyGroupId (optional) - Protocol Study Group Id. Maximum length is 22.
+    + procedureCustomAttributeId (optional) - Custom Attribute Id. Maximum length is 22.
+    + value (optional) - Value. Maximum length is 2000.
 
             
 + Request
@@ -68,7 +68,7 @@
               {"iacucProtocolStudyCustomDataId": "(val)","iacucProtocolStudyGroupId": "(val)","procedureCustomAttributeId": "(val)","value": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Protocol Study Custom Data [GET /research-sys/api/v1/iacuc-protocol-study-custom-data/]
+### Get Schema for Iacuc Protocol Study Custom Data [GET /iacuc/api/v1/iacuc-protocol-study-custom-data/]
 	                                          
 + Parameters
 
@@ -90,7 +90,7 @@
     
             {"columns":["iacucProtocolStudyCustomDataId","iacucProtocolStudyGroupId","procedureCustomAttributeId","value"],"primaryKey":"iacucProtocolStudyCustomDataId"}
 		
-### Get Blueprint API specification for Iacuc Protocol Study Custom Data [GET /research-sys/api/v1/iacuc-protocol-study-custom-data/]
+### Get Blueprint API specification for Iacuc Protocol Study Custom Data [GET /iacuc/api/v1/iacuc-protocol-study-custom-data/]
 	 
 + Parameters
 
@@ -111,7 +111,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Protocol Study Custom Data [PUT /research-sys/api/v1/iacuc-protocol-study-custom-data/(key)]
+### Update Iacuc Protocol Study Custom Data [PUT /iacuc/api/v1/iacuc-protocol-study-custom-data/(key)]
 
 + Request
 
@@ -126,7 +126,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Protocol Study Custom Data [PUT /research-sys/api/v1/iacuc-protocol-study-custom-data/]
+### Update Multiple Iacuc Protocol Study Custom Data [PUT /iacuc/api/v1/iacuc-protocol-study-custom-data/]
 
 + Request
 
@@ -144,7 +144,7 @@
 			
 + Response 204
 
-### Insert Iacuc Protocol Study Custom Data [POST /research-sys/api/v1/iacuc-protocol-study-custom-data/]
+### Insert Iacuc Protocol Study Custom Data [POST /iacuc/api/v1/iacuc-protocol-study-custom-data/]
 
 + Request
 
@@ -163,7 +163,7 @@
             
             {"iacucProtocolStudyCustomDataId": "(val)","iacucProtocolStudyGroupId": "(val)","procedureCustomAttributeId": "(val)","value": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Protocol Study Custom Data [POST /research-sys/api/v1/iacuc-protocol-study-custom-data/]
+### Insert Multiple Iacuc Protocol Study Custom Data [POST /iacuc/api/v1/iacuc-protocol-study-custom-data/]
 
 + Request
 
@@ -188,7 +188,7 @@
               {"iacucProtocolStudyCustomDataId": "(val)","iacucProtocolStudyGroupId": "(val)","procedureCustomAttributeId": "(val)","value": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Protocol Study Custom Data by Key [DELETE /research-sys/api/v1/iacuc-protocol-study-custom-data/(key)]
+### Delete Iacuc Protocol Study Custom Data by Key [DELETE /iacuc/api/v1/iacuc-protocol-study-custom-data/(key)]
 	 
 + Request
 
@@ -199,7 +199,7 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Study Custom Data [DELETE /research-sys/api/v1/iacuc-protocol-study-custom-data/]
+### Delete All Iacuc Protocol Study Custom Data [DELETE /iacuc/api/v1/iacuc-protocol-study-custom-data/]
 
 + Parameters
 
@@ -214,15 +214,15 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Study Custom Data with Matching [DELETE /research-sys/api/v1/iacuc-protocol-study-custom-data/]
+### Delete All Iacuc Protocol Study Custom Data with Matching [DELETE /iacuc/api/v1/iacuc-protocol-study-custom-data/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + iacucProtocolStudyCustomDataId
-            + iacucProtocolStudyGroupId
-            + procedureCustomAttributeId
-            + value
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + iacucProtocolStudyCustomDataId (optional) - IACUC Protocol Study Custom Data Id. Maximum length is 22.
+    + iacucProtocolStudyGroupId (optional) - Protocol Study Group Id. Maximum length is 22.
+    + procedureCustomAttributeId (optional) - Custom Attribute Id. Maximum length is 22.
+    + value (optional) - Value. Maximum length is 2000.
 
       
 + Request

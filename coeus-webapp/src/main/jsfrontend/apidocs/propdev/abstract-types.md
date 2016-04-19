@@ -1,6 +1,6 @@
-## Abstract Types [/research-sys/api/v1/abstract-types/]
+## Abstract Types [/propdev/api/v1/abstract-types/]
 
-### Get Abstract Types by Key [GET /research-sys/api/v1/abstract-types/(key)]
+### Get Abstract Types by Key [GET /propdev/api/v1/abstract-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Abstract Types [GET /research-sys/api/v1/abstract-types/]
+### Get All Abstract Types [GET /propdev/api/v1/abstract-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Abstract Types with Filtering [GET /research-sys/api/v1/abstract-types/]
+### Get All Abstract Types with Filtering [GET /propdev/api/v1/abstract-types/]
     
 + Parameters
 
-        + code
-            + description
+    + code (optional) - Abstract Type. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Abstract Types [GET /research-sys/api/v1/abstract-types/]
+### Get Schema for Abstract Types [GET /propdev/api/v1/abstract-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["code","description"],"primaryKey":"code"}
 		
-### Get Blueprint API specification for Abstract Types [GET /research-sys/api/v1/abstract-types/]
+### Get Blueprint API specification for Abstract Types [GET /propdev/api/v1/abstract-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Abstract Types [PUT /research-sys/api/v1/abstract-types/(key)]
+### Update Abstract Types [PUT /propdev/api/v1/abstract-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Abstract Types [PUT /research-sys/api/v1/abstract-types/]
+### Update Multiple Abstract Types [PUT /propdev/api/v1/abstract-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Abstract Types [POST /research-sys/api/v1/abstract-types/]
+### Insert Abstract Types [POST /propdev/api/v1/abstract-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Abstract Types [POST /research-sys/api/v1/abstract-types/]
+### Insert Multiple Abstract Types [POST /propdev/api/v1/abstract-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Abstract Types by Key [DELETE /research-sys/api/v1/abstract-types/(key)]
+### Delete Abstract Types by Key [DELETE /propdev/api/v1/abstract-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Abstract Types [DELETE /research-sys/api/v1/abstract-types/]
+### Delete All Abstract Types [DELETE /propdev/api/v1/abstract-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Abstract Types with Matching [DELETE /research-sys/api/v1/abstract-types/]
+### Delete All Abstract Types with Matching [DELETE /propdev/api/v1/abstract-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + code
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + code (optional) - Abstract Type. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

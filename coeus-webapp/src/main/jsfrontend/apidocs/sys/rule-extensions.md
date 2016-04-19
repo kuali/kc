@@ -43,9 +43,9 @@
     
 + Parameters
 
-        + ruleExtensionId
-            + ruleTemplateAttributeId
-            + ruleBaseValuesId
+    + ruleExtensionId (optional) - 
+    + ruleTemplateAttributeId (optional) - 
+    + ruleBaseValuesId (optional) - 
 
             
 + Request
@@ -217,10 +217,10 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + ruleExtensionId
-            + ruleTemplateAttributeId
-            + ruleBaseValuesId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + ruleExtensionId (optional) - 
+    + ruleTemplateAttributeId (optional) - 
+    + ruleBaseValuesId (optional) - 
 
       
 + Request

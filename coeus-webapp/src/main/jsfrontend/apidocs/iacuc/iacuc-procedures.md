@@ -1,6 +1,6 @@
-## Iacuc Procedures [/research-sys/api/v1/iacuc-procedures/]
+## Iacuc Procedures [/iacuc/api/v1/iacuc-procedures/]
 
-### Get Iacuc Procedures by Key [GET /research-sys/api/v1/iacuc-procedures/(key)]
+### Get Iacuc Procedures by Key [GET /iacuc/api/v1/iacuc-procedures/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"procedureCode": "(val)","procedureDescription": "(val)","procedureCategoryCode": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Procedures [GET /research-sys/api/v1/iacuc-procedures/]
+### Get All Iacuc Procedures [GET /iacuc/api/v1/iacuc-procedures/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"procedureCode": "(val)","procedureDescription": "(val)","procedureCategoryCode": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Procedures with Filtering [GET /research-sys/api/v1/iacuc-procedures/]
+### Get All Iacuc Procedures with Filtering [GET /iacuc/api/v1/iacuc-procedures/]
     
 + Parameters
 
-        + procedureCode
-            + procedureDescription
-            + procedureCategoryCode
+    + procedureCode (optional) - Procedure Code. Maximum length is 3.
+    + procedureDescription (optional) - Procedure Description. Maximum length is 2000.
+    + procedureCategoryCode (optional) - Procedure Category Code. Maximum length is 3.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"procedureCode": "(val)","procedureDescription": "(val)","procedureCategoryCode": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Procedures [GET /research-sys/api/v1/iacuc-procedures/]
+### Get Schema for Iacuc Procedures [GET /iacuc/api/v1/iacuc-procedures/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["procedureCode","procedureDescription","procedureCategoryCode"],"primaryKey":"procedureCode"}
 		
-### Get Blueprint API specification for Iacuc Procedures [GET /research-sys/api/v1/iacuc-procedures/]
+### Get Blueprint API specification for Iacuc Procedures [GET /iacuc/api/v1/iacuc-procedures/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Procedures [PUT /research-sys/api/v1/iacuc-procedures/(key)]
+### Update Iacuc Procedures [PUT /iacuc/api/v1/iacuc-procedures/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Procedures [PUT /research-sys/api/v1/iacuc-procedures/]
+### Update Multiple Iacuc Procedures [PUT /iacuc/api/v1/iacuc-procedures/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Iacuc Procedures [POST /research-sys/api/v1/iacuc-procedures/]
+### Insert Iacuc Procedures [POST /iacuc/api/v1/iacuc-procedures/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"procedureCode": "(val)","procedureDescription": "(val)","procedureCategoryCode": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Procedures [POST /research-sys/api/v1/iacuc-procedures/]
+### Insert Multiple Iacuc Procedures [POST /iacuc/api/v1/iacuc-procedures/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"procedureCode": "(val)","procedureDescription": "(val)","procedureCategoryCode": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Procedures by Key [DELETE /research-sys/api/v1/iacuc-procedures/(key)]
+### Delete Iacuc Procedures by Key [DELETE /iacuc/api/v1/iacuc-procedures/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Iacuc Procedures [DELETE /research-sys/api/v1/iacuc-procedures/]
+### Delete All Iacuc Procedures [DELETE /iacuc/api/v1/iacuc-procedures/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Iacuc Procedures with Matching [DELETE /research-sys/api/v1/iacuc-procedures/]
+### Delete All Iacuc Procedures with Matching [DELETE /iacuc/api/v1/iacuc-procedures/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + procedureCode
-            + procedureDescription
-            + procedureCategoryCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + procedureCode (optional) - Procedure Code. Maximum length is 3.
+    + procedureDescription (optional) - Procedure Description. Maximum length is 2000.
+    + procedureCategoryCode (optional) - Procedure Category Code. Maximum length is 3.
 
       
 + Request

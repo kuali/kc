@@ -1,6 +1,6 @@
-## Coeus Sub Modules [/research-sys/api/v1/coeus-sub-modules/]
+## Coeus Sub Modules [/research-common/api/v1/coeus-sub-modules/]
 
-### Get Coeus Sub Modules by Key [GET /research-sys/api/v1/coeus-sub-modules/(key)]
+### Get Coeus Sub Modules by Key [GET /research-common/api/v1/coeus-sub-modules/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"coeusSubModuleId": "(val)","moduleCode": "(val)","subModuleCode": "(val)","description": "(val)","requireUniqueQuestionnareUsage": "(val)","_primaryKey": "(val)"}
 
-### Get All Coeus Sub Modules [GET /research-sys/api/v1/coeus-sub-modules/]
+### Get All Coeus Sub Modules [GET /research-common/api/v1/coeus-sub-modules/]
 	 
 + Request
 
@@ -39,15 +39,15 @@
               {"coeusSubModuleId": "(val)","moduleCode": "(val)","subModuleCode": "(val)","description": "(val)","requireUniqueQuestionnareUsage": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Coeus Sub Modules with Filtering [GET /research-sys/api/v1/coeus-sub-modules/]
+### Get All Coeus Sub Modules with Filtering [GET /research-common/api/v1/coeus-sub-modules/]
     
 + Parameters
 
-        + coeusSubModuleId
-            + moduleCode
-            + subModuleCode
-            + description
-            + requireUniqueQuestionnareUsage
+    + coeusSubModuleId (optional) - Coeus Sub Module Id. Maximum length is 12.
+    + moduleCode (optional) - Module Code. Maximum length is 3.
+    + subModuleCode (optional) - Sub Module Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + requireUniqueQuestionnareUsage (optional) - 
 
             
 + Request
@@ -69,7 +69,7 @@
               {"coeusSubModuleId": "(val)","moduleCode": "(val)","subModuleCode": "(val)","description": "(val)","requireUniqueQuestionnareUsage": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Coeus Sub Modules [GET /research-sys/api/v1/coeus-sub-modules/]
+### Get Schema for Coeus Sub Modules [GET /research-common/api/v1/coeus-sub-modules/]
 	                                          
 + Parameters
 
@@ -91,7 +91,7 @@
     
             {"columns":["coeusSubModuleId","moduleCode","subModuleCode","description","requireUniqueQuestionnareUsage"],"primaryKey":"coeusSubModuleId"}
 		
-### Get Blueprint API specification for Coeus Sub Modules [GET /research-sys/api/v1/coeus-sub-modules/]
+### Get Blueprint API specification for Coeus Sub Modules [GET /research-common/api/v1/coeus-sub-modules/]
 	 
 + Parameters
 
@@ -112,7 +112,7 @@
             transfer-encoding:chunked
 
 
-### Update Coeus Sub Modules [PUT /research-sys/api/v1/coeus-sub-modules/(key)]
+### Update Coeus Sub Modules [PUT /research-common/api/v1/coeus-sub-modules/(key)]
 
 + Request
 
@@ -127,7 +127,7 @@
 			
 + Response 204
 
-### Update Multiple Coeus Sub Modules [PUT /research-sys/api/v1/coeus-sub-modules/]
+### Update Multiple Coeus Sub Modules [PUT /research-common/api/v1/coeus-sub-modules/]
 
 + Request
 
@@ -145,7 +145,7 @@
 			
 + Response 204
 
-### Insert Coeus Sub Modules [POST /research-sys/api/v1/coeus-sub-modules/]
+### Insert Coeus Sub Modules [POST /research-common/api/v1/coeus-sub-modules/]
 
 + Request
 
@@ -164,7 +164,7 @@
             
             {"coeusSubModuleId": "(val)","moduleCode": "(val)","subModuleCode": "(val)","description": "(val)","requireUniqueQuestionnareUsage": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Coeus Sub Modules [POST /research-sys/api/v1/coeus-sub-modules/]
+### Insert Multiple Coeus Sub Modules [POST /research-common/api/v1/coeus-sub-modules/]
 
 + Request
 
@@ -189,7 +189,7 @@
               {"coeusSubModuleId": "(val)","moduleCode": "(val)","subModuleCode": "(val)","description": "(val)","requireUniqueQuestionnareUsage": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Coeus Sub Modules by Key [DELETE /research-sys/api/v1/coeus-sub-modules/(key)]
+### Delete Coeus Sub Modules by Key [DELETE /research-common/api/v1/coeus-sub-modules/(key)]
 	 
 + Request
 
@@ -200,7 +200,7 @@
 
 + Response 204
 
-### Delete All Coeus Sub Modules [DELETE /research-sys/api/v1/coeus-sub-modules/]
+### Delete All Coeus Sub Modules [DELETE /research-common/api/v1/coeus-sub-modules/]
 
 + Parameters
 
@@ -215,16 +215,16 @@
 
 + Response 204
 
-### Delete All Coeus Sub Modules with Matching [DELETE /research-sys/api/v1/coeus-sub-modules/]
+### Delete All Coeus Sub Modules with Matching [DELETE /research-common/api/v1/coeus-sub-modules/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + coeusSubModuleId
-            + moduleCode
-            + subModuleCode
-            + description
-            + requireUniqueQuestionnareUsage
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + coeusSubModuleId (optional) - Coeus Sub Module Id. Maximum length is 12.
+    + moduleCode (optional) - Module Code. Maximum length is 3.
+    + subModuleCode (optional) - Sub Module Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + requireUniqueQuestionnareUsage (optional) - 
 
       
 + Request

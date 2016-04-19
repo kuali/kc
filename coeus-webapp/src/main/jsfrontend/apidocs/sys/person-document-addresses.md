@@ -43,25 +43,25 @@
     
 + Parameters
 
-        + entityAddressId
-            + addressTypeCode
-            + city
-            + stateProvinceCode
-            + postalCode
-            + countryCode
-            + attentionLine
-            + line1
-            + line2
-            + line3
-            + addressFormat
-            + modifiedDate
-            + validatedDate
-            + validated
-            + noteMessage
-            + dflt
-            + edit
-            + documentNumber
-            + active
+    + entityAddressId (optional) - Entity Address Id.
+    + addressTypeCode (optional) - Address Type. Maximum length is 40.
+    + city (optional) - City. Maximum length is 30.
+    + stateProvinceCode (optional) - State/Province. Maximum length is 2.
+    + postalCode (optional) - Postal Code. Maximum length is 20.
+    + countryCode (optional) - Country. Maximum length is 2.
+    + attentionLine (optional) - Attention Line.
+    + line1 (optional) - Line 1. Maximum length is 128.
+    + line2 (optional) - Line 2. Maximum length is 128.
+    + line3 (optional) - Line 3. Maximum length is 128.
+    + addressFormat (optional) - Address Format.
+    + modifiedDate (optional) - Modified Date.
+    + validatedDate (optional) - Validated Date.
+    + validated (optional) - Validated.
+    + noteMessage (optional) - Note Message.
+    + dflt (optional) - Default. Maximum length is 1.
+    + edit (optional) - Edit.
+    + documentNumber (optional) - Document Number.
+    + active (optional) - Active. Maximum length is 1.
 
             
 + Request
@@ -233,26 +233,26 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + entityAddressId
-            + addressTypeCode
-            + city
-            + stateProvinceCode
-            + postalCode
-            + countryCode
-            + attentionLine
-            + line1
-            + line2
-            + line3
-            + addressFormat
-            + modifiedDate
-            + validatedDate
-            + validated
-            + noteMessage
-            + dflt
-            + edit
-            + documentNumber
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + entityAddressId (optional) - Entity Address Id.
+    + addressTypeCode (optional) - Address Type. Maximum length is 40.
+    + city (optional) - City. Maximum length is 30.
+    + stateProvinceCode (optional) - State/Province. Maximum length is 2.
+    + postalCode (optional) - Postal Code. Maximum length is 20.
+    + countryCode (optional) - Country. Maximum length is 2.
+    + attentionLine (optional) - Attention Line.
+    + line1 (optional) - Line 1. Maximum length is 128.
+    + line2 (optional) - Line 2. Maximum length is 128.
+    + line3 (optional) - Line 3. Maximum length is 128.
+    + addressFormat (optional) - Address Format.
+    + modifiedDate (optional) - Modified Date.
+    + validatedDate (optional) - Validated Date.
+    + validated (optional) - Validated.
+    + noteMessage (optional) - Note Message.
+    + dflt (optional) - Default. Maximum length is 1.
+    + edit (optional) - Edit.
+    + documentNumber (optional) - Document Number.
+    + active (optional) - Active. Maximum length is 1.
 
       
 + Request

@@ -1,6 +1,6 @@
-## Sponsor Types [/research-sys/api/v1/sponsor-types/]
+## Sponsor Types [/research-common/api/v1/sponsor-types/]
 
-### Get Sponsor Types by Key [GET /research-sys/api/v1/sponsor-types/(key)]
+### Get Sponsor Types by Key [GET /research-common/api/v1/sponsor-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Sponsor Types [GET /research-sys/api/v1/sponsor-types/]
+### Get All Sponsor Types [GET /research-common/api/v1/sponsor-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Sponsor Types with Filtering [GET /research-sys/api/v1/sponsor-types/]
+### Get All Sponsor Types with Filtering [GET /research-common/api/v1/sponsor-types/]
     
 + Parameters
 
-        + code
-            + description
+    + code (optional) - Sponsor Type. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 100.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Sponsor Types [GET /research-sys/api/v1/sponsor-types/]
+### Get Schema for Sponsor Types [GET /research-common/api/v1/sponsor-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["code","description"],"primaryKey":"code"}
 		
-### Get Blueprint API specification for Sponsor Types [GET /research-sys/api/v1/sponsor-types/]
+### Get Blueprint API specification for Sponsor Types [GET /research-common/api/v1/sponsor-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Sponsor Types [PUT /research-sys/api/v1/sponsor-types/(key)]
+### Update Sponsor Types [PUT /research-common/api/v1/sponsor-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Sponsor Types [PUT /research-sys/api/v1/sponsor-types/]
+### Update Multiple Sponsor Types [PUT /research-common/api/v1/sponsor-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Sponsor Types [POST /research-sys/api/v1/sponsor-types/]
+### Insert Sponsor Types [POST /research-common/api/v1/sponsor-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Sponsor Types [POST /research-sys/api/v1/sponsor-types/]
+### Insert Multiple Sponsor Types [POST /research-common/api/v1/sponsor-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Sponsor Types by Key [DELETE /research-sys/api/v1/sponsor-types/(key)]
+### Delete Sponsor Types by Key [DELETE /research-common/api/v1/sponsor-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Sponsor Types [DELETE /research-sys/api/v1/sponsor-types/]
+### Delete All Sponsor Types [DELETE /research-common/api/v1/sponsor-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Sponsor Types with Matching [DELETE /research-sys/api/v1/sponsor-types/]
+### Delete All Sponsor Types with Matching [DELETE /research-common/api/v1/sponsor-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + code
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + code (optional) - Sponsor Type. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 100.
 
       
 + Request

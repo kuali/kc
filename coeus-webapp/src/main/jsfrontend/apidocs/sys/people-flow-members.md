@@ -43,13 +43,13 @@
     
 + Parameters
 
-        + id
-            + memberId
-            + memberTypeCode
-            + actionRequestPolicyCode
-            + responsibilityId
-            + priority
-            + forceAction
+    + id (optional) - Id.
+    + memberId (optional) - Member id for the map stop. Maximum length is 40.
+    + memberTypeCode (optional) - Type of the member the stop will go to. Maximum length is 1.
+    + actionRequestPolicyCode (optional) - For role members determines whether all members must take action or just the first.
+    + responsibilityId (optional) - Responsibility Id.
+    + priority (optional) - Stop number that the member should receive the request.
+    + forceAction (optional) - Specifies whether requests for this member must be acted on even if they have already taken that action in the workflow.
 
             
 + Request
@@ -221,14 +221,14 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + memberId
-            + memberTypeCode
-            + actionRequestPolicyCode
-            + responsibilityId
-            + priority
-            + forceAction
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Id.
+    + memberId (optional) - Member id for the map stop. Maximum length is 40.
+    + memberTypeCode (optional) - Type of the member the stop will go to. Maximum length is 1.
+    + actionRequestPolicyCode (optional) - For role members determines whether all members must take action or just the first.
+    + responsibilityId (optional) - Responsibility Id.
+    + priority (optional) - Stop number that the member should receive the request.
+    + forceAction (optional) - Specifies whether requests for this member must be acted on even if they have already taken that action in the workflow.
 
       
 + Request

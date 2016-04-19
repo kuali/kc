@@ -1,6 +1,6 @@
-## Iacuc Batch Correspondence Details [/research-sys/api/v1/iacuc-batch-correspondence-details/]
+## Iacuc Batch Correspondence Details [/iacuc/api/v1/iacuc-batch-correspondence-details/]
 
-### Get Iacuc Batch Correspondence Details by Key [GET /research-sys/api/v1/iacuc-batch-correspondence-details/(key)]
+### Get Iacuc Batch Correspondence Details by Key [GET /iacuc/api/v1/iacuc-batch-correspondence-details/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"batchCorrespondenceDetailId": "(val)","batchCorrespondenceTypeCode": "(val)","protoCorrespTypeCode": "(val)","daysToEvent": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Batch Correspondence Details [GET /research-sys/api/v1/iacuc-batch-correspondence-details/]
+### Get All Iacuc Batch Correspondence Details [GET /iacuc/api/v1/iacuc-batch-correspondence-details/]
 	 
 + Request
 
@@ -39,14 +39,14 @@
               {"batchCorrespondenceDetailId": "(val)","batchCorrespondenceTypeCode": "(val)","protoCorrespTypeCode": "(val)","daysToEvent": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Batch Correspondence Details with Filtering [GET /research-sys/api/v1/iacuc-batch-correspondence-details/]
+### Get All Iacuc Batch Correspondence Details with Filtering [GET /iacuc/api/v1/iacuc-batch-correspondence-details/]
     
 + Parameters
 
-        + batchCorrespondenceDetailId
-            + batchCorrespondenceTypeCode
-            + protoCorrespTypeCode
-            + daysToEvent
+    + batchCorrespondenceDetailId (optional) - Batch Corresponcence Detail Id. Maximum length is 12.
+    + batchCorrespondenceTypeCode (optional) - Batch Corresponcence Type Code. Maximum length is 3.
+    + protoCorrespTypeCode (optional) - Protocol Correspondence Type Code. Maximum length is 3.
+    + daysToEvent (optional) - The days before/after the event. Maximum length is 3.
 
             
 + Request
@@ -68,7 +68,7 @@
               {"batchCorrespondenceDetailId": "(val)","batchCorrespondenceTypeCode": "(val)","protoCorrespTypeCode": "(val)","daysToEvent": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Batch Correspondence Details [GET /research-sys/api/v1/iacuc-batch-correspondence-details/]
+### Get Schema for Iacuc Batch Correspondence Details [GET /iacuc/api/v1/iacuc-batch-correspondence-details/]
 	                                          
 + Parameters
 
@@ -90,7 +90,7 @@
     
             {"columns":["batchCorrespondenceDetailId","batchCorrespondenceTypeCode","protoCorrespTypeCode","daysToEvent"],"primaryKey":"batchCorrespondenceDetailId"}
 		
-### Get Blueprint API specification for Iacuc Batch Correspondence Details [GET /research-sys/api/v1/iacuc-batch-correspondence-details/]
+### Get Blueprint API specification for Iacuc Batch Correspondence Details [GET /iacuc/api/v1/iacuc-batch-correspondence-details/]
 	 
 + Parameters
 
@@ -111,7 +111,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Batch Correspondence Details [PUT /research-sys/api/v1/iacuc-batch-correspondence-details/(key)]
+### Update Iacuc Batch Correspondence Details [PUT /iacuc/api/v1/iacuc-batch-correspondence-details/(key)]
 
 + Request
 
@@ -126,7 +126,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Batch Correspondence Details [PUT /research-sys/api/v1/iacuc-batch-correspondence-details/]
+### Update Multiple Iacuc Batch Correspondence Details [PUT /iacuc/api/v1/iacuc-batch-correspondence-details/]
 
 + Request
 
@@ -144,7 +144,7 @@
 			
 + Response 204
 
-### Insert Iacuc Batch Correspondence Details [POST /research-sys/api/v1/iacuc-batch-correspondence-details/]
+### Insert Iacuc Batch Correspondence Details [POST /iacuc/api/v1/iacuc-batch-correspondence-details/]
 
 + Request
 
@@ -163,7 +163,7 @@
             
             {"batchCorrespondenceDetailId": "(val)","batchCorrespondenceTypeCode": "(val)","protoCorrespTypeCode": "(val)","daysToEvent": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Batch Correspondence Details [POST /research-sys/api/v1/iacuc-batch-correspondence-details/]
+### Insert Multiple Iacuc Batch Correspondence Details [POST /iacuc/api/v1/iacuc-batch-correspondence-details/]
 
 + Request
 
@@ -188,7 +188,7 @@
               {"batchCorrespondenceDetailId": "(val)","batchCorrespondenceTypeCode": "(val)","protoCorrespTypeCode": "(val)","daysToEvent": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Batch Correspondence Details by Key [DELETE /research-sys/api/v1/iacuc-batch-correspondence-details/(key)]
+### Delete Iacuc Batch Correspondence Details by Key [DELETE /iacuc/api/v1/iacuc-batch-correspondence-details/(key)]
 	 
 + Request
 
@@ -199,7 +199,7 @@
 
 + Response 204
 
-### Delete All Iacuc Batch Correspondence Details [DELETE /research-sys/api/v1/iacuc-batch-correspondence-details/]
+### Delete All Iacuc Batch Correspondence Details [DELETE /iacuc/api/v1/iacuc-batch-correspondence-details/]
 
 + Parameters
 
@@ -214,15 +214,15 @@
 
 + Response 204
 
-### Delete All Iacuc Batch Correspondence Details with Matching [DELETE /research-sys/api/v1/iacuc-batch-correspondence-details/]
+### Delete All Iacuc Batch Correspondence Details with Matching [DELETE /iacuc/api/v1/iacuc-batch-correspondence-details/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + batchCorrespondenceDetailId
-            + batchCorrespondenceTypeCode
-            + protoCorrespTypeCode
-            + daysToEvent
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + batchCorrespondenceDetailId (optional) - Batch Corresponcence Detail Id. Maximum length is 12.
+    + batchCorrespondenceTypeCode (optional) - Batch Corresponcence Type Code. Maximum length is 3.
+    + protoCorrespTypeCode (optional) - Protocol Correspondence Type Code. Maximum length is 3.
+    + daysToEvent (optional) - The days before/after the event. Maximum length is 3.
 
       
 + Request

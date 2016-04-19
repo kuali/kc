@@ -1,6 +1,6 @@
-## Iacuc Organization Correspondents [/research-sys/api/v1/iacuc-organization-correspondents/]
+## Iacuc Organization Correspondents [/iacuc/api/v1/iacuc-organization-correspondents/]
 
-### Get Iacuc Organization Correspondents by Key [GET /research-sys/api/v1/iacuc-organization-correspondents/(key)]
+### Get Iacuc Organization Correspondents by Key [GET /iacuc/api/v1/iacuc-organization-correspondents/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"correspondentId": "(val)","organizationId": "(val)","correspondentTypeCode": "(val)","personId": "(val)","nonEmployeeFlag": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Organization Correspondents [GET /research-sys/api/v1/iacuc-organization-correspondents/]
+### Get All Iacuc Organization Correspondents [GET /iacuc/api/v1/iacuc-organization-correspondents/]
 	 
 + Request
 
@@ -39,16 +39,16 @@
               {"correspondentId": "(val)","organizationId": "(val)","correspondentTypeCode": "(val)","personId": "(val)","nonEmployeeFlag": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Organization Correspondents with Filtering [GET /research-sys/api/v1/iacuc-organization-correspondents/]
+### Get All Iacuc Organization Correspondents with Filtering [GET /iacuc/api/v1/iacuc-organization-correspondents/]
     
 + Parameters
 
-        + correspondentId
-            + organizationId
-            + correspondentTypeCode
-            + personId
-            + nonEmployeeFlag
-            + description
+    + correspondentId (optional) - 
+    + organizationId (optional) - Organization Id. Maximum length is 8.
+    + correspondentTypeCode (optional) - Correspondent Type Code. Maximum length is 22.
+    + personId (optional) - This is a generic implementation of a 'SystemId' attribute. It should always be overriden on the label, shortLabel, summary, and description, as these are only generic placeholders. Maximum length is 40.
+    + nonEmployeeFlag (optional) - Non Employee Flag. Maximum length is 1.
+    + description (optional) - Description. Maximum length is 2000.
 
             
 + Request
@@ -70,7 +70,7 @@
               {"correspondentId": "(val)","organizationId": "(val)","correspondentTypeCode": "(val)","personId": "(val)","nonEmployeeFlag": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Organization Correspondents [GET /research-sys/api/v1/iacuc-organization-correspondents/]
+### Get Schema for Iacuc Organization Correspondents [GET /iacuc/api/v1/iacuc-organization-correspondents/]
 	                                          
 + Parameters
 
@@ -92,7 +92,7 @@
     
             {"columns":["correspondentId","organizationId","correspondentTypeCode","personId","nonEmployeeFlag","description"],"primaryKey":"correspondentId"}
 		
-### Get Blueprint API specification for Iacuc Organization Correspondents [GET /research-sys/api/v1/iacuc-organization-correspondents/]
+### Get Blueprint API specification for Iacuc Organization Correspondents [GET /iacuc/api/v1/iacuc-organization-correspondents/]
 	 
 + Parameters
 
@@ -113,7 +113,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Organization Correspondents [PUT /research-sys/api/v1/iacuc-organization-correspondents/(key)]
+### Update Iacuc Organization Correspondents [PUT /iacuc/api/v1/iacuc-organization-correspondents/(key)]
 
 + Request
 
@@ -128,7 +128,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Organization Correspondents [PUT /research-sys/api/v1/iacuc-organization-correspondents/]
+### Update Multiple Iacuc Organization Correspondents [PUT /iacuc/api/v1/iacuc-organization-correspondents/]
 
 + Request
 
@@ -146,7 +146,7 @@
 			
 + Response 204
 
-### Insert Iacuc Organization Correspondents [POST /research-sys/api/v1/iacuc-organization-correspondents/]
+### Insert Iacuc Organization Correspondents [POST /iacuc/api/v1/iacuc-organization-correspondents/]
 
 + Request
 
@@ -165,7 +165,7 @@
             
             {"correspondentId": "(val)","organizationId": "(val)","correspondentTypeCode": "(val)","personId": "(val)","nonEmployeeFlag": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Organization Correspondents [POST /research-sys/api/v1/iacuc-organization-correspondents/]
+### Insert Multiple Iacuc Organization Correspondents [POST /iacuc/api/v1/iacuc-organization-correspondents/]
 
 + Request
 
@@ -190,7 +190,7 @@
               {"correspondentId": "(val)","organizationId": "(val)","correspondentTypeCode": "(val)","personId": "(val)","nonEmployeeFlag": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Organization Correspondents by Key [DELETE /research-sys/api/v1/iacuc-organization-correspondents/(key)]
+### Delete Iacuc Organization Correspondents by Key [DELETE /iacuc/api/v1/iacuc-organization-correspondents/(key)]
 	 
 + Request
 
@@ -201,7 +201,7 @@
 
 + Response 204
 
-### Delete All Iacuc Organization Correspondents [DELETE /research-sys/api/v1/iacuc-organization-correspondents/]
+### Delete All Iacuc Organization Correspondents [DELETE /iacuc/api/v1/iacuc-organization-correspondents/]
 
 + Parameters
 
@@ -216,17 +216,17 @@
 
 + Response 204
 
-### Delete All Iacuc Organization Correspondents with Matching [DELETE /research-sys/api/v1/iacuc-organization-correspondents/]
+### Delete All Iacuc Organization Correspondents with Matching [DELETE /iacuc/api/v1/iacuc-organization-correspondents/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + correspondentId
-            + organizationId
-            + correspondentTypeCode
-            + personId
-            + nonEmployeeFlag
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + correspondentId (optional) - 
+    + organizationId (optional) - Organization Id. Maximum length is 8.
+    + correspondentTypeCode (optional) - Correspondent Type Code. Maximum length is 22.
+    + personId (optional) - This is a generic implementation of a 'SystemId' attribute. It should always be overriden on the label, shortLabel, summary, and description, as these are only generic placeholders. Maximum length is 40.
+    + nonEmployeeFlag (optional) - Non Employee Flag. Maximum length is 1.
+    + description (optional) - Description. Maximum length is 2000.
 
       
 + Request

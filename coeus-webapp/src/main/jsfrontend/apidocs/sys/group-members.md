@@ -43,12 +43,12 @@
     
 + Parameters
 
-        + id
-            + groupId
-            + activeFromDateValue
-            + activeToDateValue
-            + memberId
-            + typeCode
+    + id (optional) - 
+    + groupId (optional) - 
+    + activeFromDateValue (optional) - 
+    + activeToDateValue (optional) - 
+    + memberId (optional) - 
+    + typeCode (optional) - 
 
             
 + Request
@@ -220,13 +220,13 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + groupId
-            + activeFromDateValue
-            + activeToDateValue
-            + memberId
-            + typeCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - 
+    + groupId (optional) - 
+    + activeFromDateValue (optional) - 
+    + activeToDateValue (optional) - 
+    + memberId (optional) - 
+    + typeCode (optional) - 
 
       
 + Request

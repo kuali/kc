@@ -43,12 +43,12 @@
     
 + Parameters
 
-        + id
-            + name
-            + namespaceCode
-            + typeId
-            + description
-            + active
+    + id (optional) - Generated ID for the people flow definition. Maximum length is 40.
+    + name (optional) - Name for the people flow definition. Maximum length is 100.
+    + namespaceCode (optional) - Code identifying the namespace. Maximum length is 20.
+    + typeId (optional) - Type name for the people flow definition. Maximum length is 40.
+    + description (optional) - Description for the people flow definition. Maximum length is 4000.
+    + active (optional) - Active. Maximum length is 1.
 
             
 + Request
@@ -220,13 +220,13 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + name
-            + namespaceCode
-            + typeId
-            + description
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Generated ID for the people flow definition. Maximum length is 40.
+    + name (optional) - Name for the people flow definition. Maximum length is 100.
+    + namespaceCode (optional) - Code identifying the namespace. Maximum length is 20.
+    + typeId (optional) - Type name for the people flow definition. Maximum length is 40.
+    + description (optional) - Description for the people flow definition. Maximum length is 4000.
+    + active (optional) - Active. Maximum length is 1.
 
       
 + Request

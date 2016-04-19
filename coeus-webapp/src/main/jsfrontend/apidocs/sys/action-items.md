@@ -43,23 +43,23 @@
     
 + Parameters
 
-        + docHandlerURL
-            + groupId
-            + delegatorGroupId
-            + docLabel
-            + responsibilityId
-            + docTitle
-            + principalId
-            + delegatorPrincipalId
-            + actionRequestCd
-            + docName
-            + delegationType
-            + roleName
-            + documentId
-            + id
-            + requestLabel
-            + dateAssigned
-            + actionRequestId
+    + docHandlerURL (optional) - 
+    + groupId (optional) - 
+    + delegatorGroupId (optional) - 
+    + docLabel (optional) - 
+    + responsibilityId (optional) - 
+    + docTitle (optional) - 
+    + principalId (optional) - 
+    + delegatorPrincipalId (optional) - 
+    + actionRequestCd (optional) - 
+    + docName (optional) - 
+    + delegationType (optional) - 
+    + roleName (optional) - 
+    + documentId (optional) - 
+    + id (optional) - 
+    + requestLabel (optional) - 
+    + dateAssigned (optional) - 
+    + actionRequestId (optional) - 
 
             
 + Request
@@ -231,24 +231,24 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + docHandlerURL
-            + groupId
-            + delegatorGroupId
-            + docLabel
-            + responsibilityId
-            + docTitle
-            + principalId
-            + delegatorPrincipalId
-            + actionRequestCd
-            + docName
-            + delegationType
-            + roleName
-            + documentId
-            + id
-            + requestLabel
-            + dateAssigned
-            + actionRequestId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + docHandlerURL (optional) - 
+    + groupId (optional) - 
+    + delegatorGroupId (optional) - 
+    + docLabel (optional) - 
+    + responsibilityId (optional) - 
+    + docTitle (optional) - 
+    + principalId (optional) - 
+    + delegatorPrincipalId (optional) - 
+    + actionRequestCd (optional) - 
+    + docName (optional) - 
+    + delegationType (optional) - 
+    + roleName (optional) - 
+    + documentId (optional) - 
+    + id (optional) - 
+    + requestLabel (optional) - 
+    + dateAssigned (optional) - 
+    + actionRequestId (optional) - 
 
       
 + Request

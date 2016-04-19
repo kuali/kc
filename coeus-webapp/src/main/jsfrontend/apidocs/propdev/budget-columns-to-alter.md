@@ -1,6 +1,6 @@
-## Budget Columns To Alter [/research-sys/api/v1/budget-columns-to-alter/]
+## Budget Columns To Alter [/propdev/api/v1/budget-columns-to-alter/]
 
-### Get Budget Columns To Alter by Key [GET /research-sys/api/v1/budget-columns-to-alter/(key)]
+### Get Budget Columns To Alter by Key [GET /propdev/api/v1/budget-columns-to-alter/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"columnName": "(val)","columnLabel": "(val)","dataLength": "(val)","dataType": "(val)","hasLookup": "(val)","lookupClass": "(val)","lookupReturn": "(val)","_primaryKey": "(val)"}
 
-### Get All Budget Columns To Alter [GET /research-sys/api/v1/budget-columns-to-alter/]
+### Get All Budget Columns To Alter [GET /propdev/api/v1/budget-columns-to-alter/]
 	 
 + Request
 
@@ -39,17 +39,17 @@
               {"columnName": "(val)","columnLabel": "(val)","dataLength": "(val)","dataType": "(val)","hasLookup": "(val)","lookupClass": "(val)","lookupReturn": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Budget Columns To Alter with Filtering [GET /research-sys/api/v1/budget-columns-to-alter/]
+### Get All Budget Columns To Alter with Filtering [GET /propdev/api/v1/budget-columns-to-alter/]
     
 + Parameters
 
-        + columnName
-            + columnLabel
-            + dataLength
-            + dataType
-            + hasLookup
-            + lookupClass
-            + lookupReturn
+    + columnName (optional) - Column Name. Maximum length is 30.
+    + columnLabel (optional) - Column Label. Maximum length is 30.
+    + dataLength (optional) - Data Length. Maximum length is 4.
+    + dataType (optional) - Data Type. Maximum length is 9.
+    + hasLookup (optional) - Has Lookup. Maximum length is 1.
+    + lookupClass (optional) - Lookup Argument. Maximum length is 100.
+    + lookupReturn (optional) - Lookup Return. Maximum length is 50.
 
             
 + Request
@@ -71,7 +71,7 @@
               {"columnName": "(val)","columnLabel": "(val)","dataLength": "(val)","dataType": "(val)","hasLookup": "(val)","lookupClass": "(val)","lookupReturn": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Budget Columns To Alter [GET /research-sys/api/v1/budget-columns-to-alter/]
+### Get Schema for Budget Columns To Alter [GET /propdev/api/v1/budget-columns-to-alter/]
 	                                          
 + Parameters
 
@@ -93,7 +93,7 @@
     
             {"columns":["columnName","columnLabel","dataLength","dataType","hasLookup","lookupClass","lookupReturn"],"primaryKey":"columnName"}
 		
-### Get Blueprint API specification for Budget Columns To Alter [GET /research-sys/api/v1/budget-columns-to-alter/]
+### Get Blueprint API specification for Budget Columns To Alter [GET /propdev/api/v1/budget-columns-to-alter/]
 	 
 + Parameters
 
@@ -114,7 +114,7 @@
             transfer-encoding:chunked
 
 
-### Update Budget Columns To Alter [PUT /research-sys/api/v1/budget-columns-to-alter/(key)]
+### Update Budget Columns To Alter [PUT /propdev/api/v1/budget-columns-to-alter/(key)]
 
 + Request
 
@@ -129,7 +129,7 @@
 			
 + Response 204
 
-### Update Multiple Budget Columns To Alter [PUT /research-sys/api/v1/budget-columns-to-alter/]
+### Update Multiple Budget Columns To Alter [PUT /propdev/api/v1/budget-columns-to-alter/]
 
 + Request
 
@@ -147,7 +147,7 @@
 			
 + Response 204
 
-### Insert Budget Columns To Alter [POST /research-sys/api/v1/budget-columns-to-alter/]
+### Insert Budget Columns To Alter [POST /propdev/api/v1/budget-columns-to-alter/]
 
 + Request
 
@@ -166,7 +166,7 @@
             
             {"columnName": "(val)","columnLabel": "(val)","dataLength": "(val)","dataType": "(val)","hasLookup": "(val)","lookupClass": "(val)","lookupReturn": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Budget Columns To Alter [POST /research-sys/api/v1/budget-columns-to-alter/]
+### Insert Multiple Budget Columns To Alter [POST /propdev/api/v1/budget-columns-to-alter/]
 
 + Request
 
@@ -191,7 +191,7 @@
               {"columnName": "(val)","columnLabel": "(val)","dataLength": "(val)","dataType": "(val)","hasLookup": "(val)","lookupClass": "(val)","lookupReturn": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Budget Columns To Alter by Key [DELETE /research-sys/api/v1/budget-columns-to-alter/(key)]
+### Delete Budget Columns To Alter by Key [DELETE /propdev/api/v1/budget-columns-to-alter/(key)]
 	 
 + Request
 
@@ -202,7 +202,7 @@
 
 + Response 204
 
-### Delete All Budget Columns To Alter [DELETE /research-sys/api/v1/budget-columns-to-alter/]
+### Delete All Budget Columns To Alter [DELETE /propdev/api/v1/budget-columns-to-alter/]
 
 + Parameters
 
@@ -217,18 +217,18 @@
 
 + Response 204
 
-### Delete All Budget Columns To Alter with Matching [DELETE /research-sys/api/v1/budget-columns-to-alter/]
+### Delete All Budget Columns To Alter with Matching [DELETE /propdev/api/v1/budget-columns-to-alter/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + columnName
-            + columnLabel
-            + dataLength
-            + dataType
-            + hasLookup
-            + lookupClass
-            + lookupReturn
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + columnName (optional) - Column Name. Maximum length is 30.
+    + columnLabel (optional) - Column Label. Maximum length is 30.
+    + dataLength (optional) - Data Length. Maximum length is 4.
+    + dataType (optional) - Data Type. Maximum length is 9.
+    + hasLookup (optional) - Has Lookup. Maximum length is 1.
+    + lookupClass (optional) - Lookup Argument. Maximum length is 100.
+    + lookupReturn (optional) - Lookup Return. Maximum length is 50.
 
       
 + Request

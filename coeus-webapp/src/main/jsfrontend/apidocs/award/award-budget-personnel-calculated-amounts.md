@@ -1,6 +1,6 @@
-## Award Budget Personnel Calculated Amounts [/research-sys/api/v1/award-budget-personnel-calculated-amounts/]
+## Award Budget Personnel Calculated Amounts [/award/api/v1/award-budget-personnel-calculated-amounts/]
 
-### Get Award Budget Personnel Calculated Amounts by Key [GET /research-sys/api/v1/award-budget-personnel-calculated-amounts/(key)]
+### Get Award Budget Personnel Calculated Amounts by Key [GET /award/api/v1/award-budget-personnel-calculated-amounts/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"budgetPersonnelCalculatedAmountId": "(val)","obligatedAmount": "(val)","_primaryKey": "(val)"}
 
-### Get All Award Budget Personnel Calculated Amounts [GET /research-sys/api/v1/award-budget-personnel-calculated-amounts/]
+### Get All Award Budget Personnel Calculated Amounts [GET /award/api/v1/award-budget-personnel-calculated-amounts/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"budgetPersonnelCalculatedAmountId": "(val)","obligatedAmount": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Award Budget Personnel Calculated Amounts with Filtering [GET /research-sys/api/v1/award-budget-personnel-calculated-amounts/]
+### Get All Award Budget Personnel Calculated Amounts with Filtering [GET /award/api/v1/award-budget-personnel-calculated-amounts/]
     
 + Parameters
 
-        + budgetPersonnelCalculatedAmountId
-            + obligatedAmount
+    + budgetPersonnelCalculatedAmountId (optional) - Budget Id. Maximum length is 22.
+    + obligatedAmount (optional) - Obligated amount from award amount info. Maximum length is 15.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"budgetPersonnelCalculatedAmountId": "(val)","obligatedAmount": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Award Budget Personnel Calculated Amounts [GET /research-sys/api/v1/award-budget-personnel-calculated-amounts/]
+### Get Schema for Award Budget Personnel Calculated Amounts [GET /award/api/v1/award-budget-personnel-calculated-amounts/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["budgetPersonnelCalculatedAmountId","obligatedAmount"],"primaryKey":"budgetPersonnelCalculatedAmountId"}
 		
-### Get Blueprint API specification for Award Budget Personnel Calculated Amounts [GET /research-sys/api/v1/award-budget-personnel-calculated-amounts/]
+### Get Blueprint API specification for Award Budget Personnel Calculated Amounts [GET /award/api/v1/award-budget-personnel-calculated-amounts/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Award Budget Personnel Calculated Amounts [PUT /research-sys/api/v1/award-budget-personnel-calculated-amounts/(key)]
+### Update Award Budget Personnel Calculated Amounts [PUT /award/api/v1/award-budget-personnel-calculated-amounts/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Award Budget Personnel Calculated Amounts [PUT /research-sys/api/v1/award-budget-personnel-calculated-amounts/]
+### Update Multiple Award Budget Personnel Calculated Amounts [PUT /award/api/v1/award-budget-personnel-calculated-amounts/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Award Budget Personnel Calculated Amounts [POST /research-sys/api/v1/award-budget-personnel-calculated-amounts/]
+### Insert Award Budget Personnel Calculated Amounts [POST /award/api/v1/award-budget-personnel-calculated-amounts/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"budgetPersonnelCalculatedAmountId": "(val)","obligatedAmount": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Award Budget Personnel Calculated Amounts [POST /research-sys/api/v1/award-budget-personnel-calculated-amounts/]
+### Insert Multiple Award Budget Personnel Calculated Amounts [POST /award/api/v1/award-budget-personnel-calculated-amounts/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"budgetPersonnelCalculatedAmountId": "(val)","obligatedAmount": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Award Budget Personnel Calculated Amounts by Key [DELETE /research-sys/api/v1/award-budget-personnel-calculated-amounts/(key)]
+### Delete Award Budget Personnel Calculated Amounts by Key [DELETE /award/api/v1/award-budget-personnel-calculated-amounts/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Award Budget Personnel Calculated Amounts [DELETE /research-sys/api/v1/award-budget-personnel-calculated-amounts/]
+### Delete All Award Budget Personnel Calculated Amounts [DELETE /award/api/v1/award-budget-personnel-calculated-amounts/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Award Budget Personnel Calculated Amounts with Matching [DELETE /research-sys/api/v1/award-budget-personnel-calculated-amounts/]
+### Delete All Award Budget Personnel Calculated Amounts with Matching [DELETE /award/api/v1/award-budget-personnel-calculated-amounts/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + budgetPersonnelCalculatedAmountId
-            + obligatedAmount
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + budgetPersonnelCalculatedAmountId (optional) - Budget Id. Maximum length is 22.
+    + obligatedAmount (optional) - Obligated amount from award amount info. Maximum length is 15.
 
       
 + Request

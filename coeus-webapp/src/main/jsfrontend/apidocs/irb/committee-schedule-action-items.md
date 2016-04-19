@@ -1,6 +1,6 @@
-## Committee Schedule Action Items [/research-sys/api/v1/committee-schedule-action-items/]
+## Committee Schedule Action Items [/irb/api/v1/committee-schedule-action-items/]
 
-### Get Committee Schedule Action Items by Key [GET /research-sys/api/v1/committee-schedule-action-items/(key)]
+### Get Committee Schedule Action Items by Key [GET /irb/api/v1/committee-schedule-action-items/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"commScheduleActItemsId": "(val)","scheduleIdFk": "(val)","actionItemNumber": "(val)","scheduleActItemTypeCode": "(val)","itemDescription": "(val)","_primaryKey": "(val)"}
 
-### Get All Committee Schedule Action Items [GET /research-sys/api/v1/committee-schedule-action-items/]
+### Get All Committee Schedule Action Items [GET /irb/api/v1/committee-schedule-action-items/]
 	 
 + Request
 
@@ -39,15 +39,15 @@
               {"commScheduleActItemsId": "(val)","scheduleIdFk": "(val)","actionItemNumber": "(val)","scheduleActItemTypeCode": "(val)","itemDescription": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Committee Schedule Action Items with Filtering [GET /research-sys/api/v1/committee-schedule-action-items/]
+### Get All Committee Schedule Action Items with Filtering [GET /irb/api/v1/committee-schedule-action-items/]
     
 + Parameters
 
-        + commScheduleActItemsId
-            + scheduleIdFk
-            + actionItemNumber
-            + scheduleActItemTypeCode
-            + itemDescription
+    + commScheduleActItemsId (optional) - Comm Schedule Act Items Id. Maximum length is 12.
+    + scheduleIdFk (optional) - Schedule Id. Maximum length is 12.
+    + actionItemNumber (optional) - Action Item Number. Maximum length is 22.
+    + scheduleActItemTypeCode (optional) - Schedule Act Item Type Code. Maximum length is 3.
+    + itemDescription (optional) - Item Description. Maximum length is 2000.
 
             
 + Request
@@ -69,7 +69,7 @@
               {"commScheduleActItemsId": "(val)","scheduleIdFk": "(val)","actionItemNumber": "(val)","scheduleActItemTypeCode": "(val)","itemDescription": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Committee Schedule Action Items [GET /research-sys/api/v1/committee-schedule-action-items/]
+### Get Schema for Committee Schedule Action Items [GET /irb/api/v1/committee-schedule-action-items/]
 	                                          
 + Parameters
 
@@ -91,7 +91,7 @@
     
             {"columns":["commScheduleActItemsId","scheduleIdFk","actionItemNumber","scheduleActItemTypeCode","itemDescription"],"primaryKey":"commScheduleActItemsId"}
 		
-### Get Blueprint API specification for Committee Schedule Action Items [GET /research-sys/api/v1/committee-schedule-action-items/]
+### Get Blueprint API specification for Committee Schedule Action Items [GET /irb/api/v1/committee-schedule-action-items/]
 	 
 + Parameters
 
@@ -112,7 +112,7 @@
             transfer-encoding:chunked
 
 
-### Update Committee Schedule Action Items [PUT /research-sys/api/v1/committee-schedule-action-items/(key)]
+### Update Committee Schedule Action Items [PUT /irb/api/v1/committee-schedule-action-items/(key)]
 
 + Request
 
@@ -127,7 +127,7 @@
 			
 + Response 204
 
-### Update Multiple Committee Schedule Action Items [PUT /research-sys/api/v1/committee-schedule-action-items/]
+### Update Multiple Committee Schedule Action Items [PUT /irb/api/v1/committee-schedule-action-items/]
 
 + Request
 
@@ -145,7 +145,7 @@
 			
 + Response 204
 
-### Insert Committee Schedule Action Items [POST /research-sys/api/v1/committee-schedule-action-items/]
+### Insert Committee Schedule Action Items [POST /irb/api/v1/committee-schedule-action-items/]
 
 + Request
 
@@ -164,7 +164,7 @@
             
             {"commScheduleActItemsId": "(val)","scheduleIdFk": "(val)","actionItemNumber": "(val)","scheduleActItemTypeCode": "(val)","itemDescription": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Committee Schedule Action Items [POST /research-sys/api/v1/committee-schedule-action-items/]
+### Insert Multiple Committee Schedule Action Items [POST /irb/api/v1/committee-schedule-action-items/]
 
 + Request
 
@@ -189,7 +189,7 @@
               {"commScheduleActItemsId": "(val)","scheduleIdFk": "(val)","actionItemNumber": "(val)","scheduleActItemTypeCode": "(val)","itemDescription": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Committee Schedule Action Items by Key [DELETE /research-sys/api/v1/committee-schedule-action-items/(key)]
+### Delete Committee Schedule Action Items by Key [DELETE /irb/api/v1/committee-schedule-action-items/(key)]
 	 
 + Request
 
@@ -200,7 +200,7 @@
 
 + Response 204
 
-### Delete All Committee Schedule Action Items [DELETE /research-sys/api/v1/committee-schedule-action-items/]
+### Delete All Committee Schedule Action Items [DELETE /irb/api/v1/committee-schedule-action-items/]
 
 + Parameters
 
@@ -215,16 +215,16 @@
 
 + Response 204
 
-### Delete All Committee Schedule Action Items with Matching [DELETE /research-sys/api/v1/committee-schedule-action-items/]
+### Delete All Committee Schedule Action Items with Matching [DELETE /irb/api/v1/committee-schedule-action-items/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + commScheduleActItemsId
-            + scheduleIdFk
-            + actionItemNumber
-            + scheduleActItemTypeCode
-            + itemDescription
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + commScheduleActItemsId (optional) - Comm Schedule Act Items Id. Maximum length is 12.
+    + scheduleIdFk (optional) - Schedule Id. Maximum length is 12.
+    + actionItemNumber (optional) - Action Item Number. Maximum length is 22.
+    + scheduleActItemTypeCode (optional) - Schedule Act Item Type Code. Maximum length is 3.
+    + itemDescription (optional) - Item Description. Maximum length is 2000.
 
       
 + Request

@@ -1,6 +1,6 @@
-## Proposal Ynqs [/research-sys/api/v1/proposal-ynqs/]
+## Proposal Ynqs [/propdev/api/v1/proposal-ynqs/]
 
-### Get Proposal Ynqs by Key [GET /research-sys/api/v1/proposal-ynqs/(key)]
+### Get Proposal Ynqs by Key [GET /propdev/api/v1/proposal-ynqs/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"proposalNumber": "(val)","questionId": "(val)","answer": "(val)","explanation": "(val)","reviewDate": "(val)","sortId": "(val)","_primaryKey": "(val)"}
 
-### Get All Proposal Ynqs [GET /research-sys/api/v1/proposal-ynqs/]
+### Get All Proposal Ynqs [GET /propdev/api/v1/proposal-ynqs/]
 	 
 + Request
 
@@ -39,16 +39,16 @@
               {"proposalNumber": "(val)","questionId": "(val)","answer": "(val)","explanation": "(val)","reviewDate": "(val)","sortId": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Proposal Ynqs with Filtering [GET /research-sys/api/v1/proposal-ynqs/]
+### Get All Proposal Ynqs with Filtering [GET /propdev/api/v1/proposal-ynqs/]
     
 + Parameters
 
-        + proposalNumber
-            + questionId
-            + answer
-            + explanation
-            + reviewDate
-            + sortId
+    + proposalNumber (optional) - Proposal Number. Maximum length is 8.
+    + questionId (optional) - Question Id. Maximum length is 4.
+    + answer (optional) - Answer. Maximum length is 1.
+    + explanation (optional) - Explanation. Maximum length is 400.
+    + reviewDate (optional) - Review Date. Maximum length is 21.
+    + sortId (optional) - Sort Id.
 
             
 + Request
@@ -70,7 +70,7 @@
               {"proposalNumber": "(val)","questionId": "(val)","answer": "(val)","explanation": "(val)","reviewDate": "(val)","sortId": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Proposal Ynqs [GET /research-sys/api/v1/proposal-ynqs/]
+### Get Schema for Proposal Ynqs [GET /propdev/api/v1/proposal-ynqs/]
 	                                          
 + Parameters
 
@@ -92,7 +92,7 @@
     
             {"columns":["proposalNumber","questionId","answer","explanation","reviewDate","sortId"],"primaryKey":"proposalNumber:questionId"}
 		
-### Get Blueprint API specification for Proposal Ynqs [GET /research-sys/api/v1/proposal-ynqs/]
+### Get Blueprint API specification for Proposal Ynqs [GET /propdev/api/v1/proposal-ynqs/]
 	 
 + Parameters
 
@@ -113,7 +113,7 @@
             transfer-encoding:chunked
 
 
-### Update Proposal Ynqs [PUT /research-sys/api/v1/proposal-ynqs/(key)]
+### Update Proposal Ynqs [PUT /propdev/api/v1/proposal-ynqs/(key)]
 
 + Request
 
@@ -128,7 +128,7 @@
 			
 + Response 204
 
-### Update Multiple Proposal Ynqs [PUT /research-sys/api/v1/proposal-ynqs/]
+### Update Multiple Proposal Ynqs [PUT /propdev/api/v1/proposal-ynqs/]
 
 + Request
 
@@ -146,7 +146,7 @@
 			
 + Response 204
 
-### Insert Proposal Ynqs [POST /research-sys/api/v1/proposal-ynqs/]
+### Insert Proposal Ynqs [POST /propdev/api/v1/proposal-ynqs/]
 
 + Request
 
@@ -165,7 +165,7 @@
             
             {"proposalNumber": "(val)","questionId": "(val)","answer": "(val)","explanation": "(val)","reviewDate": "(val)","sortId": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Proposal Ynqs [POST /research-sys/api/v1/proposal-ynqs/]
+### Insert Multiple Proposal Ynqs [POST /propdev/api/v1/proposal-ynqs/]
 
 + Request
 
@@ -190,7 +190,7 @@
               {"proposalNumber": "(val)","questionId": "(val)","answer": "(val)","explanation": "(val)","reviewDate": "(val)","sortId": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Proposal Ynqs by Key [DELETE /research-sys/api/v1/proposal-ynqs/(key)]
+### Delete Proposal Ynqs by Key [DELETE /propdev/api/v1/proposal-ynqs/(key)]
 	 
 + Request
 
@@ -201,7 +201,7 @@
 
 + Response 204
 
-### Delete All Proposal Ynqs [DELETE /research-sys/api/v1/proposal-ynqs/]
+### Delete All Proposal Ynqs [DELETE /propdev/api/v1/proposal-ynqs/]
 
 + Parameters
 
@@ -216,17 +216,17 @@
 
 + Response 204
 
-### Delete All Proposal Ynqs with Matching [DELETE /research-sys/api/v1/proposal-ynqs/]
+### Delete All Proposal Ynqs with Matching [DELETE /propdev/api/v1/proposal-ynqs/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + proposalNumber
-            + questionId
-            + answer
-            + explanation
-            + reviewDate
-            + sortId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + proposalNumber (optional) - Proposal Number. Maximum length is 8.
+    + questionId (optional) - Question Id. Maximum length is 4.
+    + answer (optional) - Answer. Maximum length is 1.
+    + explanation (optional) - Explanation. Maximum length is 400.
+    + reviewDate (optional) - Review Date. Maximum length is 21.
+    + sortId (optional) - Sort Id.
 
       
 + Request

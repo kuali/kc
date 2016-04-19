@@ -1,6 +1,6 @@
-## Citizenship Types [/research-sys/api/v1/citizenship-types/]
+## Citizenship Types [/research-common/api/v1/citizenship-types/]
 
-### Get Citizenship Types by Key [GET /research-sys/api/v1/citizenship-types/(key)]
+### Get Citizenship Types by Key [GET /research-common/api/v1/citizenship-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"code": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
 
-### Get All Citizenship Types [GET /research-sys/api/v1/citizenship-types/]
+### Get All Citizenship Types [GET /research-common/api/v1/citizenship-types/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"code": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Citizenship Types with Filtering [GET /research-sys/api/v1/citizenship-types/]
+### Get All Citizenship Types with Filtering [GET /research-common/api/v1/citizenship-types/]
     
 + Parameters
 
-        + code
-            + description
-            + active
+    + code (optional) - Citizenship Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 40.
+    + active (optional) - Active.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"code": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Citizenship Types [GET /research-sys/api/v1/citizenship-types/]
+### Get Schema for Citizenship Types [GET /research-common/api/v1/citizenship-types/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["code","description","active"],"primaryKey":"code"}
 		
-### Get Blueprint API specification for Citizenship Types [GET /research-sys/api/v1/citizenship-types/]
+### Get Blueprint API specification for Citizenship Types [GET /research-common/api/v1/citizenship-types/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Citizenship Types [PUT /research-sys/api/v1/citizenship-types/(key)]
+### Update Citizenship Types [PUT /research-common/api/v1/citizenship-types/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Citizenship Types [PUT /research-sys/api/v1/citizenship-types/]
+### Update Multiple Citizenship Types [PUT /research-common/api/v1/citizenship-types/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Citizenship Types [POST /research-sys/api/v1/citizenship-types/]
+### Insert Citizenship Types [POST /research-common/api/v1/citizenship-types/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"code": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Citizenship Types [POST /research-sys/api/v1/citizenship-types/]
+### Insert Multiple Citizenship Types [POST /research-common/api/v1/citizenship-types/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"code": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Citizenship Types by Key [DELETE /research-sys/api/v1/citizenship-types/(key)]
+### Delete Citizenship Types by Key [DELETE /research-common/api/v1/citizenship-types/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Citizenship Types [DELETE /research-sys/api/v1/citizenship-types/]
+### Delete All Citizenship Types [DELETE /research-common/api/v1/citizenship-types/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Citizenship Types with Matching [DELETE /research-sys/api/v1/citizenship-types/]
+### Delete All Citizenship Types with Matching [DELETE /research-common/api/v1/citizenship-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + code
-            + description
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + code (optional) - Citizenship Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 40.
+    + active (optional) - Active.
 
       
 + Request

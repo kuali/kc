@@ -1,6 +1,6 @@
-## Formulated Types [/research-sys/api/v1/formulated-types/]
+## Formulated Types [/research-common/api/v1/formulated-types/]
 
-### Get Formulated Types by Key [GET /research-sys/api/v1/formulated-types/(key)]
+### Get Formulated Types by Key [GET /research-common/api/v1/formulated-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"formulatedTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Formulated Types [GET /research-sys/api/v1/formulated-types/]
+### Get All Formulated Types [GET /research-common/api/v1/formulated-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"formulatedTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Formulated Types with Filtering [GET /research-sys/api/v1/formulated-types/]
+### Get All Formulated Types with Filtering [GET /research-common/api/v1/formulated-types/]
     
 + Parameters
 
-        + formulatedTypeCode
-            + description
+    + formulatedTypeCode (optional) - Formulated Type Code. Maximum length is 22.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"formulatedTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Formulated Types [GET /research-sys/api/v1/formulated-types/]
+### Get Schema for Formulated Types [GET /research-common/api/v1/formulated-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["formulatedTypeCode","description"],"primaryKey":"formulatedTypeCode"}
 		
-### Get Blueprint API specification for Formulated Types [GET /research-sys/api/v1/formulated-types/]
+### Get Blueprint API specification for Formulated Types [GET /research-common/api/v1/formulated-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Formulated Types [PUT /research-sys/api/v1/formulated-types/(key)]
+### Update Formulated Types [PUT /research-common/api/v1/formulated-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Formulated Types [PUT /research-sys/api/v1/formulated-types/]
+### Update Multiple Formulated Types [PUT /research-common/api/v1/formulated-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Formulated Types [POST /research-sys/api/v1/formulated-types/]
+### Insert Formulated Types [POST /research-common/api/v1/formulated-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"formulatedTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Formulated Types [POST /research-sys/api/v1/formulated-types/]
+### Insert Multiple Formulated Types [POST /research-common/api/v1/formulated-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"formulatedTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Formulated Types by Key [DELETE /research-sys/api/v1/formulated-types/(key)]
+### Delete Formulated Types by Key [DELETE /research-common/api/v1/formulated-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Formulated Types [DELETE /research-sys/api/v1/formulated-types/]
+### Delete All Formulated Types [DELETE /research-common/api/v1/formulated-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Formulated Types with Matching [DELETE /research-sys/api/v1/formulated-types/]
+### Delete All Formulated Types with Matching [DELETE /research-common/api/v1/formulated-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + formulatedTypeCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + formulatedTypeCode (optional) - Formulated Type Code. Maximum length is 22.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

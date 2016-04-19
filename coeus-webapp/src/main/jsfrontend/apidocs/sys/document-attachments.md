@@ -43,10 +43,10 @@
     
 + Parameters
 
-        + documentNumber
-            + fileName
-            + attachmentContent
-            + contentType
+    + documentNumber (optional) - 
+    + fileName (optional) - 
+    + attachmentContent (optional) - 
+    + contentType (optional) - 
 
             
 + Request
@@ -218,11 +218,11 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + documentNumber
-            + fileName
-            + attachmentContent
-            + contentType
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + documentNumber (optional) - 
+    + fileName (optional) - 
+    + attachmentContent (optional) - 
+    + contentType (optional) - 
 
       
 + Request

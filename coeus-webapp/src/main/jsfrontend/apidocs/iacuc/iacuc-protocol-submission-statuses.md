@@ -1,6 +1,6 @@
-## Iacuc Protocol Submission Statuses [/research-sys/api/v1/iacuc-protocol-submission-statuses/]
+## Iacuc Protocol Submission Statuses [/iacuc/api/v1/iacuc-protocol-submission-statuses/]
 
-### Get Iacuc Protocol Submission Statuses by Key [GET /research-sys/api/v1/iacuc-protocol-submission-statuses/(key)]
+### Get Iacuc Protocol Submission Statuses by Key [GET /iacuc/api/v1/iacuc-protocol-submission-statuses/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"protocolSubmissionStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Protocol Submission Statuses [GET /research-sys/api/v1/iacuc-protocol-submission-statuses/]
+### Get All Iacuc Protocol Submission Statuses [GET /iacuc/api/v1/iacuc-protocol-submission-statuses/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"protocolSubmissionStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Protocol Submission Statuses with Filtering [GET /research-sys/api/v1/iacuc-protocol-submission-statuses/]
+### Get All Iacuc Protocol Submission Statuses with Filtering [GET /iacuc/api/v1/iacuc-protocol-submission-statuses/]
     
 + Parameters
 
-        + protocolSubmissionStatusCode
-            + description
+    + protocolSubmissionStatusCode (optional) - IACUC Submission Status Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"protocolSubmissionStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Protocol Submission Statuses [GET /research-sys/api/v1/iacuc-protocol-submission-statuses/]
+### Get Schema for Iacuc Protocol Submission Statuses [GET /iacuc/api/v1/iacuc-protocol-submission-statuses/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["protocolSubmissionStatusCode","description"],"primaryKey":"protocolSubmissionStatusCode"}
 		
-### Get Blueprint API specification for Iacuc Protocol Submission Statuses [GET /research-sys/api/v1/iacuc-protocol-submission-statuses/]
+### Get Blueprint API specification for Iacuc Protocol Submission Statuses [GET /iacuc/api/v1/iacuc-protocol-submission-statuses/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Protocol Submission Statuses [PUT /research-sys/api/v1/iacuc-protocol-submission-statuses/(key)]
+### Update Iacuc Protocol Submission Statuses [PUT /iacuc/api/v1/iacuc-protocol-submission-statuses/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Protocol Submission Statuses [PUT /research-sys/api/v1/iacuc-protocol-submission-statuses/]
+### Update Multiple Iacuc Protocol Submission Statuses [PUT /iacuc/api/v1/iacuc-protocol-submission-statuses/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Iacuc Protocol Submission Statuses [POST /research-sys/api/v1/iacuc-protocol-submission-statuses/]
+### Insert Iacuc Protocol Submission Statuses [POST /iacuc/api/v1/iacuc-protocol-submission-statuses/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"protocolSubmissionStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Protocol Submission Statuses [POST /research-sys/api/v1/iacuc-protocol-submission-statuses/]
+### Insert Multiple Iacuc Protocol Submission Statuses [POST /iacuc/api/v1/iacuc-protocol-submission-statuses/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"protocolSubmissionStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Protocol Submission Statuses by Key [DELETE /research-sys/api/v1/iacuc-protocol-submission-statuses/(key)]
+### Delete Iacuc Protocol Submission Statuses by Key [DELETE /iacuc/api/v1/iacuc-protocol-submission-statuses/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Submission Statuses [DELETE /research-sys/api/v1/iacuc-protocol-submission-statuses/]
+### Delete All Iacuc Protocol Submission Statuses [DELETE /iacuc/api/v1/iacuc-protocol-submission-statuses/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Submission Statuses with Matching [DELETE /research-sys/api/v1/iacuc-protocol-submission-statuses/]
+### Delete All Iacuc Protocol Submission Statuses with Matching [DELETE /iacuc/api/v1/iacuc-protocol-submission-statuses/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + protocolSubmissionStatusCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + protocolSubmissionStatusCode (optional) - IACUC Submission Status Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

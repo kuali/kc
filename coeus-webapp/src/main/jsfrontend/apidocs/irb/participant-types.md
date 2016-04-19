@@ -1,6 +1,6 @@
-## Participant Types [/research-sys/api/v1/participant-types/]
+## Participant Types [/irb/api/v1/participant-types/]
 
-### Get Participant Types by Key [GET /research-sys/api/v1/participant-types/(key)]
+### Get Participant Types by Key [GET /irb/api/v1/participant-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"participantTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Participant Types [GET /research-sys/api/v1/participant-types/]
+### Get All Participant Types [GET /irb/api/v1/participant-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"participantTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Participant Types with Filtering [GET /research-sys/api/v1/participant-types/]
+### Get All Participant Types with Filtering [GET /irb/api/v1/participant-types/]
     
 + Parameters
 
-        + participantTypeCode
-            + description
+    + participantTypeCode (optional) - Participant Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"participantTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Participant Types [GET /research-sys/api/v1/participant-types/]
+### Get Schema for Participant Types [GET /irb/api/v1/participant-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["participantTypeCode","description"],"primaryKey":"participantTypeCode"}
 		
-### Get Blueprint API specification for Participant Types [GET /research-sys/api/v1/participant-types/]
+### Get Blueprint API specification for Participant Types [GET /irb/api/v1/participant-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Participant Types [PUT /research-sys/api/v1/participant-types/(key)]
+### Update Participant Types [PUT /irb/api/v1/participant-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Participant Types [PUT /research-sys/api/v1/participant-types/]
+### Update Multiple Participant Types [PUT /irb/api/v1/participant-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Participant Types [POST /research-sys/api/v1/participant-types/]
+### Insert Participant Types [POST /irb/api/v1/participant-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"participantTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Participant Types [POST /research-sys/api/v1/participant-types/]
+### Insert Multiple Participant Types [POST /irb/api/v1/participant-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"participantTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Participant Types by Key [DELETE /research-sys/api/v1/participant-types/(key)]
+### Delete Participant Types by Key [DELETE /irb/api/v1/participant-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Participant Types [DELETE /research-sys/api/v1/participant-types/]
+### Delete All Participant Types [DELETE /irb/api/v1/participant-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Participant Types with Matching [DELETE /research-sys/api/v1/participant-types/]
+### Delete All Participant Types with Matching [DELETE /irb/api/v1/participant-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + participantTypeCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + participantTypeCode (optional) - Participant Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

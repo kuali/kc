@@ -1,6 +1,6 @@
-## Iacuc Protocol Amend Renewals [/research-sys/api/v1/iacuc-protocol-amend-renewals/]
+## Iacuc Protocol Amend Renewals [/iacuc/api/v1/iacuc-protocol-amend-renewals/]
 
-### Get Iacuc Protocol Amend Renewals by Key [GET /research-sys/api/v1/iacuc-protocol-amend-renewals/(key)]
+### Get Iacuc Protocol Amend Renewals by Key [GET /iacuc/api/v1/iacuc-protocol-amend-renewals/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"id": "(val)","protoAmendRenNumber": "(val)","dateCreated": "(val)","summary": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Protocol Amend Renewals [GET /research-sys/api/v1/iacuc-protocol-amend-renewals/]
+### Get All Iacuc Protocol Amend Renewals [GET /iacuc/api/v1/iacuc-protocol-amend-renewals/]
 	 
 + Request
 
@@ -39,17 +39,17 @@
               {"id": "(val)","protoAmendRenNumber": "(val)","dateCreated": "(val)","summary": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Protocol Amend Renewals with Filtering [GET /research-sys/api/v1/iacuc-protocol-amend-renewals/]
+### Get All Iacuc Protocol Amend Renewals with Filtering [GET /iacuc/api/v1/iacuc-protocol-amend-renewals/]
     
 + Parameters
 
-        + id
-            + protoAmendRenNumber
-            + dateCreated
-            + summary
-            + protocolId
-            + protocolNumber
-            + sequenceNumber
+    + id (optional) - 
+    + protoAmendRenNumber (optional) - 
+    + dateCreated (optional) - 
+    + summary (optional) - 
+    + protocolId (optional) - 
+    + protocolNumber (optional) - 
+    + sequenceNumber (optional) - 
 
             
 + Request
@@ -71,7 +71,7 @@
               {"id": "(val)","protoAmendRenNumber": "(val)","dateCreated": "(val)","summary": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Protocol Amend Renewals [GET /research-sys/api/v1/iacuc-protocol-amend-renewals/]
+### Get Schema for Iacuc Protocol Amend Renewals [GET /iacuc/api/v1/iacuc-protocol-amend-renewals/]
 	                                          
 + Parameters
 
@@ -93,7 +93,7 @@
     
             {"columns":["id","protoAmendRenNumber","dateCreated","summary","protocolId","protocolNumber","sequenceNumber"],"primaryKey":"id"}
 		
-### Get Blueprint API specification for Iacuc Protocol Amend Renewals [GET /research-sys/api/v1/iacuc-protocol-amend-renewals/]
+### Get Blueprint API specification for Iacuc Protocol Amend Renewals [GET /iacuc/api/v1/iacuc-protocol-amend-renewals/]
 	 
 + Parameters
 
@@ -114,7 +114,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Protocol Amend Renewals [PUT /research-sys/api/v1/iacuc-protocol-amend-renewals/(key)]
+### Update Iacuc Protocol Amend Renewals [PUT /iacuc/api/v1/iacuc-protocol-amend-renewals/(key)]
 
 + Request
 
@@ -129,7 +129,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Protocol Amend Renewals [PUT /research-sys/api/v1/iacuc-protocol-amend-renewals/]
+### Update Multiple Iacuc Protocol Amend Renewals [PUT /iacuc/api/v1/iacuc-protocol-amend-renewals/]
 
 + Request
 
@@ -147,7 +147,7 @@
 			
 + Response 204
 
-### Insert Iacuc Protocol Amend Renewals [POST /research-sys/api/v1/iacuc-protocol-amend-renewals/]
+### Insert Iacuc Protocol Amend Renewals [POST /iacuc/api/v1/iacuc-protocol-amend-renewals/]
 
 + Request
 
@@ -166,7 +166,7 @@
             
             {"id": "(val)","protoAmendRenNumber": "(val)","dateCreated": "(val)","summary": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Protocol Amend Renewals [POST /research-sys/api/v1/iacuc-protocol-amend-renewals/]
+### Insert Multiple Iacuc Protocol Amend Renewals [POST /iacuc/api/v1/iacuc-protocol-amend-renewals/]
 
 + Request
 
@@ -191,7 +191,7 @@
               {"id": "(val)","protoAmendRenNumber": "(val)","dateCreated": "(val)","summary": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Protocol Amend Renewals by Key [DELETE /research-sys/api/v1/iacuc-protocol-amend-renewals/(key)]
+### Delete Iacuc Protocol Amend Renewals by Key [DELETE /iacuc/api/v1/iacuc-protocol-amend-renewals/(key)]
 	 
 + Request
 
@@ -202,7 +202,7 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Amend Renewals [DELETE /research-sys/api/v1/iacuc-protocol-amend-renewals/]
+### Delete All Iacuc Protocol Amend Renewals [DELETE /iacuc/api/v1/iacuc-protocol-amend-renewals/]
 
 + Parameters
 
@@ -217,18 +217,18 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Amend Renewals with Matching [DELETE /research-sys/api/v1/iacuc-protocol-amend-renewals/]
+### Delete All Iacuc Protocol Amend Renewals with Matching [DELETE /iacuc/api/v1/iacuc-protocol-amend-renewals/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + protoAmendRenNumber
-            + dateCreated
-            + summary
-            + protocolId
-            + protocolNumber
-            + sequenceNumber
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - 
+    + protoAmendRenNumber (optional) - 
+    + dateCreated (optional) - 
+    + summary (optional) - 
+    + protocolId (optional) - 
+    + protocolNumber (optional) - 
+    + sequenceNumber (optional) - 
 
       
 + Request

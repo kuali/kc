@@ -43,19 +43,19 @@
     
 + Parameters
 
-        + routeQueueId
-            + queuePriority
-            + queueStatus
-            + queueDate
-            + expirationDate
-            + retryCount
-            + lockVerNbr
-            + ipNumber
-            + serviceName
-            + applicationId
-            + methodName
-            + value1
-            + value2
+    + routeQueueId (optional) - 
+    + queuePriority (optional) - 
+    + queueStatus (optional) - 
+    + queueDate (optional) - 
+    + expirationDate (optional) - 
+    + retryCount (optional) - 
+    + lockVerNbr (optional) - 
+    + ipNumber (optional) - 
+    + serviceName (optional) - 
+    + applicationId (optional) - 
+    + methodName (optional) - 
+    + value1 (optional) - 
+    + value2 (optional) - 
 
             
 + Request
@@ -227,20 +227,20 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + routeQueueId
-            + queuePriority
-            + queueStatus
-            + queueDate
-            + expirationDate
-            + retryCount
-            + lockVerNbr
-            + ipNumber
-            + serviceName
-            + applicationId
-            + methodName
-            + value1
-            + value2
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + routeQueueId (optional) - 
+    + queuePriority (optional) - 
+    + queueStatus (optional) - 
+    + queueDate (optional) - 
+    + expirationDate (optional) - 
+    + retryCount (optional) - 
+    + lockVerNbr (optional) - 
+    + ipNumber (optional) - 
+    + serviceName (optional) - 
+    + applicationId (optional) - 
+    + methodName (optional) - 
+    + value1 (optional) - 
+    + value2 (optional) - 
 
       
 + Request

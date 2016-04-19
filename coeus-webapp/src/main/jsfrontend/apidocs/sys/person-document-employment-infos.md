@@ -43,18 +43,18 @@
     
 + Parameters
 
-        + entityEmploymentId
-            + entityAffiliationId
-            + employmentStatusCode
-            + employmentTypeCode
-            + primaryDepartmentCode
-            + baseSalaryAmount
-            + employeeId
-            + employmentRecordId
-            + primary
-            + edit
-            + documentNumber
-            + active
+    + entityEmploymentId (optional) - Employment Id. Maximum length is 40.
+    + entityAffiliationId (optional) - Affiliation Entity Id. Maximum length is 40.
+    + employmentStatusCode (optional) - Employee Status. Maximum length is 40.
+    + employmentTypeCode (optional) - Employee Type. Maximum length is 40.
+    + primaryDepartmentCode (optional) - Primary Department Code. Maximum length is 40.
+    + baseSalaryAmount (optional) - Base Salary. Maximum length is 19.
+    + employeeId (optional) - Employee Id. Maximum length is 40.
+    + employmentRecordId (optional) - Employment Record Id. Maximum length is 40.
+    + primary (optional) - Primary. Maximum length is 1.
+    + edit (optional) - Edit.
+    + documentNumber (optional) - Document Number.
+    + active (optional) - Active. Maximum length is 1.
 
             
 + Request
@@ -226,19 +226,19 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + entityEmploymentId
-            + entityAffiliationId
-            + employmentStatusCode
-            + employmentTypeCode
-            + primaryDepartmentCode
-            + baseSalaryAmount
-            + employeeId
-            + employmentRecordId
-            + primary
-            + edit
-            + documentNumber
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + entityEmploymentId (optional) - Employment Id. Maximum length is 40.
+    + entityAffiliationId (optional) - Affiliation Entity Id. Maximum length is 40.
+    + employmentStatusCode (optional) - Employee Status. Maximum length is 40.
+    + employmentTypeCode (optional) - Employee Type. Maximum length is 40.
+    + primaryDepartmentCode (optional) - Primary Department Code. Maximum length is 40.
+    + baseSalaryAmount (optional) - Base Salary. Maximum length is 19.
+    + employeeId (optional) - Employee Id. Maximum length is 40.
+    + employmentRecordId (optional) - Employment Record Id. Maximum length is 40.
+    + primary (optional) - Primary. Maximum length is 1.
+    + edit (optional) - Edit.
+    + documentNumber (optional) - Document Number.
+    + active (optional) - Active. Maximum length is 1.
 
       
 + Request

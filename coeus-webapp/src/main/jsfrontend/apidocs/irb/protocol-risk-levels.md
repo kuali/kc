@@ -1,6 +1,6 @@
-## Protocol Risk Levels [/research-sys/api/v1/protocol-risk-levels/]
+## Protocol Risk Levels [/irb/api/v1/protocol-risk-levels/]
 
-### Get Protocol Risk Levels by Key [GET /research-sys/api/v1/protocol-risk-levels/(key)]
+### Get Protocol Risk Levels by Key [GET /irb/api/v1/protocol-risk-levels/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"protocolRiskLevelId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","riskLevelCode": "(val)","comments": "(val)","dateAssigned": "(val)","dateInactivated": "(val)","status": "(val)","_primaryKey": "(val)"}
 
-### Get All Protocol Risk Levels [GET /research-sys/api/v1/protocol-risk-levels/]
+### Get All Protocol Risk Levels [GET /irb/api/v1/protocol-risk-levels/]
 	 
 + Request
 
@@ -39,19 +39,19 @@
               {"protocolRiskLevelId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","riskLevelCode": "(val)","comments": "(val)","dateAssigned": "(val)","dateInactivated": "(val)","status": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Protocol Risk Levels with Filtering [GET /research-sys/api/v1/protocol-risk-levels/]
+### Get All Protocol Risk Levels with Filtering [GET /irb/api/v1/protocol-risk-levels/]
     
 + Parameters
 
-        + protocolRiskLevelId
-            + protocolId
-            + protocolNumber
-            + sequenceNumber
-            + riskLevelCode
-            + comments
-            + dateAssigned
-            + dateInactivated
-            + status
+    + protocolRiskLevelId (optional) - Protocol Risk Levels Id. Maximum length is 22.
+    + protocolId (optional) - Protocol Id. Maximum length is 22.
+    + protocolNumber (optional) - Protocol Number. Maximum length is 20.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 22.
+    + riskLevelCode (optional) - Risk Level Code. Maximum length is 3.
+    + comments (optional) - Comments. Maximum length is 2000.
+    + dateAssigned (optional) - Date Assigned. Maximum length is 10.
+    + dateInactivated (optional) - Date Inactivated. Maximum length is 10.
+    + status (optional) - Status. Maximum length is 1.
 
             
 + Request
@@ -73,7 +73,7 @@
               {"protocolRiskLevelId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","riskLevelCode": "(val)","comments": "(val)","dateAssigned": "(val)","dateInactivated": "(val)","status": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Protocol Risk Levels [GET /research-sys/api/v1/protocol-risk-levels/]
+### Get Schema for Protocol Risk Levels [GET /irb/api/v1/protocol-risk-levels/]
 	                                          
 + Parameters
 
@@ -95,7 +95,7 @@
     
             {"columns":["protocolRiskLevelId","protocolId","protocolNumber","sequenceNumber","riskLevelCode","comments","dateAssigned","dateInactivated","status"],"primaryKey":"protocolRiskLevelId"}
 		
-### Get Blueprint API specification for Protocol Risk Levels [GET /research-sys/api/v1/protocol-risk-levels/]
+### Get Blueprint API specification for Protocol Risk Levels [GET /irb/api/v1/protocol-risk-levels/]
 	 
 + Parameters
 
@@ -116,7 +116,7 @@
             transfer-encoding:chunked
 
 
-### Update Protocol Risk Levels [PUT /research-sys/api/v1/protocol-risk-levels/(key)]
+### Update Protocol Risk Levels [PUT /irb/api/v1/protocol-risk-levels/(key)]
 
 + Request
 
@@ -131,7 +131,7 @@
 			
 + Response 204
 
-### Update Multiple Protocol Risk Levels [PUT /research-sys/api/v1/protocol-risk-levels/]
+### Update Multiple Protocol Risk Levels [PUT /irb/api/v1/protocol-risk-levels/]
 
 + Request
 
@@ -149,7 +149,7 @@
 			
 + Response 204
 
-### Insert Protocol Risk Levels [POST /research-sys/api/v1/protocol-risk-levels/]
+### Insert Protocol Risk Levels [POST /irb/api/v1/protocol-risk-levels/]
 
 + Request
 
@@ -168,7 +168,7 @@
             
             {"protocolRiskLevelId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","riskLevelCode": "(val)","comments": "(val)","dateAssigned": "(val)","dateInactivated": "(val)","status": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Protocol Risk Levels [POST /research-sys/api/v1/protocol-risk-levels/]
+### Insert Multiple Protocol Risk Levels [POST /irb/api/v1/protocol-risk-levels/]
 
 + Request
 
@@ -193,7 +193,7 @@
               {"protocolRiskLevelId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","riskLevelCode": "(val)","comments": "(val)","dateAssigned": "(val)","dateInactivated": "(val)","status": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Protocol Risk Levels by Key [DELETE /research-sys/api/v1/protocol-risk-levels/(key)]
+### Delete Protocol Risk Levels by Key [DELETE /irb/api/v1/protocol-risk-levels/(key)]
 	 
 + Request
 
@@ -204,7 +204,7 @@
 
 + Response 204
 
-### Delete All Protocol Risk Levels [DELETE /research-sys/api/v1/protocol-risk-levels/]
+### Delete All Protocol Risk Levels [DELETE /irb/api/v1/protocol-risk-levels/]
 
 + Parameters
 
@@ -219,20 +219,20 @@
 
 + Response 204
 
-### Delete All Protocol Risk Levels with Matching [DELETE /research-sys/api/v1/protocol-risk-levels/]
+### Delete All Protocol Risk Levels with Matching [DELETE /irb/api/v1/protocol-risk-levels/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + protocolRiskLevelId
-            + protocolId
-            + protocolNumber
-            + sequenceNumber
-            + riskLevelCode
-            + comments
-            + dateAssigned
-            + dateInactivated
-            + status
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + protocolRiskLevelId (optional) - Protocol Risk Levels Id. Maximum length is 22.
+    + protocolId (optional) - Protocol Id. Maximum length is 22.
+    + protocolNumber (optional) - Protocol Number. Maximum length is 20.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 22.
+    + riskLevelCode (optional) - Risk Level Code. Maximum length is 3.
+    + comments (optional) - Comments. Maximum length is 2000.
+    + dateAssigned (optional) - Date Assigned. Maximum length is 10.
+    + dateInactivated (optional) - Date Inactivated. Maximum length is 10.
+    + status (optional) - Status. Maximum length is 1.
 
       
 + Request

@@ -1,6 +1,6 @@
-## Committee Decision Motion Types [/research-sys/api/v1/committee-decision-motion-types/]
+## Committee Decision Motion Types [/research-common/api/v1/committee-decision-motion-types/]
 
-### Get Committee Decision Motion Types by Key [GET /research-sys/api/v1/committee-decision-motion-types/(key)]
+### Get Committee Decision Motion Types by Key [GET /research-common/api/v1/committee-decision-motion-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"motionTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Committee Decision Motion Types [GET /research-sys/api/v1/committee-decision-motion-types/]
+### Get All Committee Decision Motion Types [GET /research-common/api/v1/committee-decision-motion-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"motionTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Committee Decision Motion Types with Filtering [GET /research-sys/api/v1/committee-decision-motion-types/]
+### Get All Committee Decision Motion Types with Filtering [GET /research-common/api/v1/committee-decision-motion-types/]
     
 + Parameters
 
-        + motionTypeCode
-            + description
+    + motionTypeCode (optional) - Motion Type. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"motionTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Committee Decision Motion Types [GET /research-sys/api/v1/committee-decision-motion-types/]
+### Get Schema for Committee Decision Motion Types [GET /research-common/api/v1/committee-decision-motion-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["motionTypeCode","description"],"primaryKey":"motionTypeCode"}
 		
-### Get Blueprint API specification for Committee Decision Motion Types [GET /research-sys/api/v1/committee-decision-motion-types/]
+### Get Blueprint API specification for Committee Decision Motion Types [GET /research-common/api/v1/committee-decision-motion-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Committee Decision Motion Types [PUT /research-sys/api/v1/committee-decision-motion-types/(key)]
+### Update Committee Decision Motion Types [PUT /research-common/api/v1/committee-decision-motion-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Committee Decision Motion Types [PUT /research-sys/api/v1/committee-decision-motion-types/]
+### Update Multiple Committee Decision Motion Types [PUT /research-common/api/v1/committee-decision-motion-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Committee Decision Motion Types [POST /research-sys/api/v1/committee-decision-motion-types/]
+### Insert Committee Decision Motion Types [POST /research-common/api/v1/committee-decision-motion-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"motionTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Committee Decision Motion Types [POST /research-sys/api/v1/committee-decision-motion-types/]
+### Insert Multiple Committee Decision Motion Types [POST /research-common/api/v1/committee-decision-motion-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"motionTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Committee Decision Motion Types by Key [DELETE /research-sys/api/v1/committee-decision-motion-types/(key)]
+### Delete Committee Decision Motion Types by Key [DELETE /research-common/api/v1/committee-decision-motion-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Committee Decision Motion Types [DELETE /research-sys/api/v1/committee-decision-motion-types/]
+### Delete All Committee Decision Motion Types [DELETE /research-common/api/v1/committee-decision-motion-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Committee Decision Motion Types with Matching [DELETE /research-sys/api/v1/committee-decision-motion-types/]
+### Delete All Committee Decision Motion Types with Matching [DELETE /research-common/api/v1/committee-decision-motion-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + motionTypeCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + motionTypeCode (optional) - Motion Type. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

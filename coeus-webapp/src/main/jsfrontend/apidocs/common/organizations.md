@@ -43,36 +43,36 @@
     
 + Parameters
 
-        + organizationId
-            + address
-            + agencySymbol
-            + animalWelfareAssurance
-            + cableAddress
-            + cageNumber
-            + cognizantAuditor
-            + comGovEntityCode
-            + congressionalDistrict
-            + contactAddressId
-            + county
-            + dodacNumber
-            + dunsNumber
-            + dunsPlusFourNumber
-            + federalEmployerId
-            + humanSubAssurance
-            + incorporatedDate
-            + incorporatedIn
-            + indirectCostRateAgreement
-            + irsTaxExemption
-            + stateEmployeeClaim
-            + stateTaxExemptNum
-            + nsfInstitutionalCode
-            + numberOfEmployees
-            + onrResidentRep
-            + organizationName
-            + phsAccount
-            + scienceMisconductComplDate
-            + telexNumber
-            + vendorCode
+    + organizationId (optional) - Organization Id. Maximum length is 8.
+    + address (optional) - Address. Maximum length is 60.
+    + agencySymbol (optional) - Agency Symbol. Maximum length is 30.
+    + animalWelfareAssurance (optional) - Animal Welfare Assurance. Maximum length is 20.
+    + cableAddress (optional) - Cable Address. Maximum length is 20.
+    + cageNumber (optional) - CAGE Number. Maximum length is 20.
+    + cognizantAuditor (optional) - Cognizant Auditor. Maximum length is 6.
+    + comGovEntityCode (optional) - Com Gov Entity Code. Maximum length is 30.
+    + congressionalDistrict (optional) - This field represents the "applicant" congressional district. Maximum length is 50.
+    + contactAddressId (optional) - Contact Address Id. Maximum length is 6.
+    + county (optional) - County. Maximum length is 30.
+    + dodacNumber (optional) - DODAC Number. Maximum length is 20.
+    + dunsNumber (optional) - DUNS Number. Maximum length is 20.
+    + dunsPlusFourNumber (optional) - DUNS Plus Four Number. Maximum length is 20.
+    + federalEmployerId (optional) - Federal Employer Id. Maximum length is 15.
+    + humanSubAssurance (optional) - Human Sub Assurance. Maximum length is 30.
+    + incorporatedDate (optional) - Incorporated Date. Maximum length is 10.
+    + incorporatedIn (optional) - Incorporated In. Maximum length is 50.
+    + indirectCostRateAgreement (optional) - Indirect Cost Rate Agreement. Maximum length is 50.
+    + irsTaxExemption (optional) - IRS Tax Exemption. Maximum length is 30.
+    + stateEmployeeClaim (optional) - State Employee Claim. Maximum length is 30.
+    + stateTaxExemptNum (optional) - State Tax Exempt Num. Maximum length is 30.
+    + nsfInstitutionalCode (optional) - NSF Institutional Code. Maximum length is 30.
+    + numberOfEmployees (optional) - Number Of Employees. Maximum length is 6.
+    + onrResidentRep (optional) - ONR Resident Rep. Maximum length is 6.
+    + organizationName (optional) - Organization Name. Maximum length is 60.
+    + phsAccount (optional) - PHS Account. Maximum length is 30.
+    + scienceMisconductComplDate (optional) - Science Misconduct Compl Date. Maximum length is 10.
+    + telexNumber (optional) - Telex Number. Maximum length is 20.
+    + vendorCode (optional) - Vendor Code. Maximum length is 30.
 
             
 + Request
@@ -244,37 +244,37 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + organizationId
-            + address
-            + agencySymbol
-            + animalWelfareAssurance
-            + cableAddress
-            + cageNumber
-            + cognizantAuditor
-            + comGovEntityCode
-            + congressionalDistrict
-            + contactAddressId
-            + county
-            + dodacNumber
-            + dunsNumber
-            + dunsPlusFourNumber
-            + federalEmployerId
-            + humanSubAssurance
-            + incorporatedDate
-            + incorporatedIn
-            + indirectCostRateAgreement
-            + irsTaxExemption
-            + stateEmployeeClaim
-            + stateTaxExemptNum
-            + nsfInstitutionalCode
-            + numberOfEmployees
-            + onrResidentRep
-            + organizationName
-            + phsAccount
-            + scienceMisconductComplDate
-            + telexNumber
-            + vendorCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + organizationId (optional) - Organization Id. Maximum length is 8.
+    + address (optional) - Address. Maximum length is 60.
+    + agencySymbol (optional) - Agency Symbol. Maximum length is 30.
+    + animalWelfareAssurance (optional) - Animal Welfare Assurance. Maximum length is 20.
+    + cableAddress (optional) - Cable Address. Maximum length is 20.
+    + cageNumber (optional) - CAGE Number. Maximum length is 20.
+    + cognizantAuditor (optional) - Cognizant Auditor. Maximum length is 6.
+    + comGovEntityCode (optional) - Com Gov Entity Code. Maximum length is 30.
+    + congressionalDistrict (optional) - This field represents the "applicant" congressional district. Maximum length is 50.
+    + contactAddressId (optional) - Contact Address Id. Maximum length is 6.
+    + county (optional) - County. Maximum length is 30.
+    + dodacNumber (optional) - DODAC Number. Maximum length is 20.
+    + dunsNumber (optional) - DUNS Number. Maximum length is 20.
+    + dunsPlusFourNumber (optional) - DUNS Plus Four Number. Maximum length is 20.
+    + federalEmployerId (optional) - Federal Employer Id. Maximum length is 15.
+    + humanSubAssurance (optional) - Human Sub Assurance. Maximum length is 30.
+    + incorporatedDate (optional) - Incorporated Date. Maximum length is 10.
+    + incorporatedIn (optional) - Incorporated In. Maximum length is 50.
+    + indirectCostRateAgreement (optional) - Indirect Cost Rate Agreement. Maximum length is 50.
+    + irsTaxExemption (optional) - IRS Tax Exemption. Maximum length is 30.
+    + stateEmployeeClaim (optional) - State Employee Claim. Maximum length is 30.
+    + stateTaxExemptNum (optional) - State Tax Exempt Num. Maximum length is 30.
+    + nsfInstitutionalCode (optional) - NSF Institutional Code. Maximum length is 30.
+    + numberOfEmployees (optional) - Number Of Employees. Maximum length is 6.
+    + onrResidentRep (optional) - ONR Resident Rep. Maximum length is 6.
+    + organizationName (optional) - Organization Name. Maximum length is 60.
+    + phsAccount (optional) - PHS Account. Maximum length is 30.
+    + scienceMisconductComplDate (optional) - Science Misconduct Compl Date. Maximum length is 10.
+    + telexNumber (optional) - Telex Number. Maximum length is 20.
+    + vendorCode (optional) - Vendor Code. Maximum length is 30.
 
       
 + Request

@@ -1,6 +1,6 @@
-## Iacuc Protocol Online Review Determination Recommendations [/research-sys/api/v1/iacuc-protocol-online-review-determination-recommendations/]
+## Iacuc Protocol Online Review Determination Recommendations [/iacuc/api/v1/iacuc-protocol-online-review-determination-recommendations/]
 
-### Get Iacuc Protocol Online Review Determination Recommendations by Key [GET /research-sys/api/v1/iacuc-protocol-online-review-determination-recommendations/(key)]
+### Get Iacuc Protocol Online Review Determination Recommendations by Key [GET /iacuc/api/v1/iacuc-protocol-online-review-determination-recommendations/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"protocolOnlineReviewDeterminationRecommendationCode": "(val)","description": "(val)","iacucProtocolReviewTypeCode": "(val)","iacucProtocolActionTypeCode": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Protocol Online Review Determination Recommendations [GET /research-sys/api/v1/iacuc-protocol-online-review-determination-recommendations/]
+### Get All Iacuc Protocol Online Review Determination Recommendations [GET /iacuc/api/v1/iacuc-protocol-online-review-determination-recommendations/]
 	 
 + Request
 
@@ -39,14 +39,14 @@
               {"protocolOnlineReviewDeterminationRecommendationCode": "(val)","description": "(val)","iacucProtocolReviewTypeCode": "(val)","iacucProtocolActionTypeCode": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Protocol Online Review Determination Recommendations with Filtering [GET /research-sys/api/v1/iacuc-protocol-online-review-determination-recommendations/]
+### Get All Iacuc Protocol Online Review Determination Recommendations with Filtering [GET /iacuc/api/v1/iacuc-protocol-online-review-determination-recommendations/]
     
 + Parameters
 
-        + protocolOnlineReviewDeterminationRecommendationCode
-            + description
-            + iacucProtocolReviewTypeCode
-            + iacucProtocolActionTypeCode
+    + protocolOnlineReviewDeterminationRecommendationCode (optional) - Status Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 300.
+    + iacucProtocolReviewTypeCode (optional) - Review Type. Maximum length is 3.
+    + iacucProtocolActionTypeCode (optional) - Recommended Action. Maximum length is 3.
 
             
 + Request
@@ -68,7 +68,7 @@
               {"protocolOnlineReviewDeterminationRecommendationCode": "(val)","description": "(val)","iacucProtocolReviewTypeCode": "(val)","iacucProtocolActionTypeCode": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Protocol Online Review Determination Recommendations [GET /research-sys/api/v1/iacuc-protocol-online-review-determination-recommendations/]
+### Get Schema for Iacuc Protocol Online Review Determination Recommendations [GET /iacuc/api/v1/iacuc-protocol-online-review-determination-recommendations/]
 	                                          
 + Parameters
 
@@ -90,7 +90,7 @@
     
             {"columns":["protocolOnlineReviewDeterminationRecommendationCode","description","iacucProtocolReviewTypeCode","iacucProtocolActionTypeCode"],"primaryKey":"protocolOnlineReviewDeterminationRecommendationCode"}
 		
-### Get Blueprint API specification for Iacuc Protocol Online Review Determination Recommendations [GET /research-sys/api/v1/iacuc-protocol-online-review-determination-recommendations/]
+### Get Blueprint API specification for Iacuc Protocol Online Review Determination Recommendations [GET /iacuc/api/v1/iacuc-protocol-online-review-determination-recommendations/]
 	 
 + Parameters
 
@@ -111,7 +111,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Protocol Online Review Determination Recommendations [PUT /research-sys/api/v1/iacuc-protocol-online-review-determination-recommendations/(key)]
+### Update Iacuc Protocol Online Review Determination Recommendations [PUT /iacuc/api/v1/iacuc-protocol-online-review-determination-recommendations/(key)]
 
 + Request
 
@@ -126,7 +126,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Protocol Online Review Determination Recommendations [PUT /research-sys/api/v1/iacuc-protocol-online-review-determination-recommendations/]
+### Update Multiple Iacuc Protocol Online Review Determination Recommendations [PUT /iacuc/api/v1/iacuc-protocol-online-review-determination-recommendations/]
 
 + Request
 
@@ -144,7 +144,7 @@
 			
 + Response 204
 
-### Insert Iacuc Protocol Online Review Determination Recommendations [POST /research-sys/api/v1/iacuc-protocol-online-review-determination-recommendations/]
+### Insert Iacuc Protocol Online Review Determination Recommendations [POST /iacuc/api/v1/iacuc-protocol-online-review-determination-recommendations/]
 
 + Request
 
@@ -163,7 +163,7 @@
             
             {"protocolOnlineReviewDeterminationRecommendationCode": "(val)","description": "(val)","iacucProtocolReviewTypeCode": "(val)","iacucProtocolActionTypeCode": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Protocol Online Review Determination Recommendations [POST /research-sys/api/v1/iacuc-protocol-online-review-determination-recommendations/]
+### Insert Multiple Iacuc Protocol Online Review Determination Recommendations [POST /iacuc/api/v1/iacuc-protocol-online-review-determination-recommendations/]
 
 + Request
 
@@ -188,7 +188,7 @@
               {"protocolOnlineReviewDeterminationRecommendationCode": "(val)","description": "(val)","iacucProtocolReviewTypeCode": "(val)","iacucProtocolActionTypeCode": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Protocol Online Review Determination Recommendations by Key [DELETE /research-sys/api/v1/iacuc-protocol-online-review-determination-recommendations/(key)]
+### Delete Iacuc Protocol Online Review Determination Recommendations by Key [DELETE /iacuc/api/v1/iacuc-protocol-online-review-determination-recommendations/(key)]
 	 
 + Request
 
@@ -199,7 +199,7 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Online Review Determination Recommendations [DELETE /research-sys/api/v1/iacuc-protocol-online-review-determination-recommendations/]
+### Delete All Iacuc Protocol Online Review Determination Recommendations [DELETE /iacuc/api/v1/iacuc-protocol-online-review-determination-recommendations/]
 
 + Parameters
 
@@ -214,15 +214,15 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Online Review Determination Recommendations with Matching [DELETE /research-sys/api/v1/iacuc-protocol-online-review-determination-recommendations/]
+### Delete All Iacuc Protocol Online Review Determination Recommendations with Matching [DELETE /iacuc/api/v1/iacuc-protocol-online-review-determination-recommendations/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + protocolOnlineReviewDeterminationRecommendationCode
-            + description
-            + iacucProtocolReviewTypeCode
-            + iacucProtocolActionTypeCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + protocolOnlineReviewDeterminationRecommendationCode (optional) - Status Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 300.
+    + iacucProtocolReviewTypeCode (optional) - Review Type. Maximum length is 3.
+    + iacucProtocolActionTypeCode (optional) - Recommended Action. Maximum length is 3.
 
       
 + Request

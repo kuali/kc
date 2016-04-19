@@ -43,11 +43,11 @@
     
 + Parameters
 
-        + routeNodeInstanceId
-            + lockVerNbr
-            + stateId
-            + value
-            + key
+    + routeNodeInstanceId (optional) - 
+    + lockVerNbr (optional) - 
+    + stateId (optional) - 
+    + value (optional) - 
+    + key (optional) - 
 
             
 + Request
@@ -219,12 +219,12 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + routeNodeInstanceId
-            + lockVerNbr
-            + stateId
-            + value
-            + key
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + routeNodeInstanceId (optional) - 
+    + lockVerNbr (optional) - 
+    + stateId (optional) - 
+    + value (optional) - 
+    + key (optional) - 
 
       
 + Request

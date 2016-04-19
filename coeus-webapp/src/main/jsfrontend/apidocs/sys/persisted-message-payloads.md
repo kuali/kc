@@ -43,8 +43,8 @@
     
 + Parameters
 
-        + routeQueueId
-            + payload
+    + routeQueueId (optional) - 
+    + payload (optional) - 
 
             
 + Request
@@ -216,9 +216,9 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + routeQueueId
-            + payload
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + routeQueueId (optional) - 
+    + payload (optional) - 
 
       
 + Request

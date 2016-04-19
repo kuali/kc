@@ -1,6 +1,6 @@
-## Valid Special Review Approvals [/research-sys/api/v1/valid-special-review-approvals/]
+## Valid Special Review Approvals [/research-common/api/v1/valid-special-review-approvals/]
 
-### Get Valid Special Review Approvals by Key [GET /research-sys/api/v1/valid-special-review-approvals/(key)]
+### Get Valid Special Review Approvals by Key [GET /research-common/api/v1/valid-special-review-approvals/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"validSpecialReviewApprovalId": "(val)","specialReviewTypeCode": "(val)","approvalTypeCode": "(val)","applicationDateFlag": "(val)","approvalDateFlag": "(val)","exemptNumberFlag": "(val)","protocolNumberFlag": "(val)","_primaryKey": "(val)"}
 
-### Get All Valid Special Review Approvals [GET /research-sys/api/v1/valid-special-review-approvals/]
+### Get All Valid Special Review Approvals [GET /research-common/api/v1/valid-special-review-approvals/]
 	 
 + Request
 
@@ -39,17 +39,17 @@
               {"validSpecialReviewApprovalId": "(val)","specialReviewTypeCode": "(val)","approvalTypeCode": "(val)","applicationDateFlag": "(val)","approvalDateFlag": "(val)","exemptNumberFlag": "(val)","protocolNumberFlag": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Valid Special Review Approvals with Filtering [GET /research-sys/api/v1/valid-special-review-approvals/]
+### Get All Valid Special Review Approvals with Filtering [GET /research-common/api/v1/valid-special-review-approvals/]
     
 + Parameters
 
-        + validSpecialReviewApprovalId
-            + specialReviewTypeCode
-            + approvalTypeCode
-            + applicationDateFlag
-            + approvalDateFlag
-            + exemptNumberFlag
-            + protocolNumberFlag
+    + validSpecialReviewApprovalId (optional) - Valid Special Review Approval Id. Maximum length is 22.
+    + specialReviewTypeCode (optional) - Special Review Type Code. Maximum length is 3.
+    + approvalTypeCode (optional) - Special Review Approval Type Code. Maximum length is 3.
+    + applicationDateFlag (optional) - Validate Application Date. Maximum length is 1.
+    + approvalDateFlag (optional) - Validate Approval Date. Maximum length is 1.
+    + exemptNumberFlag (optional) - Validate Exempt Number is required or not. Maximum length is 1.
+    + protocolNumberFlag (optional) - Validate Protocol Number. Maximum length is 1.
 
             
 + Request
@@ -71,7 +71,7 @@
               {"validSpecialReviewApprovalId": "(val)","specialReviewTypeCode": "(val)","approvalTypeCode": "(val)","applicationDateFlag": "(val)","approvalDateFlag": "(val)","exemptNumberFlag": "(val)","protocolNumberFlag": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Valid Special Review Approvals [GET /research-sys/api/v1/valid-special-review-approvals/]
+### Get Schema for Valid Special Review Approvals [GET /research-common/api/v1/valid-special-review-approvals/]
 	                                          
 + Parameters
 
@@ -93,7 +93,7 @@
     
             {"columns":["validSpecialReviewApprovalId","specialReviewTypeCode","approvalTypeCode","applicationDateFlag","approvalDateFlag","exemptNumberFlag","protocolNumberFlag"],"primaryKey":"validSpecialReviewApprovalId"}
 		
-### Get Blueprint API specification for Valid Special Review Approvals [GET /research-sys/api/v1/valid-special-review-approvals/]
+### Get Blueprint API specification for Valid Special Review Approvals [GET /research-common/api/v1/valid-special-review-approvals/]
 	 
 + Parameters
 
@@ -114,7 +114,7 @@
             transfer-encoding:chunked
 
 
-### Update Valid Special Review Approvals [PUT /research-sys/api/v1/valid-special-review-approvals/(key)]
+### Update Valid Special Review Approvals [PUT /research-common/api/v1/valid-special-review-approvals/(key)]
 
 + Request
 
@@ -129,7 +129,7 @@
 			
 + Response 204
 
-### Update Multiple Valid Special Review Approvals [PUT /research-sys/api/v1/valid-special-review-approvals/]
+### Update Multiple Valid Special Review Approvals [PUT /research-common/api/v1/valid-special-review-approvals/]
 
 + Request
 
@@ -147,7 +147,7 @@
 			
 + Response 204
 
-### Insert Valid Special Review Approvals [POST /research-sys/api/v1/valid-special-review-approvals/]
+### Insert Valid Special Review Approvals [POST /research-common/api/v1/valid-special-review-approvals/]
 
 + Request
 
@@ -166,7 +166,7 @@
             
             {"validSpecialReviewApprovalId": "(val)","specialReviewTypeCode": "(val)","approvalTypeCode": "(val)","applicationDateFlag": "(val)","approvalDateFlag": "(val)","exemptNumberFlag": "(val)","protocolNumberFlag": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Valid Special Review Approvals [POST /research-sys/api/v1/valid-special-review-approvals/]
+### Insert Multiple Valid Special Review Approvals [POST /research-common/api/v1/valid-special-review-approvals/]
 
 + Request
 
@@ -191,7 +191,7 @@
               {"validSpecialReviewApprovalId": "(val)","specialReviewTypeCode": "(val)","approvalTypeCode": "(val)","applicationDateFlag": "(val)","approvalDateFlag": "(val)","exemptNumberFlag": "(val)","protocolNumberFlag": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Valid Special Review Approvals by Key [DELETE /research-sys/api/v1/valid-special-review-approvals/(key)]
+### Delete Valid Special Review Approvals by Key [DELETE /research-common/api/v1/valid-special-review-approvals/(key)]
 	 
 + Request
 
@@ -202,7 +202,7 @@
 
 + Response 204
 
-### Delete All Valid Special Review Approvals [DELETE /research-sys/api/v1/valid-special-review-approvals/]
+### Delete All Valid Special Review Approvals [DELETE /research-common/api/v1/valid-special-review-approvals/]
 
 + Parameters
 
@@ -217,18 +217,18 @@
 
 + Response 204
 
-### Delete All Valid Special Review Approvals with Matching [DELETE /research-sys/api/v1/valid-special-review-approvals/]
+### Delete All Valid Special Review Approvals with Matching [DELETE /research-common/api/v1/valid-special-review-approvals/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + validSpecialReviewApprovalId
-            + specialReviewTypeCode
-            + approvalTypeCode
-            + applicationDateFlag
-            + approvalDateFlag
-            + exemptNumberFlag
-            + protocolNumberFlag
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + validSpecialReviewApprovalId (optional) - Valid Special Review Approval Id. Maximum length is 22.
+    + specialReviewTypeCode (optional) - Special Review Type Code. Maximum length is 3.
+    + approvalTypeCode (optional) - Special Review Approval Type Code. Maximum length is 3.
+    + applicationDateFlag (optional) - Validate Application Date. Maximum length is 1.
+    + approvalDateFlag (optional) - Validate Approval Date. Maximum length is 1.
+    + exemptNumberFlag (optional) - Validate Exempt Number is required or not. Maximum length is 1.
+    + protocolNumberFlag (optional) - Validate Protocol Number. Maximum length is 1.
 
       
 + Request

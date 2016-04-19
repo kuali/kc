@@ -1,6 +1,6 @@
-## Exempt Studies Checklist Items [/research-sys/api/v1/exempt-studies-checklist-items/]
+## Exempt Studies Checklist Items [/irb/api/v1/exempt-studies-checklist-items/]
 
-### Get Exempt Studies Checklist Items by Key [GET /research-sys/api/v1/exempt-studies-checklist-items/(key)]
+### Get Exempt Studies Checklist Items by Key [GET /irb/api/v1/exempt-studies-checklist-items/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"exemptStudiesCheckListCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Exempt Studies Checklist Items [GET /research-sys/api/v1/exempt-studies-checklist-items/]
+### Get All Exempt Studies Checklist Items [GET /irb/api/v1/exempt-studies-checklist-items/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"exemptStudiesCheckListCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Exempt Studies Checklist Items with Filtering [GET /research-sys/api/v1/exempt-studies-checklist-items/]
+### Get All Exempt Studies Checklist Items with Filtering [GET /irb/api/v1/exempt-studies-checklist-items/]
     
 + Parameters
 
-        + exemptStudiesCheckListCode
-            + description
+    + exemptStudiesCheckListCode (optional) - Exempt Studies CheckList Code. Maximum length is 4.
+    + description (optional) - Description. Maximum length is 2000.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"exemptStudiesCheckListCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Exempt Studies Checklist Items [GET /research-sys/api/v1/exempt-studies-checklist-items/]
+### Get Schema for Exempt Studies Checklist Items [GET /irb/api/v1/exempt-studies-checklist-items/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["exemptStudiesCheckListCode","description"],"primaryKey":"exemptStudiesCheckListCode"}
 		
-### Get Blueprint API specification for Exempt Studies Checklist Items [GET /research-sys/api/v1/exempt-studies-checklist-items/]
+### Get Blueprint API specification for Exempt Studies Checklist Items [GET /irb/api/v1/exempt-studies-checklist-items/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Exempt Studies Checklist Items [PUT /research-sys/api/v1/exempt-studies-checklist-items/(key)]
+### Update Exempt Studies Checklist Items [PUT /irb/api/v1/exempt-studies-checklist-items/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Exempt Studies Checklist Items [PUT /research-sys/api/v1/exempt-studies-checklist-items/]
+### Update Multiple Exempt Studies Checklist Items [PUT /irb/api/v1/exempt-studies-checklist-items/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Exempt Studies Checklist Items [POST /research-sys/api/v1/exempt-studies-checklist-items/]
+### Insert Exempt Studies Checklist Items [POST /irb/api/v1/exempt-studies-checklist-items/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"exemptStudiesCheckListCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Exempt Studies Checklist Items [POST /research-sys/api/v1/exempt-studies-checklist-items/]
+### Insert Multiple Exempt Studies Checklist Items [POST /irb/api/v1/exempt-studies-checklist-items/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"exemptStudiesCheckListCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Exempt Studies Checklist Items by Key [DELETE /research-sys/api/v1/exempt-studies-checklist-items/(key)]
+### Delete Exempt Studies Checklist Items by Key [DELETE /irb/api/v1/exempt-studies-checklist-items/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Exempt Studies Checklist Items [DELETE /research-sys/api/v1/exempt-studies-checklist-items/]
+### Delete All Exempt Studies Checklist Items [DELETE /irb/api/v1/exempt-studies-checklist-items/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Exempt Studies Checklist Items with Matching [DELETE /research-sys/api/v1/exempt-studies-checklist-items/]
+### Delete All Exempt Studies Checklist Items with Matching [DELETE /irb/api/v1/exempt-studies-checklist-items/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + exemptStudiesCheckListCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + exemptStudiesCheckListCode (optional) - Exempt Studies CheckList Code. Maximum length is 4.
+    + description (optional) - Description. Maximum length is 2000.
 
       
 + Request

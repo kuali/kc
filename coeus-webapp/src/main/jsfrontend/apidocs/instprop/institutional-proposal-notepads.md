@@ -1,6 +1,6 @@
-## Institutional Proposal Notepads [/research-sys/api/v1/institutional-proposal-notepads/]
+## Institutional Proposal Notepads [/instprop/api/v1/institutional-proposal-notepads/]
 
-### Get Institutional Proposal Notepads by Key [GET /research-sys/api/v1/institutional-proposal-notepads/(key)]
+### Get Institutional Proposal Notepads by Key [GET /instprop/api/v1/institutional-proposal-notepads/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"proposalNotepadId": "(val)","proposalNumber": "(val)","proposalId": "(val)","entryNumber": "(val)","noteTopic": "(val)","comments": "(val)","restrictedView": "(val)","noteId": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"}
 
-### Get All Institutional Proposal Notepads [GET /research-sys/api/v1/institutional-proposal-notepads/]
+### Get All Institutional Proposal Notepads [GET /instprop/api/v1/institutional-proposal-notepads/]
 	 
 + Request
 
@@ -39,20 +39,20 @@
               {"proposalNotepadId": "(val)","proposalNumber": "(val)","proposalId": "(val)","entryNumber": "(val)","noteTopic": "(val)","comments": "(val)","restrictedView": "(val)","noteId": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Institutional Proposal Notepads with Filtering [GET /research-sys/api/v1/institutional-proposal-notepads/]
+### Get All Institutional Proposal Notepads with Filtering [GET /instprop/api/v1/institutional-proposal-notepads/]
     
 + Parameters
 
-        + proposalNotepadId
-            + proposalNumber
-            + proposalId
-            + entryNumber
-            + noteTopic
-            + comments
-            + restrictedView
-            + noteId
-            + createTimestamp
-            + createUser
+    + proposalNotepadId (optional) - Proposal Notepad Id. Maximum length is 22.
+    + proposalNumber (optional) - Proposal Number. Maximum length is 8.
+    + proposalId (optional) - 
+    + entryNumber (optional) - Entry Number. Maximum length is 22.
+    + noteTopic (optional) - Comments. Maximum length is 60.
+    + comments (optional) - Comments. Maximum length is 4000.
+    + restrictedView (optional) - Restricted View. Maximum length is 1.
+    + noteId (optional) - 
+    + createTimestamp (optional) - Posted Timestamp. Maximum length is 10.
+    + createUser (optional) - 
 
             
 + Request
@@ -74,7 +74,7 @@
               {"proposalNotepadId": "(val)","proposalNumber": "(val)","proposalId": "(val)","entryNumber": "(val)","noteTopic": "(val)","comments": "(val)","restrictedView": "(val)","noteId": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Institutional Proposal Notepads [GET /research-sys/api/v1/institutional-proposal-notepads/]
+### Get Schema for Institutional Proposal Notepads [GET /instprop/api/v1/institutional-proposal-notepads/]
 	                                          
 + Parameters
 
@@ -96,7 +96,7 @@
     
             {"columns":["proposalNotepadId","proposalNumber","proposalId","entryNumber","noteTopic","comments","restrictedView","noteId","createTimestamp","createUser"],"primaryKey":"proposalNotepadId"}
 		
-### Get Blueprint API specification for Institutional Proposal Notepads [GET /research-sys/api/v1/institutional-proposal-notepads/]
+### Get Blueprint API specification for Institutional Proposal Notepads [GET /instprop/api/v1/institutional-proposal-notepads/]
 	 
 + Parameters
 
@@ -117,7 +117,7 @@
             transfer-encoding:chunked
 
 
-### Update Institutional Proposal Notepads [PUT /research-sys/api/v1/institutional-proposal-notepads/(key)]
+### Update Institutional Proposal Notepads [PUT /instprop/api/v1/institutional-proposal-notepads/(key)]
 
 + Request
 
@@ -132,7 +132,7 @@
 			
 + Response 204
 
-### Update Multiple Institutional Proposal Notepads [PUT /research-sys/api/v1/institutional-proposal-notepads/]
+### Update Multiple Institutional Proposal Notepads [PUT /instprop/api/v1/institutional-proposal-notepads/]
 
 + Request
 
@@ -150,7 +150,7 @@
 			
 + Response 204
 
-### Insert Institutional Proposal Notepads [POST /research-sys/api/v1/institutional-proposal-notepads/]
+### Insert Institutional Proposal Notepads [POST /instprop/api/v1/institutional-proposal-notepads/]
 
 + Request
 
@@ -169,7 +169,7 @@
             
             {"proposalNotepadId": "(val)","proposalNumber": "(val)","proposalId": "(val)","entryNumber": "(val)","noteTopic": "(val)","comments": "(val)","restrictedView": "(val)","noteId": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Institutional Proposal Notepads [POST /research-sys/api/v1/institutional-proposal-notepads/]
+### Insert Multiple Institutional Proposal Notepads [POST /instprop/api/v1/institutional-proposal-notepads/]
 
 + Request
 
@@ -194,7 +194,7 @@
               {"proposalNotepadId": "(val)","proposalNumber": "(val)","proposalId": "(val)","entryNumber": "(val)","noteTopic": "(val)","comments": "(val)","restrictedView": "(val)","noteId": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Institutional Proposal Notepads by Key [DELETE /research-sys/api/v1/institutional-proposal-notepads/(key)]
+### Delete Institutional Proposal Notepads by Key [DELETE /instprop/api/v1/institutional-proposal-notepads/(key)]
 	 
 + Request
 
@@ -205,7 +205,7 @@
 
 + Response 204
 
-### Delete All Institutional Proposal Notepads [DELETE /research-sys/api/v1/institutional-proposal-notepads/]
+### Delete All Institutional Proposal Notepads [DELETE /instprop/api/v1/institutional-proposal-notepads/]
 
 + Parameters
 
@@ -220,21 +220,21 @@
 
 + Response 204
 
-### Delete All Institutional Proposal Notepads with Matching [DELETE /research-sys/api/v1/institutional-proposal-notepads/]
+### Delete All Institutional Proposal Notepads with Matching [DELETE /instprop/api/v1/institutional-proposal-notepads/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + proposalNotepadId
-            + proposalNumber
-            + proposalId
-            + entryNumber
-            + noteTopic
-            + comments
-            + restrictedView
-            + noteId
-            + createTimestamp
-            + createUser
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + proposalNotepadId (optional) - Proposal Notepad Id. Maximum length is 22.
+    + proposalNumber (optional) - Proposal Number. Maximum length is 8.
+    + proposalId (optional) - 
+    + entryNumber (optional) - Entry Number. Maximum length is 22.
+    + noteTopic (optional) - Comments. Maximum length is 60.
+    + comments (optional) - Comments. Maximum length is 4000.
+    + restrictedView (optional) - Restricted View. Maximum length is 1.
+    + noteId (optional) - 
+    + createTimestamp (optional) - Posted Timestamp. Maximum length is 10.
+    + createUser (optional) - 
 
       
 + Request

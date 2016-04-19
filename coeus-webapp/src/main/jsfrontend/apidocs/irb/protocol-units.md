@@ -1,6 +1,6 @@
-## Protocol Units [/research-sys/api/v1/protocol-units/]
+## Protocol Units [/irb/api/v1/protocol-units/]
 
-### Get Protocol Units by Key [GET /research-sys/api/v1/protocol-units/(key)]
+### Get Protocol Units by Key [GET /irb/api/v1/protocol-units/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"protocolUnitsId": "(val)","protocolPersonId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","unitNumber": "(val)","leadUnitFlag": "(val)","personId": "(val)","_primaryKey": "(val)"}
 
-### Get All Protocol Units [GET /research-sys/api/v1/protocol-units/]
+### Get All Protocol Units [GET /irb/api/v1/protocol-units/]
 	 
 + Request
 
@@ -39,17 +39,17 @@
               {"protocolUnitsId": "(val)","protocolPersonId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","unitNumber": "(val)","leadUnitFlag": "(val)","personId": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Protocol Units with Filtering [GET /research-sys/api/v1/protocol-units/]
+### Get All Protocol Units with Filtering [GET /irb/api/v1/protocol-units/]
     
 + Parameters
 
-        + protocolUnitsId
-            + protocolPersonId
-            + protocolNumber
-            + sequenceNumber
-            + unitNumber
-            + leadUnitFlag
-            + personId
+    + protocolUnitsId (optional) - Protocol Units Id. Maximum length is 12.
+    + protocolPersonId (optional) - Protocol Person Id. Maximum length is 9.
+    + protocolNumber (optional) - Protocol Number. Maximum length is 20.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 4.
+    + unitNumber (optional) - Unit Number. Maximum length is 8.
+    + leadUnitFlag (optional) - Lead Unit Flag. Maximum length is 1.
+    + personId (optional) - Person Id. Maximum length is 40.
 
             
 + Request
@@ -71,7 +71,7 @@
               {"protocolUnitsId": "(val)","protocolPersonId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","unitNumber": "(val)","leadUnitFlag": "(val)","personId": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Protocol Units [GET /research-sys/api/v1/protocol-units/]
+### Get Schema for Protocol Units [GET /irb/api/v1/protocol-units/]
 	                                          
 + Parameters
 
@@ -93,7 +93,7 @@
     
             {"columns":["protocolUnitsId","protocolPersonId","protocolNumber","sequenceNumber","unitNumber","leadUnitFlag","personId"],"primaryKey":"protocolUnitsId"}
 		
-### Get Blueprint API specification for Protocol Units [GET /research-sys/api/v1/protocol-units/]
+### Get Blueprint API specification for Protocol Units [GET /irb/api/v1/protocol-units/]
 	 
 + Parameters
 
@@ -114,7 +114,7 @@
             transfer-encoding:chunked
 
 
-### Update Protocol Units [PUT /research-sys/api/v1/protocol-units/(key)]
+### Update Protocol Units [PUT /irb/api/v1/protocol-units/(key)]
 
 + Request
 
@@ -129,7 +129,7 @@
 			
 + Response 204
 
-### Update Multiple Protocol Units [PUT /research-sys/api/v1/protocol-units/]
+### Update Multiple Protocol Units [PUT /irb/api/v1/protocol-units/]
 
 + Request
 
@@ -147,7 +147,7 @@
 			
 + Response 204
 
-### Insert Protocol Units [POST /research-sys/api/v1/protocol-units/]
+### Insert Protocol Units [POST /irb/api/v1/protocol-units/]
 
 + Request
 
@@ -166,7 +166,7 @@
             
             {"protocolUnitsId": "(val)","protocolPersonId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","unitNumber": "(val)","leadUnitFlag": "(val)","personId": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Protocol Units [POST /research-sys/api/v1/protocol-units/]
+### Insert Multiple Protocol Units [POST /irb/api/v1/protocol-units/]
 
 + Request
 
@@ -191,7 +191,7 @@
               {"protocolUnitsId": "(val)","protocolPersonId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","unitNumber": "(val)","leadUnitFlag": "(val)","personId": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Protocol Units by Key [DELETE /research-sys/api/v1/protocol-units/(key)]
+### Delete Protocol Units by Key [DELETE /irb/api/v1/protocol-units/(key)]
 	 
 + Request
 
@@ -202,7 +202,7 @@
 
 + Response 204
 
-### Delete All Protocol Units [DELETE /research-sys/api/v1/protocol-units/]
+### Delete All Protocol Units [DELETE /irb/api/v1/protocol-units/]
 
 + Parameters
 
@@ -217,18 +217,18 @@
 
 + Response 204
 
-### Delete All Protocol Units with Matching [DELETE /research-sys/api/v1/protocol-units/]
+### Delete All Protocol Units with Matching [DELETE /irb/api/v1/protocol-units/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + protocolUnitsId
-            + protocolPersonId
-            + protocolNumber
-            + sequenceNumber
-            + unitNumber
-            + leadUnitFlag
-            + personId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + protocolUnitsId (optional) - Protocol Units Id. Maximum length is 12.
+    + protocolPersonId (optional) - Protocol Person Id. Maximum length is 9.
+    + protocolNumber (optional) - Protocol Number. Maximum length is 20.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 4.
+    + unitNumber (optional) - Unit Number. Maximum length is 8.
+    + leadUnitFlag (optional) - Lead Unit Flag. Maximum length is 1.
+    + personId (optional) - Person Id. Maximum length is 40.
 
       
 + Request

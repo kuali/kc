@@ -43,11 +43,11 @@
     
 + Parameters
 
-        + id
-            + recipientId
-            + property
-            + value
-            + lockVerNbr
+    + id (optional) - 
+    + recipientId (optional) - 
+    + property (optional) - 
+    + value (optional) - 
+    + lockVerNbr (optional) - 
 
             
 + Request
@@ -219,12 +219,12 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + recipientId
-            + property
-            + value
-            + lockVerNbr
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - 
+    + recipientId (optional) - 
+    + property (optional) - 
+    + value (optional) - 
+    + lockVerNbr (optional) - 
 
       
 + Request

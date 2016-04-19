@@ -43,10 +43,10 @@
     
 + Parameters
 
-        + id
-            + entityId
-            + externalIdentifierTypeCode
-            + externalId
+    + id (optional) - 
+    + entityId (optional) - 
+    + externalIdentifierTypeCode (optional) - 
+    + externalId (optional) - 
 
             
 + Request
@@ -218,11 +218,11 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + entityId
-            + externalIdentifierTypeCode
-            + externalId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - 
+    + entityId (optional) - 
+    + externalIdentifierTypeCode (optional) - 
+    + externalId (optional) - 
 
       
 + Request

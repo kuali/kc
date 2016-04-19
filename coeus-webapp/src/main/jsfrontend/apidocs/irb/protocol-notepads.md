@@ -1,6 +1,6 @@
-## Protocol Notepads [/research-sys/api/v1/protocol-notepads/]
+## Protocol Notepads [/irb/api/v1/protocol-notepads/]
 
-### Get Protocol Notepads by Key [GET /research-sys/api/v1/protocol-notepads/(key)]
+### Get Protocol Notepads by Key [GET /irb/api/v1/protocol-notepads/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"id": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","entryNumber": "(val)","comments": "(val)","restrictedView": "(val)","noteTopic": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"}
 
-### Get All Protocol Notepads [GET /research-sys/api/v1/protocol-notepads/]
+### Get All Protocol Notepads [GET /irb/api/v1/protocol-notepads/]
 	 
 + Request
 
@@ -39,20 +39,20 @@
               {"id": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","entryNumber": "(val)","comments": "(val)","restrictedView": "(val)","noteTopic": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Protocol Notepads with Filtering [GET /research-sys/api/v1/protocol-notepads/]
+### Get All Protocol Notepads with Filtering [GET /irb/api/v1/protocol-notepads/]
     
 + Parameters
 
-        + id
-            + protocolId
-            + protocolNumber
-            + sequenceNumber
-            + entryNumber
-            + comments
-            + restrictedView
-            + noteTopic
-            + createTimestamp
-            + createUser
+    + id (optional) - Protocol Notepad Id. Maximum length is 22.
+    + protocolId (optional) - 
+    + protocolNumber (optional) - Protocol Number. Maximum length is 20.
+    + sequenceNumber (optional) - 
+    + entryNumber (optional) - Entry Number. Maximum length is 22.
+    + comments (optional) - Comments. Maximum length is 4000.
+    + restrictedView (optional) - Restricted View. Maximum length is 1.
+    + noteTopic (optional) - Comments. Maximum length is 60.
+    + createTimestamp (optional) - The creation or last modification timestamp. Maximum length is 21.
+    + createUser (optional) - The user who created or last modified the object. Maximum length is 60.
 
             
 + Request
@@ -74,7 +74,7 @@
               {"id": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","entryNumber": "(val)","comments": "(val)","restrictedView": "(val)","noteTopic": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Protocol Notepads [GET /research-sys/api/v1/protocol-notepads/]
+### Get Schema for Protocol Notepads [GET /irb/api/v1/protocol-notepads/]
 	                                          
 + Parameters
 
@@ -96,7 +96,7 @@
     
             {"columns":["id","protocolId","protocolNumber","sequenceNumber","entryNumber","comments","restrictedView","noteTopic","createTimestamp","createUser"],"primaryKey":"id"}
 		
-### Get Blueprint API specification for Protocol Notepads [GET /research-sys/api/v1/protocol-notepads/]
+### Get Blueprint API specification for Protocol Notepads [GET /irb/api/v1/protocol-notepads/]
 	 
 + Parameters
 
@@ -117,7 +117,7 @@
             transfer-encoding:chunked
 
 
-### Update Protocol Notepads [PUT /research-sys/api/v1/protocol-notepads/(key)]
+### Update Protocol Notepads [PUT /irb/api/v1/protocol-notepads/(key)]
 
 + Request
 
@@ -132,7 +132,7 @@
 			
 + Response 204
 
-### Update Multiple Protocol Notepads [PUT /research-sys/api/v1/protocol-notepads/]
+### Update Multiple Protocol Notepads [PUT /irb/api/v1/protocol-notepads/]
 
 + Request
 
@@ -150,7 +150,7 @@
 			
 + Response 204
 
-### Insert Protocol Notepads [POST /research-sys/api/v1/protocol-notepads/]
+### Insert Protocol Notepads [POST /irb/api/v1/protocol-notepads/]
 
 + Request
 
@@ -169,7 +169,7 @@
             
             {"id": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","entryNumber": "(val)","comments": "(val)","restrictedView": "(val)","noteTopic": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Protocol Notepads [POST /research-sys/api/v1/protocol-notepads/]
+### Insert Multiple Protocol Notepads [POST /irb/api/v1/protocol-notepads/]
 
 + Request
 
@@ -194,7 +194,7 @@
               {"id": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","entryNumber": "(val)","comments": "(val)","restrictedView": "(val)","noteTopic": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Protocol Notepads by Key [DELETE /research-sys/api/v1/protocol-notepads/(key)]
+### Delete Protocol Notepads by Key [DELETE /irb/api/v1/protocol-notepads/(key)]
 	 
 + Request
 
@@ -205,7 +205,7 @@
 
 + Response 204
 
-### Delete All Protocol Notepads [DELETE /research-sys/api/v1/protocol-notepads/]
+### Delete All Protocol Notepads [DELETE /irb/api/v1/protocol-notepads/]
 
 + Parameters
 
@@ -220,21 +220,21 @@
 
 + Response 204
 
-### Delete All Protocol Notepads with Matching [DELETE /research-sys/api/v1/protocol-notepads/]
+### Delete All Protocol Notepads with Matching [DELETE /irb/api/v1/protocol-notepads/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + protocolId
-            + protocolNumber
-            + sequenceNumber
-            + entryNumber
-            + comments
-            + restrictedView
-            + noteTopic
-            + createTimestamp
-            + createUser
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Protocol Notepad Id. Maximum length is 22.
+    + protocolId (optional) - 
+    + protocolNumber (optional) - Protocol Number. Maximum length is 20.
+    + sequenceNumber (optional) - 
+    + entryNumber (optional) - Entry Number. Maximum length is 22.
+    + comments (optional) - Comments. Maximum length is 4000.
+    + restrictedView (optional) - Restricted View. Maximum length is 1.
+    + noteTopic (optional) - Comments. Maximum length is 60.
+    + createTimestamp (optional) - The creation or last modification timestamp. Maximum length is 21.
+    + createUser (optional) - The user who created or last modified the object. Maximum length is 60.
 
       
 + Request

@@ -1,6 +1,6 @@
-## Prop Award Person Roles [/research-sys/api/v1/prop-award-person-roles/]
+## Prop Award Person Roles [/research-common/api/v1/prop-award-person-roles/]
 
-### Get Prop Award Person Roles by Key [GET /research-sys/api/v1/prop-award-person-roles/(key)]
+### Get Prop Award Person Roles by Key [GET /research-common/api/v1/prop-award-person-roles/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"id": "(val)","code": "(val)","sponsorHierarchyName": "(val)","description": "(val)","certificationRequired": "(val)","readOnly": "(val)","unitDetailsRequired": "(val)","_primaryKey": "(val)"}
 
-### Get All Prop Award Person Roles [GET /research-sys/api/v1/prop-award-person-roles/]
+### Get All Prop Award Person Roles [GET /research-common/api/v1/prop-award-person-roles/]
 	 
 + Request
 
@@ -39,17 +39,17 @@
               {"id": "(val)","code": "(val)","sponsorHierarchyName": "(val)","description": "(val)","certificationRequired": "(val)","readOnly": "(val)","unitDetailsRequired": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Prop Award Person Roles with Filtering [GET /research-sys/api/v1/prop-award-person-roles/]
+### Get All Prop Award Person Roles with Filtering [GET /research-common/api/v1/prop-award-person-roles/]
     
 + Parameters
 
-        + id
-            + code
-            + sponsorHierarchyName
-            + description
-            + certificationRequired
-            + readOnly
-            + unitDetailsRequired
+    + id (optional) - Proposal Person Role Id. Maximum length is 12.
+    + code (optional) - Proposal Person Role Id. Maximum length is 12.
+    + sponsorHierarchyName (optional) - Sponsor Hierarchy Name. Maximum length is 50.
+    + description (optional) - Description. Maximum length is 25.
+    + certificationRequired (optional) - Certification Required. Maximum length is 1.
+    + readOnly (optional) - Read Only. Maximum length is 1.
+    + unitDetailsRequired (optional) - Unit Details Required. Maximum length is 1.
 
             
 + Request
@@ -71,7 +71,7 @@
               {"id": "(val)","code": "(val)","sponsorHierarchyName": "(val)","description": "(val)","certificationRequired": "(val)","readOnly": "(val)","unitDetailsRequired": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Prop Award Person Roles [GET /research-sys/api/v1/prop-award-person-roles/]
+### Get Schema for Prop Award Person Roles [GET /research-common/api/v1/prop-award-person-roles/]
 	                                          
 + Parameters
 
@@ -93,7 +93,7 @@
     
             {"columns":["id","code","sponsorHierarchyName","description","certificationRequired","readOnly","unitDetailsRequired"],"primaryKey":"id"}
 		
-### Get Blueprint API specification for Prop Award Person Roles [GET /research-sys/api/v1/prop-award-person-roles/]
+### Get Blueprint API specification for Prop Award Person Roles [GET /research-common/api/v1/prop-award-person-roles/]
 	 
 + Parameters
 
@@ -114,7 +114,7 @@
             transfer-encoding:chunked
 
 
-### Update Prop Award Person Roles [PUT /research-sys/api/v1/prop-award-person-roles/(key)]
+### Update Prop Award Person Roles [PUT /research-common/api/v1/prop-award-person-roles/(key)]
 
 + Request
 
@@ -129,7 +129,7 @@
 			
 + Response 204
 
-### Update Multiple Prop Award Person Roles [PUT /research-sys/api/v1/prop-award-person-roles/]
+### Update Multiple Prop Award Person Roles [PUT /research-common/api/v1/prop-award-person-roles/]
 
 + Request
 
@@ -147,7 +147,7 @@
 			
 + Response 204
 
-### Insert Prop Award Person Roles [POST /research-sys/api/v1/prop-award-person-roles/]
+### Insert Prop Award Person Roles [POST /research-common/api/v1/prop-award-person-roles/]
 
 + Request
 
@@ -166,7 +166,7 @@
             
             {"id": "(val)","code": "(val)","sponsorHierarchyName": "(val)","description": "(val)","certificationRequired": "(val)","readOnly": "(val)","unitDetailsRequired": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Prop Award Person Roles [POST /research-sys/api/v1/prop-award-person-roles/]
+### Insert Multiple Prop Award Person Roles [POST /research-common/api/v1/prop-award-person-roles/]
 
 + Request
 
@@ -191,7 +191,7 @@
               {"id": "(val)","code": "(val)","sponsorHierarchyName": "(val)","description": "(val)","certificationRequired": "(val)","readOnly": "(val)","unitDetailsRequired": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Prop Award Person Roles by Key [DELETE /research-sys/api/v1/prop-award-person-roles/(key)]
+### Delete Prop Award Person Roles by Key [DELETE /research-common/api/v1/prop-award-person-roles/(key)]
 	 
 + Request
 
@@ -202,7 +202,7 @@
 
 + Response 204
 
-### Delete All Prop Award Person Roles [DELETE /research-sys/api/v1/prop-award-person-roles/]
+### Delete All Prop Award Person Roles [DELETE /research-common/api/v1/prop-award-person-roles/]
 
 + Parameters
 
@@ -217,18 +217,18 @@
 
 + Response 204
 
-### Delete All Prop Award Person Roles with Matching [DELETE /research-sys/api/v1/prop-award-person-roles/]
+### Delete All Prop Award Person Roles with Matching [DELETE /research-common/api/v1/prop-award-person-roles/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + code
-            + sponsorHierarchyName
-            + description
-            + certificationRequired
-            + readOnly
-            + unitDetailsRequired
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Proposal Person Role Id. Maximum length is 12.
+    + code (optional) - Proposal Person Role Id. Maximum length is 12.
+    + sponsorHierarchyName (optional) - Sponsor Hierarchy Name. Maximum length is 50.
+    + description (optional) - Description. Maximum length is 25.
+    + certificationRequired (optional) - Certification Required. Maximum length is 1.
+    + readOnly (optional) - Read Only. Maximum length is 1.
+    + unitDetailsRequired (optional) - Unit Details Required. Maximum length is 1.
 
       
 + Request

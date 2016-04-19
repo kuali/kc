@@ -43,10 +43,10 @@
     
 + Parameters
 
-        + name
-            + active
-            + code
-            + sortCode
+    + name (optional) - 
+    + active (optional) - 
+    + code (optional) - 
+    + sortCode (optional) - 
 
             
 + Request
@@ -218,11 +218,11 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + name
-            + active
-            + code
-            + sortCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + name (optional) - 
+    + active (optional) - 
+    + code (optional) - 
+    + sortCode (optional) - 
 
       
 + Request

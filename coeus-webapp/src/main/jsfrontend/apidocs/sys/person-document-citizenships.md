@@ -43,15 +43,15 @@
     
 + Parameters
 
-        + entityCitizenshipId
-            + entityId
-            + countryCode
-            + citizenshipStatusCode
-            + startDate
-            + endDate
-            + edit
-            + documentNumber
-            + active
+    + entityCitizenshipId (optional) - Citizenship Entity Id. Maximum length is 40.
+    + entityId (optional) - Entity ID. Maximum length is 40.
+    + countryCode (optional) - Country Code. Maximum length is 2.
+    + citizenshipStatusCode (optional) - Citizenship Status Code.
+    + startDate (optional) - Start Date. Maximum length is 21.
+    + endDate (optional) - End Date. Maximum length is 21.
+    + edit (optional) - Edit.
+    + documentNumber (optional) - Document Number.
+    + active (optional) - Active.
 
             
 + Request
@@ -223,16 +223,16 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + entityCitizenshipId
-            + entityId
-            + countryCode
-            + citizenshipStatusCode
-            + startDate
-            + endDate
-            + edit
-            + documentNumber
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + entityCitizenshipId (optional) - Citizenship Entity Id. Maximum length is 40.
+    + entityId (optional) - Entity ID. Maximum length is 40.
+    + countryCode (optional) - Country Code. Maximum length is 2.
+    + citizenshipStatusCode (optional) - Citizenship Status Code.
+    + startDate (optional) - Start Date. Maximum length is 21.
+    + endDate (optional) - End Date. Maximum length is 21.
+    + edit (optional) - Edit.
+    + documentNumber (optional) - Document Number.
+    + active (optional) - Active.
 
       
 + Request

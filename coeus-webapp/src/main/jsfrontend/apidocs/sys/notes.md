@@ -43,14 +43,14 @@
     
 + Parameters
 
-        + noteIdentifier
-            + remoteObjectIdentifier
-            + authorUniversalIdentifier
-            + notePostedTimestamp
-            + noteTypeCode
-            + noteText
-            + noteTopicText
-            + notePurgeCode
+    + noteIdentifier (optional) - Note Identifier. Maximum length is 14.
+    + remoteObjectIdentifier (optional) - remoteObjectIdentifier description... Maximum length is 36.
+    + authorUniversalIdentifier (optional) - A free-form text field for the full name of the Author of the Note, expressed as "Lastname, Firstname Initial". Maximum length is 40.
+    + notePostedTimestamp (optional) - A free-form text field that identifies the time and date at which the Notes is posted. Maximum length is 36.
+    + noteTypeCode (optional) - noteTypeCode description... Maximum length is 4.
+    + noteText (optional) - A free-form text field for the text of the Note. Maximum length is 800.
+    + noteTopicText (optional) - A free-form text field for entering the topic of the Note. Maximum length is 40.
+    + notePurgeCode (optional) - notePurgeCode description... Maximum length is 1.
 
             
 + Request
@@ -222,15 +222,15 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + noteIdentifier
-            + remoteObjectIdentifier
-            + authorUniversalIdentifier
-            + notePostedTimestamp
-            + noteTypeCode
-            + noteText
-            + noteTopicText
-            + notePurgeCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + noteIdentifier (optional) - Note Identifier. Maximum length is 14.
+    + remoteObjectIdentifier (optional) - remoteObjectIdentifier description... Maximum length is 36.
+    + authorUniversalIdentifier (optional) - A free-form text field for the full name of the Author of the Note, expressed as "Lastname, Firstname Initial". Maximum length is 40.
+    + notePostedTimestamp (optional) - A free-form text field that identifies the time and date at which the Notes is posted. Maximum length is 36.
+    + noteTypeCode (optional) - noteTypeCode description... Maximum length is 4.
+    + noteText (optional) - A free-form text field for the text of the Note. Maximum length is 800.
+    + noteTopicText (optional) - A free-form text field for entering the topic of the Note. Maximum length is 40.
+    + notePurgeCode (optional) - notePurgeCode description... Maximum length is 1.
 
       
 + Request

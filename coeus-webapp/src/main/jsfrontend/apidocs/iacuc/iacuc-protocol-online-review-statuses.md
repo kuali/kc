@@ -1,6 +1,6 @@
-## Iacuc Protocol Online Review Statuses [/research-sys/api/v1/iacuc-protocol-online-review-statuses/]
+## Iacuc Protocol Online Review Statuses [/iacuc/api/v1/iacuc-protocol-online-review-statuses/]
 
-### Get Iacuc Protocol Online Review Statuses by Key [GET /research-sys/api/v1/iacuc-protocol-online-review-statuses/(key)]
+### Get Iacuc Protocol Online Review Statuses by Key [GET /iacuc/api/v1/iacuc-protocol-online-review-statuses/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"statusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Protocol Online Review Statuses [GET /research-sys/api/v1/iacuc-protocol-online-review-statuses/]
+### Get All Iacuc Protocol Online Review Statuses [GET /iacuc/api/v1/iacuc-protocol-online-review-statuses/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"statusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Protocol Online Review Statuses with Filtering [GET /research-sys/api/v1/iacuc-protocol-online-review-statuses/]
+### Get All Iacuc Protocol Online Review Statuses with Filtering [GET /iacuc/api/v1/iacuc-protocol-online-review-statuses/]
     
 + Parameters
 
-        + statusCode
-            + description
+    + statusCode (optional) - Status Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 300.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"statusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Protocol Online Review Statuses [GET /research-sys/api/v1/iacuc-protocol-online-review-statuses/]
+### Get Schema for Iacuc Protocol Online Review Statuses [GET /iacuc/api/v1/iacuc-protocol-online-review-statuses/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["statusCode","description"],"primaryKey":"statusCode"}
 		
-### Get Blueprint API specification for Iacuc Protocol Online Review Statuses [GET /research-sys/api/v1/iacuc-protocol-online-review-statuses/]
+### Get Blueprint API specification for Iacuc Protocol Online Review Statuses [GET /iacuc/api/v1/iacuc-protocol-online-review-statuses/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Protocol Online Review Statuses [PUT /research-sys/api/v1/iacuc-protocol-online-review-statuses/(key)]
+### Update Iacuc Protocol Online Review Statuses [PUT /iacuc/api/v1/iacuc-protocol-online-review-statuses/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Protocol Online Review Statuses [PUT /research-sys/api/v1/iacuc-protocol-online-review-statuses/]
+### Update Multiple Iacuc Protocol Online Review Statuses [PUT /iacuc/api/v1/iacuc-protocol-online-review-statuses/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Iacuc Protocol Online Review Statuses [POST /research-sys/api/v1/iacuc-protocol-online-review-statuses/]
+### Insert Iacuc Protocol Online Review Statuses [POST /iacuc/api/v1/iacuc-protocol-online-review-statuses/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"statusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Protocol Online Review Statuses [POST /research-sys/api/v1/iacuc-protocol-online-review-statuses/]
+### Insert Multiple Iacuc Protocol Online Review Statuses [POST /iacuc/api/v1/iacuc-protocol-online-review-statuses/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"statusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Protocol Online Review Statuses by Key [DELETE /research-sys/api/v1/iacuc-protocol-online-review-statuses/(key)]
+### Delete Iacuc Protocol Online Review Statuses by Key [DELETE /iacuc/api/v1/iacuc-protocol-online-review-statuses/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Online Review Statuses [DELETE /research-sys/api/v1/iacuc-protocol-online-review-statuses/]
+### Delete All Iacuc Protocol Online Review Statuses [DELETE /iacuc/api/v1/iacuc-protocol-online-review-statuses/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Online Review Statuses with Matching [DELETE /research-sys/api/v1/iacuc-protocol-online-review-statuses/]
+### Delete All Iacuc Protocol Online Review Statuses with Matching [DELETE /iacuc/api/v1/iacuc-protocol-online-review-statuses/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + statusCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + statusCode (optional) - Status Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 300.
 
       
 + Request

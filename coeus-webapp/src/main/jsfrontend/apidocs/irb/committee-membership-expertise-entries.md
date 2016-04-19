@@ -1,6 +1,6 @@
-## Committee Membership Expertise Entries [/research-sys/api/v1/committee-membership-expertise-entries/]
+## Committee Membership Expertise Entries [/irb/api/v1/committee-membership-expertise-entries/]
 
-### Get Committee Membership Expertise Entries by Key [GET /research-sys/api/v1/committee-membership-expertise-entries/(key)]
+### Get Committee Membership Expertise Entries by Key [GET /irb/api/v1/committee-membership-expertise-entries/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"committeeMembershipExpertiseId": "(val)","committeeMembershipIdFk": "(val)","researchAreaCode": "(val)","_primaryKey": "(val)"}
 
-### Get All Committee Membership Expertise Entries [GET /research-sys/api/v1/committee-membership-expertise-entries/]
+### Get All Committee Membership Expertise Entries [GET /irb/api/v1/committee-membership-expertise-entries/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"committeeMembershipExpertiseId": "(val)","committeeMembershipIdFk": "(val)","researchAreaCode": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Committee Membership Expertise Entries with Filtering [GET /research-sys/api/v1/committee-membership-expertise-entries/]
+### Get All Committee Membership Expertise Entries with Filtering [GET /irb/api/v1/committee-membership-expertise-entries/]
     
 + Parameters
 
-        + committeeMembershipExpertiseId
-            + committeeMembershipIdFk
-            + researchAreaCode
+    + committeeMembershipExpertiseId (optional) - Committee Membership Expertise Id. Maximum length is 22.
+    + committeeMembershipIdFk (optional) - Committee Membership Id Fk. Maximum length is 22.
+    + researchAreaCode (optional) - Research Area Code. Maximum length is 8.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"committeeMembershipExpertiseId": "(val)","committeeMembershipIdFk": "(val)","researchAreaCode": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Committee Membership Expertise Entries [GET /research-sys/api/v1/committee-membership-expertise-entries/]
+### Get Schema for Committee Membership Expertise Entries [GET /irb/api/v1/committee-membership-expertise-entries/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["committeeMembershipExpertiseId","committeeMembershipIdFk","researchAreaCode"],"primaryKey":"committeeMembershipExpertiseId"}
 		
-### Get Blueprint API specification for Committee Membership Expertise Entries [GET /research-sys/api/v1/committee-membership-expertise-entries/]
+### Get Blueprint API specification for Committee Membership Expertise Entries [GET /irb/api/v1/committee-membership-expertise-entries/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Committee Membership Expertise Entries [PUT /research-sys/api/v1/committee-membership-expertise-entries/(key)]
+### Update Committee Membership Expertise Entries [PUT /irb/api/v1/committee-membership-expertise-entries/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Committee Membership Expertise Entries [PUT /research-sys/api/v1/committee-membership-expertise-entries/]
+### Update Multiple Committee Membership Expertise Entries [PUT /irb/api/v1/committee-membership-expertise-entries/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Committee Membership Expertise Entries [POST /research-sys/api/v1/committee-membership-expertise-entries/]
+### Insert Committee Membership Expertise Entries [POST /irb/api/v1/committee-membership-expertise-entries/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"committeeMembershipExpertiseId": "(val)","committeeMembershipIdFk": "(val)","researchAreaCode": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Committee Membership Expertise Entries [POST /research-sys/api/v1/committee-membership-expertise-entries/]
+### Insert Multiple Committee Membership Expertise Entries [POST /irb/api/v1/committee-membership-expertise-entries/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"committeeMembershipExpertiseId": "(val)","committeeMembershipIdFk": "(val)","researchAreaCode": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Committee Membership Expertise Entries by Key [DELETE /research-sys/api/v1/committee-membership-expertise-entries/(key)]
+### Delete Committee Membership Expertise Entries by Key [DELETE /irb/api/v1/committee-membership-expertise-entries/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Committee Membership Expertise Entries [DELETE /research-sys/api/v1/committee-membership-expertise-entries/]
+### Delete All Committee Membership Expertise Entries [DELETE /irb/api/v1/committee-membership-expertise-entries/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Committee Membership Expertise Entries with Matching [DELETE /research-sys/api/v1/committee-membership-expertise-entries/]
+### Delete All Committee Membership Expertise Entries with Matching [DELETE /irb/api/v1/committee-membership-expertise-entries/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + committeeMembershipExpertiseId
-            + committeeMembershipIdFk
-            + researchAreaCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + committeeMembershipExpertiseId (optional) - Committee Membership Expertise Id. Maximum length is 22.
+    + committeeMembershipIdFk (optional) - Committee Membership Id Fk. Maximum length is 22.
+    + researchAreaCode (optional) - Research Area Code. Maximum length is 8.
 
       
 + Request

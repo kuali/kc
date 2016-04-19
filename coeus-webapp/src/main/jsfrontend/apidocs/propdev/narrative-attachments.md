@@ -1,6 +1,6 @@
-## Narrative Attachments [/research-sys/api/v1/narrative-attachments/]
+## Narrative Attachments [/propdev/api/v1/narrative-attachments/]
 
-### Get Narrative Attachments by Key [GET /research-sys/api/v1/narrative-attachments/(key)]
+### Get Narrative Attachments by Key [GET /propdev/api/v1/narrative-attachments/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"uploadTimestamp": "(val)","name": "(val)","type": "(val)","fileDataId": "(val)","uploadUser": "(val)","_primaryKey": "(val)"}
 
-### Get All Narrative Attachments [GET /research-sys/api/v1/narrative-attachments/]
+### Get All Narrative Attachments [GET /propdev/api/v1/narrative-attachments/]
 	 
 + Request
 
@@ -39,15 +39,15 @@
               {"uploadTimestamp": "(val)","name": "(val)","type": "(val)","fileDataId": "(val)","uploadUser": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Narrative Attachments with Filtering [GET /research-sys/api/v1/narrative-attachments/]
+### Get All Narrative Attachments with Filtering [GET /propdev/api/v1/narrative-attachments/]
     
 + Parameters
 
-        + uploadTimestamp
-            + name
-            + type
-            + fileDataId
-            + uploadUser
+    + uploadTimestamp (optional) - Upload Timestamp.
+    + name (optional) - File Name. Maximum length is 150.
+    + type (optional) - Type.
+    + fileDataId (optional) - File Data Id.
+    + uploadUser (optional) - Upload User.
 
             
 + Request
@@ -69,7 +69,7 @@
               {"uploadTimestamp": "(val)","name": "(val)","type": "(val)","fileDataId": "(val)","uploadUser": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Narrative Attachments [GET /research-sys/api/v1/narrative-attachments/]
+### Get Schema for Narrative Attachments [GET /propdev/api/v1/narrative-attachments/]
 	                                          
 + Parameters
 
@@ -91,7 +91,7 @@
     
             {"columns":["uploadTimestamp","name","type","fileDataId","uploadUser"],"primaryKey":"narrative"}
 		
-### Get Blueprint API specification for Narrative Attachments [GET /research-sys/api/v1/narrative-attachments/]
+### Get Blueprint API specification for Narrative Attachments [GET /propdev/api/v1/narrative-attachments/]
 	 
 + Parameters
 
@@ -112,7 +112,7 @@
             transfer-encoding:chunked
 
 
-### Update Narrative Attachments [PUT /research-sys/api/v1/narrative-attachments/(key)]
+### Update Narrative Attachments [PUT /propdev/api/v1/narrative-attachments/(key)]
 
 + Request
 
@@ -127,7 +127,7 @@
 			
 + Response 204
 
-### Update Multiple Narrative Attachments [PUT /research-sys/api/v1/narrative-attachments/]
+### Update Multiple Narrative Attachments [PUT /propdev/api/v1/narrative-attachments/]
 
 + Request
 
@@ -145,7 +145,7 @@
 			
 + Response 204
 
-### Insert Narrative Attachments [POST /research-sys/api/v1/narrative-attachments/]
+### Insert Narrative Attachments [POST /propdev/api/v1/narrative-attachments/]
 
 + Request
 
@@ -164,7 +164,7 @@
             
             {"uploadTimestamp": "(val)","name": "(val)","type": "(val)","fileDataId": "(val)","uploadUser": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Narrative Attachments [POST /research-sys/api/v1/narrative-attachments/]
+### Insert Multiple Narrative Attachments [POST /propdev/api/v1/narrative-attachments/]
 
 + Request
 
@@ -189,7 +189,7 @@
               {"uploadTimestamp": "(val)","name": "(val)","type": "(val)","fileDataId": "(val)","uploadUser": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Narrative Attachments by Key [DELETE /research-sys/api/v1/narrative-attachments/(key)]
+### Delete Narrative Attachments by Key [DELETE /propdev/api/v1/narrative-attachments/(key)]
 	 
 + Request
 
@@ -200,7 +200,7 @@
 
 + Response 204
 
-### Delete All Narrative Attachments [DELETE /research-sys/api/v1/narrative-attachments/]
+### Delete All Narrative Attachments [DELETE /propdev/api/v1/narrative-attachments/]
 
 + Parameters
 
@@ -215,16 +215,16 @@
 
 + Response 204
 
-### Delete All Narrative Attachments with Matching [DELETE /research-sys/api/v1/narrative-attachments/]
+### Delete All Narrative Attachments with Matching [DELETE /propdev/api/v1/narrative-attachments/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + uploadTimestamp
-            + name
-            + type
-            + fileDataId
-            + uploadUser
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + uploadTimestamp (optional) - Upload Timestamp.
+    + name (optional) - File Name. Maximum length is 150.
+    + type (optional) - Type.
+    + fileDataId (optional) - File Data Id.
+    + uploadUser (optional) - Upload User.
 
       
 + Request

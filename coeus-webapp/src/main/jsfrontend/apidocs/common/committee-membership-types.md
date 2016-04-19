@@ -1,6 +1,6 @@
-## Committee Membership Types [/research-sys/api/v1/committee-membership-types/]
+## Committee Membership Types [/research-common/api/v1/committee-membership-types/]
 
-### Get Committee Membership Types by Key [GET /research-sys/api/v1/committee-membership-types/(key)]
+### Get Committee Membership Types by Key [GET /research-common/api/v1/committee-membership-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"membershipTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Committee Membership Types [GET /research-sys/api/v1/committee-membership-types/]
+### Get All Committee Membership Types [GET /research-common/api/v1/committee-membership-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"membershipTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Committee Membership Types with Filtering [GET /research-sys/api/v1/committee-membership-types/]
+### Get All Committee Membership Types with Filtering [GET /research-common/api/v1/committee-membership-types/]
     
 + Parameters
 
-        + membershipTypeCode
-            + description
+    + membershipTypeCode (optional) - Membership Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"membershipTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Committee Membership Types [GET /research-sys/api/v1/committee-membership-types/]
+### Get Schema for Committee Membership Types [GET /research-common/api/v1/committee-membership-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["membershipTypeCode","description"],"primaryKey":"membershipTypeCode"}
 		
-### Get Blueprint API specification for Committee Membership Types [GET /research-sys/api/v1/committee-membership-types/]
+### Get Blueprint API specification for Committee Membership Types [GET /research-common/api/v1/committee-membership-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Committee Membership Types [PUT /research-sys/api/v1/committee-membership-types/(key)]
+### Update Committee Membership Types [PUT /research-common/api/v1/committee-membership-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Committee Membership Types [PUT /research-sys/api/v1/committee-membership-types/]
+### Update Multiple Committee Membership Types [PUT /research-common/api/v1/committee-membership-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Committee Membership Types [POST /research-sys/api/v1/committee-membership-types/]
+### Insert Committee Membership Types [POST /research-common/api/v1/committee-membership-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"membershipTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Committee Membership Types [POST /research-sys/api/v1/committee-membership-types/]
+### Insert Multiple Committee Membership Types [POST /research-common/api/v1/committee-membership-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"membershipTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Committee Membership Types by Key [DELETE /research-sys/api/v1/committee-membership-types/(key)]
+### Delete Committee Membership Types by Key [DELETE /research-common/api/v1/committee-membership-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Committee Membership Types [DELETE /research-sys/api/v1/committee-membership-types/]
+### Delete All Committee Membership Types [DELETE /research-common/api/v1/committee-membership-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Committee Membership Types with Matching [DELETE /research-sys/api/v1/committee-membership-types/]
+### Delete All Committee Membership Types with Matching [DELETE /research-common/api/v1/committee-membership-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + membershipTypeCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + membershipTypeCode (optional) - Membership Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

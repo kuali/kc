@@ -43,15 +43,15 @@
     
 + Parameters
 
-        + id
-            + phoneNumber
-            + countryCode
-            + defaultValue
-            + entityTypeCode
-            + extensionNumber
-            + active
-            + entityId
-            + phoneTypeCode
+    + id (optional) - 
+    + phoneNumber (optional) - 
+    + countryCode (optional) - 
+    + defaultValue (optional) - 
+    + entityTypeCode (optional) - 
+    + extensionNumber (optional) - 
+    + active (optional) - 
+    + entityId (optional) - 
+    + phoneTypeCode (optional) - 
 
             
 + Request
@@ -223,16 +223,16 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + phoneNumber
-            + countryCode
-            + defaultValue
-            + entityTypeCode
-            + extensionNumber
-            + active
-            + entityId
-            + phoneTypeCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - 
+    + phoneNumber (optional) - 
+    + countryCode (optional) - 
+    + defaultValue (optional) - 
+    + entityTypeCode (optional) - 
+    + extensionNumber (optional) - 
+    + active (optional) - 
+    + entityId (optional) - 
+    + phoneTypeCode (optional) - 
 
       
 + Request

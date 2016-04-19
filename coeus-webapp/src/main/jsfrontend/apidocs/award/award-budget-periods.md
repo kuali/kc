@@ -1,6 +1,6 @@
-## Award Budget Periods [/research-sys/api/v1/award-budget-periods/]
+## Award Budget Periods [/award/api/v1/award-budget-periods/]
 
-### Get Award Budget Periods by Key [GET /research-sys/api/v1/award-budget-periods/(key)]
+### Get Award Budget Periods by Key [GET /award/api/v1/award-budget-periods/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"budgetPeriodId": "(val)","obligatedAmount": "(val)","totalFringeAmount": "(val)","rateOverrideFlag": "(val)","_primaryKey": "(val)"}
 
-### Get All Award Budget Periods [GET /research-sys/api/v1/award-budget-periods/]
+### Get All Award Budget Periods [GET /award/api/v1/award-budget-periods/]
 	 
 + Request
 
@@ -39,14 +39,14 @@
               {"budgetPeriodId": "(val)","obligatedAmount": "(val)","totalFringeAmount": "(val)","rateOverrideFlag": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Award Budget Periods with Filtering [GET /research-sys/api/v1/award-budget-periods/]
+### Get All Award Budget Periods with Filtering [GET /award/api/v1/award-budget-periods/]
     
 + Parameters
 
-        + budgetPeriodId
-            + obligatedAmount
-            + totalFringeAmount
-            + rateOverrideFlag
+    + budgetPeriodId (optional) - 
+    + obligatedAmount (optional) - Obligated amount from award amount info. Maximum length is 15.
+    + totalFringeAmount (optional) - Total Fringe amount from award amount info. Maximum length is 15.
+    + rateOverrideFlag (optional) - Rate Override Flag. Maximum length is 1.
 
             
 + Request
@@ -68,7 +68,7 @@
               {"budgetPeriodId": "(val)","obligatedAmount": "(val)","totalFringeAmount": "(val)","rateOverrideFlag": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Award Budget Periods [GET /research-sys/api/v1/award-budget-periods/]
+### Get Schema for Award Budget Periods [GET /award/api/v1/award-budget-periods/]
 	                                          
 + Parameters
 
@@ -90,7 +90,7 @@
     
             {"columns":["budgetPeriodId","obligatedAmount","totalFringeAmount","rateOverrideFlag"],"primaryKey":"budgetPeriodId"}
 		
-### Get Blueprint API specification for Award Budget Periods [GET /research-sys/api/v1/award-budget-periods/]
+### Get Blueprint API specification for Award Budget Periods [GET /award/api/v1/award-budget-periods/]
 	 
 + Parameters
 
@@ -111,7 +111,7 @@
             transfer-encoding:chunked
 
 
-### Update Award Budget Periods [PUT /research-sys/api/v1/award-budget-periods/(key)]
+### Update Award Budget Periods [PUT /award/api/v1/award-budget-periods/(key)]
 
 + Request
 
@@ -126,7 +126,7 @@
 			
 + Response 204
 
-### Update Multiple Award Budget Periods [PUT /research-sys/api/v1/award-budget-periods/]
+### Update Multiple Award Budget Periods [PUT /award/api/v1/award-budget-periods/]
 
 + Request
 
@@ -144,7 +144,7 @@
 			
 + Response 204
 
-### Insert Award Budget Periods [POST /research-sys/api/v1/award-budget-periods/]
+### Insert Award Budget Periods [POST /award/api/v1/award-budget-periods/]
 
 + Request
 
@@ -163,7 +163,7 @@
             
             {"budgetPeriodId": "(val)","obligatedAmount": "(val)","totalFringeAmount": "(val)","rateOverrideFlag": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Award Budget Periods [POST /research-sys/api/v1/award-budget-periods/]
+### Insert Multiple Award Budget Periods [POST /award/api/v1/award-budget-periods/]
 
 + Request
 
@@ -188,7 +188,7 @@
               {"budgetPeriodId": "(val)","obligatedAmount": "(val)","totalFringeAmount": "(val)","rateOverrideFlag": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Award Budget Periods by Key [DELETE /research-sys/api/v1/award-budget-periods/(key)]
+### Delete Award Budget Periods by Key [DELETE /award/api/v1/award-budget-periods/(key)]
 	 
 + Request
 
@@ -199,7 +199,7 @@
 
 + Response 204
 
-### Delete All Award Budget Periods [DELETE /research-sys/api/v1/award-budget-periods/]
+### Delete All Award Budget Periods [DELETE /award/api/v1/award-budget-periods/]
 
 + Parameters
 
@@ -214,15 +214,15 @@
 
 + Response 204
 
-### Delete All Award Budget Periods with Matching [DELETE /research-sys/api/v1/award-budget-periods/]
+### Delete All Award Budget Periods with Matching [DELETE /award/api/v1/award-budget-periods/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + budgetPeriodId
-            + obligatedAmount
-            + totalFringeAmount
-            + rateOverrideFlag
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + budgetPeriodId (optional) - 
+    + obligatedAmount (optional) - Obligated amount from award amount info. Maximum length is 15.
+    + totalFringeAmount (optional) - Total Fringe amount from award amount info. Maximum length is 15.
+    + rateOverrideFlag (optional) - Rate Override Flag. Maximum length is 1.
 
       
 + Request

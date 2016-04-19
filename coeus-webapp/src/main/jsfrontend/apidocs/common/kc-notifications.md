@@ -1,6 +1,6 @@
-## Kc Notifications [/research-sys/api/v1/kc-notifications/]
+## Kc Notifications [/research-common/api/v1/kc-notifications/]
 
-### Get Kc Notifications by Key [GET /research-sys/api/v1/kc-notifications/(key)]
+### Get Kc Notifications by Key [GET /research-common/api/v1/kc-notifications/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"notificationId": "(val)","notificationTypeId": "(val)","documentNumber": "(val)","subject": "(val)","message": "(val)","_primaryKey": "(val)"}
 
-### Get All Kc Notifications [GET /research-sys/api/v1/kc-notifications/]
+### Get All Kc Notifications [GET /research-common/api/v1/kc-notifications/]
 	 
 + Request
 
@@ -39,15 +39,15 @@
               {"notificationId": "(val)","notificationTypeId": "(val)","documentNumber": "(val)","subject": "(val)","message": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Kc Notifications with Filtering [GET /research-sys/api/v1/kc-notifications/]
+### Get All Kc Notifications with Filtering [GET /research-common/api/v1/kc-notifications/]
     
 + Parameters
 
-        + notificationId
-            + notificationTypeId
-            + documentNumber
-            + subject
-            + message
+    + notificationId (optional) - Notification Id. Maximum length is 20.
+    + notificationTypeId (optional) - Notification Type. Maximum length is 6.
+    + documentNumber (optional) - Document Number. Maximum length is 10.
+    + subject (optional) - Subject. Maximum length is 1000.
+    + message (optional) - Message. Maximum length is 4000.
 
             
 + Request
@@ -69,7 +69,7 @@
               {"notificationId": "(val)","notificationTypeId": "(val)","documentNumber": "(val)","subject": "(val)","message": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Kc Notifications [GET /research-sys/api/v1/kc-notifications/]
+### Get Schema for Kc Notifications [GET /research-common/api/v1/kc-notifications/]
 	                                          
 + Parameters
 
@@ -91,7 +91,7 @@
     
             {"columns":["notificationId","notificationTypeId","documentNumber","subject","message"],"primaryKey":"notificationId"}
 		
-### Get Blueprint API specification for Kc Notifications [GET /research-sys/api/v1/kc-notifications/]
+### Get Blueprint API specification for Kc Notifications [GET /research-common/api/v1/kc-notifications/]
 	 
 + Parameters
 
@@ -112,7 +112,7 @@
             transfer-encoding:chunked
 
 
-### Update Kc Notifications [PUT /research-sys/api/v1/kc-notifications/(key)]
+### Update Kc Notifications [PUT /research-common/api/v1/kc-notifications/(key)]
 
 + Request
 
@@ -127,7 +127,7 @@
 			
 + Response 204
 
-### Update Multiple Kc Notifications [PUT /research-sys/api/v1/kc-notifications/]
+### Update Multiple Kc Notifications [PUT /research-common/api/v1/kc-notifications/]
 
 + Request
 
@@ -145,7 +145,7 @@
 			
 + Response 204
 
-### Insert Kc Notifications [POST /research-sys/api/v1/kc-notifications/]
+### Insert Kc Notifications [POST /research-common/api/v1/kc-notifications/]
 
 + Request
 
@@ -164,7 +164,7 @@
             
             {"notificationId": "(val)","notificationTypeId": "(val)","documentNumber": "(val)","subject": "(val)","message": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Kc Notifications [POST /research-sys/api/v1/kc-notifications/]
+### Insert Multiple Kc Notifications [POST /research-common/api/v1/kc-notifications/]
 
 + Request
 
@@ -189,7 +189,7 @@
               {"notificationId": "(val)","notificationTypeId": "(val)","documentNumber": "(val)","subject": "(val)","message": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Kc Notifications by Key [DELETE /research-sys/api/v1/kc-notifications/(key)]
+### Delete Kc Notifications by Key [DELETE /research-common/api/v1/kc-notifications/(key)]
 	 
 + Request
 
@@ -200,7 +200,7 @@
 
 + Response 204
 
-### Delete All Kc Notifications [DELETE /research-sys/api/v1/kc-notifications/]
+### Delete All Kc Notifications [DELETE /research-common/api/v1/kc-notifications/]
 
 + Parameters
 
@@ -215,16 +215,16 @@
 
 + Response 204
 
-### Delete All Kc Notifications with Matching [DELETE /research-sys/api/v1/kc-notifications/]
+### Delete All Kc Notifications with Matching [DELETE /research-common/api/v1/kc-notifications/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + notificationId
-            + notificationTypeId
-            + documentNumber
-            + subject
-            + message
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + notificationId (optional) - Notification Id. Maximum length is 20.
+    + notificationTypeId (optional) - Notification Type. Maximum length is 6.
+    + documentNumber (optional) - Document Number. Maximum length is 10.
+    + subject (optional) - Subject. Maximum length is 1000.
+    + message (optional) - Message. Maximum length is 4000.
 
       
 + Request

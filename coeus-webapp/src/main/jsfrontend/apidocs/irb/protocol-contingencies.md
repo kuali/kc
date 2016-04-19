@@ -1,6 +1,6 @@
-## Protocol Contingencies [/research-sys/api/v1/protocol-contingencies/]
+## Protocol Contingencies [/irb/api/v1/protocol-contingencies/]
 
-### Get Protocol Contingencies by Key [GET /research-sys/api/v1/protocol-contingencies/(key)]
+### Get Protocol Contingencies by Key [GET /irb/api/v1/protocol-contingencies/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"protocolContingencyCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Protocol Contingencies [GET /research-sys/api/v1/protocol-contingencies/]
+### Get All Protocol Contingencies [GET /irb/api/v1/protocol-contingencies/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"protocolContingencyCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Protocol Contingencies with Filtering [GET /research-sys/api/v1/protocol-contingencies/]
+### Get All Protocol Contingencies with Filtering [GET /irb/api/v1/protocol-contingencies/]
     
 + Parameters
 
-        + protocolContingencyCode
-            + description
+    + protocolContingencyCode (optional) - Protocol Contingency Code. Maximum length is 4.
+    + description (optional) - Description. Maximum length is 2000.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"protocolContingencyCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Protocol Contingencies [GET /research-sys/api/v1/protocol-contingencies/]
+### Get Schema for Protocol Contingencies [GET /irb/api/v1/protocol-contingencies/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["protocolContingencyCode","description"],"primaryKey":"protocolContingencyCode"}
 		
-### Get Blueprint API specification for Protocol Contingencies [GET /research-sys/api/v1/protocol-contingencies/]
+### Get Blueprint API specification for Protocol Contingencies [GET /irb/api/v1/protocol-contingencies/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Protocol Contingencies [PUT /research-sys/api/v1/protocol-contingencies/(key)]
+### Update Protocol Contingencies [PUT /irb/api/v1/protocol-contingencies/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Protocol Contingencies [PUT /research-sys/api/v1/protocol-contingencies/]
+### Update Multiple Protocol Contingencies [PUT /irb/api/v1/protocol-contingencies/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Protocol Contingencies [POST /research-sys/api/v1/protocol-contingencies/]
+### Insert Protocol Contingencies [POST /irb/api/v1/protocol-contingencies/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"protocolContingencyCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Protocol Contingencies [POST /research-sys/api/v1/protocol-contingencies/]
+### Insert Multiple Protocol Contingencies [POST /irb/api/v1/protocol-contingencies/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"protocolContingencyCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Protocol Contingencies by Key [DELETE /research-sys/api/v1/protocol-contingencies/(key)]
+### Delete Protocol Contingencies by Key [DELETE /irb/api/v1/protocol-contingencies/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Protocol Contingencies [DELETE /research-sys/api/v1/protocol-contingencies/]
+### Delete All Protocol Contingencies [DELETE /irb/api/v1/protocol-contingencies/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Protocol Contingencies with Matching [DELETE /research-sys/api/v1/protocol-contingencies/]
+### Delete All Protocol Contingencies with Matching [DELETE /irb/api/v1/protocol-contingencies/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + protocolContingencyCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + protocolContingencyCode (optional) - Protocol Contingency Code. Maximum length is 4.
+    + description (optional) - Description. Maximum length is 2000.
 
       
 + Request

@@ -43,13 +43,13 @@
     
 + Parameters
 
-        + id
-            + delivererTypeName
-            + delivererSystemId
-            + deliveryStatus
-            + processCount
-            + lockVerNbr
-            + lockedDate
+    + id (optional) - 
+    + delivererTypeName (optional) - 
+    + delivererSystemId (optional) - 
+    + deliveryStatus (optional) - 
+    + processCount (optional) - 
+    + lockVerNbr (optional) - 
+    + lockedDate (optional) - 
 
             
 + Request
@@ -221,14 +221,14 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + delivererTypeName
-            + delivererSystemId
-            + deliveryStatus
-            + processCount
-            + lockVerNbr
-            + lockedDate
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - 
+    + delivererTypeName (optional) - 
+    + delivererSystemId (optional) - 
+    + deliveryStatus (optional) - 
+    + processCount (optional) - 
+    + lockVerNbr (optional) - 
+    + lockedDate (optional) - 
 
       
 + Request

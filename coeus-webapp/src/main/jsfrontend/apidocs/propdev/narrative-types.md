@@ -1,6 +1,6 @@
-## Narrative Types [/research-sys/api/v1/narrative-types/]
+## Narrative Types [/propdev/api/v1/narrative-types/]
 
-### Get Narrative Types by Key [GET /research-sys/api/v1/narrative-types/(key)]
+### Get Narrative Types by Key [GET /propdev/api/v1/narrative-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"code": "(val)","description": "(val)","systemGenerated": "(val)","allowMultiple": "(val)","narrativeTypeGroup": "(val)","_primaryKey": "(val)"}
 
-### Get All Narrative Types [GET /research-sys/api/v1/narrative-types/]
+### Get All Narrative Types [GET /propdev/api/v1/narrative-types/]
 	 
 + Request
 
@@ -39,15 +39,15 @@
               {"code": "(val)","description": "(val)","systemGenerated": "(val)","allowMultiple": "(val)","narrativeTypeGroup": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Narrative Types with Filtering [GET /research-sys/api/v1/narrative-types/]
+### Get All Narrative Types with Filtering [GET /propdev/api/v1/narrative-types/]
     
 + Parameters
 
-        + code
-            + description
-            + systemGenerated
-            + allowMultiple
-            + narrativeTypeGroup
+    + code (optional) - Narrative Type. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + systemGenerated (optional) - System Generated. Maximum length is 1.
+    + allowMultiple (optional) - Allow Multiple. Maximum length is 1.
+    + narrativeTypeGroup (optional) - Narrative Type Group. Maximum length is 1.
 
             
 + Request
@@ -69,7 +69,7 @@
               {"code": "(val)","description": "(val)","systemGenerated": "(val)","allowMultiple": "(val)","narrativeTypeGroup": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Narrative Types [GET /research-sys/api/v1/narrative-types/]
+### Get Schema for Narrative Types [GET /propdev/api/v1/narrative-types/]
 	                                          
 + Parameters
 
@@ -91,7 +91,7 @@
     
             {"columns":["code","description","systemGenerated","allowMultiple","narrativeTypeGroup"],"primaryKey":"code"}
 		
-### Get Blueprint API specification for Narrative Types [GET /research-sys/api/v1/narrative-types/]
+### Get Blueprint API specification for Narrative Types [GET /propdev/api/v1/narrative-types/]
 	 
 + Parameters
 
@@ -112,7 +112,7 @@
             transfer-encoding:chunked
 
 
-### Update Narrative Types [PUT /research-sys/api/v1/narrative-types/(key)]
+### Update Narrative Types [PUT /propdev/api/v1/narrative-types/(key)]
 
 + Request
 
@@ -127,7 +127,7 @@
 			
 + Response 204
 
-### Update Multiple Narrative Types [PUT /research-sys/api/v1/narrative-types/]
+### Update Multiple Narrative Types [PUT /propdev/api/v1/narrative-types/]
 
 + Request
 
@@ -145,7 +145,7 @@
 			
 + Response 204
 
-### Insert Narrative Types [POST /research-sys/api/v1/narrative-types/]
+### Insert Narrative Types [POST /propdev/api/v1/narrative-types/]
 
 + Request
 
@@ -164,7 +164,7 @@
             
             {"code": "(val)","description": "(val)","systemGenerated": "(val)","allowMultiple": "(val)","narrativeTypeGroup": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Narrative Types [POST /research-sys/api/v1/narrative-types/]
+### Insert Multiple Narrative Types [POST /propdev/api/v1/narrative-types/]
 
 + Request
 
@@ -189,7 +189,7 @@
               {"code": "(val)","description": "(val)","systemGenerated": "(val)","allowMultiple": "(val)","narrativeTypeGroup": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Narrative Types by Key [DELETE /research-sys/api/v1/narrative-types/(key)]
+### Delete Narrative Types by Key [DELETE /propdev/api/v1/narrative-types/(key)]
 	 
 + Request
 
@@ -200,7 +200,7 @@
 
 + Response 204
 
-### Delete All Narrative Types [DELETE /research-sys/api/v1/narrative-types/]
+### Delete All Narrative Types [DELETE /propdev/api/v1/narrative-types/]
 
 + Parameters
 
@@ -215,16 +215,16 @@
 
 + Response 204
 
-### Delete All Narrative Types with Matching [DELETE /research-sys/api/v1/narrative-types/]
+### Delete All Narrative Types with Matching [DELETE /propdev/api/v1/narrative-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + code
-            + description
-            + systemGenerated
-            + allowMultiple
-            + narrativeTypeGroup
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + code (optional) - Narrative Type. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + systemGenerated (optional) - System Generated. Maximum length is 1.
+    + allowMultiple (optional) - Allow Multiple. Maximum length is 1.
+    + narrativeTypeGroup (optional) - Narrative Type Group. Maximum length is 1.
 
       
 + Request

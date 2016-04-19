@@ -1,6 +1,6 @@
-## Special Review Approval Types [/research-sys/api/v1/special-review-approval-types/]
+## Special Review Approval Types [/research-common/api/v1/special-review-approval-types/]
 
-### Get Special Review Approval Types by Key [GET /research-sys/api/v1/special-review-approval-types/(key)]
+### Get Special Review Approval Types by Key [GET /research-common/api/v1/special-review-approval-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"approvalTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Special Review Approval Types [GET /research-sys/api/v1/special-review-approval-types/]
+### Get All Special Review Approval Types [GET /research-common/api/v1/special-review-approval-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"approvalTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Special Review Approval Types with Filtering [GET /research-sys/api/v1/special-review-approval-types/]
+### Get All Special Review Approval Types with Filtering [GET /research-common/api/v1/special-review-approval-types/]
     
 + Parameters
 
-        + approvalTypeCode
-            + description
+    + approvalTypeCode (optional) - Special Review Approval Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"approvalTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Special Review Approval Types [GET /research-sys/api/v1/special-review-approval-types/]
+### Get Schema for Special Review Approval Types [GET /research-common/api/v1/special-review-approval-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["approvalTypeCode","description"],"primaryKey":"approvalTypeCode"}
 		
-### Get Blueprint API specification for Special Review Approval Types [GET /research-sys/api/v1/special-review-approval-types/]
+### Get Blueprint API specification for Special Review Approval Types [GET /research-common/api/v1/special-review-approval-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Special Review Approval Types [PUT /research-sys/api/v1/special-review-approval-types/(key)]
+### Update Special Review Approval Types [PUT /research-common/api/v1/special-review-approval-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Special Review Approval Types [PUT /research-sys/api/v1/special-review-approval-types/]
+### Update Multiple Special Review Approval Types [PUT /research-common/api/v1/special-review-approval-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Special Review Approval Types [POST /research-sys/api/v1/special-review-approval-types/]
+### Insert Special Review Approval Types [POST /research-common/api/v1/special-review-approval-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"approvalTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Special Review Approval Types [POST /research-sys/api/v1/special-review-approval-types/]
+### Insert Multiple Special Review Approval Types [POST /research-common/api/v1/special-review-approval-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"approvalTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Special Review Approval Types by Key [DELETE /research-sys/api/v1/special-review-approval-types/(key)]
+### Delete Special Review Approval Types by Key [DELETE /research-common/api/v1/special-review-approval-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Special Review Approval Types [DELETE /research-sys/api/v1/special-review-approval-types/]
+### Delete All Special Review Approval Types [DELETE /research-common/api/v1/special-review-approval-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Special Review Approval Types with Matching [DELETE /research-sys/api/v1/special-review-approval-types/]
+### Delete All Special Review Approval Types with Matching [DELETE /research-common/api/v1/special-review-approval-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + approvalTypeCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + approvalTypeCode (optional) - Special Review Approval Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

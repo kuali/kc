@@ -1,6 +1,6 @@
-## Sub Award Cost Types [/research-sys/api/v1/sub-award-cost-types/]
+## Sub Award Cost Types [/subaward/api/v1/sub-award-cost-types/]
 
-### Get Sub Award Cost Types by Key [GET /research-sys/api/v1/sub-award-cost-types/(key)]
+### Get Sub Award Cost Types by Key [GET /subaward/api/v1/sub-award-cost-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"costTypeCode": "(val)","costTypeDescription": "(val)","_primaryKey": "(val)"}
 
-### Get All Sub Award Cost Types [GET /research-sys/api/v1/sub-award-cost-types/]
+### Get All Sub Award Cost Types [GET /subaward/api/v1/sub-award-cost-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"costTypeCode": "(val)","costTypeDescription": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Sub Award Cost Types with Filtering [GET /research-sys/api/v1/sub-award-cost-types/]
+### Get All Sub Award Cost Types with Filtering [GET /subaward/api/v1/sub-award-cost-types/]
     
 + Parameters
 
-        + costTypeCode
-            + costTypeDescription
+    + costTypeCode (optional) - CostTypeCode. Maximum length is 60.
+    + costTypeDescription (optional) - CostTypeDescription. Maximum length is 60.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"costTypeCode": "(val)","costTypeDescription": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Sub Award Cost Types [GET /research-sys/api/v1/sub-award-cost-types/]
+### Get Schema for Sub Award Cost Types [GET /subaward/api/v1/sub-award-cost-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["costTypeCode","costTypeDescription"],"primaryKey":"costTypeCode"}
 		
-### Get Blueprint API specification for Sub Award Cost Types [GET /research-sys/api/v1/sub-award-cost-types/]
+### Get Blueprint API specification for Sub Award Cost Types [GET /subaward/api/v1/sub-award-cost-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Sub Award Cost Types [PUT /research-sys/api/v1/sub-award-cost-types/(key)]
+### Update Sub Award Cost Types [PUT /subaward/api/v1/sub-award-cost-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Sub Award Cost Types [PUT /research-sys/api/v1/sub-award-cost-types/]
+### Update Multiple Sub Award Cost Types [PUT /subaward/api/v1/sub-award-cost-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Sub Award Cost Types [POST /research-sys/api/v1/sub-award-cost-types/]
+### Insert Sub Award Cost Types [POST /subaward/api/v1/sub-award-cost-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"costTypeCode": "(val)","costTypeDescription": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Sub Award Cost Types [POST /research-sys/api/v1/sub-award-cost-types/]
+### Insert Multiple Sub Award Cost Types [POST /subaward/api/v1/sub-award-cost-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"costTypeCode": "(val)","costTypeDescription": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Sub Award Cost Types by Key [DELETE /research-sys/api/v1/sub-award-cost-types/(key)]
+### Delete Sub Award Cost Types by Key [DELETE /subaward/api/v1/sub-award-cost-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Sub Award Cost Types [DELETE /research-sys/api/v1/sub-award-cost-types/]
+### Delete All Sub Award Cost Types [DELETE /subaward/api/v1/sub-award-cost-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Sub Award Cost Types with Matching [DELETE /research-sys/api/v1/sub-award-cost-types/]
+### Delete All Sub Award Cost Types with Matching [DELETE /subaward/api/v1/sub-award-cost-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + costTypeCode
-            + costTypeDescription
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + costTypeCode (optional) - CostTypeCode. Maximum length is 60.
+    + costTypeDescription (optional) - CostTypeDescription. Maximum length is 60.
 
       
 + Request

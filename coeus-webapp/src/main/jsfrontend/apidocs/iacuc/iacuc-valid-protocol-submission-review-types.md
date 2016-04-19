@@ -1,6 +1,6 @@
-## Iacuc Valid Protocol Submission Review Types [/research-sys/api/v1/iacuc-valid-protocol-submission-review-types/]
+## Iacuc Valid Protocol Submission Review Types [/iacuc/api/v1/iacuc-valid-protocol-submission-review-types/]
 
-### Get Iacuc Valid Protocol Submission Review Types by Key [GET /research-sys/api/v1/iacuc-valid-protocol-submission-review-types/(key)]
+### Get Iacuc Valid Protocol Submission Review Types by Key [GET /iacuc/api/v1/iacuc-valid-protocol-submission-review-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"validProtoSubRevTypeId": "(val)","submissionTypeCode": "(val)","protocolReviewTypeCode": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Valid Protocol Submission Review Types [GET /research-sys/api/v1/iacuc-valid-protocol-submission-review-types/]
+### Get All Iacuc Valid Protocol Submission Review Types [GET /iacuc/api/v1/iacuc-valid-protocol-submission-review-types/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"validProtoSubRevTypeId": "(val)","submissionTypeCode": "(val)","protocolReviewTypeCode": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Valid Protocol Submission Review Types with Filtering [GET /research-sys/api/v1/iacuc-valid-protocol-submission-review-types/]
+### Get All Iacuc Valid Protocol Submission Review Types with Filtering [GET /iacuc/api/v1/iacuc-valid-protocol-submission-review-types/]
     
 + Parameters
 
-        + validProtoSubRevTypeId
-            + submissionTypeCode
-            + protocolReviewTypeCode
+    + validProtoSubRevTypeId (optional) - Valid Protocol Submission Review Type Id. Maximum length is 12.
+    + submissionTypeCode (optional) - Protocol Submission Type Code. Maximum length is 3.
+    + protocolReviewTypeCode (optional) - IACUC Protocol Review Type Code. Maximum length is 3.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"validProtoSubRevTypeId": "(val)","submissionTypeCode": "(val)","protocolReviewTypeCode": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Valid Protocol Submission Review Types [GET /research-sys/api/v1/iacuc-valid-protocol-submission-review-types/]
+### Get Schema for Iacuc Valid Protocol Submission Review Types [GET /iacuc/api/v1/iacuc-valid-protocol-submission-review-types/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["validProtoSubRevTypeId","submissionTypeCode","protocolReviewTypeCode"],"primaryKey":"validProtoSubRevTypeId"}
 		
-### Get Blueprint API specification for Iacuc Valid Protocol Submission Review Types [GET /research-sys/api/v1/iacuc-valid-protocol-submission-review-types/]
+### Get Blueprint API specification for Iacuc Valid Protocol Submission Review Types [GET /iacuc/api/v1/iacuc-valid-protocol-submission-review-types/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Valid Protocol Submission Review Types [PUT /research-sys/api/v1/iacuc-valid-protocol-submission-review-types/(key)]
+### Update Iacuc Valid Protocol Submission Review Types [PUT /iacuc/api/v1/iacuc-valid-protocol-submission-review-types/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Valid Protocol Submission Review Types [PUT /research-sys/api/v1/iacuc-valid-protocol-submission-review-types/]
+### Update Multiple Iacuc Valid Protocol Submission Review Types [PUT /iacuc/api/v1/iacuc-valid-protocol-submission-review-types/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Iacuc Valid Protocol Submission Review Types [POST /research-sys/api/v1/iacuc-valid-protocol-submission-review-types/]
+### Insert Iacuc Valid Protocol Submission Review Types [POST /iacuc/api/v1/iacuc-valid-protocol-submission-review-types/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"validProtoSubRevTypeId": "(val)","submissionTypeCode": "(val)","protocolReviewTypeCode": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Valid Protocol Submission Review Types [POST /research-sys/api/v1/iacuc-valid-protocol-submission-review-types/]
+### Insert Multiple Iacuc Valid Protocol Submission Review Types [POST /iacuc/api/v1/iacuc-valid-protocol-submission-review-types/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"validProtoSubRevTypeId": "(val)","submissionTypeCode": "(val)","protocolReviewTypeCode": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Valid Protocol Submission Review Types by Key [DELETE /research-sys/api/v1/iacuc-valid-protocol-submission-review-types/(key)]
+### Delete Iacuc Valid Protocol Submission Review Types by Key [DELETE /iacuc/api/v1/iacuc-valid-protocol-submission-review-types/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Iacuc Valid Protocol Submission Review Types [DELETE /research-sys/api/v1/iacuc-valid-protocol-submission-review-types/]
+### Delete All Iacuc Valid Protocol Submission Review Types [DELETE /iacuc/api/v1/iacuc-valid-protocol-submission-review-types/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Iacuc Valid Protocol Submission Review Types with Matching [DELETE /research-sys/api/v1/iacuc-valid-protocol-submission-review-types/]
+### Delete All Iacuc Valid Protocol Submission Review Types with Matching [DELETE /iacuc/api/v1/iacuc-valid-protocol-submission-review-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + validProtoSubRevTypeId
-            + submissionTypeCode
-            + protocolReviewTypeCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + validProtoSubRevTypeId (optional) - Valid Protocol Submission Review Type Id. Maximum length is 12.
+    + submissionTypeCode (optional) - Protocol Submission Type Code. Maximum length is 3.
+    + protocolReviewTypeCode (optional) - IACUC Protocol Review Type Code. Maximum length is 3.
 
       
 + Request

@@ -1,6 +1,6 @@
-## Iacuc Correspondent Types [/research-sys/api/v1/iacuc-correspondent-types/]
+## Iacuc Correspondent Types [/iacuc/api/v1/iacuc-correspondent-types/]
 
-### Get Iacuc Correspondent Types by Key [GET /research-sys/api/v1/iacuc-correspondent-types/(key)]
+### Get Iacuc Correspondent Types by Key [GET /iacuc/api/v1/iacuc-correspondent-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"correspondentTypeCode": "(val)","description": "(val)","qualifier": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Correspondent Types [GET /research-sys/api/v1/iacuc-correspondent-types/]
+### Get All Iacuc Correspondent Types [GET /iacuc/api/v1/iacuc-correspondent-types/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"correspondentTypeCode": "(val)","description": "(val)","qualifier": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Correspondent Types with Filtering [GET /research-sys/api/v1/iacuc-correspondent-types/]
+### Get All Iacuc Correspondent Types with Filtering [GET /iacuc/api/v1/iacuc-correspondent-types/]
     
 + Parameters
 
-        + correspondentTypeCode
-            + description
-            + qualifier
+    + correspondentTypeCode (optional) - Correspondent Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + qualifier (optional) - Qualifier. Maximum length is 1.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"correspondentTypeCode": "(val)","description": "(val)","qualifier": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Correspondent Types [GET /research-sys/api/v1/iacuc-correspondent-types/]
+### Get Schema for Iacuc Correspondent Types [GET /iacuc/api/v1/iacuc-correspondent-types/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["correspondentTypeCode","description","qualifier"],"primaryKey":"correspondentTypeCode"}
 		
-### Get Blueprint API specification for Iacuc Correspondent Types [GET /research-sys/api/v1/iacuc-correspondent-types/]
+### Get Blueprint API specification for Iacuc Correspondent Types [GET /iacuc/api/v1/iacuc-correspondent-types/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Correspondent Types [PUT /research-sys/api/v1/iacuc-correspondent-types/(key)]
+### Update Iacuc Correspondent Types [PUT /iacuc/api/v1/iacuc-correspondent-types/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Correspondent Types [PUT /research-sys/api/v1/iacuc-correspondent-types/]
+### Update Multiple Iacuc Correspondent Types [PUT /iacuc/api/v1/iacuc-correspondent-types/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Iacuc Correspondent Types [POST /research-sys/api/v1/iacuc-correspondent-types/]
+### Insert Iacuc Correspondent Types [POST /iacuc/api/v1/iacuc-correspondent-types/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"correspondentTypeCode": "(val)","description": "(val)","qualifier": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Correspondent Types [POST /research-sys/api/v1/iacuc-correspondent-types/]
+### Insert Multiple Iacuc Correspondent Types [POST /iacuc/api/v1/iacuc-correspondent-types/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"correspondentTypeCode": "(val)","description": "(val)","qualifier": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Correspondent Types by Key [DELETE /research-sys/api/v1/iacuc-correspondent-types/(key)]
+### Delete Iacuc Correspondent Types by Key [DELETE /iacuc/api/v1/iacuc-correspondent-types/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Iacuc Correspondent Types [DELETE /research-sys/api/v1/iacuc-correspondent-types/]
+### Delete All Iacuc Correspondent Types [DELETE /iacuc/api/v1/iacuc-correspondent-types/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Iacuc Correspondent Types with Matching [DELETE /research-sys/api/v1/iacuc-correspondent-types/]
+### Delete All Iacuc Correspondent Types with Matching [DELETE /iacuc/api/v1/iacuc-correspondent-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + correspondentTypeCode
-            + description
-            + qualifier
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + correspondentTypeCode (optional) - Correspondent Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + qualifier (optional) - Qualifier. Maximum length is 1.
 
       
 + Request

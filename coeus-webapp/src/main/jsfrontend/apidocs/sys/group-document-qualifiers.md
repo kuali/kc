@@ -43,14 +43,14 @@
     
 + Parameters
 
-        + groupId
-            + kimTypId
-            + kimAttrDefnId
-            + edit
-            + documentNumber
-            + attrVal
-            + active
-            + attrDataId
+    + groupId (optional) - Group Id. Maximum length is 40.
+    + kimTypId (optional) - Kim Typ Id. Maximum length is 40.
+    + kimAttrDefnId (optional) - Kim Attr Defn Id. Maximum length is 40.
+    + edit (optional) - Edit.
+    + documentNumber (optional) - Document Number.
+    + attrVal (optional) - Attr Val. Maximum length is 400.
+    + active (optional) - Active.
+    + attrDataId (optional) - Attr Data Id. Maximum length is 40.
 
             
 + Request
@@ -222,15 +222,15 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + groupId
-            + kimTypId
-            + kimAttrDefnId
-            + edit
-            + documentNumber
-            + attrVal
-            + active
-            + attrDataId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + groupId (optional) - Group Id. Maximum length is 40.
+    + kimTypId (optional) - Kim Typ Id. Maximum length is 40.
+    + kimAttrDefnId (optional) - Kim Attr Defn Id. Maximum length is 40.
+    + edit (optional) - Edit.
+    + documentNumber (optional) - Document Number.
+    + attrVal (optional) - Attr Val. Maximum length is 400.
+    + active (optional) - Active.
+    + attrDataId (optional) - Attr Data Id. Maximum length is 40.
 
       
 + Request

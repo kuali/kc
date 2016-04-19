@@ -1,6 +1,6 @@
-## Award F And A Rates [/research-sys/api/v1/award-f-and-a-rates/]
+## Award F And A Rates [/award/api/v1/award-f-and-a-rates/]
 
-### Get Award F And A Rates by Key [GET /research-sys/api/v1/award-f-and-a-rates/(key)]
+### Get Award F And A Rates by Key [GET /award/api/v1/award-f-and-a-rates/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"awardFandaRateId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","applicableFandaRate": "(val)","fandaRateTypeCode": "(val)","fiscalYear": "(val)","onCampusFlag": "(val)","underrecoveryOfIndirectCost": "(val)","sourceAccount": "(val)","destinationAccount": "(val)","startDate": "(val)","endDate": "(val)","_primaryKey": "(val)"}
 
-### Get All Award F And A Rates [GET /research-sys/api/v1/award-f-and-a-rates/]
+### Get All Award F And A Rates [GET /award/api/v1/award-f-and-a-rates/]
 	 
 + Request
 
@@ -39,23 +39,23 @@
               {"awardFandaRateId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","applicableFandaRate": "(val)","fandaRateTypeCode": "(val)","fiscalYear": "(val)","onCampusFlag": "(val)","underrecoveryOfIndirectCost": "(val)","sourceAccount": "(val)","destinationAccount": "(val)","startDate": "(val)","endDate": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Award F And A Rates with Filtering [GET /research-sys/api/v1/award-f-and-a-rates/]
+### Get All Award F And A Rates with Filtering [GET /award/api/v1/award-f-and-a-rates/]
     
 + Parameters
 
-        + awardFandaRateId
-            + awardId
-            + awardNumber
-            + sequenceNumber
-            + applicableFandaRate
-            + fandaRateTypeCode
-            + fiscalYear
-            + onCampusFlag
-            + underrecoveryOfIndirectCost
-            + sourceAccount
-            + destinationAccount
-            + startDate
-            + endDate
+    + awardFandaRateId (optional) - Award Idc Rate Id. Maximum length is 22.
+    + awardId (optional) - 
+    + awardNumber (optional) - Award ID. Maximum length is 12.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 8.
+    + applicableFandaRate (optional) - Applicable Idc Rate. Maximum length is 22.
+    + fandaRateTypeCode (optional) - F&A Rate Type Code. Maximum length is 22.
+    + fiscalYear (optional) - Fiscal Year. Maximum length is 4.
+    + onCampusFlag (optional) - On CampusContractContract Flag. Maximum length is 1.
+    + underrecoveryOfIndirectCost (optional) - Underrecovery Of Idc. Maximum length is 22.
+    + sourceAccount (optional) - Source Account. Maximum length is 32.
+    + destinationAccount (optional) - Destination Account. Maximum length is 32.
+    + startDate (optional) - Start Date. Maximum length is 10.
+    + endDate (optional) - End Date. Maximum length is 10.
 
             
 + Request
@@ -77,7 +77,7 @@
               {"awardFandaRateId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","applicableFandaRate": "(val)","fandaRateTypeCode": "(val)","fiscalYear": "(val)","onCampusFlag": "(val)","underrecoveryOfIndirectCost": "(val)","sourceAccount": "(val)","destinationAccount": "(val)","startDate": "(val)","endDate": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Award F And A Rates [GET /research-sys/api/v1/award-f-and-a-rates/]
+### Get Schema for Award F And A Rates [GET /award/api/v1/award-f-and-a-rates/]
 	                                          
 + Parameters
 
@@ -99,7 +99,7 @@
     
             {"columns":["awardFandaRateId","awardId","awardNumber","sequenceNumber","applicableFandaRate","fandaRateTypeCode","fiscalYear","onCampusFlag","underrecoveryOfIndirectCost","sourceAccount","destinationAccount","startDate","endDate"],"primaryKey":"awardFandaRateId"}
 		
-### Get Blueprint API specification for Award F And A Rates [GET /research-sys/api/v1/award-f-and-a-rates/]
+### Get Blueprint API specification for Award F And A Rates [GET /award/api/v1/award-f-and-a-rates/]
 	 
 + Parameters
 
@@ -120,7 +120,7 @@
             transfer-encoding:chunked
 
 
-### Update Award F And A Rates [PUT /research-sys/api/v1/award-f-and-a-rates/(key)]
+### Update Award F And A Rates [PUT /award/api/v1/award-f-and-a-rates/(key)]
 
 + Request
 
@@ -135,7 +135,7 @@
 			
 + Response 204
 
-### Update Multiple Award F And A Rates [PUT /research-sys/api/v1/award-f-and-a-rates/]
+### Update Multiple Award F And A Rates [PUT /award/api/v1/award-f-and-a-rates/]
 
 + Request
 
@@ -153,7 +153,7 @@
 			
 + Response 204
 
-### Insert Award F And A Rates [POST /research-sys/api/v1/award-f-and-a-rates/]
+### Insert Award F And A Rates [POST /award/api/v1/award-f-and-a-rates/]
 
 + Request
 
@@ -172,7 +172,7 @@
             
             {"awardFandaRateId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","applicableFandaRate": "(val)","fandaRateTypeCode": "(val)","fiscalYear": "(val)","onCampusFlag": "(val)","underrecoveryOfIndirectCost": "(val)","sourceAccount": "(val)","destinationAccount": "(val)","startDate": "(val)","endDate": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Award F And A Rates [POST /research-sys/api/v1/award-f-and-a-rates/]
+### Insert Multiple Award F And A Rates [POST /award/api/v1/award-f-and-a-rates/]
 
 + Request
 
@@ -197,7 +197,7 @@
               {"awardFandaRateId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","applicableFandaRate": "(val)","fandaRateTypeCode": "(val)","fiscalYear": "(val)","onCampusFlag": "(val)","underrecoveryOfIndirectCost": "(val)","sourceAccount": "(val)","destinationAccount": "(val)","startDate": "(val)","endDate": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Award F And A Rates by Key [DELETE /research-sys/api/v1/award-f-and-a-rates/(key)]
+### Delete Award F And A Rates by Key [DELETE /award/api/v1/award-f-and-a-rates/(key)]
 	 
 + Request
 
@@ -208,7 +208,7 @@
 
 + Response 204
 
-### Delete All Award F And A Rates [DELETE /research-sys/api/v1/award-f-and-a-rates/]
+### Delete All Award F And A Rates [DELETE /award/api/v1/award-f-and-a-rates/]
 
 + Parameters
 
@@ -223,24 +223,24 @@
 
 + Response 204
 
-### Delete All Award F And A Rates with Matching [DELETE /research-sys/api/v1/award-f-and-a-rates/]
+### Delete All Award F And A Rates with Matching [DELETE /award/api/v1/award-f-and-a-rates/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + awardFandaRateId
-            + awardId
-            + awardNumber
-            + sequenceNumber
-            + applicableFandaRate
-            + fandaRateTypeCode
-            + fiscalYear
-            + onCampusFlag
-            + underrecoveryOfIndirectCost
-            + sourceAccount
-            + destinationAccount
-            + startDate
-            + endDate
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + awardFandaRateId (optional) - Award Idc Rate Id. Maximum length is 22.
+    + awardId (optional) - 
+    + awardNumber (optional) - Award ID. Maximum length is 12.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 8.
+    + applicableFandaRate (optional) - Applicable Idc Rate. Maximum length is 22.
+    + fandaRateTypeCode (optional) - F&A Rate Type Code. Maximum length is 22.
+    + fiscalYear (optional) - Fiscal Year. Maximum length is 4.
+    + onCampusFlag (optional) - On CampusContractContract Flag. Maximum length is 1.
+    + underrecoveryOfIndirectCost (optional) - Underrecovery Of Idc. Maximum length is 22.
+    + sourceAccount (optional) - Source Account. Maximum length is 32.
+    + destinationAccount (optional) - Destination Account. Maximum length is 32.
+    + startDate (optional) - Start Date. Maximum length is 10.
+    + endDate (optional) - End Date. Maximum length is 10.
 
       
 + Request

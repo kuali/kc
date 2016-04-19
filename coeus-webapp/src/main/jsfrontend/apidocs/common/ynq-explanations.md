@@ -1,6 +1,6 @@
-## Ynq Explanations [/research-sys/api/v1/ynq-explanations/]
+## Ynq Explanations [/research-common/api/v1/ynq-explanations/]
 
-### Get Ynq Explanations by Key [GET /research-sys/api/v1/ynq-explanations/(key)]
+### Get Ynq Explanations by Key [GET /research-common/api/v1/ynq-explanations/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"explanationType": "(val)","questionId": "(val)","explanation": "(val)","_primaryKey": "(val)"}
 
-### Get All Ynq Explanations [GET /research-sys/api/v1/ynq-explanations/]
+### Get All Ynq Explanations [GET /research-common/api/v1/ynq-explanations/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"explanationType": "(val)","questionId": "(val)","explanation": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Ynq Explanations with Filtering [GET /research-sys/api/v1/ynq-explanations/]
+### Get All Ynq Explanations with Filtering [GET /research-common/api/v1/ynq-explanations/]
     
 + Parameters
 
-        + explanationType
-            + questionId
-            + explanation
+    + explanationType (optional) - Explanation Type. Maximum length is 1.
+    + questionId (optional) - Question Id. Maximum length is 4.
+    + explanation (optional) - Explanation. Maximum length is 400.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"explanationType": "(val)","questionId": "(val)","explanation": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Ynq Explanations [GET /research-sys/api/v1/ynq-explanations/]
+### Get Schema for Ynq Explanations [GET /research-common/api/v1/ynq-explanations/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["explanationType","questionId","explanation"],"primaryKey":"explanationType:questionId"}
 		
-### Get Blueprint API specification for Ynq Explanations [GET /research-sys/api/v1/ynq-explanations/]
+### Get Blueprint API specification for Ynq Explanations [GET /research-common/api/v1/ynq-explanations/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Ynq Explanations [PUT /research-sys/api/v1/ynq-explanations/(key)]
+### Update Ynq Explanations [PUT /research-common/api/v1/ynq-explanations/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Ynq Explanations [PUT /research-sys/api/v1/ynq-explanations/]
+### Update Multiple Ynq Explanations [PUT /research-common/api/v1/ynq-explanations/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Ynq Explanations [POST /research-sys/api/v1/ynq-explanations/]
+### Insert Ynq Explanations [POST /research-common/api/v1/ynq-explanations/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"explanationType": "(val)","questionId": "(val)","explanation": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Ynq Explanations [POST /research-sys/api/v1/ynq-explanations/]
+### Insert Multiple Ynq Explanations [POST /research-common/api/v1/ynq-explanations/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"explanationType": "(val)","questionId": "(val)","explanation": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Ynq Explanations by Key [DELETE /research-sys/api/v1/ynq-explanations/(key)]
+### Delete Ynq Explanations by Key [DELETE /research-common/api/v1/ynq-explanations/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Ynq Explanations [DELETE /research-sys/api/v1/ynq-explanations/]
+### Delete All Ynq Explanations [DELETE /research-common/api/v1/ynq-explanations/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Ynq Explanations with Matching [DELETE /research-sys/api/v1/ynq-explanations/]
+### Delete All Ynq Explanations with Matching [DELETE /research-common/api/v1/ynq-explanations/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + explanationType
-            + questionId
-            + explanation
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + explanationType (optional) - Explanation Type. Maximum length is 1.
+    + questionId (optional) - Question Id. Maximum length is 4.
+    + explanation (optional) - Explanation. Maximum length is 400.
 
       
 + Request

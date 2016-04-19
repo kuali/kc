@@ -1,6 +1,6 @@
-## Budget Person Salary Details [/research-sys/api/v1/budget-person-salary-details/]
+## Budget Person Salary Details [/research-common/api/v1/budget-person-salary-details/]
 
-### Get Budget Person Salary Details by Key [GET /research-sys/api/v1/budget-person-salary-details/(key)]
+### Get Budget Person Salary Details by Key [GET /research-common/api/v1/budget-person-salary-details/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"budgetPersonSalaryDetailId": "(val)","personSequenceNumber": "(val)","budgetId": "(val)","budgetPeriod": "(val)","personId": "(val)","baseSalary": "(val)","_primaryKey": "(val)"}
 
-### Get All Budget Person Salary Details [GET /research-sys/api/v1/budget-person-salary-details/]
+### Get All Budget Person Salary Details [GET /research-common/api/v1/budget-person-salary-details/]
 	 
 + Request
 
@@ -39,16 +39,16 @@
               {"budgetPersonSalaryDetailId": "(val)","personSequenceNumber": "(val)","budgetId": "(val)","budgetPeriod": "(val)","personId": "(val)","baseSalary": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Budget Person Salary Details with Filtering [GET /research-sys/api/v1/budget-person-salary-details/]
+### Get All Budget Person Salary Details with Filtering [GET /research-common/api/v1/budget-person-salary-details/]
     
 + Parameters
 
-        + budgetPersonSalaryDetailId
-            + personSequenceNumber
-            + budgetId
-            + budgetPeriod
-            + personId
-            + baseSalary
+    + budgetPersonSalaryDetailId (optional) - Budget Person Salary Detail Id. Maximum length is 22.
+    + personSequenceNumber (optional) - Person. Maximum length is 9.
+    + budgetId (optional) - Budget Id. Maximum length is 22.
+    + budgetPeriod (optional) - Budget Period. Maximum length is 3.
+    + personId (optional) - Person Id.
+    + baseSalary (optional) - Salary. Maximum length is 15.
 
             
 + Request
@@ -70,7 +70,7 @@
               {"budgetPersonSalaryDetailId": "(val)","personSequenceNumber": "(val)","budgetId": "(val)","budgetPeriod": "(val)","personId": "(val)","baseSalary": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Budget Person Salary Details [GET /research-sys/api/v1/budget-person-salary-details/]
+### Get Schema for Budget Person Salary Details [GET /research-common/api/v1/budget-person-salary-details/]
 	                                          
 + Parameters
 
@@ -92,7 +92,7 @@
     
             {"columns":["budgetPersonSalaryDetailId","personSequenceNumber","budgetId","budgetPeriod","personId","baseSalary"],"primaryKey":"budgetPersonSalaryDetailId"}
 		
-### Get Blueprint API specification for Budget Person Salary Details [GET /research-sys/api/v1/budget-person-salary-details/]
+### Get Blueprint API specification for Budget Person Salary Details [GET /research-common/api/v1/budget-person-salary-details/]
 	 
 + Parameters
 
@@ -113,7 +113,7 @@
             transfer-encoding:chunked
 
 
-### Update Budget Person Salary Details [PUT /research-sys/api/v1/budget-person-salary-details/(key)]
+### Update Budget Person Salary Details [PUT /research-common/api/v1/budget-person-salary-details/(key)]
 
 + Request
 
@@ -128,7 +128,7 @@
 			
 + Response 204
 
-### Update Multiple Budget Person Salary Details [PUT /research-sys/api/v1/budget-person-salary-details/]
+### Update Multiple Budget Person Salary Details [PUT /research-common/api/v1/budget-person-salary-details/]
 
 + Request
 
@@ -146,7 +146,7 @@
 			
 + Response 204
 
-### Insert Budget Person Salary Details [POST /research-sys/api/v1/budget-person-salary-details/]
+### Insert Budget Person Salary Details [POST /research-common/api/v1/budget-person-salary-details/]
 
 + Request
 
@@ -165,7 +165,7 @@
             
             {"budgetPersonSalaryDetailId": "(val)","personSequenceNumber": "(val)","budgetId": "(val)","budgetPeriod": "(val)","personId": "(val)","baseSalary": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Budget Person Salary Details [POST /research-sys/api/v1/budget-person-salary-details/]
+### Insert Multiple Budget Person Salary Details [POST /research-common/api/v1/budget-person-salary-details/]
 
 + Request
 
@@ -190,7 +190,7 @@
               {"budgetPersonSalaryDetailId": "(val)","personSequenceNumber": "(val)","budgetId": "(val)","budgetPeriod": "(val)","personId": "(val)","baseSalary": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Budget Person Salary Details by Key [DELETE /research-sys/api/v1/budget-person-salary-details/(key)]
+### Delete Budget Person Salary Details by Key [DELETE /research-common/api/v1/budget-person-salary-details/(key)]
 	 
 + Request
 
@@ -201,7 +201,7 @@
 
 + Response 204
 
-### Delete All Budget Person Salary Details [DELETE /research-sys/api/v1/budget-person-salary-details/]
+### Delete All Budget Person Salary Details [DELETE /research-common/api/v1/budget-person-salary-details/]
 
 + Parameters
 
@@ -216,17 +216,17 @@
 
 + Response 204
 
-### Delete All Budget Person Salary Details with Matching [DELETE /research-sys/api/v1/budget-person-salary-details/]
+### Delete All Budget Person Salary Details with Matching [DELETE /research-common/api/v1/budget-person-salary-details/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + budgetPersonSalaryDetailId
-            + personSequenceNumber
-            + budgetId
-            + budgetPeriod
-            + personId
-            + baseSalary
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + budgetPersonSalaryDetailId (optional) - Budget Person Salary Detail Id. Maximum length is 22.
+    + personSequenceNumber (optional) - Person. Maximum length is 9.
+    + budgetId (optional) - Budget Id. Maximum length is 22.
+    + budgetPeriod (optional) - Budget Period. Maximum length is 3.
+    + personId (optional) - Person Id.
+    + baseSalary (optional) - Salary. Maximum length is 15.
 
       
 + Request

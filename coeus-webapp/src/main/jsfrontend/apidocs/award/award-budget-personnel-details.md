@@ -1,6 +1,6 @@
-## Award Budget Personnel Details [/research-sys/api/v1/award-budget-personnel-details/]
+## Award Budget Personnel Details [/award/api/v1/award-budget-personnel-details/]
 
-### Get Award Budget Personnel Details by Key [GET /research-sys/api/v1/award-budget-personnel-details/(key)]
+### Get Award Budget Personnel Details by Key [GET /award/api/v1/award-budget-personnel-details/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"budgetPersonnelLineItemId": "(val)","obligatedAmount": "(val)","_primaryKey": "(val)"}
 
-### Get All Award Budget Personnel Details [GET /research-sys/api/v1/award-budget-personnel-details/]
+### Get All Award Budget Personnel Details [GET /award/api/v1/award-budget-personnel-details/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"budgetPersonnelLineItemId": "(val)","obligatedAmount": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Award Budget Personnel Details with Filtering [GET /research-sys/api/v1/award-budget-personnel-details/]
+### Get All Award Budget Personnel Details with Filtering [GET /award/api/v1/award-budget-personnel-details/]
     
 + Parameters
 
-        + budgetPersonnelLineItemId
-            + obligatedAmount
+    + budgetPersonnelLineItemId (optional) - Budget Id. Maximum length is 22.
+    + obligatedAmount (optional) - Obligated amount from award amount info. Maximum length is 15.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"budgetPersonnelLineItemId": "(val)","obligatedAmount": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Award Budget Personnel Details [GET /research-sys/api/v1/award-budget-personnel-details/]
+### Get Schema for Award Budget Personnel Details [GET /award/api/v1/award-budget-personnel-details/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["budgetPersonnelLineItemId","obligatedAmount"],"primaryKey":"budgetPersonnelLineItemId"}
 		
-### Get Blueprint API specification for Award Budget Personnel Details [GET /research-sys/api/v1/award-budget-personnel-details/]
+### Get Blueprint API specification for Award Budget Personnel Details [GET /award/api/v1/award-budget-personnel-details/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Award Budget Personnel Details [PUT /research-sys/api/v1/award-budget-personnel-details/(key)]
+### Update Award Budget Personnel Details [PUT /award/api/v1/award-budget-personnel-details/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Award Budget Personnel Details [PUT /research-sys/api/v1/award-budget-personnel-details/]
+### Update Multiple Award Budget Personnel Details [PUT /award/api/v1/award-budget-personnel-details/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Award Budget Personnel Details [POST /research-sys/api/v1/award-budget-personnel-details/]
+### Insert Award Budget Personnel Details [POST /award/api/v1/award-budget-personnel-details/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"budgetPersonnelLineItemId": "(val)","obligatedAmount": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Award Budget Personnel Details [POST /research-sys/api/v1/award-budget-personnel-details/]
+### Insert Multiple Award Budget Personnel Details [POST /award/api/v1/award-budget-personnel-details/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"budgetPersonnelLineItemId": "(val)","obligatedAmount": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Award Budget Personnel Details by Key [DELETE /research-sys/api/v1/award-budget-personnel-details/(key)]
+### Delete Award Budget Personnel Details by Key [DELETE /award/api/v1/award-budget-personnel-details/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Award Budget Personnel Details [DELETE /research-sys/api/v1/award-budget-personnel-details/]
+### Delete All Award Budget Personnel Details [DELETE /award/api/v1/award-budget-personnel-details/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Award Budget Personnel Details with Matching [DELETE /research-sys/api/v1/award-budget-personnel-details/]
+### Delete All Award Budget Personnel Details with Matching [DELETE /award/api/v1/award-budget-personnel-details/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + budgetPersonnelLineItemId
-            + obligatedAmount
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + budgetPersonnelLineItemId (optional) - Budget Id. Maximum length is 22.
+    + obligatedAmount (optional) - Obligated amount from award amount info. Maximum length is 15.
 
       
 + Request

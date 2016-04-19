@@ -43,15 +43,15 @@
     
 + Parameters
 
-        + roleMemberId
-            + roleId
-            + memberId
-            + memberTypeCode
-            + activeFromDate
-            + activeToDate
-            + edit
-            + documentNumber
-            + active
+    + roleMemberId (optional) - Role Member Identifier. Maximum length is 40.
+    + roleId (optional) - Role. Maximum length is 40.
+    + memberId (optional) - Member Identifier. Maximum length is 40.
+    + memberTypeCode (optional) - Member Type Code. Maximum length is 40.
+    + activeFromDate (optional) - Start Date. Maximum length is 21.
+    + activeToDate (optional) - End Date. Maximum length is 21.
+    + edit (optional) - Edit.
+    + documentNumber (optional) - Document Number.
+    + active (optional) - Active.
 
             
 + Request
@@ -223,16 +223,16 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + roleMemberId
-            + roleId
-            + memberId
-            + memberTypeCode
-            + activeFromDate
-            + activeToDate
-            + edit
-            + documentNumber
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + roleMemberId (optional) - Role Member Identifier. Maximum length is 40.
+    + roleId (optional) - Role. Maximum length is 40.
+    + memberId (optional) - Member Identifier. Maximum length is 40.
+    + memberTypeCode (optional) - Member Type Code. Maximum length is 40.
+    + activeFromDate (optional) - Start Date. Maximum length is 21.
+    + activeToDate (optional) - End Date. Maximum length is 21.
+    + edit (optional) - Edit.
+    + documentNumber (optional) - Document Number.
+    + active (optional) - Active.
 
       
 + Request

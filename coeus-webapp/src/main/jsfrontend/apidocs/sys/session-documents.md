@@ -43,13 +43,13 @@
     
 + Parameters
 
-        + sessionId
-            + documentNumber
-            + principalId
-            + ipAddress
-            + lastUpdatedDate
-            + serializedDocumentForm
-            + encrypted
+    + sessionId (optional) - 
+    + documentNumber (optional) - 
+    + principalId (optional) - 
+    + ipAddress (optional) - 
+    + lastUpdatedDate (optional) - 
+    + serializedDocumentForm (optional) - 
+    + encrypted (optional) - 
 
             
 + Request
@@ -221,14 +221,14 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + sessionId
-            + documentNumber
-            + principalId
-            + ipAddress
-            + lastUpdatedDate
-            + serializedDocumentForm
-            + encrypted
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + sessionId (optional) - 
+    + documentNumber (optional) - 
+    + principalId (optional) - 
+    + ipAddress (optional) - 
+    + lastUpdatedDate (optional) - 
+    + serializedDocumentForm (optional) - 
+    + encrypted (optional) - 
 
       
 + Request

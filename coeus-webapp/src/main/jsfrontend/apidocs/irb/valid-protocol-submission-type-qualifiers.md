@@ -1,6 +1,6 @@
-## Valid Protocol Submission Type Qualifiers [/research-sys/api/v1/valid-protocol-submission-type-qualifiers/]
+## Valid Protocol Submission Type Qualifiers [/irb/api/v1/valid-protocol-submission-type-qualifiers/]
 
-### Get Valid Protocol Submission Type Qualifiers by Key [GET /research-sys/api/v1/valid-protocol-submission-type-qualifiers/(key)]
+### Get Valid Protocol Submission Type Qualifiers by Key [GET /irb/api/v1/valid-protocol-submission-type-qualifiers/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"validProtoSubTypeQualId": "(val)","submissionTypeCode": "(val)","submissionTypeQualCode": "(val)","_primaryKey": "(val)"}
 
-### Get All Valid Protocol Submission Type Qualifiers [GET /research-sys/api/v1/valid-protocol-submission-type-qualifiers/]
+### Get All Valid Protocol Submission Type Qualifiers [GET /irb/api/v1/valid-protocol-submission-type-qualifiers/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"validProtoSubTypeQualId": "(val)","submissionTypeCode": "(val)","submissionTypeQualCode": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Valid Protocol Submission Type Qualifiers with Filtering [GET /research-sys/api/v1/valid-protocol-submission-type-qualifiers/]
+### Get All Valid Protocol Submission Type Qualifiers with Filtering [GET /irb/api/v1/valid-protocol-submission-type-qualifiers/]
     
 + Parameters
 
-        + validProtoSubTypeQualId
-            + submissionTypeCode
-            + submissionTypeQualCode
+    + validProtoSubTypeQualId (optional) - Valid Proto Sub Type Qual Id. Maximum length is 12.
+    + submissionTypeCode (optional) - Submission Type Code. Maximum length is 3.
+    + submissionTypeQualCode (optional) - Submission Type Qual Code. Maximum length is 3.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"validProtoSubTypeQualId": "(val)","submissionTypeCode": "(val)","submissionTypeQualCode": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Valid Protocol Submission Type Qualifiers [GET /research-sys/api/v1/valid-protocol-submission-type-qualifiers/]
+### Get Schema for Valid Protocol Submission Type Qualifiers [GET /irb/api/v1/valid-protocol-submission-type-qualifiers/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["validProtoSubTypeQualId","submissionTypeCode","submissionTypeQualCode"],"primaryKey":"validProtoSubTypeQualId"}
 		
-### Get Blueprint API specification for Valid Protocol Submission Type Qualifiers [GET /research-sys/api/v1/valid-protocol-submission-type-qualifiers/]
+### Get Blueprint API specification for Valid Protocol Submission Type Qualifiers [GET /irb/api/v1/valid-protocol-submission-type-qualifiers/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Valid Protocol Submission Type Qualifiers [PUT /research-sys/api/v1/valid-protocol-submission-type-qualifiers/(key)]
+### Update Valid Protocol Submission Type Qualifiers [PUT /irb/api/v1/valid-protocol-submission-type-qualifiers/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Valid Protocol Submission Type Qualifiers [PUT /research-sys/api/v1/valid-protocol-submission-type-qualifiers/]
+### Update Multiple Valid Protocol Submission Type Qualifiers [PUT /irb/api/v1/valid-protocol-submission-type-qualifiers/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Valid Protocol Submission Type Qualifiers [POST /research-sys/api/v1/valid-protocol-submission-type-qualifiers/]
+### Insert Valid Protocol Submission Type Qualifiers [POST /irb/api/v1/valid-protocol-submission-type-qualifiers/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"validProtoSubTypeQualId": "(val)","submissionTypeCode": "(val)","submissionTypeQualCode": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Valid Protocol Submission Type Qualifiers [POST /research-sys/api/v1/valid-protocol-submission-type-qualifiers/]
+### Insert Multiple Valid Protocol Submission Type Qualifiers [POST /irb/api/v1/valid-protocol-submission-type-qualifiers/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"validProtoSubTypeQualId": "(val)","submissionTypeCode": "(val)","submissionTypeQualCode": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Valid Protocol Submission Type Qualifiers by Key [DELETE /research-sys/api/v1/valid-protocol-submission-type-qualifiers/(key)]
+### Delete Valid Protocol Submission Type Qualifiers by Key [DELETE /irb/api/v1/valid-protocol-submission-type-qualifiers/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Valid Protocol Submission Type Qualifiers [DELETE /research-sys/api/v1/valid-protocol-submission-type-qualifiers/]
+### Delete All Valid Protocol Submission Type Qualifiers [DELETE /irb/api/v1/valid-protocol-submission-type-qualifiers/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Valid Protocol Submission Type Qualifiers with Matching [DELETE /research-sys/api/v1/valid-protocol-submission-type-qualifiers/]
+### Delete All Valid Protocol Submission Type Qualifiers with Matching [DELETE /irb/api/v1/valid-protocol-submission-type-qualifiers/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + validProtoSubTypeQualId
-            + submissionTypeCode
-            + submissionTypeQualCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + validProtoSubTypeQualId (optional) - Valid Proto Sub Type Qual Id. Maximum length is 12.
+    + submissionTypeCode (optional) - Submission Type Code. Maximum length is 3.
+    + submissionTypeQualCode (optional) - Submission Type Qual Code. Maximum length is 3.
 
       
 + Request

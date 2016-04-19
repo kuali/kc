@@ -1,6 +1,6 @@
-## Report Tracking [/research-sys/api/v1/report-tracking/]
+## Report Tracking [/award/api/v1/report-tracking/]
 
-### Get Report Tracking by Key [GET /research-sys/api/v1/report-tracking/(key)]
+### Get Report Tracking by Key [GET /award/api/v1/report-tracking/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"awardReportTrackingId": "(val)","awardReportTermId": "(val)","awardNumber": "(val)","piPersonId": "(val)","piRolodexId": "(val)","piName": "(val)","leadUnitNumber": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","frequencyBaseCode": "(val)","ospDistributionCode": "(val)","statusCode": "(val)","baseDate": "(val)","dueDate": "(val)","overdue": "(val)","activityDate": "(val)","comments": "(val)","preparerId": "(val)","preparerName": "(val)","sponsorCode": "(val)","sponsorAwardNumber": "(val)","title": "(val)","lastUpdateUser": "(val)","lastUpdateDate": "(val)","_primaryKey": "(val)"}
 
-### Get All Report Tracking [GET /research-sys/api/v1/report-tracking/]
+### Get All Report Tracking [GET /award/api/v1/report-tracking/]
 	 
 + Request
 
@@ -39,35 +39,35 @@
               {"awardReportTrackingId": "(val)","awardReportTermId": "(val)","awardNumber": "(val)","piPersonId": "(val)","piRolodexId": "(val)","piName": "(val)","leadUnitNumber": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","frequencyBaseCode": "(val)","ospDistributionCode": "(val)","statusCode": "(val)","baseDate": "(val)","dueDate": "(val)","overdue": "(val)","activityDate": "(val)","comments": "(val)","preparerId": "(val)","preparerName": "(val)","sponsorCode": "(val)","sponsorAwardNumber": "(val)","title": "(val)","lastUpdateUser": "(val)","lastUpdateDate": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Report Tracking with Filtering [GET /research-sys/api/v1/report-tracking/]
+### Get All Report Tracking with Filtering [GET /award/api/v1/report-tracking/]
     
 + Parameters
 
-        + awardReportTrackingId
-            + awardReportTermId
-            + awardNumber
-            + piPersonId
-            + piRolodexId
-            + piName
-            + leadUnitNumber
-            + reportClassCode
-            + reportCode
-            + frequencyCode
-            + frequencyBaseCode
-            + ospDistributionCode
-            + statusCode
-            + baseDate
-            + dueDate
-            + overdue
-            + activityDate
-            + comments
-            + preparerId
-            + preparerName
-            + sponsorCode
-            + sponsorAwardNumber
-            + title
-            + lastUpdateUser
-            + lastUpdateDate
+    + awardReportTrackingId (optional) - Award Report Tracking Id. Maximum length is 40.
+    + awardReportTermId (optional) - Award Report Terms Id. Maximum length is 22.
+    + awardNumber (optional) - Award ID. Maximum length is 12.
+    + piPersonId (optional) - 
+    + piRolodexId (optional) - 
+    + piName (optional) - Full Name. Maximum length is 90.
+    + leadUnitNumber (optional) - The lead unit number for the Award. Maximum length is 150.
+    + reportClassCode (optional) - Report Class. Maximum length is 22.
+    + reportCode (optional) - Report. Maximum length is 22.
+    + frequencyCode (optional) - Frequency. Maximum length is 22.
+    + frequencyBaseCode (optional) - Frequency Base. Maximum length is 22.
+    + ospDistributionCode (optional) - OSP File Copy. Maximum length is 22.
+    + statusCode (optional) - Status. Maximum length is 22.
+    + baseDate (optional) - Base Date. Maximum length is 10.
+    + dueDate (optional) - Due Date. Maximum length is 10.
+    + overdue (optional) - Overdue. Maximum length is 22.
+    + activityDate (optional) - Activity Date. Maximum length is 10.
+    + comments (optional) - Comments. Maximum length is 200.
+    + preparerId (optional) - Preparer. Maximum length is 40.
+    + preparerName (optional) - Preparer Name. Maximum length is 90.
+    + sponsorCode (optional) - The identification number of the organization or agency that is providing support for the sponsored project. Maximum length is 6.
+    + sponsorAwardNumber (optional) - Sponsor Award ID. Maximum length is 70.
+    + title (optional) - The proposed title of the project. Maximum length is 200.
+    + lastUpdateUser (optional) - Last Updated By. Maximum length is 90.
+    + lastUpdateDate (optional) - Last Updated Date. Maximum length is 10.
 
             
 + Request
@@ -89,7 +89,7 @@
               {"awardReportTrackingId": "(val)","awardReportTermId": "(val)","awardNumber": "(val)","piPersonId": "(val)","piRolodexId": "(val)","piName": "(val)","leadUnitNumber": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","frequencyBaseCode": "(val)","ospDistributionCode": "(val)","statusCode": "(val)","baseDate": "(val)","dueDate": "(val)","overdue": "(val)","activityDate": "(val)","comments": "(val)","preparerId": "(val)","preparerName": "(val)","sponsorCode": "(val)","sponsorAwardNumber": "(val)","title": "(val)","lastUpdateUser": "(val)","lastUpdateDate": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Report Tracking [GET /research-sys/api/v1/report-tracking/]
+### Get Schema for Report Tracking [GET /award/api/v1/report-tracking/]
 	                                          
 + Parameters
 
@@ -111,7 +111,7 @@
     
             {"columns":["awardReportTrackingId","awardReportTermId","awardNumber","piPersonId","piRolodexId","piName","leadUnitNumber","reportClassCode","reportCode","frequencyCode","frequencyBaseCode","ospDistributionCode","statusCode","baseDate","dueDate","overdue","activityDate","comments","preparerId","preparerName","sponsorCode","sponsorAwardNumber","title","lastUpdateUser","lastUpdateDate"],"primaryKey":"awardReportTrackingId"}
 		
-### Get Blueprint API specification for Report Tracking [GET /research-sys/api/v1/report-tracking/]
+### Get Blueprint API specification for Report Tracking [GET /award/api/v1/report-tracking/]
 	 
 + Parameters
 
@@ -132,7 +132,7 @@
             transfer-encoding:chunked
 
 
-### Update Report Tracking [PUT /research-sys/api/v1/report-tracking/(key)]
+### Update Report Tracking [PUT /award/api/v1/report-tracking/(key)]
 
 + Request
 
@@ -147,7 +147,7 @@
 			
 + Response 204
 
-### Update Multiple Report Tracking [PUT /research-sys/api/v1/report-tracking/]
+### Update Multiple Report Tracking [PUT /award/api/v1/report-tracking/]
 
 + Request
 
@@ -165,7 +165,7 @@
 			
 + Response 204
 
-### Insert Report Tracking [POST /research-sys/api/v1/report-tracking/]
+### Insert Report Tracking [POST /award/api/v1/report-tracking/]
 
 + Request
 
@@ -184,7 +184,7 @@
             
             {"awardReportTrackingId": "(val)","awardReportTermId": "(val)","awardNumber": "(val)","piPersonId": "(val)","piRolodexId": "(val)","piName": "(val)","leadUnitNumber": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","frequencyBaseCode": "(val)","ospDistributionCode": "(val)","statusCode": "(val)","baseDate": "(val)","dueDate": "(val)","overdue": "(val)","activityDate": "(val)","comments": "(val)","preparerId": "(val)","preparerName": "(val)","sponsorCode": "(val)","sponsorAwardNumber": "(val)","title": "(val)","lastUpdateUser": "(val)","lastUpdateDate": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Report Tracking [POST /research-sys/api/v1/report-tracking/]
+### Insert Multiple Report Tracking [POST /award/api/v1/report-tracking/]
 
 + Request
 
@@ -209,7 +209,7 @@
               {"awardReportTrackingId": "(val)","awardReportTermId": "(val)","awardNumber": "(val)","piPersonId": "(val)","piRolodexId": "(val)","piName": "(val)","leadUnitNumber": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","frequencyBaseCode": "(val)","ospDistributionCode": "(val)","statusCode": "(val)","baseDate": "(val)","dueDate": "(val)","overdue": "(val)","activityDate": "(val)","comments": "(val)","preparerId": "(val)","preparerName": "(val)","sponsorCode": "(val)","sponsorAwardNumber": "(val)","title": "(val)","lastUpdateUser": "(val)","lastUpdateDate": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Report Tracking by Key [DELETE /research-sys/api/v1/report-tracking/(key)]
+### Delete Report Tracking by Key [DELETE /award/api/v1/report-tracking/(key)]
 	 
 + Request
 
@@ -220,7 +220,7 @@
 
 + Response 204
 
-### Delete All Report Tracking [DELETE /research-sys/api/v1/report-tracking/]
+### Delete All Report Tracking [DELETE /award/api/v1/report-tracking/]
 
 + Parameters
 
@@ -235,36 +235,36 @@
 
 + Response 204
 
-### Delete All Report Tracking with Matching [DELETE /research-sys/api/v1/report-tracking/]
+### Delete All Report Tracking with Matching [DELETE /award/api/v1/report-tracking/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + awardReportTrackingId
-            + awardReportTermId
-            + awardNumber
-            + piPersonId
-            + piRolodexId
-            + piName
-            + leadUnitNumber
-            + reportClassCode
-            + reportCode
-            + frequencyCode
-            + frequencyBaseCode
-            + ospDistributionCode
-            + statusCode
-            + baseDate
-            + dueDate
-            + overdue
-            + activityDate
-            + comments
-            + preparerId
-            + preparerName
-            + sponsorCode
-            + sponsorAwardNumber
-            + title
-            + lastUpdateUser
-            + lastUpdateDate
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + awardReportTrackingId (optional) - Award Report Tracking Id. Maximum length is 40.
+    + awardReportTermId (optional) - Award Report Terms Id. Maximum length is 22.
+    + awardNumber (optional) - Award ID. Maximum length is 12.
+    + piPersonId (optional) - 
+    + piRolodexId (optional) - 
+    + piName (optional) - Full Name. Maximum length is 90.
+    + leadUnitNumber (optional) - The lead unit number for the Award. Maximum length is 150.
+    + reportClassCode (optional) - Report Class. Maximum length is 22.
+    + reportCode (optional) - Report. Maximum length is 22.
+    + frequencyCode (optional) - Frequency. Maximum length is 22.
+    + frequencyBaseCode (optional) - Frequency Base. Maximum length is 22.
+    + ospDistributionCode (optional) - OSP File Copy. Maximum length is 22.
+    + statusCode (optional) - Status. Maximum length is 22.
+    + baseDate (optional) - Base Date. Maximum length is 10.
+    + dueDate (optional) - Due Date. Maximum length is 10.
+    + overdue (optional) - Overdue. Maximum length is 22.
+    + activityDate (optional) - Activity Date. Maximum length is 10.
+    + comments (optional) - Comments. Maximum length is 200.
+    + preparerId (optional) - Preparer. Maximum length is 40.
+    + preparerName (optional) - Preparer Name. Maximum length is 90.
+    + sponsorCode (optional) - The identification number of the organization or agency that is providing support for the sponsored project. Maximum length is 6.
+    + sponsorAwardNumber (optional) - Sponsor Award ID. Maximum length is 70.
+    + title (optional) - The proposed title of the project. Maximum length is 200.
+    + lastUpdateUser (optional) - Last Updated By. Maximum length is 90.
+    + lastUpdateDate (optional) - Last Updated Date. Maximum length is 10.
 
       
 + Request

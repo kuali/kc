@@ -43,12 +43,12 @@
     
 + Parameters
 
-        + id
-            + memberId
-            + memberTypeCode
-            + actionRequestPolicyCode
-            + delegationTypeCode
-            + responsibilityId
+    + id (optional) - Id.
+    + memberId (optional) - Member id for the map stop. Maximum length is 40.
+    + memberTypeCode (optional) - Type of the member the stop will go to. Maximum length is 1.
+    + actionRequestPolicyCode (optional) - For role members determines whether all members must take action or just the first.
+    + delegationTypeCode (optional) - Delegation type (primary or secondary) for the delegate.
+    + responsibilityId (optional) - Responsibility Id.
 
             
 + Request
@@ -220,13 +220,13 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + memberId
-            + memberTypeCode
-            + actionRequestPolicyCode
-            + delegationTypeCode
-            + responsibilityId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Id.
+    + memberId (optional) - Member id for the map stop. Maximum length is 40.
+    + memberTypeCode (optional) - Type of the member the stop will go to. Maximum length is 1.
+    + actionRequestPolicyCode (optional) - For role members determines whether all members must take action or just the first.
+    + delegationTypeCode (optional) - Delegation type (primary or secondary) for the delegate.
+    + responsibilityId (optional) - Responsibility Id.
 
       
 + Request

@@ -43,12 +43,12 @@
     
 + Parameters
 
-        + fromTypeId
-            + toTypeId
-            + relationshipType
-            + sequenceNumber
-            + id
-            + active
+    + fromTypeId (optional) - 
+    + toTypeId (optional) - 
+    + relationshipType (optional) - 
+    + sequenceNumber (optional) - 
+    + id (optional) - 
+    + active (optional) - 
 
             
 + Request
@@ -220,13 +220,13 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + fromTypeId
-            + toTypeId
-            + relationshipType
-            + sequenceNumber
-            + id
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + fromTypeId (optional) - 
+    + toTypeId (optional) - 
+    + relationshipType (optional) - 
+    + sequenceNumber (optional) - 
+    + id (optional) - 
+    + active (optional) - 
 
       
 + Request

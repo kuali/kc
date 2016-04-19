@@ -1,6 +1,6 @@
-## Budget Persons [/research-sys/api/v1/budget-persons/]
+## Budget Persons [/research-common/api/v1/budget-persons/]
 
-### Get Budget Persons by Key [GET /research-sys/api/v1/budget-persons/(key)]
+### Get Budget Persons by Key [GET /research-common/api/v1/budget-persons/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"personSequenceNumber": "(val)","budgetId": "(val)","effectiveDate": "(val)","jobCode": "(val)","nonEmployeeFlag": "(val)","personId": "(val)","rolodexId": "(val)","tbnId": "(val)","appointmentTypeCode": "(val)","calculationBase": "(val)","personName": "(val)","salaryAnniversaryDate": "(val)","hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","_primaryKey": "(val)"}
 
-### Get All Budget Persons [GET /research-sys/api/v1/budget-persons/]
+### Get All Budget Persons [GET /research-common/api/v1/budget-persons/]
 	 
 + Request
 
@@ -39,24 +39,24 @@
               {"personSequenceNumber": "(val)","budgetId": "(val)","effectiveDate": "(val)","jobCode": "(val)","nonEmployeeFlag": "(val)","personId": "(val)","rolodexId": "(val)","tbnId": "(val)","appointmentTypeCode": "(val)","calculationBase": "(val)","personName": "(val)","salaryAnniversaryDate": "(val)","hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Budget Persons with Filtering [GET /research-sys/api/v1/budget-persons/]
+### Get All Budget Persons with Filtering [GET /research-common/api/v1/budget-persons/]
     
 + Parameters
 
-        + personSequenceNumber
-            + budgetId
-            + effectiveDate
-            + jobCode
-            + nonEmployeeFlag
-            + personId
-            + rolodexId
-            + tbnId
-            + appointmentTypeCode
-            + calculationBase
-            + personName
-            + salaryAnniversaryDate
-            + hierarchyProposalNumber
-            + hiddenInHierarchy
+    + personSequenceNumber (optional) - Person Sequence Number.
+    + budgetId (optional) - Budget Id.
+    + effectiveDate (optional) - Salary Effective Date. Maximum length is 21.
+    + jobCode (optional) - Job Code. Maximum length is 6.
+    + nonEmployeeFlag (optional) - Non Employee Flag. Maximum length is 1.
+    + personId (optional) - KcPerson Id. Maximum length is 40.
+    + rolodexId (optional) - Rolodex Id.
+    + tbnId (optional) - Tbn Id.
+    + appointmentTypeCode (optional) - Appointment Type. Maximum length is 2.
+    + calculationBase (optional) - Calculation Base. Maximum length is 15.
+    + personName (optional) - Personnel. Maximum length is 90.
+    + salaryAnniversaryDate (optional) - Salary Anniversary Date. Maximum length is 21.
+    + hierarchyProposalNumber (optional) - Hierarchy Proposal Number.
+    + hiddenInHierarchy (optional) - Hidden In Hierarchy.
 
             
 + Request
@@ -78,7 +78,7 @@
               {"personSequenceNumber": "(val)","budgetId": "(val)","effectiveDate": "(val)","jobCode": "(val)","nonEmployeeFlag": "(val)","personId": "(val)","rolodexId": "(val)","tbnId": "(val)","appointmentTypeCode": "(val)","calculationBase": "(val)","personName": "(val)","salaryAnniversaryDate": "(val)","hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Budget Persons [GET /research-sys/api/v1/budget-persons/]
+### Get Schema for Budget Persons [GET /research-common/api/v1/budget-persons/]
 	                                          
 + Parameters
 
@@ -100,7 +100,7 @@
     
             {"columns":["personSequenceNumber","budgetId","effectiveDate","jobCode","nonEmployeeFlag","personId","rolodexId","tbnId","appointmentTypeCode","calculationBase","personName","salaryAnniversaryDate","hierarchyProposalNumber","hiddenInHierarchy"],"primaryKey":"budget:personSequenceNumber"}
 		
-### Get Blueprint API specification for Budget Persons [GET /research-sys/api/v1/budget-persons/]
+### Get Blueprint API specification for Budget Persons [GET /research-common/api/v1/budget-persons/]
 	 
 + Parameters
 
@@ -121,7 +121,7 @@
             transfer-encoding:chunked
 
 
-### Update Budget Persons [PUT /research-sys/api/v1/budget-persons/(key)]
+### Update Budget Persons [PUT /research-common/api/v1/budget-persons/(key)]
 
 + Request
 
@@ -136,7 +136,7 @@
 			
 + Response 204
 
-### Update Multiple Budget Persons [PUT /research-sys/api/v1/budget-persons/]
+### Update Multiple Budget Persons [PUT /research-common/api/v1/budget-persons/]
 
 + Request
 
@@ -154,7 +154,7 @@
 			
 + Response 204
 
-### Insert Budget Persons [POST /research-sys/api/v1/budget-persons/]
+### Insert Budget Persons [POST /research-common/api/v1/budget-persons/]
 
 + Request
 
@@ -173,7 +173,7 @@
             
             {"personSequenceNumber": "(val)","budgetId": "(val)","effectiveDate": "(val)","jobCode": "(val)","nonEmployeeFlag": "(val)","personId": "(val)","rolodexId": "(val)","tbnId": "(val)","appointmentTypeCode": "(val)","calculationBase": "(val)","personName": "(val)","salaryAnniversaryDate": "(val)","hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Budget Persons [POST /research-sys/api/v1/budget-persons/]
+### Insert Multiple Budget Persons [POST /research-common/api/v1/budget-persons/]
 
 + Request
 
@@ -198,7 +198,7 @@
               {"personSequenceNumber": "(val)","budgetId": "(val)","effectiveDate": "(val)","jobCode": "(val)","nonEmployeeFlag": "(val)","personId": "(val)","rolodexId": "(val)","tbnId": "(val)","appointmentTypeCode": "(val)","calculationBase": "(val)","personName": "(val)","salaryAnniversaryDate": "(val)","hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Budget Persons by Key [DELETE /research-sys/api/v1/budget-persons/(key)]
+### Delete Budget Persons by Key [DELETE /research-common/api/v1/budget-persons/(key)]
 	 
 + Request
 
@@ -209,7 +209,7 @@
 
 + Response 204
 
-### Delete All Budget Persons [DELETE /research-sys/api/v1/budget-persons/]
+### Delete All Budget Persons [DELETE /research-common/api/v1/budget-persons/]
 
 + Parameters
 
@@ -224,25 +224,25 @@
 
 + Response 204
 
-### Delete All Budget Persons with Matching [DELETE /research-sys/api/v1/budget-persons/]
+### Delete All Budget Persons with Matching [DELETE /research-common/api/v1/budget-persons/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + personSequenceNumber
-            + budgetId
-            + effectiveDate
-            + jobCode
-            + nonEmployeeFlag
-            + personId
-            + rolodexId
-            + tbnId
-            + appointmentTypeCode
-            + calculationBase
-            + personName
-            + salaryAnniversaryDate
-            + hierarchyProposalNumber
-            + hiddenInHierarchy
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + personSequenceNumber (optional) - Person Sequence Number.
+    + budgetId (optional) - Budget Id.
+    + effectiveDate (optional) - Salary Effective Date. Maximum length is 21.
+    + jobCode (optional) - Job Code. Maximum length is 6.
+    + nonEmployeeFlag (optional) - Non Employee Flag. Maximum length is 1.
+    + personId (optional) - KcPerson Id. Maximum length is 40.
+    + rolodexId (optional) - Rolodex Id.
+    + tbnId (optional) - Tbn Id.
+    + appointmentTypeCode (optional) - Appointment Type. Maximum length is 2.
+    + calculationBase (optional) - Calculation Base. Maximum length is 15.
+    + personName (optional) - Personnel. Maximum length is 90.
+    + salaryAnniversaryDate (optional) - Salary Anniversary Date. Maximum length is 21.
+    + hierarchyProposalNumber (optional) - Hierarchy Proposal Number.
+    + hiddenInHierarchy (optional) - Hidden In Hierarchy.
 
       
 + Request

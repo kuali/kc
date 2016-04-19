@@ -1,6 +1,6 @@
-## Cost Share Types [/research-sys/api/v1/cost-share-types/]
+## Cost Share Types [/research-common/api/v1/cost-share-types/]
 
-### Get Cost Share Types by Key [GET /research-sys/api/v1/cost-share-types/(key)]
+### Get Cost Share Types by Key [GET /research-common/api/v1/cost-share-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"costShareTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Cost Share Types [GET /research-sys/api/v1/cost-share-types/]
+### Get All Cost Share Types [GET /research-common/api/v1/cost-share-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"costShareTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Cost Share Types with Filtering [GET /research-sys/api/v1/cost-share-types/]
+### Get All Cost Share Types with Filtering [GET /research-common/api/v1/cost-share-types/]
     
 + Parameters
 
-        + costShareTypeCode
-            + description
+    + costShareTypeCode (optional) - Cost Share Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"costShareTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Cost Share Types [GET /research-sys/api/v1/cost-share-types/]
+### Get Schema for Cost Share Types [GET /research-common/api/v1/cost-share-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["costShareTypeCode","description"],"primaryKey":"costShareTypeCode"}
 		
-### Get Blueprint API specification for Cost Share Types [GET /research-sys/api/v1/cost-share-types/]
+### Get Blueprint API specification for Cost Share Types [GET /research-common/api/v1/cost-share-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Cost Share Types [PUT /research-sys/api/v1/cost-share-types/(key)]
+### Update Cost Share Types [PUT /research-common/api/v1/cost-share-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Cost Share Types [PUT /research-sys/api/v1/cost-share-types/]
+### Update Multiple Cost Share Types [PUT /research-common/api/v1/cost-share-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Cost Share Types [POST /research-sys/api/v1/cost-share-types/]
+### Insert Cost Share Types [POST /research-common/api/v1/cost-share-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"costShareTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Cost Share Types [POST /research-sys/api/v1/cost-share-types/]
+### Insert Multiple Cost Share Types [POST /research-common/api/v1/cost-share-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"costShareTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Cost Share Types by Key [DELETE /research-sys/api/v1/cost-share-types/(key)]
+### Delete Cost Share Types by Key [DELETE /research-common/api/v1/cost-share-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Cost Share Types [DELETE /research-sys/api/v1/cost-share-types/]
+### Delete All Cost Share Types [DELETE /research-common/api/v1/cost-share-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Cost Share Types with Matching [DELETE /research-sys/api/v1/cost-share-types/]
+### Delete All Cost Share Types with Matching [DELETE /research-common/api/v1/cost-share-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + costShareTypeCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + costShareTypeCode (optional) - Cost Share Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

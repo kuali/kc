@@ -1,6 +1,6 @@
-## Committee Batch Correspondence Details [/research-sys/api/v1/committee-batch-correspondence-details/]
+## Committee Batch Correspondence Details [/irb/api/v1/committee-batch-correspondence-details/]
 
-### Get Committee Batch Correspondence Details by Key [GET /research-sys/api/v1/committee-batch-correspondence-details/(key)]
+### Get Committee Batch Correspondence Details by Key [GET /irb/api/v1/committee-batch-correspondence-details/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"committeeBatchCorrespondenceDetailId": "(val)","committeeBatchCorrespondenceId": "(val)","protocolActionId": "(val)","protocolCorrespondenceId": "(val)","_primaryKey": "(val)"}
 
-### Get All Committee Batch Correspondence Details [GET /research-sys/api/v1/committee-batch-correspondence-details/]
+### Get All Committee Batch Correspondence Details [GET /irb/api/v1/committee-batch-correspondence-details/]
 	 
 + Request
 
@@ -39,14 +39,14 @@
               {"committeeBatchCorrespondenceDetailId": "(val)","committeeBatchCorrespondenceId": "(val)","protocolActionId": "(val)","protocolCorrespondenceId": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Committee Batch Correspondence Details with Filtering [GET /research-sys/api/v1/committee-batch-correspondence-details/]
+### Get All Committee Batch Correspondence Details with Filtering [GET /irb/api/v1/committee-batch-correspondence-details/]
     
 + Parameters
 
-        + committeeBatchCorrespondenceDetailId
-            + committeeBatchCorrespondenceId
-            + protocolActionId
-            + protocolCorrespondenceId
+    + committeeBatchCorrespondenceDetailId (optional) - Committee Batch Corresponcence Detail Id. Maximum length is 12.
+    + committeeBatchCorrespondenceId (optional) - Committee Batch Correspondence Id. Maximum length is 10.
+    + protocolActionId (optional) - Protocol Action Id. Maximum length is 12.
+    + protocolCorrespondenceId (optional) - Protocol Correspondence Id. Maximum length is 12.
 
             
 + Request
@@ -68,7 +68,7 @@
               {"committeeBatchCorrespondenceDetailId": "(val)","committeeBatchCorrespondenceId": "(val)","protocolActionId": "(val)","protocolCorrespondenceId": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Committee Batch Correspondence Details [GET /research-sys/api/v1/committee-batch-correspondence-details/]
+### Get Schema for Committee Batch Correspondence Details [GET /irb/api/v1/committee-batch-correspondence-details/]
 	                                          
 + Parameters
 
@@ -90,7 +90,7 @@
     
             {"columns":["committeeBatchCorrespondenceDetailId","committeeBatchCorrespondenceId","protocolActionId","protocolCorrespondenceId"],"primaryKey":"committeeBatchCorrespondenceDetailId"}
 		
-### Get Blueprint API specification for Committee Batch Correspondence Details [GET /research-sys/api/v1/committee-batch-correspondence-details/]
+### Get Blueprint API specification for Committee Batch Correspondence Details [GET /irb/api/v1/committee-batch-correspondence-details/]
 	 
 + Parameters
 
@@ -111,7 +111,7 @@
             transfer-encoding:chunked
 
 
-### Update Committee Batch Correspondence Details [PUT /research-sys/api/v1/committee-batch-correspondence-details/(key)]
+### Update Committee Batch Correspondence Details [PUT /irb/api/v1/committee-batch-correspondence-details/(key)]
 
 + Request
 
@@ -126,7 +126,7 @@
 			
 + Response 204
 
-### Update Multiple Committee Batch Correspondence Details [PUT /research-sys/api/v1/committee-batch-correspondence-details/]
+### Update Multiple Committee Batch Correspondence Details [PUT /irb/api/v1/committee-batch-correspondence-details/]
 
 + Request
 
@@ -144,7 +144,7 @@
 			
 + Response 204
 
-### Insert Committee Batch Correspondence Details [POST /research-sys/api/v1/committee-batch-correspondence-details/]
+### Insert Committee Batch Correspondence Details [POST /irb/api/v1/committee-batch-correspondence-details/]
 
 + Request
 
@@ -163,7 +163,7 @@
             
             {"committeeBatchCorrespondenceDetailId": "(val)","committeeBatchCorrespondenceId": "(val)","protocolActionId": "(val)","protocolCorrespondenceId": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Committee Batch Correspondence Details [POST /research-sys/api/v1/committee-batch-correspondence-details/]
+### Insert Multiple Committee Batch Correspondence Details [POST /irb/api/v1/committee-batch-correspondence-details/]
 
 + Request
 
@@ -188,7 +188,7 @@
               {"committeeBatchCorrespondenceDetailId": "(val)","committeeBatchCorrespondenceId": "(val)","protocolActionId": "(val)","protocolCorrespondenceId": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Committee Batch Correspondence Details by Key [DELETE /research-sys/api/v1/committee-batch-correspondence-details/(key)]
+### Delete Committee Batch Correspondence Details by Key [DELETE /irb/api/v1/committee-batch-correspondence-details/(key)]
 	 
 + Request
 
@@ -199,7 +199,7 @@
 
 + Response 204
 
-### Delete All Committee Batch Correspondence Details [DELETE /research-sys/api/v1/committee-batch-correspondence-details/]
+### Delete All Committee Batch Correspondence Details [DELETE /irb/api/v1/committee-batch-correspondence-details/]
 
 + Parameters
 
@@ -214,15 +214,15 @@
 
 + Response 204
 
-### Delete All Committee Batch Correspondence Details with Matching [DELETE /research-sys/api/v1/committee-batch-correspondence-details/]
+### Delete All Committee Batch Correspondence Details with Matching [DELETE /irb/api/v1/committee-batch-correspondence-details/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + committeeBatchCorrespondenceDetailId
-            + committeeBatchCorrespondenceId
-            + protocolActionId
-            + protocolCorrespondenceId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + committeeBatchCorrespondenceDetailId (optional) - Committee Batch Corresponcence Detail Id. Maximum length is 12.
+    + committeeBatchCorrespondenceId (optional) - Committee Batch Correspondence Id. Maximum length is 10.
+    + protocolActionId (optional) - Protocol Action Id. Maximum length is 12.
+    + protocolCorrespondenceId (optional) - Protocol Correspondence Id. Maximum length is 12.
 
       
 + Request

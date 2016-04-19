@@ -43,12 +43,12 @@
     
 + Parameters
 
-        + id
-            + kimTypeId
-            + name
-            + active
-            + description
-            + namespaceCode
+    + id (optional) - Template Id. Maximum length is 40.
+    + kimTypeId (optional) - Kim Type Id.
+    + name (optional) - Template Name. Maximum length is 40.
+    + active (optional) - Active.
+    + description (optional) - Responsibility Template Description. Maximum length is 40.
+    + namespaceCode (optional) - Nmspc Cd. Maximum length is 40.
 
             
 + Request
@@ -220,13 +220,13 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + kimTypeId
-            + name
-            + active
-            + description
-            + namespaceCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Template Id. Maximum length is 40.
+    + kimTypeId (optional) - Kim Type Id.
+    + name (optional) - Template Name. Maximum length is 40.
+    + active (optional) - Active.
+    + description (optional) - Responsibility Template Description. Maximum length is 40.
+    + namespaceCode (optional) - Nmspc Cd. Maximum length is 40.
 
       
 + Request

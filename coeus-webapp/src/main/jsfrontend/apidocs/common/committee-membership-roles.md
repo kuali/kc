@@ -1,6 +1,6 @@
-## Committee Membership Roles [/research-sys/api/v1/committee-membership-roles/]
+## Committee Membership Roles [/research-common/api/v1/committee-membership-roles/]
 
-### Get Committee Membership Roles by Key [GET /research-sys/api/v1/committee-membership-roles/(key)]
+### Get Committee Membership Roles by Key [GET /research-common/api/v1/committee-membership-roles/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"committeeMembershipRoleId": "(val)","committeeMembershipIdFk": "(val)","membershipRoleCode": "(val)","startDate": "(val)","endDate": "(val)","_primaryKey": "(val)"}
 
-### Get All Committee Membership Roles [GET /research-sys/api/v1/committee-membership-roles/]
+### Get All Committee Membership Roles [GET /research-common/api/v1/committee-membership-roles/]
 	 
 + Request
 
@@ -39,15 +39,15 @@
               {"committeeMembershipRoleId": "(val)","committeeMembershipIdFk": "(val)","membershipRoleCode": "(val)","startDate": "(val)","endDate": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Committee Membership Roles with Filtering [GET /research-sys/api/v1/committee-membership-roles/]
+### Get All Committee Membership Roles with Filtering [GET /research-common/api/v1/committee-membership-roles/]
     
 + Parameters
 
-        + committeeMembershipRoleId
-            + committeeMembershipIdFk
-            + membershipRoleCode
-            + startDate
-            + endDate
+    + committeeMembershipRoleId (optional) - Committee Member Role Id. Maximum length is 22.
+    + committeeMembershipIdFk (optional) - Committee Membership Id Fk. Maximum length is 22.
+    + membershipRoleCode (optional) - Membership Role Code. Maximum length is 3.
+    + startDate (optional) - Start Date. Maximum length is 10.
+    + endDate (optional) - End Date. Maximum length is 10.
 
             
 + Request
@@ -69,7 +69,7 @@
               {"committeeMembershipRoleId": "(val)","committeeMembershipIdFk": "(val)","membershipRoleCode": "(val)","startDate": "(val)","endDate": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Committee Membership Roles [GET /research-sys/api/v1/committee-membership-roles/]
+### Get Schema for Committee Membership Roles [GET /research-common/api/v1/committee-membership-roles/]
 	                                          
 + Parameters
 
@@ -91,7 +91,7 @@
     
             {"columns":["committeeMembershipRoleId","committeeMembershipIdFk","membershipRoleCode","startDate","endDate"],"primaryKey":"committeeMembershipRoleId"}
 		
-### Get Blueprint API specification for Committee Membership Roles [GET /research-sys/api/v1/committee-membership-roles/]
+### Get Blueprint API specification for Committee Membership Roles [GET /research-common/api/v1/committee-membership-roles/]
 	 
 + Parameters
 
@@ -112,7 +112,7 @@
             transfer-encoding:chunked
 
 
-### Update Committee Membership Roles [PUT /research-sys/api/v1/committee-membership-roles/(key)]
+### Update Committee Membership Roles [PUT /research-common/api/v1/committee-membership-roles/(key)]
 
 + Request
 
@@ -127,7 +127,7 @@
 			
 + Response 204
 
-### Update Multiple Committee Membership Roles [PUT /research-sys/api/v1/committee-membership-roles/]
+### Update Multiple Committee Membership Roles [PUT /research-common/api/v1/committee-membership-roles/]
 
 + Request
 
@@ -145,7 +145,7 @@
 			
 + Response 204
 
-### Insert Committee Membership Roles [POST /research-sys/api/v1/committee-membership-roles/]
+### Insert Committee Membership Roles [POST /research-common/api/v1/committee-membership-roles/]
 
 + Request
 
@@ -164,7 +164,7 @@
             
             {"committeeMembershipRoleId": "(val)","committeeMembershipIdFk": "(val)","membershipRoleCode": "(val)","startDate": "(val)","endDate": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Committee Membership Roles [POST /research-sys/api/v1/committee-membership-roles/]
+### Insert Multiple Committee Membership Roles [POST /research-common/api/v1/committee-membership-roles/]
 
 + Request
 
@@ -189,7 +189,7 @@
               {"committeeMembershipRoleId": "(val)","committeeMembershipIdFk": "(val)","membershipRoleCode": "(val)","startDate": "(val)","endDate": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Committee Membership Roles by Key [DELETE /research-sys/api/v1/committee-membership-roles/(key)]
+### Delete Committee Membership Roles by Key [DELETE /research-common/api/v1/committee-membership-roles/(key)]
 	 
 + Request
 
@@ -200,7 +200,7 @@
 
 + Response 204
 
-### Delete All Committee Membership Roles [DELETE /research-sys/api/v1/committee-membership-roles/]
+### Delete All Committee Membership Roles [DELETE /research-common/api/v1/committee-membership-roles/]
 
 + Parameters
 
@@ -215,16 +215,16 @@
 
 + Response 204
 
-### Delete All Committee Membership Roles with Matching [DELETE /research-sys/api/v1/committee-membership-roles/]
+### Delete All Committee Membership Roles with Matching [DELETE /research-common/api/v1/committee-membership-roles/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + committeeMembershipRoleId
-            + committeeMembershipIdFk
-            + membershipRoleCode
-            + startDate
-            + endDate
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + committeeMembershipRoleId (optional) - Committee Member Role Id. Maximum length is 22.
+    + committeeMembershipIdFk (optional) - Committee Membership Id Fk. Maximum length is 22.
+    + membershipRoleCode (optional) - Membership Role Code. Maximum length is 3.
+    + startDate (optional) - Start Date. Maximum length is 10.
+    + endDate (optional) - End Date. Maximum length is 10.
 
       
 + Request

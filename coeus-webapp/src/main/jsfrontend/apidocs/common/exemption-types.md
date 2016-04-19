@@ -1,6 +1,6 @@
-## Exemption Types [/research-sys/api/v1/exemption-types/]
+## Exemption Types [/research-common/api/v1/exemption-types/]
 
-### Get Exemption Types by Key [GET /research-sys/api/v1/exemption-types/(key)]
+### Get Exemption Types by Key [GET /research-common/api/v1/exemption-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"code": "(val)","description": "(val)","detailedDescription": "(val)","_primaryKey": "(val)"}
 
-### Get All Exemption Types [GET /research-sys/api/v1/exemption-types/]
+### Get All Exemption Types [GET /research-common/api/v1/exemption-types/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"code": "(val)","description": "(val)","detailedDescription": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Exemption Types with Filtering [GET /research-sys/api/v1/exemption-types/]
+### Get All Exemption Types with Filtering [GET /research-common/api/v1/exemption-types/]
     
 + Parameters
 
-        + code
-            + description
-            + detailedDescription
+    + code (optional) - Exemption Type. Maximum length is 3.
+    + description (optional) - This is the exemption number. Maximum length is 200.
+    + detailedDescription (optional) - This is the detailed description of the exemption number.  Source is 45cfr46.101(b). Maximum length is 2000.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"code": "(val)","description": "(val)","detailedDescription": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Exemption Types [GET /research-sys/api/v1/exemption-types/]
+### Get Schema for Exemption Types [GET /research-common/api/v1/exemption-types/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["code","description","detailedDescription"],"primaryKey":"code"}
 		
-### Get Blueprint API specification for Exemption Types [GET /research-sys/api/v1/exemption-types/]
+### Get Blueprint API specification for Exemption Types [GET /research-common/api/v1/exemption-types/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Exemption Types [PUT /research-sys/api/v1/exemption-types/(key)]
+### Update Exemption Types [PUT /research-common/api/v1/exemption-types/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Exemption Types [PUT /research-sys/api/v1/exemption-types/]
+### Update Multiple Exemption Types [PUT /research-common/api/v1/exemption-types/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Exemption Types [POST /research-sys/api/v1/exemption-types/]
+### Insert Exemption Types [POST /research-common/api/v1/exemption-types/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"code": "(val)","description": "(val)","detailedDescription": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Exemption Types [POST /research-sys/api/v1/exemption-types/]
+### Insert Multiple Exemption Types [POST /research-common/api/v1/exemption-types/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"code": "(val)","description": "(val)","detailedDescription": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Exemption Types by Key [DELETE /research-sys/api/v1/exemption-types/(key)]
+### Delete Exemption Types by Key [DELETE /research-common/api/v1/exemption-types/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Exemption Types [DELETE /research-sys/api/v1/exemption-types/]
+### Delete All Exemption Types [DELETE /research-common/api/v1/exemption-types/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Exemption Types with Matching [DELETE /research-sys/api/v1/exemption-types/]
+### Delete All Exemption Types with Matching [DELETE /research-common/api/v1/exemption-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + code
-            + description
-            + detailedDescription
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + code (optional) - Exemption Type. Maximum length is 3.
+    + description (optional) - This is the exemption number. Maximum length is 200.
+    + detailedDescription (optional) - This is the detailed description of the exemption number.  Source is 45cfr46.101(b). Maximum length is 2000.
 
       
 + Request

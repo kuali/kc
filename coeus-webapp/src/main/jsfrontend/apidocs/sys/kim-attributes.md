@@ -43,12 +43,12 @@
     
 + Parameters
 
-        + id
-            + componentName
-            + attributeName
-            + namespaceCode
-            + attributeLabel
-            + active
+    + id (optional) - Attribute Id. Maximum length is 40.
+    + componentName (optional) - Component Name. Maximum length is 40.
+    + attributeName (optional) - Attribute Name. Maximum length is 40.
+    + namespaceCode (optional) - Nmspc Cd. Maximum length is 40.
+    + attributeLabel (optional) - Attribute Label. Maximum length is 40.
+    + active (optional) - This attribute is used to describe whether the associated object is active or inactive. Maximum length is 1.
 
             
 + Request
@@ -220,13 +220,13 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + componentName
-            + attributeName
-            + namespaceCode
-            + attributeLabel
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Attribute Id. Maximum length is 40.
+    + componentName (optional) - Component Name. Maximum length is 40.
+    + attributeName (optional) - Attribute Name. Maximum length is 40.
+    + namespaceCode (optional) - Nmspc Cd. Maximum length is 40.
+    + attributeLabel (optional) - Attribute Label. Maximum length is 40.
+    + active (optional) - This attribute is used to describe whether the associated object is active or inactive. Maximum length is 1.
 
       
 + Request

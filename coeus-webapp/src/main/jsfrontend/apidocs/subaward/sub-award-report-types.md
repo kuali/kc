@@ -1,6 +1,6 @@
-## Sub Award Report Types [/research-sys/api/v1/sub-award-report-types/]
+## Sub Award Report Types [/subaward/api/v1/sub-award-report-types/]
 
-### Get Sub Award Report Types by Key [GET /research-sys/api/v1/sub-award-report-types/(key)]
+### Get Sub Award Report Types by Key [GET /subaward/api/v1/sub-award-report-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"subAwardReportTypeCode": "(val)","description": "(val)","sortId": "(val)","_primaryKey": "(val)"}
 
-### Get All Sub Award Report Types [GET /research-sys/api/v1/sub-award-report-types/]
+### Get All Sub Award Report Types [GET /subaward/api/v1/sub-award-report-types/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"subAwardReportTypeCode": "(val)","description": "(val)","sortId": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Sub Award Report Types with Filtering [GET /research-sys/api/v1/sub-award-report-types/]
+### Get All Sub Award Report Types with Filtering [GET /subaward/api/v1/sub-award-report-types/]
     
 + Parameters
 
-        + subAwardReportTypeCode
-            + description
-            + sortId
+    + subAwardReportTypeCode (optional) - Report Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + sortId (optional) - 
 
             
 + Request
@@ -67,7 +67,7 @@
               {"subAwardReportTypeCode": "(val)","description": "(val)","sortId": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Sub Award Report Types [GET /research-sys/api/v1/sub-award-report-types/]
+### Get Schema for Sub Award Report Types [GET /subaward/api/v1/sub-award-report-types/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["subAwardReportTypeCode","description","sortId"],"primaryKey":"subAwardReportTypeCode"}
 		
-### Get Blueprint API specification for Sub Award Report Types [GET /research-sys/api/v1/sub-award-report-types/]
+### Get Blueprint API specification for Sub Award Report Types [GET /subaward/api/v1/sub-award-report-types/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Sub Award Report Types [PUT /research-sys/api/v1/sub-award-report-types/(key)]
+### Update Sub Award Report Types [PUT /subaward/api/v1/sub-award-report-types/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Sub Award Report Types [PUT /research-sys/api/v1/sub-award-report-types/]
+### Update Multiple Sub Award Report Types [PUT /subaward/api/v1/sub-award-report-types/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Sub Award Report Types [POST /research-sys/api/v1/sub-award-report-types/]
+### Insert Sub Award Report Types [POST /subaward/api/v1/sub-award-report-types/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"subAwardReportTypeCode": "(val)","description": "(val)","sortId": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Sub Award Report Types [POST /research-sys/api/v1/sub-award-report-types/]
+### Insert Multiple Sub Award Report Types [POST /subaward/api/v1/sub-award-report-types/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"subAwardReportTypeCode": "(val)","description": "(val)","sortId": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Sub Award Report Types by Key [DELETE /research-sys/api/v1/sub-award-report-types/(key)]
+### Delete Sub Award Report Types by Key [DELETE /subaward/api/v1/sub-award-report-types/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Sub Award Report Types [DELETE /research-sys/api/v1/sub-award-report-types/]
+### Delete All Sub Award Report Types [DELETE /subaward/api/v1/sub-award-report-types/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Sub Award Report Types with Matching [DELETE /research-sys/api/v1/sub-award-report-types/]
+### Delete All Sub Award Report Types with Matching [DELETE /subaward/api/v1/sub-award-report-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + subAwardReportTypeCode
-            + description
-            + sortId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + subAwardReportTypeCode (optional) - Report Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + sortId (optional) - 
 
       
 + Request

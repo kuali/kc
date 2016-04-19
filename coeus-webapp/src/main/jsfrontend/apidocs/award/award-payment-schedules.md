@@ -1,6 +1,6 @@
-## Award Payment Schedules [/research-sys/api/v1/award-payment-schedules/]
+## Award Payment Schedules [/award/api/v1/award-payment-schedules/]
 
-### Get Award Payment Schedules by Key [GET /research-sys/api/v1/award-payment-schedules/(key)]
+### Get Award Payment Schedules by Key [GET /award/api/v1/award-payment-schedules/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"awardPaymentScheduleId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","dueDate": "(val)","amount": "(val)","submitDate": "(val)","submittedBy": "(val)","invoiceNumber": "(val)","statusDescription": "(val)","status": "(val)","lastUpdateUser": "(val)","lastUpdateTimestamp": "(val)","overdue": "(val)","reportStatusCode": "(val)","submittedByPersonId": "(val)","awardReportTermDescription": "(val)","_primaryKey": "(val)"}
 
-### Get All Award Payment Schedules [GET /research-sys/api/v1/award-payment-schedules/]
+### Get All Award Payment Schedules [GET /award/api/v1/award-payment-schedules/]
 	 
 + Request
 
@@ -39,27 +39,27 @@
               {"awardPaymentScheduleId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","dueDate": "(val)","amount": "(val)","submitDate": "(val)","submittedBy": "(val)","invoiceNumber": "(val)","statusDescription": "(val)","status": "(val)","lastUpdateUser": "(val)","lastUpdateTimestamp": "(val)","overdue": "(val)","reportStatusCode": "(val)","submittedByPersonId": "(val)","awardReportTermDescription": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Award Payment Schedules with Filtering [GET /research-sys/api/v1/award-payment-schedules/]
+### Get All Award Payment Schedules with Filtering [GET /award/api/v1/award-payment-schedules/]
     
 + Parameters
 
-        + awardPaymentScheduleId
-            + awardId
-            + awardNumber
-            + sequenceNumber
-            + dueDate
-            + amount
-            + submitDate
-            + submittedBy
-            + invoiceNumber
-            + statusDescription
-            + status
-            + lastUpdateUser
-            + lastUpdateTimestamp
-            + overdue
-            + reportStatusCode
-            + submittedByPersonId
-            + awardReportTermDescription
+    + awardPaymentScheduleId (optional) - Award Payment Schedule Id. Maximum length is 22.
+    + awardId (optional) - 
+    + awardNumber (optional) - Award ID. Maximum length is 12.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 22.
+    + dueDate (optional) - Due Date. Maximum length is 10.
+    + amount (optional) - Amount. Maximum length is 22.
+    + submitDate (optional) - Activity Date. Maximum length is 10.
+    + submittedBy (optional) - Preparer. Maximum length is 9.
+    + invoiceNumber (optional) - Invoice ID. Maximum length is 10.
+    + statusDescription (optional) - Comments. Maximum length is 200.
+    + status (optional) - Status. Maximum length is 5.
+    + lastUpdateUser (optional) - 
+    + lastUpdateTimestamp (optional) - 
+    + overdue (optional) - Overdue. Maximum length is 15.
+    + reportStatusCode (optional) - Status. Maximum length is 22.
+    + submittedByPersonId (optional) - Preparer. Maximum length is 40.
+    + awardReportTermDescription (optional) - 
 
             
 + Request
@@ -81,7 +81,7 @@
               {"awardPaymentScheduleId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","dueDate": "(val)","amount": "(val)","submitDate": "(val)","submittedBy": "(val)","invoiceNumber": "(val)","statusDescription": "(val)","status": "(val)","lastUpdateUser": "(val)","lastUpdateTimestamp": "(val)","overdue": "(val)","reportStatusCode": "(val)","submittedByPersonId": "(val)","awardReportTermDescription": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Award Payment Schedules [GET /research-sys/api/v1/award-payment-schedules/]
+### Get Schema for Award Payment Schedules [GET /award/api/v1/award-payment-schedules/]
 	                                          
 + Parameters
 
@@ -103,7 +103,7 @@
     
             {"columns":["awardPaymentScheduleId","awardId","awardNumber","sequenceNumber","dueDate","amount","submitDate","submittedBy","invoiceNumber","statusDescription","status","lastUpdateUser","lastUpdateTimestamp","overdue","reportStatusCode","submittedByPersonId","awardReportTermDescription"],"primaryKey":"awardPaymentScheduleId"}
 		
-### Get Blueprint API specification for Award Payment Schedules [GET /research-sys/api/v1/award-payment-schedules/]
+### Get Blueprint API specification for Award Payment Schedules [GET /award/api/v1/award-payment-schedules/]
 	 
 + Parameters
 
@@ -124,7 +124,7 @@
             transfer-encoding:chunked
 
 
-### Update Award Payment Schedules [PUT /research-sys/api/v1/award-payment-schedules/(key)]
+### Update Award Payment Schedules [PUT /award/api/v1/award-payment-schedules/(key)]
 
 + Request
 
@@ -139,7 +139,7 @@
 			
 + Response 204
 
-### Update Multiple Award Payment Schedules [PUT /research-sys/api/v1/award-payment-schedules/]
+### Update Multiple Award Payment Schedules [PUT /award/api/v1/award-payment-schedules/]
 
 + Request
 
@@ -157,7 +157,7 @@
 			
 + Response 204
 
-### Insert Award Payment Schedules [POST /research-sys/api/v1/award-payment-schedules/]
+### Insert Award Payment Schedules [POST /award/api/v1/award-payment-schedules/]
 
 + Request
 
@@ -176,7 +176,7 @@
             
             {"awardPaymentScheduleId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","dueDate": "(val)","amount": "(val)","submitDate": "(val)","submittedBy": "(val)","invoiceNumber": "(val)","statusDescription": "(val)","status": "(val)","lastUpdateUser": "(val)","lastUpdateTimestamp": "(val)","overdue": "(val)","reportStatusCode": "(val)","submittedByPersonId": "(val)","awardReportTermDescription": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Award Payment Schedules [POST /research-sys/api/v1/award-payment-schedules/]
+### Insert Multiple Award Payment Schedules [POST /award/api/v1/award-payment-schedules/]
 
 + Request
 
@@ -201,7 +201,7 @@
               {"awardPaymentScheduleId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","dueDate": "(val)","amount": "(val)","submitDate": "(val)","submittedBy": "(val)","invoiceNumber": "(val)","statusDescription": "(val)","status": "(val)","lastUpdateUser": "(val)","lastUpdateTimestamp": "(val)","overdue": "(val)","reportStatusCode": "(val)","submittedByPersonId": "(val)","awardReportTermDescription": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Award Payment Schedules by Key [DELETE /research-sys/api/v1/award-payment-schedules/(key)]
+### Delete Award Payment Schedules by Key [DELETE /award/api/v1/award-payment-schedules/(key)]
 	 
 + Request
 
@@ -212,7 +212,7 @@
 
 + Response 204
 
-### Delete All Award Payment Schedules [DELETE /research-sys/api/v1/award-payment-schedules/]
+### Delete All Award Payment Schedules [DELETE /award/api/v1/award-payment-schedules/]
 
 + Parameters
 
@@ -227,28 +227,28 @@
 
 + Response 204
 
-### Delete All Award Payment Schedules with Matching [DELETE /research-sys/api/v1/award-payment-schedules/]
+### Delete All Award Payment Schedules with Matching [DELETE /award/api/v1/award-payment-schedules/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + awardPaymentScheduleId
-            + awardId
-            + awardNumber
-            + sequenceNumber
-            + dueDate
-            + amount
-            + submitDate
-            + submittedBy
-            + invoiceNumber
-            + statusDescription
-            + status
-            + lastUpdateUser
-            + lastUpdateTimestamp
-            + overdue
-            + reportStatusCode
-            + submittedByPersonId
-            + awardReportTermDescription
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + awardPaymentScheduleId (optional) - Award Payment Schedule Id. Maximum length is 22.
+    + awardId (optional) - 
+    + awardNumber (optional) - Award ID. Maximum length is 12.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 22.
+    + dueDate (optional) - Due Date. Maximum length is 10.
+    + amount (optional) - Amount. Maximum length is 22.
+    + submitDate (optional) - Activity Date. Maximum length is 10.
+    + submittedBy (optional) - Preparer. Maximum length is 9.
+    + invoiceNumber (optional) - Invoice ID. Maximum length is 10.
+    + statusDescription (optional) - Comments. Maximum length is 200.
+    + status (optional) - Status. Maximum length is 5.
+    + lastUpdateUser (optional) - 
+    + lastUpdateTimestamp (optional) - 
+    + overdue (optional) - Overdue. Maximum length is 15.
+    + reportStatusCode (optional) - Status. Maximum length is 22.
+    + submittedByPersonId (optional) - Preparer. Maximum length is 40.
+    + awardReportTermDescription (optional) - 
 
       
 + Request

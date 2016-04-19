@@ -1,6 +1,6 @@
-## Award Report Terms [/research-sys/api/v1/award-report-terms/]
+## Award Report Terms [/award/api/v1/award-report-terms/]
 
-### Get Award Report Terms by Key [GET /research-sys/api/v1/award-report-terms/(key)]
+### Get Award Report Terms by Key [GET /award/api/v1/award-report-terms/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"awardReportTermId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","frequencyBaseCode": "(val)","ospDistributionCode": "(val)","dueDate": "(val)","_primaryKey": "(val)"}
 
-### Get All Award Report Terms [GET /research-sys/api/v1/award-report-terms/]
+### Get All Award Report Terms [GET /award/api/v1/award-report-terms/]
 	 
 + Request
 
@@ -39,20 +39,20 @@
               {"awardReportTermId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","frequencyBaseCode": "(val)","ospDistributionCode": "(val)","dueDate": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Award Report Terms with Filtering [GET /research-sys/api/v1/award-report-terms/]
+### Get All Award Report Terms with Filtering [GET /award/api/v1/award-report-terms/]
     
 + Parameters
 
-        + awardReportTermId
-            + awardId
-            + awardNumber
-            + sequenceNumber
-            + reportClassCode
-            + reportCode
-            + frequencyCode
-            + frequencyBaseCode
-            + ospDistributionCode
-            + dueDate
+    + awardReportTermId (optional) - Award Report Terms Id. Maximum length is 22.
+    + awardId (optional) - 
+    + awardNumber (optional) - Award ID. Maximum length is 12.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 22.
+    + reportClassCode (optional) - Report Class Code. Maximum length is 22.
+    + reportCode (optional) - Type. Maximum length is 22.
+    + frequencyCode (optional) - Frequency. Maximum length is 22.
+    + frequencyBaseCode (optional) - Frequency Base. Maximum length is 22.
+    + ospDistributionCode (optional) - OSP File Copy. Maximum length is 22.
+    + dueDate (optional) - Due Date. Maximum length is 10.
 
             
 + Request
@@ -74,7 +74,7 @@
               {"awardReportTermId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","frequencyBaseCode": "(val)","ospDistributionCode": "(val)","dueDate": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Award Report Terms [GET /research-sys/api/v1/award-report-terms/]
+### Get Schema for Award Report Terms [GET /award/api/v1/award-report-terms/]
 	                                          
 + Parameters
 
@@ -96,7 +96,7 @@
     
             {"columns":["awardReportTermId","awardId","awardNumber","sequenceNumber","reportClassCode","reportCode","frequencyCode","frequencyBaseCode","ospDistributionCode","dueDate"],"primaryKey":"awardReportTermId"}
 		
-### Get Blueprint API specification for Award Report Terms [GET /research-sys/api/v1/award-report-terms/]
+### Get Blueprint API specification for Award Report Terms [GET /award/api/v1/award-report-terms/]
 	 
 + Parameters
 
@@ -117,7 +117,7 @@
             transfer-encoding:chunked
 
 
-### Update Award Report Terms [PUT /research-sys/api/v1/award-report-terms/(key)]
+### Update Award Report Terms [PUT /award/api/v1/award-report-terms/(key)]
 
 + Request
 
@@ -132,7 +132,7 @@
 			
 + Response 204
 
-### Update Multiple Award Report Terms [PUT /research-sys/api/v1/award-report-terms/]
+### Update Multiple Award Report Terms [PUT /award/api/v1/award-report-terms/]
 
 + Request
 
@@ -150,7 +150,7 @@
 			
 + Response 204
 
-### Insert Award Report Terms [POST /research-sys/api/v1/award-report-terms/]
+### Insert Award Report Terms [POST /award/api/v1/award-report-terms/]
 
 + Request
 
@@ -169,7 +169,7 @@
             
             {"awardReportTermId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","frequencyBaseCode": "(val)","ospDistributionCode": "(val)","dueDate": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Award Report Terms [POST /research-sys/api/v1/award-report-terms/]
+### Insert Multiple Award Report Terms [POST /award/api/v1/award-report-terms/]
 
 + Request
 
@@ -194,7 +194,7 @@
               {"awardReportTermId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","frequencyBaseCode": "(val)","ospDistributionCode": "(val)","dueDate": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Award Report Terms by Key [DELETE /research-sys/api/v1/award-report-terms/(key)]
+### Delete Award Report Terms by Key [DELETE /award/api/v1/award-report-terms/(key)]
 	 
 + Request
 
@@ -205,7 +205,7 @@
 
 + Response 204
 
-### Delete All Award Report Terms [DELETE /research-sys/api/v1/award-report-terms/]
+### Delete All Award Report Terms [DELETE /award/api/v1/award-report-terms/]
 
 + Parameters
 
@@ -220,21 +220,21 @@
 
 + Response 204
 
-### Delete All Award Report Terms with Matching [DELETE /research-sys/api/v1/award-report-terms/]
+### Delete All Award Report Terms with Matching [DELETE /award/api/v1/award-report-terms/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + awardReportTermId
-            + awardId
-            + awardNumber
-            + sequenceNumber
-            + reportClassCode
-            + reportCode
-            + frequencyCode
-            + frequencyBaseCode
-            + ospDistributionCode
-            + dueDate
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + awardReportTermId (optional) - Award Report Terms Id. Maximum length is 22.
+    + awardId (optional) - 
+    + awardNumber (optional) - Award ID. Maximum length is 12.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 22.
+    + reportClassCode (optional) - Report Class Code. Maximum length is 22.
+    + reportCode (optional) - Type. Maximum length is 22.
+    + frequencyCode (optional) - Frequency. Maximum length is 22.
+    + frequencyBaseCode (optional) - Frequency Base. Maximum length is 22.
+    + ospDistributionCode (optional) - OSP File Copy. Maximum length is 22.
+    + dueDate (optional) - Due Date. Maximum length is 10.
 
       
 + Request

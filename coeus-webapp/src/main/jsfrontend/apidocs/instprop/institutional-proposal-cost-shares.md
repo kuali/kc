@@ -1,6 +1,6 @@
-## Institutional Proposal Cost Shares [/research-sys/api/v1/institutional-proposal-cost-shares/]
+## Institutional Proposal Cost Shares [/instprop/api/v1/institutional-proposal-cost-shares/]
 
-### Get Institutional Proposal Cost Shares by Key [GET /research-sys/api/v1/institutional-proposal-cost-shares/(key)]
+### Get Institutional Proposal Cost Shares by Key [GET /instprop/api/v1/institutional-proposal-cost-shares/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"proposalCostShareId": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","projectPeriod": "(val)","costSharePercentage": "(val)","costShareTypeCode": "(val)","sourceAccount": "(val)","amount": "(val)","_primaryKey": "(val)"}
 
-### Get All Institutional Proposal Cost Shares [GET /research-sys/api/v1/institutional-proposal-cost-shares/]
+### Get All Institutional Proposal Cost Shares [GET /instprop/api/v1/institutional-proposal-cost-shares/]
 	 
 + Request
 
@@ -39,19 +39,19 @@
               {"proposalCostShareId": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","projectPeriod": "(val)","costSharePercentage": "(val)","costShareTypeCode": "(val)","sourceAccount": "(val)","amount": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Institutional Proposal Cost Shares with Filtering [GET /research-sys/api/v1/institutional-proposal-cost-shares/]
+### Get All Institutional Proposal Cost Shares with Filtering [GET /instprop/api/v1/institutional-proposal-cost-shares/]
     
 + Parameters
 
-        + proposalCostShareId
-            + proposalId
-            + proposalNumber
-            + sequenceNumber
-            + projectPeriod
-            + costSharePercentage
-            + costShareTypeCode
-            + sourceAccount
-            + amount
+    + proposalCostShareId (optional) - Proposal Cost Share Id. Maximum length is 22.
+    + proposalId (optional) - 
+    + proposalNumber (optional) - Proposal Number. Maximum length is 8.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 22.
+    + projectPeriod (optional) - Project Period. Maximum length is 4.
+    + costSharePercentage (optional) - Cost Share Percentage. Maximum length is 10.
+    + costShareTypeCode (optional) - Cost Share Type Code. Maximum length is 3.
+    + sourceAccount (optional) - Source Account. Maximum length is 32.
+    + amount (optional) - Amount. Maximum length is 12.
 
             
 + Request
@@ -73,7 +73,7 @@
               {"proposalCostShareId": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","projectPeriod": "(val)","costSharePercentage": "(val)","costShareTypeCode": "(val)","sourceAccount": "(val)","amount": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Institutional Proposal Cost Shares [GET /research-sys/api/v1/institutional-proposal-cost-shares/]
+### Get Schema for Institutional Proposal Cost Shares [GET /instprop/api/v1/institutional-proposal-cost-shares/]
 	                                          
 + Parameters
 
@@ -95,7 +95,7 @@
     
             {"columns":["proposalCostShareId","proposalId","proposalNumber","sequenceNumber","projectPeriod","costSharePercentage","costShareTypeCode","sourceAccount","amount"],"primaryKey":"proposalCostShareId"}
 		
-### Get Blueprint API specification for Institutional Proposal Cost Shares [GET /research-sys/api/v1/institutional-proposal-cost-shares/]
+### Get Blueprint API specification for Institutional Proposal Cost Shares [GET /instprop/api/v1/institutional-proposal-cost-shares/]
 	 
 + Parameters
 
@@ -116,7 +116,7 @@
             transfer-encoding:chunked
 
 
-### Update Institutional Proposal Cost Shares [PUT /research-sys/api/v1/institutional-proposal-cost-shares/(key)]
+### Update Institutional Proposal Cost Shares [PUT /instprop/api/v1/institutional-proposal-cost-shares/(key)]
 
 + Request
 
@@ -131,7 +131,7 @@
 			
 + Response 204
 
-### Update Multiple Institutional Proposal Cost Shares [PUT /research-sys/api/v1/institutional-proposal-cost-shares/]
+### Update Multiple Institutional Proposal Cost Shares [PUT /instprop/api/v1/institutional-proposal-cost-shares/]
 
 + Request
 
@@ -149,7 +149,7 @@
 			
 + Response 204
 
-### Insert Institutional Proposal Cost Shares [POST /research-sys/api/v1/institutional-proposal-cost-shares/]
+### Insert Institutional Proposal Cost Shares [POST /instprop/api/v1/institutional-proposal-cost-shares/]
 
 + Request
 
@@ -168,7 +168,7 @@
             
             {"proposalCostShareId": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","projectPeriod": "(val)","costSharePercentage": "(val)","costShareTypeCode": "(val)","sourceAccount": "(val)","amount": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Institutional Proposal Cost Shares [POST /research-sys/api/v1/institutional-proposal-cost-shares/]
+### Insert Multiple Institutional Proposal Cost Shares [POST /instprop/api/v1/institutional-proposal-cost-shares/]
 
 + Request
 
@@ -193,7 +193,7 @@
               {"proposalCostShareId": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","projectPeriod": "(val)","costSharePercentage": "(val)","costShareTypeCode": "(val)","sourceAccount": "(val)","amount": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Institutional Proposal Cost Shares by Key [DELETE /research-sys/api/v1/institutional-proposal-cost-shares/(key)]
+### Delete Institutional Proposal Cost Shares by Key [DELETE /instprop/api/v1/institutional-proposal-cost-shares/(key)]
 	 
 + Request
 
@@ -204,7 +204,7 @@
 
 + Response 204
 
-### Delete All Institutional Proposal Cost Shares [DELETE /research-sys/api/v1/institutional-proposal-cost-shares/]
+### Delete All Institutional Proposal Cost Shares [DELETE /instprop/api/v1/institutional-proposal-cost-shares/]
 
 + Parameters
 
@@ -219,20 +219,20 @@
 
 + Response 204
 
-### Delete All Institutional Proposal Cost Shares with Matching [DELETE /research-sys/api/v1/institutional-proposal-cost-shares/]
+### Delete All Institutional Proposal Cost Shares with Matching [DELETE /instprop/api/v1/institutional-proposal-cost-shares/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + proposalCostShareId
-            + proposalId
-            + proposalNumber
-            + sequenceNumber
-            + projectPeriod
-            + costSharePercentage
-            + costShareTypeCode
-            + sourceAccount
-            + amount
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + proposalCostShareId (optional) - Proposal Cost Share Id. Maximum length is 22.
+    + proposalId (optional) - 
+    + proposalNumber (optional) - Proposal Number. Maximum length is 8.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 22.
+    + projectPeriod (optional) - Project Period. Maximum length is 4.
+    + costSharePercentage (optional) - Cost Share Percentage. Maximum length is 10.
+    + costShareTypeCode (optional) - Cost Share Type Code. Maximum length is 3.
+    + sourceAccount (optional) - Source Account. Maximum length is 32.
+    + amount (optional) - Amount. Maximum length is 12.
 
       
 + Request

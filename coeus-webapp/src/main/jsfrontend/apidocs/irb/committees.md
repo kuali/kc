@@ -1,6 +1,6 @@
-## Committees [/research-sys/api/v1/committees/]
+## Committees [/irb/api/v1/committees/]
 
-### Get Committees by Key [GET /research-sys/api/v1/committees/(key)]
+### Get Committees by Key [GET /irb/api/v1/committees/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"id": "(val)","documentNumber": "(val)","committeeId": "(val)","sequenceNumber": "(val)","committeeName": "(val)","homeUnitNumber": "(val)","committeeDescription": "(val)","scheduleDescription": "(val)","committeeTypeCode": "(val)","minimumMembersRequired": "(val)","maxProtocols": "(val)","advancedSubmissionDaysRequired": "(val)","reviewTypeCode": "(val)","coiReviewTypeCode": "(val)","_primaryKey": "(val)"}
 
-### Get All Committees [GET /research-sys/api/v1/committees/]
+### Get All Committees [GET /irb/api/v1/committees/]
 	 
 + Request
 
@@ -39,24 +39,24 @@
               {"id": "(val)","documentNumber": "(val)","committeeId": "(val)","sequenceNumber": "(val)","committeeName": "(val)","homeUnitNumber": "(val)","committeeDescription": "(val)","scheduleDescription": "(val)","committeeTypeCode": "(val)","minimumMembersRequired": "(val)","maxProtocols": "(val)","advancedSubmissionDaysRequired": "(val)","reviewTypeCode": "(val)","coiReviewTypeCode": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Committees with Filtering [GET /research-sys/api/v1/committees/]
+### Get All Committees with Filtering [GET /irb/api/v1/committees/]
     
 + Parameters
 
-        + id
-            + documentNumber
-            + committeeId
-            + sequenceNumber
-            + committeeName
-            + homeUnitNumber
-            + committeeDescription
-            + scheduleDescription
-            + committeeTypeCode
-            + minimumMembersRequired
-            + maxProtocols
-            + advancedSubmissionDaysRequired
-            + reviewTypeCode
-            + coiReviewTypeCode
+    + id (optional) - 
+    + documentNumber (optional) - 
+    + committeeId (optional) - Committee ID. Maximum length is 15.
+    + sequenceNumber (optional) - 
+    + committeeName (optional) - Committee Name. Maximum length is 60.
+    + homeUnitNumber (optional) - Home Unit. Maximum length is 8.
+    + committeeDescription (optional) - Committee Description. Maximum length is 2000.
+    + scheduleDescription (optional) - Schedule Description. Maximum length is 2000.
+    + committeeTypeCode (optional) - The type of committee. Maximum length is 3.
+    + minimumMembersRequired (optional) - Min Members for Quorum. Maximum length is 3.
+    + maxProtocols (optional) - Maximum Protocols. Maximum length is 4.
+    + advancedSubmissionDaysRequired (optional) - Adv Submission Days. Maximum length is 3.
+    + reviewTypeCode (optional) - The type of review. Maximum length is 3.
+    + coiReviewTypeCode (optional) - The type of COI review. Maximum length is 3.
 
             
 + Request
@@ -78,7 +78,7 @@
               {"id": "(val)","documentNumber": "(val)","committeeId": "(val)","sequenceNumber": "(val)","committeeName": "(val)","homeUnitNumber": "(val)","committeeDescription": "(val)","scheduleDescription": "(val)","committeeTypeCode": "(val)","minimumMembersRequired": "(val)","maxProtocols": "(val)","advancedSubmissionDaysRequired": "(val)","reviewTypeCode": "(val)","coiReviewTypeCode": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Committees [GET /research-sys/api/v1/committees/]
+### Get Schema for Committees [GET /irb/api/v1/committees/]
 	                                          
 + Parameters
 
@@ -100,7 +100,7 @@
     
             {"columns":["id","documentNumber","committeeId","sequenceNumber","committeeName","homeUnitNumber","committeeDescription","scheduleDescription","committeeTypeCode","minimumMembersRequired","maxProtocols","advancedSubmissionDaysRequired","reviewTypeCode","coiReviewTypeCode"],"primaryKey":"id"}
 		
-### Get Blueprint API specification for Committees [GET /research-sys/api/v1/committees/]
+### Get Blueprint API specification for Committees [GET /irb/api/v1/committees/]
 	 
 + Parameters
 
@@ -121,7 +121,7 @@
             transfer-encoding:chunked
 
 
-### Update Committees [PUT /research-sys/api/v1/committees/(key)]
+### Update Committees [PUT /irb/api/v1/committees/(key)]
 
 + Request
 
@@ -136,7 +136,7 @@
 			
 + Response 204
 
-### Update Multiple Committees [PUT /research-sys/api/v1/committees/]
+### Update Multiple Committees [PUT /irb/api/v1/committees/]
 
 + Request
 
@@ -154,7 +154,7 @@
 			
 + Response 204
 
-### Insert Committees [POST /research-sys/api/v1/committees/]
+### Insert Committees [POST /irb/api/v1/committees/]
 
 + Request
 
@@ -173,7 +173,7 @@
             
             {"id": "(val)","documentNumber": "(val)","committeeId": "(val)","sequenceNumber": "(val)","committeeName": "(val)","homeUnitNumber": "(val)","committeeDescription": "(val)","scheduleDescription": "(val)","committeeTypeCode": "(val)","minimumMembersRequired": "(val)","maxProtocols": "(val)","advancedSubmissionDaysRequired": "(val)","reviewTypeCode": "(val)","coiReviewTypeCode": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Committees [POST /research-sys/api/v1/committees/]
+### Insert Multiple Committees [POST /irb/api/v1/committees/]
 
 + Request
 
@@ -198,7 +198,7 @@
               {"id": "(val)","documentNumber": "(val)","committeeId": "(val)","sequenceNumber": "(val)","committeeName": "(val)","homeUnitNumber": "(val)","committeeDescription": "(val)","scheduleDescription": "(val)","committeeTypeCode": "(val)","minimumMembersRequired": "(val)","maxProtocols": "(val)","advancedSubmissionDaysRequired": "(val)","reviewTypeCode": "(val)","coiReviewTypeCode": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Committees by Key [DELETE /research-sys/api/v1/committees/(key)]
+### Delete Committees by Key [DELETE /irb/api/v1/committees/(key)]
 	 
 + Request
 
@@ -209,7 +209,7 @@
 
 + Response 204
 
-### Delete All Committees [DELETE /research-sys/api/v1/committees/]
+### Delete All Committees [DELETE /irb/api/v1/committees/]
 
 + Parameters
 
@@ -224,25 +224,25 @@
 
 + Response 204
 
-### Delete All Committees with Matching [DELETE /research-sys/api/v1/committees/]
+### Delete All Committees with Matching [DELETE /irb/api/v1/committees/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + documentNumber
-            + committeeId
-            + sequenceNumber
-            + committeeName
-            + homeUnitNumber
-            + committeeDescription
-            + scheduleDescription
-            + committeeTypeCode
-            + minimumMembersRequired
-            + maxProtocols
-            + advancedSubmissionDaysRequired
-            + reviewTypeCode
-            + coiReviewTypeCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - 
+    + documentNumber (optional) - 
+    + committeeId (optional) - Committee ID. Maximum length is 15.
+    + sequenceNumber (optional) - 
+    + committeeName (optional) - Committee Name. Maximum length is 60.
+    + homeUnitNumber (optional) - Home Unit. Maximum length is 8.
+    + committeeDescription (optional) - Committee Description. Maximum length is 2000.
+    + scheduleDescription (optional) - Schedule Description. Maximum length is 2000.
+    + committeeTypeCode (optional) - The type of committee. Maximum length is 3.
+    + minimumMembersRequired (optional) - Min Members for Quorum. Maximum length is 3.
+    + maxProtocols (optional) - Maximum Protocols. Maximum length is 4.
+    + advancedSubmissionDaysRequired (optional) - Adv Submission Days. Maximum length is 3.
+    + reviewTypeCode (optional) - The type of review. Maximum length is 3.
+    + coiReviewTypeCode (optional) - The type of COI review. Maximum length is 3.
 
       
 + Request

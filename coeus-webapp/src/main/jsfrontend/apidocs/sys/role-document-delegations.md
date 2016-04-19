@@ -43,12 +43,12 @@
     
 + Parameters
 
-        + delegationId
-            + roleId
-            + kimTypeId
-            + delegationTypeCode
-            + documentNumber
-            + active
+    + delegationId (optional) - 
+    + roleId (optional) - 
+    + kimTypeId (optional) - 
+    + delegationTypeCode (optional) - 
+    + documentNumber (optional) - 
+    + active (optional) - 
 
             
 + Request
@@ -220,13 +220,13 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + delegationId
-            + roleId
-            + kimTypeId
-            + delegationTypeCode
-            + documentNumber
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + delegationId (optional) - 
+    + roleId (optional) - 
+    + kimTypeId (optional) - 
+    + delegationTypeCode (optional) - 
+    + documentNumber (optional) - 
+    + active (optional) - 
 
       
 + Request

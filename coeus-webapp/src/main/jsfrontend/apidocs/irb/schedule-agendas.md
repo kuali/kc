@@ -1,6 +1,6 @@
-## Schedule Agendas [/research-sys/api/v1/schedule-agendas/]
+## Schedule Agendas [/irb/api/v1/schedule-agendas/]
 
-### Get Schedule Agendas by Key [GET /research-sys/api/v1/schedule-agendas/(key)]
+### Get Schedule Agendas by Key [GET /irb/api/v1/schedule-agendas/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"scheduleAgendaId": "(val)","scheduleIdFk": "(val)","agendaNumber": "(val)","agendaName": "(val)","pdfStore": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"}
 
-### Get All Schedule Agendas [GET /research-sys/api/v1/schedule-agendas/]
+### Get All Schedule Agendas [GET /irb/api/v1/schedule-agendas/]
 	 
 + Request
 
@@ -39,17 +39,17 @@
               {"scheduleAgendaId": "(val)","scheduleIdFk": "(val)","agendaNumber": "(val)","agendaName": "(val)","pdfStore": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Schedule Agendas with Filtering [GET /research-sys/api/v1/schedule-agendas/]
+### Get All Schedule Agendas with Filtering [GET /irb/api/v1/schedule-agendas/]
     
 + Parameters
 
-        + scheduleAgendaId
-            + scheduleIdFk
-            + agendaNumber
-            + agendaName
-            + pdfStore
-            + createTimestamp
-            + createUser
+    + scheduleAgendaId (optional) - Schedule Agenda Id. Maximum length is 12.
+    + scheduleIdFk (optional) - Schedule Id. Maximum length is 12.
+    + agendaNumber (optional) - Agenda Number. Maximum length is 22.
+    + agendaName (optional) - Agenda Name. Maximum length is 200.
+    + pdfStore (optional) - Pdf Store. Maximum length is 4000.
+    + createTimestamp (optional) - 
+    + createUser (optional) - 
 
             
 + Request
@@ -71,7 +71,7 @@
               {"scheduleAgendaId": "(val)","scheduleIdFk": "(val)","agendaNumber": "(val)","agendaName": "(val)","pdfStore": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Schedule Agendas [GET /research-sys/api/v1/schedule-agendas/]
+### Get Schema for Schedule Agendas [GET /irb/api/v1/schedule-agendas/]
 	                                          
 + Parameters
 
@@ -93,7 +93,7 @@
     
             {"columns":["scheduleAgendaId","scheduleIdFk","agendaNumber","agendaName","pdfStore","createTimestamp","createUser"],"primaryKey":"scheduleAgendaId"}
 		
-### Get Blueprint API specification for Schedule Agendas [GET /research-sys/api/v1/schedule-agendas/]
+### Get Blueprint API specification for Schedule Agendas [GET /irb/api/v1/schedule-agendas/]
 	 
 + Parameters
 
@@ -114,7 +114,7 @@
             transfer-encoding:chunked
 
 
-### Update Schedule Agendas [PUT /research-sys/api/v1/schedule-agendas/(key)]
+### Update Schedule Agendas [PUT /irb/api/v1/schedule-agendas/(key)]
 
 + Request
 
@@ -129,7 +129,7 @@
 			
 + Response 204
 
-### Update Multiple Schedule Agendas [PUT /research-sys/api/v1/schedule-agendas/]
+### Update Multiple Schedule Agendas [PUT /irb/api/v1/schedule-agendas/]
 
 + Request
 
@@ -147,7 +147,7 @@
 			
 + Response 204
 
-### Insert Schedule Agendas [POST /research-sys/api/v1/schedule-agendas/]
+### Insert Schedule Agendas [POST /irb/api/v1/schedule-agendas/]
 
 + Request
 
@@ -166,7 +166,7 @@
             
             {"scheduleAgendaId": "(val)","scheduleIdFk": "(val)","agendaNumber": "(val)","agendaName": "(val)","pdfStore": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Schedule Agendas [POST /research-sys/api/v1/schedule-agendas/]
+### Insert Multiple Schedule Agendas [POST /irb/api/v1/schedule-agendas/]
 
 + Request
 
@@ -191,7 +191,7 @@
               {"scheduleAgendaId": "(val)","scheduleIdFk": "(val)","agendaNumber": "(val)","agendaName": "(val)","pdfStore": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Schedule Agendas by Key [DELETE /research-sys/api/v1/schedule-agendas/(key)]
+### Delete Schedule Agendas by Key [DELETE /irb/api/v1/schedule-agendas/(key)]
 	 
 + Request
 
@@ -202,7 +202,7 @@
 
 + Response 204
 
-### Delete All Schedule Agendas [DELETE /research-sys/api/v1/schedule-agendas/]
+### Delete All Schedule Agendas [DELETE /irb/api/v1/schedule-agendas/]
 
 + Parameters
 
@@ -217,18 +217,18 @@
 
 + Response 204
 
-### Delete All Schedule Agendas with Matching [DELETE /research-sys/api/v1/schedule-agendas/]
+### Delete All Schedule Agendas with Matching [DELETE /irb/api/v1/schedule-agendas/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + scheduleAgendaId
-            + scheduleIdFk
-            + agendaNumber
-            + agendaName
-            + pdfStore
-            + createTimestamp
-            + createUser
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + scheduleAgendaId (optional) - Schedule Agenda Id. Maximum length is 12.
+    + scheduleIdFk (optional) - Schedule Id. Maximum length is 12.
+    + agendaNumber (optional) - Agenda Number. Maximum length is 22.
+    + agendaName (optional) - Agenda Name. Maximum length is 200.
+    + pdfStore (optional) - Pdf Store. Maximum length is 4000.
+    + createTimestamp (optional) - 
+    + createUser (optional) - 
 
       
 + Request

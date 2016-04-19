@@ -1,6 +1,6 @@
-## Unit Administrator Person Mass Changes [/research-sys/api/v1/unit-administrator-person-mass-changes/]
+## Unit Administrator Person Mass Changes [/research-common/api/v1/unit-administrator-person-mass-changes/]
 
-### Get Unit Administrator Person Mass Changes by Key [GET /research-sys/api/v1/unit-administrator-person-mass-changes/(key)]
+### Get Unit Administrator Person Mass Changes by Key [GET /research-common/api/v1/unit-administrator-person-mass-changes/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"unitAdministratorPersonMassChangeId": "(val)","personMassChangeId": "(val)","administrativeOfficer": "(val)","ospAdministrator": "(val)","unitHead": "(val)","deanVP": "(val)","otherIndividualToNotify": "(val)","administrativeContact": "(val)","financialContact": "(val)","_primaryKey": "(val)"}
 
-### Get All Unit Administrator Person Mass Changes [GET /research-sys/api/v1/unit-administrator-person-mass-changes/]
+### Get All Unit Administrator Person Mass Changes [GET /research-common/api/v1/unit-administrator-person-mass-changes/]
 	 
 + Request
 
@@ -39,19 +39,19 @@
               {"unitAdministratorPersonMassChangeId": "(val)","personMassChangeId": "(val)","administrativeOfficer": "(val)","ospAdministrator": "(val)","unitHead": "(val)","deanVP": "(val)","otherIndividualToNotify": "(val)","administrativeContact": "(val)","financialContact": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Unit Administrator Person Mass Changes with Filtering [GET /research-sys/api/v1/unit-administrator-person-mass-changes/]
+### Get All Unit Administrator Person Mass Changes with Filtering [GET /research-common/api/v1/unit-administrator-person-mass-changes/]
     
 + Parameters
 
-        + unitAdministratorPersonMassChangeId
-            + personMassChangeId
-            + administrativeOfficer
-            + ospAdministrator
-            + unitHead
-            + deanVP
-            + otherIndividualToNotify
-            + administrativeContact
-            + financialContact
+    + unitAdministratorPersonMassChangeId (optional) - Unit Administrator Person Mass Change Id. Maximum length is 12.
+    + personMassChangeId (optional) - Person Mass Change Id. Maximum length is 12.
+    + administrativeOfficer (optional) - Administrative Officer. Maximum length is 1.
+    + ospAdministrator (optional) - OSP Administrator. Maximum length is 1.
+    + unitHead (optional) - Unit Head. Maximum length is 1.
+    + deanVP (optional) - Dean VP. Maximum length is 1.
+    + otherIndividualToNotify (optional) - Other Individual to Notify. Maximum length is 1.
+    + administrativeContact (optional) - Administrative Contact. Maximum length is 1.
+    + financialContact (optional) - Financial Contact. Maximum length is 1.
 
             
 + Request
@@ -73,7 +73,7 @@
               {"unitAdministratorPersonMassChangeId": "(val)","personMassChangeId": "(val)","administrativeOfficer": "(val)","ospAdministrator": "(val)","unitHead": "(val)","deanVP": "(val)","otherIndividualToNotify": "(val)","administrativeContact": "(val)","financialContact": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Unit Administrator Person Mass Changes [GET /research-sys/api/v1/unit-administrator-person-mass-changes/]
+### Get Schema for Unit Administrator Person Mass Changes [GET /research-common/api/v1/unit-administrator-person-mass-changes/]
 	                                          
 + Parameters
 
@@ -95,7 +95,7 @@
     
             {"columns":["unitAdministratorPersonMassChangeId","personMassChangeId","administrativeOfficer","ospAdministrator","unitHead","deanVP","otherIndividualToNotify","administrativeContact","financialContact"],"primaryKey":"unitAdministratorPersonMassChangeId"}
 		
-### Get Blueprint API specification for Unit Administrator Person Mass Changes [GET /research-sys/api/v1/unit-administrator-person-mass-changes/]
+### Get Blueprint API specification for Unit Administrator Person Mass Changes [GET /research-common/api/v1/unit-administrator-person-mass-changes/]
 	 
 + Parameters
 
@@ -116,7 +116,7 @@
             transfer-encoding:chunked
 
 
-### Update Unit Administrator Person Mass Changes [PUT /research-sys/api/v1/unit-administrator-person-mass-changes/(key)]
+### Update Unit Administrator Person Mass Changes [PUT /research-common/api/v1/unit-administrator-person-mass-changes/(key)]
 
 + Request
 
@@ -131,7 +131,7 @@
 			
 + Response 204
 
-### Update Multiple Unit Administrator Person Mass Changes [PUT /research-sys/api/v1/unit-administrator-person-mass-changes/]
+### Update Multiple Unit Administrator Person Mass Changes [PUT /research-common/api/v1/unit-administrator-person-mass-changes/]
 
 + Request
 
@@ -149,7 +149,7 @@
 			
 + Response 204
 
-### Insert Unit Administrator Person Mass Changes [POST /research-sys/api/v1/unit-administrator-person-mass-changes/]
+### Insert Unit Administrator Person Mass Changes [POST /research-common/api/v1/unit-administrator-person-mass-changes/]
 
 + Request
 
@@ -168,7 +168,7 @@
             
             {"unitAdministratorPersonMassChangeId": "(val)","personMassChangeId": "(val)","administrativeOfficer": "(val)","ospAdministrator": "(val)","unitHead": "(val)","deanVP": "(val)","otherIndividualToNotify": "(val)","administrativeContact": "(val)","financialContact": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Unit Administrator Person Mass Changes [POST /research-sys/api/v1/unit-administrator-person-mass-changes/]
+### Insert Multiple Unit Administrator Person Mass Changes [POST /research-common/api/v1/unit-administrator-person-mass-changes/]
 
 + Request
 
@@ -193,7 +193,7 @@
               {"unitAdministratorPersonMassChangeId": "(val)","personMassChangeId": "(val)","administrativeOfficer": "(val)","ospAdministrator": "(val)","unitHead": "(val)","deanVP": "(val)","otherIndividualToNotify": "(val)","administrativeContact": "(val)","financialContact": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Unit Administrator Person Mass Changes by Key [DELETE /research-sys/api/v1/unit-administrator-person-mass-changes/(key)]
+### Delete Unit Administrator Person Mass Changes by Key [DELETE /research-common/api/v1/unit-administrator-person-mass-changes/(key)]
 	 
 + Request
 
@@ -204,7 +204,7 @@
 
 + Response 204
 
-### Delete All Unit Administrator Person Mass Changes [DELETE /research-sys/api/v1/unit-administrator-person-mass-changes/]
+### Delete All Unit Administrator Person Mass Changes [DELETE /research-common/api/v1/unit-administrator-person-mass-changes/]
 
 + Parameters
 
@@ -219,20 +219,20 @@
 
 + Response 204
 
-### Delete All Unit Administrator Person Mass Changes with Matching [DELETE /research-sys/api/v1/unit-administrator-person-mass-changes/]
+### Delete All Unit Administrator Person Mass Changes with Matching [DELETE /research-common/api/v1/unit-administrator-person-mass-changes/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + unitAdministratorPersonMassChangeId
-            + personMassChangeId
-            + administrativeOfficer
-            + ospAdministrator
-            + unitHead
-            + deanVP
-            + otherIndividualToNotify
-            + administrativeContact
-            + financialContact
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + unitAdministratorPersonMassChangeId (optional) - Unit Administrator Person Mass Change Id. Maximum length is 12.
+    + personMassChangeId (optional) - Person Mass Change Id. Maximum length is 12.
+    + administrativeOfficer (optional) - Administrative Officer. Maximum length is 1.
+    + ospAdministrator (optional) - OSP Administrator. Maximum length is 1.
+    + unitHead (optional) - Unit Head. Maximum length is 1.
+    + deanVP (optional) - Dean VP. Maximum length is 1.
+    + otherIndividualToNotify (optional) - Other Individual to Notify. Maximum length is 1.
+    + administrativeContact (optional) - Administrative Contact. Maximum length is 1.
+    + financialContact (optional) - Financial Contact. Maximum length is 1.
 
       
 + Request

@@ -1,6 +1,6 @@
-## Award Types [/research-sys/api/v1/award-types/]
+## Award Types [/award/api/v1/award-types/]
 
-### Get Award Types by Key [GET /research-sys/api/v1/award-types/(key)]
+### Get Award Types by Key [GET /award/api/v1/award-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Award Types [GET /research-sys/api/v1/award-types/]
+### Get All Award Types [GET /award/api/v1/award-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Award Types with Filtering [GET /research-sys/api/v1/award-types/]
+### Get All Award Types with Filtering [GET /award/api/v1/award-types/]
     
 + Parameters
 
-        + code
-            + description
+    + code (optional) - Award Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Award Types [GET /research-sys/api/v1/award-types/]
+### Get Schema for Award Types [GET /award/api/v1/award-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["code","description"],"primaryKey":"code"}
 		
-### Get Blueprint API specification for Award Types [GET /research-sys/api/v1/award-types/]
+### Get Blueprint API specification for Award Types [GET /award/api/v1/award-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Award Types [PUT /research-sys/api/v1/award-types/(key)]
+### Update Award Types [PUT /award/api/v1/award-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Award Types [PUT /research-sys/api/v1/award-types/]
+### Update Multiple Award Types [PUT /award/api/v1/award-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Award Types [POST /research-sys/api/v1/award-types/]
+### Insert Award Types [POST /award/api/v1/award-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Award Types [POST /research-sys/api/v1/award-types/]
+### Insert Multiple Award Types [POST /award/api/v1/award-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Award Types by Key [DELETE /research-sys/api/v1/award-types/(key)]
+### Delete Award Types by Key [DELETE /award/api/v1/award-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Award Types [DELETE /research-sys/api/v1/award-types/]
+### Delete All Award Types [DELETE /award/api/v1/award-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Award Types with Matching [DELETE /research-sys/api/v1/award-types/]
+### Delete All Award Types with Matching [DELETE /award/api/v1/award-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + code
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + code (optional) - Award Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

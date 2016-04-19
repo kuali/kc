@@ -43,10 +43,10 @@
     
 + Parameters
 
-        + id
-            + entityId
-            + determinationMethod
-            + inState
+    + id (optional) - 
+    + entityId (optional) - 
+    + determinationMethod (optional) - 
+    + inState (optional) - 
 
             
 + Request
@@ -218,11 +218,11 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + entityId
-            + determinationMethod
-            + inState
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - 
+    + entityId (optional) - 
+    + determinationMethod (optional) - 
+    + inState (optional) - 
 
       
 + Request

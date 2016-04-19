@@ -1,6 +1,6 @@
-## Question Explanations [/research-sys/api/v1/question-explanations/]
+## Question Explanations [/research-common/api/v1/question-explanations/]
 
-### Get Question Explanations by Key [GET /research-sys/api/v1/question-explanations/(key)]
+### Get Question Explanations by Key [GET /research-common/api/v1/question-explanations/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"id": "(val)","questionId": "(val)","explanationType": "(val)","explanation": "(val)","_primaryKey": "(val)"}
 
-### Get All Question Explanations [GET /research-sys/api/v1/question-explanations/]
+### Get All Question Explanations [GET /research-common/api/v1/question-explanations/]
 	 
 + Request
 
@@ -39,14 +39,14 @@
               {"id": "(val)","questionId": "(val)","explanationType": "(val)","explanation": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Question Explanations with Filtering [GET /research-sys/api/v1/question-explanations/]
+### Get All Question Explanations with Filtering [GET /research-common/api/v1/question-explanations/]
     
 + Parameters
 
-        + id
-            + questionId
-            + explanationType
-            + explanation
+    + id (optional) - Question Explanation Id. Maximum length is 12.
+    + questionId (optional) - Question Ref Id. Maximum length is 12.
+    + explanationType (optional) - Explanation Type. Maximum length is 1.
+    + explanation (optional) - Explanation. Maximum length is 4000.
 
             
 + Request
@@ -68,7 +68,7 @@
               {"id": "(val)","questionId": "(val)","explanationType": "(val)","explanation": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Question Explanations [GET /research-sys/api/v1/question-explanations/]
+### Get Schema for Question Explanations [GET /research-common/api/v1/question-explanations/]
 	                                          
 + Parameters
 
@@ -90,7 +90,7 @@
     
             {"columns":["id","questionId","explanationType","explanation"],"primaryKey":"id"}
 		
-### Get Blueprint API specification for Question Explanations [GET /research-sys/api/v1/question-explanations/]
+### Get Blueprint API specification for Question Explanations [GET /research-common/api/v1/question-explanations/]
 	 
 + Parameters
 
@@ -111,7 +111,7 @@
             transfer-encoding:chunked
 
 
-### Update Question Explanations [PUT /research-sys/api/v1/question-explanations/(key)]
+### Update Question Explanations [PUT /research-common/api/v1/question-explanations/(key)]
 
 + Request
 
@@ -126,7 +126,7 @@
 			
 + Response 204
 
-### Update Multiple Question Explanations [PUT /research-sys/api/v1/question-explanations/]
+### Update Multiple Question Explanations [PUT /research-common/api/v1/question-explanations/]
 
 + Request
 
@@ -144,7 +144,7 @@
 			
 + Response 204
 
-### Insert Question Explanations [POST /research-sys/api/v1/question-explanations/]
+### Insert Question Explanations [POST /research-common/api/v1/question-explanations/]
 
 + Request
 
@@ -163,7 +163,7 @@
             
             {"id": "(val)","questionId": "(val)","explanationType": "(val)","explanation": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Question Explanations [POST /research-sys/api/v1/question-explanations/]
+### Insert Multiple Question Explanations [POST /research-common/api/v1/question-explanations/]
 
 + Request
 
@@ -188,7 +188,7 @@
               {"id": "(val)","questionId": "(val)","explanationType": "(val)","explanation": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Question Explanations by Key [DELETE /research-sys/api/v1/question-explanations/(key)]
+### Delete Question Explanations by Key [DELETE /research-common/api/v1/question-explanations/(key)]
 	 
 + Request
 
@@ -199,7 +199,7 @@
 
 + Response 204
 
-### Delete All Question Explanations [DELETE /research-sys/api/v1/question-explanations/]
+### Delete All Question Explanations [DELETE /research-common/api/v1/question-explanations/]
 
 + Parameters
 
@@ -214,15 +214,15 @@
 
 + Response 204
 
-### Delete All Question Explanations with Matching [DELETE /research-sys/api/v1/question-explanations/]
+### Delete All Question Explanations with Matching [DELETE /research-common/api/v1/question-explanations/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + questionId
-            + explanationType
-            + explanation
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Question Explanation Id. Maximum length is 12.
+    + questionId (optional) - Question Ref Id. Maximum length is 12.
+    + explanationType (optional) - Explanation Type. Maximum length is 1.
+    + explanation (optional) - Explanation. Maximum length is 4000.
 
       
 + Request

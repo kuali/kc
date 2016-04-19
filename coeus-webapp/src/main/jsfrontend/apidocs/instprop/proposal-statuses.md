@@ -1,6 +1,6 @@
-## Proposal Statuses [/research-sys/api/v1/proposal-statuses/]
+## Proposal Statuses [/instprop/api/v1/proposal-statuses/]
 
-### Get Proposal Statuses by Key [GET /research-sys/api/v1/proposal-statuses/(key)]
+### Get Proposal Statuses by Key [GET /instprop/api/v1/proposal-statuses/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"proposalStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Proposal Statuses [GET /research-sys/api/v1/proposal-statuses/]
+### Get All Proposal Statuses [GET /instprop/api/v1/proposal-statuses/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"proposalStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Proposal Statuses with Filtering [GET /research-sys/api/v1/proposal-statuses/]
+### Get All Proposal Statuses with Filtering [GET /instprop/api/v1/proposal-statuses/]
     
 + Parameters
 
-        + proposalStatusCode
-            + description
+    + proposalStatusCode (optional) - Proposal Status Code. Maximum length is 22.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"proposalStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Proposal Statuses [GET /research-sys/api/v1/proposal-statuses/]
+### Get Schema for Proposal Statuses [GET /instprop/api/v1/proposal-statuses/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["proposalStatusCode","description"],"primaryKey":"proposalStatusCode"}
 		
-### Get Blueprint API specification for Proposal Statuses [GET /research-sys/api/v1/proposal-statuses/]
+### Get Blueprint API specification for Proposal Statuses [GET /instprop/api/v1/proposal-statuses/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Proposal Statuses [PUT /research-sys/api/v1/proposal-statuses/(key)]
+### Update Proposal Statuses [PUT /instprop/api/v1/proposal-statuses/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Proposal Statuses [PUT /research-sys/api/v1/proposal-statuses/]
+### Update Multiple Proposal Statuses [PUT /instprop/api/v1/proposal-statuses/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Proposal Statuses [POST /research-sys/api/v1/proposal-statuses/]
+### Insert Proposal Statuses [POST /instprop/api/v1/proposal-statuses/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"proposalStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Proposal Statuses [POST /research-sys/api/v1/proposal-statuses/]
+### Insert Multiple Proposal Statuses [POST /instprop/api/v1/proposal-statuses/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"proposalStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Proposal Statuses by Key [DELETE /research-sys/api/v1/proposal-statuses/(key)]
+### Delete Proposal Statuses by Key [DELETE /instprop/api/v1/proposal-statuses/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Proposal Statuses [DELETE /research-sys/api/v1/proposal-statuses/]
+### Delete All Proposal Statuses [DELETE /instprop/api/v1/proposal-statuses/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Proposal Statuses with Matching [DELETE /research-sys/api/v1/proposal-statuses/]
+### Delete All Proposal Statuses with Matching [DELETE /instprop/api/v1/proposal-statuses/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + proposalStatusCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + proposalStatusCode (optional) - Proposal Status Code. Maximum length is 22.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

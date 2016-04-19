@@ -1,6 +1,6 @@
-## Expedited Review Checklist Items [/research-sys/api/v1/expedited-review-checklist-items/]
+## Expedited Review Checklist Items [/irb/api/v1/expedited-review-checklist-items/]
 
-### Get Expedited Review Checklist Items by Key [GET /research-sys/api/v1/expedited-review-checklist-items/(key)]
+### Get Expedited Review Checklist Items by Key [GET /irb/api/v1/expedited-review-checklist-items/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"expeditedReviewCheckListCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Expedited Review Checklist Items [GET /research-sys/api/v1/expedited-review-checklist-items/]
+### Get All Expedited Review Checklist Items [GET /irb/api/v1/expedited-review-checklist-items/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"expeditedReviewCheckListCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Expedited Review Checklist Items with Filtering [GET /research-sys/api/v1/expedited-review-checklist-items/]
+### Get All Expedited Review Checklist Items with Filtering [GET /irb/api/v1/expedited-review-checklist-items/]
     
 + Parameters
 
-        + expeditedReviewCheckListCode
-            + description
+    + expeditedReviewCheckListCode (optional) - Expedited Review CheckList Code. Maximum length is 4.
+    + description (optional) - Description. Maximum length is 2000.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"expeditedReviewCheckListCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Expedited Review Checklist Items [GET /research-sys/api/v1/expedited-review-checklist-items/]
+### Get Schema for Expedited Review Checklist Items [GET /irb/api/v1/expedited-review-checklist-items/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["expeditedReviewCheckListCode","description"],"primaryKey":"expeditedReviewCheckListCode"}
 		
-### Get Blueprint API specification for Expedited Review Checklist Items [GET /research-sys/api/v1/expedited-review-checklist-items/]
+### Get Blueprint API specification for Expedited Review Checklist Items [GET /irb/api/v1/expedited-review-checklist-items/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Expedited Review Checklist Items [PUT /research-sys/api/v1/expedited-review-checklist-items/(key)]
+### Update Expedited Review Checklist Items [PUT /irb/api/v1/expedited-review-checklist-items/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Expedited Review Checklist Items [PUT /research-sys/api/v1/expedited-review-checklist-items/]
+### Update Multiple Expedited Review Checklist Items [PUT /irb/api/v1/expedited-review-checklist-items/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Expedited Review Checklist Items [POST /research-sys/api/v1/expedited-review-checklist-items/]
+### Insert Expedited Review Checklist Items [POST /irb/api/v1/expedited-review-checklist-items/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"expeditedReviewCheckListCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Expedited Review Checklist Items [POST /research-sys/api/v1/expedited-review-checklist-items/]
+### Insert Multiple Expedited Review Checklist Items [POST /irb/api/v1/expedited-review-checklist-items/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"expeditedReviewCheckListCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Expedited Review Checklist Items by Key [DELETE /research-sys/api/v1/expedited-review-checklist-items/(key)]
+### Delete Expedited Review Checklist Items by Key [DELETE /irb/api/v1/expedited-review-checklist-items/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Expedited Review Checklist Items [DELETE /research-sys/api/v1/expedited-review-checklist-items/]
+### Delete All Expedited Review Checklist Items [DELETE /irb/api/v1/expedited-review-checklist-items/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Expedited Review Checklist Items with Matching [DELETE /research-sys/api/v1/expedited-review-checklist-items/]
+### Delete All Expedited Review Checklist Items with Matching [DELETE /irb/api/v1/expedited-review-checklist-items/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + expeditedReviewCheckListCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + expeditedReviewCheckListCode (optional) - Expedited Review CheckList Code. Maximum length is 4.
+    + description (optional) - Description. Maximum length is 2000.
 
       
 + Request

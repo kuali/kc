@@ -1,6 +1,6 @@
-## Institute La Rates [/research-sys/api/v1/institute-la-rates/]
+## Institute La Rates [/research-common/api/v1/institute-la-rates/]
 
-### Get Institute La Rates by Key [GET /research-sys/api/v1/institute-la-rates/(key)]
+### Get Institute La Rates by Key [GET /research-common/api/v1/institute-la-rates/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"fiscalYear": "(val)","onOffCampusFlag": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","startDate": "(val)","unitNumber": "(val)","instituteRate": "(val)","active": "(val)","_primaryKey": "(val)"}
 
-### Get All Institute La Rates [GET /research-sys/api/v1/institute-la-rates/]
+### Get All Institute La Rates [GET /research-common/api/v1/institute-la-rates/]
 	 
 + Request
 
@@ -39,18 +39,18 @@
               {"fiscalYear": "(val)","onOffCampusFlag": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","startDate": "(val)","unitNumber": "(val)","instituteRate": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Institute La Rates with Filtering [GET /research-sys/api/v1/institute-la-rates/]
+### Get All Institute La Rates with Filtering [GET /research-common/api/v1/institute-la-rates/]
     
 + Parameters
 
-        + fiscalYear
-            + onOffCampusFlag
-            + rateClassCode
-            + rateTypeCode
-            + startDate
-            + unitNumber
-            + instituteRate
-            + active
+    + fiscalYear (optional) - Fiscal Year. Maximum length is 4.
+    + onOffCampusFlag (optional) - On Off CampusContractContract Flag. Maximum length is 1.
+    + rateClassCode (optional) - Rate Class Code. Maximum length is 3.
+    + rateTypeCode (optional) - Rate Type Code. Maximum length is 3.
+    + startDate (optional) - Start Date. Maximum length is 10.
+    + unitNumber (optional) - Unit Number. Maximum length is 8.
+    + instituteRate (optional) - Rate. Maximum length is 5.
+    + active (optional) - Active. Maximum length is 1.
 
             
 + Request
@@ -72,7 +72,7 @@
               {"fiscalYear": "(val)","onOffCampusFlag": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","startDate": "(val)","unitNumber": "(val)","instituteRate": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Institute La Rates [GET /research-sys/api/v1/institute-la-rates/]
+### Get Schema for Institute La Rates [GET /research-common/api/v1/institute-la-rates/]
 	                                          
 + Parameters
 
@@ -94,7 +94,7 @@
     
             {"columns":["fiscalYear","onOffCampusFlag","rateClassCode","rateTypeCode","startDate","unitNumber","instituteRate","active"],"primaryKey":"fiscalYear:onOffCampusFlag:rateClassCode:rateTypeCode:startDate:unitNumber"}
 		
-### Get Blueprint API specification for Institute La Rates [GET /research-sys/api/v1/institute-la-rates/]
+### Get Blueprint API specification for Institute La Rates [GET /research-common/api/v1/institute-la-rates/]
 	 
 + Parameters
 
@@ -115,7 +115,7 @@
             transfer-encoding:chunked
 
 
-### Update Institute La Rates [PUT /research-sys/api/v1/institute-la-rates/(key)]
+### Update Institute La Rates [PUT /research-common/api/v1/institute-la-rates/(key)]
 
 + Request
 
@@ -130,7 +130,7 @@
 			
 + Response 204
 
-### Update Multiple Institute La Rates [PUT /research-sys/api/v1/institute-la-rates/]
+### Update Multiple Institute La Rates [PUT /research-common/api/v1/institute-la-rates/]
 
 + Request
 
@@ -148,7 +148,7 @@
 			
 + Response 204
 
-### Insert Institute La Rates [POST /research-sys/api/v1/institute-la-rates/]
+### Insert Institute La Rates [POST /research-common/api/v1/institute-la-rates/]
 
 + Request
 
@@ -167,7 +167,7 @@
             
             {"fiscalYear": "(val)","onOffCampusFlag": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","startDate": "(val)","unitNumber": "(val)","instituteRate": "(val)","active": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Institute La Rates [POST /research-sys/api/v1/institute-la-rates/]
+### Insert Multiple Institute La Rates [POST /research-common/api/v1/institute-la-rates/]
 
 + Request
 
@@ -192,7 +192,7 @@
               {"fiscalYear": "(val)","onOffCampusFlag": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","startDate": "(val)","unitNumber": "(val)","instituteRate": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Institute La Rates by Key [DELETE /research-sys/api/v1/institute-la-rates/(key)]
+### Delete Institute La Rates by Key [DELETE /research-common/api/v1/institute-la-rates/(key)]
 	 
 + Request
 
@@ -203,7 +203,7 @@
 
 + Response 204
 
-### Delete All Institute La Rates [DELETE /research-sys/api/v1/institute-la-rates/]
+### Delete All Institute La Rates [DELETE /research-common/api/v1/institute-la-rates/]
 
 + Parameters
 
@@ -218,19 +218,19 @@
 
 + Response 204
 
-### Delete All Institute La Rates with Matching [DELETE /research-sys/api/v1/institute-la-rates/]
+### Delete All Institute La Rates with Matching [DELETE /research-common/api/v1/institute-la-rates/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + fiscalYear
-            + onOffCampusFlag
-            + rateClassCode
-            + rateTypeCode
-            + startDate
-            + unitNumber
-            + instituteRate
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + fiscalYear (optional) - Fiscal Year. Maximum length is 4.
+    + onOffCampusFlag (optional) - On Off CampusContractContract Flag. Maximum length is 1.
+    + rateClassCode (optional) - Rate Class Code. Maximum length is 3.
+    + rateTypeCode (optional) - Rate Type Code. Maximum length is 3.
+    + startDate (optional) - Start Date. Maximum length is 10.
+    + unitNumber (optional) - Unit Number. Maximum length is 8.
+    + instituteRate (optional) - Rate. Maximum length is 5.
+    + active (optional) - Active. Maximum length is 1.
 
       
 + Request

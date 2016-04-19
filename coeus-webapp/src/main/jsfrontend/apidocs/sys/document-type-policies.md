@@ -43,9 +43,9 @@
     
 + Parameters
 
-        + policyName
-            + policyValue
-            + policyStringValue
+    + policyName (optional) - 
+    + policyValue (optional) - 
+    + policyStringValue (optional) - 
 
             
 + Request
@@ -217,10 +217,10 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + policyName
-            + policyValue
-            + policyStringValue
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + policyName (optional) - 
+    + policyValue (optional) - 
+    + policyStringValue (optional) - 
 
       
 + Request

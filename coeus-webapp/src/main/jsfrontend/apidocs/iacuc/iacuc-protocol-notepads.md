@@ -1,6 +1,6 @@
-## Iacuc Protocol Notepads [/research-sys/api/v1/iacuc-protocol-notepads/]
+## Iacuc Protocol Notepads [/iacuc/api/v1/iacuc-protocol-notepads/]
 
-### Get Iacuc Protocol Notepads by Key [GET /research-sys/api/v1/iacuc-protocol-notepads/(key)]
+### Get Iacuc Protocol Notepads by Key [GET /iacuc/api/v1/iacuc-protocol-notepads/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"id": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","entryNumber": "(val)","comments": "(val)","restrictedView": "(val)","noteTopic": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Protocol Notepads [GET /research-sys/api/v1/iacuc-protocol-notepads/]
+### Get All Iacuc Protocol Notepads [GET /iacuc/api/v1/iacuc-protocol-notepads/]
 	 
 + Request
 
@@ -39,20 +39,20 @@
               {"id": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","entryNumber": "(val)","comments": "(val)","restrictedView": "(val)","noteTopic": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Protocol Notepads with Filtering [GET /research-sys/api/v1/iacuc-protocol-notepads/]
+### Get All Iacuc Protocol Notepads with Filtering [GET /iacuc/api/v1/iacuc-protocol-notepads/]
     
 + Parameters
 
-        + id
-            + protocolId
-            + protocolNumber
-            + sequenceNumber
-            + entryNumber
-            + comments
-            + restrictedView
-            + noteTopic
-            + createTimestamp
-            + createUser
+    + id (optional) - Protocol Notepad Id. Maximum length is 22.
+    + protocolId (optional) - 
+    + protocolNumber (optional) - Protocol Number. Maximum length is 20.
+    + sequenceNumber (optional) - 
+    + entryNumber (optional) - Entry Number. Maximum length is 22.
+    + comments (optional) - Comments. Maximum length is 4000.
+    + restrictedView (optional) - Restricted View. Maximum length is 1.
+    + noteTopic (optional) - Comments. Maximum length is 60.
+    + createTimestamp (optional) - The creation or last modification timestamp. Maximum length is 21.
+    + createUser (optional) - The user who created or last modified the object. Maximum length is 60.
 
             
 + Request
@@ -74,7 +74,7 @@
               {"id": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","entryNumber": "(val)","comments": "(val)","restrictedView": "(val)","noteTopic": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Protocol Notepads [GET /research-sys/api/v1/iacuc-protocol-notepads/]
+### Get Schema for Iacuc Protocol Notepads [GET /iacuc/api/v1/iacuc-protocol-notepads/]
 	                                          
 + Parameters
 
@@ -96,7 +96,7 @@
     
             {"columns":["id","protocolId","protocolNumber","sequenceNumber","entryNumber","comments","restrictedView","noteTopic","createTimestamp","createUser"],"primaryKey":"id"}
 		
-### Get Blueprint API specification for Iacuc Protocol Notepads [GET /research-sys/api/v1/iacuc-protocol-notepads/]
+### Get Blueprint API specification for Iacuc Protocol Notepads [GET /iacuc/api/v1/iacuc-protocol-notepads/]
 	 
 + Parameters
 
@@ -117,7 +117,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Protocol Notepads [PUT /research-sys/api/v1/iacuc-protocol-notepads/(key)]
+### Update Iacuc Protocol Notepads [PUT /iacuc/api/v1/iacuc-protocol-notepads/(key)]
 
 + Request
 
@@ -132,7 +132,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Protocol Notepads [PUT /research-sys/api/v1/iacuc-protocol-notepads/]
+### Update Multiple Iacuc Protocol Notepads [PUT /iacuc/api/v1/iacuc-protocol-notepads/]
 
 + Request
 
@@ -150,7 +150,7 @@
 			
 + Response 204
 
-### Insert Iacuc Protocol Notepads [POST /research-sys/api/v1/iacuc-protocol-notepads/]
+### Insert Iacuc Protocol Notepads [POST /iacuc/api/v1/iacuc-protocol-notepads/]
 
 + Request
 
@@ -169,7 +169,7 @@
             
             {"id": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","entryNumber": "(val)","comments": "(val)","restrictedView": "(val)","noteTopic": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Protocol Notepads [POST /research-sys/api/v1/iacuc-protocol-notepads/]
+### Insert Multiple Iacuc Protocol Notepads [POST /iacuc/api/v1/iacuc-protocol-notepads/]
 
 + Request
 
@@ -194,7 +194,7 @@
               {"id": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","entryNumber": "(val)","comments": "(val)","restrictedView": "(val)","noteTopic": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Protocol Notepads by Key [DELETE /research-sys/api/v1/iacuc-protocol-notepads/(key)]
+### Delete Iacuc Protocol Notepads by Key [DELETE /iacuc/api/v1/iacuc-protocol-notepads/(key)]
 	 
 + Request
 
@@ -205,7 +205,7 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Notepads [DELETE /research-sys/api/v1/iacuc-protocol-notepads/]
+### Delete All Iacuc Protocol Notepads [DELETE /iacuc/api/v1/iacuc-protocol-notepads/]
 
 + Parameters
 
@@ -220,21 +220,21 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Notepads with Matching [DELETE /research-sys/api/v1/iacuc-protocol-notepads/]
+### Delete All Iacuc Protocol Notepads with Matching [DELETE /iacuc/api/v1/iacuc-protocol-notepads/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + protocolId
-            + protocolNumber
-            + sequenceNumber
-            + entryNumber
-            + comments
-            + restrictedView
-            + noteTopic
-            + createTimestamp
-            + createUser
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Protocol Notepad Id. Maximum length is 22.
+    + protocolId (optional) - 
+    + protocolNumber (optional) - Protocol Number. Maximum length is 20.
+    + sequenceNumber (optional) - 
+    + entryNumber (optional) - Entry Number. Maximum length is 22.
+    + comments (optional) - Comments. Maximum length is 4000.
+    + restrictedView (optional) - Restricted View. Maximum length is 1.
+    + noteTopic (optional) - Comments. Maximum length is 60.
+    + createTimestamp (optional) - The creation or last modification timestamp. Maximum length is 21.
+    + createUser (optional) - The user who created or last modified the object. Maximum length is 60.
 
       
 + Request

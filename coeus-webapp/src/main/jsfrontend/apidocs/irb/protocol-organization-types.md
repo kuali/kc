@@ -1,6 +1,6 @@
-## Protocol Organization Types [/research-sys/api/v1/protocol-organization-types/]
+## Protocol Organization Types [/irb/api/v1/protocol-organization-types/]
 
-### Get Protocol Organization Types by Key [GET /research-sys/api/v1/protocol-organization-types/(key)]
+### Get Protocol Organization Types by Key [GET /irb/api/v1/protocol-organization-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"protocolOrganizationTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Protocol Organization Types [GET /research-sys/api/v1/protocol-organization-types/]
+### Get All Protocol Organization Types [GET /irb/api/v1/protocol-organization-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"protocolOrganizationTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Protocol Organization Types with Filtering [GET /research-sys/api/v1/protocol-organization-types/]
+### Get All Protocol Organization Types with Filtering [GET /irb/api/v1/protocol-organization-types/]
     
 + Parameters
 
-        + protocolOrganizationTypeCode
-            + description
+    + protocolOrganizationTypeCode (optional) - Protocol Organization Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"protocolOrganizationTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Protocol Organization Types [GET /research-sys/api/v1/protocol-organization-types/]
+### Get Schema for Protocol Organization Types [GET /irb/api/v1/protocol-organization-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["protocolOrganizationTypeCode","description"],"primaryKey":"protocolOrganizationTypeCode"}
 		
-### Get Blueprint API specification for Protocol Organization Types [GET /research-sys/api/v1/protocol-organization-types/]
+### Get Blueprint API specification for Protocol Organization Types [GET /irb/api/v1/protocol-organization-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Protocol Organization Types [PUT /research-sys/api/v1/protocol-organization-types/(key)]
+### Update Protocol Organization Types [PUT /irb/api/v1/protocol-organization-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Protocol Organization Types [PUT /research-sys/api/v1/protocol-organization-types/]
+### Update Multiple Protocol Organization Types [PUT /irb/api/v1/protocol-organization-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Protocol Organization Types [POST /research-sys/api/v1/protocol-organization-types/]
+### Insert Protocol Organization Types [POST /irb/api/v1/protocol-organization-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"protocolOrganizationTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Protocol Organization Types [POST /research-sys/api/v1/protocol-organization-types/]
+### Insert Multiple Protocol Organization Types [POST /irb/api/v1/protocol-organization-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"protocolOrganizationTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Protocol Organization Types by Key [DELETE /research-sys/api/v1/protocol-organization-types/(key)]
+### Delete Protocol Organization Types by Key [DELETE /irb/api/v1/protocol-organization-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Protocol Organization Types [DELETE /research-sys/api/v1/protocol-organization-types/]
+### Delete All Protocol Organization Types [DELETE /irb/api/v1/protocol-organization-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Protocol Organization Types with Matching [DELETE /research-sys/api/v1/protocol-organization-types/]
+### Delete All Protocol Organization Types with Matching [DELETE /irb/api/v1/protocol-organization-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + protocolOrganizationTypeCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + protocolOrganizationTypeCode (optional) - Protocol Organization Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

@@ -1,6 +1,6 @@
-## Proposal Log Person Mass Changes [/research-sys/api/v1/proposal-log-person-mass-changes/]
+## Proposal Log Person Mass Changes [/instprop/api/v1/proposal-log-person-mass-changes/]
 
-### Get Proposal Log Person Mass Changes by Key [GET /research-sys/api/v1/proposal-log-person-mass-changes/(key)]
+### Get Proposal Log Person Mass Changes by Key [GET /instprop/api/v1/proposal-log-person-mass-changes/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"proposalLogPersonMassChangeId": "(val)","personMassChangeId": "(val)","principalInvestigator": "(val)","_primaryKey": "(val)"}
 
-### Get All Proposal Log Person Mass Changes [GET /research-sys/api/v1/proposal-log-person-mass-changes/]
+### Get All Proposal Log Person Mass Changes [GET /instprop/api/v1/proposal-log-person-mass-changes/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"proposalLogPersonMassChangeId": "(val)","personMassChangeId": "(val)","principalInvestigator": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Proposal Log Person Mass Changes with Filtering [GET /research-sys/api/v1/proposal-log-person-mass-changes/]
+### Get All Proposal Log Person Mass Changes with Filtering [GET /instprop/api/v1/proposal-log-person-mass-changes/]
     
 + Parameters
 
-        + proposalLogPersonMassChangeId
-            + personMassChangeId
-            + principalInvestigator
+    + proposalLogPersonMassChangeId (optional) - Proposal Log Person Mass Change Id. Maximum length is 12.
+    + personMassChangeId (optional) - Person Mass Change Id. Maximum length is 12.
+    + principalInvestigator (optional) - Principal Investigator. Maximum length is 1.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"proposalLogPersonMassChangeId": "(val)","personMassChangeId": "(val)","principalInvestigator": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Proposal Log Person Mass Changes [GET /research-sys/api/v1/proposal-log-person-mass-changes/]
+### Get Schema for Proposal Log Person Mass Changes [GET /instprop/api/v1/proposal-log-person-mass-changes/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["proposalLogPersonMassChangeId","personMassChangeId","principalInvestigator"],"primaryKey":"proposalLogPersonMassChangeId"}
 		
-### Get Blueprint API specification for Proposal Log Person Mass Changes [GET /research-sys/api/v1/proposal-log-person-mass-changes/]
+### Get Blueprint API specification for Proposal Log Person Mass Changes [GET /instprop/api/v1/proposal-log-person-mass-changes/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Proposal Log Person Mass Changes [PUT /research-sys/api/v1/proposal-log-person-mass-changes/(key)]
+### Update Proposal Log Person Mass Changes [PUT /instprop/api/v1/proposal-log-person-mass-changes/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Proposal Log Person Mass Changes [PUT /research-sys/api/v1/proposal-log-person-mass-changes/]
+### Update Multiple Proposal Log Person Mass Changes [PUT /instprop/api/v1/proposal-log-person-mass-changes/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Proposal Log Person Mass Changes [POST /research-sys/api/v1/proposal-log-person-mass-changes/]
+### Insert Proposal Log Person Mass Changes [POST /instprop/api/v1/proposal-log-person-mass-changes/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"proposalLogPersonMassChangeId": "(val)","personMassChangeId": "(val)","principalInvestigator": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Proposal Log Person Mass Changes [POST /research-sys/api/v1/proposal-log-person-mass-changes/]
+### Insert Multiple Proposal Log Person Mass Changes [POST /instprop/api/v1/proposal-log-person-mass-changes/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"proposalLogPersonMassChangeId": "(val)","personMassChangeId": "(val)","principalInvestigator": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Proposal Log Person Mass Changes by Key [DELETE /research-sys/api/v1/proposal-log-person-mass-changes/(key)]
+### Delete Proposal Log Person Mass Changes by Key [DELETE /instprop/api/v1/proposal-log-person-mass-changes/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Proposal Log Person Mass Changes [DELETE /research-sys/api/v1/proposal-log-person-mass-changes/]
+### Delete All Proposal Log Person Mass Changes [DELETE /instprop/api/v1/proposal-log-person-mass-changes/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Proposal Log Person Mass Changes with Matching [DELETE /research-sys/api/v1/proposal-log-person-mass-changes/]
+### Delete All Proposal Log Person Mass Changes with Matching [DELETE /instprop/api/v1/proposal-log-person-mass-changes/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + proposalLogPersonMassChangeId
-            + personMassChangeId
-            + principalInvestigator
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + proposalLogPersonMassChangeId (optional) - Proposal Log Person Mass Change Id. Maximum length is 12.
+    + personMassChangeId (optional) - Person Mass Change Id. Maximum length is 12.
+    + principalInvestigator (optional) - Principal Investigator. Maximum length is 1.
 
       
 + Request

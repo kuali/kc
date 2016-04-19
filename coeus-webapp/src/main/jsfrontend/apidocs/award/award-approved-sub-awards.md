@@ -1,6 +1,6 @@
-## Award Approved Sub Awards [/research-sys/api/v1/award-approved-sub-awards/]
+## Award Approved Sub Awards [/award/api/v1/award-approved-sub-awards/]
 
-### Get Award Approved Sub Awards by Key [GET /research-sys/api/v1/award-approved-sub-awards/(key)]
+### Get Award Approved Sub Awards by Key [GET /award/api/v1/award-approved-sub-awards/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"awardApprovedSubawardId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","organizationName": "(val)","organizationId": "(val)","amount": "(val)","_primaryKey": "(val)"}
 
-### Get All Award Approved Sub Awards [GET /research-sys/api/v1/award-approved-sub-awards/]
+### Get All Award Approved Sub Awards [GET /award/api/v1/award-approved-sub-awards/]
 	 
 + Request
 
@@ -39,17 +39,17 @@
               {"awardApprovedSubawardId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","organizationName": "(val)","organizationId": "(val)","amount": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Award Approved Sub Awards with Filtering [GET /research-sys/api/v1/award-approved-sub-awards/]
+### Get All Award Approved Sub Awards with Filtering [GET /award/api/v1/award-approved-sub-awards/]
     
 + Parameters
 
-        + awardApprovedSubawardId
-            + awardId
-            + awardNumber
-            + sequenceNumber
-            + organizationName
-            + organizationId
-            + amount
+    + awardApprovedSubawardId (optional) - Award Approved Subaward ID. Maximum length is 8.
+    + awardId (optional) - 
+    + awardNumber (optional) - Award ID. Maximum length is 12.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 4.
+    + organizationName (optional) - Organization Name. Maximum length is 60.
+    + organizationId (optional) - Organization ID. Maximum length is 8.
+    + amount (optional) - Amount. Maximum length is 12.
 
             
 + Request
@@ -71,7 +71,7 @@
               {"awardApprovedSubawardId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","organizationName": "(val)","organizationId": "(val)","amount": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Award Approved Sub Awards [GET /research-sys/api/v1/award-approved-sub-awards/]
+### Get Schema for Award Approved Sub Awards [GET /award/api/v1/award-approved-sub-awards/]
 	                                          
 + Parameters
 
@@ -93,7 +93,7 @@
     
             {"columns":["awardApprovedSubawardId","awardId","awardNumber","sequenceNumber","organizationName","organizationId","amount"],"primaryKey":"awardApprovedSubawardId"}
 		
-### Get Blueprint API specification for Award Approved Sub Awards [GET /research-sys/api/v1/award-approved-sub-awards/]
+### Get Blueprint API specification for Award Approved Sub Awards [GET /award/api/v1/award-approved-sub-awards/]
 	 
 + Parameters
 
@@ -114,7 +114,7 @@
             transfer-encoding:chunked
 
 
-### Update Award Approved Sub Awards [PUT /research-sys/api/v1/award-approved-sub-awards/(key)]
+### Update Award Approved Sub Awards [PUT /award/api/v1/award-approved-sub-awards/(key)]
 
 + Request
 
@@ -129,7 +129,7 @@
 			
 + Response 204
 
-### Update Multiple Award Approved Sub Awards [PUT /research-sys/api/v1/award-approved-sub-awards/]
+### Update Multiple Award Approved Sub Awards [PUT /award/api/v1/award-approved-sub-awards/]
 
 + Request
 
@@ -147,7 +147,7 @@
 			
 + Response 204
 
-### Insert Award Approved Sub Awards [POST /research-sys/api/v1/award-approved-sub-awards/]
+### Insert Award Approved Sub Awards [POST /award/api/v1/award-approved-sub-awards/]
 
 + Request
 
@@ -166,7 +166,7 @@
             
             {"awardApprovedSubawardId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","organizationName": "(val)","organizationId": "(val)","amount": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Award Approved Sub Awards [POST /research-sys/api/v1/award-approved-sub-awards/]
+### Insert Multiple Award Approved Sub Awards [POST /award/api/v1/award-approved-sub-awards/]
 
 + Request
 
@@ -191,7 +191,7 @@
               {"awardApprovedSubawardId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","organizationName": "(val)","organizationId": "(val)","amount": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Award Approved Sub Awards by Key [DELETE /research-sys/api/v1/award-approved-sub-awards/(key)]
+### Delete Award Approved Sub Awards by Key [DELETE /award/api/v1/award-approved-sub-awards/(key)]
 	 
 + Request
 
@@ -202,7 +202,7 @@
 
 + Response 204
 
-### Delete All Award Approved Sub Awards [DELETE /research-sys/api/v1/award-approved-sub-awards/]
+### Delete All Award Approved Sub Awards [DELETE /award/api/v1/award-approved-sub-awards/]
 
 + Parameters
 
@@ -217,18 +217,18 @@
 
 + Response 204
 
-### Delete All Award Approved Sub Awards with Matching [DELETE /research-sys/api/v1/award-approved-sub-awards/]
+### Delete All Award Approved Sub Awards with Matching [DELETE /award/api/v1/award-approved-sub-awards/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + awardApprovedSubawardId
-            + awardId
-            + awardNumber
-            + sequenceNumber
-            + organizationName
-            + organizationId
-            + amount
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + awardApprovedSubawardId (optional) - Award Approved Subaward ID. Maximum length is 8.
+    + awardId (optional) - 
+    + awardNumber (optional) - Award ID. Maximum length is 12.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 4.
+    + organizationName (optional) - Organization Name. Maximum length is 60.
+    + organizationId (optional) - Organization ID. Maximum length is 8.
+    + amount (optional) - Amount. Maximum length is 12.
 
       
 + Request

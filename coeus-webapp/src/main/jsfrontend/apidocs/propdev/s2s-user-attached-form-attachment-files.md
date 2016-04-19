@@ -1,6 +1,6 @@
-## S2s User Attached Form Attachment Files [/research-sys/api/v1/s2s-user-attached-form-attachment-files/]
+## S2s User Attached Form Attachment Files [/propdev/api/v1/s2s-user-attached-form-attachment-files/]
 
-### Get S2s User Attached Form Attachment Files by Key [GET /research-sys/api/v1/s2s-user-attached-form-attachment-files/(key)]
+### Get S2s User Attached Form Attachment Files by Key [GET /propdev/api/v1/s2s-user-attached-form-attachment-files/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"id": "(val)","attachment": "(val)","_primaryKey": "(val)"}
 
-### Get All S2s User Attached Form Attachment Files [GET /research-sys/api/v1/s2s-user-attached-form-attachment-files/]
+### Get All S2s User Attached Form Attachment Files [GET /propdev/api/v1/s2s-user-attached-form-attachment-files/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"id": "(val)","attachment": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All S2s User Attached Form Attachment Files with Filtering [GET /research-sys/api/v1/s2s-user-attached-form-attachment-files/]
+### Get All S2s User Attached Form Attachment Files with Filtering [GET /propdev/api/v1/s2s-user-attached-form-attachment-files/]
     
 + Parameters
 
-        + id
-            + attachment
+    + id (optional) - 
+    + attachment (optional) - 
 
             
 + Request
@@ -66,7 +66,7 @@
               {"id": "(val)","attachment": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for S2s User Attached Form Attachment Files [GET /research-sys/api/v1/s2s-user-attached-form-attachment-files/]
+### Get Schema for S2s User Attached Form Attachment Files [GET /propdev/api/v1/s2s-user-attached-form-attachment-files/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["id","attachment"],"primaryKey":"id"}
 		
-### Get Blueprint API specification for S2s User Attached Form Attachment Files [GET /research-sys/api/v1/s2s-user-attached-form-attachment-files/]
+### Get Blueprint API specification for S2s User Attached Form Attachment Files [GET /propdev/api/v1/s2s-user-attached-form-attachment-files/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update S2s User Attached Form Attachment Files [PUT /research-sys/api/v1/s2s-user-attached-form-attachment-files/(key)]
+### Update S2s User Attached Form Attachment Files [PUT /propdev/api/v1/s2s-user-attached-form-attachment-files/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple S2s User Attached Form Attachment Files [PUT /research-sys/api/v1/s2s-user-attached-form-attachment-files/]
+### Update Multiple S2s User Attached Form Attachment Files [PUT /propdev/api/v1/s2s-user-attached-form-attachment-files/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert S2s User Attached Form Attachment Files [POST /research-sys/api/v1/s2s-user-attached-form-attachment-files/]
+### Insert S2s User Attached Form Attachment Files [POST /propdev/api/v1/s2s-user-attached-form-attachment-files/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"id": "(val)","attachment": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple S2s User Attached Form Attachment Files [POST /research-sys/api/v1/s2s-user-attached-form-attachment-files/]
+### Insert Multiple S2s User Attached Form Attachment Files [POST /propdev/api/v1/s2s-user-attached-form-attachment-files/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"id": "(val)","attachment": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete S2s User Attached Form Attachment Files by Key [DELETE /research-sys/api/v1/s2s-user-attached-form-attachment-files/(key)]
+### Delete S2s User Attached Form Attachment Files by Key [DELETE /propdev/api/v1/s2s-user-attached-form-attachment-files/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All S2s User Attached Form Attachment Files [DELETE /research-sys/api/v1/s2s-user-attached-form-attachment-files/]
+### Delete All S2s User Attached Form Attachment Files [DELETE /propdev/api/v1/s2s-user-attached-form-attachment-files/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All S2s User Attached Form Attachment Files with Matching [DELETE /research-sys/api/v1/s2s-user-attached-form-attachment-files/]
+### Delete All S2s User Attached Form Attachment Files with Matching [DELETE /propdev/api/v1/s2s-user-attached-form-attachment-files/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + attachment
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - 
+    + attachment (optional) - 
 
       
 + Request

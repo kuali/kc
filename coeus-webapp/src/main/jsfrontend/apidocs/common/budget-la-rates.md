@@ -1,6 +1,6 @@
-## Budget La Rates [/research-sys/api/v1/budget-la-rates/]
+## Budget La Rates [/research-common/api/v1/budget-la-rates/]
 
-### Get Budget La Rates by Key [GET /research-sys/api/v1/budget-la-rates/(key)]
+### Get Budget La Rates by Key [GET /research-common/api/v1/budget-la-rates/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"applicableRate": "(val)","instituteRate": "(val)","onOffCampusFlag": "(val)","rateTypeCode": "(val)","budgetId": "(val)","rateClassCode": "(val)","fiscalYear": "(val)","startDate": "(val)","_primaryKey": "(val)"}
 
-### Get All Budget La Rates [GET /research-sys/api/v1/budget-la-rates/]
+### Get All Budget La Rates [GET /research-common/api/v1/budget-la-rates/]
 	 
 + Request
 
@@ -39,18 +39,18 @@
               {"applicableRate": "(val)","instituteRate": "(val)","onOffCampusFlag": "(val)","rateTypeCode": "(val)","budgetId": "(val)","rateClassCode": "(val)","fiscalYear": "(val)","startDate": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Budget La Rates with Filtering [GET /research-sys/api/v1/budget-la-rates/]
+### Get All Budget La Rates with Filtering [GET /research-common/api/v1/budget-la-rates/]
     
 + Parameters
 
-        + applicableRate
-            + instituteRate
-            + onOffCampusFlag
-            + rateTypeCode
-            + budgetId
-            + rateClassCode
-            + fiscalYear
-            + startDate
+    + applicableRate (optional) - 
+    + instituteRate (optional) - 
+    + onOffCampusFlag (optional) - 
+    + rateTypeCode (optional) - 
+    + budgetId (optional) - 
+    + rateClassCode (optional) - 
+    + fiscalYear (optional) - 
+    + startDate (optional) - 
 
             
 + Request
@@ -72,7 +72,7 @@
               {"applicableRate": "(val)","instituteRate": "(val)","onOffCampusFlag": "(val)","rateTypeCode": "(val)","budgetId": "(val)","rateClassCode": "(val)","fiscalYear": "(val)","startDate": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Budget La Rates [GET /research-sys/api/v1/budget-la-rates/]
+### Get Schema for Budget La Rates [GET /research-common/api/v1/budget-la-rates/]
 	                                          
 + Parameters
 
@@ -94,7 +94,7 @@
     
             {"columns":["applicableRate","instituteRate","onOffCampusFlag","rateTypeCode","budgetId","rateClassCode","fiscalYear","startDate"],"primaryKey":"budget:budgetId"}
 		
-### Get Blueprint API specification for Budget La Rates [GET /research-sys/api/v1/budget-la-rates/]
+### Get Blueprint API specification for Budget La Rates [GET /research-common/api/v1/budget-la-rates/]
 	 
 + Parameters
 
@@ -115,7 +115,7 @@
             transfer-encoding:chunked
 
 
-### Update Budget La Rates [PUT /research-sys/api/v1/budget-la-rates/(key)]
+### Update Budget La Rates [PUT /research-common/api/v1/budget-la-rates/(key)]
 
 + Request
 
@@ -130,7 +130,7 @@
 			
 + Response 204
 
-### Update Multiple Budget La Rates [PUT /research-sys/api/v1/budget-la-rates/]
+### Update Multiple Budget La Rates [PUT /research-common/api/v1/budget-la-rates/]
 
 + Request
 
@@ -148,7 +148,7 @@
 			
 + Response 204
 
-### Insert Budget La Rates [POST /research-sys/api/v1/budget-la-rates/]
+### Insert Budget La Rates [POST /research-common/api/v1/budget-la-rates/]
 
 + Request
 
@@ -167,7 +167,7 @@
             
             {"applicableRate": "(val)","instituteRate": "(val)","onOffCampusFlag": "(val)","rateTypeCode": "(val)","budgetId": "(val)","rateClassCode": "(val)","fiscalYear": "(val)","startDate": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Budget La Rates [POST /research-sys/api/v1/budget-la-rates/]
+### Insert Multiple Budget La Rates [POST /research-common/api/v1/budget-la-rates/]
 
 + Request
 
@@ -192,7 +192,7 @@
               {"applicableRate": "(val)","instituteRate": "(val)","onOffCampusFlag": "(val)","rateTypeCode": "(val)","budgetId": "(val)","rateClassCode": "(val)","fiscalYear": "(val)","startDate": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Budget La Rates by Key [DELETE /research-sys/api/v1/budget-la-rates/(key)]
+### Delete Budget La Rates by Key [DELETE /research-common/api/v1/budget-la-rates/(key)]
 	 
 + Request
 
@@ -203,7 +203,7 @@
 
 + Response 204
 
-### Delete All Budget La Rates [DELETE /research-sys/api/v1/budget-la-rates/]
+### Delete All Budget La Rates [DELETE /research-common/api/v1/budget-la-rates/]
 
 + Parameters
 
@@ -218,19 +218,19 @@
 
 + Response 204
 
-### Delete All Budget La Rates with Matching [DELETE /research-sys/api/v1/budget-la-rates/]
+### Delete All Budget La Rates with Matching [DELETE /research-common/api/v1/budget-la-rates/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + applicableRate
-            + instituteRate
-            + onOffCampusFlag
-            + rateTypeCode
-            + budgetId
-            + rateClassCode
-            + fiscalYear
-            + startDate
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + applicableRate (optional) - 
+    + instituteRate (optional) - 
+    + onOffCampusFlag (optional) - 
+    + rateTypeCode (optional) - 
+    + budgetId (optional) - 
+    + rateClassCode (optional) - 
+    + fiscalYear (optional) - 
+    + startDate (optional) - 
 
       
 + Request

@@ -43,19 +43,19 @@
     
 + Parameters
 
-        + id
-            + lastName
-            + defaultValue
-            + nameTitle
-            + active
-            + nameSuffix
-            + entityId
-            + noteMessage
-            + firstName
-            + nameCode
-            + namePrefix
-            + nameChangedDate
-            + middleName
+    + id (optional) - 
+    + lastName (optional) - 
+    + defaultValue (optional) - 
+    + nameTitle (optional) - 
+    + active (optional) - 
+    + nameSuffix (optional) - 
+    + entityId (optional) - 
+    + noteMessage (optional) - 
+    + firstName (optional) - 
+    + nameCode (optional) - 
+    + namePrefix (optional) - 
+    + nameChangedDate (optional) - 
+    + middleName (optional) - 
 
             
 + Request
@@ -227,20 +227,20 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + lastName
-            + defaultValue
-            + nameTitle
-            + active
-            + nameSuffix
-            + entityId
-            + noteMessage
-            + firstName
-            + nameCode
-            + namePrefix
-            + nameChangedDate
-            + middleName
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - 
+    + lastName (optional) - 
+    + defaultValue (optional) - 
+    + nameTitle (optional) - 
+    + active (optional) - 
+    + nameSuffix (optional) - 
+    + entityId (optional) - 
+    + noteMessage (optional) - 
+    + firstName (optional) - 
+    + nameCode (optional) - 
+    + namePrefix (optional) - 
+    + nameChangedDate (optional) - 
+    + middleName (optional) - 
 
       
 + Request

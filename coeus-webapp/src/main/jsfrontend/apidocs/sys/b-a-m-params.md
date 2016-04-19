@@ -43,8 +43,8 @@
     
 + Parameters
 
-        + bamParamId
-            + param
+    + bamParamId (optional) - 
+    + param (optional) - 
 
             
 + Request
@@ -216,9 +216,9 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + bamParamId
-            + param
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + bamParamId (optional) - 
+    + param (optional) - 
 
       
 + Request

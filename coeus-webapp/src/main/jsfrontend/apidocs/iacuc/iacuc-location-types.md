@@ -1,6 +1,6 @@
-## Iacuc Location Types [/research-sys/api/v1/iacuc-location-types/]
+## Iacuc Location Types [/iacuc/api/v1/iacuc-location-types/]
 
-### Get Iacuc Location Types by Key [GET /research-sys/api/v1/iacuc-location-types/(key)]
+### Get Iacuc Location Types by Key [GET /iacuc/api/v1/iacuc-location-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"locationTypeCode": "(val)","location": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Location Types [GET /research-sys/api/v1/iacuc-location-types/]
+### Get All Iacuc Location Types [GET /iacuc/api/v1/iacuc-location-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"locationTypeCode": "(val)","location": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Location Types with Filtering [GET /research-sys/api/v1/iacuc-location-types/]
+### Get All Iacuc Location Types with Filtering [GET /iacuc/api/v1/iacuc-location-types/]
     
 + Parameters
 
-        + locationTypeCode
-            + location
+    + locationTypeCode (optional) - Location Type Code. Maximum length is 3.
+    + location (optional) - Location Type. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"locationTypeCode": "(val)","location": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Location Types [GET /research-sys/api/v1/iacuc-location-types/]
+### Get Schema for Iacuc Location Types [GET /iacuc/api/v1/iacuc-location-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["locationTypeCode","location"],"primaryKey":"locationTypeCode"}
 		
-### Get Blueprint API specification for Iacuc Location Types [GET /research-sys/api/v1/iacuc-location-types/]
+### Get Blueprint API specification for Iacuc Location Types [GET /iacuc/api/v1/iacuc-location-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Location Types [PUT /research-sys/api/v1/iacuc-location-types/(key)]
+### Update Iacuc Location Types [PUT /iacuc/api/v1/iacuc-location-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Location Types [PUT /research-sys/api/v1/iacuc-location-types/]
+### Update Multiple Iacuc Location Types [PUT /iacuc/api/v1/iacuc-location-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Iacuc Location Types [POST /research-sys/api/v1/iacuc-location-types/]
+### Insert Iacuc Location Types [POST /iacuc/api/v1/iacuc-location-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"locationTypeCode": "(val)","location": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Location Types [POST /research-sys/api/v1/iacuc-location-types/]
+### Insert Multiple Iacuc Location Types [POST /iacuc/api/v1/iacuc-location-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"locationTypeCode": "(val)","location": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Location Types by Key [DELETE /research-sys/api/v1/iacuc-location-types/(key)]
+### Delete Iacuc Location Types by Key [DELETE /iacuc/api/v1/iacuc-location-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Iacuc Location Types [DELETE /research-sys/api/v1/iacuc-location-types/]
+### Delete All Iacuc Location Types [DELETE /iacuc/api/v1/iacuc-location-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Iacuc Location Types with Matching [DELETE /research-sys/api/v1/iacuc-location-types/]
+### Delete All Iacuc Location Types with Matching [DELETE /iacuc/api/v1/iacuc-location-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + locationTypeCode
-            + location
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + locationTypeCode (optional) - Location Type Code. Maximum length is 3.
+    + location (optional) - Location Type. Maximum length is 200.
 
       
 + Request

@@ -1,6 +1,6 @@
-## Iacuc Schedule Agendas [/research-sys/api/v1/iacuc-schedule-agendas/]
+## Iacuc Schedule Agendas [/iacuc/api/v1/iacuc-schedule-agendas/]
 
-### Get Iacuc Schedule Agendas by Key [GET /research-sys/api/v1/iacuc-schedule-agendas/(key)]
+### Get Iacuc Schedule Agendas by Key [GET /iacuc/api/v1/iacuc-schedule-agendas/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"scheduleAgendaId": "(val)","scheduleIdFk": "(val)","agendaNumber": "(val)","agendaName": "(val)","pdfStore": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Schedule Agendas [GET /research-sys/api/v1/iacuc-schedule-agendas/]
+### Get All Iacuc Schedule Agendas [GET /iacuc/api/v1/iacuc-schedule-agendas/]
 	 
 + Request
 
@@ -39,17 +39,17 @@
               {"scheduleAgendaId": "(val)","scheduleIdFk": "(val)","agendaNumber": "(val)","agendaName": "(val)","pdfStore": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Schedule Agendas with Filtering [GET /research-sys/api/v1/iacuc-schedule-agendas/]
+### Get All Iacuc Schedule Agendas with Filtering [GET /iacuc/api/v1/iacuc-schedule-agendas/]
     
 + Parameters
 
-        + scheduleAgendaId
-            + scheduleIdFk
-            + agendaNumber
-            + agendaName
-            + pdfStore
-            + createTimestamp
-            + createUser
+    + scheduleAgendaId (optional) - 
+    + scheduleIdFk (optional) - 
+    + agendaNumber (optional) - 
+    + agendaName (optional) - 
+    + pdfStore (optional) - 
+    + createTimestamp (optional) - 
+    + createUser (optional) - 
 
             
 + Request
@@ -71,7 +71,7 @@
               {"scheduleAgendaId": "(val)","scheduleIdFk": "(val)","agendaNumber": "(val)","agendaName": "(val)","pdfStore": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Schedule Agendas [GET /research-sys/api/v1/iacuc-schedule-agendas/]
+### Get Schema for Iacuc Schedule Agendas [GET /iacuc/api/v1/iacuc-schedule-agendas/]
 	                                          
 + Parameters
 
@@ -93,7 +93,7 @@
     
             {"columns":["scheduleAgendaId","scheduleIdFk","agendaNumber","agendaName","pdfStore","createTimestamp","createUser"],"primaryKey":"scheduleAgendaId"}
 		
-### Get Blueprint API specification for Iacuc Schedule Agendas [GET /research-sys/api/v1/iacuc-schedule-agendas/]
+### Get Blueprint API specification for Iacuc Schedule Agendas [GET /iacuc/api/v1/iacuc-schedule-agendas/]
 	 
 + Parameters
 
@@ -114,7 +114,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Schedule Agendas [PUT /research-sys/api/v1/iacuc-schedule-agendas/(key)]
+### Update Iacuc Schedule Agendas [PUT /iacuc/api/v1/iacuc-schedule-agendas/(key)]
 
 + Request
 
@@ -129,7 +129,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Schedule Agendas [PUT /research-sys/api/v1/iacuc-schedule-agendas/]
+### Update Multiple Iacuc Schedule Agendas [PUT /iacuc/api/v1/iacuc-schedule-agendas/]
 
 + Request
 
@@ -147,7 +147,7 @@
 			
 + Response 204
 
-### Insert Iacuc Schedule Agendas [POST /research-sys/api/v1/iacuc-schedule-agendas/]
+### Insert Iacuc Schedule Agendas [POST /iacuc/api/v1/iacuc-schedule-agendas/]
 
 + Request
 
@@ -166,7 +166,7 @@
             
             {"scheduleAgendaId": "(val)","scheduleIdFk": "(val)","agendaNumber": "(val)","agendaName": "(val)","pdfStore": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Schedule Agendas [POST /research-sys/api/v1/iacuc-schedule-agendas/]
+### Insert Multiple Iacuc Schedule Agendas [POST /iacuc/api/v1/iacuc-schedule-agendas/]
 
 + Request
 
@@ -191,7 +191,7 @@
               {"scheduleAgendaId": "(val)","scheduleIdFk": "(val)","agendaNumber": "(val)","agendaName": "(val)","pdfStore": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Schedule Agendas by Key [DELETE /research-sys/api/v1/iacuc-schedule-agendas/(key)]
+### Delete Iacuc Schedule Agendas by Key [DELETE /iacuc/api/v1/iacuc-schedule-agendas/(key)]
 	 
 + Request
 
@@ -202,7 +202,7 @@
 
 + Response 204
 
-### Delete All Iacuc Schedule Agendas [DELETE /research-sys/api/v1/iacuc-schedule-agendas/]
+### Delete All Iacuc Schedule Agendas [DELETE /iacuc/api/v1/iacuc-schedule-agendas/]
 
 + Parameters
 
@@ -217,18 +217,18 @@
 
 + Response 204
 
-### Delete All Iacuc Schedule Agendas with Matching [DELETE /research-sys/api/v1/iacuc-schedule-agendas/]
+### Delete All Iacuc Schedule Agendas with Matching [DELETE /iacuc/api/v1/iacuc-schedule-agendas/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + scheduleAgendaId
-            + scheduleIdFk
-            + agendaNumber
-            + agendaName
-            + pdfStore
-            + createTimestamp
-            + createUser
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + scheduleAgendaId (optional) - 
+    + scheduleIdFk (optional) - 
+    + agendaNumber (optional) - 
+    + agendaName (optional) - 
+    + pdfStore (optional) - 
+    + createTimestamp (optional) - 
+    + createUser (optional) - 
 
       
 + Request

@@ -43,13 +43,13 @@
     
 + Parameters
 
-        + id
-            + name
-            + namespace
-            + label
-            + active
-            + componentName
-            + description
+    + id (optional) - 
+    + name (optional) - 
+    + namespace (optional) - 
+    + label (optional) - 
+    + active (optional) - 
+    + componentName (optional) - 
+    + description (optional) - 
 
             
 + Request
@@ -221,14 +221,14 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + name
-            + namespace
-            + label
-            + active
-            + componentName
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - 
+    + name (optional) - 
+    + namespace (optional) - 
+    + label (optional) - 
+    + active (optional) - 
+    + componentName (optional) - 
+    + description (optional) - 
 
       
 + Request

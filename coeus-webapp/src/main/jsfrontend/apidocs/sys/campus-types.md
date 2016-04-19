@@ -43,9 +43,9 @@
     
 + Parameters
 
-        + code
-            + name
-            + active
+    + code (optional) - campusTypeCode description... Maximum length is 1.
+    + name (optional) - campusTypeName description... Maximum length is 40.
+    + active (optional) - Active.
 
             
 + Request
@@ -217,10 +217,10 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + code
-            + name
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + code (optional) - campusTypeCode description... Maximum length is 1.
+    + name (optional) - campusTypeName description... Maximum length is 40.
+    + active (optional) - Active.
 
       
 + Request

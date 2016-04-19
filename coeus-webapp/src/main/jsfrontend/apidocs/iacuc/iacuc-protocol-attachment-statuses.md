@@ -1,6 +1,6 @@
-## Iacuc Protocol Attachment Statuses [/research-sys/api/v1/iacuc-protocol-attachment-statuses/]
+## Iacuc Protocol Attachment Statuses [/iacuc/api/v1/iacuc-protocol-attachment-statuses/]
 
-### Get Iacuc Protocol Attachment Statuses by Key [GET /research-sys/api/v1/iacuc-protocol-attachment-statuses/(key)]
+### Get Iacuc Protocol Attachment Statuses by Key [GET /iacuc/api/v1/iacuc-protocol-attachment-statuses/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Protocol Attachment Statuses [GET /research-sys/api/v1/iacuc-protocol-attachment-statuses/]
+### Get All Iacuc Protocol Attachment Statuses [GET /iacuc/api/v1/iacuc-protocol-attachment-statuses/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Protocol Attachment Statuses with Filtering [GET /research-sys/api/v1/iacuc-protocol-attachment-statuses/]
+### Get All Iacuc Protocol Attachment Statuses with Filtering [GET /iacuc/api/v1/iacuc-protocol-attachment-statuses/]
     
 + Parameters
 
-        + code
-            + description
+    + code (optional) - Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 300.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Protocol Attachment Statuses [GET /research-sys/api/v1/iacuc-protocol-attachment-statuses/]
+### Get Schema for Iacuc Protocol Attachment Statuses [GET /iacuc/api/v1/iacuc-protocol-attachment-statuses/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["code","description"],"primaryKey":"code"}
 		
-### Get Blueprint API specification for Iacuc Protocol Attachment Statuses [GET /research-sys/api/v1/iacuc-protocol-attachment-statuses/]
+### Get Blueprint API specification for Iacuc Protocol Attachment Statuses [GET /iacuc/api/v1/iacuc-protocol-attachment-statuses/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Protocol Attachment Statuses [PUT /research-sys/api/v1/iacuc-protocol-attachment-statuses/(key)]
+### Update Iacuc Protocol Attachment Statuses [PUT /iacuc/api/v1/iacuc-protocol-attachment-statuses/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Protocol Attachment Statuses [PUT /research-sys/api/v1/iacuc-protocol-attachment-statuses/]
+### Update Multiple Iacuc Protocol Attachment Statuses [PUT /iacuc/api/v1/iacuc-protocol-attachment-statuses/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Iacuc Protocol Attachment Statuses [POST /research-sys/api/v1/iacuc-protocol-attachment-statuses/]
+### Insert Iacuc Protocol Attachment Statuses [POST /iacuc/api/v1/iacuc-protocol-attachment-statuses/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Protocol Attachment Statuses [POST /research-sys/api/v1/iacuc-protocol-attachment-statuses/]
+### Insert Multiple Iacuc Protocol Attachment Statuses [POST /iacuc/api/v1/iacuc-protocol-attachment-statuses/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Protocol Attachment Statuses by Key [DELETE /research-sys/api/v1/iacuc-protocol-attachment-statuses/(key)]
+### Delete Iacuc Protocol Attachment Statuses by Key [DELETE /iacuc/api/v1/iacuc-protocol-attachment-statuses/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Attachment Statuses [DELETE /research-sys/api/v1/iacuc-protocol-attachment-statuses/]
+### Delete All Iacuc Protocol Attachment Statuses [DELETE /iacuc/api/v1/iacuc-protocol-attachment-statuses/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Attachment Statuses with Matching [DELETE /research-sys/api/v1/iacuc-protocol-attachment-statuses/]
+### Delete All Iacuc Protocol Attachment Statuses with Matching [DELETE /iacuc/api/v1/iacuc-protocol-attachment-statuses/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + code
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + code (optional) - Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 300.
 
       
 + Request

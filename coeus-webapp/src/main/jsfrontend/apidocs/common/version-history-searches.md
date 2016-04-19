@@ -1,6 +1,6 @@
-## Version History Searches [/research-sys/api/v1/version-history-searches/]
+## Version History Searches [/research-common/api/v1/version-history-searches/]
 
-### Get Version History Searches by Key [GET /research-sys/api/v1/version-history-searches/(key)]
+### Get Version History Searches by Key [GET /research-common/api/v1/version-history-searches/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"sequenceOwnerVersionNameValue": "(val)","sequenceOwnerSequenceNumber": "(val)","sequenceOwnerClassName": "(val)","sequenceOwnerVersionNameField": "(val)","statusForOjb": "(val)","userId": "(val)","versionDate": "(val)","_primaryKey": "(val)"}
 
-### Get All Version History Searches [GET /research-sys/api/v1/version-history-searches/]
+### Get All Version History Searches [GET /research-common/api/v1/version-history-searches/]
 	 
 + Request
 
@@ -39,17 +39,17 @@
               {"sequenceOwnerVersionNameValue": "(val)","sequenceOwnerSequenceNumber": "(val)","sequenceOwnerClassName": "(val)","sequenceOwnerVersionNameField": "(val)","statusForOjb": "(val)","userId": "(val)","versionDate": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Version History Searches with Filtering [GET /research-sys/api/v1/version-history-searches/]
+### Get All Version History Searches with Filtering [GET /research-common/api/v1/version-history-searches/]
     
 + Parameters
 
-        + sequenceOwnerVersionNameValue
-            + sequenceOwnerSequenceNumber
-            + sequenceOwnerClassName
-            + sequenceOwnerVersionNameField
-            + statusForOjb
-            + userId
-            + versionDate
+    + sequenceOwnerVersionNameValue (optional) - 
+    + sequenceOwnerSequenceNumber (optional) - 
+    + sequenceOwnerClassName (optional) - 
+    + sequenceOwnerVersionNameField (optional) - 
+    + statusForOjb (optional) - 
+    + userId (optional) - 
+    + versionDate (optional) - 
 
             
 + Request
@@ -71,7 +71,7 @@
               {"sequenceOwnerVersionNameValue": "(val)","sequenceOwnerSequenceNumber": "(val)","sequenceOwnerClassName": "(val)","sequenceOwnerVersionNameField": "(val)","statusForOjb": "(val)","userId": "(val)","versionDate": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Version History Searches [GET /research-sys/api/v1/version-history-searches/]
+### Get Schema for Version History Searches [GET /research-common/api/v1/version-history-searches/]
 	                                          
 + Parameters
 
@@ -93,7 +93,7 @@
     
             {"columns":["sequenceOwnerVersionNameValue","sequenceOwnerSequenceNumber","sequenceOwnerClassName","sequenceOwnerVersionNameField","statusForOjb","userId","versionDate"],"primaryKey":"sequenceOwnerSequenceNumber:sequenceOwnerVersionNameValue"}
 		
-### Get Blueprint API specification for Version History Searches [GET /research-sys/api/v1/version-history-searches/]
+### Get Blueprint API specification for Version History Searches [GET /research-common/api/v1/version-history-searches/]
 	 
 + Parameters
 
@@ -114,7 +114,7 @@
             transfer-encoding:chunked
 
 
-### Update Version History Searches [PUT /research-sys/api/v1/version-history-searches/(key)]
+### Update Version History Searches [PUT /research-common/api/v1/version-history-searches/(key)]
 
 + Request
 
@@ -129,7 +129,7 @@
 			
 + Response 204
 
-### Update Multiple Version History Searches [PUT /research-sys/api/v1/version-history-searches/]
+### Update Multiple Version History Searches [PUT /research-common/api/v1/version-history-searches/]
 
 + Request
 
@@ -147,7 +147,7 @@
 			
 + Response 204
 
-### Insert Version History Searches [POST /research-sys/api/v1/version-history-searches/]
+### Insert Version History Searches [POST /research-common/api/v1/version-history-searches/]
 
 + Request
 
@@ -166,7 +166,7 @@
             
             {"sequenceOwnerVersionNameValue": "(val)","sequenceOwnerSequenceNumber": "(val)","sequenceOwnerClassName": "(val)","sequenceOwnerVersionNameField": "(val)","statusForOjb": "(val)","userId": "(val)","versionDate": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Version History Searches [POST /research-sys/api/v1/version-history-searches/]
+### Insert Multiple Version History Searches [POST /research-common/api/v1/version-history-searches/]
 
 + Request
 
@@ -191,7 +191,7 @@
               {"sequenceOwnerVersionNameValue": "(val)","sequenceOwnerSequenceNumber": "(val)","sequenceOwnerClassName": "(val)","sequenceOwnerVersionNameField": "(val)","statusForOjb": "(val)","userId": "(val)","versionDate": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Version History Searches by Key [DELETE /research-sys/api/v1/version-history-searches/(key)]
+### Delete Version History Searches by Key [DELETE /research-common/api/v1/version-history-searches/(key)]
 	 
 + Request
 
@@ -202,7 +202,7 @@
 
 + Response 204
 
-### Delete All Version History Searches [DELETE /research-sys/api/v1/version-history-searches/]
+### Delete All Version History Searches [DELETE /research-common/api/v1/version-history-searches/]
 
 + Parameters
 
@@ -217,18 +217,18 @@
 
 + Response 204
 
-### Delete All Version History Searches with Matching [DELETE /research-sys/api/v1/version-history-searches/]
+### Delete All Version History Searches with Matching [DELETE /research-common/api/v1/version-history-searches/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + sequenceOwnerVersionNameValue
-            + sequenceOwnerSequenceNumber
-            + sequenceOwnerClassName
-            + sequenceOwnerVersionNameField
-            + statusForOjb
-            + userId
-            + versionDate
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + sequenceOwnerVersionNameValue (optional) - 
+    + sequenceOwnerSequenceNumber (optional) - 
+    + sequenceOwnerClassName (optional) - 
+    + sequenceOwnerVersionNameField (optional) - 
+    + statusForOjb (optional) - 
+    + userId (optional) - 
+    + versionDate (optional) - 
 
       
 + Request

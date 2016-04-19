@@ -1,6 +1,6 @@
-## Budget Sub Award Attachments [/research-sys/api/v1/budget-sub-award-attachments/]
+## Budget Sub Award Attachments [/propdev/api/v1/budget-sub-award-attachments/]
 
-### Get Budget Sub Award Attachments by Key [GET /research-sys/api/v1/budget-sub-award-attachments/(key)]
+### Get Budget Sub Award Attachments by Key [GET /propdev/api/v1/budget-sub-award-attachments/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"data": "(val)","name": "(val)","type": "(val)","id": "(val)","_primaryKey": "(val)"}
 
-### Get All Budget Sub Award Attachments [GET /research-sys/api/v1/budget-sub-award-attachments/]
+### Get All Budget Sub Award Attachments [GET /propdev/api/v1/budget-sub-award-attachments/]
 	 
 + Request
 
@@ -39,14 +39,14 @@
               {"data": "(val)","name": "(val)","type": "(val)","id": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Budget Sub Award Attachments with Filtering [GET /research-sys/api/v1/budget-sub-award-attachments/]
+### Get All Budget Sub Award Attachments with Filtering [GET /propdev/api/v1/budget-sub-award-attachments/]
     
 + Parameters
 
-        + data
-            + name
-            + type
-            + id
+    + data (optional) - 
+    + name (optional) - 
+    + type (optional) - 
+    + id (optional) - 
 
             
 + Request
@@ -68,7 +68,7 @@
               {"data": "(val)","name": "(val)","type": "(val)","id": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Budget Sub Award Attachments [GET /research-sys/api/v1/budget-sub-award-attachments/]
+### Get Schema for Budget Sub Award Attachments [GET /propdev/api/v1/budget-sub-award-attachments/]
 	                                          
 + Parameters
 
@@ -90,7 +90,7 @@
     
             {"columns":["data","name","type","id"],"primaryKey":"id"}
 		
-### Get Blueprint API specification for Budget Sub Award Attachments [GET /research-sys/api/v1/budget-sub-award-attachments/]
+### Get Blueprint API specification for Budget Sub Award Attachments [GET /propdev/api/v1/budget-sub-award-attachments/]
 	 
 + Parameters
 
@@ -111,7 +111,7 @@
             transfer-encoding:chunked
 
 
-### Update Budget Sub Award Attachments [PUT /research-sys/api/v1/budget-sub-award-attachments/(key)]
+### Update Budget Sub Award Attachments [PUT /propdev/api/v1/budget-sub-award-attachments/(key)]
 
 + Request
 
@@ -126,7 +126,7 @@
 			
 + Response 204
 
-### Update Multiple Budget Sub Award Attachments [PUT /research-sys/api/v1/budget-sub-award-attachments/]
+### Update Multiple Budget Sub Award Attachments [PUT /propdev/api/v1/budget-sub-award-attachments/]
 
 + Request
 
@@ -144,7 +144,7 @@
 			
 + Response 204
 
-### Insert Budget Sub Award Attachments [POST /research-sys/api/v1/budget-sub-award-attachments/]
+### Insert Budget Sub Award Attachments [POST /propdev/api/v1/budget-sub-award-attachments/]
 
 + Request
 
@@ -163,7 +163,7 @@
             
             {"data": "(val)","name": "(val)","type": "(val)","id": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Budget Sub Award Attachments [POST /research-sys/api/v1/budget-sub-award-attachments/]
+### Insert Multiple Budget Sub Award Attachments [POST /propdev/api/v1/budget-sub-award-attachments/]
 
 + Request
 
@@ -188,7 +188,7 @@
               {"data": "(val)","name": "(val)","type": "(val)","id": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Budget Sub Award Attachments by Key [DELETE /research-sys/api/v1/budget-sub-award-attachments/(key)]
+### Delete Budget Sub Award Attachments by Key [DELETE /propdev/api/v1/budget-sub-award-attachments/(key)]
 	 
 + Request
 
@@ -199,7 +199,7 @@
 
 + Response 204
 
-### Delete All Budget Sub Award Attachments [DELETE /research-sys/api/v1/budget-sub-award-attachments/]
+### Delete All Budget Sub Award Attachments [DELETE /propdev/api/v1/budget-sub-award-attachments/]
 
 + Parameters
 
@@ -214,15 +214,15 @@
 
 + Response 204
 
-### Delete All Budget Sub Award Attachments with Matching [DELETE /research-sys/api/v1/budget-sub-award-attachments/]
+### Delete All Budget Sub Award Attachments with Matching [DELETE /propdev/api/v1/budget-sub-award-attachments/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + data
-            + name
-            + type
-            + id
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + data (optional) - 
+    + name (optional) - 
+    + type (optional) - 
+    + id (optional) - 
 
       
 + Request

@@ -43,11 +43,11 @@
     
 + Parameters
 
-        + id
-            + assignedToId
-            + attributeValue
-            + kimTypeId
-            + kimAttributeId
+    + id (optional) - 
+    + assignedToId (optional) - 
+    + attributeValue (optional) - 
+    + kimTypeId (optional) - 
+    + kimAttributeId (optional) - 
 
             
 + Request
@@ -219,12 +219,12 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + assignedToId
-            + attributeValue
-            + kimTypeId
-            + kimAttributeId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - 
+    + assignedToId (optional) - 
+    + attributeValue (optional) - 
+    + kimTypeId (optional) - 
+    + kimAttributeId (optional) - 
 
       
 + Request

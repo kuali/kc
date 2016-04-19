@@ -1,6 +1,6 @@
-## Iacuc Protocol Statuses [/research-sys/api/v1/iacuc-protocol-statuses/]
+## Iacuc Protocol Statuses [/iacuc/api/v1/iacuc-protocol-statuses/]
 
-### Get Iacuc Protocol Statuses by Key [GET /research-sys/api/v1/iacuc-protocol-statuses/(key)]
+### Get Iacuc Protocol Statuses by Key [GET /iacuc/api/v1/iacuc-protocol-statuses/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"protocolStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Protocol Statuses [GET /research-sys/api/v1/iacuc-protocol-statuses/]
+### Get All Iacuc Protocol Statuses [GET /iacuc/api/v1/iacuc-protocol-statuses/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"protocolStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Protocol Statuses with Filtering [GET /research-sys/api/v1/iacuc-protocol-statuses/]
+### Get All Iacuc Protocol Statuses with Filtering [GET /iacuc/api/v1/iacuc-protocol-statuses/]
     
 + Parameters
 
-        + protocolStatusCode
-            + description
+    + protocolStatusCode (optional) - Protocol Status Code. Maximum length is 22.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"protocolStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Protocol Statuses [GET /research-sys/api/v1/iacuc-protocol-statuses/]
+### Get Schema for Iacuc Protocol Statuses [GET /iacuc/api/v1/iacuc-protocol-statuses/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["protocolStatusCode","description"],"primaryKey":"protocolStatusCode"}
 		
-### Get Blueprint API specification for Iacuc Protocol Statuses [GET /research-sys/api/v1/iacuc-protocol-statuses/]
+### Get Blueprint API specification for Iacuc Protocol Statuses [GET /iacuc/api/v1/iacuc-protocol-statuses/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Protocol Statuses [PUT /research-sys/api/v1/iacuc-protocol-statuses/(key)]
+### Update Iacuc Protocol Statuses [PUT /iacuc/api/v1/iacuc-protocol-statuses/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Protocol Statuses [PUT /research-sys/api/v1/iacuc-protocol-statuses/]
+### Update Multiple Iacuc Protocol Statuses [PUT /iacuc/api/v1/iacuc-protocol-statuses/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Iacuc Protocol Statuses [POST /research-sys/api/v1/iacuc-protocol-statuses/]
+### Insert Iacuc Protocol Statuses [POST /iacuc/api/v1/iacuc-protocol-statuses/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"protocolStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Protocol Statuses [POST /research-sys/api/v1/iacuc-protocol-statuses/]
+### Insert Multiple Iacuc Protocol Statuses [POST /iacuc/api/v1/iacuc-protocol-statuses/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"protocolStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Protocol Statuses by Key [DELETE /research-sys/api/v1/iacuc-protocol-statuses/(key)]
+### Delete Iacuc Protocol Statuses by Key [DELETE /iacuc/api/v1/iacuc-protocol-statuses/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Statuses [DELETE /research-sys/api/v1/iacuc-protocol-statuses/]
+### Delete All Iacuc Protocol Statuses [DELETE /iacuc/api/v1/iacuc-protocol-statuses/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Statuses with Matching [DELETE /research-sys/api/v1/iacuc-protocol-statuses/]
+### Delete All Iacuc Protocol Statuses with Matching [DELETE /iacuc/api/v1/iacuc-protocol-statuses/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + protocolStatusCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + protocolStatusCode (optional) - Protocol Status Code. Maximum length is 22.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

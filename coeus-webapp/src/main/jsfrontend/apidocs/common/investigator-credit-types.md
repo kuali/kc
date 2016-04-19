@@ -1,6 +1,6 @@
-## Investigator Credit Types [/research-sys/api/v1/investigator-credit-types/]
+## Investigator Credit Types [/research-common/api/v1/investigator-credit-types/]
 
-### Get Investigator Credit Types by Key [GET /research-sys/api/v1/investigator-credit-types/(key)]
+### Get Investigator Credit Types by Key [GET /research-common/api/v1/investigator-credit-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"code": "(val)","addsToHundred": "(val)","active": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Investigator Credit Types [GET /research-sys/api/v1/investigator-credit-types/]
+### Get All Investigator Credit Types [GET /research-common/api/v1/investigator-credit-types/]
 	 
 + Request
 
@@ -39,14 +39,14 @@
               {"code": "(val)","addsToHundred": "(val)","active": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Investigator Credit Types with Filtering [GET /research-sys/api/v1/investigator-credit-types/]
+### Get All Investigator Credit Types with Filtering [GET /research-common/api/v1/investigator-credit-types/]
     
 + Parameters
 
-        + code
-            + addsToHundred
-            + active
-            + description
+    + code (optional) - Investigator Credit Type Code. Maximum length is 3.
+    + addsToHundred (optional) - Adds to Hundred. Maximum length is 1.
+    + active (optional) - Is Active. Maximum length is 1.
+    + description (optional) - Description. Maximum length is 300.
 
             
 + Request
@@ -68,7 +68,7 @@
               {"code": "(val)","addsToHundred": "(val)","active": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Investigator Credit Types [GET /research-sys/api/v1/investigator-credit-types/]
+### Get Schema for Investigator Credit Types [GET /research-common/api/v1/investigator-credit-types/]
 	                                          
 + Parameters
 
@@ -90,7 +90,7 @@
     
             {"columns":["code","addsToHundred","active","description"],"primaryKey":"code"}
 		
-### Get Blueprint API specification for Investigator Credit Types [GET /research-sys/api/v1/investigator-credit-types/]
+### Get Blueprint API specification for Investigator Credit Types [GET /research-common/api/v1/investigator-credit-types/]
 	 
 + Parameters
 
@@ -111,7 +111,7 @@
             transfer-encoding:chunked
 
 
-### Update Investigator Credit Types [PUT /research-sys/api/v1/investigator-credit-types/(key)]
+### Update Investigator Credit Types [PUT /research-common/api/v1/investigator-credit-types/(key)]
 
 + Request
 
@@ -126,7 +126,7 @@
 			
 + Response 204
 
-### Update Multiple Investigator Credit Types [PUT /research-sys/api/v1/investigator-credit-types/]
+### Update Multiple Investigator Credit Types [PUT /research-common/api/v1/investigator-credit-types/]
 
 + Request
 
@@ -144,7 +144,7 @@
 			
 + Response 204
 
-### Insert Investigator Credit Types [POST /research-sys/api/v1/investigator-credit-types/]
+### Insert Investigator Credit Types [POST /research-common/api/v1/investigator-credit-types/]
 
 + Request
 
@@ -163,7 +163,7 @@
             
             {"code": "(val)","addsToHundred": "(val)","active": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Investigator Credit Types [POST /research-sys/api/v1/investigator-credit-types/]
+### Insert Multiple Investigator Credit Types [POST /research-common/api/v1/investigator-credit-types/]
 
 + Request
 
@@ -188,7 +188,7 @@
               {"code": "(val)","addsToHundred": "(val)","active": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Investigator Credit Types by Key [DELETE /research-sys/api/v1/investigator-credit-types/(key)]
+### Delete Investigator Credit Types by Key [DELETE /research-common/api/v1/investigator-credit-types/(key)]
 	 
 + Request
 
@@ -199,7 +199,7 @@
 
 + Response 204
 
-### Delete All Investigator Credit Types [DELETE /research-sys/api/v1/investigator-credit-types/]
+### Delete All Investigator Credit Types [DELETE /research-common/api/v1/investigator-credit-types/]
 
 + Parameters
 
@@ -214,15 +214,15 @@
 
 + Response 204
 
-### Delete All Investigator Credit Types with Matching [DELETE /research-sys/api/v1/investigator-credit-types/]
+### Delete All Investigator Credit Types with Matching [DELETE /research-common/api/v1/investigator-credit-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + code
-            + addsToHundred
-            + active
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + code (optional) - Investigator Credit Type Code. Maximum length is 3.
+    + addsToHundred (optional) - Adds to Hundred. Maximum length is 1.
+    + active (optional) - Is Active. Maximum length is 1.
+    + description (optional) - Description. Maximum length is 300.
 
       
 + Request

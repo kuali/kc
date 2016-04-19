@@ -1,6 +1,6 @@
-## Valid Calculation Types [/research-sys/api/v1/valid-calculation-types/]
+## Valid Calculation Types [/research-common/api/v1/valid-calculation-types/]
 
-### Get Valid Calculation Types by Key [GET /research-sys/api/v1/valid-calculation-types/(key)]
+### Get Valid Calculation Types by Key [GET /research-common/api/v1/valid-calculation-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"calcTypeId": "(val)","dependentSeqNumber": "(val)","rateClassType": "(val)","dependentRateClassType": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","_primaryKey": "(val)"}
 
-### Get All Valid Calculation Types [GET /research-sys/api/v1/valid-calculation-types/]
+### Get All Valid Calculation Types [GET /research-common/api/v1/valid-calculation-types/]
 	 
 + Request
 
@@ -39,16 +39,16 @@
               {"calcTypeId": "(val)","dependentSeqNumber": "(val)","rateClassType": "(val)","dependentRateClassType": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Valid Calculation Types with Filtering [GET /research-sys/api/v1/valid-calculation-types/]
+### Get All Valid Calculation Types with Filtering [GET /research-common/api/v1/valid-calculation-types/]
     
 + Parameters
 
-        + calcTypeId
-            + dependentSeqNumber
-            + rateClassType
-            + dependentRateClassType
-            + rateClassCode
-            + rateTypeCode
+    + calcTypeId (optional) - Calc Type Id. Maximum length is 8.
+    + dependentSeqNumber (optional) - Dependent Seq Number. Maximum length is 3.
+    + rateClassType (optional) - Rate Class Type. Maximum length is 1.
+    + dependentRateClassType (optional) - Dependent Rate Class Type. Maximum length is 1.
+    + rateClassCode (optional) - Rate Class Code. Maximum length is 3.
+    + rateTypeCode (optional) - Rate Type Code. Maximum length is 3.
 
             
 + Request
@@ -70,7 +70,7 @@
               {"calcTypeId": "(val)","dependentSeqNumber": "(val)","rateClassType": "(val)","dependentRateClassType": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Valid Calculation Types [GET /research-sys/api/v1/valid-calculation-types/]
+### Get Schema for Valid Calculation Types [GET /research-common/api/v1/valid-calculation-types/]
 	                                          
 + Parameters
 
@@ -92,7 +92,7 @@
     
             {"columns":["calcTypeId","dependentSeqNumber","rateClassType","dependentRateClassType","rateClassCode","rateTypeCode"],"primaryKey":"calcTypeId:dependentSeqNumber:rateClassType"}
 		
-### Get Blueprint API specification for Valid Calculation Types [GET /research-sys/api/v1/valid-calculation-types/]
+### Get Blueprint API specification for Valid Calculation Types [GET /research-common/api/v1/valid-calculation-types/]
 	 
 + Parameters
 
@@ -113,7 +113,7 @@
             transfer-encoding:chunked
 
 
-### Update Valid Calculation Types [PUT /research-sys/api/v1/valid-calculation-types/(key)]
+### Update Valid Calculation Types [PUT /research-common/api/v1/valid-calculation-types/(key)]
 
 + Request
 
@@ -128,7 +128,7 @@
 			
 + Response 204
 
-### Update Multiple Valid Calculation Types [PUT /research-sys/api/v1/valid-calculation-types/]
+### Update Multiple Valid Calculation Types [PUT /research-common/api/v1/valid-calculation-types/]
 
 + Request
 
@@ -146,7 +146,7 @@
 			
 + Response 204
 
-### Insert Valid Calculation Types [POST /research-sys/api/v1/valid-calculation-types/]
+### Insert Valid Calculation Types [POST /research-common/api/v1/valid-calculation-types/]
 
 + Request
 
@@ -165,7 +165,7 @@
             
             {"calcTypeId": "(val)","dependentSeqNumber": "(val)","rateClassType": "(val)","dependentRateClassType": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Valid Calculation Types [POST /research-sys/api/v1/valid-calculation-types/]
+### Insert Multiple Valid Calculation Types [POST /research-common/api/v1/valid-calculation-types/]
 
 + Request
 
@@ -190,7 +190,7 @@
               {"calcTypeId": "(val)","dependentSeqNumber": "(val)","rateClassType": "(val)","dependentRateClassType": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Valid Calculation Types by Key [DELETE /research-sys/api/v1/valid-calculation-types/(key)]
+### Delete Valid Calculation Types by Key [DELETE /research-common/api/v1/valid-calculation-types/(key)]
 	 
 + Request
 
@@ -201,7 +201,7 @@
 
 + Response 204
 
-### Delete All Valid Calculation Types [DELETE /research-sys/api/v1/valid-calculation-types/]
+### Delete All Valid Calculation Types [DELETE /research-common/api/v1/valid-calculation-types/]
 
 + Parameters
 
@@ -216,17 +216,17 @@
 
 + Response 204
 
-### Delete All Valid Calculation Types with Matching [DELETE /research-sys/api/v1/valid-calculation-types/]
+### Delete All Valid Calculation Types with Matching [DELETE /research-common/api/v1/valid-calculation-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + calcTypeId
-            + dependentSeqNumber
-            + rateClassType
-            + dependentRateClassType
-            + rateClassCode
-            + rateTypeCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + calcTypeId (optional) - Calc Type Id. Maximum length is 8.
+    + dependentSeqNumber (optional) - Dependent Seq Number. Maximum length is 3.
+    + rateClassType (optional) - Rate Class Type. Maximum length is 1.
+    + dependentRateClassType (optional) - Dependent Rate Class Type. Maximum length is 1.
+    + rateClassCode (optional) - Rate Class Code. Maximum length is 3.
+    + rateTypeCode (optional) - Rate Type Code. Maximum length is 3.
 
       
 + Request

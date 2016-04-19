@@ -1,6 +1,6 @@
-## Protocol Attachment Types [/research-sys/api/v1/protocol-attachment-types/]
+## Protocol Attachment Types [/irb/api/v1/protocol-attachment-types/]
 
-### Get Protocol Attachment Types by Key [GET /research-sys/api/v1/protocol-attachment-types/(key)]
+### Get Protocol Attachment Types by Key [GET /irb/api/v1/protocol-attachment-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Protocol Attachment Types [GET /research-sys/api/v1/protocol-attachment-types/]
+### Get All Protocol Attachment Types [GET /irb/api/v1/protocol-attachment-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Protocol Attachment Types with Filtering [GET /research-sys/api/v1/protocol-attachment-types/]
+### Get All Protocol Attachment Types with Filtering [GET /irb/api/v1/protocol-attachment-types/]
     
 + Parameters
 
-        + code
-            + description
+    + code (optional) - Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 300.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Protocol Attachment Types [GET /research-sys/api/v1/protocol-attachment-types/]
+### Get Schema for Protocol Attachment Types [GET /irb/api/v1/protocol-attachment-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["code","description"],"primaryKey":"code"}
 		
-### Get Blueprint API specification for Protocol Attachment Types [GET /research-sys/api/v1/protocol-attachment-types/]
+### Get Blueprint API specification for Protocol Attachment Types [GET /irb/api/v1/protocol-attachment-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Protocol Attachment Types [PUT /research-sys/api/v1/protocol-attachment-types/(key)]
+### Update Protocol Attachment Types [PUT /irb/api/v1/protocol-attachment-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Protocol Attachment Types [PUT /research-sys/api/v1/protocol-attachment-types/]
+### Update Multiple Protocol Attachment Types [PUT /irb/api/v1/protocol-attachment-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Protocol Attachment Types [POST /research-sys/api/v1/protocol-attachment-types/]
+### Insert Protocol Attachment Types [POST /irb/api/v1/protocol-attachment-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Protocol Attachment Types [POST /research-sys/api/v1/protocol-attachment-types/]
+### Insert Multiple Protocol Attachment Types [POST /irb/api/v1/protocol-attachment-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Protocol Attachment Types by Key [DELETE /research-sys/api/v1/protocol-attachment-types/(key)]
+### Delete Protocol Attachment Types by Key [DELETE /irb/api/v1/protocol-attachment-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Protocol Attachment Types [DELETE /research-sys/api/v1/protocol-attachment-types/]
+### Delete All Protocol Attachment Types [DELETE /irb/api/v1/protocol-attachment-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Protocol Attachment Types with Matching [DELETE /research-sys/api/v1/protocol-attachment-types/]
+### Delete All Protocol Attachment Types with Matching [DELETE /irb/api/v1/protocol-attachment-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + code
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + code (optional) - Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 300.
 
       
 + Request

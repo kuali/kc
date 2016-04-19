@@ -43,11 +43,11 @@
     
 + Parameters
 
-        + principalId
-            + principalName
-            + entityId
-            + password
-            + active
+    + principalId (optional) - 
+    + principalName (optional) - 
+    + entityId (optional) - 
+    + password (optional) - 
+    + active (optional) - 
 
             
 + Request
@@ -219,12 +219,12 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + principalId
-            + principalName
-            + entityId
-            + password
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + principalId (optional) - 
+    + principalName (optional) - 
+    + entityId (optional) - 
+    + password (optional) - 
+    + active (optional) - 
 
       
 + Request

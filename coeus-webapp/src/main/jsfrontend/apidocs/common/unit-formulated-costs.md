@@ -1,6 +1,6 @@
-## Unit Formulated Costs [/research-sys/api/v1/unit-formulated-costs/]
+## Unit Formulated Costs [/research-common/api/v1/unit-formulated-costs/]
 
-### Get Unit Formulated Costs by Key [GET /research-sys/api/v1/unit-formulated-costs/(key)]
+### Get Unit Formulated Costs by Key [GET /research-common/api/v1/unit-formulated-costs/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"unitFormulatedCostId": "(val)","formulatedTypeCode": "(val)","unitNumber": "(val)","unitCost": "(val)","_primaryKey": "(val)"}
 
-### Get All Unit Formulated Costs [GET /research-sys/api/v1/unit-formulated-costs/]
+### Get All Unit Formulated Costs [GET /research-common/api/v1/unit-formulated-costs/]
 	 
 + Request
 
@@ -39,14 +39,14 @@
               {"unitFormulatedCostId": "(val)","formulatedTypeCode": "(val)","unitNumber": "(val)","unitCost": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Unit Formulated Costs with Filtering [GET /research-sys/api/v1/unit-formulated-costs/]
+### Get All Unit Formulated Costs with Filtering [GET /research-common/api/v1/unit-formulated-costs/]
     
 + Parameters
 
-        + unitFormulatedCostId
-            + formulatedTypeCode
-            + unitNumber
-            + unitCost
+    + unitFormulatedCostId (optional) - 
+    + formulatedTypeCode (optional) - Formulated Type. Maximum length is 50.
+    + unitNumber (optional) - Unit Number. Maximum length is 8.
+    + unitCost (optional) - Unit Cost. Maximum length is 22.
 
             
 + Request
@@ -68,7 +68,7 @@
               {"unitFormulatedCostId": "(val)","formulatedTypeCode": "(val)","unitNumber": "(val)","unitCost": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Unit Formulated Costs [GET /research-sys/api/v1/unit-formulated-costs/]
+### Get Schema for Unit Formulated Costs [GET /research-common/api/v1/unit-formulated-costs/]
 	                                          
 + Parameters
 
@@ -90,7 +90,7 @@
     
             {"columns":["unitFormulatedCostId","formulatedTypeCode","unitNumber","unitCost"],"primaryKey":"unitFormulatedCostId"}
 		
-### Get Blueprint API specification for Unit Formulated Costs [GET /research-sys/api/v1/unit-formulated-costs/]
+### Get Blueprint API specification for Unit Formulated Costs [GET /research-common/api/v1/unit-formulated-costs/]
 	 
 + Parameters
 
@@ -111,7 +111,7 @@
             transfer-encoding:chunked
 
 
-### Update Unit Formulated Costs [PUT /research-sys/api/v1/unit-formulated-costs/(key)]
+### Update Unit Formulated Costs [PUT /research-common/api/v1/unit-formulated-costs/(key)]
 
 + Request
 
@@ -126,7 +126,7 @@
 			
 + Response 204
 
-### Update Multiple Unit Formulated Costs [PUT /research-sys/api/v1/unit-formulated-costs/]
+### Update Multiple Unit Formulated Costs [PUT /research-common/api/v1/unit-formulated-costs/]
 
 + Request
 
@@ -144,7 +144,7 @@
 			
 + Response 204
 
-### Insert Unit Formulated Costs [POST /research-sys/api/v1/unit-formulated-costs/]
+### Insert Unit Formulated Costs [POST /research-common/api/v1/unit-formulated-costs/]
 
 + Request
 
@@ -163,7 +163,7 @@
             
             {"unitFormulatedCostId": "(val)","formulatedTypeCode": "(val)","unitNumber": "(val)","unitCost": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Unit Formulated Costs [POST /research-sys/api/v1/unit-formulated-costs/]
+### Insert Multiple Unit Formulated Costs [POST /research-common/api/v1/unit-formulated-costs/]
 
 + Request
 
@@ -188,7 +188,7 @@
               {"unitFormulatedCostId": "(val)","formulatedTypeCode": "(val)","unitNumber": "(val)","unitCost": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Unit Formulated Costs by Key [DELETE /research-sys/api/v1/unit-formulated-costs/(key)]
+### Delete Unit Formulated Costs by Key [DELETE /research-common/api/v1/unit-formulated-costs/(key)]
 	 
 + Request
 
@@ -199,7 +199,7 @@
 
 + Response 204
 
-### Delete All Unit Formulated Costs [DELETE /research-sys/api/v1/unit-formulated-costs/]
+### Delete All Unit Formulated Costs [DELETE /research-common/api/v1/unit-formulated-costs/]
 
 + Parameters
 
@@ -214,15 +214,15 @@
 
 + Response 204
 
-### Delete All Unit Formulated Costs with Matching [DELETE /research-sys/api/v1/unit-formulated-costs/]
+### Delete All Unit Formulated Costs with Matching [DELETE /research-common/api/v1/unit-formulated-costs/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + unitFormulatedCostId
-            + formulatedTypeCode
-            + unitNumber
-            + unitCost
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + unitFormulatedCostId (optional) - 
+    + formulatedTypeCode (optional) - Formulated Type. Maximum length is 50.
+    + unitNumber (optional) - Unit Number. Maximum length is 8.
+    + unitCost (optional) - Unit Cost. Maximum length is 22.
 
       
 + Request

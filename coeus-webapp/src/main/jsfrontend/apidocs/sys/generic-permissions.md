@@ -43,14 +43,14 @@
     
 + Parameters
 
-        + id
-            + namespaceCode
-            + name
-            + description
-            + active
-            + templateId
-            + detailValues
-            + details
+    + id (optional) - Permission Identifier. Maximum length is 40.
+    + namespaceCode (optional) - This value is used to categorize parameters by namespace. Maximum length is 20.
+    + name (optional) - Nm. Maximum length is 100.
+    + description (optional) - Permission Description. Maximum length is 400.
+    + active (optional) - This attribute is used to describe whether the associated object is active or inactive. Maximum length is 1.
+    + templateId (optional) - Template.
+    + detailValues (optional) - This attribute should always be overriden on the descriptive elements. Maximum length is 400.
+    + details (optional) - Details.
 
             
 + Request
@@ -222,15 +222,15 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + namespaceCode
-            + name
-            + description
-            + active
-            + templateId
-            + detailValues
-            + details
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Permission Identifier. Maximum length is 40.
+    + namespaceCode (optional) - This value is used to categorize parameters by namespace. Maximum length is 20.
+    + name (optional) - Nm. Maximum length is 100.
+    + description (optional) - Permission Description. Maximum length is 400.
+    + active (optional) - This attribute is used to describe whether the associated object is active or inactive. Maximum length is 1.
+    + templateId (optional) - Template.
+    + detailValues (optional) - This attribute should always be overriden on the descriptive elements. Maximum length is 400.
+    + details (optional) - Details.
 
       
 + Request

@@ -1,6 +1,6 @@
-## Budget Cost Shares [/research-sys/api/v1/budget-cost-shares/]
+## Budget Cost Shares [/research-common/api/v1/budget-cost-shares/]
 
-### Get Budget Cost Shares by Key [GET /research-sys/api/v1/budget-cost-shares/(key)]
+### Get Budget Cost Shares by Key [GET /research-common/api/v1/budget-cost-shares/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"documentComponentId": "(val)","budgetId": "(val)","projectPeriod": "(val)","shareAmount": "(val)","sharePercentage": "(val)","sourceAccount": "(val)","hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","_primaryKey": "(val)"}
 
-### Get All Budget Cost Shares [GET /research-sys/api/v1/budget-cost-shares/]
+### Get All Budget Cost Shares [GET /research-common/api/v1/budget-cost-shares/]
 	 
 + Request
 
@@ -39,18 +39,18 @@
               {"documentComponentId": "(val)","budgetId": "(val)","projectPeriod": "(val)","shareAmount": "(val)","sharePercentage": "(val)","sourceAccount": "(val)","hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Budget Cost Shares with Filtering [GET /research-sys/api/v1/budget-cost-shares/]
+### Get All Budget Cost Shares with Filtering [GET /research-common/api/v1/budget-cost-shares/]
     
 + Parameters
 
-        + documentComponentId
-            + budgetId
-            + projectPeriod
-            + shareAmount
-            + sharePercentage
-            + sourceAccount
-            + hierarchyProposalNumber
-            + hiddenInHierarchy
+    + documentComponentId (optional) - Document Component Id. Maximum length is 3.
+    + budgetId (optional) - Budget Id.
+    + projectPeriod (optional) - Project Period. Maximum length is 4.
+    + shareAmount (optional) - Share Amount. Maximum length is 15.
+    + sharePercentage (optional) - Share Percentage. Maximum length is 6.
+    + sourceAccount (optional) - Source Account. Maximum length is 32.
+    + hierarchyProposalNumber (optional) - Hierarchy Proposal Number.
+    + hiddenInHierarchy (optional) - Hidden In Hierarchy.
 
             
 + Request
@@ -72,7 +72,7 @@
               {"documentComponentId": "(val)","budgetId": "(val)","projectPeriod": "(val)","shareAmount": "(val)","sharePercentage": "(val)","sourceAccount": "(val)","hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Budget Cost Shares [GET /research-sys/api/v1/budget-cost-shares/]
+### Get Schema for Budget Cost Shares [GET /research-common/api/v1/budget-cost-shares/]
 	                                          
 + Parameters
 
@@ -94,7 +94,7 @@
     
             {"columns":["documentComponentId","budgetId","projectPeriod","shareAmount","sharePercentage","sourceAccount","hierarchyProposalNumber","hiddenInHierarchy"],"primaryKey":"budget:budgetId:documentComponentId"}
 		
-### Get Blueprint API specification for Budget Cost Shares [GET /research-sys/api/v1/budget-cost-shares/]
+### Get Blueprint API specification for Budget Cost Shares [GET /research-common/api/v1/budget-cost-shares/]
 	 
 + Parameters
 
@@ -115,7 +115,7 @@
             transfer-encoding:chunked
 
 
-### Update Budget Cost Shares [PUT /research-sys/api/v1/budget-cost-shares/(key)]
+### Update Budget Cost Shares [PUT /research-common/api/v1/budget-cost-shares/(key)]
 
 + Request
 
@@ -130,7 +130,7 @@
 			
 + Response 204
 
-### Update Multiple Budget Cost Shares [PUT /research-sys/api/v1/budget-cost-shares/]
+### Update Multiple Budget Cost Shares [PUT /research-common/api/v1/budget-cost-shares/]
 
 + Request
 
@@ -148,7 +148,7 @@
 			
 + Response 204
 
-### Insert Budget Cost Shares [POST /research-sys/api/v1/budget-cost-shares/]
+### Insert Budget Cost Shares [POST /research-common/api/v1/budget-cost-shares/]
 
 + Request
 
@@ -167,7 +167,7 @@
             
             {"documentComponentId": "(val)","budgetId": "(val)","projectPeriod": "(val)","shareAmount": "(val)","sharePercentage": "(val)","sourceAccount": "(val)","hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Budget Cost Shares [POST /research-sys/api/v1/budget-cost-shares/]
+### Insert Multiple Budget Cost Shares [POST /research-common/api/v1/budget-cost-shares/]
 
 + Request
 
@@ -192,7 +192,7 @@
               {"documentComponentId": "(val)","budgetId": "(val)","projectPeriod": "(val)","shareAmount": "(val)","sharePercentage": "(val)","sourceAccount": "(val)","hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Budget Cost Shares by Key [DELETE /research-sys/api/v1/budget-cost-shares/(key)]
+### Delete Budget Cost Shares by Key [DELETE /research-common/api/v1/budget-cost-shares/(key)]
 	 
 + Request
 
@@ -203,7 +203,7 @@
 
 + Response 204
 
-### Delete All Budget Cost Shares [DELETE /research-sys/api/v1/budget-cost-shares/]
+### Delete All Budget Cost Shares [DELETE /research-common/api/v1/budget-cost-shares/]
 
 + Parameters
 
@@ -218,19 +218,19 @@
 
 + Response 204
 
-### Delete All Budget Cost Shares with Matching [DELETE /research-sys/api/v1/budget-cost-shares/]
+### Delete All Budget Cost Shares with Matching [DELETE /research-common/api/v1/budget-cost-shares/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + documentComponentId
-            + budgetId
-            + projectPeriod
-            + shareAmount
-            + sharePercentage
-            + sourceAccount
-            + hierarchyProposalNumber
-            + hiddenInHierarchy
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + documentComponentId (optional) - Document Component Id. Maximum length is 3.
+    + budgetId (optional) - Budget Id.
+    + projectPeriod (optional) - Project Period. Maximum length is 4.
+    + shareAmount (optional) - Share Amount. Maximum length is 15.
+    + sharePercentage (optional) - Share Percentage. Maximum length is 6.
+    + sourceAccount (optional) - Source Account. Maximum length is 32.
+    + hierarchyProposalNumber (optional) - Hierarchy Proposal Number.
+    + hiddenInHierarchy (optional) - Hidden In Hierarchy.
 
       
 + Request

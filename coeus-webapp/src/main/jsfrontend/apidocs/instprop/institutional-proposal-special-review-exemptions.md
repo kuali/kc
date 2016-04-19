@@ -1,6 +1,6 @@
-## Institutional Proposal Special Review Exemptions [/research-sys/api/v1/institutional-proposal-special-review-exemptions/]
+## Institutional Proposal Special Review Exemptions [/instprop/api/v1/institutional-proposal-special-review-exemptions/]
 
-### Get Institutional Proposal Special Review Exemptions by Key [GET /research-sys/api/v1/institutional-proposal-special-review-exemptions/(key)]
+### Get Institutional Proposal Special Review Exemptions by Key [GET /instprop/api/v1/institutional-proposal-special-review-exemptions/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"proposalSpecialReviewExemptionId": "(val)","proposalSpecialReviewId": "(val)","exemptionTypeCode": "(val)","_primaryKey": "(val)"}
 
-### Get All Institutional Proposal Special Review Exemptions [GET /research-sys/api/v1/institutional-proposal-special-review-exemptions/]
+### Get All Institutional Proposal Special Review Exemptions [GET /instprop/api/v1/institutional-proposal-special-review-exemptions/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"proposalSpecialReviewExemptionId": "(val)","proposalSpecialReviewId": "(val)","exemptionTypeCode": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Institutional Proposal Special Review Exemptions with Filtering [GET /research-sys/api/v1/institutional-proposal-special-review-exemptions/]
+### Get All Institutional Proposal Special Review Exemptions with Filtering [GET /instprop/api/v1/institutional-proposal-special-review-exemptions/]
     
 + Parameters
 
-        + proposalSpecialReviewExemptionId
-            + proposalSpecialReviewId
-            + exemptionTypeCode
+    + proposalSpecialReviewExemptionId (optional) - Proposal Special Review Exemption Id. Maximum length is 22.
+    + proposalSpecialReviewId (optional) - 
+    + exemptionTypeCode (optional) - Exemption #. Maximum length is 3.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"proposalSpecialReviewExemptionId": "(val)","proposalSpecialReviewId": "(val)","exemptionTypeCode": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Institutional Proposal Special Review Exemptions [GET /research-sys/api/v1/institutional-proposal-special-review-exemptions/]
+### Get Schema for Institutional Proposal Special Review Exemptions [GET /instprop/api/v1/institutional-proposal-special-review-exemptions/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["proposalSpecialReviewExemptionId","proposalSpecialReviewId","exemptionTypeCode"],"primaryKey":"proposalSpecialReviewExemptionId"}
 		
-### Get Blueprint API specification for Institutional Proposal Special Review Exemptions [GET /research-sys/api/v1/institutional-proposal-special-review-exemptions/]
+### Get Blueprint API specification for Institutional Proposal Special Review Exemptions [GET /instprop/api/v1/institutional-proposal-special-review-exemptions/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Institutional Proposal Special Review Exemptions [PUT /research-sys/api/v1/institutional-proposal-special-review-exemptions/(key)]
+### Update Institutional Proposal Special Review Exemptions [PUT /instprop/api/v1/institutional-proposal-special-review-exemptions/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Institutional Proposal Special Review Exemptions [PUT /research-sys/api/v1/institutional-proposal-special-review-exemptions/]
+### Update Multiple Institutional Proposal Special Review Exemptions [PUT /instprop/api/v1/institutional-proposal-special-review-exemptions/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Institutional Proposal Special Review Exemptions [POST /research-sys/api/v1/institutional-proposal-special-review-exemptions/]
+### Insert Institutional Proposal Special Review Exemptions [POST /instprop/api/v1/institutional-proposal-special-review-exemptions/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"proposalSpecialReviewExemptionId": "(val)","proposalSpecialReviewId": "(val)","exemptionTypeCode": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Institutional Proposal Special Review Exemptions [POST /research-sys/api/v1/institutional-proposal-special-review-exemptions/]
+### Insert Multiple Institutional Proposal Special Review Exemptions [POST /instprop/api/v1/institutional-proposal-special-review-exemptions/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"proposalSpecialReviewExemptionId": "(val)","proposalSpecialReviewId": "(val)","exemptionTypeCode": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Institutional Proposal Special Review Exemptions by Key [DELETE /research-sys/api/v1/institutional-proposal-special-review-exemptions/(key)]
+### Delete Institutional Proposal Special Review Exemptions by Key [DELETE /instprop/api/v1/institutional-proposal-special-review-exemptions/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Institutional Proposal Special Review Exemptions [DELETE /research-sys/api/v1/institutional-proposal-special-review-exemptions/]
+### Delete All Institutional Proposal Special Review Exemptions [DELETE /instprop/api/v1/institutional-proposal-special-review-exemptions/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Institutional Proposal Special Review Exemptions with Matching [DELETE /research-sys/api/v1/institutional-proposal-special-review-exemptions/]
+### Delete All Institutional Proposal Special Review Exemptions with Matching [DELETE /instprop/api/v1/institutional-proposal-special-review-exemptions/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + proposalSpecialReviewExemptionId
-            + proposalSpecialReviewId
-            + exemptionTypeCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + proposalSpecialReviewExemptionId (optional) - Proposal Special Review Exemption Id. Maximum length is 22.
+    + proposalSpecialReviewId (optional) - 
+    + exemptionTypeCode (optional) - Exemption #. Maximum length is 3.
 
       
 + Request

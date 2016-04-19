@@ -1,6 +1,6 @@
-## Custom Attributes [/research-sys/api/v1/custom-attributes/]
+## Custom Attributes [/research-common/api/v1/custom-attributes/]
 
-### Get Custom Attributes by Key [GET /research-sys/api/v1/custom-attributes/(key)]
+### Get Custom Attributes by Key [GET /research-common/api/v1/custom-attributes/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"id": "(val)","dataLength": "(val)","dataTypeCode": "(val)","defaultValue": "(val)","groupName": "(val)","label": "(val)","lookupClass": "(val)","lookupReturn": "(val)","name": "(val)","_primaryKey": "(val)"}
 
-### Get All Custom Attributes [GET /research-sys/api/v1/custom-attributes/]
+### Get All Custom Attributes [GET /research-common/api/v1/custom-attributes/]
 	 
 + Request
 
@@ -39,19 +39,19 @@
               {"id": "(val)","dataLength": "(val)","dataTypeCode": "(val)","defaultValue": "(val)","groupName": "(val)","label": "(val)","lookupClass": "(val)","lookupReturn": "(val)","name": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Custom Attributes with Filtering [GET /research-sys/api/v1/custom-attributes/]
+### Get All Custom Attributes with Filtering [GET /research-common/api/v1/custom-attributes/]
     
 + Parameters
 
-        + id
-            + dataLength
-            + dataTypeCode
-            + defaultValue
-            + groupName
-            + label
-            + lookupClass
-            + lookupReturn
-            + name
+    + id (optional) - Id. Maximum length is 12.
+    + dataLength (optional) - Data Length. Maximum length is 4.
+    + dataTypeCode (optional) - Data Type Code. Maximum length is 3.
+    + defaultValue (optional) - Default Value. Maximum length is 2000.
+    + groupName (optional) - Group Name. Maximum length is 250.
+    + label (optional) - Label. Maximum length is 30.
+    + lookupClass (optional) - Lookup Class. Maximum length is 100.
+    + lookupReturn (optional) - Lookup Return. Maximum length is 30.
+    + name (optional) - Name. Maximum length is 30.
 
             
 + Request
@@ -73,7 +73,7 @@
               {"id": "(val)","dataLength": "(val)","dataTypeCode": "(val)","defaultValue": "(val)","groupName": "(val)","label": "(val)","lookupClass": "(val)","lookupReturn": "(val)","name": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Custom Attributes [GET /research-sys/api/v1/custom-attributes/]
+### Get Schema for Custom Attributes [GET /research-common/api/v1/custom-attributes/]
 	                                          
 + Parameters
 
@@ -95,7 +95,7 @@
     
             {"columns":["id","dataLength","dataTypeCode","defaultValue","groupName","label","lookupClass","lookupReturn","name"],"primaryKey":"id"}
 		
-### Get Blueprint API specification for Custom Attributes [GET /research-sys/api/v1/custom-attributes/]
+### Get Blueprint API specification for Custom Attributes [GET /research-common/api/v1/custom-attributes/]
 	 
 + Parameters
 
@@ -116,7 +116,7 @@
             transfer-encoding:chunked
 
 
-### Update Custom Attributes [PUT /research-sys/api/v1/custom-attributes/(key)]
+### Update Custom Attributes [PUT /research-common/api/v1/custom-attributes/(key)]
 
 + Request
 
@@ -131,7 +131,7 @@
 			
 + Response 204
 
-### Update Multiple Custom Attributes [PUT /research-sys/api/v1/custom-attributes/]
+### Update Multiple Custom Attributes [PUT /research-common/api/v1/custom-attributes/]
 
 + Request
 
@@ -149,7 +149,7 @@
 			
 + Response 204
 
-### Insert Custom Attributes [POST /research-sys/api/v1/custom-attributes/]
+### Insert Custom Attributes [POST /research-common/api/v1/custom-attributes/]
 
 + Request
 
@@ -168,7 +168,7 @@
             
             {"id": "(val)","dataLength": "(val)","dataTypeCode": "(val)","defaultValue": "(val)","groupName": "(val)","label": "(val)","lookupClass": "(val)","lookupReturn": "(val)","name": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Custom Attributes [POST /research-sys/api/v1/custom-attributes/]
+### Insert Multiple Custom Attributes [POST /research-common/api/v1/custom-attributes/]
 
 + Request
 
@@ -193,7 +193,7 @@
               {"id": "(val)","dataLength": "(val)","dataTypeCode": "(val)","defaultValue": "(val)","groupName": "(val)","label": "(val)","lookupClass": "(val)","lookupReturn": "(val)","name": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Custom Attributes by Key [DELETE /research-sys/api/v1/custom-attributes/(key)]
+### Delete Custom Attributes by Key [DELETE /research-common/api/v1/custom-attributes/(key)]
 	 
 + Request
 
@@ -204,7 +204,7 @@
 
 + Response 204
 
-### Delete All Custom Attributes [DELETE /research-sys/api/v1/custom-attributes/]
+### Delete All Custom Attributes [DELETE /research-common/api/v1/custom-attributes/]
 
 + Parameters
 
@@ -219,20 +219,20 @@
 
 + Response 204
 
-### Delete All Custom Attributes with Matching [DELETE /research-sys/api/v1/custom-attributes/]
+### Delete All Custom Attributes with Matching [DELETE /research-common/api/v1/custom-attributes/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + dataLength
-            + dataTypeCode
-            + defaultValue
-            + groupName
-            + label
-            + lookupClass
-            + lookupReturn
-            + name
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Id. Maximum length is 12.
+    + dataLength (optional) - Data Length. Maximum length is 4.
+    + dataTypeCode (optional) - Data Type Code. Maximum length is 3.
+    + defaultValue (optional) - Default Value. Maximum length is 2000.
+    + groupName (optional) - Group Name. Maximum length is 250.
+    + label (optional) - Label. Maximum length is 30.
+    + lookupClass (optional) - Lookup Class. Maximum length is 100.
+    + lookupReturn (optional) - Lookup Return. Maximum length is 30.
+    + name (optional) - Name. Maximum length is 30.
 
       
 + Request

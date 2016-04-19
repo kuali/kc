@@ -1,6 +1,6 @@
-## Award Template Comments [/research-sys/api/v1/award-template-comments/]
+## Award Template Comments [/award/api/v1/award-template-comments/]
 
-### Get Award Template Comments by Key [GET /research-sys/api/v1/award-template-comments/(key)]
+### Get Award Template Comments by Key [GET /award/api/v1/award-template-comments/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"templateCommentsId": "(val)","templateCode": "(val)","commentTypeCode": "(val)","checklistPrintFlag": "(val)","comments": "(val)","_primaryKey": "(val)"}
 
-### Get All Award Template Comments [GET /research-sys/api/v1/award-template-comments/]
+### Get All Award Template Comments [GET /award/api/v1/award-template-comments/]
 	 
 + Request
 
@@ -39,15 +39,15 @@
               {"templateCommentsId": "(val)","templateCode": "(val)","commentTypeCode": "(val)","checklistPrintFlag": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Award Template Comments with Filtering [GET /research-sys/api/v1/award-template-comments/]
+### Get All Award Template Comments with Filtering [GET /award/api/v1/award-template-comments/]
     
 + Parameters
 
-        + templateCommentsId
-            + templateCode
-            + commentTypeCode
-            + checklistPrintFlag
-            + comments
+    + templateCommentsId (optional) - Template Comments Id. Maximum length is 22.
+    + templateCode (optional) - 
+    + commentTypeCode (optional) - Comment Type. Maximum length is 3.
+    + checklistPrintFlag (optional) - Checklist Print Flag. Maximum length is 1.
+    + comments (optional) - Comments. Maximum length is 2000.
 
             
 + Request
@@ -69,7 +69,7 @@
               {"templateCommentsId": "(val)","templateCode": "(val)","commentTypeCode": "(val)","checklistPrintFlag": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Award Template Comments [GET /research-sys/api/v1/award-template-comments/]
+### Get Schema for Award Template Comments [GET /award/api/v1/award-template-comments/]
 	                                          
 + Parameters
 
@@ -91,7 +91,7 @@
     
             {"columns":["templateCommentsId","templateCode","commentTypeCode","checklistPrintFlag","comments"],"primaryKey":"templateCommentsId"}
 		
-### Get Blueprint API specification for Award Template Comments [GET /research-sys/api/v1/award-template-comments/]
+### Get Blueprint API specification for Award Template Comments [GET /award/api/v1/award-template-comments/]
 	 
 + Parameters
 
@@ -112,7 +112,7 @@
             transfer-encoding:chunked
 
 
-### Update Award Template Comments [PUT /research-sys/api/v1/award-template-comments/(key)]
+### Update Award Template Comments [PUT /award/api/v1/award-template-comments/(key)]
 
 + Request
 
@@ -127,7 +127,7 @@
 			
 + Response 204
 
-### Update Multiple Award Template Comments [PUT /research-sys/api/v1/award-template-comments/]
+### Update Multiple Award Template Comments [PUT /award/api/v1/award-template-comments/]
 
 + Request
 
@@ -145,7 +145,7 @@
 			
 + Response 204
 
-### Insert Award Template Comments [POST /research-sys/api/v1/award-template-comments/]
+### Insert Award Template Comments [POST /award/api/v1/award-template-comments/]
 
 + Request
 
@@ -164,7 +164,7 @@
             
             {"templateCommentsId": "(val)","templateCode": "(val)","commentTypeCode": "(val)","checklistPrintFlag": "(val)","comments": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Award Template Comments [POST /research-sys/api/v1/award-template-comments/]
+### Insert Multiple Award Template Comments [POST /award/api/v1/award-template-comments/]
 
 + Request
 
@@ -189,7 +189,7 @@
               {"templateCommentsId": "(val)","templateCode": "(val)","commentTypeCode": "(val)","checklistPrintFlag": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Award Template Comments by Key [DELETE /research-sys/api/v1/award-template-comments/(key)]
+### Delete Award Template Comments by Key [DELETE /award/api/v1/award-template-comments/(key)]
 	 
 + Request
 
@@ -200,7 +200,7 @@
 
 + Response 204
 
-### Delete All Award Template Comments [DELETE /research-sys/api/v1/award-template-comments/]
+### Delete All Award Template Comments [DELETE /award/api/v1/award-template-comments/]
 
 + Parameters
 
@@ -215,16 +215,16 @@
 
 + Response 204
 
-### Delete All Award Template Comments with Matching [DELETE /research-sys/api/v1/award-template-comments/]
+### Delete All Award Template Comments with Matching [DELETE /award/api/v1/award-template-comments/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + templateCommentsId
-            + templateCode
-            + commentTypeCode
-            + checklistPrintFlag
-            + comments
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + templateCommentsId (optional) - Template Comments Id. Maximum length is 22.
+    + templateCode (optional) - 
+    + commentTypeCode (optional) - Comment Type. Maximum length is 3.
+    + checklistPrintFlag (optional) - Checklist Print Flag. Maximum length is 1.
+    + comments (optional) - Comments. Maximum length is 2000.
 
       
 + Request

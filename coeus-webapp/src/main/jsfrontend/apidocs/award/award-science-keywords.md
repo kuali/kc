@@ -1,6 +1,6 @@
-## Award Science Keywords [/research-sys/api/v1/award-science-keywords/]
+## Award Science Keywords [/award/api/v1/award-science-keywords/]
 
-### Get Award Science Keywords by Key [GET /research-sys/api/v1/award-science-keywords/(key)]
+### Get Award Science Keywords by Key [GET /award/api/v1/award-science-keywords/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"awardScienceKeywordId": "(val)","awardId": "(val)","scienceKeywordCode": "(val)","_primaryKey": "(val)"}
 
-### Get All Award Science Keywords [GET /research-sys/api/v1/award-science-keywords/]
+### Get All Award Science Keywords [GET /award/api/v1/award-science-keywords/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"awardScienceKeywordId": "(val)","awardId": "(val)","scienceKeywordCode": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Award Science Keywords with Filtering [GET /research-sys/api/v1/award-science-keywords/]
+### Get All Award Science Keywords with Filtering [GET /award/api/v1/award-science-keywords/]
     
 + Parameters
 
-        + awardScienceKeywordId
-            + awardId
-            + scienceKeywordCode
+    + awardScienceKeywordId (optional) - Award Science Code Id. Maximum length is 22.
+    + awardId (optional) - 
+    + scienceKeywordCode (optional) - Science Code. Maximum length is 15.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"awardScienceKeywordId": "(val)","awardId": "(val)","scienceKeywordCode": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Award Science Keywords [GET /research-sys/api/v1/award-science-keywords/]
+### Get Schema for Award Science Keywords [GET /award/api/v1/award-science-keywords/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["awardScienceKeywordId","awardId","scienceKeywordCode"],"primaryKey":"awardScienceKeywordId"}
 		
-### Get Blueprint API specification for Award Science Keywords [GET /research-sys/api/v1/award-science-keywords/]
+### Get Blueprint API specification for Award Science Keywords [GET /award/api/v1/award-science-keywords/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Award Science Keywords [PUT /research-sys/api/v1/award-science-keywords/(key)]
+### Update Award Science Keywords [PUT /award/api/v1/award-science-keywords/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Award Science Keywords [PUT /research-sys/api/v1/award-science-keywords/]
+### Update Multiple Award Science Keywords [PUT /award/api/v1/award-science-keywords/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Award Science Keywords [POST /research-sys/api/v1/award-science-keywords/]
+### Insert Award Science Keywords [POST /award/api/v1/award-science-keywords/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"awardScienceKeywordId": "(val)","awardId": "(val)","scienceKeywordCode": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Award Science Keywords [POST /research-sys/api/v1/award-science-keywords/]
+### Insert Multiple Award Science Keywords [POST /award/api/v1/award-science-keywords/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"awardScienceKeywordId": "(val)","awardId": "(val)","scienceKeywordCode": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Award Science Keywords by Key [DELETE /research-sys/api/v1/award-science-keywords/(key)]
+### Delete Award Science Keywords by Key [DELETE /award/api/v1/award-science-keywords/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Award Science Keywords [DELETE /research-sys/api/v1/award-science-keywords/]
+### Delete All Award Science Keywords [DELETE /award/api/v1/award-science-keywords/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Award Science Keywords with Matching [DELETE /research-sys/api/v1/award-science-keywords/]
+### Delete All Award Science Keywords with Matching [DELETE /award/api/v1/award-science-keywords/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + awardScienceKeywordId
-            + awardId
-            + scienceKeywordCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + awardScienceKeywordId (optional) - Award Science Code Id. Maximum length is 22.
+    + awardId (optional) - 
+    + scienceKeywordCode (optional) - Science Code. Maximum length is 15.
 
       
 + Request

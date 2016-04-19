@@ -1,6 +1,6 @@
-## Iacuc Committee Schedules [/research-sys/api/v1/iacuc-committee-schedules/]
+## Iacuc Committee Schedules [/iacuc/api/v1/iacuc-committee-schedules/]
 
-### Get Iacuc Committee Schedules by Key [GET /research-sys/api/v1/iacuc-committee-schedules/(key)]
+### Get Iacuc Committee Schedules by Key [GET /iacuc/api/v1/iacuc-committee-schedules/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"id": "(val)","scheduleId": "(val)","committeeIdFk": "(val)","scheduledDate": "(val)","place": "(val)","time": "(val)","protocolSubDeadline": "(val)","scheduleStatusCode": "(val)","meetingDate": "(val)","startTime": "(val)","endTime": "(val)","agendaProdRevDate": "(val)","maxProtocols": "(val)","comments": "(val)","availableToReviewers": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Committee Schedules [GET /research-sys/api/v1/iacuc-committee-schedules/]
+### Get All Iacuc Committee Schedules [GET /iacuc/api/v1/iacuc-committee-schedules/]
 	 
 + Request
 
@@ -39,25 +39,25 @@
               {"id": "(val)","scheduleId": "(val)","committeeIdFk": "(val)","scheduledDate": "(val)","place": "(val)","time": "(val)","protocolSubDeadline": "(val)","scheduleStatusCode": "(val)","meetingDate": "(val)","startTime": "(val)","endTime": "(val)","agendaProdRevDate": "(val)","maxProtocols": "(val)","comments": "(val)","availableToReviewers": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Committee Schedules with Filtering [GET /research-sys/api/v1/iacuc-committee-schedules/]
+### Get All Iacuc Committee Schedules with Filtering [GET /iacuc/api/v1/iacuc-committee-schedules/]
     
 + Parameters
 
-        + id
-            + scheduleId
-            + committeeIdFk
-            + scheduledDate
-            + place
-            + time
-            + protocolSubDeadline
-            + scheduleStatusCode
-            + meetingDate
-            + startTime
-            + endTime
-            + agendaProdRevDate
-            + maxProtocols
-            + comments
-            + availableToReviewers
+    + id (optional) - Id. Maximum length is 12.
+    + scheduleId (optional) - Schedule Id. Maximum length is 10.
+    + committeeIdFk (optional) - Committee Id. Maximum length is 12.
+    + scheduledDate (optional) - Scheduled Date. Maximum length is 10.
+    + place (optional) - Place. Maximum length is 200.
+    + time (optional) - Time. Maximum length is 10.
+    + protocolSubDeadline (optional) - Protocol Sub Deadline. Maximum length is 10.
+    + scheduleStatusCode (optional) - Schedule Status Code. Maximum length is 3.
+    + meetingDate (optional) - Meeting Date. Maximum length is 21.
+    + startTime (optional) - Start Time. Maximum length is 10.
+    + endTime (optional) - End Time. Maximum length is 10.
+    + agendaProdRevDate (optional) - Agenda Prod Rev Date. Maximum length is 21.
+    + maxProtocols (optional) - Max Protocols. Maximum length is 4.
+    + comments (optional) - Comments. Maximum length is 2000.
+    + availableToReviewers (optional) - Available to reviewers. Maximum length is 1.
 
             
 + Request
@@ -79,7 +79,7 @@
               {"id": "(val)","scheduleId": "(val)","committeeIdFk": "(val)","scheduledDate": "(val)","place": "(val)","time": "(val)","protocolSubDeadline": "(val)","scheduleStatusCode": "(val)","meetingDate": "(val)","startTime": "(val)","endTime": "(val)","agendaProdRevDate": "(val)","maxProtocols": "(val)","comments": "(val)","availableToReviewers": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Committee Schedules [GET /research-sys/api/v1/iacuc-committee-schedules/]
+### Get Schema for Iacuc Committee Schedules [GET /iacuc/api/v1/iacuc-committee-schedules/]
 	                                          
 + Parameters
 
@@ -101,7 +101,7 @@
     
             {"columns":["id","scheduleId","committeeIdFk","scheduledDate","place","time","protocolSubDeadline","scheduleStatusCode","meetingDate","startTime","endTime","agendaProdRevDate","maxProtocols","comments","availableToReviewers"],"primaryKey":"id"}
 		
-### Get Blueprint API specification for Iacuc Committee Schedules [GET /research-sys/api/v1/iacuc-committee-schedules/]
+### Get Blueprint API specification for Iacuc Committee Schedules [GET /iacuc/api/v1/iacuc-committee-schedules/]
 	 
 + Parameters
 
@@ -122,7 +122,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Committee Schedules [PUT /research-sys/api/v1/iacuc-committee-schedules/(key)]
+### Update Iacuc Committee Schedules [PUT /iacuc/api/v1/iacuc-committee-schedules/(key)]
 
 + Request
 
@@ -137,7 +137,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Committee Schedules [PUT /research-sys/api/v1/iacuc-committee-schedules/]
+### Update Multiple Iacuc Committee Schedules [PUT /iacuc/api/v1/iacuc-committee-schedules/]
 
 + Request
 
@@ -155,7 +155,7 @@
 			
 + Response 204
 
-### Insert Iacuc Committee Schedules [POST /research-sys/api/v1/iacuc-committee-schedules/]
+### Insert Iacuc Committee Schedules [POST /iacuc/api/v1/iacuc-committee-schedules/]
 
 + Request
 
@@ -174,7 +174,7 @@
             
             {"id": "(val)","scheduleId": "(val)","committeeIdFk": "(val)","scheduledDate": "(val)","place": "(val)","time": "(val)","protocolSubDeadline": "(val)","scheduleStatusCode": "(val)","meetingDate": "(val)","startTime": "(val)","endTime": "(val)","agendaProdRevDate": "(val)","maxProtocols": "(val)","comments": "(val)","availableToReviewers": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Committee Schedules [POST /research-sys/api/v1/iacuc-committee-schedules/]
+### Insert Multiple Iacuc Committee Schedules [POST /iacuc/api/v1/iacuc-committee-schedules/]
 
 + Request
 
@@ -199,7 +199,7 @@
               {"id": "(val)","scheduleId": "(val)","committeeIdFk": "(val)","scheduledDate": "(val)","place": "(val)","time": "(val)","protocolSubDeadline": "(val)","scheduleStatusCode": "(val)","meetingDate": "(val)","startTime": "(val)","endTime": "(val)","agendaProdRevDate": "(val)","maxProtocols": "(val)","comments": "(val)","availableToReviewers": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Committee Schedules by Key [DELETE /research-sys/api/v1/iacuc-committee-schedules/(key)]
+### Delete Iacuc Committee Schedules by Key [DELETE /iacuc/api/v1/iacuc-committee-schedules/(key)]
 	 
 + Request
 
@@ -210,7 +210,7 @@
 
 + Response 204
 
-### Delete All Iacuc Committee Schedules [DELETE /research-sys/api/v1/iacuc-committee-schedules/]
+### Delete All Iacuc Committee Schedules [DELETE /iacuc/api/v1/iacuc-committee-schedules/]
 
 + Parameters
 
@@ -225,26 +225,26 @@
 
 + Response 204
 
-### Delete All Iacuc Committee Schedules with Matching [DELETE /research-sys/api/v1/iacuc-committee-schedules/]
+### Delete All Iacuc Committee Schedules with Matching [DELETE /iacuc/api/v1/iacuc-committee-schedules/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + scheduleId
-            + committeeIdFk
-            + scheduledDate
-            + place
-            + time
-            + protocolSubDeadline
-            + scheduleStatusCode
-            + meetingDate
-            + startTime
-            + endTime
-            + agendaProdRevDate
-            + maxProtocols
-            + comments
-            + availableToReviewers
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Id. Maximum length is 12.
+    + scheduleId (optional) - Schedule Id. Maximum length is 10.
+    + committeeIdFk (optional) - Committee Id. Maximum length is 12.
+    + scheduledDate (optional) - Scheduled Date. Maximum length is 10.
+    + place (optional) - Place. Maximum length is 200.
+    + time (optional) - Time. Maximum length is 10.
+    + protocolSubDeadline (optional) - Protocol Sub Deadline. Maximum length is 10.
+    + scheduleStatusCode (optional) - Schedule Status Code. Maximum length is 3.
+    + meetingDate (optional) - Meeting Date. Maximum length is 21.
+    + startTime (optional) - Start Time. Maximum length is 10.
+    + endTime (optional) - End Time. Maximum length is 10.
+    + agendaProdRevDate (optional) - Agenda Prod Rev Date. Maximum length is 21.
+    + maxProtocols (optional) - Max Protocols. Maximum length is 4.
+    + comments (optional) - Comments. Maximum length is 2000.
+    + availableToReviewers (optional) - Available to reviewers. Maximum length is 1.
 
       
 + Request

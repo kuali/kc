@@ -43,12 +43,12 @@
     
 + Parameters
 
-        + id
-            + name
-            + typeId
-            + contextId
-            + active
-            + firstItemId
+    + id (optional) - Agenda Id.
+    + name (optional) - Agenda Name.
+    + typeId (optional) - Agenda typeId.
+    + contextId (optional) - Agenda contextId.
+    + active (optional) - This attribute is used to describe whether the associated object is active or inactive. Maximum length is 1.
+    + firstItemId (optional) - First Item Id.
 
             
 + Request
@@ -220,13 +220,13 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + name
-            + typeId
-            + contextId
-            + active
-            + firstItemId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Agenda Id.
+    + name (optional) - Agenda Name.
+    + typeId (optional) - Agenda typeId.
+    + contextId (optional) - Agenda contextId.
+    + active (optional) - This attribute is used to describe whether the associated object is active or inactive. Maximum length is 1.
+    + firstItemId (optional) - First Item Id.
 
       
 + Request

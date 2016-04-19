@@ -43,10 +43,10 @@
     
 + Parameters
 
-        + code
-            + countryCode
-            + name
-            + active
+    + code (optional) - The two digit code for a state. Maximum length is 2.
+    + countryCode (optional) - The code uniquely identify a country. Maximum length is 2.
+    + name (optional) - The name assigned to this state. Maximum length is 40.
+    + active (optional) - This attribute is used to describe whether the associated object is active or inactive. Maximum length is 1.
 
             
 + Request
@@ -218,11 +218,11 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + code
-            + countryCode
-            + name
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + code (optional) - The two digit code for a state. Maximum length is 2.
+    + countryCode (optional) - The code uniquely identify a country. Maximum length is 2.
+    + name (optional) - The name assigned to this state. Maximum length is 40.
+    + active (optional) - This attribute is used to describe whether the associated object is active or inactive. Maximum length is 1.
 
       
 + Request

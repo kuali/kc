@@ -1,6 +1,6 @@
-## Questionnaire Usages [/research-sys/api/v1/questionnaire-usages/]
+## Questionnaire Usages [/research-common/api/v1/questionnaire-usages/]
 
-### Get Questionnaire Usages by Key [GET /research-sys/api/v1/questionnaire-usages/(key)]
+### Get Questionnaire Usages by Key [GET /research-common/api/v1/questionnaire-usages/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"id": "(val)","moduleItemCode": "(val)","moduleSubItemCode": "(val)","questionnaireSequenceNumber": "(val)","questionnaireId": "(val)","ruleId": "(val)","questionnaireLabel": "(val)","mandatory": "(val)","_primaryKey": "(val)"}
 
-### Get All Questionnaire Usages [GET /research-sys/api/v1/questionnaire-usages/]
+### Get All Questionnaire Usages [GET /research-common/api/v1/questionnaire-usages/]
 	 
 + Request
 
@@ -39,18 +39,18 @@
               {"id": "(val)","moduleItemCode": "(val)","moduleSubItemCode": "(val)","questionnaireSequenceNumber": "(val)","questionnaireId": "(val)","ruleId": "(val)","questionnaireLabel": "(val)","mandatory": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Questionnaire Usages with Filtering [GET /research-sys/api/v1/questionnaire-usages/]
+### Get All Questionnaire Usages with Filtering [GET /research-common/api/v1/questionnaire-usages/]
     
 + Parameters
 
-        + id
-            + moduleItemCode
-            + moduleSubItemCode
-            + questionnaireSequenceNumber
-            + questionnaireId
-            + ruleId
-            + questionnaireLabel
-            + mandatory
+    + id (optional) - Questionnaire Usage Id. Maximum length is 12.
+    + moduleItemCode (optional) - Module Item Code. Maximum length is 3.
+    + moduleSubItemCode (optional) - Module Sub Item Code. Maximum length is 3.
+    + questionnaireSequenceNumber (optional) - 
+    + questionnaireId (optional) - Questionnaire Id. Maximum length is 6.
+    + ruleId (optional) - Rule ID. Maximum length is 40.
+    + questionnaireLabel (optional) - Questionnaire Label. Maximum length is 50.
+    + mandatory (optional) - Is Mandatory. Maximum length is 1.
 
             
 + Request
@@ -72,7 +72,7 @@
               {"id": "(val)","moduleItemCode": "(val)","moduleSubItemCode": "(val)","questionnaireSequenceNumber": "(val)","questionnaireId": "(val)","ruleId": "(val)","questionnaireLabel": "(val)","mandatory": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Questionnaire Usages [GET /research-sys/api/v1/questionnaire-usages/]
+### Get Schema for Questionnaire Usages [GET /research-common/api/v1/questionnaire-usages/]
 	                                          
 + Parameters
 
@@ -94,7 +94,7 @@
     
             {"columns":["id","moduleItemCode","moduleSubItemCode","questionnaireSequenceNumber","questionnaireId","ruleId","questionnaireLabel","mandatory"],"primaryKey":"id"}
 		
-### Get Blueprint API specification for Questionnaire Usages [GET /research-sys/api/v1/questionnaire-usages/]
+### Get Blueprint API specification for Questionnaire Usages [GET /research-common/api/v1/questionnaire-usages/]
 	 
 + Parameters
 
@@ -115,7 +115,7 @@
             transfer-encoding:chunked
 
 
-### Update Questionnaire Usages [PUT /research-sys/api/v1/questionnaire-usages/(key)]
+### Update Questionnaire Usages [PUT /research-common/api/v1/questionnaire-usages/(key)]
 
 + Request
 
@@ -130,7 +130,7 @@
 			
 + Response 204
 
-### Update Multiple Questionnaire Usages [PUT /research-sys/api/v1/questionnaire-usages/]
+### Update Multiple Questionnaire Usages [PUT /research-common/api/v1/questionnaire-usages/]
 
 + Request
 
@@ -148,7 +148,7 @@
 			
 + Response 204
 
-### Insert Questionnaire Usages [POST /research-sys/api/v1/questionnaire-usages/]
+### Insert Questionnaire Usages [POST /research-common/api/v1/questionnaire-usages/]
 
 + Request
 
@@ -167,7 +167,7 @@
             
             {"id": "(val)","moduleItemCode": "(val)","moduleSubItemCode": "(val)","questionnaireSequenceNumber": "(val)","questionnaireId": "(val)","ruleId": "(val)","questionnaireLabel": "(val)","mandatory": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Questionnaire Usages [POST /research-sys/api/v1/questionnaire-usages/]
+### Insert Multiple Questionnaire Usages [POST /research-common/api/v1/questionnaire-usages/]
 
 + Request
 
@@ -192,7 +192,7 @@
               {"id": "(val)","moduleItemCode": "(val)","moduleSubItemCode": "(val)","questionnaireSequenceNumber": "(val)","questionnaireId": "(val)","ruleId": "(val)","questionnaireLabel": "(val)","mandatory": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Questionnaire Usages by Key [DELETE /research-sys/api/v1/questionnaire-usages/(key)]
+### Delete Questionnaire Usages by Key [DELETE /research-common/api/v1/questionnaire-usages/(key)]
 	 
 + Request
 
@@ -203,7 +203,7 @@
 
 + Response 204
 
-### Delete All Questionnaire Usages [DELETE /research-sys/api/v1/questionnaire-usages/]
+### Delete All Questionnaire Usages [DELETE /research-common/api/v1/questionnaire-usages/]
 
 + Parameters
 
@@ -218,19 +218,19 @@
 
 + Response 204
 
-### Delete All Questionnaire Usages with Matching [DELETE /research-sys/api/v1/questionnaire-usages/]
+### Delete All Questionnaire Usages with Matching [DELETE /research-common/api/v1/questionnaire-usages/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + moduleItemCode
-            + moduleSubItemCode
-            + questionnaireSequenceNumber
-            + questionnaireId
-            + ruleId
-            + questionnaireLabel
-            + mandatory
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Questionnaire Usage Id. Maximum length is 12.
+    + moduleItemCode (optional) - Module Item Code. Maximum length is 3.
+    + moduleSubItemCode (optional) - Module Sub Item Code. Maximum length is 3.
+    + questionnaireSequenceNumber (optional) - 
+    + questionnaireId (optional) - Questionnaire Id. Maximum length is 6.
+    + ruleId (optional) - Rule ID. Maximum length is 40.
+    + questionnaireLabel (optional) - Questionnaire Label. Maximum length is 50.
+    + mandatory (optional) - Is Mandatory. Maximum length is 1.
 
       
 + Request

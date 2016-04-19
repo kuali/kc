@@ -1,6 +1,6 @@
-## Iacuc Protocol Correspondence Types [/research-sys/api/v1/iacuc-protocol-correspondence-types/]
+## Iacuc Protocol Correspondence Types [/iacuc/api/v1/iacuc-protocol-correspondence-types/]
 
-### Get Iacuc Protocol Correspondence Types by Key [GET /research-sys/api/v1/iacuc-protocol-correspondence-types/(key)]
+### Get Iacuc Protocol Correspondence Types by Key [GET /iacuc/api/v1/iacuc-protocol-correspondence-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"protoCorrespTypeCode": "(val)","description": "(val)","moduleId": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Protocol Correspondence Types [GET /research-sys/api/v1/iacuc-protocol-correspondence-types/]
+### Get All Iacuc Protocol Correspondence Types [GET /iacuc/api/v1/iacuc-protocol-correspondence-types/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"protoCorrespTypeCode": "(val)","description": "(val)","moduleId": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Protocol Correspondence Types with Filtering [GET /research-sys/api/v1/iacuc-protocol-correspondence-types/]
+### Get All Iacuc Protocol Correspondence Types with Filtering [GET /iacuc/api/v1/iacuc-protocol-correspondence-types/]
     
 + Parameters
 
-        + protoCorrespTypeCode
-            + description
-            + moduleId
+    + protoCorrespTypeCode (optional) - Proto Corresp Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + moduleId (optional) - Module Id. Maximum length is 1.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"protoCorrespTypeCode": "(val)","description": "(val)","moduleId": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Protocol Correspondence Types [GET /research-sys/api/v1/iacuc-protocol-correspondence-types/]
+### Get Schema for Iacuc Protocol Correspondence Types [GET /iacuc/api/v1/iacuc-protocol-correspondence-types/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["protoCorrespTypeCode","description","moduleId"],"primaryKey":"protoCorrespTypeCode"}
 		
-### Get Blueprint API specification for Iacuc Protocol Correspondence Types [GET /research-sys/api/v1/iacuc-protocol-correspondence-types/]
+### Get Blueprint API specification for Iacuc Protocol Correspondence Types [GET /iacuc/api/v1/iacuc-protocol-correspondence-types/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Protocol Correspondence Types [PUT /research-sys/api/v1/iacuc-protocol-correspondence-types/(key)]
+### Update Iacuc Protocol Correspondence Types [PUT /iacuc/api/v1/iacuc-protocol-correspondence-types/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Protocol Correspondence Types [PUT /research-sys/api/v1/iacuc-protocol-correspondence-types/]
+### Update Multiple Iacuc Protocol Correspondence Types [PUT /iacuc/api/v1/iacuc-protocol-correspondence-types/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Iacuc Protocol Correspondence Types [POST /research-sys/api/v1/iacuc-protocol-correspondence-types/]
+### Insert Iacuc Protocol Correspondence Types [POST /iacuc/api/v1/iacuc-protocol-correspondence-types/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"protoCorrespTypeCode": "(val)","description": "(val)","moduleId": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Protocol Correspondence Types [POST /research-sys/api/v1/iacuc-protocol-correspondence-types/]
+### Insert Multiple Iacuc Protocol Correspondence Types [POST /iacuc/api/v1/iacuc-protocol-correspondence-types/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"protoCorrespTypeCode": "(val)","description": "(val)","moduleId": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Protocol Correspondence Types by Key [DELETE /research-sys/api/v1/iacuc-protocol-correspondence-types/(key)]
+### Delete Iacuc Protocol Correspondence Types by Key [DELETE /iacuc/api/v1/iacuc-protocol-correspondence-types/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Correspondence Types [DELETE /research-sys/api/v1/iacuc-protocol-correspondence-types/]
+### Delete All Iacuc Protocol Correspondence Types [DELETE /iacuc/api/v1/iacuc-protocol-correspondence-types/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Correspondence Types with Matching [DELETE /research-sys/api/v1/iacuc-protocol-correspondence-types/]
+### Delete All Iacuc Protocol Correspondence Types with Matching [DELETE /iacuc/api/v1/iacuc-protocol-correspondence-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + protoCorrespTypeCode
-            + description
-            + moduleId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + protoCorrespTypeCode (optional) - Proto Corresp Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + moduleId (optional) - Module Id. Maximum length is 1.
 
       
 + Request

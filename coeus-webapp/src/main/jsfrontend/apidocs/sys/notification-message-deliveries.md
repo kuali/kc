@@ -43,11 +43,11 @@
     
 + Parameters
 
-        + id
-            + messageDeliveryStatus
-            + userRecipientId
-            + deliverySystemId
-            + lockedDateValue
+    + id (optional) - 
+    + messageDeliveryStatus (optional) - 
+    + userRecipientId (optional) - 
+    + deliverySystemId (optional) - 
+    + lockedDateValue (optional) - 
 
             
 + Request
@@ -219,12 +219,12 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + messageDeliveryStatus
-            + userRecipientId
-            + deliverySystemId
-            + lockedDateValue
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - 
+    + messageDeliveryStatus (optional) - 
+    + userRecipientId (optional) - 
+    + deliverySystemId (optional) - 
+    + lockedDateValue (optional) - 
 
       
 + Request

@@ -43,13 +43,13 @@
     
 + Parameters
 
-        + roleId
-            + roleTypeId
-            + roleNamespace
-            + roleName
-            + roleDescription
-            + active
-            + documentNumber
+    + roleId (optional) - Role Id. Maximum length is 40.
+    + roleTypeId (optional) - Role Type Id.
+    + roleNamespace (optional) - Nmspc Cd. Maximum length is 40.
+    + roleName (optional) - Role Name. Maximum length is 100.
+    + roleDescription (optional) - Role Description.
+    + active (optional) - Active. Maximum length is 1.
+    + documentNumber (optional) - Document Number. Maximum length is 14.
 
             
 + Request
@@ -221,14 +221,14 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + roleId
-            + roleTypeId
-            + roleNamespace
-            + roleName
-            + roleDescription
-            + active
-            + documentNumber
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + roleId (optional) - Role Id. Maximum length is 40.
+    + roleTypeId (optional) - Role Type Id.
+    + roleNamespace (optional) - Nmspc Cd. Maximum length is 40.
+    + roleName (optional) - Role Name. Maximum length is 100.
+    + roleDescription (optional) - Role Description.
+    + active (optional) - Active. Maximum length is 1.
+    + documentNumber (optional) - Document Number. Maximum length is 14.
 
       
 + Request

@@ -1,6 +1,6 @@
-## S2s Providers [/research-sys/api/v1/s2s-providers/]
+## S2s Providers [/propdev/api/v1/s2s-providers/]
 
-### Get S2s Providers by Key [GET /research-sys/api/v1/s2s-providers/(key)]
+### Get S2s Providers by Key [GET /propdev/api/v1/s2s-providers/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"code": "(val)","description": "(val)","connectorServiceName": "(val)","active": "(val)","_primaryKey": "(val)"}
 
-### Get All S2s Providers [GET /research-sys/api/v1/s2s-providers/]
+### Get All S2s Providers [GET /propdev/api/v1/s2s-providers/]
 	 
 + Request
 
@@ -39,14 +39,14 @@
               {"code": "(val)","description": "(val)","connectorServiceName": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All S2s Providers with Filtering [GET /research-sys/api/v1/s2s-providers/]
+### Get All S2s Providers with Filtering [GET /propdev/api/v1/s2s-providers/]
     
 + Parameters
 
-        + code
-            + description
-            + connectorServiceName
-            + active
+    + code (optional) - S2S Provider Code. Maximum length is 4.
+    + description (optional) - Description. Maximum length is 4000.
+    + connectorServiceName (optional) - S2S Connector Spring Service Name. Maximum length is 1000.
+    + active (optional) - This attribute is used to describe whether the associated object is active or inactive. Maximum length is 1.
 
             
 + Request
@@ -68,7 +68,7 @@
               {"code": "(val)","description": "(val)","connectorServiceName": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for S2s Providers [GET /research-sys/api/v1/s2s-providers/]
+### Get Schema for S2s Providers [GET /propdev/api/v1/s2s-providers/]
 	                                          
 + Parameters
 
@@ -90,7 +90,7 @@
     
             {"columns":["code","description","connectorServiceName","active"],"primaryKey":"code"}
 		
-### Get Blueprint API specification for S2s Providers [GET /research-sys/api/v1/s2s-providers/]
+### Get Blueprint API specification for S2s Providers [GET /propdev/api/v1/s2s-providers/]
 	 
 + Parameters
 
@@ -111,7 +111,7 @@
             transfer-encoding:chunked
 
 
-### Update S2s Providers [PUT /research-sys/api/v1/s2s-providers/(key)]
+### Update S2s Providers [PUT /propdev/api/v1/s2s-providers/(key)]
 
 + Request
 
@@ -126,7 +126,7 @@
 			
 + Response 204
 
-### Update Multiple S2s Providers [PUT /research-sys/api/v1/s2s-providers/]
+### Update Multiple S2s Providers [PUT /propdev/api/v1/s2s-providers/]
 
 + Request
 
@@ -144,7 +144,7 @@
 			
 + Response 204
 
-### Insert S2s Providers [POST /research-sys/api/v1/s2s-providers/]
+### Insert S2s Providers [POST /propdev/api/v1/s2s-providers/]
 
 + Request
 
@@ -163,7 +163,7 @@
             
             {"code": "(val)","description": "(val)","connectorServiceName": "(val)","active": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple S2s Providers [POST /research-sys/api/v1/s2s-providers/]
+### Insert Multiple S2s Providers [POST /propdev/api/v1/s2s-providers/]
 
 + Request
 
@@ -188,7 +188,7 @@
               {"code": "(val)","description": "(val)","connectorServiceName": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete S2s Providers by Key [DELETE /research-sys/api/v1/s2s-providers/(key)]
+### Delete S2s Providers by Key [DELETE /propdev/api/v1/s2s-providers/(key)]
 	 
 + Request
 
@@ -199,7 +199,7 @@
 
 + Response 204
 
-### Delete All S2s Providers [DELETE /research-sys/api/v1/s2s-providers/]
+### Delete All S2s Providers [DELETE /propdev/api/v1/s2s-providers/]
 
 + Parameters
 
@@ -214,15 +214,15 @@
 
 + Response 204
 
-### Delete All S2s Providers with Matching [DELETE /research-sys/api/v1/s2s-providers/]
+### Delete All S2s Providers with Matching [DELETE /propdev/api/v1/s2s-providers/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + code
-            + description
-            + connectorServiceName
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + code (optional) - S2S Provider Code. Maximum length is 4.
+    + description (optional) - Description. Maximum length is 4000.
+    + connectorServiceName (optional) - S2S Connector Spring Service Name. Maximum length is 1000.
+    + active (optional) - This attribute is used to describe whether the associated object is active or inactive. Maximum length is 1.
 
       
 + Request

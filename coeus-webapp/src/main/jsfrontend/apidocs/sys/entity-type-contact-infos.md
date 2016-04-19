@@ -43,9 +43,9 @@
     
 + Parameters
 
-        + entityId
-            + entityTypeCode
-            + active
+    + entityId (optional) - 
+    + entityTypeCode (optional) - 
+    + active (optional) - 
 
             
 + Request
@@ -217,10 +217,10 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + entityId
-            + entityTypeCode
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + entityId (optional) - 
+    + entityTypeCode (optional) - 
+    + active (optional) - 
 
       
 + Request

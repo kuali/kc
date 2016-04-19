@@ -1,6 +1,6 @@
-## Award Budget Statuses [/research-sys/api/v1/award-budget-statuses/]
+## Award Budget Statuses [/award/api/v1/award-budget-statuses/]
 
-### Get Award Budget Statuses by Key [GET /research-sys/api/v1/award-budget-statuses/(key)]
+### Get Award Budget Statuses by Key [GET /award/api/v1/award-budget-statuses/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"awardBudgetStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Award Budget Statuses [GET /research-sys/api/v1/award-budget-statuses/]
+### Get All Award Budget Statuses [GET /award/api/v1/award-budget-statuses/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"awardBudgetStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Award Budget Statuses with Filtering [GET /research-sys/api/v1/award-budget-statuses/]
+### Get All Award Budget Statuses with Filtering [GET /award/api/v1/award-budget-statuses/]
     
 + Parameters
 
-        + awardBudgetStatusCode
-            + description
+    + awardBudgetStatusCode (optional) - Award Budget Status Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"awardBudgetStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Award Budget Statuses [GET /research-sys/api/v1/award-budget-statuses/]
+### Get Schema for Award Budget Statuses [GET /award/api/v1/award-budget-statuses/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["awardBudgetStatusCode","description"],"primaryKey":"awardBudgetStatusCode"}
 		
-### Get Blueprint API specification for Award Budget Statuses [GET /research-sys/api/v1/award-budget-statuses/]
+### Get Blueprint API specification for Award Budget Statuses [GET /award/api/v1/award-budget-statuses/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Award Budget Statuses [PUT /research-sys/api/v1/award-budget-statuses/(key)]
+### Update Award Budget Statuses [PUT /award/api/v1/award-budget-statuses/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Award Budget Statuses [PUT /research-sys/api/v1/award-budget-statuses/]
+### Update Multiple Award Budget Statuses [PUT /award/api/v1/award-budget-statuses/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Award Budget Statuses [POST /research-sys/api/v1/award-budget-statuses/]
+### Insert Award Budget Statuses [POST /award/api/v1/award-budget-statuses/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"awardBudgetStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Award Budget Statuses [POST /research-sys/api/v1/award-budget-statuses/]
+### Insert Multiple Award Budget Statuses [POST /award/api/v1/award-budget-statuses/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"awardBudgetStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Award Budget Statuses by Key [DELETE /research-sys/api/v1/award-budget-statuses/(key)]
+### Delete Award Budget Statuses by Key [DELETE /award/api/v1/award-budget-statuses/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Award Budget Statuses [DELETE /research-sys/api/v1/award-budget-statuses/]
+### Delete All Award Budget Statuses [DELETE /award/api/v1/award-budget-statuses/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Award Budget Statuses with Matching [DELETE /research-sys/api/v1/award-budget-statuses/]
+### Delete All Award Budget Statuses with Matching [DELETE /award/api/v1/award-budget-statuses/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + awardBudgetStatusCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + awardBudgetStatusCode (optional) - Award Budget Status Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

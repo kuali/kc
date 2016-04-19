@@ -1,6 +1,6 @@
-## Research Areas [/research-sys/api/v1/research-areas/]
+## Research Areas [/irb/api/v1/research-areas/]
 
-### Get Research Areas by Key [GET /research-sys/api/v1/research-areas/(key)]
+### Get Research Areas by Key [GET /irb/api/v1/research-areas/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"researchAreaCode": "(val)","description": "(val)","hasChildrenFlag": "(val)","parentResearchAreaCode": "(val)","active": "(val)","_primaryKey": "(val)"}
 
-### Get All Research Areas [GET /research-sys/api/v1/research-areas/]
+### Get All Research Areas [GET /irb/api/v1/research-areas/]
 	 
 + Request
 
@@ -39,15 +39,15 @@
               {"researchAreaCode": "(val)","description": "(val)","hasChildrenFlag": "(val)","parentResearchAreaCode": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Research Areas with Filtering [GET /research-sys/api/v1/research-areas/]
+### Get All Research Areas with Filtering [GET /irb/api/v1/research-areas/]
     
 + Parameters
 
-        + researchAreaCode
-            + description
-            + hasChildrenFlag
-            + parentResearchAreaCode
-            + active
+    + researchAreaCode (optional) - Research Area Code. Maximum length is 8.
+    + description (optional) - Description. Maximum length is 200.
+    + hasChildrenFlag (optional) - Has Children Flag. Maximum length is 1.
+    + parentResearchAreaCode (optional) - Parent Research Area Code. Maximum length is 8.
+    + active (optional) - Active. Maximum length is 1.
 
             
 + Request
@@ -69,7 +69,7 @@
               {"researchAreaCode": "(val)","description": "(val)","hasChildrenFlag": "(val)","parentResearchAreaCode": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Research Areas [GET /research-sys/api/v1/research-areas/]
+### Get Schema for Research Areas [GET /irb/api/v1/research-areas/]
 	                                          
 + Parameters
 
@@ -91,7 +91,7 @@
     
             {"columns":["researchAreaCode","description","hasChildrenFlag","parentResearchAreaCode","active"],"primaryKey":"researchAreaCode"}
 		
-### Get Blueprint API specification for Research Areas [GET /research-sys/api/v1/research-areas/]
+### Get Blueprint API specification for Research Areas [GET /irb/api/v1/research-areas/]
 	 
 + Parameters
 
@@ -112,7 +112,7 @@
             transfer-encoding:chunked
 
 
-### Update Research Areas [PUT /research-sys/api/v1/research-areas/(key)]
+### Update Research Areas [PUT /irb/api/v1/research-areas/(key)]
 
 + Request
 
@@ -127,7 +127,7 @@
 			
 + Response 204
 
-### Update Multiple Research Areas [PUT /research-sys/api/v1/research-areas/]
+### Update Multiple Research Areas [PUT /irb/api/v1/research-areas/]
 
 + Request
 
@@ -145,7 +145,7 @@
 			
 + Response 204
 
-### Insert Research Areas [POST /research-sys/api/v1/research-areas/]
+### Insert Research Areas [POST /irb/api/v1/research-areas/]
 
 + Request
 
@@ -164,7 +164,7 @@
             
             {"researchAreaCode": "(val)","description": "(val)","hasChildrenFlag": "(val)","parentResearchAreaCode": "(val)","active": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Research Areas [POST /research-sys/api/v1/research-areas/]
+### Insert Multiple Research Areas [POST /irb/api/v1/research-areas/]
 
 + Request
 
@@ -189,7 +189,7 @@
               {"researchAreaCode": "(val)","description": "(val)","hasChildrenFlag": "(val)","parentResearchAreaCode": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Research Areas by Key [DELETE /research-sys/api/v1/research-areas/(key)]
+### Delete Research Areas by Key [DELETE /irb/api/v1/research-areas/(key)]
 	 
 + Request
 
@@ -200,7 +200,7 @@
 
 + Response 204
 
-### Delete All Research Areas [DELETE /research-sys/api/v1/research-areas/]
+### Delete All Research Areas [DELETE /irb/api/v1/research-areas/]
 
 + Parameters
 
@@ -215,16 +215,16 @@
 
 + Response 204
 
-### Delete All Research Areas with Matching [DELETE /research-sys/api/v1/research-areas/]
+### Delete All Research Areas with Matching [DELETE /irb/api/v1/research-areas/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + researchAreaCode
-            + description
-            + hasChildrenFlag
-            + parentResearchAreaCode
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + researchAreaCode (optional) - Research Area Code. Maximum length is 8.
+    + description (optional) - Description. Maximum length is 200.
+    + hasChildrenFlag (optional) - Has Children Flag. Maximum length is 1.
+    + parentResearchAreaCode (optional) - Parent Research Area Code. Maximum length is 8.
+    + active (optional) - Active. Maximum length is 1.
 
       
 + Request

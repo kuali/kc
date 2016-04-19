@@ -1,6 +1,6 @@
-## Iacuc Protocol Person Mass Changes [/research-sys/api/v1/iacuc-protocol-person-mass-changes/]
+## Iacuc Protocol Person Mass Changes [/iacuc/api/v1/iacuc-protocol-person-mass-changes/]
 
-### Get Iacuc Protocol Person Mass Changes by Key [GET /research-sys/api/v1/iacuc-protocol-person-mass-changes/(key)]
+### Get Iacuc Protocol Person Mass Changes by Key [GET /iacuc/api/v1/iacuc-protocol-person-mass-changes/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"iacucProtocolPersonMassChangeId": "(val)","personMassChangeId": "(val)","investigator": "(val)","keyStudyPerson": "(val)","correspondents": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Protocol Person Mass Changes [GET /research-sys/api/v1/iacuc-protocol-person-mass-changes/]
+### Get All Iacuc Protocol Person Mass Changes [GET /iacuc/api/v1/iacuc-protocol-person-mass-changes/]
 	 
 + Request
 
@@ -39,15 +39,15 @@
               {"iacucProtocolPersonMassChangeId": "(val)","personMassChangeId": "(val)","investigator": "(val)","keyStudyPerson": "(val)","correspondents": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Protocol Person Mass Changes with Filtering [GET /research-sys/api/v1/iacuc-protocol-person-mass-changes/]
+### Get All Iacuc Protocol Person Mass Changes with Filtering [GET /iacuc/api/v1/iacuc-protocol-person-mass-changes/]
     
 + Parameters
 
-        + iacucProtocolPersonMassChangeId
-            + personMassChangeId
-            + investigator
-            + keyStudyPerson
-            + correspondents
+    + iacucProtocolPersonMassChangeId (optional) - IACUC Protocol Person Mass Change Id. Maximum length is 12.
+    + personMassChangeId (optional) - Person Mass Change Id. Maximum length is 12.
+    + investigator (optional) - Investigator. Maximum length is 1.
+    + keyStudyPerson (optional) - Key Study Person. Maximum length is 1.
+    + correspondents (optional) - Correspondents. Maximum length is 1.
 
             
 + Request
@@ -69,7 +69,7 @@
               {"iacucProtocolPersonMassChangeId": "(val)","personMassChangeId": "(val)","investigator": "(val)","keyStudyPerson": "(val)","correspondents": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Protocol Person Mass Changes [GET /research-sys/api/v1/iacuc-protocol-person-mass-changes/]
+### Get Schema for Iacuc Protocol Person Mass Changes [GET /iacuc/api/v1/iacuc-protocol-person-mass-changes/]
 	                                          
 + Parameters
 
@@ -91,7 +91,7 @@
     
             {"columns":["iacucProtocolPersonMassChangeId","personMassChangeId","investigator","keyStudyPerson","correspondents"],"primaryKey":"iacucProtocolPersonMassChangeId"}
 		
-### Get Blueprint API specification for Iacuc Protocol Person Mass Changes [GET /research-sys/api/v1/iacuc-protocol-person-mass-changes/]
+### Get Blueprint API specification for Iacuc Protocol Person Mass Changes [GET /iacuc/api/v1/iacuc-protocol-person-mass-changes/]
 	 
 + Parameters
 
@@ -112,7 +112,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Protocol Person Mass Changes [PUT /research-sys/api/v1/iacuc-protocol-person-mass-changes/(key)]
+### Update Iacuc Protocol Person Mass Changes [PUT /iacuc/api/v1/iacuc-protocol-person-mass-changes/(key)]
 
 + Request
 
@@ -127,7 +127,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Protocol Person Mass Changes [PUT /research-sys/api/v1/iacuc-protocol-person-mass-changes/]
+### Update Multiple Iacuc Protocol Person Mass Changes [PUT /iacuc/api/v1/iacuc-protocol-person-mass-changes/]
 
 + Request
 
@@ -145,7 +145,7 @@
 			
 + Response 204
 
-### Insert Iacuc Protocol Person Mass Changes [POST /research-sys/api/v1/iacuc-protocol-person-mass-changes/]
+### Insert Iacuc Protocol Person Mass Changes [POST /iacuc/api/v1/iacuc-protocol-person-mass-changes/]
 
 + Request
 
@@ -164,7 +164,7 @@
             
             {"iacucProtocolPersonMassChangeId": "(val)","personMassChangeId": "(val)","investigator": "(val)","keyStudyPerson": "(val)","correspondents": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Protocol Person Mass Changes [POST /research-sys/api/v1/iacuc-protocol-person-mass-changes/]
+### Insert Multiple Iacuc Protocol Person Mass Changes [POST /iacuc/api/v1/iacuc-protocol-person-mass-changes/]
 
 + Request
 
@@ -189,7 +189,7 @@
               {"iacucProtocolPersonMassChangeId": "(val)","personMassChangeId": "(val)","investigator": "(val)","keyStudyPerson": "(val)","correspondents": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Protocol Person Mass Changes by Key [DELETE /research-sys/api/v1/iacuc-protocol-person-mass-changes/(key)]
+### Delete Iacuc Protocol Person Mass Changes by Key [DELETE /iacuc/api/v1/iacuc-protocol-person-mass-changes/(key)]
 	 
 + Request
 
@@ -200,7 +200,7 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Person Mass Changes [DELETE /research-sys/api/v1/iacuc-protocol-person-mass-changes/]
+### Delete All Iacuc Protocol Person Mass Changes [DELETE /iacuc/api/v1/iacuc-protocol-person-mass-changes/]
 
 + Parameters
 
@@ -215,16 +215,16 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Person Mass Changes with Matching [DELETE /research-sys/api/v1/iacuc-protocol-person-mass-changes/]
+### Delete All Iacuc Protocol Person Mass Changes with Matching [DELETE /iacuc/api/v1/iacuc-protocol-person-mass-changes/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + iacucProtocolPersonMassChangeId
-            + personMassChangeId
-            + investigator
-            + keyStudyPerson
-            + correspondents
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + iacucProtocolPersonMassChangeId (optional) - IACUC Protocol Person Mass Change Id. Maximum length is 12.
+    + personMassChangeId (optional) - Person Mass Change Id. Maximum length is 12.
+    + investigator (optional) - Investigator. Maximum length is 1.
+    + keyStudyPerson (optional) - Key Study Person. Maximum length is 1.
+    + correspondents (optional) - Correspondents. Maximum length is 1.
 
       
 + Request

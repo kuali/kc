@@ -43,16 +43,16 @@
     
 + Parameters
 
-        + id
-            + deliveryType
-            + creationDateTimeValue
-            + sendDateTimeValue
-            + autoRemoveDateTimeValue
-            + title
-            + content
-            + processingFlag
-            + lockedDateValue
-            + docTypeName
+    + id (optional) - 
+    + deliveryType (optional) - 
+    + creationDateTimeValue (optional) - 
+    + sendDateTimeValue (optional) - 
+    + autoRemoveDateTimeValue (optional) - 
+    + title (optional) - 
+    + content (optional) - 
+    + processingFlag (optional) - 
+    + lockedDateValue (optional) - 
+    + docTypeName (optional) - 
 
             
 + Request
@@ -224,17 +224,17 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + deliveryType
-            + creationDateTimeValue
-            + sendDateTimeValue
-            + autoRemoveDateTimeValue
-            + title
-            + content
-            + processingFlag
-            + lockedDateValue
-            + docTypeName
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - 
+    + deliveryType (optional) - 
+    + creationDateTimeValue (optional) - 
+    + sendDateTimeValue (optional) - 
+    + autoRemoveDateTimeValue (optional) - 
+    + title (optional) - 
+    + content (optional) - 
+    + processingFlag (optional) - 
+    + lockedDateValue (optional) - 
+    + docTypeName (optional) - 
 
       
 + Request

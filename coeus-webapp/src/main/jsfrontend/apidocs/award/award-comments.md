@@ -1,6 +1,6 @@
-## Award Comments [/research-sys/api/v1/award-comments/]
+## Award Comments [/award/api/v1/award-comments/]
 
-### Get Award Comments by Key [GET /research-sys/api/v1/award-comments/(key)]
+### Get Award Comments by Key [GET /award/api/v1/award-comments/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"awardCommentId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","commentTypeCode": "(val)","checklistPrintFlag": "(val)","comments": "(val)","_primaryKey": "(val)"}
 
-### Get All Award Comments [GET /research-sys/api/v1/award-comments/]
+### Get All Award Comments [GET /award/api/v1/award-comments/]
 	 
 + Request
 
@@ -39,17 +39,17 @@
               {"awardCommentId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","commentTypeCode": "(val)","checklistPrintFlag": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Award Comments with Filtering [GET /research-sys/api/v1/award-comments/]
+### Get All Award Comments with Filtering [GET /award/api/v1/award-comments/]
     
 + Parameters
 
-        + awardCommentId
-            + awardId
-            + awardNumber
-            + sequenceNumber
-            + commentTypeCode
-            + checklistPrintFlag
-            + comments
+    + awardCommentId (optional) - Award Comment ID. Maximum length is 8.
+    + awardId (optional) - Award Id. Maximum length is 12.
+    + awardNumber (optional) - Award ID. Maximum length is 12.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 4.
+    + commentTypeCode (optional) - 
+    + checklistPrintFlag (optional) - Checklist Print Flag. Maximum length is 1.
+    + comments (optional) - Comments. Maximum length is 999999999.
 
             
 + Request
@@ -71,7 +71,7 @@
               {"awardCommentId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","commentTypeCode": "(val)","checklistPrintFlag": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Award Comments [GET /research-sys/api/v1/award-comments/]
+### Get Schema for Award Comments [GET /award/api/v1/award-comments/]
 	                                          
 + Parameters
 
@@ -93,7 +93,7 @@
     
             {"columns":["awardCommentId","awardId","awardNumber","sequenceNumber","commentTypeCode","checklistPrintFlag","comments"],"primaryKey":"awardCommentId"}
 		
-### Get Blueprint API specification for Award Comments [GET /research-sys/api/v1/award-comments/]
+### Get Blueprint API specification for Award Comments [GET /award/api/v1/award-comments/]
 	 
 + Parameters
 
@@ -114,7 +114,7 @@
             transfer-encoding:chunked
 
 
-### Update Award Comments [PUT /research-sys/api/v1/award-comments/(key)]
+### Update Award Comments [PUT /award/api/v1/award-comments/(key)]
 
 + Request
 
@@ -129,7 +129,7 @@
 			
 + Response 204
 
-### Update Multiple Award Comments [PUT /research-sys/api/v1/award-comments/]
+### Update Multiple Award Comments [PUT /award/api/v1/award-comments/]
 
 + Request
 
@@ -147,7 +147,7 @@
 			
 + Response 204
 
-### Insert Award Comments [POST /research-sys/api/v1/award-comments/]
+### Insert Award Comments [POST /award/api/v1/award-comments/]
 
 + Request
 
@@ -166,7 +166,7 @@
             
             {"awardCommentId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","commentTypeCode": "(val)","checklistPrintFlag": "(val)","comments": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Award Comments [POST /research-sys/api/v1/award-comments/]
+### Insert Multiple Award Comments [POST /award/api/v1/award-comments/]
 
 + Request
 
@@ -191,7 +191,7 @@
               {"awardCommentId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","commentTypeCode": "(val)","checklistPrintFlag": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Award Comments by Key [DELETE /research-sys/api/v1/award-comments/(key)]
+### Delete Award Comments by Key [DELETE /award/api/v1/award-comments/(key)]
 	 
 + Request
 
@@ -202,7 +202,7 @@
 
 + Response 204
 
-### Delete All Award Comments [DELETE /research-sys/api/v1/award-comments/]
+### Delete All Award Comments [DELETE /award/api/v1/award-comments/]
 
 + Parameters
 
@@ -217,18 +217,18 @@
 
 + Response 204
 
-### Delete All Award Comments with Matching [DELETE /research-sys/api/v1/award-comments/]
+### Delete All Award Comments with Matching [DELETE /award/api/v1/award-comments/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + awardCommentId
-            + awardId
-            + awardNumber
-            + sequenceNumber
-            + commentTypeCode
-            + checklistPrintFlag
-            + comments
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + awardCommentId (optional) - Award Comment ID. Maximum length is 8.
+    + awardId (optional) - Award Id. Maximum length is 12.
+    + awardNumber (optional) - Award ID. Maximum length is 12.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 4.
+    + commentTypeCode (optional) - 
+    + checklistPrintFlag (optional) - Checklist Print Flag. Maximum length is 1.
+    + comments (optional) - Comments. Maximum length is 999999999.
 
       
 + Request

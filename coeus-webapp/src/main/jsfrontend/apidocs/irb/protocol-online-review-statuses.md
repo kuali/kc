@@ -1,6 +1,6 @@
-## Protocol Online Review Statuses [/research-sys/api/v1/protocol-online-review-statuses/]
+## Protocol Online Review Statuses [/irb/api/v1/protocol-online-review-statuses/]
 
-### Get Protocol Online Review Statuses by Key [GET /research-sys/api/v1/protocol-online-review-statuses/(key)]
+### Get Protocol Online Review Statuses by Key [GET /irb/api/v1/protocol-online-review-statuses/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"statusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Protocol Online Review Statuses [GET /research-sys/api/v1/protocol-online-review-statuses/]
+### Get All Protocol Online Review Statuses [GET /irb/api/v1/protocol-online-review-statuses/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"statusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Protocol Online Review Statuses with Filtering [GET /research-sys/api/v1/protocol-online-review-statuses/]
+### Get All Protocol Online Review Statuses with Filtering [GET /irb/api/v1/protocol-online-review-statuses/]
     
 + Parameters
 
-        + statusCode
-            + description
+    + statusCode (optional) - Status Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 300.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"statusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Protocol Online Review Statuses [GET /research-sys/api/v1/protocol-online-review-statuses/]
+### Get Schema for Protocol Online Review Statuses [GET /irb/api/v1/protocol-online-review-statuses/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["statusCode","description"],"primaryKey":"statusCode"}
 		
-### Get Blueprint API specification for Protocol Online Review Statuses [GET /research-sys/api/v1/protocol-online-review-statuses/]
+### Get Blueprint API specification for Protocol Online Review Statuses [GET /irb/api/v1/protocol-online-review-statuses/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Protocol Online Review Statuses [PUT /research-sys/api/v1/protocol-online-review-statuses/(key)]
+### Update Protocol Online Review Statuses [PUT /irb/api/v1/protocol-online-review-statuses/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Protocol Online Review Statuses [PUT /research-sys/api/v1/protocol-online-review-statuses/]
+### Update Multiple Protocol Online Review Statuses [PUT /irb/api/v1/protocol-online-review-statuses/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Protocol Online Review Statuses [POST /research-sys/api/v1/protocol-online-review-statuses/]
+### Insert Protocol Online Review Statuses [POST /irb/api/v1/protocol-online-review-statuses/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"statusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Protocol Online Review Statuses [POST /research-sys/api/v1/protocol-online-review-statuses/]
+### Insert Multiple Protocol Online Review Statuses [POST /irb/api/v1/protocol-online-review-statuses/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"statusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Protocol Online Review Statuses by Key [DELETE /research-sys/api/v1/protocol-online-review-statuses/(key)]
+### Delete Protocol Online Review Statuses by Key [DELETE /irb/api/v1/protocol-online-review-statuses/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Protocol Online Review Statuses [DELETE /research-sys/api/v1/protocol-online-review-statuses/]
+### Delete All Protocol Online Review Statuses [DELETE /irb/api/v1/protocol-online-review-statuses/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Protocol Online Review Statuses with Matching [DELETE /research-sys/api/v1/protocol-online-review-statuses/]
+### Delete All Protocol Online Review Statuses with Matching [DELETE /irb/api/v1/protocol-online-review-statuses/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + statusCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + statusCode (optional) - Status Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 300.
 
       
 + Request

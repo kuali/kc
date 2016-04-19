@@ -43,30 +43,30 @@
     
 + Parameters
 
-        + documentTypeId
-            + docTypeParentId
-            + name
-            + version
-            + active
-            + currentInd
-            + description
-            + label
-            + previousVersionId
-            + documentId
-            + unresolvedHelpDefinitionUrl
-            + unresolvedDocSearchHelpUrl
-            + unresolvedDocHandlerUrl
-            + postProcessorName
-            + workgroupId
-            + blanketApproveWorkgroupId
-            + blanketApprovePolicy
-            + reportingWorkgroupId
-            + actualApplicationId
-            + authorizer
-            + routingVersion
-            + actualNotificationFromAddress
-            + documentTypeSecurityXml
-            + customEmailStylesheet
+    + documentTypeId (optional) - Id. Maximum length is 19.
+    + docTypeParentId (optional) - Parent Id. Maximum length is 19.
+    + name (optional) - Name. Maximum length is 64.
+    + version (optional) - Version.
+    + active (optional) - Active Indicator. Maximum length is 1.
+    + currentInd (optional) - Current Ind.
+    + description (optional) - Description. Maximum length is 4000.
+    + label (optional) - Label. Maximum length is 128.
+    + previousVersionId (optional) - Previous Version Id.
+    + documentId (optional) - Document Id.
+    + unresolvedHelpDefinitionUrl (optional) - Help Definition URL. Maximum length is 255.
+    + unresolvedDocSearchHelpUrl (optional) - Document Search Help URL. Maximum length is 255.
+    + unresolvedDocHandlerUrl (optional) - Document Handler URL. Maximum length is 255.
+    + postProcessorName (optional) - Post Processor Name.
+    + workgroupId (optional) - Workgroup Id.
+    + blanketApproveWorkgroupId (optional) - Blanket Approve Workgroup Id.
+    + blanketApprovePolicy (optional) - Blanket Approve Policy.
+    + reportingWorkgroupId (optional) - Reporting Workgroup Id.
+    + actualApplicationId (optional) - Actual Application Id.
+    + authorizer (optional) - Authorizer.
+    + routingVersion (optional) - Routing Version.
+    + actualNotificationFromAddress (optional) - Notification From Address. Maximum length is 255.
+    + documentTypeSecurityXml (optional) - Document Type Security Xml.
+    + customEmailStylesheet (optional) - Custom Email Stylesheet.
 
             
 + Request
@@ -238,31 +238,31 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + documentTypeId
-            + docTypeParentId
-            + name
-            + version
-            + active
-            + currentInd
-            + description
-            + label
-            + previousVersionId
-            + documentId
-            + unresolvedHelpDefinitionUrl
-            + unresolvedDocSearchHelpUrl
-            + unresolvedDocHandlerUrl
-            + postProcessorName
-            + workgroupId
-            + blanketApproveWorkgroupId
-            + blanketApprovePolicy
-            + reportingWorkgroupId
-            + actualApplicationId
-            + authorizer
-            + routingVersion
-            + actualNotificationFromAddress
-            + documentTypeSecurityXml
-            + customEmailStylesheet
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + documentTypeId (optional) - Id. Maximum length is 19.
+    + docTypeParentId (optional) - Parent Id. Maximum length is 19.
+    + name (optional) - Name. Maximum length is 64.
+    + version (optional) - Version.
+    + active (optional) - Active Indicator. Maximum length is 1.
+    + currentInd (optional) - Current Ind.
+    + description (optional) - Description. Maximum length is 4000.
+    + label (optional) - Label. Maximum length is 128.
+    + previousVersionId (optional) - Previous Version Id.
+    + documentId (optional) - Document Id.
+    + unresolvedHelpDefinitionUrl (optional) - Help Definition URL. Maximum length is 255.
+    + unresolvedDocSearchHelpUrl (optional) - Document Search Help URL. Maximum length is 255.
+    + unresolvedDocHandlerUrl (optional) - Document Handler URL. Maximum length is 255.
+    + postProcessorName (optional) - Post Processor Name.
+    + workgroupId (optional) - Workgroup Id.
+    + blanketApproveWorkgroupId (optional) - Blanket Approve Workgroup Id.
+    + blanketApprovePolicy (optional) - Blanket Approve Policy.
+    + reportingWorkgroupId (optional) - Reporting Workgroup Id.
+    + actualApplicationId (optional) - Actual Application Id.
+    + authorizer (optional) - Authorizer.
+    + routingVersion (optional) - Routing Version.
+    + actualNotificationFromAddress (optional) - Notification From Address. Maximum length is 255.
+    + documentTypeSecurityXml (optional) - Document Type Security Xml.
+    + customEmailStylesheet (optional) - Custom Email Stylesheet.
 
       
 + Request

@@ -1,6 +1,6 @@
-## Science Keywords [/research-sys/api/v1/science-keywords/]
+## Science Keywords [/research-common/api/v1/science-keywords/]
 
-### Get Science Keywords by Key [GET /research-sys/api/v1/science-keywords/(key)]
+### Get Science Keywords by Key [GET /research-common/api/v1/science-keywords/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Science Keywords [GET /research-sys/api/v1/science-keywords/]
+### Get All Science Keywords [GET /research-common/api/v1/science-keywords/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Science Keywords with Filtering [GET /research-sys/api/v1/science-keywords/]
+### Get All Science Keywords with Filtering [GET /research-common/api/v1/science-keywords/]
     
 + Parameters
 
-        + code
-            + description
+    + code (optional) - Science Keyword Code. Maximum length is 15.
+    + description (optional) - The actual keyword(s) specific to the proposal that can be used in database lookups and reports. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Science Keywords [GET /research-sys/api/v1/science-keywords/]
+### Get Schema for Science Keywords [GET /research-common/api/v1/science-keywords/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["code","description"],"primaryKey":"code"}
 		
-### Get Blueprint API specification for Science Keywords [GET /research-sys/api/v1/science-keywords/]
+### Get Blueprint API specification for Science Keywords [GET /research-common/api/v1/science-keywords/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Science Keywords [PUT /research-sys/api/v1/science-keywords/(key)]
+### Update Science Keywords [PUT /research-common/api/v1/science-keywords/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Science Keywords [PUT /research-sys/api/v1/science-keywords/]
+### Update Multiple Science Keywords [PUT /research-common/api/v1/science-keywords/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Science Keywords [POST /research-sys/api/v1/science-keywords/]
+### Insert Science Keywords [POST /research-common/api/v1/science-keywords/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Science Keywords [POST /research-sys/api/v1/science-keywords/]
+### Insert Multiple Science Keywords [POST /research-common/api/v1/science-keywords/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Science Keywords by Key [DELETE /research-sys/api/v1/science-keywords/(key)]
+### Delete Science Keywords by Key [DELETE /research-common/api/v1/science-keywords/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Science Keywords [DELETE /research-sys/api/v1/science-keywords/]
+### Delete All Science Keywords [DELETE /research-common/api/v1/science-keywords/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Science Keywords with Matching [DELETE /research-sys/api/v1/science-keywords/]
+### Delete All Science Keywords with Matching [DELETE /research-common/api/v1/science-keywords/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + code
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + code (optional) - Science Keyword Code. Maximum length is 15.
+    + description (optional) - The actual keyword(s) specific to the proposal that can be used in database lookups and reports. Maximum length is 200.
 
       
 + Request

@@ -43,11 +43,11 @@
     
 + Parameters
 
-        + id
-            + recipientId
-            + delivererName
-            + channel
-            + lockVerNbr
+    + id (optional) - 
+    + recipientId (optional) - 
+    + delivererName (optional) - 
+    + channel (optional) - 
+    + lockVerNbr (optional) - 
 
             
 + Request
@@ -219,12 +219,12 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + recipientId
-            + delivererName
-            + channel
-            + lockVerNbr
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - 
+    + recipientId (optional) - 
+    + delivererName (optional) - 
+    + channel (optional) - 
+    + lockVerNbr (optional) - 
 
       
 + Request

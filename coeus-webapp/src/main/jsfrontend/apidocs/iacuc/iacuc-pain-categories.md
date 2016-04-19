@@ -1,6 +1,6 @@
-## Iacuc Pain Categories [/research-sys/api/v1/iacuc-pain-categories/]
+## Iacuc Pain Categories [/iacuc/api/v1/iacuc-pain-categories/]
 
-### Get Iacuc Pain Categories by Key [GET /research-sys/api/v1/iacuc-pain-categories/(key)]
+### Get Iacuc Pain Categories by Key [GET /iacuc/api/v1/iacuc-pain-categories/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"painCategoryCode": "(val)","painCategory": "(val)","painLevel": "(val)","active": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Pain Categories [GET /research-sys/api/v1/iacuc-pain-categories/]
+### Get All Iacuc Pain Categories [GET /iacuc/api/v1/iacuc-pain-categories/]
 	 
 + Request
 
@@ -39,14 +39,14 @@
               {"painCategoryCode": "(val)","painCategory": "(val)","painLevel": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Pain Categories with Filtering [GET /research-sys/api/v1/iacuc-pain-categories/]
+### Get All Iacuc Pain Categories with Filtering [GET /iacuc/api/v1/iacuc-pain-categories/]
     
 + Parameters
 
-        + painCategoryCode
-            + painCategory
-            + painLevel
-            + active
+    + painCategoryCode (optional) - Pain Category Code. Maximum length is 3.
+    + painCategory (optional) - Pain Category. Maximum length is 200.
+    + painLevel (optional) - Pain Level. Maximum length is 3.
+    + active (optional) - Active. Maximum length is 1.
 
             
 + Request
@@ -68,7 +68,7 @@
               {"painCategoryCode": "(val)","painCategory": "(val)","painLevel": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Pain Categories [GET /research-sys/api/v1/iacuc-pain-categories/]
+### Get Schema for Iacuc Pain Categories [GET /iacuc/api/v1/iacuc-pain-categories/]
 	                                          
 + Parameters
 
@@ -90,7 +90,7 @@
     
             {"columns":["painCategoryCode","painCategory","painLevel","active"],"primaryKey":"painCategoryCode"}
 		
-### Get Blueprint API specification for Iacuc Pain Categories [GET /research-sys/api/v1/iacuc-pain-categories/]
+### Get Blueprint API specification for Iacuc Pain Categories [GET /iacuc/api/v1/iacuc-pain-categories/]
 	 
 + Parameters
 
@@ -111,7 +111,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Pain Categories [PUT /research-sys/api/v1/iacuc-pain-categories/(key)]
+### Update Iacuc Pain Categories [PUT /iacuc/api/v1/iacuc-pain-categories/(key)]
 
 + Request
 
@@ -126,7 +126,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Pain Categories [PUT /research-sys/api/v1/iacuc-pain-categories/]
+### Update Multiple Iacuc Pain Categories [PUT /iacuc/api/v1/iacuc-pain-categories/]
 
 + Request
 
@@ -144,7 +144,7 @@
 			
 + Response 204
 
-### Insert Iacuc Pain Categories [POST /research-sys/api/v1/iacuc-pain-categories/]
+### Insert Iacuc Pain Categories [POST /iacuc/api/v1/iacuc-pain-categories/]
 
 + Request
 
@@ -163,7 +163,7 @@
             
             {"painCategoryCode": "(val)","painCategory": "(val)","painLevel": "(val)","active": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Pain Categories [POST /research-sys/api/v1/iacuc-pain-categories/]
+### Insert Multiple Iacuc Pain Categories [POST /iacuc/api/v1/iacuc-pain-categories/]
 
 + Request
 
@@ -188,7 +188,7 @@
               {"painCategoryCode": "(val)","painCategory": "(val)","painLevel": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Pain Categories by Key [DELETE /research-sys/api/v1/iacuc-pain-categories/(key)]
+### Delete Iacuc Pain Categories by Key [DELETE /iacuc/api/v1/iacuc-pain-categories/(key)]
 	 
 + Request
 
@@ -199,7 +199,7 @@
 
 + Response 204
 
-### Delete All Iacuc Pain Categories [DELETE /research-sys/api/v1/iacuc-pain-categories/]
+### Delete All Iacuc Pain Categories [DELETE /iacuc/api/v1/iacuc-pain-categories/]
 
 + Parameters
 
@@ -214,15 +214,15 @@
 
 + Response 204
 
-### Delete All Iacuc Pain Categories with Matching [DELETE /research-sys/api/v1/iacuc-pain-categories/]
+### Delete All Iacuc Pain Categories with Matching [DELETE /iacuc/api/v1/iacuc-pain-categories/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + painCategoryCode
-            + painCategory
-            + painLevel
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + painCategoryCode (optional) - Pain Category Code. Maximum length is 3.
+    + painCategory (optional) - Pain Category. Maximum length is 200.
+    + painLevel (optional) - Pain Level. Maximum length is 3.
+    + active (optional) - Active. Maximum length is 1.
 
       
 + Request

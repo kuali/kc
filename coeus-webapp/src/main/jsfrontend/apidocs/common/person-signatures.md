@@ -1,6 +1,6 @@
-## Person Signatures [/research-sys/api/v1/person-signatures/]
+## Person Signatures [/research-common/api/v1/person-signatures/]
 
-### Get Person Signatures by Key [GET /research-sys/api/v1/person-signatures/(key)]
+### Get Person Signatures by Key [GET /research-common/api/v1/person-signatures/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"personSignatureId": "(val)","personId": "(val)","signatureActive": "(val)","attachmentContent": "(val)","fileName": "(val)","contentType": "(val)","_primaryKey": "(val)"}
 
-### Get All Person Signatures [GET /research-sys/api/v1/person-signatures/]
+### Get All Person Signatures [GET /research-common/api/v1/person-signatures/]
 	 
 + Request
 
@@ -39,16 +39,16 @@
               {"personSignatureId": "(val)","personId": "(val)","signatureActive": "(val)","attachmentContent": "(val)","fileName": "(val)","contentType": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Person Signatures with Filtering [GET /research-sys/api/v1/person-signatures/]
+### Get All Person Signatures with Filtering [GET /research-common/api/v1/person-signatures/]
     
 + Parameters
 
-        + personSignatureId
-            + personId
-            + signatureActive
-            + attachmentContent
-            + fileName
-            + contentType
+    + personSignatureId (optional) - Person Signature Code. Maximum length is 12.
+    + personId (optional) - KC Person. Maximum length is 40.
+    + signatureActive (optional) - Indicate if this signature is active. Maximum length is 1.
+    + attachmentContent (optional) - 
+    + fileName (optional) - 
+    + contentType (optional) - 
 
             
 + Request
@@ -70,7 +70,7 @@
               {"personSignatureId": "(val)","personId": "(val)","signatureActive": "(val)","attachmentContent": "(val)","fileName": "(val)","contentType": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Person Signatures [GET /research-sys/api/v1/person-signatures/]
+### Get Schema for Person Signatures [GET /research-common/api/v1/person-signatures/]
 	                                          
 + Parameters
 
@@ -92,7 +92,7 @@
     
             {"columns":["personSignatureId","personId","signatureActive","attachmentContent","fileName","contentType"],"primaryKey":"personSignatureId"}
 		
-### Get Blueprint API specification for Person Signatures [GET /research-sys/api/v1/person-signatures/]
+### Get Blueprint API specification for Person Signatures [GET /research-common/api/v1/person-signatures/]
 	 
 + Parameters
 
@@ -113,7 +113,7 @@
             transfer-encoding:chunked
 
 
-### Update Person Signatures [PUT /research-sys/api/v1/person-signatures/(key)]
+### Update Person Signatures [PUT /research-common/api/v1/person-signatures/(key)]
 
 + Request
 
@@ -128,7 +128,7 @@
 			
 + Response 204
 
-### Update Multiple Person Signatures [PUT /research-sys/api/v1/person-signatures/]
+### Update Multiple Person Signatures [PUT /research-common/api/v1/person-signatures/]
 
 + Request
 
@@ -146,7 +146,7 @@
 			
 + Response 204
 
-### Insert Person Signatures [POST /research-sys/api/v1/person-signatures/]
+### Insert Person Signatures [POST /research-common/api/v1/person-signatures/]
 
 + Request
 
@@ -165,7 +165,7 @@
             
             {"personSignatureId": "(val)","personId": "(val)","signatureActive": "(val)","attachmentContent": "(val)","fileName": "(val)","contentType": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Person Signatures [POST /research-sys/api/v1/person-signatures/]
+### Insert Multiple Person Signatures [POST /research-common/api/v1/person-signatures/]
 
 + Request
 
@@ -190,7 +190,7 @@
               {"personSignatureId": "(val)","personId": "(val)","signatureActive": "(val)","attachmentContent": "(val)","fileName": "(val)","contentType": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Person Signatures by Key [DELETE /research-sys/api/v1/person-signatures/(key)]
+### Delete Person Signatures by Key [DELETE /research-common/api/v1/person-signatures/(key)]
 	 
 + Request
 
@@ -201,7 +201,7 @@
 
 + Response 204
 
-### Delete All Person Signatures [DELETE /research-sys/api/v1/person-signatures/]
+### Delete All Person Signatures [DELETE /research-common/api/v1/person-signatures/]
 
 + Parameters
 
@@ -216,17 +216,17 @@
 
 + Response 204
 
-### Delete All Person Signatures with Matching [DELETE /research-sys/api/v1/person-signatures/]
+### Delete All Person Signatures with Matching [DELETE /research-common/api/v1/person-signatures/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + personSignatureId
-            + personId
-            + signatureActive
-            + attachmentContent
-            + fileName
-            + contentType
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + personSignatureId (optional) - Person Signature Code. Maximum length is 12.
+    + personId (optional) - KC Person. Maximum length is 40.
+    + signatureActive (optional) - Indicate if this signature is active. Maximum length is 1.
+    + attachmentContent (optional) - 
+    + fileName (optional) - 
+    + contentType (optional) - 
 
       
 + Request

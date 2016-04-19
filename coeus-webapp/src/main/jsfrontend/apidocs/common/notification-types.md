@@ -1,6 +1,6 @@
-## Notification Types [/research-sys/api/v1/notification-types/]
+## Notification Types [/research-common/api/v1/notification-types/]
 
-### Get Notification Types by Key [GET /research-sys/api/v1/notification-types/(key)]
+### Get Notification Types by Key [GET /research-common/api/v1/notification-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"notificationTypeId": "(val)","moduleCode": "(val)","actionCode": "(val)","description": "(val)","subject": "(val)","message": "(val)","promptUser": "(val)","active": "(val)","_primaryKey": "(val)"}
 
-### Get All Notification Types [GET /research-sys/api/v1/notification-types/]
+### Get All Notification Types [GET /research-common/api/v1/notification-types/]
 	 
 + Request
 
@@ -39,18 +39,18 @@
               {"notificationTypeId": "(val)","moduleCode": "(val)","actionCode": "(val)","description": "(val)","subject": "(val)","message": "(val)","promptUser": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Notification Types with Filtering [GET /research-sys/api/v1/notification-types/]
+### Get All Notification Types with Filtering [GET /research-common/api/v1/notification-types/]
     
 + Parameters
 
-        + notificationTypeId
-            + moduleCode
-            + actionCode
-            + description
-            + subject
-            + message
-            + promptUser
-            + active
+    + notificationTypeId (optional) - Notification Id. Maximum length is 6.
+    + moduleCode (optional) - Module Code. Maximum length is 3.
+    + actionCode (optional) - Action Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + subject (optional) - Subject. Maximum length is 1000.
+    + message (optional) - Message. Maximum length is 4000.
+    + promptUser (optional) - Prompt User. Maximum length is 1.
+    + active (optional) - Active. Maximum length is 1.
 
             
 + Request
@@ -72,7 +72,7 @@
               {"notificationTypeId": "(val)","moduleCode": "(val)","actionCode": "(val)","description": "(val)","subject": "(val)","message": "(val)","promptUser": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Notification Types [GET /research-sys/api/v1/notification-types/]
+### Get Schema for Notification Types [GET /research-common/api/v1/notification-types/]
 	                                          
 + Parameters
 
@@ -94,7 +94,7 @@
     
             {"columns":["notificationTypeId","moduleCode","actionCode","description","subject","message","promptUser","active"],"primaryKey":"notificationTypeId"}
 		
-### Get Blueprint API specification for Notification Types [GET /research-sys/api/v1/notification-types/]
+### Get Blueprint API specification for Notification Types [GET /research-common/api/v1/notification-types/]
 	 
 + Parameters
 
@@ -115,7 +115,7 @@
             transfer-encoding:chunked
 
 
-### Update Notification Types [PUT /research-sys/api/v1/notification-types/(key)]
+### Update Notification Types [PUT /research-common/api/v1/notification-types/(key)]
 
 + Request
 
@@ -130,7 +130,7 @@
 			
 + Response 204
 
-### Update Multiple Notification Types [PUT /research-sys/api/v1/notification-types/]
+### Update Multiple Notification Types [PUT /research-common/api/v1/notification-types/]
 
 + Request
 
@@ -148,7 +148,7 @@
 			
 + Response 204
 
-### Insert Notification Types [POST /research-sys/api/v1/notification-types/]
+### Insert Notification Types [POST /research-common/api/v1/notification-types/]
 
 + Request
 
@@ -167,7 +167,7 @@
             
             {"notificationTypeId": "(val)","moduleCode": "(val)","actionCode": "(val)","description": "(val)","subject": "(val)","message": "(val)","promptUser": "(val)","active": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Notification Types [POST /research-sys/api/v1/notification-types/]
+### Insert Multiple Notification Types [POST /research-common/api/v1/notification-types/]
 
 + Request
 
@@ -192,7 +192,7 @@
               {"notificationTypeId": "(val)","moduleCode": "(val)","actionCode": "(val)","description": "(val)","subject": "(val)","message": "(val)","promptUser": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Notification Types by Key [DELETE /research-sys/api/v1/notification-types/(key)]
+### Delete Notification Types by Key [DELETE /research-common/api/v1/notification-types/(key)]
 	 
 + Request
 
@@ -203,7 +203,7 @@
 
 + Response 204
 
-### Delete All Notification Types [DELETE /research-sys/api/v1/notification-types/]
+### Delete All Notification Types [DELETE /research-common/api/v1/notification-types/]
 
 + Parameters
 
@@ -218,19 +218,19 @@
 
 + Response 204
 
-### Delete All Notification Types with Matching [DELETE /research-sys/api/v1/notification-types/]
+### Delete All Notification Types with Matching [DELETE /research-common/api/v1/notification-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + notificationTypeId
-            + moduleCode
-            + actionCode
-            + description
-            + subject
-            + message
-            + promptUser
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + notificationTypeId (optional) - Notification Id. Maximum length is 6.
+    + moduleCode (optional) - Module Code. Maximum length is 3.
+    + actionCode (optional) - Action Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + subject (optional) - Subject. Maximum length is 1000.
+    + message (optional) - Message. Maximum length is 4000.
+    + promptUser (optional) - Prompt User. Maximum length is 1.
+    + active (optional) - Active. Maximum length is 1.
 
       
 + Request

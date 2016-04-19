@@ -1,6 +1,6 @@
-## Iacuc Protocol Person Roles [/research-sys/api/v1/iacuc-protocol-person-roles/]
+## Iacuc Protocol Person Roles [/iacuc/api/v1/iacuc-protocol-person-roles/]
 
-### Get Iacuc Protocol Person Roles by Key [GET /research-sys/api/v1/iacuc-protocol-person-roles/(key)]
+### Get Iacuc Protocol Person Roles by Key [GET /iacuc/api/v1/iacuc-protocol-person-roles/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"protocolPersonRoleId": "(val)","description": "(val)","unitDetailsRequired": "(val)","affiliationDetailsRequired": "(val)","trainingDetailsRequired": "(val)","commentsDetailsRequired": "(val)","active": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Protocol Person Roles [GET /research-sys/api/v1/iacuc-protocol-person-roles/]
+### Get All Iacuc Protocol Person Roles [GET /iacuc/api/v1/iacuc-protocol-person-roles/]
 	 
 + Request
 
@@ -39,17 +39,17 @@
               {"protocolPersonRoleId": "(val)","description": "(val)","unitDetailsRequired": "(val)","affiliationDetailsRequired": "(val)","trainingDetailsRequired": "(val)","commentsDetailsRequired": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Protocol Person Roles with Filtering [GET /research-sys/api/v1/iacuc-protocol-person-roles/]
+### Get All Iacuc Protocol Person Roles with Filtering [GET /iacuc/api/v1/iacuc-protocol-person-roles/]
     
 + Parameters
 
-        + protocolPersonRoleId
-            + description
-            + unitDetailsRequired
-            + affiliationDetailsRequired
-            + trainingDetailsRequired
-            + commentsDetailsRequired
-            + active
+    + protocolPersonRoleId (optional) - IACUC Protocol Person Role Id. Maximum length is 12.
+    + description (optional) - Description. Maximum length is 250.
+    + unitDetailsRequired (optional) - Unit Details Required. Maximum length is 1.
+    + affiliationDetailsRequired (optional) - Affiliation Details Required. Maximum length is 1.
+    + trainingDetailsRequired (optional) - Training Details Required. Maximum length is 1.
+    + commentsDetailsRequired (optional) - Comments Details Required. Maximum length is 1.
+    + active (optional) - Active. Maximum length is 1.
 
             
 + Request
@@ -71,7 +71,7 @@
               {"protocolPersonRoleId": "(val)","description": "(val)","unitDetailsRequired": "(val)","affiliationDetailsRequired": "(val)","trainingDetailsRequired": "(val)","commentsDetailsRequired": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Protocol Person Roles [GET /research-sys/api/v1/iacuc-protocol-person-roles/]
+### Get Schema for Iacuc Protocol Person Roles [GET /iacuc/api/v1/iacuc-protocol-person-roles/]
 	                                          
 + Parameters
 
@@ -93,7 +93,7 @@
     
             {"columns":["protocolPersonRoleId","description","unitDetailsRequired","affiliationDetailsRequired","trainingDetailsRequired","commentsDetailsRequired","active"],"primaryKey":"protocolPersonRoleId"}
 		
-### Get Blueprint API specification for Iacuc Protocol Person Roles [GET /research-sys/api/v1/iacuc-protocol-person-roles/]
+### Get Blueprint API specification for Iacuc Protocol Person Roles [GET /iacuc/api/v1/iacuc-protocol-person-roles/]
 	 
 + Parameters
 
@@ -114,7 +114,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Protocol Person Roles [PUT /research-sys/api/v1/iacuc-protocol-person-roles/(key)]
+### Update Iacuc Protocol Person Roles [PUT /iacuc/api/v1/iacuc-protocol-person-roles/(key)]
 
 + Request
 
@@ -129,7 +129,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Protocol Person Roles [PUT /research-sys/api/v1/iacuc-protocol-person-roles/]
+### Update Multiple Iacuc Protocol Person Roles [PUT /iacuc/api/v1/iacuc-protocol-person-roles/]
 
 + Request
 
@@ -147,7 +147,7 @@
 			
 + Response 204
 
-### Insert Iacuc Protocol Person Roles [POST /research-sys/api/v1/iacuc-protocol-person-roles/]
+### Insert Iacuc Protocol Person Roles [POST /iacuc/api/v1/iacuc-protocol-person-roles/]
 
 + Request
 
@@ -166,7 +166,7 @@
             
             {"protocolPersonRoleId": "(val)","description": "(val)","unitDetailsRequired": "(val)","affiliationDetailsRequired": "(val)","trainingDetailsRequired": "(val)","commentsDetailsRequired": "(val)","active": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Protocol Person Roles [POST /research-sys/api/v1/iacuc-protocol-person-roles/]
+### Insert Multiple Iacuc Protocol Person Roles [POST /iacuc/api/v1/iacuc-protocol-person-roles/]
 
 + Request
 
@@ -191,7 +191,7 @@
               {"protocolPersonRoleId": "(val)","description": "(val)","unitDetailsRequired": "(val)","affiliationDetailsRequired": "(val)","trainingDetailsRequired": "(val)","commentsDetailsRequired": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Protocol Person Roles by Key [DELETE /research-sys/api/v1/iacuc-protocol-person-roles/(key)]
+### Delete Iacuc Protocol Person Roles by Key [DELETE /iacuc/api/v1/iacuc-protocol-person-roles/(key)]
 	 
 + Request
 
@@ -202,7 +202,7 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Person Roles [DELETE /research-sys/api/v1/iacuc-protocol-person-roles/]
+### Delete All Iacuc Protocol Person Roles [DELETE /iacuc/api/v1/iacuc-protocol-person-roles/]
 
 + Parameters
 
@@ -217,18 +217,18 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Person Roles with Matching [DELETE /research-sys/api/v1/iacuc-protocol-person-roles/]
+### Delete All Iacuc Protocol Person Roles with Matching [DELETE /iacuc/api/v1/iacuc-protocol-person-roles/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + protocolPersonRoleId
-            + description
-            + unitDetailsRequired
-            + affiliationDetailsRequired
-            + trainingDetailsRequired
-            + commentsDetailsRequired
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + protocolPersonRoleId (optional) - IACUC Protocol Person Role Id. Maximum length is 12.
+    + description (optional) - Description. Maximum length is 250.
+    + unitDetailsRequired (optional) - Unit Details Required. Maximum length is 1.
+    + affiliationDetailsRequired (optional) - Affiliation Details Required. Maximum length is 1.
+    + trainingDetailsRequired (optional) - Training Details Required. Maximum length is 1.
+    + commentsDetailsRequired (optional) - Comments Details Required. Maximum length is 1.
+    + active (optional) - Active. Maximum length is 1.
 
       
 + Request

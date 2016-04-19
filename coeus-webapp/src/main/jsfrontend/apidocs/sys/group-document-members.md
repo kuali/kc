@@ -43,14 +43,14 @@
     
 + Parameters
 
-        + groupMemberId
-            + groupId
-            + memberId
-            + memberName
-            + memberTypeCode
-            + activeFromDate
-            + activeToDate
-            + documentNumber
+    + groupMemberId (optional) - Group Member Identifier. Maximum length is 40.
+    + groupId (optional) - Group Id.
+    + memberId (optional) - Member Identifier. Maximum length is 40.
+    + memberName (optional) - Member Name. Maximum length is 80.
+    + memberTypeCode (optional) - Member Type Code. Maximum length is 40.
+    + activeFromDate (optional) - Start Date. Maximum length is 21.
+    + activeToDate (optional) - End Date. Maximum length is 21.
+    + documentNumber (optional) - Document Number.
 
             
 + Request
@@ -222,15 +222,15 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + groupMemberId
-            + groupId
-            + memberId
-            + memberName
-            + memberTypeCode
-            + activeFromDate
-            + activeToDate
-            + documentNumber
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + groupMemberId (optional) - Group Member Identifier. Maximum length is 40.
+    + groupId (optional) - Group Id.
+    + memberId (optional) - Member Identifier. Maximum length is 40.
+    + memberName (optional) - Member Name. Maximum length is 80.
+    + memberTypeCode (optional) - Member Type Code. Maximum length is 40.
+    + activeFromDate (optional) - Start Date. Maximum length is 21.
+    + activeToDate (optional) - End Date. Maximum length is 21.
+    + documentNumber (optional) - Document Number.
 
       
 + Request

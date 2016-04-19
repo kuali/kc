@@ -1,6 +1,6 @@
-## Protocol Person Role Mappings [/research-sys/api/v1/protocol-person-role-mappings/]
+## Protocol Person Role Mappings [/irb/api/v1/protocol-person-role-mappings/]
 
-### Get Protocol Person Role Mappings by Key [GET /research-sys/api/v1/protocol-person-role-mappings/(key)]
+### Get Protocol Person Role Mappings by Key [GET /irb/api/v1/protocol-person-role-mappings/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"roleMappingId": "(val)","sourceRoleId": "(val)","targetRoleId": "(val)","_primaryKey": "(val)"}
 
-### Get All Protocol Person Role Mappings [GET /research-sys/api/v1/protocol-person-role-mappings/]
+### Get All Protocol Person Role Mappings [GET /irb/api/v1/protocol-person-role-mappings/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"roleMappingId": "(val)","sourceRoleId": "(val)","targetRoleId": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Protocol Person Role Mappings with Filtering [GET /research-sys/api/v1/protocol-person-role-mappings/]
+### Get All Protocol Person Role Mappings with Filtering [GET /irb/api/v1/protocol-person-role-mappings/]
     
 + Parameters
 
-        + roleMappingId
-            + sourceRoleId
-            + targetRoleId
+    + roleMappingId (optional) - 
+    + sourceRoleId (optional) - 
+    + targetRoleId (optional) - 
 
             
 + Request
@@ -67,7 +67,7 @@
               {"roleMappingId": "(val)","sourceRoleId": "(val)","targetRoleId": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Protocol Person Role Mappings [GET /research-sys/api/v1/protocol-person-role-mappings/]
+### Get Schema for Protocol Person Role Mappings [GET /irb/api/v1/protocol-person-role-mappings/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["roleMappingId","sourceRoleId","targetRoleId"],"primaryKey":"roleMappingId"}
 		
-### Get Blueprint API specification for Protocol Person Role Mappings [GET /research-sys/api/v1/protocol-person-role-mappings/]
+### Get Blueprint API specification for Protocol Person Role Mappings [GET /irb/api/v1/protocol-person-role-mappings/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Protocol Person Role Mappings [PUT /research-sys/api/v1/protocol-person-role-mappings/(key)]
+### Update Protocol Person Role Mappings [PUT /irb/api/v1/protocol-person-role-mappings/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Protocol Person Role Mappings [PUT /research-sys/api/v1/protocol-person-role-mappings/]
+### Update Multiple Protocol Person Role Mappings [PUT /irb/api/v1/protocol-person-role-mappings/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Protocol Person Role Mappings [POST /research-sys/api/v1/protocol-person-role-mappings/]
+### Insert Protocol Person Role Mappings [POST /irb/api/v1/protocol-person-role-mappings/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"roleMappingId": "(val)","sourceRoleId": "(val)","targetRoleId": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Protocol Person Role Mappings [POST /research-sys/api/v1/protocol-person-role-mappings/]
+### Insert Multiple Protocol Person Role Mappings [POST /irb/api/v1/protocol-person-role-mappings/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"roleMappingId": "(val)","sourceRoleId": "(val)","targetRoleId": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Protocol Person Role Mappings by Key [DELETE /research-sys/api/v1/protocol-person-role-mappings/(key)]
+### Delete Protocol Person Role Mappings by Key [DELETE /irb/api/v1/protocol-person-role-mappings/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Protocol Person Role Mappings [DELETE /research-sys/api/v1/protocol-person-role-mappings/]
+### Delete All Protocol Person Role Mappings [DELETE /irb/api/v1/protocol-person-role-mappings/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Protocol Person Role Mappings with Matching [DELETE /research-sys/api/v1/protocol-person-role-mappings/]
+### Delete All Protocol Person Role Mappings with Matching [DELETE /irb/api/v1/protocol-person-role-mappings/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + roleMappingId
-            + sourceRoleId
-            + targetRoleId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + roleMappingId (optional) - 
+    + sourceRoleId (optional) - 
+    + targetRoleId (optional) - 
 
       
 + Request

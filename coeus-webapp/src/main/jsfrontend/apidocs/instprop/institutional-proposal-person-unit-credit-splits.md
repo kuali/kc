@@ -1,6 +1,6 @@
-## Institutional Proposal Person Unit Credit Splits [/research-sys/api/v1/institutional-proposal-person-unit-credit-splits/]
+## Institutional Proposal Person Unit Credit Splits [/instprop/api/v1/institutional-proposal-person-unit-credit-splits/]
 
-### Get Institutional Proposal Person Unit Credit Splits by Key [GET /research-sys/api/v1/institutional-proposal-person-unit-credit-splits/(key)]
+### Get Institutional Proposal Person Unit Credit Splits by Key [GET /instprop/api/v1/institutional-proposal-person-unit-credit-splits/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"institutionalProposalPersonUnitCreditSplitId": "(val)","institutionalProposalPersonUnitId": "(val)","invCreditTypeCode": "(val)","credit": "(val)","_primaryKey": "(val)"}
 
-### Get All Institutional Proposal Person Unit Credit Splits [GET /research-sys/api/v1/institutional-proposal-person-unit-credit-splits/]
+### Get All Institutional Proposal Person Unit Credit Splits [GET /instprop/api/v1/institutional-proposal-person-unit-credit-splits/]
 	 
 + Request
 
@@ -39,14 +39,14 @@
               {"institutionalProposalPersonUnitCreditSplitId": "(val)","institutionalProposalPersonUnitId": "(val)","invCreditTypeCode": "(val)","credit": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Institutional Proposal Person Unit Credit Splits with Filtering [GET /research-sys/api/v1/institutional-proposal-person-unit-credit-splits/]
+### Get All Institutional Proposal Person Unit Credit Splits with Filtering [GET /instprop/api/v1/institutional-proposal-person-unit-credit-splits/]
     
 + Parameters
 
-        + institutionalProposalPersonUnitCreditSplitId
-            + institutionalProposalPersonUnitId
-            + invCreditTypeCode
-            + credit
+    + institutionalProposalPersonUnitCreditSplitId (optional) - 
+    + institutionalProposalPersonUnitId (optional) - 
+    + invCreditTypeCode (optional) - 
+    + credit (optional) - Credit. Maximum length is 6.
 
             
 + Request
@@ -68,7 +68,7 @@
               {"institutionalProposalPersonUnitCreditSplitId": "(val)","institutionalProposalPersonUnitId": "(val)","invCreditTypeCode": "(val)","credit": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Institutional Proposal Person Unit Credit Splits [GET /research-sys/api/v1/institutional-proposal-person-unit-credit-splits/]
+### Get Schema for Institutional Proposal Person Unit Credit Splits [GET /instprop/api/v1/institutional-proposal-person-unit-credit-splits/]
 	                                          
 + Parameters
 
@@ -90,7 +90,7 @@
     
             {"columns":["institutionalProposalPersonUnitCreditSplitId","institutionalProposalPersonUnitId","invCreditTypeCode","credit"],"primaryKey":"institutionalProposalPersonUnitCreditSplitId"}
 		
-### Get Blueprint API specification for Institutional Proposal Person Unit Credit Splits [GET /research-sys/api/v1/institutional-proposal-person-unit-credit-splits/]
+### Get Blueprint API specification for Institutional Proposal Person Unit Credit Splits [GET /instprop/api/v1/institutional-proposal-person-unit-credit-splits/]
 	 
 + Parameters
 
@@ -111,7 +111,7 @@
             transfer-encoding:chunked
 
 
-### Update Institutional Proposal Person Unit Credit Splits [PUT /research-sys/api/v1/institutional-proposal-person-unit-credit-splits/(key)]
+### Update Institutional Proposal Person Unit Credit Splits [PUT /instprop/api/v1/institutional-proposal-person-unit-credit-splits/(key)]
 
 + Request
 
@@ -126,7 +126,7 @@
 			
 + Response 204
 
-### Update Multiple Institutional Proposal Person Unit Credit Splits [PUT /research-sys/api/v1/institutional-proposal-person-unit-credit-splits/]
+### Update Multiple Institutional Proposal Person Unit Credit Splits [PUT /instprop/api/v1/institutional-proposal-person-unit-credit-splits/]
 
 + Request
 
@@ -144,7 +144,7 @@
 			
 + Response 204
 
-### Insert Institutional Proposal Person Unit Credit Splits [POST /research-sys/api/v1/institutional-proposal-person-unit-credit-splits/]
+### Insert Institutional Proposal Person Unit Credit Splits [POST /instprop/api/v1/institutional-proposal-person-unit-credit-splits/]
 
 + Request
 
@@ -163,7 +163,7 @@
             
             {"institutionalProposalPersonUnitCreditSplitId": "(val)","institutionalProposalPersonUnitId": "(val)","invCreditTypeCode": "(val)","credit": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Institutional Proposal Person Unit Credit Splits [POST /research-sys/api/v1/institutional-proposal-person-unit-credit-splits/]
+### Insert Multiple Institutional Proposal Person Unit Credit Splits [POST /instprop/api/v1/institutional-proposal-person-unit-credit-splits/]
 
 + Request
 
@@ -188,7 +188,7 @@
               {"institutionalProposalPersonUnitCreditSplitId": "(val)","institutionalProposalPersonUnitId": "(val)","invCreditTypeCode": "(val)","credit": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Institutional Proposal Person Unit Credit Splits by Key [DELETE /research-sys/api/v1/institutional-proposal-person-unit-credit-splits/(key)]
+### Delete Institutional Proposal Person Unit Credit Splits by Key [DELETE /instprop/api/v1/institutional-proposal-person-unit-credit-splits/(key)]
 	 
 + Request
 
@@ -199,7 +199,7 @@
 
 + Response 204
 
-### Delete All Institutional Proposal Person Unit Credit Splits [DELETE /research-sys/api/v1/institutional-proposal-person-unit-credit-splits/]
+### Delete All Institutional Proposal Person Unit Credit Splits [DELETE /instprop/api/v1/institutional-proposal-person-unit-credit-splits/]
 
 + Parameters
 
@@ -214,15 +214,15 @@
 
 + Response 204
 
-### Delete All Institutional Proposal Person Unit Credit Splits with Matching [DELETE /research-sys/api/v1/institutional-proposal-person-unit-credit-splits/]
+### Delete All Institutional Proposal Person Unit Credit Splits with Matching [DELETE /instprop/api/v1/institutional-proposal-person-unit-credit-splits/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + institutionalProposalPersonUnitCreditSplitId
-            + institutionalProposalPersonUnitId
-            + invCreditTypeCode
-            + credit
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + institutionalProposalPersonUnitCreditSplitId (optional) - 
+    + institutionalProposalPersonUnitId (optional) - 
+    + invCreditTypeCode (optional) - 
+    + credit (optional) - Credit. Maximum length is 6.
 
       
 + Request

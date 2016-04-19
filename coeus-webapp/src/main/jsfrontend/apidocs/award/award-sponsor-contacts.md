@@ -1,6 +1,6 @@
-## Award Sponsor Contacts [/research-sys/api/v1/award-sponsor-contacts/]
+## Award Sponsor Contacts [/award/api/v1/award-sponsor-contacts/]
 
-### Get Award Sponsor Contacts by Key [GET /research-sys/api/v1/award-sponsor-contacts/(key)]
+### Get Award Sponsor Contacts by Key [GET /award/api/v1/award-sponsor-contacts/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"awardContactId": "(val)","rolodexId": "(val)","fullName": "(val)","roleCode": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","_primaryKey": "(val)"}
 
-### Get All Award Sponsor Contacts [GET /research-sys/api/v1/award-sponsor-contacts/]
+### Get All Award Sponsor Contacts [GET /award/api/v1/award-sponsor-contacts/]
 	 
 + Request
 
@@ -39,17 +39,17 @@
               {"awardContactId": "(val)","rolodexId": "(val)","fullName": "(val)","roleCode": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Award Sponsor Contacts with Filtering [GET /research-sys/api/v1/award-sponsor-contacts/]
+### Get All Award Sponsor Contacts with Filtering [GET /award/api/v1/award-sponsor-contacts/]
     
 + Parameters
 
-        + awardContactId
-            + rolodexId
-            + fullName
-            + roleCode
-            + awardId
-            + awardNumber
-            + sequenceNumber
+    + awardContactId (optional) - 
+    + rolodexId (optional) - 
+    + fullName (optional) - 
+    + roleCode (optional) - 
+    + awardId (optional) - 
+    + awardNumber (optional) - 
+    + sequenceNumber (optional) - 
 
             
 + Request
@@ -71,7 +71,7 @@
               {"awardContactId": "(val)","rolodexId": "(val)","fullName": "(val)","roleCode": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Award Sponsor Contacts [GET /research-sys/api/v1/award-sponsor-contacts/]
+### Get Schema for Award Sponsor Contacts [GET /award/api/v1/award-sponsor-contacts/]
 	                                          
 + Parameters
 
@@ -93,7 +93,7 @@
     
             {"columns":["awardContactId","rolodexId","fullName","roleCode","awardId","awardNumber","sequenceNumber"],"primaryKey":"awardContactId"}
 		
-### Get Blueprint API specification for Award Sponsor Contacts [GET /research-sys/api/v1/award-sponsor-contacts/]
+### Get Blueprint API specification for Award Sponsor Contacts [GET /award/api/v1/award-sponsor-contacts/]
 	 
 + Parameters
 
@@ -114,7 +114,7 @@
             transfer-encoding:chunked
 
 
-### Update Award Sponsor Contacts [PUT /research-sys/api/v1/award-sponsor-contacts/(key)]
+### Update Award Sponsor Contacts [PUT /award/api/v1/award-sponsor-contacts/(key)]
 
 + Request
 
@@ -129,7 +129,7 @@
 			
 + Response 204
 
-### Update Multiple Award Sponsor Contacts [PUT /research-sys/api/v1/award-sponsor-contacts/]
+### Update Multiple Award Sponsor Contacts [PUT /award/api/v1/award-sponsor-contacts/]
 
 + Request
 
@@ -147,7 +147,7 @@
 			
 + Response 204
 
-### Insert Award Sponsor Contacts [POST /research-sys/api/v1/award-sponsor-contacts/]
+### Insert Award Sponsor Contacts [POST /award/api/v1/award-sponsor-contacts/]
 
 + Request
 
@@ -166,7 +166,7 @@
             
             {"awardContactId": "(val)","rolodexId": "(val)","fullName": "(val)","roleCode": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Award Sponsor Contacts [POST /research-sys/api/v1/award-sponsor-contacts/]
+### Insert Multiple Award Sponsor Contacts [POST /award/api/v1/award-sponsor-contacts/]
 
 + Request
 
@@ -191,7 +191,7 @@
               {"awardContactId": "(val)","rolodexId": "(val)","fullName": "(val)","roleCode": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Award Sponsor Contacts by Key [DELETE /research-sys/api/v1/award-sponsor-contacts/(key)]
+### Delete Award Sponsor Contacts by Key [DELETE /award/api/v1/award-sponsor-contacts/(key)]
 	 
 + Request
 
@@ -202,7 +202,7 @@
 
 + Response 204
 
-### Delete All Award Sponsor Contacts [DELETE /research-sys/api/v1/award-sponsor-contacts/]
+### Delete All Award Sponsor Contacts [DELETE /award/api/v1/award-sponsor-contacts/]
 
 + Parameters
 
@@ -217,18 +217,18 @@
 
 + Response 204
 
-### Delete All Award Sponsor Contacts with Matching [DELETE /research-sys/api/v1/award-sponsor-contacts/]
+### Delete All Award Sponsor Contacts with Matching [DELETE /award/api/v1/award-sponsor-contacts/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + awardContactId
-            + rolodexId
-            + fullName
-            + roleCode
-            + awardId
-            + awardNumber
-            + sequenceNumber
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + awardContactId (optional) - 
+    + rolodexId (optional) - 
+    + fullName (optional) - 
+    + roleCode (optional) - 
+    + awardId (optional) - 
+    + awardNumber (optional) - 
+    + sequenceNumber (optional) - 
 
       
 + Request

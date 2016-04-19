@@ -43,12 +43,12 @@
     
 + Parameters
 
-        + id
-            + namespace
-            + name
-            + description
-            + typeId
-            + sequenceNumber
+    + id (optional) - Action Id.
+    + namespace (optional) - Action Namespace.
+    + name (optional) - Action Name.
+    + description (optional) - Action Description.
+    + typeId (optional) - Action Type Id.
+    + sequenceNumber (optional) - Sequence Number.
 
             
 + Request
@@ -220,13 +220,13 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + namespace
-            + name
-            + description
-            + typeId
-            + sequenceNumber
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Action Id.
+    + namespace (optional) - Action Namespace.
+    + name (optional) - Action Name.
+    + description (optional) - Action Description.
+    + typeId (optional) - Action Type Id.
+    + sequenceNumber (optional) - Sequence Number.
 
       
 + Request

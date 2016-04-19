@@ -1,6 +1,6 @@
-## Proposal Special Reviews [/research-sys/api/v1/proposal-special-reviews/]
+## Proposal Special Reviews [/propdev/api/v1/proposal-special-reviews/]
 
-### Get Proposal Special Reviews by Key [GET /research-sys/api/v1/proposal-special-reviews/(key)]
+### Get Proposal Special Reviews by Key [GET /propdev/api/v1/proposal-special-reviews/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"id": "(val)","hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","approvalTypeCode": "(val)","approvalDate": "(val)","comments": "(val)","protocolStatus": "(val)","protocolNumber": "(val)","specialReviewTypeCode": "(val)","specialReviewNumber": "(val)","applicationDate": "(val)","expirationDate": "(val)","_primaryKey": "(val)"}
 
-### Get All Proposal Special Reviews [GET /research-sys/api/v1/proposal-special-reviews/]
+### Get All Proposal Special Reviews [GET /propdev/api/v1/proposal-special-reviews/]
 	 
 + Request
 
@@ -39,22 +39,22 @@
               {"id": "(val)","hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","approvalTypeCode": "(val)","approvalDate": "(val)","comments": "(val)","protocolStatus": "(val)","protocolNumber": "(val)","specialReviewTypeCode": "(val)","specialReviewNumber": "(val)","applicationDate": "(val)","expirationDate": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Proposal Special Reviews with Filtering [GET /research-sys/api/v1/proposal-special-reviews/]
+### Get All Proposal Special Reviews with Filtering [GET /propdev/api/v1/proposal-special-reviews/]
     
 + Parameters
 
-        + id
-            + hierarchyProposalNumber
-            + hiddenInHierarchy
-            + approvalTypeCode
-            + approvalDate
-            + comments
-            + protocolStatus
-            + protocolNumber
-            + specialReviewTypeCode
-            + specialReviewNumber
-            + applicationDate
-            + expirationDate
+    + id (optional) - Proposal Special Review Id. Maximum length is 22.
+    + hierarchyProposalNumber (optional) - Hierarchy Proposal Number.
+    + hiddenInHierarchy (optional) - Hidden In Hierarchy.
+    + approvalTypeCode (optional) - Approval Status Type Code. Maximum length is 3.
+    + approvalDate (optional) - Approval Date. Maximum length is 10.
+    + comments (optional) - Comments. Maximum length is 2000.
+    + protocolStatus (optional) - Protocol Status.
+    + protocolNumber (optional) - Protocol Number. Maximum length is 20.
+    + specialReviewTypeCode (optional) - Special Review Type Code. Maximum length is 3.
+    + specialReviewNumber (optional) - Special Review Number. Maximum length is 22.
+    + applicationDate (optional) - Application Date. Maximum length is 10.
+    + expirationDate (optional) - Expiration Date. Maximum length is 10.
 
             
 + Request
@@ -76,7 +76,7 @@
               {"id": "(val)","hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","approvalTypeCode": "(val)","approvalDate": "(val)","comments": "(val)","protocolStatus": "(val)","protocolNumber": "(val)","specialReviewTypeCode": "(val)","specialReviewNumber": "(val)","applicationDate": "(val)","expirationDate": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Proposal Special Reviews [GET /research-sys/api/v1/proposal-special-reviews/]
+### Get Schema for Proposal Special Reviews [GET /propdev/api/v1/proposal-special-reviews/]
 	                                          
 + Parameters
 
@@ -98,7 +98,7 @@
     
             {"columns":["id","hierarchyProposalNumber","hiddenInHierarchy","approvalTypeCode","approvalDate","comments","protocolStatus","protocolNumber","specialReviewTypeCode","specialReviewNumber","applicationDate","expirationDate"],"primaryKey":"id"}
 		
-### Get Blueprint API specification for Proposal Special Reviews [GET /research-sys/api/v1/proposal-special-reviews/]
+### Get Blueprint API specification for Proposal Special Reviews [GET /propdev/api/v1/proposal-special-reviews/]
 	 
 + Parameters
 
@@ -119,7 +119,7 @@
             transfer-encoding:chunked
 
 
-### Update Proposal Special Reviews [PUT /research-sys/api/v1/proposal-special-reviews/(key)]
+### Update Proposal Special Reviews [PUT /propdev/api/v1/proposal-special-reviews/(key)]
 
 + Request
 
@@ -134,7 +134,7 @@
 			
 + Response 204
 
-### Update Multiple Proposal Special Reviews [PUT /research-sys/api/v1/proposal-special-reviews/]
+### Update Multiple Proposal Special Reviews [PUT /propdev/api/v1/proposal-special-reviews/]
 
 + Request
 
@@ -152,7 +152,7 @@
 			
 + Response 204
 
-### Insert Proposal Special Reviews [POST /research-sys/api/v1/proposal-special-reviews/]
+### Insert Proposal Special Reviews [POST /propdev/api/v1/proposal-special-reviews/]
 
 + Request
 
@@ -171,7 +171,7 @@
             
             {"id": "(val)","hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","approvalTypeCode": "(val)","approvalDate": "(val)","comments": "(val)","protocolStatus": "(val)","protocolNumber": "(val)","specialReviewTypeCode": "(val)","specialReviewNumber": "(val)","applicationDate": "(val)","expirationDate": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Proposal Special Reviews [POST /research-sys/api/v1/proposal-special-reviews/]
+### Insert Multiple Proposal Special Reviews [POST /propdev/api/v1/proposal-special-reviews/]
 
 + Request
 
@@ -196,7 +196,7 @@
               {"id": "(val)","hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","approvalTypeCode": "(val)","approvalDate": "(val)","comments": "(val)","protocolStatus": "(val)","protocolNumber": "(val)","specialReviewTypeCode": "(val)","specialReviewNumber": "(val)","applicationDate": "(val)","expirationDate": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Proposal Special Reviews by Key [DELETE /research-sys/api/v1/proposal-special-reviews/(key)]
+### Delete Proposal Special Reviews by Key [DELETE /propdev/api/v1/proposal-special-reviews/(key)]
 	 
 + Request
 
@@ -207,7 +207,7 @@
 
 + Response 204
 
-### Delete All Proposal Special Reviews [DELETE /research-sys/api/v1/proposal-special-reviews/]
+### Delete All Proposal Special Reviews [DELETE /propdev/api/v1/proposal-special-reviews/]
 
 + Parameters
 
@@ -222,23 +222,23 @@
 
 + Response 204
 
-### Delete All Proposal Special Reviews with Matching [DELETE /research-sys/api/v1/proposal-special-reviews/]
+### Delete All Proposal Special Reviews with Matching [DELETE /propdev/api/v1/proposal-special-reviews/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + hierarchyProposalNumber
-            + hiddenInHierarchy
-            + approvalTypeCode
-            + approvalDate
-            + comments
-            + protocolStatus
-            + protocolNumber
-            + specialReviewTypeCode
-            + specialReviewNumber
-            + applicationDate
-            + expirationDate
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Proposal Special Review Id. Maximum length is 22.
+    + hierarchyProposalNumber (optional) - Hierarchy Proposal Number.
+    + hiddenInHierarchy (optional) - Hidden In Hierarchy.
+    + approvalTypeCode (optional) - Approval Status Type Code. Maximum length is 3.
+    + approvalDate (optional) - Approval Date. Maximum length is 10.
+    + comments (optional) - Comments. Maximum length is 2000.
+    + protocolStatus (optional) - Protocol Status.
+    + protocolNumber (optional) - Protocol Number. Maximum length is 20.
+    + specialReviewTypeCode (optional) - Special Review Type Code. Maximum length is 3.
+    + specialReviewNumber (optional) - Special Review Number. Maximum length is 22.
+    + applicationDate (optional) - Application Date. Maximum length is 10.
+    + expirationDate (optional) - Expiration Date. Maximum length is 10.
 
       
 + Request

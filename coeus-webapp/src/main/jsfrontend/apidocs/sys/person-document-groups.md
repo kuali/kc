@@ -43,17 +43,17 @@
     
 + Parameters
 
-        + groupMemberId
-            + groupType
-            + groupId
-            + groupName
-            + namespaceCode
-            + principalId
-            + activeFromDate
-            + activeToDate
-            + edit
-            + documentNumber
-            + active
+    + groupMemberId (optional) - Group Member Id.
+    + groupType (optional) - Group Type.
+    + groupId (optional) - Group. Maximum length is 40.
+    + groupName (optional) - Name. Maximum length is 80.
+    + namespaceCode (optional) - Namespace Code. Maximum length is 40.
+    + principalId (optional) - Principal Id.
+    + activeFromDate (optional) - Start Date. Maximum length is 21.
+    + activeToDate (optional) - End Date. Maximum length is 21.
+    + edit (optional) - Edit.
+    + documentNumber (optional) - Document Number.
+    + active (optional) - Active. Maximum length is 1.
 
             
 + Request
@@ -225,18 +225,18 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + groupMemberId
-            + groupType
-            + groupId
-            + groupName
-            + namespaceCode
-            + principalId
-            + activeFromDate
-            + activeToDate
-            + edit
-            + documentNumber
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + groupMemberId (optional) - Group Member Id.
+    + groupType (optional) - Group Type.
+    + groupId (optional) - Group. Maximum length is 40.
+    + groupName (optional) - Name. Maximum length is 80.
+    + namespaceCode (optional) - Namespace Code. Maximum length is 40.
+    + principalId (optional) - Principal Id.
+    + activeFromDate (optional) - Start Date. Maximum length is 21.
+    + activeToDate (optional) - End Date. Maximum length is 21.
+    + edit (optional) - Edit.
+    + documentNumber (optional) - Document Number.
+    + active (optional) - Active. Maximum length is 1.
 
       
 + Request

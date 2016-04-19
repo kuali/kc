@@ -1,6 +1,6 @@
-## S2s Opportunity Forms [/research-sys/api/v1/s2s-opportunity-forms/]
+## S2s Opportunity Forms [/propdev/api/v1/s2s-opportunity-forms/]
 
-### Get S2s Opportunity Forms by Key [GET /research-sys/api/v1/s2s-opportunity-forms/(key)]
+### Get S2s Opportunity Forms by Key [GET /propdev/api/v1/s2s-opportunity-forms/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"s2sOppFormsId": "(val)","available": "(val)","formName": "(val)","include": "(val)","mandatory": "(val)","userAttachedForm": "(val)","_primaryKey": "(val)"}
 
-### Get All S2s Opportunity Forms [GET /research-sys/api/v1/s2s-opportunity-forms/]
+### Get All S2s Opportunity Forms [GET /propdev/api/v1/s2s-opportunity-forms/]
 	 
 + Request
 
@@ -39,16 +39,16 @@
               {"s2sOppFormsId": "(val)","available": "(val)","formName": "(val)","include": "(val)","mandatory": "(val)","userAttachedForm": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All S2s Opportunity Forms with Filtering [GET /research-sys/api/v1/s2s-opportunity-forms/]
+### Get All S2s Opportunity Forms with Filtering [GET /propdev/api/v1/s2s-opportunity-forms/]
     
 + Parameters
 
-        + s2sOppFormsId
-            + available
-            + formName
-            + include
-            + mandatory
-            + userAttachedForm
+    + s2sOppFormsId (optional) - S 2s Opp Forms Id.
+    + available (optional) - Available. Maximum length is 1.
+    + formName (optional) - Form Name. Maximum length is 100.
+    + include (optional) - Include. Maximum length is 1.
+    + mandatory (optional) - Mandatory. Maximum length is 1.
+    + userAttachedForm (optional) - User Attached Form.
 
             
 + Request
@@ -70,7 +70,7 @@
               {"s2sOppFormsId": "(val)","available": "(val)","formName": "(val)","include": "(val)","mandatory": "(val)","userAttachedForm": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for S2s Opportunity Forms [GET /research-sys/api/v1/s2s-opportunity-forms/]
+### Get Schema for S2s Opportunity Forms [GET /propdev/api/v1/s2s-opportunity-forms/]
 	                                          
 + Parameters
 
@@ -92,7 +92,7 @@
     
             {"columns":["s2sOppFormsId","available","formName","include","mandatory","userAttachedForm"],"primaryKey":"oppNameSpace:proposalNumber"}
 		
-### Get Blueprint API specification for S2s Opportunity Forms [GET /research-sys/api/v1/s2s-opportunity-forms/]
+### Get Blueprint API specification for S2s Opportunity Forms [GET /propdev/api/v1/s2s-opportunity-forms/]
 	 
 + Parameters
 
@@ -113,7 +113,7 @@
             transfer-encoding:chunked
 
 
-### Update S2s Opportunity Forms [PUT /research-sys/api/v1/s2s-opportunity-forms/(key)]
+### Update S2s Opportunity Forms [PUT /propdev/api/v1/s2s-opportunity-forms/(key)]
 
 + Request
 
@@ -128,7 +128,7 @@
 			
 + Response 204
 
-### Update Multiple S2s Opportunity Forms [PUT /research-sys/api/v1/s2s-opportunity-forms/]
+### Update Multiple S2s Opportunity Forms [PUT /propdev/api/v1/s2s-opportunity-forms/]
 
 + Request
 
@@ -146,7 +146,7 @@
 			
 + Response 204
 
-### Insert S2s Opportunity Forms [POST /research-sys/api/v1/s2s-opportunity-forms/]
+### Insert S2s Opportunity Forms [POST /propdev/api/v1/s2s-opportunity-forms/]
 
 + Request
 
@@ -165,7 +165,7 @@
             
             {"s2sOppFormsId": "(val)","available": "(val)","formName": "(val)","include": "(val)","mandatory": "(val)","userAttachedForm": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple S2s Opportunity Forms [POST /research-sys/api/v1/s2s-opportunity-forms/]
+### Insert Multiple S2s Opportunity Forms [POST /propdev/api/v1/s2s-opportunity-forms/]
 
 + Request
 
@@ -190,7 +190,7 @@
               {"s2sOppFormsId": "(val)","available": "(val)","formName": "(val)","include": "(val)","mandatory": "(val)","userAttachedForm": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete S2s Opportunity Forms by Key [DELETE /research-sys/api/v1/s2s-opportunity-forms/(key)]
+### Delete S2s Opportunity Forms by Key [DELETE /propdev/api/v1/s2s-opportunity-forms/(key)]
 	 
 + Request
 
@@ -201,7 +201,7 @@
 
 + Response 204
 
-### Delete All S2s Opportunity Forms [DELETE /research-sys/api/v1/s2s-opportunity-forms/]
+### Delete All S2s Opportunity Forms [DELETE /propdev/api/v1/s2s-opportunity-forms/]
 
 + Parameters
 
@@ -216,17 +216,17 @@
 
 + Response 204
 
-### Delete All S2s Opportunity Forms with Matching [DELETE /research-sys/api/v1/s2s-opportunity-forms/]
+### Delete All S2s Opportunity Forms with Matching [DELETE /propdev/api/v1/s2s-opportunity-forms/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + s2sOppFormsId
-            + available
-            + formName
-            + include
-            + mandatory
-            + userAttachedForm
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + s2sOppFormsId (optional) - S 2s Opp Forms Id.
+    + available (optional) - Available. Maximum length is 1.
+    + formName (optional) - Form Name. Maximum length is 100.
+    + include (optional) - Include. Maximum length is 1.
+    + mandatory (optional) - Mandatory. Maximum length is 1.
+    + userAttachedForm (optional) - User Attached Form.
 
       
 + Request

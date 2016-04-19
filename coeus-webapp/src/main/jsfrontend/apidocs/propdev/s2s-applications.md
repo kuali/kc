@@ -1,6 +1,6 @@
-## S2s Applications [/research-sys/api/v1/s2s-applications/]
+## S2s Applications [/propdev/api/v1/s2s-applications/]
 
-### Get S2s Applications by Key [GET /research-sys/api/v1/s2s-applications/(key)]
+### Get S2s Applications by Key [GET /propdev/api/v1/s2s-applications/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"proposalNumber": "(val)","application": "(val)","_primaryKey": "(val)"}
 
-### Get All S2s Applications [GET /research-sys/api/v1/s2s-applications/]
+### Get All S2s Applications [GET /propdev/api/v1/s2s-applications/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"proposalNumber": "(val)","application": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All S2s Applications with Filtering [GET /research-sys/api/v1/s2s-applications/]
+### Get All S2s Applications with Filtering [GET /propdev/api/v1/s2s-applications/]
     
 + Parameters
 
-        + proposalNumber
-            + application
+    + proposalNumber (optional) - Proposal Number. Maximum length is 8.
+    + application (optional) - Application. Maximum length is 4000.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"proposalNumber": "(val)","application": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for S2s Applications [GET /research-sys/api/v1/s2s-applications/]
+### Get Schema for S2s Applications [GET /propdev/api/v1/s2s-applications/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["proposalNumber","application"],"primaryKey":"proposalNumber"}
 		
-### Get Blueprint API specification for S2s Applications [GET /research-sys/api/v1/s2s-applications/]
+### Get Blueprint API specification for S2s Applications [GET /propdev/api/v1/s2s-applications/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update S2s Applications [PUT /research-sys/api/v1/s2s-applications/(key)]
+### Update S2s Applications [PUT /propdev/api/v1/s2s-applications/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple S2s Applications [PUT /research-sys/api/v1/s2s-applications/]
+### Update Multiple S2s Applications [PUT /propdev/api/v1/s2s-applications/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert S2s Applications [POST /research-sys/api/v1/s2s-applications/]
+### Insert S2s Applications [POST /propdev/api/v1/s2s-applications/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"proposalNumber": "(val)","application": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple S2s Applications [POST /research-sys/api/v1/s2s-applications/]
+### Insert Multiple S2s Applications [POST /propdev/api/v1/s2s-applications/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"proposalNumber": "(val)","application": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete S2s Applications by Key [DELETE /research-sys/api/v1/s2s-applications/(key)]
+### Delete S2s Applications by Key [DELETE /propdev/api/v1/s2s-applications/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All S2s Applications [DELETE /research-sys/api/v1/s2s-applications/]
+### Delete All S2s Applications [DELETE /propdev/api/v1/s2s-applications/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All S2s Applications with Matching [DELETE /research-sys/api/v1/s2s-applications/]
+### Delete All S2s Applications with Matching [DELETE /propdev/api/v1/s2s-applications/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + proposalNumber
-            + application
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + proposalNumber (optional) - Proposal Number. Maximum length is 8.
+    + application (optional) - Application. Maximum length is 4000.
 
       
 + Request

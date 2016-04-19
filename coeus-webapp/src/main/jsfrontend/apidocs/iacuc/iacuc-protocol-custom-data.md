@@ -1,6 +1,6 @@
-## Iacuc Protocol Custom Data [/research-sys/api/v1/iacuc-protocol-custom-data/]
+## Iacuc Protocol Custom Data [/iacuc/api/v1/iacuc-protocol-custom-data/]
 
-### Get Iacuc Protocol Custom Data by Key [GET /research-sys/api/v1/iacuc-protocol-custom-data/(key)]
+### Get Iacuc Protocol Custom Data by Key [GET /iacuc/api/v1/iacuc-protocol-custom-data/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"iacucProtocolCustomDataId": "(val)","protocolId": "(val)","customAttributeId": "(val)","value": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Protocol Custom Data [GET /research-sys/api/v1/iacuc-protocol-custom-data/]
+### Get All Iacuc Protocol Custom Data [GET /iacuc/api/v1/iacuc-protocol-custom-data/]
 	 
 + Request
 
@@ -39,14 +39,14 @@
               {"iacucProtocolCustomDataId": "(val)","protocolId": "(val)","customAttributeId": "(val)","value": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Protocol Custom Data with Filtering [GET /research-sys/api/v1/iacuc-protocol-custom-data/]
+### Get All Iacuc Protocol Custom Data with Filtering [GET /iacuc/api/v1/iacuc-protocol-custom-data/]
     
 + Parameters
 
-        + iacucProtocolCustomDataId
-            + protocolId
-            + customAttributeId
-            + value
+    + iacucProtocolCustomDataId (optional) - IACUC Protocol Custom Data Id. Maximum length is 22.
+    + protocolId (optional) - IACUC Protocol Id. Maximum length is 22.
+    + customAttributeId (optional) - Custom Attribute Id. Maximum length is 22.
+    + value (optional) - Value. Maximum length is 2000.
 
             
 + Request
@@ -68,7 +68,7 @@
               {"iacucProtocolCustomDataId": "(val)","protocolId": "(val)","customAttributeId": "(val)","value": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Protocol Custom Data [GET /research-sys/api/v1/iacuc-protocol-custom-data/]
+### Get Schema for Iacuc Protocol Custom Data [GET /iacuc/api/v1/iacuc-protocol-custom-data/]
 	                                          
 + Parameters
 
@@ -90,7 +90,7 @@
     
             {"columns":["iacucProtocolCustomDataId","protocolId","customAttributeId","value"],"primaryKey":"iacucProtocolCustomDataId"}
 		
-### Get Blueprint API specification for Iacuc Protocol Custom Data [GET /research-sys/api/v1/iacuc-protocol-custom-data/]
+### Get Blueprint API specification for Iacuc Protocol Custom Data [GET /iacuc/api/v1/iacuc-protocol-custom-data/]
 	 
 + Parameters
 
@@ -111,7 +111,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Protocol Custom Data [PUT /research-sys/api/v1/iacuc-protocol-custom-data/(key)]
+### Update Iacuc Protocol Custom Data [PUT /iacuc/api/v1/iacuc-protocol-custom-data/(key)]
 
 + Request
 
@@ -126,7 +126,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Protocol Custom Data [PUT /research-sys/api/v1/iacuc-protocol-custom-data/]
+### Update Multiple Iacuc Protocol Custom Data [PUT /iacuc/api/v1/iacuc-protocol-custom-data/]
 
 + Request
 
@@ -144,7 +144,7 @@
 			
 + Response 204
 
-### Insert Iacuc Protocol Custom Data [POST /research-sys/api/v1/iacuc-protocol-custom-data/]
+### Insert Iacuc Protocol Custom Data [POST /iacuc/api/v1/iacuc-protocol-custom-data/]
 
 + Request
 
@@ -163,7 +163,7 @@
             
             {"iacucProtocolCustomDataId": "(val)","protocolId": "(val)","customAttributeId": "(val)","value": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Protocol Custom Data [POST /research-sys/api/v1/iacuc-protocol-custom-data/]
+### Insert Multiple Iacuc Protocol Custom Data [POST /iacuc/api/v1/iacuc-protocol-custom-data/]
 
 + Request
 
@@ -188,7 +188,7 @@
               {"iacucProtocolCustomDataId": "(val)","protocolId": "(val)","customAttributeId": "(val)","value": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Protocol Custom Data by Key [DELETE /research-sys/api/v1/iacuc-protocol-custom-data/(key)]
+### Delete Iacuc Protocol Custom Data by Key [DELETE /iacuc/api/v1/iacuc-protocol-custom-data/(key)]
 	 
 + Request
 
@@ -199,7 +199,7 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Custom Data [DELETE /research-sys/api/v1/iacuc-protocol-custom-data/]
+### Delete All Iacuc Protocol Custom Data [DELETE /iacuc/api/v1/iacuc-protocol-custom-data/]
 
 + Parameters
 
@@ -214,15 +214,15 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Custom Data with Matching [DELETE /research-sys/api/v1/iacuc-protocol-custom-data/]
+### Delete All Iacuc Protocol Custom Data with Matching [DELETE /iacuc/api/v1/iacuc-protocol-custom-data/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + iacucProtocolCustomDataId
-            + protocolId
-            + customAttributeId
-            + value
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + iacucProtocolCustomDataId (optional) - IACUC Protocol Custom Data Id. Maximum length is 22.
+    + protocolId (optional) - IACUC Protocol Id. Maximum length is 22.
+    + customAttributeId (optional) - Custom Attribute Id. Maximum length is 22.
+    + value (optional) - Value. Maximum length is 2000.
 
       
 + Request

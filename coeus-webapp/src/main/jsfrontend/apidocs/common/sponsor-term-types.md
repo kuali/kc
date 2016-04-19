@@ -1,6 +1,6 @@
-## Sponsor Term Types [/research-sys/api/v1/sponsor-term-types/]
+## Sponsor Term Types [/research-common/api/v1/sponsor-term-types/]
 
-### Get Sponsor Term Types by Key [GET /research-sys/api/v1/sponsor-term-types/(key)]
+### Get Sponsor Term Types by Key [GET /research-common/api/v1/sponsor-term-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"sponsorTermTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Sponsor Term Types [GET /research-sys/api/v1/sponsor-term-types/]
+### Get All Sponsor Term Types [GET /research-common/api/v1/sponsor-term-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"sponsorTermTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Sponsor Term Types with Filtering [GET /research-sys/api/v1/sponsor-term-types/]
+### Get All Sponsor Term Types with Filtering [GET /research-common/api/v1/sponsor-term-types/]
     
 + Parameters
 
-        + sponsorTermTypeCode
-            + description
+    + sponsorTermTypeCode (optional) - Sponsor Term Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"sponsorTermTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Sponsor Term Types [GET /research-sys/api/v1/sponsor-term-types/]
+### Get Schema for Sponsor Term Types [GET /research-common/api/v1/sponsor-term-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["sponsorTermTypeCode","description"],"primaryKey":"sponsorTermTypeCode"}
 		
-### Get Blueprint API specification for Sponsor Term Types [GET /research-sys/api/v1/sponsor-term-types/]
+### Get Blueprint API specification for Sponsor Term Types [GET /research-common/api/v1/sponsor-term-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Sponsor Term Types [PUT /research-sys/api/v1/sponsor-term-types/(key)]
+### Update Sponsor Term Types [PUT /research-common/api/v1/sponsor-term-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Sponsor Term Types [PUT /research-sys/api/v1/sponsor-term-types/]
+### Update Multiple Sponsor Term Types [PUT /research-common/api/v1/sponsor-term-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Sponsor Term Types [POST /research-sys/api/v1/sponsor-term-types/]
+### Insert Sponsor Term Types [POST /research-common/api/v1/sponsor-term-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"sponsorTermTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Sponsor Term Types [POST /research-sys/api/v1/sponsor-term-types/]
+### Insert Multiple Sponsor Term Types [POST /research-common/api/v1/sponsor-term-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"sponsorTermTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Sponsor Term Types by Key [DELETE /research-sys/api/v1/sponsor-term-types/(key)]
+### Delete Sponsor Term Types by Key [DELETE /research-common/api/v1/sponsor-term-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Sponsor Term Types [DELETE /research-sys/api/v1/sponsor-term-types/]
+### Delete All Sponsor Term Types [DELETE /research-common/api/v1/sponsor-term-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Sponsor Term Types with Matching [DELETE /research-sys/api/v1/sponsor-term-types/]
+### Delete All Sponsor Term Types with Matching [DELETE /research-common/api/v1/sponsor-term-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + sponsorTermTypeCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + sponsorTermTypeCode (optional) - Sponsor Term Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

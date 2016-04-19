@@ -43,9 +43,9 @@
     
 + Parameters
 
-        + lockId
-            + lockingRepresentation
-            + documentNumber
+    + lockId (optional) - 
+    + lockingRepresentation (optional) - 
+    + documentNumber (optional) - 
 
             
 + Request
@@ -217,10 +217,10 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + lockId
-            + lockingRepresentation
-            + documentNumber
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + lockId (optional) - 
+    + lockingRepresentation (optional) - 
+    + documentNumber (optional) - 
 
       
 + Request

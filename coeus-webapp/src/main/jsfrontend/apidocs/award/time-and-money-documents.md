@@ -1,6 +1,6 @@
-## Time And Money Documents [/research-sys/api/v1/time-and-money-documents/]
+## Time And Money Documents [/award/api/v1/time-and-money-documents/]
 
-### Get Time And Money Documents by Key [GET /research-sys/api/v1/time-and-money-documents/(key)]
+### Get Time And Money Documents by Key [GET /award/api/v1/time-and-money-documents/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"documentNumber": "(val)","rootAwardNumber": "(val)","documentStatus": "(val)","_primaryKey": "(val)"}
 
-### Get All Time And Money Documents [GET /research-sys/api/v1/time-and-money-documents/]
+### Get All Time And Money Documents [GET /award/api/v1/time-and-money-documents/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"documentNumber": "(val)","rootAwardNumber": "(val)","documentStatus": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Time And Money Documents with Filtering [GET /research-sys/api/v1/time-and-money-documents/]
+### Get All Time And Money Documents with Filtering [GET /award/api/v1/time-and-money-documents/]
     
 + Parameters
 
-        + documentNumber
-            + rootAwardNumber
-            + documentStatus
+    + documentNumber (optional) - 
+    + rootAwardNumber (optional) - 
+    + documentStatus (optional) - 
 
             
 + Request
@@ -67,7 +67,7 @@
               {"documentNumber": "(val)","rootAwardNumber": "(val)","documentStatus": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Time And Money Documents [GET /research-sys/api/v1/time-and-money-documents/]
+### Get Schema for Time And Money Documents [GET /award/api/v1/time-and-money-documents/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["documentNumber","rootAwardNumber","documentStatus"],"primaryKey":"documentNumber"}
 		
-### Get Blueprint API specification for Time And Money Documents [GET /research-sys/api/v1/time-and-money-documents/]
+### Get Blueprint API specification for Time And Money Documents [GET /award/api/v1/time-and-money-documents/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Time And Money Documents [PUT /research-sys/api/v1/time-and-money-documents/(key)]
+### Update Time And Money Documents [PUT /award/api/v1/time-and-money-documents/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Time And Money Documents [PUT /research-sys/api/v1/time-and-money-documents/]
+### Update Multiple Time And Money Documents [PUT /award/api/v1/time-and-money-documents/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Time And Money Documents [POST /research-sys/api/v1/time-and-money-documents/]
+### Insert Time And Money Documents [POST /award/api/v1/time-and-money-documents/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"documentNumber": "(val)","rootAwardNumber": "(val)","documentStatus": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Time And Money Documents [POST /research-sys/api/v1/time-and-money-documents/]
+### Insert Multiple Time And Money Documents [POST /award/api/v1/time-and-money-documents/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"documentNumber": "(val)","rootAwardNumber": "(val)","documentStatus": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Time And Money Documents by Key [DELETE /research-sys/api/v1/time-and-money-documents/(key)]
+### Delete Time And Money Documents by Key [DELETE /award/api/v1/time-and-money-documents/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Time And Money Documents [DELETE /research-sys/api/v1/time-and-money-documents/]
+### Delete All Time And Money Documents [DELETE /award/api/v1/time-and-money-documents/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Time And Money Documents with Matching [DELETE /research-sys/api/v1/time-and-money-documents/]
+### Delete All Time And Money Documents with Matching [DELETE /award/api/v1/time-and-money-documents/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + documentNumber
-            + rootAwardNumber
-            + documentStatus
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + documentNumber (optional) - 
+    + rootAwardNumber (optional) - 
+    + documentStatus (optional) - 
 
       
 + Request

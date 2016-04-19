@@ -1,6 +1,6 @@
-## Cfdas [/research-sys/api/v1/cfdas/]
+## Cfdas [/research-common/api/v1/cfdas/]
 
-### Get Cfdas by Key [GET /research-sys/api/v1/cfdas/(key)]
+### Get Cfdas by Key [GET /research-common/api/v1/cfdas/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"cfdaNumber": "(val)","cfdaProgramTitleName": "(val)","active": "(val)","cfdaMaintenanceTypeId": "(val)","_primaryKey": "(val)"}
 
-### Get All Cfdas [GET /research-sys/api/v1/cfdas/]
+### Get All Cfdas [GET /research-common/api/v1/cfdas/]
 	 
 + Request
 
@@ -39,14 +39,14 @@
               {"cfdaNumber": "(val)","cfdaProgramTitleName": "(val)","active": "(val)","cfdaMaintenanceTypeId": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Cfdas with Filtering [GET /research-sys/api/v1/cfdas/]
+### Get All Cfdas with Filtering [GET /research-common/api/v1/cfdas/]
     
 + Parameters
 
-        + cfdaNumber
-            + cfdaProgramTitleName
-            + active
-            + cfdaMaintenanceTypeId
+    + cfdaNumber (optional) - A unique identifier for the sponsor and the funding opportunity announcement.  AKA "Catalogue of Federal Domestic Assistance Number." The format for this CFDA Number is XX.XXX. Maximum length is 7.
+    + cfdaProgramTitleName (optional) - CFDA Program Title Name. Maximum length is 300.
+    + active (optional) - Active. Maximum length is 1.
+    + cfdaMaintenanceTypeId (optional) - CFDA Maintenance Type Id. Maximum length is 10.
 
             
 + Request
@@ -68,7 +68,7 @@
               {"cfdaNumber": "(val)","cfdaProgramTitleName": "(val)","active": "(val)","cfdaMaintenanceTypeId": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Cfdas [GET /research-sys/api/v1/cfdas/]
+### Get Schema for Cfdas [GET /research-common/api/v1/cfdas/]
 	                                          
 + Parameters
 
@@ -90,7 +90,7 @@
     
             {"columns":["cfdaNumber","cfdaProgramTitleName","active","cfdaMaintenanceTypeId"],"primaryKey":"cfdaNumber"}
 		
-### Get Blueprint API specification for Cfdas [GET /research-sys/api/v1/cfdas/]
+### Get Blueprint API specification for Cfdas [GET /research-common/api/v1/cfdas/]
 	 
 + Parameters
 
@@ -111,7 +111,7 @@
             transfer-encoding:chunked
 
 
-### Update Cfdas [PUT /research-sys/api/v1/cfdas/(key)]
+### Update Cfdas [PUT /research-common/api/v1/cfdas/(key)]
 
 + Request
 
@@ -126,7 +126,7 @@
 			
 + Response 204
 
-### Update Multiple Cfdas [PUT /research-sys/api/v1/cfdas/]
+### Update Multiple Cfdas [PUT /research-common/api/v1/cfdas/]
 
 + Request
 
@@ -144,7 +144,7 @@
 			
 + Response 204
 
-### Insert Cfdas [POST /research-sys/api/v1/cfdas/]
+### Insert Cfdas [POST /research-common/api/v1/cfdas/]
 
 + Request
 
@@ -163,7 +163,7 @@
             
             {"cfdaNumber": "(val)","cfdaProgramTitleName": "(val)","active": "(val)","cfdaMaintenanceTypeId": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Cfdas [POST /research-sys/api/v1/cfdas/]
+### Insert Multiple Cfdas [POST /research-common/api/v1/cfdas/]
 
 + Request
 
@@ -188,7 +188,7 @@
               {"cfdaNumber": "(val)","cfdaProgramTitleName": "(val)","active": "(val)","cfdaMaintenanceTypeId": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Cfdas by Key [DELETE /research-sys/api/v1/cfdas/(key)]
+### Delete Cfdas by Key [DELETE /research-common/api/v1/cfdas/(key)]
 	 
 + Request
 
@@ -199,7 +199,7 @@
 
 + Response 204
 
-### Delete All Cfdas [DELETE /research-sys/api/v1/cfdas/]
+### Delete All Cfdas [DELETE /research-common/api/v1/cfdas/]
 
 + Parameters
 
@@ -214,15 +214,15 @@
 
 + Response 204
 
-### Delete All Cfdas with Matching [DELETE /research-sys/api/v1/cfdas/]
+### Delete All Cfdas with Matching [DELETE /research-common/api/v1/cfdas/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + cfdaNumber
-            + cfdaProgramTitleName
-            + active
-            + cfdaMaintenanceTypeId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + cfdaNumber (optional) - A unique identifier for the sponsor and the funding opportunity announcement.  AKA "Catalogue of Federal Domestic Assistance Number." The format for this CFDA Number is XX.XXX. Maximum length is 7.
+    + cfdaProgramTitleName (optional) - CFDA Program Title Name. Maximum length is 300.
+    + active (optional) - Active. Maximum length is 1.
+    + cfdaMaintenanceTypeId (optional) - CFDA Maintenance Type Id. Maximum length is 10.
 
       
 + Request

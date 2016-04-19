@@ -43,12 +43,12 @@
     
 + Parameters
 
-        + id
-            + ruleAttributeId
-            + required
-            + active
-            + displayOrder
-            + defaultValue
+    + id (optional) - Id. Maximum length is 30.
+    + ruleAttributeId (optional) - Rule Attribute Id.
+    + required (optional) - Required. Maximum length is 1.
+    + active (optional) - Active Indicator. Maximum length is 1.
+    + displayOrder (optional) - Display Order.
+    + defaultValue (optional) - Default Value.
 
             
 + Request
@@ -220,13 +220,13 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + ruleAttributeId
-            + required
-            + active
-            + displayOrder
-            + defaultValue
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Id. Maximum length is 30.
+    + ruleAttributeId (optional) - Rule Attribute Id.
+    + required (optional) - Required. Maximum length is 1.
+    + active (optional) - Active Indicator. Maximum length is 1.
+    + displayOrder (optional) - Display Order.
+    + defaultValue (optional) - Default Value.
 
       
 + Request

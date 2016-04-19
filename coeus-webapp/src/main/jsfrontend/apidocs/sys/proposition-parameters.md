@@ -43,10 +43,10 @@
     
 + Parameters
 
-        + id
-            + value
-            + parameterType
-            + sequenceNumber
+    + id (optional) - Proposition Parameter Id.
+    + value (optional) - Value.
+    + parameterType (optional) - Parameter Type Code.
+    + sequenceNumber (optional) - Sequence Number.
 
             
 + Request
@@ -218,11 +218,11 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + value
-            + parameterType
-            + sequenceNumber
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Proposition Parameter Id.
+    + value (optional) - Value.
+    + parameterType (optional) - Parameter Type Code.
+    + sequenceNumber (optional) - Sequence Number.
 
       
 + Request

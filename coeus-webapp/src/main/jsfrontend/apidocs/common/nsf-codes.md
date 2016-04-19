@@ -1,6 +1,6 @@
-## Nsf Codes [/research-sys/api/v1/nsf-codes/]
+## Nsf Codes [/research-common/api/v1/nsf-codes/]
 
-### Get Nsf Codes by Key [GET /research-sys/api/v1/nsf-codes/(key)]
+### Get Nsf Codes by Key [GET /research-common/api/v1/nsf-codes/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"nsfSequenceNumber": "(val)","nsfCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Nsf Codes [GET /research-sys/api/v1/nsf-codes/]
+### Get All Nsf Codes [GET /research-common/api/v1/nsf-codes/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"nsfSequenceNumber": "(val)","nsfCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Nsf Codes with Filtering [GET /research-sys/api/v1/nsf-codes/]
+### Get All Nsf Codes with Filtering [GET /research-common/api/v1/nsf-codes/]
     
 + Parameters
 
-        + nsfSequenceNumber
-            + nsfCode
-            + description
+    + nsfSequenceNumber (optional) - The assigned sequence number. Maximum length is 12.
+    + nsfCode (optional) - NSF Science Code. Maximum length is 15.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"nsfSequenceNumber": "(val)","nsfCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Nsf Codes [GET /research-sys/api/v1/nsf-codes/]
+### Get Schema for Nsf Codes [GET /research-common/api/v1/nsf-codes/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["nsfSequenceNumber","nsfCode","description"],"primaryKey":"nsfSequenceNumber"}
 		
-### Get Blueprint API specification for Nsf Codes [GET /research-sys/api/v1/nsf-codes/]
+### Get Blueprint API specification for Nsf Codes [GET /research-common/api/v1/nsf-codes/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Nsf Codes [PUT /research-sys/api/v1/nsf-codes/(key)]
+### Update Nsf Codes [PUT /research-common/api/v1/nsf-codes/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Nsf Codes [PUT /research-sys/api/v1/nsf-codes/]
+### Update Multiple Nsf Codes [PUT /research-common/api/v1/nsf-codes/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Nsf Codes [POST /research-sys/api/v1/nsf-codes/]
+### Insert Nsf Codes [POST /research-common/api/v1/nsf-codes/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"nsfSequenceNumber": "(val)","nsfCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Nsf Codes [POST /research-sys/api/v1/nsf-codes/]
+### Insert Multiple Nsf Codes [POST /research-common/api/v1/nsf-codes/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"nsfSequenceNumber": "(val)","nsfCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Nsf Codes by Key [DELETE /research-sys/api/v1/nsf-codes/(key)]
+### Delete Nsf Codes by Key [DELETE /research-common/api/v1/nsf-codes/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Nsf Codes [DELETE /research-sys/api/v1/nsf-codes/]
+### Delete All Nsf Codes [DELETE /research-common/api/v1/nsf-codes/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Nsf Codes with Matching [DELETE /research-sys/api/v1/nsf-codes/]
+### Delete All Nsf Codes with Matching [DELETE /research-common/api/v1/nsf-codes/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + nsfSequenceNumber
-            + nsfCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + nsfSequenceNumber (optional) - The assigned sequence number. Maximum length is 12.
+    + nsfCode (optional) - NSF Science Code. Maximum length is 15.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

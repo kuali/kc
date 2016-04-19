@@ -43,10 +43,10 @@
     
 + Parameters
 
-        + namespaceCode
-            + code
-            + name
-            + componentSetId
+    + namespaceCode (optional) - 
+    + code (optional) - 
+    + name (optional) - 
+    + componentSetId (optional) - 
 
             
 + Request
@@ -218,11 +218,11 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + namespaceCode
-            + code
-            + name
-            + componentSetId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + namespaceCode (optional) - 
+    + code (optional) - 
+    + name (optional) - 
+    + componentSetId (optional) - 
 
       
 + Request

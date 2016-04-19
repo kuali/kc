@@ -43,11 +43,11 @@
     
 + Parameters
 
-        + id
-            + serviceName
-            + namespaceCode
-            + name
-            + active
+    + id (optional) - Type Identifier. Maximum length is 40.
+    + serviceName (optional) - Srvc Nm. Maximum length is 200.
+    + namespaceCode (optional) - Nmspc Cd. Maximum length is 20.
+    + name (optional) - Nm. Maximum length is 100.
+    + active (optional) - This attribute is used to describe whether the associated object is active or inactive. Maximum length is 1.
 
             
 + Request
@@ -219,12 +219,12 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + serviceName
-            + namespaceCode
-            + name
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Type Identifier. Maximum length is 40.
+    + serviceName (optional) - Srvc Nm. Maximum length is 200.
+    + namespaceCode (optional) - Nmspc Cd. Maximum length is 20.
+    + name (optional) - Nm. Maximum length is 100.
+    + active (optional) - This attribute is used to describe whether the associated object is active or inactive. Maximum length is 1.
 
       
 + Request

@@ -43,12 +43,12 @@
     
 + Parameters
 
-        + id
-            + campusCode
-            + defaultValue
-            + active
-            + affiliationTypeCode
-            + entityId
+    + id (optional) - 
+    + campusCode (optional) - 
+    + defaultValue (optional) - 
+    + active (optional) - 
+    + affiliationTypeCode (optional) - 
+    + entityId (optional) - 
 
             
 + Request
@@ -220,13 +220,13 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + campusCode
-            + defaultValue
-            + active
-            + affiliationTypeCode
-            + entityId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - 
+    + campusCode (optional) - 
+    + defaultValue (optional) - 
+    + active (optional) - 
+    + affiliationTypeCode (optional) - 
+    + entityId (optional) - 
 
       
 + Request

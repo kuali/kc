@@ -1,6 +1,6 @@
-## Proposal Types [/research-sys/api/v1/proposal-types/]
+## Proposal Types [/research-common/api/v1/proposal-types/]
 
-### Get Proposal Types by Key [GET /research-sys/api/v1/proposal-types/(key)]
+### Get Proposal Types by Key [GET /research-common/api/v1/proposal-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Proposal Types [GET /research-sys/api/v1/proposal-types/]
+### Get All Proposal Types [GET /research-common/api/v1/proposal-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Proposal Types with Filtering [GET /research-sys/api/v1/proposal-types/]
+### Get All Proposal Types with Filtering [GET /research-common/api/v1/proposal-types/]
     
 + Parameters
 
-        + code
-            + description
+    + code (optional) - Proposal Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Proposal Types [GET /research-sys/api/v1/proposal-types/]
+### Get Schema for Proposal Types [GET /research-common/api/v1/proposal-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["code","description"],"primaryKey":"code"}
 		
-### Get Blueprint API specification for Proposal Types [GET /research-sys/api/v1/proposal-types/]
+### Get Blueprint API specification for Proposal Types [GET /research-common/api/v1/proposal-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Proposal Types [PUT /research-sys/api/v1/proposal-types/(key)]
+### Update Proposal Types [PUT /research-common/api/v1/proposal-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Proposal Types [PUT /research-sys/api/v1/proposal-types/]
+### Update Multiple Proposal Types [PUT /research-common/api/v1/proposal-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Proposal Types [POST /research-sys/api/v1/proposal-types/]
+### Insert Proposal Types [POST /research-common/api/v1/proposal-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Proposal Types [POST /research-sys/api/v1/proposal-types/]
+### Insert Multiple Proposal Types [POST /research-common/api/v1/proposal-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Proposal Types by Key [DELETE /research-sys/api/v1/proposal-types/(key)]
+### Delete Proposal Types by Key [DELETE /research-common/api/v1/proposal-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Proposal Types [DELETE /research-sys/api/v1/proposal-types/]
+### Delete All Proposal Types [DELETE /research-common/api/v1/proposal-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Proposal Types with Matching [DELETE /research-sys/api/v1/proposal-types/]
+### Delete All Proposal Types with Matching [DELETE /research-common/api/v1/proposal-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + code
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + code (optional) - Proposal Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

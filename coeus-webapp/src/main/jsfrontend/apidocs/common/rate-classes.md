@@ -1,6 +1,6 @@
-## Rate Classes [/research-sys/api/v1/rate-classes/]
+## Rate Classes [/research-common/api/v1/rate-classes/]
 
-### Get Rate Classes by Key [GET /research-sys/api/v1/rate-classes/(key)]
+### Get Rate Classes by Key [GET /research-common/api/v1/rate-classes/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"code": "(val)","description": "(val)","rateClassTypeCode": "(val)","_primaryKey": "(val)"}
 
-### Get All Rate Classes [GET /research-sys/api/v1/rate-classes/]
+### Get All Rate Classes [GET /research-common/api/v1/rate-classes/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"code": "(val)","description": "(val)","rateClassTypeCode": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Rate Classes with Filtering [GET /research-sys/api/v1/rate-classes/]
+### Get All Rate Classes with Filtering [GET /research-common/api/v1/rate-classes/]
     
 + Parameters
 
-        + code
-            + description
-            + rateClassTypeCode
+    + code (optional) - Rate Class Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + rateClassTypeCode (optional) - Rate Class Type. Maximum length is 1.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"code": "(val)","description": "(val)","rateClassTypeCode": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Rate Classes [GET /research-sys/api/v1/rate-classes/]
+### Get Schema for Rate Classes [GET /research-common/api/v1/rate-classes/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["code","description","rateClassTypeCode"],"primaryKey":"code"}
 		
-### Get Blueprint API specification for Rate Classes [GET /research-sys/api/v1/rate-classes/]
+### Get Blueprint API specification for Rate Classes [GET /research-common/api/v1/rate-classes/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Rate Classes [PUT /research-sys/api/v1/rate-classes/(key)]
+### Update Rate Classes [PUT /research-common/api/v1/rate-classes/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Rate Classes [PUT /research-sys/api/v1/rate-classes/]
+### Update Multiple Rate Classes [PUT /research-common/api/v1/rate-classes/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Rate Classes [POST /research-sys/api/v1/rate-classes/]
+### Insert Rate Classes [POST /research-common/api/v1/rate-classes/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"code": "(val)","description": "(val)","rateClassTypeCode": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Rate Classes [POST /research-sys/api/v1/rate-classes/]
+### Insert Multiple Rate Classes [POST /research-common/api/v1/rate-classes/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"code": "(val)","description": "(val)","rateClassTypeCode": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Rate Classes by Key [DELETE /research-sys/api/v1/rate-classes/(key)]
+### Delete Rate Classes by Key [DELETE /research-common/api/v1/rate-classes/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Rate Classes [DELETE /research-sys/api/v1/rate-classes/]
+### Delete All Rate Classes [DELETE /research-common/api/v1/rate-classes/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Rate Classes with Matching [DELETE /research-sys/api/v1/rate-classes/]
+### Delete All Rate Classes with Matching [DELETE /research-common/api/v1/rate-classes/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + code
-            + description
-            + rateClassTypeCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + code (optional) - Rate Class Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + rateClassTypeCode (optional) - Rate Class Type. Maximum length is 1.
 
       
 + Request

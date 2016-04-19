@@ -1,6 +1,6 @@
-## Negotiation Activity Types [/research-sys/api/v1/negotiation-activity-types/]
+## Negotiation Activity Types [/negotiation/api/v1/negotiation-activity-types/]
 
-### Get Negotiation Activity Types by Key [GET /research-sys/api/v1/negotiation-activity-types/(key)]
+### Get Negotiation Activity Types by Key [GET /negotiation/api/v1/negotiation-activity-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"id": "(val)","code": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
 
-### Get All Negotiation Activity Types [GET /research-sys/api/v1/negotiation-activity-types/]
+### Get All Negotiation Activity Types [GET /negotiation/api/v1/negotiation-activity-types/]
 	 
 + Request
 
@@ -39,14 +39,14 @@
               {"id": "(val)","code": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Negotiation Activity Types with Filtering [GET /research-sys/api/v1/negotiation-activity-types/]
+### Get All Negotiation Activity Types with Filtering [GET /negotiation/api/v1/negotiation-activity-types/]
     
 + Parameters
 
-        + id
-            + code
-            + description
-            + active
+    + id (optional) - Id. Maximum length is 22.
+    + code (optional) - Activity Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 30.
+    + active (optional) - Active. Maximum length is 1.
 
             
 + Request
@@ -68,7 +68,7 @@
               {"id": "(val)","code": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Negotiation Activity Types [GET /research-sys/api/v1/negotiation-activity-types/]
+### Get Schema for Negotiation Activity Types [GET /negotiation/api/v1/negotiation-activity-types/]
 	                                          
 + Parameters
 
@@ -90,7 +90,7 @@
     
             {"columns":["id","code","description","active"],"primaryKey":"id"}
 		
-### Get Blueprint API specification for Negotiation Activity Types [GET /research-sys/api/v1/negotiation-activity-types/]
+### Get Blueprint API specification for Negotiation Activity Types [GET /negotiation/api/v1/negotiation-activity-types/]
 	 
 + Parameters
 
@@ -111,7 +111,7 @@
             transfer-encoding:chunked
 
 
-### Update Negotiation Activity Types [PUT /research-sys/api/v1/negotiation-activity-types/(key)]
+### Update Negotiation Activity Types [PUT /negotiation/api/v1/negotiation-activity-types/(key)]
 
 + Request
 
@@ -126,7 +126,7 @@
 			
 + Response 204
 
-### Update Multiple Negotiation Activity Types [PUT /research-sys/api/v1/negotiation-activity-types/]
+### Update Multiple Negotiation Activity Types [PUT /negotiation/api/v1/negotiation-activity-types/]
 
 + Request
 
@@ -144,7 +144,7 @@
 			
 + Response 204
 
-### Insert Negotiation Activity Types [POST /research-sys/api/v1/negotiation-activity-types/]
+### Insert Negotiation Activity Types [POST /negotiation/api/v1/negotiation-activity-types/]
 
 + Request
 
@@ -163,7 +163,7 @@
             
             {"id": "(val)","code": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Negotiation Activity Types [POST /research-sys/api/v1/negotiation-activity-types/]
+### Insert Multiple Negotiation Activity Types [POST /negotiation/api/v1/negotiation-activity-types/]
 
 + Request
 
@@ -188,7 +188,7 @@
               {"id": "(val)","code": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Negotiation Activity Types by Key [DELETE /research-sys/api/v1/negotiation-activity-types/(key)]
+### Delete Negotiation Activity Types by Key [DELETE /negotiation/api/v1/negotiation-activity-types/(key)]
 	 
 + Request
 
@@ -199,7 +199,7 @@
 
 + Response 204
 
-### Delete All Negotiation Activity Types [DELETE /research-sys/api/v1/negotiation-activity-types/]
+### Delete All Negotiation Activity Types [DELETE /negotiation/api/v1/negotiation-activity-types/]
 
 + Parameters
 
@@ -214,15 +214,15 @@
 
 + Response 204
 
-### Delete All Negotiation Activity Types with Matching [DELETE /research-sys/api/v1/negotiation-activity-types/]
+### Delete All Negotiation Activity Types with Matching [DELETE /negotiation/api/v1/negotiation-activity-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + code
-            + description
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Id. Maximum length is 22.
+    + code (optional) - Activity Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 30.
+    + active (optional) - Active. Maximum length is 1.
 
       
 + Request

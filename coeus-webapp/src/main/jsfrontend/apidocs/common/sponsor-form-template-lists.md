@@ -1,6 +1,6 @@
-## Sponsor Form Template Lists [/research-sys/api/v1/sponsor-form-template-lists/]
+## Sponsor Form Template Lists [/research-common/api/v1/sponsor-form-template-lists/]
 
-### Get Sponsor Form Template Lists by Key [GET /research-sys/api/v1/sponsor-form-template-lists/(key)]
+### Get Sponsor Form Template Lists by Key [GET /research-common/api/v1/sponsor-form-template-lists/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"sponsorFormTemplateId": "(val)","sponsorFormId": "(val)","pageNumber": "(val)","pageDescription": "(val)","_primaryKey": "(val)"}
 
-### Get All Sponsor Form Template Lists [GET /research-sys/api/v1/sponsor-form-template-lists/]
+### Get All Sponsor Form Template Lists [GET /research-common/api/v1/sponsor-form-template-lists/]
 	 
 + Request
 
@@ -39,14 +39,14 @@
               {"sponsorFormTemplateId": "(val)","sponsorFormId": "(val)","pageNumber": "(val)","pageDescription": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Sponsor Form Template Lists with Filtering [GET /research-sys/api/v1/sponsor-form-template-lists/]
+### Get All Sponsor Form Template Lists with Filtering [GET /research-common/api/v1/sponsor-form-template-lists/]
     
 + Parameters
 
-        + sponsorFormTemplateId
-            + sponsorFormId
-            + pageNumber
-            + pageDescription
+    + sponsorFormTemplateId (optional) - 
+    + sponsorFormId (optional) - 
+    + pageNumber (optional) - 
+    + pageDescription (optional) - 
 
             
 + Request
@@ -68,7 +68,7 @@
               {"sponsorFormTemplateId": "(val)","sponsorFormId": "(val)","pageNumber": "(val)","pageDescription": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Sponsor Form Template Lists [GET /research-sys/api/v1/sponsor-form-template-lists/]
+### Get Schema for Sponsor Form Template Lists [GET /research-common/api/v1/sponsor-form-template-lists/]
 	                                          
 + Parameters
 
@@ -90,7 +90,7 @@
     
             {"columns":["sponsorFormTemplateId","sponsorFormId","pageNumber","pageDescription"],"primaryKey":"sponsorFormTemplateId"}
 		
-### Get Blueprint API specification for Sponsor Form Template Lists [GET /research-sys/api/v1/sponsor-form-template-lists/]
+### Get Blueprint API specification for Sponsor Form Template Lists [GET /research-common/api/v1/sponsor-form-template-lists/]
 	 
 + Parameters
 
@@ -111,7 +111,7 @@
             transfer-encoding:chunked
 
 
-### Update Sponsor Form Template Lists [PUT /research-sys/api/v1/sponsor-form-template-lists/(key)]
+### Update Sponsor Form Template Lists [PUT /research-common/api/v1/sponsor-form-template-lists/(key)]
 
 + Request
 
@@ -126,7 +126,7 @@
 			
 + Response 204
 
-### Update Multiple Sponsor Form Template Lists [PUT /research-sys/api/v1/sponsor-form-template-lists/]
+### Update Multiple Sponsor Form Template Lists [PUT /research-common/api/v1/sponsor-form-template-lists/]
 
 + Request
 
@@ -144,7 +144,7 @@
 			
 + Response 204
 
-### Insert Sponsor Form Template Lists [POST /research-sys/api/v1/sponsor-form-template-lists/]
+### Insert Sponsor Form Template Lists [POST /research-common/api/v1/sponsor-form-template-lists/]
 
 + Request
 
@@ -163,7 +163,7 @@
             
             {"sponsorFormTemplateId": "(val)","sponsorFormId": "(val)","pageNumber": "(val)","pageDescription": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Sponsor Form Template Lists [POST /research-sys/api/v1/sponsor-form-template-lists/]
+### Insert Multiple Sponsor Form Template Lists [POST /research-common/api/v1/sponsor-form-template-lists/]
 
 + Request
 
@@ -188,7 +188,7 @@
               {"sponsorFormTemplateId": "(val)","sponsorFormId": "(val)","pageNumber": "(val)","pageDescription": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Sponsor Form Template Lists by Key [DELETE /research-sys/api/v1/sponsor-form-template-lists/(key)]
+### Delete Sponsor Form Template Lists by Key [DELETE /research-common/api/v1/sponsor-form-template-lists/(key)]
 	 
 + Request
 
@@ -199,7 +199,7 @@
 
 + Response 204
 
-### Delete All Sponsor Form Template Lists [DELETE /research-sys/api/v1/sponsor-form-template-lists/]
+### Delete All Sponsor Form Template Lists [DELETE /research-common/api/v1/sponsor-form-template-lists/]
 
 + Parameters
 
@@ -214,15 +214,15 @@
 
 + Response 204
 
-### Delete All Sponsor Form Template Lists with Matching [DELETE /research-sys/api/v1/sponsor-form-template-lists/]
+### Delete All Sponsor Form Template Lists with Matching [DELETE /research-common/api/v1/sponsor-form-template-lists/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + sponsorFormTemplateId
-            + sponsorFormId
-            + pageNumber
-            + pageDescription
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + sponsorFormTemplateId (optional) - 
+    + sponsorFormId (optional) - 
+    + pageNumber (optional) - 
+    + pageDescription (optional) - 
 
       
 + Request

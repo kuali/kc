@@ -1,6 +1,6 @@
-## Report Statuses [/research-sys/api/v1/report-statuses/]
+## Report Statuses [/award/api/v1/report-statuses/]
 
-### Get Report Statuses by Key [GET /research-sys/api/v1/report-statuses/(key)]
+### Get Report Statuses by Key [GET /award/api/v1/report-statuses/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"reportStatusCode": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
 
-### Get All Report Statuses [GET /research-sys/api/v1/report-statuses/]
+### Get All Report Statuses [GET /award/api/v1/report-statuses/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"reportStatusCode": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Report Statuses with Filtering [GET /research-sys/api/v1/report-statuses/]
+### Get All Report Statuses with Filtering [GET /award/api/v1/report-statuses/]
     
 + Parameters
 
-        + reportStatusCode
-            + description
-            + active
+    + reportStatusCode (optional) - Report Status Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + active (optional) - Active. Maximum length is 1.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"reportStatusCode": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Report Statuses [GET /research-sys/api/v1/report-statuses/]
+### Get Schema for Report Statuses [GET /award/api/v1/report-statuses/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["reportStatusCode","description","active"],"primaryKey":"reportStatusCode"}
 		
-### Get Blueprint API specification for Report Statuses [GET /research-sys/api/v1/report-statuses/]
+### Get Blueprint API specification for Report Statuses [GET /award/api/v1/report-statuses/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Report Statuses [PUT /research-sys/api/v1/report-statuses/(key)]
+### Update Report Statuses [PUT /award/api/v1/report-statuses/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Report Statuses [PUT /research-sys/api/v1/report-statuses/]
+### Update Multiple Report Statuses [PUT /award/api/v1/report-statuses/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Report Statuses [POST /research-sys/api/v1/report-statuses/]
+### Insert Report Statuses [POST /award/api/v1/report-statuses/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"reportStatusCode": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Report Statuses [POST /research-sys/api/v1/report-statuses/]
+### Insert Multiple Report Statuses [POST /award/api/v1/report-statuses/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"reportStatusCode": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Report Statuses by Key [DELETE /research-sys/api/v1/report-statuses/(key)]
+### Delete Report Statuses by Key [DELETE /award/api/v1/report-statuses/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Report Statuses [DELETE /research-sys/api/v1/report-statuses/]
+### Delete All Report Statuses [DELETE /award/api/v1/report-statuses/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Report Statuses with Matching [DELETE /research-sys/api/v1/report-statuses/]
+### Delete All Report Statuses with Matching [DELETE /award/api/v1/report-statuses/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + reportStatusCode
-            + description
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + reportStatusCode (optional) - Report Status Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + active (optional) - Active. Maximum length is 1.
 
       
 + Request

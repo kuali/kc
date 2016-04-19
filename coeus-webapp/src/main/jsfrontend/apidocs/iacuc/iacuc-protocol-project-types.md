@@ -1,6 +1,6 @@
-## Iacuc Protocol Project Types [/research-sys/api/v1/iacuc-protocol-project-types/]
+## Iacuc Protocol Project Types [/iacuc/api/v1/iacuc-protocol-project-types/]
 
-### Get Iacuc Protocol Project Types by Key [GET /research-sys/api/v1/iacuc-protocol-project-types/(key)]
+### Get Iacuc Protocol Project Types by Key [GET /iacuc/api/v1/iacuc-protocol-project-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"projectTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Protocol Project Types [GET /research-sys/api/v1/iacuc-protocol-project-types/]
+### Get All Iacuc Protocol Project Types [GET /iacuc/api/v1/iacuc-protocol-project-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"projectTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Protocol Project Types with Filtering [GET /research-sys/api/v1/iacuc-protocol-project-types/]
+### Get All Iacuc Protocol Project Types with Filtering [GET /iacuc/api/v1/iacuc-protocol-project-types/]
     
 + Parameters
 
-        + projectTypeCode
-            + description
+    + projectTypeCode (optional) - Project Type Code. Maximum length is 22.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"projectTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Protocol Project Types [GET /research-sys/api/v1/iacuc-protocol-project-types/]
+### Get Schema for Iacuc Protocol Project Types [GET /iacuc/api/v1/iacuc-protocol-project-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["projectTypeCode","description"],"primaryKey":"projectTypeCode"}
 		
-### Get Blueprint API specification for Iacuc Protocol Project Types [GET /research-sys/api/v1/iacuc-protocol-project-types/]
+### Get Blueprint API specification for Iacuc Protocol Project Types [GET /iacuc/api/v1/iacuc-protocol-project-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Protocol Project Types [PUT /research-sys/api/v1/iacuc-protocol-project-types/(key)]
+### Update Iacuc Protocol Project Types [PUT /iacuc/api/v1/iacuc-protocol-project-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Protocol Project Types [PUT /research-sys/api/v1/iacuc-protocol-project-types/]
+### Update Multiple Iacuc Protocol Project Types [PUT /iacuc/api/v1/iacuc-protocol-project-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Iacuc Protocol Project Types [POST /research-sys/api/v1/iacuc-protocol-project-types/]
+### Insert Iacuc Protocol Project Types [POST /iacuc/api/v1/iacuc-protocol-project-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"projectTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Protocol Project Types [POST /research-sys/api/v1/iacuc-protocol-project-types/]
+### Insert Multiple Iacuc Protocol Project Types [POST /iacuc/api/v1/iacuc-protocol-project-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"projectTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Protocol Project Types by Key [DELETE /research-sys/api/v1/iacuc-protocol-project-types/(key)]
+### Delete Iacuc Protocol Project Types by Key [DELETE /iacuc/api/v1/iacuc-protocol-project-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Project Types [DELETE /research-sys/api/v1/iacuc-protocol-project-types/]
+### Delete All Iacuc Protocol Project Types [DELETE /iacuc/api/v1/iacuc-protocol-project-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Project Types with Matching [DELETE /research-sys/api/v1/iacuc-protocol-project-types/]
+### Delete All Iacuc Protocol Project Types with Matching [DELETE /iacuc/api/v1/iacuc-protocol-project-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + projectTypeCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + projectTypeCode (optional) - Project Type Code. Maximum length is 22.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

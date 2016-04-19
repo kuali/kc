@@ -43,10 +43,10 @@
     
 + Parameters
 
-        + id
-            + ruleAttributeId
-            + documentTypeId
-            + orderIndex
+    + id (optional) - 
+    + ruleAttributeId (optional) - 
+    + documentTypeId (optional) - 
+    + orderIndex (optional) - 
 
             
 + Request
@@ -218,11 +218,11 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + ruleAttributeId
-            + documentTypeId
-            + orderIndex
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - 
+    + ruleAttributeId (optional) - 
+    + documentTypeId (optional) - 
+    + orderIndex (optional) - 
 
       
 + Request

@@ -1,6 +1,6 @@
-## Award Transferring Sponsors [/research-sys/api/v1/award-transferring-sponsors/]
+## Award Transferring Sponsors [/award/api/v1/award-transferring-sponsors/]
 
-### Get Award Transferring Sponsors by Key [GET /research-sys/api/v1/award-transferring-sponsors/(key)]
+### Get Award Transferring Sponsors by Key [GET /award/api/v1/award-transferring-sponsors/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"awardTransferringSponsorId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","sponsorCode": "(val)","_primaryKey": "(val)"}
 
-### Get All Award Transferring Sponsors [GET /research-sys/api/v1/award-transferring-sponsors/]
+### Get All Award Transferring Sponsors [GET /award/api/v1/award-transferring-sponsors/]
 	 
 + Request
 
@@ -39,15 +39,15 @@
               {"awardTransferringSponsorId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","sponsorCode": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Award Transferring Sponsors with Filtering [GET /research-sys/api/v1/award-transferring-sponsors/]
+### Get All Award Transferring Sponsors with Filtering [GET /award/api/v1/award-transferring-sponsors/]
     
 + Parameters
 
-        + awardTransferringSponsorId
-            + awardId
-            + awardNumber
-            + sequenceNumber
-            + sponsorCode
+    + awardTransferringSponsorId (optional) - Award Transferring Sponsor Id. Maximum length is 22.
+    + awardId (optional) - 
+    + awardNumber (optional) - 
+    + sequenceNumber (optional) - 
+    + sponsorCode (optional) - Sponsor Code. Maximum length is 6.
 
             
 + Request
@@ -69,7 +69,7 @@
               {"awardTransferringSponsorId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","sponsorCode": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Award Transferring Sponsors [GET /research-sys/api/v1/award-transferring-sponsors/]
+### Get Schema for Award Transferring Sponsors [GET /award/api/v1/award-transferring-sponsors/]
 	                                          
 + Parameters
 
@@ -91,7 +91,7 @@
     
             {"columns":["awardTransferringSponsorId","awardId","awardNumber","sequenceNumber","sponsorCode"],"primaryKey":"awardTransferringSponsorId"}
 		
-### Get Blueprint API specification for Award Transferring Sponsors [GET /research-sys/api/v1/award-transferring-sponsors/]
+### Get Blueprint API specification for Award Transferring Sponsors [GET /award/api/v1/award-transferring-sponsors/]
 	 
 + Parameters
 
@@ -112,7 +112,7 @@
             transfer-encoding:chunked
 
 
-### Update Award Transferring Sponsors [PUT /research-sys/api/v1/award-transferring-sponsors/(key)]
+### Update Award Transferring Sponsors [PUT /award/api/v1/award-transferring-sponsors/(key)]
 
 + Request
 
@@ -127,7 +127,7 @@
 			
 + Response 204
 
-### Update Multiple Award Transferring Sponsors [PUT /research-sys/api/v1/award-transferring-sponsors/]
+### Update Multiple Award Transferring Sponsors [PUT /award/api/v1/award-transferring-sponsors/]
 
 + Request
 
@@ -145,7 +145,7 @@
 			
 + Response 204
 
-### Insert Award Transferring Sponsors [POST /research-sys/api/v1/award-transferring-sponsors/]
+### Insert Award Transferring Sponsors [POST /award/api/v1/award-transferring-sponsors/]
 
 + Request
 
@@ -164,7 +164,7 @@
             
             {"awardTransferringSponsorId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","sponsorCode": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Award Transferring Sponsors [POST /research-sys/api/v1/award-transferring-sponsors/]
+### Insert Multiple Award Transferring Sponsors [POST /award/api/v1/award-transferring-sponsors/]
 
 + Request
 
@@ -189,7 +189,7 @@
               {"awardTransferringSponsorId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","sponsorCode": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Award Transferring Sponsors by Key [DELETE /research-sys/api/v1/award-transferring-sponsors/(key)]
+### Delete Award Transferring Sponsors by Key [DELETE /award/api/v1/award-transferring-sponsors/(key)]
 	 
 + Request
 
@@ -200,7 +200,7 @@
 
 + Response 204
 
-### Delete All Award Transferring Sponsors [DELETE /research-sys/api/v1/award-transferring-sponsors/]
+### Delete All Award Transferring Sponsors [DELETE /award/api/v1/award-transferring-sponsors/]
 
 + Parameters
 
@@ -215,16 +215,16 @@
 
 + Response 204
 
-### Delete All Award Transferring Sponsors with Matching [DELETE /research-sys/api/v1/award-transferring-sponsors/]
+### Delete All Award Transferring Sponsors with Matching [DELETE /award/api/v1/award-transferring-sponsors/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + awardTransferringSponsorId
-            + awardId
-            + awardNumber
-            + sequenceNumber
-            + sponsorCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + awardTransferringSponsorId (optional) - Award Transferring Sponsor Id. Maximum length is 22.
+    + awardId (optional) - 
+    + awardNumber (optional) - 
+    + sequenceNumber (optional) - 
+    + sponsorCode (optional) - Sponsor Code. Maximum length is 6.
 
       
 + Request

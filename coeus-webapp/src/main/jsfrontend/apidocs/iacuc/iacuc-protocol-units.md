@@ -1,6 +1,6 @@
-## Iacuc Protocol Units [/research-sys/api/v1/iacuc-protocol-units/]
+## Iacuc Protocol Units [/iacuc/api/v1/iacuc-protocol-units/]
 
-### Get Iacuc Protocol Units by Key [GET /research-sys/api/v1/iacuc-protocol-units/(key)]
+### Get Iacuc Protocol Units by Key [GET /iacuc/api/v1/iacuc-protocol-units/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"protocolUnitsId": "(val)","protocolPersonId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","unitNumber": "(val)","leadUnitFlag": "(val)","personId": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Protocol Units [GET /research-sys/api/v1/iacuc-protocol-units/]
+### Get All Iacuc Protocol Units [GET /iacuc/api/v1/iacuc-protocol-units/]
 	 
 + Request
 
@@ -39,17 +39,17 @@
               {"protocolUnitsId": "(val)","protocolPersonId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","unitNumber": "(val)","leadUnitFlag": "(val)","personId": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Protocol Units with Filtering [GET /research-sys/api/v1/iacuc-protocol-units/]
+### Get All Iacuc Protocol Units with Filtering [GET /iacuc/api/v1/iacuc-protocol-units/]
     
 + Parameters
 
-        + protocolUnitsId
-            + protocolPersonId
-            + protocolNumber
-            + sequenceNumber
-            + unitNumber
-            + leadUnitFlag
-            + personId
+    + protocolUnitsId (optional) - 
+    + protocolPersonId (optional) - 
+    + protocolNumber (optional) - 
+    + sequenceNumber (optional) - 
+    + unitNumber (optional) - 
+    + leadUnitFlag (optional) - 
+    + personId (optional) - 
 
             
 + Request
@@ -71,7 +71,7 @@
               {"protocolUnitsId": "(val)","protocolPersonId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","unitNumber": "(val)","leadUnitFlag": "(val)","personId": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Protocol Units [GET /research-sys/api/v1/iacuc-protocol-units/]
+### Get Schema for Iacuc Protocol Units [GET /iacuc/api/v1/iacuc-protocol-units/]
 	                                          
 + Parameters
 
@@ -93,7 +93,7 @@
     
             {"columns":["protocolUnitsId","protocolPersonId","protocolNumber","sequenceNumber","unitNumber","leadUnitFlag","personId"],"primaryKey":"protocolUnitsId"}
 		
-### Get Blueprint API specification for Iacuc Protocol Units [GET /research-sys/api/v1/iacuc-protocol-units/]
+### Get Blueprint API specification for Iacuc Protocol Units [GET /iacuc/api/v1/iacuc-protocol-units/]
 	 
 + Parameters
 
@@ -114,7 +114,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Protocol Units [PUT /research-sys/api/v1/iacuc-protocol-units/(key)]
+### Update Iacuc Protocol Units [PUT /iacuc/api/v1/iacuc-protocol-units/(key)]
 
 + Request
 
@@ -129,7 +129,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Protocol Units [PUT /research-sys/api/v1/iacuc-protocol-units/]
+### Update Multiple Iacuc Protocol Units [PUT /iacuc/api/v1/iacuc-protocol-units/]
 
 + Request
 
@@ -147,7 +147,7 @@
 			
 + Response 204
 
-### Insert Iacuc Protocol Units [POST /research-sys/api/v1/iacuc-protocol-units/]
+### Insert Iacuc Protocol Units [POST /iacuc/api/v1/iacuc-protocol-units/]
 
 + Request
 
@@ -166,7 +166,7 @@
             
             {"protocolUnitsId": "(val)","protocolPersonId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","unitNumber": "(val)","leadUnitFlag": "(val)","personId": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Protocol Units [POST /research-sys/api/v1/iacuc-protocol-units/]
+### Insert Multiple Iacuc Protocol Units [POST /iacuc/api/v1/iacuc-protocol-units/]
 
 + Request
 
@@ -191,7 +191,7 @@
               {"protocolUnitsId": "(val)","protocolPersonId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","unitNumber": "(val)","leadUnitFlag": "(val)","personId": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Protocol Units by Key [DELETE /research-sys/api/v1/iacuc-protocol-units/(key)]
+### Delete Iacuc Protocol Units by Key [DELETE /iacuc/api/v1/iacuc-protocol-units/(key)]
 	 
 + Request
 
@@ -202,7 +202,7 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Units [DELETE /research-sys/api/v1/iacuc-protocol-units/]
+### Delete All Iacuc Protocol Units [DELETE /iacuc/api/v1/iacuc-protocol-units/]
 
 + Parameters
 
@@ -217,18 +217,18 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Units with Matching [DELETE /research-sys/api/v1/iacuc-protocol-units/]
+### Delete All Iacuc Protocol Units with Matching [DELETE /iacuc/api/v1/iacuc-protocol-units/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + protocolUnitsId
-            + protocolPersonId
-            + protocolNumber
-            + sequenceNumber
-            + unitNumber
-            + leadUnitFlag
-            + personId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + protocolUnitsId (optional) - 
+    + protocolPersonId (optional) - 
+    + protocolNumber (optional) - 
+    + sequenceNumber (optional) - 
+    + unitNumber (optional) - 
+    + leadUnitFlag (optional) - 
+    + personId (optional) - 
 
       
 + Request

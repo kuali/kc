@@ -1,6 +1,6 @@
-## Organization Type Lists [/research-sys/api/v1/organization-type-lists/]
+## Organization Type Lists [/research-common/api/v1/organization-type-lists/]
 
-### Get Organization Type Lists by Key [GET /research-sys/api/v1/organization-type-lists/(key)]
+### Get Organization Type Lists by Key [GET /research-common/api/v1/organization-type-lists/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Organization Type Lists [GET /research-sys/api/v1/organization-type-lists/]
+### Get All Organization Type Lists [GET /research-common/api/v1/organization-type-lists/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Organization Type Lists with Filtering [GET /research-sys/api/v1/organization-type-lists/]
+### Get All Organization Type Lists with Filtering [GET /research-common/api/v1/organization-type-lists/]
     
 + Parameters
 
-        + code
-            + description
+    + code (optional) - Organization Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Organization Type Lists [GET /research-sys/api/v1/organization-type-lists/]
+### Get Schema for Organization Type Lists [GET /research-common/api/v1/organization-type-lists/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["code","description"],"primaryKey":"code"}
 		
-### Get Blueprint API specification for Organization Type Lists [GET /research-sys/api/v1/organization-type-lists/]
+### Get Blueprint API specification for Organization Type Lists [GET /research-common/api/v1/organization-type-lists/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Organization Type Lists [PUT /research-sys/api/v1/organization-type-lists/(key)]
+### Update Organization Type Lists [PUT /research-common/api/v1/organization-type-lists/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Organization Type Lists [PUT /research-sys/api/v1/organization-type-lists/]
+### Update Multiple Organization Type Lists [PUT /research-common/api/v1/organization-type-lists/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Organization Type Lists [POST /research-sys/api/v1/organization-type-lists/]
+### Insert Organization Type Lists [POST /research-common/api/v1/organization-type-lists/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Organization Type Lists [POST /research-sys/api/v1/organization-type-lists/]
+### Insert Multiple Organization Type Lists [POST /research-common/api/v1/organization-type-lists/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Organization Type Lists by Key [DELETE /research-sys/api/v1/organization-type-lists/(key)]
+### Delete Organization Type Lists by Key [DELETE /research-common/api/v1/organization-type-lists/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Organization Type Lists [DELETE /research-sys/api/v1/organization-type-lists/]
+### Delete All Organization Type Lists [DELETE /research-common/api/v1/organization-type-lists/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Organization Type Lists with Matching [DELETE /research-sys/api/v1/organization-type-lists/]
+### Delete All Organization Type Lists with Matching [DELETE /research-common/api/v1/organization-type-lists/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + code
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + code (optional) - Organization Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

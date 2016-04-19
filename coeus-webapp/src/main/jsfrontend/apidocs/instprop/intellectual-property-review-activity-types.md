@@ -1,6 +1,6 @@
-## Intellectual Property Review Activity Types [/research-sys/api/v1/intellectual-property-review-activity-types/]
+## Intellectual Property Review Activity Types [/instprop/api/v1/intellectual-property-review-activity-types/]
 
-### Get Intellectual Property Review Activity Types by Key [GET /research-sys/api/v1/intellectual-property-review-activity-types/(key)]
+### Get Intellectual Property Review Activity Types by Key [GET /instprop/api/v1/intellectual-property-review-activity-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"intellectualPropertyReviewActivityTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Intellectual Property Review Activity Types [GET /research-sys/api/v1/intellectual-property-review-activity-types/]
+### Get All Intellectual Property Review Activity Types [GET /instprop/api/v1/intellectual-property-review-activity-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"intellectualPropertyReviewActivityTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Intellectual Property Review Activity Types with Filtering [GET /research-sys/api/v1/intellectual-property-review-activity-types/]
+### Get All Intellectual Property Review Activity Types with Filtering [GET /instprop/api/v1/intellectual-property-review-activity-types/]
     
 + Parameters
 
-        + intellectualPropertyReviewActivityTypeCode
-            + description
+    + intellectualPropertyReviewActivityTypeCode (optional) - Intellectual Property Review Activity Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"intellectualPropertyReviewActivityTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Intellectual Property Review Activity Types [GET /research-sys/api/v1/intellectual-property-review-activity-types/]
+### Get Schema for Intellectual Property Review Activity Types [GET /instprop/api/v1/intellectual-property-review-activity-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["intellectualPropertyReviewActivityTypeCode","description"],"primaryKey":"intellectualPropertyReviewActivityTypeCode"}
 		
-### Get Blueprint API specification for Intellectual Property Review Activity Types [GET /research-sys/api/v1/intellectual-property-review-activity-types/]
+### Get Blueprint API specification for Intellectual Property Review Activity Types [GET /instprop/api/v1/intellectual-property-review-activity-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Intellectual Property Review Activity Types [PUT /research-sys/api/v1/intellectual-property-review-activity-types/(key)]
+### Update Intellectual Property Review Activity Types [PUT /instprop/api/v1/intellectual-property-review-activity-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Intellectual Property Review Activity Types [PUT /research-sys/api/v1/intellectual-property-review-activity-types/]
+### Update Multiple Intellectual Property Review Activity Types [PUT /instprop/api/v1/intellectual-property-review-activity-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Intellectual Property Review Activity Types [POST /research-sys/api/v1/intellectual-property-review-activity-types/]
+### Insert Intellectual Property Review Activity Types [POST /instprop/api/v1/intellectual-property-review-activity-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"intellectualPropertyReviewActivityTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Intellectual Property Review Activity Types [POST /research-sys/api/v1/intellectual-property-review-activity-types/]
+### Insert Multiple Intellectual Property Review Activity Types [POST /instprop/api/v1/intellectual-property-review-activity-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"intellectualPropertyReviewActivityTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Intellectual Property Review Activity Types by Key [DELETE /research-sys/api/v1/intellectual-property-review-activity-types/(key)]
+### Delete Intellectual Property Review Activity Types by Key [DELETE /instprop/api/v1/intellectual-property-review-activity-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Intellectual Property Review Activity Types [DELETE /research-sys/api/v1/intellectual-property-review-activity-types/]
+### Delete All Intellectual Property Review Activity Types [DELETE /instprop/api/v1/intellectual-property-review-activity-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Intellectual Property Review Activity Types with Matching [DELETE /research-sys/api/v1/intellectual-property-review-activity-types/]
+### Delete All Intellectual Property Review Activity Types with Matching [DELETE /instprop/api/v1/intellectual-property-review-activity-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + intellectualPropertyReviewActivityTypeCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + intellectualPropertyReviewActivityTypeCode (optional) - Intellectual Property Review Activity Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

@@ -1,6 +1,6 @@
-## Sponsor Terms [/research-sys/api/v1/sponsor-terms/]
+## Sponsor Terms [/research-common/api/v1/sponsor-terms/]
 
-### Get Sponsor Terms by Key [GET /research-sys/api/v1/sponsor-terms/(key)]
+### Get Sponsor Terms by Key [GET /research-common/api/v1/sponsor-terms/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"sponsorTermId": "(val)","sponsorTermCode": "(val)","sponsorTermTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Sponsor Terms [GET /research-sys/api/v1/sponsor-terms/]
+### Get All Sponsor Terms [GET /research-common/api/v1/sponsor-terms/]
 	 
 + Request
 
@@ -39,14 +39,14 @@
               {"sponsorTermId": "(val)","sponsorTermCode": "(val)","sponsorTermTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Sponsor Terms with Filtering [GET /research-sys/api/v1/sponsor-terms/]
+### Get All Sponsor Terms with Filtering [GET /research-common/api/v1/sponsor-terms/]
     
 + Parameters
 
-        + sponsorTermId
-            + sponsorTermCode
-            + sponsorTermTypeCode
-            + description
+    + sponsorTermId (optional) - Sponsor Term Id. Maximum length is 22.
+    + sponsorTermCode (optional) - Sponsor Term Code. Maximum length is 3.
+    + sponsorTermTypeCode (optional) - Sponsor Term Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -68,7 +68,7 @@
               {"sponsorTermId": "(val)","sponsorTermCode": "(val)","sponsorTermTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Sponsor Terms [GET /research-sys/api/v1/sponsor-terms/]
+### Get Schema for Sponsor Terms [GET /research-common/api/v1/sponsor-terms/]
 	                                          
 + Parameters
 
@@ -90,7 +90,7 @@
     
             {"columns":["sponsorTermId","sponsorTermCode","sponsorTermTypeCode","description"],"primaryKey":"sponsorTermId"}
 		
-### Get Blueprint API specification for Sponsor Terms [GET /research-sys/api/v1/sponsor-terms/]
+### Get Blueprint API specification for Sponsor Terms [GET /research-common/api/v1/sponsor-terms/]
 	 
 + Parameters
 
@@ -111,7 +111,7 @@
             transfer-encoding:chunked
 
 
-### Update Sponsor Terms [PUT /research-sys/api/v1/sponsor-terms/(key)]
+### Update Sponsor Terms [PUT /research-common/api/v1/sponsor-terms/(key)]
 
 + Request
 
@@ -126,7 +126,7 @@
 			
 + Response 204
 
-### Update Multiple Sponsor Terms [PUT /research-sys/api/v1/sponsor-terms/]
+### Update Multiple Sponsor Terms [PUT /research-common/api/v1/sponsor-terms/]
 
 + Request
 
@@ -144,7 +144,7 @@
 			
 + Response 204
 
-### Insert Sponsor Terms [POST /research-sys/api/v1/sponsor-terms/]
+### Insert Sponsor Terms [POST /research-common/api/v1/sponsor-terms/]
 
 + Request
 
@@ -163,7 +163,7 @@
             
             {"sponsorTermId": "(val)","sponsorTermCode": "(val)","sponsorTermTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Sponsor Terms [POST /research-sys/api/v1/sponsor-terms/]
+### Insert Multiple Sponsor Terms [POST /research-common/api/v1/sponsor-terms/]
 
 + Request
 
@@ -188,7 +188,7 @@
               {"sponsorTermId": "(val)","sponsorTermCode": "(val)","sponsorTermTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Sponsor Terms by Key [DELETE /research-sys/api/v1/sponsor-terms/(key)]
+### Delete Sponsor Terms by Key [DELETE /research-common/api/v1/sponsor-terms/(key)]
 	 
 + Request
 
@@ -199,7 +199,7 @@
 
 + Response 204
 
-### Delete All Sponsor Terms [DELETE /research-sys/api/v1/sponsor-terms/]
+### Delete All Sponsor Terms [DELETE /research-common/api/v1/sponsor-terms/]
 
 + Parameters
 
@@ -214,15 +214,15 @@
 
 + Response 204
 
-### Delete All Sponsor Terms with Matching [DELETE /research-sys/api/v1/sponsor-terms/]
+### Delete All Sponsor Terms with Matching [DELETE /research-common/api/v1/sponsor-terms/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + sponsorTermId
-            + sponsorTermCode
-            + sponsorTermTypeCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + sponsorTermId (optional) - Sponsor Term Id. Maximum length is 22.
+    + sponsorTermCode (optional) - Sponsor Term Code. Maximum length is 3.
+    + sponsorTermTypeCode (optional) - Sponsor Term Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

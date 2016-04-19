@@ -1,6 +1,6 @@
-## Proposal Special Review Exemptions [/research-sys/api/v1/proposal-special-review-exemptions/]
+## Proposal Special Review Exemptions [/propdev/api/v1/proposal-special-review-exemptions/]
 
-### Get Proposal Special Review Exemptions by Key [GET /research-sys/api/v1/proposal-special-review-exemptions/(key)]
+### Get Proposal Special Review Exemptions by Key [GET /propdev/api/v1/proposal-special-review-exemptions/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"id": "(val)","exemptionTypeCode": "(val)","_primaryKey": "(val)"}
 
-### Get All Proposal Special Review Exemptions [GET /research-sys/api/v1/proposal-special-review-exemptions/]
+### Get All Proposal Special Review Exemptions [GET /propdev/api/v1/proposal-special-review-exemptions/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"id": "(val)","exemptionTypeCode": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Proposal Special Review Exemptions with Filtering [GET /research-sys/api/v1/proposal-special-review-exemptions/]
+### Get All Proposal Special Review Exemptions with Filtering [GET /propdev/api/v1/proposal-special-review-exemptions/]
     
 + Parameters
 
-        + id
-            + exemptionTypeCode
+    + id (optional) - Proposal Special Review Exemption Id. Maximum length is 22.
+    + exemptionTypeCode (optional) - Exemption #. Maximum length is 3.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"id": "(val)","exemptionTypeCode": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Proposal Special Review Exemptions [GET /research-sys/api/v1/proposal-special-review-exemptions/]
+### Get Schema for Proposal Special Review Exemptions [GET /propdev/api/v1/proposal-special-review-exemptions/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["id","exemptionTypeCode"],"primaryKey":"id"}
 		
-### Get Blueprint API specification for Proposal Special Review Exemptions [GET /research-sys/api/v1/proposal-special-review-exemptions/]
+### Get Blueprint API specification for Proposal Special Review Exemptions [GET /propdev/api/v1/proposal-special-review-exemptions/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Proposal Special Review Exemptions [PUT /research-sys/api/v1/proposal-special-review-exemptions/(key)]
+### Update Proposal Special Review Exemptions [PUT /propdev/api/v1/proposal-special-review-exemptions/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Proposal Special Review Exemptions [PUT /research-sys/api/v1/proposal-special-review-exemptions/]
+### Update Multiple Proposal Special Review Exemptions [PUT /propdev/api/v1/proposal-special-review-exemptions/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Proposal Special Review Exemptions [POST /research-sys/api/v1/proposal-special-review-exemptions/]
+### Insert Proposal Special Review Exemptions [POST /propdev/api/v1/proposal-special-review-exemptions/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"id": "(val)","exemptionTypeCode": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Proposal Special Review Exemptions [POST /research-sys/api/v1/proposal-special-review-exemptions/]
+### Insert Multiple Proposal Special Review Exemptions [POST /propdev/api/v1/proposal-special-review-exemptions/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"id": "(val)","exemptionTypeCode": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Proposal Special Review Exemptions by Key [DELETE /research-sys/api/v1/proposal-special-review-exemptions/(key)]
+### Delete Proposal Special Review Exemptions by Key [DELETE /propdev/api/v1/proposal-special-review-exemptions/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Proposal Special Review Exemptions [DELETE /research-sys/api/v1/proposal-special-review-exemptions/]
+### Delete All Proposal Special Review Exemptions [DELETE /propdev/api/v1/proposal-special-review-exemptions/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Proposal Special Review Exemptions with Matching [DELETE /research-sys/api/v1/proposal-special-review-exemptions/]
+### Delete All Proposal Special Review Exemptions with Matching [DELETE /propdev/api/v1/proposal-special-review-exemptions/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + exemptionTypeCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Proposal Special Review Exemption Id. Maximum length is 22.
+    + exemptionTypeCode (optional) - Exemption #. Maximum length is 3.
 
       
 + Request

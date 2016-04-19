@@ -1,6 +1,6 @@
-## Organization Indirect Costs [/research-sys/api/v1/organization-indirect-costs/]
+## Organization Indirect Costs [/research-common/api/v1/organization-indirect-costs/]
 
-### Get Organization Indirect Costs by Key [GET /research-sys/api/v1/organization-indirect-costs/(key)]
+### Get Organization Indirect Costs by Key [GET /research-common/api/v1/organization-indirect-costs/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"idcNumber": "(val)","organizationId": "(val)","applicableIndirectcostRate": "(val)","endDate": "(val)","idcComment": "(val)","idcRateTypeCode": "(val)","requestedDate": "(val)","startDate": "(val)","_primaryKey": "(val)"}
 
-### Get All Organization Indirect Costs [GET /research-sys/api/v1/organization-indirect-costs/]
+### Get All Organization Indirect Costs [GET /research-common/api/v1/organization-indirect-costs/]
 	 
 + Request
 
@@ -39,18 +39,18 @@
               {"idcNumber": "(val)","organizationId": "(val)","applicableIndirectcostRate": "(val)","endDate": "(val)","idcComment": "(val)","idcRateTypeCode": "(val)","requestedDate": "(val)","startDate": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Organization Indirect Costs with Filtering [GET /research-sys/api/v1/organization-indirect-costs/]
+### Get All Organization Indirect Costs with Filtering [GET /research-common/api/v1/organization-indirect-costs/]
     
 + Parameters
 
-        + idcNumber
-            + organizationId
-            + applicableIndirectcostRate
-            + endDate
-            + idcComment
-            + idcRateTypeCode
-            + requestedDate
-            + startDate
+    + idcNumber (optional) - Idc Number. Maximum length is 3.
+    + organizationId (optional) - Organization Id. Maximum length is 8.
+    + applicableIndirectcostRate (optional) - Applicable Indirectcost Rate. Maximum length is 8.
+    + endDate (optional) - End Date. Maximum length is 21.
+    + idcComment (optional) - Idc Comment. Maximum length is 300.
+    + idcRateTypeCode (optional) - Idc Rate Type Code. Maximum length is 3.
+    + requestedDate (optional) - Requested Date. Maximum length is 10.
+    + startDate (optional) - Start Date. Maximum length is 10.
 
             
 + Request
@@ -72,7 +72,7 @@
               {"idcNumber": "(val)","organizationId": "(val)","applicableIndirectcostRate": "(val)","endDate": "(val)","idcComment": "(val)","idcRateTypeCode": "(val)","requestedDate": "(val)","startDate": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Organization Indirect Costs [GET /research-sys/api/v1/organization-indirect-costs/]
+### Get Schema for Organization Indirect Costs [GET /research-common/api/v1/organization-indirect-costs/]
 	                                          
 + Parameters
 
@@ -94,7 +94,7 @@
     
             {"columns":["idcNumber","organizationId","applicableIndirectcostRate","endDate","idcComment","idcRateTypeCode","requestedDate","startDate"],"primaryKey":"idcNumber:organizationId"}
 		
-### Get Blueprint API specification for Organization Indirect Costs [GET /research-sys/api/v1/organization-indirect-costs/]
+### Get Blueprint API specification for Organization Indirect Costs [GET /research-common/api/v1/organization-indirect-costs/]
 	 
 + Parameters
 
@@ -115,7 +115,7 @@
             transfer-encoding:chunked
 
 
-### Update Organization Indirect Costs [PUT /research-sys/api/v1/organization-indirect-costs/(key)]
+### Update Organization Indirect Costs [PUT /research-common/api/v1/organization-indirect-costs/(key)]
 
 + Request
 
@@ -130,7 +130,7 @@
 			
 + Response 204
 
-### Update Multiple Organization Indirect Costs [PUT /research-sys/api/v1/organization-indirect-costs/]
+### Update Multiple Organization Indirect Costs [PUT /research-common/api/v1/organization-indirect-costs/]
 
 + Request
 
@@ -148,7 +148,7 @@
 			
 + Response 204
 
-### Insert Organization Indirect Costs [POST /research-sys/api/v1/organization-indirect-costs/]
+### Insert Organization Indirect Costs [POST /research-common/api/v1/organization-indirect-costs/]
 
 + Request
 
@@ -167,7 +167,7 @@
             
             {"idcNumber": "(val)","organizationId": "(val)","applicableIndirectcostRate": "(val)","endDate": "(val)","idcComment": "(val)","idcRateTypeCode": "(val)","requestedDate": "(val)","startDate": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Organization Indirect Costs [POST /research-sys/api/v1/organization-indirect-costs/]
+### Insert Multiple Organization Indirect Costs [POST /research-common/api/v1/organization-indirect-costs/]
 
 + Request
 
@@ -192,7 +192,7 @@
               {"idcNumber": "(val)","organizationId": "(val)","applicableIndirectcostRate": "(val)","endDate": "(val)","idcComment": "(val)","idcRateTypeCode": "(val)","requestedDate": "(val)","startDate": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Organization Indirect Costs by Key [DELETE /research-sys/api/v1/organization-indirect-costs/(key)]
+### Delete Organization Indirect Costs by Key [DELETE /research-common/api/v1/organization-indirect-costs/(key)]
 	 
 + Request
 
@@ -203,7 +203,7 @@
 
 + Response 204
 
-### Delete All Organization Indirect Costs [DELETE /research-sys/api/v1/organization-indirect-costs/]
+### Delete All Organization Indirect Costs [DELETE /research-common/api/v1/organization-indirect-costs/]
 
 + Parameters
 
@@ -218,19 +218,19 @@
 
 + Response 204
 
-### Delete All Organization Indirect Costs with Matching [DELETE /research-sys/api/v1/organization-indirect-costs/]
+### Delete All Organization Indirect Costs with Matching [DELETE /research-common/api/v1/organization-indirect-costs/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + idcNumber
-            + organizationId
-            + applicableIndirectcostRate
-            + endDate
-            + idcComment
-            + idcRateTypeCode
-            + requestedDate
-            + startDate
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + idcNumber (optional) - Idc Number. Maximum length is 3.
+    + organizationId (optional) - Organization Id. Maximum length is 8.
+    + applicableIndirectcostRate (optional) - Applicable Indirectcost Rate. Maximum length is 8.
+    + endDate (optional) - End Date. Maximum length is 21.
+    + idcComment (optional) - Idc Comment. Maximum length is 300.
+    + idcRateTypeCode (optional) - Idc Rate Type Code. Maximum length is 3.
+    + requestedDate (optional) - Requested Date. Maximum length is 10.
+    + startDate (optional) - Start Date. Maximum length is 10.
 
       
 + Request

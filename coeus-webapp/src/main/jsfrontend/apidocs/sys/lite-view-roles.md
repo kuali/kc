@@ -43,12 +43,12 @@
     
 + Parameters
 
-        + id
-            + name
-            + description
-            + active
-            + kimTypeId
-            + namespaceCode
+    + id (optional) - 
+    + name (optional) - 
+    + description (optional) - 
+    + active (optional) - 
+    + kimTypeId (optional) - 
+    + namespaceCode (optional) - 
 
             
 + Request
@@ -220,13 +220,13 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + name
-            + description
-            + active
-            + kimTypeId
-            + namespaceCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - 
+    + name (optional) - 
+    + description (optional) - 
+    + active (optional) - 
+    + kimTypeId (optional) - 
+    + namespaceCode (optional) - 
 
       
 + Request

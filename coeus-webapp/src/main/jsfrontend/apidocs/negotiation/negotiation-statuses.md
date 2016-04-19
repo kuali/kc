@@ -1,6 +1,6 @@
-## Negotiation Statuses [/research-sys/api/v1/negotiation-statuses/]
+## Negotiation Statuses [/negotiation/api/v1/negotiation-statuses/]
 
-### Get Negotiation Statuses by Key [GET /research-sys/api/v1/negotiation-statuses/(key)]
+### Get Negotiation Statuses by Key [GET /negotiation/api/v1/negotiation-statuses/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"id": "(val)","code": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
 
-### Get All Negotiation Statuses [GET /research-sys/api/v1/negotiation-statuses/]
+### Get All Negotiation Statuses [GET /negotiation/api/v1/negotiation-statuses/]
 	 
 + Request
 
@@ -39,14 +39,14 @@
               {"id": "(val)","code": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Negotiation Statuses with Filtering [GET /research-sys/api/v1/negotiation-statuses/]
+### Get All Negotiation Statuses with Filtering [GET /negotiation/api/v1/negotiation-statuses/]
     
 + Parameters
 
-        + id
-            + code
-            + description
-            + active
+    + id (optional) - Id. Maximum length is 22.
+    + code (optional) - Status Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 30.
+    + active (optional) - Active. Maximum length is 1.
 
             
 + Request
@@ -68,7 +68,7 @@
               {"id": "(val)","code": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Negotiation Statuses [GET /research-sys/api/v1/negotiation-statuses/]
+### Get Schema for Negotiation Statuses [GET /negotiation/api/v1/negotiation-statuses/]
 	                                          
 + Parameters
 
@@ -90,7 +90,7 @@
     
             {"columns":["id","code","description","active"],"primaryKey":"id"}
 		
-### Get Blueprint API specification for Negotiation Statuses [GET /research-sys/api/v1/negotiation-statuses/]
+### Get Blueprint API specification for Negotiation Statuses [GET /negotiation/api/v1/negotiation-statuses/]
 	 
 + Parameters
 
@@ -111,7 +111,7 @@
             transfer-encoding:chunked
 
 
-### Update Negotiation Statuses [PUT /research-sys/api/v1/negotiation-statuses/(key)]
+### Update Negotiation Statuses [PUT /negotiation/api/v1/negotiation-statuses/(key)]
 
 + Request
 
@@ -126,7 +126,7 @@
 			
 + Response 204
 
-### Update Multiple Negotiation Statuses [PUT /research-sys/api/v1/negotiation-statuses/]
+### Update Multiple Negotiation Statuses [PUT /negotiation/api/v1/negotiation-statuses/]
 
 + Request
 
@@ -144,7 +144,7 @@
 			
 + Response 204
 
-### Insert Negotiation Statuses [POST /research-sys/api/v1/negotiation-statuses/]
+### Insert Negotiation Statuses [POST /negotiation/api/v1/negotiation-statuses/]
 
 + Request
 
@@ -163,7 +163,7 @@
             
             {"id": "(val)","code": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Negotiation Statuses [POST /research-sys/api/v1/negotiation-statuses/]
+### Insert Multiple Negotiation Statuses [POST /negotiation/api/v1/negotiation-statuses/]
 
 + Request
 
@@ -188,7 +188,7 @@
               {"id": "(val)","code": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Negotiation Statuses by Key [DELETE /research-sys/api/v1/negotiation-statuses/(key)]
+### Delete Negotiation Statuses by Key [DELETE /negotiation/api/v1/negotiation-statuses/(key)]
 	 
 + Request
 
@@ -199,7 +199,7 @@
 
 + Response 204
 
-### Delete All Negotiation Statuses [DELETE /research-sys/api/v1/negotiation-statuses/]
+### Delete All Negotiation Statuses [DELETE /negotiation/api/v1/negotiation-statuses/]
 
 + Parameters
 
@@ -214,15 +214,15 @@
 
 + Response 204
 
-### Delete All Negotiation Statuses with Matching [DELETE /research-sys/api/v1/negotiation-statuses/]
+### Delete All Negotiation Statuses with Matching [DELETE /negotiation/api/v1/negotiation-statuses/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + code
-            + description
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Id. Maximum length is 22.
+    + code (optional) - Status Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 30.
+    + active (optional) - Active. Maximum length is 1.
 
       
 + Request

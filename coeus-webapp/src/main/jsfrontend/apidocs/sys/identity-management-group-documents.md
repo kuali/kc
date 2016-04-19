@@ -43,13 +43,13 @@
     
 + Parameters
 
-        + groupId
-            + groupTypeId
-            + groupNamespace
-            + groupName
-            + groupDescription
-            + active
-            + documentNumber
+    + groupId (optional) - Group Id. Maximum length is 40.
+    + groupTypeId (optional) - Group Type Id.
+    + groupNamespace (optional) - Nmspc Cd. Maximum length is 40.
+    + groupName (optional) - Group Name. Maximum length is 80.
+    + groupDescription (optional) - Group Description.
+    + active (optional) - Active. Maximum length is 1.
+    + documentNumber (optional) - Document Number. Maximum length is 14.
 
             
 + Request
@@ -221,14 +221,14 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + groupId
-            + groupTypeId
-            + groupNamespace
-            + groupName
-            + groupDescription
-            + active
-            + documentNumber
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + groupId (optional) - Group Id. Maximum length is 40.
+    + groupTypeId (optional) - Group Type Id.
+    + groupNamespace (optional) - Nmspc Cd. Maximum length is 40.
+    + groupName (optional) - Group Name. Maximum length is 80.
+    + groupDescription (optional) - Group Description.
+    + active (optional) - Active. Maximum length is 1.
+    + documentNumber (optional) - Document Number. Maximum length is 14.
 
       
 + Request

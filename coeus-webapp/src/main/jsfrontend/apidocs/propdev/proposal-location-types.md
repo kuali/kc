@@ -1,6 +1,6 @@
-## Proposal Location Types [/research-sys/api/v1/proposal-location-types/]
+## Proposal Location Types [/propdev/api/v1/proposal-location-types/]
 
-### Get Proposal Location Types by Key [GET /research-sys/api/v1/proposal-location-types/(key)]
+### Get Proposal Location Types by Key [GET /propdev/api/v1/proposal-location-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"locationTypeCode": "(val)","locationTypeDesc": "(val)","_primaryKey": "(val)"}
 
-### Get All Proposal Location Types [GET /research-sys/api/v1/proposal-location-types/]
+### Get All Proposal Location Types [GET /propdev/api/v1/proposal-location-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"locationTypeCode": "(val)","locationTypeDesc": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Proposal Location Types with Filtering [GET /research-sys/api/v1/proposal-location-types/]
+### Get All Proposal Location Types with Filtering [GET /propdev/api/v1/proposal-location-types/]
     
 + Parameters
 
-        + locationTypeCode
-            + locationTypeDesc
+    + locationTypeCode (optional) - Proposal Location Type. Maximum length is 3.
+    + locationTypeDesc (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"locationTypeCode": "(val)","locationTypeDesc": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Proposal Location Types [GET /research-sys/api/v1/proposal-location-types/]
+### Get Schema for Proposal Location Types [GET /propdev/api/v1/proposal-location-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["locationTypeCode","locationTypeDesc"],"primaryKey":"locationTypeCode"}
 		
-### Get Blueprint API specification for Proposal Location Types [GET /research-sys/api/v1/proposal-location-types/]
+### Get Blueprint API specification for Proposal Location Types [GET /propdev/api/v1/proposal-location-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Proposal Location Types [PUT /research-sys/api/v1/proposal-location-types/(key)]
+### Update Proposal Location Types [PUT /propdev/api/v1/proposal-location-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Proposal Location Types [PUT /research-sys/api/v1/proposal-location-types/]
+### Update Multiple Proposal Location Types [PUT /propdev/api/v1/proposal-location-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Proposal Location Types [POST /research-sys/api/v1/proposal-location-types/]
+### Insert Proposal Location Types [POST /propdev/api/v1/proposal-location-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"locationTypeCode": "(val)","locationTypeDesc": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Proposal Location Types [POST /research-sys/api/v1/proposal-location-types/]
+### Insert Multiple Proposal Location Types [POST /propdev/api/v1/proposal-location-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"locationTypeCode": "(val)","locationTypeDesc": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Proposal Location Types by Key [DELETE /research-sys/api/v1/proposal-location-types/(key)]
+### Delete Proposal Location Types by Key [DELETE /propdev/api/v1/proposal-location-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Proposal Location Types [DELETE /research-sys/api/v1/proposal-location-types/]
+### Delete All Proposal Location Types [DELETE /propdev/api/v1/proposal-location-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Proposal Location Types with Matching [DELETE /research-sys/api/v1/proposal-location-types/]
+### Delete All Proposal Location Types with Matching [DELETE /propdev/api/v1/proposal-location-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + locationTypeCode
-            + locationTypeDesc
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + locationTypeCode (optional) - Proposal Location Type. Maximum length is 3.
+    + locationTypeDesc (optional) - Description. Maximum length is 200.
 
       
 + Request

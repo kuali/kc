@@ -1,6 +1,6 @@
-## Iacuc Principles [/research-sys/api/v1/iacuc-principles/]
+## Iacuc Principles [/iacuc/api/v1/iacuc-principles/]
 
-### Get Iacuc Principles by Key [GET /research-sys/api/v1/iacuc-principles/(key)]
+### Get Iacuc Principles by Key [GET /iacuc/api/v1/iacuc-principles/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"iacucPrinciplesId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","reduction": "(val)","refinement": "(val)","replacement": "(val)","searchRequired": "(val)","exceptionsPresent": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Principles [GET /research-sys/api/v1/iacuc-principles/]
+### Get All Iacuc Principles [GET /iacuc/api/v1/iacuc-principles/]
 	 
 + Request
 
@@ -39,19 +39,19 @@
               {"iacucPrinciplesId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","reduction": "(val)","refinement": "(val)","replacement": "(val)","searchRequired": "(val)","exceptionsPresent": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Principles with Filtering [GET /research-sys/api/v1/iacuc-principles/]
+### Get All Iacuc Principles with Filtering [GET /iacuc/api/v1/iacuc-principles/]
     
 + Parameters
 
-        + iacucPrinciplesId
-            + protocolId
-            + protocolNumber
-            + sequenceNumber
-            + reduction
-            + refinement
-            + replacement
-            + searchRequired
-            + exceptionsPresent
+    + iacucPrinciplesId (optional) - 
+    + protocolId (optional) - 
+    + protocolNumber (optional) - 
+    + sequenceNumber (optional) - 
+    + reduction (optional) - Reduction. Maximum length is 2000.
+    + refinement (optional) - Refinement. Maximum length is 2000.
+    + replacement (optional) - Replacement. Maximum length is 2000.
+    + searchRequired (optional) - Search Required. Maximum length is 1.
+    + exceptionsPresent (optional) - 
 
             
 + Request
@@ -73,7 +73,7 @@
               {"iacucPrinciplesId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","reduction": "(val)","refinement": "(val)","replacement": "(val)","searchRequired": "(val)","exceptionsPresent": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Principles [GET /research-sys/api/v1/iacuc-principles/]
+### Get Schema for Iacuc Principles [GET /iacuc/api/v1/iacuc-principles/]
 	                                          
 + Parameters
 
@@ -95,7 +95,7 @@
     
             {"columns":["iacucPrinciplesId","protocolId","protocolNumber","sequenceNumber","reduction","refinement","replacement","searchRequired","exceptionsPresent"],"primaryKey":"iacucPrinciplesId"}
 		
-### Get Blueprint API specification for Iacuc Principles [GET /research-sys/api/v1/iacuc-principles/]
+### Get Blueprint API specification for Iacuc Principles [GET /iacuc/api/v1/iacuc-principles/]
 	 
 + Parameters
 
@@ -116,7 +116,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Principles [PUT /research-sys/api/v1/iacuc-principles/(key)]
+### Update Iacuc Principles [PUT /iacuc/api/v1/iacuc-principles/(key)]
 
 + Request
 
@@ -131,7 +131,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Principles [PUT /research-sys/api/v1/iacuc-principles/]
+### Update Multiple Iacuc Principles [PUT /iacuc/api/v1/iacuc-principles/]
 
 + Request
 
@@ -149,7 +149,7 @@
 			
 + Response 204
 
-### Insert Iacuc Principles [POST /research-sys/api/v1/iacuc-principles/]
+### Insert Iacuc Principles [POST /iacuc/api/v1/iacuc-principles/]
 
 + Request
 
@@ -168,7 +168,7 @@
             
             {"iacucPrinciplesId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","reduction": "(val)","refinement": "(val)","replacement": "(val)","searchRequired": "(val)","exceptionsPresent": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Principles [POST /research-sys/api/v1/iacuc-principles/]
+### Insert Multiple Iacuc Principles [POST /iacuc/api/v1/iacuc-principles/]
 
 + Request
 
@@ -193,7 +193,7 @@
               {"iacucPrinciplesId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","reduction": "(val)","refinement": "(val)","replacement": "(val)","searchRequired": "(val)","exceptionsPresent": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Principles by Key [DELETE /research-sys/api/v1/iacuc-principles/(key)]
+### Delete Iacuc Principles by Key [DELETE /iacuc/api/v1/iacuc-principles/(key)]
 	 
 + Request
 
@@ -204,7 +204,7 @@
 
 + Response 204
 
-### Delete All Iacuc Principles [DELETE /research-sys/api/v1/iacuc-principles/]
+### Delete All Iacuc Principles [DELETE /iacuc/api/v1/iacuc-principles/]
 
 + Parameters
 
@@ -219,20 +219,20 @@
 
 + Response 204
 
-### Delete All Iacuc Principles with Matching [DELETE /research-sys/api/v1/iacuc-principles/]
+### Delete All Iacuc Principles with Matching [DELETE /iacuc/api/v1/iacuc-principles/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + iacucPrinciplesId
-            + protocolId
-            + protocolNumber
-            + sequenceNumber
-            + reduction
-            + refinement
-            + replacement
-            + searchRequired
-            + exceptionsPresent
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + iacucPrinciplesId (optional) - 
+    + protocolId (optional) - 
+    + protocolNumber (optional) - 
+    + sequenceNumber (optional) - 
+    + reduction (optional) - Reduction. Maximum length is 2000.
+    + refinement (optional) - Refinement. Maximum length is 2000.
+    + replacement (optional) - Replacement. Maximum length is 2000.
+    + searchRequired (optional) - Search Required. Maximum length is 1.
+    + exceptionsPresent (optional) - 
 
       
 + Request

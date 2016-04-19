@@ -1,6 +1,6 @@
-## Sponsor Form Templates [/research-sys/api/v1/sponsor-form-templates/]
+## Sponsor Form Templates [/research-common/api/v1/sponsor-form-templates/]
 
-### Get Sponsor Form Templates by Key [GET /research-sys/api/v1/sponsor-form-templates/(key)]
+### Get Sponsor Form Templates by Key [GET /research-common/api/v1/sponsor-form-templates/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"sponsorFormTemplateId": "(val)","sponsorFormId": "(val)","attachmentContent": "(val)","pageDescription": "(val)","pageNumber": "(val)","fileName": "(val)","contentType": "(val)","_primaryKey": "(val)"}
 
-### Get All Sponsor Form Templates [GET /research-sys/api/v1/sponsor-form-templates/]
+### Get All Sponsor Form Templates [GET /research-common/api/v1/sponsor-form-templates/]
 	 
 + Request
 
@@ -39,17 +39,17 @@
               {"sponsorFormTemplateId": "(val)","sponsorFormId": "(val)","attachmentContent": "(val)","pageDescription": "(val)","pageNumber": "(val)","fileName": "(val)","contentType": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Sponsor Form Templates with Filtering [GET /research-sys/api/v1/sponsor-form-templates/]
+### Get All Sponsor Form Templates with Filtering [GET /research-common/api/v1/sponsor-form-templates/]
     
 + Parameters
 
-        + sponsorFormTemplateId
-            + sponsorFormId
-            + attachmentContent
-            + pageDescription
-            + pageNumber
-            + fileName
-            + contentType
+    + sponsorFormTemplateId (optional) - Sponsor Form Template Id. Maximum length is 12.
+    + sponsorFormId (optional) - Sponsor Form Id. Maximum length is 12.
+    + attachmentContent (optional) - 
+    + pageDescription (optional) - Page Description. Maximum length is 200.
+    + pageNumber (optional) - Page Number. Maximum length is 3.
+    + fileName (optional) - 
+    + contentType (optional) - 
 
             
 + Request
@@ -71,7 +71,7 @@
               {"sponsorFormTemplateId": "(val)","sponsorFormId": "(val)","attachmentContent": "(val)","pageDescription": "(val)","pageNumber": "(val)","fileName": "(val)","contentType": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Sponsor Form Templates [GET /research-sys/api/v1/sponsor-form-templates/]
+### Get Schema for Sponsor Form Templates [GET /research-common/api/v1/sponsor-form-templates/]
 	                                          
 + Parameters
 
@@ -93,7 +93,7 @@
     
             {"columns":["sponsorFormTemplateId","sponsorFormId","attachmentContent","pageDescription","pageNumber","fileName","contentType"],"primaryKey":"sponsorFormTemplateId"}
 		
-### Get Blueprint API specification for Sponsor Form Templates [GET /research-sys/api/v1/sponsor-form-templates/]
+### Get Blueprint API specification for Sponsor Form Templates [GET /research-common/api/v1/sponsor-form-templates/]
 	 
 + Parameters
 
@@ -114,7 +114,7 @@
             transfer-encoding:chunked
 
 
-### Update Sponsor Form Templates [PUT /research-sys/api/v1/sponsor-form-templates/(key)]
+### Update Sponsor Form Templates [PUT /research-common/api/v1/sponsor-form-templates/(key)]
 
 + Request
 
@@ -129,7 +129,7 @@
 			
 + Response 204
 
-### Update Multiple Sponsor Form Templates [PUT /research-sys/api/v1/sponsor-form-templates/]
+### Update Multiple Sponsor Form Templates [PUT /research-common/api/v1/sponsor-form-templates/]
 
 + Request
 
@@ -147,7 +147,7 @@
 			
 + Response 204
 
-### Insert Sponsor Form Templates [POST /research-sys/api/v1/sponsor-form-templates/]
+### Insert Sponsor Form Templates [POST /research-common/api/v1/sponsor-form-templates/]
 
 + Request
 
@@ -166,7 +166,7 @@
             
             {"sponsorFormTemplateId": "(val)","sponsorFormId": "(val)","attachmentContent": "(val)","pageDescription": "(val)","pageNumber": "(val)","fileName": "(val)","contentType": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Sponsor Form Templates [POST /research-sys/api/v1/sponsor-form-templates/]
+### Insert Multiple Sponsor Form Templates [POST /research-common/api/v1/sponsor-form-templates/]
 
 + Request
 
@@ -191,7 +191,7 @@
               {"sponsorFormTemplateId": "(val)","sponsorFormId": "(val)","attachmentContent": "(val)","pageDescription": "(val)","pageNumber": "(val)","fileName": "(val)","contentType": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Sponsor Form Templates by Key [DELETE /research-sys/api/v1/sponsor-form-templates/(key)]
+### Delete Sponsor Form Templates by Key [DELETE /research-common/api/v1/sponsor-form-templates/(key)]
 	 
 + Request
 
@@ -202,7 +202,7 @@
 
 + Response 204
 
-### Delete All Sponsor Form Templates [DELETE /research-sys/api/v1/sponsor-form-templates/]
+### Delete All Sponsor Form Templates [DELETE /research-common/api/v1/sponsor-form-templates/]
 
 + Parameters
 
@@ -217,18 +217,18 @@
 
 + Response 204
 
-### Delete All Sponsor Form Templates with Matching [DELETE /research-sys/api/v1/sponsor-form-templates/]
+### Delete All Sponsor Form Templates with Matching [DELETE /research-common/api/v1/sponsor-form-templates/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + sponsorFormTemplateId
-            + sponsorFormId
-            + attachmentContent
-            + pageDescription
-            + pageNumber
-            + fileName
-            + contentType
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + sponsorFormTemplateId (optional) - Sponsor Form Template Id. Maximum length is 12.
+    + sponsorFormId (optional) - Sponsor Form Id. Maximum length is 12.
+    + attachmentContent (optional) - 
+    + pageDescription (optional) - Page Description. Maximum length is 200.
+    + pageNumber (optional) - Page Number. Maximum length is 3.
+    + fileName (optional) - 
+    + contentType (optional) - 
 
       
 + Request

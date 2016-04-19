@@ -43,11 +43,11 @@
     
 + Parameters
 
-        + statusTransitionId
-            + documentId
-            + oldAppDocStatus
-            + newAppDocStatus
-            + statusTransitionDate
+    + statusTransitionId (optional) - 
+    + documentId (optional) - 
+    + oldAppDocStatus (optional) - 
+    + newAppDocStatus (optional) - 
+    + statusTransitionDate (optional) - 
 
             
 + Request
@@ -219,12 +219,12 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + statusTransitionId
-            + documentId
-            + oldAppDocStatus
-            + newAppDocStatus
-            + statusTransitionDate
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + statusTransitionId (optional) - 
+    + documentId (optional) - 
+    + oldAppDocStatus (optional) - 
+    + newAppDocStatus (optional) - 
+    + statusTransitionDate (optional) - 
 
       
 + Request

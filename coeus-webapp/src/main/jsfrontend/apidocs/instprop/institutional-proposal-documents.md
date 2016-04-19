@@ -1,6 +1,6 @@
-## Institutional Proposal Documents [/research-sys/api/v1/institutional-proposal-documents/]
+## Institutional Proposal Documents [/instprop/api/v1/institutional-proposal-documents/]
 
-### Get Institutional Proposal Documents by Key [GET /research-sys/api/v1/institutional-proposal-documents/(key)]
+### Get Institutional Proposal Documents by Key [GET /instprop/api/v1/institutional-proposal-documents/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"documentNumber": "(val)","_primaryKey": "(val)"}
 
-### Get All Institutional Proposal Documents [GET /research-sys/api/v1/institutional-proposal-documents/]
+### Get All Institutional Proposal Documents [GET /instprop/api/v1/institutional-proposal-documents/]
 	 
 + Request
 
@@ -39,11 +39,11 @@
               {"documentNumber": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Institutional Proposal Documents with Filtering [GET /research-sys/api/v1/institutional-proposal-documents/]
+### Get All Institutional Proposal Documents with Filtering [GET /instprop/api/v1/institutional-proposal-documents/]
     
 + Parameters
 
-        + documentNumber
+    + documentNumber (optional) - 
 
             
 + Request
@@ -65,7 +65,7 @@
               {"documentNumber": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Institutional Proposal Documents [GET /research-sys/api/v1/institutional-proposal-documents/]
+### Get Schema for Institutional Proposal Documents [GET /instprop/api/v1/institutional-proposal-documents/]
 	                                          
 + Parameters
 
@@ -87,7 +87,7 @@
     
             {"columns":["documentNumber"],"primaryKey":"documentNumber"}
 		
-### Get Blueprint API specification for Institutional Proposal Documents [GET /research-sys/api/v1/institutional-proposal-documents/]
+### Get Blueprint API specification for Institutional Proposal Documents [GET /instprop/api/v1/institutional-proposal-documents/]
 	 
 + Parameters
 
@@ -108,7 +108,7 @@
             transfer-encoding:chunked
 
 
-### Update Institutional Proposal Documents [PUT /research-sys/api/v1/institutional-proposal-documents/(key)]
+### Update Institutional Proposal Documents [PUT /instprop/api/v1/institutional-proposal-documents/(key)]
 
 + Request
 
@@ -123,7 +123,7 @@
 			
 + Response 204
 
-### Update Multiple Institutional Proposal Documents [PUT /research-sys/api/v1/institutional-proposal-documents/]
+### Update Multiple Institutional Proposal Documents [PUT /instprop/api/v1/institutional-proposal-documents/]
 
 + Request
 
@@ -141,7 +141,7 @@
 			
 + Response 204
 
-### Insert Institutional Proposal Documents [POST /research-sys/api/v1/institutional-proposal-documents/]
+### Insert Institutional Proposal Documents [POST /instprop/api/v1/institutional-proposal-documents/]
 
 + Request
 
@@ -160,7 +160,7 @@
             
             {"documentNumber": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Institutional Proposal Documents [POST /research-sys/api/v1/institutional-proposal-documents/]
+### Insert Multiple Institutional Proposal Documents [POST /instprop/api/v1/institutional-proposal-documents/]
 
 + Request
 
@@ -185,7 +185,7 @@
               {"documentNumber": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Institutional Proposal Documents by Key [DELETE /research-sys/api/v1/institutional-proposal-documents/(key)]
+### Delete Institutional Proposal Documents by Key [DELETE /instprop/api/v1/institutional-proposal-documents/(key)]
 	 
 + Request
 
@@ -196,7 +196,7 @@
 
 + Response 204
 
-### Delete All Institutional Proposal Documents [DELETE /research-sys/api/v1/institutional-proposal-documents/]
+### Delete All Institutional Proposal Documents [DELETE /instprop/api/v1/institutional-proposal-documents/]
 
 + Parameters
 
@@ -211,12 +211,12 @@
 
 + Response 204
 
-### Delete All Institutional Proposal Documents with Matching [DELETE /research-sys/api/v1/institutional-proposal-documents/]
+### Delete All Institutional Proposal Documents with Matching [DELETE /instprop/api/v1/institutional-proposal-documents/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + documentNumber
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + documentNumber (optional) - 
 
       
 + Request

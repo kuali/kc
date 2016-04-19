@@ -1,6 +1,6 @@
-## Iacuc Protocol Notifications [/research-sys/api/v1/iacuc-protocol-notifications/]
+## Iacuc Protocol Notifications [/iacuc/api/v1/iacuc-protocol-notifications/]
 
-### Get Iacuc Protocol Notifications by Key [GET /research-sys/api/v1/iacuc-protocol-notifications/(key)]
+### Get Iacuc Protocol Notifications by Key [GET /iacuc/api/v1/iacuc-protocol-notifications/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"notificationId": "(val)","notificationTypeId": "(val)","documentNumber": "(val)","owningDocumentIdFk": "(val)","recipients": "(val)","subject": "(val)","message": "(val)","createUser": "(val)","createTimestamp": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Protocol Notifications [GET /research-sys/api/v1/iacuc-protocol-notifications/]
+### Get All Iacuc Protocol Notifications [GET /iacuc/api/v1/iacuc-protocol-notifications/]
 	 
 + Request
 
@@ -39,19 +39,19 @@
               {"notificationId": "(val)","notificationTypeId": "(val)","documentNumber": "(val)","owningDocumentIdFk": "(val)","recipients": "(val)","subject": "(val)","message": "(val)","createUser": "(val)","createTimestamp": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Protocol Notifications with Filtering [GET /research-sys/api/v1/iacuc-protocol-notifications/]
+### Get All Iacuc Protocol Notifications with Filtering [GET /iacuc/api/v1/iacuc-protocol-notifications/]
     
 + Parameters
 
-        + notificationId
-            + notificationTypeId
-            + documentNumber
-            + owningDocumentIdFk
-            + recipients
-            + subject
-            + message
-            + createUser
-            + createTimestamp
+    + notificationId (optional) - 
+    + notificationTypeId (optional) - 
+    + documentNumber (optional) - 
+    + owningDocumentIdFk (optional) - 
+    + recipients (optional) - 
+    + subject (optional) - 
+    + message (optional) - 
+    + createUser (optional) - 
+    + createTimestamp (optional) - 
 
             
 + Request
@@ -73,7 +73,7 @@
               {"notificationId": "(val)","notificationTypeId": "(val)","documentNumber": "(val)","owningDocumentIdFk": "(val)","recipients": "(val)","subject": "(val)","message": "(val)","createUser": "(val)","createTimestamp": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Protocol Notifications [GET /research-sys/api/v1/iacuc-protocol-notifications/]
+### Get Schema for Iacuc Protocol Notifications [GET /iacuc/api/v1/iacuc-protocol-notifications/]
 	                                          
 + Parameters
 
@@ -95,7 +95,7 @@
     
             {"columns":["notificationId","notificationTypeId","documentNumber","owningDocumentIdFk","recipients","subject","message","createUser","createTimestamp"],"primaryKey":"notificationId"}
 		
-### Get Blueprint API specification for Iacuc Protocol Notifications [GET /research-sys/api/v1/iacuc-protocol-notifications/]
+### Get Blueprint API specification for Iacuc Protocol Notifications [GET /iacuc/api/v1/iacuc-protocol-notifications/]
 	 
 + Parameters
 
@@ -116,7 +116,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Protocol Notifications [PUT /research-sys/api/v1/iacuc-protocol-notifications/(key)]
+### Update Iacuc Protocol Notifications [PUT /iacuc/api/v1/iacuc-protocol-notifications/(key)]
 
 + Request
 
@@ -131,7 +131,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Protocol Notifications [PUT /research-sys/api/v1/iacuc-protocol-notifications/]
+### Update Multiple Iacuc Protocol Notifications [PUT /iacuc/api/v1/iacuc-protocol-notifications/]
 
 + Request
 
@@ -149,7 +149,7 @@
 			
 + Response 204
 
-### Insert Iacuc Protocol Notifications [POST /research-sys/api/v1/iacuc-protocol-notifications/]
+### Insert Iacuc Protocol Notifications [POST /iacuc/api/v1/iacuc-protocol-notifications/]
 
 + Request
 
@@ -168,7 +168,7 @@
             
             {"notificationId": "(val)","notificationTypeId": "(val)","documentNumber": "(val)","owningDocumentIdFk": "(val)","recipients": "(val)","subject": "(val)","message": "(val)","createUser": "(val)","createTimestamp": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Protocol Notifications [POST /research-sys/api/v1/iacuc-protocol-notifications/]
+### Insert Multiple Iacuc Protocol Notifications [POST /iacuc/api/v1/iacuc-protocol-notifications/]
 
 + Request
 
@@ -193,7 +193,7 @@
               {"notificationId": "(val)","notificationTypeId": "(val)","documentNumber": "(val)","owningDocumentIdFk": "(val)","recipients": "(val)","subject": "(val)","message": "(val)","createUser": "(val)","createTimestamp": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Protocol Notifications by Key [DELETE /research-sys/api/v1/iacuc-protocol-notifications/(key)]
+### Delete Iacuc Protocol Notifications by Key [DELETE /iacuc/api/v1/iacuc-protocol-notifications/(key)]
 	 
 + Request
 
@@ -204,7 +204,7 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Notifications [DELETE /research-sys/api/v1/iacuc-protocol-notifications/]
+### Delete All Iacuc Protocol Notifications [DELETE /iacuc/api/v1/iacuc-protocol-notifications/]
 
 + Parameters
 
@@ -219,20 +219,20 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Notifications with Matching [DELETE /research-sys/api/v1/iacuc-protocol-notifications/]
+### Delete All Iacuc Protocol Notifications with Matching [DELETE /iacuc/api/v1/iacuc-protocol-notifications/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + notificationId
-            + notificationTypeId
-            + documentNumber
-            + owningDocumentIdFk
-            + recipients
-            + subject
-            + message
-            + createUser
-            + createTimestamp
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + notificationId (optional) - 
+    + notificationTypeId (optional) - 
+    + documentNumber (optional) - 
+    + owningDocumentIdFk (optional) - 
+    + recipients (optional) - 
+    + subject (optional) - 
+    + message (optional) - 
+    + createUser (optional) - 
+    + createTimestamp (optional) - 
 
       
 + Request
