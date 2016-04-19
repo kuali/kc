@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* RESKC-1270: updating rest documentation
+  * Travis Schneeberger on Tue, 19 Apr 2016 14:37:01 -0400 [View Commit](../../commit/4de28cde9b44fe2e2e05f23098ecc3d7c4905766)
+* RESKC-1270: making sure api docs have the correct module path.  Adding parameter descriptions based on the data dictionary so parameters with show up in the api docs.
+  * Travis Schneeberger on Tue, 19 Apr 2016 13:20:21 -0400 [View Commit](../../commit/e9525bcca9e75049b489322617053fc1b1930df2)
+
+##coeus-1604.26
 * No Changes
 
 
