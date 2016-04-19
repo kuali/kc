@@ -1,6 +1,27 @@
 
 
 ##CURRENT
+* RESKC-1201: Budget Setting> On/Off/Default set to ALL ON or ALL OFF is not working as expected with existing budget line items. (#1670)
+
+  * IF:budget line items exist
+           WHEN: User sets On/Off/Default set to example: ALL OFF
+           THEN: All existing budget line items should be altered and use the OFF CAMPUS rates.
+           AND: All newly added line items should only utilize OFF campus rates.
+           Current behavior in 1602 demo (and reported 1601 on-prem):
+           WHEN: ALL OFF selected and line item exist
+           THEN: NO change of rates - all on campus line items retain on campus rate.
+           Only newly added line items are correctly off campus rate applied.
+  * 
+           1. Create a new budget on a proposal.
+           2. Create multiple personnel and non-personnel line items to the budget with ON campus settings with autocalculated periods.
+           3. Go into Budget Settings and update the On Campus Flag setting to "All Off".
+           4. Click Apply Changes.
+           5. Navigate to Personnel and check Details & Rates. All line items are still set to "On"
+           6. Click "Calculate Current Period" in Personnel panel - no change to the amounts.
+           7. Navigate to Non-Personnel and click Details on each line item. All the line items are still set to "Yes" in On Campus Flag field
+           Note: the On/Off campus checkbox per line item is read-only once ALL ON or ALL OFF is applied; as expected.  * Travis Schneeberger on Tue, 19 Apr 2016 12:03:47 -0400 [View Commit](../../commit/1bdf99ef75f0e701517ad78e217e7bc43dcaf718)
+
+##coeus-1604.24
 * No Changes
 
 
