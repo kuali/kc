@@ -1,6 +1,6 @@
-## Membership Roles [/research-sys/api/v1/membership-roles/]
+## Membership Roles [/research-common/api/v1/membership-roles/]
 
-### Get Membership Roles by Key [GET /research-sys/api/v1/membership-roles/(key)]
+### Get Membership Roles by Key [GET /research-common/api/v1/membership-roles/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"membershipRoleCode": "(val)","description": "(val)","committeeTypeCode": "(val)","_primaryKey": "(val)"}
 
-### Get All Membership Roles [GET /research-sys/api/v1/membership-roles/]
+### Get All Membership Roles [GET /research-common/api/v1/membership-roles/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"membershipRoleCode": "(val)","description": "(val)","committeeTypeCode": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Membership Roles with Filtering [GET /research-sys/api/v1/membership-roles/]
+### Get All Membership Roles with Filtering [GET /research-common/api/v1/membership-roles/]
     
 + Parameters
 
-        + membershipRoleCode
-            + description
-            + committeeTypeCode
+    + membershipRoleCode (optional) - Membership Role Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + committeeTypeCode (optional) - Committee Type Code. Maximum length is 3.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"membershipRoleCode": "(val)","description": "(val)","committeeTypeCode": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Membership Roles [GET /research-sys/api/v1/membership-roles/]
+### Get Schema for Membership Roles [GET /research-common/api/v1/membership-roles/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["membershipRoleCode","description","committeeTypeCode"],"primaryKey":"membershipRoleCode"}
 		
-### Get Blueprint API specification for Membership Roles [GET /research-sys/api/v1/membership-roles/]
+### Get Blueprint API specification for Membership Roles [GET /research-common/api/v1/membership-roles/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Membership Roles [PUT /research-sys/api/v1/membership-roles/(key)]
+### Update Membership Roles [PUT /research-common/api/v1/membership-roles/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Membership Roles [PUT /research-sys/api/v1/membership-roles/]
+### Update Multiple Membership Roles [PUT /research-common/api/v1/membership-roles/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Membership Roles [POST /research-sys/api/v1/membership-roles/]
+### Insert Membership Roles [POST /research-common/api/v1/membership-roles/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"membershipRoleCode": "(val)","description": "(val)","committeeTypeCode": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Membership Roles [POST /research-sys/api/v1/membership-roles/]
+### Insert Multiple Membership Roles [POST /research-common/api/v1/membership-roles/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"membershipRoleCode": "(val)","description": "(val)","committeeTypeCode": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Membership Roles by Key [DELETE /research-sys/api/v1/membership-roles/(key)]
+### Delete Membership Roles by Key [DELETE /research-common/api/v1/membership-roles/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Membership Roles [DELETE /research-sys/api/v1/membership-roles/]
+### Delete All Membership Roles [DELETE /research-common/api/v1/membership-roles/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Membership Roles with Matching [DELETE /research-sys/api/v1/membership-roles/]
+### Delete All Membership Roles with Matching [DELETE /research-common/api/v1/membership-roles/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + membershipRoleCode
-            + description
-            + committeeTypeCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + membershipRoleCode (optional) - Membership Role Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + committeeTypeCode (optional) - Committee Type Code. Maximum length is 3.
 
       
 + Request

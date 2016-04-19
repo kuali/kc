@@ -1,6 +1,6 @@
-## Institutional Proposal Unit Contacts [/research-sys/api/v1/institutional-proposal-unit-contacts/]
+## Institutional Proposal Unit Contacts [/instprop/api/v1/institutional-proposal-unit-contacts/]
 
-### Get Institutional Proposal Unit Contacts by Key [GET /research-sys/api/v1/institutional-proposal-unit-contacts/(key)]
+### Get Institutional Proposal Unit Contacts by Key [GET /instprop/api/v1/institutional-proposal-unit-contacts/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"institutionalProposalContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","_primaryKey": "(val)"}
 
-### Get All Institutional Proposal Unit Contacts [GET /research-sys/api/v1/institutional-proposal-unit-contacts/]
+### Get All Institutional Proposal Unit Contacts [GET /instprop/api/v1/institutional-proposal-unit-contacts/]
 	 
 + Request
 
@@ -39,18 +39,18 @@
               {"institutionalProposalContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Institutional Proposal Unit Contacts with Filtering [GET /research-sys/api/v1/institutional-proposal-unit-contacts/]
+### Get All Institutional Proposal Unit Contacts with Filtering [GET /instprop/api/v1/institutional-proposal-unit-contacts/]
     
 + Parameters
 
-        + institutionalProposalContactId
-            + personId
-            + fullName
-            + unitContactType
-            + unitAdministratorTypeCode
-            + proposalId
-            + proposalNumber
-            + sequenceNumber
+    + institutionalProposalContactId (optional) - 
+    + personId (optional) - 
+    + fullName (optional) - 
+    + unitContactType (optional) - 
+    + unitAdministratorTypeCode (optional) - Project Role. Maximum length is 3.
+    + proposalId (optional) - 
+    + proposalNumber (optional) - 
+    + sequenceNumber (optional) - 
 
             
 + Request
@@ -72,7 +72,7 @@
               {"institutionalProposalContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Institutional Proposal Unit Contacts [GET /research-sys/api/v1/institutional-proposal-unit-contacts/]
+### Get Schema for Institutional Proposal Unit Contacts [GET /instprop/api/v1/institutional-proposal-unit-contacts/]
 	                                          
 + Parameters
 
@@ -94,7 +94,7 @@
     
             {"columns":["institutionalProposalContactId","personId","fullName","unitContactType","unitAdministratorTypeCode","proposalId","proposalNumber","sequenceNumber"],"primaryKey":"institutionalProposalContactId"}
 		
-### Get Blueprint API specification for Institutional Proposal Unit Contacts [GET /research-sys/api/v1/institutional-proposal-unit-contacts/]
+### Get Blueprint API specification for Institutional Proposal Unit Contacts [GET /instprop/api/v1/institutional-proposal-unit-contacts/]
 	 
 + Parameters
 
@@ -115,7 +115,7 @@
             transfer-encoding:chunked
 
 
-### Update Institutional Proposal Unit Contacts [PUT /research-sys/api/v1/institutional-proposal-unit-contacts/(key)]
+### Update Institutional Proposal Unit Contacts [PUT /instprop/api/v1/institutional-proposal-unit-contacts/(key)]
 
 + Request
 
@@ -130,7 +130,7 @@
 			
 + Response 204
 
-### Update Multiple Institutional Proposal Unit Contacts [PUT /research-sys/api/v1/institutional-proposal-unit-contacts/]
+### Update Multiple Institutional Proposal Unit Contacts [PUT /instprop/api/v1/institutional-proposal-unit-contacts/]
 
 + Request
 
@@ -148,7 +148,7 @@
 			
 + Response 204
 
-### Insert Institutional Proposal Unit Contacts [POST /research-sys/api/v1/institutional-proposal-unit-contacts/]
+### Insert Institutional Proposal Unit Contacts [POST /instprop/api/v1/institutional-proposal-unit-contacts/]
 
 + Request
 
@@ -167,7 +167,7 @@
             
             {"institutionalProposalContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Institutional Proposal Unit Contacts [POST /research-sys/api/v1/institutional-proposal-unit-contacts/]
+### Insert Multiple Institutional Proposal Unit Contacts [POST /instprop/api/v1/institutional-proposal-unit-contacts/]
 
 + Request
 
@@ -192,7 +192,7 @@
               {"institutionalProposalContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Institutional Proposal Unit Contacts by Key [DELETE /research-sys/api/v1/institutional-proposal-unit-contacts/(key)]
+### Delete Institutional Proposal Unit Contacts by Key [DELETE /instprop/api/v1/institutional-proposal-unit-contacts/(key)]
 	 
 + Request
 
@@ -203,7 +203,7 @@
 
 + Response 204
 
-### Delete All Institutional Proposal Unit Contacts [DELETE /research-sys/api/v1/institutional-proposal-unit-contacts/]
+### Delete All Institutional Proposal Unit Contacts [DELETE /instprop/api/v1/institutional-proposal-unit-contacts/]
 
 + Parameters
 
@@ -218,19 +218,19 @@
 
 + Response 204
 
-### Delete All Institutional Proposal Unit Contacts with Matching [DELETE /research-sys/api/v1/institutional-proposal-unit-contacts/]
+### Delete All Institutional Proposal Unit Contacts with Matching [DELETE /instprop/api/v1/institutional-proposal-unit-contacts/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + institutionalProposalContactId
-            + personId
-            + fullName
-            + unitContactType
-            + unitAdministratorTypeCode
-            + proposalId
-            + proposalNumber
-            + sequenceNumber
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + institutionalProposalContactId (optional) - 
+    + personId (optional) - 
+    + fullName (optional) - 
+    + unitContactType (optional) - 
+    + unitAdministratorTypeCode (optional) - Project Role. Maximum length is 3.
+    + proposalId (optional) - 
+    + proposalNumber (optional) - 
+    + sequenceNumber (optional) - 
 
       
 + Request

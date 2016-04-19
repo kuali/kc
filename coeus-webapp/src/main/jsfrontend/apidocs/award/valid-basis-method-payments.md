@@ -1,6 +1,6 @@
-## Valid Basis Method Payments [/research-sys/api/v1/valid-basis-method-payments/]
+## Valid Basis Method Payments [/award/api/v1/valid-basis-method-payments/]
 
-### Get Valid Basis Method Payments by Key [GET /research-sys/api/v1/valid-basis-method-payments/(key)]
+### Get Valid Basis Method Payments by Key [GET /award/api/v1/valid-basis-method-payments/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"validBasisMethodPaymentId": "(val)","basisOfPaymentCode": "(val)","methodOfPaymentCode": "(val)","invInstructionsIndicator": "(val)","_primaryKey": "(val)"}
 
-### Get All Valid Basis Method Payments [GET /research-sys/api/v1/valid-basis-method-payments/]
+### Get All Valid Basis Method Payments [GET /award/api/v1/valid-basis-method-payments/]
 	 
 + Request
 
@@ -39,14 +39,14 @@
               {"validBasisMethodPaymentId": "(val)","basisOfPaymentCode": "(val)","methodOfPaymentCode": "(val)","invInstructionsIndicator": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Valid Basis Method Payments with Filtering [GET /research-sys/api/v1/valid-basis-method-payments/]
+### Get All Valid Basis Method Payments with Filtering [GET /award/api/v1/valid-basis-method-payments/]
     
 + Parameters
 
-        + validBasisMethodPaymentId
-            + basisOfPaymentCode
-            + methodOfPaymentCode
-            + invInstructionsIndicator
+    + validBasisMethodPaymentId (optional) - Valid Basis Method Pmt Id. Maximum length is 22.
+    + basisOfPaymentCode (optional) - Basis Of Payment Code. Maximum length is 22.
+    + methodOfPaymentCode (optional) - Method Of Payment Code. Maximum length is 22.
+    + invInstructionsIndicator (optional) - Inv Instructions Indicator. Maximum length is 1.
 
             
 + Request
@@ -68,7 +68,7 @@
               {"validBasisMethodPaymentId": "(val)","basisOfPaymentCode": "(val)","methodOfPaymentCode": "(val)","invInstructionsIndicator": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Valid Basis Method Payments [GET /research-sys/api/v1/valid-basis-method-payments/]
+### Get Schema for Valid Basis Method Payments [GET /award/api/v1/valid-basis-method-payments/]
 	                                          
 + Parameters
 
@@ -90,7 +90,7 @@
     
             {"columns":["validBasisMethodPaymentId","basisOfPaymentCode","methodOfPaymentCode","invInstructionsIndicator"],"primaryKey":"validBasisMethodPaymentId"}
 		
-### Get Blueprint API specification for Valid Basis Method Payments [GET /research-sys/api/v1/valid-basis-method-payments/]
+### Get Blueprint API specification for Valid Basis Method Payments [GET /award/api/v1/valid-basis-method-payments/]
 	 
 + Parameters
 
@@ -111,7 +111,7 @@
             transfer-encoding:chunked
 
 
-### Update Valid Basis Method Payments [PUT /research-sys/api/v1/valid-basis-method-payments/(key)]
+### Update Valid Basis Method Payments [PUT /award/api/v1/valid-basis-method-payments/(key)]
 
 + Request
 
@@ -126,7 +126,7 @@
 			
 + Response 204
 
-### Update Multiple Valid Basis Method Payments [PUT /research-sys/api/v1/valid-basis-method-payments/]
+### Update Multiple Valid Basis Method Payments [PUT /award/api/v1/valid-basis-method-payments/]
 
 + Request
 
@@ -144,7 +144,7 @@
 			
 + Response 204
 
-### Insert Valid Basis Method Payments [POST /research-sys/api/v1/valid-basis-method-payments/]
+### Insert Valid Basis Method Payments [POST /award/api/v1/valid-basis-method-payments/]
 
 + Request
 
@@ -163,7 +163,7 @@
             
             {"validBasisMethodPaymentId": "(val)","basisOfPaymentCode": "(val)","methodOfPaymentCode": "(val)","invInstructionsIndicator": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Valid Basis Method Payments [POST /research-sys/api/v1/valid-basis-method-payments/]
+### Insert Multiple Valid Basis Method Payments [POST /award/api/v1/valid-basis-method-payments/]
 
 + Request
 
@@ -188,7 +188,7 @@
               {"validBasisMethodPaymentId": "(val)","basisOfPaymentCode": "(val)","methodOfPaymentCode": "(val)","invInstructionsIndicator": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Valid Basis Method Payments by Key [DELETE /research-sys/api/v1/valid-basis-method-payments/(key)]
+### Delete Valid Basis Method Payments by Key [DELETE /award/api/v1/valid-basis-method-payments/(key)]
 	 
 + Request
 
@@ -199,7 +199,7 @@
 
 + Response 204
 
-### Delete All Valid Basis Method Payments [DELETE /research-sys/api/v1/valid-basis-method-payments/]
+### Delete All Valid Basis Method Payments [DELETE /award/api/v1/valid-basis-method-payments/]
 
 + Parameters
 
@@ -214,15 +214,15 @@
 
 + Response 204
 
-### Delete All Valid Basis Method Payments with Matching [DELETE /research-sys/api/v1/valid-basis-method-payments/]
+### Delete All Valid Basis Method Payments with Matching [DELETE /award/api/v1/valid-basis-method-payments/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + validBasisMethodPaymentId
-            + basisOfPaymentCode
-            + methodOfPaymentCode
-            + invInstructionsIndicator
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + validBasisMethodPaymentId (optional) - Valid Basis Method Pmt Id. Maximum length is 22.
+    + basisOfPaymentCode (optional) - Basis Of Payment Code. Maximum length is 22.
+    + methodOfPaymentCode (optional) - Method Of Payment Code. Maximum length is 22.
+    + invInstructionsIndicator (optional) - Inv Instructions Indicator. Maximum length is 1.
 
       
 + Request

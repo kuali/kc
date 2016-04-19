@@ -43,9 +43,9 @@
     
 + Parameters
 
-        + id
-            + termResolverId
-            + value
+    + id (optional) - 
+    + termResolverId (optional) - 
+    + value (optional) - 
 
             
 + Request
@@ -217,10 +217,10 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + termResolverId
-            + value
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - 
+    + termResolverId (optional) - 
+    + value (optional) - 
 
       
 + Request

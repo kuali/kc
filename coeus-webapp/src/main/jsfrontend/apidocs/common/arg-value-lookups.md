@@ -1,6 +1,6 @@
-## Arg Value Lookups [/research-sys/api/v1/arg-value-lookups/]
+## Arg Value Lookups [/research-common/api/v1/arg-value-lookups/]
 
-### Get Arg Value Lookups by Key [GET /research-sys/api/v1/arg-value-lookups/(key)]
+### Get Arg Value Lookups by Key [GET /research-common/api/v1/arg-value-lookups/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"id": "(val)","argumentName": "(val)","value": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Arg Value Lookups [GET /research-sys/api/v1/arg-value-lookups/]
+### Get All Arg Value Lookups [GET /research-common/api/v1/arg-value-lookups/]
 	 
 + Request
 
@@ -39,14 +39,14 @@
               {"id": "(val)","argumentName": "(val)","value": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Arg Value Lookups with Filtering [GET /research-sys/api/v1/arg-value-lookups/]
+### Get All Arg Value Lookups with Filtering [GET /research-common/api/v1/arg-value-lookups/]
     
 + Parameters
 
-        + id
-            + argumentName
-            + value
-            + description
+    + id (optional) - Arg Value Lookup Id. Maximum length is 12.
+    + argumentName (optional) - Argument Name. Maximum length is 30.
+    + value (optional) - Value. Maximum length is 200.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -68,7 +68,7 @@
               {"id": "(val)","argumentName": "(val)","value": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Arg Value Lookups [GET /research-sys/api/v1/arg-value-lookups/]
+### Get Schema for Arg Value Lookups [GET /research-common/api/v1/arg-value-lookups/]
 	                                          
 + Parameters
 
@@ -90,7 +90,7 @@
     
             {"columns":["id","argumentName","value","description"],"primaryKey":"id"}
 		
-### Get Blueprint API specification for Arg Value Lookups [GET /research-sys/api/v1/arg-value-lookups/]
+### Get Blueprint API specification for Arg Value Lookups [GET /research-common/api/v1/arg-value-lookups/]
 	 
 + Parameters
 
@@ -111,7 +111,7 @@
             transfer-encoding:chunked
 
 
-### Update Arg Value Lookups [PUT /research-sys/api/v1/arg-value-lookups/(key)]
+### Update Arg Value Lookups [PUT /research-common/api/v1/arg-value-lookups/(key)]
 
 + Request
 
@@ -126,7 +126,7 @@
 			
 + Response 204
 
-### Update Multiple Arg Value Lookups [PUT /research-sys/api/v1/arg-value-lookups/]
+### Update Multiple Arg Value Lookups [PUT /research-common/api/v1/arg-value-lookups/]
 
 + Request
 
@@ -144,7 +144,7 @@
 			
 + Response 204
 
-### Insert Arg Value Lookups [POST /research-sys/api/v1/arg-value-lookups/]
+### Insert Arg Value Lookups [POST /research-common/api/v1/arg-value-lookups/]
 
 + Request
 
@@ -163,7 +163,7 @@
             
             {"id": "(val)","argumentName": "(val)","value": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Arg Value Lookups [POST /research-sys/api/v1/arg-value-lookups/]
+### Insert Multiple Arg Value Lookups [POST /research-common/api/v1/arg-value-lookups/]
 
 + Request
 
@@ -188,7 +188,7 @@
               {"id": "(val)","argumentName": "(val)","value": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Arg Value Lookups by Key [DELETE /research-sys/api/v1/arg-value-lookups/(key)]
+### Delete Arg Value Lookups by Key [DELETE /research-common/api/v1/arg-value-lookups/(key)]
 	 
 + Request
 
@@ -199,7 +199,7 @@
 
 + Response 204
 
-### Delete All Arg Value Lookups [DELETE /research-sys/api/v1/arg-value-lookups/]
+### Delete All Arg Value Lookups [DELETE /research-common/api/v1/arg-value-lookups/]
 
 + Parameters
 
@@ -214,15 +214,15 @@
 
 + Response 204
 
-### Delete All Arg Value Lookups with Matching [DELETE /research-sys/api/v1/arg-value-lookups/]
+### Delete All Arg Value Lookups with Matching [DELETE /research-common/api/v1/arg-value-lookups/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + argumentName
-            + value
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Arg Value Lookup Id. Maximum length is 12.
+    + argumentName (optional) - Argument Name. Maximum length is 30.
+    + value (optional) - Value. Maximum length is 200.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

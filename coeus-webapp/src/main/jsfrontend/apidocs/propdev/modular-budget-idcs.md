@@ -1,6 +1,6 @@
-## Modular Budget Idcs [/research-sys/api/v1/modular-budget-idcs/]
+## Modular Budget Idcs [/propdev/api/v1/modular-budget-idcs/]
 
-### Get Modular Budget Idcs by Key [GET /research-sys/api/v1/modular-budget-idcs/(key)]
+### Get Modular Budget Idcs by Key [GET /propdev/api/v1/modular-budget-idcs/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"budgetPeriodId": "(val)","budgetPeriod": "(val)","rateNumber": "(val)","budgetId": "(val)","description": "(val)","idcRate": "(val)","idcBase": "(val)","fundsRequested": "(val)","_primaryKey": "(val)"}
 
-### Get All Modular Budget Idcs [GET /research-sys/api/v1/modular-budget-idcs/]
+### Get All Modular Budget Idcs [GET /propdev/api/v1/modular-budget-idcs/]
 	 
 + Request
 
@@ -39,18 +39,18 @@
               {"budgetPeriodId": "(val)","budgetPeriod": "(val)","rateNumber": "(val)","budgetId": "(val)","description": "(val)","idcRate": "(val)","idcBase": "(val)","fundsRequested": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Modular Budget Idcs with Filtering [GET /research-sys/api/v1/modular-budget-idcs/]
+### Get All Modular Budget Idcs with Filtering [GET /propdev/api/v1/modular-budget-idcs/]
     
 + Parameters
 
-        + budgetPeriodId
-            + budgetPeriod
-            + rateNumber
-            + budgetId
-            + description
-            + idcRate
-            + idcBase
-            + fundsRequested
+    + budgetPeriodId (optional) - Budget Period Id.
+    + budgetPeriod (optional) - Budget Period. Maximum length is 3.
+    + rateNumber (optional) - Rate Number. Maximum length is 3.
+    + budgetId (optional) - Budget Id.
+    + description (optional) - Description. Maximum length is 64.
+    + idcRate (optional) - IDC Rate. Maximum length is 7.
+    + idcBase (optional) - IDC Base. Maximum length is 15.
+    + fundsRequested (optional) - Funds Requested. Maximum length is 15.
 
             
 + Request
@@ -72,7 +72,7 @@
               {"budgetPeriodId": "(val)","budgetPeriod": "(val)","rateNumber": "(val)","budgetId": "(val)","description": "(val)","idcRate": "(val)","idcBase": "(val)","fundsRequested": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Modular Budget Idcs [GET /research-sys/api/v1/modular-budget-idcs/]
+### Get Schema for Modular Budget Idcs [GET /propdev/api/v1/modular-budget-idcs/]
 	                                          
 + Parameters
 
@@ -94,7 +94,7 @@
     
             {"columns":["budgetPeriodId","budgetPeriod","rateNumber","budgetId","description","idcRate","idcBase","fundsRequested"],"primaryKey":"budgetModular:budgetPeriodId:rateNumber"}
 		
-### Get Blueprint API specification for Modular Budget Idcs [GET /research-sys/api/v1/modular-budget-idcs/]
+### Get Blueprint API specification for Modular Budget Idcs [GET /propdev/api/v1/modular-budget-idcs/]
 	 
 + Parameters
 
@@ -115,7 +115,7 @@
             transfer-encoding:chunked
 
 
-### Update Modular Budget Idcs [PUT /research-sys/api/v1/modular-budget-idcs/(key)]
+### Update Modular Budget Idcs [PUT /propdev/api/v1/modular-budget-idcs/(key)]
 
 + Request
 
@@ -130,7 +130,7 @@
 			
 + Response 204
 
-### Update Multiple Modular Budget Idcs [PUT /research-sys/api/v1/modular-budget-idcs/]
+### Update Multiple Modular Budget Idcs [PUT /propdev/api/v1/modular-budget-idcs/]
 
 + Request
 
@@ -148,7 +148,7 @@
 			
 + Response 204
 
-### Insert Modular Budget Idcs [POST /research-sys/api/v1/modular-budget-idcs/]
+### Insert Modular Budget Idcs [POST /propdev/api/v1/modular-budget-idcs/]
 
 + Request
 
@@ -167,7 +167,7 @@
             
             {"budgetPeriodId": "(val)","budgetPeriod": "(val)","rateNumber": "(val)","budgetId": "(val)","description": "(val)","idcRate": "(val)","idcBase": "(val)","fundsRequested": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Modular Budget Idcs [POST /research-sys/api/v1/modular-budget-idcs/]
+### Insert Multiple Modular Budget Idcs [POST /propdev/api/v1/modular-budget-idcs/]
 
 + Request
 
@@ -192,7 +192,7 @@
               {"budgetPeriodId": "(val)","budgetPeriod": "(val)","rateNumber": "(val)","budgetId": "(val)","description": "(val)","idcRate": "(val)","idcBase": "(val)","fundsRequested": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Modular Budget Idcs by Key [DELETE /research-sys/api/v1/modular-budget-idcs/(key)]
+### Delete Modular Budget Idcs by Key [DELETE /propdev/api/v1/modular-budget-idcs/(key)]
 	 
 + Request
 
@@ -203,7 +203,7 @@
 
 + Response 204
 
-### Delete All Modular Budget Idcs [DELETE /research-sys/api/v1/modular-budget-idcs/]
+### Delete All Modular Budget Idcs [DELETE /propdev/api/v1/modular-budget-idcs/]
 
 + Parameters
 
@@ -218,19 +218,19 @@
 
 + Response 204
 
-### Delete All Modular Budget Idcs with Matching [DELETE /research-sys/api/v1/modular-budget-idcs/]
+### Delete All Modular Budget Idcs with Matching [DELETE /propdev/api/v1/modular-budget-idcs/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + budgetPeriodId
-            + budgetPeriod
-            + rateNumber
-            + budgetId
-            + description
-            + idcRate
-            + idcBase
-            + fundsRequested
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + budgetPeriodId (optional) - Budget Period Id.
+    + budgetPeriod (optional) - Budget Period. Maximum length is 3.
+    + rateNumber (optional) - Rate Number. Maximum length is 3.
+    + budgetId (optional) - Budget Id.
+    + description (optional) - Description. Maximum length is 64.
+    + idcRate (optional) - IDC Rate. Maximum length is 7.
+    + idcBase (optional) - IDC Base. Maximum length is 15.
+    + fundsRequested (optional) - Funds Requested. Maximum length is 15.
 
       
 + Request

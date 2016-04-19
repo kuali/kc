@@ -1,6 +1,6 @@
-## Protocol Reviewer Types [/research-sys/api/v1/protocol-reviewer-types/]
+## Protocol Reviewer Types [/irb/api/v1/protocol-reviewer-types/]
 
-### Get Protocol Reviewer Types by Key [GET /research-sys/api/v1/protocol-reviewer-types/(key)]
+### Get Protocol Reviewer Types by Key [GET /irb/api/v1/protocol-reviewer-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"reviewerTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Protocol Reviewer Types [GET /research-sys/api/v1/protocol-reviewer-types/]
+### Get All Protocol Reviewer Types [GET /irb/api/v1/protocol-reviewer-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"reviewerTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Protocol Reviewer Types with Filtering [GET /research-sys/api/v1/protocol-reviewer-types/]
+### Get All Protocol Reviewer Types with Filtering [GET /irb/api/v1/protocol-reviewer-types/]
     
 + Parameters
 
-        + reviewerTypeCode
-            + description
+    + reviewerTypeCode (optional) - Reviewer Type. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"reviewerTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Protocol Reviewer Types [GET /research-sys/api/v1/protocol-reviewer-types/]
+### Get Schema for Protocol Reviewer Types [GET /irb/api/v1/protocol-reviewer-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["reviewerTypeCode","description"],"primaryKey":"reviewerTypeCode"}
 		
-### Get Blueprint API specification for Protocol Reviewer Types [GET /research-sys/api/v1/protocol-reviewer-types/]
+### Get Blueprint API specification for Protocol Reviewer Types [GET /irb/api/v1/protocol-reviewer-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Protocol Reviewer Types [PUT /research-sys/api/v1/protocol-reviewer-types/(key)]
+### Update Protocol Reviewer Types [PUT /irb/api/v1/protocol-reviewer-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Protocol Reviewer Types [PUT /research-sys/api/v1/protocol-reviewer-types/]
+### Update Multiple Protocol Reviewer Types [PUT /irb/api/v1/protocol-reviewer-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Protocol Reviewer Types [POST /research-sys/api/v1/protocol-reviewer-types/]
+### Insert Protocol Reviewer Types [POST /irb/api/v1/protocol-reviewer-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"reviewerTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Protocol Reviewer Types [POST /research-sys/api/v1/protocol-reviewer-types/]
+### Insert Multiple Protocol Reviewer Types [POST /irb/api/v1/protocol-reviewer-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"reviewerTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Protocol Reviewer Types by Key [DELETE /research-sys/api/v1/protocol-reviewer-types/(key)]
+### Delete Protocol Reviewer Types by Key [DELETE /irb/api/v1/protocol-reviewer-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Protocol Reviewer Types [DELETE /research-sys/api/v1/protocol-reviewer-types/]
+### Delete All Protocol Reviewer Types [DELETE /irb/api/v1/protocol-reviewer-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Protocol Reviewer Types with Matching [DELETE /research-sys/api/v1/protocol-reviewer-types/]
+### Delete All Protocol Reviewer Types with Matching [DELETE /irb/api/v1/protocol-reviewer-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + reviewerTypeCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + reviewerTypeCode (optional) - Reviewer Type. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

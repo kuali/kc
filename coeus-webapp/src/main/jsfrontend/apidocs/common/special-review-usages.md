@@ -1,6 +1,6 @@
-## Special Review Usages [/research-sys/api/v1/special-review-usages/]
+## Special Review Usages [/research-common/api/v1/special-review-usages/]
 
-### Get Special Review Usages by Key [GET /research-sys/api/v1/special-review-usages/(key)]
+### Get Special Review Usages by Key [GET /research-common/api/v1/special-review-usages/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"specialReviewUsageId": "(val)","specialReviewTypeCode": "(val)","moduleCode": "(val)","global": "(val)","active": "(val)","_primaryKey": "(val)"}
 
-### Get All Special Review Usages [GET /research-sys/api/v1/special-review-usages/]
+### Get All Special Review Usages [GET /research-common/api/v1/special-review-usages/]
 	 
 + Request
 
@@ -39,15 +39,15 @@
               {"specialReviewUsageId": "(val)","specialReviewTypeCode": "(val)","moduleCode": "(val)","global": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Special Review Usages with Filtering [GET /research-sys/api/v1/special-review-usages/]
+### Get All Special Review Usages with Filtering [GET /research-common/api/v1/special-review-usages/]
     
 + Parameters
 
-        + specialReviewUsageId
-            + specialReviewTypeCode
-            + moduleCode
-            + global
-            + active
+    + specialReviewUsageId (optional) - Special Review Usage Id. Maximum length is 12.
+    + specialReviewTypeCode (optional) - Special Review Type Code. Maximum length is 3.
+    + moduleCode (optional) - Module Code. Maximum length is 4.
+    + global (optional) - Global. Maximum length is 1.
+    + active (optional) - Active. Maximum length is 1.
 
             
 + Request
@@ -69,7 +69,7 @@
               {"specialReviewUsageId": "(val)","specialReviewTypeCode": "(val)","moduleCode": "(val)","global": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Special Review Usages [GET /research-sys/api/v1/special-review-usages/]
+### Get Schema for Special Review Usages [GET /research-common/api/v1/special-review-usages/]
 	                                          
 + Parameters
 
@@ -91,7 +91,7 @@
     
             {"columns":["specialReviewUsageId","specialReviewTypeCode","moduleCode","global","active"],"primaryKey":"specialReviewUsageId"}
 		
-### Get Blueprint API specification for Special Review Usages [GET /research-sys/api/v1/special-review-usages/]
+### Get Blueprint API specification for Special Review Usages [GET /research-common/api/v1/special-review-usages/]
 	 
 + Parameters
 
@@ -112,7 +112,7 @@
             transfer-encoding:chunked
 
 
-### Update Special Review Usages [PUT /research-sys/api/v1/special-review-usages/(key)]
+### Update Special Review Usages [PUT /research-common/api/v1/special-review-usages/(key)]
 
 + Request
 
@@ -127,7 +127,7 @@
 			
 + Response 204
 
-### Update Multiple Special Review Usages [PUT /research-sys/api/v1/special-review-usages/]
+### Update Multiple Special Review Usages [PUT /research-common/api/v1/special-review-usages/]
 
 + Request
 
@@ -145,7 +145,7 @@
 			
 + Response 204
 
-### Insert Special Review Usages [POST /research-sys/api/v1/special-review-usages/]
+### Insert Special Review Usages [POST /research-common/api/v1/special-review-usages/]
 
 + Request
 
@@ -164,7 +164,7 @@
             
             {"specialReviewUsageId": "(val)","specialReviewTypeCode": "(val)","moduleCode": "(val)","global": "(val)","active": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Special Review Usages [POST /research-sys/api/v1/special-review-usages/]
+### Insert Multiple Special Review Usages [POST /research-common/api/v1/special-review-usages/]
 
 + Request
 
@@ -189,7 +189,7 @@
               {"specialReviewUsageId": "(val)","specialReviewTypeCode": "(val)","moduleCode": "(val)","global": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Special Review Usages by Key [DELETE /research-sys/api/v1/special-review-usages/(key)]
+### Delete Special Review Usages by Key [DELETE /research-common/api/v1/special-review-usages/(key)]
 	 
 + Request
 
@@ -200,7 +200,7 @@
 
 + Response 204
 
-### Delete All Special Review Usages [DELETE /research-sys/api/v1/special-review-usages/]
+### Delete All Special Review Usages [DELETE /research-common/api/v1/special-review-usages/]
 
 + Parameters
 
@@ -215,16 +215,16 @@
 
 + Response 204
 
-### Delete All Special Review Usages with Matching [DELETE /research-sys/api/v1/special-review-usages/]
+### Delete All Special Review Usages with Matching [DELETE /research-common/api/v1/special-review-usages/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + specialReviewUsageId
-            + specialReviewTypeCode
-            + moduleCode
-            + global
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + specialReviewUsageId (optional) - Special Review Usage Id. Maximum length is 12.
+    + specialReviewTypeCode (optional) - Special Review Type Code. Maximum length is 3.
+    + moduleCode (optional) - Module Code. Maximum length is 4.
+    + global (optional) - Global. Maximum length is 1.
+    + active (optional) - Active. Maximum length is 1.
 
       
 + Request

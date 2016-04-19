@@ -1,6 +1,6 @@
-## Protocol Correspondences [/research-sys/api/v1/protocol-correspondences/]
+## Protocol Correspondences [/irb/api/v1/protocol-correspondences/]
 
-### Get Protocol Correspondences by Key [GET /research-sys/api/v1/protocol-correspondences/(key)]
+### Get Protocol Correspondences by Key [GET /irb/api/v1/protocol-correspondences/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"id": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","actionId": "(val)","actionIdFk": "(val)","protoCorrespTypeCode": "(val)","correspondence": "(val)","finalFlag": "(val)","createUser": "(val)","createTimestamp": "(val)","finalFlagTimestamp": "(val)","_primaryKey": "(val)"}
 
-### Get All Protocol Correspondences [GET /research-sys/api/v1/protocol-correspondences/]
+### Get All Protocol Correspondences [GET /irb/api/v1/protocol-correspondences/]
 	 
 + Request
 
@@ -39,22 +39,22 @@
               {"id": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","actionId": "(val)","actionIdFk": "(val)","protoCorrespTypeCode": "(val)","correspondence": "(val)","finalFlag": "(val)","createUser": "(val)","createTimestamp": "(val)","finalFlagTimestamp": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Protocol Correspondences with Filtering [GET /research-sys/api/v1/protocol-correspondences/]
+### Get All Protocol Correspondences with Filtering [GET /irb/api/v1/protocol-correspondences/]
     
 + Parameters
 
-        + id
-            + protocolId
-            + protocolNumber
-            + sequenceNumber
-            + actionId
-            + actionIdFk
-            + protoCorrespTypeCode
-            + correspondence
-            + finalFlag
-            + createUser
-            + createTimestamp
-            + finalFlagTimestamp
+    + id (optional) - Id. Maximum length is 22.
+    + protocolId (optional) - 
+    + protocolNumber (optional) - Protocol Number. Maximum length is 20.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 22.
+    + actionId (optional) - 
+    + actionIdFk (optional) - 
+    + protoCorrespTypeCode (optional) - 
+    + correspondence (optional) - Correspondence. Maximum length is 4000.
+    + finalFlag (optional) - Is Final. Maximum length is 1.
+    + createUser (optional) - Create User. Maximum length is 80.
+    + createTimestamp (optional) - Created Time. Maximum length is 21.
+    + finalFlagTimestamp (optional) - 
 
             
 + Request
@@ -76,7 +76,7 @@
               {"id": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","actionId": "(val)","actionIdFk": "(val)","protoCorrespTypeCode": "(val)","correspondence": "(val)","finalFlag": "(val)","createUser": "(val)","createTimestamp": "(val)","finalFlagTimestamp": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Protocol Correspondences [GET /research-sys/api/v1/protocol-correspondences/]
+### Get Schema for Protocol Correspondences [GET /irb/api/v1/protocol-correspondences/]
 	                                          
 + Parameters
 
@@ -98,7 +98,7 @@
     
             {"columns":["id","protocolId","protocolNumber","sequenceNumber","actionId","actionIdFk","protoCorrespTypeCode","correspondence","finalFlag","createUser","createTimestamp","finalFlagTimestamp"],"primaryKey":"id"}
 		
-### Get Blueprint API specification for Protocol Correspondences [GET /research-sys/api/v1/protocol-correspondences/]
+### Get Blueprint API specification for Protocol Correspondences [GET /irb/api/v1/protocol-correspondences/]
 	 
 + Parameters
 
@@ -119,7 +119,7 @@
             transfer-encoding:chunked
 
 
-### Update Protocol Correspondences [PUT /research-sys/api/v1/protocol-correspondences/(key)]
+### Update Protocol Correspondences [PUT /irb/api/v1/protocol-correspondences/(key)]
 
 + Request
 
@@ -134,7 +134,7 @@
 			
 + Response 204
 
-### Update Multiple Protocol Correspondences [PUT /research-sys/api/v1/protocol-correspondences/]
+### Update Multiple Protocol Correspondences [PUT /irb/api/v1/protocol-correspondences/]
 
 + Request
 
@@ -152,7 +152,7 @@
 			
 + Response 204
 
-### Insert Protocol Correspondences [POST /research-sys/api/v1/protocol-correspondences/]
+### Insert Protocol Correspondences [POST /irb/api/v1/protocol-correspondences/]
 
 + Request
 
@@ -171,7 +171,7 @@
             
             {"id": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","actionId": "(val)","actionIdFk": "(val)","protoCorrespTypeCode": "(val)","correspondence": "(val)","finalFlag": "(val)","createUser": "(val)","createTimestamp": "(val)","finalFlagTimestamp": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Protocol Correspondences [POST /research-sys/api/v1/protocol-correspondences/]
+### Insert Multiple Protocol Correspondences [POST /irb/api/v1/protocol-correspondences/]
 
 + Request
 
@@ -196,7 +196,7 @@
               {"id": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","actionId": "(val)","actionIdFk": "(val)","protoCorrespTypeCode": "(val)","correspondence": "(val)","finalFlag": "(val)","createUser": "(val)","createTimestamp": "(val)","finalFlagTimestamp": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Protocol Correspondences by Key [DELETE /research-sys/api/v1/protocol-correspondences/(key)]
+### Delete Protocol Correspondences by Key [DELETE /irb/api/v1/protocol-correspondences/(key)]
 	 
 + Request
 
@@ -207,7 +207,7 @@
 
 + Response 204
 
-### Delete All Protocol Correspondences [DELETE /research-sys/api/v1/protocol-correspondences/]
+### Delete All Protocol Correspondences [DELETE /irb/api/v1/protocol-correspondences/]
 
 + Parameters
 
@@ -222,23 +222,23 @@
 
 + Response 204
 
-### Delete All Protocol Correspondences with Matching [DELETE /research-sys/api/v1/protocol-correspondences/]
+### Delete All Protocol Correspondences with Matching [DELETE /irb/api/v1/protocol-correspondences/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + protocolId
-            + protocolNumber
-            + sequenceNumber
-            + actionId
-            + actionIdFk
-            + protoCorrespTypeCode
-            + correspondence
-            + finalFlag
-            + createUser
-            + createTimestamp
-            + finalFlagTimestamp
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Id. Maximum length is 22.
+    + protocolId (optional) - 
+    + protocolNumber (optional) - Protocol Number. Maximum length is 20.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 22.
+    + actionId (optional) - 
+    + actionIdFk (optional) - 
+    + protoCorrespTypeCode (optional) - 
+    + correspondence (optional) - Correspondence. Maximum length is 4000.
+    + finalFlag (optional) - Is Final. Maximum length is 1.
+    + createUser (optional) - Create User. Maximum length is 80.
+    + createTimestamp (optional) - Created Time. Maximum length is 21.
+    + finalFlagTimestamp (optional) - 
 
       
 + Request

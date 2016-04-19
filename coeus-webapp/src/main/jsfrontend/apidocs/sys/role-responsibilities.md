@@ -43,10 +43,10 @@
     
 + Parameters
 
-        + roleResponsibilityId
-            + roleId
-            + responsibilityId
-            + active
+    + roleResponsibilityId (optional) - 
+    + roleId (optional) - 
+    + responsibilityId (optional) - 
+    + active (optional) - 
 
             
 + Request
@@ -218,11 +218,11 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + roleResponsibilityId
-            + roleId
-            + responsibilityId
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + roleResponsibilityId (optional) - 
+    + roleId (optional) - 
+    + responsibilityId (optional) - 
+    + active (optional) - 
 
       
 + Request

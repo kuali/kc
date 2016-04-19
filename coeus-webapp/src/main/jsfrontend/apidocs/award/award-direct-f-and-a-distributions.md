@@ -1,6 +1,6 @@
-## Award Direct F And A Distributions [/research-sys/api/v1/award-direct-f-and-a-distributions/]
+## Award Direct F And A Distributions [/award/api/v1/award-direct-f-and-a-distributions/]
 
-### Get Award Direct F And A Distributions by Key [GET /research-sys/api/v1/award-direct-f-and-a-distributions/(key)]
+### Get Award Direct F And A Distributions by Key [GET /award/api/v1/award-direct-f-and-a-distributions/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"awardDirectFandADistributionId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","amountSequenceNumber": "(val)","awardAmountInfoId": "(val)","budgetPeriod": "(val)","startDate": "(val)","endDate": "(val)","directCost": "(val)","indirectCost": "(val)","_primaryKey": "(val)"}
 
-### Get All Award Direct F And A Distributions [GET /research-sys/api/v1/award-direct-f-and-a-distributions/]
+### Get All Award Direct F And A Distributions [GET /award/api/v1/award-direct-f-and-a-distributions/]
 	 
 + Request
 
@@ -39,21 +39,21 @@
               {"awardDirectFandADistributionId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","amountSequenceNumber": "(val)","awardAmountInfoId": "(val)","budgetPeriod": "(val)","startDate": "(val)","endDate": "(val)","directCost": "(val)","indirectCost": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Award Direct F And A Distributions with Filtering [GET /research-sys/api/v1/award-direct-f-and-a-distributions/]
+### Get All Award Direct F And A Distributions with Filtering [GET /award/api/v1/award-direct-f-and-a-distributions/]
     
 + Parameters
 
-        + awardDirectFandADistributionId
-            + awardId
-            + awardNumber
-            + sequenceNumber
-            + amountSequenceNumber
-            + awardAmountInfoId
-            + budgetPeriod
-            + startDate
-            + endDate
-            + directCost
-            + indirectCost
+    + awardDirectFandADistributionId (optional) - Award Direct F and A Distribution ID. Maximum length is 8.
+    + awardId (optional) - 
+    + awardNumber (optional) - Award ID. Maximum length is 12.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 4.
+    + amountSequenceNumber (optional) - Amount Sequence Number. Maximum length is 4.
+    + awardAmountInfoId (optional) - 
+    + budgetPeriod (optional) - Budget Period. Maximum length is 3.
+    + startDate (optional) - Start Date. Maximum length is 21.
+    + endDate (optional) - End Date. Maximum length is 21.
+    + directCost (optional) - Direct Cost. Maximum length is 12.
+    + indirectCost (optional) - F&A Cost. Maximum length is 12.
 
             
 + Request
@@ -75,7 +75,7 @@
               {"awardDirectFandADistributionId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","amountSequenceNumber": "(val)","awardAmountInfoId": "(val)","budgetPeriod": "(val)","startDate": "(val)","endDate": "(val)","directCost": "(val)","indirectCost": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Award Direct F And A Distributions [GET /research-sys/api/v1/award-direct-f-and-a-distributions/]
+### Get Schema for Award Direct F And A Distributions [GET /award/api/v1/award-direct-f-and-a-distributions/]
 	                                          
 + Parameters
 
@@ -97,7 +97,7 @@
     
             {"columns":["awardDirectFandADistributionId","awardId","awardNumber","sequenceNumber","amountSequenceNumber","awardAmountInfoId","budgetPeriod","startDate","endDate","directCost","indirectCost"],"primaryKey":"awardDirectFandADistributionId"}
 		
-### Get Blueprint API specification for Award Direct F And A Distributions [GET /research-sys/api/v1/award-direct-f-and-a-distributions/]
+### Get Blueprint API specification for Award Direct F And A Distributions [GET /award/api/v1/award-direct-f-and-a-distributions/]
 	 
 + Parameters
 
@@ -118,7 +118,7 @@
             transfer-encoding:chunked
 
 
-### Update Award Direct F And A Distributions [PUT /research-sys/api/v1/award-direct-f-and-a-distributions/(key)]
+### Update Award Direct F And A Distributions [PUT /award/api/v1/award-direct-f-and-a-distributions/(key)]
 
 + Request
 
@@ -133,7 +133,7 @@
 			
 + Response 204
 
-### Update Multiple Award Direct F And A Distributions [PUT /research-sys/api/v1/award-direct-f-and-a-distributions/]
+### Update Multiple Award Direct F And A Distributions [PUT /award/api/v1/award-direct-f-and-a-distributions/]
 
 + Request
 
@@ -151,7 +151,7 @@
 			
 + Response 204
 
-### Insert Award Direct F And A Distributions [POST /research-sys/api/v1/award-direct-f-and-a-distributions/]
+### Insert Award Direct F And A Distributions [POST /award/api/v1/award-direct-f-and-a-distributions/]
 
 + Request
 
@@ -170,7 +170,7 @@
             
             {"awardDirectFandADistributionId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","amountSequenceNumber": "(val)","awardAmountInfoId": "(val)","budgetPeriod": "(val)","startDate": "(val)","endDate": "(val)","directCost": "(val)","indirectCost": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Award Direct F And A Distributions [POST /research-sys/api/v1/award-direct-f-and-a-distributions/]
+### Insert Multiple Award Direct F And A Distributions [POST /award/api/v1/award-direct-f-and-a-distributions/]
 
 + Request
 
@@ -195,7 +195,7 @@
               {"awardDirectFandADistributionId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","amountSequenceNumber": "(val)","awardAmountInfoId": "(val)","budgetPeriod": "(val)","startDate": "(val)","endDate": "(val)","directCost": "(val)","indirectCost": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Award Direct F And A Distributions by Key [DELETE /research-sys/api/v1/award-direct-f-and-a-distributions/(key)]
+### Delete Award Direct F And A Distributions by Key [DELETE /award/api/v1/award-direct-f-and-a-distributions/(key)]
 	 
 + Request
 
@@ -206,7 +206,7 @@
 
 + Response 204
 
-### Delete All Award Direct F And A Distributions [DELETE /research-sys/api/v1/award-direct-f-and-a-distributions/]
+### Delete All Award Direct F And A Distributions [DELETE /award/api/v1/award-direct-f-and-a-distributions/]
 
 + Parameters
 
@@ -221,22 +221,22 @@
 
 + Response 204
 
-### Delete All Award Direct F And A Distributions with Matching [DELETE /research-sys/api/v1/award-direct-f-and-a-distributions/]
+### Delete All Award Direct F And A Distributions with Matching [DELETE /award/api/v1/award-direct-f-and-a-distributions/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + awardDirectFandADistributionId
-            + awardId
-            + awardNumber
-            + sequenceNumber
-            + amountSequenceNumber
-            + awardAmountInfoId
-            + budgetPeriod
-            + startDate
-            + endDate
-            + directCost
-            + indirectCost
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + awardDirectFandADistributionId (optional) - Award Direct F and A Distribution ID. Maximum length is 8.
+    + awardId (optional) - 
+    + awardNumber (optional) - Award ID. Maximum length is 12.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 4.
+    + amountSequenceNumber (optional) - Amount Sequence Number. Maximum length is 4.
+    + awardAmountInfoId (optional) - 
+    + budgetPeriod (optional) - Budget Period. Maximum length is 3.
+    + startDate (optional) - Start Date. Maximum length is 21.
+    + endDate (optional) - End Date. Maximum length is 21.
+    + directCost (optional) - Direct Cost. Maximum length is 12.
+    + indirectCost (optional) - F&A Cost. Maximum length is 12.
 
       
 + Request

@@ -1,6 +1,6 @@
-## Contact Usages [/research-sys/api/v1/contact-usages/]
+## Contact Usages [/award/api/v1/contact-usages/]
 
-### Get Contact Usages by Key [GET /research-sys/api/v1/contact-usages/(key)]
+### Get Contact Usages by Key [GET /award/api/v1/contact-usages/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"contactUsageId": "(val)","contactTypeCode": "(val)","moduleCode": "(val)","_primaryKey": "(val)"}
 
-### Get All Contact Usages [GET /research-sys/api/v1/contact-usages/]
+### Get All Contact Usages [GET /award/api/v1/contact-usages/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"contactUsageId": "(val)","contactTypeCode": "(val)","moduleCode": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Contact Usages with Filtering [GET /research-sys/api/v1/contact-usages/]
+### Get All Contact Usages with Filtering [GET /award/api/v1/contact-usages/]
     
 + Parameters
 
-        + contactUsageId
-            + contactTypeCode
-            + moduleCode
+    + contactUsageId (optional) - Contact Usage Id. Maximum length is 12.
+    + contactTypeCode (optional) - Contact Type Code. Maximum length is 3.
+    + moduleCode (optional) - Module Code. Maximum length is 3.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"contactUsageId": "(val)","contactTypeCode": "(val)","moduleCode": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Contact Usages [GET /research-sys/api/v1/contact-usages/]
+### Get Schema for Contact Usages [GET /award/api/v1/contact-usages/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["contactUsageId","contactTypeCode","moduleCode"],"primaryKey":"contactTypeCode:contactUsageId:moduleCode"}
 		
-### Get Blueprint API specification for Contact Usages [GET /research-sys/api/v1/contact-usages/]
+### Get Blueprint API specification for Contact Usages [GET /award/api/v1/contact-usages/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Contact Usages [PUT /research-sys/api/v1/contact-usages/(key)]
+### Update Contact Usages [PUT /award/api/v1/contact-usages/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Contact Usages [PUT /research-sys/api/v1/contact-usages/]
+### Update Multiple Contact Usages [PUT /award/api/v1/contact-usages/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Contact Usages [POST /research-sys/api/v1/contact-usages/]
+### Insert Contact Usages [POST /award/api/v1/contact-usages/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"contactUsageId": "(val)","contactTypeCode": "(val)","moduleCode": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Contact Usages [POST /research-sys/api/v1/contact-usages/]
+### Insert Multiple Contact Usages [POST /award/api/v1/contact-usages/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"contactUsageId": "(val)","contactTypeCode": "(val)","moduleCode": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Contact Usages by Key [DELETE /research-sys/api/v1/contact-usages/(key)]
+### Delete Contact Usages by Key [DELETE /award/api/v1/contact-usages/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Contact Usages [DELETE /research-sys/api/v1/contact-usages/]
+### Delete All Contact Usages [DELETE /award/api/v1/contact-usages/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Contact Usages with Matching [DELETE /research-sys/api/v1/contact-usages/]
+### Delete All Contact Usages with Matching [DELETE /award/api/v1/contact-usages/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + contactUsageId
-            + contactTypeCode
-            + moduleCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + contactUsageId (optional) - Contact Usage Id. Maximum length is 12.
+    + contactTypeCode (optional) - Contact Type Code. Maximum length is 3.
+    + moduleCode (optional) - Module Code. Maximum length is 3.
 
       
 + Request

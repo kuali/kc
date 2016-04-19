@@ -1,6 +1,6 @@
-## Mail Types [/research-sys/api/v1/mail-types/]
+## Mail Types [/research-common/api/v1/mail-types/]
 
-### Get Mail Types by Key [GET /research-sys/api/v1/mail-types/(key)]
+### Get Mail Types by Key [GET /research-common/api/v1/mail-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"mailType": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Mail Types [GET /research-sys/api/v1/mail-types/]
+### Get All Mail Types [GET /research-common/api/v1/mail-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"mailType": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Mail Types with Filtering [GET /research-sys/api/v1/mail-types/]
+### Get All Mail Types with Filtering [GET /research-common/api/v1/mail-types/]
     
 + Parameters
 
-        + mailType
-            + description
+    + mailType (optional) - Mail Type. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"mailType": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Mail Types [GET /research-sys/api/v1/mail-types/]
+### Get Schema for Mail Types [GET /research-common/api/v1/mail-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["mailType","description"],"primaryKey":"mailType"}
 		
-### Get Blueprint API specification for Mail Types [GET /research-sys/api/v1/mail-types/]
+### Get Blueprint API specification for Mail Types [GET /research-common/api/v1/mail-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Mail Types [PUT /research-sys/api/v1/mail-types/(key)]
+### Update Mail Types [PUT /research-common/api/v1/mail-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Mail Types [PUT /research-sys/api/v1/mail-types/]
+### Update Multiple Mail Types [PUT /research-common/api/v1/mail-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Mail Types [POST /research-sys/api/v1/mail-types/]
+### Insert Mail Types [POST /research-common/api/v1/mail-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"mailType": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Mail Types [POST /research-sys/api/v1/mail-types/]
+### Insert Multiple Mail Types [POST /research-common/api/v1/mail-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"mailType": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Mail Types by Key [DELETE /research-sys/api/v1/mail-types/(key)]
+### Delete Mail Types by Key [DELETE /research-common/api/v1/mail-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Mail Types [DELETE /research-sys/api/v1/mail-types/]
+### Delete All Mail Types [DELETE /research-common/api/v1/mail-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Mail Types with Matching [DELETE /research-sys/api/v1/mail-types/]
+### Delete All Mail Types with Matching [DELETE /research-common/api/v1/mail-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + mailType
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + mailType (optional) - Mail Type. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

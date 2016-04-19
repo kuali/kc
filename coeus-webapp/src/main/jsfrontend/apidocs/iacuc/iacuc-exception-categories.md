@@ -1,6 +1,6 @@
-## Iacuc Exception Categories [/research-sys/api/v1/iacuc-exception-categories/]
+## Iacuc Exception Categories [/iacuc/api/v1/iacuc-exception-categories/]
 
-### Get Iacuc Exception Categories by Key [GET /research-sys/api/v1/iacuc-exception-categories/(key)]
+### Get Iacuc Exception Categories by Key [GET /iacuc/api/v1/iacuc-exception-categories/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"exceptionCategoryCode": "(val)","exceptionCategoryDesc": "(val)","active": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Exception Categories [GET /research-sys/api/v1/iacuc-exception-categories/]
+### Get All Iacuc Exception Categories [GET /iacuc/api/v1/iacuc-exception-categories/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"exceptionCategoryCode": "(val)","exceptionCategoryDesc": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Exception Categories with Filtering [GET /research-sys/api/v1/iacuc-exception-categories/]
+### Get All Iacuc Exception Categories with Filtering [GET /iacuc/api/v1/iacuc-exception-categories/]
     
 + Parameters
 
-        + exceptionCategoryCode
-            + exceptionCategoryDesc
-            + active
+    + exceptionCategoryCode (optional) - Exception Category Code. Maximum length is 3.
+    + exceptionCategoryDesc (optional) - Exception Category. Maximum length is 200.
+    + active (optional) - Active. Maximum length is 1.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"exceptionCategoryCode": "(val)","exceptionCategoryDesc": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Exception Categories [GET /research-sys/api/v1/iacuc-exception-categories/]
+### Get Schema for Iacuc Exception Categories [GET /iacuc/api/v1/iacuc-exception-categories/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["exceptionCategoryCode","exceptionCategoryDesc","active"],"primaryKey":"exceptionCategoryCode"}
 		
-### Get Blueprint API specification for Iacuc Exception Categories [GET /research-sys/api/v1/iacuc-exception-categories/]
+### Get Blueprint API specification for Iacuc Exception Categories [GET /iacuc/api/v1/iacuc-exception-categories/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Exception Categories [PUT /research-sys/api/v1/iacuc-exception-categories/(key)]
+### Update Iacuc Exception Categories [PUT /iacuc/api/v1/iacuc-exception-categories/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Exception Categories [PUT /research-sys/api/v1/iacuc-exception-categories/]
+### Update Multiple Iacuc Exception Categories [PUT /iacuc/api/v1/iacuc-exception-categories/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Iacuc Exception Categories [POST /research-sys/api/v1/iacuc-exception-categories/]
+### Insert Iacuc Exception Categories [POST /iacuc/api/v1/iacuc-exception-categories/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"exceptionCategoryCode": "(val)","exceptionCategoryDesc": "(val)","active": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Exception Categories [POST /research-sys/api/v1/iacuc-exception-categories/]
+### Insert Multiple Iacuc Exception Categories [POST /iacuc/api/v1/iacuc-exception-categories/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"exceptionCategoryCode": "(val)","exceptionCategoryDesc": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Exception Categories by Key [DELETE /research-sys/api/v1/iacuc-exception-categories/(key)]
+### Delete Iacuc Exception Categories by Key [DELETE /iacuc/api/v1/iacuc-exception-categories/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Iacuc Exception Categories [DELETE /research-sys/api/v1/iacuc-exception-categories/]
+### Delete All Iacuc Exception Categories [DELETE /iacuc/api/v1/iacuc-exception-categories/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Iacuc Exception Categories with Matching [DELETE /research-sys/api/v1/iacuc-exception-categories/]
+### Delete All Iacuc Exception Categories with Matching [DELETE /iacuc/api/v1/iacuc-exception-categories/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + exceptionCategoryCode
-            + exceptionCategoryDesc
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + exceptionCategoryCode (optional) - Exception Category Code. Maximum length is 3.
+    + exceptionCategoryDesc (optional) - Exception Category. Maximum length is 200.
+    + active (optional) - Active. Maximum length is 1.
 
       
 + Request

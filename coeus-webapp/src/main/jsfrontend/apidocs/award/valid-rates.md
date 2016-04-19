@@ -1,6 +1,6 @@
-## Valid Rates [/research-sys/api/v1/valid-rates/]
+## Valid Rates [/award/api/v1/valid-rates/]
 
-### Get Valid Rates by Key [GET /research-sys/api/v1/valid-rates/(key)]
+### Get Valid Rates by Key [GET /award/api/v1/valid-rates/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"validRatesId": "(val)","onCampusRate": "(val)","offCampusRate": "(val)","rateClassType": "(val)","adjustmentKey": "(val)","icrRateCode": "(val)","_primaryKey": "(val)"}
 
-### Get All Valid Rates [GET /research-sys/api/v1/valid-rates/]
+### Get All Valid Rates [GET /award/api/v1/valid-rates/]
 	 
 + Request
 
@@ -39,16 +39,16 @@
               {"validRatesId": "(val)","onCampusRate": "(val)","offCampusRate": "(val)","rateClassType": "(val)","adjustmentKey": "(val)","icrRateCode": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Valid Rates with Filtering [GET /research-sys/api/v1/valid-rates/]
+### Get All Valid Rates with Filtering [GET /award/api/v1/valid-rates/]
     
 + Parameters
 
-        + validRatesId
-            + onCampusRate
-            + offCampusRate
-            + rateClassType
-            + adjustmentKey
-            + icrRateCode
+    + validRatesId (optional) - Valid Rates Id. Maximum length is 22.
+    + onCampusRate (optional) - On Campus Rate. Maximum length is 22.
+    + offCampusRate (optional) - Off CampusContractContract Rate. Maximum length is 22.
+    + rateClassType (optional) - Rate Class Type. Maximum length is 20.
+    + adjustmentKey (optional) - Adjustment Key. Maximum length is 6.
+    + icrRateCode (optional) - ICR Rate Code. Maximum length is 3.
 
             
 + Request
@@ -70,7 +70,7 @@
               {"validRatesId": "(val)","onCampusRate": "(val)","offCampusRate": "(val)","rateClassType": "(val)","adjustmentKey": "(val)","icrRateCode": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Valid Rates [GET /research-sys/api/v1/valid-rates/]
+### Get Schema for Valid Rates [GET /award/api/v1/valid-rates/]
 	                                          
 + Parameters
 
@@ -92,7 +92,7 @@
     
             {"columns":["validRatesId","onCampusRate","offCampusRate","rateClassType","adjustmentKey","icrRateCode"],"primaryKey":"validRatesId"}
 		
-### Get Blueprint API specification for Valid Rates [GET /research-sys/api/v1/valid-rates/]
+### Get Blueprint API specification for Valid Rates [GET /award/api/v1/valid-rates/]
 	 
 + Parameters
 
@@ -113,7 +113,7 @@
             transfer-encoding:chunked
 
 
-### Update Valid Rates [PUT /research-sys/api/v1/valid-rates/(key)]
+### Update Valid Rates [PUT /award/api/v1/valid-rates/(key)]
 
 + Request
 
@@ -128,7 +128,7 @@
 			
 + Response 204
 
-### Update Multiple Valid Rates [PUT /research-sys/api/v1/valid-rates/]
+### Update Multiple Valid Rates [PUT /award/api/v1/valid-rates/]
 
 + Request
 
@@ -146,7 +146,7 @@
 			
 + Response 204
 
-### Insert Valid Rates [POST /research-sys/api/v1/valid-rates/]
+### Insert Valid Rates [POST /award/api/v1/valid-rates/]
 
 + Request
 
@@ -165,7 +165,7 @@
             
             {"validRatesId": "(val)","onCampusRate": "(val)","offCampusRate": "(val)","rateClassType": "(val)","adjustmentKey": "(val)","icrRateCode": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Valid Rates [POST /research-sys/api/v1/valid-rates/]
+### Insert Multiple Valid Rates [POST /award/api/v1/valid-rates/]
 
 + Request
 
@@ -190,7 +190,7 @@
               {"validRatesId": "(val)","onCampusRate": "(val)","offCampusRate": "(val)","rateClassType": "(val)","adjustmentKey": "(val)","icrRateCode": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Valid Rates by Key [DELETE /research-sys/api/v1/valid-rates/(key)]
+### Delete Valid Rates by Key [DELETE /award/api/v1/valid-rates/(key)]
 	 
 + Request
 
@@ -201,7 +201,7 @@
 
 + Response 204
 
-### Delete All Valid Rates [DELETE /research-sys/api/v1/valid-rates/]
+### Delete All Valid Rates [DELETE /award/api/v1/valid-rates/]
 
 + Parameters
 
@@ -216,17 +216,17 @@
 
 + Response 204
 
-### Delete All Valid Rates with Matching [DELETE /research-sys/api/v1/valid-rates/]
+### Delete All Valid Rates with Matching [DELETE /award/api/v1/valid-rates/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + validRatesId
-            + onCampusRate
-            + offCampusRate
-            + rateClassType
-            + adjustmentKey
-            + icrRateCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + validRatesId (optional) - Valid Rates Id. Maximum length is 22.
+    + onCampusRate (optional) - On Campus Rate. Maximum length is 22.
+    + offCampusRate (optional) - Off CampusContractContract Rate. Maximum length is 22.
+    + rateClassType (optional) - Rate Class Type. Maximum length is 20.
+    + adjustmentKey (optional) - Adjustment Key. Maximum length is 6.
+    + icrRateCode (optional) - ICR Rate Code. Maximum length is 3.
 
       
 + Request

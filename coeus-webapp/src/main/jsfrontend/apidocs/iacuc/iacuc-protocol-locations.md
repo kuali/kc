@@ -1,6 +1,6 @@
-## Iacuc Protocol Locations [/research-sys/api/v1/iacuc-protocol-locations/]
+## Iacuc Protocol Locations [/iacuc/api/v1/iacuc-protocol-locations/]
 
-### Get Iacuc Protocol Locations by Key [GET /research-sys/api/v1/iacuc-protocol-locations/(key)]
+### Get Iacuc Protocol Locations by Key [GET /iacuc/api/v1/iacuc-protocol-locations/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"protocolLocationId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","protocolOrganizationTypeCode": "(val)","organizationId": "(val)","rolodexId": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Protocol Locations [GET /research-sys/api/v1/iacuc-protocol-locations/]
+### Get All Iacuc Protocol Locations [GET /iacuc/api/v1/iacuc-protocol-locations/]
 	 
 + Request
 
@@ -39,17 +39,17 @@
               {"protocolLocationId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","protocolOrganizationTypeCode": "(val)","organizationId": "(val)","rolodexId": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Protocol Locations with Filtering [GET /research-sys/api/v1/iacuc-protocol-locations/]
+### Get All Iacuc Protocol Locations with Filtering [GET /iacuc/api/v1/iacuc-protocol-locations/]
     
 + Parameters
 
-        + protocolLocationId
-            + protocolId
-            + protocolNumber
-            + sequenceNumber
-            + protocolOrganizationTypeCode
-            + organizationId
-            + rolodexId
+    + protocolLocationId (optional) - Protocol Location Id. Maximum length is 22.
+    + protocolId (optional) - 
+    + protocolNumber (optional) - Protocol Number. Maximum length is 20.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 22.
+    + protocolOrganizationTypeCode (optional) - Protocol Organization Type Code. Maximum length is 22.
+    + organizationId (optional) - Organization Id. Maximum length is 8.
+    + rolodexId (optional) - Contact - Rolodex Id. Maximum length is 22.
 
             
 + Request
@@ -71,7 +71,7 @@
               {"protocolLocationId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","protocolOrganizationTypeCode": "(val)","organizationId": "(val)","rolodexId": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Protocol Locations [GET /research-sys/api/v1/iacuc-protocol-locations/]
+### Get Schema for Iacuc Protocol Locations [GET /iacuc/api/v1/iacuc-protocol-locations/]
 	                                          
 + Parameters
 
@@ -93,7 +93,7 @@
     
             {"columns":["protocolLocationId","protocolId","protocolNumber","sequenceNumber","protocolOrganizationTypeCode","organizationId","rolodexId"],"primaryKey":"protocolLocationId"}
 		
-### Get Blueprint API specification for Iacuc Protocol Locations [GET /research-sys/api/v1/iacuc-protocol-locations/]
+### Get Blueprint API specification for Iacuc Protocol Locations [GET /iacuc/api/v1/iacuc-protocol-locations/]
 	 
 + Parameters
 
@@ -114,7 +114,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Protocol Locations [PUT /research-sys/api/v1/iacuc-protocol-locations/(key)]
+### Update Iacuc Protocol Locations [PUT /iacuc/api/v1/iacuc-protocol-locations/(key)]
 
 + Request
 
@@ -129,7 +129,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Protocol Locations [PUT /research-sys/api/v1/iacuc-protocol-locations/]
+### Update Multiple Iacuc Protocol Locations [PUT /iacuc/api/v1/iacuc-protocol-locations/]
 
 + Request
 
@@ -147,7 +147,7 @@
 			
 + Response 204
 
-### Insert Iacuc Protocol Locations [POST /research-sys/api/v1/iacuc-protocol-locations/]
+### Insert Iacuc Protocol Locations [POST /iacuc/api/v1/iacuc-protocol-locations/]
 
 + Request
 
@@ -166,7 +166,7 @@
             
             {"protocolLocationId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","protocolOrganizationTypeCode": "(val)","organizationId": "(val)","rolodexId": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Protocol Locations [POST /research-sys/api/v1/iacuc-protocol-locations/]
+### Insert Multiple Iacuc Protocol Locations [POST /iacuc/api/v1/iacuc-protocol-locations/]
 
 + Request
 
@@ -191,7 +191,7 @@
               {"protocolLocationId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","protocolOrganizationTypeCode": "(val)","organizationId": "(val)","rolodexId": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Protocol Locations by Key [DELETE /research-sys/api/v1/iacuc-protocol-locations/(key)]
+### Delete Iacuc Protocol Locations by Key [DELETE /iacuc/api/v1/iacuc-protocol-locations/(key)]
 	 
 + Request
 
@@ -202,7 +202,7 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Locations [DELETE /research-sys/api/v1/iacuc-protocol-locations/]
+### Delete All Iacuc Protocol Locations [DELETE /iacuc/api/v1/iacuc-protocol-locations/]
 
 + Parameters
 
@@ -217,18 +217,18 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Locations with Matching [DELETE /research-sys/api/v1/iacuc-protocol-locations/]
+### Delete All Iacuc Protocol Locations with Matching [DELETE /iacuc/api/v1/iacuc-protocol-locations/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + protocolLocationId
-            + protocolId
-            + protocolNumber
-            + sequenceNumber
-            + protocolOrganizationTypeCode
-            + organizationId
-            + rolodexId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + protocolLocationId (optional) - Protocol Location Id. Maximum length is 22.
+    + protocolId (optional) - 
+    + protocolNumber (optional) - Protocol Number. Maximum length is 20.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 22.
+    + protocolOrganizationTypeCode (optional) - Protocol Organization Type Code. Maximum length is 22.
+    + organizationId (optional) - Organization Id. Maximum length is 8.
+    + rolodexId (optional) - Contact - Rolodex Id. Maximum length is 22.
 
       
 + Request

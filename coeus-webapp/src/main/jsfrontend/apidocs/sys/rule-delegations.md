@@ -43,10 +43,10 @@
     
 + Parameters
 
-        + ruleDelegationId
-            + responsibilityId
-            + delegateRuleId
-            + delegationTypeCode
+    + ruleDelegationId (optional) - Delegation Rule Id. Maximum length is 19.
+    + responsibilityId (optional) - Responsibility Id. Maximum length is 30.
+    + delegateRuleId (optional) - Delegation Rule Base Value Id. Maximum length is 30.
+    + delegationTypeCode (optional) - Delegation Type. Maximum length is 1.
 
             
 + Request
@@ -218,11 +218,11 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + ruleDelegationId
-            + responsibilityId
-            + delegateRuleId
-            + delegationTypeCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + ruleDelegationId (optional) - Delegation Rule Id. Maximum length is 19.
+    + responsibilityId (optional) - Responsibility Id. Maximum length is 30.
+    + delegateRuleId (optional) - Delegation Rule Base Value Id. Maximum length is 30.
+    + delegationTypeCode (optional) - Delegation Type. Maximum length is 1.
 
       
 + Request

@@ -1,6 +1,6 @@
-## Budget Line Item Calculated Amounts [/research-sys/api/v1/budget-line-item-calculated-amounts/]
+## Budget Line Item Calculated Amounts [/research-common/api/v1/budget-line-item-calculated-amounts/]
 
-### Get Budget Line Item Calculated Amounts by Key [GET /research-sys/api/v1/budget-line-item-calculated-amounts/(key)]
+### Get Budget Line Item Calculated Amounts by Key [GET /research-common/api/v1/budget-line-item-calculated-amounts/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"budgetLineItemCalculatedAmountId": "(val)","budgetLineItemId": "(val)","budgetPeriodId": "(val)","rateTypeDescription": "(val)","applyRateFlag": "(val)","rateTypeCode": "(val)","budgetId": "(val)","budgetPeriod": "(val)","calculatedCost": "(val)","rateClassCode": "(val)","calculatedCostSharing": "(val)","lineItemNumber": "(val)","_primaryKey": "(val)"}
 
-### Get All Budget Line Item Calculated Amounts [GET /research-sys/api/v1/budget-line-item-calculated-amounts/]
+### Get All Budget Line Item Calculated Amounts [GET /research-common/api/v1/budget-line-item-calculated-amounts/]
 	 
 + Request
 
@@ -39,22 +39,22 @@
               {"budgetLineItemCalculatedAmountId": "(val)","budgetLineItemId": "(val)","budgetPeriodId": "(val)","rateTypeDescription": "(val)","applyRateFlag": "(val)","rateTypeCode": "(val)","budgetId": "(val)","budgetPeriod": "(val)","calculatedCost": "(val)","rateClassCode": "(val)","calculatedCostSharing": "(val)","lineItemNumber": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Budget Line Item Calculated Amounts with Filtering [GET /research-sys/api/v1/budget-line-item-calculated-amounts/]
+### Get All Budget Line Item Calculated Amounts with Filtering [GET /research-common/api/v1/budget-line-item-calculated-amounts/]
     
 + Parameters
 
-        + budgetLineItemCalculatedAmountId
-            + budgetLineItemId
-            + budgetPeriodId
-            + rateTypeDescription
-            + applyRateFlag
-            + rateTypeCode
-            + budgetId
-            + budgetPeriod
-            + calculatedCost
-            + rateClassCode
-            + calculatedCostSharing
-            + lineItemNumber
+    + budgetLineItemCalculatedAmountId (optional) - Budget Line Item Calculated Amount Id.
+    + budgetLineItemId (optional) - Budget Line Item Id.
+    + budgetPeriodId (optional) - Budget Period Id.
+    + rateTypeDescription (optional) - Rate Type Description.
+    + applyRateFlag (optional) - Apply Rate?. Maximum length is 1.
+    + rateTypeCode (optional) - Rate Type. Maximum length is 3.
+    + budgetId (optional) - Budget Id.
+    + budgetPeriod (optional) - Budget Period. Maximum length is 3.
+    + calculatedCost (optional) - Rate Cost. Maximum length is 15.
+    + rateClassCode (optional) - Rate Class. Maximum length is 3.
+    + calculatedCostSharing (optional) - Rate Cost Sharing. Maximum length is 15.
+    + lineItemNumber (optional) - Line Item Number. Maximum length is 3.
 
             
 + Request
@@ -76,7 +76,7 @@
               {"budgetLineItemCalculatedAmountId": "(val)","budgetLineItemId": "(val)","budgetPeriodId": "(val)","rateTypeDescription": "(val)","applyRateFlag": "(val)","rateTypeCode": "(val)","budgetId": "(val)","budgetPeriod": "(val)","calculatedCost": "(val)","rateClassCode": "(val)","calculatedCostSharing": "(val)","lineItemNumber": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Budget Line Item Calculated Amounts [GET /research-sys/api/v1/budget-line-item-calculated-amounts/]
+### Get Schema for Budget Line Item Calculated Amounts [GET /research-common/api/v1/budget-line-item-calculated-amounts/]
 	                                          
 + Parameters
 
@@ -98,7 +98,7 @@
     
             {"columns":["budgetLineItemCalculatedAmountId","budgetLineItemId","budgetPeriodId","rateTypeDescription","applyRateFlag","rateTypeCode","budgetId","budgetPeriod","calculatedCost","rateClassCode","calculatedCostSharing","lineItemNumber"],"primaryKey":"budgetLineItemCalculatedAmountId"}
 		
-### Get Blueprint API specification for Budget Line Item Calculated Amounts [GET /research-sys/api/v1/budget-line-item-calculated-amounts/]
+### Get Blueprint API specification for Budget Line Item Calculated Amounts [GET /research-common/api/v1/budget-line-item-calculated-amounts/]
 	 
 + Parameters
 
@@ -119,7 +119,7 @@
             transfer-encoding:chunked
 
 
-### Update Budget Line Item Calculated Amounts [PUT /research-sys/api/v1/budget-line-item-calculated-amounts/(key)]
+### Update Budget Line Item Calculated Amounts [PUT /research-common/api/v1/budget-line-item-calculated-amounts/(key)]
 
 + Request
 
@@ -134,7 +134,7 @@
 			
 + Response 204
 
-### Update Multiple Budget Line Item Calculated Amounts [PUT /research-sys/api/v1/budget-line-item-calculated-amounts/]
+### Update Multiple Budget Line Item Calculated Amounts [PUT /research-common/api/v1/budget-line-item-calculated-amounts/]
 
 + Request
 
@@ -152,7 +152,7 @@
 			
 + Response 204
 
-### Insert Budget Line Item Calculated Amounts [POST /research-sys/api/v1/budget-line-item-calculated-amounts/]
+### Insert Budget Line Item Calculated Amounts [POST /research-common/api/v1/budget-line-item-calculated-amounts/]
 
 + Request
 
@@ -171,7 +171,7 @@
             
             {"budgetLineItemCalculatedAmountId": "(val)","budgetLineItemId": "(val)","budgetPeriodId": "(val)","rateTypeDescription": "(val)","applyRateFlag": "(val)","rateTypeCode": "(val)","budgetId": "(val)","budgetPeriod": "(val)","calculatedCost": "(val)","rateClassCode": "(val)","calculatedCostSharing": "(val)","lineItemNumber": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Budget Line Item Calculated Amounts [POST /research-sys/api/v1/budget-line-item-calculated-amounts/]
+### Insert Multiple Budget Line Item Calculated Amounts [POST /research-common/api/v1/budget-line-item-calculated-amounts/]
 
 + Request
 
@@ -196,7 +196,7 @@
               {"budgetLineItemCalculatedAmountId": "(val)","budgetLineItemId": "(val)","budgetPeriodId": "(val)","rateTypeDescription": "(val)","applyRateFlag": "(val)","rateTypeCode": "(val)","budgetId": "(val)","budgetPeriod": "(val)","calculatedCost": "(val)","rateClassCode": "(val)","calculatedCostSharing": "(val)","lineItemNumber": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Budget Line Item Calculated Amounts by Key [DELETE /research-sys/api/v1/budget-line-item-calculated-amounts/(key)]
+### Delete Budget Line Item Calculated Amounts by Key [DELETE /research-common/api/v1/budget-line-item-calculated-amounts/(key)]
 	 
 + Request
 
@@ -207,7 +207,7 @@
 
 + Response 204
 
-### Delete All Budget Line Item Calculated Amounts [DELETE /research-sys/api/v1/budget-line-item-calculated-amounts/]
+### Delete All Budget Line Item Calculated Amounts [DELETE /research-common/api/v1/budget-line-item-calculated-amounts/]
 
 + Parameters
 
@@ -222,23 +222,23 @@
 
 + Response 204
 
-### Delete All Budget Line Item Calculated Amounts with Matching [DELETE /research-sys/api/v1/budget-line-item-calculated-amounts/]
+### Delete All Budget Line Item Calculated Amounts with Matching [DELETE /research-common/api/v1/budget-line-item-calculated-amounts/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + budgetLineItemCalculatedAmountId
-            + budgetLineItemId
-            + budgetPeriodId
-            + rateTypeDescription
-            + applyRateFlag
-            + rateTypeCode
-            + budgetId
-            + budgetPeriod
-            + calculatedCost
-            + rateClassCode
-            + calculatedCostSharing
-            + lineItemNumber
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + budgetLineItemCalculatedAmountId (optional) - Budget Line Item Calculated Amount Id.
+    + budgetLineItemId (optional) - Budget Line Item Id.
+    + budgetPeriodId (optional) - Budget Period Id.
+    + rateTypeDescription (optional) - Rate Type Description.
+    + applyRateFlag (optional) - Apply Rate?. Maximum length is 1.
+    + rateTypeCode (optional) - Rate Type. Maximum length is 3.
+    + budgetId (optional) - Budget Id.
+    + budgetPeriod (optional) - Budget Period. Maximum length is 3.
+    + calculatedCost (optional) - Rate Cost. Maximum length is 15.
+    + rateClassCode (optional) - Rate Class. Maximum length is 3.
+    + calculatedCostSharing (optional) - Rate Cost Sharing. Maximum length is 15.
+    + lineItemNumber (optional) - Line Item Number. Maximum length is 3.
 
       
 + Request

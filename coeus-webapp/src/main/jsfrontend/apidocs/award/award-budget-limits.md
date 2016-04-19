@@ -1,6 +1,6 @@
-## Award Budget Limits [/research-sys/api/v1/award-budget-limits/]
+## Award Budget Limits [/award/api/v1/award-budget-limits/]
 
-### Get Award Budget Limits by Key [GET /research-sys/api/v1/award-budget-limits/(key)]
+### Get Award Budget Limits by Key [GET /award/api/v1/award-budget-limits/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"budgetLimitId": "(val)","awardId": "(val)","budgetId": "(val)","limitTypeCode": "(val)","limit": "(val)","_primaryKey": "(val)"}
 
-### Get All Award Budget Limits [GET /research-sys/api/v1/award-budget-limits/]
+### Get All Award Budget Limits [GET /award/api/v1/award-budget-limits/]
 	 
 + Request
 
@@ -39,15 +39,15 @@
               {"budgetLimitId": "(val)","awardId": "(val)","budgetId": "(val)","limitTypeCode": "(val)","limit": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Award Budget Limits with Filtering [GET /research-sys/api/v1/award-budget-limits/]
+### Get All Award Budget Limits with Filtering [GET /award/api/v1/award-budget-limits/]
     
 + Parameters
 
-        + budgetLimitId
-            + awardId
-            + budgetId
-            + limitTypeCode
-            + limit
+    + budgetLimitId (optional) - Award Budget Limit Id. Maximum length is 22.
+    + awardId (optional) - 
+    + budgetId (optional) - 
+    + limitTypeCode (optional) - Budget Limit Type Code. Maximum length is 100.
+    + limit (optional) - Budget Limit. Maximum length is 15.
 
             
 + Request
@@ -69,7 +69,7 @@
               {"budgetLimitId": "(val)","awardId": "(val)","budgetId": "(val)","limitTypeCode": "(val)","limit": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Award Budget Limits [GET /research-sys/api/v1/award-budget-limits/]
+### Get Schema for Award Budget Limits [GET /award/api/v1/award-budget-limits/]
 	                                          
 + Parameters
 
@@ -91,7 +91,7 @@
     
             {"columns":["budgetLimitId","awardId","budgetId","limitTypeCode","limit"],"primaryKey":"budgetLimitId"}
 		
-### Get Blueprint API specification for Award Budget Limits [GET /research-sys/api/v1/award-budget-limits/]
+### Get Blueprint API specification for Award Budget Limits [GET /award/api/v1/award-budget-limits/]
 	 
 + Parameters
 
@@ -112,7 +112,7 @@
             transfer-encoding:chunked
 
 
-### Update Award Budget Limits [PUT /research-sys/api/v1/award-budget-limits/(key)]
+### Update Award Budget Limits [PUT /award/api/v1/award-budget-limits/(key)]
 
 + Request
 
@@ -127,7 +127,7 @@
 			
 + Response 204
 
-### Update Multiple Award Budget Limits [PUT /research-sys/api/v1/award-budget-limits/]
+### Update Multiple Award Budget Limits [PUT /award/api/v1/award-budget-limits/]
 
 + Request
 
@@ -145,7 +145,7 @@
 			
 + Response 204
 
-### Insert Award Budget Limits [POST /research-sys/api/v1/award-budget-limits/]
+### Insert Award Budget Limits [POST /award/api/v1/award-budget-limits/]
 
 + Request
 
@@ -164,7 +164,7 @@
             
             {"budgetLimitId": "(val)","awardId": "(val)","budgetId": "(val)","limitTypeCode": "(val)","limit": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Award Budget Limits [POST /research-sys/api/v1/award-budget-limits/]
+### Insert Multiple Award Budget Limits [POST /award/api/v1/award-budget-limits/]
 
 + Request
 
@@ -189,7 +189,7 @@
               {"budgetLimitId": "(val)","awardId": "(val)","budgetId": "(val)","limitTypeCode": "(val)","limit": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Award Budget Limits by Key [DELETE /research-sys/api/v1/award-budget-limits/(key)]
+### Delete Award Budget Limits by Key [DELETE /award/api/v1/award-budget-limits/(key)]
 	 
 + Request
 
@@ -200,7 +200,7 @@
 
 + Response 204
 
-### Delete All Award Budget Limits [DELETE /research-sys/api/v1/award-budget-limits/]
+### Delete All Award Budget Limits [DELETE /award/api/v1/award-budget-limits/]
 
 + Parameters
 
@@ -215,16 +215,16 @@
 
 + Response 204
 
-### Delete All Award Budget Limits with Matching [DELETE /research-sys/api/v1/award-budget-limits/]
+### Delete All Award Budget Limits with Matching [DELETE /award/api/v1/award-budget-limits/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + budgetLimitId
-            + awardId
-            + budgetId
-            + limitTypeCode
-            + limit
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + budgetLimitId (optional) - Award Budget Limit Id. Maximum length is 22.
+    + awardId (optional) - 
+    + budgetId (optional) - 
+    + limitTypeCode (optional) - Budget Limit Type Code. Maximum length is 100.
+    + limit (optional) - Budget Limit. Maximum length is 15.
 
       
 + Request

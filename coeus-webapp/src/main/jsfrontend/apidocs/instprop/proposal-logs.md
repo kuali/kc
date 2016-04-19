@@ -1,6 +1,6 @@
-## Proposal Logs [/research-sys/api/v1/proposal-logs/]
+## Proposal Logs [/instprop/api/v1/proposal-logs/]
 
-### Get Proposal Logs by Key [GET /research-sys/api/v1/proposal-logs/(key)]
+### Get Proposal Logs by Key [GET /instprop/api/v1/proposal-logs/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"proposalNumber": "(val)","proposalTypeCode": "(val)","proposalLogTypeCode": "(val)","title": "(val)","piId": "(val)","mergedWith": "(val)","instProposalNumber": "(val)","rolodexId": "(val)","piName": "(val)","leadUnit": "(val)","sponsorCode": "(val)","sponsorName": "(val)","logStatus": "(val)","comments": "(val)","createTimestamp": "(val)","createUser": "(val)","deadlineDate": "(val)","deadlineTime": "(val)","fiscalMonth": "(val)","fiscalYear": "(val)","_primaryKey": "(val)"}
 
-### Get All Proposal Logs [GET /research-sys/api/v1/proposal-logs/]
+### Get All Proposal Logs [GET /instprop/api/v1/proposal-logs/]
 	 
 + Request
 
@@ -39,30 +39,30 @@
               {"proposalNumber": "(val)","proposalTypeCode": "(val)","proposalLogTypeCode": "(val)","title": "(val)","piId": "(val)","mergedWith": "(val)","instProposalNumber": "(val)","rolodexId": "(val)","piName": "(val)","leadUnit": "(val)","sponsorCode": "(val)","sponsorName": "(val)","logStatus": "(val)","comments": "(val)","createTimestamp": "(val)","createUser": "(val)","deadlineDate": "(val)","deadlineTime": "(val)","fiscalMonth": "(val)","fiscalYear": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Proposal Logs with Filtering [GET /research-sys/api/v1/proposal-logs/]
+### Get All Proposal Logs with Filtering [GET /instprop/api/v1/proposal-logs/]
     
 + Parameters
 
-        + proposalNumber
-            + proposalTypeCode
-            + proposalLogTypeCode
-            + title
-            + piId
-            + mergedWith
-            + instProposalNumber
-            + rolodexId
-            + piName
-            + leadUnit
-            + sponsorCode
-            + sponsorName
-            + logStatus
-            + comments
-            + createTimestamp
-            + createUser
-            + deadlineDate
-            + deadlineTime
-            + fiscalMonth
-            + fiscalYear
+    + proposalNumber (optional) - Proposal Number. Maximum length is 8.
+    + proposalTypeCode (optional) - Proposal Type Code. Maximum length is 3.
+    + proposalLogTypeCode (optional) - Proposal Log Type Code. Maximum length is 3.
+    + title (optional) - Title. Maximum length is 200.
+    + piId (optional) - Principal Investigator (Employee). Maximum length is 40.
+    + mergedWith (optional) - Proposal Merged With. Maximum length is 8.
+    + instProposalNumber (optional) - Created Institutional Proposal. Maximum length is 200.
+    + rolodexId (optional) - Rolodex Id. Maximum length is 6.
+    + piName (optional) - Principal Investigator. Maximum length is 123.
+    + leadUnit (optional) - Lead Unit. Maximum length is 8.
+    + sponsorCode (optional) - Sponsor. Maximum length is 6.
+    + sponsorName (optional) - Sponsor Name. Maximum length is 200.
+    + logStatus (optional) - Log Status. Maximum length is 3.
+    + comments (optional) - Comments. Maximum length is 300.
+    + createTimestamp (optional) - The creation timestamp. Maximum length is 21.
+    + createUser (optional) - The user who created the object. Maximum length is 60.
+    + deadlineDate (optional) - Deadline Date. Maximum length is 10.
+    + deadlineTime (optional) - The time in which the proposal is due to the sponsoring agency.  Additional deadlines may be set by the office authorized to submit proposals on behalf of the institution (e.g. sponsored programs, etc.). Maximum length is 15.
+    + fiscalMonth (optional) - Fiscal Month. Maximum length is 2.
+    + fiscalYear (optional) - Fiscal Year. Maximum length is 4.
 
             
 + Request
@@ -84,7 +84,7 @@
               {"proposalNumber": "(val)","proposalTypeCode": "(val)","proposalLogTypeCode": "(val)","title": "(val)","piId": "(val)","mergedWith": "(val)","instProposalNumber": "(val)","rolodexId": "(val)","piName": "(val)","leadUnit": "(val)","sponsorCode": "(val)","sponsorName": "(val)","logStatus": "(val)","comments": "(val)","createTimestamp": "(val)","createUser": "(val)","deadlineDate": "(val)","deadlineTime": "(val)","fiscalMonth": "(val)","fiscalYear": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Proposal Logs [GET /research-sys/api/v1/proposal-logs/]
+### Get Schema for Proposal Logs [GET /instprop/api/v1/proposal-logs/]
 	                                          
 + Parameters
 
@@ -106,7 +106,7 @@
     
             {"columns":["proposalNumber","proposalTypeCode","proposalLogTypeCode","title","piId","mergedWith","instProposalNumber","rolodexId","piName","leadUnit","sponsorCode","sponsorName","logStatus","comments","createTimestamp","createUser","deadlineDate","deadlineTime","fiscalMonth","fiscalYear"],"primaryKey":"proposalNumber"}
 		
-### Get Blueprint API specification for Proposal Logs [GET /research-sys/api/v1/proposal-logs/]
+### Get Blueprint API specification for Proposal Logs [GET /instprop/api/v1/proposal-logs/]
 	 
 + Parameters
 
@@ -127,7 +127,7 @@
             transfer-encoding:chunked
 
 
-### Update Proposal Logs [PUT /research-sys/api/v1/proposal-logs/(key)]
+### Update Proposal Logs [PUT /instprop/api/v1/proposal-logs/(key)]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Update Multiple Proposal Logs [PUT /research-sys/api/v1/proposal-logs/]
+### Update Multiple Proposal Logs [PUT /instprop/api/v1/proposal-logs/]
 
 + Request
 
@@ -160,7 +160,7 @@
 			
 + Response 204
 
-### Insert Proposal Logs [POST /research-sys/api/v1/proposal-logs/]
+### Insert Proposal Logs [POST /instprop/api/v1/proposal-logs/]
 
 + Request
 
@@ -179,7 +179,7 @@
             
             {"proposalNumber": "(val)","proposalTypeCode": "(val)","proposalLogTypeCode": "(val)","title": "(val)","piId": "(val)","mergedWith": "(val)","instProposalNumber": "(val)","rolodexId": "(val)","piName": "(val)","leadUnit": "(val)","sponsorCode": "(val)","sponsorName": "(val)","logStatus": "(val)","comments": "(val)","createTimestamp": "(val)","createUser": "(val)","deadlineDate": "(val)","deadlineTime": "(val)","fiscalMonth": "(val)","fiscalYear": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Proposal Logs [POST /research-sys/api/v1/proposal-logs/]
+### Insert Multiple Proposal Logs [POST /instprop/api/v1/proposal-logs/]
 
 + Request
 
@@ -204,7 +204,7 @@
               {"proposalNumber": "(val)","proposalTypeCode": "(val)","proposalLogTypeCode": "(val)","title": "(val)","piId": "(val)","mergedWith": "(val)","instProposalNumber": "(val)","rolodexId": "(val)","piName": "(val)","leadUnit": "(val)","sponsorCode": "(val)","sponsorName": "(val)","logStatus": "(val)","comments": "(val)","createTimestamp": "(val)","createUser": "(val)","deadlineDate": "(val)","deadlineTime": "(val)","fiscalMonth": "(val)","fiscalYear": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Proposal Logs by Key [DELETE /research-sys/api/v1/proposal-logs/(key)]
+### Delete Proposal Logs by Key [DELETE /instprop/api/v1/proposal-logs/(key)]
 	 
 + Request
 
@@ -215,7 +215,7 @@
 
 + Response 204
 
-### Delete All Proposal Logs [DELETE /research-sys/api/v1/proposal-logs/]
+### Delete All Proposal Logs [DELETE /instprop/api/v1/proposal-logs/]
 
 + Parameters
 
@@ -230,31 +230,31 @@
 
 + Response 204
 
-### Delete All Proposal Logs with Matching [DELETE /research-sys/api/v1/proposal-logs/]
+### Delete All Proposal Logs with Matching [DELETE /instprop/api/v1/proposal-logs/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + proposalNumber
-            + proposalTypeCode
-            + proposalLogTypeCode
-            + title
-            + piId
-            + mergedWith
-            + instProposalNumber
-            + rolodexId
-            + piName
-            + leadUnit
-            + sponsorCode
-            + sponsorName
-            + logStatus
-            + comments
-            + createTimestamp
-            + createUser
-            + deadlineDate
-            + deadlineTime
-            + fiscalMonth
-            + fiscalYear
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + proposalNumber (optional) - Proposal Number. Maximum length is 8.
+    + proposalTypeCode (optional) - Proposal Type Code. Maximum length is 3.
+    + proposalLogTypeCode (optional) - Proposal Log Type Code. Maximum length is 3.
+    + title (optional) - Title. Maximum length is 200.
+    + piId (optional) - Principal Investigator (Employee). Maximum length is 40.
+    + mergedWith (optional) - Proposal Merged With. Maximum length is 8.
+    + instProposalNumber (optional) - Created Institutional Proposal. Maximum length is 200.
+    + rolodexId (optional) - Rolodex Id. Maximum length is 6.
+    + piName (optional) - Principal Investigator. Maximum length is 123.
+    + leadUnit (optional) - Lead Unit. Maximum length is 8.
+    + sponsorCode (optional) - Sponsor. Maximum length is 6.
+    + sponsorName (optional) - Sponsor Name. Maximum length is 200.
+    + logStatus (optional) - Log Status. Maximum length is 3.
+    + comments (optional) - Comments. Maximum length is 300.
+    + createTimestamp (optional) - The creation timestamp. Maximum length is 21.
+    + createUser (optional) - The user who created the object. Maximum length is 60.
+    + deadlineDate (optional) - Deadline Date. Maximum length is 10.
+    + deadlineTime (optional) - The time in which the proposal is due to the sponsoring agency.  Additional deadlines may be set by the office authorized to submit proposals on behalf of the institution (e.g. sponsored programs, etc.). Maximum length is 15.
+    + fiscalMonth (optional) - Fiscal Month. Maximum length is 2.
+    + fiscalYear (optional) - Fiscal Year. Maximum length is 4.
 
       
 + Request

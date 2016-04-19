@@ -1,6 +1,6 @@
-## Protocol Recused Votes [/research-sys/api/v1/protocol-recused-votes/]
+## Protocol Recused Votes [/research-common/api/v1/protocol-recused-votes/]
 
-### Get Protocol Recused Votes by Key [GET /research-sys/api/v1/protocol-recused-votes/(key)]
+### Get Protocol Recused Votes by Key [GET /research-common/api/v1/protocol-recused-votes/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"protocolVoteRecusedId": "(val)","protocolIdFk": "(val)","submissionIdFk": "(val)","personId": "(val)","rolodexId": "(val)","nonEmployeeFlag": "(val)","comments": "(val)","_primaryKey": "(val)"}
 
-### Get All Protocol Recused Votes [GET /research-sys/api/v1/protocol-recused-votes/]
+### Get All Protocol Recused Votes [GET /research-common/api/v1/protocol-recused-votes/]
 	 
 + Request
 
@@ -39,17 +39,17 @@
               {"protocolVoteRecusedId": "(val)","protocolIdFk": "(val)","submissionIdFk": "(val)","personId": "(val)","rolodexId": "(val)","nonEmployeeFlag": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Protocol Recused Votes with Filtering [GET /research-sys/api/v1/protocol-recused-votes/]
+### Get All Protocol Recused Votes with Filtering [GET /research-common/api/v1/protocol-recused-votes/]
     
 + Parameters
 
-        + protocolVoteRecusedId
-            + protocolIdFk
-            + submissionIdFk
-            + personId
-            + rolodexId
-            + nonEmployeeFlag
-            + comments
+    + protocolVoteRecusedId (optional) - Protocol Vote Recused Id. Maximum length is 22.
+    + protocolIdFk (optional) - Protocol Id. Maximum length is 22.
+    + submissionIdFk (optional) - Schedule Id. Maximum length is 10.
+    + personId (optional) - Person Id. Maximum length is 40.
+    + rolodexId (optional) - 
+    + nonEmployeeFlag (optional) - Non Employee Flag. Maximum length is 1.
+    + comments (optional) - Comments. Maximum length is 2000.
 
             
 + Request
@@ -71,7 +71,7 @@
               {"protocolVoteRecusedId": "(val)","protocolIdFk": "(val)","submissionIdFk": "(val)","personId": "(val)","rolodexId": "(val)","nonEmployeeFlag": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Protocol Recused Votes [GET /research-sys/api/v1/protocol-recused-votes/]
+### Get Schema for Protocol Recused Votes [GET /research-common/api/v1/protocol-recused-votes/]
 	                                          
 + Parameters
 
@@ -93,7 +93,7 @@
     
             {"columns":["protocolVoteRecusedId","protocolIdFk","submissionIdFk","personId","rolodexId","nonEmployeeFlag","comments"],"primaryKey":"protocolVoteRecusedId"}
 		
-### Get Blueprint API specification for Protocol Recused Votes [GET /research-sys/api/v1/protocol-recused-votes/]
+### Get Blueprint API specification for Protocol Recused Votes [GET /research-common/api/v1/protocol-recused-votes/]
 	 
 + Parameters
 
@@ -114,7 +114,7 @@
             transfer-encoding:chunked
 
 
-### Update Protocol Recused Votes [PUT /research-sys/api/v1/protocol-recused-votes/(key)]
+### Update Protocol Recused Votes [PUT /research-common/api/v1/protocol-recused-votes/(key)]
 
 + Request
 
@@ -129,7 +129,7 @@
 			
 + Response 204
 
-### Update Multiple Protocol Recused Votes [PUT /research-sys/api/v1/protocol-recused-votes/]
+### Update Multiple Protocol Recused Votes [PUT /research-common/api/v1/protocol-recused-votes/]
 
 + Request
 
@@ -147,7 +147,7 @@
 			
 + Response 204
 
-### Insert Protocol Recused Votes [POST /research-sys/api/v1/protocol-recused-votes/]
+### Insert Protocol Recused Votes [POST /research-common/api/v1/protocol-recused-votes/]
 
 + Request
 
@@ -166,7 +166,7 @@
             
             {"protocolVoteRecusedId": "(val)","protocolIdFk": "(val)","submissionIdFk": "(val)","personId": "(val)","rolodexId": "(val)","nonEmployeeFlag": "(val)","comments": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Protocol Recused Votes [POST /research-sys/api/v1/protocol-recused-votes/]
+### Insert Multiple Protocol Recused Votes [POST /research-common/api/v1/protocol-recused-votes/]
 
 + Request
 
@@ -191,7 +191,7 @@
               {"protocolVoteRecusedId": "(val)","protocolIdFk": "(val)","submissionIdFk": "(val)","personId": "(val)","rolodexId": "(val)","nonEmployeeFlag": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Protocol Recused Votes by Key [DELETE /research-sys/api/v1/protocol-recused-votes/(key)]
+### Delete Protocol Recused Votes by Key [DELETE /research-common/api/v1/protocol-recused-votes/(key)]
 	 
 + Request
 
@@ -202,7 +202,7 @@
 
 + Response 204
 
-### Delete All Protocol Recused Votes [DELETE /research-sys/api/v1/protocol-recused-votes/]
+### Delete All Protocol Recused Votes [DELETE /research-common/api/v1/protocol-recused-votes/]
 
 + Parameters
 
@@ -217,18 +217,18 @@
 
 + Response 204
 
-### Delete All Protocol Recused Votes with Matching [DELETE /research-sys/api/v1/protocol-recused-votes/]
+### Delete All Protocol Recused Votes with Matching [DELETE /research-common/api/v1/protocol-recused-votes/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + protocolVoteRecusedId
-            + protocolIdFk
-            + submissionIdFk
-            + personId
-            + rolodexId
-            + nonEmployeeFlag
-            + comments
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + protocolVoteRecusedId (optional) - Protocol Vote Recused Id. Maximum length is 22.
+    + protocolIdFk (optional) - Protocol Id. Maximum length is 22.
+    + submissionIdFk (optional) - Schedule Id. Maximum length is 10.
+    + personId (optional) - Person Id. Maximum length is 40.
+    + rolodexId (optional) - 
+    + nonEmployeeFlag (optional) - Non Employee Flag. Maximum length is 1.
+    + comments (optional) - Comments. Maximum length is 2000.
 
       
 + Request

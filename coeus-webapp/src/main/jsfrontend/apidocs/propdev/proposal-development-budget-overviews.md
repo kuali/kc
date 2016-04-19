@@ -1,6 +1,6 @@
-## Proposal Development Budget Overviews [/research-sys/api/v1/proposal-development-budget-overviews/]
+## Proposal Development Budget Overviews [/propdev/api/v1/proposal-development-budget-overviews/]
 
-### Get Proposal Development Budget Overviews by Key [GET /research-sys/api/v1/proposal-development-budget-overviews/(key)]
+### Get Proposal Development Budget Overviews by Key [GET /propdev/api/v1/proposal-development-budget-overviews/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"budgetId": "(val)","documentNumber": "(val)","budgetVersionNumber": "(val)","costSharingAmount": "(val)","endDate": "(val)","modularBudgetFlag": "(val)","ohRateTypeCode": "(val)","ohRateClassCode": "(val)","residualFunds": "(val)","startDate": "(val)","totalCost": "(val)","totalCostLimit": "(val)","totalDirectCostLimit": "(val)","totalDirectCost": "(val)","totalIndirectCost": "(val)","underrecoveryAmount": "(val)","comments": "(val)","onOffCampusFlag": "(val)","urRateClassCode": "(val)","submitCostSharingFlag": "(val)","_primaryKey": "(val)"}
 
-### Get All Proposal Development Budget Overviews [GET /research-sys/api/v1/proposal-development-budget-overviews/]
+### Get All Proposal Development Budget Overviews [GET /propdev/api/v1/proposal-development-budget-overviews/]
 	 
 + Request
 
@@ -39,30 +39,30 @@
               {"budgetId": "(val)","documentNumber": "(val)","budgetVersionNumber": "(val)","costSharingAmount": "(val)","endDate": "(val)","modularBudgetFlag": "(val)","ohRateTypeCode": "(val)","ohRateClassCode": "(val)","residualFunds": "(val)","startDate": "(val)","totalCost": "(val)","totalCostLimit": "(val)","totalDirectCostLimit": "(val)","totalDirectCost": "(val)","totalIndirectCost": "(val)","underrecoveryAmount": "(val)","comments": "(val)","onOffCampusFlag": "(val)","urRateClassCode": "(val)","submitCostSharingFlag": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Proposal Development Budget Overviews with Filtering [GET /research-sys/api/v1/proposal-development-budget-overviews/]
+### Get All Proposal Development Budget Overviews with Filtering [GET /propdev/api/v1/proposal-development-budget-overviews/]
     
 + Parameters
 
-        + budgetId
-            + documentNumber
-            + budgetVersionNumber
-            + costSharingAmount
-            + endDate
-            + modularBudgetFlag
-            + ohRateTypeCode
-            + ohRateClassCode
-            + residualFunds
-            + startDate
-            + totalCost
-            + totalCostLimit
-            + totalDirectCostLimit
-            + totalDirectCost
-            + totalIndirectCost
-            + underrecoveryAmount
-            + comments
-            + onOffCampusFlag
-            + urRateClassCode
-            + submitCostSharingFlag
+    + budgetId (optional) - 
+    + documentNumber (optional) - 
+    + budgetVersionNumber (optional) - 
+    + costSharingAmount (optional) - 
+    + endDate (optional) - 
+    + modularBudgetFlag (optional) - 
+    + ohRateTypeCode (optional) - 
+    + ohRateClassCode (optional) - 
+    + residualFunds (optional) - 
+    + startDate (optional) - 
+    + totalCost (optional) - 
+    + totalCostLimit (optional) - 
+    + totalDirectCostLimit (optional) - 
+    + totalDirectCost (optional) - 
+    + totalIndirectCost (optional) - 
+    + underrecoveryAmount (optional) - 
+    + comments (optional) - 
+    + onOffCampusFlag (optional) - 
+    + urRateClassCode (optional) - 
+    + submitCostSharingFlag (optional) - 
 
             
 + Request
@@ -84,7 +84,7 @@
               {"budgetId": "(val)","documentNumber": "(val)","budgetVersionNumber": "(val)","costSharingAmount": "(val)","endDate": "(val)","modularBudgetFlag": "(val)","ohRateTypeCode": "(val)","ohRateClassCode": "(val)","residualFunds": "(val)","startDate": "(val)","totalCost": "(val)","totalCostLimit": "(val)","totalDirectCostLimit": "(val)","totalDirectCost": "(val)","totalIndirectCost": "(val)","underrecoveryAmount": "(val)","comments": "(val)","onOffCampusFlag": "(val)","urRateClassCode": "(val)","submitCostSharingFlag": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Proposal Development Budget Overviews [GET /research-sys/api/v1/proposal-development-budget-overviews/]
+### Get Schema for Proposal Development Budget Overviews [GET /propdev/api/v1/proposal-development-budget-overviews/]
 	                                          
 + Parameters
 
@@ -106,7 +106,7 @@
     
             {"columns":["budgetId","documentNumber","budgetVersionNumber","costSharingAmount","endDate","modularBudgetFlag","ohRateTypeCode","ohRateClassCode","residualFunds","startDate","totalCost","totalCostLimit","totalDirectCostLimit","totalDirectCost","totalIndirectCost","underrecoveryAmount","comments","onOffCampusFlag","urRateClassCode","submitCostSharingFlag"],"primaryKey":"budgetId"}
 		
-### Get Blueprint API specification for Proposal Development Budget Overviews [GET /research-sys/api/v1/proposal-development-budget-overviews/]
+### Get Blueprint API specification for Proposal Development Budget Overviews [GET /propdev/api/v1/proposal-development-budget-overviews/]
 	 
 + Parameters
 
@@ -127,7 +127,7 @@
             transfer-encoding:chunked
 
 
-### Update Proposal Development Budget Overviews [PUT /research-sys/api/v1/proposal-development-budget-overviews/(key)]
+### Update Proposal Development Budget Overviews [PUT /propdev/api/v1/proposal-development-budget-overviews/(key)]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Update Multiple Proposal Development Budget Overviews [PUT /research-sys/api/v1/proposal-development-budget-overviews/]
+### Update Multiple Proposal Development Budget Overviews [PUT /propdev/api/v1/proposal-development-budget-overviews/]
 
 + Request
 
@@ -160,7 +160,7 @@
 			
 + Response 204
 
-### Insert Proposal Development Budget Overviews [POST /research-sys/api/v1/proposal-development-budget-overviews/]
+### Insert Proposal Development Budget Overviews [POST /propdev/api/v1/proposal-development-budget-overviews/]
 
 + Request
 
@@ -179,7 +179,7 @@
             
             {"budgetId": "(val)","documentNumber": "(val)","budgetVersionNumber": "(val)","costSharingAmount": "(val)","endDate": "(val)","modularBudgetFlag": "(val)","ohRateTypeCode": "(val)","ohRateClassCode": "(val)","residualFunds": "(val)","startDate": "(val)","totalCost": "(val)","totalCostLimit": "(val)","totalDirectCostLimit": "(val)","totalDirectCost": "(val)","totalIndirectCost": "(val)","underrecoveryAmount": "(val)","comments": "(val)","onOffCampusFlag": "(val)","urRateClassCode": "(val)","submitCostSharingFlag": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Proposal Development Budget Overviews [POST /research-sys/api/v1/proposal-development-budget-overviews/]
+### Insert Multiple Proposal Development Budget Overviews [POST /propdev/api/v1/proposal-development-budget-overviews/]
 
 + Request
 
@@ -204,7 +204,7 @@
               {"budgetId": "(val)","documentNumber": "(val)","budgetVersionNumber": "(val)","costSharingAmount": "(val)","endDate": "(val)","modularBudgetFlag": "(val)","ohRateTypeCode": "(val)","ohRateClassCode": "(val)","residualFunds": "(val)","startDate": "(val)","totalCost": "(val)","totalCostLimit": "(val)","totalDirectCostLimit": "(val)","totalDirectCost": "(val)","totalIndirectCost": "(val)","underrecoveryAmount": "(val)","comments": "(val)","onOffCampusFlag": "(val)","urRateClassCode": "(val)","submitCostSharingFlag": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Proposal Development Budget Overviews by Key [DELETE /research-sys/api/v1/proposal-development-budget-overviews/(key)]
+### Delete Proposal Development Budget Overviews by Key [DELETE /propdev/api/v1/proposal-development-budget-overviews/(key)]
 	 
 + Request
 
@@ -215,7 +215,7 @@
 
 + Response 204
 
-### Delete All Proposal Development Budget Overviews [DELETE /research-sys/api/v1/proposal-development-budget-overviews/]
+### Delete All Proposal Development Budget Overviews [DELETE /propdev/api/v1/proposal-development-budget-overviews/]
 
 + Parameters
 
@@ -230,31 +230,31 @@
 
 + Response 204
 
-### Delete All Proposal Development Budget Overviews with Matching [DELETE /research-sys/api/v1/proposal-development-budget-overviews/]
+### Delete All Proposal Development Budget Overviews with Matching [DELETE /propdev/api/v1/proposal-development-budget-overviews/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + budgetId
-            + documentNumber
-            + budgetVersionNumber
-            + costSharingAmount
-            + endDate
-            + modularBudgetFlag
-            + ohRateTypeCode
-            + ohRateClassCode
-            + residualFunds
-            + startDate
-            + totalCost
-            + totalCostLimit
-            + totalDirectCostLimit
-            + totalDirectCost
-            + totalIndirectCost
-            + underrecoveryAmount
-            + comments
-            + onOffCampusFlag
-            + urRateClassCode
-            + submitCostSharingFlag
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + budgetId (optional) - 
+    + documentNumber (optional) - 
+    + budgetVersionNumber (optional) - 
+    + costSharingAmount (optional) - 
+    + endDate (optional) - 
+    + modularBudgetFlag (optional) - 
+    + ohRateTypeCode (optional) - 
+    + ohRateClassCode (optional) - 
+    + residualFunds (optional) - 
+    + startDate (optional) - 
+    + totalCost (optional) - 
+    + totalCostLimit (optional) - 
+    + totalDirectCostLimit (optional) - 
+    + totalDirectCost (optional) - 
+    + totalIndirectCost (optional) - 
+    + underrecoveryAmount (optional) - 
+    + comments (optional) - 
+    + onOffCampusFlag (optional) - 
+    + urRateClassCode (optional) - 
+    + submitCostSharingFlag (optional) - 
 
       
 + Request

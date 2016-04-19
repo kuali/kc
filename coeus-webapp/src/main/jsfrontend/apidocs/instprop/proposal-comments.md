@@ -1,6 +1,6 @@
-## Proposal Comments [/research-sys/api/v1/proposal-comments/]
+## Proposal Comments [/instprop/api/v1/proposal-comments/]
 
-### Get Proposal Comments by Key [GET /research-sys/api/v1/proposal-comments/(key)]
+### Get Proposal Comments by Key [GET /instprop/api/v1/proposal-comments/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"proposalCommentsId": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","commentTypeCode": "(val)","comments": "(val)","_primaryKey": "(val)"}
 
-### Get All Proposal Comments [GET /research-sys/api/v1/proposal-comments/]
+### Get All Proposal Comments [GET /instprop/api/v1/proposal-comments/]
 	 
 + Request
 
@@ -39,16 +39,16 @@
               {"proposalCommentsId": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","commentTypeCode": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Proposal Comments with Filtering [GET /research-sys/api/v1/proposal-comments/]
+### Get All Proposal Comments with Filtering [GET /instprop/api/v1/proposal-comments/]
     
 + Parameters
 
-        + proposalCommentsId
-            + proposalId
-            + proposalNumber
-            + sequenceNumber
-            + commentTypeCode
-            + comments
+    + proposalCommentsId (optional) - 
+    + proposalId (optional) - 
+    + proposalNumber (optional) - 
+    + sequenceNumber (optional) - 
+    + commentTypeCode (optional) - 
+    + comments (optional) - 
 
             
 + Request
@@ -70,7 +70,7 @@
               {"proposalCommentsId": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","commentTypeCode": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Proposal Comments [GET /research-sys/api/v1/proposal-comments/]
+### Get Schema for Proposal Comments [GET /instprop/api/v1/proposal-comments/]
 	                                          
 + Parameters
 
@@ -92,7 +92,7 @@
     
             {"columns":["proposalCommentsId","proposalId","proposalNumber","sequenceNumber","commentTypeCode","comments"],"primaryKey":"proposalCommentsId"}
 		
-### Get Blueprint API specification for Proposal Comments [GET /research-sys/api/v1/proposal-comments/]
+### Get Blueprint API specification for Proposal Comments [GET /instprop/api/v1/proposal-comments/]
 	 
 + Parameters
 
@@ -113,7 +113,7 @@
             transfer-encoding:chunked
 
 
-### Update Proposal Comments [PUT /research-sys/api/v1/proposal-comments/(key)]
+### Update Proposal Comments [PUT /instprop/api/v1/proposal-comments/(key)]
 
 + Request
 
@@ -128,7 +128,7 @@
 			
 + Response 204
 
-### Update Multiple Proposal Comments [PUT /research-sys/api/v1/proposal-comments/]
+### Update Multiple Proposal Comments [PUT /instprop/api/v1/proposal-comments/]
 
 + Request
 
@@ -146,7 +146,7 @@
 			
 + Response 204
 
-### Insert Proposal Comments [POST /research-sys/api/v1/proposal-comments/]
+### Insert Proposal Comments [POST /instprop/api/v1/proposal-comments/]
 
 + Request
 
@@ -165,7 +165,7 @@
             
             {"proposalCommentsId": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","commentTypeCode": "(val)","comments": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Proposal Comments [POST /research-sys/api/v1/proposal-comments/]
+### Insert Multiple Proposal Comments [POST /instprop/api/v1/proposal-comments/]
 
 + Request
 
@@ -190,7 +190,7 @@
               {"proposalCommentsId": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","commentTypeCode": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Proposal Comments by Key [DELETE /research-sys/api/v1/proposal-comments/(key)]
+### Delete Proposal Comments by Key [DELETE /instprop/api/v1/proposal-comments/(key)]
 	 
 + Request
 
@@ -201,7 +201,7 @@
 
 + Response 204
 
-### Delete All Proposal Comments [DELETE /research-sys/api/v1/proposal-comments/]
+### Delete All Proposal Comments [DELETE /instprop/api/v1/proposal-comments/]
 
 + Parameters
 
@@ -216,17 +216,17 @@
 
 + Response 204
 
-### Delete All Proposal Comments with Matching [DELETE /research-sys/api/v1/proposal-comments/]
+### Delete All Proposal Comments with Matching [DELETE /instprop/api/v1/proposal-comments/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + proposalCommentsId
-            + proposalId
-            + proposalNumber
-            + sequenceNumber
-            + commentTypeCode
-            + comments
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + proposalCommentsId (optional) - 
+    + proposalId (optional) - 
+    + proposalNumber (optional) - 
+    + sequenceNumber (optional) - 
+    + commentTypeCode (optional) - 
+    + comments (optional) - 
 
       
 + Request

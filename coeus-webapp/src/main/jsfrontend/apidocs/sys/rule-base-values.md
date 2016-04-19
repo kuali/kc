@@ -43,23 +43,23 @@
     
 + Parameters
 
-        + id
-            + name
-            + ruleTemplateId
-            + previousRuleId
-            + active
-            + description
-            + docTypeName
-            + documentId
-            + fromDateValue
-            + toDateValue
-            + deactivationDate
-            + currentInd
-            + versionNbr
-            + forceAction
-            + activationDate
-            + delegateRule
-            + templateRuleInd
+    + id (optional) - Rule Id. Maximum length is 30.
+    + name (optional) - Name. Maximum length is 256.
+    + ruleTemplateId (optional) - Rule Template Id. Maximum length is 30.
+    + previousRuleId (optional) - Previous Rule. Maximum length is 30.
+    + active (optional) - Active. Maximum length is 1.
+    + description (optional) - Description. Maximum length is 2000.
+    + docTypeName (optional) - Document Type. Maximum length is 256.
+    + documentId (optional) - Document Id. Maximum length is 40.
+    + fromDateValue (optional) - From Date. Maximum length is 10.
+    + toDateValue (optional) - To Date. Maximum length is 10.
+    + deactivationDate (optional) - Deactivation Date.
+    + currentInd (optional) - Current Ind.
+    + versionNbr (optional) - Version Nbr.
+    + forceAction (optional) - Force Action. Maximum length is 1.
+    + activationDate (optional) - Activation Date.
+    + delegateRule (optional) - Delegate Rule. Maximum length is 1.
+    + templateRuleInd (optional) - Template Rule Ind.
 
             
 + Request
@@ -231,24 +231,24 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + name
-            + ruleTemplateId
-            + previousRuleId
-            + active
-            + description
-            + docTypeName
-            + documentId
-            + fromDateValue
-            + toDateValue
-            + deactivationDate
-            + currentInd
-            + versionNbr
-            + forceAction
-            + activationDate
-            + delegateRule
-            + templateRuleInd
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Rule Id. Maximum length is 30.
+    + name (optional) - Name. Maximum length is 256.
+    + ruleTemplateId (optional) - Rule Template Id. Maximum length is 30.
+    + previousRuleId (optional) - Previous Rule. Maximum length is 30.
+    + active (optional) - Active. Maximum length is 1.
+    + description (optional) - Description. Maximum length is 2000.
+    + docTypeName (optional) - Document Type. Maximum length is 256.
+    + documentId (optional) - Document Id. Maximum length is 40.
+    + fromDateValue (optional) - From Date. Maximum length is 10.
+    + toDateValue (optional) - To Date. Maximum length is 10.
+    + deactivationDate (optional) - Deactivation Date.
+    + currentInd (optional) - Current Ind.
+    + versionNbr (optional) - Version Nbr.
+    + forceAction (optional) - Force Action. Maximum length is 1.
+    + activationDate (optional) - Activation Date.
+    + delegateRule (optional) - Delegate Rule. Maximum length is 1.
+    + templateRuleInd (optional) - Template Rule Ind.
 
       
 + Request

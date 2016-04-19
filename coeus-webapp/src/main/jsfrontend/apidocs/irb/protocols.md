@@ -1,6 +1,6 @@
-## Protocols [/research-sys/api/v1/protocols/]
+## Protocols [/irb/api/v1/protocols/]
 
-### Get Protocols by Key [GET /research-sys/api/v1/protocols/(key)]
+### Get Protocols by Key [GET /irb/api/v1/protocols/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"protocolId": "(val)","documentNumber": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","active": "(val)","protocolTypeCode": "(val)","protocolStatusCode": "(val)","title": "(val)","description": "(val)","initialSubmissionDate": "(val)","approvalDate": "(val)","expirationDate": "(val)","lastApprovalDate": "(val)","fdaApplicationNumber": "(val)","referenceNumber1": "(val)","referenceNumber2": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"}
 
-### Get All Protocols [GET /research-sys/api/v1/protocols/]
+### Get All Protocols [GET /irb/api/v1/protocols/]
 	 
 + Request
 
@@ -39,28 +39,28 @@
               {"protocolId": "(val)","documentNumber": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","active": "(val)","protocolTypeCode": "(val)","protocolStatusCode": "(val)","title": "(val)","description": "(val)","initialSubmissionDate": "(val)","approvalDate": "(val)","expirationDate": "(val)","lastApprovalDate": "(val)","fdaApplicationNumber": "(val)","referenceNumber1": "(val)","referenceNumber2": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Protocols with Filtering [GET /research-sys/api/v1/protocols/]
+### Get All Protocols with Filtering [GET /irb/api/v1/protocols/]
     
 + Parameters
 
-        + protocolId
-            + documentNumber
-            + protocolNumber
-            + sequenceNumber
-            + active
-            + protocolTypeCode
-            + protocolStatusCode
-            + title
-            + description
-            + initialSubmissionDate
-            + approvalDate
-            + expirationDate
-            + lastApprovalDate
-            + fdaApplicationNumber
-            + referenceNumber1
-            + referenceNumber2
-            + createTimestamp
-            + createUser
+    + protocolId (optional) - Protocol Id. Maximum length is 12.
+    + documentNumber (optional) - 
+    + protocolNumber (optional) - Protocol Number. Maximum length is 20.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 4.
+    + active (optional) - Active. Maximum length is 1.
+    + protocolTypeCode (optional) - Protocol Type Code. Maximum length is 3.
+    + protocolStatusCode (optional) - Protocol Status Code. Maximum length is 3.
+    + title (optional) - Title. Maximum length is 2000.
+    + description (optional) - Description. Maximum length is 2000.
+    + initialSubmissionDate (optional) - Initial Submission Date. Maximum length is 10.
+    + approvalDate (optional) - Approval Date. Maximum length is 10.
+    + expirationDate (optional) - Expiration Date. Maximum length is 10.
+    + lastApprovalDate (optional) - Last Approval Date. Maximum length is 10.
+    + fdaApplicationNumber (optional) - Fda Application Number. Maximum length is 15.
+    + referenceNumber1 (optional) - Reference Number 1. Maximum length is 50.
+    + referenceNumber2 (optional) - Reference Number 2. Maximum length is 50.
+    + createTimestamp (optional) - 
+    + createUser (optional) - 
 
             
 + Request
@@ -82,7 +82,7 @@
               {"protocolId": "(val)","documentNumber": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","active": "(val)","protocolTypeCode": "(val)","protocolStatusCode": "(val)","title": "(val)","description": "(val)","initialSubmissionDate": "(val)","approvalDate": "(val)","expirationDate": "(val)","lastApprovalDate": "(val)","fdaApplicationNumber": "(val)","referenceNumber1": "(val)","referenceNumber2": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Protocols [GET /research-sys/api/v1/protocols/]
+### Get Schema for Protocols [GET /irb/api/v1/protocols/]
 	                                          
 + Parameters
 
@@ -104,7 +104,7 @@
     
             {"columns":["protocolId","documentNumber","protocolNumber","sequenceNumber","active","protocolTypeCode","protocolStatusCode","title","description","initialSubmissionDate","approvalDate","expirationDate","lastApprovalDate","fdaApplicationNumber","referenceNumber1","referenceNumber2","createTimestamp","createUser"],"primaryKey":"protocolId"}
 		
-### Get Blueprint API specification for Protocols [GET /research-sys/api/v1/protocols/]
+### Get Blueprint API specification for Protocols [GET /irb/api/v1/protocols/]
 	 
 + Parameters
 
@@ -125,7 +125,7 @@
             transfer-encoding:chunked
 
 
-### Update Protocols [PUT /research-sys/api/v1/protocols/(key)]
+### Update Protocols [PUT /irb/api/v1/protocols/(key)]
 
 + Request
 
@@ -140,7 +140,7 @@
 			
 + Response 204
 
-### Update Multiple Protocols [PUT /research-sys/api/v1/protocols/]
+### Update Multiple Protocols [PUT /irb/api/v1/protocols/]
 
 + Request
 
@@ -158,7 +158,7 @@
 			
 + Response 204
 
-### Insert Protocols [POST /research-sys/api/v1/protocols/]
+### Insert Protocols [POST /irb/api/v1/protocols/]
 
 + Request
 
@@ -177,7 +177,7 @@
             
             {"protocolId": "(val)","documentNumber": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","active": "(val)","protocolTypeCode": "(val)","protocolStatusCode": "(val)","title": "(val)","description": "(val)","initialSubmissionDate": "(val)","approvalDate": "(val)","expirationDate": "(val)","lastApprovalDate": "(val)","fdaApplicationNumber": "(val)","referenceNumber1": "(val)","referenceNumber2": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Protocols [POST /research-sys/api/v1/protocols/]
+### Insert Multiple Protocols [POST /irb/api/v1/protocols/]
 
 + Request
 
@@ -202,7 +202,7 @@
               {"protocolId": "(val)","documentNumber": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","active": "(val)","protocolTypeCode": "(val)","protocolStatusCode": "(val)","title": "(val)","description": "(val)","initialSubmissionDate": "(val)","approvalDate": "(val)","expirationDate": "(val)","lastApprovalDate": "(val)","fdaApplicationNumber": "(val)","referenceNumber1": "(val)","referenceNumber2": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Protocols by Key [DELETE /research-sys/api/v1/protocols/(key)]
+### Delete Protocols by Key [DELETE /irb/api/v1/protocols/(key)]
 	 
 + Request
 
@@ -213,7 +213,7 @@
 
 + Response 204
 
-### Delete All Protocols [DELETE /research-sys/api/v1/protocols/]
+### Delete All Protocols [DELETE /irb/api/v1/protocols/]
 
 + Parameters
 
@@ -228,29 +228,29 @@
 
 + Response 204
 
-### Delete All Protocols with Matching [DELETE /research-sys/api/v1/protocols/]
+### Delete All Protocols with Matching [DELETE /irb/api/v1/protocols/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + protocolId
-            + documentNumber
-            + protocolNumber
-            + sequenceNumber
-            + active
-            + protocolTypeCode
-            + protocolStatusCode
-            + title
-            + description
-            + initialSubmissionDate
-            + approvalDate
-            + expirationDate
-            + lastApprovalDate
-            + fdaApplicationNumber
-            + referenceNumber1
-            + referenceNumber2
-            + createTimestamp
-            + createUser
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + protocolId (optional) - Protocol Id. Maximum length is 12.
+    + documentNumber (optional) - 
+    + protocolNumber (optional) - Protocol Number. Maximum length is 20.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 4.
+    + active (optional) - Active. Maximum length is 1.
+    + protocolTypeCode (optional) - Protocol Type Code. Maximum length is 3.
+    + protocolStatusCode (optional) - Protocol Status Code. Maximum length is 3.
+    + title (optional) - Title. Maximum length is 2000.
+    + description (optional) - Description. Maximum length is 2000.
+    + initialSubmissionDate (optional) - Initial Submission Date. Maximum length is 10.
+    + approvalDate (optional) - Approval Date. Maximum length is 10.
+    + expirationDate (optional) - Expiration Date. Maximum length is 10.
+    + lastApprovalDate (optional) - Last Approval Date. Maximum length is 10.
+    + fdaApplicationNumber (optional) - Fda Application Number. Maximum length is 15.
+    + referenceNumber1 (optional) - Reference Number 1. Maximum length is 50.
+    + referenceNumber2 (optional) - Reference Number 2. Maximum length is 50.
+    + createTimestamp (optional) - 
+    + createUser (optional) - 
 
       
 + Request

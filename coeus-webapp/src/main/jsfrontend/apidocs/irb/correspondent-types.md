@@ -1,6 +1,6 @@
-## Correspondent Types [/research-sys/api/v1/correspondent-types/]
+## Correspondent Types [/irb/api/v1/correspondent-types/]
 
-### Get Correspondent Types by Key [GET /research-sys/api/v1/correspondent-types/(key)]
+### Get Correspondent Types by Key [GET /irb/api/v1/correspondent-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"correspondentTypeCode": "(val)","description": "(val)","qualifier": "(val)","_primaryKey": "(val)"}
 
-### Get All Correspondent Types [GET /research-sys/api/v1/correspondent-types/]
+### Get All Correspondent Types [GET /irb/api/v1/correspondent-types/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"correspondentTypeCode": "(val)","description": "(val)","qualifier": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Correspondent Types with Filtering [GET /research-sys/api/v1/correspondent-types/]
+### Get All Correspondent Types with Filtering [GET /irb/api/v1/correspondent-types/]
     
 + Parameters
 
-        + correspondentTypeCode
-            + description
-            + qualifier
+    + correspondentTypeCode (optional) - Correspondent Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + qualifier (optional) - Qualifier. Maximum length is 1.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"correspondentTypeCode": "(val)","description": "(val)","qualifier": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Correspondent Types [GET /research-sys/api/v1/correspondent-types/]
+### Get Schema for Correspondent Types [GET /irb/api/v1/correspondent-types/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["correspondentTypeCode","description","qualifier"],"primaryKey":"correspondentTypeCode"}
 		
-### Get Blueprint API specification for Correspondent Types [GET /research-sys/api/v1/correspondent-types/]
+### Get Blueprint API specification for Correspondent Types [GET /irb/api/v1/correspondent-types/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Correspondent Types [PUT /research-sys/api/v1/correspondent-types/(key)]
+### Update Correspondent Types [PUT /irb/api/v1/correspondent-types/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Correspondent Types [PUT /research-sys/api/v1/correspondent-types/]
+### Update Multiple Correspondent Types [PUT /irb/api/v1/correspondent-types/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Correspondent Types [POST /research-sys/api/v1/correspondent-types/]
+### Insert Correspondent Types [POST /irb/api/v1/correspondent-types/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"correspondentTypeCode": "(val)","description": "(val)","qualifier": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Correspondent Types [POST /research-sys/api/v1/correspondent-types/]
+### Insert Multiple Correspondent Types [POST /irb/api/v1/correspondent-types/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"correspondentTypeCode": "(val)","description": "(val)","qualifier": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Correspondent Types by Key [DELETE /research-sys/api/v1/correspondent-types/(key)]
+### Delete Correspondent Types by Key [DELETE /irb/api/v1/correspondent-types/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Correspondent Types [DELETE /research-sys/api/v1/correspondent-types/]
+### Delete All Correspondent Types [DELETE /irb/api/v1/correspondent-types/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Correspondent Types with Matching [DELETE /research-sys/api/v1/correspondent-types/]
+### Delete All Correspondent Types with Matching [DELETE /irb/api/v1/correspondent-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + correspondentTypeCode
-            + description
-            + qualifier
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + correspondentTypeCode (optional) - Correspondent Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + qualifier (optional) - Qualifier. Maximum length is 1.
 
       
 + Request

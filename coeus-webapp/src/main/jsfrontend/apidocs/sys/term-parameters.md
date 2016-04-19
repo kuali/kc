@@ -43,9 +43,9 @@
     
 + Parameters
 
-        + id
-            + name
-            + value
+    + id (optional) - Term Parameter Id.
+    + name (optional) - Term Parameter Name.
+    + value (optional) - Term Parameter Value.
 
             
 + Request
@@ -217,10 +217,10 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + name
-            + value
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Term Parameter Id.
+    + name (optional) - Term Parameter Name.
+    + value (optional) - Term Parameter Value.
 
       
 + Request

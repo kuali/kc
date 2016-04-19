@@ -1,6 +1,6 @@
-## Award Sponsor Terms [/research-sys/api/v1/award-sponsor-terms/]
+## Award Sponsor Terms [/award/api/v1/award-sponsor-terms/]
 
-### Get Award Sponsor Terms by Key [GET /research-sys/api/v1/award-sponsor-terms/(key)]
+### Get Award Sponsor Terms by Key [GET /award/api/v1/award-sponsor-terms/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"awardSponsorTermId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","sponsorTermId": "(val)","_primaryKey": "(val)"}
 
-### Get All Award Sponsor Terms [GET /research-sys/api/v1/award-sponsor-terms/]
+### Get All Award Sponsor Terms [GET /award/api/v1/award-sponsor-terms/]
 	 
 + Request
 
@@ -39,15 +39,15 @@
               {"awardSponsorTermId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","sponsorTermId": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Award Sponsor Terms with Filtering [GET /research-sys/api/v1/award-sponsor-terms/]
+### Get All Award Sponsor Terms with Filtering [GET /award/api/v1/award-sponsor-terms/]
     
 + Parameters
 
-        + awardSponsorTermId
-            + awardId
-            + awardNumber
-            + sequenceNumber
-            + sponsorTermId
+    + awardSponsorTermId (optional) - Award Sponsor Term Id. Maximum length is 22.
+    + awardId (optional) - 
+    + awardNumber (optional) - 
+    + sequenceNumber (optional) - 
+    + sponsorTermId (optional) - Sponsor Term Id. Maximum length is 22.
 
             
 + Request
@@ -69,7 +69,7 @@
               {"awardSponsorTermId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","sponsorTermId": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Award Sponsor Terms [GET /research-sys/api/v1/award-sponsor-terms/]
+### Get Schema for Award Sponsor Terms [GET /award/api/v1/award-sponsor-terms/]
 	                                          
 + Parameters
 
@@ -91,7 +91,7 @@
     
             {"columns":["awardSponsorTermId","awardId","awardNumber","sequenceNumber","sponsorTermId"],"primaryKey":"awardSponsorTermId"}
 		
-### Get Blueprint API specification for Award Sponsor Terms [GET /research-sys/api/v1/award-sponsor-terms/]
+### Get Blueprint API specification for Award Sponsor Terms [GET /award/api/v1/award-sponsor-terms/]
 	 
 + Parameters
 
@@ -112,7 +112,7 @@
             transfer-encoding:chunked
 
 
-### Update Award Sponsor Terms [PUT /research-sys/api/v1/award-sponsor-terms/(key)]
+### Update Award Sponsor Terms [PUT /award/api/v1/award-sponsor-terms/(key)]
 
 + Request
 
@@ -127,7 +127,7 @@
 			
 + Response 204
 
-### Update Multiple Award Sponsor Terms [PUT /research-sys/api/v1/award-sponsor-terms/]
+### Update Multiple Award Sponsor Terms [PUT /award/api/v1/award-sponsor-terms/]
 
 + Request
 
@@ -145,7 +145,7 @@
 			
 + Response 204
 
-### Insert Award Sponsor Terms [POST /research-sys/api/v1/award-sponsor-terms/]
+### Insert Award Sponsor Terms [POST /award/api/v1/award-sponsor-terms/]
 
 + Request
 
@@ -164,7 +164,7 @@
             
             {"awardSponsorTermId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","sponsorTermId": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Award Sponsor Terms [POST /research-sys/api/v1/award-sponsor-terms/]
+### Insert Multiple Award Sponsor Terms [POST /award/api/v1/award-sponsor-terms/]
 
 + Request
 
@@ -189,7 +189,7 @@
               {"awardSponsorTermId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","sponsorTermId": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Award Sponsor Terms by Key [DELETE /research-sys/api/v1/award-sponsor-terms/(key)]
+### Delete Award Sponsor Terms by Key [DELETE /award/api/v1/award-sponsor-terms/(key)]
 	 
 + Request
 
@@ -200,7 +200,7 @@
 
 + Response 204
 
-### Delete All Award Sponsor Terms [DELETE /research-sys/api/v1/award-sponsor-terms/]
+### Delete All Award Sponsor Terms [DELETE /award/api/v1/award-sponsor-terms/]
 
 + Parameters
 
@@ -215,16 +215,16 @@
 
 + Response 204
 
-### Delete All Award Sponsor Terms with Matching [DELETE /research-sys/api/v1/award-sponsor-terms/]
+### Delete All Award Sponsor Terms with Matching [DELETE /award/api/v1/award-sponsor-terms/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + awardSponsorTermId
-            + awardId
-            + awardNumber
-            + sequenceNumber
-            + sponsorTermId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + awardSponsorTermId (optional) - Award Sponsor Term Id. Maximum length is 22.
+    + awardId (optional) - 
+    + awardNumber (optional) - 
+    + sequenceNumber (optional) - 
+    + sponsorTermId (optional) - Sponsor Term Id. Maximum length is 22.
 
       
 + Request

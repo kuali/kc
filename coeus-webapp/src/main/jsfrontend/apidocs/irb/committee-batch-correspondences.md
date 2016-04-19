@@ -1,6 +1,6 @@
-## Committee Batch Correspondences [/research-sys/api/v1/committee-batch-correspondences/]
+## Committee Batch Correspondences [/irb/api/v1/committee-batch-correspondences/]
 
-### Get Committee Batch Correspondences by Key [GET /research-sys/api/v1/committee-batch-correspondences/(key)]
+### Get Committee Batch Correspondences by Key [GET /irb/api/v1/committee-batch-correspondences/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"committeeBatchCorrespondenceId": "(val)","committeeId": "(val)","batchCorrespondenceTypeCode": "(val)","batchRunDate": "(val)","timeWindowStart": "(val)","timeWindowEnd": "(val)","_primaryKey": "(val)"}
 
-### Get All Committee Batch Correspondences [GET /research-sys/api/v1/committee-batch-correspondences/]
+### Get All Committee Batch Correspondences [GET /irb/api/v1/committee-batch-correspondences/]
 	 
 + Request
 
@@ -39,16 +39,16 @@
               {"committeeBatchCorrespondenceId": "(val)","committeeId": "(val)","batchCorrespondenceTypeCode": "(val)","batchRunDate": "(val)","timeWindowStart": "(val)","timeWindowEnd": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Committee Batch Correspondences with Filtering [GET /research-sys/api/v1/committee-batch-correspondences/]
+### Get All Committee Batch Correspondences with Filtering [GET /irb/api/v1/committee-batch-correspondences/]
     
 + Parameters
 
-        + committeeBatchCorrespondenceId
-            + committeeId
-            + batchCorrespondenceTypeCode
-            + batchRunDate
-            + timeWindowStart
-            + timeWindowEnd
+    + committeeBatchCorrespondenceId (optional) - 
+    + committeeId (optional) - 
+    + batchCorrespondenceTypeCode (optional) - 
+    + batchRunDate (optional) - 
+    + timeWindowStart (optional) - 
+    + timeWindowEnd (optional) - 
 
             
 + Request
@@ -70,7 +70,7 @@
               {"committeeBatchCorrespondenceId": "(val)","committeeId": "(val)","batchCorrespondenceTypeCode": "(val)","batchRunDate": "(val)","timeWindowStart": "(val)","timeWindowEnd": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Committee Batch Correspondences [GET /research-sys/api/v1/committee-batch-correspondences/]
+### Get Schema for Committee Batch Correspondences [GET /irb/api/v1/committee-batch-correspondences/]
 	                                          
 + Parameters
 
@@ -92,7 +92,7 @@
     
             {"columns":["committeeBatchCorrespondenceId","committeeId","batchCorrespondenceTypeCode","batchRunDate","timeWindowStart","timeWindowEnd"],"primaryKey":"committeeBatchCorrespondenceId"}
 		
-### Get Blueprint API specification for Committee Batch Correspondences [GET /research-sys/api/v1/committee-batch-correspondences/]
+### Get Blueprint API specification for Committee Batch Correspondences [GET /irb/api/v1/committee-batch-correspondences/]
 	 
 + Parameters
 
@@ -113,7 +113,7 @@
             transfer-encoding:chunked
 
 
-### Update Committee Batch Correspondences [PUT /research-sys/api/v1/committee-batch-correspondences/(key)]
+### Update Committee Batch Correspondences [PUT /irb/api/v1/committee-batch-correspondences/(key)]
 
 + Request
 
@@ -128,7 +128,7 @@
 			
 + Response 204
 
-### Update Multiple Committee Batch Correspondences [PUT /research-sys/api/v1/committee-batch-correspondences/]
+### Update Multiple Committee Batch Correspondences [PUT /irb/api/v1/committee-batch-correspondences/]
 
 + Request
 
@@ -146,7 +146,7 @@
 			
 + Response 204
 
-### Insert Committee Batch Correspondences [POST /research-sys/api/v1/committee-batch-correspondences/]
+### Insert Committee Batch Correspondences [POST /irb/api/v1/committee-batch-correspondences/]
 
 + Request
 
@@ -165,7 +165,7 @@
             
             {"committeeBatchCorrespondenceId": "(val)","committeeId": "(val)","batchCorrespondenceTypeCode": "(val)","batchRunDate": "(val)","timeWindowStart": "(val)","timeWindowEnd": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Committee Batch Correspondences [POST /research-sys/api/v1/committee-batch-correspondences/]
+### Insert Multiple Committee Batch Correspondences [POST /irb/api/v1/committee-batch-correspondences/]
 
 + Request
 
@@ -190,7 +190,7 @@
               {"committeeBatchCorrespondenceId": "(val)","committeeId": "(val)","batchCorrespondenceTypeCode": "(val)","batchRunDate": "(val)","timeWindowStart": "(val)","timeWindowEnd": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Committee Batch Correspondences by Key [DELETE /research-sys/api/v1/committee-batch-correspondences/(key)]
+### Delete Committee Batch Correspondences by Key [DELETE /irb/api/v1/committee-batch-correspondences/(key)]
 	 
 + Request
 
@@ -201,7 +201,7 @@
 
 + Response 204
 
-### Delete All Committee Batch Correspondences [DELETE /research-sys/api/v1/committee-batch-correspondences/]
+### Delete All Committee Batch Correspondences [DELETE /irb/api/v1/committee-batch-correspondences/]
 
 + Parameters
 
@@ -216,17 +216,17 @@
 
 + Response 204
 
-### Delete All Committee Batch Correspondences with Matching [DELETE /research-sys/api/v1/committee-batch-correspondences/]
+### Delete All Committee Batch Correspondences with Matching [DELETE /irb/api/v1/committee-batch-correspondences/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + committeeBatchCorrespondenceId
-            + committeeId
-            + batchCorrespondenceTypeCode
-            + batchRunDate
-            + timeWindowStart
-            + timeWindowEnd
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + committeeBatchCorrespondenceId (optional) - 
+    + committeeId (optional) - 
+    + batchCorrespondenceTypeCode (optional) - 
+    + batchRunDate (optional) - 
+    + timeWindowStart (optional) - 
+    + timeWindowEnd (optional) - 
 
       
 + Request

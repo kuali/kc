@@ -1,6 +1,6 @@
-## Protocol Types [/research-sys/api/v1/protocol-types/]
+## Protocol Types [/irb/api/v1/protocol-types/]
 
-### Get Protocol Types by Key [GET /research-sys/api/v1/protocol-types/(key)]
+### Get Protocol Types by Key [GET /irb/api/v1/protocol-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"protocolTypeCode": "(val)","description": "(val)","globalFlag": "(val)","_primaryKey": "(val)"}
 
-### Get All Protocol Types [GET /research-sys/api/v1/protocol-types/]
+### Get All Protocol Types [GET /irb/api/v1/protocol-types/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"protocolTypeCode": "(val)","description": "(val)","globalFlag": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Protocol Types with Filtering [GET /research-sys/api/v1/protocol-types/]
+### Get All Protocol Types with Filtering [GET /irb/api/v1/protocol-types/]
     
 + Parameters
 
-        + protocolTypeCode
-            + description
-            + globalFlag
+    + protocolTypeCode (optional) - Protocol Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 300.
+    + globalFlag (optional) - Global Flag. Maximum length is 1.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"protocolTypeCode": "(val)","description": "(val)","globalFlag": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Protocol Types [GET /research-sys/api/v1/protocol-types/]
+### Get Schema for Protocol Types [GET /irb/api/v1/protocol-types/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["protocolTypeCode","description","globalFlag"],"primaryKey":"protocolTypeCode"}
 		
-### Get Blueprint API specification for Protocol Types [GET /research-sys/api/v1/protocol-types/]
+### Get Blueprint API specification for Protocol Types [GET /irb/api/v1/protocol-types/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Protocol Types [PUT /research-sys/api/v1/protocol-types/(key)]
+### Update Protocol Types [PUT /irb/api/v1/protocol-types/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Protocol Types [PUT /research-sys/api/v1/protocol-types/]
+### Update Multiple Protocol Types [PUT /irb/api/v1/protocol-types/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Protocol Types [POST /research-sys/api/v1/protocol-types/]
+### Insert Protocol Types [POST /irb/api/v1/protocol-types/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"protocolTypeCode": "(val)","description": "(val)","globalFlag": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Protocol Types [POST /research-sys/api/v1/protocol-types/]
+### Insert Multiple Protocol Types [POST /irb/api/v1/protocol-types/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"protocolTypeCode": "(val)","description": "(val)","globalFlag": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Protocol Types by Key [DELETE /research-sys/api/v1/protocol-types/(key)]
+### Delete Protocol Types by Key [DELETE /irb/api/v1/protocol-types/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Protocol Types [DELETE /research-sys/api/v1/protocol-types/]
+### Delete All Protocol Types [DELETE /irb/api/v1/protocol-types/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Protocol Types with Matching [DELETE /research-sys/api/v1/protocol-types/]
+### Delete All Protocol Types with Matching [DELETE /irb/api/v1/protocol-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + protocolTypeCode
-            + description
-            + globalFlag
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + protocolTypeCode (optional) - Protocol Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 300.
+    + globalFlag (optional) - Global Flag. Maximum length is 1.
 
       
 + Request

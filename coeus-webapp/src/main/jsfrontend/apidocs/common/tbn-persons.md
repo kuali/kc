@@ -1,6 +1,6 @@
-## Tbn Persons [/research-sys/api/v1/tbn-persons/]
+## Tbn Persons [/research-common/api/v1/tbn-persons/]
 
-### Get Tbn Persons by Key [GET /research-sys/api/v1/tbn-persons/(key)]
+### Get Tbn Persons by Key [GET /research-common/api/v1/tbn-persons/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"tbnId": "(val)","personName": "(val)","jobCode": "(val)","_primaryKey": "(val)"}
 
-### Get All Tbn Persons [GET /research-sys/api/v1/tbn-persons/]
+### Get All Tbn Persons [GET /research-common/api/v1/tbn-persons/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"tbnId": "(val)","personName": "(val)","jobCode": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Tbn Persons with Filtering [GET /research-sys/api/v1/tbn-persons/]
+### Get All Tbn Persons with Filtering [GET /research-common/api/v1/tbn-persons/]
     
 + Parameters
 
-        + tbnId
-            + personName
-            + jobCode
+    + tbnId (optional) - TBN Id. Maximum length is 9.
+    + personName (optional) - Person Name. Maximum length is 90.
+    + jobCode (optional) - Job Code. Maximum length is 6.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"tbnId": "(val)","personName": "(val)","jobCode": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Tbn Persons [GET /research-sys/api/v1/tbn-persons/]
+### Get Schema for Tbn Persons [GET /research-common/api/v1/tbn-persons/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["tbnId","personName","jobCode"],"primaryKey":"tbnId"}
 		
-### Get Blueprint API specification for Tbn Persons [GET /research-sys/api/v1/tbn-persons/]
+### Get Blueprint API specification for Tbn Persons [GET /research-common/api/v1/tbn-persons/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Tbn Persons [PUT /research-sys/api/v1/tbn-persons/(key)]
+### Update Tbn Persons [PUT /research-common/api/v1/tbn-persons/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Tbn Persons [PUT /research-sys/api/v1/tbn-persons/]
+### Update Multiple Tbn Persons [PUT /research-common/api/v1/tbn-persons/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Tbn Persons [POST /research-sys/api/v1/tbn-persons/]
+### Insert Tbn Persons [POST /research-common/api/v1/tbn-persons/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"tbnId": "(val)","personName": "(val)","jobCode": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Tbn Persons [POST /research-sys/api/v1/tbn-persons/]
+### Insert Multiple Tbn Persons [POST /research-common/api/v1/tbn-persons/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"tbnId": "(val)","personName": "(val)","jobCode": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Tbn Persons by Key [DELETE /research-sys/api/v1/tbn-persons/(key)]
+### Delete Tbn Persons by Key [DELETE /research-common/api/v1/tbn-persons/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Tbn Persons [DELETE /research-sys/api/v1/tbn-persons/]
+### Delete All Tbn Persons [DELETE /research-common/api/v1/tbn-persons/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Tbn Persons with Matching [DELETE /research-sys/api/v1/tbn-persons/]
+### Delete All Tbn Persons with Matching [DELETE /research-common/api/v1/tbn-persons/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + tbnId
-            + personName
-            + jobCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + tbnId (optional) - TBN Id. Maximum length is 9.
+    + personName (optional) - Person Name. Maximum length is 90.
+    + jobCode (optional) - Job Code. Maximum length is 6.
 
       
 + Request

@@ -1,6 +1,6 @@
-## Award Report Term Recipients [/research-sys/api/v1/award-report-term-recipients/]
+## Award Report Term Recipients [/award/api/v1/award-report-term-recipients/]
 
-### Get Award Report Term Recipients by Key [GET /research-sys/api/v1/award-report-term-recipients/(key)]
+### Get Award Report Term Recipients by Key [GET /award/api/v1/award-report-term-recipients/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"awardReportTermRecipientId": "(val)","awardReportTermId": "(val)","contactId": "(val)","contactTypeCode": "(val)","rolodexId": "(val)","numberOfCopies": "(val)","_primaryKey": "(val)"}
 
-### Get All Award Report Term Recipients [GET /research-sys/api/v1/award-report-term-recipients/]
+### Get All Award Report Term Recipients [GET /award/api/v1/award-report-term-recipients/]
 	 
 + Request
 
@@ -39,16 +39,16 @@
               {"awardReportTermRecipientId": "(val)","awardReportTermId": "(val)","contactId": "(val)","contactTypeCode": "(val)","rolodexId": "(val)","numberOfCopies": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Award Report Term Recipients with Filtering [GET /research-sys/api/v1/award-report-term-recipients/]
+### Get All Award Report Term Recipients with Filtering [GET /award/api/v1/award-report-term-recipients/]
     
 + Parameters
 
-        + awardReportTermRecipientId
-            + awardReportTermId
-            + contactId
-            + contactTypeCode
-            + rolodexId
-            + numberOfCopies
+    + awardReportTermRecipientId (optional) - Award Report Terms Recipient Id. Maximum length is 22.
+    + awardReportTermId (optional) - Award Report Terms Id. Maximum length is 22.
+    + contactId (optional) - Contact Type. Maximum length is 12.
+    + contactTypeCode (optional) - Contact Type. Maximum length is 22.
+    + rolodexId (optional) - Name/Organization. Maximum length is 22.
+    + numberOfCopies (optional) - Number of Copies. Maximum length is 22.
 
             
 + Request
@@ -70,7 +70,7 @@
               {"awardReportTermRecipientId": "(val)","awardReportTermId": "(val)","contactId": "(val)","contactTypeCode": "(val)","rolodexId": "(val)","numberOfCopies": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Award Report Term Recipients [GET /research-sys/api/v1/award-report-term-recipients/]
+### Get Schema for Award Report Term Recipients [GET /award/api/v1/award-report-term-recipients/]
 	                                          
 + Parameters
 
@@ -92,7 +92,7 @@
     
             {"columns":["awardReportTermRecipientId","awardReportTermId","contactId","contactTypeCode","rolodexId","numberOfCopies"],"primaryKey":"awardReportTermRecipientId"}
 		
-### Get Blueprint API specification for Award Report Term Recipients [GET /research-sys/api/v1/award-report-term-recipients/]
+### Get Blueprint API specification for Award Report Term Recipients [GET /award/api/v1/award-report-term-recipients/]
 	 
 + Parameters
 
@@ -113,7 +113,7 @@
             transfer-encoding:chunked
 
 
-### Update Award Report Term Recipients [PUT /research-sys/api/v1/award-report-term-recipients/(key)]
+### Update Award Report Term Recipients [PUT /award/api/v1/award-report-term-recipients/(key)]
 
 + Request
 
@@ -128,7 +128,7 @@
 			
 + Response 204
 
-### Update Multiple Award Report Term Recipients [PUT /research-sys/api/v1/award-report-term-recipients/]
+### Update Multiple Award Report Term Recipients [PUT /award/api/v1/award-report-term-recipients/]
 
 + Request
 
@@ -146,7 +146,7 @@
 			
 + Response 204
 
-### Insert Award Report Term Recipients [POST /research-sys/api/v1/award-report-term-recipients/]
+### Insert Award Report Term Recipients [POST /award/api/v1/award-report-term-recipients/]
 
 + Request
 
@@ -165,7 +165,7 @@
             
             {"awardReportTermRecipientId": "(val)","awardReportTermId": "(val)","contactId": "(val)","contactTypeCode": "(val)","rolodexId": "(val)","numberOfCopies": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Award Report Term Recipients [POST /research-sys/api/v1/award-report-term-recipients/]
+### Insert Multiple Award Report Term Recipients [POST /award/api/v1/award-report-term-recipients/]
 
 + Request
 
@@ -190,7 +190,7 @@
               {"awardReportTermRecipientId": "(val)","awardReportTermId": "(val)","contactId": "(val)","contactTypeCode": "(val)","rolodexId": "(val)","numberOfCopies": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Award Report Term Recipients by Key [DELETE /research-sys/api/v1/award-report-term-recipients/(key)]
+### Delete Award Report Term Recipients by Key [DELETE /award/api/v1/award-report-term-recipients/(key)]
 	 
 + Request
 
@@ -201,7 +201,7 @@
 
 + Response 204
 
-### Delete All Award Report Term Recipients [DELETE /research-sys/api/v1/award-report-term-recipients/]
+### Delete All Award Report Term Recipients [DELETE /award/api/v1/award-report-term-recipients/]
 
 + Parameters
 
@@ -216,17 +216,17 @@
 
 + Response 204
 
-### Delete All Award Report Term Recipients with Matching [DELETE /research-sys/api/v1/award-report-term-recipients/]
+### Delete All Award Report Term Recipients with Matching [DELETE /award/api/v1/award-report-term-recipients/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + awardReportTermRecipientId
-            + awardReportTermId
-            + contactId
-            + contactTypeCode
-            + rolodexId
-            + numberOfCopies
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + awardReportTermRecipientId (optional) - Award Report Terms Recipient Id. Maximum length is 22.
+    + awardReportTermId (optional) - Award Report Terms Id. Maximum length is 22.
+    + contactId (optional) - Contact Type. Maximum length is 12.
+    + contactTypeCode (optional) - Contact Type. Maximum length is 22.
+    + rolodexId (optional) - Name/Organization. Maximum length is 22.
+    + numberOfCopies (optional) - Number of Copies. Maximum length is 22.
 
       
 + Request

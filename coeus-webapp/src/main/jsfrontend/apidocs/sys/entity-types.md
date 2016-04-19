@@ -43,10 +43,10 @@
     
 + Parameters
 
-        + code
-            + name
-            + active
-            + sortCode
+    + code (optional) - The entity type code. Maximum length is 2.
+    + name (optional) - Descriptive text. Maximum length is 10.
+    + active (optional) - This attribute is used to describe whether the associated object is active or inactive. Maximum length is 1.
+    + sortCode (optional) - Descriptive text. Maximum length is 10.
 
             
 + Request
@@ -218,11 +218,11 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + code
-            + name
-            + active
-            + sortCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + code (optional) - The entity type code. Maximum length is 2.
+    + name (optional) - Descriptive text. Maximum length is 10.
+    + active (optional) - This attribute is used to describe whether the associated object is active or inactive. Maximum length is 1.
+    + sortCode (optional) - Descriptive text. Maximum length is 10.
 
       
 + Request

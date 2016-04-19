@@ -1,6 +1,6 @@
-## Custom Attribute Document Values [/research-sys/api/v1/custom-attribute-document-values/]
+## Custom Attribute Document Values [/research-common/api/v1/custom-attribute-document-values/]
 
-### Get Custom Attribute Document Values by Key [GET /research-sys/api/v1/custom-attribute-document-values/(key)]
+### Get Custom Attribute Document Values by Key [GET /research-common/api/v1/custom-attribute-document-values/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"id": "(val)","documentNumber": "(val)","value": "(val)","_primaryKey": "(val)"}
 
-### Get All Custom Attribute Document Values [GET /research-sys/api/v1/custom-attribute-document-values/]
+### Get All Custom Attribute Document Values [GET /research-common/api/v1/custom-attribute-document-values/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"id": "(val)","documentNumber": "(val)","value": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Custom Attribute Document Values with Filtering [GET /research-sys/api/v1/custom-attribute-document-values/]
+### Get All Custom Attribute Document Values with Filtering [GET /research-common/api/v1/custom-attribute-document-values/]
     
 + Parameters
 
-        + id
-            + documentNumber
-            + value
+    + id (optional) - 
+    + documentNumber (optional) - 
+    + value (optional) - 
 
             
 + Request
@@ -67,7 +67,7 @@
               {"id": "(val)","documentNumber": "(val)","value": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Custom Attribute Document Values [GET /research-sys/api/v1/custom-attribute-document-values/]
+### Get Schema for Custom Attribute Document Values [GET /research-common/api/v1/custom-attribute-document-values/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["id","documentNumber","value"],"primaryKey":"documentNumber:id"}
 		
-### Get Blueprint API specification for Custom Attribute Document Values [GET /research-sys/api/v1/custom-attribute-document-values/]
+### Get Blueprint API specification for Custom Attribute Document Values [GET /research-common/api/v1/custom-attribute-document-values/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Custom Attribute Document Values [PUT /research-sys/api/v1/custom-attribute-document-values/(key)]
+### Update Custom Attribute Document Values [PUT /research-common/api/v1/custom-attribute-document-values/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Custom Attribute Document Values [PUT /research-sys/api/v1/custom-attribute-document-values/]
+### Update Multiple Custom Attribute Document Values [PUT /research-common/api/v1/custom-attribute-document-values/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Custom Attribute Document Values [POST /research-sys/api/v1/custom-attribute-document-values/]
+### Insert Custom Attribute Document Values [POST /research-common/api/v1/custom-attribute-document-values/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"id": "(val)","documentNumber": "(val)","value": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Custom Attribute Document Values [POST /research-sys/api/v1/custom-attribute-document-values/]
+### Insert Multiple Custom Attribute Document Values [POST /research-common/api/v1/custom-attribute-document-values/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"id": "(val)","documentNumber": "(val)","value": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Custom Attribute Document Values by Key [DELETE /research-sys/api/v1/custom-attribute-document-values/(key)]
+### Delete Custom Attribute Document Values by Key [DELETE /research-common/api/v1/custom-attribute-document-values/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Custom Attribute Document Values [DELETE /research-sys/api/v1/custom-attribute-document-values/]
+### Delete All Custom Attribute Document Values [DELETE /research-common/api/v1/custom-attribute-document-values/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Custom Attribute Document Values with Matching [DELETE /research-sys/api/v1/custom-attribute-document-values/]
+### Delete All Custom Attribute Document Values with Matching [DELETE /research-common/api/v1/custom-attribute-document-values/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + documentNumber
-            + value
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - 
+    + documentNumber (optional) - 
+    + value (optional) - 
 
       
 + Request

@@ -43,12 +43,12 @@
     
 + Parameters
 
-        + languageCode
-            + naturalLanguageUsageId
-            + typeId
-            + template
-            + id
-            + active
+    + languageCode (optional) - 
+    + naturalLanguageUsageId (optional) - 
+    + typeId (optional) - 
+    + template (optional) - 
+    + id (optional) - 
+    + active (optional) - 
 
             
 + Request
@@ -220,13 +220,13 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + languageCode
-            + naturalLanguageUsageId
-            + typeId
-            + template
-            + id
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + languageCode (optional) - 
+    + naturalLanguageUsageId (optional) - 
+    + typeId (optional) - 
+    + template (optional) - 
+    + id (optional) - 
+    + active (optional) - 
 
       
 + Request

@@ -1,6 +1,6 @@
-## Negotiation Association Types [/research-sys/api/v1/negotiation-association-types/]
+## Negotiation Association Types [/negotiation/api/v1/negotiation-association-types/]
 
-### Get Negotiation Association Types by Key [GET /research-sys/api/v1/negotiation-association-types/(key)]
+### Get Negotiation Association Types by Key [GET /negotiation/api/v1/negotiation-association-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"id": "(val)","code": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
 
-### Get All Negotiation Association Types [GET /research-sys/api/v1/negotiation-association-types/]
+### Get All Negotiation Association Types [GET /negotiation/api/v1/negotiation-association-types/]
 	 
 + Request
 
@@ -39,14 +39,14 @@
               {"id": "(val)","code": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Negotiation Association Types with Filtering [GET /research-sys/api/v1/negotiation-association-types/]
+### Get All Negotiation Association Types with Filtering [GET /negotiation/api/v1/negotiation-association-types/]
     
 + Parameters
 
-        + id
-            + code
-            + description
-            + active
+    + id (optional) - Id. Maximum length is 22.
+    + code (optional) - Association Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 30.
+    + active (optional) - Active. Maximum length is 1.
 
             
 + Request
@@ -68,7 +68,7 @@
               {"id": "(val)","code": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Negotiation Association Types [GET /research-sys/api/v1/negotiation-association-types/]
+### Get Schema for Negotiation Association Types [GET /negotiation/api/v1/negotiation-association-types/]
 	                                          
 + Parameters
 
@@ -90,7 +90,7 @@
     
             {"columns":["id","code","description","active"],"primaryKey":"id"}
 		
-### Get Blueprint API specification for Negotiation Association Types [GET /research-sys/api/v1/negotiation-association-types/]
+### Get Blueprint API specification for Negotiation Association Types [GET /negotiation/api/v1/negotiation-association-types/]
 	 
 + Parameters
 
@@ -111,7 +111,7 @@
             transfer-encoding:chunked
 
 
-### Update Negotiation Association Types [PUT /research-sys/api/v1/negotiation-association-types/(key)]
+### Update Negotiation Association Types [PUT /negotiation/api/v1/negotiation-association-types/(key)]
 
 + Request
 
@@ -126,7 +126,7 @@
 			
 + Response 204
 
-### Update Multiple Negotiation Association Types [PUT /research-sys/api/v1/negotiation-association-types/]
+### Update Multiple Negotiation Association Types [PUT /negotiation/api/v1/negotiation-association-types/]
 
 + Request
 
@@ -144,7 +144,7 @@
 			
 + Response 204
 
-### Insert Negotiation Association Types [POST /research-sys/api/v1/negotiation-association-types/]
+### Insert Negotiation Association Types [POST /negotiation/api/v1/negotiation-association-types/]
 
 + Request
 
@@ -163,7 +163,7 @@
             
             {"id": "(val)","code": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Negotiation Association Types [POST /research-sys/api/v1/negotiation-association-types/]
+### Insert Multiple Negotiation Association Types [POST /negotiation/api/v1/negotiation-association-types/]
 
 + Request
 
@@ -188,7 +188,7 @@
               {"id": "(val)","code": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Negotiation Association Types by Key [DELETE /research-sys/api/v1/negotiation-association-types/(key)]
+### Delete Negotiation Association Types by Key [DELETE /negotiation/api/v1/negotiation-association-types/(key)]
 	 
 + Request
 
@@ -199,7 +199,7 @@
 
 + Response 204
 
-### Delete All Negotiation Association Types [DELETE /research-sys/api/v1/negotiation-association-types/]
+### Delete All Negotiation Association Types [DELETE /negotiation/api/v1/negotiation-association-types/]
 
 + Parameters
 
@@ -214,15 +214,15 @@
 
 + Response 204
 
-### Delete All Negotiation Association Types with Matching [DELETE /research-sys/api/v1/negotiation-association-types/]
+### Delete All Negotiation Association Types with Matching [DELETE /negotiation/api/v1/negotiation-association-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + code
-            + description
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Id. Maximum length is 22.
+    + code (optional) - Association Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 30.
+    + active (optional) - Active. Maximum length is 1.
 
       
 + Request

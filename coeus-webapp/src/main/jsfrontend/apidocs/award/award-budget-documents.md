@@ -1,6 +1,6 @@
-## Award Budget Documents [/research-sys/api/v1/award-budget-documents/]
+## Award Budget Documents [/award/api/v1/award-budget-documents/]
 
-### Get Award Budget Documents by Key [GET /research-sys/api/v1/award-budget-documents/(key)]
+### Get Award Budget Documents by Key [GET /award/api/v1/award-budget-documents/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"documentNumber": "(val)","_primaryKey": "(val)"}
 
-### Get All Award Budget Documents [GET /research-sys/api/v1/award-budget-documents/]
+### Get All Award Budget Documents [GET /award/api/v1/award-budget-documents/]
 	 
 + Request
 
@@ -39,11 +39,11 @@
               {"documentNumber": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Award Budget Documents with Filtering [GET /research-sys/api/v1/award-budget-documents/]
+### Get All Award Budget Documents with Filtering [GET /award/api/v1/award-budget-documents/]
     
 + Parameters
 
-        + documentNumber
+    + documentNumber (optional) - 
 
             
 + Request
@@ -65,7 +65,7 @@
               {"documentNumber": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Award Budget Documents [GET /research-sys/api/v1/award-budget-documents/]
+### Get Schema for Award Budget Documents [GET /award/api/v1/award-budget-documents/]
 	                                          
 + Parameters
 
@@ -87,7 +87,7 @@
     
             {"columns":["documentNumber"],"primaryKey":"documentNumber"}
 		
-### Get Blueprint API specification for Award Budget Documents [GET /research-sys/api/v1/award-budget-documents/]
+### Get Blueprint API specification for Award Budget Documents [GET /award/api/v1/award-budget-documents/]
 	 
 + Parameters
 
@@ -108,7 +108,7 @@
             transfer-encoding:chunked
 
 
-### Update Award Budget Documents [PUT /research-sys/api/v1/award-budget-documents/(key)]
+### Update Award Budget Documents [PUT /award/api/v1/award-budget-documents/(key)]
 
 + Request
 
@@ -123,7 +123,7 @@
 			
 + Response 204
 
-### Update Multiple Award Budget Documents [PUT /research-sys/api/v1/award-budget-documents/]
+### Update Multiple Award Budget Documents [PUT /award/api/v1/award-budget-documents/]
 
 + Request
 
@@ -141,7 +141,7 @@
 			
 + Response 204
 
-### Insert Award Budget Documents [POST /research-sys/api/v1/award-budget-documents/]
+### Insert Award Budget Documents [POST /award/api/v1/award-budget-documents/]
 
 + Request
 
@@ -160,7 +160,7 @@
             
             {"documentNumber": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Award Budget Documents [POST /research-sys/api/v1/award-budget-documents/]
+### Insert Multiple Award Budget Documents [POST /award/api/v1/award-budget-documents/]
 
 + Request
 
@@ -185,7 +185,7 @@
               {"documentNumber": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Award Budget Documents by Key [DELETE /research-sys/api/v1/award-budget-documents/(key)]
+### Delete Award Budget Documents by Key [DELETE /award/api/v1/award-budget-documents/(key)]
 	 
 + Request
 
@@ -196,7 +196,7 @@
 
 + Response 204
 
-### Delete All Award Budget Documents [DELETE /research-sys/api/v1/award-budget-documents/]
+### Delete All Award Budget Documents [DELETE /award/api/v1/award-budget-documents/]
 
 + Parameters
 
@@ -211,12 +211,12 @@
 
 + Response 204
 
-### Delete All Award Budget Documents with Matching [DELETE /research-sys/api/v1/award-budget-documents/]
+### Delete All Award Budget Documents with Matching [DELETE /award/api/v1/award-budget-documents/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + documentNumber
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + documentNumber (optional) - 
 
       
 + Request

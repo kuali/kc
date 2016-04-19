@@ -1,6 +1,6 @@
-## Iacuc Protocol Reviewer Types [/research-sys/api/v1/iacuc-protocol-reviewer-types/]
+## Iacuc Protocol Reviewer Types [/iacuc/api/v1/iacuc-protocol-reviewer-types/]
 
-### Get Iacuc Protocol Reviewer Types by Key [GET /research-sys/api/v1/iacuc-protocol-reviewer-types/(key)]
+### Get Iacuc Protocol Reviewer Types by Key [GET /iacuc/api/v1/iacuc-protocol-reviewer-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"reviewerTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Protocol Reviewer Types [GET /research-sys/api/v1/iacuc-protocol-reviewer-types/]
+### Get All Iacuc Protocol Reviewer Types [GET /iacuc/api/v1/iacuc-protocol-reviewer-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"reviewerTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Protocol Reviewer Types with Filtering [GET /research-sys/api/v1/iacuc-protocol-reviewer-types/]
+### Get All Iacuc Protocol Reviewer Types with Filtering [GET /iacuc/api/v1/iacuc-protocol-reviewer-types/]
     
 + Parameters
 
-        + reviewerTypeCode
-            + description
+    + reviewerTypeCode (optional) - Reviewer Type. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"reviewerTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Protocol Reviewer Types [GET /research-sys/api/v1/iacuc-protocol-reviewer-types/]
+### Get Schema for Iacuc Protocol Reviewer Types [GET /iacuc/api/v1/iacuc-protocol-reviewer-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["reviewerTypeCode","description"],"primaryKey":"reviewerTypeCode"}
 		
-### Get Blueprint API specification for Iacuc Protocol Reviewer Types [GET /research-sys/api/v1/iacuc-protocol-reviewer-types/]
+### Get Blueprint API specification for Iacuc Protocol Reviewer Types [GET /iacuc/api/v1/iacuc-protocol-reviewer-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Protocol Reviewer Types [PUT /research-sys/api/v1/iacuc-protocol-reviewer-types/(key)]
+### Update Iacuc Protocol Reviewer Types [PUT /iacuc/api/v1/iacuc-protocol-reviewer-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Protocol Reviewer Types [PUT /research-sys/api/v1/iacuc-protocol-reviewer-types/]
+### Update Multiple Iacuc Protocol Reviewer Types [PUT /iacuc/api/v1/iacuc-protocol-reviewer-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Iacuc Protocol Reviewer Types [POST /research-sys/api/v1/iacuc-protocol-reviewer-types/]
+### Insert Iacuc Protocol Reviewer Types [POST /iacuc/api/v1/iacuc-protocol-reviewer-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"reviewerTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Protocol Reviewer Types [POST /research-sys/api/v1/iacuc-protocol-reviewer-types/]
+### Insert Multiple Iacuc Protocol Reviewer Types [POST /iacuc/api/v1/iacuc-protocol-reviewer-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"reviewerTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Protocol Reviewer Types by Key [DELETE /research-sys/api/v1/iacuc-protocol-reviewer-types/(key)]
+### Delete Iacuc Protocol Reviewer Types by Key [DELETE /iacuc/api/v1/iacuc-protocol-reviewer-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Reviewer Types [DELETE /research-sys/api/v1/iacuc-protocol-reviewer-types/]
+### Delete All Iacuc Protocol Reviewer Types [DELETE /iacuc/api/v1/iacuc-protocol-reviewer-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Reviewer Types with Matching [DELETE /research-sys/api/v1/iacuc-protocol-reviewer-types/]
+### Delete All Iacuc Protocol Reviewer Types with Matching [DELETE /iacuc/api/v1/iacuc-protocol-reviewer-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + reviewerTypeCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + reviewerTypeCode (optional) - Reviewer Type. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

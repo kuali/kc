@@ -1,6 +1,6 @@
-## Document Nextvalues [/research-sys/api/v1/document-nextvalues/]
+## Document Nextvalues [/research-common/api/v1/document-nextvalues/]
 
-### Get Document Nextvalues by Key [GET /research-sys/api/v1/document-nextvalues/(key)]
+### Get Document Nextvalues by Key [GET /research-common/api/v1/document-nextvalues/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"propertyName": "(val)","documentKey": "(val)","nextValue": "(val)","_primaryKey": "(val)"}
 
-### Get All Document Nextvalues [GET /research-sys/api/v1/document-nextvalues/]
+### Get All Document Nextvalues [GET /research-common/api/v1/document-nextvalues/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"propertyName": "(val)","documentKey": "(val)","nextValue": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Document Nextvalues with Filtering [GET /research-sys/api/v1/document-nextvalues/]
+### Get All Document Nextvalues with Filtering [GET /research-common/api/v1/document-nextvalues/]
     
 + Parameters
 
-        + propertyName
-            + documentKey
-            + nextValue
+    + propertyName (optional) - Property Name. Maximum length is 200.
+    + documentKey (optional) - Document Number. Maximum length is 40.
+    + nextValue (optional) - Next Value. Maximum length is 12.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"propertyName": "(val)","documentKey": "(val)","nextValue": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Document Nextvalues [GET /research-sys/api/v1/document-nextvalues/]
+### Get Schema for Document Nextvalues [GET /research-common/api/v1/document-nextvalues/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["propertyName","documentKey","nextValue"],"primaryKey":"documentKey:propertyName"}
 		
-### Get Blueprint API specification for Document Nextvalues [GET /research-sys/api/v1/document-nextvalues/]
+### Get Blueprint API specification for Document Nextvalues [GET /research-common/api/v1/document-nextvalues/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Document Nextvalues [PUT /research-sys/api/v1/document-nextvalues/(key)]
+### Update Document Nextvalues [PUT /research-common/api/v1/document-nextvalues/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Document Nextvalues [PUT /research-sys/api/v1/document-nextvalues/]
+### Update Multiple Document Nextvalues [PUT /research-common/api/v1/document-nextvalues/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Document Nextvalues [POST /research-sys/api/v1/document-nextvalues/]
+### Insert Document Nextvalues [POST /research-common/api/v1/document-nextvalues/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"propertyName": "(val)","documentKey": "(val)","nextValue": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Document Nextvalues [POST /research-sys/api/v1/document-nextvalues/]
+### Insert Multiple Document Nextvalues [POST /research-common/api/v1/document-nextvalues/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"propertyName": "(val)","documentKey": "(val)","nextValue": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Document Nextvalues by Key [DELETE /research-sys/api/v1/document-nextvalues/(key)]
+### Delete Document Nextvalues by Key [DELETE /research-common/api/v1/document-nextvalues/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Document Nextvalues [DELETE /research-sys/api/v1/document-nextvalues/]
+### Delete All Document Nextvalues [DELETE /research-common/api/v1/document-nextvalues/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Document Nextvalues with Matching [DELETE /research-sys/api/v1/document-nextvalues/]
+### Delete All Document Nextvalues with Matching [DELETE /research-common/api/v1/document-nextvalues/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + propertyName
-            + documentKey
-            + nextValue
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + propertyName (optional) - Property Name. Maximum length is 200.
+    + documentKey (optional) - Document Number. Maximum length is 40.
+    + nextValue (optional) - Next Value. Maximum length is 12.
 
       
 + Request

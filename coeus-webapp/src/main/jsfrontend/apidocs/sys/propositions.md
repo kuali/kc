@@ -43,13 +43,13 @@
     
 + Parameters
 
-        + id
-            + description
-            + ruleId
-            + typeId
-            + propositionTypeCode
-            + compoundOpCode
-            + compoundSequenceNumber
+    + id (optional) - Proposition Id.
+    + description (optional) - Description.
+    + ruleId (optional) - Rule Id.
+    + typeId (optional) - Proposition Type Id.
+    + propositionTypeCode (optional) - Proposition Type Code.
+    + compoundOpCode (optional) - Compound Op Code.
+    + compoundSequenceNumber (optional) - Compound Sequence Number.
 
             
 + Request
@@ -221,14 +221,14 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + description
-            + ruleId
-            + typeId
-            + propositionTypeCode
-            + compoundOpCode
-            + compoundSequenceNumber
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Proposition Id.
+    + description (optional) - Description.
+    + ruleId (optional) - Rule Id.
+    + typeId (optional) - Proposition Type Id.
+    + propositionTypeCode (optional) - Proposition Type Code.
+    + compoundOpCode (optional) - Compound Op Code.
+    + compoundSequenceNumber (optional) - Compound Sequence Number.
 
       
 + Request

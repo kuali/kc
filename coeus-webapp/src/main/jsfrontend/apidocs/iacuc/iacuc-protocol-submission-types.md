@@ -1,6 +1,6 @@
-## Iacuc Protocol Submission Types [/research-sys/api/v1/iacuc-protocol-submission-types/]
+## Iacuc Protocol Submission Types [/iacuc/api/v1/iacuc-protocol-submission-types/]
 
-### Get Iacuc Protocol Submission Types by Key [GET /research-sys/api/v1/iacuc-protocol-submission-types/(key)]
+### Get Iacuc Protocol Submission Types by Key [GET /iacuc/api/v1/iacuc-protocol-submission-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"submissionTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Protocol Submission Types [GET /research-sys/api/v1/iacuc-protocol-submission-types/]
+### Get All Iacuc Protocol Submission Types [GET /iacuc/api/v1/iacuc-protocol-submission-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"submissionTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Protocol Submission Types with Filtering [GET /research-sys/api/v1/iacuc-protocol-submission-types/]
+### Get All Iacuc Protocol Submission Types with Filtering [GET /iacuc/api/v1/iacuc-protocol-submission-types/]
     
 + Parameters
 
-        + submissionTypeCode
-            + description
+    + submissionTypeCode (optional) - Submission Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"submissionTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Protocol Submission Types [GET /research-sys/api/v1/iacuc-protocol-submission-types/]
+### Get Schema for Iacuc Protocol Submission Types [GET /iacuc/api/v1/iacuc-protocol-submission-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["submissionTypeCode","description"],"primaryKey":"submissionTypeCode"}
 		
-### Get Blueprint API specification for Iacuc Protocol Submission Types [GET /research-sys/api/v1/iacuc-protocol-submission-types/]
+### Get Blueprint API specification for Iacuc Protocol Submission Types [GET /iacuc/api/v1/iacuc-protocol-submission-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Protocol Submission Types [PUT /research-sys/api/v1/iacuc-protocol-submission-types/(key)]
+### Update Iacuc Protocol Submission Types [PUT /iacuc/api/v1/iacuc-protocol-submission-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Protocol Submission Types [PUT /research-sys/api/v1/iacuc-protocol-submission-types/]
+### Update Multiple Iacuc Protocol Submission Types [PUT /iacuc/api/v1/iacuc-protocol-submission-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Iacuc Protocol Submission Types [POST /research-sys/api/v1/iacuc-protocol-submission-types/]
+### Insert Iacuc Protocol Submission Types [POST /iacuc/api/v1/iacuc-protocol-submission-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"submissionTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Protocol Submission Types [POST /research-sys/api/v1/iacuc-protocol-submission-types/]
+### Insert Multiple Iacuc Protocol Submission Types [POST /iacuc/api/v1/iacuc-protocol-submission-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"submissionTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Protocol Submission Types by Key [DELETE /research-sys/api/v1/iacuc-protocol-submission-types/(key)]
+### Delete Iacuc Protocol Submission Types by Key [DELETE /iacuc/api/v1/iacuc-protocol-submission-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Submission Types [DELETE /research-sys/api/v1/iacuc-protocol-submission-types/]
+### Delete All Iacuc Protocol Submission Types [DELETE /iacuc/api/v1/iacuc-protocol-submission-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Submission Types with Matching [DELETE /research-sys/api/v1/iacuc-protocol-submission-types/]
+### Delete All Iacuc Protocol Submission Types with Matching [DELETE /iacuc/api/v1/iacuc-protocol-submission-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + submissionTypeCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + submissionTypeCode (optional) - Submission Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

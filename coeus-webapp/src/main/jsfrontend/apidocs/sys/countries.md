@@ -43,11 +43,11 @@
     
 + Parameters
 
-        + code
-            + alternateCode
-            + name
-            + restricted
-            + active
+    + code (optional) - The code uniquely identify a country. Maximum length is 2.
+    + alternateCode (optional) - The code uniquely identify a country. Maximum length is 3.
+    + name (optional) - Postal Country Name... Maximum length is 255.
+    + restricted (optional) - Restricted.
+    + active (optional) - This attribute is used to describe whether the associated object is active or inactive. Maximum length is 1.
 
             
 + Request
@@ -219,12 +219,12 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + code
-            + alternateCode
-            + name
-            + restricted
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + code (optional) - The code uniquely identify a country. Maximum length is 2.
+    + alternateCode (optional) - The code uniquely identify a country. Maximum length is 3.
+    + name (optional) - Postal Country Name... Maximum length is 255.
+    + restricted (optional) - Restricted.
+    + active (optional) - This attribute is used to describe whether the associated object is active or inactive. Maximum length is 1.
 
       
 + Request

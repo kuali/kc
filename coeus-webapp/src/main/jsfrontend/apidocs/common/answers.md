@@ -1,6 +1,6 @@
-## Answers [/research-sys/api/v1/answers/]
+## Answers [/research-common/api/v1/answers/]
 
-### Get Answers by Key [GET /research-sys/api/v1/answers/(key)]
+### Get Answers by Key [GET /research-common/api/v1/answers/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"id": "(val)","answerHeaderId": "(val)","questionId": "(val)","questionnaireQuestionsId": "(val)","questionNumber": "(val)","answerNumber": "(val)","answer": "(val)","_primaryKey": "(val)"}
 
-### Get All Answers [GET /research-sys/api/v1/answers/]
+### Get All Answers [GET /research-common/api/v1/answers/]
 	 
 + Request
 
@@ -39,17 +39,17 @@
               {"id": "(val)","answerHeaderId": "(val)","questionId": "(val)","questionnaireQuestionsId": "(val)","questionNumber": "(val)","answerNumber": "(val)","answer": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Answers with Filtering [GET /research-sys/api/v1/answers/]
+### Get All Answers with Filtering [GET /research-common/api/v1/answers/]
     
 + Parameters
 
-        + id
-            + answerHeaderId
-            + questionId
-            + questionnaireQuestionsId
-            + questionNumber
-            + answerNumber
-            + answer
+    + id (optional) - 
+    + answerHeaderId (optional) - 
+    + questionId (optional) - 
+    + questionnaireQuestionsId (optional) - 
+    + questionNumber (optional) - 
+    + answerNumber (optional) - 
+    + answer (optional) - 
 
             
 + Request
@@ -71,7 +71,7 @@
               {"id": "(val)","answerHeaderId": "(val)","questionId": "(val)","questionnaireQuestionsId": "(val)","questionNumber": "(val)","answerNumber": "(val)","answer": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Answers [GET /research-sys/api/v1/answers/]
+### Get Schema for Answers [GET /research-common/api/v1/answers/]
 	                                          
 + Parameters
 
@@ -93,7 +93,7 @@
     
             {"columns":["id","answerHeaderId","questionId","questionnaireQuestionsId","questionNumber","answerNumber","answer"],"primaryKey":"id"}
 		
-### Get Blueprint API specification for Answers [GET /research-sys/api/v1/answers/]
+### Get Blueprint API specification for Answers [GET /research-common/api/v1/answers/]
 	 
 + Parameters
 
@@ -114,7 +114,7 @@
             transfer-encoding:chunked
 
 
-### Update Answers [PUT /research-sys/api/v1/answers/(key)]
+### Update Answers [PUT /research-common/api/v1/answers/(key)]
 
 + Request
 
@@ -129,7 +129,7 @@
 			
 + Response 204
 
-### Update Multiple Answers [PUT /research-sys/api/v1/answers/]
+### Update Multiple Answers [PUT /research-common/api/v1/answers/]
 
 + Request
 
@@ -147,7 +147,7 @@
 			
 + Response 204
 
-### Insert Answers [POST /research-sys/api/v1/answers/]
+### Insert Answers [POST /research-common/api/v1/answers/]
 
 + Request
 
@@ -166,7 +166,7 @@
             
             {"id": "(val)","answerHeaderId": "(val)","questionId": "(val)","questionnaireQuestionsId": "(val)","questionNumber": "(val)","answerNumber": "(val)","answer": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Answers [POST /research-sys/api/v1/answers/]
+### Insert Multiple Answers [POST /research-common/api/v1/answers/]
 
 + Request
 
@@ -191,7 +191,7 @@
               {"id": "(val)","answerHeaderId": "(val)","questionId": "(val)","questionnaireQuestionsId": "(val)","questionNumber": "(val)","answerNumber": "(val)","answer": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Answers by Key [DELETE /research-sys/api/v1/answers/(key)]
+### Delete Answers by Key [DELETE /research-common/api/v1/answers/(key)]
 	 
 + Request
 
@@ -202,7 +202,7 @@
 
 + Response 204
 
-### Delete All Answers [DELETE /research-sys/api/v1/answers/]
+### Delete All Answers [DELETE /research-common/api/v1/answers/]
 
 + Parameters
 
@@ -217,18 +217,18 @@
 
 + Response 204
 
-### Delete All Answers with Matching [DELETE /research-sys/api/v1/answers/]
+### Delete All Answers with Matching [DELETE /research-common/api/v1/answers/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + answerHeaderId
-            + questionId
-            + questionnaireQuestionsId
-            + questionNumber
-            + answerNumber
-            + answer
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - 
+    + answerHeaderId (optional) - 
+    + questionId (optional) - 
+    + questionnaireQuestionsId (optional) - 
+    + questionNumber (optional) - 
+    + answerNumber (optional) - 
+    + answer (optional) - 
 
       
 + Request

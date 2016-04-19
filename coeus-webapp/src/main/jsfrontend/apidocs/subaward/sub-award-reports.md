@@ -1,6 +1,6 @@
-## Sub Award Reports [/research-sys/api/v1/sub-award-reports/]
+## Sub Award Reports [/subaward/api/v1/sub-award-reports/]
 
-### Get Sub Award Reports by Key [GET /research-sys/api/v1/sub-award-reports/(key)]
+### Get Sub Award Reports by Key [GET /subaward/api/v1/sub-award-reports/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"subAwardReportId": "(val)","subAwardId": "(val)","subAwardCode": "(val)","sequenceNumber": "(val)","subAwardReportTypeCode": "(val)","_primaryKey": "(val)"}
 
-### Get All Sub Award Reports [GET /research-sys/api/v1/sub-award-reports/]
+### Get All Sub Award Reports [GET /subaward/api/v1/sub-award-reports/]
 	 
 + Request
 
@@ -39,15 +39,15 @@
               {"subAwardReportId": "(val)","subAwardId": "(val)","subAwardCode": "(val)","sequenceNumber": "(val)","subAwardReportTypeCode": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Sub Award Reports with Filtering [GET /research-sys/api/v1/sub-award-reports/]
+### Get All Sub Award Reports with Filtering [GET /subaward/api/v1/sub-award-reports/]
     
 + Parameters
 
-        + subAwardReportId
-            + subAwardId
-            + subAwardCode
-            + sequenceNumber
-            + subAwardReportTypeCode
+    + subAwardReportId (optional) - Report ID. Maximum length is 15.
+    + subAwardId (optional) - Subaward ID. Maximum length is 22.
+    + subAwardCode (optional) - Subaward ID. Maximum length is 22.
+    + sequenceNumber (optional) - 
+    + subAwardReportTypeCode (optional) - Report Type. Maximum length is 3.
 
             
 + Request
@@ -69,7 +69,7 @@
               {"subAwardReportId": "(val)","subAwardId": "(val)","subAwardCode": "(val)","sequenceNumber": "(val)","subAwardReportTypeCode": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Sub Award Reports [GET /research-sys/api/v1/sub-award-reports/]
+### Get Schema for Sub Award Reports [GET /subaward/api/v1/sub-award-reports/]
 	                                          
 + Parameters
 
@@ -91,7 +91,7 @@
     
             {"columns":["subAwardReportId","subAwardId","subAwardCode","sequenceNumber","subAwardReportTypeCode"],"primaryKey":"subAwardReportId"}
 		
-### Get Blueprint API specification for Sub Award Reports [GET /research-sys/api/v1/sub-award-reports/]
+### Get Blueprint API specification for Sub Award Reports [GET /subaward/api/v1/sub-award-reports/]
 	 
 + Parameters
 
@@ -112,7 +112,7 @@
             transfer-encoding:chunked
 
 
-### Update Sub Award Reports [PUT /research-sys/api/v1/sub-award-reports/(key)]
+### Update Sub Award Reports [PUT /subaward/api/v1/sub-award-reports/(key)]
 
 + Request
 
@@ -127,7 +127,7 @@
 			
 + Response 204
 
-### Update Multiple Sub Award Reports [PUT /research-sys/api/v1/sub-award-reports/]
+### Update Multiple Sub Award Reports [PUT /subaward/api/v1/sub-award-reports/]
 
 + Request
 
@@ -145,7 +145,7 @@
 			
 + Response 204
 
-### Insert Sub Award Reports [POST /research-sys/api/v1/sub-award-reports/]
+### Insert Sub Award Reports [POST /subaward/api/v1/sub-award-reports/]
 
 + Request
 
@@ -164,7 +164,7 @@
             
             {"subAwardReportId": "(val)","subAwardId": "(val)","subAwardCode": "(val)","sequenceNumber": "(val)","subAwardReportTypeCode": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Sub Award Reports [POST /research-sys/api/v1/sub-award-reports/]
+### Insert Multiple Sub Award Reports [POST /subaward/api/v1/sub-award-reports/]
 
 + Request
 
@@ -189,7 +189,7 @@
               {"subAwardReportId": "(val)","subAwardId": "(val)","subAwardCode": "(val)","sequenceNumber": "(val)","subAwardReportTypeCode": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Sub Award Reports by Key [DELETE /research-sys/api/v1/sub-award-reports/(key)]
+### Delete Sub Award Reports by Key [DELETE /subaward/api/v1/sub-award-reports/(key)]
 	 
 + Request
 
@@ -200,7 +200,7 @@
 
 + Response 204
 
-### Delete All Sub Award Reports [DELETE /research-sys/api/v1/sub-award-reports/]
+### Delete All Sub Award Reports [DELETE /subaward/api/v1/sub-award-reports/]
 
 + Parameters
 
@@ -215,16 +215,16 @@
 
 + Response 204
 
-### Delete All Sub Award Reports with Matching [DELETE /research-sys/api/v1/sub-award-reports/]
+### Delete All Sub Award Reports with Matching [DELETE /subaward/api/v1/sub-award-reports/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + subAwardReportId
-            + subAwardId
-            + subAwardCode
-            + sequenceNumber
-            + subAwardReportTypeCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + subAwardReportId (optional) - Report ID. Maximum length is 15.
+    + subAwardId (optional) - Subaward ID. Maximum length is 22.
+    + subAwardCode (optional) - Subaward ID. Maximum length is 22.
+    + sequenceNumber (optional) - 
+    + subAwardReportTypeCode (optional) - Report Type. Maximum length is 3.
 
       
 + Request

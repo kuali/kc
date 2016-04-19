@@ -1,6 +1,6 @@
-## Budget Category Maps [/research-sys/api/v1/budget-category-maps/]
+## Budget Category Maps [/research-common/api/v1/budget-category-maps/]
 
-### Get Budget Category Maps by Key [GET /research-sys/api/v1/budget-category-maps/(key)]
+### Get Budget Category Maps by Key [GET /research-common/api/v1/budget-category-maps/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"mappingName": "(val)","targetCategoryCode": "(val)","categoryType": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Budget Category Maps [GET /research-sys/api/v1/budget-category-maps/]
+### Get All Budget Category Maps [GET /research-common/api/v1/budget-category-maps/]
 	 
 + Request
 
@@ -39,14 +39,14 @@
               {"mappingName": "(val)","targetCategoryCode": "(val)","categoryType": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Budget Category Maps with Filtering [GET /research-sys/api/v1/budget-category-maps/]
+### Get All Budget Category Maps with Filtering [GET /research-common/api/v1/budget-category-maps/]
     
 + Parameters
 
-        + mappingName
-            + targetCategoryCode
-            + categoryType
-            + description
+    + mappingName (optional) - Mapping Name. Maximum length is 100.
+    + targetCategoryCode (optional) - Target Category Code. Maximum length is 15.
+    + categoryType (optional) - Category Type. Maximum length is 200.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -68,7 +68,7 @@
               {"mappingName": "(val)","targetCategoryCode": "(val)","categoryType": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Budget Category Maps [GET /research-sys/api/v1/budget-category-maps/]
+### Get Schema for Budget Category Maps [GET /research-common/api/v1/budget-category-maps/]
 	                                          
 + Parameters
 
@@ -90,7 +90,7 @@
     
             {"columns":["mappingName","targetCategoryCode","categoryType","description"],"primaryKey":"mappingName:targetCategoryCode"}
 		
-### Get Blueprint API specification for Budget Category Maps [GET /research-sys/api/v1/budget-category-maps/]
+### Get Blueprint API specification for Budget Category Maps [GET /research-common/api/v1/budget-category-maps/]
 	 
 + Parameters
 
@@ -111,7 +111,7 @@
             transfer-encoding:chunked
 
 
-### Update Budget Category Maps [PUT /research-sys/api/v1/budget-category-maps/(key)]
+### Update Budget Category Maps [PUT /research-common/api/v1/budget-category-maps/(key)]
 
 + Request
 
@@ -126,7 +126,7 @@
 			
 + Response 204
 
-### Update Multiple Budget Category Maps [PUT /research-sys/api/v1/budget-category-maps/]
+### Update Multiple Budget Category Maps [PUT /research-common/api/v1/budget-category-maps/]
 
 + Request
 
@@ -144,7 +144,7 @@
 			
 + Response 204
 
-### Insert Budget Category Maps [POST /research-sys/api/v1/budget-category-maps/]
+### Insert Budget Category Maps [POST /research-common/api/v1/budget-category-maps/]
 
 + Request
 
@@ -163,7 +163,7 @@
             
             {"mappingName": "(val)","targetCategoryCode": "(val)","categoryType": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Budget Category Maps [POST /research-sys/api/v1/budget-category-maps/]
+### Insert Multiple Budget Category Maps [POST /research-common/api/v1/budget-category-maps/]
 
 + Request
 
@@ -188,7 +188,7 @@
               {"mappingName": "(val)","targetCategoryCode": "(val)","categoryType": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Budget Category Maps by Key [DELETE /research-sys/api/v1/budget-category-maps/(key)]
+### Delete Budget Category Maps by Key [DELETE /research-common/api/v1/budget-category-maps/(key)]
 	 
 + Request
 
@@ -199,7 +199,7 @@
 
 + Response 204
 
-### Delete All Budget Category Maps [DELETE /research-sys/api/v1/budget-category-maps/]
+### Delete All Budget Category Maps [DELETE /research-common/api/v1/budget-category-maps/]
 
 + Parameters
 
@@ -214,15 +214,15 @@
 
 + Response 204
 
-### Delete All Budget Category Maps with Matching [DELETE /research-sys/api/v1/budget-category-maps/]
+### Delete All Budget Category Maps with Matching [DELETE /research-common/api/v1/budget-category-maps/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + mappingName
-            + targetCategoryCode
-            + categoryType
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + mappingName (optional) - Mapping Name. Maximum length is 100.
+    + targetCategoryCode (optional) - Target Category Code. Maximum length is 15.
+    + categoryType (optional) - Category Type. Maximum length is 200.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

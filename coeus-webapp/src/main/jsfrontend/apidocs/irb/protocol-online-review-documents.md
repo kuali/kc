@@ -1,6 +1,6 @@
-## Protocol Online Review Documents [/research-sys/api/v1/protocol-online-review-documents/]
+## Protocol Online Review Documents [/irb/api/v1/protocol-online-review-documents/]
 
-### Get Protocol Online Review Documents by Key [GET /research-sys/api/v1/protocol-online-review-documents/(key)]
+### Get Protocol Online Review Documents by Key [GET /irb/api/v1/protocol-online-review-documents/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"documentNumber": "(val)","_primaryKey": "(val)"}
 
-### Get All Protocol Online Review Documents [GET /research-sys/api/v1/protocol-online-review-documents/]
+### Get All Protocol Online Review Documents [GET /irb/api/v1/protocol-online-review-documents/]
 	 
 + Request
 
@@ -39,11 +39,11 @@
               {"documentNumber": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Protocol Online Review Documents with Filtering [GET /research-sys/api/v1/protocol-online-review-documents/]
+### Get All Protocol Online Review Documents with Filtering [GET /irb/api/v1/protocol-online-review-documents/]
     
 + Parameters
 
-        + documentNumber
+    + documentNumber (optional) - 
 
             
 + Request
@@ -65,7 +65,7 @@
               {"documentNumber": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Protocol Online Review Documents [GET /research-sys/api/v1/protocol-online-review-documents/]
+### Get Schema for Protocol Online Review Documents [GET /irb/api/v1/protocol-online-review-documents/]
 	                                          
 + Parameters
 
@@ -87,7 +87,7 @@
     
             {"columns":["documentNumber"],"primaryKey":"documentNumber"}
 		
-### Get Blueprint API specification for Protocol Online Review Documents [GET /research-sys/api/v1/protocol-online-review-documents/]
+### Get Blueprint API specification for Protocol Online Review Documents [GET /irb/api/v1/protocol-online-review-documents/]
 	 
 + Parameters
 
@@ -108,7 +108,7 @@
             transfer-encoding:chunked
 
 
-### Update Protocol Online Review Documents [PUT /research-sys/api/v1/protocol-online-review-documents/(key)]
+### Update Protocol Online Review Documents [PUT /irb/api/v1/protocol-online-review-documents/(key)]
 
 + Request
 
@@ -123,7 +123,7 @@
 			
 + Response 204
 
-### Update Multiple Protocol Online Review Documents [PUT /research-sys/api/v1/protocol-online-review-documents/]
+### Update Multiple Protocol Online Review Documents [PUT /irb/api/v1/protocol-online-review-documents/]
 
 + Request
 
@@ -141,7 +141,7 @@
 			
 + Response 204
 
-### Insert Protocol Online Review Documents [POST /research-sys/api/v1/protocol-online-review-documents/]
+### Insert Protocol Online Review Documents [POST /irb/api/v1/protocol-online-review-documents/]
 
 + Request
 
@@ -160,7 +160,7 @@
             
             {"documentNumber": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Protocol Online Review Documents [POST /research-sys/api/v1/protocol-online-review-documents/]
+### Insert Multiple Protocol Online Review Documents [POST /irb/api/v1/protocol-online-review-documents/]
 
 + Request
 
@@ -185,7 +185,7 @@
               {"documentNumber": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Protocol Online Review Documents by Key [DELETE /research-sys/api/v1/protocol-online-review-documents/(key)]
+### Delete Protocol Online Review Documents by Key [DELETE /irb/api/v1/protocol-online-review-documents/(key)]
 	 
 + Request
 
@@ -196,7 +196,7 @@
 
 + Response 204
 
-### Delete All Protocol Online Review Documents [DELETE /research-sys/api/v1/protocol-online-review-documents/]
+### Delete All Protocol Online Review Documents [DELETE /irb/api/v1/protocol-online-review-documents/]
 
 + Parameters
 
@@ -211,12 +211,12 @@
 
 + Response 204
 
-### Delete All Protocol Online Review Documents with Matching [DELETE /research-sys/api/v1/protocol-online-review-documents/]
+### Delete All Protocol Online Review Documents with Matching [DELETE /irb/api/v1/protocol-online-review-documents/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + documentNumber
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + documentNumber (optional) - 
 
       
 + Request

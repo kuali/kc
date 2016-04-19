@@ -1,6 +1,6 @@
-## Proposal Admin Details [/research-sys/api/v1/proposal-admin-details/]
+## Proposal Admin Details [/instprop/api/v1/proposal-admin-details/]
 
-### Get Proposal Admin Details by Key [GET /research-sys/api/v1/proposal-admin-details/(key)]
+### Get Proposal Admin Details by Key [GET /instprop/api/v1/proposal-admin-details/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"proposalAdminDetailId": "(val)","dateSubmittedByDept": "(val)","dateReturnedToDept": "(val)","dateApprovedByOsp": "(val)","dateSubmittedToAgency": "(val)","instPropCreateDate": "(val)","instPropCreateUser": "(val)","signedBy": "(val)","submissionType": "(val)","devProposalNumber": "(val)","instProposalId": "(val)","_primaryKey": "(val)"}
 
-### Get All Proposal Admin Details [GET /research-sys/api/v1/proposal-admin-details/]
+### Get All Proposal Admin Details [GET /instprop/api/v1/proposal-admin-details/]
 	 
 + Request
 
@@ -39,21 +39,21 @@
               {"proposalAdminDetailId": "(val)","dateSubmittedByDept": "(val)","dateReturnedToDept": "(val)","dateApprovedByOsp": "(val)","dateSubmittedToAgency": "(val)","instPropCreateDate": "(val)","instPropCreateUser": "(val)","signedBy": "(val)","submissionType": "(val)","devProposalNumber": "(val)","instProposalId": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Proposal Admin Details with Filtering [GET /research-sys/api/v1/proposal-admin-details/]
+### Get All Proposal Admin Details with Filtering [GET /instprop/api/v1/proposal-admin-details/]
     
 + Parameters
 
-        + proposalAdminDetailId
-            + dateSubmittedByDept
-            + dateReturnedToDept
-            + dateApprovedByOsp
-            + dateSubmittedToAgency
-            + instPropCreateDate
-            + instPropCreateUser
-            + signedBy
-            + submissionType
-            + devProposalNumber
-            + instProposalId
+    + proposalAdminDetailId (optional) - 
+    + dateSubmittedByDept (optional) - 
+    + dateReturnedToDept (optional) - 
+    + dateApprovedByOsp (optional) - 
+    + dateSubmittedToAgency (optional) - 
+    + instPropCreateDate (optional) - 
+    + instPropCreateUser (optional) - 
+    + signedBy (optional) - 
+    + submissionType (optional) - 
+    + devProposalNumber (optional) - 
+    + instProposalId (optional) - 
 
             
 + Request
@@ -75,7 +75,7 @@
               {"proposalAdminDetailId": "(val)","dateSubmittedByDept": "(val)","dateReturnedToDept": "(val)","dateApprovedByOsp": "(val)","dateSubmittedToAgency": "(val)","instPropCreateDate": "(val)","instPropCreateUser": "(val)","signedBy": "(val)","submissionType": "(val)","devProposalNumber": "(val)","instProposalId": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Proposal Admin Details [GET /research-sys/api/v1/proposal-admin-details/]
+### Get Schema for Proposal Admin Details [GET /instprop/api/v1/proposal-admin-details/]
 	                                          
 + Parameters
 
@@ -97,7 +97,7 @@
     
             {"columns":["proposalAdminDetailId","dateSubmittedByDept","dateReturnedToDept","dateApprovedByOsp","dateSubmittedToAgency","instPropCreateDate","instPropCreateUser","signedBy","submissionType","devProposalNumber","instProposalId"],"primaryKey":"proposalAdminDetailId"}
 		
-### Get Blueprint API specification for Proposal Admin Details [GET /research-sys/api/v1/proposal-admin-details/]
+### Get Blueprint API specification for Proposal Admin Details [GET /instprop/api/v1/proposal-admin-details/]
 	 
 + Parameters
 
@@ -118,7 +118,7 @@
             transfer-encoding:chunked
 
 
-### Update Proposal Admin Details [PUT /research-sys/api/v1/proposal-admin-details/(key)]
+### Update Proposal Admin Details [PUT /instprop/api/v1/proposal-admin-details/(key)]
 
 + Request
 
@@ -133,7 +133,7 @@
 			
 + Response 204
 
-### Update Multiple Proposal Admin Details [PUT /research-sys/api/v1/proposal-admin-details/]
+### Update Multiple Proposal Admin Details [PUT /instprop/api/v1/proposal-admin-details/]
 
 + Request
 
@@ -151,7 +151,7 @@
 			
 + Response 204
 
-### Insert Proposal Admin Details [POST /research-sys/api/v1/proposal-admin-details/]
+### Insert Proposal Admin Details [POST /instprop/api/v1/proposal-admin-details/]
 
 + Request
 
@@ -170,7 +170,7 @@
             
             {"proposalAdminDetailId": "(val)","dateSubmittedByDept": "(val)","dateReturnedToDept": "(val)","dateApprovedByOsp": "(val)","dateSubmittedToAgency": "(val)","instPropCreateDate": "(val)","instPropCreateUser": "(val)","signedBy": "(val)","submissionType": "(val)","devProposalNumber": "(val)","instProposalId": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Proposal Admin Details [POST /research-sys/api/v1/proposal-admin-details/]
+### Insert Multiple Proposal Admin Details [POST /instprop/api/v1/proposal-admin-details/]
 
 + Request
 
@@ -195,7 +195,7 @@
               {"proposalAdminDetailId": "(val)","dateSubmittedByDept": "(val)","dateReturnedToDept": "(val)","dateApprovedByOsp": "(val)","dateSubmittedToAgency": "(val)","instPropCreateDate": "(val)","instPropCreateUser": "(val)","signedBy": "(val)","submissionType": "(val)","devProposalNumber": "(val)","instProposalId": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Proposal Admin Details by Key [DELETE /research-sys/api/v1/proposal-admin-details/(key)]
+### Delete Proposal Admin Details by Key [DELETE /instprop/api/v1/proposal-admin-details/(key)]
 	 
 + Request
 
@@ -206,7 +206,7 @@
 
 + Response 204
 
-### Delete All Proposal Admin Details [DELETE /research-sys/api/v1/proposal-admin-details/]
+### Delete All Proposal Admin Details [DELETE /instprop/api/v1/proposal-admin-details/]
 
 + Parameters
 
@@ -221,22 +221,22 @@
 
 + Response 204
 
-### Delete All Proposal Admin Details with Matching [DELETE /research-sys/api/v1/proposal-admin-details/]
+### Delete All Proposal Admin Details with Matching [DELETE /instprop/api/v1/proposal-admin-details/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + proposalAdminDetailId
-            + dateSubmittedByDept
-            + dateReturnedToDept
-            + dateApprovedByOsp
-            + dateSubmittedToAgency
-            + instPropCreateDate
-            + instPropCreateUser
-            + signedBy
-            + submissionType
-            + devProposalNumber
-            + instProposalId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + proposalAdminDetailId (optional) - 
+    + dateSubmittedByDept (optional) - 
+    + dateReturnedToDept (optional) - 
+    + dateApprovedByOsp (optional) - 
+    + dateSubmittedToAgency (optional) - 
+    + instPropCreateDate (optional) - 
+    + instPropCreateUser (optional) - 
+    + signedBy (optional) - 
+    + submissionType (optional) - 
+    + devProposalNumber (optional) - 
+    + instProposalId (optional) - 
 
       
 + Request

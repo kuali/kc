@@ -43,13 +43,13 @@
     
 + Parameters
 
-        + id
-            + name
-            + namespace
-            + label
-            + description
-            + active
-            + componentName
+    + id (optional) - Attribute Id.
+    + name (optional) - Attribute Name.
+    + namespace (optional) - Attribute Namespace.
+    + label (optional) - Attribute Label.
+    + description (optional) - Description.
+    + active (optional) - This attribute is used to describe whether the associated object is active or inactive. Maximum length is 1.
+    + componentName (optional) - Attribute Component Name.
 
             
 + Request
@@ -221,14 +221,14 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + name
-            + namespace
-            + label
-            + description
-            + active
-            + componentName
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Attribute Id.
+    + name (optional) - Attribute Name.
+    + namespace (optional) - Attribute Namespace.
+    + label (optional) - Attribute Label.
+    + description (optional) - Description.
+    + active (optional) - This attribute is used to describe whether the associated object is active or inactive. Maximum length is 1.
+    + componentName (optional) - Attribute Component Name.
 
       
 + Request

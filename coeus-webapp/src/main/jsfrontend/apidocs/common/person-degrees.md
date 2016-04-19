@@ -1,6 +1,6 @@
-## Person Degrees [/research-sys/api/v1/person-degrees/]
+## Person Degrees [/research-common/api/v1/person-degrees/]
 
-### Get Person Degrees by Key [GET /research-sys/api/v1/person-degrees/(key)]
+### Get Person Degrees by Key [GET /research-common/api/v1/person-degrees/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"degreeId": "(val)","personId": "(val)","degreeCode": "(val)","degree": "(val)","graduationYear": "(val)","fieldOfStudy": "(val)","specialization": "(val)","school": "(val)","schoolIdCode": "(val)","schoolId": "(val)","_primaryKey": "(val)"}
 
-### Get All Person Degrees [GET /research-sys/api/v1/person-degrees/]
+### Get All Person Degrees [GET /research-common/api/v1/person-degrees/]
 	 
 + Request
 
@@ -39,20 +39,20 @@
               {"degreeId": "(val)","personId": "(val)","degreeCode": "(val)","degree": "(val)","graduationYear": "(val)","fieldOfStudy": "(val)","specialization": "(val)","school": "(val)","schoolIdCode": "(val)","schoolId": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Person Degrees with Filtering [GET /research-sys/api/v1/person-degrees/]
+### Get All Person Degrees with Filtering [GET /research-common/api/v1/person-degrees/]
     
 + Parameters
 
-        + degreeId
-            + personId
-            + degreeCode
-            + degree
-            + graduationYear
-            + fieldOfStudy
-            + specialization
-            + school
-            + schoolIdCode
-            + schoolId
+    + degreeId (optional) - 
+    + personId (optional) - KcPersonExtendedAttributes Id. Maximum length is 40.
+    + degreeCode (optional) - Degree Code. Maximum length is 6.
+    + degree (optional) - Degree. Maximum length is 80.
+    + graduationYear (optional) - Graduation Year. Maximum length is 4.
+    + fieldOfStudy (optional) - Field of Study. Maximum length is 80.
+    + specialization (optional) - Specialization. Maximum length is 80.
+    + school (optional) - School. Maximum length is 50.
+    + schoolIdCode (optional) - School Id Code. Maximum length is 3.
+    + schoolId (optional) - School Id. Maximum length is 20.
 
             
 + Request
@@ -74,7 +74,7 @@
               {"degreeId": "(val)","personId": "(val)","degreeCode": "(val)","degree": "(val)","graduationYear": "(val)","fieldOfStudy": "(val)","specialization": "(val)","school": "(val)","schoolIdCode": "(val)","schoolId": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Person Degrees [GET /research-sys/api/v1/person-degrees/]
+### Get Schema for Person Degrees [GET /research-common/api/v1/person-degrees/]
 	                                          
 + Parameters
 
@@ -96,7 +96,7 @@
     
             {"columns":["degreeId","personId","degreeCode","degree","graduationYear","fieldOfStudy","specialization","school","schoolIdCode","schoolId"],"primaryKey":"degreeId"}
 		
-### Get Blueprint API specification for Person Degrees [GET /research-sys/api/v1/person-degrees/]
+### Get Blueprint API specification for Person Degrees [GET /research-common/api/v1/person-degrees/]
 	 
 + Parameters
 
@@ -117,7 +117,7 @@
             transfer-encoding:chunked
 
 
-### Update Person Degrees [PUT /research-sys/api/v1/person-degrees/(key)]
+### Update Person Degrees [PUT /research-common/api/v1/person-degrees/(key)]
 
 + Request
 
@@ -132,7 +132,7 @@
 			
 + Response 204
 
-### Update Multiple Person Degrees [PUT /research-sys/api/v1/person-degrees/]
+### Update Multiple Person Degrees [PUT /research-common/api/v1/person-degrees/]
 
 + Request
 
@@ -150,7 +150,7 @@
 			
 + Response 204
 
-### Insert Person Degrees [POST /research-sys/api/v1/person-degrees/]
+### Insert Person Degrees [POST /research-common/api/v1/person-degrees/]
 
 + Request
 
@@ -169,7 +169,7 @@
             
             {"degreeId": "(val)","personId": "(val)","degreeCode": "(val)","degree": "(val)","graduationYear": "(val)","fieldOfStudy": "(val)","specialization": "(val)","school": "(val)","schoolIdCode": "(val)","schoolId": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Person Degrees [POST /research-sys/api/v1/person-degrees/]
+### Insert Multiple Person Degrees [POST /research-common/api/v1/person-degrees/]
 
 + Request
 
@@ -194,7 +194,7 @@
               {"degreeId": "(val)","personId": "(val)","degreeCode": "(val)","degree": "(val)","graduationYear": "(val)","fieldOfStudy": "(val)","specialization": "(val)","school": "(val)","schoolIdCode": "(val)","schoolId": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Person Degrees by Key [DELETE /research-sys/api/v1/person-degrees/(key)]
+### Delete Person Degrees by Key [DELETE /research-common/api/v1/person-degrees/(key)]
 	 
 + Request
 
@@ -205,7 +205,7 @@
 
 + Response 204
 
-### Delete All Person Degrees [DELETE /research-sys/api/v1/person-degrees/]
+### Delete All Person Degrees [DELETE /research-common/api/v1/person-degrees/]
 
 + Parameters
 
@@ -220,21 +220,21 @@
 
 + Response 204
 
-### Delete All Person Degrees with Matching [DELETE /research-sys/api/v1/person-degrees/]
+### Delete All Person Degrees with Matching [DELETE /research-common/api/v1/person-degrees/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + degreeId
-            + personId
-            + degreeCode
-            + degree
-            + graduationYear
-            + fieldOfStudy
-            + specialization
-            + school
-            + schoolIdCode
-            + schoolId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + degreeId (optional) - 
+    + personId (optional) - KcPersonExtendedAttributes Id. Maximum length is 40.
+    + degreeCode (optional) - Degree Code. Maximum length is 6.
+    + degree (optional) - Degree. Maximum length is 80.
+    + graduationYear (optional) - Graduation Year. Maximum length is 4.
+    + fieldOfStudy (optional) - Field of Study. Maximum length is 80.
+    + specialization (optional) - Specialization. Maximum length is 80.
+    + school (optional) - School. Maximum length is 50.
+    + schoolIdCode (optional) - School Id Code. Maximum length is 3.
+    + schoolId (optional) - School Id. Maximum length is 20.
 
       
 + Request

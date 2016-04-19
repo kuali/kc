@@ -1,6 +1,6 @@
-## Custom Report Type Documents [/research-sys/api/v1/custom-report-type-documents/]
+## Custom Report Type Documents [/research-common/api/v1/custom-report-type-documents/]
 
-### Get Custom Report Type Documents by Key [GET /research-sys/api/v1/custom-report-type-documents/(key)]
+### Get Custom Report Type Documents by Key [GET /research-common/api/v1/custom-report-type-documents/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"reportTypeCode": "(val)","documentName": "(val)","_primaryKey": "(val)"}
 
-### Get All Custom Report Type Documents [GET /research-sys/api/v1/custom-report-type-documents/]
+### Get All Custom Report Type Documents [GET /research-common/api/v1/custom-report-type-documents/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"reportTypeCode": "(val)","documentName": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Custom Report Type Documents with Filtering [GET /research-sys/api/v1/custom-report-type-documents/]
+### Get All Custom Report Type Documents with Filtering [GET /research-common/api/v1/custom-report-type-documents/]
     
 + Parameters
 
-        + reportTypeCode
-            + documentName
+    + reportTypeCode (optional) - Report Type Code. Maximum length is 3.
+    + documentName (optional) - Document Name. Maximum length is 100.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"reportTypeCode": "(val)","documentName": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Custom Report Type Documents [GET /research-sys/api/v1/custom-report-type-documents/]
+### Get Schema for Custom Report Type Documents [GET /research-common/api/v1/custom-report-type-documents/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["reportTypeCode","documentName"],"primaryKey":"documentName:reportTypeCode"}
 		
-### Get Blueprint API specification for Custom Report Type Documents [GET /research-sys/api/v1/custom-report-type-documents/]
+### Get Blueprint API specification for Custom Report Type Documents [GET /research-common/api/v1/custom-report-type-documents/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Custom Report Type Documents [PUT /research-sys/api/v1/custom-report-type-documents/(key)]
+### Update Custom Report Type Documents [PUT /research-common/api/v1/custom-report-type-documents/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Custom Report Type Documents [PUT /research-sys/api/v1/custom-report-type-documents/]
+### Update Multiple Custom Report Type Documents [PUT /research-common/api/v1/custom-report-type-documents/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Custom Report Type Documents [POST /research-sys/api/v1/custom-report-type-documents/]
+### Insert Custom Report Type Documents [POST /research-common/api/v1/custom-report-type-documents/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"reportTypeCode": "(val)","documentName": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Custom Report Type Documents [POST /research-sys/api/v1/custom-report-type-documents/]
+### Insert Multiple Custom Report Type Documents [POST /research-common/api/v1/custom-report-type-documents/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"reportTypeCode": "(val)","documentName": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Custom Report Type Documents by Key [DELETE /research-sys/api/v1/custom-report-type-documents/(key)]
+### Delete Custom Report Type Documents by Key [DELETE /research-common/api/v1/custom-report-type-documents/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Custom Report Type Documents [DELETE /research-sys/api/v1/custom-report-type-documents/]
+### Delete All Custom Report Type Documents [DELETE /research-common/api/v1/custom-report-type-documents/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Custom Report Type Documents with Matching [DELETE /research-sys/api/v1/custom-report-type-documents/]
+### Delete All Custom Report Type Documents with Matching [DELETE /research-common/api/v1/custom-report-type-documents/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + reportTypeCode
-            + documentName
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + reportTypeCode (optional) - Report Type Code. Maximum length is 3.
+    + documentName (optional) - Document Name. Maximum length is 100.
 
       
 + Request

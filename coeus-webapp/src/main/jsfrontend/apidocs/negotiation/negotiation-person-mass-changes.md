@@ -1,6 +1,6 @@
-## Negotiation Person Mass Changes [/research-sys/api/v1/negotiation-person-mass-changes/]
+## Negotiation Person Mass Changes [/negotiation/api/v1/negotiation-person-mass-changes/]
 
-### Get Negotiation Person Mass Changes by Key [GET /research-sys/api/v1/negotiation-person-mass-changes/(key)]
+### Get Negotiation Person Mass Changes by Key [GET /negotiation/api/v1/negotiation-person-mass-changes/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"negotiationPersonMassChangeId": "(val)","personMassChangeId": "(val)","negotiator": "(val)","_primaryKey": "(val)"}
 
-### Get All Negotiation Person Mass Changes [GET /research-sys/api/v1/negotiation-person-mass-changes/]
+### Get All Negotiation Person Mass Changes [GET /negotiation/api/v1/negotiation-person-mass-changes/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"negotiationPersonMassChangeId": "(val)","personMassChangeId": "(val)","negotiator": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Negotiation Person Mass Changes with Filtering [GET /research-sys/api/v1/negotiation-person-mass-changes/]
+### Get All Negotiation Person Mass Changes with Filtering [GET /negotiation/api/v1/negotiation-person-mass-changes/]
     
 + Parameters
 
-        + negotiationPersonMassChangeId
-            + personMassChangeId
-            + negotiator
+    + negotiationPersonMassChangeId (optional) - Negotiation Person Mass Change Id. Maximum length is 12.
+    + personMassChangeId (optional) - Person Mass Change Id. Maximum length is 12.
+    + negotiator (optional) - Negotiator. Maximum length is 1.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"negotiationPersonMassChangeId": "(val)","personMassChangeId": "(val)","negotiator": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Negotiation Person Mass Changes [GET /research-sys/api/v1/negotiation-person-mass-changes/]
+### Get Schema for Negotiation Person Mass Changes [GET /negotiation/api/v1/negotiation-person-mass-changes/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["negotiationPersonMassChangeId","personMassChangeId","negotiator"],"primaryKey":"negotiationPersonMassChangeId"}
 		
-### Get Blueprint API specification for Negotiation Person Mass Changes [GET /research-sys/api/v1/negotiation-person-mass-changes/]
+### Get Blueprint API specification for Negotiation Person Mass Changes [GET /negotiation/api/v1/negotiation-person-mass-changes/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Negotiation Person Mass Changes [PUT /research-sys/api/v1/negotiation-person-mass-changes/(key)]
+### Update Negotiation Person Mass Changes [PUT /negotiation/api/v1/negotiation-person-mass-changes/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Negotiation Person Mass Changes [PUT /research-sys/api/v1/negotiation-person-mass-changes/]
+### Update Multiple Negotiation Person Mass Changes [PUT /negotiation/api/v1/negotiation-person-mass-changes/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Negotiation Person Mass Changes [POST /research-sys/api/v1/negotiation-person-mass-changes/]
+### Insert Negotiation Person Mass Changes [POST /negotiation/api/v1/negotiation-person-mass-changes/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"negotiationPersonMassChangeId": "(val)","personMassChangeId": "(val)","negotiator": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Negotiation Person Mass Changes [POST /research-sys/api/v1/negotiation-person-mass-changes/]
+### Insert Multiple Negotiation Person Mass Changes [POST /negotiation/api/v1/negotiation-person-mass-changes/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"negotiationPersonMassChangeId": "(val)","personMassChangeId": "(val)","negotiator": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Negotiation Person Mass Changes by Key [DELETE /research-sys/api/v1/negotiation-person-mass-changes/(key)]
+### Delete Negotiation Person Mass Changes by Key [DELETE /negotiation/api/v1/negotiation-person-mass-changes/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Negotiation Person Mass Changes [DELETE /research-sys/api/v1/negotiation-person-mass-changes/]
+### Delete All Negotiation Person Mass Changes [DELETE /negotiation/api/v1/negotiation-person-mass-changes/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Negotiation Person Mass Changes with Matching [DELETE /research-sys/api/v1/negotiation-person-mass-changes/]
+### Delete All Negotiation Person Mass Changes with Matching [DELETE /negotiation/api/v1/negotiation-person-mass-changes/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + negotiationPersonMassChangeId
-            + personMassChangeId
-            + negotiator
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + negotiationPersonMassChangeId (optional) - Negotiation Person Mass Change Id. Maximum length is 12.
+    + personMassChangeId (optional) - Person Mass Change Id. Maximum length is 12.
+    + negotiator (optional) - Negotiator. Maximum length is 1.
 
       
 + Request

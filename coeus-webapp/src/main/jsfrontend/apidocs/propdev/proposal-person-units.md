@@ -1,6 +1,6 @@
-## Proposal Person Units [/research-sys/api/v1/proposal-person-units/]
+## Proposal Person Units [/propdev/api/v1/proposal-person-units/]
 
-### Get Proposal Person Units by Key [GET /research-sys/api/v1/proposal-person-units/(key)]
+### Get Proposal Person Units by Key [GET /propdev/api/v1/proposal-person-units/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"unitNumber": "(val)","leadUnit": "(val)","_primaryKey": "(val)"}
 
-### Get All Proposal Person Units [GET /research-sys/api/v1/proposal-person-units/]
+### Get All Proposal Person Units [GET /propdev/api/v1/proposal-person-units/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"unitNumber": "(val)","leadUnit": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Proposal Person Units with Filtering [GET /research-sys/api/v1/proposal-person-units/]
+### Get All Proposal Person Units with Filtering [GET /propdev/api/v1/proposal-person-units/]
     
 + Parameters
 
-        + unitNumber
-            + leadUnit
+    + unitNumber (optional) - Unit Number. Maximum length is 8.
+    + leadUnit (optional) - Is Lead Unit. Maximum length is 1.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"unitNumber": "(val)","leadUnit": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Proposal Person Units [GET /research-sys/api/v1/proposal-person-units/]
+### Get Schema for Proposal Person Units [GET /propdev/api/v1/proposal-person-units/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["unitNumber","leadUnit"],"primaryKey":"proposalPerson:unitNumber"}
 		
-### Get Blueprint API specification for Proposal Person Units [GET /research-sys/api/v1/proposal-person-units/]
+### Get Blueprint API specification for Proposal Person Units [GET /propdev/api/v1/proposal-person-units/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Proposal Person Units [PUT /research-sys/api/v1/proposal-person-units/(key)]
+### Update Proposal Person Units [PUT /propdev/api/v1/proposal-person-units/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Proposal Person Units [PUT /research-sys/api/v1/proposal-person-units/]
+### Update Multiple Proposal Person Units [PUT /propdev/api/v1/proposal-person-units/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Proposal Person Units [POST /research-sys/api/v1/proposal-person-units/]
+### Insert Proposal Person Units [POST /propdev/api/v1/proposal-person-units/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"unitNumber": "(val)","leadUnit": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Proposal Person Units [POST /research-sys/api/v1/proposal-person-units/]
+### Insert Multiple Proposal Person Units [POST /propdev/api/v1/proposal-person-units/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"unitNumber": "(val)","leadUnit": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Proposal Person Units by Key [DELETE /research-sys/api/v1/proposal-person-units/(key)]
+### Delete Proposal Person Units by Key [DELETE /propdev/api/v1/proposal-person-units/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Proposal Person Units [DELETE /research-sys/api/v1/proposal-person-units/]
+### Delete All Proposal Person Units [DELETE /propdev/api/v1/proposal-person-units/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Proposal Person Units with Matching [DELETE /research-sys/api/v1/proposal-person-units/]
+### Delete All Proposal Person Units with Matching [DELETE /propdev/api/v1/proposal-person-units/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + unitNumber
-            + leadUnit
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + unitNumber (optional) - Unit Number. Maximum length is 8.
+    + leadUnit (optional) - Is Lead Unit. Maximum length is 1.
 
       
 + Request

@@ -1,6 +1,6 @@
-## Intellectual Property Review Activities [/research-sys/api/v1/intellectual-property-review-activities/]
+## Intellectual Property Review Activities [/instprop/api/v1/intellectual-property-review-activities/]
 
-### Get Intellectual Property Review Activities by Key [GET /research-sys/api/v1/intellectual-property-review-activities/(key)]
+### Get Intellectual Property Review Activities by Key [GET /instprop/api/v1/intellectual-property-review-activities/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"ipReviewActivityTypeCode": "(val)","activityDate": "(val)","comments": "(val)","proposalIpReviewActivityId": "(val)","ipReviewId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","activityNumber": "(val)","_primaryKey": "(val)"}
 
-### Get All Intellectual Property Review Activities [GET /research-sys/api/v1/intellectual-property-review-activities/]
+### Get All Intellectual Property Review Activities [GET /instprop/api/v1/intellectual-property-review-activities/]
 	 
 + Request
 
@@ -39,18 +39,18 @@
               {"ipReviewActivityTypeCode": "(val)","activityDate": "(val)","comments": "(val)","proposalIpReviewActivityId": "(val)","ipReviewId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","activityNumber": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Intellectual Property Review Activities with Filtering [GET /research-sys/api/v1/intellectual-property-review-activities/]
+### Get All Intellectual Property Review Activities with Filtering [GET /instprop/api/v1/intellectual-property-review-activities/]
     
 + Parameters
 
-        + ipReviewActivityTypeCode
-            + activityDate
-            + comments
-            + proposalIpReviewActivityId
-            + ipReviewId
-            + proposalNumber
-            + sequenceNumber
-            + activityNumber
+    + ipReviewActivityTypeCode (optional) - IP Review Activity Type Code. Maximum length is 22.
+    + activityDate (optional) - Activity Date. Maximum length is 10.
+    + comments (optional) - Comments. Maximum length is 150.
+    + proposalIpReviewActivityId (optional) - Proposal Ip Rev Activity Id. Maximum length is 22.
+    + ipReviewId (optional) - 
+    + proposalNumber (optional) - Proposal Number. Maximum length is 8.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 22.
+    + activityNumber (optional) - Activity Number. Maximum length is 3.
 
             
 + Request
@@ -72,7 +72,7 @@
               {"ipReviewActivityTypeCode": "(val)","activityDate": "(val)","comments": "(val)","proposalIpReviewActivityId": "(val)","ipReviewId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","activityNumber": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Intellectual Property Review Activities [GET /research-sys/api/v1/intellectual-property-review-activities/]
+### Get Schema for Intellectual Property Review Activities [GET /instprop/api/v1/intellectual-property-review-activities/]
 	                                          
 + Parameters
 
@@ -94,7 +94,7 @@
     
             {"columns":["ipReviewActivityTypeCode","activityDate","comments","proposalIpReviewActivityId","ipReviewId","proposalNumber","sequenceNumber","activityNumber"],"primaryKey":"proposalIpReviewActivityId"}
 		
-### Get Blueprint API specification for Intellectual Property Review Activities [GET /research-sys/api/v1/intellectual-property-review-activities/]
+### Get Blueprint API specification for Intellectual Property Review Activities [GET /instprop/api/v1/intellectual-property-review-activities/]
 	 
 + Parameters
 
@@ -115,7 +115,7 @@
             transfer-encoding:chunked
 
 
-### Update Intellectual Property Review Activities [PUT /research-sys/api/v1/intellectual-property-review-activities/(key)]
+### Update Intellectual Property Review Activities [PUT /instprop/api/v1/intellectual-property-review-activities/(key)]
 
 + Request
 
@@ -130,7 +130,7 @@
 			
 + Response 204
 
-### Update Multiple Intellectual Property Review Activities [PUT /research-sys/api/v1/intellectual-property-review-activities/]
+### Update Multiple Intellectual Property Review Activities [PUT /instprop/api/v1/intellectual-property-review-activities/]
 
 + Request
 
@@ -148,7 +148,7 @@
 			
 + Response 204
 
-### Insert Intellectual Property Review Activities [POST /research-sys/api/v1/intellectual-property-review-activities/]
+### Insert Intellectual Property Review Activities [POST /instprop/api/v1/intellectual-property-review-activities/]
 
 + Request
 
@@ -167,7 +167,7 @@
             
             {"ipReviewActivityTypeCode": "(val)","activityDate": "(val)","comments": "(val)","proposalIpReviewActivityId": "(val)","ipReviewId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","activityNumber": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Intellectual Property Review Activities [POST /research-sys/api/v1/intellectual-property-review-activities/]
+### Insert Multiple Intellectual Property Review Activities [POST /instprop/api/v1/intellectual-property-review-activities/]
 
 + Request
 
@@ -192,7 +192,7 @@
               {"ipReviewActivityTypeCode": "(val)","activityDate": "(val)","comments": "(val)","proposalIpReviewActivityId": "(val)","ipReviewId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","activityNumber": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Intellectual Property Review Activities by Key [DELETE /research-sys/api/v1/intellectual-property-review-activities/(key)]
+### Delete Intellectual Property Review Activities by Key [DELETE /instprop/api/v1/intellectual-property-review-activities/(key)]
 	 
 + Request
 
@@ -203,7 +203,7 @@
 
 + Response 204
 
-### Delete All Intellectual Property Review Activities [DELETE /research-sys/api/v1/intellectual-property-review-activities/]
+### Delete All Intellectual Property Review Activities [DELETE /instprop/api/v1/intellectual-property-review-activities/]
 
 + Parameters
 
@@ -218,19 +218,19 @@
 
 + Response 204
 
-### Delete All Intellectual Property Review Activities with Matching [DELETE /research-sys/api/v1/intellectual-property-review-activities/]
+### Delete All Intellectual Property Review Activities with Matching [DELETE /instprop/api/v1/intellectual-property-review-activities/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + ipReviewActivityTypeCode
-            + activityDate
-            + comments
-            + proposalIpReviewActivityId
-            + ipReviewId
-            + proposalNumber
-            + sequenceNumber
-            + activityNumber
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + ipReviewActivityTypeCode (optional) - IP Review Activity Type Code. Maximum length is 22.
+    + activityDate (optional) - Activity Date. Maximum length is 10.
+    + comments (optional) - Comments. Maximum length is 150.
+    + proposalIpReviewActivityId (optional) - Proposal Ip Rev Activity Id. Maximum length is 22.
+    + ipReviewId (optional) - 
+    + proposalNumber (optional) - Proposal Number. Maximum length is 8.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 22.
+    + activityNumber (optional) - Activity Number. Maximum length is 3.
 
       
 + Request

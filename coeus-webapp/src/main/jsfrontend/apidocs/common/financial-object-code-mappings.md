@@ -1,6 +1,6 @@
-## Financial Object Code Mappings [/research-sys/api/v1/financial-object-code-mappings/]
+## Financial Object Code Mappings [/research-common/api/v1/financial-object-code-mappings/]
 
-### Get Financial Object Code Mappings by Key [GET /research-sys/api/v1/financial-object-code-mappings/(key)]
+### Get Financial Object Code Mappings by Key [GET /research-common/api/v1/financial-object-code-mappings/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"mappingId": "(val)","activityTypeCode": "(val)","financialObjectCode": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","unitNumber": "(val)","_primaryKey": "(val)"}
 
-### Get All Financial Object Code Mappings [GET /research-sys/api/v1/financial-object-code-mappings/]
+### Get All Financial Object Code Mappings [GET /research-common/api/v1/financial-object-code-mappings/]
 	 
 + Request
 
@@ -39,16 +39,16 @@
               {"mappingId": "(val)","activityTypeCode": "(val)","financialObjectCode": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","unitNumber": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Financial Object Code Mappings with Filtering [GET /research-sys/api/v1/financial-object-code-mappings/]
+### Get All Financial Object Code Mappings with Filtering [GET /research-common/api/v1/financial-object-code-mappings/]
     
 + Parameters
 
-        + mappingId
-            + activityTypeCode
-            + financialObjectCode
-            + rateClassCode
-            + rateTypeCode
-            + unitNumber
+    + mappingId (optional) - 
+    + activityTypeCode (optional) - Activity Type Code. Maximum length is 3.
+    + financialObjectCode (optional) - Financial Object Code. Maximum length is 8.
+    + rateClassCode (optional) - Rate Class Code. Maximum length is 3.
+    + rateTypeCode (optional) - Rate Type Code. Maximum length is 3.
+    + unitNumber (optional) - Unit Number. Maximum length is 8.
 
             
 + Request
@@ -70,7 +70,7 @@
               {"mappingId": "(val)","activityTypeCode": "(val)","financialObjectCode": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","unitNumber": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Financial Object Code Mappings [GET /research-sys/api/v1/financial-object-code-mappings/]
+### Get Schema for Financial Object Code Mappings [GET /research-common/api/v1/financial-object-code-mappings/]
 	                                          
 + Parameters
 
@@ -92,7 +92,7 @@
     
             {"columns":["mappingId","activityTypeCode","financialObjectCode","rateClassCode","rateTypeCode","unitNumber"],"primaryKey":"mappingId"}
 		
-### Get Blueprint API specification for Financial Object Code Mappings [GET /research-sys/api/v1/financial-object-code-mappings/]
+### Get Blueprint API specification for Financial Object Code Mappings [GET /research-common/api/v1/financial-object-code-mappings/]
 	 
 + Parameters
 
@@ -113,7 +113,7 @@
             transfer-encoding:chunked
 
 
-### Update Financial Object Code Mappings [PUT /research-sys/api/v1/financial-object-code-mappings/(key)]
+### Update Financial Object Code Mappings [PUT /research-common/api/v1/financial-object-code-mappings/(key)]
 
 + Request
 
@@ -128,7 +128,7 @@
 			
 + Response 204
 
-### Update Multiple Financial Object Code Mappings [PUT /research-sys/api/v1/financial-object-code-mappings/]
+### Update Multiple Financial Object Code Mappings [PUT /research-common/api/v1/financial-object-code-mappings/]
 
 + Request
 
@@ -146,7 +146,7 @@
 			
 + Response 204
 
-### Insert Financial Object Code Mappings [POST /research-sys/api/v1/financial-object-code-mappings/]
+### Insert Financial Object Code Mappings [POST /research-common/api/v1/financial-object-code-mappings/]
 
 + Request
 
@@ -165,7 +165,7 @@
             
             {"mappingId": "(val)","activityTypeCode": "(val)","financialObjectCode": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","unitNumber": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Financial Object Code Mappings [POST /research-sys/api/v1/financial-object-code-mappings/]
+### Insert Multiple Financial Object Code Mappings [POST /research-common/api/v1/financial-object-code-mappings/]
 
 + Request
 
@@ -190,7 +190,7 @@
               {"mappingId": "(val)","activityTypeCode": "(val)","financialObjectCode": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","unitNumber": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Financial Object Code Mappings by Key [DELETE /research-sys/api/v1/financial-object-code-mappings/(key)]
+### Delete Financial Object Code Mappings by Key [DELETE /research-common/api/v1/financial-object-code-mappings/(key)]
 	 
 + Request
 
@@ -201,7 +201,7 @@
 
 + Response 204
 
-### Delete All Financial Object Code Mappings [DELETE /research-sys/api/v1/financial-object-code-mappings/]
+### Delete All Financial Object Code Mappings [DELETE /research-common/api/v1/financial-object-code-mappings/]
 
 + Parameters
 
@@ -216,17 +216,17 @@
 
 + Response 204
 
-### Delete All Financial Object Code Mappings with Matching [DELETE /research-sys/api/v1/financial-object-code-mappings/]
+### Delete All Financial Object Code Mappings with Matching [DELETE /research-common/api/v1/financial-object-code-mappings/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + mappingId
-            + activityTypeCode
-            + financialObjectCode
-            + rateClassCode
-            + rateTypeCode
-            + unitNumber
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + mappingId (optional) - 
+    + activityTypeCode (optional) - Activity Type Code. Maximum length is 3.
+    + financialObjectCode (optional) - Financial Object Code. Maximum length is 8.
+    + rateClassCode (optional) - Rate Class Code. Maximum length is 3.
+    + rateTypeCode (optional) - Rate Type Code. Maximum length is 3.
+    + unitNumber (optional) - Unit Number. Maximum length is 8.
 
       
 + Request

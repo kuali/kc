@@ -1,6 +1,6 @@
-## Iacuc Protocol Species [/research-sys/api/v1/iacuc-protocol-species/]
+## Iacuc Protocol Species [/iacuc/api/v1/iacuc-protocol-species/]
 
-### Get Iacuc Protocol Species by Key [GET /research-sys/api/v1/iacuc-protocol-species/(key)]
+### Get Iacuc Protocol Species by Key [GET /iacuc/api/v1/iacuc-protocol-species/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"iacucProtocolSpeciesId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","speciesId": "(val)","speciesCode": "(val)","speciesGroup": "(val)","usdaCovered": "(val)","strain": "(val)","speciesCount": "(val)","painCategoryCode": "(val)","speciesCountCode": "(val)","procedureSummary": "(val)","exceptionsPresent": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Protocol Species [GET /research-sys/api/v1/iacuc-protocol-species/]
+### Get All Iacuc Protocol Species [GET /iacuc/api/v1/iacuc-protocol-species/]
 	 
 + Request
 
@@ -39,24 +39,24 @@
               {"iacucProtocolSpeciesId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","speciesId": "(val)","speciesCode": "(val)","speciesGroup": "(val)","usdaCovered": "(val)","strain": "(val)","speciesCount": "(val)","painCategoryCode": "(val)","speciesCountCode": "(val)","procedureSummary": "(val)","exceptionsPresent": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Protocol Species with Filtering [GET /research-sys/api/v1/iacuc-protocol-species/]
+### Get All Iacuc Protocol Species with Filtering [GET /iacuc/api/v1/iacuc-protocol-species/]
     
 + Parameters
 
-        + iacucProtocolSpeciesId
-            + protocolId
-            + protocolNumber
-            + sequenceNumber
-            + speciesId
-            + speciesCode
-            + speciesGroup
-            + usdaCovered
-            + strain
-            + speciesCount
-            + painCategoryCode
-            + speciesCountCode
-            + procedureSummary
-            + exceptionsPresent
+    + iacucProtocolSpeciesId (optional) - Protocol Species Id. Maximum length is 22.
+    + protocolId (optional) - Protocol Id. Maximum length is 22.
+    + protocolNumber (optional) - 
+    + sequenceNumber (optional) - 
+    + speciesId (optional) - Species Id. Maximum length is 22.
+    + speciesCode (optional) - Species Code. Maximum length is 50.
+    + speciesGroup (optional) - Species Group. Maximum length is 50.
+    + usdaCovered (optional) - USDA Covered Type. Maximum length is 3.
+    + strain (optional) - Species Strain. Maximum length is 30.
+    + speciesCount (optional) - Species Count. Maximum length is 8.
+    + painCategoryCode (optional) - Pain Category. Maximum length is 50.
+    + speciesCountCode (optional) - Count Type. Maximum length is 50.
+    + procedureSummary (optional) - Procedure Summary. Maximum length is 2000.
+    + exceptionsPresent (optional) - Exceptions. Maximum length is 3.
 
             
 + Request
@@ -78,7 +78,7 @@
               {"iacucProtocolSpeciesId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","speciesId": "(val)","speciesCode": "(val)","speciesGroup": "(val)","usdaCovered": "(val)","strain": "(val)","speciesCount": "(val)","painCategoryCode": "(val)","speciesCountCode": "(val)","procedureSummary": "(val)","exceptionsPresent": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Protocol Species [GET /research-sys/api/v1/iacuc-protocol-species/]
+### Get Schema for Iacuc Protocol Species [GET /iacuc/api/v1/iacuc-protocol-species/]
 	                                          
 + Parameters
 
@@ -100,7 +100,7 @@
     
             {"columns":["iacucProtocolSpeciesId","protocolId","protocolNumber","sequenceNumber","speciesId","speciesCode","speciesGroup","usdaCovered","strain","speciesCount","painCategoryCode","speciesCountCode","procedureSummary","exceptionsPresent"],"primaryKey":"iacucProtocolSpeciesId"}
 		
-### Get Blueprint API specification for Iacuc Protocol Species [GET /research-sys/api/v1/iacuc-protocol-species/]
+### Get Blueprint API specification for Iacuc Protocol Species [GET /iacuc/api/v1/iacuc-protocol-species/]
 	 
 + Parameters
 
@@ -121,7 +121,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Protocol Species [PUT /research-sys/api/v1/iacuc-protocol-species/(key)]
+### Update Iacuc Protocol Species [PUT /iacuc/api/v1/iacuc-protocol-species/(key)]
 
 + Request
 
@@ -136,7 +136,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Protocol Species [PUT /research-sys/api/v1/iacuc-protocol-species/]
+### Update Multiple Iacuc Protocol Species [PUT /iacuc/api/v1/iacuc-protocol-species/]
 
 + Request
 
@@ -154,7 +154,7 @@
 			
 + Response 204
 
-### Insert Iacuc Protocol Species [POST /research-sys/api/v1/iacuc-protocol-species/]
+### Insert Iacuc Protocol Species [POST /iacuc/api/v1/iacuc-protocol-species/]
 
 + Request
 
@@ -173,7 +173,7 @@
             
             {"iacucProtocolSpeciesId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","speciesId": "(val)","speciesCode": "(val)","speciesGroup": "(val)","usdaCovered": "(val)","strain": "(val)","speciesCount": "(val)","painCategoryCode": "(val)","speciesCountCode": "(val)","procedureSummary": "(val)","exceptionsPresent": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Protocol Species [POST /research-sys/api/v1/iacuc-protocol-species/]
+### Insert Multiple Iacuc Protocol Species [POST /iacuc/api/v1/iacuc-protocol-species/]
 
 + Request
 
@@ -198,7 +198,7 @@
               {"iacucProtocolSpeciesId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","speciesId": "(val)","speciesCode": "(val)","speciesGroup": "(val)","usdaCovered": "(val)","strain": "(val)","speciesCount": "(val)","painCategoryCode": "(val)","speciesCountCode": "(val)","procedureSummary": "(val)","exceptionsPresent": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Protocol Species by Key [DELETE /research-sys/api/v1/iacuc-protocol-species/(key)]
+### Delete Iacuc Protocol Species by Key [DELETE /iacuc/api/v1/iacuc-protocol-species/(key)]
 	 
 + Request
 
@@ -209,7 +209,7 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Species [DELETE /research-sys/api/v1/iacuc-protocol-species/]
+### Delete All Iacuc Protocol Species [DELETE /iacuc/api/v1/iacuc-protocol-species/]
 
 + Parameters
 
@@ -224,25 +224,25 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Species with Matching [DELETE /research-sys/api/v1/iacuc-protocol-species/]
+### Delete All Iacuc Protocol Species with Matching [DELETE /iacuc/api/v1/iacuc-protocol-species/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + iacucProtocolSpeciesId
-            + protocolId
-            + protocolNumber
-            + sequenceNumber
-            + speciesId
-            + speciesCode
-            + speciesGroup
-            + usdaCovered
-            + strain
-            + speciesCount
-            + painCategoryCode
-            + speciesCountCode
-            + procedureSummary
-            + exceptionsPresent
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + iacucProtocolSpeciesId (optional) - Protocol Species Id. Maximum length is 22.
+    + protocolId (optional) - Protocol Id. Maximum length is 22.
+    + protocolNumber (optional) - 
+    + sequenceNumber (optional) - 
+    + speciesId (optional) - Species Id. Maximum length is 22.
+    + speciesCode (optional) - Species Code. Maximum length is 50.
+    + speciesGroup (optional) - Species Group. Maximum length is 50.
+    + usdaCovered (optional) - USDA Covered Type. Maximum length is 3.
+    + strain (optional) - Species Strain. Maximum length is 30.
+    + speciesCount (optional) - Species Count. Maximum length is 8.
+    + painCategoryCode (optional) - Pain Category. Maximum length is 50.
+    + speciesCountCode (optional) - Count Type. Maximum length is 50.
+    + procedureSummary (optional) - Procedure Summary. Maximum length is 2000.
+    + exceptionsPresent (optional) - Exceptions. Maximum length is 3.
 
       
 + Request

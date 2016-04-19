@@ -1,6 +1,6 @@
-## Person Custom Data [/research-sys/api/v1/person-custom-data/]
+## Person Custom Data [/research-common/api/v1/person-custom-data/]
 
-### Get Person Custom Data by Key [GET /research-sys/api/v1/person-custom-data/(key)]
+### Get Person Custom Data by Key [GET /research-common/api/v1/person-custom-data/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"personCustomDataId": "(val)","personId": "(val)","customAttributeId": "(val)","value": "(val)","_primaryKey": "(val)"}
 
-### Get All Person Custom Data [GET /research-sys/api/v1/person-custom-data/]
+### Get All Person Custom Data [GET /research-common/api/v1/person-custom-data/]
 	 
 + Request
 
@@ -39,14 +39,14 @@
               {"personCustomDataId": "(val)","personId": "(val)","customAttributeId": "(val)","value": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Person Custom Data with Filtering [GET /research-sys/api/v1/person-custom-data/]
+### Get All Person Custom Data with Filtering [GET /research-common/api/v1/person-custom-data/]
     
 + Parameters
 
-        + personCustomDataId
-            + personId
-            + customAttributeId
-            + value
+    + personCustomDataId (optional) - Person Custom Data Id. Maximum length is 22.
+    + personId (optional) - KcPersonExtendedAttributes Id. Maximum length is 40.
+    + customAttributeId (optional) - Custom Attribute Id. Maximum length is 22.
+    + value (optional) - Value. Maximum length is 2000.
 
             
 + Request
@@ -68,7 +68,7 @@
               {"personCustomDataId": "(val)","personId": "(val)","customAttributeId": "(val)","value": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Person Custom Data [GET /research-sys/api/v1/person-custom-data/]
+### Get Schema for Person Custom Data [GET /research-common/api/v1/person-custom-data/]
 	                                          
 + Parameters
 
@@ -90,7 +90,7 @@
     
             {"columns":["personCustomDataId","personId","customAttributeId","value"],"primaryKey":"personCustomDataId"}
 		
-### Get Blueprint API specification for Person Custom Data [GET /research-sys/api/v1/person-custom-data/]
+### Get Blueprint API specification for Person Custom Data [GET /research-common/api/v1/person-custom-data/]
 	 
 + Parameters
 
@@ -111,7 +111,7 @@
             transfer-encoding:chunked
 
 
-### Update Person Custom Data [PUT /research-sys/api/v1/person-custom-data/(key)]
+### Update Person Custom Data [PUT /research-common/api/v1/person-custom-data/(key)]
 
 + Request
 
@@ -126,7 +126,7 @@
 			
 + Response 204
 
-### Update Multiple Person Custom Data [PUT /research-sys/api/v1/person-custom-data/]
+### Update Multiple Person Custom Data [PUT /research-common/api/v1/person-custom-data/]
 
 + Request
 
@@ -144,7 +144,7 @@
 			
 + Response 204
 
-### Insert Person Custom Data [POST /research-sys/api/v1/person-custom-data/]
+### Insert Person Custom Data [POST /research-common/api/v1/person-custom-data/]
 
 + Request
 
@@ -163,7 +163,7 @@
             
             {"personCustomDataId": "(val)","personId": "(val)","customAttributeId": "(val)","value": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Person Custom Data [POST /research-sys/api/v1/person-custom-data/]
+### Insert Multiple Person Custom Data [POST /research-common/api/v1/person-custom-data/]
 
 + Request
 
@@ -188,7 +188,7 @@
               {"personCustomDataId": "(val)","personId": "(val)","customAttributeId": "(val)","value": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Person Custom Data by Key [DELETE /research-sys/api/v1/person-custom-data/(key)]
+### Delete Person Custom Data by Key [DELETE /research-common/api/v1/person-custom-data/(key)]
 	 
 + Request
 
@@ -199,7 +199,7 @@
 
 + Response 204
 
-### Delete All Person Custom Data [DELETE /research-sys/api/v1/person-custom-data/]
+### Delete All Person Custom Data [DELETE /research-common/api/v1/person-custom-data/]
 
 + Parameters
 
@@ -214,15 +214,15 @@
 
 + Response 204
 
-### Delete All Person Custom Data with Matching [DELETE /research-sys/api/v1/person-custom-data/]
+### Delete All Person Custom Data with Matching [DELETE /research-common/api/v1/person-custom-data/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + personCustomDataId
-            + personId
-            + customAttributeId
-            + value
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + personCustomDataId (optional) - Person Custom Data Id. Maximum length is 22.
+    + personId (optional) - KcPersonExtendedAttributes Id. Maximum length is 40.
+    + customAttributeId (optional) - Custom Attribute Id. Maximum length is 22.
+    + value (optional) - Value. Maximum length is 2000.
 
       
 + Request

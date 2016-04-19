@@ -1,6 +1,6 @@
-## Iacuc Protocol Attachment Type Groups [/research-sys/api/v1/iacuc-protocol-attachment-type-groups/]
+## Iacuc Protocol Attachment Type Groups [/iacuc/api/v1/iacuc-protocol-attachment-type-groups/]
 
-### Get Iacuc Protocol Attachment Type Groups by Key [GET /research-sys/api/v1/iacuc-protocol-attachment-type-groups/(key)]
+### Get Iacuc Protocol Attachment Type Groups by Key [GET /iacuc/api/v1/iacuc-protocol-attachment-type-groups/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"id": "(val)","typeCode": "(val)","groupCode": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Protocol Attachment Type Groups [GET /research-sys/api/v1/iacuc-protocol-attachment-type-groups/]
+### Get All Iacuc Protocol Attachment Type Groups [GET /iacuc/api/v1/iacuc-protocol-attachment-type-groups/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"id": "(val)","typeCode": "(val)","groupCode": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Protocol Attachment Type Groups with Filtering [GET /research-sys/api/v1/iacuc-protocol-attachment-type-groups/]
+### Get All Iacuc Protocol Attachment Type Groups with Filtering [GET /iacuc/api/v1/iacuc-protocol-attachment-type-groups/]
     
 + Parameters
 
-        + id
-            + typeCode
-            + groupCode
+    + id (optional) - id. Maximum length is 12.
+    + typeCode (optional) - Type Code. Maximum length is 3.
+    + groupCode (optional) - Group Code. Maximum length is 3.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"id": "(val)","typeCode": "(val)","groupCode": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Protocol Attachment Type Groups [GET /research-sys/api/v1/iacuc-protocol-attachment-type-groups/]
+### Get Schema for Iacuc Protocol Attachment Type Groups [GET /iacuc/api/v1/iacuc-protocol-attachment-type-groups/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["id","typeCode","groupCode"],"primaryKey":"id"}
 		
-### Get Blueprint API specification for Iacuc Protocol Attachment Type Groups [GET /research-sys/api/v1/iacuc-protocol-attachment-type-groups/]
+### Get Blueprint API specification for Iacuc Protocol Attachment Type Groups [GET /iacuc/api/v1/iacuc-protocol-attachment-type-groups/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Protocol Attachment Type Groups [PUT /research-sys/api/v1/iacuc-protocol-attachment-type-groups/(key)]
+### Update Iacuc Protocol Attachment Type Groups [PUT /iacuc/api/v1/iacuc-protocol-attachment-type-groups/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Protocol Attachment Type Groups [PUT /research-sys/api/v1/iacuc-protocol-attachment-type-groups/]
+### Update Multiple Iacuc Protocol Attachment Type Groups [PUT /iacuc/api/v1/iacuc-protocol-attachment-type-groups/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Iacuc Protocol Attachment Type Groups [POST /research-sys/api/v1/iacuc-protocol-attachment-type-groups/]
+### Insert Iacuc Protocol Attachment Type Groups [POST /iacuc/api/v1/iacuc-protocol-attachment-type-groups/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"id": "(val)","typeCode": "(val)","groupCode": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Protocol Attachment Type Groups [POST /research-sys/api/v1/iacuc-protocol-attachment-type-groups/]
+### Insert Multiple Iacuc Protocol Attachment Type Groups [POST /iacuc/api/v1/iacuc-protocol-attachment-type-groups/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"id": "(val)","typeCode": "(val)","groupCode": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Protocol Attachment Type Groups by Key [DELETE /research-sys/api/v1/iacuc-protocol-attachment-type-groups/(key)]
+### Delete Iacuc Protocol Attachment Type Groups by Key [DELETE /iacuc/api/v1/iacuc-protocol-attachment-type-groups/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Attachment Type Groups [DELETE /research-sys/api/v1/iacuc-protocol-attachment-type-groups/]
+### Delete All Iacuc Protocol Attachment Type Groups [DELETE /iacuc/api/v1/iacuc-protocol-attachment-type-groups/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Attachment Type Groups with Matching [DELETE /research-sys/api/v1/iacuc-protocol-attachment-type-groups/]
+### Delete All Iacuc Protocol Attachment Type Groups with Matching [DELETE /iacuc/api/v1/iacuc-protocol-attachment-type-groups/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + typeCode
-            + groupCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - id. Maximum length is 12.
+    + typeCode (optional) - Type Code. Maximum length is 3.
+    + groupCode (optional) - Group Code. Maximum length is 3.
 
       
 + Request

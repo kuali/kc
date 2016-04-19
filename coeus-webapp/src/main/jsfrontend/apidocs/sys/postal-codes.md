@@ -43,12 +43,12 @@
     
 + Parameters
 
-        + code
-            + countryCode
-            + cityName
-            + stateCode
-            + countyCode
-            + active
+    + code (optional) - Postal Code either in 5-4 format or just 5 digits. Maximum length is 20.
+    + countryCode (optional) - The code uniquely identify a country. Maximum length is 2.
+    + cityName (optional) - City Name. Maximum length is 30.
+    + stateCode (optional) - Postal State Code. Maximum length is 2.
+    + countyCode (optional) - County Code. Maximum length is 10.
+    + active (optional) - This attribute is used to describe whether the associated object is active or inactive. Maximum length is 1.
 
             
 + Request
@@ -220,13 +220,13 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + code
-            + countryCode
-            + cityName
-            + stateCode
-            + countyCode
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + code (optional) - Postal Code either in 5-4 format or just 5 digits. Maximum length is 20.
+    + countryCode (optional) - The code uniquely identify a country. Maximum length is 2.
+    + cityName (optional) - City Name. Maximum length is 30.
+    + stateCode (optional) - Postal State Code. Maximum length is 2.
+    + countyCode (optional) - County Code. Maximum length is 10.
+    + active (optional) - This attribute is used to describe whether the associated object is active or inactive. Maximum length is 1.
 
       
 + Request

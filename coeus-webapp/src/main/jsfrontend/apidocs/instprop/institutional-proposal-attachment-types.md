@@ -1,6 +1,6 @@
-## Institutional Proposal Attachment Types [/research-sys/api/v1/institutional-proposal-attachment-types/]
+## Institutional Proposal Attachment Types [/instprop/api/v1/institutional-proposal-attachment-types/]
 
-### Get Institutional Proposal Attachment Types by Key [GET /research-sys/api/v1/institutional-proposal-attachment-types/(key)]
+### Get Institutional Proposal Attachment Types by Key [GET /instprop/api/v1/institutional-proposal-attachment-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"attachmentTypeCode": "(val)","description": "(val)","allowMultiple": "(val)","_primaryKey": "(val)"}
 
-### Get All Institutional Proposal Attachment Types [GET /research-sys/api/v1/institutional-proposal-attachment-types/]
+### Get All Institutional Proposal Attachment Types [GET /instprop/api/v1/institutional-proposal-attachment-types/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"attachmentTypeCode": "(val)","description": "(val)","allowMultiple": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Institutional Proposal Attachment Types with Filtering [GET /research-sys/api/v1/institutional-proposal-attachment-types/]
+### Get All Institutional Proposal Attachment Types with Filtering [GET /instprop/api/v1/institutional-proposal-attachment-types/]
     
 + Parameters
 
-        + attachmentTypeCode
-            + description
-            + allowMultiple
+    + attachmentTypeCode (optional) - Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + allowMultiple (optional) - allowMultiple. Maximum length is 1.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"attachmentTypeCode": "(val)","description": "(val)","allowMultiple": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Institutional Proposal Attachment Types [GET /research-sys/api/v1/institutional-proposal-attachment-types/]
+### Get Schema for Institutional Proposal Attachment Types [GET /instprop/api/v1/institutional-proposal-attachment-types/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["attachmentTypeCode","description","allowMultiple"],"primaryKey":"attachmentTypeCode"}
 		
-### Get Blueprint API specification for Institutional Proposal Attachment Types [GET /research-sys/api/v1/institutional-proposal-attachment-types/]
+### Get Blueprint API specification for Institutional Proposal Attachment Types [GET /instprop/api/v1/institutional-proposal-attachment-types/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Institutional Proposal Attachment Types [PUT /research-sys/api/v1/institutional-proposal-attachment-types/(key)]
+### Update Institutional Proposal Attachment Types [PUT /instprop/api/v1/institutional-proposal-attachment-types/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Institutional Proposal Attachment Types [PUT /research-sys/api/v1/institutional-proposal-attachment-types/]
+### Update Multiple Institutional Proposal Attachment Types [PUT /instprop/api/v1/institutional-proposal-attachment-types/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Institutional Proposal Attachment Types [POST /research-sys/api/v1/institutional-proposal-attachment-types/]
+### Insert Institutional Proposal Attachment Types [POST /instprop/api/v1/institutional-proposal-attachment-types/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"attachmentTypeCode": "(val)","description": "(val)","allowMultiple": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Institutional Proposal Attachment Types [POST /research-sys/api/v1/institutional-proposal-attachment-types/]
+### Insert Multiple Institutional Proposal Attachment Types [POST /instprop/api/v1/institutional-proposal-attachment-types/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"attachmentTypeCode": "(val)","description": "(val)","allowMultiple": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Institutional Proposal Attachment Types by Key [DELETE /research-sys/api/v1/institutional-proposal-attachment-types/(key)]
+### Delete Institutional Proposal Attachment Types by Key [DELETE /instprop/api/v1/institutional-proposal-attachment-types/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Institutional Proposal Attachment Types [DELETE /research-sys/api/v1/institutional-proposal-attachment-types/]
+### Delete All Institutional Proposal Attachment Types [DELETE /instprop/api/v1/institutional-proposal-attachment-types/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Institutional Proposal Attachment Types with Matching [DELETE /research-sys/api/v1/institutional-proposal-attachment-types/]
+### Delete All Institutional Proposal Attachment Types with Matching [DELETE /instprop/api/v1/institutional-proposal-attachment-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + attachmentTypeCode
-            + description
-            + allowMultiple
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + attachmentTypeCode (optional) - Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + allowMultiple (optional) - allowMultiple. Maximum length is 1.
 
       
 + Request

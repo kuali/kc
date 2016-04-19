@@ -1,6 +1,6 @@
-## S2s User Attached Form Files [/research-sys/api/v1/s2s-user-attached-form-files/]
+## S2s User Attached Form Files [/propdev/api/v1/s2s-user-attached-form-files/]
 
-### Get S2s User Attached Form Files by Key [GET /research-sys/api/v1/s2s-user-attached-form-files/(key)]
+### Get S2s User Attached Form Files by Key [GET /propdev/api/v1/s2s-user-attached-form-files/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"id": "(val)","formFile": "(val)","xmlFile": "(val)","_primaryKey": "(val)"}
 
-### Get All S2s User Attached Form Files [GET /research-sys/api/v1/s2s-user-attached-form-files/]
+### Get All S2s User Attached Form Files [GET /propdev/api/v1/s2s-user-attached-form-files/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"id": "(val)","formFile": "(val)","xmlFile": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All S2s User Attached Form Files with Filtering [GET /research-sys/api/v1/s2s-user-attached-form-files/]
+### Get All S2s User Attached Form Files with Filtering [GET /propdev/api/v1/s2s-user-attached-form-files/]
     
 + Parameters
 
-        + id
-            + formFile
-            + xmlFile
+    + id (optional) - 
+    + formFile (optional) - 
+    + xmlFile (optional) - 
 
             
 + Request
@@ -67,7 +67,7 @@
               {"id": "(val)","formFile": "(val)","xmlFile": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for S2s User Attached Form Files [GET /research-sys/api/v1/s2s-user-attached-form-files/]
+### Get Schema for S2s User Attached Form Files [GET /propdev/api/v1/s2s-user-attached-form-files/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["id","formFile","xmlFile"],"primaryKey":"id"}
 		
-### Get Blueprint API specification for S2s User Attached Form Files [GET /research-sys/api/v1/s2s-user-attached-form-files/]
+### Get Blueprint API specification for S2s User Attached Form Files [GET /propdev/api/v1/s2s-user-attached-form-files/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update S2s User Attached Form Files [PUT /research-sys/api/v1/s2s-user-attached-form-files/(key)]
+### Update S2s User Attached Form Files [PUT /propdev/api/v1/s2s-user-attached-form-files/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple S2s User Attached Form Files [PUT /research-sys/api/v1/s2s-user-attached-form-files/]
+### Update Multiple S2s User Attached Form Files [PUT /propdev/api/v1/s2s-user-attached-form-files/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert S2s User Attached Form Files [POST /research-sys/api/v1/s2s-user-attached-form-files/]
+### Insert S2s User Attached Form Files [POST /propdev/api/v1/s2s-user-attached-form-files/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"id": "(val)","formFile": "(val)","xmlFile": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple S2s User Attached Form Files [POST /research-sys/api/v1/s2s-user-attached-form-files/]
+### Insert Multiple S2s User Attached Form Files [POST /propdev/api/v1/s2s-user-attached-form-files/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"id": "(val)","formFile": "(val)","xmlFile": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete S2s User Attached Form Files by Key [DELETE /research-sys/api/v1/s2s-user-attached-form-files/(key)]
+### Delete S2s User Attached Form Files by Key [DELETE /propdev/api/v1/s2s-user-attached-form-files/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All S2s User Attached Form Files [DELETE /research-sys/api/v1/s2s-user-attached-form-files/]
+### Delete All S2s User Attached Form Files [DELETE /propdev/api/v1/s2s-user-attached-form-files/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All S2s User Attached Form Files with Matching [DELETE /research-sys/api/v1/s2s-user-attached-form-files/]
+### Delete All S2s User Attached Form Files with Matching [DELETE /propdev/api/v1/s2s-user-attached-form-files/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + formFile
-            + xmlFile
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - 
+    + formFile (optional) - 
+    + xmlFile (optional) - 
 
       
 + Request

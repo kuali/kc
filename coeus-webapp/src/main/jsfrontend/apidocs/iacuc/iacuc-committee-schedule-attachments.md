@@ -1,6 +1,6 @@
-## Iacuc Committee Schedule Attachments [/research-sys/api/v1/iacuc-committee-schedule-attachments/]
+## Iacuc Committee Schedule Attachments [/iacuc/api/v1/iacuc-committee-schedule-attachments/]
 
-### Get Iacuc Committee Schedule Attachments by Key [GET /research-sys/api/v1/iacuc-committee-schedule-attachments/(key)]
+### Get Iacuc Committee Schedule Attachments by Key [GET /iacuc/api/v1/iacuc-committee-schedule-attachments/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"scheduleId": "(val)","attachmentId": "(val)","attachmentsTypeCode": "(val)","description": "(val)","fileName": "(val)","document": "(val)","mimeType": "(val)","newUpdateTimestamp": "(val)","newUpdateUser": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Committee Schedule Attachments [GET /research-sys/api/v1/iacuc-committee-schedule-attachments/]
+### Get All Iacuc Committee Schedule Attachments [GET /iacuc/api/v1/iacuc-committee-schedule-attachments/]
 	 
 + Request
 
@@ -39,19 +39,19 @@
               {"scheduleId": "(val)","attachmentId": "(val)","attachmentsTypeCode": "(val)","description": "(val)","fileName": "(val)","document": "(val)","mimeType": "(val)","newUpdateTimestamp": "(val)","newUpdateUser": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Committee Schedule Attachments with Filtering [GET /research-sys/api/v1/iacuc-committee-schedule-attachments/]
+### Get All Iacuc Committee Schedule Attachments with Filtering [GET /iacuc/api/v1/iacuc-committee-schedule-attachments/]
     
 + Parameters
 
-        + scheduleId
-            + attachmentId
-            + attachmentsTypeCode
-            + description
-            + fileName
-            + document
-            + mimeType
-            + newUpdateTimestamp
-            + newUpdateUser
+    + scheduleId (optional) - 
+    + attachmentId (optional) - 
+    + attachmentsTypeCode (optional) - 
+    + description (optional) - 
+    + fileName (optional) - 
+    + document (optional) - 
+    + mimeType (optional) - 
+    + newUpdateTimestamp (optional) - 
+    + newUpdateUser (optional) - 
 
             
 + Request
@@ -73,7 +73,7 @@
               {"scheduleId": "(val)","attachmentId": "(val)","attachmentsTypeCode": "(val)","description": "(val)","fileName": "(val)","document": "(val)","mimeType": "(val)","newUpdateTimestamp": "(val)","newUpdateUser": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Committee Schedule Attachments [GET /research-sys/api/v1/iacuc-committee-schedule-attachments/]
+### Get Schema for Iacuc Committee Schedule Attachments [GET /iacuc/api/v1/iacuc-committee-schedule-attachments/]
 	                                          
 + Parameters
 
@@ -95,7 +95,7 @@
     
             {"columns":["scheduleId","attachmentId","attachmentsTypeCode","description","fileName","document","mimeType","newUpdateTimestamp","newUpdateUser"],"primaryKey":"attachmentId"}
 		
-### Get Blueprint API specification for Iacuc Committee Schedule Attachments [GET /research-sys/api/v1/iacuc-committee-schedule-attachments/]
+### Get Blueprint API specification for Iacuc Committee Schedule Attachments [GET /iacuc/api/v1/iacuc-committee-schedule-attachments/]
 	 
 + Parameters
 
@@ -116,7 +116,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Committee Schedule Attachments [PUT /research-sys/api/v1/iacuc-committee-schedule-attachments/(key)]
+### Update Iacuc Committee Schedule Attachments [PUT /iacuc/api/v1/iacuc-committee-schedule-attachments/(key)]
 
 + Request
 
@@ -131,7 +131,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Committee Schedule Attachments [PUT /research-sys/api/v1/iacuc-committee-schedule-attachments/]
+### Update Multiple Iacuc Committee Schedule Attachments [PUT /iacuc/api/v1/iacuc-committee-schedule-attachments/]
 
 + Request
 
@@ -149,7 +149,7 @@
 			
 + Response 204
 
-### Insert Iacuc Committee Schedule Attachments [POST /research-sys/api/v1/iacuc-committee-schedule-attachments/]
+### Insert Iacuc Committee Schedule Attachments [POST /iacuc/api/v1/iacuc-committee-schedule-attachments/]
 
 + Request
 
@@ -168,7 +168,7 @@
             
             {"scheduleId": "(val)","attachmentId": "(val)","attachmentsTypeCode": "(val)","description": "(val)","fileName": "(val)","document": "(val)","mimeType": "(val)","newUpdateTimestamp": "(val)","newUpdateUser": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Committee Schedule Attachments [POST /research-sys/api/v1/iacuc-committee-schedule-attachments/]
+### Insert Multiple Iacuc Committee Schedule Attachments [POST /iacuc/api/v1/iacuc-committee-schedule-attachments/]
 
 + Request
 
@@ -193,7 +193,7 @@
               {"scheduleId": "(val)","attachmentId": "(val)","attachmentsTypeCode": "(val)","description": "(val)","fileName": "(val)","document": "(val)","mimeType": "(val)","newUpdateTimestamp": "(val)","newUpdateUser": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Committee Schedule Attachments by Key [DELETE /research-sys/api/v1/iacuc-committee-schedule-attachments/(key)]
+### Delete Iacuc Committee Schedule Attachments by Key [DELETE /iacuc/api/v1/iacuc-committee-schedule-attachments/(key)]
 	 
 + Request
 
@@ -204,7 +204,7 @@
 
 + Response 204
 
-### Delete All Iacuc Committee Schedule Attachments [DELETE /research-sys/api/v1/iacuc-committee-schedule-attachments/]
+### Delete All Iacuc Committee Schedule Attachments [DELETE /iacuc/api/v1/iacuc-committee-schedule-attachments/]
 
 + Parameters
 
@@ -219,20 +219,20 @@
 
 + Response 204
 
-### Delete All Iacuc Committee Schedule Attachments with Matching [DELETE /research-sys/api/v1/iacuc-committee-schedule-attachments/]
+### Delete All Iacuc Committee Schedule Attachments with Matching [DELETE /iacuc/api/v1/iacuc-committee-schedule-attachments/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + scheduleId
-            + attachmentId
-            + attachmentsTypeCode
-            + description
-            + fileName
-            + document
-            + mimeType
-            + newUpdateTimestamp
-            + newUpdateUser
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + scheduleId (optional) - 
+    + attachmentId (optional) - 
+    + attachmentsTypeCode (optional) - 
+    + description (optional) - 
+    + fileName (optional) - 
+    + document (optional) - 
+    + mimeType (optional) - 
+    + newUpdateTimestamp (optional) - 
+    + newUpdateUser (optional) - 
 
       
 + Request

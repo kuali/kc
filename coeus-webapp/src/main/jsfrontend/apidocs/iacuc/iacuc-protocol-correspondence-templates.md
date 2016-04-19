@@ -1,6 +1,6 @@
-## Iacuc Protocol Correspondence Templates [/research-sys/api/v1/iacuc-protocol-correspondence-templates/]
+## Iacuc Protocol Correspondence Templates [/iacuc/api/v1/iacuc-protocol-correspondence-templates/]
 
-### Get Iacuc Protocol Correspondence Templates by Key [GET /research-sys/api/v1/iacuc-protocol-correspondence-templates/(key)]
+### Get Iacuc Protocol Correspondence Templates by Key [GET /iacuc/api/v1/iacuc-protocol-correspondence-templates/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"protoCorrespTemplId": "(val)","protoCorrespTypeCode": "(val)","committeeId": "(val)","fileName": "(val)","correspondenceTemplate": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Protocol Correspondence Templates [GET /research-sys/api/v1/iacuc-protocol-correspondence-templates/]
+### Get All Iacuc Protocol Correspondence Templates [GET /iacuc/api/v1/iacuc-protocol-correspondence-templates/]
 	 
 + Request
 
@@ -39,15 +39,15 @@
               {"protoCorrespTemplId": "(val)","protoCorrespTypeCode": "(val)","committeeId": "(val)","fileName": "(val)","correspondenceTemplate": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Protocol Correspondence Templates with Filtering [GET /research-sys/api/v1/iacuc-protocol-correspondence-templates/]
+### Get All Iacuc Protocol Correspondence Templates with Filtering [GET /iacuc/api/v1/iacuc-protocol-correspondence-templates/]
     
 + Parameters
 
-        + protoCorrespTemplId
-            + protoCorrespTypeCode
-            + committeeId
-            + fileName
-            + correspondenceTemplate
+    + protoCorrespTemplId (optional) - Proto Corresp Templ Id. Maximum length is 12.
+    + protoCorrespTypeCode (optional) - Proto Corresp Type Code. Maximum length is 3.
+    + committeeId (optional) - Committee. Maximum length is 15.
+    + fileName (optional) - File. Maximum length is 150.
+    + correspondenceTemplate (optional) - Correspondence Template. Maximum length is 4000.
 
             
 + Request
@@ -69,7 +69,7 @@
               {"protoCorrespTemplId": "(val)","protoCorrespTypeCode": "(val)","committeeId": "(val)","fileName": "(val)","correspondenceTemplate": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Protocol Correspondence Templates [GET /research-sys/api/v1/iacuc-protocol-correspondence-templates/]
+### Get Schema for Iacuc Protocol Correspondence Templates [GET /iacuc/api/v1/iacuc-protocol-correspondence-templates/]
 	                                          
 + Parameters
 
@@ -91,7 +91,7 @@
     
             {"columns":["protoCorrespTemplId","protoCorrespTypeCode","committeeId","fileName","correspondenceTemplate"],"primaryKey":"protoCorrespTemplId"}
 		
-### Get Blueprint API specification for Iacuc Protocol Correspondence Templates [GET /research-sys/api/v1/iacuc-protocol-correspondence-templates/]
+### Get Blueprint API specification for Iacuc Protocol Correspondence Templates [GET /iacuc/api/v1/iacuc-protocol-correspondence-templates/]
 	 
 + Parameters
 
@@ -112,7 +112,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Protocol Correspondence Templates [PUT /research-sys/api/v1/iacuc-protocol-correspondence-templates/(key)]
+### Update Iacuc Protocol Correspondence Templates [PUT /iacuc/api/v1/iacuc-protocol-correspondence-templates/(key)]
 
 + Request
 
@@ -127,7 +127,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Protocol Correspondence Templates [PUT /research-sys/api/v1/iacuc-protocol-correspondence-templates/]
+### Update Multiple Iacuc Protocol Correspondence Templates [PUT /iacuc/api/v1/iacuc-protocol-correspondence-templates/]
 
 + Request
 
@@ -145,7 +145,7 @@
 			
 + Response 204
 
-### Insert Iacuc Protocol Correspondence Templates [POST /research-sys/api/v1/iacuc-protocol-correspondence-templates/]
+### Insert Iacuc Protocol Correspondence Templates [POST /iacuc/api/v1/iacuc-protocol-correspondence-templates/]
 
 + Request
 
@@ -164,7 +164,7 @@
             
             {"protoCorrespTemplId": "(val)","protoCorrespTypeCode": "(val)","committeeId": "(val)","fileName": "(val)","correspondenceTemplate": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Protocol Correspondence Templates [POST /research-sys/api/v1/iacuc-protocol-correspondence-templates/]
+### Insert Multiple Iacuc Protocol Correspondence Templates [POST /iacuc/api/v1/iacuc-protocol-correspondence-templates/]
 
 + Request
 
@@ -189,7 +189,7 @@
               {"protoCorrespTemplId": "(val)","protoCorrespTypeCode": "(val)","committeeId": "(val)","fileName": "(val)","correspondenceTemplate": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Protocol Correspondence Templates by Key [DELETE /research-sys/api/v1/iacuc-protocol-correspondence-templates/(key)]
+### Delete Iacuc Protocol Correspondence Templates by Key [DELETE /iacuc/api/v1/iacuc-protocol-correspondence-templates/(key)]
 	 
 + Request
 
@@ -200,7 +200,7 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Correspondence Templates [DELETE /research-sys/api/v1/iacuc-protocol-correspondence-templates/]
+### Delete All Iacuc Protocol Correspondence Templates [DELETE /iacuc/api/v1/iacuc-protocol-correspondence-templates/]
 
 + Parameters
 
@@ -215,16 +215,16 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Correspondence Templates with Matching [DELETE /research-sys/api/v1/iacuc-protocol-correspondence-templates/]
+### Delete All Iacuc Protocol Correspondence Templates with Matching [DELETE /iacuc/api/v1/iacuc-protocol-correspondence-templates/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + protoCorrespTemplId
-            + protoCorrespTypeCode
-            + committeeId
-            + fileName
-            + correspondenceTemplate
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + protoCorrespTemplId (optional) - Proto Corresp Templ Id. Maximum length is 12.
+    + protoCorrespTypeCode (optional) - Proto Corresp Type Code. Maximum length is 3.
+    + committeeId (optional) - Committee. Maximum length is 15.
+    + fileName (optional) - File. Maximum length is 150.
+    + correspondenceTemplate (optional) - Correspondence Template. Maximum length is 4000.
 
       
 + Request

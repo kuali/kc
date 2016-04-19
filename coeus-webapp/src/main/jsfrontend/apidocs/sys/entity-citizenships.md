@@ -43,13 +43,13 @@
     
 + Parameters
 
-        + id
-            + startDateValue
-            + countryCode
-            + endDateValue
-            + active
-            + entityId
-            + statusCode
+    + id (optional) - 
+    + startDateValue (optional) - 
+    + countryCode (optional) - 
+    + endDateValue (optional) - 
+    + active (optional) - 
+    + entityId (optional) - 
+    + statusCode (optional) - 
 
             
 + Request
@@ -221,14 +221,14 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + startDateValue
-            + countryCode
-            + endDateValue
-            + active
-            + entityId
-            + statusCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - 
+    + startDateValue (optional) - 
+    + countryCode (optional) - 
+    + endDateValue (optional) - 
+    + active (optional) - 
+    + entityId (optional) - 
+    + statusCode (optional) - 
 
       
 + Request

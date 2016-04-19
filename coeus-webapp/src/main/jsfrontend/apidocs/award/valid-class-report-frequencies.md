@@ -1,6 +1,6 @@
-## Valid Class Report Frequencies [/research-sys/api/v1/valid-class-report-frequencies/]
+## Valid Class Report Frequencies [/award/api/v1/valid-class-report-frequencies/]
 
-### Get Valid Class Report Frequencies by Key [GET /research-sys/api/v1/valid-class-report-frequencies/(key)]
+### Get Valid Class Report Frequencies by Key [GET /award/api/v1/valid-class-report-frequencies/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"validClassReportFreqId": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","_primaryKey": "(val)"}
 
-### Get All Valid Class Report Frequencies [GET /research-sys/api/v1/valid-class-report-frequencies/]
+### Get All Valid Class Report Frequencies [GET /award/api/v1/valid-class-report-frequencies/]
 	 
 + Request
 
@@ -39,14 +39,14 @@
               {"validClassReportFreqId": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Valid Class Report Frequencies with Filtering [GET /research-sys/api/v1/valid-class-report-frequencies/]
+### Get All Valid Class Report Frequencies with Filtering [GET /award/api/v1/valid-class-report-frequencies/]
     
 + Parameters
 
-        + validClassReportFreqId
-            + reportClassCode
-            + reportCode
-            + frequencyCode
+    + validClassReportFreqId (optional) - Valid Class Report Freq Id. Maximum length is 22.
+    + reportClassCode (optional) - Report Class Code. Maximum length is 3.
+    + reportCode (optional) - Report Code. Maximum length is 3.
+    + frequencyCode (optional) - Frequency Code. Maximum length is 3.
 
             
 + Request
@@ -68,7 +68,7 @@
               {"validClassReportFreqId": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Valid Class Report Frequencies [GET /research-sys/api/v1/valid-class-report-frequencies/]
+### Get Schema for Valid Class Report Frequencies [GET /award/api/v1/valid-class-report-frequencies/]
 	                                          
 + Parameters
 
@@ -90,7 +90,7 @@
     
             {"columns":["validClassReportFreqId","reportClassCode","reportCode","frequencyCode"],"primaryKey":"validClassReportFreqId"}
 		
-### Get Blueprint API specification for Valid Class Report Frequencies [GET /research-sys/api/v1/valid-class-report-frequencies/]
+### Get Blueprint API specification for Valid Class Report Frequencies [GET /award/api/v1/valid-class-report-frequencies/]
 	 
 + Parameters
 
@@ -111,7 +111,7 @@
             transfer-encoding:chunked
 
 
-### Update Valid Class Report Frequencies [PUT /research-sys/api/v1/valid-class-report-frequencies/(key)]
+### Update Valid Class Report Frequencies [PUT /award/api/v1/valid-class-report-frequencies/(key)]
 
 + Request
 
@@ -126,7 +126,7 @@
 			
 + Response 204
 
-### Update Multiple Valid Class Report Frequencies [PUT /research-sys/api/v1/valid-class-report-frequencies/]
+### Update Multiple Valid Class Report Frequencies [PUT /award/api/v1/valid-class-report-frequencies/]
 
 + Request
 
@@ -144,7 +144,7 @@
 			
 + Response 204
 
-### Insert Valid Class Report Frequencies [POST /research-sys/api/v1/valid-class-report-frequencies/]
+### Insert Valid Class Report Frequencies [POST /award/api/v1/valid-class-report-frequencies/]
 
 + Request
 
@@ -163,7 +163,7 @@
             
             {"validClassReportFreqId": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Valid Class Report Frequencies [POST /research-sys/api/v1/valid-class-report-frequencies/]
+### Insert Multiple Valid Class Report Frequencies [POST /award/api/v1/valid-class-report-frequencies/]
 
 + Request
 
@@ -188,7 +188,7 @@
               {"validClassReportFreqId": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Valid Class Report Frequencies by Key [DELETE /research-sys/api/v1/valid-class-report-frequencies/(key)]
+### Delete Valid Class Report Frequencies by Key [DELETE /award/api/v1/valid-class-report-frequencies/(key)]
 	 
 + Request
 
@@ -199,7 +199,7 @@
 
 + Response 204
 
-### Delete All Valid Class Report Frequencies [DELETE /research-sys/api/v1/valid-class-report-frequencies/]
+### Delete All Valid Class Report Frequencies [DELETE /award/api/v1/valid-class-report-frequencies/]
 
 + Parameters
 
@@ -214,15 +214,15 @@
 
 + Response 204
 
-### Delete All Valid Class Report Frequencies with Matching [DELETE /research-sys/api/v1/valid-class-report-frequencies/]
+### Delete All Valid Class Report Frequencies with Matching [DELETE /award/api/v1/valid-class-report-frequencies/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + validClassReportFreqId
-            + reportClassCode
-            + reportCode
-            + frequencyCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + validClassReportFreqId (optional) - Valid Class Report Freq Id. Maximum length is 22.
+    + reportClassCode (optional) - Report Class Code. Maximum length is 3.
+    + reportCode (optional) - Report Code. Maximum length is 3.
+    + frequencyCode (optional) - Frequency Code. Maximum length is 3.
 
       
 + Request

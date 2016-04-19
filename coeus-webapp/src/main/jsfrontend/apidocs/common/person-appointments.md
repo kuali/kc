@@ -1,6 +1,6 @@
-## Person Appointments [/research-sys/api/v1/person-appointments/]
+## Person Appointments [/research-common/api/v1/person-appointments/]
 
-### Get Person Appointments by Key [GET /research-sys/api/v1/person-appointments/(key)]
+### Get Person Appointments by Key [GET /research-common/api/v1/person-appointments/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"appointmentId": "(val)","personId": "(val)","unitNumber": "(val)","startDate": "(val)","endDate": "(val)","typeCode": "(val)","jobTitle": "(val)","preferedJobTitle": "(val)","jobCode": "(val)","salary": "(val)","_primaryKey": "(val)"}
 
-### Get All Person Appointments [GET /research-sys/api/v1/person-appointments/]
+### Get All Person Appointments [GET /research-common/api/v1/person-appointments/]
 	 
 + Request
 
@@ -39,20 +39,20 @@
               {"appointmentId": "(val)","personId": "(val)","unitNumber": "(val)","startDate": "(val)","endDate": "(val)","typeCode": "(val)","jobTitle": "(val)","preferedJobTitle": "(val)","jobCode": "(val)","salary": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Person Appointments with Filtering [GET /research-sys/api/v1/person-appointments/]
+### Get All Person Appointments with Filtering [GET /research-common/api/v1/person-appointments/]
     
 + Parameters
 
-        + appointmentId
-            + personId
-            + unitNumber
-            + startDate
-            + endDate
-            + typeCode
-            + jobTitle
-            + preferedJobTitle
-            + jobCode
-            + salary
+    + appointmentId (optional) - Person Appointment Primary Key. Maximum length is 40.
+    + personId (optional) - KcPersonExtendedAttributes Id. Maximum length is 40.
+    + unitNumber (optional) - Unit. Maximum length is 8.
+    + startDate (optional) - Start Date. Maximum length is 10.
+    + endDate (optional) - End Date. Maximum length is 10.
+    + typeCode (optional) - Appointment Type. Maximum length is 3.
+    + jobTitle (optional) - Job Title. Maximum length is 50.
+    + preferedJobTitle (optional) - Prefered Job Title. Maximum length is 51.
+    + jobCode (optional) - Job Code. Maximum length is 6.
+    + salary (optional) - Salary. Maximum length is 15.
 
             
 + Request
@@ -74,7 +74,7 @@
               {"appointmentId": "(val)","personId": "(val)","unitNumber": "(val)","startDate": "(val)","endDate": "(val)","typeCode": "(val)","jobTitle": "(val)","preferedJobTitle": "(val)","jobCode": "(val)","salary": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Person Appointments [GET /research-sys/api/v1/person-appointments/]
+### Get Schema for Person Appointments [GET /research-common/api/v1/person-appointments/]
 	                                          
 + Parameters
 
@@ -96,7 +96,7 @@
     
             {"columns":["appointmentId","personId","unitNumber","startDate","endDate","typeCode","jobTitle","preferedJobTitle","jobCode","salary"],"primaryKey":"appointmentId"}
 		
-### Get Blueprint API specification for Person Appointments [GET /research-sys/api/v1/person-appointments/]
+### Get Blueprint API specification for Person Appointments [GET /research-common/api/v1/person-appointments/]
 	 
 + Parameters
 
@@ -117,7 +117,7 @@
             transfer-encoding:chunked
 
 
-### Update Person Appointments [PUT /research-sys/api/v1/person-appointments/(key)]
+### Update Person Appointments [PUT /research-common/api/v1/person-appointments/(key)]
 
 + Request
 
@@ -132,7 +132,7 @@
 			
 + Response 204
 
-### Update Multiple Person Appointments [PUT /research-sys/api/v1/person-appointments/]
+### Update Multiple Person Appointments [PUT /research-common/api/v1/person-appointments/]
 
 + Request
 
@@ -150,7 +150,7 @@
 			
 + Response 204
 
-### Insert Person Appointments [POST /research-sys/api/v1/person-appointments/]
+### Insert Person Appointments [POST /research-common/api/v1/person-appointments/]
 
 + Request
 
@@ -169,7 +169,7 @@
             
             {"appointmentId": "(val)","personId": "(val)","unitNumber": "(val)","startDate": "(val)","endDate": "(val)","typeCode": "(val)","jobTitle": "(val)","preferedJobTitle": "(val)","jobCode": "(val)","salary": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Person Appointments [POST /research-sys/api/v1/person-appointments/]
+### Insert Multiple Person Appointments [POST /research-common/api/v1/person-appointments/]
 
 + Request
 
@@ -194,7 +194,7 @@
               {"appointmentId": "(val)","personId": "(val)","unitNumber": "(val)","startDate": "(val)","endDate": "(val)","typeCode": "(val)","jobTitle": "(val)","preferedJobTitle": "(val)","jobCode": "(val)","salary": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Person Appointments by Key [DELETE /research-sys/api/v1/person-appointments/(key)]
+### Delete Person Appointments by Key [DELETE /research-common/api/v1/person-appointments/(key)]
 	 
 + Request
 
@@ -205,7 +205,7 @@
 
 + Response 204
 
-### Delete All Person Appointments [DELETE /research-sys/api/v1/person-appointments/]
+### Delete All Person Appointments [DELETE /research-common/api/v1/person-appointments/]
 
 + Parameters
 
@@ -220,21 +220,21 @@
 
 + Response 204
 
-### Delete All Person Appointments with Matching [DELETE /research-sys/api/v1/person-appointments/]
+### Delete All Person Appointments with Matching [DELETE /research-common/api/v1/person-appointments/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + appointmentId
-            + personId
-            + unitNumber
-            + startDate
-            + endDate
-            + typeCode
-            + jobTitle
-            + preferedJobTitle
-            + jobCode
-            + salary
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + appointmentId (optional) - Person Appointment Primary Key. Maximum length is 40.
+    + personId (optional) - KcPersonExtendedAttributes Id. Maximum length is 40.
+    + unitNumber (optional) - Unit. Maximum length is 8.
+    + startDate (optional) - Start Date. Maximum length is 10.
+    + endDate (optional) - End Date. Maximum length is 10.
+    + typeCode (optional) - Appointment Type. Maximum length is 3.
+    + jobTitle (optional) - Job Title. Maximum length is 50.
+    + preferedJobTitle (optional) - Prefered Job Title. Maximum length is 51.
+    + jobCode (optional) - Job Code. Maximum length is 6.
+    + salary (optional) - Salary. Maximum length is 15.
 
       
 + Request

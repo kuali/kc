@@ -1,6 +1,6 @@
-## Valid Award Basis Payments [/research-sys/api/v1/valid-award-basis-payments/]
+## Valid Award Basis Payments [/award/api/v1/valid-award-basis-payments/]
 
-### Get Valid Award Basis Payments by Key [GET /research-sys/api/v1/valid-award-basis-payments/(key)]
+### Get Valid Award Basis Payments by Key [GET /award/api/v1/valid-award-basis-payments/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"validAwardBasisPaymentId": "(val)","basisOfPaymentCode": "(val)","awardTypeCode": "(val)","_primaryKey": "(val)"}
 
-### Get All Valid Award Basis Payments [GET /research-sys/api/v1/valid-award-basis-payments/]
+### Get All Valid Award Basis Payments [GET /award/api/v1/valid-award-basis-payments/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"validAwardBasisPaymentId": "(val)","basisOfPaymentCode": "(val)","awardTypeCode": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Valid Award Basis Payments with Filtering [GET /research-sys/api/v1/valid-award-basis-payments/]
+### Get All Valid Award Basis Payments with Filtering [GET /award/api/v1/valid-award-basis-payments/]
     
 + Parameters
 
-        + validAwardBasisPaymentId
-            + basisOfPaymentCode
-            + awardTypeCode
+    + validAwardBasisPaymentId (optional) - Valid Award Basis Payment Id. Maximum length is 22.
+    + basisOfPaymentCode (optional) - Basis Of Payment Code. Maximum length is 3.
+    + awardTypeCode (optional) - Award Type Code. Maximum length is 3.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"validAwardBasisPaymentId": "(val)","basisOfPaymentCode": "(val)","awardTypeCode": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Valid Award Basis Payments [GET /research-sys/api/v1/valid-award-basis-payments/]
+### Get Schema for Valid Award Basis Payments [GET /award/api/v1/valid-award-basis-payments/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["validAwardBasisPaymentId","basisOfPaymentCode","awardTypeCode"],"primaryKey":"validAwardBasisPaymentId"}
 		
-### Get Blueprint API specification for Valid Award Basis Payments [GET /research-sys/api/v1/valid-award-basis-payments/]
+### Get Blueprint API specification for Valid Award Basis Payments [GET /award/api/v1/valid-award-basis-payments/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Valid Award Basis Payments [PUT /research-sys/api/v1/valid-award-basis-payments/(key)]
+### Update Valid Award Basis Payments [PUT /award/api/v1/valid-award-basis-payments/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Valid Award Basis Payments [PUT /research-sys/api/v1/valid-award-basis-payments/]
+### Update Multiple Valid Award Basis Payments [PUT /award/api/v1/valid-award-basis-payments/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Valid Award Basis Payments [POST /research-sys/api/v1/valid-award-basis-payments/]
+### Insert Valid Award Basis Payments [POST /award/api/v1/valid-award-basis-payments/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"validAwardBasisPaymentId": "(val)","basisOfPaymentCode": "(val)","awardTypeCode": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Valid Award Basis Payments [POST /research-sys/api/v1/valid-award-basis-payments/]
+### Insert Multiple Valid Award Basis Payments [POST /award/api/v1/valid-award-basis-payments/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"validAwardBasisPaymentId": "(val)","basisOfPaymentCode": "(val)","awardTypeCode": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Valid Award Basis Payments by Key [DELETE /research-sys/api/v1/valid-award-basis-payments/(key)]
+### Delete Valid Award Basis Payments by Key [DELETE /award/api/v1/valid-award-basis-payments/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Valid Award Basis Payments [DELETE /research-sys/api/v1/valid-award-basis-payments/]
+### Delete All Valid Award Basis Payments [DELETE /award/api/v1/valid-award-basis-payments/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Valid Award Basis Payments with Matching [DELETE /research-sys/api/v1/valid-award-basis-payments/]
+### Delete All Valid Award Basis Payments with Matching [DELETE /award/api/v1/valid-award-basis-payments/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + validAwardBasisPaymentId
-            + basisOfPaymentCode
-            + awardTypeCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + validAwardBasisPaymentId (optional) - Valid Award Basis Payment Id. Maximum length is 22.
+    + basisOfPaymentCode (optional) - Basis Of Payment Code. Maximum length is 3.
+    + awardTypeCode (optional) - Award Type Code. Maximum length is 3.
 
       
 + Request

@@ -1,6 +1,6 @@
-## Award Hierarchy Nodes [/research-sys/api/v1/award-hierarchy-nodes/]
+## Award Hierarchy Nodes [/award/api/v1/award-hierarchy-nodes/]
 
-### Get Award Hierarchy Nodes by Key [GET /research-sys/api/v1/award-hierarchy-nodes/(key)]
+### Get Award Hierarchy Nodes by Key [GET /award/api/v1/award-hierarchy-nodes/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"awardHierarchyId": "(val)","rootAwardNumber": "(val)","awardNumber": "(val)","parentAwardNumber": "(val)","originatingAwardNumber": "(val)","active": "(val)","_primaryKey": "(val)"}
 
-### Get All Award Hierarchy Nodes [GET /research-sys/api/v1/award-hierarchy-nodes/]
+### Get All Award Hierarchy Nodes [GET /award/api/v1/award-hierarchy-nodes/]
 	 
 + Request
 
@@ -39,16 +39,16 @@
               {"awardHierarchyId": "(val)","rootAwardNumber": "(val)","awardNumber": "(val)","parentAwardNumber": "(val)","originatingAwardNumber": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Award Hierarchy Nodes with Filtering [GET /research-sys/api/v1/award-hierarchy-nodes/]
+### Get All Award Hierarchy Nodes with Filtering [GET /award/api/v1/award-hierarchy-nodes/]
     
 + Parameters
 
-        + awardHierarchyId
-            + rootAwardNumber
-            + awardNumber
-            + parentAwardNumber
-            + originatingAwardNumber
-            + active
+    + awardHierarchyId (optional) - 
+    + rootAwardNumber (optional) - Root  Award Number. Maximum length is 12.
+    + awardNumber (optional) - Award ID. Maximum length is 12.
+    + parentAwardNumber (optional) - Parent  Award Number. Maximum length is 12.
+    + originatingAwardNumber (optional) - 
+    + active (optional) - 
 
             
 + Request
@@ -70,7 +70,7 @@
               {"awardHierarchyId": "(val)","rootAwardNumber": "(val)","awardNumber": "(val)","parentAwardNumber": "(val)","originatingAwardNumber": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Award Hierarchy Nodes [GET /research-sys/api/v1/award-hierarchy-nodes/]
+### Get Schema for Award Hierarchy Nodes [GET /award/api/v1/award-hierarchy-nodes/]
 	                                          
 + Parameters
 
@@ -92,7 +92,7 @@
     
             {"columns":["awardHierarchyId","rootAwardNumber","awardNumber","parentAwardNumber","originatingAwardNumber","active"],"primaryKey":"awardHierarchyId"}
 		
-### Get Blueprint API specification for Award Hierarchy Nodes [GET /research-sys/api/v1/award-hierarchy-nodes/]
+### Get Blueprint API specification for Award Hierarchy Nodes [GET /award/api/v1/award-hierarchy-nodes/]
 	 
 + Parameters
 
@@ -113,7 +113,7 @@
             transfer-encoding:chunked
 
 
-### Update Award Hierarchy Nodes [PUT /research-sys/api/v1/award-hierarchy-nodes/(key)]
+### Update Award Hierarchy Nodes [PUT /award/api/v1/award-hierarchy-nodes/(key)]
 
 + Request
 
@@ -128,7 +128,7 @@
 			
 + Response 204
 
-### Update Multiple Award Hierarchy Nodes [PUT /research-sys/api/v1/award-hierarchy-nodes/]
+### Update Multiple Award Hierarchy Nodes [PUT /award/api/v1/award-hierarchy-nodes/]
 
 + Request
 
@@ -146,7 +146,7 @@
 			
 + Response 204
 
-### Insert Award Hierarchy Nodes [POST /research-sys/api/v1/award-hierarchy-nodes/]
+### Insert Award Hierarchy Nodes [POST /award/api/v1/award-hierarchy-nodes/]
 
 + Request
 
@@ -165,7 +165,7 @@
             
             {"awardHierarchyId": "(val)","rootAwardNumber": "(val)","awardNumber": "(val)","parentAwardNumber": "(val)","originatingAwardNumber": "(val)","active": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Award Hierarchy Nodes [POST /research-sys/api/v1/award-hierarchy-nodes/]
+### Insert Multiple Award Hierarchy Nodes [POST /award/api/v1/award-hierarchy-nodes/]
 
 + Request
 
@@ -190,7 +190,7 @@
               {"awardHierarchyId": "(val)","rootAwardNumber": "(val)","awardNumber": "(val)","parentAwardNumber": "(val)","originatingAwardNumber": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Award Hierarchy Nodes by Key [DELETE /research-sys/api/v1/award-hierarchy-nodes/(key)]
+### Delete Award Hierarchy Nodes by Key [DELETE /award/api/v1/award-hierarchy-nodes/(key)]
 	 
 + Request
 
@@ -201,7 +201,7 @@
 
 + Response 204
 
-### Delete All Award Hierarchy Nodes [DELETE /research-sys/api/v1/award-hierarchy-nodes/]
+### Delete All Award Hierarchy Nodes [DELETE /award/api/v1/award-hierarchy-nodes/]
 
 + Parameters
 
@@ -216,17 +216,17 @@
 
 + Response 204
 
-### Delete All Award Hierarchy Nodes with Matching [DELETE /research-sys/api/v1/award-hierarchy-nodes/]
+### Delete All Award Hierarchy Nodes with Matching [DELETE /award/api/v1/award-hierarchy-nodes/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + awardHierarchyId
-            + rootAwardNumber
-            + awardNumber
-            + parentAwardNumber
-            + originatingAwardNumber
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + awardHierarchyId (optional) - 
+    + rootAwardNumber (optional) - Root  Award Number. Maximum length is 12.
+    + awardNumber (optional) - Award ID. Maximum length is 12.
+    + parentAwardNumber (optional) - Parent  Award Number. Maximum length is 12.
+    + originatingAwardNumber (optional) - 
+    + active (optional) - 
 
       
 + Request

@@ -1,6 +1,6 @@
-## Budget Personnel Calculated Amounts [/research-sys/api/v1/budget-personnel-calculated-amounts/]
+## Budget Personnel Calculated Amounts [/research-common/api/v1/budget-personnel-calculated-amounts/]
 
-### Get Budget Personnel Calculated Amounts by Key [GET /research-sys/api/v1/budget-personnel-calculated-amounts/(key)]
+### Get Budget Personnel Calculated Amounts by Key [GET /research-common/api/v1/budget-personnel-calculated-amounts/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"personNumber": "(val)","budgetPersonnelCalculatedAmountId": "(val)","budgetPersonnelLineItemId": "(val)","budgetPeriodId": "(val)","rateTypeDescription": "(val)","applyRateFlag": "(val)","rateTypeCode": "(val)","budgetId": "(val)","budgetPeriod": "(val)","calculatedCost": "(val)","rateClassCode": "(val)","calculatedCostSharing": "(val)","lineItemNumber": "(val)","_primaryKey": "(val)"}
 
-### Get All Budget Personnel Calculated Amounts [GET /research-sys/api/v1/budget-personnel-calculated-amounts/]
+### Get All Budget Personnel Calculated Amounts [GET /research-common/api/v1/budget-personnel-calculated-amounts/]
 	 
 + Request
 
@@ -39,23 +39,23 @@
               {"personNumber": "(val)","budgetPersonnelCalculatedAmountId": "(val)","budgetPersonnelLineItemId": "(val)","budgetPeriodId": "(val)","rateTypeDescription": "(val)","applyRateFlag": "(val)","rateTypeCode": "(val)","budgetId": "(val)","budgetPeriod": "(val)","calculatedCost": "(val)","rateClassCode": "(val)","calculatedCostSharing": "(val)","lineItemNumber": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Budget Personnel Calculated Amounts with Filtering [GET /research-sys/api/v1/budget-personnel-calculated-amounts/]
+### Get All Budget Personnel Calculated Amounts with Filtering [GET /research-common/api/v1/budget-personnel-calculated-amounts/]
     
 + Parameters
 
-        + personNumber
-            + budgetPersonnelCalculatedAmountId
-            + budgetPersonnelLineItemId
-            + budgetPeriodId
-            + rateTypeDescription
-            + applyRateFlag
-            + rateTypeCode
-            + budgetId
-            + budgetPeriod
-            + calculatedCost
-            + rateClassCode
-            + calculatedCostSharing
-            + lineItemNumber
+    + personNumber (optional) - Person Number. Maximum length is 3.
+    + budgetPersonnelCalculatedAmountId (optional) - Budget Personnel Calculated Amount Id.
+    + budgetPersonnelLineItemId (optional) - Budget Personnel Line Item Id.
+    + budgetPeriodId (optional) - Budget Period Id.
+    + rateTypeDescription (optional) - Rate Type Description.
+    + applyRateFlag (optional) - Apply Rate?. Maximum length is 1.
+    + rateTypeCode (optional) - Rate Type Code. Maximum length is 3.
+    + budgetId (optional) - Budget Id.
+    + budgetPeriod (optional) - Budget Period. Maximum length is 3.
+    + calculatedCost (optional) - Calculated Cost. Maximum length is 15.
+    + rateClassCode (optional) - Rate Class Code. Maximum length is 3.
+    + calculatedCostSharing (optional) - Calculated Cost Sharing. Maximum length is 15.
+    + lineItemNumber (optional) - Line Item Number. Maximum length is 3.
 
             
 + Request
@@ -77,7 +77,7 @@
               {"personNumber": "(val)","budgetPersonnelCalculatedAmountId": "(val)","budgetPersonnelLineItemId": "(val)","budgetPeriodId": "(val)","rateTypeDescription": "(val)","applyRateFlag": "(val)","rateTypeCode": "(val)","budgetId": "(val)","budgetPeriod": "(val)","calculatedCost": "(val)","rateClassCode": "(val)","calculatedCostSharing": "(val)","lineItemNumber": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Budget Personnel Calculated Amounts [GET /research-sys/api/v1/budget-personnel-calculated-amounts/]
+### Get Schema for Budget Personnel Calculated Amounts [GET /research-common/api/v1/budget-personnel-calculated-amounts/]
 	                                          
 + Parameters
 
@@ -99,7 +99,7 @@
     
             {"columns":["personNumber","budgetPersonnelCalculatedAmountId","budgetPersonnelLineItemId","budgetPeriodId","rateTypeDescription","applyRateFlag","rateTypeCode","budgetId","budgetPeriod","calculatedCost","rateClassCode","calculatedCostSharing","lineItemNumber"],"primaryKey":"budgetPersonnelCalculatedAmountId"}
 		
-### Get Blueprint API specification for Budget Personnel Calculated Amounts [GET /research-sys/api/v1/budget-personnel-calculated-amounts/]
+### Get Blueprint API specification for Budget Personnel Calculated Amounts [GET /research-common/api/v1/budget-personnel-calculated-amounts/]
 	 
 + Parameters
 
@@ -120,7 +120,7 @@
             transfer-encoding:chunked
 
 
-### Update Budget Personnel Calculated Amounts [PUT /research-sys/api/v1/budget-personnel-calculated-amounts/(key)]
+### Update Budget Personnel Calculated Amounts [PUT /research-common/api/v1/budget-personnel-calculated-amounts/(key)]
 
 + Request
 
@@ -135,7 +135,7 @@
 			
 + Response 204
 
-### Update Multiple Budget Personnel Calculated Amounts [PUT /research-sys/api/v1/budget-personnel-calculated-amounts/]
+### Update Multiple Budget Personnel Calculated Amounts [PUT /research-common/api/v1/budget-personnel-calculated-amounts/]
 
 + Request
 
@@ -153,7 +153,7 @@
 			
 + Response 204
 
-### Insert Budget Personnel Calculated Amounts [POST /research-sys/api/v1/budget-personnel-calculated-amounts/]
+### Insert Budget Personnel Calculated Amounts [POST /research-common/api/v1/budget-personnel-calculated-amounts/]
 
 + Request
 
@@ -172,7 +172,7 @@
             
             {"personNumber": "(val)","budgetPersonnelCalculatedAmountId": "(val)","budgetPersonnelLineItemId": "(val)","budgetPeriodId": "(val)","rateTypeDescription": "(val)","applyRateFlag": "(val)","rateTypeCode": "(val)","budgetId": "(val)","budgetPeriod": "(val)","calculatedCost": "(val)","rateClassCode": "(val)","calculatedCostSharing": "(val)","lineItemNumber": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Budget Personnel Calculated Amounts [POST /research-sys/api/v1/budget-personnel-calculated-amounts/]
+### Insert Multiple Budget Personnel Calculated Amounts [POST /research-common/api/v1/budget-personnel-calculated-amounts/]
 
 + Request
 
@@ -197,7 +197,7 @@
               {"personNumber": "(val)","budgetPersonnelCalculatedAmountId": "(val)","budgetPersonnelLineItemId": "(val)","budgetPeriodId": "(val)","rateTypeDescription": "(val)","applyRateFlag": "(val)","rateTypeCode": "(val)","budgetId": "(val)","budgetPeriod": "(val)","calculatedCost": "(val)","rateClassCode": "(val)","calculatedCostSharing": "(val)","lineItemNumber": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Budget Personnel Calculated Amounts by Key [DELETE /research-sys/api/v1/budget-personnel-calculated-amounts/(key)]
+### Delete Budget Personnel Calculated Amounts by Key [DELETE /research-common/api/v1/budget-personnel-calculated-amounts/(key)]
 	 
 + Request
 
@@ -208,7 +208,7 @@
 
 + Response 204
 
-### Delete All Budget Personnel Calculated Amounts [DELETE /research-sys/api/v1/budget-personnel-calculated-amounts/]
+### Delete All Budget Personnel Calculated Amounts [DELETE /research-common/api/v1/budget-personnel-calculated-amounts/]
 
 + Parameters
 
@@ -223,24 +223,24 @@
 
 + Response 204
 
-### Delete All Budget Personnel Calculated Amounts with Matching [DELETE /research-sys/api/v1/budget-personnel-calculated-amounts/]
+### Delete All Budget Personnel Calculated Amounts with Matching [DELETE /research-common/api/v1/budget-personnel-calculated-amounts/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + personNumber
-            + budgetPersonnelCalculatedAmountId
-            + budgetPersonnelLineItemId
-            + budgetPeriodId
-            + rateTypeDescription
-            + applyRateFlag
-            + rateTypeCode
-            + budgetId
-            + budgetPeriod
-            + calculatedCost
-            + rateClassCode
-            + calculatedCostSharing
-            + lineItemNumber
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + personNumber (optional) - Person Number. Maximum length is 3.
+    + budgetPersonnelCalculatedAmountId (optional) - Budget Personnel Calculated Amount Id.
+    + budgetPersonnelLineItemId (optional) - Budget Personnel Line Item Id.
+    + budgetPeriodId (optional) - Budget Period Id.
+    + rateTypeDescription (optional) - Rate Type Description.
+    + applyRateFlag (optional) - Apply Rate?. Maximum length is 1.
+    + rateTypeCode (optional) - Rate Type Code. Maximum length is 3.
+    + budgetId (optional) - Budget Id.
+    + budgetPeriod (optional) - Budget Period. Maximum length is 3.
+    + calculatedCost (optional) - Calculated Cost. Maximum length is 15.
+    + rateClassCode (optional) - Rate Class Code. Maximum length is 3.
+    + calculatedCostSharing (optional) - Calculated Cost Sharing. Maximum length is 15.
+    + lineItemNumber (optional) - Line Item Number. Maximum length is 3.
 
       
 + Request

@@ -1,6 +1,6 @@
-## Kc Krms Term Functions [/research-sys/api/v1/kc-krms-term-functions/]
+## Kc Krms Term Functions [/research-common/api/v1/kc-krms-term-functions/]
 
-### Get Kc Krms Term Functions by Key [GET /research-sys/api/v1/kc-krms-term-functions/(key)]
+### Get Kc Krms Term Functions by Key [GET /research-common/api/v1/kc-krms-term-functions/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"kcKrmsTermFunctionId": "(val)","krmsTermName": "(val)","description": "(val)","returnType": "(val)","functionType": "(val)","_primaryKey": "(val)"}
 
-### Get All Kc Krms Term Functions [GET /research-sys/api/v1/kc-krms-term-functions/]
+### Get All Kc Krms Term Functions [GET /research-common/api/v1/kc-krms-term-functions/]
 	 
 + Request
 
@@ -39,15 +39,15 @@
               {"kcKrmsTermFunctionId": "(val)","krmsTermName": "(val)","description": "(val)","returnType": "(val)","functionType": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Kc Krms Term Functions with Filtering [GET /research-sys/api/v1/kc-krms-term-functions/]
+### Get All Kc Krms Term Functions with Filtering [GET /research-common/api/v1/kc-krms-term-functions/]
     
 + Parameters
 
-        + kcKrmsTermFunctionId
-            + krmsTermName
-            + description
-            + returnType
-            + functionType
+    + kcKrmsTermFunctionId (optional) - Kc Krms Term Function Id. Maximum length is 22.
+    + krmsTermName (optional) - Krms Term Id. Maximum length is 20.
+    + description (optional) - Description. Maximum length is 200.
+    + returnType (optional) - Return Type. Maximum length is 100.
+    + functionType (optional) - Function Type. Maximum length is 3.
 
             
 + Request
@@ -69,7 +69,7 @@
               {"kcKrmsTermFunctionId": "(val)","krmsTermName": "(val)","description": "(val)","returnType": "(val)","functionType": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Kc Krms Term Functions [GET /research-sys/api/v1/kc-krms-term-functions/]
+### Get Schema for Kc Krms Term Functions [GET /research-common/api/v1/kc-krms-term-functions/]
 	                                          
 + Parameters
 
@@ -91,7 +91,7 @@
     
             {"columns":["kcKrmsTermFunctionId","krmsTermName","description","returnType","functionType"],"primaryKey":"kcKrmsTermFunctionId"}
 		
-### Get Blueprint API specification for Kc Krms Term Functions [GET /research-sys/api/v1/kc-krms-term-functions/]
+### Get Blueprint API specification for Kc Krms Term Functions [GET /research-common/api/v1/kc-krms-term-functions/]
 	 
 + Parameters
 
@@ -112,7 +112,7 @@
             transfer-encoding:chunked
 
 
-### Update Kc Krms Term Functions [PUT /research-sys/api/v1/kc-krms-term-functions/(key)]
+### Update Kc Krms Term Functions [PUT /research-common/api/v1/kc-krms-term-functions/(key)]
 
 + Request
 
@@ -127,7 +127,7 @@
 			
 + Response 204
 
-### Update Multiple Kc Krms Term Functions [PUT /research-sys/api/v1/kc-krms-term-functions/]
+### Update Multiple Kc Krms Term Functions [PUT /research-common/api/v1/kc-krms-term-functions/]
 
 + Request
 
@@ -145,7 +145,7 @@
 			
 + Response 204
 
-### Insert Kc Krms Term Functions [POST /research-sys/api/v1/kc-krms-term-functions/]
+### Insert Kc Krms Term Functions [POST /research-common/api/v1/kc-krms-term-functions/]
 
 + Request
 
@@ -164,7 +164,7 @@
             
             {"kcKrmsTermFunctionId": "(val)","krmsTermName": "(val)","description": "(val)","returnType": "(val)","functionType": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Kc Krms Term Functions [POST /research-sys/api/v1/kc-krms-term-functions/]
+### Insert Multiple Kc Krms Term Functions [POST /research-common/api/v1/kc-krms-term-functions/]
 
 + Request
 
@@ -189,7 +189,7 @@
               {"kcKrmsTermFunctionId": "(val)","krmsTermName": "(val)","description": "(val)","returnType": "(val)","functionType": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Kc Krms Term Functions by Key [DELETE /research-sys/api/v1/kc-krms-term-functions/(key)]
+### Delete Kc Krms Term Functions by Key [DELETE /research-common/api/v1/kc-krms-term-functions/(key)]
 	 
 + Request
 
@@ -200,7 +200,7 @@
 
 + Response 204
 
-### Delete All Kc Krms Term Functions [DELETE /research-sys/api/v1/kc-krms-term-functions/]
+### Delete All Kc Krms Term Functions [DELETE /research-common/api/v1/kc-krms-term-functions/]
 
 + Parameters
 
@@ -215,16 +215,16 @@
 
 + Response 204
 
-### Delete All Kc Krms Term Functions with Matching [DELETE /research-sys/api/v1/kc-krms-term-functions/]
+### Delete All Kc Krms Term Functions with Matching [DELETE /research-common/api/v1/kc-krms-term-functions/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + kcKrmsTermFunctionId
-            + krmsTermName
-            + description
-            + returnType
-            + functionType
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + kcKrmsTermFunctionId (optional) - Kc Krms Term Function Id. Maximum length is 22.
+    + krmsTermName (optional) - Krms Term Id. Maximum length is 20.
+    + description (optional) - Description. Maximum length is 200.
+    + returnType (optional) - Return Type. Maximum length is 100.
+    + functionType (optional) - Function Type. Maximum length is 3.
 
       
 + Request

@@ -43,14 +43,14 @@
     
 + Parameters
 
-        + entityEmailId
-            + entityTypeCode
-            + emailTypeCode
-            + emailAddress
-            + dflt
-            + edit
-            + documentNumber
-            + active
+    + entityEmailId (optional) - Entity Email Id.
+    + entityTypeCode (optional) - Entity Type Code.
+    + emailTypeCode (optional) - Type. Maximum length is 10.
+    + emailAddress (optional) - The email address of the university user. Maximum length is 200.
+    + dflt (optional) - Default. Maximum length is 1.
+    + edit (optional) - Edit.
+    + documentNumber (optional) - Document Number.
+    + active (optional) - Active. Maximum length is 1.
 
             
 + Request
@@ -222,15 +222,15 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + entityEmailId
-            + entityTypeCode
-            + emailTypeCode
-            + emailAddress
-            + dflt
-            + edit
-            + documentNumber
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + entityEmailId (optional) - Entity Email Id.
+    + entityTypeCode (optional) - Entity Type Code.
+    + emailTypeCode (optional) - Type. Maximum length is 10.
+    + emailAddress (optional) - The email address of the university user. Maximum length is 200.
+    + dflt (optional) - Default. Maximum length is 1.
+    + edit (optional) - Edit.
+    + documentNumber (optional) - Document Number.
+    + active (optional) - Active. Maximum length is 1.
 
       
 + Request

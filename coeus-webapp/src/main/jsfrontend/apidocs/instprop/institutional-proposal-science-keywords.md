@@ -1,6 +1,6 @@
-## Institutional Proposal Science Keywords [/research-sys/api/v1/institutional-proposal-science-keywords/]
+## Institutional Proposal Science Keywords [/instprop/api/v1/institutional-proposal-science-keywords/]
 
-### Get Institutional Proposal Science Keywords by Key [GET /research-sys/api/v1/institutional-proposal-science-keywords/(key)]
+### Get Institutional Proposal Science Keywords by Key [GET /instprop/api/v1/institutional-proposal-science-keywords/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"proposalScienceKeywordId": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","scienceKeywordCode": "(val)","_primaryKey": "(val)"}
 
-### Get All Institutional Proposal Science Keywords [GET /research-sys/api/v1/institutional-proposal-science-keywords/]
+### Get All Institutional Proposal Science Keywords [GET /instprop/api/v1/institutional-proposal-science-keywords/]
 	 
 + Request
 
@@ -39,15 +39,15 @@
               {"proposalScienceKeywordId": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","scienceKeywordCode": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Institutional Proposal Science Keywords with Filtering [GET /research-sys/api/v1/institutional-proposal-science-keywords/]
+### Get All Institutional Proposal Science Keywords with Filtering [GET /instprop/api/v1/institutional-proposal-science-keywords/]
     
 + Parameters
 
-        + proposalScienceKeywordId
-            + proposalId
-            + proposalNumber
-            + sequenceNumber
-            + scienceKeywordCode
+    + proposalScienceKeywordId (optional) - Proposal Science Code Id. Maximum length is 22.
+    + proposalId (optional) - 
+    + proposalNumber (optional) - Proposal Number. Maximum length is 8.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 22.
+    + scienceKeywordCode (optional) - Science Code. Maximum length is 15.
 
             
 + Request
@@ -69,7 +69,7 @@
               {"proposalScienceKeywordId": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","scienceKeywordCode": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Institutional Proposal Science Keywords [GET /research-sys/api/v1/institutional-proposal-science-keywords/]
+### Get Schema for Institutional Proposal Science Keywords [GET /instprop/api/v1/institutional-proposal-science-keywords/]
 	                                          
 + Parameters
 
@@ -91,7 +91,7 @@
     
             {"columns":["proposalScienceKeywordId","proposalId","proposalNumber","sequenceNumber","scienceKeywordCode"],"primaryKey":"proposalScienceKeywordId"}
 		
-### Get Blueprint API specification for Institutional Proposal Science Keywords [GET /research-sys/api/v1/institutional-proposal-science-keywords/]
+### Get Blueprint API specification for Institutional Proposal Science Keywords [GET /instprop/api/v1/institutional-proposal-science-keywords/]
 	 
 + Parameters
 
@@ -112,7 +112,7 @@
             transfer-encoding:chunked
 
 
-### Update Institutional Proposal Science Keywords [PUT /research-sys/api/v1/institutional-proposal-science-keywords/(key)]
+### Update Institutional Proposal Science Keywords [PUT /instprop/api/v1/institutional-proposal-science-keywords/(key)]
 
 + Request
 
@@ -127,7 +127,7 @@
 			
 + Response 204
 
-### Update Multiple Institutional Proposal Science Keywords [PUT /research-sys/api/v1/institutional-proposal-science-keywords/]
+### Update Multiple Institutional Proposal Science Keywords [PUT /instprop/api/v1/institutional-proposal-science-keywords/]
 
 + Request
 
@@ -145,7 +145,7 @@
 			
 + Response 204
 
-### Insert Institutional Proposal Science Keywords [POST /research-sys/api/v1/institutional-proposal-science-keywords/]
+### Insert Institutional Proposal Science Keywords [POST /instprop/api/v1/institutional-proposal-science-keywords/]
 
 + Request
 
@@ -164,7 +164,7 @@
             
             {"proposalScienceKeywordId": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","scienceKeywordCode": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Institutional Proposal Science Keywords [POST /research-sys/api/v1/institutional-proposal-science-keywords/]
+### Insert Multiple Institutional Proposal Science Keywords [POST /instprop/api/v1/institutional-proposal-science-keywords/]
 
 + Request
 
@@ -189,7 +189,7 @@
               {"proposalScienceKeywordId": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","scienceKeywordCode": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Institutional Proposal Science Keywords by Key [DELETE /research-sys/api/v1/institutional-proposal-science-keywords/(key)]
+### Delete Institutional Proposal Science Keywords by Key [DELETE /instprop/api/v1/institutional-proposal-science-keywords/(key)]
 	 
 + Request
 
@@ -200,7 +200,7 @@
 
 + Response 204
 
-### Delete All Institutional Proposal Science Keywords [DELETE /research-sys/api/v1/institutional-proposal-science-keywords/]
+### Delete All Institutional Proposal Science Keywords [DELETE /instprop/api/v1/institutional-proposal-science-keywords/]
 
 + Parameters
 
@@ -215,16 +215,16 @@
 
 + Response 204
 
-### Delete All Institutional Proposal Science Keywords with Matching [DELETE /research-sys/api/v1/institutional-proposal-science-keywords/]
+### Delete All Institutional Proposal Science Keywords with Matching [DELETE /instprop/api/v1/institutional-proposal-science-keywords/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + proposalScienceKeywordId
-            + proposalId
-            + proposalNumber
-            + sequenceNumber
-            + scienceKeywordCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + proposalScienceKeywordId (optional) - Proposal Science Code Id. Maximum length is 22.
+    + proposalId (optional) - 
+    + proposalNumber (optional) - Proposal Number. Maximum length is 8.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 22.
+    + scienceKeywordCode (optional) - Science Code. Maximum length is 15.
 
       
 + Request

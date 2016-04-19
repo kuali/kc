@@ -1,6 +1,6 @@
-## Negotiation Notifications [/research-sys/api/v1/negotiation-notifications/]
+## Negotiation Notifications [/negotiation/api/v1/negotiation-notifications/]
 
-### Get Negotiation Notifications by Key [GET /research-sys/api/v1/negotiation-notifications/(key)]
+### Get Negotiation Notifications by Key [GET /negotiation/api/v1/negotiation-notifications/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"notificationId": "(val)","notificationTypeId": "(val)","documentNumber": "(val)","owningDocumentIdFk": "(val)","recipients": "(val)","subject": "(val)","message": "(val)","_primaryKey": "(val)"}
 
-### Get All Negotiation Notifications [GET /research-sys/api/v1/negotiation-notifications/]
+### Get All Negotiation Notifications [GET /negotiation/api/v1/negotiation-notifications/]
 	 
 + Request
 
@@ -39,17 +39,17 @@
               {"notificationId": "(val)","notificationTypeId": "(val)","documentNumber": "(val)","owningDocumentIdFk": "(val)","recipients": "(val)","subject": "(val)","message": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Negotiation Notifications with Filtering [GET /research-sys/api/v1/negotiation-notifications/]
+### Get All Negotiation Notifications with Filtering [GET /negotiation/api/v1/negotiation-notifications/]
     
 + Parameters
 
-        + notificationId
-            + notificationTypeId
-            + documentNumber
-            + owningDocumentIdFk
-            + recipients
-            + subject
-            + message
+    + notificationId (optional) - 
+    + notificationTypeId (optional) - 
+    + documentNumber (optional) - 
+    + owningDocumentIdFk (optional) - 
+    + recipients (optional) - 
+    + subject (optional) - 
+    + message (optional) - 
 
             
 + Request
@@ -71,7 +71,7 @@
               {"notificationId": "(val)","notificationTypeId": "(val)","documentNumber": "(val)","owningDocumentIdFk": "(val)","recipients": "(val)","subject": "(val)","message": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Negotiation Notifications [GET /research-sys/api/v1/negotiation-notifications/]
+### Get Schema for Negotiation Notifications [GET /negotiation/api/v1/negotiation-notifications/]
 	                                          
 + Parameters
 
@@ -93,7 +93,7 @@
     
             {"columns":["notificationId","notificationTypeId","documentNumber","owningDocumentIdFk","recipients","subject","message"],"primaryKey":"notificationId"}
 		
-### Get Blueprint API specification for Negotiation Notifications [GET /research-sys/api/v1/negotiation-notifications/]
+### Get Blueprint API specification for Negotiation Notifications [GET /negotiation/api/v1/negotiation-notifications/]
 	 
 + Parameters
 
@@ -114,7 +114,7 @@
             transfer-encoding:chunked
 
 
-### Update Negotiation Notifications [PUT /research-sys/api/v1/negotiation-notifications/(key)]
+### Update Negotiation Notifications [PUT /negotiation/api/v1/negotiation-notifications/(key)]
 
 + Request
 
@@ -129,7 +129,7 @@
 			
 + Response 204
 
-### Update Multiple Negotiation Notifications [PUT /research-sys/api/v1/negotiation-notifications/]
+### Update Multiple Negotiation Notifications [PUT /negotiation/api/v1/negotiation-notifications/]
 
 + Request
 
@@ -147,7 +147,7 @@
 			
 + Response 204
 
-### Insert Negotiation Notifications [POST /research-sys/api/v1/negotiation-notifications/]
+### Insert Negotiation Notifications [POST /negotiation/api/v1/negotiation-notifications/]
 
 + Request
 
@@ -166,7 +166,7 @@
             
             {"notificationId": "(val)","notificationTypeId": "(val)","documentNumber": "(val)","owningDocumentIdFk": "(val)","recipients": "(val)","subject": "(val)","message": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Negotiation Notifications [POST /research-sys/api/v1/negotiation-notifications/]
+### Insert Multiple Negotiation Notifications [POST /negotiation/api/v1/negotiation-notifications/]
 
 + Request
 
@@ -191,7 +191,7 @@
               {"notificationId": "(val)","notificationTypeId": "(val)","documentNumber": "(val)","owningDocumentIdFk": "(val)","recipients": "(val)","subject": "(val)","message": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Negotiation Notifications by Key [DELETE /research-sys/api/v1/negotiation-notifications/(key)]
+### Delete Negotiation Notifications by Key [DELETE /negotiation/api/v1/negotiation-notifications/(key)]
 	 
 + Request
 
@@ -202,7 +202,7 @@
 
 + Response 204
 
-### Delete All Negotiation Notifications [DELETE /research-sys/api/v1/negotiation-notifications/]
+### Delete All Negotiation Notifications [DELETE /negotiation/api/v1/negotiation-notifications/]
 
 + Parameters
 
@@ -217,18 +217,18 @@
 
 + Response 204
 
-### Delete All Negotiation Notifications with Matching [DELETE /research-sys/api/v1/negotiation-notifications/]
+### Delete All Negotiation Notifications with Matching [DELETE /negotiation/api/v1/negotiation-notifications/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + notificationId
-            + notificationTypeId
-            + documentNumber
-            + owningDocumentIdFk
-            + recipients
-            + subject
-            + message
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + notificationId (optional) - 
+    + notificationTypeId (optional) - 
+    + documentNumber (optional) - 
+    + owningDocumentIdFk (optional) - 
+    + recipients (optional) - 
+    + subject (optional) - 
+    + message (optional) - 
 
       
 + Request

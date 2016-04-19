@@ -1,6 +1,6 @@
-## Notification Module Role Qualifiers [/research-sys/api/v1/notification-module-role-qualifiers/]
+## Notification Module Role Qualifiers [/research-common/api/v1/notification-module-role-qualifiers/]
 
-### Get Notification Module Role Qualifiers by Key [GET /research-sys/api/v1/notification-module-role-qualifiers/(key)]
+### Get Notification Module Role Qualifiers by Key [GET /research-common/api/v1/notification-module-role-qualifiers/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"notificationModuleRoleQualifierId": "(val)","notificationModuleRoleId": "(val)","qualifier": "(val)","_primaryKey": "(val)"}
 
-### Get All Notification Module Role Qualifiers [GET /research-sys/api/v1/notification-module-role-qualifiers/]
+### Get All Notification Module Role Qualifiers [GET /research-common/api/v1/notification-module-role-qualifiers/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"notificationModuleRoleQualifierId": "(val)","notificationModuleRoleId": "(val)","qualifier": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Notification Module Role Qualifiers with Filtering [GET /research-sys/api/v1/notification-module-role-qualifiers/]
+### Get All Notification Module Role Qualifiers with Filtering [GET /research-common/api/v1/notification-module-role-qualifiers/]
     
 + Parameters
 
-        + notificationModuleRoleQualifierId
-            + notificationModuleRoleId
-            + qualifier
+    + notificationModuleRoleQualifierId (optional) - Notification Module Role Qualifier Id. Maximum length is 6.
+    + notificationModuleRoleId (optional) - Notification Module Role Id. Maximum length is 6.
+    + qualifier (optional) - Role Qualifier. Maximum length is 200.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"notificationModuleRoleQualifierId": "(val)","notificationModuleRoleId": "(val)","qualifier": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Notification Module Role Qualifiers [GET /research-sys/api/v1/notification-module-role-qualifiers/]
+### Get Schema for Notification Module Role Qualifiers [GET /research-common/api/v1/notification-module-role-qualifiers/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["notificationModuleRoleQualifierId","notificationModuleRoleId","qualifier"],"primaryKey":"notificationModuleRoleQualifierId"}
 		
-### Get Blueprint API specification for Notification Module Role Qualifiers [GET /research-sys/api/v1/notification-module-role-qualifiers/]
+### Get Blueprint API specification for Notification Module Role Qualifiers [GET /research-common/api/v1/notification-module-role-qualifiers/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Notification Module Role Qualifiers [PUT /research-sys/api/v1/notification-module-role-qualifiers/(key)]
+### Update Notification Module Role Qualifiers [PUT /research-common/api/v1/notification-module-role-qualifiers/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Notification Module Role Qualifiers [PUT /research-sys/api/v1/notification-module-role-qualifiers/]
+### Update Multiple Notification Module Role Qualifiers [PUT /research-common/api/v1/notification-module-role-qualifiers/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Notification Module Role Qualifiers [POST /research-sys/api/v1/notification-module-role-qualifiers/]
+### Insert Notification Module Role Qualifiers [POST /research-common/api/v1/notification-module-role-qualifiers/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"notificationModuleRoleQualifierId": "(val)","notificationModuleRoleId": "(val)","qualifier": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Notification Module Role Qualifiers [POST /research-sys/api/v1/notification-module-role-qualifiers/]
+### Insert Multiple Notification Module Role Qualifiers [POST /research-common/api/v1/notification-module-role-qualifiers/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"notificationModuleRoleQualifierId": "(val)","notificationModuleRoleId": "(val)","qualifier": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Notification Module Role Qualifiers by Key [DELETE /research-sys/api/v1/notification-module-role-qualifiers/(key)]
+### Delete Notification Module Role Qualifiers by Key [DELETE /research-common/api/v1/notification-module-role-qualifiers/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Notification Module Role Qualifiers [DELETE /research-sys/api/v1/notification-module-role-qualifiers/]
+### Delete All Notification Module Role Qualifiers [DELETE /research-common/api/v1/notification-module-role-qualifiers/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Notification Module Role Qualifiers with Matching [DELETE /research-sys/api/v1/notification-module-role-qualifiers/]
+### Delete All Notification Module Role Qualifiers with Matching [DELETE /research-common/api/v1/notification-module-role-qualifiers/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + notificationModuleRoleQualifierId
-            + notificationModuleRoleId
-            + qualifier
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + notificationModuleRoleQualifierId (optional) - Notification Module Role Qualifier Id. Maximum length is 6.
+    + notificationModuleRoleId (optional) - Notification Module Role Id. Maximum length is 6.
+    + qualifier (optional) - Role Qualifier. Maximum length is 200.
 
       
 + Request

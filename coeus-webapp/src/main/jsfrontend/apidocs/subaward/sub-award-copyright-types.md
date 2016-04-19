@@ -1,6 +1,6 @@
-## Sub Award Copyright Types [/research-sys/api/v1/sub-award-copyright-types/]
+## Sub Award Copyright Types [/subaward/api/v1/sub-award-copyright-types/]
 
-### Get Sub Award Copyright Types by Key [GET /research-sys/api/v1/sub-award-copyright-types/(key)]
+### Get Sub Award Copyright Types by Key [GET /subaward/api/v1/sub-award-copyright-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"copyRightTypeCode": "(val)","copyRightTypeDescription": "(val)","_primaryKey": "(val)"}
 
-### Get All Sub Award Copyright Types [GET /research-sys/api/v1/sub-award-copyright-types/]
+### Get All Sub Award Copyright Types [GET /subaward/api/v1/sub-award-copyright-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"copyRightTypeCode": "(val)","copyRightTypeDescription": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Sub Award Copyright Types with Filtering [GET /research-sys/api/v1/sub-award-copyright-types/]
+### Get All Sub Award Copyright Types with Filtering [GET /subaward/api/v1/sub-award-copyright-types/]
     
 + Parameters
 
-        + copyRightTypeCode
-            + copyRightTypeDescription
+    + copyRightTypeCode (optional) - CopyRightTypeCode. Maximum length is 60.
+    + copyRightTypeDescription (optional) - copyRightTypeDescription. Maximum length is 60.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"copyRightTypeCode": "(val)","copyRightTypeDescription": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Sub Award Copyright Types [GET /research-sys/api/v1/sub-award-copyright-types/]
+### Get Schema for Sub Award Copyright Types [GET /subaward/api/v1/sub-award-copyright-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["copyRightTypeCode","copyRightTypeDescription"],"primaryKey":"copyRightTypeCode"}
 		
-### Get Blueprint API specification for Sub Award Copyright Types [GET /research-sys/api/v1/sub-award-copyright-types/]
+### Get Blueprint API specification for Sub Award Copyright Types [GET /subaward/api/v1/sub-award-copyright-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Sub Award Copyright Types [PUT /research-sys/api/v1/sub-award-copyright-types/(key)]
+### Update Sub Award Copyright Types [PUT /subaward/api/v1/sub-award-copyright-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Sub Award Copyright Types [PUT /research-sys/api/v1/sub-award-copyright-types/]
+### Update Multiple Sub Award Copyright Types [PUT /subaward/api/v1/sub-award-copyright-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Sub Award Copyright Types [POST /research-sys/api/v1/sub-award-copyright-types/]
+### Insert Sub Award Copyright Types [POST /subaward/api/v1/sub-award-copyright-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"copyRightTypeCode": "(val)","copyRightTypeDescription": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Sub Award Copyright Types [POST /research-sys/api/v1/sub-award-copyright-types/]
+### Insert Multiple Sub Award Copyright Types [POST /subaward/api/v1/sub-award-copyright-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"copyRightTypeCode": "(val)","copyRightTypeDescription": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Sub Award Copyright Types by Key [DELETE /research-sys/api/v1/sub-award-copyright-types/(key)]
+### Delete Sub Award Copyright Types by Key [DELETE /subaward/api/v1/sub-award-copyright-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Sub Award Copyright Types [DELETE /research-sys/api/v1/sub-award-copyright-types/]
+### Delete All Sub Award Copyright Types [DELETE /subaward/api/v1/sub-award-copyright-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Sub Award Copyright Types with Matching [DELETE /research-sys/api/v1/sub-award-copyright-types/]
+### Delete All Sub Award Copyright Types with Matching [DELETE /subaward/api/v1/sub-award-copyright-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + copyRightTypeCode
-            + copyRightTypeDescription
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + copyRightTypeCode (optional) - CopyRightTypeCode. Maximum length is 60.
+    + copyRightTypeDescription (optional) - copyRightTypeDescription. Maximum length is 60.
 
       
 + Request

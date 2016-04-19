@@ -1,6 +1,6 @@
-## Valid Protocol Action Actions [/research-sys/api/v1/valid-protocol-action-actions/]
+## Valid Protocol Action Actions [/irb/api/v1/valid-protocol-action-actions/]
 
-### Get Valid Protocol Action Actions by Key [GET /research-sys/api/v1/valid-protocol-action-actions/(key)]
+### Get Valid Protocol Action Actions by Key [GET /irb/api/v1/valid-protocol-action-actions/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"validProtocolActionActionId": "(val)","protocolActionTypeCode": "(val)","motionTypeCode": "(val)","actionNumber": "(val)","followupActionCode": "(val)","userPromptFlag": "(val)","userPrompt": "(val)","_primaryKey": "(val)"}
 
-### Get All Valid Protocol Action Actions [GET /research-sys/api/v1/valid-protocol-action-actions/]
+### Get All Valid Protocol Action Actions [GET /irb/api/v1/valid-protocol-action-actions/]
 	 
 + Request
 
@@ -39,17 +39,17 @@
               {"validProtocolActionActionId": "(val)","protocolActionTypeCode": "(val)","motionTypeCode": "(val)","actionNumber": "(val)","followupActionCode": "(val)","userPromptFlag": "(val)","userPrompt": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Valid Protocol Action Actions with Filtering [GET /research-sys/api/v1/valid-protocol-action-actions/]
+### Get All Valid Protocol Action Actions with Filtering [GET /irb/api/v1/valid-protocol-action-actions/]
     
 + Parameters
 
-        + validProtocolActionActionId
-            + protocolActionTypeCode
-            + motionTypeCode
-            + actionNumber
-            + followupActionCode
-            + userPromptFlag
-            + userPrompt
+    + validProtocolActionActionId (optional) - Valid Protocol Action Action Id. Maximum length is 12.
+    + protocolActionTypeCode (optional) - Protocol Action Type. Maximum length is 3.
+    + motionTypeCode (optional) - Committee Motion Type. Maximum length is 3.
+    + actionNumber (optional) - Action Number. Maximum length is 3.
+    + followupActionCode (optional) - Follow-up Action Type. Maximum length is 3.
+    + userPromptFlag (optional) - User Prompt Flag. Maximum length is 1.
+    + userPrompt (optional) - Comments. Maximum length is 2000.
 
             
 + Request
@@ -71,7 +71,7 @@
               {"validProtocolActionActionId": "(val)","protocolActionTypeCode": "(val)","motionTypeCode": "(val)","actionNumber": "(val)","followupActionCode": "(val)","userPromptFlag": "(val)","userPrompt": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Valid Protocol Action Actions [GET /research-sys/api/v1/valid-protocol-action-actions/]
+### Get Schema for Valid Protocol Action Actions [GET /irb/api/v1/valid-protocol-action-actions/]
 	                                          
 + Parameters
 
@@ -93,7 +93,7 @@
     
             {"columns":["validProtocolActionActionId","protocolActionTypeCode","motionTypeCode","actionNumber","followupActionCode","userPromptFlag","userPrompt"],"primaryKey":"validProtocolActionActionId"}
 		
-### Get Blueprint API specification for Valid Protocol Action Actions [GET /research-sys/api/v1/valid-protocol-action-actions/]
+### Get Blueprint API specification for Valid Protocol Action Actions [GET /irb/api/v1/valid-protocol-action-actions/]
 	 
 + Parameters
 
@@ -114,7 +114,7 @@
             transfer-encoding:chunked
 
 
-### Update Valid Protocol Action Actions [PUT /research-sys/api/v1/valid-protocol-action-actions/(key)]
+### Update Valid Protocol Action Actions [PUT /irb/api/v1/valid-protocol-action-actions/(key)]
 
 + Request
 
@@ -129,7 +129,7 @@
 			
 + Response 204
 
-### Update Multiple Valid Protocol Action Actions [PUT /research-sys/api/v1/valid-protocol-action-actions/]
+### Update Multiple Valid Protocol Action Actions [PUT /irb/api/v1/valid-protocol-action-actions/]
 
 + Request
 
@@ -147,7 +147,7 @@
 			
 + Response 204
 
-### Insert Valid Protocol Action Actions [POST /research-sys/api/v1/valid-protocol-action-actions/]
+### Insert Valid Protocol Action Actions [POST /irb/api/v1/valid-protocol-action-actions/]
 
 + Request
 
@@ -166,7 +166,7 @@
             
             {"validProtocolActionActionId": "(val)","protocolActionTypeCode": "(val)","motionTypeCode": "(val)","actionNumber": "(val)","followupActionCode": "(val)","userPromptFlag": "(val)","userPrompt": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Valid Protocol Action Actions [POST /research-sys/api/v1/valid-protocol-action-actions/]
+### Insert Multiple Valid Protocol Action Actions [POST /irb/api/v1/valid-protocol-action-actions/]
 
 + Request
 
@@ -191,7 +191,7 @@
               {"validProtocolActionActionId": "(val)","protocolActionTypeCode": "(val)","motionTypeCode": "(val)","actionNumber": "(val)","followupActionCode": "(val)","userPromptFlag": "(val)","userPrompt": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Valid Protocol Action Actions by Key [DELETE /research-sys/api/v1/valid-protocol-action-actions/(key)]
+### Delete Valid Protocol Action Actions by Key [DELETE /irb/api/v1/valid-protocol-action-actions/(key)]
 	 
 + Request
 
@@ -202,7 +202,7 @@
 
 + Response 204
 
-### Delete All Valid Protocol Action Actions [DELETE /research-sys/api/v1/valid-protocol-action-actions/]
+### Delete All Valid Protocol Action Actions [DELETE /irb/api/v1/valid-protocol-action-actions/]
 
 + Parameters
 
@@ -217,18 +217,18 @@
 
 + Response 204
 
-### Delete All Valid Protocol Action Actions with Matching [DELETE /research-sys/api/v1/valid-protocol-action-actions/]
+### Delete All Valid Protocol Action Actions with Matching [DELETE /irb/api/v1/valid-protocol-action-actions/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + validProtocolActionActionId
-            + protocolActionTypeCode
-            + motionTypeCode
-            + actionNumber
-            + followupActionCode
-            + userPromptFlag
-            + userPrompt
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + validProtocolActionActionId (optional) - Valid Protocol Action Action Id. Maximum length is 12.
+    + protocolActionTypeCode (optional) - Protocol Action Type. Maximum length is 3.
+    + motionTypeCode (optional) - Committee Motion Type. Maximum length is 3.
+    + actionNumber (optional) - Action Number. Maximum length is 3.
+    + followupActionCode (optional) - Follow-up Action Type. Maximum length is 3.
+    + userPromptFlag (optional) - User Prompt Flag. Maximum length is 1.
+    + userPrompt (optional) - Comments. Maximum length is 2000.
 
       
 + Request

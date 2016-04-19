@@ -1,6 +1,6 @@
-## Sub Award Forms [/research-sys/api/v1/sub-award-forms/]
+## Sub Award Forms [/subaward/api/v1/sub-award-forms/]
 
-### Get Sub Award Forms by Key [GET /research-sys/api/v1/sub-award-forms/(key)]
+### Get Sub Award Forms by Key [GET /subaward/api/v1/sub-award-forms/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"formId": "(val)","description": "(val)","attachmentContent": "(val)","fileName": "(val)","contentType": "(val)","templateTypeCode": "(val)","_primaryKey": "(val)"}
 
-### Get All Sub Award Forms [GET /research-sys/api/v1/sub-award-forms/]
+### Get All Sub Award Forms [GET /subaward/api/v1/sub-award-forms/]
 	 
 + Request
 
@@ -39,16 +39,16 @@
               {"formId": "(val)","description": "(val)","attachmentContent": "(val)","fileName": "(val)","contentType": "(val)","templateTypeCode": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Sub Award Forms with Filtering [GET /research-sys/api/v1/sub-award-forms/]
+### Get All Sub Award Forms with Filtering [GET /subaward/api/v1/sub-award-forms/]
     
 + Parameters
 
-        + formId
-            + description
-            + attachmentContent
-            + fileName
-            + contentType
-            + templateTypeCode
+    + formId (optional) - Form ID. Maximum length is 30.
+    + description (optional) - Description. Maximum length is 200.
+    + attachmentContent (optional) - 
+    + fileName (optional) - File Name. Maximum length is 150.
+    + contentType (optional) - Content Type. Maximum length is 150.
+    + templateTypeCode (optional) - templateTypeCode. Maximum length is 22.
 
             
 + Request
@@ -70,7 +70,7 @@
               {"formId": "(val)","description": "(val)","attachmentContent": "(val)","fileName": "(val)","contentType": "(val)","templateTypeCode": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Sub Award Forms [GET /research-sys/api/v1/sub-award-forms/]
+### Get Schema for Sub Award Forms [GET /subaward/api/v1/sub-award-forms/]
 	                                          
 + Parameters
 
@@ -92,7 +92,7 @@
     
             {"columns":["formId","description","attachmentContent","fileName","contentType","templateTypeCode"],"primaryKey":"formId"}
 		
-### Get Blueprint API specification for Sub Award Forms [GET /research-sys/api/v1/sub-award-forms/]
+### Get Blueprint API specification for Sub Award Forms [GET /subaward/api/v1/sub-award-forms/]
 	 
 + Parameters
 
@@ -113,7 +113,7 @@
             transfer-encoding:chunked
 
 
-### Update Sub Award Forms [PUT /research-sys/api/v1/sub-award-forms/(key)]
+### Update Sub Award Forms [PUT /subaward/api/v1/sub-award-forms/(key)]
 
 + Request
 
@@ -128,7 +128,7 @@
 			
 + Response 204
 
-### Update Multiple Sub Award Forms [PUT /research-sys/api/v1/sub-award-forms/]
+### Update Multiple Sub Award Forms [PUT /subaward/api/v1/sub-award-forms/]
 
 + Request
 
@@ -146,7 +146,7 @@
 			
 + Response 204
 
-### Insert Sub Award Forms [POST /research-sys/api/v1/sub-award-forms/]
+### Insert Sub Award Forms [POST /subaward/api/v1/sub-award-forms/]
 
 + Request
 
@@ -165,7 +165,7 @@
             
             {"formId": "(val)","description": "(val)","attachmentContent": "(val)","fileName": "(val)","contentType": "(val)","templateTypeCode": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Sub Award Forms [POST /research-sys/api/v1/sub-award-forms/]
+### Insert Multiple Sub Award Forms [POST /subaward/api/v1/sub-award-forms/]
 
 + Request
 
@@ -190,7 +190,7 @@
               {"formId": "(val)","description": "(val)","attachmentContent": "(val)","fileName": "(val)","contentType": "(val)","templateTypeCode": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Sub Award Forms by Key [DELETE /research-sys/api/v1/sub-award-forms/(key)]
+### Delete Sub Award Forms by Key [DELETE /subaward/api/v1/sub-award-forms/(key)]
 	 
 + Request
 
@@ -201,7 +201,7 @@
 
 + Response 204
 
-### Delete All Sub Award Forms [DELETE /research-sys/api/v1/sub-award-forms/]
+### Delete All Sub Award Forms [DELETE /subaward/api/v1/sub-award-forms/]
 
 + Parameters
 
@@ -216,17 +216,17 @@
 
 + Response 204
 
-### Delete All Sub Award Forms with Matching [DELETE /research-sys/api/v1/sub-award-forms/]
+### Delete All Sub Award Forms with Matching [DELETE /subaward/api/v1/sub-award-forms/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + formId
-            + description
-            + attachmentContent
-            + fileName
-            + contentType
-            + templateTypeCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + formId (optional) - Form ID. Maximum length is 30.
+    + description (optional) - Description. Maximum length is 200.
+    + attachmentContent (optional) - 
+    + fileName (optional) - File Name. Maximum length is 150.
+    + contentType (optional) - Content Type. Maximum length is 150.
+    + templateTypeCode (optional) - templateTypeCode. Maximum length is 22.
 
       
 + Request

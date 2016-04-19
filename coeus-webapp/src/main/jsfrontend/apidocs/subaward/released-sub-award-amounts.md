@@ -1,6 +1,6 @@
-## Released Sub Award Amounts [/research-sys/api/v1/released-sub-award-amounts/]
+## Released Sub Award Amounts [/subaward/api/v1/released-sub-award-amounts/]
 
-### Get Released Sub Award Amounts by Key [GET /research-sys/api/v1/released-sub-award-amounts/(key)]
+### Get Released Sub Award Amounts by Key [GET /subaward/api/v1/released-sub-award-amounts/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"subAwardAmtReleasedId": "(val)","documentNumber": "(val)","subAwardId": "(val)","sequenceNumber": "(val)","subAwardCode": "(val)","amountReleased": "(val)","effectiveDate": "(val)","comments": "(val)","invoiceNumber": "(val)","startDate": "(val)","endDate": "(val)","document": "(val)","fileName": "(val)","createdBy": "(val)","createdDate": "(val)","mimeType": "(val)","invoiceStatus": "(val)","_primaryKey": "(val)"}
 
-### Get All Released Sub Award Amounts [GET /research-sys/api/v1/released-sub-award-amounts/]
+### Get All Released Sub Award Amounts [GET /subaward/api/v1/released-sub-award-amounts/]
 	 
 + Request
 
@@ -39,27 +39,27 @@
               {"subAwardAmtReleasedId": "(val)","documentNumber": "(val)","subAwardId": "(val)","sequenceNumber": "(val)","subAwardCode": "(val)","amountReleased": "(val)","effectiveDate": "(val)","comments": "(val)","invoiceNumber": "(val)","startDate": "(val)","endDate": "(val)","document": "(val)","fileName": "(val)","createdBy": "(val)","createdDate": "(val)","mimeType": "(val)","invoiceStatus": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Released Sub Award Amounts with Filtering [GET /research-sys/api/v1/released-sub-award-amounts/]
+### Get All Released Sub Award Amounts with Filtering [GET /subaward/api/v1/released-sub-award-amounts/]
     
 + Parameters
 
-        + subAwardAmtReleasedId
-            + documentNumber
-            + subAwardId
-            + sequenceNumber
-            + subAwardCode
-            + amountReleased
-            + effectiveDate
-            + comments
-            + invoiceNumber
-            + startDate
-            + endDate
-            + document
-            + fileName
-            + createdBy
-            + createdDate
-            + mimeType
-            + invoiceStatus
+    + subAwardAmtReleasedId (optional) - Subaward Amt Released Id. Maximum length is 22.
+    + documentNumber (optional) - 
+    + subAwardId (optional) - 
+    + sequenceNumber (optional) - 
+    + subAwardCode (optional) - Subaward ID. Maximum length is 22.
+    + amountReleased (optional) - Amount Released. Maximum length is 16.
+    + effectiveDate (optional) - Effective Date. Maximum length is 10.
+    + comments (optional) - Comments. Maximum length is 300.
+    + invoiceNumber (optional) - Invoice ID. Maximum length is 10.
+    + startDate (optional) - Start Date. Maximum length is 10.
+    + endDate (optional) - End Date. Maximum length is 10.
+    + document (optional) - Document. Maximum length is 4000.
+    + fileName (optional) - File Name. Maximum length is 150.
+    + createdBy (optional) - 
+    + createdDate (optional) - 
+    + mimeType (optional) - Mime Type. Maximum length is 4000.
+    + invoiceStatus (optional) - Invoice Status. Maximum length is 20.
 
             
 + Request
@@ -81,7 +81,7 @@
               {"subAwardAmtReleasedId": "(val)","documentNumber": "(val)","subAwardId": "(val)","sequenceNumber": "(val)","subAwardCode": "(val)","amountReleased": "(val)","effectiveDate": "(val)","comments": "(val)","invoiceNumber": "(val)","startDate": "(val)","endDate": "(val)","document": "(val)","fileName": "(val)","createdBy": "(val)","createdDate": "(val)","mimeType": "(val)","invoiceStatus": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Released Sub Award Amounts [GET /research-sys/api/v1/released-sub-award-amounts/]
+### Get Schema for Released Sub Award Amounts [GET /subaward/api/v1/released-sub-award-amounts/]
 	                                          
 + Parameters
 
@@ -103,7 +103,7 @@
     
             {"columns":["subAwardAmtReleasedId","documentNumber","subAwardId","sequenceNumber","subAwardCode","amountReleased","effectiveDate","comments","invoiceNumber","startDate","endDate","document","fileName","createdBy","createdDate","mimeType","invoiceStatus"],"primaryKey":"subAwardAmtReleasedId"}
 		
-### Get Blueprint API specification for Released Sub Award Amounts [GET /research-sys/api/v1/released-sub-award-amounts/]
+### Get Blueprint API specification for Released Sub Award Amounts [GET /subaward/api/v1/released-sub-award-amounts/]
 	 
 + Parameters
 
@@ -124,7 +124,7 @@
             transfer-encoding:chunked
 
 
-### Update Released Sub Award Amounts [PUT /research-sys/api/v1/released-sub-award-amounts/(key)]
+### Update Released Sub Award Amounts [PUT /subaward/api/v1/released-sub-award-amounts/(key)]
 
 + Request
 
@@ -139,7 +139,7 @@
 			
 + Response 204
 
-### Update Multiple Released Sub Award Amounts [PUT /research-sys/api/v1/released-sub-award-amounts/]
+### Update Multiple Released Sub Award Amounts [PUT /subaward/api/v1/released-sub-award-amounts/]
 
 + Request
 
@@ -157,7 +157,7 @@
 			
 + Response 204
 
-### Insert Released Sub Award Amounts [POST /research-sys/api/v1/released-sub-award-amounts/]
+### Insert Released Sub Award Amounts [POST /subaward/api/v1/released-sub-award-amounts/]
 
 + Request
 
@@ -176,7 +176,7 @@
             
             {"subAwardAmtReleasedId": "(val)","documentNumber": "(val)","subAwardId": "(val)","sequenceNumber": "(val)","subAwardCode": "(val)","amountReleased": "(val)","effectiveDate": "(val)","comments": "(val)","invoiceNumber": "(val)","startDate": "(val)","endDate": "(val)","document": "(val)","fileName": "(val)","createdBy": "(val)","createdDate": "(val)","mimeType": "(val)","invoiceStatus": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Released Sub Award Amounts [POST /research-sys/api/v1/released-sub-award-amounts/]
+### Insert Multiple Released Sub Award Amounts [POST /subaward/api/v1/released-sub-award-amounts/]
 
 + Request
 
@@ -201,7 +201,7 @@
               {"subAwardAmtReleasedId": "(val)","documentNumber": "(val)","subAwardId": "(val)","sequenceNumber": "(val)","subAwardCode": "(val)","amountReleased": "(val)","effectiveDate": "(val)","comments": "(val)","invoiceNumber": "(val)","startDate": "(val)","endDate": "(val)","document": "(val)","fileName": "(val)","createdBy": "(val)","createdDate": "(val)","mimeType": "(val)","invoiceStatus": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Released Sub Award Amounts by Key [DELETE /research-sys/api/v1/released-sub-award-amounts/(key)]
+### Delete Released Sub Award Amounts by Key [DELETE /subaward/api/v1/released-sub-award-amounts/(key)]
 	 
 + Request
 
@@ -212,7 +212,7 @@
 
 + Response 204
 
-### Delete All Released Sub Award Amounts [DELETE /research-sys/api/v1/released-sub-award-amounts/]
+### Delete All Released Sub Award Amounts [DELETE /subaward/api/v1/released-sub-award-amounts/]
 
 + Parameters
 
@@ -227,28 +227,28 @@
 
 + Response 204
 
-### Delete All Released Sub Award Amounts with Matching [DELETE /research-sys/api/v1/released-sub-award-amounts/]
+### Delete All Released Sub Award Amounts with Matching [DELETE /subaward/api/v1/released-sub-award-amounts/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + subAwardAmtReleasedId
-            + documentNumber
-            + subAwardId
-            + sequenceNumber
-            + subAwardCode
-            + amountReleased
-            + effectiveDate
-            + comments
-            + invoiceNumber
-            + startDate
-            + endDate
-            + document
-            + fileName
-            + createdBy
-            + createdDate
-            + mimeType
-            + invoiceStatus
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + subAwardAmtReleasedId (optional) - Subaward Amt Released Id. Maximum length is 22.
+    + documentNumber (optional) - 
+    + subAwardId (optional) - 
+    + sequenceNumber (optional) - 
+    + subAwardCode (optional) - Subaward ID. Maximum length is 22.
+    + amountReleased (optional) - Amount Released. Maximum length is 16.
+    + effectiveDate (optional) - Effective Date. Maximum length is 10.
+    + comments (optional) - Comments. Maximum length is 300.
+    + invoiceNumber (optional) - Invoice ID. Maximum length is 10.
+    + startDate (optional) - Start Date. Maximum length is 10.
+    + endDate (optional) - End Date. Maximum length is 10.
+    + document (optional) - Document. Maximum length is 4000.
+    + fileName (optional) - File Name. Maximum length is 150.
+    + createdBy (optional) - 
+    + createdDate (optional) - 
+    + mimeType (optional) - Mime Type. Maximum length is 4000.
+    + invoiceStatus (optional) - Invoice Status. Maximum length is 20.
 
       
 + Request

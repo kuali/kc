@@ -1,6 +1,6 @@
-## Organization Correspondents [/research-sys/api/v1/organization-correspondents/]
+## Organization Correspondents [/research-common/api/v1/organization-correspondents/]
 
-### Get Organization Correspondents by Key [GET /research-sys/api/v1/organization-correspondents/(key)]
+### Get Organization Correspondents by Key [GET /research-common/api/v1/organization-correspondents/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"correspondentId": "(val)","organizationId": "(val)","correspondentTypeCode": "(val)","personId": "(val)","nonEmployeeFlag": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Organization Correspondents [GET /research-sys/api/v1/organization-correspondents/]
+### Get All Organization Correspondents [GET /research-common/api/v1/organization-correspondents/]
 	 
 + Request
 
@@ -39,16 +39,16 @@
               {"correspondentId": "(val)","organizationId": "(val)","correspondentTypeCode": "(val)","personId": "(val)","nonEmployeeFlag": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Organization Correspondents with Filtering [GET /research-sys/api/v1/organization-correspondents/]
+### Get All Organization Correspondents with Filtering [GET /research-common/api/v1/organization-correspondents/]
     
 + Parameters
 
-        + correspondentId
-            + organizationId
-            + correspondentTypeCode
-            + personId
-            + nonEmployeeFlag
-            + description
+    + correspondentId (optional) - 
+    + organizationId (optional) - Organization Id. Maximum length is 8.
+    + correspondentTypeCode (optional) - Correspondent Type Code. Maximum length is 22.
+    + personId (optional) - This is a generic implementation of a 'SystemId' attribute. It should always be overriden on the label, shortLabel, summary, and description, as these are only generic placeholders. Maximum length is 40.
+    + nonEmployeeFlag (optional) - Non Employee Flag. Maximum length is 1.
+    + description (optional) - Description. Maximum length is 2000.
 
             
 + Request
@@ -70,7 +70,7 @@
               {"correspondentId": "(val)","organizationId": "(val)","correspondentTypeCode": "(val)","personId": "(val)","nonEmployeeFlag": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Organization Correspondents [GET /research-sys/api/v1/organization-correspondents/]
+### Get Schema for Organization Correspondents [GET /research-common/api/v1/organization-correspondents/]
 	                                          
 + Parameters
 
@@ -92,7 +92,7 @@
     
             {"columns":["correspondentId","organizationId","correspondentTypeCode","personId","nonEmployeeFlag","description"],"primaryKey":"correspondentId"}
 		
-### Get Blueprint API specification for Organization Correspondents [GET /research-sys/api/v1/organization-correspondents/]
+### Get Blueprint API specification for Organization Correspondents [GET /research-common/api/v1/organization-correspondents/]
 	 
 + Parameters
 
@@ -113,7 +113,7 @@
             transfer-encoding:chunked
 
 
-### Update Organization Correspondents [PUT /research-sys/api/v1/organization-correspondents/(key)]
+### Update Organization Correspondents [PUT /research-common/api/v1/organization-correspondents/(key)]
 
 + Request
 
@@ -128,7 +128,7 @@
 			
 + Response 204
 
-### Update Multiple Organization Correspondents [PUT /research-sys/api/v1/organization-correspondents/]
+### Update Multiple Organization Correspondents [PUT /research-common/api/v1/organization-correspondents/]
 
 + Request
 
@@ -146,7 +146,7 @@
 			
 + Response 204
 
-### Insert Organization Correspondents [POST /research-sys/api/v1/organization-correspondents/]
+### Insert Organization Correspondents [POST /research-common/api/v1/organization-correspondents/]
 
 + Request
 
@@ -165,7 +165,7 @@
             
             {"correspondentId": "(val)","organizationId": "(val)","correspondentTypeCode": "(val)","personId": "(val)","nonEmployeeFlag": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Organization Correspondents [POST /research-sys/api/v1/organization-correspondents/]
+### Insert Multiple Organization Correspondents [POST /research-common/api/v1/organization-correspondents/]
 
 + Request
 
@@ -190,7 +190,7 @@
               {"correspondentId": "(val)","organizationId": "(val)","correspondentTypeCode": "(val)","personId": "(val)","nonEmployeeFlag": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Organization Correspondents by Key [DELETE /research-sys/api/v1/organization-correspondents/(key)]
+### Delete Organization Correspondents by Key [DELETE /research-common/api/v1/organization-correspondents/(key)]
 	 
 + Request
 
@@ -201,7 +201,7 @@
 
 + Response 204
 
-### Delete All Organization Correspondents [DELETE /research-sys/api/v1/organization-correspondents/]
+### Delete All Organization Correspondents [DELETE /research-common/api/v1/organization-correspondents/]
 
 + Parameters
 
@@ -216,17 +216,17 @@
 
 + Response 204
 
-### Delete All Organization Correspondents with Matching [DELETE /research-sys/api/v1/organization-correspondents/]
+### Delete All Organization Correspondents with Matching [DELETE /research-common/api/v1/organization-correspondents/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + correspondentId
-            + organizationId
-            + correspondentTypeCode
-            + personId
-            + nonEmployeeFlag
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + correspondentId (optional) - 
+    + organizationId (optional) - Organization Id. Maximum length is 8.
+    + correspondentTypeCode (optional) - Correspondent Type Code. Maximum length is 22.
+    + personId (optional) - This is a generic implementation of a 'SystemId' attribute. It should always be overriden on the label, shortLabel, summary, and description, as these are only generic placeholders. Maximum length is 40.
+    + nonEmployeeFlag (optional) - Non Employee Flag. Maximum length is 1.
+    + description (optional) - Description. Maximum length is 2000.
 
       
 + Request

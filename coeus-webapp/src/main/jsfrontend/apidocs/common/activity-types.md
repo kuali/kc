@@ -1,6 +1,6 @@
-## Activity Types [/research-sys/api/v1/activity-types/]
+## Activity Types [/research-common/api/v1/activity-types/]
 
-### Get Activity Types by Key [GET /research-sys/api/v1/activity-types/(key)]
+### Get Activity Types by Key [GET /research-common/api/v1/activity-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"code": "(val)","description": "(val)","higherEducationFunctionCode": "(val)","_primaryKey": "(val)"}
 
-### Get All Activity Types [GET /research-sys/api/v1/activity-types/]
+### Get All Activity Types [GET /research-common/api/v1/activity-types/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"code": "(val)","description": "(val)","higherEducationFunctionCode": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Activity Types with Filtering [GET /research-sys/api/v1/activity-types/]
+### Get All Activity Types with Filtering [GET /research-common/api/v1/activity-types/]
     
 + Parameters
 
-        + code
-            + description
-            + higherEducationFunctionCode
+    + code (optional) - Activity Type. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + higherEducationFunctionCode (optional) - Higher education function code. Maximum length is 20.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"code": "(val)","description": "(val)","higherEducationFunctionCode": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Activity Types [GET /research-sys/api/v1/activity-types/]
+### Get Schema for Activity Types [GET /research-common/api/v1/activity-types/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["code","description","higherEducationFunctionCode"],"primaryKey":"code"}
 		
-### Get Blueprint API specification for Activity Types [GET /research-sys/api/v1/activity-types/]
+### Get Blueprint API specification for Activity Types [GET /research-common/api/v1/activity-types/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Activity Types [PUT /research-sys/api/v1/activity-types/(key)]
+### Update Activity Types [PUT /research-common/api/v1/activity-types/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Activity Types [PUT /research-sys/api/v1/activity-types/]
+### Update Multiple Activity Types [PUT /research-common/api/v1/activity-types/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Activity Types [POST /research-sys/api/v1/activity-types/]
+### Insert Activity Types [POST /research-common/api/v1/activity-types/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"code": "(val)","description": "(val)","higherEducationFunctionCode": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Activity Types [POST /research-sys/api/v1/activity-types/]
+### Insert Multiple Activity Types [POST /research-common/api/v1/activity-types/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"code": "(val)","description": "(val)","higherEducationFunctionCode": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Activity Types by Key [DELETE /research-sys/api/v1/activity-types/(key)]
+### Delete Activity Types by Key [DELETE /research-common/api/v1/activity-types/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Activity Types [DELETE /research-sys/api/v1/activity-types/]
+### Delete All Activity Types [DELETE /research-common/api/v1/activity-types/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Activity Types with Matching [DELETE /research-sys/api/v1/activity-types/]
+### Delete All Activity Types with Matching [DELETE /research-common/api/v1/activity-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + code
-            + description
-            + higherEducationFunctionCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + code (optional) - Activity Type. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + higherEducationFunctionCode (optional) - Higher education function code. Maximum length is 20.
 
       
 + Request

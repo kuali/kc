@@ -1,6 +1,6 @@
-## Reports [/research-sys/api/v1/reports/]
+## Reports [/award/api/v1/reports/]
 
-### Get Reports by Key [GET /research-sys/api/v1/reports/(key)]
+### Get Reports by Key [GET /award/api/v1/reports/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"reportCode": "(val)","description": "(val)","finalReportFlag": "(val)","active": "(val)","_primaryKey": "(val)"}
 
-### Get All Reports [GET /research-sys/api/v1/reports/]
+### Get All Reports [GET /award/api/v1/reports/]
 	 
 + Request
 
@@ -39,14 +39,14 @@
               {"reportCode": "(val)","description": "(val)","finalReportFlag": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Reports with Filtering [GET /research-sys/api/v1/reports/]
+### Get All Reports with Filtering [GET /award/api/v1/reports/]
     
 + Parameters
 
-        + reportCode
-            + description
-            + finalReportFlag
-            + active
+    + reportCode (optional) - Report Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + finalReportFlag (optional) - Final Report Flag. Maximum length is 1.
+    + active (optional) - Active. Maximum length is 1.
 
             
 + Request
@@ -68,7 +68,7 @@
               {"reportCode": "(val)","description": "(val)","finalReportFlag": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Reports [GET /research-sys/api/v1/reports/]
+### Get Schema for Reports [GET /award/api/v1/reports/]
 	                                          
 + Parameters
 
@@ -90,7 +90,7 @@
     
             {"columns":["reportCode","description","finalReportFlag","active"],"primaryKey":"reportCode"}
 		
-### Get Blueprint API specification for Reports [GET /research-sys/api/v1/reports/]
+### Get Blueprint API specification for Reports [GET /award/api/v1/reports/]
 	 
 + Parameters
 
@@ -111,7 +111,7 @@
             transfer-encoding:chunked
 
 
-### Update Reports [PUT /research-sys/api/v1/reports/(key)]
+### Update Reports [PUT /award/api/v1/reports/(key)]
 
 + Request
 
@@ -126,7 +126,7 @@
 			
 + Response 204
 
-### Update Multiple Reports [PUT /research-sys/api/v1/reports/]
+### Update Multiple Reports [PUT /award/api/v1/reports/]
 
 + Request
 
@@ -144,7 +144,7 @@
 			
 + Response 204
 
-### Insert Reports [POST /research-sys/api/v1/reports/]
+### Insert Reports [POST /award/api/v1/reports/]
 
 + Request
 
@@ -163,7 +163,7 @@
             
             {"reportCode": "(val)","description": "(val)","finalReportFlag": "(val)","active": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Reports [POST /research-sys/api/v1/reports/]
+### Insert Multiple Reports [POST /award/api/v1/reports/]
 
 + Request
 
@@ -188,7 +188,7 @@
               {"reportCode": "(val)","description": "(val)","finalReportFlag": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Reports by Key [DELETE /research-sys/api/v1/reports/(key)]
+### Delete Reports by Key [DELETE /award/api/v1/reports/(key)]
 	 
 + Request
 
@@ -199,7 +199,7 @@
 
 + Response 204
 
-### Delete All Reports [DELETE /research-sys/api/v1/reports/]
+### Delete All Reports [DELETE /award/api/v1/reports/]
 
 + Parameters
 
@@ -214,15 +214,15 @@
 
 + Response 204
 
-### Delete All Reports with Matching [DELETE /research-sys/api/v1/reports/]
+### Delete All Reports with Matching [DELETE /award/api/v1/reports/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + reportCode
-            + description
-            + finalReportFlag
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + reportCode (optional) - Report Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + finalReportFlag (optional) - Final Report Flag. Maximum length is 1.
+    + active (optional) - Active. Maximum length is 1.
 
       
 + Request

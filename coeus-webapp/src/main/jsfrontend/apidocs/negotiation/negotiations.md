@@ -1,6 +1,6 @@
-## Negotiations [/research-sys/api/v1/negotiations/]
+## Negotiations [/negotiation/api/v1/negotiations/]
 
-### Get Negotiations by Key [GET /research-sys/api/v1/negotiations/(key)]
+### Get Negotiations by Key [GET /negotiation/api/v1/negotiations/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"negotiationId": "(val)","documentNumber": "(val)","negotiationStatusId": "(val)","negotiationAgreementTypeId": "(val)","negotiationAssociationTypeId": "(val)","negotiatorPersonId": "(val)","negotiatorName": "(val)","negotiationStartDate": "(val)","negotiationEndDate": "(val)","anticipatedAwardDate": "(val)","documentFolder": "(val)","associatedDocumentId": "(val)","_primaryKey": "(val)"}
 
-### Get All Negotiations [GET /research-sys/api/v1/negotiations/]
+### Get All Negotiations [GET /negotiation/api/v1/negotiations/]
 	 
 + Request
 
@@ -39,22 +39,22 @@
               {"negotiationId": "(val)","documentNumber": "(val)","negotiationStatusId": "(val)","negotiationAgreementTypeId": "(val)","negotiationAssociationTypeId": "(val)","negotiatorPersonId": "(val)","negotiatorName": "(val)","negotiationStartDate": "(val)","negotiationEndDate": "(val)","anticipatedAwardDate": "(val)","documentFolder": "(val)","associatedDocumentId": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Negotiations with Filtering [GET /research-sys/api/v1/negotiations/]
+### Get All Negotiations with Filtering [GET /negotiation/api/v1/negotiations/]
     
 + Parameters
 
-        + negotiationId
-            + documentNumber
-            + negotiationStatusId
-            + negotiationAgreementTypeId
-            + negotiationAssociationTypeId
-            + negotiatorPersonId
-            + negotiatorName
-            + negotiationStartDate
-            + negotiationEndDate
-            + anticipatedAwardDate
-            + documentFolder
-            + associatedDocumentId
+    + negotiationId (optional) - Negotiation ID. Maximum length is 22.
+    + documentNumber (optional) - Document Number. Maximum length is 25.
+    + negotiationStatusId (optional) - Negotiation Status. Maximum length is 22.
+    + negotiationAgreementTypeId (optional) - Agreement Type. Maximum length is 22.
+    + negotiationAssociationTypeId (optional) - Negotiation Association Type. Maximum length is 22.
+    + negotiatorPersonId (optional) - Negotiator. Maximum length is 40.
+    + negotiatorName (optional) - Full Name. Maximum length is 90.
+    + negotiationStartDate (optional) - Start Date. Maximum length is 21.
+    + negotiationEndDate (optional) - End Date. Maximum length is 21.
+    + anticipatedAwardDate (optional) - Anticipated Award Date. Maximum length is 21.
+    + documentFolder (optional) - Document Folder. Maximum length is 255.
+    + associatedDocumentId (optional) - Negotiation Association ID. Maximum length is 25.
 
             
 + Request
@@ -76,7 +76,7 @@
               {"negotiationId": "(val)","documentNumber": "(val)","negotiationStatusId": "(val)","negotiationAgreementTypeId": "(val)","negotiationAssociationTypeId": "(val)","negotiatorPersonId": "(val)","negotiatorName": "(val)","negotiationStartDate": "(val)","negotiationEndDate": "(val)","anticipatedAwardDate": "(val)","documentFolder": "(val)","associatedDocumentId": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Negotiations [GET /research-sys/api/v1/negotiations/]
+### Get Schema for Negotiations [GET /negotiation/api/v1/negotiations/]
 	                                          
 + Parameters
 
@@ -98,7 +98,7 @@
     
             {"columns":["negotiationId","documentNumber","negotiationStatusId","negotiationAgreementTypeId","negotiationAssociationTypeId","negotiatorPersonId","negotiatorName","negotiationStartDate","negotiationEndDate","anticipatedAwardDate","documentFolder","associatedDocumentId"],"primaryKey":"negotiationId"}
 		
-### Get Blueprint API specification for Negotiations [GET /research-sys/api/v1/negotiations/]
+### Get Blueprint API specification for Negotiations [GET /negotiation/api/v1/negotiations/]
 	 
 + Parameters
 
@@ -119,7 +119,7 @@
             transfer-encoding:chunked
 
 
-### Update Negotiations [PUT /research-sys/api/v1/negotiations/(key)]
+### Update Negotiations [PUT /negotiation/api/v1/negotiations/(key)]
 
 + Request
 
@@ -134,7 +134,7 @@
 			
 + Response 204
 
-### Update Multiple Negotiations [PUT /research-sys/api/v1/negotiations/]
+### Update Multiple Negotiations [PUT /negotiation/api/v1/negotiations/]
 
 + Request
 
@@ -152,7 +152,7 @@
 			
 + Response 204
 
-### Insert Negotiations [POST /research-sys/api/v1/negotiations/]
+### Insert Negotiations [POST /negotiation/api/v1/negotiations/]
 
 + Request
 
@@ -171,7 +171,7 @@
             
             {"negotiationId": "(val)","documentNumber": "(val)","negotiationStatusId": "(val)","negotiationAgreementTypeId": "(val)","negotiationAssociationTypeId": "(val)","negotiatorPersonId": "(val)","negotiatorName": "(val)","negotiationStartDate": "(val)","negotiationEndDate": "(val)","anticipatedAwardDate": "(val)","documentFolder": "(val)","associatedDocumentId": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Negotiations [POST /research-sys/api/v1/negotiations/]
+### Insert Multiple Negotiations [POST /negotiation/api/v1/negotiations/]
 
 + Request
 
@@ -196,7 +196,7 @@
               {"negotiationId": "(val)","documentNumber": "(val)","negotiationStatusId": "(val)","negotiationAgreementTypeId": "(val)","negotiationAssociationTypeId": "(val)","negotiatorPersonId": "(val)","negotiatorName": "(val)","negotiationStartDate": "(val)","negotiationEndDate": "(val)","anticipatedAwardDate": "(val)","documentFolder": "(val)","associatedDocumentId": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Negotiations by Key [DELETE /research-sys/api/v1/negotiations/(key)]
+### Delete Negotiations by Key [DELETE /negotiation/api/v1/negotiations/(key)]
 	 
 + Request
 
@@ -207,7 +207,7 @@
 
 + Response 204
 
-### Delete All Negotiations [DELETE /research-sys/api/v1/negotiations/]
+### Delete All Negotiations [DELETE /negotiation/api/v1/negotiations/]
 
 + Parameters
 
@@ -222,23 +222,23 @@
 
 + Response 204
 
-### Delete All Negotiations with Matching [DELETE /research-sys/api/v1/negotiations/]
+### Delete All Negotiations with Matching [DELETE /negotiation/api/v1/negotiations/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + negotiationId
-            + documentNumber
-            + negotiationStatusId
-            + negotiationAgreementTypeId
-            + negotiationAssociationTypeId
-            + negotiatorPersonId
-            + negotiatorName
-            + negotiationStartDate
-            + negotiationEndDate
-            + anticipatedAwardDate
-            + documentFolder
-            + associatedDocumentId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + negotiationId (optional) - Negotiation ID. Maximum length is 22.
+    + documentNumber (optional) - Document Number. Maximum length is 25.
+    + negotiationStatusId (optional) - Negotiation Status. Maximum length is 22.
+    + negotiationAgreementTypeId (optional) - Agreement Type. Maximum length is 22.
+    + negotiationAssociationTypeId (optional) - Negotiation Association Type. Maximum length is 22.
+    + negotiatorPersonId (optional) - Negotiator. Maximum length is 40.
+    + negotiatorName (optional) - Full Name. Maximum length is 90.
+    + negotiationStartDate (optional) - Start Date. Maximum length is 21.
+    + negotiationEndDate (optional) - End Date. Maximum length is 21.
+    + anticipatedAwardDate (optional) - Anticipated Award Date. Maximum length is 21.
+    + documentFolder (optional) - Document Folder. Maximum length is 255.
+    + associatedDocumentId (optional) - Negotiation Association ID. Maximum length is 25.
 
       
 + Request

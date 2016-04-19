@@ -43,16 +43,16 @@
     
 + Parameters
 
-        + bamId
-            + serviceName
-            + methodName
-            + threadName
-            + callDate
-            + serviceURL
-            + targetToString
-            + exceptionToString
-            + exceptionMessage
-            + serverInvocation
+    + bamId (optional) - 
+    + serviceName (optional) - 
+    + methodName (optional) - 
+    + threadName (optional) - 
+    + callDate (optional) - 
+    + serviceURL (optional) - 
+    + targetToString (optional) - 
+    + exceptionToString (optional) - 
+    + exceptionMessage (optional) - 
+    + serverInvocation (optional) - 
 
             
 + Request
@@ -224,17 +224,17 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + bamId
-            + serviceName
-            + methodName
-            + threadName
-            + callDate
-            + serviceURL
-            + targetToString
-            + exceptionToString
-            + exceptionMessage
-            + serverInvocation
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + bamId (optional) - 
+    + serviceName (optional) - 
+    + methodName (optional) - 
+    + threadName (optional) - 
+    + callDate (optional) - 
+    + serviceURL (optional) - 
+    + targetToString (optional) - 
+    + exceptionToString (optional) - 
+    + exceptionMessage (optional) - 
+    + serverInvocation (optional) - 
 
       
 + Request

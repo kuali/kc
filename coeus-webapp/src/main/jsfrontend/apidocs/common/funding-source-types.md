@@ -1,6 +1,6 @@
-## Funding Source Types [/research-sys/api/v1/funding-source-types/]
+## Funding Source Types [/research-common/api/v1/funding-source-types/]
 
-### Get Funding Source Types by Key [GET /research-sys/api/v1/funding-source-types/(key)]
+### Get Funding Source Types by Key [GET /research-common/api/v1/funding-source-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"fundingSourceTypeCode": "(val)","description": "(val)","fundingSourceTypeFlag": "(val)","_primaryKey": "(val)"}
 
-### Get All Funding Source Types [GET /research-sys/api/v1/funding-source-types/]
+### Get All Funding Source Types [GET /research-common/api/v1/funding-source-types/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"fundingSourceTypeCode": "(val)","description": "(val)","fundingSourceTypeFlag": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Funding Source Types with Filtering [GET /research-sys/api/v1/funding-source-types/]
+### Get All Funding Source Types with Filtering [GET /research-common/api/v1/funding-source-types/]
     
 + Parameters
 
-        + fundingSourceTypeCode
-            + description
-            + fundingSourceTypeFlag
+    + fundingSourceTypeCode (optional) - Funding Source Type Code. Maximum length is 22.
+    + description (optional) - Description. Maximum length is 300.
+    + fundingSourceTypeFlag (optional) - Funding Source Type Flag. Maximum length is 1.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"fundingSourceTypeCode": "(val)","description": "(val)","fundingSourceTypeFlag": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Funding Source Types [GET /research-sys/api/v1/funding-source-types/]
+### Get Schema for Funding Source Types [GET /research-common/api/v1/funding-source-types/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["fundingSourceTypeCode","description","fundingSourceTypeFlag"],"primaryKey":"fundingSourceTypeCode"}
 		
-### Get Blueprint API specification for Funding Source Types [GET /research-sys/api/v1/funding-source-types/]
+### Get Blueprint API specification for Funding Source Types [GET /research-common/api/v1/funding-source-types/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Funding Source Types [PUT /research-sys/api/v1/funding-source-types/(key)]
+### Update Funding Source Types [PUT /research-common/api/v1/funding-source-types/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Funding Source Types [PUT /research-sys/api/v1/funding-source-types/]
+### Update Multiple Funding Source Types [PUT /research-common/api/v1/funding-source-types/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Funding Source Types [POST /research-sys/api/v1/funding-source-types/]
+### Insert Funding Source Types [POST /research-common/api/v1/funding-source-types/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"fundingSourceTypeCode": "(val)","description": "(val)","fundingSourceTypeFlag": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Funding Source Types [POST /research-sys/api/v1/funding-source-types/]
+### Insert Multiple Funding Source Types [POST /research-common/api/v1/funding-source-types/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"fundingSourceTypeCode": "(val)","description": "(val)","fundingSourceTypeFlag": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Funding Source Types by Key [DELETE /research-sys/api/v1/funding-source-types/(key)]
+### Delete Funding Source Types by Key [DELETE /research-common/api/v1/funding-source-types/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Funding Source Types [DELETE /research-sys/api/v1/funding-source-types/]
+### Delete All Funding Source Types [DELETE /research-common/api/v1/funding-source-types/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Funding Source Types with Matching [DELETE /research-sys/api/v1/funding-source-types/]
+### Delete All Funding Source Types with Matching [DELETE /research-common/api/v1/funding-source-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + fundingSourceTypeCode
-            + description
-            + fundingSourceTypeFlag
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + fundingSourceTypeCode (optional) - Funding Source Type Code. Maximum length is 22.
+    + description (optional) - Description. Maximum length is 300.
+    + fundingSourceTypeFlag (optional) - Funding Source Type Flag. Maximum length is 1.
 
       
 + Request

@@ -43,11 +43,11 @@
     
 + Parameters
 
-        + id
-            + assignedToId
-            + attributeValue
-            + kimTypeId
-            + kimAttributeId
+    + id (optional) - Id.
+    + assignedToId (optional) - Assigned To Id.
+    + attributeValue (optional) - Attribute Value. Maximum length is 40.
+    + kimTypeId (optional) - Kim Type Id.
+    + kimAttributeId (optional) - Attribute Id. Maximum length is 40.
 
             
 + Request
@@ -219,12 +219,12 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + assignedToId
-            + attributeValue
-            + kimTypeId
-            + kimAttributeId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Id.
+    + assignedToId (optional) - Assigned To Id.
+    + attributeValue (optional) - Attribute Value. Maximum length is 40.
+    + kimTypeId (optional) - Kim Type Id.
+    + kimAttributeId (optional) - Attribute Id. Maximum length is 40.
 
       
 + Request

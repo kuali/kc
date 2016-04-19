@@ -43,14 +43,14 @@
     
 + Parameters
 
-        + id
-            + name
-            + current
-            + version
-            + description
-            + namespace
-            + xsd
-            + xsl
+    + id (optional) - 
+    + name (optional) - 
+    + current (optional) - 
+    + version (optional) - 
+    + description (optional) - 
+    + namespace (optional) - 
+    + xsd (optional) - 
+    + xsl (optional) - 
 
             
 + Request
@@ -222,15 +222,15 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + name
-            + current
-            + version
-            + description
-            + namespace
-            + xsd
-            + xsl
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - 
+    + name (optional) - 
+    + current (optional) - 
+    + version (optional) - 
+    + description (optional) - 
+    + namespace (optional) - 
+    + xsd (optional) - 
+    + xsl (optional) - 
 
       
 + Request

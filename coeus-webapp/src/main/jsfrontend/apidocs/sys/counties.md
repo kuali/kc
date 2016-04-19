@@ -43,11 +43,11 @@
     
 + Parameters
 
-        + code
-            + countryCode
-            + stateCode
-            + name
-            + active
+    + code (optional) - The ten digit code for a County. Maximum length is 10.
+    + countryCode (optional) - The code uniquely identify a country. Maximum length is 2.
+    + stateCode (optional) - Postal State Code. Maximum length is 2.
+    + name (optional) - The name assigned to this County. Maximum length is 100.
+    + active (optional) - This attribute is used to describe whether the associated object is active or inactive. Maximum length is 1.
 
             
 + Request
@@ -219,12 +219,12 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + code
-            + countryCode
-            + stateCode
-            + name
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + code (optional) - The ten digit code for a County. Maximum length is 10.
+    + countryCode (optional) - The code uniquely identify a country. Maximum length is 2.
+    + stateCode (optional) - Postal State Code. Maximum length is 2.
+    + name (optional) - The name assigned to this County. Maximum length is 100.
+    + active (optional) - This attribute is used to describe whether the associated object is active or inactive. Maximum length is 1.
 
       
 + Request

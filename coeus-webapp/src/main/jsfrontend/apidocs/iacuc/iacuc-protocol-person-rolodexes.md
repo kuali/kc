@@ -1,6 +1,6 @@
-## Iacuc Protocol Person Rolodexes [/research-sys/api/v1/iacuc-protocol-person-rolodexes/]
+## Iacuc Protocol Person Rolodexes [/iacuc/api/v1/iacuc-protocol-person-rolodexes/]
 
-### Get Iacuc Protocol Person Rolodexes by Key [GET /research-sys/api/v1/iacuc-protocol-person-rolodexes/(key)]
+### Get Iacuc Protocol Person Rolodexes by Key [GET /iacuc/api/v1/iacuc-protocol-person-rolodexes/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"rolodexId": "(val)","addressLine1": "(val)","addressLine2": "(val)","addressLine3": "(val)","city": "(val)","comments": "(val)","countryCode": "(val)","county": "(val)","createUser": "(val)","deleteFlag": "(val)","emailAddress": "(val)","faxNumber": "(val)","firstName": "(val)","lastName": "(val)","middleName": "(val)","organization": "(val)","ownedByUnit": "(val)","phoneNumber": "(val)","postalCode": "(val)","prefix": "(val)","sponsorAddressFlag": "(val)","sponsorCode": "(val)","state": "(val)","suffix": "(val)","title": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Protocol Person Rolodexes [GET /research-sys/api/v1/iacuc-protocol-person-rolodexes/]
+### Get All Iacuc Protocol Person Rolodexes [GET /iacuc/api/v1/iacuc-protocol-person-rolodexes/]
 	 
 + Request
 
@@ -39,35 +39,35 @@
               {"rolodexId": "(val)","addressLine1": "(val)","addressLine2": "(val)","addressLine3": "(val)","city": "(val)","comments": "(val)","countryCode": "(val)","county": "(val)","createUser": "(val)","deleteFlag": "(val)","emailAddress": "(val)","faxNumber": "(val)","firstName": "(val)","lastName": "(val)","middleName": "(val)","organization": "(val)","ownedByUnit": "(val)","phoneNumber": "(val)","postalCode": "(val)","prefix": "(val)","sponsorAddressFlag": "(val)","sponsorCode": "(val)","state": "(val)","suffix": "(val)","title": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Protocol Person Rolodexes with Filtering [GET /research-sys/api/v1/iacuc-protocol-person-rolodexes/]
+### Get All Iacuc Protocol Person Rolodexes with Filtering [GET /iacuc/api/v1/iacuc-protocol-person-rolodexes/]
     
 + Parameters
 
-        + rolodexId
-            + addressLine1
-            + addressLine2
-            + addressLine3
-            + city
-            + comments
-            + countryCode
-            + county
-            + createUser
-            + deleteFlag
-            + emailAddress
-            + faxNumber
-            + firstName
-            + lastName
-            + middleName
-            + organization
-            + ownedByUnit
-            + phoneNumber
-            + postalCode
-            + prefix
-            + sponsorAddressFlag
-            + sponsorCode
-            + state
-            + suffix
-            + title
+    + rolodexId (optional) - 
+    + addressLine1 (optional) - 
+    + addressLine2 (optional) - 
+    + addressLine3 (optional) - 
+    + city (optional) - 
+    + comments (optional) - 
+    + countryCode (optional) - 
+    + county (optional) - 
+    + createUser (optional) - 
+    + deleteFlag (optional) - 
+    + emailAddress (optional) - 
+    + faxNumber (optional) - 
+    + firstName (optional) - 
+    + lastName (optional) - 
+    + middleName (optional) - 
+    + organization (optional) - 
+    + ownedByUnit (optional) - 
+    + phoneNumber (optional) - 
+    + postalCode (optional) - 
+    + prefix (optional) - 
+    + sponsorAddressFlag (optional) - 
+    + sponsorCode (optional) - 
+    + state (optional) - 
+    + suffix (optional) - 
+    + title (optional) - 
 
             
 + Request
@@ -89,7 +89,7 @@
               {"rolodexId": "(val)","addressLine1": "(val)","addressLine2": "(val)","addressLine3": "(val)","city": "(val)","comments": "(val)","countryCode": "(val)","county": "(val)","createUser": "(val)","deleteFlag": "(val)","emailAddress": "(val)","faxNumber": "(val)","firstName": "(val)","lastName": "(val)","middleName": "(val)","organization": "(val)","ownedByUnit": "(val)","phoneNumber": "(val)","postalCode": "(val)","prefix": "(val)","sponsorAddressFlag": "(val)","sponsorCode": "(val)","state": "(val)","suffix": "(val)","title": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Protocol Person Rolodexes [GET /research-sys/api/v1/iacuc-protocol-person-rolodexes/]
+### Get Schema for Iacuc Protocol Person Rolodexes [GET /iacuc/api/v1/iacuc-protocol-person-rolodexes/]
 	                                          
 + Parameters
 
@@ -111,7 +111,7 @@
     
             {"columns":["rolodexId","addressLine1","addressLine2","addressLine3","city","comments","countryCode","county","createUser","deleteFlag","emailAddress","faxNumber","firstName","lastName","middleName","organization","ownedByUnit","phoneNumber","postalCode","prefix","sponsorAddressFlag","sponsorCode","state","suffix","title"],"primaryKey":"rolodexId"}
 		
-### Get Blueprint API specification for Iacuc Protocol Person Rolodexes [GET /research-sys/api/v1/iacuc-protocol-person-rolodexes/]
+### Get Blueprint API specification for Iacuc Protocol Person Rolodexes [GET /iacuc/api/v1/iacuc-protocol-person-rolodexes/]
 	 
 + Parameters
 
@@ -132,7 +132,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Protocol Person Rolodexes [PUT /research-sys/api/v1/iacuc-protocol-person-rolodexes/(key)]
+### Update Iacuc Protocol Person Rolodexes [PUT /iacuc/api/v1/iacuc-protocol-person-rolodexes/(key)]
 
 + Request
 
@@ -147,7 +147,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Protocol Person Rolodexes [PUT /research-sys/api/v1/iacuc-protocol-person-rolodexes/]
+### Update Multiple Iacuc Protocol Person Rolodexes [PUT /iacuc/api/v1/iacuc-protocol-person-rolodexes/]
 
 + Request
 
@@ -165,7 +165,7 @@
 			
 + Response 204
 
-### Insert Iacuc Protocol Person Rolodexes [POST /research-sys/api/v1/iacuc-protocol-person-rolodexes/]
+### Insert Iacuc Protocol Person Rolodexes [POST /iacuc/api/v1/iacuc-protocol-person-rolodexes/]
 
 + Request
 
@@ -184,7 +184,7 @@
             
             {"rolodexId": "(val)","addressLine1": "(val)","addressLine2": "(val)","addressLine3": "(val)","city": "(val)","comments": "(val)","countryCode": "(val)","county": "(val)","createUser": "(val)","deleteFlag": "(val)","emailAddress": "(val)","faxNumber": "(val)","firstName": "(val)","lastName": "(val)","middleName": "(val)","organization": "(val)","ownedByUnit": "(val)","phoneNumber": "(val)","postalCode": "(val)","prefix": "(val)","sponsorAddressFlag": "(val)","sponsorCode": "(val)","state": "(val)","suffix": "(val)","title": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Protocol Person Rolodexes [POST /research-sys/api/v1/iacuc-protocol-person-rolodexes/]
+### Insert Multiple Iacuc Protocol Person Rolodexes [POST /iacuc/api/v1/iacuc-protocol-person-rolodexes/]
 
 + Request
 
@@ -209,7 +209,7 @@
               {"rolodexId": "(val)","addressLine1": "(val)","addressLine2": "(val)","addressLine3": "(val)","city": "(val)","comments": "(val)","countryCode": "(val)","county": "(val)","createUser": "(val)","deleteFlag": "(val)","emailAddress": "(val)","faxNumber": "(val)","firstName": "(val)","lastName": "(val)","middleName": "(val)","organization": "(val)","ownedByUnit": "(val)","phoneNumber": "(val)","postalCode": "(val)","prefix": "(val)","sponsorAddressFlag": "(val)","sponsorCode": "(val)","state": "(val)","suffix": "(val)","title": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Protocol Person Rolodexes by Key [DELETE /research-sys/api/v1/iacuc-protocol-person-rolodexes/(key)]
+### Delete Iacuc Protocol Person Rolodexes by Key [DELETE /iacuc/api/v1/iacuc-protocol-person-rolodexes/(key)]
 	 
 + Request
 
@@ -220,7 +220,7 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Person Rolodexes [DELETE /research-sys/api/v1/iacuc-protocol-person-rolodexes/]
+### Delete All Iacuc Protocol Person Rolodexes [DELETE /iacuc/api/v1/iacuc-protocol-person-rolodexes/]
 
 + Parameters
 
@@ -235,36 +235,36 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Person Rolodexes with Matching [DELETE /research-sys/api/v1/iacuc-protocol-person-rolodexes/]
+### Delete All Iacuc Protocol Person Rolodexes with Matching [DELETE /iacuc/api/v1/iacuc-protocol-person-rolodexes/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + rolodexId
-            + addressLine1
-            + addressLine2
-            + addressLine3
-            + city
-            + comments
-            + countryCode
-            + county
-            + createUser
-            + deleteFlag
-            + emailAddress
-            + faxNumber
-            + firstName
-            + lastName
-            + middleName
-            + organization
-            + ownedByUnit
-            + phoneNumber
-            + postalCode
-            + prefix
-            + sponsorAddressFlag
-            + sponsorCode
-            + state
-            + suffix
-            + title
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + rolodexId (optional) - 
+    + addressLine1 (optional) - 
+    + addressLine2 (optional) - 
+    + addressLine3 (optional) - 
+    + city (optional) - 
+    + comments (optional) - 
+    + countryCode (optional) - 
+    + county (optional) - 
+    + createUser (optional) - 
+    + deleteFlag (optional) - 
+    + emailAddress (optional) - 
+    + faxNumber (optional) - 
+    + firstName (optional) - 
+    + lastName (optional) - 
+    + middleName (optional) - 
+    + organization (optional) - 
+    + ownedByUnit (optional) - 
+    + phoneNumber (optional) - 
+    + postalCode (optional) - 
+    + prefix (optional) - 
+    + sponsorAddressFlag (optional) - 
+    + sponsorCode (optional) - 
+    + state (optional) - 
+    + suffix (optional) - 
+    + title (optional) - 
 
       
 + Request

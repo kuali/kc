@@ -1,6 +1,6 @@
-## Iacuc Protocol Reviewers [/research-sys/api/v1/iacuc-protocol-reviewers/]
+## Iacuc Protocol Reviewers [/iacuc/api/v1/iacuc-protocol-reviewers/]
 
-### Get Iacuc Protocol Reviewers by Key [GET /research-sys/api/v1/iacuc-protocol-reviewers/(key)]
+### Get Iacuc Protocol Reviewers by Key [GET /iacuc/api/v1/iacuc-protocol-reviewers/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"protocolReviewerId": "(val)","protocolIdFk": "(val)","submissionIdFk": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","rolodexId": "(val)","submissionNumber": "(val)","reviewerTypeCode": "(val)","personId": "(val)","nonEmployeeFlag": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Protocol Reviewers [GET /research-sys/api/v1/iacuc-protocol-reviewers/]
+### Get All Iacuc Protocol Reviewers [GET /iacuc/api/v1/iacuc-protocol-reviewers/]
 	 
 + Request
 
@@ -39,20 +39,20 @@
               {"protocolReviewerId": "(val)","protocolIdFk": "(val)","submissionIdFk": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","rolodexId": "(val)","submissionNumber": "(val)","reviewerTypeCode": "(val)","personId": "(val)","nonEmployeeFlag": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Protocol Reviewers with Filtering [GET /research-sys/api/v1/iacuc-protocol-reviewers/]
+### Get All Iacuc Protocol Reviewers with Filtering [GET /iacuc/api/v1/iacuc-protocol-reviewers/]
     
 + Parameters
 
-        + protocolReviewerId
-            + protocolIdFk
-            + submissionIdFk
-            + protocolNumber
-            + sequenceNumber
-            + rolodexId
-            + submissionNumber
-            + reviewerTypeCode
-            + personId
-            + nonEmployeeFlag
+    + protocolReviewerId (optional) - 
+    + protocolIdFk (optional) - 
+    + submissionIdFk (optional) - 
+    + protocolNumber (optional) - 
+    + sequenceNumber (optional) - 
+    + rolodexId (optional) - 
+    + submissionNumber (optional) - 
+    + reviewerTypeCode (optional) - 
+    + personId (optional) - 
+    + nonEmployeeFlag (optional) - 
 
             
 + Request
@@ -74,7 +74,7 @@
               {"protocolReviewerId": "(val)","protocolIdFk": "(val)","submissionIdFk": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","rolodexId": "(val)","submissionNumber": "(val)","reviewerTypeCode": "(val)","personId": "(val)","nonEmployeeFlag": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Protocol Reviewers [GET /research-sys/api/v1/iacuc-protocol-reviewers/]
+### Get Schema for Iacuc Protocol Reviewers [GET /iacuc/api/v1/iacuc-protocol-reviewers/]
 	                                          
 + Parameters
 
@@ -96,7 +96,7 @@
     
             {"columns":["protocolReviewerId","protocolIdFk","submissionIdFk","protocolNumber","sequenceNumber","rolodexId","submissionNumber","reviewerTypeCode","personId","nonEmployeeFlag"],"primaryKey":"protocolReviewerId"}
 		
-### Get Blueprint API specification for Iacuc Protocol Reviewers [GET /research-sys/api/v1/iacuc-protocol-reviewers/]
+### Get Blueprint API specification for Iacuc Protocol Reviewers [GET /iacuc/api/v1/iacuc-protocol-reviewers/]
 	 
 + Parameters
 
@@ -117,7 +117,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Protocol Reviewers [PUT /research-sys/api/v1/iacuc-protocol-reviewers/(key)]
+### Update Iacuc Protocol Reviewers [PUT /iacuc/api/v1/iacuc-protocol-reviewers/(key)]
 
 + Request
 
@@ -132,7 +132,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Protocol Reviewers [PUT /research-sys/api/v1/iacuc-protocol-reviewers/]
+### Update Multiple Iacuc Protocol Reviewers [PUT /iacuc/api/v1/iacuc-protocol-reviewers/]
 
 + Request
 
@@ -150,7 +150,7 @@
 			
 + Response 204
 
-### Insert Iacuc Protocol Reviewers [POST /research-sys/api/v1/iacuc-protocol-reviewers/]
+### Insert Iacuc Protocol Reviewers [POST /iacuc/api/v1/iacuc-protocol-reviewers/]
 
 + Request
 
@@ -169,7 +169,7 @@
             
             {"protocolReviewerId": "(val)","protocolIdFk": "(val)","submissionIdFk": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","rolodexId": "(val)","submissionNumber": "(val)","reviewerTypeCode": "(val)","personId": "(val)","nonEmployeeFlag": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Protocol Reviewers [POST /research-sys/api/v1/iacuc-protocol-reviewers/]
+### Insert Multiple Iacuc Protocol Reviewers [POST /iacuc/api/v1/iacuc-protocol-reviewers/]
 
 + Request
 
@@ -194,7 +194,7 @@
               {"protocolReviewerId": "(val)","protocolIdFk": "(val)","submissionIdFk": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","rolodexId": "(val)","submissionNumber": "(val)","reviewerTypeCode": "(val)","personId": "(val)","nonEmployeeFlag": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Protocol Reviewers by Key [DELETE /research-sys/api/v1/iacuc-protocol-reviewers/(key)]
+### Delete Iacuc Protocol Reviewers by Key [DELETE /iacuc/api/v1/iacuc-protocol-reviewers/(key)]
 	 
 + Request
 
@@ -205,7 +205,7 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Reviewers [DELETE /research-sys/api/v1/iacuc-protocol-reviewers/]
+### Delete All Iacuc Protocol Reviewers [DELETE /iacuc/api/v1/iacuc-protocol-reviewers/]
 
 + Parameters
 
@@ -220,21 +220,21 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Reviewers with Matching [DELETE /research-sys/api/v1/iacuc-protocol-reviewers/]
+### Delete All Iacuc Protocol Reviewers with Matching [DELETE /iacuc/api/v1/iacuc-protocol-reviewers/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + protocolReviewerId
-            + protocolIdFk
-            + submissionIdFk
-            + protocolNumber
-            + sequenceNumber
-            + rolodexId
-            + submissionNumber
-            + reviewerTypeCode
-            + personId
-            + nonEmployeeFlag
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + protocolReviewerId (optional) - 
+    + protocolIdFk (optional) - 
+    + submissionIdFk (optional) - 
+    + protocolNumber (optional) - 
+    + sequenceNumber (optional) - 
+    + rolodexId (optional) - 
+    + submissionNumber (optional) - 
+    + reviewerTypeCode (optional) - 
+    + personId (optional) - 
+    + nonEmployeeFlag (optional) - 
 
       
 + Request

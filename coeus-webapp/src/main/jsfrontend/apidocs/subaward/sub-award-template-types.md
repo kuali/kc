@@ -1,6 +1,6 @@
-## Sub Award Template Types [/research-sys/api/v1/sub-award-template-types/]
+## Sub Award Template Types [/subaward/api/v1/sub-award-template-types/]
 
-### Get Sub Award Template Types by Key [GET /research-sys/api/v1/sub-award-template-types/(key)]
+### Get Sub Award Template Types by Key [GET /subaward/api/v1/sub-award-template-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"templateTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Sub Award Template Types [GET /research-sys/api/v1/sub-award-template-types/]
+### Get All Sub Award Template Types [GET /subaward/api/v1/sub-award-template-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"templateTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Sub Award Template Types with Filtering [GET /research-sys/api/v1/sub-award-template-types/]
+### Get All Sub Award Template Types with Filtering [GET /subaward/api/v1/sub-award-template-types/]
     
 + Parameters
 
-        + templateTypeCode
-            + description
+    + templateTypeCode (optional) - Subaward Template Type Code. Maximum length is 22.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"templateTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Sub Award Template Types [GET /research-sys/api/v1/sub-award-template-types/]
+### Get Schema for Sub Award Template Types [GET /subaward/api/v1/sub-award-template-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["templateTypeCode","description"],"primaryKey":"templateTypeCode"}
 		
-### Get Blueprint API specification for Sub Award Template Types [GET /research-sys/api/v1/sub-award-template-types/]
+### Get Blueprint API specification for Sub Award Template Types [GET /subaward/api/v1/sub-award-template-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Sub Award Template Types [PUT /research-sys/api/v1/sub-award-template-types/(key)]
+### Update Sub Award Template Types [PUT /subaward/api/v1/sub-award-template-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Sub Award Template Types [PUT /research-sys/api/v1/sub-award-template-types/]
+### Update Multiple Sub Award Template Types [PUT /subaward/api/v1/sub-award-template-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Sub Award Template Types [POST /research-sys/api/v1/sub-award-template-types/]
+### Insert Sub Award Template Types [POST /subaward/api/v1/sub-award-template-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"templateTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Sub Award Template Types [POST /research-sys/api/v1/sub-award-template-types/]
+### Insert Multiple Sub Award Template Types [POST /subaward/api/v1/sub-award-template-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"templateTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Sub Award Template Types by Key [DELETE /research-sys/api/v1/sub-award-template-types/(key)]
+### Delete Sub Award Template Types by Key [DELETE /subaward/api/v1/sub-award-template-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Sub Award Template Types [DELETE /research-sys/api/v1/sub-award-template-types/]
+### Delete All Sub Award Template Types [DELETE /subaward/api/v1/sub-award-template-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Sub Award Template Types with Matching [DELETE /research-sys/api/v1/sub-award-template-types/]
+### Delete All Sub Award Template Types with Matching [DELETE /subaward/api/v1/sub-award-template-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + templateTypeCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + templateTypeCode (optional) - Subaward Template Type Code. Maximum length is 22.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

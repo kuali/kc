@@ -1,6 +1,6 @@
-## Committee Schedule Attendances [/research-sys/api/v1/committee-schedule-attendances/]
+## Committee Schedule Attendances [/irb/api/v1/committee-schedule-attendances/]
 
-### Get Committee Schedule Attendances by Key [GET /research-sys/api/v1/committee-schedule-attendances/(key)]
+### Get Committee Schedule Attendances by Key [GET /irb/api/v1/committee-schedule-attendances/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"commScheduleAttendanceId": "(val)","scheduleIdFk": "(val)","personId": "(val)","personName": "(val)","guestFlag": "(val)","alternateFlag": "(val)","alternateFor": "(val)","nonEmployeeFlag": "(val)","comments": "(val)","_primaryKey": "(val)"}
 
-### Get All Committee Schedule Attendances [GET /research-sys/api/v1/committee-schedule-attendances/]
+### Get All Committee Schedule Attendances [GET /irb/api/v1/committee-schedule-attendances/]
 	 
 + Request
 
@@ -39,19 +39,19 @@
               {"commScheduleAttendanceId": "(val)","scheduleIdFk": "(val)","personId": "(val)","personName": "(val)","guestFlag": "(val)","alternateFlag": "(val)","alternateFor": "(val)","nonEmployeeFlag": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Committee Schedule Attendances with Filtering [GET /research-sys/api/v1/committee-schedule-attendances/]
+### Get All Committee Schedule Attendances with Filtering [GET /irb/api/v1/committee-schedule-attendances/]
     
 + Parameters
 
-        + commScheduleAttendanceId
-            + scheduleIdFk
-            + personId
-            + personName
-            + guestFlag
-            + alternateFlag
-            + alternateFor
-            + nonEmployeeFlag
-            + comments
+    + commScheduleAttendanceId (optional) - Comm Schedule Attendance Id. Maximum length is 22.
+    + scheduleIdFk (optional) - Schedule Id. Maximum length is 10.
+    + personId (optional) - Person Id. Maximum length is 40.
+    + personName (optional) - Person Name. Maximum length is 90.
+    + guestFlag (optional) - Guest Flag. Maximum length is 1.
+    + alternateFlag (optional) - Alternate Flag. Maximum length is 1.
+    + alternateFor (optional) - Alternate For. Maximum length is 9.
+    + nonEmployeeFlag (optional) - Non Employee Flag. Maximum length is 1.
+    + comments (optional) - Comments. Maximum length is 2000.
 
             
 + Request
@@ -73,7 +73,7 @@
               {"commScheduleAttendanceId": "(val)","scheduleIdFk": "(val)","personId": "(val)","personName": "(val)","guestFlag": "(val)","alternateFlag": "(val)","alternateFor": "(val)","nonEmployeeFlag": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Committee Schedule Attendances [GET /research-sys/api/v1/committee-schedule-attendances/]
+### Get Schema for Committee Schedule Attendances [GET /irb/api/v1/committee-schedule-attendances/]
 	                                          
 + Parameters
 
@@ -95,7 +95,7 @@
     
             {"columns":["commScheduleAttendanceId","scheduleIdFk","personId","personName","guestFlag","alternateFlag","alternateFor","nonEmployeeFlag","comments"],"primaryKey":"commScheduleAttendanceId"}
 		
-### Get Blueprint API specification for Committee Schedule Attendances [GET /research-sys/api/v1/committee-schedule-attendances/]
+### Get Blueprint API specification for Committee Schedule Attendances [GET /irb/api/v1/committee-schedule-attendances/]
 	 
 + Parameters
 
@@ -116,7 +116,7 @@
             transfer-encoding:chunked
 
 
-### Update Committee Schedule Attendances [PUT /research-sys/api/v1/committee-schedule-attendances/(key)]
+### Update Committee Schedule Attendances [PUT /irb/api/v1/committee-schedule-attendances/(key)]
 
 + Request
 
@@ -131,7 +131,7 @@
 			
 + Response 204
 
-### Update Multiple Committee Schedule Attendances [PUT /research-sys/api/v1/committee-schedule-attendances/]
+### Update Multiple Committee Schedule Attendances [PUT /irb/api/v1/committee-schedule-attendances/]
 
 + Request
 
@@ -149,7 +149,7 @@
 			
 + Response 204
 
-### Insert Committee Schedule Attendances [POST /research-sys/api/v1/committee-schedule-attendances/]
+### Insert Committee Schedule Attendances [POST /irb/api/v1/committee-schedule-attendances/]
 
 + Request
 
@@ -168,7 +168,7 @@
             
             {"commScheduleAttendanceId": "(val)","scheduleIdFk": "(val)","personId": "(val)","personName": "(val)","guestFlag": "(val)","alternateFlag": "(val)","alternateFor": "(val)","nonEmployeeFlag": "(val)","comments": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Committee Schedule Attendances [POST /research-sys/api/v1/committee-schedule-attendances/]
+### Insert Multiple Committee Schedule Attendances [POST /irb/api/v1/committee-schedule-attendances/]
 
 + Request
 
@@ -193,7 +193,7 @@
               {"commScheduleAttendanceId": "(val)","scheduleIdFk": "(val)","personId": "(val)","personName": "(val)","guestFlag": "(val)","alternateFlag": "(val)","alternateFor": "(val)","nonEmployeeFlag": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Committee Schedule Attendances by Key [DELETE /research-sys/api/v1/committee-schedule-attendances/(key)]
+### Delete Committee Schedule Attendances by Key [DELETE /irb/api/v1/committee-schedule-attendances/(key)]
 	 
 + Request
 
@@ -204,7 +204,7 @@
 
 + Response 204
 
-### Delete All Committee Schedule Attendances [DELETE /research-sys/api/v1/committee-schedule-attendances/]
+### Delete All Committee Schedule Attendances [DELETE /irb/api/v1/committee-schedule-attendances/]
 
 + Parameters
 
@@ -219,20 +219,20 @@
 
 + Response 204
 
-### Delete All Committee Schedule Attendances with Matching [DELETE /research-sys/api/v1/committee-schedule-attendances/]
+### Delete All Committee Schedule Attendances with Matching [DELETE /irb/api/v1/committee-schedule-attendances/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + commScheduleAttendanceId
-            + scheduleIdFk
-            + personId
-            + personName
-            + guestFlag
-            + alternateFlag
-            + alternateFor
-            + nonEmployeeFlag
-            + comments
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + commScheduleAttendanceId (optional) - Comm Schedule Attendance Id. Maximum length is 22.
+    + scheduleIdFk (optional) - Schedule Id. Maximum length is 10.
+    + personId (optional) - Person Id. Maximum length is 40.
+    + personName (optional) - Person Name. Maximum length is 90.
+    + guestFlag (optional) - Guest Flag. Maximum length is 1.
+    + alternateFlag (optional) - Alternate Flag. Maximum length is 1.
+    + alternateFor (optional) - Alternate For. Maximum length is 9.
+    + nonEmployeeFlag (optional) - Non Employee Flag. Maximum length is 1.
+    + comments (optional) - Comments. Maximum length is 2000.
 
       
 + Request

@@ -43,13 +43,13 @@
     
 + Parameters
 
-        + entityAffiliationId
-            + affiliationTypeCode
-            + campusCode
-            + dflt
-            + edit
-            + documentNumber
-            + active
+    + entityAffiliationId (optional) - Affiliation Entity Id. Maximum length is 40.
+    + affiliationTypeCode (optional) - Affiliation Type. Maximum length is 40.
+    + campusCode (optional) - Campus Code. Maximum length is 2.
+    + dflt (optional) - Default. Maximum length is 1.
+    + edit (optional) - Edit.
+    + documentNumber (optional) - Document Number.
+    + active (optional) - Active. Maximum length is 1.
 
             
 + Request
@@ -221,14 +221,14 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + entityAffiliationId
-            + affiliationTypeCode
-            + campusCode
-            + dflt
-            + edit
-            + documentNumber
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + entityAffiliationId (optional) - Affiliation Entity Id. Maximum length is 40.
+    + affiliationTypeCode (optional) - Affiliation Type. Maximum length is 40.
+    + campusCode (optional) - Campus Code. Maximum length is 2.
+    + dflt (optional) - Default. Maximum length is 1.
+    + edit (optional) - Edit.
+    + documentNumber (optional) - Document Number.
+    + active (optional) - Active. Maximum length is 1.
 
       
 + Request

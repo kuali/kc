@@ -1,6 +1,6 @@
-## Iacuc Species [/research-sys/api/v1/iacuc-species/]
+## Iacuc Species [/iacuc/api/v1/iacuc-species/]
 
-### Get Iacuc Species by Key [GET /research-sys/api/v1/iacuc-species/(key)]
+### Get Iacuc Species by Key [GET /iacuc/api/v1/iacuc-species/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"speciesCode": "(val)","speciesName": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Species [GET /research-sys/api/v1/iacuc-species/]
+### Get All Iacuc Species [GET /iacuc/api/v1/iacuc-species/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"speciesCode": "(val)","speciesName": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Species with Filtering [GET /research-sys/api/v1/iacuc-species/]
+### Get All Iacuc Species with Filtering [GET /iacuc/api/v1/iacuc-species/]
     
 + Parameters
 
-        + speciesCode
-            + speciesName
+    + speciesCode (optional) - Species Code. Maximum length is 4.
+    + speciesName (optional) - Species Name. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"speciesCode": "(val)","speciesName": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Species [GET /research-sys/api/v1/iacuc-species/]
+### Get Schema for Iacuc Species [GET /iacuc/api/v1/iacuc-species/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["speciesCode","speciesName"],"primaryKey":"speciesCode"}
 		
-### Get Blueprint API specification for Iacuc Species [GET /research-sys/api/v1/iacuc-species/]
+### Get Blueprint API specification for Iacuc Species [GET /iacuc/api/v1/iacuc-species/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Species [PUT /research-sys/api/v1/iacuc-species/(key)]
+### Update Iacuc Species [PUT /iacuc/api/v1/iacuc-species/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Species [PUT /research-sys/api/v1/iacuc-species/]
+### Update Multiple Iacuc Species [PUT /iacuc/api/v1/iacuc-species/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Iacuc Species [POST /research-sys/api/v1/iacuc-species/]
+### Insert Iacuc Species [POST /iacuc/api/v1/iacuc-species/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"speciesCode": "(val)","speciesName": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Species [POST /research-sys/api/v1/iacuc-species/]
+### Insert Multiple Iacuc Species [POST /iacuc/api/v1/iacuc-species/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"speciesCode": "(val)","speciesName": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Species by Key [DELETE /research-sys/api/v1/iacuc-species/(key)]
+### Delete Iacuc Species by Key [DELETE /iacuc/api/v1/iacuc-species/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Iacuc Species [DELETE /research-sys/api/v1/iacuc-species/]
+### Delete All Iacuc Species [DELETE /iacuc/api/v1/iacuc-species/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Iacuc Species with Matching [DELETE /research-sys/api/v1/iacuc-species/]
+### Delete All Iacuc Species with Matching [DELETE /iacuc/api/v1/iacuc-species/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + speciesCode
-            + speciesName
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + speciesCode (optional) - Species Code. Maximum length is 4.
+    + speciesName (optional) - Species Name. Maximum length is 200.
 
       
 + Request

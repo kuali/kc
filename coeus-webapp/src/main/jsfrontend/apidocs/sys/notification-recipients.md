@@ -43,9 +43,9 @@
     
 + Parameters
 
-        + id
-            + recipientType
-            + recipientId
+    + id (optional) - 
+    + recipientType (optional) - 
+    + recipientId (optional) - 
 
             
 + Request
@@ -217,10 +217,10 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + recipientType
-            + recipientId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - 
+    + recipientType (optional) - 
+    + recipientId (optional) - 
 
       
 + Request

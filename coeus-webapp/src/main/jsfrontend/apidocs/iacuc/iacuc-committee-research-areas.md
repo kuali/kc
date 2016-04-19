@@ -1,6 +1,6 @@
-## Iacuc Committee Research Areas [/research-sys/api/v1/iacuc-committee-research-areas/]
+## Iacuc Committee Research Areas [/iacuc/api/v1/iacuc-committee-research-areas/]
 
-### Get Iacuc Committee Research Areas by Key [GET /research-sys/api/v1/iacuc-committee-research-areas/(key)]
+### Get Iacuc Committee Research Areas by Key [GET /iacuc/api/v1/iacuc-committee-research-areas/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"id": "(val)","committeeIdFk": "(val)","researchAreaCode": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Committee Research Areas [GET /research-sys/api/v1/iacuc-committee-research-areas/]
+### Get All Iacuc Committee Research Areas [GET /iacuc/api/v1/iacuc-committee-research-areas/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"id": "(val)","committeeIdFk": "(val)","researchAreaCode": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Committee Research Areas with Filtering [GET /research-sys/api/v1/iacuc-committee-research-areas/]
+### Get All Iacuc Committee Research Areas with Filtering [GET /iacuc/api/v1/iacuc-committee-research-areas/]
     
 + Parameters
 
-        + id
-            + committeeIdFk
-            + researchAreaCode
+    + id (optional) - Committee Research Area Id.
+    + committeeIdFk (optional) - Committee Id Fk.
+    + researchAreaCode (optional) - Research Area Code.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"id": "(val)","committeeIdFk": "(val)","researchAreaCode": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Committee Research Areas [GET /research-sys/api/v1/iacuc-committee-research-areas/]
+### Get Schema for Iacuc Committee Research Areas [GET /iacuc/api/v1/iacuc-committee-research-areas/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["id","committeeIdFk","researchAreaCode"],"primaryKey":"id"}
 		
-### Get Blueprint API specification for Iacuc Committee Research Areas [GET /research-sys/api/v1/iacuc-committee-research-areas/]
+### Get Blueprint API specification for Iacuc Committee Research Areas [GET /iacuc/api/v1/iacuc-committee-research-areas/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Committee Research Areas [PUT /research-sys/api/v1/iacuc-committee-research-areas/(key)]
+### Update Iacuc Committee Research Areas [PUT /iacuc/api/v1/iacuc-committee-research-areas/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Committee Research Areas [PUT /research-sys/api/v1/iacuc-committee-research-areas/]
+### Update Multiple Iacuc Committee Research Areas [PUT /iacuc/api/v1/iacuc-committee-research-areas/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Iacuc Committee Research Areas [POST /research-sys/api/v1/iacuc-committee-research-areas/]
+### Insert Iacuc Committee Research Areas [POST /iacuc/api/v1/iacuc-committee-research-areas/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"id": "(val)","committeeIdFk": "(val)","researchAreaCode": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Committee Research Areas [POST /research-sys/api/v1/iacuc-committee-research-areas/]
+### Insert Multiple Iacuc Committee Research Areas [POST /iacuc/api/v1/iacuc-committee-research-areas/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"id": "(val)","committeeIdFk": "(val)","researchAreaCode": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Committee Research Areas by Key [DELETE /research-sys/api/v1/iacuc-committee-research-areas/(key)]
+### Delete Iacuc Committee Research Areas by Key [DELETE /iacuc/api/v1/iacuc-committee-research-areas/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Iacuc Committee Research Areas [DELETE /research-sys/api/v1/iacuc-committee-research-areas/]
+### Delete All Iacuc Committee Research Areas [DELETE /iacuc/api/v1/iacuc-committee-research-areas/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Iacuc Committee Research Areas with Matching [DELETE /research-sys/api/v1/iacuc-committee-research-areas/]
+### Delete All Iacuc Committee Research Areas with Matching [DELETE /iacuc/api/v1/iacuc-committee-research-areas/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + committeeIdFk
-            + researchAreaCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Committee Research Area Id.
+    + committeeIdFk (optional) - Committee Id Fk.
+    + researchAreaCode (optional) - Research Area Code.
 
       
 + Request

@@ -1,6 +1,6 @@
-## Training Stipend Rates [/research-sys/api/v1/training-stipend-rates/]
+## Training Stipend Rates [/research-common/api/v1/training-stipend-rates/]
 
-### Get Training Stipend Rates by Key [GET /research-sys/api/v1/training-stipend-rates/(key)]
+### Get Training Stipend Rates by Key [GET /research-common/api/v1/training-stipend-rates/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"id": "(val)","careerLevel": "(val)","experienceLevel": "(val)","stipendRate": "(val)","effectiveDate": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Training Stipend Rates [GET /research-sys/api/v1/training-stipend-rates/]
+### Get All Training Stipend Rates [GET /research-common/api/v1/training-stipend-rates/]
 	 
 + Request
 
@@ -39,16 +39,16 @@
               {"id": "(val)","careerLevel": "(val)","experienceLevel": "(val)","stipendRate": "(val)","effectiveDate": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Training Stipend Rates with Filtering [GET /research-sys/api/v1/training-stipend-rates/]
+### Get All Training Stipend Rates with Filtering [GET /research-common/api/v1/training-stipend-rates/]
     
 + Parameters
 
-        + id
-            + careerLevel
-            + experienceLevel
-            + stipendRate
-            + effectiveDate
-            + description
+    + id (optional) - Id. Maximum length is 12.
+    + careerLevel (optional) - Career Level. Maximum length is 20.
+    + experienceLevel (optional) - Experience Level. Maximum length is 3.
+    + stipendRate (optional) - Stipend Rate. Maximum length is 10.
+    + effectiveDate (optional) - Effective Date. Maximum length is 21.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -70,7 +70,7 @@
               {"id": "(val)","careerLevel": "(val)","experienceLevel": "(val)","stipendRate": "(val)","effectiveDate": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Training Stipend Rates [GET /research-sys/api/v1/training-stipend-rates/]
+### Get Schema for Training Stipend Rates [GET /research-common/api/v1/training-stipend-rates/]
 	                                          
 + Parameters
 
@@ -92,7 +92,7 @@
     
             {"columns":["id","careerLevel","experienceLevel","stipendRate","effectiveDate","description"],"primaryKey":"id"}
 		
-### Get Blueprint API specification for Training Stipend Rates [GET /research-sys/api/v1/training-stipend-rates/]
+### Get Blueprint API specification for Training Stipend Rates [GET /research-common/api/v1/training-stipend-rates/]
 	 
 + Parameters
 
@@ -113,7 +113,7 @@
             transfer-encoding:chunked
 
 
-### Update Training Stipend Rates [PUT /research-sys/api/v1/training-stipend-rates/(key)]
+### Update Training Stipend Rates [PUT /research-common/api/v1/training-stipend-rates/(key)]
 
 + Request
 
@@ -128,7 +128,7 @@
 			
 + Response 204
 
-### Update Multiple Training Stipend Rates [PUT /research-sys/api/v1/training-stipend-rates/]
+### Update Multiple Training Stipend Rates [PUT /research-common/api/v1/training-stipend-rates/]
 
 + Request
 
@@ -146,7 +146,7 @@
 			
 + Response 204
 
-### Insert Training Stipend Rates [POST /research-sys/api/v1/training-stipend-rates/]
+### Insert Training Stipend Rates [POST /research-common/api/v1/training-stipend-rates/]
 
 + Request
 
@@ -165,7 +165,7 @@
             
             {"id": "(val)","careerLevel": "(val)","experienceLevel": "(val)","stipendRate": "(val)","effectiveDate": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Training Stipend Rates [POST /research-sys/api/v1/training-stipend-rates/]
+### Insert Multiple Training Stipend Rates [POST /research-common/api/v1/training-stipend-rates/]
 
 + Request
 
@@ -190,7 +190,7 @@
               {"id": "(val)","careerLevel": "(val)","experienceLevel": "(val)","stipendRate": "(val)","effectiveDate": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Training Stipend Rates by Key [DELETE /research-sys/api/v1/training-stipend-rates/(key)]
+### Delete Training Stipend Rates by Key [DELETE /research-common/api/v1/training-stipend-rates/(key)]
 	 
 + Request
 
@@ -201,7 +201,7 @@
 
 + Response 204
 
-### Delete All Training Stipend Rates [DELETE /research-sys/api/v1/training-stipend-rates/]
+### Delete All Training Stipend Rates [DELETE /research-common/api/v1/training-stipend-rates/]
 
 + Parameters
 
@@ -216,17 +216,17 @@
 
 + Response 204
 
-### Delete All Training Stipend Rates with Matching [DELETE /research-sys/api/v1/training-stipend-rates/]
+### Delete All Training Stipend Rates with Matching [DELETE /research-common/api/v1/training-stipend-rates/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + careerLevel
-            + experienceLevel
-            + stipendRate
-            + effectiveDate
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Id. Maximum length is 12.
+    + careerLevel (optional) - Career Level. Maximum length is 20.
+    + experienceLevel (optional) - Experience Level. Maximum length is 3.
+    + stipendRate (optional) - Stipend Rate. Maximum length is 10.
+    + effectiveDate (optional) - Effective Date. Maximum length is 21.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

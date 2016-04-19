@@ -1,6 +1,6 @@
-## Iacuc Protocol Correspondences [/research-sys/api/v1/iacuc-protocol-correspondences/]
+## Iacuc Protocol Correspondences [/iacuc/api/v1/iacuc-protocol-correspondences/]
 
-### Get Iacuc Protocol Correspondences by Key [GET /research-sys/api/v1/iacuc-protocol-correspondences/(key)]
+### Get Iacuc Protocol Correspondences by Key [GET /iacuc/api/v1/iacuc-protocol-correspondences/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"id": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","actionId": "(val)","actionIdFk": "(val)","protoCorrespTypeCode": "(val)","correspondence": "(val)","finalFlag": "(val)","createUser": "(val)","createTimestamp": "(val)","finalFlagTimestamp": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Protocol Correspondences [GET /research-sys/api/v1/iacuc-protocol-correspondences/]
+### Get All Iacuc Protocol Correspondences [GET /iacuc/api/v1/iacuc-protocol-correspondences/]
 	 
 + Request
 
@@ -39,22 +39,22 @@
               {"id": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","actionId": "(val)","actionIdFk": "(val)","protoCorrespTypeCode": "(val)","correspondence": "(val)","finalFlag": "(val)","createUser": "(val)","createTimestamp": "(val)","finalFlagTimestamp": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Protocol Correspondences with Filtering [GET /research-sys/api/v1/iacuc-protocol-correspondences/]
+### Get All Iacuc Protocol Correspondences with Filtering [GET /iacuc/api/v1/iacuc-protocol-correspondences/]
     
 + Parameters
 
-        + id
-            + protocolId
-            + protocolNumber
-            + sequenceNumber
-            + actionId
-            + actionIdFk
-            + protoCorrespTypeCode
-            + correspondence
-            + finalFlag
-            + createUser
-            + createTimestamp
-            + finalFlagTimestamp
+    + id (optional) - 
+    + protocolId (optional) - 
+    + protocolNumber (optional) - 
+    + sequenceNumber (optional) - 
+    + actionId (optional) - 
+    + actionIdFk (optional) - 
+    + protoCorrespTypeCode (optional) - 
+    + correspondence (optional) - 
+    + finalFlag (optional) - 
+    + createUser (optional) - 
+    + createTimestamp (optional) - 
+    + finalFlagTimestamp (optional) - 
 
             
 + Request
@@ -76,7 +76,7 @@
               {"id": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","actionId": "(val)","actionIdFk": "(val)","protoCorrespTypeCode": "(val)","correspondence": "(val)","finalFlag": "(val)","createUser": "(val)","createTimestamp": "(val)","finalFlagTimestamp": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Protocol Correspondences [GET /research-sys/api/v1/iacuc-protocol-correspondences/]
+### Get Schema for Iacuc Protocol Correspondences [GET /iacuc/api/v1/iacuc-protocol-correspondences/]
 	                                          
 + Parameters
 
@@ -98,7 +98,7 @@
     
             {"columns":["id","protocolId","protocolNumber","sequenceNumber","actionId","actionIdFk","protoCorrespTypeCode","correspondence","finalFlag","createUser","createTimestamp","finalFlagTimestamp"],"primaryKey":"id"}
 		
-### Get Blueprint API specification for Iacuc Protocol Correspondences [GET /research-sys/api/v1/iacuc-protocol-correspondences/]
+### Get Blueprint API specification for Iacuc Protocol Correspondences [GET /iacuc/api/v1/iacuc-protocol-correspondences/]
 	 
 + Parameters
 
@@ -119,7 +119,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Protocol Correspondences [PUT /research-sys/api/v1/iacuc-protocol-correspondences/(key)]
+### Update Iacuc Protocol Correspondences [PUT /iacuc/api/v1/iacuc-protocol-correspondences/(key)]
 
 + Request
 
@@ -134,7 +134,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Protocol Correspondences [PUT /research-sys/api/v1/iacuc-protocol-correspondences/]
+### Update Multiple Iacuc Protocol Correspondences [PUT /iacuc/api/v1/iacuc-protocol-correspondences/]
 
 + Request
 
@@ -152,7 +152,7 @@
 			
 + Response 204
 
-### Insert Iacuc Protocol Correspondences [POST /research-sys/api/v1/iacuc-protocol-correspondences/]
+### Insert Iacuc Protocol Correspondences [POST /iacuc/api/v1/iacuc-protocol-correspondences/]
 
 + Request
 
@@ -171,7 +171,7 @@
             
             {"id": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","actionId": "(val)","actionIdFk": "(val)","protoCorrespTypeCode": "(val)","correspondence": "(val)","finalFlag": "(val)","createUser": "(val)","createTimestamp": "(val)","finalFlagTimestamp": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Protocol Correspondences [POST /research-sys/api/v1/iacuc-protocol-correspondences/]
+### Insert Multiple Iacuc Protocol Correspondences [POST /iacuc/api/v1/iacuc-protocol-correspondences/]
 
 + Request
 
@@ -196,7 +196,7 @@
               {"id": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","actionId": "(val)","actionIdFk": "(val)","protoCorrespTypeCode": "(val)","correspondence": "(val)","finalFlag": "(val)","createUser": "(val)","createTimestamp": "(val)","finalFlagTimestamp": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Protocol Correspondences by Key [DELETE /research-sys/api/v1/iacuc-protocol-correspondences/(key)]
+### Delete Iacuc Protocol Correspondences by Key [DELETE /iacuc/api/v1/iacuc-protocol-correspondences/(key)]
 	 
 + Request
 
@@ -207,7 +207,7 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Correspondences [DELETE /research-sys/api/v1/iacuc-protocol-correspondences/]
+### Delete All Iacuc Protocol Correspondences [DELETE /iacuc/api/v1/iacuc-protocol-correspondences/]
 
 + Parameters
 
@@ -222,23 +222,23 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Correspondences with Matching [DELETE /research-sys/api/v1/iacuc-protocol-correspondences/]
+### Delete All Iacuc Protocol Correspondences with Matching [DELETE /iacuc/api/v1/iacuc-protocol-correspondences/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + protocolId
-            + protocolNumber
-            + sequenceNumber
-            + actionId
-            + actionIdFk
-            + protoCorrespTypeCode
-            + correspondence
-            + finalFlag
-            + createUser
-            + createTimestamp
-            + finalFlagTimestamp
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - 
+    + protocolId (optional) - 
+    + protocolNumber (optional) - 
+    + sequenceNumber (optional) - 
+    + actionId (optional) - 
+    + actionIdFk (optional) - 
+    + protoCorrespTypeCode (optional) - 
+    + correspondence (optional) - 
+    + finalFlag (optional) - 
+    + createUser (optional) - 
+    + createTimestamp (optional) - 
+    + finalFlagTimestamp (optional) - 
 
       
 + Request

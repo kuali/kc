@@ -43,14 +43,14 @@
     
 + Parameters
 
-        + id
-            + collectionName
-            + krmsDiscriminatorType
-            + krmsObjectId
-            + namespace
-            + referenceDiscriminatorType
-            + referenceObjectId
-            + active
+    + id (optional) - 
+    + collectionName (optional) - 
+    + krmsDiscriminatorType (optional) - 
+    + krmsObjectId (optional) - 
+    + namespace (optional) - 
+    + referenceDiscriminatorType (optional) - 
+    + referenceObjectId (optional) - 
+    + active (optional) - 
 
             
 + Request
@@ -222,15 +222,15 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + collectionName
-            + krmsDiscriminatorType
-            + krmsObjectId
-            + namespace
-            + referenceDiscriminatorType
-            + referenceObjectId
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - 
+    + collectionName (optional) - 
+    + krmsDiscriminatorType (optional) - 
+    + krmsObjectId (optional) - 
+    + namespace (optional) - 
+    + referenceDiscriminatorType (optional) - 
+    + referenceObjectId (optional) - 
+    + active (optional) - 
 
       
 + Request

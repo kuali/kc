@@ -1,6 +1,6 @@
-## Answer Headers [/research-sys/api/v1/answer-headers/]
+## Answer Headers [/research-common/api/v1/answer-headers/]
 
-### Get Answer Headers by Key [GET /research-sys/api/v1/answer-headers/(key)]
+### Get Answer Headers by Key [GET /research-common/api/v1/answer-headers/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"id": "(val)","moduleItemCode": "(val)","moduleItemKey": "(val)","moduleSubItemCode": "(val)","moduleSubItemKey": "(val)","questionnaireId": "(val)","completed": "(val)","_primaryKey": "(val)"}
 
-### Get All Answer Headers [GET /research-sys/api/v1/answer-headers/]
+### Get All Answer Headers [GET /research-common/api/v1/answer-headers/]
 	 
 + Request
 
@@ -39,17 +39,17 @@
               {"id": "(val)","moduleItemCode": "(val)","moduleItemKey": "(val)","moduleSubItemCode": "(val)","moduleSubItemKey": "(val)","questionnaireId": "(val)","completed": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Answer Headers with Filtering [GET /research-sys/api/v1/answer-headers/]
+### Get All Answer Headers with Filtering [GET /research-common/api/v1/answer-headers/]
     
 + Parameters
 
-        + id
-            + moduleItemCode
-            + moduleItemKey
-            + moduleSubItemCode
-            + moduleSubItemKey
-            + questionnaireId
-            + completed
+    + id (optional) - 
+    + moduleItemCode (optional) - 
+    + moduleItemKey (optional) - 
+    + moduleSubItemCode (optional) - 
+    + moduleSubItemKey (optional) - 
+    + questionnaireId (optional) - 
+    + completed (optional) - 
 
             
 + Request
@@ -71,7 +71,7 @@
               {"id": "(val)","moduleItemCode": "(val)","moduleItemKey": "(val)","moduleSubItemCode": "(val)","moduleSubItemKey": "(val)","questionnaireId": "(val)","completed": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Answer Headers [GET /research-sys/api/v1/answer-headers/]
+### Get Schema for Answer Headers [GET /research-common/api/v1/answer-headers/]
 	                                          
 + Parameters
 
@@ -93,7 +93,7 @@
     
             {"columns":["id","moduleItemCode","moduleItemKey","moduleSubItemCode","moduleSubItemKey","questionnaireId","completed"],"primaryKey":"id"}
 		
-### Get Blueprint API specification for Answer Headers [GET /research-sys/api/v1/answer-headers/]
+### Get Blueprint API specification for Answer Headers [GET /research-common/api/v1/answer-headers/]
 	 
 + Parameters
 
@@ -114,7 +114,7 @@
             transfer-encoding:chunked
 
 
-### Update Answer Headers [PUT /research-sys/api/v1/answer-headers/(key)]
+### Update Answer Headers [PUT /research-common/api/v1/answer-headers/(key)]
 
 + Request
 
@@ -129,7 +129,7 @@
 			
 + Response 204
 
-### Update Multiple Answer Headers [PUT /research-sys/api/v1/answer-headers/]
+### Update Multiple Answer Headers [PUT /research-common/api/v1/answer-headers/]
 
 + Request
 
@@ -147,7 +147,7 @@
 			
 + Response 204
 
-### Insert Answer Headers [POST /research-sys/api/v1/answer-headers/]
+### Insert Answer Headers [POST /research-common/api/v1/answer-headers/]
 
 + Request
 
@@ -166,7 +166,7 @@
             
             {"id": "(val)","moduleItemCode": "(val)","moduleItemKey": "(val)","moduleSubItemCode": "(val)","moduleSubItemKey": "(val)","questionnaireId": "(val)","completed": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Answer Headers [POST /research-sys/api/v1/answer-headers/]
+### Insert Multiple Answer Headers [POST /research-common/api/v1/answer-headers/]
 
 + Request
 
@@ -191,7 +191,7 @@
               {"id": "(val)","moduleItemCode": "(val)","moduleItemKey": "(val)","moduleSubItemCode": "(val)","moduleSubItemKey": "(val)","questionnaireId": "(val)","completed": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Answer Headers by Key [DELETE /research-sys/api/v1/answer-headers/(key)]
+### Delete Answer Headers by Key [DELETE /research-common/api/v1/answer-headers/(key)]
 	 
 + Request
 
@@ -202,7 +202,7 @@
 
 + Response 204
 
-### Delete All Answer Headers [DELETE /research-sys/api/v1/answer-headers/]
+### Delete All Answer Headers [DELETE /research-common/api/v1/answer-headers/]
 
 + Parameters
 
@@ -217,18 +217,18 @@
 
 + Response 204
 
-### Delete All Answer Headers with Matching [DELETE /research-sys/api/v1/answer-headers/]
+### Delete All Answer Headers with Matching [DELETE /research-common/api/v1/answer-headers/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + moduleItemCode
-            + moduleItemKey
-            + moduleSubItemCode
-            + moduleSubItemKey
-            + questionnaireId
-            + completed
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - 
+    + moduleItemCode (optional) - 
+    + moduleItemKey (optional) - 
+    + moduleSubItemCode (optional) - 
+    + moduleSubItemKey (optional) - 
+    + questionnaireId (optional) - 
+    + completed (optional) - 
 
       
 + Request

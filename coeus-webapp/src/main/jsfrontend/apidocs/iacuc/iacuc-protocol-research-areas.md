@@ -1,6 +1,6 @@
-## Iacuc Protocol Research Areas [/research-sys/api/v1/iacuc-protocol-research-areas/]
+## Iacuc Protocol Research Areas [/iacuc/api/v1/iacuc-protocol-research-areas/]
 
-### Get Iacuc Protocol Research Areas by Key [GET /research-sys/api/v1/iacuc-protocol-research-areas/(key)]
+### Get Iacuc Protocol Research Areas by Key [GET /iacuc/api/v1/iacuc-protocol-research-areas/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"id": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","researchAreaCode": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Protocol Research Areas [GET /research-sys/api/v1/iacuc-protocol-research-areas/]
+### Get All Iacuc Protocol Research Areas [GET /iacuc/api/v1/iacuc-protocol-research-areas/]
 	 
 + Request
 
@@ -39,15 +39,15 @@
               {"id": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","researchAreaCode": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Protocol Research Areas with Filtering [GET /research-sys/api/v1/iacuc-protocol-research-areas/]
+### Get All Iacuc Protocol Research Areas with Filtering [GET /iacuc/api/v1/iacuc-protocol-research-areas/]
     
 + Parameters
 
-        + id
-            + protocolId
-            + protocolNumber
-            + sequenceNumber
-            + researchAreaCode
+    + id (optional) - 
+    + protocolId (optional) - 
+    + protocolNumber (optional) - 
+    + sequenceNumber (optional) - 
+    + researchAreaCode (optional) - 
 
             
 + Request
@@ -69,7 +69,7 @@
               {"id": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","researchAreaCode": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Protocol Research Areas [GET /research-sys/api/v1/iacuc-protocol-research-areas/]
+### Get Schema for Iacuc Protocol Research Areas [GET /iacuc/api/v1/iacuc-protocol-research-areas/]
 	                                          
 + Parameters
 
@@ -91,7 +91,7 @@
     
             {"columns":["id","protocolId","protocolNumber","sequenceNumber","researchAreaCode"],"primaryKey":"id"}
 		
-### Get Blueprint API specification for Iacuc Protocol Research Areas [GET /research-sys/api/v1/iacuc-protocol-research-areas/]
+### Get Blueprint API specification for Iacuc Protocol Research Areas [GET /iacuc/api/v1/iacuc-protocol-research-areas/]
 	 
 + Parameters
 
@@ -112,7 +112,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Protocol Research Areas [PUT /research-sys/api/v1/iacuc-protocol-research-areas/(key)]
+### Update Iacuc Protocol Research Areas [PUT /iacuc/api/v1/iacuc-protocol-research-areas/(key)]
 
 + Request
 
@@ -127,7 +127,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Protocol Research Areas [PUT /research-sys/api/v1/iacuc-protocol-research-areas/]
+### Update Multiple Iacuc Protocol Research Areas [PUT /iacuc/api/v1/iacuc-protocol-research-areas/]
 
 + Request
 
@@ -145,7 +145,7 @@
 			
 + Response 204
 
-### Insert Iacuc Protocol Research Areas [POST /research-sys/api/v1/iacuc-protocol-research-areas/]
+### Insert Iacuc Protocol Research Areas [POST /iacuc/api/v1/iacuc-protocol-research-areas/]
 
 + Request
 
@@ -164,7 +164,7 @@
             
             {"id": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","researchAreaCode": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Protocol Research Areas [POST /research-sys/api/v1/iacuc-protocol-research-areas/]
+### Insert Multiple Iacuc Protocol Research Areas [POST /iacuc/api/v1/iacuc-protocol-research-areas/]
 
 + Request
 
@@ -189,7 +189,7 @@
               {"id": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","researchAreaCode": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Protocol Research Areas by Key [DELETE /research-sys/api/v1/iacuc-protocol-research-areas/(key)]
+### Delete Iacuc Protocol Research Areas by Key [DELETE /iacuc/api/v1/iacuc-protocol-research-areas/(key)]
 	 
 + Request
 
@@ -200,7 +200,7 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Research Areas [DELETE /research-sys/api/v1/iacuc-protocol-research-areas/]
+### Delete All Iacuc Protocol Research Areas [DELETE /iacuc/api/v1/iacuc-protocol-research-areas/]
 
 + Parameters
 
@@ -215,16 +215,16 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Research Areas with Matching [DELETE /research-sys/api/v1/iacuc-protocol-research-areas/]
+### Delete All Iacuc Protocol Research Areas with Matching [DELETE /iacuc/api/v1/iacuc-protocol-research-areas/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + protocolId
-            + protocolNumber
-            + sequenceNumber
-            + researchAreaCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - 
+    + protocolId (optional) - 
+    + protocolNumber (optional) - 
+    + sequenceNumber (optional) - 
+    + researchAreaCode (optional) - 
 
       
 + Request

@@ -1,6 +1,6 @@
-## Proposal Intellectual Property Review Joins [/research-sys/api/v1/proposal-intellectual-property-review-joins/]
+## Proposal Intellectual Property Review Joins [/instprop/api/v1/proposal-intellectual-property-review-joins/]
 
-### Get Proposal Intellectual Property Review Joins by Key [GET /research-sys/api/v1/proposal-intellectual-property-review-joins/(key)]
+### Get Proposal Intellectual Property Review Joins by Key [GET /instprop/api/v1/proposal-intellectual-property-review-joins/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"proposalIpReviewJoinId": "(val)","proposalId": "(val)","ipReviewId": "(val)","_primaryKey": "(val)"}
 
-### Get All Proposal Intellectual Property Review Joins [GET /research-sys/api/v1/proposal-intellectual-property-review-joins/]
+### Get All Proposal Intellectual Property Review Joins [GET /instprop/api/v1/proposal-intellectual-property-review-joins/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"proposalIpReviewJoinId": "(val)","proposalId": "(val)","ipReviewId": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Proposal Intellectual Property Review Joins with Filtering [GET /research-sys/api/v1/proposal-intellectual-property-review-joins/]
+### Get All Proposal Intellectual Property Review Joins with Filtering [GET /instprop/api/v1/proposal-intellectual-property-review-joins/]
     
 + Parameters
 
-        + proposalIpReviewJoinId
-            + proposalId
-            + ipReviewId
+    + proposalIpReviewJoinId (optional) - 
+    + proposalId (optional) - 
+    + ipReviewId (optional) - 
 
             
 + Request
@@ -67,7 +67,7 @@
               {"proposalIpReviewJoinId": "(val)","proposalId": "(val)","ipReviewId": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Proposal Intellectual Property Review Joins [GET /research-sys/api/v1/proposal-intellectual-property-review-joins/]
+### Get Schema for Proposal Intellectual Property Review Joins [GET /instprop/api/v1/proposal-intellectual-property-review-joins/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["proposalIpReviewJoinId","proposalId","ipReviewId"],"primaryKey":"proposalIpReviewJoinId"}
 		
-### Get Blueprint API specification for Proposal Intellectual Property Review Joins [GET /research-sys/api/v1/proposal-intellectual-property-review-joins/]
+### Get Blueprint API specification for Proposal Intellectual Property Review Joins [GET /instprop/api/v1/proposal-intellectual-property-review-joins/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Proposal Intellectual Property Review Joins [PUT /research-sys/api/v1/proposal-intellectual-property-review-joins/(key)]
+### Update Proposal Intellectual Property Review Joins [PUT /instprop/api/v1/proposal-intellectual-property-review-joins/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Proposal Intellectual Property Review Joins [PUT /research-sys/api/v1/proposal-intellectual-property-review-joins/]
+### Update Multiple Proposal Intellectual Property Review Joins [PUT /instprop/api/v1/proposal-intellectual-property-review-joins/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Proposal Intellectual Property Review Joins [POST /research-sys/api/v1/proposal-intellectual-property-review-joins/]
+### Insert Proposal Intellectual Property Review Joins [POST /instprop/api/v1/proposal-intellectual-property-review-joins/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"proposalIpReviewJoinId": "(val)","proposalId": "(val)","ipReviewId": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Proposal Intellectual Property Review Joins [POST /research-sys/api/v1/proposal-intellectual-property-review-joins/]
+### Insert Multiple Proposal Intellectual Property Review Joins [POST /instprop/api/v1/proposal-intellectual-property-review-joins/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"proposalIpReviewJoinId": "(val)","proposalId": "(val)","ipReviewId": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Proposal Intellectual Property Review Joins by Key [DELETE /research-sys/api/v1/proposal-intellectual-property-review-joins/(key)]
+### Delete Proposal Intellectual Property Review Joins by Key [DELETE /instprop/api/v1/proposal-intellectual-property-review-joins/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Proposal Intellectual Property Review Joins [DELETE /research-sys/api/v1/proposal-intellectual-property-review-joins/]
+### Delete All Proposal Intellectual Property Review Joins [DELETE /instprop/api/v1/proposal-intellectual-property-review-joins/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Proposal Intellectual Property Review Joins with Matching [DELETE /research-sys/api/v1/proposal-intellectual-property-review-joins/]
+### Delete All Proposal Intellectual Property Review Joins with Matching [DELETE /instprop/api/v1/proposal-intellectual-property-review-joins/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + proposalIpReviewJoinId
-            + proposalId
-            + ipReviewId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + proposalIpReviewJoinId (optional) - 
+    + proposalId (optional) - 
+    + ipReviewId (optional) - 
 
       
 + Request

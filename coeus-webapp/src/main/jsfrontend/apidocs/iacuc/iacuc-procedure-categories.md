@@ -1,6 +1,6 @@
-## Iacuc Procedure Categories [/research-sys/api/v1/iacuc-procedure-categories/]
+## Iacuc Procedure Categories [/iacuc/api/v1/iacuc-procedure-categories/]
 
-### Get Iacuc Procedure Categories by Key [GET /research-sys/api/v1/iacuc-procedure-categories/(key)]
+### Get Iacuc Procedure Categories by Key [GET /iacuc/api/v1/iacuc-procedure-categories/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"procedureCategoryCode": "(val)","procedureCategory": "(val)","active": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Procedure Categories [GET /research-sys/api/v1/iacuc-procedure-categories/]
+### Get All Iacuc Procedure Categories [GET /iacuc/api/v1/iacuc-procedure-categories/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"procedureCategoryCode": "(val)","procedureCategory": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Procedure Categories with Filtering [GET /research-sys/api/v1/iacuc-procedure-categories/]
+### Get All Iacuc Procedure Categories with Filtering [GET /iacuc/api/v1/iacuc-procedure-categories/]
     
 + Parameters
 
-        + procedureCategoryCode
-            + procedureCategory
-            + active
+    + procedureCategoryCode (optional) - Procedure Category Code. Maximum length is 3.
+    + procedureCategory (optional) - Procedure Category. Maximum length is 200.
+    + active (optional) - Active. Maximum length is 1.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"procedureCategoryCode": "(val)","procedureCategory": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Procedure Categories [GET /research-sys/api/v1/iacuc-procedure-categories/]
+### Get Schema for Iacuc Procedure Categories [GET /iacuc/api/v1/iacuc-procedure-categories/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["procedureCategoryCode","procedureCategory","active"],"primaryKey":"procedureCategoryCode"}
 		
-### Get Blueprint API specification for Iacuc Procedure Categories [GET /research-sys/api/v1/iacuc-procedure-categories/]
+### Get Blueprint API specification for Iacuc Procedure Categories [GET /iacuc/api/v1/iacuc-procedure-categories/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Procedure Categories [PUT /research-sys/api/v1/iacuc-procedure-categories/(key)]
+### Update Iacuc Procedure Categories [PUT /iacuc/api/v1/iacuc-procedure-categories/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Procedure Categories [PUT /research-sys/api/v1/iacuc-procedure-categories/]
+### Update Multiple Iacuc Procedure Categories [PUT /iacuc/api/v1/iacuc-procedure-categories/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Iacuc Procedure Categories [POST /research-sys/api/v1/iacuc-procedure-categories/]
+### Insert Iacuc Procedure Categories [POST /iacuc/api/v1/iacuc-procedure-categories/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"procedureCategoryCode": "(val)","procedureCategory": "(val)","active": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Procedure Categories [POST /research-sys/api/v1/iacuc-procedure-categories/]
+### Insert Multiple Iacuc Procedure Categories [POST /iacuc/api/v1/iacuc-procedure-categories/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"procedureCategoryCode": "(val)","procedureCategory": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Procedure Categories by Key [DELETE /research-sys/api/v1/iacuc-procedure-categories/(key)]
+### Delete Iacuc Procedure Categories by Key [DELETE /iacuc/api/v1/iacuc-procedure-categories/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Iacuc Procedure Categories [DELETE /research-sys/api/v1/iacuc-procedure-categories/]
+### Delete All Iacuc Procedure Categories [DELETE /iacuc/api/v1/iacuc-procedure-categories/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Iacuc Procedure Categories with Matching [DELETE /research-sys/api/v1/iacuc-procedure-categories/]
+### Delete All Iacuc Procedure Categories with Matching [DELETE /iacuc/api/v1/iacuc-procedure-categories/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + procedureCategoryCode
-            + procedureCategory
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + procedureCategoryCode (optional) - Procedure Category Code. Maximum length is 3.
+    + procedureCategory (optional) - Procedure Category. Maximum length is 200.
+    + active (optional) - Active. Maximum length is 1.
 
       
 + Request

@@ -1,6 +1,6 @@
-## Unit Administrators [/research-sys/api/v1/unit-administrators/]
+## Unit Administrators [/research-common/api/v1/unit-administrators/]
 
-### Get Unit Administrators by Key [GET /research-sys/api/v1/unit-administrators/(key)]
+### Get Unit Administrators by Key [GET /research-common/api/v1/unit-administrators/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"personId": "(val)","unitAdministratorTypeCode": "(val)","unitNumber": "(val)","_primaryKey": "(val)"}
 
-### Get All Unit Administrators [GET /research-sys/api/v1/unit-administrators/]
+### Get All Unit Administrators [GET /research-common/api/v1/unit-administrators/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"personId": "(val)","unitAdministratorTypeCode": "(val)","unitNumber": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Unit Administrators with Filtering [GET /research-sys/api/v1/unit-administrators/]
+### Get All Unit Administrators with Filtering [GET /research-common/api/v1/unit-administrators/]
     
 + Parameters
 
-        + personId
-            + unitAdministratorTypeCode
-            + unitNumber
+    + personId (optional) - KC Person. Maximum length is 40.
+    + unitAdministratorTypeCode (optional) - Unit Administrator Type Code. Maximum length is 3.
+    + unitNumber (optional) - Unit Number. Maximum length is 8.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"personId": "(val)","unitAdministratorTypeCode": "(val)","unitNumber": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Unit Administrators [GET /research-sys/api/v1/unit-administrators/]
+### Get Schema for Unit Administrators [GET /research-common/api/v1/unit-administrators/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["personId","unitAdministratorTypeCode","unitNumber"],"primaryKey":"personId:unitAdministratorTypeCode:unitNumber"}
 		
-### Get Blueprint API specification for Unit Administrators [GET /research-sys/api/v1/unit-administrators/]
+### Get Blueprint API specification for Unit Administrators [GET /research-common/api/v1/unit-administrators/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Unit Administrators [PUT /research-sys/api/v1/unit-administrators/(key)]
+### Update Unit Administrators [PUT /research-common/api/v1/unit-administrators/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Unit Administrators [PUT /research-sys/api/v1/unit-administrators/]
+### Update Multiple Unit Administrators [PUT /research-common/api/v1/unit-administrators/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Unit Administrators [POST /research-sys/api/v1/unit-administrators/]
+### Insert Unit Administrators [POST /research-common/api/v1/unit-administrators/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"personId": "(val)","unitAdministratorTypeCode": "(val)","unitNumber": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Unit Administrators [POST /research-sys/api/v1/unit-administrators/]
+### Insert Multiple Unit Administrators [POST /research-common/api/v1/unit-administrators/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"personId": "(val)","unitAdministratorTypeCode": "(val)","unitNumber": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Unit Administrators by Key [DELETE /research-sys/api/v1/unit-administrators/(key)]
+### Delete Unit Administrators by Key [DELETE /research-common/api/v1/unit-administrators/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Unit Administrators [DELETE /research-sys/api/v1/unit-administrators/]
+### Delete All Unit Administrators [DELETE /research-common/api/v1/unit-administrators/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Unit Administrators with Matching [DELETE /research-sys/api/v1/unit-administrators/]
+### Delete All Unit Administrators with Matching [DELETE /research-common/api/v1/unit-administrators/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + personId
-            + unitAdministratorTypeCode
-            + unitNumber
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + personId (optional) - KC Person. Maximum length is 40.
+    + unitAdministratorTypeCode (optional) - Unit Administrator Type Code. Maximum length is 3.
+    + unitNumber (optional) - Unit Number. Maximum length is 8.
 
       
 + Request

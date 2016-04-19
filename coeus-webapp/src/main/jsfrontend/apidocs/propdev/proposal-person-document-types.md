@@ -1,6 +1,6 @@
-## Proposal Person Document Types [/research-sys/api/v1/proposal-person-document-types/]
+## Proposal Person Document Types [/propdev/api/v1/proposal-person-document-types/]
 
-### Get Proposal Person Document Types by Key [GET /research-sys/api/v1/proposal-person-document-types/(key)]
+### Get Proposal Person Document Types by Key [GET /propdev/api/v1/proposal-person-document-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Proposal Person Document Types [GET /research-sys/api/v1/proposal-person-document-types/]
+### Get All Proposal Person Document Types [GET /propdev/api/v1/proposal-person-document-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Proposal Person Document Types with Filtering [GET /research-sys/api/v1/proposal-person-document-types/]
+### Get All Proposal Person Document Types with Filtering [GET /propdev/api/v1/proposal-person-document-types/]
     
 + Parameters
 
-        + code
-            + description
+    + code (optional) - Person Document Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Proposal Person Document Types [GET /research-sys/api/v1/proposal-person-document-types/]
+### Get Schema for Proposal Person Document Types [GET /propdev/api/v1/proposal-person-document-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["code","description"],"primaryKey":"code"}
 		
-### Get Blueprint API specification for Proposal Person Document Types [GET /research-sys/api/v1/proposal-person-document-types/]
+### Get Blueprint API specification for Proposal Person Document Types [GET /propdev/api/v1/proposal-person-document-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Proposal Person Document Types [PUT /research-sys/api/v1/proposal-person-document-types/(key)]
+### Update Proposal Person Document Types [PUT /propdev/api/v1/proposal-person-document-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Proposal Person Document Types [PUT /research-sys/api/v1/proposal-person-document-types/]
+### Update Multiple Proposal Person Document Types [PUT /propdev/api/v1/proposal-person-document-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Proposal Person Document Types [POST /research-sys/api/v1/proposal-person-document-types/]
+### Insert Proposal Person Document Types [POST /propdev/api/v1/proposal-person-document-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Proposal Person Document Types [POST /research-sys/api/v1/proposal-person-document-types/]
+### Insert Multiple Proposal Person Document Types [POST /propdev/api/v1/proposal-person-document-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Proposal Person Document Types by Key [DELETE /research-sys/api/v1/proposal-person-document-types/(key)]
+### Delete Proposal Person Document Types by Key [DELETE /propdev/api/v1/proposal-person-document-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Proposal Person Document Types [DELETE /research-sys/api/v1/proposal-person-document-types/]
+### Delete All Proposal Person Document Types [DELETE /propdev/api/v1/proposal-person-document-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Proposal Person Document Types with Matching [DELETE /research-sys/api/v1/proposal-person-document-types/]
+### Delete All Proposal Person Document Types with Matching [DELETE /propdev/api/v1/proposal-person-document-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + code
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + code (optional) - Person Document Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

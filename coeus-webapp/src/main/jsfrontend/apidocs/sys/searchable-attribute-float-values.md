@@ -43,10 +43,10 @@
     
 + Parameters
 
-        + searchableAttributeValue
-            + documentId
-            + searchableAttributeValueId
-            + searchableAttributeKey
+    + searchableAttributeValue (optional) - 
+    + documentId (optional) - 
+    + searchableAttributeValueId (optional) - 
+    + searchableAttributeKey (optional) - 
 
             
 + Request
@@ -218,11 +218,11 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + searchableAttributeValue
-            + documentId
-            + searchableAttributeValueId
-            + searchableAttributeKey
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + searchableAttributeValue (optional) - 
+    + documentId (optional) - 
+    + searchableAttributeValueId (optional) - 
+    + searchableAttributeKey (optional) - 
 
       
 + Request

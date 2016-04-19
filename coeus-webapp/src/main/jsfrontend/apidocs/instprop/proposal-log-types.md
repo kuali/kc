@@ -1,6 +1,6 @@
-## Proposal Log Types [/research-sys/api/v1/proposal-log-types/]
+## Proposal Log Types [/instprop/api/v1/proposal-log-types/]
 
-### Get Proposal Log Types by Key [GET /research-sys/api/v1/proposal-log-types/(key)]
+### Get Proposal Log Types by Key [GET /instprop/api/v1/proposal-log-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"proposalLogTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Proposal Log Types [GET /research-sys/api/v1/proposal-log-types/]
+### Get All Proposal Log Types [GET /instprop/api/v1/proposal-log-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"proposalLogTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Proposal Log Types with Filtering [GET /research-sys/api/v1/proposal-log-types/]
+### Get All Proposal Log Types with Filtering [GET /instprop/api/v1/proposal-log-types/]
     
 + Parameters
 
-        + proposalLogTypeCode
-            + description
+    + proposalLogTypeCode (optional) - Proposal Log Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"proposalLogTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Proposal Log Types [GET /research-sys/api/v1/proposal-log-types/]
+### Get Schema for Proposal Log Types [GET /instprop/api/v1/proposal-log-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["proposalLogTypeCode","description"],"primaryKey":"proposalLogTypeCode"}
 		
-### Get Blueprint API specification for Proposal Log Types [GET /research-sys/api/v1/proposal-log-types/]
+### Get Blueprint API specification for Proposal Log Types [GET /instprop/api/v1/proposal-log-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Proposal Log Types [PUT /research-sys/api/v1/proposal-log-types/(key)]
+### Update Proposal Log Types [PUT /instprop/api/v1/proposal-log-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Proposal Log Types [PUT /research-sys/api/v1/proposal-log-types/]
+### Update Multiple Proposal Log Types [PUT /instprop/api/v1/proposal-log-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Proposal Log Types [POST /research-sys/api/v1/proposal-log-types/]
+### Insert Proposal Log Types [POST /instprop/api/v1/proposal-log-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"proposalLogTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Proposal Log Types [POST /research-sys/api/v1/proposal-log-types/]
+### Insert Multiple Proposal Log Types [POST /instprop/api/v1/proposal-log-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"proposalLogTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Proposal Log Types by Key [DELETE /research-sys/api/v1/proposal-log-types/(key)]
+### Delete Proposal Log Types by Key [DELETE /instprop/api/v1/proposal-log-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Proposal Log Types [DELETE /research-sys/api/v1/proposal-log-types/]
+### Delete All Proposal Log Types [DELETE /instprop/api/v1/proposal-log-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Proposal Log Types with Matching [DELETE /research-sys/api/v1/proposal-log-types/]
+### Delete All Proposal Log Types with Matching [DELETE /instprop/api/v1/proposal-log-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + proposalLogTypeCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + proposalLogTypeCode (optional) - Proposal Log Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

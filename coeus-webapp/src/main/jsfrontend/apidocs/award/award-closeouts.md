@@ -1,6 +1,6 @@
-## Award Closeouts [/research-sys/api/v1/award-closeouts/]
+## Award Closeouts [/award/api/v1/award-closeouts/]
 
-### Get Award Closeouts by Key [GET /research-sys/api/v1/award-closeouts/(key)]
+### Get Award Closeouts by Key [GET /award/api/v1/award-closeouts/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"awardCloseoutId": "(val)","awardId": "(val)","closeoutReportCode": "(val)","closeoutReportName": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","finalSubmissionDate": "(val)","dueDate": "(val)","multiple": "(val)","_primaryKey": "(val)"}
 
-### Get All Award Closeouts [GET /research-sys/api/v1/award-closeouts/]
+### Get All Award Closeouts [GET /award/api/v1/award-closeouts/]
 	 
 + Request
 
@@ -39,19 +39,19 @@
               {"awardCloseoutId": "(val)","awardId": "(val)","closeoutReportCode": "(val)","closeoutReportName": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","finalSubmissionDate": "(val)","dueDate": "(val)","multiple": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Award Closeouts with Filtering [GET /research-sys/api/v1/award-closeouts/]
+### Get All Award Closeouts with Filtering [GET /award/api/v1/award-closeouts/]
     
 + Parameters
 
-        + awardCloseoutId
-            + awardId
-            + closeoutReportCode
-            + closeoutReportName
-            + awardNumber
-            + sequenceNumber
-            + finalSubmissionDate
-            + dueDate
-            + multiple
+    + awardCloseoutId (optional) - Award Closeout Id. Maximum length is 22.
+    + awardId (optional) - 
+    + closeoutReportCode (optional) - Closeout Report Code. Maximum length is 22.
+    + closeoutReportName (optional) - Final Report. Maximum length is 100.
+    + awardNumber (optional) - Award ID. Maximum length is 12.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 4.
+    + finalSubmissionDate (optional) - Final Submission Date. Maximum length is 10.
+    + dueDate (optional) - Due Date. Maximum length is 10.
+    + multiple (optional) - 
 
             
 + Request
@@ -73,7 +73,7 @@
               {"awardCloseoutId": "(val)","awardId": "(val)","closeoutReportCode": "(val)","closeoutReportName": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","finalSubmissionDate": "(val)","dueDate": "(val)","multiple": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Award Closeouts [GET /research-sys/api/v1/award-closeouts/]
+### Get Schema for Award Closeouts [GET /award/api/v1/award-closeouts/]
 	                                          
 + Parameters
 
@@ -95,7 +95,7 @@
     
             {"columns":["awardCloseoutId","awardId","closeoutReportCode","closeoutReportName","awardNumber","sequenceNumber","finalSubmissionDate","dueDate","multiple"],"primaryKey":"awardCloseoutId"}
 		
-### Get Blueprint API specification for Award Closeouts [GET /research-sys/api/v1/award-closeouts/]
+### Get Blueprint API specification for Award Closeouts [GET /award/api/v1/award-closeouts/]
 	 
 + Parameters
 
@@ -116,7 +116,7 @@
             transfer-encoding:chunked
 
 
-### Update Award Closeouts [PUT /research-sys/api/v1/award-closeouts/(key)]
+### Update Award Closeouts [PUT /award/api/v1/award-closeouts/(key)]
 
 + Request
 
@@ -131,7 +131,7 @@
 			
 + Response 204
 
-### Update Multiple Award Closeouts [PUT /research-sys/api/v1/award-closeouts/]
+### Update Multiple Award Closeouts [PUT /award/api/v1/award-closeouts/]
 
 + Request
 
@@ -149,7 +149,7 @@
 			
 + Response 204
 
-### Insert Award Closeouts [POST /research-sys/api/v1/award-closeouts/]
+### Insert Award Closeouts [POST /award/api/v1/award-closeouts/]
 
 + Request
 
@@ -168,7 +168,7 @@
             
             {"awardCloseoutId": "(val)","awardId": "(val)","closeoutReportCode": "(val)","closeoutReportName": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","finalSubmissionDate": "(val)","dueDate": "(val)","multiple": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Award Closeouts [POST /research-sys/api/v1/award-closeouts/]
+### Insert Multiple Award Closeouts [POST /award/api/v1/award-closeouts/]
 
 + Request
 
@@ -193,7 +193,7 @@
               {"awardCloseoutId": "(val)","awardId": "(val)","closeoutReportCode": "(val)","closeoutReportName": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","finalSubmissionDate": "(val)","dueDate": "(val)","multiple": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Award Closeouts by Key [DELETE /research-sys/api/v1/award-closeouts/(key)]
+### Delete Award Closeouts by Key [DELETE /award/api/v1/award-closeouts/(key)]
 	 
 + Request
 
@@ -204,7 +204,7 @@
 
 + Response 204
 
-### Delete All Award Closeouts [DELETE /research-sys/api/v1/award-closeouts/]
+### Delete All Award Closeouts [DELETE /award/api/v1/award-closeouts/]
 
 + Parameters
 
@@ -219,20 +219,20 @@
 
 + Response 204
 
-### Delete All Award Closeouts with Matching [DELETE /research-sys/api/v1/award-closeouts/]
+### Delete All Award Closeouts with Matching [DELETE /award/api/v1/award-closeouts/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + awardCloseoutId
-            + awardId
-            + closeoutReportCode
-            + closeoutReportName
-            + awardNumber
-            + sequenceNumber
-            + finalSubmissionDate
-            + dueDate
-            + multiple
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + awardCloseoutId (optional) - Award Closeout Id. Maximum length is 22.
+    + awardId (optional) - 
+    + closeoutReportCode (optional) - Closeout Report Code. Maximum length is 22.
+    + closeoutReportName (optional) - Final Report. Maximum length is 100.
+    + awardNumber (optional) - Award ID. Maximum length is 12.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 4.
+    + finalSubmissionDate (optional) - Final Submission Date. Maximum length is 10.
+    + dueDate (optional) - Due Date. Maximum length is 10.
+    + multiple (optional) - 
 
       
 + Request

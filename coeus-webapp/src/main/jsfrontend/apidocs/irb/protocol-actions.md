@@ -1,6 +1,6 @@
-## Protocol Actions [/research-sys/api/v1/protocol-actions/]
+## Protocol Actions [/irb/api/v1/protocol-actions/]
 
-### Get Protocol Actions by Key [GET /research-sys/api/v1/protocol-actions/(key)]
+### Get Protocol Actions by Key [GET /irb/api/v1/protocol-actions/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"protocolActionId": "(val)","actionId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","submissionNumber": "(val)","submissionIdFk": "(val)","protocolActionTypeCode": "(val)","comments": "(val)","prevSubmissionStatusCode": "(val)","submissionTypeCode": "(val)","prevProtocolStatusCode": "(val)","createTimestamp": "(val)","createUser": "(val)","actionDate": "(val)","actualActionDate": "(val)","followupActionCode": "(val)","_primaryKey": "(val)"}
 
-### Get All Protocol Actions [GET /research-sys/api/v1/protocol-actions/]
+### Get All Protocol Actions [GET /irb/api/v1/protocol-actions/]
 	 
 + Request
 
@@ -39,27 +39,27 @@
               {"protocolActionId": "(val)","actionId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","submissionNumber": "(val)","submissionIdFk": "(val)","protocolActionTypeCode": "(val)","comments": "(val)","prevSubmissionStatusCode": "(val)","submissionTypeCode": "(val)","prevProtocolStatusCode": "(val)","createTimestamp": "(val)","createUser": "(val)","actionDate": "(val)","actualActionDate": "(val)","followupActionCode": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Protocol Actions with Filtering [GET /research-sys/api/v1/protocol-actions/]
+### Get All Protocol Actions with Filtering [GET /irb/api/v1/protocol-actions/]
     
 + Parameters
 
-        + protocolActionId
-            + actionId
-            + protocolId
-            + protocolNumber
-            + sequenceNumber
-            + submissionNumber
-            + submissionIdFk
-            + protocolActionTypeCode
-            + comments
-            + prevSubmissionStatusCode
-            + submissionTypeCode
-            + prevProtocolStatusCode
-            + createTimestamp
-            + createUser
-            + actionDate
-            + actualActionDate
-            + followupActionCode
+    + protocolActionId (optional) - 
+    + actionId (optional) - Action Id. Maximum length is 22.
+    + protocolId (optional) - 
+    + protocolNumber (optional) - Protocol Number. Maximum length is 20.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 22.
+    + submissionNumber (optional) - 
+    + submissionIdFk (optional) - 
+    + protocolActionTypeCode (optional) - 
+    + comments (optional) - Comments. Maximum length is 2000.
+    + prevSubmissionStatusCode (optional) - 
+    + submissionTypeCode (optional) - 
+    + prevProtocolStatusCode (optional) - 
+    + createTimestamp (optional) - Create Timestamp. Maximum length is 10.
+    + createUser (optional) - Create User. Maximum length is 60.
+    + actionDate (optional) - Action Date. Maximum length is 10.
+    + actualActionDate (optional) - 
+    + followupActionCode (optional) - 
 
             
 + Request
@@ -81,7 +81,7 @@
               {"protocolActionId": "(val)","actionId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","submissionNumber": "(val)","submissionIdFk": "(val)","protocolActionTypeCode": "(val)","comments": "(val)","prevSubmissionStatusCode": "(val)","submissionTypeCode": "(val)","prevProtocolStatusCode": "(val)","createTimestamp": "(val)","createUser": "(val)","actionDate": "(val)","actualActionDate": "(val)","followupActionCode": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Protocol Actions [GET /research-sys/api/v1/protocol-actions/]
+### Get Schema for Protocol Actions [GET /irb/api/v1/protocol-actions/]
 	                                          
 + Parameters
 
@@ -103,7 +103,7 @@
     
             {"columns":["protocolActionId","actionId","protocolId","protocolNumber","sequenceNumber","submissionNumber","submissionIdFk","protocolActionTypeCode","comments","prevSubmissionStatusCode","submissionTypeCode","prevProtocolStatusCode","createTimestamp","createUser","actionDate","actualActionDate","followupActionCode"],"primaryKey":"protocolActionId"}
 		
-### Get Blueprint API specification for Protocol Actions [GET /research-sys/api/v1/protocol-actions/]
+### Get Blueprint API specification for Protocol Actions [GET /irb/api/v1/protocol-actions/]
 	 
 + Parameters
 
@@ -124,7 +124,7 @@
             transfer-encoding:chunked
 
 
-### Update Protocol Actions [PUT /research-sys/api/v1/protocol-actions/(key)]
+### Update Protocol Actions [PUT /irb/api/v1/protocol-actions/(key)]
 
 + Request
 
@@ -139,7 +139,7 @@
 			
 + Response 204
 
-### Update Multiple Protocol Actions [PUT /research-sys/api/v1/protocol-actions/]
+### Update Multiple Protocol Actions [PUT /irb/api/v1/protocol-actions/]
 
 + Request
 
@@ -157,7 +157,7 @@
 			
 + Response 204
 
-### Insert Protocol Actions [POST /research-sys/api/v1/protocol-actions/]
+### Insert Protocol Actions [POST /irb/api/v1/protocol-actions/]
 
 + Request
 
@@ -176,7 +176,7 @@
             
             {"protocolActionId": "(val)","actionId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","submissionNumber": "(val)","submissionIdFk": "(val)","protocolActionTypeCode": "(val)","comments": "(val)","prevSubmissionStatusCode": "(val)","submissionTypeCode": "(val)","prevProtocolStatusCode": "(val)","createTimestamp": "(val)","createUser": "(val)","actionDate": "(val)","actualActionDate": "(val)","followupActionCode": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Protocol Actions [POST /research-sys/api/v1/protocol-actions/]
+### Insert Multiple Protocol Actions [POST /irb/api/v1/protocol-actions/]
 
 + Request
 
@@ -201,7 +201,7 @@
               {"protocolActionId": "(val)","actionId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","submissionNumber": "(val)","submissionIdFk": "(val)","protocolActionTypeCode": "(val)","comments": "(val)","prevSubmissionStatusCode": "(val)","submissionTypeCode": "(val)","prevProtocolStatusCode": "(val)","createTimestamp": "(val)","createUser": "(val)","actionDate": "(val)","actualActionDate": "(val)","followupActionCode": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Protocol Actions by Key [DELETE /research-sys/api/v1/protocol-actions/(key)]
+### Delete Protocol Actions by Key [DELETE /irb/api/v1/protocol-actions/(key)]
 	 
 + Request
 
@@ -212,7 +212,7 @@
 
 + Response 204
 
-### Delete All Protocol Actions [DELETE /research-sys/api/v1/protocol-actions/]
+### Delete All Protocol Actions [DELETE /irb/api/v1/protocol-actions/]
 
 + Parameters
 
@@ -227,28 +227,28 @@
 
 + Response 204
 
-### Delete All Protocol Actions with Matching [DELETE /research-sys/api/v1/protocol-actions/]
+### Delete All Protocol Actions with Matching [DELETE /irb/api/v1/protocol-actions/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + protocolActionId
-            + actionId
-            + protocolId
-            + protocolNumber
-            + sequenceNumber
-            + submissionNumber
-            + submissionIdFk
-            + protocolActionTypeCode
-            + comments
-            + prevSubmissionStatusCode
-            + submissionTypeCode
-            + prevProtocolStatusCode
-            + createTimestamp
-            + createUser
-            + actionDate
-            + actualActionDate
-            + followupActionCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + protocolActionId (optional) - 
+    + actionId (optional) - Action Id. Maximum length is 22.
+    + protocolId (optional) - 
+    + protocolNumber (optional) - Protocol Number. Maximum length is 20.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 22.
+    + submissionNumber (optional) - 
+    + submissionIdFk (optional) - 
+    + protocolActionTypeCode (optional) - 
+    + comments (optional) - Comments. Maximum length is 2000.
+    + prevSubmissionStatusCode (optional) - 
+    + submissionTypeCode (optional) - 
+    + prevProtocolStatusCode (optional) - 
+    + createTimestamp (optional) - Create Timestamp. Maximum length is 10.
+    + createUser (optional) - Create User. Maximum length is 60.
+    + actionDate (optional) - Action Date. Maximum length is 10.
+    + actualActionDate (optional) - 
+    + followupActionCode (optional) - 
 
       
 + Request

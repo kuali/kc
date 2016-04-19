@@ -1,6 +1,6 @@
-## Iacuc Protocol Modules [/research-sys/api/v1/iacuc-protocol-modules/]
+## Iacuc Protocol Modules [/iacuc/api/v1/iacuc-protocol-modules/]
 
-### Get Iacuc Protocol Modules by Key [GET /research-sys/api/v1/iacuc-protocol-modules/(key)]
+### Get Iacuc Protocol Modules by Key [GET /iacuc/api/v1/iacuc-protocol-modules/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"protocolModuleCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Protocol Modules [GET /research-sys/api/v1/iacuc-protocol-modules/]
+### Get All Iacuc Protocol Modules [GET /iacuc/api/v1/iacuc-protocol-modules/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"protocolModuleCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Protocol Modules with Filtering [GET /research-sys/api/v1/iacuc-protocol-modules/]
+### Get All Iacuc Protocol Modules with Filtering [GET /iacuc/api/v1/iacuc-protocol-modules/]
     
 + Parameters
 
-        + protocolModuleCode
-            + description
+    + protocolModuleCode (optional) - 
+    + description (optional) - 
 
             
 + Request
@@ -66,7 +66,7 @@
               {"protocolModuleCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Protocol Modules [GET /research-sys/api/v1/iacuc-protocol-modules/]
+### Get Schema for Iacuc Protocol Modules [GET /iacuc/api/v1/iacuc-protocol-modules/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["protocolModuleCode","description"],"primaryKey":"protocolModuleCode"}
 		
-### Get Blueprint API specification for Iacuc Protocol Modules [GET /research-sys/api/v1/iacuc-protocol-modules/]
+### Get Blueprint API specification for Iacuc Protocol Modules [GET /iacuc/api/v1/iacuc-protocol-modules/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Protocol Modules [PUT /research-sys/api/v1/iacuc-protocol-modules/(key)]
+### Update Iacuc Protocol Modules [PUT /iacuc/api/v1/iacuc-protocol-modules/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Protocol Modules [PUT /research-sys/api/v1/iacuc-protocol-modules/]
+### Update Multiple Iacuc Protocol Modules [PUT /iacuc/api/v1/iacuc-protocol-modules/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Iacuc Protocol Modules [POST /research-sys/api/v1/iacuc-protocol-modules/]
+### Insert Iacuc Protocol Modules [POST /iacuc/api/v1/iacuc-protocol-modules/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"protocolModuleCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Protocol Modules [POST /research-sys/api/v1/iacuc-protocol-modules/]
+### Insert Multiple Iacuc Protocol Modules [POST /iacuc/api/v1/iacuc-protocol-modules/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"protocolModuleCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Protocol Modules by Key [DELETE /research-sys/api/v1/iacuc-protocol-modules/(key)]
+### Delete Iacuc Protocol Modules by Key [DELETE /iacuc/api/v1/iacuc-protocol-modules/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Modules [DELETE /research-sys/api/v1/iacuc-protocol-modules/]
+### Delete All Iacuc Protocol Modules [DELETE /iacuc/api/v1/iacuc-protocol-modules/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Modules with Matching [DELETE /research-sys/api/v1/iacuc-protocol-modules/]
+### Delete All Iacuc Protocol Modules with Matching [DELETE /iacuc/api/v1/iacuc-protocol-modules/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + protocolModuleCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + protocolModuleCode (optional) - 
+    + description (optional) - 
 
       
 + Request

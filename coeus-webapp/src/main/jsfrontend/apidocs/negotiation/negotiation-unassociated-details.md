@@ -1,6 +1,6 @@
-## Negotiation Unassociated Details [/research-sys/api/v1/negotiation-unassociated-details/]
+## Negotiation Unassociated Details [/negotiation/api/v1/negotiation-unassociated-details/]
 
-### Get Negotiation Unassociated Details by Key [GET /research-sys/api/v1/negotiation-unassociated-details/(key)]
+### Get Negotiation Unassociated Details by Key [GET /negotiation/api/v1/negotiation-unassociated-details/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"negotiationUnassociatedDetailId": "(val)","negotiationId": "(val)","title": "(val)","piPersonId": "(val)","piRolodexId": "(val)","leadUnitNumber": "(val)","sponsorCode": "(val)","piName": "(val)","primeSponsorCode": "(val)","sponsorAwardNumber": "(val)","contactAdminPersonId": "(val)","subAwardOrganizationId": "(val)","_primaryKey": "(val)"}
 
-### Get All Negotiation Unassociated Details [GET /research-sys/api/v1/negotiation-unassociated-details/]
+### Get All Negotiation Unassociated Details [GET /negotiation/api/v1/negotiation-unassociated-details/]
 	 
 + Request
 
@@ -39,22 +39,22 @@
               {"negotiationUnassociatedDetailId": "(val)","negotiationId": "(val)","title": "(val)","piPersonId": "(val)","piRolodexId": "(val)","leadUnitNumber": "(val)","sponsorCode": "(val)","piName": "(val)","primeSponsorCode": "(val)","sponsorAwardNumber": "(val)","contactAdminPersonId": "(val)","subAwardOrganizationId": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Negotiation Unassociated Details with Filtering [GET /research-sys/api/v1/negotiation-unassociated-details/]
+### Get All Negotiation Unassociated Details with Filtering [GET /negotiation/api/v1/negotiation-unassociated-details/]
     
 + Parameters
 
-        + negotiationUnassociatedDetailId
-            + negotiationId
-            + title
-            + piPersonId
-            + piRolodexId
-            + leadUnitNumber
-            + sponsorCode
-            + piName
-            + primeSponsorCode
-            + sponsorAwardNumber
-            + contactAdminPersonId
-            + subAwardOrganizationId
+    + negotiationUnassociatedDetailId (optional) - negotiationUnassociatedDetailId. Maximum length is 22.
+    + negotiationId (optional) - Negotiation ID. Maximum length is 22.
+    + title (optional) - Title. Maximum length is 45.
+    + piPersonId (optional) - Principal Investigator Employee. Maximum length is 40.
+    + piRolodexId (optional) - Principal Investigator Non-Employee. Maximum length is 6.
+    + leadUnitNumber (optional) - Lead Unit. Maximum length is 8.
+    + sponsorCode (optional) - Sponsor. Maximum length is 6.
+    + piName (optional) - Principal Investigator Name. Maximum length is 90.
+    + primeSponsorCode (optional) - Prime Sponsor. Maximum length is 6.
+    + sponsorAwardNumber (optional) - Sponsor Award ID. Maximum length is 70.
+    + contactAdminPersonId (optional) - Admin Person. Maximum length is 40.
+    + subAwardOrganizationId (optional) - Subaward Organization. Maximum length is 8.
 
             
 + Request
@@ -76,7 +76,7 @@
               {"negotiationUnassociatedDetailId": "(val)","negotiationId": "(val)","title": "(val)","piPersonId": "(val)","piRolodexId": "(val)","leadUnitNumber": "(val)","sponsorCode": "(val)","piName": "(val)","primeSponsorCode": "(val)","sponsorAwardNumber": "(val)","contactAdminPersonId": "(val)","subAwardOrganizationId": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Negotiation Unassociated Details [GET /research-sys/api/v1/negotiation-unassociated-details/]
+### Get Schema for Negotiation Unassociated Details [GET /negotiation/api/v1/negotiation-unassociated-details/]
 	                                          
 + Parameters
 
@@ -98,7 +98,7 @@
     
             {"columns":["negotiationUnassociatedDetailId","negotiationId","title","piPersonId","piRolodexId","leadUnitNumber","sponsorCode","piName","primeSponsorCode","sponsorAwardNumber","contactAdminPersonId","subAwardOrganizationId"],"primaryKey":"negotiationUnassociatedDetailId"}
 		
-### Get Blueprint API specification for Negotiation Unassociated Details [GET /research-sys/api/v1/negotiation-unassociated-details/]
+### Get Blueprint API specification for Negotiation Unassociated Details [GET /negotiation/api/v1/negotiation-unassociated-details/]
 	 
 + Parameters
 
@@ -119,7 +119,7 @@
             transfer-encoding:chunked
 
 
-### Update Negotiation Unassociated Details [PUT /research-sys/api/v1/negotiation-unassociated-details/(key)]
+### Update Negotiation Unassociated Details [PUT /negotiation/api/v1/negotiation-unassociated-details/(key)]
 
 + Request
 
@@ -134,7 +134,7 @@
 			
 + Response 204
 
-### Update Multiple Negotiation Unassociated Details [PUT /research-sys/api/v1/negotiation-unassociated-details/]
+### Update Multiple Negotiation Unassociated Details [PUT /negotiation/api/v1/negotiation-unassociated-details/]
 
 + Request
 
@@ -152,7 +152,7 @@
 			
 + Response 204
 
-### Insert Negotiation Unassociated Details [POST /research-sys/api/v1/negotiation-unassociated-details/]
+### Insert Negotiation Unassociated Details [POST /negotiation/api/v1/negotiation-unassociated-details/]
 
 + Request
 
@@ -171,7 +171,7 @@
             
             {"negotiationUnassociatedDetailId": "(val)","negotiationId": "(val)","title": "(val)","piPersonId": "(val)","piRolodexId": "(val)","leadUnitNumber": "(val)","sponsorCode": "(val)","piName": "(val)","primeSponsorCode": "(val)","sponsorAwardNumber": "(val)","contactAdminPersonId": "(val)","subAwardOrganizationId": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Negotiation Unassociated Details [POST /research-sys/api/v1/negotiation-unassociated-details/]
+### Insert Multiple Negotiation Unassociated Details [POST /negotiation/api/v1/negotiation-unassociated-details/]
 
 + Request
 
@@ -196,7 +196,7 @@
               {"negotiationUnassociatedDetailId": "(val)","negotiationId": "(val)","title": "(val)","piPersonId": "(val)","piRolodexId": "(val)","leadUnitNumber": "(val)","sponsorCode": "(val)","piName": "(val)","primeSponsorCode": "(val)","sponsorAwardNumber": "(val)","contactAdminPersonId": "(val)","subAwardOrganizationId": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Negotiation Unassociated Details by Key [DELETE /research-sys/api/v1/negotiation-unassociated-details/(key)]
+### Delete Negotiation Unassociated Details by Key [DELETE /negotiation/api/v1/negotiation-unassociated-details/(key)]
 	 
 + Request
 
@@ -207,7 +207,7 @@
 
 + Response 204
 
-### Delete All Negotiation Unassociated Details [DELETE /research-sys/api/v1/negotiation-unassociated-details/]
+### Delete All Negotiation Unassociated Details [DELETE /negotiation/api/v1/negotiation-unassociated-details/]
 
 + Parameters
 
@@ -222,23 +222,23 @@
 
 + Response 204
 
-### Delete All Negotiation Unassociated Details with Matching [DELETE /research-sys/api/v1/negotiation-unassociated-details/]
+### Delete All Negotiation Unassociated Details with Matching [DELETE /negotiation/api/v1/negotiation-unassociated-details/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + negotiationUnassociatedDetailId
-            + negotiationId
-            + title
-            + piPersonId
-            + piRolodexId
-            + leadUnitNumber
-            + sponsorCode
-            + piName
-            + primeSponsorCode
-            + sponsorAwardNumber
-            + contactAdminPersonId
-            + subAwardOrganizationId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + negotiationUnassociatedDetailId (optional) - negotiationUnassociatedDetailId. Maximum length is 22.
+    + negotiationId (optional) - Negotiation ID. Maximum length is 22.
+    + title (optional) - Title. Maximum length is 45.
+    + piPersonId (optional) - Principal Investigator Employee. Maximum length is 40.
+    + piRolodexId (optional) - Principal Investigator Non-Employee. Maximum length is 6.
+    + leadUnitNumber (optional) - Lead Unit. Maximum length is 8.
+    + sponsorCode (optional) - Sponsor. Maximum length is 6.
+    + piName (optional) - Principal Investigator Name. Maximum length is 90.
+    + primeSponsorCode (optional) - Prime Sponsor. Maximum length is 6.
+    + sponsorAwardNumber (optional) - Sponsor Award ID. Maximum length is 70.
+    + contactAdminPersonId (optional) - Admin Person. Maximum length is 40.
+    + subAwardOrganizationId (optional) - Subaward Organization. Maximum length is 8.
 
       
 + Request

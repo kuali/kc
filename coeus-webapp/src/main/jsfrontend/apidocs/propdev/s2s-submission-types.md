@@ -1,6 +1,6 @@
-## S2s Submission Types [/research-sys/api/v1/s2s-submission-types/]
+## S2s Submission Types [/propdev/api/v1/s2s-submission-types/]
 
-### Get S2s Submission Types by Key [GET /research-sys/api/v1/s2s-submission-types/(key)]
+### Get S2s Submission Types by Key [GET /propdev/api/v1/s2s-submission-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"code": "(val)","description": "(val)","sortId": "(val)","_primaryKey": "(val)"}
 
-### Get All S2s Submission Types [GET /research-sys/api/v1/s2s-submission-types/]
+### Get All S2s Submission Types [GET /propdev/api/v1/s2s-submission-types/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"code": "(val)","description": "(val)","sortId": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All S2s Submission Types with Filtering [GET /research-sys/api/v1/s2s-submission-types/]
+### Get All S2s Submission Types with Filtering [GET /propdev/api/v1/s2s-submission-types/]
     
 + Parameters
 
-        + code
-            + description
-            + sortId
+    + code (optional) - Submission Type. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + sortId (optional) - Sort Id.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"code": "(val)","description": "(val)","sortId": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for S2s Submission Types [GET /research-sys/api/v1/s2s-submission-types/]
+### Get Schema for S2s Submission Types [GET /propdev/api/v1/s2s-submission-types/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["code","description","sortId"],"primaryKey":"code"}
 		
-### Get Blueprint API specification for S2s Submission Types [GET /research-sys/api/v1/s2s-submission-types/]
+### Get Blueprint API specification for S2s Submission Types [GET /propdev/api/v1/s2s-submission-types/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update S2s Submission Types [PUT /research-sys/api/v1/s2s-submission-types/(key)]
+### Update S2s Submission Types [PUT /propdev/api/v1/s2s-submission-types/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple S2s Submission Types [PUT /research-sys/api/v1/s2s-submission-types/]
+### Update Multiple S2s Submission Types [PUT /propdev/api/v1/s2s-submission-types/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert S2s Submission Types [POST /research-sys/api/v1/s2s-submission-types/]
+### Insert S2s Submission Types [POST /propdev/api/v1/s2s-submission-types/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"code": "(val)","description": "(val)","sortId": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple S2s Submission Types [POST /research-sys/api/v1/s2s-submission-types/]
+### Insert Multiple S2s Submission Types [POST /propdev/api/v1/s2s-submission-types/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"code": "(val)","description": "(val)","sortId": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete S2s Submission Types by Key [DELETE /research-sys/api/v1/s2s-submission-types/(key)]
+### Delete S2s Submission Types by Key [DELETE /propdev/api/v1/s2s-submission-types/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All S2s Submission Types [DELETE /research-sys/api/v1/s2s-submission-types/]
+### Delete All S2s Submission Types [DELETE /propdev/api/v1/s2s-submission-types/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All S2s Submission Types with Matching [DELETE /research-sys/api/v1/s2s-submission-types/]
+### Delete All S2s Submission Types with Matching [DELETE /propdev/api/v1/s2s-submission-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + code
-            + description
-            + sortId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + code (optional) - Submission Type. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + sortId (optional) - Sort Id.
 
       
 + Request

@@ -43,9 +43,9 @@
     
 + Parameters
 
-        + id
-            + specificationId
-            + description
+    + id (optional) - ID.
+    + specificationId (optional) - Specification Id.
+    + description (optional) - Description.
 
             
 + Request
@@ -217,10 +217,10 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + specificationId
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - ID.
+    + specificationId (optional) - Specification Id.
+    + description (optional) - Description.
 
       
 + Request

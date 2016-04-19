@@ -43,16 +43,16 @@
     
 + Parameters
 
-        + delegationMemberId
-            + roleMemberId
-            + delegationId
-            + memberId
-            + memberTypeCode
-            + memberName
-            + activeFromDate
-            + activeToDate
-            + documentNumber
-            + active
+    + delegationMemberId (optional) - Delegation Member Identifier. Maximum length is 40.
+    + roleMemberId (optional) - Role Member. Maximum length is 40.
+    + delegationId (optional) - Delegation Id.
+    + memberId (optional) - Member Identifier. Maximum length is 40.
+    + memberTypeCode (optional) - Member Type Code. Maximum length is 40.
+    + memberName (optional) - Member Name. Maximum length is 40.
+    + activeFromDate (optional) - Start Date. Maximum length is 21.
+    + activeToDate (optional) - End Date. Maximum length is 21.
+    + documentNumber (optional) - Document Number.
+    + active (optional) - Active.
 
             
 + Request
@@ -224,17 +224,17 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + delegationMemberId
-            + roleMemberId
-            + delegationId
-            + memberId
-            + memberTypeCode
-            + memberName
-            + activeFromDate
-            + activeToDate
-            + documentNumber
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + delegationMemberId (optional) - Delegation Member Identifier. Maximum length is 40.
+    + roleMemberId (optional) - Role Member. Maximum length is 40.
+    + delegationId (optional) - Delegation Id.
+    + memberId (optional) - Member Identifier. Maximum length is 40.
+    + memberTypeCode (optional) - Member Type Code. Maximum length is 40.
+    + memberName (optional) - Member Name. Maximum length is 40.
+    + activeFromDate (optional) - Start Date. Maximum length is 21.
+    + activeToDate (optional) - End Date. Maximum length is 21.
+    + documentNumber (optional) - Document Number.
+    + active (optional) - Active.
 
       
 + Request

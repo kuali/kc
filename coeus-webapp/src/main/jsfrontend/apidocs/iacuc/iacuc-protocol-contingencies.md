@@ -1,6 +1,6 @@
-## Iacuc Protocol Contingencies [/research-sys/api/v1/iacuc-protocol-contingencies/]
+## Iacuc Protocol Contingencies [/iacuc/api/v1/iacuc-protocol-contingencies/]
 
-### Get Iacuc Protocol Contingencies by Key [GET /research-sys/api/v1/iacuc-protocol-contingencies/(key)]
+### Get Iacuc Protocol Contingencies by Key [GET /iacuc/api/v1/iacuc-protocol-contingencies/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"protocolContingencyCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Protocol Contingencies [GET /research-sys/api/v1/iacuc-protocol-contingencies/]
+### Get All Iacuc Protocol Contingencies [GET /iacuc/api/v1/iacuc-protocol-contingencies/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"protocolContingencyCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Protocol Contingencies with Filtering [GET /research-sys/api/v1/iacuc-protocol-contingencies/]
+### Get All Iacuc Protocol Contingencies with Filtering [GET /iacuc/api/v1/iacuc-protocol-contingencies/]
     
 + Parameters
 
-        + protocolContingencyCode
-            + description
+    + protocolContingencyCode (optional) - Protocol Contingency Code. Maximum length is 4.
+    + description (optional) - Description. Maximum length is 2000.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"protocolContingencyCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Protocol Contingencies [GET /research-sys/api/v1/iacuc-protocol-contingencies/]
+### Get Schema for Iacuc Protocol Contingencies [GET /iacuc/api/v1/iacuc-protocol-contingencies/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["protocolContingencyCode","description"],"primaryKey":"protocolContingencyCode"}
 		
-### Get Blueprint API specification for Iacuc Protocol Contingencies [GET /research-sys/api/v1/iacuc-protocol-contingencies/]
+### Get Blueprint API specification for Iacuc Protocol Contingencies [GET /iacuc/api/v1/iacuc-protocol-contingencies/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Protocol Contingencies [PUT /research-sys/api/v1/iacuc-protocol-contingencies/(key)]
+### Update Iacuc Protocol Contingencies [PUT /iacuc/api/v1/iacuc-protocol-contingencies/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Protocol Contingencies [PUT /research-sys/api/v1/iacuc-protocol-contingencies/]
+### Update Multiple Iacuc Protocol Contingencies [PUT /iacuc/api/v1/iacuc-protocol-contingencies/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Iacuc Protocol Contingencies [POST /research-sys/api/v1/iacuc-protocol-contingencies/]
+### Insert Iacuc Protocol Contingencies [POST /iacuc/api/v1/iacuc-protocol-contingencies/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"protocolContingencyCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Protocol Contingencies [POST /research-sys/api/v1/iacuc-protocol-contingencies/]
+### Insert Multiple Iacuc Protocol Contingencies [POST /iacuc/api/v1/iacuc-protocol-contingencies/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"protocolContingencyCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Protocol Contingencies by Key [DELETE /research-sys/api/v1/iacuc-protocol-contingencies/(key)]
+### Delete Iacuc Protocol Contingencies by Key [DELETE /iacuc/api/v1/iacuc-protocol-contingencies/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Contingencies [DELETE /research-sys/api/v1/iacuc-protocol-contingencies/]
+### Delete All Iacuc Protocol Contingencies [DELETE /iacuc/api/v1/iacuc-protocol-contingencies/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Contingencies with Matching [DELETE /research-sys/api/v1/iacuc-protocol-contingencies/]
+### Delete All Iacuc Protocol Contingencies with Matching [DELETE /iacuc/api/v1/iacuc-protocol-contingencies/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + protocolContingencyCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + protocolContingencyCode (optional) - Protocol Contingency Code. Maximum length is 4.
+    + description (optional) - Description. Maximum length is 2000.
 
       
 + Request

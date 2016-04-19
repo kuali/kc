@@ -43,10 +43,10 @@
     
 + Parameters
 
-        + namespaceCode
-            + code
-            + name
-            + active
+    + namespaceCode (optional) - Code identifying the namespace. Maximum length is 20.
+    + code (optional) - Code identifying the Component. Maximum length is 100.
+    + name (optional) - The name of the Component. Maximum length is 255.
+    + active (optional) - This attribute is used to describe whether the associated object is active or inactive. Maximum length is 1.
 
             
 + Request
@@ -218,11 +218,11 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + namespaceCode
-            + code
-            + name
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + namespaceCode (optional) - Code identifying the namespace. Maximum length is 20.
+    + code (optional) - Code identifying the Component. Maximum length is 100.
+    + name (optional) - The name of the Component. Maximum length is 255.
+    + active (optional) - This attribute is used to describe whether the associated object is active or inactive. Maximum length is 1.
 
       
 + Request

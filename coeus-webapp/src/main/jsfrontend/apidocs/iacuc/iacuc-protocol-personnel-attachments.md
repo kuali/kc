@@ -1,6 +1,6 @@
-## Iacuc Protocol Personnel Attachments [/research-sys/api/v1/iacuc-protocol-personnel-attachments/]
+## Iacuc Protocol Personnel Attachments [/iacuc/api/v1/iacuc-protocol-personnel-attachments/]
 
-### Get Iacuc Protocol Personnel Attachments by Key [GET /research-sys/api/v1/iacuc-protocol-personnel-attachments/(key)]
+### Get Iacuc Protocol Personnel Attachments by Key [GET /iacuc/api/v1/iacuc-protocol-personnel-attachments/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"id": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","typeCode": "(val)","documentId": "(val)","fileId": "(val)","description": "(val)","personId": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Protocol Personnel Attachments [GET /research-sys/api/v1/iacuc-protocol-personnel-attachments/]
+### Get All Iacuc Protocol Personnel Attachments [GET /iacuc/api/v1/iacuc-protocol-personnel-attachments/]
 	 
 + Request
 
@@ -39,19 +39,19 @@
               {"id": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","typeCode": "(val)","documentId": "(val)","fileId": "(val)","description": "(val)","personId": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Protocol Personnel Attachments with Filtering [GET /research-sys/api/v1/iacuc-protocol-personnel-attachments/]
+### Get All Iacuc Protocol Personnel Attachments with Filtering [GET /iacuc/api/v1/iacuc-protocol-personnel-attachments/]
     
 + Parameters
 
-        + id
-            + protocolId
-            + protocolNumber
-            + sequenceNumber
-            + typeCode
-            + documentId
-            + fileId
-            + description
-            + personId
+    + id (optional) - Attachment Id. Maximum length is 12.
+    + protocolId (optional) - 
+    + protocolNumber (optional) - 
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 4.
+    + typeCode (optional) - Attachment Type. Maximum length is 3.
+    + documentId (optional) - Document Id. Maximum length is 4.
+    + fileId (optional) - File Name. Maximum length is 12.
+    + description (optional) - Description. Maximum length is 200.
+    + personId (optional) - Person. Maximum length is 12.
 
             
 + Request
@@ -73,7 +73,7 @@
               {"id": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","typeCode": "(val)","documentId": "(val)","fileId": "(val)","description": "(val)","personId": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Protocol Personnel Attachments [GET /research-sys/api/v1/iacuc-protocol-personnel-attachments/]
+### Get Schema for Iacuc Protocol Personnel Attachments [GET /iacuc/api/v1/iacuc-protocol-personnel-attachments/]
 	                                          
 + Parameters
 
@@ -95,7 +95,7 @@
     
             {"columns":["id","protocolId","protocolNumber","sequenceNumber","typeCode","documentId","fileId","description","personId"],"primaryKey":"id"}
 		
-### Get Blueprint API specification for Iacuc Protocol Personnel Attachments [GET /research-sys/api/v1/iacuc-protocol-personnel-attachments/]
+### Get Blueprint API specification for Iacuc Protocol Personnel Attachments [GET /iacuc/api/v1/iacuc-protocol-personnel-attachments/]
 	 
 + Parameters
 
@@ -116,7 +116,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Protocol Personnel Attachments [PUT /research-sys/api/v1/iacuc-protocol-personnel-attachments/(key)]
+### Update Iacuc Protocol Personnel Attachments [PUT /iacuc/api/v1/iacuc-protocol-personnel-attachments/(key)]
 
 + Request
 
@@ -131,7 +131,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Protocol Personnel Attachments [PUT /research-sys/api/v1/iacuc-protocol-personnel-attachments/]
+### Update Multiple Iacuc Protocol Personnel Attachments [PUT /iacuc/api/v1/iacuc-protocol-personnel-attachments/]
 
 + Request
 
@@ -149,7 +149,7 @@
 			
 + Response 204
 
-### Insert Iacuc Protocol Personnel Attachments [POST /research-sys/api/v1/iacuc-protocol-personnel-attachments/]
+### Insert Iacuc Protocol Personnel Attachments [POST /iacuc/api/v1/iacuc-protocol-personnel-attachments/]
 
 + Request
 
@@ -168,7 +168,7 @@
             
             {"id": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","typeCode": "(val)","documentId": "(val)","fileId": "(val)","description": "(val)","personId": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Protocol Personnel Attachments [POST /research-sys/api/v1/iacuc-protocol-personnel-attachments/]
+### Insert Multiple Iacuc Protocol Personnel Attachments [POST /iacuc/api/v1/iacuc-protocol-personnel-attachments/]
 
 + Request
 
@@ -193,7 +193,7 @@
               {"id": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","typeCode": "(val)","documentId": "(val)","fileId": "(val)","description": "(val)","personId": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Protocol Personnel Attachments by Key [DELETE /research-sys/api/v1/iacuc-protocol-personnel-attachments/(key)]
+### Delete Iacuc Protocol Personnel Attachments by Key [DELETE /iacuc/api/v1/iacuc-protocol-personnel-attachments/(key)]
 	 
 + Request
 
@@ -204,7 +204,7 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Personnel Attachments [DELETE /research-sys/api/v1/iacuc-protocol-personnel-attachments/]
+### Delete All Iacuc Protocol Personnel Attachments [DELETE /iacuc/api/v1/iacuc-protocol-personnel-attachments/]
 
 + Parameters
 
@@ -219,20 +219,20 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Personnel Attachments with Matching [DELETE /research-sys/api/v1/iacuc-protocol-personnel-attachments/]
+### Delete All Iacuc Protocol Personnel Attachments with Matching [DELETE /iacuc/api/v1/iacuc-protocol-personnel-attachments/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + protocolId
-            + protocolNumber
-            + sequenceNumber
-            + typeCode
-            + documentId
-            + fileId
-            + description
-            + personId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Attachment Id. Maximum length is 12.
+    + protocolId (optional) - 
+    + protocolNumber (optional) - 
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 4.
+    + typeCode (optional) - Attachment Type. Maximum length is 3.
+    + documentId (optional) - Document Id. Maximum length is 4.
+    + fileId (optional) - File Name. Maximum length is 12.
+    + description (optional) - Description. Maximum length is 200.
+    + personId (optional) - Person. Maximum length is 12.
 
       
 + Request

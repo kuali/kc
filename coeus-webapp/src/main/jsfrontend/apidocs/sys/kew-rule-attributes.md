@@ -43,14 +43,14 @@
     
 + Parameters
 
-        + id
-            + name
-            + label
-            + type
-            + resourceDescriptor
-            + description
-            + xmlConfigData
-            + applicationId
+    + id (optional) - Id. Maximum length is 30.
+    + name (optional) - Name. Maximum length is 30.
+    + label (optional) - Label. Maximum length is 30.
+    + type (optional) - Type.
+    + resourceDescriptor (optional) - Class Name.
+    + description (optional) - Description. Maximum length is 30.
+    + xmlConfigData (optional) - XML Configuration.
+    + applicationId (optional) - Application ID.
 
             
 + Request
@@ -222,15 +222,15 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + name
-            + label
-            + type
-            + resourceDescriptor
-            + description
-            + xmlConfigData
-            + applicationId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Id. Maximum length is 30.
+    + name (optional) - Name. Maximum length is 30.
+    + label (optional) - Label. Maximum length is 30.
+    + type (optional) - Type.
+    + resourceDescriptor (optional) - Class Name.
+    + description (optional) - Description. Maximum length is 30.
+    + xmlConfigData (optional) - XML Configuration.
+    + applicationId (optional) - Application ID.
 
       
 + Request

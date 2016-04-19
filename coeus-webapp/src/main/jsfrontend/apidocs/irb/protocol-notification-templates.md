@@ -1,6 +1,6 @@
-## Protocol Notification Templates [/research-sys/api/v1/protocol-notification-templates/]
+## Protocol Notification Templates [/irb/api/v1/protocol-notification-templates/]
 
-### Get Protocol Notification Templates by Key [GET /research-sys/api/v1/protocol-notification-templates/(key)]
+### Get Protocol Notification Templates by Key [GET /irb/api/v1/protocol-notification-templates/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"notificationTemplateId": "(val)","actionTypeCode": "(val)","fileName": "(val)","notificationTemplate": "(val)","_primaryKey": "(val)"}
 
-### Get All Protocol Notification Templates [GET /research-sys/api/v1/protocol-notification-templates/]
+### Get All Protocol Notification Templates [GET /irb/api/v1/protocol-notification-templates/]
 	 
 + Request
 
@@ -39,14 +39,14 @@
               {"notificationTemplateId": "(val)","actionTypeCode": "(val)","fileName": "(val)","notificationTemplate": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Protocol Notification Templates with Filtering [GET /research-sys/api/v1/protocol-notification-templates/]
+### Get All Protocol Notification Templates with Filtering [GET /irb/api/v1/protocol-notification-templates/]
     
 + Parameters
 
-        + notificationTemplateId
-            + actionTypeCode
-            + fileName
-            + notificationTemplate
+    + notificationTemplateId (optional) - Proto Notification Templ Id. Maximum length is 12.
+    + actionTypeCode (optional) - Protocol Action Type Code. Maximum length is 3.
+    + fileName (optional) - File. Maximum length is 150.
+    + notificationTemplate (optional) - Notification Template. Maximum length is 4000.
 
             
 + Request
@@ -68,7 +68,7 @@
               {"notificationTemplateId": "(val)","actionTypeCode": "(val)","fileName": "(val)","notificationTemplate": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Protocol Notification Templates [GET /research-sys/api/v1/protocol-notification-templates/]
+### Get Schema for Protocol Notification Templates [GET /irb/api/v1/protocol-notification-templates/]
 	                                          
 + Parameters
 
@@ -90,7 +90,7 @@
     
             {"columns":["notificationTemplateId","actionTypeCode","fileName","notificationTemplate"],"primaryKey":"notificationTemplateId"}
 		
-### Get Blueprint API specification for Protocol Notification Templates [GET /research-sys/api/v1/protocol-notification-templates/]
+### Get Blueprint API specification for Protocol Notification Templates [GET /irb/api/v1/protocol-notification-templates/]
 	 
 + Parameters
 
@@ -111,7 +111,7 @@
             transfer-encoding:chunked
 
 
-### Update Protocol Notification Templates [PUT /research-sys/api/v1/protocol-notification-templates/(key)]
+### Update Protocol Notification Templates [PUT /irb/api/v1/protocol-notification-templates/(key)]
 
 + Request
 
@@ -126,7 +126,7 @@
 			
 + Response 204
 
-### Update Multiple Protocol Notification Templates [PUT /research-sys/api/v1/protocol-notification-templates/]
+### Update Multiple Protocol Notification Templates [PUT /irb/api/v1/protocol-notification-templates/]
 
 + Request
 
@@ -144,7 +144,7 @@
 			
 + Response 204
 
-### Insert Protocol Notification Templates [POST /research-sys/api/v1/protocol-notification-templates/]
+### Insert Protocol Notification Templates [POST /irb/api/v1/protocol-notification-templates/]
 
 + Request
 
@@ -163,7 +163,7 @@
             
             {"notificationTemplateId": "(val)","actionTypeCode": "(val)","fileName": "(val)","notificationTemplate": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Protocol Notification Templates [POST /research-sys/api/v1/protocol-notification-templates/]
+### Insert Multiple Protocol Notification Templates [POST /irb/api/v1/protocol-notification-templates/]
 
 + Request
 
@@ -188,7 +188,7 @@
               {"notificationTemplateId": "(val)","actionTypeCode": "(val)","fileName": "(val)","notificationTemplate": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Protocol Notification Templates by Key [DELETE /research-sys/api/v1/protocol-notification-templates/(key)]
+### Delete Protocol Notification Templates by Key [DELETE /irb/api/v1/protocol-notification-templates/(key)]
 	 
 + Request
 
@@ -199,7 +199,7 @@
 
 + Response 204
 
-### Delete All Protocol Notification Templates [DELETE /research-sys/api/v1/protocol-notification-templates/]
+### Delete All Protocol Notification Templates [DELETE /irb/api/v1/protocol-notification-templates/]
 
 + Parameters
 
@@ -214,15 +214,15 @@
 
 + Response 204
 
-### Delete All Protocol Notification Templates with Matching [DELETE /research-sys/api/v1/protocol-notification-templates/]
+### Delete All Protocol Notification Templates with Matching [DELETE /irb/api/v1/protocol-notification-templates/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + notificationTemplateId
-            + actionTypeCode
-            + fileName
-            + notificationTemplate
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + notificationTemplateId (optional) - Proto Notification Templ Id. Maximum length is 12.
+    + actionTypeCode (optional) - Protocol Action Type Code. Maximum length is 3.
+    + fileName (optional) - File. Maximum length is 150.
+    + notificationTemplate (optional) - Notification Template. Maximum length is 4000.
 
       
 + Request

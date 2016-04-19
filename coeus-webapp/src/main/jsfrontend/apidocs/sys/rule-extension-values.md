@@ -43,10 +43,10 @@
     
 + Parameters
 
-        + ruleExtensionValueId
-            + value
-            + key
-            + lockVerNbr
+    + ruleExtensionValueId (optional) - 
+    + value (optional) - 
+    + key (optional) - 
+    + lockVerNbr (optional) - 
 
             
 + Request
@@ -218,11 +218,11 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + ruleExtensionValueId
-            + value
-            + key
-            + lockVerNbr
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + ruleExtensionValueId (optional) - 
+    + value (optional) - 
+    + key (optional) - 
+    + lockVerNbr (optional) - 
 
       
 + Request

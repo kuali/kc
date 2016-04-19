@@ -1,6 +1,6 @@
-## Iacuc Species Count Types [/research-sys/api/v1/iacuc-species-count-types/]
+## Iacuc Species Count Types [/iacuc/api/v1/iacuc-species-count-types/]
 
-### Get Iacuc Species Count Types by Key [GET /research-sys/api/v1/iacuc-species-count-types/(key)]
+### Get Iacuc Species Count Types by Key [GET /iacuc/api/v1/iacuc-species-count-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"speciesCountCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Species Count Types [GET /research-sys/api/v1/iacuc-species-count-types/]
+### Get All Iacuc Species Count Types [GET /iacuc/api/v1/iacuc-species-count-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"speciesCountCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Species Count Types with Filtering [GET /research-sys/api/v1/iacuc-species-count-types/]
+### Get All Iacuc Species Count Types with Filtering [GET /iacuc/api/v1/iacuc-species-count-types/]
     
 + Parameters
 
-        + speciesCountCode
-            + description
+    + speciesCountCode (optional) - Species Count Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"speciesCountCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Species Count Types [GET /research-sys/api/v1/iacuc-species-count-types/]
+### Get Schema for Iacuc Species Count Types [GET /iacuc/api/v1/iacuc-species-count-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["speciesCountCode","description"],"primaryKey":"speciesCountCode"}
 		
-### Get Blueprint API specification for Iacuc Species Count Types [GET /research-sys/api/v1/iacuc-species-count-types/]
+### Get Blueprint API specification for Iacuc Species Count Types [GET /iacuc/api/v1/iacuc-species-count-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Species Count Types [PUT /research-sys/api/v1/iacuc-species-count-types/(key)]
+### Update Iacuc Species Count Types [PUT /iacuc/api/v1/iacuc-species-count-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Species Count Types [PUT /research-sys/api/v1/iacuc-species-count-types/]
+### Update Multiple Iacuc Species Count Types [PUT /iacuc/api/v1/iacuc-species-count-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Iacuc Species Count Types [POST /research-sys/api/v1/iacuc-species-count-types/]
+### Insert Iacuc Species Count Types [POST /iacuc/api/v1/iacuc-species-count-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"speciesCountCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Species Count Types [POST /research-sys/api/v1/iacuc-species-count-types/]
+### Insert Multiple Iacuc Species Count Types [POST /iacuc/api/v1/iacuc-species-count-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"speciesCountCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Species Count Types by Key [DELETE /research-sys/api/v1/iacuc-species-count-types/(key)]
+### Delete Iacuc Species Count Types by Key [DELETE /iacuc/api/v1/iacuc-species-count-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Iacuc Species Count Types [DELETE /research-sys/api/v1/iacuc-species-count-types/]
+### Delete All Iacuc Species Count Types [DELETE /iacuc/api/v1/iacuc-species-count-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Iacuc Species Count Types with Matching [DELETE /research-sys/api/v1/iacuc-species-count-types/]
+### Delete All Iacuc Species Count Types with Matching [DELETE /iacuc/api/v1/iacuc-species-count-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + speciesCountCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + speciesCountCode (optional) - Species Count Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

@@ -1,6 +1,6 @@
-## Attachments Entry Types [/research-sys/api/v1/attachments-entry-types/]
+## Attachments Entry Types [/research-common/api/v1/attachments-entry-types/]
 
-### Get Attachments Entry Types by Key [GET /research-sys/api/v1/attachments-entry-types/(key)]
+### Get Attachments Entry Types by Key [GET /research-common/api/v1/attachments-entry-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"attachmentsTypeCode": "(val)","sortId": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Attachments Entry Types [GET /research-sys/api/v1/attachments-entry-types/]
+### Get All Attachments Entry Types [GET /research-common/api/v1/attachments-entry-types/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"attachmentsTypeCode": "(val)","sortId": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Attachments Entry Types with Filtering [GET /research-sys/api/v1/attachments-entry-types/]
+### Get All Attachments Entry Types with Filtering [GET /research-common/api/v1/attachments-entry-types/]
     
 + Parameters
 
-        + attachmentsTypeCode
-            + sortId
-            + description
+    + attachmentsTypeCode (optional) - Attachments Type Code. Maximum length is 3.
+    + sortId (optional) - Sort Id. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"attachmentsTypeCode": "(val)","sortId": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Attachments Entry Types [GET /research-sys/api/v1/attachments-entry-types/]
+### Get Schema for Attachments Entry Types [GET /research-common/api/v1/attachments-entry-types/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["attachmentsTypeCode","sortId","description"],"primaryKey":"attachmentsTypeCode"}
 		
-### Get Blueprint API specification for Attachments Entry Types [GET /research-sys/api/v1/attachments-entry-types/]
+### Get Blueprint API specification for Attachments Entry Types [GET /research-common/api/v1/attachments-entry-types/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Attachments Entry Types [PUT /research-sys/api/v1/attachments-entry-types/(key)]
+### Update Attachments Entry Types [PUT /research-common/api/v1/attachments-entry-types/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Attachments Entry Types [PUT /research-sys/api/v1/attachments-entry-types/]
+### Update Multiple Attachments Entry Types [PUT /research-common/api/v1/attachments-entry-types/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Attachments Entry Types [POST /research-sys/api/v1/attachments-entry-types/]
+### Insert Attachments Entry Types [POST /research-common/api/v1/attachments-entry-types/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"attachmentsTypeCode": "(val)","sortId": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Attachments Entry Types [POST /research-sys/api/v1/attachments-entry-types/]
+### Insert Multiple Attachments Entry Types [POST /research-common/api/v1/attachments-entry-types/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"attachmentsTypeCode": "(val)","sortId": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Attachments Entry Types by Key [DELETE /research-sys/api/v1/attachments-entry-types/(key)]
+### Delete Attachments Entry Types by Key [DELETE /research-common/api/v1/attachments-entry-types/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Attachments Entry Types [DELETE /research-sys/api/v1/attachments-entry-types/]
+### Delete All Attachments Entry Types [DELETE /research-common/api/v1/attachments-entry-types/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Attachments Entry Types with Matching [DELETE /research-sys/api/v1/attachments-entry-types/]
+### Delete All Attachments Entry Types with Matching [DELETE /research-common/api/v1/attachments-entry-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + attachmentsTypeCode
-            + sortId
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + attachmentsTypeCode (optional) - Attachments Type Code. Maximum length is 3.
+    + sortId (optional) - Sort Id. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

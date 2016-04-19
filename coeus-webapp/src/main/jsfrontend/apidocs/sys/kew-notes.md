@@ -43,12 +43,12 @@
     
 + Parameters
 
-        + noteId
-            + documentId
-            + noteAuthorWorkflowId
-            + noteCreateDate
-            + noteText
-            + lockVerNbr
+    + noteId (optional) - 
+    + documentId (optional) - 
+    + noteAuthorWorkflowId (optional) - 
+    + noteCreateDate (optional) - 
+    + noteText (optional) - 
+    + lockVerNbr (optional) - 
 
             
 + Request
@@ -220,13 +220,13 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + noteId
-            + documentId
-            + noteAuthorWorkflowId
-            + noteCreateDate
-            + noteText
-            + lockVerNbr
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + noteId (optional) - 
+    + documentId (optional) - 
+    + noteAuthorWorkflowId (optional) - 
+    + noteCreateDate (optional) - 
+    + noteText (optional) - 
+    + lockVerNbr (optional) - 
 
       
 + Request

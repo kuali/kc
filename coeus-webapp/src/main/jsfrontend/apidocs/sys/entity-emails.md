@@ -43,13 +43,13 @@
     
 + Parameters
 
-        + id
-            + emailAddress
-            + defaultValue
-            + entityTypeCode
-            + active
-            + entityId
-            + emailTypeCode
+    + id (optional) - 
+    + emailAddress (optional) - 
+    + defaultValue (optional) - 
+    + entityTypeCode (optional) - 
+    + active (optional) - 
+    + entityId (optional) - 
+    + emailTypeCode (optional) - 
 
             
 + Request
@@ -221,14 +221,14 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + emailAddress
-            + defaultValue
-            + entityTypeCode
-            + active
-            + entityId
-            + emailTypeCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - 
+    + emailAddress (optional) - 
+    + defaultValue (optional) - 
+    + entityTypeCode (optional) - 
+    + active (optional) - 
+    + entityId (optional) - 
+    + emailTypeCode (optional) - 
 
       
 + Request

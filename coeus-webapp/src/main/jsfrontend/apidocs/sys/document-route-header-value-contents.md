@@ -43,8 +43,8 @@
     
 + Parameters
 
-        + documentId
-            + documentContent
+    + documentId (optional) - 
+    + documentContent (optional) - 
 
             
 + Request
@@ -216,9 +216,9 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + documentId
-            + documentContent
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + documentId (optional) - 
+    + documentContent (optional) - 
 
       
 + Request

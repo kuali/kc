@@ -1,6 +1,6 @@
-## Award Template Terms [/research-sys/api/v1/award-template-terms/]
+## Award Template Terms [/award/api/v1/award-template-terms/]
 
-### Get Award Template Terms by Key [GET /research-sys/api/v1/award-template-terms/(key)]
+### Get Award Template Terms by Key [GET /award/api/v1/award-template-terms/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"awardTemplateTermId": "(val)","templateCode": "(val)","sponsorTermId": "(val)","_primaryKey": "(val)"}
 
-### Get All Award Template Terms [GET /research-sys/api/v1/award-template-terms/]
+### Get All Award Template Terms [GET /award/api/v1/award-template-terms/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"awardTemplateTermId": "(val)","templateCode": "(val)","sponsorTermId": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Award Template Terms with Filtering [GET /research-sys/api/v1/award-template-terms/]
+### Get All Award Template Terms with Filtering [GET /award/api/v1/award-template-terms/]
     
 + Parameters
 
-        + awardTemplateTermId
-            + templateCode
-            + sponsorTermId
+    + awardTemplateTermId (optional) - Award Template Terms Id. Maximum length is 22.
+    + templateCode (optional) - Award Template Code. Maximum length is 22.
+    + sponsorTermId (optional) - Sponsor Term.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"awardTemplateTermId": "(val)","templateCode": "(val)","sponsorTermId": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Award Template Terms [GET /research-sys/api/v1/award-template-terms/]
+### Get Schema for Award Template Terms [GET /award/api/v1/award-template-terms/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["awardTemplateTermId","templateCode","sponsorTermId"],"primaryKey":"awardTemplateTermId"}
 		
-### Get Blueprint API specification for Award Template Terms [GET /research-sys/api/v1/award-template-terms/]
+### Get Blueprint API specification for Award Template Terms [GET /award/api/v1/award-template-terms/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Award Template Terms [PUT /research-sys/api/v1/award-template-terms/(key)]
+### Update Award Template Terms [PUT /award/api/v1/award-template-terms/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Award Template Terms [PUT /research-sys/api/v1/award-template-terms/]
+### Update Multiple Award Template Terms [PUT /award/api/v1/award-template-terms/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Award Template Terms [POST /research-sys/api/v1/award-template-terms/]
+### Insert Award Template Terms [POST /award/api/v1/award-template-terms/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"awardTemplateTermId": "(val)","templateCode": "(val)","sponsorTermId": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Award Template Terms [POST /research-sys/api/v1/award-template-terms/]
+### Insert Multiple Award Template Terms [POST /award/api/v1/award-template-terms/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"awardTemplateTermId": "(val)","templateCode": "(val)","sponsorTermId": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Award Template Terms by Key [DELETE /research-sys/api/v1/award-template-terms/(key)]
+### Delete Award Template Terms by Key [DELETE /award/api/v1/award-template-terms/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Award Template Terms [DELETE /research-sys/api/v1/award-template-terms/]
+### Delete All Award Template Terms [DELETE /award/api/v1/award-template-terms/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Award Template Terms with Matching [DELETE /research-sys/api/v1/award-template-terms/]
+### Delete All Award Template Terms with Matching [DELETE /award/api/v1/award-template-terms/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + awardTemplateTermId
-            + templateCode
-            + sponsorTermId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + awardTemplateTermId (optional) - Award Template Terms Id. Maximum length is 22.
+    + templateCode (optional) - Award Template Code. Maximum length is 22.
+    + sponsorTermId (optional) - Sponsor Term.
 
       
 + Request

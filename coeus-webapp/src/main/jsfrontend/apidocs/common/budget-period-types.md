@@ -1,6 +1,6 @@
-## Budget Period Types [/research-sys/api/v1/budget-period-types/]
+## Budget Period Types [/research-common/api/v1/budget-period-types/]
 
-### Get Budget Period Types by Key [GET /research-sys/api/v1/budget-period-types/(key)]
+### Get Budget Period Types by Key [GET /research-common/api/v1/budget-period-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"budgetPeriodTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Budget Period Types [GET /research-sys/api/v1/budget-period-types/]
+### Get All Budget Period Types [GET /research-common/api/v1/budget-period-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"budgetPeriodTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Budget Period Types with Filtering [GET /research-sys/api/v1/budget-period-types/]
+### Get All Budget Period Types with Filtering [GET /research-common/api/v1/budget-period-types/]
     
 + Parameters
 
-        + budgetPeriodTypeCode
-            + description
+    + budgetPeriodTypeCode (optional) - Budget Period Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"budgetPeriodTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Budget Period Types [GET /research-sys/api/v1/budget-period-types/]
+### Get Schema for Budget Period Types [GET /research-common/api/v1/budget-period-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["budgetPeriodTypeCode","description"],"primaryKey":"budgetPeriodTypeCode"}
 		
-### Get Blueprint API specification for Budget Period Types [GET /research-sys/api/v1/budget-period-types/]
+### Get Blueprint API specification for Budget Period Types [GET /research-common/api/v1/budget-period-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Budget Period Types [PUT /research-sys/api/v1/budget-period-types/(key)]
+### Update Budget Period Types [PUT /research-common/api/v1/budget-period-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Budget Period Types [PUT /research-sys/api/v1/budget-period-types/]
+### Update Multiple Budget Period Types [PUT /research-common/api/v1/budget-period-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Budget Period Types [POST /research-sys/api/v1/budget-period-types/]
+### Insert Budget Period Types [POST /research-common/api/v1/budget-period-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"budgetPeriodTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Budget Period Types [POST /research-sys/api/v1/budget-period-types/]
+### Insert Multiple Budget Period Types [POST /research-common/api/v1/budget-period-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"budgetPeriodTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Budget Period Types by Key [DELETE /research-sys/api/v1/budget-period-types/(key)]
+### Delete Budget Period Types by Key [DELETE /research-common/api/v1/budget-period-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Budget Period Types [DELETE /research-sys/api/v1/budget-period-types/]
+### Delete All Budget Period Types [DELETE /research-common/api/v1/budget-period-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Budget Period Types with Matching [DELETE /research-sys/api/v1/budget-period-types/]
+### Delete All Budget Period Types with Matching [DELETE /research-common/api/v1/budget-period-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + budgetPeriodTypeCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + budgetPeriodTypeCode (optional) - Budget Period Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

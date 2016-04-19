@@ -1,6 +1,6 @@
-## Iacuc Protocol Study Group Beans [/research-sys/api/v1/iacuc-protocol-study-group-beans/]
+## Iacuc Protocol Study Group Beans [/iacuc/api/v1/iacuc-protocol-study-group-beans/]
 
-### Get Iacuc Protocol Study Group Beans by Key [GET /research-sys/api/v1/iacuc-protocol-study-group-beans/(key)]
+### Get Iacuc Protocol Study Group Beans by Key [GET /iacuc/api/v1/iacuc-protocol-study-group-beans/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"iacucProtocolStudyGroupHeaderId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","procedureCategoryCode": "(val)","procedureCode": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Protocol Study Group Beans [GET /research-sys/api/v1/iacuc-protocol-study-group-beans/]
+### Get All Iacuc Protocol Study Group Beans [GET /iacuc/api/v1/iacuc-protocol-study-group-beans/]
 	 
 + Request
 
@@ -39,16 +39,16 @@
               {"iacucProtocolStudyGroupHeaderId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","procedureCategoryCode": "(val)","procedureCode": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Protocol Study Group Beans with Filtering [GET /research-sys/api/v1/iacuc-protocol-study-group-beans/]
+### Get All Iacuc Protocol Study Group Beans with Filtering [GET /iacuc/api/v1/iacuc-protocol-study-group-beans/]
     
 + Parameters
 
-        + iacucProtocolStudyGroupHeaderId
-            + protocolId
-            + protocolNumber
-            + sequenceNumber
-            + procedureCategoryCode
-            + procedureCode
+    + iacucProtocolStudyGroupHeaderId (optional) - Protocol Study Group Header Id. Maximum length is 22.
+    + protocolId (optional) - Protocol Id. Maximum length is 22.
+    + protocolNumber (optional) - 
+    + sequenceNumber (optional) - 
+    + procedureCategoryCode (optional) - Procedure Category. Maximum length is 3.
+    + procedureCode (optional) - Procedure Code. Maximum length is 4.
 
             
 + Request
@@ -70,7 +70,7 @@
               {"iacucProtocolStudyGroupHeaderId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","procedureCategoryCode": "(val)","procedureCode": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Protocol Study Group Beans [GET /research-sys/api/v1/iacuc-protocol-study-group-beans/]
+### Get Schema for Iacuc Protocol Study Group Beans [GET /iacuc/api/v1/iacuc-protocol-study-group-beans/]
 	                                          
 + Parameters
 
@@ -92,7 +92,7 @@
     
             {"columns":["iacucProtocolStudyGroupHeaderId","protocolId","protocolNumber","sequenceNumber","procedureCategoryCode","procedureCode"],"primaryKey":"iacucProtocolStudyGroupHeaderId"}
 		
-### Get Blueprint API specification for Iacuc Protocol Study Group Beans [GET /research-sys/api/v1/iacuc-protocol-study-group-beans/]
+### Get Blueprint API specification for Iacuc Protocol Study Group Beans [GET /iacuc/api/v1/iacuc-protocol-study-group-beans/]
 	 
 + Parameters
 
@@ -113,7 +113,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Protocol Study Group Beans [PUT /research-sys/api/v1/iacuc-protocol-study-group-beans/(key)]
+### Update Iacuc Protocol Study Group Beans [PUT /iacuc/api/v1/iacuc-protocol-study-group-beans/(key)]
 
 + Request
 
@@ -128,7 +128,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Protocol Study Group Beans [PUT /research-sys/api/v1/iacuc-protocol-study-group-beans/]
+### Update Multiple Iacuc Protocol Study Group Beans [PUT /iacuc/api/v1/iacuc-protocol-study-group-beans/]
 
 + Request
 
@@ -146,7 +146,7 @@
 			
 + Response 204
 
-### Insert Iacuc Protocol Study Group Beans [POST /research-sys/api/v1/iacuc-protocol-study-group-beans/]
+### Insert Iacuc Protocol Study Group Beans [POST /iacuc/api/v1/iacuc-protocol-study-group-beans/]
 
 + Request
 
@@ -165,7 +165,7 @@
             
             {"iacucProtocolStudyGroupHeaderId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","procedureCategoryCode": "(val)","procedureCode": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Protocol Study Group Beans [POST /research-sys/api/v1/iacuc-protocol-study-group-beans/]
+### Insert Multiple Iacuc Protocol Study Group Beans [POST /iacuc/api/v1/iacuc-protocol-study-group-beans/]
 
 + Request
 
@@ -190,7 +190,7 @@
               {"iacucProtocolStudyGroupHeaderId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","procedureCategoryCode": "(val)","procedureCode": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Protocol Study Group Beans by Key [DELETE /research-sys/api/v1/iacuc-protocol-study-group-beans/(key)]
+### Delete Iacuc Protocol Study Group Beans by Key [DELETE /iacuc/api/v1/iacuc-protocol-study-group-beans/(key)]
 	 
 + Request
 
@@ -201,7 +201,7 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Study Group Beans [DELETE /research-sys/api/v1/iacuc-protocol-study-group-beans/]
+### Delete All Iacuc Protocol Study Group Beans [DELETE /iacuc/api/v1/iacuc-protocol-study-group-beans/]
 
 + Parameters
 
@@ -216,17 +216,17 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Study Group Beans with Matching [DELETE /research-sys/api/v1/iacuc-protocol-study-group-beans/]
+### Delete All Iacuc Protocol Study Group Beans with Matching [DELETE /iacuc/api/v1/iacuc-protocol-study-group-beans/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + iacucProtocolStudyGroupHeaderId
-            + protocolId
-            + protocolNumber
-            + sequenceNumber
-            + procedureCategoryCode
-            + procedureCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + iacucProtocolStudyGroupHeaderId (optional) - Protocol Study Group Header Id. Maximum length is 22.
+    + protocolId (optional) - Protocol Id. Maximum length is 22.
+    + protocolNumber (optional) - 
+    + sequenceNumber (optional) - 
+    + procedureCategoryCode (optional) - Procedure Category. Maximum length is 3.
+    + procedureCode (optional) - Procedure Code. Maximum length is 4.
 
       
 + Request

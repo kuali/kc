@@ -1,6 +1,6 @@
-## Award Custom Data [/research-sys/api/v1/award-custom-data/]
+## Award Custom Data [/award/api/v1/award-custom-data/]
 
-### Get Award Custom Data by Key [GET /research-sys/api/v1/award-custom-data/(key)]
+### Get Award Custom Data by Key [GET /award/api/v1/award-custom-data/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"awardCustomDataId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","customAttributeId": "(val)","value": "(val)","_primaryKey": "(val)"}
 
-### Get All Award Custom Data [GET /research-sys/api/v1/award-custom-data/]
+### Get All Award Custom Data [GET /award/api/v1/award-custom-data/]
 	 
 + Request
 
@@ -39,16 +39,16 @@
               {"awardCustomDataId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","customAttributeId": "(val)","value": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Award Custom Data with Filtering [GET /research-sys/api/v1/award-custom-data/]
+### Get All Award Custom Data with Filtering [GET /award/api/v1/award-custom-data/]
     
 + Parameters
 
-        + awardCustomDataId
-            + awardId
-            + awardNumber
-            + sequenceNumber
-            + customAttributeId
-            + value
+    + awardCustomDataId (optional) - 
+    + awardId (optional) - 
+    + awardNumber (optional) - 
+    + sequenceNumber (optional) - 
+    + customAttributeId (optional) - 
+    + value (optional) - Value. Maximum length is 2000.
 
             
 + Request
@@ -70,7 +70,7 @@
               {"awardCustomDataId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","customAttributeId": "(val)","value": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Award Custom Data [GET /research-sys/api/v1/award-custom-data/]
+### Get Schema for Award Custom Data [GET /award/api/v1/award-custom-data/]
 	                                          
 + Parameters
 
@@ -92,7 +92,7 @@
     
             {"columns":["awardCustomDataId","awardId","awardNumber","sequenceNumber","customAttributeId","value"],"primaryKey":"awardCustomDataId"}
 		
-### Get Blueprint API specification for Award Custom Data [GET /research-sys/api/v1/award-custom-data/]
+### Get Blueprint API specification for Award Custom Data [GET /award/api/v1/award-custom-data/]
 	 
 + Parameters
 
@@ -113,7 +113,7 @@
             transfer-encoding:chunked
 
 
-### Update Award Custom Data [PUT /research-sys/api/v1/award-custom-data/(key)]
+### Update Award Custom Data [PUT /award/api/v1/award-custom-data/(key)]
 
 + Request
 
@@ -128,7 +128,7 @@
 			
 + Response 204
 
-### Update Multiple Award Custom Data [PUT /research-sys/api/v1/award-custom-data/]
+### Update Multiple Award Custom Data [PUT /award/api/v1/award-custom-data/]
 
 + Request
 
@@ -146,7 +146,7 @@
 			
 + Response 204
 
-### Insert Award Custom Data [POST /research-sys/api/v1/award-custom-data/]
+### Insert Award Custom Data [POST /award/api/v1/award-custom-data/]
 
 + Request
 
@@ -165,7 +165,7 @@
             
             {"awardCustomDataId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","customAttributeId": "(val)","value": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Award Custom Data [POST /research-sys/api/v1/award-custom-data/]
+### Insert Multiple Award Custom Data [POST /award/api/v1/award-custom-data/]
 
 + Request
 
@@ -190,7 +190,7 @@
               {"awardCustomDataId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","customAttributeId": "(val)","value": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Award Custom Data by Key [DELETE /research-sys/api/v1/award-custom-data/(key)]
+### Delete Award Custom Data by Key [DELETE /award/api/v1/award-custom-data/(key)]
 	 
 + Request
 
@@ -201,7 +201,7 @@
 
 + Response 204
 
-### Delete All Award Custom Data [DELETE /research-sys/api/v1/award-custom-data/]
+### Delete All Award Custom Data [DELETE /award/api/v1/award-custom-data/]
 
 + Parameters
 
@@ -216,17 +216,17 @@
 
 + Response 204
 
-### Delete All Award Custom Data with Matching [DELETE /research-sys/api/v1/award-custom-data/]
+### Delete All Award Custom Data with Matching [DELETE /award/api/v1/award-custom-data/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + awardCustomDataId
-            + awardId
-            + awardNumber
-            + sequenceNumber
-            + customAttributeId
-            + value
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + awardCustomDataId (optional) - 
+    + awardId (optional) - 
+    + awardNumber (optional) - 
+    + sequenceNumber (optional) - 
+    + customAttributeId (optional) - 
+    + value (optional) - Value. Maximum length is 2000.
 
       
 + Request

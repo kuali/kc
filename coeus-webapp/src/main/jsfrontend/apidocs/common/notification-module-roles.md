@@ -1,6 +1,6 @@
-## Notification Module Roles [/research-sys/api/v1/notification-module-roles/]
+## Notification Module Roles [/research-common/api/v1/notification-module-roles/]
 
-### Get Notification Module Roles by Key [GET /research-sys/api/v1/notification-module-roles/(key)]
+### Get Notification Module Roles by Key [GET /research-common/api/v1/notification-module-roles/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"notificationModuleRoleId": "(val)","moduleCode": "(val)","roleName": "(val)","_primaryKey": "(val)"}
 
-### Get All Notification Module Roles [GET /research-sys/api/v1/notification-module-roles/]
+### Get All Notification Module Roles [GET /research-common/api/v1/notification-module-roles/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"notificationModuleRoleId": "(val)","moduleCode": "(val)","roleName": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Notification Module Roles with Filtering [GET /research-sys/api/v1/notification-module-roles/]
+### Get All Notification Module Roles with Filtering [GET /research-common/api/v1/notification-module-roles/]
     
 + Parameters
 
-        + notificationModuleRoleId
-            + moduleCode
-            + roleName
+    + notificationModuleRoleId (optional) - Notification Module Role Id. Maximum length is 6.
+    + moduleCode (optional) - Module Code. Maximum length is 3.
+    + roleName (optional) - Role Name. Maximum length is 125.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"notificationModuleRoleId": "(val)","moduleCode": "(val)","roleName": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Notification Module Roles [GET /research-sys/api/v1/notification-module-roles/]
+### Get Schema for Notification Module Roles [GET /research-common/api/v1/notification-module-roles/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["notificationModuleRoleId","moduleCode","roleName"],"primaryKey":"notificationModuleRoleId"}
 		
-### Get Blueprint API specification for Notification Module Roles [GET /research-sys/api/v1/notification-module-roles/]
+### Get Blueprint API specification for Notification Module Roles [GET /research-common/api/v1/notification-module-roles/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Notification Module Roles [PUT /research-sys/api/v1/notification-module-roles/(key)]
+### Update Notification Module Roles [PUT /research-common/api/v1/notification-module-roles/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Notification Module Roles [PUT /research-sys/api/v1/notification-module-roles/]
+### Update Multiple Notification Module Roles [PUT /research-common/api/v1/notification-module-roles/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Notification Module Roles [POST /research-sys/api/v1/notification-module-roles/]
+### Insert Notification Module Roles [POST /research-common/api/v1/notification-module-roles/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"notificationModuleRoleId": "(val)","moduleCode": "(val)","roleName": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Notification Module Roles [POST /research-sys/api/v1/notification-module-roles/]
+### Insert Multiple Notification Module Roles [POST /research-common/api/v1/notification-module-roles/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"notificationModuleRoleId": "(val)","moduleCode": "(val)","roleName": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Notification Module Roles by Key [DELETE /research-sys/api/v1/notification-module-roles/(key)]
+### Delete Notification Module Roles by Key [DELETE /research-common/api/v1/notification-module-roles/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Notification Module Roles [DELETE /research-sys/api/v1/notification-module-roles/]
+### Delete All Notification Module Roles [DELETE /research-common/api/v1/notification-module-roles/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Notification Module Roles with Matching [DELETE /research-sys/api/v1/notification-module-roles/]
+### Delete All Notification Module Roles with Matching [DELETE /research-common/api/v1/notification-module-roles/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + notificationModuleRoleId
-            + moduleCode
-            + roleName
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + notificationModuleRoleId (optional) - Notification Module Role Id. Maximum length is 6.
+    + moduleCode (optional) - Module Code. Maximum length is 3.
+    + roleName (optional) - Role Name. Maximum length is 125.
 
       
 + Request

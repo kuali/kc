@@ -1,6 +1,6 @@
-## Protocol Reviewers [/research-sys/api/v1/protocol-reviewers/]
+## Protocol Reviewers [/irb/api/v1/protocol-reviewers/]
 
-### Get Protocol Reviewers by Key [GET /research-sys/api/v1/protocol-reviewers/(key)]
+### Get Protocol Reviewers by Key [GET /irb/api/v1/protocol-reviewers/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"protocolReviewerId": "(val)","protocolIdFk": "(val)","submissionIdFk": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","rolodexId": "(val)","submissionNumber": "(val)","reviewerTypeCode": "(val)","personId": "(val)","nonEmployeeFlag": "(val)","_primaryKey": "(val)"}
 
-### Get All Protocol Reviewers [GET /research-sys/api/v1/protocol-reviewers/]
+### Get All Protocol Reviewers [GET /irb/api/v1/protocol-reviewers/]
 	 
 + Request
 
@@ -39,20 +39,20 @@
               {"protocolReviewerId": "(val)","protocolIdFk": "(val)","submissionIdFk": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","rolodexId": "(val)","submissionNumber": "(val)","reviewerTypeCode": "(val)","personId": "(val)","nonEmployeeFlag": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Protocol Reviewers with Filtering [GET /research-sys/api/v1/protocol-reviewers/]
+### Get All Protocol Reviewers with Filtering [GET /irb/api/v1/protocol-reviewers/]
     
 + Parameters
 
-        + protocolReviewerId
-            + protocolIdFk
-            + submissionIdFk
-            + protocolNumber
-            + sequenceNumber
-            + rolodexId
-            + submissionNumber
-            + reviewerTypeCode
-            + personId
-            + nonEmployeeFlag
+    + protocolReviewerId (optional) - 
+    + protocolIdFk (optional) - 
+    + submissionIdFk (optional) - 
+    + protocolNumber (optional) - 
+    + sequenceNumber (optional) - 
+    + rolodexId (optional) - 
+    + submissionNumber (optional) - 
+    + reviewerTypeCode (optional) - 
+    + personId (optional) - 
+    + nonEmployeeFlag (optional) - 
 
             
 + Request
@@ -74,7 +74,7 @@
               {"protocolReviewerId": "(val)","protocolIdFk": "(val)","submissionIdFk": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","rolodexId": "(val)","submissionNumber": "(val)","reviewerTypeCode": "(val)","personId": "(val)","nonEmployeeFlag": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Protocol Reviewers [GET /research-sys/api/v1/protocol-reviewers/]
+### Get Schema for Protocol Reviewers [GET /irb/api/v1/protocol-reviewers/]
 	                                          
 + Parameters
 
@@ -96,7 +96,7 @@
     
             {"columns":["protocolReviewerId","protocolIdFk","submissionIdFk","protocolNumber","sequenceNumber","rolodexId","submissionNumber","reviewerTypeCode","personId","nonEmployeeFlag"],"primaryKey":"protocolReviewerId"}
 		
-### Get Blueprint API specification for Protocol Reviewers [GET /research-sys/api/v1/protocol-reviewers/]
+### Get Blueprint API specification for Protocol Reviewers [GET /irb/api/v1/protocol-reviewers/]
 	 
 + Parameters
 
@@ -117,7 +117,7 @@
             transfer-encoding:chunked
 
 
-### Update Protocol Reviewers [PUT /research-sys/api/v1/protocol-reviewers/(key)]
+### Update Protocol Reviewers [PUT /irb/api/v1/protocol-reviewers/(key)]
 
 + Request
 
@@ -132,7 +132,7 @@
 			
 + Response 204
 
-### Update Multiple Protocol Reviewers [PUT /research-sys/api/v1/protocol-reviewers/]
+### Update Multiple Protocol Reviewers [PUT /irb/api/v1/protocol-reviewers/]
 
 + Request
 
@@ -150,7 +150,7 @@
 			
 + Response 204
 
-### Insert Protocol Reviewers [POST /research-sys/api/v1/protocol-reviewers/]
+### Insert Protocol Reviewers [POST /irb/api/v1/protocol-reviewers/]
 
 + Request
 
@@ -169,7 +169,7 @@
             
             {"protocolReviewerId": "(val)","protocolIdFk": "(val)","submissionIdFk": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","rolodexId": "(val)","submissionNumber": "(val)","reviewerTypeCode": "(val)","personId": "(val)","nonEmployeeFlag": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Protocol Reviewers [POST /research-sys/api/v1/protocol-reviewers/]
+### Insert Multiple Protocol Reviewers [POST /irb/api/v1/protocol-reviewers/]
 
 + Request
 
@@ -194,7 +194,7 @@
               {"protocolReviewerId": "(val)","protocolIdFk": "(val)","submissionIdFk": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","rolodexId": "(val)","submissionNumber": "(val)","reviewerTypeCode": "(val)","personId": "(val)","nonEmployeeFlag": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Protocol Reviewers by Key [DELETE /research-sys/api/v1/protocol-reviewers/(key)]
+### Delete Protocol Reviewers by Key [DELETE /irb/api/v1/protocol-reviewers/(key)]
 	 
 + Request
 
@@ -205,7 +205,7 @@
 
 + Response 204
 
-### Delete All Protocol Reviewers [DELETE /research-sys/api/v1/protocol-reviewers/]
+### Delete All Protocol Reviewers [DELETE /irb/api/v1/protocol-reviewers/]
 
 + Parameters
 
@@ -220,21 +220,21 @@
 
 + Response 204
 
-### Delete All Protocol Reviewers with Matching [DELETE /research-sys/api/v1/protocol-reviewers/]
+### Delete All Protocol Reviewers with Matching [DELETE /irb/api/v1/protocol-reviewers/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + protocolReviewerId
-            + protocolIdFk
-            + submissionIdFk
-            + protocolNumber
-            + sequenceNumber
-            + rolodexId
-            + submissionNumber
-            + reviewerTypeCode
-            + personId
-            + nonEmployeeFlag
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + protocolReviewerId (optional) - 
+    + protocolIdFk (optional) - 
+    + submissionIdFk (optional) - 
+    + protocolNumber (optional) - 
+    + sequenceNumber (optional) - 
+    + rolodexId (optional) - 
+    + submissionNumber (optional) - 
+    + reviewerTypeCode (optional) - 
+    + personId (optional) - 
+    + nonEmployeeFlag (optional) - 
 
       
 + Request

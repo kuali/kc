@@ -1,6 +1,6 @@
-## Proposal Development Documents [/research-sys/api/v1/proposal-development-documents/]
+## Proposal Development Documents [/propdev/api/v1/proposal-development-documents/]
 
-### Get Proposal Development Documents by Key [GET /research-sys/api/v1/proposal-development-documents/(key)]
+### Get Proposal Development Documents by Key [GET /propdev/api/v1/proposal-development-documents/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"proposalDeleted": "(val)","documentNumber": "(val)","_primaryKey": "(val)"}
 
-### Get All Proposal Development Documents [GET /research-sys/api/v1/proposal-development-documents/]
+### Get All Proposal Development Documents [GET /propdev/api/v1/proposal-development-documents/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"proposalDeleted": "(val)","documentNumber": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Proposal Development Documents with Filtering [GET /research-sys/api/v1/proposal-development-documents/]
+### Get All Proposal Development Documents with Filtering [GET /propdev/api/v1/proposal-development-documents/]
     
 + Parameters
 
-        + proposalDeleted
-            + documentNumber
+    + proposalDeleted (optional) - Proposal Deleted.
+    + documentNumber (optional) - Document Number. Maximum length is 14.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"proposalDeleted": "(val)","documentNumber": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Proposal Development Documents [GET /research-sys/api/v1/proposal-development-documents/]
+### Get Schema for Proposal Development Documents [GET /propdev/api/v1/proposal-development-documents/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["proposalDeleted","documentNumber"],"primaryKey":"documentNumber"}
 		
-### Get Blueprint API specification for Proposal Development Documents [GET /research-sys/api/v1/proposal-development-documents/]
+### Get Blueprint API specification for Proposal Development Documents [GET /propdev/api/v1/proposal-development-documents/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Proposal Development Documents [PUT /research-sys/api/v1/proposal-development-documents/(key)]
+### Update Proposal Development Documents [PUT /propdev/api/v1/proposal-development-documents/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Proposal Development Documents [PUT /research-sys/api/v1/proposal-development-documents/]
+### Update Multiple Proposal Development Documents [PUT /propdev/api/v1/proposal-development-documents/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Proposal Development Documents [POST /research-sys/api/v1/proposal-development-documents/]
+### Insert Proposal Development Documents [POST /propdev/api/v1/proposal-development-documents/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"proposalDeleted": "(val)","documentNumber": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Proposal Development Documents [POST /research-sys/api/v1/proposal-development-documents/]
+### Insert Multiple Proposal Development Documents [POST /propdev/api/v1/proposal-development-documents/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"proposalDeleted": "(val)","documentNumber": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Proposal Development Documents by Key [DELETE /research-sys/api/v1/proposal-development-documents/(key)]
+### Delete Proposal Development Documents by Key [DELETE /propdev/api/v1/proposal-development-documents/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Proposal Development Documents [DELETE /research-sys/api/v1/proposal-development-documents/]
+### Delete All Proposal Development Documents [DELETE /propdev/api/v1/proposal-development-documents/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Proposal Development Documents with Matching [DELETE /research-sys/api/v1/proposal-development-documents/]
+### Delete All Proposal Development Documents with Matching [DELETE /propdev/api/v1/proposal-development-documents/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + proposalDeleted
-            + documentNumber
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + proposalDeleted (optional) - Proposal Deleted.
+    + documentNumber (optional) - Document Number. Maximum length is 14.
 
       
 + Request

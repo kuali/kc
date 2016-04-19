@@ -43,8 +43,8 @@
     
 + Parameters
 
-        + id
-            + value
+    + id (optional) - Rule Attribute Id.
+    + value (optional) - Attribute Value.
 
             
 + Request
@@ -216,9 +216,9 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + value
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Rule Attribute Id.
+    + value (optional) - Attribute Value.
 
       
 + Request

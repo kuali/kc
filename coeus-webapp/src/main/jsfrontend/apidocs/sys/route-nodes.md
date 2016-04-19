@@ -43,18 +43,18 @@
     
 + Parameters
 
-        + routeNodeId
-            + documentTypeId
-            + routeNodeName
-            + routeMethodName
-            + finalApprovalInd
-            + mandatoryRouteInd
-            + exceptionWorkgroupId
-            + routeMethodCode
-            + activationType
-            + nextDocStatus
-            + lockVerNbr
-            + nodeType
+    + routeNodeId (optional) - 
+    + documentTypeId (optional) - 
+    + routeNodeName (optional) - 
+    + routeMethodName (optional) - 
+    + finalApprovalInd (optional) - 
+    + mandatoryRouteInd (optional) - 
+    + exceptionWorkgroupId (optional) - 
+    + routeMethodCode (optional) - 
+    + activationType (optional) - 
+    + nextDocStatus (optional) - 
+    + lockVerNbr (optional) - 
+    + nodeType (optional) - 
 
             
 + Request
@@ -226,19 +226,19 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + routeNodeId
-            + documentTypeId
-            + routeNodeName
-            + routeMethodName
-            + finalApprovalInd
-            + mandatoryRouteInd
-            + exceptionWorkgroupId
-            + routeMethodCode
-            + activationType
-            + nextDocStatus
-            + lockVerNbr
-            + nodeType
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + routeNodeId (optional) - 
+    + documentTypeId (optional) - 
+    + routeNodeName (optional) - 
+    + routeMethodName (optional) - 
+    + finalApprovalInd (optional) - 
+    + mandatoryRouteInd (optional) - 
+    + exceptionWorkgroupId (optional) - 
+    + routeMethodCode (optional) - 
+    + activationType (optional) - 
+    + nextDocStatus (optional) - 
+    + lockVerNbr (optional) - 
+    + nodeType (optional) - 
 
       
 + Request

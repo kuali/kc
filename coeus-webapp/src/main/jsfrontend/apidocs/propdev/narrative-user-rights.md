@@ -1,6 +1,6 @@
-## Narrative User Rights [/research-sys/api/v1/narrative-user-rights/]
+## Narrative User Rights [/propdev/api/v1/narrative-user-rights/]
 
-### Get Narrative User Rights by Key [GET /research-sys/api/v1/narrative-user-rights/(key)]
+### Get Narrative User Rights by Key [GET /propdev/api/v1/narrative-user-rights/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"moduleNumber": "(val)","proposalNumber": "(val)","userId": "(val)","accessType": "(val)","_primaryKey": "(val)"}
 
-### Get All Narrative User Rights [GET /research-sys/api/v1/narrative-user-rights/]
+### Get All Narrative User Rights [GET /propdev/api/v1/narrative-user-rights/]
 	 
 + Request
 
@@ -39,14 +39,14 @@
               {"moduleNumber": "(val)","proposalNumber": "(val)","userId": "(val)","accessType": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Narrative User Rights with Filtering [GET /research-sys/api/v1/narrative-user-rights/]
+### Get All Narrative User Rights with Filtering [GET /propdev/api/v1/narrative-user-rights/]
     
 + Parameters
 
-        + moduleNumber
-            + proposalNumber
-            + userId
-            + accessType
+    + moduleNumber (optional) - Module Number. Maximum length is 4.
+    + proposalNumber (optional) - Proposal Number. Maximum length is 12.
+    + userId (optional) - User Id. Maximum length is 40.
+    + accessType (optional) - Access Type. Maximum length is 1.
 
             
 + Request
@@ -68,7 +68,7 @@
               {"moduleNumber": "(val)","proposalNumber": "(val)","userId": "(val)","accessType": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Narrative User Rights [GET /research-sys/api/v1/narrative-user-rights/]
+### Get Schema for Narrative User Rights [GET /propdev/api/v1/narrative-user-rights/]
 	                                          
 + Parameters
 
@@ -90,7 +90,7 @@
     
             {"columns":["moduleNumber","proposalNumber","userId","accessType"],"primaryKey":"moduleNumber:proposalNumber:userId"}
 		
-### Get Blueprint API specification for Narrative User Rights [GET /research-sys/api/v1/narrative-user-rights/]
+### Get Blueprint API specification for Narrative User Rights [GET /propdev/api/v1/narrative-user-rights/]
 	 
 + Parameters
 
@@ -111,7 +111,7 @@
             transfer-encoding:chunked
 
 
-### Update Narrative User Rights [PUT /research-sys/api/v1/narrative-user-rights/(key)]
+### Update Narrative User Rights [PUT /propdev/api/v1/narrative-user-rights/(key)]
 
 + Request
 
@@ -126,7 +126,7 @@
 			
 + Response 204
 
-### Update Multiple Narrative User Rights [PUT /research-sys/api/v1/narrative-user-rights/]
+### Update Multiple Narrative User Rights [PUT /propdev/api/v1/narrative-user-rights/]
 
 + Request
 
@@ -144,7 +144,7 @@
 			
 + Response 204
 
-### Insert Narrative User Rights [POST /research-sys/api/v1/narrative-user-rights/]
+### Insert Narrative User Rights [POST /propdev/api/v1/narrative-user-rights/]
 
 + Request
 
@@ -163,7 +163,7 @@
             
             {"moduleNumber": "(val)","proposalNumber": "(val)","userId": "(val)","accessType": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Narrative User Rights [POST /research-sys/api/v1/narrative-user-rights/]
+### Insert Multiple Narrative User Rights [POST /propdev/api/v1/narrative-user-rights/]
 
 + Request
 
@@ -188,7 +188,7 @@
               {"moduleNumber": "(val)","proposalNumber": "(val)","userId": "(val)","accessType": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Narrative User Rights by Key [DELETE /research-sys/api/v1/narrative-user-rights/(key)]
+### Delete Narrative User Rights by Key [DELETE /propdev/api/v1/narrative-user-rights/(key)]
 	 
 + Request
 
@@ -199,7 +199,7 @@
 
 + Response 204
 
-### Delete All Narrative User Rights [DELETE /research-sys/api/v1/narrative-user-rights/]
+### Delete All Narrative User Rights [DELETE /propdev/api/v1/narrative-user-rights/]
 
 + Parameters
 
@@ -214,15 +214,15 @@
 
 + Response 204
 
-### Delete All Narrative User Rights with Matching [DELETE /research-sys/api/v1/narrative-user-rights/]
+### Delete All Narrative User Rights with Matching [DELETE /propdev/api/v1/narrative-user-rights/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + moduleNumber
-            + proposalNumber
-            + userId
-            + accessType
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + moduleNumber (optional) - Module Number. Maximum length is 4.
+    + proposalNumber (optional) - Proposal Number. Maximum length is 12.
+    + userId (optional) - User Id. Maximum length is 40.
+    + accessType (optional) - Access Type. Maximum length is 1.
 
       
 + Request

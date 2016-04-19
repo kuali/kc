@@ -1,6 +1,6 @@
-## Iacuc Protocol Review Attachments [/research-sys/api/v1/iacuc-protocol-review-attachments/]
+## Iacuc Protocol Review Attachments [/iacuc/api/v1/iacuc-protocol-review-attachments/]
 
-### Get Iacuc Protocol Review Attachments by Key [GET /research-sys/api/v1/iacuc-protocol-review-attachments/(key)]
+### Get Iacuc Protocol Review Attachments by Key [GET /iacuc/api/v1/iacuc-protocol-review-attachments/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"reviewerAttachmentId": "(val)","protocolOnlineReviewIdFk": "(val)","protocolIdFk": "(val)","submissionIdFk": "(val)","attachmentId": "(val)","description": "(val)","fileId": "(val)","personId": "(val)","createUser": "(val)","createTimestamp": "(val)","privateFlag": "(val)","protocolPersonCanView": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Protocol Review Attachments [GET /research-sys/api/v1/iacuc-protocol-review-attachments/]
+### Get All Iacuc Protocol Review Attachments [GET /iacuc/api/v1/iacuc-protocol-review-attachments/]
 	 
 + Request
 
@@ -39,22 +39,22 @@
               {"reviewerAttachmentId": "(val)","protocolOnlineReviewIdFk": "(val)","protocolIdFk": "(val)","submissionIdFk": "(val)","attachmentId": "(val)","description": "(val)","fileId": "(val)","personId": "(val)","createUser": "(val)","createTimestamp": "(val)","privateFlag": "(val)","protocolPersonCanView": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Protocol Review Attachments with Filtering [GET /research-sys/api/v1/iacuc-protocol-review-attachments/]
+### Get All Iacuc Protocol Review Attachments with Filtering [GET /iacuc/api/v1/iacuc-protocol-review-attachments/]
     
 + Parameters
 
-        + reviewerAttachmentId
-            + protocolOnlineReviewIdFk
-            + protocolIdFk
-            + submissionIdFk
-            + attachmentId
-            + description
-            + fileId
-            + personId
-            + createUser
-            + createTimestamp
-            + privateFlag
-            + protocolPersonCanView
+    + reviewerAttachmentId (optional) - Id. Maximum length is 10.
+    + protocolOnlineReviewIdFk (optional) - Id. Maximum length is 10.
+    + protocolIdFk (optional) - Protocol Id Fk. Maximum length is 12.
+    + submissionIdFk (optional) - Submission Id Fk. Maximum length is 12.
+    + attachmentId (optional) - 
+    + description (optional) - Description. Maximum length is 200.
+    + fileId (optional) - File Name. Maximum length is 12.
+    + personId (optional) - Person Id. Maximum length is 40.
+    + createUser (optional) - Create User. Maximum length is 80.
+    + createTimestamp (optional) - Created Time. Maximum length is 21.
+    + privateFlag (optional) - Private Attachment Flag. Maximum length is 1.
+    + protocolPersonCanView (optional) - Protocol personnel can view Flag. Maximum length is 1.
 
             
 + Request
@@ -76,7 +76,7 @@
               {"reviewerAttachmentId": "(val)","protocolOnlineReviewIdFk": "(val)","protocolIdFk": "(val)","submissionIdFk": "(val)","attachmentId": "(val)","description": "(val)","fileId": "(val)","personId": "(val)","createUser": "(val)","createTimestamp": "(val)","privateFlag": "(val)","protocolPersonCanView": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Protocol Review Attachments [GET /research-sys/api/v1/iacuc-protocol-review-attachments/]
+### Get Schema for Iacuc Protocol Review Attachments [GET /iacuc/api/v1/iacuc-protocol-review-attachments/]
 	                                          
 + Parameters
 
@@ -98,7 +98,7 @@
     
             {"columns":["reviewerAttachmentId","protocolOnlineReviewIdFk","protocolIdFk","submissionIdFk","attachmentId","description","fileId","personId","createUser","createTimestamp","privateFlag","protocolPersonCanView"],"primaryKey":"reviewerAttachmentId"}
 		
-### Get Blueprint API specification for Iacuc Protocol Review Attachments [GET /research-sys/api/v1/iacuc-protocol-review-attachments/]
+### Get Blueprint API specification for Iacuc Protocol Review Attachments [GET /iacuc/api/v1/iacuc-protocol-review-attachments/]
 	 
 + Parameters
 
@@ -119,7 +119,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Protocol Review Attachments [PUT /research-sys/api/v1/iacuc-protocol-review-attachments/(key)]
+### Update Iacuc Protocol Review Attachments [PUT /iacuc/api/v1/iacuc-protocol-review-attachments/(key)]
 
 + Request
 
@@ -134,7 +134,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Protocol Review Attachments [PUT /research-sys/api/v1/iacuc-protocol-review-attachments/]
+### Update Multiple Iacuc Protocol Review Attachments [PUT /iacuc/api/v1/iacuc-protocol-review-attachments/]
 
 + Request
 
@@ -152,7 +152,7 @@
 			
 + Response 204
 
-### Insert Iacuc Protocol Review Attachments [POST /research-sys/api/v1/iacuc-protocol-review-attachments/]
+### Insert Iacuc Protocol Review Attachments [POST /iacuc/api/v1/iacuc-protocol-review-attachments/]
 
 + Request
 
@@ -171,7 +171,7 @@
             
             {"reviewerAttachmentId": "(val)","protocolOnlineReviewIdFk": "(val)","protocolIdFk": "(val)","submissionIdFk": "(val)","attachmentId": "(val)","description": "(val)","fileId": "(val)","personId": "(val)","createUser": "(val)","createTimestamp": "(val)","privateFlag": "(val)","protocolPersonCanView": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Protocol Review Attachments [POST /research-sys/api/v1/iacuc-protocol-review-attachments/]
+### Insert Multiple Iacuc Protocol Review Attachments [POST /iacuc/api/v1/iacuc-protocol-review-attachments/]
 
 + Request
 
@@ -196,7 +196,7 @@
               {"reviewerAttachmentId": "(val)","protocolOnlineReviewIdFk": "(val)","protocolIdFk": "(val)","submissionIdFk": "(val)","attachmentId": "(val)","description": "(val)","fileId": "(val)","personId": "(val)","createUser": "(val)","createTimestamp": "(val)","privateFlag": "(val)","protocolPersonCanView": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Protocol Review Attachments by Key [DELETE /research-sys/api/v1/iacuc-protocol-review-attachments/(key)]
+### Delete Iacuc Protocol Review Attachments by Key [DELETE /iacuc/api/v1/iacuc-protocol-review-attachments/(key)]
 	 
 + Request
 
@@ -207,7 +207,7 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Review Attachments [DELETE /research-sys/api/v1/iacuc-protocol-review-attachments/]
+### Delete All Iacuc Protocol Review Attachments [DELETE /iacuc/api/v1/iacuc-protocol-review-attachments/]
 
 + Parameters
 
@@ -222,23 +222,23 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Review Attachments with Matching [DELETE /research-sys/api/v1/iacuc-protocol-review-attachments/]
+### Delete All Iacuc Protocol Review Attachments with Matching [DELETE /iacuc/api/v1/iacuc-protocol-review-attachments/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + reviewerAttachmentId
-            + protocolOnlineReviewIdFk
-            + protocolIdFk
-            + submissionIdFk
-            + attachmentId
-            + description
-            + fileId
-            + personId
-            + createUser
-            + createTimestamp
-            + privateFlag
-            + protocolPersonCanView
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + reviewerAttachmentId (optional) - Id. Maximum length is 10.
+    + protocolOnlineReviewIdFk (optional) - Id. Maximum length is 10.
+    + protocolIdFk (optional) - Protocol Id Fk. Maximum length is 12.
+    + submissionIdFk (optional) - Submission Id Fk. Maximum length is 12.
+    + attachmentId (optional) - 
+    + description (optional) - Description. Maximum length is 200.
+    + fileId (optional) - File Name. Maximum length is 12.
+    + personId (optional) - Person Id. Maximum length is 40.
+    + createUser (optional) - Create User. Maximum length is 80.
+    + createTimestamp (optional) - Created Time. Maximum length is 21.
+    + privateFlag (optional) - Private Attachment Flag. Maximum length is 1.
+    + protocolPersonCanView (optional) - Protocol personnel can view Flag. Maximum length is 1.
 
       
 + Request

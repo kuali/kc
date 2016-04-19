@@ -1,6 +1,6 @@
-## Sub Award Approval Types [/research-sys/api/v1/sub-award-approval-types/]
+## Sub Award Approval Types [/subaward/api/v1/sub-award-approval-types/]
 
-### Get Sub Award Approval Types by Key [GET /research-sys/api/v1/sub-award-approval-types/(key)]
+### Get Sub Award Approval Types by Key [GET /subaward/api/v1/sub-award-approval-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"subAwardApprovalTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Sub Award Approval Types [GET /research-sys/api/v1/sub-award-approval-types/]
+### Get All Sub Award Approval Types [GET /subaward/api/v1/sub-award-approval-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"subAwardApprovalTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Sub Award Approval Types with Filtering [GET /research-sys/api/v1/sub-award-approval-types/]
+### Get All Sub Award Approval Types with Filtering [GET /subaward/api/v1/sub-award-approval-types/]
     
 + Parameters
 
-        + subAwardApprovalTypeCode
-            + description
+    + subAwardApprovalTypeCode (optional) - SubAward Approval Type Code. Maximum length is 22.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"subAwardApprovalTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Sub Award Approval Types [GET /research-sys/api/v1/sub-award-approval-types/]
+### Get Schema for Sub Award Approval Types [GET /subaward/api/v1/sub-award-approval-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["subAwardApprovalTypeCode","description"],"primaryKey":"subAwardApprovalTypeCode"}
 		
-### Get Blueprint API specification for Sub Award Approval Types [GET /research-sys/api/v1/sub-award-approval-types/]
+### Get Blueprint API specification for Sub Award Approval Types [GET /subaward/api/v1/sub-award-approval-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Sub Award Approval Types [PUT /research-sys/api/v1/sub-award-approval-types/(key)]
+### Update Sub Award Approval Types [PUT /subaward/api/v1/sub-award-approval-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Sub Award Approval Types [PUT /research-sys/api/v1/sub-award-approval-types/]
+### Update Multiple Sub Award Approval Types [PUT /subaward/api/v1/sub-award-approval-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Sub Award Approval Types [POST /research-sys/api/v1/sub-award-approval-types/]
+### Insert Sub Award Approval Types [POST /subaward/api/v1/sub-award-approval-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"subAwardApprovalTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Sub Award Approval Types [POST /research-sys/api/v1/sub-award-approval-types/]
+### Insert Multiple Sub Award Approval Types [POST /subaward/api/v1/sub-award-approval-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"subAwardApprovalTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Sub Award Approval Types by Key [DELETE /research-sys/api/v1/sub-award-approval-types/(key)]
+### Delete Sub Award Approval Types by Key [DELETE /subaward/api/v1/sub-award-approval-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Sub Award Approval Types [DELETE /research-sys/api/v1/sub-award-approval-types/]
+### Delete All Sub Award Approval Types [DELETE /subaward/api/v1/sub-award-approval-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Sub Award Approval Types with Matching [DELETE /research-sys/api/v1/sub-award-approval-types/]
+### Delete All Sub Award Approval Types with Matching [DELETE /subaward/api/v1/sub-award-approval-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + subAwardApprovalTypeCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + subAwardApprovalTypeCode (optional) - SubAward Approval Type Code. Maximum length is 22.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

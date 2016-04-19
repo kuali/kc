@@ -1,6 +1,6 @@
-## Budget Sub Award Files [/research-sys/api/v1/budget-sub-award-files/]
+## Budget Sub Award Files [/propdev/api/v1/budget-sub-award-files/]
 
-### Get Budget Sub Award Files by Key [GET /research-sys/api/v1/budget-sub-award-files/(key)]
+### Get Budget Sub Award Files by Key [GET /propdev/api/v1/budget-sub-award-files/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"subAwardXfdFileData": "(val)","subAwardXfdFileName": "(val)","subAwardXmlFileData": "(val)","_primaryKey": "(val)"}
 
-### Get All Budget Sub Award Files [GET /research-sys/api/v1/budget-sub-award-files/]
+### Get All Budget Sub Award Files [GET /propdev/api/v1/budget-sub-award-files/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"subAwardXfdFileData": "(val)","subAwardXfdFileName": "(val)","subAwardXmlFileData": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Budget Sub Award Files with Filtering [GET /research-sys/api/v1/budget-sub-award-files/]
+### Get All Budget Sub Award Files with Filtering [GET /propdev/api/v1/budget-sub-award-files/]
     
 + Parameters
 
-        + subAwardXfdFileData
-            + subAwardXfdFileName
-            + subAwardXmlFileData
+    + subAwardXfdFileData (optional) - Sub Award Xfd File Data.
+    + subAwardXfdFileName (optional) - Sub Award Xfd File Name.
+    + subAwardXmlFileData (optional) - Sub Award Xml File Data.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"subAwardXfdFileData": "(val)","subAwardXfdFileName": "(val)","subAwardXmlFileData": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Budget Sub Award Files [GET /research-sys/api/v1/budget-sub-award-files/]
+### Get Schema for Budget Sub Award Files [GET /propdev/api/v1/budget-sub-award-files/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["subAwardXfdFileData","subAwardXfdFileName","subAwardXmlFileData"],"primaryKey":"budgetSubAward"}
 		
-### Get Blueprint API specification for Budget Sub Award Files [GET /research-sys/api/v1/budget-sub-award-files/]
+### Get Blueprint API specification for Budget Sub Award Files [GET /propdev/api/v1/budget-sub-award-files/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Budget Sub Award Files [PUT /research-sys/api/v1/budget-sub-award-files/(key)]
+### Update Budget Sub Award Files [PUT /propdev/api/v1/budget-sub-award-files/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Budget Sub Award Files [PUT /research-sys/api/v1/budget-sub-award-files/]
+### Update Multiple Budget Sub Award Files [PUT /propdev/api/v1/budget-sub-award-files/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Budget Sub Award Files [POST /research-sys/api/v1/budget-sub-award-files/]
+### Insert Budget Sub Award Files [POST /propdev/api/v1/budget-sub-award-files/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"subAwardXfdFileData": "(val)","subAwardXfdFileName": "(val)","subAwardXmlFileData": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Budget Sub Award Files [POST /research-sys/api/v1/budget-sub-award-files/]
+### Insert Multiple Budget Sub Award Files [POST /propdev/api/v1/budget-sub-award-files/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"subAwardXfdFileData": "(val)","subAwardXfdFileName": "(val)","subAwardXmlFileData": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Budget Sub Award Files by Key [DELETE /research-sys/api/v1/budget-sub-award-files/(key)]
+### Delete Budget Sub Award Files by Key [DELETE /propdev/api/v1/budget-sub-award-files/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Budget Sub Award Files [DELETE /research-sys/api/v1/budget-sub-award-files/]
+### Delete All Budget Sub Award Files [DELETE /propdev/api/v1/budget-sub-award-files/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Budget Sub Award Files with Matching [DELETE /research-sys/api/v1/budget-sub-award-files/]
+### Delete All Budget Sub Award Files with Matching [DELETE /propdev/api/v1/budget-sub-award-files/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + subAwardXfdFileData
-            + subAwardXfdFileName
-            + subAwardXmlFileData
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + subAwardXfdFileData (optional) - Sub Award Xfd File Data.
+    + subAwardXfdFileName (optional) - Sub Award Xfd File Name.
+    + subAwardXmlFileData (optional) - Sub Award Xml File Data.
 
       
 + Request

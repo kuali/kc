@@ -1,6 +1,6 @@
-## Indirectcost Rate Types [/research-sys/api/v1/indirectcost-rate-types/]
+## Indirectcost Rate Types [/instprop/api/v1/indirectcost-rate-types/]
 
-### Get Indirectcost Rate Types by Key [GET /research-sys/api/v1/indirectcost-rate-types/(key)]
+### Get Indirectcost Rate Types by Key [GET /instprop/api/v1/indirectcost-rate-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"indirectcostRateTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Indirectcost Rate Types [GET /research-sys/api/v1/indirectcost-rate-types/]
+### Get All Indirectcost Rate Types [GET /instprop/api/v1/indirectcost-rate-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"indirectcostRateTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Indirectcost Rate Types with Filtering [GET /research-sys/api/v1/indirectcost-rate-types/]
+### Get All Indirectcost Rate Types with Filtering [GET /instprop/api/v1/indirectcost-rate-types/]
     
 + Parameters
 
-        + indirectcostRateTypeCode
-            + description
+    + indirectcostRateTypeCode (optional) - Indirectcost Rate Type Code. Maximum length is 22.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"indirectcostRateTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Indirectcost Rate Types [GET /research-sys/api/v1/indirectcost-rate-types/]
+### Get Schema for Indirectcost Rate Types [GET /instprop/api/v1/indirectcost-rate-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["indirectcostRateTypeCode","description"],"primaryKey":"indirectcostRateTypeCode"}
 		
-### Get Blueprint API specification for Indirectcost Rate Types [GET /research-sys/api/v1/indirectcost-rate-types/]
+### Get Blueprint API specification for Indirectcost Rate Types [GET /instprop/api/v1/indirectcost-rate-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Indirectcost Rate Types [PUT /research-sys/api/v1/indirectcost-rate-types/(key)]
+### Update Indirectcost Rate Types [PUT /instprop/api/v1/indirectcost-rate-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Indirectcost Rate Types [PUT /research-sys/api/v1/indirectcost-rate-types/]
+### Update Multiple Indirectcost Rate Types [PUT /instprop/api/v1/indirectcost-rate-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Indirectcost Rate Types [POST /research-sys/api/v1/indirectcost-rate-types/]
+### Insert Indirectcost Rate Types [POST /instprop/api/v1/indirectcost-rate-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"indirectcostRateTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Indirectcost Rate Types [POST /research-sys/api/v1/indirectcost-rate-types/]
+### Insert Multiple Indirectcost Rate Types [POST /instprop/api/v1/indirectcost-rate-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"indirectcostRateTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Indirectcost Rate Types by Key [DELETE /research-sys/api/v1/indirectcost-rate-types/(key)]
+### Delete Indirectcost Rate Types by Key [DELETE /instprop/api/v1/indirectcost-rate-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Indirectcost Rate Types [DELETE /research-sys/api/v1/indirectcost-rate-types/]
+### Delete All Indirectcost Rate Types [DELETE /instprop/api/v1/indirectcost-rate-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Indirectcost Rate Types with Matching [DELETE /research-sys/api/v1/indirectcost-rate-types/]
+### Delete All Indirectcost Rate Types with Matching [DELETE /instprop/api/v1/indirectcost-rate-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + indirectcostRateTypeCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + indirectcostRateTypeCode (optional) - Indirectcost Rate Type Code. Maximum length is 22.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

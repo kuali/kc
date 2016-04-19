@@ -1,6 +1,6 @@
-## Rate Class Base Exclusions [/research-sys/api/v1/rate-class-base-exclusions/]
+## Rate Class Base Exclusions [/research-common/api/v1/rate-class-base-exclusions/]
 
-### Get Rate Class Base Exclusions by Key [GET /research-sys/api/v1/rate-class-base-exclusions/(key)]
+### Get Rate Class Base Exclusions by Key [GET /research-common/api/v1/rate-class-base-exclusions/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"rateClassBaseExclusionId": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","rateClassCodeExcl": "(val)","rateTypeCodeExcl": "(val)","_primaryKey": "(val)"}
 
-### Get All Rate Class Base Exclusions [GET /research-sys/api/v1/rate-class-base-exclusions/]
+### Get All Rate Class Base Exclusions [GET /research-common/api/v1/rate-class-base-exclusions/]
 	 
 + Request
 
@@ -39,15 +39,15 @@
               {"rateClassBaseExclusionId": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","rateClassCodeExcl": "(val)","rateTypeCodeExcl": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Rate Class Base Exclusions with Filtering [GET /research-sys/api/v1/rate-class-base-exclusions/]
+### Get All Rate Class Base Exclusions with Filtering [GET /research-common/api/v1/rate-class-base-exclusions/]
     
 + Parameters
 
-        + rateClassBaseExclusionId
-            + rateClassCode
-            + rateTypeCode
-            + rateClassCodeExcl
-            + rateTypeCodeExcl
+    + rateClassBaseExclusionId (optional) - Rate Class Base Exclusion Id. Maximum length is 22.
+    + rateClassCode (optional) - Rate Class. Maximum length is 3.
+    + rateTypeCode (optional) - Rate Type. Maximum length is 3.
+    + rateClassCodeExcl (optional) - Rate Class Exclusion. Maximum length is 3.
+    + rateTypeCodeExcl (optional) - Rate Type Exclusion. Maximum length is 3.
 
             
 + Request
@@ -69,7 +69,7 @@
               {"rateClassBaseExclusionId": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","rateClassCodeExcl": "(val)","rateTypeCodeExcl": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Rate Class Base Exclusions [GET /research-sys/api/v1/rate-class-base-exclusions/]
+### Get Schema for Rate Class Base Exclusions [GET /research-common/api/v1/rate-class-base-exclusions/]
 	                                          
 + Parameters
 
@@ -91,7 +91,7 @@
     
             {"columns":["rateClassBaseExclusionId","rateClassCode","rateTypeCode","rateClassCodeExcl","rateTypeCodeExcl"],"primaryKey":"rateClassBaseExclusionId"}
 		
-### Get Blueprint API specification for Rate Class Base Exclusions [GET /research-sys/api/v1/rate-class-base-exclusions/]
+### Get Blueprint API specification for Rate Class Base Exclusions [GET /research-common/api/v1/rate-class-base-exclusions/]
 	 
 + Parameters
 
@@ -112,7 +112,7 @@
             transfer-encoding:chunked
 
 
-### Update Rate Class Base Exclusions [PUT /research-sys/api/v1/rate-class-base-exclusions/(key)]
+### Update Rate Class Base Exclusions [PUT /research-common/api/v1/rate-class-base-exclusions/(key)]
 
 + Request
 
@@ -127,7 +127,7 @@
 			
 + Response 204
 
-### Update Multiple Rate Class Base Exclusions [PUT /research-sys/api/v1/rate-class-base-exclusions/]
+### Update Multiple Rate Class Base Exclusions [PUT /research-common/api/v1/rate-class-base-exclusions/]
 
 + Request
 
@@ -145,7 +145,7 @@
 			
 + Response 204
 
-### Insert Rate Class Base Exclusions [POST /research-sys/api/v1/rate-class-base-exclusions/]
+### Insert Rate Class Base Exclusions [POST /research-common/api/v1/rate-class-base-exclusions/]
 
 + Request
 
@@ -164,7 +164,7 @@
             
             {"rateClassBaseExclusionId": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","rateClassCodeExcl": "(val)","rateTypeCodeExcl": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Rate Class Base Exclusions [POST /research-sys/api/v1/rate-class-base-exclusions/]
+### Insert Multiple Rate Class Base Exclusions [POST /research-common/api/v1/rate-class-base-exclusions/]
 
 + Request
 
@@ -189,7 +189,7 @@
               {"rateClassBaseExclusionId": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","rateClassCodeExcl": "(val)","rateTypeCodeExcl": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Rate Class Base Exclusions by Key [DELETE /research-sys/api/v1/rate-class-base-exclusions/(key)]
+### Delete Rate Class Base Exclusions by Key [DELETE /research-common/api/v1/rate-class-base-exclusions/(key)]
 	 
 + Request
 
@@ -200,7 +200,7 @@
 
 + Response 204
 
-### Delete All Rate Class Base Exclusions [DELETE /research-sys/api/v1/rate-class-base-exclusions/]
+### Delete All Rate Class Base Exclusions [DELETE /research-common/api/v1/rate-class-base-exclusions/]
 
 + Parameters
 
@@ -215,16 +215,16 @@
 
 + Response 204
 
-### Delete All Rate Class Base Exclusions with Matching [DELETE /research-sys/api/v1/rate-class-base-exclusions/]
+### Delete All Rate Class Base Exclusions with Matching [DELETE /research-common/api/v1/rate-class-base-exclusions/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + rateClassBaseExclusionId
-            + rateClassCode
-            + rateTypeCode
-            + rateClassCodeExcl
-            + rateTypeCodeExcl
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + rateClassBaseExclusionId (optional) - Rate Class Base Exclusion Id. Maximum length is 22.
+    + rateClassCode (optional) - Rate Class. Maximum length is 3.
+    + rateTypeCode (optional) - Rate Type. Maximum length is 3.
+    + rateClassCodeExcl (optional) - Rate Class Exclusion. Maximum length is 3.
+    + rateTypeCodeExcl (optional) - Rate Type Exclusion. Maximum length is 3.
 
       
 + Request

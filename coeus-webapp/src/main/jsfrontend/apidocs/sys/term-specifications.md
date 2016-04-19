@@ -43,12 +43,12 @@
     
 + Parameters
 
-        + id
-            + name
-            + namespace
-            + type
-            + description
-            + active
+    + id (optional) - ID.
+    + name (optional) - Name.
+    + namespace (optional) - Namespace.
+    + type (optional) - Data Type.
+    + description (optional) - Description.
+    + active (optional) - This attribute is used to describe whether the associated object is active or inactive. Maximum length is 1.
 
             
 + Request
@@ -220,13 +220,13 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + name
-            + namespace
-            + type
-            + description
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - ID.
+    + name (optional) - Name.
+    + namespace (optional) - Namespace.
+    + type (optional) - Data Type.
+    + description (optional) - Description.
+    + active (optional) - This attribute is used to describe whether the associated object is active or inactive. Maximum length is 1.
 
       
 + Request

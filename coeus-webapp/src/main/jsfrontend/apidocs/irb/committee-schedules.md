@@ -1,6 +1,6 @@
-## Committee Schedules [/research-sys/api/v1/committee-schedules/]
+## Committee Schedules [/irb/api/v1/committee-schedules/]
 
-### Get Committee Schedules by Key [GET /research-sys/api/v1/committee-schedules/(key)]
+### Get Committee Schedules by Key [GET /irb/api/v1/committee-schedules/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"id": "(val)","scheduleId": "(val)","committeeIdFk": "(val)","scheduledDate": "(val)","place": "(val)","time": "(val)","protocolSubDeadline": "(val)","scheduleStatusCode": "(val)","meetingDate": "(val)","startTime": "(val)","endTime": "(val)","agendaProdRevDate": "(val)","maxProtocols": "(val)","comments": "(val)","availableToReviewers": "(val)","_primaryKey": "(val)"}
 
-### Get All Committee Schedules [GET /research-sys/api/v1/committee-schedules/]
+### Get All Committee Schedules [GET /irb/api/v1/committee-schedules/]
 	 
 + Request
 
@@ -39,25 +39,25 @@
               {"id": "(val)","scheduleId": "(val)","committeeIdFk": "(val)","scheduledDate": "(val)","place": "(val)","time": "(val)","protocolSubDeadline": "(val)","scheduleStatusCode": "(val)","meetingDate": "(val)","startTime": "(val)","endTime": "(val)","agendaProdRevDate": "(val)","maxProtocols": "(val)","comments": "(val)","availableToReviewers": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Committee Schedules with Filtering [GET /research-sys/api/v1/committee-schedules/]
+### Get All Committee Schedules with Filtering [GET /irb/api/v1/committee-schedules/]
     
 + Parameters
 
-        + id
-            + scheduleId
-            + committeeIdFk
-            + scheduledDate
-            + place
-            + time
-            + protocolSubDeadline
-            + scheduleStatusCode
-            + meetingDate
-            + startTime
-            + endTime
-            + agendaProdRevDate
-            + maxProtocols
-            + comments
-            + availableToReviewers
+    + id (optional) - Id. Maximum length is 12.
+    + scheduleId (optional) - Schedule Id. Maximum length is 10.
+    + committeeIdFk (optional) - Committee Id. Maximum length is 12.
+    + scheduledDate (optional) - Scheduled Date. Maximum length is 10.
+    + place (optional) - Place. Maximum length is 200.
+    + time (optional) - Time. Maximum length is 10.
+    + protocolSubDeadline (optional) - Protocol Sub Deadline. Maximum length is 10.
+    + scheduleStatusCode (optional) - Schedule Status Code. Maximum length is 3.
+    + meetingDate (optional) - Meeting Date. Maximum length is 21.
+    + startTime (optional) - Start Time. Maximum length is 10.
+    + endTime (optional) - End Time. Maximum length is 10.
+    + agendaProdRevDate (optional) - Agenda Prod Rev Date. Maximum length is 21.
+    + maxProtocols (optional) - Max Protocols. Maximum length is 4.
+    + comments (optional) - Comments. Maximum length is 2000.
+    + availableToReviewers (optional) - Available to reviewers. Maximum length is 1.
 
             
 + Request
@@ -79,7 +79,7 @@
               {"id": "(val)","scheduleId": "(val)","committeeIdFk": "(val)","scheduledDate": "(val)","place": "(val)","time": "(val)","protocolSubDeadline": "(val)","scheduleStatusCode": "(val)","meetingDate": "(val)","startTime": "(val)","endTime": "(val)","agendaProdRevDate": "(val)","maxProtocols": "(val)","comments": "(val)","availableToReviewers": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Committee Schedules [GET /research-sys/api/v1/committee-schedules/]
+### Get Schema for Committee Schedules [GET /irb/api/v1/committee-schedules/]
 	                                          
 + Parameters
 
@@ -101,7 +101,7 @@
     
             {"columns":["id","scheduleId","committeeIdFk","scheduledDate","place","time","protocolSubDeadline","scheduleStatusCode","meetingDate","startTime","endTime","agendaProdRevDate","maxProtocols","comments","availableToReviewers"],"primaryKey":"id"}
 		
-### Get Blueprint API specification for Committee Schedules [GET /research-sys/api/v1/committee-schedules/]
+### Get Blueprint API specification for Committee Schedules [GET /irb/api/v1/committee-schedules/]
 	 
 + Parameters
 
@@ -122,7 +122,7 @@
             transfer-encoding:chunked
 
 
-### Update Committee Schedules [PUT /research-sys/api/v1/committee-schedules/(key)]
+### Update Committee Schedules [PUT /irb/api/v1/committee-schedules/(key)]
 
 + Request
 
@@ -137,7 +137,7 @@
 			
 + Response 204
 
-### Update Multiple Committee Schedules [PUT /research-sys/api/v1/committee-schedules/]
+### Update Multiple Committee Schedules [PUT /irb/api/v1/committee-schedules/]
 
 + Request
 
@@ -155,7 +155,7 @@
 			
 + Response 204
 
-### Insert Committee Schedules [POST /research-sys/api/v1/committee-schedules/]
+### Insert Committee Schedules [POST /irb/api/v1/committee-schedules/]
 
 + Request
 
@@ -174,7 +174,7 @@
             
             {"id": "(val)","scheduleId": "(val)","committeeIdFk": "(val)","scheduledDate": "(val)","place": "(val)","time": "(val)","protocolSubDeadline": "(val)","scheduleStatusCode": "(val)","meetingDate": "(val)","startTime": "(val)","endTime": "(val)","agendaProdRevDate": "(val)","maxProtocols": "(val)","comments": "(val)","availableToReviewers": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Committee Schedules [POST /research-sys/api/v1/committee-schedules/]
+### Insert Multiple Committee Schedules [POST /irb/api/v1/committee-schedules/]
 
 + Request
 
@@ -199,7 +199,7 @@
               {"id": "(val)","scheduleId": "(val)","committeeIdFk": "(val)","scheduledDate": "(val)","place": "(val)","time": "(val)","protocolSubDeadline": "(val)","scheduleStatusCode": "(val)","meetingDate": "(val)","startTime": "(val)","endTime": "(val)","agendaProdRevDate": "(val)","maxProtocols": "(val)","comments": "(val)","availableToReviewers": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Committee Schedules by Key [DELETE /research-sys/api/v1/committee-schedules/(key)]
+### Delete Committee Schedules by Key [DELETE /irb/api/v1/committee-schedules/(key)]
 	 
 + Request
 
@@ -210,7 +210,7 @@
 
 + Response 204
 
-### Delete All Committee Schedules [DELETE /research-sys/api/v1/committee-schedules/]
+### Delete All Committee Schedules [DELETE /irb/api/v1/committee-schedules/]
 
 + Parameters
 
@@ -225,26 +225,26 @@
 
 + Response 204
 
-### Delete All Committee Schedules with Matching [DELETE /research-sys/api/v1/committee-schedules/]
+### Delete All Committee Schedules with Matching [DELETE /irb/api/v1/committee-schedules/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + scheduleId
-            + committeeIdFk
-            + scheduledDate
-            + place
-            + time
-            + protocolSubDeadline
-            + scheduleStatusCode
-            + meetingDate
-            + startTime
-            + endTime
-            + agendaProdRevDate
-            + maxProtocols
-            + comments
-            + availableToReviewers
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Id. Maximum length is 12.
+    + scheduleId (optional) - Schedule Id. Maximum length is 10.
+    + committeeIdFk (optional) - Committee Id. Maximum length is 12.
+    + scheduledDate (optional) - Scheduled Date. Maximum length is 10.
+    + place (optional) - Place. Maximum length is 200.
+    + time (optional) - Time. Maximum length is 10.
+    + protocolSubDeadline (optional) - Protocol Sub Deadline. Maximum length is 10.
+    + scheduleStatusCode (optional) - Schedule Status Code. Maximum length is 3.
+    + meetingDate (optional) - Meeting Date. Maximum length is 21.
+    + startTime (optional) - Start Time. Maximum length is 10.
+    + endTime (optional) - End Time. Maximum length is 10.
+    + agendaProdRevDate (optional) - Agenda Prod Rev Date. Maximum length is 21.
+    + maxProtocols (optional) - Max Protocols. Maximum length is 4.
+    + comments (optional) - Comments. Maximum length is 2000.
+    + availableToReviewers (optional) - Available to reviewers. Maximum length is 1.
 
       
 + Request

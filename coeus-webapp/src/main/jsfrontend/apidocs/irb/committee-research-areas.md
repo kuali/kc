@@ -1,6 +1,6 @@
-## Committee Research Areas [/research-sys/api/v1/committee-research-areas/]
+## Committee Research Areas [/irb/api/v1/committee-research-areas/]
 
-### Get Committee Research Areas by Key [GET /research-sys/api/v1/committee-research-areas/(key)]
+### Get Committee Research Areas by Key [GET /irb/api/v1/committee-research-areas/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"id": "(val)","committeeIdFk": "(val)","researchAreaCode": "(val)","_primaryKey": "(val)"}
 
-### Get All Committee Research Areas [GET /research-sys/api/v1/committee-research-areas/]
+### Get All Committee Research Areas [GET /irb/api/v1/committee-research-areas/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"id": "(val)","committeeIdFk": "(val)","researchAreaCode": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Committee Research Areas with Filtering [GET /research-sys/api/v1/committee-research-areas/]
+### Get All Committee Research Areas with Filtering [GET /irb/api/v1/committee-research-areas/]
     
 + Parameters
 
-        + id
-            + committeeIdFk
-            + researchAreaCode
+    + id (optional) - Committee Research Area Id.
+    + committeeIdFk (optional) - Committee Id Fk.
+    + researchAreaCode (optional) - Research Area Code.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"id": "(val)","committeeIdFk": "(val)","researchAreaCode": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Committee Research Areas [GET /research-sys/api/v1/committee-research-areas/]
+### Get Schema for Committee Research Areas [GET /irb/api/v1/committee-research-areas/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["id","committeeIdFk","researchAreaCode"],"primaryKey":"id"}
 		
-### Get Blueprint API specification for Committee Research Areas [GET /research-sys/api/v1/committee-research-areas/]
+### Get Blueprint API specification for Committee Research Areas [GET /irb/api/v1/committee-research-areas/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Committee Research Areas [PUT /research-sys/api/v1/committee-research-areas/(key)]
+### Update Committee Research Areas [PUT /irb/api/v1/committee-research-areas/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Committee Research Areas [PUT /research-sys/api/v1/committee-research-areas/]
+### Update Multiple Committee Research Areas [PUT /irb/api/v1/committee-research-areas/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Committee Research Areas [POST /research-sys/api/v1/committee-research-areas/]
+### Insert Committee Research Areas [POST /irb/api/v1/committee-research-areas/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"id": "(val)","committeeIdFk": "(val)","researchAreaCode": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Committee Research Areas [POST /research-sys/api/v1/committee-research-areas/]
+### Insert Multiple Committee Research Areas [POST /irb/api/v1/committee-research-areas/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"id": "(val)","committeeIdFk": "(val)","researchAreaCode": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Committee Research Areas by Key [DELETE /research-sys/api/v1/committee-research-areas/(key)]
+### Delete Committee Research Areas by Key [DELETE /irb/api/v1/committee-research-areas/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Committee Research Areas [DELETE /research-sys/api/v1/committee-research-areas/]
+### Delete All Committee Research Areas [DELETE /irb/api/v1/committee-research-areas/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Committee Research Areas with Matching [DELETE /research-sys/api/v1/committee-research-areas/]
+### Delete All Committee Research Areas with Matching [DELETE /irb/api/v1/committee-research-areas/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + committeeIdFk
-            + researchAreaCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Committee Research Area Id.
+    + committeeIdFk (optional) - Committee Id Fk.
+    + researchAreaCode (optional) - Research Area Code.
 
       
 + Request

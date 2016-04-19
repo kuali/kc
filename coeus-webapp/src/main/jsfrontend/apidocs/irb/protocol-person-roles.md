@@ -1,6 +1,6 @@
-## Protocol Person Roles [/research-sys/api/v1/protocol-person-roles/]
+## Protocol Person Roles [/irb/api/v1/protocol-person-roles/]
 
-### Get Protocol Person Roles by Key [GET /research-sys/api/v1/protocol-person-roles/(key)]
+### Get Protocol Person Roles by Key [GET /irb/api/v1/protocol-person-roles/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"protocolPersonRoleId": "(val)","description": "(val)","unitDetailsRequired": "(val)","affiliationDetailsRequired": "(val)","trainingDetailsRequired": "(val)","commentsDetailsRequired": "(val)","active": "(val)","_primaryKey": "(val)"}
 
-### Get All Protocol Person Roles [GET /research-sys/api/v1/protocol-person-roles/]
+### Get All Protocol Person Roles [GET /irb/api/v1/protocol-person-roles/]
 	 
 + Request
 
@@ -39,17 +39,17 @@
               {"protocolPersonRoleId": "(val)","description": "(val)","unitDetailsRequired": "(val)","affiliationDetailsRequired": "(val)","trainingDetailsRequired": "(val)","commentsDetailsRequired": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Protocol Person Roles with Filtering [GET /research-sys/api/v1/protocol-person-roles/]
+### Get All Protocol Person Roles with Filtering [GET /irb/api/v1/protocol-person-roles/]
     
 + Parameters
 
-        + protocolPersonRoleId
-            + description
-            + unitDetailsRequired
-            + affiliationDetailsRequired
-            + trainingDetailsRequired
-            + commentsDetailsRequired
-            + active
+    + protocolPersonRoleId (optional) - Protocol Person Role Id. Maximum length is 12.
+    + description (optional) - Description. Maximum length is 250.
+    + unitDetailsRequired (optional) - Unit Details Required. Maximum length is 1.
+    + affiliationDetailsRequired (optional) - Affiliation Details Required. Maximum length is 1.
+    + trainingDetailsRequired (optional) - Training Details Required. Maximum length is 1.
+    + commentsDetailsRequired (optional) - Comments Details Required. Maximum length is 1.
+    + active (optional) - Active. Maximum length is 1.
 
             
 + Request
@@ -71,7 +71,7 @@
               {"protocolPersonRoleId": "(val)","description": "(val)","unitDetailsRequired": "(val)","affiliationDetailsRequired": "(val)","trainingDetailsRequired": "(val)","commentsDetailsRequired": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Protocol Person Roles [GET /research-sys/api/v1/protocol-person-roles/]
+### Get Schema for Protocol Person Roles [GET /irb/api/v1/protocol-person-roles/]
 	                                          
 + Parameters
 
@@ -93,7 +93,7 @@
     
             {"columns":["protocolPersonRoleId","description","unitDetailsRequired","affiliationDetailsRequired","trainingDetailsRequired","commentsDetailsRequired","active"],"primaryKey":"protocolPersonRoleId"}
 		
-### Get Blueprint API specification for Protocol Person Roles [GET /research-sys/api/v1/protocol-person-roles/]
+### Get Blueprint API specification for Protocol Person Roles [GET /irb/api/v1/protocol-person-roles/]
 	 
 + Parameters
 
@@ -114,7 +114,7 @@
             transfer-encoding:chunked
 
 
-### Update Protocol Person Roles [PUT /research-sys/api/v1/protocol-person-roles/(key)]
+### Update Protocol Person Roles [PUT /irb/api/v1/protocol-person-roles/(key)]
 
 + Request
 
@@ -129,7 +129,7 @@
 			
 + Response 204
 
-### Update Multiple Protocol Person Roles [PUT /research-sys/api/v1/protocol-person-roles/]
+### Update Multiple Protocol Person Roles [PUT /irb/api/v1/protocol-person-roles/]
 
 + Request
 
@@ -147,7 +147,7 @@
 			
 + Response 204
 
-### Insert Protocol Person Roles [POST /research-sys/api/v1/protocol-person-roles/]
+### Insert Protocol Person Roles [POST /irb/api/v1/protocol-person-roles/]
 
 + Request
 
@@ -166,7 +166,7 @@
             
             {"protocolPersonRoleId": "(val)","description": "(val)","unitDetailsRequired": "(val)","affiliationDetailsRequired": "(val)","trainingDetailsRequired": "(val)","commentsDetailsRequired": "(val)","active": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Protocol Person Roles [POST /research-sys/api/v1/protocol-person-roles/]
+### Insert Multiple Protocol Person Roles [POST /irb/api/v1/protocol-person-roles/]
 
 + Request
 
@@ -191,7 +191,7 @@
               {"protocolPersonRoleId": "(val)","description": "(val)","unitDetailsRequired": "(val)","affiliationDetailsRequired": "(val)","trainingDetailsRequired": "(val)","commentsDetailsRequired": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Protocol Person Roles by Key [DELETE /research-sys/api/v1/protocol-person-roles/(key)]
+### Delete Protocol Person Roles by Key [DELETE /irb/api/v1/protocol-person-roles/(key)]
 	 
 + Request
 
@@ -202,7 +202,7 @@
 
 + Response 204
 
-### Delete All Protocol Person Roles [DELETE /research-sys/api/v1/protocol-person-roles/]
+### Delete All Protocol Person Roles [DELETE /irb/api/v1/protocol-person-roles/]
 
 + Parameters
 
@@ -217,18 +217,18 @@
 
 + Response 204
 
-### Delete All Protocol Person Roles with Matching [DELETE /research-sys/api/v1/protocol-person-roles/]
+### Delete All Protocol Person Roles with Matching [DELETE /irb/api/v1/protocol-person-roles/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + protocolPersonRoleId
-            + description
-            + unitDetailsRequired
-            + affiliationDetailsRequired
-            + trainingDetailsRequired
-            + commentsDetailsRequired
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + protocolPersonRoleId (optional) - Protocol Person Role Id. Maximum length is 12.
+    + description (optional) - Description. Maximum length is 250.
+    + unitDetailsRequired (optional) - Unit Details Required. Maximum length is 1.
+    + affiliationDetailsRequired (optional) - Affiliation Details Required. Maximum length is 1.
+    + trainingDetailsRequired (optional) - Training Details Required. Maximum length is 1.
+    + commentsDetailsRequired (optional) - Comments Details Required. Maximum length is 1.
+    + active (optional) - Active. Maximum length is 1.
 
       
 + Request

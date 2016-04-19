@@ -43,9 +43,9 @@
     
 + Parameters
 
-        + id
-            + contextId
-            + agendaTypeId
+    + id (optional) - 
+    + contextId (optional) - 
+    + agendaTypeId (optional) - 
 
             
 + Request
@@ -217,10 +217,10 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + contextId
-            + agendaTypeId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - 
+    + contextId (optional) - 
+    + agendaTypeId (optional) - 
 
       
 + Request

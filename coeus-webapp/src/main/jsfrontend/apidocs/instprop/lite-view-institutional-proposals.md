@@ -1,6 +1,6 @@
-## Lite View Institutional Proposals [/research-sys/api/v1/lite-view-institutional-proposals/]
+## Lite View Institutional Proposals [/instprop/api/v1/lite-view-institutional-proposals/]
 
-### Get Lite View Institutional Proposals by Key [GET /research-sys/api/v1/lite-view-institutional-proposals/(key)]
+### Get Lite View Institutional Proposals by Key [GET /instprop/api/v1/lite-view-institutional-proposals/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","proposalSequenceStatus": "(val)","proposalTypeCode": "(val)","statusCode": "(val)","title": "(val)","sponsorCode": "(val)","activityTypeCode": "(val)","requestedStartDateInitial": "(val)","requestedStartDateTotal": "(val)","requestedEndDateInitial": "(val)","requestedEndDateTotal": "(val)","totalDirectCostInitial": "(val)","totalDirectCostTotal": "(val)","totalIndirectCostInitial": "(val)","totalIndirectCostTotal": "(val)","unitNumber": "(val)","_primaryKey": "(val)"}
 
-### Get All Lite View Institutional Proposals [GET /research-sys/api/v1/lite-view-institutional-proposals/]
+### Get All Lite View Institutional Proposals [GET /instprop/api/v1/lite-view-institutional-proposals/]
 	 
 + Request
 
@@ -39,28 +39,28 @@
               {"proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","proposalSequenceStatus": "(val)","proposalTypeCode": "(val)","statusCode": "(val)","title": "(val)","sponsorCode": "(val)","activityTypeCode": "(val)","requestedStartDateInitial": "(val)","requestedStartDateTotal": "(val)","requestedEndDateInitial": "(val)","requestedEndDateTotal": "(val)","totalDirectCostInitial": "(val)","totalDirectCostTotal": "(val)","totalIndirectCostInitial": "(val)","totalIndirectCostTotal": "(val)","unitNumber": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Lite View Institutional Proposals with Filtering [GET /research-sys/api/v1/lite-view-institutional-proposals/]
+### Get All Lite View Institutional Proposals with Filtering [GET /instprop/api/v1/lite-view-institutional-proposals/]
     
 + Parameters
 
-        + proposalId
-            + proposalNumber
-            + sequenceNumber
-            + proposalSequenceStatus
-            + proposalTypeCode
-            + statusCode
-            + title
-            + sponsorCode
-            + activityTypeCode
-            + requestedStartDateInitial
-            + requestedStartDateTotal
-            + requestedEndDateInitial
-            + requestedEndDateTotal
-            + totalDirectCostInitial
-            + totalDirectCostTotal
-            + totalIndirectCostInitial
-            + totalIndirectCostTotal
-            + unitNumber
+    + proposalId (optional) - 
+    + proposalNumber (optional) - 
+    + sequenceNumber (optional) - 
+    + proposalSequenceStatus (optional) - 
+    + proposalTypeCode (optional) - 
+    + statusCode (optional) - 
+    + title (optional) - 
+    + sponsorCode (optional) - 
+    + activityTypeCode (optional) - 
+    + requestedStartDateInitial (optional) - 
+    + requestedStartDateTotal (optional) - 
+    + requestedEndDateInitial (optional) - 
+    + requestedEndDateTotal (optional) - 
+    + totalDirectCostInitial (optional) - 
+    + totalDirectCostTotal (optional) - 
+    + totalIndirectCostInitial (optional) - 
+    + totalIndirectCostTotal (optional) - 
+    + unitNumber (optional) - 
 
             
 + Request
@@ -82,7 +82,7 @@
               {"proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","proposalSequenceStatus": "(val)","proposalTypeCode": "(val)","statusCode": "(val)","title": "(val)","sponsorCode": "(val)","activityTypeCode": "(val)","requestedStartDateInitial": "(val)","requestedStartDateTotal": "(val)","requestedEndDateInitial": "(val)","requestedEndDateTotal": "(val)","totalDirectCostInitial": "(val)","totalDirectCostTotal": "(val)","totalIndirectCostInitial": "(val)","totalIndirectCostTotal": "(val)","unitNumber": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Lite View Institutional Proposals [GET /research-sys/api/v1/lite-view-institutional-proposals/]
+### Get Schema for Lite View Institutional Proposals [GET /instprop/api/v1/lite-view-institutional-proposals/]
 	                                          
 + Parameters
 
@@ -104,7 +104,7 @@
     
             {"columns":["proposalId","proposalNumber","sequenceNumber","proposalSequenceStatus","proposalTypeCode","statusCode","title","sponsorCode","activityTypeCode","requestedStartDateInitial","requestedStartDateTotal","requestedEndDateInitial","requestedEndDateTotal","totalDirectCostInitial","totalDirectCostTotal","totalIndirectCostInitial","totalIndirectCostTotal","unitNumber"],"primaryKey":"proposalId"}
 		
-### Get Blueprint API specification for Lite View Institutional Proposals [GET /research-sys/api/v1/lite-view-institutional-proposals/]
+### Get Blueprint API specification for Lite View Institutional Proposals [GET /instprop/api/v1/lite-view-institutional-proposals/]
 	 
 + Parameters
 
@@ -125,7 +125,7 @@
             transfer-encoding:chunked
 
 
-### Update Lite View Institutional Proposals [PUT /research-sys/api/v1/lite-view-institutional-proposals/(key)]
+### Update Lite View Institutional Proposals [PUT /instprop/api/v1/lite-view-institutional-proposals/(key)]
 
 + Request
 
@@ -140,7 +140,7 @@
 			
 + Response 204
 
-### Update Multiple Lite View Institutional Proposals [PUT /research-sys/api/v1/lite-view-institutional-proposals/]
+### Update Multiple Lite View Institutional Proposals [PUT /instprop/api/v1/lite-view-institutional-proposals/]
 
 + Request
 
@@ -158,7 +158,7 @@
 			
 + Response 204
 
-### Insert Lite View Institutional Proposals [POST /research-sys/api/v1/lite-view-institutional-proposals/]
+### Insert Lite View Institutional Proposals [POST /instprop/api/v1/lite-view-institutional-proposals/]
 
 + Request
 
@@ -177,7 +177,7 @@
             
             {"proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","proposalSequenceStatus": "(val)","proposalTypeCode": "(val)","statusCode": "(val)","title": "(val)","sponsorCode": "(val)","activityTypeCode": "(val)","requestedStartDateInitial": "(val)","requestedStartDateTotal": "(val)","requestedEndDateInitial": "(val)","requestedEndDateTotal": "(val)","totalDirectCostInitial": "(val)","totalDirectCostTotal": "(val)","totalIndirectCostInitial": "(val)","totalIndirectCostTotal": "(val)","unitNumber": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Lite View Institutional Proposals [POST /research-sys/api/v1/lite-view-institutional-proposals/]
+### Insert Multiple Lite View Institutional Proposals [POST /instprop/api/v1/lite-view-institutional-proposals/]
 
 + Request
 
@@ -202,7 +202,7 @@
               {"proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","proposalSequenceStatus": "(val)","proposalTypeCode": "(val)","statusCode": "(val)","title": "(val)","sponsorCode": "(val)","activityTypeCode": "(val)","requestedStartDateInitial": "(val)","requestedStartDateTotal": "(val)","requestedEndDateInitial": "(val)","requestedEndDateTotal": "(val)","totalDirectCostInitial": "(val)","totalDirectCostTotal": "(val)","totalIndirectCostInitial": "(val)","totalIndirectCostTotal": "(val)","unitNumber": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Lite View Institutional Proposals by Key [DELETE /research-sys/api/v1/lite-view-institutional-proposals/(key)]
+### Delete Lite View Institutional Proposals by Key [DELETE /instprop/api/v1/lite-view-institutional-proposals/(key)]
 	 
 + Request
 
@@ -213,7 +213,7 @@
 
 + Response 204
 
-### Delete All Lite View Institutional Proposals [DELETE /research-sys/api/v1/lite-view-institutional-proposals/]
+### Delete All Lite View Institutional Proposals [DELETE /instprop/api/v1/lite-view-institutional-proposals/]
 
 + Parameters
 
@@ -228,29 +228,29 @@
 
 + Response 204
 
-### Delete All Lite View Institutional Proposals with Matching [DELETE /research-sys/api/v1/lite-view-institutional-proposals/]
+### Delete All Lite View Institutional Proposals with Matching [DELETE /instprop/api/v1/lite-view-institutional-proposals/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + proposalId
-            + proposalNumber
-            + sequenceNumber
-            + proposalSequenceStatus
-            + proposalTypeCode
-            + statusCode
-            + title
-            + sponsorCode
-            + activityTypeCode
-            + requestedStartDateInitial
-            + requestedStartDateTotal
-            + requestedEndDateInitial
-            + requestedEndDateTotal
-            + totalDirectCostInitial
-            + totalDirectCostTotal
-            + totalIndirectCostInitial
-            + totalIndirectCostTotal
-            + unitNumber
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + proposalId (optional) - 
+    + proposalNumber (optional) - 
+    + sequenceNumber (optional) - 
+    + proposalSequenceStatus (optional) - 
+    + proposalTypeCode (optional) - 
+    + statusCode (optional) - 
+    + title (optional) - 
+    + sponsorCode (optional) - 
+    + activityTypeCode (optional) - 
+    + requestedStartDateInitial (optional) - 
+    + requestedStartDateTotal (optional) - 
+    + requestedEndDateInitial (optional) - 
+    + requestedEndDateTotal (optional) - 
+    + totalDirectCostInitial (optional) - 
+    + totalDirectCostTotal (optional) - 
+    + totalIndirectCostInitial (optional) - 
+    + totalIndirectCostTotal (optional) - 
+    + unitNumber (optional) - 
 
       
 + Request

@@ -1,6 +1,6 @@
-## Iacuc Protocol Online Review Documents [/research-sys/api/v1/iacuc-protocol-online-review-documents/]
+## Iacuc Protocol Online Review Documents [/iacuc/api/v1/iacuc-protocol-online-review-documents/]
 
-### Get Iacuc Protocol Online Review Documents by Key [GET /research-sys/api/v1/iacuc-protocol-online-review-documents/(key)]
+### Get Iacuc Protocol Online Review Documents by Key [GET /iacuc/api/v1/iacuc-protocol-online-review-documents/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"documentNumber": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Protocol Online Review Documents [GET /research-sys/api/v1/iacuc-protocol-online-review-documents/]
+### Get All Iacuc Protocol Online Review Documents [GET /iacuc/api/v1/iacuc-protocol-online-review-documents/]
 	 
 + Request
 
@@ -39,11 +39,11 @@
               {"documentNumber": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Protocol Online Review Documents with Filtering [GET /research-sys/api/v1/iacuc-protocol-online-review-documents/]
+### Get All Iacuc Protocol Online Review Documents with Filtering [GET /iacuc/api/v1/iacuc-protocol-online-review-documents/]
     
 + Parameters
 
-        + documentNumber
+    + documentNumber (optional) - 
 
             
 + Request
@@ -65,7 +65,7 @@
               {"documentNumber": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Protocol Online Review Documents [GET /research-sys/api/v1/iacuc-protocol-online-review-documents/]
+### Get Schema for Iacuc Protocol Online Review Documents [GET /iacuc/api/v1/iacuc-protocol-online-review-documents/]
 	                                          
 + Parameters
 
@@ -87,7 +87,7 @@
     
             {"columns":["documentNumber"],"primaryKey":"documentNumber"}
 		
-### Get Blueprint API specification for Iacuc Protocol Online Review Documents [GET /research-sys/api/v1/iacuc-protocol-online-review-documents/]
+### Get Blueprint API specification for Iacuc Protocol Online Review Documents [GET /iacuc/api/v1/iacuc-protocol-online-review-documents/]
 	 
 + Parameters
 
@@ -108,7 +108,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Protocol Online Review Documents [PUT /research-sys/api/v1/iacuc-protocol-online-review-documents/(key)]
+### Update Iacuc Protocol Online Review Documents [PUT /iacuc/api/v1/iacuc-protocol-online-review-documents/(key)]
 
 + Request
 
@@ -123,7 +123,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Protocol Online Review Documents [PUT /research-sys/api/v1/iacuc-protocol-online-review-documents/]
+### Update Multiple Iacuc Protocol Online Review Documents [PUT /iacuc/api/v1/iacuc-protocol-online-review-documents/]
 
 + Request
 
@@ -141,7 +141,7 @@
 			
 + Response 204
 
-### Insert Iacuc Protocol Online Review Documents [POST /research-sys/api/v1/iacuc-protocol-online-review-documents/]
+### Insert Iacuc Protocol Online Review Documents [POST /iacuc/api/v1/iacuc-protocol-online-review-documents/]
 
 + Request
 
@@ -160,7 +160,7 @@
             
             {"documentNumber": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Protocol Online Review Documents [POST /research-sys/api/v1/iacuc-protocol-online-review-documents/]
+### Insert Multiple Iacuc Protocol Online Review Documents [POST /iacuc/api/v1/iacuc-protocol-online-review-documents/]
 
 + Request
 
@@ -185,7 +185,7 @@
               {"documentNumber": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Protocol Online Review Documents by Key [DELETE /research-sys/api/v1/iacuc-protocol-online-review-documents/(key)]
+### Delete Iacuc Protocol Online Review Documents by Key [DELETE /iacuc/api/v1/iacuc-protocol-online-review-documents/(key)]
 	 
 + Request
 
@@ -196,7 +196,7 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Online Review Documents [DELETE /research-sys/api/v1/iacuc-protocol-online-review-documents/]
+### Delete All Iacuc Protocol Online Review Documents [DELETE /iacuc/api/v1/iacuc-protocol-online-review-documents/]
 
 + Parameters
 
@@ -211,12 +211,12 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Online Review Documents with Matching [DELETE /research-sys/api/v1/iacuc-protocol-online-review-documents/]
+### Delete All Iacuc Protocol Online Review Documents with Matching [DELETE /iacuc/api/v1/iacuc-protocol-online-review-documents/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + documentNumber
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + documentNumber (optional) - 
 
       
 + Request

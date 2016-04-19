@@ -1,6 +1,6 @@
-## Mail By Entries [/research-sys/api/v1/mail-by-entries/]
+## Mail By Entries [/research-common/api/v1/mail-by-entries/]
 
-### Get Mail By Entries by Key [GET /research-sys/api/v1/mail-by-entries/(key)]
+### Get Mail By Entries by Key [GET /research-common/api/v1/mail-by-entries/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"mailByCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Mail By Entries [GET /research-sys/api/v1/mail-by-entries/]
+### Get All Mail By Entries [GET /research-common/api/v1/mail-by-entries/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"mailByCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Mail By Entries with Filtering [GET /research-sys/api/v1/mail-by-entries/]
+### Get All Mail By Entries with Filtering [GET /research-common/api/v1/mail-by-entries/]
     
 + Parameters
 
-        + mailByCode
-            + description
+    + mailByCode (optional) - Mail By. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"mailByCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Mail By Entries [GET /research-sys/api/v1/mail-by-entries/]
+### Get Schema for Mail By Entries [GET /research-common/api/v1/mail-by-entries/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["mailByCode","description"],"primaryKey":"mailByCode"}
 		
-### Get Blueprint API specification for Mail By Entries [GET /research-sys/api/v1/mail-by-entries/]
+### Get Blueprint API specification for Mail By Entries [GET /research-common/api/v1/mail-by-entries/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Mail By Entries [PUT /research-sys/api/v1/mail-by-entries/(key)]
+### Update Mail By Entries [PUT /research-common/api/v1/mail-by-entries/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Mail By Entries [PUT /research-sys/api/v1/mail-by-entries/]
+### Update Multiple Mail By Entries [PUT /research-common/api/v1/mail-by-entries/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Mail By Entries [POST /research-sys/api/v1/mail-by-entries/]
+### Insert Mail By Entries [POST /research-common/api/v1/mail-by-entries/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"mailByCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Mail By Entries [POST /research-sys/api/v1/mail-by-entries/]
+### Insert Multiple Mail By Entries [POST /research-common/api/v1/mail-by-entries/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"mailByCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Mail By Entries by Key [DELETE /research-sys/api/v1/mail-by-entries/(key)]
+### Delete Mail By Entries by Key [DELETE /research-common/api/v1/mail-by-entries/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Mail By Entries [DELETE /research-sys/api/v1/mail-by-entries/]
+### Delete All Mail By Entries [DELETE /research-common/api/v1/mail-by-entries/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Mail By Entries with Matching [DELETE /research-sys/api/v1/mail-by-entries/]
+### Delete All Mail By Entries with Matching [DELETE /research-common/api/v1/mail-by-entries/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + mailByCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + mailByCode (optional) - Mail By. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

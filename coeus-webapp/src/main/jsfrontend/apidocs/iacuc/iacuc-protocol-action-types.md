@@ -1,6 +1,6 @@
-## Iacuc Protocol Action Types [/research-sys/api/v1/iacuc-protocol-action-types/]
+## Iacuc Protocol Action Types [/iacuc/api/v1/iacuc-protocol-action-types/]
 
-### Get Iacuc Protocol Action Types by Key [GET /research-sys/api/v1/iacuc-protocol-action-types/(key)]
+### Get Iacuc Protocol Action Types by Key [GET /iacuc/api/v1/iacuc-protocol-action-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"protocolActionTypeCode": "(val)","description": "(val)","triggerSubmission": "(val)","triggerCorrespondence": "(val)","finalActionForBatchCorrespondence": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Protocol Action Types [GET /research-sys/api/v1/iacuc-protocol-action-types/]
+### Get All Iacuc Protocol Action Types [GET /iacuc/api/v1/iacuc-protocol-action-types/]
 	 
 + Request
 
@@ -39,15 +39,15 @@
               {"protocolActionTypeCode": "(val)","description": "(val)","triggerSubmission": "(val)","triggerCorrespondence": "(val)","finalActionForBatchCorrespondence": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Protocol Action Types with Filtering [GET /research-sys/api/v1/iacuc-protocol-action-types/]
+### Get All Iacuc Protocol Action Types with Filtering [GET /iacuc/api/v1/iacuc-protocol-action-types/]
     
 + Parameters
 
-        + protocolActionTypeCode
-            + description
-            + triggerSubmission
-            + triggerCorrespondence
-            + finalActionForBatchCorrespondence
+    + protocolActionTypeCode (optional) - Protocol Action Type Code. Maximum length is 22.
+    + description (optional) - Description. Maximum length is 200.
+    + triggerSubmission (optional) - Trigger Submission. Maximum length is 1.
+    + triggerCorrespondence (optional) - Trigger Correspondence. Maximum length is 1.
+    + finalActionForBatchCorrespondence (optional) - Final Action for Batch Correspondence. Maximum length is 1.
 
             
 + Request
@@ -69,7 +69,7 @@
               {"protocolActionTypeCode": "(val)","description": "(val)","triggerSubmission": "(val)","triggerCorrespondence": "(val)","finalActionForBatchCorrespondence": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Protocol Action Types [GET /research-sys/api/v1/iacuc-protocol-action-types/]
+### Get Schema for Iacuc Protocol Action Types [GET /iacuc/api/v1/iacuc-protocol-action-types/]
 	                                          
 + Parameters
 
@@ -91,7 +91,7 @@
     
             {"columns":["protocolActionTypeCode","description","triggerSubmission","triggerCorrespondence","finalActionForBatchCorrespondence"],"primaryKey":"protocolActionTypeCode"}
 		
-### Get Blueprint API specification for Iacuc Protocol Action Types [GET /research-sys/api/v1/iacuc-protocol-action-types/]
+### Get Blueprint API specification for Iacuc Protocol Action Types [GET /iacuc/api/v1/iacuc-protocol-action-types/]
 	 
 + Parameters
 
@@ -112,7 +112,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Protocol Action Types [PUT /research-sys/api/v1/iacuc-protocol-action-types/(key)]
+### Update Iacuc Protocol Action Types [PUT /iacuc/api/v1/iacuc-protocol-action-types/(key)]
 
 + Request
 
@@ -127,7 +127,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Protocol Action Types [PUT /research-sys/api/v1/iacuc-protocol-action-types/]
+### Update Multiple Iacuc Protocol Action Types [PUT /iacuc/api/v1/iacuc-protocol-action-types/]
 
 + Request
 
@@ -145,7 +145,7 @@
 			
 + Response 204
 
-### Insert Iacuc Protocol Action Types [POST /research-sys/api/v1/iacuc-protocol-action-types/]
+### Insert Iacuc Protocol Action Types [POST /iacuc/api/v1/iacuc-protocol-action-types/]
 
 + Request
 
@@ -164,7 +164,7 @@
             
             {"protocolActionTypeCode": "(val)","description": "(val)","triggerSubmission": "(val)","triggerCorrespondence": "(val)","finalActionForBatchCorrespondence": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Protocol Action Types [POST /research-sys/api/v1/iacuc-protocol-action-types/]
+### Insert Multiple Iacuc Protocol Action Types [POST /iacuc/api/v1/iacuc-protocol-action-types/]
 
 + Request
 
@@ -189,7 +189,7 @@
               {"protocolActionTypeCode": "(val)","description": "(val)","triggerSubmission": "(val)","triggerCorrespondence": "(val)","finalActionForBatchCorrespondence": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Protocol Action Types by Key [DELETE /research-sys/api/v1/iacuc-protocol-action-types/(key)]
+### Delete Iacuc Protocol Action Types by Key [DELETE /iacuc/api/v1/iacuc-protocol-action-types/(key)]
 	 
 + Request
 
@@ -200,7 +200,7 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Action Types [DELETE /research-sys/api/v1/iacuc-protocol-action-types/]
+### Delete All Iacuc Protocol Action Types [DELETE /iacuc/api/v1/iacuc-protocol-action-types/]
 
 + Parameters
 
@@ -215,16 +215,16 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Action Types with Matching [DELETE /research-sys/api/v1/iacuc-protocol-action-types/]
+### Delete All Iacuc Protocol Action Types with Matching [DELETE /iacuc/api/v1/iacuc-protocol-action-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + protocolActionTypeCode
-            + description
-            + triggerSubmission
-            + triggerCorrespondence
-            + finalActionForBatchCorrespondence
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + protocolActionTypeCode (optional) - Protocol Action Type Code. Maximum length is 22.
+    + description (optional) - Description. Maximum length is 200.
+    + triggerSubmission (optional) - Trigger Submission. Maximum length is 1.
+    + triggerCorrespondence (optional) - Trigger Correspondence. Maximum length is 1.
+    + finalActionForBatchCorrespondence (optional) - Final Action for Batch Correspondence. Maximum length is 1.
 
       
 + Request

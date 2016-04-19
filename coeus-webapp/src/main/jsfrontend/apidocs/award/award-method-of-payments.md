@@ -1,6 +1,6 @@
-## Award Method Of Payments [/research-sys/api/v1/award-method-of-payments/]
+## Award Method Of Payments [/award/api/v1/award-method-of-payments/]
 
-### Get Award Method Of Payments by Key [GET /research-sys/api/v1/award-method-of-payments/(key)]
+### Get Award Method Of Payments by Key [GET /award/api/v1/award-method-of-payments/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"methodOfPaymentCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Award Method Of Payments [GET /research-sys/api/v1/award-method-of-payments/]
+### Get All Award Method Of Payments [GET /award/api/v1/award-method-of-payments/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"methodOfPaymentCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Award Method Of Payments with Filtering [GET /research-sys/api/v1/award-method-of-payments/]
+### Get All Award Method Of Payments with Filtering [GET /award/api/v1/award-method-of-payments/]
     
 + Parameters
 
-        + methodOfPaymentCode
-            + description
+    + methodOfPaymentCode (optional) - Method Of Payment Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"methodOfPaymentCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Award Method Of Payments [GET /research-sys/api/v1/award-method-of-payments/]
+### Get Schema for Award Method Of Payments [GET /award/api/v1/award-method-of-payments/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["methodOfPaymentCode","description"],"primaryKey":"methodOfPaymentCode"}
 		
-### Get Blueprint API specification for Award Method Of Payments [GET /research-sys/api/v1/award-method-of-payments/]
+### Get Blueprint API specification for Award Method Of Payments [GET /award/api/v1/award-method-of-payments/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Award Method Of Payments [PUT /research-sys/api/v1/award-method-of-payments/(key)]
+### Update Award Method Of Payments [PUT /award/api/v1/award-method-of-payments/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Award Method Of Payments [PUT /research-sys/api/v1/award-method-of-payments/]
+### Update Multiple Award Method Of Payments [PUT /award/api/v1/award-method-of-payments/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Award Method Of Payments [POST /research-sys/api/v1/award-method-of-payments/]
+### Insert Award Method Of Payments [POST /award/api/v1/award-method-of-payments/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"methodOfPaymentCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Award Method Of Payments [POST /research-sys/api/v1/award-method-of-payments/]
+### Insert Multiple Award Method Of Payments [POST /award/api/v1/award-method-of-payments/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"methodOfPaymentCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Award Method Of Payments by Key [DELETE /research-sys/api/v1/award-method-of-payments/(key)]
+### Delete Award Method Of Payments by Key [DELETE /award/api/v1/award-method-of-payments/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Award Method Of Payments [DELETE /research-sys/api/v1/award-method-of-payments/]
+### Delete All Award Method Of Payments [DELETE /award/api/v1/award-method-of-payments/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Award Method Of Payments with Matching [DELETE /research-sys/api/v1/award-method-of-payments/]
+### Delete All Award Method Of Payments with Matching [DELETE /award/api/v1/award-method-of-payments/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + methodOfPaymentCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + methodOfPaymentCode (optional) - Method Of Payment Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

@@ -43,20 +43,20 @@
     
 + Parameters
 
-        + entityNameId
-            + nameCode
-            + firstName
-            + middleName
-            + lastName
-            + namePrefix
-            + nameTitle
-            + nameSuffix
-            + noteMessage
-            + nameChangedDate
-            + dflt
-            + edit
-            + documentNumber
-            + active
+    + entityNameId (optional) - Entity Name Id.
+    + nameCode (optional) - Name Code. Maximum length is 40.
+    + firstName (optional) - First Name. Maximum length is 40.
+    + middleName (optional) - Middle Name. Maximum length is 40.
+    + lastName (optional) - Last Name. Maximum length is 80.
+    + namePrefix (optional) - Name Prefix. Maximum length is 20.
+    + nameTitle (optional) - Name Title.
+    + nameSuffix (optional) - Name Suffix. Maximum length is 20.
+    + noteMessage (optional) - Note Message.
+    + nameChangedDate (optional) - Name Changed Date.
+    + dflt (optional) - Default. Maximum length is 1.
+    + edit (optional) - Edit.
+    + documentNumber (optional) - Document Number.
+    + active (optional) - Active. Maximum length is 1.
 
             
 + Request
@@ -228,21 +228,21 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + entityNameId
-            + nameCode
-            + firstName
-            + middleName
-            + lastName
-            + namePrefix
-            + nameTitle
-            + nameSuffix
-            + noteMessage
-            + nameChangedDate
-            + dflt
-            + edit
-            + documentNumber
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + entityNameId (optional) - Entity Name Id.
+    + nameCode (optional) - Name Code. Maximum length is 40.
+    + firstName (optional) - First Name. Maximum length is 40.
+    + middleName (optional) - Middle Name. Maximum length is 40.
+    + lastName (optional) - Last Name. Maximum length is 80.
+    + namePrefix (optional) - Name Prefix. Maximum length is 20.
+    + nameTitle (optional) - Name Title.
+    + nameSuffix (optional) - Name Suffix. Maximum length is 20.
+    + noteMessage (optional) - Note Message.
+    + nameChangedDate (optional) - Name Changed Date.
+    + dflt (optional) - Default. Maximum length is 1.
+    + edit (optional) - Edit.
+    + documentNumber (optional) - Document Number.
+    + active (optional) - Active. Maximum length is 1.
 
       
 + Request

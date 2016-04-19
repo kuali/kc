@@ -43,30 +43,30 @@
     
 + Parameters
 
-        + actionRequestId
-            + actionRequested
-            + documentId
-            + ruleBaseValuesId
-            + status
-            + responsibilityId
-            + groupId
-            + roleName
-            + qualifiedRoleName
-            + qualifiedRoleNameLabel
-            + recipientTypeCd
-            + priority
-            + routeLevel
-            + docVersion
-            + createDate
-            + responsibilityDesc
-            + annotation
-            + jrfVerNbr
-            + principalId
-            + forceAction
-            + currentIndicator
-            + approvePolicy
-            + delegationTypeCode
-            + requestLabel
+    + actionRequestId (optional) - 
+    + actionRequested (optional) - 
+    + documentId (optional) - 
+    + ruleBaseValuesId (optional) - 
+    + status (optional) - 
+    + responsibilityId (optional) - 
+    + groupId (optional) - 
+    + roleName (optional) - 
+    + qualifiedRoleName (optional) - 
+    + qualifiedRoleNameLabel (optional) - 
+    + recipientTypeCd (optional) - 
+    + priority (optional) - 
+    + routeLevel (optional) - 
+    + docVersion (optional) - 
+    + createDate (optional) - 
+    + responsibilityDesc (optional) - 
+    + annotation (optional) - 
+    + jrfVerNbr (optional) - 
+    + principalId (optional) - 
+    + forceAction (optional) - 
+    + currentIndicator (optional) - 
+    + approvePolicy (optional) - 
+    + delegationTypeCode (optional) - 
+    + requestLabel (optional) - 
 
             
 + Request
@@ -238,31 +238,31 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + actionRequestId
-            + actionRequested
-            + documentId
-            + ruleBaseValuesId
-            + status
-            + responsibilityId
-            + groupId
-            + roleName
-            + qualifiedRoleName
-            + qualifiedRoleNameLabel
-            + recipientTypeCd
-            + priority
-            + routeLevel
-            + docVersion
-            + createDate
-            + responsibilityDesc
-            + annotation
-            + jrfVerNbr
-            + principalId
-            + forceAction
-            + currentIndicator
-            + approvePolicy
-            + delegationTypeCode
-            + requestLabel
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + actionRequestId (optional) - 
+    + actionRequested (optional) - 
+    + documentId (optional) - 
+    + ruleBaseValuesId (optional) - 
+    + status (optional) - 
+    + responsibilityId (optional) - 
+    + groupId (optional) - 
+    + roleName (optional) - 
+    + qualifiedRoleName (optional) - 
+    + qualifiedRoleNameLabel (optional) - 
+    + recipientTypeCd (optional) - 
+    + priority (optional) - 
+    + routeLevel (optional) - 
+    + docVersion (optional) - 
+    + createDate (optional) - 
+    + responsibilityDesc (optional) - 
+    + annotation (optional) - 
+    + jrfVerNbr (optional) - 
+    + principalId (optional) - 
+    + forceAction (optional) - 
+    + currentIndicator (optional) - 
+    + approvePolicy (optional) - 
+    + delegationTypeCode (optional) - 
+    + requestLabel (optional) - 
 
       
 + Request

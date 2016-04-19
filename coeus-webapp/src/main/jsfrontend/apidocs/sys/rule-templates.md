@@ -43,10 +43,10 @@
     
 + Parameters
 
-        + id
-            + name
-            + description
-            + delegationTemplateId
+    + id (optional) - Id. Maximum length is 30.
+    + name (optional) - Name. Maximum length is 250.
+    + description (optional) - Description. Maximum length is 2000.
+    + delegationTemplateId (optional) - Delegation Template Id.
 
             
 + Request
@@ -218,11 +218,11 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + name
-            + description
-            + delegationTemplateId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Id. Maximum length is 30.
+    + name (optional) - Name. Maximum length is 250.
+    + description (optional) - Description. Maximum length is 2000.
+    + delegationTemplateId (optional) - Delegation Template Id.
 
       
 + Request

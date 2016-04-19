@@ -43,13 +43,13 @@
     
 + Parameters
 
-        + principalId
-            + principalName
-            + entityId
-            + password
-            + univId
-            + active
-            + documentNumber
+    + principalId (optional) - Principal Id. Maximum length is 40.
+    + principalName (optional) - Principal Name. Maximum length is 40.
+    + entityId (optional) - Entity Id. Maximum length is 40.
+    + password (optional) - Principal Password. Maximum length is 400.
+    + univId (optional) - University Identification Number. Maximum length is 100.
+    + active (optional) - Active. Maximum length is 1.
+    + documentNumber (optional) - Document Number. Maximum length is 14.
 
             
 + Request
@@ -221,14 +221,14 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + principalId
-            + principalName
-            + entityId
-            + password
-            + univId
-            + active
-            + documentNumber
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + principalId (optional) - Principal Id. Maximum length is 40.
+    + principalName (optional) - Principal Name. Maximum length is 40.
+    + entityId (optional) - Entity Id. Maximum length is 40.
+    + password (optional) - Principal Password. Maximum length is 400.
+    + univId (optional) - University Identification Number. Maximum length is 100.
+    + active (optional) - Active. Maximum length is 1.
+    + documentNumber (optional) - Document Number. Maximum length is 14.
 
       
 + Request

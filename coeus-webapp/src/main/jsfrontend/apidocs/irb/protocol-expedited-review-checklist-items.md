@@ -1,6 +1,6 @@
-## Protocol Expedited Review Checklist Items [/research-sys/api/v1/protocol-expedited-review-checklist-items/]
+## Protocol Expedited Review Checklist Items [/irb/api/v1/protocol-expedited-review-checklist-items/]
 
-### Get Protocol Expedited Review Checklist Items by Key [GET /research-sys/api/v1/protocol-expedited-review-checklist-items/(key)]
+### Get Protocol Expedited Review Checklist Items by Key [GET /irb/api/v1/protocol-expedited-review-checklist-items/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"protocolExpeditedCheckListId": "(val)","protocolId": "(val)","submissionIdFk": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","submissionNumber": "(val)","expeditedReviewCheckListCode": "(val)","_primaryKey": "(val)"}
 
-### Get All Protocol Expedited Review Checklist Items [GET /research-sys/api/v1/protocol-expedited-review-checklist-items/]
+### Get All Protocol Expedited Review Checklist Items [GET /irb/api/v1/protocol-expedited-review-checklist-items/]
 	 
 + Request
 
@@ -39,17 +39,17 @@
               {"protocolExpeditedCheckListId": "(val)","protocolId": "(val)","submissionIdFk": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","submissionNumber": "(val)","expeditedReviewCheckListCode": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Protocol Expedited Review Checklist Items with Filtering [GET /research-sys/api/v1/protocol-expedited-review-checklist-items/]
+### Get All Protocol Expedited Review Checklist Items with Filtering [GET /irb/api/v1/protocol-expedited-review-checklist-items/]
     
 + Parameters
 
-        + protocolExpeditedCheckListId
-            + protocolId
-            + submissionIdFk
-            + protocolNumber
-            + sequenceNumber
-            + submissionNumber
-            + expeditedReviewCheckListCode
+    + protocolExpeditedCheckListId (optional) - 
+    + protocolId (optional) - 
+    + submissionIdFk (optional) - 
+    + protocolNumber (optional) - 
+    + sequenceNumber (optional) - 
+    + submissionNumber (optional) - 
+    + expeditedReviewCheckListCode (optional) - 
 
             
 + Request
@@ -71,7 +71,7 @@
               {"protocolExpeditedCheckListId": "(val)","protocolId": "(val)","submissionIdFk": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","submissionNumber": "(val)","expeditedReviewCheckListCode": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Protocol Expedited Review Checklist Items [GET /research-sys/api/v1/protocol-expedited-review-checklist-items/]
+### Get Schema for Protocol Expedited Review Checklist Items [GET /irb/api/v1/protocol-expedited-review-checklist-items/]
 	                                          
 + Parameters
 
@@ -93,7 +93,7 @@
     
             {"columns":["protocolExpeditedCheckListId","protocolId","submissionIdFk","protocolNumber","sequenceNumber","submissionNumber","expeditedReviewCheckListCode"],"primaryKey":"protocolExpeditedCheckListId"}
 		
-### Get Blueprint API specification for Protocol Expedited Review Checklist Items [GET /research-sys/api/v1/protocol-expedited-review-checklist-items/]
+### Get Blueprint API specification for Protocol Expedited Review Checklist Items [GET /irb/api/v1/protocol-expedited-review-checklist-items/]
 	 
 + Parameters
 
@@ -114,7 +114,7 @@
             transfer-encoding:chunked
 
 
-### Update Protocol Expedited Review Checklist Items [PUT /research-sys/api/v1/protocol-expedited-review-checklist-items/(key)]
+### Update Protocol Expedited Review Checklist Items [PUT /irb/api/v1/protocol-expedited-review-checklist-items/(key)]
 
 + Request
 
@@ -129,7 +129,7 @@
 			
 + Response 204
 
-### Update Multiple Protocol Expedited Review Checklist Items [PUT /research-sys/api/v1/protocol-expedited-review-checklist-items/]
+### Update Multiple Protocol Expedited Review Checklist Items [PUT /irb/api/v1/protocol-expedited-review-checklist-items/]
 
 + Request
 
@@ -147,7 +147,7 @@
 			
 + Response 204
 
-### Insert Protocol Expedited Review Checklist Items [POST /research-sys/api/v1/protocol-expedited-review-checklist-items/]
+### Insert Protocol Expedited Review Checklist Items [POST /irb/api/v1/protocol-expedited-review-checklist-items/]
 
 + Request
 
@@ -166,7 +166,7 @@
             
             {"protocolExpeditedCheckListId": "(val)","protocolId": "(val)","submissionIdFk": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","submissionNumber": "(val)","expeditedReviewCheckListCode": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Protocol Expedited Review Checklist Items [POST /research-sys/api/v1/protocol-expedited-review-checklist-items/]
+### Insert Multiple Protocol Expedited Review Checklist Items [POST /irb/api/v1/protocol-expedited-review-checklist-items/]
 
 + Request
 
@@ -191,7 +191,7 @@
               {"protocolExpeditedCheckListId": "(val)","protocolId": "(val)","submissionIdFk": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","submissionNumber": "(val)","expeditedReviewCheckListCode": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Protocol Expedited Review Checklist Items by Key [DELETE /research-sys/api/v1/protocol-expedited-review-checklist-items/(key)]
+### Delete Protocol Expedited Review Checklist Items by Key [DELETE /irb/api/v1/protocol-expedited-review-checklist-items/(key)]
 	 
 + Request
 
@@ -202,7 +202,7 @@
 
 + Response 204
 
-### Delete All Protocol Expedited Review Checklist Items [DELETE /research-sys/api/v1/protocol-expedited-review-checklist-items/]
+### Delete All Protocol Expedited Review Checklist Items [DELETE /irb/api/v1/protocol-expedited-review-checklist-items/]
 
 + Parameters
 
@@ -217,18 +217,18 @@
 
 + Response 204
 
-### Delete All Protocol Expedited Review Checklist Items with Matching [DELETE /research-sys/api/v1/protocol-expedited-review-checklist-items/]
+### Delete All Protocol Expedited Review Checklist Items with Matching [DELETE /irb/api/v1/protocol-expedited-review-checklist-items/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + protocolExpeditedCheckListId
-            + protocolId
-            + submissionIdFk
-            + protocolNumber
-            + sequenceNumber
-            + submissionNumber
-            + expeditedReviewCheckListCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + protocolExpeditedCheckListId (optional) - 
+    + protocolId (optional) - 
+    + submissionIdFk (optional) - 
+    + protocolNumber (optional) - 
+    + sequenceNumber (optional) - 
+    + submissionNumber (optional) - 
+    + expeditedReviewCheckListCode (optional) - 
 
       
 + Request

@@ -1,6 +1,6 @@
-## Award Person Mass Changes [/research-sys/api/v1/award-person-mass-changes/]
+## Award Person Mass Changes [/award/api/v1/award-person-mass-changes/]
 
-### Get Award Person Mass Changes by Key [GET /research-sys/api/v1/award-person-mass-changes/(key)]
+### Get Award Person Mass Changes by Key [GET /award/api/v1/award-person-mass-changes/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"awardPersonMassChangeId": "(val)","personMassChangeId": "(val)","investigator": "(val)","keyStudyPerson": "(val)","unitContact": "(val)","sponsorContact": "(val)","approvedForeignTravel": "(val)","_primaryKey": "(val)"}
 
-### Get All Award Person Mass Changes [GET /research-sys/api/v1/award-person-mass-changes/]
+### Get All Award Person Mass Changes [GET /award/api/v1/award-person-mass-changes/]
 	 
 + Request
 
@@ -39,17 +39,17 @@
               {"awardPersonMassChangeId": "(val)","personMassChangeId": "(val)","investigator": "(val)","keyStudyPerson": "(val)","unitContact": "(val)","sponsorContact": "(val)","approvedForeignTravel": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Award Person Mass Changes with Filtering [GET /research-sys/api/v1/award-person-mass-changes/]
+### Get All Award Person Mass Changes with Filtering [GET /award/api/v1/award-person-mass-changes/]
     
 + Parameters
 
-        + awardPersonMassChangeId
-            + personMassChangeId
-            + investigator
-            + keyStudyPerson
-            + unitContact
-            + sponsorContact
-            + approvedForeignTravel
+    + awardPersonMassChangeId (optional) - Award Person Mass Change Id. Maximum length is 12.
+    + personMassChangeId (optional) - Person Mass Change Id. Maximum length is 12.
+    + investigator (optional) - Investigator. Maximum length is 1.
+    + keyStudyPerson (optional) - Key Study Person. Maximum length is 1.
+    + unitContact (optional) - Unit Contact. Maximum length is 1.
+    + sponsorContact (optional) - Sponsor Contact. Maximum length is 1.
+    + approvedForeignTravel (optional) - Approved Foreign Travel. Maximum length is 1.
 
             
 + Request
@@ -71,7 +71,7 @@
               {"awardPersonMassChangeId": "(val)","personMassChangeId": "(val)","investigator": "(val)","keyStudyPerson": "(val)","unitContact": "(val)","sponsorContact": "(val)","approvedForeignTravel": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Award Person Mass Changes [GET /research-sys/api/v1/award-person-mass-changes/]
+### Get Schema for Award Person Mass Changes [GET /award/api/v1/award-person-mass-changes/]
 	                                          
 + Parameters
 
@@ -93,7 +93,7 @@
     
             {"columns":["awardPersonMassChangeId","personMassChangeId","investigator","keyStudyPerson","unitContact","sponsorContact","approvedForeignTravel"],"primaryKey":"awardPersonMassChangeId"}
 		
-### Get Blueprint API specification for Award Person Mass Changes [GET /research-sys/api/v1/award-person-mass-changes/]
+### Get Blueprint API specification for Award Person Mass Changes [GET /award/api/v1/award-person-mass-changes/]
 	 
 + Parameters
 
@@ -114,7 +114,7 @@
             transfer-encoding:chunked
 
 
-### Update Award Person Mass Changes [PUT /research-sys/api/v1/award-person-mass-changes/(key)]
+### Update Award Person Mass Changes [PUT /award/api/v1/award-person-mass-changes/(key)]
 
 + Request
 
@@ -129,7 +129,7 @@
 			
 + Response 204
 
-### Update Multiple Award Person Mass Changes [PUT /research-sys/api/v1/award-person-mass-changes/]
+### Update Multiple Award Person Mass Changes [PUT /award/api/v1/award-person-mass-changes/]
 
 + Request
 
@@ -147,7 +147,7 @@
 			
 + Response 204
 
-### Insert Award Person Mass Changes [POST /research-sys/api/v1/award-person-mass-changes/]
+### Insert Award Person Mass Changes [POST /award/api/v1/award-person-mass-changes/]
 
 + Request
 
@@ -166,7 +166,7 @@
             
             {"awardPersonMassChangeId": "(val)","personMassChangeId": "(val)","investigator": "(val)","keyStudyPerson": "(val)","unitContact": "(val)","sponsorContact": "(val)","approvedForeignTravel": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Award Person Mass Changes [POST /research-sys/api/v1/award-person-mass-changes/]
+### Insert Multiple Award Person Mass Changes [POST /award/api/v1/award-person-mass-changes/]
 
 + Request
 
@@ -191,7 +191,7 @@
               {"awardPersonMassChangeId": "(val)","personMassChangeId": "(val)","investigator": "(val)","keyStudyPerson": "(val)","unitContact": "(val)","sponsorContact": "(val)","approvedForeignTravel": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Award Person Mass Changes by Key [DELETE /research-sys/api/v1/award-person-mass-changes/(key)]
+### Delete Award Person Mass Changes by Key [DELETE /award/api/v1/award-person-mass-changes/(key)]
 	 
 + Request
 
@@ -202,7 +202,7 @@
 
 + Response 204
 
-### Delete All Award Person Mass Changes [DELETE /research-sys/api/v1/award-person-mass-changes/]
+### Delete All Award Person Mass Changes [DELETE /award/api/v1/award-person-mass-changes/]
 
 + Parameters
 
@@ -217,18 +217,18 @@
 
 + Response 204
 
-### Delete All Award Person Mass Changes with Matching [DELETE /research-sys/api/v1/award-person-mass-changes/]
+### Delete All Award Person Mass Changes with Matching [DELETE /award/api/v1/award-person-mass-changes/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + awardPersonMassChangeId
-            + personMassChangeId
-            + investigator
-            + keyStudyPerson
-            + unitContact
-            + sponsorContact
-            + approvedForeignTravel
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + awardPersonMassChangeId (optional) - Award Person Mass Change Id. Maximum length is 12.
+    + personMassChangeId (optional) - Person Mass Change Id. Maximum length is 12.
+    + investigator (optional) - Investigator. Maximum length is 1.
+    + keyStudyPerson (optional) - Key Study Person. Maximum length is 1.
+    + unitContact (optional) - Unit Contact. Maximum length is 1.
+    + sponsorContact (optional) - Sponsor Contact. Maximum length is 1.
+    + approvedForeignTravel (optional) - Approved Foreign Travel. Maximum length is 1.
 
       
 + Request

@@ -1,6 +1,6 @@
-## Risk Levels [/research-sys/api/v1/risk-levels/]
+## Risk Levels [/research-common/api/v1/risk-levels/]
 
-### Get Risk Levels by Key [GET /research-sys/api/v1/risk-levels/(key)]
+### Get Risk Levels by Key [GET /research-common/api/v1/risk-levels/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"riskLevelCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Risk Levels [GET /research-sys/api/v1/risk-levels/]
+### Get All Risk Levels [GET /research-common/api/v1/risk-levels/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"riskLevelCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Risk Levels with Filtering [GET /research-sys/api/v1/risk-levels/]
+### Get All Risk Levels with Filtering [GET /research-common/api/v1/risk-levels/]
     
 + Parameters
 
-        + riskLevelCode
-            + description
+    + riskLevelCode (optional) - Risk Level Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"riskLevelCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Risk Levels [GET /research-sys/api/v1/risk-levels/]
+### Get Schema for Risk Levels [GET /research-common/api/v1/risk-levels/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["riskLevelCode","description"],"primaryKey":"riskLevelCode"}
 		
-### Get Blueprint API specification for Risk Levels [GET /research-sys/api/v1/risk-levels/]
+### Get Blueprint API specification for Risk Levels [GET /research-common/api/v1/risk-levels/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Risk Levels [PUT /research-sys/api/v1/risk-levels/(key)]
+### Update Risk Levels [PUT /research-common/api/v1/risk-levels/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Risk Levels [PUT /research-sys/api/v1/risk-levels/]
+### Update Multiple Risk Levels [PUT /research-common/api/v1/risk-levels/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Risk Levels [POST /research-sys/api/v1/risk-levels/]
+### Insert Risk Levels [POST /research-common/api/v1/risk-levels/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"riskLevelCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Risk Levels [POST /research-sys/api/v1/risk-levels/]
+### Insert Multiple Risk Levels [POST /research-common/api/v1/risk-levels/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"riskLevelCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Risk Levels by Key [DELETE /research-sys/api/v1/risk-levels/(key)]
+### Delete Risk Levels by Key [DELETE /research-common/api/v1/risk-levels/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Risk Levels [DELETE /research-sys/api/v1/risk-levels/]
+### Delete All Risk Levels [DELETE /research-common/api/v1/risk-levels/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Risk Levels with Matching [DELETE /research-sys/api/v1/risk-levels/]
+### Delete All Risk Levels with Matching [DELETE /research-common/api/v1/risk-levels/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + riskLevelCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + riskLevelCode (optional) - Risk Level Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

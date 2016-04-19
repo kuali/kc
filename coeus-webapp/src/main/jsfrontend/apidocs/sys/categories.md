@@ -43,9 +43,9 @@
     
 + Parameters
 
-        + id
-            + name
-            + namespace
+    + id (optional) - ID.
+    + name (optional) - Name.
+    + namespace (optional) - Namespace.
 
             
 + Request
@@ -217,10 +217,10 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + name
-            + namespace
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - ID.
+    + name (optional) - Name.
+    + namespace (optional) - Namespace.
 
       
 + Request

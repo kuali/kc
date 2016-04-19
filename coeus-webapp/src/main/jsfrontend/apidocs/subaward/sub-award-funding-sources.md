@@ -1,6 +1,6 @@
-## Sub Award Funding Sources [/research-sys/api/v1/sub-award-funding-sources/]
+## Sub Award Funding Sources [/subaward/api/v1/sub-award-funding-sources/]
 
-### Get Sub Award Funding Sources by Key [GET /research-sys/api/v1/sub-award-funding-sources/(key)]
+### Get Sub Award Funding Sources by Key [GET /subaward/api/v1/sub-award-funding-sources/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"subAwardFundingSourceId": "(val)","subAwardId": "(val)","subAwardCode": "(val)","sequenceNumber": "(val)","awardId": "(val)","_primaryKey": "(val)"}
 
-### Get All Sub Award Funding Sources [GET /research-sys/api/v1/sub-award-funding-sources/]
+### Get All Sub Award Funding Sources [GET /subaward/api/v1/sub-award-funding-sources/]
 	 
 + Request
 
@@ -39,15 +39,15 @@
               {"subAwardFundingSourceId": "(val)","subAwardId": "(val)","subAwardCode": "(val)","sequenceNumber": "(val)","awardId": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Sub Award Funding Sources with Filtering [GET /research-sys/api/v1/sub-award-funding-sources/]
+### Get All Sub Award Funding Sources with Filtering [GET /subaward/api/v1/sub-award-funding-sources/]
     
 + Parameters
 
-        + subAwardFundingSourceId
-            + subAwardId
-            + subAwardCode
-            + sequenceNumber
-            + awardId
+    + subAwardFundingSourceId (optional) - Subaward Funding Source Id. Maximum length is 22.
+    + subAwardId (optional) - Subaward Id. Maximum length is 22.
+    + subAwardCode (optional) - 
+    + sequenceNumber (optional) - 
+    + awardId (optional) - A unique institutionally assigned number of a previously funded application. Maximum length is 12.
 
             
 + Request
@@ -69,7 +69,7 @@
               {"subAwardFundingSourceId": "(val)","subAwardId": "(val)","subAwardCode": "(val)","sequenceNumber": "(val)","awardId": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Sub Award Funding Sources [GET /research-sys/api/v1/sub-award-funding-sources/]
+### Get Schema for Sub Award Funding Sources [GET /subaward/api/v1/sub-award-funding-sources/]
 	                                          
 + Parameters
 
@@ -91,7 +91,7 @@
     
             {"columns":["subAwardFundingSourceId","subAwardId","subAwardCode","sequenceNumber","awardId"],"primaryKey":"subAwardFundingSourceId"}
 		
-### Get Blueprint API specification for Sub Award Funding Sources [GET /research-sys/api/v1/sub-award-funding-sources/]
+### Get Blueprint API specification for Sub Award Funding Sources [GET /subaward/api/v1/sub-award-funding-sources/]
 	 
 + Parameters
 
@@ -112,7 +112,7 @@
             transfer-encoding:chunked
 
 
-### Update Sub Award Funding Sources [PUT /research-sys/api/v1/sub-award-funding-sources/(key)]
+### Update Sub Award Funding Sources [PUT /subaward/api/v1/sub-award-funding-sources/(key)]
 
 + Request
 
@@ -127,7 +127,7 @@
 			
 + Response 204
 
-### Update Multiple Sub Award Funding Sources [PUT /research-sys/api/v1/sub-award-funding-sources/]
+### Update Multiple Sub Award Funding Sources [PUT /subaward/api/v1/sub-award-funding-sources/]
 
 + Request
 
@@ -145,7 +145,7 @@
 			
 + Response 204
 
-### Insert Sub Award Funding Sources [POST /research-sys/api/v1/sub-award-funding-sources/]
+### Insert Sub Award Funding Sources [POST /subaward/api/v1/sub-award-funding-sources/]
 
 + Request
 
@@ -164,7 +164,7 @@
             
             {"subAwardFundingSourceId": "(val)","subAwardId": "(val)","subAwardCode": "(val)","sequenceNumber": "(val)","awardId": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Sub Award Funding Sources [POST /research-sys/api/v1/sub-award-funding-sources/]
+### Insert Multiple Sub Award Funding Sources [POST /subaward/api/v1/sub-award-funding-sources/]
 
 + Request
 
@@ -189,7 +189,7 @@
               {"subAwardFundingSourceId": "(val)","subAwardId": "(val)","subAwardCode": "(val)","sequenceNumber": "(val)","awardId": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Sub Award Funding Sources by Key [DELETE /research-sys/api/v1/sub-award-funding-sources/(key)]
+### Delete Sub Award Funding Sources by Key [DELETE /subaward/api/v1/sub-award-funding-sources/(key)]
 	 
 + Request
 
@@ -200,7 +200,7 @@
 
 + Response 204
 
-### Delete All Sub Award Funding Sources [DELETE /research-sys/api/v1/sub-award-funding-sources/]
+### Delete All Sub Award Funding Sources [DELETE /subaward/api/v1/sub-award-funding-sources/]
 
 + Parameters
 
@@ -215,16 +215,16 @@
 
 + Response 204
 
-### Delete All Sub Award Funding Sources with Matching [DELETE /research-sys/api/v1/sub-award-funding-sources/]
+### Delete All Sub Award Funding Sources with Matching [DELETE /subaward/api/v1/sub-award-funding-sources/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + subAwardFundingSourceId
-            + subAwardId
-            + subAwardCode
-            + sequenceNumber
-            + awardId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + subAwardFundingSourceId (optional) - Subaward Funding Source Id. Maximum length is 22.
+    + subAwardId (optional) - Subaward Id. Maximum length is 22.
+    + subAwardCode (optional) - 
+    + sequenceNumber (optional) - 
+    + awardId (optional) - A unique institutionally assigned number of a previously funded application. Maximum length is 12.
 
       
 + Request

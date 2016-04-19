@@ -43,12 +43,12 @@
     
 + Parameters
 
-        + id
-            + name
-            + description
-            + active
-            + kimTypeId
-            + namespaceCode
+    + id (optional) - Role. Maximum length is 40.
+    + name (optional) - Role Name. Maximum length is 80.
+    + description (optional) - Description. Maximum length is 400.
+    + active (optional) - This attribute is used to describe whether the associated object is active or inactive. Maximum length is 1.
+    + kimTypeId (optional) - Role Type. Maximum length is 40.
+    + namespaceCode (optional) - Nmspc Cd. Maximum length is 40.
 
             
 + Request
@@ -220,13 +220,13 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + name
-            + description
-            + active
-            + kimTypeId
-            + namespaceCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Role. Maximum length is 40.
+    + name (optional) - Role Name. Maximum length is 80.
+    + description (optional) - Description. Maximum length is 400.
+    + active (optional) - This attribute is used to describe whether the associated object is active or inactive. Maximum length is 1.
+    + kimTypeId (optional) - Role Type. Maximum length is 40.
+    + namespaceCode (optional) - Nmspc Cd. Maximum length is 40.
 
       
 + Request

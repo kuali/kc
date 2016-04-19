@@ -1,6 +1,6 @@
-## Protocol Participants [/research-sys/api/v1/protocol-participants/]
+## Protocol Participants [/irb/api/v1/protocol-participants/]
 
-### Get Protocol Participants by Key [GET /research-sys/api/v1/protocol-participants/(key)]
+### Get Protocol Participants by Key [GET /irb/api/v1/protocol-participants/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"protocolParticipantId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","participantTypeCode": "(val)","participantCount": "(val)","_primaryKey": "(val)"}
 
-### Get All Protocol Participants [GET /research-sys/api/v1/protocol-participants/]
+### Get All Protocol Participants [GET /irb/api/v1/protocol-participants/]
 	 
 + Request
 
@@ -39,16 +39,16 @@
               {"protocolParticipantId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","participantTypeCode": "(val)","participantCount": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Protocol Participants with Filtering [GET /research-sys/api/v1/protocol-participants/]
+### Get All Protocol Participants with Filtering [GET /irb/api/v1/protocol-participants/]
     
 + Parameters
 
-        + protocolParticipantId
-            + protocolId
-            + protocolNumber
-            + sequenceNumber
-            + participantTypeCode
-            + participantCount
+    + protocolParticipantId (optional) - Protocol Participant Id. Maximum length is 22.
+    + protocolId (optional) - Protocol Id. Maximum length is 22.
+    + protocolNumber (optional) - 
+    + sequenceNumber (optional) - 
+    + participantTypeCode (optional) - Participant Type Code. Maximum length is 3.
+    + participantCount (optional) - Participant Count. Maximum length is 6.
 
             
 + Request
@@ -70,7 +70,7 @@
               {"protocolParticipantId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","participantTypeCode": "(val)","participantCount": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Protocol Participants [GET /research-sys/api/v1/protocol-participants/]
+### Get Schema for Protocol Participants [GET /irb/api/v1/protocol-participants/]
 	                                          
 + Parameters
 
@@ -92,7 +92,7 @@
     
             {"columns":["protocolParticipantId","protocolId","protocolNumber","sequenceNumber","participantTypeCode","participantCount"],"primaryKey":"protocolParticipantId"}
 		
-### Get Blueprint API specification for Protocol Participants [GET /research-sys/api/v1/protocol-participants/]
+### Get Blueprint API specification for Protocol Participants [GET /irb/api/v1/protocol-participants/]
 	 
 + Parameters
 
@@ -113,7 +113,7 @@
             transfer-encoding:chunked
 
 
-### Update Protocol Participants [PUT /research-sys/api/v1/protocol-participants/(key)]
+### Update Protocol Participants [PUT /irb/api/v1/protocol-participants/(key)]
 
 + Request
 
@@ -128,7 +128,7 @@
 			
 + Response 204
 
-### Update Multiple Protocol Participants [PUT /research-sys/api/v1/protocol-participants/]
+### Update Multiple Protocol Participants [PUT /irb/api/v1/protocol-participants/]
 
 + Request
 
@@ -146,7 +146,7 @@
 			
 + Response 204
 
-### Insert Protocol Participants [POST /research-sys/api/v1/protocol-participants/]
+### Insert Protocol Participants [POST /irb/api/v1/protocol-participants/]
 
 + Request
 
@@ -165,7 +165,7 @@
             
             {"protocolParticipantId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","participantTypeCode": "(val)","participantCount": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Protocol Participants [POST /research-sys/api/v1/protocol-participants/]
+### Insert Multiple Protocol Participants [POST /irb/api/v1/protocol-participants/]
 
 + Request
 
@@ -190,7 +190,7 @@
               {"protocolParticipantId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","participantTypeCode": "(val)","participantCount": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Protocol Participants by Key [DELETE /research-sys/api/v1/protocol-participants/(key)]
+### Delete Protocol Participants by Key [DELETE /irb/api/v1/protocol-participants/(key)]
 	 
 + Request
 
@@ -201,7 +201,7 @@
 
 + Response 204
 
-### Delete All Protocol Participants [DELETE /research-sys/api/v1/protocol-participants/]
+### Delete All Protocol Participants [DELETE /irb/api/v1/protocol-participants/]
 
 + Parameters
 
@@ -216,17 +216,17 @@
 
 + Response 204
 
-### Delete All Protocol Participants with Matching [DELETE /research-sys/api/v1/protocol-participants/]
+### Delete All Protocol Participants with Matching [DELETE /irb/api/v1/protocol-participants/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + protocolParticipantId
-            + protocolId
-            + protocolNumber
-            + sequenceNumber
-            + participantTypeCode
-            + participantCount
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + protocolParticipantId (optional) - Protocol Participant Id. Maximum length is 22.
+    + protocolId (optional) - Protocol Id. Maximum length is 22.
+    + protocolNumber (optional) - 
+    + sequenceNumber (optional) - 
+    + participantTypeCode (optional) - Participant Type Code. Maximum length is 3.
+    + participantCount (optional) - Participant Count. Maximum length is 6.
 
       
 + Request

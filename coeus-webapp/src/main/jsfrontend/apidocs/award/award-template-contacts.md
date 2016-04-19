@@ -1,6 +1,6 @@
-## Award Template Contacts [/research-sys/api/v1/award-template-contacts/]
+## Award Template Contacts [/award/api/v1/award-template-contacts/]
 
-### Get Award Template Contacts by Key [GET /research-sys/api/v1/award-template-contacts/(key)]
+### Get Award Template Contacts by Key [GET /award/api/v1/award-template-contacts/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"templateContactId": "(val)","templateCode": "(val)","roleCode": "(val)","rolodexId": "(val)","_primaryKey": "(val)"}
 
-### Get All Award Template Contacts [GET /research-sys/api/v1/award-template-contacts/]
+### Get All Award Template Contacts [GET /award/api/v1/award-template-contacts/]
 	 
 + Request
 
@@ -39,14 +39,14 @@
               {"templateContactId": "(val)","templateCode": "(val)","roleCode": "(val)","rolodexId": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Award Template Contacts with Filtering [GET /research-sys/api/v1/award-template-contacts/]
+### Get All Award Template Contacts with Filtering [GET /award/api/v1/award-template-contacts/]
     
 + Parameters
 
-        + templateContactId
-            + templateCode
-            + roleCode
-            + rolodexId
+    + templateContactId (optional) - Template Contact Id. Maximum length is 22.
+    + templateCode (optional) - 
+    + roleCode (optional) - Contact Type. Maximum length is 22.
+    + rolodexId (optional) - Rolodex Id. Maximum length is 22.
 
             
 + Request
@@ -68,7 +68,7 @@
               {"templateContactId": "(val)","templateCode": "(val)","roleCode": "(val)","rolodexId": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Award Template Contacts [GET /research-sys/api/v1/award-template-contacts/]
+### Get Schema for Award Template Contacts [GET /award/api/v1/award-template-contacts/]
 	                                          
 + Parameters
 
@@ -90,7 +90,7 @@
     
             {"columns":["templateContactId","templateCode","roleCode","rolodexId"],"primaryKey":"templateContactId"}
 		
-### Get Blueprint API specification for Award Template Contacts [GET /research-sys/api/v1/award-template-contacts/]
+### Get Blueprint API specification for Award Template Contacts [GET /award/api/v1/award-template-contacts/]
 	 
 + Parameters
 
@@ -111,7 +111,7 @@
             transfer-encoding:chunked
 
 
-### Update Award Template Contacts [PUT /research-sys/api/v1/award-template-contacts/(key)]
+### Update Award Template Contacts [PUT /award/api/v1/award-template-contacts/(key)]
 
 + Request
 
@@ -126,7 +126,7 @@
 			
 + Response 204
 
-### Update Multiple Award Template Contacts [PUT /research-sys/api/v1/award-template-contacts/]
+### Update Multiple Award Template Contacts [PUT /award/api/v1/award-template-contacts/]
 
 + Request
 
@@ -144,7 +144,7 @@
 			
 + Response 204
 
-### Insert Award Template Contacts [POST /research-sys/api/v1/award-template-contacts/]
+### Insert Award Template Contacts [POST /award/api/v1/award-template-contacts/]
 
 + Request
 
@@ -163,7 +163,7 @@
             
             {"templateContactId": "(val)","templateCode": "(val)","roleCode": "(val)","rolodexId": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Award Template Contacts [POST /research-sys/api/v1/award-template-contacts/]
+### Insert Multiple Award Template Contacts [POST /award/api/v1/award-template-contacts/]
 
 + Request
 
@@ -188,7 +188,7 @@
               {"templateContactId": "(val)","templateCode": "(val)","roleCode": "(val)","rolodexId": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Award Template Contacts by Key [DELETE /research-sys/api/v1/award-template-contacts/(key)]
+### Delete Award Template Contacts by Key [DELETE /award/api/v1/award-template-contacts/(key)]
 	 
 + Request
 
@@ -199,7 +199,7 @@
 
 + Response 204
 
-### Delete All Award Template Contacts [DELETE /research-sys/api/v1/award-template-contacts/]
+### Delete All Award Template Contacts [DELETE /award/api/v1/award-template-contacts/]
 
 + Parameters
 
@@ -214,15 +214,15 @@
 
 + Response 204
 
-### Delete All Award Template Contacts with Matching [DELETE /research-sys/api/v1/award-template-contacts/]
+### Delete All Award Template Contacts with Matching [DELETE /award/api/v1/award-template-contacts/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + templateContactId
-            + templateCode
-            + roleCode
-            + rolodexId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + templateContactId (optional) - Template Contact Id. Maximum length is 22.
+    + templateCode (optional) - 
+    + roleCode (optional) - Contact Type. Maximum length is 22.
+    + rolodexId (optional) - Rolodex Id. Maximum length is 22.
 
       
 + Request

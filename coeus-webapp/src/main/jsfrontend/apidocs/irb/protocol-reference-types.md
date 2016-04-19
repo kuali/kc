@@ -1,6 +1,6 @@
-## Protocol Reference Types [/research-sys/api/v1/protocol-reference-types/]
+## Protocol Reference Types [/irb/api/v1/protocol-reference-types/]
 
-### Get Protocol Reference Types by Key [GET /research-sys/api/v1/protocol-reference-types/(key)]
+### Get Protocol Reference Types by Key [GET /irb/api/v1/protocol-reference-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"protocolReferenceTypeCode": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
 
-### Get All Protocol Reference Types [GET /research-sys/api/v1/protocol-reference-types/]
+### Get All Protocol Reference Types [GET /irb/api/v1/protocol-reference-types/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"protocolReferenceTypeCode": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Protocol Reference Types with Filtering [GET /research-sys/api/v1/protocol-reference-types/]
+### Get All Protocol Reference Types with Filtering [GET /irb/api/v1/protocol-reference-types/]
     
 + Parameters
 
-        + protocolReferenceTypeCode
-            + description
-            + active
+    + protocolReferenceTypeCode (optional) - Protocol Reference Type Code. Maximum length is 22.
+    + description (optional) - Description. Maximum length is 300.
+    + active (optional) - Is Active. Maximum length is 1.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"protocolReferenceTypeCode": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Protocol Reference Types [GET /research-sys/api/v1/protocol-reference-types/]
+### Get Schema for Protocol Reference Types [GET /irb/api/v1/protocol-reference-types/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["protocolReferenceTypeCode","description","active"],"primaryKey":"protocolReferenceTypeCode"}
 		
-### Get Blueprint API specification for Protocol Reference Types [GET /research-sys/api/v1/protocol-reference-types/]
+### Get Blueprint API specification for Protocol Reference Types [GET /irb/api/v1/protocol-reference-types/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Protocol Reference Types [PUT /research-sys/api/v1/protocol-reference-types/(key)]
+### Update Protocol Reference Types [PUT /irb/api/v1/protocol-reference-types/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Protocol Reference Types [PUT /research-sys/api/v1/protocol-reference-types/]
+### Update Multiple Protocol Reference Types [PUT /irb/api/v1/protocol-reference-types/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Protocol Reference Types [POST /research-sys/api/v1/protocol-reference-types/]
+### Insert Protocol Reference Types [POST /irb/api/v1/protocol-reference-types/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"protocolReferenceTypeCode": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Protocol Reference Types [POST /research-sys/api/v1/protocol-reference-types/]
+### Insert Multiple Protocol Reference Types [POST /irb/api/v1/protocol-reference-types/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"protocolReferenceTypeCode": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Protocol Reference Types by Key [DELETE /research-sys/api/v1/protocol-reference-types/(key)]
+### Delete Protocol Reference Types by Key [DELETE /irb/api/v1/protocol-reference-types/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Protocol Reference Types [DELETE /research-sys/api/v1/protocol-reference-types/]
+### Delete All Protocol Reference Types [DELETE /irb/api/v1/protocol-reference-types/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Protocol Reference Types with Matching [DELETE /research-sys/api/v1/protocol-reference-types/]
+### Delete All Protocol Reference Types with Matching [DELETE /irb/api/v1/protocol-reference-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + protocolReferenceTypeCode
-            + description
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + protocolReferenceTypeCode (optional) - Protocol Reference Type Code. Maximum length is 22.
+    + description (optional) - Description. Maximum length is 300.
+    + active (optional) - Is Active. Maximum length is 1.
 
       
 + Request

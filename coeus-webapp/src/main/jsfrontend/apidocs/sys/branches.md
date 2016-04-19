@@ -43,9 +43,9 @@
     
 + Parameters
 
-        + branchId
-            + name
-            + lockVerNbr
+    + branchId (optional) - 
+    + name (optional) - 
+    + lockVerNbr (optional) - 
 
             
 + Request
@@ -217,10 +217,10 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + branchId
-            + name
-            + lockVerNbr
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + branchId (optional) - 
+    + name (optional) - 
+    + lockVerNbr (optional) - 
 
       
 + Request

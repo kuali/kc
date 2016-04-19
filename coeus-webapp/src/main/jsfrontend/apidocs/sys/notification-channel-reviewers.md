@@ -43,9 +43,9 @@
     
 + Parameters
 
-        + id
-            + reviewerType
-            + reviewerId
+    + id (optional) - 
+    + reviewerType (optional) - 
+    + reviewerId (optional) - 
 
             
 + Request
@@ -217,10 +217,10 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + reviewerType
-            + reviewerId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - 
+    + reviewerType (optional) - 
+    + reviewerId (optional) - 
 
       
 + Request

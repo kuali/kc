@@ -1,6 +1,6 @@
-## Proposal Abstracts [/research-sys/api/v1/proposal-abstracts/]
+## Proposal Abstracts [/propdev/api/v1/proposal-abstracts/]
 
-### Get Proposal Abstracts by Key [GET /research-sys/api/v1/proposal-abstracts/(key)]
+### Get Proposal Abstracts by Key [GET /propdev/api/v1/proposal-abstracts/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"proposalNumber": "(val)","abstractTypeCode": "(val)","abstractDetails": "(val)","timestampDisplay": "(val)","uploadUserDisplay": "(val)","_primaryKey": "(val)"}
 
-### Get All Proposal Abstracts [GET /research-sys/api/v1/proposal-abstracts/]
+### Get All Proposal Abstracts [GET /propdev/api/v1/proposal-abstracts/]
 	 
 + Request
 
@@ -39,15 +39,15 @@
               {"proposalNumber": "(val)","abstractTypeCode": "(val)","abstractDetails": "(val)","timestampDisplay": "(val)","uploadUserDisplay": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Proposal Abstracts with Filtering [GET /research-sys/api/v1/proposal-abstracts/]
+### Get All Proposal Abstracts with Filtering [GET /propdev/api/v1/proposal-abstracts/]
     
 + Parameters
 
-        + proposalNumber
-            + abstractTypeCode
-            + abstractDetails
-            + timestampDisplay
-            + uploadUserDisplay
+    + proposalNumber (optional) - Proposal Number. Maximum length is 12.
+    + abstractTypeCode (optional) - Abstract Type. Maximum length is 3.
+    + abstractDetails (optional) - Abstract Details. Maximum length is 49000.
+    + timestampDisplay (optional) - Timestamp Display.
+    + uploadUserDisplay (optional) - Upload User Display.
 
             
 + Request
@@ -69,7 +69,7 @@
               {"proposalNumber": "(val)","abstractTypeCode": "(val)","abstractDetails": "(val)","timestampDisplay": "(val)","uploadUserDisplay": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Proposal Abstracts [GET /research-sys/api/v1/proposal-abstracts/]
+### Get Schema for Proposal Abstracts [GET /propdev/api/v1/proposal-abstracts/]
 	                                          
 + Parameters
 
@@ -91,7 +91,7 @@
     
             {"columns":["proposalNumber","abstractTypeCode","abstractDetails","timestampDisplay","uploadUserDisplay"],"primaryKey":"abstractTypeCode:proposalNumber"}
 		
-### Get Blueprint API specification for Proposal Abstracts [GET /research-sys/api/v1/proposal-abstracts/]
+### Get Blueprint API specification for Proposal Abstracts [GET /propdev/api/v1/proposal-abstracts/]
 	 
 + Parameters
 
@@ -112,7 +112,7 @@
             transfer-encoding:chunked
 
 
-### Update Proposal Abstracts [PUT /research-sys/api/v1/proposal-abstracts/(key)]
+### Update Proposal Abstracts [PUT /propdev/api/v1/proposal-abstracts/(key)]
 
 + Request
 
@@ -127,7 +127,7 @@
 			
 + Response 204
 
-### Update Multiple Proposal Abstracts [PUT /research-sys/api/v1/proposal-abstracts/]
+### Update Multiple Proposal Abstracts [PUT /propdev/api/v1/proposal-abstracts/]
 
 + Request
 
@@ -145,7 +145,7 @@
 			
 + Response 204
 
-### Insert Proposal Abstracts [POST /research-sys/api/v1/proposal-abstracts/]
+### Insert Proposal Abstracts [POST /propdev/api/v1/proposal-abstracts/]
 
 + Request
 
@@ -164,7 +164,7 @@
             
             {"proposalNumber": "(val)","abstractTypeCode": "(val)","abstractDetails": "(val)","timestampDisplay": "(val)","uploadUserDisplay": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Proposal Abstracts [POST /research-sys/api/v1/proposal-abstracts/]
+### Insert Multiple Proposal Abstracts [POST /propdev/api/v1/proposal-abstracts/]
 
 + Request
 
@@ -189,7 +189,7 @@
               {"proposalNumber": "(val)","abstractTypeCode": "(val)","abstractDetails": "(val)","timestampDisplay": "(val)","uploadUserDisplay": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Proposal Abstracts by Key [DELETE /research-sys/api/v1/proposal-abstracts/(key)]
+### Delete Proposal Abstracts by Key [DELETE /propdev/api/v1/proposal-abstracts/(key)]
 	 
 + Request
 
@@ -200,7 +200,7 @@
 
 + Response 204
 
-### Delete All Proposal Abstracts [DELETE /research-sys/api/v1/proposal-abstracts/]
+### Delete All Proposal Abstracts [DELETE /propdev/api/v1/proposal-abstracts/]
 
 + Parameters
 
@@ -215,16 +215,16 @@
 
 + Response 204
 
-### Delete All Proposal Abstracts with Matching [DELETE /research-sys/api/v1/proposal-abstracts/]
+### Delete All Proposal Abstracts with Matching [DELETE /propdev/api/v1/proposal-abstracts/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + proposalNumber
-            + abstractTypeCode
-            + abstractDetails
-            + timestampDisplay
-            + uploadUserDisplay
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + proposalNumber (optional) - Proposal Number. Maximum length is 12.
+    + abstractTypeCode (optional) - Abstract Type. Maximum length is 3.
+    + abstractDetails (optional) - Abstract Details. Maximum length is 49000.
+    + timestampDisplay (optional) - Timestamp Display.
+    + uploadUserDisplay (optional) - Upload User Display.
 
       
 + Request

@@ -43,9 +43,9 @@
     
 + Parameters
 
-        + componentSetId
-            + lastUpdateTimestamp
-            + checksum
+    + componentSetId (optional) - 
+    + lastUpdateTimestamp (optional) - 
+    + checksum (optional) - 
 
             
 + Request
@@ -217,10 +217,10 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + componentSetId
-            + lastUpdateTimestamp
-            + checksum
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + componentSetId (optional) - 
+    + lastUpdateTimestamp (optional) - 
+    + checksum (optional) - 
 
       
 + Request

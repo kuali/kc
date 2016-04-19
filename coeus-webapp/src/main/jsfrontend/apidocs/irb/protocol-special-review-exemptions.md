@@ -1,6 +1,6 @@
-## Protocol Special Review Exemptions [/research-sys/api/v1/protocol-special-review-exemptions/]
+## Protocol Special Review Exemptions [/irb/api/v1/protocol-special-review-exemptions/]
 
-### Get Protocol Special Review Exemptions by Key [GET /research-sys/api/v1/protocol-special-review-exemptions/(key)]
+### Get Protocol Special Review Exemptions by Key [GET /irb/api/v1/protocol-special-review-exemptions/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"protocolSpecialReviewExemptionId": "(val)","protocolSpecialReviewId": "(val)","exemptionTypeCode": "(val)","_primaryKey": "(val)"}
 
-### Get All Protocol Special Review Exemptions [GET /research-sys/api/v1/protocol-special-review-exemptions/]
+### Get All Protocol Special Review Exemptions [GET /irb/api/v1/protocol-special-review-exemptions/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"protocolSpecialReviewExemptionId": "(val)","protocolSpecialReviewId": "(val)","exemptionTypeCode": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Protocol Special Review Exemptions with Filtering [GET /research-sys/api/v1/protocol-special-review-exemptions/]
+### Get All Protocol Special Review Exemptions with Filtering [GET /irb/api/v1/protocol-special-review-exemptions/]
     
 + Parameters
 
-        + protocolSpecialReviewExemptionId
-            + protocolSpecialReviewId
-            + exemptionTypeCode
+    + protocolSpecialReviewExemptionId (optional) - Protocol Special Review Exemption Id. Maximum length is 22.
+    + protocolSpecialReviewId (optional) - 
+    + exemptionTypeCode (optional) - Exemption #. Maximum length is 3.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"protocolSpecialReviewExemptionId": "(val)","protocolSpecialReviewId": "(val)","exemptionTypeCode": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Protocol Special Review Exemptions [GET /research-sys/api/v1/protocol-special-review-exemptions/]
+### Get Schema for Protocol Special Review Exemptions [GET /irb/api/v1/protocol-special-review-exemptions/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["protocolSpecialReviewExemptionId","protocolSpecialReviewId","exemptionTypeCode"],"primaryKey":"protocolSpecialReviewExemptionId"}
 		
-### Get Blueprint API specification for Protocol Special Review Exemptions [GET /research-sys/api/v1/protocol-special-review-exemptions/]
+### Get Blueprint API specification for Protocol Special Review Exemptions [GET /irb/api/v1/protocol-special-review-exemptions/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Protocol Special Review Exemptions [PUT /research-sys/api/v1/protocol-special-review-exemptions/(key)]
+### Update Protocol Special Review Exemptions [PUT /irb/api/v1/protocol-special-review-exemptions/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Protocol Special Review Exemptions [PUT /research-sys/api/v1/protocol-special-review-exemptions/]
+### Update Multiple Protocol Special Review Exemptions [PUT /irb/api/v1/protocol-special-review-exemptions/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Protocol Special Review Exemptions [POST /research-sys/api/v1/protocol-special-review-exemptions/]
+### Insert Protocol Special Review Exemptions [POST /irb/api/v1/protocol-special-review-exemptions/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"protocolSpecialReviewExemptionId": "(val)","protocolSpecialReviewId": "(val)","exemptionTypeCode": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Protocol Special Review Exemptions [POST /research-sys/api/v1/protocol-special-review-exemptions/]
+### Insert Multiple Protocol Special Review Exemptions [POST /irb/api/v1/protocol-special-review-exemptions/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"protocolSpecialReviewExemptionId": "(val)","protocolSpecialReviewId": "(val)","exemptionTypeCode": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Protocol Special Review Exemptions by Key [DELETE /research-sys/api/v1/protocol-special-review-exemptions/(key)]
+### Delete Protocol Special Review Exemptions by Key [DELETE /irb/api/v1/protocol-special-review-exemptions/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Protocol Special Review Exemptions [DELETE /research-sys/api/v1/protocol-special-review-exemptions/]
+### Delete All Protocol Special Review Exemptions [DELETE /irb/api/v1/protocol-special-review-exemptions/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Protocol Special Review Exemptions with Matching [DELETE /research-sys/api/v1/protocol-special-review-exemptions/]
+### Delete All Protocol Special Review Exemptions with Matching [DELETE /irb/api/v1/protocol-special-review-exemptions/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + protocolSpecialReviewExemptionId
-            + protocolSpecialReviewId
-            + exemptionTypeCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + protocolSpecialReviewExemptionId (optional) - Protocol Special Review Exemption Id. Maximum length is 22.
+    + protocolSpecialReviewId (optional) - 
+    + exemptionTypeCode (optional) - Exemption #. Maximum length is 3.
 
       
 + Request

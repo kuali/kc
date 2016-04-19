@@ -1,6 +1,6 @@
-## Protocol Statuses [/research-sys/api/v1/protocol-statuses/]
+## Protocol Statuses [/irb/api/v1/protocol-statuses/]
 
-### Get Protocol Statuses by Key [GET /research-sys/api/v1/protocol-statuses/(key)]
+### Get Protocol Statuses by Key [GET /irb/api/v1/protocol-statuses/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"protocolStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Protocol Statuses [GET /research-sys/api/v1/protocol-statuses/]
+### Get All Protocol Statuses [GET /irb/api/v1/protocol-statuses/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"protocolStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Protocol Statuses with Filtering [GET /research-sys/api/v1/protocol-statuses/]
+### Get All Protocol Statuses with Filtering [GET /irb/api/v1/protocol-statuses/]
     
 + Parameters
 
-        + protocolStatusCode
-            + description
+    + protocolStatusCode (optional) - Protocol Status Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 300.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"protocolStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Protocol Statuses [GET /research-sys/api/v1/protocol-statuses/]
+### Get Schema for Protocol Statuses [GET /irb/api/v1/protocol-statuses/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["protocolStatusCode","description"],"primaryKey":"protocolStatusCode"}
 		
-### Get Blueprint API specification for Protocol Statuses [GET /research-sys/api/v1/protocol-statuses/]
+### Get Blueprint API specification for Protocol Statuses [GET /irb/api/v1/protocol-statuses/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Protocol Statuses [PUT /research-sys/api/v1/protocol-statuses/(key)]
+### Update Protocol Statuses [PUT /irb/api/v1/protocol-statuses/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Protocol Statuses [PUT /research-sys/api/v1/protocol-statuses/]
+### Update Multiple Protocol Statuses [PUT /irb/api/v1/protocol-statuses/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Protocol Statuses [POST /research-sys/api/v1/protocol-statuses/]
+### Insert Protocol Statuses [POST /irb/api/v1/protocol-statuses/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"protocolStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Protocol Statuses [POST /research-sys/api/v1/protocol-statuses/]
+### Insert Multiple Protocol Statuses [POST /irb/api/v1/protocol-statuses/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"protocolStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Protocol Statuses by Key [DELETE /research-sys/api/v1/protocol-statuses/(key)]
+### Delete Protocol Statuses by Key [DELETE /irb/api/v1/protocol-statuses/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Protocol Statuses [DELETE /research-sys/api/v1/protocol-statuses/]
+### Delete All Protocol Statuses [DELETE /irb/api/v1/protocol-statuses/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Protocol Statuses with Matching [DELETE /research-sys/api/v1/protocol-statuses/]
+### Delete All Protocol Statuses with Matching [DELETE /irb/api/v1/protocol-statuses/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + protocolStatusCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + protocolStatusCode (optional) - Protocol Status Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 300.
 
       
 + Request

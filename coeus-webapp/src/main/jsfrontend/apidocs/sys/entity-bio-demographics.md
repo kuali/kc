@@ -43,19 +43,19 @@
     
 + Parameters
 
-        + entityId
-            + birthDateValue
-            + genderCode
-            + genderChangeCode
-            + deceasedDateValue
-            + maritalStatusCode
-            + primaryLanguageCode
-            + secondaryLanguageCode
-            + birthCountry
-            + birthStateProvinceCode
-            + birthCity
-            + geographicOrigin
-            + noteMessage
+    + entityId (optional) - 
+    + birthDateValue (optional) - 
+    + genderCode (optional) - 
+    + genderChangeCode (optional) - 
+    + deceasedDateValue (optional) - 
+    + maritalStatusCode (optional) - 
+    + primaryLanguageCode (optional) - 
+    + secondaryLanguageCode (optional) - 
+    + birthCountry (optional) - 
+    + birthStateProvinceCode (optional) - 
+    + birthCity (optional) - 
+    + geographicOrigin (optional) - 
+    + noteMessage (optional) - 
 
             
 + Request
@@ -227,20 +227,20 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + entityId
-            + birthDateValue
-            + genderCode
-            + genderChangeCode
-            + deceasedDateValue
-            + maritalStatusCode
-            + primaryLanguageCode
-            + secondaryLanguageCode
-            + birthCountry
-            + birthStateProvinceCode
-            + birthCity
-            + geographicOrigin
-            + noteMessage
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + entityId (optional) - 
+    + birthDateValue (optional) - 
+    + genderCode (optional) - 
+    + genderChangeCode (optional) - 
+    + deceasedDateValue (optional) - 
+    + maritalStatusCode (optional) - 
+    + primaryLanguageCode (optional) - 
+    + secondaryLanguageCode (optional) - 
+    + birthCountry (optional) - 
+    + birthStateProvinceCode (optional) - 
+    + birthCity (optional) - 
+    + geographicOrigin (optional) - 
+    + noteMessage (optional) - 
 
       
 + Request

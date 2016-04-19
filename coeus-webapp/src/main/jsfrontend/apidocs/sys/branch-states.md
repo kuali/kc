@@ -43,10 +43,10 @@
     
 + Parameters
 
-        + lockVerNbr
-            + value
-            + key
-            + stateId
+    + lockVerNbr (optional) - 
+    + value (optional) - 
+    + key (optional) - 
+    + stateId (optional) - 
 
             
 + Request
@@ -218,11 +218,11 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + lockVerNbr
-            + value
-            + key
-            + stateId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + lockVerNbr (optional) - 
+    + value (optional) - 
+    + key (optional) - 
+    + stateId (optional) - 
 
       
 + Request

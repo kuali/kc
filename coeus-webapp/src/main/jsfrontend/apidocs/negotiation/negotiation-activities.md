@@ -1,6 +1,6 @@
-## Negotiation Activities [/research-sys/api/v1/negotiation-activities/]
+## Negotiation Activities [/negotiation/api/v1/negotiation-activities/]
 
-### Get Negotiation Activities by Key [GET /research-sys/api/v1/negotiation-activities/(key)]
+### Get Negotiation Activities by Key [GET /negotiation/api/v1/negotiation-activities/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"activityId": "(val)","negotiationId": "(val)","activityTypeId": "(val)","locationId": "(val)","startDate": "(val)","endDate": "(val)","createDate": "(val)","followupDate": "(val)","lastModifiedUsername": "(val)","lastModifiedDate": "(val)","description": "(val)","restricted": "(val)","_primaryKey": "(val)"}
 
-### Get All Negotiation Activities [GET /research-sys/api/v1/negotiation-activities/]
+### Get All Negotiation Activities [GET /negotiation/api/v1/negotiation-activities/]
 	 
 + Request
 
@@ -39,22 +39,22 @@
               {"activityId": "(val)","negotiationId": "(val)","activityTypeId": "(val)","locationId": "(val)","startDate": "(val)","endDate": "(val)","createDate": "(val)","followupDate": "(val)","lastModifiedUsername": "(val)","lastModifiedDate": "(val)","description": "(val)","restricted": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Negotiation Activities with Filtering [GET /research-sys/api/v1/negotiation-activities/]
+### Get All Negotiation Activities with Filtering [GET /negotiation/api/v1/negotiation-activities/]
     
 + Parameters
 
-        + activityId
-            + negotiationId
-            + activityTypeId
-            + locationId
-            + startDate
-            + endDate
-            + createDate
-            + followupDate
-            + lastModifiedUsername
-            + lastModifiedDate
-            + description
-            + restricted
+    + activityId (optional) - negotiationActivityId. Maximum length is 22.
+    + negotiationId (optional) - 
+    + activityTypeId (optional) - Activity Type. Maximum length is 22.
+    + locationId (optional) - Location. Maximum length is 22.
+    + startDate (optional) - Activity Start Date. Maximum length is 21.
+    + endDate (optional) - Activity End Date. Maximum length is 21.
+    + createDate (optional) - Create Date. Maximum length is 21.
+    + followupDate (optional) - Follow-up Date. Maximum length is 21.
+    + lastModifiedUsername (optional) - Last Update By. Maximum length is 40.
+    + lastModifiedDate (optional) - Last Update. Maximum length is 21.
+    + description (optional) - Activity Description. Maximum length is 2000.
+    + restricted (optional) - 
 
             
 + Request
@@ -76,7 +76,7 @@
               {"activityId": "(val)","negotiationId": "(val)","activityTypeId": "(val)","locationId": "(val)","startDate": "(val)","endDate": "(val)","createDate": "(val)","followupDate": "(val)","lastModifiedUsername": "(val)","lastModifiedDate": "(val)","description": "(val)","restricted": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Negotiation Activities [GET /research-sys/api/v1/negotiation-activities/]
+### Get Schema for Negotiation Activities [GET /negotiation/api/v1/negotiation-activities/]
 	                                          
 + Parameters
 
@@ -98,7 +98,7 @@
     
             {"columns":["activityId","negotiationId","activityTypeId","locationId","startDate","endDate","createDate","followupDate","lastModifiedUsername","lastModifiedDate","description","restricted"],"primaryKey":"activityId"}
 		
-### Get Blueprint API specification for Negotiation Activities [GET /research-sys/api/v1/negotiation-activities/]
+### Get Blueprint API specification for Negotiation Activities [GET /negotiation/api/v1/negotiation-activities/]
 	 
 + Parameters
 
@@ -119,7 +119,7 @@
             transfer-encoding:chunked
 
 
-### Update Negotiation Activities [PUT /research-sys/api/v1/negotiation-activities/(key)]
+### Update Negotiation Activities [PUT /negotiation/api/v1/negotiation-activities/(key)]
 
 + Request
 
@@ -134,7 +134,7 @@
 			
 + Response 204
 
-### Update Multiple Negotiation Activities [PUT /research-sys/api/v1/negotiation-activities/]
+### Update Multiple Negotiation Activities [PUT /negotiation/api/v1/negotiation-activities/]
 
 + Request
 
@@ -152,7 +152,7 @@
 			
 + Response 204
 
-### Insert Negotiation Activities [POST /research-sys/api/v1/negotiation-activities/]
+### Insert Negotiation Activities [POST /negotiation/api/v1/negotiation-activities/]
 
 + Request
 
@@ -171,7 +171,7 @@
             
             {"activityId": "(val)","negotiationId": "(val)","activityTypeId": "(val)","locationId": "(val)","startDate": "(val)","endDate": "(val)","createDate": "(val)","followupDate": "(val)","lastModifiedUsername": "(val)","lastModifiedDate": "(val)","description": "(val)","restricted": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Negotiation Activities [POST /research-sys/api/v1/negotiation-activities/]
+### Insert Multiple Negotiation Activities [POST /negotiation/api/v1/negotiation-activities/]
 
 + Request
 
@@ -196,7 +196,7 @@
               {"activityId": "(val)","negotiationId": "(val)","activityTypeId": "(val)","locationId": "(val)","startDate": "(val)","endDate": "(val)","createDate": "(val)","followupDate": "(val)","lastModifiedUsername": "(val)","lastModifiedDate": "(val)","description": "(val)","restricted": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Negotiation Activities by Key [DELETE /research-sys/api/v1/negotiation-activities/(key)]
+### Delete Negotiation Activities by Key [DELETE /negotiation/api/v1/negotiation-activities/(key)]
 	 
 + Request
 
@@ -207,7 +207,7 @@
 
 + Response 204
 
-### Delete All Negotiation Activities [DELETE /research-sys/api/v1/negotiation-activities/]
+### Delete All Negotiation Activities [DELETE /negotiation/api/v1/negotiation-activities/]
 
 + Parameters
 
@@ -222,23 +222,23 @@
 
 + Response 204
 
-### Delete All Negotiation Activities with Matching [DELETE /research-sys/api/v1/negotiation-activities/]
+### Delete All Negotiation Activities with Matching [DELETE /negotiation/api/v1/negotiation-activities/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + activityId
-            + negotiationId
-            + activityTypeId
-            + locationId
-            + startDate
-            + endDate
-            + createDate
-            + followupDate
-            + lastModifiedUsername
-            + lastModifiedDate
-            + description
-            + restricted
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + activityId (optional) - negotiationActivityId. Maximum length is 22.
+    + negotiationId (optional) - 
+    + activityTypeId (optional) - Activity Type. Maximum length is 22.
+    + locationId (optional) - Location. Maximum length is 22.
+    + startDate (optional) - Activity Start Date. Maximum length is 21.
+    + endDate (optional) - Activity End Date. Maximum length is 21.
+    + createDate (optional) - Create Date. Maximum length is 21.
+    + followupDate (optional) - Follow-up Date. Maximum length is 21.
+    + lastModifiedUsername (optional) - Last Update By. Maximum length is 40.
+    + lastModifiedDate (optional) - Last Update. Maximum length is 21.
+    + description (optional) - Activity Description. Maximum length is 2000.
+    + restricted (optional) - 
 
       
 + Request

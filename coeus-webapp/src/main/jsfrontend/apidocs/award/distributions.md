@@ -1,6 +1,6 @@
-## Distributions [/research-sys/api/v1/distributions/]
+## Distributions [/award/api/v1/distributions/]
 
-### Get Distributions by Key [GET /research-sys/api/v1/distributions/(key)]
+### Get Distributions by Key [GET /award/api/v1/distributions/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"ospDistributionCode": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
 
-### Get All Distributions [GET /research-sys/api/v1/distributions/]
+### Get All Distributions [GET /award/api/v1/distributions/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"ospDistributionCode": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Distributions with Filtering [GET /research-sys/api/v1/distributions/]
+### Get All Distributions with Filtering [GET /award/api/v1/distributions/]
     
 + Parameters
 
-        + ospDistributionCode
-            + description
-            + active
+    + ospDistributionCode (optional) - OSP File Copy Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + active (optional) - Active. Maximum length is 1.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"ospDistributionCode": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Distributions [GET /research-sys/api/v1/distributions/]
+### Get Schema for Distributions [GET /award/api/v1/distributions/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["ospDistributionCode","description","active"],"primaryKey":"ospDistributionCode"}
 		
-### Get Blueprint API specification for Distributions [GET /research-sys/api/v1/distributions/]
+### Get Blueprint API specification for Distributions [GET /award/api/v1/distributions/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Distributions [PUT /research-sys/api/v1/distributions/(key)]
+### Update Distributions [PUT /award/api/v1/distributions/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Distributions [PUT /research-sys/api/v1/distributions/]
+### Update Multiple Distributions [PUT /award/api/v1/distributions/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Distributions [POST /research-sys/api/v1/distributions/]
+### Insert Distributions [POST /award/api/v1/distributions/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"ospDistributionCode": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Distributions [POST /research-sys/api/v1/distributions/]
+### Insert Multiple Distributions [POST /award/api/v1/distributions/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"ospDistributionCode": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Distributions by Key [DELETE /research-sys/api/v1/distributions/(key)]
+### Delete Distributions by Key [DELETE /award/api/v1/distributions/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Distributions [DELETE /research-sys/api/v1/distributions/]
+### Delete All Distributions [DELETE /award/api/v1/distributions/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Distributions with Matching [DELETE /research-sys/api/v1/distributions/]
+### Delete All Distributions with Matching [DELETE /award/api/v1/distributions/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + ospDistributionCode
-            + description
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + ospDistributionCode (optional) - OSP File Copy Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + active (optional) - Active. Maximum length is 1.
 
       
 + Request

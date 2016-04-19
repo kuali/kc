@@ -43,11 +43,11 @@
     
 + Parameters
 
-        + employmentAffiliationType
-            + code
-            + name
-            + active
-            + sortCode
+    + employmentAffiliationType (optional) - Employment Affiliation Type.
+    + code (optional) - The affiliation type code. Maximum length is 7.
+    + name (optional) - Descriptive text. Maximum length is 50.
+    + active (optional) - This attribute is used to describe whether the associated object is active or inactive. Maximum length is 1.
+    + sortCode (optional) - Descriptive text. Maximum length is 1.
 
             
 + Request
@@ -219,12 +219,12 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + employmentAffiliationType
-            + code
-            + name
-            + active
-            + sortCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + employmentAffiliationType (optional) - Employment Affiliation Type.
+    + code (optional) - The affiliation type code. Maximum length is 7.
+    + name (optional) - Descriptive text. Maximum length is 50.
+    + active (optional) - This attribute is used to describe whether the associated object is active or inactive. Maximum length is 1.
+    + sortCode (optional) - Descriptive text. Maximum length is 1.
 
       
 + Request

@@ -43,13 +43,13 @@
     
 + Parameters
 
-        + id
-            + roleResponsibilityId
-            + roleMemberId
-            + actionTypeCode
-            + actionPolicyCode
-            + forceAction
-            + priorityNumber
+    + id (optional) - 
+    + roleResponsibilityId (optional) - 
+    + roleMemberId (optional) - 
+    + actionTypeCode (optional) - 
+    + actionPolicyCode (optional) - 
+    + forceAction (optional) - 
+    + priorityNumber (optional) - 
 
             
 + Request
@@ -221,14 +221,14 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + roleResponsibilityId
-            + roleMemberId
-            + actionTypeCode
-            + actionPolicyCode
-            + forceAction
-            + priorityNumber
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - 
+    + roleResponsibilityId (optional) - 
+    + roleMemberId (optional) - 
+    + actionTypeCode (optional) - 
+    + actionPolicyCode (optional) - 
+    + forceAction (optional) - 
+    + priorityNumber (optional) - 
 
       
 + Request

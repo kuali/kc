@@ -1,6 +1,6 @@
-## Subcontracting Expenditure Category In Date Range Amounts [/research-sys/api/v1/subcontracting-expenditure-category-in-date-range-amounts/]
+## Subcontracting Expenditure Category In Date Range Amounts [/award/api/v1/subcontracting-expenditure-category-in-date-range-amounts/]
 
-### Get Subcontracting Expenditure Category In Date Range Amounts by Key [GET /research-sys/api/v1/subcontracting-expenditure-category-in-date-range-amounts/(key)]
+### Get Subcontracting Expenditure Category In Date Range Amounts by Key [GET /award/api/v1/subcontracting-expenditure-category-in-date-range-amounts/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"awardNumber": "(val)","rangeStartDate": "(val)","rangeEndDate": "(val)","largeBusinessExpenditureAmount": "(val)","smallBusinessExpenditureAmount": "(val)","womanOwnedExpenditureAmount": "(val)","eightADisadvantageExpenditureAmount": "(val)","hubZoneExpenditureAmount": "(val)","veteranOwnedExpenditureAmount": "(val)","serviceDisabledVeteranOwnedExpenditureAmount": "(val)","historicalBlackCollegeExpenditureAmount": "(val)","_primaryKey": "(val)"}
 
-### Get All Subcontracting Expenditure Category In Date Range Amounts [GET /research-sys/api/v1/subcontracting-expenditure-category-in-date-range-amounts/]
+### Get All Subcontracting Expenditure Category In Date Range Amounts [GET /award/api/v1/subcontracting-expenditure-category-in-date-range-amounts/]
 	 
 + Request
 
@@ -39,21 +39,21 @@
               {"awardNumber": "(val)","rangeStartDate": "(val)","rangeEndDate": "(val)","largeBusinessExpenditureAmount": "(val)","smallBusinessExpenditureAmount": "(val)","womanOwnedExpenditureAmount": "(val)","eightADisadvantageExpenditureAmount": "(val)","hubZoneExpenditureAmount": "(val)","veteranOwnedExpenditureAmount": "(val)","serviceDisabledVeteranOwnedExpenditureAmount": "(val)","historicalBlackCollegeExpenditureAmount": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Subcontracting Expenditure Category In Date Range Amounts with Filtering [GET /research-sys/api/v1/subcontracting-expenditure-category-in-date-range-amounts/]
+### Get All Subcontracting Expenditure Category In Date Range Amounts with Filtering [GET /award/api/v1/subcontracting-expenditure-category-in-date-range-amounts/]
     
 + Parameters
 
-        + awardNumber
-            + rangeStartDate
-            + rangeEndDate
-            + largeBusinessExpenditureAmount
-            + smallBusinessExpenditureAmount
-            + womanOwnedExpenditureAmount
-            + eightADisadvantageExpenditureAmount
-            + hubZoneExpenditureAmount
-            + veteranOwnedExpenditureAmount
-            + serviceDisabledVeteranOwnedExpenditureAmount
-            + historicalBlackCollegeExpenditureAmount
+    + awardNumber (optional) - 
+    + rangeStartDate (optional) - Range Start Date. Maximum length is 21.
+    + rangeEndDate (optional) - Range End Date. Maximum length is 21.
+    + largeBusinessExpenditureAmount (optional) - 
+    + smallBusinessExpenditureAmount (optional) - 
+    + womanOwnedExpenditureAmount (optional) - 
+    + eightADisadvantageExpenditureAmount (optional) - 
+    + hubZoneExpenditureAmount (optional) - 
+    + veteranOwnedExpenditureAmount (optional) - 
+    + serviceDisabledVeteranOwnedExpenditureAmount (optional) - 
+    + historicalBlackCollegeExpenditureAmount (optional) - 
 
             
 + Request
@@ -75,7 +75,7 @@
               {"awardNumber": "(val)","rangeStartDate": "(val)","rangeEndDate": "(val)","largeBusinessExpenditureAmount": "(val)","smallBusinessExpenditureAmount": "(val)","womanOwnedExpenditureAmount": "(val)","eightADisadvantageExpenditureAmount": "(val)","hubZoneExpenditureAmount": "(val)","veteranOwnedExpenditureAmount": "(val)","serviceDisabledVeteranOwnedExpenditureAmount": "(val)","historicalBlackCollegeExpenditureAmount": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Subcontracting Expenditure Category In Date Range Amounts [GET /research-sys/api/v1/subcontracting-expenditure-category-in-date-range-amounts/]
+### Get Schema for Subcontracting Expenditure Category In Date Range Amounts [GET /award/api/v1/subcontracting-expenditure-category-in-date-range-amounts/]
 	                                          
 + Parameters
 
@@ -97,7 +97,7 @@
     
             {"columns":["awardNumber","rangeStartDate","rangeEndDate","largeBusinessExpenditureAmount","smallBusinessExpenditureAmount","womanOwnedExpenditureAmount","eightADisadvantageExpenditureAmount","hubZoneExpenditureAmount","veteranOwnedExpenditureAmount","serviceDisabledVeteranOwnedExpenditureAmount","historicalBlackCollegeExpenditureAmount"],"primaryKey":"awardNumber"}
 		
-### Get Blueprint API specification for Subcontracting Expenditure Category In Date Range Amounts [GET /research-sys/api/v1/subcontracting-expenditure-category-in-date-range-amounts/]
+### Get Blueprint API specification for Subcontracting Expenditure Category In Date Range Amounts [GET /award/api/v1/subcontracting-expenditure-category-in-date-range-amounts/]
 	 
 + Parameters
 
@@ -118,7 +118,7 @@
             transfer-encoding:chunked
 
 
-### Update Subcontracting Expenditure Category In Date Range Amounts [PUT /research-sys/api/v1/subcontracting-expenditure-category-in-date-range-amounts/(key)]
+### Update Subcontracting Expenditure Category In Date Range Amounts [PUT /award/api/v1/subcontracting-expenditure-category-in-date-range-amounts/(key)]
 
 + Request
 
@@ -133,7 +133,7 @@
 			
 + Response 204
 
-### Update Multiple Subcontracting Expenditure Category In Date Range Amounts [PUT /research-sys/api/v1/subcontracting-expenditure-category-in-date-range-amounts/]
+### Update Multiple Subcontracting Expenditure Category In Date Range Amounts [PUT /award/api/v1/subcontracting-expenditure-category-in-date-range-amounts/]
 
 + Request
 
@@ -151,7 +151,7 @@
 			
 + Response 204
 
-### Insert Subcontracting Expenditure Category In Date Range Amounts [POST /research-sys/api/v1/subcontracting-expenditure-category-in-date-range-amounts/]
+### Insert Subcontracting Expenditure Category In Date Range Amounts [POST /award/api/v1/subcontracting-expenditure-category-in-date-range-amounts/]
 
 + Request
 
@@ -170,7 +170,7 @@
             
             {"awardNumber": "(val)","rangeStartDate": "(val)","rangeEndDate": "(val)","largeBusinessExpenditureAmount": "(val)","smallBusinessExpenditureAmount": "(val)","womanOwnedExpenditureAmount": "(val)","eightADisadvantageExpenditureAmount": "(val)","hubZoneExpenditureAmount": "(val)","veteranOwnedExpenditureAmount": "(val)","serviceDisabledVeteranOwnedExpenditureAmount": "(val)","historicalBlackCollegeExpenditureAmount": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Subcontracting Expenditure Category In Date Range Amounts [POST /research-sys/api/v1/subcontracting-expenditure-category-in-date-range-amounts/]
+### Insert Multiple Subcontracting Expenditure Category In Date Range Amounts [POST /award/api/v1/subcontracting-expenditure-category-in-date-range-amounts/]
 
 + Request
 
@@ -195,7 +195,7 @@
               {"awardNumber": "(val)","rangeStartDate": "(val)","rangeEndDate": "(val)","largeBusinessExpenditureAmount": "(val)","smallBusinessExpenditureAmount": "(val)","womanOwnedExpenditureAmount": "(val)","eightADisadvantageExpenditureAmount": "(val)","hubZoneExpenditureAmount": "(val)","veteranOwnedExpenditureAmount": "(val)","serviceDisabledVeteranOwnedExpenditureAmount": "(val)","historicalBlackCollegeExpenditureAmount": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Subcontracting Expenditure Category In Date Range Amounts by Key [DELETE /research-sys/api/v1/subcontracting-expenditure-category-in-date-range-amounts/(key)]
+### Delete Subcontracting Expenditure Category In Date Range Amounts by Key [DELETE /award/api/v1/subcontracting-expenditure-category-in-date-range-amounts/(key)]
 	 
 + Request
 
@@ -206,7 +206,7 @@
 
 + Response 204
 
-### Delete All Subcontracting Expenditure Category In Date Range Amounts [DELETE /research-sys/api/v1/subcontracting-expenditure-category-in-date-range-amounts/]
+### Delete All Subcontracting Expenditure Category In Date Range Amounts [DELETE /award/api/v1/subcontracting-expenditure-category-in-date-range-amounts/]
 
 + Parameters
 
@@ -221,22 +221,22 @@
 
 + Response 204
 
-### Delete All Subcontracting Expenditure Category In Date Range Amounts with Matching [DELETE /research-sys/api/v1/subcontracting-expenditure-category-in-date-range-amounts/]
+### Delete All Subcontracting Expenditure Category In Date Range Amounts with Matching [DELETE /award/api/v1/subcontracting-expenditure-category-in-date-range-amounts/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + awardNumber
-            + rangeStartDate
-            + rangeEndDate
-            + largeBusinessExpenditureAmount
-            + smallBusinessExpenditureAmount
-            + womanOwnedExpenditureAmount
-            + eightADisadvantageExpenditureAmount
-            + hubZoneExpenditureAmount
-            + veteranOwnedExpenditureAmount
-            + serviceDisabledVeteranOwnedExpenditureAmount
-            + historicalBlackCollegeExpenditureAmount
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + awardNumber (optional) - 
+    + rangeStartDate (optional) - Range Start Date. Maximum length is 21.
+    + rangeEndDate (optional) - Range End Date. Maximum length is 21.
+    + largeBusinessExpenditureAmount (optional) - 
+    + smallBusinessExpenditureAmount (optional) - 
+    + womanOwnedExpenditureAmount (optional) - 
+    + eightADisadvantageExpenditureAmount (optional) - 
+    + hubZoneExpenditureAmount (optional) - 
+    + veteranOwnedExpenditureAmount (optional) - 
+    + serviceDisabledVeteranOwnedExpenditureAmount (optional) - 
+    + historicalBlackCollegeExpenditureAmount (optional) - 
 
       
 + Request

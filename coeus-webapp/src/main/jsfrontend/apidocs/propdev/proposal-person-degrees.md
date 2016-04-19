@@ -1,6 +1,6 @@
-## Proposal Person Degrees [/research-sys/api/v1/proposal-person-degrees/]
+## Proposal Person Degrees [/propdev/api/v1/proposal-person-degrees/]
 
-### Get Proposal Person Degrees by Key [GET /research-sys/api/v1/proposal-person-degrees/(key)]
+### Get Proposal Person Degrees by Key [GET /propdev/api/v1/proposal-person-degrees/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"degreeSequenceNumber": "(val)","graduationYear": "(val)","degreeCode": "(val)","degree": "(val)","fieldOfStudy": "(val)","specialization": "(val)","school": "(val)","schoolIdCode": "(val)","schoolId": "(val)","_primaryKey": "(val)"}
 
-### Get All Proposal Person Degrees [GET /research-sys/api/v1/proposal-person-degrees/]
+### Get All Proposal Person Degrees [GET /propdev/api/v1/proposal-person-degrees/]
 	 
 + Request
 
@@ -39,19 +39,19 @@
               {"degreeSequenceNumber": "(val)","graduationYear": "(val)","degreeCode": "(val)","degree": "(val)","fieldOfStudy": "(val)","specialization": "(val)","school": "(val)","schoolIdCode": "(val)","schoolId": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Proposal Person Degrees with Filtering [GET /research-sys/api/v1/proposal-person-degrees/]
+### Get All Proposal Person Degrees with Filtering [GET /propdev/api/v1/proposal-person-degrees/]
     
 + Parameters
 
-        + degreeSequenceNumber
-            + graduationYear
-            + degreeCode
-            + degree
-            + fieldOfStudy
-            + specialization
-            + school
-            + schoolIdCode
-            + schoolId
+    + degreeSequenceNumber (optional) - Degree Sequence Number. Maximum length is 3.
+    + graduationYear (optional) - Graduation Year. Maximum length is 4.
+    + degreeCode (optional) - Degree Code. Maximum length is 6.
+    + degree (optional) - Degree. Maximum length is 80.
+    + fieldOfStudy (optional) - Field of Study. Maximum length is 80.
+    + specialization (optional) - Specialization. Maximum length is 80.
+    + school (optional) - School. Maximum length is 50.
+    + schoolIdCode (optional) - School Id Code. Maximum length is 3.
+    + schoolId (optional) - School Id. Maximum length is 20.
 
             
 + Request
@@ -73,7 +73,7 @@
               {"degreeSequenceNumber": "(val)","graduationYear": "(val)","degreeCode": "(val)","degree": "(val)","fieldOfStudy": "(val)","specialization": "(val)","school": "(val)","schoolIdCode": "(val)","schoolId": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Proposal Person Degrees [GET /research-sys/api/v1/proposal-person-degrees/]
+### Get Schema for Proposal Person Degrees [GET /propdev/api/v1/proposal-person-degrees/]
 	                                          
 + Parameters
 
@@ -95,7 +95,7 @@
     
             {"columns":["degreeSequenceNumber","graduationYear","degreeCode","degree","fieldOfStudy","specialization","school","schoolIdCode","schoolId"],"primaryKey":"degreeSequenceNumber:proposalPerson"}
 		
-### Get Blueprint API specification for Proposal Person Degrees [GET /research-sys/api/v1/proposal-person-degrees/]
+### Get Blueprint API specification for Proposal Person Degrees [GET /propdev/api/v1/proposal-person-degrees/]
 	 
 + Parameters
 
@@ -116,7 +116,7 @@
             transfer-encoding:chunked
 
 
-### Update Proposal Person Degrees [PUT /research-sys/api/v1/proposal-person-degrees/(key)]
+### Update Proposal Person Degrees [PUT /propdev/api/v1/proposal-person-degrees/(key)]
 
 + Request
 
@@ -131,7 +131,7 @@
 			
 + Response 204
 
-### Update Multiple Proposal Person Degrees [PUT /research-sys/api/v1/proposal-person-degrees/]
+### Update Multiple Proposal Person Degrees [PUT /propdev/api/v1/proposal-person-degrees/]
 
 + Request
 
@@ -149,7 +149,7 @@
 			
 + Response 204
 
-### Insert Proposal Person Degrees [POST /research-sys/api/v1/proposal-person-degrees/]
+### Insert Proposal Person Degrees [POST /propdev/api/v1/proposal-person-degrees/]
 
 + Request
 
@@ -168,7 +168,7 @@
             
             {"degreeSequenceNumber": "(val)","graduationYear": "(val)","degreeCode": "(val)","degree": "(val)","fieldOfStudy": "(val)","specialization": "(val)","school": "(val)","schoolIdCode": "(val)","schoolId": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Proposal Person Degrees [POST /research-sys/api/v1/proposal-person-degrees/]
+### Insert Multiple Proposal Person Degrees [POST /propdev/api/v1/proposal-person-degrees/]
 
 + Request
 
@@ -193,7 +193,7 @@
               {"degreeSequenceNumber": "(val)","graduationYear": "(val)","degreeCode": "(val)","degree": "(val)","fieldOfStudy": "(val)","specialization": "(val)","school": "(val)","schoolIdCode": "(val)","schoolId": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Proposal Person Degrees by Key [DELETE /research-sys/api/v1/proposal-person-degrees/(key)]
+### Delete Proposal Person Degrees by Key [DELETE /propdev/api/v1/proposal-person-degrees/(key)]
 	 
 + Request
 
@@ -204,7 +204,7 @@
 
 + Response 204
 
-### Delete All Proposal Person Degrees [DELETE /research-sys/api/v1/proposal-person-degrees/]
+### Delete All Proposal Person Degrees [DELETE /propdev/api/v1/proposal-person-degrees/]
 
 + Parameters
 
@@ -219,20 +219,20 @@
 
 + Response 204
 
-### Delete All Proposal Person Degrees with Matching [DELETE /research-sys/api/v1/proposal-person-degrees/]
+### Delete All Proposal Person Degrees with Matching [DELETE /propdev/api/v1/proposal-person-degrees/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + degreeSequenceNumber
-            + graduationYear
-            + degreeCode
-            + degree
-            + fieldOfStudy
-            + specialization
-            + school
-            + schoolIdCode
-            + schoolId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + degreeSequenceNumber (optional) - Degree Sequence Number. Maximum length is 3.
+    + graduationYear (optional) - Graduation Year. Maximum length is 4.
+    + degreeCode (optional) - Degree Code. Maximum length is 6.
+    + degree (optional) - Degree. Maximum length is 80.
+    + fieldOfStudy (optional) - Field of Study. Maximum length is 80.
+    + specialization (optional) - Specialization. Maximum length is 80.
+    + school (optional) - School. Maximum length is 50.
+    + schoolIdCode (optional) - School Id Code. Maximum length is 3.
+    + schoolId (optional) - School Id. Maximum length is 20.
 
       
 + Request

@@ -1,6 +1,6 @@
-## Proposal Development Person Mass Changes [/research-sys/api/v1/proposal-development-person-mass-changes/]
+## Proposal Development Person Mass Changes [/propdev/api/v1/proposal-development-person-mass-changes/]
 
-### Get Proposal Development Person Mass Changes by Key [GET /research-sys/api/v1/proposal-development-person-mass-changes/(key)]
+### Get Proposal Development Person Mass Changes by Key [GET /propdev/api/v1/proposal-development-person-mass-changes/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"proposalDevelopmentPersonMassChangeId": "(val)","personMassChangeId": "(val)","investigator": "(val)","mailingInformation": "(val)","keyStudyPerson": "(val)","_primaryKey": "(val)"}
 
-### Get All Proposal Development Person Mass Changes [GET /research-sys/api/v1/proposal-development-person-mass-changes/]
+### Get All Proposal Development Person Mass Changes [GET /propdev/api/v1/proposal-development-person-mass-changes/]
 	 
 + Request
 
@@ -39,15 +39,15 @@
               {"proposalDevelopmentPersonMassChangeId": "(val)","personMassChangeId": "(val)","investigator": "(val)","mailingInformation": "(val)","keyStudyPerson": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Proposal Development Person Mass Changes with Filtering [GET /research-sys/api/v1/proposal-development-person-mass-changes/]
+### Get All Proposal Development Person Mass Changes with Filtering [GET /propdev/api/v1/proposal-development-person-mass-changes/]
     
 + Parameters
 
-        + proposalDevelopmentPersonMassChangeId
-            + personMassChangeId
-            + investigator
-            + mailingInformation
-            + keyStudyPerson
+    + proposalDevelopmentPersonMassChangeId (optional) - Proposal Development Person Mass Change Id. Maximum length is 12.
+    + personMassChangeId (optional) - Person Mass Change Id. Maximum length is 12.
+    + investigator (optional) - Investigator. Maximum length is 1.
+    + mailingInformation (optional) - Mailing Information. Maximum length is 1.
+    + keyStudyPerson (optional) - Key Study Person. Maximum length is 1.
 
             
 + Request
@@ -69,7 +69,7 @@
               {"proposalDevelopmentPersonMassChangeId": "(val)","personMassChangeId": "(val)","investigator": "(val)","mailingInformation": "(val)","keyStudyPerson": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Proposal Development Person Mass Changes [GET /research-sys/api/v1/proposal-development-person-mass-changes/]
+### Get Schema for Proposal Development Person Mass Changes [GET /propdev/api/v1/proposal-development-person-mass-changes/]
 	                                          
 + Parameters
 
@@ -91,7 +91,7 @@
     
             {"columns":["proposalDevelopmentPersonMassChangeId","personMassChangeId","investigator","mailingInformation","keyStudyPerson"],"primaryKey":"proposalDevelopmentPersonMassChangeId"}
 		
-### Get Blueprint API specification for Proposal Development Person Mass Changes [GET /research-sys/api/v1/proposal-development-person-mass-changes/]
+### Get Blueprint API specification for Proposal Development Person Mass Changes [GET /propdev/api/v1/proposal-development-person-mass-changes/]
 	 
 + Parameters
 
@@ -112,7 +112,7 @@
             transfer-encoding:chunked
 
 
-### Update Proposal Development Person Mass Changes [PUT /research-sys/api/v1/proposal-development-person-mass-changes/(key)]
+### Update Proposal Development Person Mass Changes [PUT /propdev/api/v1/proposal-development-person-mass-changes/(key)]
 
 + Request
 
@@ -127,7 +127,7 @@
 			
 + Response 204
 
-### Update Multiple Proposal Development Person Mass Changes [PUT /research-sys/api/v1/proposal-development-person-mass-changes/]
+### Update Multiple Proposal Development Person Mass Changes [PUT /propdev/api/v1/proposal-development-person-mass-changes/]
 
 + Request
 
@@ -145,7 +145,7 @@
 			
 + Response 204
 
-### Insert Proposal Development Person Mass Changes [POST /research-sys/api/v1/proposal-development-person-mass-changes/]
+### Insert Proposal Development Person Mass Changes [POST /propdev/api/v1/proposal-development-person-mass-changes/]
 
 + Request
 
@@ -164,7 +164,7 @@
             
             {"proposalDevelopmentPersonMassChangeId": "(val)","personMassChangeId": "(val)","investigator": "(val)","mailingInformation": "(val)","keyStudyPerson": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Proposal Development Person Mass Changes [POST /research-sys/api/v1/proposal-development-person-mass-changes/]
+### Insert Multiple Proposal Development Person Mass Changes [POST /propdev/api/v1/proposal-development-person-mass-changes/]
 
 + Request
 
@@ -189,7 +189,7 @@
               {"proposalDevelopmentPersonMassChangeId": "(val)","personMassChangeId": "(val)","investigator": "(val)","mailingInformation": "(val)","keyStudyPerson": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Proposal Development Person Mass Changes by Key [DELETE /research-sys/api/v1/proposal-development-person-mass-changes/(key)]
+### Delete Proposal Development Person Mass Changes by Key [DELETE /propdev/api/v1/proposal-development-person-mass-changes/(key)]
 	 
 + Request
 
@@ -200,7 +200,7 @@
 
 + Response 204
 
-### Delete All Proposal Development Person Mass Changes [DELETE /research-sys/api/v1/proposal-development-person-mass-changes/]
+### Delete All Proposal Development Person Mass Changes [DELETE /propdev/api/v1/proposal-development-person-mass-changes/]
 
 + Parameters
 
@@ -215,16 +215,16 @@
 
 + Response 204
 
-### Delete All Proposal Development Person Mass Changes with Matching [DELETE /research-sys/api/v1/proposal-development-person-mass-changes/]
+### Delete All Proposal Development Person Mass Changes with Matching [DELETE /propdev/api/v1/proposal-development-person-mass-changes/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + proposalDevelopmentPersonMassChangeId
-            + personMassChangeId
-            + investigator
-            + mailingInformation
-            + keyStudyPerson
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + proposalDevelopmentPersonMassChangeId (optional) - Proposal Development Person Mass Change Id. Maximum length is 12.
+    + personMassChangeId (optional) - Person Mass Change Id. Maximum length is 12.
+    + investigator (optional) - Investigator. Maximum length is 1.
+    + mailingInformation (optional) - Mailing Information. Maximum length is 1.
+    + keyStudyPerson (optional) - Key Study Person. Maximum length is 1.
 
       
 + Request

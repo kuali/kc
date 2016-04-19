@@ -43,17 +43,17 @@
     
 + Parameters
 
-        + id
-            + primaryDepartmentCode
-            + active
-            + employeeId
-            + entityId
-            + entityAffiliationId
-            + employeeStatusCode
-            + employeeTypeCode
-            + employmentRecordId
-            + baseSalaryAmount
-            + primary
+    + id (optional) - 
+    + primaryDepartmentCode (optional) - 
+    + active (optional) - 
+    + employeeId (optional) - 
+    + entityId (optional) - 
+    + entityAffiliationId (optional) - 
+    + employeeStatusCode (optional) - 
+    + employeeTypeCode (optional) - 
+    + employmentRecordId (optional) - 
+    + baseSalaryAmount (optional) - 
+    + primary (optional) - 
 
             
 + Request
@@ -225,18 +225,18 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + primaryDepartmentCode
-            + active
-            + employeeId
-            + entityId
-            + entityAffiliationId
-            + employeeStatusCode
-            + employeeTypeCode
-            + employmentRecordId
-            + baseSalaryAmount
-            + primary
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - 
+    + primaryDepartmentCode (optional) - 
+    + active (optional) - 
+    + employeeId (optional) - 
+    + entityId (optional) - 
+    + entityAffiliationId (optional) - 
+    + employeeStatusCode (optional) - 
+    + employeeTypeCode (optional) - 
+    + employmentRecordId (optional) - 
+    + baseSalaryAmount (optional) - 
+    + primary (optional) - 
 
       
 + Request

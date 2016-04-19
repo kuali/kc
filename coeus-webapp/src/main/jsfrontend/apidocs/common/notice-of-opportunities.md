@@ -1,6 +1,6 @@
-## Notice Of Opportunities [/research-sys/api/v1/notice-of-opportunities/]
+## Notice Of Opportunities [/research-common/api/v1/notice-of-opportunities/]
 
-### Get Notice Of Opportunities by Key [GET /research-sys/api/v1/notice-of-opportunities/(key)]
+### Get Notice Of Opportunities by Key [GET /research-common/api/v1/notice-of-opportunities/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Notice Of Opportunities [GET /research-sys/api/v1/notice-of-opportunities/]
+### Get All Notice Of Opportunities [GET /research-common/api/v1/notice-of-opportunities/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Notice Of Opportunities with Filtering [GET /research-sys/api/v1/notice-of-opportunities/]
+### Get All Notice Of Opportunities with Filtering [GET /research-common/api/v1/notice-of-opportunities/]
     
 + Parameters
 
-        + code
-            + description
+    + code (optional) - Notice of Opportunity. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Notice Of Opportunities [GET /research-sys/api/v1/notice-of-opportunities/]
+### Get Schema for Notice Of Opportunities [GET /research-common/api/v1/notice-of-opportunities/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["code","description"],"primaryKey":"code"}
 		
-### Get Blueprint API specification for Notice Of Opportunities [GET /research-sys/api/v1/notice-of-opportunities/]
+### Get Blueprint API specification for Notice Of Opportunities [GET /research-common/api/v1/notice-of-opportunities/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Notice Of Opportunities [PUT /research-sys/api/v1/notice-of-opportunities/(key)]
+### Update Notice Of Opportunities [PUT /research-common/api/v1/notice-of-opportunities/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Notice Of Opportunities [PUT /research-sys/api/v1/notice-of-opportunities/]
+### Update Multiple Notice Of Opportunities [PUT /research-common/api/v1/notice-of-opportunities/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Notice Of Opportunities [POST /research-sys/api/v1/notice-of-opportunities/]
+### Insert Notice Of Opportunities [POST /research-common/api/v1/notice-of-opportunities/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Notice Of Opportunities [POST /research-sys/api/v1/notice-of-opportunities/]
+### Insert Multiple Notice Of Opportunities [POST /research-common/api/v1/notice-of-opportunities/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Notice Of Opportunities by Key [DELETE /research-sys/api/v1/notice-of-opportunities/(key)]
+### Delete Notice Of Opportunities by Key [DELETE /research-common/api/v1/notice-of-opportunities/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Notice Of Opportunities [DELETE /research-sys/api/v1/notice-of-opportunities/]
+### Delete All Notice Of Opportunities [DELETE /research-common/api/v1/notice-of-opportunities/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Notice Of Opportunities with Matching [DELETE /research-sys/api/v1/notice-of-opportunities/]
+### Delete All Notice Of Opportunities with Matching [DELETE /research-common/api/v1/notice-of-opportunities/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + code
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + code (optional) - Notice of Opportunity. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

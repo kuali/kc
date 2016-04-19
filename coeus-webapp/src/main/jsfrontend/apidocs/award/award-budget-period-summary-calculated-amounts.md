@@ -1,6 +1,6 @@
-## Award Budget Period Summary Calculated Amounts [/research-sys/api/v1/award-budget-period-summary-calculated-amounts/]
+## Award Budget Period Summary Calculated Amounts [/award/api/v1/award-budget-period-summary-calculated-amounts/]
 
-### Get Award Budget Period Summary Calculated Amounts by Key [GET /research-sys/api/v1/award-budget-period-summary-calculated-amounts/(key)]
+### Get Award Budget Period Summary Calculated Amounts by Key [GET /award/api/v1/award-budget-period-summary-calculated-amounts/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"awardBudgetPeriodSummaryCalculatedAmountId": "(val)","budgetPeriodId": "(val)","costElement": "(val)","onOffCampusFlag": "(val)","rateClassType": "(val)","calculatedCost": "(val)","calculatedCostSharing": "(val)","_primaryKey": "(val)"}
 
-### Get All Award Budget Period Summary Calculated Amounts [GET /research-sys/api/v1/award-budget-period-summary-calculated-amounts/]
+### Get All Award Budget Period Summary Calculated Amounts [GET /award/api/v1/award-budget-period-summary-calculated-amounts/]
 	 
 + Request
 
@@ -39,17 +39,17 @@
               {"awardBudgetPeriodSummaryCalculatedAmountId": "(val)","budgetPeriodId": "(val)","costElement": "(val)","onOffCampusFlag": "(val)","rateClassType": "(val)","calculatedCost": "(val)","calculatedCostSharing": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Award Budget Period Summary Calculated Amounts with Filtering [GET /research-sys/api/v1/award-budget-period-summary-calculated-amounts/]
+### Get All Award Budget Period Summary Calculated Amounts with Filtering [GET /award/api/v1/award-budget-period-summary-calculated-amounts/]
     
 + Parameters
 
-        + awardBudgetPeriodSummaryCalculatedAmountId
-            + budgetPeriodId
-            + costElement
-            + onOffCampusFlag
-            + rateClassType
-            + calculatedCost
-            + calculatedCostSharing
+    + awardBudgetPeriodSummaryCalculatedAmountId (optional) - Awd Bgt Per Sum Calc Amt Id. Maximum length is 22.
+    + budgetPeriodId (optional) - Budget Period Id. Maximum length is 22.
+    + costElement (optional) - Cost Element. Maximum length is 8.
+    + onOffCampusFlag (optional) - On Off CampusContractContract Flag. Maximum length is 1.
+    + rateClassType (optional) - Rate Class Type. Maximum length is 1.
+    + calculatedCost (optional) - Calculated Cost. Maximum length is 22.
+    + calculatedCostSharing (optional) - Calculated Cost Sharing. Maximum length is 22.
 
             
 + Request
@@ -71,7 +71,7 @@
               {"awardBudgetPeriodSummaryCalculatedAmountId": "(val)","budgetPeriodId": "(val)","costElement": "(val)","onOffCampusFlag": "(val)","rateClassType": "(val)","calculatedCost": "(val)","calculatedCostSharing": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Award Budget Period Summary Calculated Amounts [GET /research-sys/api/v1/award-budget-period-summary-calculated-amounts/]
+### Get Schema for Award Budget Period Summary Calculated Amounts [GET /award/api/v1/award-budget-period-summary-calculated-amounts/]
 	                                          
 + Parameters
 
@@ -93,7 +93,7 @@
     
             {"columns":["awardBudgetPeriodSummaryCalculatedAmountId","budgetPeriodId","costElement","onOffCampusFlag","rateClassType","calculatedCost","calculatedCostSharing"],"primaryKey":"awardBudgetPeriodSummaryCalculatedAmountId"}
 		
-### Get Blueprint API specification for Award Budget Period Summary Calculated Amounts [GET /research-sys/api/v1/award-budget-period-summary-calculated-amounts/]
+### Get Blueprint API specification for Award Budget Period Summary Calculated Amounts [GET /award/api/v1/award-budget-period-summary-calculated-amounts/]
 	 
 + Parameters
 
@@ -114,7 +114,7 @@
             transfer-encoding:chunked
 
 
-### Update Award Budget Period Summary Calculated Amounts [PUT /research-sys/api/v1/award-budget-period-summary-calculated-amounts/(key)]
+### Update Award Budget Period Summary Calculated Amounts [PUT /award/api/v1/award-budget-period-summary-calculated-amounts/(key)]
 
 + Request
 
@@ -129,7 +129,7 @@
 			
 + Response 204
 
-### Update Multiple Award Budget Period Summary Calculated Amounts [PUT /research-sys/api/v1/award-budget-period-summary-calculated-amounts/]
+### Update Multiple Award Budget Period Summary Calculated Amounts [PUT /award/api/v1/award-budget-period-summary-calculated-amounts/]
 
 + Request
 
@@ -147,7 +147,7 @@
 			
 + Response 204
 
-### Insert Award Budget Period Summary Calculated Amounts [POST /research-sys/api/v1/award-budget-period-summary-calculated-amounts/]
+### Insert Award Budget Period Summary Calculated Amounts [POST /award/api/v1/award-budget-period-summary-calculated-amounts/]
 
 + Request
 
@@ -166,7 +166,7 @@
             
             {"awardBudgetPeriodSummaryCalculatedAmountId": "(val)","budgetPeriodId": "(val)","costElement": "(val)","onOffCampusFlag": "(val)","rateClassType": "(val)","calculatedCost": "(val)","calculatedCostSharing": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Award Budget Period Summary Calculated Amounts [POST /research-sys/api/v1/award-budget-period-summary-calculated-amounts/]
+### Insert Multiple Award Budget Period Summary Calculated Amounts [POST /award/api/v1/award-budget-period-summary-calculated-amounts/]
 
 + Request
 
@@ -191,7 +191,7 @@
               {"awardBudgetPeriodSummaryCalculatedAmountId": "(val)","budgetPeriodId": "(val)","costElement": "(val)","onOffCampusFlag": "(val)","rateClassType": "(val)","calculatedCost": "(val)","calculatedCostSharing": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Award Budget Period Summary Calculated Amounts by Key [DELETE /research-sys/api/v1/award-budget-period-summary-calculated-amounts/(key)]
+### Delete Award Budget Period Summary Calculated Amounts by Key [DELETE /award/api/v1/award-budget-period-summary-calculated-amounts/(key)]
 	 
 + Request
 
@@ -202,7 +202,7 @@
 
 + Response 204
 
-### Delete All Award Budget Period Summary Calculated Amounts [DELETE /research-sys/api/v1/award-budget-period-summary-calculated-amounts/]
+### Delete All Award Budget Period Summary Calculated Amounts [DELETE /award/api/v1/award-budget-period-summary-calculated-amounts/]
 
 + Parameters
 
@@ -217,18 +217,18 @@
 
 + Response 204
 
-### Delete All Award Budget Period Summary Calculated Amounts with Matching [DELETE /research-sys/api/v1/award-budget-period-summary-calculated-amounts/]
+### Delete All Award Budget Period Summary Calculated Amounts with Matching [DELETE /award/api/v1/award-budget-period-summary-calculated-amounts/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + awardBudgetPeriodSummaryCalculatedAmountId
-            + budgetPeriodId
-            + costElement
-            + onOffCampusFlag
-            + rateClassType
-            + calculatedCost
-            + calculatedCostSharing
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + awardBudgetPeriodSummaryCalculatedAmountId (optional) - Awd Bgt Per Sum Calc Amt Id. Maximum length is 22.
+    + budgetPeriodId (optional) - Budget Period Id. Maximum length is 22.
+    + costElement (optional) - Cost Element. Maximum length is 8.
+    + onOffCampusFlag (optional) - On Off CampusContractContract Flag. Maximum length is 1.
+    + rateClassType (optional) - Rate Class Type. Maximum length is 1.
+    + calculatedCost (optional) - Calculated Cost. Maximum length is 22.
+    + calculatedCostSharing (optional) - Calculated Cost Sharing. Maximum length is 22.
 
       
 + Request

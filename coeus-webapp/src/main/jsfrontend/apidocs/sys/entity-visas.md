@@ -43,11 +43,11 @@
     
 + Parameters
 
-        + id
-            + entityId
-            + visaTypeKey
-            + visaEntry
-            + visaId
+    + id (optional) - 
+    + entityId (optional) - 
+    + visaTypeKey (optional) - 
+    + visaEntry (optional) - 
+    + visaId (optional) - 
 
             
 + Request
@@ -219,12 +219,12 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + entityId
-            + visaTypeKey
-            + visaEntry
-            + visaId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - 
+    + entityId (optional) - 
+    + visaTypeKey (optional) - 
+    + visaEntry (optional) - 
+    + visaId (optional) - 
 
       
 + Request

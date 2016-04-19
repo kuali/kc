@@ -1,6 +1,6 @@
-## Award Approved Equipment [/research-sys/api/v1/award-approved-equipment/]
+## Award Approved Equipment [/award/api/v1/award-approved-equipment/]
 
-### Get Award Approved Equipment by Key [GET /research-sys/api/v1/award-approved-equipment/(key)]
+### Get Award Approved Equipment by Key [GET /award/api/v1/award-approved-equipment/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"approvedEquipmentId": "(val)","awardId": "(val)","item": "(val)","model": "(val)","vendor": "(val)","amount": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","_primaryKey": "(val)"}
 
-### Get All Award Approved Equipment [GET /research-sys/api/v1/award-approved-equipment/]
+### Get All Award Approved Equipment [GET /award/api/v1/award-approved-equipment/]
 	 
 + Request
 
@@ -39,18 +39,18 @@
               {"approvedEquipmentId": "(val)","awardId": "(val)","item": "(val)","model": "(val)","vendor": "(val)","amount": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Award Approved Equipment with Filtering [GET /research-sys/api/v1/award-approved-equipment/]
+### Get All Award Approved Equipment with Filtering [GET /award/api/v1/award-approved-equipment/]
     
 + Parameters
 
-        + approvedEquipmentId
-            + awardId
-            + item
-            + model
-            + vendor
-            + amount
-            + awardNumber
-            + sequenceNumber
+    + approvedEquipmentId (optional) - Approved Equipment ID. Maximum length is 8.
+    + awardId (optional) - 
+    + item (optional) - Item. Maximum length is 100.
+    + model (optional) - Model. Maximum length is 50.
+    + vendor (optional) - Vendor. Maximum length is 50.
+    + amount (optional) - Amount. Maximum length is 15.
+    + awardNumber (optional) - Award ID. Maximum length is 12.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 4.
 
             
 + Request
@@ -72,7 +72,7 @@
               {"approvedEquipmentId": "(val)","awardId": "(val)","item": "(val)","model": "(val)","vendor": "(val)","amount": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Award Approved Equipment [GET /research-sys/api/v1/award-approved-equipment/]
+### Get Schema for Award Approved Equipment [GET /award/api/v1/award-approved-equipment/]
 	                                          
 + Parameters
 
@@ -94,7 +94,7 @@
     
             {"columns":["approvedEquipmentId","awardId","item","model","vendor","amount","awardNumber","sequenceNumber"],"primaryKey":"approvedEquipmentId"}
 		
-### Get Blueprint API specification for Award Approved Equipment [GET /research-sys/api/v1/award-approved-equipment/]
+### Get Blueprint API specification for Award Approved Equipment [GET /award/api/v1/award-approved-equipment/]
 	 
 + Parameters
 
@@ -115,7 +115,7 @@
             transfer-encoding:chunked
 
 
-### Update Award Approved Equipment [PUT /research-sys/api/v1/award-approved-equipment/(key)]
+### Update Award Approved Equipment [PUT /award/api/v1/award-approved-equipment/(key)]
 
 + Request
 
@@ -130,7 +130,7 @@
 			
 + Response 204
 
-### Update Multiple Award Approved Equipment [PUT /research-sys/api/v1/award-approved-equipment/]
+### Update Multiple Award Approved Equipment [PUT /award/api/v1/award-approved-equipment/]
 
 + Request
 
@@ -148,7 +148,7 @@
 			
 + Response 204
 
-### Insert Award Approved Equipment [POST /research-sys/api/v1/award-approved-equipment/]
+### Insert Award Approved Equipment [POST /award/api/v1/award-approved-equipment/]
 
 + Request
 
@@ -167,7 +167,7 @@
             
             {"approvedEquipmentId": "(val)","awardId": "(val)","item": "(val)","model": "(val)","vendor": "(val)","amount": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Award Approved Equipment [POST /research-sys/api/v1/award-approved-equipment/]
+### Insert Multiple Award Approved Equipment [POST /award/api/v1/award-approved-equipment/]
 
 + Request
 
@@ -192,7 +192,7 @@
               {"approvedEquipmentId": "(val)","awardId": "(val)","item": "(val)","model": "(val)","vendor": "(val)","amount": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Award Approved Equipment by Key [DELETE /research-sys/api/v1/award-approved-equipment/(key)]
+### Delete Award Approved Equipment by Key [DELETE /award/api/v1/award-approved-equipment/(key)]
 	 
 + Request
 
@@ -203,7 +203,7 @@
 
 + Response 204
 
-### Delete All Award Approved Equipment [DELETE /research-sys/api/v1/award-approved-equipment/]
+### Delete All Award Approved Equipment [DELETE /award/api/v1/award-approved-equipment/]
 
 + Parameters
 
@@ -218,19 +218,19 @@
 
 + Response 204
 
-### Delete All Award Approved Equipment with Matching [DELETE /research-sys/api/v1/award-approved-equipment/]
+### Delete All Award Approved Equipment with Matching [DELETE /award/api/v1/award-approved-equipment/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + approvedEquipmentId
-            + awardId
-            + item
-            + model
-            + vendor
-            + amount
-            + awardNumber
-            + sequenceNumber
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + approvedEquipmentId (optional) - Approved Equipment ID. Maximum length is 8.
+    + awardId (optional) - 
+    + item (optional) - Item. Maximum length is 100.
+    + model (optional) - Model. Maximum length is 50.
+    + vendor (optional) - Vendor. Maximum length is 50.
+    + amount (optional) - Amount. Maximum length is 15.
+    + awardNumber (optional) - Award ID. Maximum length is 12.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 4.
 
       
 + Request

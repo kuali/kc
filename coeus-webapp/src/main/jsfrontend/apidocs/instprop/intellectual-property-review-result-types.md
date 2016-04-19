@@ -1,6 +1,6 @@
-## Intellectual Property Review Result Types [/research-sys/api/v1/intellectual-property-review-result-types/]
+## Intellectual Property Review Result Types [/instprop/api/v1/intellectual-property-review-result-types/]
 
-### Get Intellectual Property Review Result Types by Key [GET /research-sys/api/v1/intellectual-property-review-result-types/(key)]
+### Get Intellectual Property Review Result Types by Key [GET /instprop/api/v1/intellectual-property-review-result-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"intellectualPropertyReviewResultTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Intellectual Property Review Result Types [GET /research-sys/api/v1/intellectual-property-review-result-types/]
+### Get All Intellectual Property Review Result Types [GET /instprop/api/v1/intellectual-property-review-result-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"intellectualPropertyReviewResultTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Intellectual Property Review Result Types with Filtering [GET /research-sys/api/v1/intellectual-property-review-result-types/]
+### Get All Intellectual Property Review Result Types with Filtering [GET /instprop/api/v1/intellectual-property-review-result-types/]
     
 + Parameters
 
-        + intellectualPropertyReviewResultTypeCode
-            + description
+    + intellectualPropertyReviewResultTypeCode (optional) - Intellectual Property Review Result Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"intellectualPropertyReviewResultTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Intellectual Property Review Result Types [GET /research-sys/api/v1/intellectual-property-review-result-types/]
+### Get Schema for Intellectual Property Review Result Types [GET /instprop/api/v1/intellectual-property-review-result-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["intellectualPropertyReviewResultTypeCode","description"],"primaryKey":"intellectualPropertyReviewResultTypeCode"}
 		
-### Get Blueprint API specification for Intellectual Property Review Result Types [GET /research-sys/api/v1/intellectual-property-review-result-types/]
+### Get Blueprint API specification for Intellectual Property Review Result Types [GET /instprop/api/v1/intellectual-property-review-result-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Intellectual Property Review Result Types [PUT /research-sys/api/v1/intellectual-property-review-result-types/(key)]
+### Update Intellectual Property Review Result Types [PUT /instprop/api/v1/intellectual-property-review-result-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Intellectual Property Review Result Types [PUT /research-sys/api/v1/intellectual-property-review-result-types/]
+### Update Multiple Intellectual Property Review Result Types [PUT /instprop/api/v1/intellectual-property-review-result-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Intellectual Property Review Result Types [POST /research-sys/api/v1/intellectual-property-review-result-types/]
+### Insert Intellectual Property Review Result Types [POST /instprop/api/v1/intellectual-property-review-result-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"intellectualPropertyReviewResultTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Intellectual Property Review Result Types [POST /research-sys/api/v1/intellectual-property-review-result-types/]
+### Insert Multiple Intellectual Property Review Result Types [POST /instprop/api/v1/intellectual-property-review-result-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"intellectualPropertyReviewResultTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Intellectual Property Review Result Types by Key [DELETE /research-sys/api/v1/intellectual-property-review-result-types/(key)]
+### Delete Intellectual Property Review Result Types by Key [DELETE /instprop/api/v1/intellectual-property-review-result-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Intellectual Property Review Result Types [DELETE /research-sys/api/v1/intellectual-property-review-result-types/]
+### Delete All Intellectual Property Review Result Types [DELETE /instprop/api/v1/intellectual-property-review-result-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Intellectual Property Review Result Types with Matching [DELETE /research-sys/api/v1/intellectual-property-review-result-types/]
+### Delete All Intellectual Property Review Result Types with Matching [DELETE /instprop/api/v1/intellectual-property-review-result-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + intellectualPropertyReviewResultTypeCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + intellectualPropertyReviewResultTypeCode (optional) - Intellectual Property Review Result Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

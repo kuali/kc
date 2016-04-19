@@ -1,6 +1,6 @@
-## Protocol Funding Sources [/research-sys/api/v1/protocol-funding-sources/]
+## Protocol Funding Sources [/irb/api/v1/protocol-funding-sources/]
 
-### Get Protocol Funding Sources by Key [GET /research-sys/api/v1/protocol-funding-sources/(key)]
+### Get Protocol Funding Sources by Key [GET /irb/api/v1/protocol-funding-sources/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"protocolFundingSourceId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","fundingSourceTypeCode": "(val)","fundingSourceNumber": "(val)","fundingSourceName": "(val)","_primaryKey": "(val)"}
 
-### Get All Protocol Funding Sources [GET /research-sys/api/v1/protocol-funding-sources/]
+### Get All Protocol Funding Sources [GET /irb/api/v1/protocol-funding-sources/]
 	 
 + Request
 
@@ -39,17 +39,17 @@
               {"protocolFundingSourceId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","fundingSourceTypeCode": "(val)","fundingSourceNumber": "(val)","fundingSourceName": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Protocol Funding Sources with Filtering [GET /research-sys/api/v1/protocol-funding-sources/]
+### Get All Protocol Funding Sources with Filtering [GET /irb/api/v1/protocol-funding-sources/]
     
 + Parameters
 
-        + protocolFundingSourceId
-            + protocolId
-            + protocolNumber
-            + sequenceNumber
-            + fundingSourceTypeCode
-            + fundingSourceNumber
-            + fundingSourceName
+    + protocolFundingSourceId (optional) - Protocol Funding Source Id. Maximum length is 12.
+    + protocolId (optional) - Protocol Id. Maximum length is 12.
+    + protocolNumber (optional) - Protocol Number. Maximum length is 20.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 4.
+    + fundingSourceTypeCode (optional) - Funding Source Type Code. Maximum length is 22.
+    + fundingSourceNumber (optional) - Funding Source Number. Maximum length is 200.
+    + fundingSourceName (optional) - Funding Source Name. Maximum length is 200.
 
             
 + Request
@@ -71,7 +71,7 @@
               {"protocolFundingSourceId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","fundingSourceTypeCode": "(val)","fundingSourceNumber": "(val)","fundingSourceName": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Protocol Funding Sources [GET /research-sys/api/v1/protocol-funding-sources/]
+### Get Schema for Protocol Funding Sources [GET /irb/api/v1/protocol-funding-sources/]
 	                                          
 + Parameters
 
@@ -93,7 +93,7 @@
     
             {"columns":["protocolFundingSourceId","protocolId","protocolNumber","sequenceNumber","fundingSourceTypeCode","fundingSourceNumber","fundingSourceName"],"primaryKey":"protocolFundingSourceId"}
 		
-### Get Blueprint API specification for Protocol Funding Sources [GET /research-sys/api/v1/protocol-funding-sources/]
+### Get Blueprint API specification for Protocol Funding Sources [GET /irb/api/v1/protocol-funding-sources/]
 	 
 + Parameters
 
@@ -114,7 +114,7 @@
             transfer-encoding:chunked
 
 
-### Update Protocol Funding Sources [PUT /research-sys/api/v1/protocol-funding-sources/(key)]
+### Update Protocol Funding Sources [PUT /irb/api/v1/protocol-funding-sources/(key)]
 
 + Request
 
@@ -129,7 +129,7 @@
 			
 + Response 204
 
-### Update Multiple Protocol Funding Sources [PUT /research-sys/api/v1/protocol-funding-sources/]
+### Update Multiple Protocol Funding Sources [PUT /irb/api/v1/protocol-funding-sources/]
 
 + Request
 
@@ -147,7 +147,7 @@
 			
 + Response 204
 
-### Insert Protocol Funding Sources [POST /research-sys/api/v1/protocol-funding-sources/]
+### Insert Protocol Funding Sources [POST /irb/api/v1/protocol-funding-sources/]
 
 + Request
 
@@ -166,7 +166,7 @@
             
             {"protocolFundingSourceId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","fundingSourceTypeCode": "(val)","fundingSourceNumber": "(val)","fundingSourceName": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Protocol Funding Sources [POST /research-sys/api/v1/protocol-funding-sources/]
+### Insert Multiple Protocol Funding Sources [POST /irb/api/v1/protocol-funding-sources/]
 
 + Request
 
@@ -191,7 +191,7 @@
               {"protocolFundingSourceId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","fundingSourceTypeCode": "(val)","fundingSourceNumber": "(val)","fundingSourceName": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Protocol Funding Sources by Key [DELETE /research-sys/api/v1/protocol-funding-sources/(key)]
+### Delete Protocol Funding Sources by Key [DELETE /irb/api/v1/protocol-funding-sources/(key)]
 	 
 + Request
 
@@ -202,7 +202,7 @@
 
 + Response 204
 
-### Delete All Protocol Funding Sources [DELETE /research-sys/api/v1/protocol-funding-sources/]
+### Delete All Protocol Funding Sources [DELETE /irb/api/v1/protocol-funding-sources/]
 
 + Parameters
 
@@ -217,18 +217,18 @@
 
 + Response 204
 
-### Delete All Protocol Funding Sources with Matching [DELETE /research-sys/api/v1/protocol-funding-sources/]
+### Delete All Protocol Funding Sources with Matching [DELETE /irb/api/v1/protocol-funding-sources/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + protocolFundingSourceId
-            + protocolId
-            + protocolNumber
-            + sequenceNumber
-            + fundingSourceTypeCode
-            + fundingSourceNumber
-            + fundingSourceName
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + protocolFundingSourceId (optional) - Protocol Funding Source Id. Maximum length is 12.
+    + protocolId (optional) - Protocol Id. Maximum length is 12.
+    + protocolNumber (optional) - Protocol Number. Maximum length is 20.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 4.
+    + fundingSourceTypeCode (optional) - Funding Source Type Code. Maximum length is 22.
+    + fundingSourceNumber (optional) - Funding Source Number. Maximum length is 200.
+    + fundingSourceName (optional) - Funding Source Name. Maximum length is 200.
 
       
 + Request

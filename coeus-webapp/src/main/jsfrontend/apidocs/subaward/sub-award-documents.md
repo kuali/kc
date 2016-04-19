@@ -1,6 +1,6 @@
-## Sub Award Documents [/research-sys/api/v1/sub-award-documents/]
+## Sub Award Documents [/subaward/api/v1/sub-award-documents/]
 
-### Get Sub Award Documents by Key [GET /research-sys/api/v1/sub-award-documents/(key)]
+### Get Sub Award Documents by Key [GET /subaward/api/v1/sub-award-documents/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"documentNumber": "(val)","_primaryKey": "(val)"}
 
-### Get All Sub Award Documents [GET /research-sys/api/v1/sub-award-documents/]
+### Get All Sub Award Documents [GET /subaward/api/v1/sub-award-documents/]
 	 
 + Request
 
@@ -39,11 +39,11 @@
               {"documentNumber": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Sub Award Documents with Filtering [GET /research-sys/api/v1/sub-award-documents/]
+### Get All Sub Award Documents with Filtering [GET /subaward/api/v1/sub-award-documents/]
     
 + Parameters
 
-        + documentNumber
+    + documentNumber (optional) - 
 
             
 + Request
@@ -65,7 +65,7 @@
               {"documentNumber": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Sub Award Documents [GET /research-sys/api/v1/sub-award-documents/]
+### Get Schema for Sub Award Documents [GET /subaward/api/v1/sub-award-documents/]
 	                                          
 + Parameters
 
@@ -87,7 +87,7 @@
     
             {"columns":["documentNumber"],"primaryKey":"documentNumber"}
 		
-### Get Blueprint API specification for Sub Award Documents [GET /research-sys/api/v1/sub-award-documents/]
+### Get Blueprint API specification for Sub Award Documents [GET /subaward/api/v1/sub-award-documents/]
 	 
 + Parameters
 
@@ -108,7 +108,7 @@
             transfer-encoding:chunked
 
 
-### Update Sub Award Documents [PUT /research-sys/api/v1/sub-award-documents/(key)]
+### Update Sub Award Documents [PUT /subaward/api/v1/sub-award-documents/(key)]
 
 + Request
 
@@ -123,7 +123,7 @@
 			
 + Response 204
 
-### Update Multiple Sub Award Documents [PUT /research-sys/api/v1/sub-award-documents/]
+### Update Multiple Sub Award Documents [PUT /subaward/api/v1/sub-award-documents/]
 
 + Request
 
@@ -141,7 +141,7 @@
 			
 + Response 204
 
-### Insert Sub Award Documents [POST /research-sys/api/v1/sub-award-documents/]
+### Insert Sub Award Documents [POST /subaward/api/v1/sub-award-documents/]
 
 + Request
 
@@ -160,7 +160,7 @@
             
             {"documentNumber": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Sub Award Documents [POST /research-sys/api/v1/sub-award-documents/]
+### Insert Multiple Sub Award Documents [POST /subaward/api/v1/sub-award-documents/]
 
 + Request
 
@@ -185,7 +185,7 @@
               {"documentNumber": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Sub Award Documents by Key [DELETE /research-sys/api/v1/sub-award-documents/(key)]
+### Delete Sub Award Documents by Key [DELETE /subaward/api/v1/sub-award-documents/(key)]
 	 
 + Request
 
@@ -196,7 +196,7 @@
 
 + Response 204
 
-### Delete All Sub Award Documents [DELETE /research-sys/api/v1/sub-award-documents/]
+### Delete All Sub Award Documents [DELETE /subaward/api/v1/sub-award-documents/]
 
 + Parameters
 
@@ -211,12 +211,12 @@
 
 + Response 204
 
-### Delete All Sub Award Documents with Matching [DELETE /research-sys/api/v1/sub-award-documents/]
+### Delete All Sub Award Documents with Matching [DELETE /subaward/api/v1/sub-award-documents/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + documentNumber
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + documentNumber (optional) - 
 
       
 + Request

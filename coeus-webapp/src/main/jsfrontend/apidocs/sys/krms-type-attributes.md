@@ -43,10 +43,10 @@
     
 + Parameters
 
-        + id
-            + sequenceNumber
-            + active
-            + attributeDefinitionId
+    + id (optional) - 
+    + sequenceNumber (optional) - 
+    + active (optional) - 
+    + attributeDefinitionId (optional) - 
 
             
 + Request
@@ -218,11 +218,11 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + sequenceNumber
-            + active
-            + attributeDefinitionId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - 
+    + sequenceNumber (optional) - 
+    + active (optional) - 
+    + attributeDefinitionId (optional) - 
 
       
 + Request

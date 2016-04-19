@@ -1,6 +1,6 @@
-## Iacuc Procedure Category Custom Data [/research-sys/api/v1/iacuc-procedure-category-custom-data/]
+## Iacuc Procedure Category Custom Data [/iacuc/api/v1/iacuc-procedure-category-custom-data/]
 
-### Get Iacuc Procedure Category Custom Data by Key [GET /research-sys/api/v1/iacuc-procedure-category-custom-data/(key)]
+### Get Iacuc Procedure Category Custom Data by Key [GET /iacuc/api/v1/iacuc-procedure-category-custom-data/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"id": "(val)","procedureCategoryCode": "(val)","dataLength": "(val)","dataTypeCode": "(val)","defaultValue": "(val)","label": "(val)","lookupClass": "(val)","lookupReturn": "(val)","name": "(val)","active": "(val)","sortId": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Procedure Category Custom Data [GET /research-sys/api/v1/iacuc-procedure-category-custom-data/]
+### Get All Iacuc Procedure Category Custom Data [GET /iacuc/api/v1/iacuc-procedure-category-custom-data/]
 	 
 + Request
 
@@ -39,21 +39,21 @@
               {"id": "(val)","procedureCategoryCode": "(val)","dataLength": "(val)","dataTypeCode": "(val)","defaultValue": "(val)","label": "(val)","lookupClass": "(val)","lookupReturn": "(val)","name": "(val)","active": "(val)","sortId": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Procedure Category Custom Data with Filtering [GET /research-sys/api/v1/iacuc-procedure-category-custom-data/]
+### Get All Iacuc Procedure Category Custom Data with Filtering [GET /iacuc/api/v1/iacuc-procedure-category-custom-data/]
     
 + Parameters
 
-        + id
-            + procedureCategoryCode
-            + dataLength
-            + dataTypeCode
-            + defaultValue
-            + label
-            + lookupClass
-            + lookupReturn
-            + name
-            + active
-            + sortId
+    + id (optional) - Id. Maximum length is 12.
+    + procedureCategoryCode (optional) - Procedure Category Code. Maximum length is 3.
+    + dataLength (optional) - Data Length. Maximum length is 4.
+    + dataTypeCode (optional) - Data Type Code. Maximum length is 3.
+    + defaultValue (optional) - Default Value. Maximum length is 2000.
+    + label (optional) - Label. Maximum length is 30.
+    + lookupClass (optional) - Lookup Class. Maximum length is 100.
+    + lookupReturn (optional) - Lookup Return. Maximum length is 30.
+    + name (optional) - Name. Maximum length is 30.
+    + active (optional) - Active. Maximum length is 1.
+    + sortId (optional) - Sort Id. Maximum length is 22.
 
             
 + Request
@@ -75,7 +75,7 @@
               {"id": "(val)","procedureCategoryCode": "(val)","dataLength": "(val)","dataTypeCode": "(val)","defaultValue": "(val)","label": "(val)","lookupClass": "(val)","lookupReturn": "(val)","name": "(val)","active": "(val)","sortId": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Procedure Category Custom Data [GET /research-sys/api/v1/iacuc-procedure-category-custom-data/]
+### Get Schema for Iacuc Procedure Category Custom Data [GET /iacuc/api/v1/iacuc-procedure-category-custom-data/]
 	                                          
 + Parameters
 
@@ -97,7 +97,7 @@
     
             {"columns":["id","procedureCategoryCode","dataLength","dataTypeCode","defaultValue","label","lookupClass","lookupReturn","name","active","sortId"],"primaryKey":"id"}
 		
-### Get Blueprint API specification for Iacuc Procedure Category Custom Data [GET /research-sys/api/v1/iacuc-procedure-category-custom-data/]
+### Get Blueprint API specification for Iacuc Procedure Category Custom Data [GET /iacuc/api/v1/iacuc-procedure-category-custom-data/]
 	 
 + Parameters
 
@@ -118,7 +118,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Procedure Category Custom Data [PUT /research-sys/api/v1/iacuc-procedure-category-custom-data/(key)]
+### Update Iacuc Procedure Category Custom Data [PUT /iacuc/api/v1/iacuc-procedure-category-custom-data/(key)]
 
 + Request
 
@@ -133,7 +133,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Procedure Category Custom Data [PUT /research-sys/api/v1/iacuc-procedure-category-custom-data/]
+### Update Multiple Iacuc Procedure Category Custom Data [PUT /iacuc/api/v1/iacuc-procedure-category-custom-data/]
 
 + Request
 
@@ -151,7 +151,7 @@
 			
 + Response 204
 
-### Insert Iacuc Procedure Category Custom Data [POST /research-sys/api/v1/iacuc-procedure-category-custom-data/]
+### Insert Iacuc Procedure Category Custom Data [POST /iacuc/api/v1/iacuc-procedure-category-custom-data/]
 
 + Request
 
@@ -170,7 +170,7 @@
             
             {"id": "(val)","procedureCategoryCode": "(val)","dataLength": "(val)","dataTypeCode": "(val)","defaultValue": "(val)","label": "(val)","lookupClass": "(val)","lookupReturn": "(val)","name": "(val)","active": "(val)","sortId": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Procedure Category Custom Data [POST /research-sys/api/v1/iacuc-procedure-category-custom-data/]
+### Insert Multiple Iacuc Procedure Category Custom Data [POST /iacuc/api/v1/iacuc-procedure-category-custom-data/]
 
 + Request
 
@@ -195,7 +195,7 @@
               {"id": "(val)","procedureCategoryCode": "(val)","dataLength": "(val)","dataTypeCode": "(val)","defaultValue": "(val)","label": "(val)","lookupClass": "(val)","lookupReturn": "(val)","name": "(val)","active": "(val)","sortId": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Procedure Category Custom Data by Key [DELETE /research-sys/api/v1/iacuc-procedure-category-custom-data/(key)]
+### Delete Iacuc Procedure Category Custom Data by Key [DELETE /iacuc/api/v1/iacuc-procedure-category-custom-data/(key)]
 	 
 + Request
 
@@ -206,7 +206,7 @@
 
 + Response 204
 
-### Delete All Iacuc Procedure Category Custom Data [DELETE /research-sys/api/v1/iacuc-procedure-category-custom-data/]
+### Delete All Iacuc Procedure Category Custom Data [DELETE /iacuc/api/v1/iacuc-procedure-category-custom-data/]
 
 + Parameters
 
@@ -221,22 +221,22 @@
 
 + Response 204
 
-### Delete All Iacuc Procedure Category Custom Data with Matching [DELETE /research-sys/api/v1/iacuc-procedure-category-custom-data/]
+### Delete All Iacuc Procedure Category Custom Data with Matching [DELETE /iacuc/api/v1/iacuc-procedure-category-custom-data/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + procedureCategoryCode
-            + dataLength
-            + dataTypeCode
-            + defaultValue
-            + label
-            + lookupClass
-            + lookupReturn
-            + name
-            + active
-            + sortId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Id. Maximum length is 12.
+    + procedureCategoryCode (optional) - Procedure Category Code. Maximum length is 3.
+    + dataLength (optional) - Data Length. Maximum length is 4.
+    + dataTypeCode (optional) - Data Type Code. Maximum length is 3.
+    + defaultValue (optional) - Default Value. Maximum length is 2000.
+    + label (optional) - Label. Maximum length is 30.
+    + lookupClass (optional) - Lookup Class. Maximum length is 100.
+    + lookupReturn (optional) - Lookup Return. Maximum length is 30.
+    + name (optional) - Name. Maximum length is 30.
+    + active (optional) - Active. Maximum length is 1.
+    + sortId (optional) - Sort Id. Maximum length is 22.
 
       
 + Request

@@ -1,6 +1,6 @@
-## Protocol Modules [/research-sys/api/v1/protocol-modules/]
+## Protocol Modules [/irb/api/v1/protocol-modules/]
 
-### Get Protocol Modules by Key [GET /research-sys/api/v1/protocol-modules/(key)]
+### Get Protocol Modules by Key [GET /irb/api/v1/protocol-modules/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"protocolModuleCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Protocol Modules [GET /research-sys/api/v1/protocol-modules/]
+### Get All Protocol Modules [GET /irb/api/v1/protocol-modules/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"protocolModuleCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Protocol Modules with Filtering [GET /research-sys/api/v1/protocol-modules/]
+### Get All Protocol Modules with Filtering [GET /irb/api/v1/protocol-modules/]
     
 + Parameters
 
-        + protocolModuleCode
-            + description
+    + protocolModuleCode (optional) - 
+    + description (optional) - 
 
             
 + Request
@@ -66,7 +66,7 @@
               {"protocolModuleCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Protocol Modules [GET /research-sys/api/v1/protocol-modules/]
+### Get Schema for Protocol Modules [GET /irb/api/v1/protocol-modules/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["protocolModuleCode","description"],"primaryKey":"protocolModuleCode"}
 		
-### Get Blueprint API specification for Protocol Modules [GET /research-sys/api/v1/protocol-modules/]
+### Get Blueprint API specification for Protocol Modules [GET /irb/api/v1/protocol-modules/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Protocol Modules [PUT /research-sys/api/v1/protocol-modules/(key)]
+### Update Protocol Modules [PUT /irb/api/v1/protocol-modules/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Protocol Modules [PUT /research-sys/api/v1/protocol-modules/]
+### Update Multiple Protocol Modules [PUT /irb/api/v1/protocol-modules/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Protocol Modules [POST /research-sys/api/v1/protocol-modules/]
+### Insert Protocol Modules [POST /irb/api/v1/protocol-modules/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"protocolModuleCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Protocol Modules [POST /research-sys/api/v1/protocol-modules/]
+### Insert Multiple Protocol Modules [POST /irb/api/v1/protocol-modules/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"protocolModuleCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Protocol Modules by Key [DELETE /research-sys/api/v1/protocol-modules/(key)]
+### Delete Protocol Modules by Key [DELETE /irb/api/v1/protocol-modules/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Protocol Modules [DELETE /research-sys/api/v1/protocol-modules/]
+### Delete All Protocol Modules [DELETE /irb/api/v1/protocol-modules/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Protocol Modules with Matching [DELETE /research-sys/api/v1/protocol-modules/]
+### Delete All Protocol Modules with Matching [DELETE /irb/api/v1/protocol-modules/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + protocolModuleCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + protocolModuleCode (optional) - 
+    + description (optional) - 
 
       
 + Request

@@ -1,6 +1,6 @@
-## Organization Types [/research-sys/api/v1/organization-types/]
+## Organization Types [/research-common/api/v1/organization-types/]
 
-### Get Organization Types by Key [GET /research-sys/api/v1/organization-types/(key)]
+### Get Organization Types by Key [GET /research-common/api/v1/organization-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"organizationId": "(val)","organizationTypeCode": "(val)","_primaryKey": "(val)"}
 
-### Get All Organization Types [GET /research-sys/api/v1/organization-types/]
+### Get All Organization Types [GET /research-common/api/v1/organization-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"organizationId": "(val)","organizationTypeCode": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Organization Types with Filtering [GET /research-sys/api/v1/organization-types/]
+### Get All Organization Types with Filtering [GET /research-common/api/v1/organization-types/]
     
 + Parameters
 
-        + organizationId
-            + organizationTypeCode
+    + organizationId (optional) - Organization Id. Maximum length is 8.
+    + organizationTypeCode (optional) - Organization Type Code. Maximum length is 3.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"organizationId": "(val)","organizationTypeCode": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Organization Types [GET /research-sys/api/v1/organization-types/]
+### Get Schema for Organization Types [GET /research-common/api/v1/organization-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["organizationId","organizationTypeCode"],"primaryKey":"organizationId:organizationTypeCode"}
 		
-### Get Blueprint API specification for Organization Types [GET /research-sys/api/v1/organization-types/]
+### Get Blueprint API specification for Organization Types [GET /research-common/api/v1/organization-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Organization Types [PUT /research-sys/api/v1/organization-types/(key)]
+### Update Organization Types [PUT /research-common/api/v1/organization-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Organization Types [PUT /research-sys/api/v1/organization-types/]
+### Update Multiple Organization Types [PUT /research-common/api/v1/organization-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Organization Types [POST /research-sys/api/v1/organization-types/]
+### Insert Organization Types [POST /research-common/api/v1/organization-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"organizationId": "(val)","organizationTypeCode": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Organization Types [POST /research-sys/api/v1/organization-types/]
+### Insert Multiple Organization Types [POST /research-common/api/v1/organization-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"organizationId": "(val)","organizationTypeCode": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Organization Types by Key [DELETE /research-sys/api/v1/organization-types/(key)]
+### Delete Organization Types by Key [DELETE /research-common/api/v1/organization-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Organization Types [DELETE /research-sys/api/v1/organization-types/]
+### Delete All Organization Types [DELETE /research-common/api/v1/organization-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Organization Types with Matching [DELETE /research-sys/api/v1/organization-types/]
+### Delete All Organization Types with Matching [DELETE /research-common/api/v1/organization-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + organizationId
-            + organizationTypeCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + organizationId (optional) - Organization Id. Maximum length is 8.
+    + organizationTypeCode (optional) - Organization Type Code. Maximum length is 3.
 
       
 + Request

@@ -1,6 +1,6 @@
-## Questionnaire Questions [/research-sys/api/v1/questionnaire-questions/]
+## Questionnaire Questions [/research-common/api/v1/questionnaire-questions/]
 
-### Get Questionnaire Questions by Key [GET /research-sys/api/v1/questionnaire-questions/(key)]
+### Get Questionnaire Questions by Key [GET /research-common/api/v1/questionnaire-questions/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"id": "(val)","questionnaireId": "(val)","questionId": "(val)","questionNumber": "(val)","parentQuestionNumber": "(val)","conditionFlag": "(val)","condition": "(val)","conditionValue": "(val)","questionSeqNumber": "(val)","ruleId": "(val)","_primaryKey": "(val)"}
 
-### Get All Questionnaire Questions [GET /research-sys/api/v1/questionnaire-questions/]
+### Get All Questionnaire Questions [GET /research-common/api/v1/questionnaire-questions/]
 	 
 + Request
 
@@ -39,20 +39,20 @@
               {"id": "(val)","questionnaireId": "(val)","questionId": "(val)","questionNumber": "(val)","parentQuestionNumber": "(val)","conditionFlag": "(val)","condition": "(val)","conditionValue": "(val)","questionSeqNumber": "(val)","ruleId": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Questionnaire Questions with Filtering [GET /research-sys/api/v1/questionnaire-questions/]
+### Get All Questionnaire Questions with Filtering [GET /research-common/api/v1/questionnaire-questions/]
     
 + Parameters
 
-        + id
-            + questionnaireId
-            + questionId
-            + questionNumber
-            + parentQuestionNumber
-            + conditionFlag
-            + condition
-            + conditionValue
-            + questionSeqNumber
-            + ruleId
+    + id (optional) - Questionnaire Questions Id. Maximum length is 12.
+    + questionnaireId (optional) - Questionnaire Id. Maximum length is 10.
+    + questionId (optional) - Question Ref Id. Maximum length is 6.
+    + questionNumber (optional) - Question Number. Maximum length is 6.
+    + parentQuestionNumber (optional) - Parent Question Number. Maximum length is 6.
+    + conditionFlag (optional) - Condition Flag. Maximum length is 1.
+    + condition (optional) - Condition. Maximum length is 50.
+    + conditionValue (optional) - Condition Value. Maximum length is 2000.
+    + questionSeqNumber (optional) - Question Seq Number. Maximum length is 3.
+    + ruleId (optional) - Question Seq Number. Maximum length is 3.
 
             
 + Request
@@ -74,7 +74,7 @@
               {"id": "(val)","questionnaireId": "(val)","questionId": "(val)","questionNumber": "(val)","parentQuestionNumber": "(val)","conditionFlag": "(val)","condition": "(val)","conditionValue": "(val)","questionSeqNumber": "(val)","ruleId": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Questionnaire Questions [GET /research-sys/api/v1/questionnaire-questions/]
+### Get Schema for Questionnaire Questions [GET /research-common/api/v1/questionnaire-questions/]
 	                                          
 + Parameters
 
@@ -96,7 +96,7 @@
     
             {"columns":["id","questionnaireId","questionId","questionNumber","parentQuestionNumber","conditionFlag","condition","conditionValue","questionSeqNumber","ruleId"],"primaryKey":"id"}
 		
-### Get Blueprint API specification for Questionnaire Questions [GET /research-sys/api/v1/questionnaire-questions/]
+### Get Blueprint API specification for Questionnaire Questions [GET /research-common/api/v1/questionnaire-questions/]
 	 
 + Parameters
 
@@ -117,7 +117,7 @@
             transfer-encoding:chunked
 
 
-### Update Questionnaire Questions [PUT /research-sys/api/v1/questionnaire-questions/(key)]
+### Update Questionnaire Questions [PUT /research-common/api/v1/questionnaire-questions/(key)]
 
 + Request
 
@@ -132,7 +132,7 @@
 			
 + Response 204
 
-### Update Multiple Questionnaire Questions [PUT /research-sys/api/v1/questionnaire-questions/]
+### Update Multiple Questionnaire Questions [PUT /research-common/api/v1/questionnaire-questions/]
 
 + Request
 
@@ -150,7 +150,7 @@
 			
 + Response 204
 
-### Insert Questionnaire Questions [POST /research-sys/api/v1/questionnaire-questions/]
+### Insert Questionnaire Questions [POST /research-common/api/v1/questionnaire-questions/]
 
 + Request
 
@@ -169,7 +169,7 @@
             
             {"id": "(val)","questionnaireId": "(val)","questionId": "(val)","questionNumber": "(val)","parentQuestionNumber": "(val)","conditionFlag": "(val)","condition": "(val)","conditionValue": "(val)","questionSeqNumber": "(val)","ruleId": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Questionnaire Questions [POST /research-sys/api/v1/questionnaire-questions/]
+### Insert Multiple Questionnaire Questions [POST /research-common/api/v1/questionnaire-questions/]
 
 + Request
 
@@ -194,7 +194,7 @@
               {"id": "(val)","questionnaireId": "(val)","questionId": "(val)","questionNumber": "(val)","parentQuestionNumber": "(val)","conditionFlag": "(val)","condition": "(val)","conditionValue": "(val)","questionSeqNumber": "(val)","ruleId": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Questionnaire Questions by Key [DELETE /research-sys/api/v1/questionnaire-questions/(key)]
+### Delete Questionnaire Questions by Key [DELETE /research-common/api/v1/questionnaire-questions/(key)]
 	 
 + Request
 
@@ -205,7 +205,7 @@
 
 + Response 204
 
-### Delete All Questionnaire Questions [DELETE /research-sys/api/v1/questionnaire-questions/]
+### Delete All Questionnaire Questions [DELETE /research-common/api/v1/questionnaire-questions/]
 
 + Parameters
 
@@ -220,21 +220,21 @@
 
 + Response 204
 
-### Delete All Questionnaire Questions with Matching [DELETE /research-sys/api/v1/questionnaire-questions/]
+### Delete All Questionnaire Questions with Matching [DELETE /research-common/api/v1/questionnaire-questions/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + questionnaireId
-            + questionId
-            + questionNumber
-            + parentQuestionNumber
-            + conditionFlag
-            + condition
-            + conditionValue
-            + questionSeqNumber
-            + ruleId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Questionnaire Questions Id. Maximum length is 12.
+    + questionnaireId (optional) - Questionnaire Id. Maximum length is 10.
+    + questionId (optional) - Question Ref Id. Maximum length is 6.
+    + questionNumber (optional) - Question Number. Maximum length is 6.
+    + parentQuestionNumber (optional) - Parent Question Number. Maximum length is 6.
+    + conditionFlag (optional) - Condition Flag. Maximum length is 1.
+    + condition (optional) - Condition. Maximum length is 50.
+    + conditionValue (optional) - Condition Value. Maximum length is 2000.
+    + questionSeqNumber (optional) - Question Seq Number. Maximum length is 3.
+    + ruleId (optional) - Question Seq Number. Maximum length is 3.
 
       
 + Request

@@ -1,6 +1,6 @@
-## Award Basis Of Payments [/research-sys/api/v1/award-basis-of-payments/]
+## Award Basis Of Payments [/award/api/v1/award-basis-of-payments/]
 
-### Get Award Basis Of Payments by Key [GET /research-sys/api/v1/award-basis-of-payments/(key)]
+### Get Award Basis Of Payments by Key [GET /award/api/v1/award-basis-of-payments/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"basisOfPaymentCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Award Basis Of Payments [GET /research-sys/api/v1/award-basis-of-payments/]
+### Get All Award Basis Of Payments [GET /award/api/v1/award-basis-of-payments/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"basisOfPaymentCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Award Basis Of Payments with Filtering [GET /research-sys/api/v1/award-basis-of-payments/]
+### Get All Award Basis Of Payments with Filtering [GET /award/api/v1/award-basis-of-payments/]
     
 + Parameters
 
-        + basisOfPaymentCode
-            + description
+    + basisOfPaymentCode (optional) - Basis Of Payment Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"basisOfPaymentCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Award Basis Of Payments [GET /research-sys/api/v1/award-basis-of-payments/]
+### Get Schema for Award Basis Of Payments [GET /award/api/v1/award-basis-of-payments/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["basisOfPaymentCode","description"],"primaryKey":"basisOfPaymentCode"}
 		
-### Get Blueprint API specification for Award Basis Of Payments [GET /research-sys/api/v1/award-basis-of-payments/]
+### Get Blueprint API specification for Award Basis Of Payments [GET /award/api/v1/award-basis-of-payments/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Award Basis Of Payments [PUT /research-sys/api/v1/award-basis-of-payments/(key)]
+### Update Award Basis Of Payments [PUT /award/api/v1/award-basis-of-payments/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Award Basis Of Payments [PUT /research-sys/api/v1/award-basis-of-payments/]
+### Update Multiple Award Basis Of Payments [PUT /award/api/v1/award-basis-of-payments/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Award Basis Of Payments [POST /research-sys/api/v1/award-basis-of-payments/]
+### Insert Award Basis Of Payments [POST /award/api/v1/award-basis-of-payments/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"basisOfPaymentCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Award Basis Of Payments [POST /research-sys/api/v1/award-basis-of-payments/]
+### Insert Multiple Award Basis Of Payments [POST /award/api/v1/award-basis-of-payments/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"basisOfPaymentCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Award Basis Of Payments by Key [DELETE /research-sys/api/v1/award-basis-of-payments/(key)]
+### Delete Award Basis Of Payments by Key [DELETE /award/api/v1/award-basis-of-payments/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Award Basis Of Payments [DELETE /research-sys/api/v1/award-basis-of-payments/]
+### Delete All Award Basis Of Payments [DELETE /award/api/v1/award-basis-of-payments/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Award Basis Of Payments with Matching [DELETE /research-sys/api/v1/award-basis-of-payments/]
+### Delete All Award Basis Of Payments with Matching [DELETE /award/api/v1/award-basis-of-payments/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + basisOfPaymentCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + basisOfPaymentCode (optional) - Basis Of Payment Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

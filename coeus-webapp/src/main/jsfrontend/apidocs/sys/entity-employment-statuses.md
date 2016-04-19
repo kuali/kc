@@ -43,10 +43,10 @@
     
 + Parameters
 
-        + name
-            + active
-            + code
-            + sortCode
+    + name (optional) - Employee Status Name. Maximum length is 10.
+    + active (optional) - This attribute is used to describe whether the associated object is active or inactive. Maximum length is 1.
+    + code (optional) - Employee Status Code. Maximum length is 2.
+    + sortCode (optional) - Display Sort Code. Maximum length is 10.
 
             
 + Request
@@ -218,11 +218,11 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + name
-            + active
-            + code
-            + sortCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + name (optional) - Employee Status Name. Maximum length is 10.
+    + active (optional) - This attribute is used to describe whether the associated object is active or inactive. Maximum length is 1.
+    + code (optional) - Employee Status Code. Maximum length is 2.
+    + sortCode (optional) - Display Sort Code. Maximum length is 10.
 
       
 + Request

@@ -1,6 +1,6 @@
-## Frequencies [/research-sys/api/v1/frequencies/]
+## Frequencies [/award/api/v1/frequencies/]
 
-### Get Frequencies by Key [GET /research-sys/api/v1/frequencies/(key)]
+### Get Frequencies by Key [GET /award/api/v1/frequencies/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"frequencyCode": "(val)","description": "(val)","numberOfDays": "(val)","numberOfMonths": "(val)","repeatFlag": "(val)","advanceNumberOfDays": "(val)","advanceNumberOfMonths": "(val)","active": "(val)","_primaryKey": "(val)"}
 
-### Get All Frequencies [GET /research-sys/api/v1/frequencies/]
+### Get All Frequencies [GET /award/api/v1/frequencies/]
 	 
 + Request
 
@@ -39,18 +39,18 @@
               {"frequencyCode": "(val)","description": "(val)","numberOfDays": "(val)","numberOfMonths": "(val)","repeatFlag": "(val)","advanceNumberOfDays": "(val)","advanceNumberOfMonths": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Frequencies with Filtering [GET /research-sys/api/v1/frequencies/]
+### Get All Frequencies with Filtering [GET /award/api/v1/frequencies/]
     
 + Parameters
 
-        + frequencyCode
-            + description
-            + numberOfDays
-            + numberOfMonths
-            + repeatFlag
-            + advanceNumberOfDays
-            + advanceNumberOfMonths
-            + active
+    + frequencyCode (optional) - Frequency Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + numberOfDays (optional) - Number Of Days. Maximum length is 22.
+    + numberOfMonths (optional) - Number Of Months. Maximum length is 22.
+    + repeatFlag (optional) - Repeat Flag. Maximum length is 1.
+    + advanceNumberOfDays (optional) - Advance Number Of Days. Maximum length is 22.
+    + advanceNumberOfMonths (optional) - Advance Number Of Months. Maximum length is 22.
+    + active (optional) - Active. Maximum length is 1.
 
             
 + Request
@@ -72,7 +72,7 @@
               {"frequencyCode": "(val)","description": "(val)","numberOfDays": "(val)","numberOfMonths": "(val)","repeatFlag": "(val)","advanceNumberOfDays": "(val)","advanceNumberOfMonths": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Frequencies [GET /research-sys/api/v1/frequencies/]
+### Get Schema for Frequencies [GET /award/api/v1/frequencies/]
 	                                          
 + Parameters
 
@@ -94,7 +94,7 @@
     
             {"columns":["frequencyCode","description","numberOfDays","numberOfMonths","repeatFlag","advanceNumberOfDays","advanceNumberOfMonths","active"],"primaryKey":"frequencyCode"}
 		
-### Get Blueprint API specification for Frequencies [GET /research-sys/api/v1/frequencies/]
+### Get Blueprint API specification for Frequencies [GET /award/api/v1/frequencies/]
 	 
 + Parameters
 
@@ -115,7 +115,7 @@
             transfer-encoding:chunked
 
 
-### Update Frequencies [PUT /research-sys/api/v1/frequencies/(key)]
+### Update Frequencies [PUT /award/api/v1/frequencies/(key)]
 
 + Request
 
@@ -130,7 +130,7 @@
 			
 + Response 204
 
-### Update Multiple Frequencies [PUT /research-sys/api/v1/frequencies/]
+### Update Multiple Frequencies [PUT /award/api/v1/frequencies/]
 
 + Request
 
@@ -148,7 +148,7 @@
 			
 + Response 204
 
-### Insert Frequencies [POST /research-sys/api/v1/frequencies/]
+### Insert Frequencies [POST /award/api/v1/frequencies/]
 
 + Request
 
@@ -167,7 +167,7 @@
             
             {"frequencyCode": "(val)","description": "(val)","numberOfDays": "(val)","numberOfMonths": "(val)","repeatFlag": "(val)","advanceNumberOfDays": "(val)","advanceNumberOfMonths": "(val)","active": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Frequencies [POST /research-sys/api/v1/frequencies/]
+### Insert Multiple Frequencies [POST /award/api/v1/frequencies/]
 
 + Request
 
@@ -192,7 +192,7 @@
               {"frequencyCode": "(val)","description": "(val)","numberOfDays": "(val)","numberOfMonths": "(val)","repeatFlag": "(val)","advanceNumberOfDays": "(val)","advanceNumberOfMonths": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Frequencies by Key [DELETE /research-sys/api/v1/frequencies/(key)]
+### Delete Frequencies by Key [DELETE /award/api/v1/frequencies/(key)]
 	 
 + Request
 
@@ -203,7 +203,7 @@
 
 + Response 204
 
-### Delete All Frequencies [DELETE /research-sys/api/v1/frequencies/]
+### Delete All Frequencies [DELETE /award/api/v1/frequencies/]
 
 + Parameters
 
@@ -218,19 +218,19 @@
 
 + Response 204
 
-### Delete All Frequencies with Matching [DELETE /research-sys/api/v1/frequencies/]
+### Delete All Frequencies with Matching [DELETE /award/api/v1/frequencies/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + frequencyCode
-            + description
-            + numberOfDays
-            + numberOfMonths
-            + repeatFlag
-            + advanceNumberOfDays
-            + advanceNumberOfMonths
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + frequencyCode (optional) - Frequency Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + numberOfDays (optional) - Number Of Days. Maximum length is 22.
+    + numberOfMonths (optional) - Number Of Months. Maximum length is 22.
+    + repeatFlag (optional) - Repeat Flag. Maximum length is 1.
+    + advanceNumberOfDays (optional) - Advance Number Of Days. Maximum length is 22.
+    + advanceNumberOfMonths (optional) - Advance Number Of Months. Maximum length is 22.
+    + active (optional) - Active. Maximum length is 1.
 
       
 + Request

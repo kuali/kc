@@ -1,6 +1,6 @@
-## Job Codes [/research-sys/api/v1/job-codes/]
+## Job Codes [/research-common/api/v1/job-codes/]
 
-### Get Job Codes by Key [GET /research-sys/api/v1/job-codes/(key)]
+### Get Job Codes by Key [GET /research-common/api/v1/job-codes/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"jobCode": "(val)","jobTitle": "(val)","_primaryKey": "(val)"}
 
-### Get All Job Codes [GET /research-sys/api/v1/job-codes/]
+### Get All Job Codes [GET /research-common/api/v1/job-codes/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"jobCode": "(val)","jobTitle": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Job Codes with Filtering [GET /research-sys/api/v1/job-codes/]
+### Get All Job Codes with Filtering [GET /research-common/api/v1/job-codes/]
     
 + Parameters
 
-        + jobCode
-            + jobTitle
+    + jobCode (optional) - Job Code. Maximum length is 6.
+    + jobTitle (optional) - Job Title. Maximum length is 50.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"jobCode": "(val)","jobTitle": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Job Codes [GET /research-sys/api/v1/job-codes/]
+### Get Schema for Job Codes [GET /research-common/api/v1/job-codes/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["jobCode","jobTitle"],"primaryKey":"jobCode"}
 		
-### Get Blueprint API specification for Job Codes [GET /research-sys/api/v1/job-codes/]
+### Get Blueprint API specification for Job Codes [GET /research-common/api/v1/job-codes/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Job Codes [PUT /research-sys/api/v1/job-codes/(key)]
+### Update Job Codes [PUT /research-common/api/v1/job-codes/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Job Codes [PUT /research-sys/api/v1/job-codes/]
+### Update Multiple Job Codes [PUT /research-common/api/v1/job-codes/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Job Codes [POST /research-sys/api/v1/job-codes/]
+### Insert Job Codes [POST /research-common/api/v1/job-codes/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"jobCode": "(val)","jobTitle": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Job Codes [POST /research-sys/api/v1/job-codes/]
+### Insert Multiple Job Codes [POST /research-common/api/v1/job-codes/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"jobCode": "(val)","jobTitle": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Job Codes by Key [DELETE /research-sys/api/v1/job-codes/(key)]
+### Delete Job Codes by Key [DELETE /research-common/api/v1/job-codes/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Job Codes [DELETE /research-sys/api/v1/job-codes/]
+### Delete All Job Codes [DELETE /research-common/api/v1/job-codes/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Job Codes with Matching [DELETE /research-sys/api/v1/job-codes/]
+### Delete All Job Codes with Matching [DELETE /research-common/api/v1/job-codes/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + jobCode
-            + jobTitle
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + jobCode (optional) - Job Code. Maximum length is 6.
+    + jobTitle (optional) - Job Title. Maximum length is 50.
 
       
 + Request

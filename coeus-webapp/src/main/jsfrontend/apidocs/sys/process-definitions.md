@@ -43,10 +43,10 @@
     
 + Parameters
 
-        + processId
-            + name
-            + initial
-            + lockVerNbr
+    + processId (optional) - 
+    + name (optional) - 
+    + initial (optional) - 
+    + lockVerNbr (optional) - 
 
             
 + Request
@@ -218,11 +218,11 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + processId
-            + name
-            + initial
-            + lockVerNbr
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + processId (optional) - 
+    + name (optional) - 
+    + initial (optional) - 
+    + lockVerNbr (optional) - 
 
       
 + Request

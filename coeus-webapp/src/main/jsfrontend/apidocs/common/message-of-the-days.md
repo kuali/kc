@@ -1,6 +1,6 @@
-## Message Of The Days [/research-sys/api/v1/message-of-the-days/]
+## Message Of The Days [/research-common/api/v1/message-of-the-days/]
 
-### Get Message Of The Days by Key [GET /research-sys/api/v1/message-of-the-days/(key)]
+### Get Message Of The Days by Key [GET /research-common/api/v1/message-of-the-days/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"messageOfTheDayId": "(val)","message": "(val)","active": "(val)","displayOrder": "(val)","_primaryKey": "(val)"}
 
-### Get All Message Of The Days [GET /research-sys/api/v1/message-of-the-days/]
+### Get All Message Of The Days [GET /research-common/api/v1/message-of-the-days/]
 	 
 + Request
 
@@ -39,14 +39,14 @@
               {"messageOfTheDayId": "(val)","message": "(val)","active": "(val)","displayOrder": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Message Of The Days with Filtering [GET /research-sys/api/v1/message-of-the-days/]
+### Get All Message Of The Days with Filtering [GET /research-common/api/v1/message-of-the-days/]
     
 + Parameters
 
-        + messageOfTheDayId
-            + message
-            + active
-            + displayOrder
+    + messageOfTheDayId (optional) - Message Of The Day Id. Maximum length is 22.
+    + message (optional) - Message. Maximum length is 4000.
+    + active (optional) - active. Maximum length is 1.
+    + displayOrder (optional) - Display Order. Maximum length is 22.
 
             
 + Request
@@ -68,7 +68,7 @@
               {"messageOfTheDayId": "(val)","message": "(val)","active": "(val)","displayOrder": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Message Of The Days [GET /research-sys/api/v1/message-of-the-days/]
+### Get Schema for Message Of The Days [GET /research-common/api/v1/message-of-the-days/]
 	                                          
 + Parameters
 
@@ -90,7 +90,7 @@
     
             {"columns":["messageOfTheDayId","message","active","displayOrder"],"primaryKey":"messageOfTheDayId"}
 		
-### Get Blueprint API specification for Message Of The Days [GET /research-sys/api/v1/message-of-the-days/]
+### Get Blueprint API specification for Message Of The Days [GET /research-common/api/v1/message-of-the-days/]
 	 
 + Parameters
 
@@ -111,7 +111,7 @@
             transfer-encoding:chunked
 
 
-### Update Message Of The Days [PUT /research-sys/api/v1/message-of-the-days/(key)]
+### Update Message Of The Days [PUT /research-common/api/v1/message-of-the-days/(key)]
 
 + Request
 
@@ -126,7 +126,7 @@
 			
 + Response 204
 
-### Update Multiple Message Of The Days [PUT /research-sys/api/v1/message-of-the-days/]
+### Update Multiple Message Of The Days [PUT /research-common/api/v1/message-of-the-days/]
 
 + Request
 
@@ -144,7 +144,7 @@
 			
 + Response 204
 
-### Insert Message Of The Days [POST /research-sys/api/v1/message-of-the-days/]
+### Insert Message Of The Days [POST /research-common/api/v1/message-of-the-days/]
 
 + Request
 
@@ -163,7 +163,7 @@
             
             {"messageOfTheDayId": "(val)","message": "(val)","active": "(val)","displayOrder": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Message Of The Days [POST /research-sys/api/v1/message-of-the-days/]
+### Insert Multiple Message Of The Days [POST /research-common/api/v1/message-of-the-days/]
 
 + Request
 
@@ -188,7 +188,7 @@
               {"messageOfTheDayId": "(val)","message": "(val)","active": "(val)","displayOrder": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Message Of The Days by Key [DELETE /research-sys/api/v1/message-of-the-days/(key)]
+### Delete Message Of The Days by Key [DELETE /research-common/api/v1/message-of-the-days/(key)]
 	 
 + Request
 
@@ -199,7 +199,7 @@
 
 + Response 204
 
-### Delete All Message Of The Days [DELETE /research-sys/api/v1/message-of-the-days/]
+### Delete All Message Of The Days [DELETE /research-common/api/v1/message-of-the-days/]
 
 + Parameters
 
@@ -214,15 +214,15 @@
 
 + Response 204
 
-### Delete All Message Of The Days with Matching [DELETE /research-sys/api/v1/message-of-the-days/]
+### Delete All Message Of The Days with Matching [DELETE /research-common/api/v1/message-of-the-days/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + messageOfTheDayId
-            + message
-            + active
-            + displayOrder
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + messageOfTheDayId (optional) - Message Of The Day Id. Maximum length is 22.
+    + message (optional) - Message. Maximum length is 4000.
+    + active (optional) - active. Maximum length is 1.
+    + displayOrder (optional) - Display Order. Maximum length is 22.
 
       
 + Request

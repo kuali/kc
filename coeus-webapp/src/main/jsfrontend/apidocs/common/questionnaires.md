@@ -1,6 +1,6 @@
-## Questionnaires [/research-sys/api/v1/questionnaires/]
+## Questionnaires [/research-common/api/v1/questionnaires/]
 
-### Get Questionnaires by Key [GET /research-sys/api/v1/questionnaires/(key)]
+### Get Questionnaires by Key [GET /research-common/api/v1/questionnaires/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"id": "(val)","questionnaireSeqId": "(val)","sequenceNumber": "(val)","name": "(val)","description": "(val)","active": "(val)","documentNumber": "(val)","fileName": "(val)","template": "(val)","_primaryKey": "(val)"}
 
-### Get All Questionnaires [GET /research-sys/api/v1/questionnaires/]
+### Get All Questionnaires [GET /research-common/api/v1/questionnaires/]
 	 
 + Request
 
@@ -39,19 +39,19 @@
               {"id": "(val)","questionnaireSeqId": "(val)","sequenceNumber": "(val)","name": "(val)","description": "(val)","active": "(val)","documentNumber": "(val)","fileName": "(val)","template": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Questionnaires with Filtering [GET /research-sys/api/v1/questionnaires/]
+### Get All Questionnaires with Filtering [GET /research-common/api/v1/questionnaires/]
     
 + Parameters
 
-        + id
-            + questionnaireSeqId
-            + sequenceNumber
-            + name
-            + description
-            + active
-            + documentNumber
-            + fileName
-            + template
+    + id (optional) - Questionnaire Ref Id. Maximum length is 10.
+    + questionnaireSeqId (optional) - Questionnaire Id. Maximum length is 6.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 4.
+    + name (optional) - Name. Maximum length is 50.
+    + description (optional) - Description. Maximum length is 2000.
+    + active (optional) - Is Active. Maximum length is 1.
+    + documentNumber (optional) - Document Number. Maximum length is 10.
+    + fileName (optional) - Template Name. Maximum length is 1000.
+    + template (optional) - 
 
             
 + Request
@@ -73,7 +73,7 @@
               {"id": "(val)","questionnaireSeqId": "(val)","sequenceNumber": "(val)","name": "(val)","description": "(val)","active": "(val)","documentNumber": "(val)","fileName": "(val)","template": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Questionnaires [GET /research-sys/api/v1/questionnaires/]
+### Get Schema for Questionnaires [GET /research-common/api/v1/questionnaires/]
 	                                          
 + Parameters
 
@@ -95,7 +95,7 @@
     
             {"columns":["id","questionnaireSeqId","sequenceNumber","name","description","active","documentNumber","fileName","template"],"primaryKey":"id"}
 		
-### Get Blueprint API specification for Questionnaires [GET /research-sys/api/v1/questionnaires/]
+### Get Blueprint API specification for Questionnaires [GET /research-common/api/v1/questionnaires/]
 	 
 + Parameters
 
@@ -116,7 +116,7 @@
             transfer-encoding:chunked
 
 
-### Update Questionnaires [PUT /research-sys/api/v1/questionnaires/(key)]
+### Update Questionnaires [PUT /research-common/api/v1/questionnaires/(key)]
 
 + Request
 
@@ -131,7 +131,7 @@
 			
 + Response 204
 
-### Update Multiple Questionnaires [PUT /research-sys/api/v1/questionnaires/]
+### Update Multiple Questionnaires [PUT /research-common/api/v1/questionnaires/]
 
 + Request
 
@@ -149,7 +149,7 @@
 			
 + Response 204
 
-### Insert Questionnaires [POST /research-sys/api/v1/questionnaires/]
+### Insert Questionnaires [POST /research-common/api/v1/questionnaires/]
 
 + Request
 
@@ -168,7 +168,7 @@
             
             {"id": "(val)","questionnaireSeqId": "(val)","sequenceNumber": "(val)","name": "(val)","description": "(val)","active": "(val)","documentNumber": "(val)","fileName": "(val)","template": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Questionnaires [POST /research-sys/api/v1/questionnaires/]
+### Insert Multiple Questionnaires [POST /research-common/api/v1/questionnaires/]
 
 + Request
 
@@ -193,7 +193,7 @@
               {"id": "(val)","questionnaireSeqId": "(val)","sequenceNumber": "(val)","name": "(val)","description": "(val)","active": "(val)","documentNumber": "(val)","fileName": "(val)","template": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Questionnaires by Key [DELETE /research-sys/api/v1/questionnaires/(key)]
+### Delete Questionnaires by Key [DELETE /research-common/api/v1/questionnaires/(key)]
 	 
 + Request
 
@@ -204,7 +204,7 @@
 
 + Response 204
 
-### Delete All Questionnaires [DELETE /research-sys/api/v1/questionnaires/]
+### Delete All Questionnaires [DELETE /research-common/api/v1/questionnaires/]
 
 + Parameters
 
@@ -219,20 +219,20 @@
 
 + Response 204
 
-### Delete All Questionnaires with Matching [DELETE /research-sys/api/v1/questionnaires/]
+### Delete All Questionnaires with Matching [DELETE /research-common/api/v1/questionnaires/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + questionnaireSeqId
-            + sequenceNumber
-            + name
-            + description
-            + active
-            + documentNumber
-            + fileName
-            + template
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Questionnaire Ref Id. Maximum length is 10.
+    + questionnaireSeqId (optional) - Questionnaire Id. Maximum length is 6.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 4.
+    + name (optional) - Name. Maximum length is 50.
+    + description (optional) - Description. Maximum length is 2000.
+    + active (optional) - Is Active. Maximum length is 1.
+    + documentNumber (optional) - Document Number. Maximum length is 10.
+    + fileName (optional) - Template Name. Maximum length is 1000.
+    + template (optional) - 
 
       
 + Request

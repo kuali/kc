@@ -43,9 +43,9 @@
     
 + Parameters
 
-        + id
-            + type
-            + expression
+    + id (optional) - 
+    + type (optional) - 
+    + expression (optional) - 
 
             
 + Request
@@ -217,10 +217,10 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + type
-            + expression
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - 
+    + type (optional) - 
+    + expression (optional) - 
 
       
 + Request

@@ -43,13 +43,13 @@
     
 + Parameters
 
-        + id
-            + namespace
-            + name
-            + description
-            + returnType
-            + typeId
-            + active
+    + id (optional) - 
+    + namespace (optional) - 
+    + name (optional) - 
+    + description (optional) - 
+    + returnType (optional) - 
+    + typeId (optional) - 
+    + active (optional) - 
 
             
 + Request
@@ -221,14 +221,14 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + namespace
-            + name
-            + description
-            + returnType
-            + typeId
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - 
+    + namespace (optional) - 
+    + name (optional) - 
+    + description (optional) - 
+    + returnType (optional) - 
+    + typeId (optional) - 
+    + active (optional) - 
 
       
 + Request

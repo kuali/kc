@@ -1,6 +1,6 @@
-## Valid Protocol Action Correspondence [/research-sys/api/v1/valid-protocol-action-correspondence/]
+## Valid Protocol Action Correspondence [/irb/api/v1/valid-protocol-action-correspondence/]
 
-### Get Valid Protocol Action Correspondence by Key [GET /research-sys/api/v1/valid-protocol-action-correspondence/(key)]
+### Get Valid Protocol Action Correspondence by Key [GET /irb/api/v1/valid-protocol-action-correspondence/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"validProtoActionCorespId": "(val)","protocolActionTypeCode": "(val)","protoCorrespTypeCode": "(val)","finalFlag": "(val)","_primaryKey": "(val)"}
 
-### Get All Valid Protocol Action Correspondence [GET /research-sys/api/v1/valid-protocol-action-correspondence/]
+### Get All Valid Protocol Action Correspondence [GET /irb/api/v1/valid-protocol-action-correspondence/]
 	 
 + Request
 
@@ -39,14 +39,14 @@
               {"validProtoActionCorespId": "(val)","protocolActionTypeCode": "(val)","protoCorrespTypeCode": "(val)","finalFlag": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Valid Protocol Action Correspondence with Filtering [GET /research-sys/api/v1/valid-protocol-action-correspondence/]
+### Get All Valid Protocol Action Correspondence with Filtering [GET /irb/api/v1/valid-protocol-action-correspondence/]
     
 + Parameters
 
-        + validProtoActionCorespId
-            + protocolActionTypeCode
-            + protoCorrespTypeCode
-            + finalFlag
+    + validProtoActionCorespId (optional) - Valid Proto Action Coresp Id. Maximum length is 12.
+    + protocolActionTypeCode (optional) - Protocol Action Type. Maximum length is 3.
+    + protoCorrespTypeCode (optional) - Protocol Correspondence Type. Maximum length is 3.
+    + finalFlag (optional) - Final Flag. Maximum length is 1.
 
             
 + Request
@@ -68,7 +68,7 @@
               {"validProtoActionCorespId": "(val)","protocolActionTypeCode": "(val)","protoCorrespTypeCode": "(val)","finalFlag": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Valid Protocol Action Correspondence [GET /research-sys/api/v1/valid-protocol-action-correspondence/]
+### Get Schema for Valid Protocol Action Correspondence [GET /irb/api/v1/valid-protocol-action-correspondence/]
 	                                          
 + Parameters
 
@@ -90,7 +90,7 @@
     
             {"columns":["validProtoActionCorespId","protocolActionTypeCode","protoCorrespTypeCode","finalFlag"],"primaryKey":"validProtoActionCorespId"}
 		
-### Get Blueprint API specification for Valid Protocol Action Correspondence [GET /research-sys/api/v1/valid-protocol-action-correspondence/]
+### Get Blueprint API specification for Valid Protocol Action Correspondence [GET /irb/api/v1/valid-protocol-action-correspondence/]
 	 
 + Parameters
 
@@ -111,7 +111,7 @@
             transfer-encoding:chunked
 
 
-### Update Valid Protocol Action Correspondence [PUT /research-sys/api/v1/valid-protocol-action-correspondence/(key)]
+### Update Valid Protocol Action Correspondence [PUT /irb/api/v1/valid-protocol-action-correspondence/(key)]
 
 + Request
 
@@ -126,7 +126,7 @@
 			
 + Response 204
 
-### Update Multiple Valid Protocol Action Correspondence [PUT /research-sys/api/v1/valid-protocol-action-correspondence/]
+### Update Multiple Valid Protocol Action Correspondence [PUT /irb/api/v1/valid-protocol-action-correspondence/]
 
 + Request
 
@@ -144,7 +144,7 @@
 			
 + Response 204
 
-### Insert Valid Protocol Action Correspondence [POST /research-sys/api/v1/valid-protocol-action-correspondence/]
+### Insert Valid Protocol Action Correspondence [POST /irb/api/v1/valid-protocol-action-correspondence/]
 
 + Request
 
@@ -163,7 +163,7 @@
             
             {"validProtoActionCorespId": "(val)","protocolActionTypeCode": "(val)","protoCorrespTypeCode": "(val)","finalFlag": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Valid Protocol Action Correspondence [POST /research-sys/api/v1/valid-protocol-action-correspondence/]
+### Insert Multiple Valid Protocol Action Correspondence [POST /irb/api/v1/valid-protocol-action-correspondence/]
 
 + Request
 
@@ -188,7 +188,7 @@
               {"validProtoActionCorespId": "(val)","protocolActionTypeCode": "(val)","protoCorrespTypeCode": "(val)","finalFlag": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Valid Protocol Action Correspondence by Key [DELETE /research-sys/api/v1/valid-protocol-action-correspondence/(key)]
+### Delete Valid Protocol Action Correspondence by Key [DELETE /irb/api/v1/valid-protocol-action-correspondence/(key)]
 	 
 + Request
 
@@ -199,7 +199,7 @@
 
 + Response 204
 
-### Delete All Valid Protocol Action Correspondence [DELETE /research-sys/api/v1/valid-protocol-action-correspondence/]
+### Delete All Valid Protocol Action Correspondence [DELETE /irb/api/v1/valid-protocol-action-correspondence/]
 
 + Parameters
 
@@ -214,15 +214,15 @@
 
 + Response 204
 
-### Delete All Valid Protocol Action Correspondence with Matching [DELETE /research-sys/api/v1/valid-protocol-action-correspondence/]
+### Delete All Valid Protocol Action Correspondence with Matching [DELETE /irb/api/v1/valid-protocol-action-correspondence/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + validProtoActionCorespId
-            + protocolActionTypeCode
-            + protoCorrespTypeCode
-            + finalFlag
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + validProtoActionCorespId (optional) - Valid Proto Action Coresp Id. Maximum length is 12.
+    + protocolActionTypeCode (optional) - Protocol Action Type. Maximum length is 3.
+    + protoCorrespTypeCode (optional) - Protocol Correspondence Type. Maximum length is 3.
+    + finalFlag (optional) - Final Flag. Maximum length is 1.
 
       
 + Request

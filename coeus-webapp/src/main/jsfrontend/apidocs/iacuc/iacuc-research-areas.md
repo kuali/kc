@@ -1,6 +1,6 @@
-## Iacuc Research Areas [/research-sys/api/v1/iacuc-research-areas/]
+## Iacuc Research Areas [/iacuc/api/v1/iacuc-research-areas/]
 
-### Get Iacuc Research Areas by Key [GET /research-sys/api/v1/iacuc-research-areas/(key)]
+### Get Iacuc Research Areas by Key [GET /iacuc/api/v1/iacuc-research-areas/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"researchAreaCode": "(val)","description": "(val)","hasChildrenFlag": "(val)","parentResearchAreaCode": "(val)","active": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Research Areas [GET /research-sys/api/v1/iacuc-research-areas/]
+### Get All Iacuc Research Areas [GET /iacuc/api/v1/iacuc-research-areas/]
 	 
 + Request
 
@@ -39,15 +39,15 @@
               {"researchAreaCode": "(val)","description": "(val)","hasChildrenFlag": "(val)","parentResearchAreaCode": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Research Areas with Filtering [GET /research-sys/api/v1/iacuc-research-areas/]
+### Get All Iacuc Research Areas with Filtering [GET /iacuc/api/v1/iacuc-research-areas/]
     
 + Parameters
 
-        + researchAreaCode
-            + description
-            + hasChildrenFlag
-            + parentResearchAreaCode
-            + active
+    + researchAreaCode (optional) - Research Area Code. Maximum length is 8.
+    + description (optional) - Description. Maximum length is 200.
+    + hasChildrenFlag (optional) - Has Children Flag. Maximum length is 1.
+    + parentResearchAreaCode (optional) - Parent Research Area Code. Maximum length is 8.
+    + active (optional) - Active. Maximum length is 1.
 
             
 + Request
@@ -69,7 +69,7 @@
               {"researchAreaCode": "(val)","description": "(val)","hasChildrenFlag": "(val)","parentResearchAreaCode": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Research Areas [GET /research-sys/api/v1/iacuc-research-areas/]
+### Get Schema for Iacuc Research Areas [GET /iacuc/api/v1/iacuc-research-areas/]
 	                                          
 + Parameters
 
@@ -91,7 +91,7 @@
     
             {"columns":["researchAreaCode","description","hasChildrenFlag","parentResearchAreaCode","active"],"primaryKey":"researchAreaCode"}
 		
-### Get Blueprint API specification for Iacuc Research Areas [GET /research-sys/api/v1/iacuc-research-areas/]
+### Get Blueprint API specification for Iacuc Research Areas [GET /iacuc/api/v1/iacuc-research-areas/]
 	 
 + Parameters
 
@@ -112,7 +112,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Research Areas [PUT /research-sys/api/v1/iacuc-research-areas/(key)]
+### Update Iacuc Research Areas [PUT /iacuc/api/v1/iacuc-research-areas/(key)]
 
 + Request
 
@@ -127,7 +127,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Research Areas [PUT /research-sys/api/v1/iacuc-research-areas/]
+### Update Multiple Iacuc Research Areas [PUT /iacuc/api/v1/iacuc-research-areas/]
 
 + Request
 
@@ -145,7 +145,7 @@
 			
 + Response 204
 
-### Insert Iacuc Research Areas [POST /research-sys/api/v1/iacuc-research-areas/]
+### Insert Iacuc Research Areas [POST /iacuc/api/v1/iacuc-research-areas/]
 
 + Request
 
@@ -164,7 +164,7 @@
             
             {"researchAreaCode": "(val)","description": "(val)","hasChildrenFlag": "(val)","parentResearchAreaCode": "(val)","active": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Research Areas [POST /research-sys/api/v1/iacuc-research-areas/]
+### Insert Multiple Iacuc Research Areas [POST /iacuc/api/v1/iacuc-research-areas/]
 
 + Request
 
@@ -189,7 +189,7 @@
               {"researchAreaCode": "(val)","description": "(val)","hasChildrenFlag": "(val)","parentResearchAreaCode": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Research Areas by Key [DELETE /research-sys/api/v1/iacuc-research-areas/(key)]
+### Delete Iacuc Research Areas by Key [DELETE /iacuc/api/v1/iacuc-research-areas/(key)]
 	 
 + Request
 
@@ -200,7 +200,7 @@
 
 + Response 204
 
-### Delete All Iacuc Research Areas [DELETE /research-sys/api/v1/iacuc-research-areas/]
+### Delete All Iacuc Research Areas [DELETE /iacuc/api/v1/iacuc-research-areas/]
 
 + Parameters
 
@@ -215,16 +215,16 @@
 
 + Response 204
 
-### Delete All Iacuc Research Areas with Matching [DELETE /research-sys/api/v1/iacuc-research-areas/]
+### Delete All Iacuc Research Areas with Matching [DELETE /iacuc/api/v1/iacuc-research-areas/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + researchAreaCode
-            + description
-            + hasChildrenFlag
-            + parentResearchAreaCode
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + researchAreaCode (optional) - Research Area Code. Maximum length is 8.
+    + description (optional) - Description. Maximum length is 200.
+    + hasChildrenFlag (optional) - Has Children Flag. Maximum length is 1.
+    + parentResearchAreaCode (optional) - Parent Research Area Code. Maximum length is 8.
+    + active (optional) - Active. Maximum length is 1.
 
       
 + Request

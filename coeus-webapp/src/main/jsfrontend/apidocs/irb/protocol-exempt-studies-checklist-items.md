@@ -1,6 +1,6 @@
-## Protocol Exempt Studies Checklist Items [/research-sys/api/v1/protocol-exempt-studies-checklist-items/]
+## Protocol Exempt Studies Checklist Items [/irb/api/v1/protocol-exempt-studies-checklist-items/]
 
-### Get Protocol Exempt Studies Checklist Items by Key [GET /research-sys/api/v1/protocol-exempt-studies-checklist-items/(key)]
+### Get Protocol Exempt Studies Checklist Items by Key [GET /irb/api/v1/protocol-exempt-studies-checklist-items/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"protocolExemptCheckListId": "(val)","protocolId": "(val)","submissionIdFk": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","submissionNumber": "(val)","exemptStudiesCheckListCode": "(val)","_primaryKey": "(val)"}
 
-### Get All Protocol Exempt Studies Checklist Items [GET /research-sys/api/v1/protocol-exempt-studies-checklist-items/]
+### Get All Protocol Exempt Studies Checklist Items [GET /irb/api/v1/protocol-exempt-studies-checklist-items/]
 	 
 + Request
 
@@ -39,17 +39,17 @@
               {"protocolExemptCheckListId": "(val)","protocolId": "(val)","submissionIdFk": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","submissionNumber": "(val)","exemptStudiesCheckListCode": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Protocol Exempt Studies Checklist Items with Filtering [GET /research-sys/api/v1/protocol-exempt-studies-checklist-items/]
+### Get All Protocol Exempt Studies Checklist Items with Filtering [GET /irb/api/v1/protocol-exempt-studies-checklist-items/]
     
 + Parameters
 
-        + protocolExemptCheckListId
-            + protocolId
-            + submissionIdFk
-            + protocolNumber
-            + sequenceNumber
-            + submissionNumber
-            + exemptStudiesCheckListCode
+    + protocolExemptCheckListId (optional) - 
+    + protocolId (optional) - 
+    + submissionIdFk (optional) - 
+    + protocolNumber (optional) - 
+    + sequenceNumber (optional) - 
+    + submissionNumber (optional) - 
+    + exemptStudiesCheckListCode (optional) - 
 
             
 + Request
@@ -71,7 +71,7 @@
               {"protocolExemptCheckListId": "(val)","protocolId": "(val)","submissionIdFk": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","submissionNumber": "(val)","exemptStudiesCheckListCode": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Protocol Exempt Studies Checklist Items [GET /research-sys/api/v1/protocol-exempt-studies-checklist-items/]
+### Get Schema for Protocol Exempt Studies Checklist Items [GET /irb/api/v1/protocol-exempt-studies-checklist-items/]
 	                                          
 + Parameters
 
@@ -93,7 +93,7 @@
     
             {"columns":["protocolExemptCheckListId","protocolId","submissionIdFk","protocolNumber","sequenceNumber","submissionNumber","exemptStudiesCheckListCode"],"primaryKey":"protocolExemptCheckListId"}
 		
-### Get Blueprint API specification for Protocol Exempt Studies Checklist Items [GET /research-sys/api/v1/protocol-exempt-studies-checklist-items/]
+### Get Blueprint API specification for Protocol Exempt Studies Checklist Items [GET /irb/api/v1/protocol-exempt-studies-checklist-items/]
 	 
 + Parameters
 
@@ -114,7 +114,7 @@
             transfer-encoding:chunked
 
 
-### Update Protocol Exempt Studies Checklist Items [PUT /research-sys/api/v1/protocol-exempt-studies-checklist-items/(key)]
+### Update Protocol Exempt Studies Checklist Items [PUT /irb/api/v1/protocol-exempt-studies-checklist-items/(key)]
 
 + Request
 
@@ -129,7 +129,7 @@
 			
 + Response 204
 
-### Update Multiple Protocol Exempt Studies Checklist Items [PUT /research-sys/api/v1/protocol-exempt-studies-checklist-items/]
+### Update Multiple Protocol Exempt Studies Checklist Items [PUT /irb/api/v1/protocol-exempt-studies-checklist-items/]
 
 + Request
 
@@ -147,7 +147,7 @@
 			
 + Response 204
 
-### Insert Protocol Exempt Studies Checklist Items [POST /research-sys/api/v1/protocol-exempt-studies-checklist-items/]
+### Insert Protocol Exempt Studies Checklist Items [POST /irb/api/v1/protocol-exempt-studies-checklist-items/]
 
 + Request
 
@@ -166,7 +166,7 @@
             
             {"protocolExemptCheckListId": "(val)","protocolId": "(val)","submissionIdFk": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","submissionNumber": "(val)","exemptStudiesCheckListCode": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Protocol Exempt Studies Checklist Items [POST /research-sys/api/v1/protocol-exempt-studies-checklist-items/]
+### Insert Multiple Protocol Exempt Studies Checklist Items [POST /irb/api/v1/protocol-exempt-studies-checklist-items/]
 
 + Request
 
@@ -191,7 +191,7 @@
               {"protocolExemptCheckListId": "(val)","protocolId": "(val)","submissionIdFk": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","submissionNumber": "(val)","exemptStudiesCheckListCode": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Protocol Exempt Studies Checklist Items by Key [DELETE /research-sys/api/v1/protocol-exempt-studies-checklist-items/(key)]
+### Delete Protocol Exempt Studies Checklist Items by Key [DELETE /irb/api/v1/protocol-exempt-studies-checklist-items/(key)]
 	 
 + Request
 
@@ -202,7 +202,7 @@
 
 + Response 204
 
-### Delete All Protocol Exempt Studies Checklist Items [DELETE /research-sys/api/v1/protocol-exempt-studies-checklist-items/]
+### Delete All Protocol Exempt Studies Checklist Items [DELETE /irb/api/v1/protocol-exempt-studies-checklist-items/]
 
 + Parameters
 
@@ -217,18 +217,18 @@
 
 + Response 204
 
-### Delete All Protocol Exempt Studies Checklist Items with Matching [DELETE /research-sys/api/v1/protocol-exempt-studies-checklist-items/]
+### Delete All Protocol Exempt Studies Checklist Items with Matching [DELETE /irb/api/v1/protocol-exempt-studies-checklist-items/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + protocolExemptCheckListId
-            + protocolId
-            + submissionIdFk
-            + protocolNumber
-            + sequenceNumber
-            + submissionNumber
-            + exemptStudiesCheckListCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + protocolExemptCheckListId (optional) - 
+    + protocolId (optional) - 
+    + submissionIdFk (optional) - 
+    + protocolNumber (optional) - 
+    + sequenceNumber (optional) - 
+    + submissionNumber (optional) - 
+    + exemptStudiesCheckListCode (optional) - 
 
       
 + Request

@@ -1,6 +1,6 @@
-## Award Sync Logs [/research-sys/api/v1/award-sync-logs/]
+## Award Sync Logs [/award/api/v1/award-sync-logs/]
 
-### Get Award Sync Logs by Key [GET /research-sys/api/v1/award-sync-logs/(key)]
+### Get Award Sync Logs by Key [GET /award/api/v1/award-sync-logs/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"awardSyncLogId": "(val)","awardSyncStatusId": "(val)","awardSyncChangeId": "(val)","success": "(val)","logTypeCode": "(val)","status": "(val)","_primaryKey": "(val)"}
 
-### Get All Award Sync Logs [GET /research-sys/api/v1/award-sync-logs/]
+### Get All Award Sync Logs [GET /award/api/v1/award-sync-logs/]
 	 
 + Request
 
@@ -39,16 +39,16 @@
               {"awardSyncLogId": "(val)","awardSyncStatusId": "(val)","awardSyncChangeId": "(val)","success": "(val)","logTypeCode": "(val)","status": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Award Sync Logs with Filtering [GET /research-sys/api/v1/award-sync-logs/]
+### Get All Award Sync Logs with Filtering [GET /award/api/v1/award-sync-logs/]
     
 + Parameters
 
-        + awardSyncLogId
-            + awardSyncStatusId
-            + awardSyncChangeId
-            + success
-            + logTypeCode
-            + status
+    + awardSyncLogId (optional) - Award Sync Log Id. Maximum length is 40.
+    + awardSyncStatusId (optional) - Award Sync Status Id. Maximum length is 40.
+    + awardSyncChangeId (optional) - Award Sync Change Id. Maximum length is 40.
+    + success (optional) - Success. Maximum length is 1.
+    + logTypeCode (optional) - Log Type. Maximum length is 2.
+    + status (optional) - Result Message. Maximum length is 4000.
 
             
 + Request
@@ -70,7 +70,7 @@
               {"awardSyncLogId": "(val)","awardSyncStatusId": "(val)","awardSyncChangeId": "(val)","success": "(val)","logTypeCode": "(val)","status": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Award Sync Logs [GET /research-sys/api/v1/award-sync-logs/]
+### Get Schema for Award Sync Logs [GET /award/api/v1/award-sync-logs/]
 	                                          
 + Parameters
 
@@ -92,7 +92,7 @@
     
             {"columns":["awardSyncLogId","awardSyncStatusId","awardSyncChangeId","success","logTypeCode","status"],"primaryKey":"awardSyncLogId"}
 		
-### Get Blueprint API specification for Award Sync Logs [GET /research-sys/api/v1/award-sync-logs/]
+### Get Blueprint API specification for Award Sync Logs [GET /award/api/v1/award-sync-logs/]
 	 
 + Parameters
 
@@ -113,7 +113,7 @@
             transfer-encoding:chunked
 
 
-### Update Award Sync Logs [PUT /research-sys/api/v1/award-sync-logs/(key)]
+### Update Award Sync Logs [PUT /award/api/v1/award-sync-logs/(key)]
 
 + Request
 
@@ -128,7 +128,7 @@
 			
 + Response 204
 
-### Update Multiple Award Sync Logs [PUT /research-sys/api/v1/award-sync-logs/]
+### Update Multiple Award Sync Logs [PUT /award/api/v1/award-sync-logs/]
 
 + Request
 
@@ -146,7 +146,7 @@
 			
 + Response 204
 
-### Insert Award Sync Logs [POST /research-sys/api/v1/award-sync-logs/]
+### Insert Award Sync Logs [POST /award/api/v1/award-sync-logs/]
 
 + Request
 
@@ -165,7 +165,7 @@
             
             {"awardSyncLogId": "(val)","awardSyncStatusId": "(val)","awardSyncChangeId": "(val)","success": "(val)","logTypeCode": "(val)","status": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Award Sync Logs [POST /research-sys/api/v1/award-sync-logs/]
+### Insert Multiple Award Sync Logs [POST /award/api/v1/award-sync-logs/]
 
 + Request
 
@@ -190,7 +190,7 @@
               {"awardSyncLogId": "(val)","awardSyncStatusId": "(val)","awardSyncChangeId": "(val)","success": "(val)","logTypeCode": "(val)","status": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Award Sync Logs by Key [DELETE /research-sys/api/v1/award-sync-logs/(key)]
+### Delete Award Sync Logs by Key [DELETE /award/api/v1/award-sync-logs/(key)]
 	 
 + Request
 
@@ -201,7 +201,7 @@
 
 + Response 204
 
-### Delete All Award Sync Logs [DELETE /research-sys/api/v1/award-sync-logs/]
+### Delete All Award Sync Logs [DELETE /award/api/v1/award-sync-logs/]
 
 + Parameters
 
@@ -216,17 +216,17 @@
 
 + Response 204
 
-### Delete All Award Sync Logs with Matching [DELETE /research-sys/api/v1/award-sync-logs/]
+### Delete All Award Sync Logs with Matching [DELETE /award/api/v1/award-sync-logs/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + awardSyncLogId
-            + awardSyncStatusId
-            + awardSyncChangeId
-            + success
-            + logTypeCode
-            + status
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + awardSyncLogId (optional) - Award Sync Log Id. Maximum length is 40.
+    + awardSyncStatusId (optional) - Award Sync Status Id. Maximum length is 40.
+    + awardSyncChangeId (optional) - Award Sync Change Id. Maximum length is 40.
+    + success (optional) - Success. Maximum length is 1.
+    + logTypeCode (optional) - Log Type. Maximum length is 2.
+    + status (optional) - Result Message. Maximum length is 4000.
 
       
 + Request

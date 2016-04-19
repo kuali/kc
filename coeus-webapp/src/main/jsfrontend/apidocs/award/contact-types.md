@@ -1,6 +1,6 @@
-## Contact Types [/research-sys/api/v1/contact-types/]
+## Contact Types [/award/api/v1/contact-types/]
 
-### Get Contact Types by Key [GET /research-sys/api/v1/contact-types/(key)]
+### Get Contact Types by Key [GET /award/api/v1/contact-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"contactTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Contact Types [GET /research-sys/api/v1/contact-types/]
+### Get All Contact Types [GET /award/api/v1/contact-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"contactTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Contact Types with Filtering [GET /research-sys/api/v1/contact-types/]
+### Get All Contact Types with Filtering [GET /award/api/v1/contact-types/]
     
 + Parameters
 
-        + contactTypeCode
-            + description
+    + contactTypeCode (optional) - Contact Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"contactTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Contact Types [GET /research-sys/api/v1/contact-types/]
+### Get Schema for Contact Types [GET /award/api/v1/contact-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["contactTypeCode","description"],"primaryKey":"contactTypeCode"}
 		
-### Get Blueprint API specification for Contact Types [GET /research-sys/api/v1/contact-types/]
+### Get Blueprint API specification for Contact Types [GET /award/api/v1/contact-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Contact Types [PUT /research-sys/api/v1/contact-types/(key)]
+### Update Contact Types [PUT /award/api/v1/contact-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Contact Types [PUT /research-sys/api/v1/contact-types/]
+### Update Multiple Contact Types [PUT /award/api/v1/contact-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Contact Types [POST /research-sys/api/v1/contact-types/]
+### Insert Contact Types [POST /award/api/v1/contact-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"contactTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Contact Types [POST /research-sys/api/v1/contact-types/]
+### Insert Multiple Contact Types [POST /award/api/v1/contact-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"contactTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Contact Types by Key [DELETE /research-sys/api/v1/contact-types/(key)]
+### Delete Contact Types by Key [DELETE /award/api/v1/contact-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Contact Types [DELETE /research-sys/api/v1/contact-types/]
+### Delete All Contact Types [DELETE /award/api/v1/contact-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Contact Types with Matching [DELETE /research-sys/api/v1/contact-types/]
+### Delete All Contact Types with Matching [DELETE /award/api/v1/contact-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + contactTypeCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + contactTypeCode (optional) - Contact Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

@@ -1,6 +1,6 @@
-## Financial Indirect Cost Recovery Type Codes [/research-sys/api/v1/financial-indirect-cost-recovery-type-codes/]
+## Financial Indirect Cost Recovery Type Codes [/award/api/v1/financial-indirect-cost-recovery-type-codes/]
 
-### Get Financial Indirect Cost Recovery Type Codes by Key [GET /research-sys/api/v1/financial-indirect-cost-recovery-type-codes/(key)]
+### Get Financial Indirect Cost Recovery Type Codes by Key [GET /award/api/v1/financial-indirect-cost-recovery-type-codes/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"icrTypeCode": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","_primaryKey": "(val)"}
 
-### Get All Financial Indirect Cost Recovery Type Codes [GET /research-sys/api/v1/financial-indirect-cost-recovery-type-codes/]
+### Get All Financial Indirect Cost Recovery Type Codes [GET /award/api/v1/financial-indirect-cost-recovery-type-codes/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"icrTypeCode": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Financial Indirect Cost Recovery Type Codes with Filtering [GET /research-sys/api/v1/financial-indirect-cost-recovery-type-codes/]
+### Get All Financial Indirect Cost Recovery Type Codes with Filtering [GET /award/api/v1/financial-indirect-cost-recovery-type-codes/]
     
 + Parameters
 
-        + icrTypeCode
-            + rateClassCode
-            + rateTypeCode
+    + icrTypeCode (optional) - Icr Type Code. Maximum length is 8.
+    + rateClassCode (optional) - Rate Class Code. Maximum length is 3.
+    + rateTypeCode (optional) - Rate Type Code. Maximum length is 3.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"icrTypeCode": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Financial Indirect Cost Recovery Type Codes [GET /research-sys/api/v1/financial-indirect-cost-recovery-type-codes/]
+### Get Schema for Financial Indirect Cost Recovery Type Codes [GET /award/api/v1/financial-indirect-cost-recovery-type-codes/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["icrTypeCode","rateClassCode","rateTypeCode"],"primaryKey":"rateClassCode:rateTypeCode"}
 		
-### Get Blueprint API specification for Financial Indirect Cost Recovery Type Codes [GET /research-sys/api/v1/financial-indirect-cost-recovery-type-codes/]
+### Get Blueprint API specification for Financial Indirect Cost Recovery Type Codes [GET /award/api/v1/financial-indirect-cost-recovery-type-codes/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Financial Indirect Cost Recovery Type Codes [PUT /research-sys/api/v1/financial-indirect-cost-recovery-type-codes/(key)]
+### Update Financial Indirect Cost Recovery Type Codes [PUT /award/api/v1/financial-indirect-cost-recovery-type-codes/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Financial Indirect Cost Recovery Type Codes [PUT /research-sys/api/v1/financial-indirect-cost-recovery-type-codes/]
+### Update Multiple Financial Indirect Cost Recovery Type Codes [PUT /award/api/v1/financial-indirect-cost-recovery-type-codes/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Financial Indirect Cost Recovery Type Codes [POST /research-sys/api/v1/financial-indirect-cost-recovery-type-codes/]
+### Insert Financial Indirect Cost Recovery Type Codes [POST /award/api/v1/financial-indirect-cost-recovery-type-codes/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"icrTypeCode": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Financial Indirect Cost Recovery Type Codes [POST /research-sys/api/v1/financial-indirect-cost-recovery-type-codes/]
+### Insert Multiple Financial Indirect Cost Recovery Type Codes [POST /award/api/v1/financial-indirect-cost-recovery-type-codes/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"icrTypeCode": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Financial Indirect Cost Recovery Type Codes by Key [DELETE /research-sys/api/v1/financial-indirect-cost-recovery-type-codes/(key)]
+### Delete Financial Indirect Cost Recovery Type Codes by Key [DELETE /award/api/v1/financial-indirect-cost-recovery-type-codes/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Financial Indirect Cost Recovery Type Codes [DELETE /research-sys/api/v1/financial-indirect-cost-recovery-type-codes/]
+### Delete All Financial Indirect Cost Recovery Type Codes [DELETE /award/api/v1/financial-indirect-cost-recovery-type-codes/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Financial Indirect Cost Recovery Type Codes with Matching [DELETE /research-sys/api/v1/financial-indirect-cost-recovery-type-codes/]
+### Delete All Financial Indirect Cost Recovery Type Codes with Matching [DELETE /award/api/v1/financial-indirect-cost-recovery-type-codes/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + icrTypeCode
-            + rateClassCode
-            + rateTypeCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + icrTypeCode (optional) - Icr Type Code. Maximum length is 8.
+    + rateClassCode (optional) - Rate Class Code. Maximum length is 3.
+    + rateTypeCode (optional) - Rate Type Code. Maximum length is 3.
 
       
 + Request

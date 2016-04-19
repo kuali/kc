@@ -43,10 +43,10 @@
     
 + Parameters
 
-        + id
-            + name
-            + xmlContent
-            + active
+    + id (optional) - Id. Maximum length is 30.
+    + name (optional) - Style Name. Maximum length is 2000.
+    + xmlContent (optional) - XML Content. Maximum length is 250.
+    + active (optional) - active. Maximum length is 50.
 
             
 + Request
@@ -218,11 +218,11 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + name
-            + xmlContent
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Id. Maximum length is 30.
+    + name (optional) - Style Name. Maximum length is 2000.
+    + xmlContent (optional) - XML Content. Maximum length is 250.
+    + active (optional) - active. Maximum length is 50.
 
       
 + Request

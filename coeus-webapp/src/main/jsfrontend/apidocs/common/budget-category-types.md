@@ -1,6 +1,6 @@
-## Budget Category Types [/research-sys/api/v1/budget-category-types/]
+## Budget Category Types [/research-common/api/v1/budget-category-types/]
 
-### Get Budget Category Types by Key [GET /research-sys/api/v1/budget-category-types/(key)]
+### Get Budget Category Types by Key [GET /research-common/api/v1/budget-category-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"code": "(val)","description": "(val)","sortId": "(val)","_primaryKey": "(val)"}
 
-### Get All Budget Category Types [GET /research-sys/api/v1/budget-category-types/]
+### Get All Budget Category Types [GET /research-common/api/v1/budget-category-types/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"code": "(val)","description": "(val)","sortId": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Budget Category Types with Filtering [GET /research-sys/api/v1/budget-category-types/]
+### Get All Budget Category Types with Filtering [GET /research-common/api/v1/budget-category-types/]
     
 + Parameters
 
-        + code
-            + description
-            + sortId
+    + code (optional) - Budget Category Type. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + sortId (optional) - This sort id is used for sorting budget category. Maximum length is 2.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"code": "(val)","description": "(val)","sortId": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Budget Category Types [GET /research-sys/api/v1/budget-category-types/]
+### Get Schema for Budget Category Types [GET /research-common/api/v1/budget-category-types/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["code","description","sortId"],"primaryKey":"code"}
 		
-### Get Blueprint API specification for Budget Category Types [GET /research-sys/api/v1/budget-category-types/]
+### Get Blueprint API specification for Budget Category Types [GET /research-common/api/v1/budget-category-types/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Budget Category Types [PUT /research-sys/api/v1/budget-category-types/(key)]
+### Update Budget Category Types [PUT /research-common/api/v1/budget-category-types/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Budget Category Types [PUT /research-sys/api/v1/budget-category-types/]
+### Update Multiple Budget Category Types [PUT /research-common/api/v1/budget-category-types/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Budget Category Types [POST /research-sys/api/v1/budget-category-types/]
+### Insert Budget Category Types [POST /research-common/api/v1/budget-category-types/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"code": "(val)","description": "(val)","sortId": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Budget Category Types [POST /research-sys/api/v1/budget-category-types/]
+### Insert Multiple Budget Category Types [POST /research-common/api/v1/budget-category-types/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"code": "(val)","description": "(val)","sortId": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Budget Category Types by Key [DELETE /research-sys/api/v1/budget-category-types/(key)]
+### Delete Budget Category Types by Key [DELETE /research-common/api/v1/budget-category-types/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Budget Category Types [DELETE /research-sys/api/v1/budget-category-types/]
+### Delete All Budget Category Types [DELETE /research-common/api/v1/budget-category-types/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Budget Category Types with Matching [DELETE /research-sys/api/v1/budget-category-types/]
+### Delete All Budget Category Types with Matching [DELETE /research-common/api/v1/budget-category-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + code
-            + description
-            + sortId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + code (optional) - Budget Category Type. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + sortId (optional) - This sort id is used for sorting budget category. Maximum length is 2.
 
       
 + Request

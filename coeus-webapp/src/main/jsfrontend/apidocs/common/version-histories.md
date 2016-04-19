@@ -1,6 +1,6 @@
-## Version Histories [/research-sys/api/v1/version-histories/]
+## Version Histories [/research-common/api/v1/version-histories/]
 
-### Get Version Histories by Key [GET /research-sys/api/v1/version-histories/(key)]
+### Get Version Histories by Key [GET /research-common/api/v1/version-histories/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"versionHistoryId": "(val)","sequenceOwnerClassName": "(val)","sequenceOwnerVersionNameField": "(val)","sequenceOwnerVersionNameValue": "(val)","sequenceOwnerSequenceNumber": "(val)","statusForOjb": "(val)","userId": "(val)","versionDate": "(val)","_primaryKey": "(val)"}
 
-### Get All Version Histories [GET /research-sys/api/v1/version-histories/]
+### Get All Version Histories [GET /research-common/api/v1/version-histories/]
 	 
 + Request
 
@@ -39,18 +39,18 @@
               {"versionHistoryId": "(val)","sequenceOwnerClassName": "(val)","sequenceOwnerVersionNameField": "(val)","sequenceOwnerVersionNameValue": "(val)","sequenceOwnerSequenceNumber": "(val)","statusForOjb": "(val)","userId": "(val)","versionDate": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Version Histories with Filtering [GET /research-sys/api/v1/version-histories/]
+### Get All Version Histories with Filtering [GET /research-common/api/v1/version-histories/]
     
 + Parameters
 
-        + versionHistoryId
-            + sequenceOwnerClassName
-            + sequenceOwnerVersionNameField
-            + sequenceOwnerVersionNameValue
-            + sequenceOwnerSequenceNumber
-            + statusForOjb
-            + userId
-            + versionDate
+    + versionHistoryId (optional) - 
+    + sequenceOwnerClassName (optional) - 
+    + sequenceOwnerVersionNameField (optional) - 
+    + sequenceOwnerVersionNameValue (optional) - 
+    + sequenceOwnerSequenceNumber (optional) - 
+    + statusForOjb (optional) - 
+    + userId (optional) - 
+    + versionDate (optional) - 
 
             
 + Request
@@ -72,7 +72,7 @@
               {"versionHistoryId": "(val)","sequenceOwnerClassName": "(val)","sequenceOwnerVersionNameField": "(val)","sequenceOwnerVersionNameValue": "(val)","sequenceOwnerSequenceNumber": "(val)","statusForOjb": "(val)","userId": "(val)","versionDate": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Version Histories [GET /research-sys/api/v1/version-histories/]
+### Get Schema for Version Histories [GET /research-common/api/v1/version-histories/]
 	                                          
 + Parameters
 
@@ -94,7 +94,7 @@
     
             {"columns":["versionHistoryId","sequenceOwnerClassName","sequenceOwnerVersionNameField","sequenceOwnerVersionNameValue","sequenceOwnerSequenceNumber","statusForOjb","userId","versionDate"],"primaryKey":"versionHistoryId"}
 		
-### Get Blueprint API specification for Version Histories [GET /research-sys/api/v1/version-histories/]
+### Get Blueprint API specification for Version Histories [GET /research-common/api/v1/version-histories/]
 	 
 + Parameters
 
@@ -115,7 +115,7 @@
             transfer-encoding:chunked
 
 
-### Update Version Histories [PUT /research-sys/api/v1/version-histories/(key)]
+### Update Version Histories [PUT /research-common/api/v1/version-histories/(key)]
 
 + Request
 
@@ -130,7 +130,7 @@
 			
 + Response 204
 
-### Update Multiple Version Histories [PUT /research-sys/api/v1/version-histories/]
+### Update Multiple Version Histories [PUT /research-common/api/v1/version-histories/]
 
 + Request
 
@@ -148,7 +148,7 @@
 			
 + Response 204
 
-### Insert Version Histories [POST /research-sys/api/v1/version-histories/]
+### Insert Version Histories [POST /research-common/api/v1/version-histories/]
 
 + Request
 
@@ -167,7 +167,7 @@
             
             {"versionHistoryId": "(val)","sequenceOwnerClassName": "(val)","sequenceOwnerVersionNameField": "(val)","sequenceOwnerVersionNameValue": "(val)","sequenceOwnerSequenceNumber": "(val)","statusForOjb": "(val)","userId": "(val)","versionDate": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Version Histories [POST /research-sys/api/v1/version-histories/]
+### Insert Multiple Version Histories [POST /research-common/api/v1/version-histories/]
 
 + Request
 
@@ -192,7 +192,7 @@
               {"versionHistoryId": "(val)","sequenceOwnerClassName": "(val)","sequenceOwnerVersionNameField": "(val)","sequenceOwnerVersionNameValue": "(val)","sequenceOwnerSequenceNumber": "(val)","statusForOjb": "(val)","userId": "(val)","versionDate": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Version Histories by Key [DELETE /research-sys/api/v1/version-histories/(key)]
+### Delete Version Histories by Key [DELETE /research-common/api/v1/version-histories/(key)]
 	 
 + Request
 
@@ -203,7 +203,7 @@
 
 + Response 204
 
-### Delete All Version Histories [DELETE /research-sys/api/v1/version-histories/]
+### Delete All Version Histories [DELETE /research-common/api/v1/version-histories/]
 
 + Parameters
 
@@ -218,19 +218,19 @@
 
 + Response 204
 
-### Delete All Version Histories with Matching [DELETE /research-sys/api/v1/version-histories/]
+### Delete All Version Histories with Matching [DELETE /research-common/api/v1/version-histories/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + versionHistoryId
-            + sequenceOwnerClassName
-            + sequenceOwnerVersionNameField
-            + sequenceOwnerVersionNameValue
-            + sequenceOwnerSequenceNumber
-            + statusForOjb
-            + userId
-            + versionDate
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + versionHistoryId (optional) - 
+    + sequenceOwnerClassName (optional) - 
+    + sequenceOwnerVersionNameField (optional) - 
+    + sequenceOwnerVersionNameValue (optional) - 
+    + sequenceOwnerSequenceNumber (optional) - 
+    + statusForOjb (optional) - 
+    + userId (optional) - 
+    + versionDate (optional) - 
 
       
 + Request

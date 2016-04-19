@@ -1,6 +1,6 @@
-## Custom Report Types [/research-sys/api/v1/custom-report-types/]
+## Custom Report Types [/research-common/api/v1/custom-report-types/]
 
-### Get Custom Report Types by Key [GET /research-sys/api/v1/custom-report-types/(key)]
+### Get Custom Report Types by Key [GET /research-common/api/v1/custom-report-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"reportTypeCode": "(val)","reportTypeDesc": "(val)","_primaryKey": "(val)"}
 
-### Get All Custom Report Types [GET /research-sys/api/v1/custom-report-types/]
+### Get All Custom Report Types [GET /research-common/api/v1/custom-report-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"reportTypeCode": "(val)","reportTypeDesc": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Custom Report Types with Filtering [GET /research-sys/api/v1/custom-report-types/]
+### Get All Custom Report Types with Filtering [GET /research-common/api/v1/custom-report-types/]
     
 + Parameters
 
-        + reportTypeCode
-            + reportTypeDesc
+    + reportTypeCode (optional) - Report Type Code. Maximum length is 3.
+    + reportTypeDesc (optional) - Report Type Desc. Maximum length is 50.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"reportTypeCode": "(val)","reportTypeDesc": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Custom Report Types [GET /research-sys/api/v1/custom-report-types/]
+### Get Schema for Custom Report Types [GET /research-common/api/v1/custom-report-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["reportTypeCode","reportTypeDesc"],"primaryKey":"reportTypeCode"}
 		
-### Get Blueprint API specification for Custom Report Types [GET /research-sys/api/v1/custom-report-types/]
+### Get Blueprint API specification for Custom Report Types [GET /research-common/api/v1/custom-report-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Custom Report Types [PUT /research-sys/api/v1/custom-report-types/(key)]
+### Update Custom Report Types [PUT /research-common/api/v1/custom-report-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Custom Report Types [PUT /research-sys/api/v1/custom-report-types/]
+### Update Multiple Custom Report Types [PUT /research-common/api/v1/custom-report-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Custom Report Types [POST /research-sys/api/v1/custom-report-types/]
+### Insert Custom Report Types [POST /research-common/api/v1/custom-report-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"reportTypeCode": "(val)","reportTypeDesc": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Custom Report Types [POST /research-sys/api/v1/custom-report-types/]
+### Insert Multiple Custom Report Types [POST /research-common/api/v1/custom-report-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"reportTypeCode": "(val)","reportTypeDesc": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Custom Report Types by Key [DELETE /research-sys/api/v1/custom-report-types/(key)]
+### Delete Custom Report Types by Key [DELETE /research-common/api/v1/custom-report-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Custom Report Types [DELETE /research-sys/api/v1/custom-report-types/]
+### Delete All Custom Report Types [DELETE /research-common/api/v1/custom-report-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Custom Report Types with Matching [DELETE /research-sys/api/v1/custom-report-types/]
+### Delete All Custom Report Types with Matching [DELETE /research-common/api/v1/custom-report-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + reportTypeCode
-            + reportTypeDesc
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + reportTypeCode (optional) - Report Type Code. Maximum length is 3.
+    + reportTypeDesc (optional) - Report Type Desc. Maximum length is 50.
 
       
 + Request

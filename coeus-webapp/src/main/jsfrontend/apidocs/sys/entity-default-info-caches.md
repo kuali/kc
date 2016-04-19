@@ -43,18 +43,18 @@
     
 + Parameters
 
-        + principalId
-            + principalName
-            + entityId
-            + entityTypeCode
-            + firstName
-            + middleName
-            + lastName
-            + name
-            + campusCode
-            + primaryDepartmentCode
-            + employeeId
-            + lastUpdateTimestamp
+    + principalId (optional) - 
+    + principalName (optional) - 
+    + entityId (optional) - 
+    + entityTypeCode (optional) - 
+    + firstName (optional) - 
+    + middleName (optional) - 
+    + lastName (optional) - 
+    + name (optional) - 
+    + campusCode (optional) - 
+    + primaryDepartmentCode (optional) - 
+    + employeeId (optional) - 
+    + lastUpdateTimestamp (optional) - 
 
             
 + Request
@@ -226,19 +226,19 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + principalId
-            + principalName
-            + entityId
-            + entityTypeCode
-            + firstName
-            + middleName
-            + lastName
-            + name
-            + campusCode
-            + primaryDepartmentCode
-            + employeeId
-            + lastUpdateTimestamp
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + principalId (optional) - 
+    + principalName (optional) - 
+    + entityId (optional) - 
+    + entityTypeCode (optional) - 
+    + firstName (optional) - 
+    + middleName (optional) - 
+    + lastName (optional) - 
+    + name (optional) - 
+    + campusCode (optional) - 
+    + primaryDepartmentCode (optional) - 
+    + employeeId (optional) - 
+    + lastUpdateTimestamp (optional) - 
 
       
 + Request

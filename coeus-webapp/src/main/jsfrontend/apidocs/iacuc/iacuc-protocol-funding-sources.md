@@ -1,6 +1,6 @@
-## Iacuc Protocol Funding Sources [/research-sys/api/v1/iacuc-protocol-funding-sources/]
+## Iacuc Protocol Funding Sources [/iacuc/api/v1/iacuc-protocol-funding-sources/]
 
-### Get Iacuc Protocol Funding Sources by Key [GET /research-sys/api/v1/iacuc-protocol-funding-sources/(key)]
+### Get Iacuc Protocol Funding Sources by Key [GET /iacuc/api/v1/iacuc-protocol-funding-sources/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"protocolFundingSourceId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","fundingSourceTypeCode": "(val)","fundingSourceNumber": "(val)","fundingSourceName": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Protocol Funding Sources [GET /research-sys/api/v1/iacuc-protocol-funding-sources/]
+### Get All Iacuc Protocol Funding Sources [GET /iacuc/api/v1/iacuc-protocol-funding-sources/]
 	 
 + Request
 
@@ -39,17 +39,17 @@
               {"protocolFundingSourceId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","fundingSourceTypeCode": "(val)","fundingSourceNumber": "(val)","fundingSourceName": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Protocol Funding Sources with Filtering [GET /research-sys/api/v1/iacuc-protocol-funding-sources/]
+### Get All Iacuc Protocol Funding Sources with Filtering [GET /iacuc/api/v1/iacuc-protocol-funding-sources/]
     
 + Parameters
 
-        + protocolFundingSourceId
-            + protocolId
-            + protocolNumber
-            + sequenceNumber
-            + fundingSourceTypeCode
-            + fundingSourceNumber
-            + fundingSourceName
+    + protocolFundingSourceId (optional) - Protocol Funding Source Id. Maximum length is 12.
+    + protocolId (optional) - Protocol Id. Maximum length is 12.
+    + protocolNumber (optional) - Protocol Number. Maximum length is 20.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 4.
+    + fundingSourceTypeCode (optional) - Funding Source Type Code. Maximum length is 22.
+    + fundingSourceNumber (optional) - Funding Source Number. Maximum length is 200.
+    + fundingSourceName (optional) - Funding Source Name. Maximum length is 200.
 
             
 + Request
@@ -71,7 +71,7 @@
               {"protocolFundingSourceId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","fundingSourceTypeCode": "(val)","fundingSourceNumber": "(val)","fundingSourceName": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Protocol Funding Sources [GET /research-sys/api/v1/iacuc-protocol-funding-sources/]
+### Get Schema for Iacuc Protocol Funding Sources [GET /iacuc/api/v1/iacuc-protocol-funding-sources/]
 	                                          
 + Parameters
 
@@ -93,7 +93,7 @@
     
             {"columns":["protocolFundingSourceId","protocolId","protocolNumber","sequenceNumber","fundingSourceTypeCode","fundingSourceNumber","fundingSourceName"],"primaryKey":"protocolFundingSourceId"}
 		
-### Get Blueprint API specification for Iacuc Protocol Funding Sources [GET /research-sys/api/v1/iacuc-protocol-funding-sources/]
+### Get Blueprint API specification for Iacuc Protocol Funding Sources [GET /iacuc/api/v1/iacuc-protocol-funding-sources/]
 	 
 + Parameters
 
@@ -114,7 +114,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Protocol Funding Sources [PUT /research-sys/api/v1/iacuc-protocol-funding-sources/(key)]
+### Update Iacuc Protocol Funding Sources [PUT /iacuc/api/v1/iacuc-protocol-funding-sources/(key)]
 
 + Request
 
@@ -129,7 +129,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Protocol Funding Sources [PUT /research-sys/api/v1/iacuc-protocol-funding-sources/]
+### Update Multiple Iacuc Protocol Funding Sources [PUT /iacuc/api/v1/iacuc-protocol-funding-sources/]
 
 + Request
 
@@ -147,7 +147,7 @@
 			
 + Response 204
 
-### Insert Iacuc Protocol Funding Sources [POST /research-sys/api/v1/iacuc-protocol-funding-sources/]
+### Insert Iacuc Protocol Funding Sources [POST /iacuc/api/v1/iacuc-protocol-funding-sources/]
 
 + Request
 
@@ -166,7 +166,7 @@
             
             {"protocolFundingSourceId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","fundingSourceTypeCode": "(val)","fundingSourceNumber": "(val)","fundingSourceName": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Protocol Funding Sources [POST /research-sys/api/v1/iacuc-protocol-funding-sources/]
+### Insert Multiple Iacuc Protocol Funding Sources [POST /iacuc/api/v1/iacuc-protocol-funding-sources/]
 
 + Request
 
@@ -191,7 +191,7 @@
               {"protocolFundingSourceId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","fundingSourceTypeCode": "(val)","fundingSourceNumber": "(val)","fundingSourceName": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Protocol Funding Sources by Key [DELETE /research-sys/api/v1/iacuc-protocol-funding-sources/(key)]
+### Delete Iacuc Protocol Funding Sources by Key [DELETE /iacuc/api/v1/iacuc-protocol-funding-sources/(key)]
 	 
 + Request
 
@@ -202,7 +202,7 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Funding Sources [DELETE /research-sys/api/v1/iacuc-protocol-funding-sources/]
+### Delete All Iacuc Protocol Funding Sources [DELETE /iacuc/api/v1/iacuc-protocol-funding-sources/]
 
 + Parameters
 
@@ -217,18 +217,18 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Funding Sources with Matching [DELETE /research-sys/api/v1/iacuc-protocol-funding-sources/]
+### Delete All Iacuc Protocol Funding Sources with Matching [DELETE /iacuc/api/v1/iacuc-protocol-funding-sources/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + protocolFundingSourceId
-            + protocolId
-            + protocolNumber
-            + sequenceNumber
-            + fundingSourceTypeCode
-            + fundingSourceNumber
-            + fundingSourceName
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + protocolFundingSourceId (optional) - Protocol Funding Source Id. Maximum length is 12.
+    + protocolId (optional) - Protocol Id. Maximum length is 12.
+    + protocolNumber (optional) - Protocol Number. Maximum length is 20.
+    + sequenceNumber (optional) - Sequence Number. Maximum length is 4.
+    + fundingSourceTypeCode (optional) - Funding Source Type Code. Maximum length is 22.
+    + fundingSourceNumber (optional) - Funding Source Number. Maximum length is 200.
+    + fundingSourceName (optional) - Funding Source Name. Maximum length is 200.
 
       
 + Request

@@ -43,14 +43,14 @@
     
 + Parameters
 
-        + namespaceCode
-            + componentCode
-            + name
-            + applicationId
-            + value
-            + description
-            + parameterTypeCode
-            + evaluationOperatorCode
+    + namespaceCode (optional) - This value is used to categorize parameters by namespace. Maximum length is 20.
+    + componentCode (optional) - Code identifying the Component. Maximum length is 100.
+    + name (optional) - This will be used as the identifier for the parameter. Parameter                     values will be accessed using this field and the namespace as the key. Maximum length is 100.
+    + applicationId (optional) - This will be used as the identifier to determine which application the parameter is used by. Maximum length is 20.
+    + value (optional) - This field houses the actual value associated with the parameter. This                     is what's returned by the KualiConfigurationService. Maximum length is 4000.
+    + description (optional) - This field houses the purpose of this parameter. Maximum length is 4000.
+    + parameterTypeCode (optional) - Code identifying the parameter type. Maximum length is 5.
+    + evaluationOperatorCode (optional) - evaluationOperatorCode description... Maximum length is 1.
 
             
 + Request
@@ -222,15 +222,15 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + namespaceCode
-            + componentCode
-            + name
-            + applicationId
-            + value
-            + description
-            + parameterTypeCode
-            + evaluationOperatorCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + namespaceCode (optional) - This value is used to categorize parameters by namespace. Maximum length is 20.
+    + componentCode (optional) - Code identifying the Component. Maximum length is 100.
+    + name (optional) - This will be used as the identifier for the parameter. Parameter                     values will be accessed using this field and the namespace as the key. Maximum length is 100.
+    + applicationId (optional) - This will be used as the identifier to determine which application the parameter is used by. Maximum length is 20.
+    + value (optional) - This field houses the actual value associated with the parameter. This                     is what's returned by the KualiConfigurationService. Maximum length is 4000.
+    + description (optional) - This field houses the purpose of this parameter. Maximum length is 4000.
+    + parameterTypeCode (optional) - Code identifying the parameter type. Maximum length is 5.
+    + evaluationOperatorCode (optional) - evaluationOperatorCode description... Maximum length is 1.
 
       
 + Request

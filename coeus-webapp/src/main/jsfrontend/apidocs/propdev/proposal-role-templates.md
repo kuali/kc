@@ -1,6 +1,6 @@
-## Proposal Role Templates [/research-sys/api/v1/proposal-role-templates/]
+## Proposal Role Templates [/propdev/api/v1/proposal-role-templates/]
 
-### Get Proposal Role Templates by Key [GET /research-sys/api/v1/proposal-role-templates/(key)]
+### Get Proposal Role Templates by Key [GET /propdev/api/v1/proposal-role-templates/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"id": "(val)","personId": "(val)","roleName": "(val)","unitNumber": "(val)","active": "(val)","_primaryKey": "(val)"}
 
-### Get All Proposal Role Templates [GET /research-sys/api/v1/proposal-role-templates/]
+### Get All Proposal Role Templates [GET /propdev/api/v1/proposal-role-templates/]
 	 
 + Request
 
@@ -39,15 +39,15 @@
               {"id": "(val)","personId": "(val)","roleName": "(val)","unitNumber": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Proposal Role Templates with Filtering [GET /research-sys/api/v1/proposal-role-templates/]
+### Get All Proposal Role Templates with Filtering [GET /propdev/api/v1/proposal-role-templates/]
     
 + Parameters
 
-        + id
-            + personId
-            + roleName
-            + unitNumber
-            + active
+    + id (optional) - Id. Maximum length is 8.
+    + personId (optional) - KcPerson Id. Maximum length is 40.
+    + roleName (optional) - Role Name. Maximum length is 500.
+    + unitNumber (optional) - Unit Number. Maximum length is 8.
+    + active (optional) - Active. Maximum length is 1.
 
             
 + Request
@@ -69,7 +69,7 @@
               {"id": "(val)","personId": "(val)","roleName": "(val)","unitNumber": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Proposal Role Templates [GET /research-sys/api/v1/proposal-role-templates/]
+### Get Schema for Proposal Role Templates [GET /propdev/api/v1/proposal-role-templates/]
 	                                          
 + Parameters
 
@@ -91,7 +91,7 @@
     
             {"columns":["id","personId","roleName","unitNumber","active"],"primaryKey":"id"}
 		
-### Get Blueprint API specification for Proposal Role Templates [GET /research-sys/api/v1/proposal-role-templates/]
+### Get Blueprint API specification for Proposal Role Templates [GET /propdev/api/v1/proposal-role-templates/]
 	 
 + Parameters
 
@@ -112,7 +112,7 @@
             transfer-encoding:chunked
 
 
-### Update Proposal Role Templates [PUT /research-sys/api/v1/proposal-role-templates/(key)]
+### Update Proposal Role Templates [PUT /propdev/api/v1/proposal-role-templates/(key)]
 
 + Request
 
@@ -127,7 +127,7 @@
 			
 + Response 204
 
-### Update Multiple Proposal Role Templates [PUT /research-sys/api/v1/proposal-role-templates/]
+### Update Multiple Proposal Role Templates [PUT /propdev/api/v1/proposal-role-templates/]
 
 + Request
 
@@ -145,7 +145,7 @@
 			
 + Response 204
 
-### Insert Proposal Role Templates [POST /research-sys/api/v1/proposal-role-templates/]
+### Insert Proposal Role Templates [POST /propdev/api/v1/proposal-role-templates/]
 
 + Request
 
@@ -164,7 +164,7 @@
             
             {"id": "(val)","personId": "(val)","roleName": "(val)","unitNumber": "(val)","active": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Proposal Role Templates [POST /research-sys/api/v1/proposal-role-templates/]
+### Insert Multiple Proposal Role Templates [POST /propdev/api/v1/proposal-role-templates/]
 
 + Request
 
@@ -189,7 +189,7 @@
               {"id": "(val)","personId": "(val)","roleName": "(val)","unitNumber": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Proposal Role Templates by Key [DELETE /research-sys/api/v1/proposal-role-templates/(key)]
+### Delete Proposal Role Templates by Key [DELETE /propdev/api/v1/proposal-role-templates/(key)]
 	 
 + Request
 
@@ -200,7 +200,7 @@
 
 + Response 204
 
-### Delete All Proposal Role Templates [DELETE /research-sys/api/v1/proposal-role-templates/]
+### Delete All Proposal Role Templates [DELETE /propdev/api/v1/proposal-role-templates/]
 
 + Parameters
 
@@ -215,16 +215,16 @@
 
 + Response 204
 
-### Delete All Proposal Role Templates with Matching [DELETE /research-sys/api/v1/proposal-role-templates/]
+### Delete All Proposal Role Templates with Matching [DELETE /propdev/api/v1/proposal-role-templates/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + personId
-            + roleName
-            + unitNumber
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Id. Maximum length is 8.
+    + personId (optional) - KcPerson Id. Maximum length is 40.
+    + roleName (optional) - Role Name. Maximum length is 500.
+    + unitNumber (optional) - Unit Number. Maximum length is 8.
+    + active (optional) - Active. Maximum length is 1.
 
       
 + Request

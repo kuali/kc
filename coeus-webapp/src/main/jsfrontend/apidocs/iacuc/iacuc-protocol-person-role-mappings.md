@@ -1,6 +1,6 @@
-## Iacuc Protocol Person Role Mappings [/research-sys/api/v1/iacuc-protocol-person-role-mappings/]
+## Iacuc Protocol Person Role Mappings [/iacuc/api/v1/iacuc-protocol-person-role-mappings/]
 
-### Get Iacuc Protocol Person Role Mappings by Key [GET /research-sys/api/v1/iacuc-protocol-person-role-mappings/(key)]
+### Get Iacuc Protocol Person Role Mappings by Key [GET /iacuc/api/v1/iacuc-protocol-person-role-mappings/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"roleMappingId": "(val)","sourceRoleId": "(val)","targetRoleId": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Protocol Person Role Mappings [GET /research-sys/api/v1/iacuc-protocol-person-role-mappings/]
+### Get All Iacuc Protocol Person Role Mappings [GET /iacuc/api/v1/iacuc-protocol-person-role-mappings/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"roleMappingId": "(val)","sourceRoleId": "(val)","targetRoleId": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Protocol Person Role Mappings with Filtering [GET /research-sys/api/v1/iacuc-protocol-person-role-mappings/]
+### Get All Iacuc Protocol Person Role Mappings with Filtering [GET /iacuc/api/v1/iacuc-protocol-person-role-mappings/]
     
 + Parameters
 
-        + roleMappingId
-            + sourceRoleId
-            + targetRoleId
+    + roleMappingId (optional) - 
+    + sourceRoleId (optional) - 
+    + targetRoleId (optional) - 
 
             
 + Request
@@ -67,7 +67,7 @@
               {"roleMappingId": "(val)","sourceRoleId": "(val)","targetRoleId": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Protocol Person Role Mappings [GET /research-sys/api/v1/iacuc-protocol-person-role-mappings/]
+### Get Schema for Iacuc Protocol Person Role Mappings [GET /iacuc/api/v1/iacuc-protocol-person-role-mappings/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["roleMappingId","sourceRoleId","targetRoleId"],"primaryKey":"roleMappingId"}
 		
-### Get Blueprint API specification for Iacuc Protocol Person Role Mappings [GET /research-sys/api/v1/iacuc-protocol-person-role-mappings/]
+### Get Blueprint API specification for Iacuc Protocol Person Role Mappings [GET /iacuc/api/v1/iacuc-protocol-person-role-mappings/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Protocol Person Role Mappings [PUT /research-sys/api/v1/iacuc-protocol-person-role-mappings/(key)]
+### Update Iacuc Protocol Person Role Mappings [PUT /iacuc/api/v1/iacuc-protocol-person-role-mappings/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Protocol Person Role Mappings [PUT /research-sys/api/v1/iacuc-protocol-person-role-mappings/]
+### Update Multiple Iacuc Protocol Person Role Mappings [PUT /iacuc/api/v1/iacuc-protocol-person-role-mappings/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Iacuc Protocol Person Role Mappings [POST /research-sys/api/v1/iacuc-protocol-person-role-mappings/]
+### Insert Iacuc Protocol Person Role Mappings [POST /iacuc/api/v1/iacuc-protocol-person-role-mappings/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"roleMappingId": "(val)","sourceRoleId": "(val)","targetRoleId": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Protocol Person Role Mappings [POST /research-sys/api/v1/iacuc-protocol-person-role-mappings/]
+### Insert Multiple Iacuc Protocol Person Role Mappings [POST /iacuc/api/v1/iacuc-protocol-person-role-mappings/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"roleMappingId": "(val)","sourceRoleId": "(val)","targetRoleId": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Protocol Person Role Mappings by Key [DELETE /research-sys/api/v1/iacuc-protocol-person-role-mappings/(key)]
+### Delete Iacuc Protocol Person Role Mappings by Key [DELETE /iacuc/api/v1/iacuc-protocol-person-role-mappings/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Person Role Mappings [DELETE /research-sys/api/v1/iacuc-protocol-person-role-mappings/]
+### Delete All Iacuc Protocol Person Role Mappings [DELETE /iacuc/api/v1/iacuc-protocol-person-role-mappings/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Person Role Mappings with Matching [DELETE /research-sys/api/v1/iacuc-protocol-person-role-mappings/]
+### Delete All Iacuc Protocol Person Role Mappings with Matching [DELETE /iacuc/api/v1/iacuc-protocol-person-role-mappings/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + roleMappingId
-            + sourceRoleId
-            + targetRoleId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + roleMappingId (optional) - 
+    + sourceRoleId (optional) - 
+    + targetRoleId (optional) - 
 
       
 + Request

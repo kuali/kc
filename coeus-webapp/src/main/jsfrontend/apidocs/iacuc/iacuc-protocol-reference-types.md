@@ -1,6 +1,6 @@
-## Iacuc Protocol Reference Types [/research-sys/api/v1/iacuc-protocol-reference-types/]
+## Iacuc Protocol Reference Types [/iacuc/api/v1/iacuc-protocol-reference-types/]
 
-### Get Iacuc Protocol Reference Types by Key [GET /research-sys/api/v1/iacuc-protocol-reference-types/(key)]
+### Get Iacuc Protocol Reference Types by Key [GET /iacuc/api/v1/iacuc-protocol-reference-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"protocolReferenceTypeCode": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Protocol Reference Types [GET /research-sys/api/v1/iacuc-protocol-reference-types/]
+### Get All Iacuc Protocol Reference Types [GET /iacuc/api/v1/iacuc-protocol-reference-types/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"protocolReferenceTypeCode": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Protocol Reference Types with Filtering [GET /research-sys/api/v1/iacuc-protocol-reference-types/]
+### Get All Iacuc Protocol Reference Types with Filtering [GET /iacuc/api/v1/iacuc-protocol-reference-types/]
     
 + Parameters
 
-        + protocolReferenceTypeCode
-            + description
-            + active
+    + protocolReferenceTypeCode (optional) - Protocol Reference Type Code. Maximum length is 22.
+    + description (optional) - Description. Maximum length is 200.
+    + active (optional) - 
 
             
 + Request
@@ -67,7 +67,7 @@
               {"protocolReferenceTypeCode": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Protocol Reference Types [GET /research-sys/api/v1/iacuc-protocol-reference-types/]
+### Get Schema for Iacuc Protocol Reference Types [GET /iacuc/api/v1/iacuc-protocol-reference-types/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["protocolReferenceTypeCode","description","active"],"primaryKey":"protocolReferenceTypeCode"}
 		
-### Get Blueprint API specification for Iacuc Protocol Reference Types [GET /research-sys/api/v1/iacuc-protocol-reference-types/]
+### Get Blueprint API specification for Iacuc Protocol Reference Types [GET /iacuc/api/v1/iacuc-protocol-reference-types/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Protocol Reference Types [PUT /research-sys/api/v1/iacuc-protocol-reference-types/(key)]
+### Update Iacuc Protocol Reference Types [PUT /iacuc/api/v1/iacuc-protocol-reference-types/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Protocol Reference Types [PUT /research-sys/api/v1/iacuc-protocol-reference-types/]
+### Update Multiple Iacuc Protocol Reference Types [PUT /iacuc/api/v1/iacuc-protocol-reference-types/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Iacuc Protocol Reference Types [POST /research-sys/api/v1/iacuc-protocol-reference-types/]
+### Insert Iacuc Protocol Reference Types [POST /iacuc/api/v1/iacuc-protocol-reference-types/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"protocolReferenceTypeCode": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Protocol Reference Types [POST /research-sys/api/v1/iacuc-protocol-reference-types/]
+### Insert Multiple Iacuc Protocol Reference Types [POST /iacuc/api/v1/iacuc-protocol-reference-types/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"protocolReferenceTypeCode": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Protocol Reference Types by Key [DELETE /research-sys/api/v1/iacuc-protocol-reference-types/(key)]
+### Delete Iacuc Protocol Reference Types by Key [DELETE /iacuc/api/v1/iacuc-protocol-reference-types/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Reference Types [DELETE /research-sys/api/v1/iacuc-protocol-reference-types/]
+### Delete All Iacuc Protocol Reference Types [DELETE /iacuc/api/v1/iacuc-protocol-reference-types/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Reference Types with Matching [DELETE /research-sys/api/v1/iacuc-protocol-reference-types/]
+### Delete All Iacuc Protocol Reference Types with Matching [DELETE /iacuc/api/v1/iacuc-protocol-reference-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + protocolReferenceTypeCode
-            + description
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + protocolReferenceTypeCode (optional) - Protocol Reference Type Code. Maximum length is 22.
+    + description (optional) - Description. Maximum length is 200.
+    + active (optional) - 
 
       
 + Request

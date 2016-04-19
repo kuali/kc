@@ -1,6 +1,6 @@
-## Proposal Sites [/research-sys/api/v1/proposal-sites/]
+## Proposal Sites [/propdev/api/v1/proposal-sites/]
 
-### Get Proposal Sites by Key [GET /research-sys/api/v1/proposal-sites/(key)]
+### Get Proposal Sites by Key [GET /propdev/api/v1/proposal-sites/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"siteNumber": "(val)","locationName": "(val)","locationTypeCode": "(val)","organizationId": "(val)","rolodexId": "(val)","_primaryKey": "(val)"}
 
-### Get All Proposal Sites [GET /research-sys/api/v1/proposal-sites/]
+### Get All Proposal Sites [GET /propdev/api/v1/proposal-sites/]
 	 
 + Request
 
@@ -39,15 +39,15 @@
               {"siteNumber": "(val)","locationName": "(val)","locationTypeCode": "(val)","organizationId": "(val)","rolodexId": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Proposal Sites with Filtering [GET /research-sys/api/v1/proposal-sites/]
+### Get All Proposal Sites with Filtering [GET /propdev/api/v1/proposal-sites/]
     
 + Parameters
 
-        + siteNumber
-            + locationName
-            + locationTypeCode
-            + organizationId
-            + rolodexId
+    + siteNumber (optional) - The site number within the proposal. Maximum length is 3.
+    + locationName (optional) - The name to display for the Proposal Site; may differ from the name in the rolodex. Maximum length is 60.
+    + locationTypeCode (optional) - The type of location (applicant org., performing org., etc.). Maximum length is 3.
+    + organizationId (optional) - This is the foreign key into the Organization. Maximum length is 8.
+    + rolodexId (optional) - Rolodex Id. Maximum length is 6.
 
             
 + Request
@@ -69,7 +69,7 @@
               {"siteNumber": "(val)","locationName": "(val)","locationTypeCode": "(val)","organizationId": "(val)","rolodexId": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Proposal Sites [GET /research-sys/api/v1/proposal-sites/]
+### Get Schema for Proposal Sites [GET /propdev/api/v1/proposal-sites/]
 	                                          
 + Parameters
 
@@ -91,7 +91,7 @@
     
             {"columns":["siteNumber","locationName","locationTypeCode","organizationId","rolodexId"],"primaryKey":"developmentProposal:siteNumber"}
 		
-### Get Blueprint API specification for Proposal Sites [GET /research-sys/api/v1/proposal-sites/]
+### Get Blueprint API specification for Proposal Sites [GET /propdev/api/v1/proposal-sites/]
 	 
 + Parameters
 
@@ -112,7 +112,7 @@
             transfer-encoding:chunked
 
 
-### Update Proposal Sites [PUT /research-sys/api/v1/proposal-sites/(key)]
+### Update Proposal Sites [PUT /propdev/api/v1/proposal-sites/(key)]
 
 + Request
 
@@ -127,7 +127,7 @@
 			
 + Response 204
 
-### Update Multiple Proposal Sites [PUT /research-sys/api/v1/proposal-sites/]
+### Update Multiple Proposal Sites [PUT /propdev/api/v1/proposal-sites/]
 
 + Request
 
@@ -145,7 +145,7 @@
 			
 + Response 204
 
-### Insert Proposal Sites [POST /research-sys/api/v1/proposal-sites/]
+### Insert Proposal Sites [POST /propdev/api/v1/proposal-sites/]
 
 + Request
 
@@ -164,7 +164,7 @@
             
             {"siteNumber": "(val)","locationName": "(val)","locationTypeCode": "(val)","organizationId": "(val)","rolodexId": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Proposal Sites [POST /research-sys/api/v1/proposal-sites/]
+### Insert Multiple Proposal Sites [POST /propdev/api/v1/proposal-sites/]
 
 + Request
 
@@ -189,7 +189,7 @@
               {"siteNumber": "(val)","locationName": "(val)","locationTypeCode": "(val)","organizationId": "(val)","rolodexId": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Proposal Sites by Key [DELETE /research-sys/api/v1/proposal-sites/(key)]
+### Delete Proposal Sites by Key [DELETE /propdev/api/v1/proposal-sites/(key)]
 	 
 + Request
 
@@ -200,7 +200,7 @@
 
 + Response 204
 
-### Delete All Proposal Sites [DELETE /research-sys/api/v1/proposal-sites/]
+### Delete All Proposal Sites [DELETE /propdev/api/v1/proposal-sites/]
 
 + Parameters
 
@@ -215,16 +215,16 @@
 
 + Response 204
 
-### Delete All Proposal Sites with Matching [DELETE /research-sys/api/v1/proposal-sites/]
+### Delete All Proposal Sites with Matching [DELETE /propdev/api/v1/proposal-sites/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + siteNumber
-            + locationName
-            + locationTypeCode
-            + organizationId
-            + rolodexId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + siteNumber (optional) - The site number within the proposal. Maximum length is 3.
+    + locationName (optional) - The name to display for the Proposal Site; may differ from the name in the rolodex. Maximum length is 60.
+    + locationTypeCode (optional) - The type of location (applicant org., performing org., etc.). Maximum length is 3.
+    + organizationId (optional) - This is the foreign key into the Organization. Maximum length is 8.
+    + rolodexId (optional) - Rolodex Id. Maximum length is 6.
 
       
 + Request

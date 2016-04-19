@@ -1,6 +1,6 @@
-## Award Templates [/research-sys/api/v1/award-templates/]
+## Award Templates [/award/api/v1/award-templates/]
 
-### Get Award Templates by Key [GET /research-sys/api/v1/award-templates/(key)]
+### Get Award Templates by Key [GET /award/api/v1/award-templates/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"templateCode": "(val)","statusCode": "(val)","primeSponsorCode": "(val)","description": "(val)","basisOfPaymentCode": "(val)","methodOfPaymentCode": "(val)","_primaryKey": "(val)"}
 
-### Get All Award Templates [GET /research-sys/api/v1/award-templates/]
+### Get All Award Templates [GET /award/api/v1/award-templates/]
 	 
 + Request
 
@@ -39,16 +39,16 @@
               {"templateCode": "(val)","statusCode": "(val)","primeSponsorCode": "(val)","description": "(val)","basisOfPaymentCode": "(val)","methodOfPaymentCode": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Award Templates with Filtering [GET /research-sys/api/v1/award-templates/]
+### Get All Award Templates with Filtering [GET /award/api/v1/award-templates/]
     
 + Parameters
 
-        + templateCode
-            + statusCode
-            + primeSponsorCode
-            + description
-            + basisOfPaymentCode
-            + methodOfPaymentCode
+    + templateCode (optional) - Sponsor Template Code. Maximum length is 5.
+    + statusCode (optional) - Status Code. Maximum length is 22.
+    + primeSponsorCode (optional) - Prime Sponsor Code. Maximum length is 6.
+    + description (optional) - Description. Maximum length is 200.
+    + basisOfPaymentCode (optional) - Payment Basis. Maximum length is 22.
+    + methodOfPaymentCode (optional) - Payment Method. Maximum length is 22.
 
             
 + Request
@@ -70,7 +70,7 @@
               {"templateCode": "(val)","statusCode": "(val)","primeSponsorCode": "(val)","description": "(val)","basisOfPaymentCode": "(val)","methodOfPaymentCode": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Award Templates [GET /research-sys/api/v1/award-templates/]
+### Get Schema for Award Templates [GET /award/api/v1/award-templates/]
 	                                          
 + Parameters
 
@@ -92,7 +92,7 @@
     
             {"columns":["templateCode","statusCode","primeSponsorCode","description","basisOfPaymentCode","methodOfPaymentCode"],"primaryKey":"templateCode"}
 		
-### Get Blueprint API specification for Award Templates [GET /research-sys/api/v1/award-templates/]
+### Get Blueprint API specification for Award Templates [GET /award/api/v1/award-templates/]
 	 
 + Parameters
 
@@ -113,7 +113,7 @@
             transfer-encoding:chunked
 
 
-### Update Award Templates [PUT /research-sys/api/v1/award-templates/(key)]
+### Update Award Templates [PUT /award/api/v1/award-templates/(key)]
 
 + Request
 
@@ -128,7 +128,7 @@
 			
 + Response 204
 
-### Update Multiple Award Templates [PUT /research-sys/api/v1/award-templates/]
+### Update Multiple Award Templates [PUT /award/api/v1/award-templates/]
 
 + Request
 
@@ -146,7 +146,7 @@
 			
 + Response 204
 
-### Insert Award Templates [POST /research-sys/api/v1/award-templates/]
+### Insert Award Templates [POST /award/api/v1/award-templates/]
 
 + Request
 
@@ -165,7 +165,7 @@
             
             {"templateCode": "(val)","statusCode": "(val)","primeSponsorCode": "(val)","description": "(val)","basisOfPaymentCode": "(val)","methodOfPaymentCode": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Award Templates [POST /research-sys/api/v1/award-templates/]
+### Insert Multiple Award Templates [POST /award/api/v1/award-templates/]
 
 + Request
 
@@ -190,7 +190,7 @@
               {"templateCode": "(val)","statusCode": "(val)","primeSponsorCode": "(val)","description": "(val)","basisOfPaymentCode": "(val)","methodOfPaymentCode": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Award Templates by Key [DELETE /research-sys/api/v1/award-templates/(key)]
+### Delete Award Templates by Key [DELETE /award/api/v1/award-templates/(key)]
 	 
 + Request
 
@@ -201,7 +201,7 @@
 
 + Response 204
 
-### Delete All Award Templates [DELETE /research-sys/api/v1/award-templates/]
+### Delete All Award Templates [DELETE /award/api/v1/award-templates/]
 
 + Parameters
 
@@ -216,17 +216,17 @@
 
 + Response 204
 
-### Delete All Award Templates with Matching [DELETE /research-sys/api/v1/award-templates/]
+### Delete All Award Templates with Matching [DELETE /award/api/v1/award-templates/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + templateCode
-            + statusCode
-            + primeSponsorCode
-            + description
-            + basisOfPaymentCode
-            + methodOfPaymentCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + templateCode (optional) - Sponsor Template Code. Maximum length is 5.
+    + statusCode (optional) - Status Code. Maximum length is 22.
+    + primeSponsorCode (optional) - Prime Sponsor Code. Maximum length is 6.
+    + description (optional) - Description. Maximum length is 200.
+    + basisOfPaymentCode (optional) - Payment Basis. Maximum length is 22.
+    + methodOfPaymentCode (optional) - Payment Method. Maximum length is 22.
 
       
 + Request

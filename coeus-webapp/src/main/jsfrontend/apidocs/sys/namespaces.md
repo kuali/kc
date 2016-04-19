@@ -43,10 +43,10 @@
     
 + Parameters
 
-        + applicationId
-            + code
-            + name
-            + active
+    + applicationId (optional) - The id of the application which owns this namespace. Maximum length is 20.
+    + code (optional) - Code identifying the namespace. Maximum length is 20.
+    + name (optional) - The name of the namespace. Maximum length is 40.
+    + active (optional) - This attribute is used to describe whether the associated object is active or inactive. Maximum length is 1.
 
             
 + Request
@@ -218,11 +218,11 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + applicationId
-            + code
-            + name
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + applicationId (optional) - The id of the application which owns this namespace. Maximum length is 20.
+    + code (optional) - Code identifying the namespace. Maximum length is 20.
+    + name (optional) - The name of the namespace. Maximum length is 40.
+    + active (optional) - This attribute is used to describe whether the associated object is active or inactive. Maximum length is 1.
 
       
 + Request

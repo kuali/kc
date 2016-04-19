@@ -1,6 +1,6 @@
-## Iacuc Committee Memberships [/research-sys/api/v1/iacuc-committee-memberships/]
+## Iacuc Committee Memberships [/iacuc/api/v1/iacuc-committee-memberships/]
 
-### Get Iacuc Committee Memberships by Key [GET /research-sys/api/v1/iacuc-committee-memberships/(key)]
+### Get Iacuc Committee Memberships by Key [GET /iacuc/api/v1/iacuc-committee-memberships/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"committeeMembershipId": "(val)","committeeIdFk": "(val)","personId": "(val)","rolodexId": "(val)","personName": "(val)","membershipId": "(val)","paidMember": "(val)","termStartDate": "(val)","termEndDate": "(val)","membershipTypeCode": "(val)","comments": "(val)","contactNotes": "(val)","trainingNotes": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Committee Memberships [GET /research-sys/api/v1/iacuc-committee-memberships/]
+### Get All Iacuc Committee Memberships [GET /iacuc/api/v1/iacuc-committee-memberships/]
 	 
 + Request
 
@@ -39,23 +39,23 @@
               {"committeeMembershipId": "(val)","committeeIdFk": "(val)","personId": "(val)","rolodexId": "(val)","personName": "(val)","membershipId": "(val)","paidMember": "(val)","termStartDate": "(val)","termEndDate": "(val)","membershipTypeCode": "(val)","comments": "(val)","contactNotes": "(val)","trainingNotes": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Committee Memberships with Filtering [GET /research-sys/api/v1/iacuc-committee-memberships/]
+### Get All Iacuc Committee Memberships with Filtering [GET /iacuc/api/v1/iacuc-committee-memberships/]
     
 + Parameters
 
-        + committeeMembershipId
-            + committeeIdFk
-            + personId
-            + rolodexId
-            + personName
-            + membershipId
-            + paidMember
-            + termStartDate
-            + termEndDate
-            + membershipTypeCode
-            + comments
-            + contactNotes
-            + trainingNotes
+    + committeeMembershipId (optional) - Committee Membership Id. Maximum length is 12.
+    + committeeIdFk (optional) - Committee Id Fk. Maximum length is 12.
+    + personId (optional) - Person Id. Maximum length is 40.
+    + rolodexId (optional) - Rolodex Id. Maximum length is 12.
+    + personName (optional) - Person Name. Maximum length is 90.
+    + membershipId (optional) - Membership Id. Maximum length is 10.
+    + paidMember (optional) - Paid Member. Maximum length is 1.
+    + termStartDate (optional) - Term Start Date. Maximum length is 10.
+    + termEndDate (optional) - Term End Date. Maximum length is 10.
+    + membershipTypeCode (optional) - Membership Type Code. Maximum length is 3.
+    + comments (optional) - Comments. Maximum length is 200.
+    + contactNotes (optional) - Contact Notes. Maximum length is 200.
+    + trainingNotes (optional) - Training Notes. Maximum length is 200.
 
             
 + Request
@@ -77,7 +77,7 @@
               {"committeeMembershipId": "(val)","committeeIdFk": "(val)","personId": "(val)","rolodexId": "(val)","personName": "(val)","membershipId": "(val)","paidMember": "(val)","termStartDate": "(val)","termEndDate": "(val)","membershipTypeCode": "(val)","comments": "(val)","contactNotes": "(val)","trainingNotes": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Committee Memberships [GET /research-sys/api/v1/iacuc-committee-memberships/]
+### Get Schema for Iacuc Committee Memberships [GET /iacuc/api/v1/iacuc-committee-memberships/]
 	                                          
 + Parameters
 
@@ -99,7 +99,7 @@
     
             {"columns":["committeeMembershipId","committeeIdFk","personId","rolodexId","personName","membershipId","paidMember","termStartDate","termEndDate","membershipTypeCode","comments","contactNotes","trainingNotes"],"primaryKey":"committeeMembershipId"}
 		
-### Get Blueprint API specification for Iacuc Committee Memberships [GET /research-sys/api/v1/iacuc-committee-memberships/]
+### Get Blueprint API specification for Iacuc Committee Memberships [GET /iacuc/api/v1/iacuc-committee-memberships/]
 	 
 + Parameters
 
@@ -120,7 +120,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Committee Memberships [PUT /research-sys/api/v1/iacuc-committee-memberships/(key)]
+### Update Iacuc Committee Memberships [PUT /iacuc/api/v1/iacuc-committee-memberships/(key)]
 
 + Request
 
@@ -135,7 +135,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Committee Memberships [PUT /research-sys/api/v1/iacuc-committee-memberships/]
+### Update Multiple Iacuc Committee Memberships [PUT /iacuc/api/v1/iacuc-committee-memberships/]
 
 + Request
 
@@ -153,7 +153,7 @@
 			
 + Response 204
 
-### Insert Iacuc Committee Memberships [POST /research-sys/api/v1/iacuc-committee-memberships/]
+### Insert Iacuc Committee Memberships [POST /iacuc/api/v1/iacuc-committee-memberships/]
 
 + Request
 
@@ -172,7 +172,7 @@
             
             {"committeeMembershipId": "(val)","committeeIdFk": "(val)","personId": "(val)","rolodexId": "(val)","personName": "(val)","membershipId": "(val)","paidMember": "(val)","termStartDate": "(val)","termEndDate": "(val)","membershipTypeCode": "(val)","comments": "(val)","contactNotes": "(val)","trainingNotes": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Committee Memberships [POST /research-sys/api/v1/iacuc-committee-memberships/]
+### Insert Multiple Iacuc Committee Memberships [POST /iacuc/api/v1/iacuc-committee-memberships/]
 
 + Request
 
@@ -197,7 +197,7 @@
               {"committeeMembershipId": "(val)","committeeIdFk": "(val)","personId": "(val)","rolodexId": "(val)","personName": "(val)","membershipId": "(val)","paidMember": "(val)","termStartDate": "(val)","termEndDate": "(val)","membershipTypeCode": "(val)","comments": "(val)","contactNotes": "(val)","trainingNotes": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Committee Memberships by Key [DELETE /research-sys/api/v1/iacuc-committee-memberships/(key)]
+### Delete Iacuc Committee Memberships by Key [DELETE /iacuc/api/v1/iacuc-committee-memberships/(key)]
 	 
 + Request
 
@@ -208,7 +208,7 @@
 
 + Response 204
 
-### Delete All Iacuc Committee Memberships [DELETE /research-sys/api/v1/iacuc-committee-memberships/]
+### Delete All Iacuc Committee Memberships [DELETE /iacuc/api/v1/iacuc-committee-memberships/]
 
 + Parameters
 
@@ -223,24 +223,24 @@
 
 + Response 204
 
-### Delete All Iacuc Committee Memberships with Matching [DELETE /research-sys/api/v1/iacuc-committee-memberships/]
+### Delete All Iacuc Committee Memberships with Matching [DELETE /iacuc/api/v1/iacuc-committee-memberships/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + committeeMembershipId
-            + committeeIdFk
-            + personId
-            + rolodexId
-            + personName
-            + membershipId
-            + paidMember
-            + termStartDate
-            + termEndDate
-            + membershipTypeCode
-            + comments
-            + contactNotes
-            + trainingNotes
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + committeeMembershipId (optional) - Committee Membership Id. Maximum length is 12.
+    + committeeIdFk (optional) - Committee Id Fk. Maximum length is 12.
+    + personId (optional) - Person Id. Maximum length is 40.
+    + rolodexId (optional) - Rolodex Id. Maximum length is 12.
+    + personName (optional) - Person Name. Maximum length is 90.
+    + membershipId (optional) - Membership Id. Maximum length is 10.
+    + paidMember (optional) - Paid Member. Maximum length is 1.
+    + termStartDate (optional) - Term Start Date. Maximum length is 10.
+    + termEndDate (optional) - Term End Date. Maximum length is 10.
+    + membershipTypeCode (optional) - Membership Type Code. Maximum length is 3.
+    + comments (optional) - Comments. Maximum length is 200.
+    + contactNotes (optional) - Contact Notes. Maximum length is 200.
+    + trainingNotes (optional) - Training Notes. Maximum length is 200.
 
       
 + Request

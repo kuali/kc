@@ -1,6 +1,6 @@
-## Sub Award Closeouts [/research-sys/api/v1/sub-award-closeouts/]
+## Sub Award Closeouts [/subaward/api/v1/sub-award-closeouts/]
 
-### Get Sub Award Closeouts by Key [GET /research-sys/api/v1/sub-award-closeouts/(key)]
+### Get Sub Award Closeouts by Key [GET /subaward/api/v1/sub-award-closeouts/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"subAwardCloseoutId": "(val)","subAwardId": "(val)","sequenceNumber": "(val)","subAwardCode": "(val)","closeoutNumber": "(val)","closeoutTypeCode": "(val)","dateRequested": "(val)","dateFollowup": "(val)","dateReceived": "(val)","comments": "(val)","_primaryKey": "(val)"}
 
-### Get All Sub Award Closeouts [GET /research-sys/api/v1/sub-award-closeouts/]
+### Get All Sub Award Closeouts [GET /subaward/api/v1/sub-award-closeouts/]
 	 
 + Request
 
@@ -39,20 +39,20 @@
               {"subAwardCloseoutId": "(val)","subAwardId": "(val)","sequenceNumber": "(val)","subAwardCode": "(val)","closeoutNumber": "(val)","closeoutTypeCode": "(val)","dateRequested": "(val)","dateFollowup": "(val)","dateReceived": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Sub Award Closeouts with Filtering [GET /research-sys/api/v1/sub-award-closeouts/]
+### Get All Sub Award Closeouts with Filtering [GET /subaward/api/v1/sub-award-closeouts/]
     
 + Parameters
 
-        + subAwardCloseoutId
-            + subAwardId
-            + sequenceNumber
-            + subAwardCode
-            + closeoutNumber
-            + closeoutTypeCode
-            + dateRequested
-            + dateFollowup
-            + dateReceived
-            + comments
+    + subAwardCloseoutId (optional) - Subaward Closeout Id. Maximum length is 22.
+    + subAwardId (optional) - Subaward Id. Maximum length is 22.
+    + sequenceNumber (optional) - 
+    + subAwardCode (optional) - 
+    + closeoutNumber (optional) - Closeout Number. Maximum length is 22.
+    + closeoutTypeCode (optional) - Closeout Type Code. Maximum length is 22.
+    + dateRequested (optional) - Date Requested. Maximum length is 10.
+    + dateFollowup (optional) - Date Followup. Maximum length is 10.
+    + dateReceived (optional) - Date Received. Maximum length is 10.
+    + comments (optional) - Comments. Maximum length is 4000.
 
             
 + Request
@@ -74,7 +74,7 @@
               {"subAwardCloseoutId": "(val)","subAwardId": "(val)","sequenceNumber": "(val)","subAwardCode": "(val)","closeoutNumber": "(val)","closeoutTypeCode": "(val)","dateRequested": "(val)","dateFollowup": "(val)","dateReceived": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Sub Award Closeouts [GET /research-sys/api/v1/sub-award-closeouts/]
+### Get Schema for Sub Award Closeouts [GET /subaward/api/v1/sub-award-closeouts/]
 	                                          
 + Parameters
 
@@ -96,7 +96,7 @@
     
             {"columns":["subAwardCloseoutId","subAwardId","sequenceNumber","subAwardCode","closeoutNumber","closeoutTypeCode","dateRequested","dateFollowup","dateReceived","comments"],"primaryKey":"subAwardCloseoutId"}
 		
-### Get Blueprint API specification for Sub Award Closeouts [GET /research-sys/api/v1/sub-award-closeouts/]
+### Get Blueprint API specification for Sub Award Closeouts [GET /subaward/api/v1/sub-award-closeouts/]
 	 
 + Parameters
 
@@ -117,7 +117,7 @@
             transfer-encoding:chunked
 
 
-### Update Sub Award Closeouts [PUT /research-sys/api/v1/sub-award-closeouts/(key)]
+### Update Sub Award Closeouts [PUT /subaward/api/v1/sub-award-closeouts/(key)]
 
 + Request
 
@@ -132,7 +132,7 @@
 			
 + Response 204
 
-### Update Multiple Sub Award Closeouts [PUT /research-sys/api/v1/sub-award-closeouts/]
+### Update Multiple Sub Award Closeouts [PUT /subaward/api/v1/sub-award-closeouts/]
 
 + Request
 
@@ -150,7 +150,7 @@
 			
 + Response 204
 
-### Insert Sub Award Closeouts [POST /research-sys/api/v1/sub-award-closeouts/]
+### Insert Sub Award Closeouts [POST /subaward/api/v1/sub-award-closeouts/]
 
 + Request
 
@@ -169,7 +169,7 @@
             
             {"subAwardCloseoutId": "(val)","subAwardId": "(val)","sequenceNumber": "(val)","subAwardCode": "(val)","closeoutNumber": "(val)","closeoutTypeCode": "(val)","dateRequested": "(val)","dateFollowup": "(val)","dateReceived": "(val)","comments": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Sub Award Closeouts [POST /research-sys/api/v1/sub-award-closeouts/]
+### Insert Multiple Sub Award Closeouts [POST /subaward/api/v1/sub-award-closeouts/]
 
 + Request
 
@@ -194,7 +194,7 @@
               {"subAwardCloseoutId": "(val)","subAwardId": "(val)","sequenceNumber": "(val)","subAwardCode": "(val)","closeoutNumber": "(val)","closeoutTypeCode": "(val)","dateRequested": "(val)","dateFollowup": "(val)","dateReceived": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Sub Award Closeouts by Key [DELETE /research-sys/api/v1/sub-award-closeouts/(key)]
+### Delete Sub Award Closeouts by Key [DELETE /subaward/api/v1/sub-award-closeouts/(key)]
 	 
 + Request
 
@@ -205,7 +205,7 @@
 
 + Response 204
 
-### Delete All Sub Award Closeouts [DELETE /research-sys/api/v1/sub-award-closeouts/]
+### Delete All Sub Award Closeouts [DELETE /subaward/api/v1/sub-award-closeouts/]
 
 + Parameters
 
@@ -220,21 +220,21 @@
 
 + Response 204
 
-### Delete All Sub Award Closeouts with Matching [DELETE /research-sys/api/v1/sub-award-closeouts/]
+### Delete All Sub Award Closeouts with Matching [DELETE /subaward/api/v1/sub-award-closeouts/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + subAwardCloseoutId
-            + subAwardId
-            + sequenceNumber
-            + subAwardCode
-            + closeoutNumber
-            + closeoutTypeCode
-            + dateRequested
-            + dateFollowup
-            + dateReceived
-            + comments
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + subAwardCloseoutId (optional) - Subaward Closeout Id. Maximum length is 22.
+    + subAwardId (optional) - Subaward Id. Maximum length is 22.
+    + sequenceNumber (optional) - 
+    + subAwardCode (optional) - 
+    + closeoutNumber (optional) - Closeout Number. Maximum length is 22.
+    + closeoutTypeCode (optional) - Closeout Type Code. Maximum length is 22.
+    + dateRequested (optional) - Date Requested. Maximum length is 10.
+    + dateFollowup (optional) - Date Followup. Maximum length is 10.
+    + dateReceived (optional) - Date Received. Maximum length is 10.
+    + comments (optional) - Comments. Maximum length is 4000.
 
       
 + Request

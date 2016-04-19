@@ -1,6 +1,6 @@
-## Proposal Development Budgets [/research-sys/api/v1/proposal-development-budgets/]
+## Proposal Development Budgets [/propdev/api/v1/proposal-development-budgets/]
 
-### Get Proposal Development Budgets by Key [GET /research-sys/api/v1/proposal-development-budgets/(key)]
+### Get Proposal Development Budgets by Key [GET /propdev/api/v1/proposal-development-budgets/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"budgetStatus": "(val)","hierarchyLastSyncHashCode": "(val)","residualFunds": "(val)","endDate": "(val)","modularBudgetFlag": "(val)","documentNumber": "(val)","totalDirectCostLimit": "(val)","budgetAdjustmentDocumentNumber": "(val)","createTimestamp": "(val)","costSharingAmount": "(val)","totalDirectCost": "(val)","ohRateClassCode": "(val)","comments": "(val)","budgetJustification": "(val)","underrecoveryAmount": "(val)","budgetId": "(val)","budgetVersionNumber": "(val)","urRateClassCode": "(val)","parentDocumentTypeCode": "(val)","totalIndirectCost": "(val)","totalCostLimit": "(val)","name": "(val)","onOffCampusFlag": "(val)","submitCostSharingFlag": "(val)","createUser": "(val)","ohRateTypeCode": "(val)","startDate": "(val)","totalCost": "(val)","_primaryKey": "(val)"}
 
-### Get All Proposal Development Budgets [GET /research-sys/api/v1/proposal-development-budgets/]
+### Get All Proposal Development Budgets [GET /propdev/api/v1/proposal-development-budgets/]
 	 
 + Request
 
@@ -39,38 +39,38 @@
               {"budgetStatus": "(val)","hierarchyLastSyncHashCode": "(val)","residualFunds": "(val)","endDate": "(val)","modularBudgetFlag": "(val)","documentNumber": "(val)","totalDirectCostLimit": "(val)","budgetAdjustmentDocumentNumber": "(val)","createTimestamp": "(val)","costSharingAmount": "(val)","totalDirectCost": "(val)","ohRateClassCode": "(val)","comments": "(val)","budgetJustification": "(val)","underrecoveryAmount": "(val)","budgetId": "(val)","budgetVersionNumber": "(val)","urRateClassCode": "(val)","parentDocumentTypeCode": "(val)","totalIndirectCost": "(val)","totalCostLimit": "(val)","name": "(val)","onOffCampusFlag": "(val)","submitCostSharingFlag": "(val)","createUser": "(val)","ohRateTypeCode": "(val)","startDate": "(val)","totalCost": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Proposal Development Budgets with Filtering [GET /research-sys/api/v1/proposal-development-budgets/]
+### Get All Proposal Development Budgets with Filtering [GET /propdev/api/v1/proposal-development-budgets/]
     
 + Parameters
 
-        + budgetStatus
-            + hierarchyLastSyncHashCode
-            + residualFunds
-            + endDate
-            + modularBudgetFlag
-            + documentNumber
-            + totalDirectCostLimit
-            + budgetAdjustmentDocumentNumber
-            + createTimestamp
-            + costSharingAmount
-            + totalDirectCost
-            + ohRateClassCode
-            + comments
-            + budgetJustification
-            + underrecoveryAmount
-            + budgetId
-            + budgetVersionNumber
-            + urRateClassCode
-            + parentDocumentTypeCode
-            + totalIndirectCost
-            + totalCostLimit
-            + name
-            + onOffCampusFlag
-            + submitCostSharingFlag
-            + createUser
-            + ohRateTypeCode
-            + startDate
-            + totalCost
+    + budgetStatus (optional) - F&A Rate Type. Maximum length is 1.
+    + hierarchyLastSyncHashCode (optional) - Hierarchy Last Sync Hash Code.
+    + residualFunds (optional) - Residual Funds. Maximum length is 15.
+    + endDate (optional) - Project End Date. Maximum length is 21.
+    + modularBudgetFlag (optional) - Modular Budget Flag. Maximum length is 1.
+    + documentNumber (optional) - Document Number.
+    + totalDirectCostLimit (optional) - Total Direct Cost Limit. Maximum length is 15.
+    + budgetAdjustmentDocumentNumber (optional) - Budget Adjustment Document Number.
+    + createTimestamp (optional) - Create Timestamp.
+    + costSharingAmount (optional) - Cost Sharing Amount. Maximum length is 15.
+    + totalDirectCost (optional) - Total Direct Cost. Maximum length is 15.
+    + ohRateClassCode (optional) - F&A Rate Type. Maximum length is 3.
+    + comments (optional) - The Comments for this budget. Maximum length is 2000.
+    + budgetJustification (optional) - Budget Justification. Maximum length is 4000.
+    + underrecoveryAmount (optional) - Underrecovery Amount. Maximum length is 15.
+    + budgetId (optional) - Budget Id.
+    + budgetVersionNumber (optional) - Budget Version Number for header display. Maximum length is 3.
+    + urRateClassCode (optional) - Ur Rate Class Code. Maximum length is 3.
+    + parentDocumentTypeCode (optional) - Parent Document Type Code. Maximum length is 31.
+    + totalIndirectCost (optional) - Total Indirect Cost. Maximum length is 15.
+    + totalCostLimit (optional) - Total Cost Limit. Maximum length is 15.
+    + name (optional) - A free-form text field that describes the purpose or                                         function of the document. Maximum length is 40.
+    + onOffCampusFlag (optional) - On Off CampusContractContract flag allowing the user to set all expense line items to be either 'all on' or 'all off-campus'; overriding the object code level defaults. Maximum length is 3.
+    + submitCostSharingFlag (optional) - Submit Cost Sharing Flag. Maximum length is 1.
+    + createUser (optional) - Create User.
+    + ohRateTypeCode (optional) - F&A Rate Type. Maximum length is 3.
+    + startDate (optional) - Project Start Date. Maximum length is 21.
+    + totalCost (optional) - Total Cost. Maximum length is 15.
 
             
 + Request
@@ -92,7 +92,7 @@
               {"budgetStatus": "(val)","hierarchyLastSyncHashCode": "(val)","residualFunds": "(val)","endDate": "(val)","modularBudgetFlag": "(val)","documentNumber": "(val)","totalDirectCostLimit": "(val)","budgetAdjustmentDocumentNumber": "(val)","createTimestamp": "(val)","costSharingAmount": "(val)","totalDirectCost": "(val)","ohRateClassCode": "(val)","comments": "(val)","budgetJustification": "(val)","underrecoveryAmount": "(val)","budgetId": "(val)","budgetVersionNumber": "(val)","urRateClassCode": "(val)","parentDocumentTypeCode": "(val)","totalIndirectCost": "(val)","totalCostLimit": "(val)","name": "(val)","onOffCampusFlag": "(val)","submitCostSharingFlag": "(val)","createUser": "(val)","ohRateTypeCode": "(val)","startDate": "(val)","totalCost": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Proposal Development Budgets [GET /research-sys/api/v1/proposal-development-budgets/]
+### Get Schema for Proposal Development Budgets [GET /propdev/api/v1/proposal-development-budgets/]
 	                                          
 + Parameters
 
@@ -114,7 +114,7 @@
     
             {"columns":["budgetStatus","hierarchyLastSyncHashCode","residualFunds","endDate","modularBudgetFlag","documentNumber","totalDirectCostLimit","budgetAdjustmentDocumentNumber","createTimestamp","costSharingAmount","totalDirectCost","ohRateClassCode","comments","budgetJustification","underrecoveryAmount","budgetId","budgetVersionNumber","urRateClassCode","parentDocumentTypeCode","totalIndirectCost","totalCostLimit","name","onOffCampusFlag","submitCostSharingFlag","createUser","ohRateTypeCode","startDate","totalCost"],"primaryKey":"budgetId"}
 		
-### Get Blueprint API specification for Proposal Development Budgets [GET /research-sys/api/v1/proposal-development-budgets/]
+### Get Blueprint API specification for Proposal Development Budgets [GET /propdev/api/v1/proposal-development-budgets/]
 	 
 + Parameters
 
@@ -135,7 +135,7 @@
             transfer-encoding:chunked
 
 
-### Update Proposal Development Budgets [PUT /research-sys/api/v1/proposal-development-budgets/(key)]
+### Update Proposal Development Budgets [PUT /propdev/api/v1/proposal-development-budgets/(key)]
 
 + Request
 
@@ -150,7 +150,7 @@
 			
 + Response 204
 
-### Update Multiple Proposal Development Budgets [PUT /research-sys/api/v1/proposal-development-budgets/]
+### Update Multiple Proposal Development Budgets [PUT /propdev/api/v1/proposal-development-budgets/]
 
 + Request
 
@@ -168,7 +168,7 @@
 			
 + Response 204
 
-### Insert Proposal Development Budgets [POST /research-sys/api/v1/proposal-development-budgets/]
+### Insert Proposal Development Budgets [POST /propdev/api/v1/proposal-development-budgets/]
 
 + Request
 
@@ -187,7 +187,7 @@
             
             {"budgetStatus": "(val)","hierarchyLastSyncHashCode": "(val)","residualFunds": "(val)","endDate": "(val)","modularBudgetFlag": "(val)","documentNumber": "(val)","totalDirectCostLimit": "(val)","budgetAdjustmentDocumentNumber": "(val)","createTimestamp": "(val)","costSharingAmount": "(val)","totalDirectCost": "(val)","ohRateClassCode": "(val)","comments": "(val)","budgetJustification": "(val)","underrecoveryAmount": "(val)","budgetId": "(val)","budgetVersionNumber": "(val)","urRateClassCode": "(val)","parentDocumentTypeCode": "(val)","totalIndirectCost": "(val)","totalCostLimit": "(val)","name": "(val)","onOffCampusFlag": "(val)","submitCostSharingFlag": "(val)","createUser": "(val)","ohRateTypeCode": "(val)","startDate": "(val)","totalCost": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Proposal Development Budgets [POST /research-sys/api/v1/proposal-development-budgets/]
+### Insert Multiple Proposal Development Budgets [POST /propdev/api/v1/proposal-development-budgets/]
 
 + Request
 
@@ -212,7 +212,7 @@
               {"budgetStatus": "(val)","hierarchyLastSyncHashCode": "(val)","residualFunds": "(val)","endDate": "(val)","modularBudgetFlag": "(val)","documentNumber": "(val)","totalDirectCostLimit": "(val)","budgetAdjustmentDocumentNumber": "(val)","createTimestamp": "(val)","costSharingAmount": "(val)","totalDirectCost": "(val)","ohRateClassCode": "(val)","comments": "(val)","budgetJustification": "(val)","underrecoveryAmount": "(val)","budgetId": "(val)","budgetVersionNumber": "(val)","urRateClassCode": "(val)","parentDocumentTypeCode": "(val)","totalIndirectCost": "(val)","totalCostLimit": "(val)","name": "(val)","onOffCampusFlag": "(val)","submitCostSharingFlag": "(val)","createUser": "(val)","ohRateTypeCode": "(val)","startDate": "(val)","totalCost": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Proposal Development Budgets by Key [DELETE /research-sys/api/v1/proposal-development-budgets/(key)]
+### Delete Proposal Development Budgets by Key [DELETE /propdev/api/v1/proposal-development-budgets/(key)]
 	 
 + Request
 
@@ -223,7 +223,7 @@
 
 + Response 204
 
-### Delete All Proposal Development Budgets [DELETE /research-sys/api/v1/proposal-development-budgets/]
+### Delete All Proposal Development Budgets [DELETE /propdev/api/v1/proposal-development-budgets/]
 
 + Parameters
 
@@ -238,39 +238,39 @@
 
 + Response 204
 
-### Delete All Proposal Development Budgets with Matching [DELETE /research-sys/api/v1/proposal-development-budgets/]
+### Delete All Proposal Development Budgets with Matching [DELETE /propdev/api/v1/proposal-development-budgets/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + budgetStatus
-            + hierarchyLastSyncHashCode
-            + residualFunds
-            + endDate
-            + modularBudgetFlag
-            + documentNumber
-            + totalDirectCostLimit
-            + budgetAdjustmentDocumentNumber
-            + createTimestamp
-            + costSharingAmount
-            + totalDirectCost
-            + ohRateClassCode
-            + comments
-            + budgetJustification
-            + underrecoveryAmount
-            + budgetId
-            + budgetVersionNumber
-            + urRateClassCode
-            + parentDocumentTypeCode
-            + totalIndirectCost
-            + totalCostLimit
-            + name
-            + onOffCampusFlag
-            + submitCostSharingFlag
-            + createUser
-            + ohRateTypeCode
-            + startDate
-            + totalCost
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + budgetStatus (optional) - F&A Rate Type. Maximum length is 1.
+    + hierarchyLastSyncHashCode (optional) - Hierarchy Last Sync Hash Code.
+    + residualFunds (optional) - Residual Funds. Maximum length is 15.
+    + endDate (optional) - Project End Date. Maximum length is 21.
+    + modularBudgetFlag (optional) - Modular Budget Flag. Maximum length is 1.
+    + documentNumber (optional) - Document Number.
+    + totalDirectCostLimit (optional) - Total Direct Cost Limit. Maximum length is 15.
+    + budgetAdjustmentDocumentNumber (optional) - Budget Adjustment Document Number.
+    + createTimestamp (optional) - Create Timestamp.
+    + costSharingAmount (optional) - Cost Sharing Amount. Maximum length is 15.
+    + totalDirectCost (optional) - Total Direct Cost. Maximum length is 15.
+    + ohRateClassCode (optional) - F&A Rate Type. Maximum length is 3.
+    + comments (optional) - The Comments for this budget. Maximum length is 2000.
+    + budgetJustification (optional) - Budget Justification. Maximum length is 4000.
+    + underrecoveryAmount (optional) - Underrecovery Amount. Maximum length is 15.
+    + budgetId (optional) - Budget Id.
+    + budgetVersionNumber (optional) - Budget Version Number for header display. Maximum length is 3.
+    + urRateClassCode (optional) - Ur Rate Class Code. Maximum length is 3.
+    + parentDocumentTypeCode (optional) - Parent Document Type Code. Maximum length is 31.
+    + totalIndirectCost (optional) - Total Indirect Cost. Maximum length is 15.
+    + totalCostLimit (optional) - Total Cost Limit. Maximum length is 15.
+    + name (optional) - A free-form text field that describes the purpose or                                         function of the document. Maximum length is 40.
+    + onOffCampusFlag (optional) - On Off CampusContractContract flag allowing the user to set all expense line items to be either 'all on' or 'all off-campus'; overriding the object code level defaults. Maximum length is 3.
+    + submitCostSharingFlag (optional) - Submit Cost Sharing Flag. Maximum length is 1.
+    + createUser (optional) - Create User.
+    + ohRateTypeCode (optional) - F&A Rate Type. Maximum length is 3.
+    + startDate (optional) - Project Start Date. Maximum length is 21.
+    + totalCost (optional) - Total Cost. Maximum length is 15.
 
       
 + Request

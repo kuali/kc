@@ -43,11 +43,11 @@
     
 + Parameters
 
-        + encryptionRequired
-            + code
-            + name
-            + active
-            + sortCode
+    + encryptionRequired (optional) - Encryption Required.
+    + code (optional) - The external identifier type code. Maximum length is 7.
+    + name (optional) - Descriptive text. Maximum length is 50.
+    + active (optional) - This attribute is used to describe whether the associated object is active or inactive. Maximum length is 1.
+    + sortCode (optional) - Descriptive text. Maximum length is 1.
 
             
 + Request
@@ -219,12 +219,12 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + encryptionRequired
-            + code
-            + name
-            + active
-            + sortCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + encryptionRequired (optional) - Encryption Required.
+    + code (optional) - The external identifier type code. Maximum length is 7.
+    + name (optional) - Descriptive text. Maximum length is 50.
+    + active (optional) - This attribute is used to describe whether the associated object is active or inactive. Maximum length is 1.
+    + sortCode (optional) - Descriptive text. Maximum length is 1.
 
       
 + Request

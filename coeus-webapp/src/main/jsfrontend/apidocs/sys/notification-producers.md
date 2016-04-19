@@ -43,10 +43,10 @@
     
 + Parameters
 
-        + id
-            + name
-            + description
-            + contactInfo
+    + id (optional) - 
+    + name (optional) - 
+    + description (optional) - 
+    + contactInfo (optional) - 
 
             
 + Request
@@ -218,11 +218,11 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + name
-            + description
-            + contactInfo
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - 
+    + name (optional) - 
+    + description (optional) - 
+    + contactInfo (optional) - 
 
       
 + Request

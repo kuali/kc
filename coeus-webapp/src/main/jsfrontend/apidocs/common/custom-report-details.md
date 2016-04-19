@@ -1,6 +1,6 @@
-## Custom Report Details [/research-sys/api/v1/custom-report-details/]
+## Custom Report Details [/research-common/api/v1/custom-report-details/]
 
-### Get Custom Report Details by Key [GET /research-sys/api/v1/custom-report-details/(key)]
+### Get Custom Report Details by Key [GET /research-common/api/v1/custom-report-details/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"reportId": "(val)","reportLabel": "(val)","reportDescription": "(val)","reportTypeCode": "(val)","permissionName": "(val)","attachmentContent": "(val)","fileName": "(val)","contentType": "(val)","_primaryKey": "(val)"}
 
-### Get All Custom Report Details [GET /research-sys/api/v1/custom-report-details/]
+### Get All Custom Report Details [GET /research-common/api/v1/custom-report-details/]
 	 
 + Request
 
@@ -39,18 +39,18 @@
               {"reportId": "(val)","reportLabel": "(val)","reportDescription": "(val)","reportTypeCode": "(val)","permissionName": "(val)","attachmentContent": "(val)","fileName": "(val)","contentType": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Custom Report Details with Filtering [GET /research-sys/api/v1/custom-report-details/]
+### Get All Custom Report Details with Filtering [GET /research-common/api/v1/custom-report-details/]
     
 + Parameters
 
-        + reportId
-            + reportLabel
-            + reportDescription
-            + reportTypeCode
-            + permissionName
-            + attachmentContent
-            + fileName
-            + contentType
+    + reportId (optional) - Report Id. Maximum length is 6.
+    + reportLabel (optional) - Report Label. Maximum length is 50.
+    + reportDescription (optional) - Report Description. Maximum length is 50.
+    + reportTypeCode (optional) - Report Type Code. Maximum length is 3.
+    + permissionName (optional) - Permission Name. Maximum length is 30.
+    + attachmentContent (optional) - 
+    + fileName (optional) - 
+    + contentType (optional) - 
 
             
 + Request
@@ -72,7 +72,7 @@
               {"reportId": "(val)","reportLabel": "(val)","reportDescription": "(val)","reportTypeCode": "(val)","permissionName": "(val)","attachmentContent": "(val)","fileName": "(val)","contentType": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Custom Report Details [GET /research-sys/api/v1/custom-report-details/]
+### Get Schema for Custom Report Details [GET /research-common/api/v1/custom-report-details/]
 	                                          
 + Parameters
 
@@ -94,7 +94,7 @@
     
             {"columns":["reportId","reportLabel","reportDescription","reportTypeCode","permissionName","attachmentContent","fileName","contentType"],"primaryKey":"reportId"}
 		
-### Get Blueprint API specification for Custom Report Details [GET /research-sys/api/v1/custom-report-details/]
+### Get Blueprint API specification for Custom Report Details [GET /research-common/api/v1/custom-report-details/]
 	 
 + Parameters
 
@@ -115,7 +115,7 @@
             transfer-encoding:chunked
 
 
-### Update Custom Report Details [PUT /research-sys/api/v1/custom-report-details/(key)]
+### Update Custom Report Details [PUT /research-common/api/v1/custom-report-details/(key)]
 
 + Request
 
@@ -130,7 +130,7 @@
 			
 + Response 204
 
-### Update Multiple Custom Report Details [PUT /research-sys/api/v1/custom-report-details/]
+### Update Multiple Custom Report Details [PUT /research-common/api/v1/custom-report-details/]
 
 + Request
 
@@ -148,7 +148,7 @@
 			
 + Response 204
 
-### Insert Custom Report Details [POST /research-sys/api/v1/custom-report-details/]
+### Insert Custom Report Details [POST /research-common/api/v1/custom-report-details/]
 
 + Request
 
@@ -167,7 +167,7 @@
             
             {"reportId": "(val)","reportLabel": "(val)","reportDescription": "(val)","reportTypeCode": "(val)","permissionName": "(val)","attachmentContent": "(val)","fileName": "(val)","contentType": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Custom Report Details [POST /research-sys/api/v1/custom-report-details/]
+### Insert Multiple Custom Report Details [POST /research-common/api/v1/custom-report-details/]
 
 + Request
 
@@ -192,7 +192,7 @@
               {"reportId": "(val)","reportLabel": "(val)","reportDescription": "(val)","reportTypeCode": "(val)","permissionName": "(val)","attachmentContent": "(val)","fileName": "(val)","contentType": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Custom Report Details by Key [DELETE /research-sys/api/v1/custom-report-details/(key)]
+### Delete Custom Report Details by Key [DELETE /research-common/api/v1/custom-report-details/(key)]
 	 
 + Request
 
@@ -203,7 +203,7 @@
 
 + Response 204
 
-### Delete All Custom Report Details [DELETE /research-sys/api/v1/custom-report-details/]
+### Delete All Custom Report Details [DELETE /research-common/api/v1/custom-report-details/]
 
 + Parameters
 
@@ -218,19 +218,19 @@
 
 + Response 204
 
-### Delete All Custom Report Details with Matching [DELETE /research-sys/api/v1/custom-report-details/]
+### Delete All Custom Report Details with Matching [DELETE /research-common/api/v1/custom-report-details/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + reportId
-            + reportLabel
-            + reportDescription
-            + reportTypeCode
-            + permissionName
-            + attachmentContent
-            + fileName
-            + contentType
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + reportId (optional) - Report Id. Maximum length is 6.
+    + reportLabel (optional) - Report Label. Maximum length is 50.
+    + reportDescription (optional) - Report Description. Maximum length is 50.
+    + reportTypeCode (optional) - Report Type Code. Maximum length is 3.
+    + permissionName (optional) - Permission Name. Maximum length is 30.
+    + attachmentContent (optional) - 
+    + fileName (optional) - 
+    + contentType (optional) - 
 
       
 + Request

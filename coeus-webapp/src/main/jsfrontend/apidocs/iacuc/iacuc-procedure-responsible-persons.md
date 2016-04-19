@@ -1,6 +1,6 @@
-## Iacuc Procedure Responsible Persons [/research-sys/api/v1/iacuc-procedure-responsible-persons/]
+## Iacuc Procedure Responsible Persons [/iacuc/api/v1/iacuc-procedure-responsible-persons/]
 
-### Get Iacuc Procedure Responsible Persons by Key [GET /research-sys/api/v1/iacuc-procedure-responsible-persons/(key)]
+### Get Iacuc Procedure Responsible Persons by Key [GET /iacuc/api/v1/iacuc-procedure-responsible-persons/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"iacucProcedurePersonResponsibleId": "(val)","iacucProtocolStudyGroupId": "(val)","protocolPersonId": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Procedure Responsible Persons [GET /research-sys/api/v1/iacuc-procedure-responsible-persons/]
+### Get All Iacuc Procedure Responsible Persons [GET /iacuc/api/v1/iacuc-procedure-responsible-persons/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"iacucProcedurePersonResponsibleId": "(val)","iacucProtocolStudyGroupId": "(val)","protocolPersonId": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Procedure Responsible Persons with Filtering [GET /research-sys/api/v1/iacuc-procedure-responsible-persons/]
+### Get All Iacuc Procedure Responsible Persons with Filtering [GET /iacuc/api/v1/iacuc-procedure-responsible-persons/]
     
 + Parameters
 
-        + iacucProcedurePersonResponsibleId
-            + iacucProtocolStudyGroupId
-            + protocolPersonId
+    + iacucProcedurePersonResponsibleId (optional) - Procedure Person Responsible Id. Maximum length is 22.
+    + iacucProtocolStudyGroupId (optional) - Protocol Study Group Id. Maximum length is 22.
+    + protocolPersonId (optional) - IACUC Protocol Person Id. Maximum length is 12.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"iacucProcedurePersonResponsibleId": "(val)","iacucProtocolStudyGroupId": "(val)","protocolPersonId": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Procedure Responsible Persons [GET /research-sys/api/v1/iacuc-procedure-responsible-persons/]
+### Get Schema for Iacuc Procedure Responsible Persons [GET /iacuc/api/v1/iacuc-procedure-responsible-persons/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["iacucProcedurePersonResponsibleId","iacucProtocolStudyGroupId","protocolPersonId"],"primaryKey":"iacucProcedurePersonResponsibleId"}
 		
-### Get Blueprint API specification for Iacuc Procedure Responsible Persons [GET /research-sys/api/v1/iacuc-procedure-responsible-persons/]
+### Get Blueprint API specification for Iacuc Procedure Responsible Persons [GET /iacuc/api/v1/iacuc-procedure-responsible-persons/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Procedure Responsible Persons [PUT /research-sys/api/v1/iacuc-procedure-responsible-persons/(key)]
+### Update Iacuc Procedure Responsible Persons [PUT /iacuc/api/v1/iacuc-procedure-responsible-persons/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Procedure Responsible Persons [PUT /research-sys/api/v1/iacuc-procedure-responsible-persons/]
+### Update Multiple Iacuc Procedure Responsible Persons [PUT /iacuc/api/v1/iacuc-procedure-responsible-persons/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Iacuc Procedure Responsible Persons [POST /research-sys/api/v1/iacuc-procedure-responsible-persons/]
+### Insert Iacuc Procedure Responsible Persons [POST /iacuc/api/v1/iacuc-procedure-responsible-persons/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"iacucProcedurePersonResponsibleId": "(val)","iacucProtocolStudyGroupId": "(val)","protocolPersonId": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Procedure Responsible Persons [POST /research-sys/api/v1/iacuc-procedure-responsible-persons/]
+### Insert Multiple Iacuc Procedure Responsible Persons [POST /iacuc/api/v1/iacuc-procedure-responsible-persons/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"iacucProcedurePersonResponsibleId": "(val)","iacucProtocolStudyGroupId": "(val)","protocolPersonId": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Procedure Responsible Persons by Key [DELETE /research-sys/api/v1/iacuc-procedure-responsible-persons/(key)]
+### Delete Iacuc Procedure Responsible Persons by Key [DELETE /iacuc/api/v1/iacuc-procedure-responsible-persons/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Iacuc Procedure Responsible Persons [DELETE /research-sys/api/v1/iacuc-procedure-responsible-persons/]
+### Delete All Iacuc Procedure Responsible Persons [DELETE /iacuc/api/v1/iacuc-procedure-responsible-persons/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Iacuc Procedure Responsible Persons with Matching [DELETE /research-sys/api/v1/iacuc-procedure-responsible-persons/]
+### Delete All Iacuc Procedure Responsible Persons with Matching [DELETE /iacuc/api/v1/iacuc-procedure-responsible-persons/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + iacucProcedurePersonResponsibleId
-            + iacucProtocolStudyGroupId
-            + protocolPersonId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + iacucProcedurePersonResponsibleId (optional) - Procedure Person Responsible Id. Maximum length is 22.
+    + iacucProtocolStudyGroupId (optional) - Protocol Study Group Id. Maximum length is 22.
+    + protocolPersonId (optional) - IACUC Protocol Person Id. Maximum length is 12.
 
       
 + Request

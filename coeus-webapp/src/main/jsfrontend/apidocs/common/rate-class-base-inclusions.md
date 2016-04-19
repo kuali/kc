@@ -1,6 +1,6 @@
-## Rate Class Base Inclusions [/research-sys/api/v1/rate-class-base-inclusions/]
+## Rate Class Base Inclusions [/research-common/api/v1/rate-class-base-inclusions/]
 
-### Get Rate Class Base Inclusions by Key [GET /research-sys/api/v1/rate-class-base-inclusions/(key)]
+### Get Rate Class Base Inclusions by Key [GET /research-common/api/v1/rate-class-base-inclusions/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"rateClassBaseInclusionId": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","rateClassCodeIncl": "(val)","rateTypeCodeIncl": "(val)","_primaryKey": "(val)"}
 
-### Get All Rate Class Base Inclusions [GET /research-sys/api/v1/rate-class-base-inclusions/]
+### Get All Rate Class Base Inclusions [GET /research-common/api/v1/rate-class-base-inclusions/]
 	 
 + Request
 
@@ -39,15 +39,15 @@
               {"rateClassBaseInclusionId": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","rateClassCodeIncl": "(val)","rateTypeCodeIncl": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Rate Class Base Inclusions with Filtering [GET /research-sys/api/v1/rate-class-base-inclusions/]
+### Get All Rate Class Base Inclusions with Filtering [GET /research-common/api/v1/rate-class-base-inclusions/]
     
 + Parameters
 
-        + rateClassBaseInclusionId
-            + rateClassCode
-            + rateTypeCode
-            + rateClassCodeIncl
-            + rateTypeCodeIncl
+    + rateClassBaseInclusionId (optional) - Rate Class Base Inclusion Id. Maximum length is 22.
+    + rateClassCode (optional) - Rate Class. Maximum length is 3.
+    + rateTypeCode (optional) - Rate Type. Maximum length is 3.
+    + rateClassCodeIncl (optional) - Rate Class Inclusion. Maximum length is 3.
+    + rateTypeCodeIncl (optional) - Rate Type Inclusion. Maximum length is 3.
 
             
 + Request
@@ -69,7 +69,7 @@
               {"rateClassBaseInclusionId": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","rateClassCodeIncl": "(val)","rateTypeCodeIncl": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Rate Class Base Inclusions [GET /research-sys/api/v1/rate-class-base-inclusions/]
+### Get Schema for Rate Class Base Inclusions [GET /research-common/api/v1/rate-class-base-inclusions/]
 	                                          
 + Parameters
 
@@ -91,7 +91,7 @@
     
             {"columns":["rateClassBaseInclusionId","rateClassCode","rateTypeCode","rateClassCodeIncl","rateTypeCodeIncl"],"primaryKey":"rateClassBaseInclusionId"}
 		
-### Get Blueprint API specification for Rate Class Base Inclusions [GET /research-sys/api/v1/rate-class-base-inclusions/]
+### Get Blueprint API specification for Rate Class Base Inclusions [GET /research-common/api/v1/rate-class-base-inclusions/]
 	 
 + Parameters
 
@@ -112,7 +112,7 @@
             transfer-encoding:chunked
 
 
-### Update Rate Class Base Inclusions [PUT /research-sys/api/v1/rate-class-base-inclusions/(key)]
+### Update Rate Class Base Inclusions [PUT /research-common/api/v1/rate-class-base-inclusions/(key)]
 
 + Request
 
@@ -127,7 +127,7 @@
 			
 + Response 204
 
-### Update Multiple Rate Class Base Inclusions [PUT /research-sys/api/v1/rate-class-base-inclusions/]
+### Update Multiple Rate Class Base Inclusions [PUT /research-common/api/v1/rate-class-base-inclusions/]
 
 + Request
 
@@ -145,7 +145,7 @@
 			
 + Response 204
 
-### Insert Rate Class Base Inclusions [POST /research-sys/api/v1/rate-class-base-inclusions/]
+### Insert Rate Class Base Inclusions [POST /research-common/api/v1/rate-class-base-inclusions/]
 
 + Request
 
@@ -164,7 +164,7 @@
             
             {"rateClassBaseInclusionId": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","rateClassCodeIncl": "(val)","rateTypeCodeIncl": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Rate Class Base Inclusions [POST /research-sys/api/v1/rate-class-base-inclusions/]
+### Insert Multiple Rate Class Base Inclusions [POST /research-common/api/v1/rate-class-base-inclusions/]
 
 + Request
 
@@ -189,7 +189,7 @@
               {"rateClassBaseInclusionId": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","rateClassCodeIncl": "(val)","rateTypeCodeIncl": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Rate Class Base Inclusions by Key [DELETE /research-sys/api/v1/rate-class-base-inclusions/(key)]
+### Delete Rate Class Base Inclusions by Key [DELETE /research-common/api/v1/rate-class-base-inclusions/(key)]
 	 
 + Request
 
@@ -200,7 +200,7 @@
 
 + Response 204
 
-### Delete All Rate Class Base Inclusions [DELETE /research-sys/api/v1/rate-class-base-inclusions/]
+### Delete All Rate Class Base Inclusions [DELETE /research-common/api/v1/rate-class-base-inclusions/]
 
 + Parameters
 
@@ -215,16 +215,16 @@
 
 + Response 204
 
-### Delete All Rate Class Base Inclusions with Matching [DELETE /research-sys/api/v1/rate-class-base-inclusions/]
+### Delete All Rate Class Base Inclusions with Matching [DELETE /research-common/api/v1/rate-class-base-inclusions/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + rateClassBaseInclusionId
-            + rateClassCode
-            + rateTypeCode
-            + rateClassCodeIncl
-            + rateTypeCodeIncl
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + rateClassBaseInclusionId (optional) - Rate Class Base Inclusion Id. Maximum length is 22.
+    + rateClassCode (optional) - Rate Class. Maximum length is 3.
+    + rateTypeCode (optional) - Rate Type. Maximum length is 3.
+    + rateClassCodeIncl (optional) - Rate Class Inclusion. Maximum length is 3.
+    + rateTypeCodeIncl (optional) - Rate Type Inclusion. Maximum length is 3.
 
       
 + Request

@@ -1,6 +1,6 @@
-## S2s Application Attachments [/research-sys/api/v1/s2s-application-attachments/]
+## S2s Application Attachments [/propdev/api/v1/s2s-application-attachments/]
 
-### Get S2s Application Attachments by Key [GET /research-sys/api/v1/s2s-application-attachments/(key)]
+### Get S2s Application Attachments by Key [GET /propdev/api/v1/s2s-application-attachments/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"id": "(val)","contentId": "(val)","proposalNumber": "(val)","contentType": "(val)","hashCode": "(val)","_primaryKey": "(val)"}
 
-### Get All S2s Application Attachments [GET /research-sys/api/v1/s2s-application-attachments/]
+### Get All S2s Application Attachments [GET /propdev/api/v1/s2s-application-attachments/]
 	 
 + Request
 
@@ -39,15 +39,15 @@
               {"id": "(val)","contentId": "(val)","proposalNumber": "(val)","contentType": "(val)","hashCode": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All S2s Application Attachments with Filtering [GET /research-sys/api/v1/s2s-application-attachments/]
+### Get All S2s Application Attachments with Filtering [GET /propdev/api/v1/s2s-application-attachments/]
     
 + Parameters
 
-        + id
-            + contentId
-            + proposalNumber
-            + contentType
-            + hashCode
+    + id (optional) - Id.
+    + contentId (optional) - Attachments. Maximum length is 300.
+    + proposalNumber (optional) - Proposal Number. Maximum length is 8.
+    + contentType (optional) - Content Type. Maximum length is 30.
+    + hashCode (optional) - Hash Code. Maximum length is 300.
 
             
 + Request
@@ -69,7 +69,7 @@
               {"id": "(val)","contentId": "(val)","proposalNumber": "(val)","contentType": "(val)","hashCode": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for S2s Application Attachments [GET /research-sys/api/v1/s2s-application-attachments/]
+### Get Schema for S2s Application Attachments [GET /propdev/api/v1/s2s-application-attachments/]
 	                                          
 + Parameters
 
@@ -91,7 +91,7 @@
     
             {"columns":["id","contentId","proposalNumber","contentType","hashCode"],"primaryKey":"contentId:id:proposalNumber"}
 		
-### Get Blueprint API specification for S2s Application Attachments [GET /research-sys/api/v1/s2s-application-attachments/]
+### Get Blueprint API specification for S2s Application Attachments [GET /propdev/api/v1/s2s-application-attachments/]
 	 
 + Parameters
 
@@ -112,7 +112,7 @@
             transfer-encoding:chunked
 
 
-### Update S2s Application Attachments [PUT /research-sys/api/v1/s2s-application-attachments/(key)]
+### Update S2s Application Attachments [PUT /propdev/api/v1/s2s-application-attachments/(key)]
 
 + Request
 
@@ -127,7 +127,7 @@
 			
 + Response 204
 
-### Update Multiple S2s Application Attachments [PUT /research-sys/api/v1/s2s-application-attachments/]
+### Update Multiple S2s Application Attachments [PUT /propdev/api/v1/s2s-application-attachments/]
 
 + Request
 
@@ -145,7 +145,7 @@
 			
 + Response 204
 
-### Insert S2s Application Attachments [POST /research-sys/api/v1/s2s-application-attachments/]
+### Insert S2s Application Attachments [POST /propdev/api/v1/s2s-application-attachments/]
 
 + Request
 
@@ -164,7 +164,7 @@
             
             {"id": "(val)","contentId": "(val)","proposalNumber": "(val)","contentType": "(val)","hashCode": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple S2s Application Attachments [POST /research-sys/api/v1/s2s-application-attachments/]
+### Insert Multiple S2s Application Attachments [POST /propdev/api/v1/s2s-application-attachments/]
 
 + Request
 
@@ -189,7 +189,7 @@
               {"id": "(val)","contentId": "(val)","proposalNumber": "(val)","contentType": "(val)","hashCode": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete S2s Application Attachments by Key [DELETE /research-sys/api/v1/s2s-application-attachments/(key)]
+### Delete S2s Application Attachments by Key [DELETE /propdev/api/v1/s2s-application-attachments/(key)]
 	 
 + Request
 
@@ -200,7 +200,7 @@
 
 + Response 204
 
-### Delete All S2s Application Attachments [DELETE /research-sys/api/v1/s2s-application-attachments/]
+### Delete All S2s Application Attachments [DELETE /propdev/api/v1/s2s-application-attachments/]
 
 + Parameters
 
@@ -215,16 +215,16 @@
 
 + Response 204
 
-### Delete All S2s Application Attachments with Matching [DELETE /research-sys/api/v1/s2s-application-attachments/]
+### Delete All S2s Application Attachments with Matching [DELETE /propdev/api/v1/s2s-application-attachments/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + contentId
-            + proposalNumber
-            + contentType
-            + hashCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Id.
+    + contentId (optional) - Attachments. Maximum length is 300.
+    + proposalNumber (optional) - Proposal Number. Maximum length is 8.
+    + contentType (optional) - Content Type. Maximum length is 30.
+    + hashCode (optional) - Hash Code. Maximum length is 300.
 
       
 + Request

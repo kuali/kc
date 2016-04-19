@@ -1,6 +1,6 @@
-## Degree Types [/research-sys/api/v1/degree-types/]
+## Degree Types [/research-common/api/v1/degree-types/]
 
-### Get Degree Types by Key [GET /research-sys/api/v1/degree-types/(key)]
+### Get Degree Types by Key [GET /research-common/api/v1/degree-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Degree Types [GET /research-sys/api/v1/degree-types/]
+### Get All Degree Types [GET /research-common/api/v1/degree-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Degree Types with Filtering [GET /research-sys/api/v1/degree-types/]
+### Get All Degree Types with Filtering [GET /research-common/api/v1/degree-types/]
     
 + Parameters
 
-        + code
-            + description
+    + code (optional) - Degree Code. Maximum length is 6.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Degree Types [GET /research-sys/api/v1/degree-types/]
+### Get Schema for Degree Types [GET /research-common/api/v1/degree-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["code","description"],"primaryKey":"code"}
 		
-### Get Blueprint API specification for Degree Types [GET /research-sys/api/v1/degree-types/]
+### Get Blueprint API specification for Degree Types [GET /research-common/api/v1/degree-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Degree Types [PUT /research-sys/api/v1/degree-types/(key)]
+### Update Degree Types [PUT /research-common/api/v1/degree-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Degree Types [PUT /research-sys/api/v1/degree-types/]
+### Update Multiple Degree Types [PUT /research-common/api/v1/degree-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Degree Types [POST /research-sys/api/v1/degree-types/]
+### Insert Degree Types [POST /research-common/api/v1/degree-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Degree Types [POST /research-sys/api/v1/degree-types/]
+### Insert Multiple Degree Types [POST /research-common/api/v1/degree-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Degree Types by Key [DELETE /research-sys/api/v1/degree-types/(key)]
+### Delete Degree Types by Key [DELETE /research-common/api/v1/degree-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Degree Types [DELETE /research-sys/api/v1/degree-types/]
+### Delete All Degree Types [DELETE /research-common/api/v1/degree-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Degree Types with Matching [DELETE /research-sys/api/v1/degree-types/]
+### Delete All Degree Types with Matching [DELETE /research-common/api/v1/degree-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + code
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + code (optional) - Degree Code. Maximum length is 6.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

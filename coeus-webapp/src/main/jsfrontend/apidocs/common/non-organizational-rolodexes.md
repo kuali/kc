@@ -1,6 +1,6 @@
-## Non Organizational Rolodexes [/research-sys/api/v1/non-organizational-rolodexes/]
+## Non Organizational Rolodexes [/research-common/api/v1/non-organizational-rolodexes/]
 
-### Get Non Organizational Rolodexes by Key [GET /research-sys/api/v1/non-organizational-rolodexes/(key)]
+### Get Non Organizational Rolodexes by Key [GET /research-common/api/v1/non-organizational-rolodexes/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"rolodexId": "(val)","addressLine1": "(val)","addressLine2": "(val)","addressLine3": "(val)","city": "(val)","comments": "(val)","countryCode": "(val)","county": "(val)","createUser": "(val)","deleteFlag": "(val)","emailAddress": "(val)","faxNumber": "(val)","firstName": "(val)","lastName": "(val)","middleName": "(val)","organization": "(val)","ownedByUnit": "(val)","phoneNumber": "(val)","postalCode": "(val)","prefix": "(val)","sponsorAddressFlag": "(val)","sponsorCode": "(val)","state": "(val)","suffix": "(val)","title": "(val)","_primaryKey": "(val)"}
 
-### Get All Non Organizational Rolodexes [GET /research-sys/api/v1/non-organizational-rolodexes/]
+### Get All Non Organizational Rolodexes [GET /research-common/api/v1/non-organizational-rolodexes/]
 	 
 + Request
 
@@ -39,35 +39,35 @@
               {"rolodexId": "(val)","addressLine1": "(val)","addressLine2": "(val)","addressLine3": "(val)","city": "(val)","comments": "(val)","countryCode": "(val)","county": "(val)","createUser": "(val)","deleteFlag": "(val)","emailAddress": "(val)","faxNumber": "(val)","firstName": "(val)","lastName": "(val)","middleName": "(val)","organization": "(val)","ownedByUnit": "(val)","phoneNumber": "(val)","postalCode": "(val)","prefix": "(val)","sponsorAddressFlag": "(val)","sponsorCode": "(val)","state": "(val)","suffix": "(val)","title": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Non Organizational Rolodexes with Filtering [GET /research-sys/api/v1/non-organizational-rolodexes/]
+### Get All Non Organizational Rolodexes with Filtering [GET /research-common/api/v1/non-organizational-rolodexes/]
     
 + Parameters
 
-        + rolodexId
-            + addressLine1
-            + addressLine2
-            + addressLine3
-            + city
-            + comments
-            + countryCode
-            + county
-            + createUser
-            + deleteFlag
-            + emailAddress
-            + faxNumber
-            + firstName
-            + lastName
-            + middleName
-            + organization
-            + ownedByUnit
-            + phoneNumber
-            + postalCode
-            + prefix
-            + sponsorAddressFlag
-            + sponsorCode
-            + state
-            + suffix
-            + title
+    + rolodexId (optional) - Rolodex Id. Maximum length is 6.
+    + addressLine1 (optional) - Address Line 1. Maximum length is 80.
+    + addressLine2 (optional) - Address Line 2. Maximum length is 80.
+    + addressLine3 (optional) - Address Line 3. Maximum length is 80.
+    + city (optional) - City. Maximum length is 30.
+    + comments (optional) - Comments. Maximum length is 300.
+    + countryCode (optional) - Country Code. Maximum length is 3.
+    + county (optional) - County. Maximum length is 30.
+    + createUser (optional) - 
+    + deleteFlag (optional) - Delete Flag. Maximum length is 1.
+    + emailAddress (optional) - Email Address. Maximum length is 60.
+    + faxNumber (optional) - Fax Number. Maximum length is 20.
+    + firstName (optional) - First Name. Maximum length is 20.
+    + lastName (optional) - Last Name. Maximum length is 20.
+    + middleName (optional) - Middle Name. Maximum length is 20.
+    + organization (optional) - Organization. Maximum length is 80.
+    + ownedByUnit (optional) - Owned By Unit. Maximum length is 8.
+    + phoneNumber (optional) - Phone Number. Maximum length is 20.
+    + postalCode (optional) - Postal Code. Maximum length is 15.
+    + prefix (optional) - Prefix. Maximum length is 10.
+    + sponsorAddressFlag (optional) - Sponsor Address Flag. Maximum length is 1.
+    + sponsorCode (optional) - Sponsor Code. Maximum length is 6.
+    + state (optional) - State. Maximum length is 30.
+    + suffix (optional) - Suffix. Maximum length is 10.
+    + title (optional) - Title. Maximum length is 35.
 
             
 + Request
@@ -89,7 +89,7 @@
               {"rolodexId": "(val)","addressLine1": "(val)","addressLine2": "(val)","addressLine3": "(val)","city": "(val)","comments": "(val)","countryCode": "(val)","county": "(val)","createUser": "(val)","deleteFlag": "(val)","emailAddress": "(val)","faxNumber": "(val)","firstName": "(val)","lastName": "(val)","middleName": "(val)","organization": "(val)","ownedByUnit": "(val)","phoneNumber": "(val)","postalCode": "(val)","prefix": "(val)","sponsorAddressFlag": "(val)","sponsorCode": "(val)","state": "(val)","suffix": "(val)","title": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Non Organizational Rolodexes [GET /research-sys/api/v1/non-organizational-rolodexes/]
+### Get Schema for Non Organizational Rolodexes [GET /research-common/api/v1/non-organizational-rolodexes/]
 	                                          
 + Parameters
 
@@ -111,7 +111,7 @@
     
             {"columns":["rolodexId","addressLine1","addressLine2","addressLine3","city","comments","countryCode","county","createUser","deleteFlag","emailAddress","faxNumber","firstName","lastName","middleName","organization","ownedByUnit","phoneNumber","postalCode","prefix","sponsorAddressFlag","sponsorCode","state","suffix","title"],"primaryKey":"rolodexId"}
 		
-### Get Blueprint API specification for Non Organizational Rolodexes [GET /research-sys/api/v1/non-organizational-rolodexes/]
+### Get Blueprint API specification for Non Organizational Rolodexes [GET /research-common/api/v1/non-organizational-rolodexes/]
 	 
 + Parameters
 
@@ -132,7 +132,7 @@
             transfer-encoding:chunked
 
 
-### Update Non Organizational Rolodexes [PUT /research-sys/api/v1/non-organizational-rolodexes/(key)]
+### Update Non Organizational Rolodexes [PUT /research-common/api/v1/non-organizational-rolodexes/(key)]
 
 + Request
 
@@ -147,7 +147,7 @@
 			
 + Response 204
 
-### Update Multiple Non Organizational Rolodexes [PUT /research-sys/api/v1/non-organizational-rolodexes/]
+### Update Multiple Non Organizational Rolodexes [PUT /research-common/api/v1/non-organizational-rolodexes/]
 
 + Request
 
@@ -165,7 +165,7 @@
 			
 + Response 204
 
-### Insert Non Organizational Rolodexes [POST /research-sys/api/v1/non-organizational-rolodexes/]
+### Insert Non Organizational Rolodexes [POST /research-common/api/v1/non-organizational-rolodexes/]
 
 + Request
 
@@ -184,7 +184,7 @@
             
             {"rolodexId": "(val)","addressLine1": "(val)","addressLine2": "(val)","addressLine3": "(val)","city": "(val)","comments": "(val)","countryCode": "(val)","county": "(val)","createUser": "(val)","deleteFlag": "(val)","emailAddress": "(val)","faxNumber": "(val)","firstName": "(val)","lastName": "(val)","middleName": "(val)","organization": "(val)","ownedByUnit": "(val)","phoneNumber": "(val)","postalCode": "(val)","prefix": "(val)","sponsorAddressFlag": "(val)","sponsorCode": "(val)","state": "(val)","suffix": "(val)","title": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Non Organizational Rolodexes [POST /research-sys/api/v1/non-organizational-rolodexes/]
+### Insert Multiple Non Organizational Rolodexes [POST /research-common/api/v1/non-organizational-rolodexes/]
 
 + Request
 
@@ -209,7 +209,7 @@
               {"rolodexId": "(val)","addressLine1": "(val)","addressLine2": "(val)","addressLine3": "(val)","city": "(val)","comments": "(val)","countryCode": "(val)","county": "(val)","createUser": "(val)","deleteFlag": "(val)","emailAddress": "(val)","faxNumber": "(val)","firstName": "(val)","lastName": "(val)","middleName": "(val)","organization": "(val)","ownedByUnit": "(val)","phoneNumber": "(val)","postalCode": "(val)","prefix": "(val)","sponsorAddressFlag": "(val)","sponsorCode": "(val)","state": "(val)","suffix": "(val)","title": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Non Organizational Rolodexes by Key [DELETE /research-sys/api/v1/non-organizational-rolodexes/(key)]
+### Delete Non Organizational Rolodexes by Key [DELETE /research-common/api/v1/non-organizational-rolodexes/(key)]
 	 
 + Request
 
@@ -220,7 +220,7 @@
 
 + Response 204
 
-### Delete All Non Organizational Rolodexes [DELETE /research-sys/api/v1/non-organizational-rolodexes/]
+### Delete All Non Organizational Rolodexes [DELETE /research-common/api/v1/non-organizational-rolodexes/]
 
 + Parameters
 
@@ -235,36 +235,36 @@
 
 + Response 204
 
-### Delete All Non Organizational Rolodexes with Matching [DELETE /research-sys/api/v1/non-organizational-rolodexes/]
+### Delete All Non Organizational Rolodexes with Matching [DELETE /research-common/api/v1/non-organizational-rolodexes/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + rolodexId
-            + addressLine1
-            + addressLine2
-            + addressLine3
-            + city
-            + comments
-            + countryCode
-            + county
-            + createUser
-            + deleteFlag
-            + emailAddress
-            + faxNumber
-            + firstName
-            + lastName
-            + middleName
-            + organization
-            + ownedByUnit
-            + phoneNumber
-            + postalCode
-            + prefix
-            + sponsorAddressFlag
-            + sponsorCode
-            + state
-            + suffix
-            + title
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + rolodexId (optional) - Rolodex Id. Maximum length is 6.
+    + addressLine1 (optional) - Address Line 1. Maximum length is 80.
+    + addressLine2 (optional) - Address Line 2. Maximum length is 80.
+    + addressLine3 (optional) - Address Line 3. Maximum length is 80.
+    + city (optional) - City. Maximum length is 30.
+    + comments (optional) - Comments. Maximum length is 300.
+    + countryCode (optional) - Country Code. Maximum length is 3.
+    + county (optional) - County. Maximum length is 30.
+    + createUser (optional) - 
+    + deleteFlag (optional) - Delete Flag. Maximum length is 1.
+    + emailAddress (optional) - Email Address. Maximum length is 60.
+    + faxNumber (optional) - Fax Number. Maximum length is 20.
+    + firstName (optional) - First Name. Maximum length is 20.
+    + lastName (optional) - Last Name. Maximum length is 20.
+    + middleName (optional) - Middle Name. Maximum length is 20.
+    + organization (optional) - Organization. Maximum length is 80.
+    + ownedByUnit (optional) - Owned By Unit. Maximum length is 8.
+    + phoneNumber (optional) - Phone Number. Maximum length is 20.
+    + postalCode (optional) - Postal Code. Maximum length is 15.
+    + prefix (optional) - Prefix. Maximum length is 10.
+    + sponsorAddressFlag (optional) - Sponsor Address Flag. Maximum length is 1.
+    + sponsorCode (optional) - Sponsor Code. Maximum length is 6.
+    + state (optional) - State. Maximum length is 30.
+    + suffix (optional) - Suffix. Maximum length is 10.
+    + title (optional) - Title. Maximum length is 35.
 
       
 + Request

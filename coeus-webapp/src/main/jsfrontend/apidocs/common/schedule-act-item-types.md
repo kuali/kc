@@ -1,6 +1,6 @@
-## Schedule Act Item Types [/research-sys/api/v1/schedule-act-item-types/]
+## Schedule Act Item Types [/research-common/api/v1/schedule-act-item-types/]
 
-### Get Schedule Act Item Types by Key [GET /research-sys/api/v1/schedule-act-item-types/(key)]
+### Get Schedule Act Item Types by Key [GET /research-common/api/v1/schedule-act-item-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"scheduleActItemTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Schedule Act Item Types [GET /research-sys/api/v1/schedule-act-item-types/]
+### Get All Schedule Act Item Types [GET /research-common/api/v1/schedule-act-item-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"scheduleActItemTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Schedule Act Item Types with Filtering [GET /research-sys/api/v1/schedule-act-item-types/]
+### Get All Schedule Act Item Types with Filtering [GET /research-common/api/v1/schedule-act-item-types/]
     
 + Parameters
 
-        + scheduleActItemTypeCode
-            + description
+    + scheduleActItemTypeCode (optional) - Schedule Act Item Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"scheduleActItemTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Schedule Act Item Types [GET /research-sys/api/v1/schedule-act-item-types/]
+### Get Schema for Schedule Act Item Types [GET /research-common/api/v1/schedule-act-item-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["scheduleActItemTypeCode","description"],"primaryKey":"scheduleActItemTypeCode"}
 		
-### Get Blueprint API specification for Schedule Act Item Types [GET /research-sys/api/v1/schedule-act-item-types/]
+### Get Blueprint API specification for Schedule Act Item Types [GET /research-common/api/v1/schedule-act-item-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Schedule Act Item Types [PUT /research-sys/api/v1/schedule-act-item-types/(key)]
+### Update Schedule Act Item Types [PUT /research-common/api/v1/schedule-act-item-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Schedule Act Item Types [PUT /research-sys/api/v1/schedule-act-item-types/]
+### Update Multiple Schedule Act Item Types [PUT /research-common/api/v1/schedule-act-item-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Schedule Act Item Types [POST /research-sys/api/v1/schedule-act-item-types/]
+### Insert Schedule Act Item Types [POST /research-common/api/v1/schedule-act-item-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"scheduleActItemTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Schedule Act Item Types [POST /research-sys/api/v1/schedule-act-item-types/]
+### Insert Multiple Schedule Act Item Types [POST /research-common/api/v1/schedule-act-item-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"scheduleActItemTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Schedule Act Item Types by Key [DELETE /research-sys/api/v1/schedule-act-item-types/(key)]
+### Delete Schedule Act Item Types by Key [DELETE /research-common/api/v1/schedule-act-item-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Schedule Act Item Types [DELETE /research-sys/api/v1/schedule-act-item-types/]
+### Delete All Schedule Act Item Types [DELETE /research-common/api/v1/schedule-act-item-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Schedule Act Item Types with Matching [DELETE /research-sys/api/v1/schedule-act-item-types/]
+### Delete All Schedule Act Item Types with Matching [DELETE /research-common/api/v1/schedule-act-item-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + scheduleActItemTypeCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + scheduleActItemTypeCode (optional) - Schedule Act Item Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

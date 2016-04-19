@@ -1,6 +1,6 @@
-## Question Categories [/research-sys/api/v1/question-categories/]
+## Question Categories [/research-common/api/v1/question-categories/]
 
-### Get Question Categories by Key [GET /research-sys/api/v1/question-categories/(key)]
+### Get Question Categories by Key [GET /research-common/api/v1/question-categories/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"id": "(val)","name": "(val)","_primaryKey": "(val)"}
 
-### Get All Question Categories [GET /research-sys/api/v1/question-categories/]
+### Get All Question Categories [GET /research-common/api/v1/question-categories/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"id": "(val)","name": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Question Categories with Filtering [GET /research-sys/api/v1/question-categories/]
+### Get All Question Categories with Filtering [GET /research-common/api/v1/question-categories/]
     
 + Parameters
 
-        + id
-            + name
+    + id (optional) - Category Type Code. Maximum length is 3.
+    + name (optional) - Category Name. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"id": "(val)","name": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Question Categories [GET /research-sys/api/v1/question-categories/]
+### Get Schema for Question Categories [GET /research-common/api/v1/question-categories/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["id","name"],"primaryKey":"id"}
 		
-### Get Blueprint API specification for Question Categories [GET /research-sys/api/v1/question-categories/]
+### Get Blueprint API specification for Question Categories [GET /research-common/api/v1/question-categories/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Question Categories [PUT /research-sys/api/v1/question-categories/(key)]
+### Update Question Categories [PUT /research-common/api/v1/question-categories/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Question Categories [PUT /research-sys/api/v1/question-categories/]
+### Update Multiple Question Categories [PUT /research-common/api/v1/question-categories/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Question Categories [POST /research-sys/api/v1/question-categories/]
+### Insert Question Categories [POST /research-common/api/v1/question-categories/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"id": "(val)","name": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Question Categories [POST /research-sys/api/v1/question-categories/]
+### Insert Multiple Question Categories [POST /research-common/api/v1/question-categories/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"id": "(val)","name": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Question Categories by Key [DELETE /research-sys/api/v1/question-categories/(key)]
+### Delete Question Categories by Key [DELETE /research-common/api/v1/question-categories/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Question Categories [DELETE /research-sys/api/v1/question-categories/]
+### Delete All Question Categories [DELETE /research-common/api/v1/question-categories/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Question Categories with Matching [DELETE /research-sys/api/v1/question-categories/]
+### Delete All Question Categories with Matching [DELETE /research-common/api/v1/question-categories/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + name
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Category Type Code. Maximum length is 3.
+    + name (optional) - Category Name. Maximum length is 200.
 
       
 + Request

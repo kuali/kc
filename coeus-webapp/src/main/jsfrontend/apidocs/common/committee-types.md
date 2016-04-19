@@ -1,6 +1,6 @@
-## Committee Types [/research-sys/api/v1/committee-types/]
+## Committee Types [/research-common/api/v1/committee-types/]
 
-### Get Committee Types by Key [GET /research-sys/api/v1/committee-types/(key)]
+### Get Committee Types by Key [GET /research-common/api/v1/committee-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"committeeTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Committee Types [GET /research-sys/api/v1/committee-types/]
+### Get All Committee Types [GET /research-common/api/v1/committee-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"committeeTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Committee Types with Filtering [GET /research-sys/api/v1/committee-types/]
+### Get All Committee Types with Filtering [GET /research-common/api/v1/committee-types/]
     
 + Parameters
 
-        + committeeTypeCode
-            + description
+    + committeeTypeCode (optional) - Committee Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"committeeTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Committee Types [GET /research-sys/api/v1/committee-types/]
+### Get Schema for Committee Types [GET /research-common/api/v1/committee-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["committeeTypeCode","description"],"primaryKey":"committeeTypeCode"}
 		
-### Get Blueprint API specification for Committee Types [GET /research-sys/api/v1/committee-types/]
+### Get Blueprint API specification for Committee Types [GET /research-common/api/v1/committee-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Committee Types [PUT /research-sys/api/v1/committee-types/(key)]
+### Update Committee Types [PUT /research-common/api/v1/committee-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Committee Types [PUT /research-sys/api/v1/committee-types/]
+### Update Multiple Committee Types [PUT /research-common/api/v1/committee-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Committee Types [POST /research-sys/api/v1/committee-types/]
+### Insert Committee Types [POST /research-common/api/v1/committee-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"committeeTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Committee Types [POST /research-sys/api/v1/committee-types/]
+### Insert Multiple Committee Types [POST /research-common/api/v1/committee-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"committeeTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Committee Types by Key [DELETE /research-sys/api/v1/committee-types/(key)]
+### Delete Committee Types by Key [DELETE /research-common/api/v1/committee-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Committee Types [DELETE /research-sys/api/v1/committee-types/]
+### Delete All Committee Types [DELETE /research-common/api/v1/committee-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Committee Types with Matching [DELETE /research-sys/api/v1/committee-types/]
+### Delete All Committee Types with Matching [DELETE /research-common/api/v1/committee-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + committeeTypeCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + committeeTypeCode (optional) - Committee Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

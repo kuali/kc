@@ -43,18 +43,18 @@
     
 + Parameters
 
-        + id
-            + originId
-            + deliveryType
-            + channel
-            + producer
-            + creationDateTime
-            + title
-            + content
-            + contentType
-            + url
-            + recipient
-            + lockVerNbr
+    + id (optional) - 
+    + originId (optional) - 
+    + deliveryType (optional) - 
+    + channel (optional) - 
+    + producer (optional) - 
+    + creationDateTime (optional) - 
+    + title (optional) - 
+    + content (optional) - 
+    + contentType (optional) - 
+    + url (optional) - 
+    + recipient (optional) - 
+    + lockVerNbr (optional) - 
 
             
 + Request
@@ -226,19 +226,19 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + originId
-            + deliveryType
-            + channel
-            + producer
-            + creationDateTime
-            + title
-            + content
-            + contentType
-            + url
-            + recipient
-            + lockVerNbr
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - 
+    + originId (optional) - 
+    + deliveryType (optional) - 
+    + channel (optional) - 
+    + producer (optional) - 
+    + creationDateTime (optional) - 
+    + title (optional) - 
+    + content (optional) - 
+    + contentType (optional) - 
+    + url (optional) - 
+    + recipient (optional) - 
+    + lockVerNbr (optional) - 
 
       
 + Request

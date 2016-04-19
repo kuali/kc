@@ -1,6 +1,6 @@
-## Iacuc Protocol Amend Renew Modules [/research-sys/api/v1/iacuc-protocol-amend-renew-modules/]
+## Iacuc Protocol Amend Renew Modules [/iacuc/api/v1/iacuc-protocol-amend-renew-modules/]
 
-### Get Iacuc Protocol Amend Renew Modules by Key [GET /research-sys/api/v1/iacuc-protocol-amend-renew-modules/(key)]
+### Get Iacuc Protocol Amend Renew Modules by Key [GET /iacuc/api/v1/iacuc-protocol-amend-renew-modules/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"protocolAmendRenewModuleId": "(val)","protocolAmendRenewalNumber": "(val)","protocolAmendRenewalId": "(val)","protocolNumber": "(val)","protocolModuleTypeCode": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Protocol Amend Renew Modules [GET /research-sys/api/v1/iacuc-protocol-amend-renew-modules/]
+### Get All Iacuc Protocol Amend Renew Modules [GET /iacuc/api/v1/iacuc-protocol-amend-renew-modules/]
 	 
 + Request
 
@@ -39,15 +39,15 @@
               {"protocolAmendRenewModuleId": "(val)","protocolAmendRenewalNumber": "(val)","protocolAmendRenewalId": "(val)","protocolNumber": "(val)","protocolModuleTypeCode": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Protocol Amend Renew Modules with Filtering [GET /research-sys/api/v1/iacuc-protocol-amend-renew-modules/]
+### Get All Iacuc Protocol Amend Renew Modules with Filtering [GET /iacuc/api/v1/iacuc-protocol-amend-renew-modules/]
     
 + Parameters
 
-        + protocolAmendRenewModuleId
-            + protocolAmendRenewalNumber
-            + protocolAmendRenewalId
-            + protocolNumber
-            + protocolModuleTypeCode
+    + protocolAmendRenewModuleId (optional) - 
+    + protocolAmendRenewalNumber (optional) - 
+    + protocolAmendRenewalId (optional) - 
+    + protocolNumber (optional) - 
+    + protocolModuleTypeCode (optional) - 
 
             
 + Request
@@ -69,7 +69,7 @@
               {"protocolAmendRenewModuleId": "(val)","protocolAmendRenewalNumber": "(val)","protocolAmendRenewalId": "(val)","protocolNumber": "(val)","protocolModuleTypeCode": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Protocol Amend Renew Modules [GET /research-sys/api/v1/iacuc-protocol-amend-renew-modules/]
+### Get Schema for Iacuc Protocol Amend Renew Modules [GET /iacuc/api/v1/iacuc-protocol-amend-renew-modules/]
 	                                          
 + Parameters
 
@@ -91,7 +91,7 @@
     
             {"columns":["protocolAmendRenewModuleId","protocolAmendRenewalNumber","protocolAmendRenewalId","protocolNumber","protocolModuleTypeCode"],"primaryKey":"protocolAmendRenewModuleId"}
 		
-### Get Blueprint API specification for Iacuc Protocol Amend Renew Modules [GET /research-sys/api/v1/iacuc-protocol-amend-renew-modules/]
+### Get Blueprint API specification for Iacuc Protocol Amend Renew Modules [GET /iacuc/api/v1/iacuc-protocol-amend-renew-modules/]
 	 
 + Parameters
 
@@ -112,7 +112,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Protocol Amend Renew Modules [PUT /research-sys/api/v1/iacuc-protocol-amend-renew-modules/(key)]
+### Update Iacuc Protocol Amend Renew Modules [PUT /iacuc/api/v1/iacuc-protocol-amend-renew-modules/(key)]
 
 + Request
 
@@ -127,7 +127,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Protocol Amend Renew Modules [PUT /research-sys/api/v1/iacuc-protocol-amend-renew-modules/]
+### Update Multiple Iacuc Protocol Amend Renew Modules [PUT /iacuc/api/v1/iacuc-protocol-amend-renew-modules/]
 
 + Request
 
@@ -145,7 +145,7 @@
 			
 + Response 204
 
-### Insert Iacuc Protocol Amend Renew Modules [POST /research-sys/api/v1/iacuc-protocol-amend-renew-modules/]
+### Insert Iacuc Protocol Amend Renew Modules [POST /iacuc/api/v1/iacuc-protocol-amend-renew-modules/]
 
 + Request
 
@@ -164,7 +164,7 @@
             
             {"protocolAmendRenewModuleId": "(val)","protocolAmendRenewalNumber": "(val)","protocolAmendRenewalId": "(val)","protocolNumber": "(val)","protocolModuleTypeCode": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Protocol Amend Renew Modules [POST /research-sys/api/v1/iacuc-protocol-amend-renew-modules/]
+### Insert Multiple Iacuc Protocol Amend Renew Modules [POST /iacuc/api/v1/iacuc-protocol-amend-renew-modules/]
 
 + Request
 
@@ -189,7 +189,7 @@
               {"protocolAmendRenewModuleId": "(val)","protocolAmendRenewalNumber": "(val)","protocolAmendRenewalId": "(val)","protocolNumber": "(val)","protocolModuleTypeCode": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Protocol Amend Renew Modules by Key [DELETE /research-sys/api/v1/iacuc-protocol-amend-renew-modules/(key)]
+### Delete Iacuc Protocol Amend Renew Modules by Key [DELETE /iacuc/api/v1/iacuc-protocol-amend-renew-modules/(key)]
 	 
 + Request
 
@@ -200,7 +200,7 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Amend Renew Modules [DELETE /research-sys/api/v1/iacuc-protocol-amend-renew-modules/]
+### Delete All Iacuc Protocol Amend Renew Modules [DELETE /iacuc/api/v1/iacuc-protocol-amend-renew-modules/]
 
 + Parameters
 
@@ -215,16 +215,16 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Amend Renew Modules with Matching [DELETE /research-sys/api/v1/iacuc-protocol-amend-renew-modules/]
+### Delete All Iacuc Protocol Amend Renew Modules with Matching [DELETE /iacuc/api/v1/iacuc-protocol-amend-renew-modules/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + protocolAmendRenewModuleId
-            + protocolAmendRenewalNumber
-            + protocolAmendRenewalId
-            + protocolNumber
-            + protocolModuleTypeCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + protocolAmendRenewModuleId (optional) - 
+    + protocolAmendRenewalNumber (optional) - 
+    + protocolAmendRenewalId (optional) - 
+    + protocolNumber (optional) - 
+    + protocolModuleTypeCode (optional) - 
 
       
 + Request

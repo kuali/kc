@@ -1,6 +1,6 @@
-## Custom Attribute Documents [/research-sys/api/v1/custom-attribute-documents/]
+## Custom Attribute Documents [/research-common/api/v1/custom-attribute-documents/]
 
-### Get Custom Attribute Documents by Key [GET /research-sys/api/v1/custom-attribute-documents/(key)]
+### Get Custom Attribute Documents by Key [GET /research-common/api/v1/custom-attribute-documents/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"id": "(val)","documentTypeName": "(val)","required": "(val)","typeName": "(val)","active": "(val)","_primaryKey": "(val)"}
 
-### Get All Custom Attribute Documents [GET /research-sys/api/v1/custom-attribute-documents/]
+### Get All Custom Attribute Documents [GET /research-common/api/v1/custom-attribute-documents/]
 	 
 + Request
 
@@ -39,15 +39,15 @@
               {"id": "(val)","documentTypeName": "(val)","required": "(val)","typeName": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Custom Attribute Documents with Filtering [GET /research-sys/api/v1/custom-attribute-documents/]
+### Get All Custom Attribute Documents with Filtering [GET /research-common/api/v1/custom-attribute-documents/]
     
 + Parameters
 
-        + id
-            + documentTypeName
-            + required
-            + typeName
-            + active
+    + id (optional) - Custom Attribute ID. Maximum length is 12.
+    + documentTypeName (optional) - Document Type Code. Maximum length is 4.
+    + required (optional) - Required. Maximum length is 1.
+    + typeName (optional) - Type Name. Maximum length is 100.
+    + active (optional) - Active. Maximum length is 1.
 
             
 + Request
@@ -69,7 +69,7 @@
               {"id": "(val)","documentTypeName": "(val)","required": "(val)","typeName": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Custom Attribute Documents [GET /research-sys/api/v1/custom-attribute-documents/]
+### Get Schema for Custom Attribute Documents [GET /research-common/api/v1/custom-attribute-documents/]
 	                                          
 + Parameters
 
@@ -91,7 +91,7 @@
     
             {"columns":["id","documentTypeName","required","typeName","active"],"primaryKey":"documentTypeName:id"}
 		
-### Get Blueprint API specification for Custom Attribute Documents [GET /research-sys/api/v1/custom-attribute-documents/]
+### Get Blueprint API specification for Custom Attribute Documents [GET /research-common/api/v1/custom-attribute-documents/]
 	 
 + Parameters
 
@@ -112,7 +112,7 @@
             transfer-encoding:chunked
 
 
-### Update Custom Attribute Documents [PUT /research-sys/api/v1/custom-attribute-documents/(key)]
+### Update Custom Attribute Documents [PUT /research-common/api/v1/custom-attribute-documents/(key)]
 
 + Request
 
@@ -127,7 +127,7 @@
 			
 + Response 204
 
-### Update Multiple Custom Attribute Documents [PUT /research-sys/api/v1/custom-attribute-documents/]
+### Update Multiple Custom Attribute Documents [PUT /research-common/api/v1/custom-attribute-documents/]
 
 + Request
 
@@ -145,7 +145,7 @@
 			
 + Response 204
 
-### Insert Custom Attribute Documents [POST /research-sys/api/v1/custom-attribute-documents/]
+### Insert Custom Attribute Documents [POST /research-common/api/v1/custom-attribute-documents/]
 
 + Request
 
@@ -164,7 +164,7 @@
             
             {"id": "(val)","documentTypeName": "(val)","required": "(val)","typeName": "(val)","active": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Custom Attribute Documents [POST /research-sys/api/v1/custom-attribute-documents/]
+### Insert Multiple Custom Attribute Documents [POST /research-common/api/v1/custom-attribute-documents/]
 
 + Request
 
@@ -189,7 +189,7 @@
               {"id": "(val)","documentTypeName": "(val)","required": "(val)","typeName": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Custom Attribute Documents by Key [DELETE /research-sys/api/v1/custom-attribute-documents/(key)]
+### Delete Custom Attribute Documents by Key [DELETE /research-common/api/v1/custom-attribute-documents/(key)]
 	 
 + Request
 
@@ -200,7 +200,7 @@
 
 + Response 204
 
-### Delete All Custom Attribute Documents [DELETE /research-sys/api/v1/custom-attribute-documents/]
+### Delete All Custom Attribute Documents [DELETE /research-common/api/v1/custom-attribute-documents/]
 
 + Parameters
 
@@ -215,16 +215,16 @@
 
 + Response 204
 
-### Delete All Custom Attribute Documents with Matching [DELETE /research-sys/api/v1/custom-attribute-documents/]
+### Delete All Custom Attribute Documents with Matching [DELETE /research-common/api/v1/custom-attribute-documents/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + documentTypeName
-            + required
-            + typeName
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Custom Attribute ID. Maximum length is 12.
+    + documentTypeName (optional) - Document Type Code. Maximum length is 4.
+    + required (optional) - Required. Maximum length is 1.
+    + typeName (optional) - Type Name. Maximum length is 100.
+    + active (optional) - Active. Maximum length is 1.
 
       
 + Request

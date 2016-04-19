@@ -1,6 +1,6 @@
-## Iacuc Alternate Searches [/research-sys/api/v1/iacuc-alternate-searches/]
+## Iacuc Alternate Searches [/iacuc/api/v1/iacuc-alternate-searches/]
 
-### Get Iacuc Alternate Searches by Key [GET /research-sys/api/v1/iacuc-alternate-searches/(key)]
+### Get Iacuc Alternate Searches by Key [GET /iacuc/api/v1/iacuc-alternate-searches/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"iacucAltSearchId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","searchDate": "(val)","yearsSearched": "(val)","keywords": "(val)","comments": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Alternate Searches [GET /research-sys/api/v1/iacuc-alternate-searches/]
+### Get All Iacuc Alternate Searches [GET /iacuc/api/v1/iacuc-alternate-searches/]
 	 
 + Request
 
@@ -39,18 +39,18 @@
               {"iacucAltSearchId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","searchDate": "(val)","yearsSearched": "(val)","keywords": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Alternate Searches with Filtering [GET /research-sys/api/v1/iacuc-alternate-searches/]
+### Get All Iacuc Alternate Searches with Filtering [GET /iacuc/api/v1/iacuc-alternate-searches/]
     
 + Parameters
 
-        + iacucAltSearchId
-            + protocolId
-            + protocolNumber
-            + sequenceNumber
-            + searchDate
-            + yearsSearched
-            + keywords
-            + comments
+    + iacucAltSearchId (optional) - 
+    + protocolId (optional) - 
+    + protocolNumber (optional) - 
+    + sequenceNumber (optional) - 
+    + searchDate (optional) - Search Date. Maximum length is 10.
+    + yearsSearched (optional) - Years Searched. Maximum length is 2000.
+    + keywords (optional) - Keywords. Maximum length is 2000.
+    + comments (optional) - Comments. Maximum length is 2000.
 
             
 + Request
@@ -72,7 +72,7 @@
               {"iacucAltSearchId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","searchDate": "(val)","yearsSearched": "(val)","keywords": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Alternate Searches [GET /research-sys/api/v1/iacuc-alternate-searches/]
+### Get Schema for Iacuc Alternate Searches [GET /iacuc/api/v1/iacuc-alternate-searches/]
 	                                          
 + Parameters
 
@@ -94,7 +94,7 @@
     
             {"columns":["iacucAltSearchId","protocolId","protocolNumber","sequenceNumber","searchDate","yearsSearched","keywords","comments"],"primaryKey":"iacucAltSearchId"}
 		
-### Get Blueprint API specification for Iacuc Alternate Searches [GET /research-sys/api/v1/iacuc-alternate-searches/]
+### Get Blueprint API specification for Iacuc Alternate Searches [GET /iacuc/api/v1/iacuc-alternate-searches/]
 	 
 + Parameters
 
@@ -115,7 +115,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Alternate Searches [PUT /research-sys/api/v1/iacuc-alternate-searches/(key)]
+### Update Iacuc Alternate Searches [PUT /iacuc/api/v1/iacuc-alternate-searches/(key)]
 
 + Request
 
@@ -130,7 +130,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Alternate Searches [PUT /research-sys/api/v1/iacuc-alternate-searches/]
+### Update Multiple Iacuc Alternate Searches [PUT /iacuc/api/v1/iacuc-alternate-searches/]
 
 + Request
 
@@ -148,7 +148,7 @@
 			
 + Response 204
 
-### Insert Iacuc Alternate Searches [POST /research-sys/api/v1/iacuc-alternate-searches/]
+### Insert Iacuc Alternate Searches [POST /iacuc/api/v1/iacuc-alternate-searches/]
 
 + Request
 
@@ -167,7 +167,7 @@
             
             {"iacucAltSearchId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","searchDate": "(val)","yearsSearched": "(val)","keywords": "(val)","comments": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Alternate Searches [POST /research-sys/api/v1/iacuc-alternate-searches/]
+### Insert Multiple Iacuc Alternate Searches [POST /iacuc/api/v1/iacuc-alternate-searches/]
 
 + Request
 
@@ -192,7 +192,7 @@
               {"iacucAltSearchId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","searchDate": "(val)","yearsSearched": "(val)","keywords": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Alternate Searches by Key [DELETE /research-sys/api/v1/iacuc-alternate-searches/(key)]
+### Delete Iacuc Alternate Searches by Key [DELETE /iacuc/api/v1/iacuc-alternate-searches/(key)]
 	 
 + Request
 
@@ -203,7 +203,7 @@
 
 + Response 204
 
-### Delete All Iacuc Alternate Searches [DELETE /research-sys/api/v1/iacuc-alternate-searches/]
+### Delete All Iacuc Alternate Searches [DELETE /iacuc/api/v1/iacuc-alternate-searches/]
 
 + Parameters
 
@@ -218,19 +218,19 @@
 
 + Response 204
 
-### Delete All Iacuc Alternate Searches with Matching [DELETE /research-sys/api/v1/iacuc-alternate-searches/]
+### Delete All Iacuc Alternate Searches with Matching [DELETE /iacuc/api/v1/iacuc-alternate-searches/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + iacucAltSearchId
-            + protocolId
-            + protocolNumber
-            + sequenceNumber
-            + searchDate
-            + yearsSearched
-            + keywords
-            + comments
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + iacucAltSearchId (optional) - 
+    + protocolId (optional) - 
+    + protocolNumber (optional) - 
+    + sequenceNumber (optional) - 
+    + searchDate (optional) - Search Date. Maximum length is 10.
+    + yearsSearched (optional) - Years Searched. Maximum length is 2000.
+    + keywords (optional) - Keywords. Maximum length is 2000.
+    + comments (optional) - Comments. Maximum length is 2000.
 
       
 + Request

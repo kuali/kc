@@ -1,6 +1,6 @@
-## Proposal Log Statuses [/research-sys/api/v1/proposal-log-statuses/]
+## Proposal Log Statuses [/instprop/api/v1/proposal-log-statuses/]
 
-### Get Proposal Log Statuses by Key [GET /research-sys/api/v1/proposal-log-statuses/(key)]
+### Get Proposal Log Statuses by Key [GET /instprop/api/v1/proposal-log-statuses/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"proposalLogStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Proposal Log Statuses [GET /research-sys/api/v1/proposal-log-statuses/]
+### Get All Proposal Log Statuses [GET /instprop/api/v1/proposal-log-statuses/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"proposalLogStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Proposal Log Statuses with Filtering [GET /research-sys/api/v1/proposal-log-statuses/]
+### Get All Proposal Log Statuses with Filtering [GET /instprop/api/v1/proposal-log-statuses/]
     
 + Parameters
 
-        + proposalLogStatusCode
-            + description
+    + proposalLogStatusCode (optional) - Proposal Log Status Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"proposalLogStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Proposal Log Statuses [GET /research-sys/api/v1/proposal-log-statuses/]
+### Get Schema for Proposal Log Statuses [GET /instprop/api/v1/proposal-log-statuses/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["proposalLogStatusCode","description"],"primaryKey":"proposalLogStatusCode"}
 		
-### Get Blueprint API specification for Proposal Log Statuses [GET /research-sys/api/v1/proposal-log-statuses/]
+### Get Blueprint API specification for Proposal Log Statuses [GET /instprop/api/v1/proposal-log-statuses/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Proposal Log Statuses [PUT /research-sys/api/v1/proposal-log-statuses/(key)]
+### Update Proposal Log Statuses [PUT /instprop/api/v1/proposal-log-statuses/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Proposal Log Statuses [PUT /research-sys/api/v1/proposal-log-statuses/]
+### Update Multiple Proposal Log Statuses [PUT /instprop/api/v1/proposal-log-statuses/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Proposal Log Statuses [POST /research-sys/api/v1/proposal-log-statuses/]
+### Insert Proposal Log Statuses [POST /instprop/api/v1/proposal-log-statuses/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"proposalLogStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Proposal Log Statuses [POST /research-sys/api/v1/proposal-log-statuses/]
+### Insert Multiple Proposal Log Statuses [POST /instprop/api/v1/proposal-log-statuses/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"proposalLogStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Proposal Log Statuses by Key [DELETE /research-sys/api/v1/proposal-log-statuses/(key)]
+### Delete Proposal Log Statuses by Key [DELETE /instprop/api/v1/proposal-log-statuses/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Proposal Log Statuses [DELETE /research-sys/api/v1/proposal-log-statuses/]
+### Delete All Proposal Log Statuses [DELETE /instprop/api/v1/proposal-log-statuses/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Proposal Log Statuses with Matching [DELETE /research-sys/api/v1/proposal-log-statuses/]
+### Delete All Proposal Log Statuses with Matching [DELETE /instprop/api/v1/proposal-log-statuses/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + proposalLogStatusCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + proposalLogStatusCode (optional) - Proposal Log Status Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

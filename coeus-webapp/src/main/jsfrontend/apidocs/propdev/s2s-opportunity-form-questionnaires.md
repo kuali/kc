@@ -1,6 +1,6 @@
-## S2s Opportunity Form Questionnaires [/research-sys/api/v1/s2s-opportunity-form-questionnaires/]
+## S2s Opportunity Form Questionnaires [/propdev/api/v1/s2s-opportunity-form-questionnaires/]
 
-### Get S2s Opportunity Form Questionnaires by Key [GET /research-sys/api/v1/s2s-opportunity-form-questionnaires/(key)]
+### Get S2s Opportunity Form Questionnaires by Key [GET /propdev/api/v1/s2s-opportunity-form-questionnaires/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"s2sOppFormQuestionnaireId": "(val)","oppNameSpace": "(val)","formName": "(val)","questionnaireId": "(val)","_primaryKey": "(val)"}
 
-### Get All S2s Opportunity Form Questionnaires [GET /research-sys/api/v1/s2s-opportunity-form-questionnaires/]
+### Get All S2s Opportunity Form Questionnaires [GET /propdev/api/v1/s2s-opportunity-form-questionnaires/]
 	 
 + Request
 
@@ -39,14 +39,14 @@
               {"s2sOppFormQuestionnaireId": "(val)","oppNameSpace": "(val)","formName": "(val)","questionnaireId": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All S2s Opportunity Form Questionnaires with Filtering [GET /research-sys/api/v1/s2s-opportunity-form-questionnaires/]
+### Get All S2s Opportunity Form Questionnaires with Filtering [GET /propdev/api/v1/s2s-opportunity-form-questionnaires/]
     
 + Parameters
 
-        + s2sOppFormQuestionnaireId
-            + oppNameSpace
-            + formName
-            + questionnaireId
+    + s2sOppFormQuestionnaireId (optional) - S2S Opportunity Form to Questionnaire Mapping Id. Maximum length is 12.
+    + oppNameSpace (optional) - Namespace. Maximum length is 200.
+    + formName (optional) - Form Name. Maximum length is 100.
+    + questionnaireId (optional) - Questionnaire Ref Id. Maximum length is 10.
 
             
 + Request
@@ -68,7 +68,7 @@
               {"s2sOppFormQuestionnaireId": "(val)","oppNameSpace": "(val)","formName": "(val)","questionnaireId": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for S2s Opportunity Form Questionnaires [GET /research-sys/api/v1/s2s-opportunity-form-questionnaires/]
+### Get Schema for S2s Opportunity Form Questionnaires [GET /propdev/api/v1/s2s-opportunity-form-questionnaires/]
 	                                          
 + Parameters
 
@@ -90,7 +90,7 @@
     
             {"columns":["s2sOppFormQuestionnaireId","oppNameSpace","formName","questionnaireId"],"primaryKey":"s2sOppFormQuestionnaireId"}
 		
-### Get Blueprint API specification for S2s Opportunity Form Questionnaires [GET /research-sys/api/v1/s2s-opportunity-form-questionnaires/]
+### Get Blueprint API specification for S2s Opportunity Form Questionnaires [GET /propdev/api/v1/s2s-opportunity-form-questionnaires/]
 	 
 + Parameters
 
@@ -111,7 +111,7 @@
             transfer-encoding:chunked
 
 
-### Update S2s Opportunity Form Questionnaires [PUT /research-sys/api/v1/s2s-opportunity-form-questionnaires/(key)]
+### Update S2s Opportunity Form Questionnaires [PUT /propdev/api/v1/s2s-opportunity-form-questionnaires/(key)]
 
 + Request
 
@@ -126,7 +126,7 @@
 			
 + Response 204
 
-### Update Multiple S2s Opportunity Form Questionnaires [PUT /research-sys/api/v1/s2s-opportunity-form-questionnaires/]
+### Update Multiple S2s Opportunity Form Questionnaires [PUT /propdev/api/v1/s2s-opportunity-form-questionnaires/]
 
 + Request
 
@@ -144,7 +144,7 @@
 			
 + Response 204
 
-### Insert S2s Opportunity Form Questionnaires [POST /research-sys/api/v1/s2s-opportunity-form-questionnaires/]
+### Insert S2s Opportunity Form Questionnaires [POST /propdev/api/v1/s2s-opportunity-form-questionnaires/]
 
 + Request
 
@@ -163,7 +163,7 @@
             
             {"s2sOppFormQuestionnaireId": "(val)","oppNameSpace": "(val)","formName": "(val)","questionnaireId": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple S2s Opportunity Form Questionnaires [POST /research-sys/api/v1/s2s-opportunity-form-questionnaires/]
+### Insert Multiple S2s Opportunity Form Questionnaires [POST /propdev/api/v1/s2s-opportunity-form-questionnaires/]
 
 + Request
 
@@ -188,7 +188,7 @@
               {"s2sOppFormQuestionnaireId": "(val)","oppNameSpace": "(val)","formName": "(val)","questionnaireId": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete S2s Opportunity Form Questionnaires by Key [DELETE /research-sys/api/v1/s2s-opportunity-form-questionnaires/(key)]
+### Delete S2s Opportunity Form Questionnaires by Key [DELETE /propdev/api/v1/s2s-opportunity-form-questionnaires/(key)]
 	 
 + Request
 
@@ -199,7 +199,7 @@
 
 + Response 204
 
-### Delete All S2s Opportunity Form Questionnaires [DELETE /research-sys/api/v1/s2s-opportunity-form-questionnaires/]
+### Delete All S2s Opportunity Form Questionnaires [DELETE /propdev/api/v1/s2s-opportunity-form-questionnaires/]
 
 + Parameters
 
@@ -214,15 +214,15 @@
 
 + Response 204
 
-### Delete All S2s Opportunity Form Questionnaires with Matching [DELETE /research-sys/api/v1/s2s-opportunity-form-questionnaires/]
+### Delete All S2s Opportunity Form Questionnaires with Matching [DELETE /propdev/api/v1/s2s-opportunity-form-questionnaires/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + s2sOppFormQuestionnaireId
-            + oppNameSpace
-            + formName
-            + questionnaireId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + s2sOppFormQuestionnaireId (optional) - S2S Opportunity Form to Questionnaire Mapping Id. Maximum length is 12.
+    + oppNameSpace (optional) - Namespace. Maximum length is 200.
+    + formName (optional) - Form Name. Maximum length is 100.
+    + questionnaireId (optional) - Questionnaire Ref Id. Maximum length is 10.
 
       
 + Request

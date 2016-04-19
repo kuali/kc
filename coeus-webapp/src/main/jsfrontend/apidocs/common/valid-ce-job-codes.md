@@ -1,6 +1,6 @@
-## Valid Ce Job Codes [/research-sys/api/v1/valid-ce-job-codes/]
+## Valid Ce Job Codes [/research-common/api/v1/valid-ce-job-codes/]
 
-### Get Valid Ce Job Codes by Key [GET /research-sys/api/v1/valid-ce-job-codes/(key)]
+### Get Valid Ce Job Codes by Key [GET /research-common/api/v1/valid-ce-job-codes/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"costElement": "(val)","jobCode": "(val)","_primaryKey": "(val)"}
 
-### Get All Valid Ce Job Codes [GET /research-sys/api/v1/valid-ce-job-codes/]
+### Get All Valid Ce Job Codes [GET /research-common/api/v1/valid-ce-job-codes/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"costElement": "(val)","jobCode": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Valid Ce Job Codes with Filtering [GET /research-sys/api/v1/valid-ce-job-codes/]
+### Get All Valid Ce Job Codes with Filtering [GET /research-common/api/v1/valid-ce-job-codes/]
     
 + Parameters
 
-        + costElement
-            + jobCode
+    + costElement (optional) - Cost Element. Maximum length is 8.
+    + jobCode (optional) - Job Code. Maximum length is 6.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"costElement": "(val)","jobCode": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Valid Ce Job Codes [GET /research-sys/api/v1/valid-ce-job-codes/]
+### Get Schema for Valid Ce Job Codes [GET /research-common/api/v1/valid-ce-job-codes/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["costElement","jobCode"],"primaryKey":"costElement:jobCode"}
 		
-### Get Blueprint API specification for Valid Ce Job Codes [GET /research-sys/api/v1/valid-ce-job-codes/]
+### Get Blueprint API specification for Valid Ce Job Codes [GET /research-common/api/v1/valid-ce-job-codes/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Valid Ce Job Codes [PUT /research-sys/api/v1/valid-ce-job-codes/(key)]
+### Update Valid Ce Job Codes [PUT /research-common/api/v1/valid-ce-job-codes/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Valid Ce Job Codes [PUT /research-sys/api/v1/valid-ce-job-codes/]
+### Update Multiple Valid Ce Job Codes [PUT /research-common/api/v1/valid-ce-job-codes/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Valid Ce Job Codes [POST /research-sys/api/v1/valid-ce-job-codes/]
+### Insert Valid Ce Job Codes [POST /research-common/api/v1/valid-ce-job-codes/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"costElement": "(val)","jobCode": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Valid Ce Job Codes [POST /research-sys/api/v1/valid-ce-job-codes/]
+### Insert Multiple Valid Ce Job Codes [POST /research-common/api/v1/valid-ce-job-codes/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"costElement": "(val)","jobCode": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Valid Ce Job Codes by Key [DELETE /research-sys/api/v1/valid-ce-job-codes/(key)]
+### Delete Valid Ce Job Codes by Key [DELETE /research-common/api/v1/valid-ce-job-codes/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Valid Ce Job Codes [DELETE /research-sys/api/v1/valid-ce-job-codes/]
+### Delete All Valid Ce Job Codes [DELETE /research-common/api/v1/valid-ce-job-codes/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Valid Ce Job Codes with Matching [DELETE /research-sys/api/v1/valid-ce-job-codes/]
+### Delete All Valid Ce Job Codes with Matching [DELETE /research-common/api/v1/valid-ce-job-codes/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + costElement
-            + jobCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + costElement (optional) - Cost Element. Maximum length is 8.
+    + jobCode (optional) - Job Code. Maximum length is 6.
 
       
 + Request

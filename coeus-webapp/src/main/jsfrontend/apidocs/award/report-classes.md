@@ -1,6 +1,6 @@
-## Report Classes [/research-sys/api/v1/report-classes/]
+## Report Classes [/award/api/v1/report-classes/]
 
-### Get Report Classes by Key [GET /research-sys/api/v1/report-classes/(key)]
+### Get Report Classes by Key [GET /award/api/v1/report-classes/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"reportClassCode": "(val)","description": "(val)","generateReportRequirements": "(val)","active": "(val)","_primaryKey": "(val)"}
 
-### Get All Report Classes [GET /research-sys/api/v1/report-classes/]
+### Get All Report Classes [GET /award/api/v1/report-classes/]
 	 
 + Request
 
@@ -39,14 +39,14 @@
               {"reportClassCode": "(val)","description": "(val)","generateReportRequirements": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Report Classes with Filtering [GET /research-sys/api/v1/report-classes/]
+### Get All Report Classes with Filtering [GET /award/api/v1/report-classes/]
     
 + Parameters
 
-        + reportClassCode
-            + description
-            + generateReportRequirements
-            + active
+    + reportClassCode (optional) - Report Class Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + generateReportRequirements (optional) - Generate Report Tracking. Maximum length is 1.
+    + active (optional) - Active. Maximum length is 1.
 
             
 + Request
@@ -68,7 +68,7 @@
               {"reportClassCode": "(val)","description": "(val)","generateReportRequirements": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Report Classes [GET /research-sys/api/v1/report-classes/]
+### Get Schema for Report Classes [GET /award/api/v1/report-classes/]
 	                                          
 + Parameters
 
@@ -90,7 +90,7 @@
     
             {"columns":["reportClassCode","description","generateReportRequirements","active"],"primaryKey":"reportClassCode"}
 		
-### Get Blueprint API specification for Report Classes [GET /research-sys/api/v1/report-classes/]
+### Get Blueprint API specification for Report Classes [GET /award/api/v1/report-classes/]
 	 
 + Parameters
 
@@ -111,7 +111,7 @@
             transfer-encoding:chunked
 
 
-### Update Report Classes [PUT /research-sys/api/v1/report-classes/(key)]
+### Update Report Classes [PUT /award/api/v1/report-classes/(key)]
 
 + Request
 
@@ -126,7 +126,7 @@
 			
 + Response 204
 
-### Update Multiple Report Classes [PUT /research-sys/api/v1/report-classes/]
+### Update Multiple Report Classes [PUT /award/api/v1/report-classes/]
 
 + Request
 
@@ -144,7 +144,7 @@
 			
 + Response 204
 
-### Insert Report Classes [POST /research-sys/api/v1/report-classes/]
+### Insert Report Classes [POST /award/api/v1/report-classes/]
 
 + Request
 
@@ -163,7 +163,7 @@
             
             {"reportClassCode": "(val)","description": "(val)","generateReportRequirements": "(val)","active": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Report Classes [POST /research-sys/api/v1/report-classes/]
+### Insert Multiple Report Classes [POST /award/api/v1/report-classes/]
 
 + Request
 
@@ -188,7 +188,7 @@
               {"reportClassCode": "(val)","description": "(val)","generateReportRequirements": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Report Classes by Key [DELETE /research-sys/api/v1/report-classes/(key)]
+### Delete Report Classes by Key [DELETE /award/api/v1/report-classes/(key)]
 	 
 + Request
 
@@ -199,7 +199,7 @@
 
 + Response 204
 
-### Delete All Report Classes [DELETE /research-sys/api/v1/report-classes/]
+### Delete All Report Classes [DELETE /award/api/v1/report-classes/]
 
 + Parameters
 
@@ -214,15 +214,15 @@
 
 + Response 204
 
-### Delete All Report Classes with Matching [DELETE /research-sys/api/v1/report-classes/]
+### Delete All Report Classes with Matching [DELETE /award/api/v1/report-classes/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + reportClassCode
-            + description
-            + generateReportRequirements
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + reportClassCode (optional) - Report Class Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + generateReportRequirements (optional) - Generate Report Tracking. Maximum length is 1.
+    + active (optional) - Active. Maximum length is 1.
 
       
 + Request

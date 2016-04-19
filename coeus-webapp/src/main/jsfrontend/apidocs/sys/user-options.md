@@ -43,10 +43,10 @@
     
 + Parameters
 
-        + workflowId
-            + optionId
-            + optionVal
-            + lockVerNbr
+    + workflowId (optional) - 
+    + optionId (optional) - 
+    + optionVal (optional) - 
+    + lockVerNbr (optional) - 
 
             
 + Request
@@ -218,11 +218,11 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + workflowId
-            + optionId
-            + optionVal
-            + lockVerNbr
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + workflowId (optional) - 
+    + optionId (optional) - 
+    + optionVal (optional) - 
+    + lockVerNbr (optional) - 
 
       
 + Request

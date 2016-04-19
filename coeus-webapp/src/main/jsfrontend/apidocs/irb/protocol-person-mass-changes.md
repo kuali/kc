@@ -1,6 +1,6 @@
-## Protocol Person Mass Changes [/research-sys/api/v1/protocol-person-mass-changes/]
+## Protocol Person Mass Changes [/irb/api/v1/protocol-person-mass-changes/]
 
-### Get Protocol Person Mass Changes by Key [GET /research-sys/api/v1/protocol-person-mass-changes/(key)]
+### Get Protocol Person Mass Changes by Key [GET /irb/api/v1/protocol-person-mass-changes/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"protocolPersonMassChangeId": "(val)","personMassChangeId": "(val)","investigator": "(val)","keyStudyPerson": "(val)","correspondents": "(val)","reviewer": "(val)","_primaryKey": "(val)"}
 
-### Get All Protocol Person Mass Changes [GET /research-sys/api/v1/protocol-person-mass-changes/]
+### Get All Protocol Person Mass Changes [GET /irb/api/v1/protocol-person-mass-changes/]
 	 
 + Request
 
@@ -39,16 +39,16 @@
               {"protocolPersonMassChangeId": "(val)","personMassChangeId": "(val)","investigator": "(val)","keyStudyPerson": "(val)","correspondents": "(val)","reviewer": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Protocol Person Mass Changes with Filtering [GET /research-sys/api/v1/protocol-person-mass-changes/]
+### Get All Protocol Person Mass Changes with Filtering [GET /irb/api/v1/protocol-person-mass-changes/]
     
 + Parameters
 
-        + protocolPersonMassChangeId
-            + personMassChangeId
-            + investigator
-            + keyStudyPerson
-            + correspondents
-            + reviewer
+    + protocolPersonMassChangeId (optional) - Protocol Person Mass Change Id. Maximum length is 12.
+    + personMassChangeId (optional) - Person Mass Change Id. Maximum length is 12.
+    + investigator (optional) - Investigator. Maximum length is 1.
+    + keyStudyPerson (optional) - Key Study Person. Maximum length is 1.
+    + correspondents (optional) - Correspondents. Maximum length is 1.
+    + reviewer (optional) - Reviewer. Maximum length is 1.
 
             
 + Request
@@ -70,7 +70,7 @@
               {"protocolPersonMassChangeId": "(val)","personMassChangeId": "(val)","investigator": "(val)","keyStudyPerson": "(val)","correspondents": "(val)","reviewer": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Protocol Person Mass Changes [GET /research-sys/api/v1/protocol-person-mass-changes/]
+### Get Schema for Protocol Person Mass Changes [GET /irb/api/v1/protocol-person-mass-changes/]
 	                                          
 + Parameters
 
@@ -92,7 +92,7 @@
     
             {"columns":["protocolPersonMassChangeId","personMassChangeId","investigator","keyStudyPerson","correspondents","reviewer"],"primaryKey":"protocolPersonMassChangeId"}
 		
-### Get Blueprint API specification for Protocol Person Mass Changes [GET /research-sys/api/v1/protocol-person-mass-changes/]
+### Get Blueprint API specification for Protocol Person Mass Changes [GET /irb/api/v1/protocol-person-mass-changes/]
 	 
 + Parameters
 
@@ -113,7 +113,7 @@
             transfer-encoding:chunked
 
 
-### Update Protocol Person Mass Changes [PUT /research-sys/api/v1/protocol-person-mass-changes/(key)]
+### Update Protocol Person Mass Changes [PUT /irb/api/v1/protocol-person-mass-changes/(key)]
 
 + Request
 
@@ -128,7 +128,7 @@
 			
 + Response 204
 
-### Update Multiple Protocol Person Mass Changes [PUT /research-sys/api/v1/protocol-person-mass-changes/]
+### Update Multiple Protocol Person Mass Changes [PUT /irb/api/v1/protocol-person-mass-changes/]
 
 + Request
 
@@ -146,7 +146,7 @@
 			
 + Response 204
 
-### Insert Protocol Person Mass Changes [POST /research-sys/api/v1/protocol-person-mass-changes/]
+### Insert Protocol Person Mass Changes [POST /irb/api/v1/protocol-person-mass-changes/]
 
 + Request
 
@@ -165,7 +165,7 @@
             
             {"protocolPersonMassChangeId": "(val)","personMassChangeId": "(val)","investigator": "(val)","keyStudyPerson": "(val)","correspondents": "(val)","reviewer": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Protocol Person Mass Changes [POST /research-sys/api/v1/protocol-person-mass-changes/]
+### Insert Multiple Protocol Person Mass Changes [POST /irb/api/v1/protocol-person-mass-changes/]
 
 + Request
 
@@ -190,7 +190,7 @@
               {"protocolPersonMassChangeId": "(val)","personMassChangeId": "(val)","investigator": "(val)","keyStudyPerson": "(val)","correspondents": "(val)","reviewer": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Protocol Person Mass Changes by Key [DELETE /research-sys/api/v1/protocol-person-mass-changes/(key)]
+### Delete Protocol Person Mass Changes by Key [DELETE /irb/api/v1/protocol-person-mass-changes/(key)]
 	 
 + Request
 
@@ -201,7 +201,7 @@
 
 + Response 204
 
-### Delete All Protocol Person Mass Changes [DELETE /research-sys/api/v1/protocol-person-mass-changes/]
+### Delete All Protocol Person Mass Changes [DELETE /irb/api/v1/protocol-person-mass-changes/]
 
 + Parameters
 
@@ -216,17 +216,17 @@
 
 + Response 204
 
-### Delete All Protocol Person Mass Changes with Matching [DELETE /research-sys/api/v1/protocol-person-mass-changes/]
+### Delete All Protocol Person Mass Changes with Matching [DELETE /irb/api/v1/protocol-person-mass-changes/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + protocolPersonMassChangeId
-            + personMassChangeId
-            + investigator
-            + keyStudyPerson
-            + correspondents
-            + reviewer
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + protocolPersonMassChangeId (optional) - Protocol Person Mass Change Id. Maximum length is 12.
+    + personMassChangeId (optional) - Person Mass Change Id. Maximum length is 12.
+    + investigator (optional) - Investigator. Maximum length is 1.
+    + keyStudyPerson (optional) - Key Study Person. Maximum length is 1.
+    + correspondents (optional) - Correspondents. Maximum length is 1.
+    + reviewer (optional) - Reviewer. Maximum length is 1.
 
       
 + Request

@@ -43,10 +43,10 @@
     
 + Parameters
 
-        + naturalLanguageTemplateId
-            + value
-            + attributeDefinitionId
-            + id
+    + naturalLanguageTemplateId (optional) - 
+    + value (optional) - 
+    + attributeDefinitionId (optional) - 
+    + id (optional) - 
 
             
 + Request
@@ -218,11 +218,11 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + naturalLanguageTemplateId
-            + value
-            + attributeDefinitionId
-            + id
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + naturalLanguageTemplateId (optional) - 
+    + value (optional) - 
+    + attributeDefinitionId (optional) - 
+    + id (optional) - 
 
       
 + Request

@@ -1,6 +1,6 @@
-## Iacuc Location Names [/research-sys/api/v1/iacuc-location-names/]
+## Iacuc Location Names [/iacuc/api/v1/iacuc-location-names/]
 
-### Get Iacuc Location Names by Key [GET /research-sys/api/v1/iacuc-location-names/(key)]
+### Get Iacuc Location Names by Key [GET /iacuc/api/v1/iacuc-location-names/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"locationId": "(val)","locationName": "(val)","locationTypeCode": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Location Names [GET /research-sys/api/v1/iacuc-location-names/]
+### Get All Iacuc Location Names [GET /iacuc/api/v1/iacuc-location-names/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"locationId": "(val)","locationName": "(val)","locationTypeCode": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Location Names with Filtering [GET /research-sys/api/v1/iacuc-location-names/]
+### Get All Iacuc Location Names with Filtering [GET /iacuc/api/v1/iacuc-location-names/]
     
 + Parameters
 
-        + locationId
-            + locationName
-            + locationTypeCode
+    + locationId (optional) - Location Name Code. Maximum length is 3.
+    + locationName (optional) - Location Name. Maximum length is 200.
+    + locationTypeCode (optional) - Location Type Code. Maximum length is 3.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"locationId": "(val)","locationName": "(val)","locationTypeCode": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Location Names [GET /research-sys/api/v1/iacuc-location-names/]
+### Get Schema for Iacuc Location Names [GET /iacuc/api/v1/iacuc-location-names/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["locationId","locationName","locationTypeCode"],"primaryKey":"locationId"}
 		
-### Get Blueprint API specification for Iacuc Location Names [GET /research-sys/api/v1/iacuc-location-names/]
+### Get Blueprint API specification for Iacuc Location Names [GET /iacuc/api/v1/iacuc-location-names/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Location Names [PUT /research-sys/api/v1/iacuc-location-names/(key)]
+### Update Iacuc Location Names [PUT /iacuc/api/v1/iacuc-location-names/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Location Names [PUT /research-sys/api/v1/iacuc-location-names/]
+### Update Multiple Iacuc Location Names [PUT /iacuc/api/v1/iacuc-location-names/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Iacuc Location Names [POST /research-sys/api/v1/iacuc-location-names/]
+### Insert Iacuc Location Names [POST /iacuc/api/v1/iacuc-location-names/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"locationId": "(val)","locationName": "(val)","locationTypeCode": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Location Names [POST /research-sys/api/v1/iacuc-location-names/]
+### Insert Multiple Iacuc Location Names [POST /iacuc/api/v1/iacuc-location-names/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"locationId": "(val)","locationName": "(val)","locationTypeCode": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Location Names by Key [DELETE /research-sys/api/v1/iacuc-location-names/(key)]
+### Delete Iacuc Location Names by Key [DELETE /iacuc/api/v1/iacuc-location-names/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Iacuc Location Names [DELETE /research-sys/api/v1/iacuc-location-names/]
+### Delete All Iacuc Location Names [DELETE /iacuc/api/v1/iacuc-location-names/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Iacuc Location Names with Matching [DELETE /research-sys/api/v1/iacuc-location-names/]
+### Delete All Iacuc Location Names with Matching [DELETE /iacuc/api/v1/iacuc-location-names/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + locationId
-            + locationName
-            + locationTypeCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + locationId (optional) - Location Name Code. Maximum length is 3.
+    + locationName (optional) - Location Name. Maximum length is 200.
+    + locationTypeCode (optional) - Location Type Code. Maximum length is 3.
 
       
 + Request

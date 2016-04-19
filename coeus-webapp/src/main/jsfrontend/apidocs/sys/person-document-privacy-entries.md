@@ -43,13 +43,13 @@
     
 + Parameters
 
-        + suppressName
-            + suppressEmail
-            + suppressAddress
-            + suppressPhone
-            + suppressPersonal
-            + edit
-            + documentNumber
+    + suppressName (optional) - Suppress Name. Maximum length is 1.
+    + suppressEmail (optional) - Suppress Email. Maximum length is 1.
+    + suppressAddress (optional) - Suppress Address. Maximum length is 1.
+    + suppressPhone (optional) - Suppress Phone. Maximum length is 1.
+    + suppressPersonal (optional) - Suppress Personal. Maximum length is 1.
+    + edit (optional) - Edit.
+    + documentNumber (optional) - Document Number.
 
             
 + Request
@@ -221,14 +221,14 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + suppressName
-            + suppressEmail
-            + suppressAddress
-            + suppressPhone
-            + suppressPersonal
-            + edit
-            + documentNumber
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + suppressName (optional) - Suppress Name. Maximum length is 1.
+    + suppressEmail (optional) - Suppress Email. Maximum length is 1.
+    + suppressAddress (optional) - Suppress Address. Maximum length is 1.
+    + suppressPhone (optional) - Suppress Phone. Maximum length is 1.
+    + suppressPersonal (optional) - Suppress Personal. Maximum length is 1.
+    + edit (optional) - Edit.
+    + documentNumber (optional) - Document Number.
 
       
 + Request

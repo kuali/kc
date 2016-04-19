@@ -1,6 +1,6 @@
-## Budget Formulated Cost Details [/research-sys/api/v1/budget-formulated-cost-details/]
+## Budget Formulated Cost Details [/research-common/api/v1/budget-formulated-cost-details/]
 
-### Get Budget Formulated Cost Details by Key [GET /research-sys/api/v1/budget-formulated-cost-details/(key)]
+### Get Budget Formulated Cost Details by Key [GET /research-common/api/v1/budget-formulated-cost-details/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"budgetFormulatedCostDetailId": "(val)","formulatedNumber": "(val)","formulatedTypeCode": "(val)","unitCost": "(val)","count": "(val)","frequency": "(val)","calculatedExpenses": "(val)","_primaryKey": "(val)"}
 
-### Get All Budget Formulated Cost Details [GET /research-sys/api/v1/budget-formulated-cost-details/]
+### Get All Budget Formulated Cost Details [GET /research-common/api/v1/budget-formulated-cost-details/]
 	 
 + Request
 
@@ -39,17 +39,17 @@
               {"budgetFormulatedCostDetailId": "(val)","formulatedNumber": "(val)","formulatedTypeCode": "(val)","unitCost": "(val)","count": "(val)","frequency": "(val)","calculatedExpenses": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Budget Formulated Cost Details with Filtering [GET /research-sys/api/v1/budget-formulated-cost-details/]
+### Get All Budget Formulated Cost Details with Filtering [GET /research-common/api/v1/budget-formulated-cost-details/]
     
 + Parameters
 
-        + budgetFormulatedCostDetailId
-            + formulatedNumber
-            + formulatedTypeCode
-            + unitCost
-            + count
-            + frequency
-            + calculatedExpenses
+    + budgetFormulatedCostDetailId (optional) - Budget Formulated Cost Detail Id. Maximum length is 22.
+    + formulatedNumber (optional) - Formulated Number. Maximum length is 22.
+    + formulatedTypeCode (optional) - Formulated Type. Maximum length is 50.
+    + unitCost (optional) - Unit Cost. Maximum length is 15.
+    + count (optional) - Count. Maximum length is 5.
+    + frequency (optional) - Frequency. Maximum length is 5.
+    + calculatedExpenses (optional) - Calculated Expenses. Maximum length is 15.
 
             
 + Request
@@ -71,7 +71,7 @@
               {"budgetFormulatedCostDetailId": "(val)","formulatedNumber": "(val)","formulatedTypeCode": "(val)","unitCost": "(val)","count": "(val)","frequency": "(val)","calculatedExpenses": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Budget Formulated Cost Details [GET /research-sys/api/v1/budget-formulated-cost-details/]
+### Get Schema for Budget Formulated Cost Details [GET /research-common/api/v1/budget-formulated-cost-details/]
 	                                          
 + Parameters
 
@@ -93,7 +93,7 @@
     
             {"columns":["budgetFormulatedCostDetailId","formulatedNumber","formulatedTypeCode","unitCost","count","frequency","calculatedExpenses"],"primaryKey":"budgetFormulatedCostDetailId"}
 		
-### Get Blueprint API specification for Budget Formulated Cost Details [GET /research-sys/api/v1/budget-formulated-cost-details/]
+### Get Blueprint API specification for Budget Formulated Cost Details [GET /research-common/api/v1/budget-formulated-cost-details/]
 	 
 + Parameters
 
@@ -114,7 +114,7 @@
             transfer-encoding:chunked
 
 
-### Update Budget Formulated Cost Details [PUT /research-sys/api/v1/budget-formulated-cost-details/(key)]
+### Update Budget Formulated Cost Details [PUT /research-common/api/v1/budget-formulated-cost-details/(key)]
 
 + Request
 
@@ -129,7 +129,7 @@
 			
 + Response 204
 
-### Update Multiple Budget Formulated Cost Details [PUT /research-sys/api/v1/budget-formulated-cost-details/]
+### Update Multiple Budget Formulated Cost Details [PUT /research-common/api/v1/budget-formulated-cost-details/]
 
 + Request
 
@@ -147,7 +147,7 @@
 			
 + Response 204
 
-### Insert Budget Formulated Cost Details [POST /research-sys/api/v1/budget-formulated-cost-details/]
+### Insert Budget Formulated Cost Details [POST /research-common/api/v1/budget-formulated-cost-details/]
 
 + Request
 
@@ -166,7 +166,7 @@
             
             {"budgetFormulatedCostDetailId": "(val)","formulatedNumber": "(val)","formulatedTypeCode": "(val)","unitCost": "(val)","count": "(val)","frequency": "(val)","calculatedExpenses": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Budget Formulated Cost Details [POST /research-sys/api/v1/budget-formulated-cost-details/]
+### Insert Multiple Budget Formulated Cost Details [POST /research-common/api/v1/budget-formulated-cost-details/]
 
 + Request
 
@@ -191,7 +191,7 @@
               {"budgetFormulatedCostDetailId": "(val)","formulatedNumber": "(val)","formulatedTypeCode": "(val)","unitCost": "(val)","count": "(val)","frequency": "(val)","calculatedExpenses": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Budget Formulated Cost Details by Key [DELETE /research-sys/api/v1/budget-formulated-cost-details/(key)]
+### Delete Budget Formulated Cost Details by Key [DELETE /research-common/api/v1/budget-formulated-cost-details/(key)]
 	 
 + Request
 
@@ -202,7 +202,7 @@
 
 + Response 204
 
-### Delete All Budget Formulated Cost Details [DELETE /research-sys/api/v1/budget-formulated-cost-details/]
+### Delete All Budget Formulated Cost Details [DELETE /research-common/api/v1/budget-formulated-cost-details/]
 
 + Parameters
 
@@ -217,18 +217,18 @@
 
 + Response 204
 
-### Delete All Budget Formulated Cost Details with Matching [DELETE /research-sys/api/v1/budget-formulated-cost-details/]
+### Delete All Budget Formulated Cost Details with Matching [DELETE /research-common/api/v1/budget-formulated-cost-details/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + budgetFormulatedCostDetailId
-            + formulatedNumber
-            + formulatedTypeCode
-            + unitCost
-            + count
-            + frequency
-            + calculatedExpenses
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + budgetFormulatedCostDetailId (optional) - Budget Formulated Cost Detail Id. Maximum length is 22.
+    + formulatedNumber (optional) - Formulated Number. Maximum length is 22.
+    + formulatedTypeCode (optional) - Formulated Type. Maximum length is 50.
+    + unitCost (optional) - Unit Cost. Maximum length is 15.
+    + count (optional) - Count. Maximum length is 5.
+    + frequency (optional) - Frequency. Maximum length is 5.
+    + calculatedExpenses (optional) - Calculated Expenses. Maximum length is 15.
 
       
 + Request

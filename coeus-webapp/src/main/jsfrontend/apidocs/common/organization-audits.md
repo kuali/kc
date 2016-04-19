@@ -1,6 +1,6 @@
-## Organization Audits [/research-sys/api/v1/organization-audits/]
+## Organization Audits [/research-common/api/v1/organization-audits/]
 
-### Get Organization Audits by Key [GET /research-sys/api/v1/organization-audits/(key)]
+### Get Organization Audits by Key [GET /research-common/api/v1/organization-audits/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"fiscalYear": "(val)","organizationId": "(val)","auditAcceptedCode": "(val)","auditComment": "(val)","_primaryKey": "(val)"}
 
-### Get All Organization Audits [GET /research-sys/api/v1/organization-audits/]
+### Get All Organization Audits [GET /research-common/api/v1/organization-audits/]
 	 
 + Request
 
@@ -39,14 +39,14 @@
               {"fiscalYear": "(val)","organizationId": "(val)","auditAcceptedCode": "(val)","auditComment": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Organization Audits with Filtering [GET /research-sys/api/v1/organization-audits/]
+### Get All Organization Audits with Filtering [GET /research-common/api/v1/organization-audits/]
     
 + Parameters
 
-        + fiscalYear
-            + organizationId
-            + auditAcceptedCode
-            + auditComment
+    + fiscalYear (optional) - Fiscal Year. Maximum length is 4.
+    + organizationId (optional) - Organization Id. Maximum length is 8.
+    + auditAcceptedCode (optional) - Audit Accepted Type. Maximum length is 3.
+    + auditComment (optional) - Audit Comment. Maximum length is 300.
 
             
 + Request
@@ -68,7 +68,7 @@
               {"fiscalYear": "(val)","organizationId": "(val)","auditAcceptedCode": "(val)","auditComment": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Organization Audits [GET /research-sys/api/v1/organization-audits/]
+### Get Schema for Organization Audits [GET /research-common/api/v1/organization-audits/]
 	                                          
 + Parameters
 
@@ -90,7 +90,7 @@
     
             {"columns":["fiscalYear","organizationId","auditAcceptedCode","auditComment"],"primaryKey":"fiscalYear:organizationId"}
 		
-### Get Blueprint API specification for Organization Audits [GET /research-sys/api/v1/organization-audits/]
+### Get Blueprint API specification for Organization Audits [GET /research-common/api/v1/organization-audits/]
 	 
 + Parameters
 
@@ -111,7 +111,7 @@
             transfer-encoding:chunked
 
 
-### Update Organization Audits [PUT /research-sys/api/v1/organization-audits/(key)]
+### Update Organization Audits [PUT /research-common/api/v1/organization-audits/(key)]
 
 + Request
 
@@ -126,7 +126,7 @@
 			
 + Response 204
 
-### Update Multiple Organization Audits [PUT /research-sys/api/v1/organization-audits/]
+### Update Multiple Organization Audits [PUT /research-common/api/v1/organization-audits/]
 
 + Request
 
@@ -144,7 +144,7 @@
 			
 + Response 204
 
-### Insert Organization Audits [POST /research-sys/api/v1/organization-audits/]
+### Insert Organization Audits [POST /research-common/api/v1/organization-audits/]
 
 + Request
 
@@ -163,7 +163,7 @@
             
             {"fiscalYear": "(val)","organizationId": "(val)","auditAcceptedCode": "(val)","auditComment": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Organization Audits [POST /research-sys/api/v1/organization-audits/]
+### Insert Multiple Organization Audits [POST /research-common/api/v1/organization-audits/]
 
 + Request
 
@@ -188,7 +188,7 @@
               {"fiscalYear": "(val)","organizationId": "(val)","auditAcceptedCode": "(val)","auditComment": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Organization Audits by Key [DELETE /research-sys/api/v1/organization-audits/(key)]
+### Delete Organization Audits by Key [DELETE /research-common/api/v1/organization-audits/(key)]
 	 
 + Request
 
@@ -199,7 +199,7 @@
 
 + Response 204
 
-### Delete All Organization Audits [DELETE /research-sys/api/v1/organization-audits/]
+### Delete All Organization Audits [DELETE /research-common/api/v1/organization-audits/]
 
 + Parameters
 
@@ -214,15 +214,15 @@
 
 + Response 204
 
-### Delete All Organization Audits with Matching [DELETE /research-sys/api/v1/organization-audits/]
+### Delete All Organization Audits with Matching [DELETE /research-common/api/v1/organization-audits/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + fiscalYear
-            + organizationId
-            + auditAcceptedCode
-            + auditComment
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + fiscalYear (optional) - Fiscal Year. Maximum length is 4.
+    + organizationId (optional) - Organization Id. Maximum length is 8.
+    + auditAcceptedCode (optional) - Audit Accepted Type. Maximum length is 3.
+    + auditComment (optional) - Audit Comment. Maximum length is 300.
 
       
 + Request

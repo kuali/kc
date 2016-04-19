@@ -1,6 +1,6 @@
-## Iacuc Protocol Online Review Determination Type Recommendations [/research-sys/api/v1/iacuc-protocol-online-review-determination-type-recommendations/]
+## Iacuc Protocol Online Review Determination Type Recommendations [/iacuc/api/v1/iacuc-protocol-online-review-determination-type-recommendations/]
 
-### Get Iacuc Protocol Online Review Determination Type Recommendations by Key [GET /research-sys/api/v1/iacuc-protocol-online-review-determination-type-recommendations/(key)]
+### Get Iacuc Protocol Online Review Determination Type Recommendations by Key [GET /iacuc/api/v1/iacuc-protocol-online-review-determination-type-recommendations/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"iacucProtocolReviewTypeCode": "(val)","_primaryKey": "(val)"}
 
-### Get All Iacuc Protocol Online Review Determination Type Recommendations [GET /research-sys/api/v1/iacuc-protocol-online-review-determination-type-recommendations/]
+### Get All Iacuc Protocol Online Review Determination Type Recommendations [GET /iacuc/api/v1/iacuc-protocol-online-review-determination-type-recommendations/]
 	 
 + Request
 
@@ -39,11 +39,11 @@
               {"iacucProtocolReviewTypeCode": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Iacuc Protocol Online Review Determination Type Recommendations with Filtering [GET /research-sys/api/v1/iacuc-protocol-online-review-determination-type-recommendations/]
+### Get All Iacuc Protocol Online Review Determination Type Recommendations with Filtering [GET /iacuc/api/v1/iacuc-protocol-online-review-determination-type-recommendations/]
     
 + Parameters
 
-        + iacucProtocolReviewTypeCode
+    + iacucProtocolReviewTypeCode (optional) - Review Type. Maximum length is 3.
 
             
 + Request
@@ -65,7 +65,7 @@
               {"iacucProtocolReviewTypeCode": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Iacuc Protocol Online Review Determination Type Recommendations [GET /research-sys/api/v1/iacuc-protocol-online-review-determination-type-recommendations/]
+### Get Schema for Iacuc Protocol Online Review Determination Type Recommendations [GET /iacuc/api/v1/iacuc-protocol-online-review-determination-type-recommendations/]
 	                                          
 + Parameters
 
@@ -87,7 +87,7 @@
     
             {"columns":["iacucProtocolReviewTypeCode"],"primaryKey":"iacucProtocolReviewTypeCode"}
 		
-### Get Blueprint API specification for Iacuc Protocol Online Review Determination Type Recommendations [GET /research-sys/api/v1/iacuc-protocol-online-review-determination-type-recommendations/]
+### Get Blueprint API specification for Iacuc Protocol Online Review Determination Type Recommendations [GET /iacuc/api/v1/iacuc-protocol-online-review-determination-type-recommendations/]
 	 
 + Parameters
 
@@ -108,7 +108,7 @@
             transfer-encoding:chunked
 
 
-### Update Iacuc Protocol Online Review Determination Type Recommendations [PUT /research-sys/api/v1/iacuc-protocol-online-review-determination-type-recommendations/(key)]
+### Update Iacuc Protocol Online Review Determination Type Recommendations [PUT /iacuc/api/v1/iacuc-protocol-online-review-determination-type-recommendations/(key)]
 
 + Request
 
@@ -123,7 +123,7 @@
 			
 + Response 204
 
-### Update Multiple Iacuc Protocol Online Review Determination Type Recommendations [PUT /research-sys/api/v1/iacuc-protocol-online-review-determination-type-recommendations/]
+### Update Multiple Iacuc Protocol Online Review Determination Type Recommendations [PUT /iacuc/api/v1/iacuc-protocol-online-review-determination-type-recommendations/]
 
 + Request
 
@@ -141,7 +141,7 @@
 			
 + Response 204
 
-### Insert Iacuc Protocol Online Review Determination Type Recommendations [POST /research-sys/api/v1/iacuc-protocol-online-review-determination-type-recommendations/]
+### Insert Iacuc Protocol Online Review Determination Type Recommendations [POST /iacuc/api/v1/iacuc-protocol-online-review-determination-type-recommendations/]
 
 + Request
 
@@ -160,7 +160,7 @@
             
             {"iacucProtocolReviewTypeCode": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Iacuc Protocol Online Review Determination Type Recommendations [POST /research-sys/api/v1/iacuc-protocol-online-review-determination-type-recommendations/]
+### Insert Multiple Iacuc Protocol Online Review Determination Type Recommendations [POST /iacuc/api/v1/iacuc-protocol-online-review-determination-type-recommendations/]
 
 + Request
 
@@ -185,7 +185,7 @@
               {"iacucProtocolReviewTypeCode": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Iacuc Protocol Online Review Determination Type Recommendations by Key [DELETE /research-sys/api/v1/iacuc-protocol-online-review-determination-type-recommendations/(key)]
+### Delete Iacuc Protocol Online Review Determination Type Recommendations by Key [DELETE /iacuc/api/v1/iacuc-protocol-online-review-determination-type-recommendations/(key)]
 	 
 + Request
 
@@ -196,7 +196,7 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Online Review Determination Type Recommendations [DELETE /research-sys/api/v1/iacuc-protocol-online-review-determination-type-recommendations/]
+### Delete All Iacuc Protocol Online Review Determination Type Recommendations [DELETE /iacuc/api/v1/iacuc-protocol-online-review-determination-type-recommendations/]
 
 + Parameters
 
@@ -211,12 +211,12 @@
 
 + Response 204
 
-### Delete All Iacuc Protocol Online Review Determination Type Recommendations with Matching [DELETE /research-sys/api/v1/iacuc-protocol-online-review-determination-type-recommendations/]
+### Delete All Iacuc Protocol Online Review Determination Type Recommendations with Matching [DELETE /iacuc/api/v1/iacuc-protocol-online-review-determination-type-recommendations/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + iacucProtocolReviewTypeCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + iacucProtocolReviewTypeCode (optional) - Review Type. Maximum length is 3.
 
       
 + Request

@@ -1,6 +1,6 @@
-## Proposal States [/research-sys/api/v1/proposal-states/]
+## Proposal States [/propdev/api/v1/proposal-states/]
 
-### Get Proposal States by Key [GET /research-sys/api/v1/proposal-states/(key)]
+### Get Proposal States by Key [GET /propdev/api/v1/proposal-states/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Proposal States [GET /research-sys/api/v1/proposal-states/]
+### Get All Proposal States [GET /propdev/api/v1/proposal-states/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Proposal States with Filtering [GET /research-sys/api/v1/proposal-states/]
+### Get All Proposal States with Filtering [GET /propdev/api/v1/proposal-states/]
     
 + Parameters
 
-        + code
-            + description
+    + code (optional) - Proposal State Type Code. Maximum length is 2.
+    + description (optional) - Description. Maximum length is 40.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Proposal States [GET /research-sys/api/v1/proposal-states/]
+### Get Schema for Proposal States [GET /propdev/api/v1/proposal-states/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["code","description"],"primaryKey":"code"}
 		
-### Get Blueprint API specification for Proposal States [GET /research-sys/api/v1/proposal-states/]
+### Get Blueprint API specification for Proposal States [GET /propdev/api/v1/proposal-states/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Proposal States [PUT /research-sys/api/v1/proposal-states/(key)]
+### Update Proposal States [PUT /propdev/api/v1/proposal-states/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Proposal States [PUT /research-sys/api/v1/proposal-states/]
+### Update Multiple Proposal States [PUT /propdev/api/v1/proposal-states/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Proposal States [POST /research-sys/api/v1/proposal-states/]
+### Insert Proposal States [POST /propdev/api/v1/proposal-states/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Proposal States [POST /research-sys/api/v1/proposal-states/]
+### Insert Multiple Proposal States [POST /propdev/api/v1/proposal-states/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Proposal States by Key [DELETE /research-sys/api/v1/proposal-states/(key)]
+### Delete Proposal States by Key [DELETE /propdev/api/v1/proposal-states/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Proposal States [DELETE /research-sys/api/v1/proposal-states/]
+### Delete All Proposal States [DELETE /propdev/api/v1/proposal-states/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Proposal States with Matching [DELETE /research-sys/api/v1/proposal-states/]
+### Delete All Proposal States with Matching [DELETE /propdev/api/v1/proposal-states/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + code
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + code (optional) - Proposal State Type Code. Maximum length is 2.
+    + description (optional) - Description. Maximum length is 40.
 
       
 + Request

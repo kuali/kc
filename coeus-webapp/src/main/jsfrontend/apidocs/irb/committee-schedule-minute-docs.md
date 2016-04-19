@@ -1,6 +1,6 @@
-## Committee Schedule Minute Docs [/research-sys/api/v1/committee-schedule-minute-docs/]
+## Committee Schedule Minute Docs [/irb/api/v1/committee-schedule-minute-docs/]
 
-### Get Committee Schedule Minute Docs by Key [GET /research-sys/api/v1/committee-schedule-minute-docs/(key)]
+### Get Committee Schedule Minute Docs by Key [GET /irb/api/v1/committee-schedule-minute-docs/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"commScheduleMinuteDocId": "(val)","scheduleIdFk": "(val)","minuteNumber": "(val)","minuteName": "(val)","pdfStore": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"}
 
-### Get All Committee Schedule Minute Docs [GET /research-sys/api/v1/committee-schedule-minute-docs/]
+### Get All Committee Schedule Minute Docs [GET /irb/api/v1/committee-schedule-minute-docs/]
 	 
 + Request
 
@@ -39,17 +39,17 @@
               {"commScheduleMinuteDocId": "(val)","scheduleIdFk": "(val)","minuteNumber": "(val)","minuteName": "(val)","pdfStore": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Committee Schedule Minute Docs with Filtering [GET /research-sys/api/v1/committee-schedule-minute-docs/]
+### Get All Committee Schedule Minute Docs with Filtering [GET /irb/api/v1/committee-schedule-minute-docs/]
     
 + Parameters
 
-        + commScheduleMinuteDocId
-            + scheduleIdFk
-            + minuteNumber
-            + minuteName
-            + pdfStore
-            + createTimestamp
-            + createUser
+    + commScheduleMinuteDocId (optional) - Comm Schedule Minute Doc Id. Maximum length is 12.
+    + scheduleIdFk (optional) - Schedule Id. Maximum length is 12.
+    + minuteNumber (optional) - Minute Number. Maximum length is 4.
+    + minuteName (optional) - Minute Name. Maximum length is 200.
+    + pdfStore (optional) - Pdf Store. Maximum length is 4000.
+    + createTimestamp (optional) - 
+    + createUser (optional) - 
 
             
 + Request
@@ -71,7 +71,7 @@
               {"commScheduleMinuteDocId": "(val)","scheduleIdFk": "(val)","minuteNumber": "(val)","minuteName": "(val)","pdfStore": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Committee Schedule Minute Docs [GET /research-sys/api/v1/committee-schedule-minute-docs/]
+### Get Schema for Committee Schedule Minute Docs [GET /irb/api/v1/committee-schedule-minute-docs/]
 	                                          
 + Parameters
 
@@ -93,7 +93,7 @@
     
             {"columns":["commScheduleMinuteDocId","scheduleIdFk","minuteNumber","minuteName","pdfStore","createTimestamp","createUser"],"primaryKey":"commScheduleMinuteDocId"}
 		
-### Get Blueprint API specification for Committee Schedule Minute Docs [GET /research-sys/api/v1/committee-schedule-minute-docs/]
+### Get Blueprint API specification for Committee Schedule Minute Docs [GET /irb/api/v1/committee-schedule-minute-docs/]
 	 
 + Parameters
 
@@ -114,7 +114,7 @@
             transfer-encoding:chunked
 
 
-### Update Committee Schedule Minute Docs [PUT /research-sys/api/v1/committee-schedule-minute-docs/(key)]
+### Update Committee Schedule Minute Docs [PUT /irb/api/v1/committee-schedule-minute-docs/(key)]
 
 + Request
 
@@ -129,7 +129,7 @@
 			
 + Response 204
 
-### Update Multiple Committee Schedule Minute Docs [PUT /research-sys/api/v1/committee-schedule-minute-docs/]
+### Update Multiple Committee Schedule Minute Docs [PUT /irb/api/v1/committee-schedule-minute-docs/]
 
 + Request
 
@@ -147,7 +147,7 @@
 			
 + Response 204
 
-### Insert Committee Schedule Minute Docs [POST /research-sys/api/v1/committee-schedule-minute-docs/]
+### Insert Committee Schedule Minute Docs [POST /irb/api/v1/committee-schedule-minute-docs/]
 
 + Request
 
@@ -166,7 +166,7 @@
             
             {"commScheduleMinuteDocId": "(val)","scheduleIdFk": "(val)","minuteNumber": "(val)","minuteName": "(val)","pdfStore": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Committee Schedule Minute Docs [POST /research-sys/api/v1/committee-schedule-minute-docs/]
+### Insert Multiple Committee Schedule Minute Docs [POST /irb/api/v1/committee-schedule-minute-docs/]
 
 + Request
 
@@ -191,7 +191,7 @@
               {"commScheduleMinuteDocId": "(val)","scheduleIdFk": "(val)","minuteNumber": "(val)","minuteName": "(val)","pdfStore": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Committee Schedule Minute Docs by Key [DELETE /research-sys/api/v1/committee-schedule-minute-docs/(key)]
+### Delete Committee Schedule Minute Docs by Key [DELETE /irb/api/v1/committee-schedule-minute-docs/(key)]
 	 
 + Request
 
@@ -202,7 +202,7 @@
 
 + Response 204
 
-### Delete All Committee Schedule Minute Docs [DELETE /research-sys/api/v1/committee-schedule-minute-docs/]
+### Delete All Committee Schedule Minute Docs [DELETE /irb/api/v1/committee-schedule-minute-docs/]
 
 + Parameters
 
@@ -217,18 +217,18 @@
 
 + Response 204
 
-### Delete All Committee Schedule Minute Docs with Matching [DELETE /research-sys/api/v1/committee-schedule-minute-docs/]
+### Delete All Committee Schedule Minute Docs with Matching [DELETE /irb/api/v1/committee-schedule-minute-docs/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + commScheduleMinuteDocId
-            + scheduleIdFk
-            + minuteNumber
-            + minuteName
-            + pdfStore
-            + createTimestamp
-            + createUser
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + commScheduleMinuteDocId (optional) - Comm Schedule Minute Doc Id. Maximum length is 12.
+    + scheduleIdFk (optional) - Schedule Id. Maximum length is 12.
+    + minuteNumber (optional) - Minute Number. Maximum length is 4.
+    + minuteName (optional) - Minute Name. Maximum length is 200.
+    + pdfStore (optional) - Pdf Store. Maximum length is 4000.
+    + createTimestamp (optional) - 
+    + createUser (optional) - 
 
       
 + Request

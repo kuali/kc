@@ -1,6 +1,6 @@
-## Ynq Explanation Types [/research-sys/api/v1/ynq-explanation-types/]
+## Ynq Explanation Types [/research-common/api/v1/ynq-explanation-types/]
 
-### Get Ynq Explanation Types by Key [GET /research-sys/api/v1/ynq-explanation-types/(key)]
+### Get Ynq Explanation Types by Key [GET /research-common/api/v1/ynq-explanation-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"explanationType": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Ynq Explanation Types [GET /research-sys/api/v1/ynq-explanation-types/]
+### Get All Ynq Explanation Types [GET /research-common/api/v1/ynq-explanation-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"explanationType": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Ynq Explanation Types with Filtering [GET /research-sys/api/v1/ynq-explanation-types/]
+### Get All Ynq Explanation Types with Filtering [GET /research-common/api/v1/ynq-explanation-types/]
     
 + Parameters
 
-        + explanationType
-            + description
+    + explanationType (optional) - Explanation Type. Maximum length is 1.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"explanationType": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Ynq Explanation Types [GET /research-sys/api/v1/ynq-explanation-types/]
+### Get Schema for Ynq Explanation Types [GET /research-common/api/v1/ynq-explanation-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["explanationType","description"],"primaryKey":"explanationType"}
 		
-### Get Blueprint API specification for Ynq Explanation Types [GET /research-sys/api/v1/ynq-explanation-types/]
+### Get Blueprint API specification for Ynq Explanation Types [GET /research-common/api/v1/ynq-explanation-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Ynq Explanation Types [PUT /research-sys/api/v1/ynq-explanation-types/(key)]
+### Update Ynq Explanation Types [PUT /research-common/api/v1/ynq-explanation-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Ynq Explanation Types [PUT /research-sys/api/v1/ynq-explanation-types/]
+### Update Multiple Ynq Explanation Types [PUT /research-common/api/v1/ynq-explanation-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Ynq Explanation Types [POST /research-sys/api/v1/ynq-explanation-types/]
+### Insert Ynq Explanation Types [POST /research-common/api/v1/ynq-explanation-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"explanationType": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Ynq Explanation Types [POST /research-sys/api/v1/ynq-explanation-types/]
+### Insert Multiple Ynq Explanation Types [POST /research-common/api/v1/ynq-explanation-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"explanationType": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Ynq Explanation Types by Key [DELETE /research-sys/api/v1/ynq-explanation-types/(key)]
+### Delete Ynq Explanation Types by Key [DELETE /research-common/api/v1/ynq-explanation-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Ynq Explanation Types [DELETE /research-sys/api/v1/ynq-explanation-types/]
+### Delete All Ynq Explanation Types [DELETE /research-common/api/v1/ynq-explanation-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Ynq Explanation Types with Matching [DELETE /research-sys/api/v1/ynq-explanation-types/]
+### Delete All Ynq Explanation Types with Matching [DELETE /research-common/api/v1/ynq-explanation-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + explanationType
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + explanationType (optional) - Explanation Type. Maximum length is 1.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

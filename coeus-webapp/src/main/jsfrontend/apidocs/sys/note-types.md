@@ -43,9 +43,9 @@
     
 + Parameters
 
-        + noteTypeCode
-            + noteTypeDescription
-            + noteTypeActiveIndicator
+    + noteTypeCode (optional) - noteTypeCode description... Maximum length is 4.
+    + noteTypeDescription (optional) - noteTypeDescription description... Maximum length is 100.
+    + noteTypeActiveIndicator (optional) - noteTypeActiveIndicator description... Maximum length is 1.
 
             
 + Request
@@ -217,10 +217,10 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + noteTypeCode
-            + noteTypeDescription
-            + noteTypeActiveIndicator
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + noteTypeCode (optional) - noteTypeCode description... Maximum length is 4.
+    + noteTypeDescription (optional) - noteTypeDescription description... Maximum length is 100.
+    + noteTypeActiveIndicator (optional) - noteTypeActiveIndicator description... Maximum length is 1.
 
       
 + Request

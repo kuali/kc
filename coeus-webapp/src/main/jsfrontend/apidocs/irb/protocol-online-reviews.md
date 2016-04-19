@@ -1,6 +1,6 @@
-## Protocol Online Reviews [/research-sys/api/v1/protocol-online-reviews/]
+## Protocol Online Reviews [/irb/api/v1/protocol-online-reviews/]
 
-### Get Protocol Online Reviews by Key [GET /research-sys/api/v1/protocol-online-reviews/(key)]
+### Get Protocol Online Reviews by Key [GET /irb/api/v1/protocol-online-reviews/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"protocolOnlineReviewId": "(val)","documentNumber": "(val)","protocolId": "(val)","submissionIdFk": "(val)","protocolReviewerId": "(val)","protocolOnlineReviewStatusCode": "(val)","protocolOnlineReviewDeterminationRecommendationCode": "(val)","dateDue": "(val)","dateRequested": "(val)","actionsPerformed": "(val)","reviewerApproved": "(val)","adminAccepted": "(val)","_primaryKey": "(val)"}
 
-### Get All Protocol Online Reviews [GET /research-sys/api/v1/protocol-online-reviews/]
+### Get All Protocol Online Reviews [GET /irb/api/v1/protocol-online-reviews/]
 	 
 + Request
 
@@ -39,22 +39,22 @@
               {"protocolOnlineReviewId": "(val)","documentNumber": "(val)","protocolId": "(val)","submissionIdFk": "(val)","protocolReviewerId": "(val)","protocolOnlineReviewStatusCode": "(val)","protocolOnlineReviewDeterminationRecommendationCode": "(val)","dateDue": "(val)","dateRequested": "(val)","actionsPerformed": "(val)","reviewerApproved": "(val)","adminAccepted": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Protocol Online Reviews with Filtering [GET /research-sys/api/v1/protocol-online-reviews/]
+### Get All Protocol Online Reviews with Filtering [GET /irb/api/v1/protocol-online-reviews/]
     
 + Parameters
 
-        + protocolOnlineReviewId
-            + documentNumber
-            + protocolId
-            + submissionIdFk
-            + protocolReviewerId
-            + protocolOnlineReviewStatusCode
-            + protocolOnlineReviewDeterminationRecommendationCode
-            + dateDue
-            + dateRequested
-            + actionsPerformed
-            + reviewerApproved
-            + adminAccepted
+    + protocolOnlineReviewId (optional) - Id. Maximum length is 10.
+    + documentNumber (optional) - 
+    + protocolId (optional) - Protocol Id. Maximum length is 10.
+    + submissionIdFk (optional) - Submission Id. Maximum length is 10.
+    + protocolReviewerId (optional) - Protocol Reviewer Id. Maximum length is 10.
+    + protocolOnlineReviewStatusCode (optional) - The status of the protocol review. Maximum length is 3.
+    + protocolOnlineReviewDeterminationRecommendationCode (optional) - Determination Recommendation. Maximum length is 3.
+    + dateDue (optional) - The date the online review is to be completed by. Maximum length is 10.
+    + dateRequested (optional) - The date the online review was requested. Maximum length is 10.
+    + actionsPerformed (optional) - 
+    + reviewerApproved (optional) - 
+    + adminAccepted (optional) - 
 
             
 + Request
@@ -76,7 +76,7 @@
               {"protocolOnlineReviewId": "(val)","documentNumber": "(val)","protocolId": "(val)","submissionIdFk": "(val)","protocolReviewerId": "(val)","protocolOnlineReviewStatusCode": "(val)","protocolOnlineReviewDeterminationRecommendationCode": "(val)","dateDue": "(val)","dateRequested": "(val)","actionsPerformed": "(val)","reviewerApproved": "(val)","adminAccepted": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Protocol Online Reviews [GET /research-sys/api/v1/protocol-online-reviews/]
+### Get Schema for Protocol Online Reviews [GET /irb/api/v1/protocol-online-reviews/]
 	                                          
 + Parameters
 
@@ -98,7 +98,7 @@
     
             {"columns":["protocolOnlineReviewId","documentNumber","protocolId","submissionIdFk","protocolReviewerId","protocolOnlineReviewStatusCode","protocolOnlineReviewDeterminationRecommendationCode","dateDue","dateRequested","actionsPerformed","reviewerApproved","adminAccepted"],"primaryKey":"protocolOnlineReviewId"}
 		
-### Get Blueprint API specification for Protocol Online Reviews [GET /research-sys/api/v1/protocol-online-reviews/]
+### Get Blueprint API specification for Protocol Online Reviews [GET /irb/api/v1/protocol-online-reviews/]
 	 
 + Parameters
 
@@ -119,7 +119,7 @@
             transfer-encoding:chunked
 
 
-### Update Protocol Online Reviews [PUT /research-sys/api/v1/protocol-online-reviews/(key)]
+### Update Protocol Online Reviews [PUT /irb/api/v1/protocol-online-reviews/(key)]
 
 + Request
 
@@ -134,7 +134,7 @@
 			
 + Response 204
 
-### Update Multiple Protocol Online Reviews [PUT /research-sys/api/v1/protocol-online-reviews/]
+### Update Multiple Protocol Online Reviews [PUT /irb/api/v1/protocol-online-reviews/]
 
 + Request
 
@@ -152,7 +152,7 @@
 			
 + Response 204
 
-### Insert Protocol Online Reviews [POST /research-sys/api/v1/protocol-online-reviews/]
+### Insert Protocol Online Reviews [POST /irb/api/v1/protocol-online-reviews/]
 
 + Request
 
@@ -171,7 +171,7 @@
             
             {"protocolOnlineReviewId": "(val)","documentNumber": "(val)","protocolId": "(val)","submissionIdFk": "(val)","protocolReviewerId": "(val)","protocolOnlineReviewStatusCode": "(val)","protocolOnlineReviewDeterminationRecommendationCode": "(val)","dateDue": "(val)","dateRequested": "(val)","actionsPerformed": "(val)","reviewerApproved": "(val)","adminAccepted": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Protocol Online Reviews [POST /research-sys/api/v1/protocol-online-reviews/]
+### Insert Multiple Protocol Online Reviews [POST /irb/api/v1/protocol-online-reviews/]
 
 + Request
 
@@ -196,7 +196,7 @@
               {"protocolOnlineReviewId": "(val)","documentNumber": "(val)","protocolId": "(val)","submissionIdFk": "(val)","protocolReviewerId": "(val)","protocolOnlineReviewStatusCode": "(val)","protocolOnlineReviewDeterminationRecommendationCode": "(val)","dateDue": "(val)","dateRequested": "(val)","actionsPerformed": "(val)","reviewerApproved": "(val)","adminAccepted": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Protocol Online Reviews by Key [DELETE /research-sys/api/v1/protocol-online-reviews/(key)]
+### Delete Protocol Online Reviews by Key [DELETE /irb/api/v1/protocol-online-reviews/(key)]
 	 
 + Request
 
@@ -207,7 +207,7 @@
 
 + Response 204
 
-### Delete All Protocol Online Reviews [DELETE /research-sys/api/v1/protocol-online-reviews/]
+### Delete All Protocol Online Reviews [DELETE /irb/api/v1/protocol-online-reviews/]
 
 + Parameters
 
@@ -222,23 +222,23 @@
 
 + Response 204
 
-### Delete All Protocol Online Reviews with Matching [DELETE /research-sys/api/v1/protocol-online-reviews/]
+### Delete All Protocol Online Reviews with Matching [DELETE /irb/api/v1/protocol-online-reviews/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + protocolOnlineReviewId
-            + documentNumber
-            + protocolId
-            + submissionIdFk
-            + protocolReviewerId
-            + protocolOnlineReviewStatusCode
-            + protocolOnlineReviewDeterminationRecommendationCode
-            + dateDue
-            + dateRequested
-            + actionsPerformed
-            + reviewerApproved
-            + adminAccepted
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + protocolOnlineReviewId (optional) - Id. Maximum length is 10.
+    + documentNumber (optional) - 
+    + protocolId (optional) - Protocol Id. Maximum length is 10.
+    + submissionIdFk (optional) - Submission Id. Maximum length is 10.
+    + protocolReviewerId (optional) - Protocol Reviewer Id. Maximum length is 10.
+    + protocolOnlineReviewStatusCode (optional) - The status of the protocol review. Maximum length is 3.
+    + protocolOnlineReviewDeterminationRecommendationCode (optional) - Determination Recommendation. Maximum length is 3.
+    + dateDue (optional) - The date the online review is to be completed by. Maximum length is 10.
+    + dateRequested (optional) - The date the online review was requested. Maximum length is 10.
+    + actionsPerformed (optional) - 
+    + reviewerApproved (optional) - 
+    + adminAccepted (optional) - 
 
       
 + Request

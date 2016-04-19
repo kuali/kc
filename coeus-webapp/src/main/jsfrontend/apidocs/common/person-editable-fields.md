@@ -1,6 +1,6 @@
-## Person Editable Fields [/research-sys/api/v1/person-editable-fields/]
+## Person Editable Fields [/research-common/api/v1/person-editable-fields/]
 
-### Get Person Editable Fields by Key [GET /research-sys/api/v1/person-editable-fields/(key)]
+### Get Person Editable Fields by Key [GET /research-common/api/v1/person-editable-fields/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"personEditableFieldId": "(val)","moduleCode": "(val)","fieldName": "(val)","active": "(val)","_primaryKey": "(val)"}
 
-### Get All Person Editable Fields [GET /research-sys/api/v1/person-editable-fields/]
+### Get All Person Editable Fields [GET /research-common/api/v1/person-editable-fields/]
 	 
 + Request
 
@@ -39,14 +39,14 @@
               {"personEditableFieldId": "(val)","moduleCode": "(val)","fieldName": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Person Editable Fields with Filtering [GET /research-sys/api/v1/person-editable-fields/]
+### Get All Person Editable Fields with Filtering [GET /research-common/api/v1/person-editable-fields/]
     
 + Parameters
 
-        + personEditableFieldId
-            + moduleCode
-            + fieldName
-            + active
+    + personEditableFieldId (optional) - Person Editable Field Id. Maximum length is 12.
+    + moduleCode (optional) - Module Code. Maximum length is 3.
+    + fieldName (optional) - Field Name. Maximum length is 255.
+    + active (optional) - Active. Maximum length is 1.
 
             
 + Request
@@ -68,7 +68,7 @@
               {"personEditableFieldId": "(val)","moduleCode": "(val)","fieldName": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Person Editable Fields [GET /research-sys/api/v1/person-editable-fields/]
+### Get Schema for Person Editable Fields [GET /research-common/api/v1/person-editable-fields/]
 	                                          
 + Parameters
 
@@ -90,7 +90,7 @@
     
             {"columns":["personEditableFieldId","moduleCode","fieldName","active"],"primaryKey":"personEditableFieldId"}
 		
-### Get Blueprint API specification for Person Editable Fields [GET /research-sys/api/v1/person-editable-fields/]
+### Get Blueprint API specification for Person Editable Fields [GET /research-common/api/v1/person-editable-fields/]
 	 
 + Parameters
 
@@ -111,7 +111,7 @@
             transfer-encoding:chunked
 
 
-### Update Person Editable Fields [PUT /research-sys/api/v1/person-editable-fields/(key)]
+### Update Person Editable Fields [PUT /research-common/api/v1/person-editable-fields/(key)]
 
 + Request
 
@@ -126,7 +126,7 @@
 			
 + Response 204
 
-### Update Multiple Person Editable Fields [PUT /research-sys/api/v1/person-editable-fields/]
+### Update Multiple Person Editable Fields [PUT /research-common/api/v1/person-editable-fields/]
 
 + Request
 
@@ -144,7 +144,7 @@
 			
 + Response 204
 
-### Insert Person Editable Fields [POST /research-sys/api/v1/person-editable-fields/]
+### Insert Person Editable Fields [POST /research-common/api/v1/person-editable-fields/]
 
 + Request
 
@@ -163,7 +163,7 @@
             
             {"personEditableFieldId": "(val)","moduleCode": "(val)","fieldName": "(val)","active": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Person Editable Fields [POST /research-sys/api/v1/person-editable-fields/]
+### Insert Multiple Person Editable Fields [POST /research-common/api/v1/person-editable-fields/]
 
 + Request
 
@@ -188,7 +188,7 @@
               {"personEditableFieldId": "(val)","moduleCode": "(val)","fieldName": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Person Editable Fields by Key [DELETE /research-sys/api/v1/person-editable-fields/(key)]
+### Delete Person Editable Fields by Key [DELETE /research-common/api/v1/person-editable-fields/(key)]
 	 
 + Request
 
@@ -199,7 +199,7 @@
 
 + Response 204
 
-### Delete All Person Editable Fields [DELETE /research-sys/api/v1/person-editable-fields/]
+### Delete All Person Editable Fields [DELETE /research-common/api/v1/person-editable-fields/]
 
 + Parameters
 
@@ -214,15 +214,15 @@
 
 + Response 204
 
-### Delete All Person Editable Fields with Matching [DELETE /research-sys/api/v1/person-editable-fields/]
+### Delete All Person Editable Fields with Matching [DELETE /research-common/api/v1/person-editable-fields/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + personEditableFieldId
-            + moduleCode
-            + fieldName
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + personEditableFieldId (optional) - Person Editable Field Id. Maximum length is 12.
+    + moduleCode (optional) - Module Code. Maximum length is 3.
+    + fieldName (optional) - Field Name. Maximum length is 255.
+    + active (optional) - Active. Maximum length is 1.
 
       
 + Request

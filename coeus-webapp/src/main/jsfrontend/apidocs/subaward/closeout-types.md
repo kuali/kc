@@ -1,6 +1,6 @@
-## Closeout Types [/research-sys/api/v1/closeout-types/]
+## Closeout Types [/subaward/api/v1/closeout-types/]
 
-### Get Closeout Types by Key [GET /research-sys/api/v1/closeout-types/(key)]
+### Get Closeout Types by Key [GET /subaward/api/v1/closeout-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"closeoutTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
 
-### Get All Closeout Types [GET /research-sys/api/v1/closeout-types/]
+### Get All Closeout Types [GET /subaward/api/v1/closeout-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"closeoutTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Closeout Types with Filtering [GET /research-sys/api/v1/closeout-types/]
+### Get All Closeout Types with Filtering [GET /subaward/api/v1/closeout-types/]
     
 + Parameters
 
-        + closeoutTypeCode
-            + description
+    + closeoutTypeCode (optional) - Closeout Type. Maximum length is 22.
+    + description (optional) - Description. Maximum length is 200.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"closeoutTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Closeout Types [GET /research-sys/api/v1/closeout-types/]
+### Get Schema for Closeout Types [GET /subaward/api/v1/closeout-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["closeoutTypeCode","description"],"primaryKey":"closeoutTypeCode"}
 		
-### Get Blueprint API specification for Closeout Types [GET /research-sys/api/v1/closeout-types/]
+### Get Blueprint API specification for Closeout Types [GET /subaward/api/v1/closeout-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Closeout Types [PUT /research-sys/api/v1/closeout-types/(key)]
+### Update Closeout Types [PUT /subaward/api/v1/closeout-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Closeout Types [PUT /research-sys/api/v1/closeout-types/]
+### Update Multiple Closeout Types [PUT /subaward/api/v1/closeout-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Closeout Types [POST /research-sys/api/v1/closeout-types/]
+### Insert Closeout Types [POST /subaward/api/v1/closeout-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"closeoutTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Closeout Types [POST /research-sys/api/v1/closeout-types/]
+### Insert Multiple Closeout Types [POST /subaward/api/v1/closeout-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"closeoutTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Closeout Types by Key [DELETE /research-sys/api/v1/closeout-types/(key)]
+### Delete Closeout Types by Key [DELETE /subaward/api/v1/closeout-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Closeout Types [DELETE /research-sys/api/v1/closeout-types/]
+### Delete All Closeout Types [DELETE /subaward/api/v1/closeout-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Closeout Types with Matching [DELETE /research-sys/api/v1/closeout-types/]
+### Delete All Closeout Types with Matching [DELETE /subaward/api/v1/closeout-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + closeoutTypeCode
-            + description
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + closeoutTypeCode (optional) - Closeout Type. Maximum length is 22.
+    + description (optional) - Description. Maximum length is 200.
 
       
 + Request

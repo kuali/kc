@@ -1,6 +1,6 @@
-## Award Amount Infos [/research-sys/api/v1/award-amount-infos/]
+## Award Amount Infos [/award/api/v1/award-amount-infos/]
 
-### Get Award Amount Infos by Key [GET /research-sys/api/v1/award-amount-infos/(key)]
+### Get Award Amount Infos by Key [GET /award/api/v1/award-amount-infos/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"awardAmountInfoId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","anticipatedTotalAmount": "(val)","antDistributableAmount": "(val)","finalExpirationDate": "(val)","currentFundEffectiveDate": "(val)","amountObligatedToDate": "(val)","obliDistributableAmount": "(val)","obligationExpirationDate": "(val)","transactionId": "(val)","timeAndMoneyDocumentNumber": "(val)","entryType": "(val)","eomProcessFlag": "(val)","anticipatedChange": "(val)","obligatedChange": "(val)","obligatedChangeDirect": "(val)","obligatedChangeIndirect": "(val)","anticipatedChangeDirect": "(val)","anticipatedChangeIndirect": "(val)","anticipatedTotalDirect": "(val)","anticipatedTotalIndirect": "(val)","obligatedTotalDirect": "(val)","obligatedTotalIndirect": "(val)","originatingAwardVersion": "(val)","_primaryKey": "(val)"}
 
-### Get All Award Amount Infos [GET /research-sys/api/v1/award-amount-infos/]
+### Get All Award Amount Infos [GET /award/api/v1/award-amount-infos/]
 	 
 + Request
 
@@ -39,36 +39,36 @@
               {"awardAmountInfoId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","anticipatedTotalAmount": "(val)","antDistributableAmount": "(val)","finalExpirationDate": "(val)","currentFundEffectiveDate": "(val)","amountObligatedToDate": "(val)","obliDistributableAmount": "(val)","obligationExpirationDate": "(val)","transactionId": "(val)","timeAndMoneyDocumentNumber": "(val)","entryType": "(val)","eomProcessFlag": "(val)","anticipatedChange": "(val)","obligatedChange": "(val)","obligatedChangeDirect": "(val)","obligatedChangeIndirect": "(val)","anticipatedChangeDirect": "(val)","anticipatedChangeIndirect": "(val)","anticipatedTotalDirect": "(val)","anticipatedTotalIndirect": "(val)","obligatedTotalDirect": "(val)","obligatedTotalIndirect": "(val)","originatingAwardVersion": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Award Amount Infos with Filtering [GET /research-sys/api/v1/award-amount-infos/]
+### Get All Award Amount Infos with Filtering [GET /award/api/v1/award-amount-infos/]
     
 + Parameters
 
-        + awardAmountInfoId
-            + awardId
-            + awardNumber
-            + sequenceNumber
-            + anticipatedTotalAmount
-            + antDistributableAmount
-            + finalExpirationDate
-            + currentFundEffectiveDate
-            + amountObligatedToDate
-            + obliDistributableAmount
-            + obligationExpirationDate
-            + transactionId
-            + timeAndMoneyDocumentNumber
-            + entryType
-            + eomProcessFlag
-            + anticipatedChange
-            + obligatedChange
-            + obligatedChangeDirect
-            + obligatedChangeIndirect
-            + anticipatedChangeDirect
-            + anticipatedChangeIndirect
-            + anticipatedTotalDirect
-            + anticipatedTotalIndirect
-            + obligatedTotalDirect
-            + obligatedTotalIndirect
-            + originatingAwardVersion
+    + awardAmountInfoId (optional) - Award Amount Info Id. Maximum length is 22.
+    + awardId (optional) - 
+    + awardNumber (optional) - 
+    + sequenceNumber (optional) - Amount Sequence Number. Maximum length is 22.
+    + anticipatedTotalAmount (optional) - Anticipated Cumulative. Maximum length is 22.
+    + antDistributableAmount (optional) - Anticipated Distributable. Maximum length is 22.
+    + finalExpirationDate (optional) - Final Expiration Date. Maximum length is 10.
+    + currentFundEffectiveDate (optional) - Obligation Start Date. Maximum length is 10.
+    + amountObligatedToDate (optional) - Obligated Cumulative. Maximum length is 22.
+    + obliDistributableAmount (optional) - Obligated Distributable. Maximum length is 22.
+    + obligationExpirationDate (optional) - Obligation End Date. Maximum length is 10.
+    + transactionId (optional) - Transaction Id. Maximum length is 10.
+    + timeAndMoneyDocumentNumber (optional) - Document Number. Maximum length is 10.
+    + entryType (optional) - Entry Type. Maximum length is 1.
+    + eomProcessFlag (optional) - Eom ProcessDefinitionDefinition Flag. Maximum length is 1.
+    + anticipatedChange (optional) - Anticipated Change. Maximum length is 22.
+    + obligatedChange (optional) - Obligated Change. Maximum length is 22.
+    + obligatedChangeDirect (optional) - Obligated Change Direct. Maximum length is 22.
+    + obligatedChangeIndirect (optional) - Obligated Change Indirect. Maximum length is 22.
+    + anticipatedChangeDirect (optional) - Anticipated Change Direct. Maximum length is 22.
+    + anticipatedChangeIndirect (optional) - Anticipated Change Indirect. Maximum length is 22.
+    + anticipatedTotalDirect (optional) - Anticipated Total Direct. Maximum length is 12.
+    + anticipatedTotalIndirect (optional) - Anticipated Total Indirect. Maximum length is 12.
+    + obligatedTotalDirect (optional) - Obligated Total Direct. Maximum length is 12.
+    + obligatedTotalIndirect (optional) - Obligated Total Indirect. Maximum length is 12.
+    + originatingAwardVersion (optional) - 
 
             
 + Request
@@ -90,7 +90,7 @@
               {"awardAmountInfoId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","anticipatedTotalAmount": "(val)","antDistributableAmount": "(val)","finalExpirationDate": "(val)","currentFundEffectiveDate": "(val)","amountObligatedToDate": "(val)","obliDistributableAmount": "(val)","obligationExpirationDate": "(val)","transactionId": "(val)","timeAndMoneyDocumentNumber": "(val)","entryType": "(val)","eomProcessFlag": "(val)","anticipatedChange": "(val)","obligatedChange": "(val)","obligatedChangeDirect": "(val)","obligatedChangeIndirect": "(val)","anticipatedChangeDirect": "(val)","anticipatedChangeIndirect": "(val)","anticipatedTotalDirect": "(val)","anticipatedTotalIndirect": "(val)","obligatedTotalDirect": "(val)","obligatedTotalIndirect": "(val)","originatingAwardVersion": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Award Amount Infos [GET /research-sys/api/v1/award-amount-infos/]
+### Get Schema for Award Amount Infos [GET /award/api/v1/award-amount-infos/]
 	                                          
 + Parameters
 
@@ -112,7 +112,7 @@
     
             {"columns":["awardAmountInfoId","awardId","awardNumber","sequenceNumber","anticipatedTotalAmount","antDistributableAmount","finalExpirationDate","currentFundEffectiveDate","amountObligatedToDate","obliDistributableAmount","obligationExpirationDate","transactionId","timeAndMoneyDocumentNumber","entryType","eomProcessFlag","anticipatedChange","obligatedChange","obligatedChangeDirect","obligatedChangeIndirect","anticipatedChangeDirect","anticipatedChangeIndirect","anticipatedTotalDirect","anticipatedTotalIndirect","obligatedTotalDirect","obligatedTotalIndirect","originatingAwardVersion"],"primaryKey":"awardAmountInfoId"}
 		
-### Get Blueprint API specification for Award Amount Infos [GET /research-sys/api/v1/award-amount-infos/]
+### Get Blueprint API specification for Award Amount Infos [GET /award/api/v1/award-amount-infos/]
 	 
 + Parameters
 
@@ -133,7 +133,7 @@
             transfer-encoding:chunked
 
 
-### Update Award Amount Infos [PUT /research-sys/api/v1/award-amount-infos/(key)]
+### Update Award Amount Infos [PUT /award/api/v1/award-amount-infos/(key)]
 
 + Request
 
@@ -148,7 +148,7 @@
 			
 + Response 204
 
-### Update Multiple Award Amount Infos [PUT /research-sys/api/v1/award-amount-infos/]
+### Update Multiple Award Amount Infos [PUT /award/api/v1/award-amount-infos/]
 
 + Request
 
@@ -166,7 +166,7 @@
 			
 + Response 204
 
-### Insert Award Amount Infos [POST /research-sys/api/v1/award-amount-infos/]
+### Insert Award Amount Infos [POST /award/api/v1/award-amount-infos/]
 
 + Request
 
@@ -185,7 +185,7 @@
             
             {"awardAmountInfoId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","anticipatedTotalAmount": "(val)","antDistributableAmount": "(val)","finalExpirationDate": "(val)","currentFundEffectiveDate": "(val)","amountObligatedToDate": "(val)","obliDistributableAmount": "(val)","obligationExpirationDate": "(val)","transactionId": "(val)","timeAndMoneyDocumentNumber": "(val)","entryType": "(val)","eomProcessFlag": "(val)","anticipatedChange": "(val)","obligatedChange": "(val)","obligatedChangeDirect": "(val)","obligatedChangeIndirect": "(val)","anticipatedChangeDirect": "(val)","anticipatedChangeIndirect": "(val)","anticipatedTotalDirect": "(val)","anticipatedTotalIndirect": "(val)","obligatedTotalDirect": "(val)","obligatedTotalIndirect": "(val)","originatingAwardVersion": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Award Amount Infos [POST /research-sys/api/v1/award-amount-infos/]
+### Insert Multiple Award Amount Infos [POST /award/api/v1/award-amount-infos/]
 
 + Request
 
@@ -210,7 +210,7 @@
               {"awardAmountInfoId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","anticipatedTotalAmount": "(val)","antDistributableAmount": "(val)","finalExpirationDate": "(val)","currentFundEffectiveDate": "(val)","amountObligatedToDate": "(val)","obliDistributableAmount": "(val)","obligationExpirationDate": "(val)","transactionId": "(val)","timeAndMoneyDocumentNumber": "(val)","entryType": "(val)","eomProcessFlag": "(val)","anticipatedChange": "(val)","obligatedChange": "(val)","obligatedChangeDirect": "(val)","obligatedChangeIndirect": "(val)","anticipatedChangeDirect": "(val)","anticipatedChangeIndirect": "(val)","anticipatedTotalDirect": "(val)","anticipatedTotalIndirect": "(val)","obligatedTotalDirect": "(val)","obligatedTotalIndirect": "(val)","originatingAwardVersion": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Award Amount Infos by Key [DELETE /research-sys/api/v1/award-amount-infos/(key)]
+### Delete Award Amount Infos by Key [DELETE /award/api/v1/award-amount-infos/(key)]
 	 
 + Request
 
@@ -221,7 +221,7 @@
 
 + Response 204
 
-### Delete All Award Amount Infos [DELETE /research-sys/api/v1/award-amount-infos/]
+### Delete All Award Amount Infos [DELETE /award/api/v1/award-amount-infos/]
 
 + Parameters
 
@@ -236,37 +236,37 @@
 
 + Response 204
 
-### Delete All Award Amount Infos with Matching [DELETE /research-sys/api/v1/award-amount-infos/]
+### Delete All Award Amount Infos with Matching [DELETE /award/api/v1/award-amount-infos/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + awardAmountInfoId
-            + awardId
-            + awardNumber
-            + sequenceNumber
-            + anticipatedTotalAmount
-            + antDistributableAmount
-            + finalExpirationDate
-            + currentFundEffectiveDate
-            + amountObligatedToDate
-            + obliDistributableAmount
-            + obligationExpirationDate
-            + transactionId
-            + timeAndMoneyDocumentNumber
-            + entryType
-            + eomProcessFlag
-            + anticipatedChange
-            + obligatedChange
-            + obligatedChangeDirect
-            + obligatedChangeIndirect
-            + anticipatedChangeDirect
-            + anticipatedChangeIndirect
-            + anticipatedTotalDirect
-            + anticipatedTotalIndirect
-            + obligatedTotalDirect
-            + obligatedTotalIndirect
-            + originatingAwardVersion
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + awardAmountInfoId (optional) - Award Amount Info Id. Maximum length is 22.
+    + awardId (optional) - 
+    + awardNumber (optional) - 
+    + sequenceNumber (optional) - Amount Sequence Number. Maximum length is 22.
+    + anticipatedTotalAmount (optional) - Anticipated Cumulative. Maximum length is 22.
+    + antDistributableAmount (optional) - Anticipated Distributable. Maximum length is 22.
+    + finalExpirationDate (optional) - Final Expiration Date. Maximum length is 10.
+    + currentFundEffectiveDate (optional) - Obligation Start Date. Maximum length is 10.
+    + amountObligatedToDate (optional) - Obligated Cumulative. Maximum length is 22.
+    + obliDistributableAmount (optional) - Obligated Distributable. Maximum length is 22.
+    + obligationExpirationDate (optional) - Obligation End Date. Maximum length is 10.
+    + transactionId (optional) - Transaction Id. Maximum length is 10.
+    + timeAndMoneyDocumentNumber (optional) - Document Number. Maximum length is 10.
+    + entryType (optional) - Entry Type. Maximum length is 1.
+    + eomProcessFlag (optional) - Eom ProcessDefinitionDefinition Flag. Maximum length is 1.
+    + anticipatedChange (optional) - Anticipated Change. Maximum length is 22.
+    + obligatedChange (optional) - Obligated Change. Maximum length is 22.
+    + obligatedChangeDirect (optional) - Obligated Change Direct. Maximum length is 22.
+    + obligatedChangeIndirect (optional) - Obligated Change Indirect. Maximum length is 22.
+    + anticipatedChangeDirect (optional) - Anticipated Change Direct. Maximum length is 22.
+    + anticipatedChangeIndirect (optional) - Anticipated Change Indirect. Maximum length is 22.
+    + anticipatedTotalDirect (optional) - Anticipated Total Direct. Maximum length is 12.
+    + anticipatedTotalIndirect (optional) - Anticipated Total Indirect. Maximum length is 12.
+    + obligatedTotalDirect (optional) - Obligated Total Direct. Maximum length is 12.
+    + obligatedTotalIndirect (optional) - Obligated Total Indirect. Maximum length is 12.
+    + originatingAwardVersion (optional) - 
 
       
 + Request

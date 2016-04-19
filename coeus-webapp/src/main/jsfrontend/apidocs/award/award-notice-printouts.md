@@ -1,6 +1,6 @@
-## Award Notice Printouts [/research-sys/api/v1/award-notice-printouts/]
+## Award Notice Printouts [/award/api/v1/award-notice-printouts/]
 
-### Get Award Notice Printouts by Key [GET /research-sys/api/v1/award-notice-printouts/(key)]
+### Get Award Notice Printouts by Key [GET /award/api/v1/award-notice-printouts/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"awardNoticeId": "(val)","awardId": "(val)","awardNumber": "(val)","unitNumber": "(val)","pdfContent": "(val)","_primaryKey": "(val)"}
 
-### Get All Award Notice Printouts [GET /research-sys/api/v1/award-notice-printouts/]
+### Get All Award Notice Printouts [GET /award/api/v1/award-notice-printouts/]
 	 
 + Request
 
@@ -39,15 +39,15 @@
               {"awardNoticeId": "(val)","awardId": "(val)","awardNumber": "(val)","unitNumber": "(val)","pdfContent": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Award Notice Printouts with Filtering [GET /research-sys/api/v1/award-notice-printouts/]
+### Get All Award Notice Printouts with Filtering [GET /award/api/v1/award-notice-printouts/]
     
 + Parameters
 
-        + awardNoticeId
-            + awardId
-            + awardNumber
-            + unitNumber
-            + pdfContent
+    + awardNoticeId (optional) - 
+    + awardId (optional) - 
+    + awardNumber (optional) - 
+    + unitNumber (optional) - 
+    + pdfContent (optional) - 
 
             
 + Request
@@ -69,7 +69,7 @@
               {"awardNoticeId": "(val)","awardId": "(val)","awardNumber": "(val)","unitNumber": "(val)","pdfContent": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Award Notice Printouts [GET /research-sys/api/v1/award-notice-printouts/]
+### Get Schema for Award Notice Printouts [GET /award/api/v1/award-notice-printouts/]
 	                                          
 + Parameters
 
@@ -91,7 +91,7 @@
     
             {"columns":["awardNoticeId","awardId","awardNumber","unitNumber","pdfContent"],"primaryKey":"awardNoticeId"}
 		
-### Get Blueprint API specification for Award Notice Printouts [GET /research-sys/api/v1/award-notice-printouts/]
+### Get Blueprint API specification for Award Notice Printouts [GET /award/api/v1/award-notice-printouts/]
 	 
 + Parameters
 
@@ -112,7 +112,7 @@
             transfer-encoding:chunked
 
 
-### Update Award Notice Printouts [PUT /research-sys/api/v1/award-notice-printouts/(key)]
+### Update Award Notice Printouts [PUT /award/api/v1/award-notice-printouts/(key)]
 
 + Request
 
@@ -127,7 +127,7 @@
 			
 + Response 204
 
-### Update Multiple Award Notice Printouts [PUT /research-sys/api/v1/award-notice-printouts/]
+### Update Multiple Award Notice Printouts [PUT /award/api/v1/award-notice-printouts/]
 
 + Request
 
@@ -145,7 +145,7 @@
 			
 + Response 204
 
-### Insert Award Notice Printouts [POST /research-sys/api/v1/award-notice-printouts/]
+### Insert Award Notice Printouts [POST /award/api/v1/award-notice-printouts/]
 
 + Request
 
@@ -164,7 +164,7 @@
             
             {"awardNoticeId": "(val)","awardId": "(val)","awardNumber": "(val)","unitNumber": "(val)","pdfContent": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Award Notice Printouts [POST /research-sys/api/v1/award-notice-printouts/]
+### Insert Multiple Award Notice Printouts [POST /award/api/v1/award-notice-printouts/]
 
 + Request
 
@@ -189,7 +189,7 @@
               {"awardNoticeId": "(val)","awardId": "(val)","awardNumber": "(val)","unitNumber": "(val)","pdfContent": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Award Notice Printouts by Key [DELETE /research-sys/api/v1/award-notice-printouts/(key)]
+### Delete Award Notice Printouts by Key [DELETE /award/api/v1/award-notice-printouts/(key)]
 	 
 + Request
 
@@ -200,7 +200,7 @@
 
 + Response 204
 
-### Delete All Award Notice Printouts [DELETE /research-sys/api/v1/award-notice-printouts/]
+### Delete All Award Notice Printouts [DELETE /award/api/v1/award-notice-printouts/]
 
 + Parameters
 
@@ -215,16 +215,16 @@
 
 + Response 204
 
-### Delete All Award Notice Printouts with Matching [DELETE /research-sys/api/v1/award-notice-printouts/]
+### Delete All Award Notice Printouts with Matching [DELETE /award/api/v1/award-notice-printouts/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + awardNoticeId
-            + awardId
-            + awardNumber
-            + unitNumber
-            + pdfContent
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + awardNoticeId (optional) - 
+    + awardId (optional) - 
+    + awardNumber (optional) - 
+    + unitNumber (optional) - 
+    + pdfContent (optional) - 
 
       
 + Request

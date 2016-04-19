@@ -1,6 +1,6 @@
-## Award Budgets [/research-sys/api/v1/award-budgets/]
+## Award Budgets [/award/api/v1/award-budgets/]
 
-### Get Award Budgets by Key [GET /research-sys/api/v1/award-budgets/(key)]
+### Get Award Budgets by Key [GET /award/api/v1/award-budgets/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"budgetId": "(val)","documentNumber": "(val)","awardBudgetStatusCode": "(val)","awardBudgetTypeCode": "(val)","obligatedAmount": "(val)","obligatedTotal": "(val)","description": "(val)","budgetInitiator": "(val)","awardId": "(val)","_primaryKey": "(val)"}
 
-### Get All Award Budgets [GET /research-sys/api/v1/award-budgets/]
+### Get All Award Budgets [GET /award/api/v1/award-budgets/]
 	 
 + Request
 
@@ -39,19 +39,19 @@
               {"budgetId": "(val)","documentNumber": "(val)","awardBudgetStatusCode": "(val)","awardBudgetTypeCode": "(val)","obligatedAmount": "(val)","obligatedTotal": "(val)","description": "(val)","budgetInitiator": "(val)","awardId": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Award Budgets with Filtering [GET /research-sys/api/v1/award-budgets/]
+### Get All Award Budgets with Filtering [GET /award/api/v1/award-budgets/]
     
 + Parameters
 
-        + budgetId
-            + documentNumber
-            + awardBudgetStatusCode
-            + awardBudgetTypeCode
-            + obligatedAmount
-            + obligatedTotal
-            + description
-            + budgetInitiator
-            + awardId
+    + budgetId (optional) - Budget Id. Maximum length is 22.
+    + documentNumber (optional) - 
+    + awardBudgetStatusCode (optional) - Award Budget Status Code. Maximum length is 3.
+    + awardBudgetTypeCode (optional) - Award Budget Type Code. Maximum length is 3.
+    + obligatedAmount (optional) - Obligated amount from award amount info. Maximum length is 15.
+    + obligatedTotal (optional) - 
+    + description (optional) - Description. Maximum length is 255.
+    + budgetInitiator (optional) - Budget Initiator. Maximum length is 60.
+    + awardId (optional) - 
 
             
 + Request
@@ -73,7 +73,7 @@
               {"budgetId": "(val)","documentNumber": "(val)","awardBudgetStatusCode": "(val)","awardBudgetTypeCode": "(val)","obligatedAmount": "(val)","obligatedTotal": "(val)","description": "(val)","budgetInitiator": "(val)","awardId": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Award Budgets [GET /research-sys/api/v1/award-budgets/]
+### Get Schema for Award Budgets [GET /award/api/v1/award-budgets/]
 	                                          
 + Parameters
 
@@ -95,7 +95,7 @@
     
             {"columns":["budgetId","documentNumber","awardBudgetStatusCode","awardBudgetTypeCode","obligatedAmount","obligatedTotal","description","budgetInitiator","awardId"],"primaryKey":"budgetId"}
 		
-### Get Blueprint API specification for Award Budgets [GET /research-sys/api/v1/award-budgets/]
+### Get Blueprint API specification for Award Budgets [GET /award/api/v1/award-budgets/]
 	 
 + Parameters
 
@@ -116,7 +116,7 @@
             transfer-encoding:chunked
 
 
-### Update Award Budgets [PUT /research-sys/api/v1/award-budgets/(key)]
+### Update Award Budgets [PUT /award/api/v1/award-budgets/(key)]
 
 + Request
 
@@ -131,7 +131,7 @@
 			
 + Response 204
 
-### Update Multiple Award Budgets [PUT /research-sys/api/v1/award-budgets/]
+### Update Multiple Award Budgets [PUT /award/api/v1/award-budgets/]
 
 + Request
 
@@ -149,7 +149,7 @@
 			
 + Response 204
 
-### Insert Award Budgets [POST /research-sys/api/v1/award-budgets/]
+### Insert Award Budgets [POST /award/api/v1/award-budgets/]
 
 + Request
 
@@ -168,7 +168,7 @@
             
             {"budgetId": "(val)","documentNumber": "(val)","awardBudgetStatusCode": "(val)","awardBudgetTypeCode": "(val)","obligatedAmount": "(val)","obligatedTotal": "(val)","description": "(val)","budgetInitiator": "(val)","awardId": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Award Budgets [POST /research-sys/api/v1/award-budgets/]
+### Insert Multiple Award Budgets [POST /award/api/v1/award-budgets/]
 
 + Request
 
@@ -193,7 +193,7 @@
               {"budgetId": "(val)","documentNumber": "(val)","awardBudgetStatusCode": "(val)","awardBudgetTypeCode": "(val)","obligatedAmount": "(val)","obligatedTotal": "(val)","description": "(val)","budgetInitiator": "(val)","awardId": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Award Budgets by Key [DELETE /research-sys/api/v1/award-budgets/(key)]
+### Delete Award Budgets by Key [DELETE /award/api/v1/award-budgets/(key)]
 	 
 + Request
 
@@ -204,7 +204,7 @@
 
 + Response 204
 
-### Delete All Award Budgets [DELETE /research-sys/api/v1/award-budgets/]
+### Delete All Award Budgets [DELETE /award/api/v1/award-budgets/]
 
 + Parameters
 
@@ -219,20 +219,20 @@
 
 + Response 204
 
-### Delete All Award Budgets with Matching [DELETE /research-sys/api/v1/award-budgets/]
+### Delete All Award Budgets with Matching [DELETE /award/api/v1/award-budgets/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + budgetId
-            + documentNumber
-            + awardBudgetStatusCode
-            + awardBudgetTypeCode
-            + obligatedAmount
-            + obligatedTotal
-            + description
-            + budgetInitiator
-            + awardId
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + budgetId (optional) - Budget Id. Maximum length is 22.
+    + documentNumber (optional) - 
+    + awardBudgetStatusCode (optional) - Award Budget Status Code. Maximum length is 3.
+    + awardBudgetTypeCode (optional) - Award Budget Type Code. Maximum length is 3.
+    + obligatedAmount (optional) - Obligated amount from award amount info. Maximum length is 15.
+    + obligatedTotal (optional) - 
+    + description (optional) - Description. Maximum length is 255.
+    + budgetInitiator (optional) - Budget Initiator. Maximum length is 60.
+    + awardId (optional) - 
 
       
 + Request

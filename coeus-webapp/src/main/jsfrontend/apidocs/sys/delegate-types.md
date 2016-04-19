@@ -43,11 +43,11 @@
     
 + Parameters
 
-        + delegationId
-            + roleId
-            + active
-            + kimTypeId
-            + delegationTypeCode
+    + delegationId (optional) - Delegation. Maximum length is 10.
+    + roleId (optional) - Role. Maximum length is 10.
+    + active (optional) - This attribute is used to describe whether the associated object is active or inactive. Maximum length is 1.
+    + kimTypeId (optional) - Delegation Type. Maximum length is 40.
+    + delegationTypeCode (optional) - Delegation Type Code. Maximum length is 40.
 
             
 + Request
@@ -219,12 +219,12 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + delegationId
-            + roleId
-            + active
-            + kimTypeId
-            + delegationTypeCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + delegationId (optional) - Delegation. Maximum length is 10.
+    + roleId (optional) - Role. Maximum length is 10.
+    + active (optional) - This attribute is used to describe whether the associated object is active or inactive. Maximum length is 1.
+    + kimTypeId (optional) - Delegation Type. Maximum length is 40.
+    + delegationTypeCode (optional) - Delegation Type Code. Maximum length is 40.
 
       
 + Request

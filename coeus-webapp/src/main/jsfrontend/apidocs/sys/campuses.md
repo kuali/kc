@@ -43,11 +43,11 @@
     
 + Parameters
 
-        + code
-            + name
-            + shortName
-            + campusTypeCode
-            + active
+    + code (optional) - The code uniquely identifying a particular campus. Maximum length is 2.
+    + name (optional) - Campus Name... Maximum length is 40.
+    + shortName (optional) - Short Name... Maximum length is 12.
+    + campusTypeCode (optional) - The code identifying type of campus. Maximum length is 2.
+    + active (optional) - This attribute is used to describe whether the associated object is active or inactive. Maximum length is 1.
 
             
 + Request
@@ -219,12 +219,12 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + code
-            + name
-            + shortName
-            + campusTypeCode
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + code (optional) - The code uniquely identifying a particular campus. Maximum length is 2.
+    + name (optional) - Campus Name... Maximum length is 40.
+    + shortName (optional) - Short Name... Maximum length is 12.
+    + campusTypeCode (optional) - The code identifying type of campus. Maximum length is 2.
+    + active (optional) - This attribute is used to describe whether the associated object is active or inactive. Maximum length is 1.
 
       
 + Request

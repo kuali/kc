@@ -43,16 +43,16 @@
     
 + Parameters
 
-        + entityPhoneId
-            + entityTypeCode
-            + phoneTypeCode
-            + phoneNumber
-            + extensionNumber
-            + countryCode
-            + dflt
-            + edit
-            + documentNumber
-            + active
+    + entityPhoneId (optional) - Entity Phone Id.
+    + entityTypeCode (optional) - Entity Type Code.
+    + phoneTypeCode (optional) - Phone Type. Maximum length is 40.
+    + phoneNumber (optional) - Phone Number. Maximum length is 20.
+    + extensionNumber (optional) - Extension. Maximum length is 8.
+    + countryCode (optional) - Country. Maximum length is 2.
+    + dflt (optional) - Default. Maximum length is 1.
+    + edit (optional) - Edit.
+    + documentNumber (optional) - Document Number.
+    + active (optional) - Active. Maximum length is 1.
 
             
 + Request
@@ -224,17 +224,17 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + entityPhoneId
-            + entityTypeCode
-            + phoneTypeCode
-            + phoneNumber
-            + extensionNumber
-            + countryCode
-            + dflt
-            + edit
-            + documentNumber
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + entityPhoneId (optional) - Entity Phone Id.
+    + entityTypeCode (optional) - Entity Type Code.
+    + phoneTypeCode (optional) - Phone Type. Maximum length is 40.
+    + phoneNumber (optional) - Phone Number. Maximum length is 20.
+    + extensionNumber (optional) - Extension. Maximum length is 8.
+    + countryCode (optional) - Country. Maximum length is 2.
+    + dflt (optional) - Default. Maximum length is 1.
+    + edit (optional) - Edit.
+    + documentNumber (optional) - Document Number.
+    + active (optional) - Active. Maximum length is 1.
 
       
 + Request

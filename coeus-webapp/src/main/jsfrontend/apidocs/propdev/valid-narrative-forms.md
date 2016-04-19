@@ -1,6 +1,6 @@
-## Valid Narrative Forms [/research-sys/api/v1/valid-narrative-forms/]
+## Valid Narrative Forms [/propdev/api/v1/valid-narrative-forms/]
 
-### Get Valid Narrative Forms by Key [GET /research-sys/api/v1/valid-narrative-forms/(key)]
+### Get Valid Narrative Forms by Key [GET /propdev/api/v1/valid-narrative-forms/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"validNarrFormsId": "(val)","formName": "(val)","narrativeTypeCode": "(val)","mandatory": "(val)","_primaryKey": "(val)"}
 
-### Get All Valid Narrative Forms [GET /research-sys/api/v1/valid-narrative-forms/]
+### Get All Valid Narrative Forms [GET /propdev/api/v1/valid-narrative-forms/]
 	 
 + Request
 
@@ -39,14 +39,14 @@
               {"validNarrFormsId": "(val)","formName": "(val)","narrativeTypeCode": "(val)","mandatory": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Valid Narrative Forms with Filtering [GET /research-sys/api/v1/valid-narrative-forms/]
+### Get All Valid Narrative Forms with Filtering [GET /propdev/api/v1/valid-narrative-forms/]
     
 + Parameters
 
-        + validNarrFormsId
-            + formName
-            + narrativeTypeCode
-            + mandatory
+    + validNarrFormsId (optional) - Valid Narr Forms Id. Maximum length is 22.
+    + formName (optional) - Form Name. Maximum length is 100.
+    + narrativeTypeCode (optional) - Narrative Type Code. Maximum length is 22.
+    + mandatory (optional) - Mandatory. Maximum length is 3.
 
             
 + Request
@@ -68,7 +68,7 @@
               {"validNarrFormsId": "(val)","formName": "(val)","narrativeTypeCode": "(val)","mandatory": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Valid Narrative Forms [GET /research-sys/api/v1/valid-narrative-forms/]
+### Get Schema for Valid Narrative Forms [GET /propdev/api/v1/valid-narrative-forms/]
 	                                          
 + Parameters
 
@@ -90,7 +90,7 @@
     
             {"columns":["validNarrFormsId","formName","narrativeTypeCode","mandatory"],"primaryKey":"validNarrFormsId"}
 		
-### Get Blueprint API specification for Valid Narrative Forms [GET /research-sys/api/v1/valid-narrative-forms/]
+### Get Blueprint API specification for Valid Narrative Forms [GET /propdev/api/v1/valid-narrative-forms/]
 	 
 + Parameters
 
@@ -111,7 +111,7 @@
             transfer-encoding:chunked
 
 
-### Update Valid Narrative Forms [PUT /research-sys/api/v1/valid-narrative-forms/(key)]
+### Update Valid Narrative Forms [PUT /propdev/api/v1/valid-narrative-forms/(key)]
 
 + Request
 
@@ -126,7 +126,7 @@
 			
 + Response 204
 
-### Update Multiple Valid Narrative Forms [PUT /research-sys/api/v1/valid-narrative-forms/]
+### Update Multiple Valid Narrative Forms [PUT /propdev/api/v1/valid-narrative-forms/]
 
 + Request
 
@@ -144,7 +144,7 @@
 			
 + Response 204
 
-### Insert Valid Narrative Forms [POST /research-sys/api/v1/valid-narrative-forms/]
+### Insert Valid Narrative Forms [POST /propdev/api/v1/valid-narrative-forms/]
 
 + Request
 
@@ -163,7 +163,7 @@
             
             {"validNarrFormsId": "(val)","formName": "(val)","narrativeTypeCode": "(val)","mandatory": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Valid Narrative Forms [POST /research-sys/api/v1/valid-narrative-forms/]
+### Insert Multiple Valid Narrative Forms [POST /propdev/api/v1/valid-narrative-forms/]
 
 + Request
 
@@ -188,7 +188,7 @@
               {"validNarrFormsId": "(val)","formName": "(val)","narrativeTypeCode": "(val)","mandatory": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Valid Narrative Forms by Key [DELETE /research-sys/api/v1/valid-narrative-forms/(key)]
+### Delete Valid Narrative Forms by Key [DELETE /propdev/api/v1/valid-narrative-forms/(key)]
 	 
 + Request
 
@@ -199,7 +199,7 @@
 
 + Response 204
 
-### Delete All Valid Narrative Forms [DELETE /research-sys/api/v1/valid-narrative-forms/]
+### Delete All Valid Narrative Forms [DELETE /propdev/api/v1/valid-narrative-forms/]
 
 + Parameters
 
@@ -214,15 +214,15 @@
 
 + Response 204
 
-### Delete All Valid Narrative Forms with Matching [DELETE /research-sys/api/v1/valid-narrative-forms/]
+### Delete All Valid Narrative Forms with Matching [DELETE /propdev/api/v1/valid-narrative-forms/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + validNarrFormsId
-            + formName
-            + narrativeTypeCode
-            + mandatory
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + validNarrFormsId (optional) - Valid Narr Forms Id. Maximum length is 22.
+    + formName (optional) - Form Name. Maximum length is 100.
+    + narrativeTypeCode (optional) - Narrative Type Code. Maximum length is 22.
+    + mandatory (optional) - Mandatory. Maximum length is 3.
 
       
 + Request

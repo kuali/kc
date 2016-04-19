@@ -1,6 +1,6 @@
-## Proposal Unit Credit Splits [/research-sys/api/v1/proposal-unit-credit-splits/]
+## Proposal Unit Credit Splits [/propdev/api/v1/proposal-unit-credit-splits/]
 
-### Get Proposal Unit Credit Splits by Key [GET /research-sys/api/v1/proposal-unit-credit-splits/(key)]
+### Get Proposal Unit Credit Splits by Key [GET /propdev/api/v1/proposal-unit-credit-splits/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"invCreditTypeCode": "(val)","credit": "(val)","_primaryKey": "(val)"}
 
-### Get All Proposal Unit Credit Splits [GET /research-sys/api/v1/proposal-unit-credit-splits/]
+### Get All Proposal Unit Credit Splits [GET /propdev/api/v1/proposal-unit-credit-splits/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"invCreditTypeCode": "(val)","credit": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Proposal Unit Credit Splits with Filtering [GET /research-sys/api/v1/proposal-unit-credit-splits/]
+### Get All Proposal Unit Credit Splits with Filtering [GET /propdev/api/v1/proposal-unit-credit-splits/]
     
 + Parameters
 
-        + invCreditTypeCode
-            + credit
+    + invCreditTypeCode (optional) - Investigator Credit Type Code. Maximum length is 3.
+    + credit (optional) - Credit. Maximum length is 6.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"invCreditTypeCode": "(val)","credit": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Proposal Unit Credit Splits [GET /research-sys/api/v1/proposal-unit-credit-splits/]
+### Get Schema for Proposal Unit Credit Splits [GET /propdev/api/v1/proposal-unit-credit-splits/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["invCreditTypeCode","credit"],"primaryKey":"invCreditTypeCode:proposalPersonUnit"}
 		
-### Get Blueprint API specification for Proposal Unit Credit Splits [GET /research-sys/api/v1/proposal-unit-credit-splits/]
+### Get Blueprint API specification for Proposal Unit Credit Splits [GET /propdev/api/v1/proposal-unit-credit-splits/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Proposal Unit Credit Splits [PUT /research-sys/api/v1/proposal-unit-credit-splits/(key)]
+### Update Proposal Unit Credit Splits [PUT /propdev/api/v1/proposal-unit-credit-splits/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Proposal Unit Credit Splits [PUT /research-sys/api/v1/proposal-unit-credit-splits/]
+### Update Multiple Proposal Unit Credit Splits [PUT /propdev/api/v1/proposal-unit-credit-splits/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Proposal Unit Credit Splits [POST /research-sys/api/v1/proposal-unit-credit-splits/]
+### Insert Proposal Unit Credit Splits [POST /propdev/api/v1/proposal-unit-credit-splits/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"invCreditTypeCode": "(val)","credit": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Proposal Unit Credit Splits [POST /research-sys/api/v1/proposal-unit-credit-splits/]
+### Insert Multiple Proposal Unit Credit Splits [POST /propdev/api/v1/proposal-unit-credit-splits/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"invCreditTypeCode": "(val)","credit": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Proposal Unit Credit Splits by Key [DELETE /research-sys/api/v1/proposal-unit-credit-splits/(key)]
+### Delete Proposal Unit Credit Splits by Key [DELETE /propdev/api/v1/proposal-unit-credit-splits/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Proposal Unit Credit Splits [DELETE /research-sys/api/v1/proposal-unit-credit-splits/]
+### Delete All Proposal Unit Credit Splits [DELETE /propdev/api/v1/proposal-unit-credit-splits/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Proposal Unit Credit Splits with Matching [DELETE /research-sys/api/v1/proposal-unit-credit-splits/]
+### Delete All Proposal Unit Credit Splits with Matching [DELETE /propdev/api/v1/proposal-unit-credit-splits/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + invCreditTypeCode
-            + credit
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + invCreditTypeCode (optional) - Investigator Credit Type Code. Maximum length is 3.
+    + credit (optional) - Credit. Maximum length is 6.
 
       
 + Request

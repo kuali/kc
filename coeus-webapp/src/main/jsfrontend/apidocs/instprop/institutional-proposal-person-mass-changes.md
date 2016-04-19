@@ -1,6 +1,6 @@
-## Institutional Proposal Person Mass Changes [/research-sys/api/v1/institutional-proposal-person-mass-changes/]
+## Institutional Proposal Person Mass Changes [/instprop/api/v1/institutional-proposal-person-mass-changes/]
 
-### Get Institutional Proposal Person Mass Changes by Key [GET /research-sys/api/v1/institutional-proposal-person-mass-changes/(key)]
+### Get Institutional Proposal Person Mass Changes by Key [GET /instprop/api/v1/institutional-proposal-person-mass-changes/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"institutionalProposalPersonMassChangeId": "(val)","personMassChangeId": "(val)","investigator": "(val)","keyStudyPerson": "(val)","unitContact": "(val)","mailingInformation": "(val)","ipReviewer": "(val)","_primaryKey": "(val)"}
 
-### Get All Institutional Proposal Person Mass Changes [GET /research-sys/api/v1/institutional-proposal-person-mass-changes/]
+### Get All Institutional Proposal Person Mass Changes [GET /instprop/api/v1/institutional-proposal-person-mass-changes/]
 	 
 + Request
 
@@ -39,17 +39,17 @@
               {"institutionalProposalPersonMassChangeId": "(val)","personMassChangeId": "(val)","investigator": "(val)","keyStudyPerson": "(val)","unitContact": "(val)","mailingInformation": "(val)","ipReviewer": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Institutional Proposal Person Mass Changes with Filtering [GET /research-sys/api/v1/institutional-proposal-person-mass-changes/]
+### Get All Institutional Proposal Person Mass Changes with Filtering [GET /instprop/api/v1/institutional-proposal-person-mass-changes/]
     
 + Parameters
 
-        + institutionalProposalPersonMassChangeId
-            + personMassChangeId
-            + investigator
-            + keyStudyPerson
-            + unitContact
-            + mailingInformation
-            + ipReviewer
+    + institutionalProposalPersonMassChangeId (optional) - Institutional Proposal Person Mass Change Id. Maximum length is 12.
+    + personMassChangeId (optional) - Person Mass Change Id. Maximum length is 12.
+    + investigator (optional) - Investigator. Maximum length is 1.
+    + keyStudyPerson (optional) - Key Study Person. Maximum length is 1.
+    + unitContact (optional) - Unit Contact. Maximum length is 1.
+    + mailingInformation (optional) - Mailing Information. Maximum length is 1.
+    + ipReviewer (optional) - IP Reviewer. Maximum length is 1.
 
             
 + Request
@@ -71,7 +71,7 @@
               {"institutionalProposalPersonMassChangeId": "(val)","personMassChangeId": "(val)","investigator": "(val)","keyStudyPerson": "(val)","unitContact": "(val)","mailingInformation": "(val)","ipReviewer": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Institutional Proposal Person Mass Changes [GET /research-sys/api/v1/institutional-proposal-person-mass-changes/]
+### Get Schema for Institutional Proposal Person Mass Changes [GET /instprop/api/v1/institutional-proposal-person-mass-changes/]
 	                                          
 + Parameters
 
@@ -93,7 +93,7 @@
     
             {"columns":["institutionalProposalPersonMassChangeId","personMassChangeId","investigator","keyStudyPerson","unitContact","mailingInformation","ipReviewer"],"primaryKey":"institutionalProposalPersonMassChangeId"}
 		
-### Get Blueprint API specification for Institutional Proposal Person Mass Changes [GET /research-sys/api/v1/institutional-proposal-person-mass-changes/]
+### Get Blueprint API specification for Institutional Proposal Person Mass Changes [GET /instprop/api/v1/institutional-proposal-person-mass-changes/]
 	 
 + Parameters
 
@@ -114,7 +114,7 @@
             transfer-encoding:chunked
 
 
-### Update Institutional Proposal Person Mass Changes [PUT /research-sys/api/v1/institutional-proposal-person-mass-changes/(key)]
+### Update Institutional Proposal Person Mass Changes [PUT /instprop/api/v1/institutional-proposal-person-mass-changes/(key)]
 
 + Request
 
@@ -129,7 +129,7 @@
 			
 + Response 204
 
-### Update Multiple Institutional Proposal Person Mass Changes [PUT /research-sys/api/v1/institutional-proposal-person-mass-changes/]
+### Update Multiple Institutional Proposal Person Mass Changes [PUT /instprop/api/v1/institutional-proposal-person-mass-changes/]
 
 + Request
 
@@ -147,7 +147,7 @@
 			
 + Response 204
 
-### Insert Institutional Proposal Person Mass Changes [POST /research-sys/api/v1/institutional-proposal-person-mass-changes/]
+### Insert Institutional Proposal Person Mass Changes [POST /instprop/api/v1/institutional-proposal-person-mass-changes/]
 
 + Request
 
@@ -166,7 +166,7 @@
             
             {"institutionalProposalPersonMassChangeId": "(val)","personMassChangeId": "(val)","investigator": "(val)","keyStudyPerson": "(val)","unitContact": "(val)","mailingInformation": "(val)","ipReviewer": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Institutional Proposal Person Mass Changes [POST /research-sys/api/v1/institutional-proposal-person-mass-changes/]
+### Insert Multiple Institutional Proposal Person Mass Changes [POST /instprop/api/v1/institutional-proposal-person-mass-changes/]
 
 + Request
 
@@ -191,7 +191,7 @@
               {"institutionalProposalPersonMassChangeId": "(val)","personMassChangeId": "(val)","investigator": "(val)","keyStudyPerson": "(val)","unitContact": "(val)","mailingInformation": "(val)","ipReviewer": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Institutional Proposal Person Mass Changes by Key [DELETE /research-sys/api/v1/institutional-proposal-person-mass-changes/(key)]
+### Delete Institutional Proposal Person Mass Changes by Key [DELETE /instprop/api/v1/institutional-proposal-person-mass-changes/(key)]
 	 
 + Request
 
@@ -202,7 +202,7 @@
 
 + Response 204
 
-### Delete All Institutional Proposal Person Mass Changes [DELETE /research-sys/api/v1/institutional-proposal-person-mass-changes/]
+### Delete All Institutional Proposal Person Mass Changes [DELETE /instprop/api/v1/institutional-proposal-person-mass-changes/]
 
 + Parameters
 
@@ -217,18 +217,18 @@
 
 + Response 204
 
-### Delete All Institutional Proposal Person Mass Changes with Matching [DELETE /research-sys/api/v1/institutional-proposal-person-mass-changes/]
+### Delete All Institutional Proposal Person Mass Changes with Matching [DELETE /instprop/api/v1/institutional-proposal-person-mass-changes/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + institutionalProposalPersonMassChangeId
-            + personMassChangeId
-            + investigator
-            + keyStudyPerson
-            + unitContact
-            + mailingInformation
-            + ipReviewer
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + institutionalProposalPersonMassChangeId (optional) - Institutional Proposal Person Mass Change Id. Maximum length is 12.
+    + personMassChangeId (optional) - Person Mass Change Id. Maximum length is 12.
+    + investigator (optional) - Investigator. Maximum length is 1.
+    + keyStudyPerson (optional) - Key Study Person. Maximum length is 1.
+    + unitContact (optional) - Unit Contact. Maximum length is 1.
+    + mailingInformation (optional) - Mailing Information. Maximum length is 1.
+    + ipReviewer (optional) - IP Reviewer. Maximum length is 1.
 
       
 + Request

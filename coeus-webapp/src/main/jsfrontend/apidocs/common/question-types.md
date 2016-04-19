@@ -1,6 +1,6 @@
-## Question Types [/research-sys/api/v1/question-types/]
+## Question Types [/research-common/api/v1/question-types/]
 
-### Get Question Types by Key [GET /research-sys/api/v1/question-types/(key)]
+### Get Question Types by Key [GET /research-common/api/v1/question-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"id": "(val)","name": "(val)","_primaryKey": "(val)"}
 
-### Get All Question Types [GET /research-sys/api/v1/question-types/]
+### Get All Question Types [GET /research-common/api/v1/question-types/]
 	 
 + Request
 
@@ -39,12 +39,12 @@
               {"id": "(val)","name": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Question Types with Filtering [GET /research-sys/api/v1/question-types/]
+### Get All Question Types with Filtering [GET /research-common/api/v1/question-types/]
     
 + Parameters
 
-        + id
-            + name
+    + id (optional) - Question Type Id. Maximum length is 3.
+    + name (optional) - Question Type Name. Maximum length is 30.
 
             
 + Request
@@ -66,7 +66,7 @@
               {"id": "(val)","name": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Question Types [GET /research-sys/api/v1/question-types/]
+### Get Schema for Question Types [GET /research-common/api/v1/question-types/]
 	                                          
 + Parameters
 
@@ -88,7 +88,7 @@
     
             {"columns":["id","name"],"primaryKey":"id"}
 		
-### Get Blueprint API specification for Question Types [GET /research-sys/api/v1/question-types/]
+### Get Blueprint API specification for Question Types [GET /research-common/api/v1/question-types/]
 	 
 + Parameters
 
@@ -109,7 +109,7 @@
             transfer-encoding:chunked
 
 
-### Update Question Types [PUT /research-sys/api/v1/question-types/(key)]
+### Update Question Types [PUT /research-common/api/v1/question-types/(key)]
 
 + Request
 
@@ -124,7 +124,7 @@
 			
 + Response 204
 
-### Update Multiple Question Types [PUT /research-sys/api/v1/question-types/]
+### Update Multiple Question Types [PUT /research-common/api/v1/question-types/]
 
 + Request
 
@@ -142,7 +142,7 @@
 			
 + Response 204
 
-### Insert Question Types [POST /research-sys/api/v1/question-types/]
+### Insert Question Types [POST /research-common/api/v1/question-types/]
 
 + Request
 
@@ -161,7 +161,7 @@
             
             {"id": "(val)","name": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Question Types [POST /research-sys/api/v1/question-types/]
+### Insert Multiple Question Types [POST /research-common/api/v1/question-types/]
 
 + Request
 
@@ -186,7 +186,7 @@
               {"id": "(val)","name": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Question Types by Key [DELETE /research-sys/api/v1/question-types/(key)]
+### Delete Question Types by Key [DELETE /research-common/api/v1/question-types/(key)]
 	 
 + Request
 
@@ -197,7 +197,7 @@
 
 + Response 204
 
-### Delete All Question Types [DELETE /research-sys/api/v1/question-types/]
+### Delete All Question Types [DELETE /research-common/api/v1/question-types/]
 
 + Parameters
 
@@ -212,13 +212,13 @@
 
 + Response 204
 
-### Delete All Question Types with Matching [DELETE /research-sys/api/v1/question-types/]
+### Delete All Question Types with Matching [DELETE /research-common/api/v1/question-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + id
-            + name
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + id (optional) - Question Type Id. Maximum length is 3.
+    + name (optional) - Question Type Name. Maximum length is 30.
 
       
 + Request

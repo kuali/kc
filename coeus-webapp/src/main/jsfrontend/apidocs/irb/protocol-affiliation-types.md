@@ -1,6 +1,6 @@
-## Protocol Affiliation Types [/research-sys/api/v1/protocol-affiliation-types/]
+## Protocol Affiliation Types [/irb/api/v1/protocol-affiliation-types/]
 
-### Get Protocol Affiliation Types by Key [GET /research-sys/api/v1/protocol-affiliation-types/(key)]
+### Get Protocol Affiliation Types by Key [GET /irb/api/v1/protocol-affiliation-types/(key)]
 	 
 + Request
 
@@ -18,7 +18,7 @@
     
             {"affiliationTypeCode": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
 
-### Get All Protocol Affiliation Types [GET /research-sys/api/v1/protocol-affiliation-types/]
+### Get All Protocol Affiliation Types [GET /irb/api/v1/protocol-affiliation-types/]
 	 
 + Request
 
@@ -39,13 +39,13 @@
               {"affiliationTypeCode": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 
-### Get All Protocol Affiliation Types with Filtering [GET /research-sys/api/v1/protocol-affiliation-types/]
+### Get All Protocol Affiliation Types with Filtering [GET /irb/api/v1/protocol-affiliation-types/]
     
 + Parameters
 
-        + affiliationTypeCode
-            + description
-            + active
+    + affiliationTypeCode (optional) - Affiliation Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + active (optional) - Active. Maximum length is 1.
 
             
 + Request
@@ -67,7 +67,7 @@
               {"affiliationTypeCode": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
 			
-### Get Schema for Protocol Affiliation Types [GET /research-sys/api/v1/protocol-affiliation-types/]
+### Get Schema for Protocol Affiliation Types [GET /irb/api/v1/protocol-affiliation-types/]
 	                                          
 + Parameters
 
@@ -89,7 +89,7 @@
     
             {"columns":["affiliationTypeCode","description","active"],"primaryKey":"affiliationTypeCode"}
 		
-### Get Blueprint API specification for Protocol Affiliation Types [GET /research-sys/api/v1/protocol-affiliation-types/]
+### Get Blueprint API specification for Protocol Affiliation Types [GET /irb/api/v1/protocol-affiliation-types/]
 	 
 + Parameters
 
@@ -110,7 +110,7 @@
             transfer-encoding:chunked
 
 
-### Update Protocol Affiliation Types [PUT /research-sys/api/v1/protocol-affiliation-types/(key)]
+### Update Protocol Affiliation Types [PUT /irb/api/v1/protocol-affiliation-types/(key)]
 
 + Request
 
@@ -125,7 +125,7 @@
 			
 + Response 204
 
-### Update Multiple Protocol Affiliation Types [PUT /research-sys/api/v1/protocol-affiliation-types/]
+### Update Multiple Protocol Affiliation Types [PUT /irb/api/v1/protocol-affiliation-types/]
 
 + Request
 
@@ -143,7 +143,7 @@
 			
 + Response 204
 
-### Insert Protocol Affiliation Types [POST /research-sys/api/v1/protocol-affiliation-types/]
+### Insert Protocol Affiliation Types [POST /irb/api/v1/protocol-affiliation-types/]
 
 + Request
 
@@ -162,7 +162,7 @@
             
             {"affiliationTypeCode": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             
-### Insert Multiple Protocol Affiliation Types [POST /research-sys/api/v1/protocol-affiliation-types/]
+### Insert Multiple Protocol Affiliation Types [POST /irb/api/v1/protocol-affiliation-types/]
 
 + Request
 
@@ -187,7 +187,7 @@
               {"affiliationTypeCode": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
             
-### Delete Protocol Affiliation Types by Key [DELETE /research-sys/api/v1/protocol-affiliation-types/(key)]
+### Delete Protocol Affiliation Types by Key [DELETE /irb/api/v1/protocol-affiliation-types/(key)]
 	 
 + Request
 
@@ -198,7 +198,7 @@
 
 + Response 204
 
-### Delete All Protocol Affiliation Types [DELETE /research-sys/api/v1/protocol-affiliation-types/]
+### Delete All Protocol Affiliation Types [DELETE /irb/api/v1/protocol-affiliation-types/]
 
 + Parameters
 
@@ -213,14 +213,14 @@
 
 + Response 204
 
-### Delete All Protocol Affiliation Types with Matching [DELETE /research-sys/api/v1/protocol-affiliation-types/]
+### Delete All Protocol Affiliation Types with Matching [DELETE /irb/api/v1/protocol-affiliation-types/]
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + affiliationTypeCode
-            + description
-            + active
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + affiliationTypeCode (optional) - Affiliation Type Code. Maximum length is 3.
+    + description (optional) - Description. Maximum length is 200.
+    + active (optional) - Active. Maximum length is 1.
 
       
 + Request

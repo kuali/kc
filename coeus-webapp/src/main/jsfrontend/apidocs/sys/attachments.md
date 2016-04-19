@@ -43,12 +43,12 @@
     
 + Parameters
 
-        + noteIdentifier
-            + attachmentMimeTypeCode
-            + attachmentFileName
-            + attachmentIdentifier
-            + attachmentFileSize
-            + attachmentTypeCode
+    + noteIdentifier (optional) - noteIdentifier description... Maximum length is 14.
+    + attachmentMimeTypeCode (optional) - attachmentMimeTypeCode description... Maximum length is 40.
+    + attachmentFileName (optional) - attachmentFileName description... Maximum length is 250.
+    + attachmentIdentifier (optional) - attachmentIdentifier description... Maximum length is 36.
+    + attachmentFileSize (optional) - attachmentFileSize description... Maximum length is 14.
+    + attachmentTypeCode (optional) - attachmentTypeCode description... Maximum length is 2.
 
             
 + Request
@@ -220,13 +220,13 @@
 
 + Parameters
 
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-      + noteIdentifier
-            + attachmentMimeTypeCode
-            + attachmentFileName
-            + attachmentIdentifier
-            + attachmentFileSize
-            + attachmentTypeCode
+    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
+    + noteIdentifier (optional) - noteIdentifier description... Maximum length is 14.
+    + attachmentMimeTypeCode (optional) - attachmentMimeTypeCode description... Maximum length is 40.
+    + attachmentFileName (optional) - attachmentFileName description... Maximum length is 250.
+    + attachmentIdentifier (optional) - attachmentIdentifier description... Maximum length is 36.
+    + attachmentFileSize (optional) - attachmentFileSize description... Maximum length is 14.
+    + attachmentTypeCode (optional) - attachmentTypeCode description... Maximum length is 2.
 
       
 + Request
