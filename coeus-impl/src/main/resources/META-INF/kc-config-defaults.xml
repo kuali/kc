@@ -66,6 +66,7 @@
 
 	<!-- Rice override spring beans-->
 	<param name="rice.kr.additionalSpringFiles">classpath:org/kuali/coeus/sys/impl/KcRiceKrOverrideSpringBeans.xml</param>
+	<param name="rice.kew.additionalSpringFiles">classpath:org/kuali/coeus/sys/impl/KcRiceKewOverrideSpringBeans.xml</param>
 
     <param name="kr.url">${rice.server.url}/kr</param>
 	<param name="ken.url">${rice.server.url}/ken</param>

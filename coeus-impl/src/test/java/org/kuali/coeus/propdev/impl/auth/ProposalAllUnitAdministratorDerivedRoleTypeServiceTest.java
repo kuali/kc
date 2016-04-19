@@ -24,6 +24,7 @@ import java.util.Set;
 
 import org.hamcrest.CoreMatchers;
 import org.junit.Test;
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
@@ -57,6 +58,9 @@ public class ProposalAllUnitAdministratorDerivedRoleTypeServiceTest {
 					
 				}
 			};
+			final Unit newUnit = new Unit();
+			newUnit.setUnitNumber(unitNumber);
+			unit.setUnit(newUnit);
 			unit.setUnitNumber(unitNumber);
 			person.addUnit(unit);
 		}

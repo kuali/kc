@@ -182,6 +182,11 @@
           p:callbackService-ref="proposalPeopleFlowTypeService"
           p:localServiceName="proposalPeopleFlowTypeService"
           p:serviceInterface="org.kuali.rice.kew.framework.peopleflow.PeopleFlowTypeService" />
+          
+    <bean id= "unitSpecificProposalPeopleFlowTypeServiceCallback" parent="kcCoreCallbackService"
+          p:callbackService-ref="unitSpecificProposalPeopleFlowTypeService"
+          p:localServiceName="unitSpecificProposalPeopleFlowTypeService"
+          p:serviceInterface="org.kuali.coeus.common.framework.workflow.KcAttributeCapablePeopleFlowTypeService" />
 
     <bean id="platformAwareDao" class="org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb" abstract="true">
         <property name="jcdAlias" value="kradApplicationDataSource" />
