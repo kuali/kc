@@ -19,14 +19,13 @@
 package org.kuali.coeus.propdev.impl.auth;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.common.framework.unit.admin.AbstractUnitAdministrator;
 import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.coeus.common.framework.unit.admin.AbstractUnitAdministratorDerivedRoleTypeService;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 import org.kuali.rice.kim.framework.role.RoleTypeService;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +33,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -72,6 +70,7 @@ public class ProposalAllUnitAdministratorDerivedRoleTypeServiceImpl extends Abst
     @Override
     public List<? extends AbstractUnitAdministrator> getUnitAdministrators(Map<String, String> qualifiers) {
         String proposalNumber = qualifiers.get(KcKimAttributes.PROPOSAL);
+        String unitNumber = qualifiers.get(KcKimAttributes.UNIT_NUMBER);
         List<UnitAdministrator> result = new ArrayList<UnitAdministrator>();
         if (proposalNumber != null) {
             DevelopmentProposal proposal = getDataObjectService().find(DevelopmentProposal.class,proposalNumber);
@@ -81,6 +80,8 @@ public class ProposalAllUnitAdministratorDerivedRoleTypeServiceImpl extends Abst
                     result.addAll(unitService.retrieveUnitAdministratorsByUnitNumber(unit));
                 }
             }
+        } else if (unitNumber != null) {
+        	result.addAll(unitService.retrieveUnitAdministratorsByUnitNumber(getUnitNumberForPersonUnit(unitService.getUnit(unitNumber))));
         }
         return result;
     }
@@ -88,12 +89,12 @@ public class ProposalAllUnitAdministratorDerivedRoleTypeServiceImpl extends Abst
 	protected Set<String> getApplicableUnits(DevelopmentProposal proposal) {
 		return proposal.getProposalPersons().stream()
 				  .flatMap(person -> person.getUnits().stream())
-				  .map(unit -> getUnitNumberForPersonUnit(unit))
+				  .map(unit -> getUnitNumberForPersonUnit(unit.getUnit()))
 				  .filter(Objects::nonNull)
 				  .collect(Collectors.toSet());
 	}
 
-	protected String getUnitNumberForPersonUnit(ProposalPersonUnit unit) {
+	protected String getUnitNumberForPersonUnit(Unit unit) {
 		return unit.getUnitNumber();
 	}
 

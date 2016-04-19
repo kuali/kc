@@ -18,14 +18,14 @@
  */
 package org.kuali.coeus.propdev.impl.auth;
 
-import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.springframework.stereotype.Component;
 
 @Component("collegeLevelUnitHeadDerivedRoleTypeService")
 public class CollegeLevelUnitHeadDerivedRoleTypeServiceImpl extends DepartmentLevelUnitHeadDerivedRoleTypeServiceImpl {
 
 	@Override
-	protected String getUnitNumberForPersonUnit(ProposalPersonUnit unit) {
-		return unit.getUnit().getParentUnitNumber();
+	protected String getUnitNumberForPersonUnit(Unit unit) {
+		return unit.getParentUnitNumber();
 	}
 }
