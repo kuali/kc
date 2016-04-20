@@ -1,6 +1,13 @@
 
 
 ##CURRENT
+* fix test (#1678)  * Gayathri Athreya on Wed, 20 Apr 2016 13:21:17 -0700 [View Commit](../../commit/542101398a7c4bf6d0e51af86bdb2571065b886e)
+* Audit logger addition.
+  * Gayathri Athreya on Tue, 19 Apr 2016 17:40:18 -0700 [View Commit](../../commit/bb25c97400865bbb7cf347f1b6de0fe50b0eefbc)
+* Endpoint for IP document creation. Added multiple routes, changed to use DTOs, added validations.
+  * Gayathri Athreya on Thu, 24 Mar 2016 09:37:18 -0700 [View Commit](../../commit/f3e30310379649f95ed3aca2b2012be6c50243b8)
+
+##coeus-1604.27
 * RESKC-1270: updating rest documentation
   * Travis Schneeberger on Tue, 19 Apr 2016 14:37:01 -0400 [View Commit](../../commit/4de28cde9b44fe2e2e05f23098ecc3d7c4905766)
 * RESKC-1270: making sure api docs have the correct module path.  Adding parameter descriptions based on the data dictionary so parameters with show up in the api docs.
