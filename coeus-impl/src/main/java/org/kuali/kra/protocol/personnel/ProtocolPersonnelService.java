@@ -210,4 +210,9 @@ public interface ProtocolPersonnelService {
      */
     public List<Integer>getAffiliationStudentMap(List<ProtocolPersonBase> protocolPersons);
     
+    /**
+     * @return whether the PI should be added to the workflow requests via IRB Approver role. Based on a system parameter
+     */
+    public boolean shouldPrincipalInvestigatorBeAddedToWorkflow();
+    
 }

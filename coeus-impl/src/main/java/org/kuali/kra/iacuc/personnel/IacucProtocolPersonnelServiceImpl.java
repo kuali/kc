@@ -20,6 +20,7 @@ package org.kuali.kra.iacuc.personnel;
 
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -27,8 +28,8 @@ import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.personnel.*;
 
 public class IacucProtocolPersonnelServiceImpl extends ProtocolPersonnelServiceImplBase implements IacucProtocolPersonnelService {
-
-    private IacucProtocolProcedureService iacucProtocolProcedureService;
+    
+	private IacucProtocolProcedureService iacucProtocolProcedureService;
     
     @Override
     protected ProtocolUnitBase createNewProtocolUnitInstanceHook() {
@@ -66,7 +67,7 @@ public class IacucProtocolPersonnelServiceImpl extends ProtocolPersonnelServiceI
                 }
 
                 // Assign the PI the APPROVER role if PI has a personId (for doc cancel).
-                if (newPrincipalInvestigator.getPersonId() != null) {
+                if (newPrincipalInvestigator.getPersonId() != null && shouldPrincipalInvestigatorBeAddedToWorkflow()) {
                     personEditableService.populateContactFieldsFromPersonId(newPrincipalInvestigator);
                     KcAuthorizationService kraAuthService = KcServiceLocator.getService(KcAuthorizationService.class);
                     kraAuthService.addDocumentLevelRole(newPrincipalInvestigator.getPersonId(), RoleConstants.IACUC_PROTOCOL_APPROVER, protocol);
@@ -76,7 +77,12 @@ public class IacucProtocolPersonnelServiceImpl extends ProtocolPersonnelServiceI
                 }
             }
         }
-    }    
+    }
+    
+    @Override
+    public boolean shouldPrincipalInvestigatorBeAddedToWorkflow() {
+    	return getParameterService().getParameterValueAsBoolean(IacucProtocolDocument.class, ASSIGN_PRINCIPAL_INVESTIGATOR_TO_WORKFLOW);
+    }
     
     @Override
     public void addProtocolPerson(ProtocolBase protocol, ProtocolPersonBase protocolPerson) {

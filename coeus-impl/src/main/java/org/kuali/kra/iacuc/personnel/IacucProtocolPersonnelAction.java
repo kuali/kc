@@ -360,7 +360,7 @@ public class IacucProtocolPersonnelAction extends IacucProtocolAction {
                 protocol.setPrincipalInvestigatorId(null);
 
                 // Assign the PI the APPROVER role if PI has a personId (for doc cancel).
-                if (protocolPerson.getPersonId() != null) {
+                if (protocolPerson.getPersonId() != null && getProtocolPersonnelService().shouldPrincipalInvestigatorBeAddedToWorkflow()) {
                     KcAuthorizationService kraAuthService = getKraAuthorizationService();
                     kraAuthService.addDocumentLevelRole(protocolPerson.getPersonId(), RoleConstants.IACUC_PROTOCOL_APPROVER, protocol);
                     protocolForm.resetUserPermissionStates();

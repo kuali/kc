@@ -54,6 +54,7 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
     private static final String REFERENCE_ROLODEX = "rolodex";
     private static final String REFERENCE_UNIT = "unit";
     private static final String PROTOCOL_ATTACHMENT_TYPE = "type";
+    protected static final String ASSIGN_PRINCIPAL_INVESTIGATOR_TO_WORKFLOW = "ASSIGN_PRINCIPAL_INVESTIGATOR_TO_WORKFLOW";
     
     private static final boolean LEAD_UNIT_FLAG_ON = true;
     private static final int PI_CHANGED = 0;
