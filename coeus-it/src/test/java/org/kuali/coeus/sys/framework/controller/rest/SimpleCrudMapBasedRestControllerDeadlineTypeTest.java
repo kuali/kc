@@ -209,7 +209,7 @@ public class SimpleCrudMapBasedRestControllerDeadlineTypeTest extends KcIntegrat
         deadlineTypeController.add(object);
     }
 
-    @Test(expected = ResourceNotFoundException.class)
+    @Test(expected = DataDictionaryValidationException.class)
     public void test_missing_user_supplied_pk() {
         GlobalVariables.setUserSession(new UserSession(AUTHORIZED_USER));
 
