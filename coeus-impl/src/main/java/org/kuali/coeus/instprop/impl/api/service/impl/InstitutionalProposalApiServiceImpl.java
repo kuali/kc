@@ -15,6 +15,7 @@ import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.rest.UnprocessableEntityException;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.AuditHelper;
+import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.contacts.*;
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData;
@@ -159,6 +160,7 @@ public class InstitutionalProposalApiServiceImpl implements InstitutionalProposa
         addRequiredFields(proposal, ipDocument, proposalNumber);
         initializeCollections(proposal);
         proposal.setProjectPersons(new ArrayList<>());
+        proposal.setInstitutionalProposalCustomDataList(new ArrayList<>());
         ipDocument.getDocumentHeader().setDocumentDescription(description);
         ipDocument.setInstitutionalProposal(proposal);
         saveDocument(ipDocument);
@@ -209,8 +211,8 @@ public class InstitutionalProposalApiServiceImpl implements InstitutionalProposa
         if(projectPerson.isPrincipalInvestigator()) {
             proposal.refreshReferenceObject("leadUnit");
             proposal.initializeDefaultPrincipalInvestigator(projectPerson);
-            validateProposalPerson(proposalDocument, projectPerson, proposal);
-            proposal.setPrincipalInvestigator(projectPerson);
+            validateAndAddPerson(proposalDocument, projectPerson, proposal);
+            projectPerson.setRoleCode(ContactRole.PI_CODE);
         } else {
             initializeProposalPerson(proposalDocument, projectPerson);
         }
@@ -237,11 +239,11 @@ public class InstitutionalProposalApiServiceImpl implements InstitutionalProposa
             ipPersonUnit.initializeDefaultCreditSplits();
             person.add(ipPersonUnit);
         }
-        validateProposalPerson(proposalDocument, person, proposal);
+        validateAndAddPerson(proposalDocument, person, proposal);
         return person;
     }
 
-    private void validateProposalPerson(InstitutionalProposalDocument proposalDocument, InstitutionalProposalPerson person, InstitutionalProposal proposal) {
+    private void validateAndAddPerson(InstitutionalProposalDocument proposalDocument, InstitutionalProposalPerson person, InstitutionalProposal proposal) {
         InstitutionalProposalProjectPersonRuleAddEvent event = generateAddProjectPersonEvent(person, proposalDocument);
         boolean success = new InstitutionalProposalProjectPersonAddRuleImpl().processAddInstitutionalProposalProjectPersonBusinessRules(event);
         if (success) {

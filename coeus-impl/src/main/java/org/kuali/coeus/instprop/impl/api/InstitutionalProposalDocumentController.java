@@ -22,8 +22,11 @@ import org.kuali.coeus.instprop.impl.api.dto.InstitutionalProposalDto;
 import org.kuali.coeus.instprop.impl.api.dto.IpPersonDto;
 import org.kuali.coeus.instprop.impl.api.service.InstitutionalProposalApiService;
 import org.kuali.coeus.sys.framework.controller.rest.RestController;
+import org.kuali.coeus.sys.framework.controller.rest.audit.RestAuditLogger;
+import org.kuali.coeus.sys.framework.controller.rest.audit.RestAuditLoggerFactory;
 import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
 import org.kuali.coeus.sys.framework.rest.UnprocessableEntityException;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -41,8 +44,12 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RequestMapping(value="/api")
 @Controller("institutionalProposalDocumentController")
@@ -60,13 +67,39 @@ public class InstitutionalProposalDocumentController extends RestController {
     @Qualifier("routeHeaderService")
     private RouteHeaderService routeHeaderService;
 
+    @Autowired
+    @Qualifier("restAuditLoggerFactory")
+    private RestAuditLoggerFactory restAuditLoggerFactory;
+
+    private List<String> ipDtoProperties;
+    private List<String> ipPersonDtoProperties;
+
+    public InstitutionalProposalDocumentController() throws IntrospectionException {
+        ipDtoProperties = getIpdtoProperties();
+        ipPersonDtoProperties = getIpPersonDtoProperties();
+    }
+
+    protected List<String> getIpdtoProperties() throws IntrospectionException {
+        return Arrays.asList(Introspector.getBeanInfo(InstitutionalProposalDto.class).getPropertyDescriptors()).stream()
+                .map(PropertyDescriptor::getName)
+                .filter(prop -> !"class".equals(prop))
+                .collect(Collectors.toList());
+    }
+
+    protected List<String> getIpPersonDtoProperties() throws IntrospectionException {
+        return Arrays.asList(Introspector.getBeanInfo(IpPersonDto.class).getPropertyDescriptors()).stream()
+                .map(PropertyDescriptor::getName)
+                .filter(prop -> !"class".equals(prop))
+                .collect(Collectors.toList());
+    }
+
     @RequestMapping(method= RequestMethod.POST, value="/v1/institutional-proposal-document",
             consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(value = HttpStatus.CREATED)
     @ResponseBody
     String createInstitutionalProposal(@RequestBody InstitutionalProposalDto ipDto, @RequestParam(value = "createProposalLog", required = false) boolean createProposalLog) throws WorkflowException, InvocationTargetException, IllegalAccessException {
+        RestAuditLogger auditLogger = restAuditLoggerFactory.getNewAuditLogger(InstitutionalProposalDto.class, ipDtoProperties);
         String proposalLogNumber = getInstitutionalProposalApiService().createProposalLog(createProposalLog, ipDto);
-        
         InstitutionalProposal proposal = (InstitutionalProposal) getInstitutionalProposalApiService().convertDtoToDataObject(ipDto, InstitutionalProposal.class);
         getInstitutionalProposalApiService().initializeData(proposal);
         InstitutionalProposalDocument ipDocument = getInstitutionalProposalApiService().saveInitialProposal(proposal, ipDto.getDocumentDescription());
@@ -74,6 +107,8 @@ public class InstitutionalProposalDocumentController extends RestController {
         getInstitutionalProposalApiService().addCustomData(ipDocument.getInstitutionalProposal(), ipDto);
         getInstitutionalProposalApiService().saveDocument(ipDocument);
         getInstitutionalProposalApiService().updateProposalLog(createProposalLog, proposalLogNumber, ipDocument);
+        auditLogger.addNewItem(ipDto);
+        auditLogger.saveAuditLog();
 
         return ipDocument.getDocumentNumber();
     }
@@ -112,8 +147,13 @@ public class InstitutionalProposalDocumentController extends RestController {
     @ResponseBody
     void addProposalPersons(@RequestBody List<IpPersonDto> ipPersonDto, @PathVariable Long documentNumber) throws WorkflowException {
         InstitutionalProposalDocument proposalDocument = getDocumentFromDocId(documentNumber);
+        RestAuditLogger auditLogger = restAuditLoggerFactory.getNewAuditLogger(IpPersonDto.class, ipPersonDtoProperties);
         institutionalProposalApiService.addPersons(proposalDocument, ipPersonDto);
+        ipPersonDto.stream().forEach( item ->
+                auditLogger.addNewItem(item)
+        );
         getInstitutionalProposalApiService().saveDocument(proposalDocument);
+        auditLogger.saveAuditLog();
     }
 
     @RequestMapping(method= RequestMethod.GET, value="/v1/institutional-proposal-document/{documentNumber}/proposal-persons",
@@ -139,11 +179,14 @@ public class InstitutionalProposalDocumentController extends RestController {
         if (person == null) {
             throw new ResourceNotFoundException("Person not found.");
         }
+        RestAuditLogger auditLogger = restAuditLoggerFactory.getNewAuditLogger(IpPersonDto.class, ipPersonDtoProperties);
         // to ensure the person in the path is the person they are updating, not the one in the json.
         ipPersonDto.setPersonId(id.toString());
         proposalDocument.getInstitutionalProposal().getProjectPersons().remove(person);
         getInstitutionalProposalApiService().addPerson(proposalDocument, ipPersonDto);
+        auditLogger.addNewItem(ipPersonDto);
         getInstitutionalProposalApiService().saveDocument(proposalDocument);
+        auditLogger.saveAuditLog();
     }
 
     @RequestMapping(method= RequestMethod.DELETE, value="/v1/institutional-proposal-document/{documentNumber}/proposal-persons/{id}",
@@ -152,12 +195,16 @@ public class InstitutionalProposalDocumentController extends RestController {
     @ResponseBody
     void deleteProposalPerson(@PathVariable Long documentNumber, @PathVariable Long id) throws WorkflowException {
         InstitutionalProposalDocument proposalDocument = getDocumentFromDocId(documentNumber);
+        RestAuditLogger auditLogger = restAuditLoggerFactory.getNewAuditLogger(IpPersonDto.class, ipPersonDtoProperties);
         InstitutionalProposalPerson person = proposalDocument.getInstitutionalProposal().getProjectPersons().stream().filter(
                 institutionalProposalPerson -> institutionalProposalPerson.getPersonId().equalsIgnoreCase(id.toString())).findFirst().orElse(null);
         if (person != null) {
+            IpPersonDto personDto = (IpPersonDto) getInstitutionalProposalApiService().convertDtoToDataObject(person, IpPersonDto.class);
             proposalDocument.getInstitutionalProposal().getProjectPersons().remove(person);
             getInstitutionalProposalApiService().saveDocument(proposalDocument);
+            auditLogger.addDeletedItem(personDto);
         }
+        auditLogger.saveAuditLog();
     }
 
     @RequestMapping(method= RequestMethod.GET, value="/v1/institutional-proposal-document/{documentNumber}/proposal-persons/{id}",
@@ -169,7 +216,7 @@ public class InstitutionalProposalDocumentController extends RestController {
         InstitutionalProposalPerson person = proposalDocument.getInstitutionalProposal().getProjectPersons().stream().filter(
                 institutionalProposalPerson ->institutionalProposalPerson.getPersonId().equalsIgnoreCase(id.toString())).findFirst().orElse(null);
         if (person == null) {
-            throw new ResourceNotFoundException("Person not found.");
+            throw new ResourceNotFoundException("Person not found in proposal.");
         }
         IpPersonDto personDto = (IpPersonDto) getInstitutionalProposalApiService().convertDtoToDataObject(person, IpPersonDto.class);
         return personDto;
