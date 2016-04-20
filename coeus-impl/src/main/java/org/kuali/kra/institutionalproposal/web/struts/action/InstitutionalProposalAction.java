@@ -215,10 +215,7 @@ public class InstitutionalProposalAction extends KcTransactionalDocumentActionBa
         ipForm.getCentralAdminContactsBean().initCentralAdminContacts();
         return mapping.findForward(Constants.MAPPING_INSTITUTIONAL_PROPOSAL_CONTACTS_PAGE);
     }
-    
-    /*
-     * Hacktacular.... sorry
-     */
+
     public ActionForward Contacts(ActionMapping mapping, ActionForm form
             , HttpServletRequest request, HttpServletResponse response) {        
         return contacts(mapping, form, request, response);

@@ -45,10 +45,7 @@ import org.kuali.coeus.common.budget.framework.distribution.BudgetUnrecoveredFan
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.ProposalStatus;
-import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
-import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonCreditSplit;
-import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonUnit;
-import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonUnitCreditSplit;
+import org.kuali.kra.institutionalproposal.contacts.*;
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData;
 import org.kuali.kra.institutionalproposal.dao.InstitutionalProposalDao;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;

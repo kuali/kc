@@ -461,7 +461,7 @@
 															<template match="proposalLog" matchtype="schemagraphitem">
 																<editorproperties elementstodisplay="5"/>
 																<children>
-																	<template match="createTimeStamp" matchtype="schemagraphitem">
+																	<template match="createTimestamp" matchtype="schemagraphitem">
 																		<editorproperties elementstodisplay="5"/>
 																		<children>
 																			<content>

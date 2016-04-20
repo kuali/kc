@@ -150,7 +150,7 @@
 		<field-descriptor name="cfdaNumber" column="CFDA_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="opportunity" column="OPPORTUNITY" jdbc-type="VARCHAR" />
 		<field-descriptor name="proposalSequenceStatus" column="PROPOSAL_SEQUENCE_STATUS" jdbc-type="VARCHAR" />
-		<field-descriptor name="createTimeStamp" column="CREATE_TIMESTAMP" jdbc-type="DATE" />
+		<field-descriptor name="createTimestamp" column="CREATE_TIMESTAMP" jdbc-type="DATE" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="awardTypeCode" column="AWARD_TYPE_CODE" jdbc-type="INTEGER" />

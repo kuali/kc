@@ -70,24 +70,6 @@ public class InstitutionalProposalContactsAction extends InstitutionalProposalAc
     }
     
     /**
-     * This method is called to reset the Lead Unit on the InstitutionalProposal if the lead unit is changed on the PI.
-     * @param institutionalProposal
-     */
-//    private void setLeadUnitOnInstitutionalProposalFromPILeadUnit(InstitutionalProposal institutionalProposal) {
-//        for (InstitutionalProposalPerson person : institutionalProposal.getProjectPersons()) {
-//            if(person.isPrincipalInvestigator()) {
-//                Unit leadUnit = person.findLeadUnit();
-//                institutionalProposal.setLeadUnit(leadUnit);
-//                if (leadUnit != null) {
-//                    institutionalProposal.setUnitNumber(leadUnit.getUnitNumber());
-//                } else {
-//                    institutionalProposal.setUnitNumber(null);
-//                }
-//            }
-//        }
-//    }
-    
-    /**
      * This method is called to reset the Lead Unit on the award if the lead unit is changed on the PI.
      */
     @SuppressWarnings("unchecked")

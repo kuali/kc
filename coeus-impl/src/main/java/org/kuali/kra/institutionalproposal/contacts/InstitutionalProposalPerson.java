@@ -33,7 +33,6 @@ import org.kuali.coeus.common.framework.rolodex.PersonRolodex;
 import org.kuali.coeus.common.framework.type.InvestigatorCreditType;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.printing.schema.ApprovedDisclosureDocument;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -323,7 +322,7 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
 		return getContactRole().getRoleDescription();
 	}
 	
-    protected ContactRole refreshContactRole() {
+    public ContactRole refreshContactRole() {
     	if (StringUtils.isNotBlank(getRoleCode()) && getParent() != null && StringUtils.isNotBlank(getParent().getSponsorCode())) {
     		contactRole = getPropAwardPersonRoleService().getRole(getRoleCode(), getParent().getSponsorCode());
     	} else {

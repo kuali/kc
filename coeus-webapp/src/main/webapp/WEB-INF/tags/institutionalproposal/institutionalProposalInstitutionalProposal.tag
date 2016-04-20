@@ -114,10 +114,10 @@
     	   </kul:inquiry>&nbsp;
 		</td>
     	<th>
-    		<div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.createTimeStamp}" /></div>
+    		<div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.createTimestamp}" /></div>
     	</th>
     	<td>
-    		${KualiForm.institutionalProposalDocument.institutionalProposal.createTimeStamp}&nbsp;
+    		${KualiForm.institutionalProposalDocument.institutionalProposal.createTimestamp}&nbsp;
 		</td>
   	</tr>
   	<tr>

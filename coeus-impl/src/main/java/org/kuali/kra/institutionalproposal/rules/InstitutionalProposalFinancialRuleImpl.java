@@ -94,22 +94,22 @@ public class InstitutionalProposalFinancialRuleImpl extends KcTransactionalDocum
      */
     private boolean testFinancialCostFields(InstitutionalProposal institutionalProposal) {
         boolean valid = true;
-        if(institutionalProposal.getTotalDirectCostInitial().isNegative()) {
+        if(institutionalProposal.getTotalDirectCostInitial() != null && institutionalProposal.getTotalDirectCostInitial().isNegative()) {
             this.reportError("document.institutionalProposalList[0].totalDirectCostInitial", KeyConstants.ERROR_FINANCIAL_COSTS, 
                     DIRECT_COST_INITIAL_PERIOD);
             valid = false;
         }
-        if(institutionalProposal.getTotalDirectCostTotal().isNegative()) {
+        if(institutionalProposal.getTotalDirectCostTotal() != null && institutionalProposal.getTotalDirectCostTotal().isNegative()) {
             this.reportError("document.institutionalProposalList[0].totalDirectCostTotal", KeyConstants.ERROR_FINANCIAL_COSTS, 
                     DIRECT_COST_TOTAL_PERIOD);
             valid = false;
         }
-        if(institutionalProposal.getTotalIndirectCostInitial().isNegative()) {
+        if(institutionalProposal.getTotalIndirectCostInitial() != null && institutionalProposal.getTotalIndirectCostInitial().isNegative()) {
             this.reportError("document.institutionalProposalList[0].totalIndirectCostInitial", KeyConstants.ERROR_FINANCIAL_COSTS, 
                     INDIRECT_COST_INITIAL_PERIOD);
             valid = false;
         }
-        if(institutionalProposal.getTotalIndirectCostTotal().isNegative()) {
+        if(institutionalProposal.getTotalIndirectCostTotal() != null && institutionalProposal.getTotalIndirectCostTotal().isNegative()) {
             this.reportError("document.institutionalProposalList[0].totalIndirectCostTotal", KeyConstants.ERROR_FINANCIAL_COSTS, 
                     INDIRECT_COST_TOTAL_PERIOD);
             valid = false;

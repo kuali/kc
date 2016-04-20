@@ -37,6 +37,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.kuali.coeus.sys.framework.config.KcConfigurer;
+import org.kuali.coeus.sys.framework.controller.rest.CustomEditors.CustomSqlDateEditor;
+import org.kuali.coeus.sys.framework.controller.rest.CustomEditors.CustomSqlTimestampEditor;
 import org.kuali.coeus.sys.framework.controller.rest.audit.RestAuditLogger;
 import org.kuali.coeus.sys.framework.controller.rest.audit.RestAuditLoggerFactory;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
@@ -45,6 +47,7 @@ import org.kuali.coeus.sys.framework.rest.DataDictionaryValidationException;
 import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
 import org.kuali.coeus.sys.framework.rest.UnauthorizedAccessException;
 import org.kuali.coeus.sys.framework.rest.UnprocessableEntityException;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.ErrorHandlingUtilService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
@@ -391,6 +394,10 @@ public abstract class SimpleCrudRestControllerBase<T, R> extends RestController 
 		return key;
 	}
 
+    protected boolean isPrimitive(String name) {
+        return beanWrapper.getPropertyType(name).isPrimitive();
+    }
+
 	protected Object translateValue(String name, String value) {
 		return beanWrapper.convertIfNecessary(value, beanWrapper.getPropertyType(name));
 	}
@@ -428,11 +435,12 @@ public abstract class SimpleCrudRestControllerBase<T, R> extends RestController 
 
 	protected R doAdd(R dto) {
 		final Object code = getPrimaryKeyIncomingObject(dto);
-		T existingDataObject = getFromDataStore(code);
-		if (existingDataObject != null) {
-			throw new UnprocessableEntityException("already exists for key " + code);
-		}
-
+        if (code != null) {
+            T existingDataObject = getFromDataStore(code);
+		    if (existingDataObject != null) {
+			    throw new UnprocessableEntityException("already exists for key " + code);
+		    }
+        }
 		RestAuditLogger logger = getAuditLogger();
 		T newDataObject = convertDtoToDataObject(dto);
 
@@ -555,9 +563,9 @@ public abstract class SimpleCrudRestControllerBase<T, R> extends RestController 
 	}
 
 	protected T save(T dataObject) {
-		return getLegacyDataAdapter().save(dataObject);
+        return getLegacyDataAdapter().save(dataObject);
 	}
-	
+
 	protected void delete(T dataObject) {
 		getLegacyDataAdapter().delete(dataObject);
 	}
@@ -656,7 +664,10 @@ public abstract class SimpleCrudRestControllerBase<T, R> extends RestController 
 		}
 
 		beanWrapper = new BeanWrapperImpl(dataObjectClazz);
-	}
+        beanWrapper.registerCustomEditor(java.sql.Timestamp.class, new CustomSqlTimestampEditor());
+        beanWrapper.registerCustomEditor(java.sql.Date.class, new CustomSqlDateEditor());
+
+    }
 
 	public PermissionService getPermissionService() {
 		return permissionService;
