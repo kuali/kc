@@ -211,6 +211,7 @@ Current APIs have been designed to be accessed via admin only username and passw
 <!-- include(common/rate-class-types.md) -->
 <!-- include(common/rate-classes.md) -->
 <!-- include(common/rate-types.md) -->
+<!-- include(common/research-users.md) -->
 <!-- include(common/risk-levels.md) -->
 <!-- include(common/rolodexes.md) -->
 <!-- include(common/schedule-act-item-types.md) -->
