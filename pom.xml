@@ -7,7 +7,7 @@
     <artifactId>kc_project</artifactId>
     <packaging>war</packaging>
     <name>Kuali Coeus</name>
-    <version>5.2.1</version>
+    <version>5.2.1-form.1</version>
     <description>
         The Kuali Coeus (KC) project is building a comprehensive system to manage the complexities of research
         administration that fully addresses the needs from the faculty researcher through grants administration to
@@ -492,6 +492,42 @@
                         </systemProperty>
                     </systemProperties>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>xmlbeans-maven-plugin</artifactId>
+                <version>${xmlbeans-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>gg</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>xmlbeans</goal>
+                        </goals>
+                        <configuration>
+                            <schemaDirectory>${gg.schema.dir}</schemaDirectory>
+                            <sourceGenerationDirectory>${gg.xmlbeans.gen.src}</sourceGenerationDirectory>
+                            <classGenerationDirectory>${gg.xmlbeans.gen.cls}</classGenerationDirectory>
+                            <staleFile>${gg.xmlbeans.gen.mrk}</staleFile>
+                            <catalogLocation>${gg.schema.dir}/catalog.xml</catalogLocation>
+                            <mdefNamespaces>
+                                <mdefNamespace>http://apply.grants.gov/forms/Attachments-V1.0</mdefNamespace>
+                                <mdefNamespace>http://apply.grants.gov/system/Global-V1.0</mdefNamespace>
+                                <mdefNamespace>http://apply.grants.gov/system/GlobalLibrary-V1.0</mdefNamespace>
+                                <mdefNamespace>http://apply.grants.gov/system/GlobalLibrary-V2.0</mdefNamespace>
+                                <mdefNamespace>http://apply.grants.gov/system/UniversalCodes-V1.0</mdefNamespace>
+                                <mdefNamespace>http://apply.grants.gov/system/UniversalCodes-V2.0</mdefNamespace>
+                            </mdefNamespaces>
+                            <memoryInitialSize>512m</memoryInitialSize>
+                            <memoryMaximumSize>1024m</memoryMaximumSize>
+                            <download>false</download>
+                            <debug>false</debug>
+                            <verbose>false</verbose>
+                            <quiet>true</quiet>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 		</plugins>
 	</build>
@@ -2076,7 +2112,7 @@ module of int tests -->
         <rrbudget10-1.3-gg.version>1.0</rrbudget10-1.3-gg.version>
         <log4j.version>1.2.16</log4j.version>
         <mail.version>1.4.4</mail.version>
-        <mysql.version>5.1.16</mysql.version>
+        <mysql.version>5.1.38</mysql.version>
         <opencsv.version>1.8</opencsv.version>
         <oracle.version>10.2.0.3.0</oracle.version>
         <org.eclipse.birt.runtime.version>3.7.1</org.eclipse.birt.runtime.version>
@@ -2155,5 +2191,14 @@ module of int tests -->
         <monitoring.spring.import/>
         <monitoring.spring.service/>
 
+        <gg.schema.dir>src/main/resources/org/kuali/kra/s2s/backport</gg.schema.dir>
+        <gg.xmlbeans.gen.src>${project.build.directory}/generated-sources/xmlbeans-gg</gg.xmlbeans.gen.src>
+        <!--
+         Maven does not support the concept of "generated-classes" therefore setting the generated classes directory
+         to the generated-sources directory that way these classes will be placed in the target/classes directory.
+         -->
+        <gg.xmlbeans.gen.cls>${gg.xmlbeans.gen.src}</gg.xmlbeans.gen.cls>
+        <gg.xmlbeans.gen.mrk>${project.build.directory}/xmlbeans-markers/xmlbeans-gg</gg.xmlbeans.gen.mrk>
+        <xmlbeans-maven-plugin.version>2.3.3</xmlbeans-maven-plugin.version>
     </properties>
 </project>

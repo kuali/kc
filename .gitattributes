@@ -1,0 +1,19 @@
+# Set default behaviour, in case users don't have core.autocrlf set.
+* text=auto
+
+# Tell git to treat these extensions as text files.
+*.xml text
+*.xsl text
+*.xsd text
+*.sql text
+*.sps text
+
+# Denote all files that are truly binary and should not be modified.
+*.png binary
+*.jpg binary
+*.PNG binary
+*.gif binary
+*.ico binary
+*.keystore binary
+*.pdf binary
+*.zip binary
