@@ -22,6 +22,7 @@ import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.personnel.*;
 
@@ -63,7 +64,7 @@ public class ProtocolPersonnelServiceImpl extends ProtocolPersonnelServiceImplBa
                 }
                 
                 // Assign the PI the APPROVER role if PI has a personId (for doc cancel).
-                if (newPrincipalInvestigator.getPersonId() != null) {
+                if (newPrincipalInvestigator.getPersonId() != null && shouldPrincipalInvestigatorBeAddedToWorkflow()) {
                     personEditableService.populateContactFieldsFromPersonId(newPrincipalInvestigator);
                     KcAuthorizationService kraAuthService = KcServiceLocator.getService(KcAuthorizationService.class);
                     kraAuthService.addDocumentLevelRole(newPrincipalInvestigator.getPersonId(), RoleConstants.PROTOCOL_APPROVER, protocol);
@@ -72,6 +73,11 @@ public class ProtocolPersonnelServiceImpl extends ProtocolPersonnelServiceImplBa
                 }
             }
         }
+    }
+    
+    @Override
+    public boolean shouldPrincipalInvestigatorBeAddedToWorkflow() {
+    	return getParameterService().getParameterValueAsBoolean(ProtocolDocument.class, ASSIGN_PRINCIPAL_INVESTIGATOR_TO_WORKFLOW);
     }
 
 	@Override
