@@ -1,6 +1,9 @@
 
 
 ##CURRENT
+* initial research-user end point (#1682)  * jwillia on Thu, 21 Apr 2016 14:13:58 -0500 [View Commit](../../commit/0b22d98ac821613e31b3e496e2f81346d1082061)
+
+##coeus-1604.31
 * RESKC-1274: Removing questions and question answers from the NSF CoverPage 3.0 questionnaire that were not needed and incorrectly added.
   * Travis Schneeberger on Thu, 21 Apr 2016 11:57:19 -0400 [View Commit](../../commit/1853156c895f2f76dd687d875a7200c4fb3a2282)
 
