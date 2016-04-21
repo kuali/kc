@@ -658,8 +658,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
 
     /**
      * Finds all the Investigators associated with the provided pdDoc.
-     * 
-     * @param ProposalDevelopmentDocument
+     *
      * @return
      */
     public List<ProposalPerson> getCoInvestigators(ProposalDevelopmentDocument pdDoc) {
@@ -676,8 +675,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
 
     /**
      * Finds all the key Person associated with the provided pdDoc.
-     * 
-     * @param ProposalDevelopmentDocument
+     *
      * @return
      */
     public List<ProposalPerson> getKeyPersons(ProposalDevelopmentDocument pdDoc) {
@@ -717,7 +715,6 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      * 
      * @param stateName Name of the state
      * @return State object matching the name.
-     * @see org.kuali.kra.s2s.service.S2SUtilService#getStateFromName(java.lang.String)
      */
     public State getStateFromName(String countryAlternateCode, String stateName) {
         Country country = getCountryFromCode(countryAlternateCode);
@@ -836,9 +833,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     }
 
     /**
-     * 
-     * @see org.kuali.kra.s2s.service.S2SUtilService#getQuestionnaireAnswersForPerson(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument,
-     *      org.kuali.kra.proposaldevelopment.bo.ProposalPerson)
+     *
      */
     public List<Answer> getQuestionnaireAnswersForPI(ProposalDevelopmentDocument pdDoc) {
         List<Answer> questionnaireAnswers = new ArrayList<Answer>();
@@ -860,21 +855,21 @@ public class S2SUtilServiceImpl implements S2SUtilService {
             Questionnaire questionnaire = answerHeader.getQuestionnaire();
             List<QuestionnaireQuestion> questionnaireQuestions = questionnaire.getQuestionnaireQuestions();
             for (QuestionnaireQuestion questionnaireQuestion : questionnaireQuestions) {
-                Answer questionAnswer = getAnswer(questionnaireQuestion, answerHeader);
-                questionnaireAnswers.add(questionAnswer);
+                List<Answer> questionAnswer = getAnswer(questionnaireQuestion, answerHeader);
+                questionnaireAnswers.addAll(questionAnswer);
             }
         }
         return questionnaireAnswers;
     }
 
-    protected Answer getAnswer(QuestionnaireQuestion questionnaireQuestion, AnswerHeader answerHeader) {
-        List<Answer> answers = answerHeader.getAnswers();
-        for (Answer answer : answers) {
+    protected List<Answer> getAnswer(QuestionnaireQuestion questionnaireQuestion, AnswerHeader answerHeader) {
+        List<Answer> answers = new ArrayList<Answer>();
+        for (Answer answer : answerHeader.getAnswers()) {
             if (answer.getQuestionnaireQuestionsIdFk().equals(questionnaireQuestion.getQuestionnaireQuestionsId())) {
-                return answer;
+                answers.add(answer);
             }
         }
-        return null;
+        return answers;
     }
 
     /*
@@ -899,7 +894,6 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      * This method is used to get the details of Contact person
      * 
      * @param pdDoc(ProposalDevelopmentDocument) proposal development document.
-     * @param contactType(String) for which the DepartmentalPerson has to be found.
      * @return depPerson(DepartmentalPerson) corresponding to the contact type.
      */
     public DepartmentalPerson getContactPerson(ProposalDevelopmentDocument pdDoc) {
@@ -1179,7 +1173,11 @@ public class S2SUtilServiceImpl implements S2SUtilService {
             else {
                 citizenShip = proposalPerson.getPerson().getExtendedAttributes().getCitizenshipType();
             }
-            CitizenshipTypes retVal = null;
+
+            if (citizenShip == null) {
+                return CitizenshipTypes.NOT_AVAILABLE;
+            }
+
             String citizenShipCode = String.valueOf(citizenShip.getCitizenshipTypeCode());
             if (citizenShipCode.equals(parameterService.getParameterValueAsString(Constants.KC_S2S_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
                     ConfigurationConstants.NON_US_CITIZEN_WITH_TEMPORARY_VISA_TYPE_CODE))) {

@@ -320,7 +320,15 @@ public class PHS398CoverPageSupplement_3_0V3_0Generator extends PHS398CoverPageS
         String answerStr = null;
         for (Answer answer : answers) {
             if (questionId.equals(answer.getQuestion().getQuestionId())) {
-                answerStr = answer.getAnswer();
+                if (StringUtils.isNotBlank(answerStr)) {
+                    if (answer.getAnswer() != null) {
+                        answerStr += ("," + answer.getAnswer());
+                    }
+                }
+                else {
+                    answerStr = answer.getAnswer();
+                }
+
             }
         }
         return answerStr;
