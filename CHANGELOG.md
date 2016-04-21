@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* Add parameter that disables adding the PI of protocols to the Approver role
+
+  * The PI is added to the approver role for protocols so that KEW allows the user to perform actions like cancel and disapprove that can be approriate at times during the protocol internal workflow. This parameter allows disabling this for back office usages to avoid action lists entries and reminders being sent to PIs when they shouldn't be interacting with protocols.
+  * blackcathacker on Wed, 20 Apr 2016 16:19:34 -0700 [View Commit](../../commit/1bf1cf0ed6b189371382f1a1577b684257bcb7c7)
+
+##coeus-1604.28
 * fix test (#1678)  * Gayathri Athreya on Wed, 20 Apr 2016 13:21:17 -0700 [View Commit](../../commit/542101398a7c4bf6d0e51af86bdb2571065b886e)
 * Audit logger addition.
   * Gayathri Athreya on Tue, 19 Apr 2016 17:40:18 -0700 [View Commit](../../commit/bb25c97400865bbb7cf347f1b6de0fe50b0eefbc)
