@@ -26,4 +26,5 @@
 \. ./kc/bootstrap/V1604_010__set_all_updatetimestamps_to_datetime.sql
 \. ./kc/bootstrap/V1604_011__add_citizen_types.sql
 \. ./kc/bootstrap/V1604_013__add_configure_narr_for_form.sql
+\. ./kc/bootstrap/V1604_016__NSF_CoverPage_1_6_del_questions.sql
 commit;
