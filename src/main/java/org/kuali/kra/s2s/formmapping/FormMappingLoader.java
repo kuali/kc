@@ -60,16 +60,6 @@ public class FormMappingLoader {
     private static final int DEFAULT_SORT_INDEX = 1000;
     private static final Log LOG = LogFactory.getLog(FormMappingLoader.class);
 
-    
-    /**
-     * 
-     * This method is used to get the Form Information based on the given schema
-     * 
-     * @param nameSpace {@link String} namespace URL of the form
-     * @return {@link formMappingInfo}containing the namespace information
-     * @throws S2SGeneratorNotFoundException
-     * 
-     */
     public FormMappingInfo getFormInfo(String namespace) {
         return getFormInfo(null,namespace);
     }
@@ -109,8 +99,9 @@ public class FormMappingLoader {
     private String createStylesheetName(String namespace) {
         String[] tokens = namespace.split("/");
         String formname = tokens[tokens.length-1];
-        String templateName = "org/kuali/kra/s2s/stylesheet/"+formname+".xsl";
-        return templateName;
+        final String templateName = "org/kuali/kra/s2s/stylesheet/"+formname+".xsl";
+        final String backportTemplateName = "org/kuali/kra/s2s/backport/"+formname+".xsl";
+        return FormMappingLoader.class.getResourceAsStream("/" + backportTemplateName) !=null ? backportTemplateName : templateName;
     }
 
     /**
@@ -126,9 +117,9 @@ public class FormMappingLoader {
             	bindings = new Hashtable<String, FormMappingInfo>();
                 sortedNameSpaces = new TreeMap<Integer, List<String>>();
                 loadBindings(BINDING_FILE_NAME);
-                if((new FormMappingLoader().getClass().getResourceAsStream(BINDING_FILE_NAME_V2))!=null)
+                if((FormMappingLoader.class.getResourceAsStream(BINDING_FILE_NAME_V2))!=null)
                 loadBindings(BINDING_FILE_NAME_V2);
-                if((new FormMappingLoader().getClass().getResourceAsStream(BINDING_FILE_NAME_BACKPORT))!=null)
+                if((FormMappingLoader.class.getResourceAsStream(BINDING_FILE_NAME_BACKPORT))!=null)
                     loadBindings(BINDING_FILE_NAME_BACKPORT);
             }
         }
@@ -149,7 +140,7 @@ public class FormMappingLoader {
         	sortedNameSpaces.put(defaultSortIndex, new ArrayList<String>());
         try {
             builder = factory.newDocumentBuilder();
-            document = builder.parse(new FormMappingLoader().getClass().getResourceAsStream(BindingFile));
+            document = builder.parse(FormMappingLoader.class.getResourceAsStream(BindingFile));
         }
         catch (ParserConfigurationException e) {
             LOG.error(S2SConstants.ERROR_MESSAGE, e);

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:codes="http://apply.grants.gov/system/UniversalCodes-V2.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:PHS_AssignmentRequestForm="http://apply.grants.gov/forms/PHS_AssignmentRequestForm-V1.0" targetNamespace="http://apply.grants.gov/forms/PHS_AssignmentRequestForm-V1.0" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/UniversalCodes-V2.0" schemaLocation="http://apply07.grants.gov/apply/system/schemas/UniversalCodes-V2.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://apply07.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:element name="PHS_AssignmentRequestForm">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="FundingOpportunityNumber" type="globLib:OpportunityIDDataType"/>
+				<xs:element name="FundingOpportunityTitle" type="globLib:OpportunityTitleDataType"/>
+				<xs:element name="AssignToAwardingComponent1" type="PHS_AssignmentRequestForm:PHS_AssignmentRequestForm_String7_DataType" minOccurs="0"/>
+				<xs:element name="AssignToAwardingComponent2" type="PHS_AssignmentRequestForm:PHS_AssignmentRequestForm_String7_DataType" minOccurs="0"/>
+				<xs:element name="AssignToAwardingComponent3" type="PHS_AssignmentRequestForm:PHS_AssignmentRequestForm_String7_DataType" minOccurs="0"/>
+				<xs:element name="NotAssignToAwardingComponent1" type="PHS_AssignmentRequestForm:PHS_AssignmentRequestForm_String7_DataType" minOccurs="0"/>
+				<xs:element name="NotAssignToAwardingComponent2" type="PHS_AssignmentRequestForm:PHS_AssignmentRequestForm_String7_DataType" minOccurs="0"/>
+				<xs:element name="NotAssignToAwardingComponent3" type="PHS_AssignmentRequestForm:PHS_AssignmentRequestForm_String7_DataType" minOccurs="0"/>
+				<xs:element name="AssignToStudySection1" type="PHS_AssignmentRequestForm:PHS_AssignmentRequestForm_String20_DataType" minOccurs="0"/>
+				<xs:element name="AssignToStudySection2" type="PHS_AssignmentRequestForm:PHS_AssignmentRequestForm_String20_DataType" minOccurs="0"/>
+				<xs:element name="AssignToStudySection3" type="PHS_AssignmentRequestForm:PHS_AssignmentRequestForm_String20_DataType" minOccurs="0"/>
+				<xs:element name="NotAssignToStudySection1" type="PHS_AssignmentRequestForm:PHS_AssignmentRequestForm_String20_DataType" minOccurs="0"/>
+				<xs:element name="NotAssignToStudySection2" type="PHS_AssignmentRequestForm:PHS_AssignmentRequestForm_String20_DataType" minOccurs="0"/>
+				<xs:element name="NotAssignToStudySection3" type="PHS_AssignmentRequestForm:PHS_AssignmentRequestForm_String20_DataType" minOccurs="0"/>
+				<xs:element name="IndividualsNotToReviewText" type="PHS_AssignmentRequestForm:PHS_AssignmentRequestForm_String1000_DataType" minOccurs="0"/>
+				<xs:element name="Expertise1" type="PHS_AssignmentRequestForm:PHS_AssignmentRequestForm_String40_DataType" minOccurs="0"/>
+				<xs:element name="Expertise2" type="PHS_AssignmentRequestForm:PHS_AssignmentRequestForm_String40_DataType" minOccurs="0"/>
+				<xs:element name="Expertise3" type="PHS_AssignmentRequestForm:PHS_AssignmentRequestForm_String40_DataType" minOccurs="0"/>
+				<xs:element name="Expertise4" type="PHS_AssignmentRequestForm:PHS_AssignmentRequestForm_String40_DataType" minOccurs="0"/>
+				<xs:element name="Expertise5" type="PHS_AssignmentRequestForm:PHS_AssignmentRequestForm_String40_DataType" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.0"/>
+		</xs:complexType>
+	</xs:element>
+	<!--Custom types definitions-->
+	<xs:simpleType name="PHS_AssignmentRequestForm_String7_DataType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="0"/>
+			<xs:maxLength value="7"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PHS_AssignmentRequestForm_String20_DataType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="0"/>
+			<xs:maxLength value="20"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PHS_AssignmentRequestForm_String40_DataType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="0"/>
+			<xs:maxLength value="40"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PHS_AssignmentRequestForm_String1000_DataType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="0"/>
+			<xs:maxLength value="1000"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

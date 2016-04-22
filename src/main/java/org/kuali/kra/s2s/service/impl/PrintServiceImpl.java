@@ -44,8 +44,6 @@ import org.kuali.kra.s2s.bo.S2sUserAttachedForm;
 import org.kuali.kra.s2s.formmapping.FormMappingInfo;
 import org.kuali.kra.s2s.formmapping.FormMappingLoader;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
-import org.kuali.kra.s2s.generator.S2SFormGenerator;
-import org.kuali.kra.s2s.generator.S2SGeneratorNotFoundException;
 import org.kuali.kra.s2s.generator.bo.AttachmentData;
 import org.kuali.kra.s2s.printing.print.S2SFormPrint;
 import org.kuali.kra.s2s.service.PrintService;
@@ -610,8 +608,8 @@ public class PrintServiceImpl implements PrintService {
 			}
 		}
 		List<String> userAttachedFormNamespaces = findUserAttachedNamespaces(proposalNumber);
-        for (S2sOppForms oppForm : s2sOppForms) {
-            if(userAttachedFormNamespaces.contains(oppForm.getOppNameSpace())){
+		for (S2sOppForms oppForm : s2sOppForms) {
+            if(userAttachedFormNamespaces.contains(oppForm.getOppNameSpace()) && Boolean.TRUE.equals(oppForm.getSelectToPrint())){
                 orderedNamespaces.add(oppForm.getOppNameSpace());
             }
         }
