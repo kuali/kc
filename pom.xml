@@ -7,7 +7,7 @@
     <artifactId>kc_project</artifactId>
     <packaging>war</packaging>
     <name>Kuali Coeus</name>
-    <version>5.2.1-form.1</version>
+    <version>5.2.1-form.2</version>
     <description>
         The Kuali Coeus (KC) project is building a comprehensive system to manage the complexities of research
         administration that fully addresses the needs from the faculty researcher through grants administration to
