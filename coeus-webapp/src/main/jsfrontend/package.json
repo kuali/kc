@@ -4,6 +4,9 @@
   "description": "KualiCo Research JS Dependencies",
   "author": "kualico",
   "license": "AGPL",
+  "scripts": {
+    "gulp" : "gulp"
+  },
   "devDependencies": {
     "aglio": "2.2.0",
     "babel-core": "6.7.4",
