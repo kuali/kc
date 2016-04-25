@@ -1,18 +1,18 @@
 /*
  * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
+ *
  * Copyright 2005-2016 Kuali, Inc.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -36,7 +36,7 @@ class RateStore {
 		this.applicableRates = [];
 		this.applicableRatesMap = { };
 		this.selectedUnit = { };
-		
+
 		this.selectedRateClassType;
 		this.selectedRateClasses = [];
 		this.selectedRateTypes = [];
@@ -111,11 +111,11 @@ class RateStore {
 	setRateListToValue(rateList, value, activityTypeCode, rateClassCode, rateTypeCode) {
 		for (let i = this.startYear; i <= this.endYear; i++) {
 			if (this.showOnCampus) {
-				this.setVisibleRate(rateList[i].onCampus, value, 
+				this.setVisibleRate(rateList[i].onCampus, value,
 					rateClassCode, rateTypeCode, activityTypeCode, i, true);
 			}
 			if (this.showOffCampus) {
-				this.setVisibleRate(rateList[i].offCampus, value, 
+				this.setVisibleRate(rateList[i].offCampus, value,
 					rateClassCode, rateTypeCode, activityTypeCode, i, false);
 			}
 		}
@@ -145,9 +145,9 @@ class RateStore {
 		this.makeRateMap();
 	}
 	getEffectiveRateClasses() {
-		let effectiveRateClasses = 
-			this.selectedRateClasses.length == 0 ? 
-				this.applicableRateClasses.map((rateClass) => {return rateClass.code;}) 
+		let effectiveRateClasses =
+			this.selectedRateClasses.length == 0 ?
+				this.applicableRateClasses.map((rateClass) => {return rateClass.code;})
 				: this.selectedRateClasses;
 		return effectiveRateClasses;
 	}
@@ -160,9 +160,9 @@ class RateStore {
 		return effectiveTypesForClass;
 	}
 	getEffectiveActivityTypes() {
-		let effectiveActivityTypes = 
-			this.selectedActivityTypes.length == 0 ? 
-				this.activityTypes.map((activity) => {return activity.code;}) 
+		let effectiveActivityTypes =
+			this.selectedActivityTypes.length == 0 ?
+				this.activityTypes.map((activity) => {return activity.code;})
 				: this.selectedActivityTypes;
 		return effectiveActivityTypes;
 	}
@@ -185,8 +185,8 @@ class RateStore {
 		let rateClassTypeCode = this.selectedRateClassType;
 		this.applicableRateClasses = this.rateClasses.filter((rateClass) => { return rateClass.rateClassTypeCode == rateClassTypeCode });
 		this.selectedRateClasses = this.selectedRateClasses.filter((rateClass) => {
-			return this.applicableRateClasses.map((rateClass) => { 
-				return rateClass.code; 
+			return this.applicableRateClasses.map((rateClass) => {
+				return rateClass.code;
 			}).indexOf(rateClass.code) != -1;
 		});
 		this.resetRateTypes();
@@ -255,7 +255,7 @@ class RateStore {
 		this.applicableRates = [];
 		this.applicableRates = this.rates.filter(this.rateMatchesCriteria.bind(this));
 		sortByAll(this.applicableRates, ['rateClassCode', 'rateTypeCode', 'activityTypeCode', 'fiscalYear', 'onOffCampusFlag'], [true, true, true, true, false]);
-		this.makeRateMap();		
+		this.makeRateMap();
 	}
 	makeRateMap() {
 		let applicableRatesMap = { };
@@ -317,7 +317,7 @@ class RateStore {
 		return result;
 	}
 	rateMatchesCriteria(rate) {
-		return this.rateMatchesSelectedUnit(rate) 
+		return this.rateMatchesSelectedUnit(rate)
 			&& this.rateMatchesRateClasses(rate)
 			&& this.rateMatchesRateTypes(rate)
 			&& this.rateMatchesActivityTypes(rate)
@@ -352,7 +352,7 @@ class RateStore {
 		return result;
 	}
 	rateMatchesOnOffCampus(rate) {
-		return ((this.showOnCampus && rate.onOffCampusFlag) 
+		return ((this.showOnCampus && rate.onOffCampusFlag)
 			|| (this.showOffCampus && !rate.onOffCampusFlag));
 	}
 	rateMatchesSelectedUnit(rate) {
@@ -421,7 +421,7 @@ class RateStore {
 			actions.finishSave(data);
 		}).catch((errorMessage) => {
 			this.handleDataFailed(errorMessage);
-		}).bind(this);
+		});
 	}
 	finishSave() {
 		this.editMode = false;
@@ -444,6 +444,3 @@ class RateStore {
 }
 
 export default alt.createStore(RateStore, 'RateStore');
-
-
-
