@@ -1,6 +1,30 @@
 
 
 ##CURRENT
+* RESKC-1279: Fix medusa for subaward. (#1690)
+
+  * When viewing the Medusa tab from either an Award or IP when there is a linked Subaward, the incorrect Subaward Data is displayed and the "open subaward" button opens the wrong Subaward.
+  * There are a few related JIRAs (774, 894, 743) but I do not see any that address the fact that the incorrect Subaward data is displayed and link is broken. This seems to only occur in Award and IP (in other modules incorrect ID is also displayed but link and info is correct).
+  * This occurs in Test Drive 1604.28 and our local 1512 environment.
+  * To duplicate this issue consistently. In the database, SUBAWARD_ID is actually a different value than Subaward ID in the application (Subaward ID in application = SUBAWARD_CODE in db). It appears as if Medusa tab for Award and IP display both values and the info displayed and open button are linked to the SUBAWARD_ID and not SUBAWARD_CODE in database.  * Gayathri Athreya on Mon, 25 Apr 2016 14:12:44 -0700 [View Commit](../../commit/d3d18780ecfc25c9a45a2fdd2d20be995f0b05fb)
+* RESKC-1182: Fix STE when adding non employee to IP contacts. (#1688)
+
+  * As an administrator of Institute Proposal, I may need to update or add personnel to an existing IP record.
+  * Currently, I can only add Employees, because adding a Non-Employee results in an STE.
+  * Reproducible on res-demo1 on 2/23 and res demo 2 as of 2/22.
+  * Steps:
+  * Open any institutional proposal record in edit mode.
+  * Go to the Contacts tab.
+  * Expand the Project Personnel section and click the search button next to 'Add Non-Employee'.
+  * Select any address book entry and return it.
+  * Back on the Contacts page, select any role for the non-employee and click the 'Add' button.
+  * A stack trace is thrown.  * Gayathri Athreya on Mon, 25 Apr 2016 14:12:16 -0700 [View Commit](../../commit/be78b11c6fdb50388931c6248bcff0cd3a8b94f0)
+* Fix budget rates build, misc bug fix and permission correction
+  * blackcathacker on Mon, 25 Apr 2016 12:23:12 -0700 [View Commit](../../commit/fc154efce363b2c3f134dccd759ae3aa3bec012b)
+* RESKC-1262: extending the project title length to 2000
+  * Travis Schneeberger on Mon, 25 Apr 2016 11:10:31 -0400 [View Commit](../../commit/86bb4ba90c4facb51213d5f7d838bdc8e5c37ac2)
+
+##coeus-1604.36
 * RESKC-1248: fix null pointer when adding protocol person with coi status enabled
   * Joe Williams on Mon, 25 Apr 2016 10:22:50 -0500 [View Commit](../../commit/e7b37c05f0d4efff2e528d037fc9f6170445b864)
 
