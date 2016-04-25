@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1248: fix null pointer when adding protocol person with coi status enabled
+  * Joe Williams on Mon, 25 Apr 2016 10:22:50 -0500 [View Commit](../../commit/e7b37c05f0d4efff2e528d037fc9f6170445b864)
+
+##coeus-1604.35
 * No Changes
 
 
