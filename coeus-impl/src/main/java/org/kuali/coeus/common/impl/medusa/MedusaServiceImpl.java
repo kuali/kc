@@ -102,7 +102,7 @@ public class MedusaServiceImpl implements MedusaService {
             curNode.setExtraInfo(awardAmountInfoService.fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos()));
         } else if (StringUtils.equalsIgnoreCase(Constants.INSTITUTIONAL_PROPOSAL_MODULE, moduleName)) {
             InstitutionalProposal proposal = 
-                (InstitutionalProposal) businessObjectService.findByPrimaryKey(InstitutionalProposal.class, getFieldValues("proposalId", moduleId));
+                businessObjectService.findByPrimaryKey(InstitutionalProposal.class, getFieldValues("proposalId", moduleId));
             proposal.setNsfCodeBo(getNsfCode(proposal.getNsfCode()));
             curNode.setBo(proposal);
         } else if (StringUtils.equalsIgnoreCase(Constants.DEVELOPMENT_PROPOSAL_MODULE , moduleName)) {
@@ -113,7 +113,7 @@ public class MedusaServiceImpl implements MedusaService {
             Negotiation negotiation = getNegotiation(moduleId);
             curNode.setBo(negotiation);
         } else if (StringUtils.equalsIgnoreCase(Constants.SUBAWARD_MODULE, moduleName)) {
-            SubAward subaward = getSubAward(moduleId);
+            SubAward subaward = getSubAwardBySubawardCode(moduleId);
             curNode.setBo(subaward);
         } else if (StringUtils.equalsIgnoreCase(Constants.IRB_MODULE, moduleName)) {
             Protocol protocol = getProtocol(moduleId);
@@ -611,6 +611,20 @@ public class MedusaServiceImpl implements MedusaService {
             getSubAwardService().calculateAmountInfo(currentSubAward);
         }
         return currentSubAward == null ? subAward : currentSubAward;
+    }
+
+    protected SubAward getSubAwardBySubawardCode(Long subAwardCode) {
+        Map<String, Object> values = new HashMap<>();
+        values.put(Constants.SUB_AWARD_CODE, subAwardCode);
+        List<SubAward> subAward = (List<SubAward>) businessObjectService.findMatching(SubAward.class, values);
+        if (subAward.isEmpty()) {
+            return null;
+        }
+        SubAward currentSubAward = (SubAward) getActiveOrCurrentVersion(SubAward.class, subAward.get(0).getSubAwardCode());
+        if (currentSubAward != null) {
+            getSubAwardService().calculateAmountInfo(currentSubAward);
+        }
+        return currentSubAward == null ? subAward.get(0) : currentSubAward;
     }
     
     protected Protocol getProtocol(Long protocolId) {

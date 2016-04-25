@@ -928,5 +928,6 @@ public interface Constants {
     String COI_PROJECTS_DISCLOSURE_STATUS_URL = "coi.projects.disclosure.status.url";
     String AUTHORIZATION_HEADER = "Authorization";
     String BEARER_TOKEN = "Bearer ";
+    String SUB_AWARD_CODE = "subAwardCode";
 }
 
