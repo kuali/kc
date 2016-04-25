@@ -27,7 +27,7 @@ import java.util.List;
 
 public class Project implements Serializable {
 
-    @Size(min = 1, max = 200)
+    @Size(min = 1, max = 2000)
     @NotNull
     private String title;
 
