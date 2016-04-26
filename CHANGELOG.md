@@ -1,6 +1,16 @@
 
 
 ##CURRENT
+* RESKC-1287:Fix NPE when no ValidCalcRates for LA rates
+
+  * When the Valid Calc Rate Types for LA rates are removed from the system budget pages will not load or throw the following NPE
+
+  * ```
+  * java.lang.NullPointerException at org.kuali.coeus.common.budget.impl.rate.BudgetRatesServiceImpl.isEmployeeBenefitOnLabAllocation(BudgetRatesServiceImpl.java:918) at org.kuali.coeus.common.budget.impl.calculator.BudgetCalculationServiceImpl.isEbonLAorVacationLA(BudgetCalculationServiceImpl.java:1215) at org.kuali.coeus.common.budget.impl.calculator.BudgetCalculationServiceImpl.isCalculatedDirectCostRate(BudgetCalculationServiceImpl.java:1201) at org.kuali.coeus.common.budget.impl.calculator.BudgetCalculationServiceImpl.getCalculateBudgetSummaryExpenseTotal(BudgetCalculationServiceImpl.java:11
+  * ```
+  * blackcathacker on Tue, 26 Apr 2016 15:22:03 -0700 [View Commit](../../commit/f9c5e3d453d98400cd8282e99bf64e00420b7e4b)
+
+##coeus-1604.41
 * Remove apis that are not useful. (#1680)  * Gayathri Athreya on Tue, 26 Apr 2016 14:09:15 -0700 [View Commit](../../commit/dbefd18e9da66ef9fc027f93204d1f136f45b629)
 
 ##coeus-1604.40
