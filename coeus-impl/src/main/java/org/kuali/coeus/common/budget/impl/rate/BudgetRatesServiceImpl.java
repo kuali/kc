@@ -905,15 +905,17 @@ public abstract class BudgetRatesServiceImpl implements BudgetRatesService {
     @Override
     public boolean isVacationOnLabAllocation(String rateClassCode, String rateTypeCode) {
         ValidCalcType vacationOnLaValidCalcType = getDependentValidRateClassTypeForLA(org.kuali.coeus.common.budget.api.rate.RateClassType.VACATION.getRateClassType());
-        return StringUtils.equals(rateClassCode , vacationOnLaValidCalcType.getRateClassCode()) &&
-                StringUtils.equals(rateTypeCode,vacationOnLaValidCalcType.getRateTypeCode());
+        return vacationOnLaValidCalcType != null
+        	&& StringUtils.equals(rateClassCode , vacationOnLaValidCalcType.getRateClassCode()) 
+        	&& StringUtils.equals(rateTypeCode,vacationOnLaValidCalcType.getRateTypeCode());
     }
 
     @Override
     public boolean isEmployeeBenefitOnLabAllocation(String rateClassCode, String rateTypeCode) {
         ValidCalcType ebOnLaValidCalcType = getDependentValidRateClassTypeForLA(org.kuali.coeus.common.budget.api.rate.RateClassType.EMPLOYEE_BENEFITS.getRateClassType());
-        return StringUtils.equals(rateClassCode, ebOnLaValidCalcType.getRateClassCode())
-                && StringUtils.equals(rateTypeCode, ebOnLaValidCalcType.getRateTypeCode());
+        return ebOnLaValidCalcType != null 
+        	&& StringUtils.equals(rateClassCode, ebOnLaValidCalcType.getRateClassCode())
+            && StringUtils.equals(rateTypeCode, ebOnLaValidCalcType.getRateTypeCode());
     }
 
     protected ValidCalcType getDependentValidRateClassTypeForLA(String rateClassType) {
