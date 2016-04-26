@@ -1,6 +1,20 @@
 
 
 ##CURRENT
+* RESKC-1286: Fixing null pointer in unit service api when delete is called on a unit.
+  * REST call to delete a unit using a URL like this
+  * http://127.0.0.1:8081/kc-dev/research-common/api/v1/units/TEST3
+  * generates an error message like this
+ {
+ "Error": {
+   "errors": [
+     "Unknown Error: java.lang.NullPointerException"
+   ]
+ }
+  * }
+  * Gayathri Athreya on Tue, 26 Apr 2016 10:44:16 -0700 [View Commit](../../commit/08caa184dc9a63423d38f1c4cb7df403c06f8253)
+
+##coeus-1604.39
 * No Changes
 
 
