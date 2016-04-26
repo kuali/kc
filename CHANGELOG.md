@@ -1,6 +1,9 @@
 
 
 ##CURRENT
+* Remove apis that are not useful. (#1680)  * Gayathri Athreya on Tue, 26 Apr 2016 14:09:15 -0700 [View Commit](../../commit/dbefd18e9da66ef9fc027f93204d1f136f45b629)
+
+##coeus-1604.40
 * RESKC-1286: Fixing null pointer in unit service api when delete is called on a unit.
   * REST call to delete a unit using a URL like this
   * http://127.0.0.1:8081/kc-dev/research-common/api/v1/units/TEST3
