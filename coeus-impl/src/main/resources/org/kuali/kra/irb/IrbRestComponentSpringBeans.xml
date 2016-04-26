@@ -68,7 +68,6 @@
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.committee.bo.Committee" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.committee.bo.CommitteeBatchCorrespondence" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.committee.bo.CommitteeBatchCorrespondenceDetail" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.committee.document.CommitteeDocument" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.committee.bo.CommitteeMembership" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.committee.bo.CommitteeMembershipExpertise"  p:camelCasePluralName="CommitteeMembershipExpertiseEntries" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.committee.bo.CommitteeResearchArea" />
@@ -97,7 +96,6 @@
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.irb.correspondence.ProtocolCorrespondence" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.irb.correspondence.ProtocolCorrespondenceType" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.irb.ProtocolDocument" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.irb.actions.submit.ProtocolExemptStudiesCheckListItem" p:camelCasePluralName="ProtocolExemptStudiesChecklistItems" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.irb.actions.submit.ProtocolExpeditedReviewCheckListItem" p:camelCasePluralName="ProtocolExpeditedReviewChecklistItems" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.irb.protocol.funding.ProtocolFundingSource" />
@@ -107,7 +105,6 @@
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.irb.actions.notification.ProtocolNotificationTemplate" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.irb.onlinereview.ProtocolOnlineReview" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewDeterminationRecommendation" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.irb.ProtocolOnlineReviewDocument" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewStatus" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.irb.protocol.location.ProtocolOrganizationType" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.irb.protocol.participant.ProtocolParticipant" />

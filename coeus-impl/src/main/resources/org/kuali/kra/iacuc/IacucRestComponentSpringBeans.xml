@@ -63,7 +63,6 @@
         </property>
     </bean>
 
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.iacuc.committee.document.CommonCommitteeDocument" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.iacuc.committee.meeting.IacucCommScheduleActItem" p:camelCasePluralName="IacucCommitteeScheduleActionItems" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.iacuc.committee.meeting.IacucCommScheduleMinuteDoc" p:camelCasePluralName="IacucCommitteeScheduleMinuteDocs" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.iacuc.committee.bo.IacucCommittee" />
@@ -105,7 +104,6 @@
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceTemplate" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceType" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.iacuc.customdata.IacucProtocolCustomData" p:camelCasePluralName="IacucProtocolCustomData" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.iacuc.IacucProtocolDocument" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.iacuc.species.exception.IacucProtocolException" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSource" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.iacuc.protocol.location.IacucProtocolLocation" />

@@ -400,7 +400,6 @@
     <bean name= "ipBoController" class="org.kuali.coeus.instprop.impl.api.InstitutionalProposalController" p:dataObjectClazz="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.institutionalproposal.attachments.InstitutionalProposalAttachment" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.institutionalproposal.home.InstitutionalProposalAttachmentType" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.institutionalproposal.home.InstitutionalProposalBoLite" p:camelCasePluralName="LiteViewInstitutionalProposals" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.institutionalproposal.home.InstitutionalProposalComment" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData" p:camelCasePluralName="InstitutionalProposalCustomData" />
