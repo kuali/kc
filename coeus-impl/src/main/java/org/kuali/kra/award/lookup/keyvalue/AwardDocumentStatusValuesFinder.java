@@ -9,19 +9,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AwardDocumentStatusValuesFinder extends KeyValuesBase {
-
-    private static final long serialVersionUID = 319440830553541682L;
-
-    /**
-     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
-     */
-    public List<KeyValue> getKeyValues() {
-        List<KeyValue> KeyValues = new ArrayList<KeyValue>();
+    
+    private static List<KeyValue> values;
+    static {
+        values = new ArrayList<KeyValue>();
 
         for (AwardDocumentStatusConstants documentStatus : AwardDocumentStatusConstants.values()) {
-            KeyValues.add(new ConcreteKeyValue(documentStatus.code(), documentStatus.description()));
+            values.add(new ConcreteKeyValue(documentStatus.code(), documentStatus.description()));
         }
-        return KeyValues;
+    }
+    
+    public List<KeyValue> getKeyValues() {
+        return values;
     }
 
 }

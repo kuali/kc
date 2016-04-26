@@ -2,9 +2,9 @@ package org.kuali.kra.award.lookup;
 
 public enum AwardDocumentStatusConstants {
 
-    Active ("ACTIVE", "Final"),
-    Pending("PENDING", "Saved"),
-    Both("BOTH", "Both");
+    ACTIVE ("ACTIVE", "Final"),
+    PENDING("PENDING", "Saved"),
+    BOTH("BOTH", "Both");
 
     private final String code;
     private final String description;

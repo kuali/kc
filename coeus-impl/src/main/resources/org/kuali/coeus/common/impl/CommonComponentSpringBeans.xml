@@ -103,11 +103,6 @@
 
     <bean id="rolodexDao" parent="platformAwareDao" class="org.kuali.coeus.common.impl.rolodex.RolodexDaoOjb" />
 
-    <bean id="versionHistoryLookupDao" parent="platformAwareDao" class="org.kuali.coeus.common.impl.version.history.VersionHistoryLookupDaoOjb">
-        <property name="lookupDao" ref="lookupDao" />
-        <property name="dataDictionaryService" ref="dataDictionaryService" />
-    </bean>
-
     <bean id="customAttributeDocumentLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService" ref="customAttributeDocumentLookupableHelperService" />
     </bean>

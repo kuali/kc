@@ -18,9 +18,14 @@
  */
 package org.kuali.kra.award.home;
 
-public class AwardConstants {
+public final class AwardConstants {
 
 	public static final String STATE_SPONSOR_TYPE_PARAM = "STATE_SPONSOR_TYPE";
 	public static final String INVOICE_REPORT_DESC_PARAM = "FIN_SYS_INVOICE_REPORT_DESC";
 	public static final String ROOT_AWARD_SUFFIX = "-00001";
+	public static final String AWARD_SEQUENCE_STATUS = "awardSequenceStatus";
+	
+	private AwardConstants() {
+		throw new UnsupportedOperationException();
+	}
 }
