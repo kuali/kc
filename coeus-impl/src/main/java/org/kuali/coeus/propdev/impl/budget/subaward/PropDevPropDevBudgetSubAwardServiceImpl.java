@@ -62,6 +62,7 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
     private static final String DUPLICATE_FILE_NAMES =  "Duplicate PDF Attachment File Names"; 
     private static final String XFA_NS = "http://www.xfa.org/schema/xfa-data/1.0/";
     private static final Log LOG = LogFactory.getLog(PropDevPropDevBudgetSubAwardServiceImpl.class);
+    private static final String YYYY_MM_DD = "yyyy-MM-dd";
 
     @Autowired
     @Qualifier("parameterService")
@@ -481,7 +482,7 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(xmlContents);
         org.w3c.dom.Document document = domParser.parse(byteArrayInputStream);
         NodeList budgetYearList =  XPathAPI.selectNodeList(document,"//*[local-name(.) = 'BudgetYear']");
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
         boolean fnfForm = StringUtils.contains(budgetSubAward.getFormName(), "RR_FedNonFedBudget");
         
         //reset current line items if replacing with a new one.
@@ -497,6 +498,7 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
             if(endDateNode == null) {
                 endDateNode = XPathAPI.selectSingleNode(budgetYear, "PeriodEndDate");
             }
+            DateFormat dateFormat = new SimpleDateFormat(YYYY_MM_DD);
             Date startDate = dateFormat.parse(startDateNode.getTextContent());
             Date endDate = dateFormat.parse(endDateNode.getTextContent());
             //attempt to find a matching budget period
@@ -509,7 +511,14 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
                     costShareNode = XPathAPI.selectSingleNode(budgetYear, "TotalCosts/NonFederalSummary");
                 } else {
                     directCostNode = XPathAPI.selectSingleNode(budgetYear, "DirectCosts");
+                    if (directCostNode == null) {
+                        directCostNode = XPathAPI.selectSingleNode(budgetYear, "TotalDirectCostsRequested");
+                    }
+
                     indirectCostNode = XPathAPI.selectSingleNode(budgetYear, "IndirectCosts/TotalIndirectCosts");
+                    if (indirectCostNode == null) {
+                        indirectCostNode = XPathAPI.selectSingleNode(budgetYear, "TotalIndirectCostsRequested");
+                    }
                 }
                 if (directCostNode != null) {
                     periodDetail.setDirectCost(new ScaleTwoDecimal(Float.parseFloat(directCostNode.getTextContent())));

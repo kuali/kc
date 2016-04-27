@@ -293,7 +293,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
             success = false;
         }
         if (success) {
-            success &= getPropDevBudgetSubAwardService().updateSubAwardBudgetDetails(budget, subAward, errorMessages);
+            getPropDevBudgetSubAwardService().updateSubAwardBudgetDetails(budget, subAward, errorMessages);
         }
         if (!errorMessages.isEmpty()) {
             for (String[] message : errorMessages) {

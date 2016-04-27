@@ -134,10 +134,9 @@ public class ProposalBudgetSubAwardController extends ProposalBudgetControllerBa
             String fileName = subAward.getNewSubAwardFile().getOriginalFilename();
 			try {
 				byte[] fileData = subAward.getNewSubAwardFile().getBytes();
-				success = updateBudgetAttachment(form.getBudget(), subAward, fileName, fileData, "dialogDataObject");
+				updateBudgetAttachment(form.getBudget(), subAward, fileName, fileData, "dialogDataObject");
 			} catch (Exception e) {
 				LOG.warn("Error adding subaward", e);
-				success = false;
 				globalVariableService.getMessageMap().putError("dialogDataObject." + Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIERED);
 			} 
         }
@@ -187,7 +186,7 @@ public class ProposalBudgetSubAwardController extends ProposalBudgetControllerBa
             String fileName = newBudgetSubAward.getNewSubAwardFile().getOriginalFilename();
 			try {
 				byte[] fileData = newBudgetSubAward.getNewSubAwardFile().getBytes();
-				success = updateBudgetAttachment(form.getBudget(), newBudgetSubAward, fileName, fileData, addLineBindingInfo.getBindingPath());
+				updateBudgetAttachment(form.getBudget(), newBudgetSubAward, fileName, fileData, addLineBindingInfo.getBindingPath());
 			} catch (Exception e) {
 				LOG.warn("Error adding subaward", e);
 				success = false;
@@ -227,14 +226,13 @@ public class ProposalBudgetSubAwardController extends ProposalBudgetControllerBa
 	}
 
 
-    protected boolean updateBudgetAttachment(Budget budget, BudgetSubAwards subAward, String fileName, byte[] fileData, String errorPath) throws Exception {
+    protected void updateBudgetAttachment(Budget budget, BudgetSubAwards subAward, String fileName, byte[] fileData, String errorPath) throws Exception {
         subAward.setSubAwardXmlFileData(null);
         subAward.setFormName(null);
         subAward.setNamespace(null);
-        boolean success = true;
         getPropDevBudgetSubAwardService().populateBudgetSubAwardFiles(budget, subAward, fileName, fileData);
         if (subAward.getNewSubAwardFile().getContentType().equalsIgnoreCase(Constants.PDF_REPORT_CONTENT_TYPE)) {
-	        success = updateSubAwardBudgetDetails(budget, subAward, errorPath);
+	        updateSubAwardBudgetDetails(budget, subAward, errorPath);
         }
     	if (subAward.getSubAwardXmlFileData() != null && kcAttachmentService.getSpecialCharacter(subAward.getSubAwardXmlFileData())) {
     		globalVariableService.getMessageMap().putWarning(ProposalBudgetConstants.KradConstants.SUBAWARDS_COLLECTION, Constants.SUBAWARD_FILE_SPECIAL_CHARECTOR);
@@ -242,29 +240,24 @@ public class ProposalBudgetSubAwardController extends ProposalBudgetControllerBa
                     checkAndReplaceSpecialCharacters(subAward.getBudgetSubAwardFiles().get(0).getSubAwardXmlFileData()));
             subAward.setSubAwardXmlFileData(subAward.getBudgetSubAwardFiles().get(0).getSubAwardXmlFileData());
     	}
-        return success;
     }
 
-    protected boolean updateSubAwardBudgetDetails(Budget budget, BudgetSubAwards subAward, String errorPath) throws Exception {
+    protected void updateSubAwardBudgetDetails(Budget budget, BudgetSubAwards subAward, String errorPath) throws Exception {
         List<String[]> errorMessages = new ArrayList<>();
-        boolean success = getPropDevBudgetSubAwardService().updateSubAwardBudgetDetails(budget, subAward, errorMessages);
+        getPropDevBudgetSubAwardService().updateSubAwardBudgetDetails(budget, subAward, errorMessages);
         if (!errorMessages.isEmpty()) {
             for (String[] message : errorMessages) {
                 String[] messageParameters = null;
                 if (message.length > 1) {
                     messageParameters = Arrays.copyOfRange(message, 1, message.length);
                 }
-                if (success) {
-                    globalVariableService.getMessageMap().putWarning(ProposalBudgetConstants.KradConstants.SUBAWARDS_COLLECTION, message[0], messageParameters);
-                } else {
-                	globalVariableService.getMessageMap().putError(errorPath + Constants.SUBAWARD_FILE_FIELD_NAME, message[0], messageParameters);
-                }
+				globalVariableService.getMessageMap().putWarning(ProposalBudgetConstants.KradConstants.SUBAWARDS_COLLECTION, message[0], messageParameters);
+
             }
         }
-        if (success && errorMessages.isEmpty()) {
+        if (errorMessages.isEmpty()) {
         	globalVariableService.getMessageMap().putInfo(errorPath + Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_DETAILS_UPDATED);
         }
-        return success;
     }
 
 	public PropDevBudgetSubAwardService getPropDevBudgetSubAwardService() {
