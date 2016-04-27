@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* RESKC-1212:Code cleanup on contrib
+  * blackcathacker on Tue, 26 Apr 2016 12:12:46 -0700 [View Commit](../../commit/0c480439ec5ef5070264142d3eee5423229eebea)
+* RESKC-1212: Added 'Document Status' field to Award lookup and results
+  * rojlarge on Tue, 19 Jan 2016 13:35:15 -0500 [View Commit](../../commit/10aa6d8dbbdc910a9f751e67306ba49995c22a91)
+
+##coeus-1604.42
 * RESKC-1287:Fix NPE when no ValidCalcRates for LA rates
 
   * When the Valid Calc Rate Types for LA rates are removed from the system budget pages will not load or throw the following NPE
