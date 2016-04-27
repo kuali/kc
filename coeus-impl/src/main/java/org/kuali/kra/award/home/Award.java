@@ -63,6 +63,7 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.award.home.keywords.AwardScienceKeyword;
+import org.kuali.kra.award.lookup.AwardDocumentStatusConstants;
 import org.kuali.kra.award.notesandattachments.attachments.AwardAttachment;
 import org.kuali.kra.award.notesandattachments.notes.AwardNotepad;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
@@ -104,7 +105,8 @@ import java.util.stream.Collectors;
 
 public class Award extends KcPersistableBusinessObjectBase implements KeywordsManager<AwardScienceKeyword>, Permissionable,
         SequenceOwner<Award>, BudgetParent, Sponsorable, Negotiable, CustomDataContainer, Disclosurable {
-    public static final String DEFAULT_AWARD_NUMBER = "000000-00000";
+    private static final String UNKNOWN_STATUS = "Unknown Status";
+	public static final String DEFAULT_AWARD_NUMBER = "000000-00000";
     public static final String BLANK_COMMENT = "";
     public static final String ICR_RATE_CODE_NONE = "ICRNONE";
     private static final String NONE = "None";
@@ -197,6 +199,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     private Date financialAccountCreationDate;
     private String financialChartOfAccountsCode;
     private String awardSequenceStatus;
+    private String awardSequenceStatusResult;
 
 
     private boolean newVersion;
@@ -2555,6 +2558,18 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     public void setAwardSequenceStatus(String awardSequenceStatus) {
         this.awardSequenceStatus = awardSequenceStatus;
     }
+
+    public String getAwardSequenceStatusResult() {
+    	try {
+    		AwardDocumentStatusConstants status = AwardDocumentStatusConstants.valueOf(getAwardSequenceStatus());
+    		return status.description();
+    	} catch (IllegalArgumentException|NullPointerException e) {
+    		LOG.warn("Unknown award sequence status error - " + getAwardSequenceStatus(), e);
+    		return UNKNOWN_STATUS;
+    	}
+    }
+
+    public void setAwardSequenceStatusResult(String awardSequenceStatusResult) { /*noop*/ }
 
     @Override
     public ProposalType getNegotiableProposalType() {

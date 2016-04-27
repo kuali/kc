@@ -108,6 +108,8 @@
                 <ref bean="Award-latestAwardAmountInfo.obligationExpirationDate"/>
                 <ref bean="Award-latestAwardAmountInfo.anticipatedTotalAmount"/>
                 <ref bean="Award-latestAwardAmountInfo.amountObligatedToDate"/>
+                <ref bean="Award-documentStatus" />
+                <ref bean="Award-documentStatusResult" />
             </list>
         </property>
       	<property name="relationships">
@@ -1425,6 +1427,42 @@
     <bean id="Award-latestAwardAmountInfo.anticipatedTotalAmount" parent="AwardAmountInfo-anticipatedTotalAmount"
           p:name="latestAwardAmountInfo.anticipatedTotalAmount"/>
 
+    <bean id="Award-documentStatus" parent="Award-documentStatus-parentBean" />
+    <bean id="Award-documentStatus-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="awardSequenceStatus" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Document Status" />
+        <property name="shortLabel" value="Document Status" />
+        <property name="maxLength" value="20" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern"
+                  p:allowWhitespace="false" />
+        </property>
+        <property name="required" value="false" />
+        <property name="control">
+            <bean parent="RadioControlDefinition"
+                  p:valuesFinderClass="org.kuali.kra.award.lookup.keyvalue.AwardDocumentStatusValuesFinder"
+                  p:includeKeyInLabel="false" />
+        </property>
+        <property name="summary" value="Document Status" />
+        <property name="description" value="Document Status" />
+    </bean>
+
+    <bean id="Award-documentStatusResult" parent="Award-documentStatusResult-parentBean" />
+    <bean id="Award-documentStatusResult-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="awardSequenceStatusResult" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Document Status" />
+        <property name="shortLabel" value="Document Status" />
+        <property name="maxLength" value="20" />
+        <property name="required" value="false" />
+        <property name="control">
+            <bean parent="HiddenControlDefinition" />
+        </property>
+        <property name="summary" value="Document Status" />
+        <property name="description" value="Document Status" />
+    </bean>
+
 
     <!-- Business Object Inquiry Definition -->
     <bean id="Award-inquiryDefinition" parent="Award-inquiryDefinition-parentBean"/>
@@ -1516,6 +1554,7 @@
                 <bean p:attributeName="closeoutDate" parent="FieldDefinition"/>
                 <bean p:attributeName="projectPersons.awardContactId" parent="FieldDefinition" p:hidden="true"/>
                 <bean p:attributeName="subPlanFlag" parent="FieldDefinition" p:hidden="true"/>
+                <bean p:attributeName="awardSequenceStatus" parent="FieldDefinition" p:defaultValue="BOTH" />
             </list>
         </property>
         <property name="resultFields">
@@ -1535,6 +1574,7 @@
                 <bean p:attributeName="latestAwardAmountInfo.finalExpirationDate" parent="FieldDefinition"/>
                 <bean p:attributeName="archiveLocation" parent="FieldDefinition"/>
                 <bean p:attributeName="closeoutDate" parent="FieldDefinition"/>
+                <bean p:attributeName="awardSequenceStatusResult" parent="FieldDefinition" />
             </list>
         </property>
     </bean>
@@ -1560,6 +1600,7 @@
                 <bean p:propertyName="closeoutDate" parent="Uif-LookupCriteriaInputField"/>
                 <bean p:propertyName="projectPersons.awardContactId" parent="Uif-LookupCriteriaInputField"/>
                 <bean p:propertyName="subPlanFlag" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="awardSequenceStatus" parent="Uif-LookupCriteriaInputField" p:defaultValue="BOTH" />
             </list>
         </property>
         <property name="resultFields">
@@ -1579,6 +1620,7 @@
                 <bean p:propertyName="latestAwardAmountInfo.finalExpirationDate" parent="Uif-DataField"/>
                 <bean p:propertyName="archiveLocation" parent="Uif-DataField"/>
                 <bean p:propertyName="closeoutDate" parent="Uif-DataField"/>
+                <bean p:propertyName="awardSequenceStatusResult" parent="Uif-DataField" />
             </list>
         </property>
     </bean>
