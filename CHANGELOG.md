@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1604.45
 * Update CONTRIBUTING.md
 
   * Minor updates to represent current process. Change from KualiCo to Kuali, GRM to Research, etc...  * tdurkin on Wed, 27 Apr 2016 09:33:51 -0600 [View Commit](../../commit/5c5f385bd0fba56425754263b661a231628c1489)
