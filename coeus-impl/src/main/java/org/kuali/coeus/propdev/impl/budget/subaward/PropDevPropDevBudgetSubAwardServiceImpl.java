@@ -41,7 +41,6 @@ import org.kuali.coeus.s2sgen.api.generate.FormMappingInfo;
 import org.kuali.coeus.s2sgen.api.generate.FormMappingService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.krad.data.DataObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -56,6 +55,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Component("propDevBudgetSubAwardService")
 public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSubAwardService {
@@ -63,6 +63,9 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
     private static final String XFA_NS = "http://www.xfa.org/schema/xfa-data/1.0/";
     private static final Log LOG = LogFactory.getLog(PropDevPropDevBudgetSubAwardServiceImpl.class);
     private static final String YYYY_MM_DD = "yyyy-MM-dd";
+    private static final String BUDGET_YEAR_XPATH = "//*[local-name(.) = 'BudgetYear']";
+    private static final String RR_FED_NON_FED_BUDGET = "RR_FedNonFedBudget";
+    private static final String BUDGET_PERIOD = "BudgetPeriod";
 
     @Autowired
     @Qualifier("parameterService")
@@ -71,10 +74,6 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
     @Autowired
     @Qualifier("proposalBudgetService")
     private BudgetService budgetService;
-    
-    @Autowired
-    @Qualifier("dataObjectService")
-    private DataObjectService dataObjectService;
 
     @Autowired
     @Qualifier("dateTimeService")
@@ -96,6 +95,7 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
     @Qualifier("sponsorHierarchyService")
     private SponsorHierarchyService sponsorHierarchyService;
 
+    @Override
     public void populateBudgetSubAwardFiles(Budget budget, BudgetSubAwards subAward, String newFileName, byte[] newFileData) {
         subAward.setSubAwardStatusCode(1);
         BudgetSubAwardFiles newSubAwardFile = new BudgetSubAwardFiles();
@@ -104,7 +104,7 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
         subAward.getBudgetSubAwardFiles().clear();
         subAward.getBudgetSubAwardFiles().add(newSubAwardFile);
         
-        boolean subawardBudgetExtracted  = false;
+        boolean subawardBudgetExtracted;
         
         try {
             byte[] pdfFileContents = newSubAwardFile.getSubAwardXfdFileData();
@@ -114,7 +114,7 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
             subawardBudgetExtracted = (xmlContents!=null && xmlContents.length>0);
             if(subawardBudgetExtracted){
                 Map fileMap = extractAttachments(reader);
-                updateXML(xmlContents, fileMap, subAward, budget);
+                updateXML(xmlContents, fileMap, subAward);
             }
         }catch (Exception e) {
             LOG.error("Not able to extract xml from pdf",e);
@@ -133,7 +133,8 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
         subAward.setXmlUpdateUser(getLoggedInUserNetworkId());
         subAward.setXmlUpdateTimestamp(dateTimeService.getCurrentTimestamp());
     }
-    
+
+    @Override
     public void removeSubAwardAttachment(BudgetSubAwards subAward) {
         subAward.setFormName(null);
         subAward.setNamespace(null);
@@ -158,7 +159,8 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
         	budgetSubAwardPeriodDetail.setTotalCost(ScaleTwoDecimal.ZERO);
         }
     }
-    
+
+    @Override
     public void prepareBudgetSubAwards(Budget budget) {
         populateBudgetSubAwardAttachments(budget);
         for (BudgetSubAwards subAward : budget.getBudgetSubAwards()) {
@@ -176,7 +178,8 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
             }
         }
     }
-    
+
+    @Override
     public void generateSubAwardLineItems(BudgetSubAwards subAward, ProposalDevelopmentBudgetExt budget) {
         ScaleTwoDecimal amountChargeFA = new ScaleTwoDecimal(25000);
         boolean isNihProposal = getSponsorHierarchyService().isSponsorNihMultiplePi(budget.getDevelopmentProposal().getSponsorCode());
@@ -230,11 +233,7 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
                 currentSubawardLineItems.add(costShareLineItem);
             }
 
-            Collections.sort(currentSubawardLineItems, new Comparator<BudgetLineItem>() {
-                public int compare(BudgetLineItem arg0, BudgetLineItem arg1) {
-                    return arg0.getLineItemNumber().compareTo(arg1.getLineItemNumber());
-                }
-            });
+            Collections.sort(currentSubawardLineItems, (arg0, arg1) -> arg0.getLineItemNumber().compareTo(arg1.getLineItemNumber()));
 
             addSubawardLineItemsToBudgetPeriod(budgetPeriod, currentSubawardLineItems);
 
@@ -319,13 +318,11 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
     }
 
     protected List<BudgetLineItem> findSubAwardLineItems(BudgetPeriod budgetPeriod, Integer subAwardNumber) {
-        List<BudgetLineItem> lineItems = new ArrayList<BudgetLineItem>();
+        List<BudgetLineItem> lineItems = new ArrayList<>();
         if (budgetPeriod.getBudgetLineItems() != null) {
-            for (BudgetLineItem item : budgetPeriod.getBudgetLineItems()) {
-                if (item.getBudgetSubAward() != null && ObjectUtils.equals(item.getBudgetSubAward().getSubAwardNumber(), subAwardNumber)) {
-                    lineItems.add(item);
-                }
-            }
+            lineItems.addAll(budgetPeriod.getBudgetLineItems().stream()
+                    .filter(item -> item.getBudgetSubAward() != null && ObjectUtils.equals(item.getBudgetSubAward().getSubAwardNumber(), subAwardNumber))
+                    .collect(Collectors.toList()));
         }
         return lineItems;
     }
@@ -343,8 +340,9 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
     protected byte[] getXMLFromPDF(PdfReader reader)throws Exception {
         XfaForm xfaForm = reader.getAcroFields().getXfa();
         Node domDocument = xfaForm.getDomDocument();
-        if(domDocument==null)
+        if (domDocument==null) {
             return null;
+        }
         Element documentElement = ((Document) domDocument).getDocumentElement();
 
         Element datasetsElement = (Element) documentElement.getElementsByTagNameNS(XFA_NS, "datasets").item(0);
@@ -354,13 +352,11 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
         
         Node budgetElement = getBudgetElement(xmlElement);
         
-        byte[] serializedXML = XfaForm.serializeDoc(budgetElement);
-
-        return serializedXML;
+        return XfaForm.serializeDoc(budgetElement);
     }
 
     private Node getBudgetElement(Element xmlElement) throws Exception{
-        Node budgetNode = (Node)xmlElement;
+        Node budgetNode = xmlElement;
         NodeList budgetAttachments =  XPathAPI.selectNodeList(xmlElement,"//*[local-name(.) = 'BudgetAttachments']");
         if(budgetAttachments!=null && budgetAttachments.getLength()>0){
             Element budgetAttachment = (Element)budgetAttachments.item(0);
@@ -372,11 +368,9 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
     }
     /**
      * extracts attachments from PDF File
-     */       
-
-    @SuppressWarnings("unchecked")
-    protected Map extractAttachments(PdfReader reader)throws IOException{
-        Map fileMap = new HashMap();
+     */
+    protected Map<Object, Object> extractAttachments(PdfReader reader)throws IOException{
+        Map<Object, Object> fileMap = new HashMap<>();
         PdfDictionary catalog = reader.getCatalog();
         PdfDictionary names = (PdfDictionary) PdfReader.getPdfObject(catalog.get(PdfName.NAMES));
         if (names != null) {
@@ -384,10 +378,10 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
             PdfReader.getPdfObject(names.get(new PdfName("EmbeddedFiles")));
             if (embFiles != null) {
                 HashMap embMap = PdfNameTree.readTree(embFiles);
-                for (Iterator i = embMap.values().iterator(); i.hasNext();) {
-                    PdfDictionary filespec = (PdfDictionary) PdfReader.getPdfObject((PdfObject) i.next());
-                    Object fileInfo[] = unpackFile(reader, filespec);
-                    if(fileMap.containsKey(fileInfo[0])) {
+                for (Object o : embMap.values()) {
+                    PdfDictionary filespec = (PdfDictionary) PdfReader.getPdfObject((PdfObject) o);
+                    Object fileInfo[] = unpackFile(filespec);
+                    if (fileMap.containsKey(fileInfo[0])) {
                         throw new RuntimeException(DUPLICATE_FILE_NAMES);
                     }
                     fileMap.put(fileInfo[0], fileInfo[1]);
@@ -399,16 +393,16 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
             if (annots == null) {
                 continue;
             }
-            for (Iterator i = annots.getArrayList().listIterator(); i.hasNext();) {
-                PdfDictionary annot = (PdfDictionary) PdfReader.getPdfObject((PdfObject) i.next());
+            for (Object o : annots.getArrayList()) {
+                PdfDictionary annot = (PdfDictionary) PdfReader.getPdfObject((PdfObject) o);
                 PdfName subType = (PdfName) PdfReader.getPdfObject(annot.get(PdfName.SUBTYPE));
                 if (!PdfName.FILEATTACHMENT.equals(subType)) {
                     continue;
                 }
                 PdfDictionary filespec = (PdfDictionary)
-                PdfReader.getPdfObject(annot.get(PdfName.FS));
-                Object fileInfo[] = unpackFile(reader, filespec);
-                if(fileMap.containsKey(fileInfo[0])) {
+                        PdfReader.getPdfObject(annot.get(PdfName.FS));
+                Object fileInfo[] = unpackFile(filespec);
+                if (fileMap.containsKey(fileInfo[0])) {
                     throw new RuntimeException(DUPLICATE_FILE_NAMES);
                 }
 
@@ -421,12 +415,11 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
 
     /**
      * Unpacks a file attachment.
-     * @param reader The object that reads the PDF document
      * @param filespec The dictonary containing the file specifications
      * @throws IOException
      */
 
-    protected static Object[] unpackFile(PdfReader reader, PdfDictionary filespec)throws IOException  {
+    protected static Object[] unpackFile(PdfDictionary filespec)throws IOException  {
         Object arr[] = new Object[2]; //use to store name and file bytes
         if (filespec == null) {
             return null;
@@ -463,27 +456,25 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
     }
     
     @Override
-    public boolean updateSubAwardBudgetDetails(Budget budget, BudgetSubAwards budgetSubAward, List<String[]> errors) throws Exception {
-        boolean result = true;
+    public void updateSubAwardBudgetDetails(Budget budget, BudgetSubAwards budgetSubAward, List<String[]> errors) throws Exception {
+
         
         //extarct xml from the pdf because the stored xml has been modified
         if (budgetSubAward.getSubAwardXfdFileData() == null || budgetSubAward.getSubAwardXfdFileData().length == 0) {
             errors.add(new String[]{Constants.SUBAWARD_FILE_NOT_EXTRACTED});
-            return true;
         }
         PdfReader reader = new PdfReader(budgetSubAward.getSubAwardXfdFileData());
         byte[] xmlContents = getXMLFromPDF(reader);
         if (xmlContents == null) {
         	errors.add(new String[]{Constants.SUBAWARD_FILE_NOT_EXTRACTED});
-            return true;
         }
         javax.xml.parsers.DocumentBuilderFactory domParserFactory = javax.xml.parsers.DocumentBuilderFactory.newInstance();
         javax.xml.parsers.DocumentBuilder domParser = domParserFactory.newDocumentBuilder();
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(xmlContents);
         org.w3c.dom.Document document = domParser.parse(byteArrayInputStream);
-        NodeList budgetYearList =  XPathAPI.selectNodeList(document,"//*[local-name(.) = 'BudgetYear']");
+        NodeList budgetYearList =  XPathAPI.selectNodeList(document, BUDGET_YEAR_XPATH);
 
-        boolean fnfForm = StringUtils.contains(budgetSubAward.getFormName(), "RR_FedNonFedBudget");
+        boolean fnfForm = StringUtils.contains(budgetSubAward.getFormName(), RR_FED_NON_FED_BUDGET);
         
         //reset current line items if replacing with a new one.
         resetSubAwardPeriodDetails(budgetSubAward);
@@ -533,7 +524,7 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
                 }
                 periodDetail.computeTotal();
             } else {
-                Node budgetPeriodNode = XPathAPI.selectSingleNode(budgetYear, "BudgetPeriod");
+                Node budgetPeriodNode = XPathAPI.selectSingleNode(budgetYear, BUDGET_PERIOD);
                 String budgetPeriod = null;
                 if (budgetPeriodNode != null) {
                     budgetPeriod = budgetPeriodNode.getTextContent();
@@ -542,17 +533,11 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
                 errors.add(new String[]{Constants.SUBAWARD_FILE_PERIOD_NOT_FOUND, (budgetPeriod == null ? "" : budgetPeriod), startDateNode.getTextContent(), endDateNode.getTextContent()});
             }
         }
-        return result;
     }
     
     /**
      * First find a budget period that matches the start and end date. If that is found, find a subaward period detail with the same
      * budget period number.
-     * @param budget
-     * @param budgetSubAward
-     * @param startDate
-     * @param endDate
-     * @return
      */
     protected BudgetSubAwardPeriodDetail findBudgetSubAwardPeriodDetail(Budget budget, BudgetSubAwards budgetSubAward, Date startDate, Date endDate) {
         BudgetPeriod matchingPeriod = null;
@@ -580,7 +565,7 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
      * updates the XMl with hashcode for the files
      */
 
-  protected BudgetSubAwards updateXML(byte xmlContents[], Map fileMap, BudgetSubAwards budgetSubAwardBean, Budget budget) throws Exception {
+  protected BudgetSubAwards updateXML(byte xmlContents[], Map fileMap, BudgetSubAwards budgetSubAwardBean) throws Exception {
 
         javax.xml.parsers.DocumentBuilderFactory domParserFactory = javax.xml.parsers.DocumentBuilderFactory.newInstance();
         javax.xml.parsers.DocumentBuilder domParser = domParserFactory.newDocumentBuilder();
@@ -589,7 +574,7 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
         org.w3c.dom.Document document = domParser.parse(byteArrayInputStream);
         byteArrayInputStream.close();
         String namespace=null;
-        String formName = null;
+        String formName;
         if (document != null) {
             Node node;
             Element element = document.getDocumentElement();
@@ -611,10 +596,10 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
         changeDataTypeForNumberOfOtherPersons(document);
         
         List<String> fedNonFedSubAwardForms=getFedNonFedSubawardForms();
-        NodeList budgetYearList =  XPathAPI.selectNodeList(document,"//*[local-name(.) = 'BudgetYear']");
+        NodeList budgetYearList =  XPathAPI.selectNodeList(document, BUDGET_YEAR_XPATH);
         for(int i=0;i<budgetYearList.getLength();i++){
             Node bgtYearNode = budgetYearList.item(i);
-            String period = getValue(XPathAPI.selectSingleNode(bgtYearNode,"BudgetPeriod"));
+            String period = getValue(XPathAPI.selectSingleNode(bgtYearNode, BUDGET_PERIOD));
             if(fedNonFedSubAwardForms.contains(namespace)){
                 Element newBudgetYearElement = copyElementToName((Element)bgtYearNode,bgtYearNode.getNodeName());
                 bgtYearNode.getParentNode().replaceChild(newBudgetYearElement,bgtYearNode);
@@ -638,7 +623,7 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
         String fileName;
         byte fileBytes[];
         String contentId;
-        List attachmentList = new ArrayList();
+        List<BudgetSubAwardAttachment> attachmentList = new ArrayList<>();
 
         for(int index = 0; index < lstFileName.getLength(); index++) {
             fileNode = lstFileName.item(index);
@@ -707,12 +692,15 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
     protected String cleanContentId(String contentId) {
         return StringUtils.replaceChars(contentId, " .%-_", "");
     }
+
+    @Override
     public void populateBudgetSubAwardAttachments(Budget budget) {
         List<BudgetSubAwards> subAwards = budget.getBudgetSubAwards();
         for (BudgetSubAwards budgetSubAwards : subAwards) {
             budgetSubAwards.refreshReferenceObject("budgetSubAwardAttachments");
         }
     }
+
     protected void removeAllEmptyNodes(Document document,String xpath,int parentLevel) throws TransformerException {
         NodeList emptyElements =  XPathAPI.selectNodeList(document,xpath);
         
@@ -756,7 +744,7 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
         }
     }
     private void setValue(Node node, String value) {
-        Node child = null;
+        Node child;
         for (child = node.getFirstChild(); child != null;
              child = child.getNextSibling()) {
              if(child.getNodeType()==Node.TEXT_NODE){
@@ -767,7 +755,7 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
     }
     private static String getValue(Node node){
         String textValue = "";
-        Node child = null;
+        Node child;
         if(node!=null)
         for (child = node.getFirstChild(); child != null;
              child = child.getNextSibling()) {
@@ -779,7 +767,7 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
         return textValue.trim();
     }
     private  List<String> getFedNonFedSubawardForms(){
-        List<String> forms=new ArrayList<String>();
+        List<String> forms=new ArrayList<>();
         forms.add("http://apply.grants.gov/forms/RR_FedNonFedBudget10-V1.1");
         return forms;
     }
@@ -831,14 +819,6 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
     public void setGlobalVariableService(GlobalVariableService globalVariableService) {
         this.globalVariableService = globalVariableService;
     }
-
-	public DataObjectService getDataObjectService() {
-		return dataObjectService;
-	}
-
-	public void setDataObjectService(DataObjectService dataObjectService) {
-		this.dataObjectService = dataObjectService;
-	}
 
 	public SponsorHierarchyService getSponsorHierarchyService() {
 		return sponsorHierarchyService;
