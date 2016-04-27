@@ -1,6 +1,9 @@
 
 
 ##CURRENT
+* RESKC-1183: when an award or institutional proposal is versioned the field in the database that tracks the last update user is updating the old version's user to be whomever clicked the Edit button to create the new version (the update timestamp is not being updated).  Contribution: https://github.com/kuali/kc/pull/1608 (#1696)  * Travis Schneeberger on Wed, 27 Apr 2016 12:02:21 -0400 [View Commit](../../commit/7946cb4932c6be209a3febce42bde28f9acb5738)
+
+##coeus-1604.43
 * RESKC-1212:Code cleanup on contrib
   * blackcathacker on Tue, 26 Apr 2016 12:12:46 -0700 [View Commit](../../commit/0c480439ec5ef5070264142d3eee5423229eebea)
 * RESKC-1212: Added 'Document Status' field to Award lookup and results
