@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* Update CONTRIBUTING.md
+
+  * Minor updates to represent current process. Change from KualiCo to Kuali, GRM to Research, etc...  * tdurkin on Wed, 27 Apr 2016 09:33:51 -0600 [View Commit](../../commit/5c5f385bd0fba56425754263b661a231628c1489)
+
+##coeus-1604.44
 * RESKC-1183: when an award or institutional proposal is versioned the field in the database that tracks the last update user is updating the old version's user to be whomever clicked the Edit button to create the new version (the update timestamp is not being updated).  Contribution: https://github.com/kuali/kc/pull/1608 (#1696)  * Travis Schneeberger on Wed, 27 Apr 2016 12:02:21 -0400 [View Commit](../../commit/7946cb4932c6be209a3febce42bde28f9acb5738)
 
 ##coeus-1604.43
