@@ -202,6 +202,8 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
     private List<InstitutionalProposalAttachment> instProposalAttachments;
     
     private transient boolean allowUpdateTimestampToBeReset = true;
+    private transient boolean allowUpdateUserToBeReset = true;
+
     private transient KcPersonService kcPersonService;
 
     public InstitutionalProposal() {
@@ -1601,27 +1603,28 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         }
         return this.fiscalYearMonthService;
     }
-    
-    public boolean isAllowUpdateTimestampToBeReset() {
-        return allowUpdateTimestampToBeReset;
-    }
-    
-    /**
-     * 
-     * Setting this value to false will prevent the update timestamp field from being upddate just once.
-     * After that, the update timestamp field will update as regular.
-     */
-    public void setAllowUpdateTimestampToBeReset(boolean allowUpdateTimestampToBeReset) {
-        this.allowUpdateTimestampToBeReset = allowUpdateTimestampToBeReset;
-    }
 
     @Override
     public void setUpdateTimestamp(Timestamp updateTimestamp) {
-        if (isAllowUpdateTimestampToBeReset()) {
+        if (allowUpdateTimestampToBeReset) {
             super.setUpdateTimestamp(updateTimestamp);
         } else {
-            setAllowUpdateTimestampToBeReset(true);
+            allowUpdateTimestampToBeReset = true;
         }
+    }
+
+    @Override
+    public void setUpdateUser(String updateUser) {
+        if (allowUpdateUserToBeReset) {
+            super.setUpdateUser(updateUser);
+        } else {
+            allowUpdateUserToBeReset = true;
+        }
+    }
+
+    public void setAllowUpdateFieldsToBeReset(boolean updateFieldsToBeReset) {
+        allowUpdateTimestampToBeReset = updateFieldsToBeReset;
+        allowUpdateUserToBeReset = updateFieldsToBeReset;
     }
 
     protected KcPersonService getKcPersonService() {

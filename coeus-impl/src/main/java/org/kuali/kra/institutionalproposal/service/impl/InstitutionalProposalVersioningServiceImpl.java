@@ -80,7 +80,7 @@ public class InstitutionalProposalVersioningServiceImpl implements Institutional
             // There should only be one active version at a time
             InstitutionalProposal proposalToArchive = results.get(0);
             proposalToArchive.setProposalSequenceStatus(VersionStatus.ARCHIVED.toString());
-            proposalToArchive.setAllowUpdateTimestampToBeReset(false);
+            proposalToArchive.setAllowUpdateFieldsToBeReset(false);
             businessObjectService.save(proposalToArchive);
         }
     }

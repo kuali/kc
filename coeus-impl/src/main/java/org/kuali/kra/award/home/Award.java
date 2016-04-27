@@ -305,7 +305,8 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     private List<SubAward> subAwardList;
     
     private transient boolean allowUpdateTimestampToBeReset = true;
-    
+    private transient boolean allowUpdateUserToBeReset = true;
+
     private VersionHistorySearchBo versionHistory;
     private transient KcPersonService kcPersonService;
     private transient SponsorHierarchyService sponsorHierarchyService;
@@ -2611,30 +2612,30 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 
     @Override
     public String getProjectId() {
-
         return getAwardNumber();
-    }
-    
-    public boolean isAllowUpdateTimestampToBeReset() {
-        return allowUpdateTimestampToBeReset;
-    }
-    
-    /**
-     * 
-     * Setting this value to false will prevent the update timestamp field from being upddate just once.  After that, the update timestamp field will update as regular.
-     */
-    public void setAllowUpdateTimestampToBeReset(boolean allowUpdateTimestampToBeReset) {
-        this.allowUpdateTimestampToBeReset = allowUpdateTimestampToBeReset;
     }
 
     @Override
     public void setUpdateTimestamp(Timestamp updateTimestamp) {
-
-        if (isAllowUpdateTimestampToBeReset()) {
+        if (allowUpdateTimestampToBeReset) {
             super.setUpdateTimestamp(updateTimestamp);
         } else {
-            setAllowUpdateTimestampToBeReset(true);
+            allowUpdateTimestampToBeReset = true;
         }
+    }
+
+    @Override
+    public void setUpdateUser(String updateUser) {
+        if (allowUpdateUserToBeReset) {
+            super.setUpdateUser(updateUser);
+        } else {
+            allowUpdateUserToBeReset = true;
+        }
+    }
+
+    public void setAllowUpdateFieldsToBeReset(boolean updateFieldsToBeReset) {
+        allowUpdateTimestampToBeReset = updateFieldsToBeReset;
+        allowUpdateUserToBeReset = updateFieldsToBeReset;
     }
     
     public List<Award> getAwardVersions() {
