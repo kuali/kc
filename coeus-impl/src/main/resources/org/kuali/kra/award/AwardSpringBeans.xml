@@ -243,10 +243,6 @@
         <property name="serviceName" value="xmlObjectSerializerService" />
     </bean>
 
-    <bean id="versionHistoryLookupDao" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="versionHistoryLookupDao" />
-    </bean>
-    
     <bean id="kcBusinessRulesEngine" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="kcBusinessRulesEngine" />
     </bean>
@@ -297,9 +293,7 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
 
-    <bean id="awardLookupDao" parent="platformAwareDao" class="org.kuali.kra.award.dao.ojb.AwardLookupDaoOjb">
-    	<property name="versionHistoryLookupDao" ref="versionHistoryLookupDao" /> 
-    </bean>
+    <bean id="awardLookupDao" parent="platformAwareDao" class="org.kuali.kra.award.dao.ojb.AwardLookupDaoOjb"/>
     
     <bean id="awardLookupableHelperService" class="org.kuali.kra.award.lookup.AwardLookupableHelperServiceImpl" parent="parentLookupableHelperService" 
           scope="prototype">
