@@ -82,7 +82,7 @@ public class KcPersistenceStructureServiceImpl extends PersistenceStructureServi
                         final DataObjectRelationship relationship = new DataObjectRelationship(entry.getValue().getClassOfObject(), reference.getAttributeName(), reference.getItemClass());
                         final Map<String, String> pToC = new HashMap<>();
                         for (int i = 0; i < reference.getForeignKeyFields().size(); i++) {
-                            final String fkField = (String) reference.getForeignKeyFields().get(i);
+                            final String fkField = reference.getForeignKeyFields().get(i).toString();
                             pToC.put(fkField, getDescriptorRepository().getDescriptorFor(reference.getItemClass()).getPkFields()[i].getAttributeName());
                         }
                         relationship.setParentToChildReferences(pToC);

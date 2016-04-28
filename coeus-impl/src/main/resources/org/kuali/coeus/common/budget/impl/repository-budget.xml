@@ -918,12 +918,9 @@
     	
     	<reference-descriptor name="rateClass" class-ref="org.kuali.coeus.common.budget.framework.rate.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-id-ref="1"/>
-		</reference-descriptor><!--
-		<reference-descriptor name="budget" class-ref="org.kuali.coeus.common.budget.framework.core.Budget" auto-retrieve="true" auto-update="none" auto-delete="none">
-			<foreignkey field-ref="budgetId"/> 
 		</reference-descriptor>
 
-	--></class-descriptor>
+	    </class-descriptor>
 	
 	<class-descriptor class="org.kuali.coeus.common.budget.framework.personnel.AppointmentType" table="APPOINTMENT_TYPE">
 		<field-descriptor name="appointmentTypeCode" column="APPOINTMENT_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
