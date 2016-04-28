@@ -49,7 +49,7 @@ public abstract class ProtocolApproveServiceImplBase implements ProtocolApproveS
         if (protocol.getApprovalDate() == null) {
             protocol.setApprovalDate(actionBean.getApprovalDate());
         }
-        if (protocol.isRenewal() || protocol.isAmendment()) {
+        if (!protocol.isNew()) {
             protocol.setLastApprovalDate(actionBean.getApprovalDate());
         }
         protocol.setExpirationDate(actionBean.getExpirationDate());
@@ -70,7 +70,7 @@ public abstract class ProtocolApproveServiceImplBase implements ProtocolApproveS
         if (protocol.getApprovalDate() == null) {
             protocol.setApprovalDate(actionBean.getApprovalDate());
         }
-        if (protocol.isRenewal() || protocol.isAmendment()) {
+        if (!protocol.isNew()) {
             protocol.setLastApprovalDate(actionBean.getApprovalDate());
         }
         protocol.setExpirationDate(actionBean.getExpirationDate());

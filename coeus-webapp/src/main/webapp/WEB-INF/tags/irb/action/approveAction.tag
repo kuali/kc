@@ -28,7 +28,7 @@
 
 <c:set var="attributes" value="${DataDictionary.ProtocolApproveBean.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
-<c:set var="datesReadOnly" value="${KualiForm.actionHelper.protocol.amendment and not KualiForm.actionHelper.protocol.renewal}" />
+<c:set var="datesReadOnly" value="${(KualiForm.actionHelper.protocol.FYI or KualiForm.actionHelper.protocol.amendment) and not KualiForm.actionHelper.protocol.renewal}" />
 
 <c:if test="${empty defaultOpen}">
     <c:set var="defaultOpen" value="false" />
@@ -72,7 +72,8 @@
                     </th>
                     <td>
                         <nobr>
-                            <kul:htmlControlAttribute property="${property}.expirationDate" 
+
+                            <kul:htmlControlAttribute property="${property}.expirationDate"
                                                       attributeEntry="${attributes.expirationDate}" 
                                                       readOnly="${datesReadOnly}" />
                         </nobr>

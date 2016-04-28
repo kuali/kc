@@ -76,7 +76,7 @@ public class ProtocolAction extends ProtocolActionBase {
                                 getInitialSequence(this, ""), CoeusSubModule.ZERO_SUBMODULE));
             }
         } else if (ProtocolActionType.SUBMIT_TO_IRB.equals(getProtocolActionTypeCode()) && StringUtils.isNotBlank(getComments())
-                                                            && (getComments().startsWith(COMMENT_PREFIX_AMMENDMENT) || getComments().startsWith(COMMENT_PREFIX_RENEWAL))) {
+                                                            && (getComments().startsWith(COMMENT_PREFIX_AMMENDMENT) || getComments().startsWith(COMMENT_PREFIX_RENEWAL) || getComments().startsWith(COMMENT_PREFIX_FYI))) {
             String amendmentRenewalNumber = getAmendmentRenewalNumber(getComments());
             setQuestionnairePrintOption(getQnPrintOptionForAction(getProtocolNumber() + amendmentRenewalNumber, 
                                         getInitialSequence(this, amendmentRenewalNumber), CoeusSubModule.AMENDMENT_RENEWAL));

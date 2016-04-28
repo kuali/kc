@@ -711,15 +711,15 @@ public class IacucProtocol extends ProtocolBase implements CustomDataContainer {
     }
 
     protected void mergeProtocolSpeciesAndGroups(ProtocolBase amendment) {
-        getProtocolProcedureService().mergeProtocolSpecies((IacucProtocol)amendment, this);
+        getProtocolProcedureService().mergeProtocolSpecies((IacucProtocol) amendment, this);
     }
     
     protected void mergeProtocolProcedures(ProtocolBase amendment) {
-        getProtocolProcedureService().mergeProtocolProcedures((IacucProtocol)amendment, this);
+        getProtocolProcedureService().mergeProtocolProcedures((IacucProtocol) amendment, this);
     }
 
     protected void mergeProtocolExceptions(ProtocolBase amendment) {
-        getProtocolCopyService().copyProtocolExceptions((IacucProtocol)amendment, this);
+        getProtocolCopyService().copyProtocolExceptions((IacucProtocol) amendment, this);
     }
     
     protected IacucProtocolCopyService getProtocolCopyService() {
@@ -738,13 +738,15 @@ public class IacucProtocol extends ProtocolBase implements CustomDataContainer {
             type = "Renewal";
         }else if(protocolAmend.isContinuation()) {
             type = "Continuation";
+        }else if(protocolAmend.isFYI()) {
+            type = "FYI";
         }
         return type;
     }
 
     @Override
     public boolean isNew() {
-        return !isAmendment() && !isRenewal() && !isContinuation();
+        return !isAmendment() && !isRenewal() && !isContinuation() && !isFYI();
     }
     
     public boolean isContinuationWithoutAmendment() {
@@ -762,6 +764,8 @@ public class IacucProtocol extends ProtocolBase implements CustomDataContainer {
         } else if (isContinuation()) {
             return StringUtils.substringBefore(getProtocolNumber(), CONTINUATION_LETTER.toString());
                 
+        } else if (isFYI()) {
+            return StringUtils.substringBefore(getProtocolNumber(), FYI_LETTER.toString());
         } else {
             return null;
         }

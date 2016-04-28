@@ -48,10 +48,13 @@ public abstract class ProtocolModuleQuestionnaireBeanBase extends ModuleQuestion
                 subModuleCode = CoeusSubModule.RENEWAL;
             }
         }
+        if (protocol.isFYI()) {
+            subModuleCode = CoeusSubModule.FYI;
+        }
         if (protocol.isAmendment()) {
             subModuleCode = CoeusSubModule.AMENDMENT;
         }
-        
+
         setModuleSubItemCode(subModuleCode);
     }
     

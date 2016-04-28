@@ -19,24 +19,19 @@
 
 package org.kuali.kra.irb;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue;
+import org.kuali.coeus.common.impl.krms.KcKrmsFactBuilderServiceHelper;
 import org.kuali.coeus.common.notification.impl.bo.KcNotification;
 import org.kuali.coeus.sys.framework.controller.KcHoldingPageConstants;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.actions.ProtocolAction;
-import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.kuali.kra.irb.actions.ProtocolStatus;
+import org.kuali.kra.irb.actions.*;
 import org.kuali.kra.irb.actions.notification.ProtocolDisapprovedNotificationRenderer;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
@@ -48,7 +43,6 @@ import org.kuali.kra.irb.notification.IRBProtocolNotification;
 import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchAreaService;
 import org.kuali.kra.krms.KcKrmsConstants;
-import org.kuali.coeus.common.impl.krms.KcKrmsFactBuilderServiceHelper;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
@@ -64,6 +58,11 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krms.api.engine.Facts.Builder;
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -127,6 +126,50 @@ public class ProtocolDocument extends ProtocolDocumentBase {
         else if (isRenewal()) {
             mergeAmendment(ProtocolStatus.RENEWAL_MERGED, "Renewal");
         }
+        else if (isFYI()) {
+            mergeAmendment(ProtocolStatus.FYI_MERGED, "FYI");
+            mergeFyiAttachments();
+        }
+    }
+
+    protected void mergeFyiAttachments() {
+        ProtocolSubmission fyiSubmission = null;
+        ProtocolActionBase fyiApprovedAction = null;
+
+        String fyiNumber = getProtocol().getProtocolNumber().substring(getProtocol().getProtocolNumber().indexOf("F") + 1);
+
+        Protocol originalProtocol = KcServiceLocator.getService(ProtocolFinderDao.class).findCurrentProtocolByNumber(getOriginalProtocolNumber());
+        for(ProtocolActionBase originalAction : originalProtocol.getProtocolActions()) {
+            if(originalAction.getComments() != null && originalAction.getComments().contains("FYI-" + fyiNumber + ": Created")) {
+                fyiApprovedAction = originalAction;
+                break;
+            }
+        }
+
+        if(fyiApprovedAction != null) {
+            fyiSubmission = originalProtocol.getProtocolSubmission();
+            if(fyiApprovedAction.getSubmissionIdFk() == null) {
+                fyiApprovedAction.setProtocolSubmission(fyiSubmission);
+                fyiApprovedAction.setSubmissionIdFk(fyiSubmission.getSubmissionId());
+                fyiApprovedAction.setSubmissionNumber(fyiSubmission.getSubmissionNumber());
+                getBusinessObjectService().save(fyiApprovedAction);
+            }
+        }
+
+        if(fyiSubmission != null) {
+            List<ProtocolSubmissionDoc> mergedAttachments = new ArrayList<>();
+            for(ProtocolAttachmentProtocolBase attachment : getProtocol().getActiveAttachmentProtocols()) {
+                ProtocolSubmissionDoc fyiAttachment = ProtocolSubmissionBuilder.createProtocolSubmissionDoc(fyiSubmission, attachment.getFile().getName(), attachment.getFile().getType(), attachment.getFile().getData(), attachment.getDescription());
+                fyiAttachment.setProtocolNumber(fyiApprovedAction.getProtocolNumber());
+                fyiAttachment.setProtocolId(fyiApprovedAction.getProtocolId());
+                fyiAttachment.setProtocol(originalProtocol);
+                mergedAttachments.add(fyiAttachment);
+            }
+            getBusinessObjectService().save(mergedAttachments);
+        }
+        else {
+            LOG.error("Couldn't merge FYI attachments into parent protocol-- no submission found for FYI #" + getProtocol().getProtocolNumber());
+        }
     }
 
     /**
@@ -173,7 +216,10 @@ public class ProtocolDocument extends ProtocolDocumentBase {
         } catch (WorkflowException e) {
             throw new ProtocolMergeException(e);
         }
-        
+
+        // Have to map copied actions to copied submission FKs and re-save
+        newProtocolDocument.getProtocol().reconcileActionsWithSubmissions();
+        getBusinessObjectService().save(newProtocolDocument.getProtocol().getProtocolActions());
         this.getProtocol().setActive(false);
         
         // now that we've updated the approved protocol, we must find all others under modification and update them too.
@@ -197,7 +243,7 @@ public class ProtocolDocument extends ProtocolDocumentBase {
         
         mergeProtocolCorrespondenceAndNotification(newProtocolDocument, getLastApprovalAction().getProtocolActionType().getProtocolActionTypeCode());
     }
-    
+
     /**
      * This method is to verify whether a protocol expired and we are renewing that protocol
      * @param currentProtocol
@@ -354,7 +400,7 @@ public class ProtocolDocument extends ProtocolDocumentBase {
             // Added for KCIRB-1515 & KCIRB-1528
             getProtocol().getProtocolSubmission().refreshReferenceObject("submissionStatus"); 
             String status = getProtocol().getProtocolSubmission().getSubmissionStatusCode();
-            if (isAmendment() || isRenewal()) {
+            if (!isNormal()) {
                 if (status.equals(ProtocolSubmissionStatus.APPROVED) 
                     && getWorkflowDocumentService().getCurrentRouteNodeNames(getDocumentHeader().getWorkflowDocument()).equalsIgnoreCase(Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME)) {
                         isComplete = false;
@@ -367,7 +413,8 @@ public class ProtocolDocument extends ProtocolDocumentBase {
              * Wait for the new active protocol to be created before redirecting to it.
              */
             if (getProtocol().getProtocolStatusCode().equals(ProtocolStatus.AMENDMENT_MERGED) || 
-                getProtocol().getProtocolStatusCode().equals(ProtocolStatus.RENEWAL_MERGED)) {
+                getProtocol().getProtocolStatusCode().equals(ProtocolStatus.RENEWAL_MERGED) ||
+                getProtocol().getProtocolStatusCode().equals(ProtocolStatus.FYI_MERGED)) {
                 String protocolId = getNewProtocolDocId();               
                 if (ObjectUtils.isNull(protocolId)) {
                     isComplete = false;

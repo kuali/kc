@@ -196,6 +196,9 @@ public class ProtocolQuestionnaireAction extends ProtocolAction {
         if (protocol.isAmendment()) {
             subModuleCode = CoeusSubModule.AMENDMENT;
         }
+        if (protocol.isFYI()) {
+            subModuleCode = CoeusSubModule.FYI;
+        }
         ModuleQuestionnaireBean moduleQuestionnaireBean = new ProtocolModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocolNumber,
                                                                                       subModuleCode, sequenceNumber, true);
         // TODO : should handle this more smoothly.  maybe in service, change the fieldvalues map of subitemcode to a list

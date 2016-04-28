@@ -77,7 +77,7 @@ public class IacucProtocolSubmissionBuilder {
     
     private Integer getNextSubmissionNumber(IacucProtocol protocol) {
         Integer nextSubmissionNumber;
-        if (protocol.isAmendment() || protocol.isRenewal()) {
+        if (protocol.isAmendment() || protocol.isRenewal() || protocol.isFYI()) {
             String origProtocolNumber = protocol.getProtocolNumber();
             String protocolNumber = origProtocolNumber.substring(0, 10);
             IacucProtocol origProtocol = (IacucProtocol)getProtocolFinderDao().findCurrentProtocolByNumber(protocolNumber);
@@ -235,14 +235,7 @@ public class IacucProtocolSubmissionBuilder {
         }
     }
     
-    /**
-     * Create a protocol submission document (attachment).
-     * @param submission
-     * @param fileName
-     * @param document
-     * @return
-     */
-    private IacucProtocolSubmissionDoc createProtocolSubmissionDoc(IacucProtocolSubmission submission, String fileName, String contentType, byte[] document, String description) {
+    public static IacucProtocolSubmissionDoc createProtocolSubmissionDoc(IacucProtocolSubmission submission, String fileName, String contentType, byte[] document, String description) {
         IacucProtocolSubmissionDoc submissionDoc = new IacucProtocolSubmissionDoc();
         submissionDoc.setProtocolNumber(submission.getProtocolNumber());
         submissionDoc.setSequenceNumber(submission.getSequenceNumber());

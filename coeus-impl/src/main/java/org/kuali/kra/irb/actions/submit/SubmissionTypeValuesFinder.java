@@ -19,6 +19,7 @@
 package org.kuali.kra.irb.actions.submit;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.IrbActionsKeyValuesBase;
@@ -149,17 +150,27 @@ public class SubmissionTypeValuesFinder extends IrbActionsKeyValuesBase {
     private boolean hasRenewalProtocolNumber(String protocolNumber) {
         return protocolNumber.contains("R");
     }
-    
+
+    private boolean hasFyiProtocolNumber(String protocolNumber) {
+        return protocolNumber.contains("F");
+    }
+
     private boolean displayResubmission(String currentStatus) {
         String validStatuses[] = {ProtocolStatus.WITHDRAWN, ProtocolStatus.SUBMITTED_TO_IRB, ProtocolStatus.RETURN_TO_PI};
         return validateCurrentStatus(currentStatus, validStatuses);
     }
     
     protected boolean displayNotifyIrb(String currentStatus, Protocol protocol) {
-        String validStatuses[] = { ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT };
-        String validSumissionStatuses[] = { ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE};        
-        String currentSubmissionStatus = protocol.getProtocolSubmission().getSubmissionStatusCode();
-        return validateCurrentStatus(currentStatus, validStatuses)  && validateCurrentSubmissionStatus(currentSubmissionStatus, validSumissionStatuses);
+        boolean useAlternateNotifyIrbAction = getParameterService().getParameterValueAsBoolean(ProtocolDocument.class, Constants.ALTERNATE_NOTIFY_IRB_ACTION_PARAM, false);
+        if (useAlternateNotifyIrbAction) {
+            String validStatuses[] = {ProtocolStatus.WITHDRAWN, ProtocolStatus.FYI_IN_PROGRESS, ProtocolStatus.SUBMITTED_TO_IRB};
+            return validateCurrentStatus(currentStatus, validStatuses) && hasFyiProtocolNumber(protocol.getProtocolNumber());
+        } else {
+            String validStatuses[] = { ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT };
+            String validSumissionStatuses[] = { ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE};
+            String currentSubmissionStatus = protocol.getProtocolSubmission().getSubmissionStatusCode();
+            return validateCurrentStatus(currentStatus, validStatuses)  && validateCurrentSubmissionStatus(currentSubmissionStatus, validSumissionStatuses);
+        }
     }
     
     private boolean validateCurrentStatus(String currentStatus, String[] validStatuses) {

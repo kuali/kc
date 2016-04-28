@@ -298,7 +298,7 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
         return KcServiceLocator.getService(BusinessObjectService.class);
     }
 
-    
+
     /**
      * Amendments/Renewals have a protocol number with a 4 character suffix.
      * The first 10 characters is the protocol number of the original protocol.
@@ -348,6 +348,10 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
     public boolean isAmendment() {
         return getProtocol().isAmendment();
     }
+
+    public boolean isFYI() {
+        return getProtocol().isFYI();
+    }
     
     /**
      * Is this an amendment protocol document?
@@ -362,7 +366,7 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
      * @return
      */
     public boolean isNormal() {
-        return !isAmendment() && !isRenewal();
+        return !isAmendment() && !isRenewal() && !isFYI();
     }
     
     
