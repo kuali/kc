@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1604.48
 * RESKC-1277: Fix rate class maint doc delete action. (#1702)  * Gayathri Athreya on Thu, 28 Apr 2016 11:10:01 -0700 [View Commit](../../commit/78f9c7ad7e145f9189c2029f09501d1675182fd5)
 * RESKC-939: The uploaded subaward files are not being translated and inserted into budget line items for some forms such as PHS398 Budget Training Subaward.
   * Travis Schneeberger on Wed, 27 Apr 2016 12:31:54 -0400 [View Commit](../../commit/8eee168e1e6c1a3f47cb2a793eebf7c166d0c26d)
