@@ -63,7 +63,7 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
     
      
    private static final String CONFIRM_DELETE_PROTOCOL_FUNDING_SOURCE_KEY = "confirmDeleteProtocolFundingSource";
- 
+
     /**
      * @see org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -76,11 +76,15 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
 
         // Following is for protocol lookup - edit protocol
         ProtocolFormBase protocolForm = (ProtocolFormBase) form;
-        String commandParam = request.getParameter(KRADConstants.PARAMETER_COMMAND);
-        
+
         if ("close".equals(protocolForm.getMethodToCall()) || protocolForm.getMethodToCall() == null) {
             // If we're closing, we can just leave right here.
             return mapping.findForward(KRADConstants.MAPPING_PORTAL);
+        }
+
+        final String correctionMode = request.getParameter(Constants.CORRECTION_MODE);
+        if (correctionMode != null && Boolean.parseBoolean(correctionMode)) {
+            protocolForm.getProtocolDocument().getProtocol().setCorrectionMode(Boolean.TRUE);
         }
 
         protocolForm.getProtocolHelper().prepareView();

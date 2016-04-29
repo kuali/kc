@@ -156,9 +156,9 @@ public abstract class MeetingActionBase extends KualiAction {
                 .getLatestProtocolSubmissions().get(Integer.parseInt(request.getParameter("line")));
 
         response.sendRedirect(
-                getActionIdHook() + ".do?" + VIEW_DOCUMENT + "true&" + KRADConstants.PARAMETER_DOC_ID + "=" +
+                getActionIdHook() + ".do?" + KRADConstants.PARAMETER_DOC_ID + "=" +
                         getDocumentNumber(protocolSubmission) + "&" + SUBMISSION_ID + "=" + protocolSubmission.getSubmissionId() +
-                        "&" + DOC_TYPE_NAME + "=" + PROTOCOL_DOCUMENT + "&" + KRADConstants.DISPATCH_REQUEST_PARAMETER +
+                        "&" + DOC_TYPE_NAME + "=" + PROTOCOL_DOCUMENT + "&" +  Constants.CORRECTION_MODE +"=true&" + KRADConstants.DISPATCH_REQUEST_PARAMETER +
                         "=" + KRADConstants.DOC_HANDLER_METHOD + "&" + KRADConstants.DOCHANDLER_URL_CHUNK);
         return null;
     }

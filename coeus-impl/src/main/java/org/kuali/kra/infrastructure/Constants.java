@@ -929,5 +929,6 @@ public interface Constants {
     String AUTHORIZATION_HEADER = "Authorization";
     String BEARER_TOKEN = "Bearer ";
     String SUB_AWARD_CODE = "subAwardCode";
+    String CORRECTION_MODE = "correctionMode";
 }
 

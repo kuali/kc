@@ -74,6 +74,8 @@ public class ProtocolProtocolAction extends ProtocolAction {
     private static final Log LOG = LogFactory.getLog(ProtocolProtocolAction.class);
 
     private static final String CONFIRM_DELETE_PROTOCOL_FUNDING_SOURCE_KEY = "confirmDeleteProtocolFundingSource";
+    private static final String SUBMISSION_ID = "submissionId";
+    private static final String CLOSE = "close";
 
     /**
      * @see org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase#execute(org.apache.struts.action.ActionMapping,
@@ -85,32 +87,41 @@ public class ProtocolProtocolAction extends ProtocolAction {
         
         ActionForward actionForward = super.execute(mapping, form, request, response);
 
-        // Following is for protocol lookup - edit protocol
-        ProtocolForm protocolForm = (ProtocolForm) form;
+        final ProtocolForm protocolForm = (ProtocolForm) form;
         String commandParam = request.getParameter(KRADConstants.PARAMETER_COMMAND);
+        final String submissionId = request.getParameter(SUBMISSION_ID);
+        setProtocolSubmission(protocolForm.getProtocolDocument().getProtocol(), commandParam, submissionId);
 
-        if (StringUtils.isNotBlank(commandParam) && commandParam.equals(KewApiConstants.DOCSEARCH_COMMAND)
-                && StringUtils.isNotBlank(request.getParameter("submissionId"))) {
-            // protocolsubmission lookup
-            for (ProtocolSubmissionBase protocolSubmission : protocolForm.getProtocolDocument().getProtocol().getProtocolSubmissions()) {
-                if (StringUtils.isNotBlank(request.getParameter("submissionId"))) {
-                    protocolForm.getProtocolDocument().getProtocol().setNotifyIrbSubmissionId(Long.parseLong(request.getParameter("submissionId")));
-                }
-                if (request.getParameter("submissionId").equals(protocolSubmission.getSubmissionId().toString())) {
-                    protocolForm.getProtocolDocument().getProtocol().setProtocolSubmission(protocolSubmission);
-                    break;
-                }
-            }
-        }
-
-        if ("close".equals(protocolForm.getMethodToCall()) || protocolForm.getMethodToCall() == null) {
+        if (CLOSE.equals(protocolForm.getMethodToCall()) || protocolForm.getMethodToCall() == null) {
             // If we're closing, we can just leave right here.
             return mapping.findForward(KRADConstants.MAPPING_PORTAL);
+        }
+
+        final String correctionMode = request.getParameter(Constants.CORRECTION_MODE);
+        if (correctionMode != null && Boolean.parseBoolean(correctionMode)) {
+            protocolForm.getProtocolDocument().getProtocol().setCorrectionMode(Boolean.TRUE);
         }
 
         protocolForm.getProtocolHelper().prepareView();
 
         return actionForward;
+    }
+
+    public void setProtocolSubmission(Protocol protocol, String commandParam, String submissionId) {
+
+        if (StringUtils.isNotBlank(commandParam) && commandParam.equals(KewApiConstants.DOCSEARCH_COMMAND)
+                && StringUtils.isNotBlank(submissionId)) {
+            // protocolsubmission lookup
+            for (ProtocolSubmissionBase protocolSubmission : protocol.getProtocolSubmissions()) {
+                if (StringUtils.isNotBlank(submissionId)) {
+                    protocol.setNotifyIrbSubmissionId(Long.parseLong(submissionId));
+                }
+                if (submissionId.equals(protocolSubmission.getSubmissionId().toString())) {
+                    protocol.setProtocolSubmission(protocolSubmission);
+                    break;
+                }
+            }
+        }
     }
 
     @Override
