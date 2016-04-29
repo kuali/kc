@@ -585,13 +585,6 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
     }
 
     public String getLastName() {
-        //        if (this.personId!=null) {  
-        //            return getPerson().geeptLastName();  
-        //        } else if (getRolodex()!=null) {  
-        //            return getRolodex().getLastName();  
-        //        } else {  
-        //            return null;  
-        //        }  
         return lastName;
     }
 
@@ -1089,9 +1082,11 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
 
     public String getDisclosureStatus() {
         DisclosureStatusRetrievalService disclosureStatusRetrievalService = getDisclosureStatusRetrievalService();
-        DisclosureProjectStatus projectStatus =  disclosureStatusRetrievalService.getDisclosureStatusForPerson(getModuleNamespace(),
-                getProtocolId() != null ? getProtocolId().toString(): null,
-                getPersonId());
+        String protocolNumber = getProtocolNumber();
+        if(!getProtocol().isNew()) {
+            protocolNumber = getProtocol().getAmendedProtocolNumber();
+        }
+        DisclosureProjectStatus projectStatus =  disclosureStatusRetrievalService.getDisclosureStatusForPerson(getModuleNamespace(), protocolNumber, getPersonId());
         return projectStatus.getStatus();
     }
 
