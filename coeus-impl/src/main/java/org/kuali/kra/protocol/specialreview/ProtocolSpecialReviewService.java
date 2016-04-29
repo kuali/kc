@@ -25,9 +25,6 @@ import org.kuali.kra.protocol.ProtocolFinderDao;
 
 public interface ProtocolSpecialReviewService {
 
-    public static final String AMENDMENT_KEY = "A";
-    public static final String RENEWAL_KEY = "R";
-
     @SuppressWarnings("rawtypes")
     public void populateSpecialReview(SpecialReview specialReview);
     /**

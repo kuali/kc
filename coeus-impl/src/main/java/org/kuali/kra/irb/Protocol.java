@@ -43,6 +43,7 @@ import org.kuali.kra.irb.summary.ParticipantSummary;
 import org.kuali.kra.irb.summary.ProtocolSummary;
 import org.kuali.coeus.common.framework.krms.KrmsRulesContext;
 import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.ProtocolSpecialVersion;
 import org.kuali.kra.protocol.actions.ProtocolStatusBase;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewModuleBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
@@ -260,12 +261,12 @@ public class Protocol extends ProtocolBase implements CustomDataContainer {
             protocolAction.setProtocolId(this.getProtocolId());
             String index = amendment.getProtocolNumber().substring(11);
             protocolAction.setActionId(getNextValue(NEXT_ACTION_ID_KEY));
-            String type = "Amendment";
+            String type = ProtocolSpecialVersion.AMENDMENT.getDescription();
             if (amendment.isRenewal()) {
-                type = "Renewal";
+                type = ProtocolSpecialVersion.RENEWAL.getDescription();
             }
             else if (amendment.isFYI()) {
-                type = "FYI";
+                type = ProtocolSpecialVersion.FYI.getDescription();
             }
             if (StringUtils.isNotBlank(protocolAction.getComments())) {
                 protocolAction.setComments(type + "-" + index + ": " + protocolAction.getComments());

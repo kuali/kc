@@ -205,7 +205,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
        
         if (attachment == null) {
             LOG.info(NOT_FOUND_SELECTION + selection);
-            //may want to tell the user the selection was invalid.
+
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
         
@@ -237,7 +237,6 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
         
         if (!form.getNotesAttachmentsHelper().deleteExistingAttachmentByType(selection, attachmentType)) {
             LOG.info(NOT_FOUND_SELECTION + selection);
-            //TODO may want to tell the user the selection was invalid.
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -265,7 +264,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
                
         if (attachment == null) {
             LOG.info(NOT_FOUND_SELECTION + selection);
-            //may want to tell the user the selection was invalid.
+
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
         
@@ -378,7 +377,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
         
         if (!((ProtocolForm)form).getNotesAttachmentsHelper().deleteNote(selection)) {
             LOG.info(NOT_FOUND_SELECTION + selection);
-            //may want to tell the user the selection was invalid.
+
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);

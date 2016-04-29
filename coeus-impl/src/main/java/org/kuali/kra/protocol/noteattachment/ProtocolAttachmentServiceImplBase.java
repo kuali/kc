@@ -22,6 +22,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDao;
+import org.kuali.kra.protocol.ProtocolSpecialVersion;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -130,7 +131,7 @@ public abstract class ProtocolAttachmentServiceImplBase implements ProtocolAttac
         // the initial version of amendment & renewal need to do this
         if (!attachment.getProtocol().isNew() && attachment.getProtocol().getSequenceNumber() == 0) {
             ProtocolBase protocol = getActiveProtocol(attachment.getProtocol().getProtocolNumber().substring(0, 
-                    attachment.getProtocol().getProtocolNumber().indexOf(attachment.getProtocol().isAmendment() ? "A" : attachment.getProtocol().isRenewal() ? "R" : "F")));
+                    attachment.getProtocol().getProtocolNumber().indexOf(attachment.getProtocol().isAmendment() ? ProtocolSpecialVersion.AMENDMENT.getCode() : attachment.getProtocol().isRenewal() ? ProtocolSpecialVersion.RENEWAL.getCode() : ProtocolSpecialVersion.FYI.getCode())));
             keyMap.put("protocolNumber", protocol.getProtocolNumber());
             keyMap.put("sequenceNumber", protocol.getSequenceNumber());
         } else {

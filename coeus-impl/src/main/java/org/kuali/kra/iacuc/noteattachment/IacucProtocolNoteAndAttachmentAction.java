@@ -161,7 +161,7 @@ public class IacucProtocolNoteAndAttachmentAction extends IacucProtocolAction {
         
         if (!form.getNotesAttachmentsHelper().deleteExistingAttachmentByType(selection, attachmentType)) {
             LOG.info(NOT_FOUND_SELECTION + selection);
-            //may want to tell the user the selection was invalid.
+
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -241,7 +241,7 @@ public class IacucProtocolNoteAndAttachmentAction extends IacucProtocolAction {
                
         if (attachment == null) {
             LOG.info(NOT_FOUND_SELECTION + selection);
-            //may want to tell the user the selection was invalid.
+
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
         
@@ -297,7 +297,7 @@ public class IacucProtocolNoteAndAttachmentAction extends IacucProtocolAction {
        
         if (attachment == null) {
             LOG.info(NOT_FOUND_SELECTION + selection);
-            //may want to tell the user the selection was invalid.
+
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
         
@@ -380,7 +380,7 @@ public class IacucProtocolNoteAndAttachmentAction extends IacucProtocolAction {
         
         if (!((ProtocolFormBase)form).getNotesAttachmentsHelper().deleteNote(selection)) {
             LOG.info(NOT_FOUND_SELECTION + selection);
-            //may want to tell the user the selection was invalid.
+
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);

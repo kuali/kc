@@ -399,7 +399,7 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
         
         if (attachment == null) {
             LOG.info(NOT_FOUND_SELECTION + attachmentIndex);
-            //may want to tell the user the selection was invalid.
+
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
         

@@ -354,8 +354,6 @@ public class CoiDisclProject extends KcPersistableBusinessObjectBase implements 
     }
 
     public boolean isComplete() {
-        // TODO : this is kind of duplicate with getCompleteMessage.
-        // may want to merge for better solution
         boolean isComplete = true;
         if (CollectionUtils.isNotEmpty(this.getCoiDiscDetails())) {
             for (CoiDiscDetail coiDiscDetail : this.getCoiDiscDetails()) {

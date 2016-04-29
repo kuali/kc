@@ -27,6 +27,7 @@ import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
+import org.kuali.kra.protocol.ProtocolSpecialVersion;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 
@@ -135,15 +136,15 @@ public class SubmissionTypeValuesFinder extends IacucActionsKeyValuesBase {
     }
     
     private boolean hasRenewalProtocolNumber(String protocolNumber) {
-        return protocolNumber.contains("R");
+        return protocolNumber.contains(ProtocolSpecialVersion.RENEWAL.getCode());
     }
 
     private boolean hasContinuationProtocolNumber(String protocolNumber) {
-        return protocolNumber.contains("C");
+        return protocolNumber.contains(ProtocolSpecialVersion.CONTINUATION.getCode());
     }
 
     private boolean hasFyiProtocolNumber(String protocolNumber) {
-        return protocolNumber.contains("F");
+        return protocolNumber.contains(ProtocolSpecialVersion.FYI.getCode());
     }
 
     private boolean displayResubmission(String currentStatus) {

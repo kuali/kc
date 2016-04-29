@@ -35,6 +35,7 @@ import org.kuali.coeus.common.questionnaire.framework.answer.ModuleQuestionnaire
 import org.kuali.coeus.common.questionnaire.framework.answer.QuestionnaireAnswerService;
 import org.kuali.coeus.common.questionnaire.framework.answer.SaveQuestionnaireAnswerEvent;
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireConstants;
+import org.kuali.kra.protocol.ProtocolSpecialVersion;
 import org.kuali.rice.krad.document.Document;
 
 import javax.servlet.http.HttpServletRequest;
@@ -162,7 +163,7 @@ public class ProtocolQuestionnaireAction extends ProtocolAction {
         String protocolNumber = request.getParameter(PROTOCOL_NUMBER);
         
         ModuleQuestionnaireBean moduleQuestionnaireBean = new ProtocolModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocolNumber,
-            (protocolNumber.contains("A") || protocolNumber.contains("R")) ? CoeusSubModule.AMENDMENT_RENEWAL : CoeusSubModule.ZERO_SUBMODULE, sequenceNumber, true);
+            (protocolNumber.contains(ProtocolSpecialVersion.AMENDMENT.getCode()) || protocolNumber.contains(ProtocolSpecialVersion.RENEWAL.getCode())) ? CoeusSubModule.AMENDMENT_RENEWAL : CoeusSubModule.ZERO_SUBMODULE, sequenceNumber, true);
         protocolForm.getQuestionnaireHelper().setAnswerHeaders(
                 getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean));
 

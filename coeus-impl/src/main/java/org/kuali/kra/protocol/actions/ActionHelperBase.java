@@ -41,10 +41,7 @@ import org.kuali.coeus.sys.framework.keyvalue.PrefixValuesFinder;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.protocol.ProtocolBase;
-import org.kuali.kra.protocol.ProtocolDocumentBase;
-import org.kuali.kra.protocol.ProtocolFormBase;
-import org.kuali.kra.protocol.ProtocolVersionService;
+import org.kuali.kra.protocol.*;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewService;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewalBase;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendmentBean;
@@ -2757,7 +2754,7 @@ public abstract class ActionHelperBase implements Serializable {
         }
         
         public AmendmentSummary(ProtocolBase protocol) {
-            amendmentType = protocol.isRenewalWithoutAmendment() ? "Renewal" : protocol.isRenewal() ? "Renewal with Amendment" : protocol.isAmendment() ? "Amendment" : "New";
+            amendmentType = protocol.isRenewalWithoutAmendment() ? ProtocolSpecialVersion.RENEWAL.getDescription() : protocol.isRenewal() ? ProtocolSpecialVersion.RENEWAL.getDescription() + " with " + ProtocolSpecialVersion.AMENDMENT.getDescription() : protocol.isAmendment() ? ProtocolSpecialVersion.AMENDMENT.getDescription() : "New";
             protocolNumber = protocol.getProtocolNumber();
             versionNumber = protocol.getProtocolNumber().substring(protocol.getProtocolNumber().length() - 3);
             versionNumberUrl = buildForwardUrl(protocol.getProtocolDocument().getDocumentNumber());

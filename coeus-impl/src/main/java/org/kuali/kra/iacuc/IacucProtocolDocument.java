@@ -44,10 +44,7 @@ import org.kuali.kra.iacuc.protocol.location.IacucProtocolLocationService;
 import org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchAreaService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.krms.KcKrmsConstants;
-import org.kuali.kra.protocol.ProtocolBase;
-import org.kuali.kra.protocol.ProtocolDocumentBase;
-import org.kuali.kra.protocol.ProtocolFinderDao;
-import org.kuali.kra.protocol.ProtocolVersionService;
+import org.kuali.kra.protocol.*;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionService;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
@@ -88,8 +85,6 @@ public class IacucProtocolDocument extends ProtocolDocumentBase {
     @SuppressWarnings("unused")
     private static final Log LOG = LogFactory.getLog(IacucProtocolDocument.class);
     public static final String DOCUMENT_TYPE_CODE = "ICPR";
-    
-    private static final String CONTINUATION_KEY = "C";
     
     private static final String DISAPPROVED_CONTEXT_NAME = "Disapproved";
 	
@@ -281,7 +276,7 @@ public class IacucProtocolDocument extends ProtocolDocumentBase {
     }
 
     public boolean isContinuation() {
-        return getProtocol().getProtocolNumber().contains(CONTINUATION_KEY);
+        return getProtocol().getProtocolNumber().contains(ProtocolSpecialVersion.CONTINUATION.getCode());
     }
 
     protected String getProtocolMergedStatus() {
@@ -304,16 +299,16 @@ public class IacucProtocolDocument extends ProtocolDocumentBase {
     @Override
     protected void mergeProtocolAmendment() {
         if (isAmendment()) {
-            mergeAmendment(getProtocolMergedStatus(), "Amendment");
+            mergeAmendment(getProtocolMergedStatus(), ProtocolSpecialVersion.AMENDMENT.getDescription());
         }
         else if (isRenewal()) {
-            mergeAmendment(getProtocolMergedStatus(), "Renewal");
+            mergeAmendment(getProtocolMergedStatus(), ProtocolSpecialVersion.RENEWAL.getDescription());
         }
         else if (isContinuation()) {
-            mergeAmendment(getProtocolMergedStatus(), "Continuation");
+            mergeAmendment(getProtocolMergedStatus(), ProtocolSpecialVersion.CONTINUATION.getDescription());
         }
         else if (isFYI()) {
-            mergeAmendment(getProtocolMergedStatus(), "FYI");
+            mergeAmendment(getProtocolMergedStatus(), ProtocolSpecialVersion.FYI.getDescription());
             mergeFyiAttachments();
             getProtocol().reconcileActionsWithSubmissions();
         }
@@ -323,12 +318,12 @@ public class IacucProtocolDocument extends ProtocolDocumentBase {
         IacucProtocolSubmission fyiSubmission = null;
         ProtocolActionBase createFyiAction = null;
 
-        String fyiNumber = getProtocol().getProtocolNumber().substring(getProtocol().getProtocolNumber().indexOf("F") + 1);
+        String fyiNumber = getProtocol().getProtocolNumber().substring(getProtocol().getProtocolNumber().indexOf(ProtocolSpecialVersion.FYI.getCode()) + 1);
 
-        ProtocolBase originalProtocol = KcServiceLocator.getService(IacucProtocolFinderDao.class).findCurrentProtocolByNumber(getOriginalProtocolNumber());
+        ProtocolBase originalProtocol = getProtocolFinderDaoHook().findCurrentProtocolByNumber(getOriginalProtocolNumber());
         for(ProtocolActionBase originalAction : originalProtocol.getProtocolActions()) {
             if(originalAction.getProtocolActionTypeCode().equals(IacucProtocolActionType.NOTIFY_IACUC)
-                    && originalAction.getComments().contains("FYI-" + fyiNumber + ": Created")) {
+                    && originalAction.getComments().contains(ProtocolSpecialVersion.FYI.getDescription() + "-" + fyiNumber + ": Created")) {
                 createFyiAction = originalAction;
                 break;
             }

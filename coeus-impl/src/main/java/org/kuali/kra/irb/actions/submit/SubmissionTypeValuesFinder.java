@@ -24,6 +24,7 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.IrbActionsKeyValuesBase;
 import org.kuali.kra.irb.actions.ProtocolStatus;
+import org.kuali.kra.protocol.ProtocolSpecialVersion;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 
@@ -144,15 +145,15 @@ public class SubmissionTypeValuesFinder extends IrbActionsKeyValuesBase {
     }
     
     private boolean hasAmmendmentProtocolNumber(String protocolNumber) {
-        return protocolNumber.contains("A");
+        return protocolNumber.contains(ProtocolSpecialVersion.AMENDMENT.getCode());
     }
     
     private boolean hasRenewalProtocolNumber(String protocolNumber) {
-        return protocolNumber.contains("R");
+        return protocolNumber.contains(ProtocolSpecialVersion.RENEWAL.getCode());
     }
 
     private boolean hasFyiProtocolNumber(String protocolNumber) {
-        return protocolNumber.contains("F");
+        return protocolNumber.contains(ProtocolSpecialVersion.FYI.getCode());
     }
 
     private boolean displayResubmission(String currentStatus) {

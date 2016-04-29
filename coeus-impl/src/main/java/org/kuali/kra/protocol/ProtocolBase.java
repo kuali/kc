@@ -77,11 +77,6 @@ import java.util.Map.Entry;
 public abstract class ProtocolBase extends KcPersistableBusinessObjectBase implements SequenceOwner<ProtocolBase>, Permissionable, UnitAclLoadable, Disclosurable, KcKrmsContextBo {
    
     private static final long serialVersionUID = -5556152547067349988L;
-      
-    
-    protected static final CharSequence AMENDMENT_LETTER = "A";
-    protected static final CharSequence RENEWAL_LETTER = "R";
-    protected static final CharSequence FYI_LETTER = "F";
     
     protected static final String NEXT_ACTION_ID_KEY = "actionId";
      
@@ -1617,14 +1612,14 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     
    
     public boolean isAmendment() {
-        return protocolNumber != null && protocolNumber.contains(AMENDMENT_LETTER);
+        return protocolNumber != null && protocolNumber.contains(ProtocolSpecialVersion.AMENDMENT.getCode());
     }
     
     public boolean isRenewal() {
-        return protocolNumber != null && protocolNumber.contains(RENEWAL_LETTER);
+        return protocolNumber != null && protocolNumber.contains(ProtocolSpecialVersion.RENEWAL.getCode());
     }
 
-    public boolean isFYI() { return protocolNumber != null && protocolNumber.contains(FYI_LETTER); }
+    public boolean isFYI() { return protocolNumber != null && protocolNumber.contains(ProtocolSpecialVersion.FYI.getCode()); }
 
     public boolean isRenewalWithAmendment() {
         return isRenewal() && CollectionUtils.isNotEmpty(this.getProtocolAmendRenewal().getModules());
@@ -1645,13 +1640,13 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
      */
     public String getAmendedProtocolNumber() {
         if (isAmendment()) {
-            return StringUtils.substringBefore(getProtocolNumber(), AMENDMENT_LETTER.toString());
+            return StringUtils.substringBefore(getProtocolNumber(), ProtocolSpecialVersion.AMENDMENT.getCode().toString());
             
         } else if (isRenewal()) {
-            return StringUtils.substringBefore(getProtocolNumber(), RENEWAL_LETTER.toString());
+            return StringUtils.substringBefore(getProtocolNumber(), ProtocolSpecialVersion.RENEWAL.getCode().toString());
                 
         } else if (isFYI()) {
-            return StringUtils.substringBefore(getProtocolNumber(), FYI_LETTER.toString());
+            return StringUtils.substringBefore(getProtocolNumber(), ProtocolSpecialVersion.FYI.getCode().toString());
         }
         else {
             return null;

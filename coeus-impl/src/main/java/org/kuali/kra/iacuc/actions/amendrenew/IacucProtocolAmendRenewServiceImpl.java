@@ -29,6 +29,7 @@ import org.kuali.kra.iacuc.actions.notifyiacuc.IacucProtocolNotifyIacucBean;
 import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
+import org.kuali.kra.protocol.ProtocolSpecialVersion;
 import org.kuali.kra.protocol.actions.ActionHelperBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewModuleBase;
@@ -45,9 +46,8 @@ import java.util.List;
  * The ProtocolBase Amendment/Renewal Service Implementation.
  */
 public class IacucProtocolAmendRenewServiceImpl extends ProtocolAmendRenewServiceImplBase implements IacucProtocolAmendRenewService {
-    protected static final String CONTINUATION_ID = "C";
+
     protected static final String CONTINUATION_NEXT_VALUE = "nextContinuationValue";
-    protected static final String CONTINUATION = "Continuation";
     
 
     @Override
@@ -317,7 +317,7 @@ public class IacucProtocolAmendRenewServiceImpl extends ProtocolAmendRenewServic
      * @return
      */
     protected String generateProtocolContinuationNumber(IacucProtocolDocument protocolDocument) {
-        return generateProtocolNumber(protocolDocument, CONTINUATION_ID, CONTINUATION_NEXT_VALUE);
+        return generateProtocolNumber(protocolDocument, ProtocolSpecialVersion.CONTINUATION.getCode(), CONTINUATION_NEXT_VALUE);
     }
 
     /**
@@ -328,14 +328,14 @@ public class IacucProtocolAmendRenewServiceImpl extends ProtocolAmendRenewServic
      */
     protected IacucProtocolAction createCreateContinuationProtocolAction(IacucProtocol protocol, String protocolNumber) {
         IacucProtocolAction protocolAction = new IacucProtocolAction(protocol, IacucProtocolActionType.CONTINUATION); 
-        protocolAction.setComments(CONTINUATION + "-" + protocolNumber.substring(11) + ": " + CREATED);
+        protocolAction.setComments(ProtocolSpecialVersion.CONTINUATION.getDescription() + "-" + protocolNumber.substring(11) + ": " + CREATED);
         return protocolAction;
     }
     
     @SuppressWarnings("unchecked")
     public Collection<IacucProtocol> getContinuations(String protocolNumber) throws Exception {
         List<IacucProtocol> continuations = new ArrayList<IacucProtocol>();
-        Collection<IacucProtocol> protocols = (Collection<IacucProtocol>) kraLookupDao.findCollectionUsingWildCard(IacucProtocol.class, PROTOCOL_NUMBER, protocolNumber + CONTINUATION_ID + "%", true);
+        Collection<IacucProtocol> protocols = (Collection<IacucProtocol>) kraLookupDao.findCollectionUsingWildCard(IacucProtocol.class, PROTOCOL_NUMBER, protocolNumber + ProtocolSpecialVersion.CONTINUATION.getCode() + "%", true);
         for (ProtocolBase protocol : protocols) {
             IacucProtocolDocument protocolDocument = (IacucProtocolDocument) documentService.getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber());
             continuations.add(protocolDocument.getIacucProtocol());

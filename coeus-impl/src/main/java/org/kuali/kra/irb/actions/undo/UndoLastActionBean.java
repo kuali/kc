@@ -21,6 +21,7 @@ package org.kuali.kra.irb.actions.undo;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.*;
+import org.kuali.kra.protocol.ProtocolSpecialVersion;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 
 import java.io.Serializable;
@@ -33,9 +34,6 @@ public class UndoLastActionBean extends ProtocolActionBean implements org.kuali.
     private static final long serialVersionUID = 801139767436741048L;
     
     private static final String[] NOT_UNDOABLE_ACTIONS = {ProtocolActionType.PROTOCOL_CREATED, ProtocolActionType.SUBMIT_TO_IRB, ProtocolActionType.RENEWAL_CREATED, ProtocolActionType.AMENDMENT_CREATED, ProtocolActionType.WITHDRAWN, ProtocolActionType.APPROVED, ProtocolActionType.ADMINISTRATIVE_CORRECTION, ProtocolActionType.DEFERRED};
-    private static final String AMEND = "A";
-    private static final String RENEW = "R";
-    private static final String FYI = "F";
     
     private String comments;
     private List<ProtocolAction> actionsPerformed;
@@ -105,7 +103,7 @@ public class UndoLastActionBean extends ProtocolActionBean implements org.kuali.
     
     private boolean isActionProtocolApproval(ProtocolAction action, String protocolNumber) {
         String protocolNumberUpper = protocolNumber.toUpperCase();
-        boolean amendmentOrRenewal = protocolNumberUpper.contains(AMEND) || protocolNumberUpper.contains(RENEW) || protocolNumberUpper.contains(FYI);
+        boolean amendmentOrRenewal = protocolNumberUpper.contains(ProtocolSpecialVersion.AMENDMENT.getCode()) || protocolNumberUpper.contains(ProtocolSpecialVersion.RENEWAL.getCode()) || protocolNumberUpper.contains(ProtocolSpecialVersion.FYI.getCode());
         return ProtocolActionType.APPROVED.equals(action.getProtocolActionTypeCode()) && !amendmentOrRenewal;
     }
     
@@ -118,7 +116,7 @@ public class UndoLastActionBean extends ProtocolActionBean implements org.kuali.
         if(action != null){
             // filter out protocol merged from renewal/amendment
             if (StringUtils.isBlank(action.getComments()) || !((action.getProtocolActionTypeCode().equals(ProtocolActionType.APPROVED) || action.getProtocolActionTypeCode().equals(ProtocolActionType.APPROVED))
-                    && (action.getComments().startsWith("Renewal-") || action.getComments().startsWith("Amendment-") || action.getComments().startsWith("FYI-")))) {
+                    && (action.getComments().startsWith(ProtocolSpecialVersion.RENEWAL.getDescription() + "-") || action.getComments().startsWith(ProtocolSpecialVersion.AMENDMENT.getDescription() + "-") || action.getComments().startsWith(ProtocolSpecialVersion.FYI.getDescription() + "-")))) {
                 return isActionUndoable(action.getProtocolActionTypeCode()) || isActionProtocolApproval(action, action.getProtocolNumber()) || isProtocolDeleted(getProtocol());
             }
         }

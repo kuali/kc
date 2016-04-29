@@ -28,6 +28,7 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.protocol.ProtocolAssociateBase;
 import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.ProtocolSpecialVersion;
 import org.kuali.kra.protocol.actions.notify.ProtocolActionAttachment;
 import org.kuali.kra.protocol.actions.print.QuestionnairePrintOption;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
@@ -52,9 +53,9 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
     protected static final String SUBMISSION_NUMBER_FIELD_KEY = "submissionNumber";
     protected static final String ACTION_ID_FIELD_KEY = "actionId";
     protected static final String PROTOCOL_NUMBER_FIELD_KEY = "protocolNumber";
-    protected static final String COMMENT_PREFIX_RENEWAL = "Renewal-";
-    protected static final String COMMENT_PREFIX_AMMENDMENT = "Amendment-";
-    protected static final String COMMENT_PREFIX_FYI = "FYI-";
+    protected static final String COMMENT_PREFIX_RENEWAL = ProtocolSpecialVersion.RENEWAL.getCode() + "-";
+    protected static final String COMMENT_PREFIX_AMMENDMENT = ProtocolSpecialVersion.AMENDMENT.getDescription() + "-";
+    protected static final String COMMENT_PREFIX_FYI = ProtocolSpecialVersion.FYI.getDescription() + "-";
 
     //not thread safe cannot be static  
     private transient SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
@@ -469,7 +470,7 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("moduleItemCode", getCoeusModule());
         fieldValues.put("moduleItemKey", moduleItemKey);
-        if (!moduleItemKey.contains("A") && !moduleItemKey.contains("R") && !moduleItemKey.contains("F") && getProtocol().isNew()) {
+        if (!moduleItemKey.contains(ProtocolSpecialVersion.AMENDMENT.getCode()) && !moduleItemKey.contains(ProtocolSpecialVersion.RENEWAL.getCode()) && !moduleItemKey.contains(ProtocolSpecialVersion.FYI.getCode()) && getProtocol().isNew()) {
             fieldValues.put("moduleSubItemCode", moduleSubItemCode);
         }
         fieldValues.put("moduleSubItemKey", moduleSubItemKey);
@@ -480,11 +481,11 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
     protected String getAmendmentRenewalNumber(String comment) {
         String retVal="";
         if (comment.startsWith(COMMENT_PREFIX_AMMENDMENT)) {
-            retVal = "A" + comment.substring(10, 13);
+            retVal = ProtocolSpecialVersion.AMENDMENT.getCode() + comment.substring(10, 13);
         } else if (comments.startsWith(COMMENT_PREFIX_FYI)) {
-            retVal = "F" + comment.substring(4,7);
+            retVal = ProtocolSpecialVersion.FYI.getCode() + comment.substring(4,7);
         } else {
-            retVal = "R" + comment.substring(8, 11);
+            retVal = ProtocolSpecialVersion.RENEWAL.getCode() + comment.substring(8, 11);
                      
         }
         return retVal;

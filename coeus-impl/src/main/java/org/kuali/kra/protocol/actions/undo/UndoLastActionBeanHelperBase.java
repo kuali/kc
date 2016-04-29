@@ -20,6 +20,7 @@ package org.kuali.kra.protocol.actions.undo;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.ProtocolSpecialVersion;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 
 import java.io.Serializable;
@@ -28,13 +29,10 @@ import java.util.Comparator;
 import java.util.List;
 
 public abstract class UndoLastActionBeanHelperBase implements Serializable {
-    
-    protected static final String AMEND = "A";
-    protected static final String RENEW = "R";
-    protected static final String FYI = "F";
-    protected static final String AMEND_COMMENT = "Amendment-";
-    protected static final String RENEW_COMMENT = "Renewal-";
-    protected static final String FYI_COMMENT = "FYI-";
+
+    protected static final String AMEND_COMMENT = ProtocolSpecialVersion.AMENDMENT.getDescription() +  "-";
+    protected static final String RENEW_COMMENT = ProtocolSpecialVersion.RENEWAL.getDescription() + "-";
+    protected static final String FYI_COMMENT = ProtocolSpecialVersion.FYI.getDescription() + "-";
     
     protected abstract String[] getNotUndoableActions();
     
@@ -78,7 +76,7 @@ public abstract class UndoLastActionBeanHelperBase implements Serializable {
     
     protected boolean isActionProtocolApproval(ProtocolActionBase action, String protocolNumber) {
         String protocolNumberUpper = protocolNumber.toUpperCase();
-        boolean amendmentOrRenewal = protocolNumberUpper.contains(AMEND) || protocolNumberUpper.contains(RENEW) || protocolNumberUpper.contains(FYI);
+        boolean amendmentOrRenewal = protocolNumberUpper.contains(ProtocolSpecialVersion.AMENDMENT.getCode()) || protocolNumberUpper.contains(ProtocolSpecialVersion.RENEWAL.getCode()) || protocolNumberUpper.contains(ProtocolSpecialVersion.FYI.getCode());
         return getApprovedActionTypeCodeHook().equals(action.getProtocolActionTypeCode()) && !amendmentOrRenewal;
     }
     

@@ -31,6 +31,7 @@ import org.kuali.kra.dao.KraLookupDao;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolFinderDao;
+import org.kuali.kra.protocol.ProtocolSpecialVersion;
 import org.kuali.kra.protocol.actions.ActionHelperBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.copy.ProtocolCopyService;
@@ -58,16 +59,10 @@ import java.util.concurrent.TimeUnit;
 public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmendRenewService {
 
     private static Log LOGGER = LogFactory.getLog(ProtocolAmendRenewServiceImplBase.class);
-    protected static final String AMEND_ID = "A";
-    protected static final String RENEW_ID = "R";
-    protected static final String FYI_ID = "F";
     protected static final int DIGIT_COUNT = 3;
     protected static final String AMEND_NEXT_VALUE = "nextAmendValue";
     protected static final String RENEW_NEXT_VALUE = "nextRenewValue";
     protected static final String FYI_NEXT_VALUE = "nextFyiValue";
-    protected static final String AMENDMENT = "Amendment";
-    protected static final String RENEWAL = "Renewal";
-    protected static final String FYI = "FYI";
     protected static final String CREATED = "Created";
     protected static final String PROTOCOL_NUMBER = "protocolNumber";
     protected static final String PROTOCOL_STATUS = "protocolStatus";
@@ -150,12 +145,12 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
 
     protected ProtocolActionBase createNotifyIrbAction(ProtocolBase protocol, String protocolNumber) {
         ProtocolActionBase protocolAction = getNewFyiProtocolActionInstanceHook(protocol);
-        protocolAction.setComments(FYI + "-" + protocolNumber.substring(11) + ": " + CREATED);
+        protocolAction.setComments(ProtocolSpecialVersion.FYI.getDescription() + "-" + protocolNumber.substring(11) + ": " + CREATED);
         return protocolAction;
     }
 
     protected String generateProtocolFYINumber(ProtocolDocumentBase protocolDocument) {
-        return generateProtocolNumber(protocolDocument, FYI_ID, FYI_NEXT_VALUE);
+        return generateProtocolNumber(protocolDocument, ProtocolSpecialVersion.FYI.getCode(), FYI_NEXT_VALUE);
     }
 
     @Override
@@ -288,7 +283,7 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
      * amendment.
      */
     protected String generateProtocolAmendmentNumber(ProtocolDocumentBase protocolDocument) {
-        return generateProtocolNumber(protocolDocument, AMEND_ID, AMEND_NEXT_VALUE);
+        return generateProtocolNumber(protocolDocument, ProtocolSpecialVersion.AMENDMENT.getCode(), AMEND_NEXT_VALUE);
     }
     
     /**
@@ -297,7 +292,7 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
      * "xxx" is the next sequence number.
      */
     protected String generateProtocolRenewalNumber(ProtocolDocumentBase protocolDocument) {
-        return generateProtocolNumber(protocolDocument, RENEW_ID, RENEW_NEXT_VALUE);
+        return generateProtocolNumber(protocolDocument, ProtocolSpecialVersion.RENEWAL.getCode(), RENEW_NEXT_VALUE);
     }
     
     /**
@@ -362,7 +357,7 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
      */
     protected ProtocolActionBase createCreateAmendmentProtocolAction(ProtocolBase protocol, String protocolNumber) {
         ProtocolActionBase protocolAction = getNewAmendmentProtocolActionInstanceHook(protocol);
-        protocolAction.setComments(AMENDMENT + "-" + protocolNumber.substring(11) + ": " + CREATED);
+        protocolAction.setComments(ProtocolSpecialVersion.AMENDMENT.getDescription() + "-" + protocolNumber.substring(11) + ": " + CREATED);
         return protocolAction;
     }
     
@@ -375,7 +370,7 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
      */
     protected ProtocolActionBase createCreateRenewalProtocolAction(ProtocolBase protocol, String protocolNumber) {
         ProtocolActionBase protocolAction = getNewRenewalProtocolActionInstanceHook(protocol);
-        protocolAction.setComments(RENEWAL + "-" + protocolNumber.substring(11) + ": " + CREATED);
+        protocolAction.setComments(ProtocolSpecialVersion.RENEWAL.getDescription() + "-" + protocolNumber.substring(11) + ": " + CREATED);
         return protocolAction;
     }
 
@@ -386,7 +381,7 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
      */
     protected ProtocolActionBase createCreateRenewalWithAmendmentProtocolAction(ProtocolBase protocol, String protocolNumber) {
         ProtocolActionBase protocolAction = getNewRenewalWithAmendmentProtocolActionInstanceHook(protocol);
-        protocolAction.setComments(RENEWAL + "-" + protocolNumber.substring(11) + ": " + CREATED);
+        protocolAction.setComments(ProtocolSpecialVersion.RENEWAL.getDescription() + "-" + protocolNumber.substring(11) + ": " + CREATED);
         return protocolAction;
     }
 
@@ -402,12 +397,12 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
 
     @SuppressWarnings("unchecked")
     public Collection<ProtocolBase> getAmendments(String protocolNumber) throws Exception {
-        return new ArrayList<>( kraLookupDao.findCollectionUsingWildCard(getProtocolBOClassHook(), PROTOCOL_NUMBER, protocolNumber + AMEND_ID + "%", true));
+        return new ArrayList<>( kraLookupDao.findCollectionUsingWildCard(getProtocolBOClassHook(), PROTOCOL_NUMBER, protocolNumber + ProtocolSpecialVersion.AMENDMENT.getCode() + "%", true));
     }
 
     @SuppressWarnings("unchecked")
     public Collection<ProtocolBase> getRenewals(String protocolNumber) throws Exception {
-        return new ArrayList<>( kraLookupDao.findCollectionUsingWildCard(getProtocolBOClassHook(), PROTOCOL_NUMBER, protocolNumber + RENEW_ID + "%", true));
+        return new ArrayList<>( kraLookupDao.findCollectionUsingWildCard(getProtocolBOClassHook(), PROTOCOL_NUMBER, protocolNumber + ProtocolSpecialVersion.RENEWAL.getCode() + "%", true));
     }
   
     /**
@@ -438,10 +433,10 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
     }
 
     public String getAmendedOrRenewalProtocolNumber(String protocolNumber) {
-        if (protocolNumber.contains(AMEND_ID)) {
-            return StringUtils.substringBefore(protocolNumber, AMEND_ID);
-        } else if (protocolNumber.contains(RENEW_ID)) {
-            return StringUtils.substringBefore(protocolNumber, RENEW_ID);
+        if (protocolNumber.contains(ProtocolSpecialVersion.AMENDMENT.getCode())) {
+            return StringUtils.substringBefore(protocolNumber, ProtocolSpecialVersion.AMENDMENT.getCode());
+        } else if (protocolNumber.contains(ProtocolSpecialVersion.RENEWAL.getCode())) {
+            return StringUtils.substringBefore(protocolNumber, ProtocolSpecialVersion.RENEWAL.getCode());
         } else {
             return protocolNumber;
         }

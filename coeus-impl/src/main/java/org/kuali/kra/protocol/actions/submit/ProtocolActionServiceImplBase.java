@@ -28,6 +28,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDao;
+import org.kuali.kra.protocol.ProtocolSpecialVersion;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.followup.FollowupActionService;
 import org.kuali.kra.protocol.drools.util.DroolsRuleHandler;
@@ -47,12 +48,6 @@ import java.util.*;
  * post-update will update protocol status or submission status.
  */
 public abstract class ProtocolActionServiceImplBase implements ProtocolActionService {
-
-    protected static final String FYI = "F";
-
-    protected static final String AMEND = "A";
-
-    protected static final String RENEW = "R";
 
     protected static final String NONE = "NONE";
 
@@ -200,7 +195,7 @@ public abstract class ProtocolActionServiceImplBase implements ProtocolActionSer
      */
     public void updateProtocolStatus(ProtocolActionBase protocolActionBo, ProtocolBase protocol) {
         String protocolNumberUpper = protocol.getProtocolNumber().toUpperCase();
-        String specialCondition = protocolNumberUpper.contains(AMEND) ? AMEND : (protocolNumberUpper.contains(RENEW) ? RENEW : (protocolNumberUpper.contains(FYI) ? FYI : NONE));
+        String specialCondition = protocolNumberUpper.contains(ProtocolSpecialVersion.AMENDMENT.getCode()) ? ProtocolSpecialVersion.AMENDMENT.getCode() : (protocolNumberUpper.contains(ProtocolSpecialVersion.RENEWAL.getCode()) ? ProtocolSpecialVersion.RENEWAL.getCode() : (protocolNumberUpper.contains(ProtocolSpecialVersion.FYI.getCode()) ? ProtocolSpecialVersion.FYI.getCode() : NONE));
 
         ProtocolActionUpdateMapping protocolAction = getNewProtocolActionUpdateMappingHook(protocolActionBo.getProtocolActionTypeCode(),
             protocol.getProtocolSubmission().getProtocolSubmissionType().getSubmissionTypeCode(), protocol.getProtocolStatusCode(),

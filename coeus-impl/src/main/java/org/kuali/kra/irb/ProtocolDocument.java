@@ -45,6 +45,7 @@ import org.kuali.kra.irb.protocol.research.ProtocolResearchAreaService;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
+import org.kuali.kra.protocol.ProtocolSpecialVersion;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionService;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
@@ -121,13 +122,13 @@ public class ProtocolDocument extends ProtocolDocumentBase {
     @Override
     protected void mergeProtocolAmendment() {
         if (isAmendment()) {
-            mergeAmendment(ProtocolStatus.AMENDMENT_MERGED, "Amendment");
+            mergeAmendment(ProtocolStatus.AMENDMENT_MERGED, ProtocolSpecialVersion.AMENDMENT.getDescription());
         }
         else if (isRenewal()) {
-            mergeAmendment(ProtocolStatus.RENEWAL_MERGED, "Renewal");
+            mergeAmendment(ProtocolStatus.RENEWAL_MERGED, ProtocolSpecialVersion.RENEWAL.getDescription());
         }
         else if (isFYI()) {
-            mergeAmendment(ProtocolStatus.FYI_MERGED, "FYI");
+            mergeAmendment(ProtocolStatus.FYI_MERGED, ProtocolSpecialVersion.FYI.getDescription());
             mergeFyiAttachments();
         }
     }
@@ -136,11 +137,11 @@ public class ProtocolDocument extends ProtocolDocumentBase {
         ProtocolSubmission fyiSubmission = null;
         ProtocolActionBase fyiApprovedAction = null;
 
-        String fyiNumber = getProtocol().getProtocolNumber().substring(getProtocol().getProtocolNumber().indexOf("F") + 1);
+        String fyiNumber = getProtocol().getProtocolNumber().substring(getProtocol().getProtocolNumber().indexOf(ProtocolSpecialVersion.FYI.getCode()) + 1);
 
-        Protocol originalProtocol = KcServiceLocator.getService(ProtocolFinderDao.class).findCurrentProtocolByNumber(getOriginalProtocolNumber());
+        Protocol originalProtocol = getProtocolFinder().findCurrentProtocolByNumber(getOriginalProtocolNumber());
         for(ProtocolActionBase originalAction : originalProtocol.getProtocolActions()) {
-            if(originalAction.getComments() != null && originalAction.getComments().contains("FYI-" + fyiNumber + ": Created")) {
+            if(originalAction.getComments() != null && originalAction.getComments().contains(ProtocolSpecialVersion.FYI.getDescription() + "-" + fyiNumber + ": Created")) {
                 fyiApprovedAction = originalAction;
                 break;
             }

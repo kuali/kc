@@ -21,6 +21,7 @@ package org.kuali.kra.protocol.actions.print;
 import org.apache.commons.collections4.CollectionUtils;
 import org.kuali.coeus.common.framework.module.CoeusSubModule;
 import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.ProtocolSpecialVersion;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireUsage;
@@ -147,17 +148,17 @@ public abstract class ProtocolQuestionnairePrintingServiceImplBase implements Pr
                                 + " - " + protocolAction.getActionDateString();
                     }
                 } else if (CoeusSubModule.AMENDMENT_RENEWAL.equals(answerHeader.getModuleSubItemCode())) {
-                    if (answerHeader.getModuleItemKey().contains("A")) {
+                    if (answerHeader.getModuleItemKey().contains(ProtocolSpecialVersion.AMENDMENT.getCode())) {
                         label = usage.getQuestionnaireLabel() + " - Amendment " + answerHeader.getModuleItemKey().substring(10);
                     } else {
                         label = usage.getQuestionnaireLabel() + " - Renewal " + answerHeader.getModuleItemKey().substring(10);
                     }
                 } else if (CoeusSubModule.AMENDMENT.equals(answerHeader.getModuleSubItemCode())) {
-                    if (answerHeader.getModuleItemKey().contains("A")) {
+                    if (answerHeader.getModuleItemKey().contains(ProtocolSpecialVersion.AMENDMENT.getCode())) {
                         label = usage.getQuestionnaireLabel() + " - Amendment " + answerHeader.getModuleItemKey().substring(10);
                     } 
                 } else if (CoeusSubModule.RENEWAL.equals(answerHeader.getModuleSubItemCode())) {
-                    if (answerHeader.getModuleItemKey().contains("R")) {                        
+                    if (answerHeader.getModuleItemKey().contains(ProtocolSpecialVersion.RENEWAL.getCode())) {
                         label = usage.getQuestionnaireLabel() + " - Renewal " + answerHeader.getModuleItemKey().substring(10);
                     }                    
                 }

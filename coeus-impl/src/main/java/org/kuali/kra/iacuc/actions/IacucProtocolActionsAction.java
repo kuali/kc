@@ -506,7 +506,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 
         if (attachment == null) {
             LOG.info("The attachment was not found for protocolAction: " + actionIndex + ", protocolSubmissionDoc: " + attachmentIndex);
-            // may want to tell the user the selection was invalid.
+
             return mapping.findForward(getProtocolHistoryForwardNameHook());
         }
 
@@ -1852,7 +1852,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 
         if (attachment == null) {
             LOG.info(NOT_FOUND_SELECTION + selection);
-            // may want to tell the user the selection was invalid.
+
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
 
@@ -1891,7 +1891,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 
         if (attachment == null) {
             LOG.info(NOT_FOUND_SELECTION + selection);
-            // may want to tell the user the selection was invalid.
+
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
 
@@ -1953,7 +1953,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 
         if (attachment == null) {
             LOG.info(NOT_FOUND_SELECTION + "protocolAction: " + actionIndex + ", protocolSubmissionDoc: " + attachmentIndex);
-            // may want to tell the user the selection was invalid.
+
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
 
@@ -1983,7 +1983,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 
         if (attachment == null) {
             LOG.info(NOT_FOUND_SELECTION + "protocolAction: " + actionIndex + ", protocolCorrespondence: " + attachmentIndex);
-            // may want to tell the user the selection was invalid.
+
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
 
@@ -2116,7 +2116,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         
         if (attachment == null) {
             LOG.info(NOT_FOUND_SELECTION + lineNumber);
-            //may want to tell the user the selection was invalid.
+
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
         
@@ -2345,7 +2345,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 
         if (protocolCorrespondence == null) {
             LOG.info(NOT_FOUND_SELECTION + "protocolAction: " + actionIndex + ", protocolCorrespondence: " + attachmentIndex);
-            // may want to tell the user the selection was invalid.
+
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
 
@@ -2387,7 +2387,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 
         if (protocolCorrespondence == null) {
             LOG.info(NOT_FOUND_SELECTION + "protocolAction: " + actionIndex + ", protocolCorrespondence: " + attachmentIndex);
-            // may want to tell the user the selection was invalid.
+
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
         protocolCorrespondence.setForwardName(IacucConstants.PROTOCOL_ACTIONS_TAB);

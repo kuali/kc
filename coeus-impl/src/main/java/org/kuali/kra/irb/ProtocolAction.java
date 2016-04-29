@@ -289,7 +289,7 @@ public abstract class ProtocolAction extends ProtocolActionBase {
 
         if (attachment == null) {
             LOG.info(NOT_FOUND_SELECTION + "detailID: " + protocolForm.getDetailId());
-            // may want to tell the user the selection was invalid.
+
         }
         else {
 
