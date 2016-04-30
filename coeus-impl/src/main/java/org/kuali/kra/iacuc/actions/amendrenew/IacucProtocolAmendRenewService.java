@@ -20,6 +20,8 @@ package org.kuali.kra.iacuc.actions.amendrenew;
 
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
+import org.kuali.kra.iacuc.actions.notifyiacuc.IacucProtocolNotifyIacucBean;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewService;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendmentBean;
 
@@ -34,5 +36,7 @@ public interface IacucProtocolAmendRenewService extends ProtocolAmendRenewServic
     public String createContinuation (IacucProtocolDocument protocolDocument, String continuationSummary) throws Exception;
     
     public String createContinuationWithAmendment(IacucProtocolDocument protocolDocument, ProtocolAmendmentBean amendmentBean) throws Exception;
+
+    public String createFYI(ProtocolDocumentBase protocolDocument, IacucProtocolNotifyIacucBean fyiBean) throws Exception;
 
 }

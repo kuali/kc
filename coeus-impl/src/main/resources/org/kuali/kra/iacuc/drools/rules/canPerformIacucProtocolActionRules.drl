@@ -28,7 +28,7 @@ function void setAction(IacucProtocolActionMapping protocolAction, boolean flag)
 rule "Submit for Review"
 salience 100
 when
-    protocolAction : IacucProtocolActionMapping(actionTypeCode == "101", protocolStatusCode in ("100", "102", "103", "104", "105", "107", "205", "206", "207", "302", "203"))
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "101", protocolStatusCode in ("100", "102", "103", "104", "105", "107", "205", "206", "207", "302", "203", "900"))
 then    
     setAction(protocolAction, true);
 end
@@ -192,7 +192,6 @@ end
 
 rule "Record Committee Decision"
 salience 100
-// TODO : need to create this action type : use code "318"
 when
     protocolAction : IacucProtocolActionMapping(actionTypeCode == "318", protocolStatusCode == "101", submissionStatusCode == "103", protocolReviewTypeCode in ("2", "3", "4", "5", "6"))
 then    
@@ -332,7 +331,7 @@ end
 rule "Response Approval Protocol"
 salience 100
 when
-    protocolAction : IacucProtocolActionMapping(actionTypeCode == "208", submissionNumber != null, submissionStatusCode in ("100","101"), protocolReviewTypeCode == "6", protocolReviewerCountCond1 == true)
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "208", submissionNumber != null, submissionStatusCode in ("100","101"), protocolReviewTypeCode in ("6", "7"), protocolReviewerCountCond1 == true)
 then    
     setAction(protocolAction, true);
 end
@@ -442,4 +441,3 @@ when
 then	
 	setAction(protocolAction, true);
 end
-        

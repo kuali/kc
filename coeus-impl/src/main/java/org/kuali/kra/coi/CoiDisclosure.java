@@ -662,8 +662,6 @@ public class CoiDisclosure extends KcPersistableBusinessObjectBase implements Se
      
 
     public boolean isComplete() {
-        // TODO : this is kind of duplicate with getCompleteMessage.
-        // may want to merge for better solution
         boolean isComplete = true;
         if (CollectionUtils.isNotEmpty(this.getCoiDisclProjects())) {
             for (CoiDisclProject coiDisclProject: this.getCoiDisclProjects()) {

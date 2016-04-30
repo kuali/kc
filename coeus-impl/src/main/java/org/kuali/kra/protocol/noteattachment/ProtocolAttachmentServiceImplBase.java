@@ -22,6 +22,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDao;
+import org.kuali.kra.protocol.ProtocolSpecialVersion;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -128,9 +129,9 @@ public abstract class ProtocolAttachmentServiceImplBase implements ProtocolAttac
     public boolean isNewAttachmentVersion(ProtocolAttachmentProtocolBase attachment) {
         Map keyMap = new HashMap();
         // the initial version of amendment & renewal need to do this
-        if ((attachment.getProtocol().isAmendment() || attachment.getProtocol().isRenewal()) && attachment.getProtocol().getSequenceNumber() == 0) {
+        if (!attachment.getProtocol().isNew() && attachment.getProtocol().getSequenceNumber() == 0) {
             ProtocolBase protocol = getActiveProtocol(attachment.getProtocol().getProtocolNumber().substring(0, 
-                    attachment.getProtocol().getProtocolNumber().indexOf(attachment.getProtocol().isAmendment() ? "A" : "R")));            
+                    attachment.getProtocol().getProtocolNumber().indexOf(attachment.getProtocol().isAmendment() ? ProtocolSpecialVersion.AMENDMENT.getCode() : attachment.getProtocol().isRenewal() ? ProtocolSpecialVersion.RENEWAL.getCode() : ProtocolSpecialVersion.FYI.getCode())));
             keyMap.put("protocolNumber", protocol.getProtocolNumber());
             keyMap.put("sequenceNumber", protocol.getSequenceNumber());
         } else {
@@ -150,7 +151,7 @@ public abstract class ProtocolAttachmentServiceImplBase implements ProtocolAttac
         boolean retValue;
         // first get the active version of the protocol with the number given in the attachment
         String protocolNumber = attachment.getProtocol().getProtocolNumber();
-        if ( (attachment.getProtocol().isAmendment()) || (attachment.getProtocol().isRenewal()) ) {
+        if (!attachment.getProtocol().isNew()) {
             protocolNumber = attachment.getProtocol().getAmendedProtocolNumber(); 
         }
         ProtocolBase activeProtocol = getActiveProtocol(protocolNumber);

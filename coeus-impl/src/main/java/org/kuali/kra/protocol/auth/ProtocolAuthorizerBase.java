@@ -23,6 +23,7 @@ import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.common.framework.auth.task.Task;
 import org.kuali.coeus.common.framework.auth.task.TaskAuthorizerBase;
 import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.ProtocolSpecialVersion;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.rice.krad.document.Document;
@@ -87,9 +88,10 @@ public abstract class ProtocolAuthorizerBase extends TaskAuthorizerBase {
      */
     protected final boolean isAmendmentOrRenewal(ProtocolBase protocol) {
         return protocol.getProtocolNumber() != null &&
-               (protocol.getProtocolNumber().contains("A") ||
-                protocol.getProtocolNumber().contains("R") ||
-                protocol.getProtocolNumber().contains("C"));
+               (protocol.getProtocolNumber().contains(ProtocolSpecialVersion.AMENDMENT.getCode()) ||
+                protocol.getProtocolNumber().contains(ProtocolSpecialVersion.RENEWAL.getCode()) ||
+                protocol.getProtocolNumber().contains(ProtocolSpecialVersion.CONTINUATION.getCode()) ||
+                protocol.getProtocolNumber().contains(ProtocolSpecialVersion.FYI.getCode()));
     }
     
     /**

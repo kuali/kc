@@ -56,6 +56,7 @@ import org.kuali.kra.irb.protocol.reference.ProtocolReference;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchArea;
 import org.kuali.kra.irb.specialreview.ProtocolSpecialReview;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.kra.protocol.ProtocolSpecialVersion;
 import org.kuali.kra.protocol.actions.print.ProtocolSummaryPrintOptions;
 import org.kuali.kra.protocol.actions.print.ProtocolSummaryXmlStreamBase;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -274,8 +275,8 @@ public class ProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase {
     }
     private void setProtocolAmendmentRenewals(ProtocolSummary protocolSummary, Protocol protocol) {
         String versionNo = "",moduleType = "";
-        String amendType = "Amendment";
-        String renewalType = "Renewal";
+        String amendType = ProtocolSpecialVersion.AMENDMENT.getDescription();
+        String renewalType = ProtocolSpecialVersion.RENEWAL.getDescription();
         String protocolNo = null;
         List<ProtocolAmendRenewal> protocolAmendmentRenewals = (List) protocol.getProtocolAmendRenewals();
         for (ProtocolAmendRenewal protocolAmendRenewalBean : protocolAmendmentRenewals) {
@@ -289,9 +290,9 @@ public class ProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase {
             protocolNo=protocolAmendRenewalBean.getProtoAmendRenNumber();
             if(protocolNo!=null && protocolNo.length() >= 14 ) {
                 versionNo = protocolNo.substring(11);
-                if( protocolNo.indexOf( 'A' ) != -1 ) {
+                if( protocolNo.indexOf(ProtocolSpecialVersion.AMENDMENT.getCode()) != -1 ) {
                     moduleType = amendType;
-                }else if( protocolNo.indexOf( 'R' ) != -1 ) {
+                }else if( protocolNo.indexOf(ProtocolSpecialVersion.RENEWAL.getCode()) != -1 ) {
                     moduleType = renewalType;
                 }
             }

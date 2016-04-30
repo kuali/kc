@@ -18,82 +18,27 @@
  */
 package org.kuali.kra.irb.actions;
 
-import org.kuali.coeus.common.framework.person.KcPersonService;
-import org.kuali.coeus.common.api.rolodex.RolodexService;
-import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBase;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.common.committee.impl.service.CommitteeServiceBase;
 import org.kuali.kra.committee.service.CommitteeService;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.kra.protocol.actions.ProtocolActionsKeyValuesBase;
 
 /**
  * 
  * This class should be extended by IRB  values finder classes.  It creates a single function to get a 
  * BusinessObjectService, so each class need not do that it self.
  */
-public abstract class IrbActionsKeyValuesBase extends FormViewAwareUifKeyValuesFinderBase {
-    private BusinessObjectService businessObjectService;
-    private KcPersonService kcPersonService;
-    private RolodexService rolodexService;
-    private CommitteeService committeeService;
-    private KeyValuesService keyValuesService;
-    
-    /**
-     * This method returns an instance of BusinessObjectServe from the KcServiceLocator.
-     * @return BusinessObjectService
-     */
-    public BusinessObjectService getBusinessObjectService() {
-        if (this.businessObjectService == null) {
-            this.businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
-        }
-        return this.businessObjectService;
-    }
-    
-    /**
-     * 
-     * This method returns an instance of KcPersonService.
-     * @return KcPersonService
-     */
-    public KcPersonService getKcPersonService() {
-        if (this.kcPersonService == null) {
-            this.kcPersonService = KcServiceLocator.getService(KcPersonService.class);
-        }
-        return this.kcPersonService;
-    }
-    
-    /**
-     * 
-     * This method returns an instance of RolodexService.
-     * @return RolodexService
-     */
-    public RolodexService getRolodexService() {
-        if (this.rolodexService == null) {
-            this.rolodexService = KcServiceLocator.getService(RolodexService.class);
-        }
-        return this.rolodexService;
-    }
-    
-    /**
-     * 
-     * This method returns an instance of CommitteeService.
-     * @return CommitteeService
-     */
+public abstract class IrbActionsKeyValuesBase extends ProtocolActionsKeyValuesBase {
+
+    private static final long serialVersionUID = 3859318308316835838L;
+
+    @Override
     public CommitteeService getCommitteeService() {
-        if (this.committeeService == null) {
-            this.committeeService = KcServiceLocator.getService(CommitteeService.class);
-        }
-        return this.committeeService;
+        return (CommitteeService) super.getCommitteeService();
     }
-    
-    /**
-     * 
-     * This method returns an instance of CommitteeService.
-     * @return KeyValuesService
-     */
-    public KeyValuesService getKeyValuesService() {
-        if (this.keyValuesService == null) {
-            this.keyValuesService = KcServiceLocator.getService(KeyValuesService.class);
-        }
-        return this.keyValuesService;
+
+    @Override
+    protected Class<? extends CommitteeServiceBase> getCommitteeServiceClassHook() {
+        return CommitteeService.class;
     }
+
 }

@@ -28,7 +28,7 @@
 
 <c:set var="attributes" value="${DataDictionary.IacucProtocolApproveBean.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
-<c:set var="datesReadOnly" value="${KualiForm.actionHelper.protocol.amendment and not KualiForm.actionHelper.protocol.renewal}" />
+<c:set var="datesReadOnly" value="${(KualiForm.actionHelper.protocol.FYI or KualiForm.actionHelper.protocol.amendment) and not KualiForm.actionHelper.protocol.renewal}" />
 
 <c:if test="${empty defaultOpen}">
     <c:set var="defaultOpen" value="false" />
@@ -111,8 +111,7 @@
                         </nobr>
                     </td>
                 </tr>
-                
-                
+
                 <tr>
                     <td colspan="2">
                         <kra-iacuc-action:reviewComments bean="${bean.reviewCommentsBean}"

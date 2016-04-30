@@ -50,6 +50,8 @@ public class CoeusSubModule extends KcPersistableBusinessObjectBase {
     
     public static final String CONTINUATION = "5";
 
+    public static final String FYI = "900";
+
     private Integer coeusSubModuleId;
 
     private String moduleCode;

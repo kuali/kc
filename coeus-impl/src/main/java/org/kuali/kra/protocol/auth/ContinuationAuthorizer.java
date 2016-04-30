@@ -19,6 +19,7 @@
 package org.kuali.kra.protocol.auth;
 
 import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.ProtocolSpecialVersion;
 
 public class ContinuationAuthorizer extends ProtocolAuthorizerBase {
 
@@ -29,9 +30,9 @@ public class ContinuationAuthorizer extends ProtocolAuthorizerBase {
 
     protected final boolean isAmendmentOrRenewalOrContinuation(ProtocolBase protocol) {
         return protocol.getProtocolNumber() != null &&
-               (protocol.getProtocolNumber().contains("A") ||
-                       protocol.getProtocolNumber().contains("C") ||
-                       protocol.getProtocolNumber().contains("R"));
+               (protocol.getProtocolNumber().contains(ProtocolSpecialVersion.AMENDMENT.getCode()) ||
+                       protocol.getProtocolNumber().contains(ProtocolSpecialVersion.CONTINUATION.getCode()) ||
+                       protocol.getProtocolNumber().contains(ProtocolSpecialVersion.RENEWAL.getCode()));
     }
 
 }

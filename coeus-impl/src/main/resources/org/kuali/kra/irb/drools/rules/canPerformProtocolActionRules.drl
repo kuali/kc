@@ -28,7 +28,7 @@ function void setAction(ProtocolActionMapping protocolAction, boolean flag) {
 rule "Submit for Review"
 salience 100
 when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "101", protocolStatusCode in ("100", "102", "103", "104", "105", "106", "107", "304", "402"))
+	protocolAction : ProtocolActionMapping(actionTypeCode == "101", protocolStatusCode in ("100", "102", "103", "104", "105", "106", "107", "304", "402", "900"))
 then	
 	setAction(protocolAction, true);
 end
@@ -100,7 +100,7 @@ end
 rule "Close Protocol 1"
 salience 100
 when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "300", protocolStatusCode in ("100", "102", "104", "105", "106", "200", "201", "202", "203", "302", "308",  "304", "311", "402"), submissionCount == true)
+	protocolAction : ProtocolActionMapping(actionTypeCode == "300", protocolStatusCode in ("100", "102", "104", "105", "106", "200", "201", "202", "203", "302", "308",  "304", "311", "402", "900"), submissionCount == true)
 then	
 	setAction(protocolAction, true);
 end
@@ -243,7 +243,7 @@ end
 rule "Expedited Approval Protocol"
 salience 100
 when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "205", submissionNumber != null, submissionStatusCode in ("100","101"), protocolReviewTypeCode == "2")
+	protocolAction : ProtocolActionMapping(actionTypeCode == "205", submissionNumber != null, submissionStatusCode in ("100","101"), protocolReviewTypeCode in ("2", "7"))
 then	
 	setAction(protocolAction, true);
 end
@@ -251,7 +251,7 @@ end
 rule "Response Approval Protocol"
 salience 100
 when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "208", submissionNumber != null, submissionStatusCode in ("100","101"), protocolReviewTypeCode == "6")
+	protocolAction : ProtocolActionMapping(actionTypeCode == "208", submissionNumber != null, submissionStatusCode in ("100","101"), protocolReviewTypeCode in ("6", "7"))
 then	
 	setAction(protocolAction, true);
 end
@@ -328,19 +328,9 @@ then
 	setAction(protocolAction, true);
 end
 
-//rule "Assign to Schedule 1 //TODO not sure about this cond."
-//salience 100
-//when
-//	protocolAction : ProtocolActionMapping(actionTypeCode == "109", protocolSubmissionScheduleId != null, submissionStatusCode not in ("100","102"),protocolReviewTypeCode in ("2","3"))
-//then	
-//	setAction(protocolAction, true);
-//end
-
-rule "Assign to Schedule 2 //TODO not sure about this cond."
+rule "Assign to Schedule 2"
 salience 100
 when
-    // based on ProtocolAssignCmtSchedAuthorizer.isPendingOrSubmittedToCommittee
-	//protocolAction : ProtocolActionMapping(actionTypeCode == "109", protocolSubmissionScheduleId == null, submissionStatusCode not in ("100","102"))
 	protocolAction : ProtocolActionMapping(actionTypeCode == "109", submissionStatusCode in ("100","101","102"))
 then	
 	setAction(protocolAction, true);
@@ -410,16 +400,7 @@ when
 then	
 	setAction(protocolAction, true);
 end
-/*
-#rule "Notify IRB"
-#salience 100
-#when
-#	protocolAction : ProtocolActionMapping(actionTypeCode == "116",
-#	  protocolStatusCode in ("200", "201", "202", "203", "300", "301", "302", "304", "305", "306", "307", "308", "311"))
-#then	
-#	setAction(protocolAction, true);
-#end
-*/
+
 rule "Make Administrative Correction"
 salience 100
 when
@@ -430,7 +411,7 @@ end
 rule "Rule 1 -  Modify Protocol Submission"
 salience 100
 when
-	protocolAction : ProtocolActionMapping(actionTypeCode == '309',  protocolStatusCode == '101')
+	protocolAction : ProtocolActionMapping(actionTypeCode == "309",  protocolStatusCode == "101")
 then	
     setAction(protocolAction, true);
 end

@@ -50,6 +50,7 @@ import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.coeus.common.framework.krms.KrmsRulesContext;
 import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.ProtocolSpecialVersion;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.ProtocolStatusBase;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewModuleBase;
@@ -109,8 +110,7 @@ public class IacucProtocol extends ProtocolBase implements CustomDataContainer {
 
     // lookup field
     private Integer speciesCode; 
-    private Integer exceptionCategoryCode; 
-    private static final CharSequence CONTINUATION_LETTER = "C";
+    private Integer exceptionCategoryCode;
 
     public IacucProtocol() {         
         setCreateTimestamp(new Timestamp(new java.util.Date().getTime()));
@@ -671,12 +671,7 @@ public class IacucProtocol extends ProtocolBase implements CustomDataContainer {
             String index = amendment.getProtocolNumber().substring(11);
             protocolAction.setActionId(getNextValue(NEXT_ACTION_ID_KEY));
             String type = getProtocolMergeType(amendment);
-            /*
-            String type = "Amendment";
-            if (amendment.isRenewal()) {
-                type = "Renewal";
-            }
-            */
+
             if (StringUtils.isNotBlank(protocolAction.getComments())) {
                 protocolAction.setComments(type + "-" + index + ": " + protocolAction.getComments());
             } else {
@@ -711,15 +706,15 @@ public class IacucProtocol extends ProtocolBase implements CustomDataContainer {
     }
 
     protected void mergeProtocolSpeciesAndGroups(ProtocolBase amendment) {
-        getProtocolProcedureService().mergeProtocolSpecies((IacucProtocol)amendment, this);
+        getProtocolProcedureService().mergeProtocolSpecies((IacucProtocol) amendment, this);
     }
     
     protected void mergeProtocolProcedures(ProtocolBase amendment) {
-        getProtocolProcedureService().mergeProtocolProcedures((IacucProtocol)amendment, this);
+        getProtocolProcedureService().mergeProtocolProcedures((IacucProtocol) amendment, this);
     }
 
     protected void mergeProtocolExceptions(ProtocolBase amendment) {
-        getProtocolCopyService().copyProtocolExceptions((IacucProtocol)amendment, this);
+        getProtocolCopyService().copyProtocolExceptions((IacucProtocol) amendment, this);
     }
     
     protected IacucProtocolCopyService getProtocolCopyService() {
@@ -727,24 +722,26 @@ public class IacucProtocol extends ProtocolBase implements CustomDataContainer {
     }
 
     public boolean isContinuation() {
-        return getProtocolNumber() != null && getProtocolNumber().contains(CONTINUATION_LETTER);
+        return getProtocolNumber() != null && getProtocolNumber().contains(ProtocolSpecialVersion.CONTINUATION.getCode());
     }
 
 
     protected String getProtocolMergeType(ProtocolBase amendment) {
         IacucProtocol protocolAmend = (IacucProtocol)amendment;
-        String type = "Amendment";
+        String type = ProtocolSpecialVersion.AMENDMENT.getDescription();
         if (protocolAmend.isRenewal()) {
-            type = "Renewal";
+            type = ProtocolSpecialVersion.RENEWAL.getDescription();
         }else if(protocolAmend.isContinuation()) {
-            type = "Continuation";
+            type = ProtocolSpecialVersion.CONTINUATION.getDescription();
+        }else if(protocolAmend.isFYI()) {
+            type = ProtocolSpecialVersion.FYI.getDescription();
         }
         return type;
     }
 
     @Override
     public boolean isNew() {
-        return !isAmendment() && !isRenewal() && !isContinuation();
+        return !isAmendment() && !isRenewal() && !isContinuation() && !isFYI();
     }
     
     public boolean isContinuationWithoutAmendment() {
@@ -754,14 +751,16 @@ public class IacucProtocol extends ProtocolBase implements CustomDataContainer {
     @Override
     public String getAmendedProtocolNumber() {
         if (isAmendment()) {
-            return StringUtils.substringBefore(getProtocolNumber(), AMENDMENT_LETTER.toString());
+            return StringUtils.substringBefore(getProtocolNumber(), ProtocolSpecialVersion.AMENDMENT.getCode());
             
         } else if (isRenewal()) {
-            return StringUtils.substringBefore(getProtocolNumber(), RENEWAL_LETTER.toString());
+            return StringUtils.substringBefore(getProtocolNumber(), ProtocolSpecialVersion.RENEWAL.getCode());
         
         } else if (isContinuation()) {
-            return StringUtils.substringBefore(getProtocolNumber(), CONTINUATION_LETTER.toString());
+            return StringUtils.substringBefore(getProtocolNumber(), ProtocolSpecialVersion.CONTINUATION.getCode());
                 
+        } else if (isFYI()) {
+            return StringUtils.substringBefore(getProtocolNumber(), ProtocolSpecialVersion.FYI.getCode());
         } else {
             return null;
         }

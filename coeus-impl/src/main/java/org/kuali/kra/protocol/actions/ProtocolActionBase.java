@@ -23,15 +23,17 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipBase;
 import org.kuali.coeus.common.committee.impl.service.CommitteeServiceBase;
 import org.kuali.coeus.common.notification.impl.bo.KcNotification;
+import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.protocol.ProtocolAssociateBase;
 import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.ProtocolSpecialVersion;
+import org.kuali.kra.protocol.actions.notify.ProtocolActionAttachment;
 import org.kuali.kra.protocol.actions.print.QuestionnairePrintOption;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.protocol.questionnaire.ProtocolSubmissionQuestionnaireHelper;
-import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -51,8 +53,9 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
     protected static final String SUBMISSION_NUMBER_FIELD_KEY = "submissionNumber";
     protected static final String ACTION_ID_FIELD_KEY = "actionId";
     protected static final String PROTOCOL_NUMBER_FIELD_KEY = "protocolNumber";
-    protected static final String COMMENT_PREFIX_RENEWAL = "Renewal-";
-    protected static final String COMMENT_PREFIX_AMMENDMENT = "Amendment-";
+    protected static final String COMMENT_PREFIX_RENEWAL = ProtocolSpecialVersion.RENEWAL.getCode() + "-";
+    protected static final String COMMENT_PREFIX_AMMENDMENT = ProtocolSpecialVersion.AMENDMENT.getDescription() + "-";
+    protected static final String COMMENT_PREFIX_FYI = ProtocolSpecialVersion.FYI.getDescription() + "-";
 
     //not thread safe cannot be static  
     private transient SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
@@ -105,6 +108,8 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
     private transient CommitteeServiceBase committeeService;
 
     private transient QuestionnairePrintOption questionnairePrintOption;
+
+    private transient ProtocolActionAttachment newActionAttachment;
 
     public ProtocolActionBase() {
     }
@@ -465,7 +470,7 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("moduleItemCode", getCoeusModule());
         fieldValues.put("moduleItemKey", moduleItemKey);
-        if (!moduleItemKey.contains("A") && !moduleItemKey.contains("R") && !getProtocol().isAmendment() && !getProtocol().isRenewal()) {
+        if (!moduleItemKey.contains(ProtocolSpecialVersion.AMENDMENT.getCode()) && !moduleItemKey.contains(ProtocolSpecialVersion.RENEWAL.getCode()) && !moduleItemKey.contains(ProtocolSpecialVersion.FYI.getCode()) && getProtocol().isNew()) {
             fieldValues.put("moduleSubItemCode", moduleSubItemCode);
         }
         fieldValues.put("moduleSubItemKey", moduleSubItemKey);
@@ -475,10 +480,12 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
     
     protected String getAmendmentRenewalNumber(String comment) {
         String retVal="";
-        if (comment.startsWith("Amendment-")) {
-            retVal = "A" + comment.substring(10, 13);
+        if (comment.startsWith(COMMENT_PREFIX_AMMENDMENT)) {
+            retVal = ProtocolSpecialVersion.AMENDMENT.getCode() + comment.substring(10, 13);
+        } else if (comments.startsWith(COMMENT_PREFIX_FYI)) {
+            retVal = ProtocolSpecialVersion.FYI.getCode() + comment.substring(4,7);
         } else {
-            retVal = "R" + comment.substring(8, 11);
+            retVal = ProtocolSpecialVersion.RENEWAL.getCode() + comment.substring(8, 11);
                      
         }
         return retVal;
@@ -588,5 +595,12 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
             return null;
         }
     }
-    
+
+    public ProtocolActionAttachment getNewActionAttachment() {
+        return newActionAttachment;
+    }
+
+    public void setNewActionAttachment(ProtocolActionAttachment newActionAttachment) {
+        this.newActionAttachment = newActionAttachment;
+    }
 }

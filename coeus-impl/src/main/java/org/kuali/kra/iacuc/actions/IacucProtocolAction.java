@@ -18,14 +18,11 @@
  */
 package org.kuali.kra.iacuc.actions;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.committee.impl.service.CommitteeServiceBase;
 import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.common.framework.module.CoeusSubModule;
+import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
@@ -34,7 +31,10 @@ import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBeanBase;
 import org.kuali.kra.protocol.questionnaire.ProtocolSubmissionQuestionnaireHelper;
-import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -77,7 +77,7 @@ public class IacucProtocolAction extends ProtocolActionBase {
                                 getInitialSequence(this, ""), CoeusSubModule.ZERO_SUBMODULE));
             }
         } else if (IacucProtocolActionType.SUBMITTED_TO_IACUC.equals(getProtocolActionTypeCode()) && StringUtils.isNotBlank(getComments())
-                                                            && (getComments().startsWith(COMMENT_PREFIX_AMMENDMENT) || getComments().startsWith(COMMENT_PREFIX_RENEWAL))) {
+                                                            && (getComments().startsWith(COMMENT_PREFIX_AMMENDMENT) || getComments().startsWith(COMMENT_PREFIX_RENEWAL) || getComments().startsWith(COMMENT_PREFIX_FYI))) {
             String amendmentRenewalNumber = getAmendmentRenewalNumber(getComments());
             setQuestionnairePrintOption(getQnPrintOptionForAction(getProtocolNumber() + amendmentRenewalNumber, 
                                         getInitialSequence(this, amendmentRenewalNumber), CoeusSubModule.AMENDMENT_RENEWAL));

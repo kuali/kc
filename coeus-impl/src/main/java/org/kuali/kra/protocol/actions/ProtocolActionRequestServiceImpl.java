@@ -73,6 +73,7 @@ public abstract class ProtocolActionRequestServiceImpl implements ProtocolAction
     protected static final String ACTION_NAME_AMENDMENT = "Create Amendment";
     protected static final String ACTION_NAME_RENEWAL_WITHOUT_AMENDMENT = "Create Renewal without Amendment";
     protected static final String ACTION_NAME_RENEWAL_WITH_AMENDMENT = "Create Renewal with Amendment";
+    protected static final String ACTION_NAME_FYI = "Create FYI";
     protected static final String ACTION_NAME_ASSIGN_TO_AGENDA = "Assign to Agenda";
     protected static final String ACTION_NAME_REVIEW_NOT_REQUIRED = "Review Not Required";
     protected static final String ACTION_NAME_DISAPPROVE = "Disapprove";

@@ -22,18 +22,20 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
+import org.kuali.coeus.common.questionnaire.framework.answer.ModuleQuestionnaireBean;
+import org.kuali.coeus.common.questionnaire.framework.answer.QuestionnaireAnswerService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.dao.KraLookupDao;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolFinderDao;
+import org.kuali.kra.protocol.ProtocolSpecialVersion;
+import org.kuali.kra.protocol.actions.ActionHelperBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.copy.ProtocolCopyService;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocolBase;
-import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
-import org.kuali.coeus.common.questionnaire.framework.answer.ModuleQuestionnaireBean;
-import org.kuali.coeus.common.questionnaire.framework.answer.QuestionnaireAnswerService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.bo.DocumentHeader;
@@ -57,20 +59,17 @@ import java.util.concurrent.TimeUnit;
 public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmendRenewService {
 
     private static Log LOGGER = LogFactory.getLog(ProtocolAmendRenewServiceImplBase.class);
-    protected static final String AMEND_ID = "A";
-    protected static final String RENEW_ID = "R";
     protected static final int DIGIT_COUNT = 3;
     protected static final String AMEND_NEXT_VALUE = "nextAmendValue";
     protected static final String RENEW_NEXT_VALUE = "nextRenewValue";
-    protected static final String AMENDMENT = "Amendment";
-    protected static final String RENEWAL = "Renewal";
+    protected static final String FYI_NEXT_VALUE = "nextFyiValue";
     protected static final String CREATED = "Created";
     protected static final String PROTOCOL_NUMBER = "protocolNumber";
     protected static final String PROTOCOL_STATUS = "protocolStatus";
     protected static final String PROTOCOL_ID = "protocolId";
 
     protected DocumentService documentService;
-    protected ProtocolCopyService protocolCopyService;
+    protected ProtocolCopyService<ProtocolDocumentBase> protocolCopyService;
     protected KraLookupDao kraLookupDao;
     protected ProtocolFinderDao protocolFinderDao;
 
@@ -90,7 +89,7 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
         this.documentService = documentService;
     }
 
-    public void setProtocolCopyService(ProtocolCopyService protocolCopyService) {
+    public void setProtocolCopyService(ProtocolCopyService<ProtocolDocumentBase> protocolCopyService) {
         this.protocolCopyService = protocolCopyService;
     }
 
@@ -101,7 +100,59 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
     public void setProtocolFinderDao(ProtocolFinderDao protocolFinderDao) {
         this.protocolFinderDao = protocolFinderDao;
     }
-    
+
+    protected String createFYI(ProtocolDocumentBase protocolDocument, ActionHelperBase actionHelper, String fyiComments) throws Exception {
+        ProtocolDocumentBase fyiProtocolDocument = null;
+        ProtocolBase originalProtocol = protocolDocument.getProtocol();
+        try {
+            //since the user probably doesn't have permission to create the document, we are going to add session variable so the document
+            //authorizer knows to approve the user for initiating the document
+            GlobalVariables.getUserSession().addObject(AMEND_RENEW_ALLOW_NEW_PROTOCOL_DOCUMENT, Boolean.TRUE);
+            fyiProtocolDocument = protocolCopyService.copyProtocol(protocolDocument, generateProtocolFYINumber(protocolDocument), true);
+        } finally {
+            GlobalVariables.getUserSession().removeObject(AMEND_RENEW_ALLOW_NEW_PROTOCOL_DOCUMENT);
+        }
+        fyiProtocolDocument.getProtocol().setInitialSubmissionDate(originalProtocol.getInitialSubmissionDate());
+        fyiProtocolDocument.getProtocol().setApprovalDate(originalProtocol.getApprovalDate());
+        fyiProtocolDocument.getProtocol().setExpirationDate(originalProtocol.getExpirationDate());
+        fyiProtocolDocument.getProtocol().setLastApprovalDate(originalProtocol.getLastApprovalDate());
+        fyiProtocolDocument.getProtocol().setProtocolStatusCode(getFyiInProgressStatusHook());
+        fyiProtocolDocument.getProtocol().refreshReferenceObject(PROTOCOL_STATUS);
+
+        ArrayList<ProtocolAttachmentProtocolBase> fyiAttachments = new ArrayList<>();
+        fyiProtocolDocument.getProtocol().setAttachmentProtocols(fyiAttachments);
+
+        ProtocolActionBase protocolAction = createNotifyIrbAction(originalProtocol, fyiProtocolDocument.getProtocol().getProtocolNumber());
+        protocolDocument.getProtocol().getProtocolActions().add(protocolAction);
+
+        return createFYI(protocolDocument, fyiProtocolDocument, actionHelper, fyiComments);
+    }
+
+    protected String createFYI(ProtocolDocumentBase protocolDocument, ProtocolDocumentBase fyiProtocolDocument,
+                               ActionHelperBase actionHelper, String fyiComments) throws WorkflowException {
+
+        ProtocolAmendRenewalBase protocolAmendRenewal = createAmendmentRenewal(protocolDocument, fyiProtocolDocument, fyiComments);
+        fyiProtocolDocument.getProtocol().setProtocolAmendRenewal(protocolAmendRenewal);
+        addModules(fyiProtocolDocument.getProtocol(), getFyiAttachmentsBean(actionHelper));
+
+        documentService.saveDocument(protocolDocument);
+        documentService.saveDocument(fyiProtocolDocument);
+
+        return fyiProtocolDocument.getDocumentNumber();
+    }
+
+    protected abstract ProtocolAmendmentBean getFyiAttachmentsBean(ActionHelperBase actionHelper);
+
+    protected ProtocolActionBase createNotifyIrbAction(ProtocolBase protocol, String protocolNumber) {
+        ProtocolActionBase protocolAction = getNewFyiProtocolActionInstanceHook(protocol);
+        protocolAction.setComments(ProtocolSpecialVersion.FYI.getDescription() + "-" + protocolNumber.substring(11) + ": " + CREATED);
+        return protocolAction;
+    }
+
+    protected String generateProtocolFYINumber(ProtocolDocumentBase protocolDocument) {
+        return generateProtocolNumber(protocolDocument, ProtocolSpecialVersion.FYI.getCode(), FYI_NEXT_VALUE);
+    }
+
     @Override
     public String createAmendment(ProtocolDocumentBase protocolDocument, ProtocolAmendmentBean amendmentBean) throws Exception {
         ProtocolDocumentBase amendProtocolDocument = null;
@@ -232,7 +283,7 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
      * amendment.
      */
     protected String generateProtocolAmendmentNumber(ProtocolDocumentBase protocolDocument) {
-        return generateProtocolNumber(protocolDocument, AMEND_ID, AMEND_NEXT_VALUE);
+        return generateProtocolNumber(protocolDocument, ProtocolSpecialVersion.AMENDMENT.getCode(), AMEND_NEXT_VALUE);
     }
     
     /**
@@ -241,7 +292,7 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
      * "xxx" is the next sequence number.
      */
     protected String generateProtocolRenewalNumber(ProtocolDocumentBase protocolDocument) {
-        return generateProtocolNumber(protocolDocument, RENEW_ID, RENEW_NEXT_VALUE);
+        return generateProtocolNumber(protocolDocument, ProtocolSpecialVersion.RENEWAL.getCode(), RENEW_NEXT_VALUE);
     }
     
     /**
@@ -306,7 +357,7 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
      */
     protected ProtocolActionBase createCreateAmendmentProtocolAction(ProtocolBase protocol, String protocolNumber) {
         ProtocolActionBase protocolAction = getNewAmendmentProtocolActionInstanceHook(protocol);
-        protocolAction.setComments(AMENDMENT + "-" + protocolNumber.substring(11) + ": " + CREATED);
+        protocolAction.setComments(ProtocolSpecialVersion.AMENDMENT.getDescription() + "-" + protocolNumber.substring(11) + ": " + CREATED);
         return protocolAction;
     }
     
@@ -319,7 +370,7 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
      */
     protected ProtocolActionBase createCreateRenewalProtocolAction(ProtocolBase protocol, String protocolNumber) {
         ProtocolActionBase protocolAction = getNewRenewalProtocolActionInstanceHook(protocol);
-        protocolAction.setComments(RENEWAL + "-" + protocolNumber.substring(11) + ": " + CREATED);
+        protocolAction.setComments(ProtocolSpecialVersion.RENEWAL.getDescription() + "-" + protocolNumber.substring(11) + ": " + CREATED);
         return protocolAction;
     }
 
@@ -330,7 +381,7 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
      */
     protected ProtocolActionBase createCreateRenewalWithAmendmentProtocolAction(ProtocolBase protocol, String protocolNumber) {
         ProtocolActionBase protocolAction = getNewRenewalWithAmendmentProtocolActionInstanceHook(protocol);
-        protocolAction.setComments(RENEWAL + "-" + protocolNumber.substring(11) + ": " + CREATED);
+        protocolAction.setComments(ProtocolSpecialVersion.RENEWAL.getDescription() + "-" + protocolNumber.substring(11) + ": " + CREATED);
         return protocolAction;
     }
 
@@ -346,12 +397,12 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
 
     @SuppressWarnings("unchecked")
     public Collection<ProtocolBase> getAmendments(String protocolNumber) throws Exception {
-        return new ArrayList<>( kraLookupDao.findCollectionUsingWildCard(getProtocolBOClassHook(), PROTOCOL_NUMBER, protocolNumber + AMEND_ID + "%", true));
+        return new ArrayList<>( kraLookupDao.findCollectionUsingWildCard(getProtocolBOClassHook(), PROTOCOL_NUMBER, protocolNumber + ProtocolSpecialVersion.AMENDMENT.getCode() + "%", true));
     }
 
     @SuppressWarnings("unchecked")
     public Collection<ProtocolBase> getRenewals(String protocolNumber) throws Exception {
-        return new ArrayList<>( kraLookupDao.findCollectionUsingWildCard(getProtocolBOClassHook(), PROTOCOL_NUMBER, protocolNumber + RENEW_ID + "%", true));
+        return new ArrayList<>( kraLookupDao.findCollectionUsingWildCard(getProtocolBOClassHook(), PROTOCOL_NUMBER, protocolNumber + ProtocolSpecialVersion.RENEWAL.getCode() + "%", true));
     }
   
     /**
@@ -382,10 +433,10 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
     }
 
     public String getAmendedOrRenewalProtocolNumber(String protocolNumber) {
-        if (protocolNumber.contains(AMEND_ID)) {
-            return StringUtils.substringBefore(protocolNumber, AMEND_ID);
-        } else if (protocolNumber.contains(RENEW_ID)) {
-            return StringUtils.substringBefore(protocolNumber, RENEW_ID);
+        if (protocolNumber.contains(ProtocolSpecialVersion.AMENDMENT.getCode())) {
+            return StringUtils.substringBefore(protocolNumber, ProtocolSpecialVersion.AMENDMENT.getCode());
+        } else if (protocolNumber.contains(ProtocolSpecialVersion.RENEWAL.getCode())) {
+            return StringUtils.substringBefore(protocolNumber, ProtocolSpecialVersion.RENEWAL.getCode());
         } else {
             return protocolNumber;
         }
@@ -441,9 +492,13 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
 
     protected abstract ProtocolActionBase getNewRenewalWithAmendmentProtocolActionInstanceHook(ProtocolBase protocol);
 
+    protected abstract ProtocolActionBase getNewFyiProtocolActionInstanceHook(ProtocolBase protocol);
+
     protected abstract ModuleQuestionnaireBean getNewProtocolModuleQuestionnaireBeanInstanceHook(ProtocolBase protocol);
     
     protected abstract String getAmendmentInProgressStatusHook();
+
+    protected abstract String getFyiInProgressStatusHook();
     
     protected abstract String getRenewalInProgressStatusHook();
 

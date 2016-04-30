@@ -26,6 +26,7 @@ import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolFinderDao;
+import org.kuali.kra.protocol.ProtocolSpecialVersion;
 import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewService;
 import org.kuali.rice.krad.data.DataObjectService;
 
@@ -46,10 +47,10 @@ public abstract class ProtocolSpecialReviewServiceImplBase implements ProtocolSp
         }
         String lastApprovedProtocolNumber = protocolNumber;
         
-        if (StringUtils.contains(protocolNumber, AMENDMENT_KEY)) {
-            lastApprovedProtocolNumber = StringUtils.substringBefore(protocolNumber, AMENDMENT_KEY);
-        } else if (StringUtils.contains(protocolNumber, RENEWAL_KEY)) {
-            lastApprovedProtocolNumber = StringUtils.substringBefore(protocolNumber, RENEWAL_KEY);
+        if (StringUtils.contains(protocolNumber, ProtocolSpecialVersion.AMENDMENT.getCode())) {
+            lastApprovedProtocolNumber = StringUtils.substringBefore(protocolNumber, ProtocolSpecialVersion.AMENDMENT.getCode());
+        } else if (StringUtils.contains(protocolNumber, ProtocolSpecialVersion.RENEWAL.getCode())) {
+            lastApprovedProtocolNumber = StringUtils.substringBefore(protocolNumber, ProtocolSpecialVersion.RENEWAL.getCode());
         }
         
         ProtocolBase protocol = getProtocolFinderDao().findCurrentProtocolByNumber(lastApprovedProtocolNumber);

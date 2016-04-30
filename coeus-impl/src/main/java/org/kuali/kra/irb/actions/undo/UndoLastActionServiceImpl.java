@@ -51,6 +51,11 @@ public class UndoLastActionServiceImpl extends UndoLastActionServiceImplBase imp
     }
 
     @Override
+    protected String getFyiInProgressStatusHook() {
+        return ProtocolStatus.FYI_IN_PROGRESS;
+    }
+
+    @Override
     protected boolean isApprovedActionTypeCode(String actionTypeCode) {
         return StringUtils.equals(actionTypeCode, ProtocolActionType.APPROVED) 
             || StringUtils.equals(actionTypeCode, ProtocolActionType.EXPEDITE_APPROVAL);

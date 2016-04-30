@@ -85,7 +85,7 @@ public class ProtocolSubmissionBuilder {
     
     private Integer getNextSubmissionNumber(Protocol protocol) {
         Integer nextSubmissionNumber;
-        if (protocol.isAmendment() || protocol.isRenewal()) {
+        if (protocol.isAmendment() || protocol.isRenewal() || protocol.isFYI()) {
             String origProtocolNumber = protocol.getProtocolNumber();
             String protocolNumber = origProtocolNumber.substring(0, 10);
             Protocol origProtocol = (Protocol)getProtocolFinderDao().findCurrentProtocolByNumber(protocolNumber);
@@ -289,15 +289,8 @@ public class ProtocolSubmissionBuilder {
             throw new RuntimeException(ex);
         }
     }
-    
-    /**
-     * Create a protocol submission document (attachment).
-     * @param submission
-     * @param fileName
-     * @param document
-     * @return
-     */
-    private ProtocolSubmissionDoc createProtocolSubmissionDoc(ProtocolSubmission submission, String fileName, String contentType, byte[] document, String description) {
+
+    public static ProtocolSubmissionDoc createProtocolSubmissionDoc(ProtocolSubmission submission, String fileName, String contentType, byte[] document, String description) {
         ProtocolSubmissionDoc submissionDoc = new ProtocolSubmissionDoc();
         submissionDoc.setProtocolNumber(submission.getProtocolNumber());
         submissionDoc.setSequenceNumber(submission.getSequenceNumber());

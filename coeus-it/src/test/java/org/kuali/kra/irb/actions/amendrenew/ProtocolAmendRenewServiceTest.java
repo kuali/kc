@@ -66,7 +66,7 @@ public class ProtocolAmendRenewServiceTest extends KcIntegrationTestBase {
 
         service = new ProtocolAmendRenewServiceImpl();
         service.setDocumentService(KcServiceLocator.getService(DocumentService.class));
-        service.setProtocolCopyService(KcServiceLocator.getService(ProtocolCopyService.class));
+        service.setProtocolCopyService( (org.kuali.kra.protocol.actions.copy.ProtocolCopyService) KcServiceLocator.getService(ProtocolCopyService.class));
         service.setKraLookupDao(KcServiceLocator.getService(KraLookupDao.class));
         service.setProtocolFinderDao(KcServiceLocator.getService(ProtocolFinderDao.class));
         service.setQuestionnaireAnswerService(KcServiceLocator.getService(QuestionnaireAnswerService.class));

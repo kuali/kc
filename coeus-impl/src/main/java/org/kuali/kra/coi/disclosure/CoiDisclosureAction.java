@@ -697,7 +697,7 @@ public class CoiDisclosureAction extends CoiAction {
         final CoiDisclosureAttachment attachment = helper.retrieveExistingAttachmentByType(selection);
                
         if (attachment == null) {
-            //may want to tell the user the selection was invalid.
+
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
         
@@ -720,7 +720,7 @@ public class CoiDisclosureAction extends CoiAction {
         final int selection = this.getSelectedLine(request);
         CoiNotesAndAttachmentsHelper helper = ((CoiDisclosureForm) form).getCoiNotesAndAttachmentsHelper();
         if (!helper.deleteExistingAttachmentByType(selection)) {
-            //may want to tell the user the selection was invalid.
+
         }
 
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -733,7 +733,7 @@ public class CoiDisclosureAction extends CoiAction {
         final CoiDisclosureAttachment attachment = helper.retrieveExistingAttachmentByType(selection);
 
         if (attachment == null) {
-            //may want to tell the user the selection was invalid.
+
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
 
@@ -812,7 +812,7 @@ public class CoiDisclosureAction extends CoiAction {
         final int selection = this.getSelectedLine(request);
         
         if (!((CoiDisclosureForm)form).getCoiNotesAndAttachmentsHelper().deleteNote(selection)) {
-            //may want to tell the user the selection was invalid.
+
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
