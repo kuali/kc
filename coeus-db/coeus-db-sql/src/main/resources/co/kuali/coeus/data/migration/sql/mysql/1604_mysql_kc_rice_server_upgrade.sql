@@ -25,4 +25,5 @@
 \. ./rice/bootstrap/V1604_014__unit_specific_peopleflow_type.sql
 \. ./rice/bootstrap/V1604_015__irb_pi_workflow_param.sql
 \. ./rice/bootstrap/V1604_017__budget_BO_permissions2.sql
+\. ./rice/bootstrap/V1604_019__FYI_params.sql
 commit;

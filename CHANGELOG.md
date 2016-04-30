@@ -1,6 +1,35 @@
 
 
 ##CURRENT
+* RESKC-1188: Creating a values finder that only retrieve active negotiation activity types. (#1708)
+
+  * As a Negotiation Administrator, I only want active values to appear in the drop-down lists when I create or edit a negotiation so that I don't incorrectly select an inactive value.
+  * 
+  * Steps to recreate issue:
+  * 1. System Admin Portal > Negotiations > Negotiation Activity Type (or Negotiation Location)
+  * 2. Click to open the Lookup window
+  * 3. Click on "Both" for the Active field to locate all values (active & inactive)
+  * 4. Click search
+  * 5. Note any that are Inactive (Active column = "No") and if all are Active, edit one to make it Inactive
+  * 6. KRAD Porgal > Central Admin > Preaward > Negotations
+  * 7. When in the Negotiation Document, click show on Activities & Attachments panel.
+  * 8. Click Show to open the Add Activity.
+  * 9. Click on the drop down for Activity Type (or Location)
+  * RESULT: Inactive value is appearing in the drop-down list for Activity Type (or Location).
+  * EXPECTED RESULT: Only active values should appear in drop-down lists.  * Travis Schneeberger on Fri, 29 Apr 2016 21:43:21 -0400 [View Commit](../../commit/067b4a8a8d1f30ccddb65154200fc62ba5dc1edb)
+* RESKC-1211: IRB and IACUC FYI process enhancement
+
+  * Problem: IRB was not always easily able to keep track of all notify IRB (FYI) actions, because admin only needs to acknowledge. This does not support a process where IRB admins often need to go back and forth with PI/Dept Admin to get needed documentation.
+  * Contributed Solution:
+  * -Model a special routing for the FYI/ Notify IRB process to be similar to the amendment protocol process, except does not allow modification of the protocol itself other than notes and attachments.
+  * -IRB can now obtain more information and even approve/disapprove action.
+  * -Upon approve the attachments role into the notes and attachments history for tracking.
+  * -Parameterized.
+  * -IACUC is also addressed.
+  * This enhancement was discussed and approved by the KCC IRB subcommittee in 05/2014. Foundation Jira is KRAFDBCK-10691. Also, was shared with the IACUC Subcommittee.
+  * Travis Schneeberger on Thu, 28 Apr 2016 17:28:40 -0400 [View Commit](../../commit/6dbd3f39cab45655dfb4a33fc01f7884c6b5960a)
+
+##coeus-1604.50
 * No Changes
 
 
