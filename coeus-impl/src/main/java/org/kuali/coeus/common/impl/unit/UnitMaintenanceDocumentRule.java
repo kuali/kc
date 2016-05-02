@@ -29,8 +29,9 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import java.util.List;
 
 public class UnitMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBase {
-    
-     
+
+
+    public static final String DOCUMENT_PARENT_UNIT_NUMBER = "document.newMaintainableObject.parentUnitNumber";
 
     public UnitMaintenanceDocumentRule() {
         super();
@@ -38,9 +39,26 @@ public class UnitMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBase {
 
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
-        return moveUnit(document);
+        return moveUnit(document) && isValidParentUnit(document);
     }
-    
+
+    public boolean isValidParentUnit(MaintenanceDocument document) {
+        Unit unit = (Unit)document.getNewMaintainableObject().getDataObject();
+        if(unit!= null && unit.getParentUnitNumber() == null) {
+            UnitService unitService = getUnitService();
+            final Unit topUnit = unitService.getTopUnit();
+            if(topUnit != null && !topUnit.getUnitNumber().equalsIgnoreCase(unit.getUnitNumber())) {
+                GlobalVariables.getMessageMap().putError(DOCUMENT_PARENT_UNIT_NUMBER, KeyConstants.PARENT_UNIT_REQUIRED);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public UnitService getUnitService() {
+        return KcServiceLocator.getService(UnitService.class);
+    }
+
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
         return moveUnit(document);
@@ -58,10 +76,10 @@ public class UnitMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBase {
         Unit unit=(Unit)maintenanceDocument.getNewMaintainableObject().getDataObject();
         String unitNumber=unit.getUnitNumber();
         String parentUnitNumber=unit.getParentUnitNumber();
-        List<Unit> allSubUnits = KcServiceLocator.getService(UnitService.class).getAllSubUnits(unitNumber);
+        List<Unit> allSubUnits = getUnitService().getAllSubUnits(unitNumber);
         for (Unit subunits : allSubUnits) {  
             if(subunits.getUnitNumber().equals(parentUnitNumber)){
-                GlobalVariables.getMessageMap().putError("document.newMaintainableObject.parentUnitNumber", KeyConstants.MOVE_UNIT_OWN_DESCENDANTS,
+                GlobalVariables.getMessageMap().putError(DOCUMENT_PARENT_UNIT_NUMBER, KeyConstants.MOVE_UNIT_OWN_DESCENDANTS,
                         new String[] { unit.getParentUnitNumber(), unit.getParentUnitNumber() });
                 valid=false;
             }

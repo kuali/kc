@@ -1136,6 +1136,9 @@ public final class KeyConstants {
 
     public static final String AUDIT_WARNING_PROPOSAL_WITHNO_BUDGET = "warning.proposal.withno.budget";
     public static final String ERROR_ATTACHMENT_FILE_REQURIED = "error.attachment.file.required";
+
+    // unit errors
+    public static final String PARENT_UNIT_REQUIRED = "error.required.parent.unit";
     
     /**
      * private utility class ctor.

@@ -57,7 +57,7 @@
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="unitNumber" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="parentUnitNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="parentUnitNumber" p:required="false"/>
         <bean parent="MaintainableFieldDefinition" p:name="organizationIdForMaintenance"/>
         <bean parent="MaintainableFieldDefinition" p:name="unitName" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true"/>
