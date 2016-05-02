@@ -1,6 +1,9 @@
 
 
 ##CURRENT
+* Added ability to edit top most unit in hierarchy. (#1713)  * Gayathri Athreya on Mon, 2 May 2016 15:54:12 -0700 [View Commit](../../commit/76fd6076bf65166e15f4c84d19c768401b5d29dc)
+
+##coeus-1605.2
 * fixes error when adding a sponsor code that is substring of a sponsor code already in a sponsor hierarchy
   * Joe Williams on Mon, 2 May 2016 10:01:28 -0500 [View Commit](../../commit/f3c0313c13baca6417018164d0217d7d33f08156)
 
