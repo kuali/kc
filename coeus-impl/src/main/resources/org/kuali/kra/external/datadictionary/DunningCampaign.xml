@@ -58,8 +58,8 @@
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern" />
 		</property>
-		<property name="required" value="true" />
-		<property name="control">
+        <property name="required" value="true" />
+        <property name="control">
 			<bean parent="TextControlDefinition" p:size="6" />
 		</property>
 	</bean>
