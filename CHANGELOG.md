@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* fixes error when adding a sponsor code that is substring of a sponsor code already in a sponsor hierarchy
+  * Joe Williams on Mon, 2 May 2016 10:01:28 -0500 [View Commit](../../commit/f3c0313c13baca6417018164d0217d7d33f08156)
+
+##coeus-1605.1
 * RESKC-1283: Open protocol in edit mode.
   * Gayathri Athreya on Fri, 29 Apr 2016 14:14:52 -0700 [View Commit](../../commit/b0ac4cd93e463f74bb479d69dd1f4a4045050e0d)
 
