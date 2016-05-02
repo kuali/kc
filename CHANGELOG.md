@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1283: Open protocol in edit mode.
+  * Gayathri Athreya on Fri, 29 Apr 2016 14:14:52 -0700 [View Commit](../../commit/b0ac4cd93e463f74bb479d69dd1f4a4045050e0d)
+
+##coeus-1604.51
 * RESKC-1188: Creating a values finder that only retrieve active negotiation activity types. (#1708)
 
   * As a Negotiation Administrator, I only want active values to appear in the drop-down lists when I create or edit a negotiation so that I don't incorrectly select an inactive value.
