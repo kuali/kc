@@ -708,7 +708,7 @@ function sponsorHierarchy() {
 			for (var i=0 ; i < sponsor_array.length;  i++) {
 				var sLabel = sponsor_array[i];
 				sponsorid = sLabel.substring(0,sLabel.indexOf(":"));
-				if (sponsorCodeList.indexOf(sponsorid) < 0) {
+				if (sponsorCodeList.split(";").indexOf(sponsorid) < 0) {
 				var oChildNode = new SHNode( "<table style=\"width:"+String(1080-(oCurrentTextNode.depth+1)*widthGap)+"px\"><tr><td style=\"width:"+String(760-(oCurrentTextNode.depth+1)*widthGap)+"px\">" + sponsor_array[i] + "</td><td style=\"width:320px\">"+ setupMaintenanceButtons(sponsor_array[i], oCurrentTextNode)+"</td></tr></table>", oCurrentTextNode, false, true, false, sponsor_array[i]);
 	         			oChildNode.contentStyle="icon-page";
 	
