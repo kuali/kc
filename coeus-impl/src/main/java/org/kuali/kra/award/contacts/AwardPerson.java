@@ -424,7 +424,7 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
     public String getDisclosureStatus() {
         DisclosureStatusRetrievalService disclosureStatusRetrievalService = getDisclosureStatusRetrievalService();
         DisclosureProjectStatus projectStatus =  disclosureStatusRetrievalService.getDisclosureStatusForPerson(Constants.MODULE_NAMESPACE_AWARD,
-                                                                                                                getAward().getAwardId().toString(),
+                                                                                                                getAward().getAwardNumber(),
                                                                                                                 getPersonId());
         return projectStatus.getStatus();
     }
