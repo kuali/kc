@@ -47,7 +47,6 @@ import org.kuali.coeus.sys.framework.rest.DataDictionaryValidationException;
 import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
 import org.kuali.coeus.sys.framework.rest.UnauthorizedAccessException;
 import org.kuali.coeus.sys.framework.rest.UnprocessableEntityException;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.ErrorHandlingUtilService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
@@ -571,14 +570,14 @@ public abstract class SimpleCrudRestControllerBase<T, R> extends RestController 
 	}
 
 	protected void assertUserHasWriteAccess() {
-		if (globalVariableService.getUserSession() == null || !permissionService.hasPermissionByTemplate(globalVariableService.getUserSession().getPrincipalId(),
+        if (globalVariableService.getUserSession() == null || !permissionService.hasPermissionByTemplate(globalVariableService.getUserSession().getPrincipalId(),
 				getWritePermission().getKey(), getWritePermission().getValue(), getWritePermissionTemplateQualifiers())) {
 			throw new UnauthorizedAccessException();
 		}
 	}
 
 	protected void assertUserHasReadAccess() {
-		if (globalVariableService.getUserSession() == null || !permissionService.hasPermissionByTemplate(globalVariableService.getUserSession().getPrincipalId(),
+       if (globalVariableService.getUserSession() == null || !permissionService.hasPermissionByTemplate(globalVariableService.getUserSession().getPrincipalId(),
 				getReadPermission().getKey(), getReadPermission().getValue(), getReadPermissionTemplateQualifiers())) {
 			throw new UnauthorizedAccessException();
 		}

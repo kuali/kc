@@ -114,6 +114,7 @@
   <bean id="Sponsor-dunningCampaignId" parent="Sponsor-dunningCampaignId-parentBean"/>
   <bean id="Sponsor-dunningCampaignId-parentBean" abstract="true" parent="DunningCampaign-campaignID">
     <property name="name" value="dunningCampaignId"/>
+    <property name="required" value="false"/>
   </bean>
   
 	<bean id="Sponsor-customerNumber" parent="Sponsor-customerNumber-parentBean" />
@@ -161,7 +162,6 @@
 		<property name="label" value="Customer Exists?" />
 		<property name="shortLabel" value="Customer Exists?" />
 		<property name="maxLength" value="4" />
-		<property name="required" value="true"/>
 	    <property name="validationPattern" >
 	      <bean parent="AnyCharacterValidationPattern" />
 	    </property>
