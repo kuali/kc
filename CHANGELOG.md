@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1292: Fixing award and protocol disclosure status display.
+  * Gayathri Athreya on Fri, 29 Apr 2016 15:14:39 -0700 [View Commit](../../commit/bfe6f73ce5688e6a644b977570a1e6779ee56e7f)
+
+##coeus-1605.4
 * Make fields required for CGB not required all the time.
   * Gayathri Athreya on Mon, 2 May 2016 15:40:01 -0700 [View Commit](../../commit/9f86b93e2123d9c4d0a332484da417a96981da29)
 
