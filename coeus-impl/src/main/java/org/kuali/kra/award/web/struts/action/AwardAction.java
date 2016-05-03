@@ -57,7 +57,6 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.home.AwardComment;
 import org.kuali.kra.award.home.AwardService;
-import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward;
 import org.kuali.kra.award.notesandattachments.attachments.AwardAttachmentFormBean;
 import org.kuali.kra.award.paymentreports.ReportClass;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
@@ -125,34 +124,34 @@ public class AwardAction extends BudgetParentActionBase {
     private static final String PAYMENT_INVOICES_PROPERTY_NAME = "Payments and Invoices";
     private static final String COMFIRMATION_PARAM_STRING = "After Award {0} information is synchronized, make sure that the Award Sponsor Contacts information is also synchronized with the same sponsor template. Failing to do so will result in data inconsistency. Are you sure you want to replace current {0} information with selected {1} template information?";
     private static final String SUPER_USER_ACTION_REQUESTS = "superUserActionRequests";
-    public static final String DATA_VALIDATION = "datavalidation";
-    public static final String DOC_HANDLER = "docHandler";
-    public static final String ERROR_AWARD_AWARDHIERARCHY_SYNC_LOCKED = "error.award.awardhierarchy.sync.locked";
-    public static final String AWARD_DOCUMENT = "AwardDocument";
-    public static final String SAVE = "save";
+    private static final String DATA_VALIDATION = "datavalidation";
+    private static final String DOC_HANDLER = "docHandler";
+    private static final String ERROR_AWARD_AWARDHIERARCHY_SYNC_LOCKED = "error.award.awardhierarchy.sync.locked";
+    private static final String AWARD_DOCUMENT = "AwardDocument";
+    private static final String SAVE = "save";
     public static final String AWARD_NUMBER = "awardNumber";
     public static final String ACTIVE = "active";
-    public static final String ROOT_AWARD_NUMBER = "rootAwardNumber";
+    private static final String ROOT_AWARD_NUMBER = "rootAwardNumber";
     public static final String VIEW_ONLY = "viewOnly";
     public static final String FULL_ENTRY = "fullEntry";
-    public static final String TIMEANDMONEY_DOCUMENT = "timeandmoney document";
-    public static final String ROOT_AWARD = "000000-00000";
-    public static final String BACK_LOCATION = "&backLocation=";
+    private static final String TIMEANDMONEY_DOCUMENT = "timeandmoney document";
+    private static final String ROOT_AWARD = "000000-00000";
+    private static final String BACK_LOCATION = "&backLocation=";
     public static final String ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST = "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST";
-    public static final String ENABLE_AWARD_ANT_OBL_DIRECT_INDIRECT_COST_TRUE = "1";
-    public static final String AWARD_DOCUMENT_NUMBER = "awardDocumentNumber";
-    public static final String BASIC = "basic";
-    public static final String SELECTED_AWARD_NUMBER = "selectedAwardNumber";
-    public static final String DOCUMENT_AWARD_AWARD_TEMPLATE = "document.award.awardTemplate";
-    public static final String AWARD_TEMPLATE = "awardTemplate";
-    public static final String PROCESS_SYNC_AWARD = "processSyncAward";
-    public static final String METHOD_TO_CALL_SYNC_ACTION_CALLER = "methodToCall.syncActionCaller";
-    public static final String CONFIRM_SYNC_ACTION_KEY = "confirmSyncActionKey";
-    public static final String CONFIRM_SYNC_ACTION = "confirmSyncAction";
-    public static final String REFUSE_SYNC_ACTION = "refuseSyncAction";
+    private static final String ENABLE_AWARD_ANT_OBL_DIRECT_INDIRECT_COST_TRUE = "1";
+    private static final String AWARD_DOCUMENT_NUMBER = "awardDocumentNumber";
+    private static final String BASIC = "basic";
+    private static final String SELECTED_AWARD_NUMBER = "selectedAwardNumber";
+    private static final String DOCUMENT_AWARD_AWARD_TEMPLATE = "document.award.awardTemplate";
+    private static final String AWARD_TEMPLATE = "awardTemplate";
+    private static final String PROCESS_SYNC_AWARD = "processSyncAward";
+    private static final String METHOD_TO_CALL_SYNC_ACTION_CALLER = "methodToCall.syncActionCaller";
+    private static final String CONFIRM_SYNC_ACTION_KEY = "confirmSyncActionKey";
+    private static final String CONFIRM_SYNC_ACTION = "confirmSyncAction";
+    private static final String REFUSE_SYNC_ACTION = "refuseSyncAction";
 
-    public static final String DISABLE_ATTACHMENT_REMOVAL = "disableAttachmentRemoval";
-    public static final String CURRENT_VERSION_BUDGETS = "currentVersionBudgets";
+    private static final String DISABLE_ATTACHMENT_REMOVAL = "disableAttachmentRemoval";
+    private static final String CURRENT_VERSION_BUDGETS = "currentVersionBudgets";
 
     //question constants
     private static final String QUESTION_VERIFY_SYNC="VerifySync";
@@ -192,7 +191,6 @@ public class AwardAction extends BudgetParentActionBase {
     private transient ReportTrackingService reportTrackingService;
     private transient KcNotificationService notificationService;
     private transient SubAwardService subAwardService;
-    TimeAndMoneyAwardDateSaveRuleImpl timeAndMoneyAwardDateSaveRuleImpl;
     private transient TimeAndMoneyVersionService timeAndMoneyVersionService;
     private transient ProjectPublisher projectPublisher;
     private transient ProjectRetrievalService projectRetrievalService;
@@ -278,7 +276,6 @@ public class AwardAction extends BudgetParentActionBase {
         AwardForm awardForm = (AwardForm)form;
         AwardDocument awardDocument = awardForm.getAwardDocument();
 
-        List<String> order = new ArrayList<>();
         AwardHierarchyBean helperBean = awardForm.getAwardHierarchyBean();
         AwardHierarchy rootNode = helperBean.getRootNode();
         Award currentAward = awardDocument.getAward();
@@ -498,11 +495,10 @@ public class AwardAction extends BudgetParentActionBase {
         if (Award.DEFAULT_AWARD_NUMBER.equals(award.getAwardAmountInfos().get(0).getAwardNumber())) {
             award.getAwardAmountInfos().get(0).setAwardNumber(award.getAwardNumber());
         }
-        for(AwardApprovedSubaward approvedSubaward : award.getAwardApprovedSubawards()) {
-            if(Award.DEFAULT_AWARD_NUMBER.equals(approvedSubaward.getAwardNumber())) {
-                approvedSubaward.setAwardNumber(award.getAwardNumber());
-            }
-        }
+        award.getAwardApprovedSubawards().stream()
+                .filter(approvedSubaward -> Award.DEFAULT_AWARD_NUMBER.equals(approvedSubaward.getAwardNumber()))
+                .forEach(approvedSubaward -> approvedSubaward.setAwardNumber(award.getAwardNumber()));
+
         for(AwardComment comment : award.getAwardComments()) {
             comment.setAward(award);
         }
@@ -616,7 +612,7 @@ public class AwardAction extends BudgetParentActionBase {
         setBooleanAwardInMultipleNodeHierarchyOnForm(awardDocument.getAward());
         setBooleanAwardHasTandMOrIsVersioned(awardDocument.getAward());
         setSubAwardDetails(awardDocument.getAward());
-        AwardAmountInfoService awardAmountInfoService = KcServiceLocator.getService(AwardAmountInfoService.class);
+
         return mapping.findForward(Constants.MAPPING_AWARD_HOME_PAGE);
     }
 
@@ -702,7 +698,7 @@ public class AwardAction extends BudgetParentActionBase {
             this.save(mapping, form, request, response);
         }
         //if T&M document is created, there must be a project start date on the award.
-        timeAndMoneyAwardDateSaveRuleImpl = new TimeAndMoneyAwardDateSaveRuleImpl();
+        TimeAndMoneyAwardDateSaveRuleImpl timeAndMoneyAwardDateSaveRuleImpl = new TimeAndMoneyAwardDateSaveRuleImpl();
         timeAndMoneyAwardDateSaveRuleImpl.enforceAwardStartDatePopulated(awardDocument.getAward());
         
         
@@ -860,10 +856,6 @@ public class AwardAction extends BudgetParentActionBase {
         getBusinessObjectService().save(rootAward);
     }
     
-    public List<Award> getAwardVersions(String awardNumber) {
-        return (List<Award>)getBusinessObjectService().findMatchingOrderBy(Award.class, getHashMapToFindActiveAward(awardNumber), "sequenceNumber", true);
-    }
-    
     public AwardVersionService getAwardVersionService() {
         return KcServiceLocator.getService(AwardVersionService.class);
     }
@@ -883,19 +875,6 @@ public class AwardAction extends BudgetParentActionBase {
         awardForm.setDocument(awardDocument);
         populateAwardHierarchy(awardForm);
         return mapping.findForward(BASIC);
-    }  
-   
-    private Map<String, String> getHashMapToFindActiveAward(String goToAwardNumber) {
-        Map<String, String> map = new HashMap<>();
-        map.put(AWARD_NUMBER, goToAwardNumber);
-        return map;
-    }
-
-    /**
-     * This method tests if the award is new by checking the size of AwardDirectFandADistributions on the Award.
-     */
-    public boolean isNewAward(AwardForm awardForm) {
-        return awardForm.getAwardDocument().getAward().getAwardDirectFandADistributions().size() == 0;
     }
 
     /**

@@ -137,7 +137,7 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
         setProtocol(protocol);
         createUser = GlobalVariables.getUserSession().getPrincipalName();
         createTimestamp = new Timestamp(Calendar.getInstance().getTimeInMillis());
-    	protocolCorrespondences = new ArrayList<ProtocolCorrespondence>();
+    	protocolCorrespondences = new ArrayList<>();
     }
     
 
@@ -212,7 +212,6 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
     /**
      * 
      * Refreshes the protocol submission (if it doesn't exist) and returns it.
-     * @return
      */
     public ProtocolSubmissionBase getProtocolSubmission() {
         if (submissionIdFk == null) {
@@ -229,7 +228,6 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
 
     /**
      * Refreshes the protocol action type (if it doesn't exist) and returns it.
-     * @return
      */
     public ProtocolActionTypeBase getProtocolActionType() {
         if (StringUtils.isBlank(protocolActionTypeCode)) {
@@ -243,7 +241,6 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
     /**
      * 
      * This method returns an empty string of the action date is null, otherwise it returns a formated date.
-     * @return
      */
     public String getActualActionDateString() {
         if (getActualActionDate() == null) {
@@ -253,9 +250,8 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
     }
 
     /**
-     * 
+     *
      * This method returns an empty string of the action date is null, otherwise it returns a formated date.
-     * @return
      */
     public String getActionDateString() {
         if (getActionDate() == null) {
@@ -276,9 +272,8 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
     }
 
     /**
-     * 
+     *
      * This method calculates and returns the submission status as a string.
-     * @return
      */
     public String getSubmissionStatusString() {
         String status = "";
@@ -390,7 +385,7 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
 
     public List<KcNotification> getProtocolNotifications() {
         if (protocolNotifications == null) {
-            protocolNotifications = new ArrayList<KcNotification>();
+            protocolNotifications = new ArrayList<>();
         }
         return protocolNotifications;
     }
@@ -421,7 +416,7 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
             return filteredList;
         }
     }
-    
+
     public void addProtocolNotification(KcNotification notification) {
         this.getProtocolNotifications().add(notification);
     }
@@ -475,11 +470,11 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
         }
         fieldValues.put("moduleSubItemKey", moduleSubItemKey);
         return getBusinessObjectService().countMatching(AnswerHeader.class, fieldValues);
-        
+
     }
-    
+
     protected String getAmendmentRenewalNumber(String comment) {
-        String retVal="";
+        final String retVal;
         if (comment.startsWith(COMMENT_PREFIX_AMMENDMENT)) {
             retVal = ProtocolSpecialVersion.AMENDMENT.getCode() + comment.substring(10, 13);
         } else if (comments.startsWith(COMMENT_PREFIX_FYI)) {
@@ -501,7 +496,7 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
     public boolean isActiveCommitteeMember() {
         boolean result = false;
         ProtocolSubmissionBase submission = getSubmission();
-        List<CommitteeMembershipBase> committeeMembers = 
+        List<CommitteeMembershipBase> committeeMembers =
             getCommitteeService().getAvailableMembers(submission.getCommitteeId(),
                     submission.getScheduleId());
         if (CollectionUtils.isNotEmpty(committeeMembers)) {
@@ -511,8 +506,8 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
                     break;
                 }
             }
-        }        
-        
+        }
+
         return result;
     }
 
@@ -528,9 +523,9 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
                 }
             }
         }
-        return submission;  
+        return submission;
     }
-    
+
     private ProtocolSubmissionBase getSubmissionForAction(Integer submissionNumber) {
 
         for (ProtocolSubmissionBase submission : getProtocol().getProtocolSubmissions()) {
@@ -539,10 +534,10 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
             }
         }
         return null;
-        
-        
+
+
     }
-    
+
     public CommitteeServiceBase getCommitteeService() {
         if (committeeService == null) {
             committeeService = KcServiceLocator.getService(getCommitteeServiceClassHook());

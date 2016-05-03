@@ -89,14 +89,13 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
     private static final String DECIMAL_FORMAT = "00000000";
     private static final String PROPOSAL_NUMBER = "proposalNumber";
     private static final String SEQUENCE_NUMBER = "sequenceNumber";
-    public static final String ACTIVE = "active";
-    public static final String ACTIVE_VALUE = "Y";
-    public static final String INST_PROPOSAL_ID = "instProposalId";
-    public static final int DEFAULT_STATUS_CODE = 1;
-    public static final int WITHDRAWN_STATUS_CODE = 5;
-    public static final int DEFAULT_COST_SHARE_TYPE_CODE = 1;
-    public static final String VALID_FUNDING_PROPOSAL_STATUS_CODES = "validFundingProposalStatusCodes";
-    public static final String SEPARATOR = ",";
+    private static final String ACTIVE_VALUE = "Y";
+    private static final String INST_PROPOSAL_ID = "instProposalId";
+    private static final int DEFAULT_STATUS_CODE = 1;
+    private static final int WITHDRAWN_STATUS_CODE = 5;
+    private static final int DEFAULT_COST_SHARE_TYPE_CODE = 1;
+    private static final String VALID_FUNDING_PROPOSAL_STATUS_CODES = "validFundingProposalStatusCodes";
+    private static final String SEPARATOR = ",";
     private static final String TRUE_INDICATOR_VALUE = "1";
     private static final String FALSE_INDICATOR_VALUE = "0";
 
