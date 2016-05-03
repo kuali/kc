@@ -21,6 +21,7 @@ package org.kuali.kra.institutionalproposal.service.impl;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.coi.framework.Project;
 import org.kuali.coeus.coi.framework.ProjectPublisher;
 import org.kuali.coeus.coi.framework.ProjectRetrievalService;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
@@ -153,7 +154,10 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
             InstitutionalProposalDocument institutionalProposalDocument = mergeProposals(institutionalProposal, developmentProposal, budget);
             setInstitutionalProposalIndicators(institutionalProposalDocument.getInstitutionalProposal());
             documentService.routeDocument(institutionalProposalDocument, ROUTE_MESSAGE + developmentProposal.getProposalNumber(), new ArrayList<>());
-            getProjectPublisher().publishProject(getInstPropProjectRetrievalService().retrieveProject(institutionalProposalDocument.getInstitutionalProposal().getProposalId().toString()));
+            final Project project = getInstPropProjectRetrievalService().retrieveProject(institutionalProposalDocument.getInstitutionalProposal().getProposalNumber());
+            if (project != null) {
+                getProjectPublisher().publishProject(project);
+            }
             return institutionalProposalDocument.getInstitutionalProposal();
         } catch (WorkflowException ex) {
             throw new InstitutionalProposalCreationException(WORKFLOW_EXCEPTION_MESSAGE, ex);
@@ -179,7 +183,10 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
                     new ArrayList<>());
             institutionalProposalVersioningService.updateInstitutionalProposalVersionStatus(newInstitutionalProposalDocument.getInstitutionalProposal(),
                     VersionStatus.ACTIVE);
-            getProjectPublisher().publishProject(getInstPropProjectRetrievalService().retrieveProject(newInstitutionalProposalDocument.getInstitutionalProposal().getProposalId().toString()));
+            final Project project = getInstPropProjectRetrievalService().retrieveProject(newInstitutionalProposalDocument.getInstitutionalProposal().getProposalNumber());
+            if (project != null) {
+                getProjectPublisher().publishProject(project);
+            }
             return newInstitutionalProposalDocument.getInstitutionalProposal();
         } catch (WorkflowException|VersionException e) {
             throw new InstitutionalProposalCreationException(VERSION_EXCEPTION_MESSAGE, e);

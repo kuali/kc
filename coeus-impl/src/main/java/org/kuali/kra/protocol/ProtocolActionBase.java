@@ -261,8 +261,10 @@ public abstract class ProtocolActionBase extends KcTransactionalDocumentActionBa
                 this.preSave(mapping, form, request, response);
                 actionForward = super.save(mapping, form, request, response);
                 this.postSave(mapping, form, request, response);
-                getProjectPublisher().publishProject(getProjectRetrievalService().retrieveProject(protocolForm.getProtocolDocument().getProtocol().getProtocolId().toString()));
-
+                final Project project = getProjectRetrievalService().retrieveProject(protocolForm.getProtocolDocument().getProtocol().getProtocolNumber());
+                if (project != null) {
+                    getProjectPublisher().publishProject(project);
+                }
                 if (KRADConstants.SAVE_METHOD.equals(protocolForm.getMethodToCall()) && protocolForm.isAuditActivated() 
                         && GlobalVariables.getMessageMap().hasNoErrors()) {
                     // hook invocation to get the forward name

@@ -168,10 +168,10 @@ public class InstitutionalProposalAction extends KcTransactionalDocumentActionBa
                 forward = mapping.findForward(Constants.MAPPING_INSTITUTIONAL_PROPOSAL_ACTIONS_PAGE);
             }
 
-        getProjectPublisher().publishProject(
-                getProjectRetrievalService().retrieveProject(
-                        institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal().getProposalId().toString()));
-
+        final Project project = getProjectRetrievalService().retrieveProject(institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal().getProposalNumber());
+        if (project != null) {
+            getProjectPublisher().publishProject(project);
+        }
         return forward;
     }
     

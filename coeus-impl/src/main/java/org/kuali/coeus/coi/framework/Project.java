@@ -24,8 +24,9 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
-public class Project implements Serializable {
+public class Project implements Serializable, ProjectMetadata {
 
     @Size(min = 1, max = 2000)
     @NotNull
@@ -49,6 +50,8 @@ public class Project implements Serializable {
     private List<ProjectPerson> persons;
 
     private List<ProjectSponsor> sponsors;
+
+    private Map<String, String> metadata;
 
     /**
      * @deprecated use {@link #sponsors}
@@ -161,6 +164,16 @@ public class Project implements Serializable {
     }
 
     @Override
+    public Map<String, String> getMetadata() {
+        return metadata;
+    }
+
+    @Override
+    public void setMetadata(Map<String, String> metadata) {
+        this.metadata = metadata;
+    }
+
+    @Override
     public String toString() {
         return "Project{" +
                 "title='" + title + '\'' +
@@ -174,6 +187,7 @@ public class Project implements Serializable {
                 ", sponsorName='" + sponsorName + '\'' +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
+                ", metadata=" + metadata +
                 '}';
     }
 }

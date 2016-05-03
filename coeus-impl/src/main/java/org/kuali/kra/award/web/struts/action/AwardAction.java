@@ -452,8 +452,11 @@ public class AwardAction extends BudgetParentActionBase {
          */
         getReportTrackingService().generateReportTrackingAndSave(award, false);
 
-        getProjectPublisher().publishProject(getProjectRetrievalService()
-                .retrieveProject(awardForm.getAwardDocument().getAward().getAwardId().toString()));
+        final Project project = getProjectRetrievalService().retrieveProject(awardForm.getAwardDocument().getAward().getAwardNumber());
+
+        if (project != null) {
+            getProjectPublisher().publishProject(project);
+        }
 
         return forward;
     }

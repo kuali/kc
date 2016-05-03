@@ -328,8 +328,10 @@ public abstract class ProposalDevelopmentControllerBase {
                      .filter(specialReview -> !specialReview.isLinkedToProtocol())
                      .forEach(specialReview -> form.getSpecialReviewHelper().prepareProtocolLinkViewFields(specialReview));
          }
-         getProjectPublisher().publishProject(getPropDevProjectRetrievalService().retrieveProject(form.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalNumber()));
-
+         final Project project = getPropDevProjectRetrievalService().retrieveProject(form.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalNumber());
+         if (project != null) {
+             getProjectPublisher().publishProject(project);
+         }
          return view;
      }
 
@@ -375,7 +377,10 @@ public abstract class ProposalDevelopmentControllerBase {
                      .filter(specialReview -> !specialReview.isLinkedToProtocol())
                      .forEach(specialReview -> pdForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(specialReview));
          }
-         getProjectPublisher().publishProject(getPropDevProjectRetrievalService().retrieveProject(pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalNumber()));
+        final Project project = getPropDevProjectRetrievalService().retrieveProject(pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalNumber());
+        if (project != null) {
+            getProjectPublisher().publishProject(project);
+        }
 
          return view;
      }
