@@ -288,12 +288,18 @@
         <property name="jcdAlias" value="kradApplicationDataSource" />
         <property name="dbPlatform" ref="dbPlatform" />
     </bean>
+    
+    <bean id="parentLookupDao" parent="platformAwareDao" abstract="true">
+	    <property name="persistenceStructureService" ref="persistenceStructureService" />
+	    <property name="dataDictionaryService" ref="dataDictionaryService" />
+	    <property name="dateTimeService" ref="dateTimeService" />
+    </bean>
 
     <bean id="awardDao" parent="platformAwareDao" class="org.kuali.kra.award.dao.ojb.AwardDaoOjb">
         <property name="dataSource" ref="dataSource" />
     </bean>
 
-    <bean id="awardLookupDao" parent="platformAwareDao" class="org.kuali.kra.award.dao.ojb.AwardLookupDaoOjb"/>
+    <bean id="awardLookupDao" parent="parentLookupDao" class="org.kuali.kra.award.dao.ojb.AwardLookupDaoOjb"/>
     
     <bean id="awardLookupableHelperService" class="org.kuali.kra.award.lookup.AwardLookupableHelperServiceImpl" parent="parentLookupableHelperService" 
           scope="prototype">
