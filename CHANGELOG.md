@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* RESKC-1298:Fix spring mappings for award lookup dao
+
+  * Due to a recent change to how the award lookup worked, it exposed incorrect spring mappings for the lookup doa. This corrects that and adds test to confirm.
+  * blackcathacker on Tue, 3 May 2016 11:46:08 -0700 [View Commit](../../commit/930e6d6472e2d561a0a57f5b4845b70942a1e1d9)
+
+##coeus-1605.5
 * RESKC-1292: Fixing award and protocol disclosure status display.
   * Gayathri Athreya on Fri, 29 Apr 2016 15:14:39 -0700 [View Commit](../../commit/bfe6f73ce5688e6a644b977570a1e6779ee56e7f)
 
