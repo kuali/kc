@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* Make fields required for CGB not required all the time.
+  * Gayathri Athreya on Mon, 2 May 2016 15:40:01 -0700 [View Commit](../../commit/9f86b93e2123d9c4d0a332484da417a96981da29)
+
+##coeus-1605.3
 * Added ability to edit top most unit in hierarchy. (#1713)  * Gayathri Athreya on Mon, 2 May 2016 15:54:12 -0700 [View Commit](../../commit/76fd6076bf65166e15f4c84d19c768401b5d29dc)
 
 ##coeus-1605.2
