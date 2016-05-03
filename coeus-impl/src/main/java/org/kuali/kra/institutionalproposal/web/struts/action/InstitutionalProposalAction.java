@@ -30,7 +30,6 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.coi.framework.*;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
-import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.coeus.common.framework.auth.UnitAuthorizationService;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase;
 import org.kuali.coeus.sys.framework.validation.AuditHelper;
@@ -63,9 +62,8 @@ import org.kuali.rice.krad.util.KRADConstants;
 
 public class InstitutionalProposalAction extends KcTransactionalDocumentActionBase {
     private static final String MODIFY_IP = "modifyIP";
-    public static final String DISABLE_ATTACHMENT_REMOVAL = "disableAttachmentRemoval";
+    private static final String DISABLE_ATTACHMENT_REMOVAL = "disableAttachmentRemoval";
 
-    private KcNotificationService notificationService;
     private ProjectPublisher projectPublisher;
     private ProjectRetrievalService projectRetrievalService;
 
@@ -101,7 +99,7 @@ public class InstitutionalProposalAction extends KcTransactionalDocumentActionBa
                 documentActions = getPessimisticLockService().getDocumentActions(document, user, documentActions);
             }
             
-            Set<String> editModes = new HashSet<String>();
+            Set<String> editModes = new HashSet<>();
             if (!documentAuthorizer.canOpen(document, user)) {
                 editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
             } else if (documentActions.contains(KRADConstants.KUALI_ACTION_CAN_EDIT) && !((KcTransactionalDocumentFormBase) formBase).isViewOnly()) {
@@ -168,10 +166,10 @@ public class InstitutionalProposalAction extends KcTransactionalDocumentActionBa
                 forward = mapping.findForward(Constants.MAPPING_INSTITUTIONAL_PROPOSAL_ACTIONS_PAGE);
             }
 
-        getProjectPublisher().publishProject(
-                getProjectRetrievalService().retrieveProject(
-                        institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal().getProposalId().toString()));
-
+        final Project project = getProjectRetrievalService().retrieveProject(institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal().getProposalNumber());
+        if (project != null) {
+            getProjectPublisher().publishProject(project);
+        }
         return forward;
     }
     
@@ -185,30 +183,12 @@ public class InstitutionalProposalAction extends KcTransactionalDocumentActionBa
             return super.close(mapping, form, request, response);
         }
     }
-    
-    /**
-     * 
-     * This method gets called upon navigation to Institute Proposal tab.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     */
+
     public ActionForward home(ActionMapping mapping, ActionForm form
             , HttpServletRequest request, HttpServletResponse response) {        
         return mapping.findForward(Constants.MAPPING_INSTITUTIONAL_PROPOSAL_HOME_PAGE);
     }
-    
-    /**
-     * 
-     * This method gets called upon navigation to Contacts tab.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     */
+
     public ActionForward contacts(ActionMapping mapping, ActionForm form
             , HttpServletRequest request, HttpServletResponse response) {        
         InstitutionalProposalForm ipForm = (InstitutionalProposalForm) form;
@@ -220,56 +200,23 @@ public class InstitutionalProposalAction extends KcTransactionalDocumentActionBa
             , HttpServletRequest request, HttpServletResponse response) {        
         return contacts(mapping, form, request, response);
     }
-    
-    /**
-     * 
-     * This method gets called upon navigation to Custom Data tab.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     */
+
     public ActionForward specialReview(ActionMapping mapping, ActionForm form
             , HttpServletRequest request, HttpServletResponse response) {
         ((InstitutionalProposalForm) form).getSpecialReviewHelper().prepareView();
         return mapping.findForward(Constants.MAPPING_INSTITUTIONAL_PROPOSAL_SPECIAL_REVIEW_PAGE);
     }
-    
-    /**
-     * 
-     * This method gets called upon navigation to Custom Data tab.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     */
+
     public ActionForward intellectualPropertyReview(ActionMapping mapping, ActionForm form
             , HttpServletRequest request, HttpServletResponse response) {        
         return mapping.findForward(Constants.MAPPING_INSTITUTIONAL_PROPOSAL_INTELLECTUAL_PROPERTY_REVIEW_PAGE);
     }
-    
-    /**
-     * 
-     * This method gets called upon navigation to Custom Data tab.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     */
+
     public ActionForward distribution(ActionMapping mapping, ActionForm form
             , HttpServletRequest request, HttpServletResponse response) {        
         return mapping.findForward(Constants.MAPPING_INSTITUTIONAL_PROPOSAL_DISTRIBUTION_PAGE);
     }
-    /**
-     * 
-     * This method gets called upon navigation to Attachments Data tab.
-     * @param mapping
-     * @return
-     */
-    
+
     public ActionForward attachments(ActionMapping mapping, ActionForm form
             , HttpServletRequest request, HttpServletResponse response) throws Exception {
         setDisableAttachmentRemovalIndicator(((InstitutionalProposalForm) form).getInstitutionalProposalAttachmentBean());
@@ -282,16 +229,7 @@ public class InstitutionalProposalAction extends KcTransactionalDocumentActionBa
                     ParameterConstants.DOCUMENT_COMPONENT, DISABLE_ATTACHMENT_REMOVAL));
         }
     }
-    
-    /**
-     * 
-     * This method gets called upon navigation to Custom Data tab.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     */
+
     public ActionForward institutionalProposalActions(ActionMapping mapping, ActionForm form
             , HttpServletRequest request, HttpServletResponse response) throws Exception {
         
@@ -302,36 +240,17 @@ public class InstitutionalProposalAction extends KcTransactionalDocumentActionBa
         
         return mapping.findForward(Constants.MAPPING_INSTITUTIONAL_PROPOSAL_ACTIONS_PAGE);
     }
-    
-    /**
-     * 
-     * This method gets called upon navigation to Custom Data tab.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     */
+
     public ActionForward customData(ActionMapping mapping, ActionForm form
             , HttpServletRequest request, HttpServletResponse response) {     
         InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
         institutionalProposalForm.getCustomDataHelper().prepareCustomData();
         return mapping.findForward(Constants.MAPPING_INSTITUTIONAL_PROPOSAL_CUSTOM_DATA_PAGE);
     }
-    
-    /**
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @param institutionalProposalForm
-     * @return
-     * @throws Exception
-     */
+
     ActionForward handleDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request,
                                   HttpServletResponse response, InstitutionalProposalForm institutionalProposalForm) throws Exception {       
-        ActionForward forward = super.docHandler(mapping, form, request, response);
-        return forward;
+        return super.docHandler(mapping, form, request, response);
     }
     
     @Override
@@ -339,9 +258,8 @@ public class InstitutionalProposalAction extends KcTransactionalDocumentActionBa
         throws Exception {
         
         InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
-        InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) institutionalProposalForm.getDocument();
-        
-        ActionForward forward = null;
+
+        ActionForward forward;
         
         String command = institutionalProposalForm.getCommand();
         if (Constants.MAPPING_INSTITUTIONAL_PROPOSAL_ACTIONS_PAGE.equals(command)) {
@@ -376,16 +294,6 @@ public class InstitutionalProposalAction extends KcTransactionalDocumentActionBa
         }
     }
 
-    
-    /**
-    *
-    * This method gets called upon navigation to Medusa tab.
-    * @param mapping
-    * @param form
-    * @param request
-    * @param response
-    * @return
-    */
    public ActionForward medusa(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
        
        InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
@@ -426,17 +334,6 @@ public class InstitutionalProposalAction extends KcTransactionalDocumentActionBa
     protected SponsorHierarchyService getSponsorHierarchyService() {
         return KcServiceLocator.getService(SponsorHierarchyService.class);
     }
-    
-    protected KcNotificationService getNotificationService() {
-        if (notificationService == null) {
-            notificationService = KcServiceLocator.getService(KcNotificationService.class);
-        }
-        return notificationService;
-    }
-
-    public void setNotificationService(KcNotificationService notificationService) {
-        this.notificationService = notificationService;
-    }    
     
     protected List<String> getUnitRulesMessages(InstitutionalProposalDocument ipDoc) {
         KrmsRulesExecutionService rulesService = KcServiceLocator.getService(KrmsRulesExecutionService.class);

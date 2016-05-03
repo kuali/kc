@@ -36,6 +36,8 @@ import static org.kuali.coeus.sys.framework.util.CollectionUtils.entry;
 
 public abstract class AbstractProjectRetrievalService implements ProjectRetrievalService {
 
+    protected static final String SOURCE_UNIQUE_IDENTIFIER_METADATA = "sourceUniqueIdentifier";
+
     @Autowired
     @Qualifier("jdbcOperations")
     private JdbcOperations jdbcOperations;

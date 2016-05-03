@@ -21,8 +21,9 @@ package org.kuali.coeus.coi.framework;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.Map;
 
-public class ProjectPerson implements Serializable {
+public class ProjectPerson implements Serializable, ProjectMetadata {
 
     @Size(min = 1, max = 20)
     @NotNull
@@ -44,16 +45,19 @@ public class ProjectPerson implements Serializable {
     @Size(min = 1, max = 5)
     private String roleCode;
 
+    private Map<String, String> metadata;
+
     public ProjectPerson() {
         super();
     }
 
-    public ProjectPerson(String sourceSystem, String sourceIdentifier, String personId, String sourcePersonType, String roleCode) {
+    public ProjectPerson(String sourceSystem, String sourceIdentifier, String personId, String sourcePersonType, String roleCode, Map<String, String> metadata) {
         this.sourceSystem = sourceSystem;
         this.sourceIdentifier = sourceIdentifier;
         this.personId = personId;
         this.sourcePersonType = sourcePersonType;
         this.roleCode = roleCode;
+        this.metadata = metadata;
     }
 
     public String getSourceSystem() {
@@ -97,6 +101,16 @@ public class ProjectPerson implements Serializable {
     }
 
     @Override
+    public Map<String, String> getMetadata() {
+        return metadata;
+    }
+
+    @Override
+    public void setMetadata(Map<String, String> metadata) {
+        this.metadata = metadata;
+    }
+
+    @Override
     public String toString() {
         return "ProjectPerson{" +
                 "sourceSystem='" + sourceSystem + '\'' +
@@ -104,6 +118,7 @@ public class ProjectPerson implements Serializable {
                 ", personId='" + personId + '\'' +
                 ", sourcePersonType='" + sourcePersonType + '\'' +
                 ", roleCode='" + roleCode + '\'' +
+                ", metadata=" + metadata +
                 '}';
     }
 }

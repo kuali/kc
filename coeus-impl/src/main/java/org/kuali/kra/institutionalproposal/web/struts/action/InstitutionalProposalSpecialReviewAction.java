@@ -27,6 +27,7 @@ import org.kuali.coeus.common.framework.compliance.core.AddSpecialReviewEvent;
 import org.kuali.coeus.common.framework.compliance.core.SaveSpecialReviewEvent;
 import org.kuali.coeus.common.framework.compliance.core.SaveSpecialReviewLinkEvent;
 import org.kuali.coeus.common.framework.compliance.core.SpecialReviewService;
+import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.framework.compliance.core.SpecialReviewType;
 import org.kuali.kra.infrastructure.Constants;
@@ -50,6 +51,7 @@ public class InstitutionalProposalSpecialReviewAction extends InstitutionalPropo
     private static final String CONFIRM_DELETE_SPECIAL_REVIEW_KEY = "confirmDeleteSpecialReview";
     
     private SpecialReviewService specialReviewService;
+    private KcNotificationService notificationService;
     
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -63,7 +65,6 @@ public class InstitutionalProposalSpecialReviewAction extends InstitutionalPropo
     }
     
     @Override
-    @SuppressWarnings("unchecked")
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
         throws Exception {
 
@@ -87,15 +88,6 @@ public class InstitutionalProposalSpecialReviewAction extends InstitutionalPropo
         return forward;
     }
 
-    /**
-     * This method is for adding AwardSpecialReview to the list.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return ActionForward
-     * @throws Exception
-     */
     public ActionForward addSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
         InstitutionalProposalDocument document = institutionalProposalForm.getInstitutionalProposalDocument();
@@ -135,34 +127,14 @@ public class InstitutionalProposalSpecialReviewAction extends InstitutionalPropo
         
         return forward;
     }
-    
-    /**
-     * Deletes a special review item after confirmation.
-     * 
-     * @param mapping the action mapping
-     * @param form the action form
-     * @param request the request
-     * @param response the response
-     * @return the action forward
-     * @throws Exception if unable to delete the special review
-     */
+
     public ActionForward deleteSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
         throws Exception {
 
         return confirm(buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_DELETE_SPECIAL_REVIEW_KEY,
                 KeyConstants.QUESTION_SPECIAL_REVIEW_DELETE_CONFIRMATION), CONFIRM_DELETE_SPECIAL_REVIEW_KEY, "");
     }
-    
-    /**
-     * Deletes a special review item only if the user confirms it.
-     * 
-     * @param mapping the action mapping
-     * @param form the action form
-     * @param request the request
-     * @param response the response
-     * @return the action forward
-     * @throws Exception if unable to delete the special review
-     */
+
     public ActionForward confirmDeleteSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
         throws Exception {
 
@@ -202,12 +174,12 @@ public class InstitutionalProposalSpecialReviewAction extends InstitutionalPropo
         boolean isIPIacucProtocolLinkingEnabled = institutionalProposalForm.getSpecialReviewHelper().getIsIacucProtocolLinkingEnabled();
 
         if (isIPIrbProtocolLinkingEnabled || isIPIacucProtocolLinkingEnabled) {
-            if (applyRules(new SaveSpecialReviewLinkEvent<InstitutionalProposalSpecialReview>(document, specialReviews, linkedProtocolNumbers))) {
+            if (applyRules(new SaveSpecialReviewLinkEvent<>(document, specialReviews, linkedProtocolNumbers))) {
                 institutionalProposalForm.getSpecialReviewHelper().syncProtocolFundingSourcesWithSpecialReviews();
             }
         }
         
-        if (applyRules(new SaveSpecialReviewEvent<InstitutionalProposalSpecialReview>(
+        if (applyRules(new SaveSpecialReviewEvent<>(
             SAVE_SPECIAL_REVIEW_FIELD, document, specialReviews, isIPIrbProtocolLinkingEnabled, isIPIacucProtocolLinkingEnabled))) {
             // For reasons unknown to me, to enforce saving special review records in order between successive saves, we must save the document before saving 
             // anything else (like the special review indicator) on the document.  This statement can be safely removed if the special review indicator is no 
@@ -225,39 +197,17 @@ public class InstitutionalProposalSpecialReviewAction extends InstitutionalPropo
         
         return forward;
     }
-    
-    /**
-     * Displays the Protocol linked to the new special review item.
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
+
     public ActionForward viewNewSpecialReviewProtocolLink(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
         throws Exception {
         
-        String viewProtocolUrl = Constants.EMPTY_STRING;
-        
         InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
         InstitutionalProposalSpecialReview institutionalProposalSpecialReview = institutionalProposalForm.getSpecialReviewHelper().getNewSpecialReview();
-        viewProtocolUrl = getViewProtocolUrl(institutionalProposalSpecialReview);
+        String viewProtocolUrl = getViewProtocolUrl(institutionalProposalSpecialReview);
         
         return new ActionForward(viewProtocolUrl, true);
     }
-    
-    /**
-     * Displays the Protocol linked to the special review item on the selected line (from the parameter list since this is run through a popup window).
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
+
     public ActionForward viewSpecialReviewProtocolLink(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
         throws Exception {
         
@@ -298,5 +248,16 @@ public class InstitutionalProposalSpecialReviewAction extends InstitutionalPropo
     public void setSpecialReviewService(SpecialReviewService specialReviewService) {
         this.specialReviewService = specialReviewService;
     }
-    
+
+    protected KcNotificationService getNotificationService() {
+        if (notificationService == null) {
+            notificationService = KcServiceLocator.getService(KcNotificationService.class);
+        }
+        return notificationService;
+    }
+
+    public void setNotificationService(KcNotificationService notificationService) {
+        this.notificationService = notificationService;
+    }
+
 }

@@ -42,7 +42,6 @@ import org.kuali.coeus.propdev.impl.person.ProposalPersonCoiIntegrationService;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographyService;
 import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnaireHelper;
-import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReviewExemption;
 import org.kuali.coeus.sys.framework.controller.KcCommonControllerService;
 import org.kuali.coeus.sys.framework.controller.UifExportControllerService;
@@ -328,8 +327,10 @@ public abstract class ProposalDevelopmentControllerBase {
                      .filter(specialReview -> !specialReview.isLinkedToProtocol())
                      .forEach(specialReview -> form.getSpecialReviewHelper().prepareProtocolLinkViewFields(specialReview));
          }
-         getProjectPublisher().publishProject(getPropDevProjectRetrievalService().retrieveProject(form.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalNumber()));
-
+         final Project project = getPropDevProjectRetrievalService().retrieveProject(form.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalNumber());
+         if (project != null) {
+             getProjectPublisher().publishProject(project);
+         }
          return view;
      }
 
@@ -375,7 +376,10 @@ public abstract class ProposalDevelopmentControllerBase {
                      .filter(specialReview -> !specialReview.isLinkedToProtocol())
                      .forEach(specialReview -> pdForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(specialReview));
          }
-         getProjectPublisher().publishProject(getPropDevProjectRetrievalService().retrieveProject(pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalNumber()));
+        final Project project = getPropDevProjectRetrievalService().retrieveProject(pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalNumber());
+        if (project != null) {
+            getProjectPublisher().publishProject(project);
+        }
 
          return view;
      }
