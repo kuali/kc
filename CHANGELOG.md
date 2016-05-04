@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* making the java melody storage directory configurable.
+  * Travis Schneeberger on Wed, 4 May 2016 09:38:21 -0400 [View Commit](../../commit/36c4958861f9b74e372e6eb9a5f8920c5aacd470)
+
+##coeus-1605.8
 * No Changes
 
 
