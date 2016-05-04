@@ -219,6 +219,7 @@
                 <entry key="disabled" value="#{not (T(org.kuali.rice.core.api.config.property.ConfigContext).getCurrentContextConfig().getBooleanProperty('kc.monitoring.enabled'))}" />
                 <entry key="monitoring-path" value="/monitoring/jm" />
                 <entry key="quartz-default-listener-disabled" value="true"/>
+                <entry key="storage-directory" value="${kc.monitoring.storage-directory}" />
             </map>
         </property>
     </bean>

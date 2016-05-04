@@ -242,6 +242,7 @@
 	<param name="kc.monitoring.verbose.logging">false</param>
 	<param name="kc.monitoring.exclude.pattern">.*/static/.*|/healthCheck/.*|.*/css/.*|.*/images/.*|.*/help/.*|.*/plugins/.*|.*/themes/.*|.*/rice-contrib/.*|.*/scripts/.*|/schemaspy/.*|/legacyCoeusSchemaspy/.*</param>
 	<param name="rice.krad.jpa.global.jpa.vendor.adapter.class">co.kuali.coeus.sys.impl.monitor.MonitoringEclipseLinkJpaVendorAdapter</param>
+	<param name="kc.monitoring.storage-directory">/tmp/javamelody/</param>
 
     <param name="kc.rest.admin.username" override="false"></param>
     <param name="kc.rest.admin.password" override="false"></param>
