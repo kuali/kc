@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1605.7
 * RESKC-1281: Change Project push to use awardNumber for award, protocolNumber for irb and iacuc and proposalNumber for institutional proposal for the source identifier.  Only push the latest version according to sequence status number on award, irb, iacuc, and institutional proposal.  Do not push special versions for iacuc and irb (Amendment, Renewal, FYI, Continuation).  Do not push parent proposal development documents when in a hierarchy.  Added metadata to the json payload containing system specific information.  This information can be use for logging or auditing of projects being pushed.  So far the actual primary keys for the projects being pushed is the only metadata being included.
   * Travis Schneeberger on Tue, 3 May 2016 09:55:01 -0400 [View Commit](../../commit/5b09fd79bcaad66175831f5b02334f697e65f4fa)
 
