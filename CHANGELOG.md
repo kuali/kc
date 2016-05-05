@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* RESKC-673: fix footer getting stuck in middle of page
+
+  * Losing access to some of the left-hand navigation buttons, including Delivery Info, Budget, Access, Summary/Submit, etc. when page footer floats and does not allow user to scroll past.
+  * I believe it IS happening consistently when both left nav sections that have sub sections are open; so when both Basics and Key Personnel are open and showing sub menu options.
+  * Only workaround we have identified is to keep clicking nav buttons toward the top of the list which refreshes the screen until the issue resolves.
+  * Joe Williams on Thu, 5 May 2016 14:37:28 -0500 [View Commit](../../commit/8e787e0d28c3af133b4be795105cac819637b8e7)
+
+##coeus-1605.11
 * RESKC-1308: Fix IP to Award data feed. (#1723)
 
   * System is ignoring the parameter setting for All_Sponsor_Hierarchy_NIH_Multiple_PI = Y.
