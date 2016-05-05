@@ -40,6 +40,9 @@ Kc.Global = Kc.Global || {};
             //if a date input is added after document ready event.
             $(this).rules("add",{kcValidateCurrency: true});
         });
+      $(document).on("scroll", function(){
+        namespace.makeApplicationFooterSticky();
+      });
         $(window).on("resize",function(){
             namespace.makeApplicationFooterSticky();
             $(".kc-navMenuDropdown .dropdown-menu").each(function(){
@@ -150,7 +153,7 @@ Kc.Global = Kc.Global || {};
         });
     }
     namespace.makeApplicationFooterSticky = function() {
-        var docHeight = $(window).height();
+        var docHeight = $(window).height() + $(window).scrollTop();
         var footerHeight = $('#Uif-ApplicationFooter-Wrapper').height();
         var footerTop = $('#Uif-ApplicationFooter-Wrapper').position().top + footerHeight;
 
