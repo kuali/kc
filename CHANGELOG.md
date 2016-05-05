@@ -1,6 +1,28 @@
 
 
 ##CURRENT
+* RESKC-1308: Fix IP to Award data feed. (#1723)
+
+  * System is ignoring the parameter setting for All_Sponsor_Hierarchy_NIH_Multiple_PI = Y.
+  * While it presents and allows the user to select PI/Multiple in IP and Award, and appears to add that participant, the person is not fully saved in the record.
+  * Their section 'disappears' on the Contacts screen, but the validation for Credit Split persists if that feature is enabled.
+  * Fix must resolve the following:
+  * 1. IP should not ignore the All Sponsor PI Multiple parameter
+  * 2. Award should not ignore the All Sponsor PI Multiple parameeter
+  * 3. When IP fed as funding source to Award, system should not ignore PI Multiple.
+  * 
+  * In stage:
+  * Award created and added IP *3284 as funding source which brings in 2 contacts: PI Maher and PI/Multi Majumdar.
+  * Added required fields to save; added template.
+  * Contacts screen: found Maher as PI, but Majumdar imports as a Key Person (SHOULD BE PI/Multiple).
+  * Test 1: Actions > Submit - got validation error re: credit split not = 100.
+  * Returned to Contacts: Majumdar was no longer visible on screen. Stuck - cancelled award.
+  * Test 2: recreated the award with the same funding proposal.
+  * On Contacts: DELETED Majumdar key person. Searched and added back as PI/Multiple. Saved,
+  * Again - Majumdar info on Contact screen disappears.
+  * Cannot submit award due to persistent validation error for credit split - so the person is still in the record.  * Gayathri Athreya on Thu, 5 May 2016 12:03:47 -0700 [View Commit](../../commit/40d827095a73765ae8f2cc0c0e18b1c8a41798ea)
+
+##coeus-1605.10
 * No Changes
 
 
