@@ -28,6 +28,7 @@ public interface ContactRole extends BusinessObject {
     String PI_CODE = "PI";
     String COI_CODE = "COI";
     String KEY_PERSON_CODE = "KP";
+    String MULTI_PI_CODE = "MPI";
         
     String getRoleCode();
     String getRoleDescription();

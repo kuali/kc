@@ -62,5 +62,7 @@ public interface PropAwardPersonRoleService {
 	 * @return
 	 */
 	public String getSponsorHierarchy(String sponsorCode);
-	
-}
+
+    public Boolean areAllSponsorsMultiPi();
+
+    }

@@ -126,7 +126,7 @@ public class AwardProjectPersonAddRuleImplTest {
 				QueryByCriteria.Builder.create().setPredicates(PredicateFactory.equal("code", ContactRole.KEY_PERSON_CODE), PredicateFactory.equal("sponsorHierarchyName", PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY));
 		final PropAwardPersonRole role = createTestRole(3L, ContactRole.KEY_PERSON_CODE, PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY);
         context.checking(new Expectations() {{
-        	one(parameterService).getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, PropAwardPersonRoleServiceImpl.ALL_SPONSOR_HIERARCHY_NIH_MULTI_PI);
+        	one(parameterService).getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ALL_SPONSOR_HIERARCHY_NIH_MULTI_PI);
         	will(returnValue(false));
         	one(parameterService).getParameterValuesAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, PropAwardPersonRoleServiceImpl.SPONSOR_HIERARCHIES_PARM);
         	will(returnValue(new ArrayList<String>(){{

@@ -29,6 +29,7 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.kuali.coeus.coi.framework.*;
 import org.kuali.coeus.common.framework.auth.SystemAuthorizationService;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRoleService;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.history.VersionHistory;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
@@ -263,7 +264,7 @@ public class AwardAction extends BudgetParentActionBase {
         if (GlobalVariables.getAuditErrorMap().isEmpty()) {
             getAuditHelper().auditConditionally((AwardForm) form);
         }
-        
+
         return actionForward;
     }
     
@@ -561,34 +562,56 @@ public class AwardAction extends BudgetParentActionBase {
     protected boolean isValidSave(AwardForm awardForm) {
         AwardDocument awardDocument = (AwardDocument) awardForm.getDocument();
         String leadUnitNumber = awardDocument.getLeadUnitNumber();
-        if (StringUtils.isNotEmpty(leadUnitNumber) && checkNoMoreThanOnePI(awardDocument.getAward())) {
+        List<AwardPerson> persons = awardDocument.getAward().getProjectPersons();
+
+        if (StringUtils.isNotEmpty(leadUnitNumber) && checkNoMoreThanOnePI(awardDocument.getAward()) && isMultiPiValid(awardDocument.getAward().getSponsorCode(), persons)) {
             String userId = GlobalVariables.getUserSession().getPrincipalId();
             UnitAuthorizationService authService = KcServiceLocator.getService(UnitAuthorizationService.class);
             return authService.hasMatchingQualifiedUnits(userId, Constants.MODULE_NAMESPACE_AWARD,
                     AwardPermissionConstants.MODIFY_AWARD.getAwardPermission(), leadUnitNumber);
         }
-        return false; 
+        return false;
     }
-    
-    private boolean checkNoMoreThanOnePI(Award award) {
-        int piCount = 0;
-        int counter = 0;
-        ArrayList<String> fields = new ArrayList<>();
-        for (AwardPerson p : award.getProjectPersons()) {
-            if (p.isPrincipalInvestigator()) {
-                piCount++;
-                fields.add("projectPersonnelBean.projectPersonnel[" + counter + "].contactRoleCode");
-            }
-            counter++;
-        }
-        boolean valid = piCount <= 1;
-        if (!valid) {
-            for (String field  : fields) {
-                GlobalVariables.getMessageMap().putError(field, AwardProjectPersonsSaveRule.ERROR_AWARD_PROJECT_PERSON_MULTIPLE_PI_EXISTS);
+
+    protected boolean isMultiPiValid(String sponsor, List<AwardPerson> persons) {
+        boolean valid = true;
+        boolean multiPiAllowed = isMultiPiAllowed(sponsor);
+        for(int index = 0; index < persons.size(); index++) {
+            if (persons.get(index).isMultiplePi() && multiPiAllowed) {
+                valid = false;
+                GlobalVariables.getMessageMap().putError("projectPersonnelBean.projectPersonnel[" + index + "].contactRoleCode",
+                            AwardProjectPersonsSaveRule.ERROR_AWARD_PROJECT_PERSON_MULTIPLE_PI_EXISTS);
             }
         }
-        
         return valid;
+    }
+
+    protected boolean isMultiPiAllowed(String sponsor) {
+        PropAwardPersonRoleService awardPersonRoleService = getPropAwardPersonRoleService();
+        SponsorHierarchyService sponsorHierarchyService = getSponsorHierarchyService();
+
+        return awardPersonRoleService.areAllSponsorsMultiPi() || sponsorHierarchyService.isSponsorNihMultiplePi(sponsor);
+    }
+
+    public PropAwardPersonRoleService getPropAwardPersonRoleService() {
+        return KcServiceLocator.getService(PropAwardPersonRoleService.class);
+    }
+
+    protected boolean checkNoMoreThanOnePI(Award award) {
+        int piCount = 0;
+        ArrayList<String> fields = new ArrayList<>();
+        for(int i = 0; i < award.getProjectPersons().size(); i++) {
+            if(award.getProjectPersons().get(i).isPrincipalInvestigator()){
+                piCount++;
+                fields.add("projectPersonnelBean.projectPersonnel[" + i + "].contactRoleCode");
+            }
+        }
+
+        if (piCount > 1 ) {
+            fields.stream().forEach(field -> GlobalVariables.getMessageMap().putError(field, AwardProjectPersonsSaveRule.ERROR_AWARD_PROJECT_PERSON_MULTIPLE_PI_EXISTS));
+            return true;
+        }
+        return false;
     }
 
     protected final boolean applyRules(DocumentEvent event) {

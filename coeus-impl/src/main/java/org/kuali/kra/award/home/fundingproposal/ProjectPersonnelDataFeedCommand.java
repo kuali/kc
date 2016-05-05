@@ -119,7 +119,7 @@ class ProjectPersonnelDataFeedCommand extends ProposalDataFeedCommandBase {
         awardPerson.setPhoneNumber(proposalPerson.getPhoneNumber());
         awardPerson.setSummerEffort(proposalPerson.getSummerEffort());
         awardPerson.setTotalEffort(proposalPerson.getTotalEffort());
-        
+
         for (InstitutionalProposalPersonCreditSplit ipPersonCreditSplit : proposalPerson.getCreditSplits()) {
             awardPerson.add(createAwardPersonCreditSplit(ipPersonCreditSplit));
         }
@@ -139,7 +139,9 @@ class ProjectPersonnelDataFeedCommand extends ProposalDataFeedCommandBase {
             awardPerson.setRoleCode(ContactRole.COI_CODE);
             awardPerson.setKeyPersonRole(ContactRole.COI_CODE);
             awardPerson.setContactRoleCode(ContactRole.COI_CODE);
-        } else {
+        }
+
+        else {
             awardPerson.setRoleCode(proposalPerson.getRoleCode());
             awardPerson.setKeyPersonRole(proposalPerson.getKeyPersonRole());
             awardPerson.setContactRoleCode(proposalPerson.getContactRoleCode());

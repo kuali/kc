@@ -607,10 +607,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
     public List<AwardPerson> getMultiplePis() {
-        if (isSponsorNihMultiplePi()) {
-            return projectPersons.stream().filter(AwardPerson::isMultiplePi).sorted().collect(Collectors.toList());
-        }
-        return new ArrayList<>();
+        return projectPersons.stream().filter(AwardPerson::isMultiplePi).sorted().collect(Collectors.toList());
     }
 
     public List<AwardPerson> getKeyPersons() {

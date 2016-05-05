@@ -37,8 +37,7 @@ import org.springframework.stereotype.Service;
 public class PropAwardPersonRoleServiceImpl implements PropAwardPersonRoleService {
 	
 	public static final String SPONSOR_HIERARCHIES_PARM = "PERSON_ROLE_SPONSOR_HIERARCHIES";
-	public static final String ALL_SPONSOR_HIERARCHY_NIH_MULTI_PI = "ALL_SPONSOR_HIERARCHY_NIH_MULTI_PI";
-	public static final String NIH_MULTIPLE_PI_HIERARCHY = "NIH Multiple PI";
+    public static final String NIH_MULTIPLE_PI_HIERARCHY = "NIH Multiple PI";
 
 	@Autowired
 	@Qualifier("dataObjectService")
@@ -105,8 +104,8 @@ public class PropAwardPersonRoleServiceImpl implements PropAwardPersonRoleServic
 		return DEFAULT_SPONSOR_HIERARCHY_NAME;
 	}
 	
-	protected Boolean areAllSponsorsMultiPi() {
-		return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, ALL_SPONSOR_HIERARCHY_NIH_MULTI_PI);
+	public Boolean areAllSponsorsMultiPi() {
+		return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ALL_SPONSOR_HIERARCHY_NIH_MULTI_PI);
 	}
 	
 	protected Collection<String> getRoleHierarchies() {
