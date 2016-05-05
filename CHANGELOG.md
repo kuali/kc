@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1605.12
 * RESKC-673: fix footer getting stuck in middle of page
 
   * Losing access to some of the left-hand navigation buttons, including Delivery Info, Budget, Access, Summary/Submit, etc. when page footer floats and does not allow user to scroll past.
