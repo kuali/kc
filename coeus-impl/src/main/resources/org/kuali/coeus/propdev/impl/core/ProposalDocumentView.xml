@@ -101,7 +101,8 @@
 	<!-- Proposal Menu -->
 	<bean id="PropDev-Menu" parent="PropDev-Menu-parentBean" />
 	<bean id="PropDev-Menu-parentBean" abstract="true"
-		parent="Uif-MenuNavigationGroup">
+		parent="Uif-MenuNavigationGroup"
+        p:style="margin-bottom: 180px;">
 		<property name="items">
 			<list>
 				<bean parent="PropDev-NavigationMenu-Basics" p:order="10" />
