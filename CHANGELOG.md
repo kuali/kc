@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1316:Limit rest api authentication to '/api/v1/' urls
+  * blackcathacker on Fri, 6 May 2016 13:10:03 -0700 [View Commit](../../commit/691ce8d751e3c52ef6cc9ce8c23516a6a155b37c)
+
+##coeus-1605.13
 * No Changes
 
 
