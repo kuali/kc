@@ -132,7 +132,7 @@
         <property name="parameterNamespace" value="KC-SYS" />
         <property name="parameterComponent" value="All" />
     </bean>
-
+    
     <bean id="kcQuartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <property name="exposeSchedulerInRepository" value="true" />
         <property name="triggers">
