@@ -239,6 +239,44 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="fileAttachmentConversionJob" class="org.kuali.coeus.common.impl.attachment.KcAttachmentDataDaoConversionImpl">
+		<property name="kcAttachmentDataDao" ref="kcAttachmentDataDao"/>
+    	<property name="tableName" value="ATTACHMENT_FILE"/>
+    	<property name="blobColumn" value="FILE_DATA"/>
+    	<property name="fileDataIdColumn" value="FILE_DATA_ID"/>
+    	<property name="primaryKeyColumn" value="FILE_ID"/>
+    	<property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <bean id="fileAttachmentConversionJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    	<property name="targetObject" ref="fileAttachmentConversionJob"/>
+    	<property name="targetMethod" value="execute" />
+    	<property name="concurrent" value="false" />
+    </bean>
+    
+    <bean id="fileAttachmentConversionCronTrigger" class="org.kuali.coeus.sys.framework.scheduling.KcCronTriggerBean">
+        <property name="jobDetail" ref="fileAttachmentConversionJobDetail" />
+        <property name="parameterService" ref="parameterService" />
+        <property name="dateTimeService" ref="dateTimeService" />
+        <property name="cronExpressionParameterName" value="fileAttachmentConversion.cronExpression" />
+        <property name="triggerEnabledParameterName" value="fileAttachmentConversion.enabled" />
+        <property name="parameterNamespace" value="KC-SYS" />
+        <property name="parameterComponent" value="All" />
+    </bean>
+
+    <bean id="kcCommonQuartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="exposeSchedulerInRepository" value="true" />
+        <property name="triggers">
+            <list merge="true">
+                <ref bean="fileAttachmentConversionCronTrigger" />
+            </list>
+        </property>
+    </bean>
+    
+    <util:map id="tableBlobsToWatch">
+    	<entry key="attachment_file" value="file_data"/>
+    </util:map>
 
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.questionnaire.framework.answer.Answer" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader" />

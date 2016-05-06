@@ -18,11 +18,14 @@
  */
 package org.kuali.coeus.common.framework.attachment;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.sys.api.model.KcFile;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.framework.version.sequence.associate.SeparateAssociate;
 
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.util.Arrays;
 
 /**
@@ -43,8 +46,16 @@ public class AttachmentFile extends SeparateAssociate implements KcFile {
     private String name;
 
     private String type;
+    
+    private transient WeakReference<byte[]> fileDataData;
 
     private byte[] data;
+    
+    private String fileDataId;
+    
+    private String oldFileDataId;
+    
+    private transient KcAttachmentDataDao kcAttachmentDataDao;
 
     /**
      * empty ctor to satisfy JavaBean convention.
@@ -105,7 +116,7 @@ public class AttachmentFile extends SeparateAssociate implements KcFile {
      * @param aLength the length.
      * @return the modified string.
      */
-    private static String removeFrontForLength(String aString, int aLength) {
+    static String removeFrontForLength(String aString, int aLength) {
         assert aString != null : "aString is null";
         assert aLength > 0 : "aLength is negative: " + aLength;
         if (aString.length() > aLength) {
@@ -147,21 +158,32 @@ public class AttachmentFile extends SeparateAssociate implements KcFile {
     public void setType(String type) {
         this.type = type;
     }
-
-    /**
-     * Gets the Protocol Attachment File data.
-     * @return the Protocol Attachment File data
-     */
+    
     public byte[] getData() {
-        return (this.data == null) ? null : this.data.clone();
+    	if (fileDataId != null) {
+	        if (fileDataData != null) {
+	            byte[] existingData = fileDataData.get();
+	            if (existingData != null) {
+	                return existingData;
+	            }
+	        }
+	        //if we didn't have a softreference, grab the data from the db
+	        byte[] newData = getKcAttachmentDataDao().getData(fileDataId);
+	        fileDataData = new WeakReference<byte[]>(newData);
+	        return newData;
+    	} else {
+    		return (data == null) ? null : data.clone();
+    	}
     }
 
-    /**
-     * Sets the Protocol Attachment File data.
-     * @param data the Protocol Attachment File data
-     */
     public void setData(byte[] data) {
-        this.data = (data == null) ? null : data.clone();
+        if (data == null || data.length == 0) {
+            setFileDataId(null);
+        } else {
+            setFileDataId(getKcAttachmentDataDao().saveData(data, null));
+        }
+        this.fileDataData = new WeakReference<byte[]>(data);
+        this.data = null;
     }
 
     @Override
@@ -229,4 +251,41 @@ public class AttachmentFile extends SeparateAssociate implements KcFile {
     public void setId(Long id) {
         this.id = id;
     }
+
+	public String getFileDataId() {
+		return fileDataId;
+	}
+	public void setFileDataId(String fileDataId) {
+		if (!StringUtils.equals(this.fileDataId, fileDataId)) {
+			oldFileDataId = this.fileDataId;
+		}
+		this.fileDataId = fileDataId;
+	}
+	
+	@Override
+    public void postRemove() {
+		super.postRemove();
+        if (getFileDataId() != null) {
+            getKcAttachmentDataDao().removeData(getFileDataId());
+        }
+    }
+	
+	@Override
+	public void postUpdate() {
+		super.postUpdate();
+		if (oldFileDataId != null && !StringUtils.equals(fileDataId, oldFileDataId)) {
+			getKcAttachmentDataDao().removeData(oldFileDataId);
+			oldFileDataId = null;
+		}
+	}
+	
+	public KcAttachmentDataDao getKcAttachmentDataDao() {
+		if (kcAttachmentDataDao == null) {
+			kcAttachmentDataDao = KcServiceLocator.getService(KcAttachmentDataDao.class);
+		}
+		return kcAttachmentDataDao;
+	}
+	public void setKcAttachmentDataDao(KcAttachmentDataDao kcAttachmentDao) {
+		this.kcAttachmentDataDao = kcAttachmentDao;
+	}
 }

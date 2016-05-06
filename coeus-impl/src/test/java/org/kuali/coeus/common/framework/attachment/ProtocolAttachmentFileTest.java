@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.kra.irb.noteattachment;
+package org.kuali.coeus.common.framework.attachment;
 
 import org.apache.struts.upload.FormFile;
 import org.jmock.Expectations;
@@ -27,7 +27,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.attachment.AttachmentFile;
 import org.kuali.coeus.common.framework.attachment.AttachmentFile.CreateException;
-
 import java.io.IOException;
 
 import static org.hamcrest.core.Is.is;
@@ -37,28 +36,8 @@ import static org.hamcrest.core.Is.is;
  */
 public class ProtocolAttachmentFileTest {
 
-    Mockery context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
-    
-    /**
-     * Tests that the factory method works correctly with normal input.
-     * @throws Exception if bad happens.
-     */
-    @Test
-    public void createFromFormFileBasic() throws Exception {
-
-        final String fileName = "fileName";
-        final String fileType = "fileType";
-        final byte[] data = new byte[] {1,};
-        
-        FormFile formFile = createMockFormFileWithExpectations(fileName, fileType, data);
-        AttachmentFile file = AttachmentFile.createFromFormFile(formFile);
-        
-        this.context.assertIsSatisfied();
-        
-        Assert.assertThat(file.getName(), is(fileName));
-        Assert.assertThat(file.getType(), is(fileType));
-        Assert.assertThat(file.getData(), is(data));
-    }
+    private static final String FILE_DATA_ID = "123";
+	Mockery context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
     
     /**
      * Tests that factory method properly handles a null form file.
@@ -75,39 +54,13 @@ public class ProtocolAttachmentFileTest {
     @Test
     public void createFromFormFileLongName() throws Exception {
         final String fileName = "fileNamethrows Exceptionthrows Exceptionthrows Exceptionthrows Exceptionthrows Exceptionthrows Exceptionthrows Exceptionthrows Exceptionthrows Exceptionthrows Exception";
-        final String fileType = "fileType";
-        final byte[] data = new byte[] {1,};
         
-        FormFile formFile = createMockFormFileWithExpectations(fileName, fileType, data);
-        AttachmentFile file = AttachmentFile.createFromFormFile(formFile);
+        String newFileName = AttachmentFile.removeFrontForLength(fileName, AttachmentFile.MAX_FILE_NAME_LENGTH);
+
         
-        this.context.assertIsSatisfied();
-        
-        Assert.assertThat(file.getName(), is(fileName.substring(fileName.length() - AttachmentFile.MAX_FILE_NAME_LENGTH)));
-        Assert.assertThat(file.getType(), is(fileType));
-        Assert.assertThat(file.getData(), is(data));
+        Assert.assertThat(newFileName, is(fileName.substring(fileName.length() - AttachmentFile.MAX_FILE_NAME_LENGTH)));
     }
-    
-    /**
-     * Test that confirms proper handling of long file types.
-     * @throws Exception if bad happens.
-     */
-    @Test
-    public void createFromFormFileLongType() throws Exception {
-        final String fileName = "fileName";
-        final String fileType = "fileTypefileTypefileTypefileTypefileTypefileTypefileTypefileTypefileTypefileTypefileTypefileTypefileTypefileTypefileTypefileTypefileTypefileTypefileTypefileTypefileTypefileTypefileTypefileTypefileTypefileTypefileTypefileTypefileTypefileTypefileTypefileTypefileTypefileTypefileTypefileTypefileType";
-        final byte[] data = new byte[] {1,};
-        
-        FormFile formFile = createMockFormFileWithExpectations(fileName, fileType, data);
-        AttachmentFile file = AttachmentFile.createFromFormFile(formFile);
-        
-        this.context.assertIsSatisfied();
-        
-        Assert.assertThat(file.getName(), is(fileName));
-        Assert.assertThat(file.getType(), is(fileType.substring(fileType.length() - AttachmentFile.MAX_FILE_TYPE_LENGTH)));
-        Assert.assertThat(file.getData(), is(data));
-    }
-    
+
     /**
      * Tests that IOExceptions are properly handled by wrapping in a CreateException.
      * @throws Exception if bad happens.
