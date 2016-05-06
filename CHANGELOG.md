@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* RESKC-1290:Add quartz based conversion job and api endpoint for status of conversion
+  * blackcathacker on Thu, 5 May 2016 19:31:22 -0700 [View Commit](../../commit/681a593b6ef88da7300d611247b9b969942f173f)
+* RESKC-1290:Prepare attachment file for moving attachments to central file_data
+  * blackcathacker on Thu, 5 May 2016 12:19:53 -0700 [View Commit](../../commit/575338b7911de2a4afbb3de825d675bf88591f80)
+
+##coeus-1605.14
 * RESKC-1316:Limit rest api authentication to '/api/v1/' urls
   * blackcathacker on Fri, 6 May 2016 13:10:03 -0700 [View Commit](../../commit/691ce8d751e3c52ef6cc9ce8c23516a6a155b37c)
 
