@@ -1,5 +1,8 @@
 package org.kuali.coeus.common.impl.attachment;
 
+import static org.kuali.coeus.sys.framework.util.CollectionUtils.entry;
+import static org.kuali.coeus.sys.framework.util.CollectionUtils.nullSafeEntriesToMap;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -38,14 +41,12 @@ public class KcAttachmentConversionProgress extends RestController {
 	public @ResponseBody Map<String, Map<String, Long>> getCurrentConversionStatus() {
 		Map<String, Map<String, Long>> result = new HashMap<>();
 		try (Connection conn = dataSource.getConnection()) {
-			tableBlobsToWatch.entrySet().stream()
-				.forEach(entry -> {
-					result.put(entry.getKey(), getNullCount(entry.getKey(), entry.getValue(), conn));
-				});
+			return tableBlobsToWatch.entrySet().stream()
+				.map(e -> entry(e.getKey(), getNullCount(e.getKey(), e.getValue(), conn)))
+				.collect(nullSafeEntriesToMap());
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
-		return result;
 	}
 	
 	protected Map<String, Long> getNullCount(String tableName, String blobColumn, Connection conn) {

@@ -25,7 +25,7 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.framework.version.sequence.associate.SeparateAssociate;
 
 import java.io.IOException;
-import java.lang.ref.SoftReference;
+import java.lang.ref.WeakReference;
 import java.util.Arrays;
 
 /**
@@ -47,7 +47,7 @@ public class AttachmentFile extends SeparateAssociate implements KcFile {
 
     private String type;
     
-    private SoftReference<byte[]> fileDataData;
+    private transient WeakReference<byte[]> fileDataData;
 
     private byte[] data;
     
@@ -55,7 +55,7 @@ public class AttachmentFile extends SeparateAssociate implements KcFile {
     
     private String oldFileDataId;
     
-    private KcAttachmentDataDao kcAttachmentDataDao;
+    private transient KcAttachmentDataDao kcAttachmentDataDao;
 
     /**
      * empty ctor to satisfy JavaBean convention.
@@ -116,7 +116,7 @@ public class AttachmentFile extends SeparateAssociate implements KcFile {
      * @param aLength the length.
      * @return the modified string.
      */
-    private static String removeFrontForLength(String aString, int aLength) {
+    static String removeFrontForLength(String aString, int aLength) {
         assert aString != null : "aString is null";
         assert aLength > 0 : "aLength is negative: " + aLength;
         if (aString.length() > aLength) {
@@ -169,7 +169,7 @@ public class AttachmentFile extends SeparateAssociate implements KcFile {
 	        }
 	        //if we didn't have a softreference, grab the data from the db
 	        byte[] newData = getKcAttachmentDataDao().getData(fileDataId);
-	        fileDataData = new SoftReference<byte[]>(newData);
+	        fileDataData = new WeakReference<byte[]>(newData);
 	        return newData;
     	} else {
     		return (data == null) ? null : data.clone();
@@ -182,7 +182,7 @@ public class AttachmentFile extends SeparateAssociate implements KcFile {
         } else {
             setFileDataId(getKcAttachmentDataDao().saveData(data, null));
         }
-        this.fileDataData = new SoftReference<byte[]>(data);
+        this.fileDataData = new WeakReference<byte[]>(data);
         this.data = null;
     }
 

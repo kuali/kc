@@ -75,7 +75,10 @@ public class KcAttachmentDataDaoConversionImpl implements KcAttachmentDataDaoCon
 			} catch (SQLException e) {
 				LOG.error("Got sql exception in attachment conversion, job exiting.", e);
 				return;
-			} catch (InterruptedException e) { }
+			} catch (InterruptedException e) {
+		        Thread.currentThread().interrupt();
+		        break;
+			}
 		}
 		LOG.info("Finishing attachment conversion job for " + tableName);
 	}

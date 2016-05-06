@@ -20,4 +20,4 @@ insert into krcr_parm_t (nmspc_cd, cmpnt_cd, parm_nm, obj_id, ver_nbr, parm_typ_
 values ('KC-SYS', 'All', 'fileAttachmentConversion.cronExpression', sys_guid(), 1, 'CONFG', '0 32 * * * ?', 'The cron expression for how often the file attachment data conversion should be started.', 'A', 'KC');
 
 insert into krcr_parm_t (nmspc_cd, cmpnt_cd, parm_nm, obj_id, ver_nbr, parm_typ_cd, val, parm_desc_txt, eval_oprtr_cd, appl_id)
-values ('KC-SYS', 'All', 'fileAttachmentConversion.enabled', sys_guid(), 1, 'CONFG', 'Y', 'Determines whether the file attachment data conversion will run.', 'A', 'KC');
+values ('KC-SYS', 'All', 'fileAttachmentConversion.enabled', sys_guid(), 1, 'CONFG', 'N', 'Determines whether the file attachment data conversion will run.', 'A', 'KC');
