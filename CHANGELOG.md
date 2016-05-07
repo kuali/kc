@@ -1,6 +1,9 @@
 
 
 ##CURRENT
+* Fix proposal number error. Fix null pointer when using no custom data. Add ability to add rolodex people. (#1729)  * Gayathri Athreya on Fri, 6 May 2016 17:33:13 -0700 [View Commit](../../commit/0b6230fb0cb7488aa911aa7be838dec603ba3894)
+
+##coeus-1605.15
 * RESKC-1290:Add quartz based conversion job and api endpoint for status of conversion
   * blackcathacker on Thu, 5 May 2016 19:31:22 -0700 [View Commit](../../commit/681a593b6ef88da7300d611247b9b969942f173f)
 * RESKC-1290:Prepare attachment file for moving attachments to central file_data
