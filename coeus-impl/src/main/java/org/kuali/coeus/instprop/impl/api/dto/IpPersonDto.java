@@ -21,12 +21,32 @@ package org.kuali.coeus.instprop.impl.api.dto;
 
 public class IpPersonDto {
 
+
     private String personId;
     private String roleCode;
     private String keyPersonRole;
+    private Integer rolodexId;
+
+    private Long institutionalProposalContactId;
+
+    public Integer getRolodexId() {
+        return rolodexId;
+    }
+
+    public void setRolodexId(Integer rolodexId) {
+        this.rolodexId = rolodexId;
+    }
 
     public String getPersonId() {
         return personId;
+    }
+
+    public Long getInstitutionalProposalContactId() {
+        return institutionalProposalContactId;
+    }
+
+    public void setInstitutionalProposalContactId(Long institutionalProposalContactId) {
+        this.institutionalProposalContactId = institutionalProposalContactId;
     }
 
     public void setPersonId(String personId) {

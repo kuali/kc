@@ -33,8 +33,6 @@ public interface InstitutionalProposalApiService {
 
     public InstitutionalProposalPerson addPerson(InstitutionalProposalDocument proposalDocument, IpPersonDto personDto);
 
-    public void validatePerson(InstitutionalProposalPerson person);
-
     public ArrayList<LinkedHashMap> getProposalPersons(ArrayList<LinkedHashMap> persons, String roleCode);
 
     public ProposalLog addProposalLog(InstitutionalProposalDto ipDto);
@@ -43,7 +41,7 @@ public interface InstitutionalProposalApiService {
 
     public void initializeCostTotals(InstitutionalProposal proposal);
 
-    public Object convertDtoToDataObject(Object input, Class clazz);
+    public Object convertObject(Object input, Class clazz);
 
     public void updateDataObjectFromDto(Object existingDataObject, Object input);
 

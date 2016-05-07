@@ -3,7 +3,10 @@ package org.kuali.coeus.instprop.impl.api.service.impl;
 import com.codiform.moo.Moo;
 import com.codiform.moo.configuration.Configuration;
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.api.rolodex.RolodexContract;
+import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.instprop.impl.api.InstitutionalProposalApiConstants;
 import org.kuali.coeus.instprop.impl.api.dto.InstitutionalProposalDto;
@@ -57,6 +60,10 @@ public class InstitutionalProposalApiServiceImpl implements InstitutionalProposa
     @Autowired
     @Qualifier("identityService")
     private IdentityService identityService;
+
+    @Autowired
+    @Qualifier("rolodexService")
+    private RolodexService rolodexService;
 
     @Autowired
     @Qualifier("businessObjectService")
@@ -137,21 +144,23 @@ public class InstitutionalProposalApiServiceImpl implements InstitutionalProposa
 
     public void addCustomData(InstitutionalProposal institutionalProposal, InstitutionalProposalDto institutionalProposalDto) {
         Map<String, CustomAttributeDocument> customAttributeDocuments = institutionalProposal.getInstitutionalProposalDocument().getCustomAttributeDocuments();
-        institutionalProposalDto.getInstitutionalProposalCustomDataList().stream().forEach(customDataDto -> {
-            String customAttributeId = customDataDto.getCustomAttributeId().toString();
-            String customDataValue = customDataDto.getValue();
-            InstitutionalProposalCustomData customData = new InstitutionalProposalCustomData();
-            customAttributeDocuments.keySet().stream().forEach(id -> {
-                CustomAttributeDocument customAttributeDoc = customAttributeDocuments.get(id);
-                if(customAttributeId.equalsIgnoreCase(customAttributeDoc.getCustomAttribute().getId().toString())) {
-                    customData.setCustomAttributeId(customAttributeDoc.getId());
-                    customData.setCustomAttribute(customAttributeDoc.getCustomAttribute());
-                    customData.setValue(customDataValue);
-                    customData.setInstitutionalProposal(institutionalProposal);
-                }
+        if (institutionalProposalDto.getInstitutionalProposalCustomDataList() != null) {
+            institutionalProposalDto.getInstitutionalProposalCustomDataList().stream().forEach(customDataDto -> {
+                String customAttributeId = customDataDto.getCustomAttributeId().toString();
+                String customDataValue = customDataDto.getValue();
+                InstitutionalProposalCustomData customData = new InstitutionalProposalCustomData();
+                customAttributeDocuments.keySet().stream().forEach(id -> {
+                    CustomAttributeDocument customAttributeDoc = customAttributeDocuments.get(id);
+                    if (customAttributeId.equalsIgnoreCase(customAttributeDoc.getCustomAttribute().getId().toString())) {
+                        customData.setCustomAttributeId(customAttributeDoc.getId());
+                        customData.setCustomAttribute(customAttributeDoc.getCustomAttribute());
+                        customData.setValue(customDataValue);
+                        customData.setInstitutionalProposal(institutionalProposal);
+                        institutionalProposal.getInstitutionalProposalCustomDataList().add(customData);
+                    }
+                });
             });
-            institutionalProposal.getInstitutionalProposalCustomDataList().add(customData);
-        });
+        }
     }
 
     public InstitutionalProposalDocument saveInitialProposal(InstitutionalProposal proposal, String description) throws WorkflowException {
@@ -206,8 +215,8 @@ public class InstitutionalProposalApiServiceImpl implements InstitutionalProposa
 
     public InstitutionalProposalPerson addPerson(InstitutionalProposalDocument proposalDocument, IpPersonDto personDto) {
         InstitutionalProposal proposal = proposalDocument.getInstitutionalProposal();
-        final InstitutionalProposalPerson projectPerson = (InstitutionalProposalPerson) convertDtoToDataObject(personDto, InstitutionalProposalPerson.class);
-        validatePerson(projectPerson);
+        final InstitutionalProposalPerson projectPerson = (InstitutionalProposalPerson) convertObject(personDto, InstitutionalProposalPerson.class);
+        validatePersonAndRole(projectPerson);
         if(projectPerson.isPrincipalInvestigator()) {
             proposal.refreshReferenceObject("leadUnit");
             proposal.initializeDefaultPrincipalInvestigator(projectPerson);
@@ -229,18 +238,29 @@ public class InstitutionalProposalApiServiceImpl implements InstitutionalProposa
         person.setProposalNumber(proposal.getProposalNumber());
         person.setSequenceNumber(proposal.getSequenceNumber());
         person.initializeDefaultCreditSplits();
-        person.setFaculty(person.getPerson().getFacultyFlag());
+        person.setFaculty(getFacultyFlag(person));
         person.setInstitutionalProposal(proposal);
         person.setContactRoleCode(person.getRoleCode());
         person.refreshContactRole();
         if(!person.isKeyPerson()) {
             InstitutionalProposalPersonUnit ipPersonUnit = new InstitutionalProposalPersonUnit();
-            ipPersonUnit.setUnitNumber(person.getPerson().getUnit().getUnitNumber());
+            ipPersonUnit.setUnitNumber(getPersonUnit(person).getUnitNumber());
             ipPersonUnit.initializeDefaultCreditSplits();
             person.add(ipPersonUnit);
         }
         validateAndAddPerson(proposalDocument, person, proposal);
         return person;
+    }
+
+    protected Unit getPersonUnit(InstitutionalProposalPerson person) {
+        return person.getPerson() != null? person.getPerson().getUnit() : person.getRolodex().getUnit();
+    }
+
+    private Boolean getFacultyFlag(InstitutionalProposalPerson person) {
+        if (person.getPerson() != null) {
+            return person.getPerson().getFacultyFlag();
+        }
+        return Boolean.FALSE;
     }
 
     private void validateAndAddPerson(InstitutionalProposalDocument proposalDocument, InstitutionalProposalPerson person, InstitutionalProposal proposal) {
@@ -254,15 +274,31 @@ public class InstitutionalProposalApiServiceImpl implements InstitutionalProposa
         }
     }
 
-    public void validatePerson(InstitutionalProposalPerson person) {
-        Entity personEntity = identityService.getEntityByPrincipalId(person.getPersonId());
-        boolean validRole = person.isInvestigator() || person.isKeyPerson();
-        if (personEntity == null) {
-            throw new UnprocessableEntityException("Invalid person " + person.getPersonId());
+    public void validatePersonAndRole(InstitutionalProposalPerson person) {
+        Entity personEntity = null;
+        RolodexContract rolodex = null;
+        if (person.getPersonId() != null) {
+            personEntity = identityService.getEntityByPrincipalId(person.getPersonId());
         }
-        if (!validRole) {
-            throw new UnprocessableEntityException("Invalid role " + person.getRoleCode() + " for person " + person.getPersonId());
+        else {
+            rolodex = rolodexService.getRolodex(person.getRolodexId());
+            if(rolodex != null) {
+                person.setRolodexId(rolodex.getRolodexId());
+                person.setPersonId(null);
+            }
         }
+
+        if (rolodex == null && personEntity == null) {
+                throw new UnprocessableEntityException("Invalid person or rolodex for person " + getId(person));
+        }
+
+        if (!person.isInvestigator() && !person.isKeyPerson()) {
+            throw new UnprocessableEntityException("Invalid role " + person.getRoleCode() + " for person " + getId(person));
+        }
+    }
+
+    protected String getId(InstitutionalProposalPerson person) {
+        return person.getPersonId() != null ? person.getPersonId() : person.getRolodexId().toString();
     }
 
     public ArrayList<LinkedHashMap> getProposalPersons(ArrayList<LinkedHashMap> persons, String roleCode) {
@@ -276,8 +312,8 @@ public class InstitutionalProposalApiServiceImpl implements InstitutionalProposa
     }
 
     public ProposalLog addProposalLog(InstitutionalProposalDto ipDto) {
-        ProposalLogDto proposalLogDto = (ProposalLogDto) convertDtoToDataObject(ipDto, ProposalLogDto.class);
-        ProposalLog proposalLog = (ProposalLog) convertDtoToDataObject(proposalLogDto, ProposalLog.class);
+        ProposalLogDto proposalLogDto = (ProposalLogDto) convertObject(ipDto, ProposalLogDto.class);
+        ProposalLog proposalLog = (ProposalLog) convertObject(proposalLogDto, ProposalLog.class);
         proposalLog.setProposalTypeCode(ipDto.getProposalTypeCode().toString());
         proposalLog.setCreateTimestamp(new java.sql.Timestamp(ipDto.getCreateTimestamp().getTime()));
         proposalLog.setLogStatus(InstitutionalProposalApiConstants.LOG_STATUS_DEFAULT);
@@ -305,7 +341,7 @@ public class InstitutionalProposalApiServiceImpl implements InstitutionalProposa
         if(proposal.getTotalIndirectCostTotal() == null) proposal.setTotalIndirectCostTotal(ScaleTwoDecimal.ZERO);
     }
 
-    public Object convertDtoToDataObject(Object input, Class clazz) {
+    public Object convertObject(Object input, Class clazz) {
         Configuration mooConfig = new Configuration();
         mooConfig.setSourcePropertiesRequired(false);
         Moo moo = new Moo(mooConfig);
