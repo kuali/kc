@@ -41,6 +41,7 @@
                 <value>rice-contrib/plugins/bootstrap-select/bootstrap-select.js</value>
                 <value>rice-contrib/multiselect.js</value>
                 <value>scripts/common/lineItemTable.js</value>
+                <value>scripts/common/header.js</value>
             </list>
         </property>
     </bean>
