@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1301:Correct for double headers using postMessage and window.location redirect
+  * blackcathacker on Fri, 6 May 2016 17:46:35 -0700 [View Commit](../../commit/fa7a01b810dd775b7ec3b06d3c38a022bbdea232)
+
+##coeus-1605.16
 * Fix proposal number error. Fix null pointer when using no custom data. Add ability to add rolodex people. (#1729)  * Gayathri Athreya on Fri, 6 May 2016 17:33:13 -0700 [View Commit](../../commit/0b6230fb0cb7488aa911aa7be838dec603ba3894)
 
 ##coeus-1605.15
