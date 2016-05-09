@@ -21,6 +21,9 @@
 <%@ attribute name="selectedTab" required="true"%>
 <%@ attribute name="channelTitle" required="false" %>
 
+<script src="${ConfigProperties.application.url}/scripts/common/header.js"></script>
+<script>Kc.Global.onKnsHeaderLoad();</script>
+
 <div class="navbar main-navbar navbar-static-top">
   <div class="navbar-inner">
     <div class="container-fluid">

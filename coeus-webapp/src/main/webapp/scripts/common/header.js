@@ -31,10 +31,17 @@ Kc.Global = Kc.Global || {};
 			window.location = event.data.location;
 		}
 	};
+	namespace.onHeaderLoad = function() {
+		window.addEventListener("message", Kc.Global.receiveHeaderMessage, false);
+		if (window.parent !== window) {
+			window.parent.postMessage({action : Kc.Global.ensureOneHeaderAction, location : window.location.href}, '*');
+			//posting to the parent's parent due to the extra XDM iframe in the KNS portal
+			if (window.parent.parent && window.parent.parent !== window) {
+				window.parent.parent.postMessage({action : Kc.Global.ensureOneHeaderAction, location : window.location.href}, '*');
+			}
+		}
+	};
+	namespace.onKnsHeaderLoad = function() {
+		window.addEventListener("message", Kc.Global.receiveHeaderMessage, false);
+	};
 })(Kc.Global, jQuery);
-
-window.addEventListener("message", Kc.Global.receiveHeaderMessage, false);
-
-if (window.parent !== window) {
-	window.parent.postMessage({action : Kc.Global.ensureOneHeaderAction, location : window.location.href}, '*');
-}
