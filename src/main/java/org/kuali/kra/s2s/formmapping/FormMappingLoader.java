@@ -19,7 +19,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.s2s.bo.S2sUserAttachedForm;
-import org.kuali.kra.s2s.generator.S2SGeneratorNotFoundException;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.w3c.dom.Document;
@@ -165,7 +164,6 @@ public class FormMappingLoader {
             formInfo.setMainClass(formNode.getElementsByTagName(MAIN_CLASS).item(0).getTextContent().trim());
             formInfo.setUserAttachedForm(false);
             formInfo.setStyleSheet(formNode.getElementsByTagName(STYLE_SHEET).item(0).getTextContent().trim());
-//            formInfo.setPkgName(formNode.getElementsByTagName(PKG_NAME).item(0).getTextContent().trim());
 
             NodeList sortIndexNodesList = formNode.getElementsByTagName(SORT_INDEX);
             if (sortIndexNodesList.getLength() > 0) {
@@ -178,16 +176,28 @@ public class FormMappingLoader {
                 else {
                     nameSpaceList = new ArrayList<String>();
                 }
+                removeNamespace(formInfo.getNameSpace());
                 nameSpaceList.add(formInfo.getNameSpace());
                 sortedNameSpaces.put(sortedIndex, nameSpaceList);
             }
             else {
                 formInfo.setSortIndex(DEFAULT_SORT_INDEX);
                 nameSpaceList = sortedNameSpaces.get(defaultSortIndex);
+                removeNamespace(formInfo.getNameSpace());
                 nameSpaceList.add(formInfo.getNameSpace());
                 sortedNameSpaces.put(defaultSortIndex, nameSpaceList);
             }
             bindings.put(formInfo.getNameSpace(), formInfo);
+        }
+    }
+
+    protected void removeNamespace(String namespace) {
+        for (List<String> existingNamespaces : sortedNameSpaces.values()) {
+            for (Iterator<String> itr = existingNamespaces.iterator(); itr.hasNext();) {
+                if (namespace.equals(itr.next())) {
+                    itr.remove();
+                }
+            }
         }
     }
 
