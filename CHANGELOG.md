@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1301:Fix problem embedded KRAD lookups and double headers in KNS portal
+  * blackcathacker on Sun, 8 May 2016 19:22:27 -0700 [View Commit](../../commit/a0c01d0190d8f9ec53936f71666dee382d8223cd)
+
+##coeus-1605.17
 * RESKC-1301:Correct for double headers using postMessage and window.location redirect
   * blackcathacker on Fri, 6 May 2016 17:46:35 -0700 [View Commit](../../commit/fa7a01b810dd775b7ec3b06d3c38a022bbdea232)
 
