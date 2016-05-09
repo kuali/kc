@@ -49,7 +49,7 @@
     <bean id="Uif-GlobalApplicationHeader" parent="Kc-ApplicationHeader"/>
     <bean id="Kc-ApplicationHeader" parent="Kc-ApplicationHeader-parentBean"/>
     <bean id="Kc-ApplicationHeader-parentBean" parent="Uif-ApplicationHeaderBase">
-        <property name="onDocumentReadyScript" value="Kc.Global.attachRedirectHandler();"/>
+        <property name="onDocumentReadyScript" value="Kc.Global.attachRedirectHandler(); Kc.Global.onHeaderLoad();"/>
         <property name="applicationNavigation">
             <bean parent="Kc-ApplicationHeader-NavigationBar"/>
         </property>
