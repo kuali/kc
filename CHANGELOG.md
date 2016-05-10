@@ -4,6 +4,10 @@
 * No Changes
 
 
+##coeus-1605.19
+* No Changes
+
+
 ##coeus-1605.18
 * RESKC-1301:Fix problem embedded KRAD lookups and double headers in KNS portal
   * blackcathacker on Sun, 8 May 2016 19:22:27 -0700 [View Commit](../../commit/a0c01d0190d8f9ec53936f71666dee382d8223cd)
