@@ -27,67 +27,70 @@ import org.junit.Test;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.ArrayList;
 import java.util.List;
 import static org.junit.Assert.*;
-public class ProtocolUpdateActionServiceTest extends ProtocolActionServiceTestBase{
+import static org.kuali.kra.irb.test.ProtocolTestUtil.getProtocol;
+
+public class ProtocolUpdateActionServiceTest extends KcIntegrationTestBase  {
     
-    public static final String ATC200 = "200";
+    private static final String ATC200 = "200";
     
-    public static final String ATC201 = "201";
+    private static final String ATC201 = "201";
     
-    public static final String ATC202 = "202";
+    private static final String ATC202 = "202";
     
-    public static final String ATC204 = "204";
+    private static final String ATC204 = "204";
     
-    public static final String ATC203 = "203";
+    private static final String ATC203 = "203";
     
-    public static final String ATC300 = "300";
+    private static final String ATC300 = "300";
     
-    public static final String ATC301 = "301";
+    private static final String ATC301 = "301";
     
-    public static final String ATC302 = "302";
+    private static final String ATC302 = "302";
     
-    public static final String ATC306 = "306";
+    private static final String ATC306 = "306";
     
-    public static final String ATC305 = "305";
+    private static final String ATC305 = "305";
     
-    public static final String ATC303 = "303";
+    private static final String ATC303 = "303";
     
-    public static final String ATC304 = "304";
+    private static final String ATC304 = "304";
     
-    public static final String ATC205 = "205";
+    private static final String ATC205 = "205";
     
-    public static final String ATC206 = "206";
+    private static final String ATC206 = "206";
     
-    public static final String ATC210 = "210";
+    private static final String ATC210 = "210";
     
-    public static final String ATC207 = "207";
+    private static final String ATC207 = "207";
     
-    public static final String ATC104 = "104";
+    private static final String ATC104 = "104";
     
-    public static final String ATC106 = "106";
+    private static final String ATC106 = "106";
     
-    public static final String ATC105 = "105";
+    private static final String ATC105 = "105";
     
-    public static final String ATC108 = "108";
+    private static final String ATC108 = "108";
     
-    public static final String ATC208 = "208";
+    private static final String ATC208 = "208";
     
-    public static final String ATC209 = "209";
+    private static final String ATC209 = "209";
     
-    public static final String ATC114 = "114";
+    private static final String ATC114 = "114";
     
-    public static final String ATC115 = "115";
+    private static final String ATC115 = "115";
     
-    public static final String ATC116 = "116";
+    private static final String ATC116 = "116";
     
-    public static final String ATC211 = "211";
+    private static final String ATC211 = "211";
     
-    public static final String ATC212 = "212";
-    public static final String ATC119 = "119";
+    private static final String ATC212 = "212";
+    private static final String ATC119 = "119";
        
     private Mockery context;
     
@@ -412,7 +415,7 @@ public class ProtocolUpdateActionServiceTest extends ProtocolActionServiceTestBa
     }
 
     private List<String> getRuleFiles() {
-        List<String>ruleFiles = new ArrayList<String>();
+        List<String>ruleFiles = new ArrayList<>();
         ruleFiles.add("org/kuali/kra/irb/drools/rules/permissionForLeadUnitRules.drl");
         ruleFiles.add("org/kuali/kra/irb/drools/rules/permissionToSubmitRules.drl");
         ruleFiles.add("org/kuali/kra/irb/drools/rules/permissionToCommitteeMemberRules.drl");

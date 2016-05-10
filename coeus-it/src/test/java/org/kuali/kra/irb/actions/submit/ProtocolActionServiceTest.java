@@ -34,6 +34,7 @@ import org.kuali.kra.irb.actions.followup.FollowupActionService;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.sql.Timestamp;
@@ -41,7 +42,9 @@ import java.util.*;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
+import static org.kuali.kra.irb.test.ProtocolTestUtil.getProtocol;
+
+public class ProtocolActionServiceTest extends KcIntegrationTestBase {
 
 
     private Mockery context;
@@ -106,7 +109,7 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
     private void mockMinutes() {
         context.checking(new Expectations() {
             {
-                Map<String, Object> fieldValues = new HashMap<String, Object>();
+                Map<String, Object> fieldValues = new HashMap<>();
                 fieldValues.put("protocolNumber", protocol.getProtocolNumber());
                 fieldValues.put("submissionNumber", protocol.getProtocolSubmission().getSubmissionNumber());
                 allowing(businessObjectService).countMatching(CommitteeScheduleMinute.class, fieldValues);
@@ -118,12 +121,12 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
     private void mockSubmissionTrue(final String submissionTypeCode) {
         context.checking(new Expectations() {
             {
-                Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
+                Map<String, Object> positiveFieldValues = new HashMap<>();
                 positiveFieldValues.put("protocolNumber", protocol.getProtocolNumber());
                 positiveFieldValues.put("sequenceNumber", protocol.getSequenceNumber());
                 positiveFieldValues.put("submissionStatusCode", getPendingSubmissionStatusCodes());
 
-                Map<String, Object> negativeFieldValues = new HashMap<String, Object>();
+                Map<String, Object> negativeFieldValues = new HashMap<>();
                 negativeFieldValues.put("submissionTypeCode", submissionTypeCode);
                 allowing(businessObjectService).countMatching(ProtocolSubmission.class, positiveFieldValues, negativeFieldValues);
                 will(returnValue(0));
@@ -134,12 +137,12 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
     private void mockSubmissionFalse(final String submissionTypeCode) {
         context.checking(new Expectations() {
             {
-                Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
+                Map<String, Object> positiveFieldValues = new HashMap<>();
                 positiveFieldValues.put("protocolNumber", protocol.getProtocolNumber());
                 positiveFieldValues.put("sequenceNumber", protocol.getSequenceNumber());
                 positiveFieldValues.put("submissionStatusCode", getPendingSubmissionStatusCodes());
 
-                Map<String, Object> negativeFieldValues = new HashMap<String, Object>();
+                Map<String, Object> negativeFieldValues = new HashMap<>();
                 negativeFieldValues.put("submissionTypeCode", submissionTypeCode);
                 allowing(businessObjectService).countMatching(ProtocolSubmission.class, positiveFieldValues, negativeFieldValues);
                 will(returnValue(0));
@@ -150,7 +153,7 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
     private void mockSubmissionTrueCondt1() {
         context.checking(new Expectations() {
             {
-                Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
+                Map<String, Object> positiveFieldValues = new HashMap<>();
                 positiveFieldValues.put("protocolNumber", protocol.getProtocolNumber());
                 positiveFieldValues.put("sequenceNumber", protocol.getSequenceNumber());
                 positiveFieldValues.put("submissionStatusCode", getPendingSubmissionStatusCodes());
@@ -165,16 +168,16 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
         // getSubmissionCountCond4
         context.checking(new Expectations() {
             {
-                Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
+                Map<String, Object> positiveFieldValues = new HashMap<>();
                 positiveFieldValues.put("protocolNumber", protocol.getProtocolNumber());
                 positiveFieldValues.put("sequenceNumber", protocol.getSequenceNumber());
                 positiveFieldValues.put("submissionStatusCode", getPendingSubmissionStatusCodes());
-                positiveFieldValues.put("submissionTypeCode", Arrays.asList(new String[] {
+                positiveFieldValues.put("submissionTypeCode", Arrays.asList(
                         ProtocolSubmissionType.REQUEST_FOR_DATA_ANALYSIS_ONLY, ProtocolSubmissionType.REQUEST_FOR_SUSPENSION,
                         ProtocolSubmissionType.REQUEST_FOR_TERMINATION, ProtocolSubmissionType.REQUEST_TO_CLOSE,
-                        ProtocolSubmissionType.REQUEST_TO_CLOSE_ENROLLMENT, ProtocolSubmissionType.REQUEST_TO_REOPEN_ENROLLMENT}));
+                        ProtocolSubmissionType.REQUEST_TO_CLOSE_ENROLLMENT, ProtocolSubmissionType.REQUEST_TO_REOPEN_ENROLLMENT));
 
-                List<ProtocolSubmission> list = new ArrayList<ProtocolSubmission>();
+
                 int retVal = 0;
                 if (!cond) {
                     retVal = 1;
@@ -189,13 +192,13 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
     private void mockSubmissionCondt5() {
         context.checking(new Expectations() {
             {
-                Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
+                Map<String, Object> positiveFieldValues = new HashMap<>();
                 positiveFieldValues.put("protocolNumber", protocol.getProtocolNumber());
                 positiveFieldValues.put("sequenceNumber", protocol.getSequenceNumber());
                 ProtocolSubmission protocolSubmission = getProtocolSubmission();
 
                 protocolSubmission.setSubmissionStatusCode("200");
-                List<ProtocolSubmission> submissions = new ArrayList<ProtocolSubmission>();
+                List<ProtocolSubmission> submissions = new ArrayList<>();
                 submissions.add(protocolSubmission);
                 allowing(businessObjectService).findMatchingOrderBy(ProtocolSubmission.class, positiveFieldValues,
                         "submissionNumber", false);
@@ -207,13 +210,13 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
     private void mockSubmissionForWithdraw() {
         context.checking(new Expectations() {
             {
-                Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
+                Map<String, Object> positiveFieldValues = new HashMap<>();
                 positiveFieldValues.put("protocolNumber", protocol.getProtocolNumber());
                 positiveFieldValues.put("sequenceNumber", protocol.getSequenceNumber());
                 ProtocolSubmission protocolSubmission = getProtocolSubmission();
 
                 protocolSubmission.setSubmissionStatusCode("201");
-                List<ProtocolSubmission> submissions = new ArrayList<ProtocolSubmission>();
+                List<ProtocolSubmission> submissions = new ArrayList<>();
                 submissions.add(protocolSubmission);
                 allowing(businessObjectService).findMatchingOrderBy(ProtocolSubmission.class, positiveFieldValues,
                         "submissionNumber", false);
@@ -225,11 +228,11 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
     private void mockSubmissionCondt4(final boolean flag) {
         context.checking(new Expectations() {
             {
-                Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
+                Map<String, Object> positiveFieldValues = new HashMap<>();
                 positiveFieldValues.put("protocolNumber", protocol.getProtocolNumber());
                 positiveFieldValues.put("sequenceNumber", protocol.getSequenceNumber());
                 positiveFieldValues.put("submissionNumber", protocol.getProtocolSubmission().getSubmissionNumber());
-                List<ProtocolSubmission> list = new ArrayList<ProtocolSubmission>();
+                List<ProtocolSubmission> list = new ArrayList<>();
                 if (flag) {
                     ProtocolSubmission ps = new ProtocolSubmission();
                     ps.setScheduleId("123");
@@ -244,11 +247,6 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
     private void mockProtocolDaoCondt1() {
         context.checking(new Expectations() {
             {
-                Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
-                positiveFieldValues.put("protocolNumber", protocol.getProtocolNumber());
-                positiveFieldValues.put("sequenceNumber", protocol.getSequenceNumber());
-                positiveFieldValues.put("submissionStatusCode", getPendingSubmissionStatusCodes());
-
                 allowing(dao).getProtocolSubmissionCountFromProtocol(protocol.getProtocolNumber());
                 will(returnValue(true));
             }
@@ -256,7 +254,7 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
     }
 
     private List<String> getPendingSubmissionStatusCodes() {
-        List<String> submissionStatusCodes = new ArrayList<String>();
+        List<String> submissionStatusCodes = new ArrayList<>();
         submissionStatusCodes.add(ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
         submissionStatusCodes.add(ProtocolSubmissionStatus.IN_AGENDA); 
         submissionStatusCodes.add(ProtocolSubmissionStatus.PENDING);
@@ -707,12 +705,12 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
         assertTrue(protocolActionService.canPerformAction("102", protocol));
     }
 
-    @SuppressWarnings("rawtypes")
+    
     @Test
     public void testActionTypeCode205ReviewTypeCode2() {
         protocol.getProtocolSubmission().setSubmissionNumber(1); // Not null
 
-        List<ProtocolOnlineReview> reviews = new ArrayList<ProtocolOnlineReview>();
+        List<ProtocolOnlineReview> reviews = new ArrayList<>();
         ProtocolOnlineReview review = new ProtocolOnlineReview();
         ProtocolReviewer reviewer = new ProtocolReviewer();
         review.setProtocolReviewer(reviewer);
@@ -728,12 +726,12 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
         assertTrue(protocolActionService.canPerformAction("205", protocol));
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings("unchecked")
     @Test
     public void testActionTypeCode208ReviewTypeCode6() {
         protocol.getProtocolSubmission().setSubmissionNumber(1); // Not null
 
-        List<ProtocolOnlineReview> reviews = new ArrayList<ProtocolOnlineReview>();
+        List<ProtocolOnlineReview> reviews = new ArrayList<>();
         ProtocolOnlineReview review = new ProtocolOnlineReview();
         ProtocolReviewer reviewer = new ProtocolReviewer();
         review.setProtocolReviewer(reviewer);
@@ -791,12 +789,7 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
 
         mockSubmissionCondt3(true);
         mockSubmissionCondt5();
-        // mockSubmissionTrueCondt2("109");
-        // mockSubmissionTrueCondt2("110");
-        // mockSubmissionTrueCondt2("111");
-        // mockSubmissionTrueCondt2("108");
-        // mockSubmissionTrueCondt2("113");
-        // mockSubmissionTrueCondt2("114");
+
         protocol.setProtocolStatusCode("200");
         assertTrue(protocolActionService.canPerformAction("104", protocol));
 
@@ -829,12 +822,7 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
     public void testActionTypeCode104False() {
         mockSubmissionCondt3(false);
         mockSubmissionCondt5();
-//        mockSubmissionFalseCondt2("109");
-//        mockSubmissionFalseCondt2("110");
-//        mockSubmissionFalseCondt2("111");
-//        mockSubmissionFalseCondt2("108");
-//        mockSubmissionFalseCondt2("113");
-//        mockSubmissionFalseCondt2("114");
+
         protocol.setProtocolStatusCode("200");
         assertFalse(protocolActionService.canPerformAction("104", protocol));
 
@@ -867,12 +855,7 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
     public void testActionTypeCode105True() {
         mockSubmissionCondt3(true);
         mockSubmissionCondt5();
-//        mockSubmissionTrueCondt2("109");
-//        mockSubmissionTrueCondt2("110");
-//        mockSubmissionTrueCondt2("111");
-//        mockSubmissionTrueCondt2("108");
-//        mockSubmissionTrueCondt2("113");
-//        mockSubmissionTrueCondt2("114");
+        
         protocol.setProtocolStatusCode("200");
         assertTrue(protocolActionService.canPerformAction("105", protocol));
 
@@ -925,12 +908,6 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
     public void testActionTypeCode106True() {
         mockSubmissionCondt3(true);
         mockSubmissionCondt5();
-//        mockSubmissionTrueCondt2("109");
-//        mockSubmissionTrueCondt2("110");
-//        mockSubmissionTrueCondt2("111");
-//        mockSubmissionTrueCondt2("108");
-//        mockSubmissionTrueCondt2("113");
-//        mockSubmissionTrueCondt2("114");
 
         protocol.setProtocolStatusCode("200");
         assertTrue(protocolActionService.canPerformAction("106", protocol));
@@ -1004,7 +981,6 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
         protocol.getProtocolSubmission().setSubmissionNumber(123);
         mockSubmissionCondt4(false);
         protocol.getProtocolSubmission().setSubmissionStatusCode("100");
-       // protocol.getProtocolSubmission().setScheduleIdFk(null);
         assertTrue(protocolActionService.canPerformAction("109", protocol));
     }
 
@@ -1221,7 +1197,7 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
     }
     
     private List<String> getRuleFiles() {
-        List<String>ruleFiles = new ArrayList<String>();
+        List<String>ruleFiles = new ArrayList<>();
         ruleFiles.add("org/kuali/kra/irb/drools/rules/permissionForLeadUnitRules.drl");
         ruleFiles.add("org/kuali/kra/irb/drools/rules/permissionToSubmitRules.drl");
         ruleFiles.add("org/kuali/kra/irb/drools/rules/permissionToCommitteeMemberRules.drl");
