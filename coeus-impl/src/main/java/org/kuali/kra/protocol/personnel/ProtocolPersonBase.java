@@ -1083,7 +1083,11 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
     public String getDisclosureStatus() {
         DisclosureStatusRetrievalService disclosureStatusRetrievalService = getDisclosureStatusRetrievalService();
         String protocolNumber = getProtocolNumber();
-        if(!getProtocol().isNew()) {
+        if (getProtocol() == null) {
+            refreshReferenceObject("protocol");
+        }
+
+        if(getProtocol() != null && !getProtocol().isNew()) {
             protocolNumber = getProtocol().getAmendedProtocolNumber();
         }
         DisclosureProjectStatus projectStatus =  disclosureStatusRetrievalService.getDisclosureStatusForPerson(getModuleNamespace(), protocolNumber, getPersonId());
