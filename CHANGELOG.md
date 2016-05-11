@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* adding custom-report-type-documents api
+  * Travis Schneeberger on Wed, 11 May 2016 17:37:50 -0400 [View Commit](../../commit/c671ef0e94f97f3003c677ceaa2208aef589deae)
+* adding organization audit accepted type api
+  * Travis Schneeberger on Wed, 11 May 2016 16:26:06 -0400 [View Commit](../../commit/60da25392df4827071fe1fa48670c3587f9a2d84)
+
+##coeus-1605.23
 * IP proposal log fixes
   * Gayathri Athreya on Wed, 11 May 2016 11:30:50 -0700 [View Commit](../../commit/eddf6cb8d38f8106b7923f79f35dedb2a69fa400)
 
