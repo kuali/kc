@@ -35,7 +35,6 @@ import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.UnknownHttpStatusCodeException;
 
 import java.util.Collections;
-import java.util.List;
 
 @Component("disclosureStatusRetrievalService")
 public class DisclosureStatusRetrievalServiceImpl implements DisclosureStatusRetrievalService {
@@ -91,7 +90,7 @@ public class DisclosureStatusRetrievalServiceImpl implements DisclosureStatusRet
     }
 
     protected ResponseEntity<DisclosureProjectStatus> getDisclosureStatusFromCoi(String url, HttpEntity<String> entity, HttpMethod method) {
-        return restOperations.exchange(url, method, entity, DisclosureProjectStatus.class, Collections.<String, List<String>>emptyMap());
+        return restOperations.exchange(url, method, entity, DisclosureProjectStatus.class, Collections.emptyMap());
     }
 
     public ConfigurationService getConfigurationService() {

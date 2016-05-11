@@ -48,7 +48,6 @@ import org.kuali.kra.protocol.personnel.ProtocolUnitBase;
 import org.kuali.kra.protocol.protocol.ProtocolTypeBase;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
 import org.kuali.kra.protocol.protocol.location.ProtocolLocationBase;
-import org.kuali.kra.protocol.protocol.location.ProtocolLocationService;
 import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceBase;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaBase;
 import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewBase;
@@ -197,32 +196,25 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
         return protocolSubmissionStatus;
     }
 
-     
-
-       
-    /**
-     * 
-     * Constructs an ProtocolBase BO.
-     */
     public ProtocolBase() {
         super();
-        sequenceNumber = new Integer(0);          
-        protocolResearchAreas = new ArrayList<ProtocolResearchAreaBase>();
-        protocolReferences = new ArrayList<ProtocolReferenceBase>(); 
+        sequenceNumber = 0;
+        protocolResearchAreas = new ArrayList<>();
+        protocolReferences = new ArrayList<>();
         newDescription = getDefaultNewDescription();
         protocolStatus = getProtocolStatusNewInstanceHook();
         protocolStatusCode = getProtocolStatus().getProtocolStatusCode();
-        protocolLocations = new ArrayList<ProtocolLocationBase>(); 
-        protocolPersons = new ArrayList<ProtocolPersonBase>();
+        protocolLocations = new ArrayList<>();
+        protocolPersons = new ArrayList<>();
         
         // set the default protocol type
         protocolTypeCode = getDefaultProtocolTypeCodeHook();
 
-        protocolFundingSources = new ArrayList<ProtocolFundingSourceBase>();        
-        specialReviews = new ArrayList<ProtocolSpecialReviewBase>();
-        setProtocolActions(new ArrayList<ProtocolActionBase>());
-        setProtocolSubmissions(new ArrayList<ProtocolSubmissionBase>());
-        protocolAmendRenewals = new ArrayList<ProtocolAmendRenewalBase>();
+        protocolFundingSources = new ArrayList<>();
+        specialReviews = new ArrayList<>();
+        setProtocolActions(new ArrayList<>());
+        setProtocolSubmissions(new ArrayList<>());
+        protocolAmendRenewals = new ArrayList<>();
         
         // set statuscode default
         setProtocolStatusCode(getDefaultProtocolStatusCodeHook());
@@ -301,10 +293,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     public void setDescription(String description) {
         this.description = description;
     }
- 
 
-    
-    
     /**
      * Gets the submission date.  If the submission date is the last
      * submission for the protocol.  If the protocol has not been submitted,
@@ -312,21 +301,13 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
      * @return the submission date or null if not yet submitted
      */
     public Date getSubmissionDate() {
-        // TODO : the last one in the list may not be the last one submitted
-        // getProtocolSubmission will get the last one.  SO, this method may not needed.
-        // Also, this method only referenced in test once.
         Date submissionDate = null;
         if (protocolSubmissions.size() > 0) {
-//            ProtocolSubmissionBase submission = protocolSubmissions.get(protocolSubmissions.size() - 1);
-//            submissionDate = submission.getSubmissionDate();
             submissionDate = getProtocolSubmission().getSubmissionDate();
         }
         return submissionDate;
     }
- 
-    
-    
-    
+
     public Date getInitialSubmissionDate() {
         return initialSubmissionDate;
     }
@@ -432,14 +413,13 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     public void setRelatedProjectsIndicator(String relatedProjectsIndicator) {
         this.relatedProjectsIndicator = relatedProjectsIndicator;
     }
-
     
     /**
      * Collects and returns all online reviews for all submissions for this protocol.
      * @return all online reviews for this protocol
      */
     public List<ProtocolOnlineReviewBase> getProtocolOnlineReviews() {
-        List<ProtocolOnlineReviewBase> reviews = new ArrayList<ProtocolOnlineReviewBase>();
+        List<ProtocolOnlineReviewBase> reviews = new ArrayList<>();
         for (ProtocolSubmissionBase submission : getProtocolSubmissions()) {
             reviews.addAll(submission.getProtocolOnlineReviews());
         }        
@@ -557,7 +537,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
             managedLists.add(new ArrayList<ProtocolAmendRenewModuleBase>());
         }
         managedLists.add(getProtocolAmendRenewals());        
-        List<ProtocolSpecialReviewExemption> specialReviewExemptions = new ArrayList<ProtocolSpecialReviewExemption>();
+        List<ProtocolSpecialReviewExemption> specialReviewExemptions = new ArrayList<>();
         for (ProtocolSpecialReviewBase specialReview : getSpecialReviews()) {
             specialReviewExemptions.addAll(specialReview.getSpecialReviewExemptions());
         }
@@ -576,15 +556,13 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
      * @return List&lt;ProtocolAttachmentPersonnelBase&gt;
      */
     private List<ProtocolAttachmentPersonnelBase> getProtocolAttachmentPersonnel() {
-        List<ProtocolAttachmentPersonnelBase> protocolAttachmentPersonnel = new ArrayList<ProtocolAttachmentPersonnelBase>();
+        List<ProtocolAttachmentPersonnelBase> protocolAttachmentPersonnel = new ArrayList<>();
         for (ProtocolPersonBase protocolPerson : getProtocolPersons()) {
             protocolAttachmentPersonnel.addAll(protocolPerson.getAttachmentPersonnels());
         }
         return protocolAttachmentPersonnel;
     }
-  
-    
-    
+
     /**
      * This method is to return all protocol units for each person.
      * Purpose of this method is to use the list in buildListOfDeletionAwareLists.
@@ -593,7 +571,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
      * @return List&lt;ProtocolUnitBase&gt;
      */
     private List<ProtocolUnitBase> getProtocolUnits() {
-        List<ProtocolUnitBase> protocolUnits = new ArrayList<ProtocolUnitBase>();
+        List<ProtocolUnitBase> protocolUnits = new ArrayList<>();
         for (ProtocolPersonBase protocolPerson : getProtocolPersons()) {
             protocolUnits.addAll(protocolPerson.getProtocolUnits());
         }
@@ -668,16 +646,6 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
         this.nonEmployeeFlag = nonEmployeeFlag;   
     }
 
-    /**
-     * This method is to get protocol location service
-     * @return ProtocolLocationService
-     */
-    protected ProtocolLocationService getProtocolLocationService() {
-        ProtocolLocationService protocolLocationService = (ProtocolLocationService) KcServiceLocator.getService("protocolLocationService");
-        return protocolLocationService;
-    }
-    
-
     public List<ProtocolPersonBase> getProtocolPersons() {
         return protocolPersons;
     }
@@ -689,30 +657,19 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
         }
     }
 
-    
-
     /**
      * Gets index i from the protocol person list.
-     * 
-     * @param index
-     * @return protocol person at index i
      */
     public ProtocolPersonBase getProtocolPerson(int index) {
         return getProtocolPersons().get(index);
     }
- 
-    
-    
-    
+
     /**
      * This method is a hook to get actual protocol personnel service impl corresponding to the protocol type
      * @return protocolPersonnelService
      */
     protected abstract ProtocolPersonnelService getProtocolPersonnelService();
 
-    
-    
- 
     public List<ProtocolFundingSourceBase> getProtocolFundingSources() {
         return protocolFundingSources;
     }
@@ -747,9 +704,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     public void setPerformingOrganizationId(String performingOrganizationId) {
         this.performingOrganizationId = performingOrganizationId;
     }
- 
 
-    
    public String getLeadUnitName() {
         if (StringUtils.isBlank(leadUnitName)) {
             if (getLeadUnit() != null) {
@@ -789,7 +744,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     public List<ProtocolAttachmentProtocolBase> getAttachmentProtocols() {
         
         if (this.attachmentProtocols == null) {
-            this.attachmentProtocols = new ArrayList<ProtocolAttachmentProtocolBase>();
+            this.attachmentProtocols = new ArrayList<>();
         }
         return this.attachmentProtocols;
     }
@@ -810,7 +765,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     public List<ProtocolNotepadBase> getNotepads() {
         
         if (this.notepads == null) {
-            this.notepads = new ArrayList<ProtocolNotepadBase>();
+            this.notepads = new ArrayList<>();
         }
 
         return this.notepads;
@@ -937,11 +892,10 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
         }
         else {
             protocolSubmission = getProtocolSubmissionNewInstanceHook();
-            // TODO : the update protocol rule may not like null
             protocolSubmission.setProtocolSubmissionType(getProtocolSubmissionTypeNewInstanceHook());
             protocolSubmission.setSubmissionStatus(getProtocolSubmissionStatusNewInstanceHook());
         }
-        // }
+
         refreshReferenceObject(protocolSubmission);
         return protocolSubmission;
     }
@@ -991,11 +945,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
         if (protocolActions.size() == 0) {
             return null;
         }
-        Collections.sort(protocolActions, new Comparator<ProtocolActionBase>() {
-            public int compare(ProtocolActionBase action1, ProtocolActionBase action2) {
-                return action2.getActualActionDate().compareTo(action1.getActualActionDate());
-            }
-        });
+        Collections.sort(protocolActions, (action1, action2) -> action2.getActualActionDate().compareTo(action1.getActualActionDate()));
         return protocolActions.get(0);
     }
 
@@ -1055,9 +1005,6 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     public void setProtocolAmendRenewals(List<ProtocolAmendRenewalBase> protocolAmendRenewals) {
         this.protocolAmendRenewals = protocolAmendRenewals;
     }
- 
-    
-    
     
     @Override
     public Integer getOwnerSequenceNumber() {
@@ -1098,7 +1045,6 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     /**
      * 
      * This method merges the data of the amended protocol into this protocol.
-     * @param amendment
      */
     public void merge(ProtocolBase amendment) {
         if (amendment.isFYI()) {
@@ -1157,7 +1103,6 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     protected abstract void removeMergeableLists(List<ProtocolAmendRenewModuleBase> modules);
 
     protected void mergeProtocolQuestionnaire(ProtocolBase amendment) {
-        // TODO : what if user did not edit questionnaire at all, then questionnaire will be wiped out ?
         removeOldQuestionnaire();
         amendQuestionnaire(amendment);
     }
@@ -1207,7 +1152,6 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
         return KcServiceLocator.getService(BusinessObjectService.class);
     }
 
-    @SuppressWarnings("unchecked")
     protected void mergeProtocolSubmission(ProtocolBase amendment) {
         List<ProtocolSubmissionBase> submissions = (List<ProtocolSubmissionBase>) deepCopy(amendment.getProtocolSubmissions());  
         setNewSubmissionReferences(submissions);
@@ -1224,7 +1168,6 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
         });
     }
 
-    @SuppressWarnings("rawtypes")
     protected void setSubmissionMinutesReferences(ProtocolSubmissionBase submission) {
         List<CommitteeScheduleMinuteBase> committeeScheduleMinutes = submission.getCommitteeScheduleMinutes();
         committeeScheduleMinutes.forEach(committeeScheduleMinute -> {
@@ -1248,17 +1191,17 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
         this.referenceNumber2 = amendment.getReferenceNumber2();
     }
     
-    @SuppressWarnings("unchecked")
+
     protected void mergeResearchAreas(ProtocolBase amendment) {
         setProtocolResearchAreas((List<ProtocolResearchAreaBase>) deepCopy(amendment.getProtocolResearchAreas()));
     }
     
-    @SuppressWarnings("unchecked")
+
     protected void mergeFundingSources(ProtocolBase amendment) {
         setProtocolFundingSources((List<ProtocolFundingSourceBase>) deepCopy(amendment.getProtocolFundingSources()));
     }
     
-    @SuppressWarnings("unchecked")
+
     protected void mergeReferences(ProtocolBase amendment) {
         setProtocolReferences((List<ProtocolReferenceBase>) deepCopy(amendment.getProtocolReferences()));
         
@@ -1268,19 +1211,14 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
         this.description = amendment.getDescription();
     }
     
-    @SuppressWarnings("unchecked")
+
     protected void mergeOrganizations(ProtocolBase amendment) {
         setProtocolLocations((List<ProtocolLocationBase>) deepCopy(amendment.getProtocolLocations()));
     }
     
-    @SuppressWarnings("unchecked")
+
     protected void mergeAttachments(ProtocolBase amendment) {
-        // TODO : may need to set protocolnumber
-        // personnel attachment may have protocol person id issue
-        // how about sequence number ?
-        // need to change documentstatus to 2 if it is 1
-        // what the new protocol's protocol_status should be ?
-        List<ProtocolAttachmentProtocolBase> attachmentProtocols = new ArrayList<ProtocolAttachmentProtocolBase>();
+        List<ProtocolAttachmentProtocolBase> attachmentProtocols = new ArrayList<>();
         for (ProtocolAttachmentProtocolBase attachment : (List<ProtocolAttachmentProtocolBase>) deepCopy(amendment.getAttachmentProtocols())) {
             attachment.setProtocolNumber(this.getProtocolNumber());
             attachment.setSequenceNumber(this.getSequenceNumber());
@@ -1294,7 +1232,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
                 attachmentProtocols.add(attachment);
                 attachment.setProtocol(this);
             }
-            if (attachment.isDeleted() && KcServiceLocator.getService(ProtocolAttachmentService.class).isNewAttachmentVersion((ProtocolAttachmentProtocolBase) attachment)) {
+            if (attachment.isDeleted() && KcServiceLocator.getService(ProtocolAttachmentService.class).isNewAttachmentVersion(attachment)) {
                 attachmentProtocols.add(attachment);
                 attachment.setProtocol(this);
             }
@@ -1308,8 +1246,8 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
      * the deleted attachment will not be merged
      */
     private void removeDeletedAttachment() {
-        List<Integer> documentIds = new ArrayList<Integer>();
-        List<ProtocolAttachmentProtocolBase> attachments = new ArrayList<ProtocolAttachmentProtocolBase>();
+        List<Integer> documentIds = new ArrayList<>();
+        List<ProtocolAttachmentProtocolBase> attachments = new ArrayList<>();
         for (ProtocolAttachmentProtocolBase attachment : this.getAttachmentProtocols()) {
             attachment.setProtocol(this);
             if (attachment.isDeleted()) {
@@ -1323,7 +1261,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
                     attachments.add(attachment);
                 } 
             }
-            this.setAttachmentProtocols(new ArrayList<ProtocolAttachmentProtocolBase>());
+            this.setAttachmentProtocols(new ArrayList<>());
             this.getAttachmentProtocols().addAll(attachments);
         }
     }
@@ -1337,9 +1275,9 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
      *    otherwise, the delete will also delete any attachment that reference to this file
      */
     protected void restoreAttachments(ProtocolBase protocol) {
-        List<ProtocolAttachmentProtocolBase> attachmentProtocols = new ArrayList<ProtocolAttachmentProtocolBase>();
-        List<ProtocolAttachmentProtocolBase> deleteAttachments = new ArrayList<ProtocolAttachmentProtocolBase>();
-        List<AttachmentFile> deleteFiles = new ArrayList<AttachmentFile>();
+        List<ProtocolAttachmentProtocolBase> attachmentProtocols = new ArrayList<>();
+        List<ProtocolAttachmentProtocolBase> deleteAttachments = new ArrayList<>();
+        List<AttachmentFile> deleteFiles = new ArrayList<>();
         
         for (ProtocolAttachmentProtocolBase attachment : this.getAttachmentProtocols()) {
             if (attachment.isFinal()) {
@@ -1369,7 +1307,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     }
 
     private boolean fileIsReferencedByOther(Long fileId) {
-        Map<String, String> fieldValues = new HashMap<String, String>();
+        Map<String, String> fieldValues = new HashMap<>();
         fieldValues.put("fileId", fileId.toString());
         return getBusinessObjectService().countMatching(getProtocolAttachmentProtocolClassHook(), fieldValues) > 1;
         
@@ -1379,7 +1317,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     
 
     protected void mergeNotepads(ProtocolBase amendment) {
-        List <ProtocolNotepadBase> notepads = new ArrayList<ProtocolNotepadBase>();
+        List <ProtocolNotepadBase> notepads = new ArrayList<>();
         if (amendment.getNotepads() != null) {
             for (ProtocolNotepadBase notepad : (List<ProtocolNotepadBase>) deepCopy(amendment.getNotepads())) {
                 notepad.setProtocolNumber(this.getProtocolNumber());
@@ -1392,14 +1330,12 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
         }
         this.setNotepads(notepads);
     }
-    
-    @SuppressWarnings("unchecked")
+
     protected void mergeSpecialReview(ProtocolBase amendment) {
         setSpecialReviews((List<ProtocolSpecialReviewBase>) deepCopy(amendment.getSpecialReviews()));
         cleanupSpecialReviews(amendment);
     }
-    
-    @SuppressWarnings("unchecked")
+
     protected void mergePersonnel(ProtocolBase amendment) {
         setProtocolPersons((List<ProtocolPersonBase>) deepCopy(amendment.getProtocolPersons()));
         for (ProtocolPersonBase person : protocolPersons) {
@@ -1430,10 +1366,9 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     }
     
     protected void mergeProtocolPermissions(ProtocolBase amendment) {
-        // ToDo: merge permissions
+
     }
-    
-    
+
     protected Object deepCopy(Object obj) {
         return ObjectUtils.deepCopy((Serializable) obj);
     }
@@ -1588,7 +1523,6 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
         }
     }
 
-    
     public abstract String getNamespace();    
 
     @Override
@@ -1600,17 +1534,13 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
      public abstract String getDocumentRoleTypeCode();
 
     public void populateAdditionalQualifiedRoleAttributes(Map<String, String> qualifiedRoleAttributes) {
-        return;
+
     }
 
-    
-    
-    
     public boolean isNew() {
         return !isAmendment() && !isRenewal() && !isFYI();
     }
-    
-   
+
     public boolean isAmendment() {
         return protocolNumber != null && protocolNumber.contains(ProtocolSpecialVersion.AMENDMENT.getCode());
     }
@@ -1640,13 +1570,13 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
      */
     public String getAmendedProtocolNumber() {
         if (isAmendment()) {
-            return StringUtils.substringBefore(getProtocolNumber(), ProtocolSpecialVersion.AMENDMENT.getCode().toString());
+            return StringUtils.substringBefore(getProtocolNumber(), ProtocolSpecialVersion.AMENDMENT.getCode());
             
         } else if (isRenewal()) {
-            return StringUtils.substringBefore(getProtocolNumber(), ProtocolSpecialVersion.RENEWAL.getCode().toString());
+            return StringUtils.substringBefore(getProtocolNumber(), ProtocolSpecialVersion.RENEWAL.getCode());
                 
         } else if (isFYI()) {
-            return StringUtils.substringBefore(getProtocolNumber(), ProtocolSpecialVersion.FYI.getCode().toString());
+            return StringUtils.substringBefore(getProtocolNumber(), ProtocolSpecialVersion.FYI.getCode());
         }
         else {
             return null;
@@ -1659,7 +1589,6 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
      * @return true if versioning required false if not.
      */
     public boolean isVersioningRequired() {
-        // TODO : why need this. it's always true
         return true;
     }
     
@@ -1668,16 +1597,14 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
      * protocol if either A has a doc status code of 'draft' or 
      * if for all other attachments for that protocol having the same doc id as A's doc id, none have a version number
      * greater than A's version number. 
-     * is defined as the o 
-     * @return
+     * is defined as the o
      */
     public List<ProtocolAttachmentProtocolBase> getActiveAttachmentProtocols() {
-        List<ProtocolAttachmentProtocolBase> activeAttachments = new ArrayList<ProtocolAttachmentProtocolBase>();
+        List<ProtocolAttachmentProtocolBase> activeAttachments = new ArrayList<>();
         for (ProtocolAttachmentProtocolBase attachment1 : getAttachmentProtocols()) {
             if (attachment1.isDraft()) {
                 activeAttachments.add(attachment1);
             } else if (attachment1.isFinal() || attachment1.isDeleted()) {
-            //else if (attachment1.isFinal())) {
                 boolean isActive = true;
                 for (ProtocolAttachmentProtocolBase attachment2 : getAttachmentProtocols()) {
                     if (attachment1.getDocumentId().equals(attachment2.getDocumentId()) 
@@ -1701,15 +1628,11 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     /**
      * This method will return the list of undeleted attachments that are still active for this protocol.
      * Essentially it filters out all the deleted elements from the list of active attachments.
-     * See getActiveAttachmentProtocols() for a specification of what is an 'active attachment'. 
-     * 
-     * 
-     * @return
+     * See getActiveAttachmentProtocols() for a specification of what is an 'active attachment'.
      */
-    // TODO the method code below could be restructured to combine the two for loops into one loop.
     public List<ProtocolAttachmentProtocolBase> getActiveAttachmentProtocolsNoDelete() {
-        List<Integer> documentIds = new ArrayList<Integer>();
-        List<ProtocolAttachmentProtocolBase> activeAttachments = new ArrayList<ProtocolAttachmentProtocolBase>();
+        List<Integer> documentIds = new ArrayList<>();
+        List<ProtocolAttachmentProtocolBase> activeAttachments = new ArrayList<>();
         for (ProtocolAttachmentProtocolBase attachment : getActiveAttachmentProtocols()) {
             if (attachment.isDeleted()) {
                 documentIds.add(attachment.getDocumentId());
@@ -1736,14 +1659,14 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     
     protected DateTimeService getDateTimeService() {
         if(dateTimeService == null) {
-            dateTimeService = (DateTimeService) KcServiceLocator.getService(DateTimeService.class);
+            dateTimeService = KcServiceLocator.getService(DateTimeService.class);
         }
         return dateTimeService;
     }
 
     protected SequenceAccessorService getSequenceAccessorService() {
         if(sequenceAccessorService == null) {
-            sequenceAccessorService = (SequenceAccessorService) KcServiceLocator.getService(SequenceAccessorService.class);
+            sequenceAccessorService = KcServiceLocator.getService(SequenceAccessorService.class);
         }
         return sequenceAccessorService;
     }
@@ -1800,12 +1723,9 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     /**
      * 
      * This method is to check if the actiontypecode is a followup action.
-     * @param actionTypeCode
-     * @return
      */
     public boolean isFollowupAction(String actionTypeCode) {
-        return (getLastProtocolAction() == null || StringUtils.isBlank(getLastProtocolAction().getFollowupActionCode())) ? false 
-                : actionTypeCode.equals(getLastProtocolAction().getFollowupActionCode());
+        return !(getLastProtocolAction() == null || StringUtils.isBlank(getLastProtocolAction().getFollowupActionCode())) && actionTypeCode.equals(getLastProtocolAction().getFollowupActionCode());
     }
 
     public boolean isMergeAmendment() {
@@ -1831,7 +1751,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
      * @return a filtered list of protocol attachments
      */
     public List<ProtocolAttachmentProtocolBase> getFilteredAttachmentProtocols() {
-        List<ProtocolAttachmentProtocolBase> filteredAttachments = new ArrayList<ProtocolAttachmentProtocolBase>();
+        List<ProtocolAttachmentProtocolBase> filteredAttachments = new ArrayList<>();
         ProtocolAttachmentFilterBase attachmentFilter = getProtocolAttachmentFilter();
         if (attachmentFilter != null && StringUtils.isNotBlank(attachmentFilter.getFilterBy())) {            
             for (ProtocolAttachmentProtocolBase attachment1 : getAttachmentProtocols()) {
@@ -1865,9 +1785,9 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
             ProtocolSpecialReviewBase dstSpecialReview = dstSpecialReviews.get(i);
             // copy exemption codes, since they are transient and ignored by deepCopy()
             if (srcSpecialReview.getExemptionTypeCodes() != null) {
-                List<String> exemptionCodeCopy = new ArrayList<String>();
+                List<String> exemptionCodeCopy = new ArrayList<>();
                 for (String s: srcSpecialReview.getExemptionTypeCodes()) {
-                    exemptionCodeCopy.add(new String(s));
+                    exemptionCodeCopy.add(s);
                 }
                 dstSpecialReview.setExemptionTypeCodes(exemptionCodeCopy);
             }
@@ -1882,8 +1802,6 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     /**
      * This method encapsulates the logic to decide if a committee member appears in the list of protocol personnel. 
      * It will first try to match by personIds and if personIds are not available then it will try matching by rolodexIds.
-     * @param member
-     * @return
      */
     public boolean isMemberInProtocolPersonnel(CommitteeMembershipBase member) {
         boolean retValue = false;
@@ -1908,12 +1826,10 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     }
 
     /**
-     * This method will filter out this protocol's personnel from the given list of committee memberships
-     * @param members
-     * @return the filtered list of members
+     * This method will filter out this protocol's personnel from the given list of committee memberships.
      */
     public List<CommitteeMembershipBase> filterOutProtocolPersonnel(List<CommitteeMembershipBase> members) {
-        List<CommitteeMembershipBase> filteredMemebers = new ArrayList<CommitteeMembershipBase>();
+        List<CommitteeMembershipBase> filteredMemebers = new ArrayList<>();
         for (CommitteeMembershipBase member : members) {
             if(!isMemberInProtocolPersonnel(member)) {
                 filteredMemebers.add(member);
@@ -1927,8 +1843,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     
     /**
      * 
-     * This method is to return the first submission date as application date. see kccoi-36 comment
-     * @return
+     * This method is to return the first submission date as application date.
      */
     public Date getApplicationDate() {
         if (CollectionUtils.isNotEmpty(this.protocolSubmissions)) {
@@ -1948,23 +1863,16 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     public String getProjectId() {
         return getProtocolNumber();
     }
- 
-    
-    
-    // This is for viewhistory/corespondence to search prev submission
+
     public List<ProtocolActionBase> getSortedActions() {
         if (sortedActions == null) {
-            sortedActions = new ArrayList<ProtocolActionBase>();
+            sortedActions = new ArrayList<>();
             
             for (ProtocolActionBase action : getProtocolActions()) {
                 sortedActions.add((ProtocolActionBase) ObjectUtils.deepCopy(action));
             }
 
-            Collections.sort(sortedActions, new Comparator<ProtocolActionBase>() {
-                public int compare(ProtocolActionBase action1, ProtocolActionBase action2) {
-                    return action1.getActionId().compareTo(action2.getActionId());
-                }
-            });
+            Collections.sort(sortedActions, (action1, action2) -> action1.getActionId().compareTo(action2.getActionId()));
             
         }
         return sortedActions;
@@ -1989,7 +1897,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     
     
     public void reconcileActionsWithSubmissions() {
-        HashMap<Integer, ProtocolSubmissionBase> submissionNumberMap = new HashMap<Integer, ProtocolSubmissionBase>();
+        HashMap<Integer, ProtocolSubmissionBase> submissionNumberMap = new HashMap<>();
         for(ProtocolSubmissionBase submission : getProtocolSubmissions()) {
             submissionNumberMap.put(submission.getSubmissionNumber(), submission);
         }

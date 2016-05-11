@@ -18,10 +18,8 @@
  */
 package org.kuali.kra.irb.test;
 
-import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
 
 /**
  * Utility for working with Protocol objects for testing.
@@ -41,16 +39,6 @@ public final class ProtocolTestUtil {
     public static Protocol getProtocol(final Mockery context) {
         
         final Protocol protocol = new Protocol() {
-            
-            @Override
-            protected ProtocolLocationService getProtocolLocationService() {
-                final Protocol aThis = this;
-                final ProtocolLocationService mock = context.mock(ProtocolLocationService.class);
-                context.checking(new Expectations() {{
-                    ignoring(mock).addDefaultProtocolLocation(aThis);
-                }});
-                return mock;
-            }
             
             @Override
             public void refreshReferenceObject(String referenceObjectName) {
