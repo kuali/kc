@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* IP proposal log fixes
+  * Gayathri Athreya on Wed, 11 May 2016 11:30:50 -0700 [View Commit](../../commit/eddf6cb8d38f8106b7923f79f35dedb2a69fa400)
+
+##coeus-1605.22
 * RESKC-1248: When you create a new protocol, the PI doesn't render on the person page when the  KC-PROTOCOL/ENABLE_DISCLOSURE_STATUS_FROM_COI_MODULE is set to Y.
   * Travis Schneeberger on Tue, 10 May 2016 16:54:05 -0400 [View Commit](../../commit/8b977cf2eb0fe600b2381befc1be471f656e917e)
 
