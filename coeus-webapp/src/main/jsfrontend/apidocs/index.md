@@ -179,6 +179,7 @@ Current APIs have been designed to be accessed via admin only username and passw
 <!-- include(common/notification-types.md) -->
 <!-- include(common/nsf-codes.md) -->
 <!-- include(common/organization-audits.md) -->
+<!-- include(common/organization-audit-accepted-types.md) -->
 <!-- include(common/organization-correspondents.md) -->
 <!-- include(common/organization-indirect-costs.md) -->
 <!-- include(common/organization-type-lists.md) -->

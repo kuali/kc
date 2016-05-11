@@ -400,6 +400,7 @@
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.meeting.ProtocolVoteRecused" p:camelCasePluralName="ProtocolRecusedVotes" />
 
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.impl.rpt.cust.CustRptDefaultParms" p:camelCasePluralName="CustomReportDefaultParameters" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.impl.rpt.cust.CustRptTypeDocument" p:camelCasePluralName="CustomReportTypeDocuments" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.budget.framework.rate.InstituteLaRate" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.version.history.VersionHistorySearchBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.org.OrganizationIndirectcost" p:camelCasePluralName="OrganizationIndirectCosts" />
@@ -415,6 +416,7 @@
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue" p:camelCasePluralName="CustomAttributeDocumentValues" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.org.audit.OrganizationAudit" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.org.audit.OrganizationAuditAcceptedType" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.budget.framework.distribution.BudgetUnrecoveredFandA" p:camelCasePluralName="BudgetUnrecoveredFAndAs" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.ynq.YnqExplanation" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.budget.framework.core.category.BudgetCategoryMapping" />
