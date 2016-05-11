@@ -25,9 +25,9 @@ public interface InstitutionalProposalApiService {
 
     public InstitutionalProposalDocument saveInitialProposal(InstitutionalProposal proposal, String description) throws WorkflowException;
 
-    public void updateProposalLog(boolean createProposalLog, String proposalLogNumber, InstitutionalProposalDocument ipDocument);
+    public void updateProposalLog(String proposalLogNumber, InstitutionalProposalDocument ipDocument);
 
-    public String createProposalLog(boolean createProposalLog, InstitutionalProposalDto ipDto);
+    public String createProposalLog(InstitutionalProposalDto ipDto, IpPersonDto pi);
 
     public void addPersons(InstitutionalProposalDocument proposalDocument, List<IpPersonDto> personDtos);
 
@@ -35,17 +35,11 @@ public interface InstitutionalProposalApiService {
 
     public ArrayList<LinkedHashMap> getProposalPersons(ArrayList<LinkedHashMap> persons, String roleCode);
 
-    public ProposalLog addProposalLog(InstitutionalProposalDto ipDto);
-
     public void addRequiredFields(InstitutionalProposal proposal, InstitutionalProposalDocument ipDocument, String proposalNumber);
 
     public void initializeCostTotals(InstitutionalProposal proposal);
 
-    public Object convertObject(Object input, Class clazz);
-
     public void updateDataObjectFromDto(Object existingDataObject, Object input);
-
-    public Object getNewDataObject(Class clazz);
 
     public void initializeData(InstitutionalProposal proposal);
 }

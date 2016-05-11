@@ -3,6 +3,7 @@ package org.kuali.coeus.instprop.impl.api.service.impl;
 import com.codiform.moo.Moo;
 import com.codiform.moo.configuration.Configuration;
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.api.document.service.CommonApiService;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
@@ -72,6 +73,10 @@ public class InstitutionalProposalApiServiceImpl implements InstitutionalProposa
     @Autowired
     @Qualifier("globalVariableService")
     private GlobalVariableService globalVariableService;
+
+    @Autowired
+    @Qualifier("commonApiService")
+    private CommonApiService commonApiService;
 
     public InstitutionalProposalDocument saveDocument(InstitutionalProposalDocument proposalDocument) throws WorkflowException {
         // Rice lets you save a cancelled doc, so check status before saving.
@@ -190,20 +195,16 @@ public class InstitutionalProposalApiServiceImpl implements InstitutionalProposa
         if(proposal.getProposalComments() == null) proposal.setProposalComments(new ArrayList<>());
     }
 
-    public void updateProposalLog(boolean createProposalLog, String proposalLogNumber, InstitutionalProposalDocument ipDocument) {
-        if(createProposalLog) {
-            getProposalLogService().mergeProposalLog(proposalLogNumber);
-            getProposalLogService().updateMergedInstProposal(ipDocument.getInstitutionalProposal().getProposalId(), proposalLogNumber);
-        }
+    public void updateProposalLog(String proposalLogNumber, InstitutionalProposalDocument ipDocument) {
+        getProposalLogService().mergeProposalLog(proposalLogNumber);
+        getProposalLogService().updateMergedInstProposal(ipDocument.getInstitutionalProposal().getProposalId(), proposalLogNumber);
     }
 
-    public String createProposalLog(boolean createProposalLog, InstitutionalProposalDto ipDto) {
+    public String createProposalLog(InstitutionalProposalDto ipDto, IpPersonDto ipId) {
         String proposalLogNumber = null;
-        if (createProposalLog) {
-            ProposalLog proposalLog = addProposalLog(ipDto);
-            proposalLogNumber = proposalLog.getProposalNumber();
-            getProposalLogService().promoteProposalLog(proposalLogNumber);
-        }
+        ProposalLog proposalLog = addProposalLog(ipDto, ipId);
+        proposalLogNumber = proposalLog.getProposalNumber();
+        getProposalLogService().promoteProposalLog(proposalLogNumber);
         return proposalLogNumber;
     }
 
@@ -215,7 +216,7 @@ public class InstitutionalProposalApiServiceImpl implements InstitutionalProposa
 
     public InstitutionalProposalPerson addPerson(InstitutionalProposalDocument proposalDocument, IpPersonDto personDto) {
         InstitutionalProposal proposal = proposalDocument.getInstitutionalProposal();
-        final InstitutionalProposalPerson projectPerson = (InstitutionalProposalPerson) convertObject(personDto, InstitutionalProposalPerson.class);
+        final InstitutionalProposalPerson projectPerson = (InstitutionalProposalPerson) commonApiService.convertObject(personDto, InstitutionalProposalPerson.class);
         validatePersonAndRole(projectPerson);
         if(projectPerson.isPrincipalInvestigator()) {
             proposal.refreshReferenceObject("leadUnit");
@@ -275,6 +276,14 @@ public class InstitutionalProposalApiServiceImpl implements InstitutionalProposa
     }
 
     public void validatePersonAndRole(InstitutionalProposalPerson person) {
+        validatePerson(person);
+
+        if (!person.isInvestigator() && !person.isKeyPerson()) {
+            throw new UnprocessableEntityException("Invalid role " + person.getRoleCode() + " for person " + getId(person));
+        }
+    }
+
+    public void validatePerson(InstitutionalProposalPerson person) {
         Entity personEntity = null;
         RolodexContract rolodex = null;
         if (person.getPersonId() != null) {
@@ -290,10 +299,6 @@ public class InstitutionalProposalApiServiceImpl implements InstitutionalProposa
 
         if (rolodex == null && personEntity == null) {
                 throw new UnprocessableEntityException("Invalid person or rolodex for person " + getId(person));
-        }
-
-        if (!person.isInvestigator() && !person.isKeyPerson()) {
-            throw new UnprocessableEntityException("Invalid role " + person.getRoleCode() + " for person " + getId(person));
         }
     }
 
@@ -311,13 +316,21 @@ public class InstitutionalProposalApiServiceImpl implements InstitutionalProposa
         return proposalPersons;
     }
 
-    public ProposalLog addProposalLog(InstitutionalProposalDto ipDto) {
-        ProposalLogDto proposalLogDto = (ProposalLogDto) convertObject(ipDto, ProposalLogDto.class);
-        ProposalLog proposalLog = (ProposalLog) convertObject(proposalLogDto, ProposalLog.class);
+    public ProposalLog addProposalLog(InstitutionalProposalDto ipDto, IpPersonDto personDto) {
+        ProposalLogDto proposalLogDto = (ProposalLogDto) commonApiService.convertObject(ipDto, ProposalLogDto.class);
+        ProposalLog proposalLog = (ProposalLog) commonApiService.convertObject(proposalLogDto, ProposalLog.class);
         proposalLog.setProposalTypeCode(ipDto.getProposalTypeCode().toString());
         proposalLog.setCreateTimestamp(new java.sql.Timestamp(ipDto.getCreateTimestamp().getTime()));
         proposalLog.setLogStatus(InstitutionalProposalApiConstants.LOG_STATUS_DEFAULT);
         proposalLog.setCreateUser("admin");
+
+        final InstitutionalProposalPerson projectPerson = (InstitutionalProposalPerson) commonApiService.convertObject(personDto, InstitutionalProposalPerson.class);
+        validatePerson(projectPerson);
+        if(projectPerson.isPrincipalInvestigator()) {
+            proposalLog.setRolodexId(projectPerson.getRolodexId());
+            proposalLog.setPiId(projectPerson.getPersonId());
+        }
+        proposalLog.setProposalNumber(institutionalProposalService.getNextInstitutionalProposalNumber());
         businessObjectService.save(proposalLog);
         return proposalLog;
     }
@@ -333,21 +346,11 @@ public class InstitutionalProposalApiServiceImpl implements InstitutionalProposa
         proposal.setInstitutionalProposalDocument(ipDocument);
     }
 
-
     public void initializeCostTotals(InstitutionalProposal proposal) {
         if(proposal.getTotalDirectCostTotal() == null) proposal.setTotalDirectCostTotal(ScaleTwoDecimal.ZERO);
         if(proposal.getTotalIndirectCostInitial() == null) proposal.setTotalIndirectCostInitial(ScaleTwoDecimal.ZERO);
         if(proposal.getTotalDirectCostInitial() == null) proposal.setTotalDirectCostInitial(ScaleTwoDecimal.ZERO);
         if(proposal.getTotalIndirectCostTotal() == null) proposal.setTotalIndirectCostTotal(ScaleTwoDecimal.ZERO);
-    }
-
-    public Object convertObject(Object input, Class clazz) {
-        Configuration mooConfig = new Configuration();
-        mooConfig.setSourcePropertiesRequired(false);
-        Moo moo = new Moo(mooConfig);
-        Object newDataObject = getNewDataObject(clazz);
-        moo.update(input, newDataObject);
-        return newDataObject;
     }
 
     public void updateDataObjectFromDto(Object existingDataObject, Object input) {
@@ -357,13 +360,6 @@ public class InstitutionalProposalApiServiceImpl implements InstitutionalProposa
         moo.update(input, existingDataObject);
     }
 
-    public Object getNewDataObject(Class clazz) {
-        try {
-            return clazz.newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
-            throw new RuntimeException("cannot create new data object", e);
-        }
-    }
 
     public void initializeData(InstitutionalProposal proposal) {
         initializeCollections(proposal);
