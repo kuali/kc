@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1248: When you create a new protocol, the PI doesn't render on the person page when the  KC-PROTOCOL/ENABLE_DISCLOSURE_STATUS_FROM_COI_MODULE is set to Y.
+  * Travis Schneeberger on Tue, 10 May 2016 16:54:05 -0400 [View Commit](../../commit/8b977cf2eb0fe600b2381befc1be471f656e917e)
+
+##coeus-1605.21
 * No Changes
 
 
