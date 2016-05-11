@@ -96,6 +96,10 @@
         <property name="serviceName" value="businessObjectService" />
     </bean>
 
+    <bean id="commonApiService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="commonApiService" />
+    </bean>
+
     <bean id="parameterService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="parameterService" />
     </bean>    
