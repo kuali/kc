@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1332: change role member api to use the standard api/v1 path.  Also allow anything using SimpleCrudRestControllers to have mapped paths with subpaths
+  * Travis Schneeberger on Thu, 12 May 2016 14:15:18 -0400 [View Commit](../../commit/eb697daea5432a8408467d5811d6a2d4c554d8b6)
+
+##coeus-1605.26
 * No Changes
 
 
