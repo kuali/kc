@@ -456,7 +456,7 @@
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.common.delegate.DelegateMemberBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.role.RoleMemberBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.type.KimTypeBo" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.role.RoleBo" />
+    <bean id="roleMembershipController" class="org.kuali.coeus.sys.impl.auth.RoleMembershipController" p:dataObjectClazz="org.kuali.rice.kim.impl.role.RoleBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.role.RoleResponsibilityActionBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kim.impl.responsibility.ResponsibilityBo" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.krad.maintenance.MaintenanceDocumentBase" />

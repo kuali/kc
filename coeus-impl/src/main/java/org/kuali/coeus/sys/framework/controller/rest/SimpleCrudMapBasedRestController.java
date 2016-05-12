@@ -102,6 +102,7 @@ public class SimpleCrudMapBasedRestController<T> extends SimpleCrudRestControlle
 		return map;
 	}
 
+	@Override
 	public List<String> getExposedProperties() {
 		if (org.apache.commons.collections4.CollectionUtils.isEmpty(exposedProperties)) {
 			exposedProperties = getDefaultProperties();

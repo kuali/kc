@@ -657,7 +657,7 @@ public abstract class SimpleCrudRestControllerBase<T, R> extends RestController 
 		}
 
 		if (isRegisterMapping() && autoRegisterMapping != null) {
-			final String path = getPath() + "*";
+			final String path = getPath() + "**";
 			autoRegisterMapping.setUrlMap(Collections.singletonMap(getPath(), this));
 			autoRegisterMapping.registerHandler(path, this);
 		}
