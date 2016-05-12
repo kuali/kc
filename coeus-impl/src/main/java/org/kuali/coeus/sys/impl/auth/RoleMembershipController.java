@@ -21,7 +21,7 @@ package org.kuali.coeus.sys.impl.auth;
 import com.codiform.moo.curry.Translate;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.auth.RoleMembershipDto;
-import org.kuali.coeus.sys.framework.controller.rest.RestController;
+import org.kuali.coeus.sys.framework.controller.rest.SimpleCrudMapBasedRestController;
 import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.KimConstants;
@@ -31,7 +31,6 @@ import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -40,8 +39,7 @@ import java.util.stream.Collectors;
 import static org.kuali.coeus.sys.framework.util.CollectionUtils.entry;
 import static org.kuali.coeus.sys.framework.util.CollectionUtils.entriesToMap;
 
-@Controller("RoleMembershipController")
-public class RoleMembershipController extends RestController {
+public class RoleMembershipController extends SimpleCrudMapBasedRestController {
 
 	private static final String NAMESPACE_NAME_DELIMETER = ":";
 	private static final String QUALIFIER_NAME_VALUE_DELIMETER = ":";
@@ -54,7 +52,7 @@ public class RoleMembershipController extends RestController {
     @Qualifier("personService")
     private PersonService personService;
 
-	@RequestMapping(method= RequestMethod.GET, value="v1/roles/{roleId}/principals/{memberId}")
+	@RequestMapping(method= RequestMethod.GET, value="api/v1/roles/{roleId}/principals/{memberId}")
 	public @ResponseBody List<RoleMembershipDto> getRoleMembershipsForMemberId(@PathVariable String roleId, @PathVariable String memberId, @RequestParam(value="qualification", required=false) String[] qualification) {
 		if (StringUtils.isBlank(roleId)) {
 			throw new ResourceNotFoundException("roleId is blank");
@@ -83,7 +81,7 @@ public class RoleMembershipController extends RestController {
 
 	}
 
-    @RequestMapping(method= RequestMethod.GET, value="v1/roles/{roleId}/principals")
+    @RequestMapping(method= RequestMethod.GET, value="api/v1/roles/{roleId}/principals/")
     public @ResponseBody List<RoleMembershipDto> getRoleMemberships(@PathVariable String roleId, @RequestParam(value="qualification", required=false) String[] qualification) {
         if (StringUtils.isBlank(roleId)) {
             throw new ResourceNotFoundException("roleId is blank");
