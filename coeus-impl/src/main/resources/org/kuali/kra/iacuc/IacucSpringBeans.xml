@@ -58,6 +58,10 @@
         <property name="serviceName" value="kcWorkflowService" />
     </bean>
 
+    <bean id="rolodexService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="rolodexService" />
+    </bean>
+
 	<bean id="parentIacucProtocolTableAuthorizer" abstract="true" parent="parentIacucProtocolAuthorizer">
         <property name="iacucProtocolTableService" ref="iacucProtocolTableService" />
     </bean>
@@ -603,7 +607,8 @@
         <property name="personEditableService" ref="personEditableService" />
         <property name="iacucProtocolProcedureService" ref="iacucProtocolProcedureService" />
         <property name="parameterService" ref="parameterService" />
-    </bean>
+         <property name="rolodexService" ref="rolodexService" />
+     </bean>
 
     <bean id="dbPlatform" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="dbPlatform" />

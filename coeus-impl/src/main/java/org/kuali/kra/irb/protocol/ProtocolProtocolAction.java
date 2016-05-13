@@ -201,34 +201,6 @@ public class ProtocolProtocolAction extends ProtocolAction {
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-
-    /**
-     * This method is hook to KNS, it adds ProtocolReference. Method is called in protocolAdditonalInformation.tag
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     
-    public ActionForward addProtocolReference(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolReference newProtocolReference = protocolForm.getNewProtocolReference();
-
-        if (applyRules(new AddProtocolReferenceEvent(Constants.EMPTY_STRING, protocolForm.getProtocolDocument(), newProtocolReference))) {
-
-            ProtocolReferenceService service = KcServiceLocator.getService(ProtocolReferenceService.class);
-
-            service.addProtocolReference(protocolForm.getProtocolDocument().getProtocol(), newProtocolReference);
-
-            protocolForm.setNewProtocolReference(new ProtocolReference());
-
-        }
-
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }*/
     
     public ActionForward addProtocolReferenceBean(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {

@@ -19,6 +19,8 @@
 package org.kuali.kra.irb.actions.approve;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
+import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
@@ -32,6 +34,8 @@ import org.kuali.kra.protocol.actions.approve.ProtocolApproveServiceImplBase;
 import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorrespondenceBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+
+import java.sql.Date;
 
 /**
  * Approves a protocol, either for a full, expedited, or response protocol submission.
@@ -89,6 +93,37 @@ public class ProtocolApproveServiceImpl extends ProtocolApproveServiceImplBase i
         finalizeReviewsAndSave(protocol, ProtocolActionType.APPROVED, RESPONSE_APPROVAL_FINALIZE_OLR_ANNOTATION);
         
         protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().approve(actionBean.getComments());
+    }
+
+    /**
+     * Builds an expiration date, defaulting to the expiration date from the protocol.
+     *
+     * If the expiration date from the protocol is null, or if the protocol is new or a renewal, creates an expiration date exactly one year ahead and one day
+     * less than the approval date.
+     *
+     * @param protocol
+     * @param approvalDate
+     * @return a non-null expiration date
+     */
+    public Date buildExpirationDate(ProtocolBase protocol, Date approvalDate) {
+        Date expirationDate = protocol.getExpirationDate();
+
+        if (expirationDate == null || protocol.isNew() || protocol.isRenewal()) {
+            java.util.Date newExpirationDate = DateUtils.addYears(approvalDate, getDefaultExpirationDateDifference());
+            newExpirationDate = DateUtils.addDays(newExpirationDate, -1);
+            expirationDate = org.kuali.coeus.sys.framework.util.DateUtils.convertToSqlDate(newExpirationDate);
+        }
+
+        return expirationDate;
+    }
+
+    /**
+     *
+     * This method returns the number of years to add for the default expiration date.
+     * @return
+     */
+    public int getDefaultExpirationDateDifference() {
+        return 1;
     }
 
     public void setParameterService(ParameterService parameterService) {

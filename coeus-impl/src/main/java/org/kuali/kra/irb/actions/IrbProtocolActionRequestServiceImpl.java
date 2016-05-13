@@ -556,7 +556,7 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
     
     @Override
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    public boolean submitForReviewAndPromptToNotifyUser(ProtocolForm protocolForm) throws Exception {
+    public boolean submitForReviewAndPromptToNotifyUser(ProtocolForm protocolForm, boolean sendNotification) throws Exception {
         ProtocolDocument protocolDocument = (ProtocolDocument) protocolForm.getProtocolDocument();
         Protocol protocol = (Protocol) protocolDocument.getProtocol();
         ProtocolSubmitAction submitAction = (ProtocolSubmitAction) protocolForm.getActionHelper().getProtocolSubmitAction();
@@ -564,31 +564,39 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
         getProtocolSubmitActionService().submitToIrbForReview(protocol, submitAction);
         protocolForm.getActionHelper().getAssignCmtSchedBean().init();
         generateActionCorrespondence(ProtocolActionType.SUBMIT_TO_IRB, protocolForm.getProtocolDocument().getProtocol());
-        
-        AssignReviewerNotificationRenderer renderer1 = new AssignReviewerNotificationRenderer((Protocol) protocolForm.getProtocolDocument().getProtocol(), "added");
-        List<ProtocolNotificationRequestBean> addReviewerNotificationBeans = getNotificationRequestBeans((List) submitAction.getReviewers(),ProtocolReviewerBean.CREATE);
+
+        if (sendNotification) {
+            return sendSubmitForReviewNotification(protocolForm, protocol, submitAction);
+        } else {
+            return false;
+        }
+    }
+
+    public boolean sendSubmitForReviewNotification(ProtocolForm protocolForm, Protocol protocol, ProtocolSubmitAction submitAction) {
+        AssignReviewerNotificationRenderer renderer1 = new AssignReviewerNotificationRenderer(protocolForm.getProtocolDocument().getProtocol(), "added");
+        List<ProtocolNotificationRequestBean> addReviewerNotificationBeans = getNotificationRequestBeans((List) submitAction.getReviewers(), ProtocolReviewerBean.CREATE);
         if (!CollectionUtils.isEmpty(addReviewerNotificationBeans)) {
             ProtocolNotificationRequestBean notificationBean1 = addReviewerNotificationBeans.get(0);
             IRBNotificationContext context1 = new IRBNotificationContext((Protocol) notificationBean1.getProtocol(),
                     (ProtocolOnlineReview) notificationBean1.getProtocolOnlineReview(), notificationBean1.getActionType(),
-                    notificationBean1.getDescription(), renderer1);             
-            getNotificationService().sendNotificationAndPersist(context1, new IRBProtocolNotification(), protocol); 
-            
+                    notificationBean1.getDescription(), renderer1);
+            getNotificationService().sendNotificationAndPersist(context1, new IRBProtocolNotification(), protocol);
+
         }
         ProtocolNotificationRequestBean notificationBean2 = new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.SUBMIT_TO_IRB_NOTIFICATION, "Submit");
         IRBNotificationRenderer renderer2 = new IRBNotificationRenderer((Protocol) notificationBean2.getProtocol());
         IRBNotificationContext context2 = new IRBNotificationContext(protocol, notificationBean2.getActionType(), notificationBean2.getDescription(), renderer2);
-        
+
         if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context2)) {
             context2.setForwardName(FORWARD_TO_HOLDING_PAGE);
             protocolForm.getNotificationHelper().initializeDefaultValues(context2);
             return true;
-        } else {             
-            getNotificationService().sendNotificationAndPersist(context2, new IRBProtocolNotification(), protocol);             
+        } else {
+            getNotificationService().sendNotificationAndPersist(context2, new IRBProtocolNotification(), protocol);
             return false;
         }
     }
-    
+
     @Override
     public String createRenewal(ProtocolForm protocolForm) throws Exception {
         String newDocId = getProtocolAmendRenewService().createRenewal(protocolForm.getProtocolDocument(), protocolForm.getActionHelper().getRenewalSummary());

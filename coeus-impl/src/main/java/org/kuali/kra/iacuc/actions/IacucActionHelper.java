@@ -317,7 +317,6 @@ public class IacucActionHelper extends ActionHelperBase {
      * @param approvalDate
      * @return a non-null expiration date
      */
-    @Override
     protected Date buildExpirationDate(ProtocolBase protocol, Date approvalDate) {
         Date expirationDate = protocol.getExpirationDate();
         

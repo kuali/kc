@@ -292,7 +292,7 @@ public interface IrbProtocolActionRequestService extends ProtocolActionRequestSe
      * @return boolean to indicate whether to prompt user
      * @throws Exception
      */
-    public boolean submitForReviewAndPromptToNotifyUser(ProtocolForm protocolForm) throws Exception;
+    public boolean submitForReviewAndPromptToNotifyUser(ProtocolForm protocolForm, boolean sendNotification) throws Exception;
     
     /**
      * This method is to create protocol renewal

@@ -42,6 +42,7 @@ import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewal;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendmentBean;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
 import org.kuali.kra.irb.actions.approve.ProtocolApproveBean;
+import org.kuali.kra.irb.actions.approve.ProtocolApproveService;
 import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaBean;
 import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedBean;
 import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersBean;
@@ -317,10 +318,10 @@ public class ActionHelper extends ActionHelperBase {
             bean.setActionDate(new Date(protocolAction.getActionDate().getTime()));
         }
         bean.setApprovalDate(buildApprovalDate(getProtocol()));
-        bean.setExpirationDate(buildExpirationDate(getProtocol(), bean.getApprovalDate()));
-        bean.setDefaultExpirationDateDifference(this.getDefaultExpirationDateDifference());
+        bean.setExpirationDate(getProtocolApproveService().buildExpirationDate(getProtocol(), bean.getApprovalDate()));
+        bean.setDefaultExpirationDateDifference(getProtocolApproveService().getDefaultExpirationDateDifference());
         return bean;
-    }    
+    }
 
     /**
      * This method copies the settings from the ProtocolAmendRenewal bo to the amendmentBean and enables the

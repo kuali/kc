@@ -344,7 +344,6 @@ public abstract class ProtocolActionBase extends KcTransactionalDocumentActionBa
       UnitAclLoadService unitAclLoadService = getUnitAclLoadService();
       unitAclLoadService.loadUnitAcl(permissionable, userId);
 
-//moved      sendNotification(protocolForm);
    }
     
     /**

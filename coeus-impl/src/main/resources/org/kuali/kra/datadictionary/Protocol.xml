@@ -76,75 +76,8 @@
 				<ref bean="Protocol-lookupActionNotifyIRBProtocol" />
 				<ref bean="Protocol-lookupActionRequestProtocol" />
 				<ref bean="Protocol-lookupProtocolPersonId" />
-      <!-- <bean parent="FieldDefinition"
-					p:attributeName="approvalDate" />
-				<bean parent="FieldDefinition"
-					p:attributeName="expirationDate" />
-				<bean parent="FieldDefinition"
-					p:attributeName="fdaApplicationNumber" />
-				<bean parent="FieldDefinition"
-					p:attributeName="referenceNumber1" />
-				<bean parent="FieldDefinition"
-					p:attributeName="referenceNumber2" />
-				<bean parent="FieldDefinition"
-					p:attributeName="specialReviewIndicator" />
-				<bean parent="FieldDefinition"
-					p:attributeName="vulnerableSubjectIndicator" />
-				<bean parent="FieldDefinition"
-					p:attributeName="keyStudyPersonIndicator" />
-				<bean parent="FieldDefinition"
-					p:attributeName="fundingSourceIndicator" />
-				<bean parent="FieldDefinition"
-					p:attributeName="correspondentIndicator" />
-				<bean parent="FieldDefinition"
-					p:attributeName="referenceIndicator" />
-				<bean parent="FieldDefinition"
-					p:attributeName="relatedProjectsIndicator" /> -->
 			</list>
 		</property>
-<!-- 
-    <property name="relationships" >
-      <list>
-        <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="protocolStatus" />
-          <property name="primitiveAttributes" >
-            <list>
-              <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="protocolStatusCode"
-                    p:targetName="protocolStatusCode" />
-            </list>
-          </property>
-          <property name="supportAttributes" >
-            <list>
-              <bean parent="SupportAttributeDefinition"
-                    p:identifier="true"
-                    p:sourceName="protocolStatus.description"
-                    p:targetName="description" />
-            </list>
-          </property>
-        </bean>
-
-        <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="protocolType" />
-          <property name="primitiveAttributes" >
-            <list>
-              <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="protocolTypeCode"
-                    p:targetName="protocolTypeCode" />
-            </list>
-          </property>
-          <property name="supportAttributes" >
-            <list>
-              <bean parent="SupportAttributeDefinition"
-                    p:identifier="true"
-                    p:sourceName="protocolType.description"
-                    p:targetName="description" />
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
- -->		
 	</bean>
 
 	<!-- Attribute Definitions -->

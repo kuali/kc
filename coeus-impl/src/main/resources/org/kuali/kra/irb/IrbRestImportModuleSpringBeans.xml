@@ -36,6 +36,18 @@
     <bean id="errorHandlingUtilService" parent="grlImporter" p:serviceName="errorHandlingUtilService" />
     <bean id="globalVariableService" parent="grlImporter" p:serviceName="globalVariableService" />
     <bean id="restAuditLoggerFactory" parent="grlImporter" p:serviceName="restAuditLoggerFactory" />
-    
+
+    <!-- IRB -->
+    <bean id="protocolNumberService" parent="grlImporter" p:serviceName="protocolNumberService" />
+    <bean id="protocolPersonnelService" parent="grlImporter" p:serviceName="protocolPersonnelService" />
+    <bean id="protocolApproveService" parent="grlImporter" p:serviceName="protocolApproveService" />
+    <bean id="protocolSubmitActionService" parent="grlImporter" p:serviceName="protocolSubmitActionService" />
+    <bean id="protocolGrantExemptionService" parent="grlImporter" p:serviceName="protocolGrantExemptionService" />
+
+    <!-- COMMON -->
+    <bean id="commonApiService" parent="grlImporter" p:serviceName="commonApiService" />
+    <bean id="kcPersonService" parent="grlImporter" p:serviceName="kcPersonService" />
+    <bean id="rolodexService" parent="grlImporter" p:serviceName="rolodexService" />
+
 
 </beans>

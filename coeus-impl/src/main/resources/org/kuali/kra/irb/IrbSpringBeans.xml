@@ -59,6 +59,10 @@
         <property name="serviceName" value="kcWorkflowService" />
     </bean>
 
+    <bean id="rolodexService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="rolodexService" />
+    </bean>
+
     <bean id="taskAuthorizationService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="taskAuthorizationService" />
     </bean>
@@ -132,6 +136,7 @@
             <ref bean="unitService"/>
         </property>        
         <property name="parameterService" ref="parameterService" />
+        <property name="rolodexService" ref="rolodexService" />
     </bean> 
 
     <bean id="protocolPersonTrainingService" class="org.kuali.kra.irb.personnel.ProtocolPersonTrainingServiceImpl">

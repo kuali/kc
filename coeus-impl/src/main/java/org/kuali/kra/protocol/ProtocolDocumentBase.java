@@ -428,7 +428,7 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
      * Initialize protocol location.
      * Add default organization.
      */
-    private void initializeProtocolLocation() {
+    public void initializeProtocolLocation() {
     	//workaround for services called in a ctor
         if (getProtocolLocationService() != null) {
             getProtocolLocationService().addDefaultProtocolLocation(this.getProtocol());

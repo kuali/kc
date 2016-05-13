@@ -39,7 +39,9 @@ public class ProtocolApproveBean extends ProtocolGenericActionBean implements or
     private ProtocolRiskLevelBean protocolRiskLevelBean;
 
     private int defaultExpirationDateDifference;
-    
+
+    public ProtocolApproveBean() {}
+
     /**
      * Constructs a ProtocolApproveBean.
      * @param actionHelper a reference back to the parent helper

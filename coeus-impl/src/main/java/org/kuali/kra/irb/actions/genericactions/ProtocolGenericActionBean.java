@@ -40,7 +40,9 @@ public class ProtocolGenericActionBean extends ProtocolActionBean implements org
     
     private ReviewCommentsBean reviewCommentsBean;
     private ReviewAttachmentsBean reviewAttachmentsBean;
-    
+
+    public ProtocolGenericActionBean() {}
+
     /**
      * Constructs a ProtocolGenericActionBean.
      * @param actionHelper Reference back to the action helper for this bean
