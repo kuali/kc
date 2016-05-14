@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* handle date strings that are empty strings.
+  * Travis Schneeberger on Fri, 13 May 2016 20:41:58 -0400 [View Commit](../../commit/7e0cb8c41a0040ae062b5697476a98f2928e947d)
+
+##coeus-1605.27
 * RESKC-1332: change role member api to use the standard api/v1 path.  Also allow anything using SimpleCrudRestControllers to have mapped paths with subpaths
   * Travis Schneeberger on Thu, 12 May 2016 14:15:18 -0400 [View Commit](../../commit/eb697daea5432a8408467d5811d6a2d4c554d8b6)
 
