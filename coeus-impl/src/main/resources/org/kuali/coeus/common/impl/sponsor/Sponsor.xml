@@ -276,6 +276,7 @@
   <bean id="Sponsor-ownedByUnit-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="ownedByUnit" />
     <property name="forceUppercase" value="false" />
+    <property name="required" value="true" />
     <property name="label" value="Owned By Unit" />
     <property name="shortLabel" value="Owned By Unit" />
     <property name="maxLength" value="8" />
@@ -381,6 +382,7 @@
   <bean id="Sponsor-sponsorTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="sponsorTypeCode" />
     <property name="forceUppercase" value="false" />
+    <property name="required" value="true" />
     <property name="label" value="Sponsor Type Code" />
     <property name="shortLabel" value="Sponsor Type Code" />
     <property name="maxLength" value="3" />
