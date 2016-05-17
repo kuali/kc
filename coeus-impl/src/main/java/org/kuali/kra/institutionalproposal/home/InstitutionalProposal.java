@@ -1022,34 +1022,30 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
 
     static class ProjectPersonComparator implements Comparator<InstitutionalProposalPerson>
     {
-        
         public int compare(InstitutionalProposalPerson ipp1, InstitutionalProposalPerson ipp2)
         {
-            String lastName1 = ipp1.getContact() != null ? ipp1.getContact().getLastName() != null ?
-                    ipp1.getContact().getLastName().toUpperCase() : StringUtils.EMPTY : StringUtils.EMPTY;
-            String lastName2 = ipp2.getContact() != null ? ipp2.getContact().getLastName() != null ?
-                    ipp2.getContact().getLastName().toUpperCase() : StringUtils.EMPTY : StringUtils.EMPTY;
-            String contactRoleCode1 = ipp1.getContactRole() != null ? ipp1.getContactRole().getRoleCode() : StringUtils.EMPTY;
-            String contactRoleCode2 = ipp2.getContactRole() != null ? ipp2.getContactRole().getRoleCode() : StringUtils.EMPTY;
-                
-            if (contactRoleCode1.equals(contactRoleCode2)) {
-                return lastName1.compareTo(lastName2);
+            if (StringUtils.equals(ipp1.getContactRoleCode(), ipp2.getContactRoleCode())) {
+                return getPersonLastName(ipp1).compareTo(getPersonLastName(ipp2));
             }
             else {
-                if (contactRoleCode1.equals(ContactRole.PI_CODE)) {
+                if (ContactRole.PI_CODE.equals(ipp1.getContactRoleCode())) {
                     return -1;
                 }
-                if (contactRoleCode2.equals(ContactRole.PI_CODE)) {
+                if (ContactRole.PI_CODE.equals(ipp2.getContactRoleCode())) {
                     return 1;
                 }
-                if (contactRoleCode1.equals(ContactRole.COI_CODE)) {
+                if (ContactRole.COI_CODE.equals(ipp1.getContactRoleCode())) {
                     return -1;
                 } else  {
                     return 1;
                 }              
             }
         }
-        
+
+		protected String getPersonLastName(InstitutionalProposalPerson person) {
+			return person.getContact() != null ? person.getContact().getLastName() != null ?
+                    person.getContact().getLastName().toUpperCase() : StringUtils.EMPTY : StringUtils.EMPTY;
+		}
     }
 
     public void setProjectPersons(List<InstitutionalProposalPerson> projectPersons) {
