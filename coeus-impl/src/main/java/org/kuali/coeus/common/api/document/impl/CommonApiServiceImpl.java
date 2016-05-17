@@ -5,6 +5,7 @@ import com.codiform.moo.configuration.Configuration;
 import org.kuali.coeus.common.api.document.service.CommonApiService;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.rolodex.RolodexService;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.rest.UnprocessableEntityException;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.entity.Entity;
@@ -23,6 +24,10 @@ public class CommonApiServiceImpl implements CommonApiService {
     @Qualifier("rolodexService")
     private RolodexService rolodexService;
 
+    @Autowired
+    @Qualifier("globalVariableService")
+    private GlobalVariableService globalVariableService;
+
     public void validatePerson(String personId, Integer rolodexId) {
         Entity personEntity = null;
         RolodexContract rolodex = null;
@@ -36,6 +41,10 @@ public class CommonApiServiceImpl implements CommonApiService {
         if (rolodex == null && personEntity == null) {
             throw new UnprocessableEntityException("Invalid person or rolodex for person " + personId != null ? personId : rolodexId.toString() );
         }
+    }
+
+    public void clearErrors() {
+        globalVariableService.getMessageMap().clearErrorMessages();
     }
 
     public Object convertObject(Object input, Class clazz) {
