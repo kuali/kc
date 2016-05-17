@@ -129,7 +129,7 @@
 			</c:if>
 
             <c:set var="displayCoiDisclosureStatus" value="${KualiForm.displayCoiDisclosureStatus}" />
-			<c:forEach var="institutionalProposalContact" items="${KualiForm.document.institutionalProposalList[0].sortedProjectPersons}" varStatus="institutionalProposalContactRowStatus">
+			<c:forEach var="institutionalProposalContact" items="${krafn:copy(KualiForm.document.institutionalProposalList[0].projectPersons)}" varStatus="institutionalProposalContactRowStatus">
 				<tr>
 					<th class="infoline" scope="row" rowspan="4">
 						<c:out value="${institutionalProposalContactRowStatus.index + 1}" />
