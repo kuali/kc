@@ -6,4 +6,6 @@ public interface CommonApiService {
 
     public Object convertObject(Object input, Class clazz);
 
-}
+    public void clearErrors();
+
+    }

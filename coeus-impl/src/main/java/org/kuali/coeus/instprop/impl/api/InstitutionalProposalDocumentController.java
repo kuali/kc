@@ -103,6 +103,7 @@ public class InstitutionalProposalDocumentController extends RestController {
     @ResponseBody
     String createInstitutionalProposal(@RequestBody InstitutionalProposalDto ipDto, @RequestParam(value = "createProposalLog", required = false) boolean createProposalLog) throws WorkflowException, InvocationTargetException, IllegalAccessException {
         RestAuditLogger auditLogger = restAuditLoggerFactory.getNewAuditLogger(InstitutionalProposalDto.class, ipDtoProperties);
+        commonApiService.clearErrors();
         InstitutionalProposal proposal = (InstitutionalProposal) commonApiService.convertObject(ipDto, InstitutionalProposal.class);
         String proposalLogNumber = null;
         if (createProposalLog) {
@@ -157,6 +158,7 @@ public class InstitutionalProposalDocumentController extends RestController {
     @ResponseStatus(value = HttpStatus.CREATED)
     @ResponseBody
     List<IpPersonDto> addProposalPersons(@RequestBody List<IpPersonDto> ipPersonDto, @PathVariable Long documentNumber) throws WorkflowException {
+        commonApiService.clearErrors();
         InstitutionalProposalDocument proposalDocument = getDocumentFromDocId(documentNumber);
         RestAuditLogger auditLogger = restAuditLoggerFactory.getNewAuditLogger(IpPersonDto.class, ipPersonDtoProperties);
         institutionalProposalApiService.addPersons(proposalDocument, ipPersonDto);
@@ -220,6 +222,7 @@ public class InstitutionalProposalDocumentController extends RestController {
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     void routeDocument(@PathVariable Long documentNumber) throws WorkflowException {
+        commonApiService.clearErrors();
         InstitutionalProposalDocument proposalDocument = (InstitutionalProposalDocument) documentService.getByDocumentHeaderId(documentNumber.toString());
         institutionalProposalApiService.routeDocument(proposalDocument);
     }
