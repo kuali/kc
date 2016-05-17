@@ -35,6 +35,8 @@
     <bean id="permissionService" parent="grlImporter" p:serviceName="kimPermissionService" />
     <bean id="kualiConfigurationService" parent="grlImporter" p:serviceName="kualiConfigurationService" />
     <bean id="dataDictionaryService" parent="grlImporter" p:serviceName="dataDictionaryService" />
+    <bean id="documentService" parent="grlImporter" p:serviceName="documentService" />
+    <bean id="routeHeaderService" parent="grlImporter" p:serviceName="routeHeaderService" />
 
     <bean id="ccImporter" abstract="true" class="org.kuali.coeus.sys.framework.service.ConfigContextConfigObjectFactoryBean" p:singleton="true" p:mustExist="true" />
 

@@ -18,22 +18,17 @@
  */
 package org.kuali.coeus.sys.framework.rest;
 
-import org.kuali.rice.kew.api.exception.InvalidActionTakenException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-public class UnprocessableEntityException extends RuntimeException {
+@ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
+public class NotImplementedException extends RuntimeException {
 
-	public UnprocessableEntityException() {
+	public NotImplementedException() {
 		super();
 	}
-	
-    public UnprocessableEntityException(String message) {
-        super(message);
-    }
 
-    public UnprocessableEntityException(String message, Exception e) {
-        super(message, e);
+    public NotImplementedException(String message) {
+        super(message);
     }
 }

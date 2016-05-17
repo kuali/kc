@@ -41,6 +41,7 @@ import org.kuali.coeus.sys.framework.keyvalue.PrefixValuesFinder;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.irb.actions.approve.ProtocolApproveService;
 import org.kuali.kra.protocol.*;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewService;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewalBase;
@@ -479,11 +480,15 @@ public abstract class ActionHelperBase implements Serializable {
             bean.setActionDate(new Date(protocolAction.getActionDate().getTime()));
         }
         bean.setApprovalDate(buildApprovalDate(getProtocol()));
-        bean.setExpirationDate(buildExpirationDate(getProtocol(), bean.getApprovalDate()));
-        bean.setDefaultExpirationDateDifference(this.getDefaultExpirationDateDifference());
+        bean.setExpirationDate(getProtocolApproveService().buildExpirationDate(getProtocol(), bean.getApprovalDate()));
+        bean.setDefaultExpirationDateDifference(getProtocolApproveService().getDefaultExpirationDateDifference());
         return bean;
     }
 
+
+    public ProtocolApproveService getProtocolApproveService() {
+        return KcServiceLocator.getService(ProtocolApproveService.class);
+    }
         
     protected abstract ProtocolApproveBean getNewProtocolApproveBeanInstanceHook(ActionHelperBase actionHelper, String errorPropertyKey);
 
@@ -509,28 +514,6 @@ public abstract class ActionHelperBase implements Serializable {
         }
         
         return approvalDate;
-    }
-    
-    /**
-     * Builds an expiration date, defaulting to the expiration date from the protocol.  
-     * 
-     * If the expiration date from the protocol is null, or if the protocol is new or a renewal, creates an expiration date exactly one year ahead and one day 
-     * less than the approval date.
-     * 
-     * @param protocol
-     * @param approvalDate
-     * @return a non-null expiration date
-     */
-    protected Date buildExpirationDate(ProtocolBase protocol, Date approvalDate) {
-        Date expirationDate = protocol.getExpirationDate();
-        
-        if (expirationDate == null || protocol.isNew() || protocol.isRenewal()) {
-            java.util.Date newExpirationDate = DateUtils.addYears(approvalDate, getDefaultExpirationDateDifference());
-            newExpirationDate = DateUtils.addDays(newExpirationDate, -1);
-            expirationDate = org.kuali.coeus.sys.framework.util.DateUtils.convertToSqlDate(newExpirationDate);
-        }
-        
-        return expirationDate;
     }
 
     protected ProtocolActionBase findProtocolAction(String actionTypeCode, List<ProtocolActionBase> protocolActions, ProtocolSubmissionBase currentSubmission) {
@@ -2601,9 +2584,9 @@ public abstract class ActionHelperBase implements Serializable {
     public boolean isCanReturnToPIUnavailable() {
         return canReturnToPIUnavailable;
     }
-    
+
     /**
-     * 
+     *
      * This method returns the number of years to add for the default expiration date.
      * @return
      */

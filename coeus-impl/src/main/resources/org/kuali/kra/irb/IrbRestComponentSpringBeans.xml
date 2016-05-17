@@ -39,6 +39,7 @@
     <context:annotation-config />
     <mvc:annotation-driven/>
     <context:component-scan base-package="org.kuali.kra.irbrest" />
+    <context:component-scan base-package="org.kuali.coeus.irb"/>
 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="properties" value="#{T(org.kuali.rice.core.api.config.property.ConfigContext).getCurrentContextConfig().getProperties()}" />
@@ -81,7 +82,6 @@
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.irb.actions.submit.ExpeditedReviewCheckListItem" p:camelCasePluralName="ExpeditedReviewChecklistItems" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.irb.notification.IRBProtocolNotification" p:camelCasePluralName="IrbProtocolNotifications" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.irb.protocol.participant.ParticipantType" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.irb.Protocol" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.irb.actions.ProtocolAction" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.irb.actions.ProtocolActionType" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.irb.personnel.ProtocolAffiliationType" />
@@ -108,7 +108,6 @@
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewStatus" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.irb.protocol.location.ProtocolOrganizationType" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.irb.protocol.participant.ProtocolParticipant" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.irb.personnel.ProtocolPerson" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.personmasschange.bo.ProtocolPersonMassChange" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.irb.personnel.ProtocolPersonRole" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.irb.personnel.ProtocolPersonRoleMapping" />

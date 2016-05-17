@@ -44,6 +44,7 @@ public class ProtocolExpeditedApproveBean extends ProtocolApproveBean {
     
     private transient ProtocolAssignToAgendaService agendaService;
 
+    public ProtocolExpeditedApproveBean() {}
     /**
      * Constructs a ProtocolExpeditedApproveBean.
      * @param actionHelper a reference back to the parent helper

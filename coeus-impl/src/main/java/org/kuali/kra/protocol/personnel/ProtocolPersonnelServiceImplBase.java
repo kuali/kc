@@ -19,6 +19,8 @@
 package org.kuali.kra.protocol.personnel;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.api.rolodex.RolodexContract;
+import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.common.framework.attachment.AttachmentFile;
 import org.kuali.coeus.common.framework.person.editable.PersonEditableService;
 import org.kuali.coeus.common.framework.person.KcPerson;
@@ -46,7 +48,8 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
     private KcPersonService kcPersonService;
     private UnitService unitService;
     private ParameterService parameterService;
-    
+    private RolodexService rolodexService;
+
     protected PersonEditableService personEditableService;
     
 
@@ -676,31 +679,44 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
         if (protocolPerson.getPersonId() != null) {
             KcPerson person = getKcPersonService().getKcPersonByPersonId(protocolPerson.getPersonId());
             String unitNumber = person.getOrganizationIdentifier();
-            if (unitNumber != null) {
-                Unit unit = getUnitService().getUnit(unitNumber);
-                
-                if (unit != null) {
-                    ProtocolUnitBase newProtocolPersonUnit = createNewProtocolUnitInstanceHook();
-                    newProtocolPersonUnit.setUnit(unit);
-                    newProtocolPersonUnit.setUnitName(unit.getUnitName());
-                    newProtocolPersonUnit.setUnitNumber(unit.getUnitNumber());
-                    newProtocolPersonUnit.setProtocolNumber(protocolPerson.getProtocolNumber());
-                    newProtocolPersonUnit.setProtocolPersonId(protocolPerson.getProtocolPersonId());
-                    newProtocolPersonUnit.setPersonId(protocolPerson.getPersonId());
-                    newProtocolPersonUnit.setLeadUnitFlag(true);
-        
-                    protocolPerson.addProtocolUnit(newProtocolPersonUnit);
-                    if (newProtocolPersonUnit.getLeadUnitFlag()) {
-                        protocolPerson.setSelectedUnit(protocolPerson.getProtocolUnits().size() - 1);
-                        setLeadUnit(protocolPerson);
-                    }
-                }
-               
-            }
+            populateUnit(protocolPerson, unitNumber, protocolPerson.getPersonId());
+        } else {
+            RolodexContract rolodex = rolodexService.getRolodex(protocolPerson.getRolodexId());
+            populateUnit(protocolPerson, rolodex.getOwnedByUnit(), protocolPerson.getRolodexId().toString());
         }
-
     }
 
+    private void populateUnit(ProtocolPersonBase protocolPerson, String unitNumber, String id) {
+        if (unitNumber != null) {
+            Unit unit = getUnitService().getUnit(unitNumber);
+
+            if (unit != null) {
+                ProtocolUnitBase newProtocolPersonUnit = createNewProtocolUnitInstanceHook();
+                newProtocolPersonUnit.setUnit(unit);
+                newProtocolPersonUnit.setUnitName(unit.getUnitName());
+                newProtocolPersonUnit.setUnitNumber(unit.getUnitNumber());
+                newProtocolPersonUnit.setProtocolNumber(protocolPerson.getProtocolNumber());
+                newProtocolPersonUnit.setProtocolPersonId(protocolPerson.getProtocolPersonId());
+                newProtocolPersonUnit.setPersonId(id);
+                newProtocolPersonUnit.setLeadUnitFlag(true);
+
+                protocolPerson.addProtocolUnit(newProtocolPersonUnit);
+                if (newProtocolPersonUnit.getLeadUnitFlag()) {
+                    protocolPerson.setSelectedUnit(protocolPerson.getProtocolUnits().size() - 1);
+                    setLeadUnit(protocolPerson);
+                }
+            }
+
+        }
+    }
+
+    public RolodexService getRolodexService() {
+        return rolodexService;
+    }
+
+    public void setRolodexService(RolodexService rolodexService) {
+        this.rolodexService = rolodexService;
+    }
 
 	public ParameterService getParameterService() {
 		return parameterService;

@@ -66,6 +66,9 @@ public class ProtocolSubmitAction extends ProtocolActionBean implements org.kual
     private boolean javascriptEnabled = true;
 
 
+    public ProtocolSubmitAction() {
+    }
+
     /**
      * Constructs a ProtocolSubmitAction.
      * 

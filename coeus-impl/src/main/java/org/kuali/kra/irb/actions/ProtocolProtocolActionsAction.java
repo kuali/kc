@@ -361,7 +361,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
         super.route(mapping, protocolForm, request, response);
-        boolean isPromptToNotifyUser = getProtocolActionRequestService().submitForReviewAndPromptToNotifyUser(protocolForm);
+        boolean isPromptToNotifyUser = getProtocolActionRequestService().submitForReviewAndPromptToNotifyUser(protocolForm, Boolean.TRUE);
         if (isPromptToNotifyUser) {
             return mapping.findForward(IrbConstants.PROTOCOL_NOTIFICATION_EDITOR);
         } else {             

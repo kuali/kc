@@ -413,7 +413,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     public void setRelatedProjectsIndicator(String relatedProjectsIndicator) {
         this.relatedProjectsIndicator = relatedProjectsIndicator;
     }
-    
+
     /**
      * Collects and returns all online reviews for all submissions for this protocol.
      * @return all online reviews for this protocol
@@ -1005,7 +1005,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     public void setProtocolAmendRenewals(List<ProtocolAmendRenewalBase> protocolAmendRenewals) {
         this.protocolAmendRenewals = protocolAmendRenewals;
     }
-    
+
     @Override
     public Integer getOwnerSequenceNumber() {
         return null;
@@ -1523,7 +1523,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
         }
     }
 
-    public abstract String getNamespace();    
+    public abstract String getNamespace();
 
     @Override
     public String getDocumentUnitNumber() {

@@ -33,7 +33,8 @@ public class ProtocolGrantExemptionBean extends ProtocolGenericActionBean implem
     private static final long serialVersionUID = 1066298574931838541L;
     
     private Date approvalDate = new Date(System.currentTimeMillis());
-    
+
+    public ProtocolGrantExemptionBean() {}
     /**
      * Constructs a ProtocolGrantExemptionBean.
      * @param actionHelper Reference back to the action helper for this bean

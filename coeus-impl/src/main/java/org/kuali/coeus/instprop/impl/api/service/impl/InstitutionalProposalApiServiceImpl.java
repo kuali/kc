@@ -17,8 +17,6 @@ import org.kuali.coeus.instprop.impl.api.service.InstitutionalProposalApiService
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.rest.UnprocessableEntityException;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.contacts.*;
@@ -78,75 +76,6 @@ public class InstitutionalProposalApiServiceImpl implements InstitutionalProposa
     @Qualifier("commonApiService")
     private CommonApiService commonApiService;
 
-    public InstitutionalProposalDocument saveDocument(InstitutionalProposalDocument proposalDocument) throws WorkflowException {
-        // Rice lets you save a cancelled doc, so check status before saving.
-        final WorkflowDocument workflowDocument = proposalDocument.getDocumentHeader().getWorkflowDocument();
-        if (isDocInModifiableState(workflowDocument)) {
-            initializeCollections(proposalDocument.getInstitutionalProposal());
-            try {
-                proposalDocument.validateBusinessRules(new SaveDocumentEvent("", proposalDocument));
-                proposalDocument = (InstitutionalProposalDocument) getDocumentService().saveDocument(proposalDocument);
-            } catch (ValidationException e) {
-                String errors = getValidationErrors() + " " + e.getMessage();
-                throw new UnprocessableEntityException(errors);
-            }
-        } else {
-            throw new UnprocessableEntityException("Document " + proposalDocument.getDocumentNumber() + " with status " + workflowDocument.getStatus() +
-                " is not in a state to be saved.");
-    }
-    return proposalDocument;
-    }
-
-    public boolean isDocInModifiableState(WorkflowDocument workflowDocument) {
-        return !workflowDocument.isCanceled();
-    }
-
-    public void routeDocument(InstitutionalProposalDocument proposalDocument) throws WorkflowException {
-        List<ErrorMessage> auditErrors = getAuditErrors(proposalDocument);
-        String errorMessage = StringUtils.EMPTY;
-        for (ErrorMessage error : auditErrors) {
-            errorMessage = errorMessage + KRADUtils.getMessageText(error, false);
-        }
-        if (!errorMessage.equalsIgnoreCase(StringUtils.EMPTY)) {
-            throw new UnprocessableEntityException(errorMessage);
-        }
-        try {
-            getDocumentService().routeDocument(proposalDocument, "", new ArrayList<>());
-        } catch (Exception e) {
-            throw new UnprocessableEntityException(e.getMessage());
-        }
-    }
-
-    protected List<ErrorMessage> getAuditErrors(InstitutionalProposalDocument proposalDocument) {
-        boolean auditPassed = KcServiceLocator.getService(AuditHelper.class).auditUnconditionally(proposalDocument);
-        List<ErrorMessage> errors = new ArrayList<>();
-        if (!auditPassed) {
-            for (String key: globalVariableService.getAuditErrorMap().keySet()) {
-                AuditCluster auditCluster = globalVariableService.getAuditErrorMap().get(key);
-                if (!StringUtils.equalsIgnoreCase(auditCluster.getCategory(), Constants.AUDIT_WARNINGS)) {
-                    List<AuditError> auditErrors = auditCluster.getAuditErrorList();
-                    for (AuditError auditError : auditErrors) {
-                        ErrorMessage errorMessage = new ErrorMessage();
-                        errorMessage.setErrorKey(auditError.getMessageKey());
-                        errorMessage.setMessageParameters(auditError.getParams());
-                        errors.add(errorMessage);
-                    }
-                }
-            }
-        }
-        return errors;
-    }
-
-    public String getValidationErrors() {
-        String errors = "";
-        for (Map.Entry<String, List<ErrorMessage>> entry : globalVariableService.getMessageMap().getErrorMessages().entrySet()) {
-            for (ErrorMessage msg : entry.getValue()) {
-                errors += KRADUtils.getMessageText(msg, false);
-            }
-        }
-        return errors;
-    }
-
     public void addCustomData(InstitutionalProposal institutionalProposal, InstitutionalProposalDto institutionalProposalDto) {
         Map<String, CustomAttributeDocument> customAttributeDocuments = institutionalProposal.getInstitutionalProposalDocument().getCustomAttributeDocuments();
         if (institutionalProposalDto.getInstitutionalProposalCustomDataList() != null) {
@@ -177,11 +106,11 @@ public class InstitutionalProposalApiServiceImpl implements InstitutionalProposa
         proposal.setInstitutionalProposalCustomDataList(new ArrayList<>());
         ipDocument.getDocumentHeader().setDocumentDescription(description);
         ipDocument.setInstitutionalProposal(proposal);
-        saveDocument(ipDocument);
+        commonApiService.saveDocument(ipDocument);
         return ipDocument;
     }
 
-    protected void initializeCollections(InstitutionalProposal proposal) {
+    public void initializeCollections(InstitutionalProposal proposal) {
         if(proposal.getProjectPersons() == null) proposal.setProjectPersons(new ArrayList<>());
         if(proposal.getInstitutionalProposalCustomDataList() == null ) proposal.setInstitutionalProposalCustomDataList(new ArrayList<>());
         if(proposal.getSpecialReviews() == null ) proposal.setSpecialReviews(new ArrayList<>());
@@ -270,7 +199,7 @@ public class InstitutionalProposalApiServiceImpl implements InstitutionalProposa
         if (success) {
             proposal.add(person);
         } else {
-            String errors = getValidationErrors();
+            String errors = commonApiService.getValidationErrors();
             throw new RuntimeException(errors);
         }
     }

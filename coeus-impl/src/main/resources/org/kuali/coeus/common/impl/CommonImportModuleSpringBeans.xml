@@ -48,5 +48,8 @@
     <bean id="persistenceVerificationService" parent="grlImporter" p:serviceName="persistenceVerificationService" />
     <bean id="errorHandlingUtilService" parent="grlImporter" p:serviceName="errorHandlingUtilService" />
     <bean id="restAuditLoggerFactory" parent="grlImporter" p:serviceName="restAuditLoggerFactory" />
+    <!-- SYS -->
+    <bean id="auditHelper" parent="grlImporter" p:serviceName="auditHelper"/>
+
 
 </beans>

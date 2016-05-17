@@ -19,6 +19,9 @@
 package org.kuali.kra.irb.actions.approve;
 
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.protocol.ProtocolBase;
+
+import java.sql.Date;
 
 /**
  * 
@@ -33,4 +36,9 @@ public interface ProtocolApproveService extends org.kuali.kra.protocol.actions.a
      * @throws Exception
      */
     void grantExpeditedApproval(Protocol protocol, ProtocolApproveBean actionBean) throws Exception;
-}
+
+    Date buildExpirationDate(ProtocolBase protocol, Date approvalDate);
+
+    int getDefaultExpirationDateDifference();
+
+    }
