@@ -85,4 +85,17 @@ public class InstitutionalProposalDaoOjb extends LookupDaoOjb implements Institu
         }
         return result;
     }
+    
+    @Override
+    public List<InstitutionalProposal> getProposalsModifiedBetween(Date startDate, Date endDate) {
+        Criteria crit = new Criteria();
+        if (startDate != null) {
+        	crit.addGreaterOrEqualThan(UPDATE_TIMESTAMP, new java.sql.Date(startDate.getTime()));
+        }
+        if (endDate != null) {
+        	crit.addLessOrEqualThan(UPDATE_TIMESTAMP, new java.sql.Date(endDate.getTime()));
+        }
+        final QueryByCriteria finalCriteria = QueryFactory.newQuery(InstitutionalProposal.class, crit);
+        return new ArrayList<>(getPersistenceBrokerTemplate().getCollectionByQuery(finalCriteria));
+    }
 }

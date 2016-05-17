@@ -1019,6 +1019,15 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
     	}
         return projectPersons; 
     }
+    
+    /**
+     * @return project persons without first sorting. If getProjectPersons has already been called this list will still be in the previously sorted order
+     * @deprecated
+     */
+    @Deprecated
+    public List<InstitutionalProposalPerson> getUnsortedProjectPersons() {
+    	return projectPersons;
+    }
 
     static class ProjectPersonComparator implements Comparator<InstitutionalProposalPerson>
     {
