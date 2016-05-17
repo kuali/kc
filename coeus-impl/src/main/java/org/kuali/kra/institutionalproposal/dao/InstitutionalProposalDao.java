@@ -23,6 +23,7 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,4 +38,12 @@ public interface InstitutionalProposalDao {
     public Long getProposalId(Award award);
 
     public SearchResults<InstitutionalProposal> retrievePopulatedInstitutionalProposalByCriteria(Map<String, Object> fieldValues, Date updatedSince, Integer pageNum, Integer numPerPage);
+    
+    /**
+     * 
+     * @param startDate optional, can be null
+     * @param endDate optional, can be null
+     * @return a list of proposals between the dates if provided
+     */
+    List<InstitutionalProposal> getProposalsModifiedBetween(Date startDate, Date endDate);
 }
