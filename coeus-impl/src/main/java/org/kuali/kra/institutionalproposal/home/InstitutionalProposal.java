@@ -1014,16 +1014,10 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
     }
 
     public List<InstitutionalProposalPerson> getProjectPersons() {
+    	if (CollectionUtils.isNotEmpty(projectPersons)) {
+    		Collections.sort(projectPersons, new ProjectPersonComparator());
+    	}
         return projectPersons; 
-    }
-
-    public List<InstitutionalProposalPerson> getSortedProjectPersons() {
-        if (CollectionUtils.isNotEmpty(getProjectPersons())) {
-            List<InstitutionalProposalPerson> copy = new ArrayList<>(getProjectPersons());
-            Collections.sort(copy, new ProjectPersonComparator());
-            return copy;
-        }
-        return Collections.emptyList();
     }
 
     static class ProjectPersonComparator implements Comparator<InstitutionalProposalPerson>
