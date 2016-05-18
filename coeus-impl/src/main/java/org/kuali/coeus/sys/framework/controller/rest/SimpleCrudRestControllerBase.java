@@ -53,7 +53,11 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.rice.core.framework.config.module.ModuleConfigurer;
 import org.kuali.rice.kim.api.permission.PermissionService;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.data.CompoundKey;
+import org.kuali.rice.krad.data.DataObjectService;
+import org.kuali.rice.krad.data.PersistenceOption;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DataDictionaryService;
 import org.kuali.rice.krad.service.DictionaryValidationService;
 import org.kuali.rice.krad.service.LegacyDataAdapter;
@@ -87,7 +91,15 @@ public abstract class SimpleCrudRestControllerBase<T, R> extends RestController 
 	@Autowired
 	@Qualifier("legacyDataAdapter")
 	private LegacyDataAdapter legacyDataAdapter;
-	
+
+	@Autowired
+	@Qualifier("businessObjectService")
+	private BusinessObjectService businessObjectService;
+
+	@Autowired
+	@Qualifier("dataObjectService")
+	private DataObjectService dataObjectService;
+
 	@Autowired
 	@Qualifier("permissionService")
 	private PermissionService permissionService;
@@ -562,11 +574,19 @@ public abstract class SimpleCrudRestControllerBase<T, R> extends RestController 
 	}
 
 	protected T save(T dataObject) {
-        return getLegacyDataAdapter().save(dataObject);
+        if (useDataObjectService()) {
+			return getDataObjectService().save(dataObject, PersistenceOption.FLUSH, PersistenceOption.LINK_KEYS);
+		} else {
+			return (T) getBusinessObjectService().save((PersistableBusinessObject) dataObject);
+		}
 	}
 
 	protected void delete(T dataObject) {
 		getLegacyDataAdapter().delete(dataObject);
+	}
+
+	protected boolean useDataObjectService() {
+		return getDataObjectService().supports(getDataObjectClazz());
 	}
 
 	protected void assertUserHasWriteAccess() {
@@ -699,6 +719,22 @@ public abstract class SimpleCrudRestControllerBase<T, R> extends RestController 
 
 	public void setLegacyDataAdapter(LegacyDataAdapter legacyDataAdapter) {
 		this.legacyDataAdapter = legacyDataAdapter;
+	}
+
+	public BusinessObjectService getBusinessObjectService() {
+		return businessObjectService;
+	}
+
+	public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+		this.businessObjectService = businessObjectService;
+	}
+
+	public DataObjectService getDataObjectService() {
+		return dataObjectService;
+	}
+
+	public void setDataObjectService(DataObjectService dataObjectService) {
+		this.dataObjectService = dataObjectService;
 	}
 
 	public PersistenceVerificationService getPersistenceVerificationService() {
