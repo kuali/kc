@@ -227,6 +227,7 @@ public class ProtocolPersonnelServiceTest extends KcIntegrationTestBase {
     private ProtocolPerson getCoInvestigatorPerson() {
         
         ProtocolPerson protocolPerson = new ProtocolPerson();
+        protocolPerson.setPersonId("admin");
         protocolPerson.setPersonName(CO_INVESTIGATOR_NAME);
         protocolPerson.setProtocolPersonRoleId(CO_INVESTIGATOR_ROLE_ID);
         protocolPerson.setPreviousPersonRoleId(CO_INVESTIGATOR_ROLE_ID);
