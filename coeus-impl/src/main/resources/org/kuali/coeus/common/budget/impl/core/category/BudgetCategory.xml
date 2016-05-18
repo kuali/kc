@@ -50,6 +50,7 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="Budget Category Code" />
     <property name="shortLabel" value="Budget Category Code" />
+    <property name="required" value="true"/>
     <property name="maxLength" value="3" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
