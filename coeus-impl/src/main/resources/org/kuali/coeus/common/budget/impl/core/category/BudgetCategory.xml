@@ -99,7 +99,9 @@
   </bean>
 
   <bean id="BudgetCategory-description" parent="BudgetCategory-description-parentBean"/>
-  <bean id="BudgetCategory-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description"/>
+  <bean id="BudgetCategory-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
+  	<property name="required" value="true"/>
+  </bean>
   <bean id="BudgetCategory-versionNumber" parent="BudgetCategory-versionNumber-parentBean" />
   <bean id="BudgetCategory-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
 <!-- Business Object Inquiry Definition -->
