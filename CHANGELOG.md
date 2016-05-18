@@ -1,6 +1,24 @@
 
 
 ##CURRENT
+* forcing JPA to flush immediately to find persistence issues.  Making the BudgetCategoryCode required in the DD as it should be.
+  * Travis Schneeberger on Wed, 18 May 2016 16:30:09 -0400 [View Commit](../../commit/6eaa645716a951155094a5cc85b5e0d787bf0925)
+* Fixing test
+  * Gayathri Athreya on Wed, 18 May 2016 13:13:26 -0700 [View Commit](../../commit/b75e32f8f537ee855e307a7987afc88663fd29e8)
+* RESKC-1202:Add rest endpoint to list proposals with person whose natural order does not match
+
+  * This endpoint will assist in identifying potential proposals whose personnel data may be unmatched based on a previous ordering bug.
+  * blackcathacker on Tue, 17 May 2016 14:24:26 -0700 [View Commit](../../commit/5dd2f2fab59433857a87b93f97522a722c2503d1)
+* RESKC-1335: Protocol document endpoints
+  * Gayathri Athreya on Thu, 12 May 2016 22:53:46 -0700 [View Commit](../../commit/22e82c2cb303c006c4e1badc0f39d1675c116260)
+* Fix random errors on IP save.
+  * Gayathri Athreya on Mon, 16 May 2016 17:33:41 -0700 [View Commit](../../commit/e0c71e41ad4d731ac76443983c052ca00d3136e3)
+* RESKC-1202:Resolve index differences between sorted list and page properties
+  * blackcathacker on Mon, 16 May 2016 17:00:34 -0700 [View Commit](../../commit/f74d92637f3e718ad9511cbcf7e7e3c8479df70b)
+* setting several sponsor fields as required.  Check to make sure a criteria is valid before looking up references
+  * Travis Schneeberger on Mon, 16 May 2016 14:29:36 -0400 [View Commit](../../commit/b1b02d1138cda8799dbbf2350933774e7f2f2e7c)
+
+##coeus-1605.29
 * No Changes
 
 
