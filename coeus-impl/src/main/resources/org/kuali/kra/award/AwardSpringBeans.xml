@@ -1383,6 +1383,7 @@
     <bean id="restBeanWrapperFactory" parent="grlImporter" p:serviceName="restBeanWrapperFactory" />
     <bean id="restPropertyEditors" parent="grlImporter" p:serviceName="restPropertyEditors" />
 
+    <bean id="commonApiService" parent="grlImporter" p:serviceName="commonApiService" />
     <import resource="classpath:org/kuali/coeus/sys/framework/ImportEndpointSpringBeans.xml" />
     <import resource="classpath:org/kuali/coeus/sys/framework/ImportSimpleCrudRestSpringBeans.xml" />
 

@@ -236,7 +236,7 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
         approvedEquipmentBean = new ApprovedEquipmentBean(this);
         paymentScheduleBean = new PaymentScheduleBean(this);
         approvedForeignTravelBean = new ApprovedForeignTravelBean(this);
-        projectPersonnelBean = new AwardProjectPersonnelBean(this);
+        projectPersonnelBean = new AwardProjectPersonnelBean(this.getAwardDocument());
         unitContactsBean = new AwardUnitContactsBean(this);
         sponsorContactsBean = new AwardSponsorContactsBean(this);
         detailsAndDatesFormHelper = new DetailsAndDatesFormHelper(this);

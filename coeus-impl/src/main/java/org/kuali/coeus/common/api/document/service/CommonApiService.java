@@ -12,7 +12,7 @@ public interface CommonApiService {
 
     public void validatePerson(String personId, Integer rolodexId);
 
-    public Object convertObject(Object input, Class clazz);
+    public <T extends Object> T convertObject(Object input, Class<T> clazz);
 
     public Document getDocumentFromDocId(Long documentNumber);
 

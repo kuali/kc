@@ -39,7 +39,7 @@ public class AwardUnitContactsBean extends AwardContactsBean {
     private static final String DEFAULT_GROUP_CODE_FOR_UNIT_CONTACTS = "U";
 
     public AwardUnitContactsBean(AwardForm awardForm) {
-        super(awardForm);
+        super(awardForm.getAwardDocument());
     }
 
     public void addUnitContact() {
@@ -49,25 +49,25 @@ public class AwardUnitContactsBean extends AwardContactsBean {
             init();
         }
     }
-    
+
     /**
      * Delete a Unit Contact
      * @param lineToDelete
      */
     public void deleteUnitContact(int lineToDelete) {
-        deleteUnitContact(getUnitContacts(), lineToDelete);                
+        deleteUnitContact(getUnitContacts(), lineToDelete);
     }
-    
+
     public void syncAwardUnitContactsToLeadUnitContacts() {
         getAward().setAwardUnitContacts(new ArrayList<AwardUnitContact>()); //delete all current unit contacts
-        List<UnitAdministrator> unitAdministrators = getUnitService().retrieveUnitAdministratorsByUnitNumber(awardForm.getAwardDocument().getAward().getUnitNumber());
+        List<UnitAdministrator> unitAdministrators = getUnitService().retrieveUnitAdministratorsByUnitNumber(getDocument().getAward().getUnitNumber());
         for(UnitAdministrator unitAdministrator : unitAdministrators) {
             if(unitAdministrator.getUnitAdministratorType().getDefaultGroupFlag().equals(DEFAULT_GROUP_CODE_FOR_UNIT_CONTACTS)) {
                 KcPerson person = getKcPersonService().getKcPersonByPersonId(unitAdministrator.getPersonId());
                 AwardUnitContact newAwardUnitContact = new AwardUnitContact(UnitContactType.CONTACT);
                 newAwardUnitContact.setPerson(person);
                 newAwardUnitContact.setUnitAdministratorUnitNumber(unitAdministrator.getUnitNumber());
-                newAwardUnitContact.setAward(awardForm.getAwardDocument().getAward());
+                newAwardUnitContact.setAward(getDocument().getAward());
                 newAwardUnitContact.setUnitAdministratorType(unitAdministrator.getUnitAdministratorType());
                 newAwardUnitContact.setUnitAdministratorTypeCode(unitAdministrator.getUnitAdministratorTypeCode());
                 newAwardUnitContact.setFullName(person.getFullName());
@@ -76,29 +76,29 @@ public class AwardUnitContactsBean extends AwardContactsBean {
             }
         }
     }
-    
-    
+
+
     public UnitService getUnitService() {
         return (UnitService) KcServiceLocator.getService(UnitService.class);
     }
-    
+
     public KcPersonService getKcPersonService() {
         return (KcPersonService) KcServiceLocator.getService(KcPersonService.class);
     }
 
 
     public AwardUnitContact getUnitContact() {
-       return (AwardUnitContact) newAwardContact; 
+        return (AwardUnitContact) newAwardContact;
     }
-    
+
     /**
      * This method finds the count of AwardContacts in the "Unit Contacts" category
      * @return The list; may be empty
      */
     public List<AwardUnitContact> getUnitContacts() {
-        return awardForm.getAwardDocument().getAward().getAwardUnitContacts();
+        return getDocument().getAward().getAwardUnitContacts();
     }
-    
+
     /**
      * This method finds the count of AwardContacts in the "Unit Contacts" category
      * @return The count; may be 0
@@ -106,9 +106,9 @@ public class AwardUnitContactsBean extends AwardContactsBean {
     public int getUnitContactsCount() {
         return getUnitContacts().size();
     }
-    
+
     /**
-     * Find a unit contact in a collection of UnitContact types and remove it from 
+     * Find a unit contact in a collection of UnitContact types and remove it from
      * the main Award collection of Unit Contacts
      * @param contacts
      * @param lineToDelete

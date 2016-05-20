@@ -143,7 +143,7 @@ public class InstitutionalProposalApiServiceImpl implements InstitutionalProposa
 
     public InstitutionalProposalPerson addPerson(InstitutionalProposalDocument proposalDocument, IpPersonDto personDto) {
         InstitutionalProposal proposal = proposalDocument.getInstitutionalProposal();
-        final InstitutionalProposalPerson projectPerson = (InstitutionalProposalPerson) commonApiService.convertObject(personDto, InstitutionalProposalPerson.class);
+        final InstitutionalProposalPerson projectPerson = commonApiService.convertObject(personDto, InstitutionalProposalPerson.class);
         validatePersonAndRole(projectPerson);
         if(projectPerson.isPrincipalInvestigator()) {
             proposal.refreshReferenceObject("leadUnit");
@@ -244,8 +244,8 @@ public class InstitutionalProposalApiServiceImpl implements InstitutionalProposa
     }
 
     public ProposalLog addProposalLog(InstitutionalProposalDto ipDto, IpPersonDto personDto) {
-        ProposalLogDto proposalLogDto = (ProposalLogDto) commonApiService.convertObject(ipDto, ProposalLogDto.class);
-        ProposalLog proposalLog = (ProposalLog) commonApiService.convertObject(proposalLogDto, ProposalLog.class);
+        ProposalLogDto proposalLogDto = commonApiService.convertObject(ipDto, ProposalLogDto.class);
+        ProposalLog proposalLog = commonApiService.convertObject(proposalLogDto, ProposalLog.class);
         if (ipDto.getProposalTypeCode() == null) {
             throw new UnprocessableEntityException("Proposal type code cannot be null.");
         }
@@ -257,7 +257,7 @@ public class InstitutionalProposalApiServiceImpl implements InstitutionalProposa
         proposalLog.setCreateUser("admin");
 
         if (personDto != null) {
-            final InstitutionalProposalPerson projectPerson = (InstitutionalProposalPerson) commonApiService.convertObject(personDto, InstitutionalProposalPerson.class);
+            final InstitutionalProposalPerson projectPerson = commonApiService.convertObject(personDto, InstitutionalProposalPerson.class);
             validatePerson(projectPerson);
             if (projectPerson.isPrincipalInvestigator()) {
                 proposalLog.setRolodexId(projectPerson.getRolodexId());
