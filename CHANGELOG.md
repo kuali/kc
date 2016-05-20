@@ -4,6 +4,10 @@
 * No Changes
 
 
+##coeus-1605.31
+* No Changes
+
+
 ##coeus-1605.30
 * forcing JPA to flush immediately to find persistence issues.  Making the BudgetCategoryCode required in the DD as it should be.
   * Travis Schneeberger on Wed, 18 May 2016 16:30:09 -0400 [View Commit](../../commit/6eaa645716a951155094a5cc85b5e0d787bf0925)
