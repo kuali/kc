@@ -102,7 +102,7 @@
 			    	</div>
 				</c:when>
 				<c:otherwise>
-					<div align="center">0.0 </div>
+					<div align="center">restricted</div>
 				</c:otherwise>
 			</c:choose>
 			</td>
