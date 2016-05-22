@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1605.33
 * RESKC-1353: Change the default view when a user does not have the View Personnel Salaries permission from "0.0" to "restricted" (#1754)  * Travis Schneeberger on Fri, 20 May 2016 14:06:25 -0400 [View Commit](../../commit/4f7ea5cfc4a54ae079b88c65060e758ea52f1648)
 
 ##coeus-1605.32
