@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Budget Period Types.md"
             transfer-encoding:chunked
-
-
 ### Update Budget Period Types [PUT /research-common/api/v1/budget-period-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Budget Period Types [POST /research-common/api/v1/budget-period-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"budgetPeriodTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"budgetPeriodTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Budget Period Types by Key [DELETE /research-common/api/v1/budget-period-types/(key)]
 	 
 + Request

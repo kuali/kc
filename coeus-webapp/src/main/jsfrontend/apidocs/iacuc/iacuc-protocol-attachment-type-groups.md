@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Protocol Attachment Type Groups.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Protocol Attachment Type Groups [PUT /iacuc/api/v1/iacuc-protocol-attachment-type-groups/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Protocol Attachment Type Groups [POST /iacuc/api/v1/iacuc-protocol-attachment-type-groups/]
 
 + Request
@@ -186,7 +183,6 @@
               {"id": "(val)","typeCode": "(val)","groupCode": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","typeCode": "(val)","groupCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Protocol Attachment Type Groups by Key [DELETE /iacuc/api/v1/iacuc-protocol-attachment-type-groups/(key)]
 	 
 + Request

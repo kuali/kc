@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Valid Protocol Submission Type Qualifiers.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Valid Protocol Submission Type Qualifiers [PUT /iacuc/api/v1/iacuc-valid-protocol-submission-type-qualifiers/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Valid Protocol Submission Type Qualifiers [POST /iacuc/api/v1/iacuc-valid-protocol-submission-type-qualifiers/]
 
 + Request
@@ -186,7 +183,6 @@
               {"validProtoSubTypeQualId": "(val)","submissionTypeCode": "(val)","submissionTypeQualCode": "(val)","_primaryKey": "(val)"},
               {"validProtoSubTypeQualId": "(val)","submissionTypeCode": "(val)","submissionTypeQualCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Valid Protocol Submission Type Qualifiers by Key [DELETE /iacuc/api/v1/iacuc-valid-protocol-submission-type-qualifiers/(key)]
 	 
 + Request

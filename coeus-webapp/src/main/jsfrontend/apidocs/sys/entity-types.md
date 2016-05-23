@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Entity Types.md"
             transfer-encoding:chunked
-
-
 ### Update Entity Types [PUT /research-sys/api/v1/entity-types/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Entity Types [POST /research-sys/api/v1/entity-types/]
 
 + Request
@@ -187,7 +184,6 @@
               {"code": "(val)","name": "(val)","active": "(val)","sortCode": "(val)","_primaryKey": "(val)"},
               {"code": "(val)","name": "(val)","active": "(val)","sortCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Entity Types by Key [DELETE /research-sys/api/v1/entity-types/(key)]
 	 
 + Request

@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Context Valid Rules.md"
             transfer-encoding:chunked
-
-
 ### Update Context Valid Rules [PUT /research-sys/api/v1/context-valid-rules/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Context Valid Rules [POST /research-sys/api/v1/context-valid-rules/]
 
 + Request
@@ -186,7 +183,6 @@
               {"id": "(val)","contextId": "(val)","ruleTypeId": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","contextId": "(val)","ruleTypeId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Context Valid Rules by Key [DELETE /research-sys/api/v1/context-valid-rules/(key)]
 	 
 + Request

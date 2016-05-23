@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Award Statuses.md"
             transfer-encoding:chunked
-
-
 ### Update Award Statuses [PUT /award/api/v1/award-statuses/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Award Statuses [POST /award/api/v1/award-statuses/]
 
 + Request
@@ -185,7 +182,6 @@
               {"statusCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"statusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Award Statuses by Key [DELETE /award/api/v1/award-statuses/(key)]
 	 
 + Request

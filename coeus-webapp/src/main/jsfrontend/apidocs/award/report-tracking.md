@@ -130,8 +130,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Report Tracking.md"
             transfer-encoding:chunked
-
-
 ### Update Report Tracking [PUT /award/api/v1/report-tracking/(key)]
 
 + Request
@@ -164,7 +162,6 @@
             ]
 			
 + Response 204
-
 ### Insert Report Tracking [POST /award/api/v1/report-tracking/]
 
 + Request
@@ -208,7 +205,6 @@
               {"awardReportTrackingId": "(val)","awardReportTermId": "(val)","awardNumber": "(val)","piPersonId": "(val)","piRolodexId": "(val)","piName": "(val)","leadUnitNumber": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","frequencyBaseCode": "(val)","ospDistributionCode": "(val)","statusCode": "(val)","baseDate": "(val)","dueDate": "(val)","overdue": "(val)","activityDate": "(val)","comments": "(val)","preparerId": "(val)","preparerName": "(val)","sponsorCode": "(val)","sponsorAwardNumber": "(val)","title": "(val)","lastUpdateUser": "(val)","lastUpdateDate": "(val)","_primaryKey": "(val)"},
               {"awardReportTrackingId": "(val)","awardReportTermId": "(val)","awardNumber": "(val)","piPersonId": "(val)","piRolodexId": "(val)","piName": "(val)","leadUnitNumber": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","frequencyBaseCode": "(val)","ospDistributionCode": "(val)","statusCode": "(val)","baseDate": "(val)","dueDate": "(val)","overdue": "(val)","activityDate": "(val)","comments": "(val)","preparerId": "(val)","preparerName": "(val)","sponsorCode": "(val)","sponsorAwardNumber": "(val)","title": "(val)","lastUpdateUser": "(val)","lastUpdateDate": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Report Tracking by Key [DELETE /award/api/v1/report-tracking/(key)]
 	 
 + Request

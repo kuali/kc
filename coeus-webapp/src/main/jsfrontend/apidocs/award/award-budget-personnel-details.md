@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Award Budget Personnel Details.md"
             transfer-encoding:chunked
-
-
 ### Update Award Budget Personnel Details [PUT /award/api/v1/award-budget-personnel-details/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Award Budget Personnel Details [POST /award/api/v1/award-budget-personnel-details/]
 
 + Request
@@ -185,7 +182,6 @@
               {"budgetPersonnelLineItemId": "(val)","obligatedAmount": "(val)","_primaryKey": "(val)"},
               {"budgetPersonnelLineItemId": "(val)","obligatedAmount": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Award Budget Personnel Details by Key [DELETE /award/api/v1/award-budget-personnel-details/(key)]
 	 
 + Request

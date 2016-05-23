@@ -113,8 +113,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Custom Report Details.md"
             transfer-encoding:chunked
-
-
 ### Update Custom Report Details [PUT /research-common/api/v1/custom-report-details/(key)]
 
 + Request
@@ -147,7 +145,6 @@
             ]
 			
 + Response 204
-
 ### Insert Custom Report Details [POST /research-common/api/v1/custom-report-details/]
 
 + Request
@@ -191,7 +188,6 @@
               {"reportId": "(val)","reportLabel": "(val)","reportDescription": "(val)","reportTypeCode": "(val)","permissionName": "(val)","attachmentContent": "(val)","fileName": "(val)","contentType": "(val)","_primaryKey": "(val)"},
               {"reportId": "(val)","reportLabel": "(val)","reportDescription": "(val)","reportTypeCode": "(val)","permissionName": "(val)","attachmentContent": "(val)","fileName": "(val)","contentType": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Custom Report Details by Key [DELETE /research-common/api/v1/custom-report-details/(key)]
 	 
 + Request

@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Notification Channels.md"
             transfer-encoding:chunked
-
-
 ### Update Notification Channels [PUT /research-sys/api/v1/notification-channels/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Notification Channels [POST /research-sys/api/v1/notification-channels/]
 
 + Request
@@ -187,7 +184,6 @@
               {"id": "(val)","name": "(val)","description": "(val)","subscribable": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","name": "(val)","description": "(val)","subscribable": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Notification Channels by Key [DELETE /research-sys/api/v1/notification-channels/(key)]
 	 
 + Request

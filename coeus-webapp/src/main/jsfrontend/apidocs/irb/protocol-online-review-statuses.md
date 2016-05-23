@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Protocol Online Review Statuses.md"
             transfer-encoding:chunked
-
-
 ### Update Protocol Online Review Statuses [PUT /irb/api/v1/protocol-online-review-statuses/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Protocol Online Review Statuses [POST /irb/api/v1/protocol-online-review-statuses/]
 
 + Request
@@ -185,7 +182,6 @@
               {"statusCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"statusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Protocol Online Review Statuses by Key [DELETE /irb/api/v1/protocol-online-review-statuses/(key)]
 	 
 + Request

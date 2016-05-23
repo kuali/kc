@@ -115,8 +115,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Award Subcontracting Budgeted Goals.md"
             transfer-encoding:chunked
-
-
 ### Update Award Subcontracting Budgeted Goals [PUT /award/api/v1/award-subcontracting-budgeted-goals/(key)]
 
 + Request
@@ -149,7 +147,6 @@
             ]
 			
 + Response 204
-
 ### Insert Award Subcontracting Budgeted Goals [POST /award/api/v1/award-subcontracting-budgeted-goals/]
 
 + Request
@@ -193,7 +190,6 @@
               {"awardNumber": "(val)","largeBusinessGoalAmount": "(val)","smallBusinessGoalAmount": "(val)","womanOwnedGoalAmount": "(val)","eightADisadvantageGoalAmount": "(val)","hubZoneGoalAmount": "(val)","veteranOwnedGoalAmount": "(val)","serviceDisabledVeteranOwnedGoalAmount": "(val)","historicalBlackCollegeGoalAmount": "(val)","comments": "(val)","_primaryKey": "(val)"},
               {"awardNumber": "(val)","largeBusinessGoalAmount": "(val)","smallBusinessGoalAmount": "(val)","womanOwnedGoalAmount": "(val)","eightADisadvantageGoalAmount": "(val)","hubZoneGoalAmount": "(val)","veteranOwnedGoalAmount": "(val)","serviceDisabledVeteranOwnedGoalAmount": "(val)","historicalBlackCollegeGoalAmount": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Award Subcontracting Budgeted Goals by Key [DELETE /award/api/v1/award-subcontracting-budgeted-goals/(key)]
 	 
 + Request

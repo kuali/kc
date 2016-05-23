@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Lite View Roles.md"
             transfer-encoding:chunked
-
-
 ### Update Lite View Roles [PUT /research-sys/api/v1/lite-view-roles/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Lite View Roles [POST /research-sys/api/v1/lite-view-roles/]
 
 + Request
@@ -189,7 +186,6 @@
               {"id": "(val)","name": "(val)","description": "(val)","active": "(val)","kimTypeId": "(val)","namespaceCode": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","name": "(val)","description": "(val)","active": "(val)","kimTypeId": "(val)","namespaceCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Lite View Roles by Key [DELETE /research-sys/api/v1/lite-view-roles/(key)]
 	 
 + Request

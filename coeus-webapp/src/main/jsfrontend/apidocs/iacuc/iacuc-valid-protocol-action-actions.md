@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Valid Protocol Action Actions.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Valid Protocol Action Actions [PUT /iacuc/api/v1/iacuc-valid-protocol-action-actions/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Valid Protocol Action Actions [POST /iacuc/api/v1/iacuc-valid-protocol-action-actions/]
 
 + Request
@@ -190,7 +187,6 @@
               {"validProtocolActionActionId": "(val)","protocolActionTypeCode": "(val)","motionTypeCode": "(val)","actionNumber": "(val)","followupActionCode": "(val)","userPromptFlag": "(val)","userPrompt": "(val)","_primaryKey": "(val)"},
               {"validProtocolActionActionId": "(val)","protocolActionTypeCode": "(val)","motionTypeCode": "(val)","actionNumber": "(val)","followupActionCode": "(val)","userPromptFlag": "(val)","userPrompt": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Valid Protocol Action Actions by Key [DELETE /iacuc/api/v1/iacuc-valid-protocol-action-actions/(key)]
 	 
 + Request

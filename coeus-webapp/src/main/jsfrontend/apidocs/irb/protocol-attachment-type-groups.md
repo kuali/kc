@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Protocol Attachment Type Groups.md"
             transfer-encoding:chunked
-
-
 ### Update Protocol Attachment Type Groups [PUT /irb/api/v1/protocol-attachment-type-groups/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Protocol Attachment Type Groups [POST /irb/api/v1/protocol-attachment-type-groups/]
 
 + Request
@@ -186,7 +183,6 @@
               {"id": "(val)","typeCode": "(val)","groupCode": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","typeCode": "(val)","groupCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Protocol Attachment Type Groups by Key [DELETE /irb/api/v1/protocol-attachment-type-groups/(key)]
 	 
 + Request

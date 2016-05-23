@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Kew Types.md"
             transfer-encoding:chunked
-
-
 ### Update Kew Types [PUT /research-sys/api/v1/kew-types/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Kew Types [POST /research-sys/api/v1/kew-types/]
 
 + Request
@@ -188,7 +185,6 @@
               {"id": "(val)","name": "(val)","namespace": "(val)","serviceName": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","name": "(val)","namespace": "(val)","serviceName": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Kew Types by Key [DELETE /research-sys/api/v1/kew-types/(key)]
 	 
 + Request

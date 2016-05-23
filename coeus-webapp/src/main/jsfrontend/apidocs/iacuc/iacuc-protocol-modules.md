@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Protocol Modules.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Protocol Modules [PUT /iacuc/api/v1/iacuc-protocol-modules/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Protocol Modules [POST /iacuc/api/v1/iacuc-protocol-modules/]
 
 + Request
@@ -185,7 +182,6 @@
               {"protocolModuleCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"protocolModuleCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Protocol Modules by Key [DELETE /iacuc/api/v1/iacuc-protocol-modules/(key)]
 	 
 + Request

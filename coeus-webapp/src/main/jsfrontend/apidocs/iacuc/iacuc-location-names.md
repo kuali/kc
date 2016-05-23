@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Location Names.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Location Names [PUT /iacuc/api/v1/iacuc-location-names/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Location Names [POST /iacuc/api/v1/iacuc-location-names/]
 
 + Request
@@ -186,7 +183,6 @@
               {"locationId": "(val)","locationName": "(val)","locationTypeCode": "(val)","_primaryKey": "(val)"},
               {"locationId": "(val)","locationName": "(val)","locationTypeCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Location Names by Key [DELETE /iacuc/api/v1/iacuc-location-names/(key)]
 	 
 + Request

@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Proposal Role Templates.md"
             transfer-encoding:chunked
-
-
 ### Update Proposal Role Templates [PUT /propdev/api/v1/proposal-role-templates/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Proposal Role Templates [POST /propdev/api/v1/proposal-role-templates/]
 
 + Request
@@ -188,7 +185,6 @@
               {"id": "(val)","personId": "(val)","roleName": "(val)","unitNumber": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","personId": "(val)","roleName": "(val)","unitNumber": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Proposal Role Templates by Key [DELETE /propdev/api/v1/proposal-role-templates/(key)]
 	 
 + Request

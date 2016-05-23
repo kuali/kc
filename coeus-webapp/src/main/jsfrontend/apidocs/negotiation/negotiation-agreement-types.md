@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Negotiation Agreement Types.md"
             transfer-encoding:chunked
-
-
 ### Update Negotiation Agreement Types [PUT /negotiation/api/v1/negotiation-agreement-types/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Negotiation Agreement Types [POST /negotiation/api/v1/negotiation-agreement-types/]
 
 + Request
@@ -187,7 +184,6 @@
               {"id": "(val)","code": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","code": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Negotiation Agreement Types by Key [DELETE /negotiation/api/v1/negotiation-agreement-types/(key)]
 	 
 + Request

@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Activity Types.md"
             transfer-encoding:chunked
-
-
 ### Update Activity Types [PUT /research-common/api/v1/activity-types/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Activity Types [POST /research-common/api/v1/activity-types/]
 
 + Request
@@ -186,7 +183,6 @@
               {"code": "(val)","description": "(val)","higherEducationFunctionCode": "(val)","_primaryKey": "(val)"},
               {"code": "(val)","description": "(val)","higherEducationFunctionCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Activity Types by Key [DELETE /research-common/api/v1/activity-types/(key)]
 	 
 + Request

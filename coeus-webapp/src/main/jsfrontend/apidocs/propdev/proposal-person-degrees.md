@@ -114,8 +114,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Proposal Person Degrees.md"
             transfer-encoding:chunked
-
-
 ### Update Proposal Person Degrees [PUT /propdev/api/v1/proposal-person-degrees/(key)]
 
 + Request
@@ -148,7 +146,6 @@
             ]
 			
 + Response 204
-
 ### Insert Proposal Person Degrees [POST /propdev/api/v1/proposal-person-degrees/]
 
 + Request
@@ -192,7 +189,6 @@
               {"degreeSequenceNumber": "(val)","graduationYear": "(val)","degreeCode": "(val)","degree": "(val)","fieldOfStudy": "(val)","specialization": "(val)","school": "(val)","schoolIdCode": "(val)","schoolId": "(val)","_primaryKey": "(val)"},
               {"degreeSequenceNumber": "(val)","graduationYear": "(val)","degreeCode": "(val)","degree": "(val)","fieldOfStudy": "(val)","specialization": "(val)","school": "(val)","schoolIdCode": "(val)","schoolId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Proposal Person Degrees by Key [DELETE /propdev/api/v1/proposal-person-degrees/(key)]
 	 
 + Request

@@ -116,8 +116,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Person Document Groups.md"
             transfer-encoding:chunked
-
-
 ### Update Person Document Groups [PUT /research-sys/api/v1/person-document-groups/(key)]
 
 + Request
@@ -150,7 +148,6 @@
             ]
 			
 + Response 204
-
 ### Insert Person Document Groups [POST /research-sys/api/v1/person-document-groups/]
 
 + Request
@@ -194,7 +191,6 @@
               {"groupMemberId": "(val)","groupType": "(val)","groupId": "(val)","groupName": "(val)","namespaceCode": "(val)","principalId": "(val)","activeFromDate": "(val)","activeToDate": "(val)","edit": "(val)","documentNumber": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"groupMemberId": "(val)","groupType": "(val)","groupId": "(val)","groupName": "(val)","namespaceCode": "(val)","principalId": "(val)","activeFromDate": "(val)","activeToDate": "(val)","edit": "(val)","documentNumber": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Person Document Groups by Key [DELETE /research-sys/api/v1/person-document-groups/(key)]
 	 
 + Request

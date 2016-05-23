@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Rule Template Options.md"
             transfer-encoding:chunked
-
-
 ### Update Rule Template Options [PUT /research-sys/api/v1/rule-template-options/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Rule Template Options [POST /research-sys/api/v1/rule-template-options/]
 
 + Request
@@ -186,7 +183,6 @@
               {"id": "(val)","code": "(val)","value": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","code": "(val)","value": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Rule Template Options by Key [DELETE /research-sys/api/v1/rule-template-options/(key)]
 	 
 + Request

@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Context Valid Actions.md"
             transfer-encoding:chunked
-
-
 ### Update Context Valid Actions [PUT /research-sys/api/v1/context-valid-actions/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Context Valid Actions [POST /research-sys/api/v1/context-valid-actions/]
 
 + Request
@@ -186,7 +183,6 @@
               {"id": "(val)","contextId": "(val)","actionTypeId": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","contextId": "(val)","actionTypeId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Context Valid Actions by Key [DELETE /research-sys/api/v1/context-valid-actions/(key)]
 	 
 + Request

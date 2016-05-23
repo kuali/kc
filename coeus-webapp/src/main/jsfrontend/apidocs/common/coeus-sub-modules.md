@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Coeus Sub Modules.md"
             transfer-encoding:chunked
-
-
 ### Update Coeus Sub Modules [PUT /research-common/api/v1/coeus-sub-modules/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Coeus Sub Modules [POST /research-common/api/v1/coeus-sub-modules/]
 
 + Request
@@ -188,7 +185,6 @@
               {"coeusSubModuleId": "(val)","moduleCode": "(val)","subModuleCode": "(val)","description": "(val)","requireUniqueQuestionnareUsage": "(val)","_primaryKey": "(val)"},
               {"coeusSubModuleId": "(val)","moduleCode": "(val)","subModuleCode": "(val)","description": "(val)","requireUniqueQuestionnareUsage": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Coeus Sub Modules by Key [DELETE /research-common/api/v1/coeus-sub-modules/(key)]
 	 
 + Request

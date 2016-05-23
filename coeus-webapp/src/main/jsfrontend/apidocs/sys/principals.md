@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Principals.md"
             transfer-encoding:chunked
-
-
 ### Update Principals [PUT /research-sys/api/v1/principals/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Principals [POST /research-sys/api/v1/principals/]
 
 + Request
@@ -188,7 +185,6 @@
               {"principalId": "(val)","principalName": "(val)","entityId": "(val)","password": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"principalId": "(val)","principalName": "(val)","entityId": "(val)","password": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Principals by Key [DELETE /research-sys/api/v1/principals/(key)]
 	 
 + Request

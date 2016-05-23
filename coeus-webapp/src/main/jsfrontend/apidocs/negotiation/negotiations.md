@@ -117,8 +117,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Negotiations.md"
             transfer-encoding:chunked
-
-
 ### Update Negotiations [PUT /negotiation/api/v1/negotiations/(key)]
 
 + Request
@@ -151,7 +149,6 @@
             ]
 			
 + Response 204
-
 ### Insert Negotiations [POST /negotiation/api/v1/negotiations/]
 
 + Request
@@ -195,7 +192,6 @@
               {"negotiationId": "(val)","documentNumber": "(val)","negotiationStatusId": "(val)","negotiationAgreementTypeId": "(val)","negotiationAssociationTypeId": "(val)","negotiatorPersonId": "(val)","negotiatorName": "(val)","negotiationStartDate": "(val)","negotiationEndDate": "(val)","anticipatedAwardDate": "(val)","documentFolder": "(val)","associatedDocumentId": "(val)","_primaryKey": "(val)"},
               {"negotiationId": "(val)","documentNumber": "(val)","negotiationStatusId": "(val)","negotiationAgreementTypeId": "(val)","negotiationAssociationTypeId": "(val)","negotiatorPersonId": "(val)","negotiatorName": "(val)","negotiationStartDate": "(val)","negotiationEndDate": "(val)","anticipatedAwardDate": "(val)","documentFolder": "(val)","associatedDocumentId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Negotiations by Key [DELETE /negotiation/api/v1/negotiations/(key)]
 	 
 + Request

@@ -114,8 +114,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Committee Schedule Attendances.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Committee Schedule Attendances [PUT /iacuc/api/v1/iacuc-committee-schedule-attendances/(key)]
 
 + Request
@@ -148,7 +146,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Committee Schedule Attendances [POST /iacuc/api/v1/iacuc-committee-schedule-attendances/]
 
 + Request
@@ -192,7 +189,6 @@
               {"commScheduleAttendanceId": "(val)","scheduleIdFk": "(val)","personId": "(val)","personName": "(val)","guestFlag": "(val)","alternateFlag": "(val)","alternateFor": "(val)","nonEmployeeFlag": "(val)","comments": "(val)","_primaryKey": "(val)"},
               {"commScheduleAttendanceId": "(val)","scheduleIdFk": "(val)","personId": "(val)","personName": "(val)","guestFlag": "(val)","alternateFlag": "(val)","alternateFor": "(val)","nonEmployeeFlag": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Committee Schedule Attendances by Key [DELETE /iacuc/api/v1/iacuc-committee-schedule-attendances/(key)]
 	 
 + Request

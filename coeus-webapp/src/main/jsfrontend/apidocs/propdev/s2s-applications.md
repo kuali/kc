@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="S2s Applications.md"
             transfer-encoding:chunked
-
-
 ### Update S2s Applications [PUT /propdev/api/v1/s2s-applications/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert S2s Applications [POST /propdev/api/v1/s2s-applications/]
 
 + Request
@@ -185,7 +182,6 @@
               {"proposalNumber": "(val)","application": "(val)","_primaryKey": "(val)"},
               {"proposalNumber": "(val)","application": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete S2s Applications by Key [DELETE /propdev/api/v1/s2s-applications/(key)]
 	 
 + Request

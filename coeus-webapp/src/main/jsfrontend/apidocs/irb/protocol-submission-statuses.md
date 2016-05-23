@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Protocol Submission Statuses.md"
             transfer-encoding:chunked
-
-
 ### Update Protocol Submission Statuses [PUT /irb/api/v1/protocol-submission-statuses/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Protocol Submission Statuses [POST /irb/api/v1/protocol-submission-statuses/]
 
 + Request
@@ -185,7 +182,6 @@
               {"protocolSubmissionStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"protocolSubmissionStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Protocol Submission Statuses by Key [DELETE /irb/api/v1/protocol-submission-statuses/(key)]
 	 
 + Request

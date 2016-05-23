@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Krms Types.md"
             transfer-encoding:chunked
-
-
 ### Update Krms Types [PUT /research-sys/api/v1/krms-types/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Krms Types [POST /research-sys/api/v1/krms-types/]
 
 + Request
@@ -188,7 +185,6 @@
               {"id": "(val)","name": "(val)","namespace": "(val)","serviceName": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","name": "(val)","namespace": "(val)","serviceName": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Krms Types by Key [DELETE /research-sys/api/v1/krms-types/(key)]
 	 
 + Request

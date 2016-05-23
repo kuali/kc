@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="S2s Revision Types.md"
             transfer-encoding:chunked
-
-
 ### Update S2s Revision Types [PUT /propdev/api/v1/s2s-revision-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert S2s Revision Types [POST /propdev/api/v1/s2s-revision-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete S2s Revision Types by Key [DELETE /propdev/api/v1/s2s-revision-types/(key)]
 	 
 + Request

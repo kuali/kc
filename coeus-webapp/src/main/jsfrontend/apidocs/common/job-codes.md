@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Job Codes.md"
             transfer-encoding:chunked
-
-
 ### Update Job Codes [PUT /research-common/api/v1/job-codes/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Job Codes [POST /research-common/api/v1/job-codes/]
 
 + Request
@@ -185,7 +182,6 @@
               {"jobCode": "(val)","jobTitle": "(val)","_primaryKey": "(val)"},
               {"jobCode": "(val)","jobTitle": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Job Codes by Key [DELETE /research-common/api/v1/job-codes/(key)]
 	 
 + Request

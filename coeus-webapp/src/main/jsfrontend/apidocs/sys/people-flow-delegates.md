@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="People Flow Delegates.md"
             transfer-encoding:chunked
-
-
 ### Update People Flow Delegates [PUT /research-sys/api/v1/people-flow-delegates/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert People Flow Delegates [POST /research-sys/api/v1/people-flow-delegates/]
 
 + Request
@@ -189,7 +186,6 @@
               {"id": "(val)","memberId": "(val)","memberTypeCode": "(val)","actionRequestPolicyCode": "(val)","delegationTypeCode": "(val)","responsibilityId": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","memberId": "(val)","memberTypeCode": "(val)","actionRequestPolicyCode": "(val)","delegationTypeCode": "(val)","responsibilityId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete People Flow Delegates by Key [DELETE /research-sys/api/v1/people-flow-delegates/(key)]
 	 
 + Request

@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Functions.md"
             transfer-encoding:chunked
-
-
 ### Update Functions [PUT /research-sys/api/v1/functions/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert Functions [POST /research-sys/api/v1/functions/]
 
 + Request
@@ -190,7 +187,6 @@
               {"id": "(val)","namespace": "(val)","name": "(val)","description": "(val)","returnType": "(val)","typeId": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","namespace": "(val)","name": "(val)","description": "(val)","returnType": "(val)","typeId": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Functions by Key [DELETE /research-sys/api/v1/functions/(key)]
 	 
 + Request

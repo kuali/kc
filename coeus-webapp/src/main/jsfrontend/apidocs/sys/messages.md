@@ -117,8 +117,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Messages.md"
             transfer-encoding:chunked
-
-
 ### Update Messages [PUT /research-sys/api/v1/messages/(key)]
 
 + Request
@@ -151,7 +149,6 @@
             ]
 			
 + Response 204
-
 ### Insert Messages [POST /research-sys/api/v1/messages/]
 
 + Request
@@ -195,7 +192,6 @@
               {"id": "(val)","originId": "(val)","deliveryType": "(val)","channel": "(val)","producer": "(val)","creationDateTime": "(val)","title": "(val)","content": "(val)","contentType": "(val)","url": "(val)","recipient": "(val)","lockVerNbr": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","originId": "(val)","deliveryType": "(val)","channel": "(val)","producer": "(val)","creationDateTime": "(val)","title": "(val)","content": "(val)","contentType": "(val)","url": "(val)","recipient": "(val)","lockVerNbr": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Messages by Key [DELETE /research-sys/api/v1/messages/(key)]
 	 
 + Request

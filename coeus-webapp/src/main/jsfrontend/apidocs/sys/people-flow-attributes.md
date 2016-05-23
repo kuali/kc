@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="People Flow Attributes.md"
             transfer-encoding:chunked
-
-
 ### Update People Flow Attributes [PUT /research-sys/api/v1/people-flow-attributes/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert People Flow Attributes [POST /research-sys/api/v1/people-flow-attributes/]
 
 + Request
@@ -185,7 +182,6 @@
               {"id": "(val)","value": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","value": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete People Flow Attributes by Key [DELETE /research-sys/api/v1/people-flow-attributes/(key)]
 	 
 + Request

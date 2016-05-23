@@ -119,8 +119,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Watermarks.md"
             transfer-encoding:chunked
-
-
 ### Update Watermarks [PUT /research-common/api/v1/watermarks/(key)]
 
 + Request
@@ -153,7 +151,6 @@
             ]
 			
 + Response 204
-
 ### Insert Watermarks [POST /research-common/api/v1/watermarks/]
 
 + Request
@@ -197,7 +194,6 @@
               {"watermarkId": "(val)","statusCode": "(val)","watermarkText": "(val)","watermarkStatus": "(val)","fontSize": "(val)","fontColor": "(val)","watermarkType": "(val)","fileName": "(val)","contentType": "(val)","attachmentContent": "(val)","watermarkPosition": "(val)","watermarkAlignment": "(val)","positionFontSize": "(val)","groupName": "(val)","_primaryKey": "(val)"},
               {"watermarkId": "(val)","statusCode": "(val)","watermarkText": "(val)","watermarkStatus": "(val)","fontSize": "(val)","fontColor": "(val)","watermarkType": "(val)","fileName": "(val)","contentType": "(val)","attachmentContent": "(val)","watermarkPosition": "(val)","watermarkAlignment": "(val)","positionFontSize": "(val)","groupName": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Watermarks by Key [DELETE /research-common/api/v1/watermarks/(key)]
 	 
 + Request

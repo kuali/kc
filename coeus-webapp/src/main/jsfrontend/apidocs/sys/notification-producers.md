@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Notification Producers.md"
             transfer-encoding:chunked
-
-
 ### Update Notification Producers [PUT /research-sys/api/v1/notification-producers/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Notification Producers [POST /research-sys/api/v1/notification-producers/]
 
 + Request
@@ -187,7 +184,6 @@
               {"id": "(val)","name": "(val)","description": "(val)","contactInfo": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","name": "(val)","description": "(val)","contactInfo": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Notification Producers by Key [DELETE /research-sys/api/v1/notification-producers/(key)]
 	 
 + Request

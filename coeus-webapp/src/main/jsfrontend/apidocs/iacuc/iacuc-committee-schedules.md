@@ -120,8 +120,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Committee Schedules.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Committee Schedules [PUT /iacuc/api/v1/iacuc-committee-schedules/(key)]
 
 + Request
@@ -154,7 +152,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Committee Schedules [POST /iacuc/api/v1/iacuc-committee-schedules/]
 
 + Request
@@ -198,7 +195,6 @@
               {"id": "(val)","scheduleId": "(val)","committeeIdFk": "(val)","scheduledDate": "(val)","place": "(val)","time": "(val)","protocolSubDeadline": "(val)","scheduleStatusCode": "(val)","meetingDate": "(val)","startTime": "(val)","endTime": "(val)","agendaProdRevDate": "(val)","maxProtocols": "(val)","comments": "(val)","availableToReviewers": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","scheduleId": "(val)","committeeIdFk": "(val)","scheduledDate": "(val)","place": "(val)","time": "(val)","protocolSubDeadline": "(val)","scheduleStatusCode": "(val)","meetingDate": "(val)","startTime": "(val)","endTime": "(val)","agendaProdRevDate": "(val)","maxProtocols": "(val)","comments": "(val)","availableToReviewers": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Committee Schedules by Key [DELETE /iacuc/api/v1/iacuc-committee-schedules/(key)]
 	 
 + Request

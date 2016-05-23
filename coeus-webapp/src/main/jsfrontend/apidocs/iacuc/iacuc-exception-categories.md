@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Exception Categories.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Exception Categories [PUT /iacuc/api/v1/iacuc-exception-categories/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Exception Categories [POST /iacuc/api/v1/iacuc-exception-categories/]
 
 + Request
@@ -186,7 +183,6 @@
               {"exceptionCategoryCode": "(val)","exceptionCategoryDesc": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"exceptionCategoryCode": "(val)","exceptionCategoryDesc": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Exception Categories by Key [DELETE /iacuc/api/v1/iacuc-exception-categories/(key)]
 	 
 + Request

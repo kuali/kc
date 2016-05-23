@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Coeus Modules.md"
             transfer-encoding:chunked
-
-
 ### Update Coeus Modules [PUT /research-common/api/v1/coeus-modules/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Coeus Modules [POST /research-common/api/v1/coeus-modules/]
 
 + Request
@@ -185,7 +182,6 @@
               {"moduleCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"moduleCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Coeus Modules by Key [DELETE /research-common/api/v1/coeus-modules/(key)]
 	 
 + Request

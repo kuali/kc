@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Award Person Mass Changes.md"
             transfer-encoding:chunked
-
-
 ### Update Award Person Mass Changes [PUT /award/api/v1/award-person-mass-changes/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert Award Person Mass Changes [POST /award/api/v1/award-person-mass-changes/]
 
 + Request
@@ -190,7 +187,6 @@
               {"awardPersonMassChangeId": "(val)","personMassChangeId": "(val)","investigator": "(val)","keyStudyPerson": "(val)","unitContact": "(val)","sponsorContact": "(val)","approvedForeignTravel": "(val)","_primaryKey": "(val)"},
               {"awardPersonMassChangeId": "(val)","personMassChangeId": "(val)","investigator": "(val)","keyStudyPerson": "(val)","unitContact": "(val)","sponsorContact": "(val)","approvedForeignTravel": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Award Person Mass Changes by Key [DELETE /award/api/v1/award-person-mass-changes/(key)]
 	 
 + Request

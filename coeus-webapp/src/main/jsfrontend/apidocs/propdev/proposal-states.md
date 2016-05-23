@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Proposal States.md"
             transfer-encoding:chunked
-
-
 ### Update Proposal States [PUT /propdev/api/v1/proposal-states/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Proposal States [POST /propdev/api/v1/proposal-states/]
 
 + Request
@@ -185,7 +182,6 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Proposal States by Key [DELETE /propdev/api/v1/proposal-states/(key)]
 	 
 + Request

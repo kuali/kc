@@ -113,8 +113,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Notes.md"
             transfer-encoding:chunked
-
-
 ### Update Notes [PUT /research-sys/api/v1/notes/(key)]
 
 + Request
@@ -147,7 +145,6 @@
             ]
 			
 + Response 204
-
 ### Insert Notes [POST /research-sys/api/v1/notes/]
 
 + Request
@@ -191,7 +188,6 @@
               {"noteIdentifier": "(val)","remoteObjectIdentifier": "(val)","authorUniversalIdentifier": "(val)","notePostedTimestamp": "(val)","noteTypeCode": "(val)","noteText": "(val)","noteTopicText": "(val)","notePurgeCode": "(val)","_primaryKey": "(val)"},
               {"noteIdentifier": "(val)","remoteObjectIdentifier": "(val)","authorUniversalIdentifier": "(val)","notePostedTimestamp": "(val)","noteTypeCode": "(val)","noteText": "(val)","noteTopicText": "(val)","notePurgeCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Notes by Key [DELETE /research-sys/api/v1/notes/(key)]
 	 
 + Request

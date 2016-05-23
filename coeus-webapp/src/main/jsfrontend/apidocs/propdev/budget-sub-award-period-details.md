@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Budget Sub Award Period Details.md"
             transfer-encoding:chunked
-
-
 ### Update Budget Sub Award Period Details [PUT /propdev/api/v1/budget-sub-award-period-details/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert Budget Sub Award Period Details [POST /propdev/api/v1/budget-sub-award-period-details/]
 
 + Request
@@ -190,7 +187,6 @@
               {"id": "(val)","budgetPeriod": "(val)","directCost": "(val)","indirectCost": "(val)","costShare": "(val)","totalCost": "(val)","subAwardNumber": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","budgetPeriod": "(val)","directCost": "(val)","indirectCost": "(val)","costShare": "(val)","totalCost": "(val)","subAwardNumber": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Budget Sub Award Period Details by Key [DELETE /propdev/api/v1/budget-sub-award-period-details/(key)]
 	 
 + Request

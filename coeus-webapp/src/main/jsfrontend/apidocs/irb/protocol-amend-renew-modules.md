@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Protocol Amend Renew Modules.md"
             transfer-encoding:chunked
-
-
 ### Update Protocol Amend Renew Modules [PUT /irb/api/v1/protocol-amend-renew-modules/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Protocol Amend Renew Modules [POST /irb/api/v1/protocol-amend-renew-modules/]
 
 + Request
@@ -188,7 +185,6 @@
               {"protocolAmendRenewModuleId": "(val)","protocolAmendRenewalNumber": "(val)","protocolAmendRenewalId": "(val)","protocolNumber": "(val)","protocolModuleTypeCode": "(val)","_primaryKey": "(val)"},
               {"protocolAmendRenewModuleId": "(val)","protocolAmendRenewalNumber": "(val)","protocolAmendRenewalId": "(val)","protocolNumber": "(val)","protocolModuleTypeCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Protocol Amend Renew Modules by Key [DELETE /irb/api/v1/protocol-amend-renew-modules/(key)]
 	 
 + Request

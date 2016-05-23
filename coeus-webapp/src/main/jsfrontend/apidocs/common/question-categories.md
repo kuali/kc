@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Question Categories.md"
             transfer-encoding:chunked
-
-
 ### Update Question Categories [PUT /research-common/api/v1/question-categories/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Question Categories [POST /research-common/api/v1/question-categories/]
 
 + Request
@@ -185,7 +182,6 @@
               {"id": "(val)","name": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","name": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Question Categories by Key [DELETE /research-common/api/v1/question-categories/(key)]
 	 
 + Request

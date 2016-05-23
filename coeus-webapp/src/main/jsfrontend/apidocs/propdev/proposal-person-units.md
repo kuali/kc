@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Proposal Person Units.md"
             transfer-encoding:chunked
-
-
 ### Update Proposal Person Units [PUT /propdev/api/v1/proposal-person-units/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Proposal Person Units [POST /propdev/api/v1/proposal-person-units/]
 
 + Request
@@ -185,7 +182,6 @@
               {"unitNumber": "(val)","leadUnit": "(val)","_primaryKey": "(val)"},
               {"unitNumber": "(val)","leadUnit": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Proposal Person Units by Key [DELETE /propdev/api/v1/proposal-person-units/(key)]
 	 
 + Request

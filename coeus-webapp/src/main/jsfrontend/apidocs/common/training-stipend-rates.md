@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Training Stipend Rates.md"
             transfer-encoding:chunked
-
-
 ### Update Training Stipend Rates [PUT /research-common/api/v1/training-stipend-rates/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Training Stipend Rates [POST /research-common/api/v1/training-stipend-rates/]
 
 + Request
@@ -189,7 +186,6 @@
               {"id": "(val)","careerLevel": "(val)","experienceLevel": "(val)","stipendRate": "(val)","effectiveDate": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","careerLevel": "(val)","experienceLevel": "(val)","stipendRate": "(val)","effectiveDate": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Training Stipend Rates by Key [DELETE /research-common/api/v1/training-stipend-rates/(key)]
 	 
 + Request

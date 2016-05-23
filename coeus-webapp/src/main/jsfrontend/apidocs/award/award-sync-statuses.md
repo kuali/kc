@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Award Sync Statuses.md"
             transfer-encoding:chunked
-
-
 ### Update Award Sync Statuses [PUT /award/api/v1/award-sync-statuses/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert Award Sync Statuses [POST /award/api/v1/award-sync-statuses/]
 
 + Request
@@ -190,7 +187,6 @@
               {"awardSyncStatusId": "(val)","awardId": "(val)","awardNumber": "(val)","parentAwardId": "(val)","success": "(val)","status": "(val)","syncComplete": "(val)","_primaryKey": "(val)"},
               {"awardSyncStatusId": "(val)","awardId": "(val)","awardNumber": "(val)","parentAwardId": "(val)","success": "(val)","status": "(val)","syncComplete": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Award Sync Statuses by Key [DELETE /award/api/v1/award-sync-statuses/(key)]
 	 
 + Request

@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Sponsor Term Types.md"
             transfer-encoding:chunked
-
-
 ### Update Sponsor Term Types [PUT /research-common/api/v1/sponsor-term-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Sponsor Term Types [POST /research-common/api/v1/sponsor-term-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"sponsorTermTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"sponsorTermTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Sponsor Term Types by Key [DELETE /research-common/api/v1/sponsor-term-types/(key)]
 	 
 + Request

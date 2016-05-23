@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Kim Type Attributes.md"
             transfer-encoding:chunked
-
-
 ### Update Kim Type Attributes [PUT /research-sys/api/v1/kim-type-attributes/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Kim Type Attributes [POST /research-sys/api/v1/kim-type-attributes/]
 
 + Request
@@ -188,7 +185,6 @@
               {"id": "(val)","sortCode": "(val)","kimAttributeId": "(val)","kimTypeId": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","sortCode": "(val)","kimAttributeId": "(val)","kimTypeId": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Kim Type Attributes by Key [DELETE /research-sys/api/v1/kim-type-attributes/(key)]
 	 
 + Request

@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Entity Citizenship Statuses.md"
             transfer-encoding:chunked
-
-
 ### Update Entity Citizenship Statuses [PUT /research-sys/api/v1/entity-citizenship-statuses/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Entity Citizenship Statuses [POST /research-sys/api/v1/entity-citizenship-statuses/]
 
 + Request
@@ -187,7 +184,6 @@
               {"name": "(val)","active": "(val)","code": "(val)","sortCode": "(val)","_primaryKey": "(val)"},
               {"name": "(val)","active": "(val)","code": "(val)","sortCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Entity Citizenship Statuses by Key [DELETE /research-sys/api/v1/entity-citizenship-statuses/(key)]
 	 
 + Request

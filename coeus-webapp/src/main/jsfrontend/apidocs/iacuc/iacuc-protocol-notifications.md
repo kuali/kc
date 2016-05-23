@@ -114,8 +114,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Protocol Notifications.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Protocol Notifications [PUT /iacuc/api/v1/iacuc-protocol-notifications/(key)]
 
 + Request
@@ -148,7 +146,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Protocol Notifications [POST /iacuc/api/v1/iacuc-protocol-notifications/]
 
 + Request
@@ -192,7 +189,6 @@
               {"notificationId": "(val)","notificationTypeId": "(val)","documentNumber": "(val)","owningDocumentIdFk": "(val)","recipients": "(val)","subject": "(val)","message": "(val)","createUser": "(val)","createTimestamp": "(val)","_primaryKey": "(val)"},
               {"notificationId": "(val)","notificationTypeId": "(val)","documentNumber": "(val)","owningDocumentIdFk": "(val)","recipients": "(val)","subject": "(val)","message": "(val)","createUser": "(val)","createTimestamp": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Protocol Notifications by Key [DELETE /iacuc/api/v1/iacuc-protocol-notifications/(key)]
 	 
 + Request

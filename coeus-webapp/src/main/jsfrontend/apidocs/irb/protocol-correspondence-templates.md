@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Protocol Correspondence Templates.md"
             transfer-encoding:chunked
-
-
 ### Update Protocol Correspondence Templates [PUT /irb/api/v1/protocol-correspondence-templates/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Protocol Correspondence Templates [POST /irb/api/v1/protocol-correspondence-templates/]
 
 + Request
@@ -188,7 +185,6 @@
               {"protoCorrespTemplId": "(val)","protoCorrespTypeCode": "(val)","committeeId": "(val)","fileName": "(val)","correspondenceTemplate": "(val)","_primaryKey": "(val)"},
               {"protoCorrespTemplId": "(val)","protoCorrespTypeCode": "(val)","committeeId": "(val)","fileName": "(val)","correspondenceTemplate": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Protocol Correspondence Templates by Key [DELETE /irb/api/v1/protocol-correspondence-templates/(key)]
 	 
 + Request

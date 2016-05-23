@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Document Type Policies.md"
             transfer-encoding:chunked
-
-
 ### Update Document Type Policies [PUT /research-sys/api/v1/document-type-policies/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Document Type Policies [POST /research-sys/api/v1/document-type-policies/]
 
 + Request
@@ -186,7 +183,6 @@
               {"policyName": "(val)","policyValue": "(val)","policyStringValue": "(val)","_primaryKey": "(val)"},
               {"policyName": "(val)","policyValue": "(val)","policyStringValue": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Document Type Policies by Key [DELETE /research-sys/api/v1/document-type-policies/(key)]
 	 
 + Request

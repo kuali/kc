@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Answers.md"
             transfer-encoding:chunked
-
-
 ### Update Answers [PUT /research-common/api/v1/answers/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert Answers [POST /research-common/api/v1/answers/]
 
 + Request
@@ -190,7 +187,6 @@
               {"id": "(val)","answerHeaderId": "(val)","questionId": "(val)","questionnaireQuestionsId": "(val)","questionNumber": "(val)","answerNumber": "(val)","answer": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","answerHeaderId": "(val)","questionId": "(val)","questionnaireQuestionsId": "(val)","questionNumber": "(val)","answerNumber": "(val)","answer": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Answers by Key [DELETE /research-common/api/v1/answers/(key)]
 	 
 + Request

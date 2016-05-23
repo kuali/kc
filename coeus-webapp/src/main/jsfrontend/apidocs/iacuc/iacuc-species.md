@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Species.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Species [PUT /iacuc/api/v1/iacuc-species/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Species [POST /iacuc/api/v1/iacuc-species/]
 
 + Request
@@ -185,7 +182,6 @@
               {"speciesCode": "(val)","speciesName": "(val)","_primaryKey": "(val)"},
               {"speciesCode": "(val)","speciesName": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Species by Key [DELETE /iacuc/api/v1/iacuc-species/(key)]
 	 
 + Request

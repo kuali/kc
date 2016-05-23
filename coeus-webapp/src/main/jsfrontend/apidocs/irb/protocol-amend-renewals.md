@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Protocol Amend Renewals.md"
             transfer-encoding:chunked
-
-
 ### Update Protocol Amend Renewals [PUT /irb/api/v1/protocol-amend-renewals/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert Protocol Amend Renewals [POST /irb/api/v1/protocol-amend-renewals/]
 
 + Request
@@ -190,7 +187,6 @@
               {"id": "(val)","protoAmendRenNumber": "(val)","dateCreated": "(val)","summary": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","protoAmendRenNumber": "(val)","dateCreated": "(val)","summary": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Protocol Amend Renewals by Key [DELETE /irb/api/v1/protocol-amend-renewals/(key)]
 	 
 + Request

@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Award Basis Of Payments.md"
             transfer-encoding:chunked
-
-
 ### Update Award Basis Of Payments [PUT /award/api/v1/award-basis-of-payments/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Award Basis Of Payments [POST /award/api/v1/award-basis-of-payments/]
 
 + Request
@@ -185,7 +182,6 @@
               {"basisOfPaymentCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"basisOfPaymentCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Award Basis Of Payments by Key [DELETE /award/api/v1/award-basis-of-payments/(key)]
 	 
 + Request

@@ -16,7 +16,7 @@
 
     + Body
     
-            {"awardReportTermId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","frequencyBaseCode": "(val)","ospDistributionCode": "(val)","dueDate": "(val)","_primaryKey": "(val)"}
+            {"awardReportTermId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","frequencyBaseCode": "(val)","ospDistributionCode": "(val)","dueDate": "(val)","award.awardId": "(val)","_primaryKey": "(val)"}
 
 ### Get All Award Report Terms [GET /award/api/v1/award-report-terms/]
 	 
@@ -35,8 +35,8 @@
     + Body
     
             [
-              {"awardReportTermId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","frequencyBaseCode": "(val)","ospDistributionCode": "(val)","dueDate": "(val)","_primaryKey": "(val)"},
-              {"awardReportTermId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","frequencyBaseCode": "(val)","ospDistributionCode": "(val)","dueDate": "(val)","_primaryKey": "(val)"}
+              {"awardReportTermId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","frequencyBaseCode": "(val)","ospDistributionCode": "(val)","dueDate": "(val)","award.awardId": "(val)","_primaryKey": "(val)"},
+              {"awardReportTermId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","frequencyBaseCode": "(val)","ospDistributionCode": "(val)","dueDate": "(val)","award.awardId": "(val)","_primaryKey": "(val)"}
             ]
 
 ### Get All Award Report Terms with Filtering [GET /award/api/v1/award-report-terms/]
@@ -44,7 +44,6 @@
 + Parameters
 
     + awardReportTermId (optional) - Award Report Terms Id. Maximum length is 22.
-    + awardId (optional) - 
     + awardNumber (optional) - Award ID. Maximum length is 12.
     + sequenceNumber (optional) - Sequence Number. Maximum length is 22.
     + reportClassCode (optional) - Report Class Code. Maximum length is 22.
@@ -53,6 +52,7 @@
     + frequencyBaseCode (optional) - Frequency Base. Maximum length is 22.
     + ospDistributionCode (optional) - OSP File Copy. Maximum length is 22.
     + dueDate (optional) - Due Date. Maximum length is 10.
+    + award.awardId (optional) - 
 
             
 + Request
@@ -70,8 +70,8 @@
     + Body
     
             [
-              {"awardReportTermId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","frequencyBaseCode": "(val)","ospDistributionCode": "(val)","dueDate": "(val)","_primaryKey": "(val)"},
-              {"awardReportTermId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","frequencyBaseCode": "(val)","ospDistributionCode": "(val)","dueDate": "(val)","_primaryKey": "(val)"}
+              {"awardReportTermId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","frequencyBaseCode": "(val)","ospDistributionCode": "(val)","dueDate": "(val)","award.awardId": "(val)","_primaryKey": "(val)"},
+              {"awardReportTermId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","frequencyBaseCode": "(val)","ospDistributionCode": "(val)","dueDate": "(val)","award.awardId": "(val)","_primaryKey": "(val)"}
             ]
 			
 ### Get Schema for Award Report Terms [GET /award/api/v1/award-report-terms/]
@@ -94,7 +94,7 @@
 
     + Body
     
-            {"columns":["awardReportTermId","awardId","awardNumber","sequenceNumber","reportClassCode","reportCode","frequencyCode","frequencyBaseCode","ospDistributionCode","dueDate"],"primaryKey":"awardReportTermId"}
+            {"columns":["awardReportTermId","awardNumber","sequenceNumber","reportClassCode","reportCode","frequencyCode","frequencyBaseCode","ospDistributionCode","dueDate","award.awardId"],"primaryKey":"awardReportTermId"}
 		
 ### Get Blueprint API specification for Award Report Terms [GET /award/api/v1/award-report-terms/]
 	 
@@ -115,8 +115,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Award Report Terms.md"
             transfer-encoding:chunked
-
-
 ### Update Award Report Terms [PUT /award/api/v1/award-report-terms/(key)]
 
 + Request
@@ -128,7 +126,7 @@
 
     + Body
     
-            {"awardReportTermId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","frequencyBaseCode": "(val)","ospDistributionCode": "(val)","dueDate": "(val)","_primaryKey": "(val)"}
+            {"awardReportTermId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","frequencyBaseCode": "(val)","ospDistributionCode": "(val)","dueDate": "(val)","award.awardId": "(val)","_primaryKey": "(val)"}
 			
 + Response 204
 
@@ -144,12 +142,11 @@
     + Body
     
             [
-              {"awardReportTermId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","frequencyBaseCode": "(val)","ospDistributionCode": "(val)","dueDate": "(val)","_primaryKey": "(val)"},
-              {"awardReportTermId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","frequencyBaseCode": "(val)","ospDistributionCode": "(val)","dueDate": "(val)","_primaryKey": "(val)"}
+              {"awardReportTermId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","frequencyBaseCode": "(val)","ospDistributionCode": "(val)","dueDate": "(val)","award.awardId": "(val)","_primaryKey": "(val)"},
+              {"awardReportTermId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","frequencyBaseCode": "(val)","ospDistributionCode": "(val)","dueDate": "(val)","award.awardId": "(val)","_primaryKey": "(val)"}
             ]
 			
 + Response 204
-
 ### Insert Award Report Terms [POST /award/api/v1/award-report-terms/]
 
 + Request
@@ -161,13 +158,13 @@
 
     + Body
     
-            {"awardReportTermId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","frequencyBaseCode": "(val)","ospDistributionCode": "(val)","dueDate": "(val)","_primaryKey": "(val)"}
+            {"awardReportTermId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","frequencyBaseCode": "(val)","ospDistributionCode": "(val)","dueDate": "(val)","award.awardId": "(val)","_primaryKey": "(val)"}
 			
 + Response 201
     
     + Body
             
-            {"awardReportTermId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","frequencyBaseCode": "(val)","ospDistributionCode": "(val)","dueDate": "(val)","_primaryKey": "(val)"}
+            {"awardReportTermId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","frequencyBaseCode": "(val)","ospDistributionCode": "(val)","dueDate": "(val)","award.awardId": "(val)","_primaryKey": "(val)"}
             
 ### Insert Multiple Award Report Terms [POST /award/api/v1/award-report-terms/]
 
@@ -181,8 +178,8 @@
     + Body
     
             [
-              {"awardReportTermId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","frequencyBaseCode": "(val)","ospDistributionCode": "(val)","dueDate": "(val)","_primaryKey": "(val)"},
-              {"awardReportTermId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","frequencyBaseCode": "(val)","ospDistributionCode": "(val)","dueDate": "(val)","_primaryKey": "(val)"}
+              {"awardReportTermId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","frequencyBaseCode": "(val)","ospDistributionCode": "(val)","dueDate": "(val)","award.awardId": "(val)","_primaryKey": "(val)"},
+              {"awardReportTermId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","frequencyBaseCode": "(val)","ospDistributionCode": "(val)","dueDate": "(val)","award.awardId": "(val)","_primaryKey": "(val)"}
             ]
 			
 + Response 201
@@ -190,10 +187,9 @@
     + Body
             
             [
-              {"awardReportTermId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","frequencyBaseCode": "(val)","ospDistributionCode": "(val)","dueDate": "(val)","_primaryKey": "(val)"},
-              {"awardReportTermId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","frequencyBaseCode": "(val)","ospDistributionCode": "(val)","dueDate": "(val)","_primaryKey": "(val)"}
+              {"awardReportTermId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","frequencyBaseCode": "(val)","ospDistributionCode": "(val)","dueDate": "(val)","award.awardId": "(val)","_primaryKey": "(val)"},
+              {"awardReportTermId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","frequencyBaseCode": "(val)","ospDistributionCode": "(val)","dueDate": "(val)","award.awardId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Award Report Terms by Key [DELETE /award/api/v1/award-report-terms/(key)]
 	 
 + Request
@@ -226,7 +222,6 @@
 
     + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
     + awardReportTermId (optional) - Award Report Terms Id. Maximum length is 22.
-    + awardId (optional) - 
     + awardNumber (optional) - Award ID. Maximum length is 12.
     + sequenceNumber (optional) - Sequence Number. Maximum length is 22.
     + reportClassCode (optional) - Report Class Code. Maximum length is 22.
@@ -235,6 +230,7 @@
     + frequencyBaseCode (optional) - Frequency Base. Maximum length is 22.
     + ospDistributionCode (optional) - OSP File Copy. Maximum length is 22.
     + dueDate (optional) - Due Date. Maximum length is 10.
+    + award.awardId (optional) - 
 
       
 + Request

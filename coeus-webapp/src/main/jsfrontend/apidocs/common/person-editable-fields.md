@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Person Editable Fields.md"
             transfer-encoding:chunked
-
-
 ### Update Person Editable Fields [PUT /research-common/api/v1/person-editable-fields/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Person Editable Fields [POST /research-common/api/v1/person-editable-fields/]
 
 + Request
@@ -187,7 +184,6 @@
               {"personEditableFieldId": "(val)","moduleCode": "(val)","fieldName": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"personEditableFieldId": "(val)","moduleCode": "(val)","fieldName": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Person Editable Fields by Key [DELETE /research-common/api/v1/person-editable-fields/(key)]
 	 
 + Request

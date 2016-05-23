@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Negotiation Activity Types.md"
             transfer-encoding:chunked
-
-
 ### Update Negotiation Activity Types [PUT /negotiation/api/v1/negotiation-activity-types/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Negotiation Activity Types [POST /negotiation/api/v1/negotiation-activity-types/]
 
 + Request
@@ -187,7 +184,6 @@
               {"id": "(val)","code": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","code": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Negotiation Activity Types by Key [DELETE /negotiation/api/v1/negotiation-activity-types/(key)]
 	 
 + Request

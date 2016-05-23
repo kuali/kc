@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Negotiation Person Mass Changes.md"
             transfer-encoding:chunked
-
-
 ### Update Negotiation Person Mass Changes [PUT /negotiation/api/v1/negotiation-person-mass-changes/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Negotiation Person Mass Changes [POST /negotiation/api/v1/negotiation-person-mass-changes/]
 
 + Request
@@ -186,7 +183,6 @@
               {"negotiationPersonMassChangeId": "(val)","personMassChangeId": "(val)","negotiator": "(val)","_primaryKey": "(val)"},
               {"negotiationPersonMassChangeId": "(val)","personMassChangeId": "(val)","negotiator": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Negotiation Person Mass Changes by Key [DELETE /negotiation/api/v1/negotiation-person-mass-changes/(key)]
 	 
 + Request

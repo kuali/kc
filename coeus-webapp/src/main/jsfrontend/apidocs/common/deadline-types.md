@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Deadline Types.md"
             transfer-encoding:chunked
-
-
 ### Update Deadline Types [PUT /research-common/api/v1/deadline-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Deadline Types [POST /research-common/api/v1/deadline-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"deadlineTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"deadlineTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Deadline Types by Key [DELETE /research-common/api/v1/deadline-types/(key)]
 	 
 + Request

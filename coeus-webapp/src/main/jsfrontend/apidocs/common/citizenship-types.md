@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Citizenship Types.md"
             transfer-encoding:chunked
-
-
 ### Update Citizenship Types [PUT /research-common/api/v1/citizenship-types/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Citizenship Types [POST /research-common/api/v1/citizenship-types/]
 
 + Request
@@ -186,7 +183,6 @@
               {"code": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"code": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Citizenship Types by Key [DELETE /research-common/api/v1/citizenship-types/(key)]
 	 
 + Request

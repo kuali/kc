@@ -119,8 +119,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Questions.md"
             transfer-encoding:chunked
-
-
 ### Update Questions [PUT /research-common/api/v1/questions/(key)]
 
 + Request
@@ -153,7 +151,6 @@
             ]
 			
 + Response 204
-
 ### Insert Questions [POST /research-common/api/v1/questions/]
 
 + Request
@@ -197,7 +194,6 @@
               {"id": "(val)","documentNumber": "(val)","questionSeqId": "(val)","sequenceNumber": "(val)","sequenceStatus": "(val)","question": "(val)","status": "(val)","categoryTypeCode": "(val)","questionTypeId": "(val)","lookupClass": "(val)","lookupReturn": "(val)","displayedAnswers": "(val)","maxAnswers": "(val)","answerMaxLength": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","documentNumber": "(val)","questionSeqId": "(val)","sequenceNumber": "(val)","sequenceStatus": "(val)","question": "(val)","status": "(val)","categoryTypeCode": "(val)","questionTypeId": "(val)","lookupClass": "(val)","lookupReturn": "(val)","displayedAnswers": "(val)","maxAnswers": "(val)","answerMaxLength": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Questions by Key [DELETE /research-common/api/v1/questions/(key)]
 	 
 + Request

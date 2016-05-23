@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Delegate Members.md"
             transfer-encoding:chunked
-
-
 ### Update Delegate Members [PUT /research-sys/api/v1/delegate-members/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert Delegate Members [POST /research-sys/api/v1/delegate-members/]
 
 + Request
@@ -190,7 +187,6 @@
               {"delegationMemberId": "(val)","delegationId": "(val)","roleMemberId": "(val)","activeFromDateValue": "(val)","activeToDateValue": "(val)","memberId": "(val)","typeCode": "(val)","_primaryKey": "(val)"},
               {"delegationMemberId": "(val)","delegationId": "(val)","roleMemberId": "(val)","activeFromDateValue": "(val)","activeToDateValue": "(val)","memberId": "(val)","typeCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Delegate Members by Key [DELETE /research-sys/api/v1/delegate-members/(key)]
 	 
 + Request

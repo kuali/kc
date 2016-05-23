@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Schedule Act Item Types.md"
             transfer-encoding:chunked
-
-
 ### Update Schedule Act Item Types [PUT /research-common/api/v1/schedule-act-item-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Schedule Act Item Types [POST /research-common/api/v1/schedule-act-item-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"scheduleActItemTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"scheduleActItemTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Schedule Act Item Types by Key [DELETE /research-common/api/v1/schedule-act-item-types/(key)]
 	 
 + Request

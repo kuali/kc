@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Group Members.md"
             transfer-encoding:chunked
-
-
 ### Update Group Members [PUT /research-sys/api/v1/group-members/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Group Members [POST /research-sys/api/v1/group-members/]
 
 + Request
@@ -189,7 +186,6 @@
               {"id": "(val)","groupId": "(val)","activeFromDateValue": "(val)","activeToDateValue": "(val)","memberId": "(val)","typeCode": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","groupId": "(val)","activeFromDateValue": "(val)","activeToDateValue": "(val)","memberId": "(val)","typeCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Group Members by Key [DELETE /research-sys/api/v1/group-members/(key)]
 	 
 + Request

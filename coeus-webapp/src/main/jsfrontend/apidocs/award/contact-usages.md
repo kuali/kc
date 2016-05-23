@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Contact Usages.md"
             transfer-encoding:chunked
-
-
 ### Update Contact Usages [PUT /award/api/v1/contact-usages/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Contact Usages [POST /award/api/v1/contact-usages/]
 
 + Request
@@ -186,7 +183,6 @@
               {"contactUsageId": "(val)","contactTypeCode": "(val)","moduleCode": "(val)","_primaryKey": "(val)"},
               {"contactUsageId": "(val)","contactTypeCode": "(val)","moduleCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Contact Usages by Key [DELETE /award/api/v1/contact-usages/(key)]
 	 
 + Request

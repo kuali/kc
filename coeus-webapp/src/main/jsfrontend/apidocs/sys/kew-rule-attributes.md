@@ -113,8 +113,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Kew Rule Attributes.md"
             transfer-encoding:chunked
-
-
 ### Update Kew Rule Attributes [PUT /research-sys/api/v1/kew-rule-attributes/(key)]
 
 + Request
@@ -147,7 +145,6 @@
             ]
 			
 + Response 204
-
 ### Insert Kew Rule Attributes [POST /research-sys/api/v1/kew-rule-attributes/]
 
 + Request
@@ -191,7 +188,6 @@
               {"id": "(val)","name": "(val)","label": "(val)","type": "(val)","resourceDescriptor": "(val)","description": "(val)","xmlConfigData": "(val)","applicationId": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","name": "(val)","label": "(val)","type": "(val)","resourceDescriptor": "(val)","description": "(val)","xmlConfigData": "(val)","applicationId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Kew Rule Attributes by Key [DELETE /research-sys/api/v1/kew-rule-attributes/(key)]
 	 
 + Request

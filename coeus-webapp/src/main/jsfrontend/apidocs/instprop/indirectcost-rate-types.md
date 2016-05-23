@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Indirectcost Rate Types.md"
             transfer-encoding:chunked
-
-
 ### Update Indirectcost Rate Types [PUT /instprop/api/v1/indirectcost-rate-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Indirectcost Rate Types [POST /instprop/api/v1/indirectcost-rate-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"indirectcostRateTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"indirectcostRateTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Indirectcost Rate Types by Key [DELETE /instprop/api/v1/indirectcost-rate-types/(key)]
 	 
 + Request

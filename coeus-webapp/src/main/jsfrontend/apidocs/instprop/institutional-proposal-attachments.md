@@ -119,8 +119,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Institutional Proposal Attachments.md"
             transfer-encoding:chunked
-
-
 ### Update Institutional Proposal Attachments [PUT /instprop/api/v1/institutional-proposal-attachments/(key)]
 
 + Request
@@ -153,7 +151,6 @@
             ]
 			
 + Response 204
-
 ### Insert Institutional Proposal Attachments [POST /instprop/api/v1/institutional-proposal-attachments/]
 
 + Request
@@ -197,7 +194,6 @@
               {"proposalAttachmentId": "(val)","proposalId": "(val)","proposalNumber": "(val)","fileDataId": "(val)","sequenceNumber": "(val)","attachmentNumber": "(val)","attachmentTitle": "(val)","attachmentTypeCode": "(val)","fileName": "(val)","contentType": "(val)","comments": "(val)","documentStatusCode": "(val)","lastUpdateTimestamp": "(val)","lastUpdateUser": "(val)","_primaryKey": "(val)"},
               {"proposalAttachmentId": "(val)","proposalId": "(val)","proposalNumber": "(val)","fileDataId": "(val)","sequenceNumber": "(val)","attachmentNumber": "(val)","attachmentTitle": "(val)","attachmentTypeCode": "(val)","fileName": "(val)","contentType": "(val)","comments": "(val)","documentStatusCode": "(val)","lastUpdateTimestamp": "(val)","lastUpdateUser": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Institutional Proposal Attachments by Key [DELETE /instprop/api/v1/institutional-proposal-attachments/(key)]
 	 
 + Request

@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Person Trainings.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Person Trainings [PUT /iacuc/api/v1/iacuc-person-trainings/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Person Trainings [POST /iacuc/api/v1/iacuc-person-trainings/]
 
 + Request
@@ -188,7 +185,6 @@
               {"iacucPersonTrainingId": "(val)","personTrainingId": "(val)","personId": "(val)","speciesCode": "(val)","procedureCode": "(val)","_primaryKey": "(val)"},
               {"iacucPersonTrainingId": "(val)","personTrainingId": "(val)","personId": "(val)","speciesCode": "(val)","procedureCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Person Trainings by Key [DELETE /iacuc/api/v1/iacuc-person-trainings/(key)]
 	 
 + Request

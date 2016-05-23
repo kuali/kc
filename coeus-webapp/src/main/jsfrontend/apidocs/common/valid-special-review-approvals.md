@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Valid Special Review Approvals.md"
             transfer-encoding:chunked
-
-
 ### Update Valid Special Review Approvals [PUT /research-common/api/v1/valid-special-review-approvals/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert Valid Special Review Approvals [POST /research-common/api/v1/valid-special-review-approvals/]
 
 + Request
@@ -190,7 +187,6 @@
               {"validSpecialReviewApprovalId": "(val)","specialReviewTypeCode": "(val)","approvalTypeCode": "(val)","applicationDateFlag": "(val)","approvalDateFlag": "(val)","exemptNumberFlag": "(val)","protocolNumberFlag": "(val)","_primaryKey": "(val)"},
               {"validSpecialReviewApprovalId": "(val)","specialReviewTypeCode": "(val)","approvalTypeCode": "(val)","applicationDateFlag": "(val)","approvalDateFlag": "(val)","exemptNumberFlag": "(val)","protocolNumberFlag": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Valid Special Review Approvals by Key [DELETE /research-common/api/v1/valid-special-review-approvals/(key)]
 	 
 + Request

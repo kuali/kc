@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Role Permissions.md"
             transfer-encoding:chunked
-
-
 ### Update Role Permissions [PUT /research-sys/api/v1/role-permissions/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Role Permissions [POST /research-sys/api/v1/role-permissions/]
 
 + Request
@@ -187,7 +184,6 @@
               {"id": "(val)","roleId": "(val)","permissionId": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","roleId": "(val)","permissionId": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Role Permissions by Key [DELETE /research-sys/api/v1/role-permissions/(key)]
 	 
 + Request

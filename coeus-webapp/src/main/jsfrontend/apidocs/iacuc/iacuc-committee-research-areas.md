@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Committee Research Areas.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Committee Research Areas [PUT /iacuc/api/v1/iacuc-committee-research-areas/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Committee Research Areas [POST /iacuc/api/v1/iacuc-committee-research-areas/]
 
 + Request
@@ -186,7 +183,6 @@
               {"id": "(val)","committeeIdFk": "(val)","researchAreaCode": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","committeeIdFk": "(val)","researchAreaCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Committee Research Areas by Key [DELETE /iacuc/api/v1/iacuc-committee-research-areas/(key)]
 	 
 + Request

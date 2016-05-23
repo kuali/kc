@@ -131,8 +131,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Budgets.md"
             transfer-encoding:chunked
-
-
 ### Update Budgets [PUT /research-common/api/v1/budgets/(key)]
 
 + Request
@@ -165,7 +163,6 @@
             ]
 			
 + Response 204
-
 ### Insert Budgets [POST /research-common/api/v1/budgets/]
 
 + Request
@@ -209,7 +206,6 @@
               {"parentDocumentTypeCode": "(val)","budgetJustification": "(val)","createTimestamp": "(val)","createUser": "(val)","budgetAdjustmentDocumentNumber": "(val)","residualFunds": "(val)","endDate": "(val)","modularBudgetFlag": "(val)","documentNumber": "(val)","totalDirectCostLimit": "(val)","costSharingAmount": "(val)","totalDirectCost": "(val)","ohRateClassCode": "(val)","comments": "(val)","underrecoveryAmount": "(val)","budgetId": "(val)","budgetVersionNumber": "(val)","urRateClassCode": "(val)","totalIndirectCost": "(val)","totalCostLimit": "(val)","name": "(val)","onOffCampusFlag": "(val)","submitCostSharingFlag": "(val)","ohRateTypeCode": "(val)","startDate": "(val)","totalCost": "(val)","_primaryKey": "(val)"},
               {"parentDocumentTypeCode": "(val)","budgetJustification": "(val)","createTimestamp": "(val)","createUser": "(val)","budgetAdjustmentDocumentNumber": "(val)","residualFunds": "(val)","endDate": "(val)","modularBudgetFlag": "(val)","documentNumber": "(val)","totalDirectCostLimit": "(val)","costSharingAmount": "(val)","totalDirectCost": "(val)","ohRateClassCode": "(val)","comments": "(val)","underrecoveryAmount": "(val)","budgetId": "(val)","budgetVersionNumber": "(val)","urRateClassCode": "(val)","totalIndirectCost": "(val)","totalCostLimit": "(val)","name": "(val)","onOffCampusFlag": "(val)","submitCostSharingFlag": "(val)","ohRateTypeCode": "(val)","startDate": "(val)","totalCost": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Budgets by Key [DELETE /research-common/api/v1/budgets/(key)]
 	 
 + Request

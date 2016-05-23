@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Reports.md"
             transfer-encoding:chunked
-
-
 ### Update Reports [PUT /award/api/v1/reports/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Reports [POST /award/api/v1/reports/]
 
 + Request
@@ -187,7 +184,6 @@
               {"reportCode": "(val)","description": "(val)","finalReportFlag": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"reportCode": "(val)","description": "(val)","finalReportFlag": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Reports by Key [DELETE /award/api/v1/reports/(key)]
 	 
 + Request

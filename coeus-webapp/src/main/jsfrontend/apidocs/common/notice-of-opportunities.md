@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Notice Of Opportunities.md"
             transfer-encoding:chunked
-
-
 ### Update Notice Of Opportunities [PUT /research-common/api/v1/notice-of-opportunities/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Notice Of Opportunities [POST /research-common/api/v1/notice-of-opportunities/]
 
 + Request
@@ -185,7 +182,6 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Notice Of Opportunities by Key [DELETE /research-common/api/v1/notice-of-opportunities/(key)]
 	 
 + Request

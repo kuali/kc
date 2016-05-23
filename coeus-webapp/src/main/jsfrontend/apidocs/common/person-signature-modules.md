@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Person Signature Modules.md"
             transfer-encoding:chunked
-
-
 ### Update Person Signature Modules [PUT /research-common/api/v1/person-signature-modules/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Person Signature Modules [POST /research-common/api/v1/person-signature-modules/]
 
 + Request
@@ -188,7 +185,6 @@
               {"personSignatureModuleId": "(val)","personSignatureId": "(val)","defaultSignature": "(val)","signatureActive": "(val)","moduleCode": "(val)","_primaryKey": "(val)"},
               {"personSignatureModuleId": "(val)","personSignatureId": "(val)","defaultSignature": "(val)","signatureActive": "(val)","moduleCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Person Signature Modules by Key [DELETE /research-common/api/v1/person-signature-modules/(key)]
 	 
 + Request

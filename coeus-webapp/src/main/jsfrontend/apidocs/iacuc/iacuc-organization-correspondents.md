@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Organization Correspondents.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Organization Correspondents [PUT /iacuc/api/v1/iacuc-organization-correspondents/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Organization Correspondents [POST /iacuc/api/v1/iacuc-organization-correspondents/]
 
 + Request
@@ -189,7 +186,6 @@
               {"correspondentId": "(val)","organizationId": "(val)","correspondentTypeCode": "(val)","personId": "(val)","nonEmployeeFlag": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"correspondentId": "(val)","organizationId": "(val)","correspondentTypeCode": "(val)","personId": "(val)","nonEmployeeFlag": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Organization Correspondents by Key [DELETE /iacuc/api/v1/iacuc-organization-correspondents/(key)]
 	 
 + Request

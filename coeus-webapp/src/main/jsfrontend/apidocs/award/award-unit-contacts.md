@@ -16,7 +16,7 @@
 
     + Body
     
-            {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","_primaryKey": "(val)"}
+            {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","award.awardId": "(val)","_primaryKey": "(val)"}
 
 ### Get All Award Unit Contacts [GET /award/api/v1/award-unit-contacts/]
 	 
@@ -35,8 +35,8 @@
     + Body
     
             [
-              {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","_primaryKey": "(val)"},
-              {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","_primaryKey": "(val)"}
+              {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","award.awardId": "(val)","_primaryKey": "(val)"},
+              {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","award.awardId": "(val)","_primaryKey": "(val)"}
             ]
 
 ### Get All Award Unit Contacts with Filtering [GET /award/api/v1/award-unit-contacts/]
@@ -48,11 +48,11 @@
     + fullName (optional) - Full Name. Maximum length is 90.
     + unitContactType (optional) - 
     + unitAdministratorTypeCode (optional) - Project Role. Maximum length is 3.
-    + awardId (optional) - 
     + awardNumber (optional) - 
     + sequenceNumber (optional) - 
     + unitAdministratorUnitNumber (optional) - 
     + defaultUnitContact (optional) - 
+    + award.awardId (optional) - 
 
             
 + Request
@@ -70,8 +70,8 @@
     + Body
     
             [
-              {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","_primaryKey": "(val)"},
-              {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","_primaryKey": "(val)"}
+              {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","award.awardId": "(val)","_primaryKey": "(val)"},
+              {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","award.awardId": "(val)","_primaryKey": "(val)"}
             ]
 			
 ### Get Schema for Award Unit Contacts [GET /award/api/v1/award-unit-contacts/]
@@ -94,7 +94,7 @@
 
     + Body
     
-            {"columns":["awardContactId","personId","fullName","unitContactType","unitAdministratorTypeCode","awardId","awardNumber","sequenceNumber","unitAdministratorUnitNumber","defaultUnitContact"],"primaryKey":"awardContactId"}
+            {"columns":["awardContactId","personId","fullName","unitContactType","unitAdministratorTypeCode","awardNumber","sequenceNumber","unitAdministratorUnitNumber","defaultUnitContact","award.awardId"],"primaryKey":"awardContactId"}
 		
 ### Get Blueprint API specification for Award Unit Contacts [GET /award/api/v1/award-unit-contacts/]
 	 
@@ -115,133 +115,3 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Award Unit Contacts.md"
             transfer-encoding:chunked
-
-
-### Update Award Unit Contacts [PUT /award/api/v1/award-unit-contacts/(key)]
-
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}   
-            Content-Type: application/json
-
-    + Body
-    
-            {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","_primaryKey": "(val)"}
-			
-+ Response 204
-
-### Update Multiple Award Unit Contacts [PUT /award/api/v1/award-unit-contacts/]
-
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}   
-            Content-Type: application/json
-
-    + Body
-    
-            [
-              {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","_primaryKey": "(val)"},
-              {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","_primaryKey": "(val)"}
-            ]
-			
-+ Response 204
-
-### Insert Award Unit Contacts [POST /award/api/v1/award-unit-contacts/]
-
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}   
-            Content-Type: application/json
-
-    + Body
-    
-            {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","_primaryKey": "(val)"}
-			
-+ Response 201
-    
-    + Body
-            
-            {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","_primaryKey": "(val)"}
-            
-### Insert Multiple Award Unit Contacts [POST /award/api/v1/award-unit-contacts/]
-
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}   
-            Content-Type: application/json
-
-    + Body
-    
-            [
-              {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","_primaryKey": "(val)"},
-              {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","_primaryKey": "(val)"}
-            ]
-			
-+ Response 201
-    
-    + Body
-            
-            [
-              {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","_primaryKey": "(val)"},
-              {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","_primaryKey": "(val)"}
-            ]
-            
-### Delete Award Unit Contacts by Key [DELETE /award/api/v1/award-unit-contacts/(key)]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-
-+ Response 204
-
-### Delete All Award Unit Contacts [DELETE /award/api/v1/award-unit-contacts/]
-
-+ Parameters
-
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-
-+ Response 204
-
-### Delete All Award Unit Contacts with Matching [DELETE /award/api/v1/award-unit-contacts/]
-
-+ Parameters
-
-    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-    + awardContactId (optional) - 
-    + personId (optional) - 
-    + fullName (optional) - Full Name. Maximum length is 90.
-    + unitContactType (optional) - 
-    + unitAdministratorTypeCode (optional) - Project Role. Maximum length is 3.
-    + awardId (optional) - 
-    + awardNumber (optional) - 
-    + sequenceNumber (optional) - 
-    + unitAdministratorUnitNumber (optional) - 
-    + defaultUnitContact (optional) - 
-
-      
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-
-+ Response 204

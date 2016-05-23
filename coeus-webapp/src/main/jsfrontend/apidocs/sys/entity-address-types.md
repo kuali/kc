@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Entity Address Types.md"
             transfer-encoding:chunked
-
-
 ### Update Entity Address Types [PUT /research-sys/api/v1/entity-address-types/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Entity Address Types [POST /research-sys/api/v1/entity-address-types/]
 
 + Request
@@ -187,7 +184,6 @@
               {"name": "(val)","active": "(val)","code": "(val)","sortCode": "(val)","_primaryKey": "(val)"},
               {"name": "(val)","active": "(val)","code": "(val)","sortCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Entity Address Types by Key [DELETE /research-sys/api/v1/entity-address-types/(key)]
 	 
 + Request

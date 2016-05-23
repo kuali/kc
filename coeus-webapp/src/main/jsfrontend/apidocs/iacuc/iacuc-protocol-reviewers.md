@@ -115,8 +115,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Protocol Reviewers.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Protocol Reviewers [PUT /iacuc/api/v1/iacuc-protocol-reviewers/(key)]
 
 + Request
@@ -149,7 +147,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Protocol Reviewers [POST /iacuc/api/v1/iacuc-protocol-reviewers/]
 
 + Request
@@ -193,7 +190,6 @@
               {"protocolReviewerId": "(val)","protocolIdFk": "(val)","submissionIdFk": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","rolodexId": "(val)","submissionNumber": "(val)","reviewerTypeCode": "(val)","personId": "(val)","nonEmployeeFlag": "(val)","_primaryKey": "(val)"},
               {"protocolReviewerId": "(val)","protocolIdFk": "(val)","submissionIdFk": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","rolodexId": "(val)","submissionNumber": "(val)","reviewerTypeCode": "(val)","personId": "(val)","nonEmployeeFlag": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Protocol Reviewers by Key [DELETE /iacuc/api/v1/iacuc-protocol-reviewers/(key)]
 	 
 + Request

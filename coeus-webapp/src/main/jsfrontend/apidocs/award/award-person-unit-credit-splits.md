@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Award Person Unit Credit Splits.md"
             transfer-encoding:chunked
-
-
 ### Update Award Person Unit Credit Splits [PUT /award/api/v1/award-person-unit-credit-splits/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Award Person Unit Credit Splits [POST /award/api/v1/award-person-unit-credit-splits/]
 
 + Request
@@ -187,7 +184,6 @@
               {"awardPersonUnitCreditSplitId": "(val)","awardPersonUnitId": "(val)","invCreditTypeCode": "(val)","credit": "(val)","_primaryKey": "(val)"},
               {"awardPersonUnitCreditSplitId": "(val)","awardPersonUnitId": "(val)","invCreditTypeCode": "(val)","credit": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Award Person Unit Credit Splits by Key [DELETE /award/api/v1/award-person-unit-credit-splits/(key)]
 	 
 + Request

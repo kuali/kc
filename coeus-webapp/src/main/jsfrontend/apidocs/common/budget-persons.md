@@ -119,8 +119,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Budget Persons.md"
             transfer-encoding:chunked
-
-
 ### Update Budget Persons [PUT /research-common/api/v1/budget-persons/(key)]
 
 + Request
@@ -153,7 +151,6 @@
             ]
 			
 + Response 204
-
 ### Insert Budget Persons [POST /research-common/api/v1/budget-persons/]
 
 + Request
@@ -197,7 +194,6 @@
               {"personSequenceNumber": "(val)","budgetId": "(val)","effectiveDate": "(val)","jobCode": "(val)","nonEmployeeFlag": "(val)","personId": "(val)","rolodexId": "(val)","tbnId": "(val)","appointmentTypeCode": "(val)","calculationBase": "(val)","personName": "(val)","salaryAnniversaryDate": "(val)","hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","_primaryKey": "(val)"},
               {"personSequenceNumber": "(val)","budgetId": "(val)","effectiveDate": "(val)","jobCode": "(val)","nonEmployeeFlag": "(val)","personId": "(val)","rolodexId": "(val)","tbnId": "(val)","appointmentTypeCode": "(val)","calculationBase": "(val)","personName": "(val)","salaryAnniversaryDate": "(val)","hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Budget Persons by Key [DELETE /research-common/api/v1/budget-persons/(key)]
 	 
 + Request

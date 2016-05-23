@@ -114,8 +114,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Person Document Citizenships.md"
             transfer-encoding:chunked
-
-
 ### Update Person Document Citizenships [PUT /research-sys/api/v1/person-document-citizenships/(key)]
 
 + Request
@@ -148,7 +146,6 @@
             ]
 			
 + Response 204
-
 ### Insert Person Document Citizenships [POST /research-sys/api/v1/person-document-citizenships/]
 
 + Request
@@ -192,7 +189,6 @@
               {"entityCitizenshipId": "(val)","entityId": "(val)","countryCode": "(val)","citizenshipStatusCode": "(val)","startDate": "(val)","endDate": "(val)","edit": "(val)","documentNumber": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"entityCitizenshipId": "(val)","entityId": "(val)","countryCode": "(val)","citizenshipStatusCode": "(val)","startDate": "(val)","endDate": "(val)","edit": "(val)","documentNumber": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Person Document Citizenships by Key [DELETE /research-sys/api/v1/person-document-citizenships/(key)]
 	 
 + Request

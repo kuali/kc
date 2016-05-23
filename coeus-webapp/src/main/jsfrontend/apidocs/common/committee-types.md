@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Committee Types.md"
             transfer-encoding:chunked
-
-
 ### Update Committee Types [PUT /research-common/api/v1/committee-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Committee Types [POST /research-common/api/v1/committee-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"committeeTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"committeeTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Committee Types by Key [DELETE /research-common/api/v1/committee-types/(key)]
 	 
 + Request

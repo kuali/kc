@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Notification Recipient Lists.md"
             transfer-encoding:chunked
-
-
 ### Update Notification Recipient Lists [PUT /research-sys/api/v1/notification-recipient-lists/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Notification Recipient Lists [POST /research-sys/api/v1/notification-recipient-lists/]
 
 + Request
@@ -186,7 +183,6 @@
               {"id": "(val)","recipientType": "(val)","recipientId": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","recipientType": "(val)","recipientId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Notification Recipient Lists by Key [DELETE /research-sys/api/v1/notification-recipient-lists/(key)]
 	 
 + Request

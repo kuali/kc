@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Proposal Ynqs.md"
             transfer-encoding:chunked
-
-
 ### Update Proposal Ynqs [PUT /propdev/api/v1/proposal-ynqs/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Proposal Ynqs [POST /propdev/api/v1/proposal-ynqs/]
 
 + Request
@@ -189,7 +186,6 @@
               {"proposalNumber": "(val)","questionId": "(val)","answer": "(val)","explanation": "(val)","reviewDate": "(val)","sortId": "(val)","_primaryKey": "(val)"},
               {"proposalNumber": "(val)","questionId": "(val)","answer": "(val)","explanation": "(val)","reviewDate": "(val)","sortId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Proposal Ynqs by Key [DELETE /propdev/api/v1/proposal-ynqs/(key)]
 	 
 + Request

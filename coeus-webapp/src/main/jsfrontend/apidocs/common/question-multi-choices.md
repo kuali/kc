@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Question Multi Choices.md"
             transfer-encoding:chunked
-
-
 ### Update Question Multi Choices [PUT /research-common/api/v1/question-multi-choices/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Question Multi Choices [POST /research-common/api/v1/question-multi-choices/]
 
 + Request
@@ -187,7 +184,6 @@
               {"id": "(val)","questionId": "(val)","prompt": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","questionId": "(val)","prompt": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Question Multi Choices by Key [DELETE /research-common/api/v1/question-multi-choices/(key)]
 	 
 + Request

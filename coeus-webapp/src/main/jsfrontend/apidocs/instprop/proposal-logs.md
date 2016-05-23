@@ -125,8 +125,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Proposal Logs.md"
             transfer-encoding:chunked
-
-
 ### Update Proposal Logs [PUT /instprop/api/v1/proposal-logs/(key)]
 
 + Request
@@ -159,7 +157,6 @@
             ]
 			
 + Response 204
-
 ### Insert Proposal Logs [POST /instprop/api/v1/proposal-logs/]
 
 + Request
@@ -203,7 +200,6 @@
               {"proposalNumber": "(val)","proposalTypeCode": "(val)","proposalLogTypeCode": "(val)","title": "(val)","piId": "(val)","mergedWith": "(val)","instProposalNumber": "(val)","rolodexId": "(val)","piName": "(val)","leadUnit": "(val)","sponsorCode": "(val)","sponsorName": "(val)","logStatus": "(val)","comments": "(val)","createTimestamp": "(val)","createUser": "(val)","deadlineDate": "(val)","deadlineTime": "(val)","fiscalMonth": "(val)","fiscalYear": "(val)","_primaryKey": "(val)"},
               {"proposalNumber": "(val)","proposalTypeCode": "(val)","proposalLogTypeCode": "(val)","title": "(val)","piId": "(val)","mergedWith": "(val)","instProposalNumber": "(val)","rolodexId": "(val)","piName": "(val)","leadUnit": "(val)","sponsorCode": "(val)","sponsorName": "(val)","logStatus": "(val)","comments": "(val)","createTimestamp": "(val)","createUser": "(val)","deadlineDate": "(val)","deadlineTime": "(val)","fiscalMonth": "(val)","fiscalYear": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Proposal Logs by Key [DELETE /instprop/api/v1/proposal-logs/(key)]
 	 
 + Request

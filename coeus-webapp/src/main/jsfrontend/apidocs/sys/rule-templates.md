@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Rule Templates.md"
             transfer-encoding:chunked
-
-
 ### Update Rule Templates [PUT /research-sys/api/v1/rule-templates/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Rule Templates [POST /research-sys/api/v1/rule-templates/]
 
 + Request
@@ -187,7 +184,6 @@
               {"id": "(val)","name": "(val)","description": "(val)","delegationTemplateId": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","name": "(val)","description": "(val)","delegationTemplateId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Rule Templates by Key [DELETE /research-sys/api/v1/rule-templates/(key)]
 	 
 + Request

@@ -113,8 +113,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Kim Document Role Qualifiers.md"
             transfer-encoding:chunked
-
-
 ### Update Kim Document Role Qualifiers [PUT /research-sys/api/v1/kim-document-role-qualifiers/(key)]
 
 + Request
@@ -147,7 +145,6 @@
             ]
 			
 + Response 204
-
 ### Insert Kim Document Role Qualifiers [POST /research-sys/api/v1/kim-document-role-qualifiers/]
 
 + Request
@@ -191,7 +188,6 @@
               {"roleMemberId": "(val)","kimTypId": "(val)","kimAttrDefnId": "(val)","edit": "(val)","documentNumber": "(val)","attrVal": "(val)","active": "(val)","attrDataId": "(val)","_primaryKey": "(val)"},
               {"roleMemberId": "(val)","kimTypId": "(val)","kimAttrDefnId": "(val)","edit": "(val)","documentNumber": "(val)","attrVal": "(val)","active": "(val)","attrDataId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Kim Document Role Qualifiers by Key [DELETE /research-sys/api/v1/kim-document-role-qualifiers/(key)]
 	 
 + Request

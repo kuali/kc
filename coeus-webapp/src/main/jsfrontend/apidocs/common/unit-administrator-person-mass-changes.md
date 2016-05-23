@@ -114,8 +114,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Unit Administrator Person Mass Changes.md"
             transfer-encoding:chunked
-
-
 ### Update Unit Administrator Person Mass Changes [PUT /research-common/api/v1/unit-administrator-person-mass-changes/(key)]
 
 + Request
@@ -148,7 +146,6 @@
             ]
 			
 + Response 204
-
 ### Insert Unit Administrator Person Mass Changes [POST /research-common/api/v1/unit-administrator-person-mass-changes/]
 
 + Request
@@ -192,7 +189,6 @@
               {"unitAdministratorPersonMassChangeId": "(val)","personMassChangeId": "(val)","administrativeOfficer": "(val)","ospAdministrator": "(val)","unitHead": "(val)","deanVP": "(val)","otherIndividualToNotify": "(val)","administrativeContact": "(val)","financialContact": "(val)","_primaryKey": "(val)"},
               {"unitAdministratorPersonMassChangeId": "(val)","personMassChangeId": "(val)","administrativeOfficer": "(val)","ospAdministrator": "(val)","unitHead": "(val)","deanVP": "(val)","otherIndividualToNotify": "(val)","administrativeContact": "(val)","financialContact": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Unit Administrator Person Mass Changes by Key [DELETE /research-common/api/v1/unit-administrator-person-mass-changes/(key)]
 	 
 + Request

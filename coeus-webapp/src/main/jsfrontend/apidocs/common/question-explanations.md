@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Question Explanations.md"
             transfer-encoding:chunked
-
-
 ### Update Question Explanations [PUT /research-common/api/v1/question-explanations/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Question Explanations [POST /research-common/api/v1/question-explanations/]
 
 + Request
@@ -187,7 +184,6 @@
               {"id": "(val)","questionId": "(val)","explanationType": "(val)","explanation": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","questionId": "(val)","explanationType": "(val)","explanation": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Question Explanations by Key [DELETE /research-common/api/v1/question-explanations/(key)]
 	 
 + Request

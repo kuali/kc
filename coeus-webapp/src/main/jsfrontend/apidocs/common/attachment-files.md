@@ -16,7 +16,7 @@
 
     + Body
     
-            {"id": "(val)","sequenceNumber": "(val)","name": "(val)","type": "(val)","data": "(val)","_primaryKey": "(val)"}
+            {"id": "(val)","sequenceNumber": "(val)","name": "(val)","type": "(val)","data": "(val)","fileDataId": "(val)","_primaryKey": "(val)"}
 
 ### Get All Attachment Files [GET /research-common/api/v1/attachment-files/]
 	 
@@ -35,8 +35,8 @@
     + Body
     
             [
-              {"id": "(val)","sequenceNumber": "(val)","name": "(val)","type": "(val)","data": "(val)","_primaryKey": "(val)"},
-              {"id": "(val)","sequenceNumber": "(val)","name": "(val)","type": "(val)","data": "(val)","_primaryKey": "(val)"}
+              {"id": "(val)","sequenceNumber": "(val)","name": "(val)","type": "(val)","data": "(val)","fileDataId": "(val)","_primaryKey": "(val)"},
+              {"id": "(val)","sequenceNumber": "(val)","name": "(val)","type": "(val)","data": "(val)","fileDataId": "(val)","_primaryKey": "(val)"}
             ]
 
 ### Get All Attachment Files with Filtering [GET /research-common/api/v1/attachment-files/]
@@ -48,6 +48,7 @@
     + name (optional) - File Name. Maximum length is 150.
     + type (optional) - Type. Maximum length is 250.
     + data (optional) - 
+    + fileDataId (optional) - 
 
             
 + Request
@@ -65,8 +66,8 @@
     + Body
     
             [
-              {"id": "(val)","sequenceNumber": "(val)","name": "(val)","type": "(val)","data": "(val)","_primaryKey": "(val)"},
-              {"id": "(val)","sequenceNumber": "(val)","name": "(val)","type": "(val)","data": "(val)","_primaryKey": "(val)"}
+              {"id": "(val)","sequenceNumber": "(val)","name": "(val)","type": "(val)","data": "(val)","fileDataId": "(val)","_primaryKey": "(val)"},
+              {"id": "(val)","sequenceNumber": "(val)","name": "(val)","type": "(val)","data": "(val)","fileDataId": "(val)","_primaryKey": "(val)"}
             ]
 			
 ### Get Schema for Attachment Files [GET /research-common/api/v1/attachment-files/]
@@ -89,7 +90,7 @@
 
     + Body
     
-            {"columns":["id","sequenceNumber","name","type","data"],"primaryKey":"id"}
+            {"columns":["id","sequenceNumber","name","type","data","fileDataId"],"primaryKey":"id"}
 		
 ### Get Blueprint API specification for Attachment Files [GET /research-common/api/v1/attachment-files/]
 	 
@@ -110,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Attachment Files.md"
             transfer-encoding:chunked
-
-
 ### Update Attachment Files [PUT /research-common/api/v1/attachment-files/(key)]
 
 + Request
@@ -123,7 +122,7 @@
 
     + Body
     
-            {"id": "(val)","sequenceNumber": "(val)","name": "(val)","type": "(val)","data": "(val)","_primaryKey": "(val)"}
+            {"id": "(val)","sequenceNumber": "(val)","name": "(val)","type": "(val)","data": "(val)","fileDataId": "(val)","_primaryKey": "(val)"}
 			
 + Response 204
 
@@ -139,12 +138,11 @@
     + Body
     
             [
-              {"id": "(val)","sequenceNumber": "(val)","name": "(val)","type": "(val)","data": "(val)","_primaryKey": "(val)"},
-              {"id": "(val)","sequenceNumber": "(val)","name": "(val)","type": "(val)","data": "(val)","_primaryKey": "(val)"}
+              {"id": "(val)","sequenceNumber": "(val)","name": "(val)","type": "(val)","data": "(val)","fileDataId": "(val)","_primaryKey": "(val)"},
+              {"id": "(val)","sequenceNumber": "(val)","name": "(val)","type": "(val)","data": "(val)","fileDataId": "(val)","_primaryKey": "(val)"}
             ]
 			
 + Response 204
-
 ### Insert Attachment Files [POST /research-common/api/v1/attachment-files/]
 
 + Request
@@ -156,13 +154,13 @@
 
     + Body
     
-            {"id": "(val)","sequenceNumber": "(val)","name": "(val)","type": "(val)","data": "(val)","_primaryKey": "(val)"}
+            {"id": "(val)","sequenceNumber": "(val)","name": "(val)","type": "(val)","data": "(val)","fileDataId": "(val)","_primaryKey": "(val)"}
 			
 + Response 201
     
     + Body
             
-            {"id": "(val)","sequenceNumber": "(val)","name": "(val)","type": "(val)","data": "(val)","_primaryKey": "(val)"}
+            {"id": "(val)","sequenceNumber": "(val)","name": "(val)","type": "(val)","data": "(val)","fileDataId": "(val)","_primaryKey": "(val)"}
             
 ### Insert Multiple Attachment Files [POST /research-common/api/v1/attachment-files/]
 
@@ -176,8 +174,8 @@
     + Body
     
             [
-              {"id": "(val)","sequenceNumber": "(val)","name": "(val)","type": "(val)","data": "(val)","_primaryKey": "(val)"},
-              {"id": "(val)","sequenceNumber": "(val)","name": "(val)","type": "(val)","data": "(val)","_primaryKey": "(val)"}
+              {"id": "(val)","sequenceNumber": "(val)","name": "(val)","type": "(val)","data": "(val)","fileDataId": "(val)","_primaryKey": "(val)"},
+              {"id": "(val)","sequenceNumber": "(val)","name": "(val)","type": "(val)","data": "(val)","fileDataId": "(val)","_primaryKey": "(val)"}
             ]
 			
 + Response 201
@@ -185,10 +183,9 @@
     + Body
             
             [
-              {"id": "(val)","sequenceNumber": "(val)","name": "(val)","type": "(val)","data": "(val)","_primaryKey": "(val)"},
-              {"id": "(val)","sequenceNumber": "(val)","name": "(val)","type": "(val)","data": "(val)","_primaryKey": "(val)"}
+              {"id": "(val)","sequenceNumber": "(val)","name": "(val)","type": "(val)","data": "(val)","fileDataId": "(val)","_primaryKey": "(val)"},
+              {"id": "(val)","sequenceNumber": "(val)","name": "(val)","type": "(val)","data": "(val)","fileDataId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Attachment Files by Key [DELETE /research-common/api/v1/attachment-files/(key)]
 	 
 + Request
@@ -225,6 +222,7 @@
     + name (optional) - File Name. Maximum length is 150.
     + type (optional) - Type. Maximum length is 250.
     + data (optional) - 
+    + fileDataId (optional) - 
 
       
 + Request

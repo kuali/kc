@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Negotiation Activity Attachments.md"
             transfer-encoding:chunked
-
-
 ### Update Negotiation Activity Attachments [PUT /negotiation/api/v1/negotiation-activity-attachments/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Negotiation Activity Attachments [POST /negotiation/api/v1/negotiation-activity-attachments/]
 
 + Request
@@ -188,7 +185,6 @@
               {"attachmentId": "(val)","activityId": "(val)","fileId": "(val)","description": "(val)","restricted": "(val)","_primaryKey": "(val)"},
               {"attachmentId": "(val)","activityId": "(val)","fileId": "(val)","description": "(val)","restricted": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Negotiation Activity Attachments by Key [DELETE /negotiation/api/v1/negotiation-activity-attachments/(key)]
 	 
 + Request

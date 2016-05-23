@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Person Signatures.md"
             transfer-encoding:chunked
-
-
 ### Update Person Signatures [PUT /research-common/api/v1/person-signatures/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Person Signatures [POST /research-common/api/v1/person-signatures/]
 
 + Request
@@ -189,7 +186,6 @@
               {"personSignatureId": "(val)","personId": "(val)","signatureActive": "(val)","attachmentContent": "(val)","fileName": "(val)","contentType": "(val)","_primaryKey": "(val)"},
               {"personSignatureId": "(val)","personId": "(val)","signatureActive": "(val)","attachmentContent": "(val)","fileName": "(val)","contentType": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Person Signatures by Key [DELETE /research-common/api/v1/person-signatures/(key)]
 	 
 + Request

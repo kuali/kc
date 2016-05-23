@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Award Budget Types.md"
             transfer-encoding:chunked
-
-
 ### Update Award Budget Types [PUT /award/api/v1/award-budget-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Award Budget Types [POST /award/api/v1/award-budget-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"awardBudgetTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"awardBudgetTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Award Budget Types by Key [DELETE /award/api/v1/award-budget-types/(key)]
 	 
 + Request

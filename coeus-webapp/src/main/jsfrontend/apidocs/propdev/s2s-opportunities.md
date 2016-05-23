@@ -122,8 +122,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="S2s Opportunities.md"
             transfer-encoding:chunked
-
-
 ### Update S2s Opportunities [PUT /propdev/api/v1/s2s-opportunities/(key)]
 
 + Request
@@ -156,7 +154,6 @@
             ]
 			
 + Response 204
-
 ### Insert S2s Opportunities [POST /propdev/api/v1/s2s-opportunities/]
 
 + Request
@@ -200,7 +197,6 @@
               {"cfdaNumber": "(val)","closingDate": "(val)","competetionId": "(val)","instructionUrl": "(val)","openingDate": "(val)","opportunity": "(val)","opportunityId": "(val)","opportunityTitle": "(val)","revisionCode": "(val)","revisionOtherDescription": "(val)","s2sSubmissionTypeCode": "(val)","schemaUrl": "(val)","offeringAgency": "(val)","agencyContactInfo": "(val)","cfdaDescription": "(val)","multiProject": "(val)","providerCode": "(val)","_primaryKey": "(val)"},
               {"cfdaNumber": "(val)","closingDate": "(val)","competetionId": "(val)","instructionUrl": "(val)","openingDate": "(val)","opportunity": "(val)","opportunityId": "(val)","opportunityTitle": "(val)","revisionCode": "(val)","revisionOtherDescription": "(val)","s2sSubmissionTypeCode": "(val)","schemaUrl": "(val)","offeringAgency": "(val)","agencyContactInfo": "(val)","cfdaDescription": "(val)","multiProject": "(val)","providerCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete S2s Opportunities by Key [DELETE /propdev/api/v1/s2s-opportunities/(key)]
 	 
 + Request

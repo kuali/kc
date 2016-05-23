@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Protocol Units.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Protocol Units [PUT /iacuc/api/v1/iacuc-protocol-units/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Protocol Units [POST /iacuc/api/v1/iacuc-protocol-units/]
 
 + Request
@@ -190,7 +187,6 @@
               {"protocolUnitsId": "(val)","protocolPersonId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","unitNumber": "(val)","leadUnitFlag": "(val)","personId": "(val)","_primaryKey": "(val)"},
               {"protocolUnitsId": "(val)","protocolPersonId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","unitNumber": "(val)","leadUnitFlag": "(val)","personId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Protocol Units by Key [DELETE /iacuc/api/v1/iacuc-protocol-units/(key)]
 	 
 + Request

@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Entity Privacy Preferences.md"
             transfer-encoding:chunked
-
-
 ### Update Entity Privacy Preferences [PUT /research-sys/api/v1/entity-privacy-preferences/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Entity Privacy Preferences [POST /research-sys/api/v1/entity-privacy-preferences/]
 
 + Request
@@ -189,7 +186,6 @@
               {"entityId": "(val)","suppressName": "(val)","suppressEmail": "(val)","suppressAddress": "(val)","suppressPhone": "(val)","suppressPersonal": "(val)","_primaryKey": "(val)"},
               {"entityId": "(val)","suppressName": "(val)","suppressEmail": "(val)","suppressAddress": "(val)","suppressPhone": "(val)","suppressPersonal": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Entity Privacy Preferences by Key [DELETE /research-sys/api/v1/entity-privacy-preferences/(key)]
 	 
 + Request

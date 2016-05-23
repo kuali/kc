@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Science Keywords.md"
             transfer-encoding:chunked
-
-
 ### Update Science Keywords [PUT /research-common/api/v1/science-keywords/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Science Keywords [POST /research-common/api/v1/science-keywords/]
 
 + Request
@@ -185,7 +182,6 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Science Keywords by Key [DELETE /research-common/api/v1/science-keywords/(key)]
 	 
 + Request

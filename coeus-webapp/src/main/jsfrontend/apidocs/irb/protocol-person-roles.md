@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Protocol Person Roles.md"
             transfer-encoding:chunked
-
-
 ### Update Protocol Person Roles [PUT /irb/api/v1/protocol-person-roles/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert Protocol Person Roles [POST /irb/api/v1/protocol-person-roles/]
 
 + Request
@@ -190,7 +187,6 @@
               {"protocolPersonRoleId": "(val)","description": "(val)","unitDetailsRequired": "(val)","affiliationDetailsRequired": "(val)","trainingDetailsRequired": "(val)","commentsDetailsRequired": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"protocolPersonRoleId": "(val)","description": "(val)","unitDetailsRequired": "(val)","affiliationDetailsRequired": "(val)","trainingDetailsRequired": "(val)","commentsDetailsRequired": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Protocol Person Roles by Key [DELETE /irb/api/v1/protocol-person-roles/(key)]
 	 
 + Request

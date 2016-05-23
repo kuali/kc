@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Mail Types.md"
             transfer-encoding:chunked
-
-
 ### Update Mail Types [PUT /research-common/api/v1/mail-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Mail Types [POST /research-common/api/v1/mail-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"mailType": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"mailType": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Mail Types by Key [DELETE /research-common/api/v1/mail-types/(key)]
 	 
 + Request

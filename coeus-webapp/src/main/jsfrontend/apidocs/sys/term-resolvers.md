@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Term Resolvers.md"
             transfer-encoding:chunked
-
-
 ### Update Term Resolvers [PUT /research-sys/api/v1/term-resolvers/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Term Resolvers [POST /research-sys/api/v1/term-resolvers/]
 
 + Request
@@ -189,7 +186,6 @@
               {"id": "(val)","namespace": "(val)","name": "(val)","typeId": "(val)","outputId": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","namespace": "(val)","name": "(val)","typeId": "(val)","outputId": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Term Resolvers by Key [DELETE /research-sys/api/v1/term-resolvers/(key)]
 	 
 + Request

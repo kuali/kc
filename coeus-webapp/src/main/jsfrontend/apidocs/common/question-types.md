@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Question Types.md"
             transfer-encoding:chunked
-
-
 ### Update Question Types [PUT /research-common/api/v1/question-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Question Types [POST /research-common/api/v1/question-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"id": "(val)","name": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","name": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Question Types by Key [DELETE /research-common/api/v1/question-types/(key)]
 	 
 + Request

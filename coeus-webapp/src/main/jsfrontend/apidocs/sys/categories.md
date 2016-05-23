@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Categories.md"
             transfer-encoding:chunked
-
-
 ### Update Categories [PUT /research-sys/api/v1/categories/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Categories [POST /research-sys/api/v1/categories/]
 
 + Request
@@ -186,7 +183,6 @@
               {"id": "(val)","name": "(val)","namespace": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","name": "(val)","namespace": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Categories by Key [DELETE /research-sys/api/v1/categories/(key)]
 	 
 + Request

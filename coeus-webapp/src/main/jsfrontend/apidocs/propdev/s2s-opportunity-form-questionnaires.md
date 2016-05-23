@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="S2s Opportunity Form Questionnaires.md"
             transfer-encoding:chunked
-
-
 ### Update S2s Opportunity Form Questionnaires [PUT /propdev/api/v1/s2s-opportunity-form-questionnaires/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert S2s Opportunity Form Questionnaires [POST /propdev/api/v1/s2s-opportunity-form-questionnaires/]
 
 + Request
@@ -187,7 +184,6 @@
               {"s2sOppFormQuestionnaireId": "(val)","oppNameSpace": "(val)","formName": "(val)","questionnaireId": "(val)","_primaryKey": "(val)"},
               {"s2sOppFormQuestionnaireId": "(val)","oppNameSpace": "(val)","formName": "(val)","questionnaireId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete S2s Opportunity Form Questionnaires by Key [DELETE /propdev/api/v1/s2s-opportunity-form-questionnaires/(key)]
 	 
 + Request

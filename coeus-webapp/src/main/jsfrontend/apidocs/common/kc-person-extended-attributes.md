@@ -136,8 +136,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Kc Person Extended Attributes.md"
             transfer-encoding:chunked
-
-
 ### Update Kc Person Extended Attributes [PUT /research-common/api/v1/kc-person-extended-attributes/(key)]
 
 + Request
@@ -170,7 +168,6 @@
             ]
 			
 + Response 204
-
 ### Insert Kc Person Extended Attributes [POST /research-common/api/v1/kc-person-extended-attributes/]
 
 + Request
@@ -214,7 +211,6 @@
               {"personId": "(val)","ageByFiscalYear": "(val)","race": "(val)","educationLevel": "(val)","degree": "(val)","major": "(val)","handicappedFlag": "(val)","handicapType": "(val)","veteranFlag": "(val)","veteranType": "(val)","visaCode": "(val)","visaType": "(val)","visaRenewalDate": "(val)","hasVisa": "(val)","officeLocation": "(val)","secondaryOfficeLocation": "(val)","school": "(val)","yearGraduated": "(val)","directoryDepartment": "(val)","primaryTitle": "(val)","directoryTitle": "(val)","vacationAccrualFlag": "(val)","onSabbaticalFlag": "(val)","idProvided": "(val)","idVerified": "(val)","county": "(val)","citizenshipTypeCode": "(val)","multiCampusPrincipalId": "(val)","multiCampusPrincipalName": "(val)","salaryAnniversaryDate": "(val)","eraCommonUserName": "(val)","_primaryKey": "(val)"},
               {"personId": "(val)","ageByFiscalYear": "(val)","race": "(val)","educationLevel": "(val)","degree": "(val)","major": "(val)","handicappedFlag": "(val)","handicapType": "(val)","veteranFlag": "(val)","veteranType": "(val)","visaCode": "(val)","visaType": "(val)","visaRenewalDate": "(val)","hasVisa": "(val)","officeLocation": "(val)","secondaryOfficeLocation": "(val)","school": "(val)","yearGraduated": "(val)","directoryDepartment": "(val)","primaryTitle": "(val)","directoryTitle": "(val)","vacationAccrualFlag": "(val)","onSabbaticalFlag": "(val)","idProvided": "(val)","idVerified": "(val)","county": "(val)","citizenshipTypeCode": "(val)","multiCampusPrincipalId": "(val)","multiCampusPrincipalName": "(val)","salaryAnniversaryDate": "(val)","eraCommonUserName": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Kc Person Extended Attributes by Key [DELETE /research-common/api/v1/kc-person-extended-attributes/(key)]
 	 
 + Request

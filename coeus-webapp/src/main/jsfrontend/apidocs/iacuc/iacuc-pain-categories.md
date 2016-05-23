@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Pain Categories.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Pain Categories [PUT /iacuc/api/v1/iacuc-pain-categories/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Pain Categories [POST /iacuc/api/v1/iacuc-pain-categories/]
 
 + Request
@@ -187,7 +184,6 @@
               {"painCategoryCode": "(val)","painCategory": "(val)","painLevel": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"painCategoryCode": "(val)","painCategory": "(val)","painLevel": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Pain Categories by Key [DELETE /iacuc/api/v1/iacuc-pain-categories/(key)]
 	 
 + Request

@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Protocol Locations.md"
             transfer-encoding:chunked
-
-
 ### Update Protocol Locations [PUT /irb/api/v1/protocol-locations/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert Protocol Locations [POST /irb/api/v1/protocol-locations/]
 
 + Request
@@ -190,7 +187,6 @@
               {"protocolLocationId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","protocolOrganizationTypeCode": "(val)","organizationId": "(val)","rolodexId": "(val)","_primaryKey": "(val)"},
               {"protocolLocationId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","protocolOrganizationTypeCode": "(val)","organizationId": "(val)","rolodexId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Protocol Locations by Key [DELETE /irb/api/v1/protocol-locations/(key)]
 	 
 + Request

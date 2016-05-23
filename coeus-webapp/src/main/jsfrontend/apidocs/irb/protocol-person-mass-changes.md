@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Protocol Person Mass Changes.md"
             transfer-encoding:chunked
-
-
 ### Update Protocol Person Mass Changes [PUT /irb/api/v1/protocol-person-mass-changes/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Protocol Person Mass Changes [POST /irb/api/v1/protocol-person-mass-changes/]
 
 + Request
@@ -189,7 +186,6 @@
               {"protocolPersonMassChangeId": "(val)","personMassChangeId": "(val)","investigator": "(val)","keyStudyPerson": "(val)","correspondents": "(val)","reviewer": "(val)","_primaryKey": "(val)"},
               {"protocolPersonMassChangeId": "(val)","personMassChangeId": "(val)","investigator": "(val)","keyStudyPerson": "(val)","correspondents": "(val)","reviewer": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Protocol Person Mass Changes by Key [DELETE /irb/api/v1/protocol-person-mass-changes/(key)]
 	 
 + Request

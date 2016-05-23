@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Notification Senders.md"
             transfer-encoding:chunked
-
-
 ### Update Notification Senders [PUT /research-sys/api/v1/notification-senders/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Notification Senders [POST /research-sys/api/v1/notification-senders/]
 
 + Request
@@ -185,7 +182,6 @@
               {"id": "(val)","senderName": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","senderName": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Notification Senders by Key [DELETE /research-sys/api/v1/notification-senders/(key)]
 	 
 + Request

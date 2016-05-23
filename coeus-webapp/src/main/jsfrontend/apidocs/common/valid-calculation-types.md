@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Valid Calculation Types.md"
             transfer-encoding:chunked
-
-
 ### Update Valid Calculation Types [PUT /research-common/api/v1/valid-calculation-types/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Valid Calculation Types [POST /research-common/api/v1/valid-calculation-types/]
 
 + Request
@@ -189,7 +186,6 @@
               {"calcTypeId": "(val)","dependentSeqNumber": "(val)","rateClassType": "(val)","dependentRateClassType": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","_primaryKey": "(val)"},
               {"calcTypeId": "(val)","dependentSeqNumber": "(val)","rateClassType": "(val)","dependentRateClassType": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Valid Calculation Types by Key [DELETE /research-common/api/v1/valid-calculation-types/(key)]
 	 
 + Request

@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Document Accesses.md"
             transfer-encoding:chunked
-
-
 ### Update Document Accesses [PUT /research-common/api/v1/document-accesses/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Document Accesses [POST /research-common/api/v1/document-accesses/]
 
 + Request
@@ -188,7 +185,6 @@
               {"id": "(val)","documentNumber": "(val)","principalId": "(val)","roleName": "(val)","namespaceCode": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","documentNumber": "(val)","principalId": "(val)","roleName": "(val)","namespaceCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Document Accesses by Key [DELETE /research-common/api/v1/document-accesses/(key)]
 	 
 + Request

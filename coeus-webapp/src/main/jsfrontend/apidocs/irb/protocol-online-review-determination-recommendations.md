@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Protocol Online Review Determination Recommendations.md"
             transfer-encoding:chunked
-
-
 ### Update Protocol Online Review Determination Recommendations [PUT /irb/api/v1/protocol-online-review-determination-recommendations/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Protocol Online Review Determination Recommendations [POST /irb/api/v1/protocol-online-review-determination-recommendations/]
 
 + Request
@@ -185,7 +182,6 @@
               {"protocolOnlineReviewDeterminationRecommendationCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"protocolOnlineReviewDeterminationRecommendationCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Protocol Online Review Determination Recommendations by Key [DELETE /irb/api/v1/protocol-online-review-determination-recommendations/(key)]
 	 
 + Request

@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Entities.md"
             transfer-encoding:chunked
-
-
 ### Update Entities [PUT /research-sys/api/v1/entities/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Entities [POST /research-sys/api/v1/entities/]
 
 + Request
@@ -185,7 +182,6 @@
               {"id": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Entities by Key [DELETE /research-sys/api/v1/entities/(key)]
 	 
 + Request

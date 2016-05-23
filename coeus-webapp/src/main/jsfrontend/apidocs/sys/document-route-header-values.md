@@ -121,8 +121,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Document Route Header Values.md"
             transfer-encoding:chunked
-
-
 ### Update Document Route Header Values [PUT /research-sys/api/v1/document-route-header-values/(key)]
 
 + Request
@@ -155,7 +153,6 @@
             ]
 			
 + Response 204
-
 ### Insert Document Route Header Values [POST /research-sys/api/v1/document-route-header-values/]
 
 + Request
@@ -199,7 +196,6 @@
               {"documentId": "(val)","documentTypeId": "(val)","docRouteStatus": "(val)","docRouteLevel": "(val)","dateModified": "(val)","createDate": "(val)","approvedDate": "(val)","finalizedDate": "(val)","docTitle": "(val)","appDocId": "(val)","docVersion": "(val)","initiatorWorkflowId": "(val)","routedByUserWorkflowId": "(val)","routeStatusDate": "(val)","appDocStatus": "(val)","appDocStatusDate": "(val)","_primaryKey": "(val)"},
               {"documentId": "(val)","documentTypeId": "(val)","docRouteStatus": "(val)","docRouteLevel": "(val)","dateModified": "(val)","createDate": "(val)","approvedDate": "(val)","finalizedDate": "(val)","docTitle": "(val)","appDocId": "(val)","docVersion": "(val)","initiatorWorkflowId": "(val)","routedByUserWorkflowId": "(val)","routeStatusDate": "(val)","appDocStatus": "(val)","appDocStatusDate": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Document Route Header Values by Key [DELETE /research-sys/api/v1/document-route-header-values/(key)]
 	 
 + Request

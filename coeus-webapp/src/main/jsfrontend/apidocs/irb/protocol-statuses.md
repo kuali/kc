@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Protocol Statuses.md"
             transfer-encoding:chunked
-
-
 ### Update Protocol Statuses [PUT /irb/api/v1/protocol-statuses/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Protocol Statuses [POST /irb/api/v1/protocol-statuses/]
 
 + Request
@@ -185,7 +182,6 @@
               {"protocolStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"protocolStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Protocol Statuses by Key [DELETE /irb/api/v1/protocol-statuses/(key)]
 	 
 + Request

@@ -113,8 +113,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Intellectual Property Review Activities.md"
             transfer-encoding:chunked
-
-
 ### Update Intellectual Property Review Activities [PUT /instprop/api/v1/intellectual-property-review-activities/(key)]
 
 + Request
@@ -147,7 +145,6 @@
             ]
 			
 + Response 204
-
 ### Insert Intellectual Property Review Activities [POST /instprop/api/v1/intellectual-property-review-activities/]
 
 + Request
@@ -191,7 +188,6 @@
               {"ipReviewActivityTypeCode": "(val)","activityDate": "(val)","comments": "(val)","proposalIpReviewActivityId": "(val)","ipReviewId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","activityNumber": "(val)","_primaryKey": "(val)"},
               {"ipReviewActivityTypeCode": "(val)","activityDate": "(val)","comments": "(val)","proposalIpReviewActivityId": "(val)","ipReviewId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","activityNumber": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Intellectual Property Review Activities by Key [DELETE /instprop/api/v1/intellectual-property-review-activities/(key)]
 	 
 + Request

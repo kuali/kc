@@ -113,8 +113,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Questionnaire Usages.md"
             transfer-encoding:chunked
-
-
 ### Update Questionnaire Usages [PUT /research-common/api/v1/questionnaire-usages/(key)]
 
 + Request
@@ -147,7 +145,6 @@
             ]
 			
 + Response 204
-
 ### Insert Questionnaire Usages [POST /research-common/api/v1/questionnaire-usages/]
 
 + Request
@@ -191,7 +188,6 @@
               {"id": "(val)","moduleItemCode": "(val)","moduleSubItemCode": "(val)","questionnaireSequenceNumber": "(val)","questionnaireId": "(val)","ruleId": "(val)","questionnaireLabel": "(val)","mandatory": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","moduleItemCode": "(val)","moduleSubItemCode": "(val)","questionnaireSequenceNumber": "(val)","questionnaireId": "(val)","ruleId": "(val)","questionnaireLabel": "(val)","mandatory": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Questionnaire Usages by Key [DELETE /research-common/api/v1/questionnaire-usages/(key)]
 	 
 + Request

@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Rate Types.md"
             transfer-encoding:chunked
-
-
 ### Update Rate Types [PUT /research-common/api/v1/rate-types/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Rate Types [POST /research-common/api/v1/rate-types/]
 
 + Request
@@ -186,7 +183,6 @@
               {"rateClassCode": "(val)","rateTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"rateClassCode": "(val)","rateTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Rate Types by Key [DELETE /research-common/api/v1/rate-types/(key)]
 	 
 + Request

@@ -118,8 +118,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Sub Award Attachments.md"
             transfer-encoding:chunked
-
-
 ### Update Sub Award Attachments [PUT /subaward/api/v1/sub-award-attachments/(key)]
 
 + Request
@@ -152,7 +150,6 @@
             ]
 			
 + Response 204
-
 ### Insert Sub Award Attachments [POST /subaward/api/v1/sub-award-attachments/]
 
 + Request
@@ -196,7 +193,6 @@
               {"attachmentId": "(val)","subAwardId": "(val)","subAwardCode": "(val)","sequenceNumber": "(val)","subAwardAttachmentTypeCode": "(val)","documentId": "(val)","fileDataId": "(val)","fileName": "(val)","mimeType": "(val)","documentStatusCode": "(val)","description": "(val)","lastUpdateTimestamp": "(val)","lastUpdateUser": "(val)","_primaryKey": "(val)"},
               {"attachmentId": "(val)","subAwardId": "(val)","subAwardCode": "(val)","sequenceNumber": "(val)","subAwardAttachmentTypeCode": "(val)","documentId": "(val)","fileDataId": "(val)","fileName": "(val)","mimeType": "(val)","documentStatusCode": "(val)","description": "(val)","lastUpdateTimestamp": "(val)","lastUpdateUser": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Sub Award Attachments by Key [DELETE /subaward/api/v1/sub-award-attachments/(key)]
 	 
 + Request

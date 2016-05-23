@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Rate Class Base Inclusions.md"
             transfer-encoding:chunked
-
-
 ### Update Rate Class Base Inclusions [PUT /research-common/api/v1/rate-class-base-inclusions/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Rate Class Base Inclusions [POST /research-common/api/v1/rate-class-base-inclusions/]
 
 + Request
@@ -188,7 +185,6 @@
               {"rateClassBaseInclusionId": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","rateClassCodeIncl": "(val)","rateTypeCodeIncl": "(val)","_primaryKey": "(val)"},
               {"rateClassBaseInclusionId": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","rateClassCodeIncl": "(val)","rateTypeCodeIncl": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Rate Class Base Inclusions by Key [DELETE /research-common/api/v1/rate-class-base-inclusions/(key)]
 	 
 + Request

@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Proposal Location Types.md"
             transfer-encoding:chunked
-
-
 ### Update Proposal Location Types [PUT /propdev/api/v1/proposal-location-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Proposal Location Types [POST /propdev/api/v1/proposal-location-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"locationTypeCode": "(val)","locationTypeDesc": "(val)","_primaryKey": "(val)"},
               {"locationTypeCode": "(val)","locationTypeDesc": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Proposal Location Types by Key [DELETE /propdev/api/v1/proposal-location-types/(key)]
 	 
 + Request

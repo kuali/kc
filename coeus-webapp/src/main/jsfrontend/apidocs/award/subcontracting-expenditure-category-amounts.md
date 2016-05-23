@@ -114,8 +114,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Subcontracting Expenditure Category Amounts.md"
             transfer-encoding:chunked
-
-
 ### Update Subcontracting Expenditure Category Amounts [PUT /award/api/v1/subcontracting-expenditure-category-amounts/(key)]
 
 + Request
@@ -148,7 +146,6 @@
             ]
 			
 + Response 204
-
 ### Insert Subcontracting Expenditure Category Amounts [POST /award/api/v1/subcontracting-expenditure-category-amounts/]
 
 + Request
@@ -192,7 +189,6 @@
               {"awardNumber": "(val)","largeBusinessExpenditureAmount": "(val)","smallBusinessExpenditureAmount": "(val)","womanOwnedExpenditureAmount": "(val)","eightADisadvantageExpenditureAmount": "(val)","hubZoneExpenditureAmount": "(val)","veteranOwnedExpenditureAmount": "(val)","serviceDisabledVeteranOwnedExpenditureAmount": "(val)","historicalBlackCollegeExpenditureAmount": "(val)","_primaryKey": "(val)"},
               {"awardNumber": "(val)","largeBusinessExpenditureAmount": "(val)","smallBusinessExpenditureAmount": "(val)","womanOwnedExpenditureAmount": "(val)","eightADisadvantageExpenditureAmount": "(val)","hubZoneExpenditureAmount": "(val)","veteranOwnedExpenditureAmount": "(val)","serviceDisabledVeteranOwnedExpenditureAmount": "(val)","historicalBlackCollegeExpenditureAmount": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Subcontracting Expenditure Category Amounts by Key [DELETE /award/api/v1/subcontracting-expenditure-category-amounts/(key)]
 	 
 + Request

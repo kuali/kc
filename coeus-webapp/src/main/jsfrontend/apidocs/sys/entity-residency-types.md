@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Entity Residency Types.md"
             transfer-encoding:chunked
-
-
 ### Update Entity Residency Types [PUT /research-sys/api/v1/entity-residency-types/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Entity Residency Types [POST /research-sys/api/v1/entity-residency-types/]
 
 + Request
@@ -187,7 +184,6 @@
               {"name": "(val)","active": "(val)","code": "(val)","sortCode": "(val)","_primaryKey": "(val)"},
               {"name": "(val)","active": "(val)","code": "(val)","sortCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Entity Residency Types by Key [DELETE /research-sys/api/v1/entity-residency-types/(key)]
 	 
 + Request

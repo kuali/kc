@@ -117,8 +117,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Negotiation Activities.md"
             transfer-encoding:chunked
-
-
 ### Update Negotiation Activities [PUT /negotiation/api/v1/negotiation-activities/(key)]
 
 + Request
@@ -151,7 +149,6 @@
             ]
 			
 + Response 204
-
 ### Insert Negotiation Activities [POST /negotiation/api/v1/negotiation-activities/]
 
 + Request
@@ -195,7 +192,6 @@
               {"activityId": "(val)","negotiationId": "(val)","activityTypeId": "(val)","locationId": "(val)","startDate": "(val)","endDate": "(val)","createDate": "(val)","followupDate": "(val)","lastModifiedUsername": "(val)","lastModifiedDate": "(val)","description": "(val)","restricted": "(val)","_primaryKey": "(val)"},
               {"activityId": "(val)","negotiationId": "(val)","activityTypeId": "(val)","locationId": "(val)","startDate": "(val)","endDate": "(val)","createDate": "(val)","followupDate": "(val)","lastModifiedUsername": "(val)","lastModifiedDate": "(val)","description": "(val)","restricted": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Negotiation Activities by Key [DELETE /negotiation/api/v1/negotiation-activities/(key)]
 	 
 + Request

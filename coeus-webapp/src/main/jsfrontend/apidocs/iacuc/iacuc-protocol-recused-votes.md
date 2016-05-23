@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Protocol Recused Votes.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Protocol Recused Votes [PUT /iacuc/api/v1/iacuc-protocol-recused-votes/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Protocol Recused Votes [POST /iacuc/api/v1/iacuc-protocol-recused-votes/]
 
 + Request
@@ -190,7 +187,6 @@
               {"protocolVoteRecusedId": "(val)","protocolIdFk": "(val)","submissionIdFk": "(val)","personId": "(val)","rolodexId": "(val)","nonEmployeeFlag": "(val)","comments": "(val)","_primaryKey": "(val)"},
               {"protocolVoteRecusedId": "(val)","protocolIdFk": "(val)","submissionIdFk": "(val)","personId": "(val)","rolodexId": "(val)","nonEmployeeFlag": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Protocol Recused Votes by Key [DELETE /iacuc/api/v1/iacuc-protocol-recused-votes/(key)]
 	 
 + Request

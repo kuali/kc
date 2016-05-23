@@ -113,8 +113,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Group Document Qualifiers.md"
             transfer-encoding:chunked
-
-
 ### Update Group Document Qualifiers [PUT /research-sys/api/v1/group-document-qualifiers/(key)]
 
 + Request
@@ -147,7 +145,6 @@
             ]
 			
 + Response 204
-
 ### Insert Group Document Qualifiers [POST /research-sys/api/v1/group-document-qualifiers/]
 
 + Request
@@ -191,7 +188,6 @@
               {"groupId": "(val)","kimTypId": "(val)","kimAttrDefnId": "(val)","edit": "(val)","documentNumber": "(val)","attrVal": "(val)","active": "(val)","attrDataId": "(val)","_primaryKey": "(val)"},
               {"groupId": "(val)","kimTypId": "(val)","kimAttrDefnId": "(val)","edit": "(val)","documentNumber": "(val)","attrVal": "(val)","active": "(val)","attrDataId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Group Document Qualifiers by Key [DELETE /research-sys/api/v1/group-document-qualifiers/(key)]
 	 
 + Request

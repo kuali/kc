@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Degree Types.md"
             transfer-encoding:chunked
-
-
 ### Update Degree Types [PUT /research-common/api/v1/degree-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Degree Types [POST /research-common/api/v1/degree-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Degree Types by Key [DELETE /research-common/api/v1/degree-types/(key)]
 	 
 + Request

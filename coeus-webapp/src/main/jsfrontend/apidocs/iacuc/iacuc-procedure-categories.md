@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Procedure Categories.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Procedure Categories [PUT /iacuc/api/v1/iacuc-procedure-categories/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Procedure Categories [POST /iacuc/api/v1/iacuc-procedure-categories/]
 
 + Request
@@ -186,7 +183,6 @@
               {"procedureCategoryCode": "(val)","procedureCategory": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"procedureCategoryCode": "(val)","procedureCategory": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Procedure Categories by Key [DELETE /iacuc/api/v1/iacuc-procedure-categories/(key)]
 	 
 + Request

@@ -114,8 +114,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Kim Document Role Responsibility Actions.md"
             transfer-encoding:chunked
-
-
 ### Update Kim Document Role Responsibility Actions [PUT /research-sys/api/v1/kim-document-role-responsibility-actions/(key)]
 
 + Request
@@ -148,7 +146,6 @@
             ]
 			
 + Response 204
-
 ### Insert Kim Document Role Responsibility Actions [POST /research-sys/api/v1/kim-document-role-responsibility-actions/]
 
 + Request
@@ -192,7 +189,6 @@
               {"roleResponsibilityActionId": "(val)","roleResponsibilityId": "(val)","roleMemberId": "(val)","actionTypeCode": "(val)","actionPolicyCode": "(val)","priorityNumber": "(val)","forceAction": "(val)","edit": "(val)","documentNumber": "(val)","_primaryKey": "(val)"},
               {"roleResponsibilityActionId": "(val)","roleResponsibilityId": "(val)","roleMemberId": "(val)","actionTypeCode": "(val)","actionPolicyCode": "(val)","priorityNumber": "(val)","forceAction": "(val)","edit": "(val)","documentNumber": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Kim Document Role Responsibility Actions by Key [DELETE /research-sys/api/v1/kim-document-role-responsibility-actions/(key)]
 	 
 + Request

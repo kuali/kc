@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Contact Types.md"
             transfer-encoding:chunked
-
-
 ### Update Contact Types [PUT /award/api/v1/contact-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Contact Types [POST /award/api/v1/contact-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"contactTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"contactTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Contact Types by Key [DELETE /award/api/v1/contact-types/(key)]
 	 
 + Request

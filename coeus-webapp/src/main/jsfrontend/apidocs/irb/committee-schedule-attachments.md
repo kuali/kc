@@ -114,8 +114,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Committee Schedule Attachments.md"
             transfer-encoding:chunked
-
-
 ### Update Committee Schedule Attachments [PUT /irb/api/v1/committee-schedule-attachments/(key)]
 
 + Request
@@ -148,7 +146,6 @@
             ]
 			
 + Response 204
-
 ### Insert Committee Schedule Attachments [POST /irb/api/v1/committee-schedule-attachments/]
 
 + Request
@@ -192,7 +189,6 @@
               {"scheduleId": "(val)","attachmentId": "(val)","attachmentsTypeCode": "(val)","description": "(val)","fileName": "(val)","document": "(val)","mimeType": "(val)","newUpdateTimestamp": "(val)","newUpdateUser": "(val)","_primaryKey": "(val)"},
               {"scheduleId": "(val)","attachmentId": "(val)","attachmentsTypeCode": "(val)","description": "(val)","fileName": "(val)","document": "(val)","mimeType": "(val)","newUpdateTimestamp": "(val)","newUpdateUser": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Committee Schedule Attachments by Key [DELETE /irb/api/v1/committee-schedule-attachments/(key)]
 	 
 + Request

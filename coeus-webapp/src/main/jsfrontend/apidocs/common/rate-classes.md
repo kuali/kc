@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Rate Classes.md"
             transfer-encoding:chunked
-
-
 ### Update Rate Classes [PUT /research-common/api/v1/rate-classes/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Rate Classes [POST /research-common/api/v1/rate-classes/]
 
 + Request
@@ -186,7 +183,6 @@
               {"code": "(val)","description": "(val)","rateClassTypeCode": "(val)","_primaryKey": "(val)"},
               {"code": "(val)","description": "(val)","rateClassTypeCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Rate Classes by Key [DELETE /research-common/api/v1/rate-classes/(key)]
 	 
 + Request

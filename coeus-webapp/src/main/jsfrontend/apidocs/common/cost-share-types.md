@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Cost Share Types.md"
             transfer-encoding:chunked
-
-
 ### Update Cost Share Types [PUT /research-common/api/v1/cost-share-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Cost Share Types [POST /research-common/api/v1/cost-share-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"costShareTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"costShareTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Cost Share Types by Key [DELETE /research-common/api/v1/cost-share-types/(key)]
 	 
 + Request

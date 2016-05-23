@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Entity Residencies.md"
             transfer-encoding:chunked
-
-
 ### Update Entity Residencies [PUT /research-sys/api/v1/entity-residencies/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Entity Residencies [POST /research-sys/api/v1/entity-residencies/]
 
 + Request
@@ -187,7 +184,6 @@
               {"id": "(val)","entityId": "(val)","determinationMethod": "(val)","inState": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","entityId": "(val)","determinationMethod": "(val)","inState": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Entity Residencies by Key [DELETE /research-sys/api/v1/entity-residencies/(key)]
 	 
 + Request

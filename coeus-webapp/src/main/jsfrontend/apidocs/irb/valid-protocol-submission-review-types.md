@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Valid Protocol Submission Review Types.md"
             transfer-encoding:chunked
-
-
 ### Update Valid Protocol Submission Review Types [PUT /irb/api/v1/valid-protocol-submission-review-types/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Valid Protocol Submission Review Types [POST /irb/api/v1/valid-protocol-submission-review-types/]
 
 + Request
@@ -186,7 +183,6 @@
               {"validProtoSubRevTypeId": "(val)","submissionTypeCode": "(val)","protocolReviewTypeCode": "(val)","_primaryKey": "(val)"},
               {"validProtoSubRevTypeId": "(val)","submissionTypeCode": "(val)","protocolReviewTypeCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Valid Protocol Submission Review Types by Key [DELETE /irb/api/v1/valid-protocol-submission-review-types/(key)]
 	 
 + Request

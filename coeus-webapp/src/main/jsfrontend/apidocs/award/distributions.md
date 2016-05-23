@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Distributions.md"
             transfer-encoding:chunked
-
-
 ### Update Distributions [PUT /award/api/v1/distributions/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Distributions [POST /award/api/v1/distributions/]
 
 + Request
@@ -186,7 +183,6 @@
               {"ospDistributionCode": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"ospDistributionCode": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Distributions by Key [DELETE /award/api/v1/distributions/(key)]
 	 
 + Request

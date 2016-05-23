@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Proposal Comments.md"
             transfer-encoding:chunked
-
-
 ### Update Proposal Comments [PUT /instprop/api/v1/proposal-comments/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Proposal Comments [POST /instprop/api/v1/proposal-comments/]
 
 + Request
@@ -189,7 +186,6 @@
               {"proposalCommentsId": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","commentTypeCode": "(val)","comments": "(val)","_primaryKey": "(val)"},
               {"proposalCommentsId": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","commentTypeCode": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Proposal Comments by Key [DELETE /instprop/api/v1/proposal-comments/(key)]
 	 
 + Request

@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Protocol Organization Types.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Protocol Organization Types [PUT /iacuc/api/v1/iacuc-protocol-organization-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Protocol Organization Types [POST /iacuc/api/v1/iacuc-protocol-organization-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"protocolOrganizationTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"protocolOrganizationTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Protocol Organization Types by Key [DELETE /iacuc/api/v1/iacuc-protocol-organization-types/(key)]
 	 
 + Request

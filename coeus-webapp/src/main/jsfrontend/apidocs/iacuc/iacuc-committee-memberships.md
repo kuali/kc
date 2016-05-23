@@ -118,8 +118,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Committee Memberships.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Committee Memberships [PUT /iacuc/api/v1/iacuc-committee-memberships/(key)]
 
 + Request
@@ -152,7 +150,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Committee Memberships [POST /iacuc/api/v1/iacuc-committee-memberships/]
 
 + Request
@@ -196,7 +193,6 @@
               {"committeeMembershipId": "(val)","committeeIdFk": "(val)","personId": "(val)","rolodexId": "(val)","personName": "(val)","membershipId": "(val)","paidMember": "(val)","termStartDate": "(val)","termEndDate": "(val)","membershipTypeCode": "(val)","comments": "(val)","contactNotes": "(val)","trainingNotes": "(val)","_primaryKey": "(val)"},
               {"committeeMembershipId": "(val)","committeeIdFk": "(val)","personId": "(val)","rolodexId": "(val)","personName": "(val)","membershipId": "(val)","paidMember": "(val)","termStartDate": "(val)","termEndDate": "(val)","membershipTypeCode": "(val)","comments": "(val)","contactNotes": "(val)","trainingNotes": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Committee Memberships by Key [DELETE /iacuc/api/v1/iacuc-committee-memberships/(key)]
 	 
 + Request

@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Fanda Rate Types.md"
             transfer-encoding:chunked
-
-
 ### Update Fanda Rate Types [PUT /award/api/v1/fanda-rate-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Fanda Rate Types [POST /award/api/v1/fanda-rate-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"fandaRateTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"fandaRateTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Fanda Rate Types by Key [DELETE /award/api/v1/fanda-rate-types/(key)]
 	 
 + Request

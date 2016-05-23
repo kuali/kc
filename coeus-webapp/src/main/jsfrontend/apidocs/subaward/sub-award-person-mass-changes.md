@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Sub Award Person Mass Changes.md"
             transfer-encoding:chunked
-
-
 ### Update Sub Award Person Mass Changes [PUT /subaward/api/v1/sub-award-person-mass-changes/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Sub Award Person Mass Changes [POST /subaward/api/v1/sub-award-person-mass-changes/]
 
 + Request
@@ -187,7 +184,6 @@
               {"subawardPersonMassChangeId": "(val)","personMassChangeId": "(val)","requisitioner": "(val)","contact": "(val)","_primaryKey": "(val)"},
               {"subawardPersonMassChangeId": "(val)","personMassChangeId": "(val)","requisitioner": "(val)","contact": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Sub Award Person Mass Changes by Key [DELETE /subaward/api/v1/sub-award-person-mass-changes/(key)]
 	 
 + Request

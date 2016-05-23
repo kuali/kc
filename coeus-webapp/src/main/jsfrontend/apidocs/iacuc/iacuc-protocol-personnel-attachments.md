@@ -114,8 +114,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Protocol Personnel Attachments.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Protocol Personnel Attachments [PUT /iacuc/api/v1/iacuc-protocol-personnel-attachments/(key)]
 
 + Request
@@ -148,7 +146,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Protocol Personnel Attachments [POST /iacuc/api/v1/iacuc-protocol-personnel-attachments/]
 
 + Request
@@ -192,7 +189,6 @@
               {"id": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","typeCode": "(val)","documentId": "(val)","fileId": "(val)","description": "(val)","personId": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","typeCode": "(val)","documentId": "(val)","fileId": "(val)","description": "(val)","personId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Protocol Personnel Attachments by Key [DELETE /iacuc/api/v1/iacuc-protocol-personnel-attachments/(key)]
 	 
 + Request

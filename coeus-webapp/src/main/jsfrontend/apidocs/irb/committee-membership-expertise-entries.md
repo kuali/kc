@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Committee Membership Expertise Entries.md"
             transfer-encoding:chunked
-
-
 ### Update Committee Membership Expertise Entries [PUT /irb/api/v1/committee-membership-expertise-entries/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Committee Membership Expertise Entries [POST /irb/api/v1/committee-membership-expertise-entries/]
 
 + Request
@@ -186,7 +183,6 @@
               {"committeeMembershipExpertiseId": "(val)","committeeMembershipIdFk": "(val)","researchAreaCode": "(val)","_primaryKey": "(val)"},
               {"committeeMembershipExpertiseId": "(val)","committeeMembershipIdFk": "(val)","researchAreaCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Committee Membership Expertise Entries by Key [DELETE /irb/api/v1/committee-membership-expertise-entries/(key)]
 	 
 + Request

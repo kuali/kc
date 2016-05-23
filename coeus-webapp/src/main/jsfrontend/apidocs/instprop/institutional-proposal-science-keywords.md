@@ -16,7 +16,7 @@
 
     + Body
     
-            {"proposalScienceKeywordId": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","scienceKeywordCode": "(val)","_primaryKey": "(val)"}
+            {"proposalScienceKeywordId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","scienceKeywordCode": "(val)","institutionalProposal.proposalId": "(val)","_primaryKey": "(val)"}
 
 ### Get All Institutional Proposal Science Keywords [GET /instprop/api/v1/institutional-proposal-science-keywords/]
 	 
@@ -35,8 +35,8 @@
     + Body
     
             [
-              {"proposalScienceKeywordId": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","scienceKeywordCode": "(val)","_primaryKey": "(val)"},
-              {"proposalScienceKeywordId": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","scienceKeywordCode": "(val)","_primaryKey": "(val)"}
+              {"proposalScienceKeywordId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","scienceKeywordCode": "(val)","institutionalProposal.proposalId": "(val)","_primaryKey": "(val)"},
+              {"proposalScienceKeywordId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","scienceKeywordCode": "(val)","institutionalProposal.proposalId": "(val)","_primaryKey": "(val)"}
             ]
 
 ### Get All Institutional Proposal Science Keywords with Filtering [GET /instprop/api/v1/institutional-proposal-science-keywords/]
@@ -44,10 +44,10 @@
 + Parameters
 
     + proposalScienceKeywordId (optional) - Proposal Science Code Id. Maximum length is 22.
-    + proposalId (optional) - 
     + proposalNumber (optional) - Proposal Number. Maximum length is 8.
     + sequenceNumber (optional) - Sequence Number. Maximum length is 22.
     + scienceKeywordCode (optional) - Science Code. Maximum length is 15.
+    + institutionalProposal.proposalId (optional) - 
 
             
 + Request
@@ -65,8 +65,8 @@
     + Body
     
             [
-              {"proposalScienceKeywordId": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","scienceKeywordCode": "(val)","_primaryKey": "(val)"},
-              {"proposalScienceKeywordId": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","scienceKeywordCode": "(val)","_primaryKey": "(val)"}
+              {"proposalScienceKeywordId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","scienceKeywordCode": "(val)","institutionalProposal.proposalId": "(val)","_primaryKey": "(val)"},
+              {"proposalScienceKeywordId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","scienceKeywordCode": "(val)","institutionalProposal.proposalId": "(val)","_primaryKey": "(val)"}
             ]
 			
 ### Get Schema for Institutional Proposal Science Keywords [GET /instprop/api/v1/institutional-proposal-science-keywords/]
@@ -89,7 +89,7 @@
 
     + Body
     
-            {"columns":["proposalScienceKeywordId","proposalId","proposalNumber","sequenceNumber","scienceKeywordCode"],"primaryKey":"proposalScienceKeywordId"}
+            {"columns":["proposalScienceKeywordId","proposalNumber","sequenceNumber","scienceKeywordCode","institutionalProposal.proposalId"],"primaryKey":"proposalScienceKeywordId"}
 		
 ### Get Blueprint API specification for Institutional Proposal Science Keywords [GET /instprop/api/v1/institutional-proposal-science-keywords/]
 	 
@@ -110,128 +110,3 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Institutional Proposal Science Keywords.md"
             transfer-encoding:chunked
-
-
-### Update Institutional Proposal Science Keywords [PUT /instprop/api/v1/institutional-proposal-science-keywords/(key)]
-
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}   
-            Content-Type: application/json
-
-    + Body
-    
-            {"proposalScienceKeywordId": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","scienceKeywordCode": "(val)","_primaryKey": "(val)"}
-			
-+ Response 204
-
-### Update Multiple Institutional Proposal Science Keywords [PUT /instprop/api/v1/institutional-proposal-science-keywords/]
-
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}   
-            Content-Type: application/json
-
-    + Body
-    
-            [
-              {"proposalScienceKeywordId": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","scienceKeywordCode": "(val)","_primaryKey": "(val)"},
-              {"proposalScienceKeywordId": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","scienceKeywordCode": "(val)","_primaryKey": "(val)"}
-            ]
-			
-+ Response 204
-
-### Insert Institutional Proposal Science Keywords [POST /instprop/api/v1/institutional-proposal-science-keywords/]
-
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}   
-            Content-Type: application/json
-
-    + Body
-    
-            {"proposalScienceKeywordId": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","scienceKeywordCode": "(val)","_primaryKey": "(val)"}
-			
-+ Response 201
-    
-    + Body
-            
-            {"proposalScienceKeywordId": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","scienceKeywordCode": "(val)","_primaryKey": "(val)"}
-            
-### Insert Multiple Institutional Proposal Science Keywords [POST /instprop/api/v1/institutional-proposal-science-keywords/]
-
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}   
-            Content-Type: application/json
-
-    + Body
-    
-            [
-              {"proposalScienceKeywordId": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","scienceKeywordCode": "(val)","_primaryKey": "(val)"},
-              {"proposalScienceKeywordId": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","scienceKeywordCode": "(val)","_primaryKey": "(val)"}
-            ]
-			
-+ Response 201
-    
-    + Body
-            
-            [
-              {"proposalScienceKeywordId": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","scienceKeywordCode": "(val)","_primaryKey": "(val)"},
-              {"proposalScienceKeywordId": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","scienceKeywordCode": "(val)","_primaryKey": "(val)"}
-            ]
-            
-### Delete Institutional Proposal Science Keywords by Key [DELETE /instprop/api/v1/institutional-proposal-science-keywords/(key)]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-
-+ Response 204
-
-### Delete All Institutional Proposal Science Keywords [DELETE /instprop/api/v1/institutional-proposal-science-keywords/]
-
-+ Parameters
-
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-
-+ Response 204
-
-### Delete All Institutional Proposal Science Keywords with Matching [DELETE /instprop/api/v1/institutional-proposal-science-keywords/]
-
-+ Parameters
-
-    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-    + proposalScienceKeywordId (optional) - Proposal Science Code Id. Maximum length is 22.
-    + proposalId (optional) - 
-    + proposalNumber (optional) - Proposal Number. Maximum length is 8.
-    + sequenceNumber (optional) - Sequence Number. Maximum length is 22.
-    + scienceKeywordCode (optional) - Science Code. Maximum length is 15.
-
-      
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-
-+ Response 204

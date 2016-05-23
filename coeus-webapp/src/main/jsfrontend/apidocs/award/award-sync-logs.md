@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Award Sync Logs.md"
             transfer-encoding:chunked
-
-
 ### Update Award Sync Logs [PUT /award/api/v1/award-sync-logs/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Award Sync Logs [POST /award/api/v1/award-sync-logs/]
 
 + Request
@@ -189,7 +186,6 @@
               {"awardSyncLogId": "(val)","awardSyncStatusId": "(val)","awardSyncChangeId": "(val)","success": "(val)","logTypeCode": "(val)","status": "(val)","_primaryKey": "(val)"},
               {"awardSyncLogId": "(val)","awardSyncStatusId": "(val)","awardSyncChangeId": "(val)","success": "(val)","logTypeCode": "(val)","status": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Award Sync Logs by Key [DELETE /award/api/v1/award-sync-logs/(key)]
 	 
 + Request

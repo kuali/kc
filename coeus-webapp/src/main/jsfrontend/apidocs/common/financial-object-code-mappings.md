@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Financial Object Code Mappings.md"
             transfer-encoding:chunked
-
-
 ### Update Financial Object Code Mappings [PUT /research-common/api/v1/financial-object-code-mappings/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Financial Object Code Mappings [POST /research-common/api/v1/financial-object-code-mappings/]
 
 + Request
@@ -189,7 +186,6 @@
               {"mappingId": "(val)","activityTypeCode": "(val)","financialObjectCode": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","unitNumber": "(val)","_primaryKey": "(val)"},
               {"mappingId": "(val)","activityTypeCode": "(val)","financialObjectCode": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","unitNumber": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Financial Object Code Mappings by Key [DELETE /research-common/api/v1/financial-object-code-mappings/(key)]
 	 
 + Request

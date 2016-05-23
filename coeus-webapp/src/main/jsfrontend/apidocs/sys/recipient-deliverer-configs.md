@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Recipient Deliverer Configs.md"
             transfer-encoding:chunked
-
-
 ### Update Recipient Deliverer Configs [PUT /research-sys/api/v1/recipient-deliverer-configs/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Recipient Deliverer Configs [POST /research-sys/api/v1/recipient-deliverer-configs/]
 
 + Request
@@ -188,7 +185,6 @@
               {"id": "(val)","recipientId": "(val)","delivererName": "(val)","channel": "(val)","lockVerNbr": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","recipientId": "(val)","delivererName": "(val)","channel": "(val)","lockVerNbr": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Recipient Deliverer Configs by Key [DELETE /research-sys/api/v1/recipient-deliverer-configs/(key)]
 	 
 + Request

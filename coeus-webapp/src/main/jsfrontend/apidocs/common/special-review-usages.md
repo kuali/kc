@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Special Review Usages.md"
             transfer-encoding:chunked
-
-
 ### Update Special Review Usages [PUT /research-common/api/v1/special-review-usages/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Special Review Usages [POST /research-common/api/v1/special-review-usages/]
 
 + Request
@@ -188,7 +185,6 @@
               {"specialReviewUsageId": "(val)","specialReviewTypeCode": "(val)","moduleCode": "(val)","global": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"specialReviewUsageId": "(val)","specialReviewTypeCode": "(val)","moduleCode": "(val)","global": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Special Review Usages by Key [DELETE /research-common/api/v1/special-review-usages/(key)]
 	 
 + Request

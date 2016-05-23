@@ -114,8 +114,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Committee Schedule Attendances.md"
             transfer-encoding:chunked
-
-
 ### Update Committee Schedule Attendances [PUT /irb/api/v1/committee-schedule-attendances/(key)]
 
 + Request
@@ -148,7 +146,6 @@
             ]
 			
 + Response 204
-
 ### Insert Committee Schedule Attendances [POST /irb/api/v1/committee-schedule-attendances/]
 
 + Request
@@ -192,7 +189,6 @@
               {"commScheduleAttendanceId": "(val)","scheduleIdFk": "(val)","personId": "(val)","personName": "(val)","guestFlag": "(val)","alternateFlag": "(val)","alternateFor": "(val)","nonEmployeeFlag": "(val)","comments": "(val)","_primaryKey": "(val)"},
               {"commScheduleAttendanceId": "(val)","scheduleIdFk": "(val)","personId": "(val)","personName": "(val)","guestFlag": "(val)","alternateFlag": "(val)","alternateFor": "(val)","nonEmployeeFlag": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Committee Schedule Attendances by Key [DELETE /irb/api/v1/committee-schedule-attendances/(key)]
 	 
 + Request

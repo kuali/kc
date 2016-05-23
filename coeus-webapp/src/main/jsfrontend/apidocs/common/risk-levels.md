@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Risk Levels.md"
             transfer-encoding:chunked
-
-
 ### Update Risk Levels [PUT /research-common/api/v1/risk-levels/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Risk Levels [POST /research-common/api/v1/risk-levels/]
 
 + Request
@@ -185,7 +182,6 @@
               {"riskLevelCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"riskLevelCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Risk Levels by Key [DELETE /research-common/api/v1/risk-levels/(key)]
 	 
 + Request

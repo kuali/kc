@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Award Budget Statuses.md"
             transfer-encoding:chunked
-
-
 ### Update Award Budget Statuses [PUT /award/api/v1/award-budget-statuses/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Award Budget Statuses [POST /award/api/v1/award-budget-statuses/]
 
 + Request
@@ -185,7 +182,6 @@
               {"awardBudgetStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"awardBudgetStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Award Budget Statuses by Key [DELETE /award/api/v1/award-budget-statuses/(key)]
 	 
 + Request

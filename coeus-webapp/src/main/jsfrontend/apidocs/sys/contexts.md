@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Contexts.md"
             transfer-encoding:chunked
-
-
 ### Update Contexts [PUT /research-sys/api/v1/contexts/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Contexts [POST /research-sys/api/v1/contexts/]
 
 + Request
@@ -189,7 +186,6 @@
               {"id": "(val)","name": "(val)","namespace": "(val)","typeId": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","name": "(val)","namespace": "(val)","typeId": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Contexts by Key [DELETE /research-sys/api/v1/contexts/(key)]
 	 
 + Request

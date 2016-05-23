@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Sub Award Template Types.md"
             transfer-encoding:chunked
-
-
 ### Update Sub Award Template Types [PUT /subaward/api/v1/sub-award-template-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Sub Award Template Types [POST /subaward/api/v1/sub-award-template-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"templateTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"templateTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Sub Award Template Types by Key [DELETE /subaward/api/v1/sub-award-template-types/(key)]
 	 
 + Request

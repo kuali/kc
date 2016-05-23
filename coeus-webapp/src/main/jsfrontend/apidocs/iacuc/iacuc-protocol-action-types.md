@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Protocol Action Types.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Protocol Action Types [PUT /iacuc/api/v1/iacuc-protocol-action-types/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Protocol Action Types [POST /iacuc/api/v1/iacuc-protocol-action-types/]
 
 + Request
@@ -188,7 +185,6 @@
               {"protocolActionTypeCode": "(val)","description": "(val)","triggerSubmission": "(val)","triggerCorrespondence": "(val)","finalActionForBatchCorrespondence": "(val)","_primaryKey": "(val)"},
               {"protocolActionTypeCode": "(val)","description": "(val)","triggerSubmission": "(val)","triggerCorrespondence": "(val)","finalActionForBatchCorrespondence": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Protocol Action Types by Key [DELETE /iacuc/api/v1/iacuc-protocol-action-types/(key)]
 	 
 + Request

@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Protocol Person Mass Changes.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Protocol Person Mass Changes [PUT /iacuc/api/v1/iacuc-protocol-person-mass-changes/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Protocol Person Mass Changes [POST /iacuc/api/v1/iacuc-protocol-person-mass-changes/]
 
 + Request
@@ -188,7 +185,6 @@
               {"iacucProtocolPersonMassChangeId": "(val)","personMassChangeId": "(val)","investigator": "(val)","keyStudyPerson": "(val)","correspondents": "(val)","_primaryKey": "(val)"},
               {"iacucProtocolPersonMassChangeId": "(val)","personMassChangeId": "(val)","investigator": "(val)","keyStudyPerson": "(val)","correspondents": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Protocol Person Mass Changes by Key [DELETE /iacuc/api/v1/iacuc-protocol-person-mass-changes/(key)]
 	 
 + Request

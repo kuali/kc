@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Funding Source Types.md"
             transfer-encoding:chunked
-
-
 ### Update Funding Source Types [PUT /research-common/api/v1/funding-source-types/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Funding Source Types [POST /research-common/api/v1/funding-source-types/]
 
 + Request
@@ -186,7 +183,6 @@
               {"fundingSourceTypeCode": "(val)","description": "(val)","fundingSourceTypeFlag": "(val)","_primaryKey": "(val)"},
               {"fundingSourceTypeCode": "(val)","description": "(val)","fundingSourceTypeFlag": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Funding Source Types by Key [DELETE /research-common/api/v1/funding-source-types/(key)]
 	 
 + Request

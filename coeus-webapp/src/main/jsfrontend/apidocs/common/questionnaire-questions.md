@@ -115,8 +115,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Questionnaire Questions.md"
             transfer-encoding:chunked
-
-
 ### Update Questionnaire Questions [PUT /research-common/api/v1/questionnaire-questions/(key)]
 
 + Request
@@ -149,7 +147,6 @@
             ]
 			
 + Response 204
-
 ### Insert Questionnaire Questions [POST /research-common/api/v1/questionnaire-questions/]
 
 + Request
@@ -193,7 +190,6 @@
               {"id": "(val)","questionnaireId": "(val)","questionId": "(val)","questionNumber": "(val)","parentQuestionNumber": "(val)","conditionFlag": "(val)","condition": "(val)","conditionValue": "(val)","questionSeqNumber": "(val)","ruleId": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","questionnaireId": "(val)","questionId": "(val)","questionNumber": "(val)","parentQuestionNumber": "(val)","conditionFlag": "(val)","condition": "(val)","conditionValue": "(val)","questionSeqNumber": "(val)","ruleId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Questionnaire Questions by Key [DELETE /research-common/api/v1/questionnaire-questions/(key)]
 	 
 + Request

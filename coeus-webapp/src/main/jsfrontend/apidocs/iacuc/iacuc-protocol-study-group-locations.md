@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Protocol Study Group Locations.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Protocol Study Group Locations [PUT /iacuc/api/v1/iacuc-protocol-study-group-locations/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Protocol Study Group Locations [POST /iacuc/api/v1/iacuc-protocol-study-group-locations/]
 
 + Request
@@ -190,7 +187,6 @@
               {"iacucProtocolStudyGroupLocationId": "(val)","iacucProtocolStudyGroupId": "(val)","locationTypeCode": "(val)","studyGroupLocationId": "(val)","locationId": "(val)","locationRoom": "(val)","studyGroupLocationDescription": "(val)","_primaryKey": "(val)"},
               {"iacucProtocolStudyGroupLocationId": "(val)","iacucProtocolStudyGroupId": "(val)","locationTypeCode": "(val)","studyGroupLocationId": "(val)","locationId": "(val)","locationRoom": "(val)","studyGroupLocationDescription": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Protocol Study Group Locations by Key [DELETE /iacuc/api/v1/iacuc-protocol-study-group-locations/(key)]
 	 
 + Request

@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Organization Correspondents.md"
             transfer-encoding:chunked
-
-
 ### Update Organization Correspondents [PUT /research-common/api/v1/organization-correspondents/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Organization Correspondents [POST /research-common/api/v1/organization-correspondents/]
 
 + Request
@@ -189,7 +186,6 @@
               {"correspondentId": "(val)","organizationId": "(val)","correspondentTypeCode": "(val)","personId": "(val)","nonEmployeeFlag": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"correspondentId": "(val)","organizationId": "(val)","correspondentTypeCode": "(val)","personId": "(val)","nonEmployeeFlag": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Organization Correspondents by Key [DELETE /research-common/api/v1/organization-correspondents/(key)]
 	 
 + Request

@@ -116,8 +116,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Protocol Submission Docs.md"
             transfer-encoding:chunked
-
-
 ### Update Protocol Submission Docs [PUT /irb/api/v1/protocol-submission-docs/(key)]
 
 + Request
@@ -150,7 +148,6 @@
             ]
 			
 + Response 204
-
 ### Insert Protocol Submission Docs [POST /irb/api/v1/protocol-submission-docs/]
 
 + Request
@@ -194,7 +191,6 @@
               {"submissionDocId": "(val)","protocolId": "(val)","submissionIdFk": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","submissionNumber": "(val)","documentId": "(val)","fileName": "(val)","contentType": "(val)","description": "(val)","document": "(val)","_primaryKey": "(val)"},
               {"submissionDocId": "(val)","protocolId": "(val)","submissionIdFk": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","submissionNumber": "(val)","documentId": "(val)","fileName": "(val)","contentType": "(val)","description": "(val)","document": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Protocol Submission Docs by Key [DELETE /irb/api/v1/protocol-submission-docs/(key)]
 	 
 + Request

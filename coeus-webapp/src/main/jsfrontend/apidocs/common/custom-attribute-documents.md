@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Custom Attribute Documents.md"
             transfer-encoding:chunked
-
-
 ### Update Custom Attribute Documents [PUT /research-common/api/v1/custom-attribute-documents/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Custom Attribute Documents [POST /research-common/api/v1/custom-attribute-documents/]
 
 + Request
@@ -188,7 +185,6 @@
               {"id": "(val)","documentTypeName": "(val)","required": "(val)","typeName": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","documentTypeName": "(val)","required": "(val)","typeName": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Custom Attribute Documents by Key [DELETE /research-common/api/v1/custom-attribute-documents/(key)]
 	 
 + Request

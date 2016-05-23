@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Ynq Explanations.md"
             transfer-encoding:chunked
-
-
 ### Update Ynq Explanations [PUT /research-common/api/v1/ynq-explanations/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Ynq Explanations [POST /research-common/api/v1/ynq-explanations/]
 
 + Request
@@ -186,7 +183,6 @@
               {"explanationType": "(val)","questionId": "(val)","explanation": "(val)","_primaryKey": "(val)"},
               {"explanationType": "(val)","questionId": "(val)","explanation": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Ynq Explanations by Key [DELETE /research-common/api/v1/ynq-explanations/(key)]
 	 
 + Request

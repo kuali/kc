@@ -114,8 +114,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Intellectual Property Reviews.md"
             transfer-encoding:chunked
-
-
 ### Update Intellectual Property Reviews [PUT /instprop/api/v1/intellectual-property-reviews/(key)]
 
 + Request
@@ -148,7 +146,6 @@
             ]
 			
 + Response 204
-
 ### Insert Intellectual Property Reviews [POST /instprop/api/v1/intellectual-property-reviews/]
 
 + Request
@@ -192,7 +189,6 @@
               {"ipReviewer": "(val)","ipReviewRequirementTypeCode": "(val)","ipReviewSequenceStatus": "(val)","reviewSubmissionDate": "(val)","reviewResultCode": "(val)","reviewReceiveDate": "(val)","ipReviewId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","_primaryKey": "(val)"},
               {"ipReviewer": "(val)","ipReviewRequirementTypeCode": "(val)","ipReviewSequenceStatus": "(val)","reviewSubmissionDate": "(val)","reviewResultCode": "(val)","reviewReceiveDate": "(val)","ipReviewId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Intellectual Property Reviews by Key [DELETE /instprop/api/v1/intellectual-property-reviews/(key)]
 	 
 + Request

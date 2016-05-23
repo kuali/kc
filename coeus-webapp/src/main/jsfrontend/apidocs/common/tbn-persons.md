@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Tbn Persons.md"
             transfer-encoding:chunked
-
-
 ### Update Tbn Persons [PUT /research-common/api/v1/tbn-persons/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Tbn Persons [POST /research-common/api/v1/tbn-persons/]
 
 + Request
@@ -186,7 +183,6 @@
               {"tbnId": "(val)","personName": "(val)","jobCode": "(val)","_primaryKey": "(val)"},
               {"tbnId": "(val)","personName": "(val)","jobCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Tbn Persons by Key [DELETE /research-common/api/v1/tbn-persons/(key)]
 	 
 + Request

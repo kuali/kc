@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Proposal Log Person Mass Changes.md"
             transfer-encoding:chunked
-
-
 ### Update Proposal Log Person Mass Changes [PUT /instprop/api/v1/proposal-log-person-mass-changes/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Proposal Log Person Mass Changes [POST /instprop/api/v1/proposal-log-person-mass-changes/]
 
 + Request
@@ -186,7 +183,6 @@
               {"proposalLogPersonMassChangeId": "(val)","personMassChangeId": "(val)","principalInvestigator": "(val)","_primaryKey": "(val)"},
               {"proposalLogPersonMassChangeId": "(val)","personMassChangeId": "(val)","principalInvestigator": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Proposal Log Person Mass Changes by Key [DELETE /instprop/api/v1/proposal-log-person-mass-changes/(key)]
 	 
 + Request

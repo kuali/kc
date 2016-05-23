@@ -122,8 +122,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Award Cgbs.md"
             transfer-encoding:chunked
-
-
 ### Update Award Cgbs [PUT /award/api/v1/award-cgbs/(key)]
 
 + Request
@@ -156,7 +154,6 @@
             ]
 			
 + Response 204
-
 ### Insert Award Cgbs [POST /award/api/v1/award-cgbs/]
 
 + Request
@@ -200,7 +197,6 @@
               {"awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","additionalFormsRequired": "(val)","autoApproveInvoice": "(val)","stopWork": "(val)","minInvoiceAmount": "(val)","invoicingOption": "(val)","dunningCampaignId": "(val)","lastBilledDate": "(val)","previousLastBilledDate": "(val)","finalBill": "(val)","amountToDraw": "(val)","letterOfCreditReviewIndicator": "(val)","invoiceDocumentStatus": "(val)","locCreationType": "(val)","suspendInvoicing": "(val)","_primaryKey": "(val)"},
               {"awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","additionalFormsRequired": "(val)","autoApproveInvoice": "(val)","stopWork": "(val)","minInvoiceAmount": "(val)","invoicingOption": "(val)","dunningCampaignId": "(val)","lastBilledDate": "(val)","previousLastBilledDate": "(val)","finalBill": "(val)","amountToDraw": "(val)","letterOfCreditReviewIndicator": "(val)","invoiceDocumentStatus": "(val)","locCreationType": "(val)","suspendInvoicing": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Award Cgbs by Key [DELETE /award/api/v1/award-cgbs/(key)]
 	 
 + Request

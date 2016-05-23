@@ -187,8 +187,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Proposal Persons.md"
             transfer-encoding:chunked
-
-
 ### Update Proposal Persons [PUT /propdev/api/v1/proposal-persons/(key)]
 
 + Request
@@ -221,7 +219,6 @@
             ]
 			
 + Response 204
-
 ### Insert Proposal Persons [POST /propdev/api/v1/proposal-persons/]
 
 + Request
@@ -265,7 +262,6 @@
               {"conflictOfInterestFlag": "(val)","otherSignificantContributorFlag": "(val)","percentageEffort": "(val)","fedrDebrFlag": "(val)","fedrDelqFlag": "(val)","rolodexId": "(val)","proposalPersonNumber": "(val)","proposalPersonRoleId": "(val)","certifiedBy": "(val)","lastNotification": "(val)","certifiedTime": "(val)","optInUnitStatus": "(val)","optInCertificationStatus": "(val)","projectRole": "(val)","ordinalPosition": "(val)","hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","personId": "(val)","socialSecurityNumber": "(val)","lastName": "(val)","firstName": "(val)","middleName": "(val)","fullName": "(val)","priorName": "(val)","userName": "(val)","emailAddress": "(val)","dateOfBirth": "(val)","age": "(val)","ageByFiscalYear": "(val)","gender": "(val)","race": "(val)","educationLevel": "(val)","degree": "(val)","major": "(val)","handicappedFlag": "(val)","handicapType": "(val)","veteranFlag": "(val)","veteranType": "(val)","visaCode": "(val)","visaType": "(val)","visaRenewalDate": "(val)","hasVisa": "(val)","officeLocation": "(val)","officePhone": "(val)","secondaryOfficeLocation": "(val)","secondaryOfficePhone": "(val)","school": "(val)","yearGraduated": "(val)","directoryDepartment": "(val)","saluation": "(val)","countryOfCitizenship": "(val)","primaryTitle": "(val)","directoryTitle": "(val)","homeUnit": "(val)","facultyFlag": "(val)","graduateStudentStaffFlag": "(val)","researchStaffFlag": "(val)","serviceStaffFlag": "(val)","supportStaffFlag": "(val)","otherAcademicGroupFlag": "(val)","medicalStaffFlag": "(val)","vacationAccrualFlag": "(val)","onSabbaticalFlag": "(val)","idProvided": "(val)","idVerified": "(val)","addressLine1": "(val)","addressLine2": "(val)","addressLine3": "(val)","city": "(val)","county": "(val)","state": "(val)","postalCode": "(val)","countryCode": "(val)","faxNumber": "(val)","pagerNumber": "(val)","mobilePhoneNumber": "(val)","eraCommonsUserName": "(val)","division": "(val)","citizenshipTypeCode": "(val)","academicYearEffort": "(val)","calendarYearEffort": "(val)","summerEffort": "(val)","_primaryKey": "(val)"},
               {"conflictOfInterestFlag": "(val)","otherSignificantContributorFlag": "(val)","percentageEffort": "(val)","fedrDebrFlag": "(val)","fedrDelqFlag": "(val)","rolodexId": "(val)","proposalPersonNumber": "(val)","proposalPersonRoleId": "(val)","certifiedBy": "(val)","lastNotification": "(val)","certifiedTime": "(val)","optInUnitStatus": "(val)","optInCertificationStatus": "(val)","projectRole": "(val)","ordinalPosition": "(val)","hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","personId": "(val)","socialSecurityNumber": "(val)","lastName": "(val)","firstName": "(val)","middleName": "(val)","fullName": "(val)","priorName": "(val)","userName": "(val)","emailAddress": "(val)","dateOfBirth": "(val)","age": "(val)","ageByFiscalYear": "(val)","gender": "(val)","race": "(val)","educationLevel": "(val)","degree": "(val)","major": "(val)","handicappedFlag": "(val)","handicapType": "(val)","veteranFlag": "(val)","veteranType": "(val)","visaCode": "(val)","visaType": "(val)","visaRenewalDate": "(val)","hasVisa": "(val)","officeLocation": "(val)","officePhone": "(val)","secondaryOfficeLocation": "(val)","secondaryOfficePhone": "(val)","school": "(val)","yearGraduated": "(val)","directoryDepartment": "(val)","saluation": "(val)","countryOfCitizenship": "(val)","primaryTitle": "(val)","directoryTitle": "(val)","homeUnit": "(val)","facultyFlag": "(val)","graduateStudentStaffFlag": "(val)","researchStaffFlag": "(val)","serviceStaffFlag": "(val)","supportStaffFlag": "(val)","otherAcademicGroupFlag": "(val)","medicalStaffFlag": "(val)","vacationAccrualFlag": "(val)","onSabbaticalFlag": "(val)","idProvided": "(val)","idVerified": "(val)","addressLine1": "(val)","addressLine2": "(val)","addressLine3": "(val)","city": "(val)","county": "(val)","state": "(val)","postalCode": "(val)","countryCode": "(val)","faxNumber": "(val)","pagerNumber": "(val)","mobilePhoneNumber": "(val)","eraCommonsUserName": "(val)","division": "(val)","citizenshipTypeCode": "(val)","academicYearEffort": "(val)","calendarYearEffort": "(val)","summerEffort": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Proposal Persons by Key [DELETE /propdev/api/v1/proposal-persons/(key)]
 	 
 + Request

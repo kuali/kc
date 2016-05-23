@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Person Document Roles.md"
             transfer-encoding:chunked
-
-
 ### Update Person Document Roles [PUT /research-sys/api/v1/person-document-roles/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert Person Document Roles [POST /research-sys/api/v1/person-document-roles/]
 
 + Request
@@ -190,7 +187,6 @@
               {"roleId": "(val)","kimTypeId": "(val)","roleName": "(val)","namespaceCode": "(val)","edit": "(val)","documentNumber": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"roleId": "(val)","kimTypeId": "(val)","roleName": "(val)","namespaceCode": "(val)","edit": "(val)","documentNumber": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Person Document Roles by Key [DELETE /research-sys/api/v1/person-document-roles/(key)]
 	 
 + Request

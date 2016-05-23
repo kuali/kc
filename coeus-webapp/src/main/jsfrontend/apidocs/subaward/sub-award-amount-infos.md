@@ -122,8 +122,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Sub Award Amount Infos.md"
             transfer-encoding:chunked
-
-
 ### Update Sub Award Amount Infos [PUT /subaward/api/v1/sub-award-amount-infos/(key)]
 
 + Request
@@ -156,7 +154,6 @@
             ]
 			
 + Response 204
-
 ### Insert Sub Award Amount Infos [POST /subaward/api/v1/sub-award-amount-infos/]
 
 + Request
@@ -200,7 +197,6 @@
               {"subAwardAmountInfoId": "(val)","subAwardId": "(val)","sequenceNumber": "(val)","subAwardCode": "(val)","obligatedAmount": "(val)","obligatedChange": "(val)","anticipatedAmount": "(val)","anticipatedChange": "(val)","effectiveDate": "(val)","comments": "(val)","fileName": "(val)","mimeType": "(val)","modificationEffectiveDate": "(val)","modificationID": "(val)","periodofPerformanceStartDate": "(val)","periodofPerformanceEndDate": "(val)","fileDataId": "(val)","_primaryKey": "(val)"},
               {"subAwardAmountInfoId": "(val)","subAwardId": "(val)","sequenceNumber": "(val)","subAwardCode": "(val)","obligatedAmount": "(val)","obligatedChange": "(val)","anticipatedAmount": "(val)","anticipatedChange": "(val)","effectiveDate": "(val)","comments": "(val)","fileName": "(val)","mimeType": "(val)","modificationEffectiveDate": "(val)","modificationID": "(val)","periodofPerformanceStartDate": "(val)","periodofPerformanceEndDate": "(val)","fileDataId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Sub Award Amount Infos by Key [DELETE /subaward/api/v1/sub-award-amount-infos/(key)]
 	 
 + Request

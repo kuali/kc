@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Sub Award Attachment Types.md"
             transfer-encoding:chunked
-
-
 ### Update Sub Award Attachment Types [PUT /subaward/api/v1/sub-award-attachment-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Sub Award Attachment Types [POST /subaward/api/v1/sub-award-attachment-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"subAwardAttachmentTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"subAwardAttachmentTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Sub Award Attachment Types by Key [DELETE /subaward/api/v1/sub-award-attachment-types/(key)]
 	 
 + Request

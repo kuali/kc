@@ -114,8 +114,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Irb Protocol Notifications.md"
             transfer-encoding:chunked
-
-
 ### Update Irb Protocol Notifications [PUT /irb/api/v1/irb-protocol-notifications/(key)]
 
 + Request
@@ -148,7 +146,6 @@
             ]
 			
 + Response 204
-
 ### Insert Irb Protocol Notifications [POST /irb/api/v1/irb-protocol-notifications/]
 
 + Request
@@ -192,7 +189,6 @@
               {"notificationId": "(val)","notificationTypeId": "(val)","documentNumber": "(val)","owningDocumentIdFk": "(val)","recipients": "(val)","subject": "(val)","message": "(val)","createUser": "(val)","createTimestamp": "(val)","_primaryKey": "(val)"},
               {"notificationId": "(val)","notificationTypeId": "(val)","documentNumber": "(val)","owningDocumentIdFk": "(val)","recipients": "(val)","subject": "(val)","message": "(val)","createUser": "(val)","createTimestamp": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Irb Protocol Notifications by Key [DELETE /irb/api/v1/irb-protocol-notifications/(key)]
 	 
 + Request

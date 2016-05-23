@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Unit Formulated Costs.md"
             transfer-encoding:chunked
-
-
 ### Update Unit Formulated Costs [PUT /research-common/api/v1/unit-formulated-costs/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Unit Formulated Costs [POST /research-common/api/v1/unit-formulated-costs/]
 
 + Request
@@ -187,7 +184,6 @@
               {"unitFormulatedCostId": "(val)","formulatedTypeCode": "(val)","unitNumber": "(val)","unitCost": "(val)","_primaryKey": "(val)"},
               {"unitFormulatedCostId": "(val)","formulatedTypeCode": "(val)","unitNumber": "(val)","unitCost": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Unit Formulated Costs by Key [DELETE /research-common/api/v1/unit-formulated-costs/(key)]
 	 
 + Request

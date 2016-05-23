@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Recipient Preferences.md"
             transfer-encoding:chunked
-
-
 ### Update Recipient Preferences [PUT /research-sys/api/v1/recipient-preferences/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Recipient Preferences [POST /research-sys/api/v1/recipient-preferences/]
 
 + Request
@@ -188,7 +185,6 @@
               {"id": "(val)","recipientId": "(val)","property": "(val)","value": "(val)","lockVerNbr": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","recipientId": "(val)","property": "(val)","value": "(val)","lockVerNbr": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Recipient Preferences by Key [DELETE /research-sys/api/v1/recipient-preferences/(key)]
 	 
 + Request

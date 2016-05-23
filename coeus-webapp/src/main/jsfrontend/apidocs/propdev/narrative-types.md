@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Narrative Types.md"
             transfer-encoding:chunked
-
-
 ### Update Narrative Types [PUT /propdev/api/v1/narrative-types/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Narrative Types [POST /propdev/api/v1/narrative-types/]
 
 + Request
@@ -188,7 +185,6 @@
               {"code": "(val)","description": "(val)","systemGenerated": "(val)","allowMultiple": "(val)","narrativeTypeGroup": "(val)","_primaryKey": "(val)"},
               {"code": "(val)","description": "(val)","systemGenerated": "(val)","allowMultiple": "(val)","narrativeTypeGroup": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Narrative Types by Key [DELETE /propdev/api/v1/narrative-types/(key)]
 	 
 + Request

@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Protocol Project Types.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Protocol Project Types [PUT /iacuc/api/v1/iacuc-protocol-project-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Protocol Project Types [POST /iacuc/api/v1/iacuc-protocol-project-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"projectTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"projectTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Protocol Project Types by Key [DELETE /iacuc/api/v1/iacuc-protocol-project-types/(key)]
 	 
 + Request

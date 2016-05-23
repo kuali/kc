@@ -120,8 +120,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Transaction Details.md"
             transfer-encoding:chunked
-
-
 ### Update Transaction Details [PUT /award/api/v1/transaction-details/(key)]
 
 + Request
@@ -154,7 +152,6 @@
             ]
 			
 + Response 204
-
 ### Insert Transaction Details [POST /award/api/v1/transaction-details/]
 
 + Request
@@ -198,7 +195,6 @@
               {"transactionDetailId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","transactionId": "(val)","timeAndMoneyDocumentNumber": "(val)","sourceAwardNumber": "(val)","destinationAwardNumber": "(val)","obligatedAmount": "(val)","obligatedDirectAmount": "(val)","obligatedIndirectAmount": "(val)","anticipatedAmount": "(val)","anticipatedDirectAmount": "(val)","anticipatedIndirectAmount": "(val)","comments": "(val)","transactionDetailType": "(val)","_primaryKey": "(val)"},
               {"transactionDetailId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","transactionId": "(val)","timeAndMoneyDocumentNumber": "(val)","sourceAwardNumber": "(val)","destinationAwardNumber": "(val)","obligatedAmount": "(val)","obligatedDirectAmount": "(val)","obligatedIndirectAmount": "(val)","anticipatedAmount": "(val)","anticipatedDirectAmount": "(val)","anticipatedIndirectAmount": "(val)","comments": "(val)","transactionDetailType": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Transaction Details by Key [DELETE /award/api/v1/transaction-details/(key)]
 	 
 + Request

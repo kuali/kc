@@ -16,7 +16,7 @@
 
     + Body
     
-            {"institutionalProposalContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","_primaryKey": "(val)"}
+            {"institutionalProposalContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","institutionalProposal.proposalId": "(val)","_primaryKey": "(val)"}
 
 ### Get All Institutional Proposal Unit Contacts [GET /instprop/api/v1/institutional-proposal-unit-contacts/]
 	 
@@ -35,8 +35,8 @@
     + Body
     
             [
-              {"institutionalProposalContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","_primaryKey": "(val)"},
-              {"institutionalProposalContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","_primaryKey": "(val)"}
+              {"institutionalProposalContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","institutionalProposal.proposalId": "(val)","_primaryKey": "(val)"},
+              {"institutionalProposalContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","institutionalProposal.proposalId": "(val)","_primaryKey": "(val)"}
             ]
 
 ### Get All Institutional Proposal Unit Contacts with Filtering [GET /instprop/api/v1/institutional-proposal-unit-contacts/]
@@ -48,9 +48,9 @@
     + fullName (optional) - 
     + unitContactType (optional) - 
     + unitAdministratorTypeCode (optional) - Project Role. Maximum length is 3.
-    + proposalId (optional) - 
     + proposalNumber (optional) - 
     + sequenceNumber (optional) - 
+    + institutionalProposal.proposalId (optional) - 
 
             
 + Request
@@ -68,8 +68,8 @@
     + Body
     
             [
-              {"institutionalProposalContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","_primaryKey": "(val)"},
-              {"institutionalProposalContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","_primaryKey": "(val)"}
+              {"institutionalProposalContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","institutionalProposal.proposalId": "(val)","_primaryKey": "(val)"},
+              {"institutionalProposalContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","institutionalProposal.proposalId": "(val)","_primaryKey": "(val)"}
             ]
 			
 ### Get Schema for Institutional Proposal Unit Contacts [GET /instprop/api/v1/institutional-proposal-unit-contacts/]
@@ -92,7 +92,7 @@
 
     + Body
     
-            {"columns":["institutionalProposalContactId","personId","fullName","unitContactType","unitAdministratorTypeCode","proposalId","proposalNumber","sequenceNumber"],"primaryKey":"institutionalProposalContactId"}
+            {"columns":["institutionalProposalContactId","personId","fullName","unitContactType","unitAdministratorTypeCode","proposalNumber","sequenceNumber","institutionalProposal.proposalId"],"primaryKey":"institutionalProposalContactId"}
 		
 ### Get Blueprint API specification for Institutional Proposal Unit Contacts [GET /instprop/api/v1/institutional-proposal-unit-contacts/]
 	 
@@ -113,131 +113,3 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Institutional Proposal Unit Contacts.md"
             transfer-encoding:chunked
-
-
-### Update Institutional Proposal Unit Contacts [PUT /instprop/api/v1/institutional-proposal-unit-contacts/(key)]
-
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}   
-            Content-Type: application/json
-
-    + Body
-    
-            {"institutionalProposalContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","_primaryKey": "(val)"}
-			
-+ Response 204
-
-### Update Multiple Institutional Proposal Unit Contacts [PUT /instprop/api/v1/institutional-proposal-unit-contacts/]
-
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}   
-            Content-Type: application/json
-
-    + Body
-    
-            [
-              {"institutionalProposalContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","_primaryKey": "(val)"},
-              {"institutionalProposalContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","_primaryKey": "(val)"}
-            ]
-			
-+ Response 204
-
-### Insert Institutional Proposal Unit Contacts [POST /instprop/api/v1/institutional-proposal-unit-contacts/]
-
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}   
-            Content-Type: application/json
-
-    + Body
-    
-            {"institutionalProposalContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","_primaryKey": "(val)"}
-			
-+ Response 201
-    
-    + Body
-            
-            {"institutionalProposalContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","_primaryKey": "(val)"}
-            
-### Insert Multiple Institutional Proposal Unit Contacts [POST /instprop/api/v1/institutional-proposal-unit-contacts/]
-
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}   
-            Content-Type: application/json
-
-    + Body
-    
-            [
-              {"institutionalProposalContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","_primaryKey": "(val)"},
-              {"institutionalProposalContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","_primaryKey": "(val)"}
-            ]
-			
-+ Response 201
-    
-    + Body
-            
-            [
-              {"institutionalProposalContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","_primaryKey": "(val)"},
-              {"institutionalProposalContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","_primaryKey": "(val)"}
-            ]
-            
-### Delete Institutional Proposal Unit Contacts by Key [DELETE /instprop/api/v1/institutional-proposal-unit-contacts/(key)]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-
-+ Response 204
-
-### Delete All Institutional Proposal Unit Contacts [DELETE /instprop/api/v1/institutional-proposal-unit-contacts/]
-
-+ Parameters
-
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-
-+ Response 204
-
-### Delete All Institutional Proposal Unit Contacts with Matching [DELETE /instprop/api/v1/institutional-proposal-unit-contacts/]
-
-+ Parameters
-
-    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-    + institutionalProposalContactId (optional) - 
-    + personId (optional) - 
-    + fullName (optional) - 
-    + unitContactType (optional) - 
-    + unitAdministratorTypeCode (optional) - Project Role. Maximum length is 3.
-    + proposalId (optional) - 
-    + proposalNumber (optional) - 
-    + sequenceNumber (optional) - 
-
-      
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-
-+ Response 204

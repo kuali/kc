@@ -115,8 +115,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Protocol Reviewers.md"
             transfer-encoding:chunked
-
-
 ### Update Protocol Reviewers [PUT /irb/api/v1/protocol-reviewers/(key)]
 
 + Request
@@ -149,7 +147,6 @@
             ]
 			
 + Response 204
-
 ### Insert Protocol Reviewers [POST /irb/api/v1/protocol-reviewers/]
 
 + Request
@@ -193,7 +190,6 @@
               {"protocolReviewerId": "(val)","protocolIdFk": "(val)","submissionIdFk": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","rolodexId": "(val)","submissionNumber": "(val)","reviewerTypeCode": "(val)","personId": "(val)","nonEmployeeFlag": "(val)","_primaryKey": "(val)"},
               {"protocolReviewerId": "(val)","protocolIdFk": "(val)","submissionIdFk": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","rolodexId": "(val)","submissionNumber": "(val)","reviewerTypeCode": "(val)","personId": "(val)","nonEmployeeFlag": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Protocol Reviewers by Key [DELETE /irb/api/v1/protocol-reviewers/(key)]
 	 
 + Request

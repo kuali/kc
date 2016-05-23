@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Sub Award Approval Types.md"
             transfer-encoding:chunked
-
-
 ### Update Sub Award Approval Types [PUT /subaward/api/v1/sub-award-approval-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Sub Award Approval Types [POST /subaward/api/v1/sub-award-approval-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"subAwardApprovalTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"subAwardApprovalTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Sub Award Approval Types by Key [DELETE /subaward/api/v1/sub-award-approval-types/(key)]
 	 
 + Request

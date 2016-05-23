@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Sub Award Statuses.md"
             transfer-encoding:chunked
-
-
 ### Update Sub Award Statuses [PUT /subaward/api/v1/sub-award-statuses/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Sub Award Statuses [POST /subaward/api/v1/sub-award-statuses/]
 
 + Request
@@ -185,7 +182,6 @@
               {"subAwardStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"subAwardStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Sub Award Statuses by Key [DELETE /subaward/api/v1/sub-award-statuses/(key)]
 	 
 + Request

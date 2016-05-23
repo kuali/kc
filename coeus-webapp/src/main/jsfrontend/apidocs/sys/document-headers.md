@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Document Headers.md"
             transfer-encoding:chunked
-
-
 ### Update Document Headers [PUT /research-sys/api/v1/document-headers/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Document Headers [POST /research-sys/api/v1/document-headers/]
 
 + Request
@@ -188,7 +185,6 @@
               {"documentNumber": "(val)","documentDescription": "(val)","organizationDocumentNumber": "(val)","documentTemplateNumber": "(val)","explanation": "(val)","_primaryKey": "(val)"},
               {"documentNumber": "(val)","documentDescription": "(val)","organizationDocumentNumber": "(val)","documentTemplateNumber": "(val)","explanation": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Document Headers by Key [DELETE /research-sys/api/v1/document-headers/(key)]
 	 
 + Request

@@ -130,8 +130,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Budget Line Items.md"
             transfer-encoding:chunked
-
-
 ### Update Budget Line Items [PUT /research-common/api/v1/budget-line-items/(key)]
 
 + Request
@@ -164,7 +162,6 @@
             ]
 			
 + Response 204
-
 ### Insert Budget Line Items [POST /research-common/api/v1/budget-line-items/]
 
 + Request
@@ -208,7 +205,6 @@
               {"costSharingAmount": "(val)","budgetLineItemId": "(val)","budgetPeriodId": "(val)","lineItemNumber": "(val)","budgetId": "(val)","budgetPeriod": "(val)","applyInRateFlag": "(val)","basedOnLineItem": "(val)","budgetCategoryCode": "(val)","budgetJustification": "(val)","costElement": "(val)","groupName": "(val)","endDate": "(val)","lineItemCost": "(val)","lineItemDescription": "(val)","lineItemSequence": "(val)","onOffCampusFlag": "(val)","quantity": "(val)","startDate": "(val)","underrecoveryAmount": "(val)","submitCostSharingFlag": "(val)","formulatedCostElementFlag": "(val)","subAwardNumber": "(val)","hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","_primaryKey": "(val)"},
               {"costSharingAmount": "(val)","budgetLineItemId": "(val)","budgetPeriodId": "(val)","lineItemNumber": "(val)","budgetId": "(val)","budgetPeriod": "(val)","applyInRateFlag": "(val)","basedOnLineItem": "(val)","budgetCategoryCode": "(val)","budgetJustification": "(val)","costElement": "(val)","groupName": "(val)","endDate": "(val)","lineItemCost": "(val)","lineItemDescription": "(val)","lineItemSequence": "(val)","onOffCampusFlag": "(val)","quantity": "(val)","startDate": "(val)","underrecoveryAmount": "(val)","submitCostSharingFlag": "(val)","formulatedCostElementFlag": "(val)","subAwardNumber": "(val)","hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Budget Line Items by Key [DELETE /research-common/api/v1/budget-line-items/(key)]
 	 
 + Request

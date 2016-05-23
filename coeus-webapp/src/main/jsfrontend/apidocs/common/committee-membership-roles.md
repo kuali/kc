@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Committee Membership Roles.md"
             transfer-encoding:chunked
-
-
 ### Update Committee Membership Roles [PUT /research-common/api/v1/committee-membership-roles/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Committee Membership Roles [POST /research-common/api/v1/committee-membership-roles/]
 
 + Request
@@ -188,7 +185,6 @@
               {"committeeMembershipRoleId": "(val)","committeeMembershipIdFk": "(val)","membershipRoleCode": "(val)","startDate": "(val)","endDate": "(val)","_primaryKey": "(val)"},
               {"committeeMembershipRoleId": "(val)","committeeMembershipIdFk": "(val)","membershipRoleCode": "(val)","startDate": "(val)","endDate": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Committee Membership Roles by Key [DELETE /research-common/api/v1/committee-membership-roles/(key)]
 	 
 + Request

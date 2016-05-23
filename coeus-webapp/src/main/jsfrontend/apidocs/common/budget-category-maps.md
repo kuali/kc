@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Budget Category Maps.md"
             transfer-encoding:chunked
-
-
 ### Update Budget Category Maps [PUT /research-common/api/v1/budget-category-maps/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Budget Category Maps [POST /research-common/api/v1/budget-category-maps/]
 
 + Request
@@ -187,7 +184,6 @@
               {"mappingName": "(val)","targetCategoryCode": "(val)","categoryType": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"mappingName": "(val)","targetCategoryCode": "(val)","categoryType": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Budget Category Maps by Key [DELETE /research-common/api/v1/budget-category-maps/(key)]
 	 
 + Request

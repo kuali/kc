@@ -115,8 +115,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Protocol Notepads.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Protocol Notepads [PUT /iacuc/api/v1/iacuc-protocol-notepads/(key)]
 
 + Request
@@ -149,7 +147,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Protocol Notepads [POST /iacuc/api/v1/iacuc-protocol-notepads/]
 
 + Request
@@ -193,7 +190,6 @@
               {"id": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","entryNumber": "(val)","comments": "(val)","restrictedView": "(val)","noteTopic": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","entryNumber": "(val)","comments": "(val)","restrictedView": "(val)","noteTopic": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Protocol Notepads by Key [DELETE /iacuc/api/v1/iacuc-protocol-notepads/(key)]
 	 
 + Request

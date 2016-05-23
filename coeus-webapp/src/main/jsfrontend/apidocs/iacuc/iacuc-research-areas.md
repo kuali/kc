@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Research Areas.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Research Areas [PUT /iacuc/api/v1/iacuc-research-areas/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Research Areas [POST /iacuc/api/v1/iacuc-research-areas/]
 
 + Request
@@ -188,7 +185,6 @@
               {"researchAreaCode": "(val)","description": "(val)","hasChildrenFlag": "(val)","parentResearchAreaCode": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"researchAreaCode": "(val)","description": "(val)","hasChildrenFlag": "(val)","parentResearchAreaCode": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Research Areas by Key [DELETE /iacuc/api/v1/iacuc-research-areas/(key)]
 	 
 + Request

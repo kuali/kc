@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Version History Searches.md"
             transfer-encoding:chunked
-
-
 ### Update Version History Searches [PUT /research-common/api/v1/version-history-searches/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert Version History Searches [POST /research-common/api/v1/version-history-searches/]
 
 + Request
@@ -190,7 +187,6 @@
               {"sequenceOwnerVersionNameValue": "(val)","sequenceOwnerSequenceNumber": "(val)","sequenceOwnerClassName": "(val)","sequenceOwnerVersionNameField": "(val)","statusForOjb": "(val)","userId": "(val)","versionDate": "(val)","_primaryKey": "(val)"},
               {"sequenceOwnerVersionNameValue": "(val)","sequenceOwnerSequenceNumber": "(val)","sequenceOwnerClassName": "(val)","sequenceOwnerVersionNameField": "(val)","statusForOjb": "(val)","userId": "(val)","versionDate": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Version History Searches by Key [DELETE /research-common/api/v1/version-history-searches/(key)]
 	 
 + Request

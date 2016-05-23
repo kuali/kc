@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Unit Correspondents.md"
             transfer-encoding:chunked
-
-
 ### Update Unit Correspondents [PUT /research-common/api/v1/unit-correspondents/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Unit Correspondents [POST /research-common/api/v1/unit-correspondents/]
 
 + Request
@@ -189,7 +186,6 @@
               {"correspondentId": "(val)","unitNumber": "(val)","correspondentTypeCode": "(val)","personId": "(val)","nonEmployeeFlag": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"correspondentId": "(val)","unitNumber": "(val)","correspondentTypeCode": "(val)","personId": "(val)","nonEmployeeFlag": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Unit Correspondents by Key [DELETE /research-common/api/v1/unit-correspondents/(key)]
 	 
 + Request

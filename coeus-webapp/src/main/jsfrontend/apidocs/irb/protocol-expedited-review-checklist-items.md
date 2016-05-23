@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Protocol Expedited Review Checklist Items.md"
             transfer-encoding:chunked
-
-
 ### Update Protocol Expedited Review Checklist Items [PUT /irb/api/v1/protocol-expedited-review-checklist-items/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert Protocol Expedited Review Checklist Items [POST /irb/api/v1/protocol-expedited-review-checklist-items/]
 
 + Request
@@ -190,7 +187,6 @@
               {"protocolExpeditedCheckListId": "(val)","protocolId": "(val)","submissionIdFk": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","submissionNumber": "(val)","expeditedReviewCheckListCode": "(val)","_primaryKey": "(val)"},
               {"protocolExpeditedCheckListId": "(val)","protocolId": "(val)","submissionIdFk": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","submissionNumber": "(val)","expeditedReviewCheckListCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Protocol Expedited Review Checklist Items by Key [DELETE /irb/api/v1/protocol-expedited-review-checklist-items/(key)]
 	 
 + Request

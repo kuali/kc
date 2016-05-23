@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Person Document Privacy Entries.md"
             transfer-encoding:chunked
-
-
 ### Update Person Document Privacy Entries [PUT /research-sys/api/v1/person-document-privacy-entries/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert Person Document Privacy Entries [POST /research-sys/api/v1/person-document-privacy-entries/]
 
 + Request
@@ -190,7 +187,6 @@
               {"suppressName": "(val)","suppressEmail": "(val)","suppressAddress": "(val)","suppressPhone": "(val)","suppressPersonal": "(val)","edit": "(val)","documentNumber": "(val)","_primaryKey": "(val)"},
               {"suppressName": "(val)","suppressEmail": "(val)","suppressAddress": "(val)","suppressPhone": "(val)","suppressPersonal": "(val)","edit": "(val)","documentNumber": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Person Document Privacy Entries by Key [DELETE /research-sys/api/v1/person-document-privacy-entries/(key)]
 	 
 + Request

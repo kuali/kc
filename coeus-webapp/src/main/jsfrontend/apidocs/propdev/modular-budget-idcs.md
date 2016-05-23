@@ -113,8 +113,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Modular Budget Idcs.md"
             transfer-encoding:chunked
-
-
 ### Update Modular Budget Idcs [PUT /propdev/api/v1/modular-budget-idcs/(key)]
 
 + Request
@@ -147,7 +145,6 @@
             ]
 			
 + Response 204
-
 ### Insert Modular Budget Idcs [POST /propdev/api/v1/modular-budget-idcs/]
 
 + Request
@@ -191,7 +188,6 @@
               {"budgetPeriodId": "(val)","budgetPeriod": "(val)","rateNumber": "(val)","budgetId": "(val)","description": "(val)","idcRate": "(val)","idcBase": "(val)","fundsRequested": "(val)","_primaryKey": "(val)"},
               {"budgetPeriodId": "(val)","budgetPeriod": "(val)","rateNumber": "(val)","budgetId": "(val)","description": "(val)","idcRate": "(val)","idcBase": "(val)","fundsRequested": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Modular Budget Idcs by Key [DELETE /propdev/api/v1/modular-budget-idcs/(key)]
 	 
 + Request

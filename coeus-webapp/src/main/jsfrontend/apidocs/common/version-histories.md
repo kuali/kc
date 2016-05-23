@@ -113,8 +113,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Version Histories.md"
             transfer-encoding:chunked
-
-
 ### Update Version Histories [PUT /research-common/api/v1/version-histories/(key)]
 
 + Request
@@ -147,7 +145,6 @@
             ]
 			
 + Response 204
-
 ### Insert Version Histories [POST /research-common/api/v1/version-histories/]
 
 + Request
@@ -191,7 +188,6 @@
               {"versionHistoryId": "(val)","sequenceOwnerClassName": "(val)","sequenceOwnerVersionNameField": "(val)","sequenceOwnerVersionNameValue": "(val)","sequenceOwnerSequenceNumber": "(val)","statusForOjb": "(val)","userId": "(val)","versionDate": "(val)","_primaryKey": "(val)"},
               {"versionHistoryId": "(val)","sequenceOwnerClassName": "(val)","sequenceOwnerVersionNameField": "(val)","sequenceOwnerVersionNameValue": "(val)","sequenceOwnerSequenceNumber": "(val)","statusForOjb": "(val)","userId": "(val)","versionDate": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Version Histories by Key [DELETE /research-common/api/v1/version-histories/(key)]
 	 
 + Request

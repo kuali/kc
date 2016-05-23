@@ -117,8 +117,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Proposal Special Reviews.md"
             transfer-encoding:chunked
-
-
 ### Update Proposal Special Reviews [PUT /propdev/api/v1/proposal-special-reviews/(key)]
 
 + Request
@@ -151,7 +149,6 @@
             ]
 			
 + Response 204
-
 ### Insert Proposal Special Reviews [POST /propdev/api/v1/proposal-special-reviews/]
 
 + Request
@@ -195,7 +192,6 @@
               {"id": "(val)","hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","approvalTypeCode": "(val)","approvalDate": "(val)","comments": "(val)","protocolStatus": "(val)","protocolNumber": "(val)","specialReviewTypeCode": "(val)","specialReviewNumber": "(val)","applicationDate": "(val)","expirationDate": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","approvalTypeCode": "(val)","approvalDate": "(val)","comments": "(val)","protocolStatus": "(val)","protocolNumber": "(val)","specialReviewTypeCode": "(val)","specialReviewNumber": "(val)","applicationDate": "(val)","expirationDate": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Proposal Special Reviews by Key [DELETE /propdev/api/v1/proposal-special-reviews/(key)]
 	 
 + Request

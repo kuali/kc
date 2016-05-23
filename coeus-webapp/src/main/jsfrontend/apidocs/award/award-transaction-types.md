@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Award Transaction Types.md"
             transfer-encoding:chunked
-
-
 ### Update Award Transaction Types [PUT /award/api/v1/award-transaction-types/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Award Transaction Types [POST /award/api/v1/award-transaction-types/]
 
 + Request
@@ -186,7 +183,6 @@
               {"awardTransactionTypeCode": "(val)","description": "(val)","showInActionSummary": "(val)","_primaryKey": "(val)"},
               {"awardTransactionTypeCode": "(val)","description": "(val)","showInActionSummary": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Award Transaction Types by Key [DELETE /award/api/v1/award-transaction-types/(key)]
 	 
 + Request

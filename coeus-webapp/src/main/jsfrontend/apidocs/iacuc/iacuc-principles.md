@@ -114,8 +114,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Principles.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Principles [PUT /iacuc/api/v1/iacuc-principles/(key)]
 
 + Request
@@ -148,7 +146,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Principles [POST /iacuc/api/v1/iacuc-principles/]
 
 + Request
@@ -192,7 +189,6 @@
               {"iacucPrinciplesId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","reduction": "(val)","refinement": "(val)","replacement": "(val)","searchRequired": "(val)","exceptionsPresent": "(val)","_primaryKey": "(val)"},
               {"iacucPrinciplesId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","reduction": "(val)","refinement": "(val)","replacement": "(val)","searchRequired": "(val)","exceptionsPresent": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Principles by Key [DELETE /iacuc/api/v1/iacuc-principles/(key)]
 	 
 + Request

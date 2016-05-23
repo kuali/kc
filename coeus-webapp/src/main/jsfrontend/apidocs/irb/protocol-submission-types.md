@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Protocol Submission Types.md"
             transfer-encoding:chunked
-
-
 ### Update Protocol Submission Types [PUT /irb/api/v1/protocol-submission-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Protocol Submission Types [POST /irb/api/v1/protocol-submission-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"submissionTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"submissionTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Protocol Submission Types by Key [DELETE /irb/api/v1/protocol-submission-types/(key)]
 	 
 + Request

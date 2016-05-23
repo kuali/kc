@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Notification Message Deliveries.md"
             transfer-encoding:chunked
-
-
 ### Update Notification Message Deliveries [PUT /research-sys/api/v1/notification-message-deliveries/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Notification Message Deliveries [POST /research-sys/api/v1/notification-message-deliveries/]
 
 + Request
@@ -188,7 +185,6 @@
               {"id": "(val)","messageDeliveryStatus": "(val)","userRecipientId": "(val)","deliverySystemId": "(val)","lockedDateValue": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","messageDeliveryStatus": "(val)","userRecipientId": "(val)","deliverySystemId": "(val)","lockedDateValue": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Notification Message Deliveries by Key [DELETE /research-sys/api/v1/notification-message-deliveries/(key)]
 	 
 + Request

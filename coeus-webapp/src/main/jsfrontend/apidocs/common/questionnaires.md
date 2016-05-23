@@ -114,8 +114,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Questionnaires.md"
             transfer-encoding:chunked
-
-
 ### Update Questionnaires [PUT /research-common/api/v1/questionnaires/(key)]
 
 + Request
@@ -148,7 +146,6 @@
             ]
 			
 + Response 204
-
 ### Insert Questionnaires [POST /research-common/api/v1/questionnaires/]
 
 + Request
@@ -192,7 +189,6 @@
               {"id": "(val)","questionnaireSeqId": "(val)","sequenceNumber": "(val)","name": "(val)","description": "(val)","active": "(val)","documentNumber": "(val)","fileName": "(val)","template": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","questionnaireSeqId": "(val)","sequenceNumber": "(val)","name": "(val)","description": "(val)","active": "(val)","documentNumber": "(val)","fileName": "(val)","template": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Questionnaires by Key [DELETE /research-common/api/v1/questionnaires/(key)]
 	 
 + Request

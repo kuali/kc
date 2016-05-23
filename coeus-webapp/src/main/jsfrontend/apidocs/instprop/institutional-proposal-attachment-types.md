@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Institutional Proposal Attachment Types.md"
             transfer-encoding:chunked
-
-
 ### Update Institutional Proposal Attachment Types [PUT /instprop/api/v1/institutional-proposal-attachment-types/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Institutional Proposal Attachment Types [POST /instprop/api/v1/institutional-proposal-attachment-types/]
 
 + Request
@@ -186,7 +183,6 @@
               {"attachmentTypeCode": "(val)","description": "(val)","allowMultiple": "(val)","_primaryKey": "(val)"},
               {"attachmentTypeCode": "(val)","description": "(val)","allowMultiple": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Institutional Proposal Attachment Types by Key [DELETE /instprop/api/v1/institutional-proposal-attachment-types/(key)]
 	 
 + Request

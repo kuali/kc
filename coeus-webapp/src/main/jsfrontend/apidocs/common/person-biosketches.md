@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Person Biosketches.md"
             transfer-encoding:chunked
-
-
 ### Update Person Biosketches [PUT /research-common/api/v1/person-biosketches/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Person Biosketches [POST /research-common/api/v1/person-biosketches/]
 
 + Request
@@ -189,7 +186,6 @@
               {"personBiosketchId": "(val)","personId": "(val)","description": "(val)","fileName": "(val)","contentType": "(val)","attachmentContent": "(val)","_primaryKey": "(val)"},
               {"personBiosketchId": "(val)","personId": "(val)","description": "(val)","fileName": "(val)","contentType": "(val)","attachmentContent": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Person Biosketches by Key [DELETE /research-common/api/v1/person-biosketches/(key)]
 	 
 + Request

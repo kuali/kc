@@ -113,8 +113,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Frequencies.md"
             transfer-encoding:chunked
-
-
 ### Update Frequencies [PUT /award/api/v1/frequencies/(key)]
 
 + Request
@@ -147,7 +145,6 @@
             ]
 			
 + Response 204
-
 ### Insert Frequencies [POST /award/api/v1/frequencies/]
 
 + Request
@@ -191,7 +188,6 @@
               {"frequencyCode": "(val)","description": "(val)","numberOfDays": "(val)","numberOfMonths": "(val)","repeatFlag": "(val)","advanceNumberOfDays": "(val)","advanceNumberOfMonths": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"frequencyCode": "(val)","description": "(val)","numberOfDays": "(val)","numberOfMonths": "(val)","repeatFlag": "(val)","advanceNumberOfDays": "(val)","advanceNumberOfMonths": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Frequencies by Key [DELETE /award/api/v1/frequencies/(key)]
 	 
 + Request

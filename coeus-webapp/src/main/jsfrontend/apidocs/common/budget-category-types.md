@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Budget Category Types.md"
             transfer-encoding:chunked
-
-
 ### Update Budget Category Types [PUT /research-common/api/v1/budget-category-types/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Budget Category Types [POST /research-common/api/v1/budget-category-types/]
 
 + Request
@@ -186,7 +183,6 @@
               {"code": "(val)","description": "(val)","sortId": "(val)","_primaryKey": "(val)"},
               {"code": "(val)","description": "(val)","sortId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Budget Category Types by Key [DELETE /research-common/api/v1/budget-category-types/(key)]
 	 
 + Request

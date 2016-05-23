@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Sub Award Report Types.md"
             transfer-encoding:chunked
-
-
 ### Update Sub Award Report Types [PUT /subaward/api/v1/sub-award-report-types/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Sub Award Report Types [POST /subaward/api/v1/sub-award-report-types/]
 
 + Request
@@ -186,7 +183,6 @@
               {"subAwardReportTypeCode": "(val)","description": "(val)","sortId": "(val)","_primaryKey": "(val)"},
               {"subAwardReportTypeCode": "(val)","description": "(val)","sortId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Sub Award Report Types by Key [DELETE /subaward/api/v1/sub-award-report-types/(key)]
 	 
 + Request

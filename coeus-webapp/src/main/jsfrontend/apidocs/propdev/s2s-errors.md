@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="S2s Errors.md"
             transfer-encoding:chunked
-
-
 ### Update S2s Errors [PUT /propdev/api/v1/s2s-errors/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert S2s Errors [POST /propdev/api/v1/s2s-errors/]
 
 + Request
@@ -187,7 +184,6 @@
               {"id": "(val)","key": "(val)","message": "(val)","link": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","key": "(val)","message": "(val)","link": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete S2s Errors by Key [DELETE /propdev/api/v1/s2s-errors/(key)]
 	 
 + Request

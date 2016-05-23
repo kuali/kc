@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="S2s User Attached Form Attachments.md"
             transfer-encoding:chunked
-
-
 ### Update S2s User Attached Form Attachments [PUT /propdev/api/v1/s2s-user-attached-form-attachments/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert S2s User Attached Form Attachments [POST /propdev/api/v1/s2s-user-attached-form-attachments/]
 
 + Request
@@ -188,7 +185,6 @@
               {"id": "(val)","proposalNumber": "(val)","type": "(val)","name": "(val)","contentId": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","proposalNumber": "(val)","type": "(val)","name": "(val)","contentId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete S2s User Attached Form Attachments by Key [DELETE /propdev/api/v1/s2s-user-attached-form-attachments/(key)]
 	 
 + Request

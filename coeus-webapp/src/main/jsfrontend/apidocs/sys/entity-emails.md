@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Entity Emails.md"
             transfer-encoding:chunked
-
-
 ### Update Entity Emails [PUT /research-sys/api/v1/entity-emails/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert Entity Emails [POST /research-sys/api/v1/entity-emails/]
 
 + Request
@@ -190,7 +187,6 @@
               {"id": "(val)","emailAddress": "(val)","defaultValue": "(val)","entityTypeCode": "(val)","active": "(val)","entityId": "(val)","emailTypeCode": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","emailAddress": "(val)","defaultValue": "(val)","entityTypeCode": "(val)","active": "(val)","entityId": "(val)","emailTypeCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Entity Emails by Key [DELETE /research-sys/api/v1/entity-emails/(key)]
 	 
 + Request

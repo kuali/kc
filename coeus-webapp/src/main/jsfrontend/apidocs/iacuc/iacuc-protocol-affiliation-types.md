@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Protocol Affiliation Types.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Protocol Affiliation Types [PUT /iacuc/api/v1/iacuc-protocol-affiliation-types/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Protocol Affiliation Types [POST /iacuc/api/v1/iacuc-protocol-affiliation-types/]
 
 + Request
@@ -186,7 +183,6 @@
               {"affiliationTypeCode": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"affiliationTypeCode": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Protocol Affiliation Types by Key [DELETE /iacuc/api/v1/iacuc-protocol-affiliation-types/(key)]
 	 
 + Request

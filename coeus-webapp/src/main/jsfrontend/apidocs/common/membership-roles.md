@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Membership Roles.md"
             transfer-encoding:chunked
-
-
 ### Update Membership Roles [PUT /research-common/api/v1/membership-roles/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Membership Roles [POST /research-common/api/v1/membership-roles/]
 
 + Request
@@ -186,7 +183,6 @@
               {"membershipRoleCode": "(val)","description": "(val)","committeeTypeCode": "(val)","_primaryKey": "(val)"},
               {"membershipRoleCode": "(val)","description": "(val)","committeeTypeCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Membership Roles by Key [DELETE /research-common/api/v1/membership-roles/(key)]
 	 
 + Request

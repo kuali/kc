@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Function Parameters.md"
             transfer-encoding:chunked
-
-
 ### Update Function Parameters [PUT /research-sys/api/v1/function-parameters/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Function Parameters [POST /research-sys/api/v1/function-parameters/]
 
 + Request
@@ -188,7 +185,6 @@
               {"id": "(val)","name": "(val)","description": "(val)","parameterType": "(val)","sequenceNumber": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","name": "(val)","description": "(val)","parameterType": "(val)","sequenceNumber": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Function Parameters by Key [DELETE /research-sys/api/v1/function-parameters/(key)]
 	 
 + Request

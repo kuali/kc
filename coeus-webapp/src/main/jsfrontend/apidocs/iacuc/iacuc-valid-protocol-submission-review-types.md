@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Valid Protocol Submission Review Types.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Valid Protocol Submission Review Types [PUT /iacuc/api/v1/iacuc-valid-protocol-submission-review-types/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Valid Protocol Submission Review Types [POST /iacuc/api/v1/iacuc-valid-protocol-submission-review-types/]
 
 + Request
@@ -186,7 +183,6 @@
               {"validProtoSubRevTypeId": "(val)","submissionTypeCode": "(val)","protocolReviewTypeCode": "(val)","_primaryKey": "(val)"},
               {"validProtoSubRevTypeId": "(val)","submissionTypeCode": "(val)","protocolReviewTypeCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Valid Protocol Submission Review Types by Key [DELETE /iacuc/api/v1/iacuc-valid-protocol-submission-review-types/(key)]
 	 
 + Request

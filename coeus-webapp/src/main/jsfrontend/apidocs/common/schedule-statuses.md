@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Schedule Statuses.md"
             transfer-encoding:chunked
-
-
 ### Update Schedule Statuses [PUT /research-common/api/v1/schedule-statuses/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Schedule Statuses [POST /research-common/api/v1/schedule-statuses/]
 
 + Request
@@ -185,7 +182,6 @@
               {"scheduleStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"scheduleStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Schedule Statuses by Key [DELETE /research-common/api/v1/schedule-statuses/(key)]
 	 
 + Request

@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Entity Affiliations.md"
             transfer-encoding:chunked
-
-
 ### Update Entity Affiliations [PUT /research-sys/api/v1/entity-affiliations/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Entity Affiliations [POST /research-sys/api/v1/entity-affiliations/]
 
 + Request
@@ -189,7 +186,6 @@
               {"id": "(val)","campusCode": "(val)","defaultValue": "(val)","active": "(val)","affiliationTypeCode": "(val)","entityId": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","campusCode": "(val)","defaultValue": "(val)","active": "(val)","affiliationTypeCode": "(val)","entityId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Entity Affiliations by Key [DELETE /research-sys/api/v1/entity-affiliations/(key)]
 	 
 + Request

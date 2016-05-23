@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Formulated Types.md"
             transfer-encoding:chunked
-
-
 ### Update Formulated Types [PUT /research-common/api/v1/formulated-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Formulated Types [POST /research-common/api/v1/formulated-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"formulatedTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"formulatedTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Formulated Types by Key [DELETE /research-common/api/v1/formulated-types/(key)]
 	 
 + Request

@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Valid Ce Rate Types.md"
             transfer-encoding:chunked
-
-
 ### Update Valid Ce Rate Types [PUT /research-common/api/v1/valid-ce-rate-types/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Valid Ce Rate Types [POST /research-common/api/v1/valid-ce-rate-types/]
 
 + Request
@@ -187,7 +184,6 @@
               {"costElement": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"costElement": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Valid Ce Rate Types by Key [DELETE /research-common/api/v1/valid-ce-rate-types/(key)]
 	 
 + Request

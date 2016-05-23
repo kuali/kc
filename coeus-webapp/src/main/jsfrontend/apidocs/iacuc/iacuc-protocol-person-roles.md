@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Protocol Person Roles.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Protocol Person Roles [PUT /iacuc/api/v1/iacuc-protocol-person-roles/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Protocol Person Roles [POST /iacuc/api/v1/iacuc-protocol-person-roles/]
 
 + Request
@@ -190,7 +187,6 @@
               {"protocolPersonRoleId": "(val)","description": "(val)","unitDetailsRequired": "(val)","affiliationDetailsRequired": "(val)","trainingDetailsRequired": "(val)","commentsDetailsRequired": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"protocolPersonRoleId": "(val)","description": "(val)","unitDetailsRequired": "(val)","affiliationDetailsRequired": "(val)","trainingDetailsRequired": "(val)","commentsDetailsRequired": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Protocol Person Roles by Key [DELETE /iacuc/api/v1/iacuc-protocol-person-roles/(key)]
 	 
 + Request

@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Financial Indirect Cost Recovery Type Codes.md"
             transfer-encoding:chunked
-
-
 ### Update Financial Indirect Cost Recovery Type Codes [PUT /award/api/v1/financial-indirect-cost-recovery-type-codes/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Financial Indirect Cost Recovery Type Codes [POST /award/api/v1/financial-indirect-cost-recovery-type-codes/]
 
 + Request
@@ -186,7 +183,6 @@
               {"icrTypeCode": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","_primaryKey": "(val)"},
               {"icrTypeCode": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Financial Indirect Cost Recovery Type Codes by Key [DELETE /award/api/v1/financial-indirect-cost-recovery-type-codes/(key)]
 	 
 + Request

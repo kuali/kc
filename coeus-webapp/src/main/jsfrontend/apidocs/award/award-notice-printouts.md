@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Award Notice Printouts.md"
             transfer-encoding:chunked
-
-
 ### Update Award Notice Printouts [PUT /award/api/v1/award-notice-printouts/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Award Notice Printouts [POST /award/api/v1/award-notice-printouts/]
 
 + Request
@@ -188,7 +185,6 @@
               {"awardNoticeId": "(val)","awardId": "(val)","awardNumber": "(val)","unitNumber": "(val)","pdfContent": "(val)","_primaryKey": "(val)"},
               {"awardNoticeId": "(val)","awardId": "(val)","awardNumber": "(val)","unitNumber": "(val)","pdfContent": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Award Notice Printouts by Key [DELETE /award/api/v1/award-notice-printouts/(key)]
 	 
 + Request

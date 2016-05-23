@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="People Flow Members.md"
             transfer-encoding:chunked
-
-
 ### Update People Flow Members [PUT /research-sys/api/v1/people-flow-members/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert People Flow Members [POST /research-sys/api/v1/people-flow-members/]
 
 + Request
@@ -190,7 +187,6 @@
               {"id": "(val)","memberId": "(val)","memberTypeCode": "(val)","actionRequestPolicyCode": "(val)","responsibilityId": "(val)","priority": "(val)","forceAction": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","memberId": "(val)","memberTypeCode": "(val)","actionRequestPolicyCode": "(val)","responsibilityId": "(val)","priority": "(val)","forceAction": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete People Flow Members by Key [DELETE /research-sys/api/v1/people-flow-members/(key)]
 	 
 + Request

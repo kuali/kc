@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Budget Sub Award Files.md"
             transfer-encoding:chunked
-
-
 ### Update Budget Sub Award Files [PUT /propdev/api/v1/budget-sub-award-files/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Budget Sub Award Files [POST /propdev/api/v1/budget-sub-award-files/]
 
 + Request
@@ -186,7 +183,6 @@
               {"subAwardXfdFileData": "(val)","subAwardXfdFileName": "(val)","subAwardXmlFileData": "(val)","_primaryKey": "(val)"},
               {"subAwardXfdFileData": "(val)","subAwardXfdFileName": "(val)","subAwardXmlFileData": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Budget Sub Award Files by Key [DELETE /propdev/api/v1/budget-sub-award-files/(key)]
 	 
 + Request

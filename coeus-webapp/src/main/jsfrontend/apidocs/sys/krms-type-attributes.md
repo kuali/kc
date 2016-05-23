@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Krms Type Attributes.md"
             transfer-encoding:chunked
-
-
 ### Update Krms Type Attributes [PUT /research-sys/api/v1/krms-type-attributes/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Krms Type Attributes [POST /research-sys/api/v1/krms-type-attributes/]
 
 + Request
@@ -187,7 +184,6 @@
               {"id": "(val)","sequenceNumber": "(val)","active": "(val)","attributeDefinitionId": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","sequenceNumber": "(val)","active": "(val)","attributeDefinitionId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Krms Type Attributes by Key [DELETE /research-sys/api/v1/krms-type-attributes/(key)]
 	 
 + Request

@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Protocol Amend Renew Modules.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Protocol Amend Renew Modules [PUT /iacuc/api/v1/iacuc-protocol-amend-renew-modules/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Protocol Amend Renew Modules [POST /iacuc/api/v1/iacuc-protocol-amend-renew-modules/]
 
 + Request
@@ -188,7 +185,6 @@
               {"protocolAmendRenewModuleId": "(val)","protocolAmendRenewalNumber": "(val)","protocolAmendRenewalId": "(val)","protocolNumber": "(val)","protocolModuleTypeCode": "(val)","_primaryKey": "(val)"},
               {"protocolAmendRenewModuleId": "(val)","protocolAmendRenewalNumber": "(val)","protocolAmendRenewalId": "(val)","protocolNumber": "(val)","protocolModuleTypeCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Protocol Amend Renew Modules by Key [DELETE /iacuc/api/v1/iacuc-protocol-amend-renew-modules/(key)]
 	 
 + Request

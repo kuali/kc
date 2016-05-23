@@ -113,8 +113,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Institute La Rates.md"
             transfer-encoding:chunked
-
-
 ### Update Institute La Rates [PUT /research-common/api/v1/institute-la-rates/(key)]
 
 + Request
@@ -147,7 +145,6 @@
             ]
 			
 + Response 204
-
 ### Insert Institute La Rates [POST /research-common/api/v1/institute-la-rates/]
 
 + Request
@@ -191,7 +188,6 @@
               {"fiscalYear": "(val)","onOffCampusFlag": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","startDate": "(val)","unitNumber": "(val)","instituteRate": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"fiscalYear": "(val)","onOffCampusFlag": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","startDate": "(val)","unitNumber": "(val)","instituteRate": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Institute La Rates by Key [DELETE /research-common/api/v1/institute-la-rates/(key)]
 	 
 + Request

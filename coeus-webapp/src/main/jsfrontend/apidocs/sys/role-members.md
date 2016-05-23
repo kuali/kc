@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Role Members.md"
             transfer-encoding:chunked
-
-
 ### Update Role Members [PUT /research-sys/api/v1/role-members/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Role Members [POST /research-sys/api/v1/role-members/]
 
 + Request
@@ -189,7 +186,6 @@
               {"id": "(val)","roleId": "(val)","activeFromDateValue": "(val)","activeToDateValue": "(val)","memberId": "(val)","typeCode": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","roleId": "(val)","activeFromDateValue": "(val)","activeToDateValue": "(val)","memberId": "(val)","typeCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Role Members by Key [DELETE /research-sys/api/v1/role-members/(key)]
 	 
 + Request

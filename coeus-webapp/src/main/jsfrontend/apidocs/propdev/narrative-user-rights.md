@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Narrative User Rights.md"
             transfer-encoding:chunked
-
-
 ### Update Narrative User Rights [PUT /propdev/api/v1/narrative-user-rights/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Narrative User Rights [POST /propdev/api/v1/narrative-user-rights/]
 
 + Request
@@ -187,7 +184,6 @@
               {"moduleNumber": "(val)","proposalNumber": "(val)","userId": "(val)","accessType": "(val)","_primaryKey": "(val)"},
               {"moduleNumber": "(val)","proposalNumber": "(val)","userId": "(val)","accessType": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Narrative User Rights by Key [DELETE /propdev/api/v1/narrative-user-rights/(key)]
 	 
 + Request

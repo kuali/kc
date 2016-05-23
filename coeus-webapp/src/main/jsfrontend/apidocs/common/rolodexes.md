@@ -131,8 +131,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Rolodexes.md"
             transfer-encoding:chunked
-
-
 ### Update Rolodexes [PUT /research-common/api/v1/rolodexes/(key)]
 
 + Request
@@ -165,7 +163,6 @@
             ]
 			
 + Response 204
-
 ### Insert Rolodexes [POST /research-common/api/v1/rolodexes/]
 
 + Request
@@ -209,7 +206,6 @@
               {"rolodexId": "(val)","addressLine1": "(val)","addressLine2": "(val)","addressLine3": "(val)","city": "(val)","comments": "(val)","countryCode": "(val)","county": "(val)","deleteFlag": "(val)","emailAddress": "(val)","faxNumber": "(val)","firstName": "(val)","lastName": "(val)","middleName": "(val)","organization": "(val)","ownedByUnit": "(val)","phoneNumber": "(val)","postalCode": "(val)","prefix": "(val)","sponsorAddressFlag": "(val)","sponsorCode": "(val)","state": "(val)","suffix": "(val)","title": "(val)","createUser": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"rolodexId": "(val)","addressLine1": "(val)","addressLine2": "(val)","addressLine3": "(val)","city": "(val)","comments": "(val)","countryCode": "(val)","county": "(val)","deleteFlag": "(val)","emailAddress": "(val)","faxNumber": "(val)","firstName": "(val)","lastName": "(val)","middleName": "(val)","organization": "(val)","ownedByUnit": "(val)","phoneNumber": "(val)","postalCode": "(val)","prefix": "(val)","sponsorAddressFlag": "(val)","sponsorCode": "(val)","state": "(val)","suffix": "(val)","title": "(val)","createUser": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Rolodexes by Key [DELETE /research-common/api/v1/rolodexes/(key)]
 	 
 + Request

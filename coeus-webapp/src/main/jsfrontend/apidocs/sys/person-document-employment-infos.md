@@ -117,8 +117,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Person Document Employment Infos.md"
             transfer-encoding:chunked
-
-
 ### Update Person Document Employment Infos [PUT /research-sys/api/v1/person-document-employment-infos/(key)]
 
 + Request
@@ -151,7 +149,6 @@
             ]
 			
 + Response 204
-
 ### Insert Person Document Employment Infos [POST /research-sys/api/v1/person-document-employment-infos/]
 
 + Request
@@ -195,7 +192,6 @@
               {"entityEmploymentId": "(val)","entityAffiliationId": "(val)","employmentStatusCode": "(val)","employmentTypeCode": "(val)","primaryDepartmentCode": "(val)","baseSalaryAmount": "(val)","employeeId": "(val)","employmentRecordId": "(val)","primary": "(val)","edit": "(val)","documentNumber": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"entityEmploymentId": "(val)","entityAffiliationId": "(val)","employmentStatusCode": "(val)","employmentTypeCode": "(val)","primaryDepartmentCode": "(val)","baseSalaryAmount": "(val)","employeeId": "(val)","employmentRecordId": "(val)","primary": "(val)","edit": "(val)","documentNumber": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Person Document Employment Infos by Key [DELETE /research-sys/api/v1/person-document-employment-infos/(key)]
 	 
 + Request

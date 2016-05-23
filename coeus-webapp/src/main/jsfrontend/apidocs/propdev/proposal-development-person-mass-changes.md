@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Proposal Development Person Mass Changes.md"
             transfer-encoding:chunked
-
-
 ### Update Proposal Development Person Mass Changes [PUT /propdev/api/v1/proposal-development-person-mass-changes/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Proposal Development Person Mass Changes [POST /propdev/api/v1/proposal-development-person-mass-changes/]
 
 + Request
@@ -188,7 +185,6 @@
               {"proposalDevelopmentPersonMassChangeId": "(val)","personMassChangeId": "(val)","investigator": "(val)","mailingInformation": "(val)","keyStudyPerson": "(val)","_primaryKey": "(val)"},
               {"proposalDevelopmentPersonMassChangeId": "(val)","personMassChangeId": "(val)","investigator": "(val)","mailingInformation": "(val)","keyStudyPerson": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Proposal Development Person Mass Changes by Key [DELETE /propdev/api/v1/proposal-development-person-mass-changes/(key)]
 	 
 + Request

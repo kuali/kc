@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Investigator Credit Types.md"
             transfer-encoding:chunked
-
-
 ### Update Investigator Credit Types [PUT /research-common/api/v1/investigator-credit-types/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Investigator Credit Types [POST /research-common/api/v1/investigator-credit-types/]
 
 + Request
@@ -187,7 +184,6 @@
               {"code": "(val)","addsToHundred": "(val)","active": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"code": "(val)","addsToHundred": "(val)","active": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Investigator Credit Types by Key [DELETE /research-common/api/v1/investigator-credit-types/(key)]
 	 
 + Request

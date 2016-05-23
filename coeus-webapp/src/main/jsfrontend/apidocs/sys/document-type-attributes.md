@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Document Type Attributes.md"
             transfer-encoding:chunked
-
-
 ### Update Document Type Attributes [PUT /research-sys/api/v1/document-type-attributes/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Document Type Attributes [POST /research-sys/api/v1/document-type-attributes/]
 
 + Request
@@ -187,7 +184,6 @@
               {"id": "(val)","ruleAttributeId": "(val)","documentTypeId": "(val)","orderIndex": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","ruleAttributeId": "(val)","documentTypeId": "(val)","orderIndex": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Document Type Attributes by Key [DELETE /research-sys/api/v1/document-type-attributes/(key)]
 	 
 + Request

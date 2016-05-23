@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Groups.md"
             transfer-encoding:chunked
-
-
 ### Update Groups [PUT /research-sys/api/v1/groups/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Groups [POST /research-sys/api/v1/groups/]
 
 + Request
@@ -189,7 +186,6 @@
               {"id": "(val)","kimTypeId": "(val)","name": "(val)","active": "(val)","description": "(val)","namespaceCode": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","kimTypeId": "(val)","name": "(val)","active": "(val)","description": "(val)","namespaceCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Groups by Key [DELETE /research-sys/api/v1/groups/(key)]
 	 
 + Request

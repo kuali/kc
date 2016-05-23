@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Custom Report Type Documents.md"
             transfer-encoding:chunked
-
-
 ### Update Custom Report Type Documents [PUT /research-common/api/v1/custom-report-type-documents/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Custom Report Type Documents [POST /research-common/api/v1/custom-report-type-documents/]
 
 + Request
@@ -185,7 +182,6 @@
               {"reportTypeCode": "(val)","documentName": "(val)","_primaryKey": "(val)"},
               {"reportTypeCode": "(val)","documentName": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Custom Report Type Documents by Key [DELETE /research-common/api/v1/custom-report-type-documents/(key)]
 	 
 + Request

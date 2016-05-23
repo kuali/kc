@@ -113,8 +113,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Notification Content Types.md"
             transfer-encoding:chunked
-
-
 ### Update Notification Content Types [PUT /research-sys/api/v1/notification-content-types/(key)]
 
 + Request
@@ -147,7 +145,6 @@
             ]
 			
 + Response 204
-
 ### Insert Notification Content Types [POST /research-sys/api/v1/notification-content-types/]
 
 + Request
@@ -191,7 +188,6 @@
               {"id": "(val)","name": "(val)","current": "(val)","version": "(val)","description": "(val)","namespace": "(val)","xsd": "(val)","xsl": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","name": "(val)","current": "(val)","version": "(val)","description": "(val)","namespace": "(val)","xsd": "(val)","xsl": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Notification Content Types by Key [DELETE /research-sys/api/v1/notification-content-types/(key)]
 	 
 + Request

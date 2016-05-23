@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Protocol Person Role Mappings.md"
             transfer-encoding:chunked
-
-
 ### Update Protocol Person Role Mappings [PUT /irb/api/v1/protocol-person-role-mappings/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Protocol Person Role Mappings [POST /irb/api/v1/protocol-person-role-mappings/]
 
 + Request
@@ -186,7 +183,6 @@
               {"roleMappingId": "(val)","sourceRoleId": "(val)","targetRoleId": "(val)","_primaryKey": "(val)"},
               {"roleMappingId": "(val)","sourceRoleId": "(val)","targetRoleId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Protocol Person Role Mappings by Key [DELETE /irb/api/v1/protocol-person-role-mappings/(key)]
 	 
 + Request

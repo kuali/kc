@@ -113,8 +113,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Budget Project Incomes.md"
             transfer-encoding:chunked
-
-
 ### Update Budget Project Incomes [PUT /research-common/api/v1/budget-project-incomes/(key)]
 
 + Request
@@ -147,7 +145,6 @@
             ]
 			
 + Response 204
-
 ### Insert Budget Project Incomes [POST /research-common/api/v1/budget-project-incomes/]
 
 + Request
@@ -191,7 +188,6 @@
               {"documentComponentId": "(val)","budgetId": "(val)","budgetPeriodId": "(val)","budgetPeriodNumber": "(val)","description": "(val)","projectIncome": "(val)","hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","_primaryKey": "(val)"},
               {"documentComponentId": "(val)","budgetId": "(val)","budgetPeriodId": "(val)","budgetPeriodNumber": "(val)","description": "(val)","projectIncome": "(val)","hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Budget Project Incomes by Key [DELETE /research-common/api/v1/budget-project-incomes/(key)]
 	 
 + Request

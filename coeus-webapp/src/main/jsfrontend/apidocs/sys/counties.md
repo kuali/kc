@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Counties.md"
             transfer-encoding:chunked
-
-
 ### Update Counties [PUT /research-sys/api/v1/counties/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Counties [POST /research-sys/api/v1/counties/]
 
 + Request
@@ -188,7 +185,6 @@
               {"code": "(val)","countryCode": "(val)","stateCode": "(val)","name": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"code": "(val)","countryCode": "(val)","stateCode": "(val)","name": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Counties by Key [DELETE /research-sys/api/v1/counties/(key)]
 	 
 + Request

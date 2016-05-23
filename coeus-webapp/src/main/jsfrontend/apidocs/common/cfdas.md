@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Cfdas.md"
             transfer-encoding:chunked
-
-
 ### Update Cfdas [PUT /research-common/api/v1/cfdas/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Cfdas [POST /research-common/api/v1/cfdas/]
 
 + Request
@@ -187,7 +184,6 @@
               {"cfdaNumber": "(val)","cfdaProgramTitleName": "(val)","active": "(val)","cfdaMaintenanceTypeId": "(val)","_primaryKey": "(val)"},
               {"cfdaNumber": "(val)","cfdaProgramTitleName": "(val)","active": "(val)","cfdaMaintenanceTypeId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Cfdas by Key [DELETE /research-common/api/v1/cfdas/(key)]
 	 
 + Request

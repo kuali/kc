@@ -120,8 +120,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Committee Schedule Minutes.md"
             transfer-encoding:chunked
-
-
 ### Update Committee Schedule Minutes [PUT /irb/api/v1/committee-schedule-minutes/(key)]
 
 + Request
@@ -154,7 +152,6 @@
             ]
 			
 + Response 204
-
 ### Insert Committee Schedule Minutes [POST /irb/api/v1/committee-schedule-minutes/]
 
 + Request
@@ -198,7 +195,6 @@
               {"commScheduleMinutesId": "(val)","scheduleIdFk": "(val)","entryNumber": "(val)","minuteEntryTypeCode": "(val)","protocolIdFk": "(val)","commScheduleActItemsIdFk": "(val)","submissionIdFk": "(val)","privateCommentFlag": "(val)","protocolContingencyCode": "(val)","minuteEntry": "(val)","finalFlag": "(val)","createTimestamp": "(val)","createUser": "(val)","protocolReviewerIdFk": "(val)","protocolOnlineReviewIdFk": "(val)","_primaryKey": "(val)"},
               {"commScheduleMinutesId": "(val)","scheduleIdFk": "(val)","entryNumber": "(val)","minuteEntryTypeCode": "(val)","protocolIdFk": "(val)","commScheduleActItemsIdFk": "(val)","submissionIdFk": "(val)","privateCommentFlag": "(val)","protocolContingencyCode": "(val)","minuteEntry": "(val)","finalFlag": "(val)","createTimestamp": "(val)","createUser": "(val)","protocolReviewerIdFk": "(val)","protocolOnlineReviewIdFk": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Committee Schedule Minutes by Key [DELETE /irb/api/v1/committee-schedule-minutes/(key)]
 	 
 + Request

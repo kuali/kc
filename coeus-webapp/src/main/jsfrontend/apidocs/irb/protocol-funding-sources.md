@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Protocol Funding Sources.md"
             transfer-encoding:chunked
-
-
 ### Update Protocol Funding Sources [PUT /irb/api/v1/protocol-funding-sources/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert Protocol Funding Sources [POST /irb/api/v1/protocol-funding-sources/]
 
 + Request
@@ -190,7 +187,6 @@
               {"protocolFundingSourceId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","fundingSourceTypeCode": "(val)","fundingSourceNumber": "(val)","fundingSourceName": "(val)","_primaryKey": "(val)"},
               {"protocolFundingSourceId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","fundingSourceTypeCode": "(val)","fundingSourceNumber": "(val)","fundingSourceName": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Protocol Funding Sources by Key [DELETE /irb/api/v1/protocol-funding-sources/(key)]
 	 
 + Request

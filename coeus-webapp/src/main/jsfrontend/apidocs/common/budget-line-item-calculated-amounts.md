@@ -117,8 +117,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Budget Line Item Calculated Amounts.md"
             transfer-encoding:chunked
-
-
 ### Update Budget Line Item Calculated Amounts [PUT /research-common/api/v1/budget-line-item-calculated-amounts/(key)]
 
 + Request
@@ -151,7 +149,6 @@
             ]
 			
 + Response 204
-
 ### Insert Budget Line Item Calculated Amounts [POST /research-common/api/v1/budget-line-item-calculated-amounts/]
 
 + Request
@@ -195,7 +192,6 @@
               {"budgetLineItemCalculatedAmountId": "(val)","budgetLineItemId": "(val)","budgetPeriodId": "(val)","rateTypeDescription": "(val)","applyRateFlag": "(val)","rateTypeCode": "(val)","budgetId": "(val)","budgetPeriod": "(val)","calculatedCost": "(val)","rateClassCode": "(val)","calculatedCostSharing": "(val)","lineItemNumber": "(val)","_primaryKey": "(val)"},
               {"budgetLineItemCalculatedAmountId": "(val)","budgetLineItemId": "(val)","budgetPeriodId": "(val)","rateTypeDescription": "(val)","applyRateFlag": "(val)","rateTypeCode": "(val)","budgetId": "(val)","budgetPeriod": "(val)","calculatedCost": "(val)","rateClassCode": "(val)","calculatedCostSharing": "(val)","lineItemNumber": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Budget Line Item Calculated Amounts by Key [DELETE /research-common/api/v1/budget-line-item-calculated-amounts/(key)]
 	 
 + Request

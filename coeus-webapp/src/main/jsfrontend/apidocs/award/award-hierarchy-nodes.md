@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Award Hierarchy Nodes.md"
             transfer-encoding:chunked
-
-
 ### Update Award Hierarchy Nodes [PUT /award/api/v1/award-hierarchy-nodes/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Award Hierarchy Nodes [POST /award/api/v1/award-hierarchy-nodes/]
 
 + Request
@@ -189,7 +186,6 @@
               {"awardHierarchyId": "(val)","rootAwardNumber": "(val)","awardNumber": "(val)","parentAwardNumber": "(val)","originatingAwardNumber": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"awardHierarchyId": "(val)","rootAwardNumber": "(val)","awardNumber": "(val)","parentAwardNumber": "(val)","originatingAwardNumber": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Award Hierarchy Nodes by Key [DELETE /award/api/v1/award-hierarchy-nodes/(key)]
 	 
 + Request

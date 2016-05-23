@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Krms Attribute Definitions.md"
             transfer-encoding:chunked
-
-
 ### Update Krms Attribute Definitions [PUT /research-sys/api/v1/krms-attribute-definitions/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert Krms Attribute Definitions [POST /research-sys/api/v1/krms-attribute-definitions/]
 
 + Request
@@ -190,7 +187,6 @@
               {"id": "(val)","name": "(val)","namespace": "(val)","label": "(val)","description": "(val)","active": "(val)","componentName": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","name": "(val)","namespace": "(val)","label": "(val)","description": "(val)","active": "(val)","componentName": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Krms Attribute Definitions by Key [DELETE /research-sys/api/v1/krms-attribute-definitions/(key)]
 	 
 + Request

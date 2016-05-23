@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Protocol Review Types.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Protocol Review Types [PUT /iacuc/api/v1/iacuc-protocol-review-types/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Protocol Review Types [POST /iacuc/api/v1/iacuc-protocol-review-types/]
 
 + Request
@@ -186,7 +183,6 @@
               {"reviewTypeCode": "(val)","description": "(val)","globalFlag": "(val)","_primaryKey": "(val)"},
               {"reviewTypeCode": "(val)","description": "(val)","globalFlag": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Protocol Review Types by Key [DELETE /iacuc/api/v1/iacuc-protocol-review-types/(key)]
 	 
 + Request

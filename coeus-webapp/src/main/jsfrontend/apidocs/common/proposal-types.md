@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Proposal Types.md"
             transfer-encoding:chunked
-
-
 ### Update Proposal Types [PUT /research-common/api/v1/proposal-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Proposal Types [POST /research-common/api/v1/proposal-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Proposal Types by Key [DELETE /research-common/api/v1/proposal-types/(key)]
 	 
 + Request

@@ -123,8 +123,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Protocol Actions.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Protocol Actions [PUT /iacuc/api/v1/iacuc-protocol-actions/(key)]
 
 + Request
@@ -157,7 +155,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Protocol Actions [POST /iacuc/api/v1/iacuc-protocol-actions/]
 
 + Request
@@ -201,7 +198,6 @@
               {"protocolActionId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","actionId": "(val)","protocolActionTypeCode": "(val)","submissionNumber": "(val)","comments": "(val)","createTimestamp": "(val)","createUser": "(val)","actionDate": "(val)","protocolId": "(val)","submissionIdFk": "(val)","actualActionDate": "(val)","prevSubmissionStatusCode": "(val)","submissionTypeCode": "(val)","prevProtocolStatusCode": "(val)","followupActionCode": "(val)","createdSubmission": "(val)","_primaryKey": "(val)"},
               {"protocolActionId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","actionId": "(val)","protocolActionTypeCode": "(val)","submissionNumber": "(val)","comments": "(val)","createTimestamp": "(val)","createUser": "(val)","actionDate": "(val)","protocolId": "(val)","submissionIdFk": "(val)","actualActionDate": "(val)","prevSubmissionStatusCode": "(val)","submissionTypeCode": "(val)","prevProtocolStatusCode": "(val)","followupActionCode": "(val)","createdSubmission": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Protocol Actions by Key [DELETE /iacuc/api/v1/iacuc-protocol-actions/(key)]
 	 
 + Request

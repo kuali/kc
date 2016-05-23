@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Report Statuses.md"
             transfer-encoding:chunked
-
-
 ### Update Report Statuses [PUT /award/api/v1/report-statuses/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Report Statuses [POST /award/api/v1/report-statuses/]
 
 + Request
@@ -186,7 +183,6 @@
               {"reportStatusCode": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"reportStatusCode": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Report Statuses by Key [DELETE /award/api/v1/report-statuses/(key)]
 	 
 + Request

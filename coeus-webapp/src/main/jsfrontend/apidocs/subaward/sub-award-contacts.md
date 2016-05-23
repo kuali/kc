@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Sub Award Contacts.md"
             transfer-encoding:chunked
-
-
 ### Update Sub Award Contacts [PUT /subaward/api/v1/sub-award-contacts/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Sub Award Contacts [POST /subaward/api/v1/sub-award-contacts/]
 
 + Request
@@ -189,7 +186,6 @@
               {"subAwardContactId": "(val)","subAwardId": "(val)","sequenceNumber": "(val)","subAwardCode": "(val)","contactTypeCode": "(val)","rolodexId": "(val)","_primaryKey": "(val)"},
               {"subAwardContactId": "(val)","subAwardId": "(val)","sequenceNumber": "(val)","subAwardCode": "(val)","contactTypeCode": "(val)","rolodexId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Sub Award Contacts by Key [DELETE /subaward/api/v1/sub-award-contacts/(key)]
 	 
 + Request

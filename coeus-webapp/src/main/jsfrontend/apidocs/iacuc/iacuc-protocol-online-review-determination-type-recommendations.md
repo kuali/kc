@@ -106,8 +106,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Protocol Online Review Determination Type Recommendations.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Protocol Online Review Determination Type Recommendations [PUT /iacuc/api/v1/iacuc-protocol-online-review-determination-type-recommendations/(key)]
 
 + Request
@@ -140,7 +138,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Protocol Online Review Determination Type Recommendations [POST /iacuc/api/v1/iacuc-protocol-online-review-determination-type-recommendations/]
 
 + Request
@@ -184,7 +181,6 @@
               {"iacucProtocolReviewTypeCode": "(val)","_primaryKey": "(val)"},
               {"iacucProtocolReviewTypeCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Protocol Online Review Determination Type Recommendations by Key [DELETE /iacuc/api/v1/iacuc-protocol-online-review-determination-type-recommendations/(key)]
 	 
 + Request

@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Sponsor Forms.md"
             transfer-encoding:chunked
-
-
 ### Update Sponsor Forms [PUT /research-common/api/v1/sponsor-forms/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Sponsor Forms [POST /research-common/api/v1/sponsor-forms/]
 
 + Request
@@ -188,7 +185,6 @@
               {"sponsorFormId": "(val)","packageName": "(val)","packageNumber": "(val)","sponsorCode": "(val)","sponsorHierarchyName": "(val)","_primaryKey": "(val)"},
               {"sponsorFormId": "(val)","packageName": "(val)","packageNumber": "(val)","sponsorCode": "(val)","sponsorHierarchyName": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Sponsor Forms by Key [DELETE /research-common/api/v1/sponsor-forms/(key)]
 	 
 + Request

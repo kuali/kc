@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Protocol Types.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Protocol Types [PUT /iacuc/api/v1/iacuc-protocol-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Protocol Types [POST /iacuc/api/v1/iacuc-protocol-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"protocolTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"protocolTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Protocol Types by Key [DELETE /iacuc/api/v1/iacuc-protocol-types/(key)]
 	 
 + Request

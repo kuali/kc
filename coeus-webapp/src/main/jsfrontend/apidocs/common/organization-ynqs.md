@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Organization Ynqs.md"
             transfer-encoding:chunked
-
-
 ### Update Organization Ynqs [PUT /research-common/api/v1/organization-ynqs/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Organization Ynqs [POST /research-common/api/v1/organization-ynqs/]
 
 + Request
@@ -188,7 +185,6 @@
               {"organizationId": "(val)","questionId": "(val)","answer": "(val)","explanation": "(val)","reviewDate": "(val)","_primaryKey": "(val)"},
               {"organizationId": "(val)","questionId": "(val)","answer": "(val)","explanation": "(val)","reviewDate": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Organization Ynqs by Key [DELETE /research-common/api/v1/organization-ynqs/(key)]
 	 
 + Request

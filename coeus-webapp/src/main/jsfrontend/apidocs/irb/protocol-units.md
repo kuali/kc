@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Protocol Units.md"
             transfer-encoding:chunked
-
-
 ### Update Protocol Units [PUT /irb/api/v1/protocol-units/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert Protocol Units [POST /irb/api/v1/protocol-units/]
 
 + Request
@@ -190,7 +187,6 @@
               {"protocolUnitsId": "(val)","protocolPersonId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","unitNumber": "(val)","leadUnitFlag": "(val)","personId": "(val)","_primaryKey": "(val)"},
               {"protocolUnitsId": "(val)","protocolPersonId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","unitNumber": "(val)","leadUnitFlag": "(val)","personId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Protocol Units by Key [DELETE /irb/api/v1/protocol-units/(key)]
 	 
 + Request

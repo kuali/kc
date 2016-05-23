@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Answer Headers.md"
             transfer-encoding:chunked
-
-
 ### Update Answer Headers [PUT /research-common/api/v1/answer-headers/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert Answer Headers [POST /research-common/api/v1/answer-headers/]
 
 + Request
@@ -190,7 +187,6 @@
               {"id": "(val)","moduleItemCode": "(val)","moduleItemKey": "(val)","moduleSubItemCode": "(val)","moduleSubItemKey": "(val)","questionnaireId": "(val)","completed": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","moduleItemCode": "(val)","moduleItemKey": "(val)","moduleSubItemCode": "(val)","moduleSubItemKey": "(val)","questionnaireId": "(val)","completed": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Answer Headers by Key [DELETE /research-common/api/v1/answer-headers/(key)]
 	 
 + Request

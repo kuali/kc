@@ -114,8 +114,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Protocol Risk Levels.md"
             transfer-encoding:chunked
-
-
 ### Update Protocol Risk Levels [PUT /irb/api/v1/protocol-risk-levels/(key)]
 
 + Request
@@ -148,7 +146,6 @@
             ]
 			
 + Response 204
-
 ### Insert Protocol Risk Levels [POST /irb/api/v1/protocol-risk-levels/]
 
 + Request
@@ -192,7 +189,6 @@
               {"protocolRiskLevelId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","riskLevelCode": "(val)","comments": "(val)","dateAssigned": "(val)","dateInactivated": "(val)","status": "(val)","_primaryKey": "(val)"},
               {"protocolRiskLevelId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","riskLevelCode": "(val)","comments": "(val)","dateAssigned": "(val)","dateInactivated": "(val)","status": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Protocol Risk Levels by Key [DELETE /irb/api/v1/protocol-risk-levels/(key)]
 	 
 + Request

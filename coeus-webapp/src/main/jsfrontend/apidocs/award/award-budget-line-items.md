@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Award Budget Line Items.md"
             transfer-encoding:chunked
-
-
 ### Update Award Budget Line Items [PUT /award/api/v1/award-budget-line-items/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Award Budget Line Items [POST /award/api/v1/award-budget-line-items/]
 
 + Request
@@ -185,7 +182,6 @@
               {"budgetLineItemId": "(val)","obligatedAmount": "(val)","_primaryKey": "(val)"},
               {"budgetLineItemId": "(val)","obligatedAmount": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Award Budget Line Items by Key [DELETE /award/api/v1/award-budget-line-items/(key)]
 	 
 + Request

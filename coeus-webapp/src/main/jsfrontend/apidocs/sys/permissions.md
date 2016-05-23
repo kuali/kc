@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Permissions.md"
             transfer-encoding:chunked
-
-
 ### Update Permissions [PUT /research-sys/api/v1/permissions/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Permissions [POST /research-sys/api/v1/permissions/]
 
 + Request
@@ -189,7 +186,6 @@
               {"id": "(val)","namespaceCode": "(val)","name": "(val)","description": "(val)","templateId": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","namespaceCode": "(val)","name": "(val)","description": "(val)","templateId": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Permissions by Key [DELETE /research-sys/api/v1/permissions/(key)]
 	 
 + Request

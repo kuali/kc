@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Correspondent Types.md"
             transfer-encoding:chunked
-
-
 ### Update Correspondent Types [PUT /irb/api/v1/correspondent-types/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Correspondent Types [POST /irb/api/v1/correspondent-types/]
 
 + Request
@@ -186,7 +183,6 @@
               {"correspondentTypeCode": "(val)","description": "(val)","qualifier": "(val)","_primaryKey": "(val)"},
               {"correspondentTypeCode": "(val)","description": "(val)","qualifier": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Correspondent Types by Key [DELETE /irb/api/v1/correspondent-types/(key)]
 	 
 + Request

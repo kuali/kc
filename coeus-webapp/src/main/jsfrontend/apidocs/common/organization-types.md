@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Organization Types.md"
             transfer-encoding:chunked
-
-
 ### Update Organization Types [PUT /research-common/api/v1/organization-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Organization Types [POST /research-common/api/v1/organization-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"organizationId": "(val)","organizationTypeCode": "(val)","_primaryKey": "(val)"},
               {"organizationId": "(val)","organizationTypeCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Organization Types by Key [DELETE /research-common/api/v1/organization-types/(key)]
 	 
 + Request

@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Protocol Research Areas.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Protocol Research Areas [PUT /iacuc/api/v1/iacuc-protocol-research-areas/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Protocol Research Areas [POST /iacuc/api/v1/iacuc-protocol-research-areas/]
 
 + Request
@@ -188,7 +185,6 @@
               {"id": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","researchAreaCode": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","researchAreaCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Protocol Research Areas by Key [DELETE /iacuc/api/v1/iacuc-protocol-research-areas/(key)]
 	 
 + Request

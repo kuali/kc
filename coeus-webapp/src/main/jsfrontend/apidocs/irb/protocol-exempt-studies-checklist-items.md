@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Protocol Exempt Studies Checklist Items.md"
             transfer-encoding:chunked
-
-
 ### Update Protocol Exempt Studies Checklist Items [PUT /irb/api/v1/protocol-exempt-studies-checklist-items/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert Protocol Exempt Studies Checklist Items [POST /irb/api/v1/protocol-exempt-studies-checklist-items/]
 
 + Request
@@ -190,7 +187,6 @@
               {"protocolExemptCheckListId": "(val)","protocolId": "(val)","submissionIdFk": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","submissionNumber": "(val)","exemptStudiesCheckListCode": "(val)","_primaryKey": "(val)"},
               {"protocolExemptCheckListId": "(val)","protocolId": "(val)","submissionIdFk": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","submissionNumber": "(val)","exemptStudiesCheckListCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Protocol Exempt Studies Checklist Items by Key [DELETE /irb/api/v1/protocol-exempt-studies-checklist-items/(key)]
 	 
 + Request
