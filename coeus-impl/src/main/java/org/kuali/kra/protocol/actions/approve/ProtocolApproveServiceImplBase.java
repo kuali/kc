@@ -109,9 +109,7 @@ public abstract class ProtocolApproveServiceImplBase implements ProtocolApproveS
         documentService.saveDocument(protocol.getProtocolDocument());
          
     }
-    
-    
-    
+
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
