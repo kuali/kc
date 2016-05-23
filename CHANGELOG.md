@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* RESKC-1269: update documentation
+  * Travis Schneeberger on Mon, 23 May 2016 13:08:40 -0400 [View Commit](../../commit/19636974d8b637cf03fb6bc32d6f5dcfef364173)
+* RESKC-1269: handle anonymous access fields for our rest endpoints, add required property editors, make existing property editors a little more flexible in regards to different incoming types, replace dynabean with BeanWrapper to support nested properties, abstract configuration of BeanWrapper into a service, abstract rest property editors into a spring map to replace duplication. Make supported method configurable and make all BOs with anonymous access fields read only
+  * Travis Schneeberger on Mon, 23 May 2016 13:08:13 -0400 [View Commit](../../commit/f89ee31ad943c1631dc8ff29770488f5d215f6f9)
+
+##coeus-1605.34
 * No Changes
 
 
