@@ -36,6 +36,9 @@ public class IrbProtocolSubmissionDto {
 
     private Boolean billable;
 
+    private Date approvalDate;
+
+
     public Long getSubmissionId() {
         return submissionId;
     }
@@ -163,4 +166,13 @@ public class IrbProtocolSubmissionDto {
     public void setBillable(Boolean billable) {
         this.billable = billable;
     }
+
+    public Date getApprovalDate() {
+        return approvalDate;
+    }
+
+    public void setApprovalDate(Date approvalDate) {
+        this.approvalDate = approvalDate;
+    }
+
 }
