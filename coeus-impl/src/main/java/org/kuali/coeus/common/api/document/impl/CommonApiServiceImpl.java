@@ -80,10 +80,10 @@ public class CommonApiServiceImpl implements CommonApiService {
         Entity personEntity = null;
         RolodexContract rolodex = null;
         if (personId != null) {
-            personEntity = identityService.getEntityByPrincipalId(personId);
+            personEntity = getIdentityService().getEntityByPrincipalId(personId);
         }
         else {
-            rolodex = rolodexService.getRolodex(rolodexId);
+            rolodex = getRolodexService().getRolodex(rolodexId);
         }
 
         if (rolodex == null && personEntity == null) {
@@ -92,7 +92,7 @@ public class CommonApiServiceImpl implements CommonApiService {
     }
 
     public void clearErrors() {
-        globalVariableService.getMessageMap().clearErrorMessages();
+        getGlobalVariableService().getMessageMap().clearErrorMessages();
     }
 
     public Object convertObject(Object input, Class clazz) {
@@ -115,7 +115,7 @@ public class CommonApiServiceImpl implements CommonApiService {
 
     public Document getDocumentFromDocId(Long documentNumber) {
         try {
-            return documentService.getByDocumentHeaderId(documentNumber.toString());
+            return getDocumentService().getByDocumentHeaderId(documentNumber.toString());
         } catch (UnknownDocumentIdException | WorkflowException exception) {
             throw new ResourceNotFoundException("Could not locate document with document number " + documentNumber);
         }
@@ -131,17 +131,17 @@ public class CommonApiServiceImpl implements CommonApiService {
             throw new UnprocessableEntityException(errorMessage);
         }
         try {
-            documentService.routeDocument(document, "", new ArrayList<>());
+            getDocumentService().routeDocument(document, "", new ArrayList<>());
         } catch (ValidationException | WorkflowException e) {
             throw new UnprocessableEntityException(e.getMessage(), e);
         }
     }
 
     public List<ErrorMessage> getAuditErrors(Document document) {
-        boolean auditPassed = auditHelper.auditUnconditionally(document);
+        boolean auditPassed = getAuditHelper().auditUnconditionally(document);
         List<ErrorMessage> errors = new ArrayList<>();
         if (!auditPassed) {
-            final Map<String, AuditCluster> auditErrorMap = globalVariableService.getAuditErrorMap();
+            final Map<String, AuditCluster> auditErrorMap = getGlobalVariableService().getAuditErrorMap();
             for (String key: auditErrorMap.keySet()) {
                 AuditCluster auditCluster = auditErrorMap.get(key);
                 if (!StringUtils.equalsIgnoreCase(auditCluster.getCategory(), Constants.AUDIT_WARNINGS)) {
@@ -160,7 +160,7 @@ public class CommonApiServiceImpl implements CommonApiService {
 
     public String getValidationErrors() {
         String errors = "";
-        for (Map.Entry<String, List<ErrorMessage>> entry : globalVariableService.getMessageMap().getErrorMessages().entrySet()) {
+        for (Map.Entry<String, List<ErrorMessage>> entry : getGlobalVariableService().getMessageMap().getErrorMessages().entrySet()) {
             for (ErrorMessage msg : entry.getValue()) {
                 errors += KRADUtils.getMessageText(msg, false);
             }
@@ -171,7 +171,7 @@ public class CommonApiServiceImpl implements CommonApiService {
     public Document saveDocument(Document document) throws WorkflowException {
             try {
                 document.validateBusinessRules(new SaveDocumentEvent("", document));
-                document = documentService.saveDocument(document);
+                document = getDocumentService().saveDocument(document);
             } catch (ValidationException e) {
                 String errors = getValidationErrors() + " " + e.getMessage();
                 throw new UnprocessableEntityException(errors, e);
@@ -184,5 +184,23 @@ public class CommonApiServiceImpl implements CommonApiService {
         return !workflowDocument.isCanceled();
     }
 
+    public DocumentService getDocumentService() {
+        return documentService;
+    }
 
+    public GlobalVariableService getGlobalVariableService() {
+        return globalVariableService;
+    }
+
+    public IdentityService getIdentityService() {
+        return identityService;
+    }
+
+    public RolodexService getRolodexService() {
+        return rolodexService;
+    }
+
+    public AuditHelper getAuditHelper() {
+        return auditHelper;
+    }
 }

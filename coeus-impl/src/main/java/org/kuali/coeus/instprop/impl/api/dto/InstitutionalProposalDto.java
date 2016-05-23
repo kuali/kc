@@ -20,6 +20,7 @@
 package org.kuali.coeus.instprop.impl.api.dto;
 
 import com.codiform.moo.annotation.CollectionProperty;
+import com.codiform.moo.annotation.Property;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
@@ -91,7 +92,10 @@ public class InstitutionalProposalDto {
     private String newDescription;
     private String proposalSequenceStatus;
     private String instProposalNumber;
-
+    @Property(translate = false)
+    String docNbr;
+    @Property(translate = false)
+    String docStatus;
     @JsonProperty(value = "persons")
     @CollectionProperty(itemClass=IpPersonDto.class)
     private List<IpPersonDto> projectPersons;
@@ -533,5 +537,19 @@ public class InstitutionalProposalDto {
         this.fiscalYear = fiscalYear;
     }
 
+    public String getDocNbr() {
+        return docNbr;
+    }
 
+    public void setDocNbr(String docNbr) {
+        this.docNbr = docNbr;
+    }
+
+    public String getDocStatus() {
+        return docStatus;
+    }
+
+    public void setDocStatus(String docStatus) {
+        this.docStatus = docStatus;
+    }
 }

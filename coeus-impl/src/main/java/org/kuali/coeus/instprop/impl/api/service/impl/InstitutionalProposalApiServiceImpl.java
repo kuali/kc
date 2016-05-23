@@ -2,7 +2,6 @@ package org.kuali.coeus.instprop.impl.api.service.impl;
 
 import com.codiform.moo.Moo;
 import com.codiform.moo.configuration.Configuration;
-import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.api.document.service.CommonApiService;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.rolodex.RolodexService;
@@ -18,7 +17,6 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.rest.UnprocessableEntityException;
 import org.kuali.kra.award.home.ContactRole;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.contacts.*;
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
@@ -26,15 +24,11 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogService;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
-import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.entity.Entity;
-import org.kuali.rice.krad.exception.ValidationException;
-import org.kuali.rice.krad.rules.rule.event.SaveDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -138,9 +132,11 @@ public class InstitutionalProposalApiServiceImpl implements InstitutionalProposa
     }
 
     public void addPersons(InstitutionalProposalDocument proposalDocument, List<IpPersonDto> personDtos) {
-        personDtos.stream().forEach(personDto -> {
-            addPerson(proposalDocument, personDto);
-        });
+        if (personDtos != null) {
+            personDtos.stream().forEach(personDto -> {
+                addPerson(proposalDocument, personDto);
+            });
+        }
     }
 
     public InstitutionalProposalPerson addPerson(InstitutionalProposalDocument proposalDocument, IpPersonDto personDto) {
@@ -248,16 +244,23 @@ public class InstitutionalProposalApiServiceImpl implements InstitutionalProposa
     public ProposalLog addProposalLog(InstitutionalProposalDto ipDto, IpPersonDto personDto) {
         ProposalLogDto proposalLogDto = (ProposalLogDto) commonApiService.convertObject(ipDto, ProposalLogDto.class);
         ProposalLog proposalLog = (ProposalLog) commonApiService.convertObject(proposalLogDto, ProposalLog.class);
+        if (ipDto.getProposalTypeCode() == null) {
+            throw new UnprocessableEntityException("Proposal type code cannot be null.");
+        }
         proposalLog.setProposalTypeCode(ipDto.getProposalTypeCode().toString());
-        proposalLog.setCreateTimestamp(new java.sql.Timestamp(ipDto.getCreateTimestamp().getTime()));
+        if (ipDto.getCreateTimestamp() != null) {
+            proposalLog.setCreateTimestamp(new java.sql.Timestamp(ipDto.getCreateTimestamp().getTime()));
+        }
         proposalLog.setLogStatus(InstitutionalProposalApiConstants.LOG_STATUS_DEFAULT);
         proposalLog.setCreateUser("admin");
 
-        final InstitutionalProposalPerson projectPerson = (InstitutionalProposalPerson) commonApiService.convertObject(personDto, InstitutionalProposalPerson.class);
-        validatePerson(projectPerson);
-        if(projectPerson.isPrincipalInvestigator()) {
-            proposalLog.setRolodexId(projectPerson.getRolodexId());
-            proposalLog.setPiId(projectPerson.getPersonId());
+        if (personDto != null) {
+            final InstitutionalProposalPerson projectPerson = (InstitutionalProposalPerson) commonApiService.convertObject(personDto, InstitutionalProposalPerson.class);
+            validatePerson(projectPerson);
+            if (projectPerson.isPrincipalInvestigator()) {
+                proposalLog.setRolodexId(projectPerson.getRolodexId());
+                proposalLog.setPiId(projectPerson.getPersonId());
+            }
         }
         proposalLog.setProposalNumber(institutionalProposalService.getNextInstitutionalProposalNumber());
         businessObjectService.save(proposalLog);

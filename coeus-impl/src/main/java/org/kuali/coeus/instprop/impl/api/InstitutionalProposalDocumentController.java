@@ -25,10 +25,9 @@ import org.kuali.coeus.instprop.impl.api.service.InstitutionalProposalApiService
 import org.kuali.coeus.sys.framework.controller.rest.RestController;
 import org.kuali.coeus.sys.framework.controller.rest.audit.RestAuditLogger;
 import org.kuali.coeus.sys.framework.controller.rest.audit.RestAuditLoggerFactory;
-import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
 import org.kuali.coeus.sys.framework.rest.UnprocessableEntityException;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -104,14 +103,18 @@ public class InstitutionalProposalDocumentController extends RestController {
     @ResponseStatus(value = HttpStatus.CREATED)
     @ResponseBody
     String createInstitutionalProposal(@RequestBody InstitutionalProposalDto ipDto, @RequestParam(value = "createProposalLog", required = false) boolean createProposalLog) throws WorkflowException, InvocationTargetException, IllegalAccessException {
-        RestAuditLogger auditLogger = restAuditLoggerFactory.getNewAuditLogger(InstitutionalProposalDto.class, ipDtoProperties);
-        commonApiService.clearErrors();
-        InstitutionalProposal proposal = (InstitutionalProposal) commonApiService.convertObject(ipDto, InstitutionalProposal.class);
+        RestAuditLogger auditLogger = getRestAuditLoggerFactory().getNewAuditLogger(InstitutionalProposalDto.class, ipDtoProperties);
+        getCommonApiService().clearErrors();
+        InstitutionalProposal proposal = (InstitutionalProposal) getCommonApiService().convertObject(ipDto, InstitutionalProposal.class);
         String proposalLogNumber = null;
         if (createProposalLog) {
-            IpPersonDto ip = ipDto.getProjectPersons().stream().filter(ipPersonDto -> ipPersonDto.getRoleCode().equalsIgnoreCase("PI")).findFirst().orElse(null);
+            IpPersonDto ip = null;
+            if (ipDto.getProjectPersons() != null) {
+                ip = ipDto.getProjectPersons().stream().filter(ipPersonDto -> ipPersonDto.getRoleCode().equalsIgnoreCase(ContactRole.PI_CODE)).findFirst().orElse(null);
+            }
             proposalLogNumber = getInstitutionalProposalApiService().createProposalLog(ipDto, ip);
         }
+        proposal.setProjectPersons(new ArrayList<>());
         getInstitutionalProposalApiService().initializeData(proposal);
         InstitutionalProposalDocument ipDocument = getInstitutionalProposalApiService().saveInitialProposal(proposal, ipDto.getDocumentDescription());
         getInstitutionalProposalApiService().addPersons(ipDocument, ipDto.getProjectPersons());
@@ -132,11 +135,11 @@ public class InstitutionalProposalDocumentController extends RestController {
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     void deleteInstitutionalProposal(@PathVariable Long documentNumber) throws WorkflowException {
-        InstitutionalProposalDocument proposalDocument = (InstitutionalProposalDocument) commonApiService.getDocumentFromDocId(documentNumber);
+        InstitutionalProposalDocument proposalDocument = (InstitutionalProposalDocument) getCommonApiService().getDocumentFromDocId(documentNumber);
         DocumentRouteHeaderValue routeHeader = getRouteHeaderService().getRouteHeader(proposalDocument.getDocumentHeader().getWorkflowDocument().getDocumentId());
         if (!routeHeader.getDocRouteStatus().equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_CANCEL_CD)) {
             try {
-                documentService.cancelDocument(proposalDocument, "Cancelled");
+                getDocumentService().cancelDocument(proposalDocument, "Cancelled");
             }
             catch (InvalidActionTakenException e) {
                 throw new UnprocessableEntityException("Document " + documentNumber + " is not in a state to be cancelled.");
@@ -149,9 +152,11 @@ public class InstitutionalProposalDocumentController extends RestController {
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     InstitutionalProposalDto getInstitutionalProposal(@PathVariable Long documentNumber) {
-        InstitutionalProposalDocument proposalDocument = (InstitutionalProposalDocument) commonApiService.getDocumentFromDocId(documentNumber);
+        InstitutionalProposalDocument proposalDocument = (InstitutionalProposalDocument) getCommonApiService().getDocumentFromDocId(documentNumber);
         InstitutionalProposal proposal = proposalDocument.getInstitutionalProposal();
-        InstitutionalProposalDto proposalDto = (InstitutionalProposalDto) commonApiService.convertObject(proposal, InstitutionalProposalDto.class);
+        InstitutionalProposalDto proposalDto = (InstitutionalProposalDto) getCommonApiService().convertObject(proposal, InstitutionalProposalDto.class);
+        proposalDto.setDocNbr(proposalDocument.getDocumentNumber());
+        proposalDto.setDocStatus(proposalDocument.getDocumentHeader().getWorkflowDocument().getStatus().getLabel());
         return proposalDto;
     }
 
@@ -160,10 +165,10 @@ public class InstitutionalProposalDocumentController extends RestController {
     @ResponseStatus(value = HttpStatus.CREATED)
     @ResponseBody
     List<IpPersonDto> addProposalPersons(@RequestBody List<IpPersonDto> ipPersonDto, @PathVariable Long documentNumber) throws WorkflowException {
-        commonApiService.clearErrors();
-        InstitutionalProposalDocument proposalDocument = (InstitutionalProposalDocument) commonApiService.getDocumentFromDocId(documentNumber);
-        RestAuditLogger auditLogger = restAuditLoggerFactory.getNewAuditLogger(IpPersonDto.class, ipPersonDtoProperties);
-        institutionalProposalApiService.addPersons(proposalDocument, ipPersonDto);
+        getCommonApiService().clearErrors();
+        InstitutionalProposalDocument proposalDocument = (InstitutionalProposalDocument) getCommonApiService().getDocumentFromDocId(documentNumber);
+        RestAuditLogger auditLogger = getRestAuditLoggerFactory().getNewAuditLogger(IpPersonDto.class, ipPersonDtoProperties);
+        getInstitutionalProposalApiService().addPersons(proposalDocument, ipPersonDto);
         ipPersonDto.stream().forEach( item ->
                 auditLogger.addNewItem(item)
         );
@@ -177,8 +182,8 @@ public class InstitutionalProposalDocumentController extends RestController {
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     List<IpPersonDto> getAllProposalPersons(@PathVariable Long documentNumber) throws WorkflowException {
-        InstitutionalProposalDocument proposalDocument = (InstitutionalProposalDocument) commonApiService.getDocumentFromDocId(documentNumber);
-        InstitutionalProposalDto proposalDto = (InstitutionalProposalDto) commonApiService.
+        InstitutionalProposalDocument proposalDocument = (InstitutionalProposalDocument) getCommonApiService().getDocumentFromDocId(documentNumber);
+        InstitutionalProposalDto proposalDto = (InstitutionalProposalDto) getCommonApiService().
                 convertObject(proposalDocument.getInstitutionalProposal(), InstitutionalProposalDto.class);
         List<IpPersonDto> persons = proposalDto.getProjectPersons();
         return persons;
@@ -198,10 +203,10 @@ public class InstitutionalProposalDocumentController extends RestController {
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     void deleteProposalPerson(@PathVariable Long documentNumber, @PathVariable Long id) throws WorkflowException {
-        InstitutionalProposalDocument proposalDocument = (InstitutionalProposalDocument) commonApiService.getDocumentFromDocId(documentNumber);
-        RestAuditLogger auditLogger = restAuditLoggerFactory.getNewAuditLogger(IpPersonDto.class, ipPersonDtoProperties);
+        InstitutionalProposalDocument proposalDocument = (InstitutionalProposalDocument) getCommonApiService().getDocumentFromDocId(documentNumber);
+        RestAuditLogger auditLogger = getRestAuditLoggerFactory().getNewAuditLogger(IpPersonDto.class, ipPersonDtoProperties);
         InstitutionalProposalPerson person = getInstitutionalProposalPerson(id, proposalDocument);
-        IpPersonDto personDto = (IpPersonDto) commonApiService.convertObject(person, IpPersonDto.class);
+        IpPersonDto personDto = (IpPersonDto) getCommonApiService().convertObject(person, IpPersonDto.class);
         proposalDocument.getInstitutionalProposal().getProjectPersons().remove(person);
         saveDocument(proposalDocument);
         auditLogger.addDeletedItem(personDto);
@@ -213,9 +218,9 @@ public class InstitutionalProposalDocumentController extends RestController {
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     IpPersonDto getProposalPerson(@PathVariable Long documentNumber, @PathVariable Long id) throws WorkflowException {
-        InstitutionalProposalDocument proposalDocument = (InstitutionalProposalDocument) commonApiService.getDocumentFromDocId(documentNumber);
+        InstitutionalProposalDocument proposalDocument = (InstitutionalProposalDocument) getCommonApiService().getDocumentFromDocId(documentNumber);
         InstitutionalProposalPerson person = getInstitutionalProposalPerson(id, proposalDocument);
-        IpPersonDto personDto = (IpPersonDto) commonApiService.convertObject(person, IpPersonDto.class);
+        IpPersonDto personDto = (IpPersonDto) getCommonApiService().convertObject(person, IpPersonDto.class);
         return personDto;
     }
 
@@ -224,17 +229,17 @@ public class InstitutionalProposalDocumentController extends RestController {
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     void routeDocument(@PathVariable Long documentNumber) throws WorkflowException {
-        commonApiService.clearErrors();
-        InstitutionalProposalDocument proposalDocument = (InstitutionalProposalDocument) documentService.getByDocumentHeaderId(documentNumber.toString());
-        commonApiService.routeDocument(proposalDocument);
+        getCommonApiService().clearErrors();
+        InstitutionalProposalDocument proposalDocument = (InstitutionalProposalDocument) getDocumentService().getByDocumentHeaderId(documentNumber.toString());
+        getCommonApiService().routeDocument(proposalDocument);
     }
 
     protected void saveDocument(InstitutionalProposalDocument proposalDocument) throws WorkflowException {
         final WorkflowDocument workflowDocument = proposalDocument.getDocumentHeader().getWorkflowDocument();
         // Rice lets you save a cancelled doc, so check status before saving.
-        if(commonApiService.isDocInModifiableState(workflowDocument)) {
-            institutionalProposalApiService.initializeCollections(proposalDocument.getInstitutionalProposal());
-            commonApiService.saveDocument(proposalDocument);
+        if(getCommonApiService().isDocInModifiableState(workflowDocument)) {
+            getInstitutionalProposalApiService().initializeCollections(proposalDocument.getInstitutionalProposal());
+            getCommonApiService().saveDocument(proposalDocument);
         } else {
                 throw new UnprocessableEntityException("Document " + proposalDocument.getDocumentNumber() + " with status " + workflowDocument.getStatus() +
                         " is not in a state to be saved.");
@@ -255,5 +260,29 @@ public class InstitutionalProposalDocumentController extends RestController {
 
     public void setInstitutionalProposalApiService(InstitutionalProposalApiService institutionalProposalApiService) {
         this.institutionalProposalApiService = institutionalProposalApiService;
+    }
+
+    public RestAuditLoggerFactory getRestAuditLoggerFactory() {
+        return restAuditLoggerFactory;
+    }
+
+    public void setRestAuditLoggerFactory(RestAuditLoggerFactory restAuditLoggerFactory) {
+        this.restAuditLoggerFactory = restAuditLoggerFactory;
+    }
+
+    public CommonApiService getCommonApiService() {
+        return commonApiService;
+    }
+
+    public void setCommonApiService(CommonApiService commonApiService) {
+        this.commonApiService = commonApiService;
+    }
+
+    public DocumentService getDocumentService() {
+        return documentService;
+    }
+
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
     }
 }
