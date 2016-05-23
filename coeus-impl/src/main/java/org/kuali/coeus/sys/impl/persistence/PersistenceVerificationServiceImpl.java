@@ -124,8 +124,8 @@ public class PersistenceVerificationServiceImpl implements PersistenceVerificati
             return jpaFields;
         }
 
-        @SuppressWarnings("unchecked")
-        final List<String> ojbFields = getKcPersistenceStructureService().listFieldNames(boClazz);
+
+        final List<String> ojbFields = getKcPersistenceStructureService().listFieldNames(boClazz, true);
 
         return ojbFields;
     }

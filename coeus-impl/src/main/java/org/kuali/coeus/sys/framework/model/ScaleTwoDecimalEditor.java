@@ -68,6 +68,13 @@ public class ScaleTwoDecimalEditor extends PropertyEditorSupport {
 		return strValue;
 	}
 
+	@Override
+	public ScaleTwoDecimal getValue() {
+		final Object o = super.getValue();
+		return o instanceof ScaleTwoDecimal ? (ScaleTwoDecimal) o :
+				o != null ? new ScaleTwoDecimal(o.toString()) : null;
+	}
+
 	public DecimalFormat getNumberFormat() {
 		return numberFormat;
 	}

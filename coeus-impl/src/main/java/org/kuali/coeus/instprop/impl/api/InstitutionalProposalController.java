@@ -35,8 +35,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class InstitutionalProposalController extends SimpleCrudMapBasedRestController<InstitutionalProposal> {
 
@@ -48,6 +46,7 @@ public class InstitutionalProposalController extends SimpleCrudMapBasedRestContr
     public @ResponseBody
     InstitutionalProposalResults getInstitutionalProposalSummary(@RequestParam(value="updatedSince", required=false) Instant updatedSince,
                                  @RequestParam(value="page", required=false) Integer page, @RequestParam(value="limit", required=false) Integer limit) {
+        assertMethodSupported(RequestMethod.GET);
         assertUserHasReadAccess();
         InstitutionalProposalResults result = Translate.to(InstitutionalProposalResults.class).from(getProposals(updatedSince == null ? null : Date.from(updatedSince), page, limit));
 		if (result == null || result.getCount() == null || result.getCount() == 0) {
@@ -66,10 +65,5 @@ public class InstitutionalProposalController extends SimpleCrudMapBasedRestContr
 
     public void setInstitutionalProposalDao(InstitutionalProposalDao institutionalProposalDao) {
         this.institutionalProposalDao = institutionalProposalDao;
-    }
-
-    @Override
-    public List<String> getExposedProperties() {
-        return super.getExposedProperties().stream().filter(p -> !"documentNumber".equals(p)).collect(Collectors.toList());
     }
 }

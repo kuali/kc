@@ -18,7 +18,6 @@
  */
 package org.kuali.coeus.sys.framework.rest;
 
-import org.kuali.rice.kew.api.exception.InvalidActionTakenException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -33,7 +32,7 @@ public class UnprocessableEntityException extends RuntimeException {
         super(message);
     }
 
-    public UnprocessableEntityException(String message, Exception e) {
-        super(message, e);
+    public UnprocessableEntityException(String message, Throwable t) {
+        super(message, t);
     }
 }

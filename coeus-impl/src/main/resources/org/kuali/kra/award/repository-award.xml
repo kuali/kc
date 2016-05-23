@@ -410,7 +410,7 @@
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER"/>
 		<field-descriptor name="projectPeriod" column="PROJECT_PERIOD" jdbc-type="VARCHAR"/>
 		<field-descriptor name="costSharePercentage" column="COST_SHARE_PERCENTAGE" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion"/>
-		<field-descriptor name="costShareTypeCode" column="COST_SHARE_TYPE_CODE" jdbc-type="INTEGER"/><!-- could potentially be anonymous access -->
+		<field-descriptor name="costShareTypeCode" column="COST_SHARE_TYPE_CODE" jdbc-type="INTEGER"/>
 		<field-descriptor name="source" column="SOURCE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="destination" column="DESTINATION" jdbc-type="VARCHAR"/>
 		<field-descriptor name="commitmentAmount" column="COMMITMENT_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion"/>

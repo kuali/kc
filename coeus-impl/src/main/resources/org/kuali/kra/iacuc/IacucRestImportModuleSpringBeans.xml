@@ -36,6 +36,7 @@
     <bean id="errorHandlingUtilService" parent="grlImporter" p:serviceName="errorHandlingUtilService" />
     <bean id="globalVariableService" parent="grlImporter" p:serviceName="globalVariableService" />
     <bean id="restAuditLoggerFactory" parent="grlImporter" p:serviceName="restAuditLoggerFactory" />
-    
+    <bean id="restBeanWrapperFactory" parent="grlImporter" p:serviceName="restBeanWrapperFactory" />
+    <bean id="restPropertyEditors" parent="grlImporter" p:serviceName="restPropertyEditors" />
 
 </beans>

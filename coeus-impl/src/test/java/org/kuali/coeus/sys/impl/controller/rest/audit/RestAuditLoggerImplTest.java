@@ -29,13 +29,14 @@ import org.junit.Test;
 import org.kuali.coeus.common.budget.framework.core.category.BudgetCategory;
 import org.kuali.coeus.common.budget.framework.rate.InstituteRate;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.springframework.beans.BeanWrapperImpl;
 
 public class RestAuditLoggerImplTest {
 
 	@Test
 	public void testAddNewItem() {
 		RestAuditLoggerImpl logger = new RestAuditLoggerImpl("quickstart", BudgetCategory.class, 
-				Arrays.asList("code", "description", "budgetCategoryTypeCode"), null);
+				Arrays.asList("code", "description", "budgetCategoryTypeCode"), null, BeanWrapperImpl::new);
 		BudgetCategory category = createDefaultBudgetCategory();
 		logger.addNewItem(category);
 		assertTrue("Has changes", logger.getRestAuditLog().hasChanges());
@@ -49,7 +50,7 @@ public class RestAuditLoggerImplTest {
 	@Test
 	public void testDeleteItem() {
 		RestAuditLoggerImpl logger = new RestAuditLoggerImpl("quickstart", BudgetCategory.class, 
-				Arrays.asList("code", "description", "budgetCategoryTypeCode"), null);
+				Arrays.asList("code", "description", "budgetCategoryTypeCode"), null, BeanWrapperImpl::new);
 		BudgetCategory category = createDefaultBudgetCategory();
 		logger.addDeletedItem(category);
 		assertTrue("Has changes", logger.getRestAuditLog().hasChanges());
@@ -63,7 +64,7 @@ public class RestAuditLoggerImplTest {
 	@Test
 	public void testModifyItem() {
 		RestAuditLoggerImpl logger = new RestAuditLoggerImpl("quickstart", BudgetCategory.class, 
-				Arrays.asList("code", "description", "budgetCategoryTypeCode"), null);
+				Arrays.asList("code", "description", "budgetCategoryTypeCode"), null, BeanWrapperImpl::new);
 		BudgetCategory categoryCurrent = createDefaultBudgetCategory();
 		final String modifiedDescription = "Modified Description";
 		BudgetCategory categoryUpdated = createDefaultBudgetCategory();
@@ -83,7 +84,7 @@ public class RestAuditLoggerImplTest {
 	@Test
 	public void testModifyComplexItem() {
 		RestAuditLoggerImpl logger = new RestAuditLoggerImpl("quickstart", InstituteRate.class, 
-				Arrays.asList("id", "fiscalYear", "instituteRate", "startDate"), null);
+				Arrays.asList("id", "fiscalYear", "instituteRate", "startDate"), null, BeanWrapperImpl::new);
 		InstituteRate currentRate = createDefaultInstituteRate();
 		InstituteRate updatedRate = createDefaultInstituteRate();
 		updatedRate.setInstituteRate(new ScaleTwoDecimal(12.00));

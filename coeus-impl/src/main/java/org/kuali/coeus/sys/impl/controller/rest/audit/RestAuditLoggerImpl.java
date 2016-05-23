@@ -24,26 +24,28 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-import org.apache.commons.beanutils.DynaBean;
-import org.apache.commons.beanutils.WrapDynaBean;
+import org.kuali.coeus.sys.framework.controller.rest.RestBeanWrapperFactory;
 import org.kuali.coeus.sys.framework.controller.rest.audit.RestAuditLog;
 import org.kuali.coeus.sys.framework.controller.rest.audit.RestAuditLogger;
 import org.kuali.coeus.sys.framework.controller.rest.audit.RestAuditLoggerDao;
 import org.kuali.coeus.sys.framework.util.CollectionUtils;
+import org.springframework.beans.BeanWrapper;
 
 public class RestAuditLoggerImpl implements RestAuditLogger {
 
-	private Class<?> dataObjectClass;
-	private List<String> propertiesToTrack;
+	private final Class<?> dataObjectClass;
+	private final List<String> propertiesToTrack;
 	private RestAuditLog restAuditLog;
-	private RestAuditLoggerDao restAuditLoggerDao;
-	
+	private final RestAuditLoggerDao restAuditLoggerDao;
+	private final RestBeanWrapperFactory restBeanWrapperFactory;
+
 	public RestAuditLoggerImpl(String username, Class<?> dataObjectClass, List<String> propertiesToTrack,
-			RestAuditLoggerDao restAuditLoggerDao) {
+			RestAuditLoggerDao restAuditLoggerDao, RestBeanWrapperFactory restBeanWrapperFactory) {
 		this.dataObjectClass = dataObjectClass;
 		this.propertiesToTrack = propertiesToTrack;
 		this.restAuditLoggerDao = restAuditLoggerDao;
-		restAuditLog = new RestAuditLog(username, dataObjectClass.getCanonicalName());
+		this.restAuditLog = new RestAuditLog(username, dataObjectClass.getCanonicalName());
+		this.restBeanWrapperFactory = restBeanWrapperFactory;
 	}
 
 	@Override
@@ -52,12 +54,16 @@ public class RestAuditLoggerImpl implements RestAuditLogger {
 	}
 	
 	Map<String, Object> getUpdatedAuditLogItem(Object current, Object updated) {
-		DynaBean currentDynaBean = new WrapDynaBean(current);
-		DynaBean updatedDynaBean = new WrapDynaBean(updated);
+		BeanWrapper currentBean = restBeanWrapperFactory.newInstance(current);
+		currentBean.setAutoGrowNestedPaths(true);
+
+		BeanWrapper updatedBean = restBeanWrapperFactory.newInstance(updated);
+		updatedBean.setAutoGrowNestedPaths(true);
+
 		return propertiesToTrack.stream()
 			.map(name -> {
-				Object currentValue = currentDynaBean.get(name);
-				Object newValue = updatedDynaBean.get(name);
+				final Object currentValue = currentBean.getPropertyValue(name);
+				final Object newValue = updatedBean.getPropertyValue(name);
 				if (areValuesEqual(currentValue, newValue)) {
 					return CollectionUtils.entry(name, currentValue);
 				} else {
@@ -78,11 +84,10 @@ public class RestAuditLoggerImpl implements RestAuditLogger {
 	}
 	
 	Map<String, Object> getAuditLogItem(Object current) {
-		DynaBean currentDynaBean = new WrapDynaBean(current);
+		final BeanWrapper currentBean = restBeanWrapperFactory.newInstance(current);
+		currentBean.setAutoGrowNestedPaths(true);
 		return propertiesToTrack.stream()
-			.map(name -> {
-				return CollectionUtils.entry(name, currentDynaBean.get(name));
-			})
+			.map(name -> CollectionUtils.entry(name, currentBean.getPropertyValue(name)))
 			.collect(CollectionUtils.nullSafeEntriesToMap());
 	}
 
@@ -102,32 +107,20 @@ public class RestAuditLoggerImpl implements RestAuditLogger {
 		return dataObjectClass;
 	}
 
-	public void setDataObjectClass(Class<?> dataObjectClass) {
-		this.dataObjectClass = dataObjectClass;
-	}
-
 	public List<String> getPropertiesToTrack() {
 		return propertiesToTrack;
-	}
-
-	public void setPropertiesToTrack(List<String> propertiesToTrack) {
-		this.propertiesToTrack = propertiesToTrack;
 	}
 
 	public RestAuditLog getRestAuditLog() {
 		return restAuditLog;
 	}
 
-	public void setRestAuditLog(RestAuditLog restAuditLog) {
-		this.restAuditLog = restAuditLog;
-	}
-
 	public RestAuditLoggerDao getRestAuditLoggerDao() {
 		return restAuditLoggerDao;
 	}
 
-	public void setRestAuditLoggerDao(RestAuditLoggerDao restAuditLoggerDao) {
-		this.restAuditLoggerDao = restAuditLoggerDao;
+	public RestBeanWrapperFactory getRestBeanWrapperFactory() {
+		return restBeanWrapperFactory;
 	}
 
 }

@@ -20,6 +20,7 @@ package org.kuali.coeus.sys.impl.controller.rest.audit;
 
 import java.util.List;
 
+import org.kuali.coeus.sys.framework.controller.rest.RestBeanWrapperFactory;
 import org.kuali.coeus.sys.framework.controller.rest.audit.RestAuditLogger;
 import org.kuali.coeus.sys.framework.controller.rest.audit.RestAuditLoggerDao;
 import org.kuali.coeus.sys.framework.controller.rest.audit.RestAuditLoggerFactory;
@@ -38,11 +39,15 @@ public class RestAuditLoggerFactoryImpl implements RestAuditLoggerFactory {
 	@Autowired
 	@Qualifier("globalVariableService")
 	private GlobalVariableService globalVariableService;
+
+	@Autowired
+	@Qualifier("restBeanWrapperFactory")
+	private RestBeanWrapperFactory restBeanWrapperFactory;
 	
 	@Override
 	public RestAuditLogger getNewAuditLogger(Class<?> dataObjectClass, List<String> propertiesToLog) {
 		return new RestAuditLoggerImpl(globalVariableService.getUserSession().getPrincipalName(),
-				dataObjectClass, propertiesToLog, restAuditLoggerDao);
+				dataObjectClass, propertiesToLog, restAuditLoggerDao, restBeanWrapperFactory);
 	}
 
 	public RestAuditLoggerDao getRestAuditLoggerDao() {
@@ -61,4 +66,11 @@ public class RestAuditLoggerFactoryImpl implements RestAuditLoggerFactory {
 		this.globalVariableService = globalVariableService;
 	}
 
+	public RestBeanWrapperFactory getRestBeanWrapperFactory() {
+		return restBeanWrapperFactory;
+	}
+
+	public void setRestBeanWrapperFactory(RestBeanWrapperFactory restBeanWrapperFactory) {
+		this.restBeanWrapperFactory = restBeanWrapperFactory;
+	}
 }

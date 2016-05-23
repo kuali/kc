@@ -32,6 +32,7 @@ public class OrganizationController extends SimpleCrudMapBasedRestController<Org
 	
 	@RequestMapping(params="summary", method=RequestMethod.GET)
 	public @ResponseBody OrganizationResults getOrganizationSummary() {
+		assertMethodSupported(RequestMethod.GET);
 		assertUserHasReadAccess();
 
 		final SearchResults<Organization> organizationSearchResults = new SearchResults<>();

@@ -363,6 +363,28 @@
         </property>
     </bean>
 
+    <util:map id="restPropertyEditors" key-type="java.lang.Class" value-type="java.beans.PropertyEditor">
+        <entry key="java.sql.Date">
+            <bean class="org.kuali.coeus.sys.framework.controller.rest.editor.CustomSqlDateEditor" />
+        </entry>
+        <entry key="java.sql.Timestamp">
+            <bean class="org.kuali.coeus.sys.framework.controller.rest.editor.CustomSqlTimestampEditor" />
+        </entry>
+        <entry key="java.time.Instant">
+            <bean class="org.kuali.coeus.sys.framework.controller.rest.editor.InstantCustomPropertyEditor" />
+        </entry>
+        <entry key="org.kuali.coeus.sys.api.model.ScaleTwoDecimal">
+            <bean class="org.kuali.coeus.sys.framework.model.ScaleTwoDecimalEditor">
+                <constructor-arg>
+                    <bean class="java.text.DecimalFormat">
+                        <constructor-arg value="##0.00"/>
+                    </bean>
+                </constructor-arg>
+                <constructor-arg value="true"/>
+            </bean>
+        </entry>
+    </util:map>
+
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kew.doctype.bo.DocumentType" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.kew.doctype.DocumentTypePolicy" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.rice.krad.bo.DocumentHeader" />

@@ -31,12 +31,15 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component("kcPersistenceStructureService")
 public class KcPersistenceStructureServiceImpl extends PersistenceStructureServiceImpl implements KcPersistenceStructureService {
 
-    public Map<String, String> getDBColumnToObjectAttributeMap(Class clazz) throws ClassNotPersistableException {
-        Map<String, String> fieldMap = new HashMap<String, String>();
+    @Override
+    public Map<String, String> getDBColumnToObjectAttributeMap(Class<?> clazz) throws ClassNotPersistableException {
+        Map<String, String> fieldMap = new HashMap<>();
         if(isPersistable(clazz)) {
             ClassDescriptor classDescriptor = getClassDescriptor(clazz);
             FieldDescriptor fieldDescriptors[] = classDescriptor.getFieldDescriptions();
@@ -49,8 +52,35 @@ public class KcPersistenceStructureServiceImpl extends PersistenceStructureServi
         throw new ClassNotPersistableException(clazz.getName() + " is not Persistable");
     }
 
-    public Map<String, String> getPersistableAttributesColumnMap(Class clazz) throws ClassNotPersistableException {
-        Map<String, String> fieldMap = new HashMap<String, String>();
+    @Override
+    public List<String> listFieldNames(Class<?> clazz, boolean mapAnonymousFields) {
+        if (!mapAnonymousFields) {
+            return listFieldNames(clazz);
+        } else {
+            final ClassDescriptor classDescriptor = getClassDescriptor(clazz);
+            final List<String> fieldNames = Stream.of(classDescriptor.getFieldDescriptions())
+                    .filter(fd -> !fd.isAnonymous()).map(FieldDescriptor::getAttributeName)
+                    .collect(Collectors.toList());
+
+            final List<String> anonFields = Stream.of(classDescriptor.getFieldDescriptions())
+                    .filter(FieldDescriptor::isAnonymous).map(FieldDescriptor::getAttributeName)
+                    .collect(Collectors.toList());
+
+            ((List<ObjectReferenceDescriptor>) classDescriptor.getObjectReferenceDescriptors()).forEach(desc -> {
+                if (anonFields.containsAll(desc.getForeignKeyFields())) {
+                    fieldNames.addAll(((List<String>) desc.getForeignKeyFields()).stream()
+                            .map(field -> desc.getAttributeName() + "." + field)
+                            .collect(Collectors.toList()));
+                    anonFields.removeAll(desc.getForeignKeyFields());
+                }
+            });
+            return fieldNames;
+        }
+    }
+
+    @Override
+    public Map<String, String> getPersistableAttributesColumnMap(Class<?> clazz) throws ClassNotPersistableException {
+        Map<String, String> fieldMap = new HashMap<>();
         if(isPersistable(clazz)) {
             ClassDescriptor classDescriptor = getClassDescriptor(clazz);
             FieldDescriptor fieldDescriptors[] = classDescriptor.getFieldDescriptions();
@@ -64,7 +94,7 @@ public class KcPersistenceStructureServiceImpl extends PersistenceStructureServi
      }
 
     @Override
-    public List<DataObjectRelationship> getRelationshipsTo(Class persistableClass) throws ClassNotPersistableException {
+    public List<DataObjectRelationship> getRelationshipsTo(Class<?> persistableClass) throws ClassNotPersistableException {
         if(!isPersistable(persistableClass)) {
             throw new ClassNotPersistableException(persistableClass.getName() + " is not persistable");
         }

@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Abstract Types.md"
             transfer-encoding:chunked
-
-
 ### Update Abstract Types [PUT /propdev/api/v1/abstract-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Abstract Types [POST /propdev/api/v1/abstract-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Abstract Types by Key [DELETE /propdev/api/v1/abstract-types/(key)]
 	 
 + Request

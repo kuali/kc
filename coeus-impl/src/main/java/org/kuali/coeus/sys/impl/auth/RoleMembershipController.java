@@ -54,6 +54,8 @@ public class RoleMembershipController extends SimpleCrudMapBasedRestController {
 
 	@RequestMapping(method= RequestMethod.GET, value="api/v1/roles/{roleId}/principals/{memberId}")
 	public @ResponseBody List<RoleMembershipDto> getRoleMembershipsForMemberId(@PathVariable String roleId, @PathVariable String memberId, @RequestParam(value="qualification", required=false) String[] qualification) {
+		assertMethodSupported(RequestMethod.GET);
+
 		if (StringUtils.isBlank(roleId)) {
 			throw new ResourceNotFoundException("roleId is blank");
 		}
@@ -83,7 +85,9 @@ public class RoleMembershipController extends SimpleCrudMapBasedRestController {
 
     @RequestMapping(method= RequestMethod.GET, value="api/v1/roles/{roleId}/principals/")
     public @ResponseBody List<RoleMembershipDto> getRoleMemberships(@PathVariable String roleId, @RequestParam(value="qualification", required=false) String[] qualification) {
-        if (StringUtils.isBlank(roleId)) {
+		assertMethodSupported(RequestMethod.GET);
+
+		if (StringUtils.isBlank(roleId)) {
             throw new ResourceNotFoundException("roleId is blank");
         }
 

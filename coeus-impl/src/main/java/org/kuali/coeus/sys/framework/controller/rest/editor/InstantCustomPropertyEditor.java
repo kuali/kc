@@ -16,22 +16,24 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.coeus.sys.framework.persistence;
+package org.kuali.coeus.sys.framework.controller.rest.editor;
 
-import org.kuali.rice.krad.bo.DataObjectRelationship;
-import org.kuali.rice.krad.exception.ClassNotPersistableException;
-import org.kuali.rice.krad.service.PersistenceStructureService;
+import java.beans.PropertyEditorSupport;
+import java.time.Instant;
 
-import java.util.List;
-import java.util.Map;
+public class InstantCustomPropertyEditor extends PropertyEditorSupport {
 
-public interface KcPersistenceStructureService extends PersistenceStructureService {
+	@Override
+	public String getAsText() {
+		if (getValue() != null && getValue() instanceof Instant) {
+			return String.valueOf(((Instant)getValue()).toEpochMilli());
+		} else {
+			return super.getAsText();
+		}
+	}
 
-    Map<String, String> getPersistableAttributesColumnMap(Class<?> clazz) throws ClassNotPersistableException;
-    
-    Map<String, String> getDBColumnToObjectAttributeMap(Class<?> clazz) throws ClassNotPersistableException;
-
-    List<DataObjectRelationship> getRelationshipsTo(Class<?> persistableClass);
-
-    List<String> listFieldNames(Class<?> clazz, boolean mapAnonymousFields);
+	@Override
+	public void setAsText(String value) {
+		setValue(Instant.ofEpochMilli(Long.parseLong(value)));
+	}
 }
