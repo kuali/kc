@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Parameter Types.md"
             transfer-encoding:chunked
-
-
 ### Update Parameter Types [PUT /research-sys/api/v1/parameter-types/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Parameter Types [POST /research-sys/api/v1/parameter-types/]
 
 + Request
@@ -186,7 +183,6 @@
               {"code": "(val)","name": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"code": "(val)","name": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Parameter Types by Key [DELETE /research-sys/api/v1/parameter-types/(key)]
 	 
 + Request

@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Sponsor Terms.md"
             transfer-encoding:chunked
-
-
 ### Update Sponsor Terms [PUT /research-common/api/v1/sponsor-terms/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Sponsor Terms [POST /research-common/api/v1/sponsor-terms/]
 
 + Request
@@ -187,7 +184,6 @@
               {"sponsorTermId": "(val)","sponsorTermCode": "(val)","sponsorTermTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"sponsorTermId": "(val)","sponsorTermCode": "(val)","sponsorTermTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Sponsor Terms by Key [DELETE /research-common/api/v1/sponsor-terms/(key)]
 	 
 + Request

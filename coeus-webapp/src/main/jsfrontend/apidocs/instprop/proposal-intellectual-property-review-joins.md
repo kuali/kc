@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Proposal Intellectual Property Review Joins.md"
             transfer-encoding:chunked
-
-
 ### Update Proposal Intellectual Property Review Joins [PUT /instprop/api/v1/proposal-intellectual-property-review-joins/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Proposal Intellectual Property Review Joins [POST /instprop/api/v1/proposal-intellectual-property-review-joins/]
 
 + Request
@@ -186,7 +183,6 @@
               {"proposalIpReviewJoinId": "(val)","proposalId": "(val)","ipReviewId": "(val)","_primaryKey": "(val)"},
               {"proposalIpReviewJoinId": "(val)","proposalId": "(val)","ipReviewId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Proposal Intellectual Property Review Joins by Key [DELETE /instprop/api/v1/proposal-intellectual-property-review-joins/(key)]
 	 
 + Request

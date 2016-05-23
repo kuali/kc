@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Valid Rates.md"
             transfer-encoding:chunked
-
-
 ### Update Valid Rates [PUT /award/api/v1/valid-rates/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Valid Rates [POST /award/api/v1/valid-rates/]
 
 + Request
@@ -189,7 +186,6 @@
               {"validRatesId": "(val)","onCampusRate": "(val)","offCampusRate": "(val)","rateClassType": "(val)","adjustmentKey": "(val)","icrRateCode": "(val)","_primaryKey": "(val)"},
               {"validRatesId": "(val)","onCampusRate": "(val)","offCampusRate": "(val)","rateClassType": "(val)","adjustmentKey": "(val)","icrRateCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Valid Rates by Key [DELETE /award/api/v1/valid-rates/(key)]
 	 
 + Request

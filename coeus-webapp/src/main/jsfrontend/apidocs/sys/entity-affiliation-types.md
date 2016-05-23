@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Entity Affiliation Types.md"
             transfer-encoding:chunked
-
-
 ### Update Entity Affiliation Types [PUT /research-sys/api/v1/entity-affiliation-types/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Entity Affiliation Types [POST /research-sys/api/v1/entity-affiliation-types/]
 
 + Request
@@ -188,7 +185,6 @@
               {"employmentAffiliationType": "(val)","code": "(val)","name": "(val)","active": "(val)","sortCode": "(val)","_primaryKey": "(val)"},
               {"employmentAffiliationType": "(val)","code": "(val)","name": "(val)","active": "(val)","sortCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Entity Affiliation Types by Key [DELETE /research-sys/api/v1/entity-affiliation-types/(key)]
 	 
 + Request

@@ -115,8 +115,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Protocol Notepads.md"
             transfer-encoding:chunked
-
-
 ### Update Protocol Notepads [PUT /irb/api/v1/protocol-notepads/(key)]
 
 + Request
@@ -149,7 +147,6 @@
             ]
 			
 + Response 204
-
 ### Insert Protocol Notepads [POST /irb/api/v1/protocol-notepads/]
 
 + Request
@@ -193,7 +190,6 @@
               {"id": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","entryNumber": "(val)","comments": "(val)","restrictedView": "(val)","noteTopic": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","entryNumber": "(val)","comments": "(val)","restrictedView": "(val)","noteTopic": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Protocol Notepads by Key [DELETE /irb/api/v1/protocol-notepads/(key)]
 	 
 + Request

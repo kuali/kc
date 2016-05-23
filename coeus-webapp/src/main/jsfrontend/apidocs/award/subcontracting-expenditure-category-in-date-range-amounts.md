@@ -116,8 +116,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Subcontracting Expenditure Category In Date Range Amounts.md"
             transfer-encoding:chunked
-
-
 ### Update Subcontracting Expenditure Category In Date Range Amounts [PUT /award/api/v1/subcontracting-expenditure-category-in-date-range-amounts/(key)]
 
 + Request
@@ -150,7 +148,6 @@
             ]
 			
 + Response 204
-
 ### Insert Subcontracting Expenditure Category In Date Range Amounts [POST /award/api/v1/subcontracting-expenditure-category-in-date-range-amounts/]
 
 + Request
@@ -194,7 +191,6 @@
               {"awardNumber": "(val)","rangeStartDate": "(val)","rangeEndDate": "(val)","largeBusinessExpenditureAmount": "(val)","smallBusinessExpenditureAmount": "(val)","womanOwnedExpenditureAmount": "(val)","eightADisadvantageExpenditureAmount": "(val)","hubZoneExpenditureAmount": "(val)","veteranOwnedExpenditureAmount": "(val)","serviceDisabledVeteranOwnedExpenditureAmount": "(val)","historicalBlackCollegeExpenditureAmount": "(val)","_primaryKey": "(val)"},
               {"awardNumber": "(val)","rangeStartDate": "(val)","rangeEndDate": "(val)","largeBusinessExpenditureAmount": "(val)","smallBusinessExpenditureAmount": "(val)","womanOwnedExpenditureAmount": "(val)","eightADisadvantageExpenditureAmount": "(val)","hubZoneExpenditureAmount": "(val)","veteranOwnedExpenditureAmount": "(val)","serviceDisabledVeteranOwnedExpenditureAmount": "(val)","historicalBlackCollegeExpenditureAmount": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Subcontracting Expenditure Category In Date Range Amounts by Key [DELETE /award/api/v1/subcontracting-expenditure-category-in-date-range-amounts/(key)]
 	 
 + Request

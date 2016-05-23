@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Context Valid Agendas.md"
             transfer-encoding:chunked
-
-
 ### Update Context Valid Agendas [PUT /research-sys/api/v1/context-valid-agendas/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Context Valid Agendas [POST /research-sys/api/v1/context-valid-agendas/]
 
 + Request
@@ -186,7 +183,6 @@
               {"id": "(val)","contextId": "(val)","agendaTypeId": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","contextId": "(val)","agendaTypeId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Context Valid Agendas by Key [DELETE /research-sys/api/v1/context-valid-agendas/(key)]
 	 
 + Request

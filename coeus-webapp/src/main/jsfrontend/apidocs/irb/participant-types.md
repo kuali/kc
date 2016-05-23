@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Participant Types.md"
             transfer-encoding:chunked
-
-
 ### Update Participant Types [PUT /irb/api/v1/participant-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Participant Types [POST /irb/api/v1/participant-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"participantTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"participantTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Participant Types by Key [DELETE /irb/api/v1/participant-types/(key)]
 	 
 + Request

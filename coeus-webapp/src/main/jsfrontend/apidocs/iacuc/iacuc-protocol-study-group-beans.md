@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Protocol Study Group Beans.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Protocol Study Group Beans [PUT /iacuc/api/v1/iacuc-protocol-study-group-beans/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Protocol Study Group Beans [POST /iacuc/api/v1/iacuc-protocol-study-group-beans/]
 
 + Request
@@ -189,7 +186,6 @@
               {"iacucProtocolStudyGroupHeaderId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","procedureCategoryCode": "(val)","procedureCode": "(val)","_primaryKey": "(val)"},
               {"iacucProtocolStudyGroupHeaderId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","procedureCategoryCode": "(val)","procedureCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Protocol Study Group Beans by Key [DELETE /iacuc/api/v1/iacuc-protocol-study-group-beans/(key)]
 	 
 + Request

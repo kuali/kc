@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Entity External Identifier Types.md"
             transfer-encoding:chunked
-
-
 ### Update Entity External Identifier Types [PUT /research-sys/api/v1/entity-external-identifier-types/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Entity External Identifier Types [POST /research-sys/api/v1/entity-external-identifier-types/]
 
 + Request
@@ -188,7 +185,6 @@
               {"encryptionRequired": "(val)","code": "(val)","name": "(val)","active": "(val)","sortCode": "(val)","_primaryKey": "(val)"},
               {"encryptionRequired": "(val)","code": "(val)","name": "(val)","active": "(val)","sortCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Entity External Identifier Types by Key [DELETE /research-sys/api/v1/entity-external-identifier-types/(key)]
 	 
 + Request

@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Notification Module Role Qualifiers.md"
             transfer-encoding:chunked
-
-
 ### Update Notification Module Role Qualifiers [PUT /research-common/api/v1/notification-module-role-qualifiers/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Notification Module Role Qualifiers [POST /research-common/api/v1/notification-module-role-qualifiers/]
 
 + Request
@@ -186,7 +183,6 @@
               {"notificationModuleRoleQualifierId": "(val)","notificationModuleRoleId": "(val)","qualifier": "(val)","_primaryKey": "(val)"},
               {"notificationModuleRoleQualifierId": "(val)","notificationModuleRoleId": "(val)","qualifier": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Notification Module Role Qualifiers by Key [DELETE /research-common/api/v1/notification-module-role-qualifiers/(key)]
 	 
 + Request

@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Rule Extension Values.md"
             transfer-encoding:chunked
-
-
 ### Update Rule Extension Values [PUT /research-sys/api/v1/rule-extension-values/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Rule Extension Values [POST /research-sys/api/v1/rule-extension-values/]
 
 + Request
@@ -187,7 +184,6 @@
               {"ruleExtensionValueId": "(val)","value": "(val)","key": "(val)","lockVerNbr": "(val)","_primaryKey": "(val)"},
               {"ruleExtensionValueId": "(val)","value": "(val)","key": "(val)","lockVerNbr": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Rule Extension Values by Key [DELETE /research-sys/api/v1/rule-extension-values/(key)]
 	 
 + Request

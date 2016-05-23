@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Cost Elements.md"
             transfer-encoding:chunked
-
-
 ### Update Cost Elements [PUT /research-common/api/v1/cost-elements/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Cost Elements [POST /research-common/api/v1/cost-elements/]
 
 + Request
@@ -189,7 +186,6 @@
               {"costElement": "(val)","budgetCategoryCode": "(val)","description": "(val)","onOffCampusFlag": "(val)","active": "(val)","financialObjectCode": "(val)","_primaryKey": "(val)"},
               {"costElement": "(val)","budgetCategoryCode": "(val)","description": "(val)","onOffCampusFlag": "(val)","active": "(val)","financialObjectCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Cost Elements by Key [DELETE /research-common/api/v1/cost-elements/(key)]
 	 
 + Request

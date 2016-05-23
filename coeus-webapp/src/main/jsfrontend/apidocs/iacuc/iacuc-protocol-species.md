@@ -119,8 +119,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Protocol Species.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Protocol Species [PUT /iacuc/api/v1/iacuc-protocol-species/(key)]
 
 + Request
@@ -153,7 +151,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Protocol Species [POST /iacuc/api/v1/iacuc-protocol-species/]
 
 + Request
@@ -197,7 +194,6 @@
               {"iacucProtocolSpeciesId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","speciesId": "(val)","speciesCode": "(val)","speciesGroup": "(val)","usdaCovered": "(val)","strain": "(val)","speciesCount": "(val)","painCategoryCode": "(val)","speciesCountCode": "(val)","procedureSummary": "(val)","exceptionsPresent": "(val)","_primaryKey": "(val)"},
               {"iacucProtocolSpeciesId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","speciesId": "(val)","speciesCode": "(val)","speciesGroup": "(val)","usdaCovered": "(val)","strain": "(val)","speciesCount": "(val)","painCategoryCode": "(val)","speciesCountCode": "(val)","procedureSummary": "(val)","exceptionsPresent": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Protocol Species by Key [DELETE /iacuc/api/v1/iacuc-protocol-species/(key)]
 	 
 + Request

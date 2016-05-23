@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Term Resolver Attributes.md"
             transfer-encoding:chunked
-
-
 ### Update Term Resolver Attributes [PUT /research-sys/api/v1/term-resolver-attributes/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Term Resolver Attributes [POST /research-sys/api/v1/term-resolver-attributes/]
 
 + Request
@@ -186,7 +183,6 @@
               {"id": "(val)","termResolverId": "(val)","value": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","termResolverId": "(val)","value": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Term Resolver Attributes by Key [DELETE /research-sys/api/v1/term-resolver-attributes/(key)]
 	 
 + Request

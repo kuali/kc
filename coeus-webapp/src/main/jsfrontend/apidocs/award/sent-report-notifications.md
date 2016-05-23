@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Sent Report Notifications.md"
             transfer-encoding:chunked
-
-
 ### Update Sent Report Notifications [PUT /award/api/v1/sent-report-notifications/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Sent Report Notifications [POST /award/api/v1/sent-report-notifications/]
 
 + Request
@@ -189,7 +186,6 @@
               {"awardReportNotifSentId": "(val)","awardReportTermId": "(val)","awardNumber": "(val)","dueDate": "(val)","actionCode": "(val)","dateSent": "(val)","_primaryKey": "(val)"},
               {"awardReportNotifSentId": "(val)","awardReportTermId": "(val)","awardNumber": "(val)","dueDate": "(val)","actionCode": "(val)","dateSent": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Sent Report Notifications by Key [DELETE /award/api/v1/sent-report-notifications/(key)]
 	 
 + Request

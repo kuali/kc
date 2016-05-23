@@ -122,8 +122,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Released Sub Award Amounts.md"
             transfer-encoding:chunked
-
-
 ### Update Released Sub Award Amounts [PUT /subaward/api/v1/released-sub-award-amounts/(key)]
 
 + Request
@@ -156,7 +154,6 @@
             ]
 			
 + Response 204
-
 ### Insert Released Sub Award Amounts [POST /subaward/api/v1/released-sub-award-amounts/]
 
 + Request
@@ -200,7 +197,6 @@
               {"subAwardAmtReleasedId": "(val)","documentNumber": "(val)","subAwardId": "(val)","sequenceNumber": "(val)","subAwardCode": "(val)","amountReleased": "(val)","effectiveDate": "(val)","comments": "(val)","invoiceNumber": "(val)","startDate": "(val)","endDate": "(val)","document": "(val)","fileName": "(val)","createdBy": "(val)","createdDate": "(val)","mimeType": "(val)","invoiceStatus": "(val)","_primaryKey": "(val)"},
               {"subAwardAmtReleasedId": "(val)","documentNumber": "(val)","subAwardId": "(val)","sequenceNumber": "(val)","subAwardCode": "(val)","amountReleased": "(val)","effectiveDate": "(val)","comments": "(val)","invoiceNumber": "(val)","startDate": "(val)","endDate": "(val)","document": "(val)","fileName": "(val)","createdBy": "(val)","createdDate": "(val)","mimeType": "(val)","invoiceStatus": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Released Sub Award Amounts by Key [DELETE /subaward/api/v1/released-sub-award-amounts/(key)]
 	 
 + Request

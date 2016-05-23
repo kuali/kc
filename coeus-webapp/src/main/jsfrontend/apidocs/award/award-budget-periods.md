@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Award Budget Periods.md"
             transfer-encoding:chunked
-
-
 ### Update Award Budget Periods [PUT /award/api/v1/award-budget-periods/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Award Budget Periods [POST /award/api/v1/award-budget-periods/]
 
 + Request
@@ -187,7 +184,6 @@
               {"budgetPeriodId": "(val)","obligatedAmount": "(val)","totalFringeAmount": "(val)","rateOverrideFlag": "(val)","_primaryKey": "(val)"},
               {"budgetPeriodId": "(val)","obligatedAmount": "(val)","totalFringeAmount": "(val)","rateOverrideFlag": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Award Budget Periods by Key [DELETE /award/api/v1/award-budget-periods/(key)]
 	 
 + Request

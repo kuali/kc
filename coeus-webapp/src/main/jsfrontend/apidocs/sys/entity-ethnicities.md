@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Entity Ethnicities.md"
             transfer-encoding:chunked
-
-
 ### Update Entity Ethnicities [PUT /research-sys/api/v1/entity-ethnicities/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Entity Ethnicities [POST /research-sys/api/v1/entity-ethnicities/]
 
 + Request
@@ -187,7 +184,6 @@
               {"id": "(val)","entityId": "(val)","ethnicityCode": "(val)","subEthnicityCode": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","entityId": "(val)","ethnicityCode": "(val)","subEthnicityCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Entity Ethnicities by Key [DELETE /research-sys/api/v1/entity-ethnicities/(key)]
 	 
 + Request

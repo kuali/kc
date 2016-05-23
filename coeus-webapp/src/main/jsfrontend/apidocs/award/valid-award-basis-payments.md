@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Valid Award Basis Payments.md"
             transfer-encoding:chunked
-
-
 ### Update Valid Award Basis Payments [PUT /award/api/v1/valid-award-basis-payments/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Valid Award Basis Payments [POST /award/api/v1/valid-award-basis-payments/]
 
 + Request
@@ -186,7 +183,6 @@
               {"validAwardBasisPaymentId": "(val)","basisOfPaymentCode": "(val)","awardTypeCode": "(val)","_primaryKey": "(val)"},
               {"validAwardBasisPaymentId": "(val)","basisOfPaymentCode": "(val)","awardTypeCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Valid Award Basis Payments by Key [DELETE /award/api/v1/valid-award-basis-payments/(key)]
 	 
 + Request

@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Entity Type Contact Infos.md"
             transfer-encoding:chunked
-
-
 ### Update Entity Type Contact Infos [PUT /research-sys/api/v1/entity-type-contact-infos/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Entity Type Contact Infos [POST /research-sys/api/v1/entity-type-contact-infos/]
 
 + Request
@@ -186,7 +183,6 @@
               {"entityId": "(val)","entityTypeCode": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"entityId": "(val)","entityTypeCode": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Entity Type Contact Infos by Key [DELETE /research-sys/api/v1/entity-type-contact-infos/(key)]
 	 
 + Request

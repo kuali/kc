@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Action Attributes.md"
             transfer-encoding:chunked
-
-
 ### Update Action Attributes [PUT /research-sys/api/v1/action-attributes/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Action Attributes [POST /research-sys/api/v1/action-attributes/]
 
 + Request
@@ -185,7 +182,6 @@
               {"id": "(val)","value": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","value": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Action Attributes by Key [DELETE /research-sys/api/v1/action-attributes/(key)]
 	 
 + Request

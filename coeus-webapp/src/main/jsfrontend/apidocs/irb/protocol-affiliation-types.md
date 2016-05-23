@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Protocol Affiliation Types.md"
             transfer-encoding:chunked
-
-
 ### Update Protocol Affiliation Types [PUT /irb/api/v1/protocol-affiliation-types/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Protocol Affiliation Types [POST /irb/api/v1/protocol-affiliation-types/]
 
 + Request
@@ -186,7 +183,6 @@
               {"affiliationTypeCode": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"affiliationTypeCode": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Protocol Affiliation Types by Key [DELETE /irb/api/v1/protocol-affiliation-types/(key)]
 	 
 + Request

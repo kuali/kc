@@ -129,8 +129,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Document Types.md"
             transfer-encoding:chunked
-
-
 ### Update Document Types [PUT /research-sys/api/v1/document-types/(key)]
 
 + Request
@@ -163,7 +161,6 @@
             ]
 			
 + Response 204
-
 ### Insert Document Types [POST /research-sys/api/v1/document-types/]
 
 + Request
@@ -207,7 +204,6 @@
               {"documentTypeId": "(val)","docTypeParentId": "(val)","name": "(val)","version": "(val)","active": "(val)","currentInd": "(val)","description": "(val)","label": "(val)","previousVersionId": "(val)","documentId": "(val)","unresolvedHelpDefinitionUrl": "(val)","unresolvedDocSearchHelpUrl": "(val)","unresolvedDocHandlerUrl": "(val)","postProcessorName": "(val)","workgroupId": "(val)","blanketApproveWorkgroupId": "(val)","blanketApprovePolicy": "(val)","reportingWorkgroupId": "(val)","actualApplicationId": "(val)","authorizer": "(val)","routingVersion": "(val)","actualNotificationFromAddress": "(val)","documentTypeSecurityXml": "(val)","customEmailStylesheet": "(val)","_primaryKey": "(val)"},
               {"documentTypeId": "(val)","docTypeParentId": "(val)","name": "(val)","version": "(val)","active": "(val)","currentInd": "(val)","description": "(val)","label": "(val)","previousVersionId": "(val)","documentId": "(val)","unresolvedHelpDefinitionUrl": "(val)","unresolvedDocSearchHelpUrl": "(val)","unresolvedDocHandlerUrl": "(val)","postProcessorName": "(val)","workgroupId": "(val)","blanketApproveWorkgroupId": "(val)","blanketApprovePolicy": "(val)","reportingWorkgroupId": "(val)","actualApplicationId": "(val)","authorizer": "(val)","routingVersion": "(val)","actualNotificationFromAddress": "(val)","documentTypeSecurityXml": "(val)","customEmailStylesheet": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Document Types by Key [DELETE /research-sys/api/v1/document-types/(key)]
 	 
 + Request

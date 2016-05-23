@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Delegate Types.md"
             transfer-encoding:chunked
-
-
 ### Update Delegate Types [PUT /research-sys/api/v1/delegate-types/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Delegate Types [POST /research-sys/api/v1/delegate-types/]
 
 + Request
@@ -188,7 +185,6 @@
               {"delegationId": "(val)","roleId": "(val)","active": "(val)","kimTypeId": "(val)","delegationTypeCode": "(val)","_primaryKey": "(val)"},
               {"delegationId": "(val)","roleId": "(val)","active": "(val)","kimTypeId": "(val)","delegationTypeCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Delegate Types by Key [DELETE /research-sys/api/v1/delegate-types/(key)]
 	 
 + Request

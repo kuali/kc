@@ -113,8 +113,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Organization Indirect Costs.md"
             transfer-encoding:chunked
-
-
 ### Update Organization Indirect Costs [PUT /research-common/api/v1/organization-indirect-costs/(key)]
 
 + Request
@@ -147,7 +145,6 @@
             ]
 			
 + Response 204
-
 ### Insert Organization Indirect Costs [POST /research-common/api/v1/organization-indirect-costs/]
 
 + Request
@@ -191,7 +188,6 @@
               {"idcNumber": "(val)","organizationId": "(val)","applicableIndirectcostRate": "(val)","endDate": "(val)","idcComment": "(val)","idcRateTypeCode": "(val)","requestedDate": "(val)","startDate": "(val)","_primaryKey": "(val)"},
               {"idcNumber": "(val)","organizationId": "(val)","applicableIndirectcostRate": "(val)","endDate": "(val)","idcComment": "(val)","idcRateTypeCode": "(val)","requestedDate": "(val)","startDate": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Organization Indirect Costs by Key [DELETE /research-common/api/v1/organization-indirect-costs/(key)]
 	 
 + Request

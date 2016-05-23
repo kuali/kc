@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Award Method Of Payments.md"
             transfer-encoding:chunked
-
-
 ### Update Award Method Of Payments [PUT /award/api/v1/award-method-of-payments/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Award Method Of Payments [POST /award/api/v1/award-method-of-payments/]
 
 + Request
@@ -185,7 +182,6 @@
               {"methodOfPaymentCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"methodOfPaymentCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Award Method Of Payments by Key [DELETE /award/api/v1/award-method-of-payments/(key)]
 	 
 + Request

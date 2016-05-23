@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Notification Priorities.md"
             transfer-encoding:chunked
-
-
 ### Update Notification Priorities [PUT /research-sys/api/v1/notification-priorities/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Notification Priorities [POST /research-sys/api/v1/notification-priorities/]
 
 + Request
@@ -187,7 +184,6 @@
               {"id": "(val)","name": "(val)","description": "(val)","order": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","name": "(val)","description": "(val)","order": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Notification Priorities by Key [DELETE /research-sys/api/v1/notification-priorities/(key)]
 	 
 + Request

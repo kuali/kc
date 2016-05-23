@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Award Budget Period Summary Calculated Amounts.md"
             transfer-encoding:chunked
-
-
 ### Update Award Budget Period Summary Calculated Amounts [PUT /award/api/v1/award-budget-period-summary-calculated-amounts/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert Award Budget Period Summary Calculated Amounts [POST /award/api/v1/award-budget-period-summary-calculated-amounts/]
 
 + Request
@@ -190,7 +187,6 @@
               {"awardBudgetPeriodSummaryCalculatedAmountId": "(val)","budgetPeriodId": "(val)","costElement": "(val)","onOffCampusFlag": "(val)","rateClassType": "(val)","calculatedCost": "(val)","calculatedCostSharing": "(val)","_primaryKey": "(val)"},
               {"awardBudgetPeriodSummaryCalculatedAmountId": "(val)","budgetPeriodId": "(val)","costElement": "(val)","onOffCampusFlag": "(val)","rateClassType": "(val)","calculatedCost": "(val)","calculatedCostSharing": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Award Budget Period Summary Calculated Amounts by Key [DELETE /award/api/v1/award-budget-period-summary-calculated-amounts/(key)]
 	 
 + Request

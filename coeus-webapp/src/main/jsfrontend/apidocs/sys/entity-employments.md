@@ -116,8 +116,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Entity Employments.md"
             transfer-encoding:chunked
-
-
 ### Update Entity Employments [PUT /research-sys/api/v1/entity-employments/(key)]
 
 + Request
@@ -150,7 +148,6 @@
             ]
 			
 + Response 204
-
 ### Insert Entity Employments [POST /research-sys/api/v1/entity-employments/]
 
 + Request
@@ -194,7 +191,6 @@
               {"id": "(val)","primaryDepartmentCode": "(val)","active": "(val)","employeeId": "(val)","entityId": "(val)","entityAffiliationId": "(val)","employeeStatusCode": "(val)","employeeTypeCode": "(val)","employmentRecordId": "(val)","baseSalaryAmount": "(val)","primary": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","primaryDepartmentCode": "(val)","active": "(val)","employeeId": "(val)","entityId": "(val)","entityAffiliationId": "(val)","employeeStatusCode": "(val)","employeeTypeCode": "(val)","employmentRecordId": "(val)","baseSalaryAmount": "(val)","primary": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Entity Employments by Key [DELETE /research-sys/api/v1/entity-employments/(key)]
 	 
 + Request

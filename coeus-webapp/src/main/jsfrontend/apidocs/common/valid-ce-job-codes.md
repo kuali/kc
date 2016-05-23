@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Valid Ce Job Codes.md"
             transfer-encoding:chunked
-
-
 ### Update Valid Ce Job Codes [PUT /research-common/api/v1/valid-ce-job-codes/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Valid Ce Job Codes [POST /research-common/api/v1/valid-ce-job-codes/]
 
 + Request
@@ -185,7 +182,6 @@
               {"costElement": "(val)","jobCode": "(val)","_primaryKey": "(val)"},
               {"costElement": "(val)","jobCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Valid Ce Job Codes by Key [DELETE /research-common/api/v1/valid-ce-job-codes/(key)]
 	 
 + Request

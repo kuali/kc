@@ -116,8 +116,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Protocol Submission Docs.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Protocol Submission Docs [PUT /iacuc/api/v1/iacuc-protocol-submission-docs/(key)]
 
 + Request
@@ -150,7 +148,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Protocol Submission Docs [POST /iacuc/api/v1/iacuc-protocol-submission-docs/]
 
 + Request
@@ -194,7 +191,6 @@
               {"submissionDocId": "(val)","protocolId": "(val)","submissionIdFk": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","submissionNumber": "(val)","documentId": "(val)","fileName": "(val)","contentType": "(val)","description": "(val)","document": "(val)","_primaryKey": "(val)"},
               {"submissionDocId": "(val)","protocolId": "(val)","submissionIdFk": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","submissionNumber": "(val)","documentId": "(val)","fileName": "(val)","contentType": "(val)","description": "(val)","document": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Protocol Submission Docs by Key [DELETE /iacuc/api/v1/iacuc-protocol-submission-docs/(key)]
 	 
 + Request

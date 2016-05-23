@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Person Document Affiliations.md"
             transfer-encoding:chunked
-
-
 ### Update Person Document Affiliations [PUT /research-sys/api/v1/person-document-affiliations/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert Person Document Affiliations [POST /research-sys/api/v1/person-document-affiliations/]
 
 + Request
@@ -190,7 +187,6 @@
               {"entityAffiliationId": "(val)","affiliationTypeCode": "(val)","campusCode": "(val)","dflt": "(val)","edit": "(val)","documentNumber": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"entityAffiliationId": "(val)","affiliationTypeCode": "(val)","campusCode": "(val)","dflt": "(val)","edit": "(val)","documentNumber": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Person Document Affiliations by Key [DELETE /research-sys/api/v1/person-document-affiliations/(key)]
 	 
 + Request

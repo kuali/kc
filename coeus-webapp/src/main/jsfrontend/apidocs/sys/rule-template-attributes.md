@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Rule Template Attributes.md"
             transfer-encoding:chunked
-
-
 ### Update Rule Template Attributes [PUT /research-sys/api/v1/rule-template-attributes/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Rule Template Attributes [POST /research-sys/api/v1/rule-template-attributes/]
 
 + Request
@@ -189,7 +186,6 @@
               {"id": "(val)","ruleAttributeId": "(val)","required": "(val)","active": "(val)","displayOrder": "(val)","defaultValue": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","ruleAttributeId": "(val)","required": "(val)","active": "(val)","displayOrder": "(val)","defaultValue": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Rule Template Attributes by Key [DELETE /research-sys/api/v1/rule-template-attributes/(key)]
 	 
 + Request

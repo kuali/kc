@@ -21,7 +21,10 @@ package org.kuali.coeus.sys.framework.controller.rest;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.coeus.sys.framework.controller.rest.CustomEditors.CustomSqlTimestampEditor;
+import org.kuali.coeus.sys.framework.rest.DataDictionaryValidationException;
+import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
+import org.kuali.coeus.sys.framework.rest.UnauthorizedAccessException;
+import org.kuali.coeus.sys.framework.rest.UnprocessableEntityException;
 import org.kuali.coeus.sys.framework.rest.*;
 import org.kuali.coeus.sys.framework.validation.ErrorMessage;
 import org.kuali.coeus.sys.framework.validation.ErrorMessageMap;
@@ -36,12 +39,14 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.time.Instant;
+import java.beans.PropertyEditor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 
 /*
@@ -54,10 +59,12 @@ public abstract class RestController implements HandlerExceptionResolver, Ordere
 
 	private int order = 0;
 
+	@Resource(name="restPropertyEditors")
+	private Map<Class<?>, ? extends PropertyEditor> restPropertyEditors;
+
 	@InitBinder
 	public void initInstantBinder(WebDataBinder binder) {
-		binder.registerCustomEditor(Instant.class, new InstantCustomPropertyEditor());
-        binder.registerCustomEditor(java.sql.Timestamp.class, new CustomSqlTimestampEditor());
+		restPropertyEditors.forEach(binder::registerCustomEditor);
     }
 
 	@Override
@@ -114,7 +121,11 @@ public abstract class RestController implements HandlerExceptionResolver, Ordere
 	}
 
     protected ModelAndView unprocessableEntityError(HttpServletRequest request, HttpServletResponse response, Object handler, UnprocessableEntityException ex) {
-        return createJsonModelAndView(HttpStatus.UNPROCESSABLE_ENTITY.value(), generateSingleErrorFromExceptionMessage(ex), response);
+        if (ex.getCause() != null) {
+			LOG.info(ex.getMessage(), ex);
+		}
+
+		return createJsonModelAndView(HttpStatus.UNPROCESSABLE_ENTITY.value(), generateSingleErrorFromExceptionMessage(ex), response);
     }
 
     protected ModelAndView badRequestError(HttpServletRequest request, HttpServletResponse response, Object handler, UnprocessableEntityException ex) {
@@ -146,5 +157,13 @@ public abstract class RestController implements HandlerExceptionResolver, Ordere
 
 	public void setOrder(int order) {
 		this.order = order;
+	}
+
+	public Map<Class<?>, ? extends PropertyEditor> getRestPropertyEditors() {
+		return restPropertyEditors;
+	}
+
+	public void setRestPropertyEditors(Map<Class<?>, ? extends PropertyEditor> restPropertyEditors) {
+		this.restPropertyEditors = restPropertyEditors;
 	}
 }

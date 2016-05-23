@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Schedule Agendas.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Schedule Agendas [PUT /iacuc/api/v1/iacuc-schedule-agendas/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Schedule Agendas [POST /iacuc/api/v1/iacuc-schedule-agendas/]
 
 + Request
@@ -190,7 +187,6 @@
               {"scheduleAgendaId": "(val)","scheduleIdFk": "(val)","agendaNumber": "(val)","agendaName": "(val)","pdfStore": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"},
               {"scheduleAgendaId": "(val)","scheduleIdFk": "(val)","agendaNumber": "(val)","agendaName": "(val)","pdfStore": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Schedule Agendas by Key [DELETE /iacuc/api/v1/iacuc-schedule-agendas/(key)]
 	 
 + Request

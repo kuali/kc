@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Proposal Abstracts.md"
             transfer-encoding:chunked
-
-
 ### Update Proposal Abstracts [PUT /propdev/api/v1/proposal-abstracts/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Proposal Abstracts [POST /propdev/api/v1/proposal-abstracts/]
 
 + Request
@@ -188,7 +185,6 @@
               {"proposalNumber": "(val)","abstractTypeCode": "(val)","abstractDetails": "(val)","timestampDisplay": "(val)","uploadUserDisplay": "(val)","_primaryKey": "(val)"},
               {"proposalNumber": "(val)","abstractTypeCode": "(val)","abstractDetails": "(val)","timestampDisplay": "(val)","uploadUserDisplay": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Proposal Abstracts by Key [DELETE /propdev/api/v1/proposal-abstracts/(key)]
 	 
 + Request

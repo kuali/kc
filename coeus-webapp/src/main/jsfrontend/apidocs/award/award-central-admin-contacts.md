@@ -16,7 +16,7 @@
 
     + Body
     
-            {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","_primaryKey": "(val)"}
+            {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","award.awardId": "(val)","_primaryKey": "(val)"}
 
 ### Get All Award Central Admin Contacts [GET /award/api/v1/award-central-admin-contacts/]
 	 
@@ -35,8 +35,8 @@
     + Body
     
             [
-              {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","_primaryKey": "(val)"},
-              {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","_primaryKey": "(val)"}
+              {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","award.awardId": "(val)","_primaryKey": "(val)"},
+              {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","award.awardId": "(val)","_primaryKey": "(val)"}
             ]
 
 ### Get All Award Central Admin Contacts with Filtering [GET /award/api/v1/award-central-admin-contacts/]
@@ -48,11 +48,11 @@
     + fullName (optional) - 
     + unitContactType (optional) - 
     + unitAdministratorTypeCode (optional) - 
-    + awardId (optional) - 
     + awardNumber (optional) - 
     + sequenceNumber (optional) - 
     + unitAdministratorUnitNumber (optional) - 
     + defaultUnitContact (optional) - 
+    + award.awardId (optional) - 
 
             
 + Request
@@ -70,8 +70,8 @@
     + Body
     
             [
-              {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","_primaryKey": "(val)"},
-              {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","_primaryKey": "(val)"}
+              {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","award.awardId": "(val)","_primaryKey": "(val)"},
+              {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","award.awardId": "(val)","_primaryKey": "(val)"}
             ]
 			
 ### Get Schema for Award Central Admin Contacts [GET /award/api/v1/award-central-admin-contacts/]
@@ -94,7 +94,7 @@
 
     + Body
     
-            {"columns":["awardContactId","personId","fullName","unitContactType","unitAdministratorTypeCode","awardId","awardNumber","sequenceNumber","unitAdministratorUnitNumber","defaultUnitContact"],"primaryKey":"awardContactId"}
+            {"columns":["awardContactId","personId","fullName","unitContactType","unitAdministratorTypeCode","awardNumber","sequenceNumber","unitAdministratorUnitNumber","defaultUnitContact","award.awardId"],"primaryKey":"awardContactId"}
 		
 ### Get Blueprint API specification for Award Central Admin Contacts [GET /award/api/v1/award-central-admin-contacts/]
 	 
@@ -115,8 +115,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Award Central Admin Contacts.md"
             transfer-encoding:chunked
-
-
 ### Update Award Central Admin Contacts [PUT /award/api/v1/award-central-admin-contacts/(key)]
 
 + Request
@@ -128,7 +126,7 @@
 
     + Body
     
-            {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","_primaryKey": "(val)"}
+            {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","award.awardId": "(val)","_primaryKey": "(val)"}
 			
 + Response 204
 
@@ -144,12 +142,11 @@
     + Body
     
             [
-              {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","_primaryKey": "(val)"},
-              {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","_primaryKey": "(val)"}
+              {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","award.awardId": "(val)","_primaryKey": "(val)"},
+              {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","award.awardId": "(val)","_primaryKey": "(val)"}
             ]
 			
 + Response 204
-
 ### Insert Award Central Admin Contacts [POST /award/api/v1/award-central-admin-contacts/]
 
 + Request
@@ -161,13 +158,13 @@
 
     + Body
     
-            {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","_primaryKey": "(val)"}
+            {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","award.awardId": "(val)","_primaryKey": "(val)"}
 			
 + Response 201
     
     + Body
             
-            {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","_primaryKey": "(val)"}
+            {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","award.awardId": "(val)","_primaryKey": "(val)"}
             
 ### Insert Multiple Award Central Admin Contacts [POST /award/api/v1/award-central-admin-contacts/]
 
@@ -181,8 +178,8 @@
     + Body
     
             [
-              {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","_primaryKey": "(val)"},
-              {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","_primaryKey": "(val)"}
+              {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","award.awardId": "(val)","_primaryKey": "(val)"},
+              {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","award.awardId": "(val)","_primaryKey": "(val)"}
             ]
 			
 + Response 201
@@ -190,10 +187,9 @@
     + Body
             
             [
-              {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","_primaryKey": "(val)"},
-              {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","_primaryKey": "(val)"}
+              {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","award.awardId": "(val)","_primaryKey": "(val)"},
+              {"awardContactId": "(val)","personId": "(val)","fullName": "(val)","unitContactType": "(val)","unitAdministratorTypeCode": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","unitAdministratorUnitNumber": "(val)","defaultUnitContact": "(val)","award.awardId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Award Central Admin Contacts by Key [DELETE /award/api/v1/award-central-admin-contacts/(key)]
 	 
 + Request
@@ -230,11 +226,11 @@
     + fullName (optional) - 
     + unitContactType (optional) - 
     + unitAdministratorTypeCode (optional) - 
-    + awardId (optional) - 
     + awardNumber (optional) - 
     + sequenceNumber (optional) - 
     + unitAdministratorUnitNumber (optional) - 
     + defaultUnitContact (optional) - 
+    + award.awardId (optional) - 
 
       
 + Request

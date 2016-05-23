@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Exempt Studies Checklist Items.md"
             transfer-encoding:chunked
-
-
 ### Update Exempt Studies Checklist Items [PUT /irb/api/v1/exempt-studies-checklist-items/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Exempt Studies Checklist Items [POST /irb/api/v1/exempt-studies-checklist-items/]
 
 + Request
@@ -185,7 +182,6 @@
               {"exemptStudiesCheckListCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"exemptStudiesCheckListCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Exempt Studies Checklist Items by Key [DELETE /irb/api/v1/exempt-studies-checklist-items/(key)]
 	 
 + Request

@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Committee Schedule Action Items.md"
             transfer-encoding:chunked
-
-
 ### Update Committee Schedule Action Items [PUT /irb/api/v1/committee-schedule-action-items/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Committee Schedule Action Items [POST /irb/api/v1/committee-schedule-action-items/]
 
 + Request
@@ -188,7 +185,6 @@
               {"commScheduleActItemsId": "(val)","scheduleIdFk": "(val)","actionItemNumber": "(val)","scheduleActItemTypeCode": "(val)","itemDescription": "(val)","_primaryKey": "(val)"},
               {"commScheduleActItemsId": "(val)","scheduleIdFk": "(val)","actionItemNumber": "(val)","scheduleActItemTypeCode": "(val)","itemDescription": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Committee Schedule Action Items by Key [DELETE /irb/api/v1/committee-schedule-action-items/(key)]
 	 
 + Request

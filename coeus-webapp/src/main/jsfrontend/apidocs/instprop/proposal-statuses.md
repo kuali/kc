@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Proposal Statuses.md"
             transfer-encoding:chunked
-
-
 ### Update Proposal Statuses [PUT /instprop/api/v1/proposal-statuses/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Proposal Statuses [POST /instprop/api/v1/proposal-statuses/]
 
 + Request
@@ -185,7 +182,6 @@
               {"proposalStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"proposalStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Proposal Statuses by Key [DELETE /instprop/api/v1/proposal-statuses/(key)]
 	 
 + Request

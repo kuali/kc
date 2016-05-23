@@ -8,9 +8,7 @@ This documentation lays out the REST APIs that are available to facilitate integ
 
 Current APIs have been designed to be accessed via admin only username and password pair.
 
-
 # Group Research Awards
-<!-- include(award/award-accounts.md) -->
 <!-- include(award/award-amount-infos.md) -->
 <!-- include(award/award-amount-transactions.md) -->
 <!-- include(award/award-approved-equipment.md) -->
@@ -19,7 +17,6 @@ Current APIs have been designed to be accessed via admin only username and passw
 <!-- include(award/award-attachment-types.md) -->
 <!-- include(award/award-attachments.md) -->
 <!-- include(award/award-basis-of-payments.md) -->
-<!-- include(award/award-budget-documents.md) -->
 <!-- include(award/award-budget-limits.md) -->
 <!-- include(award/award-budget-line-item-calculated-amounts.md) -->
 <!-- include(award/award-budget-line-items.md) -->
@@ -38,7 +35,6 @@ Current APIs have been designed to be accessed via admin only username and passw
 <!-- include(award/award-cost-shares.md) -->
 <!-- include(award/award-custom-data.md) -->
 <!-- include(award/award-direct-f-and-a-distributions.md) -->
-<!-- include(award/award-documents.md) -->
 <!-- include(award/award-f-and-a-rates.md) -->
 <!-- include(award/award-funding-proposals.md) -->
 <!-- include(award/award-hierarchies.md) -->
@@ -94,7 +90,6 @@ Current APIs have been designed to be accessed via admin only username and passw
 <!-- include(award/subcontracting-expenditure-category-amounts.md) -->
 <!-- include(award/subcontracting-expenditure-category-details.md) -->
 <!-- include(award/subcontracting-expenditure-category-in-date-range-amounts.md) -->
-<!-- include(award/time-and-money-documents.md) -->
 <!-- include(award/transaction-details.md) -->
 <!-- include(award/valid-award-basis-payments.md) -->
 <!-- include(award/valid-basis-method-payments.md) -->
@@ -251,7 +246,6 @@ Current APIs have been designed to be accessed via admin only username and passw
 <!-- include(common/ynqs.md) -->
 
 # Group Research Iacuc
-<!-- include(iacuc/common-committee-documents.md) -->
 <!-- include(iacuc/iacuc-alternate-searches.md) -->
 <!-- include(iacuc/iacuc-batch-correspondence-details.md) -->
 <!-- include(iacuc/iacuc-batch-correspondences.md) -->
@@ -291,7 +285,6 @@ Current APIs have been designed to be accessed via admin only username and passw
 <!-- include(iacuc/iacuc-protocol-correspondence-types.md) -->
 <!-- include(iacuc/iacuc-protocol-correspondences.md) -->
 <!-- include(iacuc/iacuc-protocol-custom-data.md) -->
-<!-- include(iacuc/iacuc-protocol-documents.md) -->
 <!-- include(iacuc/iacuc-protocol-exceptions.md) -->
 <!-- include(iacuc/iacuc-protocol-funding-sources.md) -->
 <!-- include(iacuc/iacuc-protocol-locations.md) -->
@@ -353,7 +346,6 @@ Current APIs have been designed to be accessed via admin only username and passw
 <!-- include(instprop/institutional-proposal-comments.md) -->
 <!-- include(instprop/institutional-proposal-cost-shares.md) -->
 <!-- include(instprop/institutional-proposal-custom-data.md) -->
-<!-- include(instprop/institutional-proposal-documents.md) -->
 <!-- include(instprop/institutional-proposal-notepads.md) -->
 <!-- include(instprop/institutional-proposal-person-credit-splits.md) -->
 <!-- include(instprop/institutional-proposal-person-mass-changes.md) -->
@@ -372,7 +364,6 @@ Current APIs have been designed to be accessed via admin only username and passw
 <!-- include(instprop/intellectual-property-review-requirement-types.md) -->
 <!-- include(instprop/intellectual-property-review-result-types.md) -->
 <!-- include(instprop/intellectual-property-reviews.md) -->
-<!-- include(instprop/lite-view-institutional-proposals.md) -->
 <!-- include(instprop/proposal-admin-details.md) -->
 <!-- include(instprop/proposal-comments.md) -->
 <!-- include(instprop/proposal-intellectual-property-review-joins.md) -->
@@ -385,7 +376,6 @@ Current APIs have been designed to be accessed via admin only username and passw
 # Group Research Irb
 <!-- include(irb/committee-batch-correspondence-details.md) -->
 <!-- include(irb/committee-batch-correspondences.md) -->
-<!-- include(irb/committee-documents.md) -->
 <!-- include(irb/committee-membership-expertise-entries.md) -->
 <!-- include(irb/committee-memberships.md) -->
 <!-- include(irb/committee-research-areas.md) -->
@@ -415,7 +405,6 @@ Current APIs have been designed to be accessed via admin only username and passw
 <!-- include(irb/protocol-correspondence-templates.md) -->
 <!-- include(irb/protocol-correspondence-types.md) -->
 <!-- include(irb/protocol-correspondences.md) -->
-<!-- include(irb/protocol-documents.md) -->
 <!-- include(irb/protocol-exempt-studies-checklist-items.md) -->
 <!-- include(irb/protocol-expedited-review-checklist-items.md) -->
 <!-- include(irb/protocol-funding-sources.md) -->
@@ -424,7 +413,6 @@ Current APIs have been designed to be accessed via admin only username and passw
 <!-- include(irb/protocol-notepads.md) -->
 <!-- include(irb/protocol-notification-templates.md) -->
 <!-- include(irb/protocol-online-review-determination-recommendations.md) -->
-<!-- include(irb/protocol-online-review-documents.md) -->
 <!-- include(irb/protocol-online-review-statuses.md) -->
 <!-- include(irb/protocol-online-reviews.md) -->
 <!-- include(irb/protocol-organization-types.md) -->
@@ -434,7 +422,6 @@ Current APIs have been designed to be accessed via admin only username and passw
 <!-- include(irb/protocol-person-roles.md) -->
 <!-- include(irb/protocol-person-rolodexes.md) -->
 <!-- include(irb/protocol-personnel-attachments.md) -->
-<!-- include(irb/protocol-persons.md) -->
 <!-- include(irb/protocol-reference-types.md) -->
 <!-- include(irb/protocol-references.md) -->
 <!-- include(irb/protocol-review-attachments.md) -->
@@ -467,7 +454,6 @@ Current APIs have been designed to be accessed via admin only username and passw
 <!-- include(negotiation/negotiation-agreement-types.md) -->
 <!-- include(negotiation/negotiation-association-types.md) -->
 <!-- include(negotiation/negotiation-custom-data.md) -->
-<!-- include(negotiation/negotiation-documents.md) -->
 <!-- include(negotiation/negotiation-locations.md) -->
 <!-- include(negotiation/negotiation-notifications.md) -->
 <!-- include(negotiation/negotiation-person-mass-changes.md) -->
@@ -499,7 +485,6 @@ Current APIs have been designed to be accessed via admin only username and passw
 <!-- include(propdev/proposal-columns-to-alter.md) -->
 <!-- include(propdev/proposal-development-budget-overviews.md) -->
 <!-- include(propdev/proposal-development-budgets.md) -->
-<!-- include(propdev/proposal-development-documents.md) -->
 <!-- include(propdev/proposal-development-person-mass-changes.md) -->
 <!-- include(propdev/proposal-investigator-certifications.md) -->
 <!-- include(propdev/proposal-location-types.md) -->
@@ -545,7 +530,6 @@ Current APIs have been designed to be accessed via admin only username and passw
 <!-- include(subaward/sub-award-copyright-types.md) -->
 <!-- include(subaward/sub-award-cost-types.md) -->
 <!-- include(subaward/sub-award-custom-data.md) -->
-<!-- include(subaward/sub-award-documents.md) -->
 <!-- include(subaward/sub-award-forms.md) -->
 <!-- include(subaward/sub-award-funding-sources.md) -->
 <!-- include(subaward/sub-award-person-mass-changes.md) -->
@@ -558,19 +542,11 @@ Current APIs have been designed to be accessed via admin only username and passw
 
 # Group Research System
 <!-- include(sys/action-attributes.md) -->
-<!-- include(sys/action-items.md) -->
-<!-- include(sys/action-request-values.md) -->
-<!-- include(sys/action-taken-values.md) -->
 <!-- include(sys/actions.md) -->
 <!-- include(sys/agenda-attributes.md) -->
 <!-- include(sys/agenda-items.md) -->
 <!-- include(sys/agendas.md) -->
 <!-- include(sys/attachments.md) -->
-<!-- include(sys/b-a-m-params.md) -->
-<!-- include(sys/b-a-m-target-entries.md) -->
-<!-- include(sys/branch-prototypes.md) -->
-<!-- include(sys/branch-states.md) -->
-<!-- include(sys/branches.md) -->
 <!-- include(sys/campus-types.md) -->
 <!-- include(sys/campuses.md) -->
 <!-- include(sys/categories.md) -->
@@ -590,10 +566,7 @@ Current APIs have been designed to be accessed via admin only username and passw
 <!-- include(sys/derived-components.md) -->
 <!-- include(sys/document-attachments.md) -->
 <!-- include(sys/document-headers.md) -->
-<!-- include(sys/document-links.md) -->
-<!-- include(sys/document-route-header-value-contents.md) -->
 <!-- include(sys/document-route-header-values.md) -->
-<!-- include(sys/document-status-transitions.md) -->
 <!-- include(sys/document-type-attributes.md) -->
 <!-- include(sys/document-type-policies.md) -->
 <!-- include(sys/document-types.md) -->
@@ -637,12 +610,7 @@ Current APIs have been designed to be accessed via admin only username and passw
 <!-- include(sys/group-members.md) -->
 <!-- include(sys/group-rule-responsibilities.md) -->
 <!-- include(sys/groups.md) -->
-<!-- include(sys/identity-management-group-documents.md) -->
-<!-- include(sys/identity-management-person-documents.md) -->
-<!-- include(sys/identity-management-role-documents.md) -->
-<!-- include(sys/kew-attachments.md) -->
 <!-- include(sys/kew-attribute-definitions.md) -->
-<!-- include(sys/kew-notes.md) -->
 <!-- include(sys/kew-rule-attributes.md) -->
 <!-- include(sys/kew-type-attributes.md) -->
 <!-- include(sys/kew-types.md) -->
@@ -664,10 +632,6 @@ Current APIs have been designed to be accessed via admin only username and passw
 <!-- include(sys/messages.md) -->
 <!-- include(sys/multi-document-attachments.md) -->
 <!-- include(sys/namespaces.md) -->
-<!-- include(sys/natural-language-template-attributes.md) -->
-<!-- include(sys/natural-language-templates.md) -->
-<!-- include(sys/natural-language-usages.md) -->
-<!-- include(sys/node-states.md) -->
 <!-- include(sys/note-types.md) -->
 <!-- include(sys/notes.md) -->
 <!-- include(sys/notification-channel-reviewers.md) -->
@@ -680,7 +644,6 @@ Current APIs have been designed to be accessed via admin only username and passw
 <!-- include(sys/notification-recipients.md) -->
 <!-- include(sys/notification-senders.md) -->
 <!-- include(sys/notifications.md) -->
-<!-- include(sys/outbox-items.md) -->
 <!-- include(sys/parameter-types.md) -->
 <!-- include(sys/parameters.md) -->
 <!-- include(sys/people-flow-attributes.md) -->
@@ -690,8 +653,6 @@ Current APIs have been designed to be accessed via admin only username and passw
 <!-- include(sys/permission-attributes.md) -->
 <!-- include(sys/permission-templates.md) -->
 <!-- include(sys/permissions.md) -->
-<!-- include(sys/persisted-message-payloads.md) -->
-<!-- include(sys/persisted-messages.md) -->
 <!-- include(sys/person-document-addresses.md) -->
 <!-- include(sys/person-document-affiliations.md) -->
 <!-- include(sys/person-document-citizenships.md) -->
@@ -706,12 +667,10 @@ Current APIs have been designed to be accessed via admin only username and passw
 <!-- include(sys/pessimistic-locks.md) -->
 <!-- include(sys/postal-codes.md) -->
 <!-- include(sys/principals.md) -->
-<!-- include(sys/process-definitions.md) -->
 <!-- include(sys/proposition-parameters.md) -->
 <!-- include(sys/propositions.md) -->
 <!-- include(sys/recipient-deliverer-configs.md) -->
 <!-- include(sys/recipient-preferences.md) -->
-<!-- include(sys/reference-object-bindings.md) -->
 <!-- include(sys/responsibilities.md) -->
 <!-- include(sys/responsibility-attributes.md) -->
 <!-- include(sys/responsibility-templates.md) -->
@@ -725,13 +684,9 @@ Current APIs have been designed to be accessed via admin only username and passw
 <!-- include(sys/role-responsibilities.md) -->
 <!-- include(sys/role-responsibility-actions.md) -->
 <!-- include(sys/roles.md) -->
-<!-- include(sys/route-node-config-params.md) -->
-<!-- include(sys/route-node-instances.md) -->
-<!-- include(sys/route-nodes.md) -->
 <!-- include(sys/rule-attributes.md) -->
 <!-- include(sys/rule-base-values.md) -->
 <!-- include(sys/rule-delegations.md) -->
-<!-- include(sys/rule-expression-definitions.md) -->
 <!-- include(sys/rule-extension-values.md) -->
 <!-- include(sys/rule-extensions.md) -->
 <!-- include(sys/rule-responsibilities.md) -->
@@ -739,12 +694,6 @@ Current APIs have been designed to be accessed via admin only username and passw
 <!-- include(sys/rule-template-options.md) -->
 <!-- include(sys/rule-templates.md) -->
 <!-- include(sys/rules.md) -->
-<!-- include(sys/searchable-attribute-date-time-values.md) -->
-<!-- include(sys/searchable-attribute-float-values.md) -->
-<!-- include(sys/searchable-attribute-long-values.md) -->
-<!-- include(sys/searchable-attribute-string-values.md) -->
-<!-- include(sys/service-descriptors.md) -->
-<!-- include(sys/service-infos.md) -->
 <!-- include(sys/session-documents.md) -->
 <!-- include(sys/states.md) -->
 <!-- include(sys/styles.md) -->
@@ -757,5 +706,3 @@ Current APIs have been designed to be accessed via admin only username and passw
 <!-- include(sys/type-type-relations.md) -->
 <!-- include(sys/user-channel-subscriptions.md) -->
 <!-- include(sys/user-options.md) -->
-
-

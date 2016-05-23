@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Committee Schedule Minute Docs.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Committee Schedule Minute Docs [PUT /iacuc/api/v1/iacuc-committee-schedule-minute-docs/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Committee Schedule Minute Docs [POST /iacuc/api/v1/iacuc-committee-schedule-minute-docs/]
 
 + Request
@@ -190,7 +187,6 @@
               {"commScheduleMinuteDocId": "(val)","scheduleIdFk": "(val)","minuteNumber": "(val)","minuteName": "(val)","pdfStore": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"},
               {"commScheduleMinuteDocId": "(val)","scheduleIdFk": "(val)","minuteNumber": "(val)","minuteName": "(val)","pdfStore": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Committee Schedule Minute Docs by Key [DELETE /iacuc/api/v1/iacuc-committee-schedule-minute-docs/(key)]
 	 
 + Request

@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Rule Delegations.md"
             transfer-encoding:chunked
-
-
 ### Update Rule Delegations [PUT /research-sys/api/v1/rule-delegations/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Rule Delegations [POST /research-sys/api/v1/rule-delegations/]
 
 + Request
@@ -187,7 +184,6 @@
               {"ruleDelegationId": "(val)","responsibilityId": "(val)","delegateRuleId": "(val)","delegationTypeCode": "(val)","_primaryKey": "(val)"},
               {"ruleDelegationId": "(val)","responsibilityId": "(val)","delegateRuleId": "(val)","delegationTypeCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Rule Delegations by Key [DELETE /research-sys/api/v1/rule-delegations/(key)]
 	 
 + Request

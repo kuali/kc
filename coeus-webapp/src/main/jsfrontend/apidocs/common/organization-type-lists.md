@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Organization Type Lists.md"
             transfer-encoding:chunked
-
-
 ### Update Organization Type Lists [PUT /research-common/api/v1/organization-type-lists/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Organization Type Lists [POST /research-common/api/v1/organization-type-lists/]
 
 + Request
@@ -185,7 +182,6 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Organization Type Lists by Key [DELETE /research-common/api/v1/organization-type-lists/(key)]
 	 
 + Request

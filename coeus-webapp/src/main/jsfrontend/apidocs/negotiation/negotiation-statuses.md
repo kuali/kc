@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Negotiation Statuses.md"
             transfer-encoding:chunked
-
-
 ### Update Negotiation Statuses [PUT /negotiation/api/v1/negotiation-statuses/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Negotiation Statuses [POST /negotiation/api/v1/negotiation-statuses/]
 
 + Request
@@ -187,7 +184,6 @@
               {"id": "(val)","code": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","code": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Negotiation Statuses by Key [DELETE /negotiation/api/v1/negotiation-statuses/(key)]
 	 
 + Request

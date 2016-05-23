@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Appointment Types.md"
             transfer-encoding:chunked
-
-
 ### Update Appointment Types [PUT /research-common/api/v1/appointment-types/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Appointment Types [POST /research-common/api/v1/appointment-types/]
 
 + Request
@@ -186,7 +183,6 @@
               {"appointmentTypeCode": "(val)","duration": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"appointmentTypeCode": "(val)","duration": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Appointment Types by Key [DELETE /research-common/api/v1/appointment-types/(key)]
 	 
 + Request

@@ -124,8 +124,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Person Document Addresses.md"
             transfer-encoding:chunked
-
-
 ### Update Person Document Addresses [PUT /research-sys/api/v1/person-document-addresses/(key)]
 
 + Request
@@ -158,7 +156,6 @@
             ]
 			
 + Response 204
-
 ### Insert Person Document Addresses [POST /research-sys/api/v1/person-document-addresses/]
 
 + Request
@@ -202,7 +199,6 @@
               {"entityAddressId": "(val)","addressTypeCode": "(val)","city": "(val)","stateProvinceCode": "(val)","postalCode": "(val)","countryCode": "(val)","attentionLine": "(val)","line1": "(val)","line2": "(val)","line3": "(val)","addressFormat": "(val)","modifiedDate": "(val)","validatedDate": "(val)","validated": "(val)","noteMessage": "(val)","dflt": "(val)","edit": "(val)","documentNumber": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"entityAddressId": "(val)","addressTypeCode": "(val)","city": "(val)","stateProvinceCode": "(val)","postalCode": "(val)","countryCode": "(val)","attentionLine": "(val)","line1": "(val)","line2": "(val)","line3": "(val)","addressFormat": "(val)","modifiedDate": "(val)","validatedDate": "(val)","validated": "(val)","noteMessage": "(val)","dflt": "(val)","edit": "(val)","documentNumber": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Person Document Addresses by Key [DELETE /research-sys/api/v1/person-document-addresses/(key)]
 	 
 + Request

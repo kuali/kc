@@ -113,8 +113,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Alternate Searches.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Alternate Searches [PUT /iacuc/api/v1/iacuc-alternate-searches/(key)]
 
 + Request
@@ -147,7 +145,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Alternate Searches [POST /iacuc/api/v1/iacuc-alternate-searches/]
 
 + Request
@@ -191,7 +188,6 @@
               {"iacucAltSearchId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","searchDate": "(val)","yearsSearched": "(val)","keywords": "(val)","comments": "(val)","_primaryKey": "(val)"},
               {"iacucAltSearchId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","searchDate": "(val)","yearsSearched": "(val)","keywords": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Alternate Searches by Key [DELETE /iacuc/api/v1/iacuc-alternate-searches/(key)]
 	 
 + Request

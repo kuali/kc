@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Styles.md"
             transfer-encoding:chunked
-
-
 ### Update Styles [PUT /research-sys/api/v1/styles/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Styles [POST /research-sys/api/v1/styles/]
 
 + Request
@@ -187,7 +184,6 @@
               {"id": "(val)","name": "(val)","xmlContent": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","name": "(val)","xmlContent": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Styles by Key [DELETE /research-sys/api/v1/styles/(key)]
 	 
 + Request

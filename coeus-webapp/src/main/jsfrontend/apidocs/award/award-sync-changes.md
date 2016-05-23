@@ -116,8 +116,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Award Sync Changes.md"
             transfer-encoding:chunked
-
-
 ### Update Award Sync Changes [PUT /award/api/v1/award-sync-changes/(key)]
 
 + Request
@@ -150,7 +148,6 @@
             ]
 			
 + Response 204
-
 ### Insert Award Sync Changes [POST /award/api/v1/award-sync-changes/]
 
 + Request
@@ -194,7 +191,6 @@
               {"awardSyncChangeId": "(val)","awardId": "(val)","xml": "(val)","className": "(val)","attrName": "(val)","objectDesc": "(val)","dataDesc": "(val)","syncType": "(val)","syncDescendants": "(val)","syncFabricated": "(val)","syncCostSharing": "(val)","_primaryKey": "(val)"},
               {"awardSyncChangeId": "(val)","awardId": "(val)","xml": "(val)","className": "(val)","attrName": "(val)","objectDesc": "(val)","dataDesc": "(val)","syncType": "(val)","syncDescendants": "(val)","syncFabricated": "(val)","syncCostSharing": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Award Sync Changes by Key [DELETE /award/api/v1/award-sync-changes/(key)]
 	 
 + Request

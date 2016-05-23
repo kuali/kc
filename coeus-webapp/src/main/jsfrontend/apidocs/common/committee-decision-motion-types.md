@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Committee Decision Motion Types.md"
             transfer-encoding:chunked
-
-
 ### Update Committee Decision Motion Types [PUT /research-common/api/v1/committee-decision-motion-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Committee Decision Motion Types [POST /research-common/api/v1/committee-decision-motion-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"motionTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"motionTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Committee Decision Motion Types by Key [DELETE /research-common/api/v1/committee-decision-motion-types/(key)]
 	 
 + Request

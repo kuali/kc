@@ -116,8 +116,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Person Trainings.md"
             transfer-encoding:chunked
-
-
 ### Update Person Trainings [PUT /research-common/api/v1/person-trainings/(key)]
 
 + Request
@@ -150,7 +148,6 @@
             ]
 			
 + Response 204
-
 ### Insert Person Trainings [POST /research-common/api/v1/person-trainings/]
 
 + Request
@@ -194,7 +191,6 @@
               {"personTrainingId": "(val)","personId": "(val)","trainingNumber": "(val)","trainingCode": "(val)","dateRequested": "(val)","dateSubmitted": "(val)","dateAcknowledged": "(val)","followupDate": "(val)","score": "(val)","comments": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"personTrainingId": "(val)","personId": "(val)","trainingNumber": "(val)","trainingCode": "(val)","dateRequested": "(val)","dateSubmitted": "(val)","dateAcknowledged": "(val)","followupDate": "(val)","score": "(val)","comments": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Person Trainings by Key [DELETE /research-common/api/v1/person-trainings/(key)]
 	 
 + Request

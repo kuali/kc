@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Valid Protocol Action Correspondence.md"
             transfer-encoding:chunked
-
-
 ### Update Valid Protocol Action Correspondence [PUT /irb/api/v1/valid-protocol-action-correspondence/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Valid Protocol Action Correspondence [POST /irb/api/v1/valid-protocol-action-correspondence/]
 
 + Request
@@ -187,7 +184,6 @@
               {"validProtoActionCorespId": "(val)","protocolActionTypeCode": "(val)","protoCorrespTypeCode": "(val)","finalFlag": "(val)","_primaryKey": "(val)"},
               {"validProtoActionCorespId": "(val)","protocolActionTypeCode": "(val)","protoCorrespTypeCode": "(val)","finalFlag": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Valid Protocol Action Correspondence by Key [DELETE /irb/api/v1/valid-protocol-action-correspondence/(key)]
 	 
 + Request

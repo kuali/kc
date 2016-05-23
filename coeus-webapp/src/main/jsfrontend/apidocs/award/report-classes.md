@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Report Classes.md"
             transfer-encoding:chunked
-
-
 ### Update Report Classes [PUT /award/api/v1/report-classes/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Report Classes [POST /award/api/v1/report-classes/]
 
 + Request
@@ -187,7 +184,6 @@
               {"reportClassCode": "(val)","description": "(val)","generateReportRequirements": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"reportClassCode": "(val)","description": "(val)","generateReportRequirements": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Report Classes by Key [DELETE /award/api/v1/report-classes/(key)]
 	 
 + Request

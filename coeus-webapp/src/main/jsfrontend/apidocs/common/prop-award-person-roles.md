@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Prop Award Person Roles.md"
             transfer-encoding:chunked
-
-
 ### Update Prop Award Person Roles [PUT /research-common/api/v1/prop-award-person-roles/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert Prop Award Person Roles [POST /research-common/api/v1/prop-award-person-roles/]
 
 + Request
@@ -190,7 +187,6 @@
               {"id": "(val)","code": "(val)","sponsorHierarchyName": "(val)","description": "(val)","certificationRequired": "(val)","readOnly": "(val)","unitDetailsRequired": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","code": "(val)","sponsorHierarchyName": "(val)","description": "(val)","certificationRequired": "(val)","readOnly": "(val)","unitDetailsRequired": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Prop Award Person Roles by Key [DELETE /research-common/api/v1/prop-award-person-roles/(key)]
 	 
 + Request

@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Proposal Person Credit Splits.md"
             transfer-encoding:chunked
-
-
 ### Update Proposal Person Credit Splits [PUT /propdev/api/v1/proposal-person-credit-splits/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Proposal Person Credit Splits [POST /propdev/api/v1/proposal-person-credit-splits/]
 
 + Request
@@ -185,7 +182,6 @@
               {"invCreditTypeCode": "(val)","credit": "(val)","_primaryKey": "(val)"},
               {"invCreditTypeCode": "(val)","credit": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Proposal Person Credit Splits by Key [DELETE /propdev/api/v1/proposal-person-credit-splits/(key)]
 	 
 + Request

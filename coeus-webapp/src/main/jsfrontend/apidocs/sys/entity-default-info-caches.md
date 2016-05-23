@@ -117,8 +117,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Entity Default Info Caches.md"
             transfer-encoding:chunked
-
-
 ### Update Entity Default Info Caches [PUT /research-sys/api/v1/entity-default-info-caches/(key)]
 
 + Request
@@ -151,7 +149,6 @@
             ]
 			
 + Response 204
-
 ### Insert Entity Default Info Caches [POST /research-sys/api/v1/entity-default-info-caches/]
 
 + Request
@@ -195,7 +192,6 @@
               {"principalId": "(val)","principalName": "(val)","entityId": "(val)","entityTypeCode": "(val)","firstName": "(val)","middleName": "(val)","lastName": "(val)","name": "(val)","campusCode": "(val)","primaryDepartmentCode": "(val)","employeeId": "(val)","lastUpdateTimestamp": "(val)","_primaryKey": "(val)"},
               {"principalId": "(val)","principalName": "(val)","entityId": "(val)","entityTypeCode": "(val)","firstName": "(val)","middleName": "(val)","lastName": "(val)","name": "(val)","campusCode": "(val)","primaryDepartmentCode": "(val)","employeeId": "(val)","lastUpdateTimestamp": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Entity Default Info Caches by Key [DELETE /research-sys/api/v1/entity-default-info-caches/(key)]
 	 
 + Request

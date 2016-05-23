@@ -133,8 +133,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Lite View Iacuc Protocol Submissions.md"
             transfer-encoding:chunked
-
-
 ### Update Lite View Iacuc Protocol Submissions [PUT /iacuc/api/v1/lite-view-iacuc-protocol-submissions/(key)]
 
 + Request
@@ -167,7 +165,6 @@
             ]
 			
 + Response 204
-
 ### Insert Lite View Iacuc Protocol Submissions [POST /iacuc/api/v1/lite-view-iacuc-protocol-submissions/]
 
 + Request
@@ -211,7 +208,6 @@
               {"submissionId": "(val)","submissionNumber": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","scheduleId": "(val)","committeeId": "(val)","submissionTypeCode": "(val)","submissionTypeQualifierCode": "(val)","submissionStatusCode": "(val)","protocolId": "(val)","scheduleIdFk": "(val)","committeeIdFk": "(val)","protocolReviewTypeCode": "(val)","submissionDate": "(val)","comments": "(val)","committeeDecisionMotionTypeCode": "(val)","yesVoteCount": "(val)","noVoteCount": "(val)","abstainerCount": "(val)","recusedCount": "(val)","votingComments": "(val)","billable": "(val)","protocolActive": "(val)","protocolStatusCode": "(val)","protocolTitle": "(val)","piPersonId": "(val)","piPersonName": "(val)","piRolodexId": "(val)","_primaryKey": "(val)"},
               {"submissionId": "(val)","submissionNumber": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","scheduleId": "(val)","committeeId": "(val)","submissionTypeCode": "(val)","submissionTypeQualifierCode": "(val)","submissionStatusCode": "(val)","protocolId": "(val)","scheduleIdFk": "(val)","committeeIdFk": "(val)","protocolReviewTypeCode": "(val)","submissionDate": "(val)","comments": "(val)","committeeDecisionMotionTypeCode": "(val)","yesVoteCount": "(val)","noVoteCount": "(val)","abstainerCount": "(val)","recusedCount": "(val)","votingComments": "(val)","billable": "(val)","protocolActive": "(val)","protocolStatusCode": "(val)","protocolTitle": "(val)","piPersonId": "(val)","piPersonName": "(val)","piRolodexId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Lite View Iacuc Protocol Submissions by Key [DELETE /iacuc/api/v1/lite-view-iacuc-protocol-submissions/(key)]
 	 
 + Request

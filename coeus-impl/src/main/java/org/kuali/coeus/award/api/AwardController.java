@@ -21,8 +21,6 @@ package org.kuali.coeus.award.api;
 import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import org.kuali.coeus.sys.framework.controller.rest.SimpleCrudMapBasedRestController;
 import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
@@ -47,6 +45,7 @@ public class AwardController extends SimpleCrudMapBasedRestController<Award> {
 	@RequestMapping(params="summary", method=RequestMethod.GET)
 	public @ResponseBody AwardResults getAwardSummary(@RequestParam(value="updatedSince", required=false) Instant updatedSince,
 			@RequestParam(value="page", required=false) Integer page, @RequestParam(value="limit", required=false) Integer limit) {
+		assertMethodSupported(RequestMethod.GET);
 		assertUserHasReadAccess();
 		AwardResults result = Translate.to(AwardResults.class).from(getAwards(updatedSince == null ? null : Date.from(updatedSince), page, limit));
 		if (result == null || result.getCount() == null || result.getCount() == 0) {
@@ -65,10 +64,5 @@ public class AwardController extends SimpleCrudMapBasedRestController<Award> {
 
 	public void setAwardDao(AwardDao awardDao) {
 		this.awardDao = awardDao;
-	}
-
-	@Override
-	public List<String> getExposedProperties() {
-		return super.getExposedProperties().stream().filter(p -> !"documentNumber".equals(p)).collect(Collectors.toList());
 	}
 }

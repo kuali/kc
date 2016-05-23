@@ -117,8 +117,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Protocol Correspondences.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Protocol Correspondences [PUT /iacuc/api/v1/iacuc-protocol-correspondences/(key)]
 
 + Request
@@ -151,7 +149,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Protocol Correspondences [POST /iacuc/api/v1/iacuc-protocol-correspondences/]
 
 + Request
@@ -195,7 +192,6 @@
               {"id": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","actionId": "(val)","actionIdFk": "(val)","protoCorrespTypeCode": "(val)","correspondence": "(val)","finalFlag": "(val)","createUser": "(val)","createTimestamp": "(val)","finalFlagTimestamp": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","actionId": "(val)","actionIdFk": "(val)","protoCorrespTypeCode": "(val)","correspondence": "(val)","finalFlag": "(val)","createUser": "(val)","createTimestamp": "(val)","finalFlagTimestamp": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Protocol Correspondences by Key [DELETE /iacuc/api/v1/iacuc-protocol-correspondences/(key)]
 	 
 + Request

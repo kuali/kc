@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Sub Award Funding Sources.md"
             transfer-encoding:chunked
-
-
 ### Update Sub Award Funding Sources [PUT /subaward/api/v1/sub-award-funding-sources/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Sub Award Funding Sources [POST /subaward/api/v1/sub-award-funding-sources/]
 
 + Request
@@ -188,7 +185,6 @@
               {"subAwardFundingSourceId": "(val)","subAwardId": "(val)","subAwardCode": "(val)","sequenceNumber": "(val)","awardId": "(val)","_primaryKey": "(val)"},
               {"subAwardFundingSourceId": "(val)","subAwardId": "(val)","subAwardCode": "(val)","sequenceNumber": "(val)","awardId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Sub Award Funding Sources by Key [DELETE /subaward/api/v1/sub-award-funding-sources/(key)]
 	 
 + Request

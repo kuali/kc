@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Protocol Recused Votes.md"
             transfer-encoding:chunked
-
-
 ### Update Protocol Recused Votes [PUT /research-common/api/v1/protocol-recused-votes/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert Protocol Recused Votes [POST /research-common/api/v1/protocol-recused-votes/]
 
 + Request
@@ -190,7 +187,6 @@
               {"protocolVoteRecusedId": "(val)","protocolIdFk": "(val)","submissionIdFk": "(val)","personId": "(val)","rolodexId": "(val)","nonEmployeeFlag": "(val)","comments": "(val)","_primaryKey": "(val)"},
               {"protocolVoteRecusedId": "(val)","protocolIdFk": "(val)","submissionIdFk": "(val)","personId": "(val)","rolodexId": "(val)","nonEmployeeFlag": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Protocol Recused Votes by Key [DELETE /research-common/api/v1/protocol-recused-votes/(key)]
 	 
 + Request

@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Protocol Locations.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Protocol Locations [PUT /iacuc/api/v1/iacuc-protocol-locations/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Protocol Locations [POST /iacuc/api/v1/iacuc-protocol-locations/]
 
 + Request
@@ -190,7 +187,6 @@
               {"protocolLocationId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","protocolOrganizationTypeCode": "(val)","organizationId": "(val)","rolodexId": "(val)","_primaryKey": "(val)"},
               {"protocolLocationId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","protocolOrganizationTypeCode": "(val)","organizationId": "(val)","rolodexId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Protocol Locations by Key [DELETE /iacuc/api/v1/iacuc-protocol-locations/(key)]
 	 
 + Request

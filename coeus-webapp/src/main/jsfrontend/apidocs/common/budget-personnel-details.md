@@ -130,8 +130,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Budget Personnel Details.md"
             transfer-encoding:chunked
-
-
 ### Update Budget Personnel Details [PUT /research-common/api/v1/budget-personnel-details/(key)]
 
 + Request
@@ -164,7 +162,6 @@
             ]
 			
 + Response 204
-
 ### Insert Budget Personnel Details [POST /research-common/api/v1/budget-personnel-details/]
 
 + Request
@@ -208,7 +205,6 @@
               {"budgetPersonnelLineItemId": "(val)","budgetLineItemId": "(val)","lineItemNumber": "(val)","budgetId": "(val)","budgetPeriod": "(val)","onOffCampusFlag": "(val)","endDate": "(val)","startDate": "(val)","budgetJustification": "(val)","costSharingAmount": "(val)","lineItemDescription": "(val)","applyInRateFlag": "(val)","personNumber": "(val)","costSharingPercent": "(val)","jobCode": "(val)","percentCharged": "(val)","percentEffort": "(val)","periodTypeCode": "(val)","personId": "(val)","salaryRequested": "(val)","sequenceNumber": "(val)","budgetPeriodId": "(val)","personSequenceNumber": "(val)","underrecoveryAmount": "(val)","submitCostSharingFlag": "(val)","_primaryKey": "(val)"},
               {"budgetPersonnelLineItemId": "(val)","budgetLineItemId": "(val)","lineItemNumber": "(val)","budgetId": "(val)","budgetPeriod": "(val)","onOffCampusFlag": "(val)","endDate": "(val)","startDate": "(val)","budgetJustification": "(val)","costSharingAmount": "(val)","lineItemDescription": "(val)","applyInRateFlag": "(val)","personNumber": "(val)","costSharingPercent": "(val)","jobCode": "(val)","percentCharged": "(val)","percentEffort": "(val)","periodTypeCode": "(val)","personId": "(val)","salaryRequested": "(val)","sequenceNumber": "(val)","budgetPeriodId": "(val)","personSequenceNumber": "(val)","underrecoveryAmount": "(val)","submitCostSharingFlag": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Budget Personnel Details by Key [DELETE /research-common/api/v1/budget-personnel-details/(key)]
 	 
 + Request

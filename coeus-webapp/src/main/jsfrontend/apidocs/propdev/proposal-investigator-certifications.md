@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Proposal Investigator Certifications.md"
             transfer-encoding:chunked
-
-
 ### Update Proposal Investigator Certifications [PUT /propdev/api/v1/proposal-investigator-certifications/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Proposal Investigator Certifications [POST /propdev/api/v1/proposal-investigator-certifications/]
 
 + Request
@@ -188,7 +185,6 @@
               {"proposalPersonNumber": "(val)","proposalNumber": "(val)","certified": "(val)","dateCertified": "(val)","dateReceivedByOsp": "(val)","_primaryKey": "(val)"},
               {"proposalPersonNumber": "(val)","proposalNumber": "(val)","certified": "(val)","dateCertified": "(val)","dateReceivedByOsp": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Proposal Investigator Certifications by Key [DELETE /propdev/api/v1/proposal-investigator-certifications/(key)]
 	 
 + Request

@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Document Attachments.md"
             transfer-encoding:chunked
-
-
 ### Update Document Attachments [PUT /research-sys/api/v1/document-attachments/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Document Attachments [POST /research-sys/api/v1/document-attachments/]
 
 + Request
@@ -187,7 +184,6 @@
               {"documentNumber": "(val)","fileName": "(val)","attachmentContent": "(val)","contentType": "(val)","_primaryKey": "(val)"},
               {"documentNumber": "(val)","fileName": "(val)","attachmentContent": "(val)","contentType": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Document Attachments by Key [DELETE /research-sys/api/v1/document-attachments/(key)]
 	 
 + Request

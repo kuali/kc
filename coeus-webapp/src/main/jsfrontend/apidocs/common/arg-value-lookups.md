@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Arg Value Lookups.md"
             transfer-encoding:chunked
-
-
 ### Update Arg Value Lookups [PUT /research-common/api/v1/arg-value-lookups/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Arg Value Lookups [POST /research-common/api/v1/arg-value-lookups/]
 
 + Request
@@ -187,7 +184,6 @@
               {"id": "(val)","argumentName": "(val)","value": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","argumentName": "(val)","value": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Arg Value Lookups by Key [DELETE /research-common/api/v1/arg-value-lookups/(key)]
 	 
 + Request

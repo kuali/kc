@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Institutional Proposal Comments.md"
             transfer-encoding:chunked
-
-
 ### Update Institutional Proposal Comments [PUT /instprop/api/v1/institutional-proposal-comments/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Institutional Proposal Comments [POST /instprop/api/v1/institutional-proposal-comments/]
 
 + Request
@@ -189,7 +186,6 @@
               {"proposalCommentsId": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","commentTypeCode": "(val)","comments": "(val)","_primaryKey": "(val)"},
               {"proposalCommentsId": "(val)","proposalId": "(val)","proposalNumber": "(val)","sequenceNumber": "(val)","commentTypeCode": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Institutional Proposal Comments by Key [DELETE /instprop/api/v1/institutional-proposal-comments/(key)]
 	 
 + Request

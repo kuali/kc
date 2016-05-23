@@ -113,8 +113,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Rule Responsibilities.md"
             transfer-encoding:chunked
-
-
 ### Update Rule Responsibilities [PUT /research-sys/api/v1/rule-responsibilities/(key)]
 
 + Request
@@ -147,7 +145,6 @@
             ]
 			
 + Response 204
-
 ### Insert Rule Responsibilities [POST /research-sys/api/v1/rule-responsibilities/]
 
 + Request
@@ -191,7 +188,6 @@
               {"id": "(val)","responsibilityId": "(val)","ruleBaseValuesId": "(val)","actionRequestedCd": "(val)","ruleResponsibilityName": "(val)","ruleResponsibilityType": "(val)","priority": "(val)","approvePolicy": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","responsibilityId": "(val)","ruleBaseValuesId": "(val)","actionRequestedCd": "(val)","ruleResponsibilityName": "(val)","ruleResponsibilityType": "(val)","priority": "(val)","approvePolicy": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Rule Responsibilities by Key [DELETE /research-sys/api/v1/rule-responsibilities/(key)]
 	 
 + Request

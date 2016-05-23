@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Responsibility Templates.md"
             transfer-encoding:chunked
-
-
 ### Update Responsibility Templates [PUT /research-sys/api/v1/responsibility-templates/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Responsibility Templates [POST /research-sys/api/v1/responsibility-templates/]
 
 + Request
@@ -189,7 +186,6 @@
               {"id": "(val)","kimTypeId": "(val)","name": "(val)","active": "(val)","description": "(val)","namespaceCode": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","kimTypeId": "(val)","name": "(val)","active": "(val)","description": "(val)","namespaceCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Responsibility Templates by Key [DELETE /research-sys/api/v1/responsibility-templates/(key)]
 	 
 + Request

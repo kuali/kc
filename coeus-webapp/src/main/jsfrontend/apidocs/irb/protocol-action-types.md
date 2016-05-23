@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Protocol Action Types.md"
             transfer-encoding:chunked
-
-
 ### Update Protocol Action Types [PUT /irb/api/v1/protocol-action-types/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Protocol Action Types [POST /irb/api/v1/protocol-action-types/]
 
 + Request
@@ -188,7 +185,6 @@
               {"protocolActionTypeCode": "(val)","description": "(val)","triggerSubmission": "(val)","triggerCorrespondence": "(val)","finalActionForBatchCorrespondence": "(val)","_primaryKey": "(val)"},
               {"protocolActionTypeCode": "(val)","description": "(val)","triggerSubmission": "(val)","triggerCorrespondence": "(val)","finalActionForBatchCorrespondence": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Protocol Action Types by Key [DELETE /irb/api/v1/protocol-action-types/(key)]
 	 
 + Request

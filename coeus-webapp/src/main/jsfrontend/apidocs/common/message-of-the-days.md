@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Message Of The Days.md"
             transfer-encoding:chunked
-
-
 ### Update Message Of The Days [PUT /research-common/api/v1/message-of-the-days/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Message Of The Days [POST /research-common/api/v1/message-of-the-days/]
 
 + Request
@@ -187,7 +184,6 @@
               {"messageOfTheDayId": "(val)","message": "(val)","active": "(val)","displayOrder": "(val)","_primaryKey": "(val)"},
               {"messageOfTheDayId": "(val)","message": "(val)","active": "(val)","displayOrder": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Message Of The Days by Key [DELETE /research-common/api/v1/message-of-the-days/(key)]
 	 
 + Request

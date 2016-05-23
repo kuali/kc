@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Kc Krms Term Functions.md"
             transfer-encoding:chunked
-
-
 ### Update Kc Krms Term Functions [PUT /research-common/api/v1/kc-krms-term-functions/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Kc Krms Term Functions [POST /research-common/api/v1/kc-krms-term-functions/]
 
 + Request
@@ -188,7 +185,6 @@
               {"kcKrmsTermFunctionId": "(val)","krmsTermName": "(val)","description": "(val)","returnType": "(val)","functionType": "(val)","_primaryKey": "(val)"},
               {"kcKrmsTermFunctionId": "(val)","krmsTermName": "(val)","description": "(val)","returnType": "(val)","functionType": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Kc Krms Term Functions by Key [DELETE /research-common/api/v1/kc-krms-term-functions/(key)]
 	 
 + Request

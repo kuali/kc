@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Comment Types.md"
             transfer-encoding:chunked
-
-
 ### Update Comment Types [PUT /research-common/api/v1/comment-types/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Comment Types [POST /research-common/api/v1/comment-types/]
 
 + Request
@@ -188,7 +185,6 @@
               {"commentTypeCode": "(val)","description": "(val)","templateFlag": "(val)","checklistFlag": "(val)","awardCommentScreenFlag": "(val)","_primaryKey": "(val)"},
               {"commentTypeCode": "(val)","description": "(val)","templateFlag": "(val)","checklistFlag": "(val)","awardCommentScreenFlag": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Comment Types by Key [DELETE /research-common/api/v1/comment-types/(key)]
 	 
 + Request

@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Protocol Submission Qualifier Types.md"
             transfer-encoding:chunked
-
-
 ### Update Protocol Submission Qualifier Types [PUT /irb/api/v1/protocol-submission-qualifier-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Protocol Submission Qualifier Types [POST /irb/api/v1/protocol-submission-qualifier-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"submissionQualifierTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"submissionQualifierTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Protocol Submission Qualifier Types by Key [DELETE /irb/api/v1/protocol-submission-qualifier-types/(key)]
 	 
 + Request

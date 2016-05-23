@@ -128,8 +128,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Sub Award Template Infos.md"
             transfer-encoding:chunked
-
-
 ### Update Sub Award Template Infos [PUT /subaward/api/v1/sub-award-template-infos/(key)]
 
 + Request
@@ -162,7 +160,6 @@
             ]
 			
 + Response 204
-
 ### Insert Sub Award Template Infos [POST /subaward/api/v1/sub-award-template-infos/]
 
 + Request
@@ -206,7 +203,6 @@
               {"subAwardId": "(val)","subAwardCode": "(val)","sequenceNumber": "(val)","sowOrSubProposalBudget": "(val)","subProposalDate": "(val)","invoiceOrPaymentContact": "(val)","finalStmtOfCostscontact": "(val)","changeRequestsContact": "(val)","terminationContact": "(val)","noCostExtensionContact": "(val)","perfSiteDiffFromOrgAddr": "(val)","perfSiteSameAsSubPiAddr": "(val)","subRegisteredInCcr": "(val)","subExemptFromReportingComp": "(val)","parentDunsNumber": "(val)","parentCongressionalDistrict": "(val)","exemptFromRprtgExecComp": "(val)","copyRightType": "(val)","automaticCarryForward": "(val)","carryForwardRequestsSentTo": "(val)","treatmentPrgmIncomeAdditive": "(val)","applicableProgramRegulations": "(val)","applicableProgramRegsDate": "(val)","_primaryKey": "(val)"},
               {"subAwardId": "(val)","subAwardCode": "(val)","sequenceNumber": "(val)","sowOrSubProposalBudget": "(val)","subProposalDate": "(val)","invoiceOrPaymentContact": "(val)","finalStmtOfCostscontact": "(val)","changeRequestsContact": "(val)","terminationContact": "(val)","noCostExtensionContact": "(val)","perfSiteDiffFromOrgAddr": "(val)","perfSiteSameAsSubPiAddr": "(val)","subRegisteredInCcr": "(val)","subExemptFromReportingComp": "(val)","parentDunsNumber": "(val)","parentCongressionalDistrict": "(val)","exemptFromRprtgExecComp": "(val)","copyRightType": "(val)","automaticCarryForward": "(val)","carryForwardRequestsSentTo": "(val)","treatmentPrgmIncomeAdditive": "(val)","applicableProgramRegulations": "(val)","applicableProgramRegsDate": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Sub Award Template Infos by Key [DELETE /subaward/api/v1/sub-award-template-infos/(key)]
 	 
 + Request

@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="States.md"
             transfer-encoding:chunked
-
-
 ### Update States [PUT /research-sys/api/v1/states/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert States [POST /research-sys/api/v1/states/]
 
 + Request
@@ -187,7 +184,6 @@
               {"code": "(val)","countryCode": "(val)","name": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"code": "(val)","countryCode": "(val)","name": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete States by Key [DELETE /research-sys/api/v1/states/(key)]
 	 
 + Request

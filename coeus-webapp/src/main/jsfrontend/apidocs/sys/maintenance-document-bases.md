@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Maintenance Document Bases.md"
             transfer-encoding:chunked
-
-
 ### Update Maintenance Document Bases [PUT /research-sys/api/v1/maintenance-document-bases/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Maintenance Document Bases [POST /research-sys/api/v1/maintenance-document-bases/]
 
 + Request
@@ -185,7 +182,6 @@
               {"xmlDocumentContents": "(val)","documentNumber": "(val)","_primaryKey": "(val)"},
               {"xmlDocumentContents": "(val)","documentNumber": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Maintenance Document Bases by Key [DELETE /research-sys/api/v1/maintenance-document-bases/(key)]
 	 
 + Request

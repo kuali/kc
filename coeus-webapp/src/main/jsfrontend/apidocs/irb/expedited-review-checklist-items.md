@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Expedited Review Checklist Items.md"
             transfer-encoding:chunked
-
-
 ### Update Expedited Review Checklist Items [PUT /irb/api/v1/expedited-review-checklist-items/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Expedited Review Checklist Items [POST /irb/api/v1/expedited-review-checklist-items/]
 
 + Request
@@ -185,7 +182,6 @@
               {"expeditedReviewCheckListCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"expeditedReviewCheckListCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Expedited Review Checklist Items by Key [DELETE /irb/api/v1/expedited-review-checklist-items/(key)]
 	 
 + Request

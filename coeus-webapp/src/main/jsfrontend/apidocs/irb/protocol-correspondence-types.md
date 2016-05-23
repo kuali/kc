@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Protocol Correspondence Types.md"
             transfer-encoding:chunked
-
-
 ### Update Protocol Correspondence Types [PUT /irb/api/v1/protocol-correspondence-types/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Protocol Correspondence Types [POST /irb/api/v1/protocol-correspondence-types/]
 
 + Request
@@ -186,7 +183,6 @@
               {"protoCorrespTypeCode": "(val)","description": "(val)","moduleId": "(val)","_primaryKey": "(val)"},
               {"protoCorrespTypeCode": "(val)","description": "(val)","moduleId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Protocol Correspondence Types by Key [DELETE /irb/api/v1/protocol-correspondence-types/(key)]
 	 
 + Request

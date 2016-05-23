@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Closeout Report Types.md"
             transfer-encoding:chunked
-
-
 ### Update Closeout Report Types [PUT /award/api/v1/closeout-report-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Closeout Report Types [POST /award/api/v1/closeout-report-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"closeoutReportCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"closeoutReportCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Closeout Report Types by Key [DELETE /award/api/v1/closeout-report-types/(key)]
 	 
 + Request

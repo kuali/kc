@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Frequency Bases.md"
             transfer-encoding:chunked
-
-
 ### Update Frequency Bases [PUT /award/api/v1/frequency-bases/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Frequency Bases [POST /award/api/v1/frequency-bases/]
 
 + Request
@@ -187,7 +184,6 @@
               {"frequencyBaseCode": "(val)","description": "(val)","regenerationTypeName": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"frequencyBaseCode": "(val)","description": "(val)","regenerationTypeName": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Frequency Bases by Key [DELETE /award/api/v1/frequency-bases/(key)]
 	 
 + Request

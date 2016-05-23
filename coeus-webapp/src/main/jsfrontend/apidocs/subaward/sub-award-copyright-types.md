@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Sub Award Copyright Types.md"
             transfer-encoding:chunked
-
-
 ### Update Sub Award Copyright Types [PUT /subaward/api/v1/sub-award-copyright-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Sub Award Copyright Types [POST /subaward/api/v1/sub-award-copyright-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"copyRightTypeCode": "(val)","copyRightTypeDescription": "(val)","_primaryKey": "(val)"},
               {"copyRightTypeCode": "(val)","copyRightTypeDescription": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Sub Award Copyright Types by Key [DELETE /subaward/api/v1/sub-award-copyright-types/(key)]
 	 
 + Request

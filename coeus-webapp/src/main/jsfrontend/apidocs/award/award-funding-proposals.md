@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Award Funding Proposals.md"
             transfer-encoding:chunked
-
-
 ### Update Award Funding Proposals [PUT /award/api/v1/award-funding-proposals/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Award Funding Proposals [POST /award/api/v1/award-funding-proposals/]
 
 + Request
@@ -187,7 +184,6 @@
               {"awardFundingProposalId": "(val)","awardId": "(val)","proposalId": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"awardFundingProposalId": "(val)","awardId": "(val)","proposalId": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Award Funding Proposals by Key [DELETE /award/api/v1/award-funding-proposals/(key)]
 	 
 + Request

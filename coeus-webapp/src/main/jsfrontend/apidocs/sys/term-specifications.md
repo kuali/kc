@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Term Specifications.md"
             transfer-encoding:chunked
-
-
 ### Update Term Specifications [PUT /research-sys/api/v1/term-specifications/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Term Specifications [POST /research-sys/api/v1/term-specifications/]
 
 + Request
@@ -189,7 +186,6 @@
               {"id": "(val)","name": "(val)","namespace": "(val)","type": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","name": "(val)","namespace": "(val)","type": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Term Specifications by Key [DELETE /research-sys/api/v1/term-specifications/(key)]
 	 
 + Request

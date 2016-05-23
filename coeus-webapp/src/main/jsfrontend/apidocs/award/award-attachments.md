@@ -116,8 +116,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Award Attachments.md"
             transfer-encoding:chunked
-
-
 ### Update Award Attachments [PUT /award/api/v1/award-attachments/(key)]
 
 + Request
@@ -150,7 +148,6 @@
             ]
 			
 + Response 204
-
 ### Insert Award Attachments [POST /award/api/v1/award-attachments/]
 
 + Request
@@ -194,7 +191,6 @@
               {"awardAttachmentId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","typeCode": "(val)","documentId": "(val)","fileId": "(val)","description": "(val)","documentStatusCode": "(val)","lastUpdateTimestamp": "(val)","lastUpdateUser": "(val)","_primaryKey": "(val)"},
               {"awardAttachmentId": "(val)","awardId": "(val)","awardNumber": "(val)","sequenceNumber": "(val)","typeCode": "(val)","documentId": "(val)","fileId": "(val)","description": "(val)","documentStatusCode": "(val)","lastUpdateTimestamp": "(val)","lastUpdateUser": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Award Attachments by Key [DELETE /award/api/v1/award-attachments/(key)]
 	 
 + Request

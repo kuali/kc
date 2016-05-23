@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="People Flows.md"
             transfer-encoding:chunked
-
-
 ### Update People Flows [PUT /research-sys/api/v1/people-flows/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert People Flows [POST /research-sys/api/v1/people-flows/]
 
 + Request
@@ -189,7 +186,6 @@
               {"id": "(val)","name": "(val)","namespaceCode": "(val)","typeId": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","name": "(val)","namespaceCode": "(val)","typeId": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete People Flows by Key [DELETE /research-sys/api/v1/people-flows/(key)]
 	 
 + Request

@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Award Budget Personnel Calculated Amounts.md"
             transfer-encoding:chunked
-
-
 ### Update Award Budget Personnel Calculated Amounts [PUT /award/api/v1/award-budget-personnel-calculated-amounts/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Award Budget Personnel Calculated Amounts [POST /award/api/v1/award-budget-personnel-calculated-amounts/]
 
 + Request
@@ -185,7 +182,6 @@
               {"budgetPersonnelCalculatedAmountId": "(val)","obligatedAmount": "(val)","_primaryKey": "(val)"},
               {"budgetPersonnelCalculatedAmountId": "(val)","obligatedAmount": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Award Budget Personnel Calculated Amounts by Key [DELETE /award/api/v1/award-budget-personnel-calculated-amounts/(key)]
 	 
 + Request

@@ -113,8 +113,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Parameters.md"
             transfer-encoding:chunked
-
-
 ### Update Parameters [PUT /research-sys/api/v1/parameters/(key)]
 
 + Request
@@ -147,7 +145,6 @@
             ]
 			
 + Response 204
-
 ### Insert Parameters [POST /research-sys/api/v1/parameters/]
 
 + Request
@@ -191,7 +188,6 @@
               {"namespaceCode": "(val)","componentCode": "(val)","name": "(val)","applicationId": "(val)","value": "(val)","description": "(val)","parameterTypeCode": "(val)","evaluationOperatorCode": "(val)","_primaryKey": "(val)"},
               {"namespaceCode": "(val)","componentCode": "(val)","name": "(val)","applicationId": "(val)","value": "(val)","description": "(val)","parameterTypeCode": "(val)","evaluationOperatorCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Parameters by Key [DELETE /research-sys/api/v1/parameters/(key)]
 	 
 + Request

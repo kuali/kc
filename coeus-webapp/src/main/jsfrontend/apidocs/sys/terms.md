@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Terms.md"
             transfer-encoding:chunked
-
-
 ### Update Terms [PUT /research-sys/api/v1/terms/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Terms [POST /research-sys/api/v1/terms/]
 
 + Request
@@ -186,7 +183,6 @@
               {"id": "(val)","specificationId": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","specificationId": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Terms by Key [DELETE /research-sys/api/v1/terms/(key)]
 	 
 + Request

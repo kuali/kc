@@ -118,8 +118,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Pending Transactions.md"
             transfer-encoding:chunked
-
-
 ### Update Pending Transactions [PUT /award/api/v1/pending-transactions/(key)]
 
 + Request
@@ -152,7 +150,6 @@
             ]
 			
 + Response 204
-
 ### Insert Pending Transactions [POST /award/api/v1/pending-transactions/]
 
 + Request
@@ -196,7 +193,6 @@
               {"transactionId": "(val)","documentNumber": "(val)","sourceAwardNumber": "(val)","destinationAwardNumber": "(val)","obligatedAmount": "(val)","obligatedDirectAmount": "(val)","obligatedIndirectAmount": "(val)","anticipatedAmount": "(val)","anticipatedDirectAmount": "(val)","anticipatedIndirectAmount": "(val)","comments": "(val)","processedFlag": "(val)","singleNodeTransaction": "(val)","_primaryKey": "(val)"},
               {"transactionId": "(val)","documentNumber": "(val)","sourceAwardNumber": "(val)","destinationAwardNumber": "(val)","obligatedAmount": "(val)","obligatedDirectAmount": "(val)","obligatedIndirectAmount": "(val)","anticipatedAmount": "(val)","anticipatedDirectAmount": "(val)","anticipatedIndirectAmount": "(val)","comments": "(val)","processedFlag": "(val)","singleNodeTransaction": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Pending Transactions by Key [DELETE /award/api/v1/pending-transactions/(key)]
 	 
 + Request

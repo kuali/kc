@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Kim Document Role Responsibilities.md"
             transfer-encoding:chunked
-
-
 ### Update Kim Document Role Responsibilities [PUT /research-sys/api/v1/kim-document-role-responsibilities/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Kim Document Role Responsibilities [POST /research-sys/api/v1/kim-document-role-responsibilities/]
 
 + Request
@@ -188,7 +185,6 @@
               {"roleResponsibilityId": "(val)","roleId": "(val)","responsibilityId": "(val)","documentNumber": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"roleResponsibilityId": "(val)","roleId": "(val)","responsibilityId": "(val)","documentNumber": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Kim Document Role Responsibilities by Key [DELETE /research-sys/api/v1/kim-document-role-responsibilities/(key)]
 	 
 + Request

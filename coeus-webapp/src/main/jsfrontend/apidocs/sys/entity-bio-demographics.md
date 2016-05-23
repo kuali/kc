@@ -118,8 +118,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Entity Bio Demographics.md"
             transfer-encoding:chunked
-
-
 ### Update Entity Bio Demographics [PUT /research-sys/api/v1/entity-bio-demographics/(key)]
 
 + Request
@@ -152,7 +150,6 @@
             ]
 			
 + Response 204
-
 ### Insert Entity Bio Demographics [POST /research-sys/api/v1/entity-bio-demographics/]
 
 + Request
@@ -196,7 +193,6 @@
               {"entityId": "(val)","birthDateValue": "(val)","genderCode": "(val)","genderChangeCode": "(val)","deceasedDateValue": "(val)","maritalStatusCode": "(val)","primaryLanguageCode": "(val)","secondaryLanguageCode": "(val)","birthCountry": "(val)","birthStateProvinceCode": "(val)","birthCity": "(val)","geographicOrigin": "(val)","noteMessage": "(val)","_primaryKey": "(val)"},
               {"entityId": "(val)","birthDateValue": "(val)","genderCode": "(val)","genderChangeCode": "(val)","deceasedDateValue": "(val)","maritalStatusCode": "(val)","primaryLanguageCode": "(val)","secondaryLanguageCode": "(val)","birthCountry": "(val)","birthStateProvinceCode": "(val)","birthCity": "(val)","geographicOrigin": "(val)","noteMessage": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Entity Bio Demographics by Key [DELETE /research-sys/api/v1/entity-bio-demographics/(key)]
 	 
 + Request

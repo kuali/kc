@@ -117,8 +117,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Negotiation Unassociated Details.md"
             transfer-encoding:chunked
-
-
 ### Update Negotiation Unassociated Details [PUT /negotiation/api/v1/negotiation-unassociated-details/(key)]
 
 + Request
@@ -151,7 +149,6 @@
             ]
 			
 + Response 204
-
 ### Insert Negotiation Unassociated Details [POST /negotiation/api/v1/negotiation-unassociated-details/]
 
 + Request
@@ -195,7 +192,6 @@
               {"negotiationUnassociatedDetailId": "(val)","negotiationId": "(val)","title": "(val)","piPersonId": "(val)","piRolodexId": "(val)","leadUnitNumber": "(val)","sponsorCode": "(val)","piName": "(val)","primeSponsorCode": "(val)","sponsorAwardNumber": "(val)","contactAdminPersonId": "(val)","subAwardOrganizationId": "(val)","_primaryKey": "(val)"},
               {"negotiationUnassociatedDetailId": "(val)","negotiationId": "(val)","title": "(val)","piPersonId": "(val)","piRolodexId": "(val)","leadUnitNumber": "(val)","sponsorCode": "(val)","piName": "(val)","primeSponsorCode": "(val)","sponsorAwardNumber": "(val)","contactAdminPersonId": "(val)","subAwardOrganizationId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Negotiation Unassociated Details by Key [DELETE /negotiation/api/v1/negotiation-unassociated-details/(key)]
 	 
 + Request

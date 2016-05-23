@@ -113,8 +113,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Proposal Person Biographies.md"
             transfer-encoding:chunked
-
-
 ### Update Proposal Person Biographies [PUT /propdev/api/v1/proposal-person-biographies/(key)]
 
 + Request
@@ -147,7 +145,6 @@
             ]
 			
 + Response 204
-
 ### Insert Proposal Person Biographies [POST /propdev/api/v1/proposal-person-biographies/]
 
 + Request
@@ -191,7 +188,6 @@
               {"proposalPersonNumber": "(val)","personId": "(val)","biographyNumber": "(val)","rolodexId": "(val)","description": "(val)","documentTypeCode": "(val)","name": "(val)","type": "(val)","_primaryKey": "(val)"},
               {"proposalPersonNumber": "(val)","personId": "(val)","biographyNumber": "(val)","rolodexId": "(val)","description": "(val)","documentTypeCode": "(val)","name": "(val)","type": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Proposal Person Biographies by Key [DELETE /propdev/api/v1/proposal-person-biographies/(key)]
 	 
 + Request

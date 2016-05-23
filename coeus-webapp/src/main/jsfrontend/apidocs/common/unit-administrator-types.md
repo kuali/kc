@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Unit Administrator Types.md"
             transfer-encoding:chunked
-
-
 ### Update Unit Administrator Types [PUT /research-common/api/v1/unit-administrator-types/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Unit Administrator Types [POST /research-common/api/v1/unit-administrator-types/]
 
 + Request
@@ -187,7 +184,6 @@
               {"code": "(val)","description": "(val)","multiplesFlag": "(val)","defaultGroupFlag": "(val)","_primaryKey": "(val)"},
               {"code": "(val)","description": "(val)","multiplesFlag": "(val)","defaultGroupFlag": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Unit Administrator Types by Key [DELETE /research-common/api/v1/unit-administrator-types/(key)]
 	 
 + Request

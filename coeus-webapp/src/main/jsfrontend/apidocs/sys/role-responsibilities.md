@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Role Responsibilities.md"
             transfer-encoding:chunked
-
-
 ### Update Role Responsibilities [PUT /research-sys/api/v1/role-responsibilities/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Role Responsibilities [POST /research-sys/api/v1/role-responsibilities/]
 
 + Request
@@ -187,7 +184,6 @@
               {"roleResponsibilityId": "(val)","roleId": "(val)","responsibilityId": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"roleResponsibilityId": "(val)","roleId": "(val)","responsibilityId": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Role Responsibilities by Key [DELETE /research-sys/api/v1/role-responsibilities/(key)]
 	 
 + Request

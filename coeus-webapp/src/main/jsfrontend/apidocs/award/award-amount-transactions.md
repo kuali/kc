@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Award Amount Transactions.md"
             transfer-encoding:chunked
-
-
 ### Update Award Amount Transactions [PUT /award/api/v1/award-amount-transactions/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Award Amount Transactions [POST /award/api/v1/award-amount-transactions/]
 
 + Request
@@ -189,7 +186,6 @@
               {"awardAmountTransactionId": "(val)","awardNumber": "(val)","documentNumber": "(val)","transactionTypeCode": "(val)","noticeDate": "(val)","comments": "(val)","_primaryKey": "(val)"},
               {"awardAmountTransactionId": "(val)","awardNumber": "(val)","documentNumber": "(val)","transactionTypeCode": "(val)","noticeDate": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Award Amount Transactions by Key [DELETE /award/api/v1/award-amount-transactions/(key)]
 	 
 + Request

@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Delegate Member Attribute Data.md"
             transfer-encoding:chunked
-
-
 ### Update Delegate Member Attribute Data [PUT /research-sys/api/v1/delegate-member-attribute-data/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Delegate Member Attribute Data [POST /research-sys/api/v1/delegate-member-attribute-data/]
 
 + Request
@@ -188,7 +185,6 @@
               {"id": "(val)","assignedToId": "(val)","attributeValue": "(val)","kimTypeId": "(val)","kimAttributeId": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","assignedToId": "(val)","attributeValue": "(val)","kimTypeId": "(val)","kimAttributeId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Delegate Member Attribute Data by Key [DELETE /research-sys/api/v1/delegate-member-attribute-data/(key)]
 	 
 + Request

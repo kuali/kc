@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Institutional Proposal Person Units.md"
             transfer-encoding:chunked
-
-
 ### Update Institutional Proposal Person Units [PUT /instprop/api/v1/institutional-proposal-person-units/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Institutional Proposal Person Units [POST /instprop/api/v1/institutional-proposal-person-units/]
 
 + Request
@@ -187,7 +184,6 @@
               {"institutionalProposalPersonUnitId": "(val)","institutionalProposalContactId": "(val)","unitNumber": "(val)","leadUnit": "(val)","_primaryKey": "(val)"},
               {"institutionalProposalPersonUnitId": "(val)","institutionalProposalContactId": "(val)","unitNumber": "(val)","leadUnit": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Institutional Proposal Person Units by Key [DELETE /instprop/api/v1/institutional-proposal-person-units/(key)]
 	 
 + Request

@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Closeout Types.md"
             transfer-encoding:chunked
-
-
 ### Update Closeout Types [PUT /subaward/api/v1/closeout-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Closeout Types [POST /subaward/api/v1/closeout-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"closeoutTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"closeoutTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Closeout Types by Key [DELETE /subaward/api/v1/closeout-types/(key)]
 	 
 + Request

@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Note Types.md"
             transfer-encoding:chunked
-
-
 ### Update Note Types [PUT /research-sys/api/v1/note-types/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Note Types [POST /research-sys/api/v1/note-types/]
 
 + Request
@@ -186,7 +183,6 @@
               {"noteTypeCode": "(val)","noteTypeDescription": "(val)","noteTypeActiveIndicator": "(val)","_primaryKey": "(val)"},
               {"noteTypeCode": "(val)","noteTypeDescription": "(val)","noteTypeActiveIndicator": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Note Types by Key [DELETE /research-sys/api/v1/note-types/(key)]
 	 
 + Request

@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Protocol Modules.md"
             transfer-encoding:chunked
-
-
 ### Update Protocol Modules [PUT /irb/api/v1/protocol-modules/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Protocol Modules [POST /irb/api/v1/protocol-modules/]
 
 + Request
@@ -185,7 +182,6 @@
               {"protocolModuleCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"protocolModuleCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Protocol Modules by Key [DELETE /irb/api/v1/protocol-modules/(key)]
 	 
 + Request

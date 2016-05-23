@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Research Areas.md"
             transfer-encoding:chunked
-
-
 ### Update Research Areas [PUT /irb/api/v1/research-areas/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Research Areas [POST /irb/api/v1/research-areas/]
 
 + Request
@@ -188,7 +185,6 @@
               {"researchAreaCode": "(val)","description": "(val)","hasChildrenFlag": "(val)","parentResearchAreaCode": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"researchAreaCode": "(val)","description": "(val)","hasChildrenFlag": "(val)","parentResearchAreaCode": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Research Areas by Key [DELETE /irb/api/v1/research-areas/(key)]
 	 
 + Request

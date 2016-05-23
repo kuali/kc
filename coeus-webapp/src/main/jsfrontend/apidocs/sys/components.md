@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Components.md"
             transfer-encoding:chunked
-
-
 ### Update Components [PUT /research-sys/api/v1/components/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Components [POST /research-sys/api/v1/components/]
 
 + Request
@@ -187,7 +184,6 @@
               {"namespaceCode": "(val)","code": "(val)","name": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"namespaceCode": "(val)","code": "(val)","name": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Components by Key [DELETE /research-sys/api/v1/components/(key)]
 	 
 + Request

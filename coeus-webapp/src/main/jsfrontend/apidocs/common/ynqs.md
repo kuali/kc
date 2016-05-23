@@ -115,8 +115,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Ynqs.md"
             transfer-encoding:chunked
-
-
 ### Update Ynqs [PUT /research-common/api/v1/ynqs/(key)]
 
 + Request
@@ -149,7 +147,6 @@
             ]
 			
 + Response 204
-
 ### Insert Ynqs [POST /research-common/api/v1/ynqs/]
 
 + Request
@@ -193,7 +190,6 @@
               {"questionId": "(val)","dateRequiredFor": "(val)","description": "(val)","effectiveDate": "(val)","explanationRequiredFor": "(val)","groupName": "(val)","noOfAnswers": "(val)","questionType": "(val)","status": "(val)","sortId": "(val)","_primaryKey": "(val)"},
               {"questionId": "(val)","dateRequiredFor": "(val)","description": "(val)","effectiveDate": "(val)","explanationRequiredFor": "(val)","groupName": "(val)","noOfAnswers": "(val)","questionType": "(val)","status": "(val)","sortId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Ynqs by Key [DELETE /research-common/api/v1/ynqs/(key)]
 	 
 + Request

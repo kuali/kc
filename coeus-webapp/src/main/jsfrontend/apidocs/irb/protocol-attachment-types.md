@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Protocol Attachment Types.md"
             transfer-encoding:chunked
-
-
 ### Update Protocol Attachment Types [PUT /irb/api/v1/protocol-attachment-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Protocol Attachment Types [POST /irb/api/v1/protocol-attachment-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Protocol Attachment Types by Key [DELETE /irb/api/v1/protocol-attachment-types/(key)]
 	 
 + Request

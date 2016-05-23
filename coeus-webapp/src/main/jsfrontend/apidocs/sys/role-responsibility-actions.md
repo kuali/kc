@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Role Responsibility Actions.md"
             transfer-encoding:chunked
-
-
 ### Update Role Responsibility Actions [PUT /research-sys/api/v1/role-responsibility-actions/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert Role Responsibility Actions [POST /research-sys/api/v1/role-responsibility-actions/]
 
 + Request
@@ -190,7 +187,6 @@
               {"id": "(val)","roleResponsibilityId": "(val)","roleMemberId": "(val)","actionTypeCode": "(val)","actionPolicyCode": "(val)","forceAction": "(val)","priorityNumber": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","roleResponsibilityId": "(val)","roleMemberId": "(val)","actionTypeCode": "(val)","actionPolicyCode": "(val)","forceAction": "(val)","priorityNumber": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Role Responsibility Actions by Key [DELETE /research-sys/api/v1/role-responsibility-actions/(key)]
 	 
 + Request

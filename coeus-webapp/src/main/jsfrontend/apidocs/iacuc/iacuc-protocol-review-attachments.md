@@ -117,8 +117,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Protocol Review Attachments.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Protocol Review Attachments [PUT /iacuc/api/v1/iacuc-protocol-review-attachments/(key)]
 
 + Request
@@ -151,7 +149,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Protocol Review Attachments [POST /iacuc/api/v1/iacuc-protocol-review-attachments/]
 
 + Request
@@ -195,7 +192,6 @@
               {"reviewerAttachmentId": "(val)","protocolOnlineReviewIdFk": "(val)","protocolIdFk": "(val)","submissionIdFk": "(val)","attachmentId": "(val)","description": "(val)","fileId": "(val)","personId": "(val)","createUser": "(val)","createTimestamp": "(val)","privateFlag": "(val)","protocolPersonCanView": "(val)","_primaryKey": "(val)"},
               {"reviewerAttachmentId": "(val)","protocolOnlineReviewIdFk": "(val)","protocolIdFk": "(val)","submissionIdFk": "(val)","attachmentId": "(val)","description": "(val)","fileId": "(val)","personId": "(val)","createUser": "(val)","createTimestamp": "(val)","privateFlag": "(val)","protocolPersonCanView": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Protocol Review Attachments by Key [DELETE /iacuc/api/v1/iacuc-protocol-review-attachments/(key)]
 	 
 + Request

@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Protocol Reference Types.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Protocol Reference Types [PUT /iacuc/api/v1/iacuc-protocol-reference-types/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Protocol Reference Types [POST /iacuc/api/v1/iacuc-protocol-reference-types/]
 
 + Request
@@ -186,7 +183,6 @@
               {"protocolReferenceTypeCode": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"protocolReferenceTypeCode": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Protocol Reference Types by Key [DELETE /iacuc/api/v1/iacuc-protocol-reference-types/(key)]
 	 
 + Request

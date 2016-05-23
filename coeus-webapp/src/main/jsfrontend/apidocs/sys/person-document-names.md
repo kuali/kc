@@ -119,8 +119,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Person Document Names.md"
             transfer-encoding:chunked
-
-
 ### Update Person Document Names [PUT /research-sys/api/v1/person-document-names/(key)]
 
 + Request
@@ -153,7 +151,6 @@
             ]
 			
 + Response 204
-
 ### Insert Person Document Names [POST /research-sys/api/v1/person-document-names/]
 
 + Request
@@ -197,7 +194,6 @@
               {"entityNameId": "(val)","nameCode": "(val)","firstName": "(val)","middleName": "(val)","lastName": "(val)","namePrefix": "(val)","nameTitle": "(val)","nameSuffix": "(val)","noteMessage": "(val)","nameChangedDate": "(val)","dflt": "(val)","edit": "(val)","documentNumber": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"entityNameId": "(val)","nameCode": "(val)","firstName": "(val)","middleName": "(val)","lastName": "(val)","namePrefix": "(val)","nameTitle": "(val)","nameSuffix": "(val)","noteMessage": "(val)","nameChangedDate": "(val)","dflt": "(val)","edit": "(val)","documentNumber": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Person Document Names by Key [DELETE /research-sys/api/v1/person-document-names/(key)]
 	 
 + Request

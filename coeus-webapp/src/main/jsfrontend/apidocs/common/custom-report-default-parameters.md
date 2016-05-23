@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Custom Report Default Parameters.md"
             transfer-encoding:chunked
-
-
 ### Update Custom Report Default Parameters [PUT /research-common/api/v1/custom-report-default-parameters/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Custom Report Default Parameters [POST /research-common/api/v1/custom-report-default-parameters/]
 
 + Request
@@ -188,7 +185,6 @@
               {"parameterName": "(val)","reportTypeCode": "(val)","className": "(val)","javaStatements": "(val)","unitForAuthCheck": "(val)","_primaryKey": "(val)"},
               {"parameterName": "(val)","reportTypeCode": "(val)","className": "(val)","javaStatements": "(val)","unitForAuthCheck": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Custom Report Default Parameters by Key [DELETE /research-common/api/v1/custom-report-default-parameters/(key)]
 	 
 + Request

@@ -115,8 +115,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Sub Award Closeouts.md"
             transfer-encoding:chunked
-
-
 ### Update Sub Award Closeouts [PUT /subaward/api/v1/sub-award-closeouts/(key)]
 
 + Request
@@ -149,7 +147,6 @@
             ]
 			
 + Response 204
-
 ### Insert Sub Award Closeouts [POST /subaward/api/v1/sub-award-closeouts/]
 
 + Request
@@ -193,7 +190,6 @@
               {"subAwardCloseoutId": "(val)","subAwardId": "(val)","sequenceNumber": "(val)","subAwardCode": "(val)","closeoutNumber": "(val)","closeoutTypeCode": "(val)","dateRequested": "(val)","dateFollowup": "(val)","dateReceived": "(val)","comments": "(val)","_primaryKey": "(val)"},
               {"subAwardCloseoutId": "(val)","subAwardId": "(val)","sequenceNumber": "(val)","subAwardCode": "(val)","closeoutNumber": "(val)","closeoutTypeCode": "(val)","dateRequested": "(val)","dateFollowup": "(val)","dateReceived": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Sub Award Closeouts by Key [DELETE /subaward/api/v1/sub-award-closeouts/(key)]
 	 
 + Request

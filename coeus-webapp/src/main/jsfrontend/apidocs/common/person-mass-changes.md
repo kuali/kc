@@ -16,7 +16,7 @@
 
     + Body
     
-            {"personMassChangeId": "(val)","documentNumber": "(val)","replaceePersonId": "(val)","replaceeRolodexId": "(val)","replacerPersonId": "(val)","replacerRolodexId": "(val)","changeAllSequences": "(val)","_primaryKey": "(val)"}
+            {"personMassChangeId": "(val)","replaceePersonId": "(val)","replaceeRolodexId": "(val)","replacerPersonId": "(val)","replacerRolodexId": "(val)","changeAllSequences": "(val)","personMassChangeDocument.documentNumber": "(val)","_primaryKey": "(val)"}
 
 ### Get All Person Mass Changes [GET /research-common/api/v1/person-mass-changes/]
 	 
@@ -35,8 +35,8 @@
     + Body
     
             [
-              {"personMassChangeId": "(val)","documentNumber": "(val)","replaceePersonId": "(val)","replaceeRolodexId": "(val)","replacerPersonId": "(val)","replacerRolodexId": "(val)","changeAllSequences": "(val)","_primaryKey": "(val)"},
-              {"personMassChangeId": "(val)","documentNumber": "(val)","replaceePersonId": "(val)","replaceeRolodexId": "(val)","replacerPersonId": "(val)","replacerRolodexId": "(val)","changeAllSequences": "(val)","_primaryKey": "(val)"}
+              {"personMassChangeId": "(val)","replaceePersonId": "(val)","replaceeRolodexId": "(val)","replacerPersonId": "(val)","replacerRolodexId": "(val)","changeAllSequences": "(val)","personMassChangeDocument.documentNumber": "(val)","_primaryKey": "(val)"},
+              {"personMassChangeId": "(val)","replaceePersonId": "(val)","replaceeRolodexId": "(val)","replacerPersonId": "(val)","replacerRolodexId": "(val)","changeAllSequences": "(val)","personMassChangeDocument.documentNumber": "(val)","_primaryKey": "(val)"}
             ]
 
 ### Get All Person Mass Changes with Filtering [GET /research-common/api/v1/person-mass-changes/]
@@ -44,12 +44,12 @@
 + Parameters
 
     + personMassChangeId (optional) - Person Mass Change Id. Maximum length is 12.
-    + documentNumber (optional) - 
     + replaceePersonId (optional) - Employee. Maximum length is 40.
     + replaceeRolodexId (optional) - Non-Employee. Maximum length is 40.
     + replacerPersonId (optional) - Employee. Maximum length is 40.
     + replacerRolodexId (optional) - Non-Employee. Maximum length is 40.
     + changeAllSequences (optional) - Change All Sequences. Maximum length is 1.
+    + personMassChangeDocument.documentNumber (optional) - 
 
             
 + Request
@@ -67,8 +67,8 @@
     + Body
     
             [
-              {"personMassChangeId": "(val)","documentNumber": "(val)","replaceePersonId": "(val)","replaceeRolodexId": "(val)","replacerPersonId": "(val)","replacerRolodexId": "(val)","changeAllSequences": "(val)","_primaryKey": "(val)"},
-              {"personMassChangeId": "(val)","documentNumber": "(val)","replaceePersonId": "(val)","replaceeRolodexId": "(val)","replacerPersonId": "(val)","replacerRolodexId": "(val)","changeAllSequences": "(val)","_primaryKey": "(val)"}
+              {"personMassChangeId": "(val)","replaceePersonId": "(val)","replaceeRolodexId": "(val)","replacerPersonId": "(val)","replacerRolodexId": "(val)","changeAllSequences": "(val)","personMassChangeDocument.documentNumber": "(val)","_primaryKey": "(val)"},
+              {"personMassChangeId": "(val)","replaceePersonId": "(val)","replaceeRolodexId": "(val)","replacerPersonId": "(val)","replacerRolodexId": "(val)","changeAllSequences": "(val)","personMassChangeDocument.documentNumber": "(val)","_primaryKey": "(val)"}
             ]
 			
 ### Get Schema for Person Mass Changes [GET /research-common/api/v1/person-mass-changes/]
@@ -91,7 +91,7 @@
 
     + Body
     
-            {"columns":["personMassChangeId","documentNumber","replaceePersonId","replaceeRolodexId","replacerPersonId","replacerRolodexId","changeAllSequences"],"primaryKey":"personMassChangeId"}
+            {"columns":["personMassChangeId","replaceePersonId","replaceeRolodexId","replacerPersonId","replacerRolodexId","changeAllSequences","personMassChangeDocument.documentNumber"],"primaryKey":"personMassChangeId"}
 		
 ### Get Blueprint API specification for Person Mass Changes [GET /research-common/api/v1/person-mass-changes/]
 	 
@@ -112,130 +112,3 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Person Mass Changes.md"
             transfer-encoding:chunked
-
-
-### Update Person Mass Changes [PUT /research-common/api/v1/person-mass-changes/(key)]
-
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}   
-            Content-Type: application/json
-
-    + Body
-    
-            {"personMassChangeId": "(val)","documentNumber": "(val)","replaceePersonId": "(val)","replaceeRolodexId": "(val)","replacerPersonId": "(val)","replacerRolodexId": "(val)","changeAllSequences": "(val)","_primaryKey": "(val)"}
-			
-+ Response 204
-
-### Update Multiple Person Mass Changes [PUT /research-common/api/v1/person-mass-changes/]
-
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}   
-            Content-Type: application/json
-
-    + Body
-    
-            [
-              {"personMassChangeId": "(val)","documentNumber": "(val)","replaceePersonId": "(val)","replaceeRolodexId": "(val)","replacerPersonId": "(val)","replacerRolodexId": "(val)","changeAllSequences": "(val)","_primaryKey": "(val)"},
-              {"personMassChangeId": "(val)","documentNumber": "(val)","replaceePersonId": "(val)","replaceeRolodexId": "(val)","replacerPersonId": "(val)","replacerRolodexId": "(val)","changeAllSequences": "(val)","_primaryKey": "(val)"}
-            ]
-			
-+ Response 204
-
-### Insert Person Mass Changes [POST /research-common/api/v1/person-mass-changes/]
-
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}   
-            Content-Type: application/json
-
-    + Body
-    
-            {"personMassChangeId": "(val)","documentNumber": "(val)","replaceePersonId": "(val)","replaceeRolodexId": "(val)","replacerPersonId": "(val)","replacerRolodexId": "(val)","changeAllSequences": "(val)","_primaryKey": "(val)"}
-			
-+ Response 201
-    
-    + Body
-            
-            {"personMassChangeId": "(val)","documentNumber": "(val)","replaceePersonId": "(val)","replaceeRolodexId": "(val)","replacerPersonId": "(val)","replacerRolodexId": "(val)","changeAllSequences": "(val)","_primaryKey": "(val)"}
-            
-### Insert Multiple Person Mass Changes [POST /research-common/api/v1/person-mass-changes/]
-
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}   
-            Content-Type: application/json
-
-    + Body
-    
-            [
-              {"personMassChangeId": "(val)","documentNumber": "(val)","replaceePersonId": "(val)","replaceeRolodexId": "(val)","replacerPersonId": "(val)","replacerRolodexId": "(val)","changeAllSequences": "(val)","_primaryKey": "(val)"},
-              {"personMassChangeId": "(val)","documentNumber": "(val)","replaceePersonId": "(val)","replaceeRolodexId": "(val)","replacerPersonId": "(val)","replacerRolodexId": "(val)","changeAllSequences": "(val)","_primaryKey": "(val)"}
-            ]
-			
-+ Response 201
-    
-    + Body
-            
-            [
-              {"personMassChangeId": "(val)","documentNumber": "(val)","replaceePersonId": "(val)","replaceeRolodexId": "(val)","replacerPersonId": "(val)","replacerRolodexId": "(val)","changeAllSequences": "(val)","_primaryKey": "(val)"},
-              {"personMassChangeId": "(val)","documentNumber": "(val)","replaceePersonId": "(val)","replaceeRolodexId": "(val)","replacerPersonId": "(val)","replacerRolodexId": "(val)","changeAllSequences": "(val)","_primaryKey": "(val)"}
-            ]
-            
-### Delete Person Mass Changes by Key [DELETE /research-common/api/v1/person-mass-changes/(key)]
-	 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-
-+ Response 204
-
-### Delete All Person Mass Changes [DELETE /research-common/api/v1/person-mass-changes/]
-
-+ Parameters
-
-      + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-
-+ Response 204
-
-### Delete All Person Mass Changes with Matching [DELETE /research-common/api/v1/person-mass-changes/]
-
-+ Parameters
-
-    + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
-    + personMassChangeId (optional) - Person Mass Change Id. Maximum length is 12.
-    + documentNumber (optional) - 
-    + replaceePersonId (optional) - Employee. Maximum length is 40.
-    + replaceeRolodexId (optional) - Non-Employee. Maximum length is 40.
-    + replacerPersonId (optional) - Employee. Maximum length is 40.
-    + replacerRolodexId (optional) - Non-Employee. Maximum length is 40.
-    + changeAllSequences (optional) - Change All Sequences. Maximum length is 1.
-
-      
-+ Request
-
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-
-+ Response 204

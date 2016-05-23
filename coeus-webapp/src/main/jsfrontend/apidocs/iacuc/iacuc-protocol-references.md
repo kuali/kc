@@ -115,8 +115,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Protocol References.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Protocol References [PUT /iacuc/api/v1/iacuc-protocol-references/(key)]
 
 + Request
@@ -149,7 +147,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Protocol References [POST /iacuc/api/v1/iacuc-protocol-references/]
 
 + Request
@@ -193,7 +190,6 @@
               {"protocolReferenceId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","protocolReferenceNumber": "(val)","protocolReferenceTypeCode": "(val)","referenceKey": "(val)","applicationDate": "(val)","approvalDate": "(val)","comments": "(val)","_primaryKey": "(val)"},
               {"protocolReferenceId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","protocolReferenceNumber": "(val)","protocolReferenceTypeCode": "(val)","referenceKey": "(val)","applicationDate": "(val)","approvalDate": "(val)","comments": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Protocol References by Key [DELETE /iacuc/api/v1/iacuc-protocol-references/(key)]
 	 
 + Request

@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Namespaces.md"
             transfer-encoding:chunked
-
-
 ### Update Namespaces [PUT /research-sys/api/v1/namespaces/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Namespaces [POST /research-sys/api/v1/namespaces/]
 
 + Request
@@ -187,7 +184,6 @@
               {"applicationId": "(val)","code": "(val)","name": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"applicationId": "(val)","code": "(val)","name": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Namespaces by Key [DELETE /research-sys/api/v1/namespaces/(key)]
 	 
 + Request

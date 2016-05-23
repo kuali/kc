@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Congressional Districts.md"
             transfer-encoding:chunked
-
-
 ### Update Congressional Districts [PUT /propdev/api/v1/congressional-districts/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Congressional Districts [POST /propdev/api/v1/congressional-districts/]
 
 + Request
@@ -185,7 +182,6 @@
               {"id": "(val)","congressionalDistrict": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","congressionalDistrict": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Congressional Districts by Key [DELETE /propdev/api/v1/congressional-districts/(key)]
 	 
 + Request

@@ -114,8 +114,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Entity Phones.md"
             transfer-encoding:chunked
-
-
 ### Update Entity Phones [PUT /research-sys/api/v1/entity-phones/(key)]
 
 + Request
@@ -148,7 +146,6 @@
             ]
 			
 + Response 204
-
 ### Insert Entity Phones [POST /research-sys/api/v1/entity-phones/]
 
 + Request
@@ -192,7 +189,6 @@
               {"id": "(val)","phoneNumber": "(val)","countryCode": "(val)","defaultValue": "(val)","entityTypeCode": "(val)","extensionNumber": "(val)","active": "(val)","entityId": "(val)","phoneTypeCode": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","phoneNumber": "(val)","countryCode": "(val)","defaultValue": "(val)","entityTypeCode": "(val)","extensionNumber": "(val)","active": "(val)","entityId": "(val)","phoneTypeCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Entity Phones by Key [DELETE /research-sys/api/v1/entity-phones/(key)]
 	 
 + Request

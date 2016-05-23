@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Countries.md"
             transfer-encoding:chunked
-
-
 ### Update Countries [PUT /research-sys/api/v1/countries/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Countries [POST /research-sys/api/v1/countries/]
 
 + Request
@@ -188,7 +185,6 @@
               {"code": "(val)","alternateCode": "(val)","name": "(val)","restricted": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"code": "(val)","alternateCode": "(val)","name": "(val)","restricted": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Countries by Key [DELETE /research-sys/api/v1/countries/(key)]
 	 
 + Request

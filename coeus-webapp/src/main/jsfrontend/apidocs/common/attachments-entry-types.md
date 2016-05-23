@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Attachments Entry Types.md"
             transfer-encoding:chunked
-
-
 ### Update Attachments Entry Types [PUT /research-common/api/v1/attachments-entry-types/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Attachments Entry Types [POST /research-common/api/v1/attachments-entry-types/]
 
 + Request
@@ -186,7 +183,6 @@
               {"attachmentsTypeCode": "(val)","sortId": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"attachmentsTypeCode": "(val)","sortId": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Attachments Entry Types by Key [DELETE /research-common/api/v1/attachments-entry-types/(key)]
 	 
 + Request

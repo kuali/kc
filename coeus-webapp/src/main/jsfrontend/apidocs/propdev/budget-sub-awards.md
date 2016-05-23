@@ -122,8 +122,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Budget Sub Awards.md"
             transfer-encoding:chunked
-
-
 ### Update Budget Sub Awards [PUT /propdev/api/v1/budget-sub-awards/(key)]
 
 + Request
@@ -156,7 +154,6 @@
             ]
 			
 + Response 204
-
 ### Insert Budget Sub Awards [POST /propdev/api/v1/budget-sub-awards/]
 
 + Request
@@ -200,7 +197,6 @@
               {"budgetId": "(val)","subAwardNumber": "(val)","comments": "(val)","organizationId": "(val)","subAwardStatusCode": "(val)","fileDataId": "(val)","subAwardXfdFileName": "(val)","xmlDataId": "(val)","translationComments": "(val)","xfdUpdateTimestamp": "(val)","xfdUpdateUser": "(val)","xmlUpdateTimestamp": "(val)","xmlUpdateUser": "(val)","namespace": "(val)","formName": "(val)","hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","_primaryKey": "(val)"},
               {"budgetId": "(val)","subAwardNumber": "(val)","comments": "(val)","organizationId": "(val)","subAwardStatusCode": "(val)","fileDataId": "(val)","subAwardXfdFileName": "(val)","xmlDataId": "(val)","translationComments": "(val)","xfdUpdateTimestamp": "(val)","xfdUpdateUser": "(val)","xmlUpdateTimestamp": "(val)","xmlUpdateUser": "(val)","namespace": "(val)","formName": "(val)","hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Budget Sub Awards by Key [DELETE /propdev/api/v1/budget-sub-awards/(key)]
 	 
 + Request

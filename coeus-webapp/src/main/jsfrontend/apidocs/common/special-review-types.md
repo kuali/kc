@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Special Review Types.md"
             transfer-encoding:chunked
-
-
 ### Update Special Review Types [PUT /research-common/api/v1/special-review-types/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Special Review Types [POST /research-common/api/v1/special-review-types/]
 
 + Request
@@ -186,7 +183,6 @@
               {"specialReviewTypeCode": "(val)","description": "(val)","sortId": "(val)","_primaryKey": "(val)"},
               {"specialReviewTypeCode": "(val)","description": "(val)","sortId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Special Review Types by Key [DELETE /research-common/api/v1/special-review-types/(key)]
 	 
 + Request

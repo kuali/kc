@@ -113,8 +113,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Role Document Delegation Member Qualifiers.md"
             transfer-encoding:chunked
-
-
 ### Update Role Document Delegation Member Qualifiers [PUT /research-sys/api/v1/role-document-delegation-member-qualifiers/(key)]
 
 + Request
@@ -147,7 +145,6 @@
             ]
 			
 + Response 204
-
 ### Insert Role Document Delegation Member Qualifiers [POST /research-sys/api/v1/role-document-delegation-member-qualifiers/]
 
 + Request
@@ -191,7 +188,6 @@
               {"delegationMemberId": "(val)","kimTypId": "(val)","kimAttrDefnId": "(val)","edit": "(val)","documentNumber": "(val)","attrVal": "(val)","active": "(val)","attrDataId": "(val)","_primaryKey": "(val)"},
               {"delegationMemberId": "(val)","kimTypId": "(val)","kimAttrDefnId": "(val)","edit": "(val)","documentNumber": "(val)","attrVal": "(val)","active": "(val)","attrDataId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Role Document Delegation Member Qualifiers by Key [DELETE /research-sys/api/v1/role-document-delegation-member-qualifiers/(key)]
 	 
 + Request

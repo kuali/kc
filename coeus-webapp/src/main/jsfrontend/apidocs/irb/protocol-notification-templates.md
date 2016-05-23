@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Protocol Notification Templates.md"
             transfer-encoding:chunked
-
-
 ### Update Protocol Notification Templates [PUT /irb/api/v1/protocol-notification-templates/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Protocol Notification Templates [POST /irb/api/v1/protocol-notification-templates/]
 
 + Request
@@ -187,7 +184,6 @@
               {"notificationTemplateId": "(val)","actionTypeCode": "(val)","fileName": "(val)","notificationTemplate": "(val)","_primaryKey": "(val)"},
               {"notificationTemplateId": "(val)","actionTypeCode": "(val)","fileName": "(val)","notificationTemplate": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Protocol Notification Templates by Key [DELETE /irb/api/v1/protocol-notification-templates/(key)]
 	 
 + Request

@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Procedure Responsible Persons.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Procedure Responsible Persons [PUT /iacuc/api/v1/iacuc-procedure-responsible-persons/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Procedure Responsible Persons [POST /iacuc/api/v1/iacuc-procedure-responsible-persons/]
 
 + Request
@@ -186,7 +183,6 @@
               {"iacucProcedurePersonResponsibleId": "(val)","iacucProtocolStudyGroupId": "(val)","protocolPersonId": "(val)","_primaryKey": "(val)"},
               {"iacucProcedurePersonResponsibleId": "(val)","iacucProtocolStudyGroupId": "(val)","protocolPersonId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Procedure Responsible Persons by Key [DELETE /iacuc/api/v1/iacuc-procedure-responsible-persons/(key)]
 	 
 + Request

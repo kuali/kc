@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Organization Audits.md"
             transfer-encoding:chunked
-
-
 ### Update Organization Audits [PUT /research-common/api/v1/organization-audits/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Organization Audits [POST /research-common/api/v1/organization-audits/]
 
 + Request
@@ -187,7 +184,6 @@
               {"fiscalYear": "(val)","organizationId": "(val)","auditAcceptedCode": "(val)","auditComment": "(val)","_primaryKey": "(val)"},
               {"fiscalYear": "(val)","organizationId": "(val)","auditAcceptedCode": "(val)","auditComment": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Organization Audits by Key [DELETE /research-common/api/v1/organization-audits/(key)]
 	 
 + Request

@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Entity External Identifiers.md"
             transfer-encoding:chunked
-
-
 ### Update Entity External Identifiers [PUT /research-sys/api/v1/entity-external-identifiers/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Entity External Identifiers [POST /research-sys/api/v1/entity-external-identifiers/]
 
 + Request
@@ -187,7 +184,6 @@
               {"id": "(val)","entityId": "(val)","externalIdentifierTypeCode": "(val)","externalId": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","entityId": "(val)","externalIdentifierTypeCode": "(val)","externalId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Entity External Identifiers by Key [DELETE /research-sys/api/v1/entity-external-identifiers/(key)]
 	 
 + Request

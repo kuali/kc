@@ -118,8 +118,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Budget Personnel Calculated Amounts.md"
             transfer-encoding:chunked
-
-
 ### Update Budget Personnel Calculated Amounts [PUT /research-common/api/v1/budget-personnel-calculated-amounts/(key)]
 
 + Request
@@ -152,7 +150,6 @@
             ]
 			
 + Response 204
-
 ### Insert Budget Personnel Calculated Amounts [POST /research-common/api/v1/budget-personnel-calculated-amounts/]
 
 + Request
@@ -196,7 +193,6 @@
               {"personNumber": "(val)","budgetPersonnelCalculatedAmountId": "(val)","budgetPersonnelLineItemId": "(val)","budgetPeriodId": "(val)","rateTypeDescription": "(val)","applyRateFlag": "(val)","rateTypeCode": "(val)","budgetId": "(val)","budgetPeriod": "(val)","calculatedCost": "(val)","rateClassCode": "(val)","calculatedCostSharing": "(val)","lineItemNumber": "(val)","_primaryKey": "(val)"},
               {"personNumber": "(val)","budgetPersonnelCalculatedAmountId": "(val)","budgetPersonnelLineItemId": "(val)","budgetPeriodId": "(val)","rateTypeDescription": "(val)","applyRateFlag": "(val)","rateTypeCode": "(val)","budgetId": "(val)","budgetPeriod": "(val)","calculatedCost": "(val)","rateClassCode": "(val)","calculatedCostSharing": "(val)","lineItemNumber": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Budget Personnel Calculated Amounts by Key [DELETE /research-common/api/v1/budget-personnel-calculated-amounts/(key)]
 	 
 + Request

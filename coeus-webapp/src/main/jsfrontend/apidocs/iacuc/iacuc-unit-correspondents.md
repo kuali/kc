@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Unit Correspondents.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Unit Correspondents [PUT /iacuc/api/v1/iacuc-unit-correspondents/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Unit Correspondents [POST /iacuc/api/v1/iacuc-unit-correspondents/]
 
 + Request
@@ -189,7 +186,6 @@
               {"correspondentId": "(val)","unitNumber": "(val)","correspondentTypeCode": "(val)","personId": "(val)","nonEmployeeFlag": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"correspondentId": "(val)","unitNumber": "(val)","correspondentTypeCode": "(val)","personId": "(val)","nonEmployeeFlag": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Unit Correspondents by Key [DELETE /iacuc/api/v1/iacuc-unit-correspondents/(key)]
 	 
 + Request

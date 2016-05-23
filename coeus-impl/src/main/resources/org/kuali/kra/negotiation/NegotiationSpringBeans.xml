@@ -3,7 +3,7 @@
    - Kuali Coeus, a comprehensive research administration system for higher education.
    - 
    - Copyright 2005-2016 Kuali, Inc.
-   - 
+   -
    - This program is free software: you can redistribute it and/or modify
    - it under the terms of the GNU Affero General Public License as
    - published by the Free Software Foundation, either version 3 of the
@@ -302,6 +302,8 @@
     <bean id="errorHandlingUtilService" parent="grlImporter" p:serviceName="errorHandlingUtilService"/>
     <bean id="persistenceVerificationService" parent="grlImporter" p:serviceName="persistenceVerificationService" />
     <bean id="restAuditLoggerFactory" parent="grlImporter" p:serviceName="restAuditLoggerFactory" />
+    <bean id="restBeanWrapperFactory" parent="grlImporter" p:serviceName="restBeanWrapperFactory" />
+    <bean id="restPropertyEditors" parent="grlImporter" p:serviceName="restPropertyEditors" />
 
     <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
         <property name="messageConverters">
@@ -325,7 +327,7 @@
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.negotiations.bo.NegotiationActivityType" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.negotiations.bo.NegotiationAgreementType" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.negotiations.bo.NegotiationAssociationType" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.negotiations.customdata.NegotiationCustomData" p:camelCasePluralName="NegotiationCustomData"/>
+    <bean parent="simpleReadOnlyMapBasedRestController" p:dataObjectClazz="org.kuali.kra.negotiations.customdata.NegotiationCustomData" p:camelCasePluralName="NegotiationCustomData"/>
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.negotiations.bo.NegotiationLocation" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.negotiations.notifications.NegotiationNotification" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.personmasschange.bo.NegotiationPersonMassChange" />

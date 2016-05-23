@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Award Templates.md"
             transfer-encoding:chunked
-
-
 ### Update Award Templates [PUT /award/api/v1/award-templates/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Award Templates [POST /award/api/v1/award-templates/]
 
 + Request
@@ -189,7 +186,6 @@
               {"templateCode": "(val)","statusCode": "(val)","primeSponsorCode": "(val)","description": "(val)","basisOfPaymentCode": "(val)","methodOfPaymentCode": "(val)","_primaryKey": "(val)"},
               {"templateCode": "(val)","statusCode": "(val)","primeSponsorCode": "(val)","description": "(val)","basisOfPaymentCode": "(val)","methodOfPaymentCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Award Templates by Key [DELETE /award/api/v1/award-templates/(key)]
 	 
 + Request

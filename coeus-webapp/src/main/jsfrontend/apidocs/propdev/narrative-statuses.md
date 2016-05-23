@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Narrative Statuses.md"
             transfer-encoding:chunked
-
-
 ### Update Narrative Statuses [PUT /propdev/api/v1/narrative-statuses/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Narrative Statuses [POST /propdev/api/v1/narrative-statuses/]
 
 + Request
@@ -185,7 +182,6 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Narrative Statuses by Key [DELETE /propdev/api/v1/narrative-statuses/(key)]
 	 
 + Request

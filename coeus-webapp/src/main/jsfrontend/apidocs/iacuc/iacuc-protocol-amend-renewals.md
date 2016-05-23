@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Protocol Amend Renewals.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Protocol Amend Renewals [PUT /iacuc/api/v1/iacuc-protocol-amend-renewals/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Protocol Amend Renewals [POST /iacuc/api/v1/iacuc-protocol-amend-renewals/]
 
 + Request
@@ -190,7 +187,6 @@
               {"id": "(val)","protoAmendRenNumber": "(val)","dateCreated": "(val)","summary": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","protoAmendRenNumber": "(val)","dateCreated": "(val)","summary": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Protocol Amend Renewals by Key [DELETE /iacuc/api/v1/iacuc-protocol-amend-renewals/(key)]
 	 
 + Request

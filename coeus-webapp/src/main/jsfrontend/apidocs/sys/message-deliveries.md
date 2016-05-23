@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Message Deliveries.md"
             transfer-encoding:chunked
-
-
 ### Update Message Deliveries [PUT /research-sys/api/v1/message-deliveries/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert Message Deliveries [POST /research-sys/api/v1/message-deliveries/]
 
 + Request
@@ -190,7 +187,6 @@
               {"id": "(val)","delivererTypeName": "(val)","delivererSystemId": "(val)","deliveryStatus": "(val)","processCount": "(val)","lockVerNbr": "(val)","lockedDate": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","delivererTypeName": "(val)","delivererSystemId": "(val)","deliveryStatus": "(val)","processCount": "(val)","lockVerNbr": "(val)","lockedDate": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Message Deliveries by Key [DELETE /research-sys/api/v1/message-deliveries/(key)]
 	 
 + Request

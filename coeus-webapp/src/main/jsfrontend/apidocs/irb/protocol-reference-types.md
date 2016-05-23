@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Protocol Reference Types.md"
             transfer-encoding:chunked
-
-
 ### Update Protocol Reference Types [PUT /irb/api/v1/protocol-reference-types/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Protocol Reference Types [POST /irb/api/v1/protocol-reference-types/]
 
 + Request
@@ -186,7 +183,6 @@
               {"protocolReferenceTypeCode": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"protocolReferenceTypeCode": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Protocol Reference Types by Key [DELETE /irb/api/v1/protocol-reference-types/(key)]
 	 
 + Request

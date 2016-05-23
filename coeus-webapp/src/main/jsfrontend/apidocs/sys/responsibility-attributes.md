@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Responsibility Attributes.md"
             transfer-encoding:chunked
-
-
 ### Update Responsibility Attributes [PUT /research-sys/api/v1/responsibility-attributes/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Responsibility Attributes [POST /research-sys/api/v1/responsibility-attributes/]
 
 + Request
@@ -188,7 +185,6 @@
               {"id": "(val)","assignedToId": "(val)","attributeValue": "(val)","kimTypeId": "(val)","kimAttributeId": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","assignedToId": "(val)","attributeValue": "(val)","kimTypeId": "(val)","kimAttributeId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Responsibility Attributes by Key [DELETE /research-sys/api/v1/responsibility-attributes/(key)]
 	 
 + Request

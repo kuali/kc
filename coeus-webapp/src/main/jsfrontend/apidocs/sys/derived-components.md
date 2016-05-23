@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Derived Components.md"
             transfer-encoding:chunked
-
-
 ### Update Derived Components [PUT /research-sys/api/v1/derived-components/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Derived Components [POST /research-sys/api/v1/derived-components/]
 
 + Request
@@ -187,7 +184,6 @@
               {"namespaceCode": "(val)","code": "(val)","name": "(val)","componentSetId": "(val)","_primaryKey": "(val)"},
               {"namespaceCode": "(val)","code": "(val)","name": "(val)","componentSetId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Derived Components by Key [DELETE /research-sys/api/v1/derived-components/(key)]
 	 
 + Request

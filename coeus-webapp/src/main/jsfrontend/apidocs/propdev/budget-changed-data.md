@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Budget Changed Data.md"
             transfer-encoding:chunked
-
-
 ### Update Budget Changed Data [PUT /propdev/api/v1/budget-changed-data/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert Budget Changed Data [POST /propdev/api/v1/budget-changed-data/]
 
 + Request
@@ -190,7 +187,6 @@
               {"changeNumber": "(val)","columnName": "(val)","proposalNumber": "(val)","changedValue": "(val)","comments": "(val)","displayValue": "(val)","oldDisplayValue": "(val)","_primaryKey": "(val)"},
               {"changeNumber": "(val)","columnName": "(val)","proposalNumber": "(val)","changedValue": "(val)","comments": "(val)","displayValue": "(val)","oldDisplayValue": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Budget Changed Data by Key [DELETE /propdev/api/v1/budget-changed-data/(key)]
 	 
 + Request

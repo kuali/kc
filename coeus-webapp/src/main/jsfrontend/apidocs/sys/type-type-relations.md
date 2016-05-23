@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Type Type Relations.md"
             transfer-encoding:chunked
-
-
 ### Update Type Type Relations [PUT /research-sys/api/v1/type-type-relations/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Type Type Relations [POST /research-sys/api/v1/type-type-relations/]
 
 + Request
@@ -189,7 +186,6 @@
               {"fromTypeId": "(val)","toTypeId": "(val)","relationshipType": "(val)","sequenceNumber": "(val)","id": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"fromTypeId": "(val)","toTypeId": "(val)","relationshipType": "(val)","sequenceNumber": "(val)","id": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Type Type Relations by Key [DELETE /research-sys/api/v1/type-type-relations/(key)]
 	 
 + Request

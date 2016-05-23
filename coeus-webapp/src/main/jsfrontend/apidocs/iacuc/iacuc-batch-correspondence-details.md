@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Batch Correspondence Details.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Batch Correspondence Details [PUT /iacuc/api/v1/iacuc-batch-correspondence-details/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Batch Correspondence Details [POST /iacuc/api/v1/iacuc-batch-correspondence-details/]
 
 + Request
@@ -187,7 +184,6 @@
               {"batchCorrespondenceDetailId": "(val)","batchCorrespondenceTypeCode": "(val)","protoCorrespTypeCode": "(val)","daysToEvent": "(val)","_primaryKey": "(val)"},
               {"batchCorrespondenceDetailId": "(val)","batchCorrespondenceTypeCode": "(val)","protoCorrespTypeCode": "(val)","daysToEvent": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Batch Correspondence Details by Key [DELETE /iacuc/api/v1/iacuc-batch-correspondence-details/(key)]
 	 
 + Request

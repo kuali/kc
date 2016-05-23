@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Mail By Entries.md"
             transfer-encoding:chunked
-
-
 ### Update Mail By Entries [PUT /research-common/api/v1/mail-by-entries/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Mail By Entries [POST /research-common/api/v1/mail-by-entries/]
 
 + Request
@@ -185,7 +182,6 @@
               {"mailByCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"mailByCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Mail By Entries by Key [DELETE /research-common/api/v1/mail-by-entries/(key)]
 	 
 + Request

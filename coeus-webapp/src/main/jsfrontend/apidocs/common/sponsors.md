@@ -123,8 +123,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Sponsors.md"
             transfer-encoding:chunked
-
-
 ### Update Sponsors [PUT /research-common/api/v1/sponsors/(key)]
 
 + Request
@@ -157,7 +155,6 @@
             ]
 			
 + Response 204
-
 ### Insert Sponsors [POST /research-common/api/v1/sponsors/]
 
 + Request
@@ -201,7 +198,6 @@
               {"sponsorCode": "(val)","acronym": "(val)","auditReportSentForFy": "(val)","cageNumber": "(val)","countryCode": "(val)","dodacNumber": "(val)","dunAndBradstreetNumber": "(val)","dunsPlusFourNumber": "(val)","ownedByUnit": "(val)","postalCode": "(val)","rolodexId": "(val)","sponsorName": "(val)","sponsorTypeCode": "(val)","state": "(val)","createUser": "(val)","dunningCampaignId": "(val)","customerNumber": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"sponsorCode": "(val)","acronym": "(val)","auditReportSentForFy": "(val)","cageNumber": "(val)","countryCode": "(val)","dodacNumber": "(val)","dunAndBradstreetNumber": "(val)","dunsPlusFourNumber": "(val)","ownedByUnit": "(val)","postalCode": "(val)","rolodexId": "(val)","sponsorName": "(val)","sponsorTypeCode": "(val)","state": "(val)","createUser": "(val)","dunningCampaignId": "(val)","customerNumber": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Sponsors by Key [DELETE /research-common/api/v1/sponsors/(key)]
 	 
 + Request

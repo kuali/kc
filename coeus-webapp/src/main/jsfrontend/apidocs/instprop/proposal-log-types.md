@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Proposal Log Types.md"
             transfer-encoding:chunked
-
-
 ### Update Proposal Log Types [PUT /instprop/api/v1/proposal-log-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Proposal Log Types [POST /instprop/api/v1/proposal-log-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"proposalLogTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"proposalLogTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Proposal Log Types by Key [DELETE /instprop/api/v1/proposal-log-types/(key)]
 	 
 + Request

@@ -115,8 +115,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Notifications.md"
             transfer-encoding:chunked
-
-
 ### Update Notifications [PUT /research-sys/api/v1/notifications/(key)]
 
 + Request
@@ -149,7 +147,6 @@
             ]
 			
 + Response 204
-
 ### Insert Notifications [POST /research-sys/api/v1/notifications/]
 
 + Request
@@ -193,7 +190,6 @@
               {"id": "(val)","deliveryType": "(val)","creationDateTimeValue": "(val)","sendDateTimeValue": "(val)","autoRemoveDateTimeValue": "(val)","title": "(val)","content": "(val)","processingFlag": "(val)","lockedDateValue": "(val)","docTypeName": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","deliveryType": "(val)","creationDateTimeValue": "(val)","sendDateTimeValue": "(val)","autoRemoveDateTimeValue": "(val)","title": "(val)","content": "(val)","processingFlag": "(val)","lockedDateValue": "(val)","docTypeName": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Notifications by Key [DELETE /research-sys/api/v1/notifications/(key)]
 	 
 + Request

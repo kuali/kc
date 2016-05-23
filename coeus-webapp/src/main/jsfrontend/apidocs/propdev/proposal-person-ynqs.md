@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Proposal Person Ynqs.md"
             transfer-encoding:chunked
-
-
 ### Update Proposal Person Ynqs [PUT /propdev/api/v1/proposal-person-ynqs/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Proposal Person Ynqs [POST /propdev/api/v1/proposal-person-ynqs/]
 
 + Request
@@ -185,7 +182,6 @@
               {"questionId": "(val)","answer": "(val)","_primaryKey": "(val)"},
               {"questionId": "(val)","answer": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Proposal Person Ynqs by Key [DELETE /propdev/api/v1/proposal-person-ynqs/(key)]
 	 
 + Request

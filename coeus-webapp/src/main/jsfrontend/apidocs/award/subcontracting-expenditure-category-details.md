@@ -117,8 +117,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Subcontracting Expenditure Category Details.md"
             transfer-encoding:chunked
-
-
 ### Update Subcontracting Expenditure Category Details [PUT /award/api/v1/subcontracting-expenditure-category-details/(key)]
 
 + Request
@@ -151,7 +149,6 @@
             ]
 			
 + Response 204
-
 ### Insert Subcontracting Expenditure Category Details [POST /award/api/v1/subcontracting-expenditure-category-details/]
 
 + Request
@@ -195,7 +192,6 @@
               {"id": "(val)","awardNumber": "(val)","amount": "(val)","fiscalPeriod": "(val)","largeBusiness": "(val)","smallBusiness": "(val)","womanOwned": "(val)","eightADisadvantage": "(val)","hubZone": "(val)","veteranOwned": "(val)","serviceDisabledVeteranOwned": "(val)","historicalBlackCollege": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","awardNumber": "(val)","amount": "(val)","fiscalPeriod": "(val)","largeBusiness": "(val)","smallBusiness": "(val)","womanOwned": "(val)","eightADisadvantage": "(val)","hubZone": "(val)","veteranOwned": "(val)","serviceDisabledVeteranOwned": "(val)","historicalBlackCollege": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Subcontracting Expenditure Category Details by Key [DELETE /award/api/v1/subcontracting-expenditure-category-details/(key)]
 	 
 + Request

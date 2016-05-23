@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Kew Type Attributes.md"
             transfer-encoding:chunked
-
-
 ### Update Kew Type Attributes [PUT /research-sys/api/v1/kew-type-attributes/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Kew Type Attributes [POST /research-sys/api/v1/kew-type-attributes/]
 
 + Request
@@ -186,7 +183,6 @@
               {"id": "(val)","sequenceNumber": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","sequenceNumber": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Kew Type Attributes by Key [DELETE /research-sys/api/v1/kew-type-attributes/(key)]
 	 
 + Request

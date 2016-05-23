@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Sponsor Form Template Lists.md"
             transfer-encoding:chunked
-
-
 ### Update Sponsor Form Template Lists [PUT /research-common/api/v1/sponsor-form-template-lists/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Sponsor Form Template Lists [POST /research-common/api/v1/sponsor-form-template-lists/]
 
 + Request
@@ -187,7 +184,6 @@
               {"sponsorFormTemplateId": "(val)","sponsorFormId": "(val)","pageNumber": "(val)","pageDescription": "(val)","_primaryKey": "(val)"},
               {"sponsorFormTemplateId": "(val)","sponsorFormId": "(val)","pageNumber": "(val)","pageDescription": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Sponsor Form Template Lists by Key [DELETE /research-common/api/v1/sponsor-form-template-lists/(key)]
 	 
 + Request

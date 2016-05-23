@@ -1536,5 +1536,7 @@
     <bean id="errorHandlingUtilService" parent="grlImporter" p:serviceName="errorHandlingUtilService" />
     <bean id="restAuditLoggerFactory" parent="grlImporter" p:serviceName="restAuditLoggerFactory" />
     <bean id="persistenceVerificationService" parent="grlImporter" p:serviceName="persistenceVerificationService" />
+    <bean id="restBeanWrapperFactory" parent="grlImporter" p:serviceName="restBeanWrapperFactory" />
+    <bean id="restPropertyEditors" parent="grlImporter" p:serviceName="restPropertyEditors" />
 
 </beans>

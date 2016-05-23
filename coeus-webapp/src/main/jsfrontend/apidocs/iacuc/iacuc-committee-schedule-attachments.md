@@ -114,8 +114,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Committee Schedule Attachments.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Committee Schedule Attachments [PUT /iacuc/api/v1/iacuc-committee-schedule-attachments/(key)]
 
 + Request
@@ -148,7 +146,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Committee Schedule Attachments [POST /iacuc/api/v1/iacuc-committee-schedule-attachments/]
 
 + Request
@@ -192,7 +189,6 @@
               {"scheduleId": "(val)","attachmentId": "(val)","attachmentsTypeCode": "(val)","description": "(val)","fileName": "(val)","document": "(val)","mimeType": "(val)","newUpdateTimestamp": "(val)","newUpdateUser": "(val)","_primaryKey": "(val)"},
               {"scheduleId": "(val)","attachmentId": "(val)","attachmentsTypeCode": "(val)","description": "(val)","fileName": "(val)","document": "(val)","mimeType": "(val)","newUpdateTimestamp": "(val)","newUpdateUser": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Committee Schedule Attachments by Key [DELETE /iacuc/api/v1/iacuc-committee-schedule-attachments/(key)]
 	 
 + Request

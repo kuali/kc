@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Campuses.md"
             transfer-encoding:chunked
-
-
 ### Update Campuses [PUT /research-sys/api/v1/campuses/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Campuses [POST /research-sys/api/v1/campuses/]
 
 + Request
@@ -188,7 +185,6 @@
               {"code": "(val)","name": "(val)","shortName": "(val)","campusTypeCode": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"code": "(val)","name": "(val)","shortName": "(val)","campusTypeCode": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Campuses by Key [DELETE /research-sys/api/v1/campuses/(key)]
 	 
 + Request

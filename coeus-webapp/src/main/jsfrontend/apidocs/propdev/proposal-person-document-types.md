@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Proposal Person Document Types.md"
             transfer-encoding:chunked
-
-
 ### Update Proposal Person Document Types [PUT /propdev/api/v1/proposal-person-document-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Proposal Person Document Types [POST /propdev/api/v1/proposal-person-document-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Proposal Person Document Types by Key [DELETE /propdev/api/v1/proposal-person-document-types/(key)]
 	 
 + Request

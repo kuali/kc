@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Protocol Correspondence Templates.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Protocol Correspondence Templates [PUT /iacuc/api/v1/iacuc-protocol-correspondence-templates/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Protocol Correspondence Templates [POST /iacuc/api/v1/iacuc-protocol-correspondence-templates/]
 
 + Request
@@ -188,7 +185,6 @@
               {"protoCorrespTemplId": "(val)","protoCorrespTypeCode": "(val)","committeeId": "(val)","fileName": "(val)","correspondenceTemplate": "(val)","_primaryKey": "(val)"},
               {"protoCorrespTemplId": "(val)","protoCorrespTypeCode": "(val)","committeeId": "(val)","fileName": "(val)","correspondenceTemplate": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Protocol Correspondence Templates by Key [DELETE /iacuc/api/v1/iacuc-protocol-correspondence-templates/(key)]
 	 
 + Request

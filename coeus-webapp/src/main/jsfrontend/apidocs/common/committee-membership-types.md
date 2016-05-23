@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Committee Membership Types.md"
             transfer-encoding:chunked
-
-
 ### Update Committee Membership Types [PUT /research-common/api/v1/committee-membership-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Committee Membership Types [POST /research-common/api/v1/committee-membership-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"membershipTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"membershipTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Committee Membership Types by Key [DELETE /research-common/api/v1/committee-membership-types/(key)]
 	 
 + Request

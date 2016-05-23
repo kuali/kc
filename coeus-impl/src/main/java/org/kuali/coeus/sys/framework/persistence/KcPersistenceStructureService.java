@@ -27,9 +27,11 @@ import java.util.Map;
 
 public interface KcPersistenceStructureService extends PersistenceStructureService {
 
-    Map<String, String> getPersistableAttributesColumnMap(Class clazz) throws ClassNotPersistableException;
+    Map<String, String> getPersistableAttributesColumnMap(Class<?> clazz) throws ClassNotPersistableException;
     
-    Map<String, String> getDBColumnToObjectAttributeMap(Class clazz) throws ClassNotPersistableException;
+    Map<String, String> getDBColumnToObjectAttributeMap(Class<?> clazz) throws ClassNotPersistableException;
 
-    List<DataObjectRelationship> getRelationshipsTo(Class persistableClass);
+    List<DataObjectRelationship> getRelationshipsTo(Class<?> persistableClass);
+
+    List<String> listFieldNames(Class<?> clazz, boolean mapAnonymousFields);
 }

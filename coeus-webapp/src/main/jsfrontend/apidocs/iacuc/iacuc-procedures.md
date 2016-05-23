@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Procedures.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Procedures [PUT /iacuc/api/v1/iacuc-procedures/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Procedures [POST /iacuc/api/v1/iacuc-procedures/]
 
 + Request
@@ -186,7 +183,6 @@
               {"procedureCode": "(val)","procedureDescription": "(val)","procedureCategoryCode": "(val)","_primaryKey": "(val)"},
               {"procedureCode": "(val)","procedureDescription": "(val)","procedureCategoryCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Procedures by Key [DELETE /iacuc/api/v1/iacuc-procedures/(key)]
 	 
 + Request

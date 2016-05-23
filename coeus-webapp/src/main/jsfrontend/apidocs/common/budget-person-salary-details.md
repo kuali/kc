@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Budget Person Salary Details.md"
             transfer-encoding:chunked
-
-
 ### Update Budget Person Salary Details [PUT /research-common/api/v1/budget-person-salary-details/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Budget Person Salary Details [POST /research-common/api/v1/budget-person-salary-details/]
 
 + Request
@@ -189,7 +186,6 @@
               {"budgetPersonSalaryDetailId": "(val)","personSequenceNumber": "(val)","budgetId": "(val)","budgetPeriod": "(val)","personId": "(val)","baseSalary": "(val)","_primaryKey": "(val)"},
               {"budgetPersonSalaryDetailId": "(val)","personSequenceNumber": "(val)","budgetId": "(val)","budgetPeriod": "(val)","personId": "(val)","baseSalary": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Budget Person Salary Details by Key [DELETE /research-common/api/v1/budget-person-salary-details/(key)]
 	 
 + Request

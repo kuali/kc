@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Rate Class Base Exclusions.md"
             transfer-encoding:chunked
-
-
 ### Update Rate Class Base Exclusions [PUT /research-common/api/v1/rate-class-base-exclusions/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Rate Class Base Exclusions [POST /research-common/api/v1/rate-class-base-exclusions/]
 
 + Request
@@ -188,7 +185,6 @@
               {"rateClassBaseExclusionId": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","rateClassCodeExcl": "(val)","rateTypeCodeExcl": "(val)","_primaryKey": "(val)"},
               {"rateClassBaseExclusionId": "(val)","rateClassCode": "(val)","rateTypeCode": "(val)","rateClassCodeExcl": "(val)","rateTypeCodeExcl": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Rate Class Base Exclusions by Key [DELETE /research-common/api/v1/rate-class-base-exclusions/(key)]
 	 
 + Request

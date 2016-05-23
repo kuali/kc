@@ -133,8 +133,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Proposal Development Budgets.md"
             transfer-encoding:chunked
-
-
 ### Update Proposal Development Budgets [PUT /propdev/api/v1/proposal-development-budgets/(key)]
 
 + Request
@@ -167,7 +165,6 @@
             ]
 			
 + Response 204
-
 ### Insert Proposal Development Budgets [POST /propdev/api/v1/proposal-development-budgets/]
 
 + Request
@@ -211,7 +208,6 @@
               {"budgetStatus": "(val)","hierarchyLastSyncHashCode": "(val)","residualFunds": "(val)","endDate": "(val)","modularBudgetFlag": "(val)","documentNumber": "(val)","totalDirectCostLimit": "(val)","budgetAdjustmentDocumentNumber": "(val)","createTimestamp": "(val)","costSharingAmount": "(val)","totalDirectCost": "(val)","ohRateClassCode": "(val)","comments": "(val)","budgetJustification": "(val)","underrecoveryAmount": "(val)","budgetId": "(val)","budgetVersionNumber": "(val)","urRateClassCode": "(val)","parentDocumentTypeCode": "(val)","totalIndirectCost": "(val)","totalCostLimit": "(val)","name": "(val)","onOffCampusFlag": "(val)","submitCostSharingFlag": "(val)","createUser": "(val)","ohRateTypeCode": "(val)","startDate": "(val)","totalCost": "(val)","_primaryKey": "(val)"},
               {"budgetStatus": "(val)","hierarchyLastSyncHashCode": "(val)","residualFunds": "(val)","endDate": "(val)","modularBudgetFlag": "(val)","documentNumber": "(val)","totalDirectCostLimit": "(val)","budgetAdjustmentDocumentNumber": "(val)","createTimestamp": "(val)","costSharingAmount": "(val)","totalDirectCost": "(val)","ohRateClassCode": "(val)","comments": "(val)","budgetJustification": "(val)","underrecoveryAmount": "(val)","budgetId": "(val)","budgetVersionNumber": "(val)","urRateClassCode": "(val)","parentDocumentTypeCode": "(val)","totalIndirectCost": "(val)","totalCostLimit": "(val)","name": "(val)","onOffCampusFlag": "(val)","submitCostSharingFlag": "(val)","createUser": "(val)","ohRateTypeCode": "(val)","startDate": "(val)","totalCost": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Proposal Development Budgets by Key [DELETE /propdev/api/v1/proposal-development-budgets/(key)]
 	 
 + Request

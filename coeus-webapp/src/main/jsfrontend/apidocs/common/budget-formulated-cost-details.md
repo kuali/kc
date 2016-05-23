@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Budget Formulated Cost Details.md"
             transfer-encoding:chunked
-
-
 ### Update Budget Formulated Cost Details [PUT /research-common/api/v1/budget-formulated-cost-details/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert Budget Formulated Cost Details [POST /research-common/api/v1/budget-formulated-cost-details/]
 
 + Request
@@ -190,7 +187,6 @@
               {"budgetFormulatedCostDetailId": "(val)","formulatedNumber": "(val)","formulatedTypeCode": "(val)","unitCost": "(val)","count": "(val)","frequency": "(val)","calculatedExpenses": "(val)","_primaryKey": "(val)"},
               {"budgetFormulatedCostDetailId": "(val)","formulatedNumber": "(val)","formulatedTypeCode": "(val)","unitCost": "(val)","count": "(val)","frequency": "(val)","calculatedExpenses": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Budget Formulated Cost Details by Key [DELETE /research-common/api/v1/budget-formulated-cost-details/(key)]
 	 
 + Request

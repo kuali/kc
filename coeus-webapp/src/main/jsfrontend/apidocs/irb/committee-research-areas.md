@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Committee Research Areas.md"
             transfer-encoding:chunked
-
-
 ### Update Committee Research Areas [PUT /irb/api/v1/committee-research-areas/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Committee Research Areas [POST /irb/api/v1/committee-research-areas/]
 
 + Request
@@ -186,7 +183,6 @@
               {"id": "(val)","committeeIdFk": "(val)","researchAreaCode": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","committeeIdFk": "(val)","researchAreaCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Committee Research Areas by Key [DELETE /irb/api/v1/committee-research-areas/(key)]
 	 
 + Request

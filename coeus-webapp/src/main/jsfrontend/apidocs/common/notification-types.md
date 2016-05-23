@@ -113,8 +113,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Notification Types.md"
             transfer-encoding:chunked
-
-
 ### Update Notification Types [PUT /research-common/api/v1/notification-types/(key)]
 
 + Request
@@ -147,7 +145,6 @@
             ]
 			
 + Response 204
-
 ### Insert Notification Types [POST /research-common/api/v1/notification-types/]
 
 + Request
@@ -191,7 +188,6 @@
               {"notificationTypeId": "(val)","moduleCode": "(val)","actionCode": "(val)","description": "(val)","subject": "(val)","message": "(val)","promptUser": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"notificationTypeId": "(val)","moduleCode": "(val)","actionCode": "(val)","description": "(val)","subject": "(val)","message": "(val)","promptUser": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Notification Types by Key [DELETE /research-common/api/v1/notification-types/(key)]
 	 
 + Request

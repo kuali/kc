@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Role Document Delegations.md"
             transfer-encoding:chunked
-
-
 ### Update Role Document Delegations [PUT /research-sys/api/v1/role-document-delegations/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Role Document Delegations [POST /research-sys/api/v1/role-document-delegations/]
 
 + Request
@@ -189,7 +186,6 @@
               {"delegationId": "(val)","roleId": "(val)","kimTypeId": "(val)","delegationTypeCode": "(val)","documentNumber": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"delegationId": "(val)","roleId": "(val)","kimTypeId": "(val)","delegationTypeCode": "(val)","documentNumber": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Role Document Delegations by Key [DELETE /research-sys/api/v1/role-document-delegations/(key)]
 	 
 + Request

@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Kim Document Role Permissions.md"
             transfer-encoding:chunked
-
-
 ### Update Kim Document Role Permissions [PUT /research-sys/api/v1/kim-document-role-permissions/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Kim Document Role Permissions [POST /research-sys/api/v1/kim-document-role-permissions/]
 
 + Request
@@ -188,7 +185,6 @@
               {"rolePermissionId": "(val)","roleId": "(val)","permissionId": "(val)","documentNumber": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"rolePermissionId": "(val)","roleId": "(val)","permissionId": "(val)","documentNumber": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Kim Document Role Permissions by Key [DELETE /research-sys/api/v1/kim-document-role-permissions/(key)]
 	 
 + Request

@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="School Codes.md"
             transfer-encoding:chunked
-
-
 ### Update School Codes [PUT /research-common/api/v1/school-codes/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert School Codes [POST /research-common/api/v1/school-codes/]
 
 + Request
@@ -185,7 +182,6 @@
               {"schoolCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"schoolCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete School Codes by Key [DELETE /research-common/api/v1/school-codes/(key)]
 	 
 + Request

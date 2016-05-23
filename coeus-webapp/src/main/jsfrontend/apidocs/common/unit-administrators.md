@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Unit Administrators.md"
             transfer-encoding:chunked
-
-
 ### Update Unit Administrators [PUT /research-common/api/v1/unit-administrators/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Unit Administrators [POST /research-common/api/v1/unit-administrators/]
 
 + Request
@@ -186,7 +183,6 @@
               {"personId": "(val)","unitAdministratorTypeCode": "(val)","unitNumber": "(val)","_primaryKey": "(val)"},
               {"personId": "(val)","unitAdministratorTypeCode": "(val)","unitNumber": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Unit Administrators by Key [DELETE /research-common/api/v1/unit-administrators/(key)]
 	 
 + Request

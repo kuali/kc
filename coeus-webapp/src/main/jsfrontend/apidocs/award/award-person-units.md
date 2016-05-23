@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Award Person Units.md"
             transfer-encoding:chunked
-
-
 ### Update Award Person Units [PUT /award/api/v1/award-person-units/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Award Person Units [POST /award/api/v1/award-person-units/]
 
 + Request
@@ -187,7 +184,6 @@
               {"awardPersonUnitId": "(val)","awardContactId": "(val)","unitNumber": "(val)","leadUnit": "(val)","_primaryKey": "(val)"},
               {"awardPersonUnitId": "(val)","awardContactId": "(val)","unitNumber": "(val)","leadUnit": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Award Person Units by Key [DELETE /award/api/v1/award-person-units/(key)]
 	 
 + Request

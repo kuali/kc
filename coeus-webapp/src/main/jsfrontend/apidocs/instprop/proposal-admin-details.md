@@ -116,8 +116,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Proposal Admin Details.md"
             transfer-encoding:chunked
-
-
 ### Update Proposal Admin Details [PUT /instprop/api/v1/proposal-admin-details/(key)]
 
 + Request
@@ -150,7 +148,6 @@
             ]
 			
 + Response 204
-
 ### Insert Proposal Admin Details [POST /instprop/api/v1/proposal-admin-details/]
 
 + Request
@@ -194,7 +191,6 @@
               {"proposalAdminDetailId": "(val)","dateSubmittedByDept": "(val)","dateReturnedToDept": "(val)","dateApprovedByOsp": "(val)","dateSubmittedToAgency": "(val)","instPropCreateDate": "(val)","instPropCreateUser": "(val)","signedBy": "(val)","submissionType": "(val)","devProposalNumber": "(val)","instProposalId": "(val)","_primaryKey": "(val)"},
               {"proposalAdminDetailId": "(val)","dateSubmittedByDept": "(val)","dateReturnedToDept": "(val)","dateApprovedByOsp": "(val)","dateSubmittedToAgency": "(val)","instPropCreateDate": "(val)","instPropCreateUser": "(val)","signedBy": "(val)","submissionType": "(val)","devProposalNumber": "(val)","instProposalId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Proposal Admin Details by Key [DELETE /instprop/api/v1/proposal-admin-details/(key)]
 	 
 + Request

@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Protocol Review Types.md"
             transfer-encoding:chunked
-
-
 ### Update Protocol Review Types [PUT /irb/api/v1/protocol-review-types/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Protocol Review Types [POST /irb/api/v1/protocol-review-types/]
 
 + Request
@@ -186,7 +183,6 @@
               {"reviewTypeCode": "(val)","description": "(val)","globalFlag": "(val)","_primaryKey": "(val)"},
               {"reviewTypeCode": "(val)","description": "(val)","globalFlag": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Protocol Review Types by Key [DELETE /irb/api/v1/protocol-review-types/(key)]
 	 
 + Request

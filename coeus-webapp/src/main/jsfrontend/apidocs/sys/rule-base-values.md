@@ -122,8 +122,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Rule Base Values.md"
             transfer-encoding:chunked
-
-
 ### Update Rule Base Values [PUT /research-sys/api/v1/rule-base-values/(key)]
 
 + Request
@@ -156,7 +154,6 @@
             ]
 			
 + Response 204
-
 ### Insert Rule Base Values [POST /research-sys/api/v1/rule-base-values/]
 
 + Request
@@ -200,7 +197,6 @@
               {"id": "(val)","name": "(val)","ruleTemplateId": "(val)","previousRuleId": "(val)","active": "(val)","description": "(val)","docTypeName": "(val)","documentId": "(val)","fromDateValue": "(val)","toDateValue": "(val)","deactivationDate": "(val)","currentInd": "(val)","versionNbr": "(val)","forceAction": "(val)","activationDate": "(val)","delegateRule": "(val)","templateRuleInd": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","name": "(val)","ruleTemplateId": "(val)","previousRuleId": "(val)","active": "(val)","description": "(val)","docTypeName": "(val)","documentId": "(val)","fromDateValue": "(val)","toDateValue": "(val)","deactivationDate": "(val)","currentInd": "(val)","versionNbr": "(val)","forceAction": "(val)","activationDate": "(val)","delegateRule": "(val)","templateRuleInd": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Rule Base Values by Key [DELETE /research-sys/api/v1/rule-base-values/(key)]
 	 
 + Request

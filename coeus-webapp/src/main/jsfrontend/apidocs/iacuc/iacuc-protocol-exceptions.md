@@ -114,8 +114,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Protocol Exceptions.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Protocol Exceptions [PUT /iacuc/api/v1/iacuc-protocol-exceptions/(key)]
 
 + Request
@@ -148,7 +146,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Protocol Exceptions [POST /iacuc/api/v1/iacuc-protocol-exceptions/]
 
 + Request
@@ -192,7 +189,6 @@
               {"iacucProtocolExceptionId": "(val)","speciesCode": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","exceptionId": "(val)","exceptionCategoryCode": "(val)","exceptionDescription": "(val)","exceptionCount": "(val)","_primaryKey": "(val)"},
               {"iacucProtocolExceptionId": "(val)","speciesCode": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","exceptionId": "(val)","exceptionCategoryCode": "(val)","exceptionDescription": "(val)","exceptionCount": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Protocol Exceptions by Key [DELETE /iacuc/api/v1/iacuc-protocol-exceptions/(key)]
 	 
 + Request

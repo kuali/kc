@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Maintenance Locks.md"
             transfer-encoding:chunked
-
-
 ### Update Maintenance Locks [PUT /research-sys/api/v1/maintenance-locks/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Maintenance Locks [POST /research-sys/api/v1/maintenance-locks/]
 
 + Request
@@ -186,7 +183,6 @@
               {"lockId": "(val)","lockingRepresentation": "(val)","documentNumber": "(val)","_primaryKey": "(val)"},
               {"lockId": "(val)","lockingRepresentation": "(val)","documentNumber": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Maintenance Locks by Key [DELETE /research-sys/api/v1/maintenance-locks/(key)]
 	 
 + Request

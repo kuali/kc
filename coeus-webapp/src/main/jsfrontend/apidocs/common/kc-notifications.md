@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Kc Notifications.md"
             transfer-encoding:chunked
-
-
 ### Update Kc Notifications [PUT /research-common/api/v1/kc-notifications/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Kc Notifications [POST /research-common/api/v1/kc-notifications/]
 
 + Request
@@ -188,7 +185,6 @@
               {"notificationId": "(val)","notificationTypeId": "(val)","documentNumber": "(val)","subject": "(val)","message": "(val)","_primaryKey": "(val)"},
               {"notificationId": "(val)","notificationTypeId": "(val)","documentNumber": "(val)","subject": "(val)","message": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Kc Notifications by Key [DELETE /research-common/api/v1/kc-notifications/(key)]
 	 
 + Request

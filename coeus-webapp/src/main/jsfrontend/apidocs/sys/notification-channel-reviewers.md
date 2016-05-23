@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Notification Channel Reviewers.md"
             transfer-encoding:chunked
-
-
 ### Update Notification Channel Reviewers [PUT /research-sys/api/v1/notification-channel-reviewers/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Notification Channel Reviewers [POST /research-sys/api/v1/notification-channel-reviewers/]
 
 + Request
@@ -186,7 +183,6 @@
               {"id": "(val)","reviewerType": "(val)","reviewerId": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","reviewerType": "(val)","reviewerId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Notification Channel Reviewers by Key [DELETE /research-sys/api/v1/notification-channel-reviewers/(key)]
 	 
 + Request

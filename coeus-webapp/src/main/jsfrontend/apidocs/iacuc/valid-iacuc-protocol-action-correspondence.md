@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Valid Iacuc Protocol Action Correspondence.md"
             transfer-encoding:chunked
-
-
 ### Update Valid Iacuc Protocol Action Correspondence [PUT /iacuc/api/v1/valid-iacuc-protocol-action-correspondence/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Valid Iacuc Protocol Action Correspondence [POST /iacuc/api/v1/valid-iacuc-protocol-action-correspondence/]
 
 + Request
@@ -187,7 +184,6 @@
               {"validProtoActionCorespId": "(val)","protocolActionTypeCode": "(val)","protoCorrespTypeCode": "(val)","finalFlag": "(val)","_primaryKey": "(val)"},
               {"validProtoActionCorespId": "(val)","protocolActionTypeCode": "(val)","protoCorrespTypeCode": "(val)","finalFlag": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Valid Iacuc Protocol Action Correspondence by Key [DELETE /iacuc/api/v1/valid-iacuc-protocol-action-correspondence/(key)]
 	 
 + Request

@@ -125,8 +125,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Proposal Development Budget Overviews.md"
             transfer-encoding:chunked
-
-
 ### Update Proposal Development Budget Overviews [PUT /propdev/api/v1/proposal-development-budget-overviews/(key)]
 
 + Request
@@ -159,7 +157,6 @@
             ]
 			
 + Response 204
-
 ### Insert Proposal Development Budget Overviews [POST /propdev/api/v1/proposal-development-budget-overviews/]
 
 + Request
@@ -203,7 +200,6 @@
               {"budgetId": "(val)","documentNumber": "(val)","budgetVersionNumber": "(val)","costSharingAmount": "(val)","endDate": "(val)","modularBudgetFlag": "(val)","ohRateTypeCode": "(val)","ohRateClassCode": "(val)","residualFunds": "(val)","startDate": "(val)","totalCost": "(val)","totalCostLimit": "(val)","totalDirectCostLimit": "(val)","totalDirectCost": "(val)","totalIndirectCost": "(val)","underrecoveryAmount": "(val)","comments": "(val)","onOffCampusFlag": "(val)","urRateClassCode": "(val)","submitCostSharingFlag": "(val)","_primaryKey": "(val)"},
               {"budgetId": "(val)","documentNumber": "(val)","budgetVersionNumber": "(val)","costSharingAmount": "(val)","endDate": "(val)","modularBudgetFlag": "(val)","ohRateTypeCode": "(val)","ohRateClassCode": "(val)","residualFunds": "(val)","startDate": "(val)","totalCost": "(val)","totalCostLimit": "(val)","totalDirectCostLimit": "(val)","totalDirectCost": "(val)","totalIndirectCost": "(val)","underrecoveryAmount": "(val)","comments": "(val)","onOffCampusFlag": "(val)","urRateClassCode": "(val)","submitCostSharingFlag": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Proposal Development Budget Overviews by Key [DELETE /propdev/api/v1/proposal-development-budget-overviews/(key)]
 	 
 + Request

@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Session Documents.md"
             transfer-encoding:chunked
-
-
 ### Update Session Documents [PUT /research-sys/api/v1/session-documents/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert Session Documents [POST /research-sys/api/v1/session-documents/]
 
 + Request
@@ -190,7 +187,6 @@
               {"sessionId": "(val)","documentNumber": "(val)","principalId": "(val)","ipAddress": "(val)","lastUpdatedDate": "(val)","serializedDocumentForm": "(val)","encrypted": "(val)","_primaryKey": "(val)"},
               {"sessionId": "(val)","documentNumber": "(val)","principalId": "(val)","ipAddress": "(val)","lastUpdatedDate": "(val)","serializedDocumentForm": "(val)","encrypted": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Session Documents by Key [DELETE /research-sys/api/v1/session-documents/(key)]
 	 
 + Request

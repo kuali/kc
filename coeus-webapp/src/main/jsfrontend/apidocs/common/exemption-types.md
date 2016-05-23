@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Exemption Types.md"
             transfer-encoding:chunked
-
-
 ### Update Exemption Types [PUT /research-common/api/v1/exemption-types/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Exemption Types [POST /research-common/api/v1/exemption-types/]
 
 + Request
@@ -186,7 +183,6 @@
               {"code": "(val)","description": "(val)","detailedDescription": "(val)","_primaryKey": "(val)"},
               {"code": "(val)","description": "(val)","detailedDescription": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Exemption Types by Key [DELETE /research-common/api/v1/exemption-types/(key)]
 	 
 + Request

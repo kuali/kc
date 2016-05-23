@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Attachments.md"
             transfer-encoding:chunked
-
-
 ### Update Attachments [PUT /research-sys/api/v1/attachments/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Attachments [POST /research-sys/api/v1/attachments/]
 
 + Request
@@ -189,7 +186,6 @@
               {"noteIdentifier": "(val)","attachmentMimeTypeCode": "(val)","attachmentFileName": "(val)","attachmentIdentifier": "(val)","attachmentFileSize": "(val)","attachmentTypeCode": "(val)","_primaryKey": "(val)"},
               {"noteIdentifier": "(val)","attachmentMimeTypeCode": "(val)","attachmentFileName": "(val)","attachmentIdentifier": "(val)","attachmentFileSize": "(val)","attachmentTypeCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Attachments by Key [DELETE /research-sys/api/v1/attachments/(key)]
 	 
 + Request

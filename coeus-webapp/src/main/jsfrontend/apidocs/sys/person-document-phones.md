@@ -115,8 +115,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Person Document Phones.md"
             transfer-encoding:chunked
-
-
 ### Update Person Document Phones [PUT /research-sys/api/v1/person-document-phones/(key)]
 
 + Request
@@ -149,7 +147,6 @@
             ]
 			
 + Response 204
-
 ### Insert Person Document Phones [POST /research-sys/api/v1/person-document-phones/]
 
 + Request
@@ -193,7 +190,6 @@
               {"entityPhoneId": "(val)","entityTypeCode": "(val)","phoneTypeCode": "(val)","phoneNumber": "(val)","extensionNumber": "(val)","countryCode": "(val)","dflt": "(val)","edit": "(val)","documentNumber": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"entityPhoneId": "(val)","entityTypeCode": "(val)","phoneTypeCode": "(val)","phoneNumber": "(val)","extensionNumber": "(val)","countryCode": "(val)","dflt": "(val)","edit": "(val)","documentNumber": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Person Document Phones by Key [DELETE /research-sys/api/v1/person-document-phones/(key)]
 	 
 + Request

@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Sub Award Cost Types.md"
             transfer-encoding:chunked
-
-
 ### Update Sub Award Cost Types [PUT /subaward/api/v1/sub-award-cost-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Sub Award Cost Types [POST /subaward/api/v1/sub-award-cost-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"costTypeCode": "(val)","costTypeDescription": "(val)","_primaryKey": "(val)"},
               {"costTypeCode": "(val)","costTypeDescription": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Sub Award Cost Types by Key [DELETE /subaward/api/v1/sub-award-cost-types/(key)]
 	 
 + Request

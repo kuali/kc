@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Protocol Statuses.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Protocol Statuses [PUT /iacuc/api/v1/iacuc-protocol-statuses/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Protocol Statuses [POST /iacuc/api/v1/iacuc-protocol-statuses/]
 
 + Request
@@ -185,7 +182,6 @@
               {"protocolStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"protocolStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Protocol Statuses by Key [DELETE /iacuc/api/v1/iacuc-protocol-statuses/(key)]
 	 
 + Request

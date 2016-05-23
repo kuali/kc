@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Protocol Person Role Mappings.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Protocol Person Role Mappings [PUT /iacuc/api/v1/iacuc-protocol-person-role-mappings/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Protocol Person Role Mappings [POST /iacuc/api/v1/iacuc-protocol-person-role-mappings/]
 
 + Request
@@ -186,7 +183,6 @@
               {"roleMappingId": "(val)","sourceRoleId": "(val)","targetRoleId": "(val)","_primaryKey": "(val)"},
               {"roleMappingId": "(val)","sourceRoleId": "(val)","targetRoleId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Protocol Person Role Mappings by Key [DELETE /iacuc/api/v1/iacuc-protocol-person-role-mappings/(key)]
 	 
 + Request

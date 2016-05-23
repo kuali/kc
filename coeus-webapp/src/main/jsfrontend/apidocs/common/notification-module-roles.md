@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Notification Module Roles.md"
             transfer-encoding:chunked
-
-
 ### Update Notification Module Roles [PUT /research-common/api/v1/notification-module-roles/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Notification Module Roles [POST /research-common/api/v1/notification-module-roles/]
 
 + Request
@@ -186,7 +183,6 @@
               {"notificationModuleRoleId": "(val)","moduleCode": "(val)","roleName": "(val)","_primaryKey": "(val)"},
               {"notificationModuleRoleId": "(val)","moduleCode": "(val)","roleName": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Notification Module Roles by Key [DELETE /research-common/api/v1/notification-module-roles/(key)]
 	 
 + Request

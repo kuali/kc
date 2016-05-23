@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Proposal Changed Data.md"
             transfer-encoding:chunked
-
-
 ### Update Proposal Changed Data [PUT /propdev/api/v1/proposal-changed-data/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert Proposal Changed Data [POST /propdev/api/v1/proposal-changed-data/]
 
 + Request
@@ -190,7 +187,6 @@
               {"changeNumber": "(val)","columnName": "(val)","proposalNumber": "(val)","changedValue": "(val)","comments": "(val)","displayValue": "(val)","oldDisplayValue": "(val)","_primaryKey": "(val)"},
               {"changeNumber": "(val)","columnName": "(val)","proposalNumber": "(val)","changedValue": "(val)","comments": "(val)","displayValue": "(val)","oldDisplayValue": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Proposal Changed Data by Key [DELETE /propdev/api/v1/proposal-changed-data/(key)]
 	 
 + Request

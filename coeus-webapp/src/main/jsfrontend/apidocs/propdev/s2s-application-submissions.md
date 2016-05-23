@@ -114,8 +114,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="S2s Application Submissions.md"
             transfer-encoding:chunked
-
-
 ### Update S2s Application Submissions [PUT /propdev/api/v1/s2s-application-submissions/(key)]
 
 + Request
@@ -148,7 +146,6 @@
             ]
 			
 + Response 204
-
 ### Insert S2s Application Submissions [POST /propdev/api/v1/s2s-application-submissions/]
 
 + Request
@@ -192,7 +189,6 @@
               {"proposalNumber": "(val)","submissionNumber": "(val)","agencyTrackingId": "(val)","comments": "(val)","ggTrackingId": "(val)","lastModifiedDate": "(val)","lastNotifiedDate": "(val)","receivedDate": "(val)","status": "(val)","_primaryKey": "(val)"},
               {"proposalNumber": "(val)","submissionNumber": "(val)","agencyTrackingId": "(val)","comments": "(val)","ggTrackingId": "(val)","lastModifiedDate": "(val)","lastNotifiedDate": "(val)","receivedDate": "(val)","status": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete S2s Application Submissions by Key [DELETE /propdev/api/v1/s2s-application-submissions/(key)]
 	 
 + Request

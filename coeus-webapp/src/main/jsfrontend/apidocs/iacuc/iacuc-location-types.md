@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Location Types.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Location Types [PUT /iacuc/api/v1/iacuc-location-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Location Types [POST /iacuc/api/v1/iacuc-location-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"locationTypeCode": "(val)","location": "(val)","_primaryKey": "(val)"},
               {"locationTypeCode": "(val)","location": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Location Types by Key [DELETE /iacuc/api/v1/iacuc-location-types/(key)]
 	 
 + Request

@@ -118,8 +118,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Narratives.md"
             transfer-encoding:chunked
-
-
 ### Update Narratives [PUT /propdev/api/v1/narratives/(key)]
 
 + Request
@@ -152,7 +150,6 @@
             ]
 			
 + Response 204
-
 ### Insert Narratives [POST /propdev/api/v1/narratives/]
 
 + Request
@@ -196,7 +193,6 @@
               {"moduleNumber": "(val)","comments": "(val)","contactName": "(val)","emailAddress": "(val)","moduleSequenceNumber": "(val)","moduleStatusCode": "(val)","moduleTitle": "(val)","narrativeTypeCode": "(val)","phoneNumber": "(val)","name": "(val)","type": "(val)","hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","_primaryKey": "(val)"},
               {"moduleNumber": "(val)","comments": "(val)","contactName": "(val)","emailAddress": "(val)","moduleSequenceNumber": "(val)","moduleStatusCode": "(val)","moduleTitle": "(val)","narrativeTypeCode": "(val)","phoneNumber": "(val)","name": "(val)","type": "(val)","hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Narratives by Key [DELETE /propdev/api/v1/narratives/(key)]
 	 
 + Request

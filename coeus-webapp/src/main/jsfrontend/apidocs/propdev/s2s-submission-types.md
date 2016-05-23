@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="S2s Submission Types.md"
             transfer-encoding:chunked
-
-
 ### Update S2s Submission Types [PUT /propdev/api/v1/s2s-submission-types/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert S2s Submission Types [POST /propdev/api/v1/s2s-submission-types/]
 
 + Request
@@ -186,7 +183,6 @@
               {"code": "(val)","description": "(val)","sortId": "(val)","_primaryKey": "(val)"},
               {"code": "(val)","description": "(val)","sortId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete S2s Submission Types by Key [DELETE /propdev/api/v1/s2s-submission-types/(key)]
 	 
 + Request

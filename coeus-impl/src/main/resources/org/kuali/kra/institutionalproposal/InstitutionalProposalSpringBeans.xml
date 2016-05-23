@@ -387,6 +387,8 @@
     <bean id="restAuditLoggerFactory" parent="grlImporter" p:serviceName="restAuditLoggerFactory" />
     <bean id="identityService" parent="grlImporter" p:serviceName="identityService" />
     <bean id="routeHeaderService" parent="grlImporter" p:serviceName="routeHeaderService" />
+    <bean id="restBeanWrapperFactory" parent="grlImporter" p:serviceName="restBeanWrapperFactory" />
+    <bean id="restPropertyEditors" parent="grlImporter" p:serviceName="restPropertyEditors" />
 
     <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
         <property name="messageConverters">
@@ -405,23 +407,23 @@
     <import resource="classpath:org/kuali/coeus/sys/framework/ImportSimpleCrudRestSpringBeans.xml" />
 
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.institutionalproposal.IndirectcostRateType" />
-    <bean name= "ipBoController" class="org.kuali.coeus.instprop.impl.api.InstitutionalProposalController" p:dataObjectClazz="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" />
+    <bean parent="simpleReadOnlyMapBasedRestController" name= "ipBoController" class="org.kuali.coeus.instprop.impl.api.InstitutionalProposalController" p:dataObjectClazz="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.institutionalproposal.attachments.InstitutionalProposalAttachment" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.institutionalproposal.home.InstitutionalProposalAttachmentType" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.institutionalproposal.home.InstitutionalProposalComment" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData" p:camelCasePluralName="InstitutionalProposalCustomData" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.institutionalproposal.home.InstitutionalProposalNotepad" />
-    <bean name="ipPersonController" parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson" />
+    <bean parent="simpleReadOnlyMapBasedRestController" p:dataObjectClazz="org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare" />
+    <bean parent="simpleReadOnlyMapBasedRestController" p:dataObjectClazz="org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData" p:camelCasePluralName="InstitutionalProposalCustomData" />
+    <bean parent="simpleReadOnlyMapBasedRestController" p:dataObjectClazz="org.kuali.kra.institutionalproposal.home.InstitutionalProposalNotepad" />
+    <bean name="ipPersonController" parent="simpleReadOnlyMapBasedRestController" p:dataObjectClazz="org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonCreditSplit" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.personmasschange.bo.InstitutionalProposalPersonMassChange" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonUnit" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonUnitCreditSplit" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.institutionalproposal.home.InstitutionalProposalScienceKeyword" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReviewExemption" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalUnitContact" />
-    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA" p:camelCasePluralName="InstitutionalProposalUnrecoveredFAndAs" />
+    <bean parent="simpleReadOnlyMapBasedRestController" p:dataObjectClazz="org.kuali.kra.institutionalproposal.home.InstitutionalProposalScienceKeyword" />
+    <bean parent="simpleReadOnlyMapBasedRestController" p:dataObjectClazz="org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview" />
+    <bean parent="simpleReadOnlyMapBasedRestController" p:dataObjectClazz="org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReviewExemption" />
+    <bean parent="simpleReadOnlyMapBasedRestController" p:dataObjectClazz="org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalUnitContact" />
+    <bean parent="simpleReadOnlyMapBasedRestController" p:dataObjectClazz="org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA" p:camelCasePluralName="InstitutionalProposalUnrecoveredFAndAs" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReview" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReviewActivity" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReviewActivityType" />

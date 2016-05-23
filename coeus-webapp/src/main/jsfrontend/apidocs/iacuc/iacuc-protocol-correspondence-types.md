@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Protocol Correspondence Types.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Protocol Correspondence Types [PUT /iacuc/api/v1/iacuc-protocol-correspondence-types/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Protocol Correspondence Types [POST /iacuc/api/v1/iacuc-protocol-correspondence-types/]
 
 + Request
@@ -186,7 +183,6 @@
               {"protoCorrespTypeCode": "(val)","description": "(val)","moduleId": "(val)","_primaryKey": "(val)"},
               {"protoCorrespTypeCode": "(val)","description": "(val)","moduleId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Protocol Correspondence Types by Key [DELETE /iacuc/api/v1/iacuc-protocol-correspondence-types/(key)]
 	 
 + Request

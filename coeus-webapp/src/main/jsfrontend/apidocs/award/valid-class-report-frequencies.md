@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Valid Class Report Frequencies.md"
             transfer-encoding:chunked
-
-
 ### Update Valid Class Report Frequencies [PUT /award/api/v1/valid-class-report-frequencies/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Valid Class Report Frequencies [POST /award/api/v1/valid-class-report-frequencies/]
 
 + Request
@@ -187,7 +184,6 @@
               {"validClassReportFreqId": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","_primaryKey": "(val)"},
               {"validClassReportFreqId": "(val)","reportClassCode": "(val)","reportCode": "(val)","frequencyCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Valid Class Report Frequencies by Key [DELETE /award/api/v1/valid-class-report-frequencies/(key)]
 	 
 + Request

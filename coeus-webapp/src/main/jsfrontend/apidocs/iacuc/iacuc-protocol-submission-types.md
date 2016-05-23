@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Protocol Submission Types.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Protocol Submission Types [PUT /iacuc/api/v1/iacuc-protocol-submission-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Protocol Submission Types [POST /iacuc/api/v1/iacuc-protocol-submission-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"submissionTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"submissionTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Protocol Submission Types by Key [DELETE /iacuc/api/v1/iacuc-protocol-submission-types/(key)]
 	 
 + Request

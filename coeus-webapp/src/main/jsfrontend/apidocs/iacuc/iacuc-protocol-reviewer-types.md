@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Protocol Reviewer Types.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Protocol Reviewer Types [PUT /iacuc/api/v1/iacuc-protocol-reviewer-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Protocol Reviewer Types [POST /iacuc/api/v1/iacuc-protocol-reviewer-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"reviewerTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"reviewerTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Protocol Reviewer Types by Key [DELETE /iacuc/api/v1/iacuc-protocol-reviewer-types/(key)]
 	 
 + Request

@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Term Parameters.md"
             transfer-encoding:chunked
-
-
 ### Update Term Parameters [PUT /research-sys/api/v1/term-parameters/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Term Parameters [POST /research-sys/api/v1/term-parameters/]
 
 + Request
@@ -186,7 +183,6 @@
               {"id": "(val)","name": "(val)","value": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","name": "(val)","value": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Term Parameters by Key [DELETE /research-sys/api/v1/term-parameters/(key)]
 	 
 + Request

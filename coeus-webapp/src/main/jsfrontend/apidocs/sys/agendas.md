@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Agendas.md"
             transfer-encoding:chunked
-
-
 ### Update Agendas [PUT /research-sys/api/v1/agendas/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Agendas [POST /research-sys/api/v1/agendas/]
 
 + Request
@@ -189,7 +186,6 @@
               {"id": "(val)","name": "(val)","typeId": "(val)","contextId": "(val)","active": "(val)","firstItemId": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","name": "(val)","typeId": "(val)","contextId": "(val)","active": "(val)","firstItemId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Agendas by Key [DELETE /research-sys/api/v1/agendas/(key)]
 	 
 + Request

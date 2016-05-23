@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Rate Class Types.md"
             transfer-encoding:chunked
-
-
 ### Update Rate Class Types [PUT /research-common/api/v1/rate-class-types/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Rate Class Types [POST /research-common/api/v1/rate-class-types/]
 
 + Request
@@ -187,7 +184,6 @@
               {"code": "(val)","description": "(val)","sortId": "(val)","prefixActivityType": "(val)","_primaryKey": "(val)"},
               {"code": "(val)","description": "(val)","sortId": "(val)","prefixActivityType": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Rate Class Types by Key [DELETE /research-common/api/v1/rate-class-types/(key)]
 	 
 + Request

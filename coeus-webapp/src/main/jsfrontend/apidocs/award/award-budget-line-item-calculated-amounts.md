@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Award Budget Line Item Calculated Amounts.md"
             transfer-encoding:chunked
-
-
 ### Update Award Budget Line Item Calculated Amounts [PUT /award/api/v1/award-budget-line-item-calculated-amounts/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Award Budget Line Item Calculated Amounts [POST /award/api/v1/award-budget-line-item-calculated-amounts/]
 
 + Request
@@ -185,7 +182,6 @@
               {"budgetLineItemCalculatedAmountId": "(val)","obligatedAmount": "(val)","_primaryKey": "(val)"},
               {"budgetLineItemCalculatedAmountId": "(val)","obligatedAmount": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Award Budget Line Item Calculated Amounts by Key [DELETE /award/api/v1/award-budget-line-item-calculated-amounts/(key)]
 	 
 + Request

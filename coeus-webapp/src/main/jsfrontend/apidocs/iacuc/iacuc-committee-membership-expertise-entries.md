@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Committee Membership Expertise Entries.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Committee Membership Expertise Entries [PUT /iacuc/api/v1/iacuc-committee-membership-expertise-entries/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Committee Membership Expertise Entries [POST /iacuc/api/v1/iacuc-committee-membership-expertise-entries/]
 
 + Request
@@ -186,7 +183,6 @@
               {"committeeMembershipExpertiseId": "(val)","committeeMembershipIdFk": "(val)","researchAreaCode": "(val)","_primaryKey": "(val)"},
               {"committeeMembershipExpertiseId": "(val)","committeeMembershipIdFk": "(val)","researchAreaCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Committee Membership Expertise Entries by Key [DELETE /iacuc/api/v1/iacuc-committee-membership-expertise-entries/(key)]
 	 
 + Request

@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Institutional Proposal Person Credit Splits.md"
             transfer-encoding:chunked
-
-
 ### Update Institutional Proposal Person Credit Splits [PUT /instprop/api/v1/institutional-proposal-person-credit-splits/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Institutional Proposal Person Credit Splits [POST /instprop/api/v1/institutional-proposal-person-credit-splits/]
 
 + Request
@@ -187,7 +184,6 @@
               {"institutionalProposalPersonCreditSplitId": "(val)","institutionalProposalContactId": "(val)","invCreditTypeCode": "(val)","credit": "(val)","_primaryKey": "(val)"},
               {"institutionalProposalPersonCreditSplitId": "(val)","institutionalProposalContactId": "(val)","invCreditTypeCode": "(val)","credit": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Institutional Proposal Person Credit Splits by Key [DELETE /instprop/api/v1/institutional-proposal-person-credit-splits/(key)]
 	 
 + Request

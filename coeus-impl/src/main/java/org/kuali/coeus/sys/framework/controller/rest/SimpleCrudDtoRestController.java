@@ -29,11 +29,12 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.beanutils.WrapDynaBean;
 
 import com.codiform.moo.Moo;
 import com.codiform.moo.configuration.Configuration;
 import com.codiform.moo.curry.Translate;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.factory.annotation.Required;
 
 public class SimpleCrudDtoRestController<T, R> extends SimpleCrudRestControllerBase<T, R> {
 
@@ -110,14 +111,15 @@ public class SimpleCrudDtoRestController<T, R> extends SimpleCrudRestControllerB
 		if (dtoObjectClazz.isAssignableFrom(o.getClass())) {
 			return (R) o;
 		} else if (o instanceof Map){
-			final WrapDynaBean dynaBean;
+			final BeanWrapper beanWrapper;
 			try {
-				dynaBean = new WrapDynaBean(dtoObjectClazz.newInstance());
+				beanWrapper = getRestBeanWrapperFactory().newInstance(dtoObjectClazz.newInstance());
+				beanWrapper.setAutoGrowNestedPaths(true);
 			} catch (InstantiationException|IllegalAccessException e) {
 				throw new RuntimeException(e);
 			}
-			getExposedProperties().forEach(name -> dynaBean.set(name, ((Map)o).get(name)));
-			return new Moo().translate(dynaBean.getInstance(), dtoObjectClazz);
+			getExposedProperties().forEach(name -> beanWrapper.setPropertyValue(name, ((Map)o).get(name)));
+			return new Moo().translate(beanWrapper.getWrappedInstance(), dtoObjectClazz);
 		} else {
 			throw new RuntimeException("unknown dto type " + o.getClass().getName());
 		}
@@ -137,6 +139,7 @@ public class SimpleCrudDtoRestController<T, R> extends SimpleCrudRestControllerB
 		return dtoObjectClazz;
 	}
 
+	@Required
 	public void setDtoObjectClazz(Class<R> dtoObjectClazz) {
 		this.dtoObjectClazz = dtoObjectClazz;
 	}

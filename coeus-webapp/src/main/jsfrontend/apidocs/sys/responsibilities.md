@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Responsibilities.md"
             transfer-encoding:chunked
-
-
 ### Update Responsibilities [PUT /research-sys/api/v1/responsibilities/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Responsibilities [POST /research-sys/api/v1/responsibilities/]
 
 + Request
@@ -189,7 +186,6 @@
               {"id": "(val)","namespaceCode": "(val)","name": "(val)","description": "(val)","templateId": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","namespaceCode": "(val)","name": "(val)","description": "(val)","templateId": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Responsibilities by Key [DELETE /research-sys/api/v1/responsibilities/(key)]
 	 
 + Request

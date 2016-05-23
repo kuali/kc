@@ -113,8 +113,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Generic Permissions.md"
             transfer-encoding:chunked
-
-
 ### Update Generic Permissions [PUT /research-sys/api/v1/generic-permissions/(key)]
 
 + Request
@@ -147,7 +145,6 @@
             ]
 			
 + Response 204
-
 ### Insert Generic Permissions [POST /research-sys/api/v1/generic-permissions/]
 
 + Request
@@ -191,7 +188,6 @@
               {"id": "(val)","namespaceCode": "(val)","name": "(val)","description": "(val)","active": "(val)","templateId": "(val)","detailValues": "(val)","details": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","namespaceCode": "(val)","name": "(val)","description": "(val)","active": "(val)","templateId": "(val)","detailValues": "(val)","details": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Generic Permissions by Key [DELETE /research-sys/api/v1/generic-permissions/(key)]
 	 
 + Request

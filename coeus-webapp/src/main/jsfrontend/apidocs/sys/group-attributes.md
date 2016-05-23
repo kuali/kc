@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Group Attributes.md"
             transfer-encoding:chunked
-
-
 ### Update Group Attributes [PUT /research-sys/api/v1/group-attributes/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Group Attributes [POST /research-sys/api/v1/group-attributes/]
 
 + Request
@@ -188,7 +185,6 @@
               {"id": "(val)","assignedToId": "(val)","attributeValue": "(val)","kimTypeId": "(val)","kimAttributeId": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","assignedToId": "(val)","attributeValue": "(val)","kimTypeId": "(val)","kimAttributeId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Group Attributes by Key [DELETE /research-sys/api/v1/group-attributes/(key)]
 	 
 + Request

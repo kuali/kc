@@ -115,8 +115,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Person Degrees.md"
             transfer-encoding:chunked
-
-
 ### Update Person Degrees [PUT /research-common/api/v1/person-degrees/(key)]
 
 + Request
@@ -149,7 +147,6 @@
             ]
 			
 + Response 204
-
 ### Insert Person Degrees [POST /research-common/api/v1/person-degrees/]
 
 + Request
@@ -193,7 +190,6 @@
               {"degreeId": "(val)","personId": "(val)","degreeCode": "(val)","degree": "(val)","graduationYear": "(val)","fieldOfStudy": "(val)","specialization": "(val)","school": "(val)","schoolIdCode": "(val)","schoolId": "(val)","_primaryKey": "(val)"},
               {"degreeId": "(val)","personId": "(val)","degreeCode": "(val)","degree": "(val)","graduationYear": "(val)","fieldOfStudy": "(val)","specialization": "(val)","school": "(val)","schoolIdCode": "(val)","schoolId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Person Degrees by Key [DELETE /research-common/api/v1/person-degrees/(key)]
 	 
 + Request

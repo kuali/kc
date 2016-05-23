@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Entity Ethnicity Race Types.md"
             transfer-encoding:chunked
-
-
 ### Update Entity Ethnicity Race Types [PUT /research-sys/api/v1/entity-ethnicity-race-types/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Entity Ethnicity Race Types [POST /research-sys/api/v1/entity-ethnicity-race-types/]
 
 + Request
@@ -187,7 +184,6 @@
               {"name": "(val)","active": "(val)","code": "(val)","sortCode": "(val)","_primaryKey": "(val)"},
               {"name": "(val)","active": "(val)","code": "(val)","sortCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Entity Ethnicity Race Types by Key [DELETE /research-sys/api/v1/entity-ethnicity-race-types/(key)]
 	 
 + Request

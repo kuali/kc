@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="User Channel Subscriptions.md"
             transfer-encoding:chunked
-
-
 ### Update User Channel Subscriptions [PUT /research-sys/api/v1/user-channel-subscriptions/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert User Channel Subscriptions [POST /research-sys/api/v1/user-channel-subscriptions/]
 
 + Request
@@ -185,7 +182,6 @@
               {"id": "(val)","userId": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","userId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete User Channel Subscriptions by Key [DELETE /research-sys/api/v1/user-channel-subscriptions/(key)]
 	 
 + Request

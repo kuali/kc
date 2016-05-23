@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Schedule Agendas.md"
             transfer-encoding:chunked
-
-
 ### Update Schedule Agendas [PUT /irb/api/v1/schedule-agendas/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert Schedule Agendas [POST /irb/api/v1/schedule-agendas/]
 
 + Request
@@ -190,7 +187,6 @@
               {"scheduleAgendaId": "(val)","scheduleIdFk": "(val)","agendaNumber": "(val)","agendaName": "(val)","pdfStore": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"},
               {"scheduleAgendaId": "(val)","scheduleIdFk": "(val)","agendaNumber": "(val)","agendaName": "(val)","pdfStore": "(val)","createTimestamp": "(val)","createUser": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Schedule Agendas by Key [DELETE /irb/api/v1/schedule-agendas/(key)]
 	 
 + Request

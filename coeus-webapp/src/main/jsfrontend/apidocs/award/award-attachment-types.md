@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Award Attachment Types.md"
             transfer-encoding:chunked
-
-
 ### Update Award Attachment Types [PUT /award/api/v1/award-attachment-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Award Attachment Types [POST /award/api/v1/award-attachment-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"typeCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"typeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Award Attachment Types by Key [DELETE /award/api/v1/award-attachment-types/(key)]
 	 
 + Request

@@ -118,8 +118,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Entity Names.md"
             transfer-encoding:chunked
-
-
 ### Update Entity Names [PUT /research-sys/api/v1/entity-names/(key)]
 
 + Request
@@ -152,7 +150,6 @@
             ]
 			
 + Response 204
-
 ### Insert Entity Names [POST /research-sys/api/v1/entity-names/]
 
 + Request
@@ -196,7 +193,6 @@
               {"id": "(val)","lastName": "(val)","defaultValue": "(val)","nameTitle": "(val)","active": "(val)","nameSuffix": "(val)","entityId": "(val)","noteMessage": "(val)","firstName": "(val)","nameCode": "(val)","namePrefix": "(val)","nameChangedDate": "(val)","middleName": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","lastName": "(val)","defaultValue": "(val)","nameTitle": "(val)","active": "(val)","nameSuffix": "(val)","entityId": "(val)","noteMessage": "(val)","firstName": "(val)","nameCode": "(val)","namePrefix": "(val)","nameChangedDate": "(val)","middleName": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Entity Names by Key [DELETE /research-sys/api/v1/entity-names/(key)]
 	 
 + Request

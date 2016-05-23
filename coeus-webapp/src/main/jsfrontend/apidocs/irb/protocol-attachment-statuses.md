@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Protocol Attachment Statuses.md"
             transfer-encoding:chunked
-
-
 ### Update Protocol Attachment Statuses [PUT /irb/api/v1/protocol-attachment-statuses/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Protocol Attachment Statuses [POST /irb/api/v1/protocol-attachment-statuses/]
 
 + Request
@@ -185,7 +182,6 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Protocol Attachment Statuses by Key [DELETE /irb/api/v1/protocol-attachment-statuses/(key)]
 	 
 + Request

@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Notification Type Recipients.md"
             transfer-encoding:chunked
-
-
 ### Update Notification Type Recipients [PUT /research-common/api/v1/notification-type-recipients/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Notification Type Recipients [POST /research-common/api/v1/notification-type-recipients/]
 
 + Request
@@ -187,7 +184,6 @@
               {"notificationTypeRecipientId": "(val)","notificationTypeId": "(val)","roleName": "(val)","roleSubQualifier": "(val)","_primaryKey": "(val)"},
               {"notificationTypeRecipientId": "(val)","notificationTypeId": "(val)","roleName": "(val)","roleSubQualifier": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Notification Type Recipients by Key [DELETE /research-common/api/v1/notification-type-recipients/(key)]
 	 
 + Request

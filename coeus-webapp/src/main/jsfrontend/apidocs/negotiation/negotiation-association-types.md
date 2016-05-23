@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Negotiation Association Types.md"
             transfer-encoding:chunked
-
-
 ### Update Negotiation Association Types [PUT /negotiation/api/v1/negotiation-association-types/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Negotiation Association Types [POST /negotiation/api/v1/negotiation-association-types/]
 
 + Request
@@ -187,7 +184,6 @@
               {"id": "(val)","code": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","code": "(val)","description": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Negotiation Association Types by Key [DELETE /negotiation/api/v1/negotiation-association-types/(key)]
 	 
 + Request

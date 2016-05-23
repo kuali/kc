@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Valid Protocol Action Actions.md"
             transfer-encoding:chunked
-
-
 ### Update Valid Protocol Action Actions [PUT /irb/api/v1/valid-protocol-action-actions/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert Valid Protocol Action Actions [POST /irb/api/v1/valid-protocol-action-actions/]
 
 + Request
@@ -190,7 +187,6 @@
               {"validProtocolActionActionId": "(val)","protocolActionTypeCode": "(val)","motionTypeCode": "(val)","actionNumber": "(val)","followupActionCode": "(val)","userPromptFlag": "(val)","userPrompt": "(val)","_primaryKey": "(val)"},
               {"validProtocolActionActionId": "(val)","protocolActionTypeCode": "(val)","motionTypeCode": "(val)","actionNumber": "(val)","followupActionCode": "(val)","userPromptFlag": "(val)","userPrompt": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Valid Protocol Action Actions by Key [DELETE /irb/api/v1/valid-protocol-action-actions/(key)]
 	 
 + Request

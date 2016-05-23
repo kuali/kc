@@ -114,8 +114,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Budget Rates.md"
             transfer-encoding:chunked
-
-
 ### Update Budget Rates [PUT /research-common/api/v1/budget-rates/(key)]
 
 + Request
@@ -148,7 +146,6 @@
             ]
 			
 + Response 204
-
 ### Insert Budget Rates [POST /research-common/api/v1/budget-rates/]
 
 + Request
@@ -192,7 +189,6 @@
               {"activityTypeCode": "(val)","applicableRate": "(val)","instituteRate": "(val)","rateTypeCode": "(val)","budgetId": "(val)","onOffCampusFlag": "(val)","rateClassCode": "(val)","fiscalYear": "(val)","startDate": "(val)","_primaryKey": "(val)"},
               {"activityTypeCode": "(val)","applicableRate": "(val)","instituteRate": "(val)","rateTypeCode": "(val)","budgetId": "(val)","onOffCampusFlag": "(val)","rateClassCode": "(val)","fiscalYear": "(val)","startDate": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Budget Rates by Key [DELETE /research-common/api/v1/budget-rates/(key)]
 	 
 + Request

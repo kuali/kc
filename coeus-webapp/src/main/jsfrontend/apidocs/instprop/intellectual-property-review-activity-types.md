@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Intellectual Property Review Activity Types.md"
             transfer-encoding:chunked
-
-
 ### Update Intellectual Property Review Activity Types [PUT /instprop/api/v1/intellectual-property-review-activity-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Intellectual Property Review Activity Types [POST /instprop/api/v1/intellectual-property-review-activity-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"intellectualPropertyReviewActivityTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"intellectualPropertyReviewActivityTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Intellectual Property Review Activity Types by Key [DELETE /instprop/api/v1/intellectual-property-review-activity-types/(key)]
 	 
 + Request

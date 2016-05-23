@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Budget Statuses.md"
             transfer-encoding:chunked
-
-
 ### Update Budget Statuses [PUT /propdev/api/v1/budget-statuses/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Budget Statuses [POST /propdev/api/v1/budget-statuses/]
 
 + Request
@@ -185,7 +182,6 @@
               {"budgetStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"budgetStatusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Budget Statuses by Key [DELETE /propdev/api/v1/budget-statuses/(key)]
 	 
 + Request

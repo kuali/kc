@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Component Sets.md"
             transfer-encoding:chunked
-
-
 ### Update Component Sets [PUT /research-sys/api/v1/component-sets/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Component Sets [POST /research-sys/api/v1/component-sets/]
 
 + Request
@@ -186,7 +183,6 @@
               {"componentSetId": "(val)","lastUpdateTimestamp": "(val)","checksum": "(val)","_primaryKey": "(val)"},
               {"componentSetId": "(val)","lastUpdateTimestamp": "(val)","checksum": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Component Sets by Key [DELETE /research-sys/api/v1/component-sets/(key)]
 	 
 + Request

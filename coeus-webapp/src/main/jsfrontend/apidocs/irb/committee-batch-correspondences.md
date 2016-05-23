@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Committee Batch Correspondences.md"
             transfer-encoding:chunked
-
-
 ### Update Committee Batch Correspondences [PUT /irb/api/v1/committee-batch-correspondences/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Committee Batch Correspondences [POST /irb/api/v1/committee-batch-correspondences/]
 
 + Request
@@ -189,7 +186,6 @@
               {"committeeBatchCorrespondenceId": "(val)","committeeId": "(val)","batchCorrespondenceTypeCode": "(val)","batchRunDate": "(val)","timeWindowStart": "(val)","timeWindowEnd": "(val)","_primaryKey": "(val)"},
               {"committeeBatchCorrespondenceId": "(val)","committeeId": "(val)","batchCorrespondenceTypeCode": "(val)","batchRunDate": "(val)","timeWindowStart": "(val)","timeWindowEnd": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Committee Batch Correspondences by Key [DELETE /irb/api/v1/committee-batch-correspondences/(key)]
 	 
 + Request

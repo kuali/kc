@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Intellectual Property Review Requirement Types.md"
             transfer-encoding:chunked
-
-
 ### Update Intellectual Property Review Requirement Types [PUT /instprop/api/v1/intellectual-property-review-requirement-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Intellectual Property Review Requirement Types [POST /instprop/api/v1/intellectual-property-review-requirement-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"intellectualPropertyReviewRequirementTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"intellectualPropertyReviewRequirementTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Intellectual Property Review Requirement Types by Key [DELETE /instprop/api/v1/intellectual-property-review-requirement-types/(key)]
 	 
 + Request

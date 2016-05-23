@@ -125,8 +125,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Budget Personnel Rate And Bases.md"
             transfer-encoding:chunked
-
-
 ### Update Budget Personnel Rate And Bases [PUT /research-common/api/v1/budget-personnel-rate-and-bases/(key)]
 
 + Request
@@ -159,7 +157,6 @@
             ]
 			
 + Response 204
-
 ### Insert Budget Personnel Rate And Bases [POST /research-common/api/v1/budget-personnel-rate-and-bases/]
 
 + Request
@@ -203,7 +200,6 @@
               {"budgetPersonnelRateAndBaseId": "(val)","budgetPersonnelCalculatedAmountId": "(val)","budgetPersonnelLineItemId": "(val)","personId": "(val)","personNumber": "(val)","salaryRequested": "(val)","baseCostSharing": "(val)","budgetPeriodId": "(val)","endDate": "(val)","rateTypeCode": "(val)","budgetId": "(val)","rateNumber": "(val)","appliedRate": "(val)","budgetPeriod": "(val)","calculatedCost": "(val)","onOffCampusFlag": "(val)","rateClassCode": "(val)","calculatedCostSharing": "(val)","lineItemNumber": "(val)","startDate": "(val)","_primaryKey": "(val)"},
               {"budgetPersonnelRateAndBaseId": "(val)","budgetPersonnelCalculatedAmountId": "(val)","budgetPersonnelLineItemId": "(val)","personId": "(val)","personNumber": "(val)","salaryRequested": "(val)","baseCostSharing": "(val)","budgetPeriodId": "(val)","endDate": "(val)","rateTypeCode": "(val)","budgetId": "(val)","rateNumber": "(val)","appliedRate": "(val)","budgetPeriod": "(val)","calculatedCost": "(val)","onOffCampusFlag": "(val)","rateClassCode": "(val)","calculatedCostSharing": "(val)","lineItemNumber": "(val)","startDate": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Budget Personnel Rate And Bases by Key [DELETE /research-common/api/v1/budget-personnel-rate-and-bases/(key)]
 	 
 + Request

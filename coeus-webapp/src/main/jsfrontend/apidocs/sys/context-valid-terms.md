@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Context Valid Terms.md"
             transfer-encoding:chunked
-
-
 ### Update Context Valid Terms [PUT /research-sys/api/v1/context-valid-terms/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Context Valid Terms [POST /research-sys/api/v1/context-valid-terms/]
 
 + Request
@@ -185,7 +182,6 @@
               {"id": "(val)","contextId": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","contextId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Context Valid Terms by Key [DELETE /research-sys/api/v1/context-valid-terms/(key)]
 	 
 + Request

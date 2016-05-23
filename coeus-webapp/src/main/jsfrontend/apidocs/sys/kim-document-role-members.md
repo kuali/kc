@@ -114,8 +114,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Kim Document Role Members.md"
             transfer-encoding:chunked
-
-
 ### Update Kim Document Role Members [PUT /research-sys/api/v1/kim-document-role-members/(key)]
 
 + Request
@@ -148,7 +146,6 @@
             ]
 			
 + Response 204
-
 ### Insert Kim Document Role Members [POST /research-sys/api/v1/kim-document-role-members/]
 
 + Request
@@ -192,7 +189,6 @@
               {"roleMemberId": "(val)","roleId": "(val)","memberId": "(val)","memberTypeCode": "(val)","activeFromDate": "(val)","activeToDate": "(val)","edit": "(val)","documentNumber": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"roleMemberId": "(val)","roleId": "(val)","memberId": "(val)","memberTypeCode": "(val)","activeFromDate": "(val)","activeToDate": "(val)","edit": "(val)","documentNumber": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Kim Document Role Members by Key [DELETE /research-sys/api/v1/kim-document-role-members/(key)]
 	 
 + Request

@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Kim Attributes.md"
             transfer-encoding:chunked
-
-
 ### Update Kim Attributes [PUT /research-sys/api/v1/kim-attributes/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Kim Attributes [POST /research-sys/api/v1/kim-attributes/]
 
 + Request
@@ -189,7 +186,6 @@
               {"id": "(val)","componentName": "(val)","attributeName": "(val)","namespaceCode": "(val)","attributeLabel": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","componentName": "(val)","attributeName": "(val)","namespaceCode": "(val)","attributeLabel": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Kim Attributes by Key [DELETE /research-sys/api/v1/kim-attributes/(key)]
 	 
 + Request

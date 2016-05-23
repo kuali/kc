@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Protocol Participants.md"
             transfer-encoding:chunked
-
-
 ### Update Protocol Participants [PUT /irb/api/v1/protocol-participants/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Protocol Participants [POST /irb/api/v1/protocol-participants/]
 
 + Request
@@ -189,7 +186,6 @@
               {"protocolParticipantId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","participantTypeCode": "(val)","participantCount": "(val)","_primaryKey": "(val)"},
               {"protocolParticipantId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","participantTypeCode": "(val)","participantCount": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Protocol Participants by Key [DELETE /irb/api/v1/protocol-participants/(key)]
 	 
 + Request

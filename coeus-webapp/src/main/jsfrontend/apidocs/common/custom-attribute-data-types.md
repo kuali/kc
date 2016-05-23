@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Custom Attribute Data Types.md"
             transfer-encoding:chunked
-
-
 ### Update Custom Attribute Data Types [PUT /research-common/api/v1/custom-attribute-data-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Custom Attribute Data Types [POST /research-common/api/v1/custom-attribute-data-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Custom Attribute Data Types by Key [DELETE /research-common/api/v1/custom-attribute-data-types/(key)]
 	 
 + Request

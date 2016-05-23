@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Rules.md"
             transfer-encoding:chunked
-
-
 ### Update Rules [PUT /research-sys/api/v1/rules/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Rules [POST /research-sys/api/v1/rules/]
 
 + Request
@@ -189,7 +186,6 @@
               {"id": "(val)","namespace": "(val)","description": "(val)","name": "(val)","typeId": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","namespace": "(val)","description": "(val)","name": "(val)","typeId": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Rules by Key [DELETE /research-sys/api/v1/rules/(key)]
 	 
 + Request

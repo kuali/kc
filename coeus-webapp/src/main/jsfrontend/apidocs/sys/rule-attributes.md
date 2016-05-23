@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Rule Attributes.md"
             transfer-encoding:chunked
-
-
 ### Update Rule Attributes [PUT /research-sys/api/v1/rule-attributes/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Rule Attributes [POST /research-sys/api/v1/rule-attributes/]
 
 + Request
@@ -185,7 +182,6 @@
               {"id": "(val)","value": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","value": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Rule Attributes by Key [DELETE /research-sys/api/v1/rule-attributes/(key)]
 	 
 + Request

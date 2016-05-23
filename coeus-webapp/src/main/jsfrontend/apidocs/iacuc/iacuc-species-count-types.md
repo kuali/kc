@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Species Count Types.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Species Count Types [PUT /iacuc/api/v1/iacuc-species-count-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Species Count Types [POST /iacuc/api/v1/iacuc-species-count-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"speciesCountCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"speciesCountCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Species Count Types by Key [DELETE /iacuc/api/v1/iacuc-species-count-types/(key)]
 	 
 + Request

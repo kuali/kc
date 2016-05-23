@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Kim Types.md"
             transfer-encoding:chunked
-
-
 ### Update Kim Types [PUT /research-sys/api/v1/kim-types/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Kim Types [POST /research-sys/api/v1/kim-types/]
 
 + Request
@@ -188,7 +185,6 @@
               {"id": "(val)","serviceName": "(val)","namespaceCode": "(val)","name": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","serviceName": "(val)","namespaceCode": "(val)","name": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Kim Types by Key [DELETE /research-sys/api/v1/kim-types/(key)]
 	 
 + Request

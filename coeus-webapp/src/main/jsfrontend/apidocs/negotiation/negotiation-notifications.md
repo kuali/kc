@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Negotiation Notifications.md"
             transfer-encoding:chunked
-
-
 ### Update Negotiation Notifications [PUT /negotiation/api/v1/negotiation-notifications/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert Negotiation Notifications [POST /negotiation/api/v1/negotiation-notifications/]
 
 + Request
@@ -190,7 +187,6 @@
               {"notificationId": "(val)","notificationTypeId": "(val)","documentNumber": "(val)","owningDocumentIdFk": "(val)","recipients": "(val)","subject": "(val)","message": "(val)","_primaryKey": "(val)"},
               {"notificationId": "(val)","notificationTypeId": "(val)","documentNumber": "(val)","owningDocumentIdFk": "(val)","recipients": "(val)","subject": "(val)","message": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Negotiation Notifications by Key [DELETE /negotiation/api/v1/negotiation-notifications/(key)]
 	 
 + Request

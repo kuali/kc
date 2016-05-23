@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Propositions.md"
             transfer-encoding:chunked
-
-
 ### Update Propositions [PUT /research-sys/api/v1/propositions/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert Propositions [POST /research-sys/api/v1/propositions/]
 
 + Request
@@ -190,7 +187,6 @@
               {"id": "(val)","description": "(val)","ruleId": "(val)","typeId": "(val)","propositionTypeCode": "(val)","compoundOpCode": "(val)","compoundSequenceNumber": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","description": "(val)","ruleId": "(val)","typeId": "(val)","propositionTypeCode": "(val)","compoundOpCode": "(val)","compoundSequenceNumber": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Propositions by Key [DELETE /research-sys/api/v1/propositions/(key)]
 	 
 + Request

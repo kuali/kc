@@ -116,8 +116,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Procedure Category Custom Data.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Procedure Category Custom Data [PUT /iacuc/api/v1/iacuc-procedure-category-custom-data/(key)]
 
 + Request
@@ -150,7 +148,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Procedure Category Custom Data [POST /iacuc/api/v1/iacuc-procedure-category-custom-data/]
 
 + Request
@@ -194,7 +191,6 @@
               {"id": "(val)","procedureCategoryCode": "(val)","dataLength": "(val)","dataTypeCode": "(val)","defaultValue": "(val)","label": "(val)","lookupClass": "(val)","lookupReturn": "(val)","name": "(val)","active": "(val)","sortId": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","procedureCategoryCode": "(val)","dataLength": "(val)","dataTypeCode": "(val)","defaultValue": "(val)","label": "(val)","lookupClass": "(val)","lookupReturn": "(val)","name": "(val)","active": "(val)","sortId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Procedure Category Custom Data by Key [DELETE /iacuc/api/v1/iacuc-procedure-category-custom-data/(key)]
 	 
 + Request

@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Proposal Sites.md"
             transfer-encoding:chunked
-
-
 ### Update Proposal Sites [PUT /propdev/api/v1/proposal-sites/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Proposal Sites [POST /propdev/api/v1/proposal-sites/]
 
 + Request
@@ -188,7 +185,6 @@
               {"siteNumber": "(val)","locationName": "(val)","locationTypeCode": "(val)","organizationId": "(val)","rolodexId": "(val)","_primaryKey": "(val)"},
               {"siteNumber": "(val)","locationName": "(val)","locationTypeCode": "(val)","organizationId": "(val)","rolodexId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Proposal Sites by Key [DELETE /propdev/api/v1/proposal-sites/(key)]
 	 
 + Request

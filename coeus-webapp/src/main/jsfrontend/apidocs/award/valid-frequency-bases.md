@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Valid Frequency Bases.md"
             transfer-encoding:chunked
-
-
 ### Update Valid Frequency Bases [PUT /award/api/v1/valid-frequency-bases/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Valid Frequency Bases [POST /award/api/v1/valid-frequency-bases/]
 
 + Request
@@ -186,7 +183,6 @@
               {"validFrequencyBaseId": "(val)","frequencyCode": "(val)","frequencyBaseCode": "(val)","_primaryKey": "(val)"},
               {"validFrequencyBaseId": "(val)","frequencyCode": "(val)","frequencyBaseCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Valid Frequency Bases by Key [DELETE /award/api/v1/valid-frequency-bases/(key)]
 	 
 + Request

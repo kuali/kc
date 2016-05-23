@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Protocol Contingencies.md"
             transfer-encoding:chunked
-
-
 ### Update Protocol Contingencies [PUT /irb/api/v1/protocol-contingencies/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Protocol Contingencies [POST /irb/api/v1/protocol-contingencies/]
 
 + Request
@@ -185,7 +182,6 @@
               {"protocolContingencyCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"protocolContingencyCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Protocol Contingencies by Key [DELETE /irb/api/v1/protocol-contingencies/(key)]
 	 
 + Request

@@ -115,8 +115,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Role Document Delegation Members.md"
             transfer-encoding:chunked
-
-
 ### Update Role Document Delegation Members [PUT /research-sys/api/v1/role-document-delegation-members/(key)]
 
 + Request
@@ -149,7 +147,6 @@
             ]
 			
 + Response 204
-
 ### Insert Role Document Delegation Members [POST /research-sys/api/v1/role-document-delegation-members/]
 
 + Request
@@ -193,7 +190,6 @@
               {"delegationMemberId": "(val)","roleMemberId": "(val)","delegationId": "(val)","memberId": "(val)","memberTypeCode": "(val)","memberName": "(val)","activeFromDate": "(val)","activeToDate": "(val)","documentNumber": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"delegationMemberId": "(val)","roleMemberId": "(val)","delegationId": "(val)","memberId": "(val)","memberTypeCode": "(val)","memberName": "(val)","activeFromDate": "(val)","activeToDate": "(val)","documentNumber": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Role Document Delegation Members by Key [DELETE /research-sys/api/v1/role-document-delegation-members/(key)]
 	 
 + Request

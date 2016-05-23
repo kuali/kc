@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="User Options.md"
             transfer-encoding:chunked
-
-
 ### Update User Options [PUT /research-sys/api/v1/user-options/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert User Options [POST /research-sys/api/v1/user-options/]
 
 + Request
@@ -187,7 +184,6 @@
               {"workflowId": "(val)","optionId": "(val)","optionVal": "(val)","lockVerNbr": "(val)","_primaryKey": "(val)"},
               {"workflowId": "(val)","optionId": "(val)","optionVal": "(val)","lockVerNbr": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete User Options by Key [DELETE /research-sys/api/v1/user-options/(key)]
 	 
 + Request

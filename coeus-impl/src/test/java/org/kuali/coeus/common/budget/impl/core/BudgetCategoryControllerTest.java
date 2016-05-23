@@ -31,11 +31,13 @@ import org.junit.Test;
 import org.kuali.coeus.common.budget.framework.core.category.BudgetCategory;
 import org.kuali.coeus.common.budget.impl.core.category.BudgetCategoryController;
 import org.kuali.coeus.common.budget.impl.core.category.BudgetCategoryDto;
+import org.kuali.coeus.sys.framework.controller.rest.SimpleCrudDtoRestController;
 import org.kuali.coeus.sys.framework.controller.rest.audit.RestAuditLog;
 import org.kuali.coeus.sys.framework.controller.rest.audit.RestAuditLogger;
 import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
 import org.kuali.coeus.sys.framework.rest.UnprocessableEntityException;
 import org.kuali.coeus.sys.impl.controller.rest.audit.RestAuditLoggerImpl;
+import org.springframework.beans.BeanWrapperImpl;
 
 public class BudgetCategoryControllerTest {
 
@@ -62,7 +64,11 @@ public class BudgetCategoryControllerTest {
 	
 	@Test
 	public void testBudgetCategory_getAll() {
-		BudgetCategoryController controller = new BudgetCategoryController() {
+		SimpleCrudDtoRestController<BudgetCategory, BudgetCategoryDto> controller = new BudgetCategoryController() {
+			{
+				wireControllerProperties(this);
+			}
+
 			@Override
 			protected Collection<BudgetCategory> getAllFromDataStore() {
 				return Stream.of(budgetCat1, budgetCat2).collect(Collectors.toList());
@@ -87,7 +93,11 @@ public class BudgetCategoryControllerTest {
 	
 	@Test
 	public void testBudgetCategory_getOne() {
-		BudgetCategoryController controller = new BudgetCategoryController() {
+		SimpleCrudDtoRestController<BudgetCategory, BudgetCategoryDto> controller = new BudgetCategoryController() {
+			{
+				wireControllerProperties(this);
+			}
+
 			@Override
 			protected BudgetCategory getFromDataStore(Object code) {
 				assertEquals(budgetCat1.getCode(), code);
@@ -108,7 +118,11 @@ public class BudgetCategoryControllerTest {
 	
 	@Test
 	public void testBudgetCategory_updateOne() {
-		BudgetCategoryController controller = new BudgetCategoryController() {
+		SimpleCrudDtoRestController<BudgetCategory, BudgetCategoryDto> controller = new BudgetCategoryController() {
+			{
+				wireControllerProperties(this);
+			}
+
 			@Override
 			protected BudgetCategory getFromDataStore(Object code) {
 				assertEquals(budgetCat1.getCode(), code);
@@ -156,7 +170,7 @@ public class BudgetCategoryControllerTest {
 	}
 	
 	protected RestAuditLogger getTestRestAuditLogger() {
-		return new RestAuditLoggerImpl("quickstart", BudgetCategory.class, Arrays.asList("code", "description", "budgetCategoryTypeCode"), null) {
+		return new RestAuditLoggerImpl("quickstart", BudgetCategory.class, Arrays.asList("code", "description", "budgetCategoryTypeCode"), null, BeanWrapperImpl::new) {
 			@Override
 			public void saveAuditLog() {
 				savedAuditLog = this.getRestAuditLog(); 
@@ -166,7 +180,11 @@ public class BudgetCategoryControllerTest {
 	
 	@Test(expected=ResourceNotFoundException.class)
 	public void testBudgetCategory_updateNonExistent() {
-		BudgetCategoryController controller = new BudgetCategoryController() {
+		SimpleCrudDtoRestController<BudgetCategory, BudgetCategoryDto> controller = new BudgetCategoryController() {
+			{
+				wireControllerProperties(this);
+			}
+
 			@Override
 			protected BudgetCategory getFromDataStore(Object code) {
 				assertEquals(budgetCat1.getCode(), code);
@@ -201,7 +219,11 @@ public class BudgetCategoryControllerTest {
 	
 	@Test()
 	public void testBudgetCategory_add() {
-		BudgetCategoryController controller = new BudgetCategoryController() {
+		SimpleCrudDtoRestController<BudgetCategory, BudgetCategoryDto> controller = new BudgetCategoryController() {
+			{
+				wireControllerProperties(this);
+			}
+
 			@Override
 			protected BudgetCategory getFromDataStore(Object code) {
 				assertEquals(budgetCat1.getCode(), code);
@@ -248,7 +270,11 @@ public class BudgetCategoryControllerTest {
 	
 	@Test(expected=UnprocessableEntityException.class)
 	public void testBudgetCategory_addExisting() {
-		BudgetCategoryController controller = new BudgetCategoryController() {
+		SimpleCrudDtoRestController<BudgetCategory, BudgetCategoryDto> controller = new BudgetCategoryController() {
+			{
+				wireControllerProperties(this);
+			}
+
 			@Override
 			protected BudgetCategory getFromDataStore(Object code) {
 				assertEquals(budgetCat1.getCode(), code);
@@ -282,7 +308,11 @@ public class BudgetCategoryControllerTest {
 	}
 	
 	public void testBudgetCategory_deleteExisting() {
-		BudgetCategoryController controller = new BudgetCategoryController() {
+		SimpleCrudDtoRestController<BudgetCategory, BudgetCategoryDto> controller = new BudgetCategoryController() {
+			{
+				wireControllerProperties(this);
+			}
+
 			@Override
 			protected BudgetCategory getFromDataStore(Object code) {
 				assertEquals(budgetCat1.getCode(), code);
@@ -313,7 +343,11 @@ public class BudgetCategoryControllerTest {
 	@Test(expected=ResourceNotFoundException.class)
 	public void testBudgetCategory_deleteNonexistent() {
 		final String fakeCode = "foo";
-		BudgetCategoryController controller = new BudgetCategoryController() {
+		SimpleCrudDtoRestController<BudgetCategory, BudgetCategoryDto> controller = new BudgetCategoryController() {
+			{
+				wireControllerProperties(this);
+			}
+
 			@Override
 			protected BudgetCategory getFromDataStore(Object code) {
 				assertEquals(fakeCode, code);
@@ -339,5 +373,12 @@ public class BudgetCategoryControllerTest {
 		};
 		
 		controller.delete(fakeCode);
+	}
+
+	private void wireControllerProperties(SimpleCrudDtoRestController<BudgetCategory, BudgetCategoryDto> controller) {
+		controller.setDataObjectClazz(BudgetCategory.class);
+		controller.setDtoObjectClazz(BudgetCategoryDto.class);
+		controller.setPrimaryKeyColumn("code");
+		controller.setRegisterMapping(false);
 	}
 }

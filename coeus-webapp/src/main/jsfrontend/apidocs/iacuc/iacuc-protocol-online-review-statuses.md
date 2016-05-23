@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Protocol Online Review Statuses.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Protocol Online Review Statuses [PUT /iacuc/api/v1/iacuc-protocol-online-review-statuses/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Protocol Online Review Statuses [POST /iacuc/api/v1/iacuc-protocol-online-review-statuses/]
 
 + Request
@@ -185,7 +182,6 @@
               {"statusCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"statusCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Protocol Online Review Statuses by Key [DELETE /iacuc/api/v1/iacuc-protocol-online-review-statuses/(key)]
 	 
 + Request

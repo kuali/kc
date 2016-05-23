@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Protocol Funding Sources.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Protocol Funding Sources [PUT /iacuc/api/v1/iacuc-protocol-funding-sources/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Protocol Funding Sources [POST /iacuc/api/v1/iacuc-protocol-funding-sources/]
 
 + Request
@@ -190,7 +187,6 @@
               {"protocolFundingSourceId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","fundingSourceTypeCode": "(val)","fundingSourceNumber": "(val)","fundingSourceName": "(val)","_primaryKey": "(val)"},
               {"protocolFundingSourceId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","fundingSourceTypeCode": "(val)","fundingSourceNumber": "(val)","fundingSourceName": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Protocol Funding Sources by Key [DELETE /iacuc/api/v1/iacuc-protocol-funding-sources/(key)]
 	 
 + Request

@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Budget Columns To Alter.md"
             transfer-encoding:chunked
-
-
 ### Update Budget Columns To Alter [PUT /propdev/api/v1/budget-columns-to-alter/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert Budget Columns To Alter [POST /propdev/api/v1/budget-columns-to-alter/]
 
 + Request
@@ -190,7 +187,6 @@
               {"columnName": "(val)","columnLabel": "(val)","dataLength": "(val)","dataType": "(val)","hasLookup": "(val)","lookupClass": "(val)","lookupReturn": "(val)","_primaryKey": "(val)"},
               {"columnName": "(val)","columnLabel": "(val)","dataLength": "(val)","dataType": "(val)","hasLookup": "(val)","lookupClass": "(val)","lookupReturn": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Budget Columns To Alter by Key [DELETE /propdev/api/v1/budget-columns-to-alter/(key)]
 	 
 + Request

@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Account Types.md"
             transfer-encoding:chunked
-
-
 ### Update Account Types [PUT /research-common/api/v1/account-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Account Types [POST /research-common/api/v1/account-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"accountTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"accountTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Account Types by Key [DELETE /research-common/api/v1/account-types/(key)]
 	 
 + Request

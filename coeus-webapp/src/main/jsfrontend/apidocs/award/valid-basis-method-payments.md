@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Valid Basis Method Payments.md"
             transfer-encoding:chunked
-
-
 ### Update Valid Basis Method Payments [PUT /award/api/v1/valid-basis-method-payments/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Valid Basis Method Payments [POST /award/api/v1/valid-basis-method-payments/]
 
 + Request
@@ -187,7 +184,6 @@
               {"validBasisMethodPaymentId": "(val)","basisOfPaymentCode": "(val)","methodOfPaymentCode": "(val)","invInstructionsIndicator": "(val)","_primaryKey": "(val)"},
               {"validBasisMethodPaymentId": "(val)","basisOfPaymentCode": "(val)","methodOfPaymentCode": "(val)","invInstructionsIndicator": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Valid Basis Method Payments by Key [DELETE /award/api/v1/valid-basis-method-payments/(key)]
 	 
 + Request

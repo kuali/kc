@@ -122,8 +122,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Protocol Actions.md"
             transfer-encoding:chunked
-
-
 ### Update Protocol Actions [PUT /irb/api/v1/protocol-actions/(key)]
 
 + Request
@@ -156,7 +154,6 @@
             ]
 			
 + Response 204
-
 ### Insert Protocol Actions [POST /irb/api/v1/protocol-actions/]
 
 + Request
@@ -200,7 +197,6 @@
               {"protocolActionId": "(val)","actionId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","submissionNumber": "(val)","submissionIdFk": "(val)","protocolActionTypeCode": "(val)","comments": "(val)","prevSubmissionStatusCode": "(val)","submissionTypeCode": "(val)","prevProtocolStatusCode": "(val)","createTimestamp": "(val)","createUser": "(val)","actionDate": "(val)","actualActionDate": "(val)","followupActionCode": "(val)","_primaryKey": "(val)"},
               {"protocolActionId": "(val)","actionId": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","submissionNumber": "(val)","submissionIdFk": "(val)","protocolActionTypeCode": "(val)","comments": "(val)","prevSubmissionStatusCode": "(val)","submissionTypeCode": "(val)","prevProtocolStatusCode": "(val)","createTimestamp": "(val)","createUser": "(val)","actionDate": "(val)","actualActionDate": "(val)","followupActionCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Protocol Actions by Key [DELETE /irb/api/v1/protocol-actions/(key)]
 	 
 + Request

@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Entity Visas.md"
             transfer-encoding:chunked
-
-
 ### Update Entity Visas [PUT /research-sys/api/v1/entity-visas/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Entity Visas [POST /research-sys/api/v1/entity-visas/]
 
 + Request
@@ -188,7 +185,6 @@
               {"id": "(val)","entityId": "(val)","visaTypeKey": "(val)","visaEntry": "(val)","visaId": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","entityId": "(val)","visaTypeKey": "(val)","visaEntry": "(val)","visaId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Entity Visas by Key [DELETE /research-sys/api/v1/entity-visas/(key)]
 	 
 + Request

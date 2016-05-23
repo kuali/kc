@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Protocol Study Groups.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Protocol Study Groups [PUT /iacuc/api/v1/iacuc-protocol-study-groups/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Protocol Study Groups [POST /iacuc/api/v1/iacuc-protocol-study-groups/]
 
 + Request
@@ -188,7 +185,6 @@
               {"iacucProtocolStudyGroupId": "(val)","iacucProtocolStudyGroupHeaderId": "(val)","iacucProtocolSpeciesId": "(val)","painCategoryCode": "(val)","count": "(val)","_primaryKey": "(val)"},
               {"iacucProtocolStudyGroupId": "(val)","iacucProtocolStudyGroupHeaderId": "(val)","iacucProtocolSpeciesId": "(val)","painCategoryCode": "(val)","count": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Protocol Study Groups by Key [DELETE /iacuc/api/v1/iacuc-protocol-study-groups/(key)]
 	 
 + Request

@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Nsf Codes.md"
             transfer-encoding:chunked
-
-
 ### Update Nsf Codes [PUT /research-common/api/v1/nsf-codes/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Nsf Codes [POST /research-common/api/v1/nsf-codes/]
 
 + Request
@@ -186,7 +183,6 @@
               {"nsfSequenceNumber": "(val)","nsfCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"nsfSequenceNumber": "(val)","nsfCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Nsf Codes by Key [DELETE /research-common/api/v1/nsf-codes/(key)]
 	 
 + Request

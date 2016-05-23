@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Protocol Attachment Statuses.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Protocol Attachment Statuses [PUT /iacuc/api/v1/iacuc-protocol-attachment-statuses/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Protocol Attachment Statuses [POST /iacuc/api/v1/iacuc-protocol-attachment-statuses/]
 
 + Request
@@ -185,7 +182,6 @@
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"code": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Protocol Attachment Statuses by Key [DELETE /iacuc/api/v1/iacuc-protocol-attachment-statuses/(key)]
 	 
 + Request

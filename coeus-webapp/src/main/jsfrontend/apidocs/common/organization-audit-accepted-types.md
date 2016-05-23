@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Organization Audit Accepted Types.md"
             transfer-encoding:chunked
-
-
 ### Update Organization Audit Accepted Types [PUT /research-common/api/v1/organization-audit-accepted-types/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Organization Audit Accepted Types [POST /research-common/api/v1/organization-audit-accepted-types/]
 
 + Request
@@ -186,7 +183,6 @@
               {"code": "(val)","active": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"code": "(val)","active": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Organization Audit Accepted Types by Key [DELETE /research-common/api/v1/organization-audit-accepted-types/(key)]
 	 
 + Request

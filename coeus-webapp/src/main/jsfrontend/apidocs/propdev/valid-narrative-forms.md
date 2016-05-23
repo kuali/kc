@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Valid Narrative Forms.md"
             transfer-encoding:chunked
-
-
 ### Update Valid Narrative Forms [PUT /propdev/api/v1/valid-narrative-forms/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Valid Narrative Forms [POST /propdev/api/v1/valid-narrative-forms/]
 
 + Request
@@ -187,7 +184,6 @@
               {"validNarrFormsId": "(val)","formName": "(val)","narrativeTypeCode": "(val)","mandatory": "(val)","_primaryKey": "(val)"},
               {"validNarrFormsId": "(val)","formName": "(val)","narrativeTypeCode": "(val)","mandatory": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Valid Narrative Forms by Key [DELETE /propdev/api/v1/valid-narrative-forms/(key)]
 	 
 + Request

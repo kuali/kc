@@ -112,8 +112,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Kew Attribute Definitions.md"
             transfer-encoding:chunked
-
-
 ### Update Kew Attribute Definitions [PUT /research-sys/api/v1/kew-attribute-definitions/(key)]
 
 + Request
@@ -146,7 +144,6 @@
             ]
 			
 + Response 204
-
 ### Insert Kew Attribute Definitions [POST /research-sys/api/v1/kew-attribute-definitions/]
 
 + Request
@@ -190,7 +187,6 @@
               {"id": "(val)","name": "(val)","namespace": "(val)","label": "(val)","active": "(val)","componentName": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","name": "(val)","namespace": "(val)","label": "(val)","active": "(val)","componentName": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Kew Attribute Definitions by Key [DELETE /research-sys/api/v1/kew-attribute-definitions/(key)]
 	 
 + Request

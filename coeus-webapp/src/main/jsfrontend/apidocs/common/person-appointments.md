@@ -115,8 +115,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Person Appointments.md"
             transfer-encoding:chunked
-
-
 ### Update Person Appointments [PUT /research-common/api/v1/person-appointments/(key)]
 
 + Request
@@ -149,7 +147,6 @@
             ]
 			
 + Response 204
-
 ### Insert Person Appointments [POST /research-common/api/v1/person-appointments/]
 
 + Request
@@ -193,7 +190,6 @@
               {"appointmentId": "(val)","personId": "(val)","unitNumber": "(val)","startDate": "(val)","endDate": "(val)","typeCode": "(val)","jobTitle": "(val)","preferedJobTitle": "(val)","jobCode": "(val)","salary": "(val)","_primaryKey": "(val)"},
               {"appointmentId": "(val)","personId": "(val)","unitNumber": "(val)","startDate": "(val)","endDate": "(val)","typeCode": "(val)","jobTitle": "(val)","preferedJobTitle": "(val)","jobCode": "(val)","salary": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Person Appointments by Key [DELETE /research-common/api/v1/person-appointments/(key)]
 	 
 + Request

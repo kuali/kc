@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Correspondent Types.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Correspondent Types [PUT /iacuc/api/v1/iacuc-correspondent-types/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Correspondent Types [POST /iacuc/api/v1/iacuc-correspondent-types/]
 
 + Request
@@ -186,7 +183,6 @@
               {"correspondentTypeCode": "(val)","description": "(val)","qualifier": "(val)","_primaryKey": "(val)"},
               {"correspondentTypeCode": "(val)","description": "(val)","qualifier": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Correspondent Types by Key [DELETE /iacuc/api/v1/iacuc-correspondent-types/(key)]
 	 
 + Request

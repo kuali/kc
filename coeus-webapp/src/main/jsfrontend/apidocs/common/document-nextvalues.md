@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Document Nextvalues.md"
             transfer-encoding:chunked
-
-
 ### Update Document Nextvalues [PUT /research-common/api/v1/document-nextvalues/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Document Nextvalues [POST /research-common/api/v1/document-nextvalues/]
 
 + Request
@@ -186,7 +183,6 @@
               {"propertyName": "(val)","documentKey": "(val)","nextValue": "(val)","_primaryKey": "(val)"},
               {"propertyName": "(val)","documentKey": "(val)","nextValue": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Document Nextvalues by Key [DELETE /research-common/api/v1/document-nextvalues/(key)]
 	 
 + Request

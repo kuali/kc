@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Protocol Study Custom Data.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Protocol Study Custom Data [PUT /iacuc/api/v1/iacuc-protocol-study-custom-data/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Protocol Study Custom Data [POST /iacuc/api/v1/iacuc-protocol-study-custom-data/]
 
 + Request
@@ -187,7 +184,6 @@
               {"iacucProtocolStudyCustomDataId": "(val)","iacucProtocolStudyGroupId": "(val)","procedureCustomAttributeId": "(val)","value": "(val)","_primaryKey": "(val)"},
               {"iacucProtocolStudyCustomDataId": "(val)","iacucProtocolStudyGroupId": "(val)","procedureCustomAttributeId": "(val)","value": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Protocol Study Custom Data by Key [DELETE /iacuc/api/v1/iacuc-protocol-study-custom-data/(key)]
 	 
 + Request

@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Actions.md"
             transfer-encoding:chunked
-
-
 ### Update Actions [PUT /research-sys/api/v1/actions/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Actions [POST /research-sys/api/v1/actions/]
 
 + Request
@@ -189,7 +186,6 @@
               {"id": "(val)","namespace": "(val)","name": "(val)","description": "(val)","typeId": "(val)","sequenceNumber": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","namespace": "(val)","name": "(val)","description": "(val)","typeId": "(val)","sequenceNumber": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Actions by Key [DELETE /research-sys/api/v1/actions/(key)]
 	 
 + Request

@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Multi Document Attachments.md"
             transfer-encoding:chunked
-
-
 ### Update Multi Document Attachments [PUT /research-sys/api/v1/multi-document-attachments/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Multi Document Attachments [POST /research-sys/api/v1/multi-document-attachments/]
 
 + Request
@@ -188,7 +185,6 @@
               {"id": "(val)","documentNumber": "(val)","fileName": "(val)","attachmentContent": "(val)","contentType": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","documentNumber": "(val)","fileName": "(val)","attachmentContent": "(val)","contentType": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Multi Document Attachments by Key [DELETE /research-sys/api/v1/multi-document-attachments/(key)]
 	 
 + Request

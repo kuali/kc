@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Units.md"
             transfer-encoding:chunked
-
-
 ### Update Units [PUT /research-common/api/v1/units/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Units [POST /research-common/api/v1/units/]
 
 + Request
@@ -188,7 +185,6 @@
               {"unitNumber": "(val)","parentUnitNumber": "(val)","organizationId": "(val)","unitName": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"unitNumber": "(val)","parentUnitNumber": "(val)","organizationId": "(val)","unitName": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Units by Key [DELETE /research-common/api/v1/units/(key)]
 	 
 + Request

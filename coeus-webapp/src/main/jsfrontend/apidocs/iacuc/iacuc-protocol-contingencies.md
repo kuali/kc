@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Iacuc Protocol Contingencies.md"
             transfer-encoding:chunked
-
-
 ### Update Iacuc Protocol Contingencies [PUT /iacuc/api/v1/iacuc-protocol-contingencies/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Iacuc Protocol Contingencies [POST /iacuc/api/v1/iacuc-protocol-contingencies/]
 
 + Request
@@ -185,7 +182,6 @@
               {"protocolContingencyCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"protocolContingencyCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Iacuc Protocol Contingencies by Key [DELETE /iacuc/api/v1/iacuc-protocol-contingencies/(key)]
 	 
 + Request

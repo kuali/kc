@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="S2s Application Attachments.md"
             transfer-encoding:chunked
-
-
 ### Update S2s Application Attachments [PUT /propdev/api/v1/s2s-application-attachments/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert S2s Application Attachments [POST /propdev/api/v1/s2s-application-attachments/]
 
 + Request
@@ -188,7 +185,6 @@
               {"id": "(val)","contentId": "(val)","proposalNumber": "(val)","contentType": "(val)","hashCode": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","contentId": "(val)","proposalNumber": "(val)","contentType": "(val)","hashCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete S2s Application Attachments by Key [DELETE /propdev/api/v1/s2s-application-attachments/(key)]
 	 
 + Request

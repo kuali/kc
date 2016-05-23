@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Prop Science Keywords.md"
             transfer-encoding:chunked
-
-
 ### Update Prop Science Keywords [PUT /propdev/api/v1/prop-science-keywords/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Prop Science Keywords [POST /propdev/api/v1/prop-science-keywords/]
 
 + Request
@@ -185,7 +182,6 @@
               {"hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","_primaryKey": "(val)"},
               {"hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Prop Science Keywords by Key [DELETE /propdev/api/v1/prop-science-keywords/(key)]
 	 
 + Request

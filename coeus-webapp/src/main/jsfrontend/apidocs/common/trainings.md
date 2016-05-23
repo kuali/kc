@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Trainings.md"
             transfer-encoding:chunked
-
-
 ### Update Trainings [PUT /research-common/api/v1/trainings/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Trainings [POST /research-common/api/v1/trainings/]
 
 + Request
@@ -185,7 +182,6 @@
               {"trainingCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"trainingCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Trainings by Key [DELETE /research-common/api/v1/trainings/(key)]
 	 
 + Request

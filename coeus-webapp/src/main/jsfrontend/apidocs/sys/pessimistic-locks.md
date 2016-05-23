@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Pessimistic Locks.md"
             transfer-encoding:chunked
-
-
 ### Update Pessimistic Locks [PUT /research-sys/api/v1/pessimistic-locks/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Pessimistic Locks [POST /research-sys/api/v1/pessimistic-locks/]
 
 + Request
@@ -189,7 +186,6 @@
               {"id": "(val)","ownedByPrincipalIdentifier": "(val)","lockDescriptor": "(val)","generatedTimestamp": "(val)","documentNumber": "(val)","sessionId": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","ownedByPrincipalIdentifier": "(val)","lockDescriptor": "(val)","generatedTimestamp": "(val)","documentNumber": "(val)","sessionId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Pessimistic Locks by Key [DELETE /research-sys/api/v1/pessimistic-locks/(key)]
 	 
 + Request

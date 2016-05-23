@@ -124,8 +124,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Entity Addresses.md"
             transfer-encoding:chunked
-
-
 ### Update Entity Addresses [PUT /research-sys/api/v1/entity-addresses/(key)]
 
 + Request
@@ -158,7 +156,6 @@
             ]
 			
 + Response 204
-
 ### Insert Entity Addresses [POST /research-sys/api/v1/entity-addresses/]
 
 + Request
@@ -202,7 +199,6 @@
               {"id": "(val)","city": "(val)","defaultValue": "(val)","addressFormat": "(val)","postalCode": "(val)","active": "(val)","entityId": "(val)","attentionLine": "(val)","noteMessage": "(val)","stateProvinceCode": "(val)","addressTypeCode": "(val)","validated": "(val)","countryCode": "(val)","entityTypeCode": "(val)","validatedDate": "(val)","modifiedDate": "(val)","line3": "(val)","line2": "(val)","line1": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","city": "(val)","defaultValue": "(val)","addressFormat": "(val)","postalCode": "(val)","active": "(val)","entityId": "(val)","attentionLine": "(val)","noteMessage": "(val)","stateProvinceCode": "(val)","addressTypeCode": "(val)","validated": "(val)","countryCode": "(val)","entityTypeCode": "(val)","validatedDate": "(val)","modifiedDate": "(val)","line3": "(val)","line2": "(val)","line1": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Entity Addresses by Key [DELETE /research-sys/api/v1/entity-addresses/(key)]
 	 
 + Request

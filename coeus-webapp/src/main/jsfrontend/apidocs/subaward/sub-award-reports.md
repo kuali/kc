@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Sub Award Reports.md"
             transfer-encoding:chunked
-
-
 ### Update Sub Award Reports [PUT /subaward/api/v1/sub-award-reports/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Sub Award Reports [POST /subaward/api/v1/sub-award-reports/]
 
 + Request
@@ -188,7 +185,6 @@
               {"subAwardReportId": "(val)","subAwardId": "(val)","subAwardCode": "(val)","sequenceNumber": "(val)","subAwardReportTypeCode": "(val)","_primaryKey": "(val)"},
               {"subAwardReportId": "(val)","subAwardId": "(val)","subAwardCode": "(val)","sequenceNumber": "(val)","subAwardReportTypeCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Sub Award Reports by Key [DELETE /subaward/api/v1/sub-award-reports/(key)]
 	 
 + Request

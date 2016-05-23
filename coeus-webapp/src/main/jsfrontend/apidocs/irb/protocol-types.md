@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Protocol Types.md"
             transfer-encoding:chunked
-
-
 ### Update Protocol Types [PUT /irb/api/v1/protocol-types/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Protocol Types [POST /irb/api/v1/protocol-types/]
 
 + Request
@@ -186,7 +183,6 @@
               {"protocolTypeCode": "(val)","description": "(val)","globalFlag": "(val)","_primaryKey": "(val)"},
               {"protocolTypeCode": "(val)","description": "(val)","globalFlag": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Protocol Types by Key [DELETE /irb/api/v1/protocol-types/(key)]
 	 
 + Request

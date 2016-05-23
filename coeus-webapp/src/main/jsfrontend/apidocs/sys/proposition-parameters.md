@@ -109,8 +109,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Proposition Parameters.md"
             transfer-encoding:chunked
-
-
 ### Update Proposition Parameters [PUT /research-sys/api/v1/proposition-parameters/(key)]
 
 + Request
@@ -143,7 +141,6 @@
             ]
 			
 + Response 204
-
 ### Insert Proposition Parameters [POST /research-sys/api/v1/proposition-parameters/]
 
 + Request
@@ -187,7 +184,6 @@
               {"id": "(val)","value": "(val)","parameterType": "(val)","sequenceNumber": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","value": "(val)","parameterType": "(val)","sequenceNumber": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Proposition Parameters by Key [DELETE /research-sys/api/v1/proposition-parameters/(key)]
 	 
 + Request

@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Narrative Attachments.md"
             transfer-encoding:chunked
-
-
 ### Update Narrative Attachments [PUT /propdev/api/v1/narrative-attachments/(key)]
 
 + Request
@@ -144,7 +142,6 @@
             ]
 			
 + Response 204
-
 ### Insert Narrative Attachments [POST /propdev/api/v1/narrative-attachments/]
 
 + Request
@@ -188,7 +185,6 @@
               {"uploadTimestamp": "(val)","name": "(val)","type": "(val)","fileDataId": "(val)","uploadUser": "(val)","_primaryKey": "(val)"},
               {"uploadTimestamp": "(val)","name": "(val)","type": "(val)","fileDataId": "(val)","uploadUser": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Narrative Attachments by Key [DELETE /propdev/api/v1/narrative-attachments/(key)]
 	 
 + Request

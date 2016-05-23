@@ -114,8 +114,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Custom Attributes.md"
             transfer-encoding:chunked
-
-
 ### Update Custom Attributes [PUT /research-common/api/v1/custom-attributes/(key)]
 
 + Request
@@ -148,7 +146,6 @@
             ]
 			
 + Response 204
-
 ### Insert Custom Attributes [POST /research-common/api/v1/custom-attributes/]
 
 + Request
@@ -192,7 +189,6 @@
               {"id": "(val)","dataLength": "(val)","dataTypeCode": "(val)","defaultValue": "(val)","groupName": "(val)","label": "(val)","lookupClass": "(val)","lookupReturn": "(val)","name": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","dataLength": "(val)","dataTypeCode": "(val)","defaultValue": "(val)","groupName": "(val)","label": "(val)","lookupClass": "(val)","lookupReturn": "(val)","name": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Custom Attributes by Key [DELETE /research-common/api/v1/custom-attributes/(key)]
 	 
 + Request

@@ -135,8 +135,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Organizations.md"
             transfer-encoding:chunked
-
-
 ### Update Organizations [PUT /research-common/api/v1/organizations/(key)]
 
 + Request
@@ -169,7 +167,6 @@
             ]
 			
 + Response 204
-
 ### Insert Organizations [POST /research-common/api/v1/organizations/]
 
 + Request
@@ -213,7 +210,6 @@
               {"organizationId": "(val)","address": "(val)","agencySymbol": "(val)","animalWelfareAssurance": "(val)","cableAddress": "(val)","cageNumber": "(val)","cognizantAuditor": "(val)","comGovEntityCode": "(val)","congressionalDistrict": "(val)","contactAddressId": "(val)","county": "(val)","dodacNumber": "(val)","dunsNumber": "(val)","dunsPlusFourNumber": "(val)","federalEmployerId": "(val)","humanSubAssurance": "(val)","incorporatedDate": "(val)","incorporatedIn": "(val)","indirectCostRateAgreement": "(val)","irsTaxExemption": "(val)","stateEmployeeClaim": "(val)","stateTaxExemptNum": "(val)","nsfInstitutionalCode": "(val)","numberOfEmployees": "(val)","onrResidentRep": "(val)","organizationName": "(val)","phsAccount": "(val)","scienceMisconductComplDate": "(val)","telexNumber": "(val)","vendorCode": "(val)","_primaryKey": "(val)"},
               {"organizationId": "(val)","address": "(val)","agencySymbol": "(val)","animalWelfareAssurance": "(val)","cableAddress": "(val)","cageNumber": "(val)","cognizantAuditor": "(val)","comGovEntityCode": "(val)","congressionalDistrict": "(val)","contactAddressId": "(val)","county": "(val)","dodacNumber": "(val)","dunsNumber": "(val)","dunsPlusFourNumber": "(val)","federalEmployerId": "(val)","humanSubAssurance": "(val)","incorporatedDate": "(val)","incorporatedIn": "(val)","indirectCostRateAgreement": "(val)","irsTaxExemption": "(val)","stateEmployeeClaim": "(val)","stateTaxExemptNum": "(val)","nsfInstitutionalCode": "(val)","numberOfEmployees": "(val)","onrResidentRep": "(val)","organizationName": "(val)","phsAccount": "(val)","scienceMisconductComplDate": "(val)","telexNumber": "(val)","vendorCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Organizations by Key [DELETE /research-common/api/v1/organizations/(key)]
 	 
 + Request

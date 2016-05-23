@@ -16,7 +16,7 @@
 
     + Body
     
-            {"templateCommentsId": "(val)","templateCode": "(val)","commentTypeCode": "(val)","checklistPrintFlag": "(val)","comments": "(val)","_primaryKey": "(val)"}
+            {"templateCommentsId": "(val)","commentTypeCode": "(val)","checklistPrintFlag": "(val)","comments": "(val)","template.templateCode": "(val)","_primaryKey": "(val)"}
 
 ### Get All Award Template Comments [GET /award/api/v1/award-template-comments/]
 	 
@@ -35,8 +35,8 @@
     + Body
     
             [
-              {"templateCommentsId": "(val)","templateCode": "(val)","commentTypeCode": "(val)","checklistPrintFlag": "(val)","comments": "(val)","_primaryKey": "(val)"},
-              {"templateCommentsId": "(val)","templateCode": "(val)","commentTypeCode": "(val)","checklistPrintFlag": "(val)","comments": "(val)","_primaryKey": "(val)"}
+              {"templateCommentsId": "(val)","commentTypeCode": "(val)","checklistPrintFlag": "(val)","comments": "(val)","template.templateCode": "(val)","_primaryKey": "(val)"},
+              {"templateCommentsId": "(val)","commentTypeCode": "(val)","checklistPrintFlag": "(val)","comments": "(val)","template.templateCode": "(val)","_primaryKey": "(val)"}
             ]
 
 ### Get All Award Template Comments with Filtering [GET /award/api/v1/award-template-comments/]
@@ -44,10 +44,10 @@
 + Parameters
 
     + templateCommentsId (optional) - Template Comments Id. Maximum length is 22.
-    + templateCode (optional) - 
     + commentTypeCode (optional) - Comment Type. Maximum length is 3.
     + checklistPrintFlag (optional) - Checklist Print Flag. Maximum length is 1.
     + comments (optional) - Comments. Maximum length is 2000.
+    + template.templateCode (optional) - 
 
             
 + Request
@@ -65,8 +65,8 @@
     + Body
     
             [
-              {"templateCommentsId": "(val)","templateCode": "(val)","commentTypeCode": "(val)","checklistPrintFlag": "(val)","comments": "(val)","_primaryKey": "(val)"},
-              {"templateCommentsId": "(val)","templateCode": "(val)","commentTypeCode": "(val)","checklistPrintFlag": "(val)","comments": "(val)","_primaryKey": "(val)"}
+              {"templateCommentsId": "(val)","commentTypeCode": "(val)","checklistPrintFlag": "(val)","comments": "(val)","template.templateCode": "(val)","_primaryKey": "(val)"},
+              {"templateCommentsId": "(val)","commentTypeCode": "(val)","checklistPrintFlag": "(val)","comments": "(val)","template.templateCode": "(val)","_primaryKey": "(val)"}
             ]
 			
 ### Get Schema for Award Template Comments [GET /award/api/v1/award-template-comments/]
@@ -89,7 +89,7 @@
 
     + Body
     
-            {"columns":["templateCommentsId","templateCode","commentTypeCode","checklistPrintFlag","comments"],"primaryKey":"templateCommentsId"}
+            {"columns":["templateCommentsId","commentTypeCode","checklistPrintFlag","comments","template.templateCode"],"primaryKey":"templateCommentsId"}
 		
 ### Get Blueprint API specification for Award Template Comments [GET /award/api/v1/award-template-comments/]
 	 
@@ -110,8 +110,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Award Template Comments.md"
             transfer-encoding:chunked
-
-
 ### Update Award Template Comments [PUT /award/api/v1/award-template-comments/(key)]
 
 + Request
@@ -123,7 +121,7 @@
 
     + Body
     
-            {"templateCommentsId": "(val)","templateCode": "(val)","commentTypeCode": "(val)","checklistPrintFlag": "(val)","comments": "(val)","_primaryKey": "(val)"}
+            {"templateCommentsId": "(val)","commentTypeCode": "(val)","checklistPrintFlag": "(val)","comments": "(val)","template.templateCode": "(val)","_primaryKey": "(val)"}
 			
 + Response 204
 
@@ -139,12 +137,11 @@
     + Body
     
             [
-              {"templateCommentsId": "(val)","templateCode": "(val)","commentTypeCode": "(val)","checklistPrintFlag": "(val)","comments": "(val)","_primaryKey": "(val)"},
-              {"templateCommentsId": "(val)","templateCode": "(val)","commentTypeCode": "(val)","checklistPrintFlag": "(val)","comments": "(val)","_primaryKey": "(val)"}
+              {"templateCommentsId": "(val)","commentTypeCode": "(val)","checklistPrintFlag": "(val)","comments": "(val)","template.templateCode": "(val)","_primaryKey": "(val)"},
+              {"templateCommentsId": "(val)","commentTypeCode": "(val)","checklistPrintFlag": "(val)","comments": "(val)","template.templateCode": "(val)","_primaryKey": "(val)"}
             ]
 			
 + Response 204
-
 ### Insert Award Template Comments [POST /award/api/v1/award-template-comments/]
 
 + Request
@@ -156,13 +153,13 @@
 
     + Body
     
-            {"templateCommentsId": "(val)","templateCode": "(val)","commentTypeCode": "(val)","checklistPrintFlag": "(val)","comments": "(val)","_primaryKey": "(val)"}
+            {"templateCommentsId": "(val)","commentTypeCode": "(val)","checklistPrintFlag": "(val)","comments": "(val)","template.templateCode": "(val)","_primaryKey": "(val)"}
 			
 + Response 201
     
     + Body
             
-            {"templateCommentsId": "(val)","templateCode": "(val)","commentTypeCode": "(val)","checklistPrintFlag": "(val)","comments": "(val)","_primaryKey": "(val)"}
+            {"templateCommentsId": "(val)","commentTypeCode": "(val)","checklistPrintFlag": "(val)","comments": "(val)","template.templateCode": "(val)","_primaryKey": "(val)"}
             
 ### Insert Multiple Award Template Comments [POST /award/api/v1/award-template-comments/]
 
@@ -176,8 +173,8 @@
     + Body
     
             [
-              {"templateCommentsId": "(val)","templateCode": "(val)","commentTypeCode": "(val)","checklistPrintFlag": "(val)","comments": "(val)","_primaryKey": "(val)"},
-              {"templateCommentsId": "(val)","templateCode": "(val)","commentTypeCode": "(val)","checklistPrintFlag": "(val)","comments": "(val)","_primaryKey": "(val)"}
+              {"templateCommentsId": "(val)","commentTypeCode": "(val)","checklistPrintFlag": "(val)","comments": "(val)","template.templateCode": "(val)","_primaryKey": "(val)"},
+              {"templateCommentsId": "(val)","commentTypeCode": "(val)","checklistPrintFlag": "(val)","comments": "(val)","template.templateCode": "(val)","_primaryKey": "(val)"}
             ]
 			
 + Response 201
@@ -185,10 +182,9 @@
     + Body
             
             [
-              {"templateCommentsId": "(val)","templateCode": "(val)","commentTypeCode": "(val)","checklistPrintFlag": "(val)","comments": "(val)","_primaryKey": "(val)"},
-              {"templateCommentsId": "(val)","templateCode": "(val)","commentTypeCode": "(val)","checklistPrintFlag": "(val)","comments": "(val)","_primaryKey": "(val)"}
+              {"templateCommentsId": "(val)","commentTypeCode": "(val)","checklistPrintFlag": "(val)","comments": "(val)","template.templateCode": "(val)","_primaryKey": "(val)"},
+              {"templateCommentsId": "(val)","commentTypeCode": "(val)","checklistPrintFlag": "(val)","comments": "(val)","template.templateCode": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Award Template Comments by Key [DELETE /award/api/v1/award-template-comments/(key)]
 	 
 + Request
@@ -221,10 +217,10 @@
 
     + _allowMulti (boolean, required) - flag to allow multiple resources to be deleted in one operation
     + templateCommentsId (optional) - Template Comments Id. Maximum length is 22.
-    + templateCode (optional) - 
     + commentTypeCode (optional) - Comment Type. Maximum length is 3.
     + checklistPrintFlag (optional) - Checklist Print Flag. Maximum length is 1.
     + comments (optional) - Comments. Maximum length is 2000.
+    + template.templateCode (optional) - 
 
       
 + Request

@@ -114,8 +114,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Budget Unrecovered F And As.md"
             transfer-encoding:chunked
-
-
 ### Update Budget Unrecovered F And As [PUT /research-common/api/v1/budget-unrecovered-f-and-as/(key)]
 
 + Request
@@ -148,7 +146,6 @@
             ]
 			
 + Response 204
-
 ### Insert Budget Unrecovered F And As [POST /research-common/api/v1/budget-unrecovered-f-and-as/]
 
 + Request
@@ -192,7 +189,6 @@
               {"documentComponentId": "(val)","budgetId": "(val)","amount": "(val)","applicableRate": "(val)","onCampusFlag": "(val)","fiscalYear": "(val)","sourceAccount": "(val)","hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","_primaryKey": "(val)"},
               {"documentComponentId": "(val)","budgetId": "(val)","amount": "(val)","applicableRate": "(val)","onCampusFlag": "(val)","fiscalYear": "(val)","sourceAccount": "(val)","hierarchyProposalNumber": "(val)","hiddenInHierarchy": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Budget Unrecovered F And As by Key [DELETE /research-common/api/v1/budget-unrecovered-f-and-as/(key)]
 	 
 + Request

@@ -108,8 +108,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Minute Entry Types.md"
             transfer-encoding:chunked
-
-
 ### Update Minute Entry Types [PUT /research-common/api/v1/minute-entry-types/(key)]
 
 + Request
@@ -142,7 +140,6 @@
             ]
 			
 + Response 204
-
 ### Insert Minute Entry Types [POST /research-common/api/v1/minute-entry-types/]
 
 + Request
@@ -186,7 +183,6 @@
               {"minuteEntryTypeCode": "(val)","sortId": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"minuteEntryTypeCode": "(val)","sortId": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Minute Entry Types by Key [DELETE /research-common/api/v1/minute-entry-types/(key)]
 	 
 + Request

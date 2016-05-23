@@ -107,8 +107,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Protocol Organization Types.md"
             transfer-encoding:chunked
-
-
 ### Update Protocol Organization Types [PUT /irb/api/v1/protocol-organization-types/(key)]
 
 + Request
@@ -141,7 +139,6 @@
             ]
 			
 + Response 204
-
 ### Insert Protocol Organization Types [POST /irb/api/v1/protocol-organization-types/]
 
 + Request
@@ -185,7 +182,6 @@
               {"protocolOrganizationTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"},
               {"protocolOrganizationTypeCode": "(val)","description": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Protocol Organization Types by Key [DELETE /irb/api/v1/protocol-organization-types/(key)]
 	 
 + Request

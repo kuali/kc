@@ -111,8 +111,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Postal Codes.md"
             transfer-encoding:chunked
-
-
 ### Update Postal Codes [PUT /research-sys/api/v1/postal-codes/(key)]
 
 + Request
@@ -145,7 +143,6 @@
             ]
 			
 + Response 204
-
 ### Insert Postal Codes [POST /research-sys/api/v1/postal-codes/]
 
 + Request
@@ -189,7 +186,6 @@
               {"code": "(val)","countryCode": "(val)","cityName": "(val)","stateCode": "(val)","countyCode": "(val)","active": "(val)","_primaryKey": "(val)"},
               {"code": "(val)","countryCode": "(val)","cityName": "(val)","stateCode": "(val)","countyCode": "(val)","active": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Postal Codes by Key [DELETE /research-sys/api/v1/postal-codes/(key)]
 	 
 + Request

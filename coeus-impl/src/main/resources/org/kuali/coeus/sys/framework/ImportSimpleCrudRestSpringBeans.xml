@@ -40,4 +40,11 @@
 
     <bean id="autoRegisterMapping" class="org.kuali.coeus.sys.framework.controller.rest.RestSimpleUrlHandlerMapping" />
     <bean id="simpleCrudMapBasedRestController" class="org.kuali.coeus.sys.framework.controller.rest.SimpleCrudMapBasedRestController" abstract="true" />
+    <bean id="simpleReadOnlyMapBasedRestController" parent="simpleCrudMapBasedRestController" abstract="true">
+        <property name="supportedMethods">
+            <set value-type="org.springframework.web.bind.annotation.RequestMethod">
+                <value>GET</value>
+            </set>
+        </property>
+    </bean>
 </beans>

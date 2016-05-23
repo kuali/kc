@@ -114,8 +114,6 @@
             Content-Type: text/markdown;charset=UTF-8
             Content-Disposition:attachment; filename="Protocol Personnel Attachments.md"
             transfer-encoding:chunked
-
-
 ### Update Protocol Personnel Attachments [PUT /irb/api/v1/protocol-personnel-attachments/(key)]
 
 + Request
@@ -148,7 +146,6 @@
             ]
 			
 + Response 204
-
 ### Insert Protocol Personnel Attachments [POST /irb/api/v1/protocol-personnel-attachments/]
 
 + Request
@@ -192,7 +189,6 @@
               {"id": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","typeCode": "(val)","documentId": "(val)","fileId": "(val)","description": "(val)","personId": "(val)","_primaryKey": "(val)"},
               {"id": "(val)","protocolId": "(val)","protocolNumber": "(val)","sequenceNumber": "(val)","typeCode": "(val)","documentId": "(val)","fileId": "(val)","description": "(val)","personId": "(val)","_primaryKey": "(val)"}
             ]
-            
 ### Delete Protocol Personnel Attachments by Key [DELETE /irb/api/v1/protocol-personnel-attachments/(key)]
 	 
 + Request
