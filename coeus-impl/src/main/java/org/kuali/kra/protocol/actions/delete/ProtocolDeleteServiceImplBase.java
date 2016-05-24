@@ -50,7 +50,7 @@ public abstract class ProtocolDeleteServiceImplBase implements ProtocolDeleteSer
      * @throws WorkflowException 
      * @see org.kuali.kra.irb.actions.delete.ProtocolDeleteService#delete(org.kuali.kra.irb.ProtocolBase, org.kuali.kra.irb.actions.delete.ProtocolDeleteBean)
      */
-    public void delete(ProtocolBase protocol, ProtocolDeleteBean deleteBean) throws WorkflowException {
+    public void delete(ProtocolBase protocol) throws WorkflowException {
         protocol.setProtocolStatusCode(getDeletedProtocolStatusCodeHook());
         protocol.setActive(false);
         businessObjectService.save(protocol.getProtocolDocument());

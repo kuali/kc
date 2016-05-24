@@ -714,7 +714,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         if (CONFIRM_DELETE_PROTOCOL_KEY.equals(question)) {
             ProtocolFormBase protocolForm = (ProtocolFormBase) form;
             IacucProtocol protocol = (IacucProtocol)protocolForm.getProtocolDocument().getProtocol();
-            getProtocolDeleteService().delete(protocol, protocolForm.getActionHelper().getProtocolDeleteBean());
+            getProtocolDeleteService().delete(protocol);
             
             // send out notification that protocol has been deleted and record success
             IacucProtocolNotificationRequestBean newNotificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.IACUC_DELETED, "Deleted");

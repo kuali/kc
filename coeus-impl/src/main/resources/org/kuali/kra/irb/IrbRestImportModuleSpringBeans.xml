@@ -45,6 +45,7 @@
     <bean id="protocolApproveService" parent="grlImporter" p:serviceName="protocolApproveService" />
     <bean id="protocolSubmitActionService" parent="grlImporter" p:serviceName="protocolSubmitActionService" />
     <bean id="protocolGrantExemptionService" parent="grlImporter" p:serviceName="protocolGrantExemptionService" />
+    <bean id="protocolDeleteService" parent="grlImporter" p:serviceName="protocolDeleteService" />
 
     <!-- COMMON -->
     <bean id="commonApiService" parent="grlImporter" p:serviceName="commonApiService" />

@@ -26,9 +26,8 @@ public interface ProtocolDeleteService {
     /**
      * Delete a protocol/amendment/renewal.
      * @param protocol the protocol/amendment/renewal
-     * @param deleteBean the required data for performing a withdrawal
-     * @throws WorkflowException 
+     * @throws WorkflowException
      */
-    public void delete(ProtocolBase protocol, ProtocolDeleteBean deleteBean) throws WorkflowException;
+    public void delete(ProtocolBase protocol) throws WorkflowException;
 
 }

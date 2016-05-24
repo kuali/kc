@@ -628,7 +628,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
         if (CONFIRM_DELETE_PROTOCOL_KEY.equals(question)) {
             ProtocolForm protocolForm = (ProtocolForm) form;
-            getProtocolDeleteService().delete(protocolForm.getProtocolDocument().getProtocol(), protocolForm.getActionHelper().getProtocolDeleteBean());
+            getProtocolDeleteService().delete(protocolForm.getProtocolDocument().getProtocol());
             
             recordProtocolActionSuccess("Delete Protocol, Amendment, or Renewal");
         }
