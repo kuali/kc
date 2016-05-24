@@ -22,7 +22,6 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.coeus.common.api.document.service.CommonApiService;
-import org.kuali.coeus.common.budget.framework.core.category.BudgetCategory;
 import org.kuali.coeus.instprop.impl.api.dto.InstitutionalProposalDto;
 import org.kuali.coeus.instprop.impl.api.dto.IpPersonDto;
 import org.kuali.coeus.instprop.impl.api.service.InstitutionalProposalApiService;
@@ -45,10 +44,8 @@ import java.beans.IntrospectionException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Date;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Map;
 
 
 public class InstitutionalProposalDocumentControllerTest extends KcIntegrationTestBase{
