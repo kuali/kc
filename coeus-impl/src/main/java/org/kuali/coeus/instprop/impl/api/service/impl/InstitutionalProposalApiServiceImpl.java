@@ -70,6 +70,8 @@ public class InstitutionalProposalApiServiceImpl implements InstitutionalProposa
     @Qualifier("commonApiService")
     private CommonApiService commonApiService;
 
+    private static final String DEFAULT_VALUE = "0";
+
     public void addCustomData(InstitutionalProposal institutionalProposal, InstitutionalProposalDto institutionalProposalDto) {
         Map<String, CustomAttributeDocument> customAttributeDocuments = institutionalProposal.getInstitutionalProposalDocument().getCustomAttributeDocuments();
         if (institutionalProposalDto.getInstitutionalProposalCustomDataList() != null) {
@@ -294,6 +296,10 @@ public class InstitutionalProposalApiServiceImpl implements InstitutionalProposa
 
 
     public void initializeData(InstitutionalProposal proposal) {
+        if(proposal.getCostSharingIndicator() == null) proposal.setCostSharingIndicator(DEFAULT_VALUE);
+        if(proposal.getIdcRateIndicator() == null) proposal.setIdcRateIndicator(DEFAULT_VALUE);
+        if(proposal.getSpecialReviewIndicator() == null) proposal.setSpecialReviewIndicator(DEFAULT_VALUE);
+        if(proposal.getScienceCodeIndicator() == null) proposal.setScienceCodeIndicator(DEFAULT_VALUE);
         initializeCollections(proposal);
         initializeCostTotals(proposal);
     }
