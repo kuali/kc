@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1325: added error messages for several s2s generators, upgrade s2s
+  * Travis Schneeberger on Mon, 23 May 2016 16:46:24 -0400 [View Commit](../../commit/63fa79471aed80034d45fa523412c5a5534e5861)
+
+##coeus-1605.36
 * RESKC-1336: Adding tests and fixing proposal create issues.
   * Gayathri Athreya on Mon, 23 May 2016 11:34:31 -0700 [View Commit](../../commit/ed63fe8ba3b1555696f9aeae50f793b9f739c637)
 

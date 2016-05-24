@@ -19,4 +19,5 @@
 
 
 \. ./kc/bootstrap/V1605_001__AttachmentFileConversion.sql
+\. ./kc/bootstrap/V1605_003__s2s_errors.sql
 commit;
