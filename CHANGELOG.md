@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* Fix Oracle integration tests.
+  * Gayathri Athreya on Tue, 24 May 2016 12:39:13 -0700 [View Commit](../../commit/9ff417fc124be3e017d9e098f40ef4c712779f72)
+
+##coeus-1605.37
 * RESKC-1325: added error messages for several s2s generators, upgrade s2s
   * Travis Schneeberger on Mon, 23 May 2016 16:46:24 -0400 [View Commit](../../commit/63fa79471aed80034d45fa523412c5a5534e5861)
 

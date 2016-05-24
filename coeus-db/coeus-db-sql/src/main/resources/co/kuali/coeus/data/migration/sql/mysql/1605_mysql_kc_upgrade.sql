@@ -20,4 +20,5 @@
 
 \. ./kc/bootstrap/V1605_001__AttachmentFileConversion.sql
 \. ./kc/bootstrap/V1605_003__s2s_errors.sql
+\. ./kc/bootstrap/V1605_004__IDC_INDICATOR_FIX.sql
 commit;
