@@ -70,9 +70,11 @@
 			    <c:set var="awardVersion" value="${awardVersionHistory.awardParent}" />
 		        <c:set var="awardAwardAmountInfo" value="${awardVersion.lastAwardAmountInfo}" />
     	    	<tr>
-					<th>
-		    	        &nbsp;
-					</th>
+                    <td align="center" valign="middle" rowspan="2">
+                        <div align="center" >
+                            Award Transaction
+                        </div>
+                    </td>
         			<th>
 						<div align="center"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.currentFundEffectiveDate}" readOnly="true" noColon="true" /></div>
         			</th>
@@ -116,57 +118,54 @@
         			<th>
 						<div align="center"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.antDistributableAmount}" readOnly="true" noColon="true" /></div>
         			</th>
-    	  		</tr>	
+    	  		</tr>
     	    	<tr>
-					<td class="infoline">
-		    	        &nbsp;
-					</td>
         			<td class="datacell"><div>
 	        			<fmt:formatDate value="${awardAwardAmountInfo.currentFundEffectiveDate}" pattern="MM/dd/yyyy" />
-	        		</div></td>				        		
+	        		</div></td>
 							<td class="datacell"><div>
 	        			<fmt:formatDate value="${awardAwardAmountInfo.obligationExpirationDate}" pattern="MM/dd/yyyy" />
-	        		</div></td>				        		
+	        		</div></td>
 	        		<td class="datacell"><div>
 	        			<fmt:formatDate value="${awardAwardAmountInfo.finalExpirationDate}" pattern="MM/dd/yyyy" />
 	        		</div></td>
-	        		<td class="datacell"><div>				        		
+	        		<td class="datacell"><div>
 	        			<fmt:formatNumber type="currency" currencySymbol="" value="${awardAwardAmountInfo.obligatedChange}"/>
 	        		</div></td>
 					<c:if  test="${KualiForm.directIndirectViewEnabled == '1'}">
-		        		<td class="datacell"><div>				        		
+		        		<td class="datacell"><div>
 		        			<fmt:formatNumber type="currency" currencySymbol="" value="${awardAwardAmountInfo.obligatedChangeDirect}"/>
 		        		</div></td>
-		        		<td class="datacell"><div>				        		
+		        		<td class="datacell"><div>
 		        			<fmt:formatNumber type="currency" currencySymbol="" value="${awardAwardAmountInfo.obligatedChangeIndirect}"/>
 		        		</div></td>
 	          		</c:if>
-	        		<td class="datacell"><div>				        		
+	        		<td class="datacell"><div>
 	        			<fmt:formatNumber type="currency" currencySymbol="" value="${awardAwardAmountInfo.amountObligatedToDate}"/>
 	        		</div></td>
-	        		<td class="datacell"><div>				        		
+	        		<td class="datacell"><div>
 	        			<fmt:formatNumber type="currency" currencySymbol="" value="${awardAwardAmountInfo.obliDistributableAmount}"/>
 	        		</div></td>
-	        		<td class="datacell"><div>				        		
+	        		<td class="datacell"><div>
 	        			<fmt:formatNumber type="currency" currencySymbol="" value="${awardAwardAmountInfo.anticipatedChange}"/>
 	        		</div></td>
 					<c:if  test="${KualiForm.directIndirectViewEnabled == '1'}">
-		        		<td class="datacell"><div>				        		
+		        		<td class="datacell"><div>
 		        			<fmt:formatNumber type="currency" currencySymbol="" value="${awardAwardAmountInfo.anticipatedChangeDirect}"/>
 		        		</div></td>
-		        		<td class="datacell"><div>				        		
+		        		<td class="datacell"><div>
 		        			<fmt:formatNumber type="currency" currencySymbol="" value="${awardAwardAmountInfo.anticipatedChangeIndirect}"/>
 		        		</div></td>
 	          		</c:if>
-		        		<td class="datacell"><div>				        		
+		        		<td class="datacell"><div>
 		        			<fmt:formatNumber type="currency" currencySymbol="" value="${awardAwardAmountInfo.anticipatedTotalAmount}"/>
 		        		</div></td>
-		        		<td class="datacell"><div>				        		
+		        		<td class="datacell"><div>
 		        			<fmt:formatNumber type="currency" currencySymbol="" value="${awardAwardAmountInfo.antDistributableAmount}"/>
-		        		</div></td>		        		
+		        		</div></td>
 					<td align="left" valign="left" class="infoline" rowspan="1" colspan="4">
-		    	      	&nbsp;                	
-					</td>    
+		    	      	&nbsp;
+					</td>
 				</tr>
 			</c:if>
 			<c:forEach var="timeAndMoneyDocumentHistory" items="${awardVersionHistory.timeAndMoneyDocumentHistoryList}" varStatus="status">
@@ -204,7 +203,7 @@
 										Transaction ID: ${awardAmountInfoHistory.primaryDetail.transactionId}
 						        	</c:when>
 						        	<c:otherwise>
-						        		Initial Transaction
+						        		Initial T&M Transaction
 						        	</c:otherwise>
 						        </c:choose>
 						     </div>	
@@ -373,6 +372,110 @@
 		        		</c:if>	
 				</c:forEach>
 			</c:forEach>
+            <c:if test="${fn:length(awardVersionHistory.timeAndMoneyDocumentHistoryList) > 0}">
+                <c:set var="awardVersion" value="${awardVersionHistory.awardParent}" />
+                <c:set var="awardAwardAmountInfo" value="${awardVersion.awardAmountInfo}" />
+                <c:if test="${awardAwardAmountInfo.amountObligatedToDate > 0 || awardAmountInfo.anticipatedTotalAmount > 0}">
+                    <tr>
+                        <td align="center" valign="middle" rowspan="2">
+                            <div align="center" >
+                                Award Transaction
+                            </div>
+                        </td>
+                        <th>
+                            <div align="center"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.currentFundEffectiveDate}" readOnly="true" noColon="true" /></div>
+                        </th>
+                        <th>
+                            <div align="center"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.obligationExpirationDate}" readOnly="true" noColon="true" /></div>
+                        </th>
+                        <th>
+                            <div align="center"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.finalExpirationDate}" readOnly="true" noColon="true" /></div>
+                        </th>
+                        <th>
+                            <div align="center"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.obligatedChange}" readOnly="true" noColon="true" /></div>
+                        </th>
+                        <c:if  test="${KualiForm.directIndirectViewEnabled == '1'}">
+                            <th>
+                                <div align="center"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.obligatedChangeDirect}" readOnly="true" noColon="true" /></div>
+                            </th>
+                            <th>
+                                <div align="center"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.obligatedChangeIndirect}" readOnly="true" noColon="true" /></div>
+                            </th>
+                        </c:if>
+                        <th>
+                            <div align="center"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.amountObligatedToDate}" readOnly="true" noColon="true" /></div>
+                        </th>
+                        <th>
+                            <div align="center"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.obliDistributableAmount}" readOnly="true" noColon="true" /></div>
+                        </th>
+                        <th>
+                            <div align="center"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.anticipatedChange}" readOnly="true" noColon="true" /></div>
+                        </th>
+                        <c:if  test="${KualiForm.directIndirectViewEnabled == '1'}">
+                            <th>
+                                <div align="center"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.anticipatedChangeDirect}" readOnly="true" noColon="true" /></div>
+                            </th>
+                            <th>
+                                <div align="center"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.anticipatedChangeIndirect}" readOnly="true" noColon="true" /></div>
+                            </th>
+                        </c:if>
+                        <th>
+                            <div align="center"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.anticipatedTotalAmount}" readOnly="true" noColon="true" /></div>
+                        </th>
+                        <th>
+                            <div align="center"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.antDistributableAmount}" readOnly="true" noColon="true" /></div>
+                        </th>
+                    </tr>
+                    <tr>
+                        <td class="datacell"><div>
+                            <fmt:formatDate value="${awardAwardAmountInfo.currentFundEffectiveDate}" pattern="MM/dd/yyyy" />
+                        </div></td>
+                        <td class="datacell"><div>
+                            <fmt:formatDate value="${awardAwardAmountInfo.obligationExpirationDate}" pattern="MM/dd/yyyy" />
+                        </div></td>
+                        <td class="datacell"><div>
+                            <fmt:formatDate value="${awardAwardAmountInfo.finalExpirationDate}" pattern="MM/dd/yyyy" />
+                        </div></td>
+                        <td class="datacell"><div>
+                            <fmt:formatNumber type="currency" currencySymbol="" value="${awardAwardAmountInfo.obligatedChange}"/>
+                        </div></td>
+                        <c:if  test="${KualiForm.directIndirectViewEnabled == '1'}">
+                            <td class="datacell"><div>
+                                <fmt:formatNumber type="currency" currencySymbol="" value="${awardAwardAmountInfo.obligatedChangeDirect}"/>
+                            </div></td>
+                            <td class="datacell"><div>
+                                <fmt:formatNumber type="currency" currencySymbol="" value="${awardAwardAmountInfo.obligatedChangeIndirect}"/>
+                            </div></td>
+                        </c:if>
+                        <td class="datacell"><div>
+                            <fmt:formatNumber type="currency" currencySymbol="" value="${awardAwardAmountInfo.amountObligatedToDate}"/>
+                        </div></td>
+                        <td class="datacell"><div>
+                            <fmt:formatNumber type="currency" currencySymbol="" value="${awardAwardAmountInfo.obliDistributableAmount}"/>
+                        </div></td>
+                        <td class="datacell"><div>
+                            <fmt:formatNumber type="currency" currencySymbol="" value="${awardAwardAmountInfo.anticipatedChange}"/>
+                        </div></td>
+                        <c:if  test="${KualiForm.directIndirectViewEnabled == '1'}">
+                            <td class="datacell"><div>
+                                <fmt:formatNumber type="currency" currencySymbol="" value="${awardAwardAmountInfo.anticipatedChangeDirect}"/>
+                            </div></td>
+                            <td class="datacell"><div>
+                                <fmt:formatNumber type="currency" currencySymbol="" value="${awardAwardAmountInfo.anticipatedChangeIndirect}"/>
+                            </div></td>
+                        </c:if>
+                        <td class="datacell"><div>
+                            <fmt:formatNumber type="currency" currencySymbol="" value="${awardAwardAmountInfo.anticipatedTotalAmount}"/>
+                        </div></td>
+                        <td class="datacell"><div>
+                            <fmt:formatNumber type="currency" currencySymbol="" value="${awardAwardAmountInfo.antDistributableAmount}"/>
+                        </div></td>
+                        <td align="left" valign="left" class="infoline" rowspan="1" colspan="4">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </c:if>
+            </c:if>
         </c:forEach> 
         </table>       			
 	</div>   

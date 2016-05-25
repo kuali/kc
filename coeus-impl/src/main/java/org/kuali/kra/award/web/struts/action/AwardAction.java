@@ -847,30 +847,18 @@ public class AwardAction extends BudgetParentActionBase {
             newAwardAmountInfo.setAmountObligatedToDate(rootAward.getObligatedTotalDirect().add(rootAward.getObligatedTotalIndirect()));
             newAwardAmountInfo.setObligatedTotalDirect(rootAward.getObligatedTotalDirect());
             newAwardAmountInfo.setObligatedTotalIndirect(rootAward.getObligatedTotalIndirect());
-            newAwardAmountInfo.setObligatedChange(rootAwardAmountInfo.getObligatedChange());
-            newAwardAmountInfo.setObligatedChangeDirect(rootAwardAmountInfo.getObligatedTotalDirect());
-            newAwardAmountInfo.setObligatedChangeIndirect(rootAwardAmountInfo.getObligatedTotalIndirect());
-            newAwardAmountInfo.setAnticipatedChange(rootAwardAmountInfo.getAnticipatedChange());
             newAwardAmountInfo.setAnticipatedTotalAmount(rootAward.getAnticipatedTotalDirect().add(rootAward.getAnticipatedTotalIndirect()));
             newAwardAmountInfo.setAnticipatedTotalDirect(rootAward.getAnticipatedTotalDirect());
             newAwardAmountInfo.setAnticipatedTotalIndirect(rootAward.getAnticipatedTotalIndirect());
-            newAwardAmountInfo.setAnticipatedChangeDirect(rootAwardAmountInfo.getAnticipatedTotalDirect());
-            newAwardAmountInfo.setAnticipatedChangeIndirect(rootAwardAmountInfo.getAnticipatedTotalIndirect());
             newAwardAmountInfo.setObliDistributableAmount(rootAward.getObligatedTotalDirect().add(rootAward.getObligatedTotalIndirect()));
             newAwardAmountInfo.setAntDistributableAmount(rootAward.getAnticipatedTotalDirect().add(rootAward.getAnticipatedTotalIndirect()));
         } else {
             newAwardAmountInfo.setAmountObligatedToDate(rootAwardAmountInfo.getAmountObligatedToDate());
             newAwardAmountInfo.setObligatedTotalDirect(rootAward.getObligatedTotalDirect());
             newAwardAmountInfo.setObligatedTotalIndirect(rootAward.getObligatedTotalIndirect());
-            newAwardAmountInfo.setObligatedChange(rootAwardAmountInfo.getObligatedChange());
-            newAwardAmountInfo.setObligatedChangeDirect(rootAwardAmountInfo.getObligatedChangeDirect());
-            newAwardAmountInfo.setObligatedChangeIndirect(rootAwardAmountInfo.getObligatedChangeIndirect());
-            newAwardAmountInfo.setAnticipatedChange(rootAwardAmountInfo.getAnticipatedChange());
             newAwardAmountInfo.setAnticipatedTotalAmount(rootAward.getAnticipatedTotal());
             newAwardAmountInfo.setAnticipatedTotalDirect(rootAward.getAnticipatedTotalDirect());
             newAwardAmountInfo.setAnticipatedTotalIndirect(rootAward.getAnticipatedTotalIndirect());
-            newAwardAmountInfo.setAnticipatedChangeDirect(rootAwardAmountInfo.getAnticipatedChangeDirect());
-            newAwardAmountInfo.setAnticipatedChangeIndirect(rootAwardAmountInfo.getAnticipatedChangeIndirect());
             newAwardAmountInfo.setObliDistributableAmount(rootAward.getObligatedTotal());
             newAwardAmountInfo.setAntDistributableAmount(rootAward.getAnticipatedTotal());
         }
