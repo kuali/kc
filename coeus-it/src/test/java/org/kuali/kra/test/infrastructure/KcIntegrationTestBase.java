@@ -36,6 +36,7 @@ import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.MessageMap;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 /**
  * This class serves as a base test class for all KC unit tests. It handles ensuring all of the necessary lifecycles are properly
@@ -66,7 +67,10 @@ public class KcIntegrationTestBase implements KcIntegrationTestMethodAware {
         LIFECYCLE.startPerTest(true);
         GlobalVariables.setMessageMap(new MessageMap());
         GlobalVariables.setAuditErrorMap(new HashMap<String, AuditCluster>());
-        GlobalVariables.setUserSession(new UserSession(DEFAULT_USER));
+        final UserSession userSession = new UserSession(DEFAULT_USER);
+        userSession.setKualiSessionId(UUID.randomUUID().toString());
+        GlobalVariables.setUserSession(userSession);
+
     }
 
     /**
