@@ -1554,7 +1554,7 @@
                 <bean p:attributeName="closeoutDate" parent="FieldDefinition"/>
                 <bean p:attributeName="projectPersons.awardContactId" parent="FieldDefinition" p:hidden="true"/>
                 <bean p:attributeName="subPlanFlag" parent="FieldDefinition" p:hidden="true"/>
-                <bean p:attributeName="awardSequenceStatus" parent="FieldDefinition" p:defaultValue="BOTH" />
+                <bean p:attributeName="awardSequenceStatus" parent="FieldDefinition" p:defaultValue="ACTIVE" />
             </list>
         </property>
         <property name="resultFields">
@@ -1600,7 +1600,7 @@
                 <bean p:propertyName="closeoutDate" parent="Uif-LookupCriteriaInputField"/>
                 <bean p:propertyName="projectPersons.awardContactId" parent="Uif-LookupCriteriaInputField"/>
                 <bean p:propertyName="subPlanFlag" parent="Uif-LookupCriteriaInputField"/>
-                <bean p:propertyName="awardSequenceStatus" parent="Uif-LookupCriteriaInputField" p:defaultValue="BOTH" />
+                <bean p:propertyName="awardSequenceStatus" parent="Uif-LookupCriteriaInputField" p:defaultValue="ACTIVE" />
             </list>
         </property>
         <property name="resultFields">
