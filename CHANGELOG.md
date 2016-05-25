@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* fix integration tests
+  * Gayathri Athreya on Tue, 24 May 2016 17:51:33 -0700 [View Commit](../../commit/35c2631efe187008d5f37ec04bed39babc929e68)
+* RESKC-1367: Protocol document endpoint tests.
+  * Gayathri Athreya on Mon, 23 May 2016 13:42:57 -0700 [View Commit](../../commit/efc5bfab055be733dba0f5fb78d6553e2c61d0e5)
+
+##coeus-1605.38
 * Fix Oracle integration tests.
   * Gayathri Athreya on Tue, 24 May 2016 12:39:13 -0700 [View Commit](../../commit/9ff417fc124be3e017d9e098f40ef4c712779f72)
 
