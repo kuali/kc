@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1246: sorting and truncating the unit list in a way that displays correctly in the unit hierarchy UI.  Correcting client javascript errors.  Minor code cleanup.
+  * Travis Schneeberger on Wed, 25 May 2016 10:00:39 -0400 [View Commit](../../commit/325367cc46bb9110d4e4a9c7abec65786557eda7)
+
+##coeus-1605.42
 * No Changes
 
 
