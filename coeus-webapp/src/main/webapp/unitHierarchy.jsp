@@ -35,6 +35,16 @@ body {
 }
 </style>
 
+<script>var jsContextPath = "${pageContext.request.contextPath}";</script>
+
+<c:forEach items="${fn:split(ConfigProperties.kns.javascript.files, ',')}"
+		   var="javascriptFile">
+	<c:if test="${fn:length(fn:trim(javascriptFile)) > 0}">
+		<script language="JavaScript" type="text/javascript"
+				src="${pageContext.request.contextPath}/${javascriptFile}"></script>
+	</c:if>
+</c:forEach>
+
 <link rel="stylesheet" type="text/css" href="css/yui/fonts-min.css" />
 <link rel="stylesheet" type="text/css" href="css/yui/treeview.css" />
 <link href="kr/css/kuali.css" rel="stylesheet" type="text/css" />
@@ -43,10 +53,7 @@ body {
 <script type="text/javascript" src="scripts/yui/event-min.js"></script>
 <script type="text/javascript" src="scripts/yui/connection-min.js"></script>
 <script type="text/javascript" src="scripts/yui/treeview-min.js"></script>
-<script language="JavaScript" type="text/javascript" src="dwr/engine.js"></script>
-<script language="JavaScript" type="text/javascript" src="dwr/util.js"></script>
 <script language="javascript" src="dwr/interface/UnitService.js" ></script>
-<script language="JavaScript" type="text/javascript" src="scripts/kuali_application.js"></script>
 <script type="text/javascript" src="scripts/kra_yui.js" ></script>
 
 <!--begin custom header content for this example-->

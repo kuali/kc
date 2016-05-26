@@ -22,7 +22,6 @@ import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.ListUtils;
-import org.apache.commons.collections4.Predicate;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.coeus.common.framework.unit.Unit;
@@ -36,22 +35,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
-/**
- * The Unit Service Implementation.
- *
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
- */
+
 @Component("unitService")
 public class UnitServiceImpl implements UnitService {
 
     private static final Logger LOGGER = Logger.getLogger(UnitServiceImpl.class);
     private static final String COLUMN = ":";
     private static final String SEPARATOR = ";1;";
-    private static final String DASH = "-";
+    private static final String DASH = "$-$";
     private static final String UNIT_NUMBER = "unitNumber";
     private static final String PARENT_UNIT_NUMBER = "parentUnitNumber";
     public static final String ACTIVE = "active";
@@ -124,12 +119,7 @@ public class UnitServiceImpl implements UnitService {
 
     protected List<Unit> findUnitsWithDirectParent(List<Unit> units, final String directParent) {
         if (CollectionUtils.isNotEmpty(units)) {
-            final List<Unit> matched = ListUtils.select(units, new Predicate<Unit>() {
-                @Override
-                public boolean evaluate(Unit input) {
-                    return input.getParentUnitNumber() != null && input.getParentUnitNumber().equals(directParent);
-                }
-            });
+            final List<Unit> matched = ListUtils.select(units, input -> input.getParentUnitNumber() != null && input.getParentUnitNumber().equals(directParent));
 
             final List<Unit> totalMatched = new ArrayList<>(matched);
             for (Unit child : matched) {
@@ -147,12 +137,7 @@ public class UnitServiceImpl implements UnitService {
 
     protected List<Unit> getParentUnitsInclusive(List<Unit> units, final String unit) {
         if (CollectionUtils.isNotEmpty(units)) {
-            final Unit matched = CollectionUtils.find(units, new Predicate<Unit>() {
-                @Override
-                public boolean evaluate(Unit input) {
-                    return input.getUnitNumber() != null && input.getUnitNumber().equals(unit);
-                }
-            });
+            final Unit matched = CollectionUtils.find(units, input -> input.getUnitNumber() != null && input.getUnitNumber().equals(unit));
 
             if (matched != null) {
                 final List<Unit> totalMatched = new ArrayList<>();
@@ -189,104 +174,96 @@ public class UnitServiceImpl implements UnitService {
 
     /**
      * Basic data structure : Get the Top node to display.
-     * The node data is like following : 'parentidx-unitNumber : unitName' and separated by ';1;'
+     * The node data is like following : 'parentidx$-$unitNumber : unitName' and separated by ';1;'
      */
+    @Override
     public String getInitialUnitsForUnitHierarchy() {
-        Unit instituteUnit = getTopUnit();
-        int parentIdx = 0;
-        String subUnits = instituteUnit.getUnitNumber() + KRADConstants.BLANK_SPACE + COLUMN + KRADConstants.BLANK_SPACE + instituteUnit.getUnitName() + SEPARATOR;
-        for (Unit unit : getSubUnits(instituteUnit.getUnitNumber())) {
-            String subUnit = parentIdx + DASH + unit.getUnitNumber() + KRADConstants.BLANK_SPACE + COLUMN + KRADConstants.BLANK_SPACE + unit.getUnitName();
-            subUnits = subUnits + subUnit + SEPARATOR;
-            for (Unit unit1 : getSubUnits(unit.getUnitNumber())) {
-                subUnits = subUnits + getParentIndex(subUnits, subUnit) + DASH + unit1.getUnitNumber() + KRADConstants.BLANK_SPACE + COLUMN + KRADConstants.BLANK_SPACE + unit1.getUnitName() + SEPARATOR;
-            }
-        }
-        subUnits = subUnits.substring(0, subUnits.length() - 3);
-
-        return subUnits;
-
+        return getInitialUnitsForUnitHierarchy(3);
     }
 
+    @Override
     public String getInitialUnitsForUnitHierarchy(int depth) {
-        Unit instituteUnit = getTopUnit();
-        int parentIdx = 0;
-        String subUnits = instituteUnit.getUnitNumber() + KRADConstants.BLANK_SPACE + COLUMN + KRADConstants.BLANK_SPACE + instituteUnit.getUnitName() + SEPARATOR;
-        for (Unit unit : getSubUnits(instituteUnit.getUnitNumber())) {
-            String subUnit = parentIdx + DASH + unit.getUnitNumber() + KRADConstants.BLANK_SPACE + COLUMN + KRADConstants.BLANK_SPACE + unit.getUnitName();
-            subUnits = subUnits + subUnit + SEPARATOR;
-            if (depth - 2 > 0) {
-                subUnits = subUnits + getSubUnits(getParentIndex(subUnits, subUnit), unit, depth - 2);
-            }
-        }
-        subUnits = subUnits.substring(0, subUnits.length() - 3);
+        final List<Unit> sortedTruncatedUnits = sortUnits(truncate(getUnits(), depth));
 
-        return subUnits;
-
+        return sortedTruncatedUnits.stream()
+               .map(unit -> (StringUtils.isNotBlank(unit.getParentUnitNumber()) ? unit.getParentUnitNumber() + DASH : "") + unit.getUnitNumber() + KRADConstants.BLANK_SPACE + COLUMN + KRADConstants.BLANK_SPACE + unit.getUnitName())
+               .collect(Collectors.joining(SEPARATOR));
     }
 
-    protected String getSubUnits(int parentIdx, Unit unit, int level) {
-        String subUnits = "";
-        level--;
-        for (Unit unit1 : getSubUnits(unit.getUnitNumber())) {
-            String subUnit = parentIdx + DASH + unit1.getUnitNumber() + KRADConstants.BLANK_SPACE + COLUMN + KRADConstants.BLANK_SPACE + unit1.getUnitName();
-            subUnits = subUnits + subUnit + SEPARATOR;
-            ;
-            if (level > 0) {
-                subUnits = subUnits + getSubUnits(getParentIndex(subUnits, subUnit), unit1, level);
-            }
+    protected List<Unit> sortUnits(List<Unit> units) {
+        final List<Unit> unsortedUnits = new ArrayList<>(units);
+        final List<Unit> sortedUnits = new ArrayList<>();
+        final Queue<Unit> processQueue = new LinkedList<>();
+        processQueue.addAll(unsortedUnits.stream()
+                .filter(unit -> StringUtils.isBlank(unit.getParentUnitNumber()))
+                .collect(Collectors.toList()));
+
+        while(!processQueue.isEmpty()) {
+            final Unit toProcess = processQueue.remove();
+            unsortedUnits.remove(toProcess);
+            sortedUnits.add(toProcess);
+            processQueue.addAll(unsortedUnits.stream()
+                    .filter(unit -> unit.getParentUnitNumber().equals(toProcess.getUnitNumber()))
+                    .collect(Collectors.toList()));
         }
-        return subUnits;
+        return sortedUnits;
     }
 
-    protected int getParentIndex(String subUnits, String subUnit) {
-        String[] units = subUnits.split(SEPARATOR);
-        int i = 0;
-        for (String unit : units) {
-            if (StringUtils.equals(unit, subUnit)) {
-                return i;
-            }
-            i++;
+    protected List<Unit> truncate(List<Unit> units, int depth) {
+        final List<Unit> unprocessed = new ArrayList<>(units);
+        final List<Unit> processed = new ArrayList<>();
+
+        List<Unit> parents = unprocessed.stream()
+                .filter(unit -> StringUtils.isBlank(unit.getParentUnitNumber()))
+                .collect(Collectors.toList());
+        processTruncate(unprocessed, processed, parents);
+
+        int currentDepth = 1;
+        while (currentDepth < depth && !unprocessed.isEmpty()) {
+            final List<Unit> currentParents = parents;
+            parents = unprocessed.stream()
+                    .filter(unit -> currentParents.stream()
+                            .map(Unit::getUnitNumber)
+                            .collect(Collectors.toList()).contains(unit.getParentUnitNumber()))
+                    .collect(Collectors.toList());
+
+            processTruncate(unprocessed, processed, parents);
+            currentDepth++;
         }
-        return 0;
+
+        return processed;
     }
 
+    /**
+     * This method keeps track of units that have been processed and the units yet to be processed by
+     * adding to the processed list and removing from the unprocessed list.
+     */
+    protected void processTruncate(List<Unit> unprocessedList, List<Unit> processedList, List<Unit> currentlyProcessing) {
+        processedList.addAll(currentlyProcessing);
+        unprocessedList.removeAll(currentlyProcessing);
+    }
+
+    @Override
     public List<UnitAdministrator> retrieveUnitAdministratorsByUnitNumber(String unitNumber) {
-        Map<String, String> queryMap = new HashMap<>();
-        queryMap.put(UNIT_NUMBER, unitNumber);
-        List<UnitAdministrator> unitAdministrators =
-                (List<UnitAdministrator>) getBusinessObjectService().findMatching(UnitAdministrator.class, queryMap);
-        return unitAdministrators;
+        return (List<UnitAdministrator>) getBusinessObjectService()
+                .findMatching(UnitAdministrator.class, Collections.singletonMap(UNIT_NUMBER, unitNumber));
     }
 
     @Override
     public int getMaxUnitTreeDepth() {
-        /**
-         * This function returns a higher number than the actual depth of the hirearchy tree.  This does not cause any problem as of yet.
-         * A closer to accurate query would be:
-         *      select count(distinct parent_unit_number) as counter from unit where PARENT_UNIT_NUMBER is not null
-         * although this to will result in a higher number than the true depth.
-         */
-        //FIXME fix crap
         return getBusinessObjectService().findAll(Unit.class).size();
     }
 
     @Override
     public List<UnitCorrespondent> retrieveUnitCorrespondentsByUnitNumber(String unitNumber) {
-        Map<String, String> queryMap = new HashMap<>();
-        queryMap.put(UNIT_NUMBER, unitNumber);
-        List<UnitCorrespondent> unitCorrespondents =
-                (List<UnitCorrespondent>) getBusinessObjectService().findMatching(UnitCorrespondent.class, queryMap);
-        return unitCorrespondents;
+        return (List<UnitCorrespondent>) getBusinessObjectService()
+                .findMatching(UnitCorrespondent.class, Collections.singletonMap(UNIT_NUMBER, unitNumber));
     }
 
     @Override
     public List<IacucUnitCorrespondent> retrieveIacucUnitCorrespondentsByUnitNumber(String unitNumber) {
-        Map<String, String> queryMap = new HashMap<>();
-        queryMap.put(UNIT_NUMBER, unitNumber);
-        List<IacucUnitCorrespondent> unitCorrespondents =
-                (List<IacucUnitCorrespondent>) getBusinessObjectService().findMatching(IacucUnitCorrespondent.class, queryMap);
-        return unitCorrespondents;
+        return (List<IacucUnitCorrespondent>) getBusinessObjectService()
+                .findMatching(IacucUnitCorrespondent.class, Collections.singletonMap(UNIT_NUMBER, unitNumber));
     }
 
     public UnitLookupDao getUnitLookupDao() {
