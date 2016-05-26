@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-1363: fix duplicating change amount on creation of time and money document
+  * Joe Williams on Mon, 23 May 2016 14:24:35 -0500 [View Commit](../../commit/e1a468e960703bf3ed7b989baf2de1c11c81ffa0)
+* RESKC-1351 - Make Final the default sequence status for Award Searches (#1763)  * tdurkin on Wed, 25 May 2016 16:43:40 -0400 [View Commit](../../commit/b9019f5479b396ac80329e9e91da80a64e9946e1)
+
+##coeus-1605.39
 * fix integration tests
   * Gayathri Athreya on Tue, 24 May 2016 17:51:33 -0700 [View Commit](../../commit/35c2631efe187008d5f37ec04bed39babc929e68)
 * RESKC-1367: Protocol document endpoint tests.
