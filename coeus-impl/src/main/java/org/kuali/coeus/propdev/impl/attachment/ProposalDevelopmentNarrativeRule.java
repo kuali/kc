@@ -31,7 +31,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -42,22 +41,18 @@ import java.util.List;
 import static org.kuali.kra.infrastructure.KeyConstants.*;
 
 
-/**
- * Implementation of business rules required for the Proposal attachment page of the 
- * <code>{@link org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument}</code>.
- *
- * @author kualidev@oncourse.iu.edu
- * @version 1.0
- */
 public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRuleBase implements AddNarrativeRule, ReplaceNarrativeRule, SaveNarrativesRule, NewNarrativeUserRightsRule { 
     private static final String PROPOSAL = "Proposal";
     private static final String MODULE_STATUS_CODE_COMPLETED = "C";
     private static final String ERROR_PREFIX_FOR_ATTACHMENTS = "multipartFile";
 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentNarrativeRule.class);
-    
+    private static final String NARRATIVE_TYPE = "narrativeType";
+    private static final String MODULE_STATUS_CODE = "moduleStatusCode";
+    private static final String NARRATIVE_TYPE_CODE = "narrativeTypeCode";
+    private static final String MODULE_TITLE = "moduleTitle";
+
     private transient KcPersonService kcPersonService;
-    private transient PersonService personService;
     private transient ParameterService parameterService;
     private transient KcAttachmentService  kcAttachmentService;
     private transient KcAuthorizationService kcAuthorizationService;
@@ -67,12 +62,12 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
      * It checks whether the narratives are duplicated for those of which have allowMultiple flag set as false.
      * @see org.kuali.coeus.propdev.impl.attachment.AddNarrativeRule#processAddNarrativeBusinessRules(org.kuali.coeus.propdev.impl.attachment.AddNarrativeEvent)
      */
+    @Override
     public boolean processAddNarrativeBusinessRules(AddNarrativeEvent narrativeEvent) {
         ProposalDevelopmentDocument document = (ProposalDevelopmentDocument)narrativeEvent.getDocument();
         Narrative narrative = narrativeEvent.getNarrative();
         boolean rulePassed = true;
-        getDataObjectService().wrap(narrative).fetchRelationship("narrativeType");
-        MessageMap map = GlobalVariables.getMessageMap();
+        getDataObjectService().wrap(narrative).fetchRelationship(NARRATIVE_TYPE);
 
         if(narrative.getNarrativeType()==null)
             rulePassed = false;
@@ -81,7 +76,7 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
                 && narrative.getModuleStatusCode().equalsIgnoreCase(MODULE_STATUS_CODE_COMPLETED)
                 && StringUtils.isBlank(narrative.getName())) {
             LOG.debug(ERROR_NARRATIVE_STATUS_INVALID);
-            reportError("moduleStatusCode", ERROR_NARRATIVE_STATUS_INVALID);
+            reportError(MODULE_STATUS_CODE, ERROR_NARRATIVE_STATUS_INVALID);
             rulePassed = false;
         }
         rulePassed &= getDictionaryValidationService().isBusinessObjectValid(narrative);
@@ -102,11 +97,11 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
                                getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.INVALID_FILE_NAME_CHECK_PARAMETER);
 
             if (Constants.INVALID_FILE_NAME_ERROR_CODE.equals(parameter)) {
-                rulePassed &= false;
+                rulePassed = false;
                 reportError(ERROR_PREFIX_FOR_ATTACHMENTS, KeyConstants.INVALID_FILE_NAME,
                         attachmentFileName, invalidCharacters);
             } else {
-                rulePassed &= true;
+                rulePassed = true;
                 reportWarning(ERROR_PREFIX_FOR_ATTACHMENTS, KeyConstants.INVALID_FILE_NAME,
                         attachmentFileName, invalidCharacters);
             }
@@ -119,21 +114,22 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
      * It checks whether the narratives are duplicated for those of which have allowMultiple flag set as false.
      * @see org.kuali.coeus.propdev.impl.attachment.SaveNarrativesRule#processSaveNarrativesBusinessRules(org.kuali.coeus.propdev.impl.attachment.SaveNarrativesEvent)
      */
+    @Override
     public boolean processSaveNarrativesBusinessRules(SaveNarrativesEvent saveNarrativesEvent) {
-        boolean rulePassed = true;
         Narrative narrative = saveNarrativesEvent.getNarrative();
-        getDataObjectService().wrap(narrative).fetchRelationship("narrativeType");
+        getDataObjectService().wrap(narrative).fetchRelationship(NARRATIVE_TYPE);
         List<Narrative> narrativeList = saveNarrativesEvent.getNarratives();
         GlobalVariables.getMessageMap().getErrorPath().clear();
         GlobalVariables.getMessageMap().getErrorPath().add(saveNarrativesEvent.getErrorPathPrefix());
-        rulePassed &= checkNarrative(narrativeList,saveNarrativesEvent.getNarrative());
+        boolean rulePassed = checkNarrative(narrativeList,saveNarrativesEvent.getNarrative());
+        rulePassed &= validFileNameCharacters(narrative);
         rulePassed &= checkUserRights(saveNarrativesEvent);
 
         if(!StringUtils.isBlank(narrative.getModuleStatusCode()) 
                 && narrative.getModuleStatusCode().equalsIgnoreCase(MODULE_STATUS_CODE_COMPLETED)
                 && StringUtils.isBlank(narrative.getName())) {
             LOG.debug(ERROR_NARRATIVE_STATUS_INVALID);
-            reportError("moduleStatusCode", ERROR_NARRATIVE_STATUS_INVALID);
+            reportError(MODULE_STATUS_CODE, ERROR_NARRATIVE_STATUS_INVALID);
             rulePassed = false;
         }
         
@@ -145,10 +141,11 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
      * to replace a narrative post-route.
      * @see org.kuali.coeus.propdev.impl.attachment.ReplaceNarrativeRule#processReplaceNarrativeBusinessRules(org.kuali.coeus.propdev.impl.attachment.ReplaceNarrativeEvent)
      */
+    @Override
     public boolean processReplaceNarrativeBusinessRules(ReplaceNarrativeEvent replaceNarrativeEvent) {
         Narrative narrative = replaceNarrativeEvent.getNarrative();
         boolean rulePassed = true;
-        getDataObjectService().wrap(narrative).fetchRelationship("narrativeType");
+        getDataObjectService().wrap(narrative).fetchRelationship(NARRATIVE_TYPE);
         MessageMap map = GlobalVariables.getMessageMap();
 
         if(narrative.getNarrativeType()==null)
@@ -166,8 +163,6 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
     /**
      * Check to see if the user modified a narrative and verify that the
      * user has the necessary permission to make that modification.
-     * @param saveNarrativesEvent
-     * @return
      */
     private boolean checkUserRights(SaveNarrativesEvent saveNarrativesEvent) {
         boolean isValid = true;
@@ -183,7 +178,7 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
                 Narrative narrative = findNarrative(narratives, origNarrative);
                 if (!origNarrative.equals(narrative)) {
                     isValid = false;
-                    reportError("narrativeTypeCode", ERROR_ATTACHMENT_NOT_AUTHORIZED, origNarrative.getNarrativeType().getDescription());
+                    reportError(NARRATIVE_TYPE_CODE, ERROR_ATTACHMENT_NOT_AUTHORIZED, origNarrative.getNarrativeType().getDescription());
                 }
             }
         }
@@ -194,7 +189,6 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
      * Get the narrative rights for a user.
      * @param userId the user's unique username
      * @param narrative the narrative to search through for the user's rights
-     * @return
      */
     private NarrativeUserRights getUserRights(String userId, Narrative narrative) {
 
@@ -227,20 +221,19 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
     
     /**
      * It checks for duplicate narrative types and mandatory description for narrative type 'Other'
-     * @param narrativeList
-     * @param narrative
      * @return true if rules passed, else false
      */
     private boolean checkNarrative(List<Narrative> narrativeList, Narrative narrative) {
         boolean rulePassed = true;
         if(StringUtils.isBlank(narrative.getNarrativeTypeCode())){
             rulePassed = false;
-            reportError("narrativeTypeCode", ERROR_ATTACHMENT_TYPE_NOT_SELECTED);
+            reportError(NARRATIVE_TYPE_CODE, ERROR_ATTACHMENT_TYPE_NOT_SELECTED);
         }
         if(StringUtils.isBlank(narrative.getModuleStatusCode())){
             rulePassed = false;
-            reportError("moduleStatusCode", ERROR_ATTACHMENT_STATUS_NOT_SELECTED);
+            reportError(MODULE_STATUS_CODE, ERROR_ATTACHMENT_STATUS_NOT_SELECTED);
         }
+
         if (rulePassed) {
             String[] param = {PROPOSAL, narrative.getNarrativeType().getDescription()};
             if (!narrative.getNarrativeType().isAllowMultiple()) {
@@ -250,14 +243,14 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
                         matches ++;
                         if (matches > 1) {
                             LOG.debug(ERROR_NARRATIVE_TYPE_DUPLICATE);
-                            reportError("narrativeTypeCode", ERROR_NARRATIVE_TYPE_DUPLICATE, param);
+                            reportError(NARRATIVE_TYPE_CODE, ERROR_NARRATIVE_TYPE_DUPLICATE, param);
                             rulePassed = false;
                             break;
                         }
                     }
                 }
             }else if (StringUtils.isBlank(narrative.getModuleTitle())) {
-                reportError("moduleTitle", ERROR_NARRATIVE_TYPE_DESCRITPION_REQUIRED, param);
+                reportError(MODULE_TITLE, ERROR_NARRATIVE_TYPE_DESCRITPION_REQUIRED, param);
                 rulePassed = false;
             }
         }
@@ -335,12 +328,7 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
         }
         return true;
     }
-    
-    
-    /**
-     * This method gets the attachment service
-     * @return
-     */
+
     protected KcAttachmentService getKcFileService() {
         if(this.kcAttachmentService == null) {
             this.kcAttachmentService = KcServiceLocator.getService(KcAttachmentService.class);
@@ -354,25 +342,13 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
         }
         return this.parameterService;
     }
-    
-    /**
-     * Gets the KC Person Service.
-     * @return KC Person Service.
-     */
+
     protected KcPersonService getKcPersonService() {
         if (this.kcPersonService == null) {
             this.kcPersonService = KcServiceLocator.getService(KcPersonService.class);
         }
         
         return this.kcPersonService;
-    }
-    
-    protected PersonService getPersonService() {
-        if (this.personService == null) {
-            this.personService = KcServiceLocator.getService(PersonService.class);
-        }
-        
-        return this.personService;
     }
 
     protected  KcAuthorizationService getKcAuthorizationService (){
