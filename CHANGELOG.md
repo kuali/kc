@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* RESKC-1157: code cleanup
+  * Travis Schneeberger on Fri, 27 May 2016 12:25:30 -0400 [View Commit](../../commit/e12a9a5b286743880ba44f52275fc2baa1e0b259)
+* KC-1319 STE if an attachment is added with a # symbol in the filename
+  * Ronald Gouldner on Thu, 4 Feb 2016 15:45:45 -1000 [View Commit](../../commit/8a44604dfa5f2e824518dcd4cc23651d6643df44)
+
+##coeus-1605.43
 * RESKC-1246: sorting and truncating the unit list in a way that displays correctly in the unit hierarchy UI.  Correcting client javascript errors.  Minor code cleanup.
   * Travis Schneeberger on Wed, 25 May 2016 10:00:39 -0400 [View Commit](../../commit/325367cc46bb9110d4e4a9c7abec65786557eda7)
 
