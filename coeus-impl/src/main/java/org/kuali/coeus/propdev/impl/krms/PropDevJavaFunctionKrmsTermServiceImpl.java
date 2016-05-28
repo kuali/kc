@@ -163,7 +163,7 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
      * 
      * This method checks if the proposal is associated with one of monitored sponsored hierarchies. 
      * see FN_COI_MONITORED_SPONSOR_RULE.
-     * @param monitoredSponsorHirearchies a comma delimited list of sponsored hirearchies.
+     * @param monitoredSponsorHirearchies a comma delimited list of sponsored hierarchies.
      * @return 'true' if true
      */
     @Override
@@ -172,12 +172,13 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
         ArrayList<SponsorHierarchy> hierarchies = new ArrayList<>();
         for (String hierarchyName : sponsoredHierarchyArray) {
             Map<String, String> fieldValues = new HashMap<>();
-            fieldValues.put("HIERARCH_NAME", hierarchyName);
+            fieldValues.put(Constants.HIERARCHY_NAME, hierarchyName);
             hierarchies.addAll(this.getBusinessObjectService().findMatching(SponsorHierarchy.class, fieldValues));
         }
         for (SponsorHierarchy sh : hierarchies) {
             if (StringUtils.equalsIgnoreCase(sh.getSponsorCode(), developmentProposal.getSponsor().getSponsorCode())
-                    || StringUtils.equalsIgnoreCase(sh.getSponsorCode(), developmentProposal.getPrimeSponsor().getSponsorCode())) {
+                    || (developmentProposal.getPrimeSponsor() != null && 
+						StringUtils.equalsIgnoreCase(sh.getSponsorCode(), developmentProposal.getPrimeSponsor().getSponsorCode()))) {
                 return TRUE;
             }
         }
