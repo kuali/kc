@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* RESKC-1347: After submitting IP documents, the last update is incorrectly displaying user kr instead of the correct person user in display mode.
+  * Travis Schneeberger on Tue, 31 May 2016 11:16:00 -0400 [View Commit](../../commit/5693c1f2f10d321de5fb79d52314243c32f03a64)
+* RESKC-1318: Approve protocol when exemption granted.
+  * Gayathri Athreya on Fri, 27 May 2016 16:08:36 -0700 [View Commit](../../commit/df453e94fbc41b4aa8ef347787c29be3d2b6842f)
+
+##coeus-1605.44
 * RESKC-1157: code cleanup
   * Travis Schneeberger on Fri, 27 May 2016 12:25:30 -0400 [View Commit](../../commit/e12a9a5b286743880ba44f52275fc2baa1e0b259)
 * KC-1319 STE if an attachment is added with a # symbol in the filename
