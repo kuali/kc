@@ -51,50 +51,29 @@ import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krms.api.engine.Facts.Builder;
 
-/**
- * 
- * This class represents the InstitutionalProposalDocument Object.
- * InstitutionalProposalDocument has a 1:1 relationship with InstitutionalProposal Business Object.
- * We have declared a list of InstitutionalProposal BOs in the InstitutionalProposalDocument at the same time to
- * get around the OJB anonymous keys issue of primary keys of different data types.
- * Also we have provided convenient getter and setter methods so that to the outside world;
- * InstitutionalProposal and InstitutionalProposalDocument can have a 1:1 relationship.
- */
 @NAMESPACE(namespace=InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_NAMESPACE)
 @COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
 public class InstitutionalProposalDocument extends KcTransactionalDocumentBase implements KrmsRulesContext, Permissionable {
-    private static final Log LOG = LogFactory.getLog(InstitutionalProposalDocument.class);
 
     public static final String DOCUMENT_TYPE_CODE = "INPR";
-    
-
     private static final long serialVersionUID = 5101782927161970631L;
-    
-    
+    private static final String NAMESPACE_CODE = "namespaceCode";
+    private static final String NAME = "name";
+    private static final Log LOG = LogFactory.getLog(InstitutionalProposalDocument.class);
+
+
     private List<InstitutionalProposal> institutionalProposalList;
-    
+    private transient KcKrmsFactBuilderServiceHelper institutionalProposalFactBuilderService;
 
     public InstitutionalProposalDocument(){        
         super();        
         init();
     }
-    
-    /**
-     * 
-     * This method is a convenience method for facilitating a 1:1 relationship between InstitutionalProposalDocument 
-     * and InstitutionalProposal to the outside world - aka a single InstitutionalProposal field associated with InstitutionalProposalDocument
-     * @return
-     */
+
     public InstitutionalProposal getInstitutionalProposal() {
         return institutionalProposalList.get(0);
     }
 
-    /**
-     * 
-     * This method is a convenience method for facilitating a 1:1 relationship between InstitutionalProposalDocument 
-     * and InstitutionalProposal to the outside world - aka a single InstitutionalProposal field associated with InstitutionalProposalDocument
-     * @param institutionalProposal
-     */
     public void setInstitutionalProposal(InstitutionalProposal institutionalProposal) {
         institutionalProposalList.set(0, institutionalProposal);
     }
@@ -104,10 +83,6 @@ public class InstitutionalProposalDocument extends KcTransactionalDocumentBase i
         return institutionalProposalList;
     }
 
-    /**
-     *
-     * @param institutionalProposalList
-     */
     public void setInstitutionalProposalList(List<InstitutionalProposal> institutionalProposalList) {
         this.institutionalProposalList = institutionalProposalList;
     }
@@ -118,7 +93,7 @@ public class InstitutionalProposalDocument extends KcTransactionalDocumentBase i
     }
     
     protected void init() {
-        institutionalProposalList = new ArrayList<InstitutionalProposal>();
+        institutionalProposalList = new ArrayList<>();
         institutionalProposalList.add(new InstitutionalProposal());
     }
     
@@ -136,7 +111,7 @@ public class InstitutionalProposalDocument extends KcTransactionalDocumentBase i
         managedLists.add(institutionalProposal.getAwardFundingProposals());
         managedLists.add(institutionalProposal.getInstitutionalProposalNotepads());
         
-        List<InstitutionalProposalSpecialReviewExemption> specialReviewExemptions = new ArrayList<InstitutionalProposalSpecialReviewExemption>();
+        List<InstitutionalProposalSpecialReviewExemption> specialReviewExemptions = new ArrayList<>();
         for (InstitutionalProposalSpecialReview specialReview : getInstitutionalProposal().getSpecialReviews()) {
             specialReviewExemptions.addAll(specialReview.getSpecialReviewExemptions());        
         }
@@ -144,8 +119,8 @@ public class InstitutionalProposalDocument extends KcTransactionalDocumentBase i
         managedLists.add(institutionalProposal.getSpecialReviews());
         
         // For project personnel 
-        List<InstitutionalProposalPersonUnit> units = new ArrayList<InstitutionalProposalPersonUnit>();
-        List<InstitutionalProposalPersonCreditSplit> creditSplits = new ArrayList<InstitutionalProposalPersonCreditSplit>();
+        List<InstitutionalProposalPersonUnit> units = new ArrayList<>();
+        List<InstitutionalProposalPersonCreditSplit> creditSplits = new ArrayList<>();
         for (InstitutionalProposalPerson person : institutionalProposal.getProjectPersons()) {
             units.addAll(person.getUnits());
             creditSplits.addAll(person.getCreditSplits());
@@ -159,20 +134,21 @@ public class InstitutionalProposalDocument extends KcTransactionalDocumentBase i
     
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
-        super.doRouteStatusChange(statusChangeEvent);
-        
-        String newStatus = statusChangeEvent.getNewRouteStatus();
-        
-        if (LOG.isDebugEnabled()) {
+        executeAsLastActionUser(() -> {
+            super.doRouteStatusChange(statusChangeEvent);
+
+            final String newStatus = statusChangeEvent.getNewRouteStatus();
+
             LOG.debug(String.format("********************* Status Change: from %s to %s", statusChangeEvent.getOldRouteStatus(), newStatus));
-        }
-        
-        if (KewApiConstants.ROUTE_HEADER_PROCESSED_CD.equalsIgnoreCase(newStatus)) {
-            getInstitutionalProposalVersioningService().updateInstitutionalProposalVersionStatus(this.getInstitutionalProposal(), VersionStatus.ACTIVE);
-        }
-        if (newStatus.equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_CANCEL_CD) || newStatus.equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_DISAPPROVED_CD)) {
-            getInstitutionalProposalVersioningService().updateInstitutionalProposalVersionStatus(this.getInstitutionalProposal(), VersionStatus.CANCELED);
-        }
+
+            if (KewApiConstants.ROUTE_HEADER_PROCESSED_CD.equalsIgnoreCase(newStatus)) {
+                getInstitutionalProposalVersioningService().updateInstitutionalProposalVersionStatus(this.getInstitutionalProposal(), VersionStatus.ACTIVE);
+            } else if (newStatus.equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_CANCEL_CD) || newStatus.equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_DISAPPROVED_CD)) {
+                getInstitutionalProposalVersioningService().updateInstitutionalProposalVersionStatus(this.getInstitutionalProposal(), VersionStatus.CANCELED);
+            }
+
+            return null;
+        });
     }
     
     private InstitutionalProposalVersioningService getInstitutionalProposalVersioningService() {
@@ -183,10 +159,11 @@ public class InstitutionalProposalDocument extends KcTransactionalDocumentBase i
     public void prepareForSave() {
         super.prepareForSave();
         if (ObjectUtils.isNull(this.getVersionNumber())) {
-            this.setVersionNumber(new Long(0));
+            this.setVersionNumber(0L);
         }
     }
-    
+
+    @Override
     public String getDocumentBoNumber() {
         return getInstitutionalProposal().getInstProposalNumber();
     }
@@ -196,8 +173,8 @@ public class InstitutionalProposalDocument extends KcTransactionalDocumentBase i
      * Close to hack.  called by holdingpageaction
      * Different document type may have different routing set up, so each document type
      * can implement its own isProcessComplete
-     * @return
      */
+    @Override
     public boolean isProcessComplete() {
         boolean isComplete = false;
         
@@ -218,14 +195,13 @@ public class InstitutionalProposalDocument extends KcTransactionalDocumentBase i
     
     @Override
     public void populateContextQualifiers(Map<String, String> qualifiers) {
-        qualifiers.put("namespaceCode", Constants.MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL);
-        qualifiers.put("name", KcKrmsConstants.InstitutionalProposal.INSTITUTIONAL_PROPOSAL_CONTEXT);
+        qualifiers.put(NAMESPACE_CODE, Constants.MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL);
+        qualifiers.put(NAME, KcKrmsConstants.InstitutionalProposal.INSTITUTIONAL_PROPOSAL_CONTEXT);
     }
 
     @Override
     public void addFacts(Builder factsBuilder) {
-        KcKrmsFactBuilderServiceHelper fbService = KcServiceLocator.getService("institutionalProposalFactBuilderService");
-        fbService.addFacts(factsBuilder, this);
+        getInstitutionalProposalFactBuilderService().addFacts(factsBuilder, this);
     }
 
     @Override
@@ -245,8 +221,7 @@ public class InstitutionalProposalDocument extends KcTransactionalDocumentBase i
 
     @Override
     public List<String> getRoleNames() {
-        List<String> roleNames = new ArrayList<String>();
-        return roleNames;
+        return new ArrayList<>();
     }
 
     @Override
@@ -254,6 +229,7 @@ public class InstitutionalProposalDocument extends KcTransactionalDocumentBase i
         return Constants.MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL;
     }
 
+    @Override
     public String getLeadUnitNumber() {
         return getInstitutionalProposal().getLeadUnitNumber();
     }
@@ -261,5 +237,17 @@ public class InstitutionalProposalDocument extends KcTransactionalDocumentBase i
     @Override
     public String getDocumentRoleTypeCode() {
         return RoleConstants.INSTITUTIONAL_PROPOSAL_TYPE;
+    }
+
+    public KcKrmsFactBuilderServiceHelper getInstitutionalProposalFactBuilderService() {
+        if (institutionalProposalFactBuilderService == null) {
+            institutionalProposalFactBuilderService = KcServiceLocator.getService("institutionalProposalFactBuilderService");
+        }
+
+        return institutionalProposalFactBuilderService;
+    }
+
+    public void setInstitutionalProposalFactBuilderService(KcKrmsFactBuilderServiceHelper institutionalProposalFactBuilderService) {
+        this.institutionalProposalFactBuilderService = institutionalProposalFactBuilderService;
     }
 }
