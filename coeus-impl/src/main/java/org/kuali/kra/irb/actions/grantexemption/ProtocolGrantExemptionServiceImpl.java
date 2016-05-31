@@ -78,6 +78,6 @@ public class ProtocolGrantExemptionServiceImpl implements ProtocolGrantExemption
         
         protocol.setApprovalDate(actionBean.getApprovalDate());
         protocol.refreshReferenceObject("protocolStatus");
-        documentService.saveDocument(protocol.getProtocolDocument());
+        protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().approve(actionBean.getComments());
     }
 }
