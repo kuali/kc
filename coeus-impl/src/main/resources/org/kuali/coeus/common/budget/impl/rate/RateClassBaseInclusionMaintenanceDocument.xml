@@ -49,10 +49,9 @@
         <property name="title" value="Edit Rate Class Base Inclusion" />
         <property name="maintainableItems" >
             <list>
-                <!-- <bean parent="MaintainableFieldDefinition" p:name="rateClassBaseInclusionId" p:required="true" /> -->
                 <bean parent="MaintainableFieldDefinition" p:name="rateClassCode" p:required="true" />
                 <bean parent="MaintainableFieldDefinition" p:name="rateTypeCode" />
-                <bean parent="MaintainableFieldDefinition" p:name="rateClassCodeIncl" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="rateClassCodeIncl" p:required="true" p:noLookup="true"/>
                 <bean parent="MaintainableFieldDefinition" p:name="rateTypeCodeIncl" />
                 <bean parent="MaintainableFieldDefinition" p:name="versionNumber" />
             </list>
