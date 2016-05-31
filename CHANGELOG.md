@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1374: Allow adding 0 as rate class exclusion / inclusion code.
+  * Gayathri Athreya on Tue, 31 May 2016 12:12:45 -0700 [View Commit](../../commit/3a29c15fbbea46c88ea0a93f0f0d1b0d8f722146)
+
+##coeus-1605.45
 * RESKC-1347: After submitting IP documents, the last update is incorrectly displaying user kr instead of the correct person user in display mode.
   * Travis Schneeberger on Tue, 31 May 2016 11:16:00 -0400 [View Commit](../../commit/5693c1f2f10d321de5fb79d52314243c32f03a64)
 * RESKC-1318: Approve protocol when exemption granted.
