@@ -49,10 +49,9 @@
         <property name="title" value="Edit Rate Class Base Exclusion" />
         <property name="maintainableItems" >
             <list>
-                <!-- <bean parent="MaintainableFieldDefinition" p:name="rateClassBaseExclusionId" p:required="true" /> -->
                 <bean parent="MaintainableFieldDefinition" p:name="rateClassCode" p:required="true" />
                 <bean parent="MaintainableFieldDefinition" p:name="rateTypeCode" />
-                <bean parent="MaintainableFieldDefinition" p:name="rateClassCodeExcl" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="rateClassCodeExcl" p:required="true" p:noLookup="true"/>
                 <bean parent="MaintainableFieldDefinition" p:name="rateTypeCodeExcl" />
                 <bean parent="MaintainableFieldDefinition" p:name="versionNumber" />
             </list>

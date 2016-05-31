@@ -141,17 +141,11 @@
     <property name="validCharactersConstraint">
       <bean parent="NumericPatternConstraint"/>
     </property>
-        <property name="control" >
-      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.coeus.common.budget.framework.rate.RateClass" p:valuesFinderClass="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="code" p:labelAttribute="description"/>
+    <property name="control" >
+        <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.budget.impl.rate.RateClassBaseInclusionValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="code" p:labelAttribute="description"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder">
-        <property name="businessObjectClass" value="org.kuali.coeus.common.budget.framework.rate.RateClass"/>
-        <property name="includeKeyInDescription" value="false"/>
-        <property name="includeBlankRow" value="false"/>
-        <property name="keyAttributeName" value="code"/>
-        <property name="labelAttributeName" value="description"/>
-      </bean>
+        <bean class="org.kuali.coeus.common.budget.impl.rate.RateClassBaseInclusionValuesFinder"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>
@@ -248,7 +242,7 @@
         <bean parent="FieldDefinition" p:attributeName="rateClassBaseInclusionId"/>
         <bean parent="FieldDefinition" p:attributeName="rateClassCode"/>
         <bean parent="FieldDefinition" p:attributeName="rateTypeCode"/>
-        <bean parent="FieldDefinition" p:attributeName="rateClassCodeIncl"/>
+        <bean parent="FieldDefinition" p:attributeName="rateClassCodeIncl" p:noLookup="true"/>
         <bean parent="FieldDefinition" p:attributeName="rateTypeCodeIncl"/>
             </list>
         </property>
