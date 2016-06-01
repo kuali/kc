@@ -80,6 +80,6 @@ public class CustomDataResolver implements TermResolver<Object> {
         return customDataContainer.getCustomDataList().stream().
                                                             filter(
                                                                     customData -> Objects.equal(customData.getCustomAttributeId().toString(), parameters.get(CUSTOM_ATTRIBUTE_ID))
-                                                            ).findFirst().map(DocumentCustomData::getValue).orElse("");
+                                                            ).findFirst().map(DocumentCustomData::getValue).orElse(null);
     }
 }

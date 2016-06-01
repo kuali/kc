@@ -64,7 +64,7 @@ public class CustomDataResolverTest {
 
         parameters = new HashMap<>();
         parameters.put(CUSTOM_ATTRIBUTE_ID, "10");
-        Assert.assertTrue((StringUtils.equalsIgnoreCase(mock.resolve(resolvedPrereqs, parameters).toString(), "")));
+        Assert.assertTrue(mock.resolve(resolvedPrereqs, parameters) == null);
 
     }
 }
