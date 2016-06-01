@@ -82,28 +82,25 @@ public class SubAwardDocument extends KcTransactionalDocumentBase
      * The method is for doRouteStatusChange
      */
     @Override
-    public void doRouteStatusChange(
-    DocumentRouteStatusChange statusChangeEvent) {
-        super.doRouteStatusChange(statusChangeEvent);
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
+        executeAsLastActionUser(() -> {
+            super.doRouteStatusChange(statusChangeEvent);
 
-        String newStatus = statusChangeEvent.getNewRouteStatus();
+            final String newStatus = statusChangeEvent.getNewRouteStatus();
 
-        if (KewApiConstants.ROUTE_HEADER_FINAL_CD.equalsIgnoreCase(newStatus)) {
-            getVersionHistoryService().updateVersionHistory(getSubAward(), VersionStatus.ACTIVE, GlobalVariables.
-                    getUserSession().getPrincipalName());
-            getSubAwardService().updateSubAwardSequenceStatus(getSubAward(), VersionStatus.ACTIVE);
-        }
-        if (newStatus.equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_CANCEL_CD)
-        || newStatus.equalsIgnoreCase(
-        KewApiConstants.ROUTE_HEADER_DISAPPROVED_CD)) {
-            getVersionHistoryService().updateVersionHistory(getSubAward(), VersionStatus.CANCELED, GlobalVariables. 
-                    getUserSession().getPrincipalName());
-            getSubAwardService().updateSubAwardSequenceStatus(getSubAward(), VersionStatus.CANCELED);
-        }
+            if (KewApiConstants.ROUTE_HEADER_FINAL_CD.equalsIgnoreCase(newStatus)) {
+                getVersionHistoryService().updateVersionHistory(getSubAward(), VersionStatus.ACTIVE, GlobalVariables.getUserSession().getPrincipalName());
+                getSubAwardService().updateSubAwardSequenceStatus(getSubAward(), VersionStatus.ACTIVE);
+            } else if (newStatus.equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_CANCEL_CD) || newStatus.equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_DISAPPROVED_CD)) {
+                getVersionHistoryService().updateVersionHistory(getSubAward(), VersionStatus.CANCELED, GlobalVariables.getUserSession().getPrincipalName());
+                getSubAwardService().updateSubAwardSequenceStatus(getSubAward(), VersionStatus.CANCELED);
+            }
 
-        for (SubAward subAward : subAwardList) {
-            subAward.setSubAwardDocument(this);
-        }
+            for (SubAward subAward : subAwardList) {
+                subAward.setSubAwardDocument(this);
+            }
+            return null;
+        });
     }
     /**
      * This method specifies if this document may be
