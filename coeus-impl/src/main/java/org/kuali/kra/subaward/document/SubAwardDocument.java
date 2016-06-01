@@ -43,24 +43,24 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krms.api.engine.Facts.Builder;
 
 
-public class SubAwardDocument extends KcTransactionalDocumentBase
-	implements  Copyable, SessionDocument, KrmsRulesContext {
-
+public class SubAwardDocument extends KcTransactionalDocumentBase implements  Copyable, SessionDocument, KrmsRulesContext {
 
     private static final long serialVersionUID = 5454534590787613256L;
     public static final String DOCUMENT_TYPE_CODE = "SAWD";
-    private transient boolean documentSaveAfterVersioning;
+    private static final String NAMESPACE_CODE = "namespaceCode";
+    private static final String NAME = "name";
+
     private List<SubAward> subAwardList;
-    
+
     private transient VersionHistoryService versionHistoryService;
     private transient SubAwardService subAwardService;
+    private transient KcKrmsFactBuilderServiceHelper subawardFactBuilderService;
+
     @Override
     public String getDocumentTypeCode() {
         return DOCUMENT_TYPE_CODE;
     }
-    /**.
-     * Constructs a subAwardDocument object
-     */
+
     public SubAwardDocument() {
         super();
         init();
@@ -68,6 +68,7 @@ public class SubAwardDocument extends KcTransactionalDocumentBase
     public SubAward getSubAward() {
         return getSubAwardList().size() > 0 ? getSubAwardList().get(0) : new SubAward();
     }
+
     public void setSubAward(SubAward subAward){
         subAwardList.set(0, subAward);
     }
@@ -78,9 +79,6 @@ public class SubAwardDocument extends KcTransactionalDocumentBase
         return subAwardList;
     }
 
-    /**.
-     * The method is for doRouteStatusChange
-     */
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         executeAsLastActionUser(() -> {
@@ -102,31 +100,15 @@ public class SubAwardDocument extends KcTransactionalDocumentBase
             return null;
         });
     }
-    /**
-     * This method specifies if this document may be
-     * edited; i.e. it's only initiated or saved
-     * @return boolean
-     */
+
     public boolean isEditable() {
-        WorkflowDocument workflowDoc =
-        getDocumentHeader().getWorkflowDocument();
+        final WorkflowDocument workflowDoc = getDocumentHeader().getWorkflowDocument();
         return workflowDoc.isInitiated() || workflowDoc.isSaved();
     }
     
     protected void init() {
-        subAwardList = new ArrayList<SubAward>();
+        subAwardList = new ArrayList<>();
         subAwardList.add(new SubAward());
-    }
-
-    public boolean isDocumentSaveAfterVersioning() {
-        return documentSaveAfterVersioning;
-    }
-    
-    /**
-     * @param documentSaveAfterVersioning
-     */
-    public void setDocumentSaveAfterSubAwardLookupEditOrVersion(boolean documentSaveAfterVersioning) {
-        this.documentSaveAfterVersioning = documentSaveAfterVersioning;
     }
 
     /**
@@ -137,8 +119,8 @@ public class SubAwardDocument extends KcTransactionalDocumentBase
      * routing set up, so each document type
      * can implement its own
      *  isProcessComplete
-     * @return
      */
+    @Override
     public boolean isProcessComplete() {
 
         boolean isComplete = false;
@@ -157,6 +139,7 @@ public class SubAwardDocument extends KcTransactionalDocumentBase
            
         return isComplete;
     }
+
     @Override
     public List<? extends DocumentCustomData> getDocumentCustomData() {
         return getSubAward().getSubAwardCustomDataList();
@@ -174,21 +157,23 @@ public class SubAwardDocument extends KcTransactionalDocumentBase
         managedLists.add(subAward.getSubAwardReportList());
         return managedLists;
     }
-    
+
+    @Override
     public String getDocumentBoNumber() {
         return getSubAward().getSubAwardCode();
     }
+
     @Override
     public void populateContextQualifiers(Map<String, String> qualifiers) {
-        qualifiers.put("namespaceCode", Constants.MODULE_NAMESPACE_SUBAWARD);
-        qualifiers.put("name", KcKrmsConstants.SubAward.SUBAWARD_CONTEXT);
+        qualifiers.put(NAMESPACE_CODE, Constants.MODULE_NAMESPACE_SUBAWARD);
+        qualifiers.put(NAME, KcKrmsConstants.SubAward.SUBAWARD_CONTEXT);
     }
     
     @Override
     public void addFacts(Builder factsBuilder) {
-        KcKrmsFactBuilderServiceHelper fbService = KcServiceLocator.getService("subAwardFactBuilderService");
-        fbService.addFacts(factsBuilder, this);
+        getSubawardFactBuilderService().addFacts(factsBuilder, this);
     }
+
     @Override
     public void populateAgendaQualifiers(Map<String, String> qualifiers) {
         qualifiers.put(KcKrmsConstants.UNIT_NUMBER, getLeadUnitNumber());
@@ -204,16 +189,31 @@ public class SubAwardDocument extends KcTransactionalDocumentBase
     	}
     	return versionHistoryService;
     }
+
 	public void setVersionHistoryService(VersionHistoryService versionHistoryService) {
 		this.versionHistoryService = versionHistoryService;
 	}
+
 	public SubAwardService getSubAwardService() {
 		if (subAwardService == null) {
 			subAwardService = KcServiceLocator.getService(SubAwardService.class);
 		}
 		return subAwardService;
 	}
+
 	public void setSubAwardService(SubAwardService subAwardService) {
 		this.subAwardService = subAwardService;
 	}
+
+    public KcKrmsFactBuilderServiceHelper getSubawardFactBuilderService() {
+        if (subawardFactBuilderService == null) {
+            subawardFactBuilderService = KcServiceLocator.getService("subAwardFactBuilderService");
+        }
+
+        return subawardFactBuilderService;
+    }
+
+    public void setSubawardFactBuilderService(KcKrmsFactBuilderServiceHelper subawardFactBuilderService) {
+        this.subawardFactBuilderService = subawardFactBuilderService;
+    }
 }
