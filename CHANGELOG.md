@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1386: Fix custom attribute resolve null comparisons
+  * Gayathri Athreya on Wed, 1 Jun 2016 09:36:31 -0700 [View Commit](../../commit/2e2aa03326f69acf319a2c2941642abd3d4ae6c0)
+
+##coeus-1605.46
 * RESKC-1374: Allow adding 0 as rate class exclusion / inclusion code.
   * Gayathri Athreya on Tue, 31 May 2016 12:12:45 -0700 [View Commit](../../commit/3a29c15fbbea46c88ea0a93f0f0d1b0d8f722146)
 
