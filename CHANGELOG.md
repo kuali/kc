@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1606.3
 * HR Import support core-auth bearer tokens through AuthServiceFilter (#1774)  * Douglas Pace on Wed, 1 Jun 2016 22:15:38 -0700 [View Commit](../../commit/58e8c613298f5d29de40c880f97f082173d50713)
 
 ##coeus-1606.2
