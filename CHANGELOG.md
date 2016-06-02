@@ -1,6 +1,17 @@
 
 
 ##CURRENT
+* RESKC-1388: fix ste when creating new budget
+
+  * Steps to Reproduce:
+  * 1.) create award budget and post
+  * 2.) change award start dates so that budget periods get recalculated when new budget is created (had to do this in the db not sure how it happens via the app).
+  * 3.) change rates so that code performs a rate sync (had to change code to get his to happen, not sure how it happens via the app)
+  * 4.) try to create a new budget.
+  * 5.) get STE below.
+  * Joe Williams on Thu, 2 Jun 2016 09:47:22 -0500 [View Commit](../../commit/6ce308ad4ceda0434fb83740dbce7de858e92314)
+
+##coeus-1606.5
 * RESKC-1385: fixing minor spacing issue in an error message.
   * Travis Schneeberger on Wed, 1 Jun 2016 14:43:06 -0400 [View Commit](../../commit/32e20f5ba9b37f9bbbcf368c6e293e994adf0290)
 * RESKC-1385: After submitting Subaward documents, the last update is incorrectly displaying user kr instead of the correct person user in display mode.
