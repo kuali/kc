@@ -23,6 +23,8 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.web.context.ServletContextAware;
 
 import javax.servlet.*;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -38,6 +40,8 @@ public class ServletRegistrator implements InitializingBean, ServletContextAware
     private String roleName;
     private ServletSecurityElement servletSecurityElement;
     private List<String> urlMappings;
+    private List<String> filtersToMap;
+    private boolean mapFilters;
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -63,6 +67,13 @@ public class ServletRegistrator implements InitializingBean, ServletContextAware
         }
 
         sr.addMapping(urlMappings.toArray(new String[] {}));
+        
+        if (mapFilters && filtersToMap != null) {
+	        for (String filterName : filtersToMap) {
+	            FilterRegistration filter = getServletContext().getFilterRegistration(filterName);
+	            filter.addMappingForServletNames(null, true, servletName);
+	        }
+        }
     }
 
     public ServletContext getServletContext() {
@@ -145,4 +156,20 @@ public class ServletRegistrator implements InitializingBean, ServletContextAware
     public void setUrlMappings(List<String> urlMappings) {
         this.urlMappings = urlMappings;
     }
+
+	public List<String> getFiltersToMap() {
+		return filtersToMap;
+	}
+
+	public void setFiltersToMap(List<String> filtersToMap) {
+		this.filtersToMap = filtersToMap;
+	}
+
+	public boolean isMapFilters() {
+		return mapFilters;
+	}
+
+	public void setMapFilters(boolean mapFilters) {
+		this.mapFilters = mapFilters;
+	}
 }

@@ -50,7 +50,7 @@ public class FilterRegistrator implements InitializingBean, ServletContextAware 
             fr.addMappingForServletNames(servletMapping.dispatcherTypes != null ? EnumSet.copyOf(servletMapping.dispatcherTypes) : null, servletMapping.matchAfter, servletMapping.maps.toArray(new String[] {}));
         }
 
-        if (urlMapping != null) {
+        if (urlMapping != null && urlMapping.enabled) {
             fr.addMappingForUrlPatterns(urlMapping.dispatcherTypes != null ? EnumSet.copyOf(urlMapping.dispatcherTypes) : null, urlMapping.matchAfter, urlMapping.maps.toArray(new String[] {}));
         }
     }
@@ -116,6 +116,7 @@ public class FilterRegistrator implements InitializingBean, ServletContextAware 
         private Set<DispatcherType> dispatcherTypes;
         private boolean matchAfter;
         List<String> maps;
+        private boolean enabled = true;
 
         public Set<DispatcherType> getDispatcherTypes() {
             return dispatcherTypes;
@@ -140,5 +141,13 @@ public class FilterRegistrator implements InitializingBean, ServletContextAware 
         public void setMaps(List<String> maps) {
             this.maps = maps;
         }
+
+		public boolean isEnabled() {
+			return enabled;
+		}
+
+		public void setEnabled(boolean enabled) {
+			this.enabled = enabled;
+		}
     }
 }

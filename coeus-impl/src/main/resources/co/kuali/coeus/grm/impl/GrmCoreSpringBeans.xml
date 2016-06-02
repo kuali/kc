@@ -33,25 +33,10 @@
                            http://www.springframework.org/schema/util/spring-util.xsd"
        profile="grm">
 
-    <import resource="classpath:com/rsmart/kuali/coeus/hr/JerseyBeans.xml"/>
+    <import resource="classpath:com/rsmart/kuali/coeus/hr/JerseyBeans.xml"/>   
+    
 
-    <bean class="org.kuali.coeus.sys.framework.controller.interceptor.FilterRegistrator">
-        <property name="filter">
-            <bean class="com.rsmart.kuali.coeus.hr.rest.authn.KCBasicAuthFilter" />
-        </property>
-        <property name="filterName" value="KCBasicAuthenticationFilter"/>
-        <property name="urlMapping">
-            <bean class="org.kuali.coeus.sys.framework.controller.interceptor.FilterRegistrator.Mapping">
-                <property name="maps">
-                    <list>
-                        <value>/hr-import/*</value>
-                    </list>
-                </property>
-            </bean>
-        </property>
-    </bean>
-
-    <bean class="org.kuali.coeus.sys.framework.controller.ServletRegistrator">
+    <bean id="hrImport-restServiceServlet" class="org.kuali.coeus.sys.framework.controller.ServletRegistrator" depends-on="hrImport-kcBasicAuthFilter">
         <property name="servlet">
             <bean class="com.sun.jersey.spi.container.servlet.ServletContainer"/>
         </property>
@@ -66,6 +51,32 @@
             <list>
                 <value>/hr-import/*</value>
             </list>
+        </property>
+        <property name="mapFilters" value="#{T(org.kuali.rice.core.api.config.property.ConfigContext).getCurrentContextConfig().getBooleanProperty('auth.core.enabled')}"/>
+        <property name="filtersToMap">
+        	<list>
+        		<value>BootstrapFilter</value>
+        		<value>UserLoginFilter</value>
+        		<value>UserPreferencesFilter</value>
+        		<value>KCBasicAuthenticationFilter</value>
+        	</list>
+        </property>
+    </bean>
+    
+    <bean id="hrImport-kcBasicAuthFilter" class="org.kuali.coeus.sys.framework.controller.interceptor.FilterRegistrator">
+        <property name="filter">
+            <bean class="com.rsmart.kuali.coeus.hr.rest.authn.KCBasicAuthFilter" />
+        </property>
+        <property name="filterName" value="KCBasicAuthenticationFilter"/>
+        <property name="urlMapping">
+            <bean class="org.kuali.coeus.sys.framework.controller.interceptor.FilterRegistrator.Mapping">
+            	<property name="enabled" value="#{!T(org.kuali.rice.core.api.config.property.ConfigContext).getCurrentContextConfig().getBooleanProperty('auth.core.enabled')}"/>
+                <property name="maps">
+                    <list>
+                        <value>/hr-import/*</value>
+                    </list>
+                </property>
+            </bean>
         </property>
     </bean>
 </beans>

@@ -257,7 +257,7 @@
 	<param name="auth.users.url">${auth.base.url}/api/v1/users</param>
 	<param name="rice.portal.logout.redirectUrl">${application.url}/kc-krad/landingPage</param>
 
-	<param name="auth.rest.urls.regex">.*/api/v1/.*</param>
+	<param name="auth.rest.urls.regex">.*/api/v1/.*,.*/hr-import/hrimport/.*</param>
 	<param name="auth.core.enabled">false</param>
 
 	<param name="mq.redelivery.default.maximumRedeliveries">10</param>
