@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1606.1
 * RESKC-1386: Fix custom attribute resolve null comparisons
   * Gayathri Athreya on Wed, 1 Jun 2016 09:36:31 -0700 [View Commit](../../commit/2e2aa03326f69acf319a2c2941642abd3d4ae6c0)
 
