@@ -141,6 +141,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         AwardDocument awardDocument = (AwardDocument)budgetDocument.getBudget().getBudgetParent().getDocument();
         AwardBudgetExt copiedBudget = copyAwardBudget(budgetDocument, onlyOnePeriod, budget, awardDocument);
         budgetDocument.getBudgets().add(copiedBudget);
+        copiedBudget.setBudgetDocument(budgetDocument);
 
         fixStartAndEndDatesAndPeriods(((AwardBudgetExt) budget).getAward(), copiedBudget);
 
