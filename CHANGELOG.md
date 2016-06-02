@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* RESKC-1385: fixing minor spacing issue in an error message.
+  * Travis Schneeberger on Wed, 1 Jun 2016 14:43:06 -0400 [View Commit](../../commit/32e20f5ba9b37f9bbbcf368c6e293e994adf0290)
+* RESKC-1385: After submitting Subaward documents, the last update is incorrectly displaying user kr instead of the correct person user in display mode.
+  * Travis Schneeberger on Wed, 1 Jun 2016 14:42:22 -0400 [View Commit](../../commit/7a9822ea866d0151be0659b92dc66bcd576183ff)
+
+##coeus-1606.4
 * No Changes
 
 
