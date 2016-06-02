@@ -249,7 +249,6 @@ public class SubAwardHomeAction extends SubAwardAction{
    subAwardForm.populateHeaderFields(document.getDocumentHeader().
    getWorkflowDocument());
         subAwardForm.setDocument(document);
-        document.setDocumentSaveAfterSubAwardLookupEditOrVersion(true);
         subAwardForm.initialize();
     }
 
