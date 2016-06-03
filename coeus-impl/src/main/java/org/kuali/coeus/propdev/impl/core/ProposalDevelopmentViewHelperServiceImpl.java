@@ -792,12 +792,23 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
         return state != null ? state.getDescription() : "";
     }
 
-    public String getAnnualDisclosureStatusForPerson(DevelopmentProposal proposal, ProposalPerson person) {
-        String personId = person.getPersonId() == null ? person.getRolodexId().toString() : person.getPersonId();
-        String sourceId = Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT;
-        String projectId = proposal.getProposalNumber();
-        DisclosureProjectStatus projectStatus = getDisclosureStatusRetrievalService().getDisclosureStatusForPerson(sourceId, projectId, personId);
+   public String getDisclosureStatusForPerson(ProposalPerson person) {
+        DisclosureProjectStatus projectStatus = getCoiStatusForPerson(person);
         return projectStatus.getStatus() == null ? "" : projectStatus.getStatus();
+    }
+
+    public String getDispositionStatusForPerson(ProposalPerson person) {
+        DisclosureProjectStatus projectStatus = getCoiStatusForPerson(person);
+        return projectStatus.getDisposition() == null ? "Not Yet Dispositioned" : projectStatus.getDisposition();
+    }
+
+    public DisclosureProjectStatus getCoiStatusForPerson(ProposalPerson person) {
+        ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm)ViewLifecycle.getModel();
+        ProposalPerson personWithStatus = form.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons().stream().filter(proposalPerson -> {
+            return proposalPerson.getPersonId().equalsIgnoreCase(person.getPersonId());
+        }).findFirst().orElse(null);
+
+        return personWithStatus.getDisclosureProjectStatus();
     }
 
     public DisclosureStatusRetrievalService getDisclosureStatusRetrievalService() {
@@ -808,6 +819,18 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
         return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
                 Constants.PARAMETER_COMPONENT_DOCUMENT,
                 Constants.ENABLE_DISCLOSURE_STATUS_FROM_COI_MODULE);
+    }
+
+    public boolean isCoiDisclosureDispositionStatusEnabled() {
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                Constants.PARAMETER_COMPONENT_DOCUMENT,
+                Constants.ENABLE_DISCLOSURE_DISPOSITION_STATUS_FROM_COI_MODULE);
+    }
+
+    public boolean canViewDispositionStatus(ProposalPerson person) {
+        return isCoiDisclosureDispositionStatusEnabled() &&
+                proposalDevelopmentDocumentViewAuthorizer.canViewDisclosureDisposition(
+                        getGlobalVariableService().getUserSession().getPerson().getPrincipalId(), person.getPersonId());
     }
 
     public void prepareSummaryPage(ProposalDevelopmentDocumentForm form) {

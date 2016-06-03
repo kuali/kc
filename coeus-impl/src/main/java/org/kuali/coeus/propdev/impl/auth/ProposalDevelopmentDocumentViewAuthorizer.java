@@ -25,6 +25,8 @@ import org.kuali.coeus.common.framework.auth.KcKradTransactionalDocumentViewAuth
 import org.kuali.coeus.propdev.impl.core.*;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.datadictionary.DocumentEntry;
@@ -58,6 +60,11 @@ public class ProposalDevelopmentDocumentViewAuthorizer extends KcKradTransaction
         }
 
         return success;
+    }
+
+    public boolean canViewDisclosureDisposition(String user, String personWithDispositionStatus) {
+        return (user.equalsIgnoreCase(personWithDispositionStatus) ||
+                getPermissionService().hasPermission(user, Constants.KC_SYS, PermissionConstants.VIEW_COI_DISPOSITION_STATUS));
     }
 
     /**
