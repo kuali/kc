@@ -18,13 +18,9 @@
  */
 package org.kuali.coeus.sys.impl.auth;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.coeus.coi.framework.ProjectPublisher;
-import org.kuali.coeus.coi.framework.ProjectRetrievalService;
 import org.kuali.coeus.sys.framework.auth.AuthServicePushService;
 import org.kuali.coeus.sys.framework.auth.AuthServicePushStatus;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
@@ -37,10 +33,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import java.util.Collection;
-
 public class AuthServiceBulkPushAction extends KualiAction {
-    private static final Log LOG = LogFactory.getLog(AuthServiceBulkPushAction.class);
     private static final String PUSH_MESSAGE_KEY = "info.user.bulk.push.complete";
     private static final String AUTH_SERVICE_BULK_PUSH = "AuthServiceBulkPush";
 
@@ -56,10 +49,10 @@ public class AuthServiceBulkPushAction extends KualiAction {
             final String buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
             if (ConfirmationQuestion.YES.equals(buttonClicked)) {
             	AuthServicePushStatus status = getAuthServicePushService().pushAllUsers();
-                getGlobalVariableService().getMessageList().add(PUSH_MESSAGE_KEY, new String[] {new Integer(status.getNumberOfUsers()).toString(), 
-                			new Integer(status.getNumberAdded()).toString(), new Integer(status.getNumberUpdated()).toString(), 
-                			new Integer(status.getNumberSame()).toString(), new Integer(status.getNumberRemoved()).toString(),
-                			new Integer(status.getErrors().size()).toString()});
+                getGlobalVariableService().getMessageList().add(PUSH_MESSAGE_KEY, Integer.toString(status.getNumberOfUsers()),
+                        Integer.toString(status.getNumberAdded()), Integer.toString(status.getNumberUpdated()),
+                        Integer.toString(status.getNumberSame()), Integer.toString(status.getNumberRemoved()),
+                        Integer.toString(status.getErrors().size()));
             }
         }
 

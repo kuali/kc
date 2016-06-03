@@ -58,11 +58,6 @@ import java.util.*;
 public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase implements Copyable, SessionDocument, KrmsRulesContext {
 
     private static final Log LOG = LogFactory.getLog(ProtocolDocumentBase.class);
-
-    @SuppressWarnings("unused")
-    private static final String OLR_DOC_ID_PARAM = "&olrDocId=";
-
-
     private static final long serialVersionUID = 6493566444038807312L;
     
     private List<ProtocolBase> protocolList;
@@ -73,7 +68,7 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
 
     public ProtocolDocumentBase() { 
         super();
-        protocolList = new ArrayList<ProtocolBase>();
+        protocolList = new ArrayList<>();
         ProtocolBase newProtocol = createNewProtocolInstanceHook(); // direct instantiation replaced by hook invocation
         newProtocol.setProtocolDocument(this);
         protocolList.add(newProtocol);  
@@ -87,10 +82,10 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
     @Override
     public void initialize() {
         super.initialize();
-        Map<String, String> primaryKeys = new HashMap<String, String>();
+        Map<String, String> primaryKeys = new HashMap<>();
         primaryKeys.put("RESEARCH_AREA_CODE", "000001");
-        ResearchAreaBase ra = (ResearchAreaBase) this.getBusinessObjectService().findByPrimaryKey(getResearchAreaBoClassHook(), primaryKeys);
-        Collection<ResearchAreaBase> selectedBOs = new ArrayList<ResearchAreaBase>();
+        ResearchAreaBase ra = this.getBusinessObjectService().findByPrimaryKey(getResearchAreaBoClassHook(), primaryKeys);
+        Collection<ResearchAreaBase> selectedBOs = new ArrayList<>();
         selectedBOs.add(ra);
         KcServiceLocator.getService(getProtocolResearchAreaServiceClassHook()).addProtocolResearchArea(this.getProtocol(), selectedBOs);
     }
@@ -102,7 +97,6 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
      * 
      * This method is a convenience method for facilitating a 1:1 relationship between ProtocolDocumentBase 
      * and ProtocolBase to the outside world - aka a single ProtocolBase field associated with ProtocolDocumentBase
-     * @return
      */
     public ProtocolBase getProtocol() {
         if (protocolList.size() == 0) return null;
@@ -113,7 +107,6 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
      * 
      * This method is a convenience method for facilitating a 1:1 relationship between ProtocolDocumentBase 
      * and ProtocolBase to the outside world - aka a single ProtocolBase field associated with ProtocolDocumentBase
-     * @param protocol
      */
     public void setProtocol(ProtocolBase protocol) {
         protocolList.set(0, protocol);
@@ -134,13 +127,12 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
      * 
      * This method is used by OJB to get around with anonymous keys issue.
      * Warning : Developers should never use this method
-     * @param protocolList
      */
     public void setProtocolList(List<ProtocolBase> protocolList) {
         this.protocolList = protocolList;
     }
     
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings("unchecked")
     @Override
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
@@ -151,7 +143,7 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
         return managedLists;
     }
     
-    
+    @Override
     public abstract String getDocumentTypeCode();
     
     public String getProtocolWorkflowType() {
@@ -310,7 +302,6 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
     /**
      * Amendments/Renewals have a protocol number with a 4 character suffix.
      * The first 10 characters is the protocol number of the original protocol.
-     * @return
      */
     protected String getOriginalProtocolNumber() {
         return getProtocol().getProtocolNumber().substring(0, 10);
@@ -318,8 +309,6 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
 
     /**
      * Has the document entered the final state in workflow?
-     * @param statusChangeEvent
-     * @return
      */
     protected boolean isFinal(DocumentRouteStatusChange statusChangeEvent) {
         return StringUtils.equals(KewApiConstants.ROUTE_HEADER_FINAL_CD, statusChangeEvent.getNewRouteStatus());
@@ -327,8 +316,6 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
     
     /**
      * Has the document entered the disapproval state in workflow?
-     * @param statusChangeEvent
-     * @return
      */
     protected boolean isDisapproved(DocumentRouteStatusChange statusChangeEvent) {
         return StringUtils.equals(KewApiConstants.ROUTE_HEADER_DISAPPROVED_CD, statusChangeEvent.getNewRouteStatus());
@@ -343,7 +330,6 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
     
     /**
      * Is this a renewal protocol document?
-     * @return
      */
     public boolean isRenewal() {
         return getProtocol().isRenewal();
@@ -351,7 +337,6 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
 
     /**
      * Is this an amendment protocol document?
-     * @return
      */
     public boolean isAmendment() {
         return getProtocol().isAmendment();
@@ -363,7 +348,6 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
     
     /**
      * Is this an amendment protocol document?
-     * @return
      */
     public boolean isRenewalWithAmendment() {
         return getProtocol().isRenewalWithAmendment();
@@ -371,7 +355,6 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
     
     /**
      * Is this a normal protocol document?
-     * @return
      */
     public boolean isNormal() {
         return !isAmendment() && !isRenewal() && !isFYI();
@@ -381,10 +364,7 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
 
     /**
      * Has the document been submitted to workflow now
-     * @param statusChangeEvent
-     * @return
      */
-    @SuppressWarnings("unused")
     private boolean isComplete(DocumentRouteStatusChange statusChangeEvent) {
         return (StringUtils.equals(KewApiConstants.ROUTE_HEADER_ENROUTE_CD, statusChangeEvent.getNewRouteStatus()) && 
                 StringUtils.equals(KewApiConstants.ROUTE_HEADER_SAVED_CD, statusChangeEvent.getOldRouteStatus()));
@@ -401,7 +381,7 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
     /**
      * Contains all the property names in this class.
      */
-    public static enum ProtocolWorkflowType {
+    public enum ProtocolWorkflowType {
         NORMAL("Normal"), APPROVED("Approved"), APPROVED_AMENDMENT("ApprovedAmendment");
         
         private final String name;
@@ -452,7 +432,8 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
         this.getProtocol().getLeadUnitNumber();
         return super.wrapDocumentWithMetadataForXmlSerialization();
     }
-    
+
+    @Override
     public String getDocumentBoNumber() {
         return getProtocol().getProtocolNumber();
         
@@ -476,9 +457,8 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
      * This method returns the doc number of the current active protocol
      * @return documentNumber
      */
-    @SuppressWarnings("unchecked")
     protected String getNewProtocolDocId() {
-        Map<String, String> keyMap = new HashMap<String, String>(); 
+        Map<String, String> keyMap = new HashMap<>();
         keyMap.put("protocolNumber", getProtocol().getAmendedProtocolNumber());
         keyMap.put("active", "Y");
         BusinessObjectService boService = KcServiceLocator.getService(BusinessObjectService.class);

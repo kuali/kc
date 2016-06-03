@@ -83,7 +83,7 @@ import java.util.Map;
 public class IacucProtocolDocument extends ProtocolDocumentBase { 
 
     private static final long serialVersionUID = -1014286912251147390L;
-    @SuppressWarnings("unused")
+
     private static final Log LOG = LogFactory.getLog(IacucProtocolDocument.class);
     public static final String DOCUMENT_TYPE_CODE = "ICPR";
     
@@ -94,6 +94,7 @@ public class IacucProtocolDocument extends ProtocolDocumentBase {
         super();
 	}
 
+    @Override
     public IacucProtocol getProtocol() {
         return (IacucProtocol)super.getProtocol();
     }
@@ -104,9 +105,10 @@ public class IacucProtocolDocument extends ProtocolDocumentBase {
     }
 	
 	public IacucProtocol getIacucProtocol() {
-	    return (IacucProtocol) this.getProtocol();
+	    return this.getProtocol();
 	}
 
+    @Override
     public String getDocumentTypeCode() {
         return DOCUMENT_TYPE_CODE;
     }
@@ -117,9 +119,8 @@ public class IacucProtocolDocument extends ProtocolDocumentBase {
      * Close to hack.  called by holdingpageaction
      * Different document type may have different routing set up, so each document type
      * can implement its own isProcessComplete
-     * @return
-     * @throws WorkflowException 
      */
+    @Override
     public boolean isProcessComplete() {
         boolean isComplete = true;
 
@@ -165,7 +166,7 @@ public class IacucProtocolDocument extends ProtocolDocumentBase {
                     String oldLocation = (String) GlobalVariables.getUserSession().retrieveObject(KcHoldingPageConstants.HOLDING_PAGE_RETURN_LOCATION);
                     String oldDocNbr = getProtocol().getProtocolDocument().getDocumentNumber();
                     String returnLocation = oldLocation.replaceFirst(oldDocNbr, protocolId);
-                    GlobalVariables.getUserSession().addObject(KcHoldingPageConstants.HOLDING_PAGE_RETURN_LOCATION, (Object) returnLocation);
+                    GlobalVariables.getUserSession().addObject(KcHoldingPageConstants.HOLDING_PAGE_RETURN_LOCATION, returnLocation);
                 }
             }         
             // approve/expedited approve/response approve
@@ -253,7 +254,7 @@ public class IacucProtocolDocument extends ProtocolDocumentBase {
 
 
     protected String getListOfStatusEligibleForMergingHook() {
-      StringBuffer listOfStatusEligibleForMerging = new StringBuffer(); 
+      StringBuilder listOfStatusEligibleForMerging = new StringBuilder();
       listOfStatusEligibleForMerging.append(IacucProtocolStatus.SUBMITTED_TO_IACUC);
       listOfStatusEligibleForMerging.append(" ");
       listOfStatusEligibleForMerging.append(IacucProtocolStatus.MINOR_REVISIONS_REQUIRED);
@@ -341,7 +342,7 @@ public class IacucProtocolDocument extends ProtocolDocumentBase {
         }
 
         if(fyiSubmission != null) {
-            List<IacucProtocolSubmissionDoc> mergedAttachments = new ArrayList<IacucProtocolSubmissionDoc>();
+            List<IacucProtocolSubmissionDoc> mergedAttachments = new ArrayList<>();
             for(ProtocolAttachmentProtocolBase attachment : getProtocol().getActiveAttachmentProtocols()) {
                 IacucProtocolSubmissionDoc fyiAttachment = IacucProtocolSubmissionBuilder.createProtocolSubmissionDoc(fyiSubmission, attachment.getFile().getName(), attachment.getFile().getType(), attachment.getFile().getData(), attachment.getDescription());
                 fyiAttachment.setProtocolNumber(createFyiAction.getProtocolNumber());
@@ -366,8 +367,6 @@ public class IacucProtocolDocument extends ProtocolDocumentBase {
      * Merge the amendment into the original protocol.  Actually, we must first make a new
      * version of the original and then merge the amendment into that new version.
      * Also merge changes into any versions of the protocol that are being amended/renewed.
-     * @param protocolStatusCode
-     * @throws Exception
      */
     protected void mergeAmendment(String protocolStatusCode, String type) {
         ProtocolBase currentProtocol = getProtocolFinderDaoHook().findCurrentProtocolByNumber(getOriginalProtocolNumber());

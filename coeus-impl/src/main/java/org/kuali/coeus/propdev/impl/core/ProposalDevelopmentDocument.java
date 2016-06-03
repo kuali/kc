@@ -53,7 +53,6 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -67,6 +66,7 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.web.ui.ExtraButton;
+import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.data.PersistenceOption;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
@@ -361,10 +361,6 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         return CoreApiServiceLocator.getKualiConfigurationService();
     }
 
-    protected ParameterService getParameterService() {
-        return KcServiceLocator.getService(ParameterService.class);
-    }
-
     protected DateTimeService getDateTimeService() {
         return KcServiceLocator.getService(DateTimeService.class);
     }
@@ -378,6 +374,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         return retVal;
     }
 
+    @Override
     public String getDocumentTypeCode() {
         return DOCUMENT_TYPE_CODE;
     }
@@ -496,30 +493,37 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     public Permissionable getBudgetPermissionable() {
         return new Permissionable() {
 
+            @Override
             public String getDocumentKey() {
                 return PermissionableKeys.PROPOSAL_BUDGET_KEY;
             }
 
+            @Override
             public String getDocumentNumberForPermission() {
                 return getDevelopmentProposal().getProposalNumber();
             }
 
+            @Override
             public List<String> getRoleNames() {
                 return new ArrayList<>();
             }
 
+            @Override
             public String getNamespace() {
                 return Constants.MODULE_NAMESPACE_BUDGET;
             }
 
+            @Override
             public String getLeadUnitNumber() {
                 return getDevelopmentProposal().getOwnedByUnitNumber();
             }
 
+            @Override
             public String getDocumentRoleTypeCode() {
                 return RoleConstants.PROPOSAL_ROLE_TYPE;
             }
 
+            @Override
             public void populateAdditionalQualifiedRoleAttributes(Map<String, String> qualifiedRoleAttributes) {
             }
         };
@@ -536,14 +540,17 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         return super.answerSplitNodeQuestion(routeNodeName);
     }
 
+    @Override
     public String getNamespace() {
         return Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT;
     }
 
+    @Override
     public String getLeadUnitNumber() {
         return getDevelopmentProposal().getOwnedByUnitNumber();
     }
 
+    @Override
     public String getDocumentRoleTypeCode() {
         return RoleConstants.PROPOSAL_ROLE_TYPE;
     }
@@ -558,6 +565,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
      * Different document type may have different routing set up, so each document type
      * can implement its own isProcessComplete
      */
+    @Override
     public boolean isProcessComplete() {
         boolean isComplete = false;
         if (getDocumentHeader().hasWorkflowDocument()) {
@@ -578,15 +586,18 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         this.proposalDeleted = proposalDeleted;
     }
 
+    @Override
     public void populateContextQualifiers(Map<String, String> qualifiers) {
         qualifiers.put("namespaceCode", Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT);
         qualifiers.put("name", KcKrmsConstants.ProposalDevelopment.PROPOSAL_DEVELOPMENT_CONTEXT);
     }
 
+    @Override
     public void addFacts(Facts.Builder factsBuilder) {
     	getProposalDevelopmentFactBuilderService().addFacts(factsBuilder, this);
     }
 
+    @Override
     public void populateAgendaQualifiers(Map<String, String> qualifiers) {
         qualifiers.put(KcKrmsConstants.UNIT_NUMBER, getDevelopmentProposal().getAllUnitNumbers());
     }
@@ -597,6 +608,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         getDocumentHeader().setDocumentDescription(desc);
     }
 
+    @Override
     public List<? extends DocumentCustomData> getDocumentCustomData() {
         return getCustomDataList();
     }
@@ -642,7 +654,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     }
 
     @Override
-    public List getNotes() {
+    public List<Note> getNotes() {
         if (StringUtils.isNotBlank(getNoteTarget().getObjectId())) {
             notes = new ArrayList<>(getNoteService().getByRemoteObjectId(getNoteTarget().getObjectId()));
         }
