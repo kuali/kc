@@ -105,7 +105,7 @@ public class InstitutionalProposalDocumentController extends RestController {
     String createInstitutionalProposal(@RequestBody InstitutionalProposalDto ipDto, @RequestParam(value = "createProposalLog", required = false) boolean createProposalLog) throws WorkflowException, InvocationTargetException, IllegalAccessException {
         RestAuditLogger auditLogger = getRestAuditLoggerFactory().getNewAuditLogger(InstitutionalProposalDto.class, ipDtoProperties);
         getCommonApiService().clearErrors();
-        InstitutionalProposal proposal = (InstitutionalProposal) getCommonApiService().convertObject(ipDto, InstitutionalProposal.class);
+        InstitutionalProposal proposal = getCommonApiService().convertObject(ipDto, InstitutionalProposal.class);
         String proposalLogNumber = null;
         if (createProposalLog) {
             IpPersonDto ip = null;
@@ -154,7 +154,7 @@ public class InstitutionalProposalDocumentController extends RestController {
     InstitutionalProposalDto getInstitutionalProposal(@PathVariable Long documentNumber) {
         InstitutionalProposalDocument proposalDocument = (InstitutionalProposalDocument) getCommonApiService().getDocumentFromDocId(documentNumber);
         InstitutionalProposal proposal = proposalDocument.getInstitutionalProposal();
-        InstitutionalProposalDto proposalDto = (InstitutionalProposalDto) getCommonApiService().convertObject(proposal, InstitutionalProposalDto.class);
+        InstitutionalProposalDto proposalDto = getCommonApiService().convertObject(proposal, InstitutionalProposalDto.class);
         proposalDto.setDocNbr(proposalDocument.getDocumentNumber());
         proposalDto.setDocStatus(proposalDocument.getDocumentHeader().getWorkflowDocument().getStatus().getLabel());
         return proposalDto;
@@ -183,7 +183,7 @@ public class InstitutionalProposalDocumentController extends RestController {
     @ResponseBody
     List<IpPersonDto> getAllProposalPersons(@PathVariable Long documentNumber) throws WorkflowException {
         InstitutionalProposalDocument proposalDocument = (InstitutionalProposalDocument) getCommonApiService().getDocumentFromDocId(documentNumber);
-        InstitutionalProposalDto proposalDto = (InstitutionalProposalDto) getCommonApiService().
+        InstitutionalProposalDto proposalDto = getCommonApiService().
                 convertObject(proposalDocument.getInstitutionalProposal(), InstitutionalProposalDto.class);
         List<IpPersonDto> persons = proposalDto.getProjectPersons();
         return persons;
@@ -206,7 +206,7 @@ public class InstitutionalProposalDocumentController extends RestController {
         InstitutionalProposalDocument proposalDocument = (InstitutionalProposalDocument) getCommonApiService().getDocumentFromDocId(documentNumber);
         RestAuditLogger auditLogger = getRestAuditLoggerFactory().getNewAuditLogger(IpPersonDto.class, ipPersonDtoProperties);
         InstitutionalProposalPerson person = getInstitutionalProposalPerson(id, proposalDocument);
-        IpPersonDto personDto = (IpPersonDto) getCommonApiService().convertObject(person, IpPersonDto.class);
+        IpPersonDto personDto = getCommonApiService().convertObject(person, IpPersonDto.class);
         proposalDocument.getInstitutionalProposal().getProjectPersons().remove(person);
         saveDocument(proposalDocument);
         auditLogger.addDeletedItem(personDto);
@@ -220,7 +220,7 @@ public class InstitutionalProposalDocumentController extends RestController {
     IpPersonDto getProposalPerson(@PathVariable Long documentNumber, @PathVariable Long id) throws WorkflowException {
         InstitutionalProposalDocument proposalDocument = (InstitutionalProposalDocument) getCommonApiService().getDocumentFromDocId(documentNumber);
         InstitutionalProposalPerson person = getInstitutionalProposalPerson(id, proposalDocument);
-        IpPersonDto personDto = (IpPersonDto) getCommonApiService().convertObject(person, IpPersonDto.class);
+        IpPersonDto personDto = getCommonApiService().convertObject(person, IpPersonDto.class);
         return personDto;
     }
 

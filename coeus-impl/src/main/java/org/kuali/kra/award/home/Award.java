@@ -111,7 +111,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     public static final String ICR_RATE_CODE_NONE = "ICRNONE";
     private static final String NONE = "None";
 
-    private static final String NO_FLAG = "N";
+    public static final String NO_FLAG = "N";
     private static final int TOTAL_STATIC_REPORTS = 5;
     public static final String CLOSE_OUT_REPORT_TYPE_FINANCIAL_REPORT = "1";
     public static final String CLOSE_OUT_REPORT_TYPE_TECHNICAL = "4";

@@ -95,17 +95,17 @@ public class CommonApiServiceImpl implements CommonApiService {
         getGlobalVariableService().getMessageMap().clearErrorMessages();
     }
 
-    public Object convertObject(Object input, Class clazz) {
+    public <T> T convertObject(Object input, Class<T> clazz) {
         Configuration mooConfig = new Configuration();
         mooConfig.setSourcePropertiesRequired(false);
         Moo moo = new Moo(mooConfig);
-        Object newDataObject = getNewDataObject(clazz);
+        T newDataObject = getNewDataObject(clazz);
         moo.update(input, newDataObject);
         return newDataObject;
     }
 
 
-    public Object getNewDataObject(Class clazz) {
+    public <T> T getNewDataObject(Class<T> clazz) {
         try {
             return clazz.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
