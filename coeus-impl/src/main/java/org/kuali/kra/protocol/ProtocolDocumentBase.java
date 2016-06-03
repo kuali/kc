@@ -21,6 +21,9 @@ package org.kuali.kra.protocol;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.coi.framework.Project;
+import org.kuali.coeus.coi.framework.ProjectPublisher;
+import org.kuali.coeus.coi.framework.ProjectRetrievalService;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -66,7 +69,7 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
     private String protocolWorkflowType;
     private boolean reRouted = false;
     public ProtocolLocationService protocolLocationService;
-    
+    private transient ProjectPublisher projectPublisher;
 
     public ProtocolDocumentBase() { 
         super();
@@ -180,6 +183,11 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
                 }
             } else if (isRecall(statusChangeEvent)) {
                 getProtocolGenericActionService().recall(getProtocol());
+            }
+
+            final Project project = getProjectRetrievalService().retrieveProject(getProtocol().getProtocolNumber());
+            if (project != null) {
+                getProjectPublisher().publishProject(project);
             }
             return null;
         });
@@ -496,4 +504,20 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
 			ProtocolLocationService protocolLocationService) {
 		this.protocolLocationService = protocolLocationService;
 	}
+
+    public abstract ProjectRetrievalService getProjectRetrievalService();
+
+    public abstract void setProjectRetrievalService(ProjectRetrievalService projectRetrievalService);
+
+    public ProjectPublisher getProjectPublisher() {
+        if (projectPublisher == null) {
+            projectPublisher = KcServiceLocator.getService(ProjectPublisher.class);
+        }
+
+        return projectPublisher;
+    }
+
+    public void setProjectPublisher(ProjectPublisher projectPublisher) {
+        this.projectPublisher = projectPublisher;
+    }
 }

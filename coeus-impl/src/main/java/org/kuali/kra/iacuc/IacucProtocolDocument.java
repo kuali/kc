@@ -22,6 +22,7 @@ package org.kuali.kra.iacuc;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.coi.framework.ProjectRetrievalService;
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.krms.KcKrmsFactBuilderService;
 import org.kuali.coeus.common.notification.impl.bo.KcNotification;
@@ -87,7 +88,7 @@ public class IacucProtocolDocument extends ProtocolDocumentBase {
     public static final String DOCUMENT_TYPE_CODE = "ICPR";
     
     private static final String DISAPPROVED_CONTEXT_NAME = "Disapproved";
-	
+    private transient ProjectRetrievalService projectRetrievalService;
 
 	public IacucProtocolDocument() { 
         super();
@@ -499,4 +500,17 @@ public class IacucProtocolDocument extends ProtocolDocumentBase {
         return IacucProtocolStatus.DISAPPROVED;
     }
 
+
+    @Override
+    public ProjectRetrievalService getProjectRetrievalService() {
+        if (this.projectRetrievalService == null) {
+            this.projectRetrievalService = KcServiceLocator.getService("iacucProjectRetrievalService");
+        }
+        return this.projectRetrievalService;
+    }
+
+    @Override
+    public void setProjectRetrievalService(ProjectRetrievalService projectRetrievalService) {
+        this.projectRetrievalService = projectRetrievalService;
+    }
 }

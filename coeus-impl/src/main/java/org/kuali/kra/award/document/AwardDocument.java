@@ -21,6 +21,9 @@ package org.kuali.kra.award.document;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.coi.framework.Project;
+import org.kuali.coeus.coi.framework.ProjectPublisher;
+import org.kuali.coeus.coi.framework.ProjectRetrievalService;
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
@@ -116,7 +119,9 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
 
     private transient boolean documentSaveAfterVersioning;
     private transient AwardService awardService;
-    
+
+    private transient ProjectRetrievalService projectRetrievalService;
+    private transient ProjectPublisher projectPublisher;
 
     public AwardDocument(){        
         super();        
@@ -243,6 +248,12 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
             for (Award award : awardList) {
                 award.setAwardDocument(this);
             }
+
+            final Project project = getProjectRetrievalService().retrieveProject(getAward().getAwardNumber());
+            if (project != null) {
+                getProjectPublisher().publishProject(project);
+            }
+
             return null;
         });
     }
@@ -256,6 +267,10 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
             } else if (StringUtils.equalsIgnoreCase(levelChangeEvent.getNewNodeName(), Constants.AWARD_APPLY_SYNC_NODE_NAME)
                     && !getAward().getSyncChanges().isEmpty()) {
                 getAwardSyncService().applyAwardSyncChangesToHierarchy(getAward());
+            }
+            final Project project = getProjectRetrievalService().retrieveProject(getAward().getAwardNumber());
+            if (project != null) {
+                getProjectPublisher().publishProject(project);
             }
             return null;
         });
@@ -659,5 +674,29 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
     public boolean isCanceled() {
         WorkflowDocument workflow = getDocumentHeader().getWorkflowDocument();
         return workflow.isCanceled();
+    }
+
+    public ProjectPublisher getProjectPublisher() {
+        if (projectPublisher == null) {
+            projectPublisher = KcServiceLocator.getService(ProjectPublisher.class);
+        }
+
+        return projectPublisher;
+    }
+
+    public void setProjectPublisher(ProjectPublisher projectPublisher) {
+        this.projectPublisher = projectPublisher;
+    }
+
+    public ProjectRetrievalService getProjectRetrievalService() {
+        if (projectRetrievalService == null) {
+            projectRetrievalService = KcServiceLocator.getService("awardProjectRetrievalService");
+        }
+
+        return projectRetrievalService;
+    }
+
+    public void setProjectRetrievalService(ProjectRetrievalService projectRetrievalService) {
+        this.projectRetrievalService = projectRetrievalService;
     }
 }

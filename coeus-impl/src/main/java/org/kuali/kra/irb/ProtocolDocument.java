@@ -22,6 +22,7 @@ package org.kuali.kra.irb;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.coi.framework.ProjectRetrievalService;
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue;
 import org.kuali.coeus.common.impl.krms.KcKrmsFactBuilderServiceHelper;
@@ -98,7 +99,8 @@ public class ProtocolDocument extends ProtocolDocumentBase {
     private static final String DISAPPROVED_CONTEXT_NAME = "Disapproved";
     
     private List<CustomAttributeDocValue> customDataList;
-    
+    private transient ProjectRetrievalService projectRetrievalService;
+
     public ProtocolDocument() {
         super();
         customDataList = new ArrayList<CustomAttributeDocValue>();
@@ -531,5 +533,18 @@ public class ProtocolDocument extends ProtocolDocumentBase {
     @Override
     protected String getCommitteeDisapprovedStatusCodeHook() {
         return ProtocolStatus.DISAPPROVED;
+    }
+
+    @Override
+    public ProjectRetrievalService getProjectRetrievalService() {
+        if (this.projectRetrievalService == null) {
+            this.projectRetrievalService = KcServiceLocator.getService("irbProjectRetrievalService");
+        }
+        return this.projectRetrievalService;
+    }
+
+    @Override
+    public void setProjectRetrievalService(ProjectRetrievalService projectRetrievalService) {
+        this.projectRetrievalService = projectRetrievalService;
     }
 }

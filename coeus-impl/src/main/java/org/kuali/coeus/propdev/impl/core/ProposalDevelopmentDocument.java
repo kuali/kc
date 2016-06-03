@@ -21,6 +21,9 @@ package org.kuali.coeus.propdev.impl.core;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.coi.framework.Project;
+import org.kuali.coeus.coi.framework.ProjectPublisher;
+import org.kuali.coeus.coi.framework.ProjectRetrievalService;
 import org.kuali.coeus.common.framework.auth.perm.DocumentLevelPermissionable;
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue;
@@ -65,6 +68,7 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.krad.data.DataObjectService;
+import org.kuali.rice.krad.data.PersistenceOption;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 import org.kuali.rice.krad.datadictionary.DocumentEntry;
 import org.kuali.rice.krad.document.Copyable;
@@ -154,6 +158,12 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     
     @Transient
     private transient Boolean certifyViewOnly = false;
+
+    @Transient
+    private transient ProjectRetrievalService propDevProjectRetrievalService;
+
+    @Transient
+    private transient ProjectPublisher projectPublisher;
 
 	public ProposalDevelopmentDocument() {
         super();
@@ -269,7 +279,12 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
                     }
                 }
                 bp.setProposalStateTypeCode(getProposalStateService().getProposalStateTypeCode(this, false));
-                getDataObjectService().save(bp);
+                getDataObjectService().save(bp, PersistenceOption.LINK_KEYS, PersistenceOption.FLUSH);
+            }
+
+            final Project project = getProjectRetrievalService().retrieveProject(getDevelopmentProposal().getProposalNumber());
+            if (project != null) {
+                getProjectPublisher().publishProject(project);
             }
             return null;
         });
@@ -301,7 +316,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
                 String pCode = getDevelopmentProposal().getProposalStateTypeCode();
                 getDevelopmentProposal().setProposalStateTypeCode(getProposalStateService().getProposalStateTypeCode(this, hasProposalBeenRejected(getDocumentHeader().getWorkflowDocument())));
                 if (!StringUtils.equals(pCode, getDevelopmentProposal().getProposalStateTypeCode())) {
-                    getDataObjectService().save(getDevelopmentProposal());
+                    getDataObjectService().save(getDevelopmentProposal(), PersistenceOption.LINK_KEYS, PersistenceOption.FLUSH);
                     getDevelopmentProposal().refreshReferenceObject("proposalState");
                 }
                 if (getDevelopmentProposal().isChild() && StringUtils.equals(KewApiConstants.ACTION_TAKEN_CANCELED_CD, actionTaken.getActionTaken().getCode())) {
@@ -314,8 +329,13 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
                 if (isLastSubmitterApprovalAction(event.getActionTaken()) && shouldAutogenerateInstitutionalProposal()) {
                     final InstitutionalProposal institutionalProposal = getInstitutionalProposalService().createInstitutionalProposal(this.getDevelopmentProposal(), this.getDevelopmentProposal().getFinalBudget());
                     this.setInstitutionalProposalNumber(institutionalProposal.getProposalNumber());
-                    getDataObjectService().save(this);
+                    getDataObjectService().save(this, PersistenceOption.LINK_KEYS, PersistenceOption.FLUSH);
                 }
+            }
+
+            final Project project = getProjectRetrievalService().retrieveProject(getDevelopmentProposal().getProposalNumber());
+            if (project != null) {
+                getProjectPublisher().publishProject(project);
             }
             return null;
         });
@@ -651,5 +671,29 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     @Override
     public String getCustomLockDescriptor(Person user) {
         return this.getDocumentBoNumber() + "-" + KraAuthorizationConstants.LOCK_DESCRIPTOR_PROPOSAL;
+    }
+
+    public ProjectPublisher getProjectPublisher() {
+        if (projectPublisher == null) {
+            projectPublisher = KcServiceLocator.getService(ProjectPublisher.class);
+        }
+
+        return projectPublisher;
+    }
+
+    public void setProjectPublisher(ProjectPublisher projectPublisher) {
+        this.projectPublisher = projectPublisher;
+    }
+
+    public ProjectRetrievalService getProjectRetrievalService() {
+        if (propDevProjectRetrievalService == null) {
+            propDevProjectRetrievalService = KcServiceLocator.getService("propDevProjectRetrievalService");
+        }
+
+        return propDevProjectRetrievalService;
+    }
+
+    public void setProjectRetrievalService(ProjectRetrievalService propDevProjectRetrievalService) {
+        this.propDevProjectRetrievalService = propDevProjectRetrievalService;
     }
 }
