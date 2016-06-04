@@ -454,7 +454,7 @@ public class QuestionnaireXmlStream implements XmlStream {
             moduleItemKey = disclosure.getCoiDisclosureNumber();
             moduleSubItemCode = (String) params.get(COEUS_MODULE_SUB_ITEM_CODE);
         }
-        return getQuestionnaireAnswerService().getModuleSpecificBean(moduleItemCode,moduleItemKey,moduleSubItemCode,moduleSubItemKey, false);
+        return getQuestionnaireAnswerService().getModuleSpecificBean(moduleItemCode,moduleItemKey,moduleSubItemCode,moduleSubItemKey, true);
                 
     }
 
@@ -552,7 +552,6 @@ public class QuestionnaireXmlStream implements XmlStream {
                                         questionnaireQuestion.getId())
                                         && answer.getQuestionNumber().equals(questionnaireQuestion.getQuestionNumber())
                                         && answer.getQuestionId().equals(questionnaireQuestion.getQuestionId())) {
-                              
                                     if (answer.getParentAnswers() != null && answer.getParentAnswers().get(0).getAnswer() != null) {
                                         if (answer.getParentAnswers().get(0).getQuestion().getQuestionTypeId() == QUESTION_TYPE_INT) {
                                             if (answer.getParentAnswers().get(0).getAnswer().equals(
@@ -685,12 +684,12 @@ public class QuestionnaireXmlStream implements XmlStream {
                                         if (answerName != null) {
                                             if (answerName.trim().equalsIgnoreCase("Y")) {
                                                 answerDescription = "Yes";
-                                                if (updateQuestionDescription) {
+                                                if (updateQuestionDescription && StringUtils.isNotBlank(questionnaireQuestion.getQuestion().getAffirmativeStatementConversion())) {
                                                   questionInfo.setQuestion(questionnaireQuestion.getQuestion().getAffirmativeStatementConversion());
                                                 }
                                             } else if (answerName.trim().equalsIgnoreCase("N")) {
                                                 answerDescription = "No";
-                                                if (updateQuestionDescription) {
+                                                if (updateQuestionDescription && StringUtils.isNotBlank(questionnaireQuestion.getQuestion().getNegativeStatementConversion())) {
                                                     questionInfo.setQuestion(questionnaireQuestion.getQuestion().getNegativeStatementConversion());
                                                 }
                                             } else if (answerName.trim().equalsIgnoreCase("X")) {
