@@ -543,8 +543,9 @@ public class QuestionnaireXmlStream implements XmlStream {
         boolean answeredFlag = true;                      
         try {
             for (QuestionnaireQuestion questionnaireQuestion : sortedQuestionnaireQuestions) {                 
-                answeredFlag = true;                
+                answeredFlag = true;              
                 if (questionnaireQuestion.getConditionValue() != null) {
+                	answeredFlag = false;
                     for (AnswerHeader ansHeader : answerHeaders) {                       
                         if (questionnaireQuestion.getQuestionnaireId().equals(ansHeader.getQuestionnaireId())) {
                             for (Answer answer : ansHeader.getAnswers()) {
@@ -552,6 +553,7 @@ public class QuestionnaireXmlStream implements XmlStream {
                                         questionnaireQuestion.getId())
                                         && answer.getQuestionNumber().equals(questionnaireQuestion.getQuestionNumber())
                                         && answer.getQuestionId().equals(questionnaireQuestion.getQuestionId())) {
+                                	answeredFlag = true;
                                     if (answer.getParentAnswers() != null && answer.getParentAnswers().get(0).getAnswer() != null) {
                                         if (answer.getParentAnswers().get(0).getQuestion().getQuestionTypeId() == QUESTION_TYPE_INT) {
                                             if (answer.getParentAnswers().get(0).getAnswer().equals(
@@ -623,7 +625,8 @@ public class QuestionnaireXmlStream implements XmlStream {
         
         boolean isAnswerPresent = false;
         boolean answeredFlag = true;                
-        if (questionnaireQuestion.getConditionValue() != null) {                    
+        if (questionnaireQuestion.getConditionValue() != null) {
+        	answeredFlag = false;
             for (AnswerHeader ansHeader : answerHeaders) {                        
                 if (questionnaireQuestion.getQuestionnaireId().equals(ansHeader.getQuestionnaireId())) {
                     for (Answer answer : ansHeader.getAnswers()) {
@@ -631,6 +634,7 @@ public class QuestionnaireXmlStream implements XmlStream {
                                         questionnaireQuestion.getId())
                                         && answer.getQuestionNumber().equals(questionnaireQuestion.getQuestionNumber())
                                         && answer.getQuestionId().equals(questionnaireQuestion.getQuestionId())) {
+                        	answeredFlag = true;
                             if (answer.getParentAnswers() != null && answer.getParentAnswers().get(0).getAnswer() != null) {
                                 if (answer.getParentAnswers().get(0).getQuestion().getQuestionTypeId() == QUESTION_TYPE_INT) {
                                     if (answer.getParentAnswers().get(0).getAnswer().equals(
