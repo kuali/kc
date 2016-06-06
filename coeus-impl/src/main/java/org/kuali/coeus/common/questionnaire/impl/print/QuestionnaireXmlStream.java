@@ -158,7 +158,7 @@ public class QuestionnaireXmlStream implements XmlStream {
      * @throws PrintingException
      */
     @SuppressWarnings("unchecked")
-    private QuestionnaireDocument getQuestionnaireData(
+    QuestionnaireDocument getQuestionnaireData(
         KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> params) throws PrintingException {
         QuestionnaireDocument questionnaireDocument = QuestionnaireDocument.Factory.newInstance();
         Questionnaire questionnaireType = questionnaireDocument.addNewQuestionnaire();
@@ -787,6 +787,7 @@ public class QuestionnaireXmlStream implements XmlStream {
              }
              catch(Exception e){
                  LOG.error("Problem in deserializing xmldata to Questionnaire",e);
+            	 throw e;
             }
         }
     }
