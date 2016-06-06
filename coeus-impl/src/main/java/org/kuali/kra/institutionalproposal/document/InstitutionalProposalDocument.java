@@ -24,6 +24,9 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.coi.framework.Project;
+import org.kuali.coeus.coi.framework.ProjectPublisher;
+import org.kuali.coeus.coi.framework.ProjectRetrievalService;
 import org.kuali.coeus.common.framework.auth.perm.Permissionable;
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.version.VersionStatus;
@@ -64,6 +67,8 @@ public class InstitutionalProposalDocument extends KcTransactionalDocumentBase i
 
     private List<InstitutionalProposal> institutionalProposalList;
     private transient KcKrmsFactBuilderServiceHelper institutionalProposalFactBuilderService;
+    private transient ProjectRetrievalService projectRetrievalService;
+    private transient ProjectPublisher projectPublisher;
 
     public InstitutionalProposalDocument(){        
         super();        
@@ -145,6 +150,11 @@ public class InstitutionalProposalDocument extends KcTransactionalDocumentBase i
                 getInstitutionalProposalVersioningService().updateInstitutionalProposalVersionStatus(this.getInstitutionalProposal(), VersionStatus.ACTIVE);
             } else if (newStatus.equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_CANCEL_CD) || newStatus.equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_DISAPPROVED_CD)) {
                 getInstitutionalProposalVersioningService().updateInstitutionalProposalVersionStatus(this.getInstitutionalProposal(), VersionStatus.CANCELED);
+            }
+
+            final Project project = getProjectRetrievalService().retrieveProject(getInstitutionalProposal().getProposalNumber());
+            if (project != null) {
+                getProjectPublisher().publishProject(project);
             }
 
             return null;
@@ -249,5 +259,29 @@ public class InstitutionalProposalDocument extends KcTransactionalDocumentBase i
 
     public void setInstitutionalProposalFactBuilderService(KcKrmsFactBuilderServiceHelper institutionalProposalFactBuilderService) {
         this.institutionalProposalFactBuilderService = institutionalProposalFactBuilderService;
+    }
+
+    public ProjectPublisher getProjectPublisher() {
+        if (projectPublisher == null) {
+            projectPublisher = KcServiceLocator.getService(ProjectPublisher.class);
+        }
+
+        return projectPublisher;
+    }
+
+    public void setProjectPublisher(ProjectPublisher projectPublisher) {
+        this.projectPublisher = projectPublisher;
+    }
+
+    public ProjectRetrievalService getProjectRetrievalService() {
+        if (projectRetrievalService == null) {
+            projectRetrievalService = KcServiceLocator.getService("instPropProjectRetrievalService");
+        }
+
+        return projectRetrievalService;
+    }
+
+    public void setProjectRetrievalService(ProjectRetrievalService projectRetrievalService) {
+        this.projectRetrievalService = projectRetrievalService;
     }
 }
