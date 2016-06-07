@@ -282,9 +282,11 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
                 getDataObjectService().save(bp, PersistenceOption.LINK_KEYS, PersistenceOption.FLUSH);
             }
 
-            final Project project = getProjectRetrievalService().retrieveProject(getDevelopmentProposal().getProposalNumber());
-            if (project != null) {
-                getProjectPublisher().publishProject(project);
+            if(getDevelopmentProposal() != null) {
+                final Project project = getProjectRetrievalService().retrieveProject(getDevelopmentProposal().getProposalNumber());
+                if (project != null) {
+                    getProjectPublisher().publishProject(project);
+                }
             }
             return null;
         });
@@ -333,9 +335,11 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
                 }
             }
 
-            final Project project = getProjectRetrievalService().retrieveProject(getDevelopmentProposal().getProposalNumber());
-            if (project != null) {
-                getProjectPublisher().publishProject(project);
+            if (getDevelopmentProposal() != null) {
+                final Project project = getProjectRetrievalService().retrieveProject(getDevelopmentProposal().getProposalNumber());
+                if (project != null) {
+                    getProjectPublisher().publishProject(project);
+                }
             }
             return null;
         });
