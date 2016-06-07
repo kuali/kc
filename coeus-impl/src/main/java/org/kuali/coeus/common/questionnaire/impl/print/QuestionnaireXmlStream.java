@@ -158,7 +158,7 @@ public class QuestionnaireXmlStream implements XmlStream {
      * @throws PrintingException
      */
     @SuppressWarnings("unchecked")
-    private QuestionnaireDocument getQuestionnaireData(
+    QuestionnaireDocument getQuestionnaireData(
         KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> params) throws PrintingException {
         QuestionnaireDocument questionnaireDocument = QuestionnaireDocument.Factory.newInstance();
         Questionnaire questionnaireType = questionnaireDocument.addNewQuestionnaire();
@@ -454,7 +454,7 @@ public class QuestionnaireXmlStream implements XmlStream {
             moduleItemKey = disclosure.getCoiDisclosureNumber();
             moduleSubItemCode = (String) params.get(COEUS_MODULE_SUB_ITEM_CODE);
         }
-        return getQuestionnaireAnswerService().getModuleSpecificBean(moduleItemCode,moduleItemKey,moduleSubItemCode,moduleSubItemKey, false);
+        return getQuestionnaireAnswerService().getModuleSpecificBean(moduleItemCode,moduleItemKey,moduleSubItemCode,moduleSubItemKey, true);
                 
     }
 
@@ -543,8 +543,9 @@ public class QuestionnaireXmlStream implements XmlStream {
         boolean answeredFlag = true;                      
         try {
             for (QuestionnaireQuestion questionnaireQuestion : sortedQuestionnaireQuestions) {                 
-                answeredFlag = true;                
+                answeredFlag = true;              
                 if (questionnaireQuestion.getConditionValue() != null) {
+                	answeredFlag = false;
                     for (AnswerHeader ansHeader : answerHeaders) {                       
                         if (questionnaireQuestion.getQuestionnaireId().equals(ansHeader.getQuestionnaireId())) {
                             for (Answer answer : ansHeader.getAnswers()) {
@@ -552,7 +553,7 @@ public class QuestionnaireXmlStream implements XmlStream {
                                         questionnaireQuestion.getId())
                                         && answer.getQuestionNumber().equals(questionnaireQuestion.getQuestionNumber())
                                         && answer.getQuestionId().equals(questionnaireQuestion.getQuestionId())) {
-                              
+                                	answeredFlag = true;
                                     if (answer.getParentAnswers() != null && answer.getParentAnswers().get(0).getAnswer() != null) {
                                         if (answer.getParentAnswers().get(0).getQuestion().getQuestionTypeId() == QUESTION_TYPE_INT) {
                                             if (answer.getParentAnswers().get(0).getAnswer().equals(
@@ -624,7 +625,8 @@ public class QuestionnaireXmlStream implements XmlStream {
         
         boolean isAnswerPresent = false;
         boolean answeredFlag = true;                
-        if (questionnaireQuestion.getConditionValue() != null) {                    
+        if (questionnaireQuestion.getConditionValue() != null) {
+        	answeredFlag = false;
             for (AnswerHeader ansHeader : answerHeaders) {                        
                 if (questionnaireQuestion.getQuestionnaireId().equals(ansHeader.getQuestionnaireId())) {
                     for (Answer answer : ansHeader.getAnswers()) {
@@ -632,6 +634,7 @@ public class QuestionnaireXmlStream implements XmlStream {
                                         questionnaireQuestion.getId())
                                         && answer.getQuestionNumber().equals(questionnaireQuestion.getQuestionNumber())
                                         && answer.getQuestionId().equals(questionnaireQuestion.getQuestionId())) {
+                        	answeredFlag = true;
                             if (answer.getParentAnswers() != null && answer.getParentAnswers().get(0).getAnswer() != null) {
                                 if (answer.getParentAnswers().get(0).getQuestion().getQuestionTypeId() == QUESTION_TYPE_INT) {
                                     if (answer.getParentAnswers().get(0).getAnswer().equals(
@@ -685,12 +688,12 @@ public class QuestionnaireXmlStream implements XmlStream {
                                         if (answerName != null) {
                                             if (answerName.trim().equalsIgnoreCase("Y")) {
                                                 answerDescription = "Yes";
-                                                if (updateQuestionDescription) {
+                                                if (updateQuestionDescription && StringUtils.isNotBlank(questionnaireQuestion.getQuestion().getAffirmativeStatementConversion())) {
                                                   questionInfo.setQuestion(questionnaireQuestion.getQuestion().getAffirmativeStatementConversion());
                                                 }
                                             } else if (answerName.trim().equalsIgnoreCase("N")) {
                                                 answerDescription = "No";
-                                                if (updateQuestionDescription) {
+                                                if (updateQuestionDescription && StringUtils.isNotBlank(questionnaireQuestion.getQuestion().getNegativeStatementConversion())) {
                                                     questionInfo.setQuestion(questionnaireQuestion.getQuestion().getNegativeStatementConversion());
                                                 }
                                             } else if (answerName.trim().equalsIgnoreCase("X")) {
@@ -784,6 +787,7 @@ public class QuestionnaireXmlStream implements XmlStream {
              }
              catch(Exception e){
                  LOG.error("Problem in deserializing xmldata to Questionnaire",e);
+            	 throw e;
             }
         }
     }

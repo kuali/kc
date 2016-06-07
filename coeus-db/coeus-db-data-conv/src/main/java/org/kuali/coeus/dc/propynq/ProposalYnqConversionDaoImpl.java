@@ -60,6 +60,7 @@ public class ProposalYnqConversionDaoImpl implements ProposalYnqConversionDao {
 	private static final String DELETE_PROPOSAL_YNQ_STR = "delete from eps_prop_ynq where proposal_number = ?";
 	private static final String BACKUP_PROP_PERSON_YNQ = "create table eps_prop_pers_ynq_bak as select * from eps_prop_pers_ynq";
 	private static final String DELETE_PROP_PERSON_YNQ_STR = "delete from eps_prop_pers_ynq where proposal_number = ? and prop_person_number = ?";
+	private static final String INACTIVATE_YNQ = "update ynq set status = 'I' where question_type = ?";
 	private ConnectionDaoService connectionDaoService;
 	
 	@Override
@@ -107,6 +108,8 @@ public class ProposalYnqConversionDaoImpl implements ProposalYnqConversionDao {
 				conn.prepareStatement(DELETE_PROPOSAL_YNQ_STR);
 			PreparedStatement stmt = 
 				conn.prepareStatement(SELECT_DISTINCT_PROPOSAL_YNQ);
+			PreparedStatement inactivateYnq =
+				conn.prepareStatement(INACTIVATE_YNQ);
 			ResultSet rs = stmt.executeQuery()) {
 			while (rs.next()) {
 				String proposalNumber = rs.getString(1);
@@ -140,6 +143,8 @@ public class ProposalYnqConversionDaoImpl implements ProposalYnqConversionDao {
 					false, ynqToQuestionId, questionnaireQuestionIds, 
 					questionnaireQuestionAnswerNumbers, insertQuestionnaire, addQuestionToQuestionnaire, addQuestionnaireUsage, conn);
 			}
+			inactivateYnq.setString(1, PROPOSAL_YNQ_TYPE);
+			inactivateYnq.execute();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
@@ -179,6 +184,8 @@ public class ProposalYnqConversionDaoImpl implements ProposalYnqConversionDao {
 				conn.prepareStatement(DELETE_PROP_PERSON_YNQ_STR);
 			PreparedStatement stmt = 
 				conn.prepareStatement(SELECT_DISTINCT_PROP_PERSON_YNQ);
+			PreparedStatement inactivateYnq =
+				conn.prepareStatement(INACTIVATE_YNQ);
 			ResultSet rs = stmt.executeQuery()) {
 			while (rs.next()) {
 				String proposalNumber = rs.getString(1);
@@ -216,6 +223,8 @@ public class ProposalYnqConversionDaoImpl implements ProposalYnqConversionDao {
 					false, ynqToQuestionId, questionnaireQuestionIds, 
 					questionnaireQuestionAnswerNumbers, insertQuestionnaire, addQuestionToQuestionnaire, addQuestionnaireUsage, conn);
 			}
+			inactivateYnq.setString(1, INVESTIGATOR_YNQ_TYPE);
+			inactivateYnq.execute();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}		
@@ -247,10 +256,11 @@ public class ProposalYnqConversionDaoImpl implements ProposalYnqConversionDao {
 		for (Ynq question : questions) {
 			final String questionId = question.questionId;
 			final Long questionRefId = ynqToQuestionId.get(questionId);
-			final Long questionnaireQuestionId = addQuestionToQuestionnaire(refId, questionRefId, questionNumber++, addQuestionToQuestionnaire, conn);
+			final Long questionnaireQuestionId = addQuestionToQuestionnaire(refId, questionRefId, questionNumber, addQuestionToQuestionnaire, conn);
 			currentQuestionnaireQuestionIds.put(questionRefId, 
 				questionnaireQuestionId);
 			questionAnswerNumbers.put(questionRefId, questionNumber);
+			questionNumber += 1;
 		}
 		return refId;
 	}
