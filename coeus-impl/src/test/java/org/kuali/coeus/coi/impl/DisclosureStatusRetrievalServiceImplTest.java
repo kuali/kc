@@ -28,6 +28,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DisclosureStatusRetrievalServiceImplTest {
 
     class MockDisclosureStatusRetrievalServiceImplMock extends DisclosureStatusRetrievalServiceImpl {
@@ -37,9 +40,11 @@ public class DisclosureStatusRetrievalServiceImplTest {
            this.disclosureProjectStatus = disclosureProjectStatus;
         }
 
-        @Override
-        protected ResponseEntity<DisclosureProjectStatus> getDisclosureStatusFromCoi(String url, HttpEntity<String> entity, HttpMethod method) {
-            ResponseEntity<DisclosureProjectStatus> responseEntity = new ResponseEntity<DisclosureProjectStatus>(disclosureProjectStatus, HttpStatus.OK);
+       @Override
+        protected ResponseEntity<List<DisclosureProjectStatus>> getDisclosureStatusFromCoi(String url, HttpEntity<String> entity, HttpMethod method) {
+           List<DisclosureProjectStatus> statuses = new ArrayList<>();
+           statuses.add(disclosureProjectStatus);
+            ResponseEntity<List<DisclosureProjectStatus>> responseEntity = new ResponseEntity<>(statuses, HttpStatus.OK);
             return responseEntity;
         }
 
@@ -59,19 +64,17 @@ public class DisclosureStatusRetrievalServiceImplTest {
         disclosureProjectStatus.setStatus("Not yet disclosed");
         disclosureProjectStatus.setUserId("username1");
         MockDisclosureStatusRetrievalServiceImplMock mock = new MockDisclosureStatusRetrievalServiceImplMock(disclosureProjectStatus);
-        DisclosureProjectStatus status = mock.getDisclosureStatusForPerson(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, "1", "username1");
+        List<DisclosureProjectStatus> status = mock.getDisclosureStatusesForProject(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, "1");
 
         Assert.assertTrue(status != null);
-        Assert.assertEquals(status.getStatus(), "Not yet disclosed");
-        Assert.assertEquals(status.getUserId(), "username1");
+        Assert.assertEquals(status.get(0).getStatus(), "Not yet disclosed");
+        Assert.assertEquals(status.get(0).getUserId(), "username1");
 
         disclosureProjectStatus = null;
 
         mock = new MockDisclosureStatusRetrievalServiceImplMock(disclosureProjectStatus);
-        status = mock.getDisclosureStatusForPerson(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, "1", "username1");
-        Assert.assertTrue(status == null);
-
-
+        status = mock.getDisclosureStatusesForProject(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, "1");
+        Assert.assertTrue(status.get(0) == null);
 
     }
 

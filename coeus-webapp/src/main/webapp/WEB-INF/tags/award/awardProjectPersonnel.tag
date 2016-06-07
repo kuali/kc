@@ -200,6 +200,9 @@
     			</c:if>
 
                 <c:set var="displayCoiDisclosureStatus" value="${KualiForm.displayCoiDisclosureStatus}" />
+                <c:set var="coiDisclosureStatuses" value="${KualiForm.disclosureProjectStatuses}" />
+                <c:set var="coiDispositionViewEnabled" value="${KualiForm.coiDispositionViewEnabled}" />
+
                 <c:forEach var="awardContact" items="${KualiForm.document.awardList[0].projectPersons}" varStatus="awardContactRowStatus">
     				<tr>
     					<th class="infoline" scope="row" rowspan="4">
@@ -276,14 +279,38 @@
     	            </tr>
                     <c:choose>
                         <c:when test="${displayCoiDisclosureStatus}">
-                    <tr>
-                        <td colspan="1" nowrap class="tab-subhead">
-                            Coi Disclosure Status:
-                        </td>
-                        <td colspan="5" nowrap class="tab-subhead">
-                            ${awardContact.disclosureStatus}
-                        </td>
-                    </tr>
+                            <c:forEach items="${coiDisclosureStatuses}" var="projectStatus">
+                                <c:choose>
+                                    <c:when test="${awardContact.genericId eq projectStatus.userId}">
+                                        <tr>
+                                            <td colspan="1" nowrap class="tab-subhead">
+                                                Coi Disclosure Status:
+                                            </td>
+                                            <td colspan="5" nowrap class="tab-subhead">
+                                                ${projectStatus.status}
+                                            </td>
+                                        </tr>
+                                    </c:when>
+                                </c:choose>
+                            </c:forEach>
+                        </c:when>
+                    </c:choose>
+                    <c:choose>
+                        <c:when test="${coiDispositionViewEnabled && awardContact.canViewDisclosureDisposition}">
+                            <c:forEach items="${coiDisclosureStatuses}" var="projectStatus">
+                                <c:choose>
+                                    <c:when test="${awardContact.genericId eq projectStatus.userId}">
+                                        <tr>
+                                            <td colspan="1" nowrap class="tab-subhead">
+                                                Coi Disposition Status:
+                                            </td>
+                                            <td colspan="5" nowrap class="tab-subhead">
+                                                    ${projectStatus.disposition}
+                                            </td>
+                                        </tr>
+                                    </c:when>
+                                </c:choose>
+                            </c:forEach>
                         </c:when>
                     </c:choose>
     	            <tr>

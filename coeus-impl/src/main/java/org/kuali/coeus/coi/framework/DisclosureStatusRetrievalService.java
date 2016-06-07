@@ -18,8 +18,10 @@
  */
 package org.kuali.coeus.coi.framework;
 
+import java.util.List;
+
 public interface DisclosureStatusRetrievalService {
 
-    public DisclosureProjectStatus getDisclosureStatusForPerson(String sourceId, String projectId, String personId);
+    List<DisclosureProjectStatus> getDisclosureStatusesForProject(String sourceId, String projectId);
 
 }

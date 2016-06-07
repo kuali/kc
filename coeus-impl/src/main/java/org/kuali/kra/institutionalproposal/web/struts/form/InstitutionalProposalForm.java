@@ -19,6 +19,8 @@
 package org.kuali.kra.institutionalproposal.web.struts.form;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.coi.framework.DisclosureProjectStatus;
+import org.kuali.coeus.coi.framework.DisclosureStatusRetrievalService;
 import org.kuali.coeus.common.notification.impl.NotificationHelper;
 import org.kuali.coeus.sys.framework.validation.Auditable;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase;
@@ -90,6 +92,9 @@ public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase i
     
     private boolean viewFundingSource;
     private boolean docOpenedFromIPSearch;
+
+    private transient List<DisclosureProjectStatus> disclosureProjectStatuses;
+    private transient DisclosureStatusRetrievalService disclosureStatusRetrievalService;
     
 
     public InstitutionalProposalForm() {
@@ -412,6 +417,27 @@ public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase i
     public boolean getDisplayCoiDisclosureStatus() {
         return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL,
                 Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ENABLE_DISCLOSURE_STATUS_FROM_COI_MODULE);
+    }
+
+    public boolean isCoiDispositionViewEnabled() {
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL,
+                Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ENABLE_DISCLOSURE_DISPOSITION_STATUS_FROM_COI_MODULE);
+    }
+
+    public List<DisclosureProjectStatus> getDisclosureProjectStatuses() {
+        if (disclosureProjectStatuses == null) {
+            disclosureProjectStatuses = getDisclosureStatusRetrievalService().getDisclosureStatusesForProject(
+                    Constants.MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL, getInstitutionalProposalDocument().getInstitutionalProposal().getInstProposalNumber()
+            );
+        }
+        return disclosureProjectStatuses;
+    }
+
+    protected DisclosureStatusRetrievalService getDisclosureStatusRetrievalService() {
+        if (disclosureStatusRetrievalService == null) {
+            disclosureStatusRetrievalService = KcServiceLocator.getService(DisclosureStatusRetrievalService.class);
+        }
+        return disclosureStatusRetrievalService;
     }
 
 }

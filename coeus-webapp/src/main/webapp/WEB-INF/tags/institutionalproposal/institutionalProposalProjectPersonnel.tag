@@ -129,6 +129,9 @@
 			</c:if>
 
             <c:set var="displayCoiDisclosureStatus" value="${KualiForm.displayCoiDisclosureStatus}" />
+            <c:set var="coiDisclosureStatuses" value="${KualiForm.disclosureProjectStatuses}" />
+            <c:set var="coiDispositionViewEnabled" value="${KualiForm.coiDispositionViewEnabled}" />
+
 			<c:forEach var="institutionalProposalContact" items="${krafn:copy(KualiForm.document.institutionalProposalList[0].projectPersons)}" varStatus="institutionalProposalContactRowStatus">
 				<tr>
 					<th class="infoline" scope="row" rowspan="4">
@@ -187,18 +190,45 @@
 						</div>
 	                </td>
 	            </tr>
+
                 <c:choose>
                     <c:when test="${displayCoiDisclosureStatus}">
-                <tr>
-                    <td colspan="1" nowrap class="tab-subhead">
-                        Coi Disclosure Status:
-                    </td>
-                    <td colspan="5" nowrap class="tab-subhead">
-                        ${institutionalProposalContact.disclosureStatus}
-                    </td>
-                </tr>
+                        <c:forEach items="${coiDisclosureStatuses}" var="projectStatus">
+                            <c:choose>
+                                <c:when test="${institutionalProposalContact.genericId eq projectStatus.userId}">
+                                    <tr>
+                                        <td colspan="1" nowrap class="tab-subhead">
+                                            Coi Disclosure Status:
+                                        </td>
+                                        <td colspan="5" nowrap class="tab-subhead">
+                                                ${projectStatus.status}
+                                        </td>
+                                    </tr>
+                                </c:when>
+                            </c:choose>
+                        </c:forEach>
                     </c:when>
                 </c:choose>
+
+                <c:choose>
+                    <c:when test="${coiDispositionViewEnabled && institutionalProposalContact.canViewDisclosureDisposition}">
+                        <c:forEach items="${coiDisclosureStatuses}" var="projectStatus">
+                            <c:choose>
+                               <c:when test="${institutionalProposalContact.genericId eq projectStatus.userId}">
+                                    <tr>
+                                        <td colspan="1" nowrap class="tab-subhead">
+                                            Coi Disposition Status:
+                                        </td>
+                                        <td colspan="5" nowrap class="tab-subhead">
+                                                ${projectStatus.disposition}
+                                        </td>
+                                    </tr>
+                                </c:when>
+                            </c:choose>
+                        </c:forEach>
+                    </c:when>
+                </c:choose>
+
 	            <tr>
 	            	<td colspan="6">
 	            		<kra-ip:institutionalProposalProjectPersonnelPersonDetails institutionalProposalContact="${institutionalProposalContact}" institutionalProposalContactRowStatusIndex="${institutionalProposalContactRowStatus.index}" />

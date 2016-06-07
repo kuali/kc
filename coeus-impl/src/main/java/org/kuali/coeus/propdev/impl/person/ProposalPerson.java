@@ -23,8 +23,6 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.kuali.coeus.coi.framework.DisclosureProjectStatus;
-import org.kuali.coeus.coi.framework.DisclosureStatusRetrievalService;
 import org.kuali.coeus.common.framework.person.attr.PersonTraining;
 import org.kuali.coeus.common.framework.person.editable.PersonEditable;
 import org.kuali.coeus.common.framework.person.KcPerson;
@@ -429,9 +427,6 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements N
 
     @Transient
     private Timestamp createTimestamp;
-
-    @Transient
-    private transient DisclosureProjectStatus disclosureProjectStatus;
 
     public boolean isMoveDownAllowed() {
         return moveDownAllowed;
@@ -1866,21 +1861,4 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements N
 		this.certifiedTimeStamp = certifiedTimeStamp;
 	}
 
-    public DisclosureProjectStatus getDisclosureProjectStatus() {
-        String personId = getPersonId() == null ? getRolodexId().toString() : getPersonId();
-        if (disclosureProjectStatus == null) {
-            disclosureProjectStatus = getDisclosureStatusRetrievalService().getDisclosureStatusForPerson(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
-                    getDevelopmentProposal().getProposalNumber(),
-                    personId);
-        }
-        return disclosureProjectStatus;
-    }
-
-    public void setDisclosureProjectStatus(DisclosureProjectStatus disclosureProjectStatus) {
-        this.disclosureProjectStatus = disclosureProjectStatus;
-    }
-
-    public DisclosureStatusRetrievalService getDisclosureStatusRetrievalService() {
-        return KcServiceLocator.getService(DisclosureStatusRetrievalService.class);
-    }
 }

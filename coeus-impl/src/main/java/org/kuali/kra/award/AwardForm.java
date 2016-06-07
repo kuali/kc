@@ -24,6 +24,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.award.AccountInformationBean;
 import org.kuali.coeus.award.finance.AwardAccount;
+import org.kuali.coeus.coi.framework.DisclosureProjectStatus;
+import org.kuali.coeus.coi.framework.DisclosureStatusRetrievalService;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
 import org.kuali.coeus.common.notification.impl.NotificationHelper;
@@ -90,6 +92,7 @@ import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.util.KRADConstants;
 
+import javax.persistence.Transient;
 import java.text.ParseException;
 import java.util.*;
 
@@ -179,7 +182,6 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
     private Map< AwardTemplateSyncScope, Boolean > syncRequiresConfirmationMap;
     private AwardTemplateSyncScope[] currentSyncScopes;
     private String currentSyncQuestionId;
-    //KCAWD-494:  Added to track a template code lookup.
     private Integer oldTemplateCode;
     private boolean templateLookup = false;
     
@@ -208,6 +210,9 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
 
     private AccountInformationBean accountInformationBean;
     private AccountCreationPresentationHelper accountCreationHelper;
+
+    private transient List<DisclosureProjectStatus> disclosureProjectStatuses;
+    private transient DisclosureStatusRetrievalService disclosureStatusRetrievalService;
 
     /**
      * Constructs a AwardForm with an existing AwardDocument. Used primarily by tests outside of Struts
@@ -1553,6 +1558,27 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
     public boolean getDisplayCoiDisclosureStatus() {
         return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_AWARD,
                 Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ENABLE_DISCLOSURE_STATUS_FROM_COI_MODULE);
+    }
+
+    public boolean isCoiDispositionViewEnabled() {
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_AWARD,
+                Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ENABLE_DISCLOSURE_DISPOSITION_STATUS_FROM_COI_MODULE);
+    }
+
+    public List<DisclosureProjectStatus> getDisclosureProjectStatuses() {
+        if (disclosureProjectStatuses == null) {
+            disclosureProjectStatuses = getDisclosureStatusRetrievalService().getDisclosureStatusesForProject(
+                    Constants.MODULE_NAMESPACE_AWARD, getAwardDocument().getAward().getAwardNumber()
+            );
+        }
+        return disclosureProjectStatuses;
+    }
+
+    protected DisclosureStatusRetrievalService getDisclosureStatusRetrievalService() {
+        if (disclosureStatusRetrievalService == null) {
+            disclosureStatusRetrievalService = KcServiceLocator.getService(DisclosureStatusRetrievalService.class);
+        }
+        return disclosureStatusRetrievalService;
     }
 
 }
