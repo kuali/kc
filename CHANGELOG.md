@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* RESKC-1406: Added new tests for valid save.
+  * Gayathri Athreya on Wed, 8 Jun 2016 11:32:03 -0700 [View Commit](../../commit/78c138deca7e5322ade26f80e8001ca97436bac5)
+* RESKC-1406: Award Contacts do not save on Award Contacts page
+  * Gayathri Athreya on Wed, 8 Jun 2016 10:20:51 -0700 [View Commit](../../commit/087cf4e5be86367ec5c55076b5eed2abb3d7f337)
+
+##coeus-1606.9
 * No Changes
 
 
