@@ -1,4 +1,5 @@
-<%--
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
    - Kuali Coeus, a comprehensive research administration system for higher education.
    - 
    - Copyright 2005-2016 Kuali, Inc.
@@ -15,23 +16,15 @@
    - 
    - You should have received a copy of the GNU Affero General Public License
    - along with this program.  If not, see <http://www.gnu.org/licenses/>.
---%>
-<%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-
-
-<td class="content" valign="top">
-      <channel:systemAdminSystem />
-      <channel:systemAdminBatch />
-      <administrationChannel:configuration />
-      <channel:misc />
-</td>
-<td class="content" valign="top">
-      <administrationChannel:identity />
-      <channel:citi />
-</td>
-
-<td class="content" valign="top">
-      <administrationChannel:workflow />
-      <administrationChannel:sendNotification />
-      <administrationChannel:serviceBus />
-</td>
+ -->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+			<name>PersonTrainingCitiRecordMaintenanceDocument</name>
+			<description>Create a New Person Training CITI Record</description>
+			<label>Person Training CITI Record Maintenance Document</label>
+			<parent>KcMiscellaneousMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/persontrainingcitirecord.htm</helpDefinitionURL>
+		</documentType>
+	</documentTypes>	
+</data>

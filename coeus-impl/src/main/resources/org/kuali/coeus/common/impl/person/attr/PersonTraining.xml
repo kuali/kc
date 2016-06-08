@@ -199,39 +199,43 @@
   </bean>
 
 	<bean id="PersonTraining-dateRequested" parent="PersonTraining-dateRequested-parentBean"/>
-	<bean abstract="true" id="PersonTraining-dateRequested-parentBean" parent="KraAttributeReferenceDummy-genericDate">
+	<bean abstract="true" id="PersonTraining-dateRequested-parentBean" parent="AttributeReference-genericTimestamp">
 		<property name="name" value="dateRequested"/>
 		<property name="label" value="Date Requested"/>
 		<property name="shortLabel" value="Date Requested"/>
 		<property name="summary" value="Date Requested"/>
 		<property name="description" value="Date Requested"/>
+		<property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>
 	</bean>
 
 	<bean id="PersonTraining-dateSubmitted" parent="PersonTraining-dateSubmitted-parentBean"/>
-	<bean abstract="true" id="PersonTraining-dateSubmitted-parentBean" parent="KraAttributeReferenceDummy-genericDate">
+	<bean abstract="true" id="PersonTraining-dateSubmitted-parentBean" parent="AttributeReference-genericTimestamp">
 		<property name="name" value="dateSubmitted"/>
 		<property name="label" value="Date Submitted"/>
 		<property name="shortLabel" value="Date Submitted"/>
 		<property name="summary" value="Date Submitted"/>
 		<property name="description" value="Date Submitted"/>
+		<property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>
 	</bean>
 
 	<bean id="PersonTraining-dateAcknowledged" parent="PersonTraining-dateAcknowledged-parentBean"/>
-	<bean abstract="true" id="PersonTraining-dateAcknowledged-parentBean" parent="KraAttributeReferenceDummy-genericDate">
+	<bean abstract="true" id="PersonTraining-dateAcknowledged-parentBean" parent="AttributeReference-genericTimestamp">
 		<property name="name" value="dateAcknowledged"/>
 		<property name="label" value="Date Acknowledged"/>
 		<property name="shortLabel" value="Date Acknowledged"/>
 		<property name="summary" value="Date Acknowledged"/>
 		<property name="description" value="Date Acknowledged"/>
+		<property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>
 	</bean>
 
 	<bean id="PersonTraining-followupDate" parent="PersonTraining-followupDate-parentBean"/>
-	<bean abstract="true" id="PersonTraining-followupDate-parentBean" parent="KraAttributeReferenceDummy-genericDate">
+	<bean abstract="true" id="PersonTraining-followupDate-parentBean" parent="AttributeReference-genericTimestamp">
 		<property name="name" value="followupDate"/>
 		<property name="label" value="Followup Date"/>
 		<property name="shortLabel" value="Followup Date"/>
 		<property name="summary" value="Followup Date"/>
 		<property name="description" value="Followup Date"/>
+		<property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>
 	</bean>
 
 	<bean id="PersonTraining-score" parent="PersonTraining-score-parentBean"/>

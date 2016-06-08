@@ -473,6 +473,11 @@
                 <value>classpath:org/kuali/coeus/common/impl/person/signature/PersonSignature.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/person/signature/PersonSignatureModule.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/person/attr/PersonTraining.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/person/citi/PersonTrainingCitiRecord.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/person/citi/PersonTrainingCitiRecordMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/person/citi/PersonTrainingCitiRecordError.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/person/citi/PersonTrainingCitiMap.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/person/citi/PersonTrainingCitiMapMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/abstrct/ProposalAbstract.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/editable/ProposalChangedData.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/editable/ProposalColumnsToAlter.xml</value>

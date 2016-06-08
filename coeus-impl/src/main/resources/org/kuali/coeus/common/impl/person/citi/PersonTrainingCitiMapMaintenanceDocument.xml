@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - Kuali Coeus, a comprehensive research administration system for higher education.
+   -
+   - Copyright 2005-2016 Kuali, Inc.
+   -
+   - This program is free software: you can redistribute it and/or modify
+   - it under the terms of the GNU Affero General Public License as
+   - published by the Free Software Foundation, either version 3 of the
+   - License, or (at your option) any later version.
+   -
+   - This program is distributed in the hope that it will be useful,
+   - but WITHOUT ANY WARRANTY; without even the implied warranty of
+   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   - GNU Affero General Public License for more details.
+   -
+   - You should have received a copy of the GNU Affero General Public License
+   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="PersonTrainingCitiMapMaintenanceDocument" parent="PersonTrainingCitiMapMaintenanceDocument-parentBean"/>
+    <bean id="PersonTrainingCitiMapMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
+        <property name="businessObjectClass" value="org.kuali.coeus.common.framework.person.citi.PersonTrainingCitiMap"/>
+        <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
+        <property name="maintainableSections">
+            <list>
+                <ref bean="PersonTrainingCitiMapMaintenanceDocument-EditCitiMap"/>
+            </list>
+        </property>
+        <property name="lockingKeys">
+            <list>
+                <value>id</value>
+            </list>
+        </property>
+        <property name="allowsRecordDeletion" value="true" />
+
+        <property name="documentTypeName" value="PersonTrainingCitiMapMaintenanceDocument"/>
+        <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    </bean>
+
+    <!-- Maintenance Section Definitions -->
+
+    <bean id="PersonTrainingCitiMapMaintenanceDocument-EditCitiMap" parent="PersonTrainingCitiMapMaintenanceDocument-EditCitiMap-parentBean"/>
+    <bean id="PersonTrainingCitiMapMaintenanceDocument-EditCitiMap-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+        <property name="id" value="Person Training CITI Mapping"/>
+        <property name="title" value="Person Training CITI Mapping"/>
+        <property name="maintainableItems">
+            <list>
+                <bean parent="MaintainableFieldDefinition" p:name="id" p:unconditionallyReadOnly="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="curriculumNumber" p:required="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="groupId" p:required="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="stageNumber" p:required="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="trainingCode" p:required="true"/>
+            </list>
+        </property>
+    </bean>
+</beans>

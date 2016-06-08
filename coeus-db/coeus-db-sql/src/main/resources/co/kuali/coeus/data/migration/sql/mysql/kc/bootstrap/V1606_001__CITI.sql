@@ -1,0 +1,150 @@
+--
+-- Kuali Coeus, a comprehensive research administration system for higher education.
+--
+-- Copyright 2005-2016 Kuali, Inc.
+--
+-- This program is free software: you can redistribute it and/or modify
+-- it under the terms of the GNU Affero General Public License as
+-- published by the Free Software Foundation, either version 3 of the
+-- License, or (at your option) any later version.
+--
+-- This program is distributed in the hope that it will be useful,
+-- but WITHOUT ANY WARRANTY; without even the implied warranty of
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-- GNU Affero General Public License for more details.
+--
+-- You should have received a copy of the GNU Affero General Public License
+-- along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--
+
+create table SEQ_PERSON_TRAINING_CITI
+(
+  id bigint(19) not null auto_increment, primary key (id)
+) ENGINE MyISAM;
+
+-- minimal constraints and loose types on this table since this is a staging table and invalid records should still persist
+create table PERSON_TRAINING_CITI (
+  ID decimal(22,0),
+  FIRST_NAME varchar(40),
+  LAST_NAME varchar(80),
+  EMAIL varchar(200),
+  EMPLOYEE_NUMBER varchar(100),
+  CURRICULUM_NUMBER varchar(100),
+  CURRICULUM varchar(200),
+  GROUP_ID varchar(100),
+  GRP varchar(200),
+  SCORE varchar(5),
+  PASSING_SCORE varchar(5),
+  STAGE_NUMBER varchar(100),
+  STAGE varchar(200),
+  LEARNER_ID  varchar(100),
+  DATE_COMPLETED DATETIME,
+  EXPIRATION_DATE DATETIME,
+  REGISTRATION_DATE DATETIME,
+  NAME varchar(200),
+  USERNAME varchar(100),
+  INSTITUTIONAL_USERNAME varchar(100),
+  INSTITUTIONAL_LANGUAGE varchar(100),
+  INSTITUTIONAL_EMAIL varchar(200),
+  GENDER VARCHAR(20),
+  HIGHEST_DEGREE VARCHAR(200),
+  DEPARTMENT VARCHAR(200),
+  ADDRESS_FIELD1 VARCHAR(128),
+  ADDRESS_FIELD2 VARCHAR(128),
+  ADDRESS_FIELD3 VARCHAR(128),
+  CITY VARCHAR(30),
+  STATE varchar(100),
+  ZIP_CODE VARCHAR(20),
+  COUNTRY varchar(100),
+  PHONE VARCHAR(20),
+  CUSTOM_FIELD1 varchar(200),
+  CUSTOM_FIELD2 varchar(200),
+  CUSTOM_FIELD3 varchar(200),
+  CUSTOM_FIELD4 varchar(200),
+  CUSTOM_FIELD5 varchar(200),
+  MODULE varchar(200),
+  EXAM_ID varchar(100),
+  EXAM_SCORE varchar(5),
+  MODULE_COMPLETION_DATE DATETIME,
+  RAW_RECORD LONGTEXT,
+  STATUS_CODE varchar(1) NOT NULL DEFAULT 'S',
+  UPDATE_USER VARCHAR(60) NOT NULL,
+  UPDATE_TIMESTAMP DATETIME NOT NULL,
+  VER_NBR DECIMAL (8,0) NOT NULL DEFAULT 1,
+  OBJ_ID VARCHAR(36) NOT NULL);
+
+ALTER TABLE PERSON_TRAINING_CITI
+  ADD CONSTRAINT PK_PERSON_TRAINING_CITI
+PRIMARY KEY (ID);
+
+ALTER TABLE PERSON_TRAINING_CITI
+  ADD CONSTRAINT UQ_PERSON_TRAINING_CITI
+UNIQUE (OBJ_ID);
+
+create index PERSON_TRAINING_CITI_IDX on PERSON_TRAINING_CITI (STATUS_CODE);
+
+create table SEQ_PERSON_TRAINING_CITI_ERR
+(
+  id bigint(19) not null auto_increment, primary key (id)
+) ENGINE MyISAM;
+
+create table PERSON_TRAINING_CITI_ERR (
+  ID decimal(22,0),
+  CITI_RECORD_ID decimal(22,0) not null,
+  MESSAGE varchar(2000) not null,
+  UPDATE_USER VARCHAR(60) NOT NULL,
+  UPDATE_TIMESTAMP DATETIME NOT NULL,
+  VER_NBR DECIMAL (8,0) NOT NULL DEFAULT 1,
+  OBJ_ID VARCHAR(36) NOT NULL);
+
+create index PERSON_TRAINING_CITI_ERR_IDX on PERSON_TRAINING_CITI_ERR (CITI_RECORD_ID);
+
+ALTER TABLE PERSON_TRAINING_CITI_ERR
+  ADD CONSTRAINT PK_PERSON_TRAINING_CITI_ERR
+PRIMARY KEY (ID);
+
+ALTER TABLE PERSON_TRAINING_CITI_ERR
+  ADD CONSTRAINT UQ_PERSON_TRAINING_CITI_ERR
+UNIQUE (OBJ_ID);
+
+ALTER TABLE PERSON_TRAINING_CITI_ERR
+  ADD CONSTRAINT FK_PERSON_TRAINING_CITI_ERR
+FOREIGN KEY (CITI_RECORD_ID)
+REFERENCES PERSON_TRAINING_CITI (ID);
+
+create table SEQ_PERSON_TRAINING_CITI_MAP
+(
+  id bigint(19) not null auto_increment, primary key (id)
+) ENGINE MyISAM;
+
+create table PERSON_TRAINING_CITI_MAP (
+  ID decimal(22,0),
+  CURRICULUM_NUMBER varchar(100) not null,
+  GROUP_ID varchar(100) not null,
+  STAGE_NUMBER varchar(100) not null,
+  TRAINING_CODE decimal(4,0),
+  UPDATE_USER VARCHAR(60) NOT NULL,
+  UPDATE_TIMESTAMP DATETIME NOT NULL,
+  VER_NBR DECIMAL (8,0) NOT NULL DEFAULT 1,
+  OBJ_ID VARCHAR(36) NOT NULL);
+
+ALTER TABLE PERSON_TRAINING_CITI_MAP
+  ADD CONSTRAINT PK_PERSON_TRAINING_CITI_MAP
+PRIMARY KEY (ID);
+
+ALTER TABLE PERSON_TRAINING_CITI_MAP
+  ADD CONSTRAINT UQ_PERSON_TRAINING_CITI_MAP
+UNIQUE (OBJ_ID);
+
+ALTER TABLE PERSON_TRAINING_CITI_MAP
+  ADD CONSTRAINT UQ2_PERSON_TRAINING_CITI_MAP
+UNIQUE (CURRICULUM_NUMBER, GROUP_ID, STAGE_NUMBER);
+
+ALTER TABLE PERSON_TRAINING_CITI_MAP
+  ADD CONSTRAINT UQ3_PERSON_TRAINING_CITI_MAP
+UNIQUE (TRAINING_CODE);
+
+ALTER TABLE PERSON_TRAINING_CITI_MAP
+  ADD CONSTRAINT FK_PERSON_TRAIN_CITI_MAP_CODE
+FOREIGN KEY (TRAINING_CODE)
+REFERENCES TRAINING (TRAINING_CODE);

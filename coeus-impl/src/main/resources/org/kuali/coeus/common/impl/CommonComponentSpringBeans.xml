@@ -423,5 +423,7 @@
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.sponsor.hierarchy.SponsorHierarchy" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.budget.framework.core.category.BudgetCategoryMap" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.budget.framework.calculator.ValidCalcType" p:camelCasePluralName="ValidCalculationTypes" />
-
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.person.citi.PersonTrainingCitiRecord" p:camelCasePluralName="PersonCitiTrainingRecords" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.person.citi.PersonTrainingCitiRecordError" p:camelCasePluralName="PersonCitiTrainingRecordErrors" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.framework.person.citi.PersonTrainingCitiMap" p:camelCasePluralName="PersonCitiTrainingMappings" />
 </beans>
