@@ -1,6 +1,22 @@
 
 
 ##CURRENT
+* Fix project push when Development Proposal is deleted.
+  * Gayathri Athreya on Tue, 7 Jun 2016 15:42:34 -0700 [View Commit](../../commit/9592dca9d2ebdde739c9d42e1b3813caa3b905b2)
+* Add unit test for questionnairexmlstream
+  * blackcathacker on Mon, 6 Jun 2016 15:19:02 -0700 [View Commit](../../commit/3dbed52b1d8c32597a9a3f1b56148a4bf38a9b4f)
+* Fix to questionnaire print for not displaying conditional questions that weren't answered
+  * blackcathacker on Fri, 3 Jun 2016 17:51:47 -0700 [View Commit](../../commit/06140f4af3c3b17b0837f22cbd0b28689ad83ccb)
+* Fix to questionnaire print to use answered version and only use affirmative/negative versions if available
+  * blackcathacker on Fri, 3 Jun 2016 17:49:00 -0700 [View Commit](../../commit/80a8444228d7fb816d0b8282a03176482b36f10f)
+* Fix to ynq conversion process to fix incorrectly linked question number
+  * blackcathacker on Fri, 3 Jun 2016 17:46:56 -0700 [View Commit](../../commit/76a91e3719fc8bb3221dcc246b2b315d19a3e0e3)
+* RESKC-1383: during routing, changes to award, ip, irb, iacuc, and pd are not being pushed to COI
+  * Travis Schneeberger on Fri, 3 Jun 2016 16:19:31 -0400 [View Commit](../../commit/d70d67850b8e025daf21f6fceb4566009908f0e2)
+* RESKC-1364: Add award API and test
+  * Gayathri Athreya on Fri, 20 May 2016 16:04:47 -0700 [View Commit](../../commit/4ad9f1293e919704d8e38775769116b28d4200d3)
+
+##coeus-1606.6
 * RESKC-1388: fix ste when creating new budget
 
   * Steps to Reproduce:
