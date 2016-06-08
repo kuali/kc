@@ -463,15 +463,13 @@ public final class KeyConstants {
     public static final String AWARD_ATTACHMENT_TYPE_CODE_REQUIRED = "error.awardNotesAndAttachments.attachment.typeRequired";
     public static final String AWARD_ATTACHMENT_FILE_REQUIRED = "error.awardNotesAndAttachments.attachment.fileRequired";
     
-//InstitutionalProposal Attachments
-    
+    //InstitutionalProposal Attachments
     public static final String INSTITUTIONAL_PROPOSAL_ATTACHMENT_TYPE_CODE_REQUIRED = "error.institutionalProposalAttachments.attachment.typeRequired";
     public static final String INSTITUTIONAL_PROPOSAL_ATTACHMENT_FILE_REQUIRED = "error.institutionalProposalAttachments.attachment.fileRequired";
     
     //Award Budget
     public static final String ERROR_AWARD_OR_MONEY_DOC_NOT_FINAL = "error.budget.award.not.final";
     public static final String ERROR_AWARD_UNFINALIZED_BUDGET_EXISTS = "error.budget.unfinalized.exist";
-
     
     //Award Direc F and A Distribution
     public static final String ERROR_AWARD_FANDA_INVALID_RTAES = "error.awardDirectFandADistribution.invalid.rate";
@@ -546,6 +544,7 @@ public final class KeyConstants {
     public static final String ERROR_REQUIRED_ORGANIZATION = "error.required.organization";
     public static final String ERROR_PAYMENT_AND_INVOICE_COMMENT_NOT_ALLOWED = "error.invalid.award.payment.invoice.comment.comment.not.allowed";
     public static final String ERROR_PAYMENT_AND_INVOICE_COMMENT_REQUIRED = "error.invalid.award.payment.invoice.comment.required";
+    public static final String ERROR_AWARD_CONTACTS_NO_PERM_FOR_NEW_UNIT = "error.award.contacts.no.perm.for.new.unit";
     
     //Award account creation validation error messages
     public static final String AWARD_NO_VALID_EFFECTIVE_DATE = "error.award.createAccount.invalid.effectiveDate";
@@ -567,7 +566,7 @@ public final class KeyConstants {
     public static final String DOCUMENT_NUMBER_NULL = "error.award.createAccount.nullDocumentNumber";
     public static final String DOCUMENT_SAVED_WITH_ERRORS = "error.award.createAccount.saved.with.errors";
     public static final String NO_PERMISSION_TO_CREATE_ACCOUNT = "error.award.createAccount.noPermission";
-    public static final String VALIDATION_DID_NOT_OCCUR = "error.award.account.number.not.validated"; 
+    public static final String VALIDATION_DID_NOT_OCCUR = "error.award.account.number.not.validated";
     
     // award budget
     public static final String BUDGET_POSTED = "message.award.budget.adjustment.budget.posted";
@@ -579,7 +578,6 @@ public final class KeyConstants {
     public static final String ICR_TYPE_CODE_MAPPING_EXISTS = "error.award.budget.icr.type.code.mapping.exists";
     public static final String BUDGET_DOCUMENT_SAVED_WITH_ERRORS = "error.budget.adjustment.saved.with.errors";
 
-    
     //Award template validation errors
     public static final String ERROR_NO_TEMPLATE_CODE = "error.award.templateCode.notFound";
     public static final String ERROR_NO_SPONSOR_TEMPLATE_FOUND = "error.award.sponsor.template.notFound";
