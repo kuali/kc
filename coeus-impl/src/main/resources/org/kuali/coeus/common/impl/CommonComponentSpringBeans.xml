@@ -254,7 +254,7 @@
     	<property name="targetMethod" value="execute" />
     	<property name="concurrent" value="false" />
     </bean>
-    
+
     <bean id="fileAttachmentConversionCronTrigger" class="org.kuali.coeus.sys.framework.scheduling.KcCronTriggerBean">
         <property name="jobDetail" ref="fileAttachmentConversionJobDetail" />
         <property name="parameterService" ref="parameterService" />
@@ -265,11 +265,28 @@
         <property name="parameterComponent" value="All" />
     </bean>
 
+    <bean id="citiJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="citiJob"/>
+        <property name="targetMethod" value="execute" />
+        <property name="concurrent" value="false" />
+    </bean>
+
+    <bean id="citiCronTrigger" class="org.kuali.coeus.sys.framework.scheduling.KcCronTriggerBean">
+        <property name="jobDetail" ref="citiJobDetail" />
+        <property name="parameterService" ref="parameterService" />
+        <property name="dateTimeService" ref="dateTimeService" />
+        <property name="cronExpressionParameterName" value="citi.job.cronExpression" />
+        <property name="triggerEnabledParameterName" value="citi.job.enabled" />
+        <property name="parameterNamespace" value="KC-SYS" />
+        <property name="parameterComponent" value="All" />
+    </bean>
+
     <bean id="kcCommonQuartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <property name="exposeSchedulerInRepository" value="true" />
         <property name="triggers">
             <list merge="true">
                 <ref bean="fileAttachmentConversionCronTrigger" />
+                <ref bean="citiCronTrigger" />
             </list>
         </property>
     </bean>
