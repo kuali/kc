@@ -18,23 +18,34 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
+import org.kuali.coeus.common.framework.auth.UnitAuthorizationService;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRoleService;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncType;
 import org.kuali.kra.award.contacts.*;
+import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.infrastructure.AwardPermissionConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.StringUtils.substringBetween;
@@ -52,6 +63,8 @@ public class AwardContactsAction extends AwardAction {
     private static final String CONFIRM_SYNC_UNIT_DETAILS = "confirmSyncUnitDetails";
     private static final String ADD_SYNC_UNIT_DETAILS = "addSyncUnitDetails";
     private static final String CONFIRM_SYNC_UNIT_CONTACTS_KEY = "confirmSyncUnitContactsKey";
+    private transient PropAwardPersonRoleService propAwardPersonRoleService;
+    private transient UnitAuthorizationService authService;
 
 
     @Override
@@ -60,7 +73,7 @@ public class AwardContactsAction extends AwardAction {
         Award award = awardForm.getAwardDocument().getAward();
         ActionForward forward;
         updateContactsBasedOnRoleChange(award);
-        if (isValidSave(awardForm)) {
+        if (isValidSave(awardForm.getAwardDocument().getAward())) {
             setLeadUnitOnAwardFromPILeadUnit(award, awardForm);
             award.initCentralAdminContacts();
             forward = super.save(mapping, form, request, response);
@@ -69,7 +82,87 @@ public class AwardContactsAction extends AwardAction {
         }
         return forward;
     }
-    
+
+    protected boolean isValidSave(Award award) {
+        String leadUnitNumber = award.getLeadUnitNumber();
+        List<AwardPerson> persons = award.getProjectPersons();
+
+        if (StringUtils.isNotEmpty(leadUnitNumber) && checkNoMoreThanOnePI(award) && isMultiPiValid(award.getSponsorCode(), persons)) {
+            String userId = getPrincipalIdFromSession();
+            UnitAuthorizationService authService = getAuthService();
+            if(!authService.hasMatchingQualifiedUnits(userId, Constants.MODULE_NAMESPACE_AWARD,
+                    AwardPermissionConstants.MODIFY_AWARD.getAwardPermission(), leadUnitNumber)) {
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, KeyConstants.ERROR_AWARD_CONTACTS_NO_PERM_FOR_NEW_UNIT);
+            } else {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    protected UnitAuthorizationService getAuthService() {
+        if (authService == null) {
+            authService = KcServiceLocator.getService(UnitAuthorizationService.class);
+        }
+        return authService;
+    }
+
+    public void setAuthService(UnitAuthorizationService authService) {
+        this.authService = authService;
+    }
+
+    protected String getPrincipalIdFromSession() {
+        return GlobalVariables.getUserSession().getPrincipalId();
+    }
+
+    protected boolean isMultiPiValid(String sponsor, List<AwardPerson> persons) {
+        boolean valid = true;
+        boolean multiPiAllowed = isMultiPiAllowed(sponsor);
+        for(int index = 0; index < persons.size(); index++) {
+            if (persons.get(index).isMultiplePi() && !multiPiAllowed) {
+                valid = false;
+                GlobalVariables.getMessageMap().putError("projectPersonnelBean.projectPersonnel[" + index + "].contactRoleCode",
+                        AwardProjectPersonsSaveRule.ERROR_AWARD_PROJECT_PERSON_MULTIPLE_PI_EXISTS);
+            }
+        }
+        return valid;
+    }
+
+    protected boolean isMultiPiAllowed(String sponsor) {
+        PropAwardPersonRoleService awardPersonRoleService = getPropAwardPersonRoleService();
+        SponsorHierarchyService sponsorHierarchyService = getSponsorHierarchyService();
+
+        return awardPersonRoleService.areAllSponsorsMultiPi() || sponsorHierarchyService.isSponsorNihMultiplePi(sponsor);
+    }
+
+    public PropAwardPersonRoleService getPropAwardPersonRoleService() {
+        if (propAwardPersonRoleService == null) {
+            propAwardPersonRoleService =  KcServiceLocator.getService(PropAwardPersonRoleService.class);
+        }
+        return propAwardPersonRoleService;
+    }
+
+    public void setPropAwardPersonRoleService(PropAwardPersonRoleService propAwardPersonRoleService) {
+        this.propAwardPersonRoleService = propAwardPersonRoleService;
+    }
+
+
+    protected boolean checkNoMoreThanOnePI(Award award) {
+        int piCount = 0;
+        ArrayList<String> fields = new ArrayList<>();
+        for(int i = 0; i < award.getProjectPersons().size(); i++) {
+            if(award.getProjectPersons().get(i).isPrincipalInvestigator()){
+                piCount++;
+                fields.add("projectPersonnelBean.projectPersonnel[" + i + "].contactRoleCode");
+            }
+        }
+
+        if (piCount > 1 ) {
+            fields.stream().forEach(field -> GlobalVariables.getMessageMap().putError(field, AwardProjectPersonsSaveRule.ERROR_AWARD_PROJECT_PERSON_MULTIPLE_PI_EXISTS));
+            return false;
+        }
+        return true;
+    }
     protected void updateContactsBasedOnRoleChange(Award award) {
         for (AwardPerson person : award.getProjectPersons()) {
             if (person.isRoleChanged()) {
@@ -363,13 +456,6 @@ public class AwardContactsAction extends AwardAction {
     /**
      * 
      * This method is to build the confirmation question for syncing unit contacts.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @param deletePeriod
-     * @return
-     * @throws Exception
      */
     private StrutsConfirmation buildSyncUnitContactsConfirmationQuestion(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {

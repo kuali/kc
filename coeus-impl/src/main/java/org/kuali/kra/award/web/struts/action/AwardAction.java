@@ -159,6 +159,7 @@ public class AwardAction extends BudgetParentActionBase {
     private static final String QUESTION_VERIFY_EMPTY_SYNC="VerifyEmptySync";
 
     private static final Log LOG = LogFactory.getLog( AwardAction.class );
+    private transient SponsorHierarchyService sponsorHierarchyService;
 
     private enum SuperUserAction {
         SUPER_USER_APPROVE, TAKE_SUPER_USER_ACTIONS
@@ -557,61 +558,6 @@ public class AwardAction extends BudgetParentActionBase {
 
     protected AwardHierarchyService getAwardHierarchyService(){
         return KcServiceLocator.getService(AwardHierarchyService.class);
-    }
-
-    protected boolean isValidSave(AwardForm awardForm) {
-        AwardDocument awardDocument = (AwardDocument) awardForm.getDocument();
-        String leadUnitNumber = awardDocument.getLeadUnitNumber();
-        List<AwardPerson> persons = awardDocument.getAward().getProjectPersons();
-
-        if (StringUtils.isNotEmpty(leadUnitNumber) && checkNoMoreThanOnePI(awardDocument.getAward()) && isMultiPiValid(awardDocument.getAward().getSponsorCode(), persons)) {
-            String userId = GlobalVariables.getUserSession().getPrincipalId();
-            UnitAuthorizationService authService = KcServiceLocator.getService(UnitAuthorizationService.class);
-            return authService.hasMatchingQualifiedUnits(userId, Constants.MODULE_NAMESPACE_AWARD,
-                    AwardPermissionConstants.MODIFY_AWARD.getAwardPermission(), leadUnitNumber);
-        }
-        return false;
-    }
-
-    protected boolean isMultiPiValid(String sponsor, List<AwardPerson> persons) {
-        boolean valid = true;
-        boolean multiPiAllowed = isMultiPiAllowed(sponsor);
-        for(int index = 0; index < persons.size(); index++) {
-            if (persons.get(index).isMultiplePi() && multiPiAllowed) {
-                valid = false;
-                GlobalVariables.getMessageMap().putError("projectPersonnelBean.projectPersonnel[" + index + "].contactRoleCode",
-                            AwardProjectPersonsSaveRule.ERROR_AWARD_PROJECT_PERSON_MULTIPLE_PI_EXISTS);
-            }
-        }
-        return valid;
-    }
-
-    protected boolean isMultiPiAllowed(String sponsor) {
-        PropAwardPersonRoleService awardPersonRoleService = getPropAwardPersonRoleService();
-        SponsorHierarchyService sponsorHierarchyService = getSponsorHierarchyService();
-
-        return awardPersonRoleService.areAllSponsorsMultiPi() || sponsorHierarchyService.isSponsorNihMultiplePi(sponsor);
-    }
-
-    public PropAwardPersonRoleService getPropAwardPersonRoleService() {
-        return KcServiceLocator.getService(PropAwardPersonRoleService.class);
-    }
-
-    protected boolean checkNoMoreThanOnePI(Award award) {
-        int piCount = 0;
-        ArrayList<String> fields = new ArrayList<>();
-        for(int i = 0; i < award.getProjectPersons().size(); i++) {
-            if(award.getProjectPersons().get(i).isPrincipalInvestigator()){
-                piCount++;
-                fields.add("projectPersonnelBean.projectPersonnel[" + i + "].contactRoleCode");
-            }
-        }
-
-        if (piCount > 1 ) {
-            fields.stream().forEach(field -> GlobalVariables.getMessageMap().putError(field, AwardProjectPersonsSaveRule.ERROR_AWARD_PROJECT_PERSON_MULTIPLE_PI_EXISTS));
-            return false;
-        }
-        return true;
     }
 
     protected final boolean applyRules(DocumentEvent event) {
@@ -1346,7 +1292,14 @@ public class AwardAction extends BudgetParentActionBase {
     }
 
     protected SponsorHierarchyService getSponsorHierarchyService() {
-        return KcServiceLocator.getService(SponsorHierarchyService.class);
+        if (sponsorHierarchyService == null) {
+            sponsorHierarchyService = KcServiceLocator.getService(SponsorHierarchyService.class);
+        }
+        return sponsorHierarchyService;
+    }
+
+    public void setSponsorHierarchyService(SponsorHierarchyService sponsorHierarchyService) {
+        this.sponsorHierarchyService = sponsorHierarchyService;
     }
 
     @Override
