@@ -609,9 +609,9 @@ public class AwardAction extends BudgetParentActionBase {
 
         if (piCount > 1 ) {
             fields.stream().forEach(field -> GlobalVariables.getMessageMap().putError(field, AwardProjectPersonsSaveRule.ERROR_AWARD_PROJECT_PERSON_MULTIPLE_PI_EXISTS));
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 
     protected final boolean applyRules(DocumentEvent event) {
