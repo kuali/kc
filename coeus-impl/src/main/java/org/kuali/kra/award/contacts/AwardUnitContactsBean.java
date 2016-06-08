@@ -39,7 +39,7 @@ public class AwardUnitContactsBean extends AwardContactsBean {
     private static final String DEFAULT_GROUP_CODE_FOR_UNIT_CONTACTS = "U";
 
     public AwardUnitContactsBean(AwardForm awardForm) {
-        super(awardForm.getAwardDocument());
+        super(awardForm);
     }
 
     public void addUnitContact() {

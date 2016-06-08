@@ -22,6 +22,7 @@ import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ContactRole;
@@ -44,6 +45,7 @@ public abstract class AwardContactsBean implements Serializable {
 
     protected List<? extends ContactRole> contactRoles;
     protected AwardContact newAwardContact;
+    protected AwardForm awardForm;
     protected AwardDocument awardDocument;
 
     private transient BusinessObjectService businessObjectService;
@@ -57,6 +59,11 @@ public abstract class AwardContactsBean implements Serializable {
     public AwardContactsBean(AwardDocument awardDocument) {
         this.awardDocument = awardDocument;
         init();
+    }
+    
+    public AwardContactsBean(AwardForm awardForm) {
+    	this.awardForm = awardForm;
+    	init();
     }
 
     /**
@@ -173,11 +180,15 @@ public abstract class AwardContactsBean implements Serializable {
     protected abstract AwardContact createNewContact();
 
     protected Award getAward() {
-        return awardDocument.getAward();
+    	return getDocument().getAward();
     }
 
     public AwardDocument getDocument() {
-        return awardDocument;
+    	if (awardForm != null) {
+    		return awardForm.getAwardDocument();
+    	} else {
+    		return awardDocument;
+    	}
     }
 
 

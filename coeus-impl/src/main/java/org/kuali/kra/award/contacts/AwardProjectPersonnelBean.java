@@ -21,6 +21,7 @@ package org.kuali.kra.award.contacts;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.framework.unit.Unit;
+import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ContactRole;
@@ -45,6 +46,10 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
 
     public AwardProjectPersonnelBean(AwardDocument awardDocument) {
         super(awardDocument);
+    }
+    
+    public AwardProjectPersonnelBean(AwardForm awardForm) {
+    	super(awardForm);
     }
 
     public AwardPersonUnit addNewProjectPersonUnit(int projectPersonIndex) {
@@ -276,7 +281,7 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
     }
 
     public void updateLeadUnit() {
-        Award award = awardDocument.getAward();
+        Award award = getDocument().getAward();
         AwardPerson pi = findPrincipalInvestigator();
         if (pi == null) {
             return;

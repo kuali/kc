@@ -31,7 +31,7 @@ public class AwardSponsorContactsBean extends AwardContactsBean {
     private static final long serialVersionUID = -5443573805950047573L;
 
     public AwardSponsorContactsBean(AwardForm awardForm) {
-        super(awardForm.getAwardDocument());
+        super(awardForm);
     }
 
     public AwardSponsorContact addSponsorContact() {
