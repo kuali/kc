@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* RESKC-1408:Fix IP Contacts page problems (#1785)
+
+  * Fixing a potential conncurentmodificationexception related to credit split when adding new people.
+  * Fixing a potential NPE involving Central admins  * Douglas Pace on Thu, 9 Jun 2016 13:51:08 -0700 [View Commit](../../commit/6e9fc2eae805e3134559ecbc14feedd4822c2c86)
+
+##coeus-1606.13
 * No Changes
 
 
