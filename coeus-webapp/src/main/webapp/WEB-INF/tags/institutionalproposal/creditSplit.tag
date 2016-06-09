@@ -45,7 +45,7 @@
 		</tr>
 		
 		<%-- For each project person ... --%>
-		<c:forEach items="${projectPersonnel}" var="projectPerson" varStatus="ppStatus">
+		<c:forEach items="${krafn:copy(projectPersonnel)}" var="projectPerson" varStatus="ppStatus">
 			<%-- This var is a JSTL hack to get a string that will later be evaluated--%>
 			<c:set var="projectPersonProperty" value="document.institutionalProposalList[0].projectPersons[${ppStatus.index}]" />
 			

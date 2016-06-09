@@ -37,7 +37,7 @@ public class InstitutionalProposalCentralAdminContactsBean implements Serializab
 
     
     protected InstitutionalProposalForm institutionalProposalForm;
-    private List<InstitutionalProposalUnitContact> centralAdminContacts;
+    private List<InstitutionalProposalUnitContact> centralAdminContacts = new ArrayList<>();
     private static final String DEFAULT_GROUP_CODE_FOR_CENTRAL_ADMIN_CONTACTS = "C";
     
     
@@ -46,7 +46,7 @@ public class InstitutionalProposalCentralAdminContactsBean implements Serializab
     }
     
     public void initCentralAdminContacts() {
-        centralAdminContacts = new ArrayList<InstitutionalProposalUnitContact>();
+        centralAdminContacts = new ArrayList<>();
         List<UnitAdministrator> unitAdministrators = 
             getUnitService().retrieveUnitAdministratorsByUnitNumber(institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal().getUnitNumber());
         for(UnitAdministrator unitAdministrator : unitAdministrators) {
