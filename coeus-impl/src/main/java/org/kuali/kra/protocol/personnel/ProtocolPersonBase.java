@@ -25,11 +25,16 @@ import org.kuali.coeus.coi.framework.DisclosureStatusRetrievalService;
 import org.kuali.coeus.common.framework.person.editable.PersonEditable;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.AbstractProjectPerson;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.protocol.ProtocolAssociateBase;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnelBase;
+import org.kuali.rice.kim.api.permission.PermissionService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -204,6 +209,8 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
     
     private transient boolean affiliationTypeCodeChanged = false;
     private transient DisclosureStatusRetrievalService disclosureStatusRetrievalService;
+    private transient GlobalVariableService globalVariableService;
+    private transient PermissionService permissionService;
 
 
     public ProtocolPersonBase() {
@@ -425,7 +432,11 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
      * @return true / false
      */
     public boolean isNonEmployee() {
-        return this.rolodex != null || (this.rolodexId != null && StringUtils.isNotBlank(this.rolodexId.toString()));
+        return this.rolodexId != null && StringUtils.isNotBlank(this.rolodexId.toString());
+    }
+
+    public String getGenericId() {
+        return isNonEmployee() ? rolodexId.toString() : personId;
     }
 
     /**
@@ -1080,27 +1091,27 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
 		this.citizenshipTypeCode = citizenshipTypeCode;
 	}
 
-    public String getDisclosureStatus() {
-        DisclosureStatusRetrievalService disclosureStatusRetrievalService = getDisclosureStatusRetrievalService();
-        String protocolNumber = getProtocolNumber();
-        if (getProtocol() == null) {
-            refreshReferenceObject("protocol");
-        }
-
-        if(getProtocol() != null && !getProtocol().isNew()) {
-            protocolNumber = getProtocol().getAmendedProtocolNumber();
-        }
-        DisclosureProjectStatus projectStatus =  disclosureStatusRetrievalService.getDisclosureStatusForPerson(getModuleNamespace(), protocolNumber, getPersonId());
-        return projectStatus.getStatus();
-    }
-
     protected abstract String getModuleNamespace();
 
-    protected DisclosureStatusRetrievalService getDisclosureStatusRetrievalService() {
-        if (disclosureStatusRetrievalService == null) {
-            disclosureStatusRetrievalService = KcServiceLocator.getService(DisclosureStatusRetrievalService.class);
+    protected GlobalVariableService getGlobalVariableService() {
+        if (globalVariableService == null) {
+            globalVariableService = KcServiceLocator.getService(GlobalVariableService.class);
         }
-        return disclosureStatusRetrievalService;
+        return globalVariableService;
+    }
+
+    protected PermissionService getPermissionService() {
+        if (permissionService == null) {
+            permissionService = KimApiServiceLocator.getPermissionService();
+        }
+        return permissionService;
+    }
+
+    public boolean getCanViewDisclosureDisposition() {
+        String currentUser = getGlobalVariableService().getUserSession().getPerson().getPrincipalId();
+        final String genericId = getGenericId();
+        return (currentUser.equalsIgnoreCase(genericId) ||
+                getPermissionService().hasPermission(currentUser, Constants.KC_SYS, PermissionConstants.VIEW_COI_DISPOSITION_STATUS));
     }
 
 }

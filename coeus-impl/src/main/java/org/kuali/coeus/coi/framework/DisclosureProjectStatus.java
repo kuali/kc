@@ -25,6 +25,8 @@ public class DisclosureProjectStatus {
     String userId;
     @Pattern(regexp = "[a-zA-Z ]+")
     String status;
+    @Pattern(regexp = "[a-zA-Z ]+")
+    String disposition;
 
     public String getStatus() {
         return status;
@@ -40,5 +42,13 @@ public class DisclosureProjectStatus {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getDisposition() {
+        return disposition;
+    }
+
+    public void setDisposition(String disposition) {
+        this.disposition = disposition;
     }
 }

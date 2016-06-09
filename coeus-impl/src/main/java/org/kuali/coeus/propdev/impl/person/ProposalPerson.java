@@ -427,7 +427,6 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements N
 
     @Transient
     private Timestamp createTimestamp;
-    
 
     public boolean isMoveDownAllowed() {
         return moveDownAllowed;

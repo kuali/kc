@@ -110,6 +110,11 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     private static final long serialVersionUID = -5122498699317873886L;
     private static final String PARENT_PROPOSAL_TYPE_CODE = "PRDV";
     private static final String ATTACHMENT_FILE = "multipartFile";
+    public static final String NOT_YET_DISPOSITIONED = "Not Yet Dispositioned";
+    public static final String DEADLINE_TYPE_REF = "deadlineTypeRef";
+    public static final String AD_HOC_NOTIFICATION = "Ad-Hoc Notification";
+    public static final String PROPOSAL_PERSON_CANNOT_BE_RETRIEVED_FROM_DEVELOPMENT_PROPOSAL = "proposal person cannot be retrieved from development proposal";
+    public static final String DOCUMENT_DEVELOPMENT_PROPOSAL_INSTITUTE_ATTACHMENTS = "document.developmentProposal.instituteAttachments";
 
     @Autowired
     @Qualifier("dateTimeService")
@@ -209,7 +214,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
         if (addLine instanceof Narrative) {
             Narrative narrative = (Narrative) addLine;
             getNarrativeService().prepareNarrative(document, narrative);
-            if (StringUtils.equals(collectionPath,"document.developmentProposal.instituteAttachments")) {
+            if (StringUtils.equals(collectionPath, DOCUMENT_DEVELOPMENT_PROPOSAL_INSTITUTE_ATTACHMENTS)) {
                 narrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
             }
             updateAttachmentInformation(narrative.getNarrativeAttachment());
@@ -224,7 +229,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
             try {
             ((ProposalPersonDegree)addLine).setProposalPerson((ProposalPerson)PropertyUtils.getNestedProperty(form.getDevelopmentProposal(),StringUtils.replace(collectionPath,".proposalPersonDegrees","")));
             } catch (Exception e) {
-                throw new RuntimeException("proposal person cannot be retrieved from development proposal",e);
+                throw new RuntimeException(PROPOSAL_PERSON_CANNOT_BE_RETRIEVED_FROM_DEVELOPMENT_PROPOSAL,e);
             }
         } else if (addLine instanceof ProposalPersonUnit) {
             try {
@@ -233,7 +238,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
                 unit.setProposalPerson(proposalPerson);
                 unit.getCreditSplits().addAll(getKeyPersonnelService().createCreditSplits(unit));
             } catch (Exception e) {
-                throw new RuntimeException("proposal person cannot be retrieved from development proposal",e);
+                throw new RuntimeException(PROPOSAL_PERSON_CANNOT_BE_RETRIEVED_FROM_DEVELOPMENT_PROPOSAL,e);
             }
         } else if (addLine instanceof ProposalAbstract) {
             ProposalAbstract proposalAbstract = (ProposalAbstract) addLine;
@@ -792,16 +797,23 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
         return state != null ? state.getDescription() : "";
     }
 
-    public String getAnnualDisclosureStatusForPerson(DevelopmentProposal proposal, ProposalPerson person) {
-        String personId = person.getPersonId() == null ? person.getRolodexId().toString() : person.getPersonId();
-        String sourceId = Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT;
-        String projectId = proposal.getProposalNumber();
-        DisclosureProjectStatus projectStatus = getDisclosureStatusRetrievalService().getDisclosureStatusForPerson(sourceId, projectId, personId);
+   public String getDisclosureStatusForPerson(ProposalPerson person) {
+        DisclosureProjectStatus projectStatus = getCoiStatusForPerson(person);
         return projectStatus.getStatus() == null ? "" : projectStatus.getStatus();
     }
 
-    public DisclosureStatusRetrievalService getDisclosureStatusRetrievalService() {
-        return KcServiceLocator.getService(DisclosureStatusRetrievalService.class);
+    public String getDispositionStatusForPerson(ProposalPerson person) {
+        DisclosureProjectStatus projectStatus = getCoiStatusForPerson(person);
+        return projectStatus.getDisposition() == null ? NOT_YET_DISPOSITIONED : projectStatus.getDisposition();
+    }
+
+    public DisclosureProjectStatus getCoiStatusForPerson(ProposalPerson person) {
+        String id = person.getPersonId() == null? person.getRolodexId().toString() : person.getPersonId();
+        ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm)ViewLifecycle.getModel();
+        List<DisclosureProjectStatus> projectStatuses = form.getDisclosureProjectStatuses();
+        return projectStatuses.stream().filter(projectStatus -> {
+            return projectStatus.getUserId().equalsIgnoreCase(id);
+        }).findFirst().orElse(new DisclosureProjectStatus());
     }
 
     public boolean isCoiDisclosureStatusEnabled() {
@@ -810,12 +822,24 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
                 Constants.ENABLE_DISCLOSURE_STATUS_FROM_COI_MODULE);
     }
 
+    public boolean isCoiDisclosureDispositionStatusEnabled() {
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                Constants.PARAMETER_COMPONENT_DOCUMENT,
+                Constants.ENABLE_DISCLOSURE_DISPOSITION_STATUS_FROM_COI_MODULE);
+    }
+
+    public boolean canViewDispositionStatus(ProposalPerson person) {
+        return isCoiDisclosureDispositionStatusEnabled() &&
+                proposalDevelopmentDocumentViewAuthorizer.canViewDisclosureDisposition(
+                        getGlobalVariableService().getUserSession().getPerson().getPrincipalId(), person.getPersonId());
+    }
+
     public void prepareSummaryPage(ProposalDevelopmentDocumentForm form) {
       populateCreditSplits(form);
         populateQuestionnaires(form);
-        getDataObjectService().wrap(form.getDevelopmentProposal()).fetchRelationship("deadlineTypeRef");
+        getDataObjectService().wrap(form.getDevelopmentProposal()).fetchRelationship(DEADLINE_TYPE_REF);
         ProposalDevelopmentNotificationRenderer renderer = new ProposalDevelopmentNotificationRenderer(form.getDevelopmentProposal());
-        ProposalDevelopmentNotificationContext context = new ProposalDevelopmentNotificationContext(form.getDevelopmentProposal(), null, "Ad-Hoc Notification", renderer);
+        ProposalDevelopmentNotificationContext context = new ProposalDevelopmentNotificationContext(form.getDevelopmentProposal(), null, AD_HOC_NOTIFICATION, renderer);
 
         form.getNotificationHelper().initializeDefaultValues(context);
 

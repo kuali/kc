@@ -20,6 +20,8 @@ package org.kuali.kra.protocol;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.coi.framework.DisclosureProjectStatus;
+import org.kuali.coeus.coi.framework.DisclosureStatusRetrievalService;
 import org.kuali.coeus.common.framework.auth.SystemAuthorizationService;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.notification.impl.NotificationHelper;
@@ -108,7 +110,9 @@ public abstract class ProtocolFormBase extends KcTransactionalDocumentFormBase i
     // temp field : set in presave and then referenced in postsave
     private transient List<ProtocolFundingSourceBase> deletedProtocolFundingSources;
  
-    private boolean showNotificationEditor = false;  // yep, it's a hack
+    private boolean showNotificationEditor = false;
+    private List<DisclosureProjectStatus> disclosureProjectStatuses;
+    private transient DisclosureStatusRetrievalService disclosureStatusRetrievalService;
 
     public ProtocolFormBase() throws Exception {
         super();
@@ -507,16 +511,42 @@ public abstract class ProtocolFormBase extends KcTransactionalDocumentFormBase i
         return !getProtocolDocument().getProtocol().isRenewalWithoutAmendment();
     }
 
-    public boolean getDisplayCoiDisclosureStatus() {
-        return getParameterService().getParameterValueAsBoolean(getModuleName(),
-               Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ENABLE_DISCLOSURE_STATUS_FROM_COI_MODULE);
-    }
-
     protected abstract String getModuleName();
 
     public ParameterService getParameterService() {
         return KcServiceLocator.getService(ParameterService.class);
     }
 
+    public boolean getDisplayCoiDisclosureStatus() {
+        return getParameterService().getParameterValueAsBoolean(getModuleName(),
+                Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ENABLE_DISCLOSURE_STATUS_FROM_COI_MODULE);
+    }
+
+    public boolean isCoiDispositionViewEnabled() {
+        return getParameterService().getParameterValueAsBoolean(getModuleName(),
+                Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ENABLE_DISCLOSURE_DISPOSITION_STATUS_FROM_COI_MODULE);
+    }
+
+    public List<DisclosureProjectStatus> getDisclosureProjectStatuses() {
+        String protocolNumber = getProtocolDocument().getProtocol().getProtocolNumber();
+
+        if(getProtocolDocument().getProtocol() != null && !getProtocolDocument().getProtocol().isNew()) {
+            protocolNumber = getProtocolDocument().getProtocol().getAmendedProtocolNumber();
+        }
+
+        if (disclosureProjectStatuses == null) {
+            disclosureProjectStatuses = getDisclosureStatusRetrievalService().getDisclosureStatusesForProject(
+                    getModuleName(), protocolNumber
+            );
+        }
+        return disclosureProjectStatuses;
+    }
+
+    protected DisclosureStatusRetrievalService getDisclosureStatusRetrievalService() {
+        if (disclosureStatusRetrievalService == null) {
+            disclosureStatusRetrievalService = KcServiceLocator.getService(DisclosureStatusRetrievalService.class);
+        }
+        return disclosureStatusRetrievalService;
+    }
 
 }

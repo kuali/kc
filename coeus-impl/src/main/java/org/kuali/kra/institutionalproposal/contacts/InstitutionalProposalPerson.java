@@ -61,7 +61,6 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
     private List<InstitutionalProposalPersonCreditSplit> creditSplits;
     
     private transient PropAwardPersonRoleService propAwardPersonRoleService;
-    private transient DisclosureStatusRetrievalService disclosureStatusRetrievalService;
 
     public InstitutionalProposalPerson() {
         super();
@@ -361,21 +360,6 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
             lastName = getRolodex().getLastName();
         }
         return lastName;
-    }
-
-    public String getDisclosureStatus() {
-        DisclosureStatusRetrievalService disclosureStatusRetrievalService = getDisclosureRetrievalService();
-        DisclosureProjectStatus projectStatus =  disclosureStatusRetrievalService.getDisclosureStatusForPerson(Constants.MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL,
-                                                                                                                getInstitutionalProposal().getInstProposalNumber(),
-                                                                                                                getPersonId());
-        return projectStatus.getStatus();
-    }
-
-    protected DisclosureStatusRetrievalService getDisclosureRetrievalService() {
-        if(disclosureStatusRetrievalService == null) {
-            disclosureStatusRetrievalService = KcServiceLocator.getService(DisclosureStatusRetrievalService.class);
-        }
-        return disclosureStatusRetrievalService;
     }
 
 }

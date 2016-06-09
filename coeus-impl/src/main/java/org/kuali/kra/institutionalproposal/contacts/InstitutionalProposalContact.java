@@ -24,10 +24,15 @@ import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.person.PropAwardPersonRoleService;
 import org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex;
 import org.kuali.coeus.common.framework.version.sequence.associate.SequenceAssociate;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.ContactRole;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalAssociate;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.rice.kim.api.permission.PermissionService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.HashMap;
@@ -69,6 +74,9 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
 
     @Transient
     private transient PropAwardPersonRoleService propAwardPersonRoleService;
+
+    private transient GlobalVariableService globalVariableService;
+    private transient PermissionService permissionService;
 
     public InstitutionalProposalContact() {
     }
@@ -153,11 +161,9 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
         return contact != null ? contact.getContactOrganizationName() : null;
     }
 
-
     public String getGenericId() {
         return rolodexId != null ? rolodexId.toString() : personId;
     }
-
 
     public String getOrganizationIdentifier() {
         return getContact() != null ? getContact().getOrganizationIdentifier() : null;
@@ -470,5 +476,26 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
 			PropAwardPersonRoleService propAwardPersonRoleService) {
 		this.propAwardPersonRoleService = propAwardPersonRoleService;
 	}
+
+    protected GlobalVariableService getGlobalVariableService() {
+        if (globalVariableService == null) {
+            globalVariableService = KcServiceLocator.getService(GlobalVariableService.class);
+        }
+        return globalVariableService;
+    }
+
+    protected PermissionService getPermissionService() {
+        if (permissionService == null) {
+            permissionService = KimApiServiceLocator.getPermissionService();
+        }
+        return permissionService;
+    }
+
+    public boolean getCanViewDisclosureDisposition() {
+        String currentUser = getGlobalVariableService().getUserSession().getPerson().getPrincipalId();
+        final String genericId = getGenericId();
+        return (currentUser.equalsIgnoreCase(genericId) ||
+                getPermissionService().hasPermission(currentUser, Constants.KC_SYS, PermissionConstants.VIEW_COI_DISPOSITION_STATUS));
+    }
 
 }

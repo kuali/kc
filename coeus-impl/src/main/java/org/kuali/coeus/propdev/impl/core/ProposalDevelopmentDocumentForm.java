@@ -19,6 +19,8 @@
 package org.kuali.coeus.propdev.impl.core;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.coi.framework.DisclosureProjectStatus;
+import org.kuali.coeus.coi.framework.DisclosureStatusRetrievalService;
 import org.kuali.coeus.common.framework.medusa.MedusaNode;
 import org.kuali.coeus.common.framework.medusa.MedusaService;
 import org.kuali.coeus.common.framework.module.CoeusModule;
@@ -56,6 +58,7 @@ import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.coeus.sys.framework.validation.Auditable;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.impl.validation.DataValidationItem;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.tree.Tree;
@@ -69,6 +72,7 @@ import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.web.bind.ChangeTracking;
 import org.kuali.rice.krad.web.form.TransactionalDocumentFormBase;
 
+import javax.persistence.Transient;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -136,6 +140,10 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private ProposalDevelopmentBudgetExt selectedBudget;
     private boolean sendNarrativeChangeNotification;
 
+    @Transient
+    private transient List<DisclosureProjectStatus> disclosureProjectStatuses;
+    @Transient
+    private transient DisclosureStatusRetrievalService disclosureStatusRetrievalService;
 
     public ProposalPersonQuestionnaireHelper getProposalPersonQuestionnaireHelper() {
         return proposalPersonQuestionnaireHelper;
@@ -714,5 +722,23 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
 
     public void setPrintS2sOppForms(List<S2sOppForms> printS2sOppForms) {
         this.printS2sOppForms = printS2sOppForms;
+    }
+
+    public List<DisclosureProjectStatus> getDisclosureProjectStatuses() {
+        if (disclosureProjectStatuses == null) {
+            disclosureProjectStatuses = getDisclosureStatusRetrievalService().getDisclosureStatusesForProject(
+                    Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                    getDevelopmentProposal().getProposalNumber()
+                    );
+        }
+        return disclosureProjectStatuses;
+    }
+
+
+    protected DisclosureStatusRetrievalService getDisclosureStatusRetrievalService() {
+        if (disclosureStatusRetrievalService == null) {
+            disclosureStatusRetrievalService = KcServiceLocator.getService(DisclosureStatusRetrievalService.class);
+        }
+        return disclosureStatusRetrievalService;
     }
 }

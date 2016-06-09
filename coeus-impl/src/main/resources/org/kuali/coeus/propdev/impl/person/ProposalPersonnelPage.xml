@@ -284,10 +284,8 @@
           p:layoutManager.summaryTitle="@{#lp.fullName}
 		                                (@{#lp.role.description}
                                             @{#lp.keyPerson eq true ? ': ' + #lp.projectRole : '' })
-                                                @{#ViewHelper.isCoiDisclosureStatusEnabled() ? '(' + #ViewHelper.getAnnualDisclosureStatusForPerson(document.developmentProposal,#line)+ ')' : ''}
                                             	    @{#lp.certifiedBy == null and #ViewHelper.canViewCertificationTab(document,#line) ? '(Certification Incomplete)' : ' '}
 		                                            @{#lp.certifiedBy != null ? '(Certification Completed and Answered By '+ #lp.certifiedPersonName+' - ' + #lp.certifiedTimeStamp+')' : ''}"
-
           p:renderAddLine="false"
           p:renderInactiveToggleButton="false">
         <property name="items">
@@ -315,6 +313,24 @@
                 </property>
                 <property name="header">
                     <bean parent="Uif-HeaderFour">
+                        <property name="lowerGroup">
+                            <bean parent="Uif-HorizontalBoxGroup" p:style="color: gray; background-color:#eeeeee; font-weight: bold;">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-MessageField"
+                                              p:messageText="@{#ViewHelper.isCoiDisclosureStatusEnabled() ? 'Disclosure Status: ' +
+                                              #ViewHelper.getDisclosureStatusForPerson(#line) : ''}"
+                                              p:readOnly="true" p:order="5"
+                                                />
+                                        <bean parent="Uif-MessageField"
+                                              p:messageText="@{#ViewHelper.canViewDispositionStatus(#line) ? 'Disposition Status: ' +
+                                              #ViewHelper.getDispositionStatusForPerson(#line) : ''}"
+                                              p:readOnly="true" p:order="6"
+                                                />
+                                    </list>
+                                </property>
+                            </bean>
+                        </property>
                         <property name="rightGroup">
                             <bean parent="Uif-HorizontalBoxGroup">
                                 <property name="items">
