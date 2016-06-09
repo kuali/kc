@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1606.11
 * RESKC-1406:Fix AFTs for adding persons during document creation (#1783)  * Douglas Pace on Wed, 8 Jun 2016 14:37:49 -0700 [View Commit](../../commit/a9b2c39903675f139e013d6b687721b0c196720e)
 
 ##coeus-1606.10
