@@ -80,10 +80,12 @@
         <property name="shortLabel" value="Questionnaire Id" />
         <property name="maxLength" value="6" />
         <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
+            <bean parent="AlphaNumericValidationPattern" p:allowDash="true"/>
         </property>
     <property name="validCharactersConstraint">
-      <bean parent="NumericPatternConstraint"/>
+      <bean parent="AlphaNumericPatternConstraint">
+          <property name="allowDash" value="true"/>
+      </bean>
     </property>
         <property name="control" >
       <bean parent="TextControlDefinition" p:size="6"/>
