@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1606.18
 * Fix permissions check when verifying changed lead unit in award (#1786)
 
   * Douglas Pace on Fri, 10 Jun 2016 11:02:09 -0700 [View Commit](../../commit/cef2376cb4d6a52b4a1f1cf75505105a2537f480)
