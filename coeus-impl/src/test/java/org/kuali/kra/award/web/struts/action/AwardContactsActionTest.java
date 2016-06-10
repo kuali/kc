@@ -55,7 +55,7 @@ public class AwardContactsActionTest {
         UserSession userSession = mock(UserSession.class);
         UnitAuthorizationService unitAuthorizationService = mock(UnitAuthorizationService.class);
         GlobalVariables.setUserSession(userSession);
-        when(unitAuthorizationService.hasMatchingQualifiedUnits(anyString(), anyString(), anyString(), anyString())).thenReturn(true);
+        when(unitAuthorizationService.hasPermission(anyString(), anyString(), anyString(), anyString())).thenReturn(true);
         when(userSession.getPrincipalId()).thenReturn("admin");
         when(propAwardPersonRoleService.areAllSponsorsMultiPi()).thenReturn(false);
         when(sponsorHierarchyService.isSponsorNihMultiplePi(anyString())).thenReturn(false);
@@ -81,7 +81,7 @@ public class AwardContactsActionTest {
         UserSession userSession = mock(UserSession.class);
         UnitAuthorizationService unitAuthorizationService = mock(UnitAuthorizationService.class);
         GlobalVariables.setUserSession(userSession);
-        when(unitAuthorizationService.hasMatchingQualifiedUnits(anyString(), anyString(), anyString(), anyString())).thenReturn(true);
+        when(unitAuthorizationService.hasPermission(anyString(), anyString(), anyString(), anyString())).thenReturn(true);
         when(userSession.getPrincipalId()).thenReturn("admin");
         when(propAwardPersonRoleService.areAllSponsorsMultiPi()).thenReturn(false);
         when(sponsorHierarchyService.isSponsorNihMultiplePi(anyString())).thenReturn(false);
@@ -111,7 +111,7 @@ public class AwardContactsActionTest {
         UserSession userSession = mock(UserSession.class);
         UnitAuthorizationService unitAuthorizationService = mock(UnitAuthorizationService.class);
         GlobalVariables.setUserSession(userSession);
-        when(unitAuthorizationService.hasMatchingQualifiedUnits(anyString(), anyString(), anyString(), anyString())).thenReturn(true);
+        when(unitAuthorizationService.hasPermission(anyString(), anyString(), anyString(), anyString())).thenReturn(true);
         when(userSession.getPrincipalId()).thenReturn("admin");
         when(propAwardPersonRoleService.areAllSponsorsMultiPi()).thenReturn(false);
         when(sponsorHierarchyService.isSponsorNihMultiplePi(anyString())).thenReturn(false);
@@ -141,7 +141,7 @@ public class AwardContactsActionTest {
         UserSession userSession = mock(UserSession.class);
         UnitAuthorizationService unitAuthorizationService = mock(UnitAuthorizationService.class);
         GlobalVariables.setUserSession(userSession);
-        when(unitAuthorizationService.hasMatchingQualifiedUnits(anyString(), anyString(), anyString(), anyString())).thenReturn(true);
+        when(unitAuthorizationService.hasPermission(anyString(), anyString(), anyString(), anyString())).thenReturn(true);
         when(userSession.getPrincipalId()).thenReturn("admin");
         when(propAwardPersonRoleService.areAllSponsorsMultiPi()).thenReturn(false);
         when(sponsorHierarchyService.isSponsorNihMultiplePi(anyString())).thenReturn(true);
@@ -171,7 +171,7 @@ public class AwardContactsActionTest {
         UserSession userSession = mock(UserSession.class);
         UnitAuthorizationService unitAuthorizationService = mock(UnitAuthorizationService.class);
         GlobalVariables.setUserSession(userSession);
-        when(unitAuthorizationService.hasMatchingQualifiedUnits(anyString(), anyString(), anyString(), anyString())).thenReturn(false);
+        when(unitAuthorizationService.hasPermission(anyString(), anyString(), anyString(), anyString())).thenReturn(false);
         when(userSession.getPrincipalId()).thenReturn("admin");
         when(propAwardPersonRoleService.areAllSponsorsMultiPi()).thenReturn(false);
         when(sponsorHierarchyService.isSponsorNihMultiplePi(anyString())).thenReturn(true);

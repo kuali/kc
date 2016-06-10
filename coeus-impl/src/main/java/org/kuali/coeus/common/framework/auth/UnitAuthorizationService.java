@@ -47,7 +47,5 @@ public interface UnitAuthorizationService {
      * @return true if the user has permission; otherwise false
      */
     public boolean hasPermission(String userId, String unitNumber, String namespaceCode, String permissionName);
-    
-
-    public boolean hasMatchingQualifiedUnits(String userId, String namespaceCode, String permissionName, String unitNumber); 
+     
 }

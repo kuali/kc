@@ -90,8 +90,8 @@ public class AwardContactsAction extends AwardAction {
         if (StringUtils.isNotEmpty(leadUnitNumber) && checkNoMoreThanOnePI(award) && isMultiPiValid(award.getSponsorCode(), persons)) {
             String userId = getPrincipalIdFromSession();
             UnitAuthorizationService authService = getAuthService();
-            if(!authService.hasMatchingQualifiedUnits(userId, Constants.MODULE_NAMESPACE_AWARD,
-                    AwardPermissionConstants.MODIFY_AWARD.getAwardPermission(), leadUnitNumber)) {
+            if(!authService.hasPermission(userId, leadUnitNumber, Constants.MODULE_NAMESPACE_AWARD,
+                    AwardPermissionConstants.MODIFY_AWARD.getAwardPermission())) {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, KeyConstants.ERROR_AWARD_CONTACTS_NO_PERM_FOR_NEW_UNIT);
             } else {
                 return true;

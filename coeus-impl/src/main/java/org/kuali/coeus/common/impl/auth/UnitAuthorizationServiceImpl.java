@@ -99,23 +99,4 @@ public class UnitAuthorizationServiceImpl implements UnitAuthorizationService {
         userHasPermission = permissionService.isAuthorized(userId, namespaceCode, permissionName, qualifiedRoleAttributes);
         return userHasPermission;
     }
-    
-    
-    public boolean hasMatchingQualifiedUnits(String userId, String namespaceCode, String permissionName, String unitNumber) {
-        List<String> roleIds = new ArrayList<String>();
-        Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
-        qualifiedRoleAttributes.put(UNIT_NUMBER, unitNumber);
-        roleIds = systemAuthorizationService.getRoleIdsForPermission(permissionName, namespaceCode);
-        
-        List<Map<String,String>> qualifiers = roleManagementService.getNestedRoleQualifiersForPrincipalByRoleIds(userId, roleIds, qualifiedRoleAttributes);
-        List<String> units = new ArrayList<String>();    
-        for(Map<String,String> qualifier : qualifiers) {
-            String tmpUnitNumber = qualifier.get(UNIT_NUMBER);
-            if(StringUtils.isNotEmpty(tmpUnitNumber)) {
-                units.add(tmpUnitNumber);
-            }  
-        }
-        
-        return CollectionUtils.isNotEmpty(units) ;
-    }
 }
