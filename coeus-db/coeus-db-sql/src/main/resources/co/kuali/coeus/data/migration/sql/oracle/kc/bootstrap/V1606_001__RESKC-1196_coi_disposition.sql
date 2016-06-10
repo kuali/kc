@@ -18,7 +18,7 @@
 --
 
 INSERT INTO KRIM_PERM_T (PERM_ID,PERM_TMPL_ID,NMSPC_CD,NM,DESC_TXT,ACTV_IND,OBJ_ID,VER_NBR)
-    VALUES (KRIM_PERM_ID_S.NEXTVAL),(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'View Document Section'),'KC-SYS','View COI Disclosure Disposition','View COI Disclosure Disposition','Y',SYS_GUID(),1);
+    VALUES (KRIM_PERM_ID_S.NEXTVAL,(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'View Document Section'),'KC-SYS','View COI Disclosure Disposition','View COI Disclosure Disposition','Y',SYS_GUID(),1);
 
 INSERT INTO krcr_parm_t(NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID)
 VALUES ('KC-PD','Document','ENABLE_DISCLOSURE_DISPOSITION_STATUS_FROM_COI_MODULE',SYS_GUID(),1,'CONFG','N','When enabled, this parameter displays the disclosure disposition status from the COI module. This is different from PROP_PERSON_COI_STATUS_FLAG and both should not be enabled at the same time.','A','KC');
