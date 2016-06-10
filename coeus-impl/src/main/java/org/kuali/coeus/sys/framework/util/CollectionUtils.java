@@ -21,7 +21,9 @@ package org.kuali.coeus.sys.framework.util;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -164,5 +166,21 @@ public final class CollectionUtils {
 	            return result;
 	        }
     	);
+    }
+
+    /**
+     * A predicate that determines whether a key has been seen previously.  This allows
+     * @param keyExtractor which determines which key to use.
+     * @param <T> the type of object the predicate evaluates
+     * @return a stateful predicate
+     * @throws IllegalArgumentException if the key extractor is null
+     */
+    public static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor) {
+        if (keyExtractor == null) {
+            throw new IllegalArgumentException("the keyExtractor must not be null");
+        }
+
+        final Map<Object,Boolean> seen = new ConcurrentHashMap<>();
+        return t -> seen.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
     }
 }

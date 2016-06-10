@@ -23,6 +23,7 @@
     <bean id="PersonTrainingCitiMapMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
         <property name="businessObjectClass" value="org.kuali.coeus.common.framework.person.citi.PersonTrainingCitiMap"/>
         <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
+        <property name="businessRulesClass" value="org.kuali.coeus.common.impl.person.citi.PersonTrainingCitiMapRules" />
         <property name="maintainableSections">
             <list>
                 <ref bean="PersonTrainingCitiMapMaintenanceDocument-EditCitiMap"/>
@@ -48,10 +49,10 @@
         <property name="maintainableItems">
             <list>
                 <bean parent="MaintainableFieldDefinition" p:name="id" p:unconditionallyReadOnly="true"/>
-                <bean parent="MaintainableFieldDefinition" p:name="curriculumNumber" p:required="true"/>
-                <bean parent="MaintainableFieldDefinition" p:name="groupId" p:required="true"/>
-                <bean parent="MaintainableFieldDefinition" p:name="stageNumber" p:required="true"/>
-                <bean parent="MaintainableFieldDefinition" p:name="trainingCode" p:required="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="curriculumNumber" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="groupId" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="stageNumber" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="trainingCode" p:required="true" />
             </list>
         </property>
     </bean>

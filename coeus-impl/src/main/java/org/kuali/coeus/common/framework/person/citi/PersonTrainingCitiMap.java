@@ -28,6 +28,7 @@ public class PersonTrainingCitiMap extends KcPersistableBusinessObjectBase {
     private String stageNumber;
     private Integer trainingCode;
     private Training training;
+    private PersonTrainingCitiCourse personTrainingCitiCourse;
 
     public Long getId() {
         return id;
@@ -101,5 +102,13 @@ public class PersonTrainingCitiMap extends KcPersistableBusinessObjectBase {
         result = 31 * result + (stageNumber != null ? stageNumber.hashCode() : 0);
         result = 31 * result + (trainingCode != null ? trainingCode.hashCode() : 0);
         return result;
+    }
+
+    public PersonTrainingCitiCourse getPersonTrainingCitiCourse() {
+        return personTrainingCitiCourse;
+    }
+
+    public void setPersonTrainingCitiCourse(PersonTrainingCitiCourse personTrainingCitiCourse) {
+        this.personTrainingCitiCourse = personTrainingCitiCourse;
     }
 }

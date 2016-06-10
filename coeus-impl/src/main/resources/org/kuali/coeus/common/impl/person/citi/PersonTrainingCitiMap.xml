@@ -38,6 +38,20 @@
                 <ref bean="PersonTrainingCitiMap-trainingCode"/>
             </list>
         </property>
+        <property name="relationships" >
+            <list>
+                <bean parent="RelationshipDefinition">
+                    <property name="objectAttributeName" value="personTrainingCitiCourse" />
+                    <property name="primitiveAttributes" >
+                        <list>
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="groupId" p:targetName="groupId"/>
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="curriculumNumber" p:targetName="curriculumNumber"/>
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="stageNumber" p:targetName="stageNumber"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
     </bean>
 
     <!-- Attribute Definitions -->
