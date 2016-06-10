@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* RESKC-1354: Adding disposition status to all modules.
+  * Gayathri Athreya on Tue, 7 Jun 2016 15:00:58 -0700 [View Commit](../../commit/747c6cf17a806d83fc8d31ee186ef1349b3af3f1)
+* RESKC-1354: Add coi disposition status to Development proposal.
+  * Gayathri Athreya on Thu, 2 Jun 2016 18:36:26 -0700 [View Commit](../../commit/f8e037985a31f15e2c84b14986daa8ccbf3f2ffb)
+
+##coeus-1606.14
 * RESKC-1408:Fix IP Contacts page problems (#1785)
 
   * Fixing a potential conncurentmodificationexception related to credit split when adding new people.
