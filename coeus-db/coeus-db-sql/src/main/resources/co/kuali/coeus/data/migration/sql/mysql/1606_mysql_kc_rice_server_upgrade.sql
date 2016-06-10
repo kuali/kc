@@ -17,10 +17,6 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-set define off
-set sqlblanklines on
 
-spool 1606_oracle_kc_upgrade.sql.log
-@./kc/bootstrap/V1606_001__RESKC-1196_coi_disposition.sql
-@./kc/bootstrap/V1606_002__CITI.sql
+\. ./rice/bootstrap/V1606_003__CITI_job_Params.sql
 commit;

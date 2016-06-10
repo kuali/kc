@@ -1,6 +1,24 @@
 
 
 ##CURRENT
+* RESKC-1343: putting the CITI maintenance links behind a feature flag
+  * Travis Schneeberger on Fri, 10 Jun 2016 16:43:04 -0400 [View Commit](../../commit/f3fb14312203a4dc3aed026a541fa588d324ceb7)
+* RESKC-1411: creating documentation for CITI
+  * Travis Schneeberger on Fri, 10 Jun 2016 16:11:19 -0400 [View Commit](../../commit/b2731706c3c52a0a57a9c4af7df187e48546f8c2)
+* RESKC-1377: creating CITI course lookup for group, curriculum, and stage for the CITI mapping maintenance and lookup, adding rules to mapping maintenance
+  * Travis Schneeberger on Fri, 10 Jun 2016 12:45:17 -0400 [View Commit](../../commit/2e0dfd3de28b77280c47563a294cf7a66fc865eb)
+* RESKC-1378: creating service to populate Person Training table from CITI data
+  * Travis Schneeberger on Thu, 9 Jun 2016 21:14:04 -0400 [View Commit](../../commit/87cba49df3e8bfb81a53ad3a23be5c884b3ccbbf)
+* RESKC-1340: removing old csv library in favor of a more robust one in preparation for CITI
+  * Travis Schneeberger on Thu, 9 Jun 2016 21:12:27 -0400 [View Commit](../../commit/ac84adf41af7362c97549ba5fdc06517b1deec9c)
+* RESKC-1341, RESKC-1343: creating quartz job for CITI integration and parameters to control quartz job
+  * Travis Schneeberger on Wed, 8 Jun 2016 17:27:58 -0400 [View Commit](../../commit/35878ee1baa42c595c39123a61f7cfbd7f3f2425)
+* RESKC-1378: creating service to populate Person Training table from CITI data
+  * Travis Schneeberger on Wed, 8 Jun 2016 15:39:30 -0400 [View Commit](../../commit/8e09848112c59bfbfdf583fcb6822a1b299003b6)
+* RESKC-1376, RESKC-1377: creating staging table, error table, mapping table, and all maintenance artifacts for CITI integration, also changing person training to record time information and not just date.  Time information helps disambiguate the same training by the same person in the same day but different times in the CITI feed.
+  * Travis Schneeberger on Wed, 8 Jun 2016 10:02:29 -0400 [View Commit](../../commit/6972bb87d6623342b0334d942ddc7ce94a836a1a)
+
+##coeus-1606.20
 * No Changes
 
 

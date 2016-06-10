@@ -19,4 +19,5 @@
 
 
 \. ./kc/bootstrap/V1606_001__RESKC-1196_coi_disposition.sql
+\. ./kc/bootstrap/V1606_002__CITI.sql
 commit;
