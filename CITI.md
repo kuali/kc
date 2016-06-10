@@ -41,4 +41,5 @@ To turn on the CITI batch job which starts the integration process, configure th
 citi.job.cronExpression
 citi.job.enabled
 
-By default, CITI integration is turned off.
+By default, CITI integration is turned off.  Note that currently citi.job.enabled also controls whether the CITI
+maintenance links are visible. 

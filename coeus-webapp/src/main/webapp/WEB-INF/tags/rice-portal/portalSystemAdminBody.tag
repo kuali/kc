@@ -27,7 +27,10 @@
 </td>
 <td class="content" valign="top">
       <administrationChannel:identity />
+
+<c:if test="${krafn:getParameterValueAsBoolean('KC-SYS', 'All', 'citi.job.enabled')}">
       <channel:citi />
+</c:if>
 </td>
 
 <td class="content" valign="top">
