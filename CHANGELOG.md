@@ -1,6 +1,13 @@
 
 
 ##CURRENT
+* Fix permissions check when verifying changed lead unit in award (#1786)
+
+  * Douglas Pace on Fri, 10 Jun 2016 11:02:09 -0700 [View Commit](../../commit/cef2376cb4d6a52b4a1f1cf75505105a2537f480)
+* Fix SQL script
+  * Gayathri Athreya on Fri, 10 Jun 2016 10:47:11 -0700 [View Commit](../../commit/61e0cfa3f3fbf093fdabebb97b90560d62ba1f44)
+
+##coeus-1606.17
 * No Changes
 
 
