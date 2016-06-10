@@ -18,7 +18,8 @@
  */
 package org.kuali.kra.external.Cfda.service.impl;
 
-import au.com.bytecode.opencsv.CSVReader;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -83,12 +84,12 @@ public class CfdaServiceImpl implements CfdaService {
             inputStream = ftp.retrieveFileStream(cfdaFileName);
             if (inputStream != null) {
                 LOG.info("reading input stream");
-                InputStreamReader screenReader = new InputStreamReader(inputStream);                
-                CSVReader csvReader = new CSVReader(screenReader, ',', '"', 1);
-                List<String[]> lines = csvReader.readAll();
-                for (String[] line : lines) {
-                    String title = line[0];
-                    String number = line[1];
+                InputStreamReader screenReader = new InputStreamReader(inputStream);
+
+                List<CSVRecord> records = CSVFormat.DEFAULT.withSkipHeaderRecord(true).parse(screenReader).getRecords();
+                for (CSVRecord record : records) {
+                    String title = record.get(0);
+                    String number = record.get(1);
                     CFDA cfda = new CFDA();
                     cfda.setCfdaNumber(number);
                     cfda.setCfdaProgramTitleName(title);

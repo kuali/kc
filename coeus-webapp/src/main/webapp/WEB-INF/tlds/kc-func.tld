@@ -81,4 +81,11 @@
         <example>&lt;c:set var="enabled" value="${krafn:getConfigValueAsBoolean('legacy.coeus.kc.schemaspy.enabled')}" /"&gt;</example>
     </function>
 
+    <function>
+        <description>Gets a Parameter Value as a boolean</description>
+        <name>getParameterValueAsBoolean</name>
+        <function-class>org.kuali.coeus.sys.framework.view.JstlFunctions</function-class>
+        <function-signature>boolean getParameterValueAsBoolean(java.lang.String, java.lang.String, java.lang.String)</function-signature>
+        <example>&lt;c:set var="enabled" value="${krafn:getParameterValueAsBoolean('KC-SYS', 'All', 'citi.job.enabled')}" /"&gt;</example>
+    </function>
 </taglib>

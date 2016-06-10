@@ -71,15 +71,6 @@
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 	</class-descriptor>
 
-	<!-- <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.CarrierType" table="CARRIER_TYPE">
-		<field-descriptor name="carrierTypeCode" column="CARRIER_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
-		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
-		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-	</class-descriptor>
--->
     <class-descriptor class="org.kuali.coeus.common.framework.person.attr.PersonAppointment" table="PERSON_APPOINTMENT">
         <field-descriptor name="appointmentId" column="APPOINTMENT_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_PERSON_APPOINTMENT" autoincrement="true"/>
         <field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
@@ -1139,7 +1130,7 @@
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-
+	</class-descriptor>
 
 	<class-descriptor class="org.kuali.kra.bo.Training" table="TRAINING">
 		<field-descriptor name="trainingCode" column="TRAINING_CODE" jdbc-type="INTEGER" primarykey="true" />
@@ -1149,17 +1140,16 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	</class-descriptor>
-	
-	</class-descriptor>		
-		<class-descriptor class="org.kuali.coeus.common.framework.person.attr.PersonTraining" table="PERSON_TRAINING">
+
+	<class-descriptor class="org.kuali.coeus.common.framework.person.attr.PersonTraining" table="PERSON_TRAINING">
 		<field-descriptor name="personTrainingId" column="PERSON_TRAINING_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_PERSON_TRAINING_ID" autoincrement="true"/>
 		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="trainingNumber" column="TRAINING_NUMBER" jdbc-type="INTEGER"/>
 		<field-descriptor name="trainingCode" column="TRAINING_CODE" jdbc-type="INTEGER" />
-		<field-descriptor name="dateRequested" column="DATE_REQUESTED" jdbc-type="DATE" />
-		<field-descriptor name="dateSubmitted" column="DATE_SUBMITTED" jdbc-type="DATE" />
-		<field-descriptor name="dateAcknowledged" column="DATE_ACKNOWLEDGED" jdbc-type="DATE" />
-		<field-descriptor name="followupDate" column="FOLLOWUP_DATE" jdbc-type="DATE" />
+		<field-descriptor name="dateRequested" column="DATE_REQUESTED" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="dateSubmitted" column="DATE_SUBMITTED" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="dateAcknowledged" column="DATE_ACKNOWLEDGED" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="followupDate" column="FOLLOWUP_DATE" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="score" column="SCORE" jdbc-type="VARCHAR" />
 		<field-descriptor name="comments" column="COMMENTS" jdbc-type="CLOB" />
         <field-descriptor name="active" column="ACTIVE_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
@@ -1171,7 +1161,82 @@
 			<foreignkey field-ref="trainingCode"/> 
 		</reference-descriptor>
 	</class-descriptor>
-	
+
+	<class-descriptor class="org.kuali.coeus.common.framework.person.citi.PersonTrainingCitiRecord" table="PERSON_TRAINING_CITI">
+		<field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PERSON_TRAINING_CITI" autoincrement="true"/>
+		<field-descriptor name="firstName" column="FIRST_NAME" jdbc-type="VARCHAR" />
+		<field-descriptor name="lastName" column="LAST_NAME" jdbc-type="VARCHAR"/>
+		<field-descriptor name="email" column="EMAIL" jdbc-type="VARCHAR" />
+		<field-descriptor name="employeeNumber" column="EMPLOYEE_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="curriculumNumber" column="CURRICULUM_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="curriculum" column="CURRICULUM" jdbc-type="VARCHAR" />
+		<field-descriptor name="groupId" column="GROUP_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="group" column="GRP" jdbc-type="VARCHAR" />
+		<field-descriptor name="score" column="SCORE" jdbc-type="VARCHAR" />
+		<field-descriptor name="passingScore" column="PASSING_SCORE" jdbc-type="VARCHAR" />
+		<field-descriptor name="stageNumber" column="STAGE_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="stage" column="STAGE" jdbc-type="VARCHAR" />
+		<field-descriptor name="learnerId" column="LEARNER_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="dateCompleted" column="DATE_COMPLETED" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="expirationDate" column="EXPIRATION_DATE" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="registrationDate" column="REGISTRATION_DATE" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="name" column="NAME" jdbc-type="VARCHAR" />
+		<field-descriptor name="username" column="USERNAME" jdbc-type="VARCHAR" />
+		<field-descriptor name="institutionalUsername" column="INSTITUTIONAL_USERNAME" jdbc-type="VARCHAR" />
+		<field-descriptor name="institutionalLanguage" column="INSTITUTIONAL_LANGUAGE" jdbc-type="VARCHAR" />
+		<field-descriptor name="institutionalEmail" column="INSTITUTIONAL_EMAIL" jdbc-type="VARCHAR" />
+		<field-descriptor name="gender" column="GENDER" jdbc-type="VARCHAR" />
+		<field-descriptor name="highestDegree" column="HIGHEST_DEGREE" jdbc-type="VARCHAR" />
+		<field-descriptor name="department" column="DEPARTMENT" jdbc-type="VARCHAR" />
+		<field-descriptor name="addressField1" column="ADDRESS_FIELD1" jdbc-type="VARCHAR" />
+		<field-descriptor name="addressField2" column="ADDRESS_FIELD2" jdbc-type="VARCHAR" />
+		<field-descriptor name="addressField3" column="ADDRESS_FIELD3" jdbc-type="VARCHAR" />
+		<field-descriptor name="city" column="CITY" jdbc-type="VARCHAR" />
+		<field-descriptor name="state" column="STATE" jdbc-type="VARCHAR" />
+		<field-descriptor name="zipCode" column="ZIP_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="country" column="COUNTRY" jdbc-type="VARCHAR" />
+		<field-descriptor name="phone" column="PHONE" jdbc-type="VARCHAR" />
+		<field-descriptor name="customField1" column="CUSTOM_FIELD1" jdbc-type="VARCHAR" />
+		<field-descriptor name="customField2" column="CUSTOM_FIELD2" jdbc-type="VARCHAR" />
+		<field-descriptor name="customField3" column="CUSTOM_FIELD3" jdbc-type="VARCHAR" />
+		<field-descriptor name="customField4" column="CUSTOM_FIELD4" jdbc-type="VARCHAR" />
+		<field-descriptor name="customField5" column="CUSTOM_FIELD5" jdbc-type="VARCHAR" />
+		<field-descriptor name="rawRecord" column="RAW_RECORD" jdbc-type="CLOB" />
+		<field-descriptor name="statusCode" column="STATUS_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<collection-descriptor name="errors" proxy="true" element-class-ref="org.kuali.coeus.common.framework.person.citi.PersonTrainingCitiRecordError" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+			<inverse-foreignkey field-ref="citiRecordId"/>
+		</collection-descriptor>
+	</class-descriptor>
+
+	<class-descriptor class="org.kuali.coeus.common.framework.person.citi.PersonTrainingCitiRecordError" table="PERSON_TRAINING_CITI_ERR">
+		<field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PERSON_TRAINING_CITI_ERR" autoincrement="true"/>
+		<field-descriptor name="citiRecordId" column="CITI_RECORD_ID" jdbc-type="BIGINT" />
+		<field-descriptor name="message" column="MESSAGE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	</class-descriptor>
+
+	<class-descriptor class="org.kuali.coeus.common.framework.person.citi.PersonTrainingCitiMap" table="PERSON_TRAINING_CITI_MAP">
+		<field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PERSON_TRAINING_CITI_MAP" autoincrement="true"/>
+		<field-descriptor name="curriculumNumber" column="CURRICULUM_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="groupId" column="GROUP_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="stageNumber" column="STAGE_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="trainingCode" column="TRAINING_CODE" jdbc-type="INTEGER" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<reference-descriptor name="training" class-ref="org.kuali.kra.bo.Training" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="trainingCode"/>
+		</reference-descriptor>
+	</class-descriptor>
+
     <class-descriptor class="org.kuali.kra.bo.FundingSourceType" table="FUNDING_SOURCE_TYPE">
         <field-descriptor name="fundingSourceTypeCode" column="FUNDING_SOURCE_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
         <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />

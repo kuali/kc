@@ -287,4 +287,51 @@
 	<param name="legacy.coeus.datasource.password"></param>
 	<param name="legacy.coeus.datasource.ojb.platform">Oracle9i</param>
 	<param name="legacy.coeus.datasource.driver.name">${datasource.driver.name.${legacy.coeus.datasource.ojb.platform}}</param>
+
+	<param name="citi.endpoints"></param>
+	<!-- defaults to \t (tab)-->
+	<param name="citi.delimiter">&#009;</param>
+
+	<param name="citi.header.label.firstName">First Name</param>
+    <param name="citi.header.label.lastName">Last Name</param>
+    <param name="citi.header.label.email">Email</param>
+    <param name="citi.header.label.employeeNumber">Employee Number</param>
+    <param name="citi.header.label.curriculumNumber">CR Number</param>
+    <param name="citi.header.label.curriculum">Curriculum</param>
+    <param name="citi.header.label.groupId">Group ID</param>
+    <param name="citi.header.label.group">Group</param>
+    <param name="citi.header.label.score">Score</param>
+    <param name="citi.header.label.passingScore">Passing score</param>
+    <param name="citi.header.label.stageNumber">Stage Number</param>
+    <param name="citi.header.label.stage">Stage</param>
+    <param name="citi.header.label.learnerId">Learner ID</param>
+    <param name="citi.header.label.dateCompleted">Date Completed</param>
+    <param name="citi.header.label.expirationDate">Expiration Date</param>
+    <param name="citi.header.label.registrationDate">Registration Date</param>
+    <param name="citi.header.label.name">Name</param>
+    <param name="citi.header.label.username">Username</param>
+    <param name="citi.header.label.institutionalUsername">Institutional Username</param>
+    <param name="citi.header.label.institutionalLanguage">Institutional Language</param>
+    <param name="citi.header.label.institutionalEmail">Institutional email address</param>
+    <param name="citi.header.label.gender">Gender</param>
+    <param name="citi.header.label.highestDegree">Highest degree</param>
+    <param name="citi.header.label.department">Department</param>
+    <param name="citi.header.label.addressField1">Address Field 1</param>
+    <param name="citi.header.label.addressField2">Address Field 2</param>
+    <param name="citi.header.label.addressField3">Address Field 3</param>
+    <param name="citi.header.label.city">City</param>
+    <param name="citi.header.label.state">State</param>
+    <param name="citi.header.label.zipCode">Zip/Postal Code</param>
+    <param name="citi.header.label.country">Country</param>
+    <param name="citi.header.label.phone">Phone</param>
+    <param name="citi.header.label.customField1">Custom Field 1</param>
+    <param name="citi.header.label.customField2">Custom Field 2</param>
+    <param name="citi.header.label.customField3">Custom Field 3</param>
+    <param name="citi.header.label.customField4">Custom Field 4</param>
+    <param name="citi.header.label.customField5">Custom Field 5</param>
+    <param name="citi.header.label.module">Module</param>
+    <param name="citi.header.label.examId">Exam ID</param>
+    <param name="citi.header.label.examScore">Exam Score</param>
+    <param name="citi.header.label.moduleCompletionDate">Module Completion Date</param>
+    
 </config>

@@ -25,12 +25,8 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.kra.bo.Training;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
-/**
- * 
- * This is BO class for person training maintenance.
- */
 public class PersonTraining extends KcPersistableBusinessObjectBase implements MutableInactivatable {
 
     private Integer personTrainingId;
@@ -41,13 +37,13 @@ public class PersonTraining extends KcPersistableBusinessObjectBase implements M
 
     private Integer trainingCode;
 
-    private Date dateRequested;
+    private Timestamp dateRequested;
 
-    private Date dateSubmitted;
+    private Timestamp dateSubmitted;
 
-    private Date dateAcknowledged;
+    private Timestamp dateAcknowledged;
 
-    private Date followupDate;
+    private Timestamp followupDate;
 
     private String score;
 
@@ -94,35 +90,35 @@ public class PersonTraining extends KcPersistableBusinessObjectBase implements M
         this.trainingCode = trainingCode;
     }
 
-    public Date getDateRequested() {
+    public Timestamp getDateRequested() {
         return dateRequested;
     }
 
-    public void setDateRequested(Date dateRequested) {
+    public void setDateRequested(Timestamp dateRequested) {
         this.dateRequested = dateRequested;
     }
 
-    public Date getDateSubmitted() {
+    public Timestamp getDateSubmitted() {
         return dateSubmitted;
     }
 
-    public void setDateSubmitted(Date dateSubmitted) {
+    public void setDateSubmitted(Timestamp dateSubmitted) {
         this.dateSubmitted = dateSubmitted;
     }
 
-    public Date getDateAcknowledged() {
+    public Timestamp getDateAcknowledged() {
         return dateAcknowledged;
     }
 
-    public void setDateAcknowledged(Date dateAcknowledged) {
+    public void setDateAcknowledged(Timestamp dateAcknowledged) {
         this.dateAcknowledged = dateAcknowledged;
     }
 
-    public Date getFollowupDate() {
+    public Timestamp getFollowupDate() {
         return followupDate;
     }
 
-    public void setFollowupDate(Date followupDate) {
+    public void setFollowupDate(Timestamp followupDate) {
         this.followupDate = followupDate;
     }
 
@@ -142,10 +138,12 @@ public class PersonTraining extends KcPersistableBusinessObjectBase implements M
         this.comments = comments;
     }
 
+    @Override
     public boolean isActive() {
         return active;
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -162,10 +160,6 @@ public class PersonTraining extends KcPersistableBusinessObjectBase implements M
         this.training = training;
     }
 
-    /**
-     * Gets the KC Person Service.
-     * @return KC Person Service.
-     */
     protected KcPersonService getKcPersonService() {
         if (this.kcPersonService == null) {
             this.kcPersonService = KcServiceLocator.getService(KcPersonService.class);

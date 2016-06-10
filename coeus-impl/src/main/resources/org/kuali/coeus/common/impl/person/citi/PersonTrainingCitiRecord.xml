@@ -1,0 +1,1113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - Kuali Coeus, a comprehensive research administration system for higher education.
+   -
+   - Copyright 2005-2016 Kuali, Inc.
+   -
+   - This program is free software: you can redistribute it and/or modify
+   - it under the terms of the GNU Affero General Public License as
+   - published by the Free Software Foundation, either version 3 of the
+   - License, or (at your option) any later version.
+   -
+   - This program is distributed in the hope that it will be useful,
+   - but WITHOUT ANY WARRANTY; without even the implied warranty of
+   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   - GNU Affero General Public License for more details.
+   -
+   - You should have received a copy of the GNU Affero General Public License
+   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="PersonTrainingCitiRecord" parent="PersonTrainingCitiRecord-parentBean"/>
+    <bean abstract="true" id="PersonTrainingCitiRecord-parentBean" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.coeus.common.framework.person.citi.PersonTrainingCitiRecord"/>
+        <property name="objectLabel" value="Person Training CITI Record"/>
+        <property name="inquiryDefinition">
+            <ref bean="PersonTrainingCitiRecord-inquiryDefinition"/>
+        </property>
+        <property name="lookupDefinition">
+            <ref bean="PersonTrainingCitiRecord-lookupDefinition"/>
+        </property>
+        <property name="titleAttribute" value="id"/>
+        <property name="attributes">
+            <list>
+                <ref bean="PersonTrainingCitiRecord-id"/>
+                <ref bean="PersonTrainingCitiRecord-firstName"/>
+                <ref bean="PersonTrainingCitiRecord-lastName" />
+                <ref bean="PersonTrainingCitiRecord-email" />
+                <ref bean="PersonTrainingCitiRecord-employeeNumber" />
+                <ref bean="PersonTrainingCitiRecord-curriculumNumber" />
+                <ref bean="PersonTrainingCitiRecord-curriculum"/>
+                <ref bean="PersonTrainingCitiRecord-groupId"/>
+                <ref bean="PersonTrainingCitiRecord-group"/>
+                <ref bean="PersonTrainingCitiRecord-score"/>
+                <ref bean="PersonTrainingCitiRecord-passingScore"/>
+                <ref bean="PersonTrainingCitiRecord-stageNumber"/>
+                <ref bean="PersonTrainingCitiRecord-stage"/>
+                <ref bean="PersonTrainingCitiRecord-learnerId"/>
+                <ref bean="PersonTrainingCitiRecord-dateCompleted"/>
+                <ref bean="PersonTrainingCitiRecord-expirationDate"/>
+                <ref bean="PersonTrainingCitiRecord-registrationDate"/>
+                <ref bean="PersonTrainingCitiRecord-name"/>
+                <ref bean="PersonTrainingCitiRecord-username"/>
+                <ref bean="PersonTrainingCitiRecord-institutionalUsername"/>
+                <ref bean="PersonTrainingCitiRecord-institutionalLanguage"/>
+                <ref bean="PersonTrainingCitiRecord-institutionalEmail"/>
+                <ref bean="PersonTrainingCitiRecord-gender"/>
+                <ref bean="PersonTrainingCitiRecord-highestDegree"/>
+                <ref bean="PersonTrainingCitiRecord-department"/>
+                <ref bean="PersonTrainingCitiRecord-addressField1"/>
+                <ref bean="PersonTrainingCitiRecord-addressField2"/>
+                <ref bean="PersonTrainingCitiRecord-addressField3"/>
+                <ref bean="PersonTrainingCitiRecord-city"/>
+                <ref bean="PersonTrainingCitiRecord-state"/>
+                <ref bean="PersonTrainingCitiRecord-zipCode"/>
+                <ref bean="PersonTrainingCitiRecord-country"/>
+                <ref bean="PersonTrainingCitiRecord-phone"/>
+                <ref bean="PersonTrainingCitiRecord-customField1"/>
+                <ref bean="PersonTrainingCitiRecord-customField2"/>
+                <ref bean="PersonTrainingCitiRecord-customField3"/>
+                <ref bean="PersonTrainingCitiRecord-customField4"/>
+                <ref bean="PersonTrainingCitiRecord-customField5"/>
+                <ref bean="PersonTrainingCitiRecord-module"/>
+                <ref bean="PersonTrainingCitiRecord-examId"/>
+                <ref bean="PersonTrainingCitiRecord-examScore"/>
+                <ref bean="PersonTrainingCitiRecord-moduleCompletionDate"/>
+                <ref bean="PersonTrainingCitiRecord-rawRecord"/>
+                <ref bean="PersonTrainingCitiRecord-statusCode"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    <bean id="PersonTrainingCitiRecord-id" parent="PersonTrainingCitiRecord-id-parentBean"/>
+    <bean abstract="true" id="PersonTrainingCitiRecord-id-parentBean" parent="AttributeDefinition">
+        <property name="name" value="id"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Person Training CITI Record Id"/>
+        <property name="shortLabel" value="Id"/>
+        <property name="maxLength" value="22"/>
+        <property name="validationPattern">
+            <bean parent="NumericValidationPattern"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="control">
+            <bean p:size="22" parent="TextControlDefinition"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="22" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Person Training CITI Record Id"/>
+        <property name="description" value="Person Training CITI Record Id"/>
+    </bean>
+
+    <bean id="PersonTrainingCitiRecord-firstName" parent="PersonTrainingCitiRecord-firstName-parentBean"/>
+    <bean abstract="true" id="PersonTrainingCitiRecord-firstName-parentBean" parent="AttributeDefinition">
+        <property name="name" value="firstName" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="First Name" />
+        <property name="shortLabel" value="First Name" />
+        <property name="maxLength" value="40" />
+        <property name="control" >
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="40" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="First Name" />
+        <property name="description" value="First Name" />
+    </bean>
+
+    <bean id="PersonTrainingCitiRecord-lastName" parent="PersonTrainingCitiRecord-lastName-parentBean"/>
+    <bean abstract="true" id="PersonTrainingCitiRecord-lastName-parentBean" parent="AttributeDefinition">
+        <property name="name" value="lastName" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Last Name" />
+        <property name="shortLabel" value="Last Name" />
+        <property name="maxLength" value="80" />
+        <property name="control" >
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="40" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Last Name" />
+        <property name="description" value="Last Name" />
+    </bean>
+
+    <bean id="PersonTrainingCitiRecord-email" parent="PersonTrainingCitiRecord-email-parentBean"/>
+    <bean abstract="true" id="PersonTrainingCitiRecord-email-parentBean" parent="AttributeReferenceDummy-emailAddress">
+        <property name="name" value="email"/>
+        <property name="description" value="The email address of the CITI user."/>
+    </bean>
+
+    <bean id="PersonTrainingCitiRecord-employeeNumber" parent="PersonTrainingCitiRecord-employeeNumber-parentBean"/>
+    <bean abstract="true" id="PersonTrainingCitiRecord-employeeNumber-parentBean" parent="AttributeDefinition">
+        <property name="name" value="employeeNumber"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Employee Number"/>
+        <property name="shortLabel" value="Employee Number"/>
+        <property name="maxLength" value="100" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="true"/>
+            </bean>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="20" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Employee Number"/>
+        <property name="description" value="Employee Number"/>
+    </bean>
+
+    <bean id="PersonTrainingCitiRecord-curriculumNumber" parent="PersonTrainingCitiRecord-curriculumNumber-parentBean"/>
+    <bean abstract="true" id="PersonTrainingCitiRecord-curriculumNumber-parentBean" parent="AttributeDefinition">
+        <property name="name" value="curriculumNumber"/>
+        <property name="required" value="true" />
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Curriculum Number"/>
+        <property name="shortLabel" value="Curriculum Number"/>
+        <property name="maxLength" value="100" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="true"/>
+            </bean>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="20" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Curriculum Number"/>
+        <property name="description" value="Curriculum Number"/>
+    </bean>
+
+    <bean id="PersonTrainingCitiRecord-curriculum" parent="PersonTrainingCitiRecord-curriculum-parentBean"/>
+    <bean abstract="true" id="PersonTrainingCitiRecord-curriculum-parentBean" parent="KraAttributeReferenceDummy-description">
+        <property name="name" value="curriculum" />
+        <property name="required" value="true" />
+        <property name="label" value="Curriculum" />
+        <property name="shortLabel" value="Curriculum" />
+        <property name="summary" value="Curriculum" />
+        <property name="description" value="Curriculum" />
+    </bean>
+
+    <bean id="PersonTrainingCitiRecord-groupId" parent="PersonTrainingCitiRecord-groupId-parentBean"/>
+    <bean abstract="true" id="PersonTrainingCitiRecord-groupId-parentBean" parent="AttributeDefinition">
+        <property name="name" value="groupId"/>
+        <property name="required" value="true" />
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Group Id"/>
+        <property name="shortLabel" value="Group Id"/>
+        <property name="maxLength" value="100" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="true"/>
+            </bean>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="20" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Group Id"/>
+        <property name="description" value="Group Id"/>
+    </bean>
+
+    <bean id="PersonTrainingCitiRecord-group" parent="PersonTrainingCitiRecord-group-parentBean"/>
+    <bean abstract="true" id="PersonTrainingCitiRecord-group-parentBean" parent="KraAttributeReferenceDummy-description">
+        <property name="name" value="group" />
+        <property name="required" value="true" />
+        <property name="label" value="Group" />
+        <property name="shortLabel" value="Group" />
+        <property name="summary" value="Group" />
+        <property name="description" value="Group" />
+    </bean>
+
+    <bean id="PersonTrainingCitiRecord-score" parent="PersonTrainingCitiRecord-score-parentBean"/>
+    <bean abstract="true" id="PersonTrainingCitiRecord-score-parentBean" parent="PersonTrainingCitiRecord-genericScore">
+        <property name="name" value="score"/>
+        <property name="label" value="Score"/>
+        <property name="shortLabel" value="Score"/>
+        <property name="summary" value="Score"/>
+        <property name="description" value="Score"/>
+    </bean>
+
+    <bean id="PersonTrainingCitiRecord-passingScore" parent="PersonTrainingCitiRecord-passingScore-parentBean"/>
+    <bean abstract="true" id="PersonTrainingCitiRecord-passingScore-parentBean" parent="PersonTrainingCitiRecord-genericScore">
+        <property name="name" value="passingScore"/>
+        <property name="required" value="true" />
+        <property name="label" value="Passing Score"/>
+        <property name="shortLabel" value="Passing Score"/>
+        <property name="summary" value="Passing Score"/>
+        <property name="description" value="Passing Score"/>
+    </bean>
+
+    <bean abstract="true" id="PersonTrainingCitiRecord-genericScore" parent="PersonTrainingCitiRecord-genericScore-parentBean"/>
+    <bean abstract="true" id="PersonTrainingCitiRecord-genericScore-parentBean" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="maxLength" value="5" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="true"/>
+            </bean>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition" p:size="5"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="5" parent="Uif-TextControl"/>
+        </property>
+    </bean>
+
+    <bean id="PersonTrainingCitiRecord-stageNumber" parent="PersonTrainingCitiRecord-stageNumber-parentBean"/>
+    <bean abstract="true" id="PersonTrainingCitiRecord-stageNumber-parentBean" parent="AttributeDefinition">
+        <property name="name" value="stageNumber"/>
+        <property name="required" value="true" />
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Stage Number"/>
+        <property name="shortLabel" value="Stage Number"/>
+        <property name="maxLength" value="100" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="true"/>
+            </bean>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="20" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Stage Number"/>
+        <property name="description" value="Stage Number"/>
+    </bean>
+
+    <bean id="PersonTrainingCitiRecord-stage" parent="PersonTrainingCitiRecord-stage-parentBean"/>
+    <bean abstract="true" id="PersonTrainingCitiRecord-stage-parentBean" parent="KraAttributeReferenceDummy-description">
+        <property name="name" value="stage" />
+        <property name="required" value="true" />
+        <property name="label" value="Stage" />
+        <property name="shortLabel" value="Stage" />
+        <property name="summary" value="Stage" />
+        <property name="description" value="Stage" />
+    </bean>
+
+    <bean id="PersonTrainingCitiRecord-learnerId" parent="PersonTrainingCitiRecord-learnerId-parentBean"/>
+    <bean abstract="true" id="PersonTrainingCitiRecord-learnerId-parentBean" parent="AttributeDefinition">
+        <property name="name" value="learnerId"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Learner Id"/>
+        <property name="shortLabel" value="Learner Id"/>
+        <property name="maxLength" value="100" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="true"/>
+            </bean>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="20" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Learner Id"/>
+        <property name="description" value="Learner Id"/>
+    </bean>
+
+    <bean id="PersonTrainingCitiRecord-dateCompleted" parent="PersonTrainingCitiRecord-dateCompleted-parentBean"/>
+    <bean abstract="true" id="PersonTrainingCitiRecord-dateCompleted-parentBean" parent="AttributeReference-genericTimestamp">
+        <property name="name" value="dateCompleted" />
+        <property name="label" value="Date Completed" />
+        <property name="shortLabel" value="Date Completed" />
+        <property name="summary" value="Date Completed" />
+        <property name="description" value="Date Completed" />
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>
+    </bean>
+
+    <bean id="PersonTrainingCitiRecord-expirationDate" parent="PersonTrainingCitiRecord-expirationDate-parentBean"/>
+    <bean abstract="true" id="PersonTrainingCitiRecord-expirationDate-parentBean" parent="AttributeReference-genericTimestamp">
+        <property name="name" value="expirationDate" />
+        <property name="label" value="Expiration Date" />
+        <property name="shortLabel" value="Expiration Date" />
+        <property name="summary" value="Expiration Date" />
+        <property name="description" value="Expiration Date" />
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>
+    </bean>
+
+    <bean id="PersonTrainingCitiRecord-registrationDate" parent="PersonTrainingCitiRecord-registrationDate-parentBean"/>
+    <bean abstract="true" id="PersonTrainingCitiRecord-registrationDate-parentBean" parent="AttributeReference-genericTimestamp">
+        <property name="name" value="registrationDate" />
+        <property name="label" value="Registration Date" />
+        <property name="shortLabel" value="Registration Date" />
+        <property name="summary" value="Registration Date" />
+        <property name="description" value="Registration Date" />
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>
+    </bean>
+
+    <bean id="PersonTrainingCitiRecord-name" parent="PersonTrainingCitiRecord-name-parentBean"/>
+    <bean abstract="true" id="PersonTrainingCitiRecord-name-parentBean" parent="KraAttributeReferenceDummy-description">
+        <property name="name" value="name" />
+        <property name="label" value="Name" />
+        <property name="shortLabel" value="Name" />
+        <property name="summary" value="Name" />
+        <property name="description" value="Name" />
+    </bean>
+
+    <bean id="PersonTrainingCitiRecord-username" parent="PersonTrainingCitiRecord-username-parentBean" />
+    <bean id="PersonTrainingCitiRecord-username-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="username" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="User Name" />
+        <property name="shortLabel" value="User Name" />
+        <property name="maxLength" value="100" />
+        <property name="control" >
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="20" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="User Name" />
+        <property name="description" value="User Name" />
+    </bean>
+
+    <bean id="PersonTrainingCitiRecord-institutionalUsername" parent="PersonTrainingCitiRecord-institutionalUsername-parentBean" />
+    <bean id="PersonTrainingCitiRecord-institutionalUsername-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="institutionalUsername" />
+        <property name="required" value="true" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Institutional User Name" />
+        <property name="shortLabel" value="Institutional User Name" />
+        <property name="maxLength" value="100" />
+        <property name="control" >
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="20" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Institutional User Name" />
+        <property name="description" value="Institutional User Name" />
+    </bean>
+
+    <bean id="PersonTrainingCitiRecord-institutionalLanguage" parent="PersonTrainingCitiRecord-institutionalLanguage-parentBean" />
+    <bean id="PersonTrainingCitiRecord-institutionalLanguage-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="institutionalLanguage" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Institutional Language" />
+        <property name="shortLabel" value="Institutional Language" />
+        <property name="maxLength" value="100" />
+        <property name="control" >
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="20" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Institutional Language" />
+        <property name="description" value="Institutional Language" />
+    </bean>
+
+    <bean id="PersonTrainingCitiRecord-institutionalEmail" parent="PersonTrainingCitiRecord-institutionalEmail-parentBean"/>
+    <bean abstract="true" id="PersonTrainingCitiRecord-institutionalEmail-parentBean" parent="AttributeReferenceDummy-emailAddress">
+        <property name="name" value="institutionalEmail" />
+        <property name="description" value="The institutional email address of the CITI user."/>
+    </bean>
+
+    <bean id="PersonTrainingCitiRecord-gender" parent="PersonTrainingCitiRecord-gender-parentBean"/>
+    <bean abstract="true" id="PersonTrainingCitiRecord-gender-parentBean" parent="AttributeDefinition">
+        <property name="name" value="gender" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Gender" />
+        <property name="shortLabel" value="Gender" />
+        <property name="maxLength" value="20" />
+        <property name="control" >
+            <bean parent="TextControlDefinition" p:size="22"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="22" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Gender" />
+        <property name="description" value="Gender" />
+    </bean>
+
+    <bean id="PersonTrainingCitiRecord-highestDegree" parent="PersonTrainingCitiRecord-highestDegree-parentBean"/>
+    <bean abstract="true" id="PersonTrainingCitiRecord-highestDegree-parentBean" parent="KraAttributeReferenceDummy-description">
+        <property name="name" value="highestDegree" />
+        <property name="label" value="Highest Degree" />
+        <property name="shortLabel" value="Highest Degree" />
+        <property name="summary" value="Highest Degree" />
+        <property name="description" value="Highest Degree" />
+    </bean>
+
+    <bean id="PersonTrainingCitiRecord-department" parent="PersonTrainingCitiRecord-department-parentBean"/>
+    <bean abstract="true" id="PersonTrainingCitiRecord-department-parentBean" parent="KraAttributeReferenceDummy-description">
+        <property name="name" value="department" />
+        <property name="label" value="Department" />
+        <property name="shortLabel" value="Department" />
+        <property name="summary" value="Department" />
+        <property name="description" value="Department" />
+    </bean>
+
+    <bean id="PersonTrainingCitiRecord-addressField1" parent="PersonTrainingCitiRecord-addressField1-parentBean"/>
+    <bean abstract="true" id="PersonTrainingCitiRecord-addressField1-parentBean" parent="PersonTrainingCitiRecord-addressField">
+        <property name="name" value="addressField1" />
+        <property name="label" value="Address Field 1" />
+        <property name="shortLabel" value="Address Field 1" />
+        <property name="summary" value="Address Field 1" />
+        <property name="description" value="Address Field 1" />
+    </bean>
+
+    <bean id="PersonTrainingCitiRecord-addressField2" parent="PersonTrainingCitiRecord-addressField2-parentBean"/>
+    <bean abstract="true" id="PersonTrainingCitiRecord-addressField2-parentBean" parent="PersonTrainingCitiRecord-addressField">
+        <property name="name" value="addressField2" />
+        <property name="label" value="Address Field 2" />
+        <property name="shortLabel" value="Address Field 2" />
+        <property name="summary" value="Address Field 2" />
+        <property name="description" value="Address Field 2" />
+    </bean>
+
+    <bean id="PersonTrainingCitiRecord-addressField3" parent="PersonTrainingCitiRecord-addressField3-parentBean"/>
+    <bean abstract="true" id="PersonTrainingCitiRecord-addressField3-parentBean" parent="PersonTrainingCitiRecord-addressField">
+        <property name="name" value="addressField3" />
+        <property name="label" value="Address Field 3" />
+        <property name="shortLabel" value="Address Field 3" />
+        <property name="summary" value="Address Field 3" />
+        <property name="description" value="Address Field 3" />
+    </bean>
+
+    <bean abstract="true" id="PersonTrainingCitiRecord-addressField" parent="PersonTrainingCitiRecord-addressField-parentBean"/>
+    <bean abstract="true" id="PersonTrainingCitiRecord-addressField-parentBean" parent="AttributeDefinition">
+        <property name="maxLength"  value="128" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10"/>
+        </property>
+    </bean>
+
+    <bean id="PersonTrainingCitiRecord-city" parent="PersonTrainingCitiRecord-city-parentBean"/>
+    <bean abstract="true" id="PersonTrainingCitiRecord-city-parentBean" parent="AttributeDefinition">
+        <property name="name" value="city" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="City" />
+        <property name="shortLabel" value="City" />
+        <property name="maxLength" value="30" />
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="10" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="City" />
+        <property name="description" value="City" />
+    </bean>
+
+    <bean id="PersonTrainingCitiRecord-state" parent="PersonTrainingCitiRecord-state-parentBean"/>
+    <bean abstract="true" id="PersonTrainingCitiRecord-state-parentBean" parent="AttributeDefinition">
+        <property name="name" value="state" />
+        <property name="forceUppercase" value="true" />
+        <property name="label" value="State" />
+        <property name="shortLabel" value="State" />
+        <property name="maxLength" value="100" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="true"/>
+            </bean>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="20" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="State" />
+        <property name="description" value="State" />
+    </bean>
+
+    <bean id="PersonTrainingCitiRecord-zipCode" parent="PersonTrainingCitiRecord-zipCode-parentBean"/>
+    <bean abstract="true" id="PersonTrainingCitiRecord-zipCode-parentBean" parent="AttributeDefinition">
+        <property name="name" value="zipCode" />
+        <property name="forceUppercase" value="true" />
+        <property name="label" value="Zip Code" />
+        <property name="shortLabel" value="Zip Code" />
+        <property name="maxLength" value="20" />
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="22"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="22" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Zip Code" />
+        <property name="description" value="Zip Code" />
+    </bean>
+
+    <bean id="PersonTrainingCitiRecord-country" parent="PersonTrainingCitiRecord-country-parentBean"/>
+    <bean abstract="true" id="PersonTrainingCitiRecord-country-parentBean" parent="AttributeDefinition">
+        <property name="name" value="country" />
+        <property name="forceUppercase" value="true" />
+        <property name="label" value="Country" />
+        <property name="shortLabel" value="Country" />
+        <property name="maxLength" value="100" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="true"/>
+            </bean>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="20" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Country" />
+        <property name="description" value="Country" />
+    </bean>
+
+    <bean id="PersonTrainingCitiRecord-phone" parent="PersonTrainingCitiRecord-phone-parentBean"/>
+    <bean abstract="true" id="PersonTrainingCitiRecord-phone-parentBean" parent="AttributeDefinition">
+        <property name="name" value="phone" />
+        <property name="forceUppercase" value="true" />
+        <property name="label" value="Phone" />
+        <property name="shortLabel" value="Phone" />
+        <property name="maxLength" value="20" />
+        <property name="validationPattern">
+            <bean parent="PhoneNumberValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10"/>
+        </property>
+        <property name="summary" value="Phone" />
+        <property name="description" value="Phone" />
+    </bean>
+
+    <bean id="PersonTrainingCitiRecord-customField1" parent="PersonTrainingCitiRecord-customField1-parentBean"/>
+    <bean abstract="true" id="PersonTrainingCitiRecord-customField1-parentBean" parent="KraAttributeReferenceDummy-description">
+        <property name="name" value="customField1" />
+        <property name="label" value="Custom Field 1" />
+        <property name="shortLabel" value="Custom Field 1" />
+        <property name="summary" value="Custom Field 1" />
+        <property name="description" value="Custom Field 1" />
+    </bean>
+
+    <bean id="PersonTrainingCitiRecord-customField2" parent="PersonTrainingCitiRecord-customField2-parentBean"/>
+    <bean abstract="true" id="PersonTrainingCitiRecord-customField2-parentBean" parent="KraAttributeReferenceDummy-description">
+        <property name="name" value="customField2" />
+        <property name="label" value="Custom Field 2" />
+        <property name="shortLabel" value="Custom Field 2" />
+        <property name="summary" value="Custom Field 2" />
+        <property name="description" value="Custom Field 2" />
+    </bean>
+
+    <bean id="PersonTrainingCitiRecord-customField3" parent="PersonTrainingCitiRecord-customField3-parentBean"/>
+    <bean abstract="true" id="PersonTrainingCitiRecord-customField3-parentBean" parent="KraAttributeReferenceDummy-description">
+        <property name="name" value="customField3" />
+        <property name="label" value="Custom Field 3" />
+        <property name="shortLabel" value="Custom Field 3" />
+        <property name="summary" value="Custom Field 3" />
+        <property name="description" value="Custom Field 3" />
+    </bean>
+
+    <bean id="PersonTrainingCitiRecord-customField4" parent="PersonTrainingCitiRecord-customField4-parentBean"/>
+    <bean abstract="true" id="PersonTrainingCitiRecord-customField4-parentBean" parent="KraAttributeReferenceDummy-description">
+        <property name="name" value="customField4" />
+        <property name="label" value="Custom Field 4" />
+        <property name="shortLabel" value="Custom Field 4" />
+        <property name="summary" value="Custom Field 4" />
+        <property name="description" value="Custom Field 4" />
+    </bean>
+
+    <bean id="PersonTrainingCitiRecord-customField5" parent="PersonTrainingCitiRecord-customField5-parentBean"/>
+    <bean abstract="true" id="PersonTrainingCitiRecord-customField5-parentBean" parent="KraAttributeReferenceDummy-description">
+        <property name="name" value="customField5" />
+        <property name="label" value="Custom Field 5" />
+        <property name="shortLabel" value="Custom Field 5" />
+        <property name="summary" value="Custom Field 5" />
+        <property name="description" value="Custom Field 5" />
+    </bean>
+
+    <bean id="PersonTrainingCitiRecord-module" parent="PersonTrainingCitiRecord-module-parentBean"/>
+    <bean abstract="true" id="PersonTrainingCitiRecord-module-parentBean" parent="KraAttributeReferenceDummy-description">
+        <property name="name" value="module" />
+        <property name="label" value="Module" />
+        <property name="shortLabel" value="Module" />
+        <property name="summary" value="Module" />
+        <property name="description" value="Module" />
+    </bean>
+
+    <bean id="PersonTrainingCitiRecord-examId" parent="PersonTrainingCitiRecord-examId-parentBean"/>
+    <bean abstract="true" id="PersonTrainingCitiRecord-examId-parentBean" parent="AttributeDefinition">
+        <property name="name" value="examId"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Exam Id"/>
+        <property name="shortLabel" value="Exam Id"/>
+        <property name="maxLength" value="100" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="true"/>
+            </bean>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="20" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Exam Id"/>
+        <property name="description" value="Exam Id"/>
+    </bean>
+
+    <bean id="PersonTrainingCitiRecord-examScore" parent="PersonTrainingCitiRecord-examScore-parentBean"/>
+    <bean abstract="true" id="PersonTrainingCitiRecord-examScore-parentBean" parent="PersonTrainingCitiRecord-genericScore">
+        <property name="name" value="examScore"/>
+        <property name="label" value="Exam Score"/>
+        <property name="shortLabel" value="Exam Score"/>
+        <property name="summary" value="Exam Score"/>
+        <property name="description" value="Exam Score"/>
+    </bean>
+
+    <bean id="PersonTrainingCitiRecord-moduleCompletionDate" parent="PersonTrainingCitiRecord-moduleCompletionDate-parentBean"/>
+    <bean abstract="true" id="PersonTrainingCitiRecord-moduleCompletionDate-parentBean" parent="AttributeReference-genericTimestamp">
+        <property name="name" value="moduleCompletionDate" />
+        <property name="label" value="Module Completion Date" />
+        <property name="shortLabel" value="Module Completion Date" />
+        <property name="summary" value="Module Completion Date" />
+        <property name="description" value="Module Completion Date" />
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>
+    </bean>
+
+    <bean id="PersonTrainingCitiRecord-rawRecord" parent="PersonTrainingCitiRecord-rawRecord-parentBean" />
+    <bean id="PersonTrainingCitiRecord-rawRecord-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="rawRecord" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Raw Record" />
+        <property name="shortLabel" value="Raw Record" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="true" />
+            </bean>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="true"/>
+            </bean>
+        </property>
+        <property name="control" >
+            <bean parent="TextareaControlDefinition" p:rows="3" p:cols="70"/>
+        </property>
+        <property name="controlField">
+            <bean p:rows="3" p:cols="70" parent="Uif-TextAreaControl"/>
+        </property>
+        <property name="summary" value="Raw Record" />
+        <property name="description" value="Raw Record" />
+    </bean>
+
+    <bean id="PersonTrainingCitiRecord-statusCode" parent="PersonTrainingCitiRecord-statusCode-parentBean" />
+    <bean id="PersonTrainingCitiRecord-statusCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="statusCode" />
+        <property name="forceUppercase" value="true" />
+        <property name="label" value="Status Code" />
+        <property name="shortLabel" value="Status Code" />
+        <property name="maxLength" value="1" />
+        <property name="control" >
+            <bean parent="SelectControlDefinition"
+                  p:valuesFinderClass="org.kuali.coeus.common.framework.person.citi.PersonTrainingCitiRecordStatusFinder" />
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-DropdownControl" />
+        </property>
+        <property name="summary" value="Status Code" />
+        <property name="description" value="Status Code" />
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+    <bean id="PersonTrainingCitiRecord-inquiryDefinition" parent="PersonTrainingCitiRecord-inquiryDefinition-parentBean" />
+    <bean id="PersonTrainingCitiRecord-InquiryView" parent="PersonTrainingCitiRecord-InquiryView-parentBean"/>
+    <bean id="PersonTrainingCitiRecord-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Person Training CITI Record" />
+        <property name="inquirySections" >
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Person Training CITI Record" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields" >
+                        <list>
+                            <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
+                            <bean parent="FieldDefinition" p:attributeName="firstName"/>
+                            <bean parent="FieldDefinition" p:attributeName="lastName"/>
+                            <bean parent="FieldDefinition" p:attributeName="email"/>
+                            <bean parent="FieldDefinition" p:attributeName="employeeNumber"/>
+                            <bean parent="FieldDefinition" p:attributeName="curriculumNumber"/>
+                            <bean parent="FieldDefinition" p:attributeName="curriculum"/>
+                            <bean parent="FieldDefinition" p:attributeName="groupId"/>
+                            <bean parent="FieldDefinition" p:attributeName="group"/>
+                            <bean parent="FieldDefinition" p:attributeName="score"/>
+                            <bean parent="FieldDefinition" p:attributeName="passingScore"/>
+                            <bean parent="FieldDefinition" p:attributeName="stageNumber"/>
+                            <bean parent="FieldDefinition" p:attributeName="stage"/>
+                            <bean parent="FieldDefinition" p:attributeName="learnerId"/>
+                            <bean parent="FieldDefinition" p:attributeName="dateCompleted"/>
+                            <bean parent="FieldDefinition" p:attributeName="expirationDate"/>
+                            <bean parent="FieldDefinition" p:attributeName="registrationDate"/>
+                            <bean parent="FieldDefinition" p:attributeName="name"/>
+                            <bean parent="FieldDefinition" p:attributeName="username"/>
+                            <bean parent="FieldDefinition" p:attributeName="institutionalUsername"/>
+                            <bean parent="FieldDefinition" p:attributeName="institutionalLanguage"/>
+                            <bean parent="FieldDefinition" p:attributeName="institutionalEmail"/>
+                            <bean parent="FieldDefinition" p:attributeName="gender"/>
+                            <bean parent="FieldDefinition" p:attributeName="highestDegree"/>
+                            <bean parent="FieldDefinition" p:attributeName="department"/>
+                            <bean parent="FieldDefinition" p:attributeName="addressField1"/>
+                            <bean parent="FieldDefinition" p:attributeName="addressField2"/>
+                            <bean parent="FieldDefinition" p:attributeName="addressField3"/>
+                            <bean parent="FieldDefinition" p:attributeName="city"/>
+                            <bean parent="FieldDefinition" p:attributeName="state"/>
+                            <bean parent="FieldDefinition" p:attributeName="zipCode"/>
+                            <bean parent="FieldDefinition" p:attributeName="country"/>
+                            <bean parent="FieldDefinition" p:attributeName="phone"/>
+                            <bean parent="FieldDefinition" p:attributeName="customField1"/>
+                            <bean parent="FieldDefinition" p:attributeName="customField2"/>
+                            <bean parent="FieldDefinition" p:attributeName="customField3"/>
+                            <bean parent="FieldDefinition" p:attributeName="customField4"/>
+                            <bean parent="FieldDefinition" p:attributeName="customField5"/>
+                            <bean parent="FieldDefinition" p:attributeName="module"/>
+                            <bean parent="FieldDefinition" p:attributeName="examId"/>
+                            <bean parent="FieldDefinition" p:attributeName="examScore"/>
+                            <bean parent="FieldDefinition" p:attributeName="moduleCompletionDate"/>
+                            <bean parent="FieldDefinition" p:attributeName="rawRecord"/>
+                            <bean parent="FieldDefinition" p:attributeName="statusCode"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Person Training CITI Record Errors"/>
+                    <property name="numberOfColumns" value="1"/>
+                    <property name="inquiryFields">
+                        <list>
+                            <bean parent="InquiryCollectionDefinition">
+                                <property name="attributeName" value="errors"/>
+                                <property name="businessObjectClass" value="org.kuali.coeus.common.framework.person.citi.PersonTrainingCitiRecordError"/>
+                                <property name="numberOfColumns" value="1"/>
+                                <property name="inquiryFields">
+                                    <list>
+                                        <bean p:attributeName="message" parent="FieldDefinition"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PersonTrainingCitiRecord-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+        <property name="headerText" value="Person Training CITI Record"/>
+        <property name="dataObjectClassName" value="org.kuali.coeus.common.framework.person.citi.PersonTrainingCitiRecord"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-GridSection">
+                    <property name="headerText" value="Person Training CITI Record"/>
+                    <property name="layoutManager.numberOfColumns" value="2"/>
+                    <property name="items">
+                        <list>
+                            <bean p:propertyName="id" parent="Uif-DataField"/>
+                            <bean p:propertyName="firstName" parent="Uif-DataField"/>
+                            <bean p:propertyName="lastName" parent="Uif-DataField"/>
+                            <bean p:propertyName="email" parent="Uif-DataField"/>
+                            <bean p:propertyName="employeeNumber" parent="Uif-DataField"/>
+                            <bean p:propertyName="curriculumNumber" parent="Uif-DataField"/>
+                            <bean p:propertyName="curriculum" parent="Uif-DataField"/>
+                            <bean p:propertyName="groupId" parent="Uif-DataField"/>
+                            <bean p:propertyName="group" parent="Uif-DataField"/>
+                            <bean p:propertyName="score" parent="Uif-DataField"/>
+                            <bean p:propertyName="passingScore" parent="Uif-DataField"/>
+                            <bean p:propertyName="stageNumber" parent="Uif-DataField"/>
+                            <bean p:propertyName="stage" parent="Uif-DataField"/>
+                            <bean p:propertyName="learnerId" parent="Uif-DataField"/>
+                            <bean p:propertyName="dateCompleted" parent="Uif-DataField"/>
+                            <bean p:propertyName="expirationDate" parent="Uif-DataField"/>
+                            <bean p:propertyName="registrationDate" parent="Uif-DataField"/>
+                            <bean p:propertyName="name" parent="Uif-DataField"/>
+                            <bean p:propertyName="username" parent="Uif-DataField"/>
+                            <bean p:propertyName="institutionalUsername" parent="Uif-DataField"/>
+                            <bean p:propertyName="institutionalLanguage" parent="Uif-DataField"/>
+                            <bean p:propertyName="institutionalEmail" parent="Uif-DataField"/>
+                            <bean p:propertyName="gender" parent="Uif-DataField"/>
+                            <bean p:propertyName="highestDegree" parent="Uif-DataField"/>
+                            <bean p:propertyName="department" parent="Uif-DataField"/>
+                            <bean p:propertyName="addressField1" parent="Uif-DataField"/>
+                            <bean p:propertyName="addressField2" parent="Uif-DataField"/>
+                            <bean p:propertyName="addressField3" parent="Uif-DataField"/>
+                            <bean p:propertyName="city" parent="Uif-DataField"/>
+                            <bean p:propertyName="state" parent="Uif-DataField"/>
+                            <bean p:propertyName="zipCode" parent="Uif-DataField"/>
+                            <bean p:propertyName="country" parent="Uif-DataField"/>
+                            <bean p:propertyName="phone" parent="Uif-DataField"/>
+                            <bean p:propertyName="customField1" parent="Uif-DataField"/>
+                            <bean p:propertyName="customField2" parent="Uif-DataField"/>
+                            <bean p:propertyName="customField3" parent="Uif-DataField"/>
+                            <bean p:propertyName="customField4" parent="Uif-DataField"/>
+                            <bean p:propertyName="customField5" parent="Uif-DataField"/>
+                            <bean p:propertyName="module" parent="Uif-DataField"/>
+                            <bean p:propertyName="examId" parent="Uif-DataField"/>
+                            <bean p:propertyName="examScore" parent="Uif-DataField"/>
+                            <bean p:propertyName="moduleCompletionDate" parent="Uif-DataField"/>
+                            <bean p:propertyName="rawRecord" parent="Uif-DataField"/>
+                            <bean p:propertyName="statusCode" parent="Uif-DataField"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-Disclosure-TableCollectionSection"  p:layoutManager.numberOfColumns="2">
+                    <property name="headerText" value="Person Training CITI Record Errors"/>
+                    <property name="collectionObjectClass" value="org.kuali.coeus.common.framework.person.citi.PersonTrainingCitiRecordError"/>
+                    <property name="propertyName" value="errors"/>
+                    <property name="layoutManager.renderSequenceField" value="false"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="message"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+    <bean id="PersonTrainingCitiRecord-lookupDefinition" parent="PersonTrainingCitiRecord-lookupDefinition-parentBean" />
+    <bean id="PersonTrainingCitiRecord-LookupView" parent="PersonTrainingCitiRecord-LookupView-parentBean"/>
+    <bean id="PersonTrainingCitiRecord-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Person Training CITI Record Lookup" />
+        <property name="defaultSort" >
+            <bean parent="SortDefinition"/>
+        </property>
+        <property name="lookupFields" >
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
+                <bean parent="FieldDefinition" p:attributeName="firstName"/>
+                <bean parent="FieldDefinition" p:attributeName="lastName"/>
+                <bean parent="FieldDefinition" p:attributeName="email"/>
+                <bean parent="FieldDefinition" p:attributeName="employeeNumber"/>
+                <bean parent="FieldDefinition" p:attributeName="curriculumNumber"/>
+                <bean parent="FieldDefinition" p:attributeName="curriculum"/>
+                <bean parent="FieldDefinition" p:attributeName="groupId"/>
+                <bean parent="FieldDefinition" p:attributeName="group"/>
+                <bean parent="FieldDefinition" p:attributeName="score"/>
+                <bean parent="FieldDefinition" p:attributeName="passingScore"/>
+                <bean parent="FieldDefinition" p:attributeName="stageNumber"/>
+                <bean parent="FieldDefinition" p:attributeName="stage"/>
+                <bean parent="FieldDefinition" p:attributeName="learnerId"/>
+                <bean parent="FieldDefinition" p:attributeName="dateCompleted"/>
+                <bean parent="FieldDefinition" p:attributeName="expirationDate"/>
+                <bean parent="FieldDefinition" p:attributeName="registrationDate"/>
+                <bean parent="FieldDefinition" p:attributeName="name"/>
+                <bean parent="FieldDefinition" p:attributeName="username"/>
+                <bean parent="FieldDefinition" p:attributeName="institutionalUsername"/>
+                <bean parent="FieldDefinition" p:attributeName="institutionalLanguage"/>
+                <bean parent="FieldDefinition" p:attributeName="institutionalEmail"/>
+                <bean parent="FieldDefinition" p:attributeName="gender"/>
+                <bean parent="FieldDefinition" p:attributeName="highestDegree"/>
+                <bean parent="FieldDefinition" p:attributeName="department"/>
+                <bean parent="FieldDefinition" p:attributeName="addressField1"/>
+                <bean parent="FieldDefinition" p:attributeName="addressField2"/>
+                <bean parent="FieldDefinition" p:attributeName="addressField3"/>
+                <bean parent="FieldDefinition" p:attributeName="city"/>
+                <bean parent="FieldDefinition" p:attributeName="state"/>
+                <bean parent="FieldDefinition" p:attributeName="zipCode"/>
+                <bean parent="FieldDefinition" p:attributeName="country"/>
+                <bean parent="FieldDefinition" p:attributeName="phone"/>
+                <bean parent="FieldDefinition" p:attributeName="customField1"/>
+                <bean parent="FieldDefinition" p:attributeName="customField2"/>
+                <bean parent="FieldDefinition" p:attributeName="customField3"/>
+                <bean parent="FieldDefinition" p:attributeName="customField4"/>
+                <bean parent="FieldDefinition" p:attributeName="customField5"/>
+                <bean parent="FieldDefinition" p:attributeName="module"/>
+                <bean parent="FieldDefinition" p:attributeName="examId"/>
+                <bean parent="FieldDefinition" p:attributeName="examScore"/>
+                <bean parent="FieldDefinition" p:attributeName="moduleCompletionDate"/>
+                <bean parent="FieldDefinition" p:attributeName="statusCode"/>
+            </list>
+        </property>
+        <property name="resultFields" >
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
+                <bean parent="FieldDefinition" p:attributeName="firstName"/>
+                <bean parent="FieldDefinition" p:attributeName="lastName"/>
+                <bean parent="FieldDefinition" p:attributeName="email"/>
+                <bean parent="FieldDefinition" p:attributeName="employeeNumber"/>
+                <bean parent="FieldDefinition" p:attributeName="curriculumNumber"/>
+                <bean parent="FieldDefinition" p:attributeName="curriculum"/>
+                <bean parent="FieldDefinition" p:attributeName="groupId"/>
+                <bean parent="FieldDefinition" p:attributeName="group"/>
+                <bean parent="FieldDefinition" p:attributeName="score"/>
+                <bean parent="FieldDefinition" p:attributeName="passingScore"/>
+                <bean parent="FieldDefinition" p:attributeName="stageNumber"/>
+                <bean parent="FieldDefinition" p:attributeName="stage"/>
+                <bean parent="FieldDefinition" p:attributeName="learnerId"/>
+                <bean parent="FieldDefinition" p:attributeName="dateCompleted"/>
+                <bean parent="FieldDefinition" p:attributeName="expirationDate"/>
+                <bean parent="FieldDefinition" p:attributeName="registrationDate"/>
+                <bean parent="FieldDefinition" p:attributeName="name"/>
+                <bean parent="FieldDefinition" p:attributeName="username"/>
+                <bean parent="FieldDefinition" p:attributeName="institutionalUsername"/>
+                <bean parent="FieldDefinition" p:attributeName="institutionalLanguage"/>
+                <bean parent="FieldDefinition" p:attributeName="institutionalEmail"/>
+                <bean parent="FieldDefinition" p:attributeName="gender"/>
+                <bean parent="FieldDefinition" p:attributeName="highestDegree"/>
+                <bean parent="FieldDefinition" p:attributeName="department"/>
+                <bean parent="FieldDefinition" p:attributeName="addressField1"/>
+                <bean parent="FieldDefinition" p:attributeName="addressField2"/>
+                <bean parent="FieldDefinition" p:attributeName="addressField3"/>
+                <bean parent="FieldDefinition" p:attributeName="city"/>
+                <bean parent="FieldDefinition" p:attributeName="state"/>
+                <bean parent="FieldDefinition" p:attributeName="zipCode"/>
+                <bean parent="FieldDefinition" p:attributeName="country"/>
+                <bean parent="FieldDefinition" p:attributeName="phone"/>
+                <bean parent="FieldDefinition" p:attributeName="customField1"/>
+                <bean parent="FieldDefinition" p:attributeName="customField2"/>
+                <bean parent="FieldDefinition" p:attributeName="customField3"/>
+                <bean parent="FieldDefinition" p:attributeName="customField4"/>
+                <bean parent="FieldDefinition" p:attributeName="customField5"/>
+                <bean parent="FieldDefinition" p:attributeName="module"/>
+                <bean parent="FieldDefinition" p:attributeName="examId"/>
+                <bean parent="FieldDefinition" p:attributeName="examScore"/>
+                <bean parent="FieldDefinition" p:attributeName="moduleCompletionDate"/>
+                <bean parent="FieldDefinition" p:attributeName="rawRecord"/>
+                <bean parent="FieldDefinition" p:attributeName="statusCode"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PersonTrainingCitiRecord-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+        <property name="dataObjectClassName" value="org.kuali.coeus.common.framework.person.citi.PersonTrainingCitiRecord"/>
+        <property name="headerText" value="Person Training CITI Record Lookup"/>
+        <property name="criteriaFields">
+            <list>
+                <bean p:propertyName="id" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="firstName" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="lastName" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="email" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="employeeNumber" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="curriculumNumber" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="curriculum" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="groupId" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="group" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="score" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="passingScore" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="stageNumber" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="stage" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="learnerId" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="dateCompleted" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="expirationDate" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="registrationDate" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="name" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="username" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="institutionalUsername" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="institutionalLanguage" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="institutionalEmail" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="gender" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="highestDegree" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="department" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="addressField1" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="addressField2" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="addressField3" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="city" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="state" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="zipCode" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="country" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="phone" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="customField1" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="customField2" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="customField3" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="customField4" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="customField5" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="module" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="examId" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="examScore" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="moduleCompletionDate" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="statusCode" parent="Uif-LookupCriteriaInputField"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean p:propertyName="id" parent="Uif-DataField"/>
+                <bean p:propertyName="firstName" parent="Uif-DataField"/>
+                <bean p:propertyName="lastName" parent="Uif-DataField"/>
+                <bean p:propertyName="email" parent="Uif-DataField"/>
+                <bean p:propertyName="employeeNumber" parent="Uif-DataField"/>
+                <bean p:propertyName="curriculumNumber" parent="Uif-DataField"/>
+                <bean p:propertyName="curriculum" parent="Uif-DataField"/>
+                <bean p:propertyName="groupId" parent="Uif-DataField"/>
+                <bean p:propertyName="group" parent="Uif-DataField"/>
+                <bean p:propertyName="score" parent="Uif-DataField"/>
+                <bean p:propertyName="passingScore" parent="Uif-DataField"/>
+                <bean p:propertyName="stageNumber" parent="Uif-DataField"/>
+                <bean p:propertyName="stage" parent="Uif-DataField"/>
+                <bean p:propertyName="learnerId" parent="Uif-DataField"/>
+                <bean p:propertyName="dateCompleted" parent="Uif-DataField"/>
+                <bean p:propertyName="expirationDate" parent="Uif-DataField"/>
+                <bean p:propertyName="registrationDate" parent="Uif-DataField"/>
+                <bean p:propertyName="name" parent="Uif-DataField"/>
+                <bean p:propertyName="username" parent="Uif-DataField"/>
+                <bean p:propertyName="institutionalUsername" parent="Uif-DataField"/>
+                <bean p:propertyName="institutionalLanguage" parent="Uif-DataField"/>
+                <bean p:propertyName="institutionalEmail" parent="Uif-DataField"/>
+                <bean p:propertyName="gender" parent="Uif-DataField"/>
+                <bean p:propertyName="highestDegree" parent="Uif-DataField"/>
+                <bean p:propertyName="department" parent="Uif-DataField"/>
+                <bean p:propertyName="addressField1" parent="Uif-DataField"/>
+                <bean p:propertyName="addressField2" parent="Uif-DataField"/>
+                <bean p:propertyName="addressField3" parent="Uif-DataField"/>
+                <bean p:propertyName="city" parent="Uif-DataField"/>
+                <bean p:propertyName="state" parent="Uif-DataField"/>
+                <bean p:propertyName="zipCode" parent="Uif-DataField"/>
+                <bean p:propertyName="country" parent="Uif-DataField"/>
+                <bean p:propertyName="phone" parent="Uif-DataField"/>
+                <bean p:propertyName="customField1" parent="Uif-DataField"/>
+                <bean p:propertyName="customField2" parent="Uif-DataField"/>
+                <bean p:propertyName="customField3" parent="Uif-DataField"/>
+                <bean p:propertyName="customField4" parent="Uif-DataField"/>
+                <bean p:propertyName="customField5" parent="Uif-DataField"/>
+                <bean p:propertyName="module" parent="Uif-DataField"/>
+                <bean p:propertyName="examId" parent="Uif-DataField"/>
+                <bean p:propertyName="examScore" parent="Uif-DataField"/>
+                <bean p:propertyName="moduleCompletionDate" parent="Uif-DataField"/>
+                <bean p:propertyName="rawRecord" parent="Uif-DataField"/>
+                <bean p:propertyName="statusCode" parent="Uif-DataField"/>
+            </list>
+        </property>
+    </bean>
+</beans>

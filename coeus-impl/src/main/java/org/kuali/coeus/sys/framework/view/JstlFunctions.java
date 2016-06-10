@@ -23,6 +23,7 @@ import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
 
 import java.math.BigDecimal;
@@ -45,6 +46,7 @@ public final class JstlFunctions {
 
     private static KcAttachmentService KC_ATTACHMENT_SERVICE;
     private static ConfigurationService CONFIGURATION_SERVICE;
+    private static ParameterService PARAMETER_SERVICE;
 
     private JstlFunctions() {}
 
@@ -62,6 +64,10 @@ public final class JstlFunctions {
 
     public static boolean getConfigValueAsBoolean(String key) {
         return getConfigurationService().getPropertyValueAsBoolean(key);
+    }
+
+    public static boolean getParameterValueAsBoolean(String namespaceCode, String componentCode, String parameterName) {
+        return getParameterService().getParameterValueAsBoolean(namespaceCode, componentCode, parameterName);
     }
 
     /**
@@ -208,5 +214,17 @@ public final class JstlFunctions {
 
     public static void setKcAttachmentService(ConfigurationService configurationService) {
         CONFIGURATION_SERVICE = configurationService;
+    }
+
+    public static ParameterService getParameterService() {
+        if (PARAMETER_SERVICE == null) {
+            PARAMETER_SERVICE = KcServiceLocator.getService(ParameterService.class);
+        }
+
+        return PARAMETER_SERVICE;
+    }
+
+    public static void setParameterService(ParameterService parameterService) {
+        PARAMETER_SERVICE = parameterService;
     }
 }

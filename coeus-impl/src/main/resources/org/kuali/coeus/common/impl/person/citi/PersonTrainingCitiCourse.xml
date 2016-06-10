@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - Kuali Coeus, a comprehensive research administration system for higher education.
+   - 
+   - Copyright 2005-2016 Kuali, Inc.
+   - 
+   - This program is free software: you can redistribute it and/or modify
+   - it under the terms of the GNU Affero General Public License as
+   - published by the Free Software Foundation, either version 3 of the
+   - License, or (at your option) any later version.
+   - 
+   - This program is distributed in the hope that it will be useful,
+   - but WITHOUT ANY WARRANTY; without even the implied warranty of
+   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   - GNU Affero General Public License for more details.
+   - 
+   - You should have received a copy of the GNU Affero General Public License
+   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+  <bean id="PersonTrainingCitiCourse" parent="PersonTrainingCitiCourse-parentBean" />
+  <bean id="PersonTrainingCitiCourse-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.coeus.common.framework.person.citi.PersonTrainingCitiCourse" />
+    <property name="objectLabel" value="Person Training CITI Course" />
+    <property name="inquiryDefinition" >
+      <ref bean="PersonTrainingCitiCourse-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="PersonTrainingCitiCourse-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="title" />
+    <property name="attributes" >
+      <list>
+        <ref bean="PersonTrainingCitiCourse-groupId"/>
+        <ref bean="PersonTrainingCitiCourse-group"/>
+        <ref bean="PersonTrainingCitiCourse-curriculumNumber" />
+        <ref bean="PersonTrainingCitiCourse-curriculum"/>
+        <ref bean="PersonTrainingCitiCourse-stageNumber"/>
+        <ref bean="PersonTrainingCitiCourse-stage"/>
+      </list>
+    </property>
+    <property name="primaryKeys">
+    	<list>
+    		<value>groupId</value>
+            <value>curriculumNumber</value>
+            <value>stageNumber</value>
+    	</list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+  <bean id="PersonTrainingCitiCourse-groupId" parent="PersonTrainingCitiCourse-groupId-parentBean"/>
+  <bean abstract="true" id="PersonTrainingCitiCourse-groupId-parentBean" p:required="true" parent="PersonTrainingCitiRecord-groupId" />
+
+  <bean id="PersonTrainingCitiCourse-group" parent="PersonTrainingCitiCourse-group-parentBean"/>
+  <bean abstract="true" id="PersonTrainingCitiCourse-group-parentBean" p:required="true" parent="PersonTrainingCitiRecord-group" />
+
+  <bean id="PersonTrainingCitiCourse-curriculumNumber" parent="PersonTrainingCitiCourse-curriculumNumber-parentBean"/>
+  <bean abstract="true" id="PersonTrainingCitiCourse-curriculumNumber-parentBean" p:required="true" parent="PersonTrainingCitiRecord-curriculumNumber" />
+
+  <bean id="PersonTrainingCitiCourse-curriculum" parent="PersonTrainingCitiCourse-curriculum-parentBean"/>
+  <bean abstract="true" id="PersonTrainingCitiCourse-curriculum-parentBean" p:required="true" parent="PersonTrainingCitiRecord-curriculum" />
+
+  <bean id="PersonTrainingCitiCourse-stageNumber" parent="PersonTrainingCitiCourse-stageNumber-parentBean"/>
+  <bean abstract="true" id="PersonTrainingCitiCourse-stageNumber-parentBean" p:required="true" parent="PersonTrainingCitiRecord-stageNumber" />
+
+  <bean id="PersonTrainingCitiCourse-stage" parent="PersonTrainingCitiCourse-stage-parentBean"/>
+  <bean abstract="true" id="PersonTrainingCitiCourse-stage-parentBean" p:required="true" parent="PersonTrainingCitiRecord-stage" />
+
+<!-- Business Object Inquiry Definition -->
+  <bean id="PersonTrainingCitiCourse-inquiryDefinition" parent="PersonTrainingCitiCourse-inquiryDefinition-parentBean" />
+  <bean id="PersonTrainingCitiCourse-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Person Training CITI Course" />
+    <property name="inquirableClass" value="org.kuali.coeus.common.impl.person.citi.PersonTrainingCitiCourseInquirableImpl" />
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Person Training CITI Course" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="groupId"/>
+              <bean parent="FieldDefinition" p:attributeName="group"/>
+              <bean parent="FieldDefinition" p:attributeName="curriculumNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="curriculum"/>
+              <bean parent="FieldDefinition" p:attributeName="stageNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="stage"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+
+  <!-- Business Object Lookup Definition -->
+  <bean id="PersonTrainingCitiCourse-lookupDefinition" parent="PersonTrainingCitiCourse-lookupDefinition-parentBean" />
+  <bean id="PersonTrainingCitiCourse-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Person Training CITI Course Lookup" />
+    <property name="lookupableID" value="personTrainingCitiCourseLookupableKNS" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition"/>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="groupId" />
+        <bean parent="FieldDefinition" p:attributeName="group" />
+        <bean parent="FieldDefinition" p:attributeName="curriculumNumber" />
+        <bean parent="FieldDefinition" p:attributeName="curriculum" />
+        <bean parent="FieldDefinition" p:attributeName="stageNumber" />
+        <bean parent="FieldDefinition" p:attributeName="stage" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="groupId" />
+        <bean parent="FieldDefinition" p:attributeName="group" />
+        <bean parent="FieldDefinition" p:attributeName="curriculumNumber" />
+        <bean parent="FieldDefinition" p:attributeName="curriculum" />
+        <bean parent="FieldDefinition" p:attributeName="stageNumber" />
+        <bean parent="FieldDefinition" p:attributeName="stage" />
+      </list>
+    </property>
+  </bean>
+
+</beans>

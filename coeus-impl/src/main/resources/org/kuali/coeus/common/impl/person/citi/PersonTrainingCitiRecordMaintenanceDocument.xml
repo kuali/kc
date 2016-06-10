@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - Kuali Coeus, a comprehensive research administration system for higher education.
+   -
+   - Copyright 2005-2016 Kuali, Inc.
+   -
+   - This program is free software: you can redistribute it and/or modify
+   - it under the terms of the GNU Affero General Public License as
+   - published by the Free Software Foundation, either version 3 of the
+   - License, or (at your option) any later version.
+   -
+   - This program is distributed in the hope that it will be useful,
+   - but WITHOUT ANY WARRANTY; without even the implied warranty of
+   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   - GNU Affero General Public License for more details.
+   -
+   - You should have received a copy of the GNU Affero General Public License
+   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="PersonTrainingCitiRecordMaintenanceDocument" parent="PersonTrainingCitiRecordMaintenanceDocument-parentBean"/>
+    <bean id="PersonTrainingCitiRecordMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
+        <property name="businessObjectClass" value="org.kuali.coeus.common.framework.person.citi.PersonTrainingCitiRecord"/>
+        <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
+        <property name="maintainableSections">
+            <list>
+                <ref bean="PersonTrainingCitiRecordMaintenanceDocument-EditCitiRecord"/>
+                <ref bean="PersonTrainingCitiRecordMaintenanceDocument-EditCitiRecordError"/>
+            </list>
+        </property>
+        <property name="lockingKeys">
+            <list>
+                <value>id</value>
+            </list>
+        </property>
+        <property name="allowsRecordDeletion" value="true" />
+
+        <property name="documentTypeName" value="PersonTrainingCitiRecordMaintenanceDocument"/>
+        <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+
+
+    </bean>
+
+    <!-- Maintenance Section Definitions -->
+
+    <bean id="PersonTrainingCitiRecordMaintenanceDocument-EditCitiRecord" parent="PersonTrainingCitiRecordMaintenanceDocument-EditCitiRecord-parentBean"/>
+    <bean id="PersonTrainingCitiRecordMaintenanceDocument-EditCitiRecord-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+        <property name="id" value="Person Training CITI Record"/>
+        <property name="title" value="Person Training CITI Record"/>
+        <property name="maintainableItems">
+            <list>
+                <bean parent="MaintainableFieldDefinition" p:name="id" p:unconditionallyReadOnly="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="firstName" />
+                <bean parent="MaintainableFieldDefinition" p:name="lastName" />
+                <bean parent="MaintainableFieldDefinition" p:name="email" />
+                <bean parent="MaintainableFieldDefinition" p:name="employeeNumber" />
+                <bean parent="MaintainableFieldDefinition" p:name="curriculumNumber" p:required="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="curriculum" p:required="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="groupId" p:required="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="group" p:required="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="score" />
+                <bean parent="MaintainableFieldDefinition" p:name="passingScore" p:required="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="stageNumber" p:required="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="stage" p:required="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="learnerId" />
+                <bean parent="MaintainableFieldDefinition" p:name="dateCompleted" />
+                <bean parent="MaintainableFieldDefinition" p:name="expirationDate" />
+                <bean parent="MaintainableFieldDefinition" p:name="registrationDate" />
+                <bean parent="MaintainableFieldDefinition" p:name="name" />
+                <bean parent="MaintainableFieldDefinition" p:name="username" />
+                <bean parent="MaintainableFieldDefinition" p:name="institutionalUsername" p:required="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="institutionalLanguage" />
+                <bean parent="MaintainableFieldDefinition" p:name="institutionalEmail" />
+                <bean parent="MaintainableFieldDefinition" p:name="gender" />
+                <bean parent="MaintainableFieldDefinition" p:name="highestDegree" />
+                <bean parent="MaintainableFieldDefinition" p:name="department" />
+                <bean parent="MaintainableFieldDefinition" p:name="addressField1" />
+                <bean parent="MaintainableFieldDefinition" p:name="addressField2" />
+                <bean parent="MaintainableFieldDefinition" p:name="addressField3" />
+                <bean parent="MaintainableFieldDefinition" p:name="city" />
+                <bean parent="MaintainableFieldDefinition" p:name="state" />
+                <bean parent="MaintainableFieldDefinition" p:name="zipCode" />
+                <bean parent="MaintainableFieldDefinition" p:name="country" />
+                <bean parent="MaintainableFieldDefinition" p:name="phone" />
+                <bean parent="MaintainableFieldDefinition" p:name="customField1" />
+                <bean parent="MaintainableFieldDefinition" p:name="customField2" />
+                <bean parent="MaintainableFieldDefinition" p:name="customField3" />
+                <bean parent="MaintainableFieldDefinition" p:name="customField4" />
+                <bean parent="MaintainableFieldDefinition" p:name="customField5" />
+                <bean parent="MaintainableFieldDefinition" p:name="module" />
+                <bean parent="MaintainableFieldDefinition" p:name="examId" />
+                <bean parent="MaintainableFieldDefinition" p:name="examScore" />
+                <bean parent="MaintainableFieldDefinition" p:name="moduleCompletionDate" />
+                <bean parent="MaintainableFieldDefinition" p:name="statusCode" p:required="true" p:defaultValue="S" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PersonTrainingCitiRecordMaintenanceDocument-EditCitiRecordError" parent="PersonTrainingCitiRecordMaintenanceDocument-EditCitiRecordError-parentBean"/>
+
+    <bean id="PersonTrainingCitiRecordMaintenanceDocument-EditCitiRecordError-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+        <property name="id" value="Person Training CITI Record Error"/>
+        <property name="title" value="Person Training CITI Record Error"/>
+        <property name="maintainableItems">
+            <list>
+                <bean parent="MaintainableCollectionDefinition">
+                    <property name="name" value="errors"/>
+                    <property name="businessObjectClass" value="org.kuali.coeus.common.framework.person.citi.PersonTrainingCitiRecordError"/>
+                    <property name="alwaysAllowCollectionDeletion" value="true" />
+                    <property name="maintainableFields">
+                        <list>
+                            <bean parent="MaintainableFieldDefinition" p:name="id" p:unconditionallyReadOnly="true"/>
+                            <bean parent="MaintainableFieldDefinition" p:name="citiRecordId" p:unconditionallyReadOnly="true"/>
+                            <bean parent="MaintainableFieldDefinition" p:name="message"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+</beans>
