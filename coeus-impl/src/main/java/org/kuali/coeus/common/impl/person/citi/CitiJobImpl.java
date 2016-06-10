@@ -20,6 +20,7 @@ package org.kuali.coeus.common.impl.person.citi;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.framework.person.citi.CitiDataLoadingService;
 import org.kuali.coeus.common.framework.person.citi.CitiDataProcessingService;
 import org.kuali.coeus.common.framework.person.citi.CitiJob;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
@@ -42,11 +43,16 @@ public class CitiJobImpl implements CitiJob {
     @Qualifier("globalVariableService")
     private GlobalVariableService globalVariableService;
 
+    @Autowired
+    @Qualifier("citiDataLoadingService")
+    private CitiDataLoadingService citiDataLoadingService;
+
     @Override
     public void execute() {
         LOG.info("Starting CITI job");
 
         getGlobalVariableService().doInNewGlobalVariables(new UserSession(KC_SYSTEM_PRINCIPAL_NM), () -> {
+            getCitiDataLoadingService().loadRecords();
             getCitiDataProcessingService().processRecords();
             return null;
         });
@@ -68,5 +74,13 @@ public class CitiJobImpl implements CitiJob {
 
     public void setGlobalVariableService(GlobalVariableService globalVariableService) {
         this.globalVariableService = globalVariableService;
+    }
+
+    public CitiDataLoadingService getCitiDataLoadingService() {
+        return citiDataLoadingService;
+    }
+
+    public void setCitiDataLoadingService(CitiDataLoadingService citiDataLoadingService) {
+        this.citiDataLoadingService = citiDataLoadingService;
     }
 }
