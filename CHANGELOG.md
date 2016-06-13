@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* Fix Concurrent Modification Exception when saving IP Contacts (#1789)
+
+  * Remove potential ConcurrentModificationException on saving IP Persons.  * tdurkin on Mon, 13 Jun 2016 18:08:48 -0400 [View Commit](../../commit/13148aa2708061c51222796707ed1de25c4ffebd)
+
+##coeus-1606.21
 * RESKC-1343: putting the CITI maintenance links behind a feature flag
   * Travis Schneeberger on Fri, 10 Jun 2016 16:43:04 -0400 [View Commit](../../commit/f3fb14312203a4dc3aed026a541fa588d324ceb7)
 * RESKC-1411: creating documentation for CITI
