@@ -35,6 +35,7 @@ import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposal
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
@@ -74,7 +75,7 @@ public class InstitutionalProposalContactsAction extends InstitutionalProposalAc
      */
     @SuppressWarnings("unchecked")
     private void setLeadUnitOnInstitutionalProposalFromPILeadUnit(InstitutionalProposal institutionalProposal, InstitutionalProposalForm institutionalProposalForm) {
-        for (InstitutionalProposalPerson person : institutionalProposal.getProjectPersons()) {
+        for (InstitutionalProposalPerson person : new ArrayList<>(institutionalProposal.getProjectPersons())) {
             if(person.isPrincipalInvestigator()) {
                 List<Unit> units= (List<Unit>) getBusinessObjectService().findMatching(Unit.class,
                         Collections.singletonMap("unitName", institutionalProposalForm.getProjectPersonnelBean().getSelectedLeadUnit()));
