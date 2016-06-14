@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* Populate last_update fields when they are null (#1790)
+
+  * Douglas Pace on Tue, 14 Jun 2016 14:40:04 -0700 [View Commit](../../commit/91d9b08f3d436554c9f7ecdd5df896ec027d3dd8)
+
+##coeus-1606.26
 * No Changes
 
 
