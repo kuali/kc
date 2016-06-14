@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1606.22
 * Fix Concurrent Modification Exception when saving IP Contacts (#1789)
 
   * Remove potential ConcurrentModificationException on saving IP Persons.  * tdurkin on Mon, 13 Jun 2016 18:08:48 -0400 [View Commit](../../commit/13148aa2708061c51222796707ed1de25c4ffebd)
