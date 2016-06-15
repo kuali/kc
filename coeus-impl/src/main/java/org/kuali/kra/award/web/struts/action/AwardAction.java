@@ -464,15 +464,16 @@ public class AwardAction extends BudgetParentActionBase {
     public ActionForward reload(ActionMapping mapping, ActionForm form, 
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
+        awardForm.refreshDisclosureProjectStatuses();
         ActionForward actionForward = super.reload(mapping, form, request, response);
         getReportTrackingService().refreshReportTracking(awardForm.getAwardDocument().getAward());
-        return actionForward;        
+        return actionForward;
     }
 
     @Override
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
-        
+
         if (awardForm.getViewFundingSource()) {
             return mapping.findForward(Constants.MAPPING_CLOSE_PAGE);
         } else {
@@ -481,7 +482,7 @@ public class AwardAction extends BudgetParentActionBase {
     }
 
     protected Award getAward(ActionForm form) {
-        return getAwardDocument(form).getAward(); 
+        return getAwardDocument(form).getAward();
     }
 
     protected AwardDocument getAwardDocument(ActionForm form) {
@@ -512,9 +513,9 @@ public class AwardAction extends BudgetParentActionBase {
     protected AwardNumberService getAwardNumberService() {
         return KcServiceLocator.getService(AwardNumberService.class);
     }
-    
+
     /**
-     * 
+     *
      * One of these conditions exist when this method is called:
        1) This is a new award, created from the "Create Award" portal action. A new root node needs to be created
           a) prevAwardNumber and prevRootAwardNumber are null
@@ -529,15 +530,15 @@ public class AwardAction extends BudgetParentActionBase {
         AwardDocument awardDocument = (AwardDocument) awardForm.getDocument();
         createInitialAwardUsers(awardForm.getAwardDocument().getAward());
         populateStaticCloseoutReports(awardForm);
-        
+
         String userId = GlobalVariables.getUserSession().getPrincipalName();
         Award award = awardDocument.getAward();
         getAwardService().updateAwardSequenceStatus(award, VersionStatus.PENDING);
         getVersionHistoryService().updateVersionHistory(award, VersionStatus.PENDING, userId);
-        
+
         if(!awardForm.getAwardDocument().isDocumentSaveAfterVersioning()) {
             awardForm.getAwardHierarchyBean().createDefaultAwardHierarchy();
-            awardForm.getAwardHierarchyBean().saveHierarchyChanges();            
+            awardForm.getAwardHierarchyBean().saveHierarchyChanges();
         }
     }
 
@@ -606,10 +607,10 @@ public class AwardAction extends BudgetParentActionBase {
             }
         }
     }
-    
-    
+
+
     /**
-     * If an Award has associated Time and Money document or been versioned and no previous version has been edited in a Time and Money document, 
+     * If an Award has associated Time and Money document or been versioned and no previous version has been edited in a Time and Money document,
      * then we want the money and date fields on Award to be read only.
      */
     public void setBooleanAwardHasTandMOrIsVersioned (Award award) {
@@ -628,6 +629,8 @@ public class AwardAction extends BudgetParentActionBase {
     }
 
     public ActionForward contacts(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        AwardForm awardForm = (AwardForm) form;
+        awardForm.refreshDisclosureProjectStatuses();
         Award award = getAward(form);
 
         award.initCentralAdminContacts();
