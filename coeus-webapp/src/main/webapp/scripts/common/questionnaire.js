@@ -87,7 +87,7 @@ Kc.Questionnaire.Answer = Kc.Questionnaire.Answer || {};
      */
 	namespace.answerChanged = function(answerWrapper) {
 		var questionWrapper = $(answerWrapper).parents('div.question[data-kc-questionid]');
-		var questionnairePanel = $(questionWrapper).parents('section.questionnaireContent');
+		var questionnairePanel = $(questionWrapper).parents('.questionnaireContent');
 		var answer = $(questionWrapper).find('input.answer:first');
 		var parentQuestionId = $(questionWrapper).data('kc-questionid');
 
