@@ -1574,6 +1574,14 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
         return disclosureProjectStatuses;
     }
 
+    public void refreshDisclosureProjectStatuses() {
+        if (getDisplayCoiDisclosureStatus()) {
+            disclosureProjectStatuses = getDisclosureStatusRetrievalService().getDisclosureStatusesForProject(
+                    Constants.MODULE_NAMESPACE_AWARD, getAwardDocument().getAward().getAwardNumber()
+            );
+        }
+    }
+
     protected DisclosureStatusRetrievalService getDisclosureStatusRetrievalService() {
         if (disclosureStatusRetrievalService == null) {
             disclosureStatusRetrievalService = KcServiceLocator.getService(DisclosureStatusRetrievalService.class);

@@ -70,6 +70,7 @@ public class AwardContactsAction extends AwardAction {
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
+        awardForm.refreshDisclosureProjectStatuses();
         Award award = awardForm.getAwardDocument().getAward();
         ActionForward forward;
         updateContactsBasedOnRoleChange(award);
