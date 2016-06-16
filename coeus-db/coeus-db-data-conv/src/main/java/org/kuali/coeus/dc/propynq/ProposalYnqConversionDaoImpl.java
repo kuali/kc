@@ -40,9 +40,12 @@ public class ProposalYnqConversionDaoImpl implements ProposalYnqConversionDao {
 	private static final String SELECT_DISTINCT_PROP_PERSON_YNQ = "select distinct proposal_number, prop_person_number from eps_prop_pers_ynq";
 	private static final String SELECT_YNQ = "select question_id, description, question_type, no_of_answers, explanation_required_for,"
 		+ " status, group_name, sort_id from ynq where question_type = ?";
+	private static final String SELECT_YNQ_EXPLANATION = "select explanation_type, explanation from ynq_explanation where question_id = ?";
 	private static final String INSERT_QUESTION_STR = "insert into question (question_ref_id, question_id, sequence_number, sequence_status, question,"
 		+ " status, group_type_code, question_type_id, displayed_answers, max_answers, answer_max_length, update_timestamp, update_user, ver_nbr, obj_id)"
 		+ " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	private static final String INSERT_QUESTION_EXPLANATION = "insert into question_explanation (question_explanation_id, question_ref_id_fk, explanation_type, explanation, update_timestamp, update_user, ver_nbr, obj_id)" 
+		+ " values (?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String INSERT_QUESTIONNAIRE_STR = "insert into questionnaire (questionnaire_ref_id, questionnaire_id, sequence_number, name, description, update_timestamp, update_user, is_final, ver_nbr, obj_id) " + 
 		"values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String ADD_QUESTION_TO_QUESTIONNAIRE_STR = "insert into questionnaire_questions (questionnaire_questions_id, questionnaire_ref_id_fk, question_ref_id_fk, question_number, parent_question_number, "
@@ -61,6 +64,7 @@ public class ProposalYnqConversionDaoImpl implements ProposalYnqConversionDao {
 	private static final String BACKUP_PROP_PERSON_YNQ = "create table eps_prop_pers_ynq_bak as select * from eps_prop_pers_ynq";
 	private static final String DELETE_PROP_PERSON_YNQ_STR = "delete from eps_prop_pers_ynq where proposal_number = ? and prop_person_number = ?";
 	private static final String INACTIVATE_YNQ = "update ynq set status = 'I' where question_type = ?";
+	
 	private ConnectionDaoService connectionDaoService;
 	
 	@Override
@@ -110,6 +114,10 @@ public class ProposalYnqConversionDaoImpl implements ProposalYnqConversionDao {
 				conn.prepareStatement(SELECT_DISTINCT_PROPOSAL_YNQ);
 			PreparedStatement inactivateYnq =
 				conn.prepareStatement(INACTIVATE_YNQ);
+			PreparedStatement selectYnqExplanations =
+				conn.prepareStatement(SELECT_YNQ_EXPLANATION);
+			PreparedStatement insertQuestionExplanation =
+				conn.prepareStatement(INSERT_QUESTION_EXPLANATION);
 			ResultSet rs = stmt.executeQuery()) {
 			while (rs.next()) {
 				String proposalNumber = rs.getString(1);
@@ -120,7 +128,7 @@ public class ProposalYnqConversionDaoImpl implements ProposalYnqConversionDao {
 					convertAnswers(answers, 0, proposalNumber, refId, ynqToQuestionId, questionnaireQuestionIds.get(refId),
 						questionnaireQuestionAnswerNumbers.get(refId), addAnswerHeader, addAnswer, conn);
 				} else {
-					List<Ynq> questions = addQuestions(answers, ynqToQuestionId, proposalQuestions, insertQuestion, conn);
+					List<Ynq> questions = addQuestions(answers, ynqToQuestionId, proposalQuestions, insertQuestion, selectYnqExplanations, insertQuestionExplanation, conn);
 					if (questionnaireId == null) {
 						questionnaireId = getSequenceValue(QUESTION_SEQUENCE, conn).intValue();
 					} else {
@@ -186,6 +194,10 @@ public class ProposalYnqConversionDaoImpl implements ProposalYnqConversionDao {
 				conn.prepareStatement(SELECT_DISTINCT_PROP_PERSON_YNQ);
 			PreparedStatement inactivateYnq =
 				conn.prepareStatement(INACTIVATE_YNQ);
+			PreparedStatement selectYnqExplanations =
+				conn.prepareStatement(SELECT_YNQ_EXPLANATION);
+			PreparedStatement insertQuestionExplanation =
+				conn.prepareStatement(INSERT_QUESTION_EXPLANATION);			
 			ResultSet rs = stmt.executeQuery()) {
 			while (rs.next()) {
 				String proposalNumber = rs.getString(1);
@@ -198,7 +210,7 @@ public class ProposalYnqConversionDaoImpl implements ProposalYnqConversionDao {
 						questionnaireQuestionAnswerNumbers.get(refId), addAnswerHeader, addAnswer, conn);
 					updateProposalPersonCertifiedByInfo(answers.stream().findFirst().orElse(null), proposalNumber, propPersonNumber, updatePersonCertifiedBy);
 				} else {
-					List<Ynq> questions = addQuestions(answers, ynqToQuestionId, proposalQuestions, insertQuestion, conn);
+					List<Ynq> questions = addQuestions(answers, ynqToQuestionId, proposalQuestions, insertQuestion, selectYnqExplanations, insertQuestionExplanation, conn);
 					if (questionnaireId == null) {
 						questionnaireId = getSequenceValue(QUESTION_SEQUENCE, conn).intValue();
 					} else {
@@ -266,7 +278,7 @@ public class ProposalYnqConversionDaoImpl implements ProposalYnqConversionDao {
 	}
 
 	protected List<Ynq> addQuestions(List<PropYnq> answers, Map<String, Long> ynqToQuestionId, Map<String, Ynq> proposalQuestions,
-		PreparedStatement insertQuestion, Connection conn) {
+		PreparedStatement insertQuestion, PreparedStatement selectYnqExplanation, PreparedStatement insertQuestionExplanation, Connection conn) {
 		List<Ynq> questions = answers.stream()
 			.map(answer -> proposalQuestions.get(answer.questionId))
 			.distinct()
@@ -275,7 +287,7 @@ public class ProposalYnqConversionDaoImpl implements ProposalYnqConversionDao {
 			.collect(Collectors.toList());
 		questions.stream()
 			.filter(answer -> !ynqToQuestionId.containsKey(answer.questionId))
-			.forEach(question -> ynqToQuestionId.put(question.questionId, createNewQuestion(question, insertQuestion, conn)));
+			.forEach(question -> ynqToQuestionId.put(question.questionId, createNewQuestion(question, insertQuestion, selectYnqExplanation, insertQuestionExplanation, conn)));
 		return questions;
 	}
 
@@ -330,7 +342,7 @@ public class ProposalYnqConversionDaoImpl implements ProposalYnqConversionDao {
 	/*private static final String insertQuestionStr = "insert into question (question_ref_id, question_id, sequence_number, sequence_status, question, "
 		+ " status, group_type_code, question_type_id, displayed_answers, max_answers, answer_max_length, update_timestamp, update_user, ver_nbr, obj_id)"
 		+ " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";*/
-	protected Long createNewQuestion(Ynq ynq, PreparedStatement insertQuestion, Connection conn) {
+	protected Long createNewQuestion(Ynq ynq, PreparedStatement insertQuestion, PreparedStatement selectYnqExplanation, PreparedStatement insertQuestionExplanation, Connection conn) {
 		try {
 			Long questionRefId = getSequenceValue(SEQ_QUESTIONNAIRE_REF_ID, conn);
 			Integer questionId = getSequenceValue(QUESTION_SEQUENCE, conn).intValue();
@@ -350,8 +362,34 @@ public class ProposalYnqConversionDaoImpl implements ProposalYnqConversionDao {
 			insertQuestion.setInt(14, 1);
 			insertQuestion.setString(15, UUID.randomUUID().toString());
 			insertQuestion.executeUpdate();
+			createNewQuestionExplanations(ynq, questionRefId, selectYnqExplanation, insertQuestionExplanation, conn);
 			return questionRefId;
 		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	/*select explanation_type, explanation from ynq_explanation where question_id = ?
+	insert into question_explanation (question_explanation_id, question_ref_id_fk, explanation_type, explanation, update_timestamp, update_user, ver_nbr, obj_id)" 
+		+ " values (?, ?, ?, ?, ?, ?, ?, ?)*/
+	protected void createNewQuestionExplanations(Ynq ynq, Long questionRefId, PreparedStatement selectYnqExplanation, PreparedStatement insertQuestionExplanation, Connection conn) {
+		try {
+			selectYnqExplanation.setString(1, ynq.questionId);
+			try (ResultSet rs = selectYnqExplanation.executeQuery()) {
+				while (rs.next()) {
+					Long pk = getSequenceValue(SEQ_QUESTIONNAIRE_REF_ID, conn);
+					insertQuestionExplanation.setLong(1, pk);
+					insertQuestionExplanation.setLong(2, questionRefId);
+					insertQuestionExplanation.setString(3, rs.getString(1));
+					insertQuestionExplanation.setString(4, rs.getString(2));
+					insertQuestionExplanation.setDate(5, new Date(new java.util.Date().getTime()));
+					insertQuestionExplanation.setString(6, ADMIN_USER);
+					insertQuestionExplanation.setInt(7, 1);
+					insertQuestionExplanation.setString(8, UUID.randomUUID().toString());
+					insertQuestionExplanation.executeUpdate();
+				}
+			} 
+		}catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
