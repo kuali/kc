@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1403: update award coi status on refresh
+  * Joe Williams on Wed, 15 Jun 2016 10:10:32 -0500 [View Commit](../../commit/43aba17c5686568d564d66798c39bbccf518e4d8)
+
+##coeus-1606.32
 * No Changes
 
 
