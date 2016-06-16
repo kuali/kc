@@ -1,6 +1,15 @@
 
 
 ##CURRENT
+* Convert YNQ Explanations along with questions (#1794)
+
+  * Douglas Pace on Thu, 16 Jun 2016 12:37:49 -0700 [View Commit](../../commit/46db200964dd8c1477a5619e03b3bbc60a16f0cb)
+* fix spelling on parameter name
+  * noahuci on Sun, 5 Jun 2016 16:01:09 -0700 [View Commit](../../commit/eefb3826f829878ed8d11d03c224e0906b71f22f)
+* RESKC-662: Fix dynamic open/close of certification questionnaires.
+  * Terry Durkin on Thu, 16 Jun 2016 13:21:40 -0400 [View Commit](../../commit/74651687be576d3d052c4e9bde60c9b0cd7495a9)
+
+##coeus-1606.35
 * No Changes
 
 
