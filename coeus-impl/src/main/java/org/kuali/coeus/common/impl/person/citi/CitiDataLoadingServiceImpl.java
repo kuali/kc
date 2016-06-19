@@ -57,34 +57,38 @@ public class CitiDataLoadingServiceImpl implements CitiDataLoadingService {
 
     @Override
     public void loadRecords() {
-        getBusinessObjectService().deleteMatching(PersonTrainingCitiRecordError.class, Collections.emptyMap());
-        getBusinessObjectService().deleteMatching(PersonTrainingCitiRecord.class, Collections.emptyMap());
-
         final String citiEndpoints = getConfigurationService().getPropertyValueAsString(CITI_ENDPOINTS);
-        final char citiDelimiter = getConfigurationService().getPropertyValueAsString(CITI_DELIMETER).charAt(0);
-        final Map<String, String> headerMap = getConfigurationService().getAllProperties().entrySet().stream()
-                .filter(e -> e.getKey().startsWith(CITI_HEADER_LABEL_PREFIX)).collect(CollectionUtils.entriesToMap());
 
-        COMMA_REGEX.splitAsStream(citiEndpoints).map(String::trim).forEach(endpoint -> {
-            //creating a custom ResponseExtractor so that the response can be streamed to avoid memory issues
-            getRestOperations().execute(endpoint, HttpMethod.GET, request -> { }, response -> {
-                try (BufferedReader reader = new BufferedReader(new InputStreamReader(response.getBody()))) {
-                    CSVParser parser = CSVFormat.DEFAULT
-                            .withDelimiter(citiDelimiter)
-                            .withFirstRecordAsHeader()
-                            .withAllowMissingColumnNames(true)
-                            .withIgnoreEmptyLines(true)
-                            .withIgnoreHeaderCase(true)
-                            .withIgnoreSurroundingSpaces(true)
-                            .withTrim(true)
-                            .parse(reader);
+        if (StringUtils.isNotEmpty(citiEndpoints)) {
+            getBusinessObjectService().deleteMatching(PersonTrainingCitiRecordError.class, Collections.emptyMap());
+            getBusinessObjectService().deleteMatching(PersonTrainingCitiRecord.class, Collections.emptyMap());
 
-                    processRecords(headerMap, parser.iterator());
+            final char citiDelimiter = getConfigurationService().getPropertyValueAsString(CITI_DELIMETER).charAt(0);
+            final Map<String, String> headerMap = getConfigurationService().getAllProperties().entrySet().stream()
+                    .filter(e -> e.getKey().startsWith(CITI_HEADER_LABEL_PREFIX)).collect(CollectionUtils.entriesToMap());
 
-                }
-                return null;
+            COMMA_REGEX.splitAsStream(citiEndpoints).map(String::trim).forEach(endpoint -> {
+                //creating a custom ResponseExtractor so that the response can be streamed to avoid memory issues
+                getRestOperations().execute(endpoint, HttpMethod.GET, request -> {
+                }, response -> {
+                    try (BufferedReader reader = new BufferedReader(new InputStreamReader(response.getBody()))) {
+                        CSVParser parser = CSVFormat.DEFAULT
+                                .withDelimiter(citiDelimiter)
+                                .withFirstRecordAsHeader()
+                                .withAllowMissingColumnNames(true)
+                                .withIgnoreEmptyLines(true)
+                                .withIgnoreHeaderCase(true)
+                                .withIgnoreSurroundingSpaces(true)
+                                .withTrim(true)
+                                .parse(reader);
+
+                        processRecords(headerMap, parser.iterator());
+
+                    }
+                    return null;
+                });
             });
-        });
+        }
     }
 
 

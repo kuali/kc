@@ -23,7 +23,6 @@ import org.kuali.kra.bo.Training;
 
 public class PersonTrainingCitiMap extends KcPersistableBusinessObjectBase {
     private Long id;
-    private String curriculumNumber;
     private String groupId;
     private String stageNumber;
     private Integer trainingCode;
@@ -36,14 +35,6 @@ public class PersonTrainingCitiMap extends KcPersistableBusinessObjectBase {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getCurriculumNumber() {
-        return curriculumNumber;
-    }
-
-    public void setCurriculumNumber(String curriculumNumber) {
-        this.curriculumNumber = curriculumNumber;
     }
 
     public String getGroupId() {
@@ -86,8 +77,6 @@ public class PersonTrainingCitiMap extends KcPersistableBusinessObjectBase {
         PersonTrainingCitiMap that = (PersonTrainingCitiMap) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (curriculumNumber != null ? !curriculumNumber.equals(that.curriculumNumber) : that.curriculumNumber != null)
-            return false;
         if (groupId != null ? !groupId.equals(that.groupId) : that.groupId != null) return false;
         if (stageNumber != null ? !stageNumber.equals(that.stageNumber) : that.stageNumber != null) return false;
         return trainingCode != null ? trainingCode.equals(that.trainingCode) : that.trainingCode == null;
@@ -97,7 +86,6 @@ public class PersonTrainingCitiMap extends KcPersistableBusinessObjectBase {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (curriculumNumber != null ? curriculumNumber.hashCode() : 0);
         result = 31 * result + (groupId != null ? groupId.hashCode() : 0);
         result = 31 * result + (stageNumber != null ? stageNumber.hashCode() : 0);
         result = 31 * result + (trainingCode != null ? trainingCode.hashCode() : 0);

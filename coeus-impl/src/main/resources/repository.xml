@@ -1224,7 +1224,6 @@
 
 	<class-descriptor class="org.kuali.coeus.common.framework.person.citi.PersonTrainingCitiMap" table="PERSON_TRAINING_CITI_MAP">
 		<field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PERSON_TRAINING_CITI_MAP" autoincrement="true"/>
-		<field-descriptor name="curriculumNumber" column="CURRICULUM_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="groupId" column="GROUP_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="stageNumber" column="STAGE_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="trainingCode" column="TRAINING_CODE" jdbc-type="INTEGER" />

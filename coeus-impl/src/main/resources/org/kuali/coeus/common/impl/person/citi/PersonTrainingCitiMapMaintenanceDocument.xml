@@ -49,7 +49,6 @@
         <property name="maintainableItems">
             <list>
                 <bean parent="MaintainableFieldDefinition" p:name="id" p:unconditionallyReadOnly="true"/>
-                <bean parent="MaintainableFieldDefinition" p:name="curriculumNumber" p:required="true" />
                 <bean parent="MaintainableFieldDefinition" p:name="groupId" p:required="true" />
                 <bean parent="MaintainableFieldDefinition" p:name="stageNumber" p:required="true" />
                 <bean parent="MaintainableFieldDefinition" p:name="trainingCode" p:required="true" />

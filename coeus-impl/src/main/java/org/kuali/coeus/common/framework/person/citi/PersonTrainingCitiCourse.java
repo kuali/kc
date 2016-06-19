@@ -72,6 +72,6 @@ public class PersonTrainingCitiCourse extends TransientBusinessObjectBase {
     }
 
     public String getTitle() {
-        return getGroupId() + " " + getCurriculumNumber() + " " + getStageNumber();
+        return getGroupId() + " " + getStageNumber();
     }
 }

@@ -32,7 +32,6 @@
         <property name="attributes">
             <list>
                 <ref bean="PersonTrainingCitiMap-id"/>
-                <ref bean="PersonTrainingCitiMap-curriculumNumber"/>
                 <ref bean="PersonTrainingCitiMap-groupId"/>
                 <ref bean="PersonTrainingCitiMap-stageNumber"/>
                 <ref bean="PersonTrainingCitiMap-trainingCode"/>
@@ -45,7 +44,6 @@
                     <property name="primitiveAttributes" >
                         <list>
                             <bean parent="PrimitiveAttributeDefinition" p:sourceName="groupId" p:targetName="groupId"/>
-                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="curriculumNumber" p:targetName="curriculumNumber"/>
                             <bean parent="PrimitiveAttributeDefinition" p:sourceName="stageNumber" p:targetName="stageNumber"/>
                         </list>
                     </property>
@@ -78,9 +76,6 @@
         <property name="description" value="Person Training CITI Id"/>
     </bean>
 
-    <bean id="PersonTrainingCitiMap-curriculumNumber" parent="PersonTrainingCitiMap-curriculumNumber-parentBean"/>
-    <bean abstract="true" id="PersonTrainingCitiMap-curriculumNumber-parentBean" p:required="true" parent="PersonTrainingCitiRecord-curriculumNumber" />
-
     <bean id="PersonTrainingCitiMap-groupId" parent="PersonTrainingCitiMap-groupId-parentBean"/>
     <bean abstract="true" id="PersonTrainingCitiMap-groupId-parentBean" p:required="true" parent="PersonTrainingCitiRecord-groupId" />
 
@@ -103,7 +98,6 @@
                     <property name="inquiryFields" >
                         <list>
                             <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
-                            <bean parent="FieldDefinition" p:attributeName="curriculumNumber"/>
                             <bean parent="FieldDefinition" p:attributeName="groupId"/>
                             <bean parent="FieldDefinition" p:attributeName="stageNumber"/>
                             <bean parent="FieldDefinition" p:attributeName="trainingCode"/>
@@ -125,7 +119,6 @@
                     <property name="items">
                         <list>
                             <bean p:propertyName="id" parent="Uif-DataField"/>
-                            <bean p:propertyName="curriculumNumber" parent="Uif-DataField"/>
                             <bean p:propertyName="groupId" parent="Uif-DataField"/>
                             <bean p:propertyName="stageNumber" parent="Uif-DataField"/>
                             <bean p:propertyName="trainingCode" parent="Uif-DataField"/>
@@ -147,7 +140,6 @@
         <property name="lookupFields" >
             <list>
                 <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
-                <bean parent="FieldDefinition" p:attributeName="curriculumNumber"/>
                 <bean parent="FieldDefinition" p:attributeName="groupId"/>
                 <bean parent="FieldDefinition" p:attributeName="stageNumber"/>
                 <bean parent="FieldDefinition" p:attributeName="trainingCode"/>
@@ -156,7 +148,6 @@
         <property name="resultFields" >
             <list>
                 <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
-                <bean parent="FieldDefinition" p:attributeName="curriculumNumber"/>
                 <bean parent="FieldDefinition" p:attributeName="groupId"/>
                 <bean parent="FieldDefinition" p:attributeName="stageNumber"/>
                 <bean parent="FieldDefinition" p:attributeName="trainingCode"/>
@@ -170,7 +161,6 @@
         <property name="criteriaFields">
             <list>
                 <bean p:propertyName="id" parent="Uif-LookupCriteriaInputField"/>
-                <bean p:propertyName="curriculumNumber" parent="Uif-LookupCriteriaInputField"/>
                 <bean p:propertyName="groupId" parent="Uif-LookupCriteriaInputField"/>
                 <bean p:propertyName="stageNumber" parent="Uif-LookupCriteriaInputField"/>
                 <bean p:propertyName="trainingCode" parent="Uif-LookupCriteriaInputField"/>
@@ -179,7 +169,6 @@
         <property name="resultFields">
             <list>
                 <bean p:propertyName="id" parent="Uif-DataField"/>
-                <bean p:propertyName="curriculumNumber" parent="Uif-DataField"/>
                 <bean p:propertyName="groupId" parent="Uif-DataField"/>
                 <bean p:propertyName="stageNumber" parent="Uif-DataField"/>
                 <bean p:propertyName="trainingCode" parent="Uif-DataField"/>

@@ -33,14 +33,13 @@ public class PersonTrainingCitiMapRules extends KcMaintenanceDocumentRuleBase  {
 
 
         final Map<String, String> criteria = new HashMap<>();
-        criteria.put("curriculumNumber", personTrainingCitiMap.getCurriculumNumber());
         criteria.put("groupId", personTrainingCitiMap.getGroupId());
         criteria.put("stageNumber", personTrainingCitiMap.getStageNumber());
 
         if (differentId(personTrainingCitiMap, getBoService().findMatching(PersonTrainingCitiMap.class, criteria))) {
             valid = false;
             final MessageMap errorMap = GlobalVariables.getMessageMap();
-            errorMap.putError("document.newMaintainableObject.groupId", "error.citi.map.duplicate.group.stage.curriculum", personTrainingCitiMap.getGroupId(), personTrainingCitiMap.getCurriculumNumber(), personTrainingCitiMap.getStageNumber());
+            errorMap.putError("document.newMaintainableObject.groupId", "error.citi.map.duplicate.group.stage", personTrainingCitiMap.getGroupId(), personTrainingCitiMap.getStageNumber());
         }
 
         return valid;

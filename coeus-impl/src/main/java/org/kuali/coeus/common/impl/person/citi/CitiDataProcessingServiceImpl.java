@@ -46,7 +46,6 @@ public class CitiDataProcessingServiceImpl implements CitiDataProcessingService 
     private static final String TRAINING_CODE = "trainingCode";
     private static final String DATE_REQUESTED = "dateRequested";
     private static final String DATE_SUBMITTED = "dateSubmitted";
-    private static final String CURRICULUM_NUMBER = "curriculumNumber";
     private static final String GROUP_ID = "groupId";
     private static final String STAGE_NUMBER = "stageNumber";
 
@@ -87,8 +86,7 @@ public class CitiDataProcessingServiceImpl implements CitiDataProcessingService 
             }
 
             final Optional<PersonTrainingCitiMap> optionalMapping = mappings.stream()
-                    .filter(m -> m.getCurriculumNumber().equals(sr.getCurriculumNumber()) &&
-                            m.getGroupId().equals(sr.getGroupId()) &&
+                    .filter(m -> m.getGroupId().equals(sr.getGroupId()) &&
                             m.getStageNumber().equals(sr.getStageNumber()))
                     .findFirst();
             final PersonTrainingCitiMap mapping;
@@ -100,7 +98,7 @@ public class CitiDataProcessingServiceImpl implements CitiDataProcessingService 
             }
 
             if (mapping.getTrainingCode() == null) {
-                addErrors(sr, new PersonTrainingCitiRecordError(CURRICULUM_NUMBER + "=" + sr.getCurriculumNumber() + " " + GROUP_ID + "=" + sr.getGroupId() + " " + STAGE_NUMBER + "=" + sr.getStageNumber() + " is not mapped to a " + TRAINING_CODE));
+                addErrors(sr, new PersonTrainingCitiRecordError(GROUP_ID + "=" + sr.getGroupId() + " " + STAGE_NUMBER + "=" + sr.getStageNumber() + " is not mapped to a " + TRAINING_CODE));
             }
 
 
@@ -124,12 +122,11 @@ public class CitiDataProcessingServiceImpl implements CitiDataProcessingService 
 
     protected PersonTrainingCitiMap createAndSaveEmptyMapping(PersonTrainingCitiRecord sr) {
         final PersonTrainingCitiMap newMapping = new PersonTrainingCitiMap();
-        newMapping.setCurriculumNumber(sr.getCurriculumNumber());
         newMapping.setGroupId(sr.getGroupId());
         newMapping.setStageNumber(sr.getStageNumber());
 
         //cannot save if required fields are not present
-        if (StringUtils.isNotBlank(newMapping.getCurriculumNumber()) && StringUtils.isNotBlank(newMapping.getGroupId()) && StringUtils.isNotBlank(newMapping.getStageNumber())) {
+        if (StringUtils.isNotBlank(newMapping.getGroupId()) && StringUtils.isNotBlank(newMapping.getStageNumber())) {
             return getBusinessObjectService().save(newMapping);
         }
 
