@@ -19,7 +19,9 @@
 package org.kuali.coeus.sys.framework.auth;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
@@ -30,12 +32,12 @@ public class AuthServicePushStatus {
 	private int numberUpdated;
 	private int numberSame;
 	private int numberRemoved;
-	private List<String> errors = new ArrayList<>();
+	private Map<String, String> errors = new HashMap<>();
 	
-	public List<String> getErrors() {
+	public Map<String, String> getErrors() {
 		return errors;
 	}
-	public void setErrors(List<String> errors) {
+	public void setErrors(Map<String, String> errors) {
 		this.errors = errors;
 	}
 	public int getNumberOfUsers() {

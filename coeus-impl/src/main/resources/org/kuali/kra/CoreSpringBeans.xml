@@ -57,6 +57,7 @@
     <import resource="classpath:org/kuali/coeus/sys/framework/ImportRiceKradSpringBeans.xml"/>
     <import resource="classpath:org/kuali/rice/krad/config/KRADDependentModuleCommonImports.xml" />
 
+	<bean id="authServicePushService" parent="grlImporter" p:serviceName="authServicePushService" />
     <!-- only brought in on the grm profile -->
     <import resource="classpath:co/kuali/coeus/grm/impl/GrmCoreSpringBeans.xml" />
 

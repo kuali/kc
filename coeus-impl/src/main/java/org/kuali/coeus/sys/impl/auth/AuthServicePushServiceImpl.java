@@ -52,6 +52,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -126,12 +127,14 @@ public class AuthServicePushServiceImpl implements AuthServicePushService {
 					removeUserFromAuthService(authServicePerson.getId());
 					status.addNumberRemoved();
 				}
-			} catch (HttpClientErrorException e) {
-				status.getErrors().add(person.getUsername() + " - " + e.getMessage() + " -- " + e.getResponseBodyAsString());
-				LOG.error("Error pushing user " + person.getUsername() + " to auth service - " + e.getMessage() + " -- " + e.getResponseBodyAsString());
+			} catch (HttpClientErrorException|HttpServerErrorException e) {
+				String message = "Error pushing user " + person.getUsername() + " to auth service - " + e.getMessage() + " -- " + e.getResponseBodyAsString();
+				status.getErrors().put(person.getSchoolId(), message);
+				LOG.error(message);
 			} catch (Exception e) {
-				status.getErrors().add(person.getUsername() + " - " + e.getMessage());
-				LOG.error("Error pushing user " + person.getUsername() + " to auth service", e);
+				String message = "Error pushing user " + person.getUsername() + " to auth service";
+				status.getErrors().put(person.getSchoolId(), message);
+				LOG.error(message, e);
 			}
 		}
 		StringWriter infoMsg = new StringWriter();
@@ -183,7 +186,7 @@ public class AuthServicePushServiceImpl implements AuthServicePushService {
 		kimAuthUser.setRole(USER_ROLE);
 		return kimAuthUser;
 	}
-	
+
 	protected String getOrGenerateUserPassword(AuthUser person) {
 		if (useDevPassword()) {
 			return getDevPassword();
@@ -210,7 +213,7 @@ public class AuthServicePushServiceImpl implements AuthServicePushService {
 				new HttpEntity<String>(authServiceRestUtilService.getAuthServiceStyleHttpHeadersForUser()), new ParameterizedTypeReference<List<AuthUser>>() { });
 		return result.getBody();
 	}
-	
+
 	protected void addUserToAuthService(AuthUser newUser, String userPassword) {
 		newUser.setPassword(userPassword);
 		ResponseEntity<String> result = restOperations.exchange(getUsersApiUrl(), HttpMethod.POST, 
