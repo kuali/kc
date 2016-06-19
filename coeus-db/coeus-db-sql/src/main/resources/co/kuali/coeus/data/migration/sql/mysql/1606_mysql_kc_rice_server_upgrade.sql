@@ -19,4 +19,5 @@
 
 
 \. ./rice/bootstrap/V1606_003__CITI_job_Params.sql
+\. ./rice/bootstrap/V1606_009__Auth_param.sql
 commit;

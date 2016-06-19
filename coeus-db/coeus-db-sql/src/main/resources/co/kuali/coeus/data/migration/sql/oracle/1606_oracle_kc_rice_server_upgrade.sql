@@ -22,4 +22,5 @@ set sqlblanklines on
 
 spool 1606_oracle_kc_rice_server_upgrade.sql.log
 @./rice/bootstrap/V1606_003__CITI_job_Params.sql
+@./rice/bootstrap/V1606_009__Auth_param.sql
 commit;
