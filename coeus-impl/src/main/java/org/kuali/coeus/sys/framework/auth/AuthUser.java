@@ -43,6 +43,8 @@ public class AuthUser implements Serializable {
 	private String firstName;
 	private String lastName;
 	private String password;
+	private String impersonatedBy;
+	private String displayName;
 	
 	@JsonIgnore
 	private String authToken;
@@ -131,6 +133,18 @@ public class AuthUser implements Serializable {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
+	public String getImpersonatedBy() {
+		return impersonatedBy;
+	}
+	public void setImpersonatedBy(String impersonatedBy) {
+		this.impersonatedBy = impersonatedBy;
+	}
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
+	public String getDisplayName() {
+		return displayName;
+	}
 
 	@Override
 	public boolean equals(Object obj) {
@@ -149,6 +163,7 @@ public class AuthUser implements Serializable {
 			.append(role, rhs.role)
 			.append(firstName, rhs.firstName)
 			.append(lastName, rhs.lastName)
+			.append(impersonatedBy, rhs.impersonatedBy)
 			.isEquals();
 	}
 	
@@ -165,6 +180,8 @@ public class AuthUser implements Serializable {
 			.append(lastName)
 			.append(lastValidated)
 			.append(active)
+			.append(impersonatedBy)
+			.append(displayName)
 			.toString();
 	}
 

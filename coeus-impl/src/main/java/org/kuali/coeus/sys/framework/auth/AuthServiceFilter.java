@@ -45,9 +45,13 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.sys.framework.rest.AuthServiceRestUtilService;
 import org.kuali.coeus.sys.framework.rest.RestServiceConstants;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.coreservice.api.parameter.Parameter;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -72,6 +76,7 @@ public class AuthServiceFilter implements Filter {
 	private static final String REST_API_URLS_PARAM = "auth.rest.urls.regex";
 	private static final String ALLOW_MISSING_ADMINS_TO_PROXY_ADMIN_ACCOUNT = "auth.filter.allow.admin.proxy";
 	private static final String AUTH_ADMIN_PROXY_USER = "auth.filter.proxy.username";
+	private static final String AUTH_IMPERSONATION_LOGGING = "auth.impersonation.logging";
 	private static final Log LOG = LogFactory.getLog(AuthServiceFilter.class);
 	
 	private String authServiceUrl;
@@ -82,12 +87,15 @@ public class AuthServiceFilter implements Filter {
 	private List<Pattern> restUrlsRegex;
 	private Boolean allowAdminProxy = Boolean.FALSE;
 	private String adminProxyUsername;
+	private Boolean logImpersonation = Boolean.FALSE;
 	private long secondsToCacheAuthTokenInSession = SECONDS_TO_CACHE_AUTH_TOKEN_IN_SESSION_DEFAULT;
 	
 	private ConfigurationService configurationService;
 	private RestOperations restTemplate;
 	private AuthServiceRestUtilService authServiceRestUtilService;
 	private IdentityService identityService;
+	private BusinessObjectService businessObjectService;
+	private ParameterService parameterService;
 	
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
@@ -101,6 +109,8 @@ public class AuthServiceFilter implements Filter {
 		getCurrentUserUrl = getConfigurationService().getPropertyValueAsString(RestServiceConstants.Configuration.AUTH_USERS_URL) + CURRENT_USER_APPEND;
 		allowAdminProxy = getConfigurationService().getPropertyValueAsBoolean(ALLOW_MISSING_ADMINS_TO_PROXY_ADMIN_ACCOUNT);
 		adminProxyUsername = getConfigurationService().getPropertyValueAsString(AUTH_ADMIN_PROXY_USER);
+		logImpersonation = getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_SYSTEM,
+				Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, AUTH_IMPERSONATION_LOGGING);
 		
 		restUrlsRegex = buildRestUrlRegexPatterns(getConfigurationService().getPropertyValueAsString(REST_API_URLS_PARAM));
 		
@@ -208,6 +218,7 @@ public class AuthServiceFilter implements Filter {
 			request.getSession().setAttribute(AUTH_SERVICE_FILTER_AUTHED_USER_ATTR, authedUser);
 			request.getSession().setAttribute(AUTH_SERVICE_FILTER_AUTH_TOKEN_SESSION_ATTR, authTokenValue);
 		}
+		logImpersonation(authedUser, request.getRequestURL().toString());
 		return authedUser;
 	}
 	
@@ -225,7 +236,14 @@ public class AuthServiceFilter implements Filter {
 		}
 		return authUser;
 	}
-	
+
+	protected void logImpersonation(AuthUser authUser, String requestedUrl) {
+		if (authUser.getImpersonatedBy() != null && logImpersonation) {
+			getBusinessOjectService().save(new CoreImpersonation(authUser, requestedUrl));
+			LOG.warn("User in session'" + authUser.getUsername() + "' is being impersonated by'" + authUser.getImpersonatedBy()+ "'" + " as " + authUser.getDisplayName());
+		}
+	}
+
 	protected Principal getPrincipal(String username) {
 		return getIdentityService().getPrincipalByPrincipalName(username);
 	}
@@ -290,5 +308,27 @@ public class AuthServiceFilter implements Filter {
 
 	public void setIdentityService(IdentityService identityService) {
 		this.identityService = identityService;
+	}
+
+	public BusinessObjectService getBusinessOjectService() {
+		if (businessObjectService == null) {
+			businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
+		}
+		return businessObjectService;
+	}
+
+	public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+		this.businessObjectService = businessObjectService;
+	}
+
+	public ParameterService getParameterService() {
+		if (parameterService == null) {
+			parameterService = KcServiceLocator.getService(ParameterService.class);
+		}
+		return parameterService;
+	}
+
+	public void setParameterService(ParameterService parameterService) {
+		this.parameterService = parameterService;
 	}
 }
