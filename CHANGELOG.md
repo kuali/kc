@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1606.41
 * RESKC-1422: Change CITI to not require CR Number for course mapping. Also change … (#1800)
 
   * RESKC-1422: change CITI to not require CR Number for course mapping. Also change to not delete current records if no endpoints are defined.  * tdurkin on Sun, 19 Jun 2016 16:08:19 -0400 [View Commit](../../commit/dcc5e069a43d8a72bfb330085f467be015b7e6df)
