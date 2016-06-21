@@ -68,7 +68,7 @@ public class ProtocolPersonnelAction extends ProtocolAction {
         ActionForward actionForward = super.execute(mapping, form, request, response);
         getProtocolPersonnelService().selectProtocolUnit(getProtocolPersons(form));
         ((ProtocolForm)form).getPersonnelHelper().prepareView();
-        
+        ((ProtocolForm) form).refreshDisclosureProjectStatuses();
         return actionForward;
     }
 
@@ -416,6 +416,6 @@ public class ProtocolPersonnelAction extends ProtocolAction {
             getBusinessObjectService().delete(((ProtocolForm) form).getNotesAttachmentsHelper().getFilesToDelete());
             ((ProtocolForm) form).getNotesAttachmentsHelper().getFilesToDelete().clear();
         }
-        
+
     }
 }

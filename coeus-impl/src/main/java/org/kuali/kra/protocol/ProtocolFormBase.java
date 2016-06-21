@@ -527,19 +527,29 @@ public abstract class ProtocolFormBase extends KcTransactionalDocumentFormBase i
                 Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ENABLE_DISCLOSURE_DISPOSITION_STATUS_FROM_COI_MODULE);
     }
 
-    public List<DisclosureProjectStatus> getDisclosureProjectStatuses() {
+    private String getProtocolNumberForDisclosures() {
         String protocolNumber = getProtocolDocument().getProtocol().getProtocolNumber();
 
         if(getProtocolDocument().getProtocol() != null && !getProtocolDocument().getProtocol().isNew()) {
             protocolNumber = getProtocolDocument().getProtocol().getAmendedProtocolNumber();
         }
 
+        return protocolNumber;
+    }
+
+    public List<DisclosureProjectStatus> getDisclosureProjectStatuses() {
         if (disclosureProjectStatuses == null) {
             disclosureProjectStatuses = getDisclosureStatusRetrievalService().getDisclosureStatusesForProject(
-                    getModuleName(), protocolNumber
+                    getModuleName(), getProtocolNumberForDisclosures()
             );
         }
         return disclosureProjectStatuses;
+    }
+
+    public void refreshDisclosureProjectStatuses() {
+        disclosureProjectStatuses = getDisclosureStatusRetrievalService().getDisclosureStatusesForProject(
+                getModuleName(), getProtocolNumberForDisclosures()
+        );
     }
 
     protected DisclosureStatusRetrievalService getDisclosureStatusRetrievalService() {
