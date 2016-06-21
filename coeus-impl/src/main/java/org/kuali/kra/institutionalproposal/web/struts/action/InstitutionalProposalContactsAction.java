@@ -50,7 +50,11 @@ public class InstitutionalProposalContactsAction extends InstitutionalProposalAc
     private static final String CONFIRM_SYNC_UNIT_CONTACTS = "confirmSyncUnitContacts";
     private static final String CONFIRM_SYNC_UNIT_CONTACTS_KEY = "confirmSyncUnitContactsKey";
 
-    
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ((InstitutionalProposalForm)form).refreshDisclosureProjectStatuses();
+        return super.execute(mapping, form, request, response);
+    }
     
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

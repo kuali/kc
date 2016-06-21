@@ -433,6 +433,12 @@ public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase i
         return disclosureProjectStatuses;
     }
 
+    public void refreshDisclosureProjectStatuses() {
+        disclosureProjectStatuses = getDisclosureStatusRetrievalService().getDisclosureStatusesForProject(
+                Constants.MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL, getInstitutionalProposalDocument().getInstitutionalProposal().getInstProposalNumber()
+        );
+    }
+
     protected DisclosureStatusRetrievalService getDisclosureStatusRetrievalService() {
         if (disclosureStatusRetrievalService == null) {
             disclosureStatusRetrievalService = KcServiceLocator.getService(DisclosureStatusRetrievalService.class);

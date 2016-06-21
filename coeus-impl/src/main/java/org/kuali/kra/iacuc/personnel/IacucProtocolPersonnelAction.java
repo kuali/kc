@@ -65,7 +65,7 @@ public class IacucProtocolPersonnelAction extends IacucProtocolAction {
         ActionForward actionForward = super.execute(mapping, form, request, response);
         getProtocolPersonnelService().selectProtocolUnit(getProtocolPersons(form));
         ((ProtocolFormBase)form).getPersonnelHelper().prepareView();
-        
+        ((ProtocolFormBase) form).refreshDisclosureProjectStatuses();
         return actionForward;
     }
 
