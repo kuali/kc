@@ -254,6 +254,7 @@
                 <bean parent="Proposal-Award-Property" p:propertyName="awardType.description" p:label="Award Type" p:order="20" />
                 <bean parent="Proposal-Award-Property" p:propertyName="sponsorAwardNumber" p:order="30" />
                 <bean parent="Proposal-Award-Property" p:propertyName="activityType.description" p:label="Activity Type" p:order="40" />
+                <bean parent="Proposal-Award-Property" p:propertyName="modificationNumber" p:label="Modification ID" p:order="45" />
                 <bean parent="Proposal-Award-Property" p:propertyName="accountNumber" p:order="50" />
                 <bean parent="Proposal-Award-Property" p:propertyName="accountTypeDescription" p:order="60" />
                 <bean parent="Proposal-Award-Property" p:propertyName="awardStatus.description" p:label="Award Status" p:order="70" />
@@ -267,8 +268,7 @@
                 <bean parent="Proposal-Award-Property" p:propertyName="latestAwardAmountInfo.finalExpirationDate" p:order="130" />
                 <bean parent="Proposal-Award-Property" p:propertyName="latestAwardAmountInfo.obligationExpirationDate" p:order="140" />
                 <bean parent="Proposal-Award-Property" p:propertyName="latestAwardAmountInfo.anticipatedTotalAmount" p:order="150" />
-                <bean parent="Proposal-Award-Property" p:propertyName="latestAwardAmountInfo.amountObligatedToDate"
-                      p:colSpan="3" p:fieldLabel.colSpan="1" p:order="160" />
+                <bean parent="Proposal-Award-Property" p:propertyName="latestAwardAmountInfo.amountObligatedToDate" p:order="160" />
 
                 <bean parent="Proposal-Award-Property" p:propertyName="awardApprovedSubawards" p:label="Approved Subaward?"
                       p:forcedValue="@{#emptyList(#np.awardDocument.award.awardApprovedSubawards)?'No':'Yes'}" p:order="180" />
