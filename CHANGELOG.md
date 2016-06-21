@@ -1,6 +1,18 @@
 
 
 ##CURRENT
+* Add modification number to award medusa view. (#1810)
+
+* [UITSRA-4461] adding the Modification ID to the award details in Medusa
+  * 
+* [UITRSA-4461] Adding field to Prop Dev KRAD version of Medusa
+  * 
+* [UITSRA-4461] Fixing layout error
+  * tdurkin on Tue, 21 Jun 2016 14:14:11 -0400 [View Commit](../../commit/722e1e380aed7fc7b5f85f76d804eaed3d222b3a)
+* RESKC-1419: add view disposition perm to coi admin role,refresh disclosure status and dispostion when navigating to contacts page
+  * Joe Williams on Tue, 21 Jun 2016 09:02:50 -0500 [View Commit](../../commit/3ba8453f5aa4a35fd9b9ed6f8cc2357e7be6bb9c)
+
+##coeus-1606.44
 * No Changes
 
 
