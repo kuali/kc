@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* fix oracle (#1808)
+
+  * tdurkin on Mon, 20 Jun 2016 10:50:08 -0400 [View Commit](../../commit/ad5946331c3c473f27c5bdf112ec8fc8f1d87724)
+
+##coeus-1606.42
 * No Changes
 
 
