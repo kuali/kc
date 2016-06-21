@@ -147,6 +147,7 @@ public class CitiDataProcessingServiceImpl implements CitiDataProcessingService 
         pt.setTrainingNumber(-1);
         pt.setDateRequested(dateRequested);
         pt.setDateSubmitted(dateSubmitted);
+        pt.setFollowupDate(sr.getExpirationDate());
 
         return pt;
     }
