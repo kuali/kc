@@ -612,12 +612,14 @@ public abstract class BudgetBaseStream implements XmlStream {
 		for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
 			if (!isLineItemTypeOverheadWithRateApplied(budgetLineItem)) {
 				ReportTypeVO reportTypeVO = new ReportTypeVO();
+				reportTypeVO.setBudgetLineItemId(budgetLineItem.getBudgetLineItemId());
 				reportTypeVO.setCostElementDesc(getCostElementDescription(budgetLineItem));
 				reportTypeVO.setCalculatedCost(budgetLineItem.getLineItemCost());
 				tempReportTypeVOList.add(reportTypeVO);
 
                 reportTypeVO = new ReportTypeVO();
                 BudgetRateAndBase emptyBudgetRateAndBase = new BudgetRateAndBase();
+                reportTypeVO.setBudgetLineItemId(budgetLineItem.getBudgetLineItemId());
                 emptyBudgetRateAndBase.setCalculatedCost(ScaleTwoDecimal.ZERO);
 
                 reportTypeVO.setCostElementDesc(EMPLOYEE_BENEFITS_ON_PERSONNEL + getCostElementDescription(budgetLineItem));
@@ -674,6 +676,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 				ReportTypeVO tempReportTypeVO = new ReportTypeVO();
 				tempReportTypeVO.setCostElementDesc(getCostElementDescription(budgetLineItem));
 				tempReportTypeVO.setCalculatedCost(budgetLineItem.getLineItemCost());
+				tempReportTypeVO.setBudgetLineItemId(budgetLineItem.getBudgetLineItemId());
 				tempReportTypeVOList.add(tempReportTypeVO);
 			}
 		}
@@ -1050,6 +1053,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 		reportTypeVO.setStartDate(budgetRateAndBase.getStartDate());
 		reportTypeVO.setEndDate(budgetRateAndBase.getEndDate());
 		reportTypeVO.setAppliedRate(budgetRateAndBase.getAppliedRate());
+		reportTypeVO.setBudgetLineItemId(budgetLineItem.getBudgetLineItemId());
 
         reportTypeVO.setSalaryRequested(ScaleTwoDecimal.ZERO);
         if (rateIsApplied(budgetLineItem.getBudgetLineItemCalculatedAmounts(), budgetRateAndBase.getRateClassCode(), budgetRateAndBase.getRateTypeCode())) {
@@ -1069,6 +1073,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 		reportTypeVO.setEndDate(budgetRateAndBase.getEndDate());
 		reportTypeVO.setAppliedRate(budgetRateAndBase.getAppliedRate());
         reportTypeVO.setCalculatedCost(budgetRateAndBase.getCalculatedCost());
+        reportTypeVO.setBudgetLineItemId(budgetLineItem.getBudgetLineItemId());
 
         reportTypeVO.setSalaryRequested(ScaleTwoDecimal.ZERO);
         if (rateIsApplied(budgetLineItem.getBudgetLineItemCalculatedAmounts(), budgetRateAndBase.getRateClassCode(), budgetRateAndBase.getRateTypeCode())) {
@@ -1182,6 +1187,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 		reportTypeVO.setEndDate(budgetPersRateAndBase.getEndDate());
 		reportTypeVO.setAppliedRate(budgetPersRateAndBase.getAppliedRate());
         reportTypeVO.setCalculatedCost(budgetPersRateAndBase.getCalculatedCost());
+        reportTypeVO.setBudgetLineItemId(budgetLineItem.getBudgetLineItemId());
 
 
         reportTypeVO.setSalaryRequested(ScaleTwoDecimal.ZERO);
@@ -1458,14 +1464,16 @@ public abstract class BudgetBaseStream implements XmlStream {
             reportTypeVO.setPercentEffort(getPercentEffortForBudgetPersonnelRateBase(budgetLineItem, budgetPersDetails, budgetPersRateAndBase));
             reportTypeVO.setPercentCharged(getPercentChargedForBudgetPersonnelRateBase(budgetLineItem, budgetPersDetails, budgetPersRateAndBase));
             reportTypeVO.setInvestigatorFlag(getInvestigatorFlag(budgetPersDetails));
-            reportTypeVO.setSalaryRequested(budgetPersRateAndBase.getSalaryRequested());              
+            reportTypeVO.setSalaryRequested(budgetPersRateAndBase.getSalaryRequested());
+            reportTypeVO.setBudgetLineItemId(budgetPersDetails.getBudgetLineItemId());
         } else {
             BudgetRateAndBase budgetRate = (BudgetRateAndBase) rate;
             //summary personnel line item
             reportTypeVO.setPersonName(PERSONNEL_SUMMARY_LINE_ITEM_NAME);  
             //summary items can't be investigators
             reportTypeVO.setInvestigatorFlag(3);
-            reportTypeVO.setSalaryRequested(budgetRate.getBaseCost());             
+            reportTypeVO.setSalaryRequested(budgetRate.getBaseCost());           
+            reportTypeVO.setBudgetLineItemId(((BudgetLineItem)budgetDetails).getBudgetLineItemId());
         }
         if (this.isRateAndBaseOfRateClassTypeVacation(rate)) {
             reportTypeVO.setVacationRate(rate.getAppliedRate());
@@ -1498,14 +1506,16 @@ public abstract class BudgetBaseStream implements XmlStream {
             reportTypeVO.setPercentEffort(getPercentEffortForBudgetPersonnelRateBase(budgetLineItem, budgetPersDetails, null));
             reportTypeVO.setPercentCharged(getPercentChargedForBudgetPersonnelRateBase(budgetLineItem, budgetPersDetails, null));
             reportTypeVO.setInvestigatorFlag(getInvestigatorFlag(budgetPersDetails));
-            reportTypeVO.setSalaryRequested(budgetPersDetails.getSalaryRequested());              
+            reportTypeVO.setSalaryRequested(budgetPersDetails.getSalaryRequested());
+            reportTypeVO.setBudgetLineItemId(budgetPersDetails.getBudgetPersonnelLineItemId());
         } else {
             //summary personnel line item
             reportTypeVO.setPersonName(PERSONNEL_SUMMARY_LINE_ITEM_NAME);  
             //summary items can't be investigators
             reportTypeVO
                 .setInvestigatorFlag(3);
-            reportTypeVO.setSalaryRequested(budgetLineItem.getLineItemCost());             
+            reportTypeVO.setSalaryRequested(budgetLineItem.getLineItemCost());
+            reportTypeVO.setBudgetLineItemId(((BudgetLineItem)budgetDetails).getBudgetLineItemId());
         }
         reportTypeVO.setVacationRate(ScaleTwoDecimal.ZERO);
         reportTypeVO.setEmployeeBenefitRate(ScaleTwoDecimal.ZERO);
