@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-1423: Display follow-up date on CITI recrds in person training table (#1814)
+
+  * tdurkin on Tue, 21 Jun 2016 19:39:55 -0400 [View Commit](../../commit/f392be5e795d0f2855e19f3e4dbe4e734174aca2)
+
+##coeus-1606.49
 * No Changes
 
 
