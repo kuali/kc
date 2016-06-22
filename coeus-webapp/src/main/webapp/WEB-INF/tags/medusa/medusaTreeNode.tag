@@ -39,7 +39,34 @@
       <c:set var="hideOpen" value="hideOpen"/>
       <c:set var="currentDoc" value="true"/>
     </c:if>
-    <span class="medusaNode"><a name="${node.type}-${node.bo.awardId}" class="${hideOpen}"><img src="static/images/sponsor12.gif"/>Award ${node.bo.awardNumber}</a></span><!-- hack for treeview --><a></a>
+      <c:choose>
+          <c:when test="${node.bo.awardStatus.statusCode == 1}">
+              <c:set var="statusImg" value="static/images/award_active.gif"/>
+              <c:set var="statusNm" value="Active"/>
+          </c:when>
+          <c:when test="${node.bo.awardStatus.statusCode == 2}">
+              <c:set var="statusImg" value="static/images/award_inactive.gif"/>
+              <c:set var="statusNm" value="Inactive"/>
+          </c:when>
+          <c:when test="${node.bo.awardStatus.statusCode == 3}">
+              <c:set var="statusImg" value="static/images/award_pending.gif"/>
+              <c:set var="statusNm" value="Pending"/>
+          </c:when>
+          <c:when test="${node.bo.awardStatus.statusCode == 4}">
+              <c:set var="statusImg" value="static/images/award_inactive.gif"/>
+              <c:set var="statusNm" value="Terminated"/>
+          </c:when>
+          <c:when test="${node.bo.awardStatus.statusCode == 5}">
+              <c:set var="statusImg" value="static/images/award_inactive.gif"/>
+              <c:set var="statusNm" value="Closed"/>
+          </c:when>
+          <c:when test="${node.bo.awardStatus.statusCode == 6}">
+              <c:set var="statusImg" value="static/images/award_holding.gif"/>
+              <c:set var="statusNm" value="Hold"/>
+          </c:when>
+          <c:otherwise><c:set var="statusImg" value="static/images/award_inactive.gif"/></c:otherwise>
+      </c:choose>
+      <span class="medusaNode"><a name="${node.type}-${node.bo.awardId}" class="${hideOpen}"><img src="static/images/sponsor12.gif"/><img src="${statusImg}" alt="${statusNm}" title="${statusNm}"/>Award ${node.bo.awardNumber}</a></span><!-- hack for treeview --><a></a>
   </c:when>
   <c:when test="${node.type == 'DP'}">
     <c:if test="${KualiForm.medusaBean.moduleName == node.type && KualiForm.medusaBean.moduleIdentifier == node.bo.proposalNumber}">
