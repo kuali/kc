@@ -18,24 +18,34 @@
  */
 package org.kuali.coeus.common.budget.impl.print;
 
+import static org.mockito.Mockito.*;
 
 import junit.framework.Assert;
+
+import org.jmock.auto.Mock;
 import org.junit.Test;
 import org.kuali.coeus.common.budget.api.rate.RateClassType;
+import org.kuali.coeus.common.budget.framework.calculator.ValidCalcType;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.category.BudgetCategory;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetRateAndBase;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelRateAndBase;
+import org.kuali.coeus.common.budget.impl.print.BudgetPrintTestBase.BudgetLineItemMock;
+import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.kra.printing.schema.ReportType;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BudgetSummaryPrintTest extends BudgetPrintTestBase {
-
-    private static final String PERSONNEL_CATEGORY_CODE = "P";
 
 	@Test
     public void testPrintAllRatesCheckedNonPersonnel() {
@@ -130,10 +140,7 @@ public class BudgetSummaryPrintTest extends BudgetPrintTestBase {
         ReportTypeVO reportTypeVO;
         budgetPeriod.getBudgetLineItems().clear();
         budgetPeriod.getBudgetLineItems().add(getPersonnelLineItem(budgetPeriod, getDate(2015, 1, 1), getDate(2016, 6, 30)));
-        budgetPeriod.getBudgetLineItem(0).setBudgetCategoryCode(PERSONNEL_CATEGORY_CODE);
-        final BudgetCategory budgetCategory = new BudgetCategory();
-        budgetCategory.setBudgetCategoryTypeCode(PERSONNEL_CATEGORY_CODE);
-		budgetPeriod.getBudgetLineItem(0).setBudgetCategory(budgetCategory);
+        final BudgetLineItem budgetLineItem1 = budgetPeriod.getBudgetLineItem(0);
         List<BudgetLineItemCalculatedAmount> lineItemCalculatedAmounts = new ArrayList<>();
         BudgetLineItemCalculatedAmount lineItemCalculatedAmount = getBudgetLineItemCalculatedAmount("1", "1", "MTDC", ScaleTwoDecimal.ONE_HUNDRED);
         lineItemCalculatedAmounts.add(lineItemCalculatedAmount);
@@ -147,38 +154,38 @@ public class BudgetSummaryPrintTest extends BudgetPrintTestBase {
         lineItemCalculatedAmounts.add(lineItemCalculatedAmount4);
         BudgetLineItemCalculatedAmount lineItemCalculatedAmount5 = getBudgetLineItemCalculatedAmount("8", "2", "Vacation on LA", ScaleTwoDecimal.ONE_HUNDRED);
         lineItemCalculatedAmounts.add(lineItemCalculatedAmount5);
-        budgetPeriod.getBudgetLineItem(0).setBudgetLineItemCalculatedAmounts(lineItemCalculatedAmounts);
+        budgetLineItem1.setBudgetLineItemCalculatedAmounts(lineItemCalculatedAmounts);
 
-        budget.getBudgetPersonnelDetailsList().add(getPersonnelDetails());
+        budget.getBudgetPersonnelDetailsList().add(getPersonnelDetails(getDate(2015, 1, 1), getDate(2016, 6, 30)));
 
         BudgetPersonnelRateAndBase mtdcBudgetRateAndBase = getNewBudgetPersonnelRateAndBase(new ScaleTwoDecimal(56L), "1", "1", new ScaleTwoDecimal(560L),
-                                                            new ScaleTwoDecimal(1000L), RateClassType.OVERHEAD.getRateClassType());
-        budgetPeriod.getBudgetLineItem(0).getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(mtdcBudgetRateAndBase);
+                                                            new ScaleTwoDecimal(1000L), RateClassType.OVERHEAD.getRateClassType(), budgetLineItem1);
+        budgetLineItem1.getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(mtdcBudgetRateAndBase);
 
         BudgetPersonnelRateAndBase laSalariesBudgetRateAndBase = getNewBudgetPersonnelRateAndBase(new ScaleTwoDecimal(20L), "10", "1", new ScaleTwoDecimal(200L),
-                                                                    new ScaleTwoDecimal(1000L), RateClassType.LA_SALARIES.getRateClassType());
-        budgetPeriod.getBudgetLineItem(0).getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(laSalariesBudgetRateAndBase);
+                                                                    new ScaleTwoDecimal(1000L), RateClassType.LA_SALARIES.getRateClassType(), budgetLineItem1);
+        budgetLineItem1.getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(laSalariesBudgetRateAndBase);
 
         BudgetPersonnelRateAndBase laMSBudgetRateAndBase = getNewBudgetPersonnelRateAndBase(new ScaleTwoDecimal(10L), "11", "1", new ScaleTwoDecimal(100L),
-                                                            new ScaleTwoDecimal(1000L), RateClassType.LAB_ALLOCATION.getRateClassType());
-        budgetPeriod.getBudgetLineItem(0).getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(laMSBudgetRateAndBase);
+                                                            new ScaleTwoDecimal(1000L), RateClassType.LAB_ALLOCATION.getRateClassType(), budgetLineItem1);
+        budgetLineItem1.getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(laMSBudgetRateAndBase);
 
         BudgetPersonnelRateAndBase laUtilitiesBudgetRateAndBase = getNewBudgetPersonnelRateAndBase(new ScaleTwoDecimal(10L), "12", "1", new ScaleTwoDecimal(100L),
-                                                                    new ScaleTwoDecimal(1000L), RateClassType.LAB_ALLOCATION.getRateClassType());
-        budgetPeriod.getBudgetLineItem(0).getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(laUtilitiesBudgetRateAndBase);
+                                                                    new ScaleTwoDecimal(1000L), RateClassType.LAB_ALLOCATION.getRateClassType(), budgetLineItem1);
+        budgetLineItem1.getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(laUtilitiesBudgetRateAndBase);
 
-        BudgetPersonnelRateAndBase ebOnLA = getNewBudgetPersonnelRateAndBase(new ScaleTwoDecimal(24L), "5", "3", new ScaleTwoDecimal(24L), new ScaleTwoDecimal(100L), RateClassType.EMPLOYEE_BENEFITS.getRateClassType());
-        budgetPeriod.getBudgetLineItem(0).getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(ebOnLA);
+        BudgetPersonnelRateAndBase ebOnLA = getNewBudgetPersonnelRateAndBase(new ScaleTwoDecimal(24L), "5", "3", new ScaleTwoDecimal(24L), new ScaleTwoDecimal(100L), RateClassType.EMPLOYEE_BENEFITS.getRateClassType(), budgetLineItem1);
+        budgetLineItem1.getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(ebOnLA);
 
         BudgetPersonnelRateAndBase vacationOnLA = getNewBudgetPersonnelRateAndBase(new ScaleTwoDecimal(9L), "8", "2", new ScaleTwoDecimal(9L),
-                                                    new ScaleTwoDecimal(100L), RateClassType.VACATION.getRateClassType());
-        budgetPeriod.getBudgetLineItem(0).getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(vacationOnLA);
+                                                    new ScaleTwoDecimal(100L), RateClassType.VACATION.getRateClassType(), budgetLineItem1);
+        budgetLineItem1.getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(vacationOnLA);
 
         List<ReportTypeVO> tempReportTypeVOList = new ArrayList<>();
-        stream.setBudgetPersRateAndBaseListForBudgetOHRateAndBase(tempReportTypeVOList, budgetPeriod.getBudgetLineItem(0));
-        stream.setBudgetPersRateAndBaseListForBudgetEBRateAndBase(tempReportTypeVOList, budgetPeriod.getBudgetLineItem(0));
-        stream.setBudgetPersRateAndBaseListForBudgetLARateAndBase(tempReportTypeVOList, budgetPeriod.getBudgetLineItem(0));
-        stream.setBudgetPersRateAndBaseListForBudgetVacRateAndBase(tempReportTypeVOList, budgetPeriod.getBudgetLineItem(0));
+        stream.setBudgetPersRateAndBaseListForBudgetOHRateAndBase(tempReportTypeVOList, budgetLineItem1);
+        stream.setBudgetPersRateAndBaseListForBudgetEBRateAndBase(tempReportTypeVOList, budgetLineItem1);
+        stream.setBudgetPersRateAndBaseListForBudgetLARateAndBase(tempReportTypeVOList, budgetLineItem1);
+        stream.setBudgetPersRateAndBaseListForBudgetVacRateAndBase(tempReportTypeVOList, budgetLineItem1);
 
         reportTypeVO = tempReportTypeVOList.get(0);
         Assert.assertTrue(reportTypeVO.getSalaryRequested().compareTo(new ScaleTwoDecimal(1000L)) == 0);
@@ -394,10 +401,7 @@ public class BudgetSummaryPrintTest extends BudgetPrintTestBase {
         ReportTypeVO reportTypeVO;
         budgetPeriod.getBudgetLineItems().clear();
         budgetPeriod.getBudgetLineItems().add(getPersonnelLineItem(budgetPeriod, getDate(2015, 1, 1), getDate(2016, 6, 30)));
-        budgetPeriod.getBudgetLineItem(0).setBudgetCategoryCode(PERSONNEL_CATEGORY_CODE);
-        final BudgetCategory budgetCategory = new BudgetCategory();
-        budgetCategory.setBudgetCategoryTypeCode(PERSONNEL_CATEGORY_CODE);
-		budgetPeriod.getBudgetLineItem(0).setBudgetCategory(budgetCategory);
+        final BudgetLineItem budgetLineItem1 = budgetPeriod.getBudgetLineItem(0);
         List<BudgetLineItemCalculatedAmount> lineItemCalculatedAmounts = new ArrayList<>();
         BudgetLineItemCalculatedAmount lineItemCalculatedAmount = getBudgetLineItemCalculatedAmount("1", "1", "MTDC", ScaleTwoDecimal.ONE_HUNDRED);
         lineItemCalculatedAmount.setApplyRateFlag(false);
@@ -417,39 +421,39 @@ public class BudgetSummaryPrintTest extends BudgetPrintTestBase {
         BudgetLineItemCalculatedAmount lineItemCalculatedAmount5 = getBudgetLineItemCalculatedAmount("8", "2", "Vacation on LA", ScaleTwoDecimal.ONE_HUNDRED);
         lineItemCalculatedAmount5.setApplyRateFlag(false);
         lineItemCalculatedAmounts.add(lineItemCalculatedAmount5);
-        budgetPeriod.getBudgetLineItem(0).setBudgetLineItemCalculatedAmounts(lineItemCalculatedAmounts);
+        budgetLineItem1.setBudgetLineItemCalculatedAmounts(lineItemCalculatedAmounts);
 
-        budget.getBudgetPersonnelDetailsList().add(getPersonnelDetails());
+        budget.getBudgetPersonnelDetailsList().add(getPersonnelDetails(getDate(2015, 1, 1), getDate(2016, 6, 30)));
 
         BudgetPersonnelRateAndBase mtdcBudgetRateAndBase = getNewBudgetPersonnelRateAndBase(new ScaleTwoDecimal(56L), "1", "1", new ScaleTwoDecimal(0L),
-                new ScaleTwoDecimal(1000L), RateClassType.OVERHEAD.getRateClassType());
-        budgetPeriod.getBudgetLineItem(0).getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(mtdcBudgetRateAndBase);
+                new ScaleTwoDecimal(1000L), RateClassType.OVERHEAD.getRateClassType(), budgetLineItem1);
+        budgetLineItem1.getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(mtdcBudgetRateAndBase);
 
         BudgetPersonnelRateAndBase laSalariesBudgetRateAndBase = getNewBudgetPersonnelRateAndBase(new ScaleTwoDecimal(20L), "10", "1", new ScaleTwoDecimal(0L),
-                new ScaleTwoDecimal(1000L), RateClassType.LA_SALARIES.getRateClassType());
-        budgetPeriod.getBudgetLineItem(0).getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(laSalariesBudgetRateAndBase);
+                new ScaleTwoDecimal(1000L), RateClassType.LA_SALARIES.getRateClassType(), budgetLineItem1);
+        budgetLineItem1.getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(laSalariesBudgetRateAndBase);
 
         BudgetPersonnelRateAndBase laMSBudgetRateAndBase = getNewBudgetPersonnelRateAndBase(new ScaleTwoDecimal(10L), "11", "1", new ScaleTwoDecimal(0L),
-                new ScaleTwoDecimal(1000L), RateClassType.LAB_ALLOCATION.getRateClassType());
-        budgetPeriod.getBudgetLineItem(0).getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(laMSBudgetRateAndBase);
+                new ScaleTwoDecimal(1000L), RateClassType.LAB_ALLOCATION.getRateClassType(), budgetLineItem1);
+        budgetLineItem1.getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(laMSBudgetRateAndBase);
 
         BudgetPersonnelRateAndBase laUtilitiesBudgetRateAndBase = getNewBudgetPersonnelRateAndBase(new ScaleTwoDecimal(10L), "12", "1", new ScaleTwoDecimal(0L),
-                new ScaleTwoDecimal(1000L), RateClassType.LAB_ALLOCATION.getRateClassType());
-        budgetPeriod.getBudgetLineItem(0).getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(laUtilitiesBudgetRateAndBase);
+                new ScaleTwoDecimal(1000L), RateClassType.LAB_ALLOCATION.getRateClassType(), budgetLineItem1);
+        budgetLineItem1.getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(laUtilitiesBudgetRateAndBase);
 
         BudgetPersonnelRateAndBase ebOnLA = getNewBudgetPersonnelRateAndBase(new ScaleTwoDecimal(24L), "5", "3", new ScaleTwoDecimal(0L),
-                new ScaleTwoDecimal(100L), RateClassType.EMPLOYEE_BENEFITS.getRateClassType());
-        budgetPeriod.getBudgetLineItem(0).getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(ebOnLA);
+                new ScaleTwoDecimal(100L), RateClassType.EMPLOYEE_BENEFITS.getRateClassType(), budgetLineItem1);
+        budgetLineItem1.getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(ebOnLA);
 
         BudgetPersonnelRateAndBase vacationOnLA = getNewBudgetPersonnelRateAndBase(new ScaleTwoDecimal(9L), "8", "2", new ScaleTwoDecimal(0L),
-                new ScaleTwoDecimal(100L), RateClassType.VACATION.getRateClassType());
-        budgetPeriod.getBudgetLineItem(0).getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(vacationOnLA);
+                new ScaleTwoDecimal(100L), RateClassType.VACATION.getRateClassType(), budgetLineItem1);
+        budgetLineItem1.getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(vacationOnLA);
 
         List<ReportTypeVO> tempReportTypeVOList = new ArrayList<>();
-        stream.setBudgetPersRateAndBaseListForBudgetOHRateAndBase(tempReportTypeVOList, budgetPeriod.getBudgetLineItem(0));
-        stream.setBudgetPersRateAndBaseListForBudgetEBRateAndBase(tempReportTypeVOList, budgetPeriod.getBudgetLineItem(0));
-        stream.setBudgetPersRateAndBaseListForBudgetLARateAndBase(tempReportTypeVOList, budgetPeriod.getBudgetLineItem(0));
-        stream.setBudgetPersRateAndBaseListForBudgetVacRateAndBase(tempReportTypeVOList, budgetPeriod.getBudgetLineItem(0));
+        stream.setBudgetPersRateAndBaseListForBudgetOHRateAndBase(tempReportTypeVOList, budgetLineItem1);
+        stream.setBudgetPersRateAndBaseListForBudgetEBRateAndBase(tempReportTypeVOList, budgetLineItem1);
+        stream.setBudgetPersRateAndBaseListForBudgetLARateAndBase(tempReportTypeVOList, budgetLineItem1);
+        stream.setBudgetPersRateAndBaseListForBudgetVacRateAndBase(tempReportTypeVOList, budgetLineItem1);
 
         reportTypeVO = tempReportTypeVOList.get(0);
         Assert.assertTrue(reportTypeVO.getSalaryRequested().compareTo(new ScaleTwoDecimal(0L)) == 0);
@@ -491,10 +495,7 @@ public class BudgetSummaryPrintTest extends BudgetPrintTestBase {
         ReportTypeVO reportTypeVO;
         budgetPeriod.getBudgetLineItems().clear();
         budgetPeriod.getBudgetLineItems().add(getPersonnelLineItem(budgetPeriod, getDate(2015, 1, 1), getDate(2016, 6, 30)));
-        budgetPeriod.getBudgetLineItem(0).setBudgetCategoryCode(PERSONNEL_CATEGORY_CODE);
-        final BudgetCategory budgetCategory = new BudgetCategory();
-        budgetCategory.setBudgetCategoryTypeCode(PERSONNEL_CATEGORY_CODE);
-		budgetPeriod.getBudgetLineItem(0).setBudgetCategory(budgetCategory);
+        final BudgetLineItem budgetLineItem1 = budgetPeriod.getBudgetLineItem(0);
         List<BudgetLineItemCalculatedAmount> lineItemCalculatedAmounts = new ArrayList<>();
         BudgetLineItemCalculatedAmount lineItemCalculatedAmount = getBudgetLineItemCalculatedAmount("1", "1", "MTDC", ScaleTwoDecimal.ZERO);
         lineItemCalculatedAmounts.add(lineItemCalculatedAmount);
@@ -508,39 +509,39 @@ public class BudgetSummaryPrintTest extends BudgetPrintTestBase {
         lineItemCalculatedAmounts.add(lineItemCalculatedAmount4);
         BudgetLineItemCalculatedAmount lineItemCalculatedAmount5 = getBudgetLineItemCalculatedAmount("8", "2", "Vacation on LA", ScaleTwoDecimal.ZERO);
         lineItemCalculatedAmounts.add(lineItemCalculatedAmount5);
-        budgetPeriod.getBudgetLineItem(0).setBudgetLineItemCalculatedAmounts(lineItemCalculatedAmounts);
+        budgetLineItem1.setBudgetLineItemCalculatedAmounts(lineItemCalculatedAmounts);
 
-        budget.getBudgetPersonnelDetailsList().add(getPersonnelDetails());
+        budget.getBudgetPersonnelDetailsList().add(getPersonnelDetails(getDate(2015, 1, 1), getDate(2016, 6, 30)));
 
         BudgetPersonnelRateAndBase mtdcBudgetRateAndBase = getNewBudgetPersonnelRateAndBase(new ScaleTwoDecimal(0L), "1", "1", new ScaleTwoDecimal(0L),
-                new ScaleTwoDecimal(1000L), RateClassType.OVERHEAD.getRateClassType());
-        budgetPeriod.getBudgetLineItem(0).getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(mtdcBudgetRateAndBase);
+                new ScaleTwoDecimal(1000L), RateClassType.OVERHEAD.getRateClassType(), budgetLineItem1);
+        budgetLineItem1.getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(mtdcBudgetRateAndBase);
 
         BudgetPersonnelRateAndBase laSalariesBudgetRateAndBase = getNewBudgetPersonnelRateAndBase(new ScaleTwoDecimal(0L), "10", "1", new ScaleTwoDecimal(0L),
-                new ScaleTwoDecimal(1000L), RateClassType.LA_SALARIES.getRateClassType());
-        budgetPeriod.getBudgetLineItem(0).getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(laSalariesBudgetRateAndBase);
+                new ScaleTwoDecimal(1000L), RateClassType.LA_SALARIES.getRateClassType(), budgetLineItem1);
+        budgetLineItem1.getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(laSalariesBudgetRateAndBase);
 
         BudgetPersonnelRateAndBase laMSBudgetRateAndBase = getNewBudgetPersonnelRateAndBase(new ScaleTwoDecimal(0L), "11", "1", new ScaleTwoDecimal(0L),
-                new ScaleTwoDecimal(1000L), RateClassType.LAB_ALLOCATION.getRateClassType());
-        budgetPeriod.getBudgetLineItem(0).getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(laMSBudgetRateAndBase);
+                new ScaleTwoDecimal(1000L), RateClassType.LAB_ALLOCATION.getRateClassType(), budgetLineItem1);
+        budgetLineItem1.getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(laMSBudgetRateAndBase);
 
         BudgetPersonnelRateAndBase laUtilitiesBudgetRateAndBase = getNewBudgetPersonnelRateAndBase(new ScaleTwoDecimal(0L), "12", "1", new ScaleTwoDecimal(0L),
-                new ScaleTwoDecimal(1000L), RateClassType.LAB_ALLOCATION.getRateClassType());
-        budgetPeriod.getBudgetLineItem(0).getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(laUtilitiesBudgetRateAndBase);
+                new ScaleTwoDecimal(1000L), RateClassType.LAB_ALLOCATION.getRateClassType(), budgetLineItem1);
+        budgetLineItem1.getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(laUtilitiesBudgetRateAndBase);
 
         BudgetPersonnelRateAndBase ebOnLA = getNewBudgetPersonnelRateAndBase(new ScaleTwoDecimal(0L), "5", "3", new ScaleTwoDecimal(0L),
-                                                new ScaleTwoDecimal(100L), RateClassType.EMPLOYEE_BENEFITS.getRateClassType());
-        budgetPeriod.getBudgetLineItem(0).getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(ebOnLA);
+                                                new ScaleTwoDecimal(100L), RateClassType.EMPLOYEE_BENEFITS.getRateClassType(), budgetLineItem1);
+        budgetLineItem1.getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(ebOnLA);
 
         BudgetPersonnelRateAndBase vacationOnLA = getNewBudgetPersonnelRateAndBase(new ScaleTwoDecimal(0L), "8", "2", new ScaleTwoDecimal(0L),
-                new ScaleTwoDecimal(100L), RateClassType.VACATION.getRateClassType());
-        budgetPeriod.getBudgetLineItem(0).getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(vacationOnLA);
+                new ScaleTwoDecimal(100L), RateClassType.VACATION.getRateClassType(), budgetLineItem1);
+        budgetLineItem1.getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(vacationOnLA);
 
         List<ReportTypeVO> tempReportTypeVOList = new ArrayList<>();
-        stream.setBudgetPersRateAndBaseListForBudgetOHRateAndBase(tempReportTypeVOList, budgetPeriod.getBudgetLineItem(0));
-        stream.setBudgetPersRateAndBaseListForBudgetEBRateAndBase(tempReportTypeVOList, budgetPeriod.getBudgetLineItem(0));
-        stream.setBudgetPersRateAndBaseListForBudgetLARateAndBase(tempReportTypeVOList, budgetPeriod.getBudgetLineItem(0));
-        stream.setBudgetPersRateAndBaseListForBudgetVacRateAndBase(tempReportTypeVOList, budgetPeriod.getBudgetLineItem(0));
+        stream.setBudgetPersRateAndBaseListForBudgetOHRateAndBase(tempReportTypeVOList, budgetLineItem1);
+        stream.setBudgetPersRateAndBaseListForBudgetEBRateAndBase(tempReportTypeVOList, budgetLineItem1);
+        stream.setBudgetPersRateAndBaseListForBudgetLARateAndBase(tempReportTypeVOList, budgetLineItem1);
+        stream.setBudgetPersRateAndBaseListForBudgetVacRateAndBase(tempReportTypeVOList, budgetLineItem1);
 
         reportTypeVO = tempReportTypeVOList.get(0);
         Assert.assertTrue(reportTypeVO.getSalaryRequested().compareTo(new ScaleTwoDecimal(1000L)) == 0);
@@ -582,44 +583,41 @@ public class BudgetSummaryPrintTest extends BudgetPrintTestBase {
         ReportTypeVO reportTypeVO;
         budgetPeriod.getBudgetLineItems().clear();
         budgetPeriod.getBudgetLineItems().add(getPersonnelLineItem(budgetPeriod, getDate(2015, 1, 1), getDate(2016, 6, 30)));
-        budgetPeriod.getBudgetLineItem(0).setBudgetCategoryCode(PERSONNEL_CATEGORY_CODE);
-        final BudgetCategory budgetCategory = new BudgetCategory();
-        budgetCategory.setBudgetCategoryTypeCode(PERSONNEL_CATEGORY_CODE);
-		budgetPeriod.getBudgetLineItem(0).setBudgetCategory(budgetCategory);
+        final BudgetLineItem budgetLineItem1 = budgetPeriod.getBudgetLineItem(0);
         List<BudgetLineItemCalculatedAmount> lineItemCalculatedAmounts = new ArrayList<>();
-        budgetPeriod.getBudgetLineItem(0).setBudgetLineItemCalculatedAmounts(lineItemCalculatedAmounts);
+        budgetLineItem1.setBudgetLineItemCalculatedAmounts(lineItemCalculatedAmounts);
 
-        budget.getBudgetPersonnelDetailsList().add(getPersonnelDetails());
+        budget.getBudgetPersonnelDetailsList().add(getPersonnelDetails(getDate(2015, 1, 1), getDate(2016, 6, 30)));
 
         BudgetPersonnelRateAndBase mtdcBudgetRateAndBase = getNewBudgetPersonnelRateAndBase(new ScaleTwoDecimal(0L), "1", "1", new ScaleTwoDecimal(0L),
-                new ScaleTwoDecimal(1000L), RateClassType.OVERHEAD.getRateClassType());
-        budgetPeriod.getBudgetLineItem(0).getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(mtdcBudgetRateAndBase);
+                new ScaleTwoDecimal(1000L), RateClassType.OVERHEAD.getRateClassType(), budgetLineItem1);
+        budgetLineItem1.getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(mtdcBudgetRateAndBase);
 
         BudgetPersonnelRateAndBase laSalariesBudgetRateAndBase = getNewBudgetPersonnelRateAndBase(new ScaleTwoDecimal(0L), "10", "1", new ScaleTwoDecimal(0L),
-                new ScaleTwoDecimal(1000L), RateClassType.LA_SALARIES.getRateClassType());
-        budgetPeriod.getBudgetLineItem(0).getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(laSalariesBudgetRateAndBase);
+                new ScaleTwoDecimal(1000L), RateClassType.LA_SALARIES.getRateClassType(), budgetLineItem1);
+        budgetLineItem1.getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(laSalariesBudgetRateAndBase);
 
         BudgetPersonnelRateAndBase laMSBudgetRateAndBase = getNewBudgetPersonnelRateAndBase(new ScaleTwoDecimal(0L), "11", "1", new ScaleTwoDecimal(0L),
-                new ScaleTwoDecimal(1000L), RateClassType.LAB_ALLOCATION.getRateClassType());
-        budgetPeriod.getBudgetLineItem(0).getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(laMSBudgetRateAndBase);
+                new ScaleTwoDecimal(1000L), RateClassType.LAB_ALLOCATION.getRateClassType(), budgetLineItem1);
+        budgetLineItem1.getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(laMSBudgetRateAndBase);
 
         BudgetPersonnelRateAndBase laUtilitiesBudgetRateAndBase = getNewBudgetPersonnelRateAndBase(new ScaleTwoDecimal(0L), "12", "1", new ScaleTwoDecimal(0L),
-                new ScaleTwoDecimal(1000L), RateClassType.LAB_ALLOCATION.getRateClassType());
-        budgetPeriod.getBudgetLineItem(0).getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(laUtilitiesBudgetRateAndBase);
+                new ScaleTwoDecimal(1000L), RateClassType.LAB_ALLOCATION.getRateClassType(), budgetLineItem1);
+        budgetLineItem1.getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(laUtilitiesBudgetRateAndBase);
 
         BudgetPersonnelRateAndBase ebOnLA = getNewBudgetPersonnelRateAndBase(new ScaleTwoDecimal(0L), "5", "3", new ScaleTwoDecimal(0L),
-                new ScaleTwoDecimal(100L), RateClassType.EMPLOYEE_BENEFITS.getRateClassType());
-        budgetPeriod.getBudgetLineItem(0).getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(ebOnLA);
+                new ScaleTwoDecimal(100L), RateClassType.EMPLOYEE_BENEFITS.getRateClassType(), budgetLineItem1);
+        budgetLineItem1.getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(ebOnLA);
 
         BudgetPersonnelRateAndBase vacationOnLA = getNewBudgetPersonnelRateAndBase(new ScaleTwoDecimal(0L), "8", "2", new ScaleTwoDecimal(0L),
-                new ScaleTwoDecimal(100L), RateClassType.VACATION.getRateClassType());
-        budgetPeriod.getBudgetLineItem(0).getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(vacationOnLA);
+                new ScaleTwoDecimal(100L), RateClassType.VACATION.getRateClassType(), budgetLineItem1);
+        budgetLineItem1.getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(vacationOnLA);
 
         List<ReportTypeVO> tempReportTypeVOList = new ArrayList<>();
-        stream.setBudgetPersRateAndBaseListForBudgetOHRateAndBase(tempReportTypeVOList, budgetPeriod.getBudgetLineItem(0));
-        stream.setBudgetPersRateAndBaseListForBudgetEBRateAndBase(tempReportTypeVOList, budgetPeriod.getBudgetLineItem(0));
-        stream.setBudgetPersRateAndBaseListForBudgetLARateAndBase(tempReportTypeVOList, budgetPeriod.getBudgetLineItem(0));
-        stream.setBudgetPersRateAndBaseListForBudgetVacRateAndBase(tempReportTypeVOList, budgetPeriod.getBudgetLineItem(0));
+        stream.setBudgetPersRateAndBaseListForBudgetOHRateAndBase(tempReportTypeVOList, budgetLineItem1);
+        stream.setBudgetPersRateAndBaseListForBudgetEBRateAndBase(tempReportTypeVOList, budgetLineItem1);
+        stream.setBudgetPersRateAndBaseListForBudgetLARateAndBase(tempReportTypeVOList, budgetLineItem1);
+        stream.setBudgetPersRateAndBaseListForBudgetVacRateAndBase(tempReportTypeVOList, budgetLineItem1);
 
         reportTypeVO = tempReportTypeVOList.get(0);
         Assert.assertTrue(reportTypeVO.getSalaryRequested().compareTo(new ScaleTwoDecimal(0L)) == 0);
@@ -639,5 +637,162 @@ public class BudgetSummaryPrintTest extends BudgetPrintTestBase {
 
         reportTypeVO = tempReportTypeVOList.get(5);
         Assert.assertTrue(reportTypeVO.getSalaryRequested().compareTo(new ScaleTwoDecimal(0L)) == 0);
+    }
+    
+    @Test
+    public void test_setReportTypeForBudgetSalarySummary() {
+        BudgetSummaryXmlStream stream = new BudgetSummaryXmlStream();
+        
+        BusinessObjectService boService = mock(BusinessObjectService.class);
+        when(boService.findMatching(eq(ValidCalcType.class), anyMap())).thenReturn(new ArrayList<>());
+        stream.setBusinessObjectService(boService);
+        
+        ProposalDevelopmentBudgetExt budget = new ProposalDevelopmentBudgetExt();
+        DevelopmentProposal proposal = mock(DevelopmentProposal.class);
+        when(proposal.getParentInvestigatorFlag(anyString(), anyInt())).thenReturn(2);
+        budget.setDevelopmentProposal(proposal);
+        final BudgetPeriod budgetPeriod = getBudgetPeriod();
+        budget.getBudgetPeriods().add(budgetPeriod);
+        budgetPeriod.getBudgetLineItems().add(getPersonnelLineItem(budgetPeriod, getDate(2015, 1, 1), getDate(2016, 6, 30)));
+        final BudgetLineItem budgetLineItem1 = budgetPeriod.getBudgetLineItem(0);
+        List<BudgetLineItemCalculatedAmount> lineItemCalculatedAmounts = new ArrayList<>();
+        budgetLineItem1.setBudgetLineItemCalculatedAmounts(lineItemCalculatedAmounts);
+
+        BudgetPersonnelRateAndBase mtdcBudgetRateAndBase = getNewBudgetPersonnelRateAndBase(new ScaleTwoDecimal(10L), "1", "1", new ScaleTwoDecimal(100L),
+                new ScaleTwoDecimal(1000L), RateClassType.OVERHEAD.getRateClassType(), budgetLineItem1);
+        budgetLineItem1.getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(mtdcBudgetRateAndBase);
+
+        BudgetPersonnelRateAndBase eb = getNewBudgetPersonnelRateAndBase(new ScaleTwoDecimal(5L), "5", "1", new ScaleTwoDecimal(20L),
+                new ScaleTwoDecimal(1000L), RateClassType.EMPLOYEE_BENEFITS.getRateClassType(), budgetLineItem1);
+        budgetLineItem1.getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(eb);
+
+        BudgetPersonnelRateAndBase vacation = getNewBudgetPersonnelRateAndBase(new ScaleTwoDecimal(5L), "8", "1", new ScaleTwoDecimal(20L),
+                new ScaleTwoDecimal(1000L), RateClassType.VACATION.getRateClassType(), budgetLineItem1);
+        budgetLineItem1.getBudgetPersonnelDetailsList().get(0).getBudgetPersonnelRateAndBaseList().add(vacation);
+
+        stream.setBudget(budget);
+        stream.setBudgetPeriod(budgetPeriod);
+        List<ReportType> reportList = new ArrayList<>();
+        stream.setReportTypeForBudgetSalarySummary(reportList);
+        Assert.assertEquals(1, reportList.size());
+        Assert.assertEquals(new ScaleTwoDecimal(40L).doubleValue(), reportList.get(0).getFringe());
+    }
+    
+    @Test
+    public void test_setReportTypeForBudgetSalarySummary_summaryLineItem() {
+        BudgetSummaryXmlStream stream = new BudgetSummaryXmlStream();
+        
+        BusinessObjectService boService = mock(BusinessObjectService.class);
+        when(boService.findMatching(eq(ValidCalcType.class), anyMap())).thenReturn(new ArrayList<>());
+        stream.setBusinessObjectService(boService);
+        
+        ProposalDevelopmentBudgetExt budget = new ProposalDevelopmentBudgetExt();
+        DevelopmentProposal proposal = mock(DevelopmentProposal.class);
+        when(proposal.getParentInvestigatorFlag(anyString(), anyInt())).thenReturn(2);
+        budget.setDevelopmentProposal(proposal);
+        final BudgetPeriod budgetPeriod = getBudgetPeriod();
+        budget.getBudgetPeriods().add(budgetPeriod);
+        budgetPeriod.getBudgetLineItems().add(getSummaryPersonnelLineItem(budgetPeriod, getDate(2015, 1, 1), getDate(2016, 6, 30)));
+        final BudgetLineItem budgetLineItem1 = budgetPeriod.getBudgetLineItem(0);
+        List<BudgetLineItemCalculatedAmount> lineItemCalculatedAmounts = new ArrayList<>();
+        budgetLineItem1.setBudgetLineItemCalculatedAmounts(lineItemCalculatedAmounts);
+
+        BudgetRateAndBase mtdcBudgetRateAndBase = getNewBudgetRateAndBase(new ScaleTwoDecimal(10L), "1", "1", new ScaleTwoDecimal(100L),
+                new ScaleTwoDecimal(1000L), RateClassType.OVERHEAD.getRateClassType(), getDate(2015, 1, 1), getDate(2016, 6, 30));
+        budgetLineItem1.getBudgetRateAndBaseList().add(mtdcBudgetRateAndBase);
+
+        BudgetRateAndBase eb = getNewBudgetRateAndBase(new ScaleTwoDecimal(5L), "5", "1", new ScaleTwoDecimal(20L),
+                new ScaleTwoDecimal(1000L), RateClassType.EMPLOYEE_BENEFITS.getRateClassType(), getDate(2015, 1, 1), getDate(2016, 6, 30));
+        budgetLineItem1.getBudgetRateAndBaseList().add(eb);
+
+        BudgetRateAndBase vacation = getNewBudgetRateAndBase(new ScaleTwoDecimal(5L), "8", "1", new ScaleTwoDecimal(20L),
+                new ScaleTwoDecimal(1000L), RateClassType.VACATION.getRateClassType(), getDate(2015, 1, 1), getDate(2016, 6, 30));
+        budgetLineItem1.getBudgetRateAndBaseList().add(vacation);
+
+        stream.setBudget(budget);
+        stream.setBudgetPeriod(budgetPeriod);
+        List<ReportType> reportList = new ArrayList<>();
+        stream.setReportTypeForBudgetSalarySummary(reportList);
+        Assert.assertEquals(1, reportList.size());
+        Assert.assertEquals(new ScaleTwoDecimal(40L).doubleValue(), reportList.get(0).getFringe());
+    }
+    
+    @Test
+    public void test_setReportTypeForBudgetSalarySummary_twoSummaryLineItems() {
+        BudgetSummaryXmlStream stream = new BudgetSummaryXmlStream();
+        
+        BusinessObjectService boService = mock(BusinessObjectService.class);
+        when(boService.findMatching(eq(ValidCalcType.class), anyMap())).thenReturn(new ArrayList<>());
+        stream.setBusinessObjectService(boService);
+        
+        ProposalDevelopmentBudgetExt budget = new ProposalDevelopmentBudgetExt();
+        DevelopmentProposal proposal = mock(DevelopmentProposal.class);
+        when(proposal.getParentInvestigatorFlag(anyString(), anyInt())).thenReturn(2);
+        budget.setDevelopmentProposal(proposal);
+        final BudgetPeriod budgetPeriod = getBudgetPeriod();
+        budget.getBudgetPeriods().add(budgetPeriod);
+        budgetPeriod.getBudgetLineItems().add(getSummaryPersonnelLineItem(budgetPeriod, getDate(2015, 1, 1), getDate(2016, 6, 30)));
+        final BudgetLineItem budgetLineItem1 = budgetPeriod.getBudgetLineItem(0);
+        List<BudgetLineItemCalculatedAmount> lineItemCalculatedAmounts = new ArrayList<>();
+        budgetLineItem1.setBudgetLineItemCalculatedAmounts(lineItemCalculatedAmounts);
+
+        BudgetRateAndBase mtdcBudgetRateAndBase = getNewBudgetRateAndBase(new ScaleTwoDecimal(10L), "1", "1", new ScaleTwoDecimal(100L),
+                new ScaleTwoDecimal(1000L), RateClassType.OVERHEAD.getRateClassType(), getDate(2015, 1, 1), getDate(2016, 6, 30));
+        budgetLineItem1.getBudgetRateAndBaseList().add(mtdcBudgetRateAndBase);
+
+        BudgetRateAndBase eb = getNewBudgetRateAndBase(new ScaleTwoDecimal(5L), "5", "1", new ScaleTwoDecimal(20L),
+                new ScaleTwoDecimal(1000L), RateClassType.EMPLOYEE_BENEFITS.getRateClassType(), getDate(2015, 1, 1), getDate(2016, 6, 30));
+        budgetLineItem1.getBudgetRateAndBaseList().add(eb);
+
+        BudgetRateAndBase vacation = getNewBudgetRateAndBase(new ScaleTwoDecimal(5L), "8", "1", new ScaleTwoDecimal(20L),
+                new ScaleTwoDecimal(1000L), RateClassType.VACATION.getRateClassType(), getDate(2015, 1, 1), getDate(2016, 6, 30));
+        budgetLineItem1.getBudgetRateAndBaseList().add(vacation);
+        
+        budgetPeriod.getBudgetLineItems().add(getSummaryPersonnelLineItem(budgetPeriod, getDate(2015, 1, 1), getDate(2016, 6, 30)));
+        final BudgetLineItem budgetLineItem2 = budgetPeriod.getBudgetLineItem(1);
+        budgetLineItem2.setBudgetLineItemCalculatedAmounts(new ArrayList<>());
+
+        mtdcBudgetRateAndBase = getNewBudgetRateAndBase(new ScaleTwoDecimal(10L), "1", "1", new ScaleTwoDecimal(200L),
+                new ScaleTwoDecimal(2000L), RateClassType.OVERHEAD.getRateClassType(), getDate(2015, 1, 1), getDate(2016, 6, 30));
+        budgetLineItem2.getBudgetRateAndBaseList().add(mtdcBudgetRateAndBase);
+
+        eb = getNewBudgetRateAndBase(new ScaleTwoDecimal(5L), "5", "1", new ScaleTwoDecimal(40L),
+                new ScaleTwoDecimal(2000L), RateClassType.EMPLOYEE_BENEFITS.getRateClassType(), getDate(2015, 1, 1), getDate(2016, 6, 30));
+        budgetLineItem2.getBudgetRateAndBaseList().add(eb);
+
+        vacation = getNewBudgetRateAndBase(new ScaleTwoDecimal(5L), "8", "1", new ScaleTwoDecimal(40L),
+                new ScaleTwoDecimal(2000L), RateClassType.VACATION.getRateClassType(), getDate(2015, 1, 1), getDate(2016, 6, 30));
+        budgetLineItem2.getBudgetRateAndBaseList().add(vacation);        
+
+        stream.setBudget(budget);
+        stream.setBudgetPeriod(budgetPeriod);
+        List<ReportType> reportList = new ArrayList<>();
+        stream.setReportTypeForBudgetSalarySummary(reportList);
+        Assert.assertEquals(2, reportList.size());
+        Assert.assertEquals(new ScaleTwoDecimal(40L).doubleValue(), reportList.get(0).getFringe());
+        Assert.assertEquals(new ScaleTwoDecimal(80L).doubleValue(), reportList.get(1).getFringe());
+    }    
+    
+    protected BudgetLineItem getSummaryPersonnelLineItem(BudgetPeriod budgetPeriod, Date startDate, Date endDate) {
+        BudgetLineItem lineItem = new BudgetLineItemMock();
+        lineItem.setBudgetCategory(createBudgetCategory("26", "Test", "E"));
+        lineItem.setBudgetCategoryCode("26");
+        lineItem.setCostElement("400350");
+        lineItem.setLineItemCost(new ScaleTwoDecimal(10000.00));
+        lineItem.setEndDate(endDate);
+        lineItem.setStartDate(startDate);
+        lineItem.setCostElementBO(getCostElementTravel());
+        lineItem.setApplyInRateFlag(Boolean.TRUE);
+        lineItem.setOnOffCampusFlag(Boolean.TRUE);
+        lineItem.setBudgetPeriodBO(budgetPeriod);
+        lineItem.setBudgetPeriod(1);
+        lineItem.setBudgetLineItemId(5L);
+        lineItem.setLineItemNumber(3);
+		lineItem.setBudgetCategoryCode(PERSONNEL_CATEGORY_CODE);
+        final BudgetCategory budgetCategory = new BudgetCategory();
+        budgetCategory.setBudgetCategoryTypeCode(PERSONNEL_CATEGORY_CODE);
+		lineItem.setBudgetCategory(budgetCategory);
+        lineItem.setCostElementBO(getCostElementPersonnel());
+        return lineItem;
     }
 }

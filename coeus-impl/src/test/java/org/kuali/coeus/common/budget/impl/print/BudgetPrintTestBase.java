@@ -36,6 +36,8 @@ import java.util.Calendar;
 import java.util.List;
 
 public abstract class BudgetPrintTestBase {
+	
+	protected static final String PERSONNEL_CATEGORY_CODE = "P";
 
     class BudgetRateAndBaseMock extends BudgetRateAndBase {
         @Override
@@ -123,25 +125,35 @@ public abstract class BudgetPrintTestBase {
     }
 
     protected BudgetPersonnelRateAndBase getNewBudgetPersonnelRateAndBase(ScaleTwoDecimal applicableRate, String rateClassCode, String rateTypeCode,
-                                                                          ScaleTwoDecimal calculatedCost, ScaleTwoDecimal baseCost, String rateClassTypeCode) {
+                                                                          ScaleTwoDecimal calculatedCost, ScaleTwoDecimal baseCost, String rateClassTypeCode, BudgetLineItem lineItem) {
         BudgetPersonnelRateAndBase rateAndBase = new BudgetPersonnelRateAndBaseMock();
         rateAndBase.setRateClassCode(rateClassCode);
         rateAndBase.setRateTypeCode(rateTypeCode);
         rateAndBase.setAppliedRate(applicableRate);
         rateAndBase.setCalculatedCost(calculatedCost);
+        rateAndBase.setCalculatedCostSharing(ScaleTwoDecimal.ZERO);
         rateAndBase.setSalaryRequested(baseCost);
         rateAndBase.setRateClass(new RateClass());
         rateAndBase.getRateClass().setRateClassTypeCode(rateClassTypeCode);
+        rateAndBase.setStartDate(lineItem.getStartDate());
+        rateAndBase.setEndDate(lineItem.getEndDate());
         return rateAndBase;
     }
 
-    protected BudgetPersonnelDetails getPersonnelDetails() {
+    protected BudgetPersonnelDetails getPersonnelDetails(Date startDate, Date endDate) {
         BudgetPersonnelDetails details = new BudgetPersonnelDetails();
         details.setJobCode("AA000");
         details.setPercentCharged(new ScaleTwoDecimal(100L));
         details.setPercentEffort(new ScaleTwoDecimal(100L));
         details.setPersonId("1000001");
+        details.setPersonNumber(2);
         details.setSalaryRequested(new ScaleTwoDecimal(100000L));
+        if (startDate != null) {
+        	details.setStartDate(startDate);
+        }
+        if (endDate != null) {
+        	details.setEndDate(endDate);
+        }
         return details;
     }
 
@@ -160,8 +172,14 @@ public abstract class BudgetPrintTestBase {
         lineItem.setBudgetPeriod(1);
         lineItem.setBudgetLineItemId(5L);
         lineItem.setLineItemNumber(3);
+		lineItem.setBudgetCategoryCode(PERSONNEL_CATEGORY_CODE);
+        final BudgetCategory budgetCategory = new BudgetCategory();
+        budgetCategory.setBudgetCategoryTypeCode(PERSONNEL_CATEGORY_CODE);
+		lineItem.setBudgetCategory(budgetCategory);
+
         BudgetPersonnelDetails budgetPersonnelDetails = new BudgetPersonnelDetails();
         budgetPersonnelDetails.setLineItemNumber(3);
+        budgetPersonnelDetails.setPersonNumber(1);
         budgetPersonnelDetails.setOnOffCampusFlag(Boolean.TRUE);
         budgetPersonnelDetails.setEndDate(endDate);
         budgetPersonnelDetails.setStartDate(startDate);

@@ -147,7 +147,7 @@ public class BudgetSummaryXmlStream extends BudgetBaseStream {
 		return subReportType;
 	}
 
-	private void setReportTypeForBudgetSalarySummary(List<ReportType> reportTypeList) {
+	void setReportTypeForBudgetSalarySummary(List<ReportType> reportTypeList) {
 		setReportTypeListFromReportTypeVOListForBudgetSalarySummary(reportTypeList, getReportTypeVOList(budgetPeriod));
 	}
 
