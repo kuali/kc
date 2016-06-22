@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* Use budget line item id as part of key to avoid ignoring multiple summary line items
+  * blackcathacker on Wed, 22 Jun 2016 11:08:43 -0700 [View Commit](../../commit/8836b23fdd0ab17a7ee1ee5149c233a5a74ce216)
+* Use budget details rate and base when summary personnel line item
+  * blackcathacker on Wed, 22 Jun 2016 10:27:53 -0700 [View Commit](../../commit/64ef520a2f2a9ec841dfc152d84431aa5e10cca5)
+
+##coeus-1606.56
 * No Changes
 
 
