@@ -48,7 +48,7 @@ public class BudgetSummaryPrintFringeCalculationTest extends BudgetPrintTestBase
         budgetPeriod.getBudgetLineItems().add(getPersonnelLineItem(budgetPeriod, getDate(2016, 7, 1), getDate(2016, 12, 31)));
         budgetPeriod.getBudgetLineItem(1).setBudgetCategoryCode("P");
 
-        budget.getBudgetPersonnelDetailsList().add(getPersonnelDetails());
+        budget.getBudgetPersonnelDetailsList().add(getPersonnelDetails(getDate(2016, 7, 1), getDate(2016, 12, 31)));
 
         List<BudgetRateAndBase> rateAndBases = new ArrayList<>();
         final BudgetRateAndBase mtdcBudgetRateAndBase = getNewBudgetRateAndBase(new ScaleTwoDecimal(56L), "1", "1", new ScaleTwoDecimal(560L),
@@ -138,7 +138,7 @@ public class BudgetSummaryPrintFringeCalculationTest extends BudgetPrintTestBase
         budgetPeriod.getBudgetLineItems().add(getTravelLineItem(budgetPeriod, getDate(2016, 7, 1), getDate(2016, 12, 31)));
         budgetPeriod.getBudgetLineItem(1).setBudgetCategoryCode("N");
 
-        budget.getBudgetPersonnelDetailsList().add(getPersonnelDetails());
+        budget.getBudgetPersonnelDetailsList().add(getPersonnelDetails(getDate(2016, 7, 1), getDate(2016, 12, 31)));
 
         List<BudgetRateAndBase> rateAndBases = new ArrayList<>();
         final BudgetRateAndBase mtdcBudgetRateAndBase = getNewBudgetRateAndBase(new ScaleTwoDecimal(56L), "1", "1", new ScaleTwoDecimal(560L),
@@ -226,7 +226,7 @@ public class BudgetSummaryPrintFringeCalculationTest extends BudgetPrintTestBase
         budgetPeriod.getBudgetLineItems().add(getPersonnelLineItem(budgetPeriod, getDate(2016, 1, 1), getDate(2016, 6, 30)));
         budgetPeriod.getBudgetLineItem(0).setBudgetCategoryCode("P");
 
-        budget.getBudgetPersonnelDetailsList().add(getPersonnelDetails());
+        budget.getBudgetPersonnelDetailsList().add(getPersonnelDetails(getDate(2016, 1, 1), getDate(2016, 6, 30)));
 
         List<BudgetRateAndBase> rateAndBases = new ArrayList<>();
         final BudgetRateAndBase mtdcBudgetRateAndBase = getNewBudgetRateAndBase(new ScaleTwoDecimal(56L), "1", "1", new ScaleTwoDecimal(560L),
@@ -315,7 +315,7 @@ public class BudgetSummaryPrintFringeCalculationTest extends BudgetPrintTestBase
         budgetPeriod.getBudgetLineItems().add(getTravelLineItem(budgetPeriod, getDate(2016, 1, 1), getDate(2016, 6, 30)));
         budgetPeriod.getBudgetLineItem(0).setBudgetCategoryCode("N");
 
-        budget.getBudgetPersonnelDetailsList().add(getPersonnelDetails());
+        budget.getBudgetPersonnelDetailsList().add(getPersonnelDetails(getDate(2016, 1, 1), getDate(2016, 6, 30)));
 
         List<BudgetRateAndBase> rateAndBases = new ArrayList<>();
         final BudgetRateAndBase mtdcBudgetRateAndBase = getNewBudgetRateAndBase(new ScaleTwoDecimal(56L), "1", "1", new ScaleTwoDecimal(560L),

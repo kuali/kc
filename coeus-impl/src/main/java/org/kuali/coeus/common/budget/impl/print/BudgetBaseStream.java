@@ -49,6 +49,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.Date;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public abstract class BudgetBaseStream implements XmlStream {
 
@@ -611,12 +612,14 @@ public abstract class BudgetBaseStream implements XmlStream {
 		for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
 			if (!isLineItemTypeOverheadWithRateApplied(budgetLineItem)) {
 				ReportTypeVO reportTypeVO = new ReportTypeVO();
+				reportTypeVO.setBudgetLineItemId(budgetLineItem.getBudgetLineItemId());
 				reportTypeVO.setCostElementDesc(getCostElementDescription(budgetLineItem));
 				reportTypeVO.setCalculatedCost(budgetLineItem.getLineItemCost());
 				tempReportTypeVOList.add(reportTypeVO);
 
                 reportTypeVO = new ReportTypeVO();
                 BudgetRateAndBase emptyBudgetRateAndBase = new BudgetRateAndBase();
+                reportTypeVO.setBudgetLineItemId(budgetLineItem.getBudgetLineItemId());
                 emptyBudgetRateAndBase.setCalculatedCost(ScaleTwoDecimal.ZERO);
 
                 reportTypeVO.setCostElementDesc(EMPLOYEE_BENEFITS_ON_PERSONNEL + getCostElementDescription(budgetLineItem));
@@ -673,6 +676,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 				ReportTypeVO tempReportTypeVO = new ReportTypeVO();
 				tempReportTypeVO.setCostElementDesc(getCostElementDescription(budgetLineItem));
 				tempReportTypeVO.setCalculatedCost(budgetLineItem.getLineItemCost());
+				tempReportTypeVO.setBudgetLineItemId(budgetLineItem.getBudgetLineItemId());
 				tempReportTypeVOList.add(tempReportTypeVO);
 			}
 		}
@@ -1049,6 +1053,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 		reportTypeVO.setStartDate(budgetRateAndBase.getStartDate());
 		reportTypeVO.setEndDate(budgetRateAndBase.getEndDate());
 		reportTypeVO.setAppliedRate(budgetRateAndBase.getAppliedRate());
+		reportTypeVO.setBudgetLineItemId(budgetLineItem.getBudgetLineItemId());
 
         reportTypeVO.setSalaryRequested(ScaleTwoDecimal.ZERO);
         if (rateIsApplied(budgetLineItem.getBudgetLineItemCalculatedAmounts(), budgetRateAndBase.getRateClassCode(), budgetRateAndBase.getRateTypeCode())) {
@@ -1068,6 +1073,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 		reportTypeVO.setEndDate(budgetRateAndBase.getEndDate());
 		reportTypeVO.setAppliedRate(budgetRateAndBase.getAppliedRate());
         reportTypeVO.setCalculatedCost(budgetRateAndBase.getCalculatedCost());
+        reportTypeVO.setBudgetLineItemId(budgetLineItem.getBudgetLineItemId());
 
         reportTypeVO.setSalaryRequested(ScaleTwoDecimal.ZERO);
         if (rateIsApplied(budgetLineItem.getBudgetLineItemCalculatedAmounts(), budgetRateAndBase.getRateClassCode(), budgetRateAndBase.getRateTypeCode())) {
@@ -1086,94 +1092,111 @@ public abstract class BudgetBaseStream implements XmlStream {
     }
 
 	protected void setBudgetPersRateAndBaseListForBudgetOtherRateAndBase(List<ReportTypeVO> reportTypeVOList, BudgetLineItem budgetLineItem) {
-		for (BudgetPersonnelDetails budgetPersDetails : budgetLineItem.getBudgetPersonnelDetailsList()) {
-			for (BudgetPersonnelRateAndBase budgetPersRateAndBase : budgetPersDetails.getBudgetPersonnelRateAndBaseList()) {
-				budgetPersRateAndBase.refreshNonUpdateableReferences();
-				if (budgetPersRateAndBase.getRateClass() != null &&
-                        RateClassType.OTHER.getRateClassType().equals(budgetPersRateAndBase.getRateClass().getRateClassTypeCode())) {
-					ReportTypeVO reportTypeVO = getReportTypeVOForBudgetPersonnelRateAndBase(budgetLineItem, budgetPersRateAndBase);
-					reportTypeVO.setRateTypeDesc(getRateTypeDesc(budgetPersRateAndBase.getRateClassCode(), budgetPersRateAndBase.getRateTypeCode()));
-					reportTypeVOList.add(reportTypeVO);
-				}
+		if (!isBudgetCategoryPersonnel(budgetLineItem)) {
+			return;
+		}
+		for (AbstractBudgetRateAndBase budgetPersRateAndBase : getBudgetLineItemRateAndBaseEntries(budgetLineItem)) {
+			budgetPersRateAndBase.refreshNonUpdateableReferences();
+			if (budgetPersRateAndBase.getRateClass() != null &&
+                    RateClassType.OTHER.getRateClassType().equals(budgetPersRateAndBase.getRateClass().getRateClassTypeCode())) {
+				ReportTypeVO reportTypeVO = getReportTypeVOForBudgetPersonnelRateAndBase(budgetLineItem, budgetPersRateAndBase);
+				reportTypeVO.setRateTypeDesc(getRateTypeDesc(budgetPersRateAndBase.getRateClassCode(), budgetPersRateAndBase.getRateTypeCode()));
+				reportTypeVOList.add(reportTypeVO);
 			}
 		}
 	}
 
 	protected void setBudgetPersRateAndBaseListForBudgetVacRateAndBase(List<ReportTypeVO> reportTypeVOList, BudgetLineItem budgetLineItem) {
-		for (BudgetPersonnelDetails budgetPersDetails : budgetLineItem.getBudgetPersonnelDetailsList()) {
-			for (BudgetPersonnelRateAndBase budgetPersRateAndBase : budgetPersDetails.getBudgetPersonnelRateAndBaseList()) {
-				budgetPersRateAndBase.refreshNonUpdateableReferences();
-				if (budgetPersRateAndBase.getRateClass() != null && budgetPersRateAndBase.getRateClass().getRateClassTypeCode() != null
-						&& budgetPersRateAndBase.getRateClass().getRateClassTypeCode().equals(RateClassType.VACATION.getRateClassType())) {
-					ReportTypeVO reportTypeVO = getReportTypeVOForBudgetPersonnelRateAndBase(budgetLineItem, budgetPersRateAndBase);
-					reportTypeVO.setRateTypeDesc(getRateTypeDesc(budgetPersRateAndBase.getRateClassCode(), budgetPersRateAndBase.getRateTypeCode()));
-					reportTypeVOList.add(reportTypeVO);
-				}
+		if (!isBudgetCategoryPersonnel(budgetLineItem)) {
+			return;
+		}
+		for (AbstractBudgetRateAndBase budgetPersRateAndBase : getBudgetLineItemRateAndBaseEntries(budgetLineItem)) {
+			budgetPersRateAndBase.refreshNonUpdateableReferences();
+			if (budgetPersRateAndBase.getRateClass() != null && budgetPersRateAndBase.getRateClass().getRateClassTypeCode() != null
+					&& budgetPersRateAndBase.getRateClass().getRateClassTypeCode().equals(RateClassType.VACATION.getRateClassType())) {
+				ReportTypeVO reportTypeVO = getReportTypeVOForBudgetPersonnelRateAndBase(budgetLineItem, budgetPersRateAndBase);
+				reportTypeVO.setRateTypeDesc(getRateTypeDesc(budgetPersRateAndBase.getRateClassCode(), budgetPersRateAndBase.getRateTypeCode()));
+				reportTypeVOList.add(reportTypeVO);
 			}
 		}
 	}
 
 	protected void setBudgetPersRateAndBaseListForBudgetLARateAndBase(
             List<ReportTypeVO> reportTypeVOList, BudgetLineItem budgetLineItem) {
+		if (!isBudgetCategoryPersonnel(budgetLineItem)) {
+			return;
+		}
         String LAB_ALLOCATION_RATE_CLASS = RateClassType.LAB_ALLOCATION.getRateClassType();
         String LA_SALARIES_RATE_CLASS = RateClassType.LA_SALARIES.getRateClassType();
-		for (BudgetPersonnelDetails budgetPersDetails : budgetLineItem.getBudgetPersonnelDetailsList()) {
-			for (BudgetPersonnelRateAndBase budgetPersRateAndBase : budgetPersDetails.getBudgetPersonnelRateAndBaseList()) {
-				budgetPersRateAndBase.refreshNonUpdateableReferences();
+        for (AbstractBudgetRateAndBase budgetPersRateAndBase : getBudgetLineItemRateAndBaseEntries(budgetLineItem)) {
+			budgetPersRateAndBase.refreshNonUpdateableReferences();
 
-                if (budgetPersRateAndBase.getRateClass() != null &&
-                        (LAB_ALLOCATION_RATE_CLASS.equals(budgetPersRateAndBase.getRateClass().getRateClassTypeCode())
-                                || LA_SALARIES_RATE_CLASS.equals(budgetPersRateAndBase.getRateClass().getRateClassTypeCode()))) {
-                    ReportTypeVO reportTypeVO = getReportTypeVOForBudgetPersonnelRateAndBase(budgetLineItem, budgetPersRateAndBase);
-					reportTypeVO.setRateTypeDesc(getRateTypeDesc(budgetPersRateAndBase.getRateClassCode(), budgetPersRateAndBase.getRateTypeCode()));
-					reportTypeVOList.add(reportTypeVO);
-				}
+            if (budgetPersRateAndBase.getRateClass() != null &&
+                    (LAB_ALLOCATION_RATE_CLASS.equals(budgetPersRateAndBase.getRateClass().getRateClassTypeCode())
+                            || LA_SALARIES_RATE_CLASS.equals(budgetPersRateAndBase.getRateClass().getRateClassTypeCode()))) {
+                ReportTypeVO reportTypeVO = getReportTypeVOForBudgetPersonnelRateAndBase(budgetLineItem, budgetPersRateAndBase);
+				reportTypeVO.setRateTypeDesc(getRateTypeDesc(budgetPersRateAndBase.getRateClassCode(), budgetPersRateAndBase.getRateTypeCode()));
+				reportTypeVOList.add(reportTypeVO);
 			}
 		}
 	}
 
 	protected void setBudgetPersRateAndBaseListForBudgetEBRateAndBase(List<ReportTypeVO> reportTypeVOList, BudgetLineItem budgetLineItem) {
+		if (!isBudgetCategoryPersonnel(budgetLineItem)) {
+			return;
+		}
         String EB_RATE_CLASS_TYPE = RateClassType.EMPLOYEE_BENEFITS.getRateClassType();
-		for (BudgetPersonnelDetails budgetPersDetails : budgetLineItem.getBudgetPersonnelDetailsList()) {
-			for (BudgetPersonnelRateAndBase budgetPersRateAndBase : budgetPersDetails.getBudgetPersonnelRateAndBaseList()) {
-				budgetPersRateAndBase.refreshNonUpdateableReferences();
-				if (budgetPersRateAndBase.getRateClass() != null && budgetPersRateAndBase.getRateClass().getRateClassTypeCode() != null
-						&& budgetPersRateAndBase.getRateClass().getRateClassTypeCode().equals(EB_RATE_CLASS_TYPE)) {
-					ReportTypeVO reportTypeVO = getReportTypeVOForBudgetPersonnelRateAndBase(budgetLineItem, budgetPersRateAndBase);
-					reportTypeVO.setRateTypeDesc(getRateTypeDesc(budgetPersRateAndBase.getRateClassCode(), budgetPersRateAndBase.getRateTypeCode()));
-					reportTypeVOList.add(reportTypeVO);
-				}
+        for (AbstractBudgetRateAndBase budgetPersRateAndBase : getBudgetLineItemRateAndBaseEntries(budgetLineItem)) {
+			budgetPersRateAndBase.refreshNonUpdateableReferences();
+			if (budgetPersRateAndBase.getRateClass() != null && budgetPersRateAndBase.getRateClass().getRateClassTypeCode() != null
+					&& budgetPersRateAndBase.getRateClass().getRateClassTypeCode().equals(EB_RATE_CLASS_TYPE)) {
+				ReportTypeVO reportTypeVO = getReportTypeVOForBudgetPersonnelRateAndBase(budgetLineItem, budgetPersRateAndBase);
+				reportTypeVO.setRateTypeDesc(getRateTypeDesc(budgetPersRateAndBase.getRateClassCode(), budgetPersRateAndBase.getRateTypeCode()));
+				reportTypeVOList.add(reportTypeVO);
 			}
 		}
 	}
 
 	protected void setBudgetPersRateAndBaseListForBudgetOHRateAndBase(List<ReportTypeVO> reportTypeVOList, BudgetLineItem budgetLineItem) {
+		if (!isBudgetCategoryPersonnel(budgetLineItem)) {
+			return;
+		}
         String OVERHEAD_RATE_CLASS_TYPE = RateClassType.OVERHEAD.getRateClassType();
-		for (BudgetPersonnelDetails budgetPersDetails : budgetLineItem.getBudgetPersonnelDetailsList()) {
-			for (BudgetPersonnelRateAndBase budgetPersRateAndBase : budgetPersDetails.getBudgetPersonnelRateAndBaseList()) {
-
-                budgetPersRateAndBase.refreshNonUpdateableReferences();
-				if (budgetPersRateAndBase.getRateClass() != null && budgetPersRateAndBase.getRateClass().getRateClassTypeCode() != null
-						&& budgetPersRateAndBase.getRateClass().getRateClassTypeCode().equals(OVERHEAD_RATE_CLASS_TYPE)) {
-					ReportTypeVO reportTypeVO = getReportTypeVOForBudgetPersonnelRateAndBase(budgetLineItem, budgetPersRateAndBase);
-					reportTypeVOList.add(reportTypeVO);
-				}
+		for (AbstractBudgetRateAndBase budgetPersRateAndBase : getBudgetLineItemRateAndBaseEntries(budgetLineItem)) {
+            budgetPersRateAndBase.refreshNonUpdateableReferences();
+			if (budgetPersRateAndBase.getRateClass() != null && budgetPersRateAndBase.getRateClass().getRateClassTypeCode() != null
+					&& budgetPersRateAndBase.getRateClass().getRateClassTypeCode().equals(OVERHEAD_RATE_CLASS_TYPE)) {
+				ReportTypeVO reportTypeVO = getReportTypeVOForBudgetPersonnelRateAndBase(budgetLineItem, budgetPersRateAndBase);
+				reportTypeVOList.add(reportTypeVO);
 			}
 		}
 	}
+	
+	protected List<? extends AbstractBudgetRateAndBase> getBudgetLineItemRateAndBaseEntries(BudgetLineItem lineItem) {
+		if (lineItem.getBudgetPersonnelDetailsList() != null && !lineItem.getBudgetPersonnelDetailsList().isEmpty()) {
+			return lineItem.getBudgetPersonnelDetailsList().stream().flatMap(details -> details.getBudgetPersonnelRateAndBaseList().stream()).collect(Collectors.toList());
+		} else {
+			return lineItem.getBudgetRateAndBaseList();
+		}
+	}
 
-    protected ReportTypeVO getReportTypeVOForBudgetPersonnelRateAndBase(BudgetLineItem budgetLineItem, BudgetPersonnelRateAndBase budgetPersRateAndBase) {
+    protected ReportTypeVO getReportTypeVOForBudgetPersonnelRateAndBase(BudgetLineItem budgetLineItem, AbstractBudgetRateAndBase budgetPersRateAndBase) {
 		ReportTypeVO reportTypeVO = new ReportTypeVO();
 		reportTypeVO.setRateClassDesc(budgetPersRateAndBase.getRateClass().getDescription());
 		reportTypeVO.setStartDate(budgetPersRateAndBase.getStartDate());
 		reportTypeVO.setEndDate(budgetPersRateAndBase.getEndDate());
 		reportTypeVO.setAppliedRate(budgetPersRateAndBase.getAppliedRate());
         reportTypeVO.setCalculatedCost(budgetPersRateAndBase.getCalculatedCost());
+        reportTypeVO.setBudgetLineItemId(budgetLineItem.getBudgetLineItemId());
 
 
         reportTypeVO.setSalaryRequested(ScaleTwoDecimal.ZERO);
         if (rateIsApplied(budgetLineItem.getBudgetLineItemCalculatedAmounts(), budgetPersRateAndBase.getRateClassCode(), budgetPersRateAndBase.getRateTypeCode())) {
-            reportTypeVO.setSalaryRequested(budgetPersRateAndBase.getSalaryRequested());
+        	if (budgetPersRateAndBase instanceof BudgetPersonnelRateAndBase) {
+        		reportTypeVO.setSalaryRequested(((BudgetPersonnelRateAndBase) budgetPersRateAndBase).getSalaryRequested());
+        	} else {
+        		reportTypeVO.setSalaryRequested(((BudgetRateAndBase)budgetPersRateAndBase).getBaseCost());
+        	}
         }
 
 		reportTypeVO.setOnOffCampusFlag(budgetPersRateAndBase.getOnOffCampusFlag());
@@ -1240,7 +1263,8 @@ public abstract class BudgetBaseStream implements XmlStream {
 				reportTypeVO.getInvestigatorFlag().toString()).append(
 				reportTypeVO.getBudgetCategoryCode()).append(
 				reportTypeVO.getBudgetCategoryDesc()).append(
-				reportTypeVO.getSalaryRequested());
+				reportTypeVO.getSalaryRequested()).append(
+				reportTypeVO.getBudgetLineItemId());
 		return key.toString();
 	}
 
@@ -1440,14 +1464,16 @@ public abstract class BudgetBaseStream implements XmlStream {
             reportTypeVO.setPercentEffort(getPercentEffortForBudgetPersonnelRateBase(budgetLineItem, budgetPersDetails, budgetPersRateAndBase));
             reportTypeVO.setPercentCharged(getPercentChargedForBudgetPersonnelRateBase(budgetLineItem, budgetPersDetails, budgetPersRateAndBase));
             reportTypeVO.setInvestigatorFlag(getInvestigatorFlag(budgetPersDetails));
-            reportTypeVO.setSalaryRequested(budgetPersRateAndBase.getSalaryRequested());              
+            reportTypeVO.setSalaryRequested(budgetPersRateAndBase.getSalaryRequested());
+            reportTypeVO.setBudgetLineItemId(budgetPersDetails.getBudgetLineItemId());
         } else {
             BudgetRateAndBase budgetRate = (BudgetRateAndBase) rate;
             //summary personnel line item
             reportTypeVO.setPersonName(PERSONNEL_SUMMARY_LINE_ITEM_NAME);  
             //summary items can't be investigators
             reportTypeVO.setInvestigatorFlag(3);
-            reportTypeVO.setSalaryRequested(budgetRate.getBaseCost());             
+            reportTypeVO.setSalaryRequested(budgetRate.getBaseCost());           
+            reportTypeVO.setBudgetLineItemId(((BudgetLineItem)budgetDetails).getBudgetLineItemId());
         }
         if (this.isRateAndBaseOfRateClassTypeVacation(rate)) {
             reportTypeVO.setVacationRate(rate.getAppliedRate());
@@ -1480,14 +1506,16 @@ public abstract class BudgetBaseStream implements XmlStream {
             reportTypeVO.setPercentEffort(getPercentEffortForBudgetPersonnelRateBase(budgetLineItem, budgetPersDetails, null));
             reportTypeVO.setPercentCharged(getPercentChargedForBudgetPersonnelRateBase(budgetLineItem, budgetPersDetails, null));
             reportTypeVO.setInvestigatorFlag(getInvestigatorFlag(budgetPersDetails));
-            reportTypeVO.setSalaryRequested(budgetPersDetails.getSalaryRequested());              
+            reportTypeVO.setSalaryRequested(budgetPersDetails.getSalaryRequested());
+            reportTypeVO.setBudgetLineItemId(budgetPersDetails.getBudgetPersonnelLineItemId());
         } else {
             //summary personnel line item
             reportTypeVO.setPersonName(PERSONNEL_SUMMARY_LINE_ITEM_NAME);  
             //summary items can't be investigators
             reportTypeVO
                 .setInvestigatorFlag(3);
-            reportTypeVO.setSalaryRequested(budgetLineItem.getLineItemCost());             
+            reportTypeVO.setSalaryRequested(budgetLineItem.getLineItemCost());
+            reportTypeVO.setBudgetLineItemId(((BudgetLineItem)budgetDetails).getBudgetLineItemId());
         }
         reportTypeVO.setVacationRate(ScaleTwoDecimal.ZERO);
         reportTypeVO.setEmployeeBenefitRate(ScaleTwoDecimal.ZERO);
