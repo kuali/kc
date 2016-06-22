@@ -131,7 +131,7 @@ public class PropDevJavaFunctionKrmsTermServiceImplTest {
 	public void test_monitoredSponsorRule() {
 		final String monitoredSponsorHirearchies = "Administering Activity";
 		final Map<String, String> fieldValues = new HashMap<>();
-		fieldValues.put("HIERARCH_NAME", monitoredSponsorHirearchies);
+		fieldValues.put(Constants.HIERARCHY_NAME, monitoredSponsorHirearchies);
 		final ArrayList<SponsorHierarchy> hierarchies = new ArrayList<>();
 		SponsorHierarchy sponsorHierarchy = new SponsorHierarchy();
 		sponsorHierarchy.setSponsorCode("000399");
