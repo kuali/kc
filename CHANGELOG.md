@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* Typo in evaluating hierarchies in KRMS rules (#1818)
+
+  * RESKC-1384: fix typo in hierarchy name, use constant
+  * tdurkin on Wed, 22 Jun 2016 14:49:16 -0400 [View Commit](../../commit/aacf084657faad673387c2de21267d1bbd28925e)
+* RESKC-1431: Update descriptions of FOTv3 arg value lookup elements.
+  * Gayathri Athreya on Wed, 22 Jun 2016 11:56:56 -0500 [View Commit](../../commit/bc4968cd508e889a7f2249f8ca55b20b28d4689f)
+
+##coeus-1606.51
 * Medusa icons (#1813)
 
   * RESKC-1362: Display Award Status Icons on Medusa

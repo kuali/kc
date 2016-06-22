@@ -26,4 +26,5 @@
 \. ./kc/bootstrap/V1606_007__field_of_training.sql
 \. ./kc/bootstrap/V1606_008__CORE_IMPERSONATE.sql
 \. ./kc/bootstrap/V1606_010__CITI_Update.sql
+\. ./kc/bootstrap/V1606_012__arg_value_desc_fix.sql
 commit;
