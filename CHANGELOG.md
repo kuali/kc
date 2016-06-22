@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* Medusa icons (#1813)
+
+  * RESKC-1362: Display Award Status Icons on Medusa
+  * tdurkin on Wed, 22 Jun 2016 09:32:15 -0400 [View Commit](../../commit/e816c49e30b2212c0d9599fd1e47122731d599ea)
+
+##coeus-1606.50
 * RESKC-1423: Display follow-up date on CITI recrds in person training table (#1814)
 
   * tdurkin on Tue, 21 Jun 2016 19:39:55 -0400 [View Commit](../../commit/f392be5e795d0f2855e19f3e4dbe4e734174aca2)
