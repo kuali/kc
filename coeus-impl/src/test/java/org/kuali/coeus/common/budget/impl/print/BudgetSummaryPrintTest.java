@@ -23,6 +23,7 @@ import junit.framework.Assert;
 import org.junit.Test;
 import org.kuali.coeus.common.budget.api.rate.RateClassType;
 import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.category.BudgetCategory;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetRateAndBase;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
@@ -34,7 +35,9 @@ import java.util.List;
 
 public class BudgetSummaryPrintTest extends BudgetPrintTestBase {
 
-    @Test
+    private static final String PERSONNEL_CATEGORY_CODE = "P";
+
+	@Test
     public void testPrintAllRatesCheckedNonPersonnel() {
         BudgetSummaryXmlStream stream = new BudgetSummaryXmlStreamMock();
         Budget budget = new Budget();
@@ -127,7 +130,10 @@ public class BudgetSummaryPrintTest extends BudgetPrintTestBase {
         ReportTypeVO reportTypeVO;
         budgetPeriod.getBudgetLineItems().clear();
         budgetPeriod.getBudgetLineItems().add(getPersonnelLineItem(budgetPeriod, getDate(2015, 1, 1), getDate(2016, 6, 30)));
-        budgetPeriod.getBudgetLineItem(0).setBudgetCategoryCode("P");
+        budgetPeriod.getBudgetLineItem(0).setBudgetCategoryCode(PERSONNEL_CATEGORY_CODE);
+        final BudgetCategory budgetCategory = new BudgetCategory();
+        budgetCategory.setBudgetCategoryTypeCode(PERSONNEL_CATEGORY_CODE);
+		budgetPeriod.getBudgetLineItem(0).setBudgetCategory(budgetCategory);
         List<BudgetLineItemCalculatedAmount> lineItemCalculatedAmounts = new ArrayList<>();
         BudgetLineItemCalculatedAmount lineItemCalculatedAmount = getBudgetLineItemCalculatedAmount("1", "1", "MTDC", ScaleTwoDecimal.ONE_HUNDRED);
         lineItemCalculatedAmounts.add(lineItemCalculatedAmount);
@@ -388,7 +394,10 @@ public class BudgetSummaryPrintTest extends BudgetPrintTestBase {
         ReportTypeVO reportTypeVO;
         budgetPeriod.getBudgetLineItems().clear();
         budgetPeriod.getBudgetLineItems().add(getPersonnelLineItem(budgetPeriod, getDate(2015, 1, 1), getDate(2016, 6, 30)));
-        budgetPeriod.getBudgetLineItem(0).setBudgetCategoryCode("P");
+        budgetPeriod.getBudgetLineItem(0).setBudgetCategoryCode(PERSONNEL_CATEGORY_CODE);
+        final BudgetCategory budgetCategory = new BudgetCategory();
+        budgetCategory.setBudgetCategoryTypeCode(PERSONNEL_CATEGORY_CODE);
+		budgetPeriod.getBudgetLineItem(0).setBudgetCategory(budgetCategory);
         List<BudgetLineItemCalculatedAmount> lineItemCalculatedAmounts = new ArrayList<>();
         BudgetLineItemCalculatedAmount lineItemCalculatedAmount = getBudgetLineItemCalculatedAmount("1", "1", "MTDC", ScaleTwoDecimal.ONE_HUNDRED);
         lineItemCalculatedAmount.setApplyRateFlag(false);
@@ -482,7 +491,10 @@ public class BudgetSummaryPrintTest extends BudgetPrintTestBase {
         ReportTypeVO reportTypeVO;
         budgetPeriod.getBudgetLineItems().clear();
         budgetPeriod.getBudgetLineItems().add(getPersonnelLineItem(budgetPeriod, getDate(2015, 1, 1), getDate(2016, 6, 30)));
-        budgetPeriod.getBudgetLineItem(0).setBudgetCategoryCode("P");
+        budgetPeriod.getBudgetLineItem(0).setBudgetCategoryCode(PERSONNEL_CATEGORY_CODE);
+        final BudgetCategory budgetCategory = new BudgetCategory();
+        budgetCategory.setBudgetCategoryTypeCode(PERSONNEL_CATEGORY_CODE);
+		budgetPeriod.getBudgetLineItem(0).setBudgetCategory(budgetCategory);
         List<BudgetLineItemCalculatedAmount> lineItemCalculatedAmounts = new ArrayList<>();
         BudgetLineItemCalculatedAmount lineItemCalculatedAmount = getBudgetLineItemCalculatedAmount("1", "1", "MTDC", ScaleTwoDecimal.ZERO);
         lineItemCalculatedAmounts.add(lineItemCalculatedAmount);
@@ -570,7 +582,10 @@ public class BudgetSummaryPrintTest extends BudgetPrintTestBase {
         ReportTypeVO reportTypeVO;
         budgetPeriod.getBudgetLineItems().clear();
         budgetPeriod.getBudgetLineItems().add(getPersonnelLineItem(budgetPeriod, getDate(2015, 1, 1), getDate(2016, 6, 30)));
-        budgetPeriod.getBudgetLineItem(0).setBudgetCategoryCode("P");
+        budgetPeriod.getBudgetLineItem(0).setBudgetCategoryCode(PERSONNEL_CATEGORY_CODE);
+        final BudgetCategory budgetCategory = new BudgetCategory();
+        budgetCategory.setBudgetCategoryTypeCode(PERSONNEL_CATEGORY_CODE);
+		budgetPeriod.getBudgetLineItem(0).setBudgetCategory(budgetCategory);
         List<BudgetLineItemCalculatedAmount> lineItemCalculatedAmounts = new ArrayList<>();
         budgetPeriod.getBudgetLineItem(0).setBudgetLineItemCalculatedAmounts(lineItemCalculatedAmounts);
 
