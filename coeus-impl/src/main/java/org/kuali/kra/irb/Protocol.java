@@ -58,33 +58,24 @@ import org.kuali.coeus.common.questionnaire.framework.answer.ModuleQuestionnaire
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
-/**
- * 
- * This class is Protocol Business Object.
- */
 public class Protocol extends ProtocolBase implements CustomDataContainer {
 
     private static final long serialVersionUID = 4396393806439396971L;
     
     private static final String DEFAULT_PROTOCOL_TYPE_CODE = "1";
-  
+
     private String vulnerableSubjectIndicator;
     private List<ProtocolRiskLevel> protocolRiskLevels;
     private List<ProtocolParticipant> protocolParticipants;    
     private transient boolean lookupActionNotifyIRBProtocol;
     private transient ProtocolVersionService protocolVersionService;
 
-	/**
-     * 
-     * Constructs an Protocol BO.
-     */
     public Protocol() {
         super();
-        protocolRiskLevels = new ArrayList<ProtocolRiskLevel>();
-        protocolParticipants = new ArrayList<ProtocolParticipant>();        
+        protocolRiskLevels = new ArrayList<>();
+        protocolParticipants = new ArrayList<>();
     }
     
     public String getVulnerableSubjectIndicator() {
@@ -116,13 +107,7 @@ public class Protocol extends ProtocolBase implements CustomDataContainer {
             participant.init(this);
         }
     }
-    
-    /**
-     * Gets index i from the protocol participant list.
-     * 
-     * @param index
-     * @return protocol participant at index i
-     */
+
     public ProtocolParticipant getProtocolParticipant(int index) {
         return getProtocolParticipants().get(index);
     }    
@@ -135,20 +120,18 @@ public class Protocol extends ProtocolBase implements CustomDataContainer {
         managedLists.add(getProtocolParticipants());
         return managedLists;
     }
-    
-    /**
-     * This method is to get protocol personnel service
-     * @return protocolPersonnelService
-     */
+
+    @Override
     protected ProtocolPersonnelService getProtocolPersonnelService() {
-        ProtocolPersonnelService protocolPersonnelService = KcServiceLocator.getService(ProtocolPersonnelService.class);
-        return protocolPersonnelService;
+        return KcServiceLocator.getService(ProtocolPersonnelService.class);
     }
 
+    @Override
     public ProtocolSubmission getProtocolSubmission() {
         return (ProtocolSubmission) super.getProtocolSubmission(); 
-    }    
-    
+    }
+
+    @Override
     public ProtocolAction getLastProtocolAction() {
         return (ProtocolAction) super.getLastProtocolAction();
     }    
@@ -156,9 +139,8 @@ public class Protocol extends ProtocolBase implements CustomDataContainer {
     /**
      * 
      * This method merges the data of a specific module of the amended protocol into this protocol.
-     * @param amendment
-     * @param protocolModuleTypeCode
      */
+    @Override
     public void merge(ProtocolBase amendment, String protocolModuleTypeCode) {
         if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.GENERAL_INFO)) {
             mergeGeneralInfo(amendment);
@@ -204,6 +186,7 @@ public class Protocol extends ProtocolBase implements CustomDataContainer {
         }
     }
 
+    @Override
     protected void removeMergeableLists(List<ProtocolAmendRenewModuleBase> modules) {
         for (ProtocolAmendRenewModuleBase module: modules) {
             String protocolModuleTypeCode = module.getProtocolModuleTypeCode();
@@ -229,28 +212,23 @@ public class Protocol extends ProtocolBase implements CustomDataContainer {
     }
 
 
-    /*
-     * get submit for review questionnaire answerheaders
+    /**
+     * get submit for review questionnaire answerheaders.
      */
+    @Override
     public List <AnswerHeader> getAnswerHeaderForProtocol(ProtocolBase protocol) {
         ModuleQuestionnaireBean moduleQuestionnaireBean = new ProtocolModuleQuestionnaireBean((Protocol) protocol);
         moduleQuestionnaireBean.setModuleSubItemCode("0");
-        List <AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
-        answerHeaders = getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean);
-        return answerHeaders;
+        return getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean);
     }
     
-    /*
-     * merge amendment/renewal protocol action to original protocol when A/R is approved
+    /**
+     * merge amendment/renewal protocol action to original protocol when A/R is approved.
      */
-    @SuppressWarnings("unchecked")
+    @Override
     protected void mergeProtocolAction(ProtocolBase amendment) {
         List<ProtocolActionBase> protocolActions = deepCopy(amendment.getProtocolActions());
-        Collections.sort(protocolActions, new Comparator<ProtocolActionBase>() {
-            public int compare(ProtocolActionBase action1, ProtocolActionBase action2) {
-                return action1.getActionId().compareTo(action2.getActionId());
-            }
-        });
+        Collections.sort(protocolActions, (action1, action2) -> action1.getActionId().compareTo(action2.getActionId()));
         // the first 1 'protocol created is already added to original protocol
         // the last one is 'approve'
         protocolActions.remove(0);
@@ -283,12 +261,12 @@ public class Protocol extends ProtocolBase implements CustomDataContainer {
             this.getProtocolActions().add(protocolAction);
         }
     }
-    
-    @SuppressWarnings("unchecked")
+
     private void mergeSubjects(Protocol amendment) {
-        setProtocolParticipants((List<ProtocolParticipant>) deepCopy(amendment.getProtocolParticipants()));
+        setProtocolParticipants(deepCopy(amendment.getProtocolParticipants()));
     }
-    
+
+    @Override
     public ProtocolSummary getProtocolSummary() {
         ProtocolSummary protocolSummary = createProtocolSummary();
         addPersonnelSummaries(protocolSummary);
@@ -311,10 +289,11 @@ public class Protocol extends ProtocolBase implements CustomDataContainer {
         }
     }
 
+    @Override
     protected ProtocolSummary createProtocolSummary() {
         ProtocolSummary summary = new ProtocolSummary();
         summary.setLastProtocolAction(getLastProtocolAction());
-        summary.setProtocolNumber(getProtocolNumber().toString());
+        summary.setProtocolNumber(getProtocolNumber());
         summary.setPiName(getPrincipalInvestigator().getPersonName());
         summary.setPiProtocolPersonId(getPrincipalInvestigator().getProtocolPersonId());
         summary.setInitialSubmissionDate(getInitialSubmissionDate());
@@ -322,11 +301,11 @@ public class Protocol extends ProtocolBase implements CustomDataContainer {
         summary.setLastApprovalDate(getLastApprovalDate());
         summary.setExpirationDate(getExpirationDate());
         if (getProtocolType() == null) {
-            refreshReferenceObject("protocolType");
+            refreshReferenceObject(PROTOCOL_TYPE);
         }
         summary.setType(getProtocolType().getDescription());
         if (getProtocolStatus() == null) {
-            refreshReferenceObject("protocolStatus");
+            refreshReferenceObject(PROTOCOL_STATUS);
         }
         summary.setStatus(getProtocolStatus().getDescription());
         summary.setTitle(getTitle());
@@ -341,14 +320,15 @@ public class Protocol extends ProtocolBase implements CustomDataContainer {
 
     @Override
     public List<String> getRoleNames() {
-        List<String> roleNames = new ArrayList<String>();
+        List<String> roleNames = new ArrayList<>();
 
         roleNames.add(RoleConstants.PROTOCOL_AGGREGATOR);
         roleNames.add(RoleConstants.PROTOCOL_VIEWER);
 
         return roleNames;
     }
-    
+
+    @Override
     public String getNamespace() {
         return Constants.MODULE_NAMESPACE_IRB;
     }
@@ -358,6 +338,7 @@ public class Protocol extends ProtocolBase implements CustomDataContainer {
         return RoleConstants.PROTOCOL_DOC_ROLE_TYPE;
     }
 
+    @Override
     public void initializeProtocolAttachmentFilter() {
         ProtocolAttachmentFilterBase protocolAttachmentFilter = new ProtocolAttachmentFilter();
         
@@ -373,9 +354,10 @@ public class Protocol extends ProtocolBase implements CustomDataContainer {
         
         setProtocolAttachmentFilter(protocolAttachmentFilter);
     }
-    
+
+    @Override
     public KrmsRulesContext getKrmsRulesContext() {
-        return (KrmsRulesContext) getProtocolDocument();
+        return getProtocolDocument();
     }
 
     @Override
@@ -431,12 +413,12 @@ public class Protocol extends ProtocolBase implements CustomDataContainer {
         this.lookupActionNotifyIRBProtocol = lookupActionNotifyIRBProtocol;
     }
 
-    @SuppressWarnings("unchecked")
+
 	@Override
     protected void mergeProtocolSubmission(ProtocolBase amendment) {
         List<ProtocolSubmissionBase> submissions = deepCopy(amendment.getProtocolSubmissions());
-        setNewSubmissionReferences((List)submissions);
-        getProtocolVersionService().setExpeditedAndExemptCheckListReferences((List)submissions, this);
+        setNewSubmissionReferences(submissions);
+        getProtocolVersionService().setExpeditedAndExemptCheckListReferences(submissions, this);
     }
 
     protected ProtocolVersionService getProtocolVersionService() {

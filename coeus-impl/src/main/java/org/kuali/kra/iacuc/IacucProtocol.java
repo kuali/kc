@@ -46,7 +46,6 @@ import org.kuali.kra.iacuc.threers.IacucAlternateSearch;
 import org.kuali.kra.iacuc.threers.IacucPrinciples;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.coeus.common.framework.krms.KrmsRulesContext;
 import org.kuali.kra.protocol.ProtocolBase;
@@ -68,15 +67,13 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import java.sql.Timestamp;
 import java.util.*;
 
-/**
- * 
- * This class is ProtocolBase Business Object.
- */
 public class IacucProtocol extends ProtocolBase implements CustomDataContainer {
     
 
     private static final long serialVersionUID = 7380281405644745576L;
-    
+    private static final String NO = "no";
+    private static final String PROTOCOL_PROJECT_TYPE = "protocolProjectType";
+
     private boolean isBillable;
     private String layStatement1; 
     private String layStatement2;
@@ -117,22 +114,22 @@ public class IacucProtocol extends ProtocolBase implements CustomDataContainer {
         if (GlobalVariables.getUserSession() != null) {
             setCreateUser(GlobalVariables.getUserSession().getPrincipalId());
         }
-        setScientificJustifIndicator("no");
-        setSpecialReviewIndicator("no");
-        setSpeciesStudyGroupIndicator("no");
-        setKeyStudyPersonIndicator("no");
-        setFundingSourceIndicator("no");
-        setCorrespondentIndicator("no");
-        setReferenceIndicator("no");
-        setAlternativeSearchIndicator("no");
-        setIacucProtocolSpeciesList(new ArrayList<IacucProtocolSpecies>());
-        setIacucAlternateSearches(new ArrayList<IacucAlternateSearch>());
-        setIacucProtocolCustomDataList(new ArrayList<IacucProtocolCustomData>());
-        setIacucProtocolExceptions(new ArrayList<IacucProtocolException>());
-        setIacucProtocolStudyGroups(new ArrayList<IacucProtocolStudyGroupBean>());
-        setIacucProtocolStudyGroupBeans(new ArrayList<IacucProtocolStudyGroupBean>());
-        setIacucProtocolStudyGroupLocations(new ArrayList<IacucProtocolStudyGroupLocation>());
-        setIacucProtocolStudyGroupSpeciesList(new ArrayList<IacucProtocolSpeciesStudyGroup>());
+        setScientificJustifIndicator(NO);
+        setSpecialReviewIndicator(NO);
+        setSpeciesStudyGroupIndicator(NO);
+        setKeyStudyPersonIndicator(NO);
+        setFundingSourceIndicator(NO);
+        setCorrespondentIndicator(NO);
+        setReferenceIndicator(NO);
+        setAlternativeSearchIndicator(NO);
+        setIacucProtocolSpeciesList(new ArrayList<>());
+        setIacucAlternateSearches(new ArrayList<>());
+        setIacucProtocolCustomDataList(new ArrayList<>());
+        setIacucProtocolExceptions(new ArrayList<>());
+        setIacucProtocolStudyGroups(new ArrayList<>());
+        setIacucProtocolStudyGroupBeans(new ArrayList<>());
+        setIacucProtocolStudyGroupLocations(new ArrayList<>());
+        setIacucProtocolStudyGroupSpeciesList(new ArrayList<>());
         initIacucPrinciples();
     } 
     
@@ -144,9 +141,9 @@ public class IacucProtocol extends ProtocolBase implements CustomDataContainer {
         managedLists.add(getIacucPrinciples());
         managedLists.add(getIacucAlternateSearches());
         
-        List<IacucProtocolStudyGroupLocation> locationResponsibleProcedures = new ArrayList<IacucProtocolStudyGroupLocation>();
-        List<IacucProcedurePersonResponsible> personResponsibleProcedures = new ArrayList<IacucProcedurePersonResponsible>();
-        List<IacucProtocolStudyGroup> iacucProtocolStudyGroups = new ArrayList<IacucProtocolStudyGroup>();
+        List<IacucProtocolStudyGroupLocation> locationResponsibleProcedures = new ArrayList<>();
+        List<IacucProcedurePersonResponsible> personResponsibleProcedures = new ArrayList<>();
+        List<IacucProtocolStudyGroup> iacucProtocolStudyGroups = new ArrayList<>();
         for(IacucProtocolStudyGroupBean iacucProtocolStudyGroupBean : getIacucProtocolStudyGroups()) {
             iacucProtocolStudyGroups.addAll(iacucProtocolStudyGroupBean.getIacucProtocolStudyGroups());
             for (IacucProtocolStudyGroup iacucProtocolStudyGroup : iacucProtocolStudyGroupBean.getIacucProtocolStudyGroups()) {
@@ -240,72 +237,65 @@ public class IacucProtocol extends ProtocolBase implements CustomDataContainer {
         this.isBillable = isBillable;
     }
 
+    @Override
     public Timestamp getCreateTimestamp() {
         return createTimestamp;
     }
 
+    @Override
     public void setCreateTimestamp(Timestamp createTimestamp) {
         this.createTimestamp = createTimestamp;
     }
 
+    @Override
     public String getCreateUser() {
         return createUser;
     }
 
+    @Override
     public void setCreateUser(String createUser) {
         this.createUser = createUser;
     }
-    
 
     @Override
-    // implementation of hook method
     protected IacucProtocolPersonnelService getProtocolPersonnelService() {
-        return (IacucProtocolPersonnelService) KcServiceLocator.getService("iacucProtocolPersonnelService");
+        return KcServiceLocator.getService(IacucProtocolPersonnelService.class);
     }
-
 
     @Override
     public String getNamespace() {
         return Constants.MODULE_NAMESPACE_IACUC;
     }
 
-
     @Override
     protected String getDefaultProtocolStatusCodeHook() {
         return IacucProtocolStatus.IN_PROGRESS;
     }
 
-
     @Override
     protected String getDefaultProtocolTypeCodeHook() {
-
         return null;
     }
-
 
     @Override
     protected ProtocolSubmissionStatusBase getProtocolSubmissionStatusNewInstanceHook() {
         return new IacucProtocolSubmissionStatus();
     }
 
-
     @Override
     protected ProtocolSubmissionTypeBase getProtocolSubmissionTypeNewInstanceHook() {
         return new IacucProtocolSubmissionType();
     }
-
 
     @Override
     protected ProtocolSubmissionBase getProtocolSubmissionNewInstanceHook() {
         return new IacucProtocolSubmission();
     }
 
-
     @Override
     protected ProtocolStatusBase getProtocolStatusNewInstanceHook() {
         return new IacucProtocolStatus();
     }
-
 
     @Override
     public String getDocumentRoleTypeCode() {
@@ -314,7 +304,7 @@ public class IacucProtocol extends ProtocolBase implements CustomDataContainer {
 
     @Override
     public List<String> getRoleNames() {
-      List<String> roleNames = new ArrayList<String>();
+      List<String> roleNames = new ArrayList<>();
 
       roleNames.add(RoleConstants.IACUC_PROTOCOL_AGGREGATOR);
       roleNames.add(RoleConstants.IACUC_PROTOCOL_VIEWER);
@@ -322,11 +312,9 @@ public class IacucProtocol extends ProtocolBase implements CustomDataContainer {
       return roleNames;        
     }
 
-
     public List<IacucPrinciples> getIacucPrinciples() {
         return iacucPrinciples;
     }
-
 
     public void setIacucPrinciples(List<IacucPrinciples> iacucPrinciples) {
         this.iacucPrinciples = iacucPrinciples;
@@ -341,12 +329,10 @@ public class IacucProtocol extends ProtocolBase implements CustomDataContainer {
         this.iacucProtocolSpeciesList = iacucProtocolSpeciesList;
     }
 
-
     @Override
     protected ProtocolResearchAreaBase getNewProtocolResearchAreaInstance() {
         return new IacucProtocolResearchArea();
     }
-
 
     public List<IacucAlternateSearch> getIacucAlternateSearches() {
         return iacucAlternateSearches;
@@ -389,7 +375,7 @@ public class IacucProtocol extends ProtocolBase implements CustomDataContainer {
     }    
     
     private void initIacucPrinciples() {
-        List<IacucPrinciples> newPrinciples = new ArrayList<IacucPrinciples>();
+        List<IacucPrinciples> newPrinciples = new ArrayList<>();
         IacucPrinciples iPrinciples = new IacucPrinciples();
         newPrinciples.add(iPrinciples);
         setIacucPrinciples(newPrinciples);
@@ -412,15 +398,14 @@ public class IacucProtocol extends ProtocolBase implements CustomDataContainer {
         this.exceptionCategoryCode = exceptionCategoryCode;
     }
 
-    /*
-     * get submit for review questionnaire answerheaders
+    /**
+     * get submit for review questionnaire answerheaders.
      */
+    @Override
     public List <AnswerHeader> getAnswerHeaderForProtocol(ProtocolBase protocol) {
         ModuleQuestionnaireBean moduleQuestionnaireBean = new IacucProtocolModuleQuestionnaireBean((IacucProtocol) protocol);
         moduleQuestionnaireBean.setModuleSubItemCode("0");
-        List <AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
-        answerHeaders = getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean);
-        return answerHeaders;
+        return getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean);
     }
 
     @Override
@@ -438,14 +423,14 @@ public class IacucProtocol extends ProtocolBase implements CustomDataContainer {
         }
         
         setProtocolAttachmentFilter(protocolAttachmentFilter);
-    } 
-    
-    
+    }
+
+    @Override
     public String getDocumentKey() {
-        // TODO need to change this to IACUC PROTOCOL KEY!!!!
         return PermissionableKeys.PROTOCOL_KEY;
     }
 
+    @Override
     public ProtocolSummary getProtocolSummary() {
         ProtocolSummary protocolSummary = createProtocolSummary();
         addPersonnelSummaries(protocolSummary);
@@ -466,7 +451,7 @@ public class IacucProtocol extends ProtocolBase implements CustomDataContainer {
     protected ProtocolSummary createProtocolSummary() {
         IacucProtocolSummary summary = new IacucProtocolSummary();
         summary.setLastProtocolAction(getLastProtocolAction());
-        summary.setProtocolNumber(getProtocolNumber().toString());
+        summary.setProtocolNumber(getProtocolNumber());
         summary.setPiName(getPrincipalInvestigator().getPersonName());
         summary.setPiProtocolPersonId(getPrincipalInvestigator().getProtocolPersonId());
         summary.setInitialSubmissionDate(getInitialSubmissionDate());
@@ -474,11 +459,11 @@ public class IacucProtocol extends ProtocolBase implements CustomDataContainer {
         summary.setLastApprovalDate(getLastApprovalDate());
         summary.setExpirationDate(getExpirationDate());
         if (getProtocolType() == null) {
-            refreshReferenceObject("protocolType");
+            refreshReferenceObject(PROTOCOL_TYPE);
         }
         summary.setType(getProtocolType().getDescription());
         if (getProtocolStatus() == null) {
-            refreshReferenceObject("protocolStatus");
+            refreshReferenceObject(PROTOCOL_STATUS);
         }
         summary.setStatus(getProtocolStatus().getDescription());
         summary.setTitle(getTitle());
@@ -487,7 +472,7 @@ public class IacucProtocol extends ProtocolBase implements CustomDataContainer {
         summary.setLayStmt2(getLayStatement2());
         
         if (getProtocolProjectType() == null) {
-            refreshReferenceObject("protocolProjectType");
+            refreshReferenceObject(PROTOCOL_PROJECT_TYPE);
         }
         summary.setProjectType((protocolProjectType != null) ? protocolProjectType.getDescription() : "N/A"); 
         return summary;
@@ -502,7 +487,7 @@ public class IacucProtocol extends ProtocolBase implements CustomDataContainer {
             threeRsSummary.setReplacement(principles.getReplacement());
             for (IacucAlternateSearch alternateSearch:iacucAlternateSearches) {
                 threeRsSummary.getAlternateSearchSummaries().add(new IacucAlternateSearchSummary(alternateSearch));
-                threeRsSummary.setSearchRequired("Y".equals(principles.getSearchRequired()));
+                threeRsSummary.setSearchRequired(Constants.TRUE_FLAG.equals(principles.getSearchRequired()));
             }
         }
         protocolSummary.setThreeRsInfo(threeRsSummary);
@@ -616,6 +601,7 @@ public class IacucProtocol extends ProtocolBase implements CustomDataContainer {
         }
     }
 
+    @Override
     protected void removeMergeableLists(List<ProtocolAmendRenewModuleBase> modules) {
         for (ProtocolAmendRenewModuleBase module: modules) {
             String protocolModuleTypeCode = module.getProtocolModuleTypeCode();
@@ -648,17 +634,13 @@ public class IacucProtocol extends ProtocolBase implements CustomDataContainer {
 
 
 
-    /*
+    /**
      * merge amendment/renewal protocol action to original protocol when A/R is approved
      */
-    @SuppressWarnings("unchecked")
+    @Override
     protected void mergeProtocolAction(ProtocolBase amendment) {
-        List<ProtocolActionBase> protocolActions = (List<ProtocolActionBase>) deepCopy(amendment.getProtocolActions());  
-        Collections.sort(protocolActions, new Comparator<ProtocolActionBase>() {
-            public int compare(ProtocolActionBase action1, ProtocolActionBase action2) {
-                return action1.getActionId().compareTo(action2.getActionId());
-            }
-        });
+        List<ProtocolActionBase> protocolActions =  deepCopy(amendment.getProtocolActions());
+        Collections.sort(protocolActions, (action1, action2) -> action1.getActionId().compareTo(action2.getActionId()));
         // the first 1 'protocol created is already added to original protocol
         // the last one is 'approve'
         protocolActions.remove(0);
@@ -718,7 +700,7 @@ public class IacucProtocol extends ProtocolBase implements CustomDataContainer {
     }
     
     protected IacucProtocolCopyService getProtocolCopyService() {
-        return (IacucProtocolCopyService) KcServiceLocator.getService("iacucProtocolCopyService");
+        return KcServiceLocator.getService(IacucProtocolCopyService.class);
     }
 
     public boolean isContinuation() {
@@ -783,7 +765,7 @@ public class IacucProtocol extends ProtocolBase implements CustomDataContainer {
     @Override
     public void populateAdditionalQualifiedRoleAttributes(Map<String, String> qualifiedRoleAttributes) {
         if (qualifiedRoleAttributes == null) {
-            qualifiedRoleAttributes = new HashMap<String, String>();
+            qualifiedRoleAttributes = new HashMap<>();
         }
         String protocolNumber = this.getProtocolNumber()  != null ? this.getProtocolNumber() : "*";
         qualifiedRoleAttributes.put(KcKimAttributes.PROTOCOL, protocolNumber);

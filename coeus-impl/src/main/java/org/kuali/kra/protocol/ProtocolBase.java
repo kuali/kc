@@ -78,8 +78,20 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     private static final long serialVersionUID = -5556152547067349988L;
     
     protected static final String NEXT_ACTION_ID_KEY = "actionId";
-     
-    
+    protected static final String PROTOCOL_TYPE = "protocolType";
+    protected static final String PROTOCOL_STATUS = "protocolStatus";
+    private static final String PROTOCOL_REVIEW_TYPE = "protocolReviewType";
+    private static final String SUBMISSION_STATUS = "submissionStatus";
+    private static final String PROTOCOL_SUBMISSION_TYPE = "protocolSubmissionType";
+    private static final String PROTOCOL_SUBMISSION_QUALIFIER_TYPE = "protocolSubmissionQualifierType";
+    private static final String PROTOCOL_NUMBER = "protocolNumber";
+    private static final String FILE_ID = "fileId";
+    private static final String SEQ_PROTOCOL_ID = "SEQ_PROTOCOL_ID";
+    private static final String SPECIAL_REVIEW_TYPE = "specialReviewType";
+    private static final String APPROVAL_TYPE = "approvalType";
+    private static final String SPECIAL_REVIEW_EXEMPTIONS = "specialReviewExemptions";
+    private static final String AFFILIATION_TYPE = "affiliationType";
+
     private Long protocolId; 
     private String protocolNumber; 
     private Integer sequenceNumber;
@@ -97,7 +109,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     private String referenceNumber1; 
     private String referenceNumber2;
     
-    private String specialReviewIndicator = "Y";
+    private String specialReviewIndicator = Constants.TRUE_FLAG;
     
     private String keyStudyPersonIndicator; 
     private String fundingSourceIndicator; 
@@ -246,6 +258,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
         this.protocolNumber = protocolNumber;
     }
 
+    @Override
     public Integer getSequenceNumber() {
         return sequenceNumber;
     }
@@ -602,7 +615,8 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
         }
         return leadUnit;
     }    
-    
+
+    @Override
     public String getLeadUnitNumber() {
         if (StringUtils.isBlank(leadUnitNumber)) {
             if (getLeadUnit() != null) {
@@ -912,19 +926,19 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
         // if submission just added, then these probably are empty
         if (StringUtils.isNotBlank(submission.getProtocolReviewTypeCode()) 
                 &&  submission.getProtocolReviewType() == null) {
-            submission.refreshReferenceObject("protocolReviewType");
+            submission.refreshReferenceObject(PROTOCOL_REVIEW_TYPE);
         }
         if (StringUtils.isNotBlank(submission.getSubmissionStatusCode()) 
                 &&  submission.getSubmissionStatus() == null) {
-            submission.refreshReferenceObject("submissionStatus");
+            submission.refreshReferenceObject(SUBMISSION_STATUS);
         }
         if (StringUtils.isNotBlank(submission.getSubmissionTypeCode()) 
                 &&  submission.getProtocolSubmissionType() == null) {
-            submission.refreshReferenceObject("protocolSubmissionType");
+            submission.refreshReferenceObject(PROTOCOL_SUBMISSION_TYPE);
         }
         if (StringUtils.isNotBlank(submission.getSubmissionTypeQualifierCode()) 
                 &&  submission.getProtocolSubmissionQualifierType() == null) {
-            submission.refreshReferenceObject("protocolSubmissionQualifierType");
+            submission.refreshReferenceObject(PROTOCOL_SUBMISSION_QUALIFIER_TYPE);
         }
         
     }
@@ -947,17 +961,6 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
         }
         Collections.sort(protocolActions, (action1, action2) -> action2.getActualActionDate().compareTo(action1.getActualActionDate()));
         return protocolActions.get(0);
-    }
-
-    public boolean containsAction(String action) {
-        boolean result = false;
-        for (ProtocolActionBase protocolActionBase: getProtocolActions()) {
-            if (protocolActionBase.getProtocolActionTypeCode().equals(action)) {
-                result = true;
-                break;
-            }
-        }
-        return result;
     }
     
     public void setProtocolSubmissions(List<ProtocolSubmissionBase> protocolSubmissions) {
@@ -1013,7 +1016,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     
     @Override
     public String getVersionNameField() {
-        return "protocolNumber";
+        return PROTOCOL_NUMBER;
     }
 
     @Override
@@ -1153,7 +1156,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     }
 
     protected void mergeProtocolSubmission(ProtocolBase amendment) {
-        List<ProtocolSubmissionBase> submissions = (List<ProtocolSubmissionBase>) deepCopy(amendment.getProtocolSubmissions());  
+        List<ProtocolSubmissionBase> submissions = deepCopy(amendment.getProtocolSubmissions());
         setNewSubmissionReferences(submissions);
     }
     
@@ -1193,17 +1196,17 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     
 
     protected void mergeResearchAreas(ProtocolBase amendment) {
-        setProtocolResearchAreas((List<ProtocolResearchAreaBase>) deepCopy(amendment.getProtocolResearchAreas()));
+        setProtocolResearchAreas(deepCopy(amendment.getProtocolResearchAreas()));
     }
     
 
     protected void mergeFundingSources(ProtocolBase amendment) {
-        setProtocolFundingSources((List<ProtocolFundingSourceBase>) deepCopy(amendment.getProtocolFundingSources()));
+        setProtocolFundingSources(deepCopy(amendment.getProtocolFundingSources()));
     }
     
 
     protected void mergeReferences(ProtocolBase amendment) {
-        setProtocolReferences((List<ProtocolReferenceBase>) deepCopy(amendment.getProtocolReferences()));
+        setProtocolReferences(deepCopy(amendment.getProtocolReferences()));
         
         this.fdaApplicationNumber = amendment.getFdaApplicationNumber();
         this.referenceNumber1 = amendment.getReferenceNumber1();
@@ -1213,7 +1216,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     
 
     protected void mergeOrganizations(ProtocolBase amendment) {
-        setProtocolLocations((List<ProtocolLocationBase>) deepCopy(amendment.getProtocolLocations()));
+        setProtocolLocations(deepCopy(amendment.getProtocolLocations()));
     }
     
 
@@ -1308,7 +1311,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
 
     private boolean fileIsReferencedByOther(Long fileId) {
         Map<String, String> fieldValues = new HashMap<>();
-        fieldValues.put("fileId", fileId.toString());
+        fieldValues.put(FILE_ID, fileId.toString());
         return getBusinessObjectService().countMatching(getProtocolAttachmentProtocolClassHook(), fieldValues) > 1;
         
     }
@@ -1319,7 +1322,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     protected void mergeNotepads(ProtocolBase amendment) {
         List <ProtocolNotepadBase> notepads = new ArrayList<>();
         if (amendment.getNotepads() != null) {
-            for (ProtocolNotepadBase notepad : (List<ProtocolNotepadBase>) deepCopy(amendment.getNotepads())) {
+            for (ProtocolNotepadBase notepad : deepCopy(amendment.getNotepads())) {
                 notepad.setProtocolNumber(this.getProtocolNumber());
                 notepad.setSequenceNumber(this.getSequenceNumber());
                 notepad.setProtocolId(this.getProtocolId());
@@ -1332,14 +1335,14 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     }
 
     protected void mergeSpecialReview(ProtocolBase amendment) {
-        setSpecialReviews((List<ProtocolSpecialReviewBase>) deepCopy(amendment.getSpecialReviews()));
+        setSpecialReviews(deepCopy(amendment.getSpecialReviews()));
         cleanupSpecialReviews(amendment);
     }
 
     protected void mergePersonnel(ProtocolBase amendment) {
-        setProtocolPersons((List<ProtocolPersonBase>) deepCopy(amendment.getProtocolPersons()));
+        setProtocolPersons(deepCopy(amendment.getProtocolPersons()));
         for (ProtocolPersonBase person : protocolPersons) {
-            Integer nextPersonId = getSequenceAccessorService().getNextAvailableSequenceNumber("SEQ_PROTOCOL_ID", person.getClass()).intValue();
+            Integer nextPersonId = getSequenceAccessorService().getNextAvailableSequenceNumber(SEQ_PROTOCOL_ID, person.getClass()).intValue();
             person.setProtocolPersonId(nextPersonId);
             for (ProtocolAttachmentPersonnelBase protocolAttachmentPersonnel : person.getAttachmentPersonnels()) {
                 protocolAttachmentPersonnel.setId(null);
@@ -1369,6 +1372,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
 
     }
 
+    @SuppressWarnings("unchecked")
     protected <T> T deepCopy(T obj) {
         return (T) ObjectUtils.deepCopy((Serializable) obj);
     }
@@ -1388,11 +1392,11 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
         for (ProtocolSpecialReviewBase specialReview : getSpecialReviews()) {
             SpecialReviewSummary specialReviewSummary = new SpecialReviewSummary();
             if (specialReview.getSpecialReviewType() == null) {
-                specialReview.refreshReferenceObject("specialReviewType");
+                specialReview.refreshReferenceObject(SPECIAL_REVIEW_TYPE);
             }
             specialReviewSummary.setType(specialReview.getSpecialReviewType().getDescription());
             if (specialReview.getApprovalType() == null) {
-                specialReview.refreshReferenceObject("approvalType");
+                specialReview.refreshReferenceObject(APPROVAL_TYPE);
             }
             specialReviewSummary.setApprovalStatus(specialReview.getApprovalType().getDescription());
             specialReviewSummary.setProtocolNumber(specialReview.getProtocolNumber());
@@ -1400,7 +1404,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
             specialReviewSummary.setApprovalDate(specialReview.getApprovalDate());
             specialReviewSummary.setExpirationDate(specialReview.getExpirationDate());
             if (specialReview.getSpecialReviewExemptions() == null) {
-                specialReview.refreshReferenceObject("specialReviewExemptions");
+                specialReview.refreshReferenceObject(SPECIAL_REVIEW_EXEMPTIONS);
             }
             specialReviewSummary.setExemptionNumbers(specialReview.getSpecialReviewExemptions());
             specialReviewSummary.setComment(specialReview.getComments());
@@ -1485,7 +1489,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
             }
             else {
                 if (person.getAffiliationType() == null) {
-                    person.refreshReferenceObject("affiliationType");
+                    person.refreshReferenceObject(AFFILIATION_TYPE);
                 }
                 personnelSummary.setAffiliation(person.getAffiliationType().getDescription());
             }
@@ -1523,6 +1527,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
         }
     }
 
+    @Override
     public abstract String getNamespace();
 
     @Override
@@ -1531,8 +1536,9 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     }
 
     @Override
-     public abstract String getDocumentRoleTypeCode();
+    public abstract String getDocumentRoleTypeCode();
 
+    @Override
     public void populateAdditionalQualifiedRoleAttributes(Map<String, String> qualifiedRoleAttributes) {
 
     }
@@ -1616,7 +1622,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
                 if (isActive) {
                     activeAttachments.add(attachment1);
                 } else {
-                    attachment1.setActive(isActive);
+                    attachment1.setActive(false);
                 }
             } else {
                 attachment1.setActive(false);
@@ -1839,8 +1845,6 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
         return filteredMemebers;
     }
     
-    
-    
     /**
      * 
      * This method is to return the first submission date as application date.
@@ -1882,7 +1886,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
         return CollectionUtils.isEmpty(getProtocolResearchAreas());
     }
 
-    /*
+    /**
      * determine if current user is named on the protocol.
      */
     public boolean isUserNamedInProtocol(String principalName) {
