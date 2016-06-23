@@ -70,7 +70,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.*;
 import java.util.Map.Entry;
-
+import java.util.stream.Collectors;
 
 
 public abstract class ProtocolBase extends KcPersistableBusinessObjectBase implements SequenceOwner<ProtocolBase>, Permissionable, UnitAclLoadable, Disclosurable, KcKrmsContextBo {
@@ -1218,11 +1218,13 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     
 
     protected void mergeAttachments(ProtocolBase amendment) {
-        List<ProtocolAttachmentProtocolBase> attachmentProtocols = new ArrayList<>();
-        for (ProtocolAttachmentProtocolBase attachment : (List<ProtocolAttachmentProtocolBase>) deepCopy(amendment.getAttachmentProtocols())) {
-            attachment.setProtocolNumber(this.getProtocolNumber());
-            attachment.setSequenceNumber(this.getSequenceNumber());
-            attachment.setProtocolId(this.getProtocolId());
+        final List<ProtocolAttachmentProtocolBase> attachmentProtocols = new ArrayList<>();
+        final List<ProtocolAttachmentProtocolBase> amendmentAttachments = amendment.getAttachmentProtocols().stream()
+                .map(this::deepCopy)
+                .collect(Collectors.toList());
+
+        for (ProtocolAttachmentProtocolBase attachment : amendmentAttachments) {
+            attachment.setProtocol(this);
             attachment.setId(null);
             if (attachment.getFile() != null ) { 
                 attachment.getFile().setId(null);
@@ -1230,11 +1232,9 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
             if (attachment.isDraft()) {
                 attachment.setDocumentStatusCode(ProtocolAttachmentStatusBase.FINALIZED);
                 attachmentProtocols.add(attachment);
-                attachment.setProtocol(this);
             }
             if (attachment.isDeleted() && KcServiceLocator.getService(ProtocolAttachmentService.class).isNewAttachmentVersion(attachment)) {
                 attachmentProtocols.add(attachment);
-                attachment.setProtocol(this);
             }
         }
         getAttachmentProtocols().addAll(attachmentProtocols);
@@ -1302,7 +1302,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
         }
         this.getAttachmentProtocols().clear();
         this.getAttachmentProtocols().addAll(attachmentProtocols);
-        
+
         mergeNotepads(protocol);
     }
 
@@ -1369,8 +1369,8 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
 
     }
 
-    protected Object deepCopy(Object obj) {
-        return ObjectUtils.deepCopy((Serializable) obj);
+    protected <T> T deepCopy(T obj) {
+        return (T) ObjectUtils.deepCopy((Serializable) obj);
     }
     
     public abstract ProtocolSummary getProtocolSummary();

@@ -44,6 +44,7 @@ import org.kuali.kra.irb.summary.ProtocolSummary;
 import org.kuali.coeus.common.framework.krms.KrmsRulesContext;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolSpecialVersion;
+import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.ProtocolStatusBase;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewModuleBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
@@ -244,9 +245,9 @@ public class Protocol extends ProtocolBase implements CustomDataContainer {
      */
     @SuppressWarnings("unchecked")
     protected void mergeProtocolAction(ProtocolBase amendment) {
-        List<ProtocolAction> protocolActions = (List<ProtocolAction>) deepCopy(amendment.getProtocolActions());  
-        Collections.sort(protocolActions, new Comparator<ProtocolAction>() {
-            public int compare(ProtocolAction action1, ProtocolAction action2) {
+        List<ProtocolActionBase> protocolActions = deepCopy(amendment.getProtocolActions());
+        Collections.sort(protocolActions, new Comparator<ProtocolActionBase>() {
+            public int compare(ProtocolActionBase action1, ProtocolActionBase action2) {
                 return action1.getActionId().compareTo(action2.getActionId());
             }
         });
@@ -254,7 +255,7 @@ public class Protocol extends ProtocolBase implements CustomDataContainer {
         // the last one is 'approve'
         protocolActions.remove(0);
         protocolActions.remove(protocolActions.size() - 1);
-        for (ProtocolAction protocolAction : protocolActions) {
+        for (ProtocolActionBase protocolAction : protocolActions) {
             protocolAction.setProtocolNumber(this.getProtocolNumber());
             protocolAction.setProtocolActionId(null);
             protocolAction.setSequenceNumber(getSequenceNumber());
@@ -433,7 +434,7 @@ public class Protocol extends ProtocolBase implements CustomDataContainer {
     @SuppressWarnings("unchecked")
 	@Override
     protected void mergeProtocolSubmission(ProtocolBase amendment) {
-        List<ProtocolSubmission> submissions = (List<ProtocolSubmission>) deepCopy(amendment.getProtocolSubmissions());  
+        List<ProtocolSubmissionBase> submissions = deepCopy(amendment.getProtocolSubmissions());
         setNewSubmissionReferences((List)submissions);
         getProtocolVersionService().setExpeditedAndExemptCheckListReferences((List)submissions, this);
     }
