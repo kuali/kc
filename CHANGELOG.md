@@ -1,6 +1,18 @@
 
 
 ##CURRENT
+* Fix integration tests.
+  * Gayathri Athreya on Fri, 24 Jun 2016 10:24:20 -0500 [View Commit](../../commit/3be337e3948b304c944078ce93c129f6bbada8c0)
+* RESKC-1432: Child questionnaire answers fix.
+  * If the user selects an answer to a question which then requires a child question to be answered, if the user then backtracks and answers the question in reverse (so that a child question is not required) then the child answer still appears as the initial answer on the form pages.
+  * Gayathri Athreya on Thu, 23 Jun 2016 13:31:14 -0500 [View Commit](../../commit/ca79e2e4b30c47575cf691c7078e5a919fa31d94)
+* RESKC-1401: fixing merge issue by working around deepCopy behavior with a list.  To reproduce:
+
+  * Created Amendment of Protocol (IRB or IACUC) and added a 4 attachments. Then  approved the amendment and the amendment merged into the main protocol but the attachments did not merge.
+  * Additionally, when looking at the amendment, it now displays all the attachments doubled.
+  * Travis Schneeberger on Thu, 23 Jun 2016 10:50:25 -0400 [View Commit](../../commit/2b18c8ab0fa4988501424fb2c42495a7f9097991)
+
+##coeus-1606.57
 * Use budget line item id as part of key to avoid ignoring multiple summary line items
   * blackcathacker on Wed, 22 Jun 2016 11:08:43 -0700 [View Commit](../../commit/8836b23fdd0ab17a7ee1ee5149c233a5a74ce216)
 * Use budget details rate and base when summary personnel line item
