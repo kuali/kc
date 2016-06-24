@@ -284,7 +284,7 @@
                                     <c:when test="${awardContact.genericId eq projectStatus.userId}">
                                         <tr>
                                             <td colspan="1" nowrap class="tab-subhead">
-                                                Coi Disclosure Status:
+                                                COI Disclosure Status:
                                             </td>
                                             <td colspan="5" nowrap class="tab-subhead">
                                                 ${projectStatus.status}
@@ -302,7 +302,7 @@
                                     <c:when test="${awardContact.genericId eq projectStatus.userId}">
                                         <tr>
                                             <td colspan="1" nowrap class="tab-subhead">
-                                                Coi Disposition Status:
+                                                COI Disposition Status:
                                             </td>
                                             <td colspan="5" nowrap class="tab-subhead">
                                                     ${projectStatus.disposition}

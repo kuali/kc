@@ -52,7 +52,7 @@
             <c:forEach items="${coiDisclosureStatuses}" var="projectStatus">
                 <c:choose>
                     <c:when test="${KualiForm.document.protocolList[0].protocolPersons[personIndex].genericId eq projectStatus.userId}">
-                        <c:set var="descri" value="${descri}<br><b>Coi Disclosure Status:</b>${projectStatus.status}" />
+                        <c:set var="descri" value="${descri}<br><b>COI Disclosure Status:</b>${projectStatus.status}" />
                     </c:when>
                 </c:choose>
             </c:forEach>
@@ -64,7 +64,7 @@
             <c:forEach items="${coiDisclosureStatuses}" var="projectStatus">
                 <c:choose>
                     <c:when test="${KualiForm.document.protocolList[0].protocolPersons[personIndex].genericId eq projectStatus.userId}">
-                        <c:set var="descri" value="${descri}<br><b>Coi Disposition Status:</b>${projectStatus.disposition}" />
+                        <c:set var="descri" value="${descri}<br><b>COI Disposition Status:</b>${projectStatus.disposition}" />
                     </c:when>
                 </c:choose>
             </c:forEach>
