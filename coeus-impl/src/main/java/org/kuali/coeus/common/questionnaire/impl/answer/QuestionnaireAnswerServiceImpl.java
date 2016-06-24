@@ -585,7 +585,6 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                         answer.setRuleMatched(true);
                     } else {
                         answer.setMatchedChild(NO);
-                        answer.setAnswer(null);
                         answer.setRuleMatched(false);
                     }
                 } else {
@@ -597,7 +596,6 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                 if (StringUtils.isBlank(questionnaireQuestion.getCondition())) {
                     if (isParentNotDisplayed(parentAnswers.get(questionnaireQuestion.getParentQuestionNumber()))) {
                         answer.setMatchedChild(NO);
-                        answer.setAnswer(null);
                     }
                     else {
                         answer.setMatchedChild(YES);
@@ -605,7 +603,6 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                 }
                 else if (isParentNotDisplayed(parentAnswers.get(questionnaireQuestion.getParentQuestionNumber()))) {
                     answer.setMatchedChild(NO);
-                    answer.setAnswer(null);
 
                     if (ConditionType.RULE_EVALUATION.getCondition().equals(questionnaireQuestion.getCondition())) {
                         // evaluate this rule, so the ruleReferenced map can be populated
@@ -625,7 +622,6 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                 }
                 else {
                     answer.setMatchedChild(NO);
-                    answer.setAnswer(null);
                 }
             }
         }
