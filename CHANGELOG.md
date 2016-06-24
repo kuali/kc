@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-1418: Change Coi to COI on Award, IP, IRB, and IACUC Personnel Screens when displaying Disclosure and Disposition Status (#1815)
+
+  * tdurkin on Fri, 24 Jun 2016 12:57:28 -0400 [View Commit](../../commit/ead3c85784ba5dda47c7738b69f337f718562218)
+
+##coeus-1606.58
 * Fix integration tests.
   * Gayathri Athreya on Fri, 24 Jun 2016 10:24:20 -0500 [View Commit](../../commit/3be337e3948b304c944078ce93c129f6bbada8c0)
 * RESKC-1432: Child questionnaire answers fix.
