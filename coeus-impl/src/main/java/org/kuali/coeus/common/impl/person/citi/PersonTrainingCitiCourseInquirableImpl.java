@@ -41,8 +41,8 @@ public class PersonTrainingCitiCourseInquirableImpl extends KualiInquirableImpl 
         final Optional<PersonTrainingCitiRecord> record = records.stream().findFirst();
         if (record.isPresent()) {
             final PersonTrainingCitiRecord firstRecord = record.get();
-            return new PersonTrainingCitiCourse(firstRecord.getGroupId(), firstRecord.getGroup(), firstRecord.getCurriculumNumber(),
-                    firstRecord.getCurriculum(), firstRecord.getStageNumber(), firstRecord.getStage());
+            return new PersonTrainingCitiCourse(firstRecord.getGroupId(), firstRecord.getGroup(),
+                    firstRecord.getStageNumber(), firstRecord.getStage());
         }
         return null;
     }

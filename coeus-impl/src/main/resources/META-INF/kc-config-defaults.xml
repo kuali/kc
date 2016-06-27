@@ -296,7 +296,7 @@
     <param name="citi.header.label.lastName">Last Name</param>
     <param name="citi.header.label.email">Email</param>
     <param name="citi.header.label.employeeNumber">Employee Number</param>
-    <param name="citi.header.label.curriculumNumber">CR Number</param>
+    <param name="citi.header.label.crNumber">CR Number</param>
     <param name="citi.header.label.curriculum">Curriculum</param>
     <param name="citi.header.label.groupId">Group ID</param>
     <param name="citi.header.label.group">Group</param>

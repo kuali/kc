@@ -33,8 +33,6 @@
       <list>
         <ref bean="PersonTrainingCitiCourse-groupId"/>
         <ref bean="PersonTrainingCitiCourse-group"/>
-        <ref bean="PersonTrainingCitiCourse-curriculumNumber" />
-        <ref bean="PersonTrainingCitiCourse-curriculum"/>
         <ref bean="PersonTrainingCitiCourse-stageNumber"/>
         <ref bean="PersonTrainingCitiCourse-stage"/>
       </list>
@@ -42,7 +40,6 @@
     <property name="primaryKeys">
     	<list>
     		<value>groupId</value>
-            <value>curriculumNumber</value>
             <value>stageNumber</value>
     	</list>
     </property>
@@ -55,12 +52,6 @@
 
   <bean id="PersonTrainingCitiCourse-group" parent="PersonTrainingCitiCourse-group-parentBean"/>
   <bean abstract="true" id="PersonTrainingCitiCourse-group-parentBean" p:required="true" parent="PersonTrainingCitiRecord-group" />
-
-  <bean id="PersonTrainingCitiCourse-curriculumNumber" parent="PersonTrainingCitiCourse-curriculumNumber-parentBean"/>
-  <bean abstract="true" id="PersonTrainingCitiCourse-curriculumNumber-parentBean" p:required="true" parent="PersonTrainingCitiRecord-curriculumNumber" />
-
-  <bean id="PersonTrainingCitiCourse-curriculum" parent="PersonTrainingCitiCourse-curriculum-parentBean"/>
-  <bean abstract="true" id="PersonTrainingCitiCourse-curriculum-parentBean" p:required="true" parent="PersonTrainingCitiRecord-curriculum" />
 
   <bean id="PersonTrainingCitiCourse-stageNumber" parent="PersonTrainingCitiCourse-stageNumber-parentBean"/>
   <bean abstract="true" id="PersonTrainingCitiCourse-stageNumber-parentBean" p:required="true" parent="PersonTrainingCitiRecord-stageNumber" />
@@ -82,8 +73,6 @@
             <list>
               <bean parent="FieldDefinition" p:attributeName="groupId"/>
               <bean parent="FieldDefinition" p:attributeName="group"/>
-              <bean parent="FieldDefinition" p:attributeName="curriculumNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="curriculum"/>
               <bean parent="FieldDefinition" p:attributeName="stageNumber"/>
               <bean parent="FieldDefinition" p:attributeName="stage"/>
             </list>
@@ -106,8 +95,6 @@
       <list>
         <bean parent="FieldDefinition" p:attributeName="groupId" />
         <bean parent="FieldDefinition" p:attributeName="group" />
-        <bean parent="FieldDefinition" p:attributeName="curriculumNumber" />
-        <bean parent="FieldDefinition" p:attributeName="curriculum" />
         <bean parent="FieldDefinition" p:attributeName="stageNumber" />
         <bean parent="FieldDefinition" p:attributeName="stage" />
       </list>
@@ -116,8 +103,6 @@
       <list>
         <bean parent="FieldDefinition" p:attributeName="groupId" />
         <bean parent="FieldDefinition" p:attributeName="group" />
-        <bean parent="FieldDefinition" p:attributeName="curriculumNumber" />
-        <bean parent="FieldDefinition" p:attributeName="curriculum" />
         <bean parent="FieldDefinition" p:attributeName="stageNumber" />
         <bean parent="FieldDefinition" p:attributeName="stage" />
       </list>

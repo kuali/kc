@@ -1168,7 +1168,7 @@
 		<field-descriptor name="lastName" column="LAST_NAME" jdbc-type="VARCHAR"/>
 		<field-descriptor name="email" column="EMAIL" jdbc-type="VARCHAR" />
 		<field-descriptor name="employeeNumber" column="EMPLOYEE_NUMBER" jdbc-type="VARCHAR" />
-		<field-descriptor name="curriculumNumber" column="CURRICULUM_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="crNumber" column="CR_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="curriculum" column="CURRICULUM" jdbc-type="VARCHAR" />
 		<field-descriptor name="groupId" column="GROUP_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="group" column="GRP" jdbc-type="VARCHAR" />

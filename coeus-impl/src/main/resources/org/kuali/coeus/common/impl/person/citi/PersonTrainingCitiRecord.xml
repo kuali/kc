@@ -36,7 +36,7 @@
                 <ref bean="PersonTrainingCitiRecord-lastName" />
                 <ref bean="PersonTrainingCitiRecord-email" />
                 <ref bean="PersonTrainingCitiRecord-employeeNumber" />
-                <ref bean="PersonTrainingCitiRecord-curriculumNumber" />
+                <ref bean="PersonTrainingCitiRecord-crNumber" />
                 <ref bean="PersonTrainingCitiRecord-curriculum"/>
                 <ref bean="PersonTrainingCitiRecord-groupId"/>
                 <ref bean="PersonTrainingCitiRecord-group"/>
@@ -168,13 +168,13 @@
         <property name="description" value="Employee Number"/>
     </bean>
 
-    <bean id="PersonTrainingCitiRecord-curriculumNumber" parent="PersonTrainingCitiRecord-curriculumNumber-parentBean"/>
-    <bean abstract="true" id="PersonTrainingCitiRecord-curriculumNumber-parentBean" parent="AttributeDefinition">
-        <property name="name" value="curriculumNumber"/>
-        <property name="required" value="true" />
+    <bean id="PersonTrainingCitiRecord-crNumber" parent="PersonTrainingCitiRecord-crNumber-parentBean"/>
+    <bean abstract="true" id="PersonTrainingCitiRecord-crNumber-parentBean" parent="AttributeDefinition">
+        <property name="name" value="crNumber"/>
+        <property name="required" value="false" />
         <property name="forceUppercase" value="false"/>
-        <property name="label" value="Curriculum Number"/>
-        <property name="shortLabel" value="Curriculum Number"/>
+        <property name="label" value="CR Number"/>
+        <property name="shortLabel" value="CR Number"/>
         <property name="maxLength" value="100" />
         <property name="validationPattern">
             <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
@@ -190,14 +190,13 @@
         <property name="controlField">
             <bean p:size="20" parent="Uif-TextControl"/>
         </property>
-        <property name="summary" value="Curriculum Number"/>
-        <property name="description" value="Curriculum Number"/>
+        <property name="summary" value="CR Number"/>
+        <property name="description" value="CR Number"/>
     </bean>
 
     <bean id="PersonTrainingCitiRecord-curriculum" parent="PersonTrainingCitiRecord-curriculum-parentBean"/>
     <bean abstract="true" id="PersonTrainingCitiRecord-curriculum-parentBean" parent="KraAttributeReferenceDummy-description">
         <property name="name" value="curriculum" />
-        <property name="required" value="true" />
         <property name="label" value="Curriculum" />
         <property name="shortLabel" value="Curriculum" />
         <property name="summary" value="Curriculum" />
@@ -770,7 +769,7 @@
                             <bean parent="FieldDefinition" p:attributeName="lastName"/>
                             <bean parent="FieldDefinition" p:attributeName="email"/>
                             <bean parent="FieldDefinition" p:attributeName="employeeNumber"/>
-                            <bean parent="FieldDefinition" p:attributeName="curriculumNumber"/>
+                            <bean parent="FieldDefinition" p:attributeName="crNumber"/>
                             <bean parent="FieldDefinition" p:attributeName="curriculum"/>
                             <bean parent="FieldDefinition" p:attributeName="groupId"/>
                             <bean parent="FieldDefinition" p:attributeName="group"/>
@@ -849,7 +848,7 @@
                             <bean p:propertyName="lastName" parent="Uif-DataField"/>
                             <bean p:propertyName="email" parent="Uif-DataField"/>
                             <bean p:propertyName="employeeNumber" parent="Uif-DataField"/>
-                            <bean p:propertyName="curriculumNumber" parent="Uif-DataField"/>
+                            <bean p:propertyName="crNumber" parent="Uif-DataField"/>
                             <bean p:propertyName="curriculum" parent="Uif-DataField"/>
                             <bean p:propertyName="groupId" parent="Uif-DataField"/>
                             <bean p:propertyName="group" parent="Uif-DataField"/>
@@ -921,7 +920,7 @@
                 <bean parent="FieldDefinition" p:attributeName="lastName"/>
                 <bean parent="FieldDefinition" p:attributeName="email"/>
                 <bean parent="FieldDefinition" p:attributeName="employeeNumber"/>
-                <bean parent="FieldDefinition" p:attributeName="curriculumNumber"/>
+                <bean parent="FieldDefinition" p:attributeName="crNumber"/>
                 <bean parent="FieldDefinition" p:attributeName="curriculum"/>
                 <bean parent="FieldDefinition" p:attributeName="groupId"/>
                 <bean parent="FieldDefinition" p:attributeName="group"/>
@@ -968,7 +967,7 @@
                 <bean parent="FieldDefinition" p:attributeName="lastName"/>
                 <bean parent="FieldDefinition" p:attributeName="email"/>
                 <bean parent="FieldDefinition" p:attributeName="employeeNumber"/>
-                <bean parent="FieldDefinition" p:attributeName="curriculumNumber"/>
+                <bean parent="FieldDefinition" p:attributeName="crNumber"/>
                 <bean parent="FieldDefinition" p:attributeName="curriculum"/>
                 <bean parent="FieldDefinition" p:attributeName="groupId"/>
                 <bean parent="FieldDefinition" p:attributeName="group"/>
@@ -1021,7 +1020,7 @@
                 <bean p:propertyName="lastName" parent="Uif-LookupCriteriaInputField"/>
                 <bean p:propertyName="email" parent="Uif-LookupCriteriaInputField"/>
                 <bean p:propertyName="employeeNumber" parent="Uif-LookupCriteriaInputField"/>
-                <bean p:propertyName="curriculumNumber" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="crNumber" parent="Uif-LookupCriteriaInputField"/>
                 <bean p:propertyName="curriculum" parent="Uif-LookupCriteriaInputField"/>
                 <bean p:propertyName="groupId" parent="Uif-LookupCriteriaInputField"/>
                 <bean p:propertyName="group" parent="Uif-LookupCriteriaInputField"/>
@@ -1068,7 +1067,7 @@
                 <bean p:propertyName="lastName" parent="Uif-DataField"/>
                 <bean p:propertyName="email" parent="Uif-DataField"/>
                 <bean p:propertyName="employeeNumber" parent="Uif-DataField"/>
-                <bean p:propertyName="curriculumNumber" parent="Uif-DataField"/>
+                <bean p:propertyName="crNumber" parent="Uif-DataField"/>
                 <bean p:propertyName="curriculum" parent="Uif-DataField"/>
                 <bean p:propertyName="groupId" parent="Uif-DataField"/>
                 <bean p:propertyName="group" parent="Uif-DataField"/>

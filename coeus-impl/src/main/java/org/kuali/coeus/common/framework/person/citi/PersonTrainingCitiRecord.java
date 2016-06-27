@@ -33,7 +33,7 @@ public class PersonTrainingCitiRecord extends KcPersistableBusinessObjectBase {
     private String lastName;
     private String email;
     private String employeeNumber;
-    private String curriculumNumber;
+    private String crNumber;
     private String curriculum;
     private String groupId;
     private String group;
@@ -117,12 +117,12 @@ public class PersonTrainingCitiRecord extends KcPersistableBusinessObjectBase {
         this.employeeNumber = employeeNumber;
     }
 
-    public String getCurriculumNumber() {
-        return curriculumNumber;
+    public String getCrNumber() {
+        return crNumber;
     }
 
-    public void setCurriculumNumber(String curriculumNumber) {
-        this.curriculumNumber = curriculumNumber;
+    public void setCrNumber(String crNumber) {
+        this.crNumber = crNumber;
     }
 
     public String getCurriculum() {
@@ -462,7 +462,7 @@ public class PersonTrainingCitiRecord extends KcPersistableBusinessObjectBase {
         if (email != null ? !email.equals(that.email) : that.email != null) return false;
         if (employeeNumber != null ? !employeeNumber.equals(that.employeeNumber) : that.employeeNumber != null)
             return false;
-        if (curriculumNumber != null ? !curriculumNumber.equals(that.curriculumNumber) : that.curriculumNumber != null)
+        if (crNumber != null ? !crNumber.equals(that.crNumber) : that.crNumber != null)
             return false;
         if (curriculum != null ? !curriculum.equals(that.curriculum) : that.curriculum != null) return false;
         if (groupId != null ? !groupId.equals(that.groupId) : that.groupId != null) return false;
@@ -522,7 +522,7 @@ public class PersonTrainingCitiRecord extends KcPersistableBusinessObjectBase {
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (employeeNumber != null ? employeeNumber.hashCode() : 0);
-        result = 31 * result + (curriculumNumber != null ? curriculumNumber.hashCode() : 0);
+        result = 31 * result + (crNumber != null ? crNumber.hashCode() : 0);
         result = 31 * result + (curriculum != null ? curriculum.hashCode() : 0);
         result = 31 * result + (groupId != null ? groupId.hashCode() : 0);
         result = 31 * result + (group != null ? group.hashCode() : 0);
