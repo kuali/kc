@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1409, RESKC-1422: adding some int tests, making CR number & curriculum not required, removing from course BO, renaming column and fields
+  * Travis Schneeberger on Mon, 27 Jun 2016 15:51:55 -0400 [View Commit](../../commit/6af751ba13aa592bc0234d3a8c3fffddcbf8eed6)
+
+##coeus-1606.59
 * RESKC-1418: Change Coi to COI on Award, IP, IRB, and IACUC Personnel Screens when displaying Disclosure and Disposition Status (#1815)
 
   * tdurkin on Fri, 24 Jun 2016 12:57:28 -0400 [View Commit](../../commit/ead3c85784ba5dda47c7738b69f337f718562218)

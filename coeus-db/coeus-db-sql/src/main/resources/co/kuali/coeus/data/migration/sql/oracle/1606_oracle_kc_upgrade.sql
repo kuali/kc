@@ -30,4 +30,5 @@ spool 1606_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V1606_008__CORE_IMPERSONATE.sql
 @./kc/bootstrap/V1606_010__CITI_Update.sql
 @./kc/bootstrap/V1606_012__arg_value_desc_fix.sql
+@./kc/bootstrap/V1606_013__CITI_Update.sql
 commit;
