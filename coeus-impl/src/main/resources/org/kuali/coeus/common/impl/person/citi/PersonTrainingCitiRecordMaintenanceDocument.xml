@@ -55,8 +55,8 @@
                 <bean parent="MaintainableFieldDefinition" p:name="lastName" />
                 <bean parent="MaintainableFieldDefinition" p:name="email" />
                 <bean parent="MaintainableFieldDefinition" p:name="employeeNumber" />
-                <bean parent="MaintainableFieldDefinition" p:name="curriculumNumber" p:required="true"/>
-                <bean parent="MaintainableFieldDefinition" p:name="curriculum" p:required="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="crNumber" />
+                <bean parent="MaintainableFieldDefinition" p:name="curriculum" />
                 <bean parent="MaintainableFieldDefinition" p:name="groupId" p:required="true"/>
                 <bean parent="MaintainableFieldDefinition" p:name="group" p:required="true"/>
                 <bean parent="MaintainableFieldDefinition" p:name="score" />

@@ -6,19 +6,15 @@ import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 public class PersonTrainingCitiCourse extends TransientBusinessObjectBase {
     private String groupId;
     private String group;
-    private String curriculumNumber;
-    private String curriculum;
     private String stageNumber;
     private String stage;
 
     public PersonTrainingCitiCourse() {
     }
 
-    public PersonTrainingCitiCourse(String groupId, String group, String curriculumNumber, String curriculum, String stageNumber, String stage) {
+    public PersonTrainingCitiCourse(String groupId, String group, String stageNumber, String stage) {
         this.groupId = groupId;
         this.group = group;
-        this.curriculumNumber = curriculumNumber;
-        this.curriculum = curriculum;
         this.stageNumber = stageNumber;
         this.stage = stage;
     }
@@ -37,22 +33,6 @@ public class PersonTrainingCitiCourse extends TransientBusinessObjectBase {
 
     public void setGroup(String group) {
         this.group = group;
-    }
-
-    public String getCurriculumNumber() {
-        return curriculumNumber;
-    }
-
-    public void setCurriculumNumber(String curriculumNumber) {
-        this.curriculumNumber = curriculumNumber;
-    }
-
-    public String getCurriculum() {
-        return curriculum;
-    }
-
-    public void setCurriculum(String curriculum) {
-        this.curriculum = curriculum;
     }
 
     public String getStageNumber() {

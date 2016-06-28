@@ -43,8 +43,8 @@ public class PersonTrainingCitiCourseLookupableHelperServiceKNSImpl extends Kual
         final List<PersonTrainingCitiRecord> results = (List<PersonTrainingCitiRecord>) super.getSearchResults(fieldValues);
         this.businessObjectClass = PersonTrainingCitiCourse.class;
         return results.stream()
-                .map(rec ->  new PersonTrainingCitiCourse(rec.getGroupId(), rec.getGroup(), rec.getCurriculumNumber(),
-                rec.getCurriculum(), rec.getStageNumber(), rec.getStage()))
+                .map(rec ->  new PersonTrainingCitiCourse(rec.getGroupId(), rec.getGroup(),
+                rec.getStageNumber(), rec.getStage()))
                 .filter(CollectionUtils.distinctByKey(PersonTrainingCitiCourse::getTitle))
                 .collect(Collectors.toList());
     }
