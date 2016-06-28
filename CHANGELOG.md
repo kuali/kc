@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1432: Actual questionnaire fix
+  * Gayathri Athreya on Tue, 28 Jun 2016 12:38:26 -0700 [View Commit](../../commit/1560400de01a9576e229aea00e6ad0fbe74512cd)
+
+##coeus-1606.61
 * RESKC-1432: Fix questionnaire.
   * Gayathri Athreya on Tue, 28 Jun 2016 11:40:34 -0700 [View Commit](../../commit/7626eaf90a6dd11050cb8a972cf34752ec7ff8ae)
 
