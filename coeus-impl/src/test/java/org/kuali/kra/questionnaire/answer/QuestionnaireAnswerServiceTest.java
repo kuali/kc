@@ -604,7 +604,7 @@ public class QuestionnaireAnswerServiceTest {
         Assert.assertEquals(2, newAnswerHeader.getAnswers().get(3).getQuestionNumber().intValue());
         Assert.assertEquals("Y", newAnswerHeader.getAnswers().get(0).getAnswer());
         Assert.assertEquals("10", newAnswerHeader.getAnswers().get(1).getAnswer());
-        Assert.assertEquals("", newAnswerHeader.getAnswers().get(2).getAnswer());
+        Assert.assertNull(newAnswerHeader.getAnswers().get(2).getAnswer());
         Assert.assertEquals("Test", newAnswerHeader.getAnswers().get(3).getAnswer());
         Assert.assertEquals("Y", newAnswerHeader.getAnswers().get(0).getMatchedChild());
         Assert.assertEquals("Y", newAnswerHeader.getAnswers().get(1).getMatchedChild());
