@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1432: Fix questionnaire.
+  * Gayathri Athreya on Tue, 28 Jun 2016 11:40:34 -0700 [View Commit](../../commit/7626eaf90a6dd11050cb8a972cf34752ec7ff8ae)
+
+##coeus-1606.60
 * RESKC-1409, RESKC-1422: adding some int tests, making CR number & curriculum not required, removing from course BO, renaming column and fields
   * Travis Schneeberger on Mon, 27 Jun 2016 15:51:55 -0400 [View Commit](../../commit/6af751ba13aa592bc0234d3a8c3fffddcbf8eed6)
 
