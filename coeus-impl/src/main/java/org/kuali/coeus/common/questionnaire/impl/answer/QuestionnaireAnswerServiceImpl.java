@@ -297,8 +297,6 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     /**
      * This method returns the latest questionnaire instance associated with the given questionnaire ID; the latest instance 
      * is the one with the largest sequence number.
-     * @param questionnaireId
-     * @return
      */
     protected Questionnaire getLatestQuestionnaireVersion(Integer questionniareSeqId) {
         Questionnaire latestQnnrInstance = null;
@@ -630,7 +628,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     }
     
     protected void prepareQuestionnaireView(AnswerHeader answerHeader) {
-        answerHeader.setQuestions(new ArrayList<QuestionDTO>());
+        answerHeader.setQuestions(new ArrayList<>());
         for (Answer answer : answerHeader.getAnswers()) {
             QuestionDTO currentQuestion = null;
             for (QuestionDTO question : answerHeader.getQuestions()) {
