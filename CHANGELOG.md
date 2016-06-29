@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* upgrade node and npm version (#1832)
+
+  * Douglas Pace on Wed, 29 Jun 2016 12:24:22 -0700 [View Commit](../../commit/7c9df009797e9ca523f6d3f65e6a86c8423ed993)
+
+##coeus-1606.64
 * No Changes
 
 
