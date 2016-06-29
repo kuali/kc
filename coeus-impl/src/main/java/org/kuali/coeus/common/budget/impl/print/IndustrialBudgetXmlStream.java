@@ -320,7 +320,8 @@ public class IndustrialBudgetXmlStream extends BudgetBaseStream {
 				reportTypeVO.getPersonName()).append(
 				reportTypeVO.getInvestigatorFlag().toString()).append(
 				reportTypeVO.getBudgetCategoryCode()).append(
-				reportTypeVO.getBudgetCategoryDesc());
+				reportTypeVO.getBudgetCategoryDesc()).append(
+				reportTypeVO.getBudgetLineItemId());
 		return key.toString();
 	}
 
