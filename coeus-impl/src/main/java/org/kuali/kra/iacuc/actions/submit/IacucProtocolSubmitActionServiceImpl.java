@@ -25,9 +25,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.coeus.coi.framework.ProjectPublisher;
+import org.kuali.coeus.coi.framework.ProjectRetrievalService;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase;
 import org.kuali.coeus.common.committee.impl.meeting.CommitteeScheduleMinuteBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
@@ -52,9 +56,10 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
     private ProtocolActionService protocolActionService;
     private BusinessObjectService businessObjectService;
     private IacucProtocolAssignReviewersService iacucProtocolAssignReviewersService;
-
 	private DataObjectService dataObjectService;
-    
+    private ProjectRetrievalService projectRetrievalService;
+    private ProjectPublisher projectPublisher;
+
     /**
      * Set the Document Service.
      * @param documentService
@@ -160,9 +165,10 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
         }
         
         protocol.getProtocolDocument().getPessimisticLocks().clear();
-        documentService.saveDocument(protocol.getProtocolDocument());
 
+        final IacucProtocolDocument protocolDocument = (IacucProtocolDocument) documentService.saveDocument(protocol.getProtocolDocument());
         protocol.refresh();
+        getProjectPublisher().publishProject(getProjectRetrievalService().retrieveProject(protocolDocument.getIacucProtocol().getProtocolNumber()));
     }
     
     @SuppressWarnings("unchecked")
@@ -237,5 +243,26 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
     
     public void setDataObjectService(DataObjectService dataObjectService) {
         this.dataObjectService = dataObjectService;
+    }
+
+    public ProjectPublisher getProjectPublisher() {
+        //since COI is loaded last and @Lazy does not work, we have to use the ServiceLocator
+        if (projectPublisher == null) {
+            projectPublisher = KcServiceLocator.getService(ProjectPublisher.class);
+        }
+
+        return projectPublisher;
+    }
+
+    public void setProjectPublisher(ProjectPublisher projectPublisher) {
+        this.projectPublisher = projectPublisher;
+    }
+
+    public ProjectRetrievalService getProjectRetrievalService() {
+        return projectRetrievalService;
+    }
+
+    public void setProjectRetrievalService(ProjectRetrievalService projectRetrievalService) {
+        this.projectRetrievalService = projectRetrievalService;
     }
 }

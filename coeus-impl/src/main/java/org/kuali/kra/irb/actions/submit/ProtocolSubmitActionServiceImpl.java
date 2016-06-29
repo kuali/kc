@@ -19,8 +19,12 @@
 package org.kuali.kra.irb.actions.submit;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.coi.framework.ProjectPublisher;
+import org.kuali.coeus.coi.framework.ProjectRetrievalService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
@@ -49,7 +53,9 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
     private BusinessObjectService businessObjectService;
     private ProtocolAssignReviewersService protocolAssignReviewersService;
 	private DataObjectService dataObjectService;
-    
+    private ProjectRetrievalService projectRetrievalService;
+    private ProjectPublisher projectPublisher;
+
     /**
      * Set the Document Service.
      * @param documentService
@@ -215,9 +221,9 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
         }
 
         protocol.getProtocolDocument().getPessimisticLocks().clear();
-        documentService.saveDocument(protocol.getProtocolDocument());
-        
+        final ProtocolDocument protocolDocument = (ProtocolDocument) documentService.saveDocument(protocol.getProtocolDocument());
         protocol.refresh();
+        getProjectPublisher().publishProject(getProjectRetrievalService().retrieveProject(protocolDocument.getProtocol().getProtocolNumber()));
     }
     
     @SuppressWarnings("unchecked")
@@ -339,5 +345,26 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
     
     public void setDataObjectService(DataObjectService dataObjectService) {
         this.dataObjectService = dataObjectService;
+    }
+
+    public ProjectPublisher getProjectPublisher() {
+        //since COI is loaded last and @Lazy does not work, we have to use the ServiceLocator
+        if (projectPublisher == null) {
+            projectPublisher = KcServiceLocator.getService(ProjectPublisher.class);
+        }
+
+        return projectPublisher;
+    }
+
+    public void setProjectPublisher(ProjectPublisher projectPublisher) {
+        this.projectPublisher = projectPublisher;
+    }
+
+    public ProjectRetrievalService getProjectRetrievalService() {
+        return projectRetrievalService;
+    }
+
+    public void setProjectRetrievalService(ProjectRetrievalService projectRetrievalService) {
+        this.projectRetrievalService = projectRetrievalService;
     }
 }
