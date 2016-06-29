@@ -20,12 +20,10 @@ package org.kuali.kra.iacuc.actions.assignreviewers;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocumentBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBeanBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
-import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -38,7 +36,8 @@ public class IacucProtocolAssignReviewersServiceImpl implements IacucProtocolAss
     private BusinessObjectService businessObjectService;
     private ProtocolOnlineReviewService protocolOnlineReviewService;
 
-    public void assignReviewers(ProtocolSubmissionBase protocolSubmission, List<ProtocolReviewerBeanBase> protocolReviewerBeans) throws Exception  {
+    @Override
+    public void assignReviewers(ProtocolSubmissionBase protocolSubmission, List<ProtocolReviewerBeanBase> protocolReviewerBeans) {
         if (protocolSubmission != null) {
             for (ProtocolReviewerBeanBase bean : protocolReviewerBeans) {
                 if (StringUtils.isNotBlank(bean.getReviewerTypeCode())) {
@@ -62,14 +61,6 @@ public class IacucProtocolAssignReviewersServiceImpl implements IacucProtocolAss
     }
     
     protected void removeReviewer(ProtocolSubmissionBase protocolSubmission, ProtocolReviewerBeanBase protocolReviewBean,String annotation) {
-        //We need to send the notification prior to the online review being removed in order to satisfy the kim role recipients requirements
-        ProtocolOnlineReviewDocumentBase onlineReviewDocument = 
-            protocolOnlineReviewService.getProtocolOnlineReviewDocument(protocolReviewBean.getPersonId(), protocolReviewBean.getNonEmployeeFlag(), protocolSubmission);
-        if (onlineReviewDocument != null) {   
-            ProtocolBase protocol = protocolSubmission.getProtocol();
-            ProtocolOnlineReviewBase protocolOnlineReview = onlineReviewDocument.getProtocolOnlineReview();
-        }
-        
         protocolOnlineReviewService.removeOnlineReviewDocument(protocolReviewBean.getPersonId(), protocolReviewBean.getNonEmployeeFlag(), protocolSubmission, annotation);
     }
     
@@ -92,10 +83,6 @@ public class IacucProtocolAssignReviewersServiceImpl implements IacucProtocolAss
                 description, explanation, organizationDocumentNumber, routeAnnotation, initialApproval, dateRequested, dateDue, sessionPrincipalId);
     
         protocolSubmission.getProtocolOnlineReviews().add(document.getProtocolOnlineReview());
-        
-        //send notification now that the online review has been created.
-        ProtocolBase protocol = protocolSubmission.getProtocol();
-        ProtocolOnlineReviewBase protocolOnlineReview = document.getProtocolOnlineReview();
     }
     
     protected void updateReviewer(ProtocolSubmissionBase protocolSubmission, ProtocolReviewerBeanBase protocolReviewerBean) {
@@ -104,18 +91,10 @@ public class IacucProtocolAssignReviewersServiceImpl implements IacucProtocolAss
         businessObjectService.save(reviewer);
     }
 
-    /**
-     * Set the Business Object Service.
-     * @param businessObjectService businessObjectService.
-     */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
 
-    /**
-     * Set the ProtocolBase Online Review Service.
-     * @param protocolOnlineReviewService protocolOnlineReviewService.
-     */
     public void setProtocolOnlineReviewService(ProtocolOnlineReviewService protocolOnlineReviewService) {
         this.protocolOnlineReviewService = protocolOnlineReviewService;
     }

@@ -36,7 +36,6 @@ public interface IacucProtocolSubmitActionService {
      * Submit a protocol to the IACUC office for review.
      * @param protocol the protocol
      * @param submitAction the submission data
-     * @throws Exception 
      */
-    void submitToIacucForReview(IacucProtocol protocol, IacucProtocolSubmitAction submitAction) throws Exception;
+    void submitToIacucForReview(IacucProtocol protocol, IacucProtocolSubmitAction submitAction);
 }

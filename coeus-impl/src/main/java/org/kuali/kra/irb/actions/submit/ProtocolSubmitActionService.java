@@ -38,16 +38,12 @@ public interface ProtocolSubmitActionService {
      * Submit a protocol to the IRB office for review.
      * @param protocol the protocol
      * @param submitAction the submission data
-     * @throws Exception 
      */
-    void submitToIrbForReview(Protocol protocol, ProtocolSubmitAction submitAction) throws Exception;
+    void submitToIrbForReview(Protocol protocol, ProtocolSubmitAction submitAction);
     
     /**
      * 
      * This method for getting ProtocolSubmissionsLookup from given protocolNumber...
-     * @return
-     * @throws Exception
      */
-   
-    public List<ProtocolSubmission> getProtocolSubmissionsLookupData(List<ProtocolSubmission> protocolSbmissionList) throws Exception;
+    List<ProtocolSubmission> getProtocolSubmissionsLookupData(List<ProtocolSubmission> protocolSbmissionList);
 }

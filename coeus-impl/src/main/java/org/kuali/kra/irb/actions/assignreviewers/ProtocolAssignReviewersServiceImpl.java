@@ -54,7 +54,7 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
     private KcNotificationService kcNotificationService;
 
     @Override
-    public void assignReviewers(ProtocolSubmissionBase protocolSubmission, List<ProtocolReviewerBeanBase> protocolReviewerBeans) throws Exception  {
+    public void assignReviewers(ProtocolSubmissionBase protocolSubmission, List<ProtocolReviewerBeanBase> protocolReviewerBeans)  {
         if (protocolSubmission != null) {
             for (ProtocolReviewerBeanBase bean : protocolReviewerBeans) {
                 if (StringUtils.isNotBlank(bean.getReviewerTypeCode())) {
@@ -159,18 +159,10 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
         businessObjectService.save(reviewer);
     }
 
-    /**
-     * Set the Business Object Service.
-     * @param businessObjectService businessObjectService.
-     */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
 
-    /**
-     * Set the Protocol Online Review Service.
-     * @param protocolOnlineReviewService protocolOnlineReviewService.
-     */
     public void setProtocolOnlineReviewService(ProtocolOnlineReviewService protocolOnlineReviewService) {
         this.protocolOnlineReviewService = protocolOnlineReviewService;
     }
