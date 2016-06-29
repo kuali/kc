@@ -1,6 +1,13 @@
 
 
 ##CURRENT
+* Fix industrial printout related to summary personnel (#1829)
+
+  * Douglas Pace on Wed, 29 Jun 2016 10:06:27 -0700 [View Commit](../../commit/f7bf113edccffbfc832463d41dcbdd3108efc5ae)
+* RESKC-1436: Fix s2s validation errors.
+  * Gayathri Athreya on Tue, 28 Jun 2016 15:44:27 -0700 [View Commit](../../commit/590577a1b2b19664ad9181975546ae358fc7d87d)
+
+##coeus-1606.62
 * RESKC-1432: Actual questionnaire fix
   * Gayathri Athreya on Tue, 28 Jun 2016 12:38:26 -0700 [View Commit](../../commit/1560400de01a9576e229aea00e6ad0fbe74512cd)
 
