@@ -19,6 +19,7 @@
 package org.kuali.coeus.sys.framework.auth;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
@@ -192,7 +193,11 @@ public class AuthServiceFilter implements Filter {
 	}
 
 	protected void redirectToLogin(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws IOException {
-		httpResponse.sendRedirect(authWithReturnTo + httpRequest.getRequestURL());
+		StringBuffer requestUrl = httpRequest.getRequestURL();
+		if (StringUtils.isNotBlank(httpRequest.getQueryString())) {
+			requestUrl.append("?").append(httpRequest.getQueryString());
+		}
+		httpResponse.sendRedirect(authWithReturnTo + URLEncoder.encode(requestUrl.toString(), "UTF-8"));
 	}
 
 	protected AuthUser validateAuthToken(final String authTokenValue, final HttpServletRequest request) {
