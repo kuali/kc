@@ -1,6 +1,6 @@
 *CITI Integration*
 
-Kuali Research integrates with CITI (www.citiprogram.com) in order to populate person training.  This integration works by
+Kuali Research integrates with CITI (www.citiprogram.org) in order to populate person training.  This integration works by
 downloading CITI training data into a staging table.  The staging table is processed and validated.  Valid records are
 converted (using configured mapping information) to person training records.  Error messages are persisted for invalid
 records.  These error messages can be queried through standard maintenance screen from within the System Admin section
