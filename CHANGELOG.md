@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* Include query parameters when directing to core-auth for login (#1834)
+
+  * Douglas Pace on Thu, 30 Jun 2016 12:54:13 -0700 [View Commit](../../commit/cfbb9a4d49462836f6b64a869b5f1da20c939be7)
+
+##coeus-1606.67
 * citiprogram.com is a phishing site (#1833)
 
   * tdurkin on Thu, 30 Jun 2016 13:45:40 -0400 [View Commit](../../commit/514b0c97e69b9da7fe94ecff2723e668b73e9c97)
