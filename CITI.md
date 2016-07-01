@@ -21,8 +21,6 @@ These parameters are configured to the standard default values used by CITI.
 
 All CITI datasets must be configured with the following fields for integration to work without error:
 
-Curriculum Number (CR Number)
-Curriculum
 Group Id
 Group
 Passing Score
@@ -31,7 +29,7 @@ Stage
 Institutional Username
 
 To map CITI training data to Person Training records, mapping entries must be created.  These records map the combination
-of group, curriculum, and stage to training code.  The maintenance table for this is located within the System Admin
+of group and stage to training code.  The maintenance table for this is located within the System Admin
 section of the Kuali Research portal. If mapping data is not present and CITI integration is turned on mapping records
 will automatically be created without training codes selected.
 
