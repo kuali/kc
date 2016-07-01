@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* Update CITI.md (#1836)
+
+  * Removed references to CR Number and Curriculum being required for mapping, since we changed this in the code.  * Jen F on Fri, 1 Jul 2016 11:55:32 -0400 [View Commit](../../commit/c7ef6a1aeb9c96266cb3449f62fa526c2f4bb071)
+
+##coeus-1607.2
 * RESKC-1264: Integrate segment analyitcs into KNS and KRAD web resources (#1835)
 
   * tdurkin on Fri, 1 Jul 2016 08:36:12 -0400 [View Commit](../../commit/f8bbbe1c588efcf46732bba358c2c70f526e43a3)
