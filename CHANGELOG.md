@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* RESKC-1264: Integrate segment analyitcs into KNS and KRAD web resources (#1838)
+
+* RESKC-1264: Integrate segment analyitcs into KNS and KRAD web resources
+  * 
+* RESKC-1264: set up defaults for web analytics.
+  * tdurkin on Fri, 1 Jul 2016 16:24:18 -0400 [View Commit](../../commit/54873e5cbe5fba7609809970ab7d24925acde0a5)
+
+##coeus-1607.4
 * No Changes
 
 
