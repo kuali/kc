@@ -67,6 +67,15 @@
 	</script>
 </c:if>
 
+	<c:if test="${ConfigProperties.web.analytics.enabled == 'true'}">
+		<script language="JavaScript" type="text/javascript"
+				src="${pageContext.request.contextPath}/scripts/sys/segmentAnalytics.js"></script>
+		<script type="text/javascript">
+			segmentAnalytics('${ConfigProperties.web.analytics.key}');
+		</script>
+	</c:if>
+
+
 	<script type="text/javascript">var jsContextPath = "${pageContext.request.contextPath}";</script>
 	<title><bean:message key="app.title" /> :: ${headerTitle}</title>
 	<c:forEach items="${fn:split(ConfigProperties.kns.css.files, ',')}"

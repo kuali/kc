@@ -42,6 +42,7 @@
                 <value>rice-contrib/multiselect.js</value>
                 <value>scripts/common/lineItemTable.js</value>
                 <value>scripts/common/header.js</value>
+                <value>scripts/sys/segmentAnalytics.js</value>
             </list>
         </property>
     </bean>
@@ -49,7 +50,7 @@
     <bean id="Uif-GlobalApplicationHeader" parent="Kc-ApplicationHeader"/>
     <bean id="Kc-ApplicationHeader" parent="Kc-ApplicationHeader-parentBean"/>
     <bean id="Kc-ApplicationHeader-parentBean" parent="Uif-ApplicationHeaderBase">
-        <property name="onDocumentReadyScript" value="Kc.Global.attachRedirectHandler(); Kc.Global.onHeaderLoad();"/>
+        <property name="onDocumentReadyScript" value="Kc.Global.attachRedirectHandler(); Kc.Global.onHeaderLoad(); if (@{#ConfigProperties['web.analytics.enabled']}) segmentAnalytics('@{#ConfigProperties['web.analytics.key']}');"/>
         <property name="applicationNavigation">
             <bean parent="Kc-ApplicationHeader-NavigationBar"/>
         </property>
