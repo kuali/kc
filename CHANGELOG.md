@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-1264: Integrate segment analyitcs into KNS and KRAD web resources (#1835)
+
+  * tdurkin on Fri, 1 Jul 2016 08:36:12 -0400 [View Commit](../../commit/f8bbbe1c588efcf46732bba358c2c70f526e43a3)
+
+##coeus-1607.1
 * No Changes
 
 
