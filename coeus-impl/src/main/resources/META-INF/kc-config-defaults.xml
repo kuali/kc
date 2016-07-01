@@ -333,5 +333,8 @@
     <param name="citi.header.label.examId">Exam ID</param>
     <param name="citi.header.label.examScore">Exam Score</param>
     <param name="citi.header.label.moduleCompletionDate">Module Completion Date</param>
-    
+	<param name="web.analytics.enabled">false</param>
+	<param name="web.analytics.key"></param>
+
+
 </config>
