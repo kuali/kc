@@ -748,6 +748,7 @@
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="protocolAssignReviewersService" ref="protocolAssignReviewersService" />
         <property name="dataObjectService" ref="dataObjectService" />
+        <property name="projectRetrievalService" ref="irbProjectRetrievalService" />
     </bean>
     
     

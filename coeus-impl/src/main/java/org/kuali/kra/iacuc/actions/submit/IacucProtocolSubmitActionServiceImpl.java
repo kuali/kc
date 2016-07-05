@@ -19,29 +19,27 @@
 package org.kuali.kra.iacuc.actions.submit;
 
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import org.kuali.coeus.coi.framework.ProjectPublisher;
+import org.kuali.coeus.coi.framework.ProjectRetrievalService;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase;
 import org.kuali.coeus.common.committee.impl.meeting.CommitteeScheduleMinuteBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.iacuc.actions.assignreviewers.IacucProtocolAssignReviewersService;
 import org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleMinute;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 
-/**
- * Handles the processing of submitting a protocol to the IACUC office for review.
- */
 public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmitActionService {
     
     private static final String PROTOCOL_NUMBER = "protocolNumber";
@@ -52,32 +50,9 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
     private ProtocolActionService protocolActionService;
     private BusinessObjectService businessObjectService;
     private IacucProtocolAssignReviewersService iacucProtocolAssignReviewersService;
-
 	private DataObjectService dataObjectService;
-    
-    /**
-     * Set the Document Service.
-     * @param documentService
-     */
-    public void setDocumentService(DocumentService documentService) {
-        this.documentService = documentService;
-    }
-    
-    /**
-     * Set the ProtocolBase Action Service.
-     * @param protocolActionService
-     */
-    public void setProtocolActionService(ProtocolActionService protocolActionService) {
-        this.protocolActionService = protocolActionService;
-    }
-    
-    /**
-     * Set the Business Object Service.
-     * @param businessObjectService
-     */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
+    private ProjectRetrievalService projectRetrievalService;
+    private ProjectPublisher projectPublisher;
 
     @Override
     public int getTotalSubmissions(IacucProtocol protocol) {
@@ -93,13 +68,10 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
         return totalSubmissions;
     }
 
-    @SuppressWarnings("unchecked")
     protected List<IacucProtocolSubmission> getProtocolSubmissions(String protocolNumber) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(PROTOCOL_NUMBER, protocolNumber);
-        Collection<IacucProtocolSubmission> submissions = businessObjectService.findMatching(IacucProtocolSubmission.class, fieldValues);
-        
-        return new ArrayList<IacucProtocolSubmission>(submissions);
+        Collection<IacucProtocolSubmission> submissions = businessObjectService.findMatching(IacucProtocolSubmission.class,
+                Collections.singletonMap(PROTOCOL_NUMBER, protocolNumber));
+        return new ArrayList<>(submissions);
     }
     
     /**
@@ -109,10 +81,10 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
      * 
      * Also, for a submission, a Submission BO must be created.  It contains all of the relevant
      * data for a submission: type, checklists, reviewers, etc.
-     * @throws Exception 
      * 
      */
-    public void submitToIacucForReview(IacucProtocol protocol, IacucProtocolSubmitAction submitAction) throws Exception {
+    @Override
+    public void submitToIacucForReview(IacucProtocol protocol, IacucProtocolSubmitAction submitAction) {
         
         /*
          * The submission is saved first so that its new primary key can be added
@@ -160,14 +132,19 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
         }
         
         protocol.getProtocolDocument().getPessimisticLocks().clear();
-        documentService.saveDocument(protocol.getProtocolDocument());
 
+        final IacucProtocolDocument protocolDocument;
+        try {
+            protocolDocument = (IacucProtocolDocument) documentService.saveDocument(protocol.getProtocolDocument());
+        } catch (WorkflowException e) {
+            throw new RuntimeException(e);
+        }
         protocol.refresh();
+        getProjectPublisher().publishProject(getProjectRetrievalService().retrieveProject(protocolDocument.getIacucProtocol().getProtocolNumber()));
     }
-    
-    @SuppressWarnings("unchecked")
+
     protected void updateDefaultSchedule(IacucProtocolSubmission submission) {
-        Map<String, String> fieldValues = new HashMap<String, String>();
+        Map<String, String> fieldValues = new HashMap<>();
         fieldValues.put("protocolIdFk", submission.getProtocolId().toString());
         fieldValues.put("scheduleIdFk", CommitteeScheduleBase.DEFAULT_SCHEDULE_ID.toString());
         List<IacucCommitteeScheduleMinute> minutes = (List<IacucCommitteeScheduleMinute>) businessObjectService.findMatching(IacucCommitteeScheduleMinute.class, fieldValues);
@@ -216,8 +193,8 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
 
     /**
      * Set schedule for the submission.
-     * @param submissionBuilder
-     * @param submitAction
+     * @param submissionBuilder the submission builder
+     * @param submitAction the submission data
      */
     protected void setSchedule(IacucProtocolSubmissionBuilder submissionBuilder, IacucProtocolSubmitAction submitAction) {
         submissionBuilder.setSchedule(submitAction.getNewScheduleId());
@@ -237,5 +214,50 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
     
     public void setDataObjectService(DataObjectService dataObjectService) {
         this.dataObjectService = dataObjectService;
+    }
+
+    public ProjectPublisher getProjectPublisher() {
+        //since COI is loaded last and @Lazy does not work, we have to use the ServiceLocator
+        if (projectPublisher == null) {
+            projectPublisher = KcServiceLocator.getService(ProjectPublisher.class);
+        }
+
+        return projectPublisher;
+    }
+
+    public void setProjectPublisher(ProjectPublisher projectPublisher) {
+        this.projectPublisher = projectPublisher;
+    }
+
+    public ProjectRetrievalService getProjectRetrievalService() {
+        return projectRetrievalService;
+    }
+
+    public void setProjectRetrievalService(ProjectRetrievalService projectRetrievalService) {
+        this.projectRetrievalService = projectRetrievalService;
+    }
+
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
+    }
+
+    public void setProtocolActionService(ProtocolActionService protocolActionService) {
+        this.protocolActionService = protocolActionService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
+    public DocumentService getDocumentService() {
+        return documentService;
+    }
+
+    public ProtocolActionService getProtocolActionService() {
+        return protocolActionService;
+    }
+
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
     }
 }
