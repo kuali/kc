@@ -16,24 +16,39 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.coeus.award.finance;
+package org.kuali.coeus.award.dto;
 
-import com.codiform.moo.annotation.CollectionProperty;
+import org.kuali.coeus.common.framework.sponsor.Sponsor;
 
-import org.kuali.coeus.sys.framework.rest.ResponseResults;
+public class AwardTransferringSponsorDto {
 
-import java.util.Collection;
+    private Integer awardTransferringSponsorId;
 
-public class AccountInformationResults extends ResponseResults {
+    private String sponsorCode;
 
-    @CollectionProperty(source="results", itemClass=AccountInformationDto.class)
-    private Collection<AccountInformationDto> accountsInformation;
+    private Sponsor sponsor;
 
-    public Collection<AccountInformationDto> getAccounts() {
-        return accountsInformation;
+    public Integer getAwardTransferringSponsorId() {
+        return awardTransferringSponsorId;
     }
 
-    public void setAccounts(Collection<AccountInformationDto> accountsInformation) {
-        this.accountsInformation = accountsInformation;
+    public void setAwardTransferringSponsorId(Integer awardTransferringSponsorId) {
+        this.awardTransferringSponsorId = awardTransferringSponsorId;
+    }
+
+    public String getSponsorCode() {
+        return sponsorCode;
+    }
+
+    public void setSponsorCode(String sponsorCode) {
+        this.sponsorCode = sponsorCode;
+    }
+
+    public Sponsor getSponsor() {
+        return sponsor;
+    }
+
+    public void setSponsor(Sponsor sponsor) {
+        this.sponsor = sponsor;
     }
 }

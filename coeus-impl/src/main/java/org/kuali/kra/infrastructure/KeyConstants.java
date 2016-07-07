@@ -567,7 +567,9 @@ public final class KeyConstants {
     public static final String DOCUMENT_SAVED_WITH_ERRORS = "error.award.createAccount.saved.with.errors";
     public static final String NO_PERMISSION_TO_CREATE_ACCOUNT = "error.award.createAccount.noPermission";
     public static final String VALIDATION_DID_NOT_OCCUR = "error.award.account.number.not.validated";
-    
+    public static final String AWARD_INFORMATION_POSTED = "info.award.information.posted";
+
+
     // award budget
     public static final String BUDGET_POSTED = "message.award.budget.adjustment.budget.posted";
     public static final String BUDGET_ADJUSTMENT_DOCUMENT_NOT_CREATED = "error.award.budget.adjustment.document.not.created";

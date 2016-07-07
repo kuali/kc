@@ -46,25 +46,6 @@ public class AwardCloseout extends AwardAssociate {
 
     private CloseoutReportType closeoutReportType;
 
-    /**
-     * 
-    <c:choose>
-        <c:when test="${KualiForm.awardCloseoutBean.closeoutReportTypeUserDefined == KualiForm.document.awardList[0].awardCloseoutItems[status.index].closeoutReportCode }" >
-            <kul:htmlControlAttribute property="document.awardList[0].awardCloseoutItems[${status.index}].dueDate" attributeEntry="${awardCloseoutAttributes.dueDate}" />
-        </c:when>
-        <c:otherwise>
-            <c:choose>
-                <c:when test="${KualiForm.document.awardList[0].awardCloseoutItems[status.index].multiple}" >
-                    <c:out value="MULTIPLE" />
-                </c:when>
-                <c:otherwise>
-                    <kul:htmlControlAttribute property="document.awardList[0].awardCloseoutItems[${status.index}].dueDate" attributeEntry="${awardCloseoutAttributes.dueDate}" readOnly="true" />
-                </c:otherwise>
-            </c:choose>
-         </c:otherwise>
-    </c:choose>
-     */
-
     public AwardCloseout() {
     }
 

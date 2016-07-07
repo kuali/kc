@@ -28,4 +28,6 @@ public interface CommonApiService {
 
     public void clearErrors();
 
+    public void updateDataObjectFromDto(Object existingDataObject, Object input);
+
     }

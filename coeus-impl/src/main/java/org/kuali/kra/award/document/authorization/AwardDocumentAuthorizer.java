@@ -60,6 +60,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
     public static final String OPEN_BUDGETS = "openBudgets";
     public static final String MODIFY_AWARD_BUDGET = "modifyAwardBudget";
     public static final String CREATE_AWARD_ACCOUNT = "createAwardAccount";
+    public static final String POST_AWARD = "postAward";
     public static final String AWARD_SYNC = "awardSync";
     public static final String CAN_MAINTAIN_AWARD_ATTACHMENTS = "CAN_MAINTAIN_AWARD_ATTACHMENTS";
     public static final String CAN_VIEW_AWARD_ATTACHMENTS = "CAN_VIEW_AWARD_ATTACHMENTS";
@@ -114,9 +115,11 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
             if (canCreateAward(user.getPrincipalId())) {
                 editModes.add(Constants.CAN_CREATE_AWARD_KEY);
             }
-
             if (canCreateAwardAccount(document)) {
                 editModes.add(CREATE_AWARD_ACCOUNT);
+            }
+            if (canViewPostHistory(awardDocument, user.getPrincipalId())) {
+                editModes.add(POST_AWARD);
             }
             if (awardHasHierarchyChildren(document)) {
                 editModes.add(AWARD_SYNC);
@@ -168,6 +171,12 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
         }
         return hasPermission;
     }
+
+    public boolean canViewPostHistory(AwardDocument document, String principalId) {
+        return isFinancialRestApiEnabled() && document.hasPostAwardPermission(principalId)
+                && document.getAward().getAccountNumber() != null;
+    }
+
 
     protected boolean isFinancialRestApiEnabled() {
         return getParameterService().getParameterValueAsBoolean(

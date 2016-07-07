@@ -50,6 +50,15 @@ public class AwardAccount extends KcPersistableBusinessObjectBase {
     @Column(name="AVAILABLE")
     private ScaleTwoDecimal available;
 
+    public AwardAccount() {
+        status = AccountStatus.AVAILABLE.name();
+        budgeted = ScaleTwoDecimal.ZERO;
+        pending = ScaleTwoDecimal.ZERO;
+        income = ScaleTwoDecimal.ZERO;
+        expense = ScaleTwoDecimal.ZERO;
+        available = ScaleTwoDecimal.ZERO;
+    }
+
     public Long getId() {
         return id;
     }

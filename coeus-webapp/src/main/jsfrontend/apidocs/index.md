@@ -9,6 +9,7 @@ This documentation lays out the REST APIs that are available to facilitate integ
 Current APIs have been designed to be accessed via admin only username and password pair.
 
 # Group Research Awards
+<!-- include(award/awards.md) -->
 <!-- include(award/award-amount-infos.md) -->
 <!-- include(award/award-amount-transactions.md) -->
 <!-- include(award/award-approved-equipment.md) -->
@@ -48,6 +49,7 @@ Current APIs have been designed to be accessed via admin only username and passw
 <!-- include(award/award-person-unit-credit-splits.md) -->
 <!-- include(award/award-person-units.md) -->
 <!-- include(award/award-persons.md) -->
+<!-- include(award/award-posts.md) -->
 <!-- include(award/award-report-term-recipients.md) -->
 <!-- include(award/award-report-terms.md) -->
 <!-- include(award/award-science-keywords.md) -->
@@ -71,7 +73,6 @@ Current APIs have been designed to be accessed via admin only username and passw
 <!-- include(award/award-types.md) -->
 <!-- include(award/award-unit-contacts.md) -->
 <!-- include(award/awardAccount-custom.md) -->
-<!-- include(award/awards.md) -->
 <!-- include(award/awards-custom.md) -->
 <!-- include(award/closeout-report-types.md) -->
 <!-- include(award/contact-types.md) -->

@@ -23,13 +23,17 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.coeus.award.finance.AwardPosts;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.kra.award.dao.AwardDao;
 import org.kuali.coeus.sys.framework.rest.SearchResults;
 import org.kuali.kra.award.home.Award;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.krad.dao.impl.LookupDaoOjb;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.util.OjbCollectionAware;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.sql.DataSource;
 
@@ -47,6 +51,10 @@ public class AwardDaoOjb extends LookupDaoOjb implements OjbCollectionAware, Awa
 	private static final String AWARD_SEQUENCE_STATUS = "awardSequenceStatus";
 
 	private DataSource dataSource;
+
+    @Autowired
+    @Qualifier("businessObjectService")
+    private BusinessObjectService businessObjectService;
 
 	@Override
     public String getAwardNumber(Long awardId) {
@@ -138,7 +146,15 @@ public class AwardDaoOjb extends LookupDaoOjb implements OjbCollectionAware, Awa
 		}
 	}
 
-	public DataSource getDataSource() {
+    @Override
+    public Award getAward(String awardId) {
+        return getBusinessObjectService().findBySinglePrimaryKey(Award.class, awardId);
+    }
+
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+    public DataSource getDataSource() {
 		return dataSource;
 	}
 

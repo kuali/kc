@@ -45,6 +45,7 @@ import org.kuali.kra.award.home.AwardComment;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
+import org.kuali.kra.award.infrastructure.AwardPermissionConstants;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
@@ -357,7 +358,24 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         managedLists.add(personUnits);
         managedLists.add(personSplits);
     }
-    
+
+    public boolean isAuthorizedToPostAward(String principalId) {
+        return isPostAwardFeatureEnabled() && getDocumentHeader().getWorkflowDocument().isFinal()
+                && getAward().getAccountNumber() != null
+                && !getAward().isPosted()
+                && hasPostAwardPermission(principalId);
+    }
+
+    public boolean hasPostAwardPermission(String principalId) {
+        return getPermissionService().hasPermission(principalId, Constants.KC_SYS, AwardPermissionConstants.POST_AWARD.getAwardPermission());
+    }
+
+    protected boolean isPostAwardFeatureEnabled() {
+        return getParameterService().getParameterValueAsBoolean(
+                Constants.PARAMETER_MODULE_AWARD,
+                ParameterConstants.ALL_COMPONENT,
+                Constants.FINANCIAL_REST_API_ENABLED);
+    }
 
     protected VersionHistoryService getVersionHistoryService() {
         return KcServiceLocator.getService(VersionHistoryService.class);

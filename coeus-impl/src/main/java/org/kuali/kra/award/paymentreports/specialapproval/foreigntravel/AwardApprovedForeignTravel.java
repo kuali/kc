@@ -50,21 +50,6 @@ public class AwardApprovedForeignTravel extends AwardAssociate implements Compar
 
     private NonOrganizationalRolodex rolodexTraveler;
 
-    //private Serializable genericId; 
-    /**
-     * Gets the genericId attribute. 
-     * @return Returns the genericId.
-     */
-    //    public Serializable getGenericId() { 
-    //        return genericId; 
-    //    } 
-    /**
-     * Sets the genericId attribute value.
-     * @param genericId The genericId to set.
-     */
-    //    public void setGenericId(Serializable genericId) { 
-    //        this.genericId = genericId;         
-    //    } 
     private String travelerName;
 
     private String destination;

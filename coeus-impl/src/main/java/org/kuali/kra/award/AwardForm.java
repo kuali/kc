@@ -24,8 +24,13 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.award.AccountInformationBean;
 import org.kuali.coeus.award.finance.AwardAccount;
+import org.kuali.coeus.award.finance.AwardPostHistoryBean;
+import org.kuali.coeus.award.finance.AwardPosts;
+import org.kuali.coeus.award.finance.dao.AccountDao;
 import org.kuali.coeus.coi.framework.DisclosureProjectStatus;
 import org.kuali.coeus.coi.framework.DisclosureStatusRetrievalService;
+import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
 import org.kuali.coeus.common.notification.impl.NotificationHelper;
@@ -85,16 +90,19 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.permission.PermissionService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.krad.data.DataObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
-import javax.persistence.Transient;
 import java.text.ParseException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 
@@ -113,6 +121,12 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
     public static final String SPONSOR_DD_NAME = "DataDictionary.Sponsor.attributes.sponsorName";
     private static final Log LOG = LogFactory.getLog(AwardForm.class);
     public static final String ACCOUNT_NUMBER = "accountNumber";
+    public static final String METHOD_TO_CALL_POST_AWARD = "methodToCall.postAward";
+    public static final String POST_AWARD_ALT_TEXT = "Post Award";
+    public static final String BUTTONSMALL_POST_GIF = "buttonsmall_postawardbudget.gif";
+    public static final String BUTTONSMALL_SEND_NOTIFICATION_GIF = "buttonsmall_send_notification.gif";
+    public static final String SEND_NOTIFICATION = "Send Notification";
+    public static final String METHOD_TO_CALL_SEND_NOTIFICATION = "methodToCall.sendNotification";
     private final String AWARD_HIERARCHY_TEMP_OBJ_PARAM_NAME_PREFIX = "awardHierarchyTempObject[";
     private final int AWARD_HIERARCHY_TEMP_OBJ_PARAM_NAME_PREFIX_LENGTH = AWARD_HIERARCHY_TEMP_OBJ_PARAM_NAME_PREFIX.length();
     
@@ -213,6 +227,9 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
 
     private transient List<DisclosureProjectStatus> disclosureProjectStatuses;
     private transient DisclosureStatusRetrievalService disclosureStatusRetrievalService;
+    private transient PermissionService permissionService;
+    private transient AccountDao accountDao;
+    private transient KcPersonService kcPersonService;
 
     /**
      * Constructs a AwardForm with an existing AwardDocument. Used primarily by tests outside of Struts
@@ -460,8 +477,10 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
     protected boolean accountExistsInQueue() {
         Map<String, String> accountsMap = new HashMap<String, String>();
         accountsMap.put(ACCOUNT_NUMBER, getAwardDocument().getAward().getAccountNumber());
-        int count = getDataObjectService().findMatching(AwardAccount.class,
+        int count = getDataObjectService().findMatching(AwardPosts.class,
                 QueryByCriteria.Builder.andAttributes(accountsMap).setCountFlag(CountFlag.ONLY).build()).getTotalRowCount();
+
+
         return count != 0;
     }
 
@@ -1221,8 +1240,6 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
     
     @Override
     public void populateHeaderFields(WorkflowDocument workflowDocument) {
-        // super.populateHeaderFields(workflowDocument);
-
         AwardDocument awardDocument = getAwardDocument();
         getDocInfo().clear();
         getDocInfo().add(
@@ -1321,9 +1338,7 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
     public void setCurrentSeqNumber(String currentSeqNumber) {
         this.currentSeqNumber = currentSeqNumber;
     }
-    
 
-    
     public String getCanCreateAward() {
         Boolean aFlag = this.getEditingMode().containsKey(Constants.CAN_CREATE_AWARD_KEY);
         return aFlag.toString();
@@ -1419,10 +1434,57 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
         String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
         ConfigurationService configurationService = CoreApiServiceLocator.getKualiConfigurationService();
         
-        String sendNotificationImage = configurationService.getPropertyValueAsString(externalImageURL) + "buttonsmall_send_notification.gif";
-        addExtraButton("methodToCall.sendNotification", sendNotificationImage, "Send Notification");
-        
+        String sendNotificationImage = configurationService.getPropertyValueAsString(externalImageURL) + BUTTONSMALL_SEND_NOTIFICATION_GIF;
+        addExtraButton(METHOD_TO_CALL_SEND_NOTIFICATION, sendNotificationImage, SEND_NOTIFICATION);
+
+        if (getAwardDocument().isAuthorizedToPostAward(GlobalVariables.getUserSession().getPrincipalId())) {
+            String postAwardBudgetImage = buildExtraButtonSourceURI(BUTTONSMALL_POST_GIF);
+            addExtraButton(METHOD_TO_CALL_POST_AWARD, postAwardBudgetImage, POST_AWARD_ALT_TEXT);
+        }
+
         return extraButtons;
+    }
+
+    public List<AwardPostHistoryBean> getAwardPostHistory() {
+        List<AwardPosts> awardPosts = getAccountDao().getAllAwardPostsInHierarchy(getAwardDocument().getAward().getAccountNumber(),
+                                                                                    getAwardDocument().getAward().getAwardNumber() );
+
+        return awardPosts.stream().map(awardPost -> {
+            final AwardPostHistoryBean awardPostHistoryBean = new AwardPostHistoryBean(awardPost.isPosted(),
+                    awardPost.isActive(),
+                    awardPost.getDocumentNumber(),
+                    awardPost.getUpdateUser(),
+                    awardPost.getUpdateTimestamp());
+            KcPerson person = getKcPersonService().getKcPersonByUserName(awardPost.getUpdateUser());
+            awardPostHistoryBean.setFirstName(person.getFirstName());
+            awardPostHistoryBean.setLastName(person.getLastName());
+            return awardPostHistoryBean;
+        }).collect(Collectors.toList());
+    }
+
+    public KcPersonService getKcPersonService() {
+        if(kcPersonService == null) {
+            kcPersonService = KcServiceLocator.getService(KcPersonService.class);
+        }
+        return kcPersonService;
+    }
+
+    protected AccountDao getAccountDao() {
+        if (accountDao == null) {
+            accountDao = KcServiceLocator.getService(AccountDao.class);
+        }
+        return accountDao;
+    }
+
+    protected PermissionService getPermissionService() {
+        if (permissionService == null) {
+            permissionService = KimApiServiceLocator.getPermissionService();
+        }
+        return permissionService;
+    }
+
+    protected String buildExtraButtonSourceURI(String buttonFileName) {
+        return lookupKualiConfigurationService().getPropertyValueAsString(Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY) + buttonFileName;
     }
 
     public Long getPlaceHolderAwardId() {

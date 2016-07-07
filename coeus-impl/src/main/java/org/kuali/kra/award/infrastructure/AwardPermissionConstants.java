@@ -28,7 +28,7 @@ public enum AwardPermissionConstants {
         ,MAINTAIN_AWARD_ATTACHMENTS("Maintain Award Attachments")
         ,SUBMIT_AWARD("Submit Award")
         ,VIEW_AWARD_ATTACHMENTS("View Award Attachments"),VIEW_AWARDS_AT_UNIT("View Award At Unit"),VIEW_AWARD_TEMPLATE("View Award Template")
-        ,MODIFY_AWARD_REPORT_TRACKING("Modify Award Report Tracking"),CREATE_AWARD_ACCOUNT("Create Award Account");
+        ,MODIFY_AWARD_REPORT_TRACKING("Modify Award Report Tracking"),CREATE_AWARD_ACCOUNT("Create Award Account"), POST_AWARD("Post Award");
 
     private String permission;   
      

@@ -180,6 +180,13 @@ public class CommonApiServiceImpl implements CommonApiService {
         return document;
     }
 
+    public void updateDataObjectFromDto(Object existingDataObject, Object input) {
+        Configuration mooConfig = new Configuration();
+        mooConfig.setSourcePropertiesRequired(false);
+        Moo moo = new Moo(mooConfig);
+        moo.update(input, existingDataObject);
+    }
+
     public boolean isDocInModifiableState(WorkflowDocument workflowDocument) {
         return !workflowDocument.isCanceled();
     }

@@ -29,17 +29,6 @@ public class AccountResults extends ResponseResults {
     @CollectionProperty(source="results", itemClass=AccountDto.class)
     private Collection<AccountDto> accounts;
 
-    @CollectionProperty(source="awards")
-    private Collection<Long> awards;
-
-    public Collection<Long> getAwards() {
-        return awards;
-    }
-
-    public void setAwards(Collection<Long> awards) {
-        this.awards = awards;
-    }
-
     public Collection<AccountDto> getAccounts() {
         return accounts;
     }

@@ -41,4 +41,7 @@ public interface AwardDao {
     SearchResults<Award> retrieveAwardsByCriteria(Map<String, Object> fieldValues, Date updatedSince, Integer page, Integer numberPerPage);
 
     List<Integer> getAwardSequenceNumbers(String awardNumber);
-}
+
+    Award getAward(String awardId);
+
+    }

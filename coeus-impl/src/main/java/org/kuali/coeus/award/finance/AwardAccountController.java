@@ -21,9 +21,11 @@ package org.kuali.coeus.award.finance;
 import com.codiform.moo.curry.Translate;
 
 import org.kuali.coeus.award.finance.dao.AccountDao;
+import org.kuali.coeus.common.api.document.service.CommonApiService;
 import org.kuali.coeus.sys.framework.controller.rest.RestController;
 import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
-import org.kuali.kra.award.home.Award;
+import org.kuali.coeus.sys.framework.rest.SearchResults;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -44,26 +46,29 @@ import java.util.stream.Collectors;
 public class AwardAccountController extends RestController {
 
     public static final String NO_SUCH_ACCOUNT = "No such account.";
-    public static final String NO_SUCH_AWARD = "No such award.";
     @Autowired
     @Qualifier("accountDao")
     private AccountDao accountDao;
 
     @Autowired
-    @Qualifier("accountService")
-    private AccountService accountService;
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
+
+    @Autowired
+    @Qualifier("commonApiService")
+    private CommonApiService commonApiService;
 
     @RequestMapping(value="/v1/accounts")
     public @ResponseBody
     AccountResults getAccounts(@RequestParam(value = "startIndex", required = false) Integer startIndex,
                                      @RequestParam(value = "size", required = false) Integer size) {
-        return Translate.to(AccountResults.class).from(transformSearchResults(getAccountDao().getAccounts(startIndex, size), new ArrayList<>()));
+        return Translate.to(AccountResults.class).from(transformSearchResults(getAccountDao().getAccounts(startIndex, size)));
     }
 
     @RequestMapping(method=RequestMethod.PUT, value="v1/accounts/{accountNumber}", consumes = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(value = HttpStatus.OK)
     public
-    void updateAccount(@Valid @RequestBody AccountDto account, @PathVariable Long accountNumber, HttpServletResponse response) throws Exception {
+    void updateAccount(@Valid @RequestBody AccountDto account, @PathVariable String accountNumber, HttpServletResponse response) throws Exception {
         AwardAccount currentAccount = accountDao.getAccount(accountNumber);
         if(Objects.isNull(currentAccount)) {
             sendErrorResponse(NO_SUCH_ACCOUNT);
@@ -77,54 +82,51 @@ public class AwardAccountController extends RestController {
 
             accountDao.saveAccount(currentAccount);
         }
-
     }
 
     @RequestMapping(method=RequestMethod.GET, value="v1/accounts/{accountNumber}")
     public @ResponseBody
-    AccountResults getAccount(@PathVariable Long accountNumber,
-                              @RequestParam(value = "showAwards", required = false) boolean showAwards,
+    AccountResults getAccount(@PathVariable String accountNumber,
                               HttpServletResponse response) throws Exception {
         AwardAccount account = accountDao.getAccount(accountNumber);
         ArrayList<AwardAccount> accounts = new ArrayList<>();
         accounts.add(account);
-        List<Long> awardIds = new ArrayList<>();
         if(Objects.isNull(account)) {
             sendErrorResponse(NO_SUCH_ACCOUNT);
         }
-        if (showAwards) {
-            List<Award> awards = accountDao.getLinkedAwards(accountNumber);
-            awardIds = awards.stream().map(Award::getAwardId)
-                    .collect(Collectors.toList());
-
-        }
-        return Translate.to(AccountResults.class).from(transformSearchResults(accounts, awardIds));
+        return Translate.to(AccountResults.class).from(transformSearchResults(accounts));
     }
 
-    @RequestMapping(method=RequestMethod.GET, value="v1/accounts/awards/{awardId}")
-    public @ResponseBody
-    AccountInformationResults getAccountInformation(@PathVariable Long awardId, HttpServletResponse response) throws Exception {
-        Award award = accountDao.getAward(awardId);
-        AccountInformationResults accountInformationResults = new AccountInformationResults();
-        if(award == null) {
-            sendErrorResponse(NO_SUCH_AWARD);
-        } else {
-            AccountInformationDto accountInformation = accountService.createAccountInformation(award);
-            List<AccountInformationDto> accountsInformation = new ArrayList<>();
-            accountsInformation.add(accountInformation);
-            accountInformationResults.setAccounts(accountsInformation);
-            accountInformationResults.setCount(1);
-            accountInformationResults.setTotalFound(1);
-            return accountInformationResults;
-        }
-        return accountInformationResults;
+    @RequestMapping(method= RequestMethod.GET, value="v1/award-posts",
+            consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @ResponseStatus(value = HttpStatus.OK)
+    @ResponseBody
+    List<AwardPostsDto> getAwardPosts(@RequestParam(value="accountNumber", required=false) String accountNumber) {
+        List<AwardPostsDto> awardPostsDtos = new ArrayList<>();
+        List<AwardPosts> awardPostsList = getAccountDao().getActiveAwardPosts(accountNumber);
+        return awardPostsList.stream()
+                .map(awardPost -> Translate.to(AwardPostsDto.class).from(awardPost))
+                .collect(Collectors.toList());
     }
 
-    AccountSearchResults transformSearchResults(List<AwardAccount> accounts, List<Long> awardIds) {
-        AccountSearchResults result = new AccountSearchResults();
+    @RequestMapping(method= RequestMethod.PUT, value="v1/award-posts/{postId}",
+            consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @ResponseStatus(value = HttpStatus.OK)
+    @ResponseBody
+    AwardPostsDto getAwardPosts(@PathVariable Long postId, @RequestBody AwardPostsDto awardPostsDto) {
+        AwardPosts awardPost = getAccountDao().getAwardPostsById(postId);
+        if(awardPost == null) {
+            throw new ResourceNotFoundException("The award post entry with id " + postId + " was not found.");
+        }
+        awardPost.setActive(awardPostsDto.isActive());
+        dataObjectService.save(awardPost);
+        return commonApiService.convertObject(awardPost, AwardPostsDto.class);
+    }
+
+    SearchResults transformSearchResults(List<AwardAccount> accounts) {
+        SearchResults result = new SearchResults();
         result.setResults(accounts);
         result.setTotalResults(accounts.size());
-        result.setAwards(awardIds);
         return result;
     }
 
@@ -138,14 +140,6 @@ public class AwardAccountController extends RestController {
 
     public void setAccountDao(AccountDao accountDao) {
         this.accountDao = accountDao;
-    }
-
-    public AccountService getAccountService() {
-        return accountService;
-    }
-
-    public void setAccountService(AccountService accountService) {
-        this.accountService = accountService;
     }
 
 }

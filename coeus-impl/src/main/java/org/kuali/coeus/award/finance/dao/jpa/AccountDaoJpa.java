@@ -19,10 +19,12 @@
 package org.kuali.coeus.award.finance.dao.jpa;
 
 import org.apache.commons.collections4.ListUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.award.finance.AwardAccount;
+import org.kuali.coeus.award.finance.AwardPosts;
 import org.kuali.coeus.award.finance.dao.AccountDao;
 import org.kuali.kra.award.home.Award;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.criteria.*;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +33,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Repository("accountDao")
 public class AccountDaoJpa implements AccountDao {
@@ -41,6 +41,10 @@ public class AccountDaoJpa implements AccountDao {
     public static final String ACCOUNT_NUMBER = "accountNumber";
     public static final String AWARD_ID = "awardId";
     public static final String ALL_ACCOUNTS_QUERY = "select a from AwardAccount a ORDER BY a.id ASC";
+
+    public static final String ACTIVE = "active";
+    public static final String UPDATE_TIMESTAMP = "updateTimestamp";
+    public static final String AWARD_FAMILY = "awardFamily";
 
     @Autowired
     @Qualifier("businessObjectService")
@@ -54,7 +58,6 @@ public class AccountDaoJpa implements AccountDao {
     @Qualifier("kcEntityManager")
     private EntityManager entityManager;
 
-
     @Override
     public List<AwardAccount> getAccounts(Integer startIndex, Integer size) {
         Query query = getEntityManager().createQuery(ALL_ACCOUNTS_QUERY, AwardAccount.class);
@@ -66,7 +69,7 @@ public class AccountDaoJpa implements AccountDao {
         return ListUtils.emptyIfNull(accounts);
     }
 
-    public AwardAccount getAccount(Long accountNumber) {
+    public AwardAccount getAccount(String accountNumber) {
         AwardAccount account = getDataObjectService().findUnique(AwardAccount.class,
                 QueryByCriteria.Builder.forAttribute(ACCOUNT_NUMBER, accountNumber).build());
         return account;
@@ -77,8 +80,30 @@ public class AccountDaoJpa implements AccountDao {
         return account;
     }
 
-    public List<Award> getLinkedAwards(Long accountNumber) {
-        return (List<Award>) getBusinessObjectService().findMatching(Award.class, Collections.singletonMap(ACCOUNT_NUMBER, accountNumber));
+    public List<AwardPosts> getActiveAwardPosts(String accountNumber) {
+        Map<String, Object> keys = new HashMap<>();
+        if (accountNumber != null) {
+            keys.put(ACCOUNT_NUMBER, accountNumber);
+        }
+        keys.put(ACTIVE, Boolean.TRUE);
+        return getDataObjectService().findMatching(AwardPosts.class, QueryByCriteria.Builder.andAttributes(keys).build()).getResults();
+    }
+
+    public List<AwardPosts> getAllAwardPostsInHierarchy(String accountNumber, String awardNumber) {
+        String awardFamily = awardNumber.substring(0, StringUtils.indexOf(awardNumber, "-"));
+        Map<String, Object> keys = new HashMap<>();
+        if (accountNumber != null) {
+            keys.put(ACCOUNT_NUMBER, accountNumber);
+        }
+        keys.put(AWARD_FAMILY, awardFamily);
+        List<OrderByField> orderByFields = new ArrayList<>();
+        orderByFields.add(OrderByField.Builder.create(UPDATE_TIMESTAMP, OrderDirection.DESCENDING).build());
+        return getDataObjectService().findMatching(AwardPosts.class, QueryByCriteria.Builder.andAttributes(keys).
+                setOrderByFields(orderByFields).build()).getResults();
+    }
+
+    public AwardPosts getAwardPostsById(Long postId) {
+            return getDataObjectService().find(AwardPosts.class, postId);
     }
 
     public Award getAward(Long awardId) {
@@ -92,7 +117,6 @@ public class AccountDaoJpa implements AccountDao {
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-
 
     public DataObjectService getDataObjectService() {
         return dataObjectService;
