@@ -1,6 +1,15 @@
 
 
 ##CURRENT
+* RESKC-1383: fixing integration test by adding a null check
+  * Travis Schneeberger on Wed, 6 Jul 2016 16:50:39 -0400 [View Commit](../../commit/0535b4da1a2a43a7a010a378e0dcced7f24bc355)
+* RESKC-1431: Fixing descriptions.
+  * Removing the 4 digits codes from the heading options from the drop-down.
+  * Gayathri Athreya on Wed, 29 Jun 2016 11:51:09 -0700 [View Commit](../../commit/af666b6dc0536a90bb44deeba92e0aedb841a7b2)
+* RESKC-1383: When protocol is Submitted to IRB/IACUC the COI project is not pushed with an updated status.
+  * Travis Schneeberger on Wed, 29 Jun 2016 10:05:20 -0400 [View Commit](../../commit/774a4a81f25e3ebe135d917701053a3564907dc2)
+
+##coeus-1607.5
 * RESKC-1264: Integrate segment analyitcs into KNS and KRAD web resources (#1838)
 
 * RESKC-1264: Integrate segment analyitcs into KNS and KRAD web resources
