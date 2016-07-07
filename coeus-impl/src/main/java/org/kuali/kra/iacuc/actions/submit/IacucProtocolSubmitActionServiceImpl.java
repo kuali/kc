@@ -21,6 +21,7 @@ package org.kuali.kra.iacuc.actions.submit;
 import java.sql.Date;
 import java.util.*;
 
+import org.kuali.coeus.coi.framework.Project;
 import org.kuali.coeus.coi.framework.ProjectPublisher;
 import org.kuali.coeus.coi.framework.ProjectRetrievalService;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase;
@@ -140,7 +141,10 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
             throw new RuntimeException(e);
         }
         protocol.refresh();
-        getProjectPublisher().publishProject(getProjectRetrievalService().retrieveProject(protocolDocument.getIacucProtocol().getProtocolNumber()));
+        final Project project = getProjectRetrievalService().retrieveProject(protocolDocument.getIacucProtocol().getProtocolNumber());
+        if (project != null) {
+            getProjectPublisher().publishProject(project);
+        }
     }
 
     protected void updateDefaultSchedule(IacucProtocolSubmission submission) {

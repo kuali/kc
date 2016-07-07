@@ -19,6 +19,7 @@
 package org.kuali.kra.irb.actions.submit;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.coi.framework.Project;
 import org.kuali.coeus.coi.framework.ProjectPublisher;
 import org.kuali.coeus.coi.framework.ProjectRetrievalService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -194,7 +195,10 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
             throw new RuntimeException(e);
         }
         protocol.refresh();
-        getProjectPublisher().publishProject(getProjectRetrievalService().retrieveProject(protocolDocument.getProtocol().getProtocolNumber()));
+        final Project project = getProjectRetrievalService().retrieveProject(protocolDocument.getProtocol().getProtocolNumber());
+        if (project != null) {
+            getProjectPublisher().publishProject(project);
+        }
     }
 
     protected void updateDefaultSchedule(ProtocolSubmission submission) {
