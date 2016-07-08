@@ -265,6 +265,31 @@ public class AwardDocumentController<T> extends RestController implements Initia
     }
 
     protected void defaultValues(Award award, AwardDto awardDto) {
+        if(award.getAwardAmountInfos() == null) award.initializeAwardAmountInfoObjects();
+        if(award.getAwardCostShares() == null) award.setAwardCostShares(new ArrayList<>());
+        if(award.getApprovedForeignTravelTrips() == null) award.setApprovedForeignTravelTrips(new ArrayList<>());
+        if(award.getFundingProposals() == null) award.setFundingProposals(new ArrayList<>());
+        if(award.getAllFundingProposals() == null) award.setAllFundingProposals(new ArrayList<>());
+        if(award.getAwardComments() == null)  award.setAwardComments(new ArrayList<>());
+        if(award.getAwardReportTermItems() == null) award.setAwardReportTermItems(new ArrayList<>());
+        if(award.getAwardSponsorTerms() == null) award.setAwardSponsorTerms(new ArrayList<>());
+        if(award.getSponsorContacts() == null) award.setSponsorContacts(new ArrayList<>());
+        if(award.getAwardFandaRate() == null) award.setAwardFandaRate(new ArrayList<>());
+        if(award.getAwardDirectFandADistributions() == null) award.setAwardDirectFandADistributions(new ArrayList<>());
+        if(award.getAwardApprovedSubawards() == null) award.setAwardApprovedSubawards(new ArrayList<>());
+        if(award.getKeywords() == null) award.setKeywords(new ArrayList<>());
+        if(award.getProjectPersons() == null) award.setProjectPersons(new ArrayList<>());
+        if(award.getAwardUnitContacts() == null) award.setAwardUnitContacts(new ArrayList<>());
+        if(award.getSpecialReviews() == null) award.setSpecialReviews(new ArrayList<>());
+        if(award.getApprovedEquipmentItems() == null) award.setApprovedEquipmentItems(new ArrayList<>());
+        if(award.getPaymentScheduleItems() == null) award.setPaymentScheduleItems(new ArrayList<>());
+        if(award.getAwardTransferringSponsors() == null) award.setAwardTransferringSponsors(new ArrayList<>());
+        if(award.getAwardCloseoutItems() == null) award.setAwardCloseoutItems(new ArrayList<>());
+        if(award.getAwardCloseoutNewItems() == null) award.setAwardCloseoutNewItems(new ArrayList<>());
+        if(award.getAwardNotepads() == null) award.setAwardNotepads(new ArrayList<>());
+        if(award.getAwardAttachments() == null) award.setAttachments(new ArrayList<>());
+        if(award.getAwardBudgetLimits() == null) award.setAwardBudgetLimits(new ArrayList<>());
+
         award.setAwardTypeCode(AWARD_TYPE_GRANT);
         award.setProjectEndDate(awardDto.getProjectEndDate());
         award.setAwardNumber(Award.DEFAULT_AWARD_NUMBER);

@@ -118,70 +118,69 @@ public class AwardDto {
 
     private AwardBasisOfPayment awardBasisOfPayment;
     private AwardMethodOfPayment awardMethodOfPayment;
-    private AwardTransactionType awardTransactionType;
     @JsonProperty(value="awardComments")
     @CollectionProperty(source="awardComments", itemClass=AwardCommentDto.class)
-    private List<AwardComment> awardComments;
+    private List<AwardCommentDto> awardComments;
 
     @JsonProperty(value="awardSponsorContacts")
     @CollectionProperty(source="awardSponsorContacts", itemClass=AwardSponsorContactDto.class)
-    private List<AwardSponsorContact> sponsorContacts;
+    private List<AwardSponsorContactDto> sponsorContacts;
 
     @JsonProperty(value="awardCostShares")
     @CollectionProperty(source="awardCostShares", itemClass=AwardCostShareDto.class)
-    private List<AwardCostShare> awardCostShares;
+    private List<AwardCostShareDto> awardCostShares;
 
     @JsonProperty(value="awardFandaRate")
     @CollectionProperty(source="awardFandaRate", itemClass= AwardFandARateDto.class)
-    private List<AwardFandaRate> awardFandaRate;
+    private List<AwardFandARateDto> awardFandaRate;
 
     @JsonProperty(value="awardDirectFandADistributions")
     @CollectionProperty(source="awardDirectFandADistributions", itemClass=AwardFandADistributionDto.class)
-    private List<AwardDirectFandADistribution> awardDirectFandADistributions;
+    private List<AwardFandADistributionDto> awardDirectFandADistributions;
 
     @JsonProperty(value="awardUnitContacts")
     @CollectionProperty(source="awardUnitContacts", itemClass=AwardUnitContactDto.class)
-    private List<AwardUnitContact> awardUnitContacts;
+    private List<AwardUnitContactDto> awardUnitContacts;
 
     @JsonProperty(value="approvedEquipmentItems")
     @CollectionProperty(source="approvedEquipmentItems", itemClass=AwardApprovedEquipmentDto.class)
-    private List<AwardApprovedEquipment> approvedEquipmentItems;
+    private List<AwardApprovedEquipmentDto> approvedEquipmentItems;
 
     @JsonProperty(value="approvedForeignTravelTrips")
     @CollectionProperty(source="approvedForeignTravelTrips", itemClass=AwardApprovedForeignTravelDto.class)
-    private List<AwardApprovedForeignTravel> approvedForeignTravelTrips;
+    private List<AwardApprovedForeignTravelDto> approvedForeignTravelTrips;
 
     @JsonProperty(value="paymentScheduleItems")
     @CollectionProperty(source="paymentScheduleItems", itemClass=AwardPaymentScheduleDto.class)
-    private List<AwardPaymentSchedule> paymentScheduleItems;
+    private List<AwardPaymentScheduleDto> paymentScheduleItems;
 
     @JsonProperty(value="awardTransferringSponsors")
     @CollectionProperty(source="awardTransferringSponsors", itemClass=AwardTransferringSponsorDto.class)
-    private List<AwardTransferringSponsor> awardTransferringSponsors;
+    private List<AwardTransferringSponsorDto> awardTransferringSponsors;
 
     @JsonProperty(value="awardAmountInfos")
     @CollectionProperty(source = "awardAmountInfos", itemClass=AwardAmountInfoDto.class)
-    private List<AwardAmountInfo> awardAmountInfos;
+    private List<AwardAmountInfoDto> awardAmountInfos;
 
     @JsonProperty(value="awardCloseoutItems")
     @CollectionProperty(source = "awardCloseoutItems", itemClass=AwardCloseoutDto.class)
-    private List<AwardCloseout> awardCloseoutItems;
+    private List<AwardCloseoutDto> awardCloseoutItems;
 
     @JsonProperty(value="awardCloseoutNewItems")
     @CollectionProperty(source = "awardCloseoutNewItems", itemClass=AwardCloseoutDto.class)
-    private List<AwardCloseout> awardCloseoutNewItems;
+    private List<AwardCloseoutDto> awardCloseoutNewItems;
 
     @JsonProperty(value="fundingProposals")
     @CollectionProperty(source = "fundingProposals", itemClass=AwardFundingProposalDto.class)
-    private List<AwardFundingProposal> fundingProposals;
+    private List<AwardFundingProposalDto> fundingProposals;
 
     @JsonProperty(value="allFundingProposals")
     @CollectionProperty(source = "allFundingProposals", itemClass=AwardFundingProposalDto.class)
-    private List<AwardFundingProposal> allFundingProposals;
+    private List<AwardFundingProposalDto> allFundingProposals;
 
     @JsonProperty(value="awardBudgetLimits")
     @CollectionProperty(source = "awardBudgetLimits", itemClass=AwardBudgetLimitDto.class)
-    private List<AwardBudgetLimit> awardBudgetLimits;
+    private List<AwardBudgetLimitDto> awardBudgetLimits;
 
     private String fainId;
     private Integer fedAwardYear;
@@ -652,142 +651,6 @@ public class AwardDto {
         this.awardMethodOfPayment = awardMethodOfPayment;
     }
 
-    public AwardTransactionType getAwardTransactionType() {
-        return awardTransactionType;
-    }
-
-    public void setAwardTransactionType(AwardTransactionType awardTransactionType) {
-        this.awardTransactionType = awardTransactionType;
-    }
-
-    public List<AwardComment> getAwardComments() {
-        return awardComments;
-    }
-
-    public void setAwardComments(List<AwardComment> awardComments) {
-        this.awardComments = awardComments;
-    }
-
-    public List<AwardSponsorContact> getSponsorContacts() {
-        return sponsorContacts;
-    }
-
-    public void setSponsorContacts(List<AwardSponsorContact> sponsorContacts) {
-        this.sponsorContacts = sponsorContacts;
-    }
-
-    public List<AwardCostShare> getAwardCostShares() {
-        return awardCostShares;
-    }
-
-    public void setAwardCostShares(List<AwardCostShare> awardCostShares) {
-        this.awardCostShares = awardCostShares;
-    }
-
-    public List<AwardFandaRate> getAwardFandaRate() {
-        return awardFandaRate;
-    }
-
-    public void setAwardFandaRate(List<AwardFandaRate> awardFandaRate) {
-        this.awardFandaRate = awardFandaRate;
-    }
-
-    public List<AwardDirectFandADistribution> getAwardDirectFandADistributions() {
-        return awardDirectFandADistributions;
-    }
-
-    public void setAwardDirectFandADistributions(List<AwardDirectFandADistribution> awardDirectFandADistributions) {
-        this.awardDirectFandADistributions = awardDirectFandADistributions;
-    }
-
-    public List<AwardUnitContact> getAwardUnitContacts() {
-        return awardUnitContacts;
-    }
-
-    public void setAwardUnitContacts(List<AwardUnitContact> awardUnitContacts) {
-        this.awardUnitContacts = awardUnitContacts;
-    }
-
-    public List<AwardApprovedEquipment> getApprovedEquipmentItems() {
-        return approvedEquipmentItems;
-    }
-
-    public void setApprovedEquipmentItems(List<AwardApprovedEquipment> approvedEquipmentItems) {
-        this.approvedEquipmentItems = approvedEquipmentItems;
-    }
-
-    public List<AwardApprovedForeignTravel> getApprovedForeignTravelTrips() {
-        return approvedForeignTravelTrips;
-    }
-
-    public void setApprovedForeignTravelTrips(List<AwardApprovedForeignTravel> approvedForeignTravelTrips) {
-        this.approvedForeignTravelTrips = approvedForeignTravelTrips;
-    }
-
-    public List<AwardPaymentSchedule> getPaymentScheduleItems() {
-        return paymentScheduleItems;
-    }
-
-    public void setPaymentScheduleItems(List<AwardPaymentSchedule> paymentScheduleItems) {
-        this.paymentScheduleItems = paymentScheduleItems;
-    }
-
-    public List<AwardTransferringSponsor> getAwardTransferringSponsors() {
-        return awardTransferringSponsors;
-    }
-
-    public void setAwardTransferringSponsors(List<AwardTransferringSponsor> awardTransferringSponsors) {
-        this.awardTransferringSponsors = awardTransferringSponsors;
-    }
-
-    public List<AwardAmountInfo> getAwardAmountInfos() {
-        return awardAmountInfos;
-    }
-
-    public void setAwardAmountInfos(List<AwardAmountInfo> awardAmountInfos) {
-        this.awardAmountInfos = awardAmountInfos;
-    }
-
-    public List<AwardCloseout> getAwardCloseoutItems() {
-        return awardCloseoutItems;
-    }
-
-    public void setAwardCloseoutItems(List<AwardCloseout> awardCloseoutItems) {
-        this.awardCloseoutItems = awardCloseoutItems;
-    }
-
-    public List<AwardCloseout> getAwardCloseoutNewItems() {
-        return awardCloseoutNewItems;
-    }
-
-    public void setAwardCloseoutNewItems(List<AwardCloseout> awardCloseoutNewItems) {
-        this.awardCloseoutNewItems = awardCloseoutNewItems;
-    }
-
-    public List<AwardFundingProposal> getFundingProposals() {
-        return fundingProposals;
-    }
-
-    public void setFundingProposals(List<AwardFundingProposal> fundingProposals) {
-        this.fundingProposals = fundingProposals;
-    }
-
-    public List<AwardFundingProposal> getAllFundingProposals() {
-        return allFundingProposals;
-    }
-
-    public void setAllFundingProposals(List<AwardFundingProposal> allFundingProposals) {
-        this.allFundingProposals = allFundingProposals;
-    }
-
-    public List<AwardBudgetLimit> getAwardBudgetLimits() {
-        return awardBudgetLimits;
-    }
-
-    public void setAwardBudgetLimits(List<AwardBudgetLimit> awardBudgetLimits) {
-        this.awardBudgetLimits = awardBudgetLimits;
-    }
-
     public String getFainId() {
         return fainId;
     }
@@ -818,5 +681,133 @@ public class AwardDto {
 
     public void setPosted(Boolean posted) {
         this.posted = posted;
+    }
+
+    public List<AwardCommentDto> getAwardComments() {
+        return awardComments;
+    }
+
+    public void setAwardComments(List<AwardCommentDto> awardComments) {
+        this.awardComments = awardComments;
+    }
+
+    public List<AwardSponsorContactDto> getSponsorContacts() {
+        return sponsorContacts;
+    }
+
+    public void setSponsorContacts(List<AwardSponsorContactDto> sponsorContacts) {
+        this.sponsorContacts = sponsorContacts;
+    }
+
+    public List<AwardCostShareDto> getAwardCostShares() {
+        return awardCostShares;
+    }
+
+    public void setAwardCostShares(List<AwardCostShareDto> awardCostShares) {
+        this.awardCostShares = awardCostShares;
+    }
+
+    public List<AwardFandARateDto> getAwardFandaRate() {
+        return awardFandaRate;
+    }
+
+    public void setAwardFandaRate(List<AwardFandARateDto> awardFandaRate) {
+        this.awardFandaRate = awardFandaRate;
+    }
+
+    public List<AwardFandADistributionDto> getAwardDirectFandADistributions() {
+        return awardDirectFandADistributions;
+    }
+
+    public void setAwardDirectFandADistributions(List<AwardFandADistributionDto> awardDirectFandADistributions) {
+        this.awardDirectFandADistributions = awardDirectFandADistributions;
+    }
+
+    public List<AwardUnitContactDto> getAwardUnitContacts() {
+        return awardUnitContacts;
+    }
+
+    public void setAwardUnitContacts(List<AwardUnitContactDto> awardUnitContacts) {
+        this.awardUnitContacts = awardUnitContacts;
+    }
+
+    public List<AwardApprovedEquipmentDto> getApprovedEquipmentItems() {
+        return approvedEquipmentItems;
+    }
+
+    public void setApprovedEquipmentItems(List<AwardApprovedEquipmentDto> approvedEquipmentItems) {
+        this.approvedEquipmentItems = approvedEquipmentItems;
+    }
+
+    public List<AwardApprovedForeignTravelDto> getApprovedForeignTravelTrips() {
+        return approvedForeignTravelTrips;
+    }
+
+    public void setApprovedForeignTravelTrips(List<AwardApprovedForeignTravelDto> approvedForeignTravelTrips) {
+        this.approvedForeignTravelTrips = approvedForeignTravelTrips;
+    }
+
+    public List<AwardPaymentScheduleDto> getPaymentScheduleItems() {
+        return paymentScheduleItems;
+    }
+
+    public void setPaymentScheduleItems(List<AwardPaymentScheduleDto> paymentScheduleItems) {
+        this.paymentScheduleItems = paymentScheduleItems;
+    }
+
+    public List<AwardTransferringSponsorDto> getAwardTransferringSponsors() {
+        return awardTransferringSponsors;
+    }
+
+    public void setAwardTransferringSponsors(List<AwardTransferringSponsorDto> awardTransferringSponsors) {
+        this.awardTransferringSponsors = awardTransferringSponsors;
+    }
+
+    public List<AwardAmountInfoDto> getAwardAmountInfos() {
+        return awardAmountInfos;
+    }
+
+    public void setAwardAmountInfos(List<AwardAmountInfoDto> awardAmountInfos) {
+        this.awardAmountInfos = awardAmountInfos;
+    }
+
+    public List<AwardCloseoutDto> getAwardCloseoutItems() {
+        return awardCloseoutItems;
+    }
+
+    public void setAwardCloseoutItems(List<AwardCloseoutDto> awardCloseoutItems) {
+        this.awardCloseoutItems = awardCloseoutItems;
+    }
+
+    public List<AwardCloseoutDto> getAwardCloseoutNewItems() {
+        return awardCloseoutNewItems;
+    }
+
+    public void setAwardCloseoutNewItems(List<AwardCloseoutDto> awardCloseoutNewItems) {
+        this.awardCloseoutNewItems = awardCloseoutNewItems;
+    }
+
+    public List<AwardFundingProposalDto> getFundingProposals() {
+        return fundingProposals;
+    }
+
+    public void setFundingProposals(List<AwardFundingProposalDto> fundingProposals) {
+        this.fundingProposals = fundingProposals;
+    }
+
+    public List<AwardFundingProposalDto> getAllFundingProposals() {
+        return allFundingProposals;
+    }
+
+    public void setAllFundingProposals(List<AwardFundingProposalDto> allFundingProposals) {
+        this.allFundingProposals = allFundingProposals;
+    }
+
+    public List<AwardBudgetLimitDto> getAwardBudgetLimits() {
+        return awardBudgetLimits;
+    }
+
+    public void setAwardBudgetLimits(List<AwardBudgetLimitDto> awardBudgetLimits) {
+        this.awardBudgetLimits = awardBudgetLimits;
     }
 }

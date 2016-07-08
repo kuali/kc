@@ -300,16 +300,18 @@ public class AwardDocumentRule extends KcTransactionalDocumentRuleBase implement
         Award award = awardDocument.getAward();
         EquipmentCapitalizationMinimumLoader helper = new EquipmentCapitalizationMinimumLoader();
         AwardApprovedEquipmentRuleImpl rule = new AwardApprovedEquipmentRuleImpl();
-        int count = award.getApprovedEquipmentItems().size();
-        for (int i = 0; i < count; i++) {
-            String errorPath = String.format("approvedEquipmentItems[%d]", i);
-            errorMap.addToErrorPath(errorPath);
-            String errorKey = AWARD_ERROR_PATH_PREFIX + errorPath;
-            AwardApprovedEquipmentRuleEvent event = new AwardApprovedEquipmentRuleEvent(errorKey, awardDocument, awardDocument.getAward(),
-                                                                                        award.getApprovedEquipmentItems().get(i),
-                                                                                        helper.getMinimumCapitalization());
-            success &= rule.processAwardApprovedEquipmentBusinessRules(event);
-            errorMap.removeFromErrorPath(errorPath);
+        if (award.getApprovedEquipmentItems() != null) {
+            int count = award.getApprovedEquipmentItems().size();
+            for (int i = 0; i < count; i++) {
+                String errorPath = String.format("approvedEquipmentItems[%d]", i);
+                errorMap.addToErrorPath(errorPath);
+                String errorKey = AWARD_ERROR_PATH_PREFIX + errorPath;
+                AwardApprovedEquipmentRuleEvent event = new AwardApprovedEquipmentRuleEvent(errorKey, awardDocument, awardDocument.getAward(),
+                        award.getApprovedEquipmentItems().get(i),
+                        helper.getMinimumCapitalization());
+                success &= rule.processAwardApprovedEquipmentBusinessRules(event);
+                errorMap.removeFromErrorPath(errorPath);
+            }
         }
         errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
         errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
@@ -381,14 +383,14 @@ public class AwardDocumentRule extends KcTransactionalDocumentRuleBase implement
         errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
         errorMap.addToErrorPath(AWARD_ERROR_PATH);
         for (AwardCostShare awardCostShare : awardCostShares) {
-            String errorPath = "awardCostShares[" + i + Constants.RIGHT_SQUARE_BRACKET;
-            errorMap.addToErrorPath(errorPath);
-            AwardCostShareRuleEvent event = new AwardCostShareRuleEvent(errorPath, 
-                                                                        awardDocument, 
-                                                                        awardCostShare);
-            valid &= new AwardCostShareRuleImpl().processCostShareBusinessRules(event, i);
-            errorMap.removeFromErrorPath(errorPath);
-            i++;
+                String errorPath = "awardCostShares[" + i + Constants.RIGHT_SQUARE_BRACKET;
+                errorMap.addToErrorPath(errorPath);
+                AwardCostShareRuleEvent event = new AwardCostShareRuleEvent(errorPath,
+                        awardDocument,
+                        awardCostShare);
+                valid &= new AwardCostShareRuleImpl().processCostShareBusinessRules(event, i);
+                errorMap.removeFromErrorPath(errorPath);
+                i++;
         }
         errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
         errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
@@ -669,7 +671,7 @@ public class AwardDocumentRule extends KcTransactionalDocumentRuleBase implement
             errorMap.addToErrorPath(errorPath);
             String errorKey = AWARD_ERROR_PATH_PREFIX + errorPath;
             AwardApprovedForeignTravelRuleEvent event = new AwardApprovedForeignTravelRuleEvent(errorKey, awardDocument, awardDocument.getAward(),
-                                                                                        award.getApprovedForeignTravelTrips().get(i));
+                        award.getApprovedForeignTravelTrips().get(i));
             success &= rule.processAwardApprovedForeignTravelBusinessRules(event);
             errorMap.removeFromErrorPath(errorPath);
         }

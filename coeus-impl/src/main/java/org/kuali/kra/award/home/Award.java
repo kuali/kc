@@ -750,8 +750,6 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         this.beginDate = beginDate;
     }
 
-
-
     public String getCostSharingIndicator() {
         return costSharingIndicator;
     }
@@ -763,6 +761,10 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 
     public List<AwardFundingProposal> getFundingProposals() {
         return fundingProposals;
+    }
+
+    public void setFundingProposals(List<AwardFundingProposal> fundingProposals) {
+        this.fundingProposals = fundingProposals;
     }
 
     /**
@@ -2490,6 +2492,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     public String getPrimeSponsorName() {
         return getPrimeSponsor() == null ? EMPTY_STRING : getPrimeSponsor().getSponsorName();
     }
+
 
     @Override
     public String getSubAwardOrganizationName() {
