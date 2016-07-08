@@ -76,7 +76,7 @@
         <property name="shortLabel" value="Questionnaire Id" />
         <property name="maxLength" value="6" />
         <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
+            <bean parent="AlphaNumericValidationPattern" p:allowDash="true" />
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"

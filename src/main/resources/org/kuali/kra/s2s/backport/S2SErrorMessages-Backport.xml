@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2005-2014 The Kuali Foundation.
+# 
+# Licensed under the Educational Community License, Version 1.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+# http://www.opensource.org/licenses/ecl1.php
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+--> 
+
+<S2SErrors>
+
+	<Error>
+ 		<MessageKey>/GrantApplication/Forms/PHS398_ResearchPlan_3_0/ResearchPlanAttachments/ResearchStrategy</MessageKey>
+ 		<Message>Research Strategy attachment is required for Research Plan.</Message> 
+  		<FixLink>abstractsAttachments</FixLink> 
+	</Error>
+
+	<Error>
+		<MessageKey>/GrantApplication/Forms/PHS398_ResearchTrainingProgramPlan_3_0/ResearchTrainingProgramPlanAttachments</MessageKey>
+		<Message>Program Plan attachment is required for Research Training Program Plan.</Message>
+		<FixLink>abstractsAttachments</FixLink>
+	</Error>
+
+	<Error>
+		<MessageKey>/GrantApplication/Forms/PHS398_CareerDevelopmentAwardSup_3_0/CareerDevelopmentAwardAttachments/ResearchStrategy</MessageKey>
+		<Message>Research Strategy attachment is required for Career Development Award Supplemental.</Message>
+		<FixLink>abstractsAttachments</FixLink>
+	</Error>
+
+	<Error>
+		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_3_1/ResearchTrainingPlan/ResearchStrategy</MessageKey>
+		<Message>Research Strategy attachment is required for Research Training Plan.</Message>
+		<FixLink>abstractsAttachments</FixLink>
+	</Error>
+
+	<Error>
+		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_3_1/ResearchTrainingPlan/RespectiveContribution</MessageKey>
+		<Message>Research Contribution attachment is required for Research Training Plan.</Message>
+		<FixLink>abstractsAttachments</FixLink>
+	</Error>
+
+	<Error>
+		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_3_1/ResearchTrainingPlan/SponsorandInstitution</MessageKey>
+		<Message>Sponsor and institution attachment is required for Research Training Plan.</Message>
+		<FixLink>abstractsAttachments</FixLink>
+	</Error>
+
+	<Error>
+		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_3_1/ResearchTrainingPlan/TrainingInResponsibleConductOfResearch</MessageKey>
+		<Message>Responsible Conduct of Research attachment is required for Research Training Plan.</Message>
+		<FixLink>abstractsAttachments</FixLink>
+	</Error>
+
+	<Error>
+		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_3_1/ResearchTrainingPlan/SpecificAims</MessageKey>
+		<Message>Specific Aims attachment is required for Research Training Plan.</Message>
+		<FixLink>abstractsAttachments</FixLink>
+	</Error>
+
+	<Error>
+		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_3_1/AdditionalInformation/NonUSCitizen</MessageKey>
+		<Message>Citizenship Type is not valid in additional information.</Message>
+		<FixLink>keyPersonnel</FixLink>
+	</Error>
+
+</S2SErrors>
+
+	
+	
+		
+	

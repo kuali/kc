@@ -31,12 +31,18 @@ public class S2SErrorHandler {
     private static Map<String, AuditError> auditErrorMap;
     private static final String ERROR_MAP_FILE = "/S2SErrorMessages.xml";
     private static final String ERROR_MAP_FILE_V2="/org/kuali/kra/s2s/s2sform/S2SErrorMessagesV2.xml";
+    private static final String ERROR_MAP_FILE_BACKPORT="/org/kuali/kra/s2s/backport/S2SErrorMessages-Backport.xml";
     public static AuditError getError(String key) {
         if (auditErrorMap == null) {
         	auditErrorMap = new HashMap<String, AuditError>();
             loadErrors(ERROR_MAP_FILE);
-            if((new S2SErrorHandler().getClass().getResourceAsStream(ERROR_MAP_FILE_V2))!=null)
-            loadErrors(ERROR_MAP_FILE_V2);
+            if((S2SErrorHandler.class.getResourceAsStream(ERROR_MAP_FILE_V2))!=null) {
+                loadErrors(ERROR_MAP_FILE_V2);
+            }
+
+            if((S2SErrorHandler.class.getResourceAsStream(ERROR_MAP_FILE_BACKPORT))!=null) {
+                loadErrors(ERROR_MAP_FILE_BACKPORT);
+            }
         }
         AuditError error = auditErrorMap.get(key);
         AuditError defaultError = new AuditError(Constants.NO_FIELD, key + " is not valid", Constants.GRANTS_GOV_PAGE + "."
@@ -47,7 +53,7 @@ public class S2SErrorHandler {
     private static void loadErrors(String errorMapFile) {
         InputStream stream = null;
         try {
-            stream = new S2SErrorHandler().getClass().getResourceAsStream(errorMapFile);
+            stream = S2SErrorHandler.class.getResourceAsStream(errorMapFile);
             org.w3c.dom.Document errorsDocument = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(stream);
             Document document = new DOMBuilder().build(errorsDocument);
             Element root = document.getRootElement();

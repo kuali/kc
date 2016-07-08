@@ -260,7 +260,18 @@ public class PHS398CareerDevelopmentAwardSupV3_0Generator extends PHS398CareerDe
         }
         attachmentGroupMin0Max100DataType.setAttachedFileArray(attachedFileList.toArray(new AttachedFileDataType[0]));
         careerDevelopmentAwardAttachments.setAppendix(attachmentGroupMin0Max100DataType);
+
+        setMandatoryAttachments(careerDevelopmentAwardAttachments);
         return careerDevelopmentAwardAttachments;
+    }
+
+    /**
+     * This set any mandatory attachments that aren't set to blank objects so that validation errors can be more user friendly.
+     */
+    private void setMandatoryAttachments(CareerDevelopmentAwardAttachments careerDevelopmentAwardAttachments) {
+        if (careerDevelopmentAwardAttachments.getResearchStrategy() == null) {
+            careerDevelopmentAwardAttachments.setResearchStrategy(ResearchStrategy.Factory.newInstance());
+        }
     }
 
     public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) {

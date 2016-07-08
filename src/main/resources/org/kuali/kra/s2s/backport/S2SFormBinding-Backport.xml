@@ -115,4 +115,17 @@
 		</pkgName>
 		<sortIndex>155</sortIndex>
 	</Form>
+	<Form namespace="http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_3_1-V3.1">
+		<formName>PHS_Fellowship_Supplemental_3_1</formName>
+		<mainClass>
+			org.kuali.kra.s2s.backport.PHS398FellowshipSupplementalV3_1Generator
+		</mainClass>
+		<stylesheet>
+			org/kuali/kra/s2s/backport/PHS_FellowshipSupplemental-V3.1.xsl
+		</stylesheet>
+		<pkgName>
+			gov.grants.apply.forms.phsFellowshipSupplemental31V31
+		</pkgName>
+		<sortIndex>211</sortIndex>
+	</Form>
 </FormBinding>

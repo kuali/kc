@@ -27,7 +27,8 @@ public enum FormVersion {
     v1_6("1.6"),
     v2_0("2.0"),
     v2_1("2.1"),
-    v3_0("3.0");
+    v3_0("3.0"),
+    v3_1("3.1");
 
     private final String version;
 
