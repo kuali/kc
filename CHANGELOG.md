@@ -1,6 +1,25 @@
 
 
 ##CURRENT
+* Fix integration tests. (#1845)
+
+  * Gayathri Athreya on Thu, 7 Jul 2016 17:07:54 -0700 [View Commit](../../commit/d40cde257194cfb5a5cefdb9f219f9d507dac2ea)
+* Fix sql files
+  * Gayathri Athreya on Thu, 7 Jul 2016 13:41:54 -0700 [View Commit](../../commit/bb01361eebc0359ebe6a6ba00eab045e5e66b0bc)
+* RESKC-1263: Adding award post functionality. (#1840)
+
+* RESKC-1263: Adding award post functionality.
+  * Currently, the system allows user to "create account" in the financial system via the API, or "Post" a submitted award budget to the API. We need to expand this post feature to award.
+  * User Story
+  * As a user with the ability to Post an Award,
+  * I need to be able to complete updates to an already existing award and then after that award is submitted and finalized, send those updates to the Financial API manually via a Post button. So that the Financial system shows the recent award changes.
+  * 
+* RESKC-1263: Refactored according to review comments.
+  * 
+* RESKC-1263: Renaming file to fix errors.
+  * Gayathri Athreya on Thu, 7 Jul 2016 12:21:12 -0700 [View Commit](../../commit/f638534557d6ffcb4e2d394d270b9332593423bf)
+
+##coeus-1607.6
 * RESKC-1383: fixing integration test by adding a null check
   * Travis Schneeberger on Wed, 6 Jul 2016 16:50:39 -0400 [View Commit](../../commit/0535b4da1a2a43a7a010a378e0dcced7f24bc355)
 * RESKC-1431: Fixing descriptions.
