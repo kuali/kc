@@ -165,7 +165,7 @@ Kc.Questionnaire.Answer = Kc.Questionnaire.Answer || {};
        var conditionValue = conditionObj.conditionValue;
        var answerValue = $(answer).val();
        if ($(answer).is(':radio')) {
-    	   answerValue = $(answer).parent().find(':checked').val();
+    	   answerValue = $($(answer).context).find(':checked').val();
        }
         if ($(answer).is('select')) {
             answerValue = $(answer).find(':selected').val();
