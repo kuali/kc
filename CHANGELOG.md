@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-1477: Address performance issues when opening Subawards with many invoices (#1849)
+
+  * tdurkin on Mon, 11 Jul 2016 18:34:20 -0400 [View Commit](../../commit/98849adc181a55bfaee3b91b4e878f8f5964f84e)
+
+##coeus-1607.11
 * No Changes
 
 
