@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1607.9
 * RESKC-1372: Questionnaire branching not working in some situations when question criteria is Contains Text (#1846)
 
   * tdurkin on Fri, 8 Jul 2016 12:56:03 -0400 [View Commit](../../commit/a77a53fd4acc894781bf6a1481f29f6db46e002e)
