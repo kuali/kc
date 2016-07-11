@@ -167,6 +167,8 @@ implements Permissionable, SequenceOwner<SubAward>, CustomDataContainer, Negotia
     private List<SubAwardCloseout> subAwardCloseoutList;
     private List<SubAwardCustomData> subAwardCustomDataList;
 
+    private transient List<SubAwardAmountReleased> subAwardAmountReleasedList;
+
     private VersionHistorySearchBo versionHistory;
 
     /**
@@ -963,11 +965,17 @@ implements Permissionable, SequenceOwner<SubAward>, CustomDataContainer, Negotia
 	 * @return Returns the subAwardAmountReleasedList.
 	 */
 	public List<SubAwardAmountReleased> getSubAwardAmountReleasedList() {
-	    Map<String, Object> values = new HashMap<String, Object>();
-	    values.put("subAwardCode", this.getSubAwardCode());
-		return (List<SubAwardAmountReleased>) 
-		    KcServiceLocator.getService(BusinessObjectService.class).findMatchingOrderBy(SubAwardAmountReleased.class, values, "createdDate", false);
+        if (this.subAwardAmountReleasedList == null) {
+            Map<String, Object> values = new HashMap<String, Object>();
+            values.put("subAwardCode", this.getSubAwardCode());
+            this.setSubAwardAmountReleasedList((List<SubAwardAmountReleased>)KcServiceLocator.getService(BusinessObjectService.class).findMatchingOrderBy(SubAwardAmountReleased.class, values, "createdDate", false));
+        }
+        return this.subAwardAmountReleasedList;
 	}
+
+    public void setSubAwardAmountReleasedList(List<SubAwardAmountReleased> subAwardAmountReleasedList) {
+        this.subAwardAmountReleasedList = subAwardAmountReleasedList;
+    }
 
 	/**.
 	 * This is the Getter Method for subAwardContactsList
