@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* Handle s2s communication errors better (#1850)
+
+  * Handle the S2sCommunicationException to provide the user an error message instead of an exception page  * Douglas Pace on Mon, 11 Jul 2016 18:39:34 -0700 [View Commit](../../commit/29c4387572b30e484b62183130ae9ffcca7b1dce)
+
+##coeus-1607.12
 * RESKC-1477: Address performance issues when opening Subawards with many invoices (#1849)
 
   * tdurkin on Mon, 11 Jul 2016 18:34:20 -0400 [View Commit](../../commit/98849adc181a55bfaee3b91b4e878f8f5964f84e)
