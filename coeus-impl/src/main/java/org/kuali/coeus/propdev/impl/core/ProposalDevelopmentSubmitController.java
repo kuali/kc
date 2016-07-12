@@ -42,6 +42,7 @@ import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyService;
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationContext;
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationRenderer;
 import org.kuali.coeus.propdev.impl.s2s.S2sSubmissionService;
+import org.kuali.coeus.propdev.impl.s2s.connect.S2sCommunicationException;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.coeus.propdev.impl.state.ProposalStateService;
@@ -390,8 +391,11 @@ public class ProposalDevelopmentSubmitController extends
         try {
             submitS2sApplication(proposalDevelopmentDocument);
         } catch(S2SException ex) {
-            LOGGER.error(ex.getStackTrace(), ex);
+            LOGGER.error("Error submitting to s2s", ex);
             getGlobalVariableService().getMessageMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_ON_GRANTS_GOV_SUBMISSION,ex.getErrorMessage());
+        } catch (S2sCommunicationException ex) {
+        	LOGGER.error("Error submitting to s2s", ex);
+        	getGlobalVariableService().getMessageMap().putError(Constants.NO_FIELD, ex.getErrorKey(), ex.getMessageWithParams());
         }
     }
 
