@@ -19,6 +19,7 @@
 package org.kuali.kra.award.dao;
 
 import org.kuali.coeus.sys.framework.rest.SearchResults;
+import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.home.Award;
 
 import java.util.Collection;
@@ -43,5 +44,9 @@ public interface AwardDao {
     List<Integer> getAwardSequenceNumbers(String awardNumber);
 
     Award getAward(String awardId);
+
+    List<Award> getAwardByAwardNumber(String awardNumber);
+
+    AwardBudgetExt getAwardBudget(String budgetId);
 
     }

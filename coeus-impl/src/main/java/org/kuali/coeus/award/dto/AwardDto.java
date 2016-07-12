@@ -182,6 +182,10 @@ public class AwardDto {
     @CollectionProperty(source = "awardBudgetLimits", itemClass=AwardBudgetLimitDto.class)
     private List<AwardBudgetLimitDto> awardBudgetLimits;
 
+    @JsonProperty(value="budgets")
+    @CollectionProperty(source = "budgets", itemClass=AwardBudgetExtDto.class)
+    private List<AwardBudgetExtDto> budgets;
+
     private String fainId;
     private Integer fedAwardYear;
     private Date fedAwardDate;
@@ -809,5 +813,13 @@ public class AwardDto {
 
     public void setAwardBudgetLimits(List<AwardBudgetLimitDto> awardBudgetLimits) {
         this.awardBudgetLimits = awardBudgetLimits;
+    }
+
+    public List<AwardBudgetExtDto> getBudgets() {
+        return budgets;
+    }
+
+    public void setBudgets(List<AwardBudgetExtDto> budgets) {
+        this.budgets = budgets;
     }
 }

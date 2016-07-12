@@ -40,7 +40,7 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposalBoLite;
 public class AwardSummaryControllerTest {
 	
 	private static final String PERSON_ID123 = "personId123";
-	private AwardController awardController;
+	private AwardControllerVersion1 awardController;
 	private Award award1;
 	private Award award2;
 	private AwardStatus awardStatus;
@@ -116,7 +116,7 @@ public class AwardSummaryControllerTest {
 	
 	@Test
 	public void testOrganizationSummary() {
-		awardController = new AwardController() {
+		awardController = new AwardControllerVersion1() {
 			@Override
 			SearchResults<Award> getAwards(Date updatedSince, Integer page, Integer numberPerPage) {
 				SearchResults<Award> result = new SearchResults<>();
