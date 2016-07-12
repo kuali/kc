@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-1263: Minor changes. (#1855)
+
+  * Gayathri Athreya on Tue, 12 Jul 2016 15:41:39 -0700 [View Commit](../../commit/108d266797f15329cd93bb9f7fd3c6b18e071c9a)
+
+##coeus-1607.15
 * Move financial API documentation into a new file. (#1853)
 
   * Gayathri Athreya on Tue, 12 Jul 2016 13:17:19 -0700 [View Commit](../../commit/edcec11a1990d93e9865826ea7677cf9a6cd79f0)
