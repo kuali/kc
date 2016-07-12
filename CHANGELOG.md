@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* Move financial API documentation into a new file. (#1853)
+
+  * Gayathri Athreya on Tue, 12 Jul 2016 13:17:19 -0700 [View Commit](../../commit/edcec11a1990d93e9865826ea7677cf9a6cd79f0)
+
+##coeus-1607.14
 * fix integration tests. (#1852)
 
   * Gayathri Athreya on Tue, 12 Jul 2016 12:13:29 -0700 [View Commit](../../commit/5adeda2621fe2d969f1f21afc68fa09bd91c7f39)
