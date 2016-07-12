@@ -8509,9 +8509,9 @@ PUT Award Budget General Info
             Content-Type: application/json;charset=UTF-8
 
 
-### Get Award info with associated sub objects [GET /award/api/v2/awards/13163?includeBudgets=true]
+### Get Award [GET /award/api/v2/awards/13163?includeBudgets=true]
 
-GET Award along with associated sub objects
+GET Award
 
 + Path Variable
 	+ awardId: (required) - Gets the award associated with the awardId.
@@ -9082,9 +9082,9 @@ GET Award along with associated sub objects
         "awardSponsorContacts": null
       }
 
-### Get award along with associated sub objects by award number [GET /award/api/v2/awards?awardNumber=000224-00001&includeBudgets=false]
+### Get award by award number [GET /award/api/v2/awards?awardNumber=000224-00001&includeBudgets=false]
 
-GET Award Info by award number along with associated sub objects
+GET Award by award number
 
 + Path Variable
 	+ awardNumber: (not required) - Gets the awards associated with the awardNumber.

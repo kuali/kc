@@ -1,4 +1,4 @@
-## Awards [/award/api/v1/award-posts/]
+## Award Posts [/award/api/v1/award-posts/]
 
 ### Get All Active Award Posts [GET /award/api/v1/award-posts/{?accountNumber=55555}]
 
