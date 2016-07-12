@@ -47,7 +47,7 @@
         <property name="shortLabel" value="Award Budget Status Code" />
         <property name="maxLength" value="3" />
         <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
+            <bean parent="AlphaNumericValidationPattern" p:allowDash="true"/>
         </property>
     <property name="validCharactersConstraint">
       <bean parent="AlphaNumericPatternConstraint"/>

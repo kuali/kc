@@ -74,10 +74,10 @@
         <property name="shortLabel" value="Award Budget Status" />
         <property name="maxLength" value="3" />
         <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
+            <bean parent="AlphaNumericValidationPattern" p:allowDash="true"/>
         </property>
     <property name="validCharactersConstraint">
-      <bean parent="AlphaNumericPatternConstraint"/>
+      <bean parent="AlphaNumericPatternConstraint" p:allowDash="true"/>
     </property>
 	    <property name="control" >
       <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.award.budget.AwardBudgetStatus" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="awardBudgetStatusCode" p:labelAttribute="description"/>
