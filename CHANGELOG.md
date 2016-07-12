@@ -1,6 +1,17 @@
 
 
 ##CURRENT
+* fix integration tests. (#1852)
+
+  * Gayathri Athreya on Tue, 12 Jul 2016 12:13:29 -0700 [View Commit](../../commit/5adeda2621fe2d969f1f21afc68fa09bd91c7f39)
+* first commit (#1847)
+
+* RESKC-1461: Adding budget API endpoints and new status.
+  * 
+* RESKC-1461: Adding documentation and moving methods to V2.
+  * Gayathri Athreya on Tue, 12 Jul 2016 08:54:09 -0700 [View Commit](../../commit/7aea9b92edeb38d19ce50e3b97fdc5182d9b387c)
+
+##coeus-1607.13
 * Handle s2s communication errors better (#1850)
 
   * Handle the S2sCommunicationException to provide the user an error message instead of an exception page  * Douglas Pace on Mon, 11 Jul 2016 18:39:34 -0700 [View Commit](../../commit/29c4387572b30e484b62183130ae9ffcca7b1dce)
