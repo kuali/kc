@@ -18,6 +18,7 @@
  */
 package org.kuali.coeus.award.finance;
 
+import org.kuali.coeus.award.dto.AwardDto;
 import java.sql.Timestamp;
 
 public class AwardPostsDto {
@@ -25,6 +26,7 @@ public class AwardPostsDto {
     private Long id;
     private String accountNumber;
     private Long awardId;
+    private AwardDto awardDto;
     private boolean posted;
     private boolean active;
     private String documentNumber;
@@ -93,5 +95,13 @@ public class AwardPostsDto {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public void setAwardDto(AwardDto awardDto) {
+        this.awardDto = awardDto;
+    }
+
+    public AwardDto getAwardDto() {
+        return awardDto;
     }
 }

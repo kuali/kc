@@ -28,7 +28,7 @@
                 <tr>
                     <th>
                         <div align="center">
-                            Award data active
+                            Data retrieved
                         </div>
                     </th>
                     <th>
@@ -61,7 +61,7 @@
                 <tr>
                     <td class="infoline">
                         <div align="center">
-                            <c:out value="${postHistory.active}" />
+                            <c:out value="${!postHistory.active}" />
                         </div>
                     </td>
                     <td class="infoline">

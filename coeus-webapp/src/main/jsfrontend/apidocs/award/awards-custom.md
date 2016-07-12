@@ -9086,10 +9086,9 @@ GET Award
 
 GET Award by award number
 
-+ Path Variable
-	+ awardNumber: (not required) - Gets the awards associated with the awardNumber.
-
 + Parameters
+  + awardNumber: (not required) - Gets the awards associated with the awardNumber.
+  + awardHierarchy: (not required) - Gets all the awards in the award hierarchy with the awardHierarchy number. The awardHierarchy for an award with awardNumber 000224-00001 would be 000224.
   + includeBudgets: (not required) - Includes budget information with the award if true.
 
 + Request

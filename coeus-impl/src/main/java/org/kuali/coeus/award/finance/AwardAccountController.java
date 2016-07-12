@@ -20,11 +20,14 @@ package org.kuali.coeus.award.finance;
 
 import com.codiform.moo.curry.Translate;
 
+import org.kuali.coeus.award.dto.AwardDto;
 import org.kuali.coeus.award.finance.dao.AccountDao;
 import org.kuali.coeus.common.api.document.service.CommonApiService;
 import org.kuali.coeus.sys.framework.controller.rest.RestController;
 import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
 import org.kuali.coeus.sys.framework.rest.SearchResults;
+import org.kuali.kra.award.dao.AwardDao;
+import org.kuali.kra.award.home.Award;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -53,6 +56,10 @@ public class AwardAccountController extends RestController {
     @Autowired
     @Qualifier("dataObjectService")
     private DataObjectService dataObjectService;
+
+    @Autowired
+    @Qualifier("awardDao")
+    private AwardDao awardDao;
 
     @Autowired
     @Qualifier("commonApiService")
@@ -105,8 +112,16 @@ public class AwardAccountController extends RestController {
         List<AwardPostsDto> awardPostsDtos = new ArrayList<>();
         List<AwardPosts> awardPostsList = getAccountDao().getActiveAwardPosts(accountNumber);
         return awardPostsList.stream()
-                .map(awardPost -> Translate.to(AwardPostsDto.class).from(awardPost))
+                .map(awardPost -> translateAwardPosts(awardPost))
                 .collect(Collectors.toList());
+    }
+
+    protected AwardPostsDto translateAwardPosts(AwardPosts awardPosts) {
+        AwardPostsDto awardPostsDto = commonApiService.convertObject(awardPosts, AwardPostsDto.class);
+        Award award = awardDao.getAward(awardPosts.getAwardId().toString());
+        AwardDto awardDto = commonApiService.convertObject(award, AwardDto.class);
+        awardPostsDto.setAwardDto(awardDto);
+        return awardPostsDto;
     }
 
     @RequestMapping(method= RequestMethod.PUT, value="v1/award-posts/{postId}",

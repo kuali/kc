@@ -23,7 +23,6 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.coeus.award.finance.AwardPosts;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.dao.AwardDao;
@@ -157,6 +156,20 @@ public class AwardDaoOjb extends LookupDaoOjb implements OjbCollectionAware, Awa
         Map<String, String> criteria = new HashMap<>();
         criteria.put("awardNumber", awardNumber);
         return (List<Award>) getBusinessObjectService().findMatching(Award.class, criteria);
+    }
+
+    @Override
+    public List<Award> getAwardByAwardHierarchy(String awardFamily) {
+        QueryByCriteria queryCriteria = getQueryForAwardHierarchyByAwardFamily(awardFamily);
+        return new ArrayList<>(getPersistenceBrokerTemplate().getCollectionByQuery(queryCriteria));
+
+    }
+
+    QueryByCriteria getQueryForAwardHierarchyByAwardFamily(String awardFamily) {
+        Criteria crit = new Criteria();
+        crit.addLike(AWARD_NUMBER, awardFamily + "%");
+        QueryByCriteria queryCrit = QueryFactory.newQuery(Award.class, crit);
+        return queryCrit;
     }
 
     @Override

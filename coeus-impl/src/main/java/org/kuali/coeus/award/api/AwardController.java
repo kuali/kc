@@ -20,7 +20,7 @@ package org.kuali.coeus.award.api;
 
 import com.codiform.moo.Moo;
 import com.codiform.moo.configuration.Configuration;
-import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.award.dto.AwardBudgetExtDto;
 import org.kuali.coeus.award.dto.AwardBudgetGeneralInfoDto;
 import org.kuali.coeus.award.dto.AwardDto;
@@ -79,16 +79,28 @@ public class AwardController extends RestController {
     @RequestMapping(method= RequestMethod.GET, value="/awards", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
-    List<AwardDto> getAwardByAwardNumber(@RequestParam(value = "awardNumber", required = false) String awardNumber,
-                                         @RequestParam(value = "includeBudgets", required = false) boolean includeBudgets) {
-        if(awardNumber == null) {
+    List<AwardDto> getAwardByCriteria(@RequestParam(value = "awardNumber", required = false) String awardNumber,
+                                         @RequestParam(value = "awardHierarchy", required = false) String awardHierarchy,
+                                         @RequestParam(value = "includeBudgets", required = false) boolean includeBudgets
+                                         ) {
+        List<AwardDto> awardDtos = new ArrayList<>();
+        if(StringUtils.isBlank(awardNumber) && StringUtils.isBlank(awardHierarchy)) {
             throw new NotImplementedException("GET all awards not yet implemented in version 2.");
         }
-        List<Award> awards = getAwardDao().getAwardByAwardNumber(awardNumber);
-        if(CollectionUtils.isEmpty(awards)) {
-            throw new ResourceNotFoundException("Award with award number " + awardNumber + " not found.");
+        if(StringUtils.isNotBlank(awardNumber)) {
+            List<Award> awards = getAwardDao().getAwardByAwardNumber(awardNumber);
+            awardDtos = translateAwards(includeBudgets, awards);
         }
-        List<AwardDto> awardDtos = awards.stream().map(award -> {
+        else if(StringUtils.isNotBlank(awardHierarchy)) {
+            List<Award> awards = getAwardDao().getAwardByAwardHierarchy(awardHierarchy);
+            awardDtos = translateAwards(includeBudgets, awards);
+        }
+        return awardDtos;
+    }
+
+    protected List<AwardDto> translateAwards(boolean includeBudgets, List<Award> awards) {
+        List<AwardDto> awardDtos;
+        awardDtos = awards.stream().map(award -> {
             AwardDto awardDto = commonApiService.convertObject(award, AwardDto.class);
             if (!includeBudgets) {
                 awardDto.setBudgets(new ArrayList<>());
