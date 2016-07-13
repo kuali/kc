@@ -44,7 +44,11 @@ import java.util.UUID;
 @Component("kcAttachmentDataDao")
 public class KcAttachmentDataDaoImpl implements KcAttachmentDataDao {
 
-    private static Log LOG = LogFactory.getLog(KcAttachmentDataDaoImpl.class);
+	protected static final String SELECT_RECORD_DATA_ONLY = "select data from file_data where id = ?";
+	protected static final String INSERT_RECORD = "insert into file_data (id, data) values (?, ?)";
+	protected static final String DELETE_SINGLE_RECORD = "delete from file_data where id = ?";
+
+	private static Log LOG = LogFactory.getLog(KcAttachmentDataDaoImpl.class);
 
     @Autowired
     @Qualifier("dataSource")
@@ -55,12 +59,12 @@ public class KcAttachmentDataDaoImpl implements KcAttachmentDataDao {
     @Override
     public byte[] getData(String id) {
     	if (LOG.isDebugEnabled()) {
-            LOG.debug("Fetching attachment data existing id: " + id);
+            LOG.debug("Fetching attachment data from database, existing id: " + id);
         }
 
         if (StringUtils.isNotBlank(id)) {
 	        try(Connection connection = getDataSource().getConnection();
-	        		PreparedStatement stmt = connection.prepareStatement("select data from file_data where id = ?")) {
+	        		PreparedStatement stmt = connection.prepareStatement(SELECT_RECORD_DATA_ONLY)) {
 	        	stmt.setString(1, id);
 	        	try (ResultSet rs = stmt.executeQuery()) {
 	        		if (rs.next()) {
@@ -84,30 +88,29 @@ public class KcAttachmentDataDaoImpl implements KcAttachmentDataDao {
         }
 
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Saving attachment data, existing id: " + id);
+            LOG.debug("Saving attachment data to database, existing id: " + id);
         }
 
-        try (Connection connection = getDataSource().getConnection()) {
-        	try (PreparedStatement stmt = connection.prepareStatement("insert into file_data (id, data) values (?, ?)")) {
-	        	String newId = UUID.randomUUID().toString();
-	        	stmt.setString(1, newId);
-                try (ByteArrayInputStream is = new ByteArrayInputStream(attachmentData)) {
-                    stmt.setBinaryStream(2,is,attachmentData.length);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-	        	stmt.executeUpdate();
+        try (Connection connection = getDataSource().getConnection();
+			 PreparedStatement stmt = connection.prepareStatement(INSERT_RECORD)) {
+			String newId = UUID.randomUUID().toString();
+			stmt.setString(1, newId);
+			try (ByteArrayInputStream is = new ByteArrayInputStream(attachmentData)) {
+				stmt.setBinaryStream(2,is,attachmentData.length);
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+			stmt.executeUpdate();
 
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Created attachment data, new id: " + newId);
-                }
+			if (LOG.isDebugEnabled()) {
+				LOG.debug("Created attachment data, new id: " + newId);
+			}
 
-            	if (StringUtils.isNotBlank(id)) {
-            		deleteAttachment(connection, id);
-            	}
+			if (StringUtils.isNotBlank(id)) {
+				deleteAttachment(connection, id);
+			}
 
-                return newId;
-        	}
+			return newId;
         } catch (SQLException e) {
         	throw new RuntimeException(e);
         }
@@ -116,25 +119,27 @@ public class KcAttachmentDataDaoImpl implements KcAttachmentDataDao {
     @Override
     public void removeData(String id) {
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Removing attachment data, existing id: " + id);
+            LOG.debug("Removing attachment data from database, existing id: " + id);
         }
 
         if (StringUtils.isNotBlank(id)) {
-            try (Connection conn = dataSource.getConnection()) {
-                deleteAttachment(conn, id);
+            try (Connection conn = getDataSource().getConnection()) {
+				deleteAttachment(conn, id);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         }
     }
         
-    protected void deleteAttachment(Connection conn, String id) throws SQLException {
+    protected boolean deleteAttachment(Connection conn, String id) throws SQLException {
     	if (countReferences(conn, id) == 0) {
-	    	try (PreparedStatement stmt = conn.prepareStatement("delete from file_data where id = ?")) {
+	    	try (PreparedStatement stmt = conn.prepareStatement(DELETE_SINGLE_RECORD)) {
 	    		stmt.setString(1, id);
 	    		stmt.executeUpdate();
 	    	}
+			return true;
     	}
+		return false;
     }
 
     protected int countReferences(Connection conn, String id) throws SQLException {
