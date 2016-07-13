@@ -141,6 +141,10 @@ public final class Main {
             	factory.getProposalYnqConversionDao().convertProposalYnqs();
             }
 
+            if (options.containsProposalPersonNames()) {
+                factory.getProposalPersonDao().fixFullNames();
+            }
+
             if (options.containsDryRun()) {
                 coeusConnection.rollback();
                 riceConnection.rollback();
