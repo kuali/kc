@@ -119,6 +119,10 @@ public class CliOptions {
     	return contains("proposal-ynq");
     }
 
+    public boolean containsProposalPersonNames() {
+        return contains("proposal-person-names");
+    }
+
     private boolean contains(String name) {
         for (String arg : args) {
             if (name.equals(arg)) {
