@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1487: fix migrated proposal person full names to match system generated names
+  * Joe Williams on Wed, 13 Jul 2016 11:37:48 -0500 [View Commit](../../commit/711bb5b038bdb015bd433e8587aa0db8b1591c02)
+
+##coeus-1607.17
 * No Changes
 
 
