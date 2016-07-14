@@ -17,7 +17,9 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
+set define off
+set sqlblanklines on
 
-\. ./kc/bootstrap/V1607_001__budget_status.sql
-\. ./kc/bootstrap/V1607_003__time_and_money_posts.sql
+spool 1607_oracle_kc_rice_server_upgrade.sql.log
+@./rice/bootstrap/V1607_002__post_time_money_permissions.sql
 commit;

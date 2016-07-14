@@ -18,6 +18,5 @@
 --
 
 
-\. ./kc/bootstrap/V1607_001__budget_status.sql
-\. ./kc/bootstrap/V1607_003__time_and_money_posts.sql
+\. ./rice/bootstrap/V1607_002__post_time_money_permissions.sql
 commit;

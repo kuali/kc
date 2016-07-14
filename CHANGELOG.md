@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* fix integration tests #no release (#1861)
+
+  * Gayathri Athreya on Thu, 14 Jul 2016 15:28:54 -0700 [View Commit](../../commit/a9d09cc4fd3a5ffe108f41657e8dfae223792260)
+* RESKC-1265: Adding ability to post information from time and money document. Added associated time and money API to pull information. (#1856)
+
+  * Gayathri Athreya on Thu, 14 Jul 2016 14:18:59 -0700 [View Commit](../../commit/72436d72c4860cc4b00b54bdae49ee019f958af0)
+
+##coeus-1607.19
 * No Changes
 
 
