@@ -40,15 +40,10 @@ import java.util.Objects;
 
 public class KcAttachmentDataDaoS3Impl extends KcAttachmentDataDaoImpl {
 
-    private static final String S3_INTEGRATION_ENABLED = "S3_INTEGRATION_ENABLED";
-    private static final String S3_DUAL_SAVE_ENABLED = "S3_DUAL_SAVE_ENABLED";
-    private static final String S3_DUAL_RETRIEVE_ENABLED = "S3_DUAL_RETRIEVE_ENABLED";
-
     private static final String INSERT_RECORD_ID_ONLY = "insert into file_data (id) values (?)";
-
     private static Log LOG = LogFactory.getLog(KcAttachmentDataDaoS3Impl.class);
 
-    private Object s3FileService;
+    private KcS3FileService kcS3FileService;
     private ParameterService parameterService;
 
     @Override
@@ -60,20 +55,19 @@ public class KcAttachmentDataDaoS3Impl extends KcAttachmentDataDaoImpl {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Fetching attachment data from S3, existing id: " + id);
         }
-        //always get both compare md5
+
         if (StringUtils.isNotBlank(id)) {
             try {
-                final Method retrieveFile = s3FileService.getClass().getMethod("retrieveFile", String.class);
-                final Object s3File = retrieveFile.invoke(s3FileService, id);
+                final Object s3File = kcS3FileService.retrieveFile(id);
                 byte[] s3Bytes = null;
                 byte[] dbBytes = null;
                 if (s3File != null) {
                     if (LOG.isDebugEnabled()) {
-                        final Method getFileMetaData = s3File.getClass().getMethod("getFileMetaData");
+                        final Method getFileMetaData = s3File.getClass().getMethod(KcAttachmentDataS3Constants.GET_FILE_META_DATA_METHOD);
                         LOG.debug("data found in S3, existing id: " + id + " metadata: " + getFileMetaData.invoke(s3File));
                     }
 
-                    final Method getFileContents = s3File.getClass().getMethod("getFileContents");
+                    final Method getFileContents = s3File.getClass().getMethod(KcAttachmentDataS3Constants.GET_FILE_CONTENTS_METHOD);
                     final InputStream fileContents = (InputStream) getFileContents.invoke(s3File);
                     s3Bytes = IOUtils.toByteArray(fileContents);
                 }
@@ -82,11 +76,11 @@ public class KcAttachmentDataDaoS3Impl extends KcAttachmentDataDaoImpl {
                     dbBytes = super.getData(id);
                 }
 
-                if (LOG.isWarnEnabled() && s3Bytes != null && dbBytes != null) {
+                if (LOG.isErrorEnabled() && s3Bytes != null && dbBytes != null) {
                     final String s3MD5 = DigestUtils.md5Hex(s3Bytes);
                     final String dbMD5 = DigestUtils.md5Hex(dbBytes);
                     if (!Objects.equals(s3MD5, dbMD5)) {
-                        LOG.warn("S3 data MD5: " + s3MD5 + " does not equal DB data MD5: " + dbMD5 + " for id: " + id);
+                        LOG.error("S3 data MD5: " + s3MD5 + " does not equal DB data MD5: " + dbMD5 + " for id: " + id);
                     }
                 }
 
@@ -132,7 +126,7 @@ public class KcAttachmentDataDaoS3Impl extends KcAttachmentDataDaoImpl {
             if (StringUtils.isNotBlank(id)) {
                 boolean deleted = deleteAttachment(connection, id);
                 if (deleted) {
-                    deleteAttachmentFromS3(id);
+                    kcS3FileService.deleteFile(id);
                 }
             }
 
@@ -148,14 +142,13 @@ public class KcAttachmentDataDaoS3Impl extends KcAttachmentDataDaoImpl {
         }
 
         try (InputStream stream = new BufferedInputStream(new ByteArrayInputStream(attachmentData))) {
-            final Class<?> s3FileClass = Class.forName("co.kuali.coeus.s3.api.S3File");
+            final Class<?> s3FileClass = Class.forName(KcAttachmentDataS3Constants.S3_FILE_CLASS);
             final Object s3File = s3FileClass.newInstance();
 
-            final Method setFileContents = s3FileClass.getMethod("setFileContents", InputStream.class);
+            final Method setFileContents = s3FileClass.getMethod(KcAttachmentDataS3Constants.SET_FILE_CONTENTS_METHOD, InputStream.class);
             setFileContents.invoke(s3File, stream);
 
-            final Method createFile = s3FileService.getClass().getMethod("createFile", s3FileClass);
-            return (String) createFile.invoke(s3FileService, s3File);
+            return kcS3FileService.createFile(s3File);
 
         } catch (NoSuchMethodException|ClassNotFoundException|IllegalAccessException|InstantiationException|InvocationTargetException|IOException e) {
             throw new RuntimeException(e);
@@ -177,7 +170,7 @@ public class KcAttachmentDataDaoS3Impl extends KcAttachmentDataDaoImpl {
             try (Connection conn = getDataSource().getConnection()) {
                 final boolean deleted = deleteAttachment(conn, id);
                 if (deleted) {
-                    deleteAttachmentFromS3(id);
+                    kcS3FileService.deleteFile(id);
                 }
             } catch (SQLException e) {
                 throw new RuntimeException(e);
@@ -185,34 +178,24 @@ public class KcAttachmentDataDaoS3Impl extends KcAttachmentDataDaoImpl {
         }
     }
 
-    protected boolean deleteAttachmentFromS3(String id) {
-        try {
-            final Method deleteFile = s3FileService.getClass().getMethod("deleteFile", String.class);
-            deleteFile.invoke(s3FileService, id);
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
-        return true;
-    }
-
     protected boolean isS3IntegrationEnabled() {
-        return parameterService.getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, S3_INTEGRATION_ENABLED);
+        return parameterService.getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, KcAttachmentDataS3Constants.S3_INTEGRATION_ENABLED);
     }
 
     protected boolean isS3DualSaveEnabled() {
-        return parameterService.getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, S3_DUAL_SAVE_ENABLED);
+        return parameterService.getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, KcAttachmentDataS3Constants.S3_DUAL_SAVE_ENABLED);
     }
 
     protected boolean isS3DualRetrieveEnabled() {
-        return parameterService.getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, S3_DUAL_RETRIEVE_ENABLED);
+        return parameterService.getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, KcAttachmentDataS3Constants.S3_DUAL_RETRIEVE_ENABLED);
     }
 
-    public Object getS3FileService() {
-        return s3FileService;
+    public KcS3FileService getKcS3FileService() {
+        return kcS3FileService;
     }
 
-    public void setS3FileService(Object s3FileService) {
-        this.s3FileService = s3FileService;
+    public void setKcS3FileService(KcS3FileService kcS3FileService) {
+        this.kcS3FileService = kcS3FileService;
     }
 
     public ParameterService getParameterService() {
