@@ -118,16 +118,13 @@ public class AwardController extends RestController {
         if(award == null) {
             throw new ResourceNotFoundException("Award with award id " + awardId + " not found.");
         }
-        List<AwardBudgetExtDto> awardBudgetExtDtos = new ArrayList<>();
-        award.getBudgets().stream().forEach(budget -> {
-                    AwardBudgetExtDto awardBudgetExtDto = commonApiService.convertObject(budget, AwardBudgetExtDto.class);
-                    awardBudgetExtDtos.add(awardBudgetExtDto);
-                }
-        );
-        return awardBudgetExtDtos;
+        return award.getBudgets().stream().map(budget ->
+                        commonApiService.convertObject(budget, AwardBudgetExtDto.class)
+
+        ).collect(Collectors.toList());
     }
 
-    @RequestMapping(method= RequestMethod.GET, value="/awards/budgets/{budgetId}", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(method= RequestMethod.GET, value="/award-budgets/{budgetId}", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     AwardBudgetExtDto getAwardBudget(@PathVariable String budgetId) {
@@ -138,7 +135,17 @@ public class AwardController extends RestController {
         return commonApiService.convertObject(budget, AwardBudgetExtDto.class);
     }
 
-    @RequestMapping(method= RequestMethod.PUT, value="/awards/budgets/{budgetId}/general-info/", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(method= RequestMethod.GET, value="/award-budgets", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @ResponseStatus(value = HttpStatus.OK)
+    @ResponseBody
+    List<AwardBudgetExtDto> getAwardBudgetByStatus(@RequestParam(value = "budgetStatusCode", required = true) Integer budgetStatusCode) {
+        List<AwardBudgetExt> budgets = getAwardDao().getAwardBudgetByStatusCode(budgetStatusCode);
+        return budgets.stream().map(budget ->
+                        commonApiService.convertObject(budget, AwardBudgetExtDto.class)
+        ).collect(Collectors.toList());
+    }
+
+    @RequestMapping(method= RequestMethod.PUT, value="/award-budgets/{budgetId}/general-info/", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     void modifyAwardBudget(@RequestBody AwardBudgetGeneralInfoDto generalInfoDto, @PathVariable String budgetId) {

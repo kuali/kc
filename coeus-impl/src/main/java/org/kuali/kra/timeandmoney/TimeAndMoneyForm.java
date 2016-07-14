@@ -42,7 +42,7 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.util.AutoPopulatingList;
 
 import javax.servlet.http.HttpServletRequest;
@@ -89,7 +89,10 @@ public class TimeAndMoneyForm extends KcTransactionalDocumentFormBase {
     
     public final static String PENDING = "1";
     public final static String CURRENT = "0";
-    
+    public static final String METHOD_TO_CALL_POST_TM = "methodToCall.postTimeAndMoney";
+    public static final String POST_TM_ALT_TEXT = "Post time and money";
+    public static final String BUTTONSMALL_POST_GIF = "buttonsmall_postawardbudget.gif";
+
     private List<String> fieldsInError;
     
     public String getCurrentAwardNumber() {
@@ -147,7 +150,11 @@ public class TimeAndMoneyForm extends KcTransactionalDocumentFormBase {
             initialize();
         }
     }
-    
+
+    protected String buildExtraButtonSourceURI(String buttonFileName) {
+        return lookupKualiConfigurationService().getPropertyValueAsString(Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY) + buttonFileName;
+    }
+
     /**
      * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
      * Overriding populate method so that we can register editable properties in form base.  htmlControlAttribute registers
@@ -544,14 +551,10 @@ public class TimeAndMoneyForm extends KcTransactionalDocumentFormBase {
     
     public List<ExtraButton> getExtraTopButtons() {
         extraButtons.clear();
-        String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
-        String generatePeriodImage = lookupKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "tinybutton1-returntoaward.gif";
-        
+        String generatePeriodImage = buildExtraButtonSourceURI("tinybutton1-returntoaward.gif");
         addExtraButton("methodToCall.returnToAward", generatePeriodImage, "Return to Award");
-        
         return extraButtons;
     }
-    
 
     private ConfigurationService lookupKualiConfigurationService() {
         return CoreApiServiceLocator.getKualiConfigurationService();
@@ -679,12 +682,14 @@ public class TimeAndMoneyForm extends KcTransactionalDocumentFormBase {
     
     @Override
     public List<ExtraButton> getExtraButtons() {
-        // clear out the extra buttons array
         extraButtons.clear();
-        String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
-        String reloadImage = lookupKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_reload.gif";
-        //addExtraButton("methodToCall.reload", reloadImage, "Reload");
+        String reloadImage = buildExtraButtonSourceURI("buttonsmall_reload.gif");
         addExtraButton("methodToCall.reload", reloadImage, null);
+
+        if (getTimeAndMoneyDocument().isAuthorizedToPostTimeAndMoney(GlobalVariables.getUserSession().getPrincipalId())) {
+            String postAwardBudgetImage = buildExtraButtonSourceURI(BUTTONSMALL_POST_GIF);
+            addExtraButton(METHOD_TO_CALL_POST_TM, postAwardBudgetImage, POST_TM_ALT_TEXT);
+        }
         return extraButtons;
     }
     

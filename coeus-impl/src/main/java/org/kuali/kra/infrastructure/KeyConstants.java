@@ -568,6 +568,7 @@ public final class KeyConstants {
     public static final String NO_PERMISSION_TO_CREATE_ACCOUNT = "error.award.createAccount.noPermission";
     public static final String VALIDATION_DID_NOT_OCCUR = "error.award.account.number.not.validated";
     public static final String AWARD_INFORMATION_POSTED = "info.award.information.posted";
+    public static final String TM_INFORMATION_POSTED = "info.tm.information.posted";
 
 
     // award budget

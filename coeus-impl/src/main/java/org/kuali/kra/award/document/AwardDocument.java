@@ -374,7 +374,7 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         return getParameterService().getParameterValueAsBoolean(
                 Constants.PARAMETER_MODULE_AWARD,
                 ParameterConstants.ALL_COMPONENT,
-                Constants.FINANCIAL_REST_API_ENABLED);
+                Constants.AWARD_POST_ENABLED);
     }
 
     protected VersionHistoryService getVersionHistoryService() {

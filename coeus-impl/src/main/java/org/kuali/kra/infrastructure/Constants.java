@@ -447,7 +447,8 @@ public interface Constants {
     public static final String AWARD_SYNC_NOT_APPLICABLE = "Not applicable";
 
     // Award financial rest api constants
-    public static final String FINANCIAL_REST_API_ENABLED = "ENABLE_FINANCIAL_REST_API";
+    public static final String AWARD_POST_ENABLED = "AWARD_POST_ENABLED";
+    public static final String TM_POST_ENABLED = "TM_POST_ENABLED";
     public static final String DISPLAY_ACCOUNT_BALANCES = "DISPLAY_ACCOUNT_BALANCES";
 
     //Institutional Proposal
@@ -493,6 +494,8 @@ public interface Constants {
     public static final Integer MAX_FISCAL_YEAR = 2499;
     
     public static final String PARAMETER_MODULE_AWARD = "KC-AWARD";
+    public static final String PARAMETER_TIME_MONEY = "KC-T";
+
     public static final String SPECIAL_REVIEW_NUMBER = "SPECIAL_REVIEW_NUMBER";
     public static final String LEFT_SQUARE_BRACKET = "[";
     public static final String RIGHT_SQUARE_BRACKET = "]";

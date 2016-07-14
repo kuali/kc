@@ -16,22 +16,43 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.coeus.award.finance;
 
-import org.kuali.coeus.award.dto.AwardDto;
+package org.kuali.coeus.award.finance.timeAndMoney;
+
 import java.sql.Timestamp;
 
-public class AwardPostsDto {
+public class TimeAndMoneyPostHistoryBean {
 
-    private Long id;
-    private String accountNumber;
-    private boolean posted;
     private boolean active;
     private String documentNumber;
     private String updateUser;
     private Timestamp updateTimestamp;
-    private Long awardId;
-    private AwardDto awardDto;
+    private String firstName;
+    private String lastName;
+
+    public TimeAndMoneyPostHistoryBean(boolean active, String documentNumber,
+                                       String updateUser, Timestamp updateTimestamp) {
+        this.active = active;
+        this.documentNumber = documentNumber;
+        this.updateUser = updateUser;
+        this.updateTimestamp = updateTimestamp;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
     public String getUpdateUser() {
         return updateUser;
@@ -57,38 +78,6 @@ public class AwardPostsDto {
         this.documentNumber = documentNumber;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getAccountNumber() {
-        return accountNumber;
-    }
-
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
-    }
-
-    public Long getAwardId() {
-        return awardId;
-    }
-
-    public void setAwardId(Long awardId) {
-        this.awardId = awardId;
-    }
-
-    public boolean isPosted() {
-        return posted;
-    }
-
-    public void setPosted(boolean posted) {
-        this.posted = posted;
-    }
-
     public boolean isActive() {
         return active;
     }
@@ -97,11 +86,5 @@ public class AwardPostsDto {
         this.active = active;
     }
 
-    public void setAwardDto(AwardDto awardDto) {
-        this.awardDto = awardDto;
-    }
 
-    public AwardDto getAwardDto() {
-        return awardDto;
-    }
 }

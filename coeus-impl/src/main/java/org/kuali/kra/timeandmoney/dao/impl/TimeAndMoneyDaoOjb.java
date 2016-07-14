@@ -27,24 +27,34 @@ import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.history.TimeAndMoneyActionSummary;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.kra.timeandmoney.history.TransactionDetail;
+import org.kuali.kra.timeandmoney.history.TransactionDetailType;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 public class TimeAndMoneyDaoOjb extends PlatformAwareDaoBaseOjb implements TimeAndMoneyDao {
 
     private static final String DOCUMENT_STATUS = "documentStatus";
 	private static final String AWARD_AMOUNT_INFOS_AWARD_ID = "awardAmountInfos.awardId";
 	private static final String SUMMARY_SQL_QUERY;
-	
+    public static final String TIME_AND_MONEY_DOCUMENT_NUMBER = "timeAndMoneyDocumentNumber";
+    public static final String TRANSACTION_DETAIL_TYPE = "transactionDetailType";
+
+    @Autowired
+    @Qualifier("businessObjectService")
+    private BusinessObjectService businessObjectService;
+
 	static {
         StringBuilder sb = new StringBuilder();
         sb.append("SELECT DISTINCT A.NOTICE_DATE, C.DESCRIPTION, B.AWARD_AMOUNT_INFO_ID, C.DESCRIPTION, B.OBLIGATED_CHANGE, B.AMOUNT_OBLIGATED_TO_DATE,");
@@ -98,5 +108,19 @@ public class TimeAndMoneyDaoOjb extends PlatformAwareDaoBaseOjb implements TimeA
 		List<TimeAndMoneyDocument> docs = new ArrayList<>(getPersistenceBrokerTemplate().getCollectionByQuery(criteria));
     	return docs;
     }
- 
+
+    @Override
+    public TimeAndMoneyDocument getTimeAndMoneyDocument(String documentNumber) {
+        return businessObjectService.findBySinglePrimaryKey(TimeAndMoneyDocument.class, documentNumber);
+    }
+
+
+    public List<TransactionDetail> getTransactionDetailsForDocument(String documentNumber) {
+        Map<String, Object> criteria = new HashMap<>();
+        criteria.put(TIME_AND_MONEY_DOCUMENT_NUMBER, documentNumber);
+        criteria.put(TRANSACTION_DETAIL_TYPE, TransactionDetailType.PRIMARY);
+
+        return ((List<TransactionDetail>) businessObjectService.findMatching(TransactionDetail.class, criteria));
+    }
+
 }

@@ -68,6 +68,9 @@
 <kra:section permission="postAward">
     <kra-a:awardPostHistory />
 </kra:section>
+<kra:section permission="postTimeAndMoney">
+    <kra-a:tmPostHistory />
+</kra:section>
 
     <kul:panelFooter />
 <kul:documentControls transactionalDocument="true"

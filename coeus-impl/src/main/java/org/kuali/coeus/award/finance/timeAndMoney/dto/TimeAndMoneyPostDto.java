@@ -16,22 +16,22 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.coeus.award.finance;
+package org.kuali.coeus.award.finance.timeAndMoney.dto;
 
 import org.kuali.coeus.award.dto.AwardDto;
+
 import java.sql.Timestamp;
 
-public class AwardPostsDto {
+public class TimeAndMoneyPostDto {
 
     private Long id;
     private String accountNumber;
-    private boolean posted;
+    private Long awardId;
     private boolean active;
     private String documentNumber;
+    private TimeAndMoneyDto timeAndMoney;
     private String updateUser;
     private Timestamp updateTimestamp;
-    private Long awardId;
-    private AwardDto awardDto;
 
     public String getUpdateUser() {
         return updateUser;
@@ -81,14 +81,6 @@ public class AwardPostsDto {
         this.awardId = awardId;
     }
 
-    public boolean isPosted() {
-        return posted;
-    }
-
-    public void setPosted(boolean posted) {
-        this.posted = posted;
-    }
-
     public boolean isActive() {
         return active;
     }
@@ -97,11 +89,11 @@ public class AwardPostsDto {
         this.active = active;
     }
 
-    public void setAwardDto(AwardDto awardDto) {
-        this.awardDto = awardDto;
+    public TimeAndMoneyDto getTimeAndMoney() {
+        return timeAndMoney;
     }
 
-    public AwardDto getAwardDto() {
-        return awardDto;
+    public void setTimeAndMoney(TimeAndMoneyDto timeAndMoney) {
+        this.timeAndMoney = timeAndMoney;
     }
 }

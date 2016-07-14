@@ -49,6 +49,7 @@ public class AwardDaoOjb extends LookupDaoOjb implements OjbCollectionAware, Awa
     private static final String AWARD_ID = "awardId";
     private static final String UPDATE_TIMESTAMP = "updateTimestamp";
     private static final String AWARD_SEQUENCE_STATUS = "awardSequenceStatus";
+    public static final String AWARD_BUDGET_STATUS_CODE = "awardBudgetStatusCode";
 
     private DataSource dataSource;
 
@@ -175,6 +176,13 @@ public class AwardDaoOjb extends LookupDaoOjb implements OjbCollectionAware, Awa
     @Override
     public AwardBudgetExt getAwardBudget(String budgetId) {
         return getBusinessObjectService().findBySinglePrimaryKey(AwardBudgetExt.class, budgetId);
+    }
+
+    @Override
+    public List<AwardBudgetExt> getAwardBudgetByStatusCode(Integer code) {
+        Map<String, Object> criteria = new HashMap<>();
+        criteria.put(AWARD_BUDGET_STATUS_CODE, code);
+        return (List<AwardBudgetExt>) getBusinessObjectService().findMatching(AwardBudgetExt.class, criteria);
     }
 
     public BusinessObjectService getBusinessObjectService() {

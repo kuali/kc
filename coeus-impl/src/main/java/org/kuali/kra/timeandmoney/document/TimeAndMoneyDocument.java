@@ -21,6 +21,7 @@ package org.kuali.kra.timeandmoney.document;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.award.finance.timeAndMoney.dao.TimeAndMoneyPostsDao;
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.permissions.impl.PermissionableKeys;
@@ -34,6 +35,7 @@ import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.infrastructure.TimeAndMoneyPermissionConstants;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.AwardVersionHistory;
 import org.kuali.kra.timeandmoney.history.TimeAndMoneyActionSummary;
@@ -41,8 +43,11 @@ import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
 import org.kuali.kra.timeandmoney.service.TimeAndMoneyVersionService;
 import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
 import org.kuali.kra.timeandmoney.transactions.PendingTransaction;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.krad.document.SessionDocument;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -86,8 +91,7 @@ public class TimeAndMoneyDocument extends KcTransactionalDocumentBase implements
     public String getDocumentTypeCode() {
         return DOCUMENT_TYPE_CODE;
     }
-    
-    
+
     /**
      * This method tests if document has been previously persisted.
      * @return
@@ -105,17 +109,50 @@ public class TimeAndMoneyDocument extends KcTransactionalDocumentBase implements
     }
     
     protected void init() {
-        awardHierarchyNodes = new TreeMap<String, AwardHierarchyNode>();
-        awardHierarchyItems = new HashMap<String, AwardHierarchy>();
-        pendingTransactions = new ArrayList<PendingTransaction>();
-        awardAmountTransactions = new ArrayList<AwardAmountTransaction>();
-        timeAndMoneyActionSummaryItems = new ArrayList<TimeAndMoneyActionSummary>();
+        awardHierarchyNodes = new TreeMap<>();
+        awardHierarchyItems = new HashMap<>();
+        pendingTransactions = new ArrayList<>();
+        awardAmountTransactions = new ArrayList<>();
+        timeAndMoneyActionSummaryItems = new ArrayList<>();
         newAwardAmountTransaction = new AwardAmountTransaction();
-        awardVersionHistoryList = new ArrayList<AwardVersionHistory>();
-        order = new ArrayList<String>();
+        awardVersionHistoryList = new ArrayList<>();
+        order = new ArrayList<>();
         documentStatus = VersionStatus.PENDING.toString();
     }
-    
+
+    public boolean isAuthorizedToPostTimeAndMoney(String principalId) {
+        return isPostTimeAndMoneyFeatureEnabled() && getDocumentHeader().getWorkflowDocument().isFinal()
+                && !isPosted(getDocumentNumber())
+                && hasPostTimeAndMoneyPermission(principalId);
+    }
+
+    public boolean isPosted(String documentNumber) {
+            return getTimeAndMoneyPostsDao().getTimeAndMoneyPostsByDocumentNumber(documentNumber) != null;
+    }
+
+    public TimeAndMoneyPostsDao getTimeAndMoneyPostsDao() {
+        return KcServiceLocator.getService(TimeAndMoneyPostsDao.class);
+    }
+
+    public boolean hasPostTimeAndMoneyPermission(String principalId) {
+        return getPermissionService().hasPermission(principalId, Constants.KC_SYS, TimeAndMoneyPermissionConstants.POST_TIME_AND_MONEY);
+    }
+
+    protected boolean isPostTimeAndMoneyFeatureEnabled() {
+        return getParameterService().getParameterValueAsBoolean(
+                Constants.MODULE_NAMESPACE_TIME_AND_MONEY,
+                ParameterConstants.ALL_COMPONENT,
+                Constants.TM_POST_ENABLED);
+    }
+
+    protected ParameterService getParameterService() {
+        return KcServiceLocator.getService(ParameterService.class);
+    }
+
+    protected PermissionService getPermissionService() {
+        return KcServiceLocator.getService(PermissionService.class);
+    }
+
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);

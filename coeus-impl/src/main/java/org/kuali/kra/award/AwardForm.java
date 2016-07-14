@@ -27,6 +27,9 @@ import org.kuali.coeus.award.finance.AwardAccount;
 import org.kuali.coeus.award.finance.AwardPostHistoryBean;
 import org.kuali.coeus.award.finance.AwardPosts;
 import org.kuali.coeus.award.finance.dao.AccountDao;
+import org.kuali.coeus.award.finance.timeAndMoney.TimeAndMoneyPostHistoryBean;
+import org.kuali.coeus.award.finance.timeAndMoney.TimeAndMoneyPosts;
+import org.kuali.coeus.award.finance.timeAndMoney.dao.TimeAndMoneyPostsDao;
 import org.kuali.coeus.coi.framework.DisclosureProjectStatus;
 import org.kuali.coeus.coi.framework.DisclosureStatusRetrievalService;
 import org.kuali.coeus.common.framework.person.KcPerson;
@@ -230,6 +233,7 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
     private transient PermissionService permissionService;
     private transient AccountDao accountDao;
     private transient KcPersonService kcPersonService;
+    private transient TimeAndMoneyPostsDao timeAndMoneyPostsDao;
 
     /**
      * Constructs a AwardForm with an existing AwardDocument. Used primarily by tests outside of Struts
@@ -525,7 +529,7 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
         return getParameterService().getParameterValueAsBoolean(
                 Constants.PARAMETER_MODULE_AWARD,
                 ParameterConstants.ALL_COMPONENT,
-                Constants.FINANCIAL_REST_API_ENABLED
+                Constants.AWARD_POST_ENABLED
         );
     }
 
@@ -1447,7 +1451,7 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
 
     public List<AwardPostHistoryBean> getAwardPostHistory() {
         List<AwardPosts> awardPosts = getAccountDao().getAllAwardPostsInHierarchy(getAwardDocument().getAward().getAccountNumber(),
-                                                                                    getAwardDocument().getAward().getAwardNumber() );
+                getAwardDocument().getAward().getAwardNumber());
 
         return awardPosts.stream().map(awardPost -> {
             final AwardPostHistoryBean awardPostHistoryBean = new AwardPostHistoryBean(awardPost.isPosted(),
@@ -1459,6 +1463,22 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
             awardPostHistoryBean.setFirstName(person.getFirstName());
             awardPostHistoryBean.setLastName(person.getLastName());
             return awardPostHistoryBean;
+        }).collect(Collectors.toList());
+    }
+
+    public List<TimeAndMoneyPostHistoryBean> getTmPostHistory() {
+        List<TimeAndMoneyPosts> timeAndMoneyPosts = getTimeAndMoneyPostsDao().getActiveTimeAndMoneyPostsForAwardHierarchy(getAwardDocument().getAward().getAwardNumber());
+
+        return timeAndMoneyPosts.stream().map(timeAndMoneyPost -> {
+            final TimeAndMoneyPostHistoryBean timeAndMoneyPostHistoryBean = new TimeAndMoneyPostHistoryBean(
+                    timeAndMoneyPost.isActive(),
+                    timeAndMoneyPost.getDocumentNumber(),
+                    timeAndMoneyPost.getUpdateUser(),
+                    timeAndMoneyPost.getUpdateTimestamp());
+            KcPerson person = getKcPersonService().getKcPersonByUserName(timeAndMoneyPost.getUpdateUser());
+            timeAndMoneyPostHistoryBean.setFirstName(person.getFirstName());
+            timeAndMoneyPostHistoryBean.setLastName(person.getLastName());
+            return timeAndMoneyPostHistoryBean;
         }).collect(Collectors.toList());
     }
 
@@ -1474,6 +1494,13 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
             accountDao = KcServiceLocator.getService(AccountDao.class);
         }
         return accountDao;
+    }
+
+    protected TimeAndMoneyPostsDao getTimeAndMoneyPostsDao() {
+        if (timeAndMoneyPostsDao == null) {
+            timeAndMoneyPostsDao = KcServiceLocator.getService(TimeAndMoneyPostsDao.class);
+        }
+        return timeAndMoneyPostsDao;
     }
 
     protected PermissionService getPermissionService() {

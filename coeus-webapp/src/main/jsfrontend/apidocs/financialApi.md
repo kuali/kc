@@ -9,6 +9,7 @@ This documentation lays out the Financial REST APIs that are available to facili
 Current APIs have been designed to be accessed via admin only username and password pair.
 
 # Group Research Financials
-<!-- include(award/award-posts.md) -->
 <!-- include(award/awardAccount-custom.md) -->
+<!-- include(award/award-posts.md) -->
 <!-- include(award/awards-custom.md) -->
+<!-- include(award/award-time-and-money.md) -->

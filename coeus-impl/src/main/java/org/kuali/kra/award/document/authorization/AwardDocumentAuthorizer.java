@@ -31,6 +31,7 @@ import org.kuali.kra.award.infrastructure.AwardPermissionConstants;
 import org.kuali.kra.award.infrastructure.AwardTaskNames;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.infrastructure.TimeAndMoneyPermissionConstants;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
@@ -39,8 +40,6 @@ import org.kuali.rice.kew.doctype.service.DocumentTypePermissionService;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.permission.PermissionService;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.document.Document;
@@ -61,6 +60,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
     public static final String MODIFY_AWARD_BUDGET = "modifyAwardBudget";
     public static final String CREATE_AWARD_ACCOUNT = "createAwardAccount";
     public static final String POST_AWARD = "postAward";
+    public static final String POST_TIME_AND_MONEY = "postTimeAndMoney";
     public static final String AWARD_SYNC = "awardSync";
     public static final String CAN_MAINTAIN_AWARD_ATTACHMENTS = "CAN_MAINTAIN_AWARD_ATTACHMENTS";
     public static final String CAN_VIEW_AWARD_ATTACHMENTS = "CAN_VIEW_AWARD_ATTACHMENTS";
@@ -121,6 +121,9 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
             if (canViewPostHistory(awardDocument, user.getPrincipalId())) {
                 editModes.add(POST_AWARD);
             }
+            if (canViewPostHistory(user.getPrincipalId())) {
+                editModes.add(POST_TIME_AND_MONEY);
+            }
             if (awardHasHierarchyChildren(document)) {
                 editModes.add(AWARD_SYNC);
             }
@@ -141,6 +144,21 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
         }
 
         return editModes;
+    }
+
+    public boolean canViewPostHistory(String principalId) {
+        return isTimeAndMoneyPostEnabled() && hasPostTimeAndMoneyPermission(principalId);
+    }
+
+    public boolean hasPostTimeAndMoneyPermission(String principalId) {
+        return getPermissionService().hasPermission(principalId, Constants.KC_SYS, TimeAndMoneyPermissionConstants.POST_TIME_AND_MONEY);
+    }
+
+    protected boolean isTimeAndMoneyPostEnabled() {
+        return getParameterService().getParameterValueAsBoolean(
+                Constants.PARAMETER_TIME_MONEY,
+                ParameterConstants.ALL_COMPONENT,
+                Constants.TM_POST_ENABLED);
     }
 
     @Override
@@ -182,7 +200,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
         return getParameterService().getParameterValueAsBoolean(
                 Constants.PARAMETER_MODULE_AWARD,
                 ParameterConstants.ALL_COMPONENT,
-                Constants.FINANCIAL_REST_API_ENABLED);
+                Constants.AWARD_POST_ENABLED);
     }
 
     protected boolean isFinancialsystemIntegrationOn() {

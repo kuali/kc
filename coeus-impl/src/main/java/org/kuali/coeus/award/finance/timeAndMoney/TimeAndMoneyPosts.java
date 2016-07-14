@@ -16,37 +16,46 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.coeus.award.finance;
 
-import org.kuali.coeus.award.dto.AwardDto;
+package org.kuali.coeus.award.finance.timeAndMoney;
+
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
+import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
+
+import javax.persistence.*;
 import java.sql.Timestamp;
 
-public class AwardPostsDto {
 
+@Entity
+@Table(name="TIME_AND_MONEY_POSTS")
+public class TimeAndMoneyPosts extends KcPersistableBusinessObjectBase {
+
+    @PortableSequenceGenerator(name = "SEQ_TIME_AND_MONEY_POSTS_ID")
+    @GeneratedValue(generator = "SEQ_TIME_AND_MONEY_POSTS_ID")
+    @Id
+    @Column(name = "ID")
     private Long id;
-    private String accountNumber;
-    private boolean posted;
-    private boolean active;
-    private String documentNumber;
-    private String updateUser;
-    private Timestamp updateTimestamp;
+    @Column(name = "AWARD_ID")
     private Long awardId;
-    private AwardDto awardDto;
+    @Column(name="ACTIVE")
+    @Convert(converter = BooleanYNConverter.class)
+    private boolean active;
+    @Column(name = "DOCUMENT_NUMBER")
+    private String documentNumber;
+    @Column(name = "AWARD_FAMILY")
+    private String awardFamily;
 
-    public String getUpdateUser() {
-        return updateUser;
+    public TimeAndMoneyPosts() {
+        this.active = Boolean.TRUE;
     }
 
-    public void setUpdateUser(String updateUser) {
-        this.updateUser = updateUser;
+    public String getAwardFamily() {
+        return awardFamily;
     }
 
-    public Timestamp getUpdateTimestamp() {
-        return updateTimestamp;
-    }
-
-    public void setUpdateTimestamp(Timestamp updateTimestamp) {
-        this.updateTimestamp = updateTimestamp;
+    public void setAwardFamily(String awardFamily) {
+        this.awardFamily = awardFamily;
     }
 
     public String getDocumentNumber() {
@@ -65,14 +74,6 @@ public class AwardPostsDto {
         this.id = id;
     }
 
-    public String getAccountNumber() {
-        return accountNumber;
-    }
-
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
-    }
-
     public Long getAwardId() {
         return awardId;
     }
@@ -81,27 +82,11 @@ public class AwardPostsDto {
         this.awardId = awardId;
     }
 
-    public boolean isPosted() {
-        return posted;
-    }
-
-    public void setPosted(boolean posted) {
-        this.posted = posted;
-    }
-
     public boolean isActive() {
         return active;
     }
 
     public void setActive(boolean active) {
         this.active = active;
-    }
-
-    public void setAwardDto(AwardDto awardDto) {
-        this.awardDto = awardDto;
-    }
-
-    public AwardDto getAwardDto() {
-        return awardDto;
     }
 }

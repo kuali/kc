@@ -94,12 +94,1160 @@ Summary of Awards
 			   "totalFound" : 112
 			}
 
+
+
+### Get Award [GET /award/api/v2/awards/13163?includeBudgets=true]
+
+GET Award
+
++ Parameters
+	+ awardId: `13163` (number, required) - Gets the award associated with the awardId.
+  + includeBudgets: (String, optional) - Includes budget information with the award if true.
+
++ Request
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
+
++ Response 200
+    + Headers
+
+            Content-Type: application/json;charset=UTF-8
+
+    + Body
+
+      {
+        "docNbr": null,
+        "docStatus": null,
+        "awardId": 13163,
+        "awardNumber": "000224-00001",
+        "sequenceNumber": 1,
+        "sponsorCode": "000100",
+        "statusCode": 1,
+        "accountNumber": null,
+        "awardEffectiveDate": "2015-07-01",
+        "awardExecutionDate": null,
+        "beginDate": null,
+        "projectEndDate": "2018-06-30",
+        "costSharingIndicator": "N",
+        "indirectCostIndicator": "N",
+        "nsfCode": null,
+        "paymentScheduleIndicator": "N",
+        "scienceCodeIndicator": "N",
+        "specialReviewIndicator": "N",
+        "sponsorAwardNumber": null,
+        "transferSponsorIndicator": "N",
+        "accountTypeCode": null,
+        "activityTypeCode": "1",
+        "primeSponsorCode": "000340",
+        "awardTypeCode": 1,
+        "cfdaNumber": null,
+        "methodOfPaymentCode": "1",
+        "proposalNumber": null,
+        "title": "retest ab",
+        "basisOfPaymentCode": "2",
+        "awardTransactionTypeCode": 9,
+        "noticeDate": null,
+        "leadUnitNumber": "BL-IIDC",
+        "awardSequenceStatus": "PENDING",
+        "unitNumber": "BL-IIDC",
+        "projectPersons": [
+          {
+            "awardContactId": 13188,
+            "personId": "10000000051",
+            "roleCode": "PI",
+            "keyPersonRole": null,
+            "rolodexId": null
+          }
+        ],
+        "awardCustomDataList": [
+          {
+            "customAttributeId": 1,
+            "value": "435454"
+          },
+          {
+            "customAttributeId": 2,
+            "value": null
+          },
+          {
+            "customAttributeId": 3,
+            "value": null
+          },
+          {
+            "customAttributeId": 4,
+            "value": "32"
+          },
+          {
+            "customAttributeId": 5,
+            "value": null
+          },
+          {
+            "customAttributeId": 6,
+            "value": null
+          },
+          {
+            "customAttributeId": 7,
+            "value": null
+          }
+        ],
+        "awardSponsorTerms": [
+          {
+            "sponsorTermId": 325
+          },
+          {
+            "sponsorTermId": 505
+          },
+          {
+            "sponsorTermId": 316
+          },
+          {
+            "sponsorTermId": 353
+          },
+          {
+            "sponsorTermId": 371
+          },
+          {
+            "sponsorTermId": 538
+          },
+          {
+            "sponsorTermId": 318
+          },
+          {
+            "sponsorTermId": 354
+          },
+          {
+            "sponsorTermId": 372
+          },
+          {
+            "sponsorTermId": 417
+          },
+          {
+            "sponsorTermId": 544
+          },
+          {
+            "sponsorTermId": 556
+          },
+          {
+            "sponsorTermId": 567
+          },
+          {
+            "sponsorTermId": 569
+          },
+          {
+            "sponsorTermId": 493
+          },
+          {
+            "sponsorTermId": 500
+          },
+          {
+            "sponsorTermId": 410
+          },
+          {
+            "sponsorTermId": 437
+          },
+          {
+            "sponsorTermId": 383
+          },
+          {
+            "sponsorTermId": 578
+          },
+          {
+            "sponsorTermId": 601
+          },
+          {
+            "sponsorTermId": 322
+          },
+          {
+            "sponsorTermId": 367
+          },
+          {
+            "sponsorTermId": 448
+          },
+          {
+            "sponsorTermId": 480
+          },
+          {
+            "sponsorTermId": 333
+          },
+          {
+            "sponsorTermId": 369
+          }
+        ],
+        "awardReportTerms": [
+          {
+            "reportClassCode": "7",
+            "reportCode": "70",
+            "frequencyCode": "23",
+            "frequencyBaseCode": "4",
+            "ospDistributionCode": "4",
+            "dueDate": null
+          },
+          {
+            "reportClassCode": "2",
+            "reportCode": "40",
+            "frequencyCode": "13",
+            "frequencyBaseCode": "4",
+            "ospDistributionCode": "2",
+            "dueDate": null
+          },
+          {
+            "reportClassCode": "3",
+            "reportCode": "36",
+            "frequencyCode": "30",
+            "frequencyBaseCode": "3",
+            "ospDistributionCode": "1",
+            "dueDate": null
+          },
+          {
+            "reportClassCode": "1",
+            "reportCode": "5",
+            "frequencyCode": "12",
+            "frequencyBaseCode": "4",
+            "ospDistributionCode": "2",
+            "dueDate": null
+          },
+          {
+            "reportClassCode": "4",
+            "reportCode": "5",
+            "frequencyCode": "43",
+            "frequencyBaseCode": "4",
+            "ospDistributionCode": "1",
+            "dueDate": null
+          },
+          {
+            "reportClassCode": "6",
+            "reportCode": "5",
+            "frequencyCode": "12",
+            "frequencyBaseCode": "4",
+            "ospDistributionCode": "4",
+            "dueDate": null
+          },
+          {
+            "reportClassCode": "4",
+            "reportCode": "9",
+            "frequencyCode": "4",
+            "frequencyBaseCode": "6",
+            "ospDistributionCode": "3",
+            "dueDate": null
+          },
+          {
+            "reportClassCode": "7",
+            "reportCode": "69",
+            "frequencyCode": "16",
+            "frequencyBaseCode": "4",
+            "ospDistributionCode": "4",
+            "dueDate": null
+          },
+          {
+            "reportClassCode": "3",
+            "reportCode": "7",
+            "frequencyCode": "6",
+            "frequencyBaseCode": "2",
+            "ospDistributionCode": "4",
+            "dueDate": null
+          },
+          {
+            "reportClassCode": "5",
+            "reportCode": "7",
+            "frequencyCode": "3",
+            "frequencyBaseCode": "2",
+            "ospDistributionCode": "1",
+            "dueDate": null
+          },
+          {
+            "reportClassCode": "2",
+            "reportCode": "39",
+            "frequencyCode": "3",
+            "frequencyBaseCode": "2",
+            "ospDistributionCode": "1",
+            "dueDate": null
+          },
+          {
+            "reportClassCode": "1",
+            "reportCode": "33",
+            "frequencyCode": "7",
+            "frequencyBaseCode": "3",
+            "ospDistributionCode": "4",
+            "dueDate": null
+          },
+          {
+            "reportClassCode": "6",
+            "reportCode": "51",
+            "frequencyCode": "2",
+            "frequencyBaseCode": "2",
+            "ospDistributionCode": "4",
+            "dueDate": null
+          },
+          {
+            "reportClassCode": "5",
+            "reportCode": "37",
+            "frequencyCode": "10",
+            "frequencyBaseCode": "4",
+            "ospDistributionCode": "4",
+            "dueDate": null
+          }
+        ],
+        "approvedEquipmentIndicator": "N",
+        "approvedForeignTripIndicator": "N",
+        "subContractIndicator": "N",
+        "modificationNumber": null,
+        "documentFundingId": null,
+        "preAwardAuthorizedAmount": null,
+        "preAwardEffectiveDate": null,
+        "preAwardInstitutionalAuthorizedAmount": null,
+        "preAwardInstitutionalEffectiveDate": null,
+        "procurementPriorityCode": null,
+        "specialEbRateOffCampus": null,
+        "specialEbRateOnCampus": null,
+        "subPlanFlag": null,
+        "archiveLocation": null,
+        "closeoutDate": null,
+        "currentActionComments": "",
+        "awardSequenceStatusResult": "Saved",
+        "templateCode": 1,
+        "awardBasisOfPayment": null,
+        "awardMethodOfPayment": null,
+        "awardComments": [
+          {
+            "awardCommentId": 3587,
+            "commentTypeCode": "21",
+            "checklistPrintFlag": false,
+            "comments": null
+          },
+          {
+            "awardCommentId": 3588,
+            "commentTypeCode": "2",
+            "checklistPrintFlag": false,
+            "comments": "General remarks from sync to Test Sponsor Template."
+          },
+          {
+            "awardCommentId": 3589,
+            "commentTypeCode": "3",
+            "checklistPrintFlag": false,
+            "comments": "Financial Rpt remarks from sync to Test Sponsor Template."
+          },
+          {
+            "awardCommentId": 3590,
+            "commentTypeCode": "4",
+            "checklistPrintFlag": false,
+            "comments": "IP remarks from sync to Test Sponsor Template."
+          },
+          {
+            "awardCommentId": 3591,
+            "commentTypeCode": "5",
+            "checklistPrintFlag": false,
+            "comments": "Procurement remarks from sync to Test Sponsor Template."
+          },
+          {
+            "awardCommentId": 3592,
+            "commentTypeCode": "6",
+            "checklistPrintFlag": false,
+            "comments": "Property/Equipment remarks from sync to Test Sponsor Template."
+          },
+          {
+            "awardCommentId": 3593,
+            "commentTypeCode": "1",
+            "checklistPrintFlag": false,
+            "comments": "Invoicing remarks from sync to Test Sponsor Template."
+          },
+          {
+            "awardCommentId": 3594,
+            "commentTypeCode": "9",
+            "checklistPrintFlag": false,
+            "comments": "Cost sharing remarks from sync to Test Sponsor Template."
+          }
+        ],
+        "awardCostShares": [],
+        "awardFandaRate": [],
+        "awardDirectFandADistributions": [
+          {
+            "awardDirectFandADistributionId": 223,
+            "amountSequenceNumber": null,
+            "awardAmountInfoId": null,
+            "budgetPeriod": 1,
+            "startDate": "2015-07-01",
+            "endDate": "2016-06-30",
+            "directCost": 0,
+            "indirectCost": 0
+          },
+          {
+            "awardDirectFandADistributionId": 224,
+            "amountSequenceNumber": null,
+            "awardAmountInfoId": null,
+            "budgetPeriod": 2,
+            "startDate": "2016-07-01",
+            "endDate": "2017-06-30",
+            "directCost": 0,
+            "indirectCost": 0
+          },
+          {
+            "awardDirectFandADistributionId": 225,
+            "amountSequenceNumber": null,
+            "awardAmountInfoId": null,
+            "budgetPeriod": 3,
+            "startDate": "2017-07-01",
+            "endDate": "2018-06-30",
+            "directCost": 0,
+            "indirectCost": 0
+          }
+        ],
+        "awardUnitContacts": [],
+        "approvedEquipmentItems": [],
+        "approvedForeignTravelTrips": [],
+        "paymentScheduleItems": [],
+        "awardTransferringSponsors": [],
+        "awardAmountInfos": [
+          {
+            "awardAmountInfoId": 13164,
+            "transactionId": null,
+            "timeAndMoneyDocumentNumber": null,
+            "anticipatedTotalAmount": 684389.73,
+            "antDistributableAmount": 684389.73,
+            "finalExpirationDate": "2018-06-30",
+            "currentFundEffectiveDate": "2015-07-01",
+            "amountObligatedToDate": 684389.73,
+            "obliDistributableAmount": 684389.73,
+            "obligationExpirationDate": "2018-06-30",
+            "anticipatedChange": 0,
+            "obligatedChange": 0,
+            "obligatedChangeDirect": 0,
+            "obligatedChangeIndirect": 0,
+            "anticipatedChangeDirect": 0,
+            "anticipatedChangeIndirect": 0,
+            "anticipatedTotalDirect": 684389.73,
+            "anticipatedTotalIndirect": 0,
+            "obligatedTotalDirect": 684389.73,
+            "obligatedTotalIndirect": 0,
+            "originatingAwardVersion": 1
+          },
+          {
+            "awardAmountInfoId": 13203,
+            "transactionId": null,
+            "timeAndMoneyDocumentNumber": "10781",
+            "anticipatedTotalAmount": 684389.73,
+            "antDistributableAmount": 684389.73,
+            "finalExpirationDate": "2018-06-30",
+            "currentFundEffectiveDate": "2015-07-01",
+            "amountObligatedToDate": 684389.73,
+            "obliDistributableAmount": 684389.73,
+            "obligationExpirationDate": "2018-06-30",
+            "anticipatedChange": 0,
+            "obligatedChange": 0,
+            "obligatedChangeDirect": 0,
+            "obligatedChangeIndirect": 0,
+            "anticipatedChangeDirect": 0,
+            "anticipatedChangeIndirect": 0,
+            "anticipatedTotalDirect": 684389.73,
+            "anticipatedTotalIndirect": 0,
+            "obligatedTotalDirect": 684389.73,
+            "obligatedTotalIndirect": 0,
+            "originatingAwardVersion": 1
+          },
+          {
+            "awardAmountInfoId": 13205,
+            "transactionId": 85,
+            "timeAndMoneyDocumentNumber": "10793",
+            "anticipatedTotalAmount": 682389.73,
+            "antDistributableAmount": 682389.73,
+            "finalExpirationDate": "2018-06-30",
+            "currentFundEffectiveDate": "2015-07-01",
+            "amountObligatedToDate": 682389.73,
+            "obliDistributableAmount": 682389.73,
+            "obligationExpirationDate": "2018-06-30",
+            "anticipatedChange": 0,
+            "obligatedChange": 0,
+            "obligatedChangeDirect": 0,
+            "obligatedChangeIndirect": 0,
+            "anticipatedChangeDirect": 0,
+            "anticipatedChangeIndirect": 0,
+            "anticipatedTotalDirect": 682389.73,
+            "anticipatedTotalIndirect": 0,
+            "obligatedTotalDirect": 682389.73,
+            "obligatedTotalIndirect": 0,
+            "originatingAwardVersion": 1
+          },
+          {
+            "awardAmountInfoId": 13206,
+            "transactionId": 86,
+            "timeAndMoneyDocumentNumber": "10802",
+            "anticipatedTotalAmount": 1364779.46,
+            "antDistributableAmount": 1364779.46,
+            "finalExpirationDate": "2018-06-30",
+            "currentFundEffectiveDate": "2015-07-01",
+            "amountObligatedToDate": 1364779.46,
+            "obliDistributableAmount": 1364779.46,
+            "obligationExpirationDate": "2018-06-30",
+            "anticipatedChange": 0,
+            "obligatedChange": 0,
+            "obligatedChangeDirect": 0,
+            "obligatedChangeIndirect": 0,
+            "anticipatedChangeDirect": 0,
+            "anticipatedChangeIndirect": 0,
+            "anticipatedTotalDirect": 1364779.46,
+            "anticipatedTotalIndirect": 0,
+            "obligatedTotalDirect": 1364779.46,
+            "obligatedTotalIndirect": 0,
+            "originatingAwardVersion": 1
+          }
+        ],
+        "awardCloseoutItems": [
+          {
+            "awardCloseoutId": 1673,
+            "finalSubmissionDate": null,
+            "dueDate": null,
+            "closeoutReportCode": "1",
+            "closeoutReportName": "Financial",
+            "multiple": false
+          },
+          {
+            "awardCloseoutId": 1674,
+            "finalSubmissionDate": null,
+            "dueDate": null,
+            "closeoutReportCode": "4",
+            "closeoutReportName": "Technical",
+            "multiple": false
+          },
+          {
+            "awardCloseoutId": 1675,
+            "finalSubmissionDate": null,
+            "dueDate": null,
+            "closeoutReportCode": "3",
+            "closeoutReportName": "Patent",
+            "multiple": false
+          },
+          {
+            "awardCloseoutId": 1676,
+            "finalSubmissionDate": null,
+            "dueDate": null,
+            "closeoutReportCode": "2",
+            "closeoutReportName": "Property",
+            "multiple": false
+          },
+          {
+            "awardCloseoutId": 1677,
+            "finalSubmissionDate": null,
+            "dueDate": null,
+            "closeoutReportCode": "6",
+            "closeoutReportName": "Invoice",
+            "multiple": false
+          }
+        ],
+        "awardCloseoutNewItems": [],
+        "fundingProposals": [],
+        "allFundingProposals": [],
+        "awardBudgetLimits": [
+          {
+            "budgetLimitId": 121,
+            "awardId": null,
+            "budgetId": null,
+            "limitTypeCode": "directCost",
+            "limit": null
+          },
+          {
+            "budgetLimitId": 122,
+            "awardId": null,
+            "budgetId": null,
+            "limitTypeCode": "indirectCost",
+            "limit": null
+          },
+          {
+            "budgetLimitId": 123,
+            "awardId": null,
+            "budgetId": null,
+            "limitTypeCode": "totalCost",
+            "limit": null
+          }
+        ],
+        "budgets": [],
+        "fainId": null,
+        "fedAwardYear": null,
+        "fedAwardDate": null,
+        "posted": null,
+        "awardSponsorContacts": null
+      }
+
+### Get award by award number [GET /award/api/v2/awards?awardNumber=000224-00001&includeBudgets=false]
+
+GET Award by award number
+
++ Parameters
+  + awardNumber: (String, optional) - Gets the awards associated with the awardNumber.
+  + awardHierarchy: (String, optional) - Gets all the awards in the award hierarchy with the awardHierarchy number. The awardHierarchy for an award with awardNumber 000224-00001 would be 000224.
+  If present along with the awardNumber parameter, awardNumber gets preference.
+  + includeBudgets: (boolean, optional) - Includes budget information with the award if true.
+
++ Request
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
+
++ Response 200
+    + Headers
+
+            Content-Type: application/json;charset=UTF-8
+
+    + Body
+
+      [
+        {
+          "docNbr": null,
+          "docStatus": null,
+          "awardId": 13163,
+          "awardNumber": "000224-00001",
+          "sequenceNumber": 1,
+          "sponsorCode": "000100",
+          "statusCode": 1,
+          "accountNumber": null,
+          "awardEffectiveDate": "2015-07-01",
+          "awardExecutionDate": null,
+          "beginDate": null,
+          "projectEndDate": "2018-06-30",
+          "costSharingIndicator": "N",
+          "indirectCostIndicator": "N",
+          "nsfCode": null,
+          "paymentScheduleIndicator": "N",
+          "scienceCodeIndicator": "N",
+          "specialReviewIndicator": "N",
+          "sponsorAwardNumber": null,
+          "transferSponsorIndicator": "N",
+          "accountTypeCode": null,
+          "activityTypeCode": "1",
+          "primeSponsorCode": "000340",
+          "awardTypeCode": 1,
+          "cfdaNumber": null,
+          "methodOfPaymentCode": "1",
+          "proposalNumber": null,
+          "title": "retest ab",
+          "basisOfPaymentCode": "2",
+          "awardTransactionTypeCode": 9,
+          "noticeDate": null,
+          "leadUnitNumber": "BL-IIDC",
+          "awardSequenceStatus": "PENDING",
+          "unitNumber": "BL-IIDC",
+          "projectPersons": [
+            {
+              "awardContactId": 13188,
+              "personId": "10000000051",
+              "roleCode": "PI",
+              "keyPersonRole": null,
+              "rolodexId": null
+            }
+          ],
+          "awardCustomDataList": [
+            {
+              "customAttributeId": 1,
+              "value": "435454"
+            },
+            {
+              "customAttributeId": 2,
+              "value": null
+            },
+            {
+              "customAttributeId": 3,
+              "value": null
+            },
+            {
+              "customAttributeId": 4,
+              "value": "32"
+            },
+            {
+              "customAttributeId": 5,
+              "value": null
+            },
+            {
+              "customAttributeId": 6,
+              "value": null
+            },
+            {
+              "customAttributeId": 7,
+              "value": null
+            }
+          ],
+          "awardSponsorTerms": [
+            {
+              "sponsorTermId": 325
+            },
+            {
+              "sponsorTermId": 505
+            },
+            {
+              "sponsorTermId": 316
+            },
+            {
+              "sponsorTermId": 353
+            },
+            {
+              "sponsorTermId": 371
+            },
+            {
+              "sponsorTermId": 538
+            },
+            {
+              "sponsorTermId": 318
+            },
+            {
+              "sponsorTermId": 354
+            },
+            {
+              "sponsorTermId": 372
+            },
+            {
+              "sponsorTermId": 417
+            },
+            {
+              "sponsorTermId": 544
+            },
+            {
+              "sponsorTermId": 556
+            },
+            {
+              "sponsorTermId": 567
+            },
+            {
+              "sponsorTermId": 569
+            },
+            {
+              "sponsorTermId": 493
+            },
+            {
+              "sponsorTermId": 500
+            },
+            {
+              "sponsorTermId": 410
+            },
+            {
+              "sponsorTermId": 437
+            },
+            {
+              "sponsorTermId": 383
+            },
+            {
+              "sponsorTermId": 578
+            },
+            {
+              "sponsorTermId": 601
+            },
+            {
+              "sponsorTermId": 322
+            },
+            {
+              "sponsorTermId": 367
+            },
+            {
+              "sponsorTermId": 448
+            },
+            {
+              "sponsorTermId": 480
+            },
+            {
+              "sponsorTermId": 333
+            },
+            {
+              "sponsorTermId": 369
+            }
+          ],
+          "awardReportTerms": [
+            {
+              "reportClassCode": "7",
+              "reportCode": "70",
+              "frequencyCode": "23",
+              "frequencyBaseCode": "4",
+              "ospDistributionCode": "4",
+              "dueDate": null
+            },
+            {
+              "reportClassCode": "2",
+              "reportCode": "40",
+              "frequencyCode": "13",
+              "frequencyBaseCode": "4",
+              "ospDistributionCode": "2",
+              "dueDate": null
+            },
+            {
+              "reportClassCode": "3",
+              "reportCode": "36",
+              "frequencyCode": "30",
+              "frequencyBaseCode": "3",
+              "ospDistributionCode": "1",
+              "dueDate": null
+            },
+            {
+              "reportClassCode": "1",
+              "reportCode": "5",
+              "frequencyCode": "12",
+              "frequencyBaseCode": "4",
+              "ospDistributionCode": "2",
+              "dueDate": null
+            },
+            {
+              "reportClassCode": "4",
+              "reportCode": "5",
+              "frequencyCode": "43",
+              "frequencyBaseCode": "4",
+              "ospDistributionCode": "1",
+              "dueDate": null
+            },
+            {
+              "reportClassCode": "6",
+              "reportCode": "5",
+              "frequencyCode": "12",
+              "frequencyBaseCode": "4",
+              "ospDistributionCode": "4",
+              "dueDate": null
+            },
+            {
+              "reportClassCode": "4",
+              "reportCode": "9",
+              "frequencyCode": "4",
+              "frequencyBaseCode": "6",
+              "ospDistributionCode": "3",
+              "dueDate": null
+            },
+            {
+              "reportClassCode": "7",
+              "reportCode": "69",
+              "frequencyCode": "16",
+              "frequencyBaseCode": "4",
+              "ospDistributionCode": "4",
+              "dueDate": null
+            },
+            {
+              "reportClassCode": "3",
+              "reportCode": "7",
+              "frequencyCode": "6",
+              "frequencyBaseCode": "2",
+              "ospDistributionCode": "4",
+              "dueDate": null
+            },
+            {
+              "reportClassCode": "5",
+              "reportCode": "7",
+              "frequencyCode": "3",
+              "frequencyBaseCode": "2",
+              "ospDistributionCode": "1",
+              "dueDate": null
+            },
+            {
+              "reportClassCode": "2",
+              "reportCode": "39",
+              "frequencyCode": "3",
+              "frequencyBaseCode": "2",
+              "ospDistributionCode": "1",
+              "dueDate": null
+            },
+            {
+              "reportClassCode": "1",
+              "reportCode": "33",
+              "frequencyCode": "7",
+              "frequencyBaseCode": "3",
+              "ospDistributionCode": "4",
+              "dueDate": null
+            },
+            {
+              "reportClassCode": "6",
+              "reportCode": "51",
+              "frequencyCode": "2",
+              "frequencyBaseCode": "2",
+              "ospDistributionCode": "4",
+              "dueDate": null
+            },
+            {
+              "reportClassCode": "5",
+              "reportCode": "37",
+              "frequencyCode": "10",
+              "frequencyBaseCode": "4",
+              "ospDistributionCode": "4",
+              "dueDate": null
+            }
+          ],
+          "approvedEquipmentIndicator": "N",
+          "approvedForeignTripIndicator": "N",
+          "subContractIndicator": "N",
+          "modificationNumber": null,
+          "documentFundingId": null,
+          "preAwardAuthorizedAmount": null,
+          "preAwardEffectiveDate": null,
+          "preAwardInstitutionalAuthorizedAmount": null,
+          "preAwardInstitutionalEffectiveDate": null,
+          "procurementPriorityCode": null,
+          "specialEbRateOffCampus": null,
+          "specialEbRateOnCampus": null,
+          "subPlanFlag": null,
+          "archiveLocation": null,
+          "closeoutDate": null,
+          "currentActionComments": "",
+          "awardSequenceStatusResult": "Saved",
+          "templateCode": 1,
+          "awardBasisOfPayment": null,
+          "awardMethodOfPayment": null,
+          "awardComments": [
+            {
+              "awardCommentId": 3587,
+              "commentTypeCode": "21",
+              "checklistPrintFlag": false,
+              "comments": null
+            },
+            {
+              "awardCommentId": 3588,
+              "commentTypeCode": "2",
+              "checklistPrintFlag": false,
+              "comments": "General remarks from sync to Test Sponsor Template."
+            },
+            {
+              "awardCommentId": 3589,
+              "commentTypeCode": "3",
+              "checklistPrintFlag": false,
+              "comments": "Financial Rpt remarks from sync to Test Sponsor Template."
+            },
+            {
+              "awardCommentId": 3590,
+              "commentTypeCode": "4",
+              "checklistPrintFlag": false,
+              "comments": "IP remarks from sync to Test Sponsor Template."
+            },
+            {
+              "awardCommentId": 3591,
+              "commentTypeCode": "5",
+              "checklistPrintFlag": false,
+              "comments": "Procurement remarks from sync to Test Sponsor Template."
+            },
+            {
+              "awardCommentId": 3592,
+              "commentTypeCode": "6",
+              "checklistPrintFlag": false,
+              "comments": "Property/Equipment remarks from sync to Test Sponsor Template."
+            },
+            {
+              "awardCommentId": 3593,
+              "commentTypeCode": "1",
+              "checklistPrintFlag": false,
+              "comments": "Invoicing remarks from sync to Test Sponsor Template."
+            },
+            {
+              "awardCommentId": 3594,
+              "commentTypeCode": "9",
+              "checklistPrintFlag": false,
+              "comments": "Cost sharing remarks from sync to Test Sponsor Template."
+            }
+          ],
+          "awardCostShares": [],
+          "awardFandaRate": [],
+          "awardDirectFandADistributions": [
+            {
+              "awardDirectFandADistributionId": 223,
+              "amountSequenceNumber": null,
+              "awardAmountInfoId": null,
+              "budgetPeriod": 1,
+              "startDate": "2015-07-01",
+              "endDate": "2016-06-30",
+              "directCost": 0,
+              "indirectCost": 0
+            },
+            {
+              "awardDirectFandADistributionId": 224,
+              "amountSequenceNumber": null,
+              "awardAmountInfoId": null,
+              "budgetPeriod": 2,
+              "startDate": "2016-07-01",
+              "endDate": "2017-06-30",
+              "directCost": 0,
+              "indirectCost": 0
+            },
+            {
+              "awardDirectFandADistributionId": 225,
+              "amountSequenceNumber": null,
+              "awardAmountInfoId": null,
+              "budgetPeriod": 3,
+              "startDate": "2017-07-01",
+              "endDate": "2018-06-30",
+              "directCost": 0,
+              "indirectCost": 0
+            }
+          ],
+          "awardUnitContacts": [],
+          "approvedEquipmentItems": [],
+          "approvedForeignTravelTrips": [],
+          "paymentScheduleItems": [],
+          "awardTransferringSponsors": [],
+          "awardAmountInfos": [
+            {
+              "awardAmountInfoId": 13164,
+              "transactionId": null,
+              "timeAndMoneyDocumentNumber": null,
+              "anticipatedTotalAmount": 684389.73,
+              "antDistributableAmount": 684389.73,
+              "finalExpirationDate": "2018-06-30",
+              "currentFundEffectiveDate": "2015-07-01",
+              "amountObligatedToDate": 684389.73,
+              "obliDistributableAmount": 684389.73,
+              "obligationExpirationDate": "2018-06-30",
+              "anticipatedChange": 0,
+              "obligatedChange": 0,
+              "obligatedChangeDirect": 0,
+              "obligatedChangeIndirect": 0,
+              "anticipatedChangeDirect": 0,
+              "anticipatedChangeIndirect": 0,
+              "anticipatedTotalDirect": 684389.73,
+              "anticipatedTotalIndirect": 0,
+              "obligatedTotalDirect": 684389.73,
+              "obligatedTotalIndirect": 0,
+              "originatingAwardVersion": 1
+            },
+            {
+              "awardAmountInfoId": 13203,
+              "transactionId": null,
+              "timeAndMoneyDocumentNumber": "10781",
+              "anticipatedTotalAmount": 684389.73,
+              "antDistributableAmount": 684389.73,
+              "finalExpirationDate": "2018-06-30",
+              "currentFundEffectiveDate": "2015-07-01",
+              "amountObligatedToDate": 684389.73,
+              "obliDistributableAmount": 684389.73,
+              "obligationExpirationDate": "2018-06-30",
+              "anticipatedChange": 0,
+              "obligatedChange": 0,
+              "obligatedChangeDirect": 0,
+              "obligatedChangeIndirect": 0,
+              "anticipatedChangeDirect": 0,
+              "anticipatedChangeIndirect": 0,
+              "anticipatedTotalDirect": 684389.73,
+              "anticipatedTotalIndirect": 0,
+              "obligatedTotalDirect": 684389.73,
+              "obligatedTotalIndirect": 0,
+              "originatingAwardVersion": 1
+            },
+            {
+              "awardAmountInfoId": 13205,
+              "transactionId": 85,
+              "timeAndMoneyDocumentNumber": "10793",
+              "anticipatedTotalAmount": 682389.73,
+              "antDistributableAmount": 682389.73,
+              "finalExpirationDate": "2018-06-30",
+              "currentFundEffectiveDate": "2015-07-01",
+              "amountObligatedToDate": 682389.73,
+              "obliDistributableAmount": 682389.73,
+              "obligationExpirationDate": "2018-06-30",
+              "anticipatedChange": 0,
+              "obligatedChange": 0,
+              "obligatedChangeDirect": 0,
+              "obligatedChangeIndirect": 0,
+              "anticipatedChangeDirect": 0,
+              "anticipatedChangeIndirect": 0,
+              "anticipatedTotalDirect": 682389.73,
+              "anticipatedTotalIndirect": 0,
+              "obligatedTotalDirect": 682389.73,
+              "obligatedTotalIndirect": 0,
+              "originatingAwardVersion": 1
+            },
+            {
+              "awardAmountInfoId": 13206,
+              "transactionId": 86,
+              "timeAndMoneyDocumentNumber": "10802",
+              "anticipatedTotalAmount": 1364779.46,
+              "antDistributableAmount": 1364779.46,
+              "finalExpirationDate": "2018-06-30",
+              "currentFundEffectiveDate": "2015-07-01",
+              "amountObligatedToDate": 1364779.46,
+              "obliDistributableAmount": 1364779.46,
+              "obligationExpirationDate": "2018-06-30",
+              "anticipatedChange": 0,
+              "obligatedChange": 0,
+              "obligatedChangeDirect": 0,
+              "obligatedChangeIndirect": 0,
+              "anticipatedChangeDirect": 0,
+              "anticipatedChangeIndirect": 0,
+              "anticipatedTotalDirect": 1364779.46,
+              "anticipatedTotalIndirect": 0,
+              "obligatedTotalDirect": 1364779.46,
+              "obligatedTotalIndirect": 0,
+              "originatingAwardVersion": 1
+            }
+          ],
+          "awardCloseoutItems": [
+            {
+              "awardCloseoutId": 1673,
+              "finalSubmissionDate": null,
+              "dueDate": null,
+              "closeoutReportCode": "1",
+              "closeoutReportName": "Financial",
+              "multiple": false
+            },
+            {
+              "awardCloseoutId": 1674,
+              "finalSubmissionDate": null,
+              "dueDate": null,
+              "closeoutReportCode": "4",
+              "closeoutReportName": "Technical",
+              "multiple": false
+            },
+            {
+              "awardCloseoutId": 1675,
+              "finalSubmissionDate": null,
+              "dueDate": null,
+              "closeoutReportCode": "3",
+              "closeoutReportName": "Patent",
+              "multiple": false
+            },
+            {
+              "awardCloseoutId": 1676,
+              "finalSubmissionDate": null,
+              "dueDate": null,
+              "closeoutReportCode": "2",
+              "closeoutReportName": "Property",
+              "multiple": false
+            },
+            {
+              "awardCloseoutId": 1677,
+              "finalSubmissionDate": null,
+              "dueDate": null,
+              "closeoutReportCode": "6",
+              "closeoutReportName": "Invoice",
+              "multiple": false
+            }
+          ],
+          "awardCloseoutNewItems": [],
+          "fundingProposals": [],
+          "allFundingProposals": [],
+          "awardBudgetLimits": [
+            {
+              "budgetLimitId": 121,
+              "awardId": null,
+              "budgetId": null,
+              "limitTypeCode": "directCost",
+              "limit": null
+            },
+            {
+              "budgetLimitId": 122,
+              "awardId": null,
+              "budgetId": null,
+              "limitTypeCode": "indirectCost",
+              "limit": null
+            },
+            {
+              "budgetLimitId": 123,
+              "awardId": null,
+              "budgetId": null,
+              "limitTypeCode": "totalCost",
+              "limit": null
+            }
+          ],
+          "budgets": [],
+          "fainId": null,
+          "fedAwardYear": null,
+          "fedAwardDate": null,
+          "posted": null,
+          "awardSponsorContacts": null
+        }
+      ]
+
 ### Get all Budgets of an award [GET /award/api/v2/awards/13163/budgets/]
 
 All budgets of an award
 
-+ Path Variable
-	+ awardId: (required) - Returns the budgets associated with the awardId.
++ Parameters
+	+ awardId: `13163` (number, required) - Returns the budgets associated with the awardId.
 
 + Request
     + Headers
@@ -7125,12 +8273,12 @@ All budgets of an award
         }
       ]
 
-### Get budget based on budget id [GET /award/api/v2/awards/budgets/599]
+### Get budget based on budget id [GET /award/api/v2/award-budgets/599]
 
 Get Award Budget
 
-+ Path Variable
-	+ budgetId: (required) - Returns the budget associated with the budgetId.
++ Parameters
+	+ budgetId: `599` (number, required) - Returns the budget associated with the budgetId.
 
 + Request
     + Headers
@@ -8460,12 +9608,12 @@ Get Award Budget
         ]
       }
 
-### Put Award Budgets [PUT /award/api/v2/awards/budgets/599/general-info/]
+### Put Award Budgets [PUT /award/api/v2/award-budgets/599/general-info/]
 
 PUT Award Budget General Info
 
-+ Path Variable
-	+ budgetId: (required) - Operates on the budget associated with the budgetId.
++ Parameters
+	+ budgetId: `599` (number, required) - Operates on the budget associated with the budgetId.
 
 + Request
     + Headers
@@ -8507,1152 +9655,3 @@ PUT Award Budget General Info
     + Headers
 
             Content-Type: application/json;charset=UTF-8
-
-
-### Get Award [GET /award/api/v2/awards/13163?includeBudgets=true]
-
-GET Award
-
-+ Path Variable
-	+ awardId: (required) - Gets the award associated with the awardId.
-
-+ Parameters
-  + includeBudgets: (not required) - Includes budget information with the award if true.
-
-+ Request
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-
-+ Response 200
-    + Headers
-
-            Content-Type: application/json;charset=UTF-8
-
-    + Body
-
-      {
-        "docNbr": null,
-        "docStatus": null,
-        "awardId": 13163,
-        "awardNumber": "000224-00001",
-        "sequenceNumber": 1,
-        "sponsorCode": "000100",
-        "statusCode": 1,
-        "accountNumber": null,
-        "awardEffectiveDate": "2015-07-01",
-        "awardExecutionDate": null,
-        "beginDate": null,
-        "projectEndDate": "2018-06-30",
-        "costSharingIndicator": "N",
-        "indirectCostIndicator": "N",
-        "nsfCode": null,
-        "paymentScheduleIndicator": "N",
-        "scienceCodeIndicator": "N",
-        "specialReviewIndicator": "N",
-        "sponsorAwardNumber": null,
-        "transferSponsorIndicator": "N",
-        "accountTypeCode": null,
-        "activityTypeCode": "1",
-        "primeSponsorCode": "000340",
-        "awardTypeCode": 1,
-        "cfdaNumber": null,
-        "methodOfPaymentCode": "1",
-        "proposalNumber": null,
-        "title": "retest ab",
-        "basisOfPaymentCode": "2",
-        "awardTransactionTypeCode": 9,
-        "noticeDate": null,
-        "leadUnitNumber": "BL-IIDC",
-        "awardSequenceStatus": "PENDING",
-        "unitNumber": "BL-IIDC",
-        "projectPersons": [
-          {
-            "awardContactId": 13188,
-            "personId": "10000000051",
-            "roleCode": "PI",
-            "keyPersonRole": null,
-            "rolodexId": null
-          }
-        ],
-        "awardCustomDataList": [
-          {
-            "customAttributeId": 1,
-            "value": "435454"
-          },
-          {
-            "customAttributeId": 2,
-            "value": null
-          },
-          {
-            "customAttributeId": 3,
-            "value": null
-          },
-          {
-            "customAttributeId": 4,
-            "value": "32"
-          },
-          {
-            "customAttributeId": 5,
-            "value": null
-          },
-          {
-            "customAttributeId": 6,
-            "value": null
-          },
-          {
-            "customAttributeId": 7,
-            "value": null
-          }
-        ],
-        "awardSponsorTerms": [
-          {
-            "sponsorTermId": 325
-          },
-          {
-            "sponsorTermId": 505
-          },
-          {
-            "sponsorTermId": 316
-          },
-          {
-            "sponsorTermId": 353
-          },
-          {
-            "sponsorTermId": 371
-          },
-          {
-            "sponsorTermId": 538
-          },
-          {
-            "sponsorTermId": 318
-          },
-          {
-            "sponsorTermId": 354
-          },
-          {
-            "sponsorTermId": 372
-          },
-          {
-            "sponsorTermId": 417
-          },
-          {
-            "sponsorTermId": 544
-          },
-          {
-            "sponsorTermId": 556
-          },
-          {
-            "sponsorTermId": 567
-          },
-          {
-            "sponsorTermId": 569
-          },
-          {
-            "sponsorTermId": 493
-          },
-          {
-            "sponsorTermId": 500
-          },
-          {
-            "sponsorTermId": 410
-          },
-          {
-            "sponsorTermId": 437
-          },
-          {
-            "sponsorTermId": 383
-          },
-          {
-            "sponsorTermId": 578
-          },
-          {
-            "sponsorTermId": 601
-          },
-          {
-            "sponsorTermId": 322
-          },
-          {
-            "sponsorTermId": 367
-          },
-          {
-            "sponsorTermId": 448
-          },
-          {
-            "sponsorTermId": 480
-          },
-          {
-            "sponsorTermId": 333
-          },
-          {
-            "sponsorTermId": 369
-          }
-        ],
-        "awardReportTerms": [
-          {
-            "reportClassCode": "7",
-            "reportCode": "70",
-            "frequencyCode": "23",
-            "frequencyBaseCode": "4",
-            "ospDistributionCode": "4",
-            "dueDate": null
-          },
-          {
-            "reportClassCode": "2",
-            "reportCode": "40",
-            "frequencyCode": "13",
-            "frequencyBaseCode": "4",
-            "ospDistributionCode": "2",
-            "dueDate": null
-          },
-          {
-            "reportClassCode": "3",
-            "reportCode": "36",
-            "frequencyCode": "30",
-            "frequencyBaseCode": "3",
-            "ospDistributionCode": "1",
-            "dueDate": null
-          },
-          {
-            "reportClassCode": "1",
-            "reportCode": "5",
-            "frequencyCode": "12",
-            "frequencyBaseCode": "4",
-            "ospDistributionCode": "2",
-            "dueDate": null
-          },
-          {
-            "reportClassCode": "4",
-            "reportCode": "5",
-            "frequencyCode": "43",
-            "frequencyBaseCode": "4",
-            "ospDistributionCode": "1",
-            "dueDate": null
-          },
-          {
-            "reportClassCode": "6",
-            "reportCode": "5",
-            "frequencyCode": "12",
-            "frequencyBaseCode": "4",
-            "ospDistributionCode": "4",
-            "dueDate": null
-          },
-          {
-            "reportClassCode": "4",
-            "reportCode": "9",
-            "frequencyCode": "4",
-            "frequencyBaseCode": "6",
-            "ospDistributionCode": "3",
-            "dueDate": null
-          },
-          {
-            "reportClassCode": "7",
-            "reportCode": "69",
-            "frequencyCode": "16",
-            "frequencyBaseCode": "4",
-            "ospDistributionCode": "4",
-            "dueDate": null
-          },
-          {
-            "reportClassCode": "3",
-            "reportCode": "7",
-            "frequencyCode": "6",
-            "frequencyBaseCode": "2",
-            "ospDistributionCode": "4",
-            "dueDate": null
-          },
-          {
-            "reportClassCode": "5",
-            "reportCode": "7",
-            "frequencyCode": "3",
-            "frequencyBaseCode": "2",
-            "ospDistributionCode": "1",
-            "dueDate": null
-          },
-          {
-            "reportClassCode": "2",
-            "reportCode": "39",
-            "frequencyCode": "3",
-            "frequencyBaseCode": "2",
-            "ospDistributionCode": "1",
-            "dueDate": null
-          },
-          {
-            "reportClassCode": "1",
-            "reportCode": "33",
-            "frequencyCode": "7",
-            "frequencyBaseCode": "3",
-            "ospDistributionCode": "4",
-            "dueDate": null
-          },
-          {
-            "reportClassCode": "6",
-            "reportCode": "51",
-            "frequencyCode": "2",
-            "frequencyBaseCode": "2",
-            "ospDistributionCode": "4",
-            "dueDate": null
-          },
-          {
-            "reportClassCode": "5",
-            "reportCode": "37",
-            "frequencyCode": "10",
-            "frequencyBaseCode": "4",
-            "ospDistributionCode": "4",
-            "dueDate": null
-          }
-        ],
-        "approvedEquipmentIndicator": "N",
-        "approvedForeignTripIndicator": "N",
-        "subContractIndicator": "N",
-        "modificationNumber": null,
-        "documentFundingId": null,
-        "preAwardAuthorizedAmount": null,
-        "preAwardEffectiveDate": null,
-        "preAwardInstitutionalAuthorizedAmount": null,
-        "preAwardInstitutionalEffectiveDate": null,
-        "procurementPriorityCode": null,
-        "specialEbRateOffCampus": null,
-        "specialEbRateOnCampus": null,
-        "subPlanFlag": null,
-        "archiveLocation": null,
-        "closeoutDate": null,
-        "currentActionComments": "",
-        "awardSequenceStatusResult": "Saved",
-        "templateCode": 1,
-        "awardBasisOfPayment": null,
-        "awardMethodOfPayment": null,
-        "awardComments": [
-          {
-            "awardCommentId": 3587,
-            "commentTypeCode": "21",
-            "checklistPrintFlag": false,
-            "comments": null
-          },
-          {
-            "awardCommentId": 3588,
-            "commentTypeCode": "2",
-            "checklistPrintFlag": false,
-            "comments": "General remarks from sync to Test Sponsor Template."
-          },
-          {
-            "awardCommentId": 3589,
-            "commentTypeCode": "3",
-            "checklistPrintFlag": false,
-            "comments": "Financial Rpt remarks from sync to Test Sponsor Template."
-          },
-          {
-            "awardCommentId": 3590,
-            "commentTypeCode": "4",
-            "checklistPrintFlag": false,
-            "comments": "IP remarks from sync to Test Sponsor Template."
-          },
-          {
-            "awardCommentId": 3591,
-            "commentTypeCode": "5",
-            "checklistPrintFlag": false,
-            "comments": "Procurement remarks from sync to Test Sponsor Template."
-          },
-          {
-            "awardCommentId": 3592,
-            "commentTypeCode": "6",
-            "checklistPrintFlag": false,
-            "comments": "Property/Equipment remarks from sync to Test Sponsor Template."
-          },
-          {
-            "awardCommentId": 3593,
-            "commentTypeCode": "1",
-            "checklistPrintFlag": false,
-            "comments": "Invoicing remarks from sync to Test Sponsor Template."
-          },
-          {
-            "awardCommentId": 3594,
-            "commentTypeCode": "9",
-            "checklistPrintFlag": false,
-            "comments": "Cost sharing remarks from sync to Test Sponsor Template."
-          }
-        ],
-        "awardCostShares": [],
-        "awardFandaRate": [],
-        "awardDirectFandADistributions": [
-          {
-            "awardDirectFandADistributionId": 223,
-            "amountSequenceNumber": null,
-            "awardAmountInfoId": null,
-            "budgetPeriod": 1,
-            "startDate": "2015-07-01",
-            "endDate": "2016-06-30",
-            "directCost": 0,
-            "indirectCost": 0
-          },
-          {
-            "awardDirectFandADistributionId": 224,
-            "amountSequenceNumber": null,
-            "awardAmountInfoId": null,
-            "budgetPeriod": 2,
-            "startDate": "2016-07-01",
-            "endDate": "2017-06-30",
-            "directCost": 0,
-            "indirectCost": 0
-          },
-          {
-            "awardDirectFandADistributionId": 225,
-            "amountSequenceNumber": null,
-            "awardAmountInfoId": null,
-            "budgetPeriod": 3,
-            "startDate": "2017-07-01",
-            "endDate": "2018-06-30",
-            "directCost": 0,
-            "indirectCost": 0
-          }
-        ],
-        "awardUnitContacts": [],
-        "approvedEquipmentItems": [],
-        "approvedForeignTravelTrips": [],
-        "paymentScheduleItems": [],
-        "awardTransferringSponsors": [],
-        "awardAmountInfos": [
-          {
-            "awardAmountInfoId": 13164,
-            "transactionId": null,
-            "timeAndMoneyDocumentNumber": null,
-            "anticipatedTotalAmount": 684389.73,
-            "antDistributableAmount": 684389.73,
-            "finalExpirationDate": "2018-06-30",
-            "currentFundEffectiveDate": "2015-07-01",
-            "amountObligatedToDate": 684389.73,
-            "obliDistributableAmount": 684389.73,
-            "obligationExpirationDate": "2018-06-30",
-            "anticipatedChange": 0,
-            "obligatedChange": 0,
-            "obligatedChangeDirect": 0,
-            "obligatedChangeIndirect": 0,
-            "anticipatedChangeDirect": 0,
-            "anticipatedChangeIndirect": 0,
-            "anticipatedTotalDirect": 684389.73,
-            "anticipatedTotalIndirect": 0,
-            "obligatedTotalDirect": 684389.73,
-            "obligatedTotalIndirect": 0,
-            "originatingAwardVersion": 1
-          },
-          {
-            "awardAmountInfoId": 13203,
-            "transactionId": null,
-            "timeAndMoneyDocumentNumber": "10781",
-            "anticipatedTotalAmount": 684389.73,
-            "antDistributableAmount": 684389.73,
-            "finalExpirationDate": "2018-06-30",
-            "currentFundEffectiveDate": "2015-07-01",
-            "amountObligatedToDate": 684389.73,
-            "obliDistributableAmount": 684389.73,
-            "obligationExpirationDate": "2018-06-30",
-            "anticipatedChange": 0,
-            "obligatedChange": 0,
-            "obligatedChangeDirect": 0,
-            "obligatedChangeIndirect": 0,
-            "anticipatedChangeDirect": 0,
-            "anticipatedChangeIndirect": 0,
-            "anticipatedTotalDirect": 684389.73,
-            "anticipatedTotalIndirect": 0,
-            "obligatedTotalDirect": 684389.73,
-            "obligatedTotalIndirect": 0,
-            "originatingAwardVersion": 1
-          },
-          {
-            "awardAmountInfoId": 13205,
-            "transactionId": 85,
-            "timeAndMoneyDocumentNumber": "10793",
-            "anticipatedTotalAmount": 682389.73,
-            "antDistributableAmount": 682389.73,
-            "finalExpirationDate": "2018-06-30",
-            "currentFundEffectiveDate": "2015-07-01",
-            "amountObligatedToDate": 682389.73,
-            "obliDistributableAmount": 682389.73,
-            "obligationExpirationDate": "2018-06-30",
-            "anticipatedChange": 0,
-            "obligatedChange": 0,
-            "obligatedChangeDirect": 0,
-            "obligatedChangeIndirect": 0,
-            "anticipatedChangeDirect": 0,
-            "anticipatedChangeIndirect": 0,
-            "anticipatedTotalDirect": 682389.73,
-            "anticipatedTotalIndirect": 0,
-            "obligatedTotalDirect": 682389.73,
-            "obligatedTotalIndirect": 0,
-            "originatingAwardVersion": 1
-          },
-          {
-            "awardAmountInfoId": 13206,
-            "transactionId": 86,
-            "timeAndMoneyDocumentNumber": "10802",
-            "anticipatedTotalAmount": 1364779.46,
-            "antDistributableAmount": 1364779.46,
-            "finalExpirationDate": "2018-06-30",
-            "currentFundEffectiveDate": "2015-07-01",
-            "amountObligatedToDate": 1364779.46,
-            "obliDistributableAmount": 1364779.46,
-            "obligationExpirationDate": "2018-06-30",
-            "anticipatedChange": 0,
-            "obligatedChange": 0,
-            "obligatedChangeDirect": 0,
-            "obligatedChangeIndirect": 0,
-            "anticipatedChangeDirect": 0,
-            "anticipatedChangeIndirect": 0,
-            "anticipatedTotalDirect": 1364779.46,
-            "anticipatedTotalIndirect": 0,
-            "obligatedTotalDirect": 1364779.46,
-            "obligatedTotalIndirect": 0,
-            "originatingAwardVersion": 1
-          }
-        ],
-        "awardCloseoutItems": [
-          {
-            "awardCloseoutId": 1673,
-            "finalSubmissionDate": null,
-            "dueDate": null,
-            "closeoutReportCode": "1",
-            "closeoutReportName": "Financial",
-            "multiple": false
-          },
-          {
-            "awardCloseoutId": 1674,
-            "finalSubmissionDate": null,
-            "dueDate": null,
-            "closeoutReportCode": "4",
-            "closeoutReportName": "Technical",
-            "multiple": false
-          },
-          {
-            "awardCloseoutId": 1675,
-            "finalSubmissionDate": null,
-            "dueDate": null,
-            "closeoutReportCode": "3",
-            "closeoutReportName": "Patent",
-            "multiple": false
-          },
-          {
-            "awardCloseoutId": 1676,
-            "finalSubmissionDate": null,
-            "dueDate": null,
-            "closeoutReportCode": "2",
-            "closeoutReportName": "Property",
-            "multiple": false
-          },
-          {
-            "awardCloseoutId": 1677,
-            "finalSubmissionDate": null,
-            "dueDate": null,
-            "closeoutReportCode": "6",
-            "closeoutReportName": "Invoice",
-            "multiple": false
-          }
-        ],
-        "awardCloseoutNewItems": [],
-        "fundingProposals": [],
-        "allFundingProposals": [],
-        "awardBudgetLimits": [
-          {
-            "budgetLimitId": 121,
-            "awardId": null,
-            "budgetId": null,
-            "limitTypeCode": "directCost",
-            "limit": null
-          },
-          {
-            "budgetLimitId": 122,
-            "awardId": null,
-            "budgetId": null,
-            "limitTypeCode": "indirectCost",
-            "limit": null
-          },
-          {
-            "budgetLimitId": 123,
-            "awardId": null,
-            "budgetId": null,
-            "limitTypeCode": "totalCost",
-            "limit": null
-          }
-        ],
-        "budgets": [],
-        "fainId": null,
-        "fedAwardYear": null,
-        "fedAwardDate": null,
-        "posted": null,
-        "awardSponsorContacts": null
-      }
-
-### Get award by award number [GET /award/api/v2/awards?awardNumber=000224-00001&includeBudgets=false]
-
-GET Award by award number
-
-+ Parameters
-  + awardNumber: (not required) - Gets the awards associated with the awardNumber.
-  + awardHierarchy: (not required) - Gets all the awards in the award hierarchy with the awardHierarchy number. The awardHierarchy for an award with awardNumber 000224-00001 would be 000224.
-  + includeBudgets: (not required) - Includes budget information with the award if true.
-
-+ Request
-    + Headers
-
-            Authorization: Bearer {api-key}
-            Content-Type: application/json
-
-+ Response 200
-    + Headers
-
-            Content-Type: application/json;charset=UTF-8
-
-    + Body
-
-      [
-        {
-          "docNbr": null,
-          "docStatus": null,
-          "awardId": 13163,
-          "awardNumber": "000224-00001",
-          "sequenceNumber": 1,
-          "sponsorCode": "000100",
-          "statusCode": 1,
-          "accountNumber": null,
-          "awardEffectiveDate": "2015-07-01",
-          "awardExecutionDate": null,
-          "beginDate": null,
-          "projectEndDate": "2018-06-30",
-          "costSharingIndicator": "N",
-          "indirectCostIndicator": "N",
-          "nsfCode": null,
-          "paymentScheduleIndicator": "N",
-          "scienceCodeIndicator": "N",
-          "specialReviewIndicator": "N",
-          "sponsorAwardNumber": null,
-          "transferSponsorIndicator": "N",
-          "accountTypeCode": null,
-          "activityTypeCode": "1",
-          "primeSponsorCode": "000340",
-          "awardTypeCode": 1,
-          "cfdaNumber": null,
-          "methodOfPaymentCode": "1",
-          "proposalNumber": null,
-          "title": "retest ab",
-          "basisOfPaymentCode": "2",
-          "awardTransactionTypeCode": 9,
-          "noticeDate": null,
-          "leadUnitNumber": "BL-IIDC",
-          "awardSequenceStatus": "PENDING",
-          "unitNumber": "BL-IIDC",
-          "projectPersons": [
-            {
-              "awardContactId": 13188,
-              "personId": "10000000051",
-              "roleCode": "PI",
-              "keyPersonRole": null,
-              "rolodexId": null
-            }
-          ],
-          "awardCustomDataList": [
-            {
-              "customAttributeId": 1,
-              "value": "435454"
-            },
-            {
-              "customAttributeId": 2,
-              "value": null
-            },
-            {
-              "customAttributeId": 3,
-              "value": null
-            },
-            {
-              "customAttributeId": 4,
-              "value": "32"
-            },
-            {
-              "customAttributeId": 5,
-              "value": null
-            },
-            {
-              "customAttributeId": 6,
-              "value": null
-            },
-            {
-              "customAttributeId": 7,
-              "value": null
-            }
-          ],
-          "awardSponsorTerms": [
-            {
-              "sponsorTermId": 325
-            },
-            {
-              "sponsorTermId": 505
-            },
-            {
-              "sponsorTermId": 316
-            },
-            {
-              "sponsorTermId": 353
-            },
-            {
-              "sponsorTermId": 371
-            },
-            {
-              "sponsorTermId": 538
-            },
-            {
-              "sponsorTermId": 318
-            },
-            {
-              "sponsorTermId": 354
-            },
-            {
-              "sponsorTermId": 372
-            },
-            {
-              "sponsorTermId": 417
-            },
-            {
-              "sponsorTermId": 544
-            },
-            {
-              "sponsorTermId": 556
-            },
-            {
-              "sponsorTermId": 567
-            },
-            {
-              "sponsorTermId": 569
-            },
-            {
-              "sponsorTermId": 493
-            },
-            {
-              "sponsorTermId": 500
-            },
-            {
-              "sponsorTermId": 410
-            },
-            {
-              "sponsorTermId": 437
-            },
-            {
-              "sponsorTermId": 383
-            },
-            {
-              "sponsorTermId": 578
-            },
-            {
-              "sponsorTermId": 601
-            },
-            {
-              "sponsorTermId": 322
-            },
-            {
-              "sponsorTermId": 367
-            },
-            {
-              "sponsorTermId": 448
-            },
-            {
-              "sponsorTermId": 480
-            },
-            {
-              "sponsorTermId": 333
-            },
-            {
-              "sponsorTermId": 369
-            }
-          ],
-          "awardReportTerms": [
-            {
-              "reportClassCode": "7",
-              "reportCode": "70",
-              "frequencyCode": "23",
-              "frequencyBaseCode": "4",
-              "ospDistributionCode": "4",
-              "dueDate": null
-            },
-            {
-              "reportClassCode": "2",
-              "reportCode": "40",
-              "frequencyCode": "13",
-              "frequencyBaseCode": "4",
-              "ospDistributionCode": "2",
-              "dueDate": null
-            },
-            {
-              "reportClassCode": "3",
-              "reportCode": "36",
-              "frequencyCode": "30",
-              "frequencyBaseCode": "3",
-              "ospDistributionCode": "1",
-              "dueDate": null
-            },
-            {
-              "reportClassCode": "1",
-              "reportCode": "5",
-              "frequencyCode": "12",
-              "frequencyBaseCode": "4",
-              "ospDistributionCode": "2",
-              "dueDate": null
-            },
-            {
-              "reportClassCode": "4",
-              "reportCode": "5",
-              "frequencyCode": "43",
-              "frequencyBaseCode": "4",
-              "ospDistributionCode": "1",
-              "dueDate": null
-            },
-            {
-              "reportClassCode": "6",
-              "reportCode": "5",
-              "frequencyCode": "12",
-              "frequencyBaseCode": "4",
-              "ospDistributionCode": "4",
-              "dueDate": null
-            },
-            {
-              "reportClassCode": "4",
-              "reportCode": "9",
-              "frequencyCode": "4",
-              "frequencyBaseCode": "6",
-              "ospDistributionCode": "3",
-              "dueDate": null
-            },
-            {
-              "reportClassCode": "7",
-              "reportCode": "69",
-              "frequencyCode": "16",
-              "frequencyBaseCode": "4",
-              "ospDistributionCode": "4",
-              "dueDate": null
-            },
-            {
-              "reportClassCode": "3",
-              "reportCode": "7",
-              "frequencyCode": "6",
-              "frequencyBaseCode": "2",
-              "ospDistributionCode": "4",
-              "dueDate": null
-            },
-            {
-              "reportClassCode": "5",
-              "reportCode": "7",
-              "frequencyCode": "3",
-              "frequencyBaseCode": "2",
-              "ospDistributionCode": "1",
-              "dueDate": null
-            },
-            {
-              "reportClassCode": "2",
-              "reportCode": "39",
-              "frequencyCode": "3",
-              "frequencyBaseCode": "2",
-              "ospDistributionCode": "1",
-              "dueDate": null
-            },
-            {
-              "reportClassCode": "1",
-              "reportCode": "33",
-              "frequencyCode": "7",
-              "frequencyBaseCode": "3",
-              "ospDistributionCode": "4",
-              "dueDate": null
-            },
-            {
-              "reportClassCode": "6",
-              "reportCode": "51",
-              "frequencyCode": "2",
-              "frequencyBaseCode": "2",
-              "ospDistributionCode": "4",
-              "dueDate": null
-            },
-            {
-              "reportClassCode": "5",
-              "reportCode": "37",
-              "frequencyCode": "10",
-              "frequencyBaseCode": "4",
-              "ospDistributionCode": "4",
-              "dueDate": null
-            }
-          ],
-          "approvedEquipmentIndicator": "N",
-          "approvedForeignTripIndicator": "N",
-          "subContractIndicator": "N",
-          "modificationNumber": null,
-          "documentFundingId": null,
-          "preAwardAuthorizedAmount": null,
-          "preAwardEffectiveDate": null,
-          "preAwardInstitutionalAuthorizedAmount": null,
-          "preAwardInstitutionalEffectiveDate": null,
-          "procurementPriorityCode": null,
-          "specialEbRateOffCampus": null,
-          "specialEbRateOnCampus": null,
-          "subPlanFlag": null,
-          "archiveLocation": null,
-          "closeoutDate": null,
-          "currentActionComments": "",
-          "awardSequenceStatusResult": "Saved",
-          "templateCode": 1,
-          "awardBasisOfPayment": null,
-          "awardMethodOfPayment": null,
-          "awardComments": [
-            {
-              "awardCommentId": 3587,
-              "commentTypeCode": "21",
-              "checklistPrintFlag": false,
-              "comments": null
-            },
-            {
-              "awardCommentId": 3588,
-              "commentTypeCode": "2",
-              "checklistPrintFlag": false,
-              "comments": "General remarks from sync to Test Sponsor Template."
-            },
-            {
-              "awardCommentId": 3589,
-              "commentTypeCode": "3",
-              "checklistPrintFlag": false,
-              "comments": "Financial Rpt remarks from sync to Test Sponsor Template."
-            },
-            {
-              "awardCommentId": 3590,
-              "commentTypeCode": "4",
-              "checklistPrintFlag": false,
-              "comments": "IP remarks from sync to Test Sponsor Template."
-            },
-            {
-              "awardCommentId": 3591,
-              "commentTypeCode": "5",
-              "checklistPrintFlag": false,
-              "comments": "Procurement remarks from sync to Test Sponsor Template."
-            },
-            {
-              "awardCommentId": 3592,
-              "commentTypeCode": "6",
-              "checklistPrintFlag": false,
-              "comments": "Property/Equipment remarks from sync to Test Sponsor Template."
-            },
-            {
-              "awardCommentId": 3593,
-              "commentTypeCode": "1",
-              "checklistPrintFlag": false,
-              "comments": "Invoicing remarks from sync to Test Sponsor Template."
-            },
-            {
-              "awardCommentId": 3594,
-              "commentTypeCode": "9",
-              "checklistPrintFlag": false,
-              "comments": "Cost sharing remarks from sync to Test Sponsor Template."
-            }
-          ],
-          "awardCostShares": [],
-          "awardFandaRate": [],
-          "awardDirectFandADistributions": [
-            {
-              "awardDirectFandADistributionId": 223,
-              "amountSequenceNumber": null,
-              "awardAmountInfoId": null,
-              "budgetPeriod": 1,
-              "startDate": "2015-07-01",
-              "endDate": "2016-06-30",
-              "directCost": 0,
-              "indirectCost": 0
-            },
-            {
-              "awardDirectFandADistributionId": 224,
-              "amountSequenceNumber": null,
-              "awardAmountInfoId": null,
-              "budgetPeriod": 2,
-              "startDate": "2016-07-01",
-              "endDate": "2017-06-30",
-              "directCost": 0,
-              "indirectCost": 0
-            },
-            {
-              "awardDirectFandADistributionId": 225,
-              "amountSequenceNumber": null,
-              "awardAmountInfoId": null,
-              "budgetPeriod": 3,
-              "startDate": "2017-07-01",
-              "endDate": "2018-06-30",
-              "directCost": 0,
-              "indirectCost": 0
-            }
-          ],
-          "awardUnitContacts": [],
-          "approvedEquipmentItems": [],
-          "approvedForeignTravelTrips": [],
-          "paymentScheduleItems": [],
-          "awardTransferringSponsors": [],
-          "awardAmountInfos": [
-            {
-              "awardAmountInfoId": 13164,
-              "transactionId": null,
-              "timeAndMoneyDocumentNumber": null,
-              "anticipatedTotalAmount": 684389.73,
-              "antDistributableAmount": 684389.73,
-              "finalExpirationDate": "2018-06-30",
-              "currentFundEffectiveDate": "2015-07-01",
-              "amountObligatedToDate": 684389.73,
-              "obliDistributableAmount": 684389.73,
-              "obligationExpirationDate": "2018-06-30",
-              "anticipatedChange": 0,
-              "obligatedChange": 0,
-              "obligatedChangeDirect": 0,
-              "obligatedChangeIndirect": 0,
-              "anticipatedChangeDirect": 0,
-              "anticipatedChangeIndirect": 0,
-              "anticipatedTotalDirect": 684389.73,
-              "anticipatedTotalIndirect": 0,
-              "obligatedTotalDirect": 684389.73,
-              "obligatedTotalIndirect": 0,
-              "originatingAwardVersion": 1
-            },
-            {
-              "awardAmountInfoId": 13203,
-              "transactionId": null,
-              "timeAndMoneyDocumentNumber": "10781",
-              "anticipatedTotalAmount": 684389.73,
-              "antDistributableAmount": 684389.73,
-              "finalExpirationDate": "2018-06-30",
-              "currentFundEffectiveDate": "2015-07-01",
-              "amountObligatedToDate": 684389.73,
-              "obliDistributableAmount": 684389.73,
-              "obligationExpirationDate": "2018-06-30",
-              "anticipatedChange": 0,
-              "obligatedChange": 0,
-              "obligatedChangeDirect": 0,
-              "obligatedChangeIndirect": 0,
-              "anticipatedChangeDirect": 0,
-              "anticipatedChangeIndirect": 0,
-              "anticipatedTotalDirect": 684389.73,
-              "anticipatedTotalIndirect": 0,
-              "obligatedTotalDirect": 684389.73,
-              "obligatedTotalIndirect": 0,
-              "originatingAwardVersion": 1
-            },
-            {
-              "awardAmountInfoId": 13205,
-              "transactionId": 85,
-              "timeAndMoneyDocumentNumber": "10793",
-              "anticipatedTotalAmount": 682389.73,
-              "antDistributableAmount": 682389.73,
-              "finalExpirationDate": "2018-06-30",
-              "currentFundEffectiveDate": "2015-07-01",
-              "amountObligatedToDate": 682389.73,
-              "obliDistributableAmount": 682389.73,
-              "obligationExpirationDate": "2018-06-30",
-              "anticipatedChange": 0,
-              "obligatedChange": 0,
-              "obligatedChangeDirect": 0,
-              "obligatedChangeIndirect": 0,
-              "anticipatedChangeDirect": 0,
-              "anticipatedChangeIndirect": 0,
-              "anticipatedTotalDirect": 682389.73,
-              "anticipatedTotalIndirect": 0,
-              "obligatedTotalDirect": 682389.73,
-              "obligatedTotalIndirect": 0,
-              "originatingAwardVersion": 1
-            },
-            {
-              "awardAmountInfoId": 13206,
-              "transactionId": 86,
-              "timeAndMoneyDocumentNumber": "10802",
-              "anticipatedTotalAmount": 1364779.46,
-              "antDistributableAmount": 1364779.46,
-              "finalExpirationDate": "2018-06-30",
-              "currentFundEffectiveDate": "2015-07-01",
-              "amountObligatedToDate": 1364779.46,
-              "obliDistributableAmount": 1364779.46,
-              "obligationExpirationDate": "2018-06-30",
-              "anticipatedChange": 0,
-              "obligatedChange": 0,
-              "obligatedChangeDirect": 0,
-              "obligatedChangeIndirect": 0,
-              "anticipatedChangeDirect": 0,
-              "anticipatedChangeIndirect": 0,
-              "anticipatedTotalDirect": 1364779.46,
-              "anticipatedTotalIndirect": 0,
-              "obligatedTotalDirect": 1364779.46,
-              "obligatedTotalIndirect": 0,
-              "originatingAwardVersion": 1
-            }
-          ],
-          "awardCloseoutItems": [
-            {
-              "awardCloseoutId": 1673,
-              "finalSubmissionDate": null,
-              "dueDate": null,
-              "closeoutReportCode": "1",
-              "closeoutReportName": "Financial",
-              "multiple": false
-            },
-            {
-              "awardCloseoutId": 1674,
-              "finalSubmissionDate": null,
-              "dueDate": null,
-              "closeoutReportCode": "4",
-              "closeoutReportName": "Technical",
-              "multiple": false
-            },
-            {
-              "awardCloseoutId": 1675,
-              "finalSubmissionDate": null,
-              "dueDate": null,
-              "closeoutReportCode": "3",
-              "closeoutReportName": "Patent",
-              "multiple": false
-            },
-            {
-              "awardCloseoutId": 1676,
-              "finalSubmissionDate": null,
-              "dueDate": null,
-              "closeoutReportCode": "2",
-              "closeoutReportName": "Property",
-              "multiple": false
-            },
-            {
-              "awardCloseoutId": 1677,
-              "finalSubmissionDate": null,
-              "dueDate": null,
-              "closeoutReportCode": "6",
-              "closeoutReportName": "Invoice",
-              "multiple": false
-            }
-          ],
-          "awardCloseoutNewItems": [],
-          "fundingProposals": [],
-          "allFundingProposals": [],
-          "awardBudgetLimits": [
-            {
-              "budgetLimitId": 121,
-              "awardId": null,
-              "budgetId": null,
-              "limitTypeCode": "directCost",
-              "limit": null
-            },
-            {
-              "budgetLimitId": 122,
-              "awardId": null,
-              "budgetId": null,
-              "limitTypeCode": "indirectCost",
-              "limit": null
-            },
-            {
-              "budgetLimitId": 123,
-              "awardId": null,
-              "budgetId": null,
-              "limitTypeCode": "totalCost",
-              "limit": null
-            }
-          ],
-          "budgets": [],
-          "fainId": null,
-          "fedAwardYear": null,
-          "fedAwardDate": null,
-          "posted": null,
-          "awardSponsorContacts": null
-        }
-      ]
-

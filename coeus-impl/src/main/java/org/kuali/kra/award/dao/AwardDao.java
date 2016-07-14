@@ -49,4 +49,6 @@ public interface AwardDao {
 
     AwardBudgetExt getAwardBudget(String budgetId);
 
+    List<AwardBudgetExt> getAwardBudgetByStatusCode(Integer code);
+
     }

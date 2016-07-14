@@ -20,4 +20,5 @@ package org.kuali.kra.infrastructure;
 
 public interface TimeAndMoneyPermissionConstants {
     public static final String SUBMIT_TIME_AND_MONEY_DOCUMENT = "Submit Time And Money Document";
+    public static final String POST_TIME_AND_MONEY = "Post Time and Money";
 }

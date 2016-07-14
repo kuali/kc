@@ -109,7 +109,6 @@ public class AwardAccountController extends RestController {
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     List<AwardPostsDto> getAwardPosts(@RequestParam(value="accountNumber", required=false) String accountNumber) {
-        List<AwardPostsDto> awardPostsDtos = new ArrayList<>();
         List<AwardPosts> awardPostsList = getAccountDao().getActiveAwardPosts(accountNumber);
         return awardPostsList.stream()
                 .map(awardPost -> translateAwardPosts(awardPost))

@@ -24,9 +24,11 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
+import org.kuali.coeus.award.finance.timeAndMoney.TimeAndMoneyPosts;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.sys.framework.controller.KcHoldingPageConstants;
 import org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.award.AwardAmountInfoService;
@@ -39,6 +41,7 @@ import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportT
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
 import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
@@ -61,6 +64,7 @@ import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.document.authorization.DocumentPresentationController;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -103,7 +107,9 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
     private AwardAmountInfoService awardAmountInfoService;
     private TimeAndMoneyHistoryService timeAndMoneyHistoryService;
     private TimeAndMoneyActionSummaryService timeAndMoneyActionSummaryService;
-    
+    private GlobalVariableService globalVariableService;
+    private DataObjectService dataObjectService;
+
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         captureDateChangeTransactions(form);
@@ -132,7 +138,39 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
             }
         }   
     }
-    
+
+    protected GlobalVariableService getGlobalVariableService() {
+        if (globalVariableService == null) {
+            globalVariableService = KcServiceLocator.getService(GlobalVariableService.class);
+        }
+        return globalVariableService;
+    }
+
+    protected DataObjectService getDataObjectService() {
+        if (dataObjectService == null) {
+            dataObjectService = KcServiceLocator.getService(DataObjectService.class);
+        }
+        return dataObjectService;
+    }
+
+    protected void addPostEntry(Long awardId, String awardNumber, String documentNumber) {
+        TimeAndMoneyPosts timeAndMoneyPosts = new TimeAndMoneyPosts();
+        timeAndMoneyPosts.setAwardId(awardId);
+        timeAndMoneyPosts.setDocumentNumber(documentNumber);
+        String awardFamily = awardNumber.substring(0, StringUtils.indexOf(awardNumber, "-"));
+        timeAndMoneyPosts.setAwardFamily(awardFamily);
+        getDataObjectService().save(timeAndMoneyPosts);
+    }
+
+    public ActionForward postTimeAndMoney(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
+        final TimeAndMoneyDocument timeAndMoneyDocument = timeAndMoneyForm.getTimeAndMoneyDocument();
+        final Award award = timeAndMoneyDocument.getAward();
+        addPostEntry(award.getAwardId(), award.getAwardNumber(), timeAndMoneyDocument.getDocumentNumber());
+        getGlobalVariableService().getMessageMap().putInfo(KeyConstants.TM_INFORMATION_POSTED, KeyConstants.TM_INFORMATION_POSTED);
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+
     private boolean inspectAndCaptureAmountChanges(TimeAndMoneyForm timeAndMoneyForm, AwardAmountInfo aai, Award award, TimeAndMoneyDocument timeAndMoneyDocument, 
                                                             AwardHierarchyNode awardHierarchyNode) {
         if(isDirectIndirectViewEnabled()){

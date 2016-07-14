@@ -27,6 +27,7 @@
                            http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
     <context:annotation-config />
+    <context:component-scan base-package="org.kuali.kra.timeandmoney"/>
 
     <bean id="grlImporter" abstract="true" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
     <bean id="docHandlerService" p:serviceName="docHandlerService" parent="grlImporter" />
