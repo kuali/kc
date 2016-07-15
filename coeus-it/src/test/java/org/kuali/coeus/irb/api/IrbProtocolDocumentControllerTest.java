@@ -3,38 +3,22 @@ package org.kuali.coeus.irb.api;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.coeus.common.api.document.service.CommonApiService;
-import org.kuali.coeus.common.api.rolodex.RolodexService;
-import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.irb.api.dto.IrbProtocolActionDto;
 import org.kuali.coeus.irb.api.dto.IrbProtocolDto;
 import org.kuali.coeus.irb.api.dto.IrbProtocolSubmissionDto;
-import org.kuali.coeus.sys.framework.controller.rest.audit.RestAuditLogger;
-import org.kuali.coeus.sys.framework.controller.rest.audit.RestAuditLoggerDao;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.coeus.sys.impl.controller.rest.audit.RestAuditLoggerFactoryImpl;
-import org.kuali.coeus.sys.impl.controller.rest.audit.RestAuditLoggerImpl;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.irb.actions.ProtocolStatus;
-import org.kuali.kra.irb.actions.approve.ProtocolApproveService;
-import org.kuali.kra.irb.actions.delete.ProtocolDeleteService;
-import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionService;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
-import org.kuali.kra.irb.protocol.ProtocolNumberService;
-import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
-import org.kuali.rice.krad.service.DocumentService;
 
 import java.beans.IntrospectionException;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.Calendar;
-import java.util.List;
 
 public class IrbProtocolDocumentControllerTest extends KcIntegrationTestBase {
 
@@ -194,6 +178,7 @@ public class IrbProtocolDocumentControllerTest extends KcIntegrationTestBase {
     public String getExemptActionJson() {
         String actionJson = "{\n" +
                 "    \"actionCode\":\"101\",\n" +
+                "    \"actionDate\":\"9/30/2011\",\n" +
                 "    \"protocolReviewTypeCode\":\"3\",\n" +
                 "    \"submissionTypeCode\":\"100\",\n" +
                 "    \"initialSubmissionDate\":\"9/30/2011\",\n" +
@@ -211,6 +196,7 @@ public class IrbProtocolDocumentControllerTest extends KcIntegrationTestBase {
     public String getExpeditedActionJson() {
         String actionJson = "{\n" +
                 "    \"actionCode\":\"101\",\n" +
+                "    \"actionDate\":\"9/30/2011\",\n" +
                 "    \"protocolReviewTypeCode\":\"2\",\n" +
                 "    \"submissionTypeCode\":\"100\",\n" +
                 "    \"initialSubmissionDate\":\"9/30/2011\",\n" +

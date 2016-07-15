@@ -288,7 +288,7 @@ public class IrbProtocolDocumentController extends RestController implements  In
                     ProtocolSubmitAction submitAction = commonApiService.convertObject(protocolActionDto, ProtocolSubmitAction.class);
                     submitAction.setNewCommitteeId(submitAction.getCommitteeId());
                     protocol.setInitialSubmissionDate(protocolActionDto.getInitialSubmissionDate());
-                    Timestamp actionTimestamp = new Timestamp(protocolActionDto.getActionDate().getTime());
+                    Timestamp actionTimestamp = protocolActionDto.getActionDate()!= null? new Timestamp(protocolActionDto.getActionDate().getTime()) : null;
                     protocolSubmitActionService.submitToIrbForReview(protocolDocument, submitAction, actionTimestamp);
                     // Submission date is auto generated on ProtocolSubmission but is not if the value != null in Protocol.java
                     // so make them equal in this case.
