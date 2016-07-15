@@ -114,15 +114,19 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
     public ProtocolActionBase() {
     }
 
+    public ProtocolActionBase(ProtocolBase protocol, ProtocolSubmissionBase protocolSubmission, String protocolActionTypeCode, Timestamp actionDate) {
+        initializeProtocolAction(protocol, protocolSubmission, protocolActionTypeCode, actionDate);
+    }
+
     public ProtocolActionBase(ProtocolBase protocol, ProtocolSubmissionBase protocolSubmission, String protocolActionTypeCode) {
-        initializeProtocolAction(protocol, protocolSubmission, protocolActionTypeCode);
+        initializeProtocolAction(protocol, protocolSubmission, protocolActionTypeCode, null);
     }
 
     public ProtocolActionBase(ProtocolBase protocol, String protocolActionTypeCode) {
-        initializeProtocolAction(protocol, null, protocolActionTypeCode);
+        initializeProtocolAction(protocol, null, protocolActionTypeCode, null);
     }
     
-    protected void initializeProtocolAction(ProtocolBase protocol, ProtocolSubmissionBase protocolSubmission, String protocolActionTypeCode) {
+    protected void initializeProtocolAction(ProtocolBase protocol, ProtocolSubmissionBase protocolSubmission, String protocolActionTypeCode, Timestamp actionDate) {
         if (protocolSubmission != null) {
             setSubmissionIdFk(protocolSubmission.getSubmissionId());
             setSubmissionNumber(protocolSubmission.getSubmissionNumber());
@@ -132,7 +136,7 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
         setSequenceNumber(0);
         setActionId(protocol.getNextValue(ACTION_ID_FIELD_KEY));
         setActualActionDate(new Timestamp(System.currentTimeMillis()));
-        setActionDate(new Timestamp(System.currentTimeMillis()));
+        setActionDate(actionDate == null ? new Timestamp(System.currentTimeMillis()) : actionDate);
         setProtocolActionTypeCode(protocolActionTypeCode);
         setProtocol(protocol);
         createUser = GlobalVariables.getUserSession().getPrincipalName();

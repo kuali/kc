@@ -83,7 +83,7 @@ public class ProtocolGrantExemptionServiceTest extends KcIntegrationTestBase {
     public void testGrantExemption() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         
-        protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), getMockSubmitAction());
+        protocolSubmitActionService.submitToIrbForReview(protocolDocument, getMockSubmitAction(), null);
         
         assertEquals(ProtocolStatus.SUBMITTED_TO_IRB, protocolDocument.getProtocol().getProtocolStatusCode());
         

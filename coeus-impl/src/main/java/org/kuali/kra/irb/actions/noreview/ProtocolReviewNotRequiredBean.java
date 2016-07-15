@@ -34,6 +34,9 @@ public class ProtocolReviewNotRequiredBean extends ProtocolActionBean implements
     private Date actionDate = new Date(System.currentTimeMillis());
     private Date decisionDate = new Date(System.currentTimeMillis());
 
+    public ProtocolReviewNotRequiredBean() {
+
+    }
     /**
      * Constructs a ProtocolReviewNotRequiredBean.
      * @param actionHelper Reference back to the action helper for this bean

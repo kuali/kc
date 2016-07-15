@@ -41,10 +41,15 @@ public class IrbProtocolActionDto {
     private String scheduleId;
     @JsonDeserialize(using = CustomSqlDateSerializer.class)
     private Date approvalDate;
+    // expedited approval bean
     @JsonDeserialize(using = CustomSqlDateSerializer.class)
     private Date expirationDate;
     @JsonDeserialize(using = CustomSqlDateSerializer.class)
     private Date actionDate;
+    // Protocol review not required bean properties
+    private String comments;
+    @JsonDeserialize(using = CustomSqlDateSerializer.class)
+    private Date decisionDate;
 
     @JsonProperty(value = "reviewers")
     @CollectionProperty(itemClass=ProtocolReviewerBean.class)
@@ -161,5 +166,21 @@ public class IrbProtocolActionDto {
 
     public void setActionDate(Date actionDate) {
         this.actionDate = actionDate;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+
+    public Date getDecisionDate() {
+        return decisionDate;
+    }
+
+    public void setDecisionDate(Date decisionDate) {
+        this.decisionDate = decisionDate;
     }
 }

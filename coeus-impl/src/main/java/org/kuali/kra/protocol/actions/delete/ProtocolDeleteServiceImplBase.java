@@ -18,7 +18,7 @@
  */
 package org.kuali.kra.protocol.actions.delete;
 
-import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -43,24 +43,24 @@ public abstract class ProtocolDeleteServiceImplBase implements ProtocolDeleteSer
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-    
+
     /**
      * We never delete documents from the database.  Rather, we simply mark
      * it as deleted.
-     * @throws WorkflowException 
-     * @see org.kuali.kra.irb.actions.delete.ProtocolDeleteService#delete(org.kuali.kra.irb.ProtocolBase, org.kuali.kra.irb.actions.delete.ProtocolDeleteBean)
+     * @throws WorkflowException
+     * @param protocolDocument
      */
-    public void delete(ProtocolBase protocol) throws WorkflowException {
-        protocol.setProtocolStatusCode(getDeletedProtocolStatusCodeHook());
-        protocol.setActive(false);
-        businessObjectService.save(protocol.getProtocolDocument());
+    public void delete(ProtocolDocumentBase protocolDocument) throws WorkflowException {
+        protocolDocument.getProtocol().setProtocolStatusCode(getDeletedProtocolStatusCodeHook());
+        protocolDocument.getProtocol().setActive(false);
+        businessObjectService.save(protocolDocument);
         
         /*
          * By marking the protocol document as canceled, the protocol
          * is removed from the user's action list.
          */
-        documentService.cancelDocument(protocol.getProtocolDocument(), null);
-        protocolOnlineReviewService.finalizeOnlineReviews(protocol.getProtocolSubmission(), DELETE_FINALIZE_OLR_ANNOTATION);
+        documentService.cancelDocument(protocolDocument, null);
+        protocolOnlineReviewService.finalizeOnlineReviews(protocolDocument.getProtocol().getProtocolSubmission(), DELETE_FINALIZE_OLR_ANNOTATION);
     
     }
 

@@ -538,7 +538,7 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         IacucProtocol protocol = document.getIacucProtocol();
         IacucProtocolApproveBean actionBean = (IacucProtocolApproveBean) protocolForm.getActionHelper().getProtocolFullApprovalBean();
         saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
-        getProtocolApproveService().grantFullApproval(protocol, actionBean);
+        getProtocolApproveService().grantFullApproval(document, actionBean);
         IacucProtocolSubmission submission = (IacucProtocolSubmission)protocol.getProtocolSubmission();
         String actionType;
         String actionDescription;
@@ -701,7 +701,7 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         IacucProtocolDocument document = (IacucProtocolDocument) protocolForm.getProtocolDocument();
         IacucProtocolApproveBean actionBean = (IacucProtocolApproveBean) protocolForm.getActionHelper().getProtocolAdminApprovalBean();
         saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
-        getProtocolApproveService().grantAdminApproval(document.getProtocol(), actionBean);
+        getProtocolApproveService().grantAdminApproval(document, actionBean);
         generateActionCorrespondence(IacucProtocolActionType.ADMINISTRATIVE_APPROVAL, protocolForm.getProtocolDocument().getProtocol());
         recordProtocolActionSuccess("Administrative Approval");
         IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean((IacucProtocol) document.getProtocol(), IacucProtocolActionType.ADMINISTRATIVE_APPROVAL, "Admin Approval");

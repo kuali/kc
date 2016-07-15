@@ -20,7 +20,6 @@ package org.kuali.kra.irb.actions.approve;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
-import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
@@ -29,6 +28,7 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericCorrespondence;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.approve.ProtocolApproveServiceImplBase;
 import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorrespondenceBase;
@@ -48,51 +48,51 @@ public class ProtocolApproveServiceImpl extends ProtocolApproveServiceImplBase i
     private ParameterService parameterService;
 
     @Override
-    public void grantFullApproval(ProtocolBase protocol, org.kuali.kra.protocol.actions.approve.ProtocolApproveBean actionBean) throws Exception {
-        generateProtocolActionAndAttach(protocol, actionBean, ProtocolActionType.APPROVED);   
+    public void grantFullApproval(ProtocolDocumentBase protocolDocument, org.kuali.kra.protocol.actions.approve.ProtocolApproveBean actionBean) throws Exception {
+        generateProtocolActionAndAttach(protocolDocument.getProtocol(), actionBean, ProtocolActionType.APPROVED);
 
-        if (protocol.getApprovalDate() == null) {
-            protocol.setApprovalDate(actionBean.getApprovalDate());
+        if (protocolDocument.getProtocol().getApprovalDate() == null) {
+            protocolDocument.getProtocol().setApprovalDate(actionBean.getApprovalDate());
         }
-        if (!protocol.isNew()) {
-            protocol.setLastApprovalDate(actionBean.getApprovalDate());
+        if (!protocolDocument.getProtocol().isNew()) {
+            protocolDocument.getProtocol().setLastApprovalDate(actionBean.getApprovalDate());
         }
         String exemptProtocolTypeCode = parameterService.getParameterValueAsString(ProtocolDocument.class, Constants.PROTOCOL_TYPE_CODE_EXEMPT);
-        if (!StringUtils.equals(exemptProtocolTypeCode, protocol.getProtocolTypeCode())) {
-            protocol.setExpirationDate(actionBean.getExpirationDate());
+        if (!StringUtils.equals(exemptProtocolTypeCode, protocolDocument.getProtocol().getProtocolTypeCode())) {
+            protocolDocument.getProtocol().setExpirationDate(actionBean.getExpirationDate());
         }
         
-        finalizeReviewsAndSave(protocol, ProtocolActionType.APPROVED, FULL_APPROVAL_FINALIZE_OLR_ANNOTATION);
+        finalizeReviewsAndSave(protocolDocument, ProtocolActionType.APPROVED, FULL_APPROVAL_FINALIZE_OLR_ANNOTATION);
     }  
 
     @Override
-    public void grantExpeditedApproval(Protocol protocol, ProtocolApproveBean actionBean) throws Exception {
-        generateProtocolActionAndAttach(protocol, actionBean, ProtocolActionType.EXPEDITE_APPROVAL);
+    public void grantExpeditedApproval(ProtocolDocumentBase protocolDocument, ProtocolApproveBean actionBean) throws Exception {
+        generateProtocolActionAndAttach(protocolDocument.getProtocol(), actionBean, ProtocolActionType.EXPEDITE_APPROVAL);
         
-        protocol.setApprovalDate(actionBean.getApprovalDate());
-        protocol.setExpirationDate(actionBean.getExpirationDate());
-        if (!protocol.isNew()) {
-            protocol.setLastApprovalDate(actionBean.getApprovalDate());
+        protocolDocument.getProtocol().setApprovalDate(actionBean.getApprovalDate());
+        protocolDocument.getProtocol().setExpirationDate(actionBean.getExpirationDate());
+        if (!protocolDocument.getProtocol().isNew()) {
+            protocolDocument.getProtocol().setLastApprovalDate(actionBean.getApprovalDate());
         }
-        finalizeReviewsAndSave(protocol, ProtocolActionType.EXPEDITE_APPROVAL, EXPEDITED_APPROVAL_FINALIZE_OLR_ANNOTATION);
+        finalizeReviewsAndSave(protocolDocument, ProtocolActionType.EXPEDITE_APPROVAL, EXPEDITED_APPROVAL_FINALIZE_OLR_ANNOTATION);
         
-        protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().approve(actionBean.getComments());
+        protocolDocument.getDocumentHeader().getWorkflowDocument().approve(actionBean.getComments());
     }
     
-    public void grantResponseApproval(Protocol protocol, ProtocolApproveBean actionBean) throws Exception {
-        generateProtocolActionAndAttach(protocol, actionBean, ProtocolActionType.RESPONSE_APPROVAL);
+    public void grantResponseApproval(ProtocolDocumentBase protocolDocument, ProtocolApproveBean actionBean) throws Exception {
+        generateProtocolActionAndAttach(protocolDocument.getProtocol(), actionBean, ProtocolActionType.RESPONSE_APPROVAL);
         
-        if (protocol.getApprovalDate() == null) {
-            protocol.setApprovalDate(actionBean.getApprovalDate());
+        if (protocolDocument.getProtocol().getApprovalDate() == null) {
+            protocolDocument.getProtocol().setApprovalDate(actionBean.getApprovalDate());
         }
-        if (!protocol.isNew()) {
-            protocol.setLastApprovalDate(actionBean.getApprovalDate());
+        if (!protocolDocument.getProtocol().isNew()) {
+            protocolDocument.getProtocol().setLastApprovalDate(actionBean.getApprovalDate());
         }
-        protocol.setExpirationDate(actionBean.getExpirationDate());
+        protocolDocument.getProtocol().setExpirationDate(actionBean.getExpirationDate());
         
-        finalizeReviewsAndSave(protocol, ProtocolActionType.APPROVED, RESPONSE_APPROVAL_FINALIZE_OLR_ANNOTATION);
+        finalizeReviewsAndSave(protocolDocument, ProtocolActionType.APPROVED, RESPONSE_APPROVAL_FINALIZE_OLR_ANNOTATION);
         
-        protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().approve(actionBean.getComments());
+        protocolDocument.getDocumentHeader().getWorkflowDocument().approve(actionBean.getComments());
     }
 
     /**

@@ -170,7 +170,7 @@ public class CommitteeDecisionServiceTest extends KcIntegrationTestBase {
     private Protocol getProtocolAssignedToAgenda() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         
-        protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), getMockSubmitAction());
+        protocolSubmitActionService.submitToIrbForReview(protocolDocument, getMockSubmitAction(), null);
         assertEquals(ProtocolStatus.SUBMITTED_TO_IRB, protocolDocument.getProtocol().getProtocolStatusCode());
         
         protocolAssignCmtSchedService.assignToCommitteeAndSchedule(protocolDocument.getProtocol(), getMockAssignCmtSchedBean());

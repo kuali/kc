@@ -24,6 +24,7 @@ import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolActionsCorrespondence;
 import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.approve.ProtocolApproveBean;
 import org.kuali.kra.protocol.actions.approve.ProtocolApproveServiceImplBase;
@@ -36,19 +37,19 @@ public class IacucProtocolApproveServiceImpl extends ProtocolApproveServiceImplB
     
     
     @Override
-    public void grantFullApproval(ProtocolBase protocol, ProtocolApproveBean actionBean) throws Exception {
-        generateProtocolActionAndAttach(protocol, actionBean, IacucProtocolActionType.IACUC_APPROVED);   
+    public void grantFullApproval(ProtocolDocumentBase protocolDocument, ProtocolApproveBean actionBean) throws Exception {
+        generateProtocolActionAndAttach(protocolDocument.getProtocol(), actionBean, IacucProtocolActionType.IACUC_APPROVED);
 
-        if (protocol.getApprovalDate() == null) {
-            protocol.setApprovalDate(actionBean.getApprovalDate());
+        if (protocolDocument.getProtocol().getApprovalDate() == null) {
+            protocolDocument.getProtocol().setApprovalDate(actionBean.getApprovalDate());
         }              
-        if (!protocol.isNew()) {
-            protocol.setLastApprovalDate(actionBean.getApprovalDate());
+        if (!protocolDocument.getProtocol().isNew()) {
+            protocolDocument.getProtocol().setLastApprovalDate(actionBean.getApprovalDate());
         }
-        protocol.setExpirationDate(actionBean.getExpirationDate());
+        protocolDocument.getProtocol().setExpirationDate(actionBean.getExpirationDate());
         
-        finalizeReviewsAndSave(protocol, IacucProtocolActionType.IACUC_APPROVED, FULL_APPROVAL_FINALIZE_OLR_ANNOTATION);
-        protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().approve(actionBean.getComments());
+        finalizeReviewsAndSave(protocolDocument, IacucProtocolActionType.IACUC_APPROVED, FULL_APPROVAL_FINALIZE_OLR_ANNOTATION);
+        protocolDocument.getDocumentHeader().getWorkflowDocument().approve(actionBean.getComments());
     }  
 
     

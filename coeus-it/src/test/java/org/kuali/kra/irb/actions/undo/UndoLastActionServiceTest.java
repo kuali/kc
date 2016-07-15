@@ -308,7 +308,7 @@ public class UndoLastActionServiceTest extends KcIntegrationTestBase {
     private ProtocolDocument getApprovedProtocolDocument() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         
-        protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), getMockSubmitAction());
+        protocolSubmitActionService.submitToIrbForReview(protocolDocument, getMockSubmitAction(), null);
         
         assertEquals(ProtocolStatus.SUBMITTED_TO_IRB, protocolDocument.getProtocol().getProtocolStatusCode());
 
@@ -319,7 +319,7 @@ public class UndoLastActionServiceTest extends KcIntegrationTestBase {
         assertNotNull(submission);
         assertEquals(ProtocolSubmissionStatus.IN_AGENDA, submission.getSubmissionStatusCode());
 
-        protocolApproveService.grantFullApproval(protocolDocument.getProtocol(), getMockApproveBean());
+        protocolApproveService.grantFullApproval(protocolDocument, getMockApproveBean());
         
         assertEquals(ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT, protocolDocument.getProtocol().getProtocolStatusCode());
         

@@ -38,6 +38,7 @@ import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 
+import java.sql.Timestamp;
 import java.sql.Date;
 import java.util.*;
 
@@ -138,63 +139,63 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
      * Also, for a submission, a Submission BO must be created.  It contains all of the relevant
      * data for a submission: type, checklists, reviewers, etc.
      * 
-     * @see org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService#submitToIrbForReview(org.kuali.kra.irb.Protocol, org.kuali.kra.irb.actions.submit.ProtocolSubmitAction)
+     * @see ProtocolSubmitActionService#submitToIrbForReview(ProtocolDocument, ProtocolSubmitAction, Timestamp)
      */
     @Override
-    public void submitToIrbForReview(Protocol protocol, ProtocolSubmitAction submitAction) {
+    public void submitToIrbForReview(ProtocolDocument document, ProtocolSubmitAction submitAction, Timestamp actionDate) {
         
         /*
          * The submission is saved first so that its new primary key can be added
          * to the protocol action entry.
          */
-        String prevSubmissionStatus = protocol.getProtocolSubmission().getSubmissionStatusCode();
-        String submissionTypeCode = protocol.getProtocolSubmission().getSubmissionTypeCode();
-        ProtocolSubmission submission = createProtocolSubmission(protocol, submitAction);
+        String prevSubmissionStatus = document.getProtocol().getProtocolSubmission().getSubmissionStatusCode();
+        String submissionTypeCode = document.getProtocol().getProtocolSubmission().getSubmissionTypeCode();
+        ProtocolSubmission submission = createProtocolSubmission(document.getProtocol(), submitAction);
         
         /*
          * If this is an initial submission, then set the initial submission date.
          */
-        if (protocol.getInitialSubmissionDate() == null) {
-            protocol.setInitialSubmissionDate(new Date(submission.getSubmissionDate().getTime()));
+        if (document.getProtocol().getInitialSubmissionDate() == null) {
+            document.getProtocol().setInitialSubmissionDate(new Date(submission.getSubmissionDate().getTime()));
         }
         
         protocolAssignReviewersService.assignReviewers(submission, submitAction.getReviewers());
-        ProtocolAction protocolAction = new ProtocolAction(protocol, submission, ProtocolActionType.SUBMIT_TO_IRB);
+        ProtocolAction protocolAction = new ProtocolAction(document.getProtocol(), submission, ProtocolActionType.SUBMIT_TO_IRB, actionDate);
         protocolAction.setComments(SUBMIT_TO_IRB);
         //For the purpose of audit trail
-        protocolAction.setPrevProtocolStatusCode(protocol.getProtocolStatusCode());
+        protocolAction.setPrevProtocolStatusCode(document.getProtocol().getProtocolStatusCode());
         protocolAction.setPrevSubmissionStatusCode(prevSubmissionStatus);
         protocolAction.setSubmissionTypeCode(submissionTypeCode);
-        protocol.getProtocolActions().add(protocolAction);
+        document.getProtocol().getProtocolActions().add(protocolAction);
         
         //TODO this is for workflow testing, but we do need to plumb the status change in here somewhere.
         ProtocolStatus protocolStatus = new ProtocolStatus();
         protocolStatus.setProtocolStatusCode(ProtocolActionType.SUBMIT_TO_IRB);
         protocolStatus.setDescription(SUBMIT_TO_IRB);
-        protocol.setProtocolStatus(protocolStatus);
-        protocol.setProtocolStatusCode(ProtocolActionType.SUBMIT_TO_IRB);
+        document.getProtocol().setProtocolStatus(protocolStatus);
+        document.getProtocol().setProtocolStatusCode(ProtocolActionType.SUBMIT_TO_IRB);
         
-        protocolActionService.updateProtocolStatus(protocolAction, protocol);
+        protocolActionService.updateProtocolStatus(protocolAction, document.getProtocol());
         
         if (submission.getScheduleIdFk() != null) {
             updateDefaultSchedule(submission);
         }
         
-        List<PessimisticLock> locks = protocol.getProtocolDocument().getPessimisticLocks();
+        List<PessimisticLock> locks = document.getPessimisticLocks();
         if (locks != null) {
         	for(PessimisticLock lock : locks) {
         		dataObjectService.delete(lock);
         	}
         }
 
-        protocol.getProtocolDocument().getPessimisticLocks().clear();
+        document.getPessimisticLocks().clear();
         final ProtocolDocument protocolDocument;
         try {
-            protocolDocument = (ProtocolDocument) documentService.saveDocument(protocol.getProtocolDocument());
+            protocolDocument = (ProtocolDocument) documentService.saveDocument(document);
         } catch (WorkflowException e) {
             throw new RuntimeException(e);
         }
-        protocol.refresh();
+        document.refresh();
         final Project project = getProjectRetrievalService().retrieveProject(protocolDocument.getProtocol().getProtocolNumber());
         if (project != null) {
             getProjectPublisher().publishProject(project);

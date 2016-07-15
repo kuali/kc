@@ -18,8 +18,8 @@
  */
 package org.kuali.kra.irb.actions.approve;
 
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 
 import java.sql.Date;
 
@@ -31,11 +31,11 @@ public interface ProtocolApproveService extends org.kuali.kra.protocol.actions.a
 
     /**
      * Approves an expedited submission to a Protocol.
-     * @param protocol the current Protocol
+     * @param protocolDocument the current Protocol
      * @param actionBean the bean that contains the comments and dates
      * @throws Exception
      */
-    void grantExpeditedApproval(Protocol protocol, ProtocolApproveBean actionBean) throws Exception;
+    void grantExpeditedApproval(ProtocolDocumentBase protocolDocument, ProtocolApproveBean actionBean) throws Exception;
 
     Date buildExpirationDate(ProtocolBase protocol, Date approvalDate);
 

@@ -189,7 +189,7 @@ public class ProtocolSubmitActionServiceTest extends KcIntegrationTestBase {
             submitAction.setCommitteeId(committee.getCommitteeId());
         }
 
-        protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), submitAction);
+        protocolSubmitActionService.submitToIrbForReview(protocolDocument, submitAction, null);
         
         ProtocolSubmission protocolSubmission = findSubmission(protocolDocument.getProtocol().getProtocolId());
         assertNotNull(protocolSubmission);

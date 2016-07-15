@@ -513,7 +513,7 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
             }
         }
         saveReviewComments(protocolForm, expeditedActionBean.getReviewCommentsBean());
-        getProtocolApproveService().grantExpeditedApproval(protocolForm.getProtocolDocument().getProtocol(), expeditedActionBean);
+        getProtocolApproveService().grantExpeditedApproval(protocolForm.getProtocolDocument(), expeditedActionBean);
         generateActionCorrespondence(ProtocolActionType.EXPEDITE_APPROVAL, protocolForm.getProtocolDocument().getProtocol());
         recordProtocolActionSuccess("Expedited Approval");
         protocolForm.getTabStates().put(":" + WebUtils.generateTabKey("Assign to Agenda"), "OPEN");
@@ -537,7 +537,7 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
         ProtocolApproveBean protocolApproveBean = (ProtocolApproveBean) protocolForm.getActionHelper().getProtocolFullApprovalBean();
         ProtocolDocument document = (ProtocolDocument) protocolForm.getProtocolDocument();
         saveReviewComments(protocolForm, protocolApproveBean.getReviewCommentsBean());
-        getProtocolApproveService().grantFullApproval((Protocol) document.getProtocol(), protocolApproveBean);
+        getProtocolApproveService().grantFullApproval(document, protocolApproveBean);
         generateActionCorrespondence(ProtocolActionType.APPROVED, protocolForm.getProtocolDocument().getProtocol());
         recordProtocolActionSuccess("Full Approval");
         protocolForm.getProtocolHelper().prepareView();
@@ -561,7 +561,7 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
         Protocol protocol = (Protocol) protocolDocument.getProtocol();
         ProtocolSubmitAction submitAction = (ProtocolSubmitAction) protocolForm.getActionHelper().getProtocolSubmitAction();
         
-        getProtocolSubmitActionService().submitToIrbForReview(protocol, submitAction);
+        getProtocolSubmitActionService().submitToIrbForReview(protocolDocument, submitAction, null);
         protocolForm.getActionHelper().getAssignCmtSchedBean().init();
         generateActionCorrespondence(ProtocolActionType.SUBMIT_TO_IRB, protocolForm.getProtocolDocument().getProtocol());
 
@@ -691,7 +691,7 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
         ProtocolDocument document = (ProtocolDocument) protocolForm.getProtocolDocument();
         ProtocolApproveBean actionBean = ((ActionHelper) protocolForm.getActionHelper()).getProtocolResponseApprovalBean();
         saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
-        getProtocolApproveService().grantResponseApproval(document.getProtocol(), actionBean);
+        getProtocolApproveService().grantResponseApproval(document, actionBean);
         generateActionCorrespondence(ProtocolActionType.RESPONSE_APPROVAL, protocolForm.getProtocolDocument().getProtocol());
         recordProtocolActionSuccess(ACTION_NAME_RESPONSE_APPROVAL);
         ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(document.getProtocol(), ProtocolActionType.RESPONSE_APPROVAL, "Response Approval");

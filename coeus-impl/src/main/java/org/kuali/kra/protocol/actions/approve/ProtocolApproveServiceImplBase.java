@@ -19,6 +19,7 @@
 package org.kuali.kra.protocol.actions.approve;
 
 import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorrespondenceBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
@@ -43,20 +44,20 @@ public abstract class ProtocolApproveServiceImplBase implements ProtocolApproveS
     protected ProtocolOnlineReviewService protocolOnlineReviewService;
     
     @Override
-    public void grantResponseApproval(ProtocolBase protocol, ProtocolApproveBean actionBean) throws Exception {
-        generateProtocolActionAndAttach(protocol, actionBean, getProtocolActionTypeCodeForResponseApprovalHook());
+    public void grantResponseApproval(ProtocolDocumentBase protocolDocument, ProtocolApproveBean actionBean) throws Exception {
+        generateProtocolActionAndAttach(protocolDocument.getProtocol(), actionBean, getProtocolActionTypeCodeForResponseApprovalHook());
         
-        if (protocol.getApprovalDate() == null) {
-            protocol.setApprovalDate(actionBean.getApprovalDate());
+        if (protocolDocument.getProtocol().getApprovalDate() == null) {
+            protocolDocument.getProtocol().setApprovalDate(actionBean.getApprovalDate());
         }
-        if (!protocol.isNew()) {
-            protocol.setLastApprovalDate(actionBean.getApprovalDate());
+        if (!protocolDocument.getProtocol().isNew()) {
+            protocolDocument.getProtocol().setLastApprovalDate(actionBean.getApprovalDate());
         }
-        protocol.setExpirationDate(actionBean.getExpirationDate());
+        protocolDocument.getProtocol().setExpirationDate(actionBean.getExpirationDate());
         
-        finalizeReviewsAndSave(protocol, getProtocolActionTypeCodeForResponseApprovalHook(), RESPONSE_APPROVAL_FINALIZE_OLR_ANNOTATION);
+        finalizeReviewsAndSave(protocolDocument, getProtocolActionTypeCodeForResponseApprovalHook(), RESPONSE_APPROVAL_FINALIZE_OLR_ANNOTATION);
         
-        protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().approve(actionBean.getComments());
+        protocolDocument.getProtocol().getProtocolDocument().getDocumentHeader().getWorkflowDocument().approve(actionBean.getComments());
     }   
     
     protected abstract String getProtocolActionTypeCodeForResponseApprovalHook();
@@ -64,20 +65,20 @@ public abstract class ProtocolApproveServiceImplBase implements ProtocolApproveS
     
     
     @Override
-    public void grantAdminApproval(ProtocolBase protocol, ProtocolApproveBean actionBean) throws Exception {
-        generateProtocolActionAndAttach(protocol, actionBean, getProtocolActionTypeCodeForAdminApprovalHook());
+    public void grantAdminApproval(ProtocolDocumentBase protocolDocument, ProtocolApproveBean actionBean) throws Exception {
+        generateProtocolActionAndAttach(protocolDocument.getProtocol(), actionBean, getProtocolActionTypeCodeForAdminApprovalHook());
         
-        if (protocol.getApprovalDate() == null) {
-            protocol.setApprovalDate(actionBean.getApprovalDate());
+        if (protocolDocument.getProtocol().getApprovalDate() == null) {
+            protocolDocument.getProtocol().setApprovalDate(actionBean.getApprovalDate());
         }
-        if (!protocol.isNew()) {
-            protocol.setLastApprovalDate(actionBean.getApprovalDate());
+        if (!protocolDocument.getProtocol().isNew()) {
+            protocolDocument.getProtocol().setLastApprovalDate(actionBean.getApprovalDate());
         }
-        protocol.setExpirationDate(actionBean.getExpirationDate());
+        protocolDocument.getProtocol().setExpirationDate(actionBean.getExpirationDate());
         
-        finalizeReviewsAndSave(protocol, getProtocolActionTypeCodeForAdminApprovalHook(), ADMIN_APPROVAL_FINALIZE_OLR_ANNOTATION);
+        finalizeReviewsAndSave(protocolDocument, getProtocolActionTypeCodeForAdminApprovalHook(), ADMIN_APPROVAL_FINALIZE_OLR_ANNOTATION);
         
-        protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().approve(actionBean.getComments());
+        protocolDocument.getProtocol().getProtocolDocument().getDocumentHeader().getWorkflowDocument().approve(actionBean.getComments());
     }
 
 
@@ -101,12 +102,12 @@ public abstract class ProtocolApproveServiceImplBase implements ProtocolApproveS
     protected abstract ProtocolActionsCorrespondenceBase getNewProtocolActionsCorrespondence(String protocolActionTypeCode);
 
 
-    protected void finalizeReviewsAndSave(ProtocolBase protocol, String protocolActionTypeCode, String reviewAnnotation) throws Exception {
-        protocol.refreshReferenceObject("protocolStatus");
+    protected void finalizeReviewsAndSave(ProtocolDocumentBase protocolDocument, String protocolActionTypeCode, String reviewAnnotation) throws Exception {
+        protocolDocument.refreshReferenceObject("protocolStatus");
 
-        protocolOnlineReviewService.finalizeOnlineReviews(protocol.getProtocolSubmission(), reviewAnnotation);
+        protocolOnlineReviewService.finalizeOnlineReviews(protocolDocument.getProtocol().getProtocolSubmission(), reviewAnnotation);
         
-        documentService.saveDocument(protocol.getProtocolDocument());
+        documentService.saveDocument(protocolDocument);
          
     }
 

@@ -262,7 +262,7 @@ public class ProtocolGenericActionsServiceTest extends KcIntegrationTestBase {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         
         ProtocolSubmitActionService protocolSubmitActionService = KcServiceLocator.getService(ProtocolSubmitActionService.class);
-        protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), getMockProtocolSubmitAction());
+        protocolSubmitActionService.submitToIrbForReview(protocolDocument, getMockProtocolSubmitAction(), null);
         DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
         documentService.routeDocument(protocolDocument.getProtocol().getProtocolDocument(), "Initial Document Route", new ArrayList<AdHocRouteRecipient>());
         

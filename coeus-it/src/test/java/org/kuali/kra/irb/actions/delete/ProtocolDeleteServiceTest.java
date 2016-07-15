@@ -74,7 +74,7 @@ public class ProtocolDeleteServiceTest extends KcIntegrationTestBase {
     public void testDelete() throws WorkflowException {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
          
-        service.delete(protocolDocument.getProtocol());
+        service.delete(protocolDocument);
     
         assertFalse(protocolDocument.getProtocol().isActive());
         assertEquals(ProtocolStatus.DELETED, protocolDocument.getProtocol().getProtocolStatusCode());
@@ -91,7 +91,7 @@ public class ProtocolDeleteServiceTest extends KcIntegrationTestBase {
         List<String> modules = protocolAmendRenewService.getAvailableModules(protocolDocument.getProtocol().getProtocolNumber());
         assertEquals(10, modules.size());
         
-        service.delete(amendmentDocument.getProtocol());
+        service.delete(amendmentDocument);
         
         modules = protocolAmendRenewService.getAvailableModules(protocolDocument.getProtocol().getProtocolNumber());
         assertEquals(12, modules.size());

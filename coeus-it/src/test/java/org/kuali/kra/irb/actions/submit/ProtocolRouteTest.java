@@ -91,7 +91,7 @@ public class ProtocolRouteTest extends KcIntegrationTestBase {
     public void runApprovedTest() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
     
-        protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), getMockSubmitAction());
+        protocolSubmitActionService.submitToIrbForReview(protocolDocument, getMockSubmitAction(), null);
 
         documentService.routeDocument(protocolDocument, null, null);
         documentService.blanketApproveDocument(protocolDocument, null, null);
@@ -116,7 +116,7 @@ public class ProtocolRouteTest extends KcIntegrationTestBase {
     public void runDisapprovedTest() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument("0906000002");
     
-        protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), getMockSubmitAction());
+        protocolSubmitActionService.submitToIrbForReview(protocolDocument, getMockSubmitAction(), null);
         
         documentService.routeDocument(protocolDocument, null, null);
         documentService.disapproveDocument(protocolDocument, null);
@@ -139,7 +139,7 @@ public class ProtocolRouteTest extends KcIntegrationTestBase {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument("0906000003");
         ProtocolSubmitAction submitAction = getMockSubmitAction();
     
-        protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), submitAction);
+        protocolSubmitActionService.submitToIrbForReview(protocolDocument, submitAction, null);
         
         documentService.routeDocument(protocolDocument, null, null);
         documentService.blanketApproveDocument(protocolDocument, null, null);
@@ -147,7 +147,7 @@ public class ProtocolRouteTest extends KcIntegrationTestBase {
         String docNbr = protocolAmendRenewService.createAmendment(protocolDocument, getMockProtocolAmendmentBean());
         
         ProtocolDocument amendmentDocument = (ProtocolDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(docNbr);
-        protocolSubmitActionService.submitToIrbForReview(amendmentDocument.getProtocol(), submitAction);
+        protocolSubmitActionService.submitToIrbForReview(amendmentDocument, submitAction, null);
         
         documentService.routeDocument(amendmentDocument, null, null);
 // temporarily disable unit test        

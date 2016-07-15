@@ -83,7 +83,7 @@ public class ProtocolApproveServiceImplTest extends KcIntegrationTestBase {
     public void testFullApproval() throws Exception{
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         addProtocolAction(protocolDocument.getProtocol());
-        service.grantFullApproval(protocolDocument.getProtocol(), getMockProtocolApproveBean());
+        service.grantFullApproval(protocolDocument, getMockProtocolApproveBean());
         
         verifyPersistStatusAction(protocolDocument.getProtocol());
     }
@@ -93,7 +93,7 @@ public class ProtocolApproveServiceImplTest extends KcIntegrationTestBase {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         addProtocolAction(protocolDocument.getProtocol());
 
-        service.grantExpeditedApproval(protocolDocument.getProtocol(), getMockProtocolApproveBean());
+        service.grantExpeditedApproval(protocolDocument, getMockProtocolApproveBean());
     
         verifyPersistStatusAction(protocolDocument.getProtocol());
     }
@@ -103,7 +103,7 @@ public class ProtocolApproveServiceImplTest extends KcIntegrationTestBase {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         addProtocolAction(protocolDocument.getProtocol());
         
-        service.grantResponseApproval(protocolDocument.getProtocol(), getMockProtocolApproveBean());
+        service.grantResponseApproval(protocolDocument, getMockProtocolApproveBean());
     
         verifyPersistStatusAction(protocolDocument.getProtocol());
     }

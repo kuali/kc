@@ -44,9 +44,12 @@ import org.kuali.kra.irb.actions.delete.ProtocolDeleteService;
 import org.kuali.kra.irb.actions.expeditedapprove.ProtocolExpeditedApproveBean;
 import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionBean;
 import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionService;
+import org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredBean;
+import org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
+import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.protocol.ProtocolNumberService;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
@@ -59,6 +62,7 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.springframework.beans.factory.InitializingBean;
@@ -72,6 +76,7 @@ import org.springframework.web.bind.annotation.*;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -114,12 +119,20 @@ public class IrbProtocolDocumentController extends RestController implements  In
     private ProtocolSubmitActionService protocolSubmitActionService;
 
     @Autowired
+    @Qualifier("protocolDeleteService")
+    private ProtocolDeleteService protocolDeleteService;
+
+    @Autowired
     @Qualifier("protocolApproveService")
     private ProtocolApproveService protocolApproveService;
 
     @Autowired
     @Qualifier("protocolGrantExemptionService")
     private ProtocolGrantExemptionService protocolGrantExemptionService;
+
+    @Autowired
+    @Qualifier("protocolReviewNotRequiredService")
+    private ProtocolReviewNotRequiredService protocolReviewNotRequiredService;
 
     @Autowired
     @Qualifier("kcPersonService")
@@ -130,8 +143,13 @@ public class IrbProtocolDocumentController extends RestController implements  In
     private RolodexService rolodexService;
 
     @Autowired
-    @Qualifier("protocolDeleteService")
-    private ProtocolDeleteService protocolDeleteService;
+    @Qualifier("businessObjectService")
+    private BusinessObjectService businessObjectService;
+
+    @Autowired
+    @Qualifier("protocolOnlineReviewService")
+    private ProtocolOnlineReviewService protocolOnlineReviewService;
+
 
     private List<String> irbProtocolDtoProperties;
     private List<String> irbPersonDtoProperties;
@@ -232,7 +250,7 @@ public class IrbProtocolDocumentController extends RestController implements  In
         DocumentRouteHeaderValue routeHeader = routeHeaderService.getRouteHeader(protocolDocument.getDocumentHeader().getWorkflowDocument().getDocumentId());
         if (!routeHeader.getDocRouteStatus().equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_CANCEL_CD)) {
             try {
-                protocolDeleteService.delete(protocolDocument.getProtocol());
+                protocolDeleteService.delete(protocolDocument);
             }
             catch (InvalidActionTakenException e) {
                 throw new UnprocessableEntityException("Document " + documentNumber + " is not in a state to be cancelled.", e);
@@ -270,7 +288,8 @@ public class IrbProtocolDocumentController extends RestController implements  In
                     ProtocolSubmitAction submitAction = commonApiService.convertObject(protocolActionDto, ProtocolSubmitAction.class);
                     submitAction.setNewCommitteeId(submitAction.getCommitteeId());
                     protocol.setInitialSubmissionDate(protocolActionDto.getInitialSubmissionDate());
-                    protocolSubmitActionService.submitToIrbForReview(protocol, submitAction);
+                    Timestamp actionTimestamp = new Timestamp(protocolActionDto.getActionDate().getTime());
+                    protocolSubmitActionService.submitToIrbForReview(protocolDocument, submitAction, actionTimestamp);
                     // Submission date is auto generated on ProtocolSubmission but is not if the value != null in Protocol.java
                     // so make them equal in this case.
                     protocol.getProtocolSubmission().setSubmissionDate(protocol.getInitialSubmissionDate());
@@ -283,7 +302,7 @@ public class IrbProtocolDocumentController extends RestController implements  In
                     ProtocolExpeditedApproveBean approveBean = commonApiService.convertObject(protocolActionDto, ProtocolExpeditedApproveBean.class);
                     approveBean.setAssignToAgenda(false);
                     approveBean.setExpirationDate(protocolApproveService.buildExpirationDate(protocol, approveBean.getApprovalDate()));
-                    protocolApproveService.grantExpeditedApproval(protocol, approveBean);
+                    protocolApproveService.grantExpeditedApproval(protocolDocument, approveBean);
                 } else {
                     throw new UnprocessableEntityException(ACTION_ERROR_MESSAGE);
                 }
@@ -291,6 +310,14 @@ public class IrbProtocolDocumentController extends RestController implements  In
                 if (protocol.getProtocolStatus().getProtocolStatusCode().equalsIgnoreCase(ProtocolStatus.SUBMITTED_TO_IRB)) {
                     ProtocolGrantExemptionBean exemptionBean = commonApiService.convertObject(protocolActionDto, ProtocolGrantExemptionBean.class);
                     protocolGrantExemptionService.grantExemption(protocol, exemptionBean);
+                } else {
+                    throw new UnprocessableEntityException(ACTION_ERROR_MESSAGE);
+                }
+            }
+            else if (actionTypeCode.equalsIgnoreCase(ProtocolActionType.IRB_REVIEW_NOT_REQUIRED)) {
+                if (protocol.getProtocolStatus().getProtocolStatusCode().equalsIgnoreCase(ProtocolStatus.SUBMITTED_TO_IRB)) {
+                    ProtocolReviewNotRequiredBean reviewNotRequiredBean = commonApiService.convertObject(protocolActionDto, ProtocolReviewNotRequiredBean.class);
+                    protocolReviewNotRequiredService.reviewNotRequired(protocolDocument, reviewNotRequiredBean);
                 } else {
                     throw new UnprocessableEntityException(ACTION_ERROR_MESSAGE);
                 }
@@ -374,8 +401,5 @@ public class IrbProtocolDocumentController extends RestController implements  In
         this.rolodexService = rolodexService;
     }
 
-    public void setProtocolDeleteService(ProtocolDeleteService protocolDeleteService) {
-        this.protocolDeleteService = protocolDeleteService;
-    }
 
 }

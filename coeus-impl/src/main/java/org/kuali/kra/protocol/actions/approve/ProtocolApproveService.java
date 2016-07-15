@@ -18,7 +18,7 @@
  */
 package org.kuali.kra.protocol.actions.approve;
 
-import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 
 /**
  * 
@@ -28,27 +28,27 @@ public interface ProtocolApproveService {
     
     /**
      * Approves a full submission to a ProtocolBase.
-     * @param protocol the current ProtocolBase
+     * @param protocolDocument the current ProtocolBase
      * @param actionBean the bean that contains the comments and dates
      * @throws Exception
      */
-    void grantFullApproval(ProtocolBase protocol, ProtocolApproveBean actionBean) throws Exception;
+    void grantFullApproval(ProtocolDocumentBase protocolDocument, ProtocolApproveBean actionBean) throws Exception;
 
     /**
      * Approves a response submission to a ProtocolBase.
-     * @param protocol the current ProtocolBase
+     * @param protocolDocument the current ProtocolBase
      * @param actionBean the bean that contains the comments and dates
      * @throws Exception
      */
-    void grantResponseApproval(ProtocolBase protocol, ProtocolApproveBean actionBean) throws Exception;
+    void grantResponseApproval(ProtocolDocumentBase protocolDocument, ProtocolApproveBean actionBean) throws Exception;
     
     
     /**
      * Administratively approves a ProtocolBase.
-     * @param protocol the current ProtocolBase
+     * @param protocolDocument the current ProtocolBase
      * @param actionBean the bean that contains the comments and dates
      * @throws Exception
      */
-    public void grantAdminApproval(ProtocolBase protocol, ProtocolApproveBean actionBean) throws Exception;
+    public void grantAdminApproval(ProtocolDocumentBase protocolDocument, ProtocolApproveBean actionBean) throws Exception;
 
 }

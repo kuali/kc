@@ -31,6 +31,8 @@ import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBeanBase;
 import org.kuali.kra.protocol.questionnaire.ProtocolSubmissionQuestionnaireHelper;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
+
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,6 +51,9 @@ public class ProtocolAction extends ProtocolActionBase {
     public ProtocolAction() {
     }
 
+    public ProtocolAction(Protocol protocol, ProtocolSubmission protocolSubmission, String protocolActionTypeCode, Timestamp actionDate) {
+        super(protocol, protocolSubmission, protocolActionTypeCode, actionDate);
+    }
 
     public ProtocolAction(Protocol protocol, ProtocolSubmission protocolSubmission, String protocolActionTypeCode) {
         super(protocol, protocolSubmission, protocolActionTypeCode);        
@@ -57,6 +62,7 @@ public class ProtocolAction extends ProtocolActionBase {
     public ProtocolAction(Protocol protocol, String protocolActionTypeCode) {
         super(protocol, protocolActionTypeCode);
     }
+
 
     public void setQuestionnairePrintOptionFromHelper(ActionHelper actionHelper) {
         if (getSubmissionNumber() != null

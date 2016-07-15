@@ -18,16 +18,16 @@
  */
 package org.kuali.kra.protocol.actions.delete;
 
-import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 public interface ProtocolDeleteService {
     
     /**
      * Delete a protocol/amendment/renewal.
-     * @param protocol the protocol/amendment/renewal
+     * @param protocolDocument the protocol/amendment/renewal
      * @throws WorkflowException
      */
-    public void delete(ProtocolBase protocol) throws WorkflowException;
+    public void delete(ProtocolDocumentBase protocolDocument) throws WorkflowException;
 
-}
+    }

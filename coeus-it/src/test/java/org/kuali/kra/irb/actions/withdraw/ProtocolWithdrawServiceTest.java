@@ -86,7 +86,7 @@ public class ProtocolWithdrawServiceTest extends KcIntegrationTestBase {
     public void testWithdrawal() throws Exception {
         ProtocolDocument oldProtocolDocument = ProtocolFactory.createProtocolDocument();
         
-        protocolSubmitActionService.submitToIrbForReview(oldProtocolDocument.getProtocol(), getMockSubmitAction());
+        protocolSubmitActionService.submitToIrbForReview(oldProtocolDocument, getMockSubmitAction(), null);
         assertEquals(ProtocolStatus.SUBMITTED_TO_IRB, oldProtocolDocument.getProtocol().getProtocolStatusCode());
         
         ProtocolDocument newProtocolDocument = (ProtocolDocument) service.withdraw(oldProtocolDocument.getProtocol(), getMockProtocolWithdrawBean());
