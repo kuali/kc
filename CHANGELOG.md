@@ -1,6 +1,13 @@
 
 
 ##CURRENT
+* REOPS-944: Fix protocol delete. Protocol delete was not setting the status on the protocol, fixed it. (#1839)
+
+  * Add functionality to perform action 201 and fix code so expiration date saves.
+  * 
+  * Make action date on submission action configurable. Refactored so protocol services do not get the document from the protcol for saving since this causes a lot of elements to not be saved.  * Gayathri Athreya on Fri, 15 Jul 2016 14:19:13 -0700 [View Commit](../../commit/576649ac2ef44b0857df46f08cc8d1f089dbda49)
+
+##coeus-1607.22
 * RESKC-1463: Fix/add Canadian Provinces
   * Terry Durkin on Thu, 14 Jul 2016 16:50:56 -0400 [View Commit](../../commit/8b8b3c89c67e955f8edb18e11fc364155ec26a9f)
 
