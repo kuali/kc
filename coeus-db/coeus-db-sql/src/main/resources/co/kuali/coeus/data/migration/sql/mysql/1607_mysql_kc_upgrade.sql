@@ -20,4 +20,5 @@
 
 \. ./kc/bootstrap/V1607_001__budget_status.sql
 \. ./kc/bootstrap/V1607_003__time_and_money_posts.sql
+\. ./kc/bootstrap/V1607_005__optional_file_data.sql
 commit;

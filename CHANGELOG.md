@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* adding defaults for startup issues
+  * Travis Schneeberger on Tue, 19 Jul 2016 11:37:59 -0400 [View Commit](../../commit/342c9c64735ad9a7e99ac617ebafda34bf7b4c94)
+* creating quartz conversion job
+  * Travis Schneeberger on Thu, 14 Jul 2016 15:53:04 -0400 [View Commit](../../commit/4e6ae171a02e5675ed62343b2eecb080e2c195f0)
+* Reimplement KcAttachmentDataDao with S3 support
+  * Travis Schneeberger on Wed, 13 Jul 2016 16:14:50 -0400 [View Commit](../../commit/5b31444269607b6d745d3e5459b9134ab85e9c96)
+
+##coeus-1607.23
 * REOPS-944: Fix protocol delete. Protocol delete was not setting the status on the protocol, fixed it. (#1839)
 
   * Add functionality to perform action 201 and fix code so expiration date saves.
