@@ -1,6 +1,13 @@
 
 
 ##CURRENT
+* Including v2 endpoints in auth (#1868)
+
+  * Gayathri Athreya on Tue, 19 Jul 2016 10:57:20 -0700 [View Commit](../../commit/34f230531340a6922c7313d94cc0c6729d3ec4ce)
+* RESKC-1487:handle non employee proposal person conversion
+  * Joe Williams on Fri, 15 Jul 2016 09:24:21 -0500 [View Commit](../../commit/19afaa6a52eec6025cefca74dadf6d8b1464b24d)
+
+##coeus-1607.24
 * adding defaults for startup issues
   * Travis Schneeberger on Tue, 19 Jul 2016 11:37:59 -0400 [View Commit](../../commit/342c9c64735ad9a7e99ac617ebafda34bf7b4c94)
 * creating quartz conversion job
