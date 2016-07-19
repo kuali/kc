@@ -22,24 +22,24 @@ public interface KcAttachmentDataDao {
 	
 	/**
 	 * Using the ID provided, retrieves the given file data stored in the file_data table.
-	 * @param id
-	 * @return
+	 * @param id the id.  If blank will return null
+	 * @return the data or null if the id is blank
 	 */
-    public byte[] getData(String id);
+    byte[] getData(String id);
     
     /**
      * Stores the data and returns a new randomly generated ID value that can be used to retrieve the
      * data. If the BO calling this previously stored data, pass in the previous ID and it will be deleted
      * before saving the new data.
-     * @param data
+     * @param data the data.  cannot be null or empty
      * @param previousId optional, used to delete any previously stored data before persisting new data.
-     * @return
+     * @return the id for the saved data
      */
-    public String saveData(byte[] data, String previousId);
+    String saveData(byte[] data, String previousId);
     
     /**
      * Removes the record from file_data table by id.
-     * @param id
+     * @param id the id.  If blank will return null
      */
-    public void removeData(String id);
+    void removeData(String id);
 }

@@ -36,4 +36,7 @@
     <import resource="classpath:org/kuali/coeus/common/questionnaire/impl/CommonQuestionnaireComponentSpringBeans.xml"/>
     <import resource="classpath:org/kuali/coeus/common/proposal/impl/CommonProposalComponentSpringBeans.xml"/>
 
+    <!-- only brought in on the grm profile -->
+    <import resource="classpath:co/kuali/coeus/grm/impl/GrmCommonComponentSpringBeans.xml"/>
+
 </beans>

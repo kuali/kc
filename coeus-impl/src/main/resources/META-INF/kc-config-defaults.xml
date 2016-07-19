@@ -333,8 +333,12 @@
     <param name="citi.header.label.examId">Exam ID</param>
     <param name="citi.header.label.examScore">Exam Score</param>
     <param name="citi.header.label.moduleCompletionDate">Module Completion Date</param>
+
 	<param name="web.analytics.enabled">false</param>
 	<param name="web.analytics.key"></param>
 
-
+	<param name="s3.bucket.name"></param>
+	<param name="s3.access.key"></param>
+	<param name="s3.secret.key"></param>
+	<param name="s3.encryption.key.file"></param>
 </config>
