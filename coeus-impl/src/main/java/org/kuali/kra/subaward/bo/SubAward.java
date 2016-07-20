@@ -36,6 +36,7 @@ import org.kuali.coeus.common.permissions.impl.PermissionableKeys;
 import org.kuali.coeus.common.framework.auth.perm.Permissionable;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.negotiations.bo.Negotiable;
@@ -167,6 +168,7 @@ implements Permissionable, SequenceOwner<SubAward>, CustomDataContainer, Negotia
     private List<SubAwardCloseout> subAwardCloseoutList;
     private List<SubAwardCustomData> subAwardCustomDataList;
 
+    @SkipVersioning
     private transient List<SubAwardAmountReleased> subAwardAmountReleasedList;
 
     private VersionHistorySearchBo versionHistory;

@@ -230,11 +230,11 @@ public class SubAwardServiceImpl implements SubAwardService {
     }
     
     public SubAward getActiveSubAward(Long subAwardId) {
-        Map<String, Object> values = new HashMap<String, Object>();
-        values.put(SUB_AWARD_ID, subAwardId);
-        List<SubAward> subAwards = (List<SubAward>) getBusinessObjectService().findMatching(SubAward.class, values);
-        SubAward subAward = subAwards.get(0);
-        calculateAmountInfo(subAward);
+
+        SubAward subAward = getBusinessObjectService().findBySinglePrimaryKey(SubAward.class, subAwardId);
+        if (subAward != null) {
+            calculateAmountInfo(subAward);
+        }
         return subAward;
     }
 
