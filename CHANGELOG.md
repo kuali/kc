@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1511: fixing versioning bug
+  * Travis Schneeberger on Wed, 20 Jul 2016 16:11:16 -0400 [View Commit](../../commit/4970d4df7fb7a077b08902f97552acae803d00b5)
+
+##coeus-1607.28
 * No Changes
 
 
