@@ -50,7 +50,6 @@ import java.util.*;
 public class SubAwardServiceImpl implements SubAwardService {
 
     private static final Log LOG = LogFactory.getLog(SubAwardServiceImpl.class);
-    public static final String SUB_AWARD_ID = "subAwardId";
     public static final String SUB_AWARD_CODE = "subAwardCode";
     public static final String SUB_AWARD_SEQUENCE_STATUS = "subAwardSequenceStatus";
     public static final String SUBAWARD_FOLLOW_UP = "Subaward Follow Up";
@@ -64,6 +63,7 @@ public class SubAwardServiceImpl implements SubAwardService {
     private ParameterService parameterService;
     private SubAwardDao subAwardDao;
 
+    @Override
     public SubAwardDocument createNewSubAwardVersion(SubAwardDocument subAwardDocument) throws VersionException, WorkflowException {
 
         SubAward newVersion = getVersioningService().createNewVersion(subAwardDocument.getSubAward());
@@ -91,7 +91,7 @@ public class SubAwardServiceImpl implements SubAwardService {
     }
 
     protected void archiveCurrentActiveSubAward(String subAwardCode) {
-        Map<String, Object> values = new HashMap<String, Object>();
+        Map<String, Object> values = new HashMap<>();
         values.put(SUB_AWARD_CODE, subAwardCode);
         values.put(SUB_AWARD_SEQUENCE_STATUS, VersionStatus.ACTIVE.name());
         Collection<SubAward> subAwards = getBusinessObjectService().
@@ -123,13 +123,14 @@ public class SubAwardServiceImpl implements SubAwardService {
         this.sequenceAccessorService = sequenceAccessorService;
     }
 
+    @Override
     public SubAward calculateAmountInfo(SubAward subAward) {
 
         List<SubAwardAmountInfo> subAwardAmountInfoList = subAward.getAllSubAwardAmountInfos();
         List<SubAwardAmountReleased> subAwardAmountReleasedList = subAward.getSubAwardAmountReleasedList();
-        ScaleTwoDecimal totalObligatedAmount = new ScaleTwoDecimal(0.00);
-        ScaleTwoDecimal totalAnticipatedAmount = new ScaleTwoDecimal(0.00);
-        ScaleTwoDecimal totalAmountReleased = new ScaleTwoDecimal(0.00);
+        ScaleTwoDecimal totalObligatedAmount = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalAnticipatedAmount = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalAmountReleased = ScaleTwoDecimal.ZERO;
         if (subAwardAmountInfoList != null && subAwardAmountInfoList.size() > 0) {
             for (SubAwardAmountInfo subAwardAmountInfo: subAwardAmountInfoList) {
                 if (subAwardAmountInfo.getObligatedChange() != null) {
@@ -175,15 +176,15 @@ public class SubAwardServiceImpl implements SubAwardService {
         return subAward;
     }
 
+    @Override
     public String getFollowupDateDefaultLength() {
         return getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
                 Constants.PARAMETER_COMPONENT_DOCUMENT, SUBAWARD_FOLLOW_UP);
     }
 
+    @Override
     public Date getCalculatedFollowupDate(Date baseDate) {
-        Date retDate =
-        new Date(DateUtils.addDays(baseDate, getFollowupDateDefaultLengthInDays()).getTime());
-        return retDate;
+        return new Date(DateUtils.addDays(baseDate, getFollowupDateDefaultLengthInDays()).getTime());
     }
     
     @Override
@@ -209,6 +210,7 @@ public class SubAwardServiceImpl implements SubAwardService {
         return empty;
     }
 
+    @Override
     public int getFollowupDateDefaultLengthInDays() {
         String followupDateRange = getFollowupDateDefaultLength();
         String rangeUnit = followupDateRange.substring(
@@ -216,7 +218,7 @@ public class SubAwardServiceImpl implements SubAwardService {
         int rangeAmount =
         Integer.parseInt(followupDateRange.substring(
         0, followupDateRange.length() - 1));
-        int returnAmount = 0;
+        final int returnAmount;
         if (StringUtils.equalsIgnoreCase(rangeUnit, "D")) {
             returnAmount = rangeAmount;
         } else if (StringUtils.equalsIgnoreCase(rangeUnit, "W")) {
@@ -228,13 +230,14 @@ public class SubAwardServiceImpl implements SubAwardService {
         }
         return returnAmount;
     }
-    
+
+    @Override
     public SubAward getActiveSubAward(Long subAwardId) {
-        Map<String, Object> values = new HashMap<String, Object>();
-        values.put(SUB_AWARD_ID, subAwardId);
-        List<SubAward> subAwards = (List<SubAward>) getBusinessObjectService().findMatching(SubAward.class, values);
-        SubAward subAward = subAwards.get(0);
-        calculateAmountInfo(subAward);
+
+        SubAward subAward = getBusinessObjectService().findBySinglePrimaryKey(SubAward.class, subAwardId);
+        if (subAward != null) {
+            calculateAmountInfo(subAward);
+        }
         return subAward;
     }
 
@@ -243,11 +246,11 @@ public class SubAwardServiceImpl implements SubAwardService {
         Map<String, Object> values = new HashMap<>();
         values.put(AWARD_AWARD_NUMBER, award.getAwardNumber());
         Collection<SubAwardFundingSource> subAwardFundingSources = businessObjectService.findMatching(SubAwardFundingSource.class, values);
-        Set<String> subAwardSet = new TreeSet<String>();
+        Set<String> subAwardSet = new TreeSet<>();
         for(SubAwardFundingSource subAwardFundingSource : subAwardFundingSources){
             subAwardSet.add(subAwardFundingSource.getSubAward().getSubAwardCode());
         }
-        List<SubAward> subAwards = new ArrayList<SubAward>();
+        List<SubAward> subAwards = new ArrayList<>();
         for (String subAwardCode : subAwardSet) {
             VersionHistory activeVersion = getVersionHistoryService().findActiveVersion(SubAward.class, subAwardCode);
             if (activeVersion == null) {
