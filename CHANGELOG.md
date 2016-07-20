@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* removing support until we clear up jackson conflict with aws client
+  * Travis Schneeberger on Wed, 20 Jul 2016 17:41:22 -0400 [View Commit](../../commit/48432d1892a8bc68c0210b675a6a17c236dab269)
+
+##coeus-1607.29
 * RESKC-1511: fixing versioning bug
   * Travis Schneeberger on Wed, 20 Jul 2016 16:11:16 -0400 [View Commit](../../commit/4970d4df7fb7a077b08902f97552acae803d00b5)
 
