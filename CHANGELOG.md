@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* adding shaded s3 dependency
+  * Travis Schneeberger on Thu, 21 Jul 2016 12:02:42 -0400 [View Commit](../../commit/87ffc18fb4f1bf005ac9f4ee6d77d12aae5baf99)
+
+##coeus-1607.31
 * removing support until we clear up jackson conflict with aws client
   * Travis Schneeberger on Wed, 20 Jul 2016 17:41:22 -0400 [View Commit](../../commit/48432d1892a8bc68c0210b675a6a17c236dab269)
 
