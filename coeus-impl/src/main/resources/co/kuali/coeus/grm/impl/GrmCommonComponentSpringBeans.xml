@@ -36,5 +36,54 @@
     <tx:annotation-driven transaction-manager="transactionManager" />
     <context:annotation-config />
 
+    <bean id="attachmentDataAmazonClient" class="co.kuali.coeus.s3.api.EncryptedS3FileServiceFactoryBean">
+        <property name="bucketName" value="${s3.bucket.name}" />
+        <property name="accessKey" value="${s3.access.key}" />
+        <property name="secretKey" value="${s3.secret.key}" />
+        <property name="encryptionKey" value="${s3.encryption.key.file}" />
+    </bean>
+
+    <bean id="kcS3FileService" class="co.kuali.coeus.common.impl.attachment.KcS3FileServiceReflectionImpl">
+        <property name="s3FileService" ref="attachmentDataAmazonClient"/>
+    </bean>
+
+    <bean id="kcAttachmentDataDao" class="co.kuali.coeus.common.impl.attachment.KcAttachmentDataDaoS3Impl">
+        <property name="kcS3FileService" ref="kcS3FileService"/>
+        <property name="dataSource" ref="dataSource" />
+        <property name="parameterService" ref="parameterService" />
+    </bean>
+
+    <bean id="kcAttachmentDataToS3ConversionJob" class="co.kuali.coeus.common.impl.attachment.KcAttachmentDataToS3ConversionImpl">
+        <property name="kcS3FileService" ref="kcS3FileService"/>
+        <property name="dataSource" ref="dataSource" />
+        <property name="parameterService" ref="parameterService" />
+    </bean>
+
+    <bean id="kcAttachmentDataToS3ConversionJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="kcAttachmentDataToS3ConversionJob"/>
+        <property name="targetMethod" value="execute" />
+        <property name="concurrent" value="false" />
+    </bean>
+
+    <bean id="kcAttachmentDataToS3ConversionCronTrigger" class="org.kuali.coeus.sys.framework.scheduling.KcCronTriggerBean">
+        <property name="jobDetail" ref="kcAttachmentDataToS3ConversionJobDetail" />
+        <property name="parameterService" ref="parameterService" />
+        <property name="dateTimeService" ref="dateTimeService" />
+        <property name="cronExpressionParameterName" value="kcAttachmentDataToS3Conversion.cronExpression" />
+        <property name="triggerEnabledParameterName" value="kcAttachmentDataToS3Conversion.enabled" />
+        <property name="parameterNamespace" value="KC-SYS" />
+        <property name="parameterComponent" value="All" />
+    </bean>
+
+    <bean id="kcCommonQuartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="exposeSchedulerInRepository" value="true" />
+        <property name="triggers">
+            <list merge="true">
+                <ref bean="kcAttachmentDataToS3ConversionCronTrigger" />
+                <ref bean="fileAttachmentConversionCronTrigger" />
+                <ref bean="citiCronTrigger" />
+            </list>
+        </property>
+    </bean>
 
 </beans>
