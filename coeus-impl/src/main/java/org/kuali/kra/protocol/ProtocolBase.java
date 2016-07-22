@@ -1249,26 +1249,16 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
      * the deleted attachment will not be merged
      */
     private void removeDeletedAttachment() {
-        List<Integer> documentIds = new ArrayList<>();
-        List<ProtocolAttachmentProtocolBase> attachments = new ArrayList<>();
-        for (ProtocolAttachmentProtocolBase attachment : this.getAttachmentProtocols()) {
-            attachment.setProtocol(this);
-            if (attachment.isDeleted()) {
-                documentIds.add(attachment.getDocumentId());
-            }
-        }
-        if (!documentIds.isEmpty()) {
-            for (ProtocolAttachmentProtocolBase attachment : this.getAttachmentProtocols()) {
-                attachment.setProtocol(this);
-                if (!documentIds.contains(attachment.getDocumentId())) {
-                    attachments.add(attachment);
-                } 
-            }
-            this.setAttachmentProtocols(new ArrayList<>());
-            this.getAttachmentProtocols().addAll(attachments);
-        }
-    }
+        final Set<Integer> deletedDocumentIds = this.getAttachmentProtocols().stream()
+                .peek(attachment -> attachment.setProtocol(this))
+                .filter(ProtocolAttachmentProtocolBase::isDeleted)
+                .map(ProtocolAttachmentProtocolBase::getDocumentId)
+                .collect(Collectors.toSet());
 
+        final List<ProtocolAttachmentProtocolBase> attachmentsToDelete = this.getAttachmentProtocols().stream().filter(attachment -> deletedDocumentIds.contains(attachment.getDocumentId())).collect(Collectors.toList());
+        getBusinessObjectService().delete(attachmentsToDelete);
+        this.getAttachmentProtocols().removeAll(attachmentsToDelete);
+    }
     
     /*
      * This is to restore attachments from protocol to amendment when 'attachment' section is unselected.
