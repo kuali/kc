@@ -114,5 +114,17 @@
         </property>
     </bean>
 
+    <bean id="DataValidationSection-WithApprove" parent="DataValidationSection-WithApprove-parentBean"/>
+    <bean id="DataValidationSection-WithApprove-parentBean" parent="DataValidationSection">
+        <property name="footer.items">
+            <list>
+                <bean  p:actionLabel="Approve With Warnings" parent="Uif-PrimaryActionButton" p:methodToCall="approve"  p:order="10"
+                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]}"
+                       p:dialogDismissOption="REQUEST"/>
+                <bean parent="Uif-DialogDismissButton" p:actionLabel="Close" p:order="20"/>
+            </list>
+        </property>
+    </bean>
+
 
 </beans>
