@@ -65,7 +65,7 @@
                            p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ADD_ADHOC_REQUESTS] and (!#parent.readOnly or document.documentHeader.workflowDocument.enroute) and !document.developmentProposal.isChild()}" />
 
 
-                    <bean parent="Uif-PrimaryActionButton" p:actionLabel="Approve" p:methodToCall="approve" p:order="30"
+                    <bean parent="Uif-PrimaryActionButton" p:actionLabel="Approve" p:methodToCall="approveCheck" p:order="30"
                           p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]}"/>
 
                     <bean parent="Uif-SecondaryActionButton" p:methodToCall="disapproveProposal" p:actionLabel="Disapprove"

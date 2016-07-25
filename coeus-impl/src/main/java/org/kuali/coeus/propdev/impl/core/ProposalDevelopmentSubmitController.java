@@ -694,6 +694,26 @@ public class ProposalDevelopmentSubmitController extends
         proposalAdminDetails.setInstPropCreateUser(globalVariableService.getUserSession().getPrincipalName());
 	}
 
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=approveCheck")
+    public ModelAndView approveCheck(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
+        final Boolean featureFlag = getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT,
+                "proposal.approval.dialog.enabled");
+
+        if(!featureFlag) {
+            return approve(form);
+        }
+
+        AuditHelper.ValidationState severityLevel = getValidationState(form);
+
+        if(severityLevel.equals(AuditHelper.ValidationState.ERROR)) {
+            return getModelAndViewService().showDialog(ProposalDevelopmentConstants.KradConstants.DATA_VALIDATION_DIALOG_ID, true, form);
+        } else if (severityLevel.equals(AuditHelper.ValidationState.WARNING)) {
+            return getModelAndViewService().showDialog(ProposalDevelopmentConstants.KradConstants.DATA_VALIDATION_SECTION_WITH_APPROVE, true, form);
+        } else {
+            return approve(form);
+        }
+    }
+
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=approve")
     public ModelAndView approve(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
         form.setAuditActivated(true);
