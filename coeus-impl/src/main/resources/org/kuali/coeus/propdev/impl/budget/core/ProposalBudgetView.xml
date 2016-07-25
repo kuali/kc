@@ -77,6 +77,11 @@
                 <ref bean="PropBudget-HierarchySummaryPage"/>
 			</list>
 		</property>
+        <property name="dialogs">
+            <list>
+                <ref bean="PropBudget-BudgetVersions-Dialog"/>
+            </list>
+        </property>
 	</bean>
 
 	<bean id="PropBudget-Menu" parent="PropBudget-Menu-parentBean" />
