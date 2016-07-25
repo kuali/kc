@@ -20,4 +20,5 @@
 
 \. ./rice/bootstrap/V1607_002__post_time_money_permissions.sql
 \. ./rice/bootstrap/V1607_004__UpdateProvinces.sql
+\. ./rice/bootstrap/V1607_008__ApproveWarningDialogFlag.sql
 commit;

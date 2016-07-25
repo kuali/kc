@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1486: add warning dialog before approval
+  * Joe Williams on Mon, 25 Jul 2016 10:09:19 -0500 [View Commit](../../commit/2dd682dbe06a6e27b15f2d360c4fa5a9e9333f5e)
+
+##coeus-1607.33
 * RESKC-1488: fix issue where budget versions list disappears when completing a budget
   * Joe Williams on Mon, 25 Jul 2016 08:21:10 -0500 [View Commit](../../commit/5cb506a32d960ce66cbaa00cc3cef76d68faf744)
 
