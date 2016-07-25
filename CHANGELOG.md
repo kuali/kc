@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1488: fix issue where budget versions list disappears when completing a budget
+  * Joe Williams on Mon, 25 Jul 2016 08:21:10 -0500 [View Commit](../../commit/5cb506a32d960ce66cbaa00cc3cef76d68faf744)
+
+##coeus-1607.32
 * adding shaded s3 dependency
   * Travis Schneeberger on Thu, 21 Jul 2016 12:02:42 -0400 [View Commit](../../commit/87ffc18fb4f1bf005ac9f4ee6d77d12aae5baf99)
 
