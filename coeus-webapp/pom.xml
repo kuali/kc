@@ -24,7 +24,7 @@
     <parent>
         <groupId>org.kuali.coeus</groupId>
         <artifactId>coeus</artifactId>
-        <version>1607.35</version>
+        <version>1607.36-SNAPSHOT</version>
     </parent>
     <artifactId>coeus-webapp</artifactId>
     <packaging>war</packaging>
