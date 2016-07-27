@@ -1,6 +1,18 @@
 
 
 ##CURRENT
+* RESKC-1501: fixing attachments that are deleted in an amendment so that they are deleted when the amendment is merged into a new protocol after approval.  Steps to reproduce:
+
+  * Create and submit a protocol with an attachment
+  * Expedited approve it
+  * Create an amendment choosing to Add/Modify attachments
+  * Remove the attachment in the amendment
+  * Submit and approve the amendment
+  * The amendment is incorporate into the protocol but the deleted attachment is still there
+  * It should appear in history as removed but should no longer be an active attachment
+  * Travis Schneeberger on Fri, 22 Jul 2016 13:36:25 -0400 [View Commit](../../commit/3a2a4ee35519178bb1fd84d71a35b7e651fe233c)
+
+##coeus-1607.35
 * No Changes
 
 
