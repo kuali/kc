@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1607.36
 * RESKC-1501: fixing attachments that are deleted in an amendment so that they are deleted when the amendment is merged into a new protocol after approval.  Steps to reproduce:
 
   * Create and submit a protocol with an attachment
