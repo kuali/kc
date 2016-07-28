@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* API endpoint to version awards. (#1870)
+
+* API endpoint to version awards.
+  * 
+* Review comments.
+  * Gayathri Athreya on Thu, 28 Jul 2016 12:56:56 -0700 [View Commit](../../commit/92d2a86370e1d49451c351dda6195195b1a91652)
+
+##coeus-1607.37
 * No Changes
 
 
