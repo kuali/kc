@@ -67,7 +67,7 @@ public class AwardProjectPersonsSaveRuleImpl implements AwardProjectPersonsSaveR
     boolean checkForKeyPersonProjectRoles(List<AwardPerson> projectPersons) {
        boolean valid = true;
        for ( AwardPerson person : projectPersons ) {
-           if ( StringUtils.equalsIgnoreCase(person.getContactRole().getRoleCode(), ContactRole.KEY_PERSON_CODE) &&
+           if ( StringUtils.equalsIgnoreCase(person.getContactRoleCode(), ContactRole.KEY_PERSON_CODE) &&
                    StringUtils.isBlank(person.getKeyPersonRole()) ) {
                valid = false;
                GlobalVariables.getMessageMap().putError(AWARD_PROJECT_PERSON_LIST_ERROR_KEY, 

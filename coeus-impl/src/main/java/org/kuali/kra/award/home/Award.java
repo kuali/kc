@@ -18,6 +18,8 @@
  */
 package org.kuali.kra.award.home;
 
+import com.codiform.moo.annotation.Ignore;
+import com.codiform.moo.annotation.Property;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.award.finance.AwardPosts;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
@@ -156,7 +158,11 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     public static final String AWARD_ID = "awardId";
     private Long awardId;
     private AwardDocument awardDocument;
+    @Property(update = false)
+    @Ignore
     private String awardNumber;
+    @Property(update = false)
+    @Ignore
     private Integer sequenceNumber;
     @AwardSyncableProperty
     private String sponsorCode;

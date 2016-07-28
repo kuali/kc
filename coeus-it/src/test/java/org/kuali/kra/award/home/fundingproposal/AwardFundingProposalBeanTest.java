@@ -91,7 +91,7 @@ public class AwardFundingProposalBeanTest extends KcIntegrationTestBase {
         results.add(award2);
         awardService.setResults(results);
         
-        Assert.assertEquals(1, bean.getAllAwardsForAwardNumber().size());
+        Assert.assertEquals(1, bean.getAllAwardsForAwardNumber(award2).size());
     }
     
     @Test
@@ -102,7 +102,7 @@ public class AwardFundingProposalBeanTest extends KcIntegrationTestBase {
         
         awardService.setResults(cannedResults);
         
-        List<Award> actualResults = bean.getAllAwardsForAwardNumber();
+        List<Award> actualResults = bean.getAllAwardsForAwardNumber(award1);
         Assert.assertEquals(2, actualResults.size());
         Assert.assertEquals(1, actualResults.get(0).getSequenceNumber().intValue());
         Assert.assertEquals(2, actualResults.get(1).getSequenceNumber().intValue());

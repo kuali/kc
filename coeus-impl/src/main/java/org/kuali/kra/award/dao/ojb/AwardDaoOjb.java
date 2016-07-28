@@ -148,7 +148,7 @@ public class AwardDaoOjb extends LookupDaoOjb implements OjbCollectionAware, Awa
     }
 
     @Override
-    public Award getAward(String awardId) {
+    public Award getAward(Long awardId) {
         return getBusinessObjectService().findBySinglePrimaryKey(Award.class, awardId);
     }
 
@@ -168,7 +168,7 @@ public class AwardDaoOjb extends LookupDaoOjb implements OjbCollectionAware, Awa
 
     QueryByCriteria getQueryForAwardHierarchyByAwardFamily(String awardFamily) {
         Criteria crit = new Criteria();
-        crit.addLike(AWARD_NUMBER, awardFamily + "%");
+        crit.addLike(AWARD_NUMBER, awardFamily + "-%");
         QueryByCriteria queryCrit = QueryFactory.newQuery(Award.class, crit);
         return queryCrit;
     }

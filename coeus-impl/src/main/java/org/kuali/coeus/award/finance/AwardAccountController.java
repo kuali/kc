@@ -117,7 +117,7 @@ public class AwardAccountController extends RestController {
 
     protected AwardPostsDto translateAwardPosts(AwardPosts awardPosts) {
         AwardPostsDto awardPostsDto = commonApiService.convertObject(awardPosts, AwardPostsDto.class);
-        Award award = awardDao.getAward(awardPosts.getAwardId().toString());
+        Award award = awardDao.getAward(awardPosts.getAwardId());
         AwardDto awardDto = commonApiService.convertObject(award, AwardDto.class);
         awardPostsDto.setAwardDto(awardDto);
         return awardPostsDto;

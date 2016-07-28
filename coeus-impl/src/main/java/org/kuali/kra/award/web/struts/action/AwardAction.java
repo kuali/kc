@@ -29,12 +29,10 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.kuali.coeus.coi.framework.*;
 import org.kuali.coeus.common.framework.auth.SystemAuthorizationService;
-import org.kuali.coeus.common.framework.person.PropAwardPersonRoleService;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.history.VersionHistory;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
-import org.kuali.coeus.common.framework.auth.UnitAuthorizationService;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.controller.KcHoldingPageConstants;
 import org.kuali.coeus.sys.framework.validation.AuditHelper;
@@ -50,8 +48,6 @@ import org.kuali.kra.award.awardhierarchy.sync.AwardSyncType;
 import org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncCreationService;
 import org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncService;
 import org.kuali.kra.award.budget.AwardBudgetService;
-import org.kuali.kra.award.contacts.AwardPerson;
-import org.kuali.kra.award.contacts.AwardProjectPersonsSaveRule;
 import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
@@ -407,7 +403,7 @@ public class AwardAction extends BudgetParentActionBase {
         AwardForm awardForm = (AwardForm) form;
 
         Award award = awardForm.getAwardDocument().getAward();
-        checkAwardNumber(award);
+        getAwardService().checkAwardNumber(award);
         
         if (award.getAwardApprovedSubawards() == null || award.getAwardApprovedSubawards().isEmpty()) {
             award.setSubContractIndicator(Constants.NO_FLAG);
@@ -487,27 +483,6 @@ public class AwardAction extends BudgetParentActionBase {
 
     protected AwardDocument getAwardDocument(ActionForm form) {
         return ((AwardForm) form).getAwardDocument();
-    }
-
-    protected void checkAwardNumber(Award award) {
-        if (Award.DEFAULT_AWARD_NUMBER.equals(award.getAwardNumber())) {
-            AwardNumberService awardNumberService = getAwardNumberService();
-            String awardNumber = awardNumberService.getNextAwardNumber();
-            award.setAwardNumber(awardNumber);
-        }
-        if (Award.DEFAULT_AWARD_NUMBER.equals(award.getAwardAmountInfos().get(0).getAwardNumber())) {
-            award.getAwardAmountInfos().get(0).setAwardNumber(award.getAwardNumber());
-        }
-        award.getAwardApprovedSubawards().stream()
-                .filter(approvedSubaward -> Award.DEFAULT_AWARD_NUMBER.equals(approvedSubaward.getAwardNumber()))
-                .forEach(approvedSubaward -> approvedSubaward.setAwardNumber(award.getAwardNumber()));
-
-        for(AwardComment comment : award.getAwardComments()) {
-            comment.setAward(award);
-        }
-        for(AwardCustomData customData : award.getAwardCustomDataList()) {
-            customData.setAward(award);
-        }
     }
 
     protected AwardNumberService getAwardNumberService() {

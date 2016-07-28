@@ -64,16 +64,18 @@ public interface AwardService {
      * Create new version of the award document
      * @param awardDocument
      * @return
-     * @throws VersionExceptionInstitutionalProposalServ
+     * @throws VersionException, WorkflowException
      */
     public AwardDocument createNewAwardVersion(AwardDocument awardDocument) throws VersionException, WorkflowException;
-    
-    /**
-     * Update the award to use the new VersionStatus. If the version status is ACTIVE, any other active version of this
-     * award will be set to ARCHIVED.
-     * @param award
-     * @param status
-     */
+
+    public AwardDocument generateAndPopulateAwardDocument(AwardDocument oldAwardDocument, Award newVersion) throws WorkflowException;
+
+        /**
+         * Update the award to use the new VersionStatus. If the version status is ACTIVE, any other active version of this
+         * award will be set to ARCHIVED.
+         * @param award
+         * @param status
+         */
     void updateAwardSequenceStatus(Award award, VersionStatus status);
     
     /**
@@ -109,4 +111,10 @@ public interface AwardService {
      * @return a result-limited Collection of matching awards
      */
     public Collection<Award> retrieveAwardsByCriteria(Map<String, Object> fieldValues);
-}
+
+    public void checkAwardNumber(Award award);
+
+    public String getRootAwardNumber(String awardNumber);
+
+
+    }

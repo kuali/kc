@@ -26,6 +26,16 @@ public class AwardFundingProposalDto {
 
     private boolean active;
 
+    private String mergeTypeCode;
+
+    public String getMergeTypeCode() {
+        return mergeTypeCode;
+    }
+
+    public void setMergeTypeCode(String mergeTypeCode) {
+        this.mergeTypeCode = mergeTypeCode;
+    }
+
     public Long getAwardFundingProposalId() {
         return awardFundingProposalId;
     }

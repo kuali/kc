@@ -273,6 +273,7 @@
         <property name="versioningService" ref="versioningService" />
         <property name="versionHistoryService" ref="versionHistoryService" />
         <property name="sponsorHierarchyService" ref="sponsorHierarchyService" />
+        <property name="awardNumberService" ref="awardNumberService" />
         <property name="awardDao" ref="awardDao" />
     </bean>
     

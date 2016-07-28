@@ -23,20 +23,30 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 import org.kuali.coeus.award.dto.AwardDto;
 import org.kuali.coeus.award.dto.AwardPersonDto;
+import org.kuali.coeus.common.framework.version.VersionStatus;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
+import org.kuali.coeus.sys.framework.rest.UnprocessableEntityException;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.award.contacts.AwardContact;
+import org.kuali.kra.award.contacts.AwardPerson;
+import org.kuali.kra.award.contacts.AwardPersonCreditSplit;
+import org.kuali.kra.award.contacts.AwardPersonUnitCreditSplit;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.lookup.AwardDocumentStatusConstants;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.DocumentService;
 
 import java.beans.IntrospectionException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,7 +59,7 @@ public class AwardDocumentControllerTest extends KcIntegrationTestBase {
         ObjectMapper mapper = new ObjectMapper();
 
         AwardDto awardDto = mapper.readValue(jsonInString, AwardDto.class);
-        AwardDto newAwardDto = getDocumentController().createAward(awardDto);
+        AwardDto newAwardDto = getAwardController().createAward(awardDto);
         Assert.assertTrue(newAwardDto.getPrimeSponsorCode() == null);
         Assert.assertTrue(newAwardDto.getUnitNumber().equalsIgnoreCase("000001"));
         Assert.assertTrue(newAwardDto.getSponsorCode().equalsIgnoreCase("000340"));
@@ -93,42 +103,146 @@ public class AwardDocumentControllerTest extends KcIntegrationTestBase {
         Assert.assertTrue(sponsorTermIds.size() == 0);
 
         // GET PERSONS
-        Assert.assertTrue(getDocumentController().getAwardPersons(Long.parseLong(newAwardDto.getDocNbr())).size() == 3);
+        Assert.assertTrue(getAwardController().getAwardPersons(newAwardDto.getAwardId()).size() == 3);
         final Long awardContactId = newAwardDto.getProjectPersons().get(1).getAwardContactId();
         // DELETE PERSONS
-        getDocumentController().deletePerson(Long.parseLong(newAwardDto.getDocNbr()), awardContactId);
-        Assert.assertTrue(getDocumentController().getAwardPersons(Long.parseLong(newAwardDto.getDocNbr())).size() == 2);
+        getAwardController().deletePerson(newAwardDto.getAwardId(), awardContactId);
+        Assert.assertTrue(getAwardController().getAwardPersons(newAwardDto.getAwardId()).size() == 2);
 
         // DELETE AWARD
-        getDocumentController().deleteAward(Long.parseLong(newAwardDto.getDocNbr()));
-        AwardDto fetchedAwardDto = getDocumentController().getAward(Long.parseLong(newAwardDto.getDocNbr()));
-        System.out.println("Status is " + fetchedAwardDto.getStatusCode());
-        Assert.assertTrue(fetchedAwardDto.getDocStatus().equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_CANCEL_LABEL));
+        getAwardController().deleteAward(newAwardDto.getAwardId());
+        AwardDto fetchedAwardDto = getAwardController().getAward(newAwardDto.getAwardId(), Boolean.FALSE);
+        AwardDocument document = getAwardController().getAwardDocumentById(fetchedAwardDto.getAwardId());
+        Assert.assertTrue(document.getDocumentHeader().getWorkflowDocument().getStatus().getLabel().equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_CANCEL_LABEL));
 
+    }
+
+    @Test
+    public void testAwardVersioningAndRouting() throws Exception {
+        // POST
+        String jsonInString = getAwardOnePerson();
+        ObjectMapper mapper = new ObjectMapper();
+
+        AwardDto awardDto = mapper.readValue(jsonInString, AwardDto.class);
+        AwardDto newAwardDto = getAwardController().createAward(awardDto);
+        AwardDocument document = getAwardController().getAwardDocumentById(newAwardDto.getAwardId());
+
+        AwardPerson person = document.getAward().getProjectPerson(0);
+        setupCreditSplits(person);
+
+        KcServiceLocator.getService(DocumentService.class).saveDocument(document);
+        Assert.assertTrue(document.getAward().getAwardSequenceStatus().toString().equalsIgnoreCase("PENDING"));
+
+        getAwardController().submitDocument(document.getAward().getAwardId());
+        document = getAwardController().getAwardDocumentById(document.getAward().getAwardId());
+        Assert.assertTrue(document.getDocumentHeader().getWorkflowDocument().getStatus().getLabel().equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_FINAL_LABEL));
+        Assert.assertTrue(document.getAward().getAwardSequenceStatus().toString().equalsIgnoreCase("ACTIVE"));
+
+        jsonInString = getCorrectAwardJsonDifferentNoticeDate();
+        AwardDto differentAwardDto = mapper.readValue(jsonInString, AwardDto.class);
+        AwardDto differentAwardDtoResponse = getAwardController().versionAward(differentAwardDto, document.getAward());
+        Assert.assertTrue(differentAwardDtoResponse.getNoticeDate().compareTo(new Date(115, 2, 5)) == 0);
+
+    }
+
+    @Test(expected = UnprocessableEntityException.class)
+    public void testAwardVersioningFailure() throws Exception {
+        // POST
+        String jsonInString = getAwardOnePerson();
+        ObjectMapper mapper = new ObjectMapper();
+
+        AwardDto awardDto = mapper.readValue(jsonInString, AwardDto.class);
+        AwardDto newAwardDto = getAwardController().createAward(awardDto);
+        AwardDocument document = getAwardController().getAwardDocumentById(newAwardDto.getAwardId());
+
+        AwardPerson person = document.getAward().getProjectPerson(0);
+        setupCreditSplits(person);
+
+        KcServiceLocator.getService(DocumentService.class).saveDocument(document);
+        Assert.assertTrue(document.getAward().getAwardSequenceStatus().toString().equalsIgnoreCase("PENDING"));
+
+        jsonInString = getCorrectAwardJsonDifferentNoticeDate();
+        AwardDto differentAwardDto = mapper.readValue(jsonInString, AwardDto.class);
+        AwardDto differentAwardDtoResponse = getAwardController().versionAward(differentAwardDto, document.getAward());
+        Assert.assertTrue(differentAwardDtoResponse.getNoticeDate().compareTo(new Date(115, 2, 5)) == 0);
+
+    }
+
+    public void setupCreditSplits(AwardPerson person) {
+        List<AwardPersonCreditSplit> creditSplits = new ArrayList<>();
+
+        AwardPersonCreditSplit awardCreditSplit0 = new AwardPersonCreditSplit();
+        awardCreditSplit0.setCredit(new ScaleTwoDecimal(100));
+        awardCreditSplit0.setInvCreditTypeCode("0");
+        awardCreditSplit0.setAwardPerson(person);
+        creditSplits.add(awardCreditSplit0);
+
+        AwardPersonCreditSplit awardCreditSplit = new AwardPersonCreditSplit();
+        awardCreditSplit.setCredit(new ScaleTwoDecimal(100));
+        awardCreditSplit.setInvCreditTypeCode("1");
+        awardCreditSplit.setAwardPerson(person);
+        creditSplits.add(awardCreditSplit);
+
+        AwardPersonCreditSplit awardCreditSplit2 = new AwardPersonCreditSplit();
+        awardCreditSplit2.setCredit(new ScaleTwoDecimal(100));
+        awardCreditSplit2.setInvCreditTypeCode("2");
+        awardCreditSplit2.setAwardPerson(person);
+        creditSplits.add(awardCreditSplit2);
+
+        AwardPersonCreditSplit awardCreditSplit3 = new AwardPersonCreditSplit();
+        awardCreditSplit3.setCredit(new ScaleTwoDecimal(100));
+        awardCreditSplit3.setInvCreditTypeCode("3");
+        awardCreditSplit3.setAwardPerson(person);
+        creditSplits.add(awardCreditSplit3);
+        person.setCreditSplits(creditSplits);
+
+        List<AwardPersonUnitCreditSplit> unitCreditSplits = new ArrayList<>();
+
+
+        AwardPersonUnitCreditSplit awardUnitCreditSplit8 = new AwardPersonUnitCreditSplit();
+        awardUnitCreditSplit8.setCredit(new ScaleTwoDecimal(100));
+        awardUnitCreditSplit8.setInvCreditTypeCode("0");
+        unitCreditSplits.add(awardUnitCreditSplit8);
+
+        AwardPersonUnitCreditSplit awardUnitCreditSplit5 = new AwardPersonUnitCreditSplit();
+        awardUnitCreditSplit5.setCredit(new ScaleTwoDecimal(100));
+        awardUnitCreditSplit5.setInvCreditTypeCode("1");
+        unitCreditSplits.add(awardUnitCreditSplit5);
+
+        AwardPersonUnitCreditSplit awardUnitCreditSplit6 = new AwardPersonUnitCreditSplit();
+        awardUnitCreditSplit6.setCredit(new ScaleTwoDecimal(100));
+        awardUnitCreditSplit6.setInvCreditTypeCode("2");
+        unitCreditSplits.add(awardUnitCreditSplit6);
+
+        AwardPersonUnitCreditSplit awardUnitCreditSplit7 = new AwardPersonUnitCreditSplit();
+        awardUnitCreditSplit7.setCredit(new ScaleTwoDecimal(100));
+        awardUnitCreditSplit7.setInvCreditTypeCode("3");
+        unitCreditSplits.add(awardUnitCreditSplit7);
+
+        person.getUnit(0).setCreditSplits(unitCreditSplits);
     }
 
     @Test(expected = ResourceNotFoundException.class)
     public void testWrongDocumentError() throws IOException, IntrospectionException, IllegalAccessException, InvocationTargetException, WorkflowException {
-       class AwardDocumentControllerMock extends AwardDocumentController {
+       class AwardControllerMock extends AwardController {
            @Override
            protected Document getDocument(Long documentNumber) {
               return new ProtocolDocument();
            }
        }
-        AwardDocumentControllerMock mockController = new AwardDocumentControllerMock();
+        AwardControllerMock mockController = new AwardControllerMock();
         AwardDocument document = mockController.getAwardDocument(12L);
-
     }
 
     @Test
     public void testRightDocumentError() throws IOException, IntrospectionException, IllegalAccessException, InvocationTargetException, WorkflowException {
-        class AwardDocumentControllerMock extends AwardDocumentController {
+        class AwardControllerMock extends AwardController {
             @Override
             protected Document getDocument(Long documentNumber) {
                 return new AwardDocument();
             }
         }
-        AwardDocumentControllerMock mockController = new AwardDocumentControllerMock();
+        AwardControllerMock mockController = new AwardControllerMock();
         AwardDocument document = mockController.getAwardDocument(12L);
         Assert.assertTrue(document != null);
 
@@ -140,7 +254,7 @@ public class AwardDocumentControllerTest extends KcIntegrationTestBase {
         ObjectMapper mapper = new ObjectMapper();
         AwardDto awardDto = mapper.readValue(json, AwardDto.class);
 
-        AwardDto newAwardDto = getDocumentController().createAward(awardDto);
+        AwardDto newAwardDto = getAwardController().createAward(awardDto);
         Assert.assertTrue(newAwardDto.getPrimeSponsorCode() == null);
         Assert.assertTrue(newAwardDto.getUnitNumber().equalsIgnoreCase("000001"));
         Assert.assertTrue(newAwardDto.getSponsorCode().equalsIgnoreCase("000340"));
@@ -166,7 +280,7 @@ public class AwardDocumentControllerTest extends KcIntegrationTestBase {
         Assert.assertTrue(newAwardDto.getAwardReportTerms().size() == 0);
 
         // GET award
-        AwardDto savedAward = getDocumentController().getAward(Long.parseLong(newAwardDto.getDocNbr()));
+        AwardDto savedAward = getAwardController().getAward(newAwardDto.getAwardId(), Boolean.FALSE);
         Assert.assertTrue(savedAward.getProjectPersons().size() == 0);
 
         String personJson = getPersonsJson();
@@ -174,8 +288,8 @@ public class AwardDocumentControllerTest extends KcIntegrationTestBase {
         List<AwardPersonDto> persons = mapper.readValue(personJson, mapper.getTypeFactory().constructCollectionType(List.class, AwardPersonDto.class) );
 
         // POST persons
-        getDocumentController().addAwardPersons(persons, Long.parseLong(newAwardDto.getDocNbr()));
-        persons = getDocumentController().getAwardPersons(Long.parseLong(newAwardDto.getDocNbr()));
+        getAwardController().addAwardPersons(persons, newAwardDto.getAwardId());
+        persons = getAwardController().getAwardPersons(newAwardDto.getAwardId());
         Assert.assertTrue(persons.size() == 3);
 
 
@@ -195,8 +309,8 @@ public class AwardDocumentControllerTest extends KcIntegrationTestBase {
         return new java.sql.Date( cal.getTime().getTime() );
     }
 
-    public AwardDocumentController getDocumentController() throws IntrospectionException {
-        return KcServiceLocator.getService(AwardDocumentController.class);
+    public AwardController getAwardController() throws IntrospectionException {
+        return KcServiceLocator.getService(AwardController.class);
     }
 
     public String getPersonsJson() {
@@ -227,6 +341,7 @@ public class AwardDocumentControllerTest extends KcIntegrationTestBase {
                 "      \"awardEffectiveDate\":\"3/11/2008\",\n" +
                 "      \"awardExecutionDate\":\"3/11/2008\",\n" +
                 "      \"beginDate\":\"3/11/2008\",\n" +
+                "      \"awardTypeCode\":\"5\",\n" +
                 "      \"projectEndDate\":\"3/11/2008\",\n" +
                 "      \"sponsorAwardNumber\":null,\n" +
                 "      \"accountTypeCode\":\"1\",\n" +
@@ -251,6 +366,7 @@ public class AwardDocumentControllerTest extends KcIntegrationTestBase {
                 "      \"awardEffectiveDate\":\"3/11/2008\",\n" +
                 "      \"awardExecutionDate\":\"3/11/2008\",\n" +
                 "      \"beginDate\":\"3/11/2008\",\n" +
+                "      \"awardTypeCode\":\"5\",\n" +
                 "      \"projectEndDate\":\"3/11/2008\",\n" +
                 "      \"sponsorAwardNumber\":null,\n" +
                 "      \"accountTypeCode\":\"1\",\n" +
@@ -309,7 +425,166 @@ public class AwardDocumentControllerTest extends KcIntegrationTestBase {
                 "             \"ospDistributionCode\":\"4\",\n" +
                 "            \"dueDate\":\"3/11/2015\"\n" +
                 "         }\n" +
-                "         ]\n" +
+                "         ],\n" +
+                "    \"awardSponsorContacts\" : [\n" +
+                "             {\n" +
+                "             \"rolodexId\" : \"132\",\n" +
+                "             \"roleCode\" : \"1\"\n" +
+                "             }\n" +
+                "             ]" +
+                "   }";
+
+
+    }
+
+    public String getCorrectAwardJsonDifferentNoticeDate() {
+        return "{\n" +
+                "      \"primeSponsorCode\":null,\n" +
+                "      \"unitNumber\":\"000001\",\n" +
+                "      \"sponsorCode\":\"000340\",\n" +
+                "      \"statusCode\":\"1\",\n" +
+                "      \"accountNumber\":\"123456\",\n" +
+                "      \"awardEffectiveDate\":\"3/11/2008\",\n" +
+                "      \"awardExecutionDate\":\"3/11/2008\",\n" +
+                "      \"beginDate\":\"3/11/2008\",\n" +
+                "      \"awardTypeCode\":\"5\",\n" +
+                "      \"projectEndDate\":\"3/11/2008\",\n" +
+                "      \"sponsorAwardNumber\":null,\n" +
+                "      \"accountTypeCode\":\"1\",\n" +
+                "      \"activityTypeCode\":\"1\",\n" +
+                "      \"cfdaNumber\":\"00.000\",\n" +
+                "      \"methodOfPaymentCode\":\"1\",\n" +
+                "      \"title\":\"APPLICATION OF MECHANICAL VIBRATION TO ENHANCE ORTHODONTIC TOOTH MOVEMENT\",\n" +
+                "      \"basisOfPaymentCode\":\"1\",\n" +
+                "      \"awardTransactionTypeCode\":\"1\",\n" +
+                "      \"noticeDate\":\"3/5/2015\",\n" +
+                "      \"leadUnitNumber\": null,\n" +
+                "      \"projectPersons\": [\n" +
+                "         {\n" +
+                "        \"personId\" : \"10000000018\",\n" +
+                "        \"roleCode\": \"PI\"\n" +
+                "         },\n" +
+                "         {\n" +
+                "        \"personId\" : \"10000000017\",\n" +
+                "        \"roleCode\": \"COI\"\n" +
+                "         },\n" +
+                "         {\n" +
+                "        \"personId\" : \"10000000030\",\n" +
+                "        \"roleCode\": \"KP\",\n" +
+                "        \"keyPersonRole\": \"Postdoc\"\n" +
+                "         }\n" +
+                "    ],\n" +
+                "     \"awardCustomDataList\": [\n" +
+                "        {\n" +
+                "            \"customAttributeId\" : \"1\",\n" +
+                "            \"value\" : \"2\"\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"customAttributeId\" : \"4\",\n" +
+                "            \"value\" : \"2\"\n" +
+                "        }\n" +
+                "        ],\n" +
+                "     \"awardSponsorTerms\" : [\n" +
+                "         {\"sponsorTermId\":\"307\"}, {\"sponsorTermId\":\"308\"}, {\"sponsorTermId\":\"309\"},\n" +
+                "         {\"sponsorTermId\":\"310\"}, {\"sponsorTermId\":\"311\"}, {\"sponsorTermId\":\"312\"},\n" +
+                "         {\"sponsorTermId\":\"313\"}, {\"sponsorTermId\":\"314\"}, {\"sponsorTermId\":\"315\"}\n" +
+                "         ],\n" +
+                "    \"awardReportTerms\" : [\n" +
+                "         {\n" +
+                "             \"reportClassCode\":\"1\",\n" +
+                "             \"reportCode\":\"33\",\n" +
+                "             \"frequencyCode\":\"7\",\n" +
+                "             \"frequencyBaseCode\":\"3\",\n" +
+                "             \"ospDistributionCode\":\"4\",\n" +
+                "             \"dueDate\":\"3/11/2015\"\n" +
+                "         }, \n" +
+                "         {\n" +
+                "             \"reportClassCode\":\"3\",\n" +
+                "             \"reportCode\":\"7\",\n" +
+                "             \"frequencyCode\":\"6\",\n" +
+                "             \"frequencyBaseCode\":\"2\",\n" +
+                "             \"ospDistributionCode\":\"4\",\n" +
+                "            \"dueDate\":\"3/11/2015\"\n" +
+                "         }\n" +
+                "         ],\n" +
+                "    \"awardSponsorContacts\" : [\n" +
+                "             {\n" +
+                "             \"rolodexId\" : \"132\",\n" +
+                "             \"roleCode\" : \"1\"\n" +
+                "             }\n" +
+                "             ]" +
+                "   }";
+
+
+    }
+
+    public String getAwardOnePerson() {
+        return "{\n" +
+                "      \"primeSponsorCode\":null,\n" +
+                "      \"unitNumber\":\"000001\",\n" +
+                "      \"sponsorCode\":\"000340\",\n" +
+                "      \"statusCode\":\"1\",\n" +
+                "      \"accountNumber\":\"123456\",\n" +
+                "      \"awardEffectiveDate\":\"3/11/2008\",\n" +
+                "      \"awardExecutionDate\":\"3/11/2008\",\n" +
+                "      \"beginDate\":\"3/11/2008\",\n" +
+                "      \"awardTypeCode\":\"5\",\n" +
+                "      \"projectEndDate\":\"3/11/2008\",\n" +
+                "      \"sponsorAwardNumber\":null,\n" +
+                "      \"accountTypeCode\":\"1\",\n" +
+                "      \"activityTypeCode\":\"1\",\n" +
+                "      \"cfdaNumber\":\"00.000\",\n" +
+                "      \"methodOfPaymentCode\":\"1\",\n" +
+                "      \"title\":\"APPLICATION OF MECHANICAL VIBRATION TO ENHANCE ORTHODONTIC TOOTH MOVEMENT\",\n" +
+                "      \"basisOfPaymentCode\":\"1\",\n" +
+                "      \"awardTransactionTypeCode\":\"1\",\n" +
+                "      \"noticeDate\":\"3/11/2008\",\n" +
+                "      \"leadUnitNumber\": null,\n" +
+                "      \"projectPersons\": [\n" +
+                "         {\n" +
+                "        \"personId\" : \"10000000018\",\n" +
+                "        \"roleCode\": \"PI\"\n" +
+                "         }\n" +
+                "    ],\n" +
+                "     \"awardCustomDataList\": [\n" +
+                "        {\n" +
+                "            \"customAttributeId\" : \"1\",\n" +
+                "            \"value\" : \"2\"\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"customAttributeId\" : \"4\",\n" +
+                "            \"value\" : \"2\"\n" +
+                "        }\n" +
+                "        ],\n" +
+                "     \"awardSponsorTerms\" : [\n" +
+                "         {\"sponsorTermId\":\"307\"}, {\"sponsorTermId\":\"308\"}, {\"sponsorTermId\":\"309\"},\n" +
+                "         {\"sponsorTermId\":\"310\"}, {\"sponsorTermId\":\"311\"}, {\"sponsorTermId\":\"312\"},\n" +
+                "         {\"sponsorTermId\":\"313\"}, {\"sponsorTermId\":\"314\"}, {\"sponsorTermId\":\"315\"}\n" +
+                "         ],\n" +
+                "    \"awardReportTerms\" : [\n" +
+                "         {\n" +
+                "             \"reportClassCode\":\"1\",\n" +
+                "             \"reportCode\":\"33\",\n" +
+                "             \"frequencyCode\":\"7\",\n" +
+                "             \"frequencyBaseCode\":\"3\",\n" +
+                "             \"ospDistributionCode\":\"4\",\n" +
+                "             \"dueDate\":\"3/11/2015\"\n" +
+                "         }, \n" +
+                "         {\n" +
+                "             \"reportClassCode\":\"3\",\n" +
+                "             \"reportCode\":\"7\",\n" +
+                "             \"frequencyCode\":\"6\",\n" +
+                "             \"frequencyBaseCode\":\"2\",\n" +
+                "             \"ospDistributionCode\":\"4\",\n" +
+                "            \"dueDate\":\"3/11/2015\"\n" +
+                "         }\n" +
+                "         ],\n" +
+                "    \"awardSponsorContacts\" : [\n" +
+                "             {\n" +
+                "             \"rolodexId\" : \"132\",\n" +
+                "             \"roleCode\" : \"1\"\n" +
+                "             }\n" +
+                "             ]" +
                 "   }";
     }
-}
+    }

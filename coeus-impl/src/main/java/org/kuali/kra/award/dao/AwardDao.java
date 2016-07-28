@@ -41,7 +41,7 @@ public interface AwardDao {
 
     List<Integer> getAwardSequenceNumbers(String awardNumber);
 
-    Award getAward(String awardId);
+    Award getAward(Long awardId);
 
     List<Award> getAwardByAwardNumber(String awardNumber);
 

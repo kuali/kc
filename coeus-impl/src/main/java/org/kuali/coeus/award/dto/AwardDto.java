@@ -19,12 +19,14 @@
 package org.kuali.coeus.award.dto;
 
 import com.codiform.moo.annotation.CollectionProperty;
+import com.codiform.moo.annotation.Ignore;
 import com.codiform.moo.annotation.Property;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.kuali.coeus.award.finance.*;
 import org.kuali.coeus.instprop.impl.api.customSerializers.CustomSqlDateSerializer;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.kra.award.contacts.AwardSponsorContact;
 import org.kuali.kra.award.home.*;
 
 import java.sql.Date;
@@ -36,6 +38,7 @@ public class AwardDto {
     @Property(translate = false)
     String docStatus;
     private Long awardId;
+    @Property(update = false)
     private String awardNumber;
     private Integer sequenceNumber;
     private String sponsorCode;
@@ -91,14 +94,17 @@ public class AwardDto {
     private String modificationNumber;
     private String documentFundingId;
     private ScaleTwoDecimal preAwardAuthorizedAmount;
+    @JsonDeserialize(using = CustomSqlDateSerializer.class)
     private Date preAwardEffectiveDate;
     private ScaleTwoDecimal preAwardInstitutionalAuthorizedAmount;
+    @JsonDeserialize(using = CustomSqlDateSerializer.class)
     private Date preAwardInstitutionalEffectiveDate;
     private String procurementPriorityCode;
     private ScaleTwoDecimal specialEbRateOffCampus;
     private ScaleTwoDecimal specialEbRateOnCampus;
     private String subPlanFlag;
     private String archiveLocation;
+    @JsonDeserialize(using = CustomSqlDateSerializer.class)
     private Date closeoutDate;
     private String currentActionComments;
     private String awardSequenceStatusResult;
@@ -111,8 +117,8 @@ public class AwardDto {
     private List<AwardCommentDto> awardComments;
 
     @JsonProperty(value="awardSponsorContacts")
-    @CollectionProperty(source="awardSponsorContacts", itemClass=AwardSponsorContactDto.class)
-    private List<AwardSponsorContactDto> sponsorContacts;
+    @CollectionProperty(source="awardSponsorContacts", itemClass= AwardSponsorContact.class)
+    private List<AwardSponsorContactDto> awardSponsorContacts;
 
     @JsonProperty(value="awardCostShares")
     @CollectionProperty(source="awardCostShares", itemClass=AwardCostShareDto.class)
@@ -684,11 +690,11 @@ public class AwardDto {
     }
 
     public List<AwardSponsorContactDto> getSponsorContacts() {
-        return sponsorContacts;
+        return awardSponsorContacts;
     }
 
-    public void setSponsorContacts(List<AwardSponsorContactDto> sponsorContacts) {
-        this.sponsorContacts = sponsorContacts;
+    public void setSponsorContacts(List<AwardSponsorContactDto> awardSponsorContacts) {
+        this.awardSponsorContacts = awardSponsorContacts;
     }
 
     public List<AwardCostShareDto> getAwardCostShares() {

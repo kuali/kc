@@ -25,6 +25,7 @@ import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.VersioningService;
 import org.kuali.coeus.common.framework.version.history.VersionHistory;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
+import org.kuali.kra.award.AwardNumberService;
 import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.award.dao.AwardDao;
 import org.kuali.kra.award.document.AwardDocument;
@@ -50,6 +51,7 @@ public class AwardServiceImpl implements AwardService {
     private VersionHistoryService versionHistoryService;
     private AwardDao awardDao;
     private SponsorHierarchyService sponsorHierarchyService;
+    private AwardNumberService awardNumberService;
 
     public List<Award> findAwardsForAwardNumber(String awardNumber) {
         return new ArrayList<>(businessObjectService.findMatchingOrderBy(Award.class,
@@ -74,19 +76,41 @@ public class AwardServiceImpl implements AwardService {
     public AwardDocument createNewAwardVersion(AwardDocument awardDocument) throws VersionException, WorkflowException {
         Award newVersion = getVersioningService().createNewVersion(awardDocument.getAward());
         newVersion.setCurrentVersionBudgets(new ArrayList<>());
-        for (AwardAttachment attach : newVersion.getAwardAttachments()) {
-            AwardAttachment orignalAttachment = findMatchingAwardAttachment(awardDocument.getAward().getAwardAttachments(), attach.getFileId());
-            attach.setUpdateUser(orignalAttachment.getUpdateUser());
-            attach.setUpdateTimestamp(orignalAttachment.getUpdateTimestamp());
-            attach.setUpdateUserSet(true);
+        AwardDocument newAwardDocument = generateAndPopulateAwardDocument(awardDocument, newVersion);
+
+        return newAwardDocument;
+    }
+
+    public void checkAwardNumber(Award award) {
+        if (Award.DEFAULT_AWARD_NUMBER.equals(award.getAwardNumber())) {
+            AwardNumberService awardNumberService = getAwardNumberService();
+            String awardNumber = awardNumberService.getNextAwardNumber();
+            award.setAwardNumber(awardNumber);
         }
-        
+        if (Award.DEFAULT_AWARD_NUMBER.equals(award.getAwardAmountInfos().get(0).getAwardNumber())) {
+            award.getAwardAmountInfos().get(0).setAwardNumber(award.getAwardNumber());
+        }
+        award.getAwardApprovedSubawards().stream()
+                .filter(approvedSubaward -> Award.DEFAULT_AWARD_NUMBER.equals(approvedSubaward.getAwardNumber()))
+                .forEach(approvedSubaward -> approvedSubaward.setAwardNumber(award.getAwardNumber()));
+
+        for(AwardComment comment : award.getAwardComments()) {
+            comment.setAward(award);
+        }
+        for(AwardCustomData customData : award.getAwardCustomDataList()) {
+            customData.setAward(award);
+        }
+    }
+
+    public AwardDocument generateAndPopulateAwardDocument(AwardDocument oldAwardDocument, Award newVersion) throws WorkflowException {
+        fixAttachments(oldAwardDocument, newVersion);
+
         incrementVersionNumberIfCanceledVersionsExist(newVersion);//Canceled versions retain their own version number.
         newVersion.getFundingProposals().clear();
         AwardDocument newAwardDocument = (AwardDocument) getDocumentService().getNewDocument(AwardDocument.class);
-        newAwardDocument.getDocumentHeader().setDocumentDescription(awardDocument.getDocumentHeader().getDocumentDescription());
+        newAwardDocument.getDocumentHeader().setDocumentDescription(oldAwardDocument.getDocumentHeader().getDocumentDescription());
         newAwardDocument.setAward(newVersion);
-        newAwardDocument.setDocumentNextvalues(awardDocument.getDocumentNextvalues());
+        newAwardDocument.setDocumentNextvalues(oldAwardDocument.getDocumentNextvalues());
         newAwardDocument.getDocumentNextvalues().forEach(nextValue ->  nextValue.setDocumentKey(newAwardDocument.getDocumentNumber()));
         newVersion.setAwardDocument(newAwardDocument);
         newVersion.setAwardTransactionTypeCode(0);
@@ -98,9 +122,17 @@ public class AwardServiceImpl implements AwardService {
         newVersion.getAwardAmountInfos().get(0).setTimeAndMoneyDocumentNumber(null);
         newVersion.getAwardAmountInfos().get(0).setSequenceNumber(newVersion.getSequenceNumber());
 
-        synchNewCustomAttributes(newVersion, awardDocument.getAward());
-        
+        synchNewCustomAttributes(newVersion, oldAwardDocument.getAward());
         return newAwardDocument;
+    }
+
+    public void fixAttachments(AwardDocument awardDocument, Award newVersion) {
+        for (AwardAttachment attach : newVersion.getAwardAttachments()) {
+            AwardAttachment orignalAttachment = findMatchingAwardAttachment(awardDocument.getAward().getAwardAttachments(), attach.getFileId());
+            attach.setUpdateUser(orignalAttachment.getUpdateUser());
+            attach.setUpdateTimestamp(orignalAttachment.getUpdateTimestamp());
+            attach.setUpdateUserSet(true);
+        }
     }
 
     @Override
@@ -211,6 +243,10 @@ public class AwardServiceImpl implements AwardService {
         }
     }
 
+    public String getRootAwardNumber(String awardNumber) {
+        return awardNumber.substring(0, 6) + "-00001";
+    }
+
     @Override
     public Award getActiveOrNewestAward(String awardNumber) {
         List<VersionHistory> versions = getVersionHistoryService().loadVersionHistory(Award.class, awardNumber);
@@ -266,5 +302,13 @@ public class AwardServiceImpl implements AwardService {
 
     public void setSponsorHierarchyService(SponsorHierarchyService sponsorHierarchyService) {
         this.sponsorHierarchyService = sponsorHierarchyService;
+    }
+
+    public AwardNumberService getAwardNumberService() {
+        return awardNumberService;
+    }
+
+    public void setAwardNumberService(AwardNumberService awardNumberService) {
+        this.awardNumberService = awardNumberService;
     }
 }

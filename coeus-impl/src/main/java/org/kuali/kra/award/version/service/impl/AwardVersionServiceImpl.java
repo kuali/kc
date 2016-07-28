@@ -24,10 +24,14 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.history.VersionHistory;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
+import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,7 +59,19 @@ public class AwardVersionServiceImpl extends PlatformAwareDaoBaseOjb implements 
     @Autowired
     @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
-    
+
+    @Autowired
+    @Qualifier("documentService")
+    private DocumentService documentService;
+
+    @Autowired
+    @Qualifier("awardService")
+    private AwardService awardService;
+
+    @Autowired
+    @Qualifier("globalVariableService")
+    private GlobalVariableService globalVariableService;
+
     /**
      * This method returns the proper Award for displaying information in T&amp;M, Budget and Award documents.  Logic for canceled documents.
      * @param awardNumber
@@ -101,6 +117,17 @@ public class AwardVersionServiceImpl extends PlatformAwareDaoBaseOjb implements 
         List<VersionHistory> versions = versionHistoryService.findVersionHistory(Award.class, awardNumber);
         VersionHistory result = getPendingVersionHistory(versions);
         return (result == null) ? null : (Award) result.getSequenceOwner();
+    }
+
+    @Override
+    public AwardDocument createAndSaveNewAwardVersion(AwardDocument awardDocument) throws Exception {
+        awardDocument.getAward().setNewVersion(true);
+        AwardDocument newAwardDocument = awardService.createNewAwardVersion(awardDocument);
+        documentService.saveDocument(newAwardDocument);
+        awardService.updateAwardSequenceStatus(newAwardDocument.getAward(), VersionStatus.PENDING);
+        getVersionHistoryService().updateVersionHistory(newAwardDocument.getAward(), VersionStatus.PENDING,
+                globalVariableService.getUserSession().getPrincipalName());
+        return newAwardDocument;
     }
 
     private VersionHistory getPendingVersionHistory (List<VersionHistory> list) {

@@ -938,5 +938,6 @@ public interface Constants {
     String CORRECTION_MODE = "correctionMode";
     String ALL_SPONSOR_HIERARCHY_NIH_MULTI_PI = "ALL_SPONSOR_HIERARCHY_NIH_MULTI_PI";
     String KC_SYS = "KC-SYS";
+    String PENDING = "PENDING";
 }
 

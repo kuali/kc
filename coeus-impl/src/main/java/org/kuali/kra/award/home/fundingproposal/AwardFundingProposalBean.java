@@ -70,8 +70,8 @@ public class AwardFundingProposalBean implements Serializable {
         createNewFundingProposal();
     }
 
-    AwardFundingProposalBean() {
-        
+    public AwardFundingProposalBean() {
+        createNewFundingProposal();
     }
     
     /**
@@ -80,12 +80,16 @@ public class AwardFundingProposalBean implements Serializable {
     public void addFundingProposal() {
        
         if (getNewFundingProposal() != null) {
-            if (validateForAdd()) {
-                getAward().add(newFundingProposal);                
-                performDataFeeds(getAward(), newFundingProposal);
-            }
+            validateAndPerformFeed(awardForm.getFundingProposalBean().getAllAwardsForAwardNumber(awardForm.getAwardDocument().getAward()), getAward());
             // regardless of whether proposal is valid or not, reset back to step 1
             createNewFundingProposal();
+        }
+    }
+
+    public void validateAndPerformFeed(List<Award> awards, Award awardToAdd) {
+        if (validateForAdd(awards)) {
+            awardToAdd.add(newFundingProposal);
+            performDataFeeds(awardToAdd, newFundingProposal);
         }
     }
 
@@ -101,14 +105,13 @@ public class AwardFundingProposalBean implements Serializable {
     /**
      * This method returns all Award versions for the awardNumber of the Award associated found from the AwardDocument on the associated AwardForm.
      */
-    public List<Award> getAllAwardsForAwardNumber() {
+    public List<Award> getAllAwardsForAwardNumber(Award award) {
         if(allAwardsForAwardNumber == null) {
-            Award thisAward = getAward();
-            allAwardsForAwardNumber = getAwardService().findAwardsForAwardNumber(thisAward.getAwardNumber());
-            if(thisAward.isPersisted()) {
-                replaceThisAwardInListOfFoundAwards(thisAward);
+            allAwardsForAwardNumber = getAwardService().findAwardsForAwardNumber(award.getAwardNumber());
+            if(award.isPersisted()) {
+                replaceThisAwardInListOfFoundAwards(award);
             } else {
-                addUnsavedAwardToListOfAwards(thisAward);
+                addUnsavedAwardToListOfAwards(award);
             }
         }
         return allAwardsForAwardNumber;
@@ -144,7 +147,7 @@ public class AwardFundingProposalBean implements Serializable {
      * This method returns the size of the allAwardsForAwardNumber collection
      */
     public int getAllAwardsForAwardNumberSize() {
-        return getAllAwardsForAwardNumber().size();
+        return getAllAwardsForAwardNumber(awardForm.getAwardDocument().getAward()).size();
     }
 
     /**
@@ -190,7 +193,8 @@ public class AwardFundingProposalBean implements Serializable {
     Award getAward() {
         return awardForm.getAwardDocument().getAward();
     }
-    
+
+
     private void lazilyLoadFundingProposal() {
         Long proposalId = newFundingProposal.getProposalId();
         String proposalNumber = newFundingProposal.getProposalNumber();
@@ -232,7 +236,7 @@ public class AwardFundingProposalBean implements Serializable {
         new ProjectPersonnelDataFeedCommand(award, proposal, mergeType).performDataFeed();
     }
 
-    private boolean validateForAdd() {
+    private boolean validateForAdd(List<Award> awards) {
         boolean valid =  newFundingProposal.getProposalId() != null;
         if (!valid) {
             String msgArg = newFundingProposal.getProposalNumber();
@@ -265,7 +269,7 @@ public class AwardFundingProposalBean implements Serializable {
                     GlobalVariables.getUserSession().getPrincipalName(),
                     PermissionConstants.SUBMIT_INSTITUTIONAL_PROPOSAL);
         }
-        if(proposalAlreadyAdded()) {
+        if(proposalAlreadyAdded(awards)) {
             valid=false;
             GlobalVariables.getMessageMap().putError(FUNDING_PROPOSAL_ERROR_KEY, 
                         FUNDING_PROPOSAL_ALREADY_ADDED);
@@ -333,10 +337,9 @@ public class AwardFundingProposalBean implements Serializable {
         return false;
     }
 
-    private boolean proposalAlreadyAdded() {
+    private boolean proposalAlreadyAdded(List<Award> awardVersions) {
         Long proposalId = newFundingProposal.getProposalId();
         
-        List<Award> awardVersions = awardForm.getFundingProposalBean().getAllAwardsForAwardNumber();
         for (Award currentAward : awardVersions) {
             List<AwardFundingProposal> fundingProposals= currentAward.getFundingProposals();
 

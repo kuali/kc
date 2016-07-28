@@ -23,6 +23,7 @@ import org.kuali.coeus.common.framework.version.sequence.owner.SequenceOwner;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.history.VersionHistory;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
+import org.kuali.kra.award.home.Award;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,18 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
         list.add(versionHistory);
         bos.save(list);
         return versionHistory;
+    }
+
+    public VersionHistory findPendingVersion(Award award) {
+        List<VersionHistory> histories = loadVersionHistory(Award.class, award.getAwardNumber());
+        VersionHistory foundPending = null;
+        for(VersionHistory history: histories) {
+            if (history.getStatus() == VersionStatus.PENDING && award.getSequenceNumber() < history.getSequenceOwnerSequenceNumber()) {
+                foundPending = history;
+                break;
+            }
+        }
+        return foundPending;
     }
     
     public VersionHistory updateVersionHistory(SequenceOwner<? extends SequenceOwner<?>> sequenceOwner, VersionStatus versionStatus, String userId) {

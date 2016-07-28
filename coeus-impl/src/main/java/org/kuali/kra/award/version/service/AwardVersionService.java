@@ -20,6 +20,7 @@ package org.kuali.kra.award.version.service;
 
 import java.util.List;
 
+import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 
 /**
@@ -43,6 +44,8 @@ public interface AwardVersionService {
     public boolean isPendingAwardInAwardHierarchy(String awardNumber);
     
     public boolean isActiveAwardInAwardHierarchy(String awardNumber);
-    
 
-}
+    AwardDocument createAndSaveNewAwardVersion(AwardDocument awardDocument) throws Exception;
+
+
+    }

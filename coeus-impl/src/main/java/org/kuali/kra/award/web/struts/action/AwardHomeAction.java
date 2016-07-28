@@ -23,7 +23,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.framework.keyword.KeywordsService;
-import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.history.VersionHistory;
 import org.kuali.coeus.common.framework.compliance.core.SaveSpecialReviewLinkEvent;
 import org.kuali.coeus.common.framework.compliance.core.SpecialReviewService;
@@ -65,11 +64,10 @@ import java.util.Map;
 public class AwardHomeAction extends AwardAction {
 
     private static final String AWARD_VERSION_EDITPENDING_PROMPT_KEY = "message.award.version.editpending.prompt";
-    private static final String PENDING = "PENDING";
 
     private ApprovedSubawardActionHelper approvedSubawardActionHelper;
     private ParameterService parameterService;
-    
+
     public AwardHomeAction(){
         approvedSubawardActionHelper = new ApprovedSubawardActionHelper();
     }
@@ -323,7 +321,7 @@ public class AwardHomeAction extends AwardAction {
         // The user is prompted to save when the document is closed.  If they say yes, it will save the document but won't call back to the Action.save.
         // Therefore we need to ensure the Award number is populated or else it will just save the default Award number.
         AwardForm awardForm = (AwardForm) form;
-        checkAwardNumber(awardForm.getAwardDocument().getAward());
+        getAwardService().checkAwardNumber(awardForm.getAwardDocument().getAward());
         return super.close(mapping, awardForm, request, response);
     }
     
@@ -394,18 +392,20 @@ public class AwardHomeAction extends AwardAction {
         }
         
         if(getTimeAndMoneyExistenceService().validateTimeAndMoneyRule(award, awardForm.getAwardHierarchyBean().getRootNode().getAwardNumber())) {
-            if (award.getAwardSequenceStatus().equalsIgnoreCase(PENDING)) {
+            if (award.getAwardSequenceStatus().equalsIgnoreCase(Constants.PENDING)) {
                 response.sendRedirect(buildForwardUrl(awardForm.getDocId()));
                 return null;
             }
-            VersionHistory foundPending = findPendingVersion(award);
+            VersionHistory foundPending = getVersionHistoryService().findPendingVersion(award);
             cleanUpUserSession();
             if(foundPending != null) {
                 Object question = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
                 forward = question == null ? showPromptForEditingPendingVersion(mapping, form, request, response) :
                                              processPromptForEditingPendingVersionResponse(mapping, request, response, awardForm, foundPending);
             } else {
-                forward = createAndSaveNewAwardVersion(awardForm);
+                AwardDocument newAwardDocument = getAwardVersionService().createAndSaveNewAwardVersion(awardForm.getAwardDocument());
+                reinitializeAwardForm(awardForm, newAwardDocument);
+                return new ActionForward(buildForwardUrl(newAwardDocument.getDocumentNumber()), true);
             }    
         }else{
             getTimeAndMoneyExistenceService().addAwardVersionErrorMessage();
@@ -414,17 +414,6 @@ public class AwardHomeAction extends AwardAction {
         return forward;
     }
 
-    private ActionForward createAndSaveNewAwardVersion(AwardForm awardForm) throws Exception {
-        awardForm.getAwardDocument().getAward().setNewVersion(true); 
-        AwardDocument newAwardDocument = getAwardService().createNewAwardVersion(awardForm.getAwardDocument());
-        getDocumentService().saveDocument(newAwardDocument);
-        getAwardService().updateAwardSequenceStatus(newAwardDocument.getAward(), VersionStatus.PENDING);
-        getVersionHistoryService().updateVersionHistory(newAwardDocument.getAward(), VersionStatus.PENDING,
-                GlobalVariables.getUserSession().getPrincipalName());
-        reinitializeAwardForm(awardForm, newAwardDocument);
-        return new ActionForward(buildForwardUrl(newAwardDocument.getDocumentNumber()), true);
-    }
-    
     /**
      * 
      * This method adds a new AwardTransferringSponsor to the list. 
@@ -484,18 +473,6 @@ public class AwardHomeAction extends AwardAction {
         awardForm.setDocument(document);
         document.setDocumentSaveAfterAwardLookupEditOrVersion(true);
         awardForm.initialize();
-    }
-
-    private VersionHistory findPendingVersion(Award award) {
-        List<VersionHistory> histories = getVersionHistoryService().loadVersionHistory(Award.class, award.getAwardNumber());
-        VersionHistory foundPending = null;
-        for(VersionHistory history: histories) {
-            if (history.getStatus() == VersionStatus.PENDING && award.getSequenceNumber() < history.getSequenceOwnerSequenceNumber()) {
-                foundPending = history;
-                break;
-            }
-        }
-        return foundPending;
     }
 
     private ActionForward showPromptForEditingPendingVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request,

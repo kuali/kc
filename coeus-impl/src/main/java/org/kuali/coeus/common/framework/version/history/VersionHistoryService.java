@@ -20,6 +20,7 @@ package org.kuali.coeus.common.framework.version.history;
 
 import org.kuali.coeus.common.framework.version.sequence.owner.SequenceOwner;
 import org.kuali.coeus.common.framework.version.VersionStatus;
+import org.kuali.kra.award.home.Award;
 
 import java.util.List;
 
@@ -72,13 +73,16 @@ public interface VersionHistoryService {
      * @return
      */
     VersionHistory findPendingVersion(Class<? extends SequenceOwner> klass, String versionName);
-    
-    /**
-     * Find version histories without fetching the sequence owner. If you need sequence owner included in history list, use loadVersionHistory() method.
-     * @param klass
-     * @param versionName
-     * @return
-     */
+
+    VersionHistory findPendingVersion(Award award);
+
+
+        /**
+         * Find version histories without fetching the sequence owner. If you need sequence owner included in history list, use loadVersionHistory() method.
+         * @param klass
+         * @param versionName
+         * @return
+         */
     List<VersionHistory> findVersionHistory(Class<? extends SequenceOwner> klass, String versionName);
 
     /**
