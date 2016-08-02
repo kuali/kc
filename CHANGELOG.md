@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1469: only allow active subawards to be edited
+  * Joe Williams on Tue, 2 Aug 2016 08:21:00 -0500 [View Commit](../../commit/ae94b8ddc2e5f79ac196c8e599e2e52e78375f0a)
+
+##coeus-1607.38
 * API endpoint to version awards. (#1870)
 
 * API endpoint to version awards.
