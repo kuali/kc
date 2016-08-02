@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-1528:upgrade s2s to include fix for user attached form validation (#1884)
+
+  * Douglas Pace on Tue, 2 Aug 2016 16:19:44 -0700 [View Commit](../../commit/b89e06dc2840465d0603a95d93823c32ebf233f9)
+
+##coeus-1608.2
 * Fix case where deadline time of 1200 becomes 0:00 PM (#1881)
 
   * Douglas Pace on Tue, 2 Aug 2016 12:13:43 -0700 [View Commit](../../commit/6ec888c7758522e2cadaab3b29ee04ed6bd16683)
