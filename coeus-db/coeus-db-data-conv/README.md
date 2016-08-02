@@ -117,6 +117,27 @@ questionnaire can be created. Finally a questionnaire version which disables the
 questionnaires do no show up in new proposals. In the database these YNQ are stored in a copy of the original tables at 'eps_prop_ynq_bak' and 
 'eps_prop_pers_ynq_bak'. 
 
+Award Update User (award-updateuser)
+
+In some cases, Award tables have an incorrect update user.  The incorrect user is the System User that has a username of 'kr'.  This target figures out the username of the last user to execute a workflow
+action on an award document and uses that as the update user.
+
+Time And Money Update User (tm-updateuser)
+
+In some cases, Time and Money tables have an incorrect update user.  The incorrect user is the System User that has a username of 'kr'.  This target figures out the username of the last user to execute a workflow
+action on a time and money document and uses that as the update user.
+
+Institutional Proposal Update User (ip-updateuser)
+
+In some cases, Institutional Proposal tables have an incorrect update user.  The incorrect user is the System User that has a username of 'kr'.  This target figures out the username of the last user to execute a workflow
+action on an institutional proposal document and uses that as the update user.
+
+Subaward Update User (subaward-updateuser)
+
+In some cases, Subaward tables have an incorrect update user.  The incorrect user is the System User that has a username of 'kr'.  This target figures out the username of the last user to execute a workflow
+action on an subaward document and uses that as the update user.
+
+
 IRB (irb)
 
 For future use

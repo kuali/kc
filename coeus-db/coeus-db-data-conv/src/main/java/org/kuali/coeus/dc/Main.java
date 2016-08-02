@@ -100,7 +100,6 @@ public final class Main {
             return;
         }
 
-
         try (Connection coeusConnection = factory.getConnectionDaoService().getCoeusConnection();
             Connection riceConnection = factory.getConnectionDaoService().getRiceConnection()) {
 
@@ -143,6 +142,22 @@ public final class Main {
 
             if (options.containsProposalPersonNames()) {
                 factory.getProposalPersonDao().fixFullNames();
+            }
+
+            if (options.containsAwardUpdateUser()) {
+                factory.getAwardUpdateUserDao().fixUpdateUsers();
+            }
+
+            if (options.containsIpUpdateUser()) {
+                factory.getIpUpdateUserDao().fixUpdateUsers();
+            }
+
+            if (options.containsSubawardUpdateUser()) {
+                factory.getSubawardUpdateUserDao().fixUpdateUsers();
+            }
+
+            if (options.containsTmUpdateUser()) {
+                factory.getTimeAndMoneyUpdateUserDao().fixUpdateUsers();
             }
 
             if (options.containsDryRun()) {

@@ -39,6 +39,13 @@ import org.kuali.coeus.dc.tm.KewDocHeaderDao;
 import org.kuali.coeus.dc.tm.KewDocHeaderDaoImpl;
 import org.kuali.coeus.dc.tm.TimeAndMoneyDocumentStatusDao;
 import org.kuali.coeus.dc.tm.TimeAndMoneyDocumentStatusDaoImpl;
+import org.kuali.coeus.dc.updateuser.LastActionUserDao;
+import org.kuali.coeus.dc.updateuser.LastActionUserDaoImpl;
+import org.kuali.coeus.dc.updateuser.UpdateUserDao;
+import org.kuali.coeus.dc.updateuser.award.AwardUpdateUserDaoImpl;
+import org.kuali.coeus.dc.updateuser.ip.InstitutionalProposalUpdateUserDaoImpl;
+import org.kuali.coeus.dc.updateuser.subaward.SubawardUpdateUserDaoImpl;
+import org.kuali.coeus.dc.updateuser.tm.TimeAndMoneyUpdateUserDaoImpl;
 
 public final class CliOptionsBasedDaoFactory {
 
@@ -181,6 +188,40 @@ public final class CliOptionsBasedDaoFactory {
     public ProposalPersonsDao getProposalPersonDao() {
         ProposalPersonsDaoImpl dao = new ProposalPersonsDaoImpl();
         dao.setConnectionDaoService(getConnectionDaoService());
+        return dao;
+    }
+
+    public LastActionUserDao getLastActionUserDao() {
+        LastActionUserDaoImpl dao = new LastActionUserDaoImpl();
+        dao.setConnectionDaoService(getConnectionDaoService());
+        return dao;
+    }
+
+    public UpdateUserDao getAwardUpdateUserDao() {
+        AwardUpdateUserDaoImpl dao = new AwardUpdateUserDaoImpl();
+        dao.setConnectionDaoService(getConnectionDaoService());
+        dao.setLastActionUserDao(getLastActionUserDao());
+        return dao;
+    }
+
+    public UpdateUserDao getTimeAndMoneyUpdateUserDao() {
+        TimeAndMoneyUpdateUserDaoImpl dao = new TimeAndMoneyUpdateUserDaoImpl();
+        dao.setConnectionDaoService(getConnectionDaoService());
+        dao.setLastActionUserDao(getLastActionUserDao());
+        return dao;
+    }
+
+    public UpdateUserDao getIpUpdateUserDao() {
+        InstitutionalProposalUpdateUserDaoImpl dao = new InstitutionalProposalUpdateUserDaoImpl();
+        dao.setConnectionDaoService(getConnectionDaoService());
+        dao.setLastActionUserDao(getLastActionUserDao());
+        return dao;
+    }
+
+    public UpdateUserDao getSubawardUpdateUserDao() {
+        SubawardUpdateUserDaoImpl dao = new SubawardUpdateUserDaoImpl();
+        dao.setConnectionDaoService(getConnectionDaoService());
+        dao.setLastActionUserDao(getLastActionUserDao());
         return dao;
     }
 
