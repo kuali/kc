@@ -38,7 +38,7 @@ public final class DateUtils {
             "(?:\\s*(([ap]m?|[ap]\\.m\\.)))?", // AM/PM (optional)
             Pattern.CASE_INSENSITIVE);
     private static final Pattern TIME_PATTERN_24_HOUR = Pattern.compile("([01][0-9]|2[0-3])" + // hour
-            "(?:(?::|\\.)?([0-5][0-9]))" + // minute (optional)
+            "(?:(?::|\\.)?([0-5][0-9]))" + // minute
             "(?:\\s*(([ap]m?|[ap]\\.m\\.)))?", // AM/PM (optional, tecnhincally irrelevant, but the user might put it in)
             Pattern.CASE_INSENSITIVE);
 
@@ -273,7 +273,9 @@ public final class DateUtils {
         }
         else if (intHour >= 12) {
             amPmMarker = "PM";
-            intHour -= 12;
+            if (intHour > 12) {
+            	intHour -= 12;
+            }
         }
         if (minute == null) {
             minute = "00";
