@@ -21,6 +21,7 @@ package org.kuali.kra.subaward;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
+import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
 import org.kuali.coeus.common.notification.impl.NotificationHelper;
 import org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsForm;
@@ -356,7 +357,7 @@ implements PermissionsForm, Auditable, CustomDataDocumentForm {
      * 
      */
     public boolean getDisplayEditButton() {
-        return !getSubAwardDocument().getDocumentHeader().getWorkflowDocument().isCanceled();
+        return !getSubAwardDocument().getDocumentHeader().getWorkflowDocument().isCanceled() && VersionStatus.ACTIVE.toString().equals(getSubAwardDocument().getSubAward().getSubAwardSequenceStatus());
     }
 
     public String getShortUrl() {
