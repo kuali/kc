@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* Fix case where deadline time of 1200 becomes 0:00 PM (#1881)
+
+  * Douglas Pace on Tue, 2 Aug 2016 12:13:43 -0700 [View Commit](../../commit/6ec888c7758522e2cadaab3b29ee04ed6bd16683)
+
+##coeus-1608.1
 * RESKC-1469: only allow active subawards to be edited
   * Joe Williams on Tue, 2 Aug 2016 08:21:00 -0500 [View Commit](../../commit/ae94b8ddc2e5f79ac196c8e599e2e52e78375f0a)
 
