@@ -1,6 +1,9 @@
 
 
 ##CURRENT
+* KRMS rule to match on a list of proposal types (#1885)
+
+  * Douglas Pace on Wed, 3 Aug 2016 14:57:30 -0700 [View Commit](../../commit/6200b46c20b51ffdf485b1c575b5db50dfb8e2d6)
 * RESKC-1505: script to fix bad ip sequence numbers
   * Joe Williams on Tue, 2 Aug 2016 14:45:19 -0500 [View Commit](../../commit/f731e15e2f45a63d3c575f5c653316adbebbb752)
 * RESKC-1528:upgrade s2s to include fix for user attached form validation (#1884)
@@ -15,6 +18,10 @@
 ##coeus-1608.1
 * No Changes
 
+
+##coeus-1608.0004
+* RESKC-1505: script to fix bad ip sequence numbers
+  * Joe Williams on Tue, 2 Aug 2016 14:45:19 -0500 [View Commit](../../commit/f731e15e2f45a63d3c575f5c653316adbebbb752)
 
 ##coeus-1608.0003
 * RESKC-1528:upgrade s2s to include fix for user attached form validation (#1884)
