@@ -25,6 +25,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -620,6 +621,17 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
         } else {
             return FALSE;
         }
+    }
+    
+    @Override
+    public Boolean proposalTypeInRule(DevelopmentProposal developmentProposal, String proposalTypeCodes) {
+    	if (proposalTypeCodes != null) {
+    		return Stream.of(proposalTypeCodes.split(","))
+    			.map(String::trim)
+    			.filter(StringUtils::isNotEmpty)
+    			.anyMatch(code -> code.equalsIgnoreCase(developmentProposal.getProposalTypeCode()));
+    	}
+    	return Boolean.FALSE;
     }
 
     @Override
