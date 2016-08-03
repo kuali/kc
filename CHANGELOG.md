@@ -1,6 +1,8 @@
 
 
 ##CURRENT
+* RESKC-1505: script to fix bad ip sequence numbers
+  * Joe Williams on Tue, 2 Aug 2016 14:45:19 -0500 [View Commit](../../commit/f731e15e2f45a63d3c575f5c653316adbebbb752)
 * RESKC-1528:upgrade s2s to include fix for user attached form validation (#1884)
 
   * Douglas Pace on Tue, 2 Aug 2016 16:19:44 -0700 [View Commit](../../commit/b89e06dc2840465d0603a95d93823c32ebf233f9)
@@ -11,6 +13,16 @@
   * Douglas Pace on Tue, 2 Aug 2016 12:13:43 -0700 [View Commit](../../commit/6ec888c7758522e2cadaab3b29ee04ed6bd16683)
 
 ##coeus-1608.1
+* No Changes
+
+
+##coeus-1608.0003
+* RESKC-1528:upgrade s2s to include fix for user attached form validation (#1884)
+
+  * Douglas Pace on Tue, 2 Aug 2016 16:19:44 -0700 [View Commit](../../commit/b89e06dc2840465d0603a95d93823c32ebf233f9)
+* Fix case where deadline time of 1200 becomes 0:00 PM (#1881)
+
+  * Douglas Pace on Tue, 2 Aug 2016 12:13:43 -0700 [View Commit](../../commit/6ec888c7758522e2cadaab3b29ee04ed6bd16683)
 * RESKC-1469: only allow active subawards to be edited
   * Joe Williams on Tue, 2 Aug 2016 08:21:00 -0500 [View Commit](../../commit/ae94b8ddc2e5f79ac196c8e599e2e52e78375f0a)
 
