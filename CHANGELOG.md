@@ -1,6 +1,8 @@
 
 
 ##CURRENT
+* RESKC-1349: fix query
+  * Travis Schneeberger on Thu, 4 Aug 2016 12:32:03 -0400 [View Commit](../../commit/f020718f6efacf9ac24b98bfdea6452182e85275)
 * RESKC-1348: fix integration test
   * Travis Schneeberger on Thu, 4 Aug 2016 11:41:04 -0400 [View Commit](../../commit/6f8b2841f7f0120568cee1fdb977ad77bfb7a317)
 * RESKC-1348: update parameter to change post processor save behavior in regards to update user.
@@ -30,6 +32,10 @@
 ##coeus-1608.1
 * No Changes
 
+
+##coeus-1608.0007
+* RESKC-1348: fix integration test
+  * Travis Schneeberger on Thu, 4 Aug 2016 11:41:04 -0400 [View Commit](../../commit/6f8b2841f7f0120568cee1fdb977ad77bfb7a317)
 
 ##coeus-1608.0006
 * RESKC-1348: update parameter to change post processor save behavior in regards to update user.
