@@ -50,7 +50,7 @@ public class CommonCommitteeDocument extends CommitteeDocumentBase<CommonCommitt
 
     @Override
     public List<? extends DocumentCustomData> getDocumentCustomData() {
-        return new ArrayList();
+        return new ArrayList<>();
     }
 
 }

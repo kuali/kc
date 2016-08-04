@@ -37,11 +37,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * The CommitteeBase Document wraps a single CommitteeBase BO.  
- * The document is necessary for workflow.
- */
-@SuppressWarnings("serial")
 public abstract class CommitteeDocumentBase<CD extends CommitteeDocumentBase<CD, CMT, CS>, 
                                             CMT extends CommitteeBase<CMT, CD, CS>, 
                                             CS extends CommitteeScheduleBase<CS, CMT, ?, ?>> 
@@ -137,7 +132,8 @@ public abstract class CommitteeDocumentBase<CD extends CommitteeDocumentBase<CD,
     protected List<RolePersons> getAllRolePersons() {
         return new ArrayList<>();
     }
-    
+
+    @Override
     public String getDocumentTypeCode() {
         return DOCUMENT_TYPE_CODE;
     }
@@ -168,10 +164,10 @@ public abstract class CommitteeDocumentBase<CD extends CommitteeDocumentBase<CD,
             if (isFinal(statusChangeEvent) && this.getCommittee().getSequenceNumber() > 1) {
                 List<CS> newMasterSchedules = getCommitteeService().mergeCommitteeSchedule(this.getCommittee());
                 this.getCommittee().setCommitteeSchedules(newMasterSchedules);
-                getBusinessObjectService().save(this);
                 // finally update all submissions to point to the new committee
                 getCommitteeService().updateCommitteeForProtocolSubmissions(this.getCommittee());
             }
+            getBusinessObjectService().save(this);
             return null;
         });
     }
@@ -211,6 +207,7 @@ public abstract class CommitteeDocumentBase<CD extends CommitteeDocumentBase<CD,
      * Different document type may have different routing set up, so each document type
      * can implement its own isProcessComplete
      */
+    @Override
     public boolean isProcessComplete() {
         boolean isComplete = false;
         
@@ -224,6 +221,7 @@ public abstract class CommitteeDocumentBase<CD extends CommitteeDocumentBase<CD,
         return isComplete;
     }
 
+    @Override
     public String getDocumentBoNumber() {
         return getCommitteeId();
     }

@@ -29,11 +29,6 @@ import org.kuali.kra.committee.service.CommitteeService;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * The Committee Document wraps a single Committee BO.  
- * The document is necessary for workflow.
- */
-
 public class CommitteeDocument extends CommitteeDocumentBase<CommitteeDocument, Committee, CommitteeSchedule> {
 
 
@@ -56,7 +51,7 @@ public class CommitteeDocument extends CommitteeDocumentBase<CommitteeDocument, 
 
     @Override
     public List<? extends DocumentCustomData> getDocumentCustomData() {
-        return new ArrayList();
+        return new ArrayList<>();
     }
 
 }
