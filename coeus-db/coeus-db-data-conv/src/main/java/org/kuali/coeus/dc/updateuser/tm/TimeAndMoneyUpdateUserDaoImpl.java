@@ -11,7 +11,7 @@ public class TimeAndMoneyUpdateUserDaoImpl extends AbstractUpdateUserDao {
     private static final String PENDING_TRANSACTIONS_SELECT_SQL = "select distinct u.document_number, u.document_number from PENDING_TRANSACTIONS u where u.update_user = 'kr'";
     private static final String PENDING_TRANSACTIONS_UPDATE_SQL = "update TIME_AND_MONEY_DOCUMENT u set u.update_user = ? where u.document_number = ? and u.update_user = 'kr'";
 
-    private static final String AWARD_AMOUNT_TRANSACTION_SELECT_SQL = "select distinct u.document_number, u.document_number from AWARD_AMOUNT_TRANSACTION u where u.update_user = 'kr'";
+    private static final String AWARD_AMOUNT_TRANSACTION_SELECT_SQL = "select distinct u.TRANSACTION_ID, u.TRANSACTION_ID from AWARD_AMOUNT_TRANSACTION u where u.update_user = 'kr'";
     private static final String AWARD_AMOUNT_TRANSACTION_UPDATE_SQL = "update AWARD_AMOUNT_TRANSACTION u set u.update_user = ? where u.document_number = ? and u.update_user = 'kr'";
 
     @Override
