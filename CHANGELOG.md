@@ -1,6 +1,8 @@
 
 
 ##CURRENT
+* RESKC-1348: fix integration test
+  * Travis Schneeberger on Thu, 4 Aug 2016 11:41:04 -0400 [View Commit](../../commit/6f8b2841f7f0120568cee1fdb977ad77bfb7a317)
 * RESKC-1348: update parameter to change post processor save behavior in regards to update user.
   * Travis Schneeberger on Thu, 4 Aug 2016 09:44:11 -0400 [View Commit](../../commit/022fe71fc15674c2cfae9e0dc73368b72cae8bc8)
 * Revert "RESKC-1348: update parameter to change post processor save behavior i…"
@@ -28,6 +30,18 @@
 ##coeus-1608.1
 * No Changes
 
+
+##coeus-1608.0006
+* RESKC-1348: update parameter to change post processor save behavior in regards to update user.
+  * Travis Schneeberger on Thu, 4 Aug 2016 09:44:11 -0400 [View Commit](../../commit/022fe71fc15674c2cfae9e0dc73368b72cae8bc8)
+* Revert "RESKC-1348: update parameter to change post processor save behavior i…"
+  * Travis Schneeberger on Thu, 4 Aug 2016 09:40:50 -0400 [View Commit](../../commit/302a69dacc6e3b22eb808ba63d4d4078cb5ff84e)
+* RESKC-1348: update parameter to change post processor save behavior in regards to update user.
+  * Travis Schneeberger on Tue, 31 May 2016 11:40:13 -0400 [View Commit](../../commit/c154c5a049bcbbcd3a72c283987a072ce86d4340)
+* RESKC-1349: add where criteria for added safety for update user correction process
+  * Travis Schneeberger on Thu, 4 Aug 2016 09:29:54 -0400 [View Commit](../../commit/47b5b45fa73977046c9dcf3d942c94b6afe73b76)
+* RESKC-1349: develop a process to clean correct update user for award, time and money, ip, and subaward
+  * Travis Schneeberger on Tue, 2 Aug 2016 17:12:01 -0400 [View Commit](../../commit/3e0632531d6bcadea7f4a27788bad86cc755f21f)
 
 ##coeus-1608.0005
 * KRMS rule to match on a list of proposal types (#1885)
