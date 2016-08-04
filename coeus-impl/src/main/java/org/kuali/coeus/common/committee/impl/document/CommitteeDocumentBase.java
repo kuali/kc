@@ -168,10 +168,10 @@ public abstract class CommitteeDocumentBase<CD extends CommitteeDocumentBase<CD,
             if (isFinal(statusChangeEvent) && this.getCommittee().getSequenceNumber() > 1) {
                 List<CS> newMasterSchedules = getCommitteeService().mergeCommitteeSchedule(this.getCommittee());
                 this.getCommittee().setCommitteeSchedules(newMasterSchedules);
-                getBusinessObjectService().save(this);
                 // finally update all submissions to point to the new committee
                 getCommitteeService().updateCommitteeForProtocolSubmissions(this.getCommittee());
             }
+            getBusinessObjectService().save(this);
             return null;
         });
     }
