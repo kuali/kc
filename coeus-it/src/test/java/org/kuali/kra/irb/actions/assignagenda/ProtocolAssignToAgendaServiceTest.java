@@ -36,6 +36,7 @@ import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.submit.*;
 import org.kuali.kra.irb.test.ProtocolFactory;
+import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.UserSession;
@@ -54,17 +55,13 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.*;
-/**
- * Test the ProtocolDeleteService implementation.
- */
+
 public class ProtocolAssignToAgendaServiceTest extends KcIntegrationTestBase {
     private static final String COMMITTEE_ID = "699";
 
     private DocumentService documentService;
-    private ProtocolActionService protocolActionService;
     private ProtocolAssignToAgendaService protocolAssignToAgendaService;
-    private ProtocolAssignToAgendaServiceImpl protocolAssignToAgendaServiceImpl;
-    
+
     private BusinessObjectService businessObjectService;
     private LegacyDataAdapter legacyDataAdapter;
 
@@ -72,9 +69,7 @@ public class ProtocolAssignToAgendaServiceTest extends KcIntegrationTestBase {
     public void setUp() throws Exception {
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         documentService = KcServiceLocator.getService(DocumentService.class);
-        protocolActionService = KcServiceLocator.getService(ProtocolActionService.class);
         protocolAssignToAgendaService = KcServiceLocator.getService(ProtocolAssignToAgendaService.class);
-        protocolAssignToAgendaServiceImpl = (ProtocolAssignToAgendaServiceImpl) KcServiceLocator.getService(ProtocolAssignToAgendaService.class);
         businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         legacyDataAdapter = KcServiceLocator.getService(LegacyDataAdapter.class);
     }
@@ -83,9 +78,7 @@ public class ProtocolAssignToAgendaServiceTest extends KcIntegrationTestBase {
     public void tearDown() throws Exception {
         businessObjectService = null;
         documentService = null;
-        protocolActionService = null;
         protocolAssignToAgendaService = null;
-        protocolAssignToAgendaServiceImpl = null;
         GlobalVariables.setUserSession(null);
     }
     
@@ -107,14 +100,13 @@ public class ProtocolAssignToAgendaServiceTest extends KcIntegrationTestBase {
         actionBean.setComments("this is a comment");
         actionBean.setCommitteName("committee name");
         actionBean.setProtocolAssigned(true);
-        //actionBean.setScheduleDate(new Date());
         protocolAssignToAgendaService.assignToAgenda(protocolDocument.getProtocol(), actionBean);
         assertTrue(true);
     }
 
     private Committee getCommittee() throws WorkflowException {
         
-        Map<String,Object> keymap = new HashMap<String,Object>();
+        Map<String,Object> keymap = new HashMap<>();
         keymap.put("committeeId", COMMITTEE_ID);
         List<Committee> comms = (List<Committee>)businessObjectService.findMatching(Committee.class, keymap);
         Committee committee = new Committee();
@@ -124,7 +116,7 @@ public class ProtocolAssignToAgendaServiceTest extends KcIntegrationTestBase {
         if (committee==null)
             committee =  createCommittee(COMMITTEE_ID).getCommittee();
         committee.refreshReferenceObject("committeeType");
-       // submitAction.setCommitteeId(committee.getCommitteeId());
+
         return committee;
     
     }
@@ -146,9 +138,8 @@ public class ProtocolAssignToAgendaServiceTest extends KcIntegrationTestBase {
         schedule.setProtocolSubDeadline(new Date(System.currentTimeMillis() - 500));
         schedule.setScheduleStatusCode(1);
         committee.getCommitteeSchedules().add(schedule);
-//        addMembers(committee);
         documentService.saveDocument(committeeDocument);
-        documentService.routeDocument(committeeDocument, "Test Routing", new ArrayList());
+        documentService.routeDocument(committeeDocument, "Test Routing", new ArrayList<>());
         return committeeDocument;
     }
 
@@ -158,9 +149,9 @@ public class ProtocolAssignToAgendaServiceTest extends KcIntegrationTestBase {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         ProtocolSubmission submission = createSubmission(protocolDocument.getProtocol(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
         protocolDocument.getProtocol().getProtocolSubmissions().add(submission);
-        List<ProtocolAction> actions = new ArrayList<ProtocolAction>();
+        List<ProtocolActionBase> actions = new ArrayList<>();
         actions.add(new ProtocolAction(protocolDocument.getProtocol(), submission, ProtocolActionType.SUBMIT_TO_IRB));
-        protocolDocument.getProtocol().setProtocolActions((List)actions);
+        protocolDocument.getProtocol().setProtocolActions(actions);
         boolean result = protocolAssignToAgendaService.isAssignedToAgenda(protocolDocument.getProtocol());
         assertFalse(result);
     }
@@ -170,9 +161,9 @@ public class ProtocolAssignToAgendaServiceTest extends KcIntegrationTestBase {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         ProtocolSubmission submission = createSubmission(protocolDocument.getProtocol(), ProtocolSubmissionStatus.IN_AGENDA);
         protocolDocument.getProtocol().getProtocolSubmissions().add(submission);
-        List<ProtocolAction> actions = new ArrayList<ProtocolAction>();
+        List<ProtocolActionBase> actions = new ArrayList<>();
         actions.add(new ProtocolAction(protocolDocument.getProtocol(), submission, ProtocolActionType.ASSIGN_TO_AGENDA));
-        protocolDocument.getProtocol().setProtocolActions((List)actions);
+        protocolDocument.getProtocol().setProtocolActions(actions);
         boolean result = protocolAssignToAgendaService.isAssignedToAgenda(protocolDocument.getProtocol());
         assertTrue(result);
     }
@@ -182,12 +173,12 @@ public class ProtocolAssignToAgendaServiceTest extends KcIntegrationTestBase {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         ProtocolSubmission submission = createSubmission(protocolDocument.getProtocol(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
         protocolDocument.getProtocol().getProtocolSubmissions().add(submission);
-        List<ProtocolAction> actions = new ArrayList<ProtocolAction>();
+        List<ProtocolActionBase> actions = new ArrayList<>();
         ProtocolAction pa = new ProtocolAction(protocolDocument.getProtocol(), submission, ProtocolActionType.ASSIGN_TO_AGENDA);
         String comments = "My test protocol action comments";
         pa.setComments(comments);
         actions.add(pa);
-        protocolDocument.getProtocol().setProtocolActions((List)actions);
+        protocolDocument.getProtocol().setProtocolActions(actions);
         String result = protocolAssignToAgendaService.getAssignToAgendaComments(protocolDocument.getProtocol());
         assertEquals(comments, result);
     }
@@ -224,15 +215,15 @@ public class ProtocolAssignToAgendaServiceTest extends KcIntegrationTestBase {
         cd.getDocumentHeader().setDocumentDescription("super cool description");
         cd.setUpdateTimestamp(new Timestamp(20100305));
         cd.setUpdateUser("quickstart");
-        cd.setVersionNumber(new Long(1));
+        cd.setVersionNumber(1L);
         com.setCommitteeDocument(cd);
 
-        documentService.saveDocument(cd);
+        cd = (CommitteeDocument) documentService.saveDocument(cd);
         documentService.blanketApproveDocument(cd, "Test Committee", Collections.emptyList());
         
         protocolDocument.getProtocol().getProtocolSubmissions().add(submission);
-        
-        documentService.saveDocument(protocolDocument);
+
+        protocolDocument = (ProtocolDocument) documentService.saveDocument(protocolDocument);
         
         String committeeName = protocolAssignToAgendaService.getAssignedCommitteeName(protocolDocument.getProtocol());
         assertEquals(passedInCommitteeName, committeeName);
@@ -246,11 +237,11 @@ public class ProtocolAssignToAgendaServiceTest extends KcIntegrationTestBase {
                 
         Committee com = new Committee();
         com.setCommitteeId("1");
-        com.setId(new Long(1));
+        com.setId(1L);
         com.setHomeUnitNumber("000001");
         com.setCommitteeTypeCode("1");
         com.setReviewTypeCode("1");
-        com.setAdvancedSubmissionDaysRequired(new Integer(1));
+        com.setAdvancedSubmissionDaysRequired(1);
         String passedInCommitteeName = "testCommitteeName";
         com.setCommitteeName(passedInCommitteeName);
         com.setMaxProtocols(1);
@@ -263,13 +254,13 @@ public class ProtocolAssignToAgendaServiceTest extends KcIntegrationTestBase {
         cs.setScheduleId("1069");
         java.sql.Date basicDate = new java.sql.Date(2010, 3, 17);
         cs.setAgendaProdRevDate(basicDate);
-        cs.setId(new Long(12345));
+        cs.setId(12345L);
         cs.setScheduledDate(basicDate);
         cs.setProtocolSubDeadline(basicDate);
-        cs.setScheduleStatusCode(new Integer(1));
+        cs.setScheduleStatusCode(1);
         cs.setTime(new Timestamp(20100305));
         
-        List<CommitteeSchedule> committeeSchedules = new ArrayList<CommitteeSchedule>();
+        List<CommitteeSchedule> committeeSchedules = new ArrayList<>();
         committeeSchedules.add(cs);
         com.setCommitteeSchedules(committeeSchedules);
 
@@ -279,19 +270,19 @@ public class ProtocolAssignToAgendaServiceTest extends KcIntegrationTestBase {
         cd.getDocumentHeader().setDocumentDescription("super cool description");
         cd.setUpdateTimestamp(new Timestamp(20100305));
         cd.setUpdateUser("quickstart");
-        cd.setVersionNumber(new Long(1));
+        cd.setVersionNumber(1L);
         com.setCommitteeDocument(cd);
-        
-        documentService.saveDocument(cd);
+
+        cd = (CommitteeDocument) documentService.saveDocument(cd);
         documentService.blanketApproveDocument(cd, "Test Committee", Collections.emptyList());
         legacyDataAdapter.save(com);
-        legacyDataAdapter.save(cs);
+        cs = legacyDataAdapter.save(cs);
         
         submission.setScheduleId(cs.getScheduleId());
         
         protocolDocument.getProtocol().getProtocolSubmissions().add(submission);
-        
-        documentService.saveDocument(protocolDocument);
+
+        protocolDocument = (ProtocolDocument) documentService.saveDocument(protocolDocument);
         
         String agendaDate = protocolAssignToAgendaService.getAssignedScheduleDate(protocolDocument.getProtocol());
         
