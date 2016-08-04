@@ -35,6 +35,10 @@
 * No Changes
 
 
+##coeus-1608.0009
+* RESKC-1349: fix query
+  * Travis Schneeberger on Thu, 4 Aug 2016 13:26:52 -0400 [View Commit](../../commit/43dc4158944abb5d0ceec3f60334ebe79b661ba6)
+
 ##coeus-1608.0008
 * RESKC-1349: fix query
   * Travis Schneeberger on Thu, 4 Aug 2016 12:32:03 -0400 [View Commit](../../commit/f020718f6efacf9ac24b98bfdea6452182e85275)
