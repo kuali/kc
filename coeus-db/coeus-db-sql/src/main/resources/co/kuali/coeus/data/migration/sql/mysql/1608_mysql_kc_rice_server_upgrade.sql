@@ -19,4 +19,5 @@
 
 
 \. ./rice/bootstrap/V1608_002__ProposalTypesKrmsFunc.sql
+\. ./rice/bootstrap/V1608_003__update_legacy_save.sql
 commit;

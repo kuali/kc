@@ -1,11 +1,21 @@
 
 
 ##CURRENT
+* RESKC-1348: update parameter to change post processor save behavior in regards to update user.
+  * Travis Schneeberger on Thu, 4 Aug 2016 09:44:11 -0400 [View Commit](../../commit/022fe71fc15674c2cfae9e0dc73368b72cae8bc8)
+* Revert "RESKC-1348: update parameter to change post processor save behavior i…"
+  * Travis Schneeberger on Thu, 4 Aug 2016 09:40:50 -0400 [View Commit](../../commit/302a69dacc6e3b22eb808ba63d4d4078cb5ff84e)
+* RESKC-1348: update parameter to change post processor save behavior in regards to update user.
+  * Travis Schneeberger on Tue, 31 May 2016 11:40:13 -0400 [View Commit](../../commit/c154c5a049bcbbcd3a72c283987a072ce86d4340)
+* RESKC-1349: add where criteria for added safety for update user correction process
+  * Travis Schneeberger on Thu, 4 Aug 2016 09:29:54 -0400 [View Commit](../../commit/47b5b45fa73977046c9dcf3d942c94b6afe73b76)
 * KRMS rule to match on a list of proposal types (#1885)
 
   * Douglas Pace on Wed, 3 Aug 2016 14:57:30 -0700 [View Commit](../../commit/6200b46c20b51ffdf485b1c575b5db50dfb8e2d6)
 * RESKC-1505: script to fix bad ip sequence numbers
   * Joe Williams on Tue, 2 Aug 2016 14:45:19 -0500 [View Commit](../../commit/f731e15e2f45a63d3c575f5c653316adbebbb752)
+* RESKC-1349: develop a process to clean correct update user for award, time and money, ip, and subaward
+  * Travis Schneeberger on Tue, 2 Aug 2016 17:12:01 -0400 [View Commit](../../commit/3e0632531d6bcadea7f4a27788bad86cc755f21f)
 * RESKC-1528:upgrade s2s to include fix for user attached form validation (#1884)
 
   * Douglas Pace on Tue, 2 Aug 2016 16:19:44 -0700 [View Commit](../../commit/b89e06dc2840465d0603a95d93823c32ebf233f9)
@@ -18,6 +28,11 @@
 ##coeus-1608.1
 * No Changes
 
+
+##coeus-1608.0005
+* KRMS rule to match on a list of proposal types (#1885)
+
+  * Douglas Pace on Wed, 3 Aug 2016 14:57:30 -0700 [View Commit](../../commit/6200b46c20b51ffdf485b1c575b5db50dfb8e2d6)
 
 ##coeus-1608.0004
 * RESKC-1505: script to fix bad ip sequence numbers

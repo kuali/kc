@@ -22,4 +22,5 @@ set sqlblanklines on
 
 spool 1608_oracle_kc_rice_server_upgrade.sql.log
 @./rice/bootstrap/V1608_002__ProposalTypesKrmsFunc.sql
+@./rice/bootstrap/V1608_003__update_legacy_save.sql
 commit;
