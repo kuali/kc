@@ -32,6 +32,10 @@ public class CliOptions {
             return true;
         }
 
+        if (valid && (inactivateCleanupPolicy() || deleteCleanupPolicy())) {
+            valid = true;
+        }
+
         if (valid && (containsValidate() && !"".equals(getCoeusConnectionString()) && !"".equals(getRiceConnectionString()))) {
             return true;
         }
@@ -56,9 +60,23 @@ public class CliOptions {
             return true;
         }
 
-        if (valid && (inactivateCleanupPolicy() || deleteCleanupPolicy())) {
+        if (valid && (containsAwardUpdateUser() && !"".equals(getCoeusConnectionString()) && !"".equals(getRiceConnectionString()))) {
             return true;
         }
+
+        if (valid && (containsIpUpdateUser() && !"".equals(getCoeusConnectionString()) && !"".equals(getRiceConnectionString()))) {
+            return true;
+        }
+
+        if (valid && (containsSubawardUpdateUser() && !"".equals(getCoeusConnectionString()) && !"".equals(getRiceConnectionString()))) {
+            return true;
+        }
+
+        if (valid && (containsTmUpdateUser() && !"".equals(getCoeusConnectionString()) && !"".equals(getRiceConnectionString()))) {
+            return true;
+        }
+
+
 
         return false;
     }
@@ -121,6 +139,22 @@ public class CliOptions {
 
     public boolean containsProposalPersonNames() {
         return contains("proposal-person-names");
+    }
+
+    public boolean containsAwardUpdateUser() {
+        return contains("award-updateuser");
+    }
+
+    public boolean containsIpUpdateUser() {
+        return contains("ip-updateuser");
+    }
+
+    public boolean containsSubawardUpdateUser() {
+        return contains("subaward-updateuser");
+    }
+
+    public boolean containsTmUpdateUser() {
+        return contains("tm-updateuser");
     }
 
     private boolean contains(String name) {
@@ -242,7 +276,7 @@ public class CliOptions {
                 + "\n"
                 + "If platform is not specified then the platform will be autodetected from the connection strings.\n"
                 + "\n"
-                + "The valid conversion targets are (proposal|irb|iacuc|pprole|questseq|tmdocstatus|subaward-amountinfo|tm-dups).\n"
+                + "The valid conversion targets are (proposal|irb|iacuc|pprole|questseq|tmdocstatus|subaward-amountinfo|tm-dups|award-updateuser|ip-updateuser|subaward-updateuser|tm-updateuser).\n"
                 + "\n"
                 + "The dryrun flag may still cause database sequences to increment.\n"
                 + "\n"
