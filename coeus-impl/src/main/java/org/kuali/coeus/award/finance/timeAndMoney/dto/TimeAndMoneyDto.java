@@ -26,6 +26,8 @@ import java.util.List;
 
 public class TimeAndMoneyDto {
 
+    private String awardId;
+
     @JsonProperty(value="awardAmountTransactions")
     @CollectionProperty(source="awardAmountTransactions", itemClass= AwardAmountTransactionDto.class)
     private List<AwardAmountTransactionDto> awardAmountTransactions;
@@ -50,4 +52,11 @@ public class TimeAndMoneyDto {
         this.transactionDetails = transactionDetails;
     }
 
+    public String getAwardId() {
+        return awardId;
+    }
+
+    public void setAwardId(String awardId) {
+        this.awardId = awardId;
+    }
 }

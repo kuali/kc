@@ -18,8 +18,6 @@
  */
 package org.kuali.coeus.award.api;
 
-import com.codiform.moo.Moo;
-import com.codiform.moo.configuration.Configuration;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.award.dto.*;
@@ -37,6 +35,7 @@ import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.rest.NotImplementedException;
 import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
 import org.kuali.coeus.sys.framework.rest.UnprocessableEntityException;
+import org.kuali.kra.award.awardhierarchy.AwardHierarchyBean;
 import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardProjectPersonnelBean;
@@ -195,7 +194,7 @@ public class AwardController extends RestController implements InitializingBean 
             } else {
                 award.setNewVersion(true);
                 Award newAwardVersion = versioningService.createNewVersion(award);
-                updateDataObjectFromDto(newAwardVersion, awardDto);
+                commonApiService.updateDataObjectFromDto(newAwardVersion, awardDto);
                 defaultValues(newAwardVersion, awardDto);
                 translateCollections(awardDto, newAwardVersion, newAwardVersion.getAwardDocument());
                 AwardDocument newAwardDocument = awardService.generateAndPopulateAwardDocument(oldAwardDocument, newAwardVersion);
@@ -254,7 +253,7 @@ public class AwardController extends RestController implements InitializingBean 
         if(budget == null) {
             throw new ResourceNotFoundException("Budget with budget id " + budgetId + " not found.");
         }
-        updateDataObjectFromDto(budget, generalInfoDto);
+        commonApiService.updateDataObjectFromDto(budget, generalInfoDto);
         businessObjectService.save(budget);
     }
 
@@ -270,11 +269,20 @@ public class AwardController extends RestController implements InitializingBean 
         awardDocument.setAward(award);
         translateCollections(awardDto, award, awardDocument);
         awardService.checkAwardNumber(award);
+        awardService.updateCurrentAwardAmountInfo(award);
         AwardDocument newDocument = (AwardDocument) commonApiService.saveDocument(awardDocument);
         AwardDto newAwardDto = commonApiService.convertObject(newDocument.getAward(), AwardDto.class);
         newAwardDto.setDocNbr(newDocument.getDocumentNumber());
         newAwardDto.setDocStatus(newDocument.getDocumentHeader().getWorkflowDocument().getStatus().getLabel());
         versionHistoryService.updateVersionHistory(award, VersionStatus.PENDING, globalVariableService.getUserSession().getPrincipalName());
+        awardService.updateAwardSequenceStatus(award, VersionStatus.PENDING);
+
+        AwardHierarchyBean awardHierarchyBean = new AwardHierarchyBean();
+        awardHierarchyBean.setRootNodes(new TreeMap<>());
+
+        awardHierarchyBean.createDefaultAwardHierarchy(Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT, award.getAwardNumber(), award);
+        awardHierarchyBean.saveHierarchyChanges();
+
         RestAuditLogger auditLogger = restAuditLoggerFactory.getNewAuditLogger(AwardDto.class, awardDtoProperties);
         auditLogger.addNewItem(awardDto);
         auditLogger.saveAuditLog();
@@ -289,11 +297,23 @@ public class AwardController extends RestController implements InitializingBean 
         addReportTerms(award, awardDto);
         addCustomData(awardDocument, award, awardDto);
         addFundingProposals(awardDto, award);
+        addAmountInfo(awardDto, award);
         translateSponsorContacts(awardDto, award);
         if(!globalVariableService.getMessageMap().getErrorMessages().isEmpty()) {
             String errors = commonApiService.getValidationErrors();
             throw new UnprocessableEntityException(errors);
         }
+    }
+
+    private void addAmountInfo(AwardDto awardDto, Award award) {
+        award.getAwardAmountInfo().setAnticipatedTotalDirect(awardDto.getAnticipatedTotalDirect());
+        award.getAwardAmountInfo().setObligatedTotalDirect(awardDto.getObligatedTotalDirect());
+        award.getAwardAmountInfo().setObligatedTotalIndirect(awardDto.getObligatedTotalIndirect());
+        award.getAwardAmountInfo().setAnticipatedTotalIndirect(awardDto.getAnticipatedTotalIndirect());
+        award.getAwardAmountInfo().setCurrentFundEffectiveDate(awardDto.getObligationStartDate());
+        award.getAwardAmountInfo().setObligationExpirationDate(awardDto.getObligationEndDate());
+        award.getAwardAmountInfo().setFinalExpirationDate(awardDto.getProjectEndDate());
+
     }
 
     public void translateSponsorContacts(AwardDto awardDto, Award award) {
@@ -598,13 +618,6 @@ public class AwardController extends RestController implements InitializingBean 
                 return awardDto;
             }).collect(Collectors.toList());
         return awardDtos;
-    }
-
-    protected void updateDataObjectFromDto(Object existingDataObject, Object input) {
-        Configuration mooConfig = new Configuration();
-        mooConfig.setSourcePropertiesRequired(false);
-        Moo moo = new Moo(mooConfig);
-        moo.update(input, existingDataObject);
     }
 
     public AwardDao getAwardDao() {

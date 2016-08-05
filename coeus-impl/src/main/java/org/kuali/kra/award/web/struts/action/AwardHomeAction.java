@@ -31,7 +31,6 @@ import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
-import org.kuali.kra.award.home.AwardConstants;
 import org.kuali.kra.award.home.keywords.AwardScienceKeyword;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.bo.FundingSourceType;
@@ -190,7 +189,7 @@ public class AwardHomeAction extends AwardAction {
         AwardForm awardForm = (AwardForm) form;
         AwardDocument awardDocument = awardForm.getAwardDocument();
 
-        updateCurrentAwardAmountInfo(awardDocument.getAward());
+        getAwardService().updateCurrentAwardAmountInfo(awardDocument.getAward());
         
         awardForm.getProjectPersonnelBean().updateLeadUnit();
         if (this.getReportTrackingService().shouldAlertReportTrackingDetailChange(awardForm.getAwardDocument().getAward())) {
@@ -213,52 +212,9 @@ public class AwardHomeAction extends AwardAction {
         return forward;
     }
 
-    protected void updateCurrentAwardAmountInfo(Award award) {
-        if (award.getAwardNumber().endsWith(Award.DEFAULT_AWARD_NUMBER)
-        		|| award.getAwardNumber().endsWith(AwardConstants.ROOT_AWARD_SUFFIX)) {
-            AwardAmountInfo currentAwardAmountInfo = award.getLastAwardAmountInfo();
-            AwardAmountInfo previousAwardAmountInfo = getPreviousAwardAmountInfo(award);
-            
-            if (isDirectIndirectViewEnabled()) {
-                setTotalsOnAward(award);
-            }
-
-            if (previousAwardAmountInfo != null) {
-                currentAwardAmountInfo.setObligatedChange(currentAwardAmountInfo.getAmountObligatedToDate().subtract(previousAwardAmountInfo.getAmountObligatedToDate()));
-                currentAwardAmountInfo.setObligatedChangeDirect(currentAwardAmountInfo.getObligatedTotalDirect().subtract(previousAwardAmountInfo.getObligatedTotalDirect()));
-                currentAwardAmountInfo.setObligatedChangeIndirect(currentAwardAmountInfo.getObligatedTotalIndirect().subtract(previousAwardAmountInfo.getObligatedTotalIndirect()));
-                currentAwardAmountInfo.setAnticipatedChange(currentAwardAmountInfo.getAnticipatedTotalAmount().subtract(previousAwardAmountInfo.getAnticipatedTotalAmount()));
-                currentAwardAmountInfo.setAnticipatedChangeDirect(currentAwardAmountInfo.getAnticipatedTotalDirect().subtract(previousAwardAmountInfo.getAnticipatedTotalDirect()));
-                currentAwardAmountInfo.setAnticipatedChangeIndirect(currentAwardAmountInfo.getAnticipatedTotalIndirect().subtract(previousAwardAmountInfo.getAnticipatedTotalIndirect()));
-                currentAwardAmountInfo.setObliDistributableAmount(previousAwardAmountInfo.getObliDistributableAmount().add(currentAwardAmountInfo.getObligatedChange()));
-                currentAwardAmountInfo.setAntDistributableAmount(previousAwardAmountInfo.getAntDistributableAmount().add(currentAwardAmountInfo.getAnticipatedChange()));
-            } else {
-                currentAwardAmountInfo.setObligatedChange(currentAwardAmountInfo.getAmountObligatedToDate());
-                currentAwardAmountInfo.setObligatedChangeDirect(currentAwardAmountInfo.getObligatedTotalDirect());
-                currentAwardAmountInfo.setObligatedChangeIndirect(currentAwardAmountInfo.getObligatedTotalIndirect());
-                currentAwardAmountInfo.setAnticipatedChange(currentAwardAmountInfo.getAnticipatedTotalAmount());
-                currentAwardAmountInfo.setAnticipatedChangeDirect(currentAwardAmountInfo.getAnticipatedTotalDirect());
-                currentAwardAmountInfo.setAnticipatedChangeIndirect(currentAwardAmountInfo.getAnticipatedTotalIndirect());
-                currentAwardAmountInfo.setObliDistributableAmount(currentAwardAmountInfo.getAmountObligatedToDate());
-                currentAwardAmountInfo.setAntDistributableAmount(currentAwardAmountInfo.getAnticipatedTotalAmount());            	
-            }
-        }
+    protected Award getActiveAwardVersion(Award award) {
+        return getAwardVersionService().getActiveAwardVersion(award.getAwardNumber());
     }
-
-    protected AwardAmountInfo getPreviousAwardAmountInfo(Award award) {
-        int awardAmountInfosSize = award.getAwardAmountInfos().size();
-        if (awardAmountInfosSize > 1) {
-            int previousAwardAmountInfoIndex = awardAmountInfosSize - 2;
-            return award.getAwardAmountInfos().get(previousAwardAmountInfoIndex);
-        } else {
-            Award oldAward = getActiveAwardVersion(award);
-            return oldAward != null ? oldAward.getLastAwardAmountInfo() : null;
-        }
-    }
-
-	protected Award getActiveAwardVersion(Award award) {
-		return getAwardVersionService().getActiveAwardVersion(award.getAwardNumber());
-	}
 
     protected void setTotalsOnAward(final Award award) {
         final AwardAmountInfo aai = award.getLastAwardAmountInfo();
@@ -305,15 +261,6 @@ public class AwardHomeAction extends AwardAction {
             this.parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return this.parameterService;
-    }
-    
-    public boolean isDirectIndirectViewEnabled() {
-        boolean returnValue = false;
-        String directIndirectEnabledValue = getParameterService().getParameterValueAsString(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST");
-        if(directIndirectEnabledValue.equals("1")) {
-            returnValue = true;
-        }
-        return returnValue;
     }
     
     @Override

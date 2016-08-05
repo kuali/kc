@@ -23,6 +23,8 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 import org.kuali.coeus.award.dto.AwardDto;
 import org.kuali.coeus.award.dto.AwardPersonDto;
+import org.kuali.coeus.award.finance.timeAndMoney.api.TimeAndMoneyController;
+import org.kuali.coeus.award.finance.timeAndMoney.dto.TimeAndMoneyDto;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
@@ -295,6 +297,58 @@ public class AwardDocumentControllerTest extends KcIntegrationTestBase {
 
     }
 
+    @Test
+    public void testAwardTimeAndMoney() throws Exception {
+        // POST
+        String awardJsonRequiredForTimeAndMoney = getawardJsonRequiredForTimeAndMoney();
+        ObjectMapper mapper = new ObjectMapper();
+
+        AwardDto awardDto = mapper.readValue(awardJsonRequiredForTimeAndMoney, AwardDto.class);
+        AwardDto newAwardDto = getAwardController().createAward(awardDto);
+        AwardDocument document = getAwardController().getAwardDocumentById(newAwardDto.getAwardId());
+        AwardPerson person = document.getAward().getProjectPerson(0);
+        setupCreditSplits(person);
+
+        KcServiceLocator.getService(DocumentService.class).saveDocument(document);
+        Assert.assertTrue(document.getAward().getAwardSequenceStatus().toString().equalsIgnoreCase("PENDING"));
+        Long awardId = document.getAward().getAwardId();
+        String awardNumber = document.getAward().getAwardNumber();
+
+        Assert.assertTrue(document.getAward().getObligatedTotalDirect().compareTo(new ScaleTwoDecimal(100.05)) == 0);
+        Assert.assertTrue(document.getAward().getObligatedTotalIndirect().compareTo(new ScaleTwoDecimal(100)) == 0);
+
+        Assert.assertTrue(document.getAward().getAnticipatedTotalDirect().compareTo(new ScaleTwoDecimal(100.05)) == 0);
+        Assert.assertTrue(document.getAward().getAnticipatedTotalIndirect().compareTo(new ScaleTwoDecimal(100)) == 0);
+
+        String timeAndMoneyString = getFirsTimeAndMoney();
+        timeAndMoneyString = timeAndMoneyString.replace("awardId\" : \"26965\"", "awardId\" : \"" +  awardId + "\"");
+        timeAndMoneyString = timeAndMoneyString.replace("\"destinationAwardNumber\": \"000530-00001\"", "\"destinationAwardNumber\": \"" +  awardNumber + "\"");
+        TimeAndMoneyDto timeAndMoneyDto = mapper.readValue(timeAndMoneyString, TimeAndMoneyDto.class);
+        String documentNumber = getTimeAndMoneyController().createTimeAndMoneyDocument(timeAndMoneyDto);
+        TimeAndMoneyDto newDocDto = getTimeAndMoneyController().submitDocument(documentNumber);
+
+        Assert.assertTrue(document.getAward().getObligatedTotalDirect().compareTo(new ScaleTwoDecimal(600.05)) == 0);
+        Assert.assertTrue(document.getAward().getObligatedTotalIndirect().compareTo(new ScaleTwoDecimal(600)) == 0);
+
+        Assert.assertTrue(document.getAward().getAnticipatedTotalDirect().compareTo(new ScaleTwoDecimal(600.05)) == 0);
+        Assert.assertTrue(document.getAward().getAnticipatedTotalIndirect().compareTo(new ScaleTwoDecimal(600)) == 0);
+
+        String newVersionOfTimeAndMoney = getTimeAndMoneyNewVersion();
+        newVersionOfTimeAndMoney = newVersionOfTimeAndMoney.replace("\"destinationAwardNumber\": \"000536-00001\"", "\"destinationAwardNumber\": \"" +  awardNumber + "\"");
+        TimeAndMoneyDto newTimeAndMoneyDto = mapper.readValue(newVersionOfTimeAndMoney, TimeAndMoneyDto.class);
+        String versionedDocNumber = getTimeAndMoneyController().versionTimeAndMoney(newTimeAndMoneyDto, documentNumber);
+        getTimeAndMoneyController().submitDocument(versionedDocNumber);
+
+        Assert.assertTrue(document.getAward().getObligatedTotalDirect().compareTo(new ScaleTwoDecimal(1100.05)) == 0);
+        Assert.assertTrue(document.getAward().getObligatedTotalIndirect().compareTo(new ScaleTwoDecimal(1100)) == 0);
+
+        Assert.assertTrue(document.getAward().getAnticipatedTotalDirect().compareTo(new ScaleTwoDecimal(1100.05)) == 0);
+        Assert.assertTrue(document.getAward().getAnticipatedTotalIndirect().compareTo(new ScaleTwoDecimal(1100)) == 0);
+
+        AwardDocument awardDocument = getAwardController().getAwardDocumentById(newAwardDto.getAwardId());
+
+    }
+
     public java.sql.Date getDate(int year, int month, int day) {
         Calendar cal = Calendar.getInstance();
         cal.set( cal.YEAR, year );
@@ -311,6 +365,134 @@ public class AwardDocumentControllerTest extends KcIntegrationTestBase {
 
     public AwardController getAwardController() throws IntrospectionException {
         return KcServiceLocator.getService(AwardController.class);
+    }
+
+    public TimeAndMoneyController getTimeAndMoneyController() throws IntrospectionException {
+        return KcServiceLocator.getService(TimeAndMoneyController.class);
+    }
+
+    public String getTimeAndMoneyNewVersion() {
+        return "{\n" +
+                "    \"transactionDetails\": [\n" +
+                "    {\n" +
+                "      \"comments\": \"test\",\n" +
+                "      \"sourceAwardNumber\": \"000000-00000\",\n" +
+                "      \"destinationAwardNumber\": \"000536-00001\",\n" +
+                "      \"transactionDetailType\": \"PRIMARY\",\n" +
+                "      \"obligatedDirectAmount\": 500,\n" +
+                "      \"obligatedIndirectAmount\": 500,\n" +
+                "      \"anticipatedDirectAmount\": 500,\n" +
+                "      \"anticipatedIndirectAmount\": 500\n" +
+                "    }],\n" +
+                "    \"awardAmountTransactions\" : [\n" +
+                "        {\n" +
+                "            \"transactionTypeCode\":\"9\"\n" +
+                "        }\n" +
+                "    ]\n" +
+                "   }";
+    }
+
+    public String getFirsTimeAndMoney() {
+
+        return "{\n" +
+                "    \"awardId\" : \"26965\",\n" +
+                "    \"transactionDetails\": [\n" +
+                "    {\n" +
+                "      \"comments\": \"test\",\n" +
+                "      \"sourceAwardNumber\": \"000000-00000\",\n" +
+                "      \"destinationAwardNumber\": \"000530-00001\",\n" +
+                "      \"transactionDetailType\": \"PRIMARY\",\n" +
+                "      \"obligatedDirectAmount\": 500,\n" +
+                "      \"obligatedIndirectAmount\": 500,\n" +
+                "      \"anticipatedDirectAmount\": 500,\n" +
+                "      \"anticipatedIndirectAmount\": 500\n" +
+                "    }],\n" +
+               "\"awardAmountTransactions\" : [\n" +
+                "        {\n" +
+                "            \"transactionTypeCode\":\"1\"\n" +
+                "        }\n" +
+                "    ]" +
+                "\n" +
+                "   }";
+    }
+
+    public String getawardJsonRequiredForTimeAndMoney() {
+        return "{\n" +
+                "      \"primeSponsorCode\":\"000340\",\n" +
+                "      \"unitNumber\":\"000001\",\n" +
+                "      \"sponsorCode\":\"000340\",\n" +
+                "      \"statusCode\":\"1\",\n" +
+                "      \"accountNumber\":\"123456\",\n" +
+                "      \"anticipatedTotalDirect\": \"100.05\",\n" +
+                "      \"anticipatedTotalIndirect\":\"100\",\n" +
+                "      \"obligatedTotalDirect\":\"100.05\",\n" +
+                "      \"obligatedTotalIndirect\":\"100\",\n" +
+                "      \"obligationStartDate\":\"01/11/2008\",\n" +
+                "      \"obligationEndDate\":\"30/11/2008\",\n" +
+                "      \"awardExecutionDate\":\"4/11/2008\",\n" +
+                "      \"preAwardEffectiveDate\":\"3/11/2008\",\n" +
+                "      \"beginDate\":\"3/11/2008\",\n" +
+                "      \"awardEffectiveDate\":\"1/11/2008\",\n" +
+                "      \"projectEndDate\":\"30/11/2008\",\n" +
+                "      \"closeoutDate\":\"3/11/2008\",\n" +
+                "      \"procurementPriorityCode\":\"1\",\n" +
+                "      \"sponsorAwardNumber\":null,\n" +
+                "      \"awardTypeCode\":\"5\",\n" +
+                "      \"accountTypeCode\":\"1\",\n" +
+                "      \"activityTypeCode\":\"1\",\n" +
+                "      \"preAwardAuthorizedAmount\":\"100\",\n" +
+                "      \"cfdaNumber\":\"00.000\",\n" +
+                "      \"methodOfPaymentCode\":\"1\",\n" +
+                "      \"title\":\"APPLICATION OF MECHANICAL VIBRATION TO ENHANCE ORTHODONTIC TOOTH MOVEMENT\",\n" +
+                "      \"basisOfPaymentCode\":\"1\",\n" +
+                "      \"awardTransactionTypeCode\":\"1\",\n" +
+                "      \"noticeDate\":\"3/11/2008\",\n" +
+                "      \"leadUnitNumber\": \"000001\",\n" +
+                "      \"projectPersons\": [\n" +
+                "         {\n" +
+                "        \"personId\" : \"10000000018\",\n" +
+                "        \"roleCode\": \"PI\"\n" +
+                "         }" +
+                "    ],\n" +
+                "     \"awardCustomDataList\": [\n" +
+                "        {\n" +
+                "            \"customAttributeId\" : \"1\",\n" +
+                "            \"value\" : \"2\"\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"customAttributeId\" : \"4\",\n" +
+                "            \"value\" : \"2\"\n" +
+                "        }\n" +
+                "        ],\n" +
+                "     \"awardSponsorTerms\" : [\n" +
+                "        {\"sponsorTermId\":\"307\"}, {\"sponsorTermId\":\"308\"}, {\"sponsorTermId\":\"309\"},\n" +
+                "         {\"sponsorTermId\":\"310\"}, {\"sponsorTermId\":\"311\"}, {\"sponsorTermId\":\"312\"},\n" +
+                "         {\"sponsorTermId\":\"313\"}, {\"sponsorTermId\":\"314\"}, {\"sponsorTermId\":\"315\"}         ],\n" +
+                "    \"awardReportTerms\" : [\n" +
+                "         {\n" +
+                "             \"reportClassCode\":\"1\",\n" +
+                "             \"reportCode\":\"33\",\n" +
+                "             \"frequencyCode\":\"7\",\n" +
+                "             \"frequencyBaseCode\":\"3\",\n" +
+                "             \"ospDistributionCode\":\"4\",\n" +
+                "             \"dueDate\":\"3/11/2015\"\n" +
+                "         }, \n" +
+                "         {\n" +
+                "             \"reportClassCode\":\"3\",\n" +
+                "             \"reportCode\":\"7\",\n" +
+                "             \"frequencyCode\":\"6\",\n" +
+                "             \"frequencyBaseCode\":\"2\",\n" +
+                "             \"ospDistributionCode\":\"4\",\n" +
+                "            \"dueDate\":\"3/11/2015\"\n" +
+                "         }\n" +
+                "         ],\n" +
+                "         \"awardSponsorContacts\" : [\n" +
+                "             {\n" +
+                "             \"rolodexId\" : \"132\",\n" +
+                "             \"roleCode\" : \"1\"\n" +
+                "             }\n" +
+                "             ]\n" +
+                "   }";
     }
 
     public String getPersonsJson() {

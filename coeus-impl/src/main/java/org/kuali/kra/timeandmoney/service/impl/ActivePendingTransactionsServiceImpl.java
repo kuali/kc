@@ -253,6 +253,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
             List<Award> awardItems, PendingTransaction pendingTransaction, Map<String, AwardHierarchyNode> awardHierarchyNodes,
             AwardHierarchyNode destinationAwardNode) {
             //this logic when coming from external source to root Award.
+
         if(StringUtils.equalsIgnoreCase(pendingTransaction.getDestinationAwardNumber(), destinationAwardNode.getRootAwardNumber())){
             handleTransaction(pendingTransaction, destinationAwardNode.getAwardNumber(), awardAmountTransactionItems, awardItems
                     , updatedPendingTransactions, newAwardAmountTransaction, doc.getDocumentNumber(), updatedDestinationDownNodeAmountInfoFunc);

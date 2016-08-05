@@ -1250,14 +1250,6 @@
 		<reference-descriptor name="award" class-ref="org.kuali.kra.award.home.Award" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="awardId"/>
 		</reference-descriptor>
-		<!-- 
-		<collection-descriptor name="awardBudgetInfo" proxy="true" element-class-ref="org.kuali.kra.award.home.AwardBudgetInfo" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
-			<inverse-foreignkey field-ref="awardAmountInfoId"/>
-		</collection-descriptor>
-		<collection-descriptor name="awardAmtFnaDistribution" proxy="true" element-class-ref="org.kuali.kra.award.home.AwardAmtFnaDistribution" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
-			<inverse-foreignkey field-ref="awardAmountInfoId"/>
-		</collection-descriptor>
-		-->
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.award.customdata.AwardCustomData" table="AWARD_CUSTOM_DATA">

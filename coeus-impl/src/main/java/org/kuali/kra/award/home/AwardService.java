@@ -116,5 +116,8 @@ public interface AwardService {
 
     public String getRootAwardNumber(String awardNumber);
 
+    public void createInitialAwardUsers(Award award);
+
+    public void updateCurrentAwardAmountInfo(Award award);
 
     }

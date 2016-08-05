@@ -25,6 +25,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.kuali.coeus.award.finance.*;
 import org.kuali.coeus.instprop.impl.api.customSerializers.CustomSqlDateSerializer;
+import org.kuali.coeus.instprop.impl.api.customSerializers.ScaleTwoDecimalSerializer;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.award.contacts.AwardSponsorContact;
 import org.kuali.kra.award.home.*;
@@ -50,6 +51,8 @@ public class AwardDto {
     private Date awardExecutionDate;
     @JsonDeserialize(using = CustomSqlDateSerializer.class)
     private Date beginDate;
+    @JsonDeserialize(using = CustomSqlDateSerializer.class)
+    private Date obligationStartDate;
     @JsonDeserialize(using = CustomSqlDateSerializer.class)
     private Date projectEndDate;
     private String costSharingIndicator;
@@ -98,10 +101,21 @@ public class AwardDto {
     private Date preAwardEffectiveDate;
     private ScaleTwoDecimal preAwardInstitutionalAuthorizedAmount;
     @JsonDeserialize(using = CustomSqlDateSerializer.class)
+    private Date obligationEndDate;
+    @JsonDeserialize(using = CustomSqlDateSerializer.class)
     private Date preAwardInstitutionalEffectiveDate;
     private String procurementPriorityCode;
     private ScaleTwoDecimal specialEbRateOffCampus;
     private ScaleTwoDecimal specialEbRateOnCampus;
+    @JsonDeserialize(using = ScaleTwoDecimalSerializer.class)
+    private ScaleTwoDecimal anticipatedTotalDirect;
+    @JsonDeserialize(using = ScaleTwoDecimalSerializer.class)
+    private ScaleTwoDecimal anticipatedTotalIndirect;
+    @JsonDeserialize(using = ScaleTwoDecimalSerializer.class)
+    private ScaleTwoDecimal obligatedTotalDirect;
+    @JsonDeserialize(using = ScaleTwoDecimalSerializer.class)
+    private ScaleTwoDecimal obligatedTotalIndirect;
+
     private String subPlanFlag;
     private String archiveLocation;
     @JsonDeserialize(using = CustomSqlDateSerializer.class)
@@ -815,5 +829,53 @@ public class AwardDto {
 
     public void setBudgets(List<AwardBudgetExtDto> budgets) {
         this.budgets = budgets;
+    }
+
+    public Date getObligationEndDate() {
+        return obligationEndDate;
+    }
+
+    public void setObligationEndDate(Date obligationEndDate) {
+        this.obligationEndDate = obligationEndDate;
+    }
+
+    public ScaleTwoDecimal getObligatedTotalIndirect() {
+        return obligatedTotalIndirect;
+    }
+
+    public void setObligatedTotalIndirect(ScaleTwoDecimal obligatedTotalIndirect) {
+        this.obligatedTotalIndirect = obligatedTotalIndirect;
+    }
+
+    public ScaleTwoDecimal getAnticipatedTotalDirect() {
+        return anticipatedTotalDirect;
+    }
+
+    public void setAnticipatedTotalDirect(ScaleTwoDecimal anticipatedTotalDirect) {
+        this.anticipatedTotalDirect = anticipatedTotalDirect;
+    }
+
+    public ScaleTwoDecimal getAnticipatedTotalIndirect() {
+        return anticipatedTotalIndirect;
+    }
+
+    public void setAnticipatedTotalIndirect(ScaleTwoDecimal anticipatedTotalIndirect) {
+        this.anticipatedTotalIndirect = anticipatedTotalIndirect;
+    }
+
+    public ScaleTwoDecimal getObligatedTotalDirect() {
+        return obligatedTotalDirect;
+    }
+
+    public void setObligatedTotalDirect(ScaleTwoDecimal obligatedTotalDirect) {
+        this.obligatedTotalDirect = obligatedTotalDirect;
+    }
+
+    public Date getObligationStartDate() {
+        return obligationStartDate;
+    }
+
+    public void setObligationStartDate(Date obligationStartDate) {
+        this.obligationStartDate = obligationStartDate;
     }
 }

@@ -23,8 +23,8 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.timeandmoney.service.TimeAndMoneyExistenceService;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
+import org.kuali.kra.timeandmoney.service.TimeAndMoneyExistenceService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -39,7 +39,9 @@ public class TimeAndMoneyExistenceServiceImpl implements TimeAndMoneyExistenceSe
     private KcWorkflowService kraWorkflowService;
     private DocumentService documentService;
     private BusinessObjectService businessObjectService;
-    
+
+    public static final String ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST = "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST";
+
     public boolean validateTimeAndMoneyRule(Award award, String rootAwardNumber) throws WorkflowException {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("rootAwardNumber", rootAwardNumber);

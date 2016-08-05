@@ -133,7 +133,7 @@ public class CommonApiServiceImpl implements CommonApiService {
         try {
             getDocumentService().routeDocument(document, "", new ArrayList<>());
         } catch (ValidationException | WorkflowException e) {
-            throw new UnprocessableEntityException(e.getMessage(), e);
+            throw new UnprocessableEntityException(getValidationErrors(), e);
         }
     }
 

@@ -16,17 +16,14 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.kra.award.web.struts.action;
-
-import static org.junit.Assert.*;
+package org.kuali.kra.award.home;
 
 import org.junit.Test;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.kra.award.home.Award;
-import org.kuali.kra.award.home.AwardAmountInfo;
-import org.kuali.kra.award.home.AwardConstants;
 
-public class AwardHomeActionTest {
+import static org.junit.Assert.assertEquals;
+
+public class AwardServiceTest {
 	
 	
 
@@ -38,20 +35,20 @@ public class AwardHomeActionTest {
 		ScaleTwoDecimal anticipatedTotalIndirect = new ScaleTwoDecimal(1500.00);
 		ScaleTwoDecimal obligatedTotalDirect = new ScaleTwoDecimal(10000.00);
 		ScaleTwoDecimal obligatedTotalIndirect = new ScaleTwoDecimal(1000.00);
-		AwardHomeAction action = new AwardHomeAction() {
-			@Override
-			public boolean isDirectIndirectViewEnabled() {
-				return true;
-			}
-			@Override
-			protected Award getActiveAwardVersion(Award award) {
-				return null;
-			}
-		};
+        AwardService awardService = new AwardServiceImpl(){
+            @Override
+            public boolean isDirectIndirectViewEnabled() {
+                return true;
+            }
+            @Override
+            protected Award getActiveAwardVersion(Award award) {
+                return null;
+            }
+        };
 		
 		Award award = createAwardWithDirectIndirectAmounts(anticipatedTotalDirect, anticipatedTotalIndirect,
 				obligatedTotalDirect, obligatedTotalIndirect);
-		action.updateCurrentAwardAmountInfo(award);
+		awardService.updateCurrentAwardAmountInfo(award);
 		
 		assertEquals(anticipatedTotalDirect.add(anticipatedTotalIndirect), award.getLastAwardAmountInfo().getAntDistributableAmount());
 		assertEquals(anticipatedTotalDirect.add(anticipatedTotalIndirect), award.getLastAwardAmountInfo().getAnticipatedChange());
@@ -80,20 +77,20 @@ public class AwardHomeActionTest {
 		ScaleTwoDecimal anticipatedTotalIndirect = new ScaleTwoDecimal(1500.00);
 		ScaleTwoDecimal obligatedTotalDirect = new ScaleTwoDecimal(10000.00);
 		ScaleTwoDecimal obligatedTotalIndirect = new ScaleTwoDecimal(1000.00);
-		AwardHomeAction action = new AwardHomeAction() {
-			@Override
-			public boolean isDirectIndirectViewEnabled() {
-				return true;
-			}
-			@Override
-			protected Award getActiveAwardVersion(Award award) {
-				return null;
-			}
-		};
+        AwardService awardService = new AwardServiceImpl(){
+            @Override
+            public boolean isDirectIndirectViewEnabled() {
+                return true;
+            }
+            @Override
+            protected Award getActiveAwardVersion(Award award) {
+                return null;
+            }
+        };
 		
 		Award award = createAwardWithDirectIndirectAmounts(anticipatedTotalDirect, anticipatedTotalIndirect,
 				obligatedTotalDirect, obligatedTotalIndirect);
-		action.updateCurrentAwardAmountInfo(award);
+		awardService.updateCurrentAwardAmountInfo(award);
 		
 		assertEquals(anticipatedTotalDirect.add(anticipatedTotalIndirect), award.getLastAwardAmountInfo().getAntDistributableAmount());
 		assertEquals(anticipatedTotalDirect.add(anticipatedTotalIndirect), award.getLastAwardAmountInfo().getAnticipatedChange());
@@ -122,20 +119,20 @@ public class AwardHomeActionTest {
 		ScaleTwoDecimal anticipatedTotalIndirect = new ScaleTwoDecimal(1500.00);
 		ScaleTwoDecimal obligatedTotalDirect = new ScaleTwoDecimal(10000.00);
 		ScaleTwoDecimal obligatedTotalIndirect = new ScaleTwoDecimal(1000.00);
-		AwardHomeAction action = new AwardHomeAction() {
-			@Override
-			public boolean isDirectIndirectViewEnabled() {
-				return true;
-			}
-			@Override
-			protected Award getActiveAwardVersion(Award award) {
-				return previousAward;
-			}
-		};
+        AwardService awardService = new AwardServiceImpl(){
+            @Override
+            public boolean isDirectIndirectViewEnabled() {
+                return true;
+            }
+            @Override
+            protected Award getActiveAwardVersion(Award award) {
+                return previousAward;
+            }
+        };
 		
 		Award award = createAwardWithDirectIndirectAmounts(anticipatedTotalDirect, anticipatedTotalIndirect,
 				obligatedTotalDirect, obligatedTotalIndirect);
-		action.updateCurrentAwardAmountInfo(award);
+		awardService.updateCurrentAwardAmountInfo(award);
 		
 		assertEquals(obligatedTotalDirect.add(obligatedTotalIndirect), award.getLastAwardAmountInfo().getObliDistributableAmount());
 		assertEquals(obligatedTotalDirect.add(obligatedTotalIndirect), award.getLastAwardAmountInfo().getAmountObligatedToDate());
@@ -165,16 +162,16 @@ public class AwardHomeActionTest {
 		ScaleTwoDecimal anticipatedTotalIndirect = new ScaleTwoDecimal(1500.00);
 		ScaleTwoDecimal obligatedTotalDirect = new ScaleTwoDecimal(10000.00);
 		ScaleTwoDecimal obligatedTotalIndirect = new ScaleTwoDecimal(1000.00);
-		AwardHomeAction action = new AwardHomeAction() {
-			@Override
-			public boolean isDirectIndirectViewEnabled() {
-				return true;
-			}
-			@Override
-			protected Award getActiveAwardVersion(Award award) {
-				return null;
-			}
-		};
+        AwardService awardService = new AwardServiceImpl(){
+            @Override
+            public boolean isDirectIndirectViewEnabled() {
+                return true;
+            }
+            @Override
+            protected Award getActiveAwardVersion(Award award) {
+                return null;
+            }
+        };
 		
 		Award award = new Award();
 		award.setAwardNumber(Award.DEFAULT_AWARD_NUMBER);
@@ -185,7 +182,7 @@ public class AwardHomeActionTest {
 		award.getLastAwardAmountInfo().setAnticipatedTotalIndirect(anticipatedTotalIndirect);
 		award.getLastAwardAmountInfo().setObligatedTotalDirect(obligatedTotalDirect);
 		award.getLastAwardAmountInfo().setObligatedTotalIndirect(obligatedTotalIndirect);
-		action.updateCurrentAwardAmountInfo(award);
+		awardService.updateCurrentAwardAmountInfo(award);
 		
 		assertEquals(obligatedTotalDirect.add(obligatedTotalIndirect), award.getLastAwardAmountInfo().getObliDistributableAmount());
 		assertEquals(obligatedTotalDirect.add(obligatedTotalIndirect), award.getLastAwardAmountInfo().getAmountObligatedToDate());
@@ -211,17 +208,17 @@ public class AwardHomeActionTest {
 		
 		ScaleTwoDecimal anticipated = new ScaleTwoDecimal(15000.00);
 		ScaleTwoDecimal obligated = new ScaleTwoDecimal(10000.00);
-		AwardHomeAction action = new AwardHomeAction() {
-			@Override
-			public boolean isDirectIndirectViewEnabled() {
-				return false;
-			}
-			@Override
-			protected Award getActiveAwardVersion(Award award) {
-				return null;
-			}
-		};
-		
+
+        AwardService awardService = new AwardServiceImpl(){
+            @Override
+            public boolean isDirectIndirectViewEnabled() {
+                return false;
+            }
+            @Override
+            protected Award getActiveAwardVersion(Award award) {
+                return null;
+            }
+        };
 		Award award = new Award();
 		award.setAwardNumber(Award.DEFAULT_AWARD_NUMBER);
 		award.getAwardAmountInfos().add(previousAwardAmountInfo);
@@ -229,7 +226,7 @@ public class AwardHomeActionTest {
 		
 		award.getLastAwardAmountInfo().setAnticipatedTotalAmount(anticipated);
 		award.getLastAwardAmountInfo().setAmountObligatedToDate(obligated);
-		action.updateCurrentAwardAmountInfo(award);
+		awardService.updateCurrentAwardAmountInfo(award);
 		
 		assertEquals(obligated, award.getLastAwardAmountInfo().getObliDistributableAmount());
 		assertEquals(obligated, award.getLastAwardAmountInfo().getAmountObligatedToDate());
@@ -245,16 +242,16 @@ public class AwardHomeActionTest {
 	public void testUpdateCurrentAwardAmountInfo_newAward() {
 		ScaleTwoDecimal anticipated = new ScaleTwoDecimal(15000.00);
 		ScaleTwoDecimal obligated = new ScaleTwoDecimal(10000.00);
-		AwardHomeAction action = new AwardHomeAction() {
-			@Override
-			public boolean isDirectIndirectViewEnabled() {
-				return false;
-			}
-			@Override
-			protected Award getActiveAwardVersion(Award award) {
-				return null;
-			}
-		};
+        AwardService awardService = new AwardServiceImpl(){
+            @Override
+            public boolean isDirectIndirectViewEnabled() {
+                return false;
+            }
+            @Override
+            protected Award getActiveAwardVersion(Award award) {
+                return null;
+            }
+        };
 		
 		Award award = new Award();
 		award.setAwardNumber(PARENT_OF_ROOT_AWARD_NUMBER);
@@ -262,7 +259,7 @@ public class AwardHomeActionTest {
 		
 		award.getLastAwardAmountInfo().setAnticipatedTotalAmount(anticipated);
 		award.getLastAwardAmountInfo().setAmountObligatedToDate(obligated);
-		action.updateCurrentAwardAmountInfo(award);
+		awardService.updateCurrentAwardAmountInfo(award);
 		
 		assertEquals(obligated, award.getLastAwardAmountInfo().getObliDistributableAmount());
 		assertEquals(obligated, award.getLastAwardAmountInfo().getAmountObligatedToDate());

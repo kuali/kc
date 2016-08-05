@@ -62,6 +62,9 @@ public class TimeAndMoneyAwardDateSaveRuleImpl extends KcTransactionalDocumentRu
             Date obligatedStartDate = awardHierarchyNode.getValue().getCurrentFundEffectiveDate();
             Date obligatedEndDate = awardHierarchyNode.getValue().getObligationExpirationDate();
             Date projectEndDate = awardHierarchyNode.getValue().getFinalExpirationDate();
+            if(aai.getAward() == null) {
+                aai.refreshReferenceObject("award");
+            }
             Date projectStartDate = aai.getAward().getAwardEffectiveDate();
             ScaleTwoDecimal obligatedTotal = awardHierarchyNode.getValue().getAmountObligatedToDate();
             

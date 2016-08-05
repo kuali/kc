@@ -19,20 +19,32 @@
 package org.kuali.kra.award.home;
 
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
+import org.kuali.coeus.common.framework.auth.SystemAuthorizationService;
+import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
 import org.kuali.coeus.common.framework.version.VersionException;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.VersioningService;
 import org.kuali.coeus.common.framework.version.history.VersionHistory;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardNumberService;
 import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.award.dao.AwardDao;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.infrastructure.AwardRoleConstants;
 import org.kuali.kra.award.notesandattachments.attachments.AwardAttachment;
+import org.kuali.kra.award.version.service.AwardVersionService;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.*;
 
@@ -53,13 +65,102 @@ public class AwardServiceImpl implements AwardService {
     private SponsorHierarchyService sponsorHierarchyService;
     private AwardNumberService awardNumberService;
 
+    @Autowired
+    @Qualifier("awardVersionService")
+    private AwardVersionService awardVersionService;
+
+    @Autowired
+    @Qualifier("parameterService")
+    private ParameterService parameterService;
+
     public List<Award> findAwardsForAwardNumber(String awardNumber) {
         return new ArrayList<>(businessObjectService.findMatchingOrderBy(Award.class,
                 Collections.singletonMap(AWARD_NUMBER, awardNumber),
                                                                 SEQUENCE_NUMBER,
                                                                 true));
-    }    
-    
+    }
+
+    public void createInitialAwardUsers(Award award) {
+        String userId = GlobalVariables.getUserSession().getPrincipalId();
+        KcAuthorizationService kraAuthService = KcServiceLocator.getService(KcAuthorizationService.class);
+        SystemAuthorizationService systemAuthorizationService = KcServiceLocator.getService(SystemAuthorizationService.class);
+        if (!systemAuthorizationService.hasRole(userId, award.getNamespace(), AwardRoleConstants.AWARD_MODIFIER.getAwardRole())) {
+            kraAuthService.addDocumentLevelRole(userId, AwardRoleConstants.AWARD_MODIFIER.getAwardRole(), award);
+        }
+    }
+
+
+    protected void setTotalsOnAward(final Award award) {
+        final AwardAmountInfo aai = award.getLastAwardAmountInfo();
+        if (aai == null) {
+            return;
+        }
+
+        final ScaleTwoDecimal obligatedDirectTotal     = aai.getObligatedTotalDirect() != null ? aai.getObligatedTotalDirect() : new ScaleTwoDecimal(0);
+        final ScaleTwoDecimal obligatedIndirectTotal   = aai.getObligatedTotalIndirect() != null ? aai.getObligatedTotalIndirect() : new ScaleTwoDecimal(0);
+        final ScaleTwoDecimal anticipatedDirectTotal   = aai.getAnticipatedTotalDirect() != null ? aai.getAnticipatedTotalDirect() : new ScaleTwoDecimal(0);
+        final ScaleTwoDecimal anticipatedIndirectTotal = aai.getAnticipatedTotalIndirect() != null ? aai.getAnticipatedTotalIndirect() : new ScaleTwoDecimal(0);
+
+        aai.setAmountObligatedToDate(obligatedDirectTotal.add(obligatedIndirectTotal));
+        aai.setAnticipatedTotalAmount(anticipatedDirectTotal.add(anticipatedIndirectTotal));
+    }
+
+    protected Award getActiveAwardVersion(Award award) {
+        return awardVersionService.getActiveAwardVersion(award.getAwardNumber());
+    }
+
+    public boolean isDirectIndirectViewEnabled() {
+        boolean returnValue = false;
+        String directIndirectEnabledValue = parameterService.getParameterValueAsString(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST");
+        if(directIndirectEnabledValue.equals("1")) {
+            returnValue = true;
+        }
+        return returnValue;
+    }
+
+    protected AwardAmountInfo getPreviousAwardAmountInfo(Award award) {
+        int awardAmountInfosSize = award.getAwardAmountInfos().size();
+        if (awardAmountInfosSize > 1) {
+            int previousAwardAmountInfoIndex = awardAmountInfosSize - 2;
+            return award.getAwardAmountInfos().get(previousAwardAmountInfoIndex);
+        } else {
+            Award oldAward = getActiveAwardVersion(award);
+            return oldAward != null ? oldAward.getLastAwardAmountInfo() : null;
+        }
+    }
+
+    public void updateCurrentAwardAmountInfo(Award award) {
+        if (award.getAwardNumber().endsWith(Award.DEFAULT_AWARD_NUMBER)
+                || award.getAwardNumber().endsWith(AwardConstants.ROOT_AWARD_SUFFIX)) {
+            AwardAmountInfo currentAwardAmountInfo = award.getLastAwardAmountInfo();
+            AwardAmountInfo previousAwardAmountInfo = getPreviousAwardAmountInfo(award);
+
+            if (isDirectIndirectViewEnabled()) {
+                setTotalsOnAward(award);
+            }
+
+            if (previousAwardAmountInfo != null) {
+                currentAwardAmountInfo.setObligatedChange(currentAwardAmountInfo.getAmountObligatedToDate().subtract(previousAwardAmountInfo.getAmountObligatedToDate()));
+                currentAwardAmountInfo.setObligatedChangeDirect(currentAwardAmountInfo.getObligatedTotalDirect().subtract(previousAwardAmountInfo.getObligatedTotalDirect()));
+                currentAwardAmountInfo.setObligatedChangeIndirect(currentAwardAmountInfo.getObligatedTotalIndirect().subtract(previousAwardAmountInfo.getObligatedTotalIndirect()));
+                currentAwardAmountInfo.setAnticipatedChange(currentAwardAmountInfo.getAnticipatedTotalAmount().subtract(previousAwardAmountInfo.getAnticipatedTotalAmount()));
+                currentAwardAmountInfo.setAnticipatedChangeDirect(currentAwardAmountInfo.getAnticipatedTotalDirect().subtract(previousAwardAmountInfo.getAnticipatedTotalDirect()));
+                currentAwardAmountInfo.setAnticipatedChangeIndirect(currentAwardAmountInfo.getAnticipatedTotalIndirect().subtract(previousAwardAmountInfo.getAnticipatedTotalIndirect()));
+                currentAwardAmountInfo.setObliDistributableAmount(previousAwardAmountInfo.getObliDistributableAmount().add(currentAwardAmountInfo.getObligatedChange()));
+                currentAwardAmountInfo.setAntDistributableAmount(previousAwardAmountInfo.getAntDistributableAmount().add(currentAwardAmountInfo.getAnticipatedChange()));
+            } else {
+                currentAwardAmountInfo.setObligatedChange(currentAwardAmountInfo.getAmountObligatedToDate());
+                currentAwardAmountInfo.setObligatedChangeDirect(currentAwardAmountInfo.getObligatedTotalDirect());
+                currentAwardAmountInfo.setObligatedChangeIndirect(currentAwardAmountInfo.getObligatedTotalIndirect());
+                currentAwardAmountInfo.setAnticipatedChange(currentAwardAmountInfo.getAnticipatedTotalAmount());
+                currentAwardAmountInfo.setAnticipatedChangeDirect(currentAwardAmountInfo.getAnticipatedTotalDirect());
+                currentAwardAmountInfo.setAnticipatedChangeIndirect(currentAwardAmountInfo.getAnticipatedTotalIndirect());
+                currentAwardAmountInfo.setObliDistributableAmount(currentAwardAmountInfo.getAmountObligatedToDate());
+                currentAwardAmountInfo.setAntDistributableAmount(currentAwardAmountInfo.getAnticipatedTotalAmount());
+            }
+        }
+    }
+
     @Override
     public Award getAward(Long awardId) {
         return awardId != null ? businessObjectService.findByPrimaryKey(Award.class,
@@ -310,5 +411,13 @@ public class AwardServiceImpl implements AwardService {
 
     public void setAwardNumberService(AwardNumberService awardNumberService) {
         this.awardNumberService = awardNumberService;
+    }
+
+    public void setAwardVersionService(AwardVersionService awardVersionService) {
+        this.awardVersionService = awardVersionService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 }

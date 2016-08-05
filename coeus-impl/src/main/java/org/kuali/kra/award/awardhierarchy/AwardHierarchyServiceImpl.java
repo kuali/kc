@@ -572,7 +572,8 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         return versioningService.createNewVersion(award);
     }
 
-    public void populateAwardHierarchyNodes(Map<String, AwardHierarchy> awardHierarchyItems, Map<String, AwardHierarchyNode> awardHierarchyNodes, String currentAwardNumber, String currentSequenceNumber) {
+    public void populateAwardHierarchyNodes(Map<String, AwardHierarchy> awardHierarchyItems, Map<String, AwardHierarchyNode> awardHierarchyNodes, String currentAwardNumber,
+                                                String currentSequenceNumber) {
         AwardHierarchyNode awardHierarchyNode;
         String tmpAwardNumber = null;
         
@@ -639,9 +640,10 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         return returnVal;
     }
 
-    public void populateAwardHierarchyNodesForTandMDoc(Map<String, AwardHierarchy> awardHierarchyItems, Map<String, AwardHierarchyNode> awardHierarchyNodes, String currentAwardNumber, String currentSequenceNumber, TimeAndMoneyDocument timeAndMoneyDocument) {
+    public void populateAwardHierarchyNodesForTandMDoc(Map<String, AwardHierarchy> awardHierarchyItems, Map<String, AwardHierarchyNode> awardHierarchyNodes,
+                                                       String currentAwardNumber, String currentSequenceNumber, TimeAndMoneyDocument timeAndMoneyDocument) {
         AwardHierarchyNode awardHierarchyNode;
-        String tmpAwardNumber = null;
+        String tmpAwardNumber;
         Map<String, Award> activeAwardsInHierarchy = awardVersionService.getAllActiveAwardsForHierarchy(currentAwardNumber).stream().collect(Collectors.toMap(Award::getAwardNumber, award -> award));
         for(Entry<String, AwardHierarchy> awardHierarchy:awardHierarchyItems.entrySet()) {
             tmpAwardNumber = awardHierarchy.getValue().getAwardNumber();

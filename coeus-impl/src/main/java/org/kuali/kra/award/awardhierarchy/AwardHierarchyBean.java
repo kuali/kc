@@ -79,6 +79,9 @@ public class AwardHierarchyBean implements Serializable {
         init();
     }
 
+    public AwardHierarchyBean() {
+    }
+
     /**
      * C'tor mostly for testing
      * @param awardForm
@@ -206,19 +209,18 @@ public class AwardHierarchyBean implements Serializable {
         return getAwardHierarchyService().getAwardHierarchy(awardNumber, order);
     }
 
-    public void createDefaultAwardHierarchy() {
-        String awardNumber = awardForm.getAwardDocument().getAward().getAwardNumber();
+    public void createDefaultAwardHierarchy(String parentAwardNumber, String rootAwardNumber, Award award) {
         AwardHierarchy newNode = new AwardHierarchy();
-        newNode.setAwardNumber(awardNumber);
-        newNode.setParentAwardNumber(getAwardForm().determineParentAwardNumber(awardForm));
-        newNode.setRootAwardNumber(getAwardForm().determineRootAwardNumber(awardForm));
-        newNode.setOriginatingAwardNumber(awardNumber);
-        newNode.setAward(awardForm.getAwardDocument().getAward());        
+        newNode.setAwardNumber(award.getAwardNumber());
+        newNode.setParentAwardNumber(parentAwardNumber);
+        newNode.setRootAwardNumber(rootAwardNumber);
+        newNode.setOriginatingAwardNumber(award.getAwardNumber());
+        newNode.setAward(award);
         if(newNode.isRootNode()) {
             rootNode = newNode;
-            rootNodes.put(awardNumber, newNode);
-            hierarchy = new HashMap<String, AwardHierarchy>();
-            hierarchy.put(awardNumber, newNode);
+            rootNodes.put(award.getAwardNumber(), newNode);
+            hierarchy = new HashMap<>();
+            hierarchy.put(award.getAwardNumber(), newNode);
         }
     }    
 
@@ -232,7 +234,6 @@ public class AwardHierarchyBean implements Serializable {
     public AwardHierarchy getCurrentRootNode() {
         return rootNode;
     }
-
 
     public boolean saveHierarchyChanges() {
         MessageList messageList = new MessageList();

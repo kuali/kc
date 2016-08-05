@@ -1583,18 +1583,18 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
         this.reportTrackingBeans = reportTrackingBeans;
     }
     
-    public String determineRootAwardNumber(AwardForm awardForm) {
+    public String determineRootAwardNumber() {
         String prevRootAwardNumber = getPrevRootAwardNumber();
         return prevRootAwardNumber != null ? prevRootAwardNumber : getAwardDocument().getAward().getAwardNumber();
     }
 
-    public String determineParentAwardNumber(AwardForm awardForm) {
+    public String determineParentAwardNumber() {
         String prevAwardNumber = getPrevAwardNumber();
         return prevAwardNumber != null ? prevAwardNumber : Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT;
     }    
  
     // returns list of awards with the same award number and prior to or equal to this one
-    public List<Award>getAwardsForHistoryDisplay() {
+    public List<Award> getAwardsForHistoryDisplay() {
         List<Award>results = new ArrayList<Award>();
         List<Award>rawList = getAwardDocument().getAward().getAwardVersions();
         int sequenceNumber = getAwardDocument().getAward().getSequenceNumber();
