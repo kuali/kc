@@ -1,6 +1,16 @@
 
 
 ##CURRENT
+* Resops 969 time and money versioning (#1879)
+
+* T&M refactor and full save with transactions
+  * 
+* Create award hierarchy and amount infos on save and refactor associated artifacts. Start T&M versioning.
+  * 
+* Finish versioning and tests
+  * 
+* Add tests and fix existing test.
+  * Gayathri Athreya on Fri, 5 Aug 2016 09:45:47 -0700 [View Commit](../../commit/9ecfa04ec224d869a01a2e44dfd3804ff5620c45)
 * RESKC-1349: fix query
   * Travis Schneeberger on Thu, 4 Aug 2016 13:26:52 -0400 [View Commit](../../commit/43dc4158944abb5d0ceec3f60334ebe79b661ba6)
 * RESKC-1349: fix query
@@ -32,6 +42,10 @@
   * Douglas Pace on Tue, 2 Aug 2016 12:13:43 -0700 [View Commit](../../commit/6ec888c7758522e2cadaab3b29ee04ed6bd16683)
 
 ##coeus-1608.1
+* No Changes
+
+
+##coeus-1608.0010
 * No Changes
 
 
