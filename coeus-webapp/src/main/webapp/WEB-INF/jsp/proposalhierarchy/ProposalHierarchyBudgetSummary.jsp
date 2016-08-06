@@ -354,3 +354,4 @@
 		</table>
 	</c:otherwise>
 </c:choose>
+<kul:csrf />

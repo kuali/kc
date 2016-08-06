@@ -104,4 +104,5 @@
                  	window.close();
                  }
             </script>
+	<kul:csrf />
 </html:form>

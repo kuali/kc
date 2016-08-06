@@ -85,5 +85,6 @@
           </tbody>
         </table>
 </div>
+    <kul:csrf />
 </form>
 </body>

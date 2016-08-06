@@ -19,3 +19,4 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <kra-m:medusaNodeView node="${KualiForm.medusaBean.currentNode}"/>
+<kul:csrf />

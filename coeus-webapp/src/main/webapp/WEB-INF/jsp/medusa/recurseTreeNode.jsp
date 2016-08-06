@@ -18,3 +18,4 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <kra-m:medusaTreeNode node="${_node}" openned="${_openned}"/>
+<kul:csrf />

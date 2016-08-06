@@ -77,5 +77,6 @@
             </script>
  <%--           
 </kul:page>
-  --%>          
+  --%>
+	<kul:csrf />
 </html:form>

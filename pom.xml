@@ -74,7 +74,7 @@
         <commons-collections.version>3.2.2</commons-collections.version>
         <commons-collections4.version>4.0</commons-collections4.version>
         <commons-csv.version>1.4</commons-csv.version>
-        <commons-fileupload.version>1.3.1</commons-fileupload.version>
+        <commons-fileupload.version>1.3.2</commons-fileupload.version>
         <commons-httpclient.version>3.1</commons-httpclient.version>
         <commons-io.version>2.4</commons-io.version>
         <commons-lang.version>2.6</commons-lang.version>
@@ -123,7 +123,7 @@
         <pdfbox.version>1.8.6</pdfbox.version>
         <quartz.version>1.8.4</quartz.version>
         <schemaspy.version>1508.0162</schemaspy.version>
-        <rice.version>2.5.3.1603.0003-kualico</rice.version>
+        <rice.version>2.5.3.1608.0003-kualico</rice.version>
         <servlet.version>3.0.1</servlet.version>
         <slf4j.version>1.7.13</slf4j.version>
         <spring.version>3.2.13.RELEASE</spring.version>
@@ -1931,7 +1931,7 @@
 
                 <rsmart.cx.token.auth.version>1507.1</rsmart.cx.token.auth.version>
                 <rsmart.hr.rest.version>1608.0001</rsmart.hr.rest.version>
-                <kc-s3.version>1607.0010</kc-s3.version>
+                <kc-s3.version>1607.0014</kc-s3.version>
                 <kc-sql.version>1601.0002</kc-sql.version>
 
                 <scm.connection>scm:git:git://github.com/kualico/kc.git</scm.connection>

@@ -37,7 +37,7 @@ function loadMatchingTemporaryLogs() {
           	'&proposalLogTypeCode=' + (proposalLogTypeCode ? proposalLogTypeCode : '') +
           	'&proposalLogTypeCodeDescription=' + (proposalLogTypeDescription ? jQuery.trim(proposalLogTypeDescription) : '') +
           	'&piId=' + jQuery(jq_escape('document.newMaintainableObject.piId')).val() + 
-          	'&rolodexId=' + jQuery(jq_escape('document.newMaintainableObject.rolodexId')).val();
+          	'&rolodexId=' + jQuery(jq_escape('document.newMaintainableObject.rolodexId')).val() + '&csrfToken=' + jQuery('[name=csrfToken]').val();
 	  jQuery.ajax({
           url: "../mergeProposalLog.do",
           type: 'GET',

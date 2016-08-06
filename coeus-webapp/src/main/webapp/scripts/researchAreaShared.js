@@ -444,7 +444,7 @@ function loadFirstLevel() {
 				type : 'GET',
 				dataType : 'html',
 				cache : false,
-				data : 'researchAreaCode=000001&addRA=' + addRA,
+				data : 'researchAreaCode=000001&addRA=' + addRA + '&csrfToken=' + $j('[name=csrfToken]').val(),
 				async : false,
 				timeout : 1000,
 				error : function() {
@@ -1031,7 +1031,7 @@ function loadChildrenRA(nodeName, tagId) {
 					url : getResearchAreaAjaxCall(),
 					type : 'GET',
 					dataType : 'html',
-					data : 'researchAreaCode=' + getResearchAreaCode(liNode) + '&addRA=' + addRA,
+					data : 'researchAreaCode=' + getResearchAreaCode(liNode) + '&addRA=' + addRA + '&csrfToken=' + $j('[name=csrfToken]').val(),
 					cache : false,
 					async : false,
 					timeout : 1000,
@@ -1220,7 +1220,7 @@ function researchAreaExistsOnServer(researchAreaCode, ignoreNodes){
 		data : 'researchAreaCode='
 				+ researchAreaCode
 				+ '&deletedRas=' + ignoreNodes
-				+ '&addRA=Y',
+				+ '&addRA=Y' + '&csrfToken=' + $j('[name=csrfToken]').val(),
 		cache : false,
 		async : false,
 		timeout : 1000,
@@ -1272,7 +1272,7 @@ function deactivateResearchArea(id) {
 			dataType : 'html',
 			data : 'researchAreaCode='
 					+ researchAreaCode
-					+ '&addRA=I',
+					+ '&addRA=I' + '&csrfToken=' + $j('[name=csrfToken]').val(),
 			cache : false,
 			async : false,
 			timeout : 1000,
@@ -1340,7 +1340,7 @@ function deleteResearchArea(liId) {
 			dataType : 'html',
 			data : 'researchAreaCode='
 					+ researchAreaCode
-					+ '&addRA=D',
+					+ '&addRA=D' + '&csrfToken=' + $j('[name=csrfToken]').val(),
 			cache : false,
 			async : false,
 			timeout : 1000,
@@ -1381,7 +1381,7 @@ function save() {
 			type : 'GET',
 			dataType : 'html',
 			cache : false,
-			data : 'sqlScripts=' + raChanges.getChangeData() + '&addRA=S',
+			data : 'sqlScripts=' + raChanges.getChangeData() + '&addRA=S' + '&csrfToken=' + $j('[name=csrfToken]').val(),
 			async : false,
 			timeout : 1000,
 			error : function() {

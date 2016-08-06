@@ -31,6 +31,7 @@
     <kra-questionnaire:questionManagerQuestion />
     <kra-questionnaire:questionManagerResponse />
     <kra-questionnaire:questionManagerQuestionMultiChoice />
+    <kul:csrf />
 </kul:tab>
 
 <script type="text/javascript">

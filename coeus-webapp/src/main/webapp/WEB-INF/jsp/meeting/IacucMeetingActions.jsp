@@ -166,6 +166,7 @@
     <td class="column-right"><img src="static/images/pixel_clear.gif" alt="" width="20" height="20"></td>
   </tr>
 </table>
+    <kul:csrf />
 </html:form>
 <div id="formComplete"></div> 
 </body>

@@ -57,5 +57,6 @@
 	<a href="#" class="cancel globalbuttons"><img src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif" class="globalbuttons" alt="Cancel" title="Cancel"/></a>
 	</div>
 </div>
+<kul:csrf />
 </body>
 </html>

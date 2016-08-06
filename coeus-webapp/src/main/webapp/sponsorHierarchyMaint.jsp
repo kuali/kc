@@ -225,7 +225,7 @@ tbody tr:hover {
 
 
 	<!--END SOURCE CODE =============================== -->
-
+	<kul:csrf />
 </html:form>
 <div id="formComplete"></div>
 </body>

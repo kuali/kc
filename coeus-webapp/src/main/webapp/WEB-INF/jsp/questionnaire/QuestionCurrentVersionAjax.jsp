@@ -34,7 +34,8 @@
     <input type="hidden" id="questionSequence" name="questionSequence" value="${KualiForm.question.sequenceNumber}"/>
     <input type="hidden" id="displayedAnswers" name="displayedAnswers" value="${KualiForm.question.displayedAnswers}"/>
     <input type="hidden" id="maxAnswers" name="maxAnswers" value="${KualiForm.question.maxAnswers}"/>
-    <input type="hidden" id="answerMaxLength" name="answerMaxLength" value="${KualiForm.question.answerMaxLength}"/>                        
+    <input type="hidden" id="answerMaxLength" name="answerMaxLength" value="${KualiForm.question.answerMaxLength}"/>
+    <kul:csrf />
 </html:form>
 </body>
 </html>

@@ -80,7 +80,7 @@
         type: 'GET',
         dataType: 'html',
         cache: false,
-        data:'medusaBean.moduleName=' + moduleName + '&medusaBean.moduleIdentifier=' + moduleId,
+        data:'medusaBean.moduleName=' + moduleName + '&medusaBean.moduleIdentifier=' + moduleId + '&csrfToken=' + $jq('[name=csrfToken]').val(),
         async:false,
         timeout: 15000,
         context: myContext,
