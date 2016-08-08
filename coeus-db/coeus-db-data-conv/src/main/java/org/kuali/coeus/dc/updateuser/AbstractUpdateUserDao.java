@@ -38,10 +38,15 @@ public abstract class AbstractUpdateUserDao implements UpdateUserDao {
              PreparedStatement update = connection.prepareStatement(updateSql)) {
 
             while (result.next()) {
+
                 final String documentNumber = result.getString(1);
                 final String recordKey = result.getString(2);
-                final LastActionInfo lastActionInfo = lastActionInfoCache.computeIfAbsent(documentNumber, lastActionUserDao::getLastActionInfo);
-                executeUpdate(update, documentNumber, recordKey, lastActionInfo);
+                if (documentNumber != null && recordKey != null) {
+                    final LastActionInfo lastActionInfo = lastActionInfoCache.computeIfAbsent(documentNumber, lastActionUserDao::getLastActionInfo);
+                    executeUpdate(update, documentNumber, recordKey, lastActionInfo);
+                } else {
+                    LOG.severe("documentNumber or recordKey is null, documentNumber: " + String.valueOf(documentNumber) + " recordKey: " + String.valueOf(recordKey) + ", select sql: " + selectSql);
+                }
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
