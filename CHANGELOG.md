@@ -51,6 +51,14 @@
 * No Changes
 
 
+##coeus-1608.0012
+* RESKC-1349: added automatic conversion for update users
+  * Travis Schneeberger on Mon, 8 Aug 2016 10:48:49 -0400 [View Commit](../../commit/297a06f0856ccf164e73cedbd7f75c96e3a5ac20)
+* RESKC-1554: updating rice, adding kr-sys component
+  * Travis Schneeberger on Mon, 8 Aug 2016 10:35:30 -0400 [View Commit](../../commit/5b0b8cf381e85cc5208f05f1edaeda18ca8aa5f4)
+* RESKC-1554: csrf protection, updating kc-s3, rice, and fileupload dependencies
+  * Travis Schneeberger on Fri, 5 Aug 2016 20:00:12 -0400 [View Commit](../../commit/31f3180032008b71205e1544d72a05fcfcc74ecb)
+
 ##coeus-1608.0011
 * Resops 969 time and money versioning (#1879)
 
