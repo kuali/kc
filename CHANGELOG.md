@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1349: adding null check for conversion program
+  * Travis Schneeberger on Mon, 8 Aug 2016 12:48:52 -0400 [View Commit](../../commit/0dec078e925c9fa0c5ff23159e88da64697b9fc7)
+* Fix integration tests
+  * Gayathri Athreya on Mon, 8 Aug 2016 09:21:41 -0700 [View Commit](../../commit/e22651f86ee2c6a28b400c8d349b23f31bfef2a8)
 * RESKC-1349: added automatic conversion for update users
   * Travis Schneeberger on Mon, 8 Aug 2016 10:48:49 -0400 [View Commit](../../commit/297a06f0856ccf164e73cedbd7f75c96e3a5ac20)
 * RESKC-1554: updating rice, adding kr-sys component
@@ -48,6 +52,10 @@
   * Douglas Pace on Tue, 2 Aug 2016 12:13:43 -0700 [View Commit](../../commit/6ec888c7758522e2cadaab3b29ee04ed6bd16683)
 
 ##coeus-1608.1
+* No Changes
+
+
+##coeus-1608.0013
 * No Changes
 
 
