@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* RESKC-1349: added automatic conversion for update users
+  * Travis Schneeberger on Mon, 8 Aug 2016 10:48:49 -0400 [View Commit](../../commit/297a06f0856ccf164e73cedbd7f75c96e3a5ac20)
+* RESKC-1554: updating rice, adding kr-sys component
+  * Travis Schneeberger on Mon, 8 Aug 2016 10:35:30 -0400 [View Commit](../../commit/5b0b8cf381e85cc5208f05f1edaeda18ca8aa5f4)
+* RESKC-1554: csrf protection, updating kc-s3, rice, and fileupload dependencies
+  * Travis Schneeberger on Fri, 5 Aug 2016 20:00:12 -0400 [View Commit](../../commit/31f3180032008b71205e1544d72a05fcfcc74ecb)
 * Resops 969 time and money versioning (#1879)
 
 * T&M refactor and full save with transactions
@@ -44,6 +50,18 @@
 ##coeus-1608.1
 * No Changes
 
+
+##coeus-1608.0011
+* Resops 969 time and money versioning (#1879)
+
+* T&M refactor and full save with transactions
+  * 
+* Create award hierarchy and amount infos on save and refactor associated artifacts. Start T&M versioning.
+  * 
+* Finish versioning and tests
+  * 
+* Add tests and fix existing test.
+  * Gayathri Athreya on Fri, 5 Aug 2016 09:45:47 -0700 [View Commit](../../commit/9ecfa04ec224d869a01a2e44dfd3804ff5620c45)
 
 ##coeus-1608.0010
 * No Changes
