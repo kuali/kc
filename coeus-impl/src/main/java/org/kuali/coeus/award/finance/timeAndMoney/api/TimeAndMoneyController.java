@@ -203,8 +203,12 @@ public class TimeAndMoneyController extends RestController {
     }
 
     private void createAwardAmountTransaction(TimeAndMoneyDocument timeAndMoneyDocument, List<AwardAmountTransactionDto> awardAmountTransactions, String rootAwardNumber) {
+        if(awardAmountTransactions.size() == 0) {
+            throw new UnprocessableEntityException("T & M doc cannot processed without transaction information.");
+        }
         AwardAmountTransaction aat = commonApiService.convertObject(awardAmountTransactions.get(0), AwardAmountTransaction.class);
         aat.setAwardNumber(rootAwardNumber);
+        aat.setDocumentNumber(timeAndMoneyDocument.getDocumentNumber());
         timeAndMoneyDocument.getAwardAmountTransactions().add(aat);
     }
 
