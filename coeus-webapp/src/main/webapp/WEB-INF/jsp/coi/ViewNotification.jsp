@@ -67,5 +67,6 @@
 	    		</tr>
 	    	</tbody>
 		</table>
+		<kul:csrf />
 	</body>
 </html>

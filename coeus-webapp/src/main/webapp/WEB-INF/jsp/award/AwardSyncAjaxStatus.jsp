@@ -52,3 +52,4 @@
 			</c:forEach>   
 	    </c:if>
 	</table>
+<kul:csrf />

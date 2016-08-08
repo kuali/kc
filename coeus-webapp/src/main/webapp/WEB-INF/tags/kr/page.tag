@@ -77,7 +77,7 @@
 
 
 	<script type="text/javascript">var jsContextPath = "${pageContext.request.contextPath}";</script>
-	<title><bean:message key="app.title" /> :: ${headerTitle}</title>
+	<title><bean:message key="app.title" /> :: <c:out value="${headerTitle}"/></title>
 	<c:forEach items="${fn:split(ConfigProperties.kns.css.files, ',')}"
 		var="cssFile">
 <c:if test="${fn:length(fn:trim(cssFile)) > 0}">
@@ -174,11 +174,11 @@ jQuery(function(){
 		</c:if>
 		<c:choose>
 			<c:when test="${!empty alternativeHelp}">
-				<h1>${docTitle}<kul:help documentTypeName="${KualiForm.docTypeName}" alternativeHelp="${alternativeHelp}" altText="document help"/></h1>
+				<h1><c:out value="${docTitle}"/><kul:help documentTypeName="${KualiForm.docTypeName}" alternativeHelp="${alternativeHelp}" altText="document help"/></h1>
 			</c:when>
 			<c:otherwise>
 				<c:if test="${showDocumentInfo}">
-					<h1>${docTitle}<kul:help documentTypeName="${KualiForm.docTypeName}" altText="document help"/></h1>
+					<h1><c:out value="${docTitle}"/><kul:help documentTypeName="${KualiForm.docTypeName}" altText="document help"/></h1>
 				</c:if>
 			</c:otherwise>
 		</c:choose>
@@ -187,8 +187,9 @@ jQuery(function(){
 	<c:otherwise>
 		<c:if test="${not empty KualiForm.anchor}">
 			<c:if test="${ConfigProperties.test.mode ne 'true'}">
+				<c:set var="anchorValue"><esapi:encodeForJavaScript>${KualiForm.anchor}</esapi:encodeForJavaScript></c:set>
 				<c:set var="anchorScript"
-					value="jumpToAnchor('${KualiForm.anchor}');" />
+					   value="jumpToAnchor('${anchorValue}');" />
 			</c:if>
 		</c:if>
 		<c:if test="${empty anchorScript}">
@@ -220,7 +221,7 @@ jQuery(function(){
 		<a name="topOfForm"></a>
 		<div class="headerarea" id="headerarea">
 				<h1>
-					${docTitle}&nbsp;
+					<c:out value="${docTitle}"/>&nbsp;
 					<c:choose>
 						<c:when test="${!empty alternativeHelp}">
 							<kul:help documentTypeName="${KualiForm.docTypeName}" alternativeHelp="${alternativeHelp}" altText="document help" />
@@ -449,6 +450,7 @@ jQuery(function(){
     <html:hidden property="docNum" value="${KualiForm.document.documentNumber}" />
 </c:if>
 <kul:editablePropertiesGuid />
+<kul:csrf />
 
 </html:form>
 <div id="formComplete"></div>

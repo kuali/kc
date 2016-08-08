@@ -166,7 +166,7 @@ function fixDatePickers(listItem) {
            url: AJAX_LOCATION,
            type: 'GET',
            dataType: 'html',
-           data:'awardNumber='+awardNumber+'&addRA=' + addRA + '&' + ROOT_AWARD_LOCATION +'=' + jQuery(jq_escape(ROOT_AWARD_LOCATION)).attr("value") + '&currentAwardNumber='+ jQuery("#currentAwardNumber").attr("value") + '&currentSeqNumber='+ jQuery("#currentSeqNumber").attr("value"),
+           data:'awardNumber='+awardNumber+'&addRA=' + addRA + '&' + ROOT_AWARD_LOCATION +'=' + jQuery(jq_escape(ROOT_AWARD_LOCATION)).attr("value") + '&currentAwardNumber='+ jQuery("#currentAwardNumber").attr("value") + '&currentSeqNumber='+ jQuery("#currentSeqNumber").attr("value") + '&csrfToken=' + jQuery('[name=csrfToken]').val(),
            cache: false,
            async: true,
            timeout: 90000,

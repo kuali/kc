@@ -39,6 +39,7 @@
     <kra-questionnaire:questionnaireMaintUsage />
       </c:otherwise>
      </c:choose>
+    <kul:csrf />
 </kul:tab>
     <input type="hidden" id="maintAction" name="maintAction" value = "${KualiForm.document.newMaintainableObject.maintenanceAction}"/>
      <input type="hidden" id="docStatus" name="docStatus" value="${KualiForm.document.documentHeader.workflowDocument.status.code }"  />   

@@ -26,3 +26,4 @@ Institutional Proposal number to merge:
 <div align="center">
 <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_submit.gif" styleClass="globalbuttons" property="methodToCall.mergeToInstitutionalProposal" title="merge" alt="merge"/>
 </div>
+<kul:csrf />

@@ -33,7 +33,7 @@
 <span id = "ret_value">	${KualiForm.returnVal} </span>
 <span id = "code_value">${KualiForm.code} </span>
 
-
+<kul:csrf />
 </html:form>
 </body>
 </html>

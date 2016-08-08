@@ -185,7 +185,7 @@ function getMaintTable(description, qtypeid, vers, idx, childNode) {
 		dataType : 'html',
 		data : 'methodToCall=getQuestionMaintainTable&qidx=' + idx +'&questionId='+jQuery('#qid'+idx).attr('value')
 		       + '&moveup=' + jQuery("#qnaireid" + idx).prev().size()+ '&movedn=' + jQuery("#qnaireid" + idx).next().size()
-		       + '&childNode=' + childNode + '&response=' + response+ '&value=' + value + '&ruleId=' + ruleId + '&readOnly=' + jQuery("#readOnly").attr("value"),
+		       + '&childNode=' + childNode + '&response=' + response+ '&value=' + value + '&ruleId=' + ruleId + '&readOnly=' + jQuery("#readOnly").attr("value") + '&csrfToken=' + jQuery('[name=csrfToken]').val(),
 		cache : false,
 		async : false,
 		timeout : 1000,
@@ -2113,7 +2113,7 @@ function moduleCodeChange(moduleCode) {
 		url : 'maintenanceQn.do',
 		type : 'POST',
 		dataType : 'html',
-		data : 'methodToCall=getSubModuleCodeList&moduleCode=' + jQuery(moduleCode).val(),
+		data : 'methodToCall=getSubModuleCodeList&moduleCode=' + jQuery(moduleCode).val() + '&csrfToken=' + jQuery('[name=csrfToken]').val(),
 		cache : false,
 		async : false,
 		timeout : 1000,
@@ -2351,7 +2351,7 @@ function clickUpdateQuestionVersion(curidx) {
 		url : 'maintenanceQn.do',
 		type : 'POST',
 		dataType : 'html',
-		data : 'methodToCall=getQuestionCurrentVersion&qidx=' + curidx +'&questionId='+jQuery('#qid'+curidx).attr('value'),
+		data : 'methodToCall=getQuestionCurrentVersion&qidx=' + curidx +'&questionId='+jQuery('#qid'+curidx).attr('value') + '&csrfToken=' + jQuery('[name=csrfToken]').val(),
 		cache : false,
 		async : false,
 		timeout : 1000,

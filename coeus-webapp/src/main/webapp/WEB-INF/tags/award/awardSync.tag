@@ -52,7 +52,7 @@
 	  } else {
 		  jQuery.ajax({
 			  url:'${ConfigProperties.application.url}/awardSyncAjaxStatus.do?methodToCall=syncStatus&awardSyncBean.statusAwardNumber='+awardNumber+
-			  	'&docNum=${node.award.awardDocument.documentNumber}&formKey=${KualiForm.formKey}&docFormKey=${KualiForm.formKey}&documentWebScope=session',
+			  	'&docNum=${node.award.awardDocument.documentNumber}&formKey=${KualiForm.formKey}&docFormKey=${KualiForm.formKey}&documentWebScope=session'+ '&csrfToken=' + jQuery('[name=csrfToken]').val(),
 			  type: 'POST',
 			  datatype: 'html',
 		  	  success:function(data) {
@@ -75,7 +75,7 @@
   function loadAllLogs() {
 	  jQuery.ajax({
 		  url:'${ConfigProperties.application.url}/awardSyncAjaxLogs.do?methodToCall=getAllLogs'+
-		  	'&docNum=${node.award.awardDocument.documentNumber}&formKey=${KualiForm.formKey}&docFormKey=${KualiForm.formKey}&documentWebScope=session',
+		  	'&docNum=${node.award.awardDocument.documentNumber}&formKey=${KualiForm.formKey}&docFormKey=${KualiForm.formKey}&documentWebScope=session'+ '&csrfToken=' + jQuery('[name=csrfToken]').val(),
 		  type: 'POST',
 		  datatype: 'html',
 		  async: true,

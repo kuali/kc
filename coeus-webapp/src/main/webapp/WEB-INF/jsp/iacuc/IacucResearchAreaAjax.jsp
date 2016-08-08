@@ -35,7 +35,7 @@
 ${IacucResearchAreasForm.researchAreas}
 
 
-
+    <kul:csrf />
 </html:form>
 </body>
 </html>

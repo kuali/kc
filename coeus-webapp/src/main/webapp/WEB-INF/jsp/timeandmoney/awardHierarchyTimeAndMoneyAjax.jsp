@@ -53,6 +53,7 @@ alert ("in researchareaload ");
 
 
 <!--END SOURCE CODE =============================== -->
+    <kul:csrf />
 </html:form>
 </body>
 </html>

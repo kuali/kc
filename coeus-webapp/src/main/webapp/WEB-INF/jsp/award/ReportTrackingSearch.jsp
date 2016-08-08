@@ -383,7 +383,7 @@
 				}
 				function getDetails(link) {
 					var data = jq('form').serialize() + "&" + buildAggregateQueryString(jq(link).next('div').html()) 
-						+ "&methodToCall=getDetails";
+						+ "&methodToCall=getDetails" + '&csrfToken=' + jQuery('[name=csrfToken]').val();
 					
 		          jq.ajax({
 		              type: 'GET',
@@ -413,7 +413,7 @@
 				}
 				function moveColumns(fieldName, fieldType, newIndex) {
 					var data = jq('form').serialize() + "&" + "&methodToCall=move" + fieldType + "Columns&newColumnIndex=" + newIndex +
-					"&moveField=" + fieldName;
+					"&moveField=" + fieldName + '&csrfToken=' + jQuery('[name=csrfToken]').val();
 					console.log(data);
 		          jq.ajax({
 		              type: 'GET',

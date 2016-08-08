@@ -240,8 +240,8 @@ jQuery(function(){
 						errorTitle="Other errors:"
 						warningTitle="Other warnings:"
 						infoTitle="Other informational messages:"/>
-            </div>          
-		
+            </div>
+        <kul:csrf />
         </html:form>
         <div id="formComplete"></div> 
       </div>

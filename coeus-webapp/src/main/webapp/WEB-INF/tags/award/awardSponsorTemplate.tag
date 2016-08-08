@@ -30,7 +30,7 @@ function loadSponsorDesc(field) {
 			},
 			function() {
 				alert('Error loading XML document');
-			});			
+			},$j('[name=csrfToken]').val());
 }
 </script>
 <kul:tab tabTitle="Sponsor Template" defaultOpen="false" tabErrorKey="document.award.templateCode,document.award.awardTemplate*">

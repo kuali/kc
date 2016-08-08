@@ -515,6 +515,10 @@
             <taglib-uri>http://www.kuali.org/struts.apache.org/tags-html-el</taglib-uri>
             <taglib-location>/WEB-INF/tld/kuali-struts-html-el.tld</taglib-location>
         </taglib>
+        <taglib>
+            <taglib-uri>http://www.owasp.org/index.php/Category:OWASP_Enterprise_Security_API</taglib-uri>
+            <taglib-location>/WEB-INF/tld/esapi.tld</taglib-location>
+        </taglib>
     </jsp-config>
 
     <!-- Rice content End -->

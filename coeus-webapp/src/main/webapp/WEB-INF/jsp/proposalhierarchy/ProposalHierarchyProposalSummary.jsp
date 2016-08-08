@@ -116,3 +116,4 @@
 	</div>
 	</c:otherwise>
 </c:choose>
+<kul:csrf />

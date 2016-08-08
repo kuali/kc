@@ -139,4 +139,5 @@
 		</tr>
 	</c:if>
 </table>
+   <kul:csrf />
 </html>
