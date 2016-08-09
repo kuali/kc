@@ -55,6 +55,12 @@
 * No Changes
 
 
+##coeus-1608.0014
+* RESKC-1349: adding null check for conversion program
+  * Travis Schneeberger on Mon, 8 Aug 2016 12:48:52 -0400 [View Commit](../../commit/0dec078e925c9fa0c5ff23159e88da64697b9fc7)
+* Fix integration tests
+  * Gayathri Athreya on Mon, 8 Aug 2016 09:21:41 -0700 [View Commit](../../commit/e22651f86ee2c6a28b400c8d349b23f31bfef2a8)
+
 ##coeus-1608.0013
 * No Changes
 
