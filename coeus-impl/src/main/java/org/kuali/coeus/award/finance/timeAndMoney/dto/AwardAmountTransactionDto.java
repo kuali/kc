@@ -22,6 +22,8 @@ package org.kuali.coeus.award.finance.timeAndMoney.dto;
 import com.codiform.moo.annotation.Property;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.kuali.coeus.instprop.impl.api.customSerializers.CustomSqlDateSerializer;
 
 import java.sql.Date;
 
@@ -30,6 +32,7 @@ public class AwardAmountTransactionDto {
     private Long awardAmountTransactionId;
     private String awardNumber;
     private String documentNumber;
+    @JsonDeserialize(using = CustomSqlDateSerializer.class)
     private Date noticeDate;
     private String comments;
     private Integer transactionTypeCode;
