@@ -118,7 +118,7 @@ public class TimeAndMoneyDaoOjb extends PlatformAwareDaoBaseOjb implements TimeA
     public List<TransactionDetail> getTransactionDetailsForDocument(String documentNumber) {
         Map<String, Object> criteria = new HashMap<>();
         criteria.put(TIME_AND_MONEY_DOCUMENT_NUMBER, documentNumber);
-        criteria.put(TRANSACTION_DETAIL_TYPE, TransactionDetailType.PRIMARY);
+        criteria.put(TRANSACTION_DETAIL_TYPE, TransactionDetailType.PRIMARY.toString());
 
         return ((List<TransactionDetail>) businessObjectService.findMatching(TransactionDetail.class, criteria));
     }
