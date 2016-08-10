@@ -58,6 +58,11 @@
 * No Changes
 
 
+##coeus-1608.0016
+* Add serializer annotation to date. (#1898)
+
+  * Gayathri Athreya on Tue, 9 Aug 2016 15:17:59 -0700 [View Commit](../../commit/53f0be46a86382b4bdcdda8ae6197b91b240a755)
+
 ##coeus-1608.0015
 * No Changes
 
