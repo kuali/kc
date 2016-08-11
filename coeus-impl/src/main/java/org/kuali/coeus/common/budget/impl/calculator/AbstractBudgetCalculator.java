@@ -19,6 +19,7 @@
 package org.kuali.coeus.common.budget.impl.calculator;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.budget.api.rate.RateClassType;
@@ -87,7 +88,7 @@ public abstract class AbstractBudgetCalculator {
         dateTimeService = CoreApiServiceLocator.getDateTimeService();
         breakupIntervals = new ArrayList<>();
     }
-
+    
     /**
      * 
      * Abstract method to populate the applicable cost and applicable cost sharing in boundary.
@@ -819,13 +820,12 @@ public abstract class AbstractBudgetCalculator {
 
     protected void addOHBudgetLineItemCalculatedAmountForAward(String rateClassCode,
             RateType rateType, String rateClassType) {
-        QueryList<BudgetRate> budgetRates = new QueryList<BudgetRate>(budget.getBudgetRates());
-        Equals eqOhRateClassType = new Equals(RATE_CLASS_TYPE,rateClassType);
-        Equals eqOhRateClassOnCampusFlag = new Equals(ON_OFF_CAMPUS_FLAG,budgetLineItem.getOnOffCampusFlag());
-        And eqRateClassTypeAndOhCampusFlag = new And(eqOhRateClassType,eqOhRateClassOnCampusFlag);
-        List<BudgetRate> filteredBudgetRates = budgetRates.filter(eqRateClassTypeAndOhCampusFlag);
-        if(!filteredBudgetRates.isEmpty()){
-            BudgetRate awardBudgetRate = filteredBudgetRates.get(0);
+    	BudgetRate awardBudgetRate = budget.getBudgetRates().stream()
+    		.filter(rate -> StringUtils.equals(rate.getRateClassCode(), rateClassCode))
+    		.filter(rate -> Objects.equals(rate.getOnOffCampusFlag(), budgetLineItem.getOnOffCampusFlag()))
+    		.filter(rate -> StringUtils.equals(rate.getRateTypeCode(), rateType.getRateTypeCode()))
+    		.findAny().orElse(null);
+    	if (awardBudgetRate != null) {
             awardBudgetRate.setBudget(budget);
             if(awardBudgetRate.getNonEditableRateFlag()){
                 AbstractBudgetCalculatedAmount budgetCalculatedAmount = getNewBudgetCalculatedAmount(rateClassType, awardBudgetRate.getRateClassCode(),
