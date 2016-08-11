@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-1512:Fix award rates matching (#1901)
+
+  * In award when an object class was mapped to multiple award overhead rates, mutliple duplicate rates would appear as part of the line item due to incorrect matching against the budgets actual rates.
+  * 
+  * In addition when this occurred the rate cost would be incorrectly 0.  * Douglas Pace on Thu, 11 Aug 2016 14:38:02 -0700 [View Commit](../../commit/0af8a300796e2362577f7e4a3c80cb224b07300c)
 * Fix award null pointer (#1900)
 
   * Gayathri Athreya on Thu, 11 Aug 2016 12:45:28 -0700 [View Commit](../../commit/f9b7eaebba46dec79d00a9d5d1b00e6ffe95db32)
@@ -60,6 +65,11 @@
 ##coeus-1608.1
 * No Changes
 
+
+##coeus-1608.0019
+* Fix award null pointer (#1900)
+
+  * Gayathri Athreya on Thu, 11 Aug 2016 12:45:28 -0700 [View Commit](../../commit/f9b7eaebba46dec79d00a9d5d1b00e6ffe95db32)
 
 ##coeus-1608.0018
 * No Changes
