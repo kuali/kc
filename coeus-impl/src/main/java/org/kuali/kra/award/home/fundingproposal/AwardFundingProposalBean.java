@@ -355,7 +355,7 @@ public class AwardFundingProposalBean implements Serializable {
     }
 
     private void initializeAwardCustomDataIfNecessary(Award award) {
-        if (award.getAwardCustomDataList().isEmpty()) {
+        if (award.getAwardCustomDataList().isEmpty() && awardForm != null) {
             Map<String, CustomAttributeDocument> customAttributeDocuments = awardForm.getCustomDataHelper().getCustomAttributeDocuments();
             for (Map.Entry<String, CustomAttributeDocument> entry : customAttributeDocuments.entrySet()) {
                 CustomAttributeDocument customAttributeDocument = entry.getValue();
@@ -368,7 +368,7 @@ public class AwardFundingProposalBean implements Serializable {
             }
         }
     }
-    
+
     private boolean userCanCreateProposal() {
         return getPermissionService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(),
                 InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_NAMESPACE,

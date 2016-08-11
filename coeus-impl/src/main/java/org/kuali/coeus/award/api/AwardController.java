@@ -455,11 +455,11 @@ public class AwardController extends RestController implements InitializingBean 
     public void addCustomData(AwardDocument awardDocument, Award award, AwardDto awardDto) {
         List<AwardCustomDataDto> awardCustomDataList = awardDto.getAwardCustomDataList();
         award.setAwardCustomDataList(new ArrayList<>());
-        Map<String, CustomAttributeDocument> customAttributeDocuments = awardDocument.getCustomAttributeDocuments();
         if (awardDto.getAwardCustomDataList() != null) {
             awardCustomDataList.stream().forEach(customDataDto -> {
                 String customAttributeId = customDataDto.getCustomAttributeId().toString();
                 String customDataValue = customDataDto.getValue();
+                Map<String, CustomAttributeDocument> customAttributeDocuments = awardDocument.getCustomAttributeDocuments();
                 List<AwardCustomData> customDataList = customAttributeDocuments.entrySet().stream().
                         filter(entry -> {
                                     CustomAttributeDocument customAttributeDoc = entry.getValue();
@@ -480,6 +480,7 @@ public class AwardController extends RestController implements InitializingBean 
     }
 
     public void addFundingProposals(AwardDto awardDto, Award award) {
+        award.setFundingProposals(new ArrayList<>());
         if(CollectionUtils.isNotEmpty(awardDto.getFundingProposals())) {
             awardDto.getFundingProposals().stream().forEach(awardFundingProposalDto -> {
                 AwardFundingProposalBean fundingProposalBean = new AwardFundingProposalBean();
