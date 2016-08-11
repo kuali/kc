@@ -1,6 +1,9 @@
 
 
 ##CURRENT
+* Fix award null pointer (#1900)
+
+  * Gayathri Athreya on Thu, 11 Aug 2016 12:45:28 -0700 [View Commit](../../commit/f9b7eaebba46dec79d00a9d5d1b00e6ffe95db32)
 * Add serializer annotation to date. (#1898)
 
   * Gayathri Athreya on Tue, 9 Aug 2016 15:17:59 -0700 [View Commit](../../commit/53f0be46a86382b4bdcdda8ae6197b91b240a755)
@@ -55,6 +58,10 @@
   * Douglas Pace on Tue, 2 Aug 2016 12:13:43 -0700 [View Commit](../../commit/6ec888c7758522e2cadaab3b29ee04ed6bd16683)
 
 ##coeus-1608.1
+* No Changes
+
+
+##coeus-1608.0018
 * No Changes
 
 
