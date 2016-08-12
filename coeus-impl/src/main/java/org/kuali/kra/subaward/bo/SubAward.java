@@ -145,6 +145,7 @@ implements Permissionable, SequenceOwner<SubAward>, CustomDataContainer, Negotia
     private String fedAwardProjDesc;
     private ScaleTwoDecimal fAndARate;
     private Boolean deMinimus;
+    private Boolean ffataRequired;
 
     private SubAwardCostType subAwardCostType;
 
@@ -1057,6 +1058,14 @@ implements Permissionable, SequenceOwner<SubAward>, CustomDataContainer, Negotia
 
     public void setDeMinimus(Boolean deMinimus) {
         this.deMinimus = deMinimus;
+    }
+
+    public Boolean getFfataRequired() {
+        return ffataRequired;
+    }
+
+    public void setFfataRequired(Boolean ffataRequired) {
+        this.ffataRequired = ffataRequired;
     }
 
     public ScaleTwoDecimal getfAndARate() {
