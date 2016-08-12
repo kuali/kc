@@ -473,7 +473,7 @@
                 </bean>
                 <bean parent="Proposal-Negotiation-Property" p:propertyName="negotiationId" p:order="10"/>
                 <bean parent="Proposal-Negotiation-Property" p:propertyName="negotiationStatus.description" p:order="20"/>
-                <bean parent="Proposal-Negotiation-Property" p:propertyName="negotiator.userName" p:label="Negotiatior" p:order="30"/>
+                <bean parent="Proposal-Negotiation-Property" p:propertyName="negotiator.userName" p:label="Negotiator" p:order="30"/>
                 <bean parent="Proposal-Negotiation-Property" p:propertyName="negotiationStartDate" p:order="40"/>
                 <bean parent="Proposal-Negotiation-Property" p:propertyName="negotiationAgreementType.description" p:label="Agreement Type" p:order="50"/>
                 <bean parent="Proposal-Negotiation-Property" p:propertyName="negotiationEndDate" p:order="60"/>

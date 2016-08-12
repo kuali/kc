@@ -21,7 +21,7 @@
   <bean id="NegotiationAssociationType" parent="NegotiationAssociationType-parentBean" />
   <bean id="NegotiationAssociationType-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.negotiations.bo.NegotiationAssociationType" />
-		<property name="objectLabel" value="Negotiation Status" />
+		<property name="objectLabel" value="Negotiation Association Type" />
     <property name="inquiryDefinition" >
       <ref bean="NegotiationAssociationType-inquiryDefinition" />
     </property>

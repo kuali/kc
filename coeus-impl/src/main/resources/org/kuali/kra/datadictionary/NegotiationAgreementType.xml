@@ -21,7 +21,7 @@
   <bean id="NegotiationAgreementType" parent="NegotiationAgreementType-parentBean" />
   <bean id="NegotiationAgreementType-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.negotiations.bo.NegotiationAgreementType" />
-		<property name="objectLabel" value="Negotiation Status" />
+		<property name="objectLabel" value="Negotiation Agreement Type" />
     <property name="inquiryDefinition" >
       <ref bean="NegotiationAgreementType-inquiryDefinition" />
     </property>
@@ -135,11 +135,11 @@
   <bean id="NegotiationAgreementType-inquiryDefinition" parent="NegotiationAgreementType-inquiryDefinition-parentBean" />
   <bean id="NegotiationAgreementType-InquiryView" parent="NegotiationAgreementType-InquiryView-parentBean"/>
   <bean id="NegotiationAgreementType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Object Code" />
+    <property name="title" value="Negotiation Agreement Type" />
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Negotiation Status" />
+          <property name="title" value="Negotiation Agreement Type" />
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
@@ -153,12 +153,12 @@
   </bean>
 
   <bean id="NegotiationAgreementType-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
-    <property name="headerText" value="Object Code"/>
+    <property name="headerText" value="Negotiation Agreement Type"/>
     <property name="dataObjectClassName" value="org.kuali.kra.negotiations.bo.NegotiationAgreementType"/>
     <property name="items">
       <list>
         <bean parent="Uif-Disclosure-GridSection">
-          <property name="headerText" value="Negotiation Status"/>
+          <property name="headerText" value="Negotiation Agreement Type"/>
           <property name="layoutManager.numberOfColumns" value="2"/>
           <property name="items">
             <list>
