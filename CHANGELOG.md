@@ -72,6 +72,14 @@
 * No Changes
 
 
+##coeus-1608.0021
+* RESKC-1076: ffata required field
+  * Travis Schneeberger on Fri, 12 Aug 2016 12:58:29 -0400 [View Commit](../../commit/d64a8cfd888e98b209d36215e720d4cadee9098a)
+* RESKC-513: correct labels
+  * Travis Schneeberger on Fri, 12 Aug 2016 09:18:49 -0400 [View Commit](../../commit/346e3ac81319e2312e7dfd7b722ba0d52bacbb5a)
+* RESKC-1475: correct spelling error
+  * Travis Schneeberger on Thu, 11 Aug 2016 23:03:34 -0400 [View Commit](../../commit/f295b48b3607e9b70dea7c9cb7467f95129b2671)
+
 ##coeus-1608.0020
 * RESKC-1512:Fix award rates matching (#1901)
 
