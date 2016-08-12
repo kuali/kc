@@ -58,6 +58,7 @@
         <field-descriptor name="fedAwardProjDesc" column="FED_AWARD_PROJ_DESC" jdbc-type="VARCHAR"/>
         <field-descriptor name="fAndARate" column="F_AND_A_RATE" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion" />
         <field-descriptor name="deMinimus" column="DE_MINIMUS" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="ffataRequired" column="FFATA_REQUIRED" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="subAwardSequenceStatus" column="SUBAWARD_SEQUENCE_STATUS" jdbc-type="VARCHAR"/>
 
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />

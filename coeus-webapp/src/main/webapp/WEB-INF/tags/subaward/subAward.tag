@@ -24,7 +24,7 @@
 <script language="javascript" src="dwr/interface/OrganizationService.js"></script>
 <script type='text/javascript' src='dwr/interface/RolodexService.js'></script>
 
-<kul:tab tabTitle="Subaward" defaultOpen="${KualiForm.document.subAwardList[0].defaultOpen}" tabErrorKey="document.subAwardList[0].statusCode*,document.subAwardList[0].requisitionerUserName*,document.subAwardList[0].siteInvestigatorId*,document.subAwardList[0].purchaseOrderNum*,document.subAwardList[0].organizationId*,document.subAwardList[0].subAwardTypeCode*,document.subAwardList[0].title*,document.subAwardList[0].startDate*,document.subAwardList[0].endDate*,document.subAwardList[0].accountNumber*,document.subAwardList[0].vendorNumber*,document.subAwardList[0].requisitionerUnit*,document.subAwardList[0].archiveLocation*,document.subAwardList[0].closeoutDate*,document.subAwardList[0].comments*,document.subAwardList[0].totalAnticipatedAmount*,document.subAwardList[0].totalObligatedAmount*,document.subAwardList[0].fedAwardProjDesc*,document.subAwardList[0].fAndARate*,document.subAwardList[0].deMinimus*"
+<kul:tab tabTitle="Subaward" defaultOpen="${KualiForm.document.subAwardList[0].defaultOpen}" tabErrorKey="document.subAwardList[0].statusCode*,document.subAwardList[0].requisitionerUserName*,document.subAwardList[0].siteInvestigatorId*,document.subAwardList[0].purchaseOrderNum*,document.subAwardList[0].organizationId*,document.subAwardList[0].subAwardTypeCode*,document.subAwardList[0].title*,document.subAwardList[0].startDate*,document.subAwardList[0].endDate*,document.subAwardList[0].accountNumber*,document.subAwardList[0].vendorNumber*,document.subAwardList[0].requisitionerUnit*,document.subAwardList[0].archiveLocation*,document.subAwardList[0].closeoutDate*,document.subAwardList[0].comments*,document.subAwardList[0].totalAnticipatedAmount*,document.subAwardList[0].totalObligatedAmount*,document.subAwardList[0].fedAwardProjDesc*,document.subAwardList[0].fAndARate*,document.subAwardList[0].deMinimus*,document.subAwardList[0].ffataRequired*,document.subAward.ffataRequired*"
  auditCluster="subawardFinancialdAuditErrors" tabAuditKey="document.subAwardList[0].totalAnticipatedAmount*,document.subAwardList[0].totalObligatedAmount*" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
@@ -249,6 +249,10 @@
                     <div id="sub.organizationDuns.div">${KualiForm.document.subAwardList[0].organization.dunsNumber}&nbsp;</div>
                     <c:if test="${readOnly}"><html:hidden styleId ="sub.organizationName" property="document.subAwardList[0].organizationId" /></c:if>
                 </td>
+            </tr>
+            <tr>
+                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.ffataRequired}" /></div></th>
+                <td><kul:htmlControlAttribute property="document.subAwardList[0].ffataRequired" attributeEntry="${subAwardAttributes.ffataRequired}" /></td>
             </tr>
         </table>
     </div>
