@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* RESKC-1076: ffata required field
+  * Travis Schneeberger on Fri, 12 Aug 2016 12:58:29 -0400 [View Commit](../../commit/d64a8cfd888e98b209d36215e720d4cadee9098a)
+* RESKC-513: correct labels
+  * Travis Schneeberger on Fri, 12 Aug 2016 09:18:49 -0400 [View Commit](../../commit/346e3ac81319e2312e7dfd7b722ba0d52bacbb5a)
+* RESKC-1475: correct spelling error
+  * Travis Schneeberger on Thu, 11 Aug 2016 23:03:34 -0400 [View Commit](../../commit/f295b48b3607e9b70dea7c9cb7467f95129b2671)
 * RESKC-1512:Fix award rates matching (#1901)
 
   * In award when an object class was mapped to multiple award overhead rates, mutliple duplicate rates would appear as part of the line item due to incorrect matching against the budgets actual rates.
@@ -65,6 +71,13 @@
 ##coeus-1608.1
 * No Changes
 
+
+##coeus-1608.0020
+* RESKC-1512:Fix award rates matching (#1901)
+
+  * In award when an object class was mapped to multiple award overhead rates, mutliple duplicate rates would appear as part of the line item due to incorrect matching against the budgets actual rates.
+  * 
+  * In addition when this occurred the rate cost would be incorrectly 0.  * Douglas Pace on Thu, 11 Aug 2016 14:38:02 -0700 [View Commit](../../commit/0af8a300796e2362577f7e4a3c80cb224b07300c)
 
 ##coeus-1608.0019
 * Fix award null pointer (#1900)

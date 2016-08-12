@@ -22,4 +22,5 @@ set sqlblanklines on
 
 spool 1608_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V1608_001__FixIPSequenceNumbers.sql
+@./kc/bootstrap/V1608_008__ffata_required.sql
 commit;
