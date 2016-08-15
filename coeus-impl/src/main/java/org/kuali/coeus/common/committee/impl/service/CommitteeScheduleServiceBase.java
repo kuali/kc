@@ -63,14 +63,6 @@ public interface CommitteeScheduleServiceBase<CS extends CommitteeScheduleBase<C
     public List<CSM> getMinutesByProtocol(Long protocolId);
 
     /**
-     * 
-     * This method returns a list of minutes based on a schedule ID
-     * @param scheduleId
-     * @return
-     */
-    public List<CSM> getMinutesBySchedule(Long scheduleId);
-
-    /**
      * This method will downloadAttachment  to CommitteeScheduleAttachmentsBase.
      * @param committeScheduleAttachments
      * @return

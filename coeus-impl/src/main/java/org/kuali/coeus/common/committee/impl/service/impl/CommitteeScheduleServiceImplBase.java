@@ -69,7 +69,6 @@ public abstract class CommitteeScheduleServiceImplBase<CS extends CommitteeSched
     private static final String SCHEDULED = "Scheduled";
 
     private static final String PROTOCOL_ID_FIELD = "protocolIdFk";
-    private static final String SCHEDULE_ID_FIELD = "scheduleIdFk";
     private static final String ENTRY_NUMBER_FIELD = "entryNumber";
     private BusinessObjectService businessObjectService;
 
@@ -317,25 +316,17 @@ public abstract class CommitteeScheduleServiceImplBase<CS extends CommitteeSched
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(PROTOCOL_ID_FIELD, protocolId);
         List<CSM> minutes = (List<CSM>) businessObjectService.findMatchingOrderBy(getCommitteeScheduleMinuteBOClassHook(), fieldValues, ENTRY_NUMBER_FIELD, true);
-        return minutes;
-    }
-    
-    protected abstract Class<CSM> getCommitteeScheduleMinuteBOClassHook();
-
-    @Override
-    public List<CSM> getMinutesBySchedule(Long scheduleId){
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
         List<CSM> permittedMinutes = new ArrayList<CSM>();
-        fieldValues.put(SCHEDULE_ID_FIELD, scheduleId);
-        List<CSM> minutes = (List<CSM>)businessObjectService.findMatchingOrderBy(getCommitteeScheduleMinuteBOClassHook(), fieldValues, ENTRY_NUMBER_FIELD, true);
         for (CSM minute : minutes) {
             if(reviewCommentsService.getReviewerCommentsView(minute)){
                 permittedMinutes.add(minute);
             }
         }
-        
         return permittedMinutes;
     }
+    
+    protected abstract Class<CSM> getCommitteeScheduleMinuteBOClassHook();
+
 
     /**
      * This method will downloadAttachment  to CommitteeScheduleAttachmentsBase.

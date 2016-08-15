@@ -23,6 +23,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeBase;
 import org.kuali.coeus.common.committee.impl.lookup.keyvalue.CommitteeIdByUnitValuesFinderService;
+import org.kuali.coeus.common.committee.impl.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.coeus.common.committee.impl.service.CommitteeScheduleServiceBase;
 import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -574,17 +575,19 @@ public class ActionHelper extends ActionHelperBase {
     public void prepareCommentsView() {
         
         super.prepareCommentsView();
-        protocolGrantExemptionBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-        protocolIrbAcknowledgementBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-        protocolExpeditedApprovalBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-        protocolResponseApprovalBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-        protocolReopenEnrollmentBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-        protocolCloseEnrollmentBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-        protocolSuspendByDsmbBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-        protocolCloseBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-        protocolPermitDataAnalysisBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        List<CommitteeScheduleMinuteBase> copiedReviewComments = getCopiedReviewComments();
+
+        protocolGrantExemptionBean.getReviewCommentsBean().setReviewComments(copiedReviewComments);
+        protocolIrbAcknowledgementBean.getReviewCommentsBean().setReviewComments(copiedReviewComments);
+        protocolExpeditedApprovalBean.getReviewCommentsBean().setReviewComments(copiedReviewComments);
+        protocolResponseApprovalBean.getReviewCommentsBean().setReviewComments(copiedReviewComments);
+        protocolReopenEnrollmentBean.getReviewCommentsBean().setReviewComments(copiedReviewComments);
+        protocolCloseEnrollmentBean.getReviewCommentsBean().setReviewComments(copiedReviewComments);
+        protocolSuspendByDsmbBean.getReviewCommentsBean().setReviewComments(copiedReviewComments);
+        protocolCloseBean.getReviewCommentsBean().setReviewComments(copiedReviewComments);
+        protocolPermitDataAnalysisBean.getReviewCommentsBean().setReviewComments(copiedReviewComments);
         
-        protocolDeferBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        protocolDeferBean.getReviewCommentsBean().setReviewComments(copiedReviewComments);
     }
     
     protected ProtocolVersionService getProtocolVersionService() {
