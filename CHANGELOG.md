@@ -1,6 +1,8 @@
 
 
 ##CURRENT
+* relax constraint on rolodex Id to allow negative numbers.  This is required due to the fact that negative rolodex ids are common in legacy coeus.
+  * Travis Schneeberger on Mon, 15 Aug 2016 20:04:34 -0400 [View Commit](../../commit/1311b5b015fd445bc478379a0f8908a95ef901b8)
 * RESKC-1076: ffata required field
   * Travis Schneeberger on Fri, 12 Aug 2016 12:58:29 -0400 [View Commit](../../commit/d64a8cfd888e98b209d36215e720d4cadee9098a)
 * RESKC-513: correct labels
@@ -69,6 +71,10 @@
   * Douglas Pace on Tue, 2 Aug 2016 12:13:43 -0700 [View Commit](../../commit/6ec888c7758522e2cadaab3b29ee04ed6bd16683)
 
 ##coeus-1608.1
+* No Changes
+
+
+##coeus-1608.0023
 * No Changes
 
 
