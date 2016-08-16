@@ -178,10 +178,10 @@
 		<property name="shortLabel" value="Person Id" />
 		<property name="maxLength" value="40" />
 		<property name="validationPattern" >
-			<bean parent="AlphaNumericValidationPattern" />
+			<bean parent="AlphaNumericValidationPattern" p:allowDash="true"/>
 		</property>
     <property name="validCharactersConstraint">
-      <bean parent="AlphaNumericPatternConstraint"/>
+      <bean parent="AlphaNumericPatternConstraint" p:allowDash="true"/>
     </property>
 		<property name="control" >
       <bean parent="TextControlDefinition" p:size="10"/>

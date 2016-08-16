@@ -597,4 +597,8 @@
         <property name="description" value="Value" />
     </bean>
 
+    <bean id="IntegerValidationPattern"
+        class="org.kuali.coeus.sys.framework.validation.IntegerValidationPattern"
+        abstract="true" />
+
 </beans>

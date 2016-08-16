@@ -320,13 +320,11 @@
 		<property name="label" value="Reviewer Rolodex Id" />
 		<property name="shortLabel" value="Reviewer Rolodex Id" />
 		<property name="maxLength" value="60" />
-		<property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="AnyCharacterPatternConstraint">
-        <property name="allowWhitespace" value="true"/>
-      </bean>
+		<property name="validationPattern">
+			<bean parent="IntegerValidationPattern" p:allowNegative="true"/>
+		</property>
+		<property name="validCharactersConstraint">
+			<bean parent="IntegerPatternConstraint" p:allowNegative="true"/>
 		</property>
 		<property name="control" >
       <bean parent="TextControlDefinition" p:size="20"/>

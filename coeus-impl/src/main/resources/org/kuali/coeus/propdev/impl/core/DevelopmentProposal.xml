@@ -834,12 +834,12 @@
 		<property name="label" value="Mailing Name &amp; Address" />
 		<property name="shortLabel" value="Name And Address" />
 		<property name="maxLength" value="6" />
-		<property name="validationPattern">
-			<bean parent="NumericValidationPattern" />
-		</property>
-    <property name="validCharactersConstraint">
-      <bean parent="NumericPatternConstraint"/>
-    </property>
+	  <property name="validationPattern">
+		  <bean parent="IntegerValidationPattern" p:allowNegative="true"/>
+	  </property>
+	  <property name="validCharactersConstraint">
+		  <bean parent="IntegerPatternConstraint" p:allowNegative="true"/>
+	  </property>
 		<property name="required" value="false" />
 		<property name="control">
 			<bean parent="HiddenControlDefinition" />

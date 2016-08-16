@@ -155,12 +155,12 @@
 		<property name="label" value="Name/Organization" />
 		<property name="shortLabel" value="Name/Organization" />
 		<property name="maxLength" value="22" />
-		<property name="validationPattern" >
-			<bean parent="NumericValidationPattern" />
+		<property name="validationPattern">
+			<bean parent="IntegerValidationPattern" p:allowNegative="true"/>
 		</property>
-    <property name="validCharactersConstraint">
-      <bean parent="NumericPatternConstraint"/>
-    </property>
+		<property name="validCharactersConstraint">
+			<bean parent="IntegerPatternConstraint" p:allowNegative="true"/>
+		</property>
 		<property name="control" >
       		<bean parent="HiddenControlDefinition" />
     	</property>

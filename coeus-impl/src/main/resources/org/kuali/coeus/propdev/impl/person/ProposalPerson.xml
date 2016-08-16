@@ -150,6 +150,12 @@
     <property name="shortLabel" value="Rolodex Id" />
     <property name="summary" value="Rolodex Id" />
     <property name="description" value="Rolodex Id" />
+    <property name="validationPattern">
+      <bean parent="IntegerValidationPattern" p:allowNegative="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="IntegerPatternConstraint" p:allowNegative="true"/>
+    </property>
   </bean>
 
   <bean id="ProposalPerson-socialSecurityNumber" parent="ProposalPerson-socialSecurityNumber-parentBean"/>
