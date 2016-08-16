@@ -41,6 +41,7 @@
 		name="newQuestionId" value="${QuestionLookupForm.newQuestionId}"/>
 	<input type="hidden" id="anchor"
 		name="newQuestionId" value="${QuestionLookupForm.anchor}"/>
+	<kul:csrf />
 
    		<label>
    		
@@ -78,5 +79,4 @@
  <%--           
 </kul:page>
   --%>
-	<kul:csrf />
 </html:form>

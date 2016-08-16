@@ -30,10 +30,10 @@
         name="ruleId" value="${KrmsRuleLookupForm.ruleId}"/>
     <input type="hidden" id="anchor"
         name="anchor" value="${KrmsRuleLookupForm.anchor}"/>
-        
+	<kul:csrf />        
         <label>
 
-       <input type="button" id = "lookupBtn" value="Rule lookup" onclick="window.location.href='${ConfigProperties.rice.server.url}/kr-krad/lookup?methodToCall=start&amp;dataObjectClassName=org.kuali.rice.krms.impl.repository.RuleBo&amp;returnLocation=${ConfigProperties.application.url}/krmsRuleLookup.do&returnFormKey=1&conversionFields=id:ruleId'" />
+       <input type="button" id = "lookupBtn" value="Rule lookup" onclick="window.location.href='${ConfigProperties.rice.server.url}/kr-krad/lookup?methodToCall=start&amp;dataObjectClassName=org.kuali.rice.krms.impl.repository.RuleBo&amp;returnLocation=${ConfigProperties.application.url}/krmsRuleLookup.do&returnFormKey=1&conversionFields=id:ruleId&returnByScript=false&returnTarget=_top'" />
         
             </label><br>
             
@@ -65,5 +65,4 @@
                  
            //      });
             </script>
-    <kul:csrf />
 </html:form>
