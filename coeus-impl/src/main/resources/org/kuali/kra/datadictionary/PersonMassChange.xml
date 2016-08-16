@@ -91,12 +91,12 @@
         <property name="label" value="Non-Employee" />
         <property name="shortLabel" value="Non-Employee" />
         <property name="maxLength" value="40" />
-        <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
+        <property name="validationPattern">
+            <bean parent="IntegerValidationPattern" p:allowNegative="true"/>
         </property>
-    <property name="validCharactersConstraint">
-      <bean parent="AlphaNumericPatternConstraint"/>
-    </property>
+        <property name="validCharactersConstraint">
+            <bean parent="IntegerPatternConstraint" p:allowNegative="true"/>
+        </property>
         <property name="control" >
       <bean parent="TextControlDefinition" p:size="9"/>
     </property>

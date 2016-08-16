@@ -283,10 +283,10 @@
     <property name="shortLabel" value="Cognizant Auditor"/>
     <property name="maxLength" value="6"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <bean parent="IntegerValidationPattern" p:allowNegative="true"/>
     </property>
     <property name="validCharactersConstraint">
-      <bean parent="NumericPatternConstraint"/>
+      <bean parent="IntegerPatternConstraint" p:allowNegative="true"/>
     </property>
     <property name="control">
       <bean p:size="6" parent="TextControlDefinition"/>
@@ -365,10 +365,10 @@
     <property name="shortLabel" value="Contact Address Id"/>
     <property name="maxLength" value="6"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <bean parent="IntegerValidationPattern" p:allowNegative="true"/>
     </property>
     <property name="validCharactersConstraint">
-      <bean parent="NumericPatternConstraint"/>
+      <bean parent="IntegerPatternConstraint" p:allowNegative="true"/>
     </property>
     <property name="control">
       <bean p:size="6" parent="TextControlDefinition"/>
@@ -791,10 +791,10 @@
     <property name="shortLabel" value="ONR Resident Rep"/>
     <property name="maxLength" value="6"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <bean parent="IntegerValidationPattern" p:allowNegative="true"/>
     </property>
     <property name="validCharactersConstraint">
-      <bean parent="NumericPatternConstraint"/>
+      <bean parent="IntegerPatternConstraint" p:allowNegative="true"/>
     </property>
     <property name="control">
       <bean p:size="6" parent="TextControlDefinition"/>

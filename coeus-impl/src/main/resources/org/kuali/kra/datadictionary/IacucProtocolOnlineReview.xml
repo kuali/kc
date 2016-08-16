@@ -40,12 +40,7 @@
                 <ref bean="IacucProtocolOnlineReview-dateDue"/>
                 <ref bean="IacucProtocolOnlineReview-dateRequested"/>
                 <ref bean="IacucProtocolOnlineReview-determinationRecommendationCode"/>
-                <!--  ref bean="IacucProtocolOnlineReview-determinationRecommendation.description"/-->
-                <!--  Lookup fields -->
                 <ref bean="IacucProtocolOnlineReview-lookupProtocol.protocolNumber"/>
-                <!--  ref bean="IacucProtocolOnlineReview-lookupReviewerRolodexId"/-->
-                <!-- ref bean="IacucProtocolOnlineReview-lookupReviwerRolodex.lastName"/-->
-                <!--  <ref bean="IacucProtocolOnlineReview-lookupReviewerRolodex"/> -->
                 <ref bean="IacucProtocolOnlineReview-lookupReviewerPersonId"/>
                 <ref bean="IacucProtocolOnlineReview-lookupReviwerPerson.lastName"/> 
                 <ref bean="IacucProtocolOnlineReview-lookupReviewerFullName"/>
@@ -58,48 +53,9 @@
                 <ref bean="IacucProtocolOnlineReview-reviewerTypeCode"/>
                 <ref bean="IacucProtocolOnlineReview-protocol.protocolNumber"/>
                 <ref bean="IacucProtocolOnlineReview-protocol.protocolStatus.description"/>
-                <!--  Result fields -->
                 <ref bean="IacucProtocolOnlineReview-resultDueDate"/>
                 <ref bean="IacucProtocolOnlineReview-determinationReviewTypeCode"/>
                 <ref bean="IacucProtocolOnlineReview-determinationReviewDateDue"/>
-      <!--  
-                <bean parent="RelationshipDefinition">
-                    <property name="objectAttributeName" value="lookupReviewerRolodex"/>
-                    <property name="primitiveAttributes">
-                        <list>
-                            <bean p:sourceName="lookupReviewerRolodexId" p:targetName="rolodexId" parent="PrimitiveAttributeDefinition"/>
-                        </list>
-                    </property>
-                    <property name="supportAttributes">
-                        <list>
-                            <bean p:sourceName="lookupReviewerRolodex.lastName" p:targetName="lastName" parent="SupportAttributeDefinition"/>
-                        </list>
-                    </property>  
-                </bean>
-                
-                <bean parent="RelationshipDefinition">
-                    <property name="objectAttributeName" value="lookupReviewerPerson"/>
-                    <property name="primitiveAttributes">
-                        <list>
-                            <bean p:sourceName="lookupReviewerPersonId" p:targetName="personId" parent="PrimitiveAttributeDefinition"/>
-                        </list>
-                    </property>
-                      <property name="supportAttributes">
-                        <list>
-                            <bean p:sourceName="lookupReviewerPerson.lastName" p:targetName="lastName" parent="SupportAttributeDefinition"/>
-                        </list>
-                    </property> 
-                </bean>
-                
-                <bean parent="RelationshipDefinition">
-                    <property name="objectAttributeName" value="lookupProtocol"/>
-                    <property name="primitiveAttributes">
-                        <list>
-                            <bean p:sourceName="lookupProtocol.protocolNumber" p:targetName="protocolNumber" parent="PrimitiveAttributeDefinition"/>
-                        </list>
-                    </property>
-                </bean>
-                -->
             </list>
         </property> 
     <property name="relationships">
@@ -387,33 +343,7 @@
         <property name="summary" value="Protocol Review Status Code" />
         <property name="description" value="The status of the protocol review." />
     </bean>
-    
-<!--    
-    <bean id="IacucProtocolOnlineReview-lookupReviewerRolodexId" parent="IacucProtocolOnlineReview-lookupReviewerRolodexId-parentBean" />
-    <bean id="IacucProtocolOnlineReview-lookupReviewerRolodexId-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="lookupReviewerRolodexId" />
-        <property name="forceUppercase" value="false" />
-        <property name="label" value="Reviewer Rolodex Id" />
-        <property name="shortLabel" value="Reviewer Rolodex Id" />
-        <property name="maxLength" value="60" />
-        <property name="validationPattern" >
-            <bean parent="AnyCharacterValidationPattern"
-                p:allowWhitespace="true" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="20" />
-        </property>
-        <property name="summary" value="Reviewer Rolodex Id" />
-        <property name="description" value="Reviewer Rolodex Id" />
-    </bean>
-    <bean id="IacucProtocolOnlineReview-lookupReviwerRolodex.lastName" parent="IacucProtocolOnlineReview-lookupReviwerRolodex.lastName-parentBean"/>
-    <bean abstract="true" id="IacucProtocolOnlineReview-lookupReviwerRolodex.lastName-parentBean" parent="Rolodex-lastName">
-        <property name="name" value="lookupReviewerRolodex.lastName"/>
-        <property name="label" value="Rolodex Last Name"/>
-        <property name="shortLabel" value="Rolodex Last Name"/>
-    </bean>
--->    
+
     <bean id="IacucProtocolOnlineReview-lookupReviewerPersonId" parent="IacucProtocolOnlineReview-lookupReviewerPersonId-parentBean" />
     <bean id="IacucProtocolOnlineReview-lookupReviewerPersonId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="lookupReviewerPersonId" />

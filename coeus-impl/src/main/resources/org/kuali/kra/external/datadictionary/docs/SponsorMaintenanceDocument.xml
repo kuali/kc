@@ -82,7 +82,6 @@
     <property name="title" value="Edit Primary Address"/>
     <property name="maintainableItems">
       <list>
-        <!-- bean parent="MaintainableFieldDefinition" p:name="rolodexId" p:required="true"/-->
         <bean parent="MaintainableFieldDefinition" p:name="rolodex.addressLine1" p:noLookup="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="rolodex.addressLine2" p:noLookup="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="rolodex.addressLine3" p:noLookup="true"/> 

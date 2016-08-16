@@ -148,11 +148,11 @@
     <property name="label" value="Rolodex Id" />
     <property name="shortLabel" value="Rolodex Id" />
     <property name="maxLength" value="6" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="validationPattern">
+      <bean parent="IntegerValidationPattern" p:allowNegative="true"/>
     </property>
     <property name="validCharactersConstraint">
-      <bean parent="NumericPatternConstraint"/>
+      <bean parent="IntegerPatternConstraint" p:allowNegative="true"/>
     </property>
     <property name="required" value="false" />
     <property name="control" >
