@@ -82,6 +82,13 @@
 * No Changes
 
 
+##coeus-1608.0027
+* RESKC-1554:Fix child questions of dropdowns (#1910)
+
+  * Douglas Pace on Wed, 17 Aug 2016 11:56:29 -0700 [View Commit](../../commit/1025d99b49064a39a5cdf5c66c3f4d500fd122bf)
+* RESKC-1536: Load only review comments pertinent to this protocol submission
+  * Terry Durkin on Mon, 15 Aug 2016 10:41:30 -0400 [View Commit](../../commit/783d2cc67e65c0fc99db423b9514b985a7fd8aaf)
+
 ##coeus-1608.0026
 * No Changes
 
