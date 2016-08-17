@@ -73,7 +73,9 @@ public class QuestionField extends InputFieldBase {
             this.setValidCharactersConstraint(new NumericPatternConstraint());
         }
         if (answer.getQuestion().getQuestionTypeId().equals(Constants.QUESTION_RESPONSE_TYPE_LOOKUP) && answer.getQuestion().getLookupClass().equals(ArgValueLookup.class.getName())) {
-            setControl((Control) ComponentFactory.getNewComponentInstance("Uif-DropdownControl"));
+        	Control dropdownControl = (Control) ComponentFactory.getNewComponentInstance("Uif-DropdownControl");
+        	dropdownControl.getCssClasses().add("answer");
+            setControl(dropdownControl);
             ArgValueLookupValuesFinder valuesFinder = new ArgValueLookupValuesFinder();
             valuesFinder.setArgName(answer.getQuestion().getLookupReturn());
             valuesFinder.setAddBlankOption(false);

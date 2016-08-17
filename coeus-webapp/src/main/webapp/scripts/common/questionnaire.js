@@ -103,7 +103,7 @@ Kc.Questionnaire.Answer = Kc.Questionnaire.Answer || {};
     			$(this).slideUp(500);
     			namespace.emptyAnswerForHiddenQuestion(this);
     		}
-    		namespace.answerChanged($(this).find('input.answer'));
+    		namespace.answerChanged($(this).find('input.answer, select.answer'));
         });
 	};
 
@@ -111,7 +111,7 @@ Kc.Questionnaire.Answer = Kc.Questionnaire.Answer || {};
      * uncheck radio button if it is checked and empty answer fields if it is not a 'radio' type.
      */
     namespace.emptyAnswerForHiddenQuestion = function(questionTable) {
-   		$(questionTable).find('input[name$=".answer"]').each(function() {		
+   		$(questionTable).find('input[name$=".answer"], select[name$=".answer"]').each(function() {		
    			var radioChecked = $(this).attr('checked');
    			if (radioChecked) {
    				$(this).attr('checked', false);
