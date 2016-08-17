@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-1554:Fix child questions of dropdowns (#1910)
+
+  * Douglas Pace on Wed, 17 Aug 2016 11:56:29 -0700 [View Commit](../../commit/1025d99b49064a39a5cdf5c66c3f4d500fd122bf)
+* RESKC-1536: Load only review comments pertinent to this protocol submission
+  * Terry Durkin on Mon, 15 Aug 2016 10:41:30 -0400 [View Commit](../../commit/783d2cc67e65c0fc99db423b9514b985a7fd8aaf)
 * RESKC-1554:Fix questionnaire lookups for csrf (#1907)
 
   * Also fix a problem with Rule lookup where the popup window was losing its reference to the parent window  * Douglas Pace on Tue, 16 Aug 2016 16:51:26 -0700 [View Commit](../../commit/92e5d506ccd66de581df18fd8963826be3608ac0)
@@ -74,6 +79,10 @@
   * Douglas Pace on Tue, 2 Aug 2016 12:13:43 -0700 [View Commit](../../commit/6ec888c7758522e2cadaab3b29ee04ed6bd16683)
 
 ##coeus-1608.1
+* No Changes
+
+
+##coeus-1608.0026
 * No Changes
 
 
