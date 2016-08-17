@@ -44,6 +44,7 @@ import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.award.dao.AwardDao;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.home.AwardSponsorTerm;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposalBean;
@@ -194,9 +195,12 @@ public class AwardController extends RestController implements InitializingBean 
             } else {
                 award.setNewVersion(true);
                 Award newAwardVersion = versioningService.createNewVersion(award);
+                List<AwardAmountInfo> oldAwardAmountInfos = newAwardVersion.getAwardAmountInfos();
                 commonApiService.updateDataObjectFromDto(newAwardVersion, awardDto);
+                newAwardVersion.setAwardAmountInfos(oldAwardAmountInfos);
                 defaultValues(newAwardVersion, awardDto);
-                translateCollections(awardDto, newAwardVersion, newAwardVersion.getAwardDocument());
+                newAwardVersion.getAwardDocument().setAward(newAwardVersion);
+                translateCollections(awardDto, newAwardVersion.getAwardDocument());
                 AwardDocument newAwardDocument = awardService.generateAndPopulateAwardDocument(oldAwardDocument, newAwardVersion);
                 newAwardDocument = (AwardDocument) documentService.saveDocument(newAwardDocument);
                 awardService.updateAwardSequenceStatus(newAwardDocument.getAward(), VersionStatus.PENDING);
@@ -267,7 +271,7 @@ public class AwardController extends RestController implements InitializingBean 
         defaultValues(award, awardDto);
         AwardDocument awardDocument = (AwardDocument) documentService.getNewDocument(AwardDocument.class);
         awardDocument.setAward(award);
-        translateCollections(awardDto, award, awardDocument);
+        translateCollections(awardDto, awardDocument);
         awardService.checkAwardNumber(award);
         awardService.updateCurrentAwardAmountInfo(award);
         AwardDocument newDocument = (AwardDocument) commonApiService.saveDocument(awardDocument);
@@ -289,8 +293,10 @@ public class AwardController extends RestController implements InitializingBean 
         return newAwardDto;
     }
 
-    protected void translateCollections(AwardDto awardDto, Award award, AwardDocument awardDocument) {
-        awardDocument.getAward().setProjectPersons(new ArrayList<>());
+    protected void translateCollections(AwardDto awardDto, AwardDocument awardDocument) {
+
+        final Award award = awardDocument.getAward();
+        award.setProjectPersons(new ArrayList<>());
         final List<AwardPersonDto> projectPersons = awardDto.getProjectPersons();
         addPersons(projectPersons, awardDocument);
         addSponsorTerms(award, awardDto);
@@ -415,16 +421,17 @@ public class AwardController extends RestController implements InitializingBean 
     }
 
     protected void addPersons(List<AwardPersonDto> awardPersonsDto, AwardDocument awardDocument) {
+        Award award = awardDocument.getAward();
         if (awardPersonsDto != null) {
             List<AwardPerson> awardPersons = awardPersonsDto.stream().map(awardPersonDto -> {
                 AwardPerson awardPerson = commonApiService.convertObject(awardPersonDto, AwardPerson.class);
                 AwardProjectPersonnelBean awardProjectPersonnelBean = new AwardProjectPersonnelBean(awardDocument);
                 awardProjectPersonnelBean.addPersonUnits(awardPerson);
-                awardPerson.setAward(awardDocument.getAward());
+                awardPerson.setAward(award);
                 return awardPerson;
             }).collect(Collectors.toList());
-
-            awardDocument.getAward().getProjectPersons().addAll(awardPersons);
+            award.setProjectPersons(awardPersons);
+            awardDocument.setAward(award);
         }
 
     }
