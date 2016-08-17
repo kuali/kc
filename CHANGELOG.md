@@ -1,6 +1,9 @@
 
 
 ##CURRENT
+* Fixing award versioning issue where it was not carrying the award amount info values over to the new version. Fixed some other minor issues of the DTO lists being left behind in the BO. (#1911)
+
+  * Gayathri Athreya on Wed, 17 Aug 2016 15:04:56 -0700 [View Commit](../../commit/a00b7a4187218929002f3404a36410f249f98a1c)
 * RESKC-1554:Fix child questions of dropdowns (#1910)
 
   * Douglas Pace on Wed, 17 Aug 2016 11:56:29 -0700 [View Commit](../../commit/1025d99b49064a39a5cdf5c66c3f4d500fd122bf)
@@ -79,6 +82,10 @@
   * Douglas Pace on Tue, 2 Aug 2016 12:13:43 -0700 [View Commit](../../commit/6ec888c7758522e2cadaab3b29ee04ed6bd16683)
 
 ##coeus-1608.1
+* No Changes
+
+
+##coeus-1608.0028
 * No Changes
 
 
