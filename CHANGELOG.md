@@ -77,6 +77,11 @@
 * No Changes
 
 
+##coeus-1608.0025
+* RESKC-1554:Fix questionnaire lookups for csrf (#1907)
+
+  * Also fix a problem with Rule lookup where the popup window was losing its reference to the parent window  * Douglas Pace on Tue, 16 Aug 2016 16:51:26 -0700 [View Commit](../../commit/92e5d506ccd66de581df18fd8963826be3608ac0)
+
 ##coeus-1608.0024
 * relax constraint on rolodex Id to allow negative numbers.  This is required due to the fact that negative rolodex ids are common in legacy coeus.
   * Travis Schneeberger on Mon, 15 Aug 2016 20:04:34 -0400 [View Commit](../../commit/1311b5b015fd445bc478379a0f8908a95ef901b8)
