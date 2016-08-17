@@ -96,6 +96,7 @@
                 <c:when test="${fn:trim(ConfigProperties.environment) == fn:trim(ConfigProperties.production.environment.code)}" >
                   <html:form action="/logout.do" method="post" style="margin:0; display:inline">
                     <input name="imageField" type="submit" value="Logout" class="go" title="Click to logout.">
+                    <kul:csrf />
                   </html:form>
                 </c:when>
                 <c:otherwise>
@@ -105,11 +106,13 @@
                       <input name="backdoorId" type="text" class="searchbox" size="10" title="Enter your backdoor ID here.">
                       <button type="submit" value="Login" class="btn btn-mini" title="Click to login.">Login</button>
                       <input name="methodToCall" type="hidden" value="login" />
+                      <kul:csrf />
                     </html:form>
                   </c:if>
                   <html:form action="/backdoorlogin.do" method="post" style="margin:0; display:inline">
                     <button name="imageField" type="submit" value="Logout" class="btn btn-mini">Logout</button>
                     <input name="methodToCall" type="hidden" value="logout" />
+                    <kul:csrf />
                   </html:form>
                 </c:otherwise>
               </c:choose>
