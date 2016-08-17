@@ -107,7 +107,8 @@ public abstract class ActionHelperBase implements Serializable {
 
     private static final String DEFAULT_TAB = "Versions";
     private static final String ALTERNATE_OPEN_TAB = "Parameters";
-    
+    private HashMap<Long,List<CommitteeScheduleMinuteBase>> scheduleToMinutesMap = new HashMap<Long,List<CommitteeScheduleMinuteBase>>();
+
     /**
      * Each Helper must contain a reference to its document form
      * so that it can access the document.
@@ -847,64 +848,49 @@ public abstract class ActionHelperBase implements Serializable {
      */
     @SuppressWarnings("unchecked")
     public void prepareCommentsView() {
-        
-        protocolAdminApprovalBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+
+        List<CommitteeScheduleMinuteBase> copiedReviewComments = getCopiedReviewComments();
+
+        protocolAdminApprovalBean.getReviewCommentsBean().setReviewComments(copiedReviewComments);
              
-        assignToAgendaBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        assignToAgendaBean.getReviewCommentsBean().setReviewComments(copiedReviewComments);
         
-        protocolFullApprovalBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-        
-        protocolDisapproveBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());         
-        protocolSMRBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-        protocolSRRBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-        protocolSuspendBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-        protocolExpireBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-        protocolTerminateBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-        committeeDecision.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());        
-        protocolManageReviewCommentsBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        protocolFullApprovalBean.getReviewCommentsBean().setReviewComments(copiedReviewComments);
+
+        protocolDisapproveBean.getReviewCommentsBean().setReviewComments(copiedReviewComments);
+        protocolSMRBean.getReviewCommentsBean().setReviewComments(copiedReviewComments);
+        protocolSRRBean.getReviewCommentsBean().setReviewComments(copiedReviewComments);
+        protocolSuspendBean.getReviewCommentsBean().setReviewComments(copiedReviewComments);
+        protocolExpireBean.getReviewCommentsBean().setReviewComments(copiedReviewComments);
+        protocolTerminateBean.getReviewCommentsBean().setReviewComments(copiedReviewComments);
+        committeeDecision.getReviewCommentsBean().setReviewComments(copiedReviewComments);
+        protocolManageReviewCommentsBean.getReviewCommentsBean().setReviewComments(copiedReviewComments);
         getProtocol().getProtocolSubmission().refreshReferenceObject("reviewAttachments");
         protocolManageReviewCommentsBean.getReviewAttachmentsBean().setReviewAttachments(getProtocol().getProtocolSubmission().getReviewAttachments());
         if (CollectionUtils.isNotEmpty(protocolManageReviewCommentsBean.getReviewAttachmentsBean().getReviewAttachments())) {
             protocolManageReviewCommentsBean.getReviewAttachmentsBean().setHideReviewerName(getReviewerCommentsService().setHideReviewerName(protocolManageReviewCommentsBean.getReviewAttachmentsBean().getReviewAttachments()));
         }
         
-        protocolReturnToPIBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        protocolReturnToPIBean.getReviewCommentsBean().setReviewComments(copiedReviewComments);
     }
     
-    @SuppressWarnings({ "rawtypes" })
     protected List<CommitteeScheduleMinuteBase> getCopiedReviewComments() {
-        List<CommitteeScheduleMinuteBase> minutes = getReviewCommentsUsingScheduleOrSubmission();
-        return cloneReviewComments(minutes);        
-    }
-    
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    protected List<CommitteeScheduleMinuteBase> getReviewCommentsUsingScheduleOrSubmission() {
-        List<CommitteeScheduleMinuteBase> minutes;
-        Long scheduleIdFk = getProtocol().getProtocolSubmission().getScheduleIdFk();
-        // if the schedule has not yet been selected, then use the review comment service to get the reviews, 
-        if(scheduleIdFk == null) {
-            minutes = getReviewerCommentsService().getReviewerComments(getProtocol().getProtocolNumber(), currentSubmissionNumber);
-            // sort the minutes by entry number, so that all review comments beans show the same ordered listing
-            Collections.sort(minutes, new Comparator<CommitteeScheduleMinuteBase>() {
+        List<CommitteeScheduleMinuteBase> clonedMinutes = new ArrayList<CommitteeScheduleMinuteBase>(); 
+        Long protocolId = getProtocol().getProtocolId();
+        List<CommitteeScheduleMinuteBase> minutes = scheduleToMinutesMap.get(protocolId);
+        if(minutes == null) {
+            minutes = getCommitteeScheduleService().getMinutesByProtocol(protocolId);
+            scheduleToMinutesMap.put(protocolId, minutes);
+        }
 
-                @Override
-                public int compare(CommitteeScheduleMinuteBase csm1, CommitteeScheduleMinuteBase csm2) {
-                    int retVal = 0;
-                    if( (csm1 != null) && (csm2 != null) && (csm1.getEntryNumber() != null) && (csm2.getEntryNumber() != null) ) {
-                        retVal = csm1.getEntryNumber().compareTo(csm2.getEntryNumber());
-                    }
-                    return retVal;
-                }
-                
-            });
+        if (CollectionUtils.isNotEmpty(minutes)) { 
+            for (CommitteeScheduleMinuteBase minute : minutes) { 
+                clonedMinutes.add(minute.getCopy()); 
+            } 
         }
-        // otherwise just use the committeesSchedule service to get the reviews for the selected schedule
-        else {
-            minutes = getCommitteeScheduleService().getMinutesBySchedule(scheduleIdFk);
-        }
-        return minutes;
-    }
-    
+        return clonedMinutes; 
+    } 
+
     @SuppressWarnings("rawtypes")
     protected List<CommitteeScheduleMinuteBase> cloneReviewComments(List<CommitteeScheduleMinuteBase> minutes) {
         List<CommitteeScheduleMinuteBase> clonedMinutes = new ArrayList<CommitteeScheduleMinuteBase>();
@@ -1987,7 +1973,9 @@ public abstract class ActionHelperBase implements Serializable {
             prevProtocolSummary.compare(protocolSummary);
         }
 
-        setSummaryQuestionnaireExist(hasAnsweredQuestionnaire((protocol.isAmendment() || protocol.isRenewal()) ? CoeusSubModule.AMENDMENT_RENEWAL : CoeusSubModule.ZERO_SUBMODULE, protocol.getSequenceNumber().toString()));
+        if(protocol != null) {
+            setSummaryQuestionnaireExist(hasAnsweredQuestionnaire((protocol.isAmendment() || protocol.isRenewal()) ? CoeusSubModule.AMENDMENT_RENEWAL : CoeusSubModule.ZERO_SUBMODULE, protocol.getSequenceNumber().toString()));
+        }
     }
 
     /**

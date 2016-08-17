@@ -84,7 +84,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        
+
         ActionForward actionForward = super.execute(mapping, form, request, response);
 
         final ProtocolForm protocolForm = (ProtocolForm) form;
