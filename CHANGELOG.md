@@ -1,87 +1,11 @@
 
 
 ##CURRENT
-* Fixing award versioning issue where it was not carrying the award amount info values over to the new version. Fixed some other minor issues of the DTO lists being left behind in the BO. (#1911)
+* Fix funding proposal addition when versioning awards. (#1914)
 
-  * Gayathri Athreya on Wed, 17 Aug 2016 15:04:56 -0700 [View Commit](../../commit/a00b7a4187218929002f3404a36410f249f98a1c)
-* RESKC-1554:Fix child questions of dropdowns (#1910)
+  * Gayathri Athreya on Thu, 18 Aug 2016 10:52:43 -0700 [View Commit](../../commit/fdb5103c03601b3755f28d200fb72a72db4a15d2)
 
-  * Douglas Pace on Wed, 17 Aug 2016 11:56:29 -0700 [View Commit](../../commit/1025d99b49064a39a5cdf5c66c3f4d500fd122bf)
-* RESKC-1536: Load only review comments pertinent to this protocol submission
-  * Terry Durkin on Mon, 15 Aug 2016 10:41:30 -0400 [View Commit](../../commit/783d2cc67e65c0fc99db423b9514b985a7fd8aaf)
-* RESKC-1554:Fix questionnaire lookups for csrf (#1907)
-
-  * Also fix a problem with Rule lookup where the popup window was losing its reference to the parent window  * Douglas Pace on Tue, 16 Aug 2016 16:51:26 -0700 [View Commit](../../commit/92e5d506ccd66de581df18fd8963826be3608ac0)
-* relax constraint on rolodex Id to allow negative numbers.  This is required due to the fact that negative rolodex ids are common in legacy coeus.
-  * Travis Schneeberger on Mon, 15 Aug 2016 20:04:34 -0400 [View Commit](../../commit/1311b5b015fd445bc478379a0f8908a95ef901b8)
-* RESKC-1076: ffata required field
-  * Travis Schneeberger on Fri, 12 Aug 2016 12:58:29 -0400 [View Commit](../../commit/d64a8cfd888e98b209d36215e720d4cadee9098a)
-* RESKC-513: correct labels
-  * Travis Schneeberger on Fri, 12 Aug 2016 09:18:49 -0400 [View Commit](../../commit/346e3ac81319e2312e7dfd7b722ba0d52bacbb5a)
-* RESKC-1475: correct spelling error
-  * Travis Schneeberger on Thu, 11 Aug 2016 23:03:34 -0400 [View Commit](../../commit/f295b48b3607e9b70dea7c9cb7467f95129b2671)
-* RESKC-1512:Fix award rates matching (#1901)
-
-  * In award when an object class was mapped to multiple award overhead rates, mutliple duplicate rates would appear as part of the line item due to incorrect matching against the budgets actual rates.
-  * 
-  * In addition when this occurred the rate cost would be incorrectly 0.  * Douglas Pace on Thu, 11 Aug 2016 14:38:02 -0700 [View Commit](../../commit/0af8a300796e2362577f7e4a3c80cb224b07300c)
-* Fix award null pointer (#1900)
-
-  * Gayathri Athreya on Thu, 11 Aug 2016 12:45:28 -0700 [View Commit](../../commit/f9b7eaebba46dec79d00a9d5d1b00e6ffe95db32)
-* Add serializer annotation to date. (#1898)
-
-  * Gayathri Athreya on Tue, 9 Aug 2016 15:17:59 -0700 [View Commit](../../commit/53f0be46a86382b4bdcdda8ae6197b91b240a755)
-* RESKC-1349: adding null check for conversion program
-  * Travis Schneeberger on Mon, 8 Aug 2016 12:48:52 -0400 [View Commit](../../commit/0dec078e925c9fa0c5ff23159e88da64697b9fc7)
-* Fix integration tests
-  * Gayathri Athreya on Mon, 8 Aug 2016 09:21:41 -0700 [View Commit](../../commit/e22651f86ee2c6a28b400c8d349b23f31bfef2a8)
-* RESKC-1349: added automatic conversion for update users
-  * Travis Schneeberger on Mon, 8 Aug 2016 10:48:49 -0400 [View Commit](../../commit/297a06f0856ccf164e73cedbd7f75c96e3a5ac20)
-* RESKC-1554: updating rice, adding kr-sys component
-  * Travis Schneeberger on Mon, 8 Aug 2016 10:35:30 -0400 [View Commit](../../commit/5b0b8cf381e85cc5208f05f1edaeda18ca8aa5f4)
-* RESKC-1554: csrf protection, updating kc-s3, rice, and fileupload dependencies
-  * Travis Schneeberger on Fri, 5 Aug 2016 20:00:12 -0400 [View Commit](../../commit/31f3180032008b71205e1544d72a05fcfcc74ecb)
-* Resops 969 time and money versioning (#1879)
-
-* T&M refactor and full save with transactions
-  * 
-* Create award hierarchy and amount infos on save and refactor associated artifacts. Start T&M versioning.
-  * 
-* Finish versioning and tests
-  * 
-* Add tests and fix existing test.
-  * Gayathri Athreya on Fri, 5 Aug 2016 09:45:47 -0700 [View Commit](../../commit/9ecfa04ec224d869a01a2e44dfd3804ff5620c45)
-* RESKC-1349: fix query
-  * Travis Schneeberger on Thu, 4 Aug 2016 13:26:52 -0400 [View Commit](../../commit/43dc4158944abb5d0ceec3f60334ebe79b661ba6)
-* RESKC-1349: fix query
-  * Travis Schneeberger on Thu, 4 Aug 2016 12:32:03 -0400 [View Commit](../../commit/f020718f6efacf9ac24b98bfdea6452182e85275)
-* RESKC-1348: fix integration test
-  * Travis Schneeberger on Thu, 4 Aug 2016 11:41:04 -0400 [View Commit](../../commit/6f8b2841f7f0120568cee1fdb977ad77bfb7a317)
-* RESKC-1348: update parameter to change post processor save behavior in regards to update user.
-  * Travis Schneeberger on Thu, 4 Aug 2016 09:44:11 -0400 [View Commit](../../commit/022fe71fc15674c2cfae9e0dc73368b72cae8bc8)
-* Revert "RESKC-1348: update parameter to change post processor save behavior i…"
-  * Travis Schneeberger on Thu, 4 Aug 2016 09:40:50 -0400 [View Commit](../../commit/302a69dacc6e3b22eb808ba63d4d4078cb5ff84e)
-* RESKC-1348: update parameter to change post processor save behavior in regards to update user.
-  * Travis Schneeberger on Tue, 31 May 2016 11:40:13 -0400 [View Commit](../../commit/c154c5a049bcbbcd3a72c283987a072ce86d4340)
-* RESKC-1349: add where criteria for added safety for update user correction process
-  * Travis Schneeberger on Thu, 4 Aug 2016 09:29:54 -0400 [View Commit](../../commit/47b5b45fa73977046c9dcf3d942c94b6afe73b76)
-* KRMS rule to match on a list of proposal types (#1885)
-
-  * Douglas Pace on Wed, 3 Aug 2016 14:57:30 -0700 [View Commit](../../commit/6200b46c20b51ffdf485b1c575b5db50dfb8e2d6)
-* RESKC-1505: script to fix bad ip sequence numbers
-  * Joe Williams on Tue, 2 Aug 2016 14:45:19 -0500 [View Commit](../../commit/f731e15e2f45a63d3c575f5c653316adbebbb752)
-* RESKC-1349: develop a process to clean correct update user for award, time and money, ip, and subaward
-  * Travis Schneeberger on Tue, 2 Aug 2016 17:12:01 -0400 [View Commit](../../commit/3e0632531d6bcadea7f4a27788bad86cc755f21f)
-* RESKC-1528:upgrade s2s to include fix for user attached form validation (#1884)
-
-  * Douglas Pace on Tue, 2 Aug 2016 16:19:44 -0700 [View Commit](../../commit/b89e06dc2840465d0603a95d93823c32ebf233f9)
-
-##coeus-1608.2
-* Fix case where deadline time of 1200 becomes 0:00 PM (#1881)
-
-  * Douglas Pace on Tue, 2 Aug 2016 12:13:43 -0700 [View Commit](../../commit/6ec888c7758522e2cadaab3b29ee04ed6bd16683)
-
-##coeus-1608.1
+##coeus-1608.0030
 * No Changes
 
 
