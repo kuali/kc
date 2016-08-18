@@ -85,6 +85,11 @@
 * No Changes
 
 
+##coeus-1608.0029
+* Fixing award versioning issue where it was not carrying the award amount info values over to the new version. Fixed some other minor issues of the DTO lists being left behind in the BO. (#1911)
+
+  * Gayathri Athreya on Wed, 17 Aug 2016 15:04:56 -0700 [View Commit](../../commit/a00b7a4187218929002f3404a36410f249f98a1c)
+
 ##coeus-1608.0028
 * No Changes
 
