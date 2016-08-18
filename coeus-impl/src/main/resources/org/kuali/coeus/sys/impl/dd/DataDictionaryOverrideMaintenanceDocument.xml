@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+   - Kuali Coeus, a comprehensive research administration system for higher education.
+   - 
+   - Copyright 2005-2016 Kuali, Inc.
+   - 
+   - This program is free software: you can redistribute it and/or modify
+   - it under the terms of the GNU Affero General Public License as
+   - published by the Free Software Foundation, either version 3 of the
+   - License, or (at your option) any later version.
+   - 
+   - This program is distributed in the hope that it will be useful,
+   - but WITHOUT ANY WARRANTY; without even the implied warranty of
+   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   - GNU Affero General Public License for more details.
+   - 
+   - You should have received a copy of the GNU Affero General Public License
+   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+
+    <bean id="DataDictionaryOverrideMaintenanceDocument" parent="DataDictionaryOverrideMaintenanceDocument-parentBean"/>
+    <bean id="DataDictionaryOverrideMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+      <property name="businessObjectClass" value="org.kuali.coeus.sys.framework.dd.DataDictionaryOverride"/>
+      <property name="maintainableClass" value="org.kuali.coeus.sys.impl.dd.DataDictionaryOverrideMaintainableImpl"/>
+      <property name="businessRulesClass" value="org.kuali.coeus.sys.impl.dd.DataDictionaryOverrideMaintenanceDocumentRules" />
+      <property name="maintainableSections">
+          <list>
+              <ref bean="DataDictionaryOverrideMaintenanceDocument-Edit"/>
+          </list>
+      </property>
+      <property name="lockingKeys">
+          <list>
+              <value>id</value>
+          </list>
+      </property>
+      <property name="allowsRecordDeletion" value="true" />
+      <property name="allowsNewOrCopy" value="true" />
+
+      <property name="documentTypeName" value="DataDictionaryOverrideMaintenanceDocument"/>
+      <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    </bean>
+
+    <bean id="DataDictionaryOverrideMaintenanceDocument-Edit" parent="DataDictionaryOverrideMaintenanceDocument-Edit-parentBean"/>
+    <bean id="DataDictionaryOverrideMaintenanceDocument-Edit-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+        <property name="id" value="Edit Data Dictionary Override"/>
+        <property name="title" value="Edit Data Dictionary Override"/>
+        <property name="maintainableItems">
+            <list>
+                <bean parent="MaintainableFieldDefinition" p:name="id" p:required="true" p:unconditionallyReadOnly="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="overrideBeansFile" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" />
+            </list>
+        </property>
+    </bean>
+</beans>

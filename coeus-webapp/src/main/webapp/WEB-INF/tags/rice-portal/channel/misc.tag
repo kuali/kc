@@ -25,6 +25,7 @@
       <li><a href="${ConfigProperties.application.url}/coiProject.do?methodToCall=publishAll" title="Project Push To COI">Project Push To COI</a></li>
       <li><a href="${ConfigProperties.application.url}/authServicePush.do?methodToCall=pushAll" title="Push Users to the Core Auth Service">Push Users to the Core Auth Service</a></li>
       <li><a href="${ConfigProperties.krad.url}/core/admin/cache?viewId=CacheAdmin-view1&methodToCall=start" title="Cache Admin">Cache Admin</a></li>
+      <li><portal:portalLink displayTitle="true" title="Data Dictionary Override" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.coeus.sys.framework.dd.DataDictionaryOverride&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
    </ul>
 
 </div>

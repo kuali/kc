@@ -24,6 +24,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.test.MockFormFile;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateService;
@@ -47,20 +48,28 @@ public class ProtocolActionTypeToCorrespondenceTemplateServiceTest extends KcInt
                 ProtocolCorrespondenceTemplate template = new ProtocolCorrespondenceTemplate();
                 template.setFileName("test.xml");
                 template.setProtoCorrespTypeCode(type.getProtoCorrespTypeCode());
-                FormFile file = new FormFileMock();
-                template.setTemplateFile(file);
+
+                template.setTemplateFile(createFormFile());
                 KcServiceLocator.getService(ProtocolCorrespondenceTemplateService.class).addDefaultProtocolCorrespondenceTemplate(type, template);
                 KcServiceLocator.getService(BusinessObjectService.class).save(template);
             } else if ("Protocol Submission Report #2".equals(type.getDescription())) {
                 ProtocolCorrespondenceTemplate template = new ProtocolCorrespondenceTemplate();
                 template.setFileName("test2.xml");
                 template.setProtoCorrespTypeCode(type.getProtoCorrespTypeCode());
-                FormFile file = new FormFileMock();
-                template.setTemplateFile(file);
+
+                template.setTemplateFile(createFormFile());
                 KcServiceLocator.getService(ProtocolCorrespondenceTemplateService.class).addDefaultProtocolCorrespondenceTemplate(type, template);
                 KcServiceLocator.getService(BusinessObjectService.class).save(template);
             }
         }
+    }
+
+    private FormFile createFormFile() {
+        MockFormFile formFile = new MockFormFile();
+        formFile.setFileData(new byte[] {'a', 'b', 'c', 'd'});
+        formFile.setContentType("xml");
+        formFile.setFileName("test.xml");
+        return formFile;
     }
 
     @After
