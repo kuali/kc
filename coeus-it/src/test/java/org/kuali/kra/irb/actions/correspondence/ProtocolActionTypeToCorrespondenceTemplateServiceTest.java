@@ -64,9 +64,10 @@ public class ProtocolActionTypeToCorrespondenceTemplateServiceTest extends KcInt
         }
     }
 
-    private FormFile createFormFile() {
+    private FormFile createFormFile() throws Exception {
         MockFormFile formFile = new MockFormFile();
         formFile.setFileData(new byte[] {'a', 'b', 'c', 'd'});
+        formFile.setFileSize(formFile.getFileData().length);
         formFile.setContentType("xml");
         formFile.setFileName("test.xml");
         return formFile;

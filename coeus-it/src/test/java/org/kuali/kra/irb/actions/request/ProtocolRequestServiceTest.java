@@ -127,10 +127,11 @@ public class ProtocolRequestServiceTest extends KcIntegrationTestBase {
      * and ProtocolSubmissionType which is trivial.
      */
     @Test
-    public void testRequest() throws WorkflowException {
+    public void testRequest() throws Exception {
         ProtocolActionAttachment attachment = new ProtocolActionAttachment();
         MockFormFile formFile = new MockFormFile();
         formFile.setFileData(new byte[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9});
+        formFile.setFileSize(formFile.getFileData().length);
         formFile.setFileName("test");
         attachment.setFile(formFile);
         ProtocolRequestBean closeRequest = getMockProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE, ProtocolSubmissionType.REQUEST_TO_CLOSE, 
