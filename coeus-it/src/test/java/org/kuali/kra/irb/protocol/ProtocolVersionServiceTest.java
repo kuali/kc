@@ -39,6 +39,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 public class ProtocolVersionServiceTest extends KcIntegrationTestBase {
     
+	private static final String DOCUMENT_STATUS_CODE_DRAFT = "1";
     private static final String DOCUMENT_STATUS_CODE_COMPLETE = "2";
 
 	private static final String PROTOCOL_NUMBER = "1021000009";
@@ -89,8 +90,8 @@ public class ProtocolVersionServiceTest extends KcIntegrationTestBase {
     @Test
     public void test_versioningWithAttachments() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
-        protocolDocument.getProtocol().addAttachmentsByType(createAttachment(1, "1", DOCUMENT_STATUS_CODE_COMPLETE, "1", 123L));
-        protocolDocument.getProtocol().addAttachmentsByType(createAttachment(1, DOCUMENT_STATUS_CODE_COMPLETE, DOCUMENT_STATUS_CODE_COMPLETE, DOCUMENT_STATUS_CODE_COMPLETE, 456L));
+        protocolDocument.getProtocol().addAttachmentsByType(createAttachment(1, "1", "2", DOCUMENT_STATUS_CODE_DRAFT, 123L));
+        protocolDocument.getProtocol().addAttachmentsByType(createAttachment(1, "2", "2", DOCUMENT_STATUS_CODE_COMPLETE, 456L));
         ProtocolDocument newProtocolDocument = (ProtocolDocument) protocolVersionService.versionProtocolDocument(protocolDocument);
         assertEquals(DOCUMENT_STATUS_CODE_COMPLETE, protocolDocument.getProtocol().getAttachmentProtocols().get(0).getDocumentStatusCode());
         assertEquals(DOCUMENT_STATUS_CODE_COMPLETE, protocolDocument.getProtocol().getAttachmentProtocols().get(1).getDocumentStatusCode());
