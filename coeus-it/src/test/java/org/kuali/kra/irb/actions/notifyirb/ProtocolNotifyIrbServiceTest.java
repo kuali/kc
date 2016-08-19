@@ -100,10 +100,11 @@ public class ProtocolNotifyIrbServiceTest extends KcIntegrationTestBase {
     }
     
     @Test
-    public void testRequestWithCommitteeAndFile() throws WorkflowException {
+    public void testRequestWithCommitteeAndFile() throws Exception {
         ProtocolActionAttachment attachment = new ProtocolActionAttachment();
         MockFormFile formFile = new MockFormFile();
         formFile.setFileData(new byte[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9});
+        formFile.setFileSize(formFile.getFileData().length);
         formFile.setFileName("test");
         attachment.setFile(formFile);
 
