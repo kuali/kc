@@ -179,7 +179,11 @@ public class KcAttachmentDataDaoS3Impl extends KcAttachmentDataDaoImpl {
     }
 
     protected boolean isS3IntegrationEnabled() {
-        return parameterService.getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, KcAttachmentDataS3Constants.S3_INTEGRATION_ENABLED);
+        if (parameterService.parameterExists(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, KcAttachmentDataS3Constants.S3_INTEGRATION_ENABLED)) {
+        	return parameterService.getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, KcAttachmentDataS3Constants.S3_INTEGRATION_ENABLED);
+        } else {
+        	return false;
+        }
     }
 
     protected boolean isS3DualSaveEnabled() {
