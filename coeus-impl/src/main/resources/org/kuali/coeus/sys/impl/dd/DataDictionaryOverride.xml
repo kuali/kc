@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - Kuali Coeus, a comprehensive research administration system for higher education.
+   - 
+   - Copyright 2005-2016 Kuali, Inc.
+   - 
+   - This program is free software: you can redistribute it and/or modify
+   - it under the terms of the GNU Affero General Public License as
+   - published by the Free Software Foundation, either version 3 of the
+   - License, or (at your option) any later version.
+   - 
+   - This program is distributed in the hope that it will be useful,
+   - but WITHOUT ANY WARRANTY; without even the implied warranty of
+   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   - GNU Affero General Public License for more details.
+   - 
+   - You should have received a copy of the GNU Affero General Public License
+   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="DataDictionaryOverride" parent="DataDictionaryOverride-parentBean" />
+    <bean id="DataDictionaryOverride-parentBean" abstract="true" parent="BusinessObjectEntry"
+            p:businessObjectClass="org.kuali.coeus.sys.framework.dd.DataDictionaryOverride"
+            p:objectLabel="Data Dictionary Override">
+        <property name="inquiryDefinition" >
+            <ref bean="DataDictionaryOverride-inquiryDefinition" />
+        </property>
+        <property name="lookupDefinition" >
+            <ref bean="DataDictionaryOverride-lookupDefinition" />
+        </property>
+        <property name="attributes">
+            <list>
+                <ref bean="DataDictionaryOverride-id" />
+                <ref bean="DataDictionaryOverride-overrideBeansFile" />
+                <ref bean="DataDictionaryOverride-fileName" />
+                <ref bean="DataDictionaryOverride-contentType" />
+                <ref bean="DataDictionaryOverride-active" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    <bean id="DataDictionaryOverride-id" parent="DataDictionaryOverride-id-parentBean" />
+    <bean id="DataDictionaryOverride-id-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId"
+            p:name="id" p:shortLabel="Id" p:summary="Id" p:label="Id" p:description="Id">
+    </bean>
+
+    <bean id="DataDictionaryOverride-overrideBeansFile" parent="DataDictionaryOverride-overrideBeansFile-parentBean" />
+    <bean id="DataDictionaryOverride-overrideBeansFile-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="overrideBeansFile" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Override Beans File" />
+        <property name="shortLabel" value="Override Beans File" />
+        <property name="maxLength" value="150" />
+        <property name="required" value="false" />
+        <property name="control" >
+            <bean parent="FileControlDefinition" p:size="100"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="100" parent="Uif-FileControl"/>
+        </property>
+        <property name="summary" value="Override Beans File" />
+        <property name="description" value="Override Beans File" />
+    </bean>
+
+    <bean id="DataDictionaryOverride-fileName" parent="DataDictionaryOverride-fileName-parentBean" />
+    <bean id="DataDictionaryOverride-fileName-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="fileName" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="File Name" />
+        <property name="shortLabel" value="File Name" />
+        <property name="maxLength" value="150" />
+        <property name="required" value="true" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="true"/>
+            </bean>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition" p:size="150"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="150" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="File Name" />
+        <property name="description" value="File Name" />
+    </bean>
+
+    <bean id="DataDictionaryOverride-contentType" parent="DataDictionaryOverride-contentType-parentBean" />
+    <bean id="DataDictionaryOverride-contentType-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="contentType" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Content Type" />
+        <property name="shortLabel" value="Content Type" />
+        <property name="maxLength" value="255" />
+        <property name="required" value="true" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="true"/>
+            </bean>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition" p:size="255"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="150" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Content Type" />
+        <property name="description" value="Content Type" />
+    </bean>
+
+    <bean id="DataDictionaryOverride-active" parent="DataDictionaryOverride-active-parentBean" />
+    <bean id="DataDictionaryOverride-active-parentBean" abstract="true" parent="AttributeReference-activeIndicator" p:name="active" p:description="Active Indicator"></bean>
+
+    <bean id="DataDictionaryOverride-inquiryDefinition" parent="DataDictionaryOverride-inquiryDefinition-parentBean" />
+    <bean id="DataDictionaryOverride-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Data Dictionary Override" />
+        <property name="inquirySections" >
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Data Dictionary Override" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields" >
+                        <list>
+                            <bean parent="FieldDefinition" p:attributeName="id"/>
+                            <bean parent="FieldDefinition" p:attributeName="fileName"/>
+                            <bean parent="FieldDefinition" p:attributeName="active"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="DataDictionaryOverride-lookupDefinition" parent="DataDictionaryOverride-lookupDefinition-parentBean" />
+    <bean id="DataDictionaryOverride-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Data Dictionary Override" />
+        <property name="defaultSort" >
+            <bean parent="SortDefinition">
+                <property name="attributeNames">
+                    <list>
+                        <value>id</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="lookupFields" >
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="id"/>
+                <bean parent="FieldDefinition" p:attributeName="fileName"/>
+                <bean parent="FieldDefinition" p:attributeName="active"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="id"/>
+                <bean parent="FieldDefinition" p:attributeName="fileName"/>
+                <bean parent="FieldDefinition" p:attributeName="active"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

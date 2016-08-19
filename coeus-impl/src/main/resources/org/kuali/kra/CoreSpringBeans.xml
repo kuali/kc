@@ -970,6 +970,8 @@
                 <value>classpath:org/kuali/coeus/common/impl/auth/docperm/DocumentAccessMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/sys/impl/mq/ActiveMqMessage.xml</value>
                 <value>classpath:org/kuali/coeus/sys/impl/mq/ActiveMqMessageMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/sys/impl/dd/DataDictionaryOverride.xml</value>
+                <value>classpath:org/kuali/coeus/sys/impl/dd/DataDictionaryOverrideMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/LineItemTableCommon.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/AwardCgb.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/krad/common/DummyLoginOverrides.xml</value>

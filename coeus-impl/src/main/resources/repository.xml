@@ -1640,4 +1640,16 @@
 		<field-descriptor name="impersonationDisplayName" column="IMPERSONATION_DISPLAY_NAME" jdbc-type="VARCHAR" />
 		<field-descriptor name="requestedResource" column="REQUESTED_RESOURCE" jdbc-type="VARCHAR" />
 	</class-descriptor>
+
+	<class-descriptor class="org.kuali.coeus.sys.framework.dd.DataDictionaryOverride" table="DATA_DICTIONARY_OVERRIDE">
+		<field-descriptor name="id" column="ID" primarykey="true" sequence-name="SEQ_DD_OVERRIDE_ID" autoincrement="true" />
+		<field-descriptor name="attachmentContent" column="OVERRIDE_BEANS" jdbc-type="CLOB" conversion="org.kuali.coeus.sys.framework.persistence.OjbBlobClobFieldConversion" />
+		<field-descriptor name="fileName" column="FILE_NAME" jdbc-type="VARCHAR"/>
+		<field-descriptor name="contentType" column="CONTENT_TYPE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="active" column="ACTIVE" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	</class-descriptor>
 </descriptor-repository>

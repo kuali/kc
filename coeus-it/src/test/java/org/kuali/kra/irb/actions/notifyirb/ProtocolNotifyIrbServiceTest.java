@@ -29,6 +29,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.committee.impl.web.struts.form.schedule.Time12HrFmt;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.test.MockFormFile;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.document.CommitteeDocument;
@@ -39,7 +40,6 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolSubmissionDoc;
-import org.kuali.kra.irb.actions.request.MockFormFile;
 import org.kuali.kra.irb.actions.submit.*;
 import org.kuali.kra.irb.questionnaire.IrbSubmissionQuestionnaireHelper;
 import org.kuali.kra.irb.test.ProtocolFactory;
@@ -102,7 +102,11 @@ public class ProtocolNotifyIrbServiceTest extends KcIntegrationTestBase {
     @Test
     public void testRequestWithCommitteeAndFile() throws WorkflowException {
         ProtocolActionAttachment attachment = new ProtocolActionAttachment();
-        attachment.setFile(new MockFormFile());
+        MockFormFile formFile = new MockFormFile();
+        formFile.setFileData(new byte[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9});
+        formFile.setFileName("test");
+        attachment.setFile(formFile);
+
         ProtocolNotifyIrbBean notifyIrbBean = getMockProtocolNotifyIrbBean(COMMITTEE_ID, attachment);
         runTest(notifyIrbBean);
     }
