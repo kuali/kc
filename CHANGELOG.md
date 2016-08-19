@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1608.0032
 * RESKC-1502: support Data Dictionary overrides
   * Travis Schneeberger on Thu, 18 Aug 2016 16:11:52 -0400 [View Commit](../../commit/ccdd4a0647c7d585aa49cb32afa9c5814abe5f0e)
 * RESKC-1526:Set all attachments to final on new protocol when versioning
