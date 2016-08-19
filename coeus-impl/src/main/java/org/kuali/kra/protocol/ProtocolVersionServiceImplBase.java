@@ -142,7 +142,7 @@ public abstract class ProtocolVersionServiceImplBase implements ProtocolVersionS
         newProtocol.setProtocolDocument(newProtocolDocument);
         protocolDocument.getProtocol().setActive(false);
         
-        if (!(!protocolDocument.getProtocol().isNew() && !newProtocol.isNew())) {
+        if (protocolDocument.getProtocol().isNew() || newProtocol.isNew()) {
             finalizeAttachmentProtocol(protocolDocument.getProtocol());
         }
         
@@ -151,8 +151,8 @@ public abstract class ProtocolVersionServiceImplBase implements ProtocolVersionS
         documentService.saveDocument(newProtocolDocument);
         newProtocol.resetForeignKeys();
 
-        if (!(!protocolDocument.getProtocol().isNew() && !newProtocol.isNew())) {
-            finalizeAttachmentProtocol(protocolDocument.getProtocol());
+        if (protocolDocument.getProtocol().isNew() || newProtocol.isNew()) {
+            finalizeAttachmentProtocol(newProtocol);
         }
         
         businessObjectService.save(newProtocol);
