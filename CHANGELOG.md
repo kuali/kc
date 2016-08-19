@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* RESKC-1502: support Data Dictionary overrides
+  * Travis Schneeberger on Thu, 18 Aug 2016 16:11:52 -0400 [View Commit](../../commit/ccdd4a0647c7d585aa49cb32afa9c5814abe5f0e)
+* RESKC-1526:Set all attachments to final on new protocol when versioning
+  * blackcathacker on Fri, 19 Aug 2016 09:57:43 -0700 [View Commit](../../commit/bbe01ed45d045829462bb91d0d90eb7b39ce9c8c)
+
+##coeus-1608.0031
 * Fix funding proposal addition when versioning awards. (#1914)
 
   * Gayathri Athreya on Thu, 18 Aug 2016 10:52:43 -0700 [View Commit](../../commit/fdb5103c03601b3755f28d200fb72a72db4a15d2)

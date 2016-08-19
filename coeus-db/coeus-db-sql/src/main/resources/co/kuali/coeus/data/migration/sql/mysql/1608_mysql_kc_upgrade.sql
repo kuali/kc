@@ -20,4 +20,5 @@
 
 \. ./kc/bootstrap/V1608_001__FixIPSequenceNumbers.sql
 \. ./kc/bootstrap/V1608_008__ffata_required.sql
+\. ./kc/bootstrap/V1608_009__dd_override.sql
 commit;
