@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-1467: Incorrect Lead Unit number when two units have the same name (#1918)
+
+  * tdurkin on Sun, 21 Aug 2016 20:36:27 -0400 [View Commit](../../commit/ef04e23b04147663bf1a1c87c52ccd1cc7cf5692)
+
+##coeus-1608.0033
 * No Changes
 
 
