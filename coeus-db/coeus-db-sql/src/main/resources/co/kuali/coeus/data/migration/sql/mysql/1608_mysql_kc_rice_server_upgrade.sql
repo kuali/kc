@@ -23,4 +23,5 @@
 \. ./rice/bootstrap/V1608_004__csrf_protection.sql
 \. ./rice/bootstrap/V1608_006__add_krsys_component.sql
 \. ./rice/bootstrap/V1608_010__dd_override_flag.sql
+\. ./rice/bootstrap/V1608_011__remove_legacy_save.sql
 commit;

@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1574: remove legacy save behavior
+  * Travis Schneeberger on Mon, 22 Aug 2016 13:19:12 -0400 [View Commit](../../commit/9ac19ab3868f0649fc8cb3549ea8bab0f950a061)
+
+##coeus-1608.0034
 * RESKC-1467: Incorrect Lead Unit number when two units have the same name (#1918)
 
   * tdurkin on Sun, 21 Aug 2016 20:36:27 -0400 [View Commit](../../commit/ef04e23b04147663bf1a1c87c52ccd1cc7cf5692)

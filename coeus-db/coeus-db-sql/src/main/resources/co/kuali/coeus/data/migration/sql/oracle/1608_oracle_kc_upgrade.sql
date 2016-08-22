@@ -24,4 +24,5 @@ spool 1608_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V1608_001__FixIPSequenceNumbers.sql
 @./kc/bootstrap/V1608_008__ffata_required.sql
 @./kc/bootstrap/V1608_009__dd_override.sql
+@./kc/bootstrap/V1608_011__remove_legacy_save.sql
 commit;
