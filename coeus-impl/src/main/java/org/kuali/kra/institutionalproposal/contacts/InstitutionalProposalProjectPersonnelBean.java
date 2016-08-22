@@ -50,7 +50,7 @@ public class InstitutionalProposalProjectPersonnelBean extends InstitutionalProp
             person.add(newInstitutionalProposalPersonUnits[projectPersonIndex]);
             if(newInstitutionalProposalPersonUnits[projectPersonIndex].isLeadUnit()) {
                 getInstitutionalProposal().setLeadUnit(newInstitutionalProposalPersonUnits[projectPersonIndex].getUnit());
-                setSelectedLeadUnit(newInstitutionalProposalPersonUnits[projectPersonIndex].getUnitName());
+                setSelectedLeadUnit(newInstitutionalProposalPersonUnits[projectPersonIndex].getUnitNumber());
             }
             initNewInstitutionalProposalPersonUnits();
         }
@@ -158,7 +158,7 @@ public class InstitutionalProposalProjectPersonnelBean extends InstitutionalProp
             if(p.isPrincipalInvestigator()) {
                 for(InstitutionalProposalPersonUnit apu: p.getUnits()) {
                     if(apu.isLeadUnit()) {
-                        selectedLeadUnit = apu.getUnitName(); 
+                        selectedLeadUnit = apu.getUnitNumber();
                     }
                 }
             }
@@ -178,9 +178,9 @@ public class InstitutionalProposalProjectPersonnelBean extends InstitutionalProp
      * Sets the selectedLeadUnit attribute value.
      * @param selectedLeadUnit The selectedLeadUnit to set.
      */
-    public void setSelectedLeadUnit(String unitName) {
-        this.selectedLeadUnit = unitName;
-        setLeadUnitSelectionStates(unitName);
+    public void setSelectedLeadUnit(String unitNumber) {
+        this.selectedLeadUnit = unitNumber;
+        setLeadUnitSelectionStates(unitNumber);
     }
 
 
@@ -241,12 +241,12 @@ public class InstitutionalProposalProjectPersonnelBean extends InstitutionalProp
         }
     }
     
-    private void setLeadUnitSelectionStates(String unitName) {
+    private void setLeadUnitSelectionStates(String unitNumber) {
         InstitutionalProposalPerson institutionalProposalPerson = findPrincipalInvestigator();
         if (institutionalProposalPerson != null) {
-        for(InstitutionalProposalPersonUnit associatedUnit: institutionalProposalPerson.getUnits()) {
-            associatedUnit.setLeadUnit(associatedUnit.getUnit().getUnitName().equals(unitName));
-        }
+            for(InstitutionalProposalPersonUnit associatedUnit: institutionalProposalPerson.getUnits()) {
+                associatedUnit.setLeadUnit(associatedUnit.getUnit().getUnitNumber().equals(unitNumber));
+            }
         } else {
           final IllegalStateException e = new IllegalStateException("institutionalProposalPerson == null");
           LOG.warn(e.getMessage(), e);

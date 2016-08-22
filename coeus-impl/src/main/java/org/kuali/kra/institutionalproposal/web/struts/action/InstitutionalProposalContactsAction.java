@@ -81,13 +81,11 @@ public class InstitutionalProposalContactsAction extends InstitutionalProposalAc
     private void setLeadUnitOnInstitutionalProposalFromPILeadUnit(InstitutionalProposal institutionalProposal, InstitutionalProposalForm institutionalProposalForm) {
         for (InstitutionalProposalPerson person : new ArrayList<>(institutionalProposal.getProjectPersons())) {
             if(person.isPrincipalInvestigator()) {
-                List<Unit> units= (List<Unit>) getBusinessObjectService().findMatching(Unit.class,
-                        Collections.singletonMap("unitName", institutionalProposalForm.getProjectPersonnelBean().getSelectedLeadUnit()));
-                if (units.size() > 0) {
-                Unit leadUnit = units.get(0);
-                institutionalProposal.setUnitNumber(leadUnit.getUnitNumber());
-                institutionalProposal.setLeadUnit(leadUnit);
-                }else {
+                Unit unit = getBusinessObjectService().findBySinglePrimaryKey(Unit.class, institutionalProposalForm.getProjectPersonnelBean().getSelectedLeadUnit());
+                if (unit != null) {
+                    institutionalProposal.setUnitNumber(unit.getUnitNumber());
+                    institutionalProposal.setLeadUnit(unit);
+                } else {
                     institutionalProposal.setUnitNumber(null);
                     institutionalProposal.setLeadUnit(null);
                 }

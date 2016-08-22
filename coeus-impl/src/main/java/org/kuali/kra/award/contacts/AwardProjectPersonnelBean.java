@@ -61,7 +61,7 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
             person.add(newAwardPersonUnits[projectPersonIndex]);
             if(newAwardPersonUnits[projectPersonIndex].isLeadUnit()) {
                 getAward().setLeadUnit(newAwardPersonUnits[projectPersonIndex].getUnit());
-                setSelectedLeadUnit(newAwardPersonUnits[projectPersonIndex].getUnitName());
+                setSelectedLeadUnit(newAwardPersonUnits[projectPersonIndex].getUnitNumber());
             }
             initNewAwardPersonUnits();
         }
@@ -189,7 +189,7 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
             if(p.isPrincipalInvestigator()) {
                 for(AwardPersonUnit apu: p.getUnits()) {
                     if(apu.isLeadUnit()) {
-                        selectedLeadUnit = apu.getUnitName();
+                        selectedLeadUnit = apu.getUnitNumber();
                     }
                 }
             }
@@ -208,9 +208,9 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
     /**
      * Sets the selectedLeadUnit attribute value.
      */
-    public void setSelectedLeadUnit(String unitName) {
-        this.selectedLeadUnit = unitName;
-        setLeadUnitSelectionStates(unitName);
+    public void setSelectedLeadUnit(String unitNumber) {
+        this.selectedLeadUnit = unitNumber;
+        setLeadUnitSelectionStates(unitNumber);
     }
 
 
@@ -271,11 +271,11 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
         }
     }
 
-    private void setLeadUnitSelectionStates(String unitName) {
+    private void setLeadUnitSelectionStates(String unitNumber) {
         AwardPerson awardPerson = findPrincipalInvestigator();
         if(awardPerson != null) {
             for(AwardPersonUnit associatedUnit: awardPerson.getUnits()) {
-                associatedUnit.setLeadUnit(unitName.equals(associatedUnit.getUnit().getUnitName()));
+                associatedUnit.setLeadUnit(unitNumber.equals(associatedUnit.getUnit().getUnitNumber()));
             }
         }
     }

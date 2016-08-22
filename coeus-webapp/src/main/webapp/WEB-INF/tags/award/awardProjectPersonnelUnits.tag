@@ -125,7 +125,7 @@
 				<c:if test="${isPrincipalInvestigator}">
 	                <td valign="middle">
 	                	<div align="center">
-	                		<html:radio property="selectedLeadUnit" value="${awardPersonUnit.unit.unitName}" disabled="${readOnly}"/>               		
+	                		<html:radio property="selectedLeadUnit" value="${awardPersonUnit.unit.unitNumber}" disabled="${readOnly}"/>
 						</div>
 					</td>
 				</c:if>
@@ -169,7 +169,7 @@
 						<c:if test="${isPrincipalInvestigator}">
 	                	<td valign="middle">
 	                		<div align="center">
-	                			<html:radio property="selectedLeadUnit" value="${awardPersonUnit.unit.unitName}" disabled="${readOnly}"/>               		
+	                			<html:radio property="selectedLeadUnit" value="${awardPersonUnit.unit.unitNumber}" disabled="${readOnly}"/>
 							</div>
 						</td>
 						</c:if>

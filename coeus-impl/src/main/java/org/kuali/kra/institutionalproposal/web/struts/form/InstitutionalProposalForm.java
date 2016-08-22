@@ -239,8 +239,8 @@ public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase i
         return projectPersonnelBean.getSelectedLeadUnit();
     }
 
-    public void setSelectedLeadUnit(String unitName) {
-        projectPersonnelBean.setSelectedLeadUnit(unitName);
+    public void setSelectedLeadUnit(String unitNumber) {
+        projectPersonnelBean.setSelectedLeadUnit(unitNumber);
     }
     
     @Override
