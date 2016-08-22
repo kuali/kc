@@ -23,7 +23,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.workflow.LastActionService;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.action.ActionType;
@@ -51,8 +50,6 @@ import java.util.List;
 public class KcPostProcessorServiceImpl implements PostProcessorService {
 
     private static final Log LOG = LogFactory.getLog(KcPostProcessorServiceImpl.class);
-
-    private static final String KC_POST_PROCESSOR_LEGACY_SAVE = "KC_POST_PROCESSOR_LEGACY_SAVE";
 
     @Autowired
     @Qualifier("lastActionService")
@@ -156,13 +153,7 @@ public class KcPostProcessorServiceImpl implements PostProcessorService {
 
     @Override
     public ProcessDocReport doRouteStatusChange(final DocumentRouteStatusChange statusChangeEvent) throws Exception {
-        return globalVariableService.doInNewGlobalVariables(establishPostProcessorUserSession(), () -> {
-            if (parameterService.getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_SYSTEM, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, KC_POST_PROCESSOR_LEGACY_SAVE)) {
-                return postProcessorService.doRouteStatusChange(statusChangeEvent);
-            } else {
-                return this.doNonDocumentSavingRouteStatusChange(statusChangeEvent);
-            }
-        });
+        return globalVariableService.doInNewGlobalVariables(establishPostProcessorUserSession(), () -> this.doNonDocumentSavingRouteStatusChange(statusChangeEvent));
     }
 
     @Override
