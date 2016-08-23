@@ -648,6 +648,8 @@
                 <value>classpath:org/kuali/kra/datadictionary/SubAwardDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/SubAwardForms.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/SubAwardFundingSource.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/SubAwardModificationType.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/docs/SubAwardModificationTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/SubawardPersonMassChange.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/SubAwardPrintAgreement.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/SubAwardReportType.xml</value>

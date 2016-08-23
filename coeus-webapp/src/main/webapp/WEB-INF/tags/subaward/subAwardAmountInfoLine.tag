@@ -48,7 +48,7 @@
 				attributeEntry="${subAwardAmountInfoAttributes.anticipatedChange}"
 				readOnly="${readOnly}" />
 		</div>
-	<td width="9%" valign="middle">
+	<td width="9%" valign="middle" colspan="2">
 
 		<div align="center"></div>
 		<div id="replaceDiv${index}" style="display: block;">
@@ -68,7 +68,7 @@
 			</div>
 		</c:if>
 	</td>
-	<td width="10%" valign="middle" rowspan="3">
+	<td width="10%" valign="middle" rowspan="4">
 		<div align="center">Attachment Actions :</div>
 		<br></br>
 		<div align="center">
@@ -98,6 +98,12 @@
 	</td>
 </tr>
 <tr>
+	<td width="9%" valign="middle">
+		<div align="center">
+			<kul:htmlControlAttribute
+				property="${amountInfoPath}.modificationTypeCode"
+				attributeEntry="${subAwardAmountInfoAttributes.modificationTypeCode}" readOnly="${readOnly}" />
+		</div>
 	<td width="9%" valign="middle">
 		<div align="center">
 			<kul:htmlControlAttribute

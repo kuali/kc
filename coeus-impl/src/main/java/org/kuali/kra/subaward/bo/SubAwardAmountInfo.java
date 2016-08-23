@@ -26,6 +26,7 @@ import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.subaward.fdp.SubAwardModificationType;
 
 import java.io.IOException;
 import java.lang.ref.SoftReference;
@@ -78,6 +79,9 @@ public class SubAwardAmountInfo extends KcPersistableBusinessObjectBase implemen
     private Date modificationEffectiveDate ;
     
     private String modificationID;
+    
+    private String modificationTypeCode;
+    private SubAwardModificationType modificationType;
     
     private Date periodofPerformanceStartDate;
     
@@ -463,5 +467,17 @@ public class SubAwardAmountInfo extends KcPersistableBusinessObjectBase implemen
 	}
 	public void setKcAttachmentDataDao(KcAttachmentDataDao kcAttachmentDao) {
 		this.kcAttachmentDataDao = kcAttachmentDao;
+	}
+	public String getModificationTypeCode() {
+		return modificationTypeCode;
+	}
+	public void setModificationTypeCode(String modificationTypeCode) {
+		this.modificationTypeCode = modificationTypeCode;
+	}
+	public SubAwardModificationType getModificationType() {
+		return modificationType;
+	}
+	public void setModificationType(SubAwardModificationType modificationType) {
+		this.modificationType = modificationType;
 	}
 }

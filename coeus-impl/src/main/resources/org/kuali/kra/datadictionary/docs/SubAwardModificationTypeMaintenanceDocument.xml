@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+   - Kuali Coeus, a comprehensive research administration system for higher education.
+   - 
+   - Copyright 2005-2016 Kuali, Inc.
+   - 
+   - This program is free software: you can redistribute it and/or modify
+   - it under the terms of the GNU Affero General Public License as
+   - published by the Free Software Foundation, either version 3 of the
+   - License, or (at your option) any later version.
+   - 
+   - This program is distributed in the hope that it will be useful,
+   - but WITHOUT ANY WARRANTY; without even the implied warranty of
+   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   - GNU Affero General Public License for more details.
+   - 
+   - You should have received a copy of the GNU Affero General Public License
+   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+
+  <bean id="SubAwardModificationTypeMaintenanceDocument" parent="SubAwardModificationTypeMaintenanceDocument-parentBean"/>
+
+  <bean id="SubAwardModificationTypeMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.subaward.fdp.SubAwardModificationType"/>
+    <property name="maintainableSections">
+      <list>
+      	<ref bean="SubAwardModificationTypeMaintenanceDocument-EditSubAwardModificationType"/>
+
+      </list>
+    </property>
+    <property name="lockingKeys">
+      <list>
+        <value>code</value>
+      </list>
+    </property>
+	<property name="allowsRecordDeletion" value="false" />
+    
+    <property name="documentTypeName" value="SubAwardModificationTypeMaintenanceDocument"/>    
+    <property name="workflowProperties">
+    	<ref bean="SubAwardModificationTypeMaintenanceDocument-workflowProperties"/>
+    </property>
+    
+  </bean>
+
+  <bean id="SubAwardModificationTypeMaintenanceDocument-workflowProperties" parent="SubAwardModificationTypeMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="SubAwardModificationTypeMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+	<property name="workflowPropertyGroups">
+		<list>
+			<bean parent="WorkflowPropertyGroup">
+				<property name="workflowProperties">
+					<list>
+						<bean parent="WorkflowProperty" p:path="code" />
+						<bean parent="WorkflowProperty" p:path="description" />
+						<bean parent="WorkflowProperty" p:path="active" />
+					</list>
+				</property>
+			</bean>
+		</list>
+	</property>
+  </bean>
+
+
+<!-- Maintenance Section Definitions -->
+
+  <bean id="SubAwardModificationTypeMaintenanceDocument-EditSubAwardModificationType" parent="SubAwardModificationTypeMaintenanceDocument-EditSubAwardModificationType-parentBean"/>
+
+  <bean id="SubAwardModificationTypeMaintenanceDocument-EditSubAwardModificationType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Subaward Modification Type"/>
+    <property name="title" value="Subaward Modification Type"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="code" p:required="true" p:readOnlyAfterAdd="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:required="false" p:defaultValue="true"/>
+      </list>
+    </property>
+  </bean>  
+</beans>

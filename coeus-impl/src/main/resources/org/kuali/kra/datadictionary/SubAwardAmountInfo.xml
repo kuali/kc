@@ -41,6 +41,7 @@
 		        <ref bean="SubAwardAmountInfo-fileName" />
 				<ref bean="SubAwardAmountInfo-document" />
 		        <ref bean="SubAwardAmountInfo-mimeType" />
+		        <ref bean="SubAwardAmountInfo-modificationTypeCode" />
 		        <ref bean="SubAwardAmountInfo-modificationEffectiveDate" />
 		        <ref bean="SubAwardAmountInfo-modificationID" />
 		        <ref bean="SubAwardAmountInfo-periodofPerformanceStartDate" />
@@ -326,6 +327,26 @@
   <bean id="SubAwardAmountInfo-modificationID-parentBean" abstract="true" parent="SubAward-modificationId">
       <property name="name" value="modificationID" />
   </bean> 
+  
+  <bean id="SubAwardAmountInfo-modificationTypeCode" parent="SubAwardAmountInfo-modificationTypeCode-parentBean" />
+  <bean id="SubAwardAmountInfo-modificationTypeCode-parentBean" abstract="true" parent="SubAwardModificationType-code">
+    <property name="name" value="modificationTypeCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Modification Type" />
+    <property name="shortLabel" value="Modification Type" />
+    <property name="required" value="false" />
+     <property name="control" >
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.subaward.fdp.SubAwardModificationTypeValuesFinder"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.subaward.fdp.SubAwardModificationTypeValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
+    </property>
+    <property name="summary" value="Modification Type" />
+    <property name="description" value="Modification Type" />    
+  </bean>  
   
   <bean id="SubAwardAmountInfo-periodofPerformanceStartDate" parent="SubAwardAmountInfo-periodofPerformanceStartDate-parentBean" />
   

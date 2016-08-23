@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - Kuali Coeus, a comprehensive research administration system for higher education.
+   - 
+   - Copyright 2005-2016 Kuali, Inc.
+   - 
+   - This program is free software: you can redistribute it and/or modify
+   - it under the terms of the GNU Affero General Public License as
+   - published by the Free Software Foundation, either version 3 of the
+   - License, or (at your option) any later version.
+   - 
+   - This program is distributed in the hope that it will be useful,
+   - but WITHOUT ANY WARRANTY; without even the implied warranty of
+   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   - GNU Affero General Public License for more details.
+   - 
+   - You should have received a copy of the GNU Affero General Public License
+   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
+ <bean id="SubAwardModificationType" parent="SubAwardModificationType-parentBean" />
+  <bean id="SubAwardModificationType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.subaward.fdp.SubAwardModificationType" />
+		<property name="objectLabel" value="SubAwardModificationType" />
+		    <property name="inquiryDefinition" >
+		      <ref bean="SubAwardModificationType-inquiryDefinition" />
+		    </property>
+		    <property name="lookupDefinition" >
+		      <ref bean="SubAwardModificationType-lookupDefinition" />
+		    </property>
+       		<property name="attributes" >
+		      <list>
+		      	<ref bean="SubAwardModificationType-code" />
+		        <ref bean="SubAwardModificationType-description" />
+		        <ref bean="SubAwardModificationType-active" />
+		      </list>
+		    </property>
+ 		 </bean>
+
+<!-- Attribute Definitions -->
+   <bean id="SubAwardModificationType-code" parent="SubAwardModificationType-code-parentBean" />
+  <bean id="SubAwardModificationType-code-parentBean" abstract="true" parent="AttributeDefinition">
+       <property name="name" value="code" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Modification Type Code" />
+    <property name="shortLabel" value="Modification Type Code" />
+    <property name="maxLength" value="30" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
+    </property>
+    <property name="summary" value="Modification Type Code" />
+    <property name="description" value="Modification Type Code" />    
+  </bean>
+  
+  <bean id="SubAwardModificationType-description" parent="SubAwardModificationType-description-parentBean" />
+  <bean id="SubAwardModificationType-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
+  	<property name="maxLength" value="2000"/>
+  </bean>
+  <bean id="SubAwardModificationType-active" parent="SubAwardModificationType-active-parentBean"/>
+  <bean id="SubAwardModificationType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean"> 
+		<property name="name" value="active" />
+		<property name="label" value="Active" />
+		<property name="shortLabel" value="Active" />
+		<property name="summary" value="Active" />
+		<property name="description" value="Active" />
+   </bean>
+  
+ 
+      <!-- Business Object Inquiry Definition -->
+ <bean id="SubAwardModificationType-inquiryDefinition" parent="SubAwardModificationType-inquiryDefinition-parentBean" />
+  <bean id="SubAwardModificationType-InquiryView" parent="SubAwardModificationType-InquiryView-parentBean"/>
+  <bean id="SubAwardModificationType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Subaward Modification Type" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Subaward Modification Type" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="code" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="description "/>
+              <bean parent="FieldDefinition" p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="SubAwardModificationType-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Subaward Modification Type"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.subaward.fdp.SubAwardModificationType"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Subaward Modification Type"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="code" parent="Uif-DataField"/>
+              <bean p:propertyName="description" parent="Uif-DataField"/>
+              <bean p:propertyName="active" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Business Object Lookup Definition -->
+  <bean id="SubAwardModificationType-lookupDefinition" parent="SubAwardModificationType-lookupDefinition-parentBean" />
+  <bean id="SubAwardModificationType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Subaward Modification Type Lookup" /><property name="defaultSort" >
+      <bean parent="SortDefinition"/>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="code" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="description"/>
+        <bean parent="FieldDefinition" p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="code" p:forceInquiry="true" />   
+        <bean p:attributeName="description" parent="FieldDefinition"/>
+      </list>
+    </property>
+  </bean>
+ 
+  <bean id="SubAwardModificationType-LookupView" parent="SubAwardModificationType-LookupView-parentBean"/>
+  <bean id="SubAwardModificationType-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.subaward.fdp.SubAwardModificationType"/>
+    <property name="headerText" value="Subaward Modification Type"/>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="code" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="active" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="code" parent="Uif-DataField"/>
+        <bean p:propertyName="description" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
+</beans>
