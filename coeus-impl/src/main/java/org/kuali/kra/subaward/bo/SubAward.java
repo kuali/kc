@@ -146,6 +146,7 @@ implements Permissionable, SequenceOwner<SubAward>, CustomDataContainer, Negotia
     private ScaleTwoDecimal fAndARate;
     private Boolean deMinimus;
     private Boolean ffataRequired;
+    private String fsrsSubawardNumber;
 
     private SubAwardCostType subAwardCostType;
 
@@ -1066,6 +1067,14 @@ implements Permissionable, SequenceOwner<SubAward>, CustomDataContainer, Negotia
 
     public void setFfataRequired(Boolean ffataRequired) {
         this.ffataRequired = ffataRequired;
+    }
+
+    public String getFsrsSubawardNumber() {
+        return fsrsSubawardNumber;
+    }
+
+    public void setFsrsSubawardNumber(String fsrsSubawardNumber) {
+        this.fsrsSubawardNumber = fsrsSubawardNumber;
     }
 
     public ScaleTwoDecimal getfAndARate() {
