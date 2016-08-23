@@ -1,6 +1,20 @@
 
 
 ##CURRENT
+* RESKC-1456:Subaward Modification Type (#1919)
+
+  * Douglas Pace on Tue, 23 Aug 2016 16:40:25 -0700 [View Commit](../../commit/b4c74ad828de37f8994a232530974863b0f4fe99)
+* Fix int test issues (#1923)
+
+* Fix int test issues
+  * 
+* more test fixes
+  * tdurkin on Tue, 23 Aug 2016 19:15:20 -0400 [View Commit](../../commit/981e046dc07fcd14746dfc5a4ce7620108246b26)
+* RESKC-1538: IRB Performance improvements by adding protocol/submission number to comm_schedule_minutes. (#1921)
+
+  * tdurkin on Tue, 23 Aug 2016 10:36:27 -0400 [View Commit](../../commit/fda89f643dcc9637327bd3d1c563d109a6766aaf)
+
+##coeus-1608.0035
 * RESKC-1574: remove legacy save behavior
   * Travis Schneeberger on Mon, 22 Aug 2016 13:19:12 -0400 [View Commit](../../commit/9ac19ab3868f0649fc8cb3549ea8bab0f950a061)
 

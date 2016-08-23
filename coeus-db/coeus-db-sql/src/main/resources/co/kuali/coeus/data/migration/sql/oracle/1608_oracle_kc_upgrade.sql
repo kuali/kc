@@ -25,4 +25,6 @@ spool 1608_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V1608_008__ffata_required.sql
 @./kc/bootstrap/V1608_009__dd_override.sql
 @./kc/bootstrap/V1608_011__remove_legacy_save.sql
+@./kc/bootstrap/V1608_012__comm_sched_min_add_prot_sub.sql
+@./kc/bootstrap/V1608_013__subaward_modification_type.sql
 commit;
