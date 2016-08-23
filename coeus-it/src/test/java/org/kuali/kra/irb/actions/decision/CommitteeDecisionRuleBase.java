@@ -152,7 +152,7 @@ public abstract class CommitteeDecisionRuleBase extends KcIntegrationTestBase {
     private CommitteeScheduleMinute getBasicReviewComment(Protocol protocol) {
         CommitteeScheduleMinute minute = new CommitteeScheduleMinute();
         minute.setProtocolIdFk(protocol.getProtocolId());
-        minute.setProtocol(protocol);
+        minute.setProtocolNumber(protocol.getProtocolNumber());
         minute.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
         minute.setMinuteEntry(REVIEW_COMMENTS);
         return minute;

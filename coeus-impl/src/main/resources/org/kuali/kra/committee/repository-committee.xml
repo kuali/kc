@@ -210,6 +210,8 @@
 		<field-descriptor name="entryNumber" column="ENTRY_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="minuteEntryTypeCode" column="MINUTE_ENTRY_TYPE_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="protocolIdFk" column="PROTOCOL_ID_FK" jdbc-type="BIGINT" />
+		<field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="submissionNumber" column="SUBMISSION_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="commScheduleActItemsIdFk" column="COMM_SCHEDULE_ACT_ITEMS_ID_FK" jdbc-type="BIGINT" />
 		<field-descriptor name="submissionIdFk" column="SUBMISSION_ID_FK" jdbc-type="BIGINT" />
 		<field-descriptor name="privateCommentFlag" column="PRIVATE_COMMENT_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
@@ -230,10 +232,10 @@
 		<reference-descriptor name="minuteEntryType" class-ref="org.kuali.coeus.common.committee.impl.meeting.MinuteEntryType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="minuteEntryTypeCode"/>
 		</reference-descriptor>
-        <reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.Protocol" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.Protocol" auto-retrieve="false" auto-update="none" auto-delete="none">
             <foreignkey field-ref="protocolIdFk"/>
         </reference-descriptor>
-		<reference-descriptor name="commScheduleActItem" class-ref="org.kuali.kra.meeting.CommScheduleActItem" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="commScheduleActItem" class-ref="org.kuali.kra.meeting.CommScheduleActItem" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="commScheduleActItemsIdFk"/>
         </reference-descriptor>
 		<reference-descriptor name="committeeSchedule" class-ref="org.kuali.kra.committee.bo.CommitteeSchedule" auto-retrieve="true" auto-update="none" auto-delete="none"> 
@@ -350,7 +352,7 @@
 		<reference-descriptor name="committeeSchedule" class-ref="org.kuali.kra.committee.bo.CommitteeSchedule" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="scheduleIdFk"/>
 		</reference-descriptor>
-		<reference-descriptor name="protocolSubmission" class-ref="org.kuali.kra.irb.actions.submit.ProtocolSubmission" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="protocolSubmission" class-ref="org.kuali.kra.irb.actions.submit.ProtocolSubmission" auto-retrieve="false" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="submissionIdFk"/>
 		</reference-descriptor>
 		<reference-descriptor name="rolodex" class-ref="org.kuali.coeus.common.framework.rolodex.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none">

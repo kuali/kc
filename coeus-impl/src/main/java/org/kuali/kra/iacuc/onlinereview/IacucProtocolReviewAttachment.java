@@ -30,5 +30,4 @@ public class IacucProtocolReviewAttachment extends ProtocolReviewAttachmentBase 
     protected Class<? extends ProtocolOnlineReviewBase> getProtocolOnlineReviewBOClassHook() {
         return IacucProtocolOnlineReview.class;
     }
-
 }

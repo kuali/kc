@@ -33,5 +33,4 @@ public class ProtocolReviewAttachment extends ProtocolReviewAttachmentBase {
     protected Class<? extends ProtocolOnlineReviewBase> getProtocolOnlineReviewBOClassHook() {
         return ProtocolOnlineReview.class;
     }
-    
 }

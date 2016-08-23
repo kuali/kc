@@ -171,14 +171,16 @@ public class IacucPrintXmlUtilServiceImpl implements IacucPrintXmlUtilService {
                         .getProtocolContingencyCode() : null);
         minutesType.setMinuteEntry(committeeScheduleMinute.getMinuteEntry());
         minutesType.setPrivateCommentFlag(committeeScheduleMinute.getPrivateCommentFlag());
-        committeeScheduleMinute.refreshReferenceObject("protocol");
-        if (committeeScheduleMinute.getProtocol() != null && committeeScheduleMinute.getProtocol().getProtocolNumber() != null) {
+        if (committeeScheduleMinute.getProtocol() == null) {
+            committeeScheduleMinute.refreshReferenceObject("protocol");
+        }
+        if (committeeScheduleMinute.getProtocolNumber() != null) {
             String otherItemDescription = getOtherItemDescription(committeeSchedule, committeeScheduleMinute);
             if (otherItemDescription != null) {
                 minutesType.setProtocolNumber(otherItemDescription);
             }
             else {
-                minutesType.setProtocolNumber(committeeScheduleMinute.getProtocol().getProtocolNumber());
+                minutesType.setProtocolNumber(committeeScheduleMinute.getProtocolNumber());
             }
         }
         minutesType.setEntrySortCode(BigInteger.valueOf(committeeScheduleMinute.getMinuteEntryType().getSortId()));
@@ -193,23 +195,20 @@ public class IacucPrintXmlUtilServiceImpl implements IacucPrintXmlUtilService {
         List<CommScheduleActItemBase> actionItems = committeeSchedule.getCommScheduleActItems();
         for (CommScheduleActItemBase commScheduleActItem : actionItems) {
             if (committeeScheduleMinute.getMinuteEntryTypeCode().equals("4")
-                    && committeeScheduleMinute.getProtocol().getProtocolNumber().equals(String.valueOf(commScheduleActItem.getActionItemNumber()))) {
+                    && committeeScheduleMinute.getProtocolNumber().equals(String.valueOf(commScheduleActItem.getActionItemNumber()))) {
                 return commScheduleActItem.getItemDescription();
             }
         }
-        return committeeScheduleMinute.getProtocol().getProtocolNumber();
+        return committeeScheduleMinute.getProtocolNumber();
     }
 
     public void setProcotolMinutes(CommitteeScheduleBase committeeSchedule,
             org.kuali.kra.protocol.actions.submit.ProtocolSubmissionLiteBase protocolSubmission, ProtocolSubmissionType protocolSubmissionType) {
         List<CommitteeScheduleMinuteBase> minutes = committeeSchedule.getCommitteeScheduleMinutes();
         for (CommitteeScheduleMinuteBase minuteEntryInfoBean : minutes) {
-            ProtocolBase protocol = minuteEntryInfoBean.getProtocol();
-            if (protocol != null && protocol.getProtocolNumber() != null) {
-            	String minutesProtocolNumber = protocol.getProtocolNumber();
-                if (minutesProtocolNumber.equals(protocolSubmission.getProtocolNumber())
-                        && protocol.getProtocolSubmission() != null
-                        && protocol.getProtocolSubmission().getSubmissionNumber().equals(protocolSubmission.getSubmissionNumber())) {
+            if (minuteEntryInfoBean.getProtocolNumber() != null) {
+                if (minuteEntryInfoBean.getProtocolNumber().equals(protocolSubmission.getProtocolNumber())
+                        && minuteEntryInfoBean.getSubmissionNumber().equals(protocolSubmission.getSubmissionNumber())) {
                     if (reviewCommentsService.getReviewerCommentsView(minuteEntryInfoBean)){
                         if(!minuteEntryInfoBean.getPrivateCommentFlag()&& minuteEntryInfoBean.isFinalFlag()){
                         addMinute(committeeSchedule, minuteEntryInfoBean, protocolSubmissionType.addNewMinutes());
@@ -229,11 +228,9 @@ public class IacucPrintXmlUtilServiceImpl implements IacucPrintXmlUtilService {
             org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase protocolSubmission, Submissions submissionsType) {      
         List<CommitteeScheduleMinuteBase> minutes = committeeSchedule.getCommitteeScheduleMinutes();
         for (CommitteeScheduleMinuteBase minuteEntryInfoBean : minutes) {
-            ProtocolBase protocol = minuteEntryInfoBean.getProtocol();
-            if (protocol != null && protocol.getProtocolNumber() != null) {
-                if (protocol.getProtocolNumber().equals(protocolSubmission.getProtocolNumber())
-                      && protocol.getProtocolSubmission() != null
-                        && protocol.getProtocolSubmission().getSubmissionNumber().equals(protocolSubmission.getSubmissionNumber())) {
+            if (minuteEntryInfoBean.getProtocolNumber() != null) {
+                if (minuteEntryInfoBean.getProtocolNumber().equals(protocolSubmission.getProtocolNumber())
+                    && minuteEntryInfoBean.getSubmissionNumber().equals(protocolSubmission.getSubmissionNumber())) {
                     if (reviewCommentsService.getReviewerCommentsView(minuteEntryInfoBean)){
                         addMinute(committeeSchedule, minuteEntryInfoBean, submissionsType.addNewMinutes());
                     }

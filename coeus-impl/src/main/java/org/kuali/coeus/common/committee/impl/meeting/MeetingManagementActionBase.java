@@ -171,7 +171,8 @@ public abstract class MeetingManagementActionBase extends MeetingActionBase {
         MeetingHelperBase meetingHelper = meetingForm.getMeetingHelper();
         CommitteeDocumentBase document 
             = getCommitteeDocument(meetingHelper.getCommitteeSchedule().getParentCommittee().getCommitteeDocument().getDocumentHeader().getDocumentNumber());
-        if (applyRules(getNewMeetingAddMinuteEventInstanceHook(Constants.EMPTY_STRING, document, meetingHelper, ErrorType.HARDERROR))) {
+        if (applyRules(
+                getNewMeetingAddMinuteEventInstanceHook(Constants.EMPTY_STRING, document, meetingHelper, ErrorType.HARDERROR))) {
             getMeetingService().addCommitteeScheduleMinute(meetingHelper);
         }
     

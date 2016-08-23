@@ -254,7 +254,7 @@
 					</td>
 	                <td align="left" valign="middle">
 	                    <c:if test="${!empty committeeScheduleMinute.protocolIdFk}" >
-	                        ${committeeScheduleMinute.protocol.protocolNumber}
+	                        ${committeeScheduleMinute.protocolNumber}
 	                    </c:if>
 	                    <c:if test="${!empty committeeScheduleMinute.commScheduleActItemsIdFk}" >
 	                       ${committeeScheduleMinute.commScheduleActItem.scheduleActItemType.description}:

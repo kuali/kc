@@ -37,26 +37,7 @@ public class CommitteeScheduleMinuteTest {
         CommitteeScheduleMinute csm2 = new CommitteeScheduleMinute();
         csm1.setMinuteEntryType(new MinuteEntryType());
         csm2.setMinuteEntryType(new MinuteEntryType());
-        csm1.setProtocol(new Protocol() {
 
-            private static final long serialVersionUID = -1273061983131550371L;
-            
-            @Override
-            public void refreshReferenceObject(String referenceObjectName) {
-                //do nothing
-            }
-        });
-        
-        csm2.setProtocol(new Protocol() {
-
-            private static final long serialVersionUID = -1273061983131550372L;
-            
-            @Override
-            public void refreshReferenceObject(String referenceObjectName) {
-                //do nothing
-            }
-        });
-        
         //test case 1
         csm1.getMinuteEntryType().setSortId(4);
         csm2.getMinuteEntryType().setSortId(5);        
@@ -77,8 +58,8 @@ public class CommitteeScheduleMinuteTest {
         csm1.setProtocolIdFk(0L);
         csm2.setProtocolIdFk(0L);        
        
-        csm1.getProtocol().setProtocolNumber("bbb");
-        csm2.getProtocol().setProtocolNumber("aaa");        
+        csm1.setProtocolNumber("bbb");
+        csm2.setProtocolNumber("aaa");
         // check that entry type gets precedence in sorting
         Assert.assertTrue(CommitteeScheduleMinute.entryTypeComparator.compare(csm1, csm2) > 0); 
         
@@ -86,23 +67,23 @@ public class CommitteeScheduleMinuteTest {
         csm1.getMinuteEntryType().setSortId(4);
         csm2.getMinuteEntryType().setSortId(4);
                
-        csm1.getProtocol().setProtocolNumber("aaa");
-        csm2.getProtocol().setProtocolNumber("bbb");        
+        csm1.setProtocolNumber("aaa");
+        csm2.setProtocolNumber("bbb");
         Assert.assertTrue(CommitteeScheduleMinute.entryTypeComparator.compare(csm1, csm2) < 0);
         
-        csm1.getProtocol().setProtocolNumber("aaa");
-        csm2.getProtocol().setProtocolNumber("aaa");        
+        csm1.setProtocolNumber("aaa");
+        csm2.setProtocolNumber("aaa");
         Assert.assertTrue(CommitteeScheduleMinute.entryTypeComparator.compare(csm1, csm2) == 0);
         
-        csm1.getProtocol().setProtocolNumber("bbb");
-        csm2.getProtocol().setProtocolNumber("aaa");        
+        csm1.setProtocolNumber("bbb");
+        csm2.setProtocolNumber("aaa");
         Assert.assertTrue(CommitteeScheduleMinute.entryTypeComparator.compare(csm1, csm2) > 0);
         
         
         // test case 4
                
-        csm1.getProtocol().setProtocolNumber("aaa");
-        csm2.getProtocol().setProtocolNumber("bbb");
+        csm1.setProtocolNumber("aaa");
+        csm2.setProtocolNumber("bbb");
         
         csm1.setCommScheduleActItemsIdFk(0L);
         csm2.setCommScheduleActItemsIdFk(0L);       
@@ -118,7 +99,9 @@ public class CommitteeScheduleMinuteTest {
         
         // test case 5
         csm1.setProtocolIdFk(null);
-        csm2.setProtocolIdFk(null);   
+        csm1.setProtocolNumber(null);
+        csm2.setProtocolIdFk(null);
+        csm2.setProtocolNumber(null);
         Assert.assertTrue(CommitteeScheduleMinute.entryTypeComparator.compare(csm1, csm2) == 0);
         
         csm1.getCommScheduleActItem().getScheduleActItemType().setScheduleActItemTypeCode("aaa");

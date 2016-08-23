@@ -26,6 +26,7 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewableBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -54,6 +55,10 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
     private Long scheduleIdFk;
 
     private Integer entryNumber;
+
+    private String protocolNumber;
+
+    private Integer submissionNumber;
 
     private String minuteEntryTypeCode;
 
@@ -92,13 +97,9 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
 
     private String minuteEntry;
 
-    // TODO : not sure how this protocols yet.  
-    @SkipVersioning
-    private List<ProtocolBase> protocols;
-
     @SkipVersioning
     private ProtocolBase protocol;
-    
+
     private boolean generateAttendance = false;
 
     @SkipVersioning
@@ -120,8 +121,8 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
         public int compare(CommitteeScheduleMinuteBase csm1, CommitteeScheduleMinuteBase csm2) {
             int retVal = 0;
             // first sort by protocol number if possible  
-            if ((csm1.getProtocolIdFk() != null) && (csm2.getProtocolIdFk() != null)) {
-                retVal = csm1.getProtocol().getProtocolNumber().compareTo(csm2.getProtocol().getProtocolNumber());
+            if ((csm1.getProtocolNumber() != null) && (csm2.getProtocolNumber() != null)) {
+                retVal = csm1.getProtocolNumber().compareTo(csm2.getProtocolNumber());
             } else if ((csm1.getProtocolIdFk() == null) && (csm2.getProtocolIdFk() != null)) {
                 retVal = -1;
             } else if ((csm1.getProtocolIdFk() != null) && (csm2.getProtocolIdFk() == null)) {
@@ -161,6 +162,22 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
 
     public Integer getEntryNumber() {
         return entryNumber;
+    }
+
+    public String getProtocolNumber() {
+        return protocolNumber;
+    }
+
+    public void setProtocolNumber(String protocolNumber) {
+        this.protocolNumber = protocolNumber;
+    }
+
+    public Integer getSubmissionNumber() {
+        return submissionNumber;
+    }
+
+    public void setSubmissionNumber(Integer submissionNumber) {
+        this.submissionNumber = submissionNumber;
     }
 
     public void setEntryNumber(Integer entryNumber) {
@@ -261,14 +278,6 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
 
     public void setCommScheduleActItem(CommScheduleActItemBase commScheduleActItem) {
         this.commScheduleActItem = commScheduleActItem;
-    }
-
-    public List<ProtocolBase> getProtocols() {
-        return protocols;
-    }
-
-    public void setProtocols(List<ProtocolBase> protocols) {
-        this.protocols = protocols;
     }
 
     public boolean isGenerateAttendance() {
@@ -471,18 +480,7 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
     }
 
     public Long getProtocolId() {
-        Long protocolId = null;
-        if (this.protocol != null) {
-            protocolId = this.protocol.getProtocolId();
-        } else {
-            if (this.protocolIdFk != null) {
-                this.refreshReferenceObject("protocol");
-            }
-            if (protocol != null) {
-                protocolId = this.protocol.getProtocolId();
-            } 
-        }
-        return protocolId;
+        return protocolIdFk;
         
     }
 

@@ -339,4 +339,12 @@ public abstract class ProtocolReviewAttachmentBase extends ProtocolReviewableBas
         }
         return this.kcPersonService;
     }
+
+    public String getProtocolNumber() {
+        return this.getProtocol() != null ? this.getProtocol().getProtocolNumber() : null;
+    }
+
+    public Integer getSubmissionNumber() {
+        return this.getProtocolSubmission() != null ? this.getProtocolSubmission().getSubmissionNumber() : null;
+    }
 }

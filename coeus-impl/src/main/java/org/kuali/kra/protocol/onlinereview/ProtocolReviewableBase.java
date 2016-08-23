@@ -33,6 +33,8 @@ public abstract class ProtocolReviewableBase<CS extends CommitteeScheduleBase<CS
     private static final long serialVersionUID = 2401653037114419518L;
 
     public abstract Long getProtocolId();
+    public abstract String getProtocolNumber();
+    public abstract Integer getSubmissionNumber();
     public abstract Long getProtocolOnlineReviewIdFk();
     public abstract String getCreateUser();
     public abstract ProtocolBase getProtocol();
