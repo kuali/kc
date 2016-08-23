@@ -57,13 +57,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import static org.junit.Assert.*;
-public class ReviewCommentsServiceTest extends KcIntegrationTestBase {
+
+public class ReviewCommentsServiceTest extends KcIntegrationTestBase{
     
     private static final String FIRST_COMMENT = "First Review Comment";
     private static final String SECOND_COMMENT = "Second Review Comment";
-    private static final String THIRD_COMMENT = "Third Review Comment";
     private static final Long PROTOCOL_ONLINE_REVIEW_FK_ID = new Long("12514314361461436");
-    
+
     private ReviewCommentsServiceImpl service;
     
     private Mockery context = new JUnit4Mockery() {{
@@ -75,7 +75,6 @@ public class ReviewCommentsServiceTest extends KcIntegrationTestBase {
     public void setUp() throws Exception {
 
         service = new ReviewCommentsServiceImpl();
-//        service.setDateTimeService(getMockDateTimeService());
     }
     
     @After
@@ -83,33 +82,34 @@ public class ReviewCommentsServiceTest extends KcIntegrationTestBase {
         service = null;
         
     }
-    
+
     @Test
     public void testAddReviewComment() throws Exception {
-        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
-        
+
+        Protocol protocol = ProtocolFactory.createProtocolDocument().getProtocol();
+
         List<CommitteeScheduleMinuteBase> reviewComments = new ArrayList<CommitteeScheduleMinuteBase>();
-        
+
         CommitteeScheduleMinute firstNewReviewComment = new CommitteeScheduleMinute();
         firstNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
         firstNewReviewComment.setMinuteEntry(FIRST_COMMENT);
         service.setDateTimeService(getMockDateTimeService());
-       
-        service.addReviewComment(firstNewReviewComment, reviewComments, protocolDocument.getProtocol());
-        
+
+        service.addReviewComment(firstNewReviewComment, reviewComments, protocol);
+
         assertEquals(1, reviewComments.size());
         CommitteeScheduleMinute firstReviewComment = (CommitteeScheduleMinute) reviewComments.get(0);
         assertNotNull(firstReviewComment);
         assertEquals(MinuteEntryType.PROTOCOL, firstReviewComment.getMinuteEntryTypeCode());
         assertEquals(Integer.valueOf(0), firstReviewComment.getEntryNumber());
         assertEquals(FIRST_COMMENT, firstReviewComment.getMinuteEntry());
-        
+
         CommitteeScheduleMinute secondNewReviewComment = new CommitteeScheduleMinute();
         secondNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
         secondNewReviewComment.setMinuteEntry(SECOND_COMMENT);
-        
-        service.addReviewComment(secondNewReviewComment, reviewComments, protocolDocument.getProtocol());
-        
+
+        service.addReviewComment(secondNewReviewComment, reviewComments, protocol);
+
         assertEquals(2, reviewComments.size());
         CommitteeScheduleMinute secondReviewComment = (CommitteeScheduleMinute) reviewComments.get(1);
         assertNotNull(secondReviewComment);
@@ -117,204 +117,7 @@ public class ReviewCommentsServiceTest extends KcIntegrationTestBase {
         assertEquals(Integer.valueOf(1), secondReviewComment.getEntryNumber());
         assertEquals(SECOND_COMMENT, secondReviewComment.getMinuteEntry());
     }
-    
-    @Test
-    public void testMoveUpReviewComment() throws Exception {
-        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
-        
-        List<CommitteeScheduleMinuteBase> reviewComments = new ArrayList<CommitteeScheduleMinuteBase>();
-        
-        CommitteeScheduleMinute firstNewReviewComment = new CommitteeScheduleMinute();
-        firstNewReviewComment.setProtocol(protocolDocument.getProtocol());
-        firstNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
-        firstNewReviewComment.setEntryNumber(0);
-        firstNewReviewComment.setMinuteEntry(FIRST_COMMENT);
-        reviewComments.add(firstNewReviewComment);
-        
-        CommitteeScheduleMinute secondNewReviewComment = new CommitteeScheduleMinute();
-        secondNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.ACTION_ITEM);
-        secondNewReviewComment.setEntryNumber(1);
-        secondNewReviewComment.setMinuteEntry(SECOND_COMMENT);
-        reviewComments.add(secondNewReviewComment);
-        
-        CommitteeScheduleMinute thirdNewReviewComment = new CommitteeScheduleMinute();
-        thirdNewReviewComment.setProtocol(protocolDocument.getProtocol());
-        thirdNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
-        thirdNewReviewComment.setEntryNumber(2);
-        thirdNewReviewComment.setMinuteEntry(THIRD_COMMENT);
-        reviewComments.add(thirdNewReviewComment);
-        
-        service.moveUpReviewComment(reviewComments, protocolDocument.getProtocol(), 2);
-        
-        assertEquals(3, reviewComments.size());
-        
-        CommitteeScheduleMinute thirdReviewComment = (CommitteeScheduleMinute) reviewComments.get(0);
-        assertNotNull(thirdReviewComment);
-        assertEquals(MinuteEntryType.PROTOCOL, thirdReviewComment.getMinuteEntryTypeCode());
-        assertEquals(Integer.valueOf(0), thirdReviewComment.getEntryNumber());
-        assertEquals(THIRD_COMMENT, thirdReviewComment.getMinuteEntry());
-        
-        CommitteeScheduleMinute firstReviewComment = (CommitteeScheduleMinute) reviewComments.get(1);
-        assertNotNull(firstReviewComment);
-        assertEquals(MinuteEntryType.PROTOCOL, firstReviewComment.getMinuteEntryTypeCode());
-        assertEquals(Integer.valueOf(1), firstReviewComment.getEntryNumber());
-        assertEquals(FIRST_COMMENT, firstReviewComment.getMinuteEntry());
-        
-        CommitteeScheduleMinute secondReviewComment = (CommitteeScheduleMinute) reviewComments.get(2);
-        assertNotNull(secondReviewComment);
-        assertEquals(MinuteEntryType.ACTION_ITEM, secondReviewComment.getMinuteEntryTypeCode());
-        assertEquals(Integer.valueOf(2), secondReviewComment.getEntryNumber());
-        assertEquals(SECOND_COMMENT, secondReviewComment.getMinuteEntry());
-    }
-    
-    @Test
-    public void testMoveDownReviewComment() throws Exception {
-        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
-        
-        List<CommitteeScheduleMinuteBase> reviewComments = new ArrayList<CommitteeScheduleMinuteBase>();
-        
-        CommitteeScheduleMinute firstNewReviewComment = new CommitteeScheduleMinute();
-        firstNewReviewComment.setProtocol(protocolDocument.getProtocol());
-        firstNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
-        firstNewReviewComment.setEntryNumber(0);
-        firstNewReviewComment.setMinuteEntry(FIRST_COMMENT);
-        reviewComments.add(firstNewReviewComment);
-        
-        CommitteeScheduleMinute secondNewReviewComment = new CommitteeScheduleMinute();
-        secondNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.ACTION_ITEM);
-        secondNewReviewComment.setEntryNumber(1);
-        secondNewReviewComment.setMinuteEntry(SECOND_COMMENT);
-        reviewComments.add(secondNewReviewComment);
-        
-        CommitteeScheduleMinute thirdNewReviewComment = new CommitteeScheduleMinute();
-        thirdNewReviewComment.setProtocol(protocolDocument.getProtocol());
-        thirdNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
-        thirdNewReviewComment.setEntryNumber(2);
-        thirdNewReviewComment.setMinuteEntry(THIRD_COMMENT);
-        reviewComments.add(thirdNewReviewComment);
-        
-        service.moveDownReviewComment(reviewComments, protocolDocument.getProtocol(), 0);
-        
-        assertEquals(3, reviewComments.size());
-        
-        CommitteeScheduleMinute secondReviewComment = (CommitteeScheduleMinute) reviewComments.get(0);
-        assertNotNull(secondReviewComment);
-        assertEquals(MinuteEntryType.ACTION_ITEM, secondReviewComment.getMinuteEntryTypeCode());
-        assertEquals(Integer.valueOf(0), secondReviewComment.getEntryNumber());
-        assertEquals(SECOND_COMMENT, secondReviewComment.getMinuteEntry());
-        
-        CommitteeScheduleMinute thirdReviewComment = (CommitteeScheduleMinute) reviewComments.get(1);
-        assertNotNull(thirdReviewComment);
-        assertEquals(MinuteEntryType.PROTOCOL, thirdReviewComment.getMinuteEntryTypeCode());
-        assertEquals(Integer.valueOf(1), thirdReviewComment.getEntryNumber());
-        assertEquals(THIRD_COMMENT, thirdReviewComment.getMinuteEntry());
-        
-        CommitteeScheduleMinute firstReviewComment = (CommitteeScheduleMinute) reviewComments.get(2);
-        assertNotNull(firstReviewComment);
-        assertEquals(MinuteEntryType.PROTOCOL, firstReviewComment.getMinuteEntryTypeCode());
-        assertEquals(Integer.valueOf(2), firstReviewComment.getEntryNumber());
-        assertEquals(FIRST_COMMENT, firstReviewComment.getMinuteEntry());
-    }
-    
-    @Test
-    public void testDeleteReviewComment() throws Exception {
-        List<CommitteeScheduleMinuteBase> reviewComments = new ArrayList<CommitteeScheduleMinuteBase>();
-        List<CommitteeScheduleMinuteBase> deletedReviewComments = new ArrayList<CommitteeScheduleMinuteBase>();
-        
-        CommitteeScheduleMinute firstNewReviewComment = new CommitteeScheduleMinute();
-        firstNewReviewComment.setCommScheduleMinutesId(1L);
-        firstNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
-        firstNewReviewComment.setEntryNumber(0);
-        firstNewReviewComment.setMinuteEntry(FIRST_COMMENT);
-        reviewComments.add(firstNewReviewComment);
-        
-        CommitteeScheduleMinute secondNewReviewComment = new CommitteeScheduleMinute();
-        secondNewReviewComment.setCommScheduleMinutesId(2L);
-        secondNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.ACTION_ITEM);
-        secondNewReviewComment.setEntryNumber(1);
-        secondNewReviewComment.setMinuteEntry(SECOND_COMMENT);
-        reviewComments.add(secondNewReviewComment);
-        
-        CommitteeScheduleMinute thirdNewReviewComment = new CommitteeScheduleMinute();
-        thirdNewReviewComment.setCommScheduleMinutesId(3L);
-        thirdNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
-        thirdNewReviewComment.setEntryNumber(2);
-        thirdNewReviewComment.setMinuteEntry(THIRD_COMMENT);
-        reviewComments.add(thirdNewReviewComment);
-        
-        service.deleteReviewComment(reviewComments, 0, deletedReviewComments);
-        
-        assertEquals(2, reviewComments.size());
-        
-        CommitteeScheduleMinute secondReviewComment = (CommitteeScheduleMinute) reviewComments.get(0);
-        assertNotNull(secondReviewComment);
-        assertEquals(MinuteEntryType.ACTION_ITEM, secondReviewComment.getMinuteEntryTypeCode());
-        assertEquals(Integer.valueOf(0), secondReviewComment.getEntryNumber());
-        assertEquals(SECOND_COMMENT, secondReviewComment.getMinuteEntry());
-        
-        CommitteeScheduleMinute thirdReviewComment = (CommitteeScheduleMinute) reviewComments.get(1);
-        assertNotNull(thirdReviewComment);
-        assertEquals(MinuteEntryType.PROTOCOL, thirdReviewComment.getMinuteEntryTypeCode());
-        assertEquals(Integer.valueOf(1), thirdReviewComment.getEntryNumber());
-        assertEquals(THIRD_COMMENT, thirdReviewComment.getMinuteEntry());
-        
-        assertEquals(1, deletedReviewComments.size());
-        
-        CommitteeScheduleMinute firstReviewComment = (CommitteeScheduleMinute) deletedReviewComments.get(0);
-        assertNotNull(firstReviewComment);
-        assertEquals(MinuteEntryType.PROTOCOL, firstReviewComment.getMinuteEntryTypeCode());
-        assertEquals(FIRST_COMMENT, firstReviewComment.getMinuteEntry());
-    }
-    
-    @Test
-    public void testDeleteAllReviewComment() throws Exception {
-        List<CommitteeScheduleMinuteBase> reviewComments = new ArrayList<CommitteeScheduleMinuteBase>();
-        List<CommitteeScheduleMinuteBase> deletedReviewComments = new ArrayList<CommitteeScheduleMinuteBase>();
-        
-        CommitteeScheduleMinute firstNewReviewComment = new CommitteeScheduleMinute();
-        firstNewReviewComment.setCommScheduleMinutesId(1L);
-        firstNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
-        firstNewReviewComment.setMinuteEntry(FIRST_COMMENT);
-        reviewComments.add(firstNewReviewComment);
-        
-        CommitteeScheduleMinute secondNewReviewComment = new CommitteeScheduleMinute();
-        secondNewReviewComment.setCommScheduleMinutesId(2L);
-        secondNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.ACTION_ITEM);
-        secondNewReviewComment.setMinuteEntry(SECOND_COMMENT);
-        reviewComments.add(secondNewReviewComment);
-        
-        CommitteeScheduleMinute thirdNewReviewComment = new CommitteeScheduleMinute();
-        thirdNewReviewComment.setCommScheduleMinutesId(3L);
-        thirdNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
-        thirdNewReviewComment.setMinuteEntry(THIRD_COMMENT);
-        reviewComments.add(thirdNewReviewComment);
-        
-        service.deleteAllReviewComments(reviewComments, deletedReviewComments);
-        
-        assertEquals(0, reviewComments.size());
-        assertEquals(3, deletedReviewComments.size());
-        
-        CommitteeScheduleMinute firstReviewComment = (CommitteeScheduleMinute) deletedReviewComments.get(0);
-        assertNotNull(firstReviewComment);
-        assertEquals(MinuteEntryType.PROTOCOL, firstReviewComment.getMinuteEntryTypeCode());
-        assertEquals(FIRST_COMMENT, firstReviewComment.getMinuteEntry());
-        
-        CommitteeScheduleMinute secondReviewComment = (CommitteeScheduleMinute) deletedReviewComments.get(1);
-        assertNotNull(secondReviewComment);
-        assertEquals(MinuteEntryType.ACTION_ITEM, secondReviewComment.getMinuteEntryTypeCode());
-        assertEquals(SECOND_COMMENT, secondReviewComment.getMinuteEntry());
-        
-        CommitteeScheduleMinute thirdReviewComment = (CommitteeScheduleMinute) deletedReviewComments.get(2);
-        assertNotNull(thirdReviewComment);
-        assertEquals(MinuteEntryType.PROTOCOL, thirdReviewComment.getMinuteEntryTypeCode());
-        assertEquals(THIRD_COMMENT, thirdReviewComment.getMinuteEntry());
-    }
-    
-    /**
-     * 
-     * This method test sethidereviewername with protocol as argument
-     * @throws Exception
-     */
+
     @Test
     public void testHideReviewerNameProtocolFalse() throws Exception {
         List<CommitteeScheduleMinute> reviewComments = new ArrayList<CommitteeScheduleMinute>();
@@ -332,6 +135,7 @@ public class ReviewCommentsServiceTest extends KcIntegrationTestBase {
         firstNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
         firstNewReviewComment.setMinuteEntry(FIRST_COMMENT);
         firstNewReviewComment.setCreateUser("majors");
+        firstNewReviewComment.setProtocolIdFk(1L);
         reviewComments.add(firstNewReviewComment);
         
         CommitteeScheduleMinute secondNewReviewComment = new CommitteeScheduleMinute() {
@@ -346,6 +150,7 @@ public class ReviewCommentsServiceTest extends KcIntegrationTestBase {
         secondNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
         secondNewReviewComment.setMinuteEntry(SECOND_COMMENT);
         secondNewReviewComment.setCreateUser("quickstart");
+        secondNewReviewComment.setProtocolIdFk(1L);
         reviewComments.add(secondNewReviewComment);
         
         service.setParameterService(getMockParameterService() );       
@@ -361,12 +166,6 @@ public class ReviewCommentsServiceTest extends KcIntegrationTestBase {
         assertTrue(secondNewReviewComment.isDisplayReviewerName());
     }
 
-    /**
-     * 
-     * This method test sethidereviewername with protocol as argument
-     * With "jtester" who should not see reviewer name
-     * @throws Exception
-     */
     @Test
     public void testHideReviewerNameProtocolTrue() throws Exception {
         GlobalVariables.setUserSession(new UserSession("jtester"));
@@ -385,6 +184,7 @@ public class ReviewCommentsServiceTest extends KcIntegrationTestBase {
         firstNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
         firstNewReviewComment.setMinuteEntry(FIRST_COMMENT);
         firstNewReviewComment.setCreateUser("majors");
+        firstNewReviewComment.setProtocolIdFk(1L);
         reviewComments.add(firstNewReviewComment);
         
         CommitteeScheduleMinute secondNewReviewComment = new CommitteeScheduleMinute() {
@@ -399,6 +199,7 @@ public class ReviewCommentsServiceTest extends KcIntegrationTestBase {
         secondNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
         secondNewReviewComment.setMinuteEntry(SECOND_COMMENT);
         secondNewReviewComment.setCreateUser("quickstart");
+        secondNewReviewComment.setProtocolIdFk(1L);
         reviewComments.add(secondNewReviewComment);
         
         service.setParameterService(getMockParameterService() );       
@@ -407,19 +208,13 @@ public class ReviewCommentsServiceTest extends KcIntegrationTestBase {
         
         service.setKcPersonService(getMockKcPersonService());
         Protocol protocol = new Protocol();
-        protocol.setProtocolNumber("001");
+        protocol.setProtocolNumber("001");;
         service.setProtocolFinderDao(getProtocolFinderDao(reviewComments));
         assertTrue(service.setHideReviewerName(protocol, 1));
         assertFalse(firstNewReviewComment.isDisplayReviewerName());
         assertFalse(secondNewReviewComment.isDisplayReviewerName());
     }
 
-    /**
-     * 
-     * This method test sethidereviewername with protocol as argument
-     * With "majors" who only see his reviewer name
-     * @throws Exception
-     */
     @Test
     public void testHideReviewerNameProtocolFalsePartial() throws Exception {
         GlobalVariables.setUserSession(new UserSession("majors"));
@@ -445,6 +240,7 @@ public class ReviewCommentsServiceTest extends KcIntegrationTestBase {
         firstNewReviewComment.setProtocolOnlineReviewIdFk(PROTOCOL_ONLINE_REVIEW_FK_ID);
         firstNewReviewComment.setMinuteEntry(FIRST_COMMENT);
         firstNewReviewComment.setCreateUser("majors");
+        firstNewReviewComment.setProtocolIdFk(1L);
         reviewComments.add(firstNewReviewComment);
         
         CommitteeScheduleMinute secondNewReviewComment = new CommitteeScheduleMinute() {
@@ -465,6 +261,7 @@ public class ReviewCommentsServiceTest extends KcIntegrationTestBase {
         secondNewReviewComment.setProtocolOnlineReviewIdFk(PROTOCOL_ONLINE_REVIEW_FK_ID);
         secondNewReviewComment.setMinuteEntry(SECOND_COMMENT);
         secondNewReviewComment.setCreateUser("quickstart");
+        secondNewReviewComment.setProtocolIdFk(1L);
         reviewComments.add(secondNewReviewComment);
         
         service.setParameterService(getMockParameterService() );       
@@ -500,6 +297,7 @@ public class ReviewCommentsServiceTest extends KcIntegrationTestBase {
         firstNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
         firstNewReviewComment.setMinuteEntry(FIRST_COMMENT);
         firstNewReviewComment.setCreateUser("majors");
+        firstNewReviewComment.setProtocolIdFk(1L);
         reviewComments.add(firstNewReviewComment);
         
         CommitteeScheduleMinute secondNewReviewComment = new CommitteeScheduleMinute() {
@@ -514,6 +312,7 @@ public class ReviewCommentsServiceTest extends KcIntegrationTestBase {
         secondNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.ACTION_ITEM);
         secondNewReviewComment.setMinuteEntry(SECOND_COMMENT);
         secondNewReviewComment.setCreateUser("quickstart");
+        secondNewReviewComment.setProtocolIdFk(1L);
         reviewComments.add(secondNewReviewComment);
         
         service.setParameterService(getMockParameterService() );       
@@ -527,11 +326,6 @@ public class ReviewCommentsServiceTest extends KcIntegrationTestBase {
         assertTrue(secondNewReviewComment.isDisplayReviewerName());
     }
  
-    /**
-     * 
-     * This method is to test partially reviewer name os viewable
-     * @throws Exception
-     */
     @Test
     public void testHideReviewerNameFalsePartial() throws Exception {
         GlobalVariables.setUserSession(new UserSession("majors"));
@@ -550,6 +344,7 @@ public class ReviewCommentsServiceTest extends KcIntegrationTestBase {
         firstNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
         firstNewReviewComment.setMinuteEntry(FIRST_COMMENT);
         firstNewReviewComment.setCreateUser("majors");
+        firstNewReviewComment.setProtocolIdFk(1L);
         reviewComments.add(firstNewReviewComment);
         
         CommitteeScheduleMinute secondNewReviewComment = new CommitteeScheduleMinute() {
@@ -564,6 +359,7 @@ public class ReviewCommentsServiceTest extends KcIntegrationTestBase {
         secondNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.ACTION_ITEM);
         secondNewReviewComment.setMinuteEntry(SECOND_COMMENT);
         secondNewReviewComment.setCreateUser("quickstart");
+        secondNewReviewComment.setProtocolIdFk(1L);
         reviewComments.add(secondNewReviewComment);
         
         service.setParameterService(getMockParameterService() );       
@@ -595,6 +391,7 @@ public class ReviewCommentsServiceTest extends KcIntegrationTestBase {
         firstNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
         firstNewReviewComment.setMinuteEntry(FIRST_COMMENT);
         firstNewReviewComment.setCreateUser("majors");
+        firstNewReviewComment.setProtocolIdFk(1L);
         reviewComments.add(firstNewReviewComment);
         
         CommitteeScheduleMinute secondNewReviewComment = new CommitteeScheduleMinute() {
@@ -609,6 +406,7 @@ public class ReviewCommentsServiceTest extends KcIntegrationTestBase {
         secondNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.ACTION_ITEM);
         secondNewReviewComment.setMinuteEntry(SECOND_COMMENT);
         secondNewReviewComment.setCreateUser("quickstart");
+        secondNewReviewComment.setProtocolIdFk(1L);
         reviewComments.add(secondNewReviewComment);
         
         service.setParameterService(getMockParameterService() );       
