@@ -285,7 +285,7 @@ public class IrbPrintXmlUtilServiceImpl implements IrbPrintXmlUtilService {
             org.kuali.kra.irb.actions.submit.ProtocolSubmission protocolSubmission, Submissions submissionsType) {
         List<CommitteeScheduleMinute> minutes = committeeSchedule.getCommitteeScheduleMinutes();
         for (CommitteeScheduleMinute minuteEntryInfoBean : minutes) {
-            if (minuteEntryInfoBean.getProtocolNumber() != null) {
+            if (minuteEntryInfoBean.getProtocolNumber() != null && minuteEntryInfoBean.getSubmissionNumber() != null) {
                 if (minuteEntryInfoBean.getProtocolNumber().equals(protocolSubmission.getProtocolNumber())
                     && minuteEntryInfoBean.getSubmissionNumber().equals(protocolSubmission.getSubmissionNumber())) {
                     if (reviewCommentsService.getReviewerCommentsView(minuteEntryInfoBean)){

@@ -467,15 +467,20 @@ public abstract class MeetingServiceImplBase<CS extends CommitteeScheduleBase<CS
             meetingHelper.getNewCommitteeScheduleMinute().refreshReferenceObject("commScheduleActItem");
         }
 
+        ProtocolBase protocol = null;
+        String protocolNumber = null;
         Long submissionId = null;
         Integer submissionNumber = null;
-        String protocolNumber = null;
+
         if (meetingHelper.getNewCommitteeScheduleMinute().getProtocol() != null) {
-            ProtocolBase protocol = meetingHelper.getNewCommitteeScheduleMinute().getProtocol();
-            submissionId = protocol.getProtocolSubmission().getSubmissionId();
+            protocol = meetingHelper.getNewCommitteeScheduleMinute().getProtocol();
             protocolNumber = protocol.getProtocolNumber();
-            submissionNumber = protocol.getProtocolSubmission().getSubmissionNumber();
+            if (protocol.getProtocolSubmission() != null) {
+                submissionId = protocol.getProtocolSubmission().getSubmissionId();
+                submissionNumber = protocol.getProtocolSubmission().getSubmissionNumber();
+            }
         }
+
         Long scheduleId = meetingHelper.getCommitteeSchedule().getId();
         Integer entryNumber = getNextMinuteEntryNumber((CS) meetingHelper.getCommitteeSchedule());
         String principalName = GlobalVariables.getUserSession().getPrincipalName();

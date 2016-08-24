@@ -206,7 +206,7 @@ public class IacucPrintXmlUtilServiceImpl implements IacucPrintXmlUtilService {
             org.kuali.kra.protocol.actions.submit.ProtocolSubmissionLiteBase protocolSubmission, ProtocolSubmissionType protocolSubmissionType) {
         List<CommitteeScheduleMinuteBase> minutes = committeeSchedule.getCommitteeScheduleMinutes();
         for (CommitteeScheduleMinuteBase minuteEntryInfoBean : minutes) {
-            if (minuteEntryInfoBean.getProtocolNumber() != null) {
+            if (minuteEntryInfoBean.getProtocolNumber() != null && minuteEntryInfoBean.getSubmissionNumber() != null) {
                 if (minuteEntryInfoBean.getProtocolNumber().equals(protocolSubmission.getProtocolNumber())
                         && minuteEntryInfoBean.getSubmissionNumber().equals(protocolSubmission.getSubmissionNumber())) {
                     if (reviewCommentsService.getReviewerCommentsView(minuteEntryInfoBean)){
@@ -228,7 +228,7 @@ public class IacucPrintXmlUtilServiceImpl implements IacucPrintXmlUtilService {
             org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase protocolSubmission, Submissions submissionsType) {      
         List<CommitteeScheduleMinuteBase> minutes = committeeSchedule.getCommitteeScheduleMinutes();
         for (CommitteeScheduleMinuteBase minuteEntryInfoBean : minutes) {
-            if (minuteEntryInfoBean.getProtocolNumber() != null) {
+            if (minuteEntryInfoBean.getProtocolNumber() != null && minuteEntryInfoBean.getSubmissionNumber() != null) {
                 if (minuteEntryInfoBean.getProtocolNumber().equals(protocolSubmission.getProtocolNumber())
                     && minuteEntryInfoBean.getSubmissionNumber().equals(protocolSubmission.getSubmissionNumber())) {
                     if (reviewCommentsService.getReviewerCommentsView(minuteEntryInfoBean)){

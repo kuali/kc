@@ -215,6 +215,7 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
         ProtocolSubmissionBase protocolSubmission = getSubmission(protocol);
         if (protocolSubmission.getScheduleIdFk() != null) {
             newReviewComment.setScheduleIdFk(protocolSubmission.getScheduleIdFk());
+            newReviewComment.setSubmissionNumber(protocolSubmission.getSubmissionNumber());
         }
         else {
             newReviewComment.setScheduleIdFk(CommitteeScheduleBase.DEFAULT_SCHEDULE_ID);
