@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1608.0040
 * RESKC-1538: Fix a null issue with Protocol Minutes; add more null checking (#1930)
 
   * tdurkin on Wed, 24 Aug 2016 14:15:24 -0400 [View Commit](../../commit/db8cd5e8f8cf9ddcf0a0f4e396d90fcf93a0f8a8)
