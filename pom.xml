@@ -1930,7 +1930,7 @@
                 <build.spring.profiles.active>grm</build.spring.profiles.active>
 
                 <rsmart.cx.token.auth.version>1507.1</rsmart.cx.token.auth.version>
-                <rsmart.hr.rest.version>1608.0003</rsmart.hr.rest.version>
+                <rsmart.hr.rest.version>1608.0004</rsmart.hr.rest.version>
                 <kc-s3.version>1607.0014</kc-s3.version>
                 <kc-sql.version>1601.0002</kc-sql.version>
 
