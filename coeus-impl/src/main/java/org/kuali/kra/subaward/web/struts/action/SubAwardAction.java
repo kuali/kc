@@ -31,11 +31,13 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.coeus.common.framework.krms.KrmsRulesExecutionService;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
+import org.kuali.coeus.propdev.impl.coi.CoiConstants;
 import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.coeus.sys.framework.validation.AuditHelper.ValidationState;
 import org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase;
@@ -311,7 +313,27 @@ public class SubAwardAction extends KcTransactionalDocumentActionBase {
    public ActionForward templateInformation(ActionMapping mapping, ActionForm form,
            HttpServletRequest request, HttpServletResponse response) {
         setDisableRemovalAttachmentIndicator(((SubAwardForm) form).getSubAwardAttachmentFormBean());
-        return mapping.findForward(Constants.MAPPING_TEMPLATE_PAGE);
+
+       final String hierarchyName = getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, CoiConstants.COI_SPONSOR_HIERARCHY);
+
+       if (((SubAwardForm) form).getSubAward().getSubAwardTemplateInfo().isEmpty()) {
+           ((SubAwardForm) form).getSubAward().getSubAwardTemplateInfo().add(new SubAwardTemplateInfo());
+       }
+
+       ((SubAwardForm) form).getSubAward().getSubAwardTemplateInfo().forEach(info -> {
+           if (info.getFcio() == null &&
+                   ((SubAwardForm) form).getSubAward().getSubAwardFundingSourceList().stream()
+                           .filter(source -> source.getAward() != null)
+                           .filter(source -> source.getAward().getPrimeSponsor() != null)
+                           .map(source -> source.getAward().getPrimeSponsorCode())
+                           .distinct()
+                           .anyMatch(sponsorCode -> getSponsorHierarchyService().isSponsorInHierarchy(sponsorCode, hierarchyName))) {
+
+               info.setFcio(true);
+           }
+       });
+
+       return mapping.findForward(Constants.MAPPING_TEMPLATE_PAGE);
     }
 
 
@@ -627,4 +649,8 @@ public ActionForward blanketApprove(ActionMapping mapping,
       
       return  mapping.findForward(Constants.MAPPING_BASIC);
   }
+
+    protected SponsorHierarchyService getSponsorHierarchyService() {
+        return KcServiceLocator.getService(SponsorHierarchyService.class);
+    }
 }

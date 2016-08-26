@@ -56,6 +56,7 @@
 		        <ref bean="SubAwardTemplateInfo-applicableProgramRegsDate" />
                 <ref bean="SubAwardTemplateInfo-rAndD" />
                 <ref bean="SubAwardTemplateInfo-includesCostSharing" />
+                <ref bean="SubAwardTemplateInfo-fcio" />
 		      </list>
 		     </property>
     </bean>
@@ -439,6 +440,15 @@
         <property name="shortLabel" value="Includes Cost Sharing" />
         <property name="summary" value="Includes Cost Sharing" />
         <property name="description" value="Includes Cost Sharing" />
+    </bean>
+
+    <bean id="SubAwardTemplateInfo-fcio" parent="SubAwardTemplateInfo-fcio-parentBean"/>
+    <bean id="SubAwardTemplateInfo-fcio-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="fcio" />
+        <property name="label" value="Prime Sponsor is PHS for FCOI regulation" />
+        <property name="shortLabel" value="Prime Sponsor is PHS for FCOI regulation" />
+        <property name="summary" value="Prime Sponsor is PHS for FCOI regulation" />
+        <property name="description" value="Prime Sponsor is PHS for FCOI regulation" />
     </bean>
 
     <!-- Business Object Inquiry Definition -->
