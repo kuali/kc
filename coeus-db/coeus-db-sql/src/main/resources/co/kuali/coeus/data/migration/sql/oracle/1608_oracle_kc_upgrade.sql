@@ -27,4 +27,8 @@ spool 1608_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V1608_011__remove_legacy_save.sql
 @./kc/bootstrap/V1608_012__comm_sched_min_add_prot_sub.sql
 @./kc/bootstrap/V1608_013__subaward_modification_type.sql
+@./kc/bootstrap/V1608_014__fsrs_subaward_number.sql
+@./kc/bootstrap/V1608_015__r_and_d.sql
+@./kc/bootstrap/V1608_016__includes_cost_sharing.sql
+@./kc/bootstrap/V1608_017__FCIO.sql
 commit;

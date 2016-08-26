@@ -1,6 +1,18 @@
 
 
 ##CURRENT
+* RESKC-1455: add Prime Sponsor is PHS for FCOI regulation
+  * Travis Schneeberger on Fri, 26 Aug 2016 13:50:03 -0400 [View Commit](../../commit/8d1d7816ec0b94e00b454c7aaa2aa92ddc3e2afe)
+* RESKC-1073,RESKC-1455,RESKC-1454: add fsrs subaward number, add is r&d field, add includes cost sharing field
+
+  * RESKC-1455: add is r&d field
+
+  * RESKC-1455: add includes cost sharing field
+
+  * RESKC-1455: add includes cost sharing field
+  * Travis Schneeberger on Mon, 22 Aug 2016 20:40:03 -0400 [View Commit](../../commit/10ecab75b4a451143e21faa40fbbf0a9d40f2498)
+
+##coeus-1608.0041
 * No Changes
 
 
