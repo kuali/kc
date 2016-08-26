@@ -130,9 +130,12 @@
                 <tr>
                     <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.includesCostSharing}" /></div></th>
                     <td>
-                        <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].includesCostSharing" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.includesCostSharing}"  datePicker="true"  />
+                        <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].includesCostSharing" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.includesCostSharing}"  />
                     </td>
-                    <th colspan=2><div/></th>
+                    <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.fcio}" /></div></th>
+                    <td>
+                        <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].fcio" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.fcio}" />
+                    </td>
                 </tr>
             </table>
    			</div>

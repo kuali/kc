@@ -406,6 +406,7 @@
         <field-descriptor name="applicableProgramRegsDate" column="APPLICABLE_PROGRAM_REGS_DATE" jdbc-type="DATE" />
         <field-descriptor name="rAndD" column="R_AND_D" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="includesCostSharing" column="INCLUDES_COST_SHARING" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="fcio" column="FCIO" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
     </class-descriptor>

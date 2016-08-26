@@ -74,6 +74,8 @@ public class SubAwardTemplateInfo extends KcPersistableBusinessObjectBase {
 
     private Boolean includesCostSharing;
 
+    private Boolean fcio;
+
     public String getSubAwardCode() {
         return subAwardCode;
     }
@@ -272,5 +274,13 @@ public class SubAwardTemplateInfo extends KcPersistableBusinessObjectBase {
 
     public void setIncludesCostSharing(Boolean includesCostSharing) {
         this.includesCostSharing = includesCostSharing;
+    }
+
+    public Boolean getFcio() {
+        return fcio;
+    }
+
+    public void setFcio(Boolean fcio) {
+        this.fcio = fcio;
     }
 }
