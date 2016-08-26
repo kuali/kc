@@ -34,6 +34,7 @@
         <ref bean="SubAward-fAndARate" />
         <ref bean="SubAward-deMinimus" />
         <ref bean="SubAward-ffataRequired" />
+        <ref bean="SubAward-fsrsSubawardNumber" />
       	<ref bean="SubAward-subAwardId" />                
         <ref bean="SubAward-organizationId" />
         <ref bean="SubAward-startDate" />
@@ -147,6 +148,30 @@
     <property name="shortLabel" value="FFATA Required" />
     <property name="summary" value="FFATA Required" />
     <property name="description" value="FFATA Required" />
+  </bean>
+
+  <bean id="SubAward-fsrsSubawardNumber" parent="SubAward-fsrsSubawardNumber-parentBean" />
+  <bean id="SubAward-fsrsSubawardNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="fsrsSubawardNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="FSRS Subaward Number" />
+    <property name="shortLabel" value="FSRS Subaward Number" />
+    <property name="maxLength" value="25" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="27"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="27" parent="Uif-TextControl"/>
+    </property>
+    <property name="summary" value="FSRS Subaward Number" />
+    <property name="description" value="FSRS Subaward Number" />
   </bean>
 
   <bean id="SubAward-subAwardId" parent="SubAward-subAwardId-parentBean" />

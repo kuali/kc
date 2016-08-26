@@ -122,9 +122,19 @@
                 <td>
                    <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].applicableProgramRegsDate" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.applicableProgramRegsDate}"  datePicker="true"  />
                 </td>
-                <th colspan=2><div/></div></th>
-             </tr>   
-         		</table>
+                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.rAndD}" /></div></th>
+                 <td>
+                     <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].rAndD" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.rAndD}"   />
+                 </td>
+             </tr>
+                <tr>
+                    <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.includesCostSharing}" /></div></th>
+                    <td>
+                        <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].includesCostSharing" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.includesCostSharing}"  datePicker="true"  />
+                    </td>
+                    <th colspan=2><div/></th>
+                </tr>
+            </table>
    			</div>
 	</kul:tabTop>
 	

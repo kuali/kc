@@ -59,6 +59,7 @@
         <field-descriptor name="fAndARate" column="F_AND_A_RATE" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion" />
         <field-descriptor name="deMinimus" column="DE_MINIMUS" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="ffataRequired" column="FFATA_REQUIRED" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="fsrsSubawardNumber" column="FSRS_SUBAWARD_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="subAwardSequenceStatus" column="SUBAWARD_SEQUENCE_STATUS" jdbc-type="VARCHAR"/>
 
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
@@ -403,6 +404,8 @@
         <field-descriptor name="treatmentPrgmIncomeAdditive" column="TREATMENT_PRGM_INCOME_ADDITIVE" jdbc-type="VARCHAR"/>
         <field-descriptor name="applicableProgramRegulations" column="APPLICABLE_PROGRAM_REGULATIONS" jdbc-type="VARCHAR"/>
         <field-descriptor name="applicableProgramRegsDate" column="APPLICABLE_PROGRAM_REGS_DATE" jdbc-type="DATE" />
+        <field-descriptor name="rAndD" column="R_AND_D" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="includesCostSharing" column="INCLUDES_COST_SHARING" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
     </class-descriptor>
