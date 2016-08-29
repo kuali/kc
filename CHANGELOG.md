@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* Fixing award amunt info date issues. (#1936)
+
+  * Gayathri Athreya on Mon, 29 Aug 2016 14:10:48 -0700 [View Commit](../../commit/95e5a48986a0031de89f9b2fdad004a4c967fdc0)
+
+##coeus-1608.0043
 * No Changes
 
 
