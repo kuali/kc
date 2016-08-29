@@ -48,9 +48,6 @@ import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.history.TransactionDetail;
 import org.kuali.kra.timeandmoney.service.*;
 import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
-import org.kuali.kra.timeandmoney.transactions.PendingTransaction;
-import org.kuali.kra.timeandmoney.transactions.TransactionRuleImpl;
-import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -62,17 +59,14 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.*;
-import java.util.Map.Entry;
 
 public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
 

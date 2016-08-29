@@ -204,7 +204,7 @@ public class AwardController extends RestController implements InitializingBean 
                 AwardDocument newAwardDocument = awardService.generateAndPopulateAwardDocument(oldAwardDocument, newAwardVersion);
                 newAwardDocument.getAward().setAwardTransactionTypeCode(awardDto.getAwardTransactionTypeCode());
                 addFundingProposals(awardDto, newAwardVersion);
-                newAwardDocument = (AwardDocument) documentService.saveDocument(newAwardDocument);
+                newAwardDocument = (AwardDocument) commonApiService.saveDocument(newAwardDocument);
                 awardService.updateAwardSequenceStatus(newAwardDocument.getAward(), VersionStatus.PENDING);
                 versionHistoryService.updateVersionHistory(newAwardDocument.getAward(), VersionStatus.PENDING,
                         globalVariableService.getUserSession().getPrincipalId());
@@ -315,13 +315,15 @@ public class AwardController extends RestController implements InitializingBean 
     }
 
     private void addAmountInfo(AwardDto awardDto, Award award) {
-        award.getAwardAmountInfo().setAnticipatedTotalDirect(awardDto.getAnticipatedTotalDirect());
-        award.getAwardAmountInfo().setObligatedTotalDirect(awardDto.getObligatedTotalDirect());
-        award.getAwardAmountInfo().setObligatedTotalIndirect(awardDto.getObligatedTotalIndirect());
-        award.getAwardAmountInfo().setAnticipatedTotalIndirect(awardDto.getAnticipatedTotalIndirect());
-        award.getAwardAmountInfo().setCurrentFundEffectiveDate(awardDto.getObligationStartDate());
-        award.getAwardAmountInfo().setObligationExpirationDate(awardDto.getObligationEndDate());
-        award.getAwardAmountInfo().setFinalExpirationDate(awardDto.getProjectEndDate());
+        final AwardAmountInfo lastAwardAmountInfo = award.getLastAwardAmountInfo();
+        lastAwardAmountInfo.setAnticipatedTotalDirect(awardDto.getAnticipatedTotalDirect());
+        lastAwardAmountInfo.setObligatedTotalDirect(awardDto.getObligatedTotalDirect());
+        lastAwardAmountInfo.setObligatedTotalIndirect(awardDto.getObligatedTotalIndirect());
+        lastAwardAmountInfo.setAnticipatedTotalIndirect(awardDto.getAnticipatedTotalIndirect());
+
+        lastAwardAmountInfo.setCurrentFundEffectiveDate(awardDto.getObligationStartDate());
+        lastAwardAmountInfo.setObligationExpirationDate(awardDto.getObligationEndDate());
+        lastAwardAmountInfo.setFinalExpirationDate(awardDto.getProjectEndDate());
 
     }
 

@@ -42,7 +42,6 @@ import org.kuali.kra.timeandmoney.history.TransactionDetail;
 import org.kuali.kra.timeandmoney.rules.TimeAndMoneyAwardDateSaveRuleImpl;
 import org.kuali.kra.timeandmoney.service.TimeAndMoneyService;
 import org.kuali.kra.timeandmoney.service.TimeAndMoneyVersionService;
-import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
 import org.kuali.kra.timeandmoney.transactions.PendingTransaction;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.data.DataObjectService;
@@ -196,20 +195,20 @@ public class TimeAndMoneyController extends RestController {
     private TimeAndMoneyDocument createTimeAndMoneyDocument(TimeAndMoneyDto timeAndMoneyDto, Award award, String rootAwardNumber) throws Exception {
         TimeAndMoneyDocument timeAndMoneyDocument;
         timeAndMoneyDocument = timeAndMoneyService.setupTimeAndMoneyDocument(rootAwardNumber, award);
+        commonApiService.saveDocument(timeAndMoneyDocument);
         addTransactionDetails(timeAndMoneyDto, timeAndMoneyDocument);
-        createAwardAmountTransaction(timeAndMoneyDocument, timeAndMoneyDto.getAwardAmountTransactions(), rootAwardNumber);
+        updateAwardAmountTransactionInformation(timeAndMoneyDocument, timeAndMoneyDto.getAwardAmountTransactions());
         captureAmountAndDateChanges(award, rootAwardNumber, timeAndMoneyDocument);
         return timeAndMoneyDocument;
     }
 
-    private void createAwardAmountTransaction(TimeAndMoneyDocument timeAndMoneyDocument, List<AwardAmountTransactionDto> awardAmountTransactions, String rootAwardNumber) {
+    private void updateAwardAmountTransactionInformation(TimeAndMoneyDocument timeAndMoneyDocument, List<AwardAmountTransactionDto> awardAmountTransactions) {
         if(awardAmountTransactions.size() == 0) {
             throw new UnprocessableEntityException("T & M doc cannot processed without transaction information.");
         }
-        AwardAmountTransaction aat = commonApiService.convertObject(awardAmountTransactions.get(0), AwardAmountTransaction.class);
-        aat.setAwardNumber(rootAwardNumber);
-        aat.setDocumentNumber(timeAndMoneyDocument.getDocumentNumber());
-        timeAndMoneyDocument.getAwardAmountTransactions().add(aat);
+        timeAndMoneyDocument.getAwardAmountTransactions().get(0).setNoticeDate(awardAmountTransactions.get(0).getNoticeDate());
+        timeAndMoneyDocument.getAwardAmountTransactions().get(0).setTransactionTypeCode(awardAmountTransactions.get(0).getTransactionTypeCode());
+        timeAndMoneyDocument.getAwardAmountTransactions().get(0).setComments(awardAmountTransactions.get(0).getComments());
     }
 
     private void captureAmountAndDateChanges(Award award, String rootAwardNumber, TimeAndMoneyDocument timeAndMoneyDocument) throws Exception {
@@ -243,6 +242,7 @@ public class TimeAndMoneyController extends RestController {
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     public String versionTimeAndMoney(@RequestBody TimeAndMoneyDto timeAndMoneyDto, @PathVariable String documentNumber) throws Exception {
+        commonApiService.clearErrors();
         TimeAndMoneyDocument timeAndMoneyDocument = timeAndMoneyDao.getTimeAndMoneyDocument(documentNumber);
         if(timeAndMoneyDocument == null) {
             throw new ResourceNotFoundException("Time and money document with number " + documentNumber + " was not found.");
@@ -259,9 +259,10 @@ public class TimeAndMoneyController extends RestController {
     }
 
     private void updateAwardAmountTransactions(TimeAndMoneyDocument finalTandM, List<AwardAmountTransactionDto> awardAmountTransactions, String rootAwardNumber) {
-        finalTandM.getAwardAmountTransactions().get(0).setTransactionTypeCode(awardAmountTransactions.get(0).getTransactionTypeCode());
         finalTandM.getAwardAmountTransactions().get(0).setAwardNumber(rootAwardNumber);
         finalTandM.getAwardAmountTransactions().get(0).setDocumentNumber(finalTandM.getDocumentNumber());
+
+        updateAwardAmountTransactionInformation(finalTandM, awardAmountTransactions);
     }
 
     @RequestMapping(method= RequestMethod.PUT, value="/time-and-money-documents/{documentNumber}", params="submit",
@@ -269,6 +270,7 @@ public class TimeAndMoneyController extends RestController {
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     public TimeAndMoneyDto submitDocument(@PathVariable String documentNumber) throws WorkflowException {
+        commonApiService.clearErrors();
         TimeAndMoneyDocument timeAndMoneyDocument = (TimeAndMoneyDocument) commonApiService.getDocumentFromDocId(Long.parseLong(documentNumber));
         Award award = awardVersionService.getWorkingAwardVersion(timeAndMoneyDocument.getRootAwardNumber());
         timeAndMoneyDocument.setAward(award);
