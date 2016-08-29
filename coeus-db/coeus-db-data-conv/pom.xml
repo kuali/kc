@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.kuali.coeus</groupId>
         <artifactId>coeus-db</artifactId>
-        <version>1608.0044-SNAPSHOT</version>
+        <version>1608.0044</version>
     </parent>
 
     <artifactId>coeus-db-data-conv</artifactId>
