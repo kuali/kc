@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-1562: Do not create empty s2s opportunity. (#1937)
+
+  * Gayathri Athreya on Tue, 30 Aug 2016 10:19:01 -0700 [View Commit](../../commit/12d8e45e14270a99295d5e5a027a46fa0108310c)
+
+##coeus-1608.0045
 * Completed personnel and non-personnel save, cancel award budget doc and start of test. (#1932)
 
   * Added test and method to route document.
