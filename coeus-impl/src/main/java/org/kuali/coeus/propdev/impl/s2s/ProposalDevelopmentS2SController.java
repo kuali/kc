@@ -133,7 +133,7 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
 
                if (!CollectionUtils.isEmpty(missingMandatoryForms)) {
                    globalVariableService.getMessageMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID,s2sOpportunity.getOpportunityId(), StringUtils.join(missingMandatoryForms, ","));
-                   proposal.setS2sOpportunity(new S2sOpportunity());
+                   proposal.setS2sOpportunity(null);
                }
            }
        }catch(S2sCommunicationException ex){
