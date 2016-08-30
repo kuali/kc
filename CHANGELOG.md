@@ -1,6 +1,13 @@
 
 
 ##CURRENT
+* Completed personnel and non-personnel save, cancel award budget doc and start of test. (#1932)
+
+  * Added test and method to route document.
+  * 
+  * Working around override F&A rate bug and fixing test.  * Gayathri Athreya on Tue, 30 Aug 2016 08:17:22 -0700 [View Commit](../../commit/3ac7d9444e3a2d0c09a5250475b437e44086106f)
+
+##coeus-1608.0044
 * Fixing award amunt info date issues. (#1936)
 
   * Gayathri Athreya on Mon, 29 Aug 2016 14:10:48 -0700 [View Commit](../../commit/95e5a48986a0031de89f9b2fdad004a4c967fdc0)
