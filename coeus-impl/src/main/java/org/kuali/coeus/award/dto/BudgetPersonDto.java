@@ -18,11 +18,14 @@
  */
 package org.kuali.coeus.award.dto;
 
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.kuali.coeus.instprop.impl.api.customSerializers.CustomSqlDateSerializer;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import java.sql.Date;
 
 public class BudgetPersonDto {
 
+    @JsonDeserialize(using = CustomSqlDateSerializer.class)
     private Date effectiveDate;
     private String jobCode;
     private Boolean nonEmployeeFlag;
@@ -32,6 +35,7 @@ public class BudgetPersonDto {
     private String appointmentTypeCode;
     private ScaleTwoDecimal calculationBase;
     private String personName;
+    @JsonDeserialize(using = CustomSqlDateSerializer.class)
     private Date salaryAnniversaryDate;
 
 

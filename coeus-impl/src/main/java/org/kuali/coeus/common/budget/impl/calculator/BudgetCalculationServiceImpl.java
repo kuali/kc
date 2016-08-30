@@ -683,6 +683,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
             }
         }
     }
+
     protected void calculateNonPersonnelSummaryTotals(Budget budget) {
         for(BudgetCategoryType budgetCategoryType : budget.getObjectCodeListByBudgetCategoryType().keySet()) {
             if(!StringUtils.equals(budgetCategoryType.getCode(), "P")) {

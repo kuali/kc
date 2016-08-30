@@ -84,7 +84,7 @@ public class AwardAmountInfoServiceImpl implements AwardAmountInfoService {
 }
     
     public AwardAmountInfo fetchLastAwardAmountInfoForDocNum(Award award, String docNum){
-        List<AwardAmountInfo> validAwardAmountInfos = new ArrayList<AwardAmountInfo>();
+            List<AwardAmountInfo> validAwardAmountInfos = new ArrayList<AwardAmountInfo>();
         int docNumIntValue = Integer.parseInt(docNum.trim());
         
         for(AwardAmountInfo aai : award.getAwardAmountInfos()) {

@@ -647,13 +647,6 @@ public class BudgetAction extends BudgetActionBase {
         }
         return forward;
     }
-    protected BudgetCommonService<BudgetParent> getBudgetCommonService(BudgetParent budgetParent) {
-        return BudgetCommonServiceFactory.createInstance(budgetParent);
-    }
-
-    protected void recalculateBudgetPeriod(BudgetForm budgetForm, Budget budget, BudgetPeriod budgetPeriod) {
-        getBudgetCommonService(budget.getBudgetParent()).recalculateBudgetPeriod(budget, budgetPeriod);
-    }  
 
     protected void calculateBudgetPeriod(Budget budget, BudgetPeriod budgetPeriod) {
         getCalculationService().calculateBudgetPeriod(budget, budgetPeriod);

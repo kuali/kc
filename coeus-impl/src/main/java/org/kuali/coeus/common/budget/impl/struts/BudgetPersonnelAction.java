@@ -216,8 +216,8 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
                     }
                     setLineItemQuantity(newBudgetLineItem);
 
-                    budget.getBudgetPeriod(budgetPeriod.getBudgetPeriod() - 1).getBudgetLineItems().add(newBudgetLineItem);            
-                    recalculateBudgetPeriod(budgetForm,budget, budget.getBudgetPeriod(budgetPeriod.getBudgetPeriod() - 1));
+                    budget.getBudgetPeriod(budgetPeriod.getBudgetPeriod() - 1).getBudgetLineItems().add(newBudgetLineItem);
+                    getAwardBudgetPeriodCalculationService().recalculateBudgetPeriod(budget, budget.getBudgetPeriod(budgetPeriod.getBudgetPeriod() - 1));
                     getCalculationService().populateCalculatedAmount(budget, newBudgetLineItem);
                     openTabLineItemIndex = newBudgetLineItem.getLineItemNumber();
                 }
@@ -279,8 +279,8 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
         if(qty == 0) {
             budget.getBudgetPeriod(selectedBudgetPeriodIndex).getBudgetLineItems().remove(selectedBudgetLineItemIndex);
         }
-        
-        recalculateBudgetPeriod(budgetForm,budget, budget.getBudgetPeriod(selectedBudgetPeriodIndex));
+
+        getAwardBudgetPeriodCalculationService().recalculateBudgetPeriod(budget, budget.getBudgetPeriod(selectedBudgetPeriodIndex));
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
@@ -325,8 +325,8 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
         if(!errorFound){
             updatePersonnelBudgetRate(selectedBudgetLineItem);
             getBudgetPersonnelBudgetService().calculateBudgetPersonnelBudget(budget, selectedBudgetLineItem, budgetPersonnelDetails, selectedPersonnelIndex);
-            
-            recalculateBudgetPeriod(budgetForm,budget, budget.getBudgetPeriod(selectedBudgetPeriodIndex));
+
+            getAwardBudgetPeriodCalculationService().recalculateBudgetPeriod(budget, budget.getBudgetPeriod(selectedBudgetPeriodIndex));
             getCalculationService().populateCalculatedAmount(budget, selectedBudgetLineItem);
         }  
         
@@ -767,8 +767,8 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
         
         if (getKcBusinessRulesEngine().applyRules(new AwardBudgetSaveEvent(budget))) {
             updatePersonnelBudgetRate(selectedBudgetLineItem);
-            getCalculationService().calculateBudgetLineItem(budget, selectedBudgetLineItem); 
-            recalculateBudgetPeriod(budgetForm, budget, budget.getBudgetPeriod(selectedBudgetPeriodIndex));
+            getCalculationService().calculateBudgetLineItem(budget, selectedBudgetLineItem);
+            getAwardBudgetPeriodCalculationService().recalculateBudgetPeriod(budget, budget.getBudgetPeriod(selectedBudgetPeriodIndex));
             getCalculationService().populateCalculatedAmount(budget, selectedBudgetLineItem);
         }
         

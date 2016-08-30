@@ -90,7 +90,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
     private static final Log LOG = LogFactory.getLog(BudgetActionsAction.class);
     private BudgetAdjustmentClient budgetAdjustmentClient = null;
     private KcBusinessRulesEngine kcBusinessRulesEngine;
-    
+    private AwardBudgetService awardBudgetService;
 
 
     public BudgetActionsAction() {
@@ -419,7 +419,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         Award currentAward = getAwardBudgetService().getActiveOrNewestAward(((AwardDocument) awardBudgetDocument.getBudget().getBudgetParent().getDocument()).getAward().getAwardNumber());
         ScaleTwoDecimal newCostLimit = getAwardBudgetService().getTotalCostLimit(currentAward);
         if (!newCostLimit.equals(awardBudgetDocument.getBudget().getTotalCostLimit())
-                || !limitsMatch(currentAward.getAwardBudgetLimits(), awardBudgetDocument.getAwardBudget().getAwardBudgetLimits())) {
+                || !getAwardBudgetService().limitsMatch(currentAward.getAwardBudgetLimits(), awardBudgetDocument.getAwardBudget().getAwardBudgetLimits())) {
             Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
             Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
             String methodToCall = ((KualiForm) form).getMethodToCall();
@@ -447,48 +447,6 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
 
             return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
-    }
-    
-    /**
-     * 
-     * Compares the budget limit lists to make sure they match.
-     * @param awardLimits
-     * @param budgetLimits
-     * @return
-     */
-    protected boolean limitsMatch(List<AwardBudgetLimit> awardLimits, List<AwardBudgetLimit> budgetLimits) {
-        if (awardLimits.size() < budgetLimits.size()) {
-            return false;
-        }
-        
-        for (AwardBudgetLimit limit : awardLimits) {
-            AwardBudgetLimit budgetLimit = getBudgetLimit(limit.getLimitType(), budgetLimits);
-            if (!org.apache.commons.lang3.ObjectUtils.equals(limit.getLimit(), budgetLimit.getLimit())) {
-                return false;
-            }
-        }
-        return true;
-    }    
-    
-    /**
-     * 
-     * Get the specific budget limit from the budget list
-     * @param type
-     * @param budgetLimits
-     * @return
-     */
-    protected AwardBudgetLimit getBudgetLimit(AwardBudgetLimit.LIMIT_TYPE type, List<AwardBudgetLimit> budgetLimits) {
-        for (AwardBudgetLimit limit : budgetLimits) {
-            if (limit.getLimitType() == type) {
-                return limit;
-            }
-        }
-        //return empty budget limit to simplify logic above
-        return new AwardBudgetLimit(type);
-    }    
-
-    private AwardBudgetService getAwardBudgetService() {
-        return KcServiceLocator.getService(AwardBudgetService.class);
     }
 
     /**
@@ -729,6 +687,13 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
             budgetForm.getDocument().refreshPessimisticLocks();
         }
         return mapping.findForward(Constants.BUDGET_VERSIONS_PAGE);
+    }
+
+    public AwardBudgetService getAwardBudgetService() {
+        if(awardBudgetService == null) {
+            awardBudgetService = KcServiceLocator.getService(AwardBudgetService.class);
+        }
+        return awardBudgetService;
     }
 
 	public KcBusinessRulesEngine getKcBusinessRulesEngine() {

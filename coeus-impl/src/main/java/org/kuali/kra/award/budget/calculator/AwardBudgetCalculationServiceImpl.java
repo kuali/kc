@@ -18,16 +18,15 @@
  */
 package org.kuali.kra.award.budget.calculator;
 
-import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.kra.award.budget.AwardBudgetExt;
-import org.kuali.kra.award.budget.AwardBudgetLineItemExt;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.coeus.common.budget.impl.calculator.BudgetCalculationServiceImpl;
-import org.kuali.coeus.common.budget.framework.core.category.BudgetCategoryType;
 import org.kuali.coeus.common.budget.framework.core.CostElement;
+import org.kuali.coeus.common.budget.framework.core.category.BudgetCategoryType;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.rate.RateType;
+import org.kuali.coeus.common.budget.impl.calculator.BudgetCalculationServiceImpl;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.kra.award.budget.AwardBudgetExt;
+import org.kuali.kra.award.budget.AwardBudgetLineItemExt;
 
 import java.util.*;
 
@@ -56,7 +55,7 @@ public class AwardBudgetCalculationServiceImpl extends BudgetCalculationServiceI
             }
         }
     }
-    
+
     /**
      * Aggregate period totals to the budget for summary items on the budget.
      * @param budget

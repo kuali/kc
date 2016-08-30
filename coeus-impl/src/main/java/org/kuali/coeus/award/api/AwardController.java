@@ -36,7 +36,6 @@ import org.kuali.coeus.sys.framework.rest.NotImplementedException;
 import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
 import org.kuali.coeus.sys.framework.rest.UnprocessableEntityException;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyBean;
-import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardProjectPersonnelBean;
 import org.kuali.kra.award.contacts.AwardSponsorContact;
@@ -216,53 +215,6 @@ public class AwardController extends RestController implements InitializingBean 
         }
     }
 
-    @RequestMapping(method= RequestMethod.GET, value="/awards/{awardId}/budgets/", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    @ResponseStatus(value = HttpStatus.OK)
-    @ResponseBody
-    List<AwardBudgetExtDto> getBudgets( @PathVariable Long awardId) {
-        Award award = getAwardDao().getAward(awardId);
-        if(award == null) {
-            throw new ResourceNotFoundException("Award with award id " + awardId + " not found.");
-        }
-        return award.getBudgets().stream().map(budget ->
-                        commonApiService.convertObject(budget, AwardBudgetExtDto.class)
-
-        ).collect(Collectors.toList());
-    }
-
-    @RequestMapping(method= RequestMethod.GET, value="/award-budgets/{budgetId}", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    @ResponseStatus(value = HttpStatus.OK)
-    @ResponseBody
-    AwardBudgetExtDto getAwardBudget(@PathVariable String budgetId) {
-        AwardBudgetExt budget = getAwardDao().getAwardBudget(budgetId);
-        if(budget == null) {
-            throw new ResourceNotFoundException("Budget with budget id " + budgetId + " not found.");
-        }
-        return commonApiService.convertObject(budget, AwardBudgetExtDto.class);
-    }
-
-    @RequestMapping(method= RequestMethod.GET, value="/award-budgets", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    @ResponseStatus(value = HttpStatus.OK)
-    @ResponseBody
-    List<AwardBudgetExtDto> getAwardBudgetByStatus(@RequestParam(value = "budgetStatusCode", required = true) Integer budgetStatusCode) {
-        List<AwardBudgetExt> budgets = getAwardDao().getAwardBudgetByStatusCode(budgetStatusCode);
-        return budgets.stream().map(budget ->
-                        commonApiService.convertObject(budget, AwardBudgetExtDto.class)
-        ).collect(Collectors.toList());
-    }
-
-    @RequestMapping(method= RequestMethod.PUT, value="/award-budgets/{budgetId}/general-info/", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    @ResponseStatus(value = HttpStatus.OK)
-    @ResponseBody
-    void modifyAwardBudget(@RequestBody AwardBudgetGeneralInfoDto generalInfoDto, @PathVariable String budgetId) {
-        AwardBudgetExt budget = getAwardDao().getAwardBudget(budgetId);
-        if(budget == null) {
-            throw new ResourceNotFoundException("Budget with budget id " + budgetId + " not found.");
-        }
-        commonApiService.updateDataObjectFromDto(budget, generalInfoDto);
-        businessObjectService.save(budget);
-    }
-
     @RequestMapping(method= RequestMethod.POST, value="/awards/",
             consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(value = HttpStatus.CREATED)
@@ -367,6 +319,20 @@ public class AwardController extends RestController implements InitializingBean 
         commonApiService.routeDocument(awardDocument);
     }
 
+
+    @RequestMapping(method= RequestMethod.GET, value="/awards/{awardId}/budgets/", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @ResponseStatus(value = HttpStatus.OK)
+    @ResponseBody
+    List<AwardBudgetExtDto> getBudgets( @PathVariable Long awardId) {
+        Award award = getAwardDao().getAward(awardId);
+        if(award == null) {
+            throw new ResourceNotFoundException("Award with award id " + awardId + " not found.");
+        }
+        return award.getBudgets().stream().map(budget ->
+                        commonApiService.convertObject(budget, AwardBudgetExtDto.class)
+
+        ).collect(Collectors.toList());
+    }
 
     @RequestMapping(method= RequestMethod.POST, value="/awards/{awardId}/award-persons/",
             consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})

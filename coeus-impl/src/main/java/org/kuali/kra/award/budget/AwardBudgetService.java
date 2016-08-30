@@ -121,6 +121,14 @@ public interface AwardBudgetService extends BudgetCommonService<Award> {
      */
     void removeBudgetSummaryPeriodCalcAmounts(BudgetPeriod budgetPeriod);
 
+    /**
+     *
+     * Compares the budget limit lists to make sure they match.
+     */
+    public boolean limitsMatch(List<AwardBudgetLimit> awardLimits, List<AwardBudgetLimit> budgetLimits);
+
+
+
     void populateSummaryCalcAmounts(Budget budget,BudgetPeriod budgetPeriod);
     
     AwardBudgetDocument copyBudgetVersion(AwardBudgetDocument budgetDocument, boolean onlyOnePeriod) throws WorkflowException;

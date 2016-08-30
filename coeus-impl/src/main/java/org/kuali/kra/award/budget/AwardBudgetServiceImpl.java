@@ -266,6 +266,38 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     }
 
     /**
+     *
+     * Compares the budget limit lists to make sure they match.
+     */
+    public boolean limitsMatch(List<AwardBudgetLimit> awardLimits, List<AwardBudgetLimit> budgetLimits) {
+        if (awardLimits.size() < budgetLimits.size()) {
+            return false;
+        }
+
+        for (AwardBudgetLimit limit : awardLimits) {
+            AwardBudgetLimit budgetLimit = getBudgetLimit(limit.getLimitType(), budgetLimits);
+            if (!org.apache.commons.lang3.ObjectUtils.equals(limit.getLimit(), budgetLimit.getLimit())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     *
+     * Get the specific budget limit from the budget list
+     */
+    public AwardBudgetLimit getBudgetLimit(AwardBudgetLimit.LIMIT_TYPE type, List<AwardBudgetLimit> budgetLimits) {
+        for (AwardBudgetLimit limit : budgetLimits) {
+            if (limit.getLimitType() == type) {
+                return limit;
+            }
+        }
+        //return empty budget limit to simplify logic above
+        return new AwardBudgetLimit(type);
+    }
+
+    /**
      * Recurse through all of the BOs and if a BO has a ProposalNumber property,
      * set its value to the new proposal number.
      * @param object the object

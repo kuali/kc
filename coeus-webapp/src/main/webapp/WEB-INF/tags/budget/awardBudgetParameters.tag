@@ -101,10 +101,6 @@
            			 		</th>
            			 		<td>
            			 			<div align="right">
-           			 				<%--
-           			 				<c:set var="changeAmount" value="${document.budget.obligatedTotal - document.budget.prevBudget.obligatedTotal }"
-           			 				${changeAmount }
-           			 				 --%>
            			 				 <bean:write name="KualiForm" property="obligatedChange"/>
            			 			</div>
            			 		</td>
@@ -127,12 +123,6 @@
 			    <td>
 			         <kul:htmlControlAttribute property="document.budget.awardBudgetTypeCode" attributeEntry="${awardBudgetAttributes.awardBudgetTypeCode}" readOnly="true"/>
                 </td>
-                <%--
-           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${awardBudgetAttributes.totalCostLimit}" /></div></th>
-           		<td>
-           			<kul:htmlControlAttribute property="document.budget.totalCostLimit" attributeEntry="${awardBudgetAttributes.totalCostLimit}" readOnly="true"/>
-           		</td>
-           		 --%>
      		</tr>
         	<tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${awardBudgetAttributes.awardBudgetStatusCode}" /></div></th>

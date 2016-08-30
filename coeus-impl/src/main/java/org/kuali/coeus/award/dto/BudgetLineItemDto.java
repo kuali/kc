@@ -23,6 +23,9 @@ import com.codiform.moo.annotation.CollectionProperty;
 import com.codiform.moo.annotation.Property;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.kuali.coeus.instprop.impl.api.customSerializers.CustomSqlDateSerializer;
+import org.kuali.coeus.instprop.impl.api.customSerializers.ScaleTwoDecimalSerializer;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.sql.Date;
@@ -37,21 +40,29 @@ public class BudgetLineItemDto {
     private Integer basedOnLineItem;
     private String budgetJustification;
     private String groupName;
+    @JsonDeserialize(using = CustomSqlDateSerializer.class)
     private Date endDate;
+    @JsonDeserialize(using = ScaleTwoDecimalSerializer.class)
     private ScaleTwoDecimal lineItemCost;
+    @JsonDeserialize(using = ScaleTwoDecimalSerializer.class)
     private ScaleTwoDecimal obligatedAmount;
     private String lineItemDescription;
     private Integer lineItemSequence;
     private Boolean onOffCampusFlag;
     private Integer quantity;
+    @JsonDeserialize(using = CustomSqlDateSerializer.class)
     private Date startDate;
+    @JsonDeserialize(using = ScaleTwoDecimalSerializer.class)
     private ScaleTwoDecimal underrecoveryAmount;
     private Boolean formulatedCostElementFlag;
     private String costElement;
+    private boolean applyRateFlag;
+
     @JsonIgnore
     @Property(translate = true)
     private CostElementDto costElementBO;
     private String budgetCategoryCode;
+    private String budgetCategoryTypeCode;
     @JsonIgnore
     @Property(translate = true)
     private BudgetCategoryDto budgetCategory;
@@ -62,6 +73,13 @@ public class BudgetLineItemDto {
     @CollectionProperty(source="budgetLineItemCalculatedAmounts", itemClass= BudgetLineItemCalculatedAmountDto.class)
     private List<BudgetLineItemCalculatedAmountDto> budgetLineItemCalculatedAmounts;
 
+    public String getBudgetCategoryTypeCode() {
+        return budgetCategoryTypeCode;
+    }
+
+    public void setBudgetCategoryTypeCode(String budgetCategoryTypeCode) {
+        this.budgetCategoryTypeCode = budgetCategoryTypeCode;
+    }
 
     public ScaleTwoDecimal getCostSharingAmount() {
         return costSharingAmount;
@@ -245,5 +263,13 @@ public class BudgetLineItemDto {
 
     public void setObligatedAmount(ScaleTwoDecimal obligatedAmount) {
         this.obligatedAmount = obligatedAmount;
+    }
+
+    public boolean isApplyRateFlag() {
+        return applyRateFlag;
+    }
+
+    public void setApplyRateFlag(boolean applyRateFlag) {
+        this.applyRateFlag = applyRateFlag;
     }
 }

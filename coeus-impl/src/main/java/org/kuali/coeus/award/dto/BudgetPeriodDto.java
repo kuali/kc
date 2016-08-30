@@ -20,29 +20,54 @@ package org.kuali.coeus.award.dto;
 
 import com.codiform.moo.annotation.CollectionProperty;
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.kuali.coeus.instprop.impl.api.customSerializers.CustomSqlDateSerializer;
+import org.kuali.coeus.instprop.impl.api.customSerializers.ScaleTwoDecimalSerializer;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.sql.Date;
-import java.util.*;
+import java.util.List;
 
 public class BudgetPeriodDto {
 
     private String comments;
     private ScaleTwoDecimal costSharingAmount;
+    @JsonDeserialize(using = CustomSqlDateSerializer.class)
     private Date endDate;
+    @JsonDeserialize(using = CustomSqlDateSerializer.class)
     private Date startDate;
+    @JsonDeserialize(using = ScaleTwoDecimalSerializer.class)
     private ScaleTwoDecimal totalCost;
+    @JsonDeserialize(using = ScaleTwoDecimalSerializer.class)
     private ScaleTwoDecimal totalCostLimit;
+    @JsonDeserialize(using = ScaleTwoDecimalSerializer.class)
     private ScaleTwoDecimal totalDirectCost;
+    private boolean overrideIndirectAndFringeRates = false;
+    @JsonDeserialize(using = ScaleTwoDecimalSerializer.class)
     private ScaleTwoDecimal totalIndirectCost;
+    @JsonDeserialize(using = ScaleTwoDecimalSerializer.class)
+    private ScaleTwoDecimal totalFringeAmount;
+    @JsonDeserialize(using = ScaleTwoDecimalSerializer.class)
     private ScaleTwoDecimal underrecoveryAmount;
+
     @JsonProperty(value="budgetLineItems")
     @CollectionProperty(source="budgetLineItems", itemClass= BudgetLineItemDto.class)
     private List<BudgetLineItemDto> budgetLineItems;
     private Integer numberOfParticipants;
+    @JsonDeserialize(using = ScaleTwoDecimalSerializer.class)
     private ScaleTwoDecimal directCostLimit;
+    @JsonDeserialize(using = ScaleTwoDecimalSerializer.class)
     private ScaleTwoDecimal expenseTotal;
     private Long budgetId;
+    private Integer periodNumber;
+
+    public boolean isOverrideIndirectAndFringeRates() {
+        return overrideIndirectAndFringeRates;
+    }
+
+    public void setOverrideIndirectAndFringeRates(boolean overrideIndirectAndFringeRates) {
+        this.overrideIndirectAndFringeRates = overrideIndirectAndFringeRates;
+    }
 
     public Long getBudgetId() {
         return budgetId;
@@ -144,5 +169,21 @@ public class BudgetPeriodDto {
 
     public void setNumberOfParticipants(Integer numberOfParticipants) {
         this.numberOfParticipants = numberOfParticipants;
+    }
+
+    public ScaleTwoDecimal getTotalFringeAmount() {
+        return totalFringeAmount;
+    }
+
+    public void setTotalFringeAmount(ScaleTwoDecimal totalFringeAmount) {
+        this.totalFringeAmount = totalFringeAmount;
+    }
+
+    public Integer getPeriodNumber() {
+        return periodNumber;
+    }
+
+    public void setPeriodNumber(Integer periodNumber) {
+        this.periodNumber = periodNumber;
     }
 }

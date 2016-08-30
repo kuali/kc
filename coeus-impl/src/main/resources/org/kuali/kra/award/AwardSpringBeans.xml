@@ -89,6 +89,8 @@
         </property>
     </bean>
 
+    <bean id="auditHelper" parent="grlImporter" p:serviceName="auditHelper" />
+
     <bean id="costShareService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="costShareService" />
     </bean>
@@ -806,7 +808,9 @@
         <property name="workflowUtility" ref="workflowDocumentActionsService" />
         <property name="kualiConfigurationService" ref="kualiConfigurationService"/>
     </bean>
-    
+
+    <bean id="budgetPersonService" parent="grlImporter" p:serviceName="budgetPersonService" />
+
     <!-- Award CFDA Services -->
     
     <bean id="cfdaService" class="org.kuali.kra.external.Cfda.service.impl.CfdaServiceImpl">
@@ -1326,6 +1330,8 @@
         </property>
     </bean>
 
+    <bean id="budgetPersonnelBudgetService" parent="grlImporter" p:serviceName="budgetPersonnelBudgetService" />
+
     <bean id="frequencyDtoService" class="org.kuali.kra.external.frequency.FrequencyDtoService"/>
 
     <bean id="frequencyWebService" class="org.kuali.kra.external.frequency.FrequencyWebServiceImpl">
@@ -1385,6 +1391,7 @@
     <bean id="restPropertyEditors" parent="grlImporter" p:serviceName="restPropertyEditors" />
 
     <bean id="commonApiService" parent="grlImporter" p:serviceName="commonApiService" />
+
     <import resource="classpath:org/kuali/coeus/sys/framework/ImportEndpointSpringBeans.xml" />
     <import resource="classpath:org/kuali/coeus/sys/framework/ImportSimpleCrudRestSpringBeans.xml" />
 

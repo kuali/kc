@@ -247,6 +247,9 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
                     valid = false;
                 }
                 if(budgetLineItem!=null && budgetLineItem.getEndDate()!=null && budgetLineItem.getEndDate().after(budgetPeriod.getEndDate())){
+                    if(budgetLineItem.getBudgetCategory() == null) {
+                        budgetLineItem.refreshReferenceObject("budgetCategory");
+                    }
                     errorMap.putError("budgetCategoryTypes[" + budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode() + "].budgetPeriods[" + i +"].budgetLineItems[" + j + "].endDate",KeyConstants.ERROR_LINEITEM_ENDDATE_AFTER_PERIOD_ENDDATE);
                     valid = false;
                 }

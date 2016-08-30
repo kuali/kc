@@ -21,6 +21,9 @@ package org.kuali.coeus.award.dto;
 import com.codiform.moo.annotation.Property;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.kuali.coeus.instprop.impl.api.customSerializers.CustomSqlDateSerializer;
+import org.kuali.coeus.instprop.impl.api.customSerializers.ScaleTwoDecimalSerializer;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.sql.Date;
@@ -38,18 +41,29 @@ public class AwardBudgetGeneralInfoDto {
     @JsonIgnore
     @Property(translate = true)
     private AwardBudgetTypeDto awardBudgetType;
+    @JsonDeserialize(using = ScaleTwoDecimalSerializer.class)
     private ScaleTwoDecimal obligatedTotal = ScaleTwoDecimal.ZERO;
+    @JsonDeserialize(using = ScaleTwoDecimalSerializer.class)
     private ScaleTwoDecimal obligatedAmount = ScaleTwoDecimal.ZERO;
     private String description;
     private String onOffCampusFlag;
+    @JsonDeserialize(using = CustomSqlDateSerializer.class)
     private Date endDate;
+    @JsonDeserialize(using = CustomSqlDateSerializer.class)
     private Date startDate;
+    @JsonDeserialize(using = ScaleTwoDecimalSerializer.class)
     private ScaleTwoDecimal totalCost;
+    @JsonDeserialize(using = ScaleTwoDecimalSerializer.class)
     private ScaleTwoDecimal totalDirectCost;
+    @JsonDeserialize(using = ScaleTwoDecimalSerializer.class)
     private ScaleTwoDecimal totalIndirectCost;
+    @JsonDeserialize(using = ScaleTwoDecimalSerializer.class)
     private ScaleTwoDecimal costSharingAmount;
+    @JsonDeserialize(using = ScaleTwoDecimalSerializer.class)
     private ScaleTwoDecimal underrecoveryAmount;
+    @JsonDeserialize(using = ScaleTwoDecimalSerializer.class)
     private ScaleTwoDecimal totalCostLimit;
+    @JsonDeserialize(using = ScaleTwoDecimalSerializer.class)
     private ScaleTwoDecimal residualFunds;
     private String ohRateClassCode;
     @JsonIgnore
@@ -59,7 +73,9 @@ public class AwardBudgetGeneralInfoDto {
     private String comments;
     private Boolean modularBudgetFlag = Boolean.FALSE;
     private String urRateClassCode;
+    @JsonDeserialize(using = ScaleTwoDecimalSerializer.class)
     private ScaleTwoDecimal totalDirectCostLimit;
+    private String name;
 
     public Long getAwardId() {
         return awardId;
@@ -259,6 +275,14 @@ public class AwardBudgetGeneralInfoDto {
 
     public void setTotalDirectCostLimit(ScaleTwoDecimal totalDirectCostLimit) {
         this.totalDirectCostLimit = totalDirectCostLimit;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @JsonProperty

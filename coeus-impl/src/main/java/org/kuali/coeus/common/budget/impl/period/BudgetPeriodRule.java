@@ -253,8 +253,8 @@ public class BudgetPeriodRule {
         for(BudgetPeriod budgetPeriod: budgetPeriods) {
             String[] dateParams = {budgetPeriod.getBudgetPeriod()+""};
             /* get all line items for each budget period */
-            Collection<BudgetLineItem> periodLineItems = new ArrayList();
-            Collection<BudgetPersonnelDetails> periodPersonnelDetails = new ArrayList();
+            Collection<BudgetLineItem> periodLineItems;
+            Collection<BudgetPersonnelDetails> periodPersonnelDetails;
             /* filter by budget period */
             Integer budgetPeriodNumber = budgetPeriod.getBudgetPeriod();
             int index = budgetPeriodNumber - 1;
@@ -481,8 +481,8 @@ public class BudgetPeriodRule {
     
     private String compareDate(Budget budget, Date periodStartDate, Date periodEndDate, Date previousPeriodEndDate) {
         String returnErrorValue = null;
-        LOG.info("prd st dt " + periodStartDate.getTime() + periodEndDate.getTime() + budget.getStartDate().getTime()
-                + budget.getEndDate().getTime());
+        LOG.info("prd st dt " + periodStartDate.getTime() +  "  --  prd end dt " + periodEndDate.getTime() + "  --  budget start dt " + budget.getStartDate().getTime()
+                + "  --  budget end dt " + budget.getEndDate().getTime());
         Date budgetEndDate = new Date(budget.getBudgetEndDate().getTime());
         Date budgetStartDate = new Date(budget.getBudgetStartDate().getTime());
         if (periodStartDate.after(budgetEndDate)) {
