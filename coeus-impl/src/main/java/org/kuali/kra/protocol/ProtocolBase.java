@@ -1177,6 +1177,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
         	committeeScheduleMinute.setCommScheduleMinutesId(null);
         	committeeScheduleMinute.setProtocolIdFk(this.getProtocolId());
         	committeeScheduleMinute.setSubmissionIdFk(null);
+            committeeScheduleMinute.setProtocolNumber(this.getProtocolNumber());
         });
     }
     

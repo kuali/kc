@@ -23,6 +23,7 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
@@ -34,6 +35,7 @@ import org.kuali.kra.irb.protocol.reference.ProtocolReference;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchArea;
 import org.kuali.kra.irb.specialreview.ProtocolSpecialReview;
 import org.kuali.kra.irb.test.ProtocolFactory;
+import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnelBase;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
@@ -282,6 +284,29 @@ public class ProtocolMergeTest extends KcIntegrationTestBase {
         assertEquals(2, protocol.getSpecialReviews().size());
         assertEquals(SPECIAL_REVIEW_CODE_1, protocol.getSpecialReviews().get(0).getSpecialReviewTypeCode());
         assertEquals(SPECIAL_REVIEW_CODE_2, protocol.getSpecialReviews().get(1).getSpecialReviewTypeCode());
+    }
+
+    @Test
+    public void testSubmissionMerge() {
+        Protocol protocol = createProtocol();
+        Protocol amendment = createAmendment(ProtocolModule.SPECIAL_REVIEW);
+
+        ProtocolSubmission protocolSubmission = new ProtocolSubmission();
+        protocolSubmission.setProtocolNumber(amendment.getProtocolNumber());
+        CommitteeScheduleMinute committeeScheduleMinute = new CommitteeScheduleMinute("3");
+        committeeScheduleMinute.setProtocolNumber(amendment.getProtocolNumber());
+        protocolSubmission.getCommitteeScheduleMinutes().add(committeeScheduleMinute);
+
+        amendment.setProtocolSubmission(protocolSubmission);
+        amendment.getProtocolSubmissions().add(protocolSubmission);
+
+        protocol.merge(amendment);
+
+        assertEquals(amendment.getProtocolSubmission().getCommitteeScheduleMinutes().size(), protocol.getProtocolSubmission().getCommitteeScheduleMinutes().size());
+        assertEquals(amendment.getProtocolNumber(), amendment.getProtocolSubmission().getCommitteeScheduleMinutes().get(0).getProtocolNumber());
+        assertEquals(protocol.getProtocolNumber(), protocol.getProtocolSubmission().getCommitteeScheduleMinutes().get(0).getProtocolNumber());
+
+
     }
     
     private ProtocolSpecialReview createSpecialReview(String specialReviewCode) {
