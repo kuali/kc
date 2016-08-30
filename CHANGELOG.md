@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1608.0047
 * RESKC-1538: Fix a merge issue with updated protocol number logic (#1939)
 
   * tdurkin on Tue, 30 Aug 2016 14:02:53 -0400 [View Commit](../../commit/ecf27fffdd61f0b53cdcbf55940bf4bb2c449025)
