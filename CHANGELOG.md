@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-1538: Fix a merge issue with updated protocol number logic (#1939)
+
+  * tdurkin on Tue, 30 Aug 2016 14:02:53 -0400 [View Commit](../../commit/ecf27fffdd61f0b53cdcbf55940bf4bb2c449025)
+
+##coeus-1608.0046
 * RESKC-1562: Do not create empty s2s opportunity. (#1937)
 
   * Gayathri Athreya on Tue, 30 Aug 2016 10:19:01 -0700 [View Commit](../../commit/12d8e45e14270a99295d5e5a027a46fa0108310c)
