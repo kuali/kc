@@ -40,45 +40,18 @@ public class CliOptions {
             return true;
         }
 
-        if (valid && (containsProposalPersonRole() && !"".equals(getCoeusConnectionString()) && !"".equals(getRiceConnectionString()))) {
+        if (valid && (containsNormalMigrationTarget() && !"".equals(getCoeusConnectionString()) && !"".equals(getRiceConnectionString()))) {
             return true;
         }
-
-        if (valid && (containsProposal() && !"".equals(getCoeusConnectionString()) && !"".equals(getRiceConnectionString()))) {
-            return true;
-        }
-
-        if (valid && (containsIrb() && !"".equals(getCoeusConnectionString()) && !"".equals(getRiceConnectionString()))) {
-            return true;
-        }
-
-        if (valid && (containsIacuc() && !"".equals(getCoeusConnectionString()) && !"".equals(getRiceConnectionString()))) {
-            return true;
-        }
-
-        if (valid && (containsQuestSeq() && !"".equals(getCoeusConnectionString()) && !"".equals(getRiceConnectionString()))) {
-            return true;
-        }
-
-        if (valid && (containsAwardUpdateUser() && !"".equals(getCoeusConnectionString()) && !"".equals(getRiceConnectionString()))) {
-            return true;
-        }
-
-        if (valid && (containsIpUpdateUser() && !"".equals(getCoeusConnectionString()) && !"".equals(getRiceConnectionString()))) {
-            return true;
-        }
-
-        if (valid && (containsSubawardUpdateUser() && !"".equals(getCoeusConnectionString()) && !"".equals(getRiceConnectionString()))) {
-            return true;
-        }
-
-        if (valid && (containsTmUpdateUser() && !"".equals(getCoeusConnectionString()) && !"".equals(getRiceConnectionString()))) {
-            return true;
-        }
-
 
 
         return false;
+    }
+
+    public boolean containsNormalMigrationTarget() {
+        return containsProposalPersonRole() || containsProposal() || containsIrb() || containsIacuc() || containsQuestSeq() || containsAwardUpdateUser() || containsIpUpdateUser() ||
+                containsSubawardUpdateUser() || containsTmUpdateUser() || containsTimeAndMoneyDocStatus() || containsSubawardAmountInfo() || containsProposalYnq() || containsProposalPersonNames() ||
+                containsTimeAndMoneyDups();
     }
 
     public boolean containsHelp() {
@@ -276,7 +249,7 @@ public class CliOptions {
                 + "\n"
                 + "If platform is not specified then the platform will be autodetected from the connection strings.\n"
                 + "\n"
-                + "The valid conversion targets are (proposal|irb|iacuc|pprole|questseq|tmdocstatus|subaward-amountinfo|tm-dups|award-updateuser|ip-updateuser|subaward-updateuser|tm-updateuser).\n"
+                + "The valid conversion targets are (proposal|irb|iacuc|pprole|questseq|tmdocstatus|subaward-amountinfo|tm-dups|award-updateuser|ip-updateuser|subaward-updateuser|tm-updateuser|proposal-ynq|proposal-person-names).\n"
                 + "\n"
                 + "The dryrun flag may still cause database sequences to increment.\n"
                 + "\n"
