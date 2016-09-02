@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-1566:Upgrade Rice to pull in incident report fixes (#1948)
+
+  * Douglas Pace on Thu, 1 Sep 2016 17:21:37 -0700 [View Commit](../../commit/46eb7ba63bac4ba1ceb4e5b7360c348b5792d6d8)
+
+##coeus-1609.0004
 * No Changes
 
 
