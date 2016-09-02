@@ -1,6 +1,20 @@
 
 
 ##CURRENT
+* RESKC-1488: update page when closing budget versions dialog
+
+  * Create a Summary budget
+  * Enter a direct cost amount of any value
+  * Toolbar > Budget Versions > Action > Complete Budget. OK to complete . Okay to close the modal.
+  * Result: 'complete budget' button is still present: Budget is NOT locked down until user takes an action that causes a save.
+  * 1. clicks save
+  * 2. navigates to another window
+  * 3. opens Budget Settings and closes
+  * 3. clicks Complete Budget
+  * ISSUE: When the Periods & Totals screen is in focus and this Toolbar "complete budget' option is used, the P&T screen remained Editable. I was able to revise the data on that screen, and then at Save, it was saved the data and finalized the Complete Budget action WITH That change.
+  * Joe Williams on Thu, 1 Sep 2016 14:14:42 -0500 [View Commit](../../commit/d695021c615fae0de6e7675c7b929153847f606d)
+
+##coeus-1609.0005
 * RESKC-1566:Upgrade Rice to pull in incident report fixes (#1948)
 
   * Douglas Pace on Thu, 1 Sep 2016 17:21:37 -0700 [View Commit](../../commit/46eb7ba63bac4ba1ceb4e5b7360c348b5792d6d8)
