@@ -293,6 +293,13 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
         return getModelAndViewService().getModelAndView(form);
     }
 
+    @Transactional @RequestMapping(params="methodToCall=closeBudgetVersionDialog")
+    public ModelAndView closeBudgetVersionDialog(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+        form.setEvaluateFlagsAndModes(true);
+        form.setCanEditView(null);
+        return getKcCommonControllerService().closeDialog("PropBudget-BudgetVersions-Dialog", form);
+    }
+
     @Transactional @RequestMapping(params="methodToCall=closeBudgetSettings")
 	public ModelAndView closeBudgetSettings(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		processAuditRuleValidation(form);

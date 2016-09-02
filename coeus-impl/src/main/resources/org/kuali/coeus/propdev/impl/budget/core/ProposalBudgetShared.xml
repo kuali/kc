@@ -127,7 +127,7 @@
 				<bean parent="Uif-ActionLink" p:actionLabel="Print" p:methodToCall="populatePrintForms" p:additionalSubmitData="budgetId:@{#line.budgetId}" p:iconClass="icon-print" p:order="30" />
                 <bean parent="Uif-ActionLink" p:actionLabel="Complete Budget" p:methodToCall="markBudgetVersionComplete"
                       p:additionalSubmitData="budgetId:@{#line.budgetId}" p:iconClass="icon-check"
-                      p:render="@{!#lp.isBudgetComplete() and !viewOnly and canEdit}" p:order="35">
+                      p:hidden="@{#lp.isBudgetComplete() or viewOnly or !canEdit}" p:order="35">
                     <property name="confirmationDialog">
                         <bean id="PropDev-BudgetVersions-CompleteBudgetConfirm" parent="Uif-DialogGroup-OkCancel"
                               p:promptText="Are you sure you want to set this budget to complete?" />
@@ -135,7 +135,7 @@
                 </bean>
                 <bean parent="Uif-ActionLink" p:actionLabel="Mark Budget Incomplete" p:methodToCall="markBudgetVersionIncomplete"
                       p:additionalSubmitData="budgetId:@{#line.budgetId}" p:iconClass="icon-close"
-                      p:render="@{#lp.isBudgetComplete() and !viewOnly and canEdit}" p:order="37">
+                      p:hidden="@{!#lp.isBudgetComplete() or viewOnly or !canEdit}" p:order="37">
                     <property name="confirmationDialog">
                         <bean id="PropDev-BudgetVersions-InCompleteBudgetConfirm" parent="Uif-DialogGroup-OkCancel"
                               p:promptText="Are you sure you want to set this budget to incomplete?" />

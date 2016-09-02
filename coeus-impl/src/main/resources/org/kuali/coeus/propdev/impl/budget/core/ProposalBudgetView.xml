@@ -287,6 +287,19 @@
 	<bean id="PropBudget-BudgetVersions-Dialog" parent="PropBudget-BudgetVersions-Dialog-parentBean"/>
 	<bean id="PropBudget-BudgetVersions-Dialog-parentBean" abstract="true" parent="Uif-DialogGroup"
 		p:dialogCssClass="modal-lg" p:headerText="Budgets">
+        <property name="header.upperGroup">
+            <bean parent="Uif-SimpleGroup">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-PrimaryActionButton"
+                              p:actionLabel="&amp;times;"
+                              p:libraryCssClasses="close"
+                              p:ariaAttributes="hidden:true"
+                              p:methodToCall="closeBudgetVersionDialog" p:order="10"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
 		<property name="items">
 			<list>
 				<bean parent="PropBudget-BudgetVersions-Collection" p:order="10"/>
@@ -294,7 +307,10 @@
 		</property>
 		<property name="footer.items">
 			<list>
-				<bean parent="Uif-DialogDismissButton" p:actionLabel="Okay"/>
+                <bean parent="Uif-SecondaryActionButton"
+                      p:methodToCall="closeBudgetVersionDialog"
+                      p:actionLabel="Okay"
+                      p:order="10" />
 			</list>
 		</property>
 	</bean>
