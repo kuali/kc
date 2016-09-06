@@ -203,6 +203,7 @@ public class AwardController extends RestController implements InitializingBean 
                 AwardDocument newAwardDocument = awardService.generateAndPopulateAwardDocument(oldAwardDocument, newAwardVersion);
                 newAwardDocument.getAward().setAwardTransactionTypeCode(awardDto.getAwardTransactionTypeCode());
                 addFundingProposals(awardDto, newAwardVersion);
+                changeDates(newAwardDocument.getAward(), awardDto);
                 newAwardDocument = (AwardDocument) commonApiService.saveDocument(newAwardDocument);
                 awardService.updateAwardSequenceStatus(newAwardDocument.getAward(), VersionStatus.PENDING);
                 versionHistoryService.updateVersionHistory(newAwardDocument.getAward(), VersionStatus.PENDING,
@@ -213,6 +214,13 @@ public class AwardController extends RestController implements InitializingBean 
         } else {
             throw new UnprocessableEntityException("Award cannot be versioned. Pending T&M document exist for this award.");
         }
+    }
+
+    private void changeDates(Award award, AwardDto awardDto) {
+        award.getAwardAmountInfo().setCurrentFundEffectiveDate(awardDto.getObligationStartDate());
+        award.getAwardAmountInfo().setObligationExpirationDate(awardDto.getObligationEndDate());
+        award.getAwardAmountInfo().setFinalExpirationDate(awardDto.getProjectEndDate());
+        award.setAwardEffectiveDate(awardDto.getAwardEffectiveDate());
     }
 
     @RequestMapping(method= RequestMethod.POST, value="/awards/",
@@ -226,6 +234,7 @@ public class AwardController extends RestController implements InitializingBean 
         AwardDocument awardDocument = (AwardDocument) documentService.getNewDocument(AwardDocument.class);
         awardDocument.setAward(award);
         translateCollections(awardDto, awardDocument);
+        changeDates(award, awardDto);
         addFundingProposals(awardDto, award);
 
         awardService.checkAwardNumber(award);
@@ -258,25 +267,11 @@ public class AwardController extends RestController implements InitializingBean 
         addSponsorTerms(award, awardDto);
         addReportTerms(award, awardDto);
         addCustomData(awardDocument, award, awardDto);
-        addAmountInfo(awardDto, award);
         translateSponsorContacts(awardDto, award);
         if(!globalVariableService.getMessageMap().getErrorMessages().isEmpty()) {
             String errors = commonApiService.getValidationErrors();
             throw new UnprocessableEntityException(errors);
         }
-    }
-
-    private void addAmountInfo(AwardDto awardDto, Award award) {
-        final AwardAmountInfo lastAwardAmountInfo = award.getLastAwardAmountInfo();
-        lastAwardAmountInfo.setAnticipatedTotalDirect(awardDto.getAnticipatedTotalDirect());
-        lastAwardAmountInfo.setObligatedTotalDirect(awardDto.getObligatedTotalDirect());
-        lastAwardAmountInfo.setObligatedTotalIndirect(awardDto.getObligatedTotalIndirect());
-        lastAwardAmountInfo.setAnticipatedTotalIndirect(awardDto.getAnticipatedTotalIndirect());
-
-        lastAwardAmountInfo.setCurrentFundEffectiveDate(awardDto.getObligationStartDate());
-        lastAwardAmountInfo.setObligationExpirationDate(awardDto.getObligationEndDate());
-        lastAwardAmountInfo.setFinalExpirationDate(awardDto.getProjectEndDate());
-
     }
 
     public void translateSponsorContacts(AwardDto awardDto, Award award) {
