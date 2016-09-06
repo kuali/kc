@@ -296,58 +296,6 @@ public class AwardDocumentControllerTest extends KcIntegrationTestBase {
 
     }
 
-    @Test
-    public void testAwardTimeAndMoney() throws Exception {
-        // POST
-        String awardJsonRequiredForTimeAndMoney = getawardJsonRequiredForTimeAndMoney();
-        ObjectMapper mapper = new ObjectMapper();
-
-        AwardDto awardDto = mapper.readValue(awardJsonRequiredForTimeAndMoney, AwardDto.class);
-        AwardDto newAwardDto = getAwardController().createAward(awardDto);
-        AwardDocument document = getAwardController().getAwardDocumentById(newAwardDto.getAwardId());
-        AwardPerson person = document.getAward().getProjectPerson(0);
-        setupCreditSplits(person);
-
-        KcServiceLocator.getService(DocumentService.class).saveDocument(document);
-        Assert.assertTrue(document.getAward().getAwardSequenceStatus().toString().equalsIgnoreCase("PENDING"));
-        Long awardId = document.getAward().getAwardId();
-        String awardNumber = document.getAward().getAwardNumber();
-
-        Assert.assertTrue(document.getAward().getObligatedTotalDirect().compareTo(new ScaleTwoDecimal(100.05)) == 0);
-        Assert.assertTrue(document.getAward().getObligatedTotalIndirect().compareTo(new ScaleTwoDecimal(100)) == 0);
-
-        Assert.assertTrue(document.getAward().getAnticipatedTotalDirect().compareTo(new ScaleTwoDecimal(100.05)) == 0);
-        Assert.assertTrue(document.getAward().getAnticipatedTotalIndirect().compareTo(new ScaleTwoDecimal(100)) == 0);
-
-        String timeAndMoneyString = getFirsTimeAndMoney();
-        timeAndMoneyString = timeAndMoneyString.replace("awardId\" : \"26965\"", "awardId\" : \"" +  awardId + "\"");
-        timeAndMoneyString = timeAndMoneyString.replace("\"destinationAwardNumber\": \"000530-00001\"", "\"destinationAwardNumber\": \"" +  awardNumber + "\"");
-        TimeAndMoneyDto timeAndMoneyDto = mapper.readValue(timeAndMoneyString, TimeAndMoneyDto.class);
-        String documentNumber = getTimeAndMoneyController().createTimeAndMoneyDocument(timeAndMoneyDto);
-        TimeAndMoneyDto newDocDto = getTimeAndMoneyController().submitDocument(documentNumber);
-
-        Assert.assertTrue(document.getAward().getObligatedTotalDirect().compareTo(new ScaleTwoDecimal(600.05)) == 0);
-        Assert.assertTrue(document.getAward().getObligatedTotalIndirect().compareTo(new ScaleTwoDecimal(600)) == 0);
-
-        Assert.assertTrue(document.getAward().getAnticipatedTotalDirect().compareTo(new ScaleTwoDecimal(600.05)) == 0);
-        Assert.assertTrue(document.getAward().getAnticipatedTotalIndirect().compareTo(new ScaleTwoDecimal(600)) == 0);
-
-        String newVersionOfTimeAndMoney = getTimeAndMoneyNewVersion();
-        newVersionOfTimeAndMoney = newVersionOfTimeAndMoney.replace("\"destinationAwardNumber\": \"000536-00001\"", "\"destinationAwardNumber\": \"" +  awardNumber + "\"");
-        TimeAndMoneyDto newTimeAndMoneyDto = mapper.readValue(newVersionOfTimeAndMoney, TimeAndMoneyDto.class);
-        String versionedDocNumber = getTimeAndMoneyController().versionTimeAndMoney(newTimeAndMoneyDto, documentNumber);
-        getTimeAndMoneyController().submitDocument(versionedDocNumber);
-
-        Assert.assertTrue(document.getAward().getObligatedTotalDirect().compareTo(new ScaleTwoDecimal(1100.05)) == 0);
-        Assert.assertTrue(document.getAward().getObligatedTotalIndirect().compareTo(new ScaleTwoDecimal(1100)) == 0);
-
-        Assert.assertTrue(document.getAward().getAnticipatedTotalDirect().compareTo(new ScaleTwoDecimal(1100.05)) == 0);
-        Assert.assertTrue(document.getAward().getAnticipatedTotalIndirect().compareTo(new ScaleTwoDecimal(1100)) == 0);
-
-        AwardDocument awardDocument = getAwardController().getAwardDocumentById(newAwardDto.getAwardId());
-
-    }
-
 
     @Test
     public void testAwardVersioningAndTandM() throws Exception {
