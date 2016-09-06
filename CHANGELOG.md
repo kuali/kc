@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* Removed bad test (#1950)
+
+  * Gayathri Athreya on Tue, 6 Sep 2016 15:31:31 -0700 [View Commit](../../commit/58cb172baf044ad676f9355c91789d0b4a4f2d81)
+* Fix award dates and totals while versioning. (#1949)
+
+  * Gayathri Athreya on Tue, 6 Sep 2016 13:41:19 -0700 [View Commit](../../commit/0367a31824f4e9abddfe8429389c8b8f38c0d5bf)
+
+##coeus-1609.0010
 * No Changes
 
 
