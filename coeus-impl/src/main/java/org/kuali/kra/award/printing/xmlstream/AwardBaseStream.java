@@ -169,7 +169,6 @@ public abstract class AwardBaseStream implements XmlStream {
 	protected AwardNotice getAwardNotice(Map<String, Object> reportParameters) {
 		AwardNotice awardNotice = AwardNotice.Factory.newInstance();
 		awardNotice.setSchoolInfo(getSchoolInfoType());
-		awardNotice.setAwardDisclosure(getAwardDisclosureType());
 		awardNotice.setAward(getAward());
 		awardNotice.setAODetails(getAODetailsType());
 		awardNotice.setPrintRequirement(getPrintRequirement(reportParameters));
@@ -204,24 +203,6 @@ public abstract class AwardBaseStream implements XmlStream {
 	private String getProposalParameterValue(String param) {
         return parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, param);
     }
-
-    /**
-	 * <p>
-	 * This method will set the values to Award Disclosure attributes and
-	 * finally returns AwardDisclosureType XmlObject
-	 * </p>
-	 * 
-	 * @return returns AwardDisclosureType XmlObject
-	 */
-	protected AwardDisclosureType getAwardDisclosureType() {
-		AwardDisclosureType awardDisclosureType = AwardDisclosureType.Factory
-				.newInstance();
-		AwardHeaderType awardHeaderType = getAwardHeaderType();
-		awardDisclosureType.setAwardHeader(awardHeaderType);
-		DisclosureItemType[] disclosureItemTypes = getDisclosureItems();
-		awardDisclosureType.setDisclosureItemArray(disclosureItemTypes);
-		return awardDisclosureType;
-	}
 
 	/**
 	 * <p>
@@ -1385,24 +1366,6 @@ public abstract class AwardBaseStream implements XmlStream {
 			description = nsfCodeList.get(0).getDescription();
 		}
 		return description;
-	}
-
-	/*
-	 * This method will set the values to disclosure items and finally return
-	 * disclosure XmlObject array
-	 * 
-	 */
-	private DisclosureItemType[] getDisclosureItems() {
-		List<DisclosureItemType> disclosureItems = new ArrayList<>();
-		award.getProjectPersons().forEach(awardPerson -> {
-			if (awardPerson.isCoInvestigator()) {
-				DisclosureItemType disclosureItemType = DisclosureItemType.Factory
-						.newInstance();
-
-				disclosureItems.add(disclosureItemType);
-			}
-		});
-		return disclosureItems.toArray(new DisclosureItemType[0]);
 	}
 
 	/*
