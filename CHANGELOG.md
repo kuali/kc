@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1559: fixed issue where disclosure status page would print on award notice whenver a co-i was added to an award
+  * Joe Williams on Wed, 7 Sep 2016 09:07:28 -0500 [View Commit](../../commit/f0e9957cefc28661008e6b67c44df20ca11f1009)
+
+##coeus-1609.0012
 * No Changes
 
 
