@@ -1639,5 +1639,8 @@
 		<field-descriptor name="impersonatedByUserId" column="IMPERSONATED_BY_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="impersonationDisplayName" column="IMPERSONATION_DISPLAY_NAME" jdbc-type="VARCHAR" />
 		<field-descriptor name="requestedResource" column="REQUESTED_RESOURCE" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	</class-descriptor>
 </descriptor-repository>

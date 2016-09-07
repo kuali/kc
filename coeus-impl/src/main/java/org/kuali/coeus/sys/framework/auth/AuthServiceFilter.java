@@ -88,7 +88,6 @@ public class AuthServiceFilter implements Filter {
 	private List<Pattern> restUrlsRegex;
 	private Boolean allowAdminProxy = Boolean.FALSE;
 	private String adminProxyUsername;
-	private Boolean logImpersonation = Boolean.FALSE;
 	private long secondsToCacheAuthTokenInSession = SECONDS_TO_CACHE_AUTH_TOKEN_IN_SESSION_DEFAULT;
 	
 	private ConfigurationService configurationService;
@@ -110,9 +109,7 @@ public class AuthServiceFilter implements Filter {
 		getCurrentUserUrl = getConfigurationService().getPropertyValueAsString(RestServiceConstants.Configuration.AUTH_USERS_URL) + CURRENT_USER_APPEND;
 		allowAdminProxy = getConfigurationService().getPropertyValueAsBoolean(ALLOW_MISSING_ADMINS_TO_PROXY_ADMIN_ACCOUNT);
 		adminProxyUsername = getConfigurationService().getPropertyValueAsString(AUTH_ADMIN_PROXY_USER);
-		logImpersonation = getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_SYSTEM,
-				Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, AUTH_IMPERSONATION_LOGGING);
-		
+
 		restUrlsRegex = buildRestUrlRegexPatterns(getConfigurationService().getPropertyValueAsString(REST_API_URLS_PARAM));
 		
 		apiUserName = getConfigurationService().getPropertyValueAsString(KC_REST_ADMIN_USERNAME);
@@ -243,7 +240,8 @@ public class AuthServiceFilter implements Filter {
 	}
 
 	protected void logImpersonation(AuthUser authUser, String requestedUrl) {
-		if (authUser.getImpersonatedBy() != null && logImpersonation) {
+		if (authUser.getImpersonatedBy() != null && getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_SYSTEM,
+				Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, AUTH_IMPERSONATION_LOGGING)) {
 			getBusinessOjectService().save(new CoreImpersonation(authUser, requestedUrl));
 			LOG.warn("User in session'" + authUser.getUsername() + "' is being impersonated by'" + authUser.getImpersonatedBy()+ "'" + " as " + authUser.getDisplayName());
 		}
