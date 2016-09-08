@@ -33,6 +33,7 @@
             <list>
                 <ref bean="Training-trainingCode" />
                 <ref bean="Training-description" />
+                <ref bean="Training-moduleCode" />
                 <ref bean="Training-versionNumber" />
             </list>
         </property>
@@ -87,11 +88,32 @@
         <property name="description" value="Description" />
     </bean>
 
+    <bean id="Training-moduleCode" parent="Training-moduleCode-parentBean" />
+    <bean id="Training-moduleCode-parentBean" abstract="true" parent="CoeusModule-moduleCode">
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.coeus.common.framework.module.CoeusModule" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="moduleCode" p:labelAttribute="description"/>
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+                <property name="businessObjectClass" value="org.kuali.coeus.common.framework.module.CoeusModule"/>
+                <property name="includeKeyInDescription" value="false"/>
+                <property name="includeBlankRow" value="false"/>
+                <property name="keyAttributeName" value="moduleCode"/>
+                <property name="labelAttributeName" value="description"/>
+            </bean>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-DropdownControl"/>
+        </property>
+        <property name="summary" value="Module Code" />
+        <property name="description" value="Module Code" />
+    </bean>
+
     <bean id="Training-versionNumber" parent="Training-versionNumber-parentBean" />
-  <bean id="Training-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
+    <bean id="Training-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
     <!-- Business Object Inquiry Definition -->
     <bean id="Training-inquiryDefinition" parent="Training-inquiryDefinition-parentBean" />
-  <bean id="Training-InquiryView" parent="Training-InquiryView-parentBean"/>
+    <bean id="Training-InquiryView" parent="Training-InquiryView-parentBean"/>
     <bean id="Training-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
         <property name="title" value="Training Code" />
         <property name="inquirySections" >
@@ -138,14 +160,16 @@
         </property>
         <property name="lookupFields" >
             <list>
-        <bean parent="FieldDefinition" p:attributeName="trainingCode" p:forceInquiry="true"/>
-        <bean parent="FieldDefinition" p:attributeName="description"/>
+                <bean parent="FieldDefinition" p:attributeName="trainingCode" p:forceInquiry="true"/>
+                <bean parent="FieldDefinition" p:attributeName="description"/>
+                <bean parent="FieldDefinition" p:attributeName="moduleCode"/>
             </list>
         </property>
         <property name="resultFields" >
             <list>
-        <bean parent="FieldDefinition" p:attributeName="trainingCode" p:forceInquiry="true"/>
-        <bean parent="FieldDefinition" p:attributeName="description"/>
+                <bean parent="FieldDefinition" p:attributeName="trainingCode" p:forceInquiry="true"/>
+                <bean parent="FieldDefinition" p:attributeName="description"/>
+                <bean parent="FieldDefinition" p:attributeName="moduleCode"/>
             </list>
         </property>
     </bean>
@@ -157,12 +181,14 @@
       <list>
         <bean p:propertyName="trainingCode" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="moduleCode" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
         <bean p:propertyName="trainingCode" parent="Uif-DataField"/>
         <bean p:propertyName="description" parent="Uif-DataField"/>
+        <bean p:propertyName="moduleCode" parent="Uif-DataField"/>
       </list>
     </property>
   </bean>
