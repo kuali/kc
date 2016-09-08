@@ -19,4 +19,5 @@
 
 
 \. ./kc/bootstrap/V1609_001__subaward_modification_type2.sql
+\. ./kc/bootstrap/V1609_002__training_module_code.sql
 commit;

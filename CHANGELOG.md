@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* Added field module code to training document (#1954)
+
+  * Gayathri Athreya on Thu, 8 Sep 2016 10:49:42 -0700 [View Commit](../../commit/460d27cd6fb4398cedfa1ce96b7f52014f19af7b)
+
+##coeus-1609.0015
 * No Changes
 
 
