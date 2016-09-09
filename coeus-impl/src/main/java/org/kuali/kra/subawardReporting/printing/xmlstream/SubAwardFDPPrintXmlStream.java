@@ -93,44 +93,6 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
     private List<SubAwardForms> sponsorTemplates;
     private ParameterService parameterService;
 
-
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
-
-    private DateTimeService dateTimeService;
-    /**
-     * Gets the dateTimeService attribute. 
-     * @return Returns the dateTimeService.
-     */
-    public DateTimeService getDateTimeService() {
-        return dateTimeService;
-    }
-
-    /**
-     * Sets the dateTimeService attribute value.
-     * @param dateTimeService The dateTimeService to set.
-     */
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;
-    }
-   
-    /**
-     * Gets the businessObjectService attribute. 
-     * @return Returns the businessObjectService.
-     */
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-
-    /**
-     * Sets the businessObjectService attribute value.
-     * @param businessObjectService The businessObjectService to set.
-     */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-
     @Override
     @SuppressWarnings("unchecked")
     public Map<String, XmlObject> generateXmlStream(KcPersistableBusinessObjectBase printableBusinessObject,
@@ -175,20 +137,20 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
         final SubContractDataDocument subContractDataDoc = SubContractDataDocument.Factory.newInstance();
         subContractDataDoc.setSubContractData(subContractData);
 
-        final Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
+        final Map<String, XmlObject> xmlObjectList = new LinkedHashMap<>();
         xmlObjectList.put(SubAwardPrintType.SUB_AWARD_FDP_TEMPLATE.getSubAwardPrintType(), subContractDataDoc);
         return xmlObjectList;
     }
 
    public void setSubcontractTemplateInfo(SubContractData subContractData, SubAward subaward) {
        SubcontractTemplateInfo subContractTemplateInfo = SubcontractTemplateInfo.Factory.newInstance();
-       List<SubcontractTemplateInfo> templateDataList = new ArrayList<SubcontractTemplateInfo>();
+       List<SubcontractTemplateInfo> templateDataList = new ArrayList<>();
       
-       SubAwardTemplateInfo subawardTemplate=null;
+       SubAwardTemplateInfo subawardTemplate;
        if(subaward.getSubAwardTemplateInfo() != null && !subaward.getSubAwardTemplateInfo().isEmpty() ){
            subawardTemplate =subaward.getSubAwardTemplateInfo().get(0);
       
-       Collection<ContactType> contact = (Collection<ContactType>) KcServiceLocator.getService(BusinessObjectService.class).findAll(ContactType.class);
+       Collection<ContactType> contact = KcServiceLocator.getService(BusinessObjectService.class).findAll(ContactType.class);
            for(ContactType contactType : contact){
                if(subawardTemplate.getInvoiceOrPaymentContact()!= null && contactType.getContactTypeCode().equals(subawardTemplate.getInvoiceOrPaymentContact().toString())){
                    subContractTemplateInfo.setInvoiceOrPaymentContactDescription(contactType.getDescription());
@@ -241,7 +203,7 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                    subContractTemplateInfo.setApplicableProgramRegsDate(getDateTimeService().getCalendar(subawardTemplate.getApplicableProgramRegsDate()));
                }
                if(subawardTemplate.getCarryForwardRequestsSentTo() != null) {
-                   ContactType contactTypeCode = (ContactType) KcServiceLocator.getService(BusinessObjectService.class).findBySinglePrimaryKey(ContactType.class,subawardTemplate.getCarryForwardRequestsSentTo());
+                   ContactType contactTypeCode = KcServiceLocator.getService(BusinessObjectService.class).findBySinglePrimaryKey(ContactType.class,subawardTemplate.getCarryForwardRequestsSentTo());
                    if(contactTypeCode.getDescription() != null) {
                        subContractTemplateInfo.setCarryForwardRequestsSentToDescription(contactTypeCode.getDescription());
                    }
@@ -250,15 +212,15 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                    
            templateDataList.add(subContractTemplateInfo);
        }
-           subContractData.setSubcontractTemplateInfoArray((SubcontractTemplateInfo[])templateDataList.toArray(new SubcontractTemplateInfo[0]));
+           subContractData.setSubcontractTemplateInfoArray(templateDataList.toArray(new SubcontractTemplateInfo[0]));
     }
         public void setFundingSource(SubContractData subContractData, SubAward subaward) {
             FundingSource fundingSource = FundingSource.Factory.newInstance();
-            List<FundingSource> fundingSourceList = new ArrayList<FundingSource>();
+            List<FundingSource> fundingSourceList = new ArrayList<>();
             fundingSource.setAwardNumber(awardNumber);
             fundingSource.setSponsor(sponsorName);
             fundingSourceList.add(fundingSource);
-            subContractData.setFundingSourceArray((FundingSource[])fundingSourceList.toArray(new FundingSource[0]));
+            subContractData.setFundingSourceArray(fundingSourceList.toArray(new FundingSource[0]));
         }
         
         public void setSubcontractDetail(SubContractData subContractData, SubAward subaward) {
@@ -357,7 +319,7 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
         public void setSubcontractAmountInfo(SubContractData subContractData, SubAward subaward) {
            
             SubcontractAmountInfo subContractAmountInfo = SubcontractAmountInfo.Factory.newInstance();
-            List<SubcontractAmountInfo> amountinfoList = new ArrayList<SubcontractAmountInfo>();
+            List<SubcontractAmountInfo> amountinfoList = new ArrayList<>();
             if(subaward.getAllSubAwardAmountInfos() != null && !subaward.getAllSubAwardAmountInfos().isEmpty()){
                 subContractAmountInfo.setObligatedAmount(subaward.getTotalObligatedAmount().bigDecimalValue());
                 subContractAmountInfo.setAnticipatedAmount(subaward.getTotalAnticipatedAmount().bigDecimalValue());
@@ -382,14 +344,14 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
             }
 
             amountinfoList.add(subContractAmountInfo);
-            subContractData.setSubcontractAmountInfoArray((SubcontractAmountInfo[])amountinfoList.toArray(new SubcontractAmountInfo[0]));
+            subContractData.setSubcontractAmountInfoArray(amountinfoList.toArray(new SubcontractAmountInfo[0]));
         }
         public void setAwardHeader(SubContractData subContractData, SubAward subaward) {
             AwardType awardType= AwardType.Factory.newInstance();
             AwardHeaderType awardHeaderType =AwardHeaderType.Factory.newInstance();
             AwardDetails awardDetails= AwardDetails.Factory.newInstance();
             OtherHeaderDetails otherDetails = OtherHeaderDetails.Factory.newInstance();
-            List<AwardType> awardTypeList = new ArrayList<AwardType>();
+            List<AwardType> awardTypeList = new ArrayList<>();
 
             if (StringUtils.isNotBlank(sponsorAwardNumber)) {
                 awardHeaderType.setSponsorAwardNumber(sponsorAwardNumber);
@@ -430,7 +392,7 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
             awardDetails.setOtherHeaderDetails(otherDetails);
             awardType.setAwardDetails(awardDetails);
             awardTypeList.add(awardType);
-            subContractData.setAwardArray((AwardType[])awardTypeList.toArray(new AwardType[0]));
+            subContractData.setAwardArray(awardTypeList.toArray(new AwardType[0]));
         }
         public void setPrimeRecipientContacts(SubContractData subContractData, SubAward subaward) {
             PrimeRecipientContacts primeReceipient = PrimeRecipientContacts.Factory.newInstance();
@@ -496,9 +458,9 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
         public void setPrimeAdministrativeContact(SubContractData subContractData, SubAward subaward) {
             PrimeAdministrativeContact primeAdministrativeContact= PrimeAdministrativeContact.Factory.newInstance();
             RolodexDetailsType rolodexdetails = RolodexDetailsType.Factory.newInstance();
-            List<PrimeAdministrativeContact> rolodexDetailsList = new ArrayList<PrimeAdministrativeContact>();
-            Map<String, String> administrativeMap = new HashMap<String, String>();
-            Map<String, Integer> rolodexId = new HashMap<String, Integer>();
+            List<PrimeAdministrativeContact> rolodexDetailsList = new ArrayList<>();
+            Map<String, String> administrativeMap = new HashMap<>();
+            Map<String, Integer> rolodexId = new HashMap<>();
             parameterService = KcServiceLocator.getService(ParameterService.class);
             String administrativeContactCode = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD, ParameterConstants.DOCUMENT_COMPONENT, Constants.PARAMETER_FDP_PRIME_ADMINISTRATIVE_CONTACT_CODE);
             administrativeMap.put("contactTypeCode", administrativeContactCode);
@@ -537,12 +499,12 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
             }
             primeAdministrativeContact.setRolodexDetails(rolodexdetails);
             rolodexDetailsList.add(primeAdministrativeContact);
-            subContractData.setPrimeAdministrativeContactArray((PrimeAdministrativeContact[])rolodexDetailsList.toArray(new PrimeAdministrativeContact[0]));
+            subContractData.setPrimeAdministrativeContactArray(rolodexDetailsList.toArray(new PrimeAdministrativeContact[0]));
         }
         public void setPrimePrincipalInvestigator(SubContractData subContractData, SubAward subaward) {
             PersonDetailsType personDetails = PersonDetailsType.Factory.newInstance();
-            List<PersonDetailsType> personDetailsList = new ArrayList<PersonDetailsType>();
-            Map<String, String> awardNum = new HashMap<String, String>();
+            List<PersonDetailsType> personDetailsList = new ArrayList<>();
+            Map<String, String> awardNum = new HashMap<>();
             if(awardNumber != null){
                 awardNum.put("awardNumber",awardNumber);
                 awardNum.put("roleCode", "PI");
@@ -571,15 +533,15 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                 }
             }
             personDetailsList.add(personDetails);
-            subContractData.setPrimePrincipalInvestigatorArray((PersonDetailsType[])personDetailsList.toArray(new PersonDetailsType [0]));
+            subContractData.setPrimePrincipalInvestigatorArray(personDetailsList.toArray(new PersonDetailsType [0]));
         }
        
         public void setPrimeFinancialContact(SubContractData subContractData, SubAward subaward) {
             PrimeFinancialContact primeFinancialContact = PrimeFinancialContact.Factory.newInstance();
             RolodexDetailsType rolodexDetails = RolodexDetailsType.Factory.newInstance();
-            List<PrimeFinancialContact> personDetailsList = new ArrayList<PrimeFinancialContact>();
-            Map<String, String> administrativeMap = new HashMap<String, String>();
-            Map<String, Integer> rolodexId = new HashMap<String, Integer>();
+            List<PrimeFinancialContact> personDetailsList = new ArrayList<>();
+            Map<String, String> administrativeMap = new HashMap<>();
+            Map<String, Integer> rolodexId = new HashMap<>();
             parameterService = KcServiceLocator.getService(ParameterService.class);
             String administrativeFinancialCode = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD, ParameterConstants.DOCUMENT_COMPONENT, Constants.PARAMETER_FDP_PRIME_FINANCIAL_CONTACT_CODE);
             administrativeMap.put("contactTypeCode", administrativeFinancialCode);
@@ -618,14 +580,14 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
             }
             primeFinancialContact.setRolodexDetails(rolodexDetails);
             personDetailsList.add(primeFinancialContact);
-            subContractData.setPrimeFinancialContactArray((PrimeFinancialContact[])personDetailsList.toArray(new PrimeFinancialContact [0]));
+            subContractData.setPrimeFinancialContactArray(personDetailsList.toArray(new PrimeFinancialContact [0]));
         }
         public void setPrimeAuthorizedOfficial(SubContractData subContractData, SubAward subaward) {
             PrimeAuthorizedOfficial primeAuthorisedOfficial = PrimeAuthorizedOfficial.Factory.newInstance();
             RolodexDetailsType rolodexDetails = RolodexDetailsType.Factory.newInstance();
-            List<PrimeAuthorizedOfficial> primeAuthorisedList = new ArrayList<PrimeAuthorizedOfficial>();
-            Map<String, String> administrativeMap = new HashMap<String, String>();
-            Map<String, Integer> rolodexId = new HashMap<String, Integer>();
+            List<PrimeAuthorizedOfficial> primeAuthorisedList = new ArrayList<>();
+            Map<String, String> administrativeMap = new HashMap<>();
+            Map<String, Integer> rolodexId = new HashMap<>();
             parameterService = KcServiceLocator.getService(ParameterService.class);
             String auhtorisedOfficialCode = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD, ParameterConstants.DOCUMENT_COMPONENT, Constants.PARAMETER_FDP_PRIME_AUTHORIZED_OFFICIAL_CODE);
             administrativeMap.put("contactTypeCode", auhtorisedOfficialCode);
@@ -664,14 +626,14 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
             }
             primeAuthorisedOfficial.setRolodexDetails(rolodexDetails);
             primeAuthorisedList.add(primeAuthorisedOfficial);
-            subContractData.setPrimeAuthorizedOfficialArray((PrimeAuthorizedOfficial[])primeAuthorisedList.toArray(new PrimeAuthorizedOfficial [0]));
+            subContractData.setPrimeAuthorizedOfficialArray(primeAuthorisedList.toArray(new PrimeAuthorizedOfficial [0]));
         }
             public void setAdministrativeContact(SubContractData subContractData, SubAward subaward) {
                 AdministrativeContact administrativeContact = AdministrativeContact.Factory.newInstance();
                 RolodexDetailsType rolodexDetails = RolodexDetailsType.Factory.newInstance();
-                List<AdministrativeContact> administrativeContactList = new ArrayList<AdministrativeContact>();
-                Map<String, String> administrativeMap = new HashMap<String, String>();
-                Map<String, Integer> rolodexId = new HashMap<String, Integer>();
+                List<AdministrativeContact> administrativeContactList = new ArrayList<>();
+                Map<String, String> administrativeMap = new HashMap<>();
+                Map<String, Integer> rolodexId = new HashMap<>();
                 parameterService = KcServiceLocator.getService(ParameterService.class);
                 String administrativeCode = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD, ParameterConstants.DOCUMENT_COMPONENT, Constants.PARAMETER_FDP_SUB_ADMINISTRATIVE_CONTACT_CODE);
                 administrativeMap.put("contactTypeCode", administrativeCode);
@@ -711,14 +673,14 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                 }
                 administrativeContact.setRolodexDetails(rolodexDetails);
                 administrativeContactList.add(administrativeContact);
-                subContractData.setAdministrativeContactArray((AdministrativeContact[])administrativeContactList.toArray(new AdministrativeContact [0]));
+                subContractData.setAdministrativeContactArray(administrativeContactList.toArray(new AdministrativeContact [0]));
             }
             public void setFinancialContact(SubContractData subContractData, SubAward subaward) {
                 FinancialContact financialContact =FinancialContact.Factory.newInstance();
                 RolodexDetailsType rolodexDetails = RolodexDetailsType.Factory.newInstance();
-                List<FinancialContact> financialContactList = new ArrayList<FinancialContact>();
-                Map<String, String> administrativeMap = new HashMap<String, String>();
-                Map<String, Integer> rolodexId = new HashMap<String, Integer>();
+                List<FinancialContact> financialContactList = new ArrayList<>();
+                Map<String, String> administrativeMap = new HashMap<>();
+                Map<String, Integer> rolodexId = new HashMap<>();
                 parameterService = KcServiceLocator.getService(ParameterService.class);
                 String financialContactCode = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD, ParameterConstants.DOCUMENT_COMPONENT, Constants.PARAMETER_FDP_SUB_FINANCIAL_CONTACT_CODE);
                 administrativeMap.put("contactTypeCode", financialContactCode);
@@ -758,14 +720,14 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                 }
                 financialContact.setRolodexDetails(rolodexDetails);
                 financialContactList.add(financialContact);
-                subContractData.setFinancialContactArray((FinancialContact[])financialContactList.toArray(new FinancialContact [0]));
+                subContractData.setFinancialContactArray(financialContactList.toArray(new FinancialContact [0]));
             }
             public void setAuthorizedOfficial(SubContractData subContractData, SubAward subaward) {
                 AuthorizedOfficial authorizedOfficial =AuthorizedOfficial.Factory.newInstance();
                 RolodexDetailsType rolodexDetails = RolodexDetailsType.Factory.newInstance();
-                List<AuthorizedOfficial> authorizedOfficialList = new ArrayList<AuthorizedOfficial>();
-                Map<String, String> administrativeMap = new HashMap<String, String>();
-                Map<String, Integer> rolodexId = new HashMap<String, Integer>();
+                List<AuthorizedOfficial> authorizedOfficialList = new ArrayList<>();
+                Map<String, String> administrativeMap = new HashMap<>();
+                Map<String, Integer> rolodexId = new HashMap<>();
                 parameterService = KcServiceLocator.getService(ParameterService.class);
                 String financialContactCode = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD, ParameterConstants.DOCUMENT_COMPONENT, Constants.PARAMETER_FDP_SUB_AUTHORIZED_CONTACT_CODE);
                 administrativeMap.put("contactTypeCode", financialContactCode);
@@ -805,12 +767,12 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                 }
                 authorizedOfficial.setRolodexDetails(rolodexDetails);
                 authorizedOfficialList.add(authorizedOfficial);
-                subContractData.setAuthorizedOfficialArray((AuthorizedOfficial[])authorizedOfficialList.toArray(new AuthorizedOfficial [0]));
+                subContractData.setAuthorizedOfficialArray(authorizedOfficialList.toArray(new AuthorizedOfficial [0]));
             }
             public void setSubcontractReports(SubContractData subContractData, SubAward subaward) {
-                List<SubcontractReports> subContractReportsList = new ArrayList<SubcontractReports>();
-                Map<String, String> reportTypeCode = new HashMap<String, String>();
-                SubAwardReportType subAwardReportsType = null;
+                List<SubcontractReports> subContractReportsList = new ArrayList<>();
+                Map<String, String> reportTypeCode = new HashMap<>();
+                SubAwardReportType subAwardReportsType;
                 if(subaward.getSubAwardReportList() != null && !subaward.getSubAwardReportList().isEmpty()){
                 for(SubAwardReports subAwardReports : subaward.getSubAwardReportList()) {
                     SubcontractReports subContractReports = SubcontractReports.Factory.newInstance();
@@ -820,8 +782,31 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                 subContractReportsList.add(subContractReports);
                 }
                }
-                subContractData.setSubcontractReportsArray((SubcontractReports[])subContractReportsList.toArray(new SubcontractReports [0]));
+                subContractData.setSubcontractReportsArray(subContractReportsList.toArray(new SubcontractReports [0]));
             }
-        
-            
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    private DateTimeService dateTimeService;
+
+    public DateTimeService getDateTimeService() {
+        return dateTimeService;
+    }
+
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+
+
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
 }

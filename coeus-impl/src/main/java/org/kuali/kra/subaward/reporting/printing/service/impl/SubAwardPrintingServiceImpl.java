@@ -26,7 +26,6 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.award.printing.service.AwardPrintingService;
 import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
@@ -44,13 +43,6 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import java.util.*;
 
 
-/**
- * This class is the implementation of {@link AwardPrintingService}. It has
- * capability to print report related to Negotiation 
- * 
- * @author
- * 
- */
 public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
     
     private static final String SF_295_REPORT = "SF295";
@@ -69,37 +61,19 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
     private AwardVersionService awardVersionService;
     private AwardHierarchyService awardHierarchyService;
 
-    /**
-     * Gets the subAwardFDPModification attribute. 
-     * @return Returns the subAwardFDPModification.
-     */
+
     public SubAwardFDPModification getSubAwardFDPModification() {
         return subAwardFDPModification;
     }
-       
 
-    /**
-     * Sets the subAwardFDPModification attribute value.
-     * @param subAwardFDPModification The subAwardFDPModification to set.
-     */
     public void setSubAwardFDPModification(SubAwardFDPModification subAwardFDPModification) {
         this.subAwardFDPModification = subAwardFDPModification;
     }
 
-
-    /**
-     * Gets the subAwardFDPAgreement attribute. 
-     * @return Returns the subAwardFDPAgreement.
-     */
     public SubAwardFDPAgreement getSubAwardFDPAgreement() {
         return subAwardFDPAgreement;
     }
 
-
-    /**
-     * Sets the subAwardFDPAgreement attribute value.
-     * @param subAwardFDPAgreement The subAwardFDPAgreement to set.
-     */
     public void setSubAwardFDPAgreement(SubAwardFDPAgreement subAwardFDPAgreement) {
         this.subAwardFDPAgreement = subAwardFDPAgreement;
     }
@@ -108,7 +82,7 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
     @Override
     public AttachmentDataSource printSubAwardReport(KcPersistableBusinessObjectBase awardDocument,
             SubAwardPrintType subAwardPrintType, Map<String, Object> reportParameters) throws PrintingException {
-        AttachmentDataSource source = null;
+        AttachmentDataSource source;
         AbstractPrint printable = null;         
         if (reportParameters.get("printType") != null) {
             if(reportParameters.get("printType").equals(SF_295_REPORT)){
@@ -117,8 +91,7 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
                 printable = getSubAwardSF294Print();                
             }
         }  
-        
-        Award award=(Award) awardDocument;        
+
         printable.setPrintableBusinessObject(awardDocument);
         printable.setReportParameters(reportParameters);       
         source = getPrintingService().print(printable);        
@@ -163,7 +136,7 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
     
 
     protected AttachmentDataSource printSubAwardFDPReport(KcPersistableBusinessObjectBase subAwardDoc, Map<String, Object> reportParameters) throws PrintingException {
-        AttachmentDataSource source = null;
+        AttachmentDataSource source;
         AbstractPrint printable = null;         
         if (reportParameters.get("fdpType") != null) {
             if(reportParameters.get("fdpType").equals(SUB_AWARD_FDP_TEMPLATE)){
@@ -173,7 +146,7 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
             }
         }  
         SubAward subAward = (SubAward)subAwardDoc;
-        Map<String, byte[]> formAttachments = new LinkedHashMap<String, byte[]>();
+        Map<String, byte[]> formAttachments = new LinkedHashMap<>();
         if(subAward.getSubAwardAttachments() != null) {
             for(SubAwardAttachments subAwardAttachments:subAward.getSubAwardAttachments()) {
                 if(subAwardAttachments.getSelectToPrint()) {
@@ -286,13 +259,7 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
         return printSubAwardFDPReport(subAward, reportParameters);
     }
 
-    /**
-     * 
-     * This method is to reset the selected form list.
-     * 
-     * @param subAwardFormList
-     *            list of subAwardFormList.
-     */
+
     protected void resetsubAwardFormList(
             List<SubAwardForms> subAwardFormList) {
         for (SubAwardForms subAwardFormValues : subAwardFormList) {
@@ -301,7 +268,7 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
     }
 
     protected List<SubAwardForms> getSponsorFormTemplates(SubAwardPrintAgreement subAwardPrint, List<SubAwardForms> subAwardFormList) {
-        List<SubAwardForms> printFormTemplates = new ArrayList<SubAwardForms>();
+        List<SubAwardForms> printFormTemplates = new ArrayList<>();
         if(subAwardPrint.getFdpType().equals(SUB_AWARD_FDP_TEMPLATE)){
             printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP Template"));
         }else if(subAwardPrint.getFdpType().equals(SUB_AWARD_FDP_MODIFICATION))

@@ -380,7 +380,7 @@ public ActionForward blanketApprove(ActionMapping mapping,
     } else {
         GlobalVariables.getMessageMap().clearErrorMessages();
         GlobalVariables.getMessageMap().
-        putError("datavalidation", KeyConstants.ERROR_WORKFLOW_SUBMISSION, new String[]{});
+        putError("datavalidation", KeyConstants.ERROR_WORKFLOW_SUBMISSION);
         subAwardForm.setAuditActivated(true);
         return mapping.findForward(Constants.MAPPING_BASIC);
 
