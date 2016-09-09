@@ -28,6 +28,7 @@ import org.apache.fop.apps.FOUserAgent;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
+import org.apache.xalan.processor.TransformerFactoryImpl;
 import org.kuali.coeus.common.framework.print.Printable;
 import org.kuali.coeus.common.framework.print.PrintableAttachment;
 import org.kuali.coeus.common.framework.print.PrintingException;
@@ -156,6 +157,7 @@ public class PrintingServiceImpl implements PrintingService {
             int xslCount, StreamSource xslt, String bookmark, Printable printableArtifact) throws FOPException,
             TransformerException {
         TransformerFactory factory = TransformerFactory.newInstance();
+        factory.setAttribute(TransformerFactoryImpl.FEATURE_SOURCE_LOCATION, Boolean.TRUE);
         Transformer transformer = factory.newTransformer(xslt);
         String externalizableImagesUrl= getKualiConfigurationService().getPropertyValueAsString(Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY);
         transformer.setParameter("externalImagesUrl",externalizableImagesUrl);

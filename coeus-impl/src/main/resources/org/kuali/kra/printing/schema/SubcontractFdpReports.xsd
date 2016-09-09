@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
    - Kuali Coeus, a comprehensive research administration system for higher education.
-   - 
+   -
    - Copyright 2005-2016 Kuali, Inc.
-   - 
+   -
    - This program is free software: you can redistribute it and/or modify
    - it under the terms of the GNU Affero General Public License as
    - published by the Free Software Foundation, either version 3 of the
    - License, or (at your option) any later version.
-   - 
+   -
    - This program is distributed in the hope that it will be useful,
    - but WITHOUT ANY WARRANTY; without even the implied warranty of
    - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    - GNU Affero General Public License for more details.
-   - 
+   -
    - You should have received a copy of the GNU Affero General Public License
    - along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <!-- edited with XMLSPY v5 rel. 4 U (http://www.xmlspy.com) by abc (abc) -->
 
-<xs:schema xmlns:subcontract="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/subcontract" 
-           xmlns:award="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/award"  
+<xs:schema xmlns:subcontract="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/subcontract"
+           xmlns:award="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/award"
            attributeFormDefault="unqualified"
            elementFormDefault="qualified"
-           targetNamespace="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/subcontract" 
-           xmlns:xs="http://www.w3.org/2001/XMLSchema">  
+           targetNamespace="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/subcontract"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <!-- import section -->
     <xs:import namespace="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/award" schemaLocation="awardNotice_coeus.xsd"/>
-    
+
     <xs:element name="SubContractData">
         <xs:annotation>
             <xs:documentation>Comment describing your root element</xs:documentation>
@@ -47,6 +47,11 @@
                             <xs:element name="SubAwardTypeCode" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="SubAwardType" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="PONumber" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="PHSFCOI" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="RANDD" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FFATA" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="ModificationType" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="COSTSHARE" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="Title" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="StatusCode" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="AccountNumber" type="xs:string" nillable="true" minOccurs="0"/>
@@ -66,7 +71,7 @@
                             <xs:element name="CostType" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="DateOfFullyExcecuted" type="xs:date" nillable="true" minOccurs="0"/>
                             <xs:element name="RequisitionNumber" type="xs:string" nillable="true" minOccurs="0"/>
-                            <xs:element name="SubcontractorDetails" type ="subcontract:OrganizationType" nillable="true" minOccurs="0"/> 
+                            <xs:element name="SubcontractorDetails" type ="subcontract:OrganizationType" nillable="true" minOccurs="0"/>
                             <xs:element name="SubcontractorOrgRolodexDetails" type="subcontract:RolodexDetailsType" nillable="true" minOccurs="0"/>
                             <xs:element name="SiteInvestigatorDetails" type="subcontract:RolodexDetailsType" nillable="true" minOccurs="0"/>
                         </xs:sequence>
@@ -85,7 +90,7 @@
                             <xs:element name="Attachment3BPage2Required" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="Attachment4Required" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="Attachment4ARequired" type="xs:string" nillable="true" minOccurs="0"/>
-                            <xs:element name="Attachment5Required" type="xs:string" nillable="true" minOccurs="0"/>                            
+                            <xs:element name="Attachment5Required" type="xs:string" nillable="true" minOccurs="0"/>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
@@ -205,7 +210,7 @@
                             <xs:element name="StatusDescription" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="ApprovalComments" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="ApprovedByUser" type="xs:string" nillable="true" minOccurs="0"/>
-                            <xs:element name="ApprovalDate" type="xs:date" nillable="true" minOccurs="0"/>							
+                            <xs:element name="ApprovalDate" type="xs:date" nillable="true" minOccurs="0"/>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
@@ -278,7 +283,7 @@
                             <xs:element name="ApplicableProgramRegulations" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="ApplicableProgramRegsDate" type="xs:date" nillable="true" minOccurs="0"/>
                             <xs:element name="UpdateTimestamp" type="xs:date" nillable="true" minOccurs="0"/>
-                            <xs:element name="UpdateUser" type="xs:string" nillable="true" minOccurs="0"/>						
+                            <xs:element name="UpdateUser" type="xs:string" nillable="true" minOccurs="0"/>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
@@ -296,7 +301,7 @@
                             <xs:element name="UpdateUser" type="xs:string" nillable="true" minOccurs="0"/>
                         </xs:sequence>
                     </xs:complexType>
-                </xs:element>				
+                </xs:element>
                 <xs:element name="SubcontractReports" minOccurs="0" maxOccurs="unbounded">
                     <xs:complexType>
                         <xs:sequence>
@@ -308,84 +313,84 @@
                             <xs:element name="UpdateUser" type="xs:string" nillable="true" minOccurs="0"/>
                         </xs:sequence>
                     </xs:complexType>
-                </xs:element>	
-                 <xs:element name="PrimeAdministrativeContact"  minOccurs="0" maxOccurs="unbounded">
-                     <xs:complexType>
-                        <xs:sequence>
-                            <xs:element name="SubcontractCode" type="xs:string" nillable="true" minOccurs="0"/>
-                            <xs:element name="SequenceNumber" type="xs:string" nillable="true" minOccurs="0"/>
-                            <xs:element name="ContactTypeCode" type="xs:string" nillable="true" minOccurs="0"/>
-                            <xs:element name="ContactTypeDesc" type="xs:string" nillable="true" minOccurs="0"/>
-                            <xs:element name="RolodexDetails" type="subcontract:RolodexDetailsType" minOccurs="0"/>
-                        </xs:sequence>
-                        </xs:complexType>
-                 </xs:element>
-                  <xs:element name="PrimeFinancialContact"  minOccurs="0" maxOccurs="unbounded">
-                     <xs:complexType>
-                        <xs:sequence>
-                            <xs:element name="SubcontractCode" type="xs:string" nillable="true" minOccurs="0"/>
-                            <xs:element name="SequenceNumber" type="xs:string" nillable="true" minOccurs="0"/>
-                            <xs:element name="ContactTypeCode" type="xs:string" nillable="true" minOccurs="0"/>
-                            <xs:element name="ContactTypeDesc" type="xs:string" nillable="true" minOccurs="0"/>
-                            <xs:element name="RolodexDetails" type="subcontract:RolodexDetailsType" minOccurs="0"/>
-                        </xs:sequence>
-                        </xs:complexType>
-                 </xs:element>
-                  <xs:element name="PrimeAuthorizedOfficial"  minOccurs="0" maxOccurs="unbounded">
-                     <xs:complexType>
-                        <xs:sequence>
-                            <xs:element name="SubcontractCode" type="xs:string" nillable="true" minOccurs="0"/>
-                            <xs:element name="SequenceNumber" type="xs:string" nillable="true" minOccurs="0"/>
-                            <xs:element name="ContactTypeCode" type="xs:string" nillable="true" minOccurs="0"/>
-                            <xs:element name="ContactTypeDesc" type="xs:string" nillable="true" minOccurs="0"/>
-                            <xs:element name="RolodexDetails" type="subcontract:RolodexDetailsType" minOccurs="0"/>
-                        </xs:sequence>
-                        </xs:complexType>
-                 </xs:element>
-                 <xs:element name="AdministrativeContact"  minOccurs="0" maxOccurs="unbounded">
-                     <xs:complexType>
-                        <xs:sequence>
-                            <xs:element name="SubcontractCode" type="xs:string" nillable="true" minOccurs="0"/>
-                            <xs:element name="SequenceNumber" type="xs:string" nillable="true" minOccurs="0"/>
-                            <xs:element name="ContactTypeCode" type="xs:string" nillable="true" minOccurs="0"/>
-                            <xs:element name="ContactTypeDesc" type="xs:string" nillable="true" minOccurs="0"/>
-                            <xs:element name="RolodexDetails" type="subcontract:RolodexDetailsType" minOccurs="0"/>
-                        </xs:sequence>
-                        </xs:complexType>
-                 </xs:element>
-                  <xs:element name="FinancialContact"  minOccurs="0" maxOccurs="unbounded">
-                     <xs:complexType>
-                        <xs:sequence>
-                            <xs:element name="SubcontractCode" type="xs:string" nillable="true" minOccurs="0"/>
-                            <xs:element name="SequenceNumber" type="xs:string" nillable="true" minOccurs="0"/>
-                            <xs:element name="ContactTypeCode" type="xs:string" nillable="true" minOccurs="0"/>
-                            <xs:element name="ContactTypeDesc" type="xs:string" nillable="true" minOccurs="0"/>
-                            <xs:element name="RolodexDetails" type="subcontract:RolodexDetailsType" minOccurs="0"/>
-                        </xs:sequence>
-                        </xs:complexType>
-                 </xs:element>
-                  <xs:element name="AuthorizedOfficial"  minOccurs="0" maxOccurs="unbounded">
-                     <xs:complexType>
-                        <xs:sequence>
-                            <xs:element name="SubcontractCode" type="xs:string" nillable="true" minOccurs="0"/>
-                            <xs:element name="SequenceNumber" type="xs:string" nillable="true" minOccurs="0"/>
-                            <xs:element name="ContactTypeCode" type="xs:string" nillable="true" minOccurs="0"/>
-                            <xs:element name="ContactTypeDesc" type="xs:string" nillable="true" minOccurs="0"/>
-                            <xs:element name="RolodexDetails" type="subcontract:RolodexDetailsType" minOccurs="0"/>
-                        </xs:sequence>
-                        </xs:complexType>
-                 </xs:element>
-                 <xs:element name="PrimeRecipientContacts" minOccurs="0">
+                </xs:element>
+                <xs:element name="PrimeAdministrativeContact"  minOccurs="0" maxOccurs="unbounded">
                     <xs:complexType>
                         <xs:sequence>
-                            <xs:element name="RequisitionerUnitNumber" type="xs:string" minOccurs="0"/>
-                            <xs:element name="RequisitionerUnitName" type="xs:string" minOccurs="0"/>                                                        
-                            <xs:element name="OrgRolodexDetails" type="subcontract:RolodexDetailsType" minOccurs="0"/>
-                            <xs:element name="RequisitionerOrgDetails" type="subcontract:OrganizationType" minOccurs="0"/>                            
+                            <xs:element name="SubcontractCode" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="SequenceNumber" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="ContactTypeCode" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="ContactTypeDesc" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="RolodexDetails" type="subcontract:RolodexDetailsType" minOccurs="0"/>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
-                
+                <xs:element name="PrimeFinancialContact"  minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="SubcontractCode" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="SequenceNumber" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="ContactTypeCode" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="ContactTypeDesc" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="RolodexDetails" type="subcontract:RolodexDetailsType" minOccurs="0"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="PrimeAuthorizedOfficial"  minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="SubcontractCode" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="SequenceNumber" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="ContactTypeCode" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="ContactTypeDesc" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="RolodexDetails" type="subcontract:RolodexDetailsType" minOccurs="0"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="AdministrativeContact"  minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="SubcontractCode" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="SequenceNumber" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="ContactTypeCode" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="ContactTypeDesc" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="RolodexDetails" type="subcontract:RolodexDetailsType" minOccurs="0"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="FinancialContact"  minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="SubcontractCode" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="SequenceNumber" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="ContactTypeCode" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="ContactTypeDesc" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="RolodexDetails" type="subcontract:RolodexDetailsType" minOccurs="0"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="AuthorizedOfficial"  minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="SubcontractCode" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="SequenceNumber" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="ContactTypeCode" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="ContactTypeDesc" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="RolodexDetails" type="subcontract:RolodexDetailsType" minOccurs="0"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="PrimeRecipientContacts" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="RequisitionerUnitNumber" type="xs:string" minOccurs="0"/>
+                            <xs:element name="RequisitionerUnitName" type="xs:string" minOccurs="0"/>
+                            <xs:element name="OrgRolodexDetails" type="subcontract:RolodexDetailsType" minOccurs="0"/>
+                            <xs:element name="RequisitionerOrgDetails" type="subcontract:OrganizationType" minOccurs="0"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -456,7 +461,7 @@
             <xs:element name="UpdateUser" type="xs:string" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
-    
+
     <xs:complexType name="OtherDataType">
         <xs:sequence>
             <xs:element name="ColumnName" type="xs:string"></xs:element>
@@ -464,8 +469,8 @@
             <xs:element name="UpdateTimestamp" type="xs:dateTime"></xs:element>
             <xs:element name="UpdateUser" type="xs:string"></xs:element>
         </xs:sequence>
-    </xs:complexType>	
-    
+    </xs:complexType>
+
     <xs:complexType name="PersonDetailsType">
         <xs:sequence>
             <xs:element name="PersonId" type="xs:string" minOccurs="0"/>
@@ -533,6 +538,6 @@
             <xs:element name="DepartmentName" type="xs:string" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
-    
-    
+
+
 </xs:schema>

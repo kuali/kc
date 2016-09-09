@@ -21,47 +21,21 @@ package org.kuali.kra.subaward.reporting.printing.service;
 import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
+import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.reporting.printing.SubAwardPrintType;
-import org.kuali.kra.subaward.bo.SubAwardForms;
 import org.kuali.kra.subaward.bo.SubAwardPrintAgreement;
 
-import java.util.List;
 import java.util.Map;
 
-/**
- * This class provides the means for printing reports related to Negotiation.
- * 
- * @author
- * 
- */
 public interface SubAwardPrintingService {
 
-	/**
-	 * This method generates the required report and returns the PDF stream as
-	 * {@link AttachmentDataSource}
-	 * 
-	 * @param awardDocument
-	 *            awardData data using which report is generated
-	 * @param reportName
-	 *            report to be generated
-	 * @param reportParameters
-	 *            {@link Map} of parameters required for report generation
-	 * @return {@link AttachmentDataSource} which contains the byte array of the
-	 *         generated PDF
-	 * @throws PrintingException
-	 *             if any errors occur during report generation
-	 */
+    String SELECTED_TEMPLATES = "Selected Templates";
     
-    public static final String SELECTED_TEMPLATES = "Selected Templates";
-    
-	public AttachmentDataSource printSubAwardReport(
+	AttachmentDataSource printSubAwardReport(
 			KcPersistableBusinessObjectBase awardDocument, SubAwardPrintType subAwardPrintType,
 			Map<String, Object> reportParameters) throws PrintingException;
-	
-	public AttachmentDataSource printSubAwardFDPReport(KcPersistableBusinessObjectBase subAwardDoc,SubAwardPrintType subAwardPrintType,
-            Map<String, Object> reportParameters) throws PrintingException;
-	
-	List<SubAwardForms> getSponsorFormTemplates( SubAwardPrintAgreement subAwardPrintAgreement, List<SubAwardForms> subAwardFormList);
-	public boolean isPdf(byte[] data);
 
+	AttachmentDataSource printSubAwardFDPReport(SubAwardPrintAgreement agreement, SubAward subAward);
+
+	boolean isPdf(byte[] data);
 }
