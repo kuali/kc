@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1689: SF424A future year budget amount mapping
+  * Terry Durkin on Sat, 10 Sep 2016 14:24:29 -0400 [View Commit](../../commit/903e07de636e1962707af899b73c563d3da550c4)
+
+##coeus-1609.0016
 * Added field module code to training document (#1954)
 
   * Gayathri Athreya on Thu, 8 Sep 2016 10:49:42 -0700 [View Commit](../../commit/460d27cd6fb4398cedfa1ce96b7f52014f19af7b)
