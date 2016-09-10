@@ -1389,8 +1389,9 @@
     <bean id="restAuditLoggerFactory" parent="grlImporter" p:serviceName="restAuditLoggerFactory" />
     <bean id="restBeanWrapperFactory" parent="grlImporter" p:serviceName="restBeanWrapperFactory" />
     <bean id="restPropertyEditors" parent="grlImporter" p:serviceName="restPropertyEditors" />
-
+    <bean id="identityService" parent="grlImporter" p:serviceName="identityService" />
     <bean id="commonApiService" parent="grlImporter" p:serviceName="commonApiService" />
+    <bean id="rolodexService" parent="grlImporter" p:serviceName="rolodexService" />
 
     <import resource="classpath:org/kuali/coeus/sys/framework/ImportEndpointSpringBeans.xml" />
     <import resource="classpath:org/kuali/coeus/sys/framework/ImportSimpleCrudRestSpringBeans.xml" />

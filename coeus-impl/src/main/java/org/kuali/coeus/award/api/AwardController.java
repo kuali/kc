@@ -22,6 +22,8 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.award.dto.*;
 import org.kuali.coeus.common.api.document.service.CommonApiService;
+import org.kuali.coeus.common.api.rolodex.RolodexContract;
+import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
 import org.kuali.coeus.common.framework.sponsor.term.SponsorTerm;
 import org.kuali.coeus.common.framework.version.VersionStatus;
@@ -57,6 +59,8 @@ import org.kuali.rice.kew.api.exception.InvalidActionTakenException;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
+import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.rice.kim.api.identity.entity.Entity;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -125,6 +129,14 @@ public class AwardController extends RestController implements InitializingBean 
     private TimeAndMoneyExistenceService timeAndMoneyExistenceService;
 
     @Autowired
+    @Qualifier("identityService")
+    private IdentityService identityService;
+
+    @Autowired
+    @Qualifier("rolodexService")
+    private RolodexService rolodexService;
+
+    @Autowired
     @Qualifier("restAuditLoggerFactory")
     private RestAuditLoggerFactory restAuditLoggerFactory;
     private List<String> awardDtoPersonProperties;
@@ -136,6 +148,8 @@ public class AwardController extends RestController implements InitializingBean 
     @ResponseBody
     AwardDto getAward(@PathVariable Long awardId, @RequestParam(value = "includeBudgets", required = false) boolean includeBudgets) {
         Award award = getAwardDao().getAward(awardId);
+        AwardDocument awardDocument = (AwardDocument) commonApiService.getDocumentFromDocId(Long.parseLong(award.getAwardDocument().getDocumentNumber()));
+
         if(award == null) {
             throw new ResourceNotFoundException("Award with award id " + awardId + " not found.");
         }
@@ -144,6 +158,8 @@ public class AwardController extends RestController implements InitializingBean 
         if (!includeBudgets) {
             awardDto.setBudgets(new ArrayList<>());
         }
+        awardDto.setDocNbr(awardDocument.getDocumentNumber());
+        awardDto.setDocStatus(awardDocument.getDocumentHeader().getWorkflowDocument().getStatus().getLabel());
         return awardDto;
     }
 
@@ -391,6 +407,7 @@ public class AwardController extends RestController implements InitializingBean 
         if (awardPersonsDto != null) {
             List<AwardPerson> awardPersons = awardPersonsDto.stream().map(awardPersonDto -> {
                 AwardPerson awardPerson = commonApiService.convertObject(awardPersonDto, AwardPerson.class);
+                validatePerson(awardPerson);
                 AwardProjectPersonnelBean awardProjectPersonnelBean = new AwardProjectPersonnelBean(awardDocument);
                 awardProjectPersonnelBean.addPersonUnits(awardPerson);
                 awardPerson.setAward(award);
@@ -400,6 +417,29 @@ public class AwardController extends RestController implements InitializingBean 
             awardDocument.setAward(award);
         }
 
+    }
+
+    public void validatePerson(AwardPerson person) {
+        Entity personEntity = null;
+        RolodexContract rolodex = null;
+        if (person.getPersonId() != null) {
+            personEntity = identityService.getEntityByPrincipalId(person.getPersonId());
+        }
+        else {
+            rolodex = rolodexService.getRolodex(person.getRolodexId());
+            if(rolodex != null) {
+                person.setRolodexId(rolodex.getRolodexId());
+                person.setPersonId(null);
+            }
+        }
+
+        if (rolodex == null && personEntity == null) {
+            throw new UnprocessableEntityException("Invalid person or rolodex for person " + getId(person));
+        }
+    }
+
+    protected String getId(AwardPerson person) {
+        return person.getPersonId() != null ? person.getPersonId() : person.getRolodexId().toString();
     }
 
     protected AwardDocument getAwardDocument(Long documentNumber) {

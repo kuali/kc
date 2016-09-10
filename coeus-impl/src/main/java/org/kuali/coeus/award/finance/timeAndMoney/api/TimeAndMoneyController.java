@@ -152,7 +152,11 @@ public class TimeAndMoneyController extends RestController {
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     TimeAndMoneyDto getTimeAndMoneydocument(@PathVariable String documentNumber) {
-        return getTimeAndMoneyDto(documentNumber);
+        TimeAndMoneyDocument timeAndMoneyDocument = (TimeAndMoneyDocument) commonApiService.getDocumentFromDocId(Long.parseLong(documentNumber));
+        TimeAndMoneyDto timeAndMoneyDto = commonApiService.convertObject(timeAndMoneyDocument, TimeAndMoneyDto.class);
+        timeAndMoneyDto.setTimeAndMoneyDocumentNbr(timeAndMoneyDocument.getDocumentNumber());
+        timeAndMoneyDto.setTimeAndMoneyDocumentStatus(timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().getStatus().getLabel());
+        return timeAndMoneyDto;
     }
 
     @RequestMapping(method= RequestMethod.POST, value="/time-and-money-documents/",
@@ -204,7 +208,7 @@ public class TimeAndMoneyController extends RestController {
 
     private void updateAwardAmountTransactionInformation(TimeAndMoneyDocument timeAndMoneyDocument, List<AwardAmountTransactionDto> awardAmountTransactions) {
         if(awardAmountTransactions.size() == 0) {
-            throw new UnprocessableEntityException("T & M doc cannot processed without transaction information.");
+            throw new UnprocessableEntityException("T & M doc cannot be processed without transaction information.");
         }
         timeAndMoneyDocument.getAwardAmountTransactions().get(0).setNoticeDate(awardAmountTransactions.get(0).getNoticeDate());
         timeAndMoneyDocument.getAwardAmountTransactions().get(0).setTransactionTypeCode(awardAmountTransactions.get(0).getTransactionTypeCode());

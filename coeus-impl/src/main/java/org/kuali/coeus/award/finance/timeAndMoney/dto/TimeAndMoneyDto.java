@@ -27,6 +27,8 @@ import java.util.List;
 public class TimeAndMoneyDto {
 
     private String awardId;
+    private String timeAndMoneyDocumentNbr;
+    private String timeAndMoneyDocumentStatus;
 
     @JsonProperty(value="awardAmountTransactions")
     @CollectionProperty(source="awardAmountTransactions", itemClass= AwardAmountTransactionDto.class)
@@ -58,5 +60,21 @@ public class TimeAndMoneyDto {
 
     public void setAwardId(String awardId) {
         this.awardId = awardId;
+    }
+
+   public String getTimeAndMoneyDocumentNbr() {
+        return timeAndMoneyDocumentNbr;
+    }
+
+    public void setTimeAndMoneyDocumentNbr(String documentNbr) {
+        this.timeAndMoneyDocumentNbr = documentNbr;
+    }
+
+    public String getTimeAndMoneyDocumentStatus() {
+        return timeAndMoneyDocumentStatus;
+    }
+
+    public void setTimeAndMoneyDocumentStatus(String documentStatus) {
+        this.timeAndMoneyDocumentStatus = documentStatus;
     }
 }

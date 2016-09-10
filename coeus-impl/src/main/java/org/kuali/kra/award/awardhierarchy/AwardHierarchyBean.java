@@ -272,8 +272,10 @@ public class AwardHierarchyBean implements Serializable {
     }
 
     public void refreshCurrentHierarchy() {
-        rootNodes.clear();
-        loadHierarchy(getAward().getAwardNumber());
+        if(awardForm != null) {
+            rootNodes.clear();
+            loadHierarchy(getAward().getAwardNumber());
+        }
     }
     
     protected void loadHierarchy(String awardNumber) {
