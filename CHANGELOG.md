@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-1688: Better error handling and return doc status (#1960)
+
+  * Gayathri Athreya on Sat, 10 Sep 2016 16:28:58 -0700 [View Commit](../../commit/493dc2c993ec6768ced1cca494d757ab132f8f15)
+
+##coeus-1609.0017
 * RESKC-1689: SF424A future year budget amount mapping
   * Terry Durkin on Sat, 10 Sep 2016 14:24:29 -0400 [View Commit](../../commit/903e07de636e1962707af899b73c563d3da550c4)
 
