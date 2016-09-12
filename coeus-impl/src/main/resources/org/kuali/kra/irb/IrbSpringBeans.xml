@@ -1021,10 +1021,6 @@
             <property name="kualiConfigurationService" ref="kualiConfigurationService" />
         </bean>
 
-    <bean id="watermarkService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="watermarkService" />
-    </bean>
-
         <bean id="protocolFullProtocolPrint"
             class="org.kuali.kra.irb.actions.print.ProtocolFullProtocolPrint" scope="prototype">
             <property name="xmlStream" ref="protocolSummaryXmlStream" />
