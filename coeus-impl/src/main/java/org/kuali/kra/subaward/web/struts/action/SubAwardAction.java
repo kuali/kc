@@ -19,21 +19,14 @@
 
 package org.kuali.kra.subaward.web.struts.action;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.coeus.common.framework.krms.KrmsRulesExecutionService;
-import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
@@ -45,22 +38,15 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.subaward.SubAwardForm;
-import org.kuali.kra.subaward.bo.SubAward;
-import org.kuali.kra.subaward.bo.SubAwardAttachmentType;
-import org.kuali.kra.subaward.bo.SubAwardAttachments;
-import org.kuali.kra.subaward.bo.SubAwardForms;
-import org.kuali.kra.subaward.bo.SubAwardFundingSource;
+import org.kuali.kra.subaward.bo.*;
 import org.kuali.kra.subaward.customdata.SubAwardCustomData;
-import org.kuali.kra.subaward.bo.SubAwardTemplateInfo;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.kra.subaward.notification.SubAwardNotificationContext;
-import org.kuali.kra.subaward.reporting.printing.SubAwardPrintType;
 import org.kuali.kra.subaward.reporting.printing.service.SubAwardPrintingService;
 import org.kuali.kra.subaward.service.SubAwardService;
 import org.kuali.kra.subaward.subawardrule.SubAwardDocumentRule;
 import org.kuali.kra.subaward.templateAttachments.SubAwardAttachmentFormBean;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
@@ -68,7 +54,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.rules.rule.event.DocumentEvent;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -80,8 +65,6 @@ public class SubAwardAction extends KcTransactionalDocumentActionBase {
 
     public static final String DISABLE_ATTACHMENT_REMOVAL = "disableAttachmentRemoval";
     private transient SubAwardService subAwardService;
-    private static final Log LOG = LogFactory.getLog(SubAwardAction.class);
-    private static final String SUBAWARD_AGREEMENT = "fdpAgreement";
     private static final String DOCUMENT_ROUTE_QUESTION="DocRoute";
 
     @Override
@@ -397,7 +380,7 @@ public ActionForward blanketApprove(ActionMapping mapping,
     } else {
         GlobalVariables.getMessageMap().clearErrorMessages();
         GlobalVariables.getMessageMap().
-        putError("datavalidation", KeyConstants.ERROR_WORKFLOW_SUBMISSION, new String[]{});
+        putError("datavalidation", KeyConstants.ERROR_WORKFLOW_SUBMISSION);
         subAwardForm.setAuditActivated(true);
         return mapping.findForward(Constants.MAPPING_BASIC);
 
@@ -466,38 +449,11 @@ public ActionForward blanketApprove(ActionMapping mapping,
       return KcServiceLocator.getService(KcNotificationService.class);
   }
 
- public ActionForward printForms(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-         Map<String, Object> reportParameters = new HashMap<>();
-         SubAwardForm subAwardForm = (SubAwardForm) form;
-         List<SubAwardForms> subAwardFormList = subAwardForm.getSubAwardDocument().getSubAwardList().get(0).getSubAwardForms();
-
-        List<SubAwardForms> printFormTemplates = getSubAwardPrintingService().getSponsorFormTemplates(subAwardForm.getSubAwardPrintAgreement(),subAwardFormList);
-              Collection<SubAwardFundingSource> fundingSource = getBusinessObjectService().findAll(SubAwardFundingSource.class);
-              if(subAwardForm.getSubAwardPrintAgreement().getFundingSource() != null){
-                  for (SubAwardFundingSource subAwardFunding : fundingSource) {
-                      if(subAwardForm.getSubAwardPrintAgreement().getFundingSource().equals(subAwardFunding.getSubAwardFundingSourceId().toString())){
-                          reportParameters.put("awardNumber",subAwardFunding.getAward().getAwardNumber());
-                          reportParameters.put("awardTitle",subAwardFunding.getAward().getParentTitle());
-                          reportParameters.put("sponsorAwardNumber",subAwardFunding.getAward().getSponsorAwardNumber());
-                          reportParameters.put("sponsorName",subAwardFunding.getAward().getSponsor().getSponsorName());
-                          reportParameters.put("cfdaNumber",subAwardFunding.getAward().getCfdaNumber());
-                          reportParameters.put("awardID",subAwardFunding.getAward().getAwardId());
-                      }
-                  }
-              }
-
-              AttachmentDataSource dataStream ;
-              reportParameters.put(SubAwardPrintingService.SELECTED_TEMPLATES, printFormTemplates);
-              reportParameters.put("fdpType",subAwardForm.getSubAwardPrintAgreement().getFdpType());
-              if(subAwardForm.getSubAwardPrintAgreement().getFdpType().equals(SUBAWARD_AGREEMENT)){
-                  dataStream = getSubAwardPrintingService().printSubAwardFDPReport(subAwardForm.getSubAwardDocument().getSubAward(), SubAwardPrintType.SUB_AWARD_FDP_TEMPLATE, reportParameters);
-              } else{
-                  dataStream = getSubAwardPrintingService().printSubAwardFDPReport(subAwardForm.getSubAwardDocument().getSubAward(), SubAwardPrintType.SUB_AWARD_FDP_MODIFICATION, reportParameters);
-              }                                           
-              streamToResponse(dataStream,response);
-      
-      return  mapping.findForward(Constants.MAPPING_BASIC);
-  }
+    public ActionForward printForms(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        SubAwardForm subAwardForm = (SubAwardForm) form;
+        streamToResponse(getSubAwardPrintingService().printSubAwardFDPReport(subAwardForm.getSubAwardPrintAgreement(), subAwardForm.getSubAwardDocument().getSubAward()), response);
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
 
     protected SponsorHierarchyService getSponsorHierarchyService() {
         return KcServiceLocator.getService(SponsorHierarchyService.class);
@@ -510,4 +466,5 @@ public ActionForward blanketApprove(ActionMapping mapping,
     protected AuditHelper getAuditHelper() {
         return KcServiceLocator.getService(AuditHelper.class);
     }
+
 }

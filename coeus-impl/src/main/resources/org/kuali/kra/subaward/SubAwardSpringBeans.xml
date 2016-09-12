@@ -162,7 +162,15 @@
     <bean id="versionHistoryService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="versionHistoryService" />
     </bean>
-	
+
+    <bean id="awardHierarchyService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="awardHierarchyService" />
+    </bean>
+
+    <bean id="awardVersionService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="awardVersionService" />
+    </bean>
+
     <bean id="parentLookupableHelperService" abstract="true">
         <property name="persistenceStructureService" ref="persistenceStructureService" />
         <property name="businessObjectDictionaryService" ref="businessObjectDictionaryService" />
@@ -187,6 +195,10 @@
     	<property name="printingService" ref="printingService" />    	
     	<property name="subAwardFDPAgreement" ref="subAwardFDPAgreement" />
     	<property name="subAwardFDPModification" ref="subAwardFDPModification" />
+        <property name="parameterService" ref="parameterService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="awardHierarchyService" ref="awardHierarchyService" />
+        <property name="awardVersionService" ref="awardVersionService" />
     </bean>
     
     <bean id="subAwardSF294Print" class="org.kuali.kra.subaward.reporting.printing.print.SubAwardSF294Print" scope="prototype">
@@ -216,6 +228,7 @@
     <bean id="subAwardFDPPrintXmlStream" class="org.kuali.kra.subawardReporting.printing.xmlstream.SubAwardFDPPrintXmlStream" scope="prototype">
         <property name="dateTimeService" ref="dateTimeService" />
         <property name="businessObjectService" ref="businessObjectService" />
+        <property name="parameterService" ref="parameterService" />
     </bean>
     
     <bean id="subAwardService" class="org.kuali.kra.subaward.service.impl.SubAwardServiceImpl">

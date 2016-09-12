@@ -410,6 +410,9 @@
 									<xs:element name="RootAccountNumber" type="xs:string" minOccurs="0"/>
 									<xs:element name="LastUpdate" type="xs:dateTime" minOccurs="0"/>
 									<xs:element name="UpdateUser" type="xs:string" minOccurs="0"/>
+									<xs:element name="FAIN" type="xs:string" minOccurs="0"/>
+									<xs:element name="ObligatedAmt" type="xs:decimal" minOccurs="0"/>
+									<xs:element name="AnticipatedAmt" type="xs:decimal" minOccurs="0"/>
 								</xs:sequence>
 							</xs:complexType>
 						</xs:element>

@@ -501,7 +501,7 @@
     </class-descriptor>
 
     <class-descriptor class="org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelRateAndBase" table="BUDGET_PER_DET_RATE_AND_BASE">
-		<field-descriptor name="budgetPersonnelRateAndBaseId" column="BGT_PER_DET_RATE_AND_BASE_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_BGT_PER_DET_RATE_BASE_ID"/> 	
+		<field-descriptor name="budgetPersonnelRateAndBaseId" column="BGT_PER_DET_RATE_AND_BASE_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_BGT_PER_DET_RATE_BASE_ID"/>
 		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" />
 		
 		<field-descriptor name="budgetPersonnelCalculatedAmountId" column="BUDGET_PERSONNEL_CAL_AMTS_ID" jdbc-type="BIGINT"/>

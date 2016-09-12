@@ -18,47 +18,38 @@
  */
 package org.kuali.kra.subaward.reporting.printing.service.impl;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.print.AbstractPrint;
 import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.coeus.common.framework.print.PrintingService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
+import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.award.printing.service.AwardPrintingService;
+import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
-import org.kuali.kra.subaward.bo.SubAward;
-import org.kuali.kra.subaward.bo.SubAwardAttachments;
-import org.kuali.kra.subaward.bo.SubAwardForms;
-import org.kuali.kra.subaward.bo.SubAwardPrintAgreement;
+import org.kuali.kra.subaward.bo.*;
+
 import org.kuali.kra.subaward.reporting.printing.SubAwardPrintType;
 import org.kuali.kra.subaward.reporting.printing.print.SubAwardSF294Print;
 import org.kuali.kra.subaward.reporting.printing.print.SubAwardSF295Print;
 import org.kuali.kra.subaward.reporting.printing.service.SubAwardPrintingService;
 import org.kuali.kra.subawardReporting.printing.print.SubAwardFDPAgreement;
 import org.kuali.kra.subawardReporting.printing.print.SubAwardFDPModification;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
-
-/**
- * This class is the implementation of {@link AwardPrintingService}. It has
- * capability to print report related to Negotiation 
- * 
- * @author
- * 
- */
 public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
     
     private static final String SF_295_REPORT = "SF295";
     private static final String SF_294_REPORT = "SF294";
     private static final String SUB_AWARD_FDP_TEMPLATE = "fdpAgreement";
     private static final String SUB_AWARD_FDP_MODIFICATION = "fdpModification";
+    private static final String FDP_FROM_PARENT_AWARD = "FDP_FROM_PARENT_AWARD";
     
     private SubAwardSF294Print subAwardSF294Print;
     private SubAwardSF295Print subAwardSF295Print;
@@ -66,58 +57,23 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
     private SubAwardFDPModification subAwardFDPModification;
     private SubAwardFDPAgreement subAwardFDPAgreement;
     private BusinessObjectService businessObjectService;
-    
-
-    
-    /**
-     * Gets the businessObjectService attribute. 
-     * @return Returns the businessObjectService.
-     */
-    public BusinessObjectService getBusinessObjectService() {
-        return KcServiceLocator.getService(BusinessObjectService.class);
-    }
+    private ParameterService parameterService;
+    private AwardVersionService awardVersionService;
+    private AwardHierarchyService awardHierarchyService;
 
 
-    /**
-     * Sets the businessObjectService attribute value.
-     * @param businessObjectService The businessObjectService to set.
-     */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-
-
-    /**
-     * Gets the subAwardFDPModification attribute. 
-     * @return Returns the subAwardFDPModification.
-     */
     public SubAwardFDPModification getSubAwardFDPModification() {
         return subAwardFDPModification;
     }
-       
 
-    /**
-     * Sets the subAwardFDPModification attribute value.
-     * @param subAwardFDPModification The subAwardFDPModification to set.
-     */
     public void setSubAwardFDPModification(SubAwardFDPModification subAwardFDPModification) {
         this.subAwardFDPModification = subAwardFDPModification;
     }
 
-
-    /**
-     * Gets the subAwardFDPAgreement attribute. 
-     * @return Returns the subAwardFDPAgreement.
-     */
     public SubAwardFDPAgreement getSubAwardFDPAgreement() {
         return subAwardFDPAgreement;
     }
 
-
-    /**
-     * Sets the subAwardFDPAgreement attribute value.
-     * @param subAwardFDPAgreement The subAwardFDPAgreement to set.
-     */
     public void setSubAwardFDPAgreement(SubAwardFDPAgreement subAwardFDPAgreement) {
         this.subAwardFDPAgreement = subAwardFDPAgreement;
     }
@@ -126,7 +82,7 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
     @Override
     public AttachmentDataSource printSubAwardReport(KcPersistableBusinessObjectBase awardDocument,
             SubAwardPrintType subAwardPrintType, Map<String, Object> reportParameters) throws PrintingException {
-        AttachmentDataSource source = null;
+        AttachmentDataSource source;
         AbstractPrint printable = null;         
         if (reportParameters.get("printType") != null) {
             if(reportParameters.get("printType").equals(SF_295_REPORT)){
@@ -135,8 +91,7 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
                 printable = getSubAwardSF294Print();                
             }
         }  
-        
-        Award award=(Award) awardDocument;        
+
         printable.setPrintableBusinessObject(awardDocument);
         printable.setReportParameters(reportParameters);       
         source = getPrintingService().print(printable);        
@@ -179,9 +134,9 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
         this.subAwardSF295Print = subAwardSF295Print;
     }
     
-    @Override
-    public AttachmentDataSource printSubAwardFDPReport(KcPersistableBusinessObjectBase subAwardDoc,SubAwardPrintType subAwardPrintType, Map<String, Object> reportParameters) throws PrintingException {
-        AttachmentDataSource source = null;
+
+    protected AttachmentDataSource printSubAwardFDPReport(KcPersistableBusinessObjectBase subAwardDoc, Map<String, Object> reportParameters) throws PrintingException {
+        AttachmentDataSource source;
         AbstractPrint printable = null;         
         if (reportParameters.get("fdpType") != null) {
             if(reportParameters.get("fdpType").equals(SUB_AWARD_FDP_TEMPLATE)){
@@ -191,7 +146,7 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
             }
         }  
         SubAward subAward = (SubAward)subAwardDoc;
-        Map<String, byte[]> formAttachments = new LinkedHashMap<String, byte[]>();
+        Map<String, byte[]> formAttachments = new LinkedHashMap<>();
         if(subAward.getSubAwardAttachments() != null) {
             for(SubAwardAttachments subAwardAttachments:subAward.getSubAwardAttachments()) {
                 if(subAwardAttachments.getSelectToPrint()) {
@@ -218,31 +173,102 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
         }
         return source;   
     }
-    
-    /**
-     * 
-     * This method is to reset the selected form list.
-     * 
-     * @param subAwardFormList
-     *            list of subAwardFormList.
-     */
+
+    @Override
+    public AttachmentDataSource printSubAwardFDPReport(SubAwardPrintAgreement agreement, SubAward subAward) {
+        Map<String, Object> reportParameters = new HashMap<>();
+        List<SubAwardForms> printFormTemplates = getSponsorFormTemplates(agreement,subAward.getSubAwardForms());
+
+        if(agreement.getFundingSource() != null){
+            for (SubAwardFundingSource subAwardFunding : subAward.getSubAwardFundingSourceList()) {
+                if(agreement.getFundingSource().equals(subAwardFunding.getSubAwardFundingSourceId().toString())){
+
+                    final Award workingAward = getAwardVersionService().getWorkingAwardVersion(subAwardFunding.getAward().getAwardNumber());
+                    final Award award = (workingAward != null) ? workingAward : subAwardFunding.getAward();
+
+                    reportParameters.put("awardNumber",award.getAwardNumber());
+                    reportParameters.put("awardTitle",award.getParentTitle());
+                    reportParameters.put("sponsorAwardNumber",award.getSponsorAwardNumber());
+                    if (award.getSponsor() != null) {
+                        reportParameters.put("sponsorName", award.getSponsor().getSponsorName());
+                    }
+                    reportParameters.put("cfdaNumber",award.getCfdaNumber());
+                    reportParameters.put("awardID",award.getAwardId());
+
+                    if (getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_SUBAWARD, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, FDP_FROM_PARENT_AWARD)) {
+                        final AwardHierarchy hierarchy = getAwardHierarchyService().loadAwardHierarchy(subAwardFunding.getAward().getAwardNumber());
+                        if (hierarchy != null) {
+                            reportParameters.put("fain", hierarchy.getRoot().getAward().getFainId());
+
+                            if (hierarchy.getRoot().getAward().getObligatedTotal() != null) {
+                                reportParameters.put("obligatedTotal", hierarchy.getRoot().getAward().getObligatedTotal().bigDecimalValue());
+                            }
+
+                            if (hierarchy.getRoot().getAward().getAnticipatedTotal() != null) {
+                                reportParameters.put("anticipatedTotal", hierarchy.getRoot().getAward().getAnticipatedTotal().bigDecimalValue());
+                            }
+                        }
+                    } else {
+                        reportParameters.put("fain", award.getFainId());
+
+                        if (award.getObligatedTotal() != null) {
+                            reportParameters.put("obligatedTotal", award.getObligatedTotal().bigDecimalValue());
+                        }
+
+                        if (award.getAnticipatedTotal() != null) {
+                            reportParameters.put("anticipatedTotal", award.getAnticipatedTotal().bigDecimalValue());
+                        }
+                    }
+
+
+                    if (award.getPrimeSponsor() != null) {
+                        reportParameters.put("primeSponsorName", award.getPrimeSponsor().getSponsorName());
+                    } else {
+                        reportParameters.put("primeSponsorName", award.getSponsor().getSponsorName());
+                    }
+
+                    if (award.getNoticeDate() != null) {
+                        final Calendar noticeDate = Calendar.getInstance();
+                        noticeDate.setTime(award.getNoticeDate());
+                        reportParameters.put("noticeDate", noticeDate);
+                    }
+
+                    break;
+                }
+            }
+        }
+
+        if (!subAward.getSubAwardAmountInfoList().isEmpty()) {
+            final int index = subAward.getSubAwardAmountInfoList().size() - 1;
+            final String modificationTypeCode = subAward.getSubAwardAmountInfoList().get(index).getModificationTypeCode();
+            if (StringUtils.isNotEmpty(modificationTypeCode)) {
+                reportParameters.put("modificationType", modificationTypeCode);
+            }
+        }
+
+        if (!subAward.getSubAwardTemplateInfo().isEmpty()) {
+            reportParameters.put("fcoi", subAward.getSubAwardTemplateInfo().get(0).getFcio());
+            reportParameters.put("costshare", subAward.getSubAwardTemplateInfo().get(0).getIncludesCostSharing());
+            reportParameters.put("randd", subAward.getSubAwardTemplateInfo().get(0).getrAndD());
+        }
+
+        reportParameters.put("ffata",subAward.getFfataRequired());
+
+        reportParameters.put(SubAwardPrintingService.SELECTED_TEMPLATES, printFormTemplates);
+        reportParameters.put("fdpType",agreement.getFdpType());
+        return printSubAwardFDPReport(subAward, reportParameters);
+    }
+
+
     protected void resetsubAwardFormList(
             List<SubAwardForms> subAwardFormList) {
         for (SubAwardForms subAwardFormValues : subAwardFormList) {
             subAwardFormValues.setSelectToPrint(false);
         }
     }
-    
-    /**
-     * This method gets the  form template from the given sponsor form table
-     * 
-     * 
-     * @param sponsorFormTemplateLists -
-     *            list of sponsor form template list
-     * @return list of sponsor form template
-     */
-    public List<SubAwardForms> getSponsorFormTemplates(SubAwardPrintAgreement subAwardPrint, List<SubAwardForms> subAwardFormList) {
-        List<SubAwardForms> printFormTemplates = new ArrayList<SubAwardForms>();
+
+    protected List<SubAwardForms> getSponsorFormTemplates(SubAwardPrintAgreement subAwardPrint, List<SubAwardForms> subAwardFormList) {
+        List<SubAwardForms> printFormTemplates = new ArrayList<>();
         if(subAwardPrint.getFdpType().equals(SUB_AWARD_FDP_TEMPLATE)){
             printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP Template"));
         }else if(subAwardPrint.getFdpType().equals(SUB_AWARD_FDP_MODIFICATION))
@@ -281,7 +307,8 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
             subAwardFormValues.setSelectToPrint(false);
         }
     }
-    
+
+    @Override
     public boolean isPdf(byte[] data) {
         final int ATTRIBUTE_CHUNK_SIZE = 1200;// increased for ppt
         final String PRE_HEXA = "0x";
@@ -337,4 +364,35 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
         return byteVal;
     }
 
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    public AwardVersionService getAwardVersionService() {
+        return awardVersionService;
+    }
+
+    public void setAwardVersionService(AwardVersionService awardVersionService) {
+        this.awardVersionService = awardVersionService;
+    }
+
+    public AwardHierarchyService getAwardHierarchyService() {
+        return awardHierarchyService;
+    }
+
+    public void setAwardHierarchyService(AwardHierarchyService awardHierarchyService) {
+        this.awardHierarchyService = awardHierarchyService;
+    }
 }

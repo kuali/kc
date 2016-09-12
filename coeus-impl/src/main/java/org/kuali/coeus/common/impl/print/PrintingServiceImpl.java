@@ -28,11 +28,11 @@ import org.apache.fop.apps.FOUserAgent;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
+import org.apache.xalan.processor.TransformerFactoryImpl;
 import org.kuali.coeus.common.framework.print.Printable;
 import org.kuali.coeus.common.framework.print.PrintableAttachment;
 import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.coeus.common.framework.print.PrintingService;
-import org.kuali.coeus.common.framework.print.watermark.WatermarkService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -65,11 +65,7 @@ public class PrintingServiceImpl implements PrintingService {
 
     @Autowired
     @Qualifier("dateTimeService")
-    private DateTimeService dateTimeService = null;
-
-    @Autowired
-    @Qualifier("watermarkService")
-    private WatermarkService watermarkService;
+    private DateTimeService dateTimeService;
 
     @Autowired
     @Qualifier("kualiConfigurationService")
@@ -94,7 +90,7 @@ public class PrintingServiceImpl implements PrintingService {
             }
 
 
-            Map<String, byte[]> pdfByteMap = new LinkedHashMap<String, byte[]>();
+            Map<String, byte[]> pdfByteMap = new LinkedHashMap<>();
 
             FopFactory fopFactory = FopFactory.newInstance();
 
@@ -108,7 +104,7 @@ public class PrintingServiceImpl implements PrintingService {
                     if(xslt.getInputStream()==null || xslt.getInputStream().available()<=0){
                         LOG.error("Stylesheet is not available");
                     }else{
-                        createPdfWithFOP(streamMap, pdfByteMap, fopFactory, xslCount, xslt, printableArtifact);
+                        createPdfWithFOP(streamMap, pdfByteMap, fopFactory, xslCount, xslt);
                     }
                 }
             }
@@ -116,8 +112,7 @@ public class PrintingServiceImpl implements PrintingService {
                 Map<String, Source> templatesWithBookmarks = printableArtifact.getXSLTemplateWithBookmarks();
                 for (Map.Entry<String, Source> templatesWithBookmark : templatesWithBookmarks.entrySet()) {
                     StreamSource xslt = (StreamSource) templatesWithBookmark.getValue();
-                    createPdfWithFOP(streamMap, pdfByteMap, fopFactory, xslCount, xslt, templatesWithBookmark.getKey(),
-                            printableArtifact);
+                    createPdfWithFOP(streamMap, pdfByteMap, fopFactory, xslCount, xslt, templatesWithBookmark.getKey());
                 }
 
             }
@@ -128,19 +123,7 @@ public class PrintingServiceImpl implements PrintingService {
             }
             return pdfByteMap;
         }
-        catch (FOPException e) {
-            LOG.error(e.getMessage(), e);
-            throw new PrintingException(e.getMessage(), e);
-        }
-        catch (TransformerConfigurationException e) {
-            LOG.error(e.getMessage(), e);
-            throw new PrintingException(e.getMessage(), e);
-        }
-        catch (TransformerException e) {
-            LOG.error(e.getMessage(), e);
-            throw new PrintingException(e.getMessage(), e);
-        }
-        catch (IOException e) {
+        catch (FOPException|TransformerException|IOException e) {
             LOG.error(e.getMessage(), e);
             throw new PrintingException(e.getMessage(), e);
         }
@@ -148,14 +131,15 @@ public class PrintingServiceImpl implements PrintingService {
     }
 
     protected void createPdfWithFOP(Map<String, byte[]> streamMap, Map<String, byte[]> pdfByteMap, FopFactory fopFactory,
-            int xslCount, StreamSource xslt, Printable printableArtifact) throws FOPException, TransformerException {
-        createPdfWithFOP(streamMap, pdfByteMap, fopFactory, xslCount, xslt, null, printableArtifact);
+            int xslCount, StreamSource xslt) throws FOPException, TransformerException {
+        createPdfWithFOP(streamMap, pdfByteMap, fopFactory, xslCount, xslt, null);
     }
 
     protected void createPdfWithFOP(Map<String, byte[]> streamMap, Map<String, byte[]> pdfByteMap, FopFactory fopFactory,
-            int xslCount, StreamSource xslt, String bookmark, Printable printableArtifact) throws FOPException,
+            int xslCount, StreamSource xslt, String bookmark) throws FOPException,
             TransformerException {
         TransformerFactory factory = TransformerFactory.newInstance();
+        factory.setAttribute(TransformerFactoryImpl.FEATURE_SOURCE_LOCATION, Boolean.TRUE);
         Transformer transformer = factory.newTransformer(xslt);
         String externalizableImagesUrl= getKualiConfigurationService().getPropertyValueAsString(Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY);
         transformer.setParameter("externalImagesUrl",externalizableImagesUrl);
@@ -166,7 +150,6 @@ public class PrintingServiceImpl implements PrintingService {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             ByteArrayInputStream inputStream = new ByteArrayInputStream(xmlData.getValue());
             Source src = new StreamSource(inputStream);
-            //Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, outputStream);
             Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, foUserAgent, outputStream);
             Result res = new SAXResult(fop.getDefaultHandler());
             transformer.transform(src, res);
@@ -182,8 +165,7 @@ public class PrintingServiceImpl implements PrintingService {
 
 
     protected String createBookMark(int xslCount, String bookmarkKey) {
-        String pdfMapKey = bookmarkKey + (xslCount == 1 ? "" : " " + xslCount);
-        return pdfMapKey;
+        return bookmarkKey + (xslCount == 1 ? "" : " " + xslCount);
     }
 
     /**
@@ -194,8 +176,9 @@ public class PrintingServiceImpl implements PrintingService {
      * @return {@link AttachmentDataSource} PDF bytes
      * @throws PrintingException in case of any errors occur during printing process
      */
+    @Override
     public AttachmentDataSource print(Printable printableArtifacts) throws PrintingException {
-        List<Printable> printables = new ArrayList<Printable>();
+        List<Printable> printables = new ArrayList<>();
         printables.add(printableArtifacts);
         return print(printables);
     }
@@ -208,14 +191,15 @@ public class PrintingServiceImpl implements PrintingService {
      * @return {@link AttachmentDataSource} PDF bytes
      * @throws PrintingException in case of any errors occur during printing process
      */
+    @Override
     public AttachmentDataSource print(List<Printable> printableArtifactList) throws PrintingException {
         return print(printableArtifactList, false);
     }
 
     public AttachmentDataSource print(List<Printable> printableArtifactList, boolean headerFooterRequired) throws PrintingException {
-        PrintableAttachment printablePdf = null;
-        List<String> bookmarksList = new ArrayList<String>();
-        List<byte[]> pdfBaosList = new ArrayList<byte[]>();
+        PrintableAttachment printablePdf;
+        List<String> bookmarksList = new ArrayList<>();
+        List<byte[]> pdfBaosList = new ArrayList<>();
         for (Printable printableArtifact : printableArtifactList) {
             Map<String, byte[]> printBytes = getPrintBytes(printableArtifact);
             for (String bookmark : printBytes.keySet()) {
@@ -259,13 +243,6 @@ public class PrintingServiceImpl implements PrintingService {
         return StringUtils.deleteWhitespace(dateString);
     }
 
-    /**
-     * @param pdfBytesList List containing the PDF data bytes
-     * @param bookmarksList List of bookmarks corresponding to the PDF bytes.
-     * @return
-     * @throws PrintingException
-     */
-
     protected byte[] mergePdfBytes(List<byte[]> pdfBytesList, List<String> bookmarksList, boolean headerFooterRequired)
             throws PrintingException {
         Document document = null;
@@ -276,7 +253,7 @@ public class PrintingServiceImpl implements PrintingService {
         int pdfReaderCount = 0;
         for (byte[] fileBytes : pdfBytesList) {
             LOG.debug("File Size " + fileBytes.length + " For " + bookmarksList.get(pdfReaderCount));
-            PdfReader reader = null;
+            PdfReader reader;
             try {
                 reader = new PdfReader(fileBytes);
                 pdfReaderArr[pdfReaderCount] = reader;
@@ -371,22 +348,17 @@ public class PrintingServiceImpl implements PrintingService {
         return dateFormat.format(calendar.getTime());
     }
 
-    /**
-     * @return the dateTimeService
-     */
     public DateTimeService getDateTimeService() {
         return dateTimeService;
     }
 
-    /**
-     * @param dateTimeService the dateTimeService to set
-     */
+
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
 
     protected String getWhitespaceString(int length) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         char[] whiteSpace = new char[length];
         Arrays.fill(whiteSpace, Constants.SPACE_SEPARATOR);
         sb.append(whiteSpace);
@@ -394,15 +366,15 @@ public class PrintingServiceImpl implements PrintingService {
     }
 
     protected void logPrintDetails(Map<String, byte[]> xmlStreamMap) throws PrintingException {
-        byte[] xmlBytes = null;
-        String xmlString = null;
+        byte[] xmlBytes;
+        String xmlString;
         String loggingDirectory = kualiConfigurationService.getPropertyValueAsString(Constants.PRINT_LOGGING_DIRECTORY);
         Iterator<String> it = xmlStreamMap.keySet().iterator();
         if (loggingDirectory != null) {
             BufferedWriter out=null;
             try {
                 while (it.hasNext()) {
-                    String key = (String) it.next();
+                    String key = it.next();
                     xmlBytes = xmlStreamMap.get(key);
                     xmlString = new String(xmlBytes);
                     String dateString = getDateTimeService().getCurrentTimestamp().toString();
@@ -442,21 +414,4 @@ public class PrintingServiceImpl implements PrintingService {
         return kualiConfigurationService;
     }
 
-    /**
-     * Gets the watermarkService attribute.
-     * 
-     * @return Returns the watermarkService.
-     */
-    public WatermarkService getWatermarkService() {
-        return watermarkService;
-    }
-
-    /**
-     * Sets the watermarkService attribute value.
-     * 
-     * @param watermarkService The watermarkService to set.
-     */
-    public void setWatermarkService(WatermarkService watermarkService) {
-        this.watermarkService = watermarkService;
-    }
 }
