@@ -67,8 +67,8 @@
         <bouncycastle.version>1.53</bouncycastle.version>
         <cas-client-core.version>3.3.3</cas-client-core.version>
         <cglib.version>3.1</cglib.version>
-        <coeus-api-all.version>1604.0001</coeus-api-all.version>
-        <coeus-s2sgen.version>1609.0004</coeus-s2sgen.version>
+        <coeus-api-all.version>1609.0002</coeus-api-all.version>
+        <coeus-s2sgen.version>1609.0005</coeus-s2sgen.version>
         <commons-beanutils.version>1.8.3-kuali-4</commons-beanutils.version>
         <commons-codec.version>1.10</commons-codec.version>
         <commons-collections.version>3.2.2</commons-collections.version>
@@ -144,23 +144,23 @@
 
         <!-- plugin versions -->
         <cxf-codegen-plugin.version>${cxf.version}</cxf-codegen-plugin.version>
-        <jspc-maven-plugin.version>2.0.0</jspc-maven-plugin.version>
+        <jspc-maven-plugin.version>2.0.2</jspc-maven-plugin.version>
         <license-maven-plugin.version>1.6.3</license-maven-plugin.version>
         <maven-clean-plugin.version>3.0.0</maven-clean-plugin.version>
-        <maven-compiler-plugin.version>3.3</maven-compiler-plugin.version>
+        <maven-compiler-plugin.version>3.5.1</maven-compiler-plugin.version>
         <maven-dependency-plugin.version>2.10</maven-dependency-plugin.version>
         <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
-        <maven-failsafe-plugin.version>2.19</maven-failsafe-plugin.version>
+        <maven-failsafe-plugin.version>2.19.1</maven-failsafe-plugin.version>
         <maven-install-plugin.version>2.5.2</maven-install-plugin.version>
-        <maven-jar-plugin.version>2.6</maven-jar-plugin.version>
-        <maven-javadoc-plugin.version>2.10.3</maven-javadoc-plugin.version>
+        <maven-jar-plugin.version>3.0.2</maven-jar-plugin.version>
+        <maven-javadoc-plugin.version>2.10.4</maven-javadoc-plugin.version>
         <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
-        <maven-resources-plugin.version>2.7</maven-resources-plugin.version>
+        <maven-resources-plugin.version>3.0.1</maven-resources-plugin.version>
         <maven-scm-provider-gitexe.version>1.9.4</maven-scm-provider-gitexe.version>
-        <maven-site-plugin.version>3.4</maven-site-plugin.version>
-        <maven-source-plugin.version>2.4</maven-source-plugin.version>
-        <maven-surefire-plugin.version>2.19</maven-surefire-plugin.version>
-        <maven-war-plugin.version>2.6</maven-war-plugin.version>
+        <maven-site-plugin.version>3.5.1</maven-site-plugin.version>
+        <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
+        <maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
+        <maven-war-plugin.version>3.0.0</maven-war-plugin.version>
         <tomcat-maven-plugin.version>2.2</tomcat-maven-plugin.version>
         <tomcat7-maven-plugin.version>${tomcat-maven-plugin.version}</tomcat7-maven-plugin.version>
         <xmlbeans-maven-plugin.version>2.3.3</xmlbeans-maven-plugin.version>
