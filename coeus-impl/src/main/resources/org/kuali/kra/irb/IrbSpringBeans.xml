@@ -1019,7 +1019,6 @@
             <property name="protocolSummaryViewPrint" ref="protocolSummaryViewPrint" />
             <property name="dateTimeService" ref="dateTimeService"/>
             <property name="kualiConfigurationService" ref="kualiConfigurationService" />
-            <property name="watermarkService" ref="watermarkService" />
         </bean>
 
     <bean id="watermarkService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">

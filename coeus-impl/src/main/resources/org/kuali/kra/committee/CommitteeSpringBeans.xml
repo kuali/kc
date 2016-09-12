@@ -56,7 +56,6 @@
 		<property name="protocolBatchCorrespondencePrint" ref="protocolBatchCorrespondencePrint" />
         <property name="dateTimeService" ref="dateTimeService"/>
         <property name="kualiConfigurationService" ref="kualiConfigurationService" />
-        <property name="watermarkService" ref="watermarkService" />
 	</bean>
 	<bean id="irbPrintXmlUtilService"
 		class="org.kuali.kra.committee.print.IrbPrintXmlUtilServiceImpl">
