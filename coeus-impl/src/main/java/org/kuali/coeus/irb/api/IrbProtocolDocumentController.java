@@ -166,7 +166,7 @@ public class IrbProtocolDocumentController extends RestController implements  In
             consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(value = HttpStatus.CREATED)
     @ResponseBody
-    IrbProtocolDto createProtocol(@RequestBody IrbProtocolDto protocolDto) throws WorkflowException, IllegalAccessException {
+    public IrbProtocolDto createProtocol(@RequestBody IrbProtocolDto protocolDto) throws WorkflowException, IllegalAccessException {
         commonApiService.clearErrors();
         ProtocolDocument protocolDocument = (ProtocolDocument) documentService.getNewDocument(ProtocolDocument.class);
         Protocol protocol = commonApiService.convertObject(protocolDto, Protocol.class);

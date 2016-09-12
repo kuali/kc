@@ -198,6 +198,7 @@ public class AwardController extends RestController implements InitializingBean 
     }
 
     protected AwardDto versionAward(AwardDto awardDto, Award awardToVersion) throws WorkflowException {
+        commonApiService.clearErrors();
         AwardDocument oldAwardDocument = (AwardDocument) commonApiService.getDocumentFromDocId(Long.parseLong(awardToVersion.getAwardDocument().getDocumentNumber()));
         String rootAwardNumber = awardService.getRootAwardNumber(awardToVersion.getAwardNumber());
         if(timeAndMoneyExistenceService.validateTimeAndMoneyRule(awardToVersion, rootAwardNumber)) {
@@ -243,7 +244,7 @@ public class AwardController extends RestController implements InitializingBean 
             consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(value = HttpStatus.CREATED)
     @ResponseBody
-    AwardDto createAward(@RequestBody AwardDto awardDto) throws WorkflowException, InvocationTargetException, IllegalAccessException {
+    public AwardDto createAward(@RequestBody AwardDto awardDto) throws WorkflowException, InvocationTargetException, IllegalAccessException {
         commonApiService.clearErrors();
         Award award = commonApiService.convertObject(awardDto, Award.class);
         defaultValues(award, awardDto);
@@ -374,6 +375,7 @@ public class AwardController extends RestController implements InitializingBean 
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     void deletePerson(@PathVariable Long awardId, @PathVariable Long id) throws WorkflowException {
+        commonApiService.clearErrors();
         AwardDocument awardDocument = getAwardDocumentById(awardId);
         if(awardDocument.getAward().getProjectPersons() != null) {
             AwardPerson person = getAwardPerson(id, awardDocument.getAward().getProjectPersons());
@@ -453,7 +455,7 @@ public class AwardController extends RestController implements InitializingBean 
         return awardDocument;
     }
 
-    protected AwardDocument getAwardDocumentById(Long awardId) {
+    public AwardDocument getAwardDocumentById(Long awardId) {
         Award award = awardDao.getAward(awardId);
         if(award == null) {
             throw new ResourceNotFoundException("Award with award id " + awardId + " not found.");

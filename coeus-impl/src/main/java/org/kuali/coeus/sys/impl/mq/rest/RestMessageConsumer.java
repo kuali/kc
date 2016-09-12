@@ -58,7 +58,7 @@ public class RestMessageConsumer implements MessageListener {
             LOG.debug("Consuming Message " + request);
         }
 
-        final String url = restDestinationRegistry.findUrl(request.getDestination());
+        final String url = retrieveUrl(request);
         if (StringUtils.isBlank(url)) {
             throw new IllegalStateException("url not found for destination " + request.getDestination());
         }
@@ -74,6 +74,10 @@ public class RestMessageConsumer implements MessageListener {
         final HttpMethod method = HttpMethod.valueOf(request.getMethod().name());
 
         makeCall(url, params, entity, method);
+    }
+
+    public String retrieveUrl(RestRequest request) {
+        return restDestinationRegistry.findUrl(request.getDestination());
     }
 
     protected void makeCall(String url, Map<String, List<String>> params, HttpEntity<String> entity, HttpMethod method) {

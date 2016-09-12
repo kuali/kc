@@ -102,7 +102,7 @@ public class InstitutionalProposalDocumentController extends RestController {
             consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(value = HttpStatus.CREATED)
     @ResponseBody
-    String createInstitutionalProposal(@RequestBody InstitutionalProposalDto ipDto, @RequestParam(value = "createProposalLog", required = false) boolean createProposalLog) throws WorkflowException, InvocationTargetException, IllegalAccessException {
+    public String createInstitutionalProposal(@RequestBody InstitutionalProposalDto ipDto, @RequestParam(value = "createProposalLog", required = false) boolean createProposalLog) throws WorkflowException, InvocationTargetException, IllegalAccessException {
         RestAuditLogger auditLogger = getRestAuditLoggerFactory().getNewAuditLogger(InstitutionalProposalDto.class, ipDtoProperties);
         getCommonApiService().clearErrors();
         InstitutionalProposal proposal = getCommonApiService().convertObject(ipDto, InstitutionalProposal.class);
@@ -164,7 +164,7 @@ public class InstitutionalProposalDocumentController extends RestController {
             consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(value = HttpStatus.CREATED)
     @ResponseBody
-    List<IpPersonDto> addProposalPersons(@RequestBody List<IpPersonDto> ipPersonDto, @PathVariable Long documentNumber) throws WorkflowException {
+    public List<IpPersonDto> addProposalPersons(@RequestBody List<IpPersonDto> ipPersonDto, @PathVariable Long documentNumber) throws WorkflowException {
         getCommonApiService().clearErrors();
         InstitutionalProposalDocument proposalDocument = (InstitutionalProposalDocument) getCommonApiService().getDocumentFromDocId(documentNumber);
         RestAuditLogger auditLogger = getRestAuditLoggerFactory().getNewAuditLogger(IpPersonDto.class, ipPersonDtoProperties);
