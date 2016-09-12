@@ -210,7 +210,7 @@
     			</property>
     		</activation>
     		<properties>
-    		    <frontend-maven-plugin.version>0.0.26</frontend-maven-plugin.version>
+    		    <frontend-maven-plugin.version>1.0</frontend-maven-plugin.version>
 		        <frontend-maven-plugin.node.version>v4.4.7</frontend-maven-plugin.node.version>
 		        <frontend-maven-plugin.npm.version>3.9.6</frontend-maven-plugin.npm.version>
 		        <jsfrontend.web.sources>${project.build.directory}/generated-web-sources/jsfrontend-web-sources</jsfrontend.web.sources>
@@ -315,7 +315,7 @@
         <profile>
             <id>precompile-jsp-tomcat-7</id>
             <properties>
-                <tomcat.version>7.0.64</tomcat.version>
+                <tomcat.version>7.0.57</tomcat.version>
             </properties>
             <build>
                 <plugins>

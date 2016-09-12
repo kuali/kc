@@ -23,7 +23,6 @@ import org.kuali.coeus.common.api.org.OrganizationContract;
 import org.kuali.coeus.common.api.org.OrganizationRepositoryService;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.rolodex.RolodexService;
-import org.kuali.coeus.common.framework.org.OrganizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -34,10 +33,6 @@ public class OrganizationRepositoryServiceImpl implements OrganizationRepository
     @Autowired
     @Qualifier("rolodexService")
     private RolodexService rolodexService;
-
-    @Autowired
-    @Qualifier("organizationService")
-    private OrganizationService organizationService;
 
     @Override
     public String getCognizantFedAgency(OrganizationContract organization) {
@@ -67,28 +62,11 @@ public class OrganizationRepositoryServiceImpl implements OrganizationRepository
         return fedAgency.toString();
     }
 
-    @Override
-    public OrganizationContract getOrganization(String organizationId) {
-        if (StringUtils.isBlank(organizationId)) {
-            throw new IllegalArgumentException("organizationId is blank");
-        }
-
-        return organizationService.getOrganization(organizationId);
-    }
-
     public RolodexService getRolodexService() {
         return rolodexService;
     }
 
     public void setRolodexService(RolodexService rolodexService) {
         this.rolodexService = rolodexService;
-    }
-
-    public OrganizationService getOrganizationService() {
-        return organizationService;
-    }
-
-    public void setOrganizationService(OrganizationService organizationService) {
-        this.organizationService = organizationService;
     }
 }
