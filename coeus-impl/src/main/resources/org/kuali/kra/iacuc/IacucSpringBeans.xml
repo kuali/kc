@@ -1048,7 +1048,6 @@
         <property name="protocolSummaryViewPrint" ref="iacucProtocolSummaryViewPrint" />
         <property name="dateTimeService" ref="dateTimeService"/>
         <property name="kualiConfigurationService" ref="kualiConfigurationService" />
-        <property name="watermarkService" ref="watermarkService" />
     </bean>
 
     <bean id="watermarkService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
