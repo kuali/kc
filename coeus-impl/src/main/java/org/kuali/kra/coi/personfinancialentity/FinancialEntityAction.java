@@ -24,7 +24,6 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.framework.attachment.AttachmentFile;
 import org.kuali.coeus.common.framework.print.util.PrintingUtils;
-import org.kuali.coeus.common.framework.print.watermark.WatermarkService;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.common.api.sponsor.SponsorContract;
@@ -337,10 +336,6 @@ public class FinancialEntityAction extends KualiAction {
 
     protected CoiPrintingService getCoiPrintingService() {
         return  KcServiceLocator.getService(CoiPrintingService.class);
-    }
-    
-    protected WatermarkService getWatermarkService() {
-        return  KcServiceLocator.getService(WatermarkService.class);
     }
 
     protected static String getValidHeaderString(String s) {
