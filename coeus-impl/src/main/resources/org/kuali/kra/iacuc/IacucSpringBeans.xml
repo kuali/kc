@@ -1050,10 +1050,6 @@
         <property name="kualiConfigurationService" ref="kualiConfigurationService" />
     </bean>
 
-    <bean id="watermarkService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="watermarkService" />
-    </bean>
-
     <bean id="iacucProtocolQuestionnairePrintingService"
         class="org.kuali.kra.iacuc.actions.print.IacucProtocolQuestionnairePrintingServiceImpl" scope="prototype">
         <property name="businessObjectService" ref="businessObjectService" />

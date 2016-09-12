@@ -177,10 +177,6 @@
         <property name="kualiConfigurationService" ref="kualiConfigurationService" />
 	</bean>
 
-    <bean id="watermarkService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="watermarkService" />
-    </bean>
-
 	<bean id="iacucCommitteeTemplatePrint" class="org.kuali.kra.iacuc.committee.print.IacucCommitteeTemplatePrint"
 		scope="prototype" parent="templatePrint">
 		<property name="xmlStream" ref="iacucCommitteeXmlStream" />

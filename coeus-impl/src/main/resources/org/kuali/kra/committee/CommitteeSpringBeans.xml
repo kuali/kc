@@ -182,10 +182,6 @@
     <bean id="versioningService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="versioningService" />
     </bean>
-
-    <bean id="watermarkService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="watermarkService" />
-    </bean>
 	
 	<bean id="committeeService"
 		class="org.kuali.kra.committee.service.impl.CommitteeServiceImpl">
