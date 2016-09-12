@@ -1,6 +1,29 @@
 
 
 ##CURRENT
+* Exclude dependency (#1965)
+
+  * Gayathri Athreya on Mon, 12 Sep 2016 12:46:54 -0700 [View Commit](../../commit/4b7fc2fdc6d14a648b4c26ed6a37a06a4b1d1f7a)
+* RESKC-1563: add missing KC-SUBAWARD/All component
+  * Travis Schneeberger on Mon, 12 Sep 2016 15:44:33 -0400 [View Commit](../../commit/037e08dc249e8ec8d8f68e2f7b59e5c20d31abdc)
+* Added base test code and a PD test. (#1958)
+
+* Added base test code and a PD test.
+  * 
+* Refactored and added award test.
+  * 
+* Add IP tests.
+  * 
+* Fix dependency issues
+  * 
+* Added IRB tests and refactored other tests
+  * 
+* IACUC tests
+  * Gayathri Athreya on Mon, 12 Sep 2016 10:42:01 -0700 [View Commit](../../commit/f33a96b8dbdd6dd7b146291e3bab350f33db678c)
+* RESKC-1563: adding updated templates and mappings, adding tests
+  * Travis Schneeberger on Fri, 9 Sep 2016 13:45:32 -0400 [View Commit](../../commit/46f0c05d30a36096abad5fd1aa04c85a5f1a6db3)
+
+##coeus-1609.0018
 * RESKC-1688: Better error handling and return doc status (#1960)
 
   * Gayathri Athreya on Sat, 10 Sep 2016 16:28:58 -0700 [View Commit](../../commit/493dc2c993ec6768ced1cca494d757ab132f8f15)

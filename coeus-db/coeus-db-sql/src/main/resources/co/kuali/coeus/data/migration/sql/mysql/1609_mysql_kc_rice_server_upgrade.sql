@@ -18,7 +18,6 @@
 --
 
 
-\. ./kc/bootstrap/V1609_001__subaward_modification_type2.sql
-\. ./kc/bootstrap/V1609_002__training_module_code.sql
-\. ./kc/bootstrap/V1609_004__fdp_form_update.sql
+\. ./rice/bootstrap/V1609_003__fdp_flags.sql
+\. ./rice/bootstrap/V1609_005__add_subaward_component.sql
 commit;

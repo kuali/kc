@@ -17,8 +17,10 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
+set define off
+set sqlblanklines on
 
-\. ./kc/bootstrap/V1609_001__subaward_modification_type2.sql
-\. ./kc/bootstrap/V1609_002__training_module_code.sql
-\. ./kc/bootstrap/V1609_004__fdp_form_update.sql
+spool 1609_oracle_kc_rice_server_upgrade.sql.log
+@./rice/bootstrap/V1609_003__fdp_flags.sql
+@./rice/bootstrap/V1609_005__add_subaward_component.sql
 commit;
