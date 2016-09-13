@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1563: update parameter descriptions for FDP reporting
+  * Travis Schneeberger on Tue, 13 Sep 2016 11:18:15 -0400 [View Commit](../../commit/4741c4f462af7bb964f2daa97d2bb7486c291f72)
+
+##coeus-1609.0021
 * No Changes
 
 
