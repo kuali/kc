@@ -661,6 +661,7 @@
                 <value>classpath:org/kuali/coeus/common/budget/impl/personnel/TbnPerson.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/TimeAndMoneyDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/Training.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/TrainingModule.xml</value>
                 <value>classpath:org/kuali/coeus/common/budget/impl/rate/TrainingStipendRate.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/TransactionDetail.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/unit/Unit.xml</value>
@@ -935,6 +936,7 @@
                 <value>classpath:org/kuali/kra/datadictionary/docs/SubAwardTemplateTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/common/budget/impl/personnel/TbnPersonMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/TrainingMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/docs/TrainingModuleMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/common/budget/impl/rate/TrainingStipendRateMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/unit/admin/UnitAdministratorMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/unit/admin/UnitAdministratorTypeMaintenanceDocument.xml</value>

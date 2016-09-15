@@ -22,16 +22,16 @@ package org.kuali.kra.bo;
 import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
-public class Training extends KcPersistableBusinessObjectBase {
+public class TrainingModule extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 1L;
 
     private Integer trainingCode;
-    private String description;
+    private String moduleCode;
+    private CoeusModule coeusModule;
+    private Training training;
+    private Integer id;
 
-
-    public Training() {
-    }
 
     public Integer getTrainingCode() {
         return trainingCode;
@@ -41,12 +41,35 @@ public class Training extends KcPersistableBusinessObjectBase {
         this.trainingCode = trainingCode;
     }
 
-    public String getDescription() {
-        return description;
+    public String getModuleCode() {
+        return moduleCode;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setModuleCode(String moduleCode) {
+        this.moduleCode = moduleCode;
     }
 
+    public CoeusModule getCoeusModule() {
+        return coeusModule;
+    }
+
+    public void setCoeusModule(CoeusModule coeusModule) {
+        this.coeusModule = coeusModule;
+    }
+
+    public Training getTraining() {
+        return training;
+    }
+
+    public void setTraining(Training training) {
+        this.training = training;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 }

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - Kuali Coeus, a comprehensive research administration system for higher education.
+   - 
+   - Copyright 2005-2016 Kuali, Inc.
+   - 
+   - This program is free software: you can redistribute it and/or modify
+   - it under the terms of the GNU Affero General Public License as
+   - published by the Free Software Foundation, either version 3 of the
+   - License, or (at your option) any later version.
+   - 
+   - This program is distributed in the hope that it will be useful,
+   - but WITHOUT ANY WARRANTY; without even the implied warranty of
+   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   - GNU Affero General Public License for more details.
+   - 
+   - You should have received a copy of the GNU Affero General Public License
+   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="TrainingModule" parent="TrainingModule-parentBean" />
+    <bean id="TrainingModule-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.bo.TrainingModule" />
+		<property name="objectLabel" value="TrainingModule" />
+        <property name="inquiryDefinition" >
+            <ref bean="TrainingModule-inquiryDefinition" />
+        </property>
+        <property name="lookupDefinition" >
+            <ref bean="TrainingModule-lookupDefinition" />
+        </property>
+        <property name="titleAttribute" value="trainingCode" />
+        <property name="attributes" >
+            <list>
+                <ref bean="TrainingModule-trainingCode" />
+                <ref bean="TrainingModule-moduleCode" />
+                <ref bean="TrainingModule-versionNumber" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    <bean id="TrainingModule-trainingCode" parent="TrainingModule-trainingCode-parentBean" />
+    <bean id="TrainingModule-trainingCode-parentBean" abstract="true" parent="Training-trainingCode-parentBean" />
+
+    <bean id="TrainingModule-moduleCode" parent="TrainingModule-moduleCode-parentBean" />
+    <bean id="TrainingModule-moduleCode-parentBean" abstract="true" parent="CoeusModule-moduleCode">
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.coeus.common.framework.module.CoeusModule"
+                  p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+                  p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="moduleCode" p:labelAttribute="description"/>
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+                <property name="businessObjectClass" value="org.kuali.coeus.common.framework.module.CoeusModule"/>
+                <property name="includeKeyInDescription" value="false"/>
+                <property name="includeBlankRow" value="false"/>
+                <property name="keyAttributeName" value="moduleCode"/>
+                <property name="labelAttributeName" value="description"/>
+            </bean>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-DropdownControl"/>
+        </property>
+        <property name="summary" value="Module Code" />
+        <property name="description" value="Module Code" />
+    </bean>
+
+    <bean id="TrainingModule-versionNumber" parent="TrainingModule-versionNumber-parentBean" />
+    <bean id="TrainingModule-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
+    <!-- Business Object Inquiry Definition -->
+    <bean id="TrainingModule-inquiryDefinition" parent="TrainingModule-inquiryDefinition-parentBean" />
+    <bean id="TrainingModule-InquiryView" parent="TrainingModule-InquiryView-parentBean"/>
+    <bean id="TrainingModule-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Training Code" />
+        <property name="inquirySections" >
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Training Code" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields" >
+                        <list>
+              <bean parent="FieldDefinition" p:attributeName="trainingCode" p:forceInquiry="true"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="TrainingModule-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Training Code"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.TrainingModule"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Training Code"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="trainingCode" parent="Uif-DataField"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+    <bean id="TrainingModule-lookupDefinition" parent="TrainingModule-lookupDefinition-parentBean" />
+  <bean id="TrainingModule-LookupView" parent="TrainingModule-LookupView-parentBean"/>
+    <bean id="TrainingModule-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Training Modules Lookup" /><property name="defaultSort" >
+      <bean parent="SortDefinition"/>
+        </property>
+        <property name="lookupFields" >
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="trainingCode" p:forceInquiry="true"/>
+                <bean parent="FieldDefinition" p:attributeName="moduleCode"/>
+            </list>
+        </property>
+        <property name="resultFields" >
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="trainingCode" p:forceInquiry="true"/>
+                <bean parent="FieldDefinition" p:attributeName="moduleCode"/>
+            </list>
+        </property>
+    </bean>
+
+  <bean id="TrainingModule-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.TrainingModule"/>
+    <property name="headerText" value="Training Module Lookup"/>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="trainingCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="moduleCode" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="trainingCode" parent="Uif-DataField"/>
+        <bean p:propertyName="moduleCode" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
+</beans>

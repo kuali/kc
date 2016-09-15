@@ -19,13 +19,13 @@
  -->
  <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-    <bean id="TrainingMaintenanceDocument" parent="TrainingMaintenanceDocument-parentBean"/>
-    <bean id="TrainingMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.bo.Training"/>
+    <bean id="TrainingModuleMaintenanceDocument" parent="TrainingModuleMaintenanceDocument-parentBean"/>
+    <bean id="TrainingModuleMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.bo.TrainingModule"/>
         <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
         <property name="maintainableSections">
             <list>
-                <ref bean="TrainingMaintenanceDocument-EditTraining"/>
+                <ref bean="TrainingModuleMaintenanceDocument-EditTrainingModule"/>
             </list>
         </property>
         <property name="lockingKeys">
@@ -34,19 +34,20 @@
             </list>
         </property>
 		<property name="allowsRecordDeletion" value="true" />
-        <property name="documentTypeName" value="TrainingMaintenanceDocument"/>
+        <property name="documentTypeName" value="TrainingModuleMaintenanceDocument"/>
         <property name="documentAuthorizerClass" value="org.kuali.coeus.common.impl.person.attr.TrainingMaintenanceDocumentAuthorizer"/>
+        <property name="businessRulesClass" value="org.kuali.kra.bo.rule.TrainingModuleMaintenanceDocumentRule"/>
     </bean>
 
     <!-- Maintenance Section Definitions -->
-    <bean id="TrainingMaintenanceDocument-EditTraining" parent="TrainingMaintenanceDocument-EditTraining-parentBean"/>
-    <bean id="TrainingMaintenanceDocument-EditTraining-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-        <property name="id" value="Edit Training"/>
-        <property name="title" value="Edit Training"/>
+    <bean id="TrainingModuleMaintenanceDocument-EditTrainingModule" parent="TrainingModuleMaintenanceDocument-EditTrainingModule-parentBean"/>
+    <bean id="TrainingModuleMaintenanceDocument-EditTrainingModule-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+        <property name="id" value="Edit Training Module"/>
+        <property name="title" value="Edit Training Module"/>
         <property name="maintainableItems">
             <list>
                 <bean parent="MaintainableFieldDefinition" p:name="trainingCode" p:required="true"/>
-                <bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="moduleCode" p:required="false"/>
                 <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
             </list>
         </property>
