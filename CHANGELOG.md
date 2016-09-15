@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1475: fixing spelling error on medusa screen
+  * Travis Schneeberger on Thu, 15 Sep 2016 15:44:36 -0400 [View Commit](../../commit/e593f3dc5cbddd189057a2c59d33e8486f48df6e)
+
+##coeus-1609.0024
 * No Changes
 
 
