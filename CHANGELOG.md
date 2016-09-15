@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* Training doc changes. (#1973)
+
+  * Gayathri Athreya on Thu, 15 Sep 2016 14:26:09 -0700 [View Commit](../../commit/1f9549e3e687d523269ff439df9e01c489e16c14)
+* RESKC-1679: Award hierarchy endpoints and tests. (#1972)
+
+  * Gayathri Athreya on Thu, 15 Sep 2016 14:19:51 -0700 [View Commit](../../commit/54cebb0e94cecc095bf9e84d51bda80bc51d2b5e)
+
+##coeus-1609.0025
 * RESKC-1475: fixing spelling error on medusa screen
   * Travis Schneeberger on Thu, 15 Sep 2016 15:44:36 -0400 [View Commit](../../commit/e593f3dc5cbddd189057a2c59d33e8486f48df6e)
 
