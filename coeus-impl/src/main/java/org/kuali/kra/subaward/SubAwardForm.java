@@ -83,7 +83,7 @@ implements PermissionsForm, Auditable, CustomDataDocumentForm {
     private SubAwardFfataReporting newSubAwardFfataReporting;
     private SubAwardPrintAgreement subAwardPrintAgreement;
     private SubAwardForms subAwardForms;
-    private SubAward subAward;
+
     private transient ParameterService parameterService;
    
 
@@ -127,10 +127,12 @@ implements PermissionsForm, Auditable, CustomDataDocumentForm {
 		this.newFile = newFile;
 	}
 
+	@Override
 	public boolean isAuditActivated() {
 		return auditActivated;
 	}
 
+	@Override
 	public void setAuditActivated(boolean auditActivated) {
 		this.auditActivated = auditActivated;
 	}
@@ -169,6 +171,7 @@ implements PermissionsForm, Auditable, CustomDataDocumentForm {
 		this.newSubAwardAmountReleased = newSubAwardAmountReleased;
 	}
 
+    @Override
 	public CustomDataHelper getCustomDataHelper() {
 		return customDataHelper;
 	}
@@ -184,10 +187,6 @@ implements PermissionsForm, Auditable, CustomDataDocumentForm {
 
     public void setNotificationHelper(NotificationHelper<SubAwardNotificationContext> notificationHelper) {
         this.notificationHelper = notificationHelper;
-    }
-
-    public void setSubAward(SubAward subAward) {
-        this.subAward = subAward;
     }
 
 	public SubAwardForm() {
@@ -362,9 +361,8 @@ implements PermissionsForm, Auditable, CustomDataDocumentForm {
         return extraButtons;
     }
     
-    /*
-     * returns flag indicating if edit button should be displayed at bottom of form 
-     * 
+    /**
+     * returns flag indicating if edit button should be displayed at bottom of form
      */
     public boolean getDisplayEditButton() {
         return !getSubAwardDocument().getDocumentHeader().getWorkflowDocument().isCanceled() && VersionStatus.ACTIVE.toString().equals(getSubAwardDocument().getSubAward().getSubAwardSequenceStatus());

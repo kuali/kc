@@ -34,18 +34,12 @@ import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.kra.subaward.subawardrule.events.AddSubAwardAttachmentEvent;
 
 import java.util.Collections;
 
 import static org.kuali.kra.infrastructure.KeyConstants.*;
 
-/**
- * This class is for rule validation while
- * subAwardDocumentRule is used...
- */
 public class SubAwardDocumentRule extends
         KcTransactionalDocumentRuleBase implements SubAwardRule,
 SubAwardAmountInfoRule,
@@ -83,25 +77,13 @@ SubAwardFfataReportingRule {
     public static final String DESCRIPTION = ".description";
     public static final String SUB_AWARD_ATTACHMENT_TYPE_CODE = ".subAwardAttachmentTypeCode";
 
-    /**.
-     * This method is for AddSubAwardBusinessRules
-     * @param subAward
-     * @return rulePassed boolean...
-     */
-    public boolean processAddSubAwardBusinessRules(SubAward subAward) {
 
-        boolean rulePassed = true;
-        rulePassed &= processSaveSubAwardBusinessRules(subAward, NEW_SUBAWARD);
-        return rulePassed;
-}
-    /**.
-     * This method is for SaveSubAwardBusinessRules
-     * @param subAward
-     * @param propertyPrefix
-     * @return  boolean...
-     */
-    protected boolean  processSaveSubAwardBusinessRules(
-    SubAward subAward,String propertyPrefix){
+    @Override
+    public boolean processAddSubAwardBusinessRules(SubAward subAward) {
+        return processSaveSubAwardBusinessRules(subAward, NEW_SUBAWARD);
+    }
+
+    protected boolean  processSaveSubAwardBusinessRules(SubAward subAward,String propertyPrefix){
      
         boolean rulePassed = true;
 
@@ -129,11 +111,11 @@ SubAwardFfataReportingRule {
             }
             else {
                 reportError(propertyPrefix + REQUISITIONER,
-                        KeyConstants.ERROR_INVALID_REQUISITIONER, new String[] {subAward.getRequisitionerUserName()});
+                        KeyConstants.ERROR_INVALID_REQUISITIONER, subAward.getRequisitionerUserName());
             }
         }  
         if(subAward.getRequisitionerUnit() != null){
-            Unit leadUnit = (Unit) getBusinessObjectService().findByPrimaryKey(Unit.class, Collections.singletonMap("unitNumber", subAward.getRequisitionerUnit()));
+            Unit leadUnit = getBusinessObjectService().findByPrimaryKey(Unit.class, Collections.singletonMap("unitNumber", subAward.getRequisitionerUnit()));
             if(leadUnit == null)
                 reportError(propertyPrefix+REQUISITIONER_UNIT
                         , KeyConstants.ERROR_REQUIRED_REQUISITIONER_UNIT); 
@@ -154,23 +136,20 @@ SubAwardFfataReportingRule {
         if (subAward.getSiteInvestigator() == null && subAward.getSiteInvestigatorId() != null) {
             rulePassed = false;               
             reportError(propertyPrefix + SITEINVESTIGATOR, 
-                    KeyConstants.ERROR_INVALID_SITEINVESTIGATOR_ID, new String[] {subAward.getSiteInvestigatorId().toString()});          
+                    KeyConstants.ERROR_INVALID_SITEINVESTIGATOR_ID, subAward.getSiteInvestigatorId());
         }
         if (subAward.getOrganizationId() != null) { 
             if (subAward.getOrganization() == null) {
                 rulePassed = false;               
-                reportError(propertyPrefix + SUBCONTRACTOR_ID, KeyConstants.ERROR_INVALID_SUBRECIPIENT_ID, new String[] {subAward.getOrganizationId()});
+                reportError(propertyPrefix + SUBCONTRACTOR_ID, KeyConstants.ERROR_INVALID_SUBRECIPIENT_ID, subAward.getOrganizationId());
             }           
         }
         return rulePassed;
     }
 
+    @Override
     public boolean processAddSubAwardAmountInfoBusinessRules(SubAwardAmountInfo amountInfo,SubAward subAward) {
-        boolean rulePassed = true; 
-        
-        GlobalVariables.getMessageMap().addToErrorPath("newSubAwardAmountInfo");
-        rulePassed &= getDictionaryValidationService().isBusinessObjectValid(amountInfo); 
-        GlobalVariables.getMessageMap().removeFromErrorPath("newSubAwardAmountInfo");
+        boolean rulePassed = getDictionaryValidationService().isBusinessObjectValid(amountInfo, "newSubAwardAmountInfo");
         
         ScaleTwoDecimal obligatedAmount = subAward.getTotalObligatedAmount();
         if (amountInfo.getObligatedChange() != null) {
@@ -209,6 +188,7 @@ SubAwardFfataReportingRule {
         return rulePassed;
     }
 
+    @Override
     public boolean processAddSubAwardContactBusinessRules(SubAwardContact subAwardContact,SubAward subAward) {
         boolean rulePassed = true;          
         
@@ -233,17 +213,15 @@ SubAwardFfataReportingRule {
                 if(contactName == null){
                     contactName = contact.getRolodex().getOrganization();
                 }               
-                reportError(ROLODEX_ID, KeyConstants.ERROR_REQUIRED_SUBAWARD_CONTACT_PERSON_EXIST, new String[] {contactName});  
+                reportError(ROLODEX_ID, KeyConstants.ERROR_REQUIRED_SUBAWARD_CONTACT_PERSON_EXIST, contactName);
             }
         }
         return rulePassed;
     }
 
+    @Override
     public boolean processAddSubAwardCloseoutBusinessRules(SubAwardCloseout subAwardCloseout) {
-        boolean rulePassed = true;
-        rulePassed &= processSaveSubAwardCloseoutBusinessRules(subAwardCloseout);
-        
-        return rulePassed;
+        return processSaveSubAwardCloseoutBusinessRules(subAwardCloseout);
     }
     protected boolean  processSaveSubAwardCloseoutBusinessRules(SubAwardCloseout subAwardCloseout){
         boolean rulePassed = true;   
@@ -266,15 +244,10 @@ SubAwardFfataReportingRule {
         
         return rulePassed;
     }
-    
-    
-    
 
+    @Override
     public boolean processAddSubAwardFundingSourceBusinessRules(SubAwardFundingSource subAwardFundingSource,SubAward subAward) {
-        boolean rulePassed = true;
-        rulePassed &= processSaveSubAwardFundingSourceBusinessRules(subAwardFundingSource,subAward);
-        
-        return rulePassed;
+        return processSaveSubAwardFundingSourceBusinessRules(subAwardFundingSource,subAward);
     }
     protected boolean processSaveSubAwardFundingSourceBusinessRules(SubAwardFundingSource subAwardFundingSource,SubAward subAward){
         boolean rulePassed = true;   
@@ -292,7 +265,7 @@ SubAwardFfataReportingRule {
                     AwardService awardService = KcServiceLocator.getService(AwardService.class);
                     Award award = awardService.getAward(fundingSource.getAwardId());
                     
-                    reportError(AWARD_NUMBER, KeyConstants.ERROR_REQUIRED_SUBAWARD_FUNDING_SOURCE_AWARD_NUMBER_DUPLICATE, new String[] {award.getAwardNumber()});
+                    reportError(AWARD_NUMBER, KeyConstants.ERROR_REQUIRED_SUBAWARD_FUNDING_SOURCE_AWARD_NUMBER_DUPLICATE, award.getAwardNumber());
                 }
             }
         }
@@ -311,23 +284,14 @@ SubAwardFfataReportingRule {
     
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
-        if (!(document instanceof SubAwardDocument)) {
-            return false;
-        }
-
-        MessageMap errorMap = GlobalVariables.getMessageMap();
-
-        return true;
+        return document instanceof SubAwardDocument;
     }
     
     public boolean processRules(KcDocumentEventBaseExtension event) {
-        boolean retVal = false;
-        retVal = event.getRule().processRules(event);
-        return retVal;
+        return event.getRule().processRules(event);
     }
-    /**
-     * @see org.kuali.kra.subaward.subawardrule.AddSubAwardAttachmentRule#processsAddSubawardAttachmentRule(org.kuali.kra.subaward.subawardrule.events.AddSubAwardAttachmentEvent)
-     */
+
+    @Override
     public boolean processsAddSubawardAttachmentRule(AddSubAwardAttachmentEvent event) {
         boolean valid = true;
         
@@ -352,6 +316,7 @@ SubAwardFfataReportingRule {
        return valid;
     }
 
+    @Override
     public boolean processApplySubawardAttachmentModificationRule(AddSubAwardAttachmentEvent event) {
         boolean valid = true;
         if( StringUtils.isBlank(event.getSubAwardAttachments().getSubAwardAttachmentTypeCode())) {
@@ -379,17 +344,16 @@ SubAwardFfataReportingRule {
         return valid;
         
     }
+
+    @Override
     public boolean processAddSubAwardTemplateInfoBusinessRules(SubAward subAward) {
-        boolean rulePassed = true;
-        rulePassed &= processSaveSubAwardTemplateInfoBusinessRules(subAward);
-        
-        return rulePassed;
+
+        return processSaveSubAwardTemplateInfoBusinessRules(subAward);
     }
     protected boolean processSaveSubAwardTemplateInfoBusinessRules(SubAward subAward){
-        boolean rulePassed = true;   
+        boolean rulePassed = true;
         for (SubAwardTemplateInfo subAwardTemplateInfo : subAward.getSubAwardTemplateInfo()) {
-          if (subAward!=null 
-                && ((subAwardTemplateInfo.getAutomaticCarryForward()!=null) && (subAwardTemplateInfo.getAutomaticCarryForward().equals("Y")))) {
+          if (((subAwardTemplateInfo.getAutomaticCarryForward()!=null) && (subAwardTemplateInfo.getAutomaticCarryForward().equals("Y")))) {
              if (subAwardTemplateInfo.getCarryForwardRequestsSentTo()==null) {
                 rulePassed = false;            
                 LOG.debug(ERROR_REQUIRED_SUBAWARD_TEMPLATE_INFO_CARRY_FORWARD_REQUESTS_SENT_TO);
