@@ -50,7 +50,12 @@ public interface KcNotificationService {
      * @return The Notification Type
      */
     NotificationType getNotificationType(String moduleCode, String actionCode);
-    
+
+
+    boolean isNotificationTypeActive(NotificationContext context);
+
+    boolean isNotificationTypeActive(String moduleCode, String actionTypeCode);
+
     /**
      * Creates a KC Notification based on the Notification Context.  The Notification Type associated with the Module Code and Action Code is 
      * retrieved from persistent storage and translated into a context-specific KC Notification instance based on the Notification Context.

@@ -113,7 +113,7 @@ public class KcNotificationServiceImpl implements KcNotificationService {
     public NotificationType getNotificationType(NotificationContext context) {
         return getNotificationType(context.getModuleCode(), context.getActionTypeCode());
     }
-    
+
     @Override
     public NotificationType getNotificationType(String moduleCode, String actionTypeCode) {
         NotificationType notificationType = null;
@@ -130,6 +130,20 @@ public class KcNotificationServiceImpl implements KcNotificationService {
         }
         
         return notificationType;
+    }
+
+    @Override
+    public boolean isNotificationTypeActive(NotificationContext context) {
+        return isNotificationTypeActive(context.getModuleCode(), context.getActionTypeCode());
+    }
+
+    @Override
+    public boolean isNotificationTypeActive(String moduleCode, String actionTypeCode) {
+        Map<String, String> fieldValues = new HashMap<>();
+        fieldValues.put(MODULE_CODE, moduleCode);
+        fieldValues.put(ACTION_CODE, actionTypeCode);
+        fieldValues.put(ACTIVE, TRUE);
+        return getBusinessObjectService().countMatching(NotificationType.class, fieldValues) > 0;
     }
 
     @Override

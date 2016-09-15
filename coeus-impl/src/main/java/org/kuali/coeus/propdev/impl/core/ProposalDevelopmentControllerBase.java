@@ -650,11 +650,13 @@ public abstract class ProposalDevelopmentControllerBase {
             String proxyId = getGlobalVariableService().getUserSession().getPrincipalId();
             if (!StringUtils.equals(person.getPersonId(), proxyId) && recentlyCompleted) {
                 ProposalDevelopmentNotificationContext context = new ProposalDevelopmentNotificationContext(developmentProposal,"106","Proposal Person Certification Completed");
-                ((ProposalDevelopmentNotificationRenderer) context.getRenderer()).setDevelopmentProposal(developmentProposal);
-                KcNotification notification = getKcNotificationService().createNotificationObject(context);
-                NotificationTypeRecipient recipient = new NotificationTypeRecipient();
-                recipient.setPersonId(person.getPersonId());
-                getKcNotificationService().sendNotification(context,notification,Collections.singletonList(recipient));
+                if (getKcNotificationService().isNotificationTypeActive(context)) {
+                    ((ProposalDevelopmentNotificationRenderer) context.getRenderer()).setDevelopmentProposal(developmentProposal);
+                    KcNotification notification = getKcNotificationService().createNotificationObject(context);
+                    NotificationTypeRecipient recipient = new NotificationTypeRecipient();
+                    recipient.setPersonId(person.getPersonId());
+                    getKcNotificationService().sendNotification(context, notification, Collections.singletonList(recipient));
+                }
             }
         }
     }
