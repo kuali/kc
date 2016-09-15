@@ -43,7 +43,7 @@
       <td><c:out value="${node.bo.negotiationStatus.description}"/></td>
     </tr>
     <tr>
-      <th style="text-align: right;">Negotiatior:</th>
+      <th style="text-align: right;">Negotiator:</th>
       <td><c:out value="${node.bo.negotiator.userName}"/></td>
       <th style="text-align: right;">Negotiation Start Date:</th>
       <td><fmt:formatDate pattern="MM/dd/yyyy" value="${node.bo.negotiationStartDate}"/></td>
