@@ -23,14 +23,12 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.history.VersionHistory;
+import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.subaward.SubAwardForm;
-import org.kuali.kra.subaward.bo.SubAward;
-import org.kuali.kra.subaward.bo.SubAwardCloseout;
-import org.kuali.kra.subaward.bo.SubAwardContact;
-import org.kuali.kra.subaward.bo.SubAwardForms;
-import org.kuali.kra.subaward.bo.SubAwardFundingSource;
+import org.kuali.kra.subaward.bo.*;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.kra.subaward.subawardrule.SubAwardDocumentRule;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -182,7 +180,7 @@ public class SubAwardHomeAction extends SubAwardAction{
     /**
      * This method process the edit pending version prompt.
      * @param mapping
-     * @param form
+
      * @param request
      * @param response
      * @return ActionForward
@@ -471,4 +469,61 @@ public ActionForward deselectAllSubAwardPrintNoticeItems(ActionMapping mapping, 
     return mapping.findForward(Constants.MAPPING_SUBAWARD_PAGE);
 }
 
+    public ActionForward addFfataReport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        SubAwardForm subAwardForm = (SubAwardForm) form;
+        SubAward subAward = subAwardForm.getSubAwardDocument().getSubAward();
+        SubAwardFfataReporting ffataReporting = subAwardForm.getNewSubAwardFfataReporting();
+        ffataReporting.setSubAwardId(subAward.getSubAwardId());
+
+        if (ffataReporting.getSubAwardAmountInfoId() != null &&
+                (ffataReporting.getSubAwardAmountInfo() == null ||
+                        (ffataReporting.getSubAwardAmountInfo() != null &&
+                                !ffataReporting.getSubAwardAmountInfoId().equals(ffataReporting.getSubAwardAmountInfo().getSubAwardAmountInfoId())))) {
+            ffataReporting.refreshReferenceObject("subAwardAmountInfo");
+        }
+
+        if (new SubAwardDocumentRule().processAddSubAwardFfataReportingBusinessRules(ffataReporting, subAward)) {
+            addFfataReportToSubAward(subAwardForm.getSubAwardDocument().getSubAward(), ffataReporting);
+            subAwardForm.setNewSubAwardFfataReporting(new SubAwardFfataReporting());
+        }
+        return mapping.findForward(Constants.MAPPING_SUBAWARD_PAGE);
+    }
+
+
+    private boolean addFfataReportToSubAward(SubAward subAward, SubAwardFfataReporting ffataReporting) {
+        ffataReporting.populateAttachment();
+        ffataReporting.setSubAwardId(subAward.getSubAwardId());
+        return subAward.getSubAwardFfataReporting().add(ffataReporting);
+    }
+
+
+    public ActionForward deleteFfataReport(ActionMapping mapping,
+                                             ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        SubAwardForm subAwardForm = (SubAwardForm) form;
+        SubAwardDocument subAwardDocument = subAwardForm.getSubAwardDocument();
+        int selectedLineNumber = getSelectedLine(request);
+
+        subAwardDocument.getSubAward().
+                getSubAwardFfataReporting().remove(selectedLineNumber);
+
+        return mapping.findForward(Constants.MAPPING_SUBAWARD_PAGE);
+    }
+
+    public ActionForward downloadFfataReportAttachment(
+            ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        final SubAwardForm subAwardForm = (SubAwardForm) form;
+        final SubAwardDocument subAwardDocument = subAwardForm.getSubAwardDocument();
+        final Integer index = getSelectedLine(request);
+
+        if (CollectionUtils.validIndexForList(index, subAwardDocument.getSubAwardList().get(0).getSubAwardFfataReporting())) {
+            KcFile report = subAwardDocument.getSubAwardList().get(0).getSubAwardFfataReporting().get(index);
+            if (report != null && report.getData() != null) {
+                this.streamToResponse(report.getData(),
+                        getValidHeaderString(report.getName()), getValidHeaderString(report.getType()), response);
+            }
+        }
+        return null;
+    }
 }

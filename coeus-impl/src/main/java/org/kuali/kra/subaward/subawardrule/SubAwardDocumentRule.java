@@ -38,12 +38,9 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.kra.subaward.subawardrule.events.AddSubAwardAttachmentEvent;
 
-import static org.kuali.kra.infrastructure.KeyConstants.SUBAWARD_ATTACHMENT_FILE_REQUIRED;
-import static org.kuali.kra.infrastructure.KeyConstants.SUBAWARD_ATTACHMENT_TYPE_CODE_REQUIRED;
-import static org.kuali.kra.infrastructure.KeyConstants.SUBAWARD_ATTACHMENT_DESCRIPTION_REQUIRED;
-import static org.kuali.kra.infrastructure.KeyConstants.ERROR_REQUIRED_SUBAWARD_TEMPLATE_INFO_CARRY_FORWARD_REQUESTS_SENT_TO;
-
 import java.util.Collections;
+
+import static org.kuali.kra.infrastructure.KeyConstants.*;
 
 /**
  * This class is for rule validation while
@@ -57,7 +54,8 @@ SubAwardCloseoutRule,
 SubAwardFundingSourceRule,
 DocumentAuditRule,
 AddSubAwardAttachmentRule,
-SubAwardTemplateInfoRule {
+SubAwardTemplateInfoRule,
+SubAwardFfataReportingRule {
 
     private static final String STATUS_CODE = ".statusCode";
     private static final String SUBAWARD_TYPE_CODE = ".subAwardTypeCode";
@@ -401,5 +399,23 @@ SubAwardTemplateInfoRule {
         }
         return rulePassed;
     }
-        
+
+    @Override
+    public boolean processAddSubAwardFfataReportingBusinessRules(SubAwardFfataReporting subAwardFfataReporting, SubAward subAward) {
+
+        boolean valid = getDictionaryValidationService().isBusinessObjectValid(subAwardFfataReporting, "newSubAwardFfataReporting");
+
+        if (subAwardFfataReporting.getSubAwardAmountInfoId() != null == StringUtils.isNotBlank(subAwardFfataReporting.getOtherTransactionDescription())) {
+            reportError("newSubAwardFfataReporting.otherTransactionDescription", SUBAWARD_FFATA_REPORTING_TRANS_OTHER_DESC);
+            valid = false;
+        }
+
+        if (subAwardFfataReporting.getSubAwardAmountInfoId() != null && (subAwardFfataReporting.getDateSubmitted() == null ||
+                (subAwardFfataReporting.getSubAwardAmountInfo() != null
+                        && subAwardFfataReporting.getSubAwardAmountInfo().getEffectiveDate().after(subAwardFfataReporting.getDateSubmitted())))) {
+            reportError("newSubAwardFfataReporting.dateSubmitted", SUBAWARD_FFATA_REPORTING_SUNMITTED_DATE);
+            valid = false;
+        }
+        return valid;
+    }
 }

@@ -80,6 +80,7 @@ implements PermissionsForm, Auditable, CustomDataDocumentForm {
     private int defaultFollowUpDayDifference = 0;
     private SubAwardAttachmentFormBean subAwardAttachmentFormBean;
     private SubAwardReports newSubAwardReport;
+    private SubAwardFfataReporting newSubAwardFfataReporting;
     private SubAwardPrintAgreement subAwardPrintAgreement;
     private SubAwardForms subAwardForms;
     private SubAward subAward;
@@ -143,7 +144,15 @@ implements PermissionsForm, Auditable, CustomDataDocumentForm {
 		this.newSubAwardFundingSource = newSubAwardFundingSource;
 	}
 
-	public SubAwardAmountInfo getNewSubAwardAmountInfo() {
+    public SubAwardFfataReporting getNewSubAwardFfataReporting() {
+        return newSubAwardFfataReporting;
+    }
+
+    public void setNewSubAwardFfataReporting(SubAwardFfataReporting newSubAwardFfataReporting) {
+        this.newSubAwardFfataReporting = newSubAwardFfataReporting;
+    }
+
+    public SubAwardAmountInfo getNewSubAwardAmountInfo() {
 		return newSubAwardAmountInfo;
 	}
 
@@ -196,6 +205,7 @@ implements PermissionsForm, Auditable, CustomDataDocumentForm {
         notificationHelper = new NotificationHelper<>();
         subAwardAttachmentFormBean = new SubAwardAttachmentFormBean(this);
         subAwardPrintAgreement = new SubAwardPrintAgreement();
+        newSubAwardFfataReporting = new SubAwardFfataReporting();
     }
 
     public SubAwardDocument getSubAwardDocument() {
