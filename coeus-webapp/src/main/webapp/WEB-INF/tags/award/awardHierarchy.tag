@@ -62,8 +62,6 @@
      <div id="awardHierarchyScrollable" style = "background:#e4e4e4; clear: left; height: 285px; width: 100%; overflow-y: auto; overflow-x: auto; position: relative;" >
               
   		<ul id="awardhierarchy" class="awardHierarchy" class="filetree stripeli treeview"  >
-        <%-- <li><span class="folder">00000</span>
-        </li> --%>
     	</ul>
     </div>
     </div>

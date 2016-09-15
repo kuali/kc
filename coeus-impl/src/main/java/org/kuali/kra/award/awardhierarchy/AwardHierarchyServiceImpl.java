@@ -575,7 +575,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     public void populateAwardHierarchyNodes(Map<String, AwardHierarchy> awardHierarchyItems, Map<String, AwardHierarchyNode> awardHierarchyNodes, String currentAwardNumber,
                                                 String currentSequenceNumber) {
         AwardHierarchyNode awardHierarchyNode;
-        String tmpAwardNumber = null;
+        String tmpAwardNumber;
         
         for(Entry<String, AwardHierarchy> awardHierarchy:awardHierarchyItems.entrySet()){
             tmpAwardNumber = awardHierarchy.getValue().getAwardNumber();

@@ -185,11 +185,16 @@ public class AwardHierarchyBean implements Serializable {
     }
 
     public AwardHierarchy createNewAwardBasedOnParent(String awardNumber) {
-        AwardHierarchy targetNode = getRootNode().findNodeInHierarchy(awardNumber);
+        final AwardHierarchy rootNode = getRootNode();
+        return getNewNodeBasedOnParent(awardNumber, rootNode);
+    }
+
+    public AwardHierarchy getNewNodeBasedOnParent(String awardNumber, AwardHierarchy rootNode) {
+        AwardHierarchy targetNode = rootNode.findNodeInHierarchy(awardNumber);
         AwardHierarchy newNode =  getAwardHierarchyService().createNewAwardBasedOnParent(targetNode);
         return newNode;
     }
-    
+
     public Map<String, AwardHierarchy> getCurrentAwardHierarchy() {
         if (hierarchy == null) {
             loadHierarchy(this.getAwardForm().getAwardDocument().getAward().getAwardNumber());
@@ -264,6 +269,10 @@ public class AwardHierarchyBean implements Serializable {
 
     public AwardHierarchy getRootNode() {
         String currentAwardNumber = getAward().getAwardNumber();
+        return getRootNode(currentAwardNumber);
+    }
+
+    public AwardHierarchy getRootNode(String currentAwardNumber) {
         AwardHierarchy thisRootNode = findRootNodeForCurrentAward(currentAwardNumber);
         if(thisRootNode == null) {
             thisRootNode = loadRootNodeForAwardNumber(currentAwardNumber);
@@ -279,7 +288,7 @@ public class AwardHierarchyBean implements Serializable {
     }
     
     protected void loadHierarchy(String awardNumber) {
-        hierarchyOrder = new ArrayList<String>();
+        hierarchyOrder = new ArrayList<>();
         hierarchy = getAwardHierarchyService().getAwardHierarchy(awardNumber, hierarchyOrder);
         if (!hierarchyOrder.isEmpty()) {
             rootNode = hierarchy.get(hierarchyOrder.get(0));
@@ -298,10 +307,14 @@ public class AwardHierarchyBean implements Serializable {
         awardForm.setPrevRootAwardNumber(targetNode.getRootAwardNumber());
     }
 
-    void init() {
-        rootNodes = new TreeMap<String, AwardHierarchy>();
-        awardHierarchyService = getAwardHierarchyService();
+    public void init() {
         String awardNumber = getAward().getAwardNumber();
+        init(awardNumber);
+    }
+
+    public void init(String awardNumber) {
+        rootNodes = new TreeMap<>();
+        awardHierarchyService = getAwardHierarchyService();
         if(Award.DEFAULT_AWARD_NUMBER.equals(awardNumber)) {
             awardNumber = awardForm.getPrevRootAwardNumber();
         }

@@ -136,7 +136,7 @@ public class TimeAndMoneyController extends RestController {
             produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
-    TimeAndMoneyPostDto putTimeAndMoneyPost(@RequestBody TimeAndMoneyPostDto timeAndMoneyPostDto, @PathVariable Long id) {
+    public TimeAndMoneyPostDto putTimeAndMoneyPost(@RequestBody TimeAndMoneyPostDto timeAndMoneyPostDto, @PathVariable Long id) {
         TimeAndMoneyPosts timeAndMoneyPosts = timeAndMoneyPostsDao.getTimeAndMoneyPost(id);
         if(timeAndMoneyPosts == null) {
             throw new ResourceNotFoundException("Time and money posts with id " + id + " not found.");
@@ -151,7 +151,7 @@ public class TimeAndMoneyController extends RestController {
             produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
-    TimeAndMoneyDto getTimeAndMoneydocument(@PathVariable String documentNumber) {
+    public TimeAndMoneyDto getTimeAndMoneydocument(@PathVariable String documentNumber) {
         TimeAndMoneyDocument timeAndMoneyDocument = (TimeAndMoneyDocument) commonApiService.getDocumentFromDocId(Long.parseLong(documentNumber));
         TimeAndMoneyDto timeAndMoneyDto = commonApiService.convertObject(timeAndMoneyDocument, TimeAndMoneyDto.class);
         timeAndMoneyDto.setTimeAndMoneyDocumentNbr(timeAndMoneyDocument.getDocumentNumber());
