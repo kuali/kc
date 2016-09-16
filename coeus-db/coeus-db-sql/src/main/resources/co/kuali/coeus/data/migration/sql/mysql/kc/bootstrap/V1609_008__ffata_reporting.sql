@@ -17,11 +17,15 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
+DROP TABLE IF EXISTS SUBAWARD_FFATA_REPORTING_ID_S;
+
 CREATE TABLE SUBAWARD_FFATA_REPORTING_ID_S (
   id bigint(19) not null auto_increment, primary key (id)
 ) ENGINE MyISAM;
 
 ALTER TABLE SUBAWARD_FFATA_REPORTING_ID_S auto_increment = 1;
+
+DROP TABLE IF EXISTS SUBAWARD_FFATA_REPORTING;
 
 CREATE TABLE SUBAWARD_FFATA_REPORTING (
   SUBAWARD_FFATA_REPORTING_ID decimal(12,0) PRIMARY KEY,
