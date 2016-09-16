@@ -18,10 +18,16 @@
 --
 
 alter table training drop foreign key fk_training_module_code;
+
 alter table training drop column module_code;
+
+DROP TABLE IF EXISTS SEQ_TRAINING_MODULE_ID;
+
 CREATE TABLE SEQ_TRAINING_MODULE_ID (
   id bigint(19) not null auto_increment, primary key (id)
 );
+
+DROP TABLE IF EXISTS training_modules;
 
 create table training_modules (
 ID BIGINT(19) NOT NULL PRIMARY KEY,
@@ -31,6 +37,7 @@ UPDATE_TIMESTAMP DATE NOT NULL,
 UPDATE_USER VARCHAR(60) NOT NULL,
 VER_NBR DECIMAL(8,0) DEFAULT 1 NOT NULL,
 OBJ_ID VARCHAR(36) NOT NULL) CHARACTER SET utf8 COLLATE utf8_bin;
+
 
 ALTER TABLE training_modules
 ADD CONSTRAINT MODULE_TRAINING
