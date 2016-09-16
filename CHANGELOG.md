@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* RESKC-1699: fixing the req org logic so that it will obtain the unit & org correctly when FDP_ORG_FROM_REQUISITIONER_UNIT is set to 'Y'
+  * Travis Schneeberger on Fri, 16 Sep 2016 17:18:10 -0400 [View Commit](../../commit/22521d4251171e39b374270c98400c9b96c61608)
+* RESKC-1714: fixing several ffata bugs
+  * Travis Schneeberger on Fri, 16 Sep 2016 16:38:04 -0400 [View Commit](../../commit/c138ea9ea747cdb38d84f8811de1cbbdf6df9a6f)
+
+##coeus-1609.0029
 * No Changes
 
 
