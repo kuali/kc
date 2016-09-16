@@ -49,6 +49,8 @@ public class SubAwardHomeAction extends SubAwardAction{
 
     private static final String SUBAWARD_VERSION_EDITPENDING_PROMPT_KEY = "message.subaward.version.editpending.prompt";
     private static final String PENDING = "PENDING";
+    private static final int FDP_SPONSOR_ATTACHMENT_TYPE = 2;
+    private static final String SUB_AWARD_AMOUNT_INFO = "subAwardAmountInfo";
 
     @Override
     public ActionForward execute(ActionMapping mapping,
@@ -60,7 +62,7 @@ public class SubAwardHomeAction extends SubAwardAction{
         List<SubAwardForms> subAwardList = new ArrayList<>();
         Collection<SubAwardForms> subAwardForms = KcServiceLocator.getService(BusinessObjectService.class).findAll(SubAwardForms.class);
         subAwardList.addAll(subAwardForms.stream()
-                .filter(subAwardFormValues -> subAwardFormValues.getTemplateTypeCode().equals(2))
+                .filter(subAwardFormValues -> subAwardFormValues.getTemplateTypeCode().equals(FDP_SPONSOR_ATTACHMENT_TYPE))
                 .collect(Collectors.toList()));
         subAwardForm.getSubAward().setSubAwardForms(subAwardList);
         return actionForward;
@@ -339,11 +341,11 @@ public ActionForward deselectAllSubAwardPrintNoticeItems(ActionMapping mapping, 
         SubAwardFfataReporting ffataReporting = subAwardForm.getNewSubAwardFfataReporting();
         ffataReporting.setSubAwardId(subAward.getSubAwardId());
 
-        if (ffataReporting.getSubAwardAmountInfoId() != null &&
-                (ffataReporting.getSubAwardAmountInfo() == null ||
-                        (ffataReporting.getSubAwardAmountInfo() != null &&
-                                !ffataReporting.getSubAwardAmountInfoId().equals(ffataReporting.getSubAwardAmountInfo().getSubAwardAmountInfoId())))) {
-            ffataReporting.refreshReferenceObject("subAwardAmountInfo");
+        final boolean refreshAmountInfo = ffataReporting.getSubAwardAmountInfoId() != null && (ffataReporting.getSubAwardAmountInfo() == null ||
+                        (ffataReporting.getSubAwardAmountInfo() != null && !ffataReporting.getSubAwardAmountInfoId().equals(ffataReporting.getSubAwardAmountInfo().getSubAwardAmountInfoId())));
+
+        if (refreshAmountInfo) {
+            ffataReporting.refreshReferenceObject(SUB_AWARD_AMOUNT_INFO);
         }
 
         if (new SubAwardDocumentRule().processAddSubAwardFfataReportingBusinessRules(ffataReporting, subAward)) {
@@ -361,22 +363,17 @@ public ActionForward deselectAllSubAwardPrintNoticeItems(ActionMapping mapping, 
     }
 
 
-    public ActionForward deleteFfataReport(ActionMapping mapping,
-                                             ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
+    public ActionForward deleteFfataReport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         SubAwardForm subAwardForm = (SubAwardForm) form;
         SubAwardDocument subAwardDocument = subAwardForm.getSubAwardDocument();
         int selectedLineNumber = getSelectedLine(request);
 
-        subAwardDocument.getSubAward().
-                getSubAwardFfataReporting().remove(selectedLineNumber);
+        subAwardDocument.getSubAward().getSubAwardFfataReporting().remove(selectedLineNumber);
 
         return mapping.findForward(Constants.MAPPING_SUBAWARD_PAGE);
     }
 
-    public ActionForward downloadFfataReportAttachment(
-            ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+    public ActionForward downloadFfataReportAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         final SubAwardForm subAwardForm = (SubAwardForm) form;
         final SubAwardDocument subAwardDocument = subAwardForm.getSubAwardDocument();
         final Integer index = getSelectedLine(request);
