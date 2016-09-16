@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - Kuali Coeus, a comprehensive research administration system for higher education.
+   - 
+   - Copyright 2005-2016 Kuali, Inc.
+   - 
+   - This program is free software: you can redistribute it and/or modify
+   - it under the terms of the GNU Affero General Public License as
+   - published by the Free Software Foundation, either version 3 of the
+   - License, or (at your option) any later version.
+   - 
+   - This program is distributed in the hope that it will be useful,
+   - but WITHOUT ANY WARRANTY; without even the implied warranty of
+   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   - GNU Affero General Public License for more details.
+   - 
+   - You should have received a copy of the GNU Affero General Public License
+   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="SubAwardFfataReporting" parent="SubAwardFfataReporting-parentBean"/>
+    <bean id="SubAwardFfataReporting-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.subaward.bo.SubAwardFfataReporting"/>
+        <property name="objectLabel" value="SubAward FFATA Reporting"/>
+        <property name="attributes">
+            <list>
+                <ref bean="SubAwardFfataReporting-subAwardFfataReportingId"/>
+                <ref bean="SubAwardFfataReporting-subAwardId"/>
+                <ref bean="SubAwardFfataReporting-subAwardAmountInfoId"/>
+                <ref bean="SubAwardFfataReporting-otherTransactionDescription"/>
+                <ref bean="SubAwardFfataReporting-dateSubmitted"/>
+                <ref bean="SubAwardFfataReporting-submitterId"/>
+                <ref bean="SubAwardFfataReporting-submitterUserName"/>
+                <ref bean="SubAwardFfataReporting-submitterName"/>
+                <ref bean="SubAwardFfataReporting-comments"/>
+                <ref bean="SubAwardFfataReporting-fileDataId"/>
+                <ref bean="SubAwardFfataReporting-fileData"/>
+                <ref bean="SubAwardFfataReporting-fileName"/>
+                <ref bean="SubAwardFfataReporting-mimeType"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    <bean id="SubAwardFfataReporting-subAwardFfataReportingId"
+          parent="SubAwardFfataReporting-subAwardFfataReportingId-parentBean"/>
+    <bean id="SubAwardFfataReporting-subAwardFfataReportingId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="subAwardFfataReportingId"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Subaward FFATA Reporting Id"/>
+        <property name="shortLabel" value="Subaward FFATA Reporting Id"/>
+        <property name="maxLength" value="22"/>
+        <property name="validationPattern">
+            <bean parent="NumericValidationPattern"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="15"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="15" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Subaward FFATA Reporting Id"/>
+        <property name="description" value="Subaward FFATA Reporting Id"/>
+    </bean>
+
+    <bean id="SubAwardFfataReporting-subAwardId" parent="SubAwardFfataReporting-subAwardId-parentBean"/>
+    <bean id="SubAwardFfataReporting-subAwardId-parentBean" abstract="true" parent="SubAward-subAwardId" p:required="false"/>
+
+    <bean id="SubAwardFfataReporting-subAwardAmountInfoId"
+          parent="SubAwardFfataReporting-subAwardAmountInfoId-parentBean"/>
+    <bean id="SubAwardFfataReporting-subAwardAmountInfoId-parentBean" abstract="true"
+          parent="SubAwardAmountInfo-subAwardAmountInfoId" p:required="false" p:label="Select Transaction/Effective Date">
+        <property name="control" >
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.subaward.lookup.keyvalue.SubAwardAmountInfoTransactionValuesFinder" />
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.kra.subaward.lookup.keyvalue.SubAwardAmountInfoTransactionValuesFinder" />
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-DropdownControl"/>
+        </property>
+    </bean>
+
+    <bean id="SubAwardFfataReporting-otherTransactionDescription" parent="SubAwardFfataReporting-otherTransactionDescription-parentBean"/>
+    <bean id="SubAwardFfataReporting-otherTransactionDescription-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="otherTransactionDescription"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Other"/>
+        <property name="shortLabel" value="Other"/>
+        <property name="maxLength" value="100"/>
+        <property name="required" value="false"/>
+        <property name="control" >
+            <bean parent="TextControlDefinition" p:size="50"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="50" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Other"/>
+        <property name="description" value="Other"/>
+    </bean>
+
+    <bean id="SubAwardFfataReporting-dateSubmitted" parent="SubAwardFfataReporting-dateSubmitted-parentBean" />
+    <bean id="SubAwardFfataReporting-dateSubmitted-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
+        <property name="name" value="dateSubmitted"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Date Submitted"/>
+        <property name="shortLabel" value="Date Submitted"/>
+        <property name="maxLength" value="22"/>
+        <property name="required" value="true"/>
+        <property name="summary" value="Date Submitted"/>
+        <property name="description" value="Date Submitted"/>
+    </bean>
+
+    <bean id="SubAwardFfataReporting-submitterId" parent="SubAwardFfataReporting-submitterId-parentBean" />
+    <bean id="SubAwardFfataReporting-submitterId-parentBean" abstract="true" parent="PersonImpl-principalId">
+        <property name="name" value="submitterId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Submitter ID" />
+        <property name="shortLabel" value="Submitter ID" />
+        <property name="displayLabelAttribute" value="submitter.userName" />
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40" />
+        </property>
+    </bean>
+
+    <bean id="SubAwardFfataReporting-submitterUserName" parent="SubAwardFfataReporting-submitterUserName-parentBean" />
+    <bean id="SubAwardFfataReporting-submitterUserName-parentBean" abstract="true" parent="PersonImpl-principalName">
+        <property name="name" value="submitter.userName" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Submitter User Name" />
+        <property name="shortLabel" value="Submitter User Name" />
+        <property name="required" value="false" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="KualiUserControlDefinition" p:personNameAttributeName="submitter.fullName" p:universalIdAttributeName="submitterId" p:userIdAttributeName="submitter.userName"/>
+        </property>
+    </bean>
+
+    <bean id="SubAwardFfataReporting-submitterName" parent="SubAwardFfataReporting-submitterName-parentBean" />
+    <bean id="SubAwardFfataReporting-submitterName-parentBean" abstract="true" parent="KcPerson-fullName">
+        <property name="name" value="submitter.fullName" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Submitter" />
+        <property name="shortLabel" value="Submitter" />
+    </bean>
+
+    <bean id="SubAwardFfataReporting-comments" parent="SubAwardFfataReporting-comments-parentBean"/>
+    <bean id="SubAwardFfataReporting-comments-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="comments" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Comments" />
+        <property name="shortLabel" value="Comments" />
+        <property name="maxLength" value="4000" />
+        <property name="required" value="false" />
+        <property name="control" >
+            <bean parent="TextareaControlDefinition" p:rows="3" p:cols="60" />
+        </property>
+        <property name="controlField">
+            <bean p:rows="3" p:cols="60" parent="Uif-TextAreaControl"/>
+        </property>
+        <property name="summary" value="Comments" />
+        <property name="description" value="Comments" />
+    </bean>
+
+    <bean id="SubAwardFfataReporting-fileDataId" parent="SubAwardFfataReporting-fileDataId-parentBean" />
+    <bean id="SubAwardFfataReporting-fileDataId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="fileDataId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="File Data Id" />
+        <property name="shortLabel" value="File Data Id" />
+        <property name="maxLength" value="36" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="false"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="false"/>
+            </bean>
+        </property>
+        <property name="required" value="false" />
+        <property name="control" >
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="40" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="File Data Id" />
+        <property name="description" value="File Data Id" />
+    </bean>
+
+    <bean id="SubAwardFfataReporting-fileName" parent="SubAwardFfataReporting-fileName-parentBean" />
+    <bean id="SubAwardFfataReporting-fileName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="fileName" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="File Name" />
+        <property name="shortLabel" value="File Name" />
+        <property name="maxLength" value="150" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="true"/>
+            </bean>
+        </property>
+        <property name="required" value="false" />
+        <property name="control" >
+            <bean parent="TextControlDefinition" p:size="15"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="15" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="File Name" />
+        <property name="description" value="File Name" />
+    </bean>
+
+    <bean id="SubAwardFfataReporting-fileData" parent="SubAwardFfataReporting-fileData-parentBean" />
+    <bean id="SubAwardFfataReporting-fileData-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="fileData" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="File" />
+        <property name="shortLabel" value="File" />
+        <property name="maxLength" value="22" />
+        <property name="required" value="false" />
+        <property name="control" >
+            <bean parent="TextControlDefinition" p:size="10"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="10" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="File" />
+        <property name="description" value="File" />
+    </bean>
+
+    <bean id="SubAwardFfataReporting-mimeType" parent="SubAwardFfataReporting-mimeType-parentBean" />
+    <bean id="SubAwardFfataReporting-mimeType-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="mimeType" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Mime Type" />
+        <property name="shortLabel" value="Mime Type" />
+        <property name="maxLength" value="4000" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="true"/>
+            </bean>
+        </property>
+        <property name="required" value="false" />
+        <property name="control" >
+            <bean parent="TextControlDefinition" p:size="10"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="10" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Mime Type" />
+        <property name="description" value="Mime Type" />
+    </bean>
+
+    <bean id="SubAwardFfataReporting-versionNumber" parent="SubAwardFfataReporting-versionNumber-parentBean"/>
+    <bean id="SubAwardFfataReporting-versionNumber-parentBean" abstract="true"
+          parent="AttributeReferenceDummy-versionNumber"/>
+
+</beans>

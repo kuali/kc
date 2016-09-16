@@ -165,6 +165,7 @@ implements Permissionable, SequenceOwner<SubAward>, CustomDataContainer, Negotia
     private List<SubAwardContact> subAwardContactsList;
     private List<SubAwardCloseout> subAwardCloseoutList;
     private List<SubAwardCustomData> subAwardCustomDataList;
+    private List<SubAwardFfataReporting> subAwardFfataReporting;
 
     @SkipVersioning
     private transient List<SubAwardAmountReleased> subAwardAmountReleasedList;
@@ -663,7 +664,15 @@ implements Permissionable, SequenceOwner<SubAward>, CustomDataContainer, Negotia
 		this.subAwardCustomDataList = subAwardCustomDataList;
 	}
 
-	public String getStatusDescription() {
+    public List<SubAwardFfataReporting> getSubAwardFfataReporting() {
+        return subAwardFfataReporting;
+    }
+
+    public void setSubAwardFfataReporting(List<SubAwardFfataReporting> subAwardFfataReporting) {
+        this.subAwardFfataReporting = subAwardFfataReporting;
+    }
+
+    public String getStatusDescription() {
         SubAwardStatus status = getSubAwardStatus();
         statusDescription = status != null ? status.getDescription() : null;
         return statusDescription;
@@ -677,6 +686,7 @@ implements Permissionable, SequenceOwner<SubAward>, CustomDataContainer, Negotia
         subAwardCloseoutList = new AutoPopulatingList<>(SubAwardCloseout.class);
         subAwardCustomDataList = new AutoPopulatingList<>(SubAwardCustomData.class);
         subAwardReportList = new AutoPopulatingList<>(SubAwardReports.class);
+        subAwardFfataReporting = new AutoPopulatingList<>(SubAwardFfataReporting.class);
     }
 
     public void setSubAwardDocument(SubAwardDocument subAwardDocument) {

@@ -120,8 +120,35 @@
 		<collection-descriptor name="subAwardTemplateInfo" proxy="true" element-class-ref="org.kuali.kra.subaward.bo.SubAwardTemplateInfo" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="subAwardId"/>
 		</collection-descriptor>
+        <collection-descriptor name="subAwardFfataReporting" proxy="true" element-class-ref="org.kuali.kra.subaward.bo.SubAwardTemplateInfo" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+            <inverse-foreignkey field-ref="subAwardId"/>
+        </collection-descriptor>
 	</class-descriptor>
-	
+
+    <class-descriptor class="org.kuali.kra.subaward.bo.SubAwardFfataReporting" table="SUBAWARD_FFATA_REPORTING">
+        <field-descriptor name="subAwardFfataReportingId" column="SUBAWARD_FFATA_REPORTING_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true" sequence-name="SUBAWARD_FFATA_REPORTING_ID_S" />
+        <field-descriptor name="subAwardId" column="SUBAWARD_ID" jdbc-type="BIGINT" />
+        <field-descriptor name="subAwardAmountInfoId" column="SUBAWARD_AMOUNT_INFO_ID" jdbc-type="INTEGER" />
+        <field-descriptor name="otherTransactionDescription" column="OTHER_TRANS_DESC" jdbc-type="VARCHAR" />
+        <field-descriptor name="dateSubmitted" column="DATE_SUBMITTED" jdbc-type="DATE" />
+        <field-descriptor name="submitterId" column="SUBMITTER_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
+        <field-descriptor name="fileDataId" column="FILE_DATA_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="fileName" column="FILE_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="mimeType" column="MIME_TYPE" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+
+        <reference-descriptor name="subAward" class-ref="org.kuali.kra.subaward.bo.SubAward" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="subAwardId" />
+        </reference-descriptor>
+        <reference-descriptor name="subAwardAmountInfo" class-ref="org.kuali.kra.subaward.bo.SubAwardAmountInfo" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="subAwardAmountInfoId" />
+        </reference-descriptor>
+    </class-descriptor>
+
     <class-descriptor class="org.kuali.kra.subaward.bo.SubAwardAmountInfo" table="SUBAWARD_AMOUNT_INFO">
         <field-descriptor name="subAwardAmountInfoId" column="SUBAWARD_AMOUNT_INFO_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true" sequence-name="SUBAWARD_AMT_INFO_ID_S"/>
         <field-descriptor name="subAwardId" column="SUBAWARD_ID" jdbc-type="BIGINT" />

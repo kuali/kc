@@ -1033,8 +1033,9 @@ public final class KeyConstants {
     public static final String ERROR_MODULE_NOT_EXISTS = "error.module.not.exists";
     public static final String ERROR_CONTACT_TYPE_MODULE_EXISTS = "error.contacttypemodule.exists";
     public static final String SUBAWARD_ERROR_INVALID_FILE_TYPE = "error.subaward.invalid.file.type";
+    public static final String SUBAWARD_FFATA_REPORTING_TRANS_OTHER_DESC = "error.subaward.fftata.reporting.transaction.other.desc";
+    public static final String SUBAWARD_FFATA_REPORTING_SUNMITTED_DATE = "error.subaward.fftata.reporting.submitted.date";
 
-    
     //negotiations
     public static final String NEGOTIATION_STATUS_USED = "error.negotiations.codeAlreadyUsed";
     public static final String NEGOTIATION_CHANGE_ASSOCIATION_TYPE_MESSAGE="negotiation.message.changeAssociationType";

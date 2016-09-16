@@ -22,7 +22,7 @@
 	showDocumentInfo="true"
 	htmlFormAction="subAwardHome"
 	documentTypeName="SubAwardDocument"
-	renderMultipart="false"
+	renderMultipart="true"
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
@@ -39,6 +39,9 @@
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 
 <kra-sub:subAward/>
+<c:if test="${krafn:getParameterValueAsBoolean('KC-SUBAWARD', 'All', 'ENABLE_FFATA_REPORTING')}">
+	<kra-sub:subAwardFfataReporting/>
+</c:if>
 <kra-sub:subAwardFundingSource/>
 <kra-sub:subAwardContact/>	
 <kra-sub:subAwardCloseout/>
