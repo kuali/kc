@@ -406,8 +406,8 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
 
 
             boolean requisitionerOrg = parameterService.getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_SUBAWARD, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, FDP_ORG_FROM_REQUISITIONER_UNIT);
-            final Organization reqOrganisation = requisitionerOrg ? businessObjectService.findByPrimaryKey(Organization.class, Collections.singletonMap(ORGANIZATION_ID, StringUtils.substring(subaward.getRequisitionerUnit(), 0, 1))) : null;
-            final Rolodex rolodex = requisitionerOrg && reqOrganisation != null && reqOrganisation.getRolodex() != null ? reqOrganisation.getRolodex() : univOrganisation.getRolodex();
+            final Organization reqOrganisation = requisitionerOrg && subaward.getUnit() != null ? subaward.getUnit().getOrganization() : null;
+            final Rolodex rolodex = requisitionerOrg && reqOrganisation != null && reqOrganisation.getRolodex() != null ? reqOrganisation.getRolodex() : univOrganisation != null ? univOrganisation.getRolodex() : null;
 
             if (rolodex != null) {
                 rolodexDetails.setAddress1(rolodex.getAddressLine1());
