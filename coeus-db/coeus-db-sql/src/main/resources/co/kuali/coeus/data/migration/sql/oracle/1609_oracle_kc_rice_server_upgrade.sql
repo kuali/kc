@@ -24,4 +24,5 @@ spool 1609_oracle_kc_rice_server_upgrade.sql.log
 @./rice/bootstrap/V1609_003__fdp_flags.sql
 @./rice/bootstrap/V1609_005__add_subaward_component.sql
 @./rice/bootstrap/V1609_006__fdp_update_param_desc.sql
+@./rice/bootstrap/V1609_009__ffata_reporting_flag.sql
 commit;

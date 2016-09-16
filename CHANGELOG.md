@@ -1,6 +1,17 @@
 
 
 ##CURRENT
+* Fix issues because of clone scripts. (#1977)
+
+  * Gayathri Athreya on Fri, 16 Sep 2016 10:42:44 -0700 [View Commit](../../commit/a90fcc727074948c22f89f98e0286ae18410051b)
+* RESKC-1709: fix blank notification being sent when proxy cert notification was disabled.
+  * Terry Durkin on Thu, 15 Sep 2016 16:17:54 -0400 [View Commit](../../commit/bd2a5a79adf7b6a2617263a399f43012ef8efc9c)
+* RESKC-1594: integration test for ffata rule
+  * Travis Schneeberger on Thu, 15 Sep 2016 20:37:38 -0400 [View Commit](../../commit/0ab95c2c160da28e31b1c676410c01074db9f130)
+* RESKC-1210: adding FFATA Reporting support
+  * Travis Schneeberger on Thu, 15 Sep 2016 15:56:37 -0400 [View Commit](../../commit/b092d0b66a38ed0a475da35fb37a4a24591566dc)
+
+##coeus-1609.0027
 * No Changes
 
 

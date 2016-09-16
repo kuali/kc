@@ -22,4 +22,5 @@
 \. ./kc/bootstrap/V1609_002__training_module_code.sql
 \. ./kc/bootstrap/V1609_004__fdp_form_update.sql
 \. ./kc/bootstrap/V1609_007__training_module.sql
+\. ./kc/bootstrap/V1609_008__ffata_reporting.sql
 commit;
