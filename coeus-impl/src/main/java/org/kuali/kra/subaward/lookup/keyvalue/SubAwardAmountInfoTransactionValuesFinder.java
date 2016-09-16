@@ -41,6 +41,11 @@ public class SubAwardAmountInfoTransactionValuesFinder extends FormViewAwareUifK
                 .stream()
                 .filter(info -> StringUtils.isNotEmpty(info.getModificationTypeCode()))
                 .filter(info -> info.getModificationEffectiveDate() != null)
+                .peek(info -> {
+                    if (info.getModificationType() == null) {
+                        info.refreshReferenceObject("modificationType");
+                    }
+                })
                 .map(info -> new ConcreteKeyValue(info.getSubAwardAmountInfoId().toString(),
                         info.getModificationType().getDescription() + " - " + sdf.format(info.getEffectiveDate()))))
                 .collect(Collectors.toList());

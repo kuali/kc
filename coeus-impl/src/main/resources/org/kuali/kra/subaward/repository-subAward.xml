@@ -120,7 +120,7 @@
 		<collection-descriptor name="subAwardTemplateInfo" proxy="true" element-class-ref="org.kuali.kra.subaward.bo.SubAwardTemplateInfo" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="subAwardId"/>
 		</collection-descriptor>
-        <collection-descriptor name="subAwardFfataReporting" proxy="true" element-class-ref="org.kuali.kra.subaward.bo.SubAwardTemplateInfo" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+        <collection-descriptor name="subAwardFfataReporting" proxy="true" element-class-ref="org.kuali.kra.subaward.bo.SubAwardFfataReporting" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
             <inverse-foreignkey field-ref="subAwardId"/>
         </collection-descriptor>
 	</class-descriptor>
@@ -141,9 +141,6 @@
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 
-        <reference-descriptor name="subAward" class-ref="org.kuali.kra.subaward.bo.SubAward" auto-retrieve="true" auto-update="none" auto-delete="none">
-            <foreignkey field-ref="subAwardId" />
-        </reference-descriptor>
         <reference-descriptor name="subAwardAmountInfo" class-ref="org.kuali.kra.subaward.bo.SubAwardAmountInfo" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="subAwardAmountInfoId" />
         </reference-descriptor>
