@@ -181,12 +181,14 @@
    			<c:forEach var="amountInfo" items="${KualiForm.document.subAwardList[0].historicalAmountInfos}" varStatus="status">
 					<kra-sub:subAwardAmountInfoLine amountInfo="${amountInfo}" 
 						amountInfoPath="document.subAwardList[0].historicalAmountInfos[${status.index}]" 
-						index="${status.index}" readOnly="true" currentTabIndex="${currentTabIndex }" formAction="${action}"/>
+						index="${status.index}" rowIndex="${status.index}" readOnly="true" currentTabIndex="${currentTabIndex }" formAction="${action}"/>
         	</c:forEach>
+        	<c:set var="historicalLength" value="${fn:length(KualiForm.document.subAwardList[0].historicalAmountInfos)}" />
         	<c:forEach var="amountInfo" items="${KualiForm.document.subAwardList[0].subAwardAmountInfoList}" varStatus="status">
 					<kra-sub:subAwardAmountInfoLine amountInfo="${amountInfo}" 
 						amountInfoPath="document.subAwardList[0].subAwardAmountInfoList[${status.index}]" 
-						index="${status.index}" readOnly="${readOnly}" currentTabIndex="${currentTabIndex }" formAction="${action}"/>
+						index="${status.index}" rowIndex="${historicalLength + status.index}" 
+						readOnly="${readOnly}" currentTabIndex="${currentTabIndex }" formAction="${action}"/>
         	</c:forEach>
         </table>
     </div>

@@ -37,6 +37,7 @@ public class AllSubAwardAmountInfoQueryCustomizer extends QueryCustomizerDefault
     	Criteria crit = new Criteria();
     	crit.addEqualTo("subAward.subAwardCode", ((SubAward)anObject).getSubAwardCode());
     	crit.addIn("subAward.subAwardSequenceStatus", Arrays.asList(new String[]{VersionStatus.ACTIVE.toString(), VersionStatus.PENDING.toString(), VersionStatus.ARCHIVED.toString()}));
+    	crit.addOrderByAscending("subAwardAmountInfoId");
         aQuery.setCriteria(crit);
         return aQuery;
     }
