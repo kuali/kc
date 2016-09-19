@@ -1,6 +1,13 @@
 
 
 ##CURRENT
+* RESKC-1597:Ensure order of subaward amount infos after customizer (#1982)
+
+  * Douglas Pace on Mon, 19 Sep 2016 12:56:07 -0700 [View Commit](../../commit/f6b0b81a9afddc2b984088f097cb318257e5d60b)
+* RESKC-513: fixing labels for Negotiation Agreement Type & Negotiation Association Type maintenance documents
+  * Travis Schneeberger on Mon, 19 Sep 2016 14:35:27 -0400 [View Commit](../../commit/10565dc9dd8b300924463c6e52e2c2872c42a2ff)
+
+##coeus-1609.0031
 * RESKC-1699: fixing the req org logic so that it will obtain the unit & org correctly when FDP_ORG_FROM_REQUISITIONER_UNIT is set to 'Y'
   * Travis Schneeberger on Fri, 16 Sep 2016 17:18:10 -0400 [View Commit](../../commit/22521d4251171e39b374270c98400c9b96c61608)
 * RESKC-1714: fixing several ffata bugs
