@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1609.0032
 * RESKC-1597:Ensure order of subaward amount infos after customizer (#1982)
 
   * Douglas Pace on Mon, 19 Sep 2016 12:56:07 -0700 [View Commit](../../commit/f6b0b81a9afddc2b984088f097cb318257e5d60b)
