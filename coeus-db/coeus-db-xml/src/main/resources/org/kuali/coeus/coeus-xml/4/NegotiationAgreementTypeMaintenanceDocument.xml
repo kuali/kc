@@ -22,7 +22,7 @@
 		<documentType>
 			<name>NegotiationAgreementTypeMaintenanceDocument</name>
 			<description>Create a New Negotiation Agreement Type</description>
-			<label>Negotiation Status</label>
+			<label>Negotiation Agreement Type</label>
 			<parent>KcProposalsMaintenanceDocument</parent>
             <helpDefinitionURL>default.htm?turl=Documents/negotiationagreementtype.htm</helpDefinitionURL>
         </documentType>
