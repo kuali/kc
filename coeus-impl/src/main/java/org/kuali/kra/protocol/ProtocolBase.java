@@ -18,6 +18,7 @@
  */
 package org.kuali.kra.protocol;
 
+import com.codiform.moo.annotation.Property;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipBase;
@@ -98,7 +99,8 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     private boolean active = true;
     private String protocolTypeCode; 
     private String protocolStatusCode; 
-    private String title; 
+    private String title;
+    @Property(source="summary")
     private String description;
     
     private Date initialSubmissionDate;

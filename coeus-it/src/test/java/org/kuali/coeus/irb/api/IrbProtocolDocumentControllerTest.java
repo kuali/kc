@@ -150,6 +150,7 @@ public class IrbProtocolDocumentControllerTest extends KcIntegrationTestBase {
         Assert.assertTrue(irbProtocolDto.getDocNbr() != null);
         Assert.assertTrue(irbProtocolDto.getDocNbr() != "1756575F");
         Assert.assertTrue(irbProtocolDto.getLeadUnitNumber().equalsIgnoreCase("000001"));
+        Assert.assertTrue(irbProtocolDto.getSummary().equalsIgnoreCase("HOORAY"));
 
         Assert.assertTrue(irbProtocolDto.getProtocolPersons().get(0).getPersonId().equalsIgnoreCase("10000000018"));
         Assert.assertTrue(irbProtocolDto.getProtocolPersons().get(0).getProtocolPersonRoleId().equalsIgnoreCase(ContactRole.PI_CODE));
@@ -215,6 +216,7 @@ public class IrbProtocolDocumentControllerTest extends KcIntegrationTestBase {
         String jsonString = "{\n" +
                 "    \"title\":\"protocol1\",\n" +
                 "    \"referenceNumber1\":\"HR-2775\",\n" +
+                "    \"summary\":\"HOORAY\",\n" +
                 "    \"protocolTypeCode\":\"2\",\n" +
                 "    \"docNbr\":\"1756575F\",\n" +
                 "    \"protocolPersons\": [\n" +

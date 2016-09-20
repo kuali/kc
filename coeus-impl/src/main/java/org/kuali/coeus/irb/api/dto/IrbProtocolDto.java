@@ -33,6 +33,8 @@ public class IrbProtocolDto {
     String leadUnitNumber;
     String title;
     String referenceNumber1;
+    @Property(source = "description")
+    String summary;
     private String protocolTypeCode;
     @CollectionProperty(itemClass=IrbProtocolPersonDto.class)
     List<IrbProtocolPersonDto> protocolPersons;
@@ -43,6 +45,14 @@ public class IrbProtocolDto {
 
     public void setPrincipalInvestigatorId(String principalInvestigatorId) {
         this.principalInvestigatorId = principalInvestigatorId;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
     }
 
     public String getProtocolTypeCode() {
