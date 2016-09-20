@@ -94,6 +94,15 @@ public class AwardControllerTest extends AwardControllerTestBase {
         Assert.assertTrue(newAwardDto.getAwardCustomDataList().get(1).getCustomAttributeId().toString().equalsIgnoreCase("4"));
         Assert.assertTrue(newAwardDto.getAwardCustomDataList().get(1).getValue().toString().equalsIgnoreCase("2"));
         Assert.assertTrue(newAwardDto.getAwardSponsorTerms().size() == 9);
+        Assert.assertTrue(newAwardDto.getAwardSponsorContacts().size() == 1);
+        Assert.assertTrue(newAwardDto.getAwardSponsorContacts().get(0).getRolodexId() == 132);
+        Assert.assertTrue(newAwardDto.getAwardSponsorContacts().get(0).getOrgName().equalsIgnoreCase("NIH-NI AAA"));
+        Assert.assertTrue(newAwardDto.getProjectPersons().get(0).getEmailAddress().equalsIgnoreCase("kcnotification+aemcafee@gmail.com"));
+        Assert.assertTrue(newAwardDto.getProjectPersons().get(1).getEmailAddress().equalsIgnoreCase("kcnotification+byler@gmail.com"));
+        Assert.assertTrue(newAwardDto.getProjectPersons().get(2).getEmailAddress().equalsIgnoreCase("kcnotification+eagle@gmail.com"));
+        Assert.assertTrue(newAwardDto.getProjectPersons().get(0).getPhoneNumber().equalsIgnoreCase("321-321-1214"));
+
+
         ArrayList<Long> termIds = new ArrayList<>();
         termIds.add(307L); termIds.add(308L); termIds.add(309L); termIds.add(310L);
         termIds.add(311L); termIds.add(312L); termIds.add(313L); termIds.add(314L);

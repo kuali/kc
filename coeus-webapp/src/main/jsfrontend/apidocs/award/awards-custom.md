@@ -158,7 +158,9 @@ GET Award
             "personId": "10000000051",
             "roleCode": "PI",
             "keyPersonRole": null,
-            "rolodexId": null
+            "rolodexId": null,
+            "kcPerson.emailAddress": "kcnotification+someone@gmail.com",
+            "kcPerson.phoneNumber": "321-321-1197"
           }
         ],
         "awardCustomDataList": [
@@ -664,7 +666,14 @@ GET Award
         "fedAwardYear": null,
         "fedAwardDate": null,
         "posted": null,
-        "awardSponsorContacts": null
+        "awardSponsorContacts": [
+          {
+            "rolodexId": 1736,
+            "roleCode": "1",
+            "awardContactId": 4263,
+            "orgName": "Office of Naval Research"
+            }
+        ]
       }
 
 ### Get award by award number [GET /award/api/v2/awards?awardNumber=000224-00001&includeBudgets=false]
@@ -732,7 +741,9 @@ GET Award by award number
               "personId": "10000000051",
               "roleCode": "PI",
               "keyPersonRole": null,
-              "rolodexId": null
+              "rolodexId": null,
+              "kcPerson.emailAddress": "kcnotification+someone@gmail.com",
+              "kcPerson.phoneNumber": "321-321-1197"
             }
           ],
           "awardCustomDataList": [
@@ -1238,7 +1249,14 @@ GET Award by award number
           "fedAwardYear": null,
           "fedAwardDate": null,
           "posted": null,
-          "awardSponsorContacts": null
+          "awardSponsorContacts": [
+            {
+              "rolodexId": 1736,
+              "roleCode": "1",
+              "awardContactId": 4263,
+              "orgName": "Office of Naval Research"
+            }
+          ]
         }
       ]
 

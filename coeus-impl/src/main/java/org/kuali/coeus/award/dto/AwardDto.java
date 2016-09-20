@@ -131,7 +131,7 @@ public class AwardDto {
     private List<AwardCommentDto> awardComments;
 
     @JsonProperty(value="awardSponsorContacts")
-    @CollectionProperty(source="awardSponsorContacts", itemClass= AwardSponsorContact.class)
+    @CollectionProperty(source="sponsorContacts", itemClass= AwardSponsorContactDto.class)
     private List<AwardSponsorContactDto> awardSponsorContacts;
 
     @JsonProperty(value="awardCostShares")
@@ -703,11 +703,11 @@ public class AwardDto {
         this.awardComments = awardComments;
     }
 
-    public List<AwardSponsorContactDto> getSponsorContacts() {
+    public List<AwardSponsorContactDto> getAwardSponsorContacts() {
         return awardSponsorContacts;
     }
 
-    public void setSponsorContacts(List<AwardSponsorContactDto> awardSponsorContacts) {
+    public void setAwardSponsorContacts(List<AwardSponsorContactDto> awardSponsorContacts) {
         this.awardSponsorContacts = awardSponsorContacts;
     }
 

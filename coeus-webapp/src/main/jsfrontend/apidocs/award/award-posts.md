@@ -70,7 +70,9 @@
                     "personId": "10000000002",
                     "roleCode": "PI",
                     "keyPersonRole": null,
-                    "rolodexId": null
+                    "rolodexId": null,
+                    "kcPerson.emailAddress": "kcnotification+quickstart@gmail.com",
+                    "kcPerson.phoneNumber": "321-321-1197"
                   }
                 ],
                 "awardCustomDataList": [
@@ -1194,7 +1196,14 @@
                 "fedAwardYear": null,
                 "fedAwardDate": null,
                 "posted": true,
-                "awardSponsorContacts": null
+                "awardSponsorContacts": [
+                  {
+                    "rolodexId": 1736,
+                    "roleCode": "1",
+                    "awardContactId": 4263,
+                    "orgName": "Office of Naval Research"
+                  }
+                ]
               }
             }
           ]

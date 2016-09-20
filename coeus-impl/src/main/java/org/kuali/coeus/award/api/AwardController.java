@@ -123,7 +123,7 @@ public class AwardController extends AwardControllerBase implements Initializing
             throw new ResourceNotFoundException("Award with award id " + awardId + " not found.");
         }
 
-        AwardDto awardDto = commonApiService.convertObject(award, AwardDto.class);
+        AwardDto awardDto = commonApiService.convertAwardToDto(award);
         if (!includeBudgets) {
             awardDto.setBudgets(new ArrayList<>());
         }
@@ -194,7 +194,7 @@ public class AwardController extends AwardControllerBase implements Initializing
                 awardService.updateAwardSequenceStatus(newAwardDocument.getAward(), VersionStatus.PENDING);
                 versionHistoryService.updateVersionHistory(newAwardDocument.getAward(), VersionStatus.PENDING,
                         globalVariableService.getUserSession().getPrincipalId());
-                return commonApiService.convertObject(newAwardDocument.getAward(), AwardDto.class);
+                return commonApiService.convertAwardToDto(newAwardDocument.getAward());
 
            }
         } else {
@@ -219,7 +219,7 @@ public class AwardController extends AwardControllerBase implements Initializing
         awardService.checkAwardNumber(award);
         awardService.updateCurrentAwardAmountInfo(award);
         AwardDocument newDocument = (AwardDocument) commonApiService.saveDocument(awardDocument);
-        AwardDto newAwardDto = commonApiService.convertObject(newDocument.getAward(), AwardDto.class);
+        AwardDto newAwardDto = commonApiService.convertAwardToDto(newDocument.getAward());
         newAwardDto.setDocNbr(newDocument.getDocumentNumber());
         newAwardDto.setDocStatus(newDocument.getDocumentHeader().getWorkflowDocument().getStatus().getLabel());
         versionHistoryService.updateVersionHistory(award, VersionStatus.PENDING, globalVariableService.getUserSession().getPrincipalName());
@@ -456,7 +456,7 @@ public class AwardController extends AwardControllerBase implements Initializing
 
     protected List<AwardDto> translateAwards(boolean includeBudgets, List<Award> awards) {
         List<AwardDto> awardDtos = awards.stream().map(award -> {
-                AwardDto awardDto = commonApiService.convertObject(award, AwardDto.class);
+                AwardDto awardDto = commonApiService.convertAwardToDto(award);
                 if (!includeBudgets) {
                     awardDto.setBudgets(new ArrayList<>());
                 }

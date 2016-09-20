@@ -165,8 +165,8 @@ public class AwardControllerBase extends RestController {
     }
 
     public void translateSponsorContacts(AwardDto awardDto, Award award) {
-        if(CollectionUtils.isNotEmpty(awardDto.getSponsorContacts())) {
-            award.setSponsorContacts(awardDto.getSponsorContacts().stream().map(awardSponsorContactDto -> {
+        if(CollectionUtils.isNotEmpty(awardDto.getAwardSponsorContacts())) {
+            award.setSponsorContacts(awardDto.getAwardSponsorContacts().stream().map(awardSponsorContactDto -> {
                         AwardSponsorContact awardSponsorContact = commonApiService.convertObject(awardSponsorContactDto, AwardSponsorContact.class);
                         awardSponsorContact.setAwardNumber(award.getAwardNumber());
                         awardSponsorContact.setSequenceNumber(award.getSequenceNumber());

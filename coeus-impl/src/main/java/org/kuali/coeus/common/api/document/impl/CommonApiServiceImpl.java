@@ -21,6 +21,7 @@ package org.kuali.coeus.common.api.document.impl;
 import com.codiform.moo.Moo;
 import com.codiform.moo.configuration.Configuration;
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.award.dto.AwardDto;
 import org.kuali.coeus.common.api.document.service.CommonApiService;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.rolodex.RolodexService;
@@ -29,6 +30,8 @@ import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
 import org.kuali.coeus.sys.framework.rest.UnprocessableEntityException;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.AuditHelper;
+import org.kuali.kra.award.contacts.AwardSponsorContact;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -178,6 +181,17 @@ public class CommonApiServiceImpl implements CommonApiService {
             }
 
         return document;
+    }
+
+    public AwardDto convertAwardToDto(Award award) {
+        AwardDto awardDto = convertObject(award, AwardDto.class);
+        awardDto.getAwardSponsorContacts().stream().forEach(contact -> {
+            AwardSponsorContact awardContactFound = award.getSponsorContacts().stream().filter(
+                    awardcontact -> contact.getAwardContactId().compareTo(awardcontact.getAwardContactId()) == 0).findFirst().orElse(null);
+            contact.setOrgName(awardContactFound != null ? awardContactFound.getContactOrganizationName() : "");
+        });
+
+        return awardDto;
     }
 
     public void updateDataObjectFromDto(Object existingDataObject, Object input) {

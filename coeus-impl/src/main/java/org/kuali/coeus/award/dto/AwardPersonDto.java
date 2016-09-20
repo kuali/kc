@@ -18,6 +18,8 @@
  */
 package org.kuali.coeus.award.dto;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 public class AwardPersonDto {
 
     private Long awardContactId;
@@ -25,6 +27,10 @@ public class AwardPersonDto {
     private String roleCode;
     private String keyPersonRole;
     private Integer rolodexId;
+    @JsonProperty(value = "kcPerson.emailAddress")
+    private String emailAddress;
+    @JsonProperty(value = "kcPerson.phoneNumber")
+    private String phoneNumber;
 
     public Integer getRolodexId() {
         return rolodexId;
@@ -64,5 +70,21 @@ public class AwardPersonDto {
 
     public void setAwardContactId(Long awardContactId) {
         this.awardContactId = awardContactId;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }
