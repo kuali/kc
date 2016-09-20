@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* Adding summary field to protocol. (#1980)
+
+  * Gayathri Athreya on Tue, 20 Sep 2016 12:01:07 -0700 [View Commit](../../commit/aaf68cd8d0d4d56f3f80c441ac9eec0d392671a3)
+
+##coeus-1609.0033
 * No Changes
 
 
