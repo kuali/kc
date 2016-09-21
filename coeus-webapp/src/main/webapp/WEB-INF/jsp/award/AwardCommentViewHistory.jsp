@@ -31,14 +31,14 @@
 
 <kul:tabTop tabTitle="${awardCommentTypeDescription} History" defaultOpen="true">
 
-   <c:forEach var="awardComment" items="${KualiForm.awardCommentHistoryByType}" varStatus="awardCommentIndex">        
-     <kul:innerTab parentTab="Comments" defaultOpen="true" tabTitle="${awardComment.updateTimestampDateString}" tabErrorKey="" >
+   <c:forEach var="awardComment" items="${KualiForm.awardCommentHistoryByType}">
+     <kul:innerTab parentTab="Comments" defaultOpen="true" tabTitle="${awardComment.updateTimestampDateString}" tabErrorKey="" useCurrentTabIndexAsKey="true">
 		<table>
 		<tr>
         	<th width="200" align="left" scope="row"><div align="left">Comments:</div></th>
         	<td>
             	 <div align="left">
-            	 	${awardComment.comments}
+		 			<c:out value="${awardComment.comments}" />
             	  </div>	 
             </td>	     	 
     	</tr>
