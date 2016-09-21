@@ -198,6 +198,7 @@ public class AwardBudgetController extends RestController {
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     public void cancelDocument(@PathVariable Long budgetId) {
+        commonApiService.clearErrors();
         Budget budget = businessObjectService.findBySinglePrimaryKey(Budget.class, budgetId);
         if (budget != null) {
             AwardBudgetDocument awardBudgetDocument = (AwardBudgetDocument) commonApiService.getDocumentFromDocId(Long.parseLong(budget.getDocumentNumber()));
@@ -220,6 +221,7 @@ public class AwardBudgetController extends RestController {
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     public void routeAwardBudget(@PathVariable Long budgetId) {
+        commonApiService.clearErrors();
         Budget budget = businessObjectService.findBySinglePrimaryKey(Budget.class, budgetId);
         if (budget != null) {
             AwardBudgetDocument awardBudgetDocument = (AwardBudgetDocument) commonApiService.getDocumentFromDocId(Long.parseLong(budget.getDocumentNumber()));
@@ -268,6 +270,7 @@ public class AwardBudgetController extends RestController {
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     void modifyAwardBudget(@RequestBody AwardBudgetGeneralInfoDto generalInfoDto, @PathVariable String budgetId) {
+        commonApiService.clearErrors();
         AwardBudgetExt budget = getAwardDao().getAwardBudget(budgetId);
         if(budget == null) {
             throw new ResourceNotFoundException("Budget with budget id " + budgetId + " not found.");
@@ -294,6 +297,7 @@ public class AwardBudgetController extends RestController {
         List<BudgetPeriodDto> budgetPeriodDtos = awardBudgetExtDto.getBudgetPeriods();
         List<BudgetPeriod> budgetPeriods = budgetPeriodDtos.stream().map(budgetPeriodDto -> {
             AwardBudgetPeriodExt budgetPeriod = commonApiService.convertObject(budgetPeriodDto, AwardBudgetPeriodExt.class);
+            budgetPeriod.setBudgetLineItems(new ArrayList<>());
             budgetPeriod.setBudget(newBudget);
             if (budgetPeriodDto.getPeriodNumber() == null) {
                 throw new UnprocessableEntityException("Please enter a period number for the budget periods.");
@@ -310,6 +314,7 @@ public class AwardBudgetController extends RestController {
                     awardBudgetService.populateNewBudgetLineItem(budgetLineItem, budgetPeriod);
                     budgetLineItem.setBudgetPersonnelDetailsList(new ArrayList<>());
                 } else {
+                    budgetLineItem.setBudgetPersonnelDetailsList(new ArrayList<>());
                     budgetPersonnelBudgetService.addBudgetPersonnelToPeriod(budgetPeriod, budgetLineItem, new BudgetPersonnelDetails());
                 }
 
