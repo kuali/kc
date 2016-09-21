@@ -70,7 +70,7 @@ SubAwardFfataReportingRule {
     private static final String DATE_REQUESTED = "newSubAwardCloseout.dateRequested";
     private static final String DATE_FLLOWUP = "newSubAwardCloseout.dateFollowup";
     private static final String REPORT_TYPE = "subAwardAttachmentFormBean.newReport.subAwardReportTypeCode";
-    private static final String AWARD_NUMBER="newSubAwardFundingSource.award.awardNumber";
+    static final String AWARD_NUMBER="newSubAwardFundingSource.award.awardNumber";
     private static final String AMOUNT_PERIOD_OF_PERFORMANCE_START_DATE = "newSubAwardAmountInfo.periodofPerformanceStartDate";
     private static final String DESCRIPTION = ".description";
     private static final String SUB_AWARD_ATTACHMENT_TYPE_CODE_PROP = ".subAwardAttachmentTypeCode";
@@ -85,6 +85,8 @@ SubAwardFfataReportingRule {
     private static final String CARRY_FORWARD_REQUESTS_SENT_TO = "document.subAwardList[0].subAwardTemplateInfo[0].carryForwardRequestsSentTo";
 
     private static final Log LOG = LogFactory.getLog(SubAwardDocumentRule.class);
+    
+    private AwardService awardService;
 
     @Override
     public boolean processAddSubAwardBusinessRules(SubAward subAward) {
@@ -258,26 +260,28 @@ SubAwardFfataReportingRule {
         return processSaveSubAwardFundingSourceBusinessRules(subAwardFundingSource,subAward);
     }
     protected boolean processSaveSubAwardFundingSourceBusinessRules(SubAwardFundingSource subAwardFundingSource,SubAward subAward){
-        boolean rulePassed = true;   
-        
         if(subAwardFundingSource==null 
-                || subAwardFundingSource.getAwardId()==null){
-            rulePassed = false;            
+                || subAwardFundingSource.getAwardId()==null){            
             reportError(AWARD_NUMBER
                     , KeyConstants.ERROR_REQUIRED_SUBAWARD_FUNDING_SOURCE_AWARD_NUMBER);
+            return false;
         }  
         else{
+        	Award fundingSourceAward = getAwardService().getAward(subAwardFundingSource.getAwardId());
+        	if (fundingSourceAward == null) {            
+                reportError(AWARD_NUMBER
+                        , KeyConstants.ERROR_REQUIRED_SUBAWARD_FUNDING_SOURCE_AWARD_NUMBER);
+        		return false;
+        	}
             for(SubAwardFundingSource fundingSource : subAward.getSubAwardFundingSourceList()){
-                if(fundingSource.getAwardId().equals(subAwardFundingSource.getAwardId())){
-                    rulePassed = false;
-                    AwardService awardService = KcServiceLocator.getService(AwardService.class);
-                    Award award = awardService.getAward(fundingSource.getAwardId());
-                    
+            	Award award = getAwardService().getAward(fundingSource.getAwardId());
+                if(StringUtils.equals(fundingSourceAward.getAwardNumber(), award.getAwardNumber())){
                     reportError(AWARD_NUMBER, KeyConstants.ERROR_REQUIRED_SUBAWARD_FUNDING_SOURCE_AWARD_NUMBER_DUPLICATE, award.getAwardNumber());
+                    return false;
                 }
             }
         }
-        return rulePassed;
+        return true;
     }
 
     @Override
@@ -390,4 +394,15 @@ SubAwardFfataReportingRule {
         }
         return valid;
     }
+
+	public AwardService getAwardService() {
+		if (awardService == null) {
+			awardService = KcServiceLocator.getService(AwardService.class);
+		}
+		return awardService;
+	}
+
+	public void setAwardService(AwardService awardService) {
+		this.awardService = awardService;
+	}
 }
