@@ -80,7 +80,7 @@ public class SubAwardDocumentRuleTest extends KcIntegrationTestBase {
         subAwardCloseout.setDateFollowup(new Date(2012, 2, 15));
         
         subAwardFundingSource = new SubAwardFundingSource();
-        subAwardFundingSource.setAwardId(new Long("1183316613046"));
+        subAwardFundingSource.setAwardId(1000L);
 
         subAwardFfataReporting = new SubAwardFfataReporting();
         subAwardFfataReporting.setSubAwardAmountInfoId(999);
