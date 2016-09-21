@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-1163:Validate the award number instead of award id to determine duplicate funding sources in subaward (#1984)
+
+  * Douglas Pace on Wed, 21 Sep 2016 11:57:59 -0700 [View Commit](../../commit/70f9782cfdbb0b9354842fd133a66a3d19a204b9)
+
+##coeus-1609.0035
 * Fixing some null pointers in Budget controller. (#1986)
 
   * Gayathri Athreya on Wed, 21 Sep 2016 08:48:20 -0700 [View Commit](../../commit/8ae6d6c63e21857eaf3d87ebad8aac75b4457244)
