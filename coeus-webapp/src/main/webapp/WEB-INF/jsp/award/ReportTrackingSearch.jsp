@@ -500,15 +500,8 @@
 					jq("#customSelLink").fancybox({
 						'hideOnContentClick' : false,
 						'width:' : 400,
-						'afterClose' : function() {	jq('#onChangeViewClose').click();	},
-						'beforeShow' : function() { showSearchTable(); },
-					  helpers : {
-					        overlay : {
-					            css : {
-					                'background' : 'rgba(45, 45, 45, 0.8)'
-					            }
-					        }
-					    }
+						'onClosed' : function() {	jq('#onChangeViewClose').click();	},
+						'onStart' : function() { showSearchTable(); }
 						 });
 				});
 				jq(document).ready(function() {
