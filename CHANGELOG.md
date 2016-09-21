@@ -1,6 +1,16 @@
 
 
 ##CURRENT
+* Fixing some null pointers in Budget controller. (#1986)
+
+  * Gayathri Athreya on Wed, 21 Sep 2016 08:48:20 -0700 [View Commit](../../commit/8ae6d6c63e21857eaf3d87ebad8aac75b4457244)
+* RESKC-1719: When two comments have the same date the show comments history view is broken where the show hide buttons do not function correctly.  To fix this, the innerTab must use an index rather than the non-unique label.  Also, escaping the comment text since it is free form.
+  * Travis Schneeberger on Wed, 21 Sep 2016 09:51:57 -0400 [View Commit](../../commit/f364580fe4f947a2dfff5b04593f3313d9ed66cb)
+* RESKC-1675: Adding a few properties to Award GET. (#1983)
+
+  * Gayathri Athreya on Tue, 20 Sep 2016 13:39:31 -0700 [View Commit](../../commit/77f80c5991982bd60e517c1a5f27a84ca8c22a20)
+
+##coeus-1609.0034
 * Adding summary field to protocol. (#1980)
 
   * Gayathri Athreya on Tue, 20 Sep 2016 12:01:07 -0700 [View Commit](../../commit/aaf68cd8d0d4d56f3f80c441ac9eec0d392671a3)
