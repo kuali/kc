@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1692: downgrade fancbox
+  * Joe Williams on Wed, 21 Sep 2016 14:50:33 -0500 [View Commit](../../commit/a3d66c1d60cc644820c1b3776cd57d0e2496c4be)
+
+##coeus-1609.0037
 * No Changes
 
 
