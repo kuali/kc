@@ -41,7 +41,7 @@
 	var checkboxDisabled = "${readOnly}";
 	jq(document).ready(function() {
     	jq("#editProcedureLink").fancybox({
-			'afterClose' : function() {
+			'onClosed' : function() {
 				if (saveButtonClicked != false) {
 					jq('#onProcedureEdit').click();
 			    }				
@@ -70,7 +70,8 @@
 	
 </script>
 
-<tbody id="content-div${procedureIndex}" style="display: none;">
+<table style="display: none;">
+<tbody id="content-div${procedureIndex}" >
 	<tr>
     	<th class="content_grey" style="text-align:center; background-color:#666; color:#FFF;" colspan="2">
               	${displayTitle}
@@ -140,3 +141,4 @@
 		</tr>
 	</kra:permission>	
 </tbody>
+</table>

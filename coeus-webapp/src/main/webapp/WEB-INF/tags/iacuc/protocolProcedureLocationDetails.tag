@@ -122,7 +122,7 @@
 							   	$j(document).ready(function() {
 								   	populateSelect('getIacucProcedureLocationNames', '${collectionProperty}[${status.index}].locationTypeCode', '${collectionProperty}[${status.index}].locationId');
 							    	$j("#editProcedureLink").fancybox({
-										'afterClose' : function() {
+										'onClosed' : function() {
 											if (saveButtonClicked != false) {
 												$j('#onProcedureEdit').click();
 										    }				

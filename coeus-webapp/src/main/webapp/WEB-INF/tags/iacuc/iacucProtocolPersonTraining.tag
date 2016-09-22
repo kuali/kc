@@ -31,12 +31,13 @@
 <c:set var="iacucSpeciesAttributes" value="${DataDictionary.IacucSpecies.attributes}" />
 <c:set var="iacucProcedureAttributes" value="${DataDictionary.IacucProcedure.attributes}" />
 
-<tbody id="training-div${personIndex}" style="display: none;">
+<table style="display: none;">
+<tbody id="training-div${personIndex}">
 	<tr>
     	<th class="content_grey" style="text-align:center; background-color:#666; color:#FFF;" colspan="9">
               	${displayTitle}
         </th>
-    </tr>     
+    </tr>
     <tr>
     	<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${iacucProcedureAttributes.procedureDescription}" noColon="true" /></div></th>
     	<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${iacucSpeciesAttributes.speciesName}" noColon="true" /></div></th>
@@ -46,7 +47,7 @@
     	<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${personTrainingAttributes.dateRequested}" noColon="true" /></div></th>
     	<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${personTrainingAttributes.dateSubmitted}" noColon="true" /></div></th>
     	<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${personTrainingAttributes.dateAcknowledged}" noColon="true" /></div></th>
-        	
+
     </tr>
    	<c:forEach var="iacucTraining" items="${trainingCollectionReference}" varStatus="trainingStatus">
         <tr>
@@ -74,7 +75,8 @@
         	<td align="left" valign="middle" class="infoline">
         		<c:out value="${iacucTraining.personTraining.dateAcknowledged}"/>
         	</td>
-        	
+
         </tr>
     </c:forEach>
 </tbody>
+</table>

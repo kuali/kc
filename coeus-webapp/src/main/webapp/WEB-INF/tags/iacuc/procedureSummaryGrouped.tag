@@ -64,11 +64,13 @@
 						<a href="#qualification-div${groupIndex}${procedureIndex.index}${personIndex.index}" id="viewQualificationsLink" >
 				    		<img src="${ConfigProperties.kra.externalizable.images.url}tinybutton-viewqualifications.gif" alt="View Qualifications" class="tinybutton addButton" />
 						</a>		               	
-						<br/><br/>		               	
-						<div id="qualification-div${groupIndex}${procedureIndex.index}${personIndex.index}" style="display: none;">
-						<div style="text-align:center; background-color:#666; color:#FFF;" align="center"><strong>Qualification</strong></div></br>
-                  			<c:out value="${procedurePerson.protocolPerson.procedureQualificationDescription}"/> <br /> 
-						</div>
+						<br/><br/>
+                        <div style="display: none;">
+                            <div id="qualification-div${groupIndex}${procedureIndex.index}${personIndex.index}" >
+                                <div style="text-align:center; background-color:#666; color:#FFF;" align="center"><strong>Qualification</strong></div></br>
+                                <c:out value="${procedurePerson.protocolPerson.procedureQualificationDescription}"/> <br />
+                            </div>
+                        </div>
                     </c:forEach>
                 </div>
                 <div align="left" style="border:1px solid #999; padding:10px; margin-top:10px; margin-bottom:10px; margin-right:10px; margin-left:20px;">
